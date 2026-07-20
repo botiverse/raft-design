@@ -4,7 +4,8 @@ export {
   LightboxClose,
   LightboxContent,
   LightboxHeader,
-  LightboxHeaderBar,
+  LightboxHeaderLabel,
+  LightboxHeaderMeta,
   LightboxInfoActions,
   LightboxInfoBar,
   LightboxInfoDock,
@@ -14,13 +15,15 @@ export {
   LightboxPortal,
   LightboxStage,
   LightboxTitle,
+  LightboxToolbar,
   LightboxTrigger,
 } from "./lightbox";
 export type {
   LightboxActionsProps,
   LightboxCloseProps,
   LightboxContentProps,
-  LightboxHeaderBarProps,
+  LightboxHeaderLabelProps,
+  LightboxHeaderMetaProps,
   LightboxHeaderProps,
   LightboxInfoActionsProps,
   LightboxInfoBarProps,
@@ -32,5 +35,6 @@ export type {
   LightboxProps,
   LightboxStageProps,
   LightboxTitleProps,
+  LightboxToolbarProps,
   LightboxTriggerProps,
 } from "./lightbox";

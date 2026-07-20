@@ -5,11 +5,20 @@ import {
   LightboxActions,
   LightboxClose,
   LightboxContent,
-  LightboxHeader,
+  LightboxHeaderMeta,
   LightboxStage,
   LightboxTitle,
+  LightboxToolbar,
   LightboxTrigger,
 } from "raft-ui";
+
+function AttachmentPreviewTypeLabel() {
+  return (
+    <Badge variant="primary" uppercase>
+      HTML preview
+    </Badge>
+  );
+}
 
 export function AttachmentPreviewShellComposition() {
   return (
@@ -18,24 +27,30 @@ export function AttachmentPreviewShellComposition() {
         Open attachment preview
       </LightboxTrigger>
       <LightboxContent render={<section aria-label="Attachment preview" />}>
-        <LightboxHeader>
-          <div className="flex h-14 items-center gap-3 px-4">
+        <LightboxToolbar>
+          <LightboxHeaderMeta title="diagram-export.html · HTML preview">
+            <AttachmentPreviewTypeLabel />
             <LightboxTitle>diagram-export.html</LightboxTitle>
-            <Badge appearance="soft" uppercase>
-              HTML preview
-            </Badge>
-            <LightboxActions>
-              <Button type="button" size="icon-sm" aria-label="Download">
-                <Download />
-              </Button>
-              <LightboxClose render={<Button type="button" size="icon-sm" aria-label="Close" />}>
-                <X />
-              </LightboxClose>
-            </LightboxActions>
-          </div>
-        </LightboxHeader>
+          </LightboxHeaderMeta>
+          <LightboxActions>
+            <Button type="button" variant="default" size="icon-sm" aria-label="Download">
+              <Download />
+            </Button>
+            <LightboxClose
+              aria-label="Close"
+              render={<Button type="button" variant="default" size="icon-sm" />}
+            >
+              <X />
+            </LightboxClose>
+          </LightboxActions>
+        </LightboxToolbar>
         <LightboxStage>
-          <iframe title="Attachment preview" className="h-full w-full bg-white" />
+          <iframe
+            title="Attachment preview"
+            src="https://example.com"
+            className="size-full border-0 bg-white"
+            referrerPolicy="no-referrer"
+          />
         </LightboxStage>
       </LightboxContent>
     </Lightbox>

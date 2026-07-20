@@ -540,6 +540,22 @@ body {
   position: relative;
 }
 
+@utility safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+@utility safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@utility safe-left {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+
+@utility safe-right {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
 @utility image-transparency-bg {
   background-color: oklch(1 0 0);
   background-image:

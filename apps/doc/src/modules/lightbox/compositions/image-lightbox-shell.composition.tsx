@@ -4,8 +4,6 @@ import {
   Lightbox,
   LightboxClose,
   LightboxContent,
-  LightboxHeader,
-  LightboxHeaderBar,
   LightboxInfoActions,
   LightboxInfoBar,
   LightboxInfoDock,
@@ -26,16 +24,12 @@ export function ImageLightboxShellComposition() {
         Open image lightbox
       </LightboxTrigger>
       <LightboxContent data-testid="image-lightbox">
-        <LightboxHeader placement="overlay">
-          <LightboxHeaderBar>
-            <LightboxTitle className="sr-only">product-shot.png</LightboxTitle>
-            <LightboxClose aria-label="Close">
-              <X />
-            </LightboxClose>
-          </LightboxHeaderBar>
-        </LightboxHeader>
+        <LightboxTitle className="sr-only">product-shot.png</LightboxTitle>
+        <LightboxClose aria-label="Close">
+          <X />
+        </LightboxClose>
         <LightboxStage>
-          <LightboxMedia flush render={<img src={DEMO_IMAGE_SRC} alt="Product attachment" />} />
+          <LightboxMedia render={<img src={DEMO_IMAGE_SRC} alt="Product attachment" />} />
           <LightboxInfoDock>
             <LightboxInfoBar>
               <LightboxInfoTitle>

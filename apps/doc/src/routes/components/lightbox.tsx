@@ -5,8 +5,6 @@ import {
   Lightbox,
   LightboxClose,
   LightboxContent,
-  LightboxHeader,
-  LightboxHeaderBar,
   LightboxInfoActions,
   LightboxInfoBar,
   LightboxInfoDock,
@@ -94,8 +92,6 @@ import {
   Lightbox,
   LightboxClose,
   LightboxContent,
-  LightboxHeader,
-  LightboxHeaderBar,
   LightboxInfoActions,
   LightboxInfoBar,
   LightboxInfoDock,
@@ -112,16 +108,12 @@ import { Download, X } from "lucide-react";
     Open lightbox
   </LightboxTrigger>
   <LightboxContent>
-    <LightboxHeader placement="overlay">
-      <LightboxHeaderBar>
-        <LightboxTitle className="sr-only">product-shot.png</LightboxTitle>
-        <LightboxClose aria-label="Close">
-          <X />
-        </LightboxClose>
-      </LightboxHeaderBar>
-    </LightboxHeader>
+    <LightboxTitle className="sr-only">product-shot.png</LightboxTitle>
+    <LightboxClose aria-label="Close">
+      <X />
+    </LightboxClose>
     <LightboxStage>
-      <LightboxMedia flush render={<img src={url} alt="" />} />
+      <LightboxMedia render={<img src={url} alt="" />} />
       <LightboxInfoDock>
         <LightboxInfoBar>
           <LightboxInfoTitle>product-shot.png</LightboxInfoTitle>
@@ -138,15 +130,11 @@ import { Download, X } from "lucide-react";
   anatomy: `<Lightbox>
   <LightboxTrigger />
   <LightboxContent>
-    <LightboxHeader placement="overlay">
-      <LightboxHeaderBar>
-        <LightboxTitle />
-        <LightboxClose />
-      </LightboxHeaderBar>
-    </LightboxHeader>
+    <LightboxTitle />
+    <LightboxClose />
     <LightboxStage>
       <LightboxNavigationButton />
-      <LightboxMedia flush />
+      <LightboxMedia />
       <LightboxNavigationButton />
       <LightboxInfoDock>
         <LightboxInfoBar>
@@ -269,22 +257,32 @@ const PROPS: readonly PropRow[] = [
       "Renders Portal, Backdrop, and Popup. Defaults initialFocus/finalFocus to false for preview-like surfaces.",
   },
   {
-    name: "LightboxHeader",
-    type: 'div props & { placement?: "default" | "overlay" }',
-    description:
-      'Header slot. Use placement="overlay" for the floating image-shell chrome that ignores pointer events except its controls.',
-  },
-  {
-    name: "LightboxHeaderBar",
+    name: "LightboxToolbar",
     type: "div props",
     description:
-      "Trailing toolbar row inside an overlay header (padding + re-enabled pointer events).",
+      "Attachment header: left LightboxHeaderMeta + right LightboxActions. Owns in-flow button layout so Close is not treated as the image-shell floating control.",
+  },
+  {
+    name: "LightboxHeader",
+    type: "div props",
+    description: "In-flow header row for simpler shells (title + actions in document flow).",
+  },
+  {
+    name: "LightboxClose",
+    type: "Base UI Dialog.Close props",
+    description:
+      "Close control. Direct child of LightboxContent → floating top-right (image shell). Inside LightboxToolbar → in-flow with the action buttons.",
+  },
+  {
+    name: "LightboxHeaderMeta / LightboxHeaderLabel",
+    type: "div / span props",
+    description:
+      "Toolbar left cluster (gap 6px): preview-type chip (HeaderLabel / Badge) then truncating filename.",
   },
   {
     name: "LightboxMedia",
-    type: "div props & { flush?: boolean }",
-    description:
-      "Media frame. Pass flush to drop border/background/shadow when the photo is the stage itself.",
+    type: "div props",
+    description: "Media frame for the stage photo. Borderless with a transparent background.",
   },
   {
     name: "LightboxInfoDock",
@@ -295,18 +293,12 @@ const PROPS: readonly PropRow[] = [
     name: "LightboxActions / LightboxStage / LightboxNavigationButton / LightboxInfoBar",
     type: "div props",
     description:
-      "Layout slots for the action cluster, preview stage, image navigation, and compact filename/action rail.",
+      "Actions is the toolbar right cluster (chip + buttons). Stage is the flex-1 preview surface under Toolbar or Header.",
   },
   {
     name: "LightboxTitle",
     type: "div props",
     description: "Truncating title slot, usually filename or preview label.",
-  },
-  {
-    name: "LightboxClose",
-    type: "Base UI Dialog.Close props",
-    description:
-      "Close control. Defaults to an outline icon Button with theme-aware size and elegant rounding; pass render to replace the button.",
   },
 ];
 
@@ -341,18 +333,12 @@ function LightboxDoc() {
       <DocSection id="usage" title="Usage" showThemeSwitcher>
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="image-shell" title="Image shell">
-            <Example
-              html={code.lightboxImageLightboxShellComposition}
-              previewClassName="items-stretch"
-            >
+            <Example html={code.lightboxImageLightboxShellComposition}>
               <ImageLightboxShellComposition />
             </Example>
           </DocSubsection>
           <DocSubsection parentId="usage" id="attachment-shell" title="Attachment shell">
-            <Example
-              html={code.lightboxAttachmentPreviewShellComposition}
-              previewClassName="items-stretch"
-            >
+            <Example html={code.lightboxAttachmentPreviewShellComposition}>
               <AttachmentPreviewShellComposition />
             </Example>
           </DocSubsection>
@@ -380,8 +366,8 @@ function LightboxDoc() {
             },
             {
               label: "Attachment preview shell",
-              status: "todo",
-              note: "Source passed positioning, scroll locking, and backdrop classes directly to the primitive for attachment previews. Current keeps those concerns at the composition boundary instead of expanding the public root API.",
+              status: "difference",
+              note: "Source mixed absolute fill layout, browser-find scroll mode, and comment chrome into AttachmentPreviewShell. Current uses LightboxToolbar (left Meta / right Actions) over a flex-1 Stage; modal=false and product comment/browser-find behavior stay at the composition boundary.",
               source: <SourceAttachmentPreview />,
               brutal: <AttachmentPreviewShellComposition />,
               elegant: <AttachmentPreviewShellComposition />,
@@ -462,14 +448,10 @@ function LightboxPreviewDemo() {
     <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
       <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
       <LightboxContent data-testid="lightbox-demo">
-        <LightboxHeader placement="overlay">
-          <LightboxHeaderBar>
-            <LightboxTitle className="sr-only">{currentImage.filename}</LightboxTitle>
-            <LightboxClose aria-label="Close">
-              <X />
-            </LightboxClose>
-          </LightboxHeaderBar>
-        </LightboxHeader>
+        <LightboxTitle className="sr-only">{currentImage.filename}</LightboxTitle>
+        <LightboxClose aria-label="Close">
+          <X />
+        </LightboxClose>
         <LightboxStage data-testid="image-lightbox-stage">
           <LightboxNavigationButton
             direction="previous"
@@ -487,10 +469,7 @@ function LightboxPreviewDemo() {
           >
             <ChevronRight />
           </LightboxNavigationButton>
-          <LightboxMedia
-            flush
-            className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center"
-          >
+          <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center">
             <img
               src={currentImage.src}
               alt={currentImage.filename}
@@ -599,7 +578,7 @@ function SourceLightboxHeader({
           {title}
         </div>
         {label ? (
-          <div className="shrink-0 rounded-full border border-black/20 bg-black/5 px-2 py-0.5 text-[10px] font-bold text-black/60 uppercase">
+          <div className="shrink-0 border-2 border-black bg-soft-signal px-1.5 py-0.5 text-[10px] font-display font-bold tracking-wide text-black uppercase">
             {label}
           </div>
         ) : null}

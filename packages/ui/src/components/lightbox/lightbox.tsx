@@ -4,7 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { useCallback, useRef, useState, type ReactNode, type RefObject } from "react";
 import { cn } from "../../lib/cn";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -13,19 +13,37 @@ import { Button, type ButtonProps } from "../button/button";
 const lightbox = tv({
   slots: {
     backdrop: ["fixed inset-0 z-[70] bg-layer-backdrop data-[closed]:hidden"],
-    content: ["pointer-events-none fixed inset-0 z-[71] flex flex-col data-[closed]:hidden"],
-    header: ["safe-top safe-left safe-right pointer-events-auto shrink-0"],
-    headerBar: [
-      "flex justify-end px-4 pt-4",
-      "[&_[data-slot=button]]:pointer-events-auto",
-      "[&_[data-slot=lightbox-close]]:pointer-events-auto",
+    content: [
+      "pointer-events-none fixed inset-0 z-[71] flex flex-col data-[closed]:hidden",
+      // Image shell: Close as a direct Content child pins top-right.
+      // Use data-lightbox-close — Button overwrites data-slot to "button".
+      "[&>[data-lightbox-close]]:pointer-events-auto [&>[data-lightbox-close]]:absolute [&>[data-lightbox-close]]:z-20",
+      "[&>[data-lightbox-close]]:top-[calc(16px+env(safe-area-inset-top,0px))] [&>[data-lightbox-close]]:right-[calc(16px+env(safe-area-inset-right,0px))]",
     ],
-    title: ["min-w-0 flex-1 truncate font-heading text-sm font-bold"],
+    // In-flow chrome (e.g. playground): title + actions row.
+    header: [
+      "safe-top safe-left safe-right pointer-events-auto shrink-0",
+      "flex items-center gap-3 px-4 py-3",
+    ],
+    // Attachment header: left Meta, right Actions. Close stays in-flow here.
+    toolbar: [
+      "pointer-events-auto shrink-0 flex items-center gap-3",
+      "h-[calc(56px+env(safe-area-inset-top,0px))] pt-[env(safe-area-inset-top,0px)]",
+      "pl-[calc(16px+env(safe-area-inset-left,0px))] pr-[calc(16px+env(safe-area-inset-right,0px))]",
+      "[&_[data-lightbox-close]]:static [&_[data-lightbox-close]]:inset-auto",
+      "[&_[data-lightbox-close]]:top-auto [&_[data-lightbox-close]]:right-auto",
+    ],
+    headerMeta: ["flex min-w-0 flex-1 items-center gap-1.5"],
+    headerLabel: [
+      "inline-flex shrink-0 items-center px-1.5 py-0.5",
+      "text-[10px] leading-none font-bold uppercase tracking-wide",
+    ],
+    title: ["min-w-0 flex-1 truncate text-sm leading-6 pt-0.5 pb-1"],
     actions: ["flex shrink-0 items-center gap-1.5"],
     stage: [
       "pointer-events-none relative flex min-h-0 flex-1 items-center justify-center overflow-hidden",
     ],
-    media: ["pointer-events-auto max-h-[80vh] max-w-[86vw] border-2"],
+    media: ["pointer-events-auto max-h-[80vh] max-w-[86vw] border-0 bg-transparent shadow-none"],
     navigationButton: [
       "pointer-events-auto absolute z-10 inline-flex items-center justify-center",
       "border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-sm",
@@ -43,21 +61,22 @@ const lightbox = tv({
     ],
     infoTitle: ["min-w-0 flex-1 truncate font-heading text-sm font-bold"],
     infoActions: ["flex shrink-0 items-center gap-1.5"],
-    close: [],
+    close: ["pointer-events-auto"],
   },
   variants: {
     theme: {
       brutal: {
         header: ["bg-transparent shadow-none"],
-        title: ["text-foreground-strong"],
-        media: ["border-line-strong bg-layer-panel shadow-xl"],
+        toolbar: ["border-b-2 border-black bg-white shadow-none"],
+        headerLabel: ["border-2 border-black bg-soft-signal font-display text-black"],
+        title: ["font-display font-semibold text-black"],
         navigationButton: [
           "size-8 rounded-none",
           "hover:bg-layer-panel data-[disabled=true]:text-foreground/35",
           "[&_svg]:size-6",
         ],
         infoBar: [
-          "w-[clamp(9rem,20vw,14rem)] max-w-[calc(100vw-3rem)] min-w-[9rem]",
+          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-[144px]",
           "gap-2 rounded-none border-2 border-line-strong py-0.5 pr-0.5 pl-2.5 shadow-brutal-sm",
           "[&_[data-slot=button]_svg]:stroke-2",
         ],
@@ -66,10 +85,18 @@ const lightbox = tv({
       },
       elegant: {
         backdrop: ["bg-[oklch(0_0_0_/_0.72)] backdrop-blur-[2px]"],
+        // Image-shell Close chrome only (direct child of Content).
+        content: [
+          "[&>[data-lightbox-close]]:rounded-full [&>[data-lightbox-close]]:p-1.5",
+          "[&>[data-lightbox-close]]:[&_svg]:size-3.5",
+        ],
         header: ["bg-transparent shadow-none"],
+        toolbar: ["border-b border-line-subtle bg-layer-panel shadow-none"],
+        headerLabel: [
+          "rounded-full border border-line-subtle bg-layer-muted font-sans text-foreground-muted",
+        ],
         title: ["font-sans font-medium text-foreground-strong"],
         actions: ["gap-2"],
-        media: ["border border-line-subtle bg-layer-panel shadow-none"],
         navigationButton: [
           "size-8 rounded-full border-0",
           "bg-white/75 backdrop-blur-md",
@@ -82,36 +109,17 @@ const lightbox = tv({
           "[&_svg]:size-5",
         ],
         infoBar: [
-          "w-[clamp(9rem,20vw,14rem)] max-w-[calc(100vw-3rem)] min-w-[9rem]",
+          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-[144px]",
           "gap-2 rounded py-0.5 pr-0.5 pl-2.5",
           "bg-[oklch(0.9702_0_0_/_0.8)] text-[oklch(0.205_0_0)] shadow-none backdrop-blur-[10px]",
           "[&_[data-slot=button]]:text-[oklch(0.439_0_0)] [&_[data-slot=button]]:hover:bg-[oklch(0.205_0_0_/_0.1)] [&_[data-slot=button]]:hover:text-[oklch(0.269_0_0)]",
         ],
         infoTitle: ["font-sans text-xs font-medium text-[oklch(0.269_0_0)]"],
         infoActions: ["gap-1"],
-        close: ["rounded-full p-1.5", "[&_svg]:size-3.5"],
       },
     },
-    placement: {
-      default: {},
-      overlay: {
-        header: ["pointer-events-none absolute inset-x-0 top-0 z-20"],
-      },
-    },
-    flush: {
-      false: {},
-      true: {
-        media: ["border-0 bg-transparent shadow-none"],
-      },
-    },
-  },
-  defaultVariants: {
-    placement: "default",
-    flush: false,
   },
 });
-
-type LightboxVariantProps = VariantProps<typeof lightbox>;
 
 export type LightboxProps<Payload = unknown> = Omit<
   Dialog.Root.Props<Payload>,
@@ -221,17 +229,11 @@ export function LightboxContent({
   );
 }
 
-export type LightboxHeaderProps = useRender.ComponentProps<"div"> &
-  Pick<LightboxVariantProps, "placement">;
+export type LightboxHeaderProps = useRender.ComponentProps<"div">;
 
-export function LightboxHeader({
-  placement = "default",
-  render,
-  className,
-  ...props
-}: LightboxHeaderProps) {
+export function LightboxHeader({ render, className, ...props }: LightboxHeaderProps) {
   const theme = useThemeFamily();
-  const { header } = lightbox({ theme, placement });
+  const { header } = lightbox({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
   };
@@ -246,12 +248,13 @@ export function LightboxHeader({
   });
 }
 
-export type LightboxHeaderBarProps = useRender.ComponentProps<"div">;
+export type LightboxToolbarProps = useRender.ComponentProps<"div">;
 
-export function LightboxHeaderBar({ render, className, ...props }: LightboxHeaderBarProps) {
-  const { headerBar } = lightbox();
+export function LightboxToolbar({ render, className, ...props }: LightboxToolbarProps) {
+  const theme = useThemeFamily();
+  const { toolbar } = lightbox({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: headerBar({ className }),
+    className: toolbar({ className }),
   };
 
   return useRender({
@@ -259,7 +262,44 @@ export function LightboxHeaderBar({ render, className, ...props }: LightboxHeade
     render,
     props: mergeProps<"div">(defaultProps, props),
     state: {
-      slot: "lightbox-header-bar",
+      slot: "lightbox-toolbar",
+    },
+  });
+}
+
+export type LightboxHeaderMetaProps = useRender.ComponentProps<"div">;
+
+export function LightboxHeaderMeta({ render, className, ...props }: LightboxHeaderMetaProps) {
+  const { headerMeta } = lightbox();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: headerMeta({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-header-meta",
+    },
+  });
+}
+
+export type LightboxHeaderLabelProps = useRender.ComponentProps<"span">;
+
+export function LightboxHeaderLabel({ render, className, ...props }: LightboxHeaderLabelProps) {
+  const theme = useThemeFamily();
+  const { headerLabel } = lightbox({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: headerLabel({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "lightbox-header-label",
     },
   });
 }
@@ -321,12 +361,11 @@ export function LightboxStage({ render, className, ...props }: LightboxStageProp
   });
 }
 
-export type LightboxMediaProps = useRender.ComponentProps<"div"> &
-  Pick<LightboxVariantProps, "flush">;
+export type LightboxMediaProps = useRender.ComponentProps<"div">;
 
-export function LightboxMedia({ flush = false, render, className, ...props }: LightboxMediaProps) {
+export function LightboxMedia({ render, className, ...props }: LightboxMediaProps) {
   const theme = useThemeFamily();
-  const { media } = lightbox({ theme, flush });
+  const { media } = lightbox({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: media({ className }),
   };
@@ -473,6 +512,7 @@ export function LightboxClose({ className, render, ...props }: LightboxCloseProp
 
   return (
     <Dialog.Close
+      data-lightbox-close=""
       data-slot="lightbox-close"
       className={close({ className })}
       render={
