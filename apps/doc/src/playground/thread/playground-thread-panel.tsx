@@ -15,6 +15,7 @@ import {
   ThreadPanelRoot,
   ThreadPanelSearch,
   ThreadPanelSearchCount,
+  ThreadPanelSearchTrailing,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
 } from "raft-ui";
@@ -50,7 +51,7 @@ export function PlaygroundThreadPanel({
     : 0;
   const activeMatch = searchOpen ? matchingMessages[resolvedMatchIndex] : undefined;
   const matchCountLabel = matchingMessages.length
-    ? `${resolvedMatchIndex + 1} of ${matchingMessages.length}`
+    ? `${resolvedMatchIndex + 1}/${matchingMessages.length}`
     : normalizedQuery
       ? "No matches"
       : "";
@@ -128,26 +129,28 @@ export function PlaygroundThreadPanel({
                 }}
               />
             </InputGroup>
-            <ThreadPanelSearchCount aria-live="polite">{matchCountLabel}</ThreadPanelSearchCount>
-            <ThreadPanelActions>
-              <PanelAction
-                aria-label="Previous match"
-                disabled={!matchingMessages.length}
-                onClick={() => moveToMatch(-1)}
-              >
-                <ChevronUp />
-              </PanelAction>
-              <PanelAction
-                aria-label="Next match"
-                disabled={!matchingMessages.length}
-                onClick={() => moveToMatch(1)}
-              >
-                <ChevronDown />
-              </PanelAction>
-              <PanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
-                <X />
-              </PanelAction>
-            </ThreadPanelActions>
+            <ThreadPanelSearchTrailing>
+              <ThreadPanelSearchCount aria-live="polite">{matchCountLabel}</ThreadPanelSearchCount>
+              <ThreadPanelActions>
+                <PanelAction
+                  aria-label="Previous match"
+                  disabled={!matchingMessages.length}
+                  onClick={() => moveToMatch(-1)}
+                >
+                  <ChevronUp />
+                </PanelAction>
+                <PanelAction
+                  aria-label="Next match"
+                  disabled={!matchingMessages.length}
+                  onClick={() => moveToMatch(1)}
+                >
+                  <ChevronDown />
+                </PanelAction>
+                <PanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
+                  <X />
+                </PanelAction>
+              </ThreadPanelActions>
+            </ThreadPanelSearchTrailing>
           </ThreadPanelSearch>
         ) : null}
         <ThreadPanelOriginalMessage>
