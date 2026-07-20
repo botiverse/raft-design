@@ -54,7 +54,7 @@ export const filePreview = tv({
         code: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
         media: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
         badge: [
-          "-right-2 -bottom-1 rounded-none border-2 border-black px-1 py-0.5",
+          "-right-0.5 bottom-0.5 rounded-none border-2 border-black px-1 py-0.5",
           "font-bold text-foreground-inverse shadow-brutal-sm [text-shadow:none] after:hidden",
         ],
       },

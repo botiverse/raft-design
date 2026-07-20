@@ -12,12 +12,14 @@ import {
   ComposerCompactComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
+  ComposerWithLightboxComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
 import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
+import composerWithLightboxSource from "#/modules/chat-composer/compositions/composer-with-lightbox.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -30,12 +32,7 @@ const TOC = [
 const ANATOMY_SNIPPET = `<ComposerRoot>
   <ComposerAttachments>
     <ComposerAttachment>
-      <ComposerAttachmentFile>
-        <ComposerAttachmentBody>
-          <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-        </ComposerAttachmentBody>
-      </ComposerAttachmentFile>
+      <ComposerAttachmentImage />
       <ComposerAttachmentUploadingOverlay>
         <Spinner />
         64%
@@ -47,8 +44,13 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
       <ComposerAttachmentFile>
         <ComposerAttachmentBody>
           <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta />
+          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
         </ComposerAttachmentBody>
+        <ComposerAttachmentUploadingOverlay>
+          <Spinner />
+          64%
+        </ComposerAttachmentUploadingOverlay>
+        <ComposerAttachmentUploadProgressBar value={64} />
       </ComposerAttachmentFile>
       <ComposerAttachmentRemove />
     </ComposerAttachment>
@@ -79,6 +81,7 @@ const SNIPPETS = {
   compact: composerCompactSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
+  withLightbox: composerWithLightboxSource,
 } as const;
 
 const ROOT_COMPOSER_PROPS: readonly PropRow[] = [
@@ -153,7 +156,8 @@ const ATTACHMENT_PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachmentImage",
     type: "span props",
-    description: "Fixed 64px image attachment frame; place a FilePreview media child inside.",
+    description:
+      "Fixed 64px image media. Place FilePreview media inside. The attachment root owns the brutal frame border when this part is present.",
   },
   {
     name: "ComposerAttachmentBody",
@@ -173,12 +177,14 @@ const ATTACHMENT_PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachmentUploadingOverlay",
     type: "span props",
-    description: "White upload overlay for caller-owned progress content.",
+    description:
+      "White upload overlay for caller-owned progress content. For images, place as a sibling under ComposerAttachment; for files, nest inside ComposerAttachmentFile.",
   },
   {
     name: "ComposerAttachmentUploadProgressBar",
     type: "span props & { value: number }",
-    description: "Bottom linear upload progress bar.",
+    description:
+      "Bottom linear upload progress bar. Place next to the uploading overlay (image: under ComposerAttachment; file: inside ComposerAttachmentFile).",
   },
   {
     name: "ComposerAttachmentFailedOverlay",
@@ -264,6 +270,18 @@ function ChatComposerDoc() {
             <Example html={code.attachmentStates} previewClassName="min-h-[22rem] items-stretch">
               <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
                 <ComposerAttachmentStatesComposition />
+              </div>
+            </Example>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="with-lightbox" title="Ready images with lightbox">
+            <DocNote>
+              Composer does not own preview state. Ready image attachments stay clickable tiles; the
+              consumer opens Lightbox and owns gallery index / navigation.
+            </DocNote>
+            <Example html={code.withLightbox} previewClassName="min-h-[22rem] items-stretch">
+              <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                <ComposerWithLightboxComposition />
               </div>
             </Example>
           </DocSubsection>

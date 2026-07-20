@@ -71,7 +71,7 @@ export function ComposerAttachmentsComposition({
           <ComposerAttachment key={name}>
             <ComposerAttachmentImage>
               <FilePreview>
-                <FilePreviewMedia className="!shadow-none !ring-0">
+                <FilePreviewMedia>
                   <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
                 </FilePreviewMedia>
               </FilePreview>

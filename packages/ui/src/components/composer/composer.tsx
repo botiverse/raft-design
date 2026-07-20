@@ -140,7 +140,8 @@ export function ComposerAttachments({ className, render, ...props }: ComposerAtt
 export type ComposerAttachmentProps = useRender.ComponentProps<"div">;
 
 export function ComposerAttachment({ className, render, ...props }: ComposerAttachmentProps) {
-  const { attachment } = composerAttachmentRecipe();
+  const theme = useThemeFamily();
+  const { attachment } = composerAttachmentRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-attachment",
     className: attachment({ className }),
@@ -181,7 +182,8 @@ export function ComposerAttachmentImage({
   render,
   ...props
 }: ComposerAttachmentImageProps) {
-  const { attachmentImage } = composerAttachmentRecipe();
+  const theme = useThemeFamily();
+  const { attachmentImage } = composerAttachmentRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-image",
     className: attachmentImage({ className }),
