@@ -1,5 +1,5 @@
 import { Banner, BannerDescription, BannerTitle } from "raft-ui";
-import { AlertTriangle } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
@@ -7,16 +7,16 @@ import { SourceComparisonPreview } from "#/components/source-comparison-preview.
 
 export function BannerContent() {
   return (
-    <Banner status="destructive" className="w-fit max-w-full">
-      <AlertTriangle />
-      <BannerTitle>Delete server</BannerTitle>
-      <BannerDescription>This can&rsquo;t be undone.</BannerDescription>
+    <Banner status="success" className="w-fit max-w-full">
+      <CheckCircle2 />
+      <BannerTitle>Deployment live</BannerTitle>
+      <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
     </Banner>
   );
 }
 
 // @docs-source-strip-start
-export function BannerIconTitleComposition({ className }: { className?: string }) {
+export function BannerSuccessComposition({ className }: { className?: string }) {
   return (
     <SourceComparisonPreview className={className}>
       <BannerContent />

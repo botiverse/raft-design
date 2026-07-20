@@ -5,40 +5,39 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const banner = tv({
   slots: {
-    root: [""],
-    title: [""],
-    description: [""],
-    action: [""],
+    root: [
+      "group/banner grid gap-y-0",
+      "[&>svg]:col-start-1 [&>svg]:shrink-0",
+      "[&>[data-slot=status]]:col-start-1 [&>[data-slot=status]]:row-start-1 [&>[data-slot=status]]:self-center",
+    ],
+    title: ["min-w-0 text-foreground-strong"],
+    description: ["min-w-0 font-normal"],
+    action: ["shrink-0"],
   },
   variants: {
     theme: {
       brutal: {
         root: [
-          "group/banner grid grid-cols-[0_minmax(0,1fr)] items-start border-2 border-line-strong",
+          "grid-cols-[0_minmax(0,1fr)] items-start border-2 border-line-strong",
           "has-[>[data-slot=banner-action]]:grid-cols-[0_minmax(0,1fr)_auto]",
           "has-[>svg]:grid-cols-[18px_minmax(0,1fr)]",
           "has-[>[data-slot=status]]:grid-cols-[auto_minmax(0,1fr)]",
           "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
           "[&:has(>[data-slot=status]):has(>[data-slot=banner-action])]:grid-cols-[auto_minmax(0,1fr)_auto]",
-          "[&>svg]:col-start-1 [&>svg]:row-span-2 [&>svg]:mt-0.5",
-          "[&>svg]:size-[18px] [&>svg]:shrink-0 [&>svg]:text-foreground-strong",
-          "[&>[data-slot=status]]:col-start-1 [&>[data-slot=status]]:row-start-1 [&>[data-slot=status]]:row-span-2 [&>[data-slot=status]]:self-center",
+          "[&>svg]:row-span-2 [&>svg]:mt-0.5 [&>svg]:size-[18px] [&>svg]:text-foreground-strong",
+          "[&>[data-slot=status]]:row-span-2",
         ],
-        title: [
-          "col-start-2 mb-0.5 text-sm font-bold text-foreground-strong",
-          "group-data-[size=sm]/banner:text-xs",
-        ],
+        title: ["col-start-2 mb-0.5 text-sm font-bold", "group-data-[size=sm]/banner:text-xs"],
         description: [
-          "col-start-2 min-w-0 text-sm font-semibold text-foreground-strong",
+          "col-start-2 text-sm text-foreground-strong",
           "group-data-[size=sm]/banner:text-xs",
         ],
-        action: ["col-start-3 row-span-2 row-start-1 shrink-0"],
+        action: ["col-start-3 row-span-2 row-start-1"],
       },
       elegant: {
         root: [
-          "group/banner grid w-full items-center gap-x-2 gap-y-0 rounded-sm border-0",
+          "w-full grid-cols-[minmax(0,1fr)] items-center gap-x-2 rounded-sm border-0",
           "text-[13px] leading-5 tracking-[-0.005em] text-foreground-strong",
-          "grid-cols-[minmax(0,1fr)]",
           "has-[>svg]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=status]]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=banner-action]]:grid-cols-[minmax(0,1fr)_auto]",
@@ -47,11 +46,10 @@ const banner = tv({
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:items-start",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:grid-rows-[auto_auto]",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:gap-y-1",
-          "[&>svg]:col-start-1 [&>svg]:row-start-1 [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:self-center",
-          "[&>[data-slot=status]]:col-start-1 [&>[data-slot=status]]:row-start-1 [&>[data-slot=status]]:self-center",
+          "[&>svg]:row-start-1 [&>svg]:size-4 [&>svg]:self-center",
         ],
         title: [
-          "col-start-1 row-start-1 flex h-5 min-w-0 items-center text-[13.5px] font-medium leading-5 text-foreground-strong",
+          "col-start-1 row-start-1 flex h-5 items-center text-[13.5px] font-medium leading-5",
           "group-has-[>svg]/banner:col-start-2",
           "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-data-[size=sm]/banner:h-4 group-data-[size=sm]/banner:text-[13px] group-data-[size=sm]/banner:leading-4",
@@ -59,7 +57,7 @@ const banner = tv({
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
         ],
         description: [
-          "col-start-1 row-start-1 min-w-0 font-normal leading-4 text-foreground-muted",
+          "col-start-1 row-start-1 leading-4 text-foreground-muted",
           "group-has-[>svg]/banner:col-start-2",
           "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
@@ -68,7 +66,7 @@ const banner = tv({
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
         ],
         action: [
-          "col-start-2 row-start-1 flex h-5 shrink-0 items-center gap-2",
+          "col-start-2 row-start-1 flex h-5 items-center gap-2",
           "group-has-[>svg]/banner:col-start-3",
           "group-has-[>[data-slot=status]]/banner:col-start-3",
           "group-has-[>[data-slot=banner-title]+[data-slot=banner-description]]/banner:row-span-2",
@@ -111,29 +109,29 @@ const banner = tv({
   },
   compoundVariants: [
     { theme: "brutal", status: "default", class: { root: "bg-layer-panel" } },
-    { theme: "brutal", status: "destructive", class: { root: "bg-danger-base/20" } },
-    { theme: "brutal", status: "warning", class: { root: "bg-brutal-yellow/30" } },
-    { theme: "brutal", status: "info", class: { root: "bg-primary-400/30" } },
-    { theme: "brutal", status: "success", class: { root: "bg-success-base/20" } },
+    { theme: "brutal", status: "destructive", class: { root: "bg-danger-lighter" } },
+    { theme: "brutal", status: "warning", class: { root: "bg-brutal-yellow-100" } },
+    { theme: "brutal", status: "info", class: { root: "bg-info-lighter" } },
+    { theme: "brutal", status: "success", class: { root: "bg-brutal-lime-100" } },
     {
       theme: "brutal",
       size: "sm",
       class: {
-        root: "gap-y-0 p-2 has-[>svg]:gap-x-2 has-[>[data-slot=banner-action]]:gap-x-2 has-[>[data-slot=status]]:gap-x-1.5",
+        root: "p-2 has-[>svg]:gap-x-2 has-[>[data-slot=banner-action]]:gap-x-2 has-[>[data-slot=status]]:gap-x-1.5",
       },
     },
     {
       theme: "brutal",
       size: "md",
       class: {
-        root: "gap-y-0 p-3 has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3 has-[>[data-slot=status]]:gap-x-2",
+        root: "p-3 has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3 has-[>[data-slot=status]]:gap-x-2",
       },
     },
     {
       theme: "brutal",
       size: "lg",
       class: {
-        root: "gap-y-0 p-4 shadow-sm has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3 has-[>[data-slot=status]]:gap-x-2",
+        root: "p-4 shadow-sm has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3 has-[>[data-slot=status]]:gap-x-2",
       },
     },
     {

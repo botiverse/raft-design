@@ -1,16 +1,22 @@
-import { BannerIconTitleComposition } from "./compositions/icon-title.composition.tsx";
-import { BannerIconlessWarningComposition } from "./compositions/iconless-warning.composition.tsx";
-import { BannerLargeActionsComposition } from "./compositions/large-actions.composition.tsx";
+import { BannerDefaultComposition } from "./compositions/default.composition.tsx";
+import { BannerDestructiveComposition } from "./compositions/destructive.composition.tsx";
+import { BannerInfoComposition } from "./compositions/info.composition.tsx";
+import { BannerSuccessComposition } from "./compositions/success.composition.tsx";
+import { BannerWarningComposition } from "./compositions/warning.composition.tsx";
 
 export const BANNER_SOURCE_COMPARISON_COMPOSITION_PATHS = {
-  IconTitle: "apps/doc/src/modules/banner/compositions/icon-title.composition.tsx",
-  IconlessWarning: "apps/doc/src/modules/banner/compositions/iconless-warning.composition.tsx",
-  LargeActions: "apps/doc/src/modules/banner/compositions/large-actions.composition.tsx",
+  Default: "apps/doc/src/modules/banner/compositions/default.composition.tsx",
+  Destructive: "apps/doc/src/modules/banner/compositions/destructive.composition.tsx",
+  Warning: "apps/doc/src/modules/banner/compositions/warning.composition.tsx",
+  Info: "apps/doc/src/modules/banner/compositions/info.composition.tsx",
+  Success: "apps/doc/src/modules/banner/compositions/success.composition.tsx",
   Preview: "apps/doc/src/modules/banner/compositions/preview.composition.tsx",
 } as const;
 
 export const BANNER_SOURCE_COMPARISON_COMPOSITION = {
-  IconTitle: BannerIconTitleComposition,
-  IconlessWarning: BannerIconlessWarningComposition,
-  LargeActions: BannerLargeActionsComposition,
+  Default: BannerDefaultComposition,
+  Destructive: BannerDestructiveComposition,
+  Warning: BannerWarningComposition,
+  Info: BannerInfoComposition,
+  Success: BannerSuccessComposition,
 } as const;
