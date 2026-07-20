@@ -53,7 +53,7 @@ export const composerAttachment = tv({
         attachmentUploadingOverlay: "bg-white/85 text-black",
         attachmentUploadProgressBarIndicator: "bg-brutal-pink",
         attachmentFailedOverlay: "border-black bg-brutal-orange/90 text-black",
-        attachmentRemove: "bg-black text-white",
+        attachmentRemove: "bg-black text-white outline-2 outline-solid outline-white",
       },
       elegant: {
         attachments: "justify-center pt-0.5",
@@ -68,7 +68,8 @@ export const composerAttachment = tv({
         attachmentUploadProgressBarIndicator: "bg-accent-400",
         attachmentUploadingOverlay: "rounded-md bg-white/85 text-foreground",
         attachmentFailedOverlay: "rounded-md border-0 bg-danger-lighter text-danger-base",
-        attachmentRemove: "bg-foreground-strong text-foreground-inverse",
+        attachmentRemove:
+          "bg-foreground-strong text-foreground-inverse outline-2 outline-solid outline-layer-panel",
       },
     },
   },
