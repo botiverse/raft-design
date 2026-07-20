@@ -849,6 +849,7 @@ export {
   ThreadPanelRoot,
   ThreadPanelSearch,
   ThreadPanelSearchCount,
+  ThreadPanelSearchTrailing,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
 } from "./components/thread-panel/index";
@@ -863,6 +864,7 @@ export type {
   ThreadPanelRootProps,
   ThreadPanelSearchCountProps,
   ThreadPanelSearchProps,
+  ThreadPanelSearchTrailingProps,
   ThreadPanelTitleMetaProps,
   ThreadPanelTitleProps,
 } from "./components/thread-panel/index";

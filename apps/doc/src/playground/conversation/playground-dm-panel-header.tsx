@@ -35,14 +35,12 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           <AvatarFallback>{actor.fallback}</AvatarFallback>
         </Avatar>
-        <ConversationPanelHeading
-          className={isAgent ? "max-md:flex-col max-md:items-start max-md:gap-0.5" : undefined}
-        >
+        <ConversationPanelHeading>
           <ConversationPanelTitle className={isAgent ? "max-md:text-[15px]" : undefined}>
             {dm.name}
           </ConversationPanelTitle>
           {isAgent ? (
-            <ConversationPanelStatus className="normal-case font-normal" title={presence.label}>
+            <ConversationPanelStatus title={presence.label}>
               <Status aria-hidden size="sm" variant={presence.variant} pulse={presence.pulse} />
               {presence.label}
             </ConversationPanelStatus>
