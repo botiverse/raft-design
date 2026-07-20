@@ -1,4 +1,5 @@
-import { Banner, BannerDescription } from "raft-ui";
+import { Banner, BannerDescription, BannerTitle } from "raft-ui";
+import { Info } from "lucide-react";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
@@ -6,14 +7,16 @@ import { SourceComparisonPreview } from "#/components/source-comparison-preview.
 
 export function BannerContent() {
   return (
-    <Banner status="warning" className="w-fit max-w-full">
-      <BannerDescription>Please fix the highlighted fields.</BannerDescription>
+    <Banner status="default" className="w-fit max-w-full">
+      <Info />
+      <BannerTitle>Settings synced</BannerTitle>
+      <BannerDescription>Rules now apply to every project.</BannerDescription>
     </Banner>
   );
 }
 
 // @docs-source-strip-start
-export function BannerIconlessWarningComposition({ className }: { className?: string }) {
+export function BannerDefaultComposition({ className }: { className?: string }) {
   return (
     <SourceComparisonPreview className={className}>
       <BannerContent />

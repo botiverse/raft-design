@@ -16,10 +16,12 @@ import {
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
 import { BannerPlaygroundPreview } from "#/modules/banner/banner.preview.tsx";
-import bannerIconTitleCompositionSource from "#/modules/banner/compositions/icon-title.composition.tsx?raw";
-import bannerIconlessWarningCompositionSource from "#/modules/banner/compositions/iconless-warning.composition.tsx?raw";
-import bannerLargeActionsCompositionSource from "#/modules/banner/compositions/large-actions.composition.tsx?raw";
+import bannerDefaultCompositionSource from "#/modules/banner/compositions/default.composition.tsx?raw";
+import bannerDestructiveCompositionSource from "#/modules/banner/compositions/destructive.composition.tsx?raw";
+import bannerInfoCompositionSource from "#/modules/banner/compositions/info.composition.tsx?raw";
 import bannerPreviewCompositionSource from "#/modules/banner/compositions/preview.composition.tsx?raw";
+import bannerSuccessCompositionSource from "#/modules/banner/compositions/success.composition.tsx?raw";
+import bannerWarningCompositionSource from "#/modules/banner/compositions/warning.composition.tsx?raw";
 import {
   BANNER_SOURCE_COMPARISON_COMPOSITION,
   BANNER_SOURCE_COMPARISON_COMPOSITION_PATHS,
@@ -181,18 +183,22 @@ const ACTION_ALIGNS = ["top", "middle"] as const;
 const BannerCurrent = BANNER_SOURCE_COMPARISON_COMPOSITION;
 
 const BANNER_COMPOSITION_RAW_SOURCES = {
-  IconTitle: bannerIconTitleCompositionSource,
-  IconlessWarning: bannerIconlessWarningCompositionSource,
-  LargeActions: bannerLargeActionsCompositionSource,
+  Default: bannerDefaultCompositionSource,
+  Destructive: bannerDestructiveCompositionSource,
+  Warning: bannerWarningCompositionSource,
+  Info: bannerInfoCompositionSource,
+  Success: bannerSuccessCompositionSource,
   Preview: bannerPreviewCompositionSource,
 } as const;
 
 const BANNER_COMPOSITION_SOURCES = createCompositionSourceMap(BANNER_COMPOSITION_RAW_SOURCES);
 
 const BANNER_COMPOSITION_SNIPPET_IDS = {
-  IconTitle: "bannerIconTitleComposition",
-  IconlessWarning: "bannerIconlessWarningComposition",
-  LargeActions: "bannerLargeActionsComposition",
+  Default: "bannerDefaultComposition",
+  Destructive: "bannerDestructiveComposition",
+  Warning: "bannerWarningComposition",
+  Info: "bannerInfoComposition",
+  Success: "bannerSuccessComposition",
   Preview: "bannerPreviewComposition",
 } as const;
 
@@ -262,36 +268,9 @@ const SNIPPETS = {
     <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
   </BannerAction>
 </Banner>`,
-  sourceDefault: `<Banner intent="warning">
-  Please fix the highlighted fields.
-</Banner>`,
-  currentDefault: `<Banner status="warning">
-  <BannerDescription>Please fix the highlighted fields.</BannerDescription>
-</Banner>`,
-  sourceIcon: `<Banner intent="destructive" withIcon title="Delete server">
-  This can't be undone.
-</Banner>`,
-  currentIcon: `<Banner status="destructive">
-  <CircleX />
-  <BannerTitle>Delete server</BannerTitle>
-  <BannerDescription>This can't be undone.</BannerDescription>
-</Banner>`,
-  sourceActions: `<Banner
-  intent="info"
-  density="lg"
-  withIcon
-  actions={<button aria-label="Dismiss"><X /></button>}
->
-  You're on the free plan.
-</Banner>`,
-  currentActions: `<Banner status="info" size="lg">
-  <Info />
-  <BannerDescription>You're on the free plan.</BannerDescription>
-  <BannerAction><button aria-label="Dismiss"><X /></button></BannerAction>
-</Banner>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const BANNER_PROPS: readonly PropRow[] = [
   {
     name: "status",
     type: STATUSES.map((status) => `"${status}"`).join(" | "),
@@ -306,57 +285,42 @@ const PROPS: readonly PropRow[] = [
       "Controls padding, icon size, title size, description size, and action affordance.",
   },
   {
-    name: "render",
-    type: "ReactElement | (props, state) => ReactElement",
-    description: "Base UI render hook for changing the root element.",
-  },
-  {
     name: "...props",
-    type: "HTMLAttributes<HTMLDivElement>",
-    description: "Native div attributes.",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Native div attributes plus render. Place an optional SVG icon as a direct child; the root normalizes its size.",
   },
 ];
 
-const PART_PROPS: readonly PropRow[] = [
+const BANNER_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "Icon",
-    type: "ReactNode",
-    description: "Place an icon as a direct Banner child. The root normalizes SVG size.",
-  },
-  {
-    name: "BannerTitle",
-    type: "div props",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
     description: "Optional bold heading.",
   },
+];
+
+const BANNER_DESCRIPTION_PROPS: readonly PropRow[] = [
   {
-    name: "BannerDescription",
-    type: "div props",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
     description: "Message/content slot. Its font size follows the root size.",
   },
+];
+
+const BANNER_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "BannerAction",
-    type: "div props",
-    description: "Trailing slot, pinned right.",
-  },
-  {
-    name: "BannerAction.align",
+    name: "align",
     type: ACTION_ALIGNS.map((align) => `"${align}"`).join(" | "),
     default: '"middle"',
     description: "Aligns actions to the title row top or vertically centered across the banner.",
   },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Trailing slot, pinned right.",
+  },
 ];
-
-function DismissIconButton() {
-  return (
-    <button
-      type="button"
-      aria-label="Dismiss"
-      className="inline-flex size-6 shrink-0 items-center justify-center border-2 border-black bg-white text-black transition-transform hover:-translate-y-0.5 hover:shadow-[var(--source-shadow-hover)] [&>svg]:size-3.5"
-    >
-      <X />
-    </button>
-  );
-}
 
 export const Route = createFileRoute("/components/banner")({
   component: BannerDoc,
@@ -537,11 +501,17 @@ function BannerDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Banner root">
-            <PropsTable rows={PROPS} />
+          <DocSubsection parentId="api" id="api-root" title="Banner">
+            <PropsTable rows={BANNER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-parts" title="Parts">
-            <PropsTable rows={PART_PROPS} />
+          <DocSubsection parentId="api" id="api-title" title="BannerTitle">
+            <PropsTable rows={BANNER_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description" title="BannerDescription">
+            <PropsTable rows={BANNER_DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-action" title="BannerAction">
+            <PropsTable rows={BANNER_ACTION_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>
@@ -552,44 +522,70 @@ function BannerDoc() {
           layout="grid"
           items={[
             {
-              label: "Iconless warning",
-              status: "difference",
-              note: "Visual output matches. Source intent maps to current status, and body content moves into BannerDescription.",
-              source: (
-                <LegacyBanner intent="warning">Please fix the highlighted fields.</LegacyBanner>
-              ),
-              brutal: <BannerCurrent.IconlessWarning />,
-              elegant: <BannerCurrent.IconlessWarning />,
-              elegantDark: <BannerCurrent.IconlessWarning />,
-              ...bannerComposition("IconlessWarning"),
+              label: "Default",
+              status: "new",
+              note: 'Source has no default intent. Current status="default" covers neutral banners.',
+              source: null,
+              brutal: <BannerCurrent.Default />,
+              elegant: <BannerCurrent.Default />,
+              elegantDark: <BannerCurrent.Default />,
+              ...bannerComposition("Default"),
             },
             {
-              label: "Icon + title",
+              label: "Destructive",
               status: "difference",
-              note: "The conventional source withIcon/title props are now a direct icon child and BannerTitle slot.",
+              note: 'Source intent="destructive" maps to status="destructive". withIcon/title become a direct icon child and BannerTitle.',
               source: (
                 <LegacyBanner intent="destructive" withIcon title="Delete server">
                   This can&rsquo;t be undone.
                 </LegacyBanner>
               ),
-              brutal: <BannerCurrent.IconTitle />,
-              elegant: <BannerCurrent.IconTitle />,
-              elegantDark: <BannerCurrent.IconTitle />,
-              ...bannerComposition("IconTitle"),
+              brutal: <BannerCurrent.Destructive />,
+              elegant: <BannerCurrent.Destructive />,
+              elegantDark: <BannerCurrent.Destructive />,
+              ...bannerComposition("Destructive"),
             },
             {
-              label: "Large + actions",
+              label: "Warning",
               status: "difference",
-              note: 'Source density="lg" maps to size="lg". The action slot is now composed as BannerAction.',
+              note: 'Source intent="warning" maps to status="warning". withIcon/title become a direct icon child and BannerTitle.',
               source: (
-                <LegacyBanner intent="info" density="lg" withIcon actions={<DismissIconButton />}>
-                  You&rsquo;re on the free plan.
+                <LegacyBanner intent="warning" withIcon title="Invoice details missing">
+                  Add billing email and tax ID.
                 </LegacyBanner>
               ),
-              brutal: <BannerCurrent.LargeActions />,
-              elegant: <BannerCurrent.LargeActions />,
-              elegantDark: <BannerCurrent.LargeActions />,
-              ...bannerComposition("LargeActions"),
+              brutal: <BannerCurrent.Warning />,
+              elegant: <BannerCurrent.Warning />,
+              elegantDark: <BannerCurrent.Warning />,
+              ...bannerComposition("Warning"),
+            },
+            {
+              label: "Info",
+              status: "difference",
+              note: 'Source intent="info" maps to status="info". withIcon/title become a direct icon child and BannerTitle.',
+              source: (
+                <LegacyBanner intent="info" withIcon title="Trial ends soon">
+                  Upgrade to keep projects available.
+                </LegacyBanner>
+              ),
+              brutal: <BannerCurrent.Info />,
+              elegant: <BannerCurrent.Info />,
+              elegantDark: <BannerCurrent.Info />,
+              ...bannerComposition("Info"),
+            },
+            {
+              label: "Success",
+              status: "difference",
+              note: 'Source intent="success" maps to status="success". withIcon/title become a direct icon child and BannerTitle.',
+              source: (
+                <LegacyBanner intent="success" withIcon title="Deployment live">
+                  Version 1.8.4 is in production.
+                </LegacyBanner>
+              ),
+              brutal: <BannerCurrent.Success />,
+              elegant: <BannerCurrent.Success />,
+              elegantDark: <BannerCurrent.Success />,
+              ...bannerComposition("Success"),
             },
           ]}
         />
