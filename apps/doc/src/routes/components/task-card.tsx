@@ -57,13 +57,16 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "TaskCard",
     type: 'SlotProps<"article"> & { busy?: boolean; disabled?: boolean }',
     description:
       "Card root. Exposes busy and disabled state without owning task data or workflow policy.",
   },
+];
+
+const OPEN_ROW_PROPS: readonly PropRow[] = [
   {
     name: "TaskCardOpen",
     type: 'SlotProps<"button">',
@@ -74,16 +77,25 @@ const PROPS: readonly PropRow[] = [
     type: 'SlotProps<"div">',
     description: "Structural parts for the card content row and its flexible text body.",
   },
+];
+
+const META_PROPS: readonly PropRow[] = [
   {
     name: "TaskCardMeta / Channel / Number / Legacy",
     type: "div and span slot props",
     description: "Explicit metadata parts; consumers render only the fields their context needs.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "TaskCardTitle / Description",
     type: 'SlotProps<"p">',
     description: "Task-owned visible content supplied by the consumer.",
   },
+];
+
+const FOOTER_STATUS_PROPS: readonly PropRow[] = [
   {
     name: "TaskCardFooter / Status",
     type: "footer and div slot props",
@@ -157,7 +169,23 @@ function TaskCardDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="TaskCard root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-open-row" title="Open and structure">
+            <PropsTable rows={OPEN_ROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-meta" title="Metadata">
+            <PropsTable rows={META_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-footer-status" title="Footer and status">
+            <PropsTable rows={FOOTER_STATUS_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

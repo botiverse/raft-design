@@ -297,13 +297,16 @@ type PlaygroundValues = {
   disabled: boolean;
 };
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "Select",
     type: "Base UI Select.Root.Props<Value, Multiple>",
     description:
       "Owns value, hidden input, open state, keyboard navigation, typeahead, and form submission metadata.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "SelectTrigger",
     type: "Base UI Select.Trigger.Props",
@@ -316,12 +319,18 @@ const PROPS: readonly PropRow[] = [
     description:
       "Selected value display. Use placeholder for the empty state, or pass children to format the value.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "SelectContent",
     type: "Base UI Select.Popup + Positioner props",
     description:
       "Portaled options shell. Defaults to side=bottom, align=start, sideOffset=4, disableAnchorTracking=true, and positionMethod=fixed.",
   },
+];
+
+const ITEM_PROPS: readonly PropRow[] = [
   {
     name: "SelectItem",
     type: "Base UI Select.Item.Props",
@@ -339,6 +348,9 @@ const PROPS: readonly PropRow[] = [
     type: "Base UI Select.ItemIndicator.Props",
     description: "Selected-state indicator. Renders a check icon by default.",
   },
+];
+
+const GROUP_PROPS: readonly PropRow[] = [
   {
     name: "SelectLabel",
     type: "Base UI Select.Label.Props",
@@ -646,7 +658,23 @@ function SelectDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Select root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-items" title="Items">
+            <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-groups" title="Groups">
+            <PropsTable rows={GROUP_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

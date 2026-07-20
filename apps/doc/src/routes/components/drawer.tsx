@@ -174,7 +174,7 @@ const SNIPPETS = {
   usageSnapPoints: snapPointsCompositionSource,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "open",
     type: "boolean",
@@ -226,6 +226,9 @@ const PROPS: readonly PropRow[] = [
     type: "number | string | null / (snapPoint) => void",
     description: "Controlled snap-point state and its change callback.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "DrawerContent",
     type: "Base UI Drawer.Popup.Props",
@@ -404,7 +407,14 @@ function DrawerDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Drawer root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content and layout">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

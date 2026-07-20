@@ -143,53 +143,37 @@ const SNIPPETS = {
 </ContextMenu>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "ContextMenu",
     type: "Base UI ContextMenu.Root.Props",
     description: "Owns right-click open state, focus roving, keyboard navigation, and dismissal.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "ContextMenuTrigger",
     type: "Base UI ContextMenu.Trigger.Props",
     description: "Right-click or long-press target. Renders a div and keeps text selection off.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "ContextMenuContent",
     type: "Base UI Popup + Positioner props",
     description:
       "Portaled floating menu shell. Keeps the menu near the context point while shifting it inside the collision boundary with 8px of padding.",
   },
+];
+
+const ITEM_PROPS: readonly PropRow[] = [
   {
     name: "ContextMenuItem",
     type: "Base UI ContextMenu.Item.Props",
     description:
       "Action row. Compose leading icons, label text, and trailing shortcuts as children.",
-  },
-  {
-    name: "ContextMenuSubmenu",
-    type: "Base UI ContextMenu.SubmenuRoot.Props",
-    description: "Nested context-menu branch for secondary action groups.",
-  },
-  {
-    name: "ContextMenuSubmenuTrigger",
-    type: "Base UI ContextMenu.SubmenuTrigger.Props",
-    description: "Row that opens a nested menu. Compose the chevron as the trailing icon.",
-  },
-  {
-    name: "ContextMenuRadioGroup",
-    type: "Base UI ContextMenu.RadioGroup.Props",
-    description: "Single-selection group inside the menu.",
-  },
-  {
-    name: "ContextMenuRadioItem",
-    type: "Base UI ContextMenu.RadioItem.Props",
-    description: "Selectable row with a trailing check indicator.",
-  },
-  {
-    name: "ContextMenuCheckboxItem",
-    type: "Base UI ContextMenu.CheckboxItem.Props",
-    description: "Toggleable row with a trailing check indicator.",
   },
   {
     name: "ContextMenuLabel",
@@ -205,6 +189,37 @@ const PROPS: readonly PropRow[] = [
     name: "ContextMenuSeparator",
     type: "Base UI ContextMenu.Separator.Props",
     description: "Group separator mapped from the source ContextMenuDivider primitive.",
+  },
+];
+
+const SELECTION_PROPS: readonly PropRow[] = [
+  {
+    name: "ContextMenuRadioGroup",
+    type: "Base UI ContextMenu.RadioGroup.Props",
+    description: "Single-selection group inside the menu.",
+  },
+  {
+    name: "ContextMenuRadioItem",
+    type: "Base UI ContextMenu.RadioItem.Props",
+    description: "Selectable row with a trailing check indicator.",
+  },
+  {
+    name: "ContextMenuCheckboxItem",
+    type: "Base UI ContextMenu.CheckboxItem.Props",
+    description: "Toggleable row with a trailing check indicator.",
+  },
+];
+
+const SUBMENU_PROPS: readonly PropRow[] = [
+  {
+    name: "ContextMenuSubmenu",
+    type: "Base UI ContextMenu.SubmenuRoot.Props",
+    description: "Nested context-menu branch for secondary action groups.",
+  },
+  {
+    name: "ContextMenuSubmenuTrigger",
+    type: "Base UI ContextMenu.SubmenuTrigger.Props",
+    description: "Row that opens a nested menu. Compose the chevron as the trailing icon.",
   },
 ];
 
@@ -442,7 +457,26 @@ function ContextMenuDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="ContextMenu root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-items" title="Items">
+            <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-selection" title="Selection items">
+            <PropsTable rows={SELECTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-submenu" title="Submenu">
+            <PropsTable rows={SUBMENU_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

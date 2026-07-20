@@ -218,7 +218,7 @@ const underlineTabs = useOrderedTabs(TABS, underlineOrder);
 </Tabs>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const TABS_ROOT_PROPS: readonly PropRow[] = [
   { name: "Tabs.value", type: "T", description: "Controlled active tab value." },
   { name: "Tabs.defaultValue", type: "T", description: "Initial tab value for uncontrolled use." },
   {
@@ -226,6 +226,9 @@ const PROPS: readonly PropRow[] = [
     type: "(value: T) => void",
     description: "Called when Base UI changes the active tab.",
   },
+];
+
+const TABS_LIST_PROPS: readonly PropRow[] = [
   {
     name: "TabsList.variant",
     type: '"default" | "underline"',
@@ -237,6 +240,18 @@ const PROPS: readonly PropRow[] = [
     description:
       "Optional visual slot. Place it inside TabsList to render the default container surface or underline top edge.",
   },
+];
+
+const TABS_TAB_PROPS: readonly PropRow[] = [
+  { name: "TabsTab.value", type: "T", description: "The tab value passed to Base UI." },
+  {
+    name: "TabsLabel",
+    type: "span props",
+    description: "Optional text slot for icon-and-label tab layouts.",
+  },
+];
+
+const SORTABLE_TABS_PROPS: readonly PropRow[] = [
   {
     name: "SortableTabsList.value",
     type: "T[]",
@@ -251,12 +266,6 @@ const PROPS: readonly PropRow[] = [
     name: "SortableTabsTab.value",
     type: "T",
     description: "A sortable tab value passed to Base UI and dnd-kit.",
-  },
-  { name: "TabsTab.value", type: "T", description: "The tab value passed to Base UI." },
-  {
-    name: "TabsLabel",
-    type: "span props",
-    description: "Optional text slot for icon-and-label tab layouts.",
   },
 ];
 
@@ -491,7 +500,20 @@ function TabsDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Tabs root">
+            <PropsTable rows={TABS_ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-list" title="TabsList and background">
+            <PropsTable rows={TABS_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-tab" title="TabsTab and label">
+            <PropsTable rows={TABS_TAB_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-sortable" title="Sortable tabs">
+            <PropsTable rows={SORTABLE_TABS_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

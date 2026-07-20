@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -79,13 +79,16 @@ type PlaygroundValues = {
   jumpToLatest: boolean;
 };
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelRoot",
     type: "section props",
     description:
       "Full-height active conversation surface between sidebar and panel stack. Product shells own responsive placement and scroll behavior.",
   },
+];
+
+const HEADER_PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelHeader",
     type: "div props",
@@ -130,6 +133,9 @@ const PROPS: readonly PropRow[] = [
     type: "span props",
     description: "Optional caller-owned status. It remains visible on mobile by default.",
   },
+];
+
+const ACTION_PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelActions",
     type: "div props",
@@ -148,6 +154,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Controlled pressed action for binary panel state. Pass pressed and onPressedChange; the caller owns the icon and accessible label for each state.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelContent",
     type: "div props",
@@ -169,6 +178,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Optional floating footer boundary. Override --panel-footer-clearance on the root when custom footer content needs more or less than the 10rem default.",
   },
+];
+
+const EMPTY_STATE_PROPS: readonly PropRow[] = [
   {
     name: "ConversationPanelEmptyState",
     type: "div props",
@@ -249,7 +261,23 @@ function ConversationPanelDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="ConversationPanel root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-header" title="Header">
+            <PropsTable rows={HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-actions" title="Actions">
+            <PropsTable rows={ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-empty-state" title="Empty state">
+            <PropsTable rows={EMPTY_STATE_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

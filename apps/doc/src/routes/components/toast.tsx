@@ -370,7 +370,7 @@ function AnchoredToasts() {
 }`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const PROVIDER_PROPS: readonly PropRow[] = [
   {
     name: "ToastProvider",
     type: "Base UI Toast.Provider.Props & { portalContainer?, renderViewport?, viewportPlacement?, viewportStrategy? }",
@@ -395,6 +395,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Advanced escape hatch for isolated channels, local previews, and multiple independent toast roots.",
   },
+];
+
+const PORTAL_PROPS: readonly PropRow[] = [
   {
     name: "ToastPortal",
     type: "Base UI Toast.Portal.Props",
@@ -419,6 +422,9 @@ const PROPS: readonly PropRow[] = [
     type: "Base UI Toast.Arrow.Props",
     description: "Optional arrow rendered inside an anchored toast positioned by ToastPositioner.",
   },
+];
+
+const TOAST_PROPS: readonly PropRow[] = [
   {
     name: "ToastRoot",
     type: 'Base UI Toast.Root.Props & { layout?: "stacked" | "inline" }',
@@ -559,7 +565,17 @@ function ToastDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-provider" title="Provider and channels">
+            <PropsTable rows={PROVIDER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-portal" title="Portal and positioning">
+            <PropsTable rows={PORTAL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-toast" title="Toast parts">
+            <PropsTable rows={TOAST_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

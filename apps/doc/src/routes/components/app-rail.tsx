@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -61,24 +61,33 @@ const SNIPPETS = {
 </AppShellRailSlot>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const SHELL_PROPS: readonly PropRow[] = [
   {
     name: "AppShellRailSlot",
     type: 'useRender.ComponentProps<"aside">',
     description:
       "Desktop rail column by default. Override with className when composing a mobile bottom-navigation row.",
   },
+];
+
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "AppRailRoot",
     type: "{ value?: string; onValueChange?: (value: string) => void }",
     description: "Optional controlled selection context. Routing and tab memory stay app-owned.",
   },
+];
+
+const REGION_PROPS: readonly PropRow[] = [
   {
     name: "AppRailHeader / Nav / Footer",
     type: "div / nav props",
     description:
       "Composable regions. Header is a layout slot for an app-owned server switcher; apps may also render separate desktop and mobile Nav compositions inside one controlled Root.",
   },
+];
+
+const ITEM_PROPS: readonly PropRow[] = [
   {
     name: "AppRailItem*",
     type: "button + span props; nativeButton?: boolean",
@@ -131,7 +140,20 @@ function AppRailDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-shell-slot" title="Shell slot">
+            <PropsTable rows={SHELL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-root" title="AppRail root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-regions" title="Regions">
+            <PropsTable rows={REGION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-items" title="Items">
+            <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -39,27 +39,33 @@ type PreviewValues = {
   active: boolean;
 };
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "LiveAgentActivityBar",
     type: "div props",
     description: "Live-region root and themed surface. Visible structure is supplied as children.",
   },
+];
+
+const LAYOUT_PROPS: readonly PropRow[] = [
   {
     name: "LiveAgentActivityBarRow",
     type: "div props",
     description: "Structural row for the avatar and activity content.",
   },
   {
+    name: "LiveAgentActivityBarContent",
+    type: "div props",
+    description: "Layout region for the live status and activity copy.",
+  },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
+  {
     name: "LiveAgentActivityBarAvatar",
     type: "Avatar root props",
     description:
       "Fixed xs agent avatar frame with the shared Avatar fallback. Compose an optional AvatarImage as its child.",
-  },
-  {
-    name: "LiveAgentActivityBarContent",
-    type: "div props",
-    description: "Layout region for the live status and activity copy.",
   },
   {
     name: "LiveAgentActivityBarStatus",
@@ -117,8 +123,16 @@ function LiveAgentActivityBarDoc() {
           transition. The component owns its default Avatar fallback. Brutal uses the white surface
           below the md breakpoint and the cream sidebar surface at md and above.
         </DocNote>
-        <div className="mt-4">
-          <PropsTable rows={PROPS} />
+        <div className="mt-4 space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="LiveAgentActivityBar root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-layout" title="Layout">
+            <PropsTable rows={LAYOUT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
         </div>
       </DocSection>
 

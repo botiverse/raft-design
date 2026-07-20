@@ -79,19 +79,25 @@ ${MENTION_CARD_BODY_SNIPPET}
 </p>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "PreviewCard",
     type: "Base UI PreviewCard.Root.Props",
     description:
       "Owns open state, hover/focus intent, and trigger-card association via triggerId/handle.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "PreviewCardTrigger",
     type: "Base UI PreviewCard.Trigger.Props",
     description:
       "Trigger affordance and positioning anchor. Renders an <a> by default; use render to compose the actual link element and keep styling on the semantic element.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "PreviewCardContent",
     type: "Base UI Popup + Positioner props",
@@ -103,6 +109,15 @@ const PROPS: readonly PropRow[] = [
     type: "div props",
     description: "Static card shell for docs previews and non-portaled comparison panes.",
   },
+  {
+    name: "PreviewCardArrow",
+    type: "Base UI PreviewCard.Arrow.Props",
+    description:
+      "Optional pointer triangle. Brutal hides it to match the source card, which never rendered one.",
+  },
+];
+
+const PART_PROPS: readonly PropRow[] = [
   {
     name: "PreviewCardHeader",
     type: "div props",
@@ -122,12 +137,6 @@ const PROPS: readonly PropRow[] = [
     name: "PreviewCardDescription",
     type: "p props",
     description: "Supporting copy or status line for the previewed entity.",
-  },
-  {
-    name: "PreviewCardArrow",
-    type: "Base UI PreviewCard.Arrow.Props",
-    description:
-      "Optional pointer triangle. Brutal hides it to match the source card, which never rendered one.",
   },
 ];
 
@@ -233,7 +242,20 @@ function PreviewCardDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="PreviewCard root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-parts" title="Card parts">
+            <PropsTable rows={PART_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );
