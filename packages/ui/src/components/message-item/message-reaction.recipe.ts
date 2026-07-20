@@ -48,7 +48,7 @@ export const messageReaction = tv({
         quickButton: "hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
         pickerContent: [
           "rounded-none border-2 border-line-strong border-black bg-white",
-          "shadow-soft-popover",
+          "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
         tooltip: "border-2 border-line-strong bg-white font-bold text-black",
       },

@@ -4068,7 +4068,7 @@ const MessageItem = memo(function MessageItem({ message, mentionMap, channels, p
     </div>
     {reactionPicker && typeof document !== "undefined" && createPortal(
       <div
-        className="fixed z-[80] flex items-center gap-0.5 border-2 border-black bg-white px-1.5 py-1 shadow-soft-popover"
+        className="fixed z-[80] flex items-center gap-0.5 border-2 border-black bg-white px-1.5 py-1 shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]"
         data-message-affordance="reaction-picker"
         style={{
           left: reactionPicker.x,

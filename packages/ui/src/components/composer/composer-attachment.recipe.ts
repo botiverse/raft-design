@@ -5,7 +5,7 @@ export const composerAttachment = tv({
     attachments: ["flex flex-wrap gap-2"],
     attachment: ["group/composer-attachment relative"],
     attachmentFile: [
-      "relative flex h-16 w-32 gap-2 border-2 px-2",
+      "relative flex h-16 w-44 gap-2 border-2 px-2",
       "[&_svg]:size-4 [&_svg]:shrink-0",
     ],
     attachmentImage: [
@@ -46,7 +46,7 @@ export const composerAttachment = tv({
           "has-[[data-slot=composer-attachment-image]]:border-black",
           "has-[[data-slot=composer-attachment-image]]:[&_[data-slot=composer-attachment-failed-overlay]]:border-0",
         ],
-        attachmentFile: "w-[164px] items-center border-black bg-white [&_svg]:text-black/70",
+        attachmentFile: "items-center border-black bg-white [&_svg]:text-black/70",
         attachmentImage: "size-full image-transparency-bg",
         attachmentTitle: "text-black",
         attachmentMeta: "text-black/50",

@@ -168,7 +168,11 @@ function AutocompleteList({ autocomplete }: { autocomplete: AutocompleteApi }) {
         </ComposerSuggestionGroup>
       ) : null}
       {outsideChannel.length > 0 ? (
-        <ComposerSuggestionGroup separated role="group" aria-label="Not in this channel">
+        <ComposerSuggestionGroup
+          separated={inChannel.length > 0}
+          role="group"
+          aria-label="Not in this channel"
+        >
           <ComposerSuggestionGroupLabel aria-hidden>
             Not in this channel
           </ComposerSuggestionGroupLabel>

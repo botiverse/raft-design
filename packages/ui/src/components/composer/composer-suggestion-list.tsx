@@ -6,7 +6,7 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerSuggestionList = tv({
   slots: {
-    root: "absolute inset-x-0 bottom-full w-auto max-h-48 overflow-y-auto",
+    root: "absolute inset-x-0 bottom-full max-h-48 w-auto overflow-y-auto",
     group: [],
     groupLabel: ["px-3 py-1.5", "text-xs"],
     item: [
@@ -37,7 +37,7 @@ const composerSuggestionList = tv({
       },
       elegant: {
         root: [
-          "mb-1 overflow-x-hidden rounded-lg p-1 bg-layer-popover",
+          "mb-1 max-h-[204px] overflow-x-hidden rounded-lg p-1 bg-layer-popover",
           "shadow-lg max-md:shadow-sm ring-1 ring-ink-2 max-md:ring-ink-6",
         ],
         group: "flex flex-col gap-0.5",

@@ -56,12 +56,20 @@ export function ComposerSuggestionResults({
 
   return (
     <ComposerSuggestionList {...getListProps({ "aria-label": "Composer suggestions" })}>
-      <ComposerSuggestionGroup role="group" aria-label={primaryGroupLabel}>
-        <ComposerSuggestionGroupLabel aria-hidden>{primaryGroupLabel}</ComposerSuggestionGroupLabel>
-        {primaryItems.map(({ suggestion, index }) => renderSuggestion(suggestion, index))}
-      </ComposerSuggestionGroup>
+      {primaryItems.length > 0 ? (
+        <ComposerSuggestionGroup role="group" aria-label={primaryGroupLabel}>
+          <ComposerSuggestionGroupLabel aria-hidden>
+            {primaryGroupLabel}
+          </ComposerSuggestionGroupLabel>
+          {primaryItems.map(({ suggestion, index }) => renderSuggestion(suggestion, index))}
+        </ComposerSuggestionGroup>
+      ) : null}
       {secondaryItems.length > 0 ? (
-        <ComposerSuggestionGroup separated role="group" aria-label={secondaryGroupLabel}>
+        <ComposerSuggestionGroup
+          separated={primaryItems.length > 0}
+          role="group"
+          aria-label={secondaryGroupLabel}
+        >
           <ComposerSuggestionGroupLabel aria-hidden>
             {secondaryGroupLabel}
           </ComposerSuggestionGroupLabel>
