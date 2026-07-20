@@ -19,6 +19,23 @@ export { PanelAction, PanelToggleAction } from "./components/panel/index";
 export type { PanelActionProps, PanelToggleActionProps } from "./components/panel/index";
 
 export {
+  ScrollArea,
+  ScrollAreaContent,
+  ScrollAreaCorner,
+  ScrollAreaScrollbar,
+  ScrollAreaThumb,
+  ScrollAreaViewport,
+} from "./components/scroll-area/index";
+export type {
+  ScrollAreaContentProps,
+  ScrollAreaCornerProps,
+  ScrollAreaProps,
+  ScrollAreaScrollbarProps,
+  ScrollAreaThumbProps,
+  ScrollAreaViewportProps,
+} from "./components/scroll-area/index";
+
+export {
   ComposerAttachments,
   ComposerAttachment,
   ComposerAttachmentFile,

@@ -831,8 +831,6 @@ export {
   PanelFooter,
   PanelHeader,
   PanelScrollContent,
-  PanelScrollbar,
-  PanelScrollbarThumb,
   PanelScrollViewport,
 } from "./components/panel/index";
 export type {
@@ -841,8 +839,6 @@ export type {
   PanelHeaderProps,
   PanelProps,
   PanelScrollContentProps,
-  PanelScrollbarProps,
-  PanelScrollbarThumbProps,
   PanelScrollViewportProps,
 } from "./components/panel/index";
 

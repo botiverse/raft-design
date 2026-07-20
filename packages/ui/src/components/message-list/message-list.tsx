@@ -1,12 +1,14 @@
-import { ScrollArea } from "@base-ui/react/scroll-area";
 import { useRender } from "@base-ui/react/use-render";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
+import { PanelScrollViewport } from "../panel/panel";
 import {
-  PanelScrollContent,
-  PanelScrollbar,
-  PanelScrollbarThumb,
-  PanelScrollViewport,
-} from "../panel/panel";
+  ScrollArea,
+  ScrollAreaContent,
+  ScrollAreaScrollbar,
+  ScrollAreaThumb,
+  ScrollAreaViewport,
+} from "../scroll-area";
 import { messageList } from "./message-list.recipe";
 
 export type MessageListProps = useRender.ComponentProps<"div"> & {
@@ -20,8 +22,9 @@ export function MessageList({
   rootClassName,
   ...props
 }: MessageListProps) {
+  const theme = useThemeFamily();
   const isMobile = useMobileViewport();
-  const { content, root, viewport } = messageList();
+  const { content, root, viewport } = messageList({ theme });
 
   if (isMobile) {
     return (
@@ -33,28 +36,26 @@ export function MessageList({
           className={viewport({ className })}
           style={{ ...props.style, overflowX: "hidden" }}
         >
-          <PanelScrollContent className={content()}>{children}</PanelScrollContent>
+          <div className={content()}>{children}</div>
         </PanelScrollViewport>
       </div>
     );
   }
 
   return (
-    <ScrollArea.Root data-slot="message-list" className={root({ className: rootClassName })}>
-      <PanelScrollViewport
+    <ScrollArea data-slot="message-list" className={root({ className: rootClassName })}>
+      <ScrollAreaViewport
         {...props}
-        render={<ScrollArea.Viewport render={render} />}
+        render={render}
         data-slot="message-list-viewport"
         className={viewport({ className })}
         style={{ ...props.style, overflowX: "hidden" }}
       >
-        <PanelScrollContent render={<ScrollArea.Content />} className={content()}>
-          {children}
-        </PanelScrollContent>
-      </PanelScrollViewport>
-      <PanelScrollbar render={<ScrollArea.Scrollbar />}>
-        <PanelScrollbarThumb render={<ScrollArea.Thumb />} />
-      </PanelScrollbar>
-    </ScrollArea.Root>
+        <ScrollAreaContent className={content()}>{children}</ScrollAreaContent>
+      </ScrollAreaViewport>
+      <ScrollAreaScrollbar className="me-1.5 px-0 py-1">
+        <ScrollAreaThumb />
+      </ScrollAreaScrollbar>
+    </ScrollArea>
   );
 }

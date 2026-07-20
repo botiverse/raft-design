@@ -24,6 +24,7 @@ export const messageList = tv({
         historyLimited: "border-black/20 bg-white/70",
       },
       elegant: {
+        content: "md:pb-[var(--panel-footer-clearance)]",
         dateDividerRule: "border-t border-line-muted",
         dateDividerChipWrap: "bg-layer-panel",
         dateDividerChip: "bg-layer-panel font-mono text-[11px] font-normal text-foreground-muted",

@@ -42,7 +42,6 @@ export const chatSidebar = tv({
       "pointer-events-none",
       "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
     ],
-    sidebarScrollbarThumb: ["w-1.5 rounded-full"],
     sidebarLiveActivity: ["pointer-events-none absolute inset-x-0 max-md:hidden"],
   },
   variants: {
@@ -57,7 +56,6 @@ export const chatSidebar = tv({
         ],
         sidebarBody: "bg-brutal-cream max-md:bg-white",
         sidebarLiveActivity: "bottom-0 z-40",
-        sidebarScrollbarThumb: "bg-black/35 hover:bg-black/55",
       },
       elegant: {
         sidebarRoot: [
@@ -80,7 +78,6 @@ export const chatSidebar = tv({
           "pt-[var(--shell-header-height,56px)]",
         ],
         sidebarScrollbar: "justify-end",
-        sidebarScrollbarThumb: "bg-foreground-muted/35 hover:bg-foreground-muted/55",
         sidebarLiveActivity: [
           "bottom-[12px] z-10",
           "pl-[26px] pr-[16px]",

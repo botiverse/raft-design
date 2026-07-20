@@ -67,32 +67,6 @@ export function PanelScrollContent({ className, render, ...props }: PanelScrollC
   });
 }
 
-export type PanelScrollbarProps = useRender.ComponentProps<"div">;
-
-export function PanelScrollbar({ className, render, ...props }: PanelScrollbarProps) {
-  const theme = useThemeFamily();
-  const { scrollbar } = panel({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: { ...props, className: scrollbar({ className }) },
-  });
-}
-
-export type PanelScrollbarThumbProps = useRender.ComponentProps<"div">;
-
-export function PanelScrollbarThumb({ className, render, ...props }: PanelScrollbarThumbProps) {
-  const theme = useThemeFamily();
-  const { scrollbarThumb } = panel({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: { ...props, className: scrollbarThumb({ className }) },
-  });
-}
-
 export type PanelFooterProps = useRender.ComponentProps<"div">;
 
 export function PanelFooter({ className, render, ...props }: PanelFooterProps) {
