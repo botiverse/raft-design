@@ -5,16 +5,16 @@ export const composerAttachment = tv({
     attachments: ["flex flex-wrap gap-2"],
     attachment: ["group/composer-attachment relative"],
     attachmentFile: [
-      "relative flex h-16 w-32 items-start gap-2 border-2 px-2 pt-2",
+      "relative flex h-16 w-32 gap-2 border-2 px-2",
       "[&_svg]:size-4 [&_svg]:shrink-0",
     ],
     attachmentImage: [
-      "relative block size-16 shrink-0",
+      "relative block size-16 shrink-0 overflow-hidden",
       "[&_[data-slot=file-preview]]:size-full [&_[data-slot=file-preview-media]]:size-full",
     ],
-    attachmentBody: ["block min-w-0"],
-    attachmentTitle: ["block translate-y-0.5 truncate text-xs font-bold"],
-    attachmentMeta: ["absolute right-2 bottom-2 truncate text-[10px]"],
+    attachmentBody: ["block min-w-0 flex-1"],
+    attachmentTitle: ["block truncate text-xs font-bold"],
+    attachmentMeta: ["block w-full truncate text-right text-[10px]"],
     attachmentUploadingOverlay: [
       "absolute inset-0 z-10 flex flex-col items-center justify-center px-1",
       "text-center text-[10px] font-bold leading-3",
@@ -22,7 +22,7 @@ export const composerAttachment = tv({
     attachmentUploadProgressBar: [
       "absolute bottom-0 left-0 z-20 h-1 w-full overflow-hidden bg-black/15",
     ],
-    attachmentUploadProgressBarIndicator: ["block h-full bg-accent-400"],
+    attachmentUploadProgressBarIndicator: ["block h-full"],
     attachmentFailedOverlay: [
       "absolute inset-0 z-10 flex flex-col items-center justify-center border-2 px-1",
       "text-center text-[10px] font-bold leading-3",
@@ -37,20 +37,37 @@ export const composerAttachment = tv({
   variants: {
     theme: {
       brutal: {
-        attachmentFile: "border-black bg-white [&_svg]:text-black/70",
+        attachment: [
+          "has-[[data-slot=composer-attachment-image]]:size-16",
+          "has-[[data-slot=composer-attachment-image]]:overflow-hidden",
+          "has-[[data-slot=composer-attachment-image]]:border-2",
+          "has-[[data-slot=composer-attachment-image]]:border-black",
+          "has-[[data-slot=composer-attachment-image]]:[&_[data-slot=composer-attachment-failed-overlay]]:border-0",
+        ],
+        attachmentFile: "w-[164px] items-center border-black bg-white [&_svg]:text-black/70",
+        attachmentImage: [
+          "size-full image-transparency-bg",
+          "[&_[data-slot=file-preview-media]]:border-0 [&_[data-slot=file-preview-media]]:bg-transparent",
+          "[&_[data-slot=file-preview-media]]:shadow-none [&_[data-slot=file-preview-media]]:ring-0",
+        ],
         attachmentTitle: "text-black",
         attachmentMeta: "text-black/50",
         attachmentUploadingOverlay: "bg-white/85 text-black",
+        attachmentUploadProgressBarIndicator: "bg-brutal-pink",
         attachmentFailedOverlay: "border-black bg-brutal-orange/90 text-black",
         attachmentRemove: "bg-black text-white",
       },
       elegant: {
         attachments: "justify-center pt-0.5",
-        attachmentFile:
-          "h-16 w-32 gap-3 overflow-hidden rounded-md border-0 bg-layer-panel pt-1.5 pr-2.5 pl-1.5 ring-1 ring-ink-10 [&_svg]:text-foreground-icon [&>[data-slot=file-preview]]:self-center [&>[data-slot=file-preview]]:-translate-y-[3px]",
-        attachmentTitle: "font-medium text-foreground-strong",
-        attachmentMeta: "right-2.5 bottom-1.5 text-foreground-placeholder",
+        attachmentFile: [
+          "items-start gap-3 overflow-hidden rounded-md border-0 bg-layer-panel pt-1.5 pr-2.5 pl-1.5",
+          "ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
+          "[&>[data-slot=file-preview]]:self-center [&>[data-slot=file-preview]]:-translate-y-[3px]",
+        ],
+        attachmentTitle: "translate-y-0.5 font-medium text-foreground-strong",
+        attachmentMeta: "absolute right-2.5 bottom-1.5 text-foreground-placeholder",
         attachmentUploadProgressBar: "rounded-b-md",
+        attachmentUploadProgressBarIndicator: "bg-accent-400",
         attachmentUploadingOverlay: "rounded-md bg-white/85 text-foreground",
         attachmentFailedOverlay: "rounded-md border-0 bg-danger-lighter text-danger-base",
         attachmentRemove: "bg-foreground-strong text-foreground-inverse",

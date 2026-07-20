@@ -30,12 +30,7 @@ const TOC = [
 const ANATOMY_SNIPPET = `<ComposerRoot>
   <ComposerAttachments>
     <ComposerAttachment>
-      <ComposerAttachmentFile>
-        <ComposerAttachmentBody>
-          <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-        </ComposerAttachmentBody>
-      </ComposerAttachmentFile>
+      <ComposerAttachmentImage />
       <ComposerAttachmentUploadingOverlay>
         <Spinner />
         64%
@@ -47,8 +42,13 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
       <ComposerAttachmentFile>
         <ComposerAttachmentBody>
           <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta />
+          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
         </ComposerAttachmentBody>
+        <ComposerAttachmentUploadingOverlay>
+          <Spinner />
+          64%
+        </ComposerAttachmentUploadingOverlay>
+        <ComposerAttachmentUploadProgressBar value={64} />
       </ComposerAttachmentFile>
       <ComposerAttachmentRemove />
     </ComposerAttachment>
@@ -147,7 +147,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachmentImage",
     type: "span props",
-    description: "Fixed 64px image attachment frame; place a FilePreview media child inside.",
+    description:
+      "Fixed 64px image media. Place FilePreview media inside. The attachment root owns the brutal frame border when this part is present.",
   },
   {
     name: "ComposerAttachmentBody",
@@ -167,12 +168,14 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachmentUploadingOverlay",
     type: "span props",
-    description: "White upload overlay for caller-owned progress content.",
+    description:
+      "White upload overlay for caller-owned progress content. For images, place as a sibling under ComposerAttachment; for files, nest inside ComposerAttachmentFile.",
   },
   {
     name: "ComposerAttachmentUploadProgressBar",
     type: "span props & { value: number }",
-    description: "Bottom linear upload progress bar.",
+    description:
+      "Bottom linear upload progress bar. Place next to the uploading overlay (image: under ComposerAttachment; file: inside ComposerAttachmentFile).",
   },
   {
     name: "ComposerAttachmentFailedOverlay",
