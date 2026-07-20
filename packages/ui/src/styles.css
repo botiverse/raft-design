@@ -251,7 +251,6 @@
   --shadow-lg: var(--theme-shadow-lg);
   --shadow-xl: var(--theme-shadow-xl);
   --shadow-field-hover: 0px 1px 2px 0px oklch(0.159 0.016 266.594 / 0.03);
-  --shadow-soft-popover: 0 4px 12px oklch(0 0 0 / 0.08);
   --shadow-brutal-sm: var(--theme-shadow-sm);
   --shadow-brutal: var(--theme-shadow-md);
   --shadow-brutal-lg: var(--theme-shadow-xl);

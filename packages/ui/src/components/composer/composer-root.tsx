@@ -21,6 +21,8 @@ const composerRoot = tv({
         "has-[>[data-slot=composer-attachments]]:before:bg-[color-mix(in_oklch,var(--layer-muted)_35%,var(--layer-panel))]",
         "has-[>[data-slot=composer-attachments]]:before:ring-1",
         "has-[>[data-slot=composer-attachments]]:before:ring-line-subtle/60",
+        "[&>[data-slot=composer-drop-overlay]]:-inset-1",
+        "[&>[data-slot=composer-drop-overlay]]:rounded-lg",
       ],
     },
   },

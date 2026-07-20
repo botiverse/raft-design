@@ -27,11 +27,13 @@ export function ComposerAttachmentsComposition({
   fileStates = ["uploaded", "failed"],
   onRemove,
   onRetry,
+  wrap = true,
 }: {
   imageStates?: readonly AttachmentState[];
   fileStates?: readonly AttachmentState[];
   onRemove?: (name: string) => void;
   onRetry?: (name: string) => void;
+  wrap?: boolean;
 } = {}) {
   const imageNames = {
     uploaded: "screenshot.png",
@@ -62,8 +64,8 @@ export function ComposerAttachmentsComposition({
     };
   });
 
-  return (
-    <ComposerAttachments>
+  const tiles = (
+    <>
       {imageStates.map((state) => {
         const name = imageNames[state];
 
@@ -149,6 +151,10 @@ export function ComposerAttachmentsComposition({
           </ComposerAttachment>
         );
       })}
-    </ComposerAttachments>
+    </>
   );
+
+  if (!wrap) return tiles;
+
+  return <ComposerAttachments>{tiles}</ComposerAttachments>;
 }

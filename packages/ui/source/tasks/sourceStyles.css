@@ -66,11 +66,6 @@
   --shadow-brutal-lg: 6px 6px 0px #141111;
   --shadow-brutal-hover: 2px 2px 0px #141111;
   --shadow-brutal-active: 1px 1px 0px #141111;
-  /* Soft popover shadow for tiny transient overlays (reaction picker,
-     tooltip, dropdown menu, hover popover). Exception to brutal hard
-     shadow — only valid on surfaces that auto-dismiss on click-outside.
-     See CLAUDE.md "Shadow Boundary — Hard vs Soft". */
-  --shadow-soft-popover: 0 4px 12px rgba(0, 0, 0, 0.08);
 
   --border-width-3: 3px;
 }

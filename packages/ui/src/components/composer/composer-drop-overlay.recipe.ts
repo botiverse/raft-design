@@ -3,21 +3,21 @@ import { tv } from "../../lib/tv";
 export const composerDropOverlay = tv({
   slots: {
     dropOverlay: ["absolute inset-0 z-30 flex items-center justify-center border-2"],
-    dropOverlayLabel: ["inline-flex items-center gap-1.5 border-2 px-3 py-1.5 text-sm font-bold"],
+    dropOverlayLabel: [
+      "flex flex-col items-center gap-4 border-0 p-0",
+      "text-center text-base font-medium text-foreground-inverse",
+    ],
+    dropOverlayIcon: ["bg-layer-panel p-2 shadow-md ring-1 ring-line-subtle"],
   },
   variants: {
     theme: {
       brutal: {
-        dropOverlay: "border-dashed border-brutal-pink bg-brutal-pink/15",
-        dropOverlayLabel: "border-black bg-white text-black shadow-brutal-sm",
+        dropOverlay: "border-dashed border-black bg-[oklch(0_0_0/0.4)]",
+        dropOverlayIcon: "rounded-none",
       },
       elegant: {
-        dropOverlay: [
-          "-inset-1 rounded-lg border-accent-400/70 bg-accent-100/60",
-          "bg-[radial-gradient(ellipse_at_center,oklch(0_0_0/0.045)_0%,oklch(0_0_0/0.02)_55%,oklch(0_0_0/0.008)_100%)]",
-        ],
-        dropOverlayLabel:
-          "flex flex-col items-center gap-2 border-0 p-0 text-center text-base font-medium text-foreground-strong",
+        dropOverlay: ["rounded-lg border-0 bg-[oklch(0_0_0/0.4)] backdrop-blur-[2px]"],
+        dropOverlayIcon: "rounded-md",
       },
     },
   },

@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -8,14 +7,18 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import {
+  ComposerAttachmentLimitComposition,
   ComposerAttachmentStatesComposition,
+  ComposerAttachmentsScrollComposition,
   ComposerCompactComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
   ComposerWithLightboxComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
+import composerAttachmentLimitSource from "#/modules/chat-composer/compositions/composer-attachment-limit.composition.tsx?raw";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
+import composerAttachmentsScrollSource from "#/modules/chat-composer/compositions/composer-attachments-scroll.composition.tsx?raw";
 import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
@@ -29,55 +32,59 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const ANATOMY_SNIPPET = `<ComposerRoot>
-  <ComposerAttachments>
-    <ComposerAttachment>
-      <ComposerAttachmentImage />
-      <ComposerAttachmentUploadingOverlay>
-        <Spinner />
-        64%
-      </ComposerAttachmentUploadingOverlay>
-      <ComposerAttachmentUploadProgressBar value={64} />
-      <ComposerAttachmentRemove />
-    </ComposerAttachment>
-    <ComposerAttachment>
-      <ComposerAttachmentFile>
-        <ComposerAttachmentBody>
-          <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-        </ComposerAttachmentBody>
+const ANATOMY_SNIPPET = `<div className="relative">
+  <ComposerRoot>
+    <ComposerAttachments>
+      <ComposerAttachment>
+        <ComposerAttachmentImage />
         <ComposerAttachmentUploadingOverlay>
           <Spinner />
           64%
         </ComposerAttachmentUploadingOverlay>
         <ComposerAttachmentUploadProgressBar value={64} />
-      </ComposerAttachmentFile>
-      <ComposerAttachmentRemove />
-    </ComposerAttachment>
-  </ComposerAttachments>
-  <Composer>
-    <ComposerInput />
-    <ComposerToolbar>
-      <ComposerActions>
-        <ComposerIconButton />
-      </ComposerActions>
+        <ComposerAttachmentRemove />
+      </ComposerAttachment>
+      <ComposerAttachment>
+        <ComposerAttachmentFile>
+          <ComposerAttachmentBody>
+            <ComposerAttachmentTitle />
+            <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+          </ComposerAttachmentBody>
+          <ComposerAttachmentUploadingOverlay>
+            <Spinner />
+            64%
+          </ComposerAttachmentUploadingOverlay>
+          <ComposerAttachmentUploadProgressBar value={64} />
+        </ComposerAttachmentFile>
+        <ComposerAttachmentRemove />
+      </ComposerAttachment>
+    </ComposerAttachments>
+    <Composer>
+      <ComposerInput />
+      <ComposerToolbar>
+        <ComposerActions>
+          <ComposerIconButton />
+        </ComposerActions>
         <ComposerMeta>
           <ComposerToolbarLabel>
             <Checkbox />
             As Task
           </ComposerToolbarLabel>
-        <ComposerSubmit />
-      </ComposerMeta>
-    </ComposerToolbar>
-  </Composer>
+          <ComposerSubmit />
+        </ComposerMeta>
+      </ComposerToolbar>
+    </Composer>
+  </ComposerRoot>
   <ComposerDropOverlay>
     <ComposerDropOverlayPrompt />
   </ComposerDropOverlay>
-</ComposerRoot>`;
+</div>`;
 
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
+  attachmentLimit: composerAttachmentLimitSource,
   attachmentStates: composerAttachmentStatesSource,
+  attachmentsScroll: composerAttachmentsScrollSource,
   compact: composerCompactSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
@@ -163,6 +170,15 @@ const COMPOSER_ATTACHMENTS_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "div props",
     description: "Pending-upload strip above the input.",
+  },
+];
+
+const COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description:
+      "Opt-in single-row overflow with prev/next arrows. Nest inside ComposerAttachments; omit for the default wrap layout.",
   },
 ];
 
@@ -253,7 +269,8 @@ const COMPOSER_DROP_OVERLAY_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
-    description: "Drag-and-drop overlay covering the composer root while files hover over it.",
+    description:
+      "Drag-and-drop overlay that fills its nearest positioned ancestor. May sit inside ComposerRoot or outside it on a shared relative wrapper.",
   },
 ];
 
@@ -285,16 +302,6 @@ function ChatComposerDoc() {
     <DocPage
       title="Composer"
       description="Composable message-editor parts for an input, toolbar, attachments, and drag-and-drop feedback."
-      overview={
-        <Differences from="Composer">
-          <li>does not own draft state, uploads, submit mutations, or drag-and-drop wiring</li>
-          <li>
-            keeps the source composer shell, toolbar clusters, attachment tiles, and drop overlay
-          </li>
-          <li>is hosted by a caller-owned main or thread footer rather than owning either panel</li>
-          <li>leaves inline @/# autocomplete behavior and popup anatomy to ComposerSuggestions</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -334,6 +341,41 @@ function ChatComposerDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.attachmentStates} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="attachment-limit" title="Attachment limit banner">
+            <DocNote>
+              Attachment count limits are product policy. Keep the Banner outside Composer and show
+              it when the consumer rejects another file.
+            </DocNote>
+            <Preview previewClassName="min-h-[24rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[24rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentLimitComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentLimit} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="attachments-scroll"
+            title="Single-row attachments with arrows"
+          >
+            <DocNote>
+              Nest <code>ComposerAttachmentsScrollArea</code> inside{" "}
+              <code>ComposerAttachments</code> for a single-row strip with prev/next arrows. Without
+              it, attachments wrap normally.
+            </DocNote>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentsScrollComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentsScroll} />
             </Preview>
           </DocSubsection>
 
@@ -416,6 +458,13 @@ function ChatComposerDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-composer-attachments" title="ComposerAttachments">
             <PropsTable rows={COMPOSER_ATTACHMENTS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachments-scroll-area"
+            title="ComposerAttachmentsScrollArea"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-composer-attachment" title="ComposerAttachment">
             <PropsTable rows={COMPOSER_ATTACHMENT_PROPS} />
