@@ -40,7 +40,24 @@ const DIRECTION_PREVIEWS = [
   swipeDirection: NonNullable<DrawerProps["swipeDirection"]>;
 }>;
 
-const ANATOMY = `import {
+const ANATOMY = `<Drawer>
+  <DrawerTrigger />
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle />
+    </DrawerHeader>
+    <DrawerBody>
+      <DrawerDescription />
+    </DrawerBody>
+    <DrawerFooter>
+      <DrawerActions>
+        <DrawerClose />
+      </DrawerActions>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`;
+
+const LEAVE_CHANNEL = `import {
   Drawer,
   DrawerTrigger,
   DrawerContent,
@@ -142,7 +159,7 @@ const SOURCE_ADAPTIVE_OTHER = `<BottomSheet className="md:hidden" sheetClassName
 
 const SNIPPETS = {
   anatomy: ANATOMY,
-  leaveChannel: ANATOMY,
+  leaveChannel: LEAVE_CHANNEL,
   listenNestedCloseComposition: nestedCloseCallbackCompositionSource,
   listenNestedCloseMemberDetails: memberDetailsDrawerSource,
   listenNestedCloseRemoveMember: removeMemberDrawerSource,

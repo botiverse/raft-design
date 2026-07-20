@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-import { Differences } from "#/components/differences.tsx";
 import { ComponentPlayground } from "#/components/component-playground.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -14,7 +13,6 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
 import { LIVE_AGENT_ACTIVITY_PREVIEW } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.fixtures.ts";
 import { SourceLiveAgentActivityBar } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.source-preview.tsx";
-import liveAgentActivityBarCompositionSource from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -24,7 +22,17 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  composition: liveAgentActivityBarCompositionSource,
+  anatomy: `<LiveAgentActivityBar>
+  <LiveAgentActivityBarRow>
+    <LiveAgentActivityBarAvatar>
+      <AvatarImage />
+    </LiveAgentActivityBarAvatar>
+    <LiveAgentActivityBarContent>
+      <LiveAgentActivityBarStatus />
+      <LiveAgentActivityBarText />
+    </LiveAgentActivityBarContent>
+  </LiveAgentActivityBarRow>
+</LiveAgentActivityBar>`,
 } as const;
 
 type PreviewValues = {
@@ -77,14 +85,6 @@ function LiveAgentActivityBarDoc() {
     <DocPage
       title="LiveAgentActivityBar"
       description="A compact shell status bar that surfaces the latest thinking or working agent activity."
-      overview={
-        <Differences from="source LiveAgentActivityBar">
-          <li>preserves the source avatar, pulsing status, typography, spacing, and surfaces</li>
-          <li>uses the source white mobile surface and cream desktop surface responsively</li>
-          <li>exposes avatar, status, and text as explicit composition parts</li>
-          <li>keeps stores, socket events, and the 90-second expiry lifecycle consumer-owned</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -105,7 +105,7 @@ function LiveAgentActivityBarDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.composition} />
+            <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

@@ -45,7 +45,7 @@ export function ConversationPanelHeaderComposition({
           <ConversationPanelHeading>
             <ConversationPanelTitle>Atlas</ConversationPanelTitle>
             <ConversationPanelStatus title="Working…">
-              <Status aria-hidden size="md" variant="success" pulse />
+              <Status aria-hidden size="sm" variant="success" pulse />
               Working…
             </ConversationPanelStatus>
           </ConversationPanelHeading>
