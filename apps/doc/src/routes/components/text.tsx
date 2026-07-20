@@ -129,12 +129,15 @@ const COMPOSITION_PATHS = {
   TaskRow: "apps/doc/src/modules/text/compositions/task-row.composition.tsx",
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const TEXT_HEADING_PROPS: readonly PropRow[] = [
   {
     name: "Text.Heading",
     type: 'ComponentPropsWithRef<"h1"> & { level?: 1 | 2 | 3 | 4 | 5 | 6 }',
     description: "Semantic heading with RAFT display typography.",
   },
+];
+
+const TEXT_BODY_PROPS: readonly PropRow[] = [
   {
     name: "Text.Sans",
     type: '"large" | "body" | "small" | "caption"',
@@ -302,7 +305,14 @@ function TextDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-heading" title="Text.Heading">
+            <PropsTable rows={TEXT_HEADING_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-body" title="Text.Sans and Text.Mono">
+            <PropsTable rows={TEXT_BODY_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

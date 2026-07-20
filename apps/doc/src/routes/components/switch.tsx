@@ -38,7 +38,7 @@ const SNIPPETS = {
 </Field>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const SWITCH_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "size",
     type: SIZES.map((size) => `"${size}"`).join(" | "),
@@ -67,14 +67,17 @@ const PROPS: readonly PropRow[] = [
     description: "Interaction and form-validation state from Base UI Switch.",
   },
   {
-    name: "SwitchThumb",
-    type: "Base UI Switch.Thumb.Props",
-    description: "Optional thumb slot for custom visuals. Switch renders it by default.",
-  },
-  {
     name: "...props",
     type: "Base UI Switch.Root.Props",
     description: "Form props (name, value, uncheckedValue, form) plus Base UI render props.",
+  },
+];
+
+const SWITCH_THUMB_PROPS: readonly PropRow[] = [
+  {
+    name: "SwitchThumb",
+    type: "Base UI Switch.Thumb.Props",
+    description: "Optional thumb slot for custom visuals. Switch renders it by default.",
   },
 ];
 
@@ -192,7 +195,14 @@ function SwitchDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Switch root">
+            <PropsTable rows={SWITCH_ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-thumb" title="SwitchThumb">
+            <PropsTable rows={SWITCH_THUMB_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

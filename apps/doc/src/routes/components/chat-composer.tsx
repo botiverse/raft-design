@@ -12,12 +12,14 @@ import {
   ComposerCompactComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
+  ComposerWithLightboxComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
 import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
+import composerWithLightboxSource from "#/modules/chat-composer/compositions/composer-with-lightbox.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -30,12 +32,7 @@ const TOC = [
 const ANATOMY_SNIPPET = `<ComposerRoot>
   <ComposerAttachments>
     <ComposerAttachment>
-      <ComposerAttachmentFile>
-        <ComposerAttachmentBody>
-          <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-        </ComposerAttachmentBody>
-      </ComposerAttachmentFile>
+      <ComposerAttachmentImage />
       <ComposerAttachmentUploadingOverlay>
         <Spinner />
         64%
@@ -47,8 +44,13 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
       <ComposerAttachmentFile>
         <ComposerAttachmentBody>
           <ComposerAttachmentTitle />
-          <ComposerAttachmentMeta />
+          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
         </ComposerAttachmentBody>
+        <ComposerAttachmentUploadingOverlay>
+          <Spinner />
+          64%
+        </ComposerAttachmentUploadingOverlay>
+        <ComposerAttachmentUploadProgressBar value={64} />
       </ComposerAttachmentFile>
       <ComposerAttachmentRemove />
     </ComposerAttachment>
@@ -79,9 +81,10 @@ const SNIPPETS = {
   compact: composerCompactSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
+  withLightbox: composerWithLightboxSource,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_COMPOSER_PROPS: readonly PropRow[] = [
   {
     name: "ComposerRoot",
     type: "form props",
@@ -98,6 +101,9 @@ const PROPS: readonly PropRow[] = [
     type: "textarea props",
     description: "Auto-growing message textarea.",
   },
+];
+
+const TOOLBAR_PROPS: readonly PropRow[] = [
   {
     name: "ComposerToolbar",
     type: "div props",
@@ -129,6 +135,9 @@ const PROPS: readonly PropRow[] = [
     type: "label props",
     description: "A labelled checkbox or status cluster with theme-aware spacing and typography.",
   },
+];
+
+const ATTACHMENT_PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachments",
     type: "div props",
@@ -147,7 +156,8 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachmentImage",
     type: "span props",
-    description: "Fixed 64px image attachment frame; place a FilePreview media child inside.",
+    description:
+      "Fixed 64px image media. Place FilePreview media inside. The attachment root owns the brutal frame border when this part is present.",
   },
   {
     name: "ComposerAttachmentBody",
@@ -167,12 +177,14 @@ const PROPS: readonly PropRow[] = [
   {
     name: "ComposerAttachmentUploadingOverlay",
     type: "span props",
-    description: "White upload overlay for caller-owned progress content.",
+    description:
+      "White upload overlay for caller-owned progress content. For images, place as a sibling under ComposerAttachment; for files, nest inside ComposerAttachmentFile.",
   },
   {
     name: "ComposerAttachmentUploadProgressBar",
     type: "span props & { value: number }",
-    description: "Bottom linear upload progress bar.",
+    description:
+      "Bottom linear upload progress bar. Place next to the uploading overlay (image: under ComposerAttachment; file: inside ComposerAttachmentFile).",
   },
   {
     name: "ComposerAttachmentFailedOverlay",
@@ -184,6 +196,9 @@ const PROPS: readonly PropRow[] = [
     type: "button props",
     description: "Corner remove affordance.",
   },
+];
+
+const DROP_OVERLAY_PROPS: readonly PropRow[] = [
   {
     name: "ComposerDropOverlay",
     type: "div props",
@@ -265,6 +280,21 @@ function ChatComposerDoc() {
             </Preview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="with-lightbox" title="Ready images with lightbox">
+            <DocNote>
+              Composer does not own preview state. Ready image attachments stay clickable tiles; the
+              consumer opens Lightbox and owns gallery index / navigation.
+            </DocNote>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerWithLightboxComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.withLightbox} />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="drop-overlay" title="File drop overlay">
             <Preview previewClassName="min-h-[22rem] items-stretch">
               <Preview.Canvas>
@@ -295,7 +325,20 @@ function ChatComposerDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root-composer" title="Root and composer">
+            <PropsTable rows={ROOT_COMPOSER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-toolbar" title="Toolbar">
+            <PropsTable rows={TOOLBAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-attachments" title="Attachments">
+            <PropsTable rows={ATTACHMENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-drop-overlay" title="Drop overlay">
+            <PropsTable rows={DROP_OVERLAY_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

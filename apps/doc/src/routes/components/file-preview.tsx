@@ -34,12 +34,15 @@ const SNIPPETS = {
   media: stripSourceCodeBlocks(filePreviewMediaCompositionSource),
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const FILE_PREVIEW_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "FilePreview",
     type: "span props",
     description: "Preview root and positioning context for the visual part and badge.",
   },
+];
+
+const FILE_PREVIEW_VISUAL_PROPS: readonly PropRow[] = [
   {
     name: "FilePreviewDocument",
     type: "span props",
@@ -61,6 +64,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Cropped media frame. Pass image, video, SVG, or other decorative preview content as children; image and video thumbnails typically use size-full object-cover.",
   },
+];
+
+const FILE_PREVIEW_BADGE_PROPS: readonly PropRow[] = [
   {
     name: "FilePreviewBadge",
     type: 'span props & { color?: "rose" | "blue" | "amber" | "emerald" | "violet" | "neutral" }',
@@ -141,7 +147,17 @@ function FilePreviewDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="FilePreview root">
+            <PropsTable rows={FILE_PREVIEW_ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-visuals" title="Visual parts">
+            <PropsTable rows={FILE_PREVIEW_VISUAL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-badge" title="FilePreviewBadge">
+            <PropsTable rows={FILE_PREVIEW_BADGE_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

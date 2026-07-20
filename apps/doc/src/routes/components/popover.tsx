@@ -117,17 +117,23 @@ ${PANEL_BODY_SNIPPET}
 </Popover>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "Popover",
     type: "Base UI Popover.Root.Props",
     description: "Owns open state, Escape, outside press, focus handoff, and modal behavior.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "PopoverTrigger",
     type: "Base UI Popover.Trigger.Props",
     description: "Trigger part. Compose custom controls with Base UI's render prop.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "PopoverContent",
     type: "Base UI Popup + Positioner props",
@@ -139,6 +145,15 @@ const PROPS: readonly PropRow[] = [
     type: "div props",
     description: "Static panel shell for docs previews and non-portaled comparison panes.",
   },
+  {
+    name: "PopoverViewport",
+    type: "Base UI Popover.Viewport.Props",
+    description:
+      "Optional transition viewport for one popover whose content changes between multiple triggers.",
+  },
+];
+
+const PART_PROPS: readonly PropRow[] = [
   {
     name: "PopoverHeader",
     type: "div props",
@@ -163,12 +178,6 @@ const PROPS: readonly PropRow[] = [
     name: "PopoverClose",
     type: "Base UI Popover.Close.Props",
     description: "Closes the popover. Compose your own visual affordance with render/className.",
-  },
-  {
-    name: "PopoverViewport",
-    type: "Base UI Popover.Viewport.Props",
-    description:
-      "Optional transition viewport for one popover whose content changes between multiple triggers.",
   },
 ];
 
@@ -454,7 +463,20 @@ function PopoverDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Popover root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-parts" title="Panel parts">
+            <PropsTable rows={PART_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison" showThemeSwitcher={false}>

@@ -444,8 +444,14 @@ function EmptyStateDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
-        <PropsTable rows={PART_PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="EmptyState root">
+            <PropsTable rows={PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-parts" title="Parts">
+            <PropsTable rows={PART_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

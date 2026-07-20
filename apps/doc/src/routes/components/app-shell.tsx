@@ -59,13 +59,16 @@ const SNIPPETS = {
 </AppShellRoot>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "AppShellRoot",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Owns the responsive row-to-column layout and top safe-area inset. Set sidebarCollapsible to coordinate sidebar visibility; use defaultSidebarOpen for uncontrolled state or sidebarOpen and onSidebarOpenChange for controlled state.",
   },
+];
+
+const SLOT_PROPS: readonly PropRow[] = [
   {
     name: "AppShellRailSlot",
     type: 'useRender.ComponentProps<"aside">',
@@ -84,6 +87,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Flexible primary content region. In a collapsible desktop layout, mount it inside a relative main panel so it can expand over the sidebar.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "AppShellSidebarTrigger",
     type: "PanelAction props",
@@ -162,7 +168,17 @@ function AppShellDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="AppShell root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-slots" title="Layout slots">
+            <PropsTable rows={SLOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Sidebar trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -29,22 +29,31 @@ const SNIPPETS = {
 </div>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const LOGO_MARK_PROPS: readonly PropRow[] = [
   {
     name: "RaftLogo",
     type: 'ComponentPropsWithoutRef<"svg">',
     description: "Standalone Raft mark. Size it with native SVG props or className.",
   },
+];
+
+const LOGO_WORDMARK_PROPS: readonly PropRow[] = [
   {
     name: "RaftWordmark",
     type: 'ComponentPropsWithoutRef<"svg">',
     description: "Standalone Raft wordmark with its own fitted viewBox.",
   },
+];
+
+const LOGO_LOCKUP_PROPS: readonly PropRow[] = [
   {
     name: "RaftLogoLockup",
     type: 'ComponentPropsWithoutRef<"svg">',
     description: "Combined mark and wordmark lockup in one SVG.",
   },
+];
+
+const LOGO_SHARED_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "SVGAttributes<SVGSVGElement>",
@@ -97,7 +106,20 @@ function LogoDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-logo" title="RaftLogo">
+            <PropsTable rows={LOGO_MARK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-wordmark" title="RaftWordmark">
+            <PropsTable rows={LOGO_WORDMARK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-lockup" title="RaftLogoLockup">
+            <PropsTable rows={LOGO_LOCKUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-shared" title="Shared SVG props">
+            <PropsTable rows={LOGO_SHARED_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

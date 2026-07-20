@@ -178,15 +178,13 @@ function KbdDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <div className="space-y-8">
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">Kbd props</h3>
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Kbd">
             <PropsTable rows={KBD_PROPS} />
-          </div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-foreground-strong">KbdGroup props</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-group" title="KbdGroup">
             <PropsTable rows={KBD_GROUP_PROPS} />
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
     </DocPage>

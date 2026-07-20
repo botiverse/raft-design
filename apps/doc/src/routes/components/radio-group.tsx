@@ -102,24 +102,12 @@ const SNIPPETS = {
 </RadioGroup>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const RADIO_GROUP_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "RadioGroup",
     type: "Base UI RadioGroup.Props<T>",
     description:
       "Owns one selected value, roving keyboard behavior, form name/form metadata, and disabled/readOnly/required state.",
-  },
-  {
-    name: "RadioGroupItem",
-    type: "Base UI Radio.Root.Props<T>",
-    description:
-      'The radio control itself. Compose it inside a clickable label or a descriptive option row. Set appearance="none" when the surrounding row/card owns the selected visual.',
-  },
-  {
-    name: "RadioGroupIndicator",
-    type: "Base UI Radio.Indicator.Props",
-    description:
-      "Optional visual indicator rendered by RadioGroupItem by default. Use it as children when you need a custom mark.",
   },
   {
     name: "value / defaultValue",
@@ -145,6 +133,24 @@ const PROPS: readonly PropRow[] = [
     name: "disabled / readOnly / required",
     type: "boolean",
     description: "Group-level interaction and form-validation state.",
+  },
+];
+
+const RADIO_GROUP_ITEM_PROPS: readonly PropRow[] = [
+  {
+    name: "RadioGroupItem",
+    type: "Base UI Radio.Root.Props<T>",
+    description:
+      'The radio control itself. Compose it inside a clickable label or a descriptive option row. Set appearance="none" when the surrounding row/card owns the selected visual.',
+  },
+];
+
+const RADIO_GROUP_INDICATOR_PROPS: readonly PropRow[] = [
+  {
+    name: "RadioGroupIndicator",
+    type: "Base UI Radio.Indicator.Props",
+    description:
+      "Optional visual indicator rendered by RadioGroupItem by default. Use it as children when you need a custom mark.",
   },
 ];
 
@@ -329,7 +335,17 @@ function RadioGroupDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="RadioGroup root">
+            <PropsTable rows={RADIO_GROUP_ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item" title="RadioGroupItem">
+            <PropsTable rows={RADIO_GROUP_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-indicator" title="RadioGroupIndicator">
+            <PropsTable rows={RADIO_GROUP_INDICATOR_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

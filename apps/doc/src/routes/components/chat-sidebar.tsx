@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -61,7 +61,7 @@ const SNIPPETS = {
 </ChatSidebarRoot>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const SHELL_RESIZABLE_PROPS: readonly PropRow[] = [
   {
     name: "AppShellSidebarSlot",
     type: "aside props",
@@ -82,6 +82,9 @@ const PROPS: readonly PropRow[] = [
     type: "react-resizable-panels separator props",
     description: "Resize handle between adjacent panels.",
   },
+];
+
+const ROOT_LAYOUT_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarRoot",
     type: "div props",
@@ -113,6 +116,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Optional desktop live-agent overlay. It owns the full-width fade, theme spacing, and matching scroll-content clearance.",
   },
+];
+
+const MENU_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarMenu",
     type: "button props",
@@ -138,6 +144,9 @@ const PROPS: readonly PropRow[] = [
     type: "span props",
     description: "Compact trailing count for a menu destination.",
   },
+];
+
+const SECTION_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarSection",
     type: "section props",
@@ -193,6 +202,9 @@ const PROPS: readonly PropRow[] = [
     type: "div props",
     description: "Compact empty-state wrapper for a section.",
   },
+];
+
+const LIST_ITEM_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarList",
     type: "div props",
@@ -263,6 +275,9 @@ const PROPS: readonly PropRow[] = [
     type: "span props",
     description: "Presence or workflow status slot for a row.",
   },
+];
+
+const CONTROL_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarControl",
     type: "button props",
@@ -301,7 +316,26 @@ function ChatSidebarDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-shell-resizable" title="Shell and resizable">
+            <PropsTable rows={SHELL_RESIZABLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-root-layout" title="Root and layout">
+            <PropsTable rows={ROOT_LAYOUT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-menu" title="Menu">
+            <PropsTable rows={MENU_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-section" title="Section">
+            <PropsTable rows={SECTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-list-items" title="List and items">
+            <PropsTable rows={LIST_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-controls" title="Controls">
+            <PropsTable rows={CONTROL_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

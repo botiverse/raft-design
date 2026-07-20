@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -54,13 +54,16 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarItem",
     type: "button props",
     description:
       "Interactive row root. Use active for visual state; route consumers provide aria-current for the current destination, and unread state is composed from explicit indicators and counts.",
   },
+];
+
+const LEADING_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarItemIcon",
     type: "span props",
@@ -71,6 +74,9 @@ const PROPS: readonly PropRow[] = [
     type: "span props",
     description: "Leading channel glyph slot for a row.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarItemContent",
     type: "span props",
@@ -92,6 +98,9 @@ const PROPS: readonly PropRow[] = [
     type: "span props",
     description: "Low-emphasis inline metadata beside row content.",
   },
+];
+
+const TRAILING_PROPS: readonly PropRow[] = [
   {
     name: "ChatSidebarItemAside",
     type: "span props",
@@ -160,7 +169,20 @@ function ChatSidebarItemDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="ChatSidebarItem root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-leading" title="Leading">
+            <PropsTable rows={LEADING_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trailing" title="Trailing">
+            <PropsTable rows={TRAILING_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

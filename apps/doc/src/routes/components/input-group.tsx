@@ -490,22 +490,18 @@ function InputGroupDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">InputGroup</h3>
+          <DocSubsection parentId="api" id="api-root" title="InputGroup">
             <PropsTable rows={GROUP_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">InputGroupAddon</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-addon" title="InputGroupAddon">
             <PropsTable rows={ADDON_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">InputGroupAddon.Text</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-addon-text" title="InputGroupAddon.Text">
             <PropsTable rows={TEXT_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">InputGroupInput</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-input" title="InputGroupInput">
             <PropsTable rows={INPUT_PROPS} />
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 

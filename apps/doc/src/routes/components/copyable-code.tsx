@@ -3,7 +3,7 @@ import { Copy } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -78,45 +78,17 @@ const COMPOSITION_PATHS = {
     "apps/doc/src/modules/copyable-code/compositions/dialog-setup-command.composition.tsx",
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const COPYABLE_CODE_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "CopyableCode.Root",
     type: "div",
     description: "Owns copied state, size, and copy behavior for composed parts.",
   },
   {
-    name: "CopyableCode.Code",
-    type: "code",
-    description: "Code text slot. Its rendered text is the default value copied by Action.",
-  },
-  {
-    name: "truncate",
-    type: "boolean",
-    default: "false",
-    description: "Single-line horizontally scrollable treatment for CopyableCode.Code.",
-  },
-  {
-    name: "CopyableCode.Action",
-    type: "Button",
-    description: "Copy trigger slot with default Copy/Check feedback icon.",
-  },
-  {
     name: "copied",
     type: "boolean",
     default: "–",
     description: "Optional controlled copied state. Omit it to let the component manage feedback.",
-  },
-  {
-    name: "ariaLabel / copiedAriaLabel",
-    type: "string",
-    default: '"Copy code" / "Copied code"',
-    description: "Accessible name for the icon-only action. It is not rendered as visible text.",
-  },
-  {
-    name: "children",
-    type: "ReactNode | ({ copied }) => ReactNode",
-    default: "Copy / Check icon",
-    description: "Optional visible content for CopyableCode.Action.",
   },
   {
     name: "size",
@@ -129,6 +101,40 @@ const PROPS: readonly PropRow[] = [
     type: "(value: string) => void | Promise<void>",
     default: "–",
     description: "Optional callback after Action sends the Code text to the clipboard.",
+  },
+];
+
+const COPYABLE_CODE_CODE_PROPS: readonly PropRow[] = [
+  {
+    name: "CopyableCode.Code",
+    type: "code",
+    description: "Code text slot. Its rendered text is the default value copied by Action.",
+  },
+  {
+    name: "truncate",
+    type: "boolean",
+    default: "false",
+    description: "Single-line horizontally scrollable treatment for CopyableCode.Code.",
+  },
+];
+
+const COPYABLE_CODE_ACTION_PROPS: readonly PropRow[] = [
+  {
+    name: "CopyableCode.Action",
+    type: "Button",
+    description: "Copy trigger slot with default Copy/Check feedback icon.",
+  },
+  {
+    name: "ariaLabel / copiedAriaLabel",
+    type: "string",
+    default: '"Copy code" / "Copied code"',
+    description: "Accessible name for the icon-only action. It is not rendered as visible text.",
+  },
+  {
+    name: "children",
+    type: "ReactNode | ({ copied }) => ReactNode",
+    default: "Copy / Check icon",
+    description: "Optional visible content for CopyableCode.Action.",
   },
 ];
 
@@ -195,7 +201,17 @@ function CopyableCodeDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="CopyableCode root">
+            <PropsTable rows={COPYABLE_CODE_ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-code" title="CopyableCode.Code">
+            <PropsTable rows={COPYABLE_CODE_CODE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-action" title="CopyableCode.Action">
+            <PropsTable rows={COPYABLE_CODE_ACTION_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

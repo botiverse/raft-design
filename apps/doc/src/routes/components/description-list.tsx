@@ -10,7 +10,7 @@ import {
 
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -109,12 +109,15 @@ const COMPOSITION_PATHS = {
     "apps/doc/src/modules/description-list/compositions/rich-creator-value.composition.tsx",
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const DESCRIPTION_LIST_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "DescriptionList",
     type: 'useRender.ComponentProps<"dl">',
     description: "Semantic list root for description metadata groups.",
   },
+];
+
+const DESCRIPTION_LIST_PART_PROPS: readonly PropRow[] = [
   {
     name: "DescriptionItem",
     type: 'useRender.ComponentProps<"div">',
@@ -210,7 +213,14 @@ function DescriptionListDoc() {
         </DocsCodeBlock>
       </DocSection>
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="DescriptionList root">
+            <PropsTable rows={DESCRIPTION_LIST_ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-parts" title="Parts">
+            <PropsTable rows={DESCRIPTION_LIST_PART_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

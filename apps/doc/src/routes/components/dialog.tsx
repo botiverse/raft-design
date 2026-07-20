@@ -144,17 +144,23 @@ const SNIPPETS = {
 </Dialog>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "Dialog",
     type: "Base UI Dialog.Root.Props",
     description: "Owns open state, focus trap, Escape close, outside press, and modal behavior.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "DialogTrigger",
     type: "Base UI Dialog.Trigger.Props",
     description: "Opens the dialog. Compose a Button through render when the trigger is visible.",
   },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "DialogContent",
     type: "Base UI Dialog.Popup.Props",
@@ -165,6 +171,9 @@ const PROPS: readonly PropRow[] = [
     type: "false | DialogOverlayProps",
     description: "Pass false for framed previews; otherwise renders the themed backdrop.",
   },
+];
+
+const LAYOUT_PROPS: readonly PropRow[] = [
   {
     name: "DialogHeader / DialogBody / DialogFooter",
     type: "div props",
@@ -1094,7 +1103,20 @@ function DialogDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Dialog root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-layout" title="Layout parts">
+            <PropsTable rows={LAYOUT_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

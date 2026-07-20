@@ -656,13 +656,16 @@ function AsyncBranchSelect() {
 }`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "Combobox",
     type: "Base UI Combobox.Root.Props",
     description:
       "Owns selected value, input value, filtering, highlighted item, Escape, and Enter selection.",
   },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "ComboboxControl",
     type: "Base UI Combobox.InputGroup.Props",
@@ -680,6 +683,14 @@ const PROPS: readonly PropRow[] = [
     type: "Base UI Combobox.Input.Props",
     description: "Search input. Supports password-manager suppression for compact filter panels.",
   },
+  {
+    name: "ComboboxClear",
+    type: "Base UI Combobox.Clear.Props",
+    description: "Clears the current input and selected value through the primitive.",
+  },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "ComboboxContent",
     type: "Base UI Popup + Positioner props",
@@ -702,6 +713,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Unpositioned popup shell for advanced static rendering. Prefer ComboboxContent for trigger-anchored pickers.",
   },
+];
+
+const ITEM_PROPS: readonly PropRow[] = [
   {
     name: "ComboboxList",
     type: "Base UI Combobox.List.Props",
@@ -717,11 +731,6 @@ const PROPS: readonly PropRow[] = [
     name: "ComboboxItemIndicator",
     type: "Base UI Combobox.ItemIndicator.Props",
     description: "Selected-state indicator for single and multiple selection.",
-  },
-  {
-    name: "ComboboxClear",
-    type: "Base UI Combobox.Clear.Props",
-    description: "Clears the current input and selected value through the primitive.",
   },
 ];
 
@@ -1411,7 +1420,20 @@ function ComboboxDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Combobox root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="Trigger and input">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="Content">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-items" title="Items">
+            <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

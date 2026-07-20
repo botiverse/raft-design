@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -46,19 +46,25 @@ const SNIPPETS = {
 </MobileNavRoot>`,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "MobileNavRoot",
     type: 'useRender.ComponentProps<"nav">',
     description:
       "Bottom navigation container. Its width and safe-area spacing follow the active theme.",
   },
+];
+
+const ITEM_PROPS: readonly PropRow[] = [
   {
     name: "MobileNavItem",
     type: 'useRender.ComponentProps<"button"> & { nativeButton?: boolean; selected?: boolean }',
     description:
       "One app-owned destination. Pass selected and native onClick from the consuming route or local state; set nativeButton={false} when render replaces the native button.",
   },
+];
+
+const LABEL_PROPS: readonly PropRow[] = [
   {
     name: "MobileNavLabel",
     type: 'useRender.ComponentProps<"span">',
@@ -99,7 +105,17 @@ function MobileNavDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="MobileNav root">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item" title="MobileNavItem">
+            <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-label" title="MobileNavLabel">
+            <PropsTable rows={LABEL_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

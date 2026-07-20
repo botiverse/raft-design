@@ -106,35 +106,50 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const PROPS: readonly PropRow[] = [
+const PANEL_CHROME_PROPS: readonly PropRow[] = [
   {
     name: "TasksPanelRoot / Toolbar / ToolbarGroup / Viewport",
     type: "section / div props",
     description:
       "Source panel chrome and scroll boundary. Product data and routing remain outside.",
   },
+];
+
+const SECTION_LIST_PROPS: readonly PropRow[] = [
   {
     name: "TaskSection* / TaskListRoot",
     type: "Base UI Collapsible parts",
     description: "Explicit list grouping with controlled or uncontrolled collapsed state.",
   },
+];
+
+const BOARD_PROPS: readonly PropRow[] = [
   {
     name: "TaskBoard*",
     type: "Base UI Collapsible parts",
     description: "Fixed-width source board columns with empty and drop-target states.",
   },
+];
+
+const DND_PROPS: readonly PropRow[] = [
   {
     name: "TaskDndProvider / TaskDraggable / TaskDropZone",
     type: "generic DnD behavior",
     description:
       "Pointer, touch, and keyboard drag behavior. Consumers provide allowed targets and move callbacks.",
   },
+];
+
+const CREATE_PROPS: readonly PropRow[] = [
   {
     name: "TaskCreate*",
     type: "dialog compound parts",
     description:
       "Source-faithful single/batch task creation structure; validation and submission remain consumer state.",
   },
+];
+
+const COMPOSITION_PROPS: readonly PropRow[] = [
   {
     name: "TasksPanelComposition",
     type: "canonical docs composition",
@@ -247,7 +262,26 @@ function TasksDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-panel-chrome" title="Panel chrome">
+            <PropsTable rows={PANEL_CHROME_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-section-list" title="Section and list">
+            <PropsTable rows={SECTION_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-board" title="Board">
+            <PropsTable rows={BOARD_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-dnd" title="Drag and drop">
+            <PropsTable rows={DND_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-create" title="Create task">
+            <PropsTable rows={CREATE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-composition" title="Docs composition">
+            <PropsTable rows={COMPOSITION_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

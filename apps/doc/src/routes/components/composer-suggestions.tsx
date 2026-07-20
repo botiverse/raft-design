@@ -68,7 +68,7 @@ const SNIPPETS = {
   composition: composerSuggestionCompositionSource,
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const HOOK_CONFIG_PROPS: readonly PropRow[] = [
   {
     name: "useComposerSuggestions",
     type: "<TItem extends object>(params) => ComposerSuggestionsApi<TItem>",
@@ -107,6 +107,9 @@ const PROPS: readonly PropRow[] = [
     description:
       "Optional disabled predicate. Disabled items remain visible but are skipped by keyboard navigation and cannot be selected.",
   },
+];
+
+const HOOK_STATE_PROPS: readonly PropRow[] = [
   {
     name: "getInputProps",
     type: "textarea prop getter",
@@ -157,6 +160,9 @@ const PROPS: readonly PropRow[] = [
     type: "() => void",
     description: "Clears the draft and closes suggestions.",
   },
+];
+
+const SUGGESTION_PART_PROPS: readonly PropRow[] = [
   {
     name: "ComposerSuggestionList",
     type: "div props",
@@ -203,6 +209,9 @@ const PROPS: readonly PropRow[] = [
     type: "div props",
     description: "Trailing option content slot.",
   },
+];
+
+const SHARED_PRIMITIVE_PROPS: readonly PropRow[] = [
   {
     name: "Badge",
     type: "shared primitive props",
@@ -291,7 +300,20 @@ function ComposerSuggestionsDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-hook-config" title="useComposerSuggestions config">
+            <PropsTable rows={HOOK_CONFIG_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-hook-state" title="Hook getters and state">
+            <PropsTable rows={HOOK_STATE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-suggestion-parts" title="Suggestion parts">
+            <PropsTable rows={SUGGESTION_PART_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-shared-primitives" title="Shared primitives">
+            <PropsTable rows={SHARED_PRIMITIVE_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

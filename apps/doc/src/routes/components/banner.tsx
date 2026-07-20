@@ -537,8 +537,12 @@ function BannerDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <PropsTable rows={PROPS} />
-          <PropsTable rows={PART_PROPS} />
+          <DocSubsection parentId="api" id="api-root" title="Banner root">
+            <PropsTable rows={PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-parts" title="Parts">
+            <PropsTable rows={PART_PROPS} />
+          </DocSubsection>
         </div>
       </DocSection>
 

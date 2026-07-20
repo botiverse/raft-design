@@ -666,14 +666,12 @@ function AvatarDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">Avatar</h3>
+          <DocSubsection parentId="api" id="api-root" title="Avatar">
             <PropsTable rows={AVATAR_PROPS} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold text-gray-900">Parts</h3>
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-parts" title="Parts">
             <PropsTable rows={PART_PROPS} />
-          </div>
+          </DocSubsection>
         </div>
       </DocSection>
 
