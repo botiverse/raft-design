@@ -117,65 +117,83 @@ ${PANEL_BODY_SNIPPET}
 </Popover>`,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
+const POPOVER_PROPS: readonly PropRow[] = [
   {
-    name: "Popover",
+    name: "...props",
     type: "Base UI Popover.Root.Props",
     description: "Owns open state, Escape, outside press, focus handoff, and modal behavior.",
   },
 ];
 
-const TRIGGER_PROPS: readonly PropRow[] = [
+const POPOVER_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverTrigger",
+    name: "...props",
     type: "Base UI Popover.Trigger.Props",
     description: "Trigger part. Compose custom controls with Base UI's render prop.",
   },
 ];
 
-const CONTENT_PROPS: readonly PropRow[] = [
+const POPOVER_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverContent",
+    name: "...props",
     type: "Base UI Popup + Positioner props",
     description:
       "Portaled floating panel. Defaults to side=bottom, align=start, sideOffset=4, disableAnchorTracking=true, and forwards anchor/collision/sticky/inline-side positioning props.",
   },
+];
+
+const POPOVER_POPUP_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverPopup",
+    name: "...props",
     type: "div props",
     description: "Static panel shell for docs previews and non-portaled comparison panes.",
   },
+];
+
+const POPOVER_VIEWPORT_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverViewport",
+    name: "...props",
     type: "Base UI Popover.Viewport.Props",
     description:
       "Optional transition viewport for one popover whose content changes between multiple triggers.",
   },
 ];
 
-const PART_PROPS: readonly PropRow[] = [
+const POPOVER_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverHeader",
+    name: "...props",
     type: "div props",
     description: "Panel header layout for title, description, and close actions.",
   },
+];
+
+const POPOVER_SEPARATOR_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverSeparator",
+    name: "...props",
     type: "div props",
     description: "Optional horizontal separator. Compose it where the content needs a division.",
   },
+];
+
+const POPOVER_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverTitle",
+    name: "...props",
     type: "Base UI Popover.Title.Props",
     description: "Accessible panel heading.",
   },
+];
+
+const POPOVER_DESCRIPTION_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverDescription",
+    name: "...props",
     type: "Base UI Popover.Description.Props",
     description: "Accessible supporting copy for the panel.",
   },
+];
+
+const POPOVER_CLOSE_PROPS: readonly PropRow[] = [
   {
-    name: "PopoverClose",
+    name: "...props",
     type: "Base UI Popover.Close.Props",
     description: "Closes the popover. Compose your own visual affordance with render/className.",
   },
@@ -464,17 +482,35 @@ function PopoverDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Popover root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-popover" title="Popover">
+            <PropsTable rows={POPOVER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
-            <PropsTable rows={TRIGGER_PROPS} />
+          <DocSubsection parentId="api" id="api-popover-trigger" title="PopoverTrigger">
+            <PropsTable rows={POPOVER_TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
-            <PropsTable rows={CONTENT_PROPS} />
+          <DocSubsection parentId="api" id="api-popover-content" title="PopoverContent">
+            <PropsTable rows={POPOVER_CONTENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-parts" title="Panel parts">
-            <PropsTable rows={PART_PROPS} />
+          <DocSubsection parentId="api" id="api-popover-popup" title="PopoverPopup">
+            <PropsTable rows={POPOVER_POPUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-viewport" title="PopoverViewport">
+            <PropsTable rows={POPOVER_VIEWPORT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-header" title="PopoverHeader">
+            <PropsTable rows={POPOVER_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-separator" title="PopoverSeparator">
+            <PropsTable rows={POPOVER_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-title" title="PopoverTitle">
+            <PropsTable rows={POPOVER_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-description" title="PopoverDescription">
+            <PropsTable rows={POPOVER_DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-close" title="PopoverClose">
+            <PropsTable rows={POPOVER_CLOSE_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

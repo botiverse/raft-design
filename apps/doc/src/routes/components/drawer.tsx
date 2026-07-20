@@ -175,15 +175,11 @@ const SNIPPETS = {
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "open",
+    name: "open / defaultOpen",
     type: "boolean",
-    description: "Controlled open state. Pair with onOpenChange.",
-  },
-  {
-    name: "defaultOpen",
-    type: "boolean",
-    default: "false",
-    description: "Uncontrolled initial open state.",
+    default: "— / false",
+    description:
+      "Controlled open state, or uncontrolled initial open state. Pair open with onOpenChange.",
   },
   {
     name: "onOpenChange",
@@ -229,28 +225,33 @@ const ROOT_PROPS: readonly PropRow[] = [
 
 const CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "DrawerContent",
-    type: "Base UI Drawer.Popup.Props",
-    description:
-      "Portal-backed surface that composes the backdrop, viewport, popup, and selectable content region.",
-  },
-  {
-    name: "DrawerContent.portalProps",
+    name: "portalProps",
     type: "DrawerPortalProps",
     description: "Pass the Base UI portal container, keepMounted state, or portal element props.",
   },
   {
-    name: "DrawerBody",
+    name: "...props",
+    type: "Base UI Drawer.Popup.Props",
+    description:
+      "Portal-backed surface that composes the backdrop, viewport, popup, and selectable content region.",
+  },
+];
+
+const BODY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: 'ComponentPropsWithRef<"div">',
     description: "Main content area between header and footer.",
   },
+];
+
+const ACTIONS_PROPS: readonly PropRow[] = [
   {
-    name: "DrawerActions",
+    name: "...props",
     type: 'ComponentPropsWithRef<"div">',
     description: "Width-aware action cluster for one or more actions.",
   },
 ];
-
 type DrawerScene = "leave-channel" | "pwa-install" | "pwa-install-other";
 type DrawerViewport = "desktop" | "mobile";
 
@@ -422,11 +423,17 @@ function DrawerDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Drawer root">
+          <DocSubsection parentId="api" id="api-root" title="Drawer">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content and layout">
+          <DocSubsection parentId="api" id="api-content" title="DrawerContent">
             <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-body" title="DrawerBody">
+            <PropsTable rows={BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-actions" title="DrawerActions">
+            <PropsTable rows={ACTIONS_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

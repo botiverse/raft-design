@@ -207,31 +207,43 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const PART_PROPS: readonly PropRow[] = [
+const EMPTY_STATE_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "EmptyStateContent",
+    name: "...props",
     type: "HTMLAttributes<HTMLDivElement>",
     description:
       "Recommended wrapper for icon, title, and description. Keeps copy centered, bounded, and balanced.",
   },
+];
+
+const EMPTY_STATE_ICON_PROPS: readonly PropRow[] = [
   {
-    name: "EmptyStateIcon",
+    name: "...props",
     type: "HTMLAttributes<HTMLDivElement>",
     description:
       "Muted icon slot. The slot owns default SVG sizing per theme; override with className for custom media.",
   },
+];
+
+const EMPTY_STATE_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "EmptyStateTitle",
+    name: "...props",
     type: "HTMLAttributes<HTMLDivElement>",
     description: "Muted sentence-case title. Use render to promote it to a real heading.",
   },
+];
+
+const EMPTY_STATE_DESCRIPTION_PROPS: readonly PropRow[] = [
   {
-    name: "EmptyStateDescription",
+    name: "...props",
     type: "HTMLAttributes<HTMLDivElement>",
     description: "Optional supporting copy with a readable measure.",
   },
+];
+
+const EMPTY_STATE_ACTIONS_PROPS: readonly PropRow[] = [
   {
-    name: "EmptyStateActions",
+    name: "...props",
     type: "HTMLAttributes<HTMLDivElement>",
     description:
       "Optional action row. Add flex and gap classes when rendering more than one action.",
@@ -445,11 +457,27 @@ function EmptyStateDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="EmptyState root">
+          <DocSubsection parentId="api" id="api-empty-state" title="EmptyState">
             <PropsTable rows={PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-parts" title="Parts">
-            <PropsTable rows={PART_PROPS} />
+          <DocSubsection parentId="api" id="api-empty-state-content" title="EmptyStateContent">
+            <PropsTable rows={EMPTY_STATE_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-empty-state-icon" title="EmptyStateIcon">
+            <PropsTable rows={EMPTY_STATE_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-empty-state-title" title="EmptyStateTitle">
+            <PropsTable rows={EMPTY_STATE_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-empty-state-description"
+            title="EmptyStateDescription"
+          >
+            <PropsTable rows={EMPTY_STATE_DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-empty-state-actions" title="EmptyStateActions">
+            <PropsTable rows={EMPTY_STATE_ACTIONS_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

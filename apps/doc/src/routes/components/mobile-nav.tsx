@@ -46,27 +46,40 @@ const SNIPPETS = {
 </MobileNavRoot>`,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
+const MOBILE_NAV_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "MobileNavRoot",
+    name: "...props",
     type: 'useRender.ComponentProps<"nav">',
     description:
       "Bottom navigation container. Its width and safe-area spacing follow the active theme.",
   },
 ];
 
-const ITEM_PROPS: readonly PropRow[] = [
+const MOBILE_NAV_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "MobileNavItem",
-    type: 'useRender.ComponentProps<"button"> & { nativeButton?: boolean; selected?: boolean }',
+    name: "selected",
+    type: "boolean",
     description:
-      "One app-owned destination. Pass selected and native onClick from the consuming route or local state; set nativeButton={false} when render replaces the native button.",
+      "Marks the destination as selected. Sets data-selected and aria-pressed when nativeButton is true.",
+  },
+  {
+    name: "nativeButton",
+    type: "boolean",
+    default: "true",
+    description:
+      "When false, skip native button type/aria-pressed wiring so render can replace the host element.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"button">',
+    description:
+      "One app-owned destination. Pass selected and native onClick from the consuming route or local state.",
   },
 ];
 
-const LABEL_PROPS: readonly PropRow[] = [
+const MOBILE_NAV_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "MobileNavLabel",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
       "Destination text. Brutal renders it below the icon; Elegant keeps the same semantic structure visually hidden.",
@@ -106,14 +119,14 @@ function MobileNavDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="MobileNav root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-mobile-nav-root" title="MobileNavRoot">
+            <PropsTable rows={MOBILE_NAV_ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-item" title="MobileNavItem">
-            <PropsTable rows={ITEM_PROPS} />
+          <DocSubsection parentId="api" id="api-mobile-nav-item" title="MobileNavItem">
+            <PropsTable rows={MOBILE_NAV_ITEM_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-label" title="MobileNavLabel">
-            <PropsTable rows={LABEL_PROPS} />
+          <DocSubsection parentId="api" id="api-mobile-nav-label" title="MobileNavLabel">
+            <PropsTable rows={MOBILE_NAV_LABEL_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

@@ -454,30 +454,42 @@ const AVATAR_PROPS: readonly PropRow[] = [
   },
 ];
 
-const PART_PROPS: readonly PropRow[] = [
+const AVATAR_IMAGE_PROPS: readonly PropRow[] = [
   {
-    name: "AvatarImage",
+    name: "...props",
     type: "Base UI Avatar.Image.Props",
     description:
       "Managed image part. Fills the frame and reveals fallback while loading or on error.",
   },
+];
+
+const AVATAR_FALLBACK_PROPS: readonly PropRow[] = [
   {
-    name: "AvatarFallback",
+    name: "...props",
     type: "Base UI Avatar.Fallback.Props",
     description: "Fallback part. Defaults to the scaled User icon when no children are passed.",
   },
+];
+
+const AVATAR_BADGE_PROPS: readonly PropRow[] = [
   {
-    name: "AvatarBadge",
+    name: "...props",
     type: 'ComponentProps<"span">',
     description: "Bottom-right badge slot. Auto-scales from the parent avatar size.",
   },
+];
+
+const AVATAR_GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "AvatarGroup",
+    name: "...props",
     type: 'ComponentProps<"div">',
     description: "Overlapping avatar stack.",
   },
+];
+
+const AVATAR_GROUP_COUNT_PROPS: readonly PropRow[] = [
   {
-    name: "AvatarGroupCount",
+    name: "...props",
     type: 'ComponentProps<"span"> & { size: AvatarSize }',
     description: "Trailing +N chip. Its size should match the sibling avatars.",
   },
@@ -666,11 +678,23 @@ function AvatarDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Avatar">
+          <DocSubsection parentId="api" id="api-avatar" title="Avatar">
             <PropsTable rows={AVATAR_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-parts" title="Parts">
-            <PropsTable rows={PART_PROPS} />
+          <DocSubsection parentId="api" id="api-avatar-image" title="AvatarImage">
+            <PropsTable rows={AVATAR_IMAGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-avatar-fallback" title="AvatarFallback">
+            <PropsTable rows={AVATAR_FALLBACK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-avatar-badge" title="AvatarBadge">
+            <PropsTable rows={AVATAR_BADGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-avatar-group" title="AvatarGroup">
+            <PropsTable rows={AVATAR_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-avatar-group-count" title="AvatarGroupCount">
+            <PropsTable rows={AVATAR_GROUP_COUNT_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

@@ -310,7 +310,7 @@ function RegionSelect() {
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "Select",
+    name: "...props",
     type: "Base UI Select.Root.Props<Value, Multiple>",
     description:
       "Owns value, hidden input, open state, keyboard navigation, typeahead, and form submission metadata.",
@@ -319,13 +319,16 @@ const ROOT_PROPS: readonly PropRow[] = [
 
 const TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "SelectTrigger",
+    name: "...props",
     type: "Base UI Select.Trigger.Props",
     description:
       "Button trigger rendered through Button by default. Compose SelectValue, icons, or custom inline content as children.",
   },
+];
+
+const VALUE_PROPS: readonly PropRow[] = [
   {
-    name: "SelectValue",
+    name: "...props",
     type: "Base UI Select.Value.Props",
     description:
       "Selected value display. Use placeholder for the empty state, or pass children to format the value.",
@@ -334,7 +337,7 @@ const TRIGGER_PROPS: readonly PropRow[] = [
 
 const CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "SelectContent",
+    name: "...props",
     type: "Base UI Select.Popup + Positioner props",
     description:
       "Portaled options shell. Defaults to side=bottom, align=start, sideOffset=4, disableAnchorTracking=true, and positionMethod=fixed.",
@@ -343,38 +346,54 @@ const CONTENT_PROPS: readonly PropRow[] = [
 
 const ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "SelectItem",
+    name: "...props",
     type: "Base UI Select.Item.Props",
     description:
       "Option row. Selection, highlight, and disabled states are exposed through Base UI data attributes.",
   },
+];
+
+const ITEM_LEADING_PROPS: readonly PropRow[] = [
   {
-    name: "SelectItemLeading",
+    name: "...props",
     type: "React.ComponentPropsWithRef<'span'>",
     description:
       "Optional leading slot for icons, avatars, or a reserved source-parity column before SelectItemText.",
   },
+];
+
+const ITEM_INDICATOR_PROPS: readonly PropRow[] = [
   {
-    name: "SelectItemIndicator",
+    name: "...props",
     type: "Base UI Select.ItemIndicator.Props",
     description: "Selected-state indicator. Renders a check icon by default.",
   },
 ];
 
-const GROUP_PROPS: readonly PropRow[] = [
+const LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "SelectLabel",
+    name: "...props",
     type: "Base UI Select.Label.Props",
     description:
       "Accessible label automatically associated with the select trigger when Field is not the outer owner.",
   },
+];
+
+const GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "SelectGroup / SelectGroupLabel",
-    type: "Base UI Select.Group props",
-    description: "Optional grouping parts for long option lists.",
+    name: "...props",
+    type: "Base UI Select.Group.Props",
+    description: "Optional grouping container for long option lists.",
   },
 ];
 
+const GROUP_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Select.GroupLabel.Props",
+    description: "Label for a SelectGroup.",
+  },
+];
 export const Route = createFileRoute("/components/select")({
   component: SelectDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -707,20 +726,35 @@ function SelectDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Select root">
+          <DocSubsection parentId="api" id="api-root" title="Select">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+          <DocSubsection parentId="api" id="api-trigger" title="SelectTrigger">
             <PropsTable rows={TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
+          <DocSubsection parentId="api" id="api-value" title="SelectValue">
+            <PropsTable rows={VALUE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="SelectContent">
             <PropsTable rows={CONTENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-items" title="Items">
+          <DocSubsection parentId="api" id="api-item" title="SelectItem">
             <PropsTable rows={ITEM_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-groups" title="Groups">
+          <DocSubsection parentId="api" id="api-item-leading" title="SelectItemLeading">
+            <PropsTable rows={ITEM_LEADING_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-indicator" title="SelectItemIndicator">
+            <PropsTable rows={ITEM_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-label" title="SelectLabel">
+            <PropsTable rows={LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-group" title="SelectGroup">
             <PropsTable rows={GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-group-label" title="SelectGroupLabel">
+            <PropsTable rows={GROUP_LABEL_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

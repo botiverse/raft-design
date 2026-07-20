@@ -73,120 +73,162 @@ const SNIPPETS = {
   conversationPanelComposition: conversationPanelCompositionSource,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
+const CONVERSATION_PANEL_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelRoot",
+    name: "...props",
     type: "section props",
     description:
       "Full-height active conversation surface between sidebar and panel stack. Product shells own responsive placement and scroll behavior.",
   },
 ];
 
-const HEADER_PROPS: readonly PropRow[] = [
+const CONVERSATION_PANEL_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelHeader",
+    name: "...props",
     type: "div props",
     description:
       "Header layout for caller-owned leading content, title metadata, and actions. It sticks to the top on mobile by default.",
   },
+];
+
+const CONVERSATION_PANEL_SECTION_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelSectionHeader",
+    name: "...props",
     type: "div props",
     description:
       "Top-level section header with the reusable Brutal mobile accent treatment and standard Elegant header treatment.",
   },
+];
+
+const CONVERSATION_PANEL_HEADER_ICON_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelHeaderIcon",
+    name: "...props",
     type: "div props",
     description:
       "Optional identity icon. Put it inside HeaderContent to align it with the title on mobile.",
   },
+];
+
+const CONVERSATION_PANEL_HEADER_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelHeaderContent",
+    name: "...props",
     type: "div props",
     description:
       "Flexible identity region for an optional icon, title, metadata, and status parts.",
   },
+];
+
+const CONVERSATION_PANEL_HEADING_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelHeading",
+    name: "...props",
     type: "div props",
     description: "Optional inline group for a title and its adjacent status.",
   },
+];
+
+const CONVERSATION_PANEL_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelTitle",
+    name: "...props",
     type: "div props",
     description: "Caller-owned conversation or section title.",
   },
+];
+
+const CONVERSATION_PANEL_META_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelMeta",
+    name: "...props",
     type: 'div props & { size?: "sm" | "md" }',
     description: "Optional secondary metadata below or alongside the title.",
   },
+];
+
+const CONVERSATION_PANEL_STATUS_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelStatus",
+    name: "...props",
     type: "span props",
     description: "Optional caller-owned status. It remains visible on mobile by default.",
   },
 ];
 
-const ACTION_PROPS: readonly PropRow[] = [
+const CONVERSATION_PANEL_ACTIONS_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelActions",
+    name: "...props",
     type: "div props",
     description:
       "Optional action region for caller-owned PanelAction and PanelToggleAction controls.",
   },
+];
+
+const PANEL_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "PanelAction",
+    name: "...props",
     type: "button props",
     description:
       "Panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
   },
+];
+
+const PANEL_TOGGLE_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "PanelToggleAction",
+    name: "...props",
     type: "Toggle button props",
     description:
       "Controlled pressed action for binary panel state. Pass pressed and onPressedChange; the caller owns the icon and accessible label for each state.",
   },
 ];
 
-const CONTENT_PROPS: readonly PropRow[] = [
+const CONVERSATION_PANEL_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelContent",
+    name: "...props",
     type: "div props",
     description: "Single content region below the header, containing tabs, body, and footer.",
   },
+];
+
+const CONVERSATION_PANEL_TABS_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelTabs",
+    name: "...props",
     type: "div props",
     description: "Optional tab-chrome region. The caller provides the tab primitive and labels.",
   },
+];
+
+const CONVERSATION_PANEL_BODY_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelBody",
+    name: "...props",
     type: "div props",
     description: "Scroll boundary for caller-owned message or task content.",
   },
+];
+
+const CONVERSATION_PANEL_FOOTER_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelFooter",
+    name: "...props",
     type: "div props",
     description:
       "Optional floating footer boundary. Override --panel-footer-clearance on the root when custom footer content needs more or less than the 10rem default.",
   },
 ];
 
-const EMPTY_STATE_PROPS: readonly PropRow[] = [
+const CONVERSATION_PANEL_EMPTY_STATE_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelEmptyState",
+    name: "...props",
     type: "div props",
     description: "Centered inactive-panel state. The caller owns its icon and copy.",
   },
+];
+
+const CONVERSATION_PANEL_EMPTY_STATE_BRAND_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelEmptyStateBrand",
+    name: "...props",
     type: "div props",
     description: "Optional brand wrapper for the empty state.",
   },
+];
+
+const CONVERSATION_PANEL_EMPTY_STATE_BRAND_MARK_PROPS: readonly PropRow[] = [
   {
-    name: "ConversationPanelEmptyStateBrandMark",
+    name: "...props",
     type: "div props",
     description: "Optional inner mark frame for caller-owned brand artwork.",
   },
@@ -296,20 +338,130 @@ function ConversationPanelDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="ConversationPanel root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-root"
+            title="ConversationPanelRoot"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-header" title="Header">
-            <PropsTable rows={HEADER_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-header"
+            title="ConversationPanelHeader"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_HEADER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-actions" title="Actions">
-            <PropsTable rows={ACTION_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-section-header"
+            title="ConversationPanelSectionHeader"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_SECTION_HEADER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
-            <PropsTable rows={CONTENT_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-header-icon"
+            title="ConversationPanelHeaderIcon"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_HEADER_ICON_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-empty-state" title="Empty state">
-            <PropsTable rows={EMPTY_STATE_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-header-content"
+            title="ConversationPanelHeaderContent"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_HEADER_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-heading"
+            title="ConversationPanelHeading"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_HEADING_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-title"
+            title="ConversationPanelTitle"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-meta"
+            title="ConversationPanelMeta"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-status"
+            title="ConversationPanelStatus"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-actions"
+            title="ConversationPanelActions"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel-action" title="PanelAction">
+            <PropsTable rows={PANEL_ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel-toggle-action" title="PanelToggleAction">
+            <PropsTable rows={PANEL_TOGGLE_ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-content"
+            title="ConversationPanelContent"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-tabs"
+            title="ConversationPanelTabs"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_TABS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-body"
+            title="ConversationPanelBody"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-footer"
+            title="ConversationPanelFooter"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_FOOTER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-empty-state"
+            title="ConversationPanelEmptyState"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_EMPTY_STATE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-empty-state-brand"
+            title="ConversationPanelEmptyStateBrand"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_EMPTY_STATE_BRAND_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-conversation-panel-empty-state-brand-mark"
+            title="ConversationPanelEmptyStateBrandMark"
+          >
+            <PropsTable rows={CONVERSATION_PANEL_EMPTY_STATE_BRAND_MARK_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

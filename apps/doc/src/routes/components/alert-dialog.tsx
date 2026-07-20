@@ -102,7 +102,7 @@ const SNIPPETS = {
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "AlertDialog",
+    name: "...props",
     type: "Base UI Dialog.Root.Props",
     description: "Owns modal state for destructive or irreversible confirmation flows.",
   },
@@ -110,7 +110,7 @@ const ROOT_PROPS: readonly PropRow[] = [
 
 const TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "AlertDialogTrigger",
+    name: "...props",
     type: "Base UI Dialog.Trigger.Props",
     description: "Opens the alert dialog. Compose a Button through render.",
   },
@@ -118,30 +118,38 @@ const TRIGGER_PROPS: readonly PropRow[] = [
 
 const CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "AlertDialogContent",
-    type: "Base UI Dialog.Popup.Props",
-    description: "Portaled centered alertdialog surface. Use className for one-off width changes.",
-  },
-  {
-    name: "AlertDialogContent.overlay",
+    name: "overlay",
     type: "false | AlertDialogOverlayProps",
     description: "Pass false for framed previews; otherwise renders the themed backdrop.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Dialog.Popup.Props",
+    description: "Portaled centered alertdialog surface. Use className for one-off width changes.",
   },
 ];
 
 const ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "AlertDialogAction",
+    name: "...props",
     type: "ButtonProps",
     description: "The confirming action button.",
   },
-  {
-    name: "AlertDialogCancel",
-    type: "Base UI Dialog.Close.Props + Button variant/size",
-    description: "The cancelling close action. Defaults to outline / sm.",
-  },
 ];
 
+const CANCEL_PROPS: readonly PropRow[] = [
+  {
+    name: "variant / size",
+    type: "Button variant / size",
+    default: "outline / sm",
+    description: "Button styling for the cancelling close action.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Dialog.Close.Props",
+    description: "The cancelling close action.",
+  },
+];
 const ALERT_DIALOG_COMPOSITION_RAW_SOURCES = {
   DeleteServer: typedDeleteCompositionSource,
   ConfirmAction: confirmActionCompositionSource,
@@ -398,17 +406,20 @@ function AlertDialogDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="AlertDialog root">
+          <DocSubsection parentId="api" id="api-root" title="AlertDialog">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+          <DocSubsection parentId="api" id="api-trigger" title="AlertDialogTrigger">
             <PropsTable rows={TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
+          <DocSubsection parentId="api" id="api-content" title="AlertDialogContent">
             <PropsTable rows={CONTENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-actions" title="Actions">
+          <DocSubsection parentId="api" id="api-action" title="AlertDialogAction">
             <PropsTable rows={ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-cancel" title="AlertDialogCancel">
+            <PropsTable rows={CANCEL_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

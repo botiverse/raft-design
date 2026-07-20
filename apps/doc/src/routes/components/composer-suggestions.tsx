@@ -68,13 +68,7 @@ const SNIPPETS = {
   composition: composerSuggestionCompositionSource,
 } as const;
 
-const HOOK_CONFIG_PROPS: readonly PropRow[] = [
-  {
-    name: "useComposerSuggestions",
-    type: "<TItem extends object>(params) => ComposerSuggestionsApi<TItem>",
-    description:
-      "Headless inline-trigger behavior. Owns open state, highlighted option, keyboard navigation, IME guarding, focus return, and caret-preserving insertion.",
-  },
+const HOOK_PROPS: readonly PropRow[] = [
   {
     name: "value",
     type: "string",
@@ -87,18 +81,18 @@ const HOOK_CONFIG_PROPS: readonly PropRow[] = [
   },
   {
     name: "detectTrigger",
-    type: "(textBeforeCaret) => ComposerSuggestionTriggerMatch | null",
+    type: "(textBeforeCaret: string) => ComposerSuggestionTriggerMatch | null",
     description:
       "Caller-owned trigger parser. The match identifies the marker, query, and marker start index before the caret.",
   },
   {
     name: "getItems",
-    type: "(match) => readonly TItem[]",
+    type: "(match: ComposerSuggestionTriggerMatch) => readonly TItem[]",
     description: "Returns items for the active trigger. An empty list closes the popup.",
   },
   {
     name: "getItemText",
-    type: "(item) => string",
+    type: "(item: TItem) => string",
     description: "Returns the insertion text for a selected item.",
   },
   {
@@ -107,22 +101,19 @@ const HOOK_CONFIG_PROPS: readonly PropRow[] = [
     description:
       "Optional disabled predicate. Disabled items remain visible but are skipped by keyboard navigation and cannot be selected.",
   },
-];
-
-const HOOK_STATE_PROPS: readonly PropRow[] = [
   {
     name: "getInputProps",
-    type: "textarea prop getter",
+    type: "(props?) => textarea props",
     description: "Merges textarea value, keyboard handling, refs, and combobox semantics.",
   },
   {
     name: "getListProps",
-    type: "listbox prop getter",
+    type: "(props) => listbox props",
     description: "Merges listbox role, id, and ref.",
   },
   {
     name: "getOptionProps",
-    type: "option prop getter",
+    type: "(item, index, props?) => option props",
     description: "Merges option identity, highlight state, selection, and pointer behavior.",
   },
   {
@@ -162,65 +153,94 @@ const HOOK_STATE_PROPS: readonly PropRow[] = [
   },
 ];
 
-const SUGGESTION_PART_PROPS: readonly PropRow[] = [
+const SUGGESTION_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerSuggestionList",
-    type: "div props",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
     description: "Popup container. Spread getListProps onto it.",
-  },
-  {
-    name: "ComposerSuggestionGroup",
-    type: "div props",
-    description: "Optional visual group of suggestion options.",
-  },
-  {
-    name: "ComposerSuggestionGroupLabel",
-    type: "div props",
-    description: "Optional label for a suggestion group.",
-  },
-  {
-    name: "ComposerSuggestionOption",
-    type: "div props",
-    description:
-      "Visual option root. Spread getOptionProps onto it so highlighted and disabled states remain keyboard-complete.",
-  },
-  {
-    name: "ComposerSuggestionContent",
-    type: "div props",
-    description: "Flexible content row for title, metadata, and trailing content.",
-  },
-  {
-    name: "ComposerSuggestionIcon",
-    type: "div props",
-    description: "Leading icon or avatar slot.",
-  },
-  {
-    name: "ComposerSuggestionTitle",
-    type: "span props",
-    description: "Primary option label.",
-  },
-  {
-    name: "ComposerSuggestionMeta",
-    type: 'span props & { variant?: "text" | "code" }',
-    description: "Secondary option text.",
-  },
-  {
-    name: "ComposerSuggestionAside",
-    type: "div props",
-    description: "Trailing option content slot.",
   },
 ];
 
-const SHARED_PRIMITIVE_PROPS: readonly PropRow[] = [
+const SUGGESTION_GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "Badge",
-    type: "shared primitive props",
-    description: "Caller-owned label for a suggestion state.",
+    name: "separated",
+    type: "boolean",
+    default: "false",
+    description: "Adds top spacing when stacking multiple groups.",
   },
   {
-    name: "Status",
-    type: "shared primitive props",
-    description: "Caller-owned availability indicator.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Optional visual group of suggestion options.",
+  },
+];
+
+const SUGGESTION_GROUP_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Optional label for a suggestion group.",
+  },
+];
+
+const SUGGESTION_OPTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Visual option root. Spread getOptionProps onto it so highlighted and disabled states remain keyboard-complete.",
+  },
+];
+
+const SUGGESTION_CONTENT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Flexible content row for title, metadata, and trailing content.",
+  },
+];
+
+const SUGGESTION_ICON_PROPS: readonly PropRow[] = [
+  {
+    name: "variant",
+    type: '"avatar" | "framed" | "auxiliary"',
+    default: '"avatar"',
+    description: "Leading icon treatment for avatar, framed glyph, or auxiliary affordance.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Leading icon or avatar slot.",
+  },
+];
+
+const SUGGESTION_TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Primary option label.",
+  },
+];
+
+const SUGGESTION_META_PROPS: readonly PropRow[] = [
+  {
+    name: "variant",
+    type: '"text" | "code"',
+    default: '"text"',
+    description: "Secondary option text style.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Secondary option text.",
+  },
+];
+
+const SUGGESTION_ASIDE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Trailing option content slot.",
   },
 ];
 
@@ -301,17 +321,43 @@ function ComposerSuggestionsDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-hook-config" title="useComposerSuggestions config">
-            <PropsTable rows={HOOK_CONFIG_PROPS} />
+          <DocSubsection parentId="api" id="api-hook" title="useComposerSuggestions">
+            <PropsTable rows={HOOK_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-hook-state" title="Hook getters and state">
-            <PropsTable rows={HOOK_STATE_PROPS} />
+          <DocSubsection parentId="api" id="api-suggestion-list" title="ComposerSuggestionList">
+            <PropsTable rows={SUGGESTION_LIST_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-suggestion-parts" title="Suggestion parts">
-            <PropsTable rows={SUGGESTION_PART_PROPS} />
+          <DocSubsection parentId="api" id="api-suggestion-group" title="ComposerSuggestionGroup">
+            <PropsTable rows={SUGGESTION_GROUP_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-shared-primitives" title="Shared primitives">
-            <PropsTable rows={SHARED_PRIMITIVE_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-suggestion-group-label"
+            title="ComposerSuggestionGroupLabel"
+          >
+            <PropsTable rows={SUGGESTION_GROUP_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-suggestion-option" title="ComposerSuggestionOption">
+            <PropsTable rows={SUGGESTION_OPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-suggestion-content"
+            title="ComposerSuggestionContent"
+          >
+            <PropsTable rows={SUGGESTION_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-suggestion-icon" title="ComposerSuggestionIcon">
+            <PropsTable rows={SUGGESTION_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-suggestion-title" title="ComposerSuggestionTitle">
+            <PropsTable rows={SUGGESTION_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-suggestion-meta" title="ComposerSuggestionMeta">
+            <PropsTable rows={SUGGESTION_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-suggestion-aside" title="ComposerSuggestionAside">
+            <PropsTable rows={SUGGESTION_ASIDE_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

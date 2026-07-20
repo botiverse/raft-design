@@ -163,81 +163,99 @@ const SNIPPETS = {
 </ContextMenu>`,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
+const CONTEXT_MENU_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenu",
+    name: "...props",
     type: "Base UI ContextMenu.Root.Props",
     description: "Owns right-click open state, focus roving, keyboard navigation, and dismissal.",
   },
 ];
 
-const TRIGGER_PROPS: readonly PropRow[] = [
+const CONTEXT_MENU_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuTrigger",
+    name: "...props",
     type: "Base UI ContextMenu.Trigger.Props",
     description: "Right-click or long-press target. Renders a div and keeps text selection off.",
   },
 ];
 
-const CONTENT_PROPS: readonly PropRow[] = [
+const CONTEXT_MENU_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuContent",
+    name: "...props",
     type: "Base UI Popup + Positioner props",
     description:
       "Portaled floating menu shell. Keeps the menu near the context point while shifting it inside the collision boundary with 8px of padding.",
   },
 ];
 
-const ITEM_PROPS: readonly PropRow[] = [
+const CONTEXT_MENU_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuItem",
+    name: "...props",
     type: "Base UI ContextMenu.Item.Props",
     description:
       "Action row. Compose leading icons, label text, and trailing shortcuts as children.",
   },
+];
+
+const CONTEXT_MENU_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuLabel",
+    name: "...props",
     type: "div props",
     description: "Section label for grouped rows.",
   },
+];
+
+const CONTEXT_MENU_SHORTCUT_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuShortcut",
+    name: "...props",
     type: "Kbd props",
     description: "Right-aligned keyboard hint composed inside a menu row.",
   },
+];
+
+const CONTEXT_MENU_SEPARATOR_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuSeparator",
+    name: "...props",
     type: "Base UI ContextMenu.Separator.Props",
     description: "Group separator mapped from the source ContextMenuDivider primitive.",
   },
 ];
 
-const SELECTION_PROPS: readonly PropRow[] = [
+const CONTEXT_MENU_RADIO_GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuRadioGroup",
+    name: "...props",
     type: "Base UI ContextMenu.RadioGroup.Props",
     description: "Single-selection group inside the menu.",
   },
+];
+
+const CONTEXT_MENU_RADIO_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuRadioItem",
+    name: "...props",
     type: "Base UI ContextMenu.RadioItem.Props",
     description: "Selectable row with a trailing check indicator.",
   },
+];
+
+const CONTEXT_MENU_CHECKBOX_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuCheckboxItem",
+    name: "...props",
     type: "Base UI ContextMenu.CheckboxItem.Props",
     description: "Toggleable row with a trailing check indicator.",
   },
 ];
 
-const SUBMENU_PROPS: readonly PropRow[] = [
+const CONTEXT_MENU_SUBMENU_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuSubmenu",
+    name: "...props",
     type: "Base UI ContextMenu.SubmenuRoot.Props",
     description: "Nested context-menu branch for secondary action groups.",
   },
+];
+
+const CONTEXT_MENU_SUBMENU_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "ContextMenuSubmenuTrigger",
+    name: "...props",
     type: "Base UI ContextMenu.SubmenuTrigger.Props",
     description: "Row that opens a nested menu. Compose the chevron as the trailing icon.",
   },
@@ -506,23 +524,61 @@ function ContextMenuDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="ContextMenu root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-context-menu" title="ContextMenu">
+            <PropsTable rows={CONTEXT_MENU_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
-            <PropsTable rows={TRIGGER_PROPS} />
+          <DocSubsection parentId="api" id="api-context-menu-trigger" title="ContextMenuTrigger">
+            <PropsTable rows={CONTEXT_MENU_TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
-            <PropsTable rows={CONTENT_PROPS} />
+          <DocSubsection parentId="api" id="api-context-menu-content" title="ContextMenuContent">
+            <PropsTable rows={CONTEXT_MENU_CONTENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-items" title="Items">
-            <PropsTable rows={ITEM_PROPS} />
+          <DocSubsection parentId="api" id="api-context-menu-item" title="ContextMenuItem">
+            <PropsTable rows={CONTEXT_MENU_ITEM_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-selection" title="Selection items">
-            <PropsTable rows={SELECTION_PROPS} />
+          <DocSubsection parentId="api" id="api-context-menu-label" title="ContextMenuLabel">
+            <PropsTable rows={CONTEXT_MENU_LABEL_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-submenu" title="Submenu">
-            <PropsTable rows={SUBMENU_PROPS} />
+          <DocSubsection parentId="api" id="api-context-menu-shortcut" title="ContextMenuShortcut">
+            <PropsTable rows={CONTEXT_MENU_SHORTCUT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-context-menu-separator"
+            title="ContextMenuSeparator"
+          >
+            <PropsTable rows={CONTEXT_MENU_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-context-menu-radio-group"
+            title="ContextMenuRadioGroup"
+          >
+            <PropsTable rows={CONTEXT_MENU_RADIO_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-context-menu-radio-item"
+            title="ContextMenuRadioItem"
+          >
+            <PropsTable rows={CONTEXT_MENU_RADIO_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-context-menu-checkbox-item"
+            title="ContextMenuCheckboxItem"
+          >
+            <PropsTable rows={CONTEXT_MENU_CHECKBOX_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-context-menu-submenu" title="ContextMenuSubmenu">
+            <PropsTable rows={CONTEXT_MENU_SUBMENU_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-context-menu-submenu-trigger"
+            title="ContextMenuSubmenuTrigger"
+          >
+            <PropsTable rows={CONTEXT_MENU_SUBMENU_TRIGGER_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

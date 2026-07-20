@@ -240,7 +240,7 @@ const SOURCE_SCENES = [
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "Lightbox",
+    name: "...props",
     type: "Base UI Dialog.Root props",
     description:
       "Owns open state, modal behavior, Escape, pointer dismissal, and the optional Mod+W close helper.",
@@ -249,7 +249,7 @@ const ROOT_PROPS: readonly PropRow[] = [
 
 const TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxTrigger",
+    name: "...props",
     type: "Base UI Dialog.Trigger props",
     description: "Opens the lightbox. Compose Button through render for visible triggers.",
   },
@@ -257,60 +257,119 @@ const TRIGGER_PROPS: readonly PropRow[] = [
 
 const CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxContent",
+    name: "...props",
     type: "Base UI Dialog.Popup props",
     description:
       "Renders Portal, Backdrop, and Popup. Defaults initialFocus/finalFocus to false for preview-like surfaces.",
   },
 ];
 
-const LAYOUT_PROPS: readonly PropRow[] = [
+const TOOLBAR_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxToolbar",
+    name: "...props",
     type: "div props",
     description:
       "Attachment header: left LightboxHeaderMeta + right LightboxActions. Owns in-flow button layout so Close is not treated as the image-shell floating control.",
   },
+];
+
+const HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxHeader",
+    name: "...props",
     type: "div props",
     description: "In-flow header row for simpler shells (title + actions in document flow).",
   },
+];
+
+const CLOSE_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxClose",
+    name: "...props",
     type: "Base UI Dialog.Close props",
     description:
       "Close control. Direct child of LightboxContent → floating top-right (image shell). Inside LightboxToolbar → in-flow with the action buttons.",
   },
+];
+
+const HEADER_META_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxHeaderMeta / LightboxHeaderLabel",
-    type: "div / span props",
-    description:
-      "Toolbar left cluster (gap 6px): preview-type chip (HeaderLabel / Badge) then truncating filename.",
+    name: "...props",
+    type: "div props",
+    description: "Toolbar left cluster (gap 6px): preview-type chip then truncating filename.",
   },
+];
+
+const HEADER_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxMedia",
+    name: "...props",
+    type: "span props",
+    description: "Preview-type chip (or Badge) inside LightboxHeaderMeta.",
+  },
+];
+
+const MEDIA_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: "div props",
     description: "Media frame for the stage photo. Borderless with a transparent background.",
   },
+];
+
+const INFO_DOCK_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxInfoDock",
+    name: "...props",
     type: "div props",
     description: "Absolute dock that centers LightboxInfoBar near the bottom of the stage.",
   },
+];
+
+const ACTIONS_PROPS: readonly PropRow[] = [
   {
-    name: "LightboxActions / LightboxStage / LightboxNavigationButton / LightboxInfoBar",
+    name: "...props",
     type: "div props",
-    description:
-      "Actions is the toolbar right cluster (chip + buttons). Stage is the flex-1 preview surface under Toolbar or Header.",
+    description: "Toolbar right cluster (chip + buttons).",
+  },
+];
+
+const STAGE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description: "Flex-1 preview surface under Toolbar or Header.",
+  },
+];
+
+const NAVIGATION_BUTTON_PROPS: readonly PropRow[] = [
+  {
+    name: "direction",
+    type: '"next" | "previous"',
+    description: "Chooses the previous or next affordance for multi-item preview navigation.",
   },
   {
-    name: "LightboxTitle",
+    name: "disabled",
+    type: "boolean",
+    description: "Disables the control and blocks click handling.",
+  },
+  {
+    name: "...props",
+    type: "ButtonProps (size/variant/loading omitted)",
+    description: "Button attributes for the navigation control.",
+  },
+];
+const INFO_BAR_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description: "Bottom info bar centered by LightboxInfoDock.",
+  },
+];
+
+const TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: "div props",
     description: "Truncating title slot, usually filename or preview label.",
   },
 ];
-
 export const Route = createFileRoute("/components/lightbox")({
   component: LightboxDoc,
   loader: () => highlightSnippets({ data: { ...SNIPPETS, ...LIGHTBOX_COMPOSITION_SNIPPETS } }),
@@ -365,17 +424,50 @@ function LightboxDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Lightbox root">
+          <DocSubsection parentId="api" id="api-root" title="Lightbox">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+          <DocSubsection parentId="api" id="api-trigger" title="LightboxTrigger">
             <PropsTable rows={TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
+          <DocSubsection parentId="api" id="api-content" title="LightboxContent">
             <PropsTable rows={CONTENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-layout" title="Layout parts">
-            <PropsTable rows={LAYOUT_PROPS} />
+          <DocSubsection parentId="api" id="api-toolbar" title="LightboxToolbar">
+            <PropsTable rows={TOOLBAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-header" title="LightboxHeader">
+            <PropsTable rows={HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-close" title="LightboxClose">
+            <PropsTable rows={CLOSE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-header-meta" title="LightboxHeaderMeta">
+            <PropsTable rows={HEADER_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-header-label" title="LightboxHeaderLabel">
+            <PropsTable rows={HEADER_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-media" title="LightboxMedia">
+            <PropsTable rows={MEDIA_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-info-dock" title="LightboxInfoDock">
+            <PropsTable rows={INFO_DOCK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-actions" title="LightboxActions">
+            <PropsTable rows={ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-stage" title="LightboxStage">
+            <PropsTable rows={STAGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-navigation-button" title="LightboxNavigationButton">
+            <PropsTable rows={NAVIGATION_BUTTON_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-info-bar" title="LightboxInfoBar">
+            <PropsTable rows={INFO_BAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-title" title="LightboxTitle">
+            <PropsTable rows={TITLE_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

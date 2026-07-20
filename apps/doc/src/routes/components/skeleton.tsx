@@ -75,18 +75,18 @@ const COMPOSITION_SNIPPETS = createCompositionSnippetMap(
   COMPOSITION_SNIPPET_IDS,
 );
 
-const PROPS: readonly PropRow[] = [
-  {
-    name: "Skeleton",
-    type: "div props",
-    description:
-      "Decorative loading shape. Size comes from className so it can match final content.",
-  },
+const SKELETON_PROPS: readonly PropRow[] = [
   {
     name: "variant",
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"block"',
     description: "Shape treatment: text line, filled block, or circular avatar/status stand-in.",
+  },
+  {
+    name: "...props",
+    type: "HTMLAttributes<HTMLDivElement>",
+    description:
+      "Native div attributes. Decorative loading shape; size comes from className so it can match final content.",
   },
 ];
 
@@ -151,7 +151,11 @@ function SkeletonDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-root" title="Skeleton">
+            <PropsTable rows={SKELETON_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

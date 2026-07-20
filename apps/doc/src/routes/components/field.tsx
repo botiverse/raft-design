@@ -274,44 +274,59 @@ const SNIPPETS = {
 </Field>`,
 } as const;
 
-const FIELD_ROOT_PROPS: readonly PropRow[] = [
+const FIELD_PROPS: readonly PropRow[] = [
   {
-    name: "Field",
+    name: "...props",
     type: "Base UI Field.Root",
     description:
       "Stacks label, control, helper text, and error. Pass invalid for externally controlled errors.",
   },
 ];
 
-const FIELD_PART_PROPS: readonly PropRow[] = [
+const FIELD_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "FieldLabel",
+    name: "...props",
     type: "Base UI Field.Label",
     description: "Persistent field label. Supports required, optional, and size for dense labels.",
   },
+];
+
+const FIELD_DESCRIPTION_PROPS: readonly PropRow[] = [
   {
-    name: "FieldDescription",
+    name: "...props",
     type: "Base UI Field.Description",
     description: "Helper text below the control. It participates in aria-describedby.",
   },
+];
+
+const FIELD_ERROR_PROPS: readonly PropRow[] = [
   {
-    name: "FieldError",
+    name: "...props",
     type: "Base UI Field.Error",
     description:
       "Inline validation message. Use match for Base UI validity states, or match={true} for external state.",
   },
+];
+
+const FIELD_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "FieldItem",
+    name: "...props",
     type: "Base UI Field.Item",
     description: "Horizontal grouping for checkbox, radio, or switch rows inside a field.",
   },
+];
+
+const FIELD_CONTROL_PROPS: readonly PropRow[] = [
   {
-    name: "FieldControl",
+    name: "...props",
     type: "Base UI Field.Control",
     description: "Optional native control primitive when you do not need Input or Textarea.",
   },
+];
+
+const FIELD_VALIDITY_PROPS: readonly PropRow[] = [
   {
-    name: "FieldValidity",
+    name: "...props",
     type: "Base UI Field.Validity",
     description: "Render-prop access to the current Base UI field validity state.",
   },
@@ -500,11 +515,26 @@ function FieldDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Field root">
-            <PropsTable rows={FIELD_ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-field" title="Field">
+            <PropsTable rows={FIELD_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-parts" title="Parts">
-            <PropsTable rows={FIELD_PART_PROPS} />
+          <DocSubsection parentId="api" id="api-field-label" title="FieldLabel">
+            <PropsTable rows={FIELD_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-field-description" title="FieldDescription">
+            <PropsTable rows={FIELD_DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-field-error" title="FieldError">
+            <PropsTable rows={FIELD_ERROR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-field-item" title="FieldItem">
+            <PropsTable rows={FIELD_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-field-control" title="FieldControl">
+            <PropsTable rows={FIELD_CONTROL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-field-validity" title="FieldValidity">
+            <PropsTable rows={FIELD_VALIDITY_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

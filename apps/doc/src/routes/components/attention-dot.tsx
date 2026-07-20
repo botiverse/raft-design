@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Status } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -63,16 +63,30 @@ const COMPOSITION_PATHS = {
   ExplicitColor: "apps/doc/src/modules/attention-dot/compositions/explicit-color.composition.tsx",
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const ATTENTION_DOT_PROPS: readonly PropRow[] = [
   {
-    name: "AttentionDot",
+    name: "...props",
     type: "legacy component",
-    description: "Migrated to Status.",
+    description: "Removed. Migrate to Status.",
+  },
+];
+
+const STATUS_PROPS: readonly PropRow[] = [
+  {
+    name: "variant",
+    type: "Status variant",
+    default: '"accent" for AttentionDot replacements',
+    description: 'Use variant="accent" for the former AttentionDot default.',
   },
   {
-    name: "Status",
-    type: "status indicator primitive",
-    description: 'Use variant="accent".',
+    name: "size",
+    type: '"xs" | "sm" | "md"',
+    description: 'Use size="xs" for the former AttentionDot size="sm".',
+  },
+  {
+    name: "...props",
+    type: "Status props",
+    description: "See the Status docs for pulse, attention, render, and span attributes.",
   },
 ];
 
@@ -109,7 +123,14 @@ function AttentionDotMigrationDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-attention-dot" title="AttentionDot">
+            <PropsTable rows={ATTENTION_DOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-status" title="Status">
+            <PropsTable rows={STATUS_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

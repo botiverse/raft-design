@@ -129,34 +129,78 @@ const COMPOSITION_PATHS = {
   TaskRow: "apps/doc/src/modules/text/compositions/task-row.composition.tsx",
 } as const;
 
+const TEXT_VARIANT_TYPE =
+  '"default" | "primary" | "information" | "muted" | "placeholder" | "accent" | "success" | "warning" | "danger"';
+
 const TEXT_HEADING_PROPS: readonly PropRow[] = [
   {
-    name: "Text.Heading",
-    type: 'ComponentPropsWithRef<"h1"> & { level?: 1 | 2 | 3 | 4 | 5 | 6 }',
-    description: "Semantic heading with RAFT display typography.",
-  },
-];
-
-const TEXT_BODY_PROPS: readonly PropRow[] = [
-  {
-    name: "Text.Sans",
-    type: '"large" | "body" | "small" | "caption"',
-    description: "Sans text sizes for product copy and supporting labels.",
-  },
-  {
-    name: "Text.Mono",
-    type: '"code" | "meta" | "eyebrow" | "tabular"',
-    description: "Mono text sizes for identifiers, metadata, and numeric text.",
+    name: "level",
+    type: "1 | 2 | 3 | 4 | 5 | 6",
+    default: "1",
+    description: "Semantic heading level. Renders the matching h1–h6 element.",
   },
   {
     name: "variant",
-    type: '"default" | "primary" | "information" | "muted" | "placeholder" | "accent" | "success" | "warning" | "danger"',
-    description: "Optional semantic color. Leave unset to use each size recipe default.",
+    type: TEXT_VARIANT_TYPE,
+    description: "Optional semantic color. Leave unset for the strong heading default.",
   },
   {
     name: "render",
     type: "ReactElement | (props) => ReactElement",
     description: "Base UI render override for changing the underlying element.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"h1">',
+    description: "Native heading attributes plus Base UI render composition props.",
+  },
+];
+
+const TEXT_SANS_PROPS: readonly PropRow[] = [
+  {
+    name: "size",
+    type: '"large" | "body" | "small" | "caption"',
+    default: '"body"',
+    description: "Sans text size for product copy and supporting labels.",
+  },
+  {
+    name: "variant",
+    type: TEXT_VARIANT_TYPE,
+    description: "Optional semantic color. Leave unset to use the size recipe default.",
+  },
+  {
+    name: "render",
+    type: "ReactElement | (props) => ReactElement",
+    description: "Base UI render override for changing the underlying element.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"p">',
+    description: "Native paragraph attributes plus Base UI render composition props.",
+  },
+];
+
+const TEXT_MONO_PROPS: readonly PropRow[] = [
+  {
+    name: "size",
+    type: '"code" | "meta" | "eyebrow" | "tabular"',
+    default: '"code"',
+    description: "Mono text size for identifiers, metadata, and numeric text.",
+  },
+  {
+    name: "variant",
+    type: TEXT_VARIANT_TYPE,
+    description: "Optional semantic color. Leave unset to use the size recipe default.",
+  },
+  {
+    name: "render",
+    type: "ReactElement | (props) => ReactElement",
+    description: "Base UI render override for changing the underlying element.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"p">',
+    description: "Native paragraph attributes plus Base UI render composition props.",
   },
 ];
 
@@ -309,8 +353,11 @@ function TextDoc() {
           <DocSubsection parentId="api" id="api-heading" title="Text.Heading">
             <PropsTable rows={TEXT_HEADING_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-body" title="Text.Sans and Text.Mono">
-            <PropsTable rows={TEXT_BODY_PROPS} />
+          <DocSubsection parentId="api" id="api-sans" title="Text.Sans">
+            <PropsTable rows={TEXT_SANS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-mono" title="Text.Mono">
+            <PropsTable rows={TEXT_MONO_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

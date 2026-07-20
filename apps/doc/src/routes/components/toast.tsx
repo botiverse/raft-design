@@ -374,95 +374,185 @@ function AnchoredToasts() {
 
 const PROVIDER_PROPS: readonly PropRow[] = [
   {
-    name: "ToastProvider",
-    type: "Base UI Toast.Provider.Props & { portalContainer?, renderViewport?, viewportPlacement?, viewportStrategy? }",
-    description:
-      "Provides toast state and renders the default viewport/list. Pass renderViewport=false when composing a custom viewport.",
+    name: "portalContainer",
+    type: "Base UI Toast.Portal.Props['container']",
+    description: "Portal container for the default viewport when ToastProvider renders it.",
   },
   {
-    name: "toast",
-    type: "{ info, success, warning, error, add, dismiss }",
-    description:
-      "Default imperative toast channel for app code. Use toast.success(title, options) without reading the manager.",
+    name: "renderViewport",
+    type: "boolean",
+    default: "true",
+    description: "Pass false when composing a custom viewport.",
   },
   {
-    name: "useToastManager",
+    name: "viewportPlacement",
+    type: "ToastViewport placement",
+    default: '"bottom-center"',
+    description: "Placement passed to the default ToastViewport.",
+  },
+  {
+    name: "viewportStrategy",
+    type: "ToastViewport strategy",
+    default: '"fixed"',
+    description: "Positioning strategy passed to the default ToastViewport.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Toast.Provider.Props",
+    description: "Provides toast state and renders the default viewport/list.",
+  },
+];
+
+const TOAST_CHANNEL_PROPS: readonly PropRow[] = [
+  {
+    name: "info / success / warning / error",
+    type: "(title: string, options?) => string",
+    description: "Default imperative toast channel for app code.",
+  },
+  {
+    name: "add",
+    type: "(options & { title, type? }) => string",
+    description: "Add a toast with an explicit type. Defaults to info.",
+  },
+  {
+    name: "dismiss",
+    type: "(id?: string) => void",
+    description: "Close one toast by id, or the active toast when omitted.",
+  },
+];
+
+const USE_TOAST_MANAGER_PROPS: readonly PropRow[] = [
+  {
+    name: "...",
     type: "() => { toasts, add, close, update, promise }",
     description:
       "Advanced hook for custom toast lists, seeded docs previews, and anchored composition.",
   },
+];
+
+const CREATE_TOAST_MANAGER_PROPS: readonly PropRow[] = [
   {
-    name: "createToastManager",
+    name: "...",
     type: "Base UI createToastManager",
     description:
       "Advanced escape hatch for isolated channels, local previews, and multiple independent toast roots.",
   },
 ];
-
 const PORTAL_PROPS: readonly PropRow[] = [
   {
-    name: "ToastPortal",
+    name: "...props",
     type: "Base UI Toast.Portal.Props",
     description:
       "Portals the viewport. Pass container when a docs preview needs local containment.",
   },
+];
+
+const VIEWPORT_PROPS: readonly PropRow[] = [
   {
-    name: "ToastViewport",
-    type: "Base UI Toast.Viewport.Props & { placement, strategy }",
-    default: 'placement="bottom-center", strategy="fixed"',
-    description:
-      "Viewport landmark for toasts. Use placement=none for ToastPositioner anchored toasts, and strategy=absolute inside contained previews.",
+    name: "placement",
+    type: "ToastViewport placement",
+    default: '"bottom-center"',
+    description: "Use none for ToastPositioner anchored toasts.",
   },
   {
-    name: "ToastPositioner",
+    name: "strategy",
+    type: '"fixed" | "absolute"',
+    default: '"fixed"',
+    description: "Use absolute inside contained previews.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Toast.Viewport.Props",
+    description: "Viewport landmark for toasts.",
+  },
+];
+
+const POSITIONER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: "Base UI Toast.Positioner.Props",
     description:
       "Positions contextual toasts against the anchor supplied through toastManager.add({ positionerProps }).",
   },
+];
+
+const ARROW_PROPS: readonly PropRow[] = [
   {
-    name: "ToastArrow",
+    name: "...props",
     type: "Base UI Toast.Arrow.Props",
     description: "Optional arrow rendered inside an anchored toast positioned by ToastPositioner.",
   },
 ];
 
-const TOAST_PROPS: readonly PropRow[] = [
+const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "ToastRoot",
-    type: 'Base UI Toast.Root.Props & { layout?: "stacked" | "inline" }',
-    default: 'layout="stacked"',
+    name: "layout",
+    type: '"stacked" | "inline"',
+    default: '"stacked"',
     description:
-      "Individual toast frame. Keep stacked by default; use layout=inline only inside ToastPositioner anchored toasts or isolated one-off previews.",
+      "Individual toast frame layout. Keep stacked by default; use inline only inside ToastPositioner anchored toasts or isolated one-off previews.",
   },
   {
-    name: "ToastContent",
+    name: "...props",
+    type: "Base UI Toast.Root.Props",
+    description: "Individual toast frame.",
+  },
+];
+
+const CONTENT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: "Base UI Toast.Content.Props",
     description: "Grid shell for icon, title/description, and a right-aligned action row.",
   },
+];
+
+const ACTIONS_PROPS: readonly PropRow[] = [
   {
-    name: "ToastActions",
+    name: "...props",
     type: "React.HTMLAttributes<HTMLDivElement>",
     description:
       "Action row container. Place ToastClose before ToastAction so dismiss appears before the primary action.",
   },
+];
+
+const TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "ToastTitle / ToastDescription",
-    type: "Base UI title and description props",
-    description: "Render toast.title and toast.description by default, or explicit children.",
+    name: "...props",
+    type: "Base UI Toast.Title.Props",
+    description: "Renders toast.title by default, or explicit children.",
+  },
+];
+
+const DESCRIPTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Toast.Description.Props",
+    description: "Renders toast.description by default, or explicit children.",
+  },
+];
+
+const ACTION_PROPS: readonly PropRow[] = [
+  {
+    name: "loading / loadingLabel",
+    type: "boolean / string",
+    description: "Shows a loading affordance on the action when the toast is busy.",
   },
   {
-    name: "ToastAction",
-    type: "Base UI Toast.Action.Props & { loading?, loadingLabel? }",
+    name: "...props",
+    type: "Base UI Toast.Action.Props",
     description:
       "Renders the toast action. The default toast channel maps action.label to ToastAction; custom managers can still pass Base UI actionProps.",
   },
+];
+
+const CLOSE_PROPS: readonly PropRow[] = [
   {
-    name: "ToastClose",
+    name: "...props",
     type: "Base UI Toast.Close.Props",
     description: "Dismiss button. Renders a default text label unless children are provided.",
   },
 ];
-
 export const Route = createFileRoute("/components/toast")({
   component: ToastDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -593,14 +683,50 @@ function ToastDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-provider" title="Provider and channels">
+          <DocSubsection parentId="api" id="api-provider" title="ToastProvider">
             <PropsTable rows={PROVIDER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-portal" title="Portal and positioning">
+          <DocSubsection parentId="api" id="api-toast-channel" title="toast">
+            <PropsTable rows={TOAST_CHANNEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-use-toast-manager" title="useToastManager">
+            <PropsTable rows={USE_TOAST_MANAGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-create-toast-manager" title="createToastManager">
+            <PropsTable rows={CREATE_TOAST_MANAGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-portal" title="ToastPortal">
             <PropsTable rows={PORTAL_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-toast" title="Toast parts">
-            <PropsTable rows={TOAST_PROPS} />
+          <DocSubsection parentId="api" id="api-viewport" title="ToastViewport">
+            <PropsTable rows={VIEWPORT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-positioner" title="ToastPositioner">
+            <PropsTable rows={POSITIONER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-arrow" title="ToastArrow">
+            <PropsTable rows={ARROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-root" title="ToastRoot">
+            <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-content" title="ToastContent">
+            <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-actions" title="ToastActions">
+            <PropsTable rows={ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-title" title="ToastTitle">
+            <PropsTable rows={TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description" title="ToastDescription">
+            <PropsTable rows={DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-action" title="ToastAction">
+            <PropsTable rows={ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-close" title="ToastClose">
+            <PropsTable rows={CLOSE_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

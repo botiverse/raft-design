@@ -146,7 +146,7 @@ const SNIPPETS = {
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "Dialog",
+    name: "...props",
     type: "Base UI Dialog.Root.Props",
     description: "Owns open state, focus trap, Escape close, outside press, and modal behavior.",
   },
@@ -154,7 +154,7 @@ const ROOT_PROPS: readonly PropRow[] = [
 
 const TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "DialogTrigger",
+    name: "...props",
     type: "Base UI Dialog.Trigger.Props",
     description: "Opens the dialog. Compose a Button through render when the trigger is visible.",
   },
@@ -162,37 +162,70 @@ const TRIGGER_PROPS: readonly PropRow[] = [
 
 const CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "DialogContent",
-    type: "Base UI Dialog.Popup.Props",
-    description: "Portaled centered dialog surface. Use className for width and one-off layouts.",
-  },
-  {
-    name: "DialogContent.overlay",
+    name: "overlay",
     type: "false | DialogOverlayProps",
     description: "Pass false for framed previews; otherwise renders the themed backdrop.",
   },
+  {
+    name: "...props",
+    type: "Base UI Dialog.Popup.Props",
+    description: "Portaled centered dialog surface. Use className for width and one-off layouts.",
+  },
 ];
 
-const LAYOUT_PROPS: readonly PropRow[] = [
+const HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "DialogHeader / DialogBody / DialogFooter",
-    type: "div props",
-    description:
-      "Header defaults to title/action columns. Footer defaults to an aligned action row.",
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Header region. Defaults to title/action columns.",
+  },
+];
+
+const BODY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Main content region between header and footer.",
+  },
+];
+
+const FOOTER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Footer region. Defaults to an aligned action row.",
+  },
+];
+
+const TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Dialog.Title.Props",
+    description: "Accessible dialog title.",
+  },
+];
+
+const DESCRIPTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Dialog.Description.Props",
+    description: "Accessible supporting description.",
+  },
+];
+
+const CLOSE_PROPS: readonly PropRow[] = [
+  {
+    name: "variant / size",
+    type: "Button variant / size",
+    description: "Button styling when using the default themed icon button.",
   },
   {
-    name: "DialogTitle / DialogDescription",
-    type: "Base UI title / description props",
-    description: "Accessible title and supporting description.",
-  },
-  {
-    name: "DialogClose",
-    type: "Base UI Dialog.Close.Props + Button variant/size",
+    name: "...props",
+    type: "Base UI Dialog.Close.Props",
     description:
       "Closes the dialog. Defaults to a themed icon button; pass render for footer actions.",
   },
 ];
-
 const DIALOG_COMPOSITION_RAW_SOURCES = {
   EditChannel: editChannelCompositionSource,
   EditChannelManagement: editChannelManagementCompositionSource,
@@ -1104,17 +1137,32 @@ function DialogDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Dialog root">
+          <DocSubsection parentId="api" id="api-root" title="Dialog">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
+          <DocSubsection parentId="api" id="api-trigger" title="DialogTrigger">
             <PropsTable rows={TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
+          <DocSubsection parentId="api" id="api-content" title="DialogContent">
             <PropsTable rows={CONTENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-layout" title="Layout parts">
-            <PropsTable rows={LAYOUT_PROPS} />
+          <DocSubsection parentId="api" id="api-header" title="DialogHeader">
+            <PropsTable rows={HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-body" title="DialogBody">
+            <PropsTable rows={BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-footer" title="DialogFooter">
+            <PropsTable rows={FOOTER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-title" title="DialogTitle">
+            <PropsTable rows={TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description" title="DialogDescription">
+            <PropsTable rows={DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-close" title="DialogClose">
+            <PropsTable rows={CLOSE_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>
