@@ -104,12 +104,6 @@ const SNIPPETS = {
 
 const RADIO_GROUP_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "RadioGroup",
-    type: "Base UI RadioGroup.Props<T>",
-    description:
-      "Owns one selected value, roving keyboard behavior, form name/form metadata, and disabled/readOnly/required state.",
-  },
-  {
     name: "value / defaultValue",
     type: "T",
     description: "Controlled or uncontrolled selected value.",
@@ -134,23 +128,46 @@ const RADIO_GROUP_ROOT_PROPS: readonly PropRow[] = [
     type: "boolean",
     description: "Group-level interaction and form-validation state.",
   },
+  {
+    name: "...props",
+    type: "Base UI RadioGroup.Props<T>",
+    description:
+      "Owns one selected value, roving keyboard behavior, form metadata, and remaining Base UI root props.",
+  },
 ];
 
 const RADIO_GROUP_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "RadioGroupItem",
+    name: "value",
+    type: "T",
+    description: "Option value selected when this item is chosen.",
+  },
+  {
+    name: "appearance",
+    type: '"default" | "none"',
+    default: '"default"',
+    description:
+      'Use "none" when the surrounding row or card owns the selected visual and the control should stay visually hidden.',
+  },
+  {
+    name: "...props",
     type: "Base UI Radio.Root.Props<T>",
     description:
-      'The radio control itself. Compose it inside a clickable label or a descriptive option row. Set appearance="none" when the surrounding row/card owns the selected visual.',
+      "Compose inside a clickable label or descriptive option row. Children replace the default RadioGroupIndicator.",
   },
 ];
 
 const RADIO_GROUP_INDICATOR_PROPS: readonly PropRow[] = [
   {
-    name: "RadioGroupIndicator",
+    name: "children",
+    type: "ReactNode",
+    description: "Optional custom mark. Defaults to the themed inner dot.",
+  },
+  {
+    name: "...props",
     type: "Base UI Radio.Indicator.Props",
     description:
-      "Optional visual indicator rendered by RadioGroupItem by default. Use it as children when you need a custom mark.",
+      "Optional visual indicator rendered by RadioGroupItem by default. Pass as children when you need a custom mark.",
   },
 ];
 
@@ -336,7 +353,7 @@ function RadioGroupDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="RadioGroup root">
+          <DocSubsection parentId="api" id="api-root" title="RadioGroup">
             <PropsTable rows={RADIO_GROUP_ROOT_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-item" title="RadioGroupItem">

@@ -109,33 +109,42 @@ const COMPOSITION_PATHS = {
     "apps/doc/src/modules/description-list/compositions/rich-creator-value.composition.tsx",
 } as const;
 
-const DESCRIPTION_LIST_ROOT_PROPS: readonly PropRow[] = [
+const DESCRIPTION_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "DescriptionList",
+    name: "...props",
     type: 'useRender.ComponentProps<"dl">',
     description: "Semantic list root for description metadata groups.",
   },
 ];
 
-const DESCRIPTION_LIST_PART_PROPS: readonly PropRow[] = [
+const DESCRIPTION_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "DescriptionItem",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Wrapper for one term/details pair. Keeps dl grouping valid and layout-neutral.",
   },
+];
+
+const DESCRIPTION_TERM_PROPS: readonly PropRow[] = [
   {
-    name: "DescriptionTerm",
+    name: "...props",
     type: 'useRender.ComponentProps<"dt">',
     description: "Muted detail label. Actions can be composed as children.",
   },
+];
+
+const DESCRIPTION_DETAILS_PROPS: readonly PropRow[] = [
   {
-    name: "DescriptionDetails",
+    name: "...props",
     type: 'useRender.ComponentProps<"dd">',
     description:
       "Value cell with dd margin reset. Use className for mono, wrapping, badges, or links.",
   },
+];
+
+const DESCRIPTION_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "DescriptionAction",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Inline trailing action container for controls next to the term.",
   },
@@ -214,11 +223,20 @@ function DescriptionListDoc() {
       </DocSection>
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="DescriptionList root">
-            <PropsTable rows={DESCRIPTION_LIST_ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-description-list" title="DescriptionList">
+            <PropsTable rows={DESCRIPTION_LIST_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-parts" title="Parts">
-            <PropsTable rows={DESCRIPTION_LIST_PART_PROPS} />
+          <DocSubsection parentId="api" id="api-description-item" title="DescriptionItem">
+            <PropsTable rows={DESCRIPTION_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description-term" title="DescriptionTerm">
+            <PropsTable rows={DESCRIPTION_TERM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description-details" title="DescriptionDetails">
+            <PropsTable rows={DESCRIPTION_DETAILS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description-action" title="DescriptionAction">
+            <PropsTable rows={DESCRIPTION_ACTION_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

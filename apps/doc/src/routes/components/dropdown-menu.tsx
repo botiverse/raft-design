@@ -493,102 +493,129 @@ function ProfilePreviewMenu() {
   );
 }
 
-const ROOT_PROPS: readonly PropRow[] = [
+const DROPDOWN_MENU_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenu",
+    name: "...props",
     type: "Base UI Menu.Root.Props",
     description: "Owns open state, focus, Escape, outside press, and menu dismissal.",
   },
 ];
 
-const TRIGGER_PROPS: readonly PropRow[] = [
+const DROPDOWN_MENU_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuTrigger",
+    name: "...props",
     type: "Base UI Menu.Trigger.Props",
     description:
       "Button-like trigger. Defaults to an outline md Button; pass render for a custom control.",
   },
 ];
 
-const CONTENT_PROPS: readonly PropRow[] = [
+const DROPDOWN_MENU_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuContent",
+    name: "...props",
     type: "Base UI Popup + Positioner props",
     description:
       "Portaled card shell. Defaults to side=bottom, align=start, sideOffset=4, disableAnchorTracking=false, and positionMethod=fixed.",
   },
 ];
 
-const ITEM_PROPS: readonly PropRow[] = [
+const DROPDOWN_MENU_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuItem",
+    name: "...props",
     type: "Base UI Menu.Item.Props",
     description:
       "Source server-switcher row styling with keyboard highlight. Compose special rows with className.",
   },
+];
+
+const DROPDOWN_MENU_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuLabel",
+    name: "...props",
     type: "div props",
     description: "Non-interactive section label composed inside DropdownMenuContent.",
   },
+];
+
+const DROPDOWN_MENU_SHORTCUT_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuShortcut",
+    name: "...props",
     type: "Kbd props",
     description: "Right-aligned keyboard hint composed inside DropdownMenuItem.",
   },
+];
+
+const DROPDOWN_MENU_ITEM_COUNT_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuItemCount",
+    name: "...props",
     type: "Badge props",
     description: "Right-aligned count chip composed from Badge with its default state.",
   },
+];
+
+const DROPDOWN_MENU_SEPARATOR_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuSeparator",
+    name: "...props",
     type: "Base UI Separator.Props",
     description: "Source server-switcher divider styling as the separator part.",
   },
 ];
 
-const SELECTION_PROPS: readonly PropRow[] = [
+const DROPDOWN_MENU_RADIO_GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuRadioGroup",
+    name: "...props",
     type: "Base UI Menu.RadioGroup.Props",
     description:
       "Groups radio items for single-select behavior. Use value/defaultValue/onValueChange.",
   },
+];
+
+const DROPDOWN_MENU_RADIO_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuRadioItem",
+    name: "...props",
     type: "Base UI Menu.RadioItem.Props",
     description:
       "Single-select item inside RadioGroup. Uses same item styling as DropdownMenuItem with built-in check indicator. closeOnClick defaults to false.",
   },
+];
+
+const DROPDOWN_MENU_RADIO_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuRadioItemIndicator",
+    name: "...props",
     type: "Base UI Menu.RadioItemIndicator.Props",
     description:
       "Lower-level indicator for custom composition. Renders children only when the parent radio item is selected.",
   },
+];
+
+const DROPDOWN_MENU_CHECKBOX_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuCheckboxItem",
+    name: "...props",
     type: "Base UI Menu.CheckboxItem.Props",
     description:
       "Independent toggle item. Uses same item styling as DropdownMenuItem with built-in check indicator. closeOnClick defaults to false.",
   },
+];
+
+const DROPDOWN_MENU_CHECKBOX_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuCheckboxItemIndicator",
+    name: "...props",
     type: "Base UI Menu.CheckboxItemIndicator.Props",
     description:
       "Lower-level indicator for custom composition (e.g. switch visuals). Renders children only when the parent checkbox item is checked. Use keepMounted to preserve layout when unchecked.",
   },
 ];
 
-const SUBMENU_PROPS: readonly PropRow[] = [
+const DROPDOWN_MENU_SUBMENU_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuSubmenu",
+    name: "...props",
     type: "Base UI Menu.SubmenuRoot.Props",
     description: "Nested menu root for secondary action groups.",
   },
+];
+
+const DROPDOWN_MENU_SUBMENU_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "DropdownMenuSubmenuTrigger",
+    name: "...props",
     type: "Base UI Menu.SubmenuTrigger.Props",
     description: "Item-like trigger that opens a nested DropdownMenuContent.",
   },
@@ -716,23 +743,86 @@ function DropdownMenuDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="DropdownMenu root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-dropdown-menu" title="DropdownMenu">
+            <PropsTable rows={DROPDOWN_MENU_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
-            <PropsTable rows={TRIGGER_PROPS} />
+          <DocSubsection parentId="api" id="api-dropdown-menu-trigger" title="DropdownMenuTrigger">
+            <PropsTable rows={DROPDOWN_MENU_TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
-            <PropsTable rows={CONTENT_PROPS} />
+          <DocSubsection parentId="api" id="api-dropdown-menu-content" title="DropdownMenuContent">
+            <PropsTable rows={DROPDOWN_MENU_CONTENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-items" title="Items">
-            <PropsTable rows={ITEM_PROPS} />
+          <DocSubsection parentId="api" id="api-dropdown-menu-item" title="DropdownMenuItem">
+            <PropsTable rows={DROPDOWN_MENU_ITEM_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-selection" title="Selection items">
-            <PropsTable rows={SELECTION_PROPS} />
+          <DocSubsection parentId="api" id="api-dropdown-menu-label" title="DropdownMenuLabel">
+            <PropsTable rows={DROPDOWN_MENU_LABEL_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-submenu" title="Submenu">
-            <PropsTable rows={SUBMENU_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-shortcut"
+            title="DropdownMenuShortcut"
+          >
+            <PropsTable rows={DROPDOWN_MENU_SHORTCUT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-item-count"
+            title="DropdownMenuItemCount"
+          >
+            <PropsTable rows={DROPDOWN_MENU_ITEM_COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-separator"
+            title="DropdownMenuSeparator"
+          >
+            <PropsTable rows={DROPDOWN_MENU_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-radio-group"
+            title="DropdownMenuRadioGroup"
+          >
+            <PropsTable rows={DROPDOWN_MENU_RADIO_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-radio-item"
+            title="DropdownMenuRadioItem"
+          >
+            <PropsTable rows={DROPDOWN_MENU_RADIO_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-radio-item-indicator"
+            title="DropdownMenuRadioItemIndicator"
+          >
+            <PropsTable rows={DROPDOWN_MENU_RADIO_ITEM_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-checkbox-item"
+            title="DropdownMenuCheckboxItem"
+          >
+            <PropsTable rows={DROPDOWN_MENU_CHECKBOX_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-checkbox-item-indicator"
+            title="DropdownMenuCheckboxItemIndicator"
+          >
+            <PropsTable rows={DROPDOWN_MENU_CHECKBOX_ITEM_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-dropdown-menu-submenu" title="DropdownMenuSubmenu">
+            <PropsTable rows={DROPDOWN_MENU_SUBMENU_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-dropdown-menu-submenu-trigger"
+            title="DropdownMenuSubmenuTrigger"
+          >
+            <PropsTable rows={DROPDOWN_MENU_SUBMENU_TRIGGER_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

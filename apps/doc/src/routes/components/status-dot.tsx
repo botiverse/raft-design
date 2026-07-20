@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Status } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -55,16 +55,30 @@ const COMPOSITION_PATHS = {
   Pulse: "apps/doc/src/modules/status-dot/compositions/pulse.composition.tsx",
 } as const;
 
-const PROPS: readonly PropRow[] = [
+const STATUS_DOT_PROPS: readonly PropRow[] = [
   {
-    name: "StatusDot",
+    name: "...props",
     type: "legacy component",
-    description: "Migrated to Status.",
+    description: "Removed. Migrate to Status.",
+  },
+];
+
+const STATUS_PROPS: readonly PropRow[] = [
+  {
+    name: "variant",
+    type: "Status variant",
+    description: "Map former StatusDot tone values to semantic Status variants.",
   },
   {
-    name: "Status",
-    type: "status indicator primitive",
-    description: "Use variant and pulse.",
+    name: "pulse",
+    type: "boolean",
+    default: "false",
+    description: "Animated status marker. Replaces StatusDot pulse.",
+  },
+  {
+    name: "...props",
+    type: "Status props",
+    description: "See the Status docs for size, attention, render, and span attributes.",
   },
 ];
 
@@ -100,7 +114,14 @@ function StatusDotMigrationDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-status-dot" title="StatusDot">
+            <PropsTable rows={STATUS_DOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-status" title="Status">
+            <PropsTable rows={STATUS_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="source-comparison" title="Source comparison">

@@ -59,53 +59,151 @@ const SOURCE_SCENES = [
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "TaskCard",
-    type: 'SlotProps<"article"> & { busy?: boolean; disabled?: boolean }',
-    description:
-      "Card root. Exposes busy and disabled state without owning task data or workflow policy.",
+    name: "busy",
+    type: "boolean",
+    default: "false",
+    description: "Marks the card as busy without owning task workflow policy.",
+  },
+  {
+    name: "disabled",
+    type: "boolean",
+    default: "false",
+    description: "Marks the card as disabled. Interaction policy stays consumer-owned.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"article">',
+    description: "Card root. Compose open, body, and footer parts as children.",
   },
 ];
 
-const OPEN_ROW_PROPS: readonly PropRow[] = [
+const OPEN_PROPS: readonly PropRow[] = [
   {
-    name: "TaskCardOpen",
-    type: 'SlotProps<"button">',
+    name: "...props",
+    type: 'useRender.ComponentProps<"button">',
     description: "Primary card action. The consumer decides what opening a task does.",
   },
+];
+
+const ROW_PROPS: readonly PropRow[] = [
   {
-    name: "TaskCardRow / Body",
-    type: 'SlotProps<"div">',
-    description: "Structural parts for the card content row and its flexible text body.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Structural row around the flexible text body.",
+  },
+];
+
+const BODY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Flexible column for meta, title, and description.",
   },
 ];
 
 const META_PROPS: readonly PropRow[] = [
   {
-    name: "TaskCardMeta / Channel / Number / Legacy",
-    type: "div and span slot props",
-    description: "Explicit metadata parts; consumers render only the fields their context needs.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Metadata row. Consumers render only the fields their context needs.",
   },
 ];
 
-const CONTENT_PROPS: readonly PropRow[] = [
+const CHANNEL_PROPS: readonly PropRow[] = [
   {
-    name: "TaskCardTitle / Description",
-    type: 'SlotProps<"p">',
-    description: "Task-owned visible content supplied by the consumer.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Optional channel label in the metadata row.",
   },
 ];
 
-const FOOTER_STATUS_PROPS: readonly PropRow[] = [
+const NUMBER_PROPS: readonly PropRow[] = [
   {
-    name: "TaskCardFooter / Status",
-    type: "footer and div slot props",
-    description: "Footer boundary and status-control container. Status accepts a busy state.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Task number or identifier in the metadata row.",
+  },
+];
+
+const LEGACY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Optional legacy marker in the metadata row.",
+  },
+];
+
+const TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"p">',
+    description: "Task title supplied by the consumer.",
+  },
+];
+
+const DESCRIPTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"p">',
+    description: "Optional supporting description under the title.",
+  },
+];
+
+const FOOTER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"footer">',
+    description: "Footer boundary for status controls.",
+  },
+];
+
+const STATUS_PROPS: readonly PropRow[] = [
+  {
+    name: "busy",
+    type: "boolean",
+    default: "false",
+    description: "Marks the status control region as busy.",
   },
   {
-    name: "TaskCardStatusTrigger",
-    type: 'SlotProps<"button"> & { tone: TaskStatusTone; busy?: boolean }',
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Status-control container. Compose TaskCardStatusTrigger and a menu as children.",
+  },
+];
+
+const STATUS_TRIGGER_PROPS: readonly PropRow[] = [
+  {
+    name: "tone",
+    type: "TaskStatusTone",
+    description: "Status tone used for trigger styling.",
+  },
+  {
+    name: "busy",
+    type: "boolean",
+    default: "false",
+    description: "Busy state for the status trigger.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"button">',
     description:
-      "Status trigger styling and state. Compose it with the menu primitive that owns selection behavior.",
+      "Status trigger button. Compose it with the menu primitive that owns selection behavior.",
+  },
+];
+
+const STATUS_MENU_CONTENT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "DropdownMenuContentProps",
+    description: "Status menu surface styled for task status selection.",
+  },
+];
+
+const STATUS_MENU_ITEM_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "DropdownMenuRadioItemProps",
+    description: "Selectable status option inside TaskStatusMenuContent.",
   },
 ];
 
@@ -171,20 +269,50 @@ function TaskCardDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="TaskCard root">
+          <DocSubsection parentId="api" id="api-root" title="TaskCard">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-open-row" title="Open and structure">
-            <PropsTable rows={OPEN_ROW_PROPS} />
+          <DocSubsection parentId="api" id="api-open" title="TaskCardOpen">
+            <PropsTable rows={OPEN_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-meta" title="Metadata">
+          <DocSubsection parentId="api" id="api-row" title="TaskCardRow">
+            <PropsTable rows={ROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-body" title="TaskCardBody">
+            <PropsTable rows={BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-meta" title="TaskCardMeta">
             <PropsTable rows={META_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
-            <PropsTable rows={CONTENT_PROPS} />
+          <DocSubsection parentId="api" id="api-channel" title="TaskCardChannel">
+            <PropsTable rows={CHANNEL_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-footer-status" title="Footer and status">
-            <PropsTable rows={FOOTER_STATUS_PROPS} />
+          <DocSubsection parentId="api" id="api-number" title="TaskCardNumber">
+            <PropsTable rows={NUMBER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-legacy" title="TaskCardLegacy">
+            <PropsTable rows={LEGACY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-title" title="TaskCardTitle">
+            <PropsTable rows={TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description" title="TaskCardDescription">
+            <PropsTable rows={DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-footer" title="TaskCardFooter">
+            <PropsTable rows={FOOTER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-status" title="TaskCardStatus">
+            <PropsTable rows={STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-status-trigger" title="TaskCardStatusTrigger">
+            <PropsTable rows={STATUS_TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-status-menu-content" title="TaskStatusMenuContent">
+            <PropsTable rows={STATUS_MENU_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-status-menu-item" title="TaskStatusMenuItem">
+            <PropsTable rows={STATUS_MENU_ITEM_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

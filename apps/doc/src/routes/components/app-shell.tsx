@@ -59,39 +59,63 @@ const SNIPPETS = {
 </AppShellRoot>`,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
+const APP_SHELL_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "AppShellRoot",
-    type: 'useRender.ComponentProps<"div">',
+    name: "sidebarCollapsible",
+    type: "boolean",
+    default: "false",
     description:
-      "Owns the responsive row-to-column layout and top safe-area inset. Set sidebarCollapsible to coordinate sidebar visibility; use defaultSidebarOpen for uncontrolled state or sidebarOpen and onSidebarOpenChange for controlled state.",
+      "When true, coordinates sidebar visibility and measures sidebar width for the main-panel transition.",
+  },
+  {
+    name: "sidebarOpen / defaultSidebarOpen",
+    type: "boolean",
+    default: "defaultSidebarOpen: true",
+    description:
+      "Controlled or uncontrolled sidebar visibility when sidebarCollapsible is enabled.",
+  },
+  {
+    name: "onSidebarOpenChange",
+    type: "(open: boolean) => void",
+    description: "Called when a collapsible sidebar opens or closes.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Owns the responsive row-to-column layout and top safe-area inset.",
   },
 ];
 
-const SLOT_PROPS: readonly PropRow[] = [
+const APP_SHELL_RAIL_SLOT_PROPS: readonly PropRow[] = [
   {
-    name: "AppShellRailSlot",
+    name: "...props",
     type: 'useRender.ComponentProps<"aside">',
     description:
       "Desktop rail column by default. Mount a separate instance with className for mobile bottom navigation; visibility stays caller-owned.",
   },
+];
+
+const APP_SHELL_SIDEBAR_SLOT_PROPS: readonly PropRow[] = [
   {
-    name: "AppShellSidebarSlot",
+    name: "...props",
     type: 'useRender.ComponentProps<"aside">',
     description:
       "Desktop sidebar column by default. When the root is collapsible, its measured width drives the main-panel transition. Override with className when the caller mounts it below md.",
   },
+];
+
+const APP_SHELL_MAIN_SLOT_PROPS: readonly PropRow[] = [
   {
-    name: "AppShellMainSlot",
+    name: "...props",
     type: 'useRender.ComponentProps<"main">',
     description:
       "Flexible primary content region. In a collapsible desktop layout, mount it inside a relative main panel so it can expand over the sidebar.",
   },
 ];
 
-const TRIGGER_PROPS: readonly PropRow[] = [
+const APP_SHELL_SIDEBAR_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "AppShellSidebarTrigger",
+    name: "...props",
     type: "PanelAction props",
     description:
       "Toggles a collapsible root and returns null otherwise. Provide the caller-owned icon as children; it supplies accessible collapse and expand labels.",
@@ -169,14 +193,24 @@ function AppShellDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="AppShell root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-app-shell-root" title="AppShellRoot">
+            <PropsTable rows={APP_SHELL_ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-slots" title="Layout slots">
-            <PropsTable rows={SLOT_PROPS} />
+          <DocSubsection parentId="api" id="api-app-shell-rail-slot" title="AppShellRailSlot">
+            <PropsTable rows={APP_SHELL_RAIL_SLOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Sidebar trigger">
-            <PropsTable rows={TRIGGER_PROPS} />
+          <DocSubsection parentId="api" id="api-app-shell-sidebar-slot" title="AppShellSidebarSlot">
+            <PropsTable rows={APP_SHELL_SIDEBAR_SLOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-app-shell-main-slot" title="AppShellMainSlot">
+            <PropsTable rows={APP_SHELL_MAIN_SLOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-app-shell-sidebar-trigger"
+            title="AppShellSidebarTrigger"
+          >
+            <PropsTable rows={APP_SHELL_SIDEBAR_TRIGGER_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

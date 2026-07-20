@@ -61,225 +61,336 @@ const SNIPPETS = {
 </ChatSidebarRoot>`,
 } as const;
 
-const SHELL_RESIZABLE_PROPS: readonly PropRow[] = [
+const APP_SHELL_SIDEBAR_SLOT_PROPS: readonly PropRow[] = [
   {
-    name: "AppShellSidebarSlot",
+    name: "...props",
     type: "aside props",
     description: "Sidebar column host. Resizable compositions size it through explicit classes.",
   },
+];
+
+const RESIZABLE_GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "ResizableGroup",
+    name: "...props",
     type: "react-resizable-panels group props",
     description: "Groups the sidebar and adjacent resizable columns.",
   },
+];
+
+const RESIZABLE_PANEL_PROPS: readonly PropRow[] = [
   {
-    name: "ResizablePanel",
+    name: "...props",
     type: "react-resizable-panels panel props",
     description: "Defines one resizable column in the group.",
   },
+];
+
+const RESIZABLE_HANDLE_PROPS: readonly PropRow[] = [
   {
-    name: "ResizableHandle",
+    name: "...props",
     type: "react-resizable-panels separator props",
     description: "Resize handle between adjacent panels.",
   },
 ];
 
-const ROOT_LAYOUT_PROPS: readonly PropRow[] = [
+const CHAT_SIDEBAR_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarRoot",
+    name: "...props",
     type: "div props",
     description: "Full-height sidebar surface that keeps the header and scroll body aligned.",
   },
+];
+
+const CHAT_SIDEBAR_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarHeader",
+    name: "...props",
     type: "div props",
     description: "Header layout slot for app-owned navigation and controls.",
   },
+];
+
+const CHAT_SIDEBAR_HEADER_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarHeaderTitle",
+    name: "...props",
     type: "div props",
     description: "Truncated sidebar heading.",
   },
+];
+
+const CHAT_SIDEBAR_BODY_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarBody",
+    name: "...props",
     type: "div props",
     description: "Owns the sidebar's scrollable body region.",
   },
+];
+
+const CHAT_SIDEBAR_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarContent",
+    name: "...props",
     type: "div props",
     description: "Full-height scroll-content wrapper.",
   },
+];
+
+const CHAT_SIDEBAR_LIVE_ACTIVITY_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarLiveActivity",
+    name: "...props",
     type: "div props",
     description:
       "Optional desktop live-agent overlay. It owns the full-width fade, theme spacing, and matching scroll-content clearance.",
   },
 ];
 
-const MENU_PROPS: readonly PropRow[] = [
+const CHAT_SIDEBAR_MENU_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarMenu",
+    name: "...props",
     type: "button props",
     description: "Top-level destination such as Saved.",
   },
+];
+
+const CHAT_SIDEBAR_MENU_ICON_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarMenuIcon",
+    name: "...props",
     type: "span props",
     description: "Leading icon slot for a menu destination.",
   },
+];
+
+const CHAT_SIDEBAR_MENU_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarMenuTitle",
+    name: "...props",
     type: "span props",
     description: "Menu destination label.",
   },
+];
+
+const CHAT_SIDEBAR_MENU_ASIDE_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarMenuAside",
+    name: "...props",
     type: "span props",
     description: "Trailing metadata slot for a menu destination.",
   },
+];
+
+const CHAT_SIDEBAR_MENU_COUNT_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarMenuCount",
+    name: "...props",
     type: "span props",
     description: "Compact trailing count for a menu destination.",
   },
 ];
 
-const SECTION_PROPS: readonly PropRow[] = [
+const CHAT_SIDEBAR_SECTION_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSection",
+    name: "...props",
     type: "section props",
     description: "Groups a saved, pinned, channel, joint, or DM region.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionHeader",
+    name: "...props",
     type: "div props",
     description: "Structural header wrapper for a sidebar section.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_DISCLOSURE_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionDisclosure",
+    name: "...props",
     type: "button props",
     description: "Collapsible section trigger.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionTitle",
+    name: "...props",
     type: "span props",
     description: "Section heading label.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_COUNT_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionCount",
+    name: "...props",
     type: "span props",
     description: "Section item count.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_CHEVRON_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionChevron",
+    name: "...props",
     type: "span props",
     description: "Disclosure indicator for a collapsible section.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_TRAILING_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionTrailing",
+    name: "...props",
     type: "div props",
     description: "Trailing area of a section header.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_ATTENTION_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionAttention",
+    name: "...props",
     type: "span props",
     description: "Unread or attention indicator in a section header.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_CONTROLS_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionControls",
+    name: "...props",
     type: "div props",
     description: "Control group in a section header.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_CONTROL_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionControl",
+    name: "...props",
     type: "button props",
     description: "Single section-header control slot.",
   },
+];
+
+const CHAT_SIDEBAR_SECTION_EMPTY_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarSectionEmpty",
+    name: "...props",
     type: "div props",
     description: "Compact empty-state wrapper for a section.",
   },
 ];
 
-const LIST_ITEM_PROPS: readonly PropRow[] = [
+const CHAT_SIDEBAR_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarList",
+    name: "...props",
     type: "div props",
     description: "List wrapper for sidebar rows.",
   },
+];
+
+const CHAT_SIDEBAR_GROUP_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarGroupLabel",
+    name: "...props",
     type: "div props",
     description: "Static, non-interactive heading for sidebar groups that do not collapse.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItem",
-    type: "button props",
-    description: "Interactive sidebar conversation or channel row.",
+    name: "active",
+    type: "boolean",
+    default: "false",
+    description: "Marks the row as active. Sets data-active for visual state.",
   },
   {
-    name: "ChatSidebarItemIcon",
+    name: "...props",
+    type: 'useRender.ComponentProps<"button">',
+    description: "Interactive sidebar conversation or channel row.",
+  },
+];
+
+const CHAT_SIDEBAR_ITEM_ICON_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: "span props",
     description: "Leading icon or avatar slot for a row.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_CHANNEL_ICON_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemChannelIcon",
+    name: "...props",
     type: "span props",
     description: "Leading channel icon slot for a row.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemContent",
+    name: "...props",
     type: "div props",
     description: "Main text content region for a row.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemTitle",
+    name: "...props",
     type: "span props",
     description: "Primary row label.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_SUBTITLE_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemSubtitle",
+    name: "...props",
     type: "span props",
     description: "Secondary row detail.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_META_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemMeta",
+    name: "...props",
     type: "span props",
     description: "Inline metadata slot beside a row title.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_META_ICON_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemMetaIcon",
+    name: "...props",
     type: "span props",
     description: "Inline metadata icon beside a row title.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_ASIDE_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemAside",
+    name: "...props",
     type: "span props",
     description: "Trailing metadata region for a row.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_COUNT_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemCount",
+    name: "...props",
     type: "span props",
     description: "Unread count in a row's trailing area.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemIndicator",
+    name: "...props",
     type: "span props",
     description: "Mention or attention indicator in a row.",
   },
+];
+
+const CHAT_SIDEBAR_ITEM_STATUS_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarItemStatus",
+    name: "...props",
     type: "span props",
     description: "Presence or workflow status slot for a row.",
   },
 ];
 
-const CONTROL_PROPS: readonly PropRow[] = [
+const CHAT_SIDEBAR_CONTROL_PROPS: readonly PropRow[] = [
   {
-    name: "ChatSidebarControl",
+    name: "...props",
     type: "button props",
     description:
       "Theme-aware control button shared by the sidebar header and section control slots.",
@@ -317,23 +428,228 @@ function ChatSidebarDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-shell-resizable" title="Shell and resizable">
-            <PropsTable rows={SHELL_RESIZABLE_PROPS} />
+          <DocSubsection parentId="api" id="api-app-shell-sidebar-slot" title="AppShellSidebarSlot">
+            <PropsTable rows={APP_SHELL_SIDEBAR_SLOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-root-layout" title="Root and layout">
-            <PropsTable rows={ROOT_LAYOUT_PROPS} />
+          <DocSubsection parentId="api" id="api-resizable-group" title="ResizableGroup">
+            <PropsTable rows={RESIZABLE_GROUP_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-menu" title="Menu">
-            <PropsTable rows={MENU_PROPS} />
+          <DocSubsection parentId="api" id="api-resizable-panel" title="ResizablePanel">
+            <PropsTable rows={RESIZABLE_PANEL_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-section" title="Section">
-            <PropsTable rows={SECTION_PROPS} />
+          <DocSubsection parentId="api" id="api-resizable-handle" title="ResizableHandle">
+            <PropsTable rows={RESIZABLE_HANDLE_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-list-items" title="List and items">
-            <PropsTable rows={LIST_ITEM_PROPS} />
+          <DocSubsection parentId="api" id="api-chat-sidebar-root" title="ChatSidebarRoot">
+            <PropsTable rows={CHAT_SIDEBAR_ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-controls" title="Controls">
-            <PropsTable rows={CONTROL_PROPS} />
+          <DocSubsection parentId="api" id="api-chat-sidebar-header" title="ChatSidebarHeader">
+            <PropsTable rows={CHAT_SIDEBAR_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-header-title"
+            title="ChatSidebarHeaderTitle"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_HEADER_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-body" title="ChatSidebarBody">
+            <PropsTable rows={CHAT_SIDEBAR_BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-content" title="ChatSidebarContent">
+            <PropsTable rows={CHAT_SIDEBAR_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-live-activity"
+            title="ChatSidebarLiveActivity"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_LIVE_ACTIVITY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-menu" title="ChatSidebarMenu">
+            <PropsTable rows={CHAT_SIDEBAR_MENU_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-menu-icon" title="ChatSidebarMenuIcon">
+            <PropsTable rows={CHAT_SIDEBAR_MENU_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-menu-title"
+            title="ChatSidebarMenuTitle"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_MENU_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-menu-aside"
+            title="ChatSidebarMenuAside"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_MENU_ASIDE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-menu-count"
+            title="ChatSidebarMenuCount"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_MENU_COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-section" title="ChatSidebarSection">
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-header"
+            title="ChatSidebarSectionHeader"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-disclosure"
+            title="ChatSidebarSectionDisclosure"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_DISCLOSURE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-title"
+            title="ChatSidebarSectionTitle"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-count"
+            title="ChatSidebarSectionCount"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-chevron"
+            title="ChatSidebarSectionChevron"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_CHEVRON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-trailing"
+            title="ChatSidebarSectionTrailing"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_TRAILING_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-attention"
+            title="ChatSidebarSectionAttention"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_ATTENTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-controls"
+            title="ChatSidebarSectionControls"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_CONTROLS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-control"
+            title="ChatSidebarSectionControl"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_CONTROL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-section-empty"
+            title="ChatSidebarSectionEmpty"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_SECTION_EMPTY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-list" title="ChatSidebarList">
+            <PropsTable rows={CHAT_SIDEBAR_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-group-label"
+            title="ChatSidebarGroupLabel"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_GROUP_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-item" title="ChatSidebarItem">
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-item-icon" title="ChatSidebarItemIcon">
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-channel-icon"
+            title="ChatSidebarItemChannelIcon"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_CHANNEL_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-content"
+            title="ChatSidebarItemContent"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-title"
+            title="ChatSidebarItemTitle"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-subtitle"
+            title="ChatSidebarItemSubtitle"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_SUBTITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-item-meta" title="ChatSidebarItemMeta">
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-meta-icon"
+            title="ChatSidebarItemMetaIcon"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_META_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-aside"
+            title="ChatSidebarItemAside"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_ASIDE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-count"
+            title="ChatSidebarItemCount"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-indicator"
+            title="ChatSidebarItemIndicator"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-chat-sidebar-item-status"
+            title="ChatSidebarItemStatus"
+          >
+            <PropsTable rows={CHAT_SIDEBAR_ITEM_STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-chat-sidebar-control" title="ChatSidebarControl">
+            <PropsTable rows={CHAT_SIDEBAR_CONTROL_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

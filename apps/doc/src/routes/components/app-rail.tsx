@@ -34,37 +34,55 @@ const SNIPPETS = {
       <AppRailNav>
         <Tooltip>
           <TooltipTrigger
-            render={<AppRailItem nativeButton={false} render={<Link to="/chat" />} />}
+            render={
+              <AppRailItem
+                selected
+                nativeButton={false}
+                render={<Link to="/chat" />}
+              />
+            }
           >
             <AppRailItemIcon>
-              <AppRailItemAttention />
+              <MessageSquare />
+              <AppRailItemAttention title="Unread activity">
+                <Activity />
+              </AppRailItemAttention>
             </AppRailItemIcon>
-            <AppRailItemLabel />
-            <AppRailItemBadge />
+            <AppRailItemLabel>Chat</AppRailItemLabel>
+            <AppRailItemBadge>3</AppRailItemBadge>
           </TooltipTrigger>
-          <TooltipContent />
+          <TooltipContent side="right">Chat</TooltipContent>
         </Tooltip>
       </AppRailNav>
       <AppRailFooter>
+        <NotificationCenter>
+          <NotificationCenterTrigger />
+        </NotificationCenter>
         <Tooltip>
-          <TooltipTrigger>
-            <AppRailItemIcon />
-            <AppRailItemLabel />
+          <TooltipTrigger
+            render={
+              <AppRailItem
+                nativeButton={false}
+                render={<button type="button" />}
+              />
+            }
+          >
+            <AppRailItemIcon>
+              <Settings />
+            </AppRailItemIcon>
+            <AppRailItemLabel>Settings</AppRailItemLabel>
           </TooltipTrigger>
-          <TooltipContent />
+          <TooltipContent side="right">Settings</TooltipContent>
         </Tooltip>
       </AppRailFooter>
-      <AppRailNav>
-        {/* App-owned mobile destinations */}
-      </AppRailNav>
     </TooltipProvider>
   </AppRailRoot>
 </AppShellRailSlot>`,
 } as const;
 
-const SHELL_PROPS: readonly PropRow[] = [
+const SHELL_SLOT_PROPS: readonly PropRow[] = [
   {
-    name: "AppShellRailSlot",
+    name: "...props",
     type: 'useRender.ComponentProps<"aside">',
     description:
       "Desktop rail column by default. Override with className when composing a mobile bottom-navigation row.",
@@ -73,27 +91,110 @@ const SHELL_PROPS: readonly PropRow[] = [
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "AppRailRoot",
-    type: "{ value?: string; onValueChange?: (value: string) => void }",
-    description: "Optional controlled selection context. Routing and tab memory stay app-owned.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Layout root for header, nav, and footer regions. Owns no selection state.",
   },
 ];
 
-const REGION_PROPS: readonly PropRow[] = [
+const HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "AppRailHeader / Nav / Footer",
-    type: "div / nav props",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Top region for an app-owned server switcher or equivalent identity control.",
+  },
+];
+
+const NAV_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"nav">',
     description:
-      "Composable regions. Header is a layout slot for an app-owned server switcher; apps may also render separate desktop and mobile Nav compositions inside one controlled Root.",
+      "Primary destinations region. Mount separate desktop and mobile Nav compositions when needed; visibility stays caller-owned.",
+  },
+];
+
+const FOOTER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Bottom region for footer actions such as notifications and settings.",
   },
 ];
 
 const ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "AppRailItem*",
-    type: "button + span props; nativeButton?: boolean",
+    name: "selected",
+    type: "boolean",
     description:
-      "Composable icon, label, badge, and indicator parts for app-owned rail actions. Set nativeButton={false} when render replaces the native button.",
+      "Marks the item as selected. Sets data-selected and aria-pressed when nativeButton is true. Owned by the caller.",
+  },
+  {
+    name: "nativeButton",
+    type: "boolean",
+    default: "true",
+    description:
+      "When false, skip native button type/disabled/aria-pressed wiring so render can replace the host element (for example a router Link).",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"button">',
+    description:
+      "Button attributes plus render. Compose icon, label, badge, and attention parts as children.",
+  },
+];
+
+const ITEM_ICON_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Square icon slot. Place the glyph and optional attention overlay here.",
+  },
+];
+
+const ITEM_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Visible or assistive label for the item.",
+  },
+];
+
+const ITEM_BADGE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Optional unread or count badge beside the icon.",
+  },
+];
+
+const ITEM_ATTENTION_PROPS: readonly PropRow[] = [
+  {
+    name: "children",
+    type: "ReactNode",
+    description: "Attention glyph rendered inside the mask.",
+  },
+  {
+    name: "title",
+    type: "string",
+    description: "Optional label exposed to assistive tech. The indicator itself stays decorative.",
+  },
+];
+
+const ITEM_ATTENTION_MASK_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Mask wrapper used by AppRailItemAttention around the attention glyph.",
+  },
+];
+
+const ITEM_INDICATOR_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Status props",
+    description:
+      "Decorative attention status dot. Defaults to attention and a theme-aware variant; usually rendered by AppRailItemAttention.",
   },
 ];
 
@@ -108,7 +209,7 @@ function AppRailDoc() {
   return (
     <DocPage
       title="AppRail"
-      description="Controlled rail structure for server switching, app mode navigation, unread badges, and footer actions."
+      description="Composable rail structure for server switching, destinations, unread attention, and footer actions."
       overview={
         <Differences from="LeftRail">
           <li>
@@ -118,7 +219,7 @@ function AppRailDoc() {
             keeps the source rail geometry: yellow column, 64px desktop width, square icon slots
           </li>
           <li>
-            selection is optional controlled state; app code decides where each value navigates
+            selection is per-item via AppRailItem selected; routing and tab memory stay app-owned
           </li>
         </Differences>
       }
@@ -150,17 +251,45 @@ function AppRailDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-shell-slot" title="Shell slot">
-            <PropsTable rows={SHELL_PROPS} />
+          <DocSubsection parentId="api" id="api-shell-slot" title="AppShellRailSlot">
+            <PropsTable rows={SHELL_SLOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-root" title="AppRail root">
+          <DocSubsection parentId="api" id="api-root" title="AppRailRoot">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-regions" title="Regions">
-            <PropsTable rows={REGION_PROPS} />
+          <DocSubsection parentId="api" id="api-header" title="AppRailHeader">
+            <PropsTable rows={HEADER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-items" title="Items">
+          <DocSubsection parentId="api" id="api-nav" title="AppRailNav">
+            <PropsTable rows={NAV_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-footer" title="AppRailFooter">
+            <PropsTable rows={FOOTER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item" title="AppRailItem">
             <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-icon" title="AppRailItemIcon">
+            <PropsTable rows={ITEM_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-label" title="AppRailItemLabel">
+            <PropsTable rows={ITEM_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-badge" title="AppRailItemBadge">
+            <PropsTable rows={ITEM_BADGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-attention" title="AppRailItemAttention">
+            <PropsTable rows={ITEM_ATTENTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-item-attention-mask"
+            title="AppRailItemAttentionMask"
+          >
+            <PropsTable rows={ITEM_ATTENTION_MASK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-indicator" title="AppRailItemIndicator">
+            <PropsTable rows={ITEM_INDICATOR_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

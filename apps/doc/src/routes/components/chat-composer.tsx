@@ -84,133 +84,190 @@ const SNIPPETS = {
   withLightbox: composerWithLightboxSource,
 } as const;
 
-const ROOT_COMPOSER_PROPS: readonly PropRow[] = [
+const COMPOSER_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerRoot",
+    name: "...props",
     type: "form props",
     description:
       "Composition root for autocomplete, pending attachments, and the bordered composer surface.",
   },
+];
+
+const COMPOSER_PROPS: readonly PropRow[] = [
   {
-    name: "Composer",
+    name: "...props",
     type: "div props",
     description: "Bordered composer shell.",
   },
+];
+
+const COMPOSER_INPUT_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerInput",
+    name: "...props",
     type: "textarea props",
     description: "Auto-growing message textarea.",
   },
 ];
 
-const TOOLBAR_PROPS: readonly PropRow[] = [
+const COMPOSER_TOOLBAR_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerToolbar",
+    name: "...props",
     type: "div props",
     description: "Toolbar row under the input.",
   },
+];
+
+const COMPOSER_ACTIONS_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerActions",
+    name: "...props",
     type: "div props",
     description: "Caller-owned action cluster in the toolbar.",
   },
+];
+
+const COMPOSER_META_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerMeta",
+    name: "...props",
     type: "div props",
     description: "Caller-owned metadata cluster in the toolbar.",
   },
+];
+
+const COMPOSER_ICON_BUTTON_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerIconButton",
+    name: "...props",
     type: "button props",
     description: "Attach-action icon button.",
   },
+];
+
+const COMPOSER_SUBMIT_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerSubmit",
+    name: "...props",
     type: "Button props",
     description:
       "Accent Button used for submit. Use Button size, loading, and render props; pass visible content as children.",
   },
+];
+
+const COMPOSER_TOOLBAR_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerToolbarLabel",
+    name: "...props",
     type: "label props",
     description: "A labelled checkbox or status cluster with theme-aware spacing and typography.",
   },
 ];
 
-const ATTACHMENT_PROPS: readonly PropRow[] = [
+const COMPOSER_ATTACHMENTS_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachments",
+    name: "...props",
     type: "div props",
     description: "Pending-upload strip above the input.",
   },
+];
+
+const COMPOSER_ATTACHMENT_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachment",
+    name: "...props",
     type: "div props",
     description: "Attachment tile within the pending-upload strip.",
   },
+];
+
+const COMPOSER_ATTACHMENT_FILE_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentFile",
+    name: "...props",
     type: "span props",
     description: "File-chip tile for non-image uploads.",
   },
+];
+
+const COMPOSER_ATTACHMENT_IMAGE_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentImage",
+    name: "...props",
     type: "span props",
     description:
       "Fixed 64px image media. Place FilePreview media inside. The attachment root owns the brutal frame border when this part is present.",
   },
+];
+
+const COMPOSER_ATTACHMENT_BODY_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentBody",
+    name: "...props",
     type: "span props",
     description: "File-chip text block.",
   },
+];
+
+const COMPOSER_ATTACHMENT_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentTitle",
+    name: "...props",
     type: "span props",
     description: "Attachment filename.",
   },
+];
+
+const COMPOSER_ATTACHMENT_META_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentMeta",
+    name: "...props",
     type: "span props",
     description: "Attachment mime/type metadata.",
   },
+];
+
+const COMPOSER_ATTACHMENT_UPLOADING_OVERLAY_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentUploadingOverlay",
+    name: "...props",
     type: "span props",
     description:
       "White upload overlay for caller-owned progress content. For images, place as a sibling under ComposerAttachment; for files, nest inside ComposerAttachmentFile.",
   },
+];
+
+const COMPOSER_ATTACHMENT_UPLOAD_PROGRESS_BAR_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentUploadProgressBar",
+    name: "...props",
     type: "span props & { value: number }",
     description:
       "Bottom linear upload progress bar. Place next to the uploading overlay (image: under ComposerAttachment; file: inside ComposerAttachmentFile).",
   },
+];
+
+const COMPOSER_ATTACHMENT_FAILED_OVERLAY_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentFailedOverlay",
+    name: "...props",
     type: "span props",
     description: "Borderless failed-upload mask for caller-owned retry feedback.",
   },
+];
+
+const COMPOSER_ATTACHMENT_REMOVE_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerAttachmentRemove",
+    name: "...props",
     type: "button props",
     description: "Corner remove affordance.",
   },
 ];
 
-const DROP_OVERLAY_PROPS: readonly PropRow[] = [
+const COMPOSER_DROP_OVERLAY_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerDropOverlay",
+    name: "...props",
     type: "div props",
     description: "Drag-and-drop overlay covering the composer root while files hover over it.",
   },
+];
+
+const COMPOSER_DROP_OVERLAY_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerDropOverlayLabel",
+    name: "...props",
     type: "span props",
     description: "Visible drop feedback content.",
   },
+];
+
+const COMPOSER_DROP_OVERLAY_PROMPT_PROPS: readonly PropRow[] = [
   {
-    name: "ComposerDropOverlayPrompt",
+    name: "...props",
     type: "span props",
     description: "Default drop feedback prompt; pass children to replace its visible content.",
   },
@@ -326,17 +383,122 @@ function ChatComposerDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root-composer" title="Root and composer">
-            <PropsTable rows={ROOT_COMPOSER_PROPS} />
+          <DocSubsection parentId="api" id="api-composer-root" title="ComposerRoot">
+            <PropsTable rows={COMPOSER_ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-toolbar" title="Toolbar">
-            <PropsTable rows={TOOLBAR_PROPS} />
+          <DocSubsection parentId="api" id="api-composer" title="Composer">
+            <PropsTable rows={COMPOSER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-attachments" title="Attachments">
-            <PropsTable rows={ATTACHMENT_PROPS} />
+          <DocSubsection parentId="api" id="api-composer-input" title="ComposerInput">
+            <PropsTable rows={COMPOSER_INPUT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-drop-overlay" title="Drop overlay">
-            <PropsTable rows={DROP_OVERLAY_PROPS} />
+          <DocSubsection parentId="api" id="api-composer-toolbar" title="ComposerToolbar">
+            <PropsTable rows={COMPOSER_TOOLBAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-composer-actions" title="ComposerActions">
+            <PropsTable rows={COMPOSER_ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-composer-meta" title="ComposerMeta">
+            <PropsTable rows={COMPOSER_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-composer-icon-button" title="ComposerIconButton">
+            <PropsTable rows={COMPOSER_ICON_BUTTON_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-composer-submit" title="ComposerSubmit">
+            <PropsTable rows={COMPOSER_SUBMIT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-toolbar-label"
+            title="ComposerToolbarLabel"
+          >
+            <PropsTable rows={COMPOSER_TOOLBAR_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-composer-attachments" title="ComposerAttachments">
+            <PropsTable rows={COMPOSER_ATTACHMENTS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-composer-attachment" title="ComposerAttachment">
+            <PropsTable rows={COMPOSER_ATTACHMENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-file"
+            title="ComposerAttachmentFile"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_FILE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-image"
+            title="ComposerAttachmentImage"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_IMAGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-body"
+            title="ComposerAttachmentBody"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-title"
+            title="ComposerAttachmentTitle"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-meta"
+            title="ComposerAttachmentMeta"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-uploading-overlay"
+            title="ComposerAttachmentUploadingOverlay"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_UPLOADING_OVERLAY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-upload-progress-bar"
+            title="ComposerAttachmentUploadProgressBar"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_UPLOAD_PROGRESS_BAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-failed-overlay"
+            title="ComposerAttachmentFailedOverlay"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_FAILED_OVERLAY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-attachment-remove"
+            title="ComposerAttachmentRemove"
+          >
+            <PropsTable rows={COMPOSER_ATTACHMENT_REMOVE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-composer-drop-overlay" title="ComposerDropOverlay">
+            <PropsTable rows={COMPOSER_DROP_OVERLAY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-drop-overlay-label"
+            title="ComposerDropOverlayLabel"
+          >
+            <PropsTable rows={COMPOSER_DROP_OVERLAY_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-composer-drop-overlay-prompt"
+            title="ComposerDropOverlayPrompt"
+          >
+            <PropsTable rows={COMPOSER_DROP_OVERLAY_PROMPT_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

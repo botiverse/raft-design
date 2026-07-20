@@ -656,79 +656,103 @@ function AsyncBranchSelect() {
 }`,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
+const COMBOBOX_PROPS: readonly PropRow[] = [
   {
-    name: "Combobox",
+    name: "...props",
     type: "Base UI Combobox.Root.Props",
     description:
       "Owns selected value, input value, filtering, highlighted item, Escape, and Enter selection.",
   },
 ];
 
-const TRIGGER_PROPS: readonly PropRow[] = [
+const COMBOBOX_CONTROL_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxControl",
+    name: "...props",
     type: "Base UI Combobox.InputGroup.Props",
     description:
       "Input-first control surface. Use it when the visible combobox trigger should be searchable; plain SVG children get the component's default icon size.",
   },
+];
+
+const COMBOBOX_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxTrigger",
+    name: "...props",
     type: "Base UI Combobox.Trigger.Props",
     description:
       "Button trigger for picker-style filters where the search input lives inside the popup.",
   },
+];
+
+const COMBOBOX_INPUT_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxInput",
+    name: "...props",
     type: "Base UI Combobox.Input.Props",
     description: "Search input. Supports password-manager suppression for compact filter panels.",
   },
+];
+
+const COMBOBOX_CLEAR_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxClear",
+    name: "...props",
     type: "Base UI Combobox.Clear.Props",
     description: "Clears the current input and selected value through the primitive.",
   },
 ];
 
-const CONTENT_PROPS: readonly PropRow[] = [
+const COMBOBOX_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxContent",
+    name: "...props",
     type: "Base UI Popup + Positioner props",
     description:
       "Portaled popup shell. Defaults to side=bottom, align=start, sideOffset=4, and local collision props.",
   },
+];
+
+const COMBOBOX_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxHeader",
+    name: "...props",
     type: "div props",
     description: "Header row for picker titles and trailing actions.",
   },
+];
+
+const COMBOBOX_SEPARATOR_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxSeparator",
+    name: "...props",
     type: "div props",
     description: "Horizontal divider between composed combobox regions.",
   },
+];
+
+const COMBOBOX_POPUP_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxPopup",
+    name: "...props",
     type: "div props",
     description:
       "Unpositioned popup shell for advanced static rendering. Prefer ComboboxContent for trigger-anchored pickers.",
   },
 ];
 
-const ITEM_PROPS: readonly PropRow[] = [
+const COMBOBOX_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxList",
+    name: "...props",
     type: "Base UI Combobox.List.Props",
     description: "Renders filtered items, usually through the list render function.",
   },
+];
+
+const COMBOBOX_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxItem",
+    name: "...props",
     type: "Base UI Combobox.Item.Props",
     description:
       "Selectable option row. Selection/highlight state is exposed through data attributes.",
   },
+];
+
+const COMBOBOX_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
   {
-    name: "ComboboxItemIndicator",
+    name: "...props",
     type: "Base UI Combobox.ItemIndicator.Props",
     description: "Selected-state indicator for single and multiple selection.",
   },
@@ -1421,17 +1445,45 @@ function ComboboxDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Combobox root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-combobox" title="Combobox">
+            <PropsTable rows={COMBOBOX_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger and input">
-            <PropsTable rows={TRIGGER_PROPS} />
+          <DocSubsection parentId="api" id="api-combobox-control" title="ComboboxControl">
+            <PropsTable rows={COMBOBOX_CONTROL_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
-            <PropsTable rows={CONTENT_PROPS} />
+          <DocSubsection parentId="api" id="api-combobox-trigger" title="ComboboxTrigger">
+            <PropsTable rows={COMBOBOX_TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-items" title="Items">
-            <PropsTable rows={ITEM_PROPS} />
+          <DocSubsection parentId="api" id="api-combobox-input" title="ComboboxInput">
+            <PropsTable rows={COMBOBOX_INPUT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-clear" title="ComboboxClear">
+            <PropsTable rows={COMBOBOX_CLEAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-content" title="ComboboxContent">
+            <PropsTable rows={COMBOBOX_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-header" title="ComboboxHeader">
+            <PropsTable rows={COMBOBOX_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-separator" title="ComboboxSeparator">
+            <PropsTable rows={COMBOBOX_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-popup" title="ComboboxPopup">
+            <PropsTable rows={COMBOBOX_POPUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-list" title="ComboboxList">
+            <PropsTable rows={COMBOBOX_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-item" title="ComboboxItem">
+            <PropsTable rows={COMBOBOX_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-combobox-item-indicator"
+            title="ComboboxItemIndicator"
+          >
+            <PropsTable rows={COMBOBOX_ITEM_INDICATOR_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

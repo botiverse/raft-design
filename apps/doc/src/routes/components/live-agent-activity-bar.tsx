@@ -48,41 +48,50 @@ const SNIPPETS = {
 </LiveAgentActivityBar>`,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
+const LIVE_AGENT_ACTIVITY_BAR_PROPS: readonly PropRow[] = [
   {
-    name: "LiveAgentActivityBar",
+    name: "...props",
     type: "div props",
     description: "Live-region root and themed surface. Visible structure is supplied as children.",
   },
 ];
 
-const LAYOUT_PROPS: readonly PropRow[] = [
+const LIVE_AGENT_ACTIVITY_BAR_ROW_PROPS: readonly PropRow[] = [
   {
-    name: "LiveAgentActivityBarRow",
+    name: "...props",
     type: "div props",
     description: "Structural row for the avatar and activity content.",
   },
+];
+
+const LIVE_AGENT_ACTIVITY_BAR_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "LiveAgentActivityBarContent",
+    name: "...props",
     type: "div props",
     description: "Layout region for the live status and activity copy.",
   },
 ];
 
-const CONTENT_PROPS: readonly PropRow[] = [
+const LIVE_AGENT_ACTIVITY_BAR_AVATAR_PROPS: readonly PropRow[] = [
   {
-    name: "LiveAgentActivityBarAvatar",
+    name: "...props",
     type: "Avatar root props",
     description:
       "Fixed xs agent avatar frame with the shared Avatar fallback. Compose an optional AvatarImage as its child.",
   },
+];
+
+const LIVE_AGENT_ACTIVITY_BAR_STATUS_PROPS: readonly PropRow[] = [
   {
-    name: "LiveAgentActivityBarStatus",
+    name: "...props",
     type: "Status span props",
     description: "Canonical pulsing primary status indicator with theme-owned placement.",
   },
+];
+
+const LIVE_AGENT_ACTIVITY_BAR_TEXT_PROPS: readonly PropRow[] = [
   {
-    name: "LiveAgentActivityBarText",
+    name: "...props",
     type: "span props",
     description: "Truncating activity copy with native span props, including an explicit title.",
   },
@@ -153,14 +162,47 @@ function LiveAgentActivityBarDoc() {
           below the md breakpoint and the cream sidebar surface at md and above.
         </DocNote>
         <div className="mt-4 space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="LiveAgentActivityBar root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-live-agent-activity-bar"
+            title="LiveAgentActivityBar"
+          >
+            <PropsTable rows={LIVE_AGENT_ACTIVITY_BAR_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-layout" title="Layout">
-            <PropsTable rows={LAYOUT_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-live-agent-activity-bar-row"
+            title="LiveAgentActivityBarRow"
+          >
+            <PropsTable rows={LIVE_AGENT_ACTIVITY_BAR_ROW_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
-            <PropsTable rows={CONTENT_PROPS} />
+          <DocSubsection
+            parentId="api"
+            id="api-live-agent-activity-bar-content"
+            title="LiveAgentActivityBarContent"
+          >
+            <PropsTable rows={LIVE_AGENT_ACTIVITY_BAR_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-live-agent-activity-bar-avatar"
+            title="LiveAgentActivityBarAvatar"
+          >
+            <PropsTable rows={LIVE_AGENT_ACTIVITY_BAR_AVATAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-live-agent-activity-bar-status"
+            title="LiveAgentActivityBarStatus"
+          >
+            <PropsTable rows={LIVE_AGENT_ACTIVITY_BAR_STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-live-agent-activity-bar-text"
+            title="LiveAgentActivityBarText"
+          >
+            <PropsTable rows={LIVE_AGENT_ACTIVITY_BAR_TEXT_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

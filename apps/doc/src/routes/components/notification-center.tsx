@@ -403,7 +403,7 @@ const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "open / defaultOpen",
     type: "boolean",
-    description: "Popover open state. Source trigger state now lives on Base UI Popover.Root.",
+    description: "Popover open state owned by Base UI Popover.Root.",
   },
   {
     name: "modal",
@@ -417,114 +417,188 @@ const ROOT_PROPS: readonly PropRow[] = [
     description: "Called when trigger, Escape, or outside press changes open state.",
   },
   {
-    name: "children",
-    type: "ReactNode",
-    description: "Popover trigger, popup, and compound notification-center parts.",
+    name: "...props",
+    type: "Base UI Popover.Root.Props",
+    description: "Root popover props. Compose trigger, popup, and notification parts as children.",
+  },
+];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Popover.Trigger.Props",
+    description:
+      "Trigger affordance and positioning anchor. Use render to compose a custom icon button; defaults to the themed bell/attention control.",
   },
 ];
 
 const POPUP_PROPS: readonly PropRow[] = [
   {
-    name: "NotificationCenterPopup.viewport",
+    name: "viewport",
     type: '"desktop" | "mobile"',
     default: '"desktop"',
     description: "desktop = fixed width; mobile = viewport-capped width.",
   },
   {
-    name: "NotificationCenterPopup.size",
+    name: "size",
     type: '"sm" | "md" | "lg"',
     default: '"md"',
     description: "Frame height token. Desktop uses fixed heights; mobile uses max-height tokens.",
   },
   {
-    name: "NotificationCenterPopup.side / align",
+    name: "side / align",
     type: '"top" | "bottom" | "left" | "right" / "start" | "center" | "end"',
     default: '"bottom" / "center"',
     description:
       "Anchored placement relative to the trigger, forwarded to Base UI Popover.Positioner.",
   },
   {
-    name: "NotificationCenterPopup.positionMethod / sideOffset / collisionAvoidance",
+    name: "positionMethod / sideOffset / collisionAvoidance",
     type: '"fixed" | "absolute" / number / CollisionAvoidance',
     description: "Positioner tuning. The popup bundles Portal, Positioner, and Popup internally.",
   },
   {
-    name: "NotificationCenterPopup.portalProps",
+    name: "portalProps",
     type: "Base UI Popover.Portal.Props",
     description: "Optional portal options (e.g. container) forwarded to the internal portal.",
   },
   {
-    name: "NotificationCenterPopup",
+    name: "...props",
     type: "Base UI Popover.Popup.Props",
     description:
       "The visual card. Popup owns the border, shadow, background, portal, and positioner.",
   },
 ];
 
-const TRIGGER_PROPS: readonly PropRow[] = [
+const HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "NotificationCenterTrigger",
-    type: "Base UI Popover.Trigger.Props",
-    description:
-      "Trigger affordance and positioning anchor. Use render to compose the source icon button.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Header row for title and count.",
   },
 ];
 
-const PART_PROPS: readonly PropRow[] = [
+const TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "render",
-    type: "useRender render prop",
-    description: "Optional element composition hook for each slot part.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Panel title text.",
   },
+];
+
+const COUNT_PROPS: readonly PropRow[] = [
   {
-    name: "className",
-    type: "string",
-    description: "Merged into the slot class through tv() and Base UI mergeProps.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Trailing count or clear-all label in the header.",
   },
+];
+
+const SCROLLER_PROPS: readonly PropRow[] = [
   {
-    name: "Layout parts",
-    type: "Header | Title | Count | Scroller | List",
-    description: "Header and scroll/list structure. List defaults to aria-label='Notifications'.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Scroll boundary for the list or empty state.",
+  },
+];
+
+const LIST_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"ul">',
+    description: "Notification list. Defaults to aria-label='Notifications'.",
   },
 ];
 
 const ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "NotificationCenterItem.read",
+    name: "read",
     type: "boolean",
     default: "false",
     description: "Applies the source read opacity treatment.",
   },
   {
-    name: "NotificationCenterItemIcon.status",
-    type: '"error" | "warning" | "info" | "success"',
-    default: '"info"',
-    description: "Applies the notification status color and default icon.",
-  },
-  {
-    name: "Item parts",
-    type: "ItemRow | ItemContent | ItemTitle | ItemBody | ItemActions",
-    description: "Addressable layers for the source li structure.",
+    name: "...props",
+    type: 'useRender.ComponentProps<"li">',
+    description: "List item root. Compose row, icon, and content parts as children.",
   },
 ];
 
-const ACTION_EMPTY_PROPS: readonly PropRow[] = [
+const ITEM_ROW_PROPS: readonly PropRow[] = [
   {
-    name: "NotificationCenterActionButton.variant",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Horizontal layout for icon and content.",
+  },
+];
+
+const ITEM_ICON_PROPS: readonly PropRow[] = [
+  {
+    name: "status",
+    type: '"error" | "warning" | "info" | "success"',
+    default: '"info"',
+    description:
+      "Applies the notification status color and default icon when children are omitted.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Status icon slot. Pass children to replace the default glyph.",
+  },
+];
+
+const ITEM_CONTENT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Flexible column for title, body, and actions.",
+  },
+];
+
+const ITEM_TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Notification title text.",
+  },
+];
+
+const ITEM_BODY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Supporting body copy under the title.",
+  },
+];
+
+const ITEM_ACTIONS_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Trailing action row for NotificationCenterActionButton children.",
+  },
+];
+
+const ACTION_BUTTON_PROPS: readonly PropRow[] = [
+  {
+    name: "variant",
     type: '"primary" | "secondary"',
     default: '"secondary"',
     description: "Maps notification actions to the shared Button primary/outline variants.",
   },
   {
-    name: "NotificationCenterEmptyState",
+    name: "...props",
+    type: "ButtonProps",
+    description: "Button attributes. Size is fixed to xs; className merges with the action recipe.",
+  },
+];
+
+const EMPTY_STATE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: "EmptyStateProps",
     description:
       "Semantic empty-state root. Compose EmptyStateContent with EmptyStateIcon, EmptyStateTitle, and EmptyStateDescription.",
-  },
-  {
-    name: "NotificationCenterEmptyState.render",
-    type: "useRender render prop",
-    description: "Optional root element composition hook inherited from EmptyState.",
   },
 ];
 
@@ -590,27 +664,60 @@ function NotificationCenterDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="NotificationCenter root">
+          <DocSubsection parentId="api" id="api-root" title="NotificationCenter">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger-portal" title="Trigger and portal">
+          <DocSubsection parentId="api" id="api-trigger" title="NotificationCenterTrigger">
             <PropsTable rows={TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-popup" title="Popup">
+          <DocSubsection parentId="api" id="api-popup" title="NotificationCenterPopup">
             <PropsTable rows={POPUP_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-layout-parts" title="Layout parts">
-            <PropsTable rows={PART_PROPS} />
+          <DocSubsection parentId="api" id="api-header" title="NotificationCenterHeader">
+            <PropsTable rows={HEADER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-item-parts" title="Item parts">
+          <DocSubsection parentId="api" id="api-title" title="NotificationCenterTitle">
+            <PropsTable rows={TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-count" title="NotificationCenterCount">
+            <PropsTable rows={COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-scroller" title="NotificationCenterScroller">
+            <PropsTable rows={SCROLLER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-list" title="NotificationCenterList">
+            <PropsTable rows={LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item" title="NotificationCenterItem">
             <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-row" title="NotificationCenterItemRow">
+            <PropsTable rows={ITEM_ROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-icon" title="NotificationCenterItemIcon">
+            <PropsTable rows={ITEM_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-content" title="NotificationCenterItemContent">
+            <PropsTable rows={ITEM_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-title" title="NotificationCenterItemTitle">
+            <PropsTable rows={ITEM_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-body" title="NotificationCenterItemBody">
+            <PropsTable rows={ITEM_BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-actions" title="NotificationCenterItemActions">
+            <PropsTable rows={ITEM_ACTIONS_PROPS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"
-            id="api-actions-empty-state"
-            title="Actions and empty state"
+            id="api-action-button"
+            title="NotificationCenterActionButton"
           >
-            <PropsTable rows={ACTION_EMPTY_PROPS} />
+            <PropsTable rows={ACTION_BUTTON_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-empty-state" title="NotificationCenterEmptyState">
+            <PropsTable rows={EMPTY_STATE_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

@@ -93,62 +93,77 @@ ${MENTION_CARD_BODY_SNIPPET}
 </p>`,
 } as const;
 
-const ROOT_PROPS: readonly PropRow[] = [
+const PREVIEW_CARD_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCard",
+    name: "...props",
     type: "Base UI PreviewCard.Root.Props",
     description:
       "Owns open state, hover/focus intent, and trigger-card association via triggerId/handle.",
   },
 ];
 
-const TRIGGER_PROPS: readonly PropRow[] = [
+const PREVIEW_CARD_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCardTrigger",
+    name: "...props",
     type: "Base UI PreviewCard.Trigger.Props",
     description:
       "Trigger affordance and positioning anchor. Renders an <a> by default; use render to compose the actual link element and keep styling on the semantic element.",
   },
 ];
 
-const CONTENT_PROPS: readonly PropRow[] = [
+const PREVIEW_CARD_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCardContent",
+    name: "...props",
     type: "Base UI Popup + Positioner props",
     description:
       "Portaled floating card. Defaults to side=bottom, align=start, sideOffset=6, disableAnchorTracking=true, and forwards anchor/collision/sticky positioning props.",
   },
+];
+
+const PREVIEW_CARD_POPUP_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCardPopup",
+    name: "...props",
     type: "div props",
     description: "Static card shell for docs previews and non-portaled comparison panes.",
   },
+];
+
+const PREVIEW_CARD_ARROW_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCardArrow",
+    name: "...props",
     type: "Base UI PreviewCard.Arrow.Props",
     description:
       "Optional pointer triangle. Brutal hides it to match the source card, which never rendered one.",
   },
 ];
 
-const PART_PROPS: readonly PropRow[] = [
+const PREVIEW_CARD_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCardHeader",
+    name: "...props",
     type: "div props",
     description: "Leading row for an avatar or icon plus a title stack.",
   },
+];
+
+const PREVIEW_CARD_SEPARATOR_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCardSeparator",
+    name: "...props",
     type: "div props",
     description: "Optional horizontal divider between the header and description.",
   },
+];
+
+const PREVIEW_CARD_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCardTitle",
+    name: "...props",
     type: "p props",
     description: "Primary heading, typically the previewed entity's name.",
   },
+];
+
+const PREVIEW_CARD_DESCRIPTION_PROPS: readonly PropRow[] = [
   {
-    name: "PreviewCardDescription",
+    name: "...props",
     type: "p props",
     description: "Supporting copy or status line for the previewed entity.",
   },
@@ -263,17 +278,40 @@ function PreviewCardDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="PreviewCard root">
-            <PropsTable rows={ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-preview-card" title="PreviewCard">
+            <PropsTable rows={PREVIEW_CARD_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-trigger" title="Trigger">
-            <PropsTable rows={TRIGGER_PROPS} />
+          <DocSubsection parentId="api" id="api-preview-card-trigger" title="PreviewCardTrigger">
+            <PropsTable rows={PREVIEW_CARD_TRIGGER_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-content" title="Content">
-            <PropsTable rows={CONTENT_PROPS} />
+          <DocSubsection parentId="api" id="api-preview-card-content" title="PreviewCardContent">
+            <PropsTable rows={PREVIEW_CARD_CONTENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-parts" title="Card parts">
-            <PropsTable rows={PART_PROPS} />
+          <DocSubsection parentId="api" id="api-preview-card-popup" title="PreviewCardPopup">
+            <PropsTable rows={PREVIEW_CARD_POPUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-preview-card-arrow" title="PreviewCardArrow">
+            <PropsTable rows={PREVIEW_CARD_ARROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-preview-card-header" title="PreviewCardHeader">
+            <PropsTable rows={PREVIEW_CARD_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-preview-card-separator"
+            title="PreviewCardSeparator"
+          >
+            <PropsTable rows={PREVIEW_CARD_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-preview-card-title" title="PreviewCardTitle">
+            <PropsTable rows={PREVIEW_CARD_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-preview-card-description"
+            title="PreviewCardDescription"
+          >
+            <PropsTable rows={PREVIEW_CARD_DESCRIPTION_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

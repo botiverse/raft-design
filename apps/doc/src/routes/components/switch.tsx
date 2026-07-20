@@ -75,7 +75,7 @@ const SWITCH_ROOT_PROPS: readonly PropRow[] = [
 
 const SWITCH_THUMB_PROPS: readonly PropRow[] = [
   {
-    name: "SwitchThumb",
+    name: "...props",
     type: "Base UI Switch.Thumb.Props",
     description: "Optional thumb slot for custom visuals. Switch renders it by default.",
   },
@@ -196,10 +196,10 @@ function SwitchDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Switch root">
+          <DocSubsection parentId="api" id="api-switch" title="Switch">
             <PropsTable rows={SWITCH_ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-thumb" title="SwitchThumb">
+          <DocSubsection parentId="api" id="api-switch-thumb" title="SwitchThumb">
             <PropsTable rows={SWITCH_THUMB_PROPS} />
           </DocSubsection>
         </div>

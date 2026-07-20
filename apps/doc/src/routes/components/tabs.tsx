@@ -237,54 +237,129 @@ const underlineTabs = useOrderedTabs(TABS, underlineOrder);
 </Tabs>`,
 } as const;
 
-const TABS_ROOT_PROPS: readonly PropRow[] = [
-  { name: "Tabs.value", type: "T", description: "Controlled active tab value." },
-  { name: "Tabs.defaultValue", type: "T", description: "Initial tab value for uncontrolled use." },
+const TABS_PROPS: readonly PropRow[] = [
   {
-    name: "Tabs.onValueChange",
-    type: "(value: T) => void",
+    name: "value / defaultValue",
+    type: "T",
+    description: "Controlled active tab value, or initial value for uncontrolled use.",
+  },
+  {
+    name: "onValueChange",
+    type: "(value: T, eventDetails) => void",
     description: "Called when Base UI changes the active tab.",
+  },
+  {
+    name: "...props",
+    type: "BaseTabs.Root.Props",
+    description: "Base UI Tabs root props for orientation and other root behavior.",
   },
 ];
 
 const TABS_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "TabsList.variant",
+    name: "variant",
     type: '"default" | "underline"',
+    default: '"default"',
     description: "Visual treatment for the tab list. Defaults to the chip-style default variant.",
   },
   {
-    name: "TabsBackground",
-    type: "span props",
+    name: "...props",
+    type: "BaseTabs.List.Props",
+    description: "Tab list container. Compose TabsBackground and TabsTab as children.",
+  },
+];
+
+const TABS_BACKGROUND_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"span">',
     description:
       "Optional visual slot. Place it inside TabsList to render the default container surface or underline top edge.",
   },
 ];
 
 const TABS_TAB_PROPS: readonly PropRow[] = [
-  { name: "TabsTab.value", type: "T", description: "The tab value passed to Base UI." },
   {
-    name: "TabsLabel",
-    type: "span props",
+    name: "value",
+    type: "T",
+    description: "The tab value passed to Base UI.",
+  },
+  {
+    name: "...props",
+    type: "BaseTabs.Tab.Props",
+    description: "Tab trigger. Compose icon and TabsLabel as children.",
+  },
+];
+
+const TABS_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"span">',
     description: "Optional text slot for icon-and-label tab layouts.",
   },
 ];
 
-const SORTABLE_TABS_PROPS: readonly PropRow[] = [
+const TABS_PANEL_PROPS: readonly PropRow[] = [
   {
-    name: "SortableTabsList.value",
-    type: "T[]",
+    name: "value",
+    type: "T",
+    description: "Associates the panel with its matching TabsTab value.",
+  },
+  {
+    name: "...props",
+    type: "BaseTabs.Panel.Props",
+    description: "Panel content associated with a tab value.",
+  },
+];
+
+const SORTABLE_TABS_LIST_PROPS: readonly PropRow[] = [
+  {
+    name: "value",
+    type: "readonly T[]",
     description: "Current tab order.",
   },
   {
-    name: "SortableTabsList.onReorder",
+    name: "onReorder",
     type: "(value: T[]) => void",
     description: "Receives the new order after drag end.",
   },
   {
-    name: "SortableTabsTab.value",
+    name: "variant",
+    type: '"default" | "underline"',
+    default: '"default"',
+    description: "Visual treatment inherited by the underlying TabsList.",
+  },
+  {
+    name: "...props",
+    type: "TabsListProps",
+    description:
+      "Sortable TabsList wrapper. Compose TabsBackground and SortableTabsTab as children.",
+  },
+];
+
+const SORTABLE_TABS_TAB_PROPS: readonly PropRow[] = [
+  {
+    name: "value",
     type: "T",
     description: "A sortable tab value passed to Base UI and dnd-kit.",
+  },
+  {
+    name: "...props",
+    type: "TabsTabProps",
+    description: "Draggable tab trigger used inside SortableTabsList.",
+  },
+];
+
+const USE_ORDERED_TABS_PROPS: readonly PropRow[] = [
+  {
+    name: "items",
+    type: "readonly OrderedTabItem[]",
+    description: "Canonical tab definitions keyed by id.",
+  },
+  {
+    name: "storedOrder",
+    type: "readonly string[]",
+    description: "Persisted order to reconcile against items; unknown ids are dropped.",
   },
 ];
 
@@ -557,17 +632,32 @@ function TabsDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="Tabs root">
-            <PropsTable rows={TABS_ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-root" title="Tabs">
+            <PropsTable rows={TABS_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-list" title="TabsList and background">
+          <DocSubsection parentId="api" id="api-list" title="TabsList">
             <PropsTable rows={TABS_LIST_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-tab" title="TabsTab and label">
+          <DocSubsection parentId="api" id="api-background" title="TabsBackground">
+            <PropsTable rows={TABS_BACKGROUND_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-tab" title="TabsTab">
             <PropsTable rows={TABS_TAB_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-sortable" title="Sortable tabs">
-            <PropsTable rows={SORTABLE_TABS_PROPS} />
+          <DocSubsection parentId="api" id="api-label" title="TabsLabel">
+            <PropsTable rows={TABS_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel" title="TabsPanel">
+            <PropsTable rows={TABS_PANEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-sortable-list" title="SortableTabsList">
+            <PropsTable rows={SORTABLE_TABS_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-sortable-tab" title="SortableTabsTab">
+            <PropsTable rows={SORTABLE_TABS_TAB_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-use-ordered-tabs" title="useOrderedTabs">
+            <PropsTable rows={USE_ORDERED_TABS_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

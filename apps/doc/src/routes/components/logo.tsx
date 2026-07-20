@@ -29,36 +29,27 @@ const SNIPPETS = {
 </div>`,
 } as const;
 
-const LOGO_MARK_PROPS: readonly PropRow[] = [
+const RAFT_LOGO_PROPS: readonly PropRow[] = [
   {
-    name: "RaftLogo",
+    name: "...props",
     type: 'ComponentPropsWithoutRef<"svg">',
     description: "Standalone Raft mark. Size it with native SVG props or className.",
   },
 ];
 
-const LOGO_WORDMARK_PROPS: readonly PropRow[] = [
+const RAFT_WORDMARK_PROPS: readonly PropRow[] = [
   {
-    name: "RaftWordmark",
+    name: "...props",
     type: 'ComponentPropsWithoutRef<"svg">',
     description: "Standalone Raft wordmark with its own fitted viewBox.",
   },
 ];
 
-const LOGO_LOCKUP_PROPS: readonly PropRow[] = [
-  {
-    name: "RaftLogoLockup",
-    type: 'ComponentPropsWithoutRef<"svg">',
-    description: "Combined mark and wordmark lockup in one SVG.",
-  },
-];
-
-const LOGO_SHARED_PROPS: readonly PropRow[] = [
+const RAFT_LOGO_LOCKUP_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "SVGAttributes<SVGSVGElement>",
-    description:
-      "Native SVG attributes, including className, role, aria-label, and aria-hidden, are forwarded to the root SVG.",
+    type: 'ComponentPropsWithoutRef<"svg">',
+    description: "Combined mark and wordmark lockup in one SVG.",
   },
 ];
 
@@ -107,17 +98,14 @@ function LogoDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-logo" title="RaftLogo">
-            <PropsTable rows={LOGO_MARK_PROPS} />
+          <DocSubsection parentId="api" id="api-raft-logo" title="RaftLogo">
+            <PropsTable rows={RAFT_LOGO_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-wordmark" title="RaftWordmark">
-            <PropsTable rows={LOGO_WORDMARK_PROPS} />
+          <DocSubsection parentId="api" id="api-raft-wordmark" title="RaftWordmark">
+            <PropsTable rows={RAFT_WORDMARK_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-lockup" title="RaftLogoLockup">
-            <PropsTable rows={LOGO_LOCKUP_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-shared" title="Shared SVG props">
-            <PropsTable rows={LOGO_SHARED_PROPS} />
+          <DocSubsection parentId="api" id="api-raft-logo-lockup" title="RaftLogoLockup">
+            <PropsTable rows={RAFT_LOGO_LOCKUP_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

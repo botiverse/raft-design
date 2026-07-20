@@ -34,32 +34,41 @@ const SNIPPETS = {
   media: stripSourceCodeBlocks(filePreviewMediaCompositionSource),
 } as const;
 
-const FILE_PREVIEW_ROOT_PROPS: readonly PropRow[] = [
+const FILE_PREVIEW_PROPS: readonly PropRow[] = [
   {
-    name: "FilePreview",
+    name: "...props",
     type: "span props",
     description: "Preview root and positioning context for the visual part and badge.",
   },
 ];
 
-const FILE_PREVIEW_VISUAL_PROPS: readonly PropRow[] = [
+const FILE_PREVIEW_DOCUMENT_PROPS: readonly PropRow[] = [
   {
-    name: "FilePreviewDocument",
+    name: "...props",
     type: "span props",
     description: "Document-sheet illustration.",
   },
+];
+
+const FILE_PREVIEW_FILE_PROPS: readonly PropRow[] = [
   {
-    name: "FilePreviewFile",
+    name: "...props",
     type: "span props",
     description: "Archive/file illustration.",
   },
+];
+
+const FILE_PREVIEW_CODE_PROPS: readonly PropRow[] = [
   {
-    name: "FilePreviewCode",
+    name: "...props",
     type: "span props",
     description: "Code-file illustration.",
   },
+];
+
+const FILE_PREVIEW_MEDIA_PROPS: readonly PropRow[] = [
   {
-    name: "FilePreviewMedia",
+    name: "...props",
     type: "span props",
     description:
       "Cropped media frame. Pass image, video, SVG, or other decorative preview content as children; image and video thumbnails typically use size-full object-cover.",
@@ -68,11 +77,16 @@ const FILE_PREVIEW_VISUAL_PROPS: readonly PropRow[] = [
 
 const FILE_PREVIEW_BADGE_PROPS: readonly PropRow[] = [
   {
-    name: "FilePreviewBadge",
-    type: 'span props & { color?: "rose" | "blue" | "amber" | "emerald" | "violet" | "neutral" }',
-    default: 'color: "rose"',
+    name: "color",
+    type: '"rose" | "blue" | "amber" | "emerald" | "violet" | "neutral"',
+    default: '"rose"',
     description:
-      "Format label such as PDF or TXT. Render it beside the visual part; choose color at the callsite rather than inferring it from a file name.",
+      "Format label color such as PDF or TXT. Choose color at the callsite rather than inferring it from a file name.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Format label such as PDF or TXT. Render it beside the visual part.",
   },
 ];
 
@@ -148,13 +162,22 @@ function FilePreviewDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-root" title="FilePreview root">
-            <PropsTable rows={FILE_PREVIEW_ROOT_PROPS} />
+          <DocSubsection parentId="api" id="api-file-preview" title="FilePreview">
+            <PropsTable rows={FILE_PREVIEW_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-visuals" title="Visual parts">
-            <PropsTable rows={FILE_PREVIEW_VISUAL_PROPS} />
+          <DocSubsection parentId="api" id="api-file-preview-document" title="FilePreviewDocument">
+            <PropsTable rows={FILE_PREVIEW_DOCUMENT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-badge" title="FilePreviewBadge">
+          <DocSubsection parentId="api" id="api-file-preview-file" title="FilePreviewFile">
+            <PropsTable rows={FILE_PREVIEW_FILE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-file-preview-code" title="FilePreviewCode">
+            <PropsTable rows={FILE_PREVIEW_CODE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-file-preview-media" title="FilePreviewMedia">
+            <PropsTable rows={FILE_PREVIEW_MEDIA_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-file-preview-badge" title="FilePreviewBadge">
             <PropsTable rows={FILE_PREVIEW_BADGE_PROPS} />
           </DocSubsection>
         </div>
