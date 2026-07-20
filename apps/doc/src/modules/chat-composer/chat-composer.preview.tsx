@@ -38,14 +38,7 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
             <ComposerRoot>
               <ComposerAttachmentsComposition
                 imageStates={["uploaded", "uploading", "failed"]}
-                fileStates={[
-                  "uploaded",
-                  "uploading",
-                  "failed",
-                  "uploaded",
-                  "uploaded",
-                  "uploaded",
-                ]}
+                fileStates={["uploaded", "uploading", "failed", "uploaded", "uploaded", "uploaded"]}
               />
               <Composer>
                 <ComposerInput
