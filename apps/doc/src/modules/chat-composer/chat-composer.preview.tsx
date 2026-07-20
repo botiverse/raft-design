@@ -3,18 +3,16 @@ import { ImagePlus, Paperclip, Send } from "lucide-react";
 import { Checkbox } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import {
-  Composer,
   ComposerActions,
   ComposerDropOverlay,
   ComposerDropOverlayPrompt,
   ComposerIconButton,
-  ComposerInput,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-  ComposerToolbar,
   ComposerToolbarLabel,
 } from "raft-ui/wip";
+import { Composer, ComposerInput, ComposerToolbar } from "./composer-responsive.tsx";
 
 import { Preview } from "#/components/preview.tsx";
 import { ComposerAttachmentsComposition } from "./compositions/composer-shared.composition.tsx";
@@ -38,14 +36,7 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
             <ComposerRoot>
               <ComposerAttachmentsComposition
                 imageStates={["uploaded", "uploading", "failed"]}
-                fileStates={[
-                  "uploaded",
-                  "uploading",
-                  "failed",
-                  "uploaded",
-                  "uploaded",
-                  "uploaded",
-                ]}
+                fileStates={["uploaded", "uploading", "failed", "uploaded", "uploaded", "uploaded"]}
               />
               <Composer>
                 <ComposerInput
