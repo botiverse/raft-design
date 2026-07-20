@@ -7,6 +7,7 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import {
+  ComposerAttachmentLimitComposition,
   ComposerAttachmentStatesComposition,
   ComposerCompactComposition,
   ComposerDefaultComposition,
@@ -14,6 +15,7 @@ import {
   ComposerWithLightboxComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
+import composerAttachmentLimitSource from "#/modules/chat-composer/compositions/composer-attachment-limit.composition.tsx?raw";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
 import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
@@ -78,6 +80,7 @@ const ANATOMY_SNIPPET = `<div className="relative">
 
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
+  attachmentLimit: composerAttachmentLimitSource,
   attachmentStates: composerAttachmentStatesSource,
   compact: composerCompactSource,
   composition: composerCompositionSource,
@@ -326,6 +329,21 @@ function ChatComposerDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.attachmentStates} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="attachment-limit" title="Attachment limit banner">
+            <DocNote>
+              Attachment count limits are product policy. Keep the Banner outside Composer and show
+              it when the consumer rejects another file.
+            </DocNote>
+            <Preview previewClassName="min-h-[24rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[24rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentLimitComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentLimit} />
             </Preview>
           </DocSubsection>
 

@@ -55,7 +55,7 @@ export const composerAttachment = tv({
         attachmentRemove: "bg-black text-white outline-2 outline-solid outline-white",
       },
       elegant: {
-        attachments: "justify-center pt-0.5",
+        attachments: "pt-0.5",
         attachmentFile: [
           "items-start gap-3 overflow-hidden rounded-md border-0 bg-layer-panel pt-1.5 pr-2.5 pl-1.5",
           "ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
