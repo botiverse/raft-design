@@ -1122,7 +1122,7 @@ function DialogDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           {DIALOG_USAGE_ITEMS.map((item) => (
             <DocSubsection key={item.id} parentId="usage" id={item.id} title={item.title}>

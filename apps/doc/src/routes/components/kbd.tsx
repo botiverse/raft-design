@@ -127,7 +127,7 @@ function KbdDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="space-y-6">
           <DocNote>
             Keep Kbd as supporting metadata, not the primary action label. In menus it sits at the

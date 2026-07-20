@@ -84,7 +84,7 @@ function InlineCodeDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="space-y-4">
           <DocNote>
             Keep InlineCode for short inline identifiers. Use CodeBlock for snippets, multi-token

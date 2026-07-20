@@ -135,7 +135,7 @@ function SkeletonDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="variants" title="Variants">
           <Preview>
             <Preview.Canvas>

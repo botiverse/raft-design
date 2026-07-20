@@ -261,7 +261,7 @@ function PreviewCardDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="mention-hover-card" title="Mention hover card">
           <DocNote>
             Hover or focus the @Atlas link below. delay/closeDelay default to 80ms/40ms so repeated

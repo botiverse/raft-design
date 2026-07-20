@@ -321,7 +321,7 @@ function DrawerDoc() {
         />
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="snap-points" title="Snap points">
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">

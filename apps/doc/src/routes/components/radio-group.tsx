@@ -257,7 +257,7 @@ function RadioGroupDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <div className="grid gap-10">
           <DocSubsection parentId="usage" id="option-list" title="Option list">
             <Preview>

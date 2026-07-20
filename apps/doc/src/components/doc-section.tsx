@@ -16,6 +16,7 @@ type DocSubsectionProps = {
   id: string;
   title: string;
   badge?: ReactNode;
+  showThemeSwitcher?: boolean;
   children: ReactNode;
 };
 
@@ -57,7 +58,16 @@ export function DocSection({
   );
 }
 
-export function DocSubsection({ parentId, id, title, badge, children }: DocSubsectionProps) {
+export function DocSubsection({
+  parentId,
+  id,
+  title,
+  badge,
+  showThemeSwitcher,
+  children,
+}: DocSubsectionProps) {
+  const showSwitcher = showThemeSwitcher ?? parentId === "usage";
+
   return (
     <section
       id={id}
@@ -65,15 +75,18 @@ export function DocSubsection({ parentId, id, title, badge, children }: DocSubse
       data-doc-toc-item={title}
       className="scroll-mt-8 space-y-4"
     >
-      <h3 className="group flex items-center gap-2 text-sm font-medium text-foreground-strong">
-        <a href={`#${id}`} className="no-underline">
-          {title}
-          <span className="ml-2 text-foreground-placeholder opacity-0 transition-opacity group-hover:opacity-100">
-            #
-          </span>
-        </a>
-        {badge}
-      </h3>
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="group flex items-center gap-2 text-sm font-medium text-foreground-strong">
+          <a href={`#${id}`} className="no-underline">
+            {title}
+            <span className="ml-2 text-foreground-placeholder opacity-0 transition-opacity group-hover:opacity-100">
+              #
+            </span>
+          </a>
+          {badge}
+        </h3>
+        {showSwitcher ? <ThemeSwitcher /> : null}
+      </div>
       {children}
     </section>
   );

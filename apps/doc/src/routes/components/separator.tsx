@@ -163,7 +163,7 @@ function SeparatorDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="orientation" title="Orientation">
           <DocNote>
             Use horizontal separators between stacked groups. Use vertical separators only inside a
