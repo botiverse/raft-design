@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { Badge } from "raft-ui";
 
 import { ComponentPlayground } from "#/components/component-playground.tsx";
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -198,15 +197,6 @@ function ThreadPanelDoc() {
     <DocPage
       title="ThreadPanel"
       description="Thread side-panel chrome for the right panel stack: header, title, action cluster, scroll body, and composer/footer slot."
-      overview={
-        <Differences from="ThreadPanel">
-          <li>does not own message loading, reply mutations, route state, or close behavior</li>
-          <li>keeps the source fixed header, scroll body, action button, and composer boundary</li>
-          <li>
-            stays a standalone panel; the consuming layout decides placement and resize behavior
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -301,11 +291,7 @@ function PreviewPane({
 }
 
 function ThreadPanelFrame({ children }: { children: ReactNode }) {
-  return (
-    <div className="h-full w-full overflow-hidden border-l-2 border-line-strong bg-layer-panel [[data-theme=elegant]_&]:border-l [[data-theme=elegant]_&]:border-line-subtle">
-      {children}
-    </div>
-  );
+  return <div className="h-full w-full overflow-hidden bg-layer-panel">{children}</div>;
 }
 
 function CurrentThreadPanelPreview() {

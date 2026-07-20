@@ -57,7 +57,7 @@ export const threadPanel = tv({
           "text-foreground-muted",
         ],
         titleMeta: "text-foreground-muted",
-        search: ["max-lg:px-[14px]", "border-b border-line-subtle bg-transparent"],
+        search: ["max-lg:px-[14px]", "border-b border-line-subtle bg-layer-page"],
         searchTrailing: [
           "[&>[data-slot=thread-panel-actions]]:gap-0.5",
           "[&_[data-slot=panel-action]]:px-1.5 [&_[data-slot=panel-action]]:py-1.5",
