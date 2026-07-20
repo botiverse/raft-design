@@ -41,6 +41,8 @@ import {
   ComboboxItemIndicator,
   ComboboxList,
   CopyableCode,
+  CopyableCodeAction,
+  CopyableCodeRoot,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -579,12 +581,12 @@ const COMPONENT_GRID = [
     to: "/components/copyable-code",
     preview: (
       <div className="grid w-72 gap-3">
-        <CopyableCode.Root size="sm">
-          <CopyableCode.Code truncate>
+        <CopyableCodeRoot size="sm">
+          <CopyableCode truncate>
             npx @botiverse/raft-daemon@latest --server-url https://api.raft.build
-          </CopyableCode.Code>
-          <CopyableCode.Action ariaLabel="Copy daemon command" />
-        </CopyableCode.Root>
+          </CopyableCode>
+          <CopyableCodeAction ariaLabel="Copy daemon command" />
+        </CopyableCodeRoot>
       </div>
     ),
   },

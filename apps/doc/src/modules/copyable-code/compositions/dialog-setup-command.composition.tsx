@@ -1,4 +1,4 @@
-import { CopyableCode } from "raft-ui";
+import { CopyableCode, CopyableCodeAction, CopyableCodeRoot } from "raft-ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
@@ -10,10 +10,10 @@ const COMMAND =
 export function DialogSetupCommandComposition() {
   return (
     <SourceComparisonPreview>
-      <CopyableCode.Root>
-        <CopyableCode.Code>{COMMAND}</CopyableCode.Code>
-        <CopyableCode.Action ariaLabel="Copy daemon command" />
-      </CopyableCode.Root>
+      <CopyableCodeRoot>
+        <CopyableCode>{COMMAND}</CopyableCode>
+        <CopyableCodeAction ariaLabel="Copy daemon command" />
+      </CopyableCodeRoot>
     </SourceComparisonPreview>
   );
 }

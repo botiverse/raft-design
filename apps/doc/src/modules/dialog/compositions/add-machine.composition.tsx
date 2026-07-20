@@ -6,7 +6,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "raft-ui";
-import { Banner, BannerDescription, Button, CopyableCode, Status } from "raft-ui";
+import {
+  Banner,
+  BannerDescription,
+  Button,
+  CopyableCode,
+  CopyableCodeAction,
+  CopyableCodeRoot,
+  Status,
+} from "raft-ui";
 import { Terminal } from "lucide-react";
 
 // @docs-source-strip-start
@@ -30,10 +38,10 @@ function AddMachineDialogParts() {
           <Terminal className="size-4" />
           Run this command on your computer to connect:
         </div>
-        <CopyableCode.Root className="mb-7">
-          <CopyableCode.Code truncate>{CONNECT_COMMAND}</CopyableCode.Code>
-          <CopyableCode.Action ariaLabel="Copy daemon command" />
-        </CopyableCode.Root>
+        <CopyableCodeRoot className="mb-7">
+          <CopyableCode truncate>{CONNECT_COMMAND}</CopyableCode>
+          <CopyableCodeAction ariaLabel="Copy daemon command" />
+        </CopyableCodeRoot>
         <Banner status="warning" size="md" className="mb-5">
           <Status variant="warning" size="sm" pulse />
           <BannerDescription>Waiting for computer to connect...</BannerDescription>

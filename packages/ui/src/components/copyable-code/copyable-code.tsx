@@ -101,7 +101,7 @@ const CopyableCodeContext = createContext<CopyableCodeContextValue | null>(null)
 function useCopyableCode(part: string) {
   const context = useContext(CopyableCodeContext);
   if (!context) {
-    throw new Error(`${part} must be used inside CopyableCode.Root.`);
+    throw new Error(`${part} must be used inside CopyableCodeRoot.`);
   }
   return context;
 }
@@ -144,7 +144,7 @@ export function CopyableCodeRoot({
   return (
     <CopyableCodeContext.Provider value={context}>
       <div
-        data-slot="copyable-code"
+        data-slot="copyable-code-root"
         data-size={size}
         data-state={effectiveCopied ? "copied" : "idle"}
         className={root({ className })}
@@ -154,17 +154,12 @@ export function CopyableCodeRoot({
   );
 }
 
-export type CopyableCodeCodeProps = ComponentPropsWithRef<"code"> & {
+export type CopyableCodeProps = ComponentPropsWithRef<"code"> & {
   truncate?: boolean;
 };
 
-export function CopyableCodeCode({
-  children,
-  className,
-  truncate,
-  ...props
-}: CopyableCodeCodeProps) {
-  const { size } = useCopyableCode("CopyableCode.Code");
+export function CopyableCode({ children, className, truncate, ...props }: CopyableCodeProps) {
+  const { size } = useCopyableCode("CopyableCode");
   const theme = useThemeFamily();
   const { code, codeInner } = copyableCode({ theme, size });
   const scrollClassName =
@@ -172,13 +167,13 @@ export function CopyableCodeCode({
 
   return (
     <code
-      data-slot="copyable-code-code"
+      data-slot="copyable-code"
       data-truncate={truncate ? "true" : undefined}
       className={code({ className })}
       {...props}
     >
       <span
-        data-slot="copyable-code-code-inner"
+        data-slot="copyable-code-inner"
         className={codeInner({ className: [truncate && scrollClassName] })}
       >
         {children}
@@ -206,7 +201,7 @@ export function CopyableCodeAction({
   variant,
   ...props
 }: CopyableCodeActionProps) {
-  const { copied, copyValue } = useCopyableCode("CopyableCode.Action");
+  const { copied, copyValue } = useCopyableCode("CopyableCodeAction");
   const theme = useThemeFamily();
   const { action } = copyableCode({ theme });
   const accessibleLabel = copied ? copiedAriaLabel : ariaLabel;
@@ -214,8 +209,8 @@ export function CopyableCodeAction({
   const buttonVariant = variant ?? (theme === "elegant" ? "ghost" : "outline");
 
   const handleClick: NonNullable<ButtonProps["onClick"]> = async (event) => {
-    const root = (event.currentTarget as HTMLElement).closest('[data-slot="copyable-code"]');
-    const value = root?.querySelector('[data-slot="copyable-code-code"]')?.textContent ?? "";
+    const root = (event.currentTarget as HTMLElement).closest('[data-slot="copyable-code-root"]');
+    const value = root?.querySelector('[data-slot="copyable-code"]')?.textContent ?? "";
     await copyValue(value);
     onClick?.(event);
   };
@@ -260,41 +255,3 @@ function CopyableCodeActionIcon({ copied }: { copied: boolean }) {
     </span>
   );
 }
-
-export type CopyableCodeProps = Omit<CopyableCodeRootProps, "children"> & {
-  actionClassName?: string;
-  ariaLabel?: string;
-  codeClassName?: string;
-  copiedAriaLabel?: string;
-  children: ReactNode;
-  truncate?: boolean;
-};
-
-function CopyableCodePreset({
-  actionClassName,
-  ariaLabel,
-  codeClassName,
-  children,
-  copiedAriaLabel,
-  truncate,
-  ...props
-}: CopyableCodeProps) {
-  return (
-    <CopyableCodeRoot {...props}>
-      <CopyableCodeCode className={codeClassName} truncate={truncate}>
-        {children}
-      </CopyableCodeCode>
-      <CopyableCodeAction
-        ariaLabel={ariaLabel}
-        className={actionClassName}
-        copiedAriaLabel={copiedAriaLabel}
-      />
-    </CopyableCodeRoot>
-  );
-}
-
-export const CopyableCode = Object.assign(CopyableCodePreset, {
-  Action: CopyableCodeAction,
-  Code: CopyableCodeCode,
-  Root: CopyableCodeRoot,
-});
