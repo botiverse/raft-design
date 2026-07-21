@@ -48,6 +48,16 @@ export { ComposerAttachmentsScrollArea } from "./composer-attachments-scroll-are
 export type { ComposerAttachmentsScrollAreaProps } from "./composer-attachments-scroll-area";
 
 export {
+  SortableComposerAttachment,
+  SortableComposerAttachments,
+  SortableComposerAttachmentsScroll,
+} from "./sortable-composer-attachments";
+export type {
+  SortableComposerAttachmentProps,
+  SortableComposerAttachmentsProps,
+} from "./sortable-composer-attachments";
+
+export {
   ComposerDropOverlay,
   ComposerDropOverlayLabel,
   ComposerDropOverlayPrompt,

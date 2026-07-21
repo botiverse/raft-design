@@ -1,8 +1,6 @@
 import { Paperclip, Send } from "lucide-react";
 import {
   ComposerActions,
-  ComposerAttachments,
-  ComposerAttachmentsScrollArea,
   ComposerIconButton,
   ComposerMeta,
   ComposerRoot,
@@ -15,15 +13,11 @@ import { ComposerAttachmentsComposition } from "./composer-shared.composition.ts
 export function ComposerAttachmentsScrollComposition() {
   return (
     <ComposerRoot>
-      <ComposerAttachments>
-        <ComposerAttachmentsScrollArea>
-          <ComposerAttachmentsComposition
-            wrap={false}
-            imageStates={["uploaded"]}
-            fileStates={Array.from({ length: 10 }, () => "uploaded" as const)}
-          />
-        </ComposerAttachmentsScrollArea>
-      </ComposerAttachments>
+      <ComposerAttachmentsComposition
+        layout="scroll"
+        imageStates={["uploaded"]}
+        fileStates={Array.from({ length: 10 }, () => "uploaded" as const)}
+      />
       <Composer>
         <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />
         <ComposerToolbar>

@@ -4,8 +4,6 @@ import { Checkbox } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import {
   ComposerActions,
-  ComposerAttachments,
-  ComposerAttachmentsScrollArea,
   ComposerDropOverlay,
   ComposerDropOverlayPrompt,
   ComposerIconButton,
@@ -41,27 +39,17 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
   const [dropOverlay, setDropOverlay] = useState(false);
   const [attachmentsScroll, setAttachmentsScroll] = useState(true);
 
-  const attachments = (
-    <ComposerAttachmentsComposition
-      wrap={!attachmentsScroll}
-      imageStates={PREVIEW_IMAGE_STATES}
-      fileStates={PREVIEW_FILE_STATES}
-    />
-  );
-
   return (
     <Preview previewClassName="items-stretch">
       <Preview.Canvas>
         <div className="flex min-h-[22rem] w-full min-w-0 flex-col justify-end px-2">
           <div className="relative w-full">
             <ComposerRoot>
-              {attachmentsScroll ? (
-                <ComposerAttachments>
-                  <ComposerAttachmentsScrollArea>{attachments}</ComposerAttachmentsScrollArea>
-                </ComposerAttachments>
-              ) : (
-                attachments
-              )}
+              <ComposerAttachmentsComposition
+                layout={attachmentsScroll ? "scroll" : "wrap"}
+                imageStates={PREVIEW_IMAGE_STATES}
+                fileStates={PREVIEW_FILE_STATES}
+              />
               <Composer>
                 <ComposerInput
                   aria-label="Message #proj-uiux"

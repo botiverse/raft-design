@@ -1,14 +1,4 @@
-import { DragOverlay, type Modifier } from "@dnd-kit/core";
-import {
-  arrayMove,
-  defaultAnimateLayoutChanges,
-  SortableContext,
-  useSortable,
-  type SortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { X } from "lucide-react";
-import type { CSSProperties, ReactNode } from "react";
 import {
   ComposerAttachment,
   ComposerAttachmentBody,
@@ -52,72 +42,15 @@ export const SCROLL_REORDER_ATTACHMENTS: readonly ReorderAttachment[] = [
   { id: "notes", kind: "file", name: "meeting-notes.pdf" },
 ];
 
-export const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
-  ...transform,
-  y: 0,
-});
-
-/**
- * Live-reorder helper for mixed-width flex tiles.
- * Tabs can transform in place (similar sizes); attachments cannot — sibling
- * translate math fights flex packing and leaves items overlapped after drop.
- */
-export function reorderAttachmentsOnDragOver(
-  items: ReorderAttachment[],
-  activeId: string | number,
-  overId: string | number,
+export function reorderAttachmentsByIds(
+  items: readonly ReorderAttachment[],
+  nextIds: readonly string[],
 ): ReorderAttachment[] {
-  const oldIndex = items.findIndex((item) => item.id === activeId);
-  const newIndex = items.findIndex((item) => item.id === overId);
-  if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return items;
-  return arrayMove(items, oldIndex, newIndex);
-}
-
-const SORTABLE_TRANSITION = {
-  duration: 160,
-  easing: "cubic-bezier(0.25, 1, 0.5, 1)",
-} as const;
-
-/**
- * Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the
- * pointer ghost. Live arrayMove disables strategy transforms; FLIP via
- * animateLayoutChanges eases siblings into their new flex slots.
- */
-export function SortableComposerAttachment({
-  id,
-  label,
-  children,
-}: {
-  id: string;
-  label: string;
-  children: ReactNode;
-}) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id,
-    animateLayoutChanges: defaultAnimateLayoutChanges,
-    transition: SORTABLE_TRANSITION,
+  const byId = new Map(items.map((item) => [item.id, item]));
+  return nextIds.flatMap((id) => {
+    const item = byId.get(id);
+    return item ? [item] : [];
   });
-  const style: CSSProperties = {
-    // Translate only — avoid scale from mixed-width rect ratios.
-    transform: CSS.Translate.toString(transform),
-    transition,
-    opacity: isDragging ? 0 : undefined,
-    zIndex: isDragging ? 0 : undefined,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      aria-label={`Reorder ${label}`}
-      className="w-max max-w-full shrink-0 cursor-grab touch-none active:cursor-grabbing"
-      data-dragging={isDragging ? "true" : undefined}
-      style={style}
-      {...attributes}
-      {...listeners}
-    >
-      {children}
-    </div>
-  );
 }
 
 export function ReorderAttachmentTile({
@@ -159,45 +92,5 @@ export function ReorderAttachmentTile({
         </ComposerAttachmentRemove>
       ) : null}
     </ComposerAttachment>
-  );
-}
-
-export function ComposerAttachmentsSortableList({
-  attachments,
-  strategy,
-  activeId,
-  onRemove,
-  overlayModifiers,
-}: {
-  attachments: readonly ReorderAttachment[];
-  strategy: SortingStrategy;
-  activeId: string | null;
-  onRemove: (id: string) => void;
-  overlayModifiers?: Modifier[];
-}) {
-  const ids = attachments.map((attachment) => attachment.id);
-  const activeAttachment = attachments.find((attachment) => attachment.id === activeId) ?? null;
-
-  return (
-    <>
-      <SortableContext items={ids} strategy={strategy}>
-        {attachments.map((attachment) => (
-          <SortableComposerAttachment
-            key={attachment.id}
-            id={attachment.id}
-            label={attachment.name}
-          >
-            <ReorderAttachmentTile attachment={attachment} onRemove={onRemove} />
-          </SortableComposerAttachment>
-        ))}
-      </SortableContext>
-      <DragOverlay dropAnimation={null} modifiers={overlayModifiers}>
-        {activeAttachment ? (
-          <div className="cursor-grabbing">
-            <ReorderAttachmentTile attachment={activeAttachment} />
-          </div>
-        ) : null}
-      </DragOverlay>
-    </>
   );
 }

@@ -1,93 +1,53 @@
-import { useId, useState } from "react";
-import {
-  closestCenter,
-  DndContext,
-  PointerSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-  type DragOverEvent,
-  type DragStartEvent,
-} from "@dnd-kit/core";
-import { horizontalListSortingStrategy } from "@dnd-kit/sortable";
+import { useState } from "react";
 import { Paperclip, Send } from "lucide-react";
 import {
   ComposerActions,
   ComposerAttachments,
-  ComposerAttachmentsScrollArea,
   ComposerIconButton,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
+  SortableComposerAttachment,
+  SortableComposerAttachmentsScroll,
 } from "raft-ui/wip";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import {
-  ComposerAttachmentsSortableList,
+  ReorderAttachmentTile,
   SCROLL_REORDER_ATTACHMENTS,
-  reorderAttachmentsOnDragOver,
-  restrictToHorizontalAxis,
+  reorderAttachmentsByIds,
   type ReorderAttachment,
 } from "./composer-attachments-reorder-shared.tsx";
 
 export function ComposerAttachmentsScrollReorderComposition() {
-  const dndContextId = useId();
   const [attachments, setAttachments] = useState<ReorderAttachment[]>([
     ...SCROLL_REORDER_ATTACHMENTS,
   ]);
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
-  );
-
-  const handleDragStart = ({ active }: DragStartEvent) => {
-    setActiveId(String(active.id));
-  };
-
-  const handleDragOver = ({ active, over }: DragOverEvent) => {
-    if (!over || active.id === over.id) return;
-    setAttachments((items) => reorderAttachmentsOnDragOver(items, active.id, over.id));
-  };
-
-  const clearDrag = () => {
-    setActiveId(null);
-  };
-
-  const handleDragEnd = (_event: DragEndEvent) => {
-    clearDrag();
-  };
+  const ids = attachments.map((attachment) => attachment.id);
 
   return (
     <ComposerRoot>
-      <DndContext
-        id={dndContextId}
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        modifiers={[restrictToHorizontalAxis]}
-        autoScroll={{
-          threshold: { x: 0.15, y: 0 },
-          // Horizontal strip only — skip page / vertical scroll containers.
-          canScroll: (element) => element.scrollWidth > element.clientWidth + 1,
-        }}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragCancel={clearDrag}
-        onDragEnd={handleDragEnd}
-      >
-        <ComposerAttachments>
-          <ComposerAttachmentsScrollArea>
-            <ComposerAttachmentsSortableList
-              attachments={attachments}
-              strategy={horizontalListSortingStrategy}
-              activeId={activeId}
-              overlayModifiers={[restrictToHorizontalAxis]}
-              onRemove={(id) => setAttachments((items) => items.filter((item) => item.id !== id))}
-            />
-          </ComposerAttachmentsScrollArea>
-        </ComposerAttachments>
-      </DndContext>
+      <ComposerAttachments>
+        <SortableComposerAttachmentsScroll
+          items={ids}
+          onReorder={(nextIds) =>
+            setAttachments((items) => reorderAttachmentsByIds(items, nextIds))
+          }
+        >
+          {attachments.map((attachment) => (
+            <SortableComposerAttachment
+              key={attachment.id}
+              id={attachment.id}
+              label={attachment.name}
+            >
+              <ReorderAttachmentTile
+                attachment={attachment}
+                onRemove={(id) => setAttachments((items) => items.filter((item) => item.id !== id))}
+              />
+            </SortableComposerAttachment>
+          ))}
+        </SortableComposerAttachmentsScroll>
+      </ComposerAttachments>
       <Composer>
         <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />
         <ComposerToolbar>

@@ -18,16 +18,13 @@ export function ComposerAttachmentsScrollArea({
   const prevNavClassName = composerAttachmentRecipe({ theme, side: "prev" }).attachmentsNav();
   const nextNavClassName = composerAttachmentRecipe({ theme, side: "next" }).attachmentsNav();
   const viewportRef = useRef<HTMLDivElement>(null);
-  const [overflowing, setOverflowing] = useState(false);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   const updateScrollState = () => {
     const viewport = viewportRef.current;
     if (!viewport) return;
     const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
-    setOverflowing(maxScrollLeft > 1);
     setCanPrev(viewport.scrollLeft > 1);
     setCanNext(maxScrollLeft - viewport.scrollLeft > 1);
   };
@@ -76,30 +73,25 @@ export function ComposerAttachmentsScrollArea({
     });
   };
 
-  const showPrev = overflowing && (hovered || canPrev);
-  const showNext = overflowing && (hovered || canNext);
+  // Affordances only — never show a dead-end / disabled arrow.
+  const showPrev = canPrev;
+  const showNext = canNext;
+  const navVariant = theme === "brutal" ? "accent" : "default";
 
   return (
     <div
       data-slot="composer-attachments-scroll-area"
       className={attachmentsScrollArea({ className })}
-      onMouseEnter={(event) => {
-        setHovered(true);
-        onMouseEnter?.(event);
-      }}
-      onMouseLeave={(event) => {
-        setHovered(false);
-        onMouseLeave?.(event);
-      }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       {...props}
     >
       {showPrev ? (
         <Button
           type="button"
           size="icon-sm"
-          variant="default"
+          variant={navVariant}
           aria-label="Scroll attachments left"
-          disabled={!canPrev}
           className={prevNavClassName}
           onClick={() => scrollByPage(-1)}
         >
@@ -117,9 +109,8 @@ export function ComposerAttachmentsScrollArea({
         <Button
           type="button"
           size="icon-sm"
-          variant="default"
+          variant={navVariant}
           aria-label="Scroll attachments right"
-          disabled={!canNext}
           className={nextNavClassName}
           onClick={() => scrollByPage(1)}
         >

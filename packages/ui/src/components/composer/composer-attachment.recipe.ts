@@ -4,9 +4,12 @@ export const composerAttachment = tv({
   slots: {
     attachments: [
       "flex flex-wrap gap-2",
+      // Scroll / sortable roots own the item flex row — avoid nesting flex + DnD a11y siblings.
       "has-[[data-slot=composer-attachments-scroll-area]]:relative",
       "has-[[data-slot=composer-attachments-scroll-area]]:block",
       "has-[[data-slot=composer-attachments-scroll-area]]:min-w-0",
+      "has-[[data-slot=sortable-composer-attachments-list]]:block",
+      "has-[[data-slot=sortable-composer-attachments-list]]:min-w-0",
     ],
     attachmentsScrollArea: ["relative w-full min-w-0"],
     attachmentsViewport: [

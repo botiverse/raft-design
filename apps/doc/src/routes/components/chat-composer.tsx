@@ -39,32 +39,36 @@ const TOC = [
 const ANATOMY_SNIPPET = `<div className="relative">
   <ComposerRoot>
     <ComposerAttachments>
-      {/* optional single-row scroller with prev/next arrows */}
-      <ComposerAttachmentsScrollArea>
-        <ComposerAttachment>
-          <ComposerAttachmentImage />
-          <ComposerAttachmentUploadingOverlay>
-            <Spinner />
-            64%
-          </ComposerAttachmentUploadingOverlay>
-          <ComposerAttachmentUploadProgressBar value={64} />
-          <ComposerAttachmentRemove />
-        </ComposerAttachment>
-        <ComposerAttachment>
-          <ComposerAttachmentFile>
-            <ComposerAttachmentBody>
-              <ComposerAttachmentTitle />
-              <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-            </ComposerAttachmentBody>
+      {/* wrap: SortableComposerAttachments — scroll: SortableComposerAttachmentsScroll */}
+      <SortableComposerAttachmentsScroll items={ids} onReorder={onReorder}>
+        <SortableComposerAttachment id="shot" label="screenshot.png">
+          <ComposerAttachment>
+            <ComposerAttachmentImage />
             <ComposerAttachmentUploadingOverlay>
               <Spinner />
               64%
             </ComposerAttachmentUploadingOverlay>
             <ComposerAttachmentUploadProgressBar value={64} />
-          </ComposerAttachmentFile>
-          <ComposerAttachmentRemove />
-        </ComposerAttachment>
-      </ComposerAttachmentsScrollArea>
+            <ComposerAttachmentRemove />
+          </ComposerAttachment>
+        </SortableComposerAttachment>
+        <SortableComposerAttachment id="notes" label="release-notes.pdf">
+          <ComposerAttachment>
+            <ComposerAttachmentFile>
+              <ComposerAttachmentBody>
+                <ComposerAttachmentTitle />
+                <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+              </ComposerAttachmentBody>
+              <ComposerAttachmentUploadingOverlay>
+                <Spinner />
+                64%
+              </ComposerAttachmentUploadingOverlay>
+              <ComposerAttachmentUploadProgressBar value={64} />
+            </ComposerAttachmentFile>
+            <ComposerAttachmentRemove />
+          </ComposerAttachment>
+        </SortableComposerAttachment>
+      </SortableComposerAttachmentsScroll>
     </ComposerAttachments>
     <Composer>
       <ComposerInput />
@@ -187,7 +191,52 @@ const COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "div props",
     description:
-      "Opt-in single-row overflow with prev/next arrows. Nest inside ComposerAttachments; omit for the default wrap layout.",
+      "Opt-in single-row overflow with prev/next arrows. Prefer SortableComposerAttachmentsScroll when reorder is needed — that wrapper includes this shell.",
+  },
+];
+
+const SORTABLE_COMPOSER_ATTACHMENTS_PROPS: readonly PropRow[] = [
+  {
+    name: "items",
+    type: "readonly string[]",
+    description: "Ordered attachment ids. Consumer owns the list and maps ids back to tile data.",
+  },
+  {
+    name: "onReorder",
+    type: "(items: string[]) => void",
+    description: "Fires on drag-over with the live-reordered id list (mixed-width flex packing).",
+  },
+  {
+    name: "children",
+    type: "ReactNode",
+    description: "SortableComposerAttachment children for each id in items.",
+  },
+];
+
+const SORTABLE_COMPOSER_ATTACHMENTS_SCROLL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "SortableComposerAttachments props",
+    description:
+      "Thin wrapper: ComposerAttachmentsScrollArea + horizontal sort strategy + x-only autoscroll.",
+  },
+];
+
+const SORTABLE_COMPOSER_ATTACHMENT_PROPS: readonly PropRow[] = [
+  {
+    name: "id",
+    type: "string",
+    description: "Stable id matching an entry in the parent items list.",
+  },
+  {
+    name: "label",
+    type: "string",
+    description: "Accessible name used for the reorder control (e.g. filename).",
+  },
+  {
+    name: "children",
+    type: "ReactNode",
+    description: "ComposerAttachment tile content. DragOverlay clones this as the pointer ghost.",
   },
 ];
 
@@ -374,9 +423,9 @@ function ChatComposerDoc() {
             title="Single-row attachments with arrows"
           >
             <DocNote>
-              Nest <code>ComposerAttachmentsScrollArea</code> inside{" "}
-              <code>ComposerAttachments</code> for a single-row strip with prev/next arrows. Without
-              it, attachments wrap normally.
+              Use <code>SortableComposerAttachmentsScroll</code> inside{" "}
+              <code>ComposerAttachments</code> for a single-row strip (arrows + horizontal reorder).
+              For wrapping tiles, use <code>SortableComposerAttachments</code> instead.
             </DocNote>
             <Preview previewClassName="min-h-[22rem] items-stretch">
               <Preview.Canvas>
@@ -394,9 +443,9 @@ function ChatComposerDoc() {
             title="Reorder attachments (wrap)"
           >
             <DocNote>
-              Attachment order is consumer-owned. Mixed image/file widths need live array reorder on{" "}
-              <code>onDragOver</code> (plus a <code>DragOverlay</code>) so flex packs the strip;
-              transform-only sibling shifts leave the wrong gap.
+              Use <code>SortableComposerAttachments</code> with consumer-owned order. Pass string{" "}
+              <code>items</code> / <code>onReorder</code>; render each tile inside{" "}
+              <code>SortableComposerAttachment</code>.
             </DocNote>
             <Preview previewClassName="min-h-[22rem] items-stretch">
               <Preview.Canvas>
@@ -414,10 +463,9 @@ function ChatComposerDoc() {
             title="Reorder attachments (scroll)"
           >
             <DocNote>
-              Same live <code>onDragOver</code> reorder inside{" "}
-              <code>ComposerAttachmentsScrollArea</code>. Keep a sized placeholder under the{" "}
-              <code>DragOverlay</code>, lock the axis to horizontal, and enable x-only autoscroll so
-              mixed-width chips pack correctly without scrolling the page.
+              <code>SortableComposerAttachmentsScroll</code> is a thin wrapper around{" "}
+              <code>ComposerAttachmentsScrollArea</code> with horizontal sort + x-only autoscroll.
+              Same <code>items</code> / <code>onReorder</code> contract as the wrap variant.
             </DocNote>
             <Preview previewClassName="min-h-[22rem] items-stretch">
               <Preview.Canvas>
@@ -515,6 +563,27 @@ function ChatComposerDoc() {
             title="ComposerAttachmentsScrollArea"
           >
             <PropsTable rows={COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-sortable-composer-attachments"
+            title="SortableComposerAttachments"
+          >
+            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENTS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-sortable-composer-attachments-scroll"
+            title="SortableComposerAttachmentsScroll"
+          >
+            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENTS_SCROLL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-sortable-composer-attachment"
+            title="SortableComposerAttachment"
+          >
+            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENT_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-composer-attachment" title="ComposerAttachment">
             <PropsTable rows={COMPOSER_ATTACHMENT_PROPS} />
