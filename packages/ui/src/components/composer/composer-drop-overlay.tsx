@@ -47,7 +47,7 @@ export type ComposerDropOverlayPromptProps = ComposerDropOverlayLabelProps;
 
 export function ComposerDropOverlayPrompt({ children, ...props }: ComposerDropOverlayPromptProps) {
   const theme = useThemeFamily();
-  const { dropOverlayIcon } = composerDropOverlayRecipe({ theme });
+  const { dropOverlayIcon, dropOverlayIconCluster } = composerDropOverlayRecipe({ theme });
 
   if (children) {
     return <ComposerDropOverlayLabel {...props}>{children}</ComposerDropOverlayLabel>;
@@ -55,23 +55,23 @@ export function ComposerDropOverlayPrompt({ children, ...props }: ComposerDropOv
 
   return (
     <ComposerDropOverlayLabel {...props}>
-      <span aria-hidden className="relative flex h-10 w-22 items-center justify-center">
+      <span aria-hidden className={dropOverlayIconCluster()}>
         <span
           className={dropOverlayIcon({
             className: "absolute -translate-x-6 translate-y-1 -rotate-12",
           })}
         >
-          <FileText className="size-4 text-foreground-icon" />
+          <FileText className="text-foreground-icon" />
         </span>
         <span className={dropOverlayIcon({ className: "absolute z-10" })}>
-          <Upload className="size-4 text-foreground-icon" />
+          <Upload className="text-foreground-icon" />
         </span>
         <span
           className={dropOverlayIcon({
             className: "absolute z-20 translate-x-7 translate-y-1 rotate-12",
           })}
         >
-          <ImageIcon className="size-4 text-foreground-icon" />
+          <ImageIcon className="text-foreground-icon" />
         </span>
       </span>
       <span>Drop files to attach</span>

@@ -1,4 +1,4 @@
-import { Paperclip, Send } from "lucide-react";
+import { ImagePlus, Paperclip, Send } from "lucide-react";
 import {
   ComposerActions,
   ComposerIconButton,
@@ -18,6 +18,9 @@ export function ComposerAttachmentStatesComposition() {
         <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />
         <ComposerToolbar>
           <ComposerActions>
+            <ComposerIconButton aria-label="Attach image" disabled>
+              <ImagePlus />
+            </ComposerIconButton>
             <ComposerIconButton aria-label="Attach file" disabled>
               <Paperclip />
             </ComposerIconButton>

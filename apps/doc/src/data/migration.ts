@@ -2095,6 +2095,19 @@ export const MIGRATION_GUIDES = [
     slug: "components-message-messageinput",
     components: [
       {
+        component: "composer",
+        componentLabel: "Composer",
+        refs: ["1550,1787"],
+        docsHref: "/components/chat-composer#source-comparison",
+        migration: [
+          "Composer shell, toolbar, attachments, and drop overlay -> `Composer*` parts from `raft-ui/wip`.",
+          "Keep upload lifecycle, mention policy, and submit gating in the app layer.",
+          "Mention autocomplete -> `ComposerSuggestions` / `useComposerSuggestions`.",
+        ],
+        write:
+          "<ComposerRoot><ComposerAttachments /><Composer><ComposerInput /><ComposerToolbar><ComposerActions /><ComposerMeta><ComposerSubmit /></ComposerMeta></ComposerToolbar></Composer></ComposerRoot>",
+      },
+      {
         component: "avatar",
         componentLabel: "Avatar",
         refs: ["245,255"],
