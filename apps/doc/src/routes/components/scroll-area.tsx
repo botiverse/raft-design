@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -118,13 +117,9 @@ function ScrollAreaDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
-        <DocNote>
-          Import parts from <code>raft-ui/wip</code> while the API settles. Add{" "}
-          <code>ScrollAreaCorner</code> when both axes can overflow.
-        </DocNote>
       </DocSection>
 
-      <DocSection id="usage" title="Usage" showThemeSwitcher>
+      <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="both-axes" title="Both axes">
           <Preview>
             <Preview.Canvas>
