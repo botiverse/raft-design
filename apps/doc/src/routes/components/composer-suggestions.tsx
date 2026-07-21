@@ -265,7 +265,7 @@ function ComposerSuggestionsDoc() {
               <p className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-xs text-foreground-muted">
                 Use <Kbd>@</Kbd> to mention people or <Kbd>#</Kbd> to find channels.
               </p>
-              <ComposerSuggestionComposition initialValue="" />
+              <ComposerSuggestionComposition initialValue="@" />
             </div>
           </Preview.Canvas>
           <Preview.Code html={code.composition} />
