@@ -42,6 +42,7 @@ type PlaygroundNavigationInput = Omit<PlaygroundNavigationState, "badge" | "unre
 export type PlaygroundComposerAttachment = {
   name: string;
   mediaType: string;
+  previewUrl?: string;
   state: { kind: "ready" } | { kind: "uploading"; progress: number } | { kind: "failed" };
 };
 

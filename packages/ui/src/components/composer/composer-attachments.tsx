@@ -88,7 +88,8 @@ export function ComposerAttachmentBody({
   render,
   ...props
 }: ComposerAttachmentBodyProps) {
-  const { attachmentBody } = composerAttachmentRecipe();
+  const theme = useThemeFamily();
+  const { attachmentBody } = composerAttachmentRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-attachment-body",
     className: attachmentBody({ className }),

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -26,7 +27,7 @@ const TOC = [
 const SNIPPETS = {
   anatomy: `<FilePreview>
   <FilePreviewDocument />
-  <FilePreviewBadge color="rose">PDF</FilePreviewBadge>
+  <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
 </FilePreview>`,
   default: stripSourceCodeBlocks(filePreviewDefaultCompositionSource),
   formats: stripSourceCodeBlocks(filePreviewFormatsCompositionSource),
@@ -77,11 +78,17 @@ const FILE_PREVIEW_MEDIA_PROPS: readonly PropRow[] = [
 
 const FILE_PREVIEW_BADGE_PROPS: readonly PropRow[] = [
   {
+    name: "type",
+    type: '"pdf" | "zip" | "docx" | "img" | "mp4" | …',
+    description:
+      "Semantic file kind. Maps onto badge color (e.g. pdf→rose, zip→amber). Mutually exclusive with color.",
+  },
+  {
     name: "color",
     type: '"rose" | "blue" | "amber" | "emerald" | "violet" | "neutral"',
     default: '"rose"',
     description:
-      "Format label color such as PDF or TXT. Choose color at the callsite rather than inferring it from a file name.",
+      "Direct badge color. Mutually exclusive with type; omit both to keep the rose default.",
   },
   {
     name: "...props",
@@ -126,6 +133,11 @@ function FilePreviewDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="formats" title="Format labels">
+            <DocNote>
+              Prefer <code>type</code> for semantic kinds (<code>pdf</code>, <code>zip</code>, …).
+              It maps onto badge color. Use <code>color</code> only when you need a one-off that is
+              not in the type map — the two props are mutually exclusive.
+            </DocNote>
             <Preview>
               <Preview.Canvas>
                 <FilePreviewFormatsComposition />

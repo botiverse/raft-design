@@ -5,15 +5,15 @@ export function FilePreviewFormatsComposition() {
     <div className="flex flex-wrap items-center gap-5">
       <FilePreview>
         <FilePreviewDocument />
-        <FilePreviewBadge>PDF</FilePreviewBadge>
+        <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewDocument />
-        <FilePreviewBadge color="blue">DOCX</FilePreviewBadge>
+        <FilePreviewBadge type="docx">DOCX</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewDocument />
-        <FilePreviewBadge color="neutral">TXT</FilePreviewBadge>
+        <FilePreviewBadge type="txt">TXT</FilePreviewBadge>
       </FilePreview>
     </div>
   );

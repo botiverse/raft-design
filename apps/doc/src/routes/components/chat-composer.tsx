@@ -9,19 +9,25 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import {
   ComposerAttachmentLimitComposition,
   ComposerAttachmentStatesComposition,
+  ComposerAttachmentsReorderComposition,
   ComposerAttachmentsScrollComposition,
-  ComposerCompactComposition,
+  ComposerAttachmentsScrollReorderComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
+  ComposerFooterAddComposition,
+  ComposerFooterNoticeComposition,
   ComposerWithLightboxComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
 import composerAttachmentLimitSource from "#/modules/chat-composer/compositions/composer-attachment-limit.composition.tsx?raw";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
+import composerAttachmentsReorderSource from "#/modules/chat-composer/compositions/composer-attachments-reorder.composition.tsx?raw";
 import composerAttachmentsScrollSource from "#/modules/chat-composer/compositions/composer-attachments-scroll.composition.tsx?raw";
-import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
+import composerAttachmentsScrollReorderSource from "#/modules/chat-composer/compositions/composer-attachments-scroll-reorder.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
+import composerFooterAddSource from "#/modules/chat-composer/compositions/composer-footer-add.composition.tsx?raw";
+import composerFooterNoticeSource from "#/modules/chat-composer/compositions/composer-footer-notice.composition.tsx?raw";
 import composerWithLightboxSource from "#/modules/chat-composer/compositions/composer-with-lightbox.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -35,29 +41,36 @@ const TOC = [
 const ANATOMY_SNIPPET = `<div className="relative">
   <ComposerRoot>
     <ComposerAttachments>
-      <ComposerAttachment>
-        <ComposerAttachmentImage />
-        <ComposerAttachmentUploadingOverlay>
-          <Spinner />
-          64%
-        </ComposerAttachmentUploadingOverlay>
-        <ComposerAttachmentUploadProgressBar value={64} />
-        <ComposerAttachmentRemove />
-      </ComposerAttachment>
-      <ComposerAttachment>
-        <ComposerAttachmentFile>
-          <ComposerAttachmentBody>
-            <ComposerAttachmentTitle />
-            <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-          </ComposerAttachmentBody>
-          <ComposerAttachmentUploadingOverlay>
-            <Spinner />
-            64%
-          </ComposerAttachmentUploadingOverlay>
-          <ComposerAttachmentUploadProgressBar value={64} />
-        </ComposerAttachmentFile>
-        <ComposerAttachmentRemove />
-      </ComposerAttachment>
+      {/* wrap: SortableComposerAttachments — scroll: SortableComposerAttachmentsScroll */}
+      <SortableComposerAttachmentsScroll items={ids} onReorder={onReorder}>
+        <SortableComposerAttachment id="shot" label="screenshot.png">
+          <ComposerAttachment>
+            <ComposerAttachmentImage />
+            <ComposerAttachmentUploadingOverlay>
+              <Spinner />
+              64%
+            </ComposerAttachmentUploadingOverlay>
+            <ComposerAttachmentUploadProgressBar value={64} />
+            <ComposerAttachmentRemove />
+          </ComposerAttachment>
+        </SortableComposerAttachment>
+        <SortableComposerAttachment id="notes" label="release-notes.pdf">
+          <ComposerAttachment>
+            <ComposerAttachmentFile>
+              <ComposerAttachmentBody>
+                <ComposerAttachmentTitle />
+                <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+              </ComposerAttachmentBody>
+              <ComposerAttachmentUploadingOverlay>
+                <Spinner />
+                64%
+              </ComposerAttachmentUploadingOverlay>
+              <ComposerAttachmentUploadProgressBar value={64} />
+            </ComposerAttachmentFile>
+            <ComposerAttachmentRemove />
+          </ComposerAttachment>
+        </SortableComposerAttachment>
+      </SortableComposerAttachmentsScroll>
     </ComposerAttachments>
     <Composer>
       <ComposerInput />
@@ -84,10 +97,13 @@ const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   attachmentLimit: composerAttachmentLimitSource,
   attachmentStates: composerAttachmentStatesSource,
+  attachmentsReorder: composerAttachmentsReorderSource,
   attachmentsScroll: composerAttachmentsScrollSource,
-  compact: composerCompactSource,
+  attachmentsScrollReorder: composerAttachmentsScrollReorderSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
+  footerAdd: composerFooterAddSource,
+  footerNotice: composerFooterNoticeSource,
   withLightbox: composerWithLightboxSource,
 } as const;
 
@@ -178,7 +194,53 @@ const COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "div props",
     description:
-      "Opt-in single-row overflow with prev/next arrows. Nest inside ComposerAttachments; omit for the default wrap layout.",
+      "Opt-in single-row overflow with prev/next arrows. Prefer SortableComposerAttachmentsScroll when reorder is needed — that wrapper includes this shell.",
+  },
+];
+
+const SORTABLE_COMPOSER_ATTACHMENTS_PROPS: readonly PropRow[] = [
+  {
+    name: "items",
+    type: "readonly string[]",
+    description: "Ordered attachment ids. Consumer owns the list and maps ids back to tile data.",
+  },
+  {
+    name: "onReorder",
+    type: "(items: string[]) => void",
+    description:
+      "Commits the reordered id list on drag end. Live draft order is kept inside the sortable while dragging.",
+  },
+  {
+    name: "children",
+    type: "ReactNode",
+    description: "SortableComposerAttachment children for each id in items.",
+  },
+];
+
+const SORTABLE_COMPOSER_ATTACHMENTS_SCROLL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "SortableComposerAttachments props",
+    description:
+      "Thin wrapper: ComposerAttachmentsScrollArea + horizontal sort strategy + x-only autoscroll.",
+  },
+];
+
+const SORTABLE_COMPOSER_ATTACHMENT_PROPS: readonly PropRow[] = [
+  {
+    name: "id",
+    type: "string",
+    description: "Stable id matching an entry in the parent items list.",
+  },
+  {
+    name: "label",
+    type: "string",
+    description: "Accessible name used for the reorder control (e.g. filename).",
+  },
+  {
+    name: "children",
+    type: "ReactNode",
+    description: "ComposerAttachment tile content. DragOverlay clones this as the pointer ghost.",
   },
 ];
 
@@ -365,9 +427,9 @@ function ChatComposerDoc() {
             title="Single-row attachments with arrows"
           >
             <DocNote>
-              Nest <code>ComposerAttachmentsScrollArea</code> inside{" "}
-              <code>ComposerAttachments</code> for a single-row strip with prev/next arrows. Without
-              it, attachments wrap normally.
+              Use <code>SortableComposerAttachmentsScroll</code> inside{" "}
+              <code>ComposerAttachments</code> for a single-row strip (arrows + horizontal reorder).
+              For wrapping tiles, use <code>SortableComposerAttachments</code> instead.
             </DocNote>
             <Preview previewClassName="min-h-[22rem] items-stretch">
               <Preview.Canvas>
@@ -376,6 +438,46 @@ function ChatComposerDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.attachmentsScroll} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="attachments-reorder"
+            title="Reorder attachments (wrap)"
+          >
+            <DocNote>
+              Use <code>SortableComposerAttachments</code> with consumer-owned order. Pass string{" "}
+              <code>items</code> / <code>onReorder</code>; render each tile inside{" "}
+              <code>SortableComposerAttachment</code>.
+            </DocNote>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentsReorderComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentsReorder} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="attachments-scroll-reorder"
+            title="Reorder attachments (scroll)"
+          >
+            <DocNote>
+              <code>SortableComposerAttachmentsScroll</code> is a thin wrapper around{" "}
+              <code>ComposerAttachmentsScrollArea</code> with horizontal sort + x-only autoscroll.
+              Same <code>items</code> / <code>onReorder</code> contract as the wrap variant.
+            </DocNote>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentsScrollReorderComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentsScrollReorder} />
             </Preview>
           </DocSubsection>
 
@@ -405,19 +507,26 @@ function ChatComposerDoc() {
             </Preview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="compact-composer" title="Compact composer">
+          <DocSubsection parentId="usage" id="custom-toolbar" title="Custom toolbar">
             <DocNote>
-              Compact consumers omit attachment actions and use only a shorter input, status, and
-              submit. Use this shape for a comment or note; thread replies use the full composer
-              with attachments.
+              Toolbar slots are consumer-owned. Replace the left actions with policy copy when send
+              is blocked, or with a single custom affordance while keeping submit on the right.
             </DocNote>
-            <Preview previewClassName="items-stretch">
+            <Preview previewClassName="items-center">
               <Preview.Canvas>
                 <div className="w-full min-w-0">
-                  <ComposerCompactComposition />
+                  <ComposerFooterNoticeComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.compact} />
+              <Preview.Code html={code.footerNotice} />
+            </Preview>
+            <Preview previewClassName="items-center">
+              <Preview.Canvas>
+                <div className="w-full min-w-0">
+                  <ComposerFooterAddComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.footerAdd} />
             </Preview>
           </DocSubsection>
         </div>
@@ -465,6 +574,27 @@ function ChatComposerDoc() {
             title="ComposerAttachmentsScrollArea"
           >
             <PropsTable rows={COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-sortable-composer-attachments"
+            title="SortableComposerAttachments"
+          >
+            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENTS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-sortable-composer-attachments-scroll"
+            title="SortableComposerAttachmentsScroll"
+          >
+            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENTS_SCROLL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-sortable-composer-attachment"
+            title="SortableComposerAttachment"
+          >
+            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENT_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-composer-attachment" title="ComposerAttachment">
             <PropsTable rows={COMPOSER_ATTACHMENT_PROPS} />

@@ -9,6 +9,7 @@ export {
 export type {
   FilePreviewBadgeProps,
   FilePreviewBadgeColor,
+  FilePreviewBadgeType,
   FilePreviewCodeProps,
   FilePreviewDocumentProps,
   FilePreviewFileProps,
@@ -38,6 +39,9 @@ export type {
 export {
   ComposerAttachments,
   ComposerAttachmentsScrollArea,
+  SortableComposerAttachment,
+  SortableComposerAttachments,
+  SortableComposerAttachmentsScroll,
   ComposerAttachment,
   ComposerAttachmentFile,
   ComposerAttachmentImage,
@@ -74,6 +78,8 @@ export {
 export type {
   ComposerAttachmentsProps,
   ComposerAttachmentsScrollAreaProps,
+  SortableComposerAttachmentProps,
+  SortableComposerAttachmentsProps,
   ComposerAttachmentProps,
   ComposerAttachmentFileProps,
   ComposerAttachmentImageProps,

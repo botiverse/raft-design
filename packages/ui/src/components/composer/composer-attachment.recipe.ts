@@ -4,9 +4,12 @@ export const composerAttachment = tv({
   slots: {
     attachments: [
       "flex flex-wrap gap-2",
+      // Scroll / sortable roots own the item flex row — avoid nesting flex + DnD a11y siblings.
       "has-[[data-slot=composer-attachments-scroll-area]]:relative",
       "has-[[data-slot=composer-attachments-scroll-area]]:block",
       "has-[[data-slot=composer-attachments-scroll-area]]:min-w-0",
+      "has-[[data-slot=sortable-composer-attachments-list]]:block",
+      "has-[[data-slot=sortable-composer-attachments-list]]:min-w-0",
     ],
     attachmentsScrollArea: ["relative w-full min-w-0"],
     attachmentsViewport: [
@@ -73,8 +76,9 @@ export const composerAttachment = tv({
         ],
         attachmentFile: "items-center border-black bg-white [&_svg]:text-black/70",
         attachmentImage: "size-full overflow-hidden image-transparency-bg",
-        attachmentTitle: "text-black",
-        attachmentMeta: "text-black/50",
+        attachmentBody: "flex h-[46px] flex-col justify-between",
+        attachmentTitle: "mt-1 leading-none text-black",
+        attachmentMeta: "leading-none text-black/50",
         attachmentUploadingOverlay: "bg-white/85 text-black",
         attachmentUploadProgressBarIndicator: "bg-brutal-pink",
         attachmentFailedOverlay: "border-black bg-brutal-orange/90 text-black",
@@ -94,7 +98,7 @@ export const composerAttachment = tv({
         attachmentUploadProgressBar: "rounded-b-md",
         attachmentUploadProgressBarIndicator: "bg-accent-400",
         attachmentUploadingOverlay: "rounded-md bg-white/85 text-foreground",
-        attachmentFailedOverlay: "rounded-md border-0 bg-danger-lighter text-danger-base",
+        attachmentFailedOverlay: "rounded-md border-0 bg-white/85 text-danger-base",
         attachmentRemove:
           "bg-foreground-strong text-foreground-inverse outline-2 outline-solid outline-layer-panel",
       },

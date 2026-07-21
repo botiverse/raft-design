@@ -2,10 +2,8 @@ import { ChevronLeft, ChevronRight, Paperclip, Send, X } from "lucide-react";
 import { useState } from "react";
 import {
   Lightbox,
-  LightboxActions,
   LightboxClose,
   LightboxContent,
-  LightboxHeader,
   LightboxMedia,
   LightboxNavigationButton,
   LightboxStage,
@@ -36,7 +34,10 @@ const READY_IMAGES = [
 export function ComposerWithLightboxComposition() {
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
   const open = previewIndex !== null;
-  const activeImage = previewIndex === null ? null : READY_IMAGES[previewIndex];
+  // Keep a stable slide while closing — same pattern as the Lightbox docs preview.
+  const currentImage = READY_IMAGES[previewIndex ?? 0];
+  const isFirstImage = previewIndex === 0;
+  const isLastImage = previewIndex === READY_IMAGES.length - 1;
 
   return (
     <>
@@ -88,37 +89,37 @@ export function ComposerWithLightboxComposition() {
           if (!nextOpen) setPreviewIndex(null);
         }}
       >
-        {activeImage ? (
-          <LightboxContent>
-            <LightboxHeader>
-              <LightboxTitle>{activeImage.name}</LightboxTitle>
-              <LightboxActions>
-                <LightboxClose aria-label="Close">
-                  <X />
-                </LightboxClose>
-              </LightboxActions>
-            </LightboxHeader>
-            <LightboxStage>
-              <LightboxNavigationButton
-                direction="previous"
-                disabled={previewIndex === 0}
-                aria-label="Previous image"
-                onClick={() => setPreviewIndex((index) => (index === null ? index : index - 1))}
-              >
-                <ChevronLeft />
-              </LightboxNavigationButton>
-              <LightboxNavigationButton
-                direction="next"
-                disabled={previewIndex === READY_IMAGES.length - 1}
-                aria-label="Next image"
-                onClick={() => setPreviewIndex((index) => (index === null ? index : index + 1))}
-              >
-                <ChevronRight />
-              </LightboxNavigationButton>
-              <LightboxMedia render={<img src={activeImage.src} alt={activeImage.name} />} />
-            </LightboxStage>
-          </LightboxContent>
-        ) : null}
+        <LightboxContent>
+          <LightboxTitle className="sr-only">{currentImage.name}</LightboxTitle>
+          <LightboxClose aria-label="Close">
+            <X />
+          </LightboxClose>
+          <LightboxStage>
+            <LightboxNavigationButton
+              direction="previous"
+              disabled={isFirstImage}
+              aria-label="Previous image"
+              onClick={() =>
+                setPreviewIndex((index) => (index === null ? index : Math.max(0, index - 1)))
+              }
+            >
+              <ChevronLeft />
+            </LightboxNavigationButton>
+            <LightboxNavigationButton
+              direction="next"
+              disabled={isLastImage}
+              aria-label="Next image"
+              onClick={() =>
+                setPreviewIndex((index) =>
+                  index === null ? index : Math.min(READY_IMAGES.length - 1, index + 1),
+                )
+              }
+            >
+              <ChevronRight />
+            </LightboxNavigationButton>
+            <LightboxMedia render={<img src={currentImage.src} alt={currentImage.name} />} />
+          </LightboxStage>
+        </LightboxContent>
       </Lightbox>
     </>
   );
