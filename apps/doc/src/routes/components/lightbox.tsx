@@ -12,21 +12,13 @@ import {
   LightboxMedia,
   LightboxNavigationButton,
   LightboxStage,
+  LightboxThumbnail,
+  LightboxThumbnailStrip,
   LightboxTitle,
   LightboxTrigger,
-  useThemeFamily,
-  type Theme,
 } from "raft-ui";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
-import {
-  useCallback,
-  useEffect,
-  useEffectEvent,
-  useState,
-  type MouseEvent,
-  type ReactNode,
-} from "react";
-import { cn } from "tailwind-variants";
+import { useCallback, useEffect, useEffectEvent, useState, type ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -142,6 +134,9 @@ import { Download, X } from "lucide-react";
           <LightboxInfoActions />
         </LightboxInfoBar>
       </LightboxInfoDock>
+      <LightboxThumbnailStrip>
+        <LightboxThumbnail />
+      </LightboxThumbnailStrip>
     </LightboxStage>
   </LightboxContent>
 </Lightbox>`,
@@ -363,6 +358,29 @@ const INFO_BAR_PROPS: readonly PropRow[] = [
   },
 ];
 
+const THUMBNAIL_STRIP_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description:
+      "Absolute strip that centers LightboxThumbnail controls along the bottom of the stage.",
+  },
+];
+
+const THUMBNAIL_PROPS: readonly PropRow[] = [
+  {
+    name: "active",
+    type: "boolean",
+    description: "Marks the current thumbnail and updates border/overlay chrome.",
+  },
+  {
+    name: "...props",
+    type: "button props",
+    description:
+      "Thumbnail control. Put the preview image in children; selection state stays caller-owned.",
+  },
+];
+
 const TITLE_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -466,6 +484,12 @@ function LightboxDoc() {
           <DocSubsection parentId="api" id="api-info-bar" title="LightboxInfoBar">
             <PropsTable rows={INFO_BAR_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-thumbnail-strip" title="LightboxThumbnailStrip">
+            <PropsTable rows={THUMBNAIL_STRIP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-thumbnail" title="LightboxThumbnail">
+            <PropsTable rows={THUMBNAIL_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-title" title="LightboxTitle">
             <PropsTable rows={TITLE_PROPS} />
           </DocSubsection>
@@ -506,7 +530,6 @@ function LightboxDoc() {
 }
 
 function LightboxPreviewDemo() {
-  const theme = useThemeFamily();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const currentImage = DEMO_IMAGES[imageIndex];
@@ -527,30 +550,6 @@ function LightboxPreviewDemo() {
   const showNextImage = useCallback(() => {
     setImageIndex((current) => Math.min(DEMO_IMAGES.length - 1, current + 1));
   }, []);
-
-  const handlePreviousImageClick = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation();
-      if (isFirstImage) {
-        event.preventDefault();
-        return;
-      }
-      showPreviousImage();
-    },
-    [isFirstImage, showPreviousImage],
-  );
-
-  const handleNextImageClick = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation();
-      if (isLastImage) {
-        event.preventDefault();
-        return;
-      }
-      showNextImage();
-    },
-    [isLastImage, showNextImage],
-  );
 
   const switchImageWithArrowKey = useEffectEvent((event: KeyboardEvent) => {
     if (event.key === "ArrowLeft" && !isFirstImage) {
@@ -580,7 +579,7 @@ function LightboxPreviewDemo() {
             direction="previous"
             disabled={isFirstImage}
             aria-label="Previous image"
-            onClick={handlePreviousImageClick}
+            onClick={showPreviousImage}
           >
             <ChevronLeft />
           </LightboxNavigationButton>
@@ -588,7 +587,7 @@ function LightboxPreviewDemo() {
             direction="next"
             disabled={isLastImage}
             aria-label="Next image"
-            onClick={handleNextImageClick}
+            onClick={showNextImage}
           >
             <ChevronRight />
           </LightboxNavigationButton>
@@ -610,58 +609,21 @@ function LightboxPreviewDemo() {
               </LightboxInfoActions>
             </LightboxInfoBar>
           </LightboxInfoDock>
-          <div className="pointer-events-none absolute right-0 bottom-4 left-0 z-10 flex items-center justify-center gap-1.5">
-            {DEMO_IMAGES.map((image, index) => {
-              const active = index === imageIndex;
-              return (
-                <button
-                  key={image.filename}
-                  type="button"
-                  className={lightboxThumbnailButton({ active, theme })}
-                  aria-label={`Show ${image.filename}`}
-                  onClick={() => setImageIndex(index)}
-                >
-                  <img
-                    src={image.thumb}
-                    alt=""
-                    className="size-full object-cover"
-                    draggable={false}
-                  />
-                  <span className={lightboxThumbnailOverlay({ active, theme })} />
-                </button>
-              );
-            })}
-          </div>
+          <LightboxThumbnailStrip>
+            {DEMO_IMAGES.map((image, index) => (
+              <LightboxThumbnail
+                key={image.filename}
+                active={index === imageIndex}
+                aria-label={`Show ${image.filename}`}
+                onClick={() => setImageIndex(index)}
+              >
+                <img src={image.thumb} alt="" draggable={false} />
+              </LightboxThumbnail>
+            ))}
+          </LightboxThumbnailStrip>
         </LightboxStage>
       </LightboxContent>
     </Lightbox>
-  );
-}
-
-function lightboxThumbnailButton({ active, theme }: { active: boolean; theme: Theme }) {
-  if (theme === "elegant") {
-    return cn(
-      "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden rounded-sm border opacity-100 shadow-none transition-[border-color,opacity,box-shadow] duration-150",
-      active ? "border-white/90" : "border-white/25 hover:border-white/60",
-    );
-  }
-
-  return cn(
-    "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden border-2 transition-[border-color,opacity,box-shadow] duration-150",
-    active
-      ? "border-[3px] border-white shadow-[4px_4px_0_0_black]"
-      : "border-white/70 opacity-70 shadow-[2px_2px_0_0_black] hover:border-white hover:opacity-100 hover:shadow-[3px_3px_0_0_black]",
-  );
-}
-
-function lightboxThumbnailOverlay({ active, theme }: { active: boolean; theme: Theme }) {
-  if (theme !== "elegant") {
-    return "hidden";
-  }
-
-  return cn(
-    "pointer-events-none absolute inset-0 block transition-colors duration-150",
-    active ? "bg-transparent" : "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
   );
 }
 

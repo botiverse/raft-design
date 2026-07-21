@@ -4,6 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import { useCallback, useRef, useState, type ReactNode, type RefObject } from "react";
 import { cn } from "../../lib/cn";
+import type { SlotElementProps } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -61,6 +62,16 @@ const lightbox = tv({
     ],
     infoTitle: ["min-w-0 flex-1 truncate font-heading text-sm font-bold"],
     infoActions: ["flex shrink-0 items-center gap-1.5"],
+    thumbnailStrip: [
+      "pointer-events-none absolute right-0 bottom-4 left-0 z-10",
+      "flex items-center justify-center gap-1.5",
+    ],
+    thumbnail: [
+      "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden",
+      "transition-[border-color,opacity,box-shadow] duration-150",
+      "[&_img]:pointer-events-none [&_img]:size-full [&_img]:object-cover",
+    ],
+    thumbnailOverlay: ["pointer-events-none absolute inset-0 block transition-colors duration-150"],
     close: ["pointer-events-auto"],
   },
   variants: {
@@ -81,6 +92,13 @@ const lightbox = tv({
           "[&_[data-slot=button]_svg]:stroke-2",
         ],
         infoTitle: ["text-xs text-foreground"],
+        thumbnail: [
+          "border-2 border-white/70 opacity-70 shadow-[2px_2px_0_0_black]",
+          "hover:border-white hover:opacity-100 hover:shadow-[3px_3px_0_0_black]",
+          "data-[active]:border-[3px] data-[active]:border-white data-[active]:opacity-100",
+          "data-[active]:shadow-[4px_4px_0_0_black]",
+        ],
+        thumbnailOverlay: ["hidden"],
         close: ["[&_svg]:size-4"],
       },
       elegant: {
@@ -116,6 +134,15 @@ const lightbox = tv({
         ],
         infoTitle: ["font-sans text-xs font-medium text-[oklch(0.269_0_0)]"],
         infoActions: ["gap-1"],
+        thumbnail: [
+          "rounded-sm border opacity-100 shadow-none",
+          "border-white/25 hover:border-white/60",
+          "data-[active]:border-white/90",
+        ],
+        thumbnailOverlay: [
+          "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
+          "group-data-[active]/lightbox-thumb:bg-transparent",
+        ],
       },
     },
   },
@@ -401,7 +428,6 @@ export function LightboxNavigationButton({
 
   const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(
     (event) => {
-      event.stopPropagation();
       if (disabled) {
         event.preventDefault();
         return;
@@ -501,6 +527,67 @@ export function LightboxInfoActions({ render, className, ...props }: LightboxInf
     state: {
       slot: "lightbox-info-actions",
     },
+  });
+}
+
+export type LightboxThumbnailStripProps = useRender.ComponentProps<"div">;
+
+export function LightboxThumbnailStrip({
+  render,
+  className,
+  ...props
+}: LightboxThumbnailStripProps) {
+  const { thumbnailStrip } = lightbox();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: thumbnailStrip({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "lightbox-thumbnail-strip",
+    },
+  });
+}
+
+export type LightboxThumbnailProps = useRender.ComponentProps<"button"> & {
+  active?: boolean;
+};
+
+export function LightboxThumbnail({
+  active = false,
+  className,
+  render,
+  type = "button",
+  children,
+  ...props
+}: LightboxThumbnailProps) {
+  const theme = useThemeFamily();
+  const { thumbnail, thumbnailOverlay } = lightbox({ theme });
+
+  const defaultProps: SlotElementProps<"button"> = {
+    type,
+    "data-slot": "lightbox-thumbnail",
+    "data-active": active ? "true" : undefined,
+    className: thumbnail({ className }),
+    children: (
+      <>
+        {children}
+        <span
+          aria-hidden="true"
+          data-slot="lightbox-thumbnail-overlay"
+          className={thumbnailOverlay()}
+        />
+      </>
+    ),
+  };
+
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: mergeProps<"button">(defaultProps, props),
   });
 }
 
