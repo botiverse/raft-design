@@ -9,6 +9,7 @@ export {
 export type {
   FilePreviewBadgeProps,
   FilePreviewBadgeColor,
+  FilePreviewBadgeType,
   FilePreviewCodeProps,
   FilePreviewDocumentProps,
   FilePreviewFileProps,

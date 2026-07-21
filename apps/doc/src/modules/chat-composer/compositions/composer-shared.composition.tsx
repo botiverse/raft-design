@@ -234,7 +234,10 @@ function AttachmentTile({
           <FilePreviewDocument
             className={state === "uploading" ? "h-[46px] !shadow-none !ring-0" : "h-[46px]"}
           />
-          <FilePreviewBadge className={state === "uploading" ? "!shadow-none" : undefined}>
+          <FilePreviewBadge
+            type="pdf"
+            className={state === "uploading" ? "!shadow-none" : undefined}
+          >
             PDF
           </FilePreviewBadge>
         </FilePreview>

@@ -9,7 +9,7 @@ export function FilePreviewMediaComposition() {
         <FilePreviewMedia>
           <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
         </FilePreviewMedia>
-        <FilePreviewBadge color="emerald">PNG</FilePreviewBadge>
+        <FilePreviewBadge type="png">PNG</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewMedia>
@@ -21,13 +21,13 @@ export function FilePreviewMediaComposition() {
             preload="metadata"
           />
         </FilePreviewMedia>
-        <FilePreviewBadge color="violet">MP4</FilePreviewBadge>
+        <FilePreviewBadge type="mp4">MP4</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewMedia>
           <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
         </FilePreviewMedia>
-        <FilePreviewBadge color="amber">JPG</FilePreviewBadge>
+        <FilePreviewBadge type="jpg">JPG</FilePreviewBadge>
       </FilePreview>
     </div>
   );

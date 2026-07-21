@@ -16,7 +16,9 @@ export const composerDropOverlay = tv({
         dropOverlayIcon: "rounded-none",
       },
       elegant: {
-        dropOverlay: ["rounded-lg border-0 bg-[oklch(0_0_0/0.4)] backdrop-blur-[2px]"],
+        // Match ComposerRoot attachments chrome (`before:-inset-1` + `rounded-xl`).
+        // Overlay is typically a sibling of the root inside a relative wrapper.
+        dropOverlay: ["-inset-1 rounded-xl border-0 bg-[oklch(0_0_0/0.4)]"],
         dropOverlayIcon: "rounded-md",
       },
     },

@@ -63,6 +63,7 @@ import {
   FilePreviewMedia,
   SortableComposerAttachment,
   SortableComposerAttachmentsScroll,
+  type FilePreviewBadgeType,
 } from "raft-ui/wip";
 import {
   Composer,
@@ -93,9 +94,36 @@ type ComposerSendState = { kind: "idle" } | { kind: "sending" } | { kind: "faile
 const ATTACHMENT_UPLOAD_DELAY_MS = 900;
 const MESSAGE_SEND_DELAY_MS = 750;
 
+const FILE_PREVIEW_BADGE_TYPES = new Set<string>([
+  "pdf",
+  "doc",
+  "docx",
+  "txt",
+  "md",
+  "csv",
+  "json",
+  "zip",
+  "html",
+  "code",
+  "img",
+  "png",
+  "jpg",
+  "jpeg",
+  "gif",
+  "webp",
+  "mp4",
+  "mov",
+]);
+
 function filePreviewLabel(name: string) {
   const extension = name.split(".").at(-1);
   return extension ? extension.slice(0, 4).toUpperCase() : "FILE";
+}
+
+function filePreviewBadgeType(name: string): FilePreviewBadgeType | undefined {
+  const extension = name.split(".").at(-1)?.toLowerCase();
+  if (!extension || !FILE_PREVIEW_BADGE_TYPES.has(extension)) return undefined;
+  return extension as FilePreviewBadgeType;
 }
 
 function AutocompleteOption({
@@ -245,6 +273,10 @@ function PlaygroundSeededComposerAttachments({
           {attachments.map((attachment) => {
             const isImage = attachment.mediaType.startsWith("image/");
             const canPreview = isImage && attachment.state.kind === "ready";
+            const badgeType = filePreviewBadgeType(attachment.name);
+            const badgeClassName =
+              attachment.state.kind === "uploading" ? "!shadow-none" : undefined;
+            const badgeLabel = filePreviewLabel(attachment.name);
 
             return (
               <SortableComposerAttachment
@@ -289,13 +321,15 @@ function PlaygroundSeededComposerAttachments({
                               : "h-[46px]"
                           }
                         />
-                        <FilePreviewBadge
-                          className={
-                            attachment.state.kind === "uploading" ? "!shadow-none" : undefined
-                          }
-                        >
-                          {filePreviewLabel(attachment.name)}
-                        </FilePreviewBadge>
+                        {badgeType ? (
+                          <FilePreviewBadge type={badgeType} className={badgeClassName}>
+                            {badgeLabel}
+                          </FilePreviewBadge>
+                        ) : (
+                          <FilePreviewBadge className={badgeClassName}>
+                            {badgeLabel}
+                          </FilePreviewBadge>
+                        )}
                       </FilePreview>
                       <ComposerAttachmentBody>
                         <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>

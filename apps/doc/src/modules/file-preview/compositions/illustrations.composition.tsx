@@ -13,17 +13,17 @@ export function FilePreviewIllustrationsComposition() {
     <div className="flex flex-wrap items-center gap-5">
       <FilePreview>
         <FilePreviewFile />
-        <FilePreviewBadge color="amber">ZIP</FilePreviewBadge>
+        <FilePreviewBadge type="zip">ZIP</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewCode />
-        <FilePreviewBadge color="violet">HTML</FilePreviewBadge>
+        <FilePreviewBadge type="html">HTML</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewMedia>
           <FilePreviewMediaIllustration />
         </FilePreviewMedia>
-        <FilePreviewBadge color="emerald">IMG</FilePreviewBadge>
+        <FilePreviewBadge type="img">IMG</FilePreviewBadge>
       </FilePreview>
     </div>
   );

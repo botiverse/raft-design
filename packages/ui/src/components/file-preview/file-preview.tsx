@@ -184,18 +184,63 @@ export function FilePreviewCode({ children, className, render, ...props }: FileP
   });
 }
 
-export type FilePreviewBadgeProps = useRender.ComponentProps<"span">;
-
 export type FilePreviewBadgeColor = "rose" | "blue" | "amber" | "emerald" | "violet" | "neutral";
+
+/** Semantic file kinds mapped onto `FilePreviewBadgeColor` (not a `tv` variant). */
+export type FilePreviewBadgeType =
+  | "pdf"
+  | "doc"
+  | "docx"
+  | "txt"
+  | "md"
+  | "csv"
+  | "json"
+  | "zip"
+  | "html"
+  | "code"
+  | "img"
+  | "png"
+  | "jpg"
+  | "jpeg"
+  | "gif"
+  | "webp"
+  | "mp4"
+  | "mov";
+
+const FILE_PREVIEW_BADGE_TYPE_COLOR = {
+  pdf: "rose",
+  doc: "blue",
+  docx: "blue",
+  txt: "neutral",
+  md: "neutral",
+  csv: "neutral",
+  json: "neutral",
+  zip: "amber",
+  html: "violet",
+  code: "violet",
+  img: "emerald",
+  png: "emerald",
+  jpg: "emerald",
+  jpeg: "emerald",
+  gif: "emerald",
+  webp: "emerald",
+  mp4: "blue",
+  mov: "blue",
+} as const satisfies Record<FilePreviewBadgeType, FilePreviewBadgeColor>;
+
+export type FilePreviewBadgeProps = useRender.ComponentProps<"span"> &
+  ({ type: FilePreviewBadgeType; color?: never } | { type?: never; color?: FilePreviewBadgeColor });
 
 export function FilePreviewBadge({
   className,
   render,
-  color = "rose",
+  color,
+  type,
   ...props
-}: FilePreviewBadgeProps & { color?: FilePreviewBadgeColor }) {
+}: FilePreviewBadgeProps) {
   const theme = useThemeFamily();
-  const { badge } = filePreview({ theme, badgeColor: color });
+  const badgeColor = type ? FILE_PREVIEW_BADGE_TYPE_COLOR[type] : (color ?? "rose");
+  const { badge } = filePreview({ theme, badgeColor });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "file-preview-badge",
     className: badge({ className }),

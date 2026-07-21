@@ -98,7 +98,7 @@ export const composerAttachment = tv({
         attachmentUploadProgressBar: "rounded-b-md",
         attachmentUploadProgressBarIndicator: "bg-accent-400",
         attachmentUploadingOverlay: "rounded-md bg-white/85 text-foreground",
-        attachmentFailedOverlay: "rounded-md border-0 bg-danger-lighter text-danger-base",
+        attachmentFailedOverlay: "rounded-md border-0 bg-white/85 text-danger-base",
         attachmentRemove:
           "bg-foreground-strong text-foreground-inverse outline-2 outline-solid outline-layer-panel",
       },

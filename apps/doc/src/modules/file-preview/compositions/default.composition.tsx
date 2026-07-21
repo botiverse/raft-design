@@ -15,21 +15,21 @@ export function FilePreviewDefaultComposition() {
     <div className="flex flex-wrap items-center gap-5">
       <FilePreview>
         <FilePreviewDocument />
-        <FilePreviewBadge>PDF</FilePreviewBadge>
+        <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewFile />
-        <FilePreviewBadge color="amber">ZIP</FilePreviewBadge>
+        <FilePreviewBadge type="zip">ZIP</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewCode />
-        <FilePreviewBadge color="violet">HTML</FilePreviewBadge>
+        <FilePreviewBadge type="html">HTML</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewMedia>
           <FilePreviewMediaIllustration />
         </FilePreviewMedia>
-        <FilePreviewBadge color="emerald">IMG</FilePreviewBadge>
+        <FilePreviewBadge type="img">IMG</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewMedia>
@@ -41,7 +41,7 @@ export function FilePreviewDefaultComposition() {
             preload="metadata"
           />
         </FilePreviewMedia>
-        <FilePreviewBadge color="blue">MP4</FilePreviewBadge>
+        <FilePreviewBadge type="mp4">MP4</FilePreviewBadge>
       </FilePreview>
     </div>
   );
