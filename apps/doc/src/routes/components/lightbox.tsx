@@ -14,8 +14,6 @@ import {
   LightboxStage,
   LightboxTitle,
   LightboxTrigger,
-  useThemeFamily,
-  type Theme,
 } from "raft-ui";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
 import {
@@ -26,7 +24,6 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
-import { cn } from "tailwind-variants";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -44,6 +41,7 @@ import attachmentPreviewShellCompositionSource from "#/modules/lightbox/composit
 import { AttachmentPreviewShellComposition } from "#/modules/lightbox/compositions/attachment-preview-shell.composition.tsx";
 import imageLightboxShellCompositionSource from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx?raw";
 import { ImageLightboxShellComposition } from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx";
+import { LightboxThumbnailStrip } from "#/modules/lightbox/lightbox-thumbnail-strip.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -506,7 +504,6 @@ function LightboxDoc() {
 }
 
 function LightboxPreviewDemo() {
-  const theme = useThemeFamily();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const currentImage = DEMO_IMAGES[imageIndex];
@@ -610,58 +607,18 @@ function LightboxPreviewDemo() {
               </LightboxInfoActions>
             </LightboxInfoBar>
           </LightboxInfoDock>
-          <div className="pointer-events-none absolute right-0 bottom-4 left-0 z-10 flex items-center justify-center gap-1.5">
-            {DEMO_IMAGES.map((image, index) => {
-              const active = index === imageIndex;
-              return (
-                <button
-                  key={image.filename}
-                  type="button"
-                  className={lightboxThumbnailButton({ active, theme })}
-                  aria-label={`Show ${image.filename}`}
-                  onClick={() => setImageIndex(index)}
-                >
-                  <img
-                    src={image.thumb}
-                    alt=""
-                    className="size-full object-cover"
-                    draggable={false}
-                  />
-                  <span className={lightboxThumbnailOverlay({ active, theme })} />
-                </button>
-              );
-            })}
-          </div>
+          <LightboxThumbnailStrip
+            images={DEMO_IMAGES.map((image) => ({
+              name: image.filename,
+              src: image.src,
+              thumb: image.thumb,
+            }))}
+            activeIndex={imageIndex}
+            onSelect={setImageIndex}
+          />
         </LightboxStage>
       </LightboxContent>
     </Lightbox>
-  );
-}
-
-function lightboxThumbnailButton({ active, theme }: { active: boolean; theme: Theme }) {
-  if (theme === "elegant") {
-    return cn(
-      "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden rounded-sm border opacity-100 shadow-none transition-[border-color,opacity,box-shadow] duration-150",
-      active ? "border-white/90" : "border-white/25 hover:border-white/60",
-    );
-  }
-
-  return cn(
-    "group/lightbox-thumb pointer-events-auto relative size-12 overflow-hidden border-2 transition-[border-color,opacity,box-shadow] duration-150",
-    active
-      ? "border-[3px] border-white shadow-[4px_4px_0_0_black]"
-      : "border-white/70 opacity-70 shadow-[2px_2px_0_0_black] hover:border-white hover:opacity-100 hover:shadow-[3px_3px_0_0_black]",
-  );
-}
-
-function lightboxThumbnailOverlay({ active, theme }: { active: boolean; theme: Theme }) {
-  if (theme !== "elegant") {
-    return "hidden";
-  }
-
-  return cn(
-    "pointer-events-none absolute inset-0 block transition-colors duration-150",
-    active ? "bg-transparent" : "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
   );
 }
 
