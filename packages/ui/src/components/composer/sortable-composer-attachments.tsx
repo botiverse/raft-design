@@ -9,7 +9,6 @@ import {
   useSensor,
   useSensors,
   type CollisionDetection,
-  type DragEndEvent,
   type DragOverEvent,
   type DragStartEvent,
   type Modifier,
@@ -18,7 +17,6 @@ import {
   arrayMove,
   defaultAnimateLayoutChanges,
   horizontalListSortingStrategy,
-  rectSortingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
@@ -59,6 +57,14 @@ const SORTABLE_TRANSITION = {
   duration: 160,
   easing: "cubic-bezier(0.25, 1, 0.5, 1)",
 } as const;
+
+/**
+ * Mixed-width flex-wrap cannot be predicted by rectSortingStrategy. Preview
+ * position by live DOM reorder on dragOver instead; strategy returns null so
+ * siblings are not shifted by incorrect transforms on top of that reflow.
+ * @see https://github.com/clauderic/dnd-kit/issues/44
+ */
+const liveReorderStrategy: SortingStrategy = () => null;
 
 const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
   ...transform,
@@ -131,9 +137,11 @@ function SortableComposerAttachmentsRoot({
   strategy: SortingStrategy;
 }) {
   const dndContextId = useId();
+  const listRef = useRef<HTMLDivElement>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [draftIds, setDraftIds] = useState<string[]>([]);
   const [overlay, setOverlay] = useState<ReactNode>(null);
+  const [listMinHeight, setListMinHeight] = useState<number | undefined>();
   const overlaysRef = useRef(new Map<string, ReactNode>());
   const draftIdsRef = useRef(draftIds);
   draftIdsRef.current = draftIds;
@@ -160,28 +168,37 @@ function SortableComposerAttachmentsRoot({
   );
 
   const itemIds = useMemo(() => items.map(String), [items]);
+  const horizontal = axis === "x";
+  // Live draft order drives the DOM during drag so the opacity-0 slot tracks the
+  // drop index. Wrap uses liveReorderStrategy (null); horizontal keeps its strategy.
   const displayIds = activeId !== null ? draftIds : itemIds;
   const orderedChildren = useMemo(
     () => orderChildrenByIds(children, displayIds),
     [children, displayIds],
   );
 
-  const horizontal = axis === "x";
-  // Scroll: participate in ComposerAttachmentsScrollArea viewport flex.
-  // Wrap: own the flex row so DnD a11y nodes are not flex siblings of tiles.
   const listClassName = horizontal
     ? "contents"
-    : "flex w-full min-w-0 flex-wrap items-start gap-2 py-1.5";
+    : // content-start: default align-content:stretch expands row gaps when the
+      // list is taller than its lines (e.g. minHeight locked while packing to fewer rows).
+      "flex w-full min-w-0 flex-wrap content-start items-start gap-2 py-1.5";
 
-  const handleDragStart = useCallback(({ active }: DragStartEvent) => {
-    const id = String(active.id);
-    const nextDraft = itemsRef.current.map(String);
-    draftIdsRef.current = nextDraft;
-    lastReorderPointerRef.current = null;
-    setDraftIds(nextDraft);
-    setActiveId(id);
-    setOverlay(overlaysRef.current.get(id) ?? null);
-  }, []);
+  const handleDragStart = useCallback(
+    ({ active }: DragStartEvent) => {
+      const id = String(active.id);
+      lastReorderPointerRef.current = null;
+      const nextDraft = itemsRef.current.map(String);
+      draftIdsRef.current = nextDraft;
+      setDraftIds(nextDraft);
+      // Lock wrap height so packing reflow cannot collapse the shell mid-drag.
+      if (!horizontal && listRef.current) {
+        setListMinHeight(listRef.current.getBoundingClientRect().height);
+      }
+      setActiveId(id);
+      setOverlay(overlaysRef.current.get(id) ?? null);
+    },
+    [horizontal],
+  );
 
   const handleDragOver = useCallback(({ active, over, activatorEvent, delta }: DragOverEvent) => {
     if (!over || active.id === over.id) return;
@@ -207,19 +224,17 @@ function SortableComposerAttachmentsRoot({
     setActiveId(null);
     setDraftIds([]);
     setOverlay(null);
+    setListMinHeight(undefined);
   }, []);
 
   const handleDragCancel = useCallback(() => {
     clearDrag();
   }, [clearDrag]);
 
-  const handleDragEnd = useCallback(
-    (_event: DragEndEvent) => {
-      onReorder(draftIdsRef.current);
-      clearDrag();
-    },
-    [clearDrag, onReorder],
-  );
+  const handleDragEnd = useCallback(() => {
+    onReorder(draftIdsRef.current);
+    clearDrag();
+  }, [clearDrag, onReorder]);
 
   const modifiers = horizontal ? [restrictToHorizontalAxis] : undefined;
 
@@ -243,7 +258,12 @@ function SortableComposerAttachmentsRoot({
       onDragEnd={handleDragEnd}
     >
       <OverlayRegistryContext.Provider value={registry}>
-        <div data-slot="sortable-composer-attachments-list" className={listClassName}>
+        <div
+          ref={listRef}
+          data-slot="sortable-composer-attachments-list"
+          className={listClassName}
+          style={listMinHeight != null ? { minHeight: listMinHeight } : undefined}
+        >
           <SortableContext items={displayIds} strategy={strategy}>
             {orderedChildren}
           </SortableContext>
@@ -260,7 +280,7 @@ function SortableComposerAttachmentsRoot({
 
 /** Wrap / flex-pack attachment reorder (mixed widths). */
 export function SortableComposerAttachments(props: SortableComposerAttachmentsProps) {
-  return <SortableComposerAttachmentsRoot {...props} axis="xy" strategy={rectSortingStrategy} />;
+  return <SortableComposerAttachmentsRoot {...props} axis="xy" strategy={liveReorderStrategy} />;
 }
 
 /** Horizontal scroll strip reorder — wraps `ComposerAttachmentsScrollArea`. */
@@ -284,9 +304,8 @@ export type SortableComposerAttachmentProps = {
 
 /**
  * Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the
- * pointer ghost. Live draft arrayMove disables strategy transforms; FLIP via
- * animateLayoutChanges eases siblings into their new flex slots. Parent
- * `onReorder` commits once on drag end.
+ * pointer ghost. Live draft reorder moves this slot to the drop index; wrap
+ * skips strategy transforms so siblings FLIP via layout instead of wrong gaps.
  */
 export function SortableComposerAttachment({
   id,
@@ -304,8 +323,9 @@ export function SortableComposerAttachment({
   // Keep Base UI / consumer controls as the interactive roles (e.g. remove button).
   const { role: _sortableRole, tabIndex: _sortableTabIndex, ...sortableAttributes } = attributes;
   const style: CSSProperties = {
-    transform: CSS.Translate.toString(transform),
-    transition,
+    // DragOverlay owns the pointer ghost; keep the opacity-0 slot in flow.
+    transform: isDragging ? undefined : CSS.Translate.toString(transform),
+    transition: isDragging ? undefined : transition,
     opacity: isDragging ? 0 : undefined,
     zIndex: isDragging ? 0 : undefined,
   };
