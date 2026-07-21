@@ -17,7 +17,7 @@ export const composerAttachment = tv({
       "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
       "[&_[data-slot=composer-attachment]]:shrink-0",
     ],
-    attachmentsNav: ["absolute top-1/2 z-30 -translate-y-1/2", "disabled:opacity-100"],
+    attachmentsNav: ["absolute top-1/2 z-30 -translate-y-1/2"],
     attachment: ["group/composer-attachment relative"],
     attachmentFile: [
       "relative flex h-16 w-44 gap-2 border-2 px-2",
@@ -75,7 +75,7 @@ export const composerAttachment = tv({
           "has-[[data-slot=composer-attachment-image]]:[&_[data-slot=composer-attachment-failed-overlay]]:border-0",
         ],
         attachmentFile: "items-center border-black bg-white [&_svg]:text-black/70",
-        attachmentImage: "size-full overflow-hidden image-transparency-bg",
+        attachmentImage: "size-full image-transparency-bg",
         attachmentBody: "flex h-[46px] flex-col justify-between",
         attachmentTitle: "mt-1 leading-none text-black",
         attachmentMeta: "leading-none text-black/50",
