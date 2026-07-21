@@ -9,7 +9,9 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import {
   ComposerAttachmentLimitComposition,
   ComposerAttachmentStatesComposition,
+  ComposerAttachmentsReorderComposition,
   ComposerAttachmentsScrollComposition,
+  ComposerAttachmentsScrollReorderComposition,
   ComposerCompactComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
@@ -18,7 +20,9 @@ import {
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
 import composerAttachmentLimitSource from "#/modules/chat-composer/compositions/composer-attachment-limit.composition.tsx?raw";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
+import composerAttachmentsReorderSource from "#/modules/chat-composer/compositions/composer-attachments-reorder.composition.tsx?raw";
 import composerAttachmentsScrollSource from "#/modules/chat-composer/compositions/composer-attachments-scroll.composition.tsx?raw";
+import composerAttachmentsScrollReorderSource from "#/modules/chat-composer/compositions/composer-attachments-scroll-reorder.composition.tsx?raw";
 import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
@@ -87,7 +91,9 @@ const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   attachmentLimit: composerAttachmentLimitSource,
   attachmentStates: composerAttachmentStatesSource,
+  attachmentsReorder: composerAttachmentsReorderSource,
   attachmentsScroll: composerAttachmentsScrollSource,
+  attachmentsScrollReorder: composerAttachmentsScrollReorderSource,
   compact: composerCompactSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
@@ -379,6 +385,47 @@ function ChatComposerDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.attachmentsScroll} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="attachments-reorder"
+            title="Reorder attachments (wrap)"
+          >
+            <DocNote>
+              Attachment order is consumer-owned. Mixed image/file widths need live array reorder on{" "}
+              <code>onDragOver</code> (plus a <code>DragOverlay</code>) so flex packs the strip;
+              transform-only sibling shifts leave the wrong gap.
+            </DocNote>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentsReorderComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentsReorder} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="attachments-scroll-reorder"
+            title="Reorder attachments (scroll)"
+          >
+            <DocNote>
+              Same live <code>onDragOver</code> reorder inside{" "}
+              <code>ComposerAttachmentsScrollArea</code>. Keep a sized placeholder under the{" "}
+              <code>DragOverlay</code>, lock the axis to horizontal, and enable x-only autoscroll so
+              mixed-width chips pack correctly without scrolling the page.
+            </DocNote>
+            <Preview previewClassName="min-h-[22rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[22rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerAttachmentsScrollReorderComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.attachmentsScrollReorder} />
             </Preview>
           </DocSubsection>
 
