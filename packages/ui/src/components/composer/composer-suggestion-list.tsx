@@ -6,14 +6,10 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerSuggestionList = tv({
   slots: {
-    root: "absolute inset-x-0 bottom-full max-h-48 w-auto overflow-y-auto",
+    root: "absolute inset-x-0 bottom-full w-auto overflow-y-auto",
     group: [],
-    groupLabel: ["px-3 py-1.5", "text-xs"],
-    item: [
-      "flex w-full items-center gap-2 px-3 py-2 text-left",
-      "text-sm transition-colors",
-      "cursor-pointer data-[disabled=true]:cursor-not-allowed",
-    ],
+    groupLabel: ["px-3 py-1.5"],
+    item: ["flex w-full items-center gap-2 px-3 py-2 text-left"],
     content: [
       "flex min-w-0 flex-1 items-center gap-1.5 text-left",
       "[&>[data-slot=composer-suggestion-title]]:min-w-0",
@@ -21,19 +17,21 @@ const composerSuggestionList = tv({
     icon: ["shrink-0"],
     title: ["truncate"],
     aside: ["ml-auto flex shrink-0 items-center"],
-    meta: ["text-xs"],
+    meta: [],
   },
   variants: {
     theme: {
       brutal: {
-        root: "mb-2 border-2 border-black bg-white shadow-brutal",
-        groupLabel: "font-bold tracking-widest uppercase text-black/60",
+        root: "mb-2 max-h-48 border-2 border-black bg-white shadow-brutal",
+        groupLabel: "text-xs font-bold tracking-widest uppercase text-black/60",
         item: [
-          "font-medium text-black data-[highlighted=true]:bg-soft-signal data-[highlighted=true]:font-bold",
+          "cursor-pointer text-sm font-medium text-black transition-colors",
+          "data-[disabled=true]:cursor-not-allowed",
+          "data-[highlighted=true]:bg-soft-signal data-[highlighted=true]:font-bold",
           "hover:bg-soft-signal/50",
           "data-[disabled=true]:text-black/50 data-[disabled=true]:hover:bg-black/5",
         ],
-        meta: "text-black/50",
+        meta: "text-xs text-black/50",
       },
       elegant: {
         root: [
@@ -52,11 +50,11 @@ const composerSuggestionList = tv({
           "data-[highlighted=true]:bg-ink-4 data-[highlighted=true]:text-foreground-strong",
           "data-[disabled=true]:pointer-events-none data-[disabled=true]:text-foreground-disabled",
         ],
-        meta: "text-foreground-placeholder",
+        meta: "text-xs text-foreground-placeholder",
       },
     },
     separated: {
-      true: {},
+      true: { group: "mt-1 pt-1" },
       false: {},
     },
     iconVariant: {
@@ -70,16 +68,6 @@ const composerSuggestionList = tv({
     },
   },
   compoundVariants: [
-    {
-      theme: "brutal",
-      separated: true,
-      class: { group: "mt-1 pt-1" },
-    },
-    {
-      theme: "elegant",
-      separated: true,
-      class: { group: "mt-1 pt-1" },
-    },
     {
       theme: "brutal",
       iconVariant: "framed",
