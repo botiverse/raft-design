@@ -13,7 +13,7 @@ export const composerDropOverlay = tv({
   variants: {
     theme: {
       brutal: {
-        dropOverlay: "border-dashed border-black bg-[oklch(0_0_0/0.4)]",
+        dropOverlay: "border-dashed border-black bg-[oklch(0_0_0/0.65)]",
         dropOverlayLabel: "text-sm",
         dropOverlayIconCluster: "h-9 w-18",
         dropOverlayIcon: ["rounded-none p-1.5", "[&_svg]:size-3.5"],
