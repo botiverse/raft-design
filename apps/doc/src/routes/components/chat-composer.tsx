@@ -12,9 +12,10 @@ import {
   ComposerAttachmentsReorderComposition,
   ComposerAttachmentsScrollComposition,
   ComposerAttachmentsScrollReorderComposition,
-  ComposerCompactComposition,
   ComposerDefaultComposition,
   ComposerDropOverlayComposition,
+  ComposerFooterAddComposition,
+  ComposerFooterNoticeComposition,
   ComposerWithLightboxComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
@@ -23,9 +24,10 @@ import composerAttachmentStatesSource from "#/modules/chat-composer/compositions
 import composerAttachmentsReorderSource from "#/modules/chat-composer/compositions/composer-attachments-reorder.composition.tsx?raw";
 import composerAttachmentsScrollSource from "#/modules/chat-composer/compositions/composer-attachments-scroll.composition.tsx?raw";
 import composerAttachmentsScrollReorderSource from "#/modules/chat-composer/compositions/composer-attachments-scroll-reorder.composition.tsx?raw";
-import composerCompactSource from "#/modules/chat-composer/compositions/composer-compact-reply.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
+import composerFooterAddSource from "#/modules/chat-composer/compositions/composer-footer-add.composition.tsx?raw";
+import composerFooterNoticeSource from "#/modules/chat-composer/compositions/composer-footer-notice.composition.tsx?raw";
 import composerWithLightboxSource from "#/modules/chat-composer/compositions/composer-with-lightbox.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -98,9 +100,10 @@ const SNIPPETS = {
   attachmentsReorder: composerAttachmentsReorderSource,
   attachmentsScroll: composerAttachmentsScrollSource,
   attachmentsScrollReorder: composerAttachmentsScrollReorderSource,
-  compact: composerCompactSource,
   composition: composerCompositionSource,
   dropOverlay: composerDropOverlaySource,
+  footerAdd: composerFooterAddSource,
+  footerNotice: composerFooterNoticeSource,
   withLightbox: composerWithLightboxSource,
 } as const;
 
@@ -204,7 +207,8 @@ const SORTABLE_COMPOSER_ATTACHMENTS_PROPS: readonly PropRow[] = [
   {
     name: "onReorder",
     type: "(items: string[]) => void",
-    description: "Fires on drag-over with the live-reordered id list (mixed-width flex packing).",
+    description:
+      "Commits the reordered id list on drag end. Live draft order is kept inside the sortable while dragging.",
   },
   {
     name: "children",
@@ -503,19 +507,26 @@ function ChatComposerDoc() {
             </Preview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="compact-composer" title="Compact composer">
+          <DocSubsection parentId="usage" id="custom-toolbar" title="Custom toolbar">
             <DocNote>
-              Compact consumers omit attachment actions and use only a shorter input, status, and
-              submit. Use this shape for a comment or note; thread replies use the full composer
-              with attachments.
+              Toolbar slots are consumer-owned. Replace the left actions with policy copy when send
+              is blocked, or with a single custom affordance while keeping submit on the right.
             </DocNote>
-            <Preview previewClassName="items-stretch">
+            <Preview previewClassName="items-center">
               <Preview.Canvas>
                 <div className="w-full min-w-0">
-                  <ComposerCompactComposition />
+                  <ComposerFooterNoticeComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.compact} />
+              <Preview.Code html={code.footerNotice} />
+            </Preview>
+            <Preview previewClassName="items-center">
+              <Preview.Canvas>
+                <div className="w-full min-w-0">
+                  <ComposerFooterAddComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.footerAdd} />
             </Preview>
           </DocSubsection>
         </div>

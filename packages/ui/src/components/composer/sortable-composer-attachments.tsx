@@ -5,8 +5,10 @@ import {
   KeyboardSensor,
   PointerSensor,
   TouchSensor,
+  pointerWithin,
   useSensor,
   useSensors,
+  type CollisionDetection,
   type DragEndEvent,
   type DragOverEvent,
   type DragStartEvent,
@@ -24,15 +26,17 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
+  Children,
   createContext,
+  isValidElement,
   use,
   useCallback,
-  useEffect,
   useId,
   useMemo,
   useRef,
   useState,
   type CSSProperties,
+  type ReactElement,
   type ReactNode,
 } from "react";
 import { ComposerAttachmentsScrollArea } from "./composer-attachments-scroll-area";
@@ -47,7 +51,6 @@ type SortableAttachmentsAxis = "x" | "xy";
 
 type OverlayRegistry = {
   register: (id: string, node: ReactNode) => void;
-  unregister: (id: string) => void;
 };
 
 const OverlayRegistryContext = createContext<OverlayRegistry | null>(null);
@@ -62,6 +65,17 @@ const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
   y: 0,
 });
 
+/**
+ * Prefer pointer hits; if the active droppable is still under the pointer /
+ * closest center, keep it so layout reflow alone cannot claim a neighbor.
+ */
+const sortableCollisionDetection: CollisionDetection = (args) => {
+  const pointerCollisions = pointerWithin(args);
+  const collisions = pointerCollisions.length > 0 ? pointerCollisions : closestCenter(args);
+  const self = collisions.find((collision) => collision.id === args.active.id);
+  return self ? [self] : collisions;
+};
+
 function reorderItems(
   items: readonly string[],
   activeId: string | number,
@@ -71,6 +85,39 @@ function reorderItems(
   const newIndex = items.indexOf(String(overId));
   if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return null;
   return arrayMove([...items], oldIndex, newIndex);
+}
+
+function pointerFromDragEvent(event: Pick<DragOverEvent, "activatorEvent" | "delta">) {
+  const { activatorEvent, delta } = event;
+  if (
+    !activatorEvent ||
+    !("clientX" in activatorEvent) ||
+    !("clientY" in activatorEvent) ||
+    typeof activatorEvent.clientX !== "number" ||
+    typeof activatorEvent.clientY !== "number"
+  ) {
+    return null;
+  }
+  return {
+    x: activatorEvent.clientX + delta.x,
+    y: activatorEvent.clientY + delta.y,
+  };
+}
+
+function samePointer(a: { x: number; y: number }, b: { x: number; y: number }, tolerance = 0.5) {
+  return Math.abs(a.x - b.x) <= tolerance && Math.abs(a.y - b.y) <= tolerance;
+}
+
+function orderChildrenByIds(children: ReactNode, ids: readonly string[]) {
+  const byId = new Map<string, ReactElement>();
+  Children.forEach(children, (child) => {
+    if (!isValidElement<{ id?: string }>(child) || child.props.id == null) return;
+    byId.set(String(child.props.id), child);
+  });
+  return ids.flatMap((id) => {
+    const child = byId.get(id);
+    return child ? [child] : [];
+  });
 }
 
 function SortableComposerAttachmentsRoot({
@@ -85,29 +132,40 @@ function SortableComposerAttachmentsRoot({
 }) {
   const dndContextId = useId();
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [draftIds, setDraftIds] = useState<string[]>([]);
   const [overlay, setOverlay] = useState<ReactNode>(null);
   const overlaysRef = useRef(new Map<string, ReactNode>());
+  const draftIdsRef = useRef(draftIds);
+  draftIdsRef.current = draftIds;
   const itemsRef = useRef(items);
   itemsRef.current = items;
+  // Ignore collision flips caused by our own layout update while the pointer is still.
+  const lastReorderPointerRef = useRef<{ x: number; y: number } | null>(null);
+
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 350, tolerance: 8 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
+  // Rebuild overlay nodes each render; tiles register during render (no effect).
+  overlaysRef.current = new Map();
   const registry = useMemo<OverlayRegistry>(
     () => ({
       register: (id, node) => {
         overlaysRef.current.set(id, node);
-      },
-      unregister: (id) => {
-        overlaysRef.current.delete(id);
       },
     }),
     [],
   );
 
   const itemIds = useMemo(() => items.map(String), [items]);
+  const displayIds = activeId !== null ? draftIds : itemIds;
+  const orderedChildren = useMemo(
+    () => orderChildrenByIds(children, displayIds),
+    [children, displayIds],
+  );
+
   const horizontal = axis === "x";
   // Scroll: participate in ComposerAttachmentsScrollArea viewport flex.
   // Wrap: own the flex row so DnD a11y nodes are not flex siblings of tiles.
@@ -117,29 +175,50 @@ function SortableComposerAttachmentsRoot({
 
   const handleDragStart = useCallback(({ active }: DragStartEvent) => {
     const id = String(active.id);
+    const nextDraft = itemsRef.current.map(String);
+    draftIdsRef.current = nextDraft;
+    lastReorderPointerRef.current = null;
+    setDraftIds(nextDraft);
     setActiveId(id);
     setOverlay(overlaysRef.current.get(id) ?? null);
   }, []);
 
-  const handleDragOver = useCallback(
-    ({ active, over }: DragOverEvent) => {
-      if (!over || active.id === over.id) return;
-      const next = reorderItems(itemsRef.current, active.id, over.id);
-      if (next) onReorder(next);
-    },
-    [onReorder],
-  );
+  const handleDragOver = useCallback(({ active, over, activatorEvent, delta }: DragOverEvent) => {
+    if (!over || active.id === over.id) return;
+    const next = reorderItems(draftIdsRef.current, active.id, over.id);
+    if (!next) return;
+
+    const pointer = pointerFromDragEvent({ activatorEvent, delta });
+    if (
+      pointer &&
+      lastReorderPointerRef.current &&
+      samePointer(pointer, lastReorderPointerRef.current)
+    ) {
+      return;
+    }
+    if (pointer) lastReorderPointerRef.current = pointer;
+
+    draftIdsRef.current = next;
+    setDraftIds(next);
+  }, []);
 
   const clearDrag = useCallback(() => {
+    lastReorderPointerRef.current = null;
     setActiveId(null);
+    setDraftIds([]);
     setOverlay(null);
   }, []);
 
+  const handleDragCancel = useCallback(() => {
+    clearDrag();
+  }, [clearDrag]);
+
   const handleDragEnd = useCallback(
     (_event: DragEndEvent) => {
+      onReorder(draftIdsRef.current);
       clearDrag();
     },
-    [clearDrag],
+    [clearDrag, onReorder],
   );
 
   const modifiers = horizontal ? [restrictToHorizontalAxis] : undefined;
@@ -148,7 +227,7 @@ function SortableComposerAttachmentsRoot({
     <DndContext
       id={dndContextId}
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={sortableCollisionDetection}
       modifiers={modifiers}
       autoScroll={
         horizontal
@@ -160,13 +239,13 @@ function SortableComposerAttachmentsRoot({
       }
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
-      onDragCancel={clearDrag}
+      onDragCancel={handleDragCancel}
       onDragEnd={handleDragEnd}
     >
       <OverlayRegistryContext.Provider value={registry}>
         <div data-slot="sortable-composer-attachments-list" className={listClassName}>
-          <SortableContext items={itemIds} strategy={strategy}>
-            {children}
+          <SortableContext items={displayIds} strategy={strategy}>
+            {orderedChildren}
           </SortableContext>
         </div>
       </OverlayRegistryContext.Provider>
@@ -205,8 +284,9 @@ export type SortableComposerAttachmentProps = {
 
 /**
  * Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the
- * pointer ghost. Live arrayMove disables strategy transforms; FLIP via
- * animateLayoutChanges eases siblings into their new flex slots.
+ * pointer ghost. Live draft arrayMove disables strategy transforms; FLIP via
+ * animateLayoutChanges eases siblings into their new flex slots. Parent
+ * `onReorder` commits once on drag end.
  */
 export function SortableComposerAttachment({
   id,
@@ -214,13 +294,7 @@ export function SortableComposerAttachment({
   children,
 }: SortableComposerAttachmentProps) {
   const registry = use(OverlayRegistryContext);
-  const childrenRef = useRef(children);
-  childrenRef.current = children;
-
-  useEffect(() => {
-    registry?.register(id, childrenRef.current);
-    return () => registry?.unregister(id);
-  }, [children, id, registry]);
+  registry?.register(id, children);
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
