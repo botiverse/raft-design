@@ -7,7 +7,7 @@ import {
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 export function ComposerDropOverlayComposition() {

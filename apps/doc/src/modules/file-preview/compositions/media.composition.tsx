@@ -1,4 +1,4 @@
-import { FilePreview, FilePreviewBadge, FilePreviewMedia } from "raft-ui/wip";
+import { FilePreview, FilePreviewBadge, FilePreviewMedia } from "raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 

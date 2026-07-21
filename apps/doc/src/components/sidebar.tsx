@@ -84,12 +84,12 @@ const NAV = [
       {
         label: "Composer",
         to: "/components/chat-composer",
-        status: "wip",
+        status: "done",
         children: [
           {
             label: "ComposerSuggestions",
             to: "/components/composer-suggestions",
-            status: "wip",
+            status: "done",
           },
         ],
       },
@@ -244,7 +244,7 @@ const NAV = [
     title: "Data Display",
     items: [
       { label: "Avatar", to: "/components/avatar", status: "done" },
-      { label: "FilePreview", to: "/components/file-preview", status: "wip" },
+      { label: "FilePreview", to: "/components/file-preview", status: "done" },
       {
         label: "DescriptionList",
         to: "/components/description-list",

@@ -93,6 +93,7 @@ export const composerAttachment = tv({
           "ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
           "[&>[data-slot=file-preview]]:self-center [&>[data-slot=file-preview]]:-translate-y-[3px]",
         ],
+        attachmentImage: "rounded-md ring-1 ring-ink-10",
         attachmentTitle: "translate-y-0.5 font-medium text-foreground-strong",
         attachmentMeta: "absolute right-2.5 bottom-1.5 text-foreground-placeholder",
         attachmentUploadProgressBar: "rounded-b-md",

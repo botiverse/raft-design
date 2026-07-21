@@ -8,8 +8,6 @@ import {
   LightboxNavigationButton,
   LightboxStage,
   LightboxTitle,
-} from "raft-ui";
-import {
   ComposerActions,
   ComposerAttachment,
   ComposerAttachmentImage,
@@ -21,7 +19,7 @@ import {
   ComposerSubmit,
   FilePreview,
   FilePreviewMedia,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";

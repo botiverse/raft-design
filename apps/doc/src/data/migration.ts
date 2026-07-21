@@ -2100,7 +2100,7 @@ export const MIGRATION_GUIDES = [
         refs: ["1550,1787"],
         docsHref: "/components/chat-composer#source-comparison",
         migration: [
-          "Composer shell, toolbar, attachments, and drop overlay -> `Composer*` parts from `raft-ui/wip`.",
+          "Composer shell, toolbar, attachments, and drop overlay -> `Composer*` parts from `raft-ui`.",
           "Keep upload lifecycle, mention policy, and submit gating in the app layer.",
           "Mention autocomplete -> `ComposerSuggestions` / `useComposerSuggestions`.",
         ],

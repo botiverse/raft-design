@@ -1,6 +1,10 @@
 import { Hash, UserX } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Badge, Status } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Status,
   ComposerSuggestionAside,
   ComposerSuggestionContent,
   ComposerSuggestionGroup,
@@ -10,7 +14,7 @@ import {
   ComposerSuggestionOption,
   ComposerSuggestionTitle,
   useComposerSuggestions,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { ComposerSuggestionList } from "#/modules/chat-composer/composer-responsive.tsx";
 
 import { isPersonSuggestion } from "./composer-suggestions.data.ts";

@@ -28,8 +28,6 @@ import {
   ThreadPanelFooter,
   Spinner,
   Status,
-} from "raft-ui";
-import {
   ComposerActions,
   ComposerAttachment,
   ComposerAttachmentBody,
@@ -64,7 +62,7 @@ import {
   SortableComposerAttachment,
   SortableComposerAttachmentsScroll,
   type FilePreviewBadgeType,
-} from "raft-ui/wip";
+} from "raft-ui";
 import {
   Composer,
   ComposerInput,

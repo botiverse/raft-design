@@ -11,7 +11,7 @@ import {
   FilePreviewBadge,
   FilePreviewDocument,
   FilePreviewMedia,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 

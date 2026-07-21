@@ -1,4 +1,4 @@
-import { FilePreview, FilePreviewBadge, FilePreviewDocument } from "raft-ui/wip";
+import { FilePreview, FilePreviewBadge, FilePreviewDocument } from "raft-ui";
 
 export function FilePreviewFormatsComposition() {
   return (
