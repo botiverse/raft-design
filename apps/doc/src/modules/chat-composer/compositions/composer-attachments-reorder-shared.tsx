@@ -1,5 +1,12 @@
 import { DragOverlay, type Modifier } from "@dnd-kit/core";
-import { arrayMove, SortableContext, useSortable, type SortingStrategy } from "@dnd-kit/sortable";
+import {
+  arrayMove,
+  defaultAnimateLayoutChanges,
+  SortableContext,
+  useSortable,
+  type SortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { X } from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
 import {
@@ -66,9 +73,15 @@ export function reorderAttachmentsOnDragOver(
   return arrayMove(items, oldIndex, newIndex);
 }
 
+const SORTABLE_TRANSITION = {
+  duration: 160,
+  easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+} as const;
+
 /**
  * Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the
- * pointer ghost. No dnd-kit transform — DOM order owns layout.
+ * pointer ghost. Live arrayMove disables strategy transforms; FLIP via
+ * animateLayoutChanges eases siblings into their new flex slots.
  */
 export function SortableComposerAttachment({
   id,
@@ -79,11 +92,15 @@ export function SortableComposerAttachment({
   label: string;
   children: ReactNode;
 }) {
-  const { attributes, listeners, setNodeRef, isDragging } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
-    animateLayoutChanges: () => false,
+    animateLayoutChanges: defaultAnimateLayoutChanges,
+    transition: SORTABLE_TRANSITION,
   });
   const style: CSSProperties = {
+    // Translate only — avoid scale from mixed-width rect ratios.
+    transform: CSS.Translate.toString(transform),
+    transition,
     opacity: isDragging ? 0 : undefined,
     zIndex: isDragging ? 0 : undefined,
   };
