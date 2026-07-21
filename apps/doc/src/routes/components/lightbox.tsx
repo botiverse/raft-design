@@ -12,18 +12,13 @@ import {
   LightboxMedia,
   LightboxNavigationButton,
   LightboxStage,
+  LightboxThumbnail,
+  LightboxThumbnailStrip,
   LightboxTitle,
   LightboxTrigger,
 } from "raft-ui";
 import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
-import {
-  useCallback,
-  useEffect,
-  useEffectEvent,
-  useState,
-  type MouseEvent,
-  type ReactNode,
-} from "react";
+import { useCallback, useEffect, useEffectEvent, useState, type ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -41,7 +36,6 @@ import attachmentPreviewShellCompositionSource from "#/modules/lightbox/composit
 import { AttachmentPreviewShellComposition } from "#/modules/lightbox/compositions/attachment-preview-shell.composition.tsx";
 import imageLightboxShellCompositionSource from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx?raw";
 import { ImageLightboxShellComposition } from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx";
-import { LightboxThumbnailStrip } from "#/modules/lightbox/lightbox-thumbnail-strip.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -140,6 +134,9 @@ import { Download, X } from "lucide-react";
           <LightboxInfoActions />
         </LightboxInfoBar>
       </LightboxInfoDock>
+      <LightboxThumbnailStrip>
+        <LightboxThumbnail />
+      </LightboxThumbnailStrip>
     </LightboxStage>
   </LightboxContent>
 </Lightbox>`,
@@ -361,6 +358,29 @@ const INFO_BAR_PROPS: readonly PropRow[] = [
   },
 ];
 
+const THUMBNAIL_STRIP_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description:
+      "Absolute strip that centers LightboxThumbnail controls along the bottom of the stage.",
+  },
+];
+
+const THUMBNAIL_PROPS: readonly PropRow[] = [
+  {
+    name: "active",
+    type: "boolean",
+    description: "Marks the current thumbnail and updates border/overlay chrome.",
+  },
+  {
+    name: "...props",
+    type: "button props",
+    description:
+      "Thumbnail control. Put the preview image in children; selection state stays caller-owned.",
+  },
+];
+
 const TITLE_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -464,6 +484,12 @@ function LightboxDoc() {
           <DocSubsection parentId="api" id="api-info-bar" title="LightboxInfoBar">
             <PropsTable rows={INFO_BAR_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-thumbnail-strip" title="LightboxThumbnailStrip">
+            <PropsTable rows={THUMBNAIL_STRIP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-thumbnail" title="LightboxThumbnail">
+            <PropsTable rows={THUMBNAIL_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-title" title="LightboxTitle">
             <PropsTable rows={TITLE_PROPS} />
           </DocSubsection>
@@ -525,30 +551,6 @@ function LightboxPreviewDemo() {
     setImageIndex((current) => Math.min(DEMO_IMAGES.length - 1, current + 1));
   }, []);
 
-  const handlePreviousImageClick = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation();
-      if (isFirstImage) {
-        event.preventDefault();
-        return;
-      }
-      showPreviousImage();
-    },
-    [isFirstImage, showPreviousImage],
-  );
-
-  const handleNextImageClick = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation();
-      if (isLastImage) {
-        event.preventDefault();
-        return;
-      }
-      showNextImage();
-    },
-    [isLastImage, showNextImage],
-  );
-
   const switchImageWithArrowKey = useEffectEvent((event: KeyboardEvent) => {
     if (event.key === "ArrowLeft" && !isFirstImage) {
       showPreviousImage();
@@ -577,7 +579,7 @@ function LightboxPreviewDemo() {
             direction="previous"
             disabled={isFirstImage}
             aria-label="Previous image"
-            onClick={handlePreviousImageClick}
+            onClick={showPreviousImage}
           >
             <ChevronLeft />
           </LightboxNavigationButton>
@@ -585,7 +587,7 @@ function LightboxPreviewDemo() {
             direction="next"
             disabled={isLastImage}
             aria-label="Next image"
-            onClick={handleNextImageClick}
+            onClick={showNextImage}
           >
             <ChevronRight />
           </LightboxNavigationButton>
@@ -607,15 +609,18 @@ function LightboxPreviewDemo() {
               </LightboxInfoActions>
             </LightboxInfoBar>
           </LightboxInfoDock>
-          <LightboxThumbnailStrip
-            images={DEMO_IMAGES.map((image) => ({
-              name: image.filename,
-              src: image.src,
-              thumb: image.thumb,
-            }))}
-            activeIndex={imageIndex}
-            onSelect={setImageIndex}
-          />
+          <LightboxThumbnailStrip>
+            {DEMO_IMAGES.map((image, index) => (
+              <LightboxThumbnail
+                key={image.filename}
+                active={index === imageIndex}
+                aria-label={`Show ${image.filename}`}
+                onClick={() => setImageIndex(index)}
+              >
+                <img src={image.thumb} alt="" draggable={false} />
+              </LightboxThumbnail>
+            ))}
+          </LightboxThumbnailStrip>
         </LightboxStage>
       </LightboxContent>
     </Lightbox>

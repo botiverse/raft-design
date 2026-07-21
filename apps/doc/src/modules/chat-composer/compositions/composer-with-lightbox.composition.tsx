@@ -12,6 +12,8 @@ import {
   LightboxMedia,
   LightboxNavigationButton,
   LightboxStage,
+  LightboxThumbnail,
+  LightboxThumbnailStrip,
   LightboxTitle,
   ComposerActions,
   ComposerAttachment,
@@ -27,7 +29,6 @@ import {
 } from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
-import { LightboxThumbnailStrip } from "#/modules/lightbox/lightbox-thumbnail-strip.tsx";
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 
 const READY_IMAGES = [
@@ -133,11 +134,18 @@ export function ComposerWithLightboxComposition() {
               </LightboxInfoBar>
             </LightboxInfoDock>
             {previewIndex !== null ? (
-              <LightboxThumbnailStrip
-                images={READY_IMAGES}
-                activeIndex={previewIndex}
-                onSelect={setPreviewIndex}
-              />
+              <LightboxThumbnailStrip>
+                {READY_IMAGES.map((image, index) => (
+                  <LightboxThumbnail
+                    key={image.name}
+                    active={index === previewIndex}
+                    aria-label={`Show ${image.name}`}
+                    onClick={() => setPreviewIndex(index)}
+                  >
+                    <img src={image.src} alt="" draggable={false} />
+                  </LightboxThumbnail>
+                ))}
+              </LightboxThumbnailStrip>
             ) : null}
           </LightboxStage>
         </LightboxContent>
