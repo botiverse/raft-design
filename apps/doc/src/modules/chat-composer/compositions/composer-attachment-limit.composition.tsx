@@ -1,13 +1,17 @@
 import { AlertTriangle, Paperclip, Send, X } from "lucide-react";
 import { useState } from "react";
-import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "raft-ui";
 import {
+  Banner,
+  BannerAction,
+  BannerDescription,
+  BannerTitle,
+  Button,
   ComposerActions,
   ComposerIconButton,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import { ComposerAttachmentsComposition } from "./composer-shared.composition.tsx";

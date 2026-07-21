@@ -1,5 +1,6 @@
-import { cn, useThemeFamily } from "raft-ui";
 import {
+  cn,
+  useThemeFamily,
   Composer as ComposerPrimitive,
   ComposerInput as ComposerInputPrimitive,
   ComposerSuggestionList as ComposerSuggestionListPrimitive,
@@ -8,7 +9,7 @@ import {
   type ComposerProps,
   type ComposerSuggestionListProps,
   type ComposerToolbarProps,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 /** Consumer-owned viewport tweaks kept out of the Composer primitive. */
 export function Composer({ className, ...props }: ComposerProps) {

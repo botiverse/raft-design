@@ -267,10 +267,20 @@ export function useComposerSuggestions<TItem extends object>({
 
   useEffect(() => {
     if (!open || highlightedIndex < 0) return;
-    const option = listRef.current?.querySelector(
+    const list = listRef.current;
+    const option = list?.querySelector<HTMLElement>(
       `[data-composer-suggestion-index="${highlightedIndex}"]`,
     );
-    option?.scrollIntoView({ block: "nearest" });
+    if (!list || !option) return;
+
+    // Keep keyboard highlight in view inside the listbox only. Unconditional
+    // scrollIntoView would also scroll the document when an off-screen docs
+    // demo mounts already open (e.g. multiple `@` previews on one page).
+    const listRect = list.getBoundingClientRect();
+    const optionRect = option.getBoundingClientRect();
+    if (optionRect.top < listRect.top || optionRect.bottom > listRect.bottom) {
+      option.scrollIntoView({ block: "nearest" });
+    }
   }, [highlightedIndex, open]);
 
   useEffect(

@@ -32,14 +32,14 @@ import {
   ThreadPanelSearchTrailing,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
-} from "raft-ui";
-import {
   ComposerActions,
   ComposerIconButton,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
   ComposerToolbarLabel,
+} from "raft-ui";
+import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,

@@ -24,14 +24,14 @@ import {
   Tabs,
   TabsIndicator,
   TabsLabel,
-} from "raft-ui";
-import {
   ComposerActions,
   ComposerIconButton,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
   ComposerToolbarLabel,
+} from "raft-ui";
+import {
   ScrollToLatest,
   MessageList,
   MessageItem,

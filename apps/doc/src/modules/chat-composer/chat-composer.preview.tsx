@@ -11,7 +11,7 @@ import {
   ComposerRoot,
   ComposerSubmit,
   ComposerToolbarLabel,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "./composer-responsive.tsx";
 
 import { Preview } from "#/components/preview.tsx";
@@ -46,7 +46,7 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
           <div className="relative w-full">
             <ComposerRoot>
               <ComposerAttachmentsComposition
-                layout={attachmentsScroll ? "scroll" : "wrap"}
+                layout={attachmentsScroll ? "scroll" : "sortable-wrap"}
                 imageStates={PREVIEW_IMAGE_STATES}
                 fileStates={PREVIEW_FILE_STATES}
               />

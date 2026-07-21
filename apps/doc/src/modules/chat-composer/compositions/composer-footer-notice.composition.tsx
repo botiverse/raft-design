@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { ComposerActions, ComposerRoot } from "raft-ui/wip";
+import { ComposerActions, ComposerRoot } from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 export function ComposerFooterNoticeComposition() {

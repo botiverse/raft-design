@@ -1,15 +1,18 @@
-import { ChevronLeft, ChevronRight, Paperclip, Send, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Paperclip, Send, X } from "lucide-react";
 import { useState } from "react";
 import {
+  Button,
   Lightbox,
   LightboxClose,
   LightboxContent,
+  LightboxInfoActions,
+  LightboxInfoBar,
+  LightboxInfoDock,
+  LightboxInfoTitle,
   LightboxMedia,
   LightboxNavigationButton,
   LightboxStage,
   LightboxTitle,
-} from "raft-ui";
-import {
   ComposerActions,
   ComposerAttachment,
   ComposerAttachmentImage,
@@ -21,9 +24,10 @@ import {
   ComposerSubmit,
   FilePreview,
   FilePreviewMedia,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
+import { LightboxThumbnailStrip } from "#/modules/lightbox/lightbox-thumbnail-strip.tsx";
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 
 const READY_IMAGES = [
@@ -118,6 +122,23 @@ export function ComposerWithLightboxComposition() {
               <ChevronRight />
             </LightboxNavigationButton>
             <LightboxMedia render={<img src={currentImage.src} alt={currentImage.name} />} />
+            <LightboxInfoDock>
+              <LightboxInfoBar>
+                <LightboxInfoTitle>{currentImage.name}</LightboxInfoTitle>
+                <LightboxInfoActions>
+                  <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
+                    <Download />
+                  </Button>
+                </LightboxInfoActions>
+              </LightboxInfoBar>
+            </LightboxInfoDock>
+            {previewIndex !== null ? (
+              <LightboxThumbnailStrip
+                images={READY_IMAGES}
+                activeIndex={previewIndex}
+                onSelect={setPreviewIndex}
+              />
+            ) : null}
           </LightboxStage>
         </LightboxContent>
       </Lightbox>
