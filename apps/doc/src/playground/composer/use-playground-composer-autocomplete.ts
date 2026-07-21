@@ -1,4 +1,4 @@
-import { useComposerSuggestions, type ComposerSuggestionTriggerMatch } from "raft-ui/wip";
+import { useComposerSuggestions, type ComposerSuggestionTriggerMatch } from "raft-ui";
 
 import {
   PLAYGROUND_ACTORS,

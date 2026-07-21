@@ -1,35 +1,15 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { useDropzone } from "react-dropzone";
-import {
-  ChevronLeft,
-  ChevronRight,
-  GitBranch,
-  Hash,
-  ImagePlus,
-  Lock,
-  Paperclip,
-  Send,
-  UserX,
-  X,
-} from "lucide-react";
+import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   Badge,
   Checkbox,
   ConversationPanelFooter,
-  Lightbox,
-  LightboxClose,
-  LightboxContent,
-  LightboxMedia,
-  LightboxNavigationButton,
-  LightboxStage,
-  LightboxTitle,
   ThreadPanelFooter,
   Spinner,
   Status,
-} from "raft-ui";
-import {
   ComposerActions,
   ComposerAttachment,
   ComposerAttachmentBody,
@@ -64,7 +44,7 @@ import {
   SortableComposerAttachment,
   SortableComposerAttachmentsScroll,
   type FilePreviewBadgeType,
-} from "raft-ui/wip";
+} from "raft-ui";
 import {
   Composer,
   ComposerInput,
@@ -252,173 +232,102 @@ function PlaygroundSeededComposerAttachments({
   onReorder: (attachments: PlaygroundComposerAttachment[]) => void;
   onRetry: (name: string) => void;
 }) {
-  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
   const ids = attachments.map((attachment) => attachment.name);
-  const previewImages = attachments.flatMap((attachment) => {
-    if (!attachment.mediaType.startsWith("image/") || attachment.state.kind !== "ready") return [];
-    return [{ name: attachment.name, src: attachment.previewUrl ?? COMPOSER_IMAGE_SRC }];
-  });
-  const open = previewIndex !== null;
-  const currentImage = previewImages[previewIndex ?? 0];
-  const isFirstImage = previewIndex === 0;
-  const isLastImage = previewIndex === previewImages.length - 1;
 
   return (
-    <>
-      <ComposerAttachments>
-        <SortableComposerAttachmentsScroll
-          items={ids}
-          onReorder={(nextIds) => onReorder(reorderAttachmentsByNames(attachments, nextIds))}
-        >
-          {attachments.map((attachment) => {
-            const isImage = attachment.mediaType.startsWith("image/");
-            const canPreview = isImage && attachment.state.kind === "ready";
-            const badgeType = filePreviewBadgeType(attachment.name);
-            const badgeClassName =
-              attachment.state.kind === "uploading" ? "!shadow-none" : undefined;
-            const badgeLabel = filePreviewLabel(attachment.name);
-
-            return (
-              <SortableComposerAttachment
-                key={attachment.name}
-                id={attachment.name}
-                label={attachment.name}
-              >
-                <ComposerAttachment>
-                  {isImage ? (
-                    <ComposerAttachmentImage
-                      render={canPreview ? <button type="button" /> : undefined}
-                      className={canPreview ? "cursor-zoom-in" : undefined}
-                      aria-label={canPreview ? `Preview ${attachment.name}` : undefined}
-                      onClick={
-                        canPreview
-                          ? () => {
-                              const index = previewImages.findIndex(
-                                (image) => image.name === attachment.name,
-                              );
-                              if (index >= 0) setPreviewIndex(index);
-                            }
-                          : undefined
-                      }
-                    >
-                      <FilePreview>
-                        <FilePreviewMedia>
-                          <img
-                            alt=""
-                            className="size-full object-cover"
-                            src={attachment.previewUrl ?? COMPOSER_IMAGE_SRC}
-                          />
-                        </FilePreviewMedia>
-                      </FilePreview>
-                    </ComposerAttachmentImage>
-                  ) : (
-                    <ComposerAttachmentFile>
-                      <FilePreview className="h-[46px]">
-                        <FilePreviewDocument
-                          className={
-                            attachment.state.kind === "uploading"
-                              ? "h-[46px] !shadow-none !ring-0"
-                              : "h-[46px]"
-                          }
-                        />
-                        {badgeType ? (
-                          <FilePreviewBadge type={badgeType} className={badgeClassName}>
-                            {badgeLabel}
-                          </FilePreviewBadge>
-                        ) : (
-                          <FilePreviewBadge className={badgeClassName}>
-                            {badgeLabel}
-                          </FilePreviewBadge>
-                        )}
-                      </FilePreview>
-                      <ComposerAttachmentBody>
-                        <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
-                        <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
-                      </ComposerAttachmentBody>
-                      {attachment.state.kind === "uploading" ? (
-                        <>
-                          <ComposerAttachmentUploadingOverlay>
-                            <Spinner size="sm" className="mb-1" />
-                            {Math.round(attachment.state.progress)}%
-                          </ComposerAttachmentUploadingOverlay>
-                          <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
-                        </>
-                      ) : null}
-                    </ComposerAttachmentFile>
-                  )}
-                  {isImage && attachment.state.kind === "uploading" ? (
-                    <>
-                      <ComposerAttachmentUploadingOverlay>
-                        <Spinner size="sm" className="mb-1" />
-                        {Math.round(attachment.state.progress)}%
-                      </ComposerAttachmentUploadingOverlay>
-                      <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
-                    </>
-                  ) : null}
-                  {attachment.state.kind === "failed" ? (
-                    <ComposerAttachmentFailedOverlay
-                      render={<button type="button" />}
-                      onClick={() => onRetry(attachment.name)}
-                    >
-                      <span>Upload failed</span>
-                      <span className="underline underline-offset-2">Retry</span>
-                    </ComposerAttachmentFailedOverlay>
-                  ) : null}
-                  <ComposerAttachmentRemove
-                    aria-label={`Remove ${attachment.name}`}
-                    onClick={() => onRemove(attachment.name)}
-                  >
-                    <X />
-                  </ComposerAttachmentRemove>
-                </ComposerAttachment>
-              </SortableComposerAttachment>
-            );
-          })}
-        </SortableComposerAttachmentsScroll>
-      </ComposerAttachments>
-      <Lightbox
-        open={open}
-        onOpenChange={(nextOpen) => {
-          if (!nextOpen) setPreviewIndex(null);
-        }}
+    <ComposerAttachments>
+      <SortableComposerAttachmentsScroll
+        items={ids}
+        onReorder={(nextIds) => onReorder(reorderAttachmentsByNames(attachments, nextIds))}
       >
-        <LightboxContent>
-          <LightboxTitle className="sr-only">
-            {currentImage?.name ?? "Attachment preview"}
-          </LightboxTitle>
-          <LightboxClose aria-label="Close">
-            <X />
-          </LightboxClose>
-          <LightboxStage>
-            <LightboxNavigationButton
-              direction="previous"
-              disabled={isFirstImage || previewImages.length <= 1}
-              aria-label="Previous image"
-              onClick={() =>
-                setPreviewIndex((index) => (index === null ? index : Math.max(0, index - 1)))
-              }
+        {attachments.map((attachment) => {
+          const isImage = attachment.mediaType.startsWith("image/");
+          const badgeType = filePreviewBadgeType(attachment.name);
+          const badgeClassName = attachment.state.kind === "uploading" ? "!shadow-none" : undefined;
+          const badgeLabel = filePreviewLabel(attachment.name);
+
+          return (
+            <SortableComposerAttachment
+              key={attachment.name}
+              id={attachment.name}
+              label={attachment.name}
             >
-              <ChevronLeft />
-            </LightboxNavigationButton>
-            <LightboxNavigationButton
-              direction="next"
-              disabled={isLastImage || previewImages.length <= 1}
-              aria-label="Next image"
-              onClick={() =>
-                setPreviewIndex((index) =>
-                  index === null ? index : Math.min(previewImages.length - 1, index + 1),
-                )
-              }
-            >
-              <ChevronRight />
-            </LightboxNavigationButton>
-            {currentImage ? (
-              <LightboxMedia render={<img src={currentImage.src} alt={currentImage.name} />} />
-            ) : null}
-          </LightboxStage>
-        </LightboxContent>
-      </Lightbox>
-    </>
+              <ComposerAttachment>
+                {isImage ? (
+                  <ComposerAttachmentImage>
+                    <FilePreview>
+                      <FilePreviewMedia>
+                        <img
+                          alt=""
+                          className="size-full object-cover"
+                          src={attachment.previewUrl ?? COMPOSER_IMAGE_SRC}
+                        />
+                      </FilePreviewMedia>
+                    </FilePreview>
+                  </ComposerAttachmentImage>
+                ) : (
+                  <ComposerAttachmentFile>
+                    <FilePreview className="h-[46px]">
+                      <FilePreviewDocument
+                        className={
+                          attachment.state.kind === "uploading"
+                            ? "h-[46px] !shadow-none !ring-0"
+                            : "h-[46px]"
+                        }
+                      />
+                      {badgeType ? (
+                        <FilePreviewBadge type={badgeType} className={badgeClassName}>
+                          {badgeLabel}
+                        </FilePreviewBadge>
+                      ) : (
+                        <FilePreviewBadge className={badgeClassName}>{badgeLabel}</FilePreviewBadge>
+                      )}
+                    </FilePreview>
+                    <ComposerAttachmentBody>
+                      <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
+                      <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
+                    </ComposerAttachmentBody>
+                    {attachment.state.kind === "uploading" ? (
+                      <>
+                        <ComposerAttachmentUploadingOverlay>
+                          <Spinner size="sm" className="mb-1" />
+                          {Math.round(attachment.state.progress)}%
+                        </ComposerAttachmentUploadingOverlay>
+                        <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
+                      </>
+                    ) : null}
+                  </ComposerAttachmentFile>
+                )}
+                {isImage && attachment.state.kind === "uploading" ? (
+                  <>
+                    <ComposerAttachmentUploadingOverlay>
+                      <Spinner size="sm" className="mb-1" />
+                      {Math.round(attachment.state.progress)}%
+                    </ComposerAttachmentUploadingOverlay>
+                    <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
+                  </>
+                ) : null}
+                {attachment.state.kind === "failed" ? (
+                  <ComposerAttachmentFailedOverlay
+                    render={<button type="button" />}
+                    onClick={() => onRetry(attachment.name)}
+                  >
+                    <span>Upload failed</span>
+                    <span className="underline underline-offset-2">Retry</span>
+                  </ComposerAttachmentFailedOverlay>
+                ) : null}
+                <ComposerAttachmentRemove
+                  aria-label={`Remove ${attachment.name}`}
+                  onClick={() => onRemove(attachment.name)}
+                >
+                  <X />
+                </ComposerAttachmentRemove>
+              </ComposerAttachment>
+            </SortableComposerAttachment>
+          );
+        })}
+      </SortableComposerAttachmentsScroll>
+    </ComposerAttachments>
   );
 }
 

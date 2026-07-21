@@ -1,11 +1,11 @@
-import { Paperclip, Send } from "lucide-react";
+import { ImagePlus, Paperclip, Send } from "lucide-react";
 import {
   ComposerActions,
   ComposerIconButton,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import { ComposerAttachmentsComposition } from "./composer-shared.composition.tsx";
@@ -18,6 +18,9 @@ export function ComposerAttachmentStatesComposition() {
         <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />
         <ComposerToolbar>
           <ComposerActions>
+            <ComposerIconButton aria-label="Attach image" disabled>
+              <ImagePlus />
+            </ComposerIconButton>
             <ComposerIconButton aria-label="Attach file" disabled>
               <Paperclip />
             </ComposerIconButton>

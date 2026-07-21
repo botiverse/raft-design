@@ -5,6 +5,12 @@
   --source-shadow-lg: 6px 6px 0px #141111;
 }
 
+/* Source MessageInput used Tailwind `font-display` (Space Grotesk). Map it to
+   the docs brutal heading stack so source panes keep the intended typeface. */
+.font-display {
+  font-family: var(--heading-font, system-ui, sans-serif);
+}
+
 .card-brutal {
   border: 2px solid var(--color-black);
   background-color: var(--color-white);

@@ -9,7 +9,7 @@ import {
   ComposerSubmit,
   SortableComposerAttachment,
   SortableComposerAttachments,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import {

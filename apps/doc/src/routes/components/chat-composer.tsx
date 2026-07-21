@@ -6,6 +6,8 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import {
   ComposerAttachmentLimitComposition,
   ComposerAttachmentStatesComposition,
@@ -19,6 +21,11 @@ import {
   ComposerWithLightboxComposition,
 } from "#/modules/chat-composer/chat-composer.composition.tsx";
 import { ChatComposerPreview } from "#/modules/chat-composer/chat-composer.preview.tsx";
+import {
+  ComposerAttachmentStatesSourceComparison,
+  ComposerDefaultSourceComparison,
+  ComposerDropOverlaySourceComparison,
+} from "#/modules/chat-composer/chat-composer.source-comparison.tsx";
 import composerAttachmentLimitSource from "#/modules/chat-composer/compositions/composer-attachment-limit.composition.tsx?raw";
 import composerAttachmentStatesSource from "#/modules/chat-composer/compositions/composer-attachment-states.composition.tsx?raw";
 import composerAttachmentsReorderSource from "#/modules/chat-composer/compositions/composer-attachments-reorder.composition.tsx?raw";
@@ -36,6 +43,27 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
+] as const;
+
+const SOURCE_SCENES = [
+  {
+    label: "Slock MessageInput composer",
+    scenes: [
+      {
+        label: "Composer shell",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:1787",
+      },
+      {
+        label: "Pending attachments",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:287",
+      },
+      {
+        label: "Drop overlay",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:1550",
+      },
+    ],
+  },
 ] as const;
 
 const ANATOMY_SNIPPET = `<div className="relative">
@@ -680,6 +708,102 @@ function ChatComposerDoc() {
             <PropsTable rows={COMPOSER_DROP_OVERLAY_PROMPT_PROPS} />
           </DocSubsection>
         </div>
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          layout="grid"
+          sourceScenes={SOURCE_SCENES}
+          items={[
+            {
+              label: "Default composer",
+              status: "difference",
+              note: "Source keeps the icon-only pink send control and CheckMarker task toggle inside MessageInput. Current exposes the same card as composable parts and lets submit/label content stay consumer-owned.",
+              source: (
+                <SourceThemeScope className="w-full">
+                  <ComposerDefaultSourceComparison />
+                </SourceThemeScope>
+              ),
+              brutal: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerDefaultComposition />
+                </div>
+              ),
+              elegant: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerDefaultComposition />
+                </div>
+              ),
+              elegantDark: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerDefaultComposition />
+                </div>
+              ),
+              compositionCode: code.composition,
+              compositionPath:
+                "apps/doc/src/modules/chat-composer/compositions/composer-default.composition.tsx",
+              compositionSource: composerCompositionSource,
+            },
+            {
+              label: "Pending and failed attachments",
+              status: "difference",
+              note: "Source attachment chips are inline MessageInput markup (64px image / w-32 file + FileText). Current splits the same states into ComposerAttachment parts with FilePreview media.",
+              source: (
+                <SourceThemeScope className="w-full">
+                  <ComposerAttachmentStatesSourceComparison />
+                </SourceThemeScope>
+              ),
+              brutal: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerAttachmentStatesComposition />
+                </div>
+              ),
+              elegant: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerAttachmentStatesComposition />
+                </div>
+              ),
+              elegantDark: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerAttachmentStatesComposition />
+                </div>
+              ),
+              compositionCode: code.attachmentStates,
+              compositionPath:
+                "apps/doc/src/modules/chat-composer/compositions/composer-attachment-states.composition.tsx",
+              compositionSource: composerAttachmentStatesSource,
+            },
+            {
+              label: "File drop overlay",
+              status: "difference",
+              note: "Source uses a pink dashed wash with a bordered label chip. Current keeps the same prompt copy but restyles the overlay as a dark scrim with stacked file icons.",
+              source: (
+                <SourceThemeScope className="w-full">
+                  <ComposerDropOverlaySourceComparison />
+                </SourceThemeScope>
+              ),
+              brutal: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerDropOverlayComposition />
+                </div>
+              ),
+              elegant: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerDropOverlayComposition />
+                </div>
+              ),
+              elegantDark: (
+                <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                  <ComposerDropOverlayComposition />
+                </div>
+              ),
+              compositionCode: code.dropOverlay,
+              compositionPath:
+                "apps/doc/src/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx",
+              compositionSource: composerDropOverlaySource,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

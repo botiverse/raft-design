@@ -1,4 +1,4 @@
-import { Paperclip, Send } from "lucide-react";
+import { ImagePlus, Paperclip, Send } from "lucide-react";
 import {
   ComposerDropOverlay,
   ComposerDropOverlayPrompt,
@@ -7,7 +7,7 @@ import {
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 export function ComposerDropOverlayComposition() {
@@ -22,6 +22,9 @@ export function ComposerDropOverlayComposition() {
           />
           <ComposerToolbar>
             <ComposerActions>
+              <ComposerIconButton aria-label="Attach image" disabled>
+                <ImagePlus />
+              </ComposerIconButton>
               <ComposerIconButton aria-label="Attach file" disabled>
                 <Paperclip />
               </ComposerIconButton>

@@ -1,15 +1,20 @@
-import { ChevronLeft, ChevronRight, Paperclip, Send, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Paperclip, Send, X } from "lucide-react";
 import { useState } from "react";
 import {
+  Button,
   Lightbox,
   LightboxClose,
   LightboxContent,
+  LightboxInfoActions,
+  LightboxInfoBar,
+  LightboxInfoDock,
+  LightboxInfoTitle,
   LightboxMedia,
   LightboxNavigationButton,
   LightboxStage,
+  LightboxThumbnail,
+  LightboxThumbnailStrip,
   LightboxTitle,
-} from "raft-ui";
-import {
   ComposerActions,
   ComposerAttachment,
   ComposerAttachmentImage,
@@ -21,7 +26,7 @@ import {
   ComposerSubmit,
   FilePreview,
   FilePreviewMedia,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
@@ -118,6 +123,30 @@ export function ComposerWithLightboxComposition() {
               <ChevronRight />
             </LightboxNavigationButton>
             <LightboxMedia render={<img src={currentImage.src} alt={currentImage.name} />} />
+            <LightboxInfoDock>
+              <LightboxInfoBar>
+                <LightboxInfoTitle>{currentImage.name}</LightboxInfoTitle>
+                <LightboxInfoActions>
+                  <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
+                    <Download />
+                  </Button>
+                </LightboxInfoActions>
+              </LightboxInfoBar>
+            </LightboxInfoDock>
+            {previewIndex !== null ? (
+              <LightboxThumbnailStrip>
+                {READY_IMAGES.map((image, index) => (
+                  <LightboxThumbnail
+                    key={image.name}
+                    active={index === previewIndex}
+                    aria-label={`Show ${image.name}`}
+                    onClick={() => setPreviewIndex(index)}
+                  >
+                    <img src={image.src} alt="" draggable={false} />
+                  </LightboxThumbnail>
+                ))}
+              </LightboxThumbnailStrip>
+            ) : null}
           </LightboxStage>
         </LightboxContent>
       </Lightbox>

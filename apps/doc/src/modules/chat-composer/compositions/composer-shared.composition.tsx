@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
-import { Spinner } from "raft-ui";
 import {
+  Spinner,
   ComposerAttachment,
   ComposerAttachmentBody,
   ComposerAttachmentFailedOverlay,
@@ -17,8 +17,9 @@ import {
   FilePreviewDocument,
   FilePreviewMedia,
   SortableComposerAttachment,
+  SortableComposerAttachments,
   SortableComposerAttachmentsScroll,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { useEffect, useMemo, useState } from "react";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
@@ -91,11 +92,12 @@ export function ComposerAttachmentsComposition({
   onRemove?: (name: string) => void;
   onRetry?: (name: string) => void;
   /**
-   * `wrap` — plain flex strip (states / limit demos).
+   * `wrap` — plain flex strip (states / limit demos; no DnD).
+   * `sortable-wrap` — wrapping flex strip with reorder.
    * `scroll` — sortable single-row strip with arrows.
    * `items` — bare tiles for a parent that owns the shell.
    */
-  layout?: "wrap" | "scroll" | "items";
+  layout?: "wrap" | "sortable-wrap" | "scroll" | "items";
 } = {}) {
   const descriptors = useMemo(
     () => buildDescriptors(imageStates, fileStates),
@@ -130,22 +132,25 @@ export function ComposerAttachmentsComposition({
   }
 
   return (
-    <ScrollableSortableAttachments
+    <SortableAttachments
       descriptors={descriptors}
       onRemove={onRemove}
       onRetry={onRetry}
+      variant={layout === "scroll" ? "scroll" : "wrap"}
     />
   );
 }
 
-function ScrollableSortableAttachments({
+function SortableAttachments({
   descriptors,
   onRemove,
   onRetry,
+  variant,
 }: {
   descriptors: readonly AttachmentDescriptor[];
   onRemove?: (name: string) => void;
   onRetry?: (name: string) => void;
+  variant: "wrap" | "scroll";
 }) {
   const [ids, setIds] = useState(() => descriptors.map((item) => item.id));
 
@@ -159,19 +164,23 @@ function ScrollableSortableAttachments({
     return item ? [item] : [];
   });
 
+  const tiles = ordered.map((attachment) => (
+    <SortableComposerAttachment key={attachment.id} id={attachment.id} label={attachment.name}>
+      <AttachmentTile attachment={attachment} onRemove={onRemove} onRetry={onRetry} />
+    </SortableComposerAttachment>
+  ));
+
   return (
     <ComposerAttachments>
-      <SortableComposerAttachmentsScroll items={ids} onReorder={setIds}>
-        {ordered.map((attachment) => (
-          <SortableComposerAttachment
-            key={attachment.id}
-            id={attachment.id}
-            label={attachment.name}
-          >
-            <AttachmentTile attachment={attachment} onRemove={onRemove} onRetry={onRetry} />
-          </SortableComposerAttachment>
-        ))}
-      </SortableComposerAttachmentsScroll>
+      {variant === "scroll" ? (
+        <SortableComposerAttachmentsScroll items={ids} onReorder={setIds}>
+          {tiles}
+        </SortableComposerAttachmentsScroll>
+      ) : (
+        <SortableComposerAttachments items={ids} onReorder={setIds}>
+          {tiles}
+        </SortableComposerAttachments>
+      )}
     </ComposerAttachments>
   );
 }

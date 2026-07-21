@@ -1,4 +1,4 @@
-import type { ComposerSuggestionTriggerMatch } from "raft-ui/wip";
+import type { ComposerSuggestionTriggerMatch } from "raft-ui";
 
 export type PersonSuggestion = {
   avatarFallback: string;

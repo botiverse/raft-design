@@ -5,7 +5,7 @@ import {
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
 import { ComposerAttachmentsComposition } from "./composer-shared.composition.tsx";

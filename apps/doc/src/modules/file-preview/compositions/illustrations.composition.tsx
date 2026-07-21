@@ -4,7 +4,7 @@ import {
   FilePreviewCode,
   FilePreviewFile,
   FilePreviewMedia,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { FilePreviewMediaIllustration } from "../file-preview-media-illustration.tsx";
 
