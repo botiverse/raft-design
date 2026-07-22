@@ -194,6 +194,27 @@ export function MessageReactionQuickButton({
   });
 }
 
+export type MessageReactionPickerStaticProps = useRender.ComponentProps<"div">;
+
+export function MessageReactionPickerStatic({
+  className,
+  render,
+  ...props
+}: MessageReactionPickerStaticProps) {
+  const theme = useThemeFamily();
+  const { pickerStatic } = messageReaction({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: pickerStatic({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: { slot: "message-reaction-picker-static" },
+  });
+}
+
 export type MessageReactionPickerPopupProps = DropdownMenuPopupProps;
 
 export function MessageReactionPickerPopup({

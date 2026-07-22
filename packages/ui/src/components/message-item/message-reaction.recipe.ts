@@ -24,6 +24,7 @@ export const messageReaction = tv({
       "bg-transparent transition-colors",
     ],
     pickerContent: ["inline-flex items-center gap-0.5 px-1.5 py-1"],
+    pickerStatic: ["inline-flex items-center gap-0.5 px-1.5 py-1"],
     tooltip: ["inline-block max-w-[280px] px-2 py-1.5 text-xs"],
     tooltipNames: ["flex max-w-60 flex-wrap items-center gap-y-0.5"],
     tooltipName: ["inline-flex min-w-0 items-baseline leading-5"],
@@ -51,6 +52,10 @@ export const messageReaction = tv({
           // Live `shadow-soft-popover`: 0 4px 12px rgba(0,0,0,0.08)
           "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
+        pickerStatic: [
+          "rounded-none border-2 border-line-strong border-black bg-white",
+          "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
+        ],
         tooltip: "border-2 border-line-strong bg-white font-bold text-black",
       },
       elegant: {
@@ -68,6 +73,10 @@ export const messageReaction = tv({
         quickRow: "bg-layer-popover",
         quickButton: "hover:!bg-ink-10 data-[highlighted]:!bg-ink-10 active:!bg-ink-16",
         pickerContent: "min-w-0 flex-row",
+        pickerStatic: [
+          "min-w-0 flex-row rounded-md bg-layer-popover p-1",
+          "shadow-lg outline-none",
+        ],
       },
     },
   },

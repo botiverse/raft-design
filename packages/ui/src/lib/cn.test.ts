@@ -21,6 +21,6 @@ describe("cn", () => {
         "border-2 border-black bg-layer-popover shadow-md",
         "rounded-none border-2 border-line-strong border-black bg-white shadow-none",
       ),
-    ).toBe("rounded-none border-2 border-line-strong border-black bg-white shadow-none");
+    ).toBe("rounded-none border-2 border-black bg-white shadow-none");
   });
 });

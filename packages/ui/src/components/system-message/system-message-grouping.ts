@@ -142,6 +142,9 @@ function formatSystemMessageBlockSummary(categories: readonly SystemMessageCateg
 /**
  * Render-only grouping for adjacent system-message runs.
  * The underlying message list stays untouched so history and scroll anchoring remain exact.
+ *
+ * @deprecated Product-specific grouping belongs in the consumer composition layer. This helper
+ * remains exported for backwards compatibility.
  */
 export function buildSystemMessageRenderStates(
   messages: readonly SystemMessageSlice[],

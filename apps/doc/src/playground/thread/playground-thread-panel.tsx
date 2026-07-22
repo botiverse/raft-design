@@ -180,6 +180,7 @@ export function PlaygroundThreadPanel({
             <PlaygroundMessageRow
               message={thread.parent}
               searchMatch={activeMatch?.id === thread.parent.id}
+              surface="thread"
               threadId={thread.parent.id}
             />
           </ThreadPanelOriginalMessage>
@@ -197,6 +198,7 @@ export function PlaygroundThreadPanel({
                   message={message}
                   compact={compact}
                   searchMatch={activeMatch?.id === message.id}
+                  surface="thread"
                   threadId={thread.parent.id}
                 />
               ))}
@@ -223,14 +225,27 @@ function PlaygroundThreadMultiSelectToolbar({
     .filter((message) => selection.selected.has(message.id))
     .map((message) => message.content)
     .join("\n\n");
+  const selectedMessages = messages.filter((message) => selection.selected.has(message.id));
 
   return (
     <MessageMultiSelectToolbarComposition
       count={selection.selected.size}
       onCancel={selection.cancel}
-      onCopyLink={() => void navigator.clipboard?.writeText(window.location.href)}
-      onCopyMarkdown={() => void navigator.clipboard?.writeText(selectedContent)}
-      onForward={() => undefined}
+      onCopyLink={
+        selectedMessages.length
+          ? () => {
+              const links = selectedMessages.map((message) => {
+                const permalink = new URL(window.location.href);
+                permalink.hash = `thread-message-${message.id}`;
+                return permalink.href;
+              });
+              void navigator.clipboard?.writeText(links.join("\n"));
+            }
+          : undefined
+      }
+      onCopyMarkdown={
+        selectedContent ? () => void navigator.clipboard?.writeText(selectedContent) : undefined
+      }
     />
   );
 }

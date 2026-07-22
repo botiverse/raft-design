@@ -1,4 +1,4 @@
-import { tv } from "../../lib/tv";
+import { tv, type VariantProps } from "../../lib/tv";
 
 export const messageMedia = tv({
   slots: {
@@ -8,12 +8,8 @@ export const messageMedia = tv({
       "group/img relative overflow-hidden border-2 border-line-strong text-left",
       "hover:brightness-95",
       "has-[[data-slot=message-image-gallery-overlay]]:opacity-70 has-[[data-slot=message-image-gallery-overlay]]:hover:brightness-100",
-      "data-[single=true]:inline-block data-[single=true]:w-fit data-[single=true]:max-w-[26rem] data-[single=true]:justify-self-start",
     ],
-    galleryMedia: [
-      "block h-full w-full",
-      "data-[fit=contain]:object-contain data-[fit=cover]:object-cover",
-    ],
+    galleryMedia: ["block h-full w-full"],
     galleryOverlay: ["absolute inset-0 flex items-center justify-center"],
     galleryPreview: [
       "absolute inset-0",
@@ -40,6 +36,28 @@ export const messageMedia = tv({
     ],
   },
   variants: {
+    rowLayout: {
+      single: { galleryRow: "grid-cols-1" },
+      pair: { galleryRow: "grid-cols-2" },
+      triple: { galleryRow: "grid-cols-2 md:grid-cols-3" },
+    },
+    itemSize: {
+      single: {
+        galleryItem: "inline-block w-fit max-w-[26rem] justify-self-start",
+      },
+      regular: { galleryItem: "h-32 sm:h-36" },
+      dense: { galleryItem: "h-28 sm:h-32" },
+    },
+    mediaGeometry: {
+      single: { galleryMedia: "object-contain" },
+      normal: { galleryMedia: "object-cover" },
+      wide: { galleryMedia: "object-contain" },
+      tall: { galleryMedia: "object-contain" },
+    },
+    mediaFit: {
+      contain: { galleryMedia: "object-contain" },
+      cover: { galleryMedia: "object-cover" },
+    },
     theme: {
       brutal: {
         galleryItem: "bg-brutal-cream/60",
@@ -56,3 +74,5 @@ export const messageMedia = tv({
     },
   },
 });
+
+export type MessageMediaVariantProps = VariantProps<typeof messageMedia>;

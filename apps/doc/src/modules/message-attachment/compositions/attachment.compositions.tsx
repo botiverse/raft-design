@@ -7,6 +7,7 @@ import {
   MessageAttachmentBody,
   MessageAttachmentCard,
   MessageAttachmentErrorOverlay,
+  MessageAttachmentFrame,
   MessageAttachmentLoadingBar,
   MessageAttachmentMeta,
   MessageAttachmentMetaDetail,
@@ -96,12 +97,11 @@ export function MessageAttachmentReadyComposition({
   if (!primaryAction || !secondaryAction || !onSecondaryAction) return card;
 
   return (
-    <div className="group/attachment relative inline-block h-20 w-44 min-w-44 max-w-44 shrink-0 align-top">
+    <MessageAttachmentFrame>
       {card}
       <MessageAttachmentAction
         aria-label={secondaryActionLabel}
         title={secondaryActionLabel}
-        className="absolute right-7 bottom-1.5"
         onClick={(event) => {
           event.preventDefault();
           event.stopPropagation();
@@ -110,7 +110,7 @@ export function MessageAttachmentReadyComposition({
       >
         {secondaryAction}
       </MessageAttachmentAction>
-    </div>
+    </MessageAttachmentFrame>
   );
 }
 

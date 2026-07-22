@@ -1,8 +1,8 @@
-import type { SystemMessageSlice } from "raft-ui/wip";
-
-export const SYSTEM_MESSAGE_FIXTURE_NOW = new Date("2026-07-16T01:00:00.000Z");
-
-export const SYSTEM_MESSAGE_REMINDER_FIRE_AT = "2026-07-16T09:00:00.000Z";
+export type SystemMessageSlice = {
+  id: string;
+  messageType: "system";
+  content: string;
+};
 
 export const SYSTEM_MESSAGE_FIXTURES = {
   channelArchive: {
@@ -96,23 +96,6 @@ export const SYSTEM_MESSAGE_FIXTURES = {
     messageType: "system",
     content: '📌 @Ada started task #42 "Polish SystemMessage docs"',
   },
-  reminderScheduled: {
-    id: "sys-reminder-scheduled",
-    messageType: "system",
-    content: `@Atlas scheduled a reminder: "Ship the docs cut" — fires <span data-reminder-fire-at="${SYSTEM_MESSAGE_REMINDER_FIRE_AT}">2026-07-16 09:00 UTC</span>`,
-  },
-  reminderFireNotice: {
-    id: "sys-reminder-fire",
-    messageType: "system",
-    content:
-      '🔔 Reminder #7ddfdf1d (one-time) — #proj-uiux:141a05fd — "Check PR #1306 CI for task #103"',
-  },
-  reminderRecurring: {
-    id: "sys-reminder-recurring",
-    messageType: "system",
-    content:
-      "Reminder (recurring): #users:a545a4d3 — Check tong07@163.com reply re: outbound DM test result, relay to Kai",
-  },
   onboardingAllUnlock: {
     id: "sys-onboarding-all",
     messageType: "system",
@@ -122,27 +105,17 @@ export const SYSTEM_MESSAGE_FIXTURES = {
       "Your agents can @mention each other here, and you can coordinate across the whole team.",
     ].join("\n\n"),
   },
-  genericArchive: {
-    id: "sys-generic-archive",
-    messageType: "system",
-    content: "Channel archived",
-  },
-  genericUnarchive: {
-    id: "sys-generic-unarchive",
-    messageType: "system",
-    content: "Channel unarchived",
-  },
 } as const satisfies Record<string, SystemMessageSlice>;
 
 export const SYSTEM_MESSAGE_GROUPED_UPDATES: SystemMessageSlice[] = [
   SYSTEM_MESSAGE_FIXTURES.taskMovedDone,
   SYSTEM_MESSAGE_FIXTURES.taskClaimed,
-  SYSTEM_MESSAGE_FIXTURES.reminderFireNotice,
+  SYSTEM_MESSAGE_FIXTURES.channelRename,
 ];
 
 export const SYSTEM_MESSAGE_GROUPED_GENERIC: SystemMessageSlice[] = [
-  SYSTEM_MESSAGE_FIXTURES.genericArchive,
-  SYSTEM_MESSAGE_FIXTURES.genericUnarchive,
+  SYSTEM_MESSAGE_FIXTURES.channelArchive,
+  SYSTEM_MESSAGE_FIXTURES.channelUnarchive,
 ];
 
 export const SYSTEM_MESSAGE_PREVIEW_CATALOG: ReadonlyArray<{
@@ -175,14 +148,6 @@ export const SYSTEM_MESSAGE_PREVIEW_CATALOG: ReadonlyArray<{
       SYSTEM_MESSAGE_FIXTURES.taskDeleted,
       SYSTEM_MESSAGE_FIXTURES.taskAssigned,
       SYSTEM_MESSAGE_FIXTURES.taskStarted,
-    ],
-  },
-  {
-    title: "Reminder",
-    messages: [
-      SYSTEM_MESSAGE_FIXTURES.reminderScheduled,
-      SYSTEM_MESSAGE_FIXTURES.reminderFireNotice,
-      SYSTEM_MESSAGE_FIXTURES.reminderRecurring,
     ],
   },
   {

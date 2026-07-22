@@ -82,11 +82,9 @@ import {
   MessageCodeBlockComposition,
   MessageMarkdownComposition,
 } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
-import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card.composition.tsx";
-import {
-  QuotedPreviewFeedbackComposition,
-  QuotedPreviewMessageComposition,
-} from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
+import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
+import { QuotedPreviewMessageComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
+import { QuotedPreviewFeedbackComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
 import { ForwardedBundleMessageComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import {
   MessageImageGallerySingleComposition,
@@ -121,14 +119,14 @@ export type MessageItemPreviewProductState = "none" | MessageProductStatePreview
 
 export type MessageItemPreviewSenderState = "none" | "deleted" | "left" | "removed";
 
-export type MessageItemPreviewSystemEvent = "archive" | "reminder" | "group";
+export type MessageItemPreviewSystemEvent = "archive" | "task-assigned" | "group";
 
-type MessageTaskStatus = "todo" | "in-progress" | "in-review" | "done" | "closed";
+type MessageTaskStatus = "todo" | "in_progress" | "in_review" | "done" | "closed";
 
 const TASK_STATUS_OPTIONS = [
   { id: "todo", icon: Circle, label: "Todo", variant: "warning" },
-  { id: "in-progress", icon: Play, label: "In Progress", variant: "information" },
-  { id: "in-review", icon: Eye, label: "In Review", variant: "accent" },
+  { id: "in_progress", icon: Play, label: "In Progress", variant: "information" },
+  { id: "in_review", icon: Eye, label: "In Review", variant: "accent" },
   { id: "done", icon: CheckCircle, label: "Done", variant: "success" },
   { id: "closed", icon: Ban, label: "Closed", variant: "muted" },
 ] as const satisfies readonly {
@@ -203,11 +201,9 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
   );
 }
 
-const SYSTEM_PREVIEW_NOW = new Date("2026-07-16T01:00:00.000Z");
-
 function MessageSystemGroupPreview() {
   const [open, setOpen] = useState(false);
-  const summary = "There are 1 task update, 1 reminder update";
+  const summary = "There are 2 task updates";
 
   return (
     <SystemMessageGroup open={open} onOpenChange={setOpen}>
@@ -220,17 +216,15 @@ function MessageSystemGroupPreview() {
       <SystemMessageGroupPanel>
         <SystemMessage>
           <SystemMessageTime>2:18 PM</SystemMessageTime>
-          <SystemMessageContent content={'✅ Atlas moved #41 "Release review checklist" to Done'} />
+          <SystemMessageContent>
+            ✅ Atlas moved #41 &quot;Release review checklist&quot; to Done
+          </SystemMessageContent>
         </SystemMessage>
         <SystemMessage>
           <SystemMessageTime>2:19 PM</SystemMessageTime>
-          <SystemMessageContent
-            content={
-              '@Atlas scheduled a reminder: "Ship the docs cut" — fires <span data-reminder-fire-at="2026-07-16T09:00:00.000Z">2026-07-16 09:00 UTC</span>'
-            }
-            now={SYSTEM_PREVIEW_NOW}
-            timeFormat="12h"
-          />
+          <SystemMessageContent>
+            📌 Assigned @Ada to task #42 &quot;Polish MessageItem docs&quot;
+          </SystemMessageContent>
         </SystemMessage>
       </SystemMessageGroupPanel>
     </SystemMessageGroup>
@@ -243,16 +237,12 @@ function MessageSystemPreview({ event }: { event: MessageItemPreviewSystemEvent 
   return (
     <SystemMessage>
       <SystemMessageTime>2:17 PM</SystemMessageTime>
-      {event === "reminder" ? (
-        <SystemMessageContent
-          content={
-            '@Atlas scheduled a reminder: "Ship the docs cut" — fires <span data-reminder-fire-at="2026-07-16T09:00:00.000Z">2026-07-16 09:00 UTC</span>'
-          }
-          now={SYSTEM_PREVIEW_NOW}
-          timeFormat="12h"
-        />
+      {event === "task-assigned" ? (
+        <SystemMessageContent>
+          📌 Assigned @Ada to task #42 &quot;Polish MessageItem docs&quot;
+        </SystemMessageContent>
       ) : (
-        <SystemMessageContent content="📦 Atlas archived this channel" />
+        <SystemMessageContent>📦 Atlas archived this channel</SystemMessageContent>
       )}
     </SystemMessage>
   );

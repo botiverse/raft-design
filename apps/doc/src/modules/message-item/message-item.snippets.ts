@@ -21,6 +21,10 @@ export const ANATOMY_SOURCE = `<MessageItem>
     <MessageItemBody />
     <MessageItemAttachments>...</MessageItemAttachments>
     <MessageItemFooter />
+    <MessageItemInlineRepliesTrigger>
+      <MessageItemInlineRepliesSummary />
+      <MessageItemInlineReplyRow render={<span />}>...</MessageItemInlineReplyRow>
+    </MessageItemInlineRepliesTrigger>
   </MessageItemContent>
   <MessageItemToolbar />
 </MessageItem>
@@ -42,12 +46,18 @@ export const ANATOMY_SOURCE = `<MessageItem>
   </MessageItemSelection>
 </MessageMultiSelect>`;
 
-export const PROPS: readonly PropRow[] = [
+export const ROW_PROPS: readonly PropRow[] = [
   {
     name: "MessageItem",
     type: 'useRender.ComponentProps<"div"> & { compact?: boolean }',
     description:
-      "Root row. Compose MessageItemActive, MessageItemSearchMatch, or MessageItemSelection for explicit row chrome.",
+      "Default message-row root. Use one of the explicit state roots instead when the row is active, a search match, or in selection mode.",
+  },
+  {
+    name: "MessageItemActive / MessageItemSearchMatch / MessageItemSelection",
+    type: "MessageItemProps",
+    description:
+      "Mutually exclusive root variants for active, search-match, and multi-select chrome. They are alternatives to MessageItem, not wrappers around it.",
   },
   {
     name: "MessageItemAvatarSlot",
@@ -62,40 +72,45 @@ export const PROPS: readonly PropRow[] = [
       "Compact consecutive-row gutter and hover timestamp. Used when compact hides sender chrome.",
   },
   {
-    name: "MessageItemHeader",
+    name: "MessageItemContent / MessageItemInteractionBoundary",
     type: 'useRender.ComponentProps<"div">',
-    description: "Sender, sender state, metadata, timestamp, and inline delivery state row.",
-  },
-  {
-    name: "MessageItemSender",
-    type: 'useRender.ComponentProps<"span"> & { interactive?: boolean }',
     description:
-      "Sender name. interactive adds pointer cursor and underline hover for mention-style clicks without changing the default span.",
+      "Main row column and an optional boundary that prevents nested controls from triggering row-level interactions.",
   },
   {
-    name: "MessageMultiSelect / MessageMultiSelectCheckbox",
-    type: "controlled or uncontrolled selection root + Checkbox props with a required value",
+    name: "MessageItemHeader / MessageItemSender / MessageItemSenderState",
+    type: "div and span props; Sender adds interactive?: boolean",
     description:
-      "Multi-message selection behavior and semantic checkbox. Compose checkbox before MessageItemAvatarSlot inside MessageItemSelection; the root owns active and selected state.",
+      "Header structure, sender name, and source-faithful Deleted / Left / Removed badge. interactive only adds sender affordance styling.",
   },
   {
-    name: "MessageItemSenderState",
+    name: "MessageItemMeta / MessageItemTime / MessageItemInlineStatus",
     type: 'useRender.ComponentProps<"span">',
-    description:
-      "Source-faithful sender badge. Consumers provide labels such as Deleted, Left, or Removed.",
+    description: "Header metadata, timestamp, and caller-owned transient state such as Converting.",
   },
-  {
-    name: "MessageItemInlineStatus",
-    type: 'useRender.ComponentProps<"span">',
-    description:
-      "Caller-owned transient header status, such as the source Converting state. It does not own an async workflow.",
-  },
+];
+
+export const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemBody",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Message content slot. Markdown, mentions, links, and translation output are caller-owned.",
+      "Message content slot. Markdown, mentions, links, translation output, and product parsing stay caller-owned.",
   },
+  {
+    name: "MessageItemAttachments / MessageItemEmbedded / MessageItemNotice",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Dedicated row regions for media/files, embedded cards, and notices. Their content and workflows stay caller-owned.",
+  },
+  {
+    name: "MessageItemFooter",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Footer layout for receipts, task badges, thread summaries, and reactions.",
+  },
+];
+
+export const TRANSLATION_REFERENCE_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemTranslationPlaceholder",
     type: 'useRender.ComponentProps<"div">',
@@ -124,6 +139,9 @@ export const PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"span">',
     description: "Optional label and meta slots for chip-style references (e.g. permalink).",
   },
+];
+
+export const ACTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemToolbar",
     type: 'useRender.ComponentProps<"div"> & { visible?: boolean }',
@@ -145,6 +163,9 @@ export const PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"span">',
     description: "Pinned saved marker shown on the row until the hover toolbar takes over.",
   },
+];
+
+export const FOOTER_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemReadReceipt",
     type: 'useRender.ComponentProps<"span">',
@@ -152,11 +173,32 @@ export const PROPS: readonly PropRow[] = [
       "Footer read-receipt chip. Consumers provide the icon and label; visibility stays product-owned.",
   },
   {
-    name: "MessageItemBadge",
+    name: "MessageItemBadge / MessageItemBadgeSeparator",
     type: 'useRender.ComponentProps<"span"> & { status?: "read" | "unread" }',
     description:
       "Footer badge slot with read and unread treatments. Business labels and icons remain caller-owned.",
   },
+  {
+    name: "MessageItemInlineRepliesTrigger / MessageItemInlineRepliesSummary",
+    type: "button props and span props",
+    description:
+      "One full-width thread-preview trigger. The entire muted surface opens the thread; filtering and the three-row cap stay consumer-owned.",
+  },
+  {
+    name: "MessageItemInlineReplies / MessageItemInlineReplyCount",
+    type: "div props and button props",
+    description:
+      "Backward-compatible granular reply container and count button. Prefer the single Trigger/Summary surface for new compositions.",
+  },
+  {
+    name: "MessageItemInlineReplyRow / Avatar / Sender / Preview",
+    type: "div and span props",
+    description:
+      "Explicit compact preview-row parts. Render Row as a span with render={<span />} when it is nested inside the single button trigger.",
+  },
+];
+
+export const REACTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageReactionChip",
     type: 'useRender.ComponentProps<"button">',
@@ -170,14 +212,21 @@ export const PROPS: readonly PropRow[] = [
       "Screen-reader status and stable styling slot for caller-owned reaction failure copy.",
   },
   {
-    name: "MessageReactionGlyph",
+    name: "MessageReactionGlyph / MessageReactionCount",
     type: 'useRender.ComponentProps<"span"> & { emoji?: string; size?: number }',
-    description: "Native emoji or caller-provided icon slot for reaction affordances.",
+    description: "Native emoji or caller-provided icon plus the numeric reaction-count slot.",
   },
   {
-    name: "MessageReactionQuickRow",
-    type: "compound slots",
-    description: "Quick reaction row, picker, and reactors list. Open state stays caller-owned.",
+    name: "MessageReactionAddButton / MessageReactionQuickRow / MessageReactionQuickButton",
+    type: "button, div, and button props",
+    description:
+      "Add-reaction affordance and inline quick-reaction controls. Selection state and mutation stay caller-owned.",
+  },
+  {
+    name: "MessageReactionPickerStatic",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Inline picker layout for docs, fallback, or other non-portal surfaces. Its child buttons may still be caller-wired.",
   },
   {
     name: "MessageReactionPickerContent",
@@ -185,19 +234,72 @@ export const PROPS: readonly PropRow[] = [
     description: "Base UI dropdown content for an interactive quick reaction overlay.",
   },
   {
-    name: "MessageReactionTooltip",
+    name: "MessageReactionPickerPopup",
+    type: "DropdownMenuPopupProps",
+    description:
+      "Backward-compatible popup primitive. New live overlays should prefer MessageReactionPickerContent; use Static only outside a portal/menu root.",
+  },
+  {
+    name: "MessageReactionTooltipContent / Names / Name / NameText / Separator / Meta",
     type: "Tooltip compound parts",
     description:
       "Reactors tooltip with Base UI trigger, positioning, names, and +N overflow anatomy.",
   },
 ];
 
-export const API_GROUPS = [
-  { id: "api-row-structure", title: "Row structure", rows: PROPS.slice(0, 7) },
+export const SELECTION_PROPS: readonly PropRow[] = [
   {
-    id: "api-content-references-footer",
-    title: "Content, references, and footer",
-    rows: PROPS.slice(7, 20),
+    name: "MessageMultiSelect / useMessageMultiSelect",
+    type: "controlled or uncontrolled selection provider and context API",
+    description:
+      "Owns selection-mode activity and selected IDs. The hook exposes active, selected, enter, toggle, and cancel.",
   },
-  { id: "api-reactions", title: "Reactions", rows: PROPS.slice(20) },
+  {
+    name: "MessageMultiSelectCheckbox",
+    type: "Checkbox props with required value: string",
+    description:
+      "Semantic per-row selector. Compose before MessageItemAvatarSlot inside MessageItemSelection.",
+  },
+  {
+    name: "MessageMultiSelectToolbar / Count / Actions / Action",
+    type: "compound div, span, and button props",
+    description:
+      "Selection summary and caller-owned bulk actions. Action supports default/accent tone and default/icon size.",
+  },
+  {
+    name: "MessageTextSelection / useMessageTextSelection",
+    type: "div props with optional portal container and selection API",
+    description:
+      "Scopes browser text selection to a message region. The hook exposes selected text and clear().",
+  },
+  {
+    name: "MessageTextSelectionMenu / MenuItem / MenuSeparator",
+    type: "Popover content, button, and separator props",
+    description:
+      "Keyboard-accessible selection menu positioned over the selected range. Commands remain caller-owned.",
+  },
+];
+
+export const PROPS = [
+  ...ROW_PROPS,
+  ...CONTENT_PROPS,
+  ...TRANSLATION_REFERENCE_PROPS,
+  ...ACTION_PROPS,
+  ...FOOTER_PROPS,
+  ...REACTION_PROPS,
+  ...SELECTION_PROPS,
+] as const satisfies readonly PropRow[];
+
+export const API_GROUPS = [
+  { id: "api-row-structure", title: "Row structure", rows: ROW_PROPS },
+  { id: "api-content", title: "Content regions", rows: CONTENT_PROPS },
+  {
+    id: "api-translation-references",
+    title: "Translation and references",
+    rows: TRANSLATION_REFERENCE_PROPS,
+  },
+  { id: "api-actions", title: "Row actions", rows: ACTION_PROPS },
+  { id: "api-footer", title: "Footer and replies", rows: FOOTER_PROPS },
+  { id: "api-reactions", title: "Reactions", rows: REACTION_PROPS },
+  { id: "api-selection", title: "Selection", rows: SELECTION_PROPS },
 ] as const satisfies readonly { id: string; title: string; rows: readonly PropRow[] }[];

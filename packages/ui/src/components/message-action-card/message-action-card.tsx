@@ -1,16 +1,17 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import type { Theme } from "../../lib/theme/theme-context";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { messageProductState } from "../message-product-state/message-product-state.recipe";
+import { messageActionCard } from "./message-action-card.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
+type RecipePart = (options?: { className?: string }) => string;
+type ResolveRecipePart = (theme: Theme) => RecipePart;
 
-function createPart(slot: string, recipeSlot: keyof ReturnType<typeof messageProductState>) {
+function createPart(slot: string, resolveRecipePart: ResolveRecipePart) {
   return function MessageActionCardPart({ className, render, ...props }: DivProps) {
     const theme = useThemeFamily();
-    const recipe = messageProductState({ theme })[recipeSlot] as (value: {
-      className?: string;
-    }) => string;
+    const recipe = resolveRecipePart(theme);
     return useRender({
       defaultTagName: "div",
       render,
@@ -20,24 +21,33 @@ function createPart(slot: string, recipeSlot: keyof ReturnType<typeof messagePro
   };
 }
 
-export const MessageActionCard = createPart("message-action-card", "actionCard");
+export const MessageActionCard = createPart(
+  "message-action-card",
+  (theme) => messageActionCard({ theme }).root,
+);
 export const MessageActionCardContent = createPart(
   "message-action-card-content",
-  "actionCardContent",
+  (theme) => messageActionCard({ theme }).content,
 );
-export const MessageActionCardHeader = createPart("message-action-card-header", "actionCardHeader");
+export const MessageActionCardHeader = createPart(
+  "message-action-card-header",
+  (theme) => messageActionCard({ theme }).header,
+);
 export const MessageActionCardDetails = createPart(
   "message-action-card-details",
-  "actionCardDetails",
+  (theme) => messageActionCard({ theme }).details,
 );
-export const MessageActionCardHint = createPart("message-action-card-hint", "actionCardHint");
+export const MessageActionCardHint = createPart(
+  "message-action-card-hint",
+  (theme) => messageActionCard({ theme }).hint,
+);
 export const MessageActionCardCompletion = createPart(
   "message-action-card-completion",
-  "actionCardCompletion",
+  (theme) => messageActionCard({ theme }).completion,
 );
 export const MessageActionCardActions = createPart(
   "message-action-card-actions",
-  "actionCardActions",
+  (theme) => messageActionCard({ theme }).actions,
 );
 
 export type MessageActionCardProps = DivProps;

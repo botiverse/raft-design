@@ -15,7 +15,7 @@ export type PlaygroundMessage = {
   channelId: string;
   senderType: "user" | "agent";
   senderId: PlaygroundActorId;
-  messageType: "chat" | "system";
+  messageType: "chat";
   content: string;
   createdAt: string;
   reactions: readonly PlaygroundMessageReaction[];
@@ -166,7 +166,7 @@ function buildStandardStory<TId extends string>(
   const replies = story.thread.replies.map((threadReply, index) =>
     definePlaygroundMessage(
       `${channelId}:thread-reply-${index + 1}`,
-      `${channelId}:reply`,
+      channelId,
       threadReply.senderId,
       threadReply.createdAt ?? defaultThreadReplyTime(index),
       threadReply.content,

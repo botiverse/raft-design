@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import {
-  buildSystemMessageRenderStates,
   SystemMessage,
   SystemMessageContent,
   SystemMessageGroup,
@@ -10,10 +9,10 @@ import {
   SystemMessageGroupPanel,
   SystemMessageGroupSummary,
   SystemMessageTime,
-  type SystemMessageSlice,
 } from "raft-ui/wip";
 
-import { SYSTEM_MESSAGE_FIXTURE_NOW } from "./system-message.fixtures.ts";
+import type { SystemMessageSlice } from "./system-message.fixtures.ts";
+import { buildSystemMessageRenderStates } from "./system-message-grouping.ts";
 
 export function SystemMessageRow({
   message,
@@ -25,11 +24,7 @@ export function SystemMessageRow({
   return (
     <SystemMessage>
       <SystemMessageTime>{time}</SystemMessageTime>
-      <SystemMessageContent
-        content={message.content}
-        now={SYSTEM_MESSAGE_FIXTURE_NOW}
-        timeFormat="12h"
-      />
+      <SystemMessageContent>{message.content}</SystemMessageContent>
     </SystemMessage>
   );
 }

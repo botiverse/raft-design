@@ -19,6 +19,11 @@ export const messageFooter = tv({
     ],
     badgeSeparator: ["text-foreground/45"],
     inlineReplies: ["mt-1.5 flex flex-col gap-0.5 border-l-2 pl-2.5"],
+    inlineRepliesTrigger: [
+      "mt-1.5 flex w-full flex-col gap-1 px-2.5 py-2 text-left transition-colors",
+      "focus-visible:outline focus-visible:outline-1",
+    ],
+    inlineRepliesSummary: ["shrink-0 text-[12.5px] font-bold"],
     inlineReplyRow: ["flex min-w-0 items-center gap-1.5 text-[12.5px] leading-tight"],
     inlineReplyAvatar: ["shrink-0"],
     inlineReplySender: ["shrink-0 font-semibold"],
@@ -40,9 +45,13 @@ export const messageFooter = tv({
           "transition-colors hover:bg-brutal-cyan/40",
         ],
         inlineReplies: "border-black/15",
+        inlineRepliesTrigger: [
+          "bg-black/[0.04] hover:bg-black/[0.12]",
+          "focus-visible:outline-black",
+        ],
+        inlineRepliesSummary: "text-[oklch(0.605_0.111_224.369)]",
         inlineReplySender: "text-black/70",
         inlineReplyPreview: "text-black/60",
-        // Live `#0f8fb3`
         inlineReplyCount: "text-[oklch(0.605_0.111_224.369)]",
       },
       elegant: {
@@ -59,6 +68,11 @@ export const messageFooter = tv({
           "text-[12px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",
         ],
         inlineReplies: "border-line-subtle",
+        inlineRepliesTrigger: [
+          "rounded-md bg-layer-muted/70 hover:bg-layer-strong/80",
+          "focus-visible:outline-line-focus",
+        ],
+        inlineRepliesSummary: "text-primary-600",
         inlineReplySender: "text-foreground-muted",
         inlineReplyPreview: "text-foreground-muted/80",
         inlineReplyCount: "text-primary-600",

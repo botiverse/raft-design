@@ -1,0 +1,77 @@
+import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import {
+  MessageItem,
+  MessageItemAvatarSlot,
+  MessageItemBody,
+  MessageItemContent,
+  MessageItemHeader,
+  MessageItemInteractionBoundary,
+  MessageItemMeta,
+  MessageItemSender,
+  MessageItemTime,
+  MessageMarkdown,
+  MessageReference,
+} from "raft-ui/wip";
+
+import {
+  MessageMentionReferenceComposition,
+  MessagePermalinkReferenceComposition,
+} from "#/modules/message-item/compositions/content.compositions.tsx";
+import {
+  MESSAGE_FIXTURE_AVATAR_SRC,
+  MESSAGE_PLAYGROUND_URLS,
+} from "#/modules/message-item/message-item.fixtures.ts";
+
+export function MessageReferenceComparisonComposition() {
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+
+  return (
+    <div className="w-full max-w-xl">
+      <MessageItemInteractionBoundary ref={setPortalContainer}>
+        <MessageItem>
+          <MessageItemAvatarSlot>
+            <Avatar size="md" type="agent">
+              <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+              <AvatarFallback>AT</AvatarFallback>
+            </Avatar>
+          </MessageItemAvatarSlot>
+          <MessageItemContent>
+            <MessageItemHeader>
+              <MessageItemSender>Atlas</MessageItemSender>
+              <MessageItemMeta>owner</MessageItemMeta>
+              <MessageItemTime>2:20 PM</MessageItemTime>
+            </MessageItemHeader>
+            <MessageItemBody>
+              <MessageMarkdown>
+                <p>
+                  Ask{" "}
+                  <MessageMentionReferenceComposition
+                    portalContainer={portalContainer}
+                    preview={<p>Atlas · owner</p>}
+                  >
+                    @Atlas
+                  </MessageMentionReferenceComposition>{" "}
+                  to check the{" "}
+                  <MessagePermalinkReferenceComposition
+                    href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}
+                  >
+                    message all:api-docs
+                  </MessagePermalinkReferenceComposition>{" "}
+                  rollout in{" "}
+                  <MessageReference
+                    variant="accent"
+                    render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
+                  >
+                    #release-notes
+                  </MessageReference>
+                  .
+                </p>
+              </MessageMarkdown>
+            </MessageItemBody>
+          </MessageItemContent>
+        </MessageItem>
+      </MessageItemInteractionBoundary>
+    </div>
+  );
+}

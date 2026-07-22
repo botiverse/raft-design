@@ -12,7 +12,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       opening: {
         senderId: "developer",
         content:
-          "The migration plan is ready for review in #raft-ui-migration. Remaining work: keep the message and thread data model coherent for @Atlas and task #97.",
+          "The migration plan is ready for review in #raft-ui-migration. Remaining work: keep the message and thread data model coherent for @Atlas and task #21.",
       },
       reply: {
         senderId: "cuvii",
@@ -74,7 +74,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       reply: {
         senderId: "mira",
         content:
-          "Coverage matrix is ready — `layer-panel` badges, mentions, and task #141 stay caller-owned.\n\n- Keep body content in MessageItemBody\n- Prefer semantic markdown + reference parts",
+          "Coverage matrix is ready — `layer-panel` badges, mentions, and task #18 stay caller-owned.\n\n- Keep body content in MessageItemBody\n- Prefer semantic markdown + reference parts",
       },
       updates: [
         {
@@ -82,7 +82,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           createdAt: "09:29 AM",
           unread: true,
           content:
-            "@Cindy tracked #141 in #weekly-priorities and linked #sidebar-state-audit:final for the hierarchy pass.",
+            "@Cindy tracked #18 in #weekly-priorities and linked #sidebar-state-audit:reply for the hierarchy pass.",
         },
         {
           senderId: "mira",
@@ -97,7 +97,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           {
             senderId: "cindy",
             content:
-              "Muted plus unread is the only combination whose hierarchy still feels ambiguous — see #sidebar-state-audit:final.",
+              "Muted plus unread is the only combination whose hierarchy still feels ambiguous — see #sidebar-state-audit:reply.",
           },
           {
             senderId: "cindy",

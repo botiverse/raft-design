@@ -1,4 +1,4 @@
-import { Download, Eye, Play } from "lucide-react";
+import { Download, Play } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
   MessageImageGallery,
@@ -22,12 +22,12 @@ import {
 export function MessageImageGalleryPairComposition() {
   return (
     <MessageImageGallery>
-      <MessageImageGalleryRow className="grid-cols-2">
-        <MessageImageGalleryItem>
+      <MessageImageGalleryRow layout="pair">
+        <MessageImageGalleryItem size="regular">
           <MessageImageGalleryMedia
             src={MESSAGE_FIXTURE_IMAGE_SRC}
             alt="release poster"
-            className="aspect-[4/3]"
+            geometry="normal"
           />
           <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
           <MessageImageGalleryAction
@@ -37,15 +37,19 @@ export function MessageImageGalleryPairComposition() {
             <Download />
           </MessageImageGalleryAction>
         </MessageImageGalleryItem>
-        <MessageImageGalleryItem aria-busy>
+        <MessageImageGalleryItem size="regular">
           <MessageImageGalleryMedia
             src={MESSAGE_FIXTURE_IMAGE_SRC}
-            alt="release poster uploading"
-            className="aspect-[4/3]"
+            alt="release poster detail"
+            geometry="normal"
           />
-          <MessageImageGalleryOverlay>
-            <Spinner size="md" variant="inverse" />
-          </MessageImageGalleryOverlay>
+          <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
+          <MessageImageGalleryAction
+            aria-label="Download image"
+            onClick={() => downloadMessageFixture("message-image.jpg")}
+          >
+            <Download />
+          </MessageImageGalleryAction>
         </MessageImageGalleryItem>
       </MessageImageGalleryRow>
     </MessageImageGallery>
@@ -59,13 +63,16 @@ export function MessageImageGallerySingleComposition({
 }) {
   return (
     <MessageImageGallery>
-      <MessageImageGalleryRow className="grid-cols-1">
-        <MessageImageGalleryItem single>
+      <MessageImageGalleryRow layout="single">
+        <MessageImageGalleryItem
+          size="single"
+          style={{ width: "min(18rem, 100%)", aspectRatio: "4 / 3" }}
+        >
           <MessageImageGalleryMedia
             src={MESSAGE_FIXTURE_IMAGE_SRC}
             alt="attachment preview"
             fit={fit}
-            className="aspect-[4/3] max-h-36"
+            geometry="single"
           />
           <MessageImageGalleryAction
             aria-label="Download image"
@@ -82,12 +89,16 @@ export function MessageImageGallerySingleComposition({
 export function MessageImageGalleryPendingComposition() {
   return (
     <MessageImageGallery>
-      <MessageImageGalleryRow className="grid-cols-2">
-        <MessageImageGalleryItem aria-busy>
+      <MessageImageGalleryRow layout="single">
+        <MessageImageGalleryItem
+          aria-busy
+          size="single"
+          style={{ width: "min(18rem, 100%)", aspectRatio: "4 / 3" }}
+        >
           <MessageImageGalleryMedia
             src={MESSAGE_FIXTURE_IMAGE_SRC}
             alt="attachment preview uploading"
-            className="aspect-[4/3]"
+            geometry="single"
           />
           <MessageImageGalleryOverlay>
             <Spinner size="md" variant="inverse" />
@@ -100,16 +111,18 @@ export function MessageImageGalleryPendingComposition() {
 
 export function MessageVideoPreviewComposition() {
   return (
-    <MessageVideoPreview title="demo-recording.mp4">
+    <MessageVideoPreview title="Video fallback (static docs fixture)">
       <MessageVideoPreviewFrame>
         <MessageVideoPreviewFallback>
           <Play className="size-8 text-white/80" />
+          <span className="sr-only">Static video fallback; no fixture media is attached.</span>
         </MessageVideoPreviewFallback>
         <MessageVideoPreviewAction
-          aria-label="Open demo-recording.mp4 in preview"
-          onClick={openMessageFixture}
+          aria-label="Download unavailable for static video fallback"
+          title="No video fixture is attached"
+          disabled
         >
-          <Eye />
+          <Download />
         </MessageVideoPreviewAction>
       </MessageVideoPreviewFrame>
     </MessageVideoPreview>

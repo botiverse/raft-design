@@ -42,11 +42,13 @@ import {
   type PlaygroundAgentStatus,
   type PlaygroundAvatarVariant,
 } from "./playground-message-avatar.tsx";
-import { PlaygroundMessageBody, playgroundGutterClock } from "./playground-message-body.tsx";
+import { PlaygroundMessageBody } from "./playground-message-body.tsx";
+import { playgroundGutterClock } from "./playground-message-time.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "../composer/use-playground-single-composer-mention-target.ts";
 import {
   getPlaygroundActor,
   getPlaygroundThread,
+  isPlaygroundDmId,
   PLAYGROUND_SERVER_SLUG,
   requirePlaygroundThread,
   type PlaygroundActorId,
@@ -100,6 +102,7 @@ export type PlaygroundMessageRowProps = {
   threadId?: PlaygroundThreadId;
   compact?: boolean;
   gutterTime?: string;
+  surface?: "conversation" | "thread";
   className?: string;
 };
 
@@ -111,8 +114,14 @@ export function PlaygroundMessageRow({
   threadId,
   compact,
   gutterTime,
+  surface = "conversation",
   className,
 }: PlaygroundMessageRowProps) {
+  const conversationKind = isPlaygroundDmId(message.channelId) ? "dm" : "channel";
+  const threadSearch = threadId ? `?thread=${encodeURIComponent(threadId)}` : "";
+  const messageAnchor = `${surface === "thread" ? "thread-message" : "message"}-${message.id}`;
+  const messagePermalink = `/playground/s/${PLAYGROUND_SERVER_SLUG}/${conversationKind}/${encodeURIComponent(message.channelId)}${threadSearch}#${encodeURIComponent(messageAnchor)}`;
+
   return (
     <MessageRowView
       actorId={message.senderId}
@@ -124,6 +133,9 @@ export function PlaygroundMessageRow({
       reactions={message.reactions}
       rowState={searchMatch ? "search-match" : undefined}
       selectId={message.id}
+      messageAnchor={messageAnchor}
+      messageChannelId={message.channelId}
+      messagePermalink={messagePermalink}
       time={message.createdAt}
       threadId={threadId}
       className={className}
@@ -192,6 +204,9 @@ function MessageRowView({
   rowState,
   selectId,
   threadId,
+  messageAnchor,
+  messageChannelId,
+  messagePermalink,
   className,
 }: {
   actorId: PlaygroundActorId;
@@ -215,6 +230,9 @@ function MessageRowView({
   rowState?: "active" | "search-match";
   selectId: PlaygroundMessageId;
   threadId?: PlaygroundThreadId;
+  messageAnchor?: string;
+  messageChannelId?: string;
+  messagePermalink?: string;
   className?: string;
 }) {
   const actor = getPlaygroundActor(actorId);
@@ -242,7 +260,6 @@ function MessageRowView({
       ...current,
       reactions: togglePlaygroundMessageReaction(current.reactions, emoji),
     }));
-  const [threadRequested, setThreadRequested] = useState(false);
   const [contextMenuPortalContainer, setContextMenuPortalContainer] =
     useState<HTMLDivElement | null>(null);
   const [reactionPortalContainer, setReactionPortalContainer] = useState<HTMLDivElement | null>(
@@ -251,7 +268,12 @@ function MessageRowView({
   const navigate = useNavigate();
   const threadContext = threadId ? getPlaygroundThread(threadId) : undefined;
   const markdownText = typeof body === "string" ? body : "Composed message content";
-  const renderedBody = typeof body === "string" ? <PlaygroundMessageBody content={body} /> : body;
+  const renderedBody =
+    typeof body === "string" ? (
+      <PlaygroundMessageBody channelId={messageChannelId} content={body} />
+    ) : (
+      body
+    );
 
   const effectiveRowState = selectMode ? "select" : (rowState ?? (menuOpen ? "active" : undefined));
   const ItemRoot =
@@ -282,10 +304,8 @@ function MessageRowView({
           });
         }
       : undefined;
-  const requestThread = openThread ?? (() => setThreadRequested(true));
-
   const messageItem = (
-    <ItemRoot compact={compact} className={className}>
+    <ItemRoot id={messageAnchor} compact={compact} className={className}>
       {selectMode ? (
         <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
       ) : null}
@@ -366,16 +386,11 @@ function MessageRowView({
       </MessageItemContent>
       <RowToolbar
         saved={isSaved}
-        onReplyInThread={requestThread}
+        onReplyInThread={openThread}
         portalContainer={reactionPortalContainer}
         onReact={toggleReaction}
         onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
       />
-      {threadRequested ? (
-        <span className="sr-only" role="status">
-          Thread composer opened
-        </span>
-      ) : null}
       <div ref={setReactionPortalContainer} className="contents" />
     </ItemRoot>
   );
@@ -400,7 +415,14 @@ function MessageRowView({
           followed={isFollowed}
           task={taskState}
           portalContainer={contextMenuPortalContainer}
-          onCopyLink={() => void navigator.clipboard?.writeText(window.location.href)}
+          onCopyLink={
+            messagePermalink
+              ? () => {
+                  const permalink = new URL(messagePermalink, window.location.origin);
+                  void navigator.clipboard?.writeText(permalink.href);
+                }
+              : undefined
+          }
           onCopyMarkdown={() => void navigator.clipboard?.writeText(markdownText)}
           onFollowChange={threadContext ? setFollowed : undefined}
           onQuickReact={(emoji) => {
@@ -410,7 +432,7 @@ function MessageRowView({
           onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
           onTaskChange={(next) => updateWorkflow((current) => ({ ...current, task: next }))}
           onSelectMessage={selection ? () => selection.enter(rowSelectId) : undefined}
-          onOpenThread={requestThread}
+          onOpenThread={openThread}
         />
       </ContextMenu>
     </MessageItemInteractionBoundary>

@@ -6,20 +6,23 @@ import { MessageReference, MessageReferenceLabel, MessageReferenceMeta } from "r
 type MessageReferenceCompositionProps = {
   children: ReactNode;
   href: string;
+};
+
+type MessageMentionReferenceBaseProps = {
+  children: ReactNode;
   portalContainer?: HTMLElement | null;
 };
 
-export type MessageSelfMentionReferenceCompositionProps = MessageReferenceCompositionProps & {
+export type MessageSelfMentionReferenceCompositionProps = MessageMentionReferenceBaseProps & {
   preview: ReactNode;
 };
 
-export type MessageMentionReferenceCompositionProps = MessageReferenceCompositionProps & {
+export type MessageMentionReferenceCompositionProps = MessageMentionReferenceBaseProps & {
   preview: ReactNode;
 };
 
 export function MessageMentionReferenceComposition({
   children,
-  href,
   portalContainer,
   preview,
 }: MessageMentionReferenceCompositionProps) {
@@ -28,7 +31,12 @@ export function MessageMentionReferenceComposition({
       <PreviewCardTrigger
         closeDelay={120}
         delay={200}
-        render={<MessageReference variant="plain" render={<a href={href} />} />}
+        render={
+          <MessageReference
+            variant="plain"
+            render={<button type="button" title="Preview mention" />}
+          />
+        }
       >
         {children}
       </PreviewCardTrigger>
@@ -46,7 +54,6 @@ export function MessageMentionReferenceComposition({
 
 export function MessageSelfMentionReferenceComposition({
   children,
-  href,
   portalContainer,
   preview,
 }: MessageSelfMentionReferenceCompositionProps) {
@@ -55,7 +62,12 @@ export function MessageSelfMentionReferenceComposition({
       <PreviewCardTrigger
         closeDelay={120}
         delay={200}
-        render={<MessageReference variant="highlight" render={<a href={href} />} />}
+        render={
+          <MessageReference
+            variant="highlight"
+            render={<button type="button" title="Preview current member" />}
+          />
+        }
       >
         {children}
       </PreviewCardTrigger>
@@ -75,12 +87,22 @@ export function MessagePermalinkReferenceComposition({
   children,
   external,
   href,
-}: MessageReferenceCompositionProps & { external?: boolean }) {
+  meta = "msg",
+}: MessageReferenceCompositionProps & { external?: boolean; meta?: ReactNode }) {
   return (
-    <MessageReference variant={external ? "external" : "panel"} render={<a href={href} />}>
+    <MessageReference
+      variant={external ? "external" : "panel"}
+      render={
+        <a
+          href={href}
+          rel={external ? "noreferrer" : undefined}
+          target={external ? "_blank" : undefined}
+        />
+      }
+    >
       <LinkIcon />
       <MessageReferenceLabel>{children}</MessageReferenceLabel>
-      <MessageReferenceMeta>msg</MessageReferenceMeta>
+      <MessageReferenceMeta>{meta}</MessageReferenceMeta>
     </MessageReference>
   );
 }
@@ -97,10 +119,10 @@ export function MessageReferenceLoadingComposition({ children }: { children: Rea
 export function MessageUnavailableReferencesComposition() {
   return (
     <p>
-      Unavailable references use one treatment:{" "}
-      <MessageReference variant="unavailable">#archived</MessageReference>{" "}
-      <MessageReference variant="unavailable">#404</MessageReference>{" "}
-      <MessageReference variant="unavailable">#general:deadbeef</MessageReference>
+      Unknown channel, task, and authority-unavailable thread references fall back to plain text:{" "}
+      <span>#404</span>, <span>task #999</span>, and <span>#release-notes:unknown</span>. Only a
+      resolved thread token whose route parent later disappeared keeps a non-link info chip:{" "}
+      <MessageReference variant="info">#release-notes:missing-parent</MessageReference>.
     </p>
   );
 }

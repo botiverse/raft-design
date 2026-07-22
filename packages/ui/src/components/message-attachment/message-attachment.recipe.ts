@@ -3,6 +3,10 @@ import { tv } from "../../lib/tv";
 export const messageAttachment = tv({
   slots: {
     group: ["flex max-w-[22.5rem] flex-wrap items-start gap-2"],
+    frame: [
+      "group/attachment relative inline-block h-20 w-44 min-w-44 max-w-44 shrink-0 align-top",
+      "[&>[data-slot=message-attachment-action]]:absolute [&>[data-slot=message-attachment-action]]:right-7 [&>[data-slot=message-attachment-action]]:bottom-1.5",
+    ],
     card: [
       "group/attachment relative inline-flex h-20 w-44 min-w-44 max-w-44 shrink-0 flex-col justify-between overflow-hidden",
       "border px-2.5 py-2 text-left transition-colors",
