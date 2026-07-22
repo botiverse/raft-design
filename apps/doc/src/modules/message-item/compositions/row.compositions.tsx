@@ -1,17 +1,14 @@
 import { useState } from "react";
-import { Bookmark, ChevronRight, MessageSquare, Play, SmilePlus } from "lucide-react";
-import { Avatar, AvatarFallback, Badge, ContextMenu, ContextMenuTrigger } from "raft-ui";
+import { Bookmark, MessageSquare } from "lucide-react";
+import { Avatar, AvatarFallback, ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
   MessageItem,
   MessageItemActive,
-  MessageItemAttachments,
   MessageItemAvatarSlot,
   MessageItemBadge,
-  MessageItemBadgeSeparator,
   MessageItemBody,
   MessageItemContent,
   MessageItemContinuationTime,
-  MessageItemEmbedded,
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
@@ -24,25 +21,14 @@ import {
   MessageItemSender,
   MessageItemSenderState,
   MessageItemTime,
-  MessageReactionChip,
-  MessageReactionGlyph,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
-  SystemMessageItem,
-  SystemMessageItemContent,
-  SystemMessageGroupDisclosure,
-  SystemMessageItemTime,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import {
   MessageContextMenuComposition,
   type MessageTaskState,
 } from "./context-menu.composition.tsx";
-import {
-  MessageFileAttachmentsComposition,
-  MessageImageGalleryPairComposition,
-  MessageVideoPreviewComposition,
-} from "./media.compositions.tsx";
 import { MessageRowToolbarFixture } from "./row-toolbar.composition.tsx";
 
 export function AuthoredMessageRow() {
@@ -187,69 +173,6 @@ export function InteractiveStateRows() {
   );
 }
 
-export function ImageGalleryMessageRow() {
-  return (
-    <MessageItem>
-      <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>IM</AvatarFallback>
-        </Avatar>
-      </MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Image gallery</MessageItemSender>
-          <MessageItemTime>3:01 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemAttachments>
-          <MessageImageGalleryPairComposition />
-        </MessageItemAttachments>
-      </MessageItemContent>
-    </MessageItem>
-  );
-}
-
-export function VideoPreviewMessageRow() {
-  return (
-    <MessageItem>
-      <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>VD</AvatarFallback>
-        </Avatar>
-      </MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Video preview</MessageItemSender>
-          <MessageItemTime>3:02 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemAttachments>
-          <MessageVideoPreviewComposition />
-        </MessageItemAttachments>
-      </MessageItemContent>
-    </MessageItem>
-  );
-}
-
-export function FileAttachmentMessageRow() {
-  return (
-    <MessageItem>
-      <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>FL</AvatarFallback>
-        </Avatar>
-      </MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>File attachments</MessageItemSender>
-          <MessageItemTime>3:03 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemAttachments>
-          <MessageFileAttachmentsComposition />
-        </MessageItemAttachments>
-      </MessageItemContent>
-    </MessageItem>
-  );
-}
-
 export function ConsecutiveMessageRow() {
   return (
     <MessageItem compact>
@@ -262,56 +185,6 @@ export function ConsecutiveMessageRow() {
         </MessageItemBody>
       </MessageItemContent>
     </MessageItem>
-  );
-}
-
-export function ThreadArchiveEventRow() {
-  return (
-    <SystemMessageItem>
-      <SystemMessageItemTime>2:16 PM</SystemMessageItemTime>
-      <SystemMessageItemContent>Atlas archived this thread.</SystemMessageItemContent>
-    </SystemMessageItem>
-  );
-}
-
-export function ReminderReceiptEventRow() {
-  return (
-    <SystemMessageItem>
-      <SystemMessageItemTime>2:17 PM</SystemMessageItemTime>
-      <SystemMessageItemContent title="Reminder fires Jul 16, 9:00 AM">
-        Reminder scheduled for tomorrow at 9:00 AM.
-      </SystemMessageItemContent>
-    </SystemMessageItem>
-  );
-}
-
-export function SystemMessageGroupRow() {
-  const [expanded, setExpanded] = useState(false);
-
-  return (
-    <div className="mb-1">
-      <div className="flex justify-center py-1.5">
-        <SystemMessageGroupDisclosure
-          aria-expanded={expanded}
-          onClick={() => setExpanded((current) => !current)}
-          title="There are 2 system updates: 1 task update, 1 reminder update"
-        >
-          <span className="truncate">
-            There are 2 system updates: 1 task update, 1 reminder update
-          </span>
-          <ChevronRight aria-hidden />
-        </SystemMessageGroupDisclosure>
-      </div>
-      {expanded ? (
-        <div>
-          <SystemMessageItem>
-            <SystemMessageItemTime>2:18 PM</SystemMessageItemTime>
-            <SystemMessageItemContent>Task #41 was completed.</SystemMessageItemContent>
-          </SystemMessageItem>
-          <ReminderReceiptEventRow />
-        </div>
-      ) : null}
-    </div>
   );
 }
 
@@ -399,57 +272,6 @@ export function ConvertingMessageRow() {
         </MessageItemHeader>
         <MessageItemBody>Converting the selected message into a task.</MessageItemBody>
       </MessageItemContent>
-    </MessageItem>
-  );
-}
-
-export function RichAttachmentMessageRow() {
-  return (
-    <MessageItem>
-      <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AP</AvatarFallback>
-        </Avatar>
-      </MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>App Planner</MessageItemSender>
-          <MessageItemMeta>gpt-4.1</MessageItemMeta>
-          <MessageItemTime>3:04 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>
-          Here is the source parity pass for <strong>#222</strong>. Mention chip, channel link, task
-          link, and markdown are rendered by the caller.
-        </MessageItemBody>
-        <MessageItemEmbedded>
-          <MessageItemNotice>Forwarded from #release-notes by Ada.</MessageItemNotice>
-        </MessageItemEmbedded>
-        <MessageItemAttachments>
-          <MessageImageGalleryPairComposition />
-          <MessageVideoPreviewComposition />
-          <MessageFileAttachmentsComposition />
-        </MessageItemAttachments>
-        <MessageItemFooter>
-          <Badge variant="information" appearance="solid" uppercase={false}>
-            <Play size={10} />
-            <span>#222</span>
-            <span>@Ada</span>
-          </Badge>
-          <MessageItemBadge status="unread">
-            <MessageSquare />6 replies
-            <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>3 new
-          </MessageItemBadge>
-          <MessageReactionComposition emoji="👍" count={5} reacted />
-          <MessageReactionComposition emoji="👀" count={2} />
-          <MessageReactionComposition emoji="🔥" count={1} failed />
-          <MessageReactionChip aria-label="Add reaction" disabled>
-            <MessageReactionGlyph>
-              <SmilePlus />
-            </MessageReactionGlyph>
-          </MessageReactionChip>
-        </MessageItemFooter>
-      </MessageItemContent>
-      <Toolbar />
     </MessageItem>
   );
 }

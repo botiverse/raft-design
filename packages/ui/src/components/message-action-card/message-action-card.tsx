@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { messageProductState } from "./message-product-state.recipe";
+import { messageProductState } from "../message-product-state/message-product-state.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
 

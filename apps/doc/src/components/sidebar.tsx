@@ -78,8 +78,9 @@ const NAV = [
         label: "ConversationPanel",
         to: "/components/conversation-panel",
         status: "done",
-        children: [{ label: "MessageItem", to: "/components/message-item", status: "wip" }],
       },
+      { label: "MessageItem", to: "/components/message-item", status: "wip" },
+      { label: "SystemMessage", to: "/components/system-message", status: "wip" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
       {
         label: "Composer",

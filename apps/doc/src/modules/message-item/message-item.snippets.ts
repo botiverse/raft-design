@@ -17,7 +17,7 @@ export const ANATOMY_SOURCE = `<MessageItem>
       <MessageItemTime />
     </MessageItemHeader>
     <MessageItemBody />
-    <MessageAttachmentGroup>...</MessageAttachmentGroup>
+    <MessageItemAttachments>...</MessageItemAttachments>
     <MessageItemFooter />
   </MessageItemContent>
   <MessageItemToolbar />
@@ -31,9 +31,21 @@ export const PROPS: readonly PropRow[] = [
       "Root row. Compose MessageItemActive, MessageItemSearchMatch, or MessageItemSelection for explicit row chrome.",
   },
   {
+    name: "MessageItemAvatarSlot",
+    type: 'useRender.ComponentProps<"div"> & { pressed?: boolean }',
+    description:
+      "Avatar gutter slot. Optional pressed enables the source long-press scale and brightness treatment via data-avatar-pressed.",
+  },
+  {
     name: "MessageItemHeader",
     type: 'useRender.ComponentProps<"div">',
     description: "Sender, sender state, metadata, timestamp, and inline delivery state row.",
+  },
+  {
+    name: "MessageItemSender",
+    type: 'useRender.ComponentProps<"span"> & { interactive?: boolean }',
+    description:
+      "Sender name. interactive adds pointer cursor and underline hover for mention-style clicks without changing the default span.",
   },
   {
     name: "MessageMultiSelect / MessageMultiSelectCheckbox",
@@ -95,24 +107,6 @@ export const PROPS: readonly PropRow[] = [
       "Attachment-comment reference chip. Consumers provide the label, optional quoted context, and jump behavior.",
   },
   {
-    name: "MessageForwardedBundle",
-    type: "compound slots",
-    description:
-      "Source-faithful forwarded-message structure. Provenance, permissions, and source navigation remain caller-owned.",
-  },
-  {
-    name: "MessageQuotedPreview",
-    type: "compound slots",
-    description:
-      "Quoted message preview with loaded, loading, and unavailable shells. Fetching and permalink resolution remain caller-owned.",
-  },
-  {
-    name: "MessageActionCard",
-    type: "compound slots",
-    description:
-      "Action-card structure for caller-provided action metadata, callbacks, and completion content.",
-  },
-  {
     name: "MessageItemToolbar",
     type: 'useRender.ComponentProps<"div"> & { visible?: boolean }',
     description:
@@ -134,50 +128,16 @@ export const PROPS: readonly PropRow[] = [
     description: "Pinned saved marker shown on the row until the hover toolbar takes over.",
   },
   {
+    name: "MessageItemReadReceipt",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Footer read-receipt chip. Consumers provide the icon and label; visibility stays product-owned.",
+  },
+  {
     name: "MessageItemBadge",
     type: 'useRender.ComponentProps<"span"> & { status?: "read" | "unread" }',
     description:
       "Footer badge slot with read and unread treatments. Business labels and icons remain caller-owned.",
-  },
-  {
-    name: "MessageImageGallery",
-    type: "compound slots",
-    description:
-      "Image grid, overlay-driven pending treatment, and media fit slots for source image attachment variants.",
-  },
-  {
-    name: "MessageImageGalleryItem",
-    type: 'useRender.ComponentProps<"div"> & { single?: boolean }',
-    description:
-      "Image item shell. Rendering MessageImageGalleryOverlay derives pending dimming; single controls layout only.",
-  },
-  {
-    name: "MessageImageGalleryMedia",
-    type: 'useRender.ComponentProps<"img"> & { fit?: "contain" | "cover" }',
-    description: "Image media fit mode used by preview thumbnails and contain-style attachments.",
-  },
-  {
-    name: "MessageAttachmentCard",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Attachment card shell. Loading, pending, error, and action visuals are caller-composed parts.",
-  },
-  {
-    name: "MessageAttachmentGroup",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Reusable wrapping layout for one or more attachment cards.",
-  },
-  {
-    name: "MessageVideoPreview",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Inline video preview shell. Consumers compose media, fallback, action, and pending content as children.",
-  },
-  {
-    name: "MessageVideoPreviewFallback",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Non-interactive fallback surface. Compose MessageVideoPreviewAction for real controls.",
   },
   {
     name: "MessageReactionChip",
@@ -212,22 +172,14 @@ export const PROPS: readonly PropRow[] = [
     description:
       "Reactors tooltip with Base UI trigger, positioning, names, and +N overflow anatomy.",
   },
-  {
-    name: "SystemMessageItem / SystemMessageGroupDisclosure",
-    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"button">',
-    description:
-      "Centered system row and caller-controlled summary disclosure for archive, reminder, join/leave, and grouped system events.",
-  },
 ];
 
 export const API_GROUPS = [
-  { id: "api-row-structure", title: "Row structure", rows: PROPS.slice(0, 5) },
+  { id: "api-row-structure", title: "Row structure", rows: PROPS.slice(0, 7) },
   {
-    id: "api-content-product-states-footer",
-    title: "Content, product states, and footer",
-    rows: PROPS.slice(5, 18),
+    id: "api-content-references-footer",
+    title: "Content, references, and footer",
+    rows: PROPS.slice(7, 20),
   },
-  { id: "api-attachments", title: "Attachments", rows: PROPS.slice(18, 25) },
-  { id: "api-reactions", title: "Reactions", rows: PROPS.slice(25, 31) },
-  { id: "api-system-events", title: "System events", rows: PROPS.slice(31) },
+  { id: "api-reactions", title: "Reactions", rows: PROPS.slice(20) },
 ] as const satisfies readonly { id: string; title: string; rows: readonly PropRow[] }[];

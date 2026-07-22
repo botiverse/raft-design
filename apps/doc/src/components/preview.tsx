@@ -8,6 +8,7 @@ import {
 } from "react";
 import { Collapsible } from "@base-ui/react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
+import { useMediaQuery } from "foxact/use-media-query";
 import { ChevronDown } from "lucide-react";
 import {
   Button,
@@ -15,6 +16,12 @@ import {
   Input,
   RadioGroup,
   RadioGroupItem,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
+  SegmentedControl,
+  SegmentedControlItem,
+  SegmentedControlLabel,
   Select,
   SelectContent,
   SelectIcon,
@@ -29,6 +36,12 @@ import {
 
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PreviewThemeScope, type PreviewMode } from "#/components/preview-theme.tsx";
+
+/** Matches the previous fixed `20rem` controls column. */
+const PREVIEW_CONTROLS_DEFAULT_SIZE = 320;
+const PREVIEW_CONTROLS_MIN_SIZE = 240;
+const PREVIEW_CONTROLS_MAX_SIZE = 480;
+const PREVIEW_CANVAS_MIN_SIZE = 280;
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
@@ -75,6 +88,13 @@ type PreviewSelectProps = {
 };
 
 type PreviewRadioProps = {
+  label: string;
+  options: readonly string[];
+  value: string;
+  onValueChange: (value: string) => void;
+};
+
+type PreviewSegmentedProps = {
   label: string;
   options: readonly string[];
   value: string;
@@ -211,6 +231,31 @@ function PreviewRadio({ label, options, value, onValueChange }: PreviewRadioProp
   );
 }
 
+function PreviewSegmented({ label, options, value, onValueChange }: PreviewSegmentedProps) {
+  return (
+    <SegmentedControl
+      ariaLabel={label}
+      value={value}
+      onValueChange={(nextValue) => {
+        if (nextValue) {
+          onValueChange(nextValue);
+        }
+      }}
+      className="w-full"
+    >
+      {options.map((option) => (
+        <SegmentedControlItem
+          key={option}
+          value={option}
+          className="px-2 py-1.5 font-mono text-[11px]"
+        >
+          <SegmentedControlLabel>{option}</SegmentedControlLabel>
+        </SegmentedControlItem>
+      ))}
+    </SegmentedControl>
+  );
+}
+
 function PreviewCheckbox({ id, label, checked, onCheckedChange }: PreviewCheckboxProps) {
   return (
     <Checkbox
@@ -276,34 +321,73 @@ function PreviewRoot({
   previewTheme,
   previewMode,
 }: PreviewProps) {
+  const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const canvas = getPreviewPart(children, PreviewCanvas);
   const controls = getPreviewPart(children, PreviewControls);
   const code = getPreviewPart(children, PreviewCode);
   const previewInsetClass =
     previewInset === "flush" ? "items-stretch gap-0 p-0" : "items-center gap-4 px-6 py-4";
   const hasControls = controls != null;
+  const canvasNode = (
+    <PreviewThemeScope
+      family={previewTheme}
+      mode={previewMode}
+      className="bg-white text-foreground"
+    >
+      <div
+        className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}
+      >
+        {canvas?.props.children ?? null}
+      </div>
+    </PreviewThemeScope>
+  );
+
+  const controlsNode = hasControls ? (
+    <div
+      className={
+        isDesktop
+          ? "h-full bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8"
+          : "border-t border-[oklch(0_0_0_/_0.10)] bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8"
+      }
+    >
+      {controls}
+    </div>
+  ) : null;
 
   return (
     <div data-component-demo-frame className="relative min-w-0">
       <div className={frameClass}>
-        <div className={hasControls ? "grid md:grid-cols-[minmax(0,1fr)_20rem]" : undefined}>
-          <PreviewThemeScope
-            family={previewTheme}
-            mode={previewMode}
-            className="bg-white text-foreground"
-          >
-            <div
-              className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}
-            >
-              {canvas?.props.children ?? null}
+        {hasControls ? (
+          isDesktop ? (
+            <ResizableGroup orientation="horizontal" className="h-auto min-w-0">
+              <ResizablePanel
+                id="preview-canvas"
+                minSize={PREVIEW_CANVAS_MIN_SIZE}
+                className="min-w-0"
+              >
+                {canvasNode}
+              </ResizablePanel>
+              <ResizableHandle className="ml-0 w-0 border-l border-[oklch(0_0_0_/_0.10)] bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0" />
+              <ResizablePanel
+                id="preview-controls"
+                defaultSize={PREVIEW_CONTROLS_DEFAULT_SIZE}
+                minSize={PREVIEW_CONTROLS_MIN_SIZE}
+                maxSize={PREVIEW_CONTROLS_MAX_SIZE}
+                groupResizeBehavior="preserve-pixel-size"
+                className="min-w-0"
+              >
+                {controlsNode}
+              </ResizablePanel>
+            </ResizableGroup>
+          ) : (
+            <div>
+              {canvasNode}
+              {controlsNode}
             </div>
-          </PreviewThemeScope>
-          {hasControls ? (
-            <div className="border-t border-[oklch(0_0_0_/_0.10)] bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8 md:border-t-0 md:border-l">
-              {controls}
-            </div>
-          ) : null}
-        </div>
+          )
+        ) : (
+          canvasNode
+        )}
         {code ? <div className="border-t border-[oklch(0_0_0_/_0.10)] bg-white">{code}</div> : null}
       </div>
     </div>
@@ -317,6 +401,7 @@ export const Preview = Object.assign(PreviewRoot, {
   Control: PreviewControl,
   Select: PreviewSelect,
   Radio: PreviewRadio,
+  Segmented: PreviewSegmented,
   Checkbox: PreviewCheckbox,
   Text: PreviewText,
   Code: PreviewCode,

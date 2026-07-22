@@ -7,6 +7,11 @@ export const messageFooter = tv({
       "border border-line-strong px-1.5 text-[10px] font-bold leading-none",
       "[&_svg]:size-[10px] [&_svg]:shrink-0",
     ],
+    readReceipt: [
+      "inline-flex h-5 shrink-0 items-center gap-1 whitespace-nowrap",
+      "text-[10px] font-bold leading-none",
+      "[&_svg]:size-[10px] [&_svg]:shrink-0",
+    ],
     badge: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
       "border transition-colors",
@@ -23,6 +28,7 @@ export const messageFooter = tv({
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-black",
           "[&_svg]:text-brutal-orange",
         ],
+        readReceipt: "text-black/45",
         badge: [
           "border-line-strong px-1.5 text-[10px] font-bold leading-none text-black",
           "transition-colors hover:bg-brutal-cyan/40",
@@ -36,6 +42,7 @@ export const messageFooter = tv({
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-[11px] [&_svg]:shrink-0",
         ],
+        readReceipt: "text-[11px] font-medium text-foreground-muted",
         badge: [
           "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
           "text-[12px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",

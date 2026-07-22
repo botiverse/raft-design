@@ -56,27 +56,38 @@ import {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   SystemMessageGroupDisclosure,
-  SystemMessageItem,
-  SystemMessageItemContent,
-  SystemMessageItemTime,
+  SystemMessage,
+  SystemMessageContent,
+  SystemMessageTime,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
+import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
+import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
 import {
   MessageCodeBlockComposition,
   MessageMarkdownComposition,
-} from "./content.compositions.tsx";
+} from "#/modules/message-markdown/compositions/markdown.composition.tsx";
+import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card.composition.tsx";
 import {
-  MessageProductStatePreview,
-  type MessageProductStatePreviewState,
-} from "./message-product-states.composition.tsx";
-import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+  QuotedPreviewFeedbackComposition,
+  QuotedPreviewMessageComposition,
+} from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
+import { ForwardedBundleMessageComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import {
-  MessageFileAttachmentsComposition,
   MessageImageGallerySingleComposition,
   MessageVideoPreviewComposition,
-} from "./media.compositions.tsx";
-import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
-import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
+} from "#/modules/message-media/compositions/media.compositions.tsx";
+import { MessageFileAttachmentsComposition } from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx";
+
+export type MessageProductStatePreviewState = "forwarded" | "quoted" | "quoted-feedback" | "action";
+
+function MessageProductStatePreview({ state }: { state: MessageProductStatePreviewState }) {
+  if (state === "forwarded") return <ForwardedBundleMessageComposition />;
+  if (state === "quoted") return <QuotedPreviewMessageComposition />;
+  if (state === "quoted-feedback") return <QuotedPreviewFeedbackComposition />;
+  return <ActionCardMessageComposition />;
+}
 
 export type MessageItemPreviewChrome =
   | "default"
@@ -197,16 +208,16 @@ function MessageSystemGroupPreview() {
       </div>
       {expanded ? (
         <div>
-          <SystemMessageItem>
-            <SystemMessageItemTime>2:18 PM</SystemMessageItemTime>
-            <SystemMessageItemContent>Task #41 was completed.</SystemMessageItemContent>
-          </SystemMessageItem>
-          <SystemMessageItem>
-            <SystemMessageItemTime>2:19 PM</SystemMessageItemTime>
-            <SystemMessageItemContent title="Reminder fires Jul 16, 9:00 AM">
+          <SystemMessage>
+            <SystemMessageTime>2:18 PM</SystemMessageTime>
+            <SystemMessageContent>Task #41 was completed.</SystemMessageContent>
+          </SystemMessage>
+          <SystemMessage>
+            <SystemMessageTime>2:19 PM</SystemMessageTime>
+            <SystemMessageContent title="Reminder fires Jul 16, 9:00 AM">
               Reminder scheduled for tomorrow at 9:00 AM.
-            </SystemMessageItemContent>
-          </SystemMessageItem>
+            </SystemMessageContent>
+          </SystemMessage>
         </div>
       ) : null}
     </div>
@@ -217,16 +228,16 @@ function MessageSystemPreview({ event }: { event: MessageItemPreviewSystemEvent 
   if (event === "group") return <MessageSystemGroupPreview />;
 
   return (
-    <SystemMessageItem>
-      <SystemMessageItemTime>2:17 PM</SystemMessageItemTime>
-      <SystemMessageItemContent
+    <SystemMessage>
+      <SystemMessageTime>2:17 PM</SystemMessageTime>
+      <SystemMessageContent
         title={event === "reminder" ? "Reminder fires Jul 16, 9:00 AM" : undefined}
       >
         {event === "reminder"
           ? "Reminder scheduled for tomorrow at 9:00 AM."
           : "Atlas archived this thread."}
-      </SystemMessageItemContent>
-    </SystemMessageItem>
+      </SystemMessageContent>
+    </SystemMessage>
   );
 }
 

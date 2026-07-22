@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { dataPresence, type SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
@@ -22,12 +23,21 @@ export function MessageItemHeader({ className, render, ...props }: MessageItemHe
   });
 }
 
-export type MessageItemSenderProps = useRender.ComponentProps<"span">;
+export type MessageItemSenderProps = useRender.ComponentProps<"span"> & {
+  /** Pointer + underline hover treatment for clickable sender names. */
+  interactive?: boolean;
+};
 
-export function MessageItemSender({ className, render, ...props }: MessageItemSenderProps) {
+export function MessageItemSender({
+  className,
+  interactive,
+  render,
+  ...props
+}: MessageItemSenderProps) {
   const theme = useThemeFamily();
   const { sender } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"span"> = {
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-interactive": dataPresence(interactive),
     className: sender({ className }),
   };
 

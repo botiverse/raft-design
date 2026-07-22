@@ -10,7 +10,9 @@ export const messageItem = tv({
     ],
     gutter: ["relative w-9 shrink-0 self-stretch max-md:w-8"],
     avatarSlot: [
-      "relative mt-0.5 shrink-0 self-start hover:brightness-90 transition-colors",
+      "relative mt-0.5 shrink-0 self-start",
+      "transition-[filter,transform] duration-75 hover:brightness-90",
+      "data-[avatar-pressed=true]:scale-90 data-[avatar-pressed=true]:brightness-75",
       "max-md:[&_[data-slot=avatar][data-size=md]]:size-7",
     ],
     avatarStatus: [
@@ -21,7 +23,11 @@ export const messageItem = tv({
     ],
     content: ["min-w-0 flex-1"],
     header: ["flex min-w-0 overflow-hidden pr-24"],
-    sender: ["min-w-0 shrink-0 truncate text-sm"],
+    sender: [
+      "min-w-0 shrink-0 truncate text-sm",
+      "data-[interactive]:cursor-pointer",
+      "data-[interactive]:hover:underline data-[interactive]:hover:decoration-2 data-[interactive]:hover:underline-offset-2",
+    ],
     senderState: ["inline-flex items-center"],
     meta: ["min-w-0 truncate"],
     time: ["shrink-0 whitespace-nowrap"],

@@ -35,6 +35,7 @@ import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
 import { Route as ComponentsTaskCardRouteImport } from './routes/components/task-card'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
+import { Route as ComponentsSystemMessageRouteImport } from './routes/components/system-message'
 import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
@@ -234,6 +235,11 @@ const ComponentsTaskCardRoute = ComponentsTaskCardRouteImport.update({
 const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
   id: '/tabs',
   path: '/tabs',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSystemMessageRoute = ComponentsSystemMessageRouteImport.update({
+  id: '/system-message',
+  path: '/system-message',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsSwitchRoute = ComponentsSwitchRouteImport.update({
@@ -652,6 +658,7 @@ export interface FileRoutesByFullPath {
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
+  '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
   '/components/tasks': typeof ComponentsTasksRoute
@@ -746,6 +753,7 @@ export interface FileRoutesByTo {
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
+  '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
   '/components/tasks': typeof ComponentsTasksRoute
@@ -842,6 +850,7 @@ export interface FileRoutesById {
   '/components/status': typeof ComponentsStatusRoute
   '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
+  '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
   '/components/tasks': typeof ComponentsTasksRoute
@@ -939,6 +948,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/status-dot'
     | '/components/switch'
+    | '/components/system-message'
     | '/components/tabs'
     | '/components/task-card'
     | '/components/tasks'
@@ -1033,6 +1043,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/status-dot'
     | '/components/switch'
+    | '/components/system-message'
     | '/components/tabs'
     | '/components/task-card'
     | '/components/tasks'
@@ -1128,6 +1139,7 @@ export interface FileRouteTypes {
     | '/components/status'
     | '/components/status-dot'
     | '/components/switch'
+    | '/components/system-message'
     | '/components/tabs'
     | '/components/task-card'
     | '/components/tasks'
@@ -1366,6 +1378,13 @@ declare module '@tanstack/react-router' {
       path: '/tabs'
       fullPath: '/components/tabs'
       preLoaderRoute: typeof ComponentsTabsRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/system-message': {
+      id: '/components/system-message'
+      path: '/system-message'
+      fullPath: '/components/system-message'
+      preLoaderRoute: typeof ComponentsSystemMessageRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/switch': {
@@ -2016,6 +2035,7 @@ interface ComponentsRouteChildren {
   ComponentsStatusRoute: typeof ComponentsStatusRoute
   ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSwitchRoute: typeof ComponentsSwitchRoute
+  ComponentsSystemMessageRoute: typeof ComponentsSystemMessageRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTaskCardRoute: typeof ComponentsTaskCardRoute
   ComponentsTasksRoute: typeof ComponentsTasksRoute
@@ -2077,6 +2097,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsStatusRoute: ComponentsStatusRoute,
   ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSwitchRoute: ComponentsSwitchRoute,
+  ComponentsSystemMessageRoute: ComponentsSystemMessageRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTaskCardRoute: ComponentsTaskCardRoute,
   ComponentsTasksRoute: ComponentsTasksRoute,
