@@ -27,10 +27,6 @@ function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function preventNav(event: { preventDefault: () => void }) {
-  event.preventDefault();
-}
-
 function buildInlinePattern() {
   const channelAlt = CHANNEL_NAMES.map(escapeRegExp).join("|");
   const actorAlt = ACTOR_NAMES.map(escapeRegExp).join("|");
@@ -65,21 +61,13 @@ function renderInlineText(text: string, keyPrefix: string): ReactNode[] {
       const label = `@${mentionName}`;
       if (actor?.id === VIEWER_ACTOR_ID) {
         nodes.push(
-          <MessageReference
-            key={key}
-            variant="highlight"
-            render={<a href={`#${actor.id}`} onClick={preventNav} />}
-          >
+          <MessageReference key={key} variant="highlight" render={<a href="https://raft.build" />}>
             {label}
           </MessageReference>,
         );
       } else {
         nodes.push(
-          <MessageReference
-            key={key}
-            variant="plain"
-            render={<a href={`#${actor?.id ?? mentionName}`} onClick={preventNav} />}
-          >
+          <MessageReference key={key} variant="plain" render={<a href="https://raft.build" />}>
             {label}
           </MessageReference>,
         );
@@ -87,11 +75,7 @@ function renderInlineText(text: string, keyPrefix: string): ReactNode[] {
     } else if (taskWithKeyword !== undefined || bareTask !== undefined) {
       const taskNumber = taskWithKeyword ?? bareTask;
       nodes.push(
-        <MessageReference
-          key={key}
-          variant="muted"
-          render={<a href={`#task-${taskNumber}`} onClick={preventNav} />}
-        >
+        <MessageReference key={key} variant="muted" render={<a href="https://raft.build" />}>
           #{taskNumber}
         </MessageReference>,
       );
@@ -101,21 +85,13 @@ function renderInlineText(text: string, keyPrefix: string): ReactNode[] {
       const shortId = threadShortId ?? channelMatch?.[2];
       if (shortId) {
         nodes.push(
-          <MessageReference
-            key={key}
-            variant="info"
-            render={<a href={`#${channelName}:${shortId}`} onClick={preventNav} />}
-          >
+          <MessageReference key={key} variant="info" render={<a href="https://raft.build" />}>
             #{channelName}:{shortId}
           </MessageReference>,
         );
       } else {
         nodes.push(
-          <MessageReference
-            key={key}
-            variant="accent"
-            render={<a href={`#${channelName}`} onClick={preventNav} />}
-          >
+          <MessageReference key={key} variant="accent" render={<a href="https://raft.build" />}>
             #{channelName}
           </MessageReference>,
         );

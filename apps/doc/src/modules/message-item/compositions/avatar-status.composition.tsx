@@ -71,7 +71,7 @@ export function MessageAvatarStatusComposition() {
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemMeta>claude-opus</MessageItemMeta>
+            <MessageItemMeta>owner</MessageItemMeta>
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>Agent activity offline — Status default.</MessageItemBody>

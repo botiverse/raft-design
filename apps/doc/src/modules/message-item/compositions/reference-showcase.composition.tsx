@@ -23,50 +23,6 @@ import {
   MessageUnavailableReferencesComposition,
 } from "./content.compositions.tsx";
 
-function preventNav(event: { preventDefault: () => void }) {
-  event.preventDefault();
-}
-
-function AttachmentCommentReferenceRow() {
-  return (
-    <MessageItem>
-      <MessageItemAvatarSlot>
-        <Avatar size="md" type="agent">
-          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
-      </MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Atlas</MessageItemSender>
-          <MessageItemTime>2:21 PM</MessageItemTime>
-        </MessageItemHeader>
-        <div className="mb-0.5">
-          <MessageReference
-            variant="subtle"
-            render={
-              <a
-                href="#attachment-comment"
-                onClick={preventNav}
-                title="Jump to the message with architecture.pdf · L12"
-              />
-            }
-          >
-            <MessageSquare size={12} />
-            <span>re: architecture.pdf · L12</span>
-          </MessageReference>
-        </div>
-        <MessageMarkdown>
-          <blockquote>
-            This paragraph needs the deployment-owner decision before the document can be approved.
-          </blockquote>
-        </MessageMarkdown>
-        <MessageItemBody>Added the owner note to the review thread.</MessageItemBody>
-      </MessageItemContent>
-    </MessageItem>
-  );
-}
-
 export function MessageReferenceShowcaseComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
@@ -118,38 +74,23 @@ export function MessageReferenceShowcaseComposition() {
                     @you
                   </MessageSelfMentionReferenceComposition>{" "}
                   assigned{" "}
-                  <MessageReference
-                    variant="muted"
-                    render={<a href="#task-141" onClick={preventNav} />}
-                  >
+                  <MessageReference variant="muted" render={<a href="https://raft.build" />}>
                     #141
                   </MessageReference>{" "}
                   in{" "}
-                  <MessageReference
-                    variant="accent"
-                    render={<a href="#release-notes" onClick={preventNav} />}
-                  >
+                  <MessageReference variant="accent" render={<a href="https://raft.build" />}>
                     #release-notes
                   </MessageReference>{" "}
                   and linked{" "}
-                  <MessageReference
-                    variant="info"
-                    render={<a href="#release-notes-final" onClick={preventNav} />}
-                  >
+                  <MessageReference variant="info" render={<a href="https://raft.build" />}>
                     #release-notes:final
                   </MessageReference>
                   . DM parents reuse the same chip chrome —{" "}
-                  <MessageReference
-                    variant="accent"
-                    render={<a href="#dm-kai" onClick={preventNav} />}
-                  >
+                  <MessageReference variant="accent" render={<a href="https://raft.build" />}>
                     dm:@kai
                   </MessageReference>{" "}
                   (accent) and{" "}
-                  <MessageReference
-                    variant="info"
-                    render={<a href="#dm-kai-a1b2c3d4" onClick={preventNav} />}
-                  >
+                  <MessageReference variant="info" render={<a href="https://raft.build" />}>
                     dm:@kai:a1b2c3d4
                   </MessageReference>{" "}
                   (info).
@@ -165,7 +106,41 @@ export function MessageReferenceShowcaseComposition() {
           </MessageItemContent>
         </MessageItem>
       </MessageItemInteractionBoundary>
-      <AttachmentCommentReferenceRow />
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Atlas</MessageItemSender>
+            <MessageItemTime>2:21 PM</MessageItemTime>
+          </MessageItemHeader>
+          <div className="mb-0.5">
+            <MessageReference
+              variant="subtle"
+              render={
+                <a
+                  href="https://raft.build"
+                  title="Jump to the message with architecture.pdf · L12"
+                />
+              }
+            >
+              <MessageSquare size={12} />
+              <span>re: architecture.pdf · L12</span>
+            </MessageReference>
+          </div>
+          <MessageMarkdown>
+            <blockquote>
+              This paragraph needs the deployment-owner decision before the document can be
+              approved.
+            </blockquote>
+          </MessageMarkdown>
+          <MessageItemBody>Added the owner note to the review thread.</MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
     </div>
   );
 }

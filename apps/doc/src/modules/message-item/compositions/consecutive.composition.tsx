@@ -3,6 +3,7 @@ import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItemExampleMarkdownClosing,
+  MessageItemExampleMarkdownFollowUp,
   MessageItemExampleMarkdownLead,
 } from "../message-item-example-markdown.tsx";
 import {
@@ -18,7 +19,6 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui/wip";
-import { ConsecutiveMessageRow } from "./row.compositions.tsx";
 
 export function MessageConsecutiveComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
@@ -38,7 +38,7 @@ export function MessageConsecutiveComposition() {
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemMeta>claude-opus</MessageItemMeta>
+            <MessageItemMeta>owner</MessageItemMeta>
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
@@ -46,7 +46,16 @@ export function MessageConsecutiveComposition() {
           </MessageItemBody>
         </MessageItemContent>
       </MessageItem>
-      <ConsecutiveMessageRow portalContainer={portalContainer} />
+      <MessageItem compact>
+        <MessageItemGutter>
+          <MessageItemContinuationTime>2:15</MessageItemContinuationTime>
+        </MessageItemGutter>
+        <MessageItemContent>
+          <MessageItemBody>
+            <MessageItemExampleMarkdownFollowUp portalContainer={portalContainer} />
+          </MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
       <MessageItem compact>
         <MessageItemGutter>
           <MessageItemContinuationTime>2:16</MessageItemContinuationTime>

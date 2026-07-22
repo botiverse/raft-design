@@ -62,60 +62,54 @@ export function MessageFileAttachmentsComposition() {
   );
 }
 
-function RichAttachmentMessageRow() {
+export function MessageAttachmentsShowcaseComposition() {
   const theme = useThemeFamily();
 
   return (
-    <MessageItem>
-      <MessageItemAvatarSlot>
-        <Avatar size="md" type="agent">
-          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
-          <AvatarFallback>AP</AvatarFallback>
-        </Avatar>
-      </MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>App Planner</MessageItemSender>
-          <MessageItemMeta>gpt-4.1</MessageItemMeta>
-          <MessageItemTime>3:04 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>
-          Here is the source parity pass for <strong>#222</strong>. Mention chip, channel link, task
-          link, and markdown are rendered by the caller.
-        </MessageItemBody>
-        <MessageItemAttachments>
-          <MessageImageGalleryPairComposition />
-          <MessageVideoPreviewComposition />
-          <MessageFileAttachmentsComposition />
-        </MessageItemAttachments>
-        <MessageItemFooter>
-          <Badge
-            appearance={theme === "brutal" ? "solid" : "soft"}
-            variant="information"
-            uppercase={false}
-            title="Task #222 · In Progress"
-          >
-            <Play size={10} />
-            <span>#222</span>
-          </Badge>
-          <MessageItemBadge status="unread">
-            <MessageSquare />6 replies
-            <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>3 new
-          </MessageItemBadge>
-          <MessageReactionComposition emoji="👍" count={5} reacted />
-          <MessageReactionComposition emoji="👀" count={2} />
-          <MessageReactionComposition emoji="🔥" count={1} failed />
-        </MessageItemFooter>
-      </MessageItemContent>
-      <MessageRowToolbarFixture />
-    </MessageItem>
-  );
-}
-
-export function MessageAttachmentsShowcaseComposition() {
-  return (
     <div className="grid w-full max-w-3xl gap-4">
-      <RichAttachmentMessageRow />
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AP</AvatarFallback>
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>App Planner</MessageItemSender>
+            <MessageItemMeta>gpt-4.1</MessageItemMeta>
+            <MessageItemTime>3:04 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>
+            Here is the source parity pass for <strong>#222</strong>. Mention chip, channel link,
+            task link, and markdown are rendered by the caller.
+          </MessageItemBody>
+          <MessageItemAttachments>
+            <MessageImageGalleryPairComposition />
+            <MessageVideoPreviewComposition />
+            <MessageFileAttachmentsComposition />
+          </MessageItemAttachments>
+          <MessageItemFooter>
+            <Badge
+              appearance={theme === "brutal" ? "solid" : "soft"}
+              variant="information"
+              uppercase={false}
+              title="Task #222 · In Progress"
+            >
+              <Play size={10} />
+              <span>#222</span>
+            </Badge>
+            <MessageItemBadge status="unread">
+              <MessageSquare />6 replies
+              <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>3 new
+            </MessageItemBadge>
+            <MessageReactionComposition emoji="👍" count={5} reacted />
+            <MessageReactionComposition emoji="👀" count={2} />
+            <MessageReactionComposition emoji="🔥" count={1} failed />
+          </MessageItemFooter>
+        </MessageItemContent>
+        <MessageRowToolbarFixture />
+      </MessageItem>
       <div className="grid gap-3 md:grid-cols-2">
         <MessageImageGalleryPendingComposition />
         <MessageVideoPendingComposition />
