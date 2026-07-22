@@ -22,48 +22,46 @@ export const messageReference = tv({
           "hover:text-accent-500 hover:decoration-accent-500",
         ],
       },
-      // Chip box matches source MSG_REF_CHIP: leading-[21px] + 1px border ≈ 23px.
-      // `align-bottom` keeps equal-height chips flush with each other and the
-      // line box; body leading must be ≥ 23px (see message-item body) so wrapped
-      // lines do not overlap.
+      // Chip box matches live MSG_REF_CHIP: inherit size + leading-[1.5] + border
+      // + align-bottom (scales with message body font-size preference).
       selfMention: {
         root: [
           "inline-block align-bottom border border-line-strong bg-soft-signal px-1 font-bold text-foreground",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
           "hover:bg-soft-signal/80",
         ],
       },
       channel: {
         root: [
           "inline-block align-bottom border border-line-strong bg-accent-200/60 px-1 font-bold text-foreground",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
           "hover:bg-accent-400/45",
         ],
       },
       task: {
         root: [
           "inline-block align-bottom border border-line-strong bg-layer-muted px-1 font-bold text-foreground",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
           "hover:bg-layer-strong",
         ],
       },
       thread: {
         root: [
           "inline-block align-bottom border border-line-strong bg-info-light px-1 font-bold text-info-dark",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
           "hover:bg-info-base/45",
         ],
       },
       comment: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong px-1 font-bold text-foreground",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
         ],
       },
       permalink: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-bold text-foreground",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
           "hover:bg-layer-muted",
           "[&_svg]:size-3",
         ],
@@ -71,7 +69,7 @@ export const messageReference = tv({
       externalPermalink: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-bold text-info-dark",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
           "hover:bg-layer-muted",
           "[&_svg]:size-3",
         ],
@@ -79,25 +77,25 @@ export const messageReference = tv({
       loading: {
         root: [
           "inline-flex cursor-wait items-center gap-1 align-bottom border border-line-strong bg-layer-muted px-1 font-bold text-foreground opacity-80",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
         ],
       },
       channelUnavailable: {
         root: [
           "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
         ],
       },
       threadUnavailable: {
         root: [
           "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
         ],
       },
       taskUnavailable: {
         root: [
           "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
-          "[font-size:inherit] leading-[21px]",
+          "[font-size:inherit] leading-[1.5]",
         ],
       },
     },
@@ -204,7 +202,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-pointer rounded-sm border-line-subtle px-1.5",
-          "font-medium leading-[21px] text-foreground-strong",
+          "font-medium leading-[1.5] text-foreground-strong",
         ],
       },
     },
@@ -265,7 +263,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-wait rounded-sm border-line-subtle bg-layer-muted px-1.5 opacity-100",
-          "font-medium leading-[21px] text-foreground-muted",
+          "font-medium leading-[1.5] text-foreground-muted",
         ],
       },
     },
@@ -275,7 +273,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-default rounded-sm border-line-subtle bg-layer-muted/70 px-1.5 opacity-100",
-          "font-medium leading-[21px] text-foreground-muted",
+          "font-medium leading-[1.5] text-foreground-muted",
         ],
       },
     },

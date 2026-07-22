@@ -97,3 +97,133 @@ export function MessageItemReadReceipt({
     },
   });
 }
+
+export type MessageItemInlineRepliesProps = useRender.ComponentProps<"div">;
+
+export function MessageItemInlineReplies({
+  className,
+  render,
+  ...props
+}: MessageItemInlineRepliesProps) {
+  const theme = useThemeFamily();
+  const { inlineReplies } = messageFooter({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-message-affordance": "inline-thread-replies",
+    className: inlineReplies({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: { slot: "message-item-inline-replies" },
+  });
+}
+
+export type MessageItemInlineReplyRowProps = useRender.ComponentProps<"div">;
+
+export function MessageItemInlineReplyRow({
+  className,
+  render,
+  ...props
+}: MessageItemInlineReplyRowProps) {
+  const theme = useThemeFamily();
+  const { inlineReplyRow } = messageFooter({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: inlineReplyRow({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: { slot: "message-item-inline-reply-row" },
+  });
+}
+
+export type MessageItemInlineReplyAvatarProps = useRender.ComponentProps<"span">;
+
+export function MessageItemInlineReplyAvatar({
+  className,
+  render,
+  ...props
+}: MessageItemInlineReplyAvatarProps) {
+  const theme = useThemeFamily();
+  const { inlineReplyAvatar } = messageFooter({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: inlineReplyAvatar({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-item-inline-reply-avatar" },
+  });
+}
+
+export type MessageItemInlineReplySenderProps = useRender.ComponentProps<"span">;
+
+export function MessageItemInlineReplySender({
+  className,
+  render,
+  ...props
+}: MessageItemInlineReplySenderProps) {
+  const theme = useThemeFamily();
+  const { inlineReplySender } = messageFooter({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: inlineReplySender({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-item-inline-reply-sender" },
+  });
+}
+
+export type MessageItemInlineReplyPreviewProps = useRender.ComponentProps<"span">;
+
+export function MessageItemInlineReplyPreview({
+  className,
+  render,
+  ...props
+}: MessageItemInlineReplyPreviewProps) {
+  const theme = useThemeFamily();
+  const { inlineReplyPreview } = messageFooter({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: inlineReplyPreview({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-item-inline-reply-preview" },
+  });
+}
+
+export type MessageItemInlineReplyCountProps = useRender.ComponentProps<"button">;
+
+export function MessageItemInlineReplyCount({
+  className,
+  render,
+  type = "button",
+  ...props
+}: MessageItemInlineReplyCountProps) {
+  const theme = useThemeFamily();
+  const { inlineReplyCount } = messageFooter({ theme });
+  const defaultProps: SlotElementProps<"button"> = {
+    type,
+    "data-message-affordance": "inline-thread-replies-count",
+    className: inlineReplyCount({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: mergeProps<"button">(defaultProps, props),
+    state: { slot: "message-item-inline-reply-count" },
+  });
+}

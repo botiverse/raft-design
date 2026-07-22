@@ -45,9 +45,13 @@ export const messageMarkdown = tv({
         ],
         inlineCode: [
           "border-0 bg-soft-signal/40 px-1",
-          "[font-size:inherit] font-normal leading-[21px] text-inherit [overflow-wrap:anywhere]",
+          "[font-size:inherit] font-normal leading-[1.5] text-inherit [overflow-wrap:anywhere]",
         ],
-        codeBlock: ["border-black bg-[oklch(0.21_0.034_264.665)]", "text-[oklch(1_0_0)]"],
+        // Live Slock CodeBlock: bg-[#07111f] text-[#f5f7ff]
+        codeBlock: [
+          "border-black bg-[oklch(0.176_0.033_256.392)]",
+          "text-[oklch(0.977_0.011_274.897)]",
+        ],
       },
       elegant: {
         root: [

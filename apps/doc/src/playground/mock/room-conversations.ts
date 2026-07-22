@@ -12,12 +12,12 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       opening: {
         senderId: "developer",
         content:
-          "The migration plan is ready for review. The remaining work is keeping the message and thread data model coherent.",
+          "The migration plan is ready for review in #raft-ui-migration. Remaining work: keep the message and thread data model coherent for @Atlas and task #97.",
       },
       reply: {
         senderId: "cuvii",
         content:
-          "I am reviewing the mock conversation flow now so every panel reads the same data.",
+          "I am reviewing the mock conversation flow now so every panel reads the same data — including markdown refs and consecutive compact rows.",
       },
       thread: { replies: [] },
     },
@@ -69,11 +69,12 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       opening: {
         senderId: "cindy",
         content:
-          "The sidebar states are aligned. I still want a pass on empty, muted, and unread combinations.",
+          "The sidebar states are aligned. Ask @Atlas to review empty, muted, and unread combinations in #sidebar-state-audit before #weekly-priorities.",
       },
       reply: {
         senderId: "mira",
-        content: "I prepared a coverage matrix and highlighted states without realistic content.",
+        content:
+          "Coverage matrix is ready — `layer-panel` badges, mentions, and task #141 stay caller-owned.\n\n- Keep body content in MessageItemBody\n- Prefer semantic markdown + reference parts",
       },
       updates: [
         {
@@ -81,7 +82,14 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           createdAt: "09:29 AM",
           unread: true,
           content:
-            "The revised matrix now ties every visible badge to an actual message or thread state.",
+            "@Cindy tracked #141 in #weekly-priorities and linked #sidebar-state-audit:final for the hierarchy pass.",
+        },
+        {
+          senderId: "mira",
+          createdAt: "09:31 AM",
+          unread: true,
+          content:
+            "Final note for @Cuvii:\n\n```\n<MessageItem compact>\n  <MessageItemGutter />\n</MessageItem>\n```",
         },
       ],
       thread: {
@@ -89,7 +97,12 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           {
             senderId: "cindy",
             content:
-              "Muted plus unread is the only combination whose hierarchy still feels ambiguous.",
+              "Muted plus unread is the only combination whose hierarchy still feels ambiguous — see #sidebar-state-audit:final.",
+          },
+          {
+            senderId: "cindy",
+            content:
+              "Also flag @Mira if the unread count still competes with the muted badge in `brutal`.",
           },
           {
             senderId: "mira",

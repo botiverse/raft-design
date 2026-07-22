@@ -35,6 +35,12 @@ export {
 export {
   MessageItemBadge,
   MessageItemBadgeSeparator,
+  MessageItemInlineReplies,
+  MessageItemInlineReplyAvatar,
+  MessageItemInlineReplyCount,
+  MessageItemInlineReplyPreview,
+  MessageItemInlineReplyRow,
+  MessageItemInlineReplySender,
   MessageItemReadReceipt,
   MessageItemSavedIndicator,
 } from "./message-footer";
@@ -131,6 +137,12 @@ export type {
   MessageItemBadgeProps,
   MessageItemBadgeSeparatorProps,
   MessageItemBadgeStatus,
+  MessageItemInlineRepliesProps,
+  MessageItemInlineReplyAvatarProps,
+  MessageItemInlineReplyCountProps,
+  MessageItemInlineReplyPreviewProps,
+  MessageItemInlineReplyRowProps,
+  MessageItemInlineReplySenderProps,
   MessageItemReadReceiptProps,
   MessageItemSavedIndicatorProps,
 } from "./message-footer";

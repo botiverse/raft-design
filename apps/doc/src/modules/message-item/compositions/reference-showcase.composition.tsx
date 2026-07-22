@@ -132,7 +132,21 @@ export function MessageReferenceShowcaseComposition() {
                   >
                     #release-notes:final
                   </MessageReferenceThread>
-                  .
+                  . DM parents reuse the same chip chrome —{" "}
+                  <MessageReferenceChannel
+                    href="#dm-kai"
+                    onClick={(event) => event.preventDefault()}
+                  >
+                    dm:@kai
+                  </MessageReferenceChannel>{" "}
+                  (pink) and{" "}
+                  <MessageReferenceThread
+                    href="#dm-kai-a1b2c3d4"
+                    onClick={(event) => event.preventDefault()}
+                  >
+                    dm:@kai:a1b2c3d4
+                  </MessageReferenceThread>{" "}
+                  (cyan).
                 </p>
                 <p>
                   <MessageReferenceLoadingComposition>

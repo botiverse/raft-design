@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 export const messageReaction = tv({
   slots: {
     chip: [
-      "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden rounded-full px-1.5",
+      "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden rounded px-1.5",
       "whitespace-nowrap text-[12px] font-bold leading-none transition-colors",
     ],
     errorIndicator: ["sr-only"],
@@ -14,7 +14,7 @@ export const messageReaction = tv({
     ],
     count: ["font-mono tabular-nums"],
     addButton: [
-      "inline-flex h-5 min-w-0 items-center justify-center rounded-full px-1.5",
+      "inline-flex h-5 min-w-0 items-center justify-center rounded px-1.5",
       "transition-colors",
       "[&_svg]:size-[13px] [&_svg]:shrink-0",
     ],
@@ -48,20 +48,21 @@ export const messageReaction = tv({
         quickButton: "hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
         pickerContent: [
           "rounded-none border-2 border-line-strong border-black bg-white",
-          "shadow-none",
+          // Live `shadow-soft-popover`: 0 4px 12px rgba(0,0,0,0.08)
+          "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
         tooltip: "border-2 border-line-strong bg-white font-bold text-black",
       },
       elegant: {
         chip: [
-          "gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
+          "rounded-full gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
           "bg-layer-strong text-foreground-muted",
           "hover:bg-ink-10",
           "data-[pressed]:bg-accent-200/50 data-[pressed]:text-accent-700 data-[pressed]:hover:bg-accent-200/70",
           "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-lighter has-[[data-slot=message-reaction-error-indicator]]:text-danger-base",
         ],
         addButton: [
-          "bg-layer-muted text-foreground-icon",
+          "rounded-full bg-layer-muted text-foreground-icon",
           "hover:bg-layer-strong active:bg-layer-strong",
         ],
         quickRow: "bg-layer-popover",

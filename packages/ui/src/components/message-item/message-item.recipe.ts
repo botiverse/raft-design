@@ -4,19 +4,18 @@ export const messageItem = tv({
   slots: {
     interactionBoundary: ["[contain:layout_style] [overflow:clip_visible]"],
     root: [
-      "group/message relative flex h-fit min-h-[3rem] gap-3 max-md:gap-2",
+      "group/message relative flex h-fit min-h-[3rem] gap-3",
       "border-2 border-transparent",
       "[@media(hover:none)]:select-none [@media(hover:none)]:[&_*]:select-none",
     ],
-    gutter: ["relative w-9 shrink-0 self-stretch max-md:w-8"],
+    gutter: ["relative w-9 shrink-0 self-stretch"],
     avatarSlot: [
-      "relative mt-0.5 w-9 shrink-0 self-start max-md:w-8",
+      "relative mt-0.5 w-9 shrink-0 self-start",
       "transition-[filter,transform] duration-75 hover:brightness-90",
       "data-[avatar-pressed=true]:scale-90 data-[avatar-pressed=true]:brightness-75",
-      "max-md:[&_[data-slot=avatar][data-size=md]]:size-7",
     ],
     avatarStatus: [
-      "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full max-md:size-2.5",
+      "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full",
     ],
     continuationTime: [
       "absolute right-1 top-1 select-none font-mono text-[10px] leading-none tabular-nums",
@@ -57,11 +56,11 @@ export const messageItem = tv({
     theme: {
       brutal: {
         root: [
-          "mb-1 mt-1.5 px-5 py-1",
+          "mb-1 mt-1.5 px-2 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
         avatarStatus: "border border-black",
-        continuationTime: "left-0 right-auto text-black/0 group-hover/message:text-black/40",
+        continuationTime: "text-black/0 group-hover/message:text-black/40",
         header: "items-center gap-2",
         sender: "font-bold text-black",
         senderState: [
@@ -71,10 +70,8 @@ export const messageItem = tv({
         meta: "font-mono text-xs text-black/40",
         time: "font-mono text-xs text-black/40",
         inlineStatus: "text-black/40",
-        // ≥ chip border-box (leading-[21px] + 1px border ≈ 23px) so wrapped chips
-        // do not overlap; keep equal to that box so align-bottom chips sit flush
-        // with the text strut instead of floating in a taller line.
-        body: "text-sm leading-[23px] text-black",
+        // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
+        body: "text-sm text-black",
         translationPlaceholder: "border-2 border-black/20",
         translationOriginal: "border-l-2 border-black/20 pl-2 text-black/70",
         translationOriginalLabel:
@@ -92,10 +89,13 @@ export const messageItem = tv({
       },
       elegant: {
         root: [
-          "px-7 py-3.5 max-md:px-4 max-md:py-2",
+          "gap-3 max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-layer-strong/45 active:bg-layer-muted/90",
         ],
+        gutter: "max-md:w-8",
+        avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
+        avatarStatus: "max-md:size-2.5",
         continuationTime: [
           "left-0 right-auto top-0 pt-1.5",
           "font-sans text-[12px] leading-none",
@@ -112,7 +112,7 @@ export const messageItem = tv({
         inlineStatus: "font-sans text-[11px] font-medium leading-none text-foreground-muted",
         body: [
           "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
-          "text-[14px] leading-[23px] tracking-[-0.01em] text-foreground-muted",
+          "text-[14px] leading-[21px] tracking-[-0.01em] text-foreground-muted",
           "select-text [&_*]:select-text",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
