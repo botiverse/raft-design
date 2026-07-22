@@ -27,7 +27,6 @@ import {
   MessageItemEmbedded,
   MessageItemHeader,
   MessageItemMeta,
-  MessageItemNotice,
   MessageItemSender,
   MessageItemTime,
   MessageMarkdown,
@@ -60,7 +59,6 @@ function ForwardedBundleMessage({
 }
 
 export function ForwardedBundleMessageComposition() {
-  const [opened, setOpened] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -76,7 +74,6 @@ export function ForwardedBundleMessageComposition() {
             <MessageForwardedBundleSource
               data-testid="forwarded-bundle-source-label"
               title="Open source message"
-              onClick={() => setOpened(true)}
             >
               from release-notes
             </MessageForwardedBundleSource>
@@ -151,7 +148,6 @@ export function ForwardedBundleMessageComposition() {
             </MessageForwardedBundleToggle>
           </MessageForwardedBundleFooter>
         </MessageForwardedBundle>
-        {opened ? <MessageItemNotice>Opened source message.</MessageItemNotice> : null}
       </MessageItemEmbedded>
     </ForwardedBundleMessage>
   );

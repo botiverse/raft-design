@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
-import { Plus, SmilePlus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import {
   MessageItem,
@@ -13,8 +13,6 @@ import {
   MessageItemSender,
   MessageItemTime,
   MessageReactionAddButton,
-  MessageReactionChip,
-  MessageReactionGlyph,
 } from "raft-ui/wip";
 import {
   MessageReactionComposition,
@@ -45,11 +43,6 @@ function MessageReactionsRow() {
             <MessageReactionComposition emoji="👍" count={5} reacted />
             <MessageReactionComposition emoji="👀" count={2} />
             <MessageReactionComposition emoji="🔥" count={1} failed />
-            <MessageReactionChip aria-label="Add reaction" disabled>
-              <MessageReactionGlyph>
-                <SmilePlus />
-              </MessageReactionGlyph>
-            </MessageReactionChip>
             <MessageQuickReactionPicker
               open={open}
               onOpenChange={setOpen}

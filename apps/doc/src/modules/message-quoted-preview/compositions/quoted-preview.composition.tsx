@@ -64,17 +64,11 @@ function QuotedPreviewMessage({
 }
 
 export function QuotedPreviewMessageComposition() {
-  const [opened, setOpened] = useState(false);
-
   return (
     <QuotedPreviewMessage sender="Ada" time="2:25 PM">
       <MessageItemBody>Quoting the final decision from the release thread.</MessageItemBody>
       <MessageItemEmbedded>
-        <MessageQuotedPreview
-          render={<button type="button" />}
-          data-testid="quoted-message-card"
-          onClick={() => setOpened(true)}
-        >
+        <MessageQuotedPreview render={<button type="button" />} data-testid="quoted-message-card">
           <MessageQuotedPreviewContent>
             <MessageQuotedPreviewHeader>
               <MessageQuotedPreviewContext>
@@ -109,14 +103,13 @@ export function QuotedPreviewMessageComposition() {
             </MessageQuotedPreviewBody>
           </MessageQuotedPreviewContent>
         </MessageQuotedPreview>
-        {opened ? <MessageItemNotice>Opened quoted message.</MessageItemNotice> : null}
       </MessageItemEmbedded>
     </QuotedPreviewMessage>
   );
 }
 
 export function QuotedPreviewFeedbackComposition() {
-  const [retried, setRetried] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   return (
     <QuotedPreviewMessage sender="Atlas" time="2:26 PM">
@@ -142,11 +135,15 @@ export function QuotedPreviewFeedbackComposition() {
         <MessageQuotedPreviewUnavailable
           render={<button type="button" />}
           data-testid="quoted-message-card-unavailable"
-          onClick={() => setRetried(true)}
+          onClick={() => setFailed(true)}
         >
           <MessageQuotedPreviewContent>Message unavailable</MessageQuotedPreviewContent>
         </MessageQuotedPreviewUnavailable>
-        {retried ? <MessageItemNotice>Retry requested.</MessageItemNotice> : null}
+        {failed ? (
+          <MessageItemNotice>
+            Unable to open thread. It may be unavailable or deleted.
+          </MessageItemNotice>
+        ) : null}
       </MessageItemEmbedded>
     </QuotedPreviewMessage>
   );

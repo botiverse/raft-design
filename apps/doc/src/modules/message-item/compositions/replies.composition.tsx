@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useState } from "react";
 import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import { MessageSquare, Pencil } from "lucide-react";
 import { Avatar, AvatarFallback } from "raft-ui";
@@ -48,6 +49,62 @@ function InlineReplyPreviewAvatar({ initials }: { initials: string }) {
   );
 }
 
+function InlineThreadRepliesRow() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <MessageItem>
+      <MessageItemAvatarSlot>
+        <MessageItemExampleAvatar />
+      </MessageItemAvatarSlot>
+      <MessageItemContent>
+        <MessageItemHeader>
+          <MessageItemSender>Atlas</MessageItemSender>
+          <MessageItemTime>2:31 PM</MessageItemTime>
+        </MessageItemHeader>
+        <MessageItemBody>
+          Inline thread replies render under the chip area — no card chrome (source
+          InlineThreadReplies).
+        </MessageItemBody>
+        <MessageItemInlineReplies>
+          <MessageItemInlineReplyRow>
+            <MessageItemInlineReplyAvatar>
+              <InlineReplyPreviewAvatar initials="M" />
+            </MessageItemInlineReplyAvatar>
+            <MessageItemInlineReplySender>Mira</MessageItemInlineReplySender>
+            <MessageItemInlineReplyPreview>
+              Ship the token fixture tonight.
+            </MessageItemInlineReplyPreview>
+          </MessageItemInlineReplyRow>
+          <MessageItemInlineReplyRow>
+            <MessageItemInlineReplyAvatar>
+              <InlineReplyPreviewAvatar initials="C" />
+            </MessageItemInlineReplyAvatar>
+            <MessageItemInlineReplySender>Cindy</MessageItemInlineReplySender>
+            <MessageItemInlineReplyPreview>
+              Added the review checklist.
+            </MessageItemInlineReplyPreview>
+            <MessageItemInlineReplyCount type="button" onClick={() => setExpanded(true)}>
+              3 replies · 1 new ›
+            </MessageItemInlineReplyCount>
+          </MessageItemInlineReplyRow>
+          {expanded ? (
+            <MessageItemInlineReplyRow>
+              <MessageItemInlineReplyAvatar>
+                <InlineReplyPreviewAvatar initials="N" />
+              </MessageItemInlineReplyAvatar>
+              <MessageItemInlineReplySender>Noah</MessageItemInlineReplySender>
+              <MessageItemInlineReplyPreview>
+                Looks good — merge after the parity check.
+              </MessageItemInlineReplyPreview>
+            </MessageItemInlineReplyRow>
+          ) : null}
+        </MessageItemInlineReplies>
+      </MessageItemContent>
+    </MessageItem>
+  );
+}
+
 export function MessageRepliesComposition() {
   return (
     <div className="flex w-full max-w-3xl flex-col gap-3">
@@ -83,44 +140,7 @@ export function MessageRepliesComposition() {
         </MessageItemBadge>
       </RepliesRow>
 
-      <MessageItem>
-        <MessageItemAvatarSlot>
-          <MessageItemExampleAvatar />
-        </MessageItemAvatarSlot>
-        <MessageItemContent>
-          <MessageItemHeader>
-            <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemTime>2:31 PM</MessageItemTime>
-          </MessageItemHeader>
-          <MessageItemBody>
-            Inline thread replies render under the chip area — no card chrome (source
-            InlineThreadReplies).
-          </MessageItemBody>
-          <MessageItemInlineReplies>
-            <MessageItemInlineReplyRow>
-              <MessageItemInlineReplyAvatar>
-                <InlineReplyPreviewAvatar initials="M" />
-              </MessageItemInlineReplyAvatar>
-              <MessageItemInlineReplySender>Mira</MessageItemInlineReplySender>
-              <MessageItemInlineReplyPreview>
-                Ship the token fixture tonight.
-              </MessageItemInlineReplyPreview>
-            </MessageItemInlineReplyRow>
-            <MessageItemInlineReplyRow>
-              <MessageItemInlineReplyAvatar>
-                <InlineReplyPreviewAvatar initials="C" />
-              </MessageItemInlineReplyAvatar>
-              <MessageItemInlineReplySender>Cindy</MessageItemInlineReplySender>
-              <MessageItemInlineReplyPreview>
-                Added the review checklist.
-              </MessageItemInlineReplyPreview>
-              <MessageItemInlineReplyCount type="button">
-                3 replies · 1 new ›
-              </MessageItemInlineReplyCount>
-            </MessageItemInlineReplyRow>
-          </MessageItemInlineReplies>
-        </MessageItemContent>
-      </MessageItem>
+      <InlineThreadRepliesRow />
     </div>
   );
 }

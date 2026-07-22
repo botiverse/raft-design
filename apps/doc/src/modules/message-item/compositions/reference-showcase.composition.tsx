@@ -9,7 +9,6 @@ import {
   MessageItemContent,
   MessageItemHeader,
   MessageItemInteractionBoundary,
-  MessageItemNotice,
   MessageItemSender,
   MessageItemTime,
   MessageMarkdown,
@@ -27,8 +26,6 @@ import {
 } from "./content.compositions.tsx";
 
 function AttachmentCommentReferenceRow() {
-  const [jumped, setJumped] = useState(false);
-
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
@@ -44,7 +41,6 @@ function AttachmentCommentReferenceRow() {
             href="#attachment-comment"
             onClick={(event) => {
               event.preventDefault();
-              setJumped(true);
             }}
             title="Jump to the message with architecture.pdf · L12"
           >
@@ -58,7 +54,6 @@ function AttachmentCommentReferenceRow() {
           </blockquote>
         </MessageMarkdown>
         <MessageItemBody>Added the owner note to the review thread.</MessageItemBody>
-        {jumped ? <MessageItemNotice>Jumped to the annotated attachment.</MessageItemNotice> : null}
       </MessageItemContent>
     </MessageItem>
   );

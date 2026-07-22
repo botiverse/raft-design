@@ -16,7 +16,6 @@ import {
   MessageItemInlineStatus,
   MessageItemInteractionBoundary,
   MessageItemMeta,
-  MessageItemNotice,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
   MessageItemSelection,
@@ -98,7 +97,6 @@ export function SavedToolbarMessageRow() {
 
 export function ContextMenuMessageRow() {
   const [followed, setFollowed] = useState(false);
-  const [lastAction, setLastAction] = useState("Right-click for message actions");
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   const [reaction, setReaction] = useState("✅");
   const [saved, setSaved] = useState(false);
@@ -114,12 +112,17 @@ export function ContextMenuMessageRow() {
           <MessageItemContent>
             <MessageItemHeader>
               <MessageItemSender>Atlas</MessageItemSender>
-              <MessageItemMeta>#design-system</MessageItemMeta>
+              <MessageItemMeta>claude-opus</MessageItemMeta>
               <MessageItemTime>2:14 PM</MessageItemTime>
-              <MessageItemInlineStatus>{lastAction}</MessageItemInlineStatus>
             </MessageItemHeader>
             <MessageItemBody>Right-click opens the shared ContextMenu composition.</MessageItemBody>
             <MessageItemFooter>
+              {saved ? (
+                <MessageItemSavedIndicator>
+                  <Bookmark fill="currentColor" />
+                  <span>Saved</span>
+                </MessageItemSavedIndicator>
+              ) : null}
               <MessageItemBadge status="unread">
                 <MessageSquare />4 replies
               </MessageItemBadge>
@@ -132,31 +135,17 @@ export function ContextMenuMessageRow() {
           followed={followed}
           onCopyLink={() => {
             void navigator.clipboard?.writeText(window.location.href);
-            setLastAction("Link copied");
           }}
           onCopyMarkdown={() => {
             void navigator.clipboard?.writeText(
               "Right-click opens the shared ContextMenu composition.",
             );
-            setLastAction("Markdown copied");
           }}
-          onFollowChange={(nextFollowed) => {
-            setFollowed(nextFollowed);
-            setLastAction(nextFollowed ? "Thread followed" : "Thread unfollowed");
-          }}
-          onOpenThread={() => setLastAction("Thread opened")}
-          onQuickReact={(emoji) => {
-            setReaction(emoji);
-            setLastAction(`Reacted with ${emoji}`);
-          }}
-          onSavedChange={(nextSaved) => {
-            setSaved(nextSaved);
-            setLastAction(nextSaved ? "Message saved" : "Message removed from saved");
-          }}
-          onTaskChange={(nextTask) => {
-            setTask(nextTask);
-            setLastAction(nextTask === "done" ? "Task completed" : "Task opened");
-          }}
+          onFollowChange={setFollowed}
+          onOpenThread={() => {}}
+          onQuickReact={setReaction}
+          onSavedChange={setSaved}
+          onTaskChange={setTask}
           portalContainer={portalContainer}
           saved={saved}
           task={task}
@@ -210,9 +199,6 @@ export function RemovedSenderMessageRow() {
         <MessageItemBody>
           This history row remains visible after a member was removed.
         </MessageItemBody>
-        <MessageItemNotice>
-          Message is visible because it belongs to the archived thread.
-        </MessageItemNotice>
       </MessageItemContent>
     </MessageItem>
   );
@@ -269,7 +255,9 @@ export function ConvertingMessageRow() {
           <MessageItemTime>2:21 PM</MessageItemTime>
           <MessageItemInlineStatus>Converting…</MessageItemInlineStatus>
         </MessageItemHeader>
-        <MessageItemBody>Converting the selected message into a task.</MessageItemBody>
+        <MessageItemBody>
+          Ship the token fixture tonight and keep the review checklist in sync.
+        </MessageItemBody>
       </MessageItemContent>
     </MessageItem>
   );

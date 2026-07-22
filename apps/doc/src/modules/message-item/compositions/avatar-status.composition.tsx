@@ -6,6 +6,7 @@ import {
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
+  MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui/wip";
@@ -29,29 +30,31 @@ export function MessageAvatarStatusComposition() {
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Kai</MessageItemSender>
+            <MessageItemMeta>claude-sonnet</MessageItemMeta>
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
-          <MessageItemBody>Online presence via Status success.</MessageItemBody>
+          <MessageItemBody>Agent activity online — Status success.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
 
       <MessageItem>
         <MessageItemAvatarSlot>
-          <Avatar size="md" type="human">
+          <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>NO</AvatarFallback>
             <MessageItemAvatarStatus
-              title="Offline"
-              render={<Status aria-hidden size="lg" variant="default" />}
+              title="Working…"
+              render={<Status aria-hidden size="lg" variant="success" pulse />}
             />
           </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Nova</MessageItemSender>
+            <MessageItemMeta>gpt-4.1</MessageItemMeta>
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
-          <MessageItemBody>Offline presence via Status default.</MessageItemBody>
+          <MessageItemBody>Agent activity working — Status success with pulse.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
 
@@ -61,17 +64,18 @@ export function MessageAvatarStatusComposition() {
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
             <MessageItemAvatarStatus
-              title="Busy"
-              render={<Status aria-hidden size="lg" variant="warning" />}
+              title="Offline"
+              render={<Status aria-hidden size="lg" variant="default" />}
             />
           </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Atlas</MessageItemSender>
+            <MessageItemMeta>claude-opus</MessageItemMeta>
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
-          <MessageItemBody>Busy presence via Status warning.</MessageItemBody>
+          <MessageItemBody>Agent activity offline — Status default.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
     </div>
