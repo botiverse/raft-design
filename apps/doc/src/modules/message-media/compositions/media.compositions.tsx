@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { Download, Eye, Play } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
-  MessageAttachmentGroup,
   MessageImageGallery,
   MessageImageGalleryAction,
   MessageImageGalleryItem,
@@ -20,7 +19,6 @@ import {
   MESSAGE_FIXTURE_IMAGE_SRC,
   openMessageFixture,
 } from "#/modules/message-item/message-item.fixtures.ts";
-import { MessageAttachmentReadyComposition } from "./attachment.compositions.tsx";
 
 function MessageImageReadyItem({ single = false }: { single?: boolean }) {
   return (
@@ -140,33 +138,5 @@ export function MessageVideoPendingComposition() {
         </MessageVideoPreviewFallback>
       </MessageVideoPreviewFrame>
     </MessageVideoPreview>
-  );
-}
-
-export function MessageFileAttachmentComposition() {
-  return (
-    <MessageAttachmentReadyComposition
-      name="migration.diff"
-      meta="Diff · 18 KB"
-      summary="+42 -7"
-      primaryAction={<Download />}
-      primaryActionLabel="Download migration.diff"
-      onPrimaryAction={() => downloadMessageFixture("migration.diff")}
-    />
-  );
-}
-
-export function MessageFileAttachmentsComposition() {
-  return (
-    <MessageAttachmentGroup>
-      <MessageFileAttachmentComposition />
-      <MessageAttachmentReadyComposition
-        name="screening.html"
-        meta="HTML preview · 44 KB"
-        primaryAction={<Download />}
-        primaryActionLabel="Download screening.html"
-        onPrimaryAction={() => downloadMessageFixture("screening.html")}
-      />
-    </MessageAttachmentGroup>
   );
 }

@@ -79,7 +79,28 @@ const NAV = [
         to: "/components/conversation-panel",
         status: "done",
       },
-      { label: "MessageItem", to: "/components/message-item", status: "wip" },
+      {
+        label: "MessageItem",
+        to: "/components/message-item",
+        status: "wip",
+        children: [
+          { label: "MessageMarkdown", to: "/components/message-markdown", status: "wip" },
+          { label: "MessageAttachment", to: "/components/message-attachment", status: "wip" },
+          { label: "MessageMedia", to: "/components/message-media", status: "wip" },
+          { label: "MessageActionCard", to: "/components/message-action-card", status: "wip" },
+          {
+            label: "MessageQuotedPreview",
+            to: "/components/message-quoted-preview",
+            status: "wip",
+          },
+          {
+            label: "MessageForwardedBundle",
+            to: "/components/message-forwarded-bundle",
+            status: "wip",
+          },
+        ],
+      },
+      { label: "SystemMessage", to: "/components/system-message", status: "wip" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
       {
         label: "Composer",

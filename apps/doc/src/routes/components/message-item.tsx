@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { Differences } from "#/components/differences.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -10,27 +11,21 @@ import { PropsTable } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { MessageActionCardShowcaseComposition } from "#/modules/message-item/compositions/action-card.composition.tsx";
-import actionCardSource from "#/modules/message-item/compositions/action-card.composition.tsx?raw";
-import { MessageAttachmentsShowcaseComposition } from "#/modules/message-item/compositions/message-attachments-showcase.composition.tsx";
-import attachmentsShowcaseSource from "#/modules/message-item/compositions/message-attachments-showcase.composition.tsx?raw";
 import { MessageConsecutiveComposition } from "#/modules/message-item/compositions/consecutive.composition.tsx";
 import consecutiveSource from "#/modules/message-item/compositions/consecutive.composition.tsx?raw";
 import { MessageContextMenuShowcaseComposition } from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx";
 import contextMenuShowcaseSource from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx?raw";
 import { MessageConvertingComposition } from "#/modules/message-item/compositions/converting.composition.tsx";
 import convertingSource from "#/modules/message-item/compositions/converting.composition.tsx?raw";
-import { MessageForwardedBundleShowcaseComposition } from "#/modules/message-item/compositions/forwarded-bundle.composition.tsx";
-import forwardedBundleSource from "#/modules/message-item/compositions/forwarded-bundle.composition.tsx?raw";
+import { MessageInteractiveSenderComposition } from "#/modules/message-item/compositions/interactive-sender.composition.tsx";
+import interactiveSenderSource from "#/modules/message-item/compositions/interactive-sender.composition.tsx?raw";
 import { MessageItemPreview } from "#/modules/message-item/compositions/item-preview.composition.tsx";
 import messageItemPreviewSource from "#/modules/message-item/compositions/item-preview.composition.tsx?raw";
-import { MessageMarkdownShowcaseComposition } from "#/modules/message-item/compositions/markdown.composition.tsx";
-import markdownSource from "#/modules/message-item/compositions/markdown.composition.tsx?raw";
 import messageItemPreviewCompositionSource from "#/modules/message-item/compositions/preview.composition.tsx?raw";
-import { MessageQuotedPreviewShowcaseComposition } from "#/modules/message-item/compositions/quoted-preview.composition.tsx";
-import quotedPreviewSource from "#/modules/message-item/compositions/quoted-preview.composition.tsx?raw";
 import { MessageReactionsShowcaseComposition } from "#/modules/message-item/compositions/reactions.composition.tsx";
 import reactionsSource from "#/modules/message-item/compositions/reactions.composition.tsx?raw";
+import { MessageReadReceiptComposition } from "#/modules/message-item/compositions/read-receipt.composition.tsx";
+import readReceiptSource from "#/modules/message-item/compositions/read-receipt.composition.tsx?raw";
 import { MessageReferenceShowcaseComposition } from "#/modules/message-item/compositions/reference-showcase.composition.tsx";
 import referenceShowcaseSource from "#/modules/message-item/compositions/reference-showcase.composition.tsx?raw";
 import { MessageRepliesComposition } from "#/modules/message-item/compositions/replies.composition.tsx";
@@ -41,8 +36,6 @@ import { MessageSavedComposition } from "#/modules/message-item/compositions/sav
 import savedSource from "#/modules/message-item/compositions/saved.composition.tsx?raw";
 import { MessageSenderStateComposition } from "#/modules/message-item/compositions/sender-state.composition.tsx";
 import senderStateSource from "#/modules/message-item/compositions/sender-state.composition.tsx?raw";
-import { MessageSystemMessagesComposition } from "#/modules/message-item/compositions/system-messages.composition.tsx";
-import systemMessagesSource from "#/modules/message-item/compositions/system-messages.composition.tsx?raw";
 import { MessageTaskBadgeComposition } from "#/modules/message-item/compositions/task-badge.composition.tsx";
 import taskBadgeSource from "#/modules/message-item/compositions/task-badge.composition.tsx?raw";
 import { MessageTextSelectionShowcaseComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
@@ -81,23 +74,19 @@ export const Route = createFileRoute("/components/message-item")({
   loader: () =>
     highlightSnippets({
       data: {
-        actionCard: actionCardSource,
         anatomy: ANATOMY_SOURCE,
-        attachmentsShowcase: attachmentsShowcaseSource,
         consecutive: consecutiveSource,
         contextMenu: contextMenuShowcaseSource,
         converting: convertingSource,
-        forwardedBundle: forwardedBundleSource,
-        markdown: markdownSource,
         preview: messageItemPreviewCompositionSource,
-        quotedPreview: quotedPreviewSource,
         reactions: reactionsSource,
         referenceShowcase: referenceShowcaseSource,
         replies: repliesSource,
+        interactiveSender: interactiveSenderSource,
         rowChrome: rowChromeSource,
         saved: savedSource,
         senderState: senderStateSource,
-        systemMessages: systemMessagesSource,
+        readReceipt: readReceiptSource,
         taskBadge: taskBadgeSource,
         textSelection: textSelectionSource,
         toolbar: toolbarSource,
@@ -112,7 +101,7 @@ function MessageItemDoc() {
   return (
     <DocPage
       title="MessageItem"
-      description="Business-agnostic message primitives composed into source-faithful rows for every theme."
+      description="Message row chrome: gutter, header, footer, toolbar, reactions, references, and selection."
       overview={
         <Differences from="MessageItem">
           <li>
@@ -124,13 +113,25 @@ function MessageItemDoc() {
             business state
           </li>
           <li>
-            product copy, icons, callbacks, and async state live in docs compositions rather than
-            the UI package
+            body content blocks live in sibling modules: SystemMessage, MessageMarkdown,
+            MessageAttachment, MessageMedia, MessageActionCard, MessageQuotedPreview, and
+            MessageForwardedBundle
           </li>
         </Differences>
       }
       toc={TOC}
     >
+      <DocNote>
+        Timeline peers and nested body blocks are documented separately:{" "}
+        <Link to="/components/system-message">SystemMessage</Link>,{" "}
+        <Link to="/components/message-markdown">MessageMarkdown</Link>,{" "}
+        <Link to="/components/message-attachment">MessageAttachment</Link>,{" "}
+        <Link to="/components/message-media">MessageMedia</Link>,{" "}
+        <Link to="/components/message-action-card">MessageActionCard</Link>,{" "}
+        <Link to="/components/message-quoted-preview">MessageQuotedPreview</Link>,{" "}
+        <Link to="/components/message-forwarded-bundle">MessageForwardedBundle</Link>.
+      </DocNote>
+
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <MessageItemPlaygroundPreview code={code.preview} collapsedCode={code.previewBody} />
       </DocSection>
@@ -151,12 +152,6 @@ function MessageItemDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="system-messages" title="System messages">
-            <UsagePreview code={code.systemMessages}>
-              <MessageSystemMessagesComposition />
-            </UsagePreview>
-          </DocSubsection>
-
           <DocSubsection parentId="usage" id="sender-state" title="Sender state">
             <UsagePreview code={code.senderState}>
               <MessageSenderStateComposition />
@@ -169,9 +164,9 @@ function MessageItemDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="markdown" title="Markdown">
-            <UsagePreview code={code.markdown}>
-              <MessageMarkdownShowcaseComposition />
+          <DocSubsection parentId="usage" id="interactive-sender" title="Interactive sender">
+            <UsagePreview code={code.interactiveSender}>
+              <MessageInteractiveSenderComposition />
             </UsagePreview>
           </DocSubsection>
 
@@ -188,30 +183,6 @@ function MessageItemDoc() {
               <div className="w-full max-w-3xl">
                 <MessageReferenceShowcaseComposition />
               </div>
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="quoted-preview" title="Quoted preview">
-            <UsagePreview code={code.quotedPreview}>
-              <MessageQuotedPreviewShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="forwarded-bundle" title="Forwarded bundle">
-            <UsagePreview code={code.forwardedBundle}>
-              <MessageForwardedBundleShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="action-card" title="Action card">
-            <UsagePreview code={code.actionCard}>
-              <MessageActionCardShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="attachments" title="Attachments">
-            <UsagePreview code={code.attachmentsShowcase}>
-              <MessageAttachmentsShowcaseComposition />
             </UsagePreview>
           </DocSubsection>
 
@@ -236,6 +207,12 @@ function MessageItemDoc() {
           <DocSubsection parentId="usage" id="reactions" title="Reactions">
             <UsagePreview code={code.reactions}>
               <MessageReactionsShowcaseComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="read-receipt" title="Read receipt">
+            <UsagePreview code={code.readReceipt}>
+              <MessageReadReceiptComposition />
             </UsagePreview>
           </DocSubsection>
 

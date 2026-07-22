@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
 import { messageFooter } from "./message-footer.recipe";
@@ -69,6 +70,30 @@ export function MessageItemSavedIndicator({
     props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "message-item-saved-indicator",
+    },
+  });
+}
+
+export type MessageItemReadReceiptProps = useRender.ComponentProps<"span">;
+
+export function MessageItemReadReceipt({
+  className,
+  render,
+  ...props
+}: MessageItemReadReceiptProps) {
+  const theme = useThemeFamily();
+  const { readReceipt } = messageFooter({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-message-affordance": "read-receipt",
+    className: readReceipt({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-item-read-receipt",
     },
   });
 }
