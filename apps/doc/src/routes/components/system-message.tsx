@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -52,12 +53,6 @@ import { SystemMessageTaskAssignedContent } from "#/modules/system-message/compo
 import taskAssignedSource from "#/modules/system-message/compositions/task-assigned.composition.tsx?raw";
 import { SystemMessageTaskStartedContent } from "#/modules/system-message/compositions/task-started.composition.tsx";
 import taskStartedSource from "#/modules/system-message/compositions/task-started.composition.tsx?raw";
-import { SystemMessageReminderScheduledContent } from "#/modules/system-message/compositions/reminder-scheduled.composition.tsx";
-import reminderScheduledSource from "#/modules/system-message/compositions/reminder-scheduled.composition.tsx?raw";
-import { SystemMessageReminderFireNoticeContent } from "#/modules/system-message/compositions/reminder-fire-notice.composition.tsx";
-import reminderFireNoticeSource from "#/modules/system-message/compositions/reminder-fire-notice.composition.tsx?raw";
-import { SystemMessageReminderRecurringContent } from "#/modules/system-message/compositions/reminder-recurring.composition.tsx";
-import reminderRecurringSource from "#/modules/system-message/compositions/reminder-recurring.composition.tsx?raw";
 import { SystemMessageOnboardingAllUnlockContent } from "#/modules/system-message/compositions/onboarding-all-unlock.composition.tsx";
 import onboardingAllUnlockSource from "#/modules/system-message/compositions/onboarding-all-unlock.composition.tsx?raw";
 import { SystemMessageGroupedUpdatesContent } from "#/modules/system-message/compositions/grouped-updates.composition.tsx";
@@ -71,7 +66,6 @@ import {
 import {
   SourceSystemMessageChannelArchive,
   SourceSystemMessageGroupedUpdates,
-  SourceSystemMessageReminderScheduled,
   SourceSystemMessageTaskMovedDone,
 } from "#/modules/system-message/system-message.source-preview.tsx";
 
@@ -109,10 +103,10 @@ const SOURCE_SCENES = [
 
 const ANATOMY_SOURCE = `<SystemMessage>
   <SystemMessageTime />
-  <SystemMessageContent content={message.content} />
+  <SystemMessageContent>{message.content}</SystemMessageContent>
 </SystemMessage>
 
-const states = buildSystemMessageRenderStates(messages);
+const states = buildProductSystemMessageRenderStates(messages);
 
 <SystemMessageGroup open={open} onOpenChange={setOpen}>
   <SystemMessageGroupHeader>
@@ -130,7 +124,7 @@ const PROPS: readonly PropRow[] = [
   {
     name: "SystemMessage",
     type: 'useRender.ComponentProps<"div">',
-    description: "Centered system row for archive, reminder, task, and other system events.",
+    description: "Centered system row for product-authored system events.",
   },
   {
     name: "SystemMessageTime",
@@ -139,9 +133,8 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "SystemMessageContent",
-    type: "span props & { content?: string; timeFormat?; timeZone?; locale?; now? }",
-    description:
-      "System event copy. Pass content to parse reminder fire-at spans into relative times; children remain available for plain text. Tooltip copy stays consumer-owned.",
+    type: 'useRender.ComponentProps<"span">',
+    description: "System event content slot. Product parsing and copy stay consumer-owned.",
   },
   {
     name: "SystemMessageGroup",
@@ -173,24 +166,16 @@ const PROPS: readonly PropRow[] = [
     type: "Collapsible.Panel props",
     description: "Expanded details slot that hosts the grouped SystemMessage rows.",
   },
-  {
-    name: "buildSystemMessageRenderStates",
-    type: "(messages) => Array<SystemMessageRenderState | null>",
-    description:
-      "Adjacent-run grouping for system messages. Returns summary/hide states and source-faithful summary copy by category (task / reminder / system).",
-  },
 ];
 
 const COMPOSITION_SOURCES = createCompositionSourceMap({
   ChannelArchive: channelArchiveSource,
-  ReminderScheduled: reminderScheduledSource,
   TaskMovedDone: taskMovedDoneSource,
   GroupedUpdates: groupedUpdatesSource,
 });
 
 const COMPOSITION_SNIPPET_IDS = {
   ChannelArchive: "channelArchiveComposition",
-  ReminderScheduled: "reminderScheduledComposition",
   TaskMovedDone: "taskMovedDoneComposition",
   GroupedUpdates: "groupedUpdatesComposition",
 } as const;
@@ -229,9 +214,6 @@ export const Route = createFileRoute("/components/system-message")({
         taskDeleted: taskDeletedSource,
         taskAssigned: taskAssignedSource,
         taskStarted: taskStartedSource,
-        reminderScheduled: reminderScheduledSource,
-        reminderFireNotice: reminderFireNoticeSource,
-        reminderRecurring: reminderRecurringSource,
         onboardingAllUnlock: onboardingAllUnlockSource,
         groupedUpdates: groupedUpdatesSource,
         groupedGeneric: groupedGenericSource,
@@ -257,9 +239,14 @@ function SystemMessageDoc() {
   return (
     <DocPage
       title="SystemMessage"
-      description="Centered system-event rows, reminder fire-at rendering, and adjacent-run grouping."
+      description="Centered system-event rows and consumer-owned adjacent-run grouping."
       toc={TOC}
     >
+      <DocNote>
+        Current reminder scheduling and firing do not write chat messages. Reminder audit and wake
+        delivery belong to the reminder product surface, so this page intentionally shows no
+        reminder rows.
+      </DocNote>
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview previewMode="light" previewClassName="items-stretch">
           <Preview.Canvas>
@@ -373,21 +360,6 @@ function SystemMessageDoc() {
               <SystemMessageTaskStartedContent />
             </UsagePreview>
           </DocSubsection>
-          <DocSubsection parentId="usage" id="reminder-scheduled" title="Reminder scheduled">
-            <UsagePreview code={code.reminderScheduled}>
-              <SystemMessageReminderScheduledContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="reminder-fire-notice" title="Reminder fire notice">
-            <UsagePreview code={code.reminderFireNotice}>
-              <SystemMessageReminderFireNoticeContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="reminder-recurring" title="Reminder recurring">
-            <UsagePreview code={code.reminderRecurring}>
-              <SystemMessageReminderRecurringContent />
-            </UsagePreview>
-          </DocSubsection>
           <DocSubsection parentId="usage" id="onboarding-all-unlock" title="Onboarding #all unlock">
             <UsagePreview code={code.onboardingAllUnlock}>
               <SystemMessageOnboardingAllUnlockContent />
@@ -420,7 +392,7 @@ function SystemMessageDoc() {
             {
               label: "Channel archive",
               status: "match",
-              note: "Source MessageItem system early-return maps to SystemMessage + SystemMessageTime + SystemMessageContent.",
+              note: "The Source pane is a static DOM fixture extracted from the current MessageItem system early-return. Current maps that structure to SystemMessage + SystemMessageTime + SystemMessageContent.",
               source: (
                 <SourceThemeScope>
                   <SourceSystemMessageChannelArchive />
@@ -432,23 +404,9 @@ function SystemMessageDoc() {
               ...systemMessageComposition("ChannelArchive"),
             },
             {
-              label: "Reminder scheduled",
-              status: "match",
-              note: "Reminder fire-at spans parse into relative times. Tooltip copy is left to the consumer.",
-              source: (
-                <SourceThemeScope>
-                  <SourceSystemMessageReminderScheduled />
-                </SourceThemeScope>
-              ),
-              brutal: <SystemMessageCurrent.ReminderScheduled />,
-              elegant: <SystemMessageCurrent.ReminderScheduled />,
-              elegantDark: <SystemMessageCurrent.ReminderScheduled />,
-              ...systemMessageComposition("ReminderScheduled"),
-            },
-            {
               label: "Task moved to Done",
               status: "match",
-              note: "Task lifecycle copy is opaque content; Current keeps the source-authored glyph + actor + title string.",
+              note: "The Source pane is an extracted static fixture. Task lifecycle copy stays opaque, and Current keeps the source-authored glyph, actor, and title string.",
               source: (
                 <SourceThemeScope>
                   <SourceSystemMessageTaskMovedDone />
@@ -462,7 +420,7 @@ function SystemMessageDoc() {
             {
               label: "Grouped updates",
               status: "difference",
-              note: "Source uses a custom disclosure; Current composes Base UI Collapsible parts (Group / Header / Disclosure / Panel).",
+              note: "The Source pane reconstructs the current custom disclosure DOM. Current composes Base UI Collapsible parts while product classification stays in the consumer.",
               source: (
                 <SourceThemeScope>
                   <SourceSystemMessageGroupedUpdates />

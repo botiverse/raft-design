@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+import { MESSAGE_FIXTURE_AVATAR_SRC, MESSAGE_PLAYGROUND_URLS } from "../message-item.fixtures.ts";
 import { Bookmark, MessageSquare } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage, ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
@@ -68,7 +68,11 @@ export function MessageContextMenuShowcaseComposition() {
           <MessageContextMenuComposition
             followed={followed}
             onCopyLink={() => {
-              void navigator.clipboard?.writeText(window.location.href);
+              const permalink = new URL(
+                MESSAGE_PLAYGROUND_URLS.apiDocsMessage,
+                window.location.origin,
+              );
+              void navigator.clipboard?.writeText(permalink.href);
             }}
             onCopyMarkdown={() => {
               void navigator.clipboard?.writeText(
@@ -76,7 +80,6 @@ export function MessageContextMenuShowcaseComposition() {
               );
             }}
             onFollowChange={setFollowed}
-            onOpenThread={() => {}}
             onQuickReact={setReaction}
             onSavedChange={setSaved}
             onTaskChange={setTask}

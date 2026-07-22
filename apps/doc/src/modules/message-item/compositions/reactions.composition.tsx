@@ -42,11 +42,13 @@ export function MessageReactionsShowcaseComposition() {
               <MessageItemTime>2:33 PM</MessageItemTime>
             </MessageItemHeader>
             <MessageItemBody>
-              Reaction chips, failure flash, and the mobile add control stay caller-wired.
+              Sprite reactions, a custom Unicode fallback, failure flash, and the mobile add control
+              stay caller-wired.
             </MessageItemBody>
             <MessageItemFooter>
               <MessageReactionComposition emoji="👍" count={5} reacted />
               <MessageReactionComposition emoji="👀" count={2} />
+              <MessageReactionComposition emoji="🧭" count={1} title="Custom emoji fallback" />
               <MessageReactionComposition emoji="🔥" count={1} failed />
               <MessageQuickReactionPicker
                 open={open}

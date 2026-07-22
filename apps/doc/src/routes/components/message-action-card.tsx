@@ -7,14 +7,37 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { MessageActionCardShowcaseComposition } from "#/modules/message-action-card/compositions/action-card.composition.tsx";
 import actionCardSource from "#/modules/message-action-card/compositions/action-card.composition.tsx?raw";
+import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
+import actionCardComparisonSource from "#/modules/message-action-card/compositions/action-card-message.composition.tsx?raw";
+import { MessageActionCardSourcePreview } from "#/modules/message-action-card/message-action-card.source-preview.tsx";
 
 const TOC = [
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
+] as const;
+
+const SOURCE_SCENES = [
+  {
+    label: "Slock action-card message",
+    scenes: [
+      {
+        label: "ActionCard.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/actions/ActionCard.tsx",
+      },
+      {
+        label: "MessageItem.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
+      },
+    ],
+  },
 ] as const;
 
 const ANATOMY_SOURCE = `<MessageActionCard>
@@ -67,6 +90,7 @@ export const Route = createFileRoute("/components/message-action-card")({
     highlightSnippets({
       data: {
         actionCard: actionCardSource,
+        actionCardComparison: actionCardComparisonSource,
         anatomy: ANATOMY_SOURCE,
       },
     }),
@@ -86,6 +110,12 @@ function MessageActionCardDoc() {
         <code>raft-ui/wip</code>.
       </DocNote>
 
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <UsagePreview code={code.actionCard}>
+          <MessageActionCardShowcaseComposition />
+        </UsagePreview>
+      </DocSection>
+
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
@@ -104,6 +134,32 @@ function MessageActionCardDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          layout="grid"
+          items={[
+            {
+              label: "Channel action",
+              status: "review",
+              note: "The Source pane is a static fixture extracted from the real ActionCard and MessageItem DOM; the three Current panes execute the canonical message composition.",
+              sourceScenes: SOURCE_SCENES,
+              source: (
+                <SourceThemeScope className="w-full">
+                  <MessageActionCardSourcePreview />
+                </SourceThemeScope>
+              ),
+              brutal: <ActionCardMessageComposition />,
+              elegant: <ActionCardMessageComposition />,
+              elegantDark: <ActionCardMessageComposition />,
+              compositionCode: code.actionCardComparison,
+              compositionPath:
+                "apps/doc/src/modules/message-action-card/compositions/action-card-message.composition.tsx",
+              compositionSource: actionCardComparisonSource,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

@@ -19,7 +19,6 @@ import { MessageMultiSelectToolbarComposition } from "./selection.compositions.t
 
 function MessageSelectionToolbarShowcase() {
   const [active, setActive] = useState(true);
-  const [lastAction, setLastAction] = useState("Select-mode actions are caller-owned.");
 
   if (!active) {
     return (
@@ -35,16 +34,10 @@ function MessageSelectionToolbarShowcase() {
 
   return (
     <div className="grid gap-2">
-      <MessageMultiSelectToolbarComposition
-        count={3}
-        onCancel={() => setActive(false)}
-        onCopyLink={() => setLastAction("Copied links for 3 messages.")}
-        onCopyMarkdown={() => setLastAction("Copied Markdown for 3 messages.")}
-        onForward={() => setLastAction("Opened forward composer for 3 messages.")}
-        onGenerateImage={() => setLastAction("Generated image preview for 3 messages.")}
-      />
-      <p className="text-xs text-foreground-muted" role="status">
-        {lastAction}
+      <MessageMultiSelectToolbarComposition count={3} onCancel={() => setActive(false)} />
+      <p className="text-xs text-foreground-muted">
+        Copy, Forward, and Generate image are disabled in this isolated chrome example because it
+        has no selected-message payload.
       </p>
     </div>
   );

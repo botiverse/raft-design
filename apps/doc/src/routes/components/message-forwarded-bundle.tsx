@@ -7,14 +7,35 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SourceComparison } from "#/components/source-comparison.tsx";
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { MessageForwardedBundleShowcaseComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import forwardedBundleSource from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx?raw";
+import { MessageForwardedBundleSourcePreview } from "#/modules/message-forwarded-bundle/message-forwarded-bundle.source-preview.tsx";
 
 const TOC = [
+  { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
+  { id: "source-comparison", title: "Source comparison" },
+] as const;
+
+const SOURCE_SCENES = [
+  {
+    label: "Slock forwarded-message surface",
+    scenes: [
+      {
+        label: "ForwardedBundleCard.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ForwardedBundleCard.tsx",
+      },
+      {
+        label: "MessageItem.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
+      },
+    ],
+  },
 ] as const;
 
 const ANATOMY_SOURCE = `<MessageForwardedBundle>
@@ -23,7 +44,7 @@ const ANATOMY_SOURCE = `<MessageForwardedBundle>
     <MessageForwardedBundleHeaderCount />
     <MessageForwardedBundleSource />
   </MessageForwardedBundleHeader>
-  <MessageForwardedBundleItems>
+  <MessageForwardedBundleCollapsedItems>
     <MessageForwardedBundleItem>
       <MessageForwardedBundleItemMeta>
         <MessageForwardedBundleItemAuthor />
@@ -37,7 +58,7 @@ const ANATOMY_SOURCE = `<MessageForwardedBundle>
       </MessageForwardedBundleAttachments>
     </MessageForwardedBundleItem>
     <MessageForwardedBundleCollapsedFade />
-  </MessageForwardedBundleItems>
+  </MessageForwardedBundleCollapsedItems>
   <MessageForwardedBundleFooter>
     <MessageForwardedBundleToggle />
   </MessageForwardedBundleFooter>
@@ -56,9 +77,10 @@ const PROPS: readonly PropRow[] = [
     description: "Forwarded chrome, count label, and optional source affordance.",
   },
   {
-    name: "MessageForwardedBundleItems / Item / ItemMeta / ItemAuthor / Content",
+    name: "MessageForwardedBundleItems / CollapsedItems / Item / ItemMeta / ItemAuthor / Content",
     type: "div, article, or span props",
-    description: "Scrollable item list. Each item is an article with author meta and body content.",
+    description:
+      "Expanded and source-faithful clipped list variants. Each item is an article with author meta and body content.",
   },
   {
     name: "MessageForwardedBundleAttachments / Attachment / Name / Meta",
@@ -106,6 +128,12 @@ function MessageForwardedBundleDoc() {
         <code>raft-ui/wip</code>.
       </DocNote>
 
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <UsagePreview code={code.forwardedBundle}>
+          <MessageForwardedBundleShowcaseComposition />
+        </UsagePreview>
+      </DocSection>
+
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
@@ -124,6 +152,32 @@ function MessageForwardedBundleDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
+      </DocSection>
+
+      <DocSection id="source-comparison" title="Source comparison">
+        <SourceComparison
+          layout="grid"
+          items={[
+            {
+              label: "Collapsed forwarded bundle",
+              status: "review",
+              note: "The Source pane is a static fixture extracted from the real ForwardedBundleCard and MessageItem DOM; the three Current panes execute the canonical message composition.",
+              sourceScenes: SOURCE_SCENES,
+              source: (
+                <SourceThemeScope className="w-full">
+                  <MessageForwardedBundleSourcePreview />
+                </SourceThemeScope>
+              ),
+              brutal: <MessageForwardedBundleShowcaseComposition />,
+              elegant: <MessageForwardedBundleShowcaseComposition />,
+              elegantDark: <MessageForwardedBundleShowcaseComposition />,
+              compositionCode: code.forwardedBundle,
+              compositionPath:
+                "apps/doc/src/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx",
+              compositionSource: forwardedBundleSource,
+            },
+          ]}
+        />
       </DocSection>
     </DocPage>
   );

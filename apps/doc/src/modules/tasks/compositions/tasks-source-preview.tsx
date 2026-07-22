@@ -4,13 +4,11 @@ import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "r
 
 import {
   TASK_FIXTURES,
+  TASK_STATUS_BACKGROUNDS,
   TASK_STATUSES,
   type TaskStatus,
 } from "#/modules/task-card/task-card.fixtures.ts";
-import {
-  STATUS_BACKGROUNDS,
-  SourceTaskCard,
-} from "#/modules/task-card/task-card.source-comparison.tsx";
+import { SourceTaskCard } from "#/modules/task-card/task-card.source-comparison.tsx";
 
 export function TasksSourcePreview() {
   const [collapsed, setCollapsed] = useState<readonly TaskStatus[]>(["done", "closed"]);
@@ -82,7 +80,7 @@ export function TasksSourcePreview() {
                   >
                     <span className="flex items-center gap-2">
                       <span
-                        className={`border border-black px-2 py-0.5 text-[10px] font-bold ${STATUS_BACKGROUNDS[status.id]}`}
+                        className={`border border-black px-2 py-0.5 text-[10px] font-bold ${TASK_STATUS_BACKGROUNDS[status.id]}`}
                       >
                         {status.label.toUpperCase()}
                       </span>
@@ -99,9 +97,7 @@ export function TasksSourcePreview() {
                           No {status.label.toLowerCase()} tasks.
                         </div>
                       ) : (
-                        tasks.map((task) => (
-                          <SourceTaskCard key={task.id} task={task} onAction={setNotice} />
-                        ))
+                        tasks.map((task) => <SourceTaskCard key={task.id} task={task} />)
                       )}
                     </div>
                   ) : null}
@@ -129,7 +125,7 @@ export function TasksSourcePreview() {
                   >
                     <span className="flex items-center gap-2">
                       <span
-                        className={`border border-black px-2 py-0.5 text-[10px] font-bold ${STATUS_BACKGROUNDS[status.id]}`}
+                        className={`border border-black px-2 py-0.5 text-[10px] font-bold ${TASK_STATUS_BACKGROUNDS[status.id]}`}
                       >
                         {status.label.toUpperCase()}
                       </span>
@@ -140,7 +136,7 @@ export function TasksSourcePreview() {
                   {!isCollapsed ? (
                     <div className="space-y-2.5">
                       {tasks.map((task) => (
-                        <SourceTaskCard key={task.id} task={task} onAction={setNotice} />
+                        <SourceTaskCard key={task.id} task={task} />
                       ))}
                     </div>
                   ) : null}

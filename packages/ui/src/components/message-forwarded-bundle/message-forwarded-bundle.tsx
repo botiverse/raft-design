@@ -1,19 +1,20 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import type { Theme } from "../../lib/theme/theme-context";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { messageProductState } from "../message-product-state/message-product-state.recipe";
+import { messageForwardedBundle } from "./message-forwarded-bundle.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
 type SpanProps = useRender.ComponentProps<"span">;
 type ButtonProps = useRender.ComponentProps<"button">;
 type ArticleProps = useRender.ComponentProps<"article">;
+type RecipePart = (options?: { className?: string }) => string;
+type ResolveRecipePart = (theme: Theme) => RecipePart;
 
-function createDivPart(slot: string, recipeSlot: keyof ReturnType<typeof messageProductState>) {
+function createDivPart(slot: string, resolveRecipePart: ResolveRecipePart) {
   return function MessageForwardedBundlePart({ className, render, ...props }: DivProps) {
     const theme = useThemeFamily();
-    const recipe = messageProductState({ theme })[recipeSlot] as (value: {
-      className?: string;
-    }) => string;
+    const recipe = resolveRecipePart(theme);
     return useRender({
       defaultTagName: "div",
       render,
@@ -23,12 +24,10 @@ function createDivPart(slot: string, recipeSlot: keyof ReturnType<typeof message
   };
 }
 
-function createSpanPart(slot: string, recipeSlot: keyof ReturnType<typeof messageProductState>) {
+function createSpanPart(slot: string, resolveRecipePart: ResolveRecipePart) {
   return function MessageForwardedBundlePart({ className, render, ...props }: SpanProps) {
     const theme = useThemeFamily();
-    const recipe = messageProductState({ theme })[recipeSlot] as (value: {
-      className?: string;
-    }) => string;
+    const recipe = resolveRecipePart(theme);
     return useRender({
       defaultTagName: "span",
       render,
@@ -38,68 +37,75 @@ function createSpanPart(slot: string, recipeSlot: keyof ReturnType<typeof messag
   };
 }
 
-export const MessageForwardedBundle = createDivPart("message-forwarded-bundle", "forwardedBundle");
+export const MessageForwardedBundle = createDivPart(
+  "message-forwarded-bundle",
+  (theme) => messageForwardedBundle({ theme }).root,
+);
 export const MessageForwardedBundleHeader = createDivPart(
   "message-forwarded-bundle-header",
-  "forwardedHeader",
+  (theme) => messageForwardedBundle({ theme }).header,
 );
 export const MessageForwardedBundleHeaderLabel = createSpanPart(
   "message-forwarded-bundle-header-label",
-  "forwardedHeaderLabel",
+  (theme) => messageForwardedBundle({ theme }).headerLabel,
 );
 export const MessageForwardedBundleHeaderCount = createSpanPart(
   "message-forwarded-bundle-header-count",
-  "forwardedHeaderCount",
+  (theme) => messageForwardedBundle({ theme }).headerCount,
 );
 export const MessageForwardedBundleItems = createDivPart(
   "message-forwarded-bundle-items",
-  "forwardedItems",
+  (theme) => messageForwardedBundle({ theme }).items,
+);
+export const MessageForwardedBundleCollapsedItems = createDivPart(
+  "message-forwarded-bundle-collapsed-items",
+  (theme) => messageForwardedBundle({ theme }).collapsedItems,
 );
 export function MessageForwardedBundleItem({ className, render, ...props }: ArticleProps) {
   const theme = useThemeFamily();
-  const { forwardedItem } = messageProductState({ theme });
+  const { item } = messageForwardedBundle({ theme });
   return useRender({
     defaultTagName: "article",
     render,
-    props: mergeProps<"article">({ className: forwardedItem({ className }) }, props),
+    props: mergeProps<"article">({ className: item({ className }) }, props),
     state: { slot: "message-forwarded-bundle-item" },
   });
 }
 export const MessageForwardedBundleItemMeta = createDivPart(
   "message-forwarded-bundle-item-meta",
-  "forwardedItemMeta",
+  (theme) => messageForwardedBundle({ theme }).itemMeta,
 );
 export const MessageForwardedBundleItemAuthor = createSpanPart(
   "message-forwarded-bundle-item-author",
-  "forwardedItemAuthor",
+  (theme) => messageForwardedBundle({ theme }).itemAuthor,
 );
 export const MessageForwardedBundleContent = createDivPart(
   "message-forwarded-bundle-content",
-  "forwardedContent",
+  (theme) => messageForwardedBundle({ theme }).content,
 );
 export const MessageForwardedBundleAttachments = createDivPart(
   "message-forwarded-bundle-attachments",
-  "forwardedAttachments",
+  (theme) => messageForwardedBundle({ theme }).attachments,
 );
 export const MessageForwardedBundleAttachment = createSpanPart(
   "message-forwarded-bundle-attachment",
-  "forwardedAttachment",
+  (theme) => messageForwardedBundle({ theme }).attachment,
 );
 export const MessageForwardedBundleAttachmentName = createSpanPart(
   "message-forwarded-bundle-attachment-name",
-  "forwardedAttachmentName",
+  (theme) => messageForwardedBundle({ theme }).attachmentName,
 );
 export const MessageForwardedBundleAttachmentMeta = createSpanPart(
   "message-forwarded-bundle-attachment-meta",
-  "forwardedAttachmentMeta",
+  (theme) => messageForwardedBundle({ theme }).attachmentMeta,
 );
 export const MessageForwardedBundleCollapsedFade = createDivPart(
   "message-forwarded-bundle-collapsed-fade",
-  "forwardedCollapsedFade",
+  (theme) => messageForwardedBundle({ theme }).collapsedFade,
 );
 export const MessageForwardedBundleFooter = createDivPart(
   "message-forwarded-bundle-footer",
-  "forwardedFooter",
+  (theme) => messageForwardedBundle({ theme }).footer,
 );
 
 export type MessageForwardedBundleSourceProps = ButtonProps;
@@ -110,14 +116,11 @@ export function MessageForwardedBundleSource({
   ...props
 }: MessageForwardedBundleSourceProps) {
   const theme = useThemeFamily();
-  const { forwardedSource } = messageProductState({ theme });
+  const { source } = messageForwardedBundle({ theme });
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(
-      { type: "button", className: forwardedSource({ className }) },
-      props,
-    ),
+    props: mergeProps<"button">({ type: "button", className: source({ className }) }, props),
     state: { slot: "message-forwarded-bundle-source" },
   });
 }
@@ -130,14 +133,11 @@ export function MessageForwardedBundleToggle({
   ...props
 }: MessageForwardedBundleToggleProps) {
   const theme = useThemeFamily();
-  const { forwardedToggle } = messageProductState({ theme });
+  const { toggle } = messageForwardedBundle({ theme });
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(
-      { type: "button", className: forwardedToggle({ className }) },
-      props,
-    ),
+    props: mergeProps<"button">({ type: "button", className: toggle({ className }) }, props),
     state: { slot: "message-forwarded-bundle-toggle" },
   });
 }
@@ -147,6 +147,7 @@ export type MessageForwardedBundleHeaderProps = DivProps;
 export type MessageForwardedBundleHeaderLabelProps = SpanProps;
 export type MessageForwardedBundleHeaderCountProps = SpanProps;
 export type MessageForwardedBundleItemsProps = DivProps;
+export type MessageForwardedBundleCollapsedItemsProps = DivProps;
 export type MessageForwardedBundleItemProps = ArticleProps;
 export type MessageForwardedBundleItemMetaProps = DivProps;
 export type MessageForwardedBundleItemAuthorProps = SpanProps;

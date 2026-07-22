@@ -98,6 +98,30 @@ export function MessageItemReadReceipt({
   });
 }
 
+export type MessageItemInlineRepliesTriggerProps = useRender.ComponentProps<"button">;
+
+export function MessageItemInlineRepliesTrigger({
+  className,
+  render,
+  type = "button",
+  ...props
+}: MessageItemInlineRepliesTriggerProps) {
+  const theme = useThemeFamily();
+  const { inlineRepliesTrigger } = messageFooter({ theme });
+  const defaultProps: SlotElementProps<"button"> = {
+    type,
+    "data-message-affordance": "inline-thread-replies",
+    className: inlineRepliesTrigger({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: mergeProps<"button">(defaultProps, props),
+    state: { slot: "message-item-inline-replies-trigger" },
+  });
+}
+
 export type MessageItemInlineRepliesProps = useRender.ComponentProps<"div">;
 
 export function MessageItemInlineReplies({
@@ -117,6 +141,28 @@ export function MessageItemInlineReplies({
     render,
     props: mergeProps<"div">(defaultProps, props),
     state: { slot: "message-item-inline-replies" },
+  });
+}
+
+export type MessageItemInlineRepliesSummaryProps = useRender.ComponentProps<"span">;
+
+export function MessageItemInlineRepliesSummary({
+  className,
+  render,
+  ...props
+}: MessageItemInlineRepliesSummaryProps) {
+  const theme = useThemeFamily();
+  const { inlineRepliesSummary } = messageFooter({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-message-affordance": "inline-thread-replies-count",
+    className: inlineRepliesSummary({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-item-inline-replies-summary" },
   });
 }
 

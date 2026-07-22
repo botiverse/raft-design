@@ -56,6 +56,7 @@ function formatMediumDateTime(date: Date, options: SystemMessageTimeFormatOption
   });
 }
 
+/** @deprecated Reminder parsing belongs in the consumer composition layer. */
 export function splitSystemMessageReminderFireAtTokens(
   content: string,
 ): SystemMessageReminderContentPart[] {
@@ -78,6 +79,7 @@ export function splitSystemMessageReminderFireAtTokens(
   return parts;
 }
 
+/** @deprecated Reminder formatting belongs in the consumer composition layer. */
 export function formatSystemMessageReminderTooltip(
   value: string,
   options: SystemMessageTimeFormatOptions = {},
@@ -87,6 +89,7 @@ export function formatSystemMessageReminderTooltip(
   return formatMediumDateTime(date, options);
 }
 
+/** @deprecated Reminder formatting belongs in the consumer composition layer. */
 export function formatSystemMessageReminderContentTitle(
   content: string,
   options: SystemMessageTimeFormatOptions = {},
@@ -100,6 +103,7 @@ export function formatSystemMessageReminderContentTitle(
     .join("");
 }
 
+/** @deprecated Reminder formatting belongs in the consumer composition layer. */
 export function formatSystemMessageReminderTime(
   value: string,
   now = new Date(),

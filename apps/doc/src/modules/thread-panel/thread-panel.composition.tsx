@@ -67,13 +67,13 @@ interface ThreadPanelCompositionProps {
 function MessageRowToolbar() {
   return (
     <MessageItemToolbar>
-      <MessageItemToolbarButton aria-label="Reply in thread">
+      <MessageItemToolbarButton aria-label="Reply in thread" disabled>
         <MessageSquare />
       </MessageItemToolbarButton>
-      <MessageItemToolbarButton aria-label="Add reaction">
+      <MessageItemToolbarButton aria-label="Add reaction" disabled>
         <SmilePlus />
       </MessageItemToolbarButton>
-      <MessageItemToolbarButton aria-label="Save message">
+      <MessageItemToolbarButton aria-label="Save message" disabled>
         <Bookmark />
       </MessageItemToolbarButton>
     </MessageItemToolbar>
@@ -97,13 +97,13 @@ function ThreadSearchRow() {
       <ThreadPanelSearchTrailing>
         <ThreadPanelSearchCount>1/2</ThreadPanelSearchCount>
         <ThreadPanelActions>
-          <PanelAction aria-label="Previous match">
+          <PanelAction aria-label="Previous match" disabled>
             <ChevronUp />
           </PanelAction>
-          <PanelAction aria-label="Next match">
+          <PanelAction aria-label="Next match" disabled>
             <ChevronDown />
           </PanelAction>
-          <PanelAction aria-label="Close thread search">
+          <PanelAction aria-label="Close thread search" disabled>
             <X />
           </PanelAction>
         </ThreadPanelActions>
@@ -212,6 +212,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
           variant="outline"
           size="icon-sm"
           aria-label="Back to channel"
+          disabled
         >
           <ChevronLeft aria-hidden />
         </Button>
@@ -220,16 +221,16 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
           <ThreadPanelTitleMeta> — #acme-design</ThreadPanelTitleMeta>
         </ThreadPanelTitle>
         <ThreadPanelActions>
-          <PanelAction aria-label="Search in thread">
+          <PanelAction aria-label="Search in thread" disabled>
             <Search />
           </PanelAction>
-          <PanelAction aria-label="View in channel">
+          <PanelAction aria-label="View in channel" disabled>
             <ExternalLink />
             <span className="hidden whitespace-nowrap font-medium leading-none md:inline">
               View in channel
             </span>
           </PanelAction>
-          <PanelAction className="max-lg:hidden" aria-label="Close thread">
+          <PanelAction className="max-lg:hidden" aria-label="Close thread" disabled>
             <X />
           </PanelAction>
         </ThreadPanelActions>
@@ -271,7 +272,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
                 </ComposerActions>
                 <ComposerMeta>
                   <ComposerToolbarLabel>
-                    <Checkbox size="sm" aria-label="Send as task" />
+                    <Checkbox size="sm" aria-label="Send as task" disabled />
                     As Task
                   </ComposerToolbarLabel>
                   <ComposerSubmit aria-label="Send" disabled>

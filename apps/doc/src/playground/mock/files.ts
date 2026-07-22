@@ -37,11 +37,11 @@ export const PLAYGROUND_FILES = [
     id: "file:all:state-ownership-notes",
     channelId: "all",
     filename: "state-ownership-migration-notes.md",
-    size: "124 B",
+    size: "147 B",
     createdAt: "Today, 10:28 AM",
     type: "file",
     previewUrl:
-      "data:text/plain;charset=utf-8,Raft%20UI%20migration%20notes%0A%0AKeep%20server%20state%20outside%20the%20local%20message%20store.%0AAssign%20interaction%20state%20to%20the%20narrowest%20owner.",
+      "data:text/markdown;charset=utf-8,Raft%20UI%20migration%20notes%0A%0A%23%23%20Ownership%20boundary%0A%0AKeep%20server%20state%20outside%20the%20local%20message%20store.%0AAssign%20interaction%20state%20to%20the%20narrowest%20owner.",
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.stateModel,
   },
   {

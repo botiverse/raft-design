@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+import {
+  MESSAGE_FIXTURE_AVATAR_SRC,
+  MESSAGE_PLAYGROUND_URLS,
+} from "#/modules/message-item/message-item.fixtures.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { MessageSquare } from "lucide-react";
 
@@ -16,18 +19,19 @@ import {
   MessageReference,
 } from "raft-ui/wip";
 import {
-  MessageMentionReferenceComposition,
   MessagePermalinkReferenceComposition,
   MessageReferenceLoadingComposition,
   MessageSelfMentionReferenceComposition,
   MessageUnavailableReferencesComposition,
-} from "./content.compositions.tsx";
+} from "#/modules/message-item/compositions/content.compositions.tsx";
+import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
 
 export function MessageReferenceShowcaseComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
     <div className="flex w-full max-w-3xl flex-col gap-3">
+      <MessageReferenceComparisonComposition />
       <MessageItemInteractionBoundary ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
@@ -39,65 +43,59 @@ export function MessageReferenceShowcaseComposition() {
           <MessageItemContent>
             <MessageItemHeader>
               <MessageItemSender>Atlas</MessageItemSender>
-              <MessageItemTime>2:20 PM</MessageItemTime>
+              <MessageItemTime>2:21 PM</MessageItemTime>
             </MessageItemHeader>
             <MessageItemBody>
               <MessageMarkdown>
                 <p>
-                  Ask{" "}
-                  <MessageMentionReferenceComposition
-                    href="/playground/s/raft/channel/all"
-                    portalContainer={portalContainer}
-                    preview={<p>Atlas · Design-system agent</p>}
-                  >
-                    @Atlas
-                  </MessageMentionReferenceComposition>{" "}
-                  to check the{" "}
-                  <MessagePermalinkReferenceComposition href="/playground/s/raft/channel/all">
-                    message #222
-                  </MessagePermalinkReferenceComposition>{" "}
-                  rollout, with an external{" "}
+                  Keep a real external reference to the{" "}
                   <MessagePermalinkReferenceComposition
                     external
-                    href="https://other.example/messages/333"
+                    href="https://github.com/botiverse/slock"
+                    meta="repo"
                   >
-                    message #333
+                    slock repository
                   </MessagePermalinkReferenceComposition>
-                  .
-                </p>
-                <p>
+                  {", and resolve a self mention separately: "}
                   <MessageSelfMentionReferenceComposition
-                    href="/playground/s/raft/channel/all"
                     portalContainer={portalContainer}
                     preview={<p>You · Current workspace member</p>}
                   >
                     @you
-                  </MessageSelfMentionReferenceComposition>{" "}
-                  assigned{" "}
-                  <MessageReference variant="muted" render={<a href="https://raft.build" />}>
-                    #141
-                  </MessageReference>{" "}
-                  in{" "}
-                  <MessageReference variant="accent" render={<a href="https://raft.build" />}>
-                    #release-notes
-                  </MessageReference>{" "}
-                  and linked{" "}
-                  <MessageReference variant="info" render={<a href="https://raft.build" />}>
-                    #release-notes:final
+                  </MessageSelfMentionReferenceComposition>
+                  {". The same resolver links task "}
+                  <MessageReference
+                    variant="muted"
+                    render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+                  >
+                    #21
                   </MessageReference>
-                  . DM parents reuse the same chip chrome —{" "}
-                  <MessageReference variant="accent" render={<a href="https://raft.build" />}>
-                    dm:@kai
+                  {", thread "}
+                  <MessageReference
+                    variant="info"
+                    render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
+                  >
+                    #release-notes:reply
+                  </MessageReference>
+                  {", and DM parents "}
+                  <MessageReference
+                    variant="accent"
+                    render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}
+                  >
+                    dm:@noah
                   </MessageReference>{" "}
-                  (accent) and{" "}
-                  <MessageReference variant="info" render={<a href="https://raft.build" />}>
-                    dm:@kai:a1b2c3d4
-                  </MessageReference>{" "}
-                  (info).
+                  and{" "}
+                  <MessageReference
+                    variant="info"
+                    render={<a href={MESSAGE_PLAYGROUND_URLS.noahDmThread} />}
+                  >
+                    dm:@noah:reply
+                  </MessageReference>
+                  {"."}
                 </p>
                 <p>
                   <MessageReferenceLoadingComposition>
-                    Resolving channel link
+                    Resolving thread reference
                   </MessageReferenceLoadingComposition>
                 </p>
                 <MessageUnavailableReferencesComposition />
@@ -123,22 +121,21 @@ export function MessageReferenceShowcaseComposition() {
               variant="subtle"
               render={
                 <a
-                  href="https://raft.build"
-                  title="Jump to the message with architecture.pdf · L12"
+                  href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                  title="Jump to state-ownership-migration-notes.md · § Ownership boundary"
                 />
               }
             >
               <MessageSquare size={12} />
-              <span>re: architecture.pdf · L12</span>
+              <span>re: state-ownership-migration-notes.md · § Ownership boundary</span>
             </MessageReference>
           </div>
           <MessageMarkdown>
             <blockquote>
-              This paragraph needs the deployment-owner decision before the document can be
-              approved.
+              The atom model is a better fit only if we keep server state out of the local store.
             </blockquote>
           </MessageMarkdown>
-          <MessageItemBody>Added the owner note to the review thread.</MessageItemBody>
+          <MessageItemBody>Linked the ownership boundary to its source thread.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
     </div>

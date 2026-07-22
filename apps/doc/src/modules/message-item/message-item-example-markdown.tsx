@@ -10,6 +10,7 @@ import {
   MessagePermalinkReferenceComposition,
   MessageSelfMentionReferenceComposition,
 } from "./compositions/content.compositions.tsx";
+import { MESSAGE_PLAYGROUND_URLS } from "./message-item.fixtures.ts";
 
 type ExampleMarkdownProps = {
   portalContainer?: HTMLElement | null;
@@ -24,9 +25,8 @@ function ExampleMention({
 }) {
   return (
     <MessageMentionReferenceComposition
-      href="https://raft.build"
       portalContainer={portalContainer}
-      preview={<p>Atlas · Design-system agent</p>}
+      preview={<p>Atlas · owner</p>}
     >
       {children}
     </MessageMentionReferenceComposition>
@@ -42,7 +42,6 @@ function ExampleSelfMention({
 }) {
   return (
     <MessageSelfMentionReferenceComposition
-      href="https://raft.build"
       portalContainer={portalContainer}
       preview={<p>You · Current workspace member</p>}
     >
@@ -58,20 +57,31 @@ export function MessageItemExampleMarkdown({ portalContainer }: ExampleMarkdownP
       <p>
         Ask <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> to ship the{" "}
         <strong>token fixture</strong> pass — <MessageInlineCode>layer-panel</MessageInlineCode>,
-        mentions, and <a href="https://example.com/docs">docs links</a> stay caller-owned.
+        mentions, and{" "}
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a">docs links</a> stay
+        caller-owned.
       </p>
       <p>
         <ExampleSelfMention portalContainer={portalContainer}>@you</ExampleSelfMention> tracked{" "}
-        <MessageReference variant="muted" render={<a href="https://raft.build" />}>
-          #141
+        <MessageReference
+          variant="muted"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+        >
+          #21
         </MessageReference>{" "}
         in{" "}
-        <MessageReference variant="accent" render={<a href="https://raft.build" />}>
+        <MessageReference
+          variant="accent"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
+        >
           #release-notes
         </MessageReference>{" "}
         and linked{" "}
-        <MessageReference variant="info" render={<a href="https://raft.build" />}>
-          #release-notes:final
+        <MessageReference
+          variant="info"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
+        >
+          #release-notes:reply
         </MessageReference>
         .
       </p>
@@ -93,8 +103,11 @@ export function MessageItemExampleMarkdownLead({ portalContainer }: ExampleMarkd
       <p>
         <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> starting a short
         sequence — first the <strong>layout pass</strong>, then gutter clock polish for{" "}
-        <MessageReference variant="accent" render={<a href="https://raft.build" />}>
-          #design-system
+        <MessageReference
+          variant="accent"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
+        >
+          #release-notes
         </MessageReference>
         .
       </p>
@@ -116,12 +129,15 @@ export function MessageItemExampleMarkdownFollowUp({ portalContainer }: ExampleM
         </li>
         <li>
           Land{" "}
-          <MessageReference variant="muted" render={<a href="https://raft.build" />}>
-            #97
+          <MessageReference
+            variant="muted"
+            render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+          >
+            #21
           </MessageReference>{" "}
           before the{" "}
-          <MessagePermalinkReferenceComposition href="https://raft.build">
-            message #222
+          <MessagePermalinkReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
+            message all:api-docs
           </MessagePermalinkReferenceComposition>{" "}
           rollout
         </li>
@@ -135,8 +151,11 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
     <MessageMarkdown>
       <p>
         Final note for <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> in{" "}
-        <MessageReference variant="info" render={<a href="https://raft.build" />}>
-          #layout:thread
+        <MessageReference
+          variant="info"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
+        >
+          #release-notes:reply
         </MessageReference>
         :
       </p>

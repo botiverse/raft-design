@@ -10,11 +10,12 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { TaskCardComparisonComposition } from "#/modules/task-card/compositions/task-card-comparison.composition.tsx";
 import taskCardComparisonCompositionSource from "#/modules/task-card/compositions/task-card-comparison.composition.tsx?raw";
+import { TaskCardPanelComparisonComposition } from "#/modules/task-card/compositions/task-card-panel-comparison.composition.tsx";
+import taskCardPanelComparisonSource from "#/modules/task-card/compositions/task-card-panel-comparison.composition.tsx?raw";
 import { TaskCardStateMatrixComposition } from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx";
 import taskCardStateMatrixCompositionSource from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx?raw";
-import { TaskCardSourceComparisonComposition } from "#/modules/task-card/task-card.source-comparison.tsx";
+import { TaskCardPanelSourceComparisonComposition } from "#/modules/task-card/task-card.source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import sourceTaskCard from "../../../../../packages/ui/source/tasks/TaskCard.tsx?raw";
 
 const ANATOMY_SNIPPET = `<TaskCard>
   <TaskCardOpen>
@@ -51,7 +52,7 @@ const SOURCE_SCENES = [
     scenes: [
       {
         label: "TaskCard.tsx",
-        path: "packages/ui/source/tasks/TaskCard.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/task/TaskCard.tsx",
       },
     ],
   },
@@ -214,7 +215,7 @@ export const Route = createFileRoute("/components/task-card")({
       data: {
         anatomy: ANATOMY_SNIPPET,
         comparison: taskCardComparisonCompositionSource,
-        sourceCard: sourceTaskCard,
+        panelComparison: taskCardPanelComparisonSource,
         states: taskCardStateMatrixCompositionSource,
       },
     }),
@@ -319,24 +320,25 @@ function TaskCardDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
+          layout="grid"
           items={[
             {
               label: "Channel task card",
-              status: "match",
-              note: "The Source pane preserves the channel-scoped Slock card fixture. The Brutal pane executes the canonical TaskCard composition with consumer-owned actions.",
+              status: "review",
+              note: "The Source pane is a static fixture extracted from the real channel-scoped TaskCard DOM; the three Current panes execute the canonical TaskCard panel composition with consumer-owned actions.",
               sourceScenes: SOURCE_SCENES,
               source: (
                 <SourceThemeScope className="w-full">
-                  <TaskCardSourceComparisonComposition />
+                  <TaskCardPanelSourceComparisonComposition />
                 </SourceThemeScope>
               ),
-              brutal: <TaskCardComparisonComposition />,
-              sourceCode: code.sourceCard,
-              brutalCode: code.comparison,
-              compositionCode: code.comparison,
+              brutal: <TaskCardPanelComparisonComposition />,
+              elegant: <TaskCardPanelComparisonComposition />,
+              elegantDark: <TaskCardPanelComparisonComposition />,
+              compositionCode: code.panelComparison,
               compositionPath:
-                "apps/doc/src/modules/task-card/compositions/task-card-comparison.composition.tsx",
-              compositionSource: taskCardComparisonCompositionSource,
+                "apps/doc/src/modules/task-card/compositions/task-card-panel-comparison.composition.tsx",
+              compositionSource: taskCardPanelComparisonSource,
             },
           ]}
         />

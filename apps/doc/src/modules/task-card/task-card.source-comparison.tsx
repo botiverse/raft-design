@@ -1,48 +1,42 @@
 import { Pencil } from "lucide-react";
-import { useState } from "react";
+import type { ReactNode } from "react";
 
 import {
   TASK_FIXTURES,
+  TASK_STATUS_BACKGROUNDS,
   TASK_STATUSES,
   type TaskFixture,
-  type TaskStatus,
 } from "./task-card.fixtures";
 
-export const STATUS_BACKGROUNDS: Record<TaskStatus, string> = {
-  todo: "bg-brutal-orange",
-  in_progress: "bg-brutal-cyan",
-  in_review: "bg-brutal-lavender",
-  done: "bg-brutal-lime",
-  closed: "bg-brutal-stone",
-};
-
 export function TaskCardSourceComparisonComposition() {
-  const [notice, setNotice] = useState("Interact with the source card.");
-
   return (
-    <div className="grid w-full max-w-sm gap-3">
-      <SourceTaskCard task={TASK_FIXTURES[0]} onAction={setNotice} />
-      <p className="text-sm text-black/60" aria-live="polite">
-        {notice}
-      </p>
+    <div className="w-full max-w-sm">
+      <SourceTaskCard task={TASK_FIXTURES[0]} />
     </div>
   );
 }
 
-export function SourceTaskCard({
-  task,
-  onAction,
-}: {
-  task: TaskFixture;
-  onAction: (notice: string) => void;
-}) {
+export function TaskCardPanelSourceComparisonComposition() {
   return (
-    <div className="w-full border-2 border-black bg-white px-3 py-2.5 text-left shadow-sm transition-all duration-100 hover:-translate-y-[1px] hover:shadow-md active:translate-x-[1px] active:translate-y-[1px] active:shadow-xs">
-      <button
-        type="button"
-        onClick={() => onAction(`Opened source task #${task.taskNumber}`)}
-        className="w-full text-left"
-      >
+    <TaskCardPanelFrame>
+      <TaskCardSourceComparisonComposition />
+    </TaskCardPanelFrame>
+  );
+}
+
+function TaskCardPanelFrame({ children }: { children: ReactNode }) {
+  return (
+    <section className="w-full max-w-md border-2 border-black bg-white p-4 text-black">
+      <header className="mb-4 border-b-2 border-black pb-2 font-bold">Channel tasks</header>
+      {children}
+    </section>
+  );
+}
+
+export function SourceTaskCard({ task }: { task: TaskFixture }) {
+  return (
+    <div className="w-full border-2 border-black bg-white px-3 py-2.5 text-left shadow-sm">
+      <div className="w-full text-left">
         <div className="flex items-start gap-2">
           <div className="min-w-0 flex-1">
             <div className="mb-1.5 flex flex-wrap items-center gap-2">
@@ -61,12 +55,13 @@ export function SourceTaskCard({
             ) : null}
           </div>
         </div>
-      </button>
+      </div>
       <div className="mt-2 flex justify-end">
         <button
           type="button"
-          onClick={() => onAction(`Status source control for task #${task.taskNumber}`)}
-          className={`mt-0.5 inline-flex items-center gap-1 border-2 border-black px-2 py-0.5 text-xs font-bold transition-[filter,opacity] duration-100 hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-60 ${STATUS_BACKGROUNDS[task.status]}`}
+          disabled
+          title="Read-only source fixture"
+          className={`mt-0.5 inline-flex cursor-default items-center gap-1 border-2 border-black px-2 py-0.5 text-xs font-bold ${TASK_STATUS_BACKGROUNDS[task.status]}`}
         >
           {TASK_STATUSES.find((status) => status.id === task.status)?.label}
           <Pencil size={10} className="opacity-40" />

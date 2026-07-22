@@ -25,6 +25,28 @@ export function MessageAttachmentGroup({
   });
 }
 
+export type MessageAttachmentFrameProps = useRender.ComponentProps<"div">;
+
+export function MessageAttachmentFrame({
+  className,
+  render,
+  ...props
+}: MessageAttachmentFrameProps) {
+  const { frame } = messageAttachment();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: frame({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "message-attachment-frame",
+    },
+  });
+}
+
 export type MessageAttachmentCardProps = useRender.ComponentProps<"div">;
 
 export function MessageAttachmentCard({ className, render, ...props }: MessageAttachmentCardProps) {

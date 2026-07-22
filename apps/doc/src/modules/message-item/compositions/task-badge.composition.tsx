@@ -24,12 +24,12 @@ import {
   MessageItemTime,
 } from "raft-ui/wip";
 
-type MessageTaskStatus = "todo" | "in-progress" | "in-review" | "done" | "closed";
+type MessageTaskStatus = "todo" | "in_progress" | "in_review" | "done" | "closed";
 
 const TASK_STATUS_OPTIONS = [
   { id: "todo", icon: Circle, label: "Todo", variant: "warning" },
-  { id: "in-progress", icon: Play, label: "In Progress", variant: "information" },
-  { id: "in-review", icon: Eye, label: "In Review", variant: "accent" },
+  { id: "in_progress", icon: Play, label: "In Progress", variant: "information" },
+  { id: "in_review", icon: Eye, label: "In Review", variant: "accent" },
   { id: "done", icon: CheckCircle, label: "Done", variant: "success" },
   { id: "closed", icon: Ban, label: "Closed", variant: "muted" },
 ] as const satisfies readonly {
@@ -82,6 +82,28 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
   );
 }
 
+function MessageTaskStatusReadonlyBadges() {
+  const theme = useThemeFamily();
+
+  return TASK_STATUS_OPTIONS.map((option, index) => {
+    const Icon = option.icon;
+    const taskNumber = index + 11;
+
+    return (
+      <Badge
+        key={option.id}
+        appearance={theme === "brutal" ? "solid" : "soft"}
+        data-task-status={option.id}
+        title={`task #${taskNumber} · ${option.label} · Read only`}
+        variant={option.variant}
+      >
+        <Icon size={10} />
+        <span>#{taskNumber}</span>
+      </Badge>
+    );
+  });
+}
+
 export function MessageTaskBadgeComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
@@ -104,6 +126,26 @@ export function MessageTaskBadgeComposition() {
           </MessageItemBody>
           <MessageItemFooter>
             <MessageTaskStatusBadge portalContainer={portalContainer} />
+          </MessageItemFooter>
+        </MessageItemContent>
+      </MessageItem>
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Atlas</MessageItemSender>
+            <MessageItemTime>2:23 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>
+            Read-only task badges use the persisted status vocabulary and are not buttons.
+          </MessageItemBody>
+          <MessageItemFooter className="flex-wrap">
+            <MessageTaskStatusReadonlyBadges />
           </MessageItemFooter>
         </MessageItemContent>
       </MessageItem>

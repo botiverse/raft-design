@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { MessageSquare, Pencil } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
@@ -12,19 +11,17 @@ import {
   MessageItemContent,
   MessageItemFooter,
   MessageItemHeader,
-  MessageItemInlineReplies,
+  MessageItemInlineRepliesTrigger,
   MessageItemInlineReplyAvatar,
-  MessageItemInlineReplyCount,
   MessageItemInlineReplyPreview,
   MessageItemInlineReplyRow,
   MessageItemInlineReplySender,
   MessageItemSender,
+  MessageItemInlineRepliesSummary,
   MessageItemTime,
 } from "raft-ui/wip";
 
 export function MessageRepliesComposition() {
-  const [expanded, setExpanded] = useState(false);
-
   return (
     <div className="flex w-full max-w-3xl flex-col gap-3">
       <MessageItem>
@@ -139,11 +136,20 @@ export function MessageRepliesComposition() {
             <MessageItemTime>2:31 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
-            Inline thread replies render under the chip area — no card chrome (source
-            InlineThreadReplies).
+            Inline thread replies use one source-faithful clickable surface below the footer.
           </MessageItemBody>
-          <MessageItemInlineReplies>
-            <MessageItemInlineReplyRow>
+          <MessageItemInlineRepliesTrigger
+            render={
+              <a
+                href="/playground/s/raft/channel/all?thread=all%3Astate-model"
+                aria-label="Open thread with 3 replies"
+              />
+            }
+          >
+            <MessageItemInlineRepliesSummary>
+              3 replies · 1 new · <Pencil className="mx-0.5 inline-block size-3" /> draft ›
+            </MessageItemInlineRepliesSummary>
+            <MessageItemInlineReplyRow render={<span />}>
               <MessageItemInlineReplyAvatar>
                 <Avatar size="sm" type="human">
                   <AvatarFallback>M</AvatarFallback>
@@ -154,7 +160,7 @@ export function MessageRepliesComposition() {
                 Ship the token fixture tonight.
               </MessageItemInlineReplyPreview>
             </MessageItemInlineReplyRow>
-            <MessageItemInlineReplyRow>
+            <MessageItemInlineReplyRow render={<span />}>
               <MessageItemInlineReplyAvatar>
                 <Avatar size="sm" type="human">
                   <AvatarFallback>C</AvatarFallback>
@@ -164,24 +170,19 @@ export function MessageRepliesComposition() {
               <MessageItemInlineReplyPreview>
                 Added the review checklist.
               </MessageItemInlineReplyPreview>
-              <MessageItemInlineReplyCount type="button" onClick={() => setExpanded(true)}>
-                3 replies · 1 new ›
-              </MessageItemInlineReplyCount>
             </MessageItemInlineReplyRow>
-            {expanded ? (
-              <MessageItemInlineReplyRow>
-                <MessageItemInlineReplyAvatar>
-                  <Avatar size="sm" type="human">
-                    <AvatarFallback>N</AvatarFallback>
-                  </Avatar>
-                </MessageItemInlineReplyAvatar>
-                <MessageItemInlineReplySender>Noah</MessageItemInlineReplySender>
-                <MessageItemInlineReplyPreview>
-                  Looks good — merge after the parity check.
-                </MessageItemInlineReplyPreview>
-              </MessageItemInlineReplyRow>
-            ) : null}
-          </MessageItemInlineReplies>
+            <MessageItemInlineReplyRow render={<span />}>
+              <MessageItemInlineReplyAvatar>
+                <Avatar size="sm" type="human">
+                  <AvatarFallback>N</AvatarFallback>
+                </Avatar>
+              </MessageItemInlineReplyAvatar>
+              <MessageItemInlineReplySender>Noah</MessageItemInlineReplySender>
+              <MessageItemInlineReplyPreview>
+                Looks good — merge after the parity check.
+              </MessageItemInlineReplyPreview>
+            </MessageItemInlineReplyRow>
+          </MessageItemInlineRepliesTrigger>
         </MessageItemContent>
       </MessageItem>
     </div>

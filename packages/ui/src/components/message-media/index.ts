@@ -13,12 +13,15 @@ export {
   MessageVideoPreviewMedia,
 } from "./message-media";
 export type {
+  MessageImageGalleryItemSize,
   MessageImageGalleryActionProps,
   MessageImageGalleryItemProps,
+  MessageImageGalleryMediaGeometry,
   MessageImageGalleryMediaProps,
   MessageImageGalleryOverlayProps,
   MessageImageGalleryPreviewProps,
   MessageImageGalleryProps,
+  MessageImageGalleryRowLayout,
   MessageImageGalleryRowProps,
   MessageVideoPreviewActionProps,
   MessageVideoPreviewFallbackProps,

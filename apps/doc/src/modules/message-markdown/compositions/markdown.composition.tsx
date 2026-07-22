@@ -17,8 +17,7 @@ export function MessageMarkdownComposition({ imageSrc }: { imageSrc: string }) {
       <h6>Heading 6</h6>
       <p>
         Inline: <strong>bold</strong>, <em>italic</em>, <del>strikethrough</del>,{" "}
-        <MessageInlineCode>inline code</MessageInlineCode>, H<sub>2</sub>O and x<sup>2</sup>, plus
-        escaped *literal* asterisks.
+        <MessageInlineCode>inline code</MessageInlineCode>, plus escaped *literal* asterisks.
       </p>
       <p>
         First line
@@ -26,13 +25,13 @@ export function MessageMarkdownComposition({ imageSrc }: { imageSrc: string }) {
         hard-break second line.
       </p>
       <p>
-        <a href="https://example.com/docs">Labeled link</a> and an autolink{" "}
-        <a href="https://example.com/build">https://example.com/build</a>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a">Labeled link</a> and
+        an autolink{" "}
+        <a href="https://github.com/botiverse/slock">https://github.com/botiverse/slock</a>, plus
+        email <a href="mailto:contact@raft.build">contact@raft.build</a>.
       </p>
       <p>部署成功 🎉 完成 — emoji and CJK render as plain body text.</p>
-      <p>
-        Search match: <mark>migration plan</mark> is washed in-place.
-      </p>
+      <p>Raw user HTML is escaped as text: {"<span>not message markup</span>"}.</p>
       <ul>
         <li>Unordered item</li>
         <li>

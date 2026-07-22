@@ -3,7 +3,9 @@ import { useRef, useState } from "react";
 import { TaskCardComposition } from "./task-card.composition";
 import { TASK_FIXTURES } from "../task-card.fixtures";
 
-export function TaskCardComparisonComposition() {
+export function TaskCardComparisonComposition({
+  showNotice = true,
+}: { showNotice?: boolean } = {}) {
   const portalRef = useRef<HTMLDivElement>(null);
   const [notice, setNotice] = useState("Interact with the current card.");
   const task = TASK_FIXTURES[0];
@@ -16,9 +18,11 @@ export function TaskCardComparisonComposition() {
         onStatusChange={(_, status) => setNotice(`Selected ${status}`)}
         portalRef={portalRef}
       />
-      <p className="text-sm text-foreground-muted" aria-live="polite">
-        {notice}
-      </p>
+      {showNotice ? (
+        <p className="text-sm text-foreground-muted" aria-live="polite">
+          {notice}
+        </p>
+      ) : null}
     </div>
   );
 }

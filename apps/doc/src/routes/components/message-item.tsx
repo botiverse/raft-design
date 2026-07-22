@@ -21,8 +21,7 @@ import { MessageConvertingComposition } from "#/modules/message-item/composition
 import convertingSource from "#/modules/message-item/compositions/converting.composition.tsx?raw";
 import { MessageInteractiveSenderComposition } from "#/modules/message-item/compositions/interactive-sender.composition.tsx";
 import interactiveSenderSource from "#/modules/message-item/compositions/interactive-sender.composition.tsx?raw";
-import { MessageItemPreview } from "#/modules/message-item/compositions/item-preview.composition.tsx";
-import messageItemPreviewSource from "#/modules/message-item/compositions/item-preview.composition.tsx?raw";
+import { MessageItemPreviewContent } from "#/modules/message-item/compositions/preview.composition.tsx";
 import messageItemPreviewCompositionSource from "#/modules/message-item/compositions/preview.composition.tsx?raw";
 import { MessageReactionsShowcaseComposition } from "#/modules/message-item/compositions/reactions.composition.tsx";
 import reactionsSource from "#/modules/message-item/compositions/reactions.composition.tsx?raw";
@@ -265,20 +264,20 @@ function MessageItemDoc() {
             {
               label: "Standard message row",
               status: "review",
-              note: "The source fixture preserves the visible sender, content, and reply structure; product data, reactions, and thread navigation remain consumer-owned composition.",
+              note: "The Source pane is a non-interactive DOM fixture extracted from the current Slock row; its controls are intentionally disabled. Brutal and Elegant execute the canonical docs composition with product data and navigation kept consumer-owned.",
               sourceScenes: SOURCE_SCENES,
               source: (
                 <SourceThemeScope>
                   <SourceMessageItemPreview />
                 </SourceThemeScope>
               ),
-              brutal: <MessageItemPreview reactions replies toolbar />,
-              elegant: <MessageItemPreview reactions replies toolbar />,
-              elegantDark: <MessageItemPreview reactions replies toolbar />,
-              compositionCode: messageItemPreviewSource,
+              brutal: <MessageItemPreviewContent />,
+              elegant: <MessageItemPreviewContent />,
+              elegantDark: <MessageItemPreviewContent />,
+              compositionCode: code.preview,
               compositionPath:
-                "apps/doc/src/modules/message-item/compositions/item-preview.composition.tsx",
-              compositionSource: messageItemPreviewSource,
+                "apps/doc/src/modules/message-item/compositions/preview.composition.tsx",
+              compositionSource: messageItemPreviewCompositionSource,
             },
           ]}
         />

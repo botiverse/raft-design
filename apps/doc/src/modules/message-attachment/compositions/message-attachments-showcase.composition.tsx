@@ -1,4 +1,4 @@
-import { Download, FileText, Music, Play, MessageSquare } from "lucide-react";
+import { Download, Play, MessageSquare } from "lucide-react";
 import { Badge, useThemeFamily, Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageAttachmentGroup,
@@ -58,6 +58,20 @@ export function MessageFileAttachmentsComposition() {
         primaryActionLabel="Download screening.html"
         onPrimaryAction={() => downloadMessageFixture("screening.html")}
       />
+      <MessageAttachmentReadyComposition
+        name="release-notes.md"
+        meta="Markdown · 1 KB"
+        primaryAction={<Download />}
+        primaryActionLabel="Download release-notes.md"
+        onPrimaryAction={() => downloadMessageFixture("release-notes.md")}
+      />
+      <MessageAttachmentReadyComposition
+        name="metrics.csv"
+        meta="CSV · 1 KB"
+        primaryAction={<Download />}
+        primaryActionLabel="Download metrics.csv"
+        onPrimaryAction={() => downloadMessageFixture("metrics.csv")}
+      />
     </MessageAttachmentGroup>
   );
 }
@@ -110,47 +124,28 @@ export function MessageAttachmentsShowcaseComposition() {
         </MessageItemContent>
         <MessageRowToolbarFixture />
       </MessageItem>
-      <div className="flex flex-col gap-3">
+      <section className="flex flex-col gap-3" aria-labelledby="attachment-structural-states">
+        <div>
+          <h3 id="attachment-structural-states" className="text-sm font-bold text-foreground">
+            Structural preview states
+          </h3>
+          <p className="text-xs text-foreground-muted">
+            Component-only loading and failure coverage. The current sent-message flow does not emit
+            upload-pending or upload-failed attachments because the composer blocks send.
+          </p>
+        </div>
         <MessageImageGalleryPendingComposition />
         <MessageVideoPendingComposition />
         <MessageAttachmentGroup>
-          <MessageAttachmentOpeningComposition
-            name="uploading.mov"
-            meta="Uploading · 18 KB"
-            label="Preparing preview"
-          />
-          <MessageAttachmentPendingComposition name="screening.html" meta="Diff · 18 KB" />
+          <MessageAttachmentPendingComposition name="screening.html" meta="HTML · 44 KB" />
           <MessageAttachmentFailedComposition name="preview.mov" meta="Video · 18 KB" />
           <MessageAttachmentOpeningComposition
             name="architecture.pdf"
             meta="PDF preview · 1.2 MB"
             label="Opening preview…"
           />
-          <MessageAttachmentReadyComposition
-            name="recording.mp3"
-            meta="Audio preview · 6.4 MB"
-            primaryAction={<Music />}
-            primaryActionLabel="Preview recording.mp3"
-            onPrimaryAction={() => downloadMessageFixture("recording.mp3")}
-            secondaryAction={<Download />}
-            secondaryActionLabel="Download recording.mp3"
-            onSecondaryAction={() => downloadMessageFixture("recording.mp3")}
-          />
-          <MessageAttachmentReadyComposition
-            name="migration.diff"
-            meta="Diff · 18 KB"
-            primaryAction={<Download />}
-            onPrimaryAction={() => downloadMessageFixture("migration.diff")}
-          />
-          <MessageAttachmentReadyComposition
-            name="specification.docx"
-            meta="Document preview · 84 KB"
-            primaryAction={<FileText />}
-            primaryActionLabel="Preview specification.docx"
-            onPrimaryAction={() => downloadMessageFixture("specification.docx")}
-          />
         </MessageAttachmentGroup>
-      </div>
+      </section>
     </div>
   );
 }

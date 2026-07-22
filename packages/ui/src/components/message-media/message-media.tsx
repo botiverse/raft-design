@@ -1,8 +1,14 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { messageMedia } from "./message-media.recipe";
+import { messageMedia, type MessageMediaVariantProps } from "./message-media.recipe";
 import { type SlotElementProps } from "../../lib/data-attributes";
+
+export type MessageImageGalleryRowLayout = NonNullable<MessageMediaVariantProps["rowLayout"]>;
+export type MessageImageGalleryItemSize = NonNullable<MessageMediaVariantProps["itemSize"]>;
+export type MessageImageGalleryMediaGeometry = NonNullable<
+  MessageMediaVariantProps["mediaGeometry"]
+>;
 
 export type MessageImageGalleryProps = useRender.ComponentProps<"div">;
 
@@ -22,14 +28,17 @@ export function MessageImageGallery({ className, render, ...props }: MessageImag
   });
 }
 
-export type MessageImageGalleryRowProps = useRender.ComponentProps<"div">;
+export type MessageImageGalleryRowProps = useRender.ComponentProps<"div"> & {
+  layout?: MessageImageGalleryRowLayout;
+};
 
 export function MessageImageGalleryRow({
   className,
+  layout,
   render,
   ...props
 }: MessageImageGalleryRowProps) {
-  const { galleryRow } = messageMedia();
+  const { galleryRow } = messageMedia({ rowLayout: layout });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: galleryRow({ className }),
   };
@@ -40,22 +49,27 @@ export function MessageImageGalleryRow({
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "message-image-gallery-row",
+      layout,
     },
   });
 }
 
 export type MessageImageGalleryItemProps = useRender.ComponentProps<"div"> & {
+  size?: MessageImageGalleryItemSize;
+  /** @deprecated Use size="single". */
   single?: boolean;
 };
 
 export function MessageImageGalleryItem({
-  single,
   className,
   render,
+  single,
+  size,
   ...props
 }: MessageImageGalleryItemProps) {
   const theme = useThemeFamily();
-  const { galleryItem } = messageMedia({ theme });
+  const resolvedSize = single ? "single" : size;
+  const { galleryItem } = messageMedia({ itemSize: resolvedSize, theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-single": single ? "true" : undefined,
     className: galleryItem({ className }),
@@ -67,23 +81,28 @@ export function MessageImageGalleryItem({
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "message-image-gallery-item",
+      size: resolvedSize,
     },
   });
 }
 
 export type MessageImageGalleryMediaProps = useRender.ComponentProps<"img"> & {
   fit?: "contain" | "cover";
+  geometry?: MessageImageGalleryMediaGeometry;
 };
 
 export function MessageImageGalleryMedia({
-  fit = "cover",
   className,
+  fit,
+  geometry = "normal",
   render,
   ...props
 }: MessageImageGalleryMediaProps) {
-  const { galleryMedia } = messageMedia();
+  const resolvedFit = fit ?? (geometry === "normal" ? "cover" : "contain");
+  const { galleryMedia } = messageMedia({ mediaFit: fit, mediaGeometry: geometry });
   const defaultProps: SlotElementProps<"img"> = {
-    "data-fit": fit,
+    "data-fit": resolvedFit,
+    "data-geometry": geometry,
     className: galleryMedia({ className }),
   };
 
@@ -93,6 +112,7 @@ export function MessageImageGalleryMedia({
     props: mergeProps<"img">(defaultProps, props),
     state: {
       slot: "message-image-gallery-media",
+      geometry,
     },
   });
 }

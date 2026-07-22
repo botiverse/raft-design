@@ -1,17 +1,18 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import type { Theme } from "../../lib/theme/theme-context";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { messageProductState } from "../message-product-state/message-product-state.recipe";
+import { messageQuotedPreview } from "./message-quoted-preview.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
 type SpanProps = useRender.ComponentProps<"span">;
+type RecipePart = (options?: { className?: string }) => string;
+type ResolveRecipePart = (theme: Theme) => RecipePart;
 
-function createDivPart(slot: string, recipeSlot: keyof ReturnType<typeof messageProductState>) {
+function createDivPart(slot: string, resolveRecipePart: ResolveRecipePart) {
   return function MessageQuotedPreviewPart({ className, render, ...props }: DivProps) {
     const theme = useThemeFamily();
-    const recipe = messageProductState({ theme })[recipeSlot] as (value: {
-      className?: string;
-    }) => string;
+    const recipe = resolveRecipePart(theme);
     return useRender({
       defaultTagName: "div",
       render,
@@ -21,12 +22,10 @@ function createDivPart(slot: string, recipeSlot: keyof ReturnType<typeof message
   };
 }
 
-function createSpanPart(slot: string, recipeSlot: keyof ReturnType<typeof messageProductState>) {
+function createSpanPart(slot: string, resolveRecipePart: ResolveRecipePart) {
   return function MessageQuotedPreviewPart({ className, render, ...props }: SpanProps) {
     const theme = useThemeFamily();
-    const recipe = messageProductState({ theme })[recipeSlot] as (value: {
-      className?: string;
-    }) => string;
+    const recipe = resolveRecipePart(theme);
     return useRender({
       defaultTagName: "span",
       render,
@@ -36,86 +35,89 @@ function createSpanPart(slot: string, recipeSlot: keyof ReturnType<typeof messag
   };
 }
 
-export const MessageQuotedPreview = createDivPart("message-quoted-preview", "quotedPreview");
+export const MessageQuotedPreview = createDivPart(
+  "message-quoted-preview",
+  (theme) => messageQuotedPreview({ theme }).root,
+);
 export const MessageQuotedPreviewContent = createDivPart(
   "message-quoted-preview-content",
-  "quotedPreviewContent",
+  (theme) => messageQuotedPreview({ theme }).content,
 );
 export const MessageQuotedPreviewHeader = createDivPart(
   "message-quoted-preview-header",
-  "quotedPreviewHeader",
+  (theme) => messageQuotedPreview({ theme }).header,
 );
 export const MessageQuotedPreviewContext = createDivPart(
   "message-quoted-preview-context",
-  "quotedPreviewContext",
+  (theme) => messageQuotedPreview({ theme }).context,
 );
 export const MessageQuotedPreviewChannel = createSpanPart(
   "message-quoted-preview-channel",
-  "quotedPreviewChannel",
+  (theme) => messageQuotedPreview({ theme }).channel,
 );
 export const MessageQuotedPreviewSeparator = createSpanPart(
   "message-quoted-preview-separator",
-  "quotedPreviewSeparator",
+  (theme) => messageQuotedPreview({ theme }).separator,
 );
 export const MessageQuotedPreviewAuthor = createSpanPart(
   "message-quoted-preview-author",
-  "quotedPreviewAuthor",
+  (theme) => messageQuotedPreview({ theme }).author,
 );
 export const MessageQuotedPreviewAuthorName = createSpanPart(
   "message-quoted-preview-author-name",
-  "quotedPreviewAuthorName",
+  (theme) => messageQuotedPreview({ theme }).authorName,
 );
 export const MessageQuotedPreviewAuthorMeta = createSpanPart(
   "message-quoted-preview-author-meta",
-  "quotedPreviewAuthorMeta",
+  (theme) => messageQuotedPreview({ theme }).authorMeta,
 );
 export const MessageQuotedPreviewTimestamp = createSpanPart(
   "message-quoted-preview-timestamp",
-  "quotedPreviewTimestamp",
+  (theme) => messageQuotedPreview({ theme }).timestamp,
 );
 export const MessageQuotedPreviewBody = createDivPart(
   "message-quoted-preview-body",
-  "quotedPreviewBody",
+  (theme) => messageQuotedPreview({ theme }).body,
 );
 export const MessageQuotedPreviewText = createDivPart(
   "message-quoted-preview-text",
-  "quotedPreviewText",
+  (theme) => messageQuotedPreview({ theme }).text,
 );
 export const MessageQuotedPreviewAttachments = createDivPart(
   "message-quoted-preview-attachments",
-  "quotedPreviewAttachments",
+  (theme) => messageQuotedPreview({ theme }).attachments,
 );
 export const MessageQuotedPreviewAttachment = createSpanPart(
   "message-quoted-preview-attachment",
-  "quotedPreviewAttachment",
+  (theme) => messageQuotedPreview({ theme }).attachment,
 );
 export const MessageQuotedPreviewLoading = createDivPart(
   "message-quoted-preview-loading",
-  "quotedPreviewLoading",
+  (theme) => messageQuotedPreview({ theme }).loading,
 );
 export const MessageQuotedPreviewLoadingHeader = createDivPart(
   "message-quoted-preview-loading-header",
-  "quotedPreviewLoadingHeader",
+  (theme) => messageQuotedPreview({ theme }).loadingHeader,
 );
 export const MessageQuotedPreviewLoadingContent = createDivPart(
   "message-quoted-preview-loading-content",
-  "quotedPreviewLoadingContent",
+  (theme) => messageQuotedPreview({ theme }).loadingContent,
 );
 export const MessageQuotedPreviewLoadingAvatar = createDivPart(
   "message-quoted-preview-loading-avatar",
-  "quotedPreviewLoadingAvatar",
+  (theme) => messageQuotedPreview({ theme }).loadingAvatar,
 );
 export const MessageQuotedPreviewLoadingLines = createDivPart(
   "message-quoted-preview-loading-lines",
-  "quotedPreviewLoadingLines",
+  (theme) => messageQuotedPreview({ theme }).loadingLines,
 );
 export const MessageQuotedPreviewLoadingLine = createDivPart(
   "message-quoted-preview-loading-line",
-  "quotedPreviewLoadingLine",
+  (theme) => messageQuotedPreview({ theme }).loadingLine,
 );
 export const MessageQuotedPreviewUnavailable = createDivPart(
   "message-quoted-preview-unavailable",
-  "quotedPreviewUnavailable",
+  (theme) => messageQuotedPreview({ theme }).unavailable,
 );
 
 export type MessageQuotedPreviewProps = DivProps;
