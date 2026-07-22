@@ -1,7 +1,8 @@
-import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage, Status } from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
+  MessageItemAvatarStatus,
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
@@ -19,7 +20,10 @@ export function MessageAvatarStatusComposition() {
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>KA</AvatarFallback>
-            <AvatarBadge title="Online" />
+            <MessageItemAvatarStatus
+              title="Online"
+              render={<Status aria-hidden size="lg" variant="success" />}
+            />
           </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
@@ -27,7 +31,7 @@ export function MessageAvatarStatusComposition() {
             <MessageItemSender>Kai</MessageItemSender>
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
-          <MessageItemBody>Avatar with AvatarBadge (default success).</MessageItemBody>
+          <MessageItemBody>Online presence via Status success.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
 
@@ -36,7 +40,10 @@ export function MessageAvatarStatusComposition() {
           <Avatar size="md" type="human">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>NO</AvatarFallback>
-            <AvatarBadge title="Online" />
+            <MessageItemAvatarStatus
+              title="Offline"
+              render={<Status aria-hidden size="lg" variant="default" />}
+            />
           </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
@@ -44,7 +51,7 @@ export function MessageAvatarStatusComposition() {
             <MessageItemSender>Nova</MessageItemSender>
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
-          <MessageItemBody>Same badge on a human avatar.</MessageItemBody>
+          <MessageItemBody>Offline presence via Status default.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
 
@@ -53,7 +60,10 @@ export function MessageAvatarStatusComposition() {
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
-            <AvatarBadge title="Online" />
+            <MessageItemAvatarStatus
+              title="Busy"
+              render={<Status aria-hidden size="lg" variant="warning" />}
+            />
           </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
@@ -61,7 +71,7 @@ export function MessageAvatarStatusComposition() {
             <MessageItemSender>Atlas</MessageItemSender>
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
-          <MessageItemBody>AvatarBadge without className overrides.</MessageItemBody>
+          <MessageItemBody>Busy presence via Status warning.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
     </div>
