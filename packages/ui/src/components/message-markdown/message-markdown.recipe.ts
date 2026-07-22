@@ -45,7 +45,7 @@ export const messageMarkdown = tv({
         ],
         inlineCode: [
           "border-0 bg-soft-signal/40 px-1",
-          "[font-size:inherit] font-normal leading-[1.5] text-inherit [overflow-wrap:anywhere]",
+          "[font-size:inherit] font-normal leading-[21px] text-inherit [overflow-wrap:anywhere]",
         ],
         codeBlock: ["border-black bg-[oklch(0.21_0.034_264.665)]", "text-[oklch(1_0_0)]"],
       },

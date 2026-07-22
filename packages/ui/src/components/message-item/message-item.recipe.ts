@@ -71,7 +71,10 @@ export const messageItem = tv({
         meta: "font-mono text-xs text-black/40",
         time: "font-mono text-xs text-black/40",
         inlineStatus: "text-black/40",
-        body: "text-sm leading-5 text-black",
+        // ≥ chip border-box (leading-[21px] + 1px border ≈ 23px) so wrapped chips
+        // do not overlap; keep equal to that box so align-bottom chips sit flush
+        // with the text strut instead of floating in a taller line.
+        body: "text-sm leading-[23px] text-black",
         translationPlaceholder: "border-2 border-black/20",
         translationOriginal: "border-l-2 border-black/20 pl-2 text-black/70",
         translationOriginalLabel:
@@ -109,7 +112,7 @@ export const messageItem = tv({
         inlineStatus: "font-sans text-[11px] font-medium leading-none text-foreground-muted",
         body: [
           "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
-          "text-[14px] leading-[21px] tracking-[-0.01em] text-foreground-muted",
+          "text-[14px] leading-[23px] tracking-[-0.01em] text-foreground-muted",
           "select-text [&_*]:select-text",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
