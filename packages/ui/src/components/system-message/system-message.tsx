@@ -1,12 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { messageSystem } from "./message-system.recipe";
+import { messageSystem } from "./system-message.recipe";
 import { dataPresence, isAriaTrue, type SlotElementProps } from "../../lib/data-attributes";
 
-export type SystemMessageItemProps = useRender.ComponentProps<"div">;
+export type SystemMessageProps = useRender.ComponentProps<"div">;
 
-export function SystemMessageItem({ className, render, ...props }: SystemMessageItemProps) {
+export function SystemMessage({ className, render, ...props }: SystemMessageProps) {
   const theme = useThemeFamily();
   const { systemRoot } = messageSystem({ theme });
   const defaultProps: SlotElementProps<"div"> = {
@@ -23,9 +23,9 @@ export function SystemMessageItem({ className, render, ...props }: SystemMessage
   });
 }
 
-export type SystemMessageItemTimeProps = useRender.ComponentProps<"span">;
+export type SystemMessageTimeProps = useRender.ComponentProps<"span">;
 
-export function SystemMessageItemTime({ className, render, ...props }: SystemMessageItemTimeProps) {
+export function SystemMessageTime({ className, render, ...props }: SystemMessageTimeProps) {
   const theme = useThemeFamily();
   const { systemTime } = messageSystem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
@@ -42,13 +42,9 @@ export function SystemMessageItemTime({ className, render, ...props }: SystemMes
   });
 }
 
-export type SystemMessageItemContentProps = useRender.ComponentProps<"span">;
+export type SystemMessageContentProps = useRender.ComponentProps<"span">;
 
-export function SystemMessageItemContent({
-  className,
-  render,
-  ...props
-}: SystemMessageItemContentProps) {
+export function SystemMessageContent({ className, render, ...props }: SystemMessageContentProps) {
   const theme = useThemeFamily();
   const { systemContent } = messageSystem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
