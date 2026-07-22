@@ -90,6 +90,7 @@ export const messageItem = tv({
       elegant: {
         root: [
           "px-7 py-3.5 max-md:px-4 max-md:py-2",
+          "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-layer-strong/45 active:bg-layer-muted/90",
         ],
         continuationTime: [
@@ -203,7 +204,11 @@ export const messageItem = tv({
         translationAction: "text-danger-base",
       },
     },
-    { theme: "elegant", compact: true, class: { root: "mt-0 min-h-0 py-[2px]" } },
+    {
+      theme: "elegant",
+      compact: true,
+      class: { root: "mt-0 min-h-0 pt-[2px] pb-[2px] max-md:pt-[2px] max-md:pb-[2px]" },
+    },
   ],
 });
 
