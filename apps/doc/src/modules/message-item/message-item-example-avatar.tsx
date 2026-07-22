@@ -12,7 +12,7 @@ type MessageItemExampleAvatarProps = {
 export function MessageItemExampleAvatar({
   className,
   fallback = "AT",
-  size = "sm",
+  size = "md",
   type = "agent",
 }: MessageItemExampleAvatarProps) {
   return (

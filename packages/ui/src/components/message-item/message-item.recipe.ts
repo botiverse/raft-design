@@ -10,7 +10,7 @@ export const messageItem = tv({
     ],
     gutter: ["relative w-9 shrink-0 self-stretch max-md:w-8"],
     avatarSlot: [
-      "relative mt-0.5 shrink-0 self-start",
+      "relative mt-0.5 w-9 shrink-0 self-start max-md:w-8",
       "transition-[filter,transform] duration-75 hover:brightness-90",
       "data-[avatar-pressed=true]:scale-90 data-[avatar-pressed=true]:brightness-75",
       "max-md:[&_[data-slot=avatar][data-size=md]]:size-7",
@@ -61,7 +61,7 @@ export const messageItem = tv({
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
         avatarStatus: "border border-black",
-        continuationTime: "text-black/0 group-hover/message:text-black/40",
+        continuationTime: "left-0 right-auto text-black/0 group-hover/message:text-black/40",
         header: "items-center gap-2",
         sender: "font-bold text-black",
         senderState: [
@@ -90,10 +90,11 @@ export const messageItem = tv({
       elegant: {
         root: [
           "px-7 py-3.5 max-md:px-4 max-md:py-2",
-          "hover:bg-layer-strong/35 active:bg-layer-muted/90",
+          "hover:bg-layer-strong/45 active:bg-layer-muted/90",
         ],
         continuationTime: [
-          "top-0 pt-1.5",
+          "left-0 right-auto top-0 pt-1.5",
+          "font-sans text-[12px] leading-none",
           "text-transparent group-hover/message:text-foreground-muted/60",
         ],
         header: "items-baseline gap-1.5",

@@ -14,6 +14,7 @@ import {
   MessageItemGutter,
   MessageItemHeader,
   MessageItemInlineStatus,
+  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageItemNotice,
   MessageItemSavedIndicator,
@@ -25,6 +26,10 @@ import {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
 } from "raft-ui/wip";
+import {
+  MessageItemExampleMarkdown,
+  MessageItemExampleMarkdownFollowUp,
+} from "../message-item-example-markdown.tsx";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import {
   MessageContextMenuComposition,
@@ -33,32 +38,35 @@ import {
 import { MessageRowToolbarFixture } from "./row-toolbar.composition.tsx";
 
 export function AuthoredMessageRow() {
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+
   return (
-    <MessageItem>
-      <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar />
-      </MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Atlas</MessageItemSender>
-          <MessageItemMeta>claude-opus</MessageItemMeta>
-          <MessageItemTime>2:14 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>
-          Shipped the token fixture pass. The markdown renderer, mentions, and links stay outside
-          this component.
-        </MessageItemBody>
-        <MessageItemFooter>
-          <MessageItemSavedIndicator>
-            <Bookmark fill="currentColor" />
-            <span>Saved</span>
-          </MessageItemSavedIndicator>
-          <MessageReactionComposition emoji="👍" count={3} reacted />
-          <MessageReactionComposition emoji="🔥" count={1} />
-        </MessageItemFooter>
-      </MessageItemContent>
-      <Toolbar saved />
-    </MessageItem>
+    <MessageItemInteractionBoundary ref={setPortalContainer}>
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <MessageItemExampleAvatar />
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Atlas</MessageItemSender>
+            <MessageItemMeta>claude-opus</MessageItemMeta>
+            <MessageItemTime>2:14 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>
+            <MessageItemExampleMarkdown portalContainer={portalContainer} />
+          </MessageItemBody>
+          <MessageItemFooter>
+            <MessageItemSavedIndicator>
+              <Bookmark fill="currentColor" />
+              <span>Saved</span>
+            </MessageItemSavedIndicator>
+            <MessageReactionComposition emoji="👍" count={3} reacted />
+            <MessageReactionComposition emoji="🔥" count={1} />
+          </MessageItemFooter>
+        </MessageItemContent>
+        <Toolbar saved />
+      </MessageItem>
+    </MessageItemInteractionBoundary>
   );
 }
 
@@ -168,7 +176,11 @@ export function InteractiveStateRows() {
   );
 }
 
-export function ConsecutiveMessageRow() {
+export function ConsecutiveMessageRow({
+  portalContainer,
+}: {
+  portalContainer?: HTMLElement | null;
+} = {}) {
   return (
     <MessageItem compact>
       <MessageItemGutter>
@@ -176,7 +188,7 @@ export function ConsecutiveMessageRow() {
       </MessageItemGutter>
       <MessageItemContent>
         <MessageItemBody>
-          Consecutive rows keep the gutter timestamp and hide sender chrome.
+          <MessageItemExampleMarkdownFollowUp portalContainer={portalContainer} />
         </MessageItemBody>
       </MessageItemContent>
     </MessageItem>

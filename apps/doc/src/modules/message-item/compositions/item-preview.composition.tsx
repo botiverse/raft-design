@@ -65,6 +65,12 @@ import {
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+import {
+  MessageItemExampleMarkdown,
+  MessageItemExampleMarkdownClosing,
+  MessageItemExampleMarkdownFollowUp,
+  MessageItemExampleMarkdownLead,
+} from "#/modules/message-item/message-item-example-markdown.tsx";
 import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
 import {
@@ -391,7 +397,7 @@ export function MessageItemPreview({
         <MessageCodeBlockComposition />
       </>
     ) : (
-      "Toggle the controls to preview row chrome, the saved indicator, reactions, and the hover toolbar. Markdown, mentions, and links stay caller-owned."
+      <MessageItemExampleMarkdown portalContainer={portalContainer} />
     );
 
   const footer =
@@ -462,7 +468,9 @@ export function MessageItemPreview({
               {meta ? <MessageItemMeta>claude-opus</MessageItemMeta> : null}
               <MessageItemTime>2:14 PM</MessageItemTime>
             </MessageItemHeader>
-            <MessageItemBody>Starting a short sequence of related updates.</MessageItemBody>
+            <MessageItemBody>
+              <MessageItemExampleMarkdownLead portalContainer={portalContainer} />
+            </MessageItemBody>
           </MessageItemContent>
         </MessageItem>
         <MessageItem compact>
@@ -471,7 +479,7 @@ export function MessageItemPreview({
           </MessageItemGutter>
           <MessageItemContent>
             <MessageItemBody>
-              The second row keeps only its timestamp in the message gutter.
+              <MessageItemExampleMarkdownFollowUp portalContainer={portalContainer} />
             </MessageItemBody>
           </MessageItemContent>
         </MessageItem>
@@ -481,7 +489,7 @@ export function MessageItemPreview({
           </MessageItemGutter>
           <MessageItemContent>
             <MessageItemBody>
-              The final continuation carries the optional message details.
+              <MessageItemExampleMarkdownClosing portalContainer={portalContainer} />
             </MessageItemBody>
             {attachments}
             {footer}
