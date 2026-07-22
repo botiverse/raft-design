@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
+import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import { MessageSquare, Pencil } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -18,9 +19,7 @@ function RepliesRow({ body, children }: { body: string; children: ReactNode }) {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>

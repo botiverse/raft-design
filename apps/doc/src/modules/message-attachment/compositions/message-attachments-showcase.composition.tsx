@@ -1,5 +1,6 @@
 import { Download, FileText, Music, Play, MessageSquare, SmilePlus } from "lucide-react";
-import { Avatar, AvatarFallback, Badge } from "raft-ui";
+import { Badge } from "raft-ui";
+import { MessageItemExampleAvatar } from "#/modules/message-item/message-item-example-avatar.tsx";
 import {
   MessageAttachmentGroup,
   MessageItem,
@@ -67,9 +68,7 @@ function RichAttachmentMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AP</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar fallback="AP" />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>

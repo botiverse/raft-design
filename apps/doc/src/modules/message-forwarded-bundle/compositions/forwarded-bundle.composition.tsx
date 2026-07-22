@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { MessageItemExampleAvatar } from "#/modules/message-item/message-item-example-avatar.tsx";
 import { FileText } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+
 import {
   MessageForwardedBundle,
   MessageForwardedBundleAttachment,
@@ -44,9 +45,7 @@ function ForwardedBundleMessage({
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>

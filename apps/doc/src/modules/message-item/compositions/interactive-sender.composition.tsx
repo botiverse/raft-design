@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -30,9 +31,7 @@ export function MessageInteractiveSenderComposition() {
             />
           }
         >
-          <Avatar size="sm" type="agent">
-            <AvatarFallback>AT</AvatarFallback>
-          </Avatar>
+          <MessageItemExampleAvatar />
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>

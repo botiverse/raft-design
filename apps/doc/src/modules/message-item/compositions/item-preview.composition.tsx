@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import {
   AlertTriangle,
   Ban,
@@ -14,8 +15,6 @@ import {
   Plus,
 } from "lucide-react";
 import {
-  Avatar,
-  AvatarFallback,
   Badge,
   DropdownMenu,
   DropdownMenuContent,
@@ -455,9 +454,7 @@ export function MessageItemPreview({
       <MessageItemInteractionBoundary ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
-            <Avatar size="sm" type="agent">
-              <AvatarFallback>AT</AvatarFallback>
-            </Avatar>
+            <MessageItemExampleAvatar />
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>
@@ -560,13 +557,9 @@ export function MessageItemPreview({
     <MessageItemInteractionBoundary ref={setPortalContainer}>
       <RowChrome>
         <MessageItemAvatarSlot>
-          <Avatar
-            size="sm"
-            type="agent"
+          <MessageItemExampleAvatar
             className={senderState === "deleted" ? "grayscale opacity-60" : undefined}
-          >
-            <AvatarFallback>AT</AvatarFallback>
-          </Avatar>
+          />
         </MessageItemAvatarSlot>
         {content}
         {toolbar ? (

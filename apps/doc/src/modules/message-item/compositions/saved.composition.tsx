@@ -1,5 +1,6 @@
 import { Bookmark } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -17,9 +18,7 @@ export function MessageSavedComposition() {
     <div className="w-full max-w-3xl">
       <MessageItem>
         <MessageItemAvatarSlot>
-          <Avatar size="sm" type="agent">
-            <AvatarFallback>AT</AvatarFallback>
-          </Avatar>
+          <MessageItemExampleAvatar />
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>

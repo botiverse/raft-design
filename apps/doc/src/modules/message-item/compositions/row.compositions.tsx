@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Bookmark, MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback, ContextMenu, ContextMenuTrigger } from "raft-ui";
+import { ContextMenu, ContextMenuTrigger } from "raft-ui";
+import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import {
   MessageItem,
   MessageItemActive,
@@ -35,9 +36,7 @@ export function AuthoredMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -67,9 +66,7 @@ export function SavedToolbarMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>TB</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar fallback="TB" />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -104,9 +101,7 @@ export function ContextMenuMessageRow() {
       <ContextMenu>
         <ContextMenuTrigger render={<MessageItemActive />}>
           <MessageItemAvatarSlot>
-            <Avatar size="sm" type="agent">
-              <AvatarFallback>AT</AvatarFallback>
-            </Avatar>
+            <MessageItemExampleAvatar />
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>
@@ -192,9 +187,7 @@ export function RemovedSenderMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="human">
-          <AvatarFallback>MX</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar type="human" fallback="MX" />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -217,9 +210,7 @@ export function LeftSenderMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="human">
-          <AvatarFallback>NO</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar type="human" fallback="NO" />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -237,9 +228,7 @@ export function DeactivatedAgentMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent" className="grayscale opacity-60">
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar className="grayscale opacity-60" />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -259,9 +248,7 @@ export function ConvertingMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -297,9 +284,7 @@ export function ActiveMessageRow() {
   return (
     <MessageItemActive>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AC</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar fallback="AC" />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -316,9 +301,7 @@ export function SearchMatchMessageRow() {
   return (
     <MessageItemSearchMatch>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>SR</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar fallback="SR" />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>

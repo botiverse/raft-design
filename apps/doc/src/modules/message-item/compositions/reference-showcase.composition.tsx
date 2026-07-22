@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import { MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -31,9 +32,7 @@ function AttachmentCommentReferenceRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
+        <MessageItemExampleAvatar />
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -73,9 +72,7 @@ export function MessageReferenceShowcaseComposition() {
       <MessageItemInteractionBoundary ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
-            <Avatar size="sm" type="agent">
-              <AvatarFallback>AT</AvatarFallback>
-            </Avatar>
+            <MessageItemExampleAvatar />
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>

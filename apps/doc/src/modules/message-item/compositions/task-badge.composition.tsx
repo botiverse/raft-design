@@ -1,8 +1,7 @@
 import { useState } from "react";
+import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import { Ban, Check, CheckCircle, Circle, Eye, Play } from "lucide-react";
 import {
-  Avatar,
-  AvatarFallback,
   Badge,
   DropdownMenu,
   DropdownMenuContent,
@@ -87,9 +86,7 @@ export function MessageTaskBadgeComposition() {
     <MessageItemInteractionBoundary ref={setPortalContainer} className="w-full max-w-3xl">
       <MessageItem>
         <MessageItemAvatarSlot>
-          <Avatar size="sm" type="agent">
-            <AvatarFallback>AT</AvatarFallback>
-          </Avatar>
+          <MessageItemExampleAvatar />
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>

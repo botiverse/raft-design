@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "raft-ui";
+import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -15,9 +15,7 @@ export function MessageConsecutiveComposition() {
     <div className="flex w-full max-w-3xl flex-col">
       <MessageItem>
         <MessageItemAvatarSlot>
-          <Avatar size="sm" type="agent">
-            <AvatarFallback>AT</AvatarFallback>
-          </Avatar>
+          <MessageItemExampleAvatar />
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
