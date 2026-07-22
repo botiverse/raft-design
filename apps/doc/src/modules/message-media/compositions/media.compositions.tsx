@@ -32,7 +32,7 @@ export function MessageImageGalleryPairComposition() {
           <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
           <MessageImageGalleryAction
             aria-label="Download image"
-            onClick={() => downloadMessageFixture("message-image.svg")}
+            onClick={() => downloadMessageFixture("message-image.jpg")}
           >
             <Download />
           </MessageImageGalleryAction>
@@ -69,7 +69,7 @@ export function MessageImageGallerySingleComposition({
           />
           <MessageImageGalleryAction
             aria-label="Download image"
-            onClick={() => downloadMessageFixture("message-image.svg")}
+            onClick={() => downloadMessageFixture("message-image.jpg")}
           >
             <Download />
           </MessageImageGalleryAction>
