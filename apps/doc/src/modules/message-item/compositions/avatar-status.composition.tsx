@@ -1,8 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage, Status } from "raft-ui";
+import { Avatar, AvatarBadge, AvatarFallback, AvatarImage, Status } from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
-  MessageItemAvatarStatus,
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
@@ -21,7 +20,7 @@ export function MessageAvatarStatusComposition() {
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>KA</AvatarFallback>
-            <MessageItemAvatarStatus
+            <AvatarBadge
               title="Online"
               render={<Status aria-hidden size="lg" variant="success" />}
             />
@@ -42,7 +41,7 @@ export function MessageAvatarStatusComposition() {
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>NO</AvatarFallback>
-            <MessageItemAvatarStatus
+            <AvatarBadge
               title="Working…"
               render={<Status aria-hidden size="lg" variant="success" pulse />}
             />
@@ -63,7 +62,7 @@ export function MessageAvatarStatusComposition() {
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
-            <MessageItemAvatarStatus
+            <AvatarBadge
               title="Offline"
               render={<Status aria-hidden size="lg" variant="default" />}
             />

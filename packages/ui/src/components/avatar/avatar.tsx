@@ -1,4 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { Avatar as AvatarPrimitive } from "@base-ui/react";
 import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -23,9 +25,10 @@ import type { StyledProps } from "../../lib/styled-props";
 // (18), and 3xs inline preview chips (14). One-off source contexts such as
 // account-tile, members-row, and creator-link no longer get public size names.
 // Brutal border weight follows size: >=32px frames use `border-2`, smaller ones
-// `border`; elegant uses a pseudo-element hairline. `AvatarFallback` /
-// `AvatarBadge` auto-scale to the parent via its `data-size` + `group/avatar`
-// hook; keep their per-step selectors in sync with the `size` scale.
+// `AvatarFallback` / `AvatarBadge` auto-scale to the parent via its `data-size` +
+// `group/avatar` hook when using the default pip; keep their per-step selectors
+// in sync with the `size` scale. `AvatarBadge` is a useRender shell — pass
+// `render={<Status />}` for activity chrome without the default pip styles.
 const avatar = tv({
   slots: {
     root: ["group/avatar relative flex shrink-0 items-center justify-center select-none"],
@@ -41,8 +44,10 @@ const avatar = tv({
       "group-data-[size=2xs]/avatar:[&>svg]:size-2.5",
       "group-data-[size=3xs]/avatar:[&>svg]:size-2.5",
     ],
-    badge: [
-      "absolute z-10 select-none",
+    // Corner shell always. Pip chrome (`badgeFace`) only when not rendering a
+    // custom indicator — Status/etc. keep the same anchor as the default pip.
+    badge: ["absolute z-10 select-none"],
+    badgeFace: [
       "inline-flex items-center justify-center rounded-full outline-2 outline-white",
       "size-2 [&>svg]:hidden",
       "group-data-[size=xl]/avatar:size-3.5 group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
@@ -60,10 +65,8 @@ const avatar = tv({
       brutal: {
         root: "border-black text-black",
         fallback: "text-black",
-        badge: [
-          "right-0 bottom-0 translate-x-1/4 translate-y-1/4",
-          "bg-success-base text-foreground-strong",
-        ],
+        badge: ["right-0 bottom-0 translate-x-1/4 translate-y-1/4"],
+        badgeFace: ["bg-success-base text-foreground-strong"],
         group: [
           "-space-x-1.5",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-primary-50",
@@ -81,7 +84,6 @@ const avatar = tv({
           "group-data-[size=3xs]/avatar:text-[10px]",
         ],
         badge: [
-          "bg-success-base text-foreground-inverse",
           "group-data-[size=xl]/avatar:right-[2px] group-data-[size=xl]/avatar:bottom-[2px]",
           "group-data-[size=lg]/avatar:right-[2px] group-data-[size=lg]/avatar:bottom-[2px]",
           "group-data-[size=md]/avatar:right-[-1px] group-data-[size=md]/avatar:bottom-[-1px]",
@@ -90,6 +92,7 @@ const avatar = tv({
           "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
           "group-data-[size=3xs]/avatar:right-0 group-data-[size=3xs]/avatar:bottom-0",
         ],
+        badgeFace: ["bg-success-base text-foreground-inverse"],
         group: [
           "-space-x-2",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-background",
@@ -346,15 +349,25 @@ export function AvatarFallback({ className, children, ...props }: AvatarFallback
   );
 }
 
-export type AvatarBadgeProps = ComponentPropsWithRef<"span">;
+export type AvatarBadgeProps = useRender.ComponentProps<"span">;
 
-// Presence/status badge overlaid in the avatar's bottom-right corner. The root
-// stays overflow-visible so the badge can sit on the frame edge. Default fill is
-// lime; override with a `bg-*` class via className. Optionally wraps a small icon.
-export function AvatarBadge({ className, ...props }: AvatarBadgeProps) {
+// Corner presence shell. Default span keeps the solid pip (`badgeFace`); pass
+// `render={<Status … />}` to own indicator chrome while sharing the same anchor.
+export function AvatarBadge({ className, render, ...props }: AvatarBadgeProps) {
   const theme = useThemeFamily();
-  const { badge } = avatar({ theme });
-  return <span data-slot="avatar-badge" className={badge({ className })} {...props} />;
+  const { badge, badgeFace } = avatar({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: badge({
+      className: render ? className : badgeFace({ className }),
+    }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "avatar-badge" },
+  });
 }
 
 export type AvatarGroupProps = ComponentPropsWithRef<"div">;
