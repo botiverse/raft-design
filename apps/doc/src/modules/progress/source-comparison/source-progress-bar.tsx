@@ -54,7 +54,7 @@ export function SourceProgressBar({
           ) : null}
         </div>
       )}
-      <div className="h-4 w-full overflow-hidden border-2 border-black bg-white shadow-brutal-sm">
+      <div className="h-4 w-full overflow-hidden border-2 border-black bg-white shadow-sm">
         {sourceProgressStyle}
         <div
           className={`h-full ${SOURCE_TONE_CLASS[tone]} ${

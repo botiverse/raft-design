@@ -226,7 +226,7 @@ function DroppableColumn({
     <div
       ref={setNodeRef}
       className={`flex w-[320px] shrink-0 self-start flex-col border-2 ${
-        isOver ? "border-black bg-soft-signal/20 shadow-brutal-sm" : "border-black/20 bg-white/30"
+        isOver ? "border-black bg-soft-signal/20 shadow-sm" : "border-black/20 bg-white/30"
       } p-3 transition-colors`}
     >
       <button
@@ -428,7 +428,7 @@ function IdentityFilterChip({
         onClick={onToggleOpen}
         className={`inline-flex items-center gap-2 border-2 px-3 py-1.5 text-xs font-bold transition-colors ${
           selected.length > 0
-            ? "border-black bg-soft-signal text-black shadow-brutal-sm"
+            ? "border-black bg-soft-signal text-black shadow-sm"
             : "border-black/30 bg-white text-black/70 hover:border-black"
         }`}
       >
@@ -855,7 +855,7 @@ export default function TasksPanel({ channelId }: TasksPanelProps = {}) {
                 }
                 className={`inline-flex items-center gap-2 border-2 px-3 py-1.5 text-xs font-bold transition-colors ${
                   selectedChannelIds.length > 0
-                    ? "border-black bg-soft-signal text-black shadow-brutal-sm"
+                    ? "border-black bg-soft-signal text-black shadow-sm"
                     : "border-black/30 bg-white text-black/70 hover:border-black"
                 }`}
               >

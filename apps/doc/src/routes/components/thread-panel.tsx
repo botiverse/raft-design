@@ -471,7 +471,7 @@ function SourceThreadPanelPreview() {
           aria-label="Search in thread"
           readOnly
           value="chrome"
-          className="min-w-0 flex-1 border-2 border-black bg-white px-2 py-1 text-sm font-medium outline-none focus:shadow-brutal-sm"
+          className="min-w-0 flex-1 border-2 border-black bg-white px-2 py-1 text-sm font-medium outline-none focus:shadow-sm"
         />
         <div className="shrink-0 whitespace-nowrap font-mono text-xs tabular-nums text-black/50">
           1/2
@@ -556,7 +556,7 @@ function SourceThreadPanelPreview() {
               </div>
             </div>
           </div>
-          <div className="group/message relative mt-1.5 mb-1 flex h-fit min-h-12 gap-3 border-2 border-black bg-brutal-cyan/25 px-2 py-1 shadow-brutal">
+          <div className="group/message relative mt-1.5 mb-1 flex h-fit min-h-12 gap-3 border-2 border-black bg-brutal-cyan/25 px-2 py-1 shadow-md">
             <div className="relative mt-0.5 shrink-0 self-start">
               <div className="flex size-9 shrink-0 items-center justify-center overflow-hidden border-2 border-black bg-brutal-cyan text-black">
                 <User className="size-4" />

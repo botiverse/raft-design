@@ -41,11 +41,11 @@ export const chatSidebarItem = tv({
       brutal: {
         sidebarItem: [
           "border-transparent text-black",
-          "hover:border-black hover:bg-white hover:shadow-brutal-sm",
-          "active:border-black active:bg-white active:shadow-brutal-sm",
+          "hover:border-black hover:bg-white hover:shadow-sm",
+          "active:border-black active:bg-white active:shadow-sm",
           "data-[active]:border-black data-[active]:bg-brutal-pink",
-          "data-[active]:shadow-brutal-sm",
-          "data-[popup-open]:border-black data-[popup-open]:bg-white data-[popup-open]:shadow-brutal-sm",
+          "data-[active]:shadow-sm",
+          "data-[popup-open]:border-black data-[popup-open]:bg-white data-[popup-open]:shadow-sm",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
         sidebarItemTitle: "font-medium text-black",

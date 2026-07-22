@@ -78,7 +78,7 @@ export const messageItem = tv({
           "mb-0.5 text-[10px] font-bold uppercase tracking-normal text-black/40",
         translationStatus: "font-mono text-[11px] text-black/45",
         translationAction: "decoration-black/40 hover:decoration-black",
-        toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-brutal-sm"],
+        toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-sm"],
         toolbarButton: [
           "size-6",
           "text-black/50 hover:bg-soft-signal/30 hover:text-black",
@@ -165,7 +165,7 @@ export const messageItem = tv({
     {
       theme: "brutal",
       rowState: "search-match",
-      class: { root: "border-line-strong bg-brutal-cyan/25 shadow-brutal" },
+      class: { root: "border-line-strong bg-brutal-cyan/25 shadow-md" },
     },
     { theme: "brutal", compact: true, class: { root: "mt-0 min-h-0 py-1" } },
     {

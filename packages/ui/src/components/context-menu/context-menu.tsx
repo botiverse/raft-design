@@ -36,7 +36,7 @@ const contextMenu = tv({
   variants: {
     theme: {
       brutal: {
-        content: ["border-2 border-black bg-layer-popover shadow-brutal"],
+        content: ["border-2 border-black bg-layer-popover shadow-md"],
         item: [
           "py-2 font-sans text-sm font-semibold leading-5 text-foreground hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",

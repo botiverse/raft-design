@@ -44,7 +44,7 @@ const dropdownMenu = tv({
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
         ],
-        content: ["border-2 border-black bg-layer-popover shadow-brutal"],
+        content: ["border-2 border-black bg-layer-popover shadow-md"],
         item: [
           "py-2 font-sans text-sm font-medium text-foreground hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",

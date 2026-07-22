@@ -49,7 +49,7 @@ export default function SegmentedControl<T extends string>({
               disabled ? "cursor-not-allowed" : ""
             } ${
               active
-                ? "bg-brutal-yellow text-black shadow-brutal-sm"
+                ? "bg-brutal-yellow text-black shadow-sm"
                 : disabled
                   ? "bg-white text-black"
                   : "bg-white text-black hover:bg-brutal-yellow/30"

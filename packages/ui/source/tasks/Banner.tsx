@@ -52,7 +52,7 @@ import type { HTMLAttributes, ReactNode } from "react";
  *
  * **Density**: defaults to `"md"` (`p-3`) which matches the
  * dominant existing pattern. `"sm"` (`p-2`) covers the SettingsPanel
- * inline form errors that are tighter. `"lg"` (`p-4 shadow-brutal-sm`)
+ * inline form errors that are tighter. `"lg"` (`p-4 shadow-sm`)
  * covers the heavier plan-grace banners.
  */
 
@@ -82,7 +82,7 @@ const INTENT_DEFAULT_ICON: Record<BannerIntent, ReactNode> = {
 const DENSITY_PADDING: Record<BannerDensity, string> = {
   sm: "p-2",
   md: "p-3",
-  lg: "p-4 shadow-brutal-sm",
+  lg: "p-4 shadow-sm",
 };
 
 const DENSITY_TEXT: Record<BannerDensity, string> = {
@@ -102,7 +102,7 @@ export interface BannerProps extends Omit<HTMLAttributes<HTMLDivElement>, "title
   intent: BannerIntent;
   /** Density — `"md"` matches the dominant inline pattern (p-3 + text-sm).
    *  `"sm"` is the tighter SettingsPanel form-error variant (p-2 + text-xs).
-   *  `"lg"` adds shadow-brutal-sm for prominent surface banners. */
+   *  `"lg"` adds shadow-sm for prominent surface banners. */
   density?: BannerDensity;
   /** Optional bold heading rendered above the body. */
   title?: ReactNode;

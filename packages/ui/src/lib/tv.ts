@@ -1,4 +1,4 @@
-import { cn } from "cnfast";
+import { cn } from "./cn";
 import { tv as tvBase, type TVLite } from "tailwind-variants/lite";
 
 export type { VariantProps } from "tailwind-variants/lite";

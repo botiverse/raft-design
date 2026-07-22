@@ -22,7 +22,7 @@ const composerSuggestionList = tv({
   variants: {
     theme: {
       brutal: {
-        root: "mb-2 max-h-48 border-2 border-black bg-white shadow-brutal",
+        root: "mb-2 max-h-48 border-2 border-black bg-white shadow-md",
         groupLabel: "text-xs font-bold tracking-widest uppercase text-black/60",
         item: [
           "cursor-pointer text-sm font-medium text-black transition-colors",

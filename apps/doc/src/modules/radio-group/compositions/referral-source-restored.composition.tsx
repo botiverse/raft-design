@@ -37,7 +37,7 @@ const referralSource = tv({
         row: [
           "gap-3 border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black",
           "hover:bg-brutal-yellow/30",
-          "has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-yellow has-[[data-slot=radio-group-item][data-checked]]:shadow-brutal-sm",
+          "has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-yellow has-[[data-slot=radio-group-item][data-checked]]:shadow-sm",
           "has-[[data-slot=radio-group-item][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-layer-muted",
           "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-checked][data-disabled]]:shadow-none",
         ],

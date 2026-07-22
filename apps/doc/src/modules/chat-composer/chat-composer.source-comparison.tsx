@@ -61,7 +61,7 @@ export function ComposerDropOverlaySourceComparison() {
         data-testid="composer-drop-overlay"
         className="absolute inset-0 z-30 flex items-center justify-center border-2 border-dashed border-brutal-pink bg-brutal-pink/15"
       >
-        <span className="border-2 border-black bg-white px-3 py-1.5 text-sm font-bold text-black shadow-brutal-sm">
+        <span className="border-2 border-black bg-white px-3 py-1.5 text-sm font-bold text-black shadow-sm">
           Drop files to attach
         </span>
       </div>
@@ -77,7 +77,7 @@ function SourceComposerShell({
   submitDisabled?: boolean;
 }) {
   return (
-    <div className="flex flex-col gap-2 border-2 border-black bg-white p-2 shadow-brutal-sm focus-within:shadow-brutal">
+    <div className="flex flex-col gap-2 border-2 border-black bg-white p-2 shadow-sm focus-within:shadow-md">
       <textarea
         readOnly
         rows={1}

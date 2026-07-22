@@ -251,9 +251,6 @@
   --shadow-lg: var(--theme-shadow-lg);
   --shadow-xl: var(--theme-shadow-xl);
   --shadow-field-hover: 0px 1px 2px 0px oklch(0.159 0.016 266.594 / 0.03);
-  --shadow-brutal-sm: var(--theme-shadow-sm);
-  --shadow-brutal: var(--theme-shadow-md);
-  --shadow-brutal-lg: var(--theme-shadow-xl);
 
   --font-heading: var(--heading-font, system-ui, sans-serif);
   --font-sans: var(--sans-font, system-ui, sans-serif);
@@ -396,9 +393,6 @@
   --theme-shadow-md: 4px 4px 0px var(--line-strong);
   --theme-shadow-lg: 4px 4px 0px var(--color-black);
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
-  --shadow-brutal-sm: 2px 2px 0px oklch(0.1813 0.005 17.62);
-  --shadow-brutal: 4px 4px 0px oklch(0.1813 0.005 17.62);
-  --shadow-brutal-lg: 6px 6px 0px oklch(0.1813 0.005 17.62);
 }
 
 [data-theme="elegant"] {

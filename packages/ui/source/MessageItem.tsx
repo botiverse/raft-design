@@ -2091,7 +2091,7 @@ function HtmlPreviewBody({
           data-message-affordance="attachment-preview-external-links-loading"
           className="absolute inset-0 z-10 flex items-center justify-center bg-white/75"
         >
-          <div className="flex items-center gap-2 border-2 border-black bg-white px-3 py-2 text-xs font-bold shadow-brutal-sm">
+          <div className="flex items-center gap-2 border-2 border-black bg-white px-3 py-2 text-xs font-bold shadow-sm">
             <Spinner size="sm" /> Preparing interactive preview…
           </div>
         </div>
@@ -2120,7 +2120,7 @@ function HtmlPreviewBody({
           role="status"
           aria-live="polite"
           data-message-affordance="attachment-preview-external-link-fallback"
-          className="absolute inset-x-3 bottom-3 z-40 flex items-center gap-2 border-2 border-black bg-white p-2 shadow-brutal"
+          className="absolute inset-x-3 bottom-3 z-40 flex items-center gap-2 border-2 border-black bg-white p-2 shadow-md"
         >
           <div className="min-w-0 flex-1">
             <div className="text-xs font-black">Your browser blocked the new tab</div>
@@ -2219,7 +2219,7 @@ function HtmlPreviewBody({
             });
           }}
         >
-          <div className="pointer-events-none absolute left-1/2 top-3 z-30 -translate-x-1/2 border-2 border-black bg-white px-2 py-1 text-[11px] font-bold text-black shadow-brutal-sm">
+          <div className="pointer-events-none absolute left-1/2 top-3 z-30 -translate-x-1/2 border-2 border-black bg-white px-2 py-1 text-[11px] font-bold text-black shadow-sm">
             {state
               ? "Click or drag to comment on a region"
               : "Can't locate inside this page — comments will be unanchored"}
@@ -2395,7 +2395,7 @@ function AudioAttachmentPreviewModal({
   return (
     <AttachmentPreviewShell filename={filename} label="Audio preview" onClose={onClose} onDownload={onDownload}>
       <div className="flex h-full w-full items-center justify-center bg-brutal-cream p-4">
-        <div className="w-full max-w-xl border-2 border-black bg-white p-4 shadow-brutal">
+        <div className="w-full max-w-xl border-2 border-black bg-white p-4 shadow-md">
           <div className="mb-3 flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center border-2 border-black bg-soft-signal">
               <Music size={20} className="text-black" />
@@ -2431,7 +2431,7 @@ function CsvPreviewPane({ preview, truncated }: { preview: Extract<DocumentAttac
           row. Known trade-off: the sticky thead pins to this wrapper (a
           scroll container), not the viewport — wide-table panning beats a
           pinned header here. */}
-      <div className="overflow-x-auto border-2 border-black bg-white shadow-brutal-sm">
+      <div className="overflow-x-auto border-2 border-black bg-white shadow-sm">
         <table className="min-w-full border-collapse bg-white">
           <thead className="sticky top-0 z-10 bg-brutal-cream">
             <tr>
@@ -2538,7 +2538,7 @@ function TextPreviewPane({ text, truncated }: { text: string; truncated: boolean
       {/* Per-line elements (not one text node) so comment anchors can target
           and flash-highlight L<n> ranges (attachmentCommentAnchors). The
           preview is byte-capped server-side, so line count stays bounded. */}
-      <pre className="min-h-full whitespace-pre-wrap break-words border-2 border-black bg-white p-4 font-mono text-xs leading-5 text-black shadow-brutal-sm">
+      <pre className="min-h-full whitespace-pre-wrap break-words border-2 border-black bg-white p-4 font-mono text-xs leading-5 text-black shadow-sm">
         {text.split(/\r?\n/).map((line, index) => (
           <div key={index} data-anchor-line={index + 1}>
             {line.length > 0 ? line : " "}
@@ -4541,7 +4541,7 @@ const MessageItem = memo(function MessageItem({ message, mentionMap, channels, p
       onMouseLeave={handleReactionPickerBoundaryLeave}
       className={`group/message relative flex h-fit gap-3 py-1 ${showSenderChrome ? "mt-1.5 min-h-[3rem]" : ""} px-2 ${
         isHighlighted
-          ? "border-2 border-black bg-brutal-cyan/25 shadow-brutal mb-1"
+          ? "border-2 border-black bg-brutal-cyan/25 shadow-md mb-1"
           : ctxMenu || reactionPicker
           ? "border-2 border-black bg-white mb-1"
           : isSelectedAsThreadParent
