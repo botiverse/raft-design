@@ -1,6 +1,8 @@
 import { useState, type ReactNode } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { AlertTriangle, Languages } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -25,7 +27,8 @@ function TranslationRow({ children, status }: { children: ReactNode; status: Rea
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>AT</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>

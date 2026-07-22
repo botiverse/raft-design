@@ -44,7 +44,7 @@ function TaskCard({ task, onOpen, showChannelName = true }: {
   };
 
   return (
-    <div className="w-full border-2 border-black bg-white px-3 py-2.5 text-left shadow-brutal-sm transition-all duration-100 hover:-translate-y-[1px] hover:shadow-brutal active:translate-x-[1px] active:translate-y-[1px] active:shadow-brutal-active">
+    <div className="w-full border-2 border-black bg-white px-3 py-2.5 text-left shadow-sm transition-all duration-100 hover:-translate-y-[1px] hover:shadow-md active:translate-x-[1px] active:translate-y-[1px] active:shadow-xs">
       <button type="button" onClick={() => onOpen(task)} className="w-full text-left">
         <div className="flex items-start gap-2">
           <div className="min-w-0 flex-1">

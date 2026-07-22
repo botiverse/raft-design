@@ -9,7 +9,7 @@ export const messageAttachmentPreview = tv({
     ],
     externalLinksLoadingPanel: [
       "flex items-center gap-2 px-3 py-2",
-      "border-2 border-line-strong bg-layer-panel text-xs font-bold shadow-brutal-sm",
+      "border-2 border-line-strong bg-layer-panel text-xs font-bold shadow-sm",
     ],
     externalLinkHotspots: ["pointer-events-none absolute inset-0 z-10 overflow-hidden"],
     externalLinkHotspot: [
@@ -18,7 +18,7 @@ export const messageAttachmentPreview = tv({
     ],
     externalLinkFallback: [
       "absolute inset-x-3 bottom-3 z-40 flex items-center gap-2 p-2",
-      "border-2 border-line-strong bg-layer-panel shadow-brutal",
+      "border-2 border-line-strong bg-layer-panel shadow-md",
     ],
     externalLinkFallbackDismiss: [
       "flex size-7 shrink-0 items-center justify-center",
@@ -27,9 +27,7 @@ export const messageAttachmentPreview = tv({
       "[&_svg]:size-3.5 [&_svg]:shrink-0",
     ],
     audioPreview: ["flex h-full w-full items-center justify-center p-4"],
-    audioPreviewCard: [
-      "w-full max-w-xl border-2 border-line-strong bg-layer-panel p-4 shadow-brutal",
-    ],
+    audioPreviewCard: ["w-full max-w-xl border-2 border-line-strong bg-layer-panel p-4 shadow-md"],
     audioPreviewHeader: ["mb-3 flex items-center gap-3"],
     audioPreviewIcon: [
       "flex size-10 shrink-0 items-center justify-center",
@@ -44,12 +42,12 @@ export const messageAttachmentPreview = tv({
   variants: {
     theme: {
       brutal: {
-        externalLinksLoadingPanel: "border-black bg-white text-black shadow-brutal-sm",
+        externalLinksLoadingPanel: "border-black bg-white text-black shadow-sm",
         externalLinkHotspot: "focus-visible:border-black focus-visible:bg-white/20",
-        externalLinkFallback: "border-black bg-white shadow-brutal",
+        externalLinkFallback: "border-black bg-white shadow-md",
         externalLinkFallbackDismiss: "border-black bg-white hover:bg-black/5",
         audioPreview: "bg-brutal-cream",
-        audioPreviewCard: "border-black bg-white shadow-brutal",
+        audioPreviewCard: "border-black bg-white shadow-md",
         audioPreviewIcon: "border-black bg-soft-signal text-black",
         audioPreviewTitle: "text-black",
         audioPreviewLabel: "text-black/50",

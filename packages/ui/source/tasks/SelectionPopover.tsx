@@ -110,7 +110,7 @@ export default function SelectionPopover(props: SelectionPopoverProps) {
     onClear,
     showHeader = true,
     emptyLabel = "No matches",
-    className = "absolute left-0 top-[calc(100%+8px)] z-20 min-w-[220px] border-2 border-black bg-white shadow-brutal",
+    className = "absolute left-0 top-[calc(100%+8px)] z-20 min-w-[220px] border-2 border-black bg-white shadow-md",
   } = props;
 
   return (

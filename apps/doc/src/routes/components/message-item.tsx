@@ -19,6 +19,8 @@ import { MessageAttachmentsShowcaseComposition } from "#/modules/message-attachm
 import attachmentsShowcaseSource from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx?raw";
 import { MessageForwardedBundleShowcaseComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import forwardedBundleSource from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx?raw";
+import { MessageAvatarStatusComposition } from "#/modules/message-item/compositions/avatar-status.composition.tsx";
+import avatarStatusSource from "#/modules/message-item/compositions/avatar-status.composition.tsx?raw";
 import { MessageConsecutiveComposition } from "#/modules/message-item/compositions/consecutive.composition.tsx";
 import consecutiveSource from "#/modules/message-item/compositions/consecutive.composition.tsx?raw";
 import { MessageContextMenuShowcaseComposition } from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx";
@@ -42,6 +44,8 @@ import { MessageRowChromeComposition } from "#/modules/message-item/compositions
 import rowChromeSource from "#/modules/message-item/compositions/row-chrome.composition.tsx?raw";
 import { MessageSavedComposition } from "#/modules/message-item/compositions/saved.composition.tsx";
 import savedSource from "#/modules/message-item/compositions/saved.composition.tsx?raw";
+import { MessageSearchMatchMarkComposition } from "#/modules/message-item/compositions/search-match-mark.composition.tsx";
+import searchMatchMarkSource from "#/modules/message-item/compositions/search-match-mark.composition.tsx?raw";
 import { MessageSenderStateComposition } from "#/modules/message-item/compositions/sender-state.composition.tsx";
 import senderStateSource from "#/modules/message-item/compositions/sender-state.composition.tsx?raw";
 import { MessageTaskBadgeComposition } from "#/modules/message-item/compositions/task-badge.composition.tsx";
@@ -90,6 +94,7 @@ export const Route = createFileRoute("/components/message-item")({
         anatomy: ANATOMY_SOURCE,
         attachmentsShowcase: attachmentsShowcaseSource,
         attachmentPreviewSurfaces: attachmentPreviewSurfacesSource,
+        avatarStatus: avatarStatusSource,
         consecutive: consecutiveSource,
         contextMenu: contextMenuShowcaseSource,
         converting: convertingSource,
@@ -104,6 +109,7 @@ export const Route = createFileRoute("/components/message-item")({
         replies: repliesSource,
         rowChrome: rowChromeSource,
         saved: savedSource,
+        searchMatchMark: searchMatchMarkSource,
         senderState: senderStateSource,
         taskBadge: taskBadgeSource,
         textSelection: textSelectionSource,
@@ -169,6 +175,12 @@ function MessageItemDoc() {
             </UsagePreview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="avatar-status" title="Avatar status">
+            <UsagePreview code={code.avatarStatus}>
+              <MessageAvatarStatusComposition />
+            </UsagePreview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="converting" title="Converting">
             <UsagePreview code={code.converting}>
               <MessageConvertingComposition />
@@ -195,7 +207,7 @@ function MessageItemDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="references" title="References">
+          <DocSubsection parentId="usage" id="references" title="MessageReference">
             <UsagePreview code={code.referenceShowcase}>
               <div className="w-full max-w-3xl">
                 <MessageReferenceShowcaseComposition />
@@ -282,6 +294,12 @@ function MessageItemDoc() {
           <DocSubsection parentId="usage" id="row-chrome" title="Row chrome">
             <UsagePreview code={code.rowChrome}>
               <MessageRowChromeComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="search-match-mark" title="Search match + mark">
+            <UsagePreview code={code.searchMatchMark}>
+              <MessageSearchMatchMarkComposition />
             </UsagePreview>
           </DocSubsection>
 

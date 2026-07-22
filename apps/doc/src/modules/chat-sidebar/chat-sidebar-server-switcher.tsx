@@ -26,7 +26,7 @@ const chatSidebarServer = tv({
         sidebarServer: [
           "-rotate-2 gap-1.5 border-2 border-black bg-black px-3 py-1",
           "font-sans text-base font-bold text-primary-400",
-          "shadow-brutal-sm transition-shadow hover:shadow-brutal",
+          "shadow-sm transition-shadow hover:shadow-md",
         ],
         sidebarServerAvatar: "hidden",
         sidebarServerLabel: "max-w-[200px]",

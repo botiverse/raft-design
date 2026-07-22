@@ -1,11 +1,15 @@
 import { Bot, MessageSquare } from "lucide-react";
 
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "./message-item.fixtures.ts";
+
 export function SourceMessageItemPreview() {
   return (
     <article className="flex w-full max-w-xl gap-3 bg-white p-4 font-sans text-black">
-      <div className="flex size-9 shrink-0 items-center justify-center border-2 border-black bg-brutal-cyan text-xs font-bold">
-        AT
-      </div>
+      <img
+        src={MESSAGE_FIXTURE_AVATAR_SRC}
+        alt=""
+        className="size-9 shrink-0 border-2 border-black object-cover"
+      />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-2 text-sm">
           <span className="font-bold">Atlas</span>

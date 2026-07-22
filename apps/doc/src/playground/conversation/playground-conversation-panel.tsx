@@ -16,9 +16,18 @@ import {
   TabsIndicator,
   TabsLabel,
 } from "raft-ui";
-import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui/wip";
+import {
+  MessageList,
+  MessageListDateDivider,
+  MessageListNotice,
+  MessageMultiSelect,
+  useMessageMultiSelect,
+} from "raft-ui/wip";
 
-import { MessageTextSelectionComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
+import {
+  MessageMultiSelectToolbarComposition,
+  MessageTextSelectionComposition,
+} from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundMainComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundSingleComposerMentionProvider } from "../composer/playground-composer-mentions.tsx";
 import type { PlaygroundPanelTab } from "../navigation/playground-navigation.ts";
@@ -73,15 +82,17 @@ export function PlaygroundConversationPanel({
         </ConversationPanelTabs>
         {panelTab === "chat" ? (
           <PlaygroundSingleComposerMentionProvider>
-            <MessageTextSelectionComposition>
-              <ChannelBody channel={channel} />
-            </MessageTextSelectionComposition>
-            <PlaygroundMainComposer
-              key={channel.id}
-              channel={channel}
-              label={composerLabel}
-              initialComposer={channel.initialComposer}
-            />
+            <MessageMultiSelect>
+              <MessageTextSelectionComposition>
+                <ChannelBody channel={channel} />
+              </MessageTextSelectionComposition>
+              <PlaygroundMainComposer
+                key={channel.id}
+                channel={channel}
+                label={composerLabel}
+                initialComposer={channel.initialComposer}
+              />
+            </MessageMultiSelect>
           </PlaygroundSingleComposerMentionProvider>
         ) : panelTab === "tasks" ? (
           <PlaygroundTasksPanel channel={channel} />
@@ -90,6 +101,30 @@ export function PlaygroundConversationPanel({
         )}
       </ConversationPanelContent>
     </ConversationPanelRoot>
+  );
+}
+
+function PlaygroundMessageMultiSelectToolbar({
+  messages,
+}: {
+  messages: readonly PlaygroundMessage[];
+}) {
+  const selection = useMessageMultiSelect();
+  if (!selection?.active) return null;
+
+  const selectedContent = messages
+    .filter((message) => selection.selected.has(message.id))
+    .map((message) => message.content)
+    .join("\n\n");
+
+  return (
+    <MessageMultiSelectToolbarComposition
+      count={selection.selected.size}
+      onCancel={selection.cancel}
+      onCopyLink={() => void navigator.clipboard?.writeText(window.location.href)}
+      onCopyMarkdown={() => void navigator.clipboard?.writeText(selectedContent)}
+      onForward={() => undefined}
+    />
   );
 }
 
@@ -104,43 +139,56 @@ function ChannelBody({ channel }: { channel: PlaygroundChannelRecord }) {
 
 function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[] }) {
   const unreadCount = messages.filter((message) => message.unread).length;
+  const groupedRows = messages.map((message, index) => {
+    const previous = messages[index - 1];
+    const compact = Boolean(
+      previous &&
+      previous.senderId === message.senderId &&
+      previous.messageType === message.messageType,
+    );
+    return { message, compact };
+  });
 
   return (
-    <ConversationPanelBody>
-      <MessageList>
-        <div className="px-3 pt-3">
-          <MessageListNotice>Beginning of messages</MessageListNotice>
-        </div>
-        <MessageListDateDivider>Today</MessageListDateDivider>
-        {unreadCount > 0 ? (
+    <>
+      <ConversationPanelBody>
+        <MessageList>
           <div className="px-3 pt-3">
-            <MessageListNotice tone="muted">
-              {unreadCount === 1 ? "1 unread message" : `${unreadCount} unread messages`}
-            </MessageListNotice>
+            <MessageListNotice>Beginning of messages</MessageListNotice>
           </div>
-        ) : null}
-        {messages.map((message) => {
-          const thread = getPlaygroundThread(message.id)?.thread;
-          return (
-            <PlaygroundMessageRow
-              key={message.id}
-              message={message}
-              threadId={thread ? message.id : undefined}
-              footer={
-                thread ? (
-                  thread.unreadCount ? (
-                    <PlaygroundUnreadRepliesBadge threadId={message.id} />
-                  ) : (
-                    <PlaygroundRepliesBadge threadId={message.id} />
-                  )
-                ) : null
-              }
-            />
-          );
-        })}
-        <div className="pb-3" aria-hidden />
-      </MessageList>
-    </ConversationPanelBody>
+          <MessageListDateDivider>Today</MessageListDateDivider>
+          {unreadCount > 0 ? (
+            <div className="px-3 pt-3">
+              <MessageListNotice tone="muted">
+                {unreadCount === 1 ? "1 unread message" : `${unreadCount} unread messages`}
+              </MessageListNotice>
+            </div>
+          ) : null}
+          {groupedRows.map(({ message, compact }) => {
+            const thread = getPlaygroundThread(message.id)?.thread;
+            return (
+              <PlaygroundMessageRow
+                key={message.id}
+                message={message}
+                compact={compact}
+                threadId={thread ? message.id : undefined}
+                footer={
+                  thread ? (
+                    thread.unreadCount ? (
+                      <PlaygroundUnreadRepliesBadge threadId={message.id} />
+                    ) : (
+                      <PlaygroundRepliesBadge threadId={message.id} />
+                    )
+                  ) : null
+                }
+              />
+            );
+          })}
+          <div className="pb-3" aria-hidden />
+        </MessageList>
+      </ConversationPanelBody>
+      <PlaygroundMessageMultiSelectToolbar messages={messages} />
+    </>
   );
 }
 

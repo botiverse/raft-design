@@ -131,7 +131,7 @@ export const tasks = tv({
         filterSearch: ["border-b border-line-strong px-2 py-2"],
         filterInput: [
           "w-full px-2 py-1 font-mono text-xs",
-          "focus:!shadow-brutal focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
+          "focus:!shadow-md focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
         filterList: ["max-h-64 overflow-y-auto"],
         filterOption: [

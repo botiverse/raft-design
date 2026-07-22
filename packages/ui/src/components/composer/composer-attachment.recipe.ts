@@ -64,9 +64,9 @@ export const composerAttachment = tv({
       brutal: {
         attachmentsViewport: "pe-1.5",
         attachmentsNav: [
-          "shadow-brutal-sm",
-          "hover:-translate-y-1/2 hover:shadow-brutal-sm",
-          "active:not-data-[has-popup]:translate-x-0 active:not-data-[has-popup]:-translate-y-1/2 active:shadow-brutal-sm",
+          "shadow-sm",
+          "hover:-translate-y-1/2 hover:shadow-sm",
+          "active:not-data-[has-popup]:translate-x-0 active:not-data-[has-popup]:-translate-y-1/2 active:shadow-sm",
         ],
         attachment: [
           "has-[[data-slot=composer-attachment-image]]:size-16",

@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -30,7 +32,8 @@ export function MessageInteractiveSenderComposition() {
             />
           }
         >
-          <Avatar size="sm" type="agent">
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
           </Avatar>
         </MessageItemAvatarSlot>

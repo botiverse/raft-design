@@ -4,22 +4,21 @@ export const messageItem = tv({
   slots: {
     interactionBoundary: ["[contain:layout_style] [overflow:clip_visible]"],
     root: [
-      "group/message relative flex h-fit min-h-[3rem] gap-3 max-md:gap-2",
+      "group/message relative flex h-fit min-h-[3rem] gap-3",
       "border-2 border-transparent",
       "[@media(hover:none)]:select-none [@media(hover:none)]:[&_*]:select-none",
     ],
-    gutter: ["relative w-9 shrink-0 self-stretch max-md:w-8"],
+    gutter: ["relative w-9 shrink-0 self-stretch"],
     avatarSlot: [
-      "relative mt-0.5 shrink-0 self-start",
+      "relative mt-0.5 w-9 shrink-0 self-start",
       "transition-[filter,transform] duration-75 hover:brightness-90",
       "data-[avatar-pressed=true]:scale-90 data-[avatar-pressed=true]:brightness-75",
-      "max-md:[&_[data-slot=avatar][data-size=md]]:size-7",
     ],
     avatarStatus: [
-      "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full max-md:size-2.5",
+      "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full",
     ],
     continuationTime: [
-      "absolute right-1 top-1 select-none font-mono text-[10px] leading-none tabular-nums",
+      "absolute right-0 top-1 select-none font-mono text-[10px] leading-none tabular-nums",
     ],
     content: ["min-w-0 flex-1"],
     header: ["flex min-w-0 overflow-hidden pr-24"],
@@ -57,7 +56,7 @@ export const messageItem = tv({
     theme: {
       brutal: {
         root: [
-          "mb-1 mt-1.5 px-5 py-1",
+          "mb-1 mt-1.5 px-2 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
         avatarStatus: "border border-black",
@@ -71,14 +70,15 @@ export const messageItem = tv({
         meta: "font-mono text-xs text-black/40",
         time: "font-mono text-xs text-black/40",
         inlineStatus: "text-black/40",
-        body: "text-sm leading-5 text-black",
+        // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
+        body: "text-sm text-black",
         translationPlaceholder: "border-2 border-black/20",
         translationOriginal: "border-l-2 border-black/20 pl-2 text-black/70",
         translationOriginalLabel:
           "mb-0.5 text-[10px] font-bold uppercase tracking-normal text-black/40",
         translationStatus: "font-mono text-[11px] text-black/45",
         translationAction: "decoration-black/40 hover:decoration-black",
-        toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-brutal-sm"],
+        toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-sm"],
         toolbarButton: [
           "size-6",
           "text-black/50 hover:bg-soft-signal/30 hover:text-black",
@@ -89,11 +89,16 @@ export const messageItem = tv({
       },
       elegant: {
         root: [
-          "px-7 py-3.5 max-md:px-4 max-md:py-2",
-          "hover:bg-layer-strong/35 active:bg-layer-muted/90",
+          "gap-3 max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
+          "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
+          "hover:bg-layer-strong/45 active:bg-layer-muted/90",
         ],
+        gutter: "max-md:w-8",
+        avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
+        avatarStatus: "max-md:size-2.5",
         continuationTime: [
           "top-0 pt-1.5",
+          "font-sans text-[12px] leading-none",
           "text-transparent group-hover/message:text-foreground-muted/60",
         ],
         header: "items-baseline gap-1.5",
@@ -163,7 +168,7 @@ export const messageItem = tv({
     {
       theme: "brutal",
       rowState: "search-match",
-      class: { root: "border-line-strong bg-brutal-cyan/25 shadow-brutal" },
+      class: { root: "border-line-strong bg-brutal-cyan/25 shadow-md" },
     },
     { theme: "brutal", compact: true, class: { root: "mt-0 min-h-0 py-1" } },
     {
@@ -202,7 +207,11 @@ export const messageItem = tv({
         translationAction: "text-danger-base",
       },
     },
-    { theme: "elegant", compact: true, class: { root: "mt-0 min-h-0 py-[2px]" } },
+    {
+      theme: "elegant",
+      compact: true,
+      class: { root: "mt-0 min-h-0 pt-[2px] pb-[2px] max-md:pt-[2px] max-md:pb-[2px]" },
+    },
   ],
 });
 

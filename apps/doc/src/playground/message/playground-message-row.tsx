@@ -42,6 +42,7 @@ import {
   type PlaygroundAgentStatus,
   type PlaygroundAvatarVariant,
 } from "./playground-message-avatar.tsx";
+import { PlaygroundMessageBody, playgroundGutterClock } from "./playground-message-body.tsx";
 import { usePlaygroundSingleComposerMentionTarget } from "../composer/use-playground-single-composer-mention-target.ts";
 import {
   getPlaygroundActor,
@@ -97,6 +98,8 @@ export type PlaygroundMessageRowProps = {
   attachments?: ReactNode;
   footer?: ReactNode;
   threadId?: PlaygroundThreadId;
+  compact?: boolean;
+  gutterTime?: string;
   className?: string;
 };
 
@@ -106,6 +109,8 @@ export function PlaygroundMessageRow({
   attachments,
   footer,
   threadId,
+  compact,
+  gutterTime,
   className,
 }: PlaygroundMessageRowProps) {
   return (
@@ -113,6 +118,8 @@ export function PlaygroundMessageRow({
       actorId={message.senderId}
       attachments={attachments}
       body={message.content}
+      compact={compact}
+      gutterTime={compact ? (gutterTime ?? playgroundGutterClock(message.createdAt)) : gutterTime}
       footer={footer}
       reactions={message.reactions}
       rowState={searchMatch ? "search-match" : undefined}
@@ -244,6 +251,7 @@ function MessageRowView({
   const navigate = useNavigate();
   const threadContext = threadId ? getPlaygroundThread(threadId) : undefined;
   const markdownText = typeof body === "string" ? body : "Composed message content";
+  const renderedBody = typeof body === "string" ? <PlaygroundMessageBody content={body} /> : body;
 
   const effectiveRowState = selectMode ? "select" : (rowState ?? (menuOpen ? "active" : undefined));
   const ItemRoot =
@@ -314,7 +322,7 @@ function MessageRowView({
             ) : null}
           </MessageItemHeader>
         ) : null}
-        {body ? <MessageItemBody>{body}</MessageItemBody> : null}
+        {renderedBody ? <MessageItemBody>{renderedBody}</MessageItemBody> : null}
         {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
         {footer || workflow.reactions.length > 0 || isSaved ? (
           <MessageItemFooter>

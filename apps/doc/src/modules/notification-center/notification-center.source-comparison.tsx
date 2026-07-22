@@ -60,7 +60,7 @@ export function NotificationCenterSourcePreview({ className }: { className?: str
           aria-haspopup="dialog"
           aria-expanded="true"
           aria-label="Notification center (3 active)"
-          className="relative inline-flex size-9 items-center justify-center border-2 border-black bg-brutal-orange shadow-brutal-sm"
+          className="relative inline-flex size-9 items-center justify-center border-2 border-black bg-brutal-orange shadow-sm"
         >
           <AlertTriangle aria-hidden size={18} className="text-black" />
           <span

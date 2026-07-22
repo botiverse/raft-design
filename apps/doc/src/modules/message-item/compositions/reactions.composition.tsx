@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Plus, SmilePlus } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Plus } from "lucide-react";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -12,8 +14,6 @@ import {
   MessageItemSender,
   MessageItemTime,
   MessageReactionAddButton,
-  MessageReactionChip,
-  MessageReactionGlyph,
 } from "raft-ui/wip";
 import {
   MessageReactionComposition,
@@ -30,7 +30,8 @@ function MessageReactionsRow() {
     <MessageItemInteractionBoundary ref={setPortalContainer}>
       <MessageItem>
         <MessageItemAvatarSlot>
-          <Avatar size="sm" type="agent">
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
           </Avatar>
         </MessageItemAvatarSlot>
@@ -46,11 +47,6 @@ function MessageReactionsRow() {
             <MessageReactionComposition emoji="👍" count={5} reacted />
             <MessageReactionComposition emoji="👀" count={2} />
             <MessageReactionComposition emoji="🔥" count={1} failed />
-            <MessageReactionChip aria-label="Add reaction" disabled>
-              <MessageReactionGlyph>
-                <SmilePlus />
-              </MessageReactionGlyph>
-            </MessageReactionChip>
             <MessageQuickReactionPicker
               open={open}
               onOpenChange={setOpen}

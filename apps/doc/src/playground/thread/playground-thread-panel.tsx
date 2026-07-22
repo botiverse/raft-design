@@ -19,7 +19,14 @@ import {
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
 } from "raft-ui";
-import { MessageList, MessageListNotice, PanelAction } from "raft-ui/wip";
+import {
+  MessageList,
+  MessageListNotice,
+  MessageMultiSelect,
+  PanelAction,
+  useMessageMultiSelect,
+} from "raft-ui/wip";
+import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
@@ -55,6 +62,16 @@ export function PlaygroundThreadPanel({
     : normalizedQuery
       ? "No matches"
       : "";
+
+  const groupedReplies = thread.replies.map((message, index) => {
+    const previous = thread.replies[index - 1];
+    const compact = Boolean(
+      previous &&
+      previous.senderId === message.senderId &&
+      previous.messageType === message.messageType,
+    );
+    return { message, compact };
+  });
 
   function moveToMatch(direction: -1 | 1) {
     setActiveMatchIndex((index) =>
@@ -113,74 +130,107 @@ export function PlaygroundThreadPanel({
         </ThreadPanelActions>
       </ThreadPanelHeader>
       <ThreadPanelContent>
-        {searchOpen ? (
-          <ThreadPanelSearch>
-            <InputGroup>
-              <InputGroupAddon>
-                <Search />
-              </InputGroupAddon>
-              <InputGroupInput
-                aria-label="Search this thread"
-                placeholder="Search this thread"
-                value={searchQuery}
-                onChange={(event) => {
-                  setSearchQuery(event.target.value);
-                  setActiveMatchIndex(0);
-                }}
-              />
-            </InputGroup>
-            <ThreadPanelSearchTrailing>
-              <ThreadPanelSearchCount aria-live="polite">{matchCountLabel}</ThreadPanelSearchCount>
-              <ThreadPanelActions>
-                <PanelAction
-                  aria-label="Previous match"
-                  disabled={!matchingMessages.length}
-                  onClick={() => moveToMatch(-1)}
-                >
-                  <ChevronUp />
-                </PanelAction>
-                <PanelAction
-                  aria-label="Next match"
-                  disabled={!matchingMessages.length}
-                  onClick={() => moveToMatch(1)}
-                >
-                  <ChevronDown />
-                </PanelAction>
-                <PanelAction aria-label="Close thread search" onClick={() => setSearchOpen(false)}>
-                  <X />
-                </PanelAction>
-              </ThreadPanelActions>
-            </ThreadPanelSearchTrailing>
-          </ThreadPanelSearch>
-        ) : null}
-        <ThreadPanelOriginalMessage>
-          <PlaygroundMessageRow
-            message={thread.parent}
-            searchMatch={activeMatch?.id === thread.parent.id}
-            threadId={thread.parent.id}
-          />
-        </ThreadPanelOriginalMessage>
-        <ThreadPanelBody>
-          <MessageList>
-            <div className="px-3 pt-2">
-              <MessageListNotice>Beginning of replies</MessageListNotice>
-              <ThreadPanelReplyCount>
-                {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
-              </ThreadPanelReplyCount>
-            </div>
-            {thread.replies.map((message) => (
-              <PlaygroundMessageRow
-                key={message.id}
-                message={message}
-                searchMatch={activeMatch?.id === message.id}
-                threadId={thread.parent.id}
-              />
-            ))}
-            <div className="h-6" aria-hidden />
-          </MessageList>
-        </ThreadPanelBody>
-        <PlaygroundThreadComposer channel={channel} label="Message thread" />
+        <MessageMultiSelect>
+          {searchOpen ? (
+            <ThreadPanelSearch>
+              <InputGroup>
+                <InputGroupAddon>
+                  <Search />
+                </InputGroupAddon>
+                <InputGroupInput
+                  aria-label="Search this thread"
+                  placeholder="Search this thread"
+                  value={searchQuery}
+                  onChange={(event) => {
+                    setSearchQuery(event.target.value);
+                    setActiveMatchIndex(0);
+                  }}
+                />
+              </InputGroup>
+              <ThreadPanelSearchTrailing>
+                <ThreadPanelSearchCount aria-live="polite">
+                  {matchCountLabel}
+                </ThreadPanelSearchCount>
+                <ThreadPanelActions>
+                  <PanelAction
+                    aria-label="Previous match"
+                    disabled={!matchingMessages.length}
+                    onClick={() => moveToMatch(-1)}
+                  >
+                    <ChevronUp />
+                  </PanelAction>
+                  <PanelAction
+                    aria-label="Next match"
+                    disabled={!matchingMessages.length}
+                    onClick={() => moveToMatch(1)}
+                  >
+                    <ChevronDown />
+                  </PanelAction>
+                  <PanelAction
+                    aria-label="Close thread search"
+                    onClick={() => setSearchOpen(false)}
+                  >
+                    <X />
+                  </PanelAction>
+                </ThreadPanelActions>
+              </ThreadPanelSearchTrailing>
+            </ThreadPanelSearch>
+          ) : null}
+          <ThreadPanelOriginalMessage>
+            <PlaygroundMessageRow
+              message={thread.parent}
+              searchMatch={activeMatch?.id === thread.parent.id}
+              threadId={thread.parent.id}
+            />
+          </ThreadPanelOriginalMessage>
+          <ThreadPanelBody>
+            <MessageList>
+              <div className="px-3 pt-2">
+                <MessageListNotice>Beginning of replies</MessageListNotice>
+                <ThreadPanelReplyCount>
+                  {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
+                </ThreadPanelReplyCount>
+              </div>
+              {groupedReplies.map(({ message, compact }) => (
+                <PlaygroundMessageRow
+                  key={message.id}
+                  message={message}
+                  compact={compact}
+                  searchMatch={activeMatch?.id === message.id}
+                  threadId={thread.parent.id}
+                />
+              ))}
+              <div className="h-6" aria-hidden />
+            </MessageList>
+          </ThreadPanelBody>
+          <PlaygroundThreadMultiSelectToolbar messages={[thread.parent, ...thread.replies]} />
+          <PlaygroundThreadComposer channel={channel} label="Message thread" />
+        </MessageMultiSelect>
       </ThreadPanelContent>
     </ThreadPanelRoot>
+  );
+}
+
+function PlaygroundThreadMultiSelectToolbar({
+  messages,
+}: {
+  messages: readonly { id: string; content: string }[];
+}) {
+  const selection = useMessageMultiSelect();
+  if (!selection?.active) return null;
+
+  const selectedContent = messages
+    .filter((message) => selection.selected.has(message.id))
+    .map((message) => message.content)
+    .join("\n\n");
+
+  return (
+    <MessageMultiSelectToolbarComposition
+      count={selection.selected.size}
+      onCancel={selection.cancel}
+      onCopyLink={() => void navigator.clipboard?.writeText(window.location.href)}
+      onCopyMarkdown={() => void navigator.clipboard?.writeText(selectedContent)}
+      onForward={() => undefined}
+    />
   );
 }

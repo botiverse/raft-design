@@ -61,11 +61,10 @@
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'Space Mono', ui-monospace, monospace;
 
-  --shadow-brutal: 4px 4px 0px #141111;
-  --shadow-brutal-sm: 2px 2px 0px #141111;
-  --shadow-brutal-lg: 6px 6px 0px #141111;
-  --shadow-brutal-hover: 2px 2px 0px #141111;
-  --shadow-brutal-active: 1px 1px 0px #141111;
+  --shadow-md: 4px 4px 0px #141111;
+  --shadow-sm: 2px 2px 0px #141111;
+  --shadow-xl: 6px 6px 0px #141111;
+  --shadow-xs: 1px 1px 0px #141111;
 
   --border-width-3: 3px;
 }
@@ -73,30 +72,30 @@
 /* Source index.css continues between the preserved ranges. */
 
   .btn-brutal {
-    @apply border-2 border-black font-display font-bold shadow-brutal
-           transition-all duration-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-brutal-active;
+    @apply border-2 border-black font-display font-bold shadow-md
+           transition-all duration-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-xs;
   }
   .btn-brutal:hover {
-    @apply -translate-y-[1px] shadow-brutal-lg;
+    @apply -translate-y-[1px] shadow-xl;
   }
 
   .btn-brutal-sm {
-    @apply border-2 border-black font-display font-bold shadow-brutal-sm
-           transition-all duration-100 active:translate-x-[1px] active:translate-y-[1px] active:shadow-brutal-active;
+    @apply border-2 border-black font-display font-bold shadow-sm
+           transition-all duration-100 active:translate-x-[1px] active:translate-y-[1px] active:shadow-xs;
   }
   .btn-brutal-sm:hover {
-    @apply -translate-y-[1px] shadow-brutal;
+    @apply -translate-y-[1px] shadow-md;
   }
   /* Disabled state — canonical token across all .btn-brutal-sm callsites.
      Faded over whatever bg the button carries (bg-white, bg-brutal-pink,
      etc.) instead of hand-rolled bg-gray-200 text-black/40. Mirrors the
      `.btn-flat-sm:disabled` shape (stdrc 2026-05-09). */
   .btn-brutal-sm:disabled {
-    @apply pointer-events-none opacity-40 shadow-brutal-sm;
+    @apply pointer-events-none opacity-40 shadow-sm;
     transform: none;
   }
   .btn-brutal:disabled {
-    @apply pointer-events-none opacity-40 shadow-brutal;
+    @apply pointer-events-none opacity-40 shadow-md;
     transform: none;
   }
 
@@ -139,7 +138,7 @@
   }
 
   .card-brutal {
-    @apply border-2 border-black bg-white shadow-brutal;
+    @apply border-2 border-black bg-white shadow-md;
   }
 
   .image-transparency-bg {
@@ -158,7 +157,7 @@
   }
 
   .input-brutal {
-    @apply border-2 border-black bg-white px-3 py-2 font-display shadow-brutal-sm
-           focus:outline-none focus:shadow-brutal;
+    @apply border-2 border-black bg-white px-3 py-2 font-display shadow-sm
+           focus:outline-none focus:shadow-md;
   }
 }

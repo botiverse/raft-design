@@ -94,7 +94,7 @@ export const messageProductState = tv({
         quotedPreviewLoadingAvatar: "border-black bg-black/5",
         quotedPreviewLoadingLine: "bg-black/10",
         quotedPreviewUnavailable:
-          "border-2 border-black/30 bg-black/5 italic text-black/40 hover:shadow-brutal-sm",
+          "border-2 border-black/30 bg-black/5 italic text-black/40 hover:shadow-sm",
         actionCard: "border-black/30 bg-white",
         actionCardDetails: "text-black/55",
         actionCardHint: "border-black/20 text-black/55",

@@ -49,13 +49,13 @@ export const filePreview = tv({
     },
     theme: {
       brutal: {
-        document: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
-        file: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
-        code: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
-        media: "rounded-none border-2 border-black bg-white shadow-brutal-sm ring-0",
+        document: "rounded-none border-2 border-black bg-white shadow-sm ring-0",
+        file: "rounded-none border-2 border-black bg-white shadow-sm ring-0",
+        code: "rounded-none border-2 border-black bg-white shadow-sm ring-0",
+        media: "rounded-none border-2 border-black bg-white shadow-sm ring-0",
         badge: [
           "-right-0.5 bottom-0.5 rounded-none border-2 border-black px-1 py-0.5",
-          "font-bold text-foreground-inverse shadow-brutal-sm [text-shadow:none] after:hidden",
+          "font-bold text-foreground-inverse shadow-sm [text-shadow:none] after:hidden",
         ],
       },
       elegant: {

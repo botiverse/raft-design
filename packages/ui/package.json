@@ -49,6 +49,7 @@
     "foxact": "^0.3.8",
     "lucide-react": "catalog:",
     "react-resizable-panels": "catalog:",
+    "tailwind-merge": "catalog:",
     "tailwind-variants": "catalog:"
   },
   "devDependencies": {

@@ -123,7 +123,7 @@ export const drawer = tv({
       brutal: {
         title: ["font-bold"],
         swipeHandle: ["before:rounded-none before:bg-ink-40"],
-        popup: ["border-2 border-line-strong bg-layer-panel shadow-brutal-lg"],
+        popup: ["border-2 border-line-strong bg-layer-panel shadow-xl"],
         close: ["bg-layer-panel"],
         closeIcon: ["size-5"],
       },

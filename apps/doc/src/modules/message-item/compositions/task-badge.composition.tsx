@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { Ban, Check, CheckCircle, Circle, Eye, Play } from "lucide-react";
 import {
-  Avatar,
-  AvatarFallback,
   Badge,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   useThemeFamily,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
 } from "raft-ui";
 import {
   MessageItem,
@@ -87,7 +89,8 @@ export function MessageTaskBadgeComposition() {
     <MessageItemInteractionBoundary ref={setPortalContainer} className="w-full max-w-3xl">
       <MessageItem>
         <MessageItemAvatarSlot>
-          <Avatar size="sm" type="agent">
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
           </Avatar>
         </MessageItemAvatarSlot>

@@ -18,6 +18,12 @@ export const messageFooter = tv({
       "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     badgeSeparator: ["text-foreground/45"],
+    inlineReplies: ["mt-1.5 flex flex-col gap-0.5 border-l-2 pl-2.5"],
+    inlineReplyRow: ["flex min-w-0 items-center gap-1.5 text-[12.5px] leading-tight"],
+    inlineReplyAvatar: ["shrink-0"],
+    inlineReplySender: ["shrink-0 font-semibold"],
+    inlineReplyPreview: ["min-w-0 truncate"],
+    inlineReplyCount: ["w-fit shrink-0 text-left text-[12.5px] font-bold hover:underline"],
   },
   variants: {
     badgeStatus: { read: {}, unread: {} },
@@ -33,6 +39,11 @@ export const messageFooter = tv({
           "border-line-strong px-1.5 text-[10px] font-bold leading-none text-black",
           "transition-colors hover:bg-brutal-cyan/40",
         ],
+        inlineReplies: "border-black/15",
+        inlineReplySender: "text-black/70",
+        inlineReplyPreview: "text-black/60",
+        // Live `#0f8fb3`
+        inlineReplyCount: "text-[oklch(0.605_0.111_224.369)]",
       },
       elegant: {
         savedIndicator: [
@@ -47,6 +58,10 @@ export const messageFooter = tv({
           "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
           "text-[12px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",
         ],
+        inlineReplies: "border-line-subtle",
+        inlineReplySender: "text-foreground-muted",
+        inlineReplyPreview: "text-foreground-muted/80",
+        inlineReplyCount: "text-primary-600",
       },
     },
   },

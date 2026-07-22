@@ -1,5 +1,5 @@
-import { Download, FileText, Music, Play, MessageSquare, SmilePlus } from "lucide-react";
-import { Avatar, AvatarFallback, Badge } from "raft-ui";
+import { Download, FileText, Music, Play, MessageSquare } from "lucide-react";
+import { Badge, useThemeFamily, Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageAttachmentGroup,
   MessageItem,
@@ -9,17 +9,16 @@ import {
   MessageItemBadgeSeparator,
   MessageItemBody,
   MessageItemContent,
-  MessageItemEmbedded,
   MessageItemFooter,
   MessageItemHeader,
   MessageItemMeta,
-  MessageItemNotice,
   MessageItemSender,
   MessageItemTime,
-  MessageReactionChip,
-  MessageReactionGlyph,
 } from "raft-ui/wip";
-import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
+import {
+  MESSAGE_FIXTURE_AVATAR_SRC,
+  downloadMessageFixture,
+} from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageReactionComposition } from "#/modules/message-item/compositions/reaction.compositions.tsx";
 import { MessageRowToolbarFixture } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
 import {
@@ -64,10 +63,13 @@ export function MessageFileAttachmentsComposition() {
 }
 
 function RichAttachmentMessageRow() {
+  const theme = useThemeFamily();
+
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>AP</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -81,19 +83,20 @@ function RichAttachmentMessageRow() {
           Here is the source parity pass for <strong>#222</strong>. Mention chip, channel link, task
           link, and markdown are rendered by the caller.
         </MessageItemBody>
-        <MessageItemEmbedded>
-          <MessageItemNotice>Forwarded from #release-notes by Ada.</MessageItemNotice>
-        </MessageItemEmbedded>
         <MessageItemAttachments>
           <MessageImageGalleryPairComposition />
           <MessageVideoPreviewComposition />
           <MessageFileAttachmentsComposition />
         </MessageItemAttachments>
         <MessageItemFooter>
-          <Badge variant="information" appearance="solid" uppercase={false}>
+          <Badge
+            appearance={theme === "brutal" ? "solid" : "soft"}
+            variant="information"
+            uppercase={false}
+            title="Task #222 · In Progress"
+          >
             <Play size={10} />
             <span>#222</span>
-            <span>@Ada</span>
           </Badge>
           <MessageItemBadge status="unread">
             <MessageSquare />6 replies
@@ -102,11 +105,6 @@ function RichAttachmentMessageRow() {
           <MessageReactionComposition emoji="👍" count={5} reacted />
           <MessageReactionComposition emoji="👀" count={2} />
           <MessageReactionComposition emoji="🔥" count={1} failed />
-          <MessageReactionChip aria-label="Add reaction" disabled>
-            <MessageReactionGlyph>
-              <SmilePlus />
-            </MessageReactionGlyph>
-          </MessageReactionChip>
         </MessageItemFooter>
       </MessageItemContent>
       <MessageRowToolbarFixture />

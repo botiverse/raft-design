@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { Hash, MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -33,7 +35,7 @@ import {
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
   MessageQuotedPreviewUnavailable,
-  MessageReferenceThreadUnavailable,
+  MessageReference,
 } from "raft-ui/wip";
 
 function QuotedPreviewMessage({
@@ -48,7 +50,8 @@ function QuotedPreviewMessage({
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>AT</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -65,17 +68,11 @@ function QuotedPreviewMessage({
 }
 
 export function QuotedPreviewMessageComposition() {
-  const [opened, setOpened] = useState(false);
-
   return (
     <QuotedPreviewMessage sender="Ada" time="2:25 PM">
       <MessageItemBody>Quoting the final decision from the release thread.</MessageItemBody>
       <MessageItemEmbedded>
-        <MessageQuotedPreview
-          render={<button type="button" />}
-          data-testid="quoted-message-card"
-          onClick={() => setOpened(true)}
-        >
+        <MessageQuotedPreview render={<button type="button" />} data-testid="quoted-message-card">
           <MessageQuotedPreviewContent>
             <MessageQuotedPreviewHeader>
               <MessageQuotedPreviewContext>
@@ -86,6 +83,7 @@ export function QuotedPreviewMessageComposition() {
                 <MessageQuotedPreviewSeparator>·</MessageQuotedPreviewSeparator>
                 <MessageQuotedPreviewAuthor>
                   <Avatar size="xs" type="agent">
+                    <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
                     <AvatarFallback>AT</AvatarFallback>
                   </Avatar>
                   <MessageQuotedPreviewAuthorName>Atlas</MessageQuotedPreviewAuthorName>
@@ -112,23 +110,19 @@ export function QuotedPreviewMessageComposition() {
             </MessageQuotedPreviewBody>
           </MessageQuotedPreviewContent>
         </MessageQuotedPreview>
-        {opened ? <MessageItemNotice>Opened quoted message.</MessageItemNotice> : null}
       </MessageItemEmbedded>
     </QuotedPreviewMessage>
   );
 }
 
 export function QuotedPreviewFeedbackComposition() {
-  const [retried, setRetried] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   return (
     <QuotedPreviewMessage sender="Atlas" time="2:26 PM">
       <MessageItemBody>
         The linked thread is{" "}
-        <MessageReferenceThreadUnavailable>
-          unavailable or deleted
-        </MessageReferenceThreadUnavailable>
-        .
+        <MessageReference variant="unavailable">unavailable or deleted</MessageReference>.
       </MessageItemBody>
       <MessageItemEmbedded>
         <MessageQuotedPreviewLoading data-testid="quoted-message-card-loading">
@@ -145,11 +139,15 @@ export function QuotedPreviewFeedbackComposition() {
         <MessageQuotedPreviewUnavailable
           render={<button type="button" />}
           data-testid="quoted-message-card-unavailable"
-          onClick={() => setRetried(true)}
+          onClick={() => setFailed(true)}
         >
           <MessageQuotedPreviewContent>Message unavailable</MessageQuotedPreviewContent>
         </MessageQuotedPreviewUnavailable>
-        {retried ? <MessageItemNotice>Retry requested.</MessageItemNotice> : null}
+        {failed ? (
+          <MessageItemNotice>
+            Unable to open thread. It may be unavailable or deleted.
+          </MessageItemNotice>
+        ) : null}
       </MessageItemEmbedded>
     </QuotedPreviewMessage>
   );

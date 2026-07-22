@@ -35,6 +35,12 @@ export {
 export {
   MessageItemBadge,
   MessageItemBadgeSeparator,
+  MessageItemInlineReplies,
+  MessageItemInlineReplyAvatar,
+  MessageItemInlineReplyCount,
+  MessageItemInlineReplyPreview,
+  MessageItemInlineReplyRow,
+  MessageItemInlineReplySender,
   MessageItemReadReceipt,
   MessageItemSavedIndicator,
 } from "./message-footer";
@@ -62,21 +68,7 @@ export {
   MessageReactionTooltipNameText,
   MessageReactionTooltipSeparator,
 } from "./message-reaction";
-export {
-  MessageReferenceChannel,
-  MessageReferenceComment,
-  MessageReferenceLabel,
-  MessageReferenceLoading,
-  MessageReferenceMention,
-  MessageReferenceMeta,
-  MessageReferencePermalink,
-  MessageReferenceSelfMention,
-  MessageReferenceTask,
-  MessageReferenceThread,
-  MessageReferenceChannelUnavailable,
-  MessageReferenceTaskUnavailable,
-  MessageReferenceThreadUnavailable,
-} from "./message-reference";
+export { MessageReference, MessageReferenceLabel, MessageReferenceMeta } from "./message-reference";
 export {
   MessageMultiSelect,
   MessageMultiSelectAction,
@@ -131,6 +123,12 @@ export type {
   MessageItemBadgeProps,
   MessageItemBadgeSeparatorProps,
   MessageItemBadgeStatus,
+  MessageItemInlineRepliesProps,
+  MessageItemInlineReplyAvatarProps,
+  MessageItemInlineReplyCountProps,
+  MessageItemInlineReplyPreviewProps,
+  MessageItemInlineReplyRowProps,
+  MessageItemInlineReplySenderProps,
   MessageItemReadReceiptProps,
   MessageItemSavedIndicatorProps,
 } from "./message-footer";
@@ -160,19 +158,11 @@ export type {
   MessageReactionTooltipSeparatorProps,
 } from "./message-reaction";
 export type {
-  MessageReferenceChannelProps,
-  MessageReferenceCommentProps,
   MessageReferenceLabelProps,
-  MessageReferenceLoadingProps,
-  MessageReferenceMentionProps,
   MessageReferenceMetaProps,
-  MessageReferencePermalinkProps,
-  MessageReferenceSelfMentionProps,
-  MessageReferenceTaskProps,
-  MessageReferenceThreadProps,
-  MessageReferenceChannelUnavailableProps,
-  MessageReferenceTaskUnavailableProps,
-  MessageReferenceThreadUnavailableProps,
+  MessageReferenceProps,
+  MessageReferenceVariant,
+  MessageReferenceVariantProps,
 } from "./message-reference";
 export type {
   MessageMultiSelectActionProps,

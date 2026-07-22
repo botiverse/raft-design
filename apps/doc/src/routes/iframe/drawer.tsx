@@ -145,7 +145,7 @@ function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: bool
     padded ? "p-4" : null,
     theme === "brutal"
       ? [
-          "border-2 border-line-strong bg-layer-panel text-foreground shadow-brutal-lg",
+          "border-2 border-line-strong bg-layer-panel text-foreground shadow-xl",
           isDesktop ? "bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))]" : null,
         ]
       : [

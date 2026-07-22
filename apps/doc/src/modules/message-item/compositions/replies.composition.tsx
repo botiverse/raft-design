@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+import { useState } from "react";
 import { MessageSquare, Pencil } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -10,6 +13,12 @@ import {
   MessageItemContent,
   MessageItemFooter,
   MessageItemHeader,
+  MessageItemInlineReplies,
+  MessageItemInlineReplyAvatar,
+  MessageItemInlineReplyCount,
+  MessageItemInlineReplyPreview,
+  MessageItemInlineReplyRow,
+  MessageItemInlineReplySender,
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui/wip";
@@ -18,7 +27,8 @@ function RepliesRow({ body, children }: { body: string; children: ReactNode }) {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>AT</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -29,6 +39,73 @@ function RepliesRow({ body, children }: { body: string; children: ReactNode }) {
         </MessageItemHeader>
         <MessageItemBody>{body}</MessageItemBody>
         <MessageItemFooter>{children}</MessageItemFooter>
+      </MessageItemContent>
+    </MessageItem>
+  );
+}
+
+function InlineReplyPreviewAvatar({ initials }: { initials: string }) {
+  return (
+    <Avatar size="sm" type="human">
+      <AvatarFallback>{initials}</AvatarFallback>
+    </Avatar>
+  );
+}
+
+function InlineThreadRepliesRow() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <MessageItem>
+      <MessageItemAvatarSlot>
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
+      </MessageItemAvatarSlot>
+      <MessageItemContent>
+        <MessageItemHeader>
+          <MessageItemSender>Atlas</MessageItemSender>
+          <MessageItemTime>2:31 PM</MessageItemTime>
+        </MessageItemHeader>
+        <MessageItemBody>
+          Inline thread replies render under the chip area — no card chrome (source
+          InlineThreadReplies).
+        </MessageItemBody>
+        <MessageItemInlineReplies>
+          <MessageItemInlineReplyRow>
+            <MessageItemInlineReplyAvatar>
+              <InlineReplyPreviewAvatar initials="M" />
+            </MessageItemInlineReplyAvatar>
+            <MessageItemInlineReplySender>Mira</MessageItemInlineReplySender>
+            <MessageItemInlineReplyPreview>
+              Ship the token fixture tonight.
+            </MessageItemInlineReplyPreview>
+          </MessageItemInlineReplyRow>
+          <MessageItemInlineReplyRow>
+            <MessageItemInlineReplyAvatar>
+              <InlineReplyPreviewAvatar initials="C" />
+            </MessageItemInlineReplyAvatar>
+            <MessageItemInlineReplySender>Cindy</MessageItemInlineReplySender>
+            <MessageItemInlineReplyPreview>
+              Added the review checklist.
+            </MessageItemInlineReplyPreview>
+            <MessageItemInlineReplyCount type="button" onClick={() => setExpanded(true)}>
+              3 replies · 1 new ›
+            </MessageItemInlineReplyCount>
+          </MessageItemInlineReplyRow>
+          {expanded ? (
+            <MessageItemInlineReplyRow>
+              <MessageItemInlineReplyAvatar>
+                <InlineReplyPreviewAvatar initials="N" />
+              </MessageItemInlineReplyAvatar>
+              <MessageItemInlineReplySender>Noah</MessageItemInlineReplySender>
+              <MessageItemInlineReplyPreview>
+                Looks good — merge after the parity check.
+              </MessageItemInlineReplyPreview>
+            </MessageItemInlineReplyRow>
+          ) : null}
+        </MessageItemInlineReplies>
       </MessageItemContent>
     </MessageItem>
   );
@@ -68,6 +145,8 @@ export function MessageRepliesComposition() {
           <span className="text-foreground-muted">draft</span>
         </MessageItemBadge>
       </RepliesRow>
+
+      <InlineThreadRepliesRow />
     </div>
   );
 }

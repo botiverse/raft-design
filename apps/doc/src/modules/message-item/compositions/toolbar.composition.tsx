@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -8,6 +8,8 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui/wip";
+
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { MessageRowToolbarFixture } from "./row-toolbar.composition.tsx";
 
 export function MessageToolbarComposition() {
@@ -15,7 +17,8 @@ export function MessageToolbarComposition() {
     <div className="w-full max-w-3xl">
       <MessageItem>
         <MessageItemAvatarSlot>
-          <Avatar size="sm" type="agent">
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
           </Avatar>
         </MessageItemAvatarSlot>

@@ -53,8 +53,8 @@ const select = tv({
     theme: {
       brutal: {
         trigger: [
-          "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-field p-2 text-sm text-foreground shadow-[var(--shadow-brutal-sm)] focus:outline-none",
-          "hover:bg-layer-field hover:shadow-[var(--shadow-brutal-sm)]",
+          "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-field p-2 text-sm text-foreground shadow-sm focus:outline-none",
+          "hover:bg-layer-field hover:shadow-sm",
           "disabled:cursor-not-allowed disabled:bg-[oklch(0.967_0.003_264.542)] disabled:text-foreground/50 disabled:opacity-100",
           "[&_[data-slot='select-value']_svg]:!stroke-2 [&_[data-slot='select-value']_svg_*]:!stroke-2",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
@@ -62,7 +62,7 @@ const select = tv({
           "[&[data-popup-open]_[data-slot='select-icon']]:rotate-180",
         ],
         content: [
-          "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-line-strong bg-layer-popover shadow-[var(--shadow-brutal)]",
+          "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-line-strong bg-layer-popover shadow-md",
         ],
         item: [
           "border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground last:border-b-0",

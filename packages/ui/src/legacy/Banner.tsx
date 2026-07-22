@@ -21,7 +21,7 @@ const INTENT_DEFAULT_ICON: Record<BannerIntent, ReactNode> = {
 const DENSITY_PADDING: Record<BannerDensity, string> = {
   sm: "p-2",
   md: "p-3",
-  lg: "p-4 shadow-brutal-sm",
+  lg: "p-4 shadow-sm",
 };
 
 const DENSITY_TEXT: Record<BannerDensity, string> = {

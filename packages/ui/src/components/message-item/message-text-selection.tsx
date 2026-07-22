@@ -26,7 +26,7 @@ const messageTextSelection = tv({
   variants: {
     theme: {
       brutal: {
-        menu: "border-2 border-black bg-white font-semibold shadow-brutal-sm",
+        menu: "border-2 border-black bg-white font-semibold shadow-sm",
         item: "text-black hover:bg-soft-signal/30 focus-visible:bg-soft-signal/30",
         separator: "bg-black/20",
       },

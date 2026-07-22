@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { FileText } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+
 import {
   MessageForwardedBundle,
   MessageForwardedBundleAttachment,
@@ -26,7 +28,6 @@ import {
   MessageItemEmbedded,
   MessageItemHeader,
   MessageItemMeta,
-  MessageItemNotice,
   MessageItemSender,
   MessageItemTime,
   MessageMarkdown,
@@ -44,7 +45,8 @@ function ForwardedBundleMessage({
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>AT</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -61,7 +63,6 @@ function ForwardedBundleMessage({
 }
 
 export function ForwardedBundleMessageComposition() {
-  const [opened, setOpened] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -77,7 +78,6 @@ export function ForwardedBundleMessageComposition() {
             <MessageForwardedBundleSource
               data-testid="forwarded-bundle-source-label"
               title="Open source message"
-              onClick={() => setOpened(true)}
             >
               from release-notes
             </MessageForwardedBundleSource>
@@ -152,7 +152,6 @@ export function ForwardedBundleMessageComposition() {
             </MessageForwardedBundleToggle>
           </MessageForwardedBundleFooter>
         </MessageForwardedBundle>
-        {opened ? <MessageItemNotice>Opened source message.</MessageItemNotice> : null}
       </MessageItemEmbedded>
     </ForwardedBundleMessage>
   );

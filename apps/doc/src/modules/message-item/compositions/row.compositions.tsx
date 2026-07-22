@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { Bookmark, MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback, ContextMenu, ContextMenuTrigger } from "raft-ui";
+import { ContextMenu, ContextMenuTrigger, Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItem,
   MessageItemActive,
@@ -13,8 +14,8 @@ import {
   MessageItemGutter,
   MessageItemHeader,
   MessageItemInlineStatus,
+  MessageItemInteractionBoundary,
   MessageItemMeta,
-  MessageItemNotice,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
   MessageItemSelection,
@@ -24,6 +25,10 @@ import {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
 } from "raft-ui/wip";
+import {
+  MessageItemExampleMarkdown,
+  MessageItemExampleMarkdownFollowUp,
+} from "../message-item-example-markdown.tsx";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import {
   MessageContextMenuComposition,
@@ -32,34 +37,38 @@ import {
 import { MessageRowToolbarFixture } from "./row-toolbar.composition.tsx";
 
 export function AuthoredMessageRow() {
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+
   return (
-    <MessageItem>
-      <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
-          <AvatarFallback>AT</AvatarFallback>
-        </Avatar>
-      </MessageItemAvatarSlot>
-      <MessageItemContent>
-        <MessageItemHeader>
-          <MessageItemSender>Atlas</MessageItemSender>
-          <MessageItemMeta>claude-opus</MessageItemMeta>
-          <MessageItemTime>2:14 PM</MessageItemTime>
-        </MessageItemHeader>
-        <MessageItemBody>
-          Shipped the token fixture pass. The markdown renderer, mentions, and links stay outside
-          this component.
-        </MessageItemBody>
-        <MessageItemFooter>
-          <MessageItemSavedIndicator>
-            <Bookmark fill="currentColor" />
-            <span>Saved</span>
-          </MessageItemSavedIndicator>
-          <MessageReactionComposition emoji="👍" count={3} reacted />
-          <MessageReactionComposition emoji="🔥" count={1} />
-        </MessageItemFooter>
-      </MessageItemContent>
-      <Toolbar saved />
-    </MessageItem>
+    <MessageItemInteractionBoundary ref={setPortalContainer}>
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Atlas</MessageItemSender>
+            <MessageItemMeta>claude-opus</MessageItemMeta>
+            <MessageItemTime>2:14 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>
+            <MessageItemExampleMarkdown portalContainer={portalContainer} />
+          </MessageItemBody>
+          <MessageItemFooter>
+            <MessageItemSavedIndicator>
+              <Bookmark fill="currentColor" />
+              <span>Saved</span>
+            </MessageItemSavedIndicator>
+            <MessageReactionComposition emoji="👍" count={3} reacted />
+            <MessageReactionComposition emoji="🔥" count={1} />
+          </MessageItemFooter>
+        </MessageItemContent>
+        <Toolbar saved />
+      </MessageItem>
+    </MessageItemInteractionBoundary>
   );
 }
 
@@ -67,7 +76,8 @@ export function SavedToolbarMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>TB</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -93,7 +103,6 @@ export function SavedToolbarMessageRow() {
 
 export function ContextMenuMessageRow() {
   const [followed, setFollowed] = useState(false);
-  const [lastAction, setLastAction] = useState("Right-click for message actions");
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   const [reaction, setReaction] = useState("✅");
   const [saved, setSaved] = useState(false);
@@ -104,19 +113,25 @@ export function ContextMenuMessageRow() {
       <ContextMenu>
         <ContextMenuTrigger render={<MessageItemActive />}>
           <MessageItemAvatarSlot>
-            <Avatar size="sm" type="agent">
+            <Avatar size="md" type="agent">
+              <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
               <AvatarFallback>AT</AvatarFallback>
             </Avatar>
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>
               <MessageItemSender>Atlas</MessageItemSender>
-              <MessageItemMeta>#design-system</MessageItemMeta>
+              <MessageItemMeta>claude-opus</MessageItemMeta>
               <MessageItemTime>2:14 PM</MessageItemTime>
-              <MessageItemInlineStatus>{lastAction}</MessageItemInlineStatus>
             </MessageItemHeader>
             <MessageItemBody>Right-click opens the shared ContextMenu composition.</MessageItemBody>
             <MessageItemFooter>
+              {saved ? (
+                <MessageItemSavedIndicator>
+                  <Bookmark fill="currentColor" />
+                  <span>Saved</span>
+                </MessageItemSavedIndicator>
+              ) : null}
               <MessageItemBadge status="unread">
                 <MessageSquare />4 replies
               </MessageItemBadge>
@@ -129,31 +144,17 @@ export function ContextMenuMessageRow() {
           followed={followed}
           onCopyLink={() => {
             void navigator.clipboard?.writeText(window.location.href);
-            setLastAction("Link copied");
           }}
           onCopyMarkdown={() => {
             void navigator.clipboard?.writeText(
               "Right-click opens the shared ContextMenu composition.",
             );
-            setLastAction("Markdown copied");
           }}
-          onFollowChange={(nextFollowed) => {
-            setFollowed(nextFollowed);
-            setLastAction(nextFollowed ? "Thread followed" : "Thread unfollowed");
-          }}
-          onOpenThread={() => setLastAction("Thread opened")}
-          onQuickReact={(emoji) => {
-            setReaction(emoji);
-            setLastAction(`Reacted with ${emoji}`);
-          }}
-          onSavedChange={(nextSaved) => {
-            setSaved(nextSaved);
-            setLastAction(nextSaved ? "Message saved" : "Message removed from saved");
-          }}
-          onTaskChange={(nextTask) => {
-            setTask(nextTask);
-            setLastAction(nextTask === "done" ? "Task completed" : "Task opened");
-          }}
+          onFollowChange={setFollowed}
+          onOpenThread={() => {}}
+          onQuickReact={setReaction}
+          onSavedChange={setSaved}
+          onTaskChange={setTask}
           portalContainer={portalContainer}
           saved={saved}
           task={task}
@@ -173,7 +174,11 @@ export function InteractiveStateRows() {
   );
 }
 
-export function ConsecutiveMessageRow() {
+export function ConsecutiveMessageRow({
+  portalContainer,
+}: {
+  portalContainer?: HTMLElement | null;
+} = {}) {
   return (
     <MessageItem compact>
       <MessageItemGutter>
@@ -181,7 +186,7 @@ export function ConsecutiveMessageRow() {
       </MessageItemGutter>
       <MessageItemContent>
         <MessageItemBody>
-          Consecutive rows keep the gutter timestamp and hide sender chrome.
+          <MessageItemExampleMarkdownFollowUp portalContainer={portalContainer} />
         </MessageItemBody>
       </MessageItemContent>
     </MessageItem>
@@ -192,7 +197,8 @@ export function RemovedSenderMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="human">
+        <Avatar size="md" type="human">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>MX</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -205,9 +211,6 @@ export function RemovedSenderMessageRow() {
         <MessageItemBody>
           This history row remains visible after a member was removed.
         </MessageItemBody>
-        <MessageItemNotice>
-          Message is visible because it belongs to the archived thread.
-        </MessageItemNotice>
       </MessageItemContent>
     </MessageItem>
   );
@@ -217,7 +220,8 @@ export function LeftSenderMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="human">
+        <Avatar size="md" type="human">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>NO</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -237,7 +241,8 @@ export function DeactivatedAgentMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent" className="grayscale opacity-60">
+        <Avatar size="md" type="agent" className="grayscale opacity-60">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>AT</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -259,7 +264,8 @@ export function ConvertingMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>AT</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -270,7 +276,9 @@ export function ConvertingMessageRow() {
           <MessageItemTime>2:21 PM</MessageItemTime>
           <MessageItemInlineStatus>Converting…</MessageItemInlineStatus>
         </MessageItemHeader>
-        <MessageItemBody>Converting the selected message into a task.</MessageItemBody>
+        <MessageItemBody>
+          Ship the token fixture tonight and keep the review checklist in sync.
+        </MessageItemBody>
       </MessageItemContent>
     </MessageItem>
   );
@@ -281,6 +289,12 @@ export function SelectedMessageRow() {
     <MessageMultiSelect defaultActive defaultSelected={new Set(["selected-row"])}>
       <MessageItemSelection>
         <MessageMultiSelectCheckbox value="selected-row" aria-label="Select message" />
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
+        </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Selected row</MessageItemSender>
@@ -297,7 +311,8 @@ export function ActiveMessageRow() {
   return (
     <MessageItemActive>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>AC</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -316,7 +331,8 @@ export function SearchMatchMessageRow() {
   return (
     <MessageItemSearchMatch>
       <MessageItemAvatarSlot>
-        <Avatar size="sm" type="agent">
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
           <AvatarFallback>SR</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>

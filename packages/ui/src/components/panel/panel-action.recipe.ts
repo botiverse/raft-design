@@ -11,8 +11,8 @@ const panelActionBase = tv({
     theme: {
       brutal: [
         "rounded-none border-2 border-black bg-white px-1 py-[5px] text-black",
-        "shadow-brutal-sm",
-        "hover:-translate-y-px hover:bg-white hover:shadow-brutal",
+        "shadow-sm",
+        "hover:-translate-y-px hover:bg-white hover:shadow-md",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         "[&>svg]:size-3.5",
       ],
@@ -36,7 +36,7 @@ export const panelAction = tv({
     theme: {
       brutal: [
         "active:not-data-[has-popup]:scale-100 active:translate-x-px active:translate-y-px active:shadow-xs",
-        "disabled:shadow-brutal-sm",
+        "disabled:shadow-sm",
       ],
       elegant: [
         "text-foreground-icon shadow-none",
@@ -57,7 +57,7 @@ export const panelToggleAction = tv({
         "active:translate-x-px active:translate-y-px active:shadow-xs",
         "data-[pressed]:bg-brutal-orange data-[pressed]:text-black",
         "data-[pressed]:hover:bg-brutal-orange",
-        "data-[disabled]:shadow-brutal-sm",
+        "data-[disabled]:shadow-sm",
       ],
       elegant: [
         "text-foreground-icon shadow-none",

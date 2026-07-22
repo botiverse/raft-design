@@ -7,7 +7,7 @@ import { useThemeFamily } from "../lib/theme/use-theme";
 // Single-select popover content: a header, an optional search box, and a list of
 // checkable rows (the trailing ✓ is the selected indicator; hover is the shared
 // selection-family yellow/30). Presentational — the original had no portal/effect,
-// so place it inside a base-ui Popover.Positioner at the callsite. `shadow-brutal`
+// so place it inside a base-ui Popover.Positioner at the callsite. `shadow-md`
 // maps to --shadow-hover; the search box reuses the brutal field skin (--shadow).
 const selectionPopover = tv({
   slots: {
@@ -18,8 +18,8 @@ const selectionPopover = tv({
     searchWrap: ["border-b border-black px-2 py-2"],
     searchInput: [
       "w-full border-2 border-black bg-white px-2 py-1",
-      "font-mono text-xs shadow-brutal-sm",
-      "focus:shadow-brutal focus:outline-none",
+      "font-mono text-xs shadow-sm",
+      "focus:shadow-md focus:outline-none",
     ],
     list: ["max-h-64 overflow-y-auto"],
     empty: ["px-3 py-3 text-center font-mono text-[11px] text-black/40"],
@@ -35,7 +35,7 @@ const selectionPopover = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border-2 border-black bg-white shadow-brutal"],
+        root: ["border-2 border-black bg-white shadow-md"],
         row: ["border-black/10"],
       },
       // Elegant styling is deferred; see the component TODO.

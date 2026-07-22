@@ -76,7 +76,7 @@ const toastStyles = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong bg-soft-signal text-foreground shadow-[var(--shadow-brutal)]",
+          "border-2 border-line-strong bg-soft-signal text-foreground shadow-md",
           "focus-visible:outline-transparent",
         ],
         content: [
@@ -240,7 +240,7 @@ const toastStyles = tv({
       theme: "brutal",
       tone: "error",
       class: {
-        root: "bg-brutal-orange shadow-[var(--shadow-brutal-sm)]",
+        root: "bg-brutal-orange shadow-sm",
       },
     },
     {

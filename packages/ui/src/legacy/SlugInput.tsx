@@ -12,7 +12,7 @@ export default function SlugInput({
 }: SlugInputProps) {
   return (
     <div
-      className={`input-brutal flex w-full items-stretch overflow-hidden px-0 py-0 focus-within:shadow-brutal ${className}`.trim()}
+      className={`input-brutal flex w-full items-stretch overflow-hidden px-0 py-0 focus-within:shadow-md ${className}`.trim()}
     >
       <span
         aria-hidden="true"
