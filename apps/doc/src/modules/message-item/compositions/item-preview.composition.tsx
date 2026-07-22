@@ -473,7 +473,7 @@ export function MessageItemPreview({
           <MessageItemContent>
             <MessageItemHeader>
               <MessageItemSender>Atlas</MessageItemSender>
-              {meta ? <MessageItemMeta>claude-opus</MessageItemMeta> : null}
+              {meta ? <MessageItemMeta>owner</MessageItemMeta> : null}
               <MessageItemTime>2:14 PM</MessageItemTime>
             </MessageItemHeader>
             <MessageItemBody>
@@ -530,7 +530,7 @@ export function MessageItemPreview({
             {senderState === "deleted" ? "Deleted" : senderState === "left" ? "Left" : "Removed"}
           </MessageItemSenderState>
         ) : null}
-        {meta ? <MessageItemMeta>claude-opus</MessageItemMeta> : null}
+        {meta ? <MessageItemMeta>owner</MessageItemMeta> : null}
         <MessageItemTime>2:14 PM</MessageItemTime>
         {converting ? <MessageItemInlineStatus>Converting…</MessageItemInlineStatus> : null}
       </MessageItemHeader>

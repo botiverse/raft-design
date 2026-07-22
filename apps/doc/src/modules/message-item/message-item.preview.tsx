@@ -5,19 +5,10 @@ import { Preview } from "#/components/preview.tsx";
 import {
   MessageItemPreview,
   type MessageItemPreviewChrome,
-  type MessageItemPreviewProductState,
-  type MessageItemPreviewSystemEvent,
   type MessageItemPreviewTranslation,
 } from "./compositions/item-preview.composition.tsx";
 
-const SCENARIO_OPTIONS = [
-  "message",
-  "consecutive",
-  "system",
-  "forwarded",
-  "quoted",
-  "action",
-] as const;
+const SCENARIO_OPTIONS = ["message", "consecutive"] as const;
 
 type PreviewScenario = (typeof SCENARIO_OPTIONS)[number];
 
@@ -36,26 +27,11 @@ const ATTACHMENT_OPTIONS = ["none", "image", "video", "files", "all"] as const;
 
 type PreviewAttachments = (typeof ATTACHMENT_OPTIONS)[number];
 
-const SYSTEM_EVENT_OPTIONS = [
-  "archive",
-  "reminder",
-  "group",
-] as const satisfies readonly MessageItemPreviewSystemEvent[];
-
 const TRANSLATION_BY_CONTENT = {
   plain: "none",
   markdown: "none",
   translation: "translated",
 } as const satisfies Record<PreviewContent, MessageItemPreviewTranslation>;
-
-const PRODUCT_STATE_BY_SCENARIO = {
-  forwarded: "forwarded",
-  quoted: "quoted",
-  action: "action",
-} as const satisfies Record<
-  Extract<PreviewScenario, "forwarded" | "quoted" | "action">,
-  MessageItemPreviewProductState
->;
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
@@ -72,15 +48,12 @@ export function MessageItemPlaygroundPreview({
   const [chrome, setChrome] = useState<(typeof CHROME_OPTIONS)[number]>("default");
   const [content, setContent] = useState<PreviewContent>("plain");
   const [attachments, setAttachments] = useState<PreviewAttachments>("none");
-  const [systemEvent, setSystemEvent] = useState<MessageItemPreviewSystemEvent>("archive");
   const [replies, setReplies] = useState(false);
   const [reactions, setReactions] = useState(true);
   const [saved, setSaved] = useState(false);
   const [toolbar, setToolbar] = useState(true);
 
   const isMessage = scenario === "message";
-  const isSystem = scenario === "system";
-  const isProduct = scenario === "forwarded" || scenario === "quoted" || scenario === "action";
 
   const image = attachments === "image" || attachments === "all";
   const video = attachments === "video" || attachments === "all";
@@ -94,8 +67,6 @@ export function MessageItemPlaygroundPreview({
             chrome={scenario === "consecutive" ? "continuation" : chrome}
             markdown={content === "markdown"}
             translation={TRANSLATION_BY_CONTENT[content]}
-            productState={isProduct ? PRODUCT_STATE_BY_SCENARIO[scenario] : "none"}
-            systemEvent={isSystem ? systemEvent : undefined}
             image={isMessage && image}
             video={isMessage && video}
             files={isMessage && files}
@@ -114,17 +85,6 @@ export function MessageItemPlaygroundPreview({
             value={scenario}
             onValueChange={(value) => setScenario(value as PreviewScenario)}
           />
-          {isSystem ? (
-            <Preview.Control label="System event" htmlFor="message-item-preview-system-event">
-              <Preview.Select
-                id="message-item-preview-system-event"
-                label="System event"
-                options={SYSTEM_EVENT_OPTIONS}
-                value={systemEvent}
-                onValueChange={(value) => setSystemEvent(value as MessageItemPreviewSystemEvent)}
-              />
-            </Preview.Control>
-          ) : null}
         </Preview.ControlGroup>
 
         {isMessage ? (

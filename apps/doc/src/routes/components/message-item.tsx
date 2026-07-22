@@ -11,14 +11,6 @@ import { PropsTable } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { MessageActionCardShowcaseComposition } from "#/modules/message-action-card/compositions/action-card.composition.tsx";
-import actionCardSource from "#/modules/message-action-card/compositions/action-card.composition.tsx?raw";
-import { MessageAttachmentPreviewSurfacesComposition } from "#/modules/message-attachment/compositions/attachment-preview-surfaces.composition.tsx";
-import attachmentPreviewSurfacesSource from "#/modules/message-attachment/compositions/attachment-preview-surfaces.composition.tsx?raw";
-import { MessageAttachmentsShowcaseComposition } from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx";
-import attachmentsShowcaseSource from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx?raw";
-import { MessageForwardedBundleShowcaseComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
-import forwardedBundleSource from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx?raw";
 import { MessageAvatarStatusComposition } from "#/modules/message-item/compositions/avatar-status.composition.tsx";
 import avatarStatusSource from "#/modules/message-item/compositions/avatar-status.composition.tsx?raw";
 import { MessageConsecutiveComposition } from "#/modules/message-item/compositions/consecutive.composition.tsx";
@@ -36,8 +28,6 @@ import { MessageReactionsShowcaseComposition } from "#/modules/message-item/comp
 import reactionsSource from "#/modules/message-item/compositions/reactions.composition.tsx?raw";
 import { MessageReadReceiptComposition } from "#/modules/message-item/compositions/read-receipt.composition.tsx";
 import readReceiptSource from "#/modules/message-item/compositions/read-receipt.composition.tsx?raw";
-import { MessageReferenceShowcaseComposition } from "#/modules/message-item/compositions/reference-showcase.composition.tsx";
-import referenceShowcaseSource from "#/modules/message-item/compositions/reference-showcase.composition.tsx?raw";
 import { MessageRepliesComposition } from "#/modules/message-item/compositions/replies.composition.tsx";
 import repliesSource from "#/modules/message-item/compositions/replies.composition.tsx?raw";
 import { MessageRowChromeComposition } from "#/modules/message-item/compositions/row-chrome.composition.tsx";
@@ -59,10 +49,6 @@ import translationShowcaseSource from "#/modules/message-item/compositions/trans
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
 import { SourceMessageItemPreview } from "#/modules/message-item/message-item.source-preview.tsx";
 import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
-import { MessageMarkdownShowcaseComposition } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
-import markdownSource from "#/modules/message-markdown/compositions/markdown.composition.tsx?raw";
-import { MessageQuotedPreviewShowcaseComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
-import quotedPreviewSource from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx?raw";
 
 const SOURCE_SCENES = [
   {
@@ -90,22 +76,15 @@ export const Route = createFileRoute("/components/message-item")({
   loader: () =>
     highlightSnippets({
       data: {
-        actionCard: actionCardSource,
         anatomy: ANATOMY_SOURCE,
-        attachmentsShowcase: attachmentsShowcaseSource,
-        attachmentPreviewSurfaces: attachmentPreviewSurfacesSource,
         avatarStatus: avatarStatusSource,
         consecutive: consecutiveSource,
         contextMenu: contextMenuShowcaseSource,
         converting: convertingSource,
-        forwardedBundle: forwardedBundleSource,
         interactiveSender: interactiveSenderSource,
-        markdown: markdownSource,
         preview: messageItemPreviewCompositionSource,
-        quotedPreview: quotedPreviewSource,
         reactions: reactionsSource,
         readReceipt: readReceiptSource,
-        referenceShowcase: referenceShowcaseSource,
         replies: repliesSource,
         rowChrome: rowChromeSource,
         saved: savedSource,
@@ -146,7 +125,13 @@ function MessageItemDoc() {
     >
       <DocNote>
         Centered system-event rows are a timeline peer — see{" "}
-        <Link to="/components/system-message">SystemMessage</Link>.
+        <Link to="/components/system-message">SystemMessage</Link>. Body surfaces live on sibling
+        pages: <Link to="/components/message-markdown">MessageMarkdown</Link>,{" "}
+        <Link to="/components/message-reference">MessageReference</Link>,{" "}
+        <Link to="/components/message-quoted-preview">MessageQuotedPreview</Link>,{" "}
+        <Link to="/components/message-forwarded-bundle">MessageForwardedBundle</Link>,{" "}
+        <Link to="/components/message-action-card">MessageActionCard</Link>, and{" "}
+        <Link to="/components/message-attachment">MessageAttachment</Link>.
       </DocNote>
 
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -193,59 +178,11 @@ function MessageItemDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="markdown" title="Markdown">
-            <UsagePreview code={code.markdown}>
-              <MessageMarkdownShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
           <DocSubsection parentId="usage" id="translation" title="Translation">
             <UsagePreview code={code.translationShowcase}>
               <div className="w-full max-w-3xl">
                 <MessageTranslationShowcaseComposition />
               </div>
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="references" title="MessageReference">
-            <UsagePreview code={code.referenceShowcase}>
-              <div className="w-full max-w-3xl">
-                <MessageReferenceShowcaseComposition />
-              </div>
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="quoted-preview" title="Quoted preview">
-            <UsagePreview code={code.quotedPreview}>
-              <MessageQuotedPreviewShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="forwarded-bundle" title="Forwarded bundle">
-            <UsagePreview code={code.forwardedBundle}>
-              <MessageForwardedBundleShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="action-card" title="Action card">
-            <UsagePreview code={code.actionCard}>
-              <MessageActionCardShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="attachments" title="Attachments">
-            <UsagePreview code={code.attachmentsShowcase}>
-              <MessageAttachmentsShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection
-            parentId="usage"
-            id="attachment-preview-surfaces"
-            title="Attachment preview surfaces"
-          >
-            <UsagePreview code={code.attachmentPreviewSurfaces}>
-              <MessageAttachmentPreviewSurfacesComposition />
             </UsagePreview>
           </DocSubsection>
 

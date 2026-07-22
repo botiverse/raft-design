@@ -13,7 +13,7 @@ export function SourceMessageItemPreview() {
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-x-2 text-sm">
           <span className="font-bold">Atlas</span>
-          <span className="font-mono text-xs text-black/50">claude-opus</span>
+          <span className="font-mono text-xs text-black/50">owner</span>
           <span className="font-mono text-xs text-black/50">2:14 PM</span>
         </div>
         <p className="mt-1 text-sm leading-5">

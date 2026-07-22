@@ -57,6 +57,9 @@ export const messageItem = tv({
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
         continuationTime: "text-black/0 group-hover/message:text-black/40",
+        // Body + pre-body chips (e.g. AttachmentCommentRefChip) inherit from content.
+        // Live Slock applies the same appearance size class to the chip and the body.
+        content: "text-sm",
         header: "items-center gap-2",
         sender: "font-bold text-black",
         senderState: [
@@ -96,6 +99,8 @@ export const messageItem = tv({
           "font-sans text-[12px] leading-none",
           "text-transparent group-hover/message:text-foreground-muted/60",
         ],
+        // Pre-body chips inherit body type size from content (same as brutal).
+        content: "text-[14px] leading-[21px] tracking-[-0.01em]",
         header: "items-baseline gap-1.5",
         sender: "text-[14px] font-medium leading-none text-foreground-muted",
         senderState: [

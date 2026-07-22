@@ -1,7 +1,9 @@
+import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
+
 export const MESSAGE_FIXTURE_AVATAR_SRC = "/avatars/message-sender.jpg";
 
-export const MESSAGE_FIXTURE_IMAGE_SRC =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='420' viewBox='0 0 640 420'%3E%3Crect width='640' height='420' fill='%23f4f0e8'/%3E%3Crect x='34' y='34' width='572' height='352' fill='%23f7d358' stroke='%23000' stroke-width='8'/%3E%3Ccircle cx='180' cy='168' r='72' fill='%23ff7ab6' stroke='%23000' stroke-width='8'/%3E%3Cpath d='M292 310 406 190l70 72 56-42 74 90z' fill='%23a3e8ff' stroke='%23000' stroke-width='8'/%3E%3C/svg%3E";
+/** Same photo as composer attachment previews — see `COMPOSER_IMAGE_SRC`. */
+export const MESSAGE_FIXTURE_IMAGE_SRC = COMPOSER_IMAGE_SRC;
 
 export const MESSAGE_QUICK_REACTIONS = ["👍", "❤️", "🎉", "👀", "🔥", "😂", "✅"] as const;
 

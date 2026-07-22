@@ -6,7 +6,8 @@ import { messageItem } from "./message-item.recipe";
 export type MessageItemContentProps = useRender.ComponentProps<"div">;
 
 export function MessageItemContent({ className, render, ...props }: MessageItemContentProps) {
-  const { content } = messageItem();
+  const theme = useThemeFamily();
+  const { content } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: content({ className }),
   };

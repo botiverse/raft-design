@@ -60,6 +60,27 @@ const NAV = [
     ],
   },
   {
+    title: "Message",
+    items: [
+      { label: "MessageItem", to: "/components/message-item", status: "wip" },
+      { label: "Markdown", to: "/components/message-markdown", status: "wip" },
+      { label: "Reference", to: "/components/message-reference", status: "wip" },
+      {
+        label: "QuotedPreview",
+        to: "/components/message-quoted-preview",
+        status: "wip",
+      },
+      {
+        label: "ForwardedBundle",
+        to: "/components/message-forwarded-bundle",
+        status: "wip",
+      },
+      { label: "ActionCard", to: "/components/message-action-card", status: "wip" },
+      { label: "Attachment", to: "/components/message-attachment", status: "wip" },
+      { label: "System message", to: "/components/system-message", status: "wip" },
+    ],
+  },
+  {
     title: "Chat",
     items: [
       {
@@ -79,8 +100,6 @@ const NAV = [
         to: "/components/conversation-panel",
         status: "done",
       },
-      { label: "MessageItem", to: "/components/message-item", status: "wip" },
-      { label: "SystemMessage", to: "/components/system-message", status: "wip" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
       {
         label: "Composer",

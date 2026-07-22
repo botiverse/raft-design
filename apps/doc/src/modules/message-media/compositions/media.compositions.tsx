@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { Download, Eye, Play } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
@@ -20,30 +19,24 @@ import {
   openMessageFixture,
 } from "#/modules/message-item/message-item.fixtures.ts";
 
-function MessageImageReadyItem({ single = false }: { single?: boolean }) {
-  return (
-    <MessageImageGalleryItem single={single}>
-      <MessageImageGalleryMedia
-        src={MESSAGE_FIXTURE_IMAGE_SRC}
-        alt="release poster"
-        className={single ? "aspect-[4/3] max-h-36" : "aspect-[4/3]"}
-      />
-      <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
-      <MessageImageGalleryAction
-        aria-label="Download image"
-        onClick={() => downloadMessageFixture("message-image.svg")}
-      >
-        <Download />
-      </MessageImageGalleryAction>
-    </MessageImageGalleryItem>
-  );
-}
-
 export function MessageImageGalleryPairComposition() {
   return (
     <MessageImageGallery>
       <MessageImageGalleryRow className="grid-cols-2">
-        <MessageImageReadyItem />
+        <MessageImageGalleryItem>
+          <MessageImageGalleryMedia
+            src={MESSAGE_FIXTURE_IMAGE_SRC}
+            alt="release poster"
+            className="aspect-[4/3]"
+          />
+          <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
+          <MessageImageGalleryAction
+            aria-label="Download image"
+            onClick={() => downloadMessageFixture("message-image.jpg")}
+          >
+            <Download />
+          </MessageImageGalleryAction>
+        </MessageImageGalleryItem>
         <MessageImageGalleryItem aria-busy>
           <MessageImageGalleryMedia
             src={MESSAGE_FIXTURE_IMAGE_SRC}
@@ -76,7 +69,7 @@ export function MessageImageGallerySingleComposition({
           />
           <MessageImageGalleryAction
             aria-label="Download image"
-            onClick={() => downloadMessageFixture("message-image.svg")}
+            onClick={() => downloadMessageFixture("message-image.jpg")}
           >
             <Download />
           </MessageImageGalleryAction>
@@ -105,27 +98,21 @@ export function MessageImageGalleryPendingComposition() {
   );
 }
 
-function MessageVideoComposition({ children }: { children: ReactNode }) {
-  return (
-    <MessageVideoPreview title="demo-recording.mp4">
-      <MessageVideoPreviewFrame>{children}</MessageVideoPreviewFrame>
-    </MessageVideoPreview>
-  );
-}
-
 export function MessageVideoPreviewComposition() {
   return (
-    <MessageVideoComposition>
-      <MessageVideoPreviewFallback>
-        <Play className="size-8 text-white/80" />
-      </MessageVideoPreviewFallback>
-      <MessageVideoPreviewAction
-        aria-label="Open demo-recording.mp4 in preview"
-        onClick={openMessageFixture}
-      >
-        <Eye />
-      </MessageVideoPreviewAction>
-    </MessageVideoComposition>
+    <MessageVideoPreview title="demo-recording.mp4">
+      <MessageVideoPreviewFrame>
+        <MessageVideoPreviewFallback>
+          <Play className="size-8 text-white/80" />
+        </MessageVideoPreviewFallback>
+        <MessageVideoPreviewAction
+          aria-label="Open demo-recording.mp4 in preview"
+          onClick={openMessageFixture}
+        >
+          <Eye />
+        </MessageVideoPreviewAction>
+      </MessageVideoPreviewFrame>
+    </MessageVideoPreview>
   );
 }
 

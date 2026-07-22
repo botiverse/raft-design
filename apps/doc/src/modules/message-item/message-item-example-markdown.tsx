@@ -15,10 +15,6 @@ type ExampleMarkdownProps = {
   portalContainer?: HTMLElement | null;
 };
 
-function preventNav(event: { preventDefault: () => void }) {
-  event.preventDefault();
-}
-
 function ExampleMention({
   children,
   portalContainer,
@@ -28,7 +24,7 @@ function ExampleMention({
 }) {
   return (
     <MessageMentionReferenceComposition
-      href="#atlas"
+      href="https://raft.build"
       portalContainer={portalContainer}
       preview={<p>Atlas · Design-system agent</p>}
     >
@@ -46,7 +42,7 @@ function ExampleSelfMention({
 }) {
   return (
     <MessageSelfMentionReferenceComposition
-      href="#you"
+      href="https://raft.build"
       portalContainer={portalContainer}
       preview={<p>You · Current workspace member</p>}
     >
@@ -66,21 +62,15 @@ export function MessageItemExampleMarkdown({ portalContainer }: ExampleMarkdownP
       </p>
       <p>
         <ExampleSelfMention portalContainer={portalContainer}>@you</ExampleSelfMention> tracked{" "}
-        <MessageReference variant="muted" render={<a href="#task-141" onClick={preventNav} />}>
+        <MessageReference variant="muted" render={<a href="https://raft.build" />}>
           #141
         </MessageReference>{" "}
         in{" "}
-        <MessageReference
-          variant="accent"
-          render={<a href="#release-notes" onClick={preventNav} />}
-        >
+        <MessageReference variant="accent" render={<a href="https://raft.build" />}>
           #release-notes
         </MessageReference>{" "}
         and linked{" "}
-        <MessageReference
-          variant="info"
-          render={<a href="#release-notes-final" onClick={preventNav} />}
-        >
+        <MessageReference variant="info" render={<a href="https://raft.build" />}>
           #release-notes:final
         </MessageReference>
         .
@@ -103,10 +93,7 @@ export function MessageItemExampleMarkdownLead({ portalContainer }: ExampleMarkd
       <p>
         <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> starting a short
         sequence — first the <strong>layout pass</strong>, then gutter clock polish for{" "}
-        <MessageReference
-          variant="accent"
-          render={<a href="#design-system" onClick={preventNav} />}
-        >
+        <MessageReference variant="accent" render={<a href="https://raft.build" />}>
           #design-system
         </MessageReference>
         .
@@ -129,11 +116,11 @@ export function MessageItemExampleMarkdownFollowUp({ portalContainer }: ExampleM
         </li>
         <li>
           Land{" "}
-          <MessageReference variant="muted" render={<a href="#task-97" onClick={preventNav} />}>
+          <MessageReference variant="muted" render={<a href="https://raft.build" />}>
             #97
           </MessageReference>{" "}
           before the{" "}
-          <MessagePermalinkReferenceComposition href="#message-222">
+          <MessagePermalinkReferenceComposition href="https://raft.build">
             message #222
           </MessagePermalinkReferenceComposition>{" "}
           rollout
@@ -148,7 +135,7 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
     <MessageMarkdown>
       <p>
         Final note for <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> in{" "}
-        <MessageReference variant="info" render={<a href="#layout-thread" onClick={preventNav} />}>
+        <MessageReference variant="info" render={<a href="https://raft.build" />}>
           #layout:thread
         </MessageReference>
         :
