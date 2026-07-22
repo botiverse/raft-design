@@ -37,7 +37,7 @@ const select = tv({
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
     ],
     itemIndicator: ["pointer-events-none ml-auto flex shrink-0 items-center justify-center"],
-    itemText: ["min-w-0 flex-1 truncate font-normal"],
+    itemText: ["min-w-0 flex-1 truncate"],
     label: ["m-0 font-medium"],
     groupLabel: ["px-3 py-2"],
     separator: ["h-px shrink-0 border-0"],
@@ -100,7 +100,7 @@ const select = tv({
         content: ["rounded-md bg-layer-popover", "shadow-lg"],
         list: ["flex flex-col gap-0.5 px-1 py-1"],
         item: [
-          "rounded-sm bg-transparent px-2 py-2 text-sm font-normal leading-5 tracking-[-0.005em] text-foreground-muted",
+          "rounded-sm bg-transparent px-2 py-1.5 text-[13px] font-normal leading-5 tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
           "data-[highlighted]:bg-ink-4 data-[highlighted]:text-foreground-strong",

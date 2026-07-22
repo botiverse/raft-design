@@ -2,6 +2,7 @@ import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuPopup,
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuSubmenu,
@@ -25,8 +26,7 @@ import {
 } from "lucide-react";
 
 // @docs-source-strip-start
-import type { ReactNode, RefObject } from "react";
-import { useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { cn } from "tailwind-variants";
 // @docs-source-strip-end
 
@@ -86,7 +86,7 @@ export function ContextMenuComposition() {
 // @docs-source-strip-start
 function ContextMenuPreviewTrigger({ children }: { children: ReactNode }) {
   return (
-    <ContextMenuTrigger
+    <div
       className={cn(
         "flex min-h-14 w-56 items-center justify-center px-4 py-3 text-center",
         "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
@@ -94,7 +94,7 @@ function ContextMenuPreviewTrigger({ children }: { children: ReactNode }) {
       )}
     >
       {children}
-    </ContextMenuTrigger>
+    </div>
   );
 }
 
@@ -239,36 +239,15 @@ function InteractiveContextMenuPreview({
   minHeight?: string;
   triggerLabel: string;
 }) {
-  const portalRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const [hasCursorAnchor, setHasCursorAnchor] = useState(false);
-  const anchor = {
-    getBoundingClientRect() {
-      const rect = triggerRef.current?.getBoundingClientRect();
-      return DOMRect.fromRect({
-        x: rect?.right ?? 0,
-        y: rect?.bottom ?? 0,
-        width: 0,
-        height: 0,
-      });
-    },
-  };
-
   return (
-    <div ref={portalRef} className={cn("relative h-full w-full", minHeight, className)}>
+    <div className={cn("relative h-full w-full", minHeight, className)}>
       <div className="absolute inset-0 flex items-center justify-center">
-        <ContextMenu defaultOpen>
-          <div ref={triggerRef} onContextMenuCapture={() => setHasCursorAnchor(true)}>
-            <ContextMenuPreviewTrigger>{triggerLabel}</ContextMenuPreviewTrigger>
-          </div>
-          <ContextMenuContent
-            anchor={hasCursorAnchor ? undefined : anchor}
-            portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-            className={contentClassName}
-          >
-            {children}
-          </ContextMenuContent>
-        </ContextMenu>
+        <div className="flex flex-col items-center gap-2">
+          <ContextMenuPreviewTrigger>{triggerLabel}</ContextMenuPreviewTrigger>
+          <ContextMenu>
+            <ContextMenuPopup className={contentClassName}>{children}</ContextMenuPopup>
+          </ContextMenu>
+        </div>
       </div>
     </div>
   );
