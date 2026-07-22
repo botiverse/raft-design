@@ -1,8 +1,19 @@
+import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { ChevronRight } from "lucide-react";
+import type { ComponentProps } from "react";
+import { cn } from "../../lib/cn";
+import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageSystem } from "./system-message.recipe";
-import { dataPresence, isAriaTrue, type SlotElementProps } from "../../lib/data-attributes";
+import {
+  formatSystemMessageReminderContentTitle,
+  formatSystemMessageReminderTime,
+  formatSystemMessageReminderTooltip,
+  splitSystemMessageReminderFireAtTokens,
+  type SystemMessageTimeFormatOptions,
+} from "./system-message-reminder";
 
 export type SystemMessageProps = useRender.ComponentProps<"div">;
 
@@ -42,11 +53,47 @@ export function SystemMessageTime({ className, render, ...props }: SystemMessage
   });
 }
 
-export type SystemMessageContentProps = useRender.ComponentProps<"span">;
+export type SystemMessageContentProps = useRender.ComponentProps<"span"> &
+  SystemMessageTimeFormatOptions & {
+    /** Raw system body. When set, reminder fire-at spans are parsed and rendered. */
+    content?: string;
+    now?: Date;
+  };
 
-export function SystemMessageContent({ className, render, ...props }: SystemMessageContentProps) {
+export function SystemMessageContent({
+  children,
+  className,
+  content,
+  locale,
+  now,
+  render,
+  timeFormat,
+  timeZone,
+  title,
+  ...props
+}: SystemMessageContentProps) {
   const theme = useThemeFamily();
   const { systemContent } = messageSystem({ theme });
+  const timeOptions: SystemMessageTimeFormatOptions = { locale, timeFormat, timeZone };
+  const resolvedTitle =
+    title ??
+    (content != null ? formatSystemMessageReminderContentTitle(content, timeOptions) : undefined);
+  const resolvedChildren =
+    content != null
+      ? splitSystemMessageReminderFireAtTokens(content).map((part, index) =>
+          part.type === "reminderFireAt" ? (
+            <span
+              key={`${part.value}-${index}`}
+              title={formatSystemMessageReminderTooltip(part.value, timeOptions)}
+            >
+              {formatSystemMessageReminderTime(part.value, now ?? new Date(), timeOptions)}
+            </span>
+          ) : (
+            part.value
+          ),
+        )
+      : children;
+
   const defaultProps: useRender.ElementProps<"span"> = {
     className: systemContent({ className }),
   };
@@ -54,10 +101,49 @@ export function SystemMessageContent({ className, render, ...props }: SystemMess
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(defaultProps, props),
+    props: mergeProps<"span">(defaultProps, props, {
+      title: resolvedTitle,
+      children: resolvedChildren,
+    }),
     state: {
       slot: "system-message-item-content",
     },
+  });
+}
+
+export type SystemMessageGroupProps = Omit<ComponentProps<typeof Collapsible.Root>, "className"> & {
+  className?: string;
+};
+
+export function SystemMessageGroup({ className, render, ...props }: SystemMessageGroupProps) {
+  const theme = useThemeFamily();
+  const { systemGroup } = messageSystem({ theme });
+  const defaultProps: ComponentProps<typeof Collapsible.Root> & DataAttributes = {
+    "data-slot": "system-message-group",
+    className: systemGroup({ className }),
+  };
+
+  return <Collapsible.Root render={render} {...mergeProps(defaultProps, props)} />;
+}
+
+export type SystemMessageGroupHeaderProps = useRender.ComponentProps<"div">;
+
+export function SystemMessageGroupHeader({
+  className,
+  render,
+  ...props
+}: SystemMessageGroupHeaderProps) {
+  const theme = useThemeFamily();
+  const { systemGroupHeader } = messageSystem({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "system-message-group-header",
+    className: systemGroupHeader({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
@@ -66,23 +152,80 @@ export type SystemMessageGroupDisclosureProps = useRender.ComponentProps<"button
 export function SystemMessageGroupDisclosure({
   className,
   render,
-  "aria-expanded": ariaExpanded,
   ...props
 }: SystemMessageGroupDisclosureProps) {
   const theme = useThemeFamily();
-  const { systemDisclosure } = messageSystem({ theme });
+  const { systemGroupDisclosure } = messageSystem({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
-    className: systemDisclosure({ className }),
+    "data-slot": "system-message-group-disclosure",
+    className: systemGroupDisclosure({ className }),
   };
 
   return useRender({
-    defaultTagName: "button",
-    render,
-    props: mergeProps<"button">(defaultProps, props, {
-      "aria-expanded": ariaExpanded,
-      ...(isAriaTrue(ariaExpanded) ? { "data-expanded": dataPresence(true) } : {}),
-    }),
-    state: { slot: "system-message-group-disclosure" },
+    render: render ?? <Collapsible.Trigger />,
+    props: mergeProps<"button">(defaultProps, props),
   });
+}
+
+export type SystemMessageGroupSummaryProps = useRender.ComponentProps<"span">;
+
+export function SystemMessageGroupSummary({
+  className,
+  render,
+  ...props
+}: SystemMessageGroupSummaryProps) {
+  const theme = useThemeFamily();
+  const { systemGroupSummary } = messageSystem({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "system-message-group-summary",
+    className: systemGroupSummary({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SystemMessageGroupChevronProps = useRender.ComponentProps<"svg">;
+
+export function SystemMessageGroupChevron({
+  className,
+  render,
+  ...props
+}: SystemMessageGroupChevronProps) {
+  const defaultProps: useRender.ElementProps<"svg"> & DataAttributes = {
+    "data-slot": "system-message-group-chevron",
+    "aria-hidden": true,
+    className: cn(className),
+  };
+
+  return useRender({
+    render: render ?? <ChevronRight />,
+    props: mergeProps<"svg">(defaultProps, props),
+  });
+}
+
+export type SystemMessageGroupPanelProps = Omit<
+  ComponentProps<typeof Collapsible.Panel>,
+  "className"
+> & {
+  className?: string;
+};
+
+export function SystemMessageGroupPanel({
+  className,
+  render,
+  ...props
+}: SystemMessageGroupPanelProps) {
+  const theme = useThemeFamily();
+  const { systemGroupPanel } = messageSystem({ theme });
+  const defaultProps: ComponentProps<typeof Collapsible.Panel> & DataAttributes = {
+    "data-slot": "system-message-group-panel",
+    className: systemGroupPanel({ className }),
+  };
+
+  return <Collapsible.Panel render={render} {...mergeProps(defaultProps, props)} />;
 }

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -17,16 +17,28 @@ const TOC = [
 
 const ANATOMY_SOURCE = `<SystemMessage>
   <SystemMessageTime />
-  <SystemMessageContent />
+  <SystemMessageContent content={message.content} />
 </SystemMessage>
 
-<SystemMessageGroupDisclosure aria-expanded={expanded} />`;
+const states = buildSystemMessageRenderStates(messages);
+
+<SystemMessageGroup open={open} onOpenChange={setOpen}>
+  <SystemMessageGroupHeader>
+    <SystemMessageGroupDisclosure title={summary}>
+      <SystemMessageGroupSummary>{summary}</SystemMessageGroupSummary>
+      <SystemMessageGroupChevron />
+    </SystemMessageGroupDisclosure>
+  </SystemMessageGroupHeader>
+  <SystemMessageGroupPanel>
+    <SystemMessage>...</SystemMessage>
+  </SystemMessageGroupPanel>
+</SystemMessageGroup>`;
 
 const PROPS: readonly PropRow[] = [
   {
     name: "SystemMessage",
     type: 'useRender.ComponentProps<"div">',
-    description: "Centered system row for archive, reminder, join/leave, and other system events.",
+    description: "Centered system row for archive, reminder, task, and other system events.",
   },
   {
     name: "SystemMessageTime",
@@ -35,14 +47,45 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "SystemMessageContent",
-    type: 'useRender.ComponentProps<"span">',
-    description: "System event copy. Consumers own the wording and optional title tooltip.",
+    type: "span props & { content?: string; timeFormat?; timeZone?; locale?; now? }",
+    description:
+      "System event copy. Pass content to parse reminder fire-at spans into relative times and tooltips; children remain available for plain text.",
+  },
+  {
+    name: "SystemMessageGroup",
+    type: "Collapsible.Root props",
+    description: "Base UI Collapsible root for an adjacent-run system-message group.",
+  },
+  {
+    name: "SystemMessageGroupHeader",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Centered wrap around the group disclosure trigger.",
   },
   {
     name: "SystemMessageGroupDisclosure",
-    type: 'useRender.ComponentProps<"button">',
+    type: 'useRender.ComponentProps<"button"> (Collapsible.Trigger)',
+    description: "Collapsible trigger for the group summary row.",
+  },
+  {
+    name: "SystemMessageGroupSummary",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Truncated summary copy inside the disclosure.",
+  },
+  {
+    name: "SystemMessageGroupChevron",
+    type: 'useRender.ComponentProps<"svg">',
+    description: "Chevron indicator; rotates via data-panel-open on the disclosure.",
+  },
+  {
+    name: "SystemMessageGroupPanel",
+    type: "Collapsible.Panel props",
+    description: "Expanded details slot that hosts the grouped SystemMessage rows.",
+  },
+  {
+    name: "buildSystemMessageRenderStates",
+    type: "(messages) => Array<SystemMessageRenderState | null>",
     description:
-      "Caller-controlled summary disclosure for grouped system events. aria-expanded stays caller-owned.",
+      "Adjacent-run grouping for system messages. Returns summary/hide states and source-faithful summary copy by category (task / reminder / system).",
   },
 ];
 
@@ -58,7 +101,7 @@ function SystemMessageDoc() {
   return (
     <DocPage
       title="SystemMessage"
-      description="Centered system-event row for archive, reminder, join/leave, and grouped updates."
+      description="Centered system-event rows, reminder fire-at rendering, and adjacent-run grouping."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -79,7 +122,9 @@ function SystemMessageDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <DocSubsection parentId="api" id="api-parts" title="Parts">
+          <PropsTable rows={PROPS} />
+        </DocSubsection>
       </DocSection>
     </DocPage>
   );

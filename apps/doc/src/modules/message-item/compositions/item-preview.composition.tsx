@@ -6,7 +6,6 @@ import {
   Check,
   CheckCircle,
   Circle,
-  ChevronRight,
   Eye,
   Languages,
   MessageSquare,
@@ -55,9 +54,14 @@ import {
   MessageReactionAddButton,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
-  SystemMessageGroupDisclosure,
   SystemMessage,
   SystemMessageContent,
+  SystemMessageGroup,
+  SystemMessageGroupChevron,
+  SystemMessageGroupDisclosure,
+  SystemMessageGroupHeader,
+  SystemMessageGroupPanel,
+  SystemMessageGroupSummary,
   SystemMessageTime,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
@@ -189,38 +193,37 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
   );
 }
 
+const SYSTEM_PREVIEW_NOW = new Date("2026-07-16T01:00:00.000Z");
+
 function MessageSystemGroupPreview() {
-  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
+  const summary = "There are 1 task update, 1 reminder update";
 
   return (
-    <div className="mb-1">
-      <div className="flex justify-center py-1.5">
-        <SystemMessageGroupDisclosure
-          aria-expanded={expanded}
-          onClick={() => setExpanded((current) => !current)}
-          title="There are 2 system updates: 1 task update, 1 reminder update"
-        >
-          <span className="truncate">
-            There are 2 system updates: 1 task update, 1 reminder update
-          </span>
-          <ChevronRight aria-hidden />
+    <SystemMessageGroup open={open} onOpenChange={setOpen}>
+      <SystemMessageGroupHeader>
+        <SystemMessageGroupDisclosure title={summary}>
+          <SystemMessageGroupSummary>{summary}</SystemMessageGroupSummary>
+          <SystemMessageGroupChevron />
         </SystemMessageGroupDisclosure>
-      </div>
-      {expanded ? (
-        <div>
-          <SystemMessage>
-            <SystemMessageTime>2:18 PM</SystemMessageTime>
-            <SystemMessageContent>Task #41 was completed.</SystemMessageContent>
-          </SystemMessage>
-          <SystemMessage>
-            <SystemMessageTime>2:19 PM</SystemMessageTime>
-            <SystemMessageContent title="Reminder fires Jul 16, 9:00 AM">
-              Reminder scheduled for tomorrow at 9:00 AM.
-            </SystemMessageContent>
-          </SystemMessage>
-        </div>
-      ) : null}
-    </div>
+      </SystemMessageGroupHeader>
+      <SystemMessageGroupPanel>
+        <SystemMessage>
+          <SystemMessageTime>2:18 PM</SystemMessageTime>
+          <SystemMessageContent content={'✅ Atlas moved #41 "Release review checklist" to Done'} />
+        </SystemMessage>
+        <SystemMessage>
+          <SystemMessageTime>2:19 PM</SystemMessageTime>
+          <SystemMessageContent
+            content={
+              '@Atlas scheduled a reminder: "Ship the docs cut" — fires <span data-reminder-fire-at="2026-07-16T09:00:00.000Z">2026-07-16 09:00 UTC</span>'
+            }
+            now={SYSTEM_PREVIEW_NOW}
+            timeFormat="12h"
+          />
+        </SystemMessage>
+      </SystemMessageGroupPanel>
+    </SystemMessageGroup>
   );
 }
 
@@ -230,13 +233,17 @@ function MessageSystemPreview({ event }: { event: MessageItemPreviewSystemEvent 
   return (
     <SystemMessage>
       <SystemMessageTime>2:17 PM</SystemMessageTime>
-      <SystemMessageContent
-        title={event === "reminder" ? "Reminder fires Jul 16, 9:00 AM" : undefined}
-      >
-        {event === "reminder"
-          ? "Reminder scheduled for tomorrow at 9:00 AM."
-          : "Atlas archived this thread."}
-      </SystemMessageContent>
+      {event === "reminder" ? (
+        <SystemMessageContent
+          content={
+            '@Atlas scheduled a reminder: "Ship the docs cut" — fires <span data-reminder-fire-at="2026-07-16T09:00:00.000Z">2026-07-16 09:00 UTC</span>'
+          }
+          now={SYSTEM_PREVIEW_NOW}
+          timeFormat="12h"
+        />
+      ) : (
+        <SystemMessageContent content="Atlas archived this thread." />
+      )}
     </SystemMessage>
   );
 }
