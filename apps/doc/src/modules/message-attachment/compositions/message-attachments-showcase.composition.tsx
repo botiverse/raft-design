@@ -66,7 +66,7 @@ export function MessageAttachmentsShowcaseComposition() {
   const theme = useThemeFamily();
 
   return (
-    <div className="grid w-full max-w-3xl gap-4">
+    <div className="flex w-full max-w-3xl flex-col gap-4">
       <MessageItem>
         <MessageItemAvatarSlot>
           <Avatar size="md" type="agent">
@@ -110,44 +110,46 @@ export function MessageAttachmentsShowcaseComposition() {
         </MessageItemContent>
         <MessageRowToolbarFixture />
       </MessageItem>
-      <div className="grid gap-3 md:grid-cols-2">
+      <div className="flex flex-col gap-3">
         <MessageImageGalleryPendingComposition />
         <MessageVideoPendingComposition />
-        <MessageAttachmentOpeningComposition
-          name="uploading.mov"
-          meta="Uploading · 18 KB"
-          label="Preparing preview"
-        />
-        <MessageAttachmentPendingComposition name="screening.html" meta="Diff · 18 KB" />
-        <MessageAttachmentFailedComposition name="preview.mov" meta="Video · 18 KB" />
-        <MessageAttachmentOpeningComposition
-          name="architecture.pdf"
-          meta="PDF preview · 1.2 MB"
-          label="Opening preview…"
-        />
-        <MessageAttachmentReadyComposition
-          name="recording.mp3"
-          meta="Audio preview · 6.4 MB"
-          primaryAction={<Music />}
-          primaryActionLabel="Preview recording.mp3"
-          onPrimaryAction={() => downloadMessageFixture("recording.mp3")}
-          secondaryAction={<Download />}
-          secondaryActionLabel="Download recording.mp3"
-          onSecondaryAction={() => downloadMessageFixture("recording.mp3")}
-        />
-        <MessageAttachmentReadyComposition
-          name="migration.diff"
-          meta="Diff · 18 KB"
-          primaryAction={<Download />}
-          onPrimaryAction={() => downloadMessageFixture("migration.diff")}
-        />
-        <MessageAttachmentReadyComposition
-          name="specification.docx"
-          meta="Document preview · 84 KB"
-          primaryAction={<FileText />}
-          primaryActionLabel="Preview specification.docx"
-          onPrimaryAction={() => downloadMessageFixture("specification.docx")}
-        />
+        <MessageAttachmentGroup>
+          <MessageAttachmentOpeningComposition
+            name="uploading.mov"
+            meta="Uploading · 18 KB"
+            label="Preparing preview"
+          />
+          <MessageAttachmentPendingComposition name="screening.html" meta="Diff · 18 KB" />
+          <MessageAttachmentFailedComposition name="preview.mov" meta="Video · 18 KB" />
+          <MessageAttachmentOpeningComposition
+            name="architecture.pdf"
+            meta="PDF preview · 1.2 MB"
+            label="Opening preview…"
+          />
+          <MessageAttachmentReadyComposition
+            name="recording.mp3"
+            meta="Audio preview · 6.4 MB"
+            primaryAction={<Music />}
+            primaryActionLabel="Preview recording.mp3"
+            onPrimaryAction={() => downloadMessageFixture("recording.mp3")}
+            secondaryAction={<Download />}
+            secondaryActionLabel="Download recording.mp3"
+            onSecondaryAction={() => downloadMessageFixture("recording.mp3")}
+          />
+          <MessageAttachmentReadyComposition
+            name="migration.diff"
+            meta="Diff · 18 KB"
+            primaryAction={<Download />}
+            onPrimaryAction={() => downloadMessageFixture("migration.diff")}
+          />
+          <MessageAttachmentReadyComposition
+            name="specification.docx"
+            meta="Document preview · 84 KB"
+            primaryAction={<FileText />}
+            primaryActionLabel="Preview specification.docx"
+            onPrimaryAction={() => downloadMessageFixture("specification.docx")}
+          />
+        </MessageAttachmentGroup>
       </div>
     </div>
   );
