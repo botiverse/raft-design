@@ -268,6 +268,9 @@ export function SelectedMessageRow() {
     <MessageMultiSelect defaultActive defaultSelected={new Set(["selected-row"])}>
       <MessageItemSelection>
         <MessageMultiSelectCheckbox value="selected-row" aria-label="Select message" />
+        <MessageItemAvatarSlot>
+          <MessageItemExampleAvatar />
+        </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Selected row</MessageItemSender>

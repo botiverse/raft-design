@@ -13,15 +13,34 @@ export const ANATOMY_SOURCE = `<MessageItem>
   <MessageItemContent>
     <MessageItemHeader>
       <MessageItemSender />
+      <MessageItemSenderState />
       <MessageItemMeta />
       <MessageItemTime />
+      <MessageItemInlineStatus />
     </MessageItemHeader>
     <MessageItemBody />
     <MessageItemAttachments>...</MessageItemAttachments>
     <MessageItemFooter />
   </MessageItemContent>
   <MessageItemToolbar />
-</MessageItem>`;
+</MessageItem>
+
+<MessageItem compact>
+  <MessageItemGutter>
+    <MessageItemContinuationTime />
+  </MessageItemGutter>
+  <MessageItemContent>
+    <MessageItemBody />
+  </MessageItemContent>
+</MessageItem>
+
+<MessageMultiSelect>
+  <MessageItemSelection>
+    <MessageMultiSelectCheckbox value="id" />
+    <MessageItemAvatarSlot />
+    <MessageItemContent>...</MessageItemContent>
+  </MessageItemSelection>
+</MessageMultiSelect>`;
 
 export const PROPS: readonly PropRow[] = [
   {
@@ -34,7 +53,13 @@ export const PROPS: readonly PropRow[] = [
     name: "MessageItemAvatarSlot",
     type: 'useRender.ComponentProps<"div"> & { pressed?: boolean }',
     description:
-      "Avatar gutter slot. Optional pressed enables the source long-press scale and brightness treatment via data-avatar-pressed.",
+      "Avatar gutter slot. Optional pressed enables the source long-press scale and brightness treatment via data-avatar-pressed. Keep this slot in select mode beside MessageMultiSelectCheckbox.",
+  },
+  {
+    name: "MessageItemGutter / MessageItemContinuationTime",
+    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"span">',
+    description:
+      "Compact consecutive-row gutter and hover timestamp. Used when compact hides sender chrome.",
   },
   {
     name: "MessageItemHeader",
@@ -51,7 +76,7 @@ export const PROPS: readonly PropRow[] = [
     name: "MessageMultiSelect / MessageMultiSelectCheckbox",
     type: "controlled or uncontrolled selection root + Checkbox props with a required value",
     description:
-      "Multi-message selection behavior and semantic checkbox. The root owns active and selected state.",
+      "Multi-message selection behavior and semantic checkbox. Compose checkbox before MessageItemAvatarSlot inside MessageItemSelection; the root owns active and selected state.",
   },
   {
     name: "MessageItemSenderState",

@@ -539,6 +539,9 @@ export function MessageItemPreview({
         <MessageItemInteractionBoundary>
           <MessageItemSelection>
             <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
+            <MessageItemAvatarSlot>
+              <MessageItemExampleAvatar />
+            </MessageItemAvatarSlot>
             {content}
           </MessageItemSelection>
         </MessageItemInteractionBoundary>
