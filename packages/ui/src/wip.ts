@@ -434,15 +434,35 @@ export type {
 } from "./components/message-quoted-preview/index";
 
 export {
+  buildSystemMessageRenderStates,
+  formatSystemMessageReminderContentTitle,
+  formatSystemMessageReminderTime,
+  formatSystemMessageReminderTooltip,
+  splitSystemMessageReminderFireAtTokens,
   SystemMessage,
   SystemMessageContent,
+  SystemMessageGroup,
+  SystemMessageGroupChevron,
   SystemMessageGroupDisclosure,
+  SystemMessageGroupHeader,
+  SystemMessageGroupPanel,
+  SystemMessageGroupSummary,
   SystemMessageTime,
 } from "./components/system-message/index";
 export type {
   SystemMessageContentProps,
+  SystemMessageGroupChevronProps,
   SystemMessageGroupDisclosureProps,
+  SystemMessageGroupHeaderProps,
+  SystemMessageGroupPanelProps,
+  SystemMessageGroupProps,
+  SystemMessageGroupSummaryProps,
   SystemMessageProps,
+  SystemMessageReminderContentPart,
+  SystemMessageRenderState,
+  SystemMessageSlice,
+  SystemMessageTimeFormat,
+  SystemMessageTimeFormatOptions,
   SystemMessageTimeProps,
 } from "./components/system-message/index";
 
