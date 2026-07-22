@@ -1,15 +1,12 @@
 import { useState } from "react";
 import {
   ActiveMessageRow,
-  ContextMenuMessageRow,
-  SavedToolbarMessageRow,
   SearchMatchMessageRow,
   SelectedMessageRow,
 } from "./row.compositions.tsx";
-import { MessageReactionOverlaysComposition } from "./reaction.compositions.tsx";
 import { MessageMultiSelectToolbarComposition } from "./selection.compositions.tsx";
 
-function MessageSelectionToolbarShowcaseComposition() {
+function MessageSelectionToolbarShowcase() {
   const [active, setActive] = useState(true);
   const [lastAction, setLastAction] = useState("Select-mode actions are caller-owned.");
 
@@ -42,18 +39,15 @@ function MessageSelectionToolbarShowcaseComposition() {
   );
 }
 
-export function MessageInteractionsShowcaseComposition() {
+export function MessageRowChromeComposition() {
   return (
     <div className="grid w-full max-w-3xl gap-6">
       <div className="flex flex-col gap-3">
-        <SelectedMessageRow />
         <ActiveMessageRow />
         <SearchMatchMessageRow />
+        <SelectedMessageRow />
       </div>
-      <SavedToolbarMessageRow />
-      <MessageReactionOverlaysComposition />
-      <ContextMenuMessageRow />
-      <MessageSelectionToolbarShowcaseComposition />
+      <MessageSelectionToolbarShowcase />
     </div>
   );
 }

@@ -15,6 +15,9 @@ import {
   Input,
   RadioGroup,
   RadioGroupItem,
+  SegmentedControl,
+  SegmentedControlItem,
+  SegmentedControlLabel,
   Select,
   SelectContent,
   SelectIcon,
@@ -75,6 +78,13 @@ type PreviewSelectProps = {
 };
 
 type PreviewRadioProps = {
+  label: string;
+  options: readonly string[];
+  value: string;
+  onValueChange: (value: string) => void;
+};
+
+type PreviewSegmentedProps = {
   label: string;
   options: readonly string[];
   value: string;
@@ -211,6 +221,31 @@ function PreviewRadio({ label, options, value, onValueChange }: PreviewRadioProp
   );
 }
 
+function PreviewSegmented({ label, options, value, onValueChange }: PreviewSegmentedProps) {
+  return (
+    <SegmentedControl
+      ariaLabel={label}
+      value={value}
+      onValueChange={(nextValue) => {
+        if (nextValue) {
+          onValueChange(nextValue);
+        }
+      }}
+      className="w-full"
+    >
+      {options.map((option) => (
+        <SegmentedControlItem
+          key={option}
+          value={option}
+          className="px-2 py-1.5 font-mono text-[11px]"
+        >
+          <SegmentedControlLabel>{option}</SegmentedControlLabel>
+        </SegmentedControlItem>
+      ))}
+    </SegmentedControl>
+  );
+}
+
 function PreviewCheckbox({ id, label, checked, onCheckedChange }: PreviewCheckboxProps) {
   return (
     <Checkbox
@@ -317,6 +352,7 @@ export const Preview = Object.assign(PreviewRoot, {
   Control: PreviewControl,
   Select: PreviewSelect,
   Radio: PreviewRadio,
+  Segmented: PreviewSegmented,
   Checkbox: PreviewCheckbox,
   Text: PreviewText,
   Code: PreviewCode,

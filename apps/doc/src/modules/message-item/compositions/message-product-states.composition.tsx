@@ -321,17 +321,6 @@ export function ActionCardMessageComposition() {
   );
 }
 
-export function MessageProductStatesComposition() {
-  return (
-    <div className="grid w-full max-w-3xl gap-4">
-      <ForwardedBundleMessageComposition />
-      <QuotedPreviewMessageComposition />
-      <QuotedPreviewFeedbackComposition />
-      <ActionCardMessageComposition />
-    </div>
-  );
-}
-
 export function MessageProductStatePreview({ state }: { state: MessageProductStatePreviewState }) {
   if (state === "forwarded") return <ForwardedBundleMessageComposition />;
   if (state === "quoted") return <QuotedPreviewMessageComposition />;
