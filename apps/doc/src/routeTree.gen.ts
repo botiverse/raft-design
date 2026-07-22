@@ -52,13 +52,7 @@ import { Route as ComponentsPreviewCardRouteImport } from './routes/components/p
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
-import { Route as ComponentsMessageQuotedPreviewRouteImport } from './routes/components/message-quoted-preview'
-import { Route as ComponentsMessageMediaRouteImport } from './routes/components/message-media'
-import { Route as ComponentsMessageMarkdownRouteImport } from './routes/components/message-markdown'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
-import { Route as ComponentsMessageForwardedBundleRouteImport } from './routes/components/message-forwarded-bundle'
-import { Route as ComponentsMessageAttachmentRouteImport } from './routes/components/message-attachment'
-import { Route as ComponentsMessageActionCardRouteImport } from './routes/components/message-action-card'
 import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
 import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
@@ -331,46 +325,11 @@ const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
   path: '/mobile-nav',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsMessageQuotedPreviewRoute =
-  ComponentsMessageQuotedPreviewRouteImport.update({
-    id: '/message-quoted-preview',
-    path: '/message-quoted-preview',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageMediaRoute = ComponentsMessageMediaRouteImport.update({
-  id: '/message-media',
-  path: '/message-media',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsMessageMarkdownRoute =
-  ComponentsMessageMarkdownRouteImport.update({
-    id: '/message-markdown',
-    path: '/message-markdown',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
   id: '/message-item',
   path: '/message-item',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsMessageForwardedBundleRoute =
-  ComponentsMessageForwardedBundleRouteImport.update({
-    id: '/message-forwarded-bundle',
-    path: '/message-forwarded-bundle',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageAttachmentRoute =
-  ComponentsMessageAttachmentRouteImport.update({
-    id: '/message-attachment',
-    path: '/message-attachment',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageActionCardRoute =
-  ComponentsMessageActionCardRouteImport.update({
-    id: '/message-action-card',
-    path: '/message-action-card',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsLogoRoute = ComponentsLogoRouteImport.update({
   id: '/logo',
   path: '/logo',
@@ -682,13 +641,7 @@ export interface FileRoutesByFullPath {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
-  '/components/message-action-card': typeof ComponentsMessageActionCardRoute
-  '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
-  '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
-  '/components/message-media': typeof ComponentsMessageMediaRoute
-  '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -783,13 +736,7 @@ export interface FileRoutesByTo {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
-  '/components/message-action-card': typeof ComponentsMessageActionCardRoute
-  '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
-  '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
-  '/components/message-media': typeof ComponentsMessageMediaRoute
-  '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -886,13 +833,7 @@ export interface FileRoutesById {
   '/components/lightbox': typeof ComponentsLightboxRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
-  '/components/message-action-card': typeof ComponentsMessageActionCardRoute
-  '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
-  '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
-  '/components/message-media': typeof ComponentsMessageMediaRoute
-  '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -990,13 +931,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
     | '/components/logo'
-    | '/components/message-action-card'
-    | '/components/message-attachment'
-    | '/components/message-forwarded-bundle'
     | '/components/message-item'
-    | '/components/message-markdown'
-    | '/components/message-media'
-    | '/components/message-quoted-preview'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1091,13 +1026,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
     | '/components/logo'
-    | '/components/message-action-card'
-    | '/components/message-attachment'
-    | '/components/message-forwarded-bundle'
     | '/components/message-item'
-    | '/components/message-markdown'
-    | '/components/message-media'
-    | '/components/message-quoted-preview'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1193,13 +1122,7 @@ export interface FileRouteTypes {
     | '/components/lightbox'
     | '/components/live-agent-activity-bar'
     | '/components/logo'
-    | '/components/message-action-card'
-    | '/components/message-attachment'
-    | '/components/message-forwarded-bundle'
     | '/components/message-item'
-    | '/components/message-markdown'
-    | '/components/message-media'
-    | '/components/message-quoted-preview'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1576,53 +1499,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsMobileNavRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/message-quoted-preview': {
-      id: '/components/message-quoted-preview'
-      path: '/message-quoted-preview'
-      fullPath: '/components/message-quoted-preview'
-      preLoaderRoute: typeof ComponentsMessageQuotedPreviewRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-media': {
-      id: '/components/message-media'
-      path: '/message-media'
-      fullPath: '/components/message-media'
-      preLoaderRoute: typeof ComponentsMessageMediaRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-markdown': {
-      id: '/components/message-markdown'
-      path: '/message-markdown'
-      fullPath: '/components/message-markdown'
-      preLoaderRoute: typeof ComponentsMessageMarkdownRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/message-item': {
       id: '/components/message-item'
       path: '/message-item'
       fullPath: '/components/message-item'
       preLoaderRoute: typeof ComponentsMessageItemRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-forwarded-bundle': {
-      id: '/components/message-forwarded-bundle'
-      path: '/message-forwarded-bundle'
-      fullPath: '/components/message-forwarded-bundle'
-      preLoaderRoute: typeof ComponentsMessageForwardedBundleRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-attachment': {
-      id: '/components/message-attachment'
-      path: '/message-attachment'
-      fullPath: '/components/message-attachment'
-      preLoaderRoute: typeof ComponentsMessageAttachmentRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-action-card': {
-      id: '/components/message-action-card'
-      path: '/message-action-card'
-      fullPath: '/components/message-action-card'
-      preLoaderRoute: typeof ComponentsMessageActionCardRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/logo': {
@@ -2137,13 +2018,7 @@ interface ComponentsRouteChildren {
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
   ComponentsLiveAgentActivityBarRoute: typeof ComponentsLiveAgentActivityBarRoute
   ComponentsLogoRoute: typeof ComponentsLogoRoute
-  ComponentsMessageActionCardRoute: typeof ComponentsMessageActionCardRoute
-  ComponentsMessageAttachmentRoute: typeof ComponentsMessageAttachmentRoute
-  ComponentsMessageForwardedBundleRoute: typeof ComponentsMessageForwardedBundleRoute
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
-  ComponentsMessageMarkdownRoute: typeof ComponentsMessageMarkdownRoute
-  ComponentsMessageMediaRoute: typeof ComponentsMessageMediaRoute
-  ComponentsMessageQuotedPreviewRoute: typeof ComponentsMessageQuotedPreviewRoute
   ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
@@ -2205,13 +2080,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsLightboxRoute: ComponentsLightboxRoute,
   ComponentsLiveAgentActivityBarRoute: ComponentsLiveAgentActivityBarRoute,
   ComponentsLogoRoute: ComponentsLogoRoute,
-  ComponentsMessageActionCardRoute: ComponentsMessageActionCardRoute,
-  ComponentsMessageAttachmentRoute: ComponentsMessageAttachmentRoute,
-  ComponentsMessageForwardedBundleRoute: ComponentsMessageForwardedBundleRoute,
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
-  ComponentsMessageMarkdownRoute: ComponentsMessageMarkdownRoute,
-  ComponentsMessageMediaRoute: ComponentsMessageMediaRoute,
-  ComponentsMessageQuotedPreviewRoute: ComponentsMessageQuotedPreviewRoute,
   ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,

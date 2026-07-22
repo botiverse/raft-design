@@ -11,6 +11,14 @@ import { PropsTable } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { MessageActionCardShowcaseComposition } from "#/modules/message-action-card/compositions/action-card.composition.tsx";
+import actionCardSource from "#/modules/message-action-card/compositions/action-card.composition.tsx?raw";
+import { MessageAttachmentPreviewSurfacesComposition } from "#/modules/message-attachment/compositions/attachment-preview-surfaces.composition.tsx";
+import attachmentPreviewSurfacesSource from "#/modules/message-attachment/compositions/attachment-preview-surfaces.composition.tsx?raw";
+import { MessageAttachmentsShowcaseComposition } from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx";
+import attachmentsShowcaseSource from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx?raw";
+import { MessageForwardedBundleShowcaseComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
+import forwardedBundleSource from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx?raw";
 import { MessageConsecutiveComposition } from "#/modules/message-item/compositions/consecutive.composition.tsx";
 import consecutiveSource from "#/modules/message-item/compositions/consecutive.composition.tsx?raw";
 import { MessageContextMenuShowcaseComposition } from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx";
@@ -47,6 +55,10 @@ import translationShowcaseSource from "#/modules/message-item/compositions/trans
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
 import { SourceMessageItemPreview } from "#/modules/message-item/message-item.source-preview.tsx";
 import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
+import { MessageMarkdownShowcaseComposition } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
+import markdownSource from "#/modules/message-markdown/compositions/markdown.composition.tsx?raw";
+import { MessageQuotedPreviewShowcaseComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
+import quotedPreviewSource from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx?raw";
 
 const SOURCE_SCENES = [
   {
@@ -74,19 +86,25 @@ export const Route = createFileRoute("/components/message-item")({
   loader: () =>
     highlightSnippets({
       data: {
+        actionCard: actionCardSource,
         anatomy: ANATOMY_SOURCE,
+        attachmentsShowcase: attachmentsShowcaseSource,
+        attachmentPreviewSurfaces: attachmentPreviewSurfacesSource,
         consecutive: consecutiveSource,
         contextMenu: contextMenuShowcaseSource,
         converting: convertingSource,
+        forwardedBundle: forwardedBundleSource,
+        interactiveSender: interactiveSenderSource,
+        markdown: markdownSource,
         preview: messageItemPreviewCompositionSource,
+        quotedPreview: quotedPreviewSource,
         reactions: reactionsSource,
+        readReceipt: readReceiptSource,
         referenceShowcase: referenceShowcaseSource,
         replies: repliesSource,
-        interactiveSender: interactiveSenderSource,
         rowChrome: rowChromeSource,
         saved: savedSource,
         senderState: senderStateSource,
-        readReceipt: readReceiptSource,
         taskBadge: taskBadgeSource,
         textSelection: textSelectionSource,
         toolbar: toolbarSource,
@@ -101,7 +119,7 @@ function MessageItemDoc() {
   return (
     <DocPage
       title="MessageItem"
-      description="Message row chrome: gutter, header, footer, toolbar, reactions, references, and selection."
+      description="Business-agnostic message row chrome and the body blocks composed inside it."
       overview={
         <Differences from="MessageItem">
           <li>
@@ -113,23 +131,16 @@ function MessageItemDoc() {
             business state
           </li>
           <li>
-            body content blocks live in sibling modules: SystemMessage, MessageMarkdown,
-            MessageAttachment, MessageMedia, MessageActionCard, MessageQuotedPreview, and
-            MessageForwardedBundle
+            product copy, icons, callbacks, and async state live in docs compositions rather than
+            the UI package
           </li>
         </Differences>
       }
       toc={TOC}
     >
       <DocNote>
-        Timeline peers and nested body blocks are documented separately:{" "}
-        <Link to="/components/system-message">SystemMessage</Link>,{" "}
-        <Link to="/components/message-markdown">MessageMarkdown</Link>,{" "}
-        <Link to="/components/message-attachment">MessageAttachment</Link>,{" "}
-        <Link to="/components/message-media">MessageMedia</Link>,{" "}
-        <Link to="/components/message-action-card">MessageActionCard</Link>,{" "}
-        <Link to="/components/message-quoted-preview">MessageQuotedPreview</Link>,{" "}
-        <Link to="/components/message-forwarded-bundle">MessageForwardedBundle</Link>.
+        Centered system-event rows are a timeline peer — see{" "}
+        <Link to="/components/system-message">SystemMessage</Link>.
       </DocNote>
 
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -170,6 +181,12 @@ function MessageItemDoc() {
             </UsagePreview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="markdown" title="Markdown">
+            <UsagePreview code={code.markdown}>
+              <MessageMarkdownShowcaseComposition />
+            </UsagePreview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="translation" title="Translation">
             <UsagePreview code={code.translationShowcase}>
               <div className="w-full max-w-3xl">
@@ -183,6 +200,40 @@ function MessageItemDoc() {
               <div className="w-full max-w-3xl">
                 <MessageReferenceShowcaseComposition />
               </div>
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="quoted-preview" title="Quoted preview">
+            <UsagePreview code={code.quotedPreview}>
+              <MessageQuotedPreviewShowcaseComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="forwarded-bundle" title="Forwarded bundle">
+            <UsagePreview code={code.forwardedBundle}>
+              <MessageForwardedBundleShowcaseComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="action-card" title="Action card">
+            <UsagePreview code={code.actionCard}>
+              <MessageActionCardShowcaseComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="attachments" title="Attachments">
+            <UsagePreview code={code.attachmentsShowcase}>
+              <MessageAttachmentsShowcaseComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="attachment-preview-surfaces"
+            title="Attachment preview surfaces"
+          >
+            <UsagePreview code={code.attachmentPreviewSurfaces}>
+              <MessageAttachmentPreviewSurfacesComposition />
             </UsagePreview>
           </DocSubsection>
 
