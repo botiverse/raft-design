@@ -85,7 +85,7 @@ const dropdownMenu = tv({
           "flex flex-col",
         ],
         item: [
-          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
@@ -97,7 +97,7 @@ const dropdownMenu = tv({
           "data-[highlighted]:[&>svg]:text-foreground-strong",
         ],
         radioItem: [
-          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
@@ -110,7 +110,7 @@ const dropdownMenu = tv({
         ],
         radioLabel: ["min-w-0 flex-1 truncate"],
         submenuTrigger: [
-          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",

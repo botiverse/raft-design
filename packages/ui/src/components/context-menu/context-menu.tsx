@@ -65,7 +65,7 @@ const contextMenu = tv({
       elegant: {
         content: ["gap-0.5 rounded-md bg-layer-popover p-1", "shadow-lg outline-none"],
         item: [
-          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
@@ -77,7 +77,7 @@ const contextMenu = tv({
           "data-[highlighted]:[&>svg]:text-foreground-strong",
         ],
         radioItem: [
-          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
@@ -89,7 +89,7 @@ const contextMenu = tv({
           "data-[highlighted]:[&>svg]:text-foreground-strong",
         ],
         submenuTrigger: [
-          "gap-2.5 rounded-sm px-3 py-2 text-[13px] font-medium tracking-[-0.005em]",
+          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
           "text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground-strong",
@@ -216,6 +216,14 @@ export function ContextMenuContent({
       </BaseContextMenu.Positioner>
     </ContextMenuPortal>
   );
+}
+
+export type ContextMenuPopupProps = ComponentPropsWithRef<"div">;
+
+export function ContextMenuPopup({ className, ...props }: ContextMenuPopupProps) {
+  const theme = useThemeFamily();
+  const { content } = contextMenu({ theme });
+  return <div data-slot="context-menu-content" className={content({ className })} {...props} />;
 }
 
 export type ContextMenuItemProps = StyledProps<BaseContextMenu.Item.Props>;

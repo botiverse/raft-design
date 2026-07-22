@@ -40,6 +40,12 @@ import {
   ComboboxItem,
   ComboboxItemIndicator,
   ComboboxList,
+  ContextMenu,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuPopup,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
   CopyableCode,
   CopyableCodeAction,
   CopyableCodeRoot,
@@ -1004,62 +1010,40 @@ function DropdownMenuPreview() {
 
 function ContextMenuPreview() {
   return (
-    <div className="relative flex h-64 w-72 items-start justify-center pt-9">
+    <div className="relative flex h-64 w-72 flex-col items-center justify-start gap-2 pt-9">
       <div
         className={[
-          "flex min-h-14 w-56 select-none items-center justify-center px-4 text-center",
-          "bg-[oklch(0.955_0.003_106.42)] text-sm font-medium text-[oklch(0.32_0.006_106.42)]",
-          "[[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold",
+          "flex min-h-14 w-56 items-center justify-center px-4 text-center",
+          "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
+          "[[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black",
         ].join(" ")}
       >
         Right click thread
       </div>
-      <div
-        className={[
-          "absolute top-[6.5rem] left-1/2 z-50 flex w-60 min-w-60 -translate-x-1/2 flex-col overflow-hidden",
-          "gap-0.5 rounded-md bg-layer-popover p-1",
-          "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
-          "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:p-0 [[data-theme=brutal]_&]:shadow-[var(--source-shadow-hover,4px_4px_0px_var(--color-black))]",
-        ].join(" ")}
-      >
-        <div className="-mx-1 border-b border-line-muted px-3 py-2 text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45 [[data-theme=brutal]_&]:mx-0 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-wide [[data-theme=brutal]_&]:text-black/60 [[data-theme=brutal]_&]:uppercase">
-          Thread actions
-        </div>
-        <ContextMenuPreviewRow icon={<Pin />} label="Pin thread" />
-        <ContextMenuPreviewRow icon={<Copy />} label="Copy link" shortcut="⌘C" />
-        <div className="my-1 -mx-1 h-px bg-line-muted [[data-theme=brutal]_&]:m-0 [[data-theme=brutal]_&]:border-t-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-transparent" />
-        <ContextMenuPreviewRow icon={<Archive />} label="Archive" />
-        <ContextMenuPreviewRow icon={<Trash />} label="Delete" shortcut="⌫" />
-      </div>
-    </div>
-  );
-}
-
-function ContextMenuPreviewRow({
-  icon,
-  label,
-  shortcut,
-}: {
-  icon: ReactNode;
-  label: string;
-  shortcut?: string;
-}) {
-  return (
-    <div
-      className={[
-        "flex w-full cursor-default select-none items-center gap-2.5 rounded-sm px-3 py-2",
-        "text-[13px] font-medium tracking-[-0.005em] text-foreground-muted",
-        "[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
-        "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:gap-2 [[data-theme=brutal]_&]:py-1.5 [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-sm [[data-theme=brutal]_&]:font-semibold [[data-theme=brutal]_&]:leading-6 [[data-theme=brutal]_&]:tracking-normal [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:[&_svg]:size-3.5 [[data-theme=brutal]_&]:[&_svg]:stroke-2 [[data-theme=brutal]_&]:[&_svg_*]:stroke-2",
-      ].join(" ")}
-    >
-      {icon}
-      <span className="min-w-0 flex-1 truncate">{label}</span>
-      {shortcut ? (
-        <span className="ml-auto text-foreground-muted [[data-theme=brutal]_&]:font-sans">
-          {shortcut}
-        </span>
-      ) : null}
+      <ContextMenu>
+        <ContextMenuPopup className="flex w-60 min-w-60 flex-col">
+          <ContextMenuLabel>Thread actions</ContextMenuLabel>
+          <ContextMenuItem>
+            <Pin />
+            <span className="min-w-0 flex-1 truncate">Pin thread</span>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <Copy />
+            <span className="min-w-0 flex-1 truncate">Copy link</span>
+            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem>
+            <Archive />
+            <span className="min-w-0 flex-1 truncate">Archive</span>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <Trash />
+            <span className="min-w-0 flex-1 truncate">Delete</span>
+            <ContextMenuShortcut>⌫</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuPopup>
+      </ContextMenu>
     </div>
   );
 }
