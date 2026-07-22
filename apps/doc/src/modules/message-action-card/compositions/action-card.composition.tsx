@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import { Check } from "lucide-react";
-import { Badge, Button } from "raft-ui";
-import { MessageItemExampleAvatar } from "#/modules/message-item/message-item-example-avatar.tsx";
+import { Badge, Button, Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageActionCard,
   MessageActionCardActions,
@@ -32,7 +32,10 @@ function ActionCardMessage({
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>

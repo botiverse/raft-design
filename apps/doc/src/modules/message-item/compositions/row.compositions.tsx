@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { Bookmark, MessageSquare } from "lucide-react";
-import { ContextMenu, ContextMenuTrigger } from "raft-ui";
-import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
+import { ContextMenu, ContextMenuTrigger, Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItem,
   MessageItemActive,
@@ -43,7 +43,10 @@ export function AuthoredMessageRow() {
     <MessageItemInteractionBoundary ref={setPortalContainer}>
       <MessageItem>
         <MessageItemAvatarSlot>
-          <MessageItemExampleAvatar />
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
@@ -73,7 +76,10 @@ export function SavedToolbarMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar fallback="TB" />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>TB</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -107,7 +113,10 @@ export function ContextMenuMessageRow() {
       <ContextMenu>
         <ContextMenuTrigger render={<MessageItemActive />}>
           <MessageItemAvatarSlot>
-            <MessageItemExampleAvatar />
+            <Avatar size="md" type="agent">
+              <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+              <AvatarFallback>AT</AvatarFallback>
+            </Avatar>
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>
@@ -188,7 +197,10 @@ export function RemovedSenderMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar type="human" fallback="MX" />
+        <Avatar size="md" type="human">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>MX</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -208,7 +220,10 @@ export function LeftSenderMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar type="human" fallback="NO" />
+        <Avatar size="md" type="human">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>NO</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -226,7 +241,10 @@ export function DeactivatedAgentMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar className="grayscale opacity-60" />
+        <Avatar size="md" type="agent" className="grayscale opacity-60">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -246,7 +264,10 @@ export function ConvertingMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -269,7 +290,10 @@ export function SelectedMessageRow() {
       <MessageItemSelection>
         <MessageMultiSelectCheckbox value="selected-row" aria-label="Select message" />
         <MessageItemAvatarSlot>
-          <MessageItemExampleAvatar />
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
@@ -287,7 +311,10 @@ export function ActiveMessageRow() {
   return (
     <MessageItemActive>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar fallback="AC" />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AC</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -304,7 +331,10 @@ export function SearchMatchMessageRow() {
   return (
     <MessageItemSearchMatch>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar fallback="SR" />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>SR</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>

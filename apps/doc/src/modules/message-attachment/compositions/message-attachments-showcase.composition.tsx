@@ -1,6 +1,5 @@
 import { Download, FileText, Music, Play, MessageSquare } from "lucide-react";
-import { Badge, useThemeFamily } from "raft-ui";
-import { MessageItemExampleAvatar } from "#/modules/message-item/message-item-example-avatar.tsx";
+import { Badge, useThemeFamily, Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageAttachmentGroup,
   MessageItem,
@@ -16,7 +15,10 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui/wip";
-import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
+import {
+  MESSAGE_FIXTURE_AVATAR_SRC,
+  downloadMessageFixture,
+} from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageReactionComposition } from "#/modules/message-item/compositions/reaction.compositions.tsx";
 import { MessageRowToolbarFixture } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
 import {
@@ -66,7 +68,10 @@ function RichAttachmentMessageRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar fallback="AP" />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AP</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>

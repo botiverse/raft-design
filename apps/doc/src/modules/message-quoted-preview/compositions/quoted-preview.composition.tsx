@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MessageItemExampleAvatar } from "#/modules/message-item/message-item-example-avatar.tsx";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { Hash, MessageSquare } from "lucide-react";
 
 import {
@@ -49,7 +50,10 @@ function QuotedPreviewMessage({
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -78,7 +82,10 @@ export function QuotedPreviewMessageComposition() {
                 </MessageQuotedPreviewChannel>
                 <MessageQuotedPreviewSeparator>·</MessageQuotedPreviewSeparator>
                 <MessageQuotedPreviewAuthor>
-                  <MessageItemExampleAvatar size="xs" />
+                  <Avatar size="xs" type="agent">
+                    <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+                    <AvatarFallback>AT</AvatarFallback>
+                  </Avatar>
                   <MessageQuotedPreviewAuthorName>Atlas</MessageQuotedPreviewAuthorName>
                   <MessageQuotedPreviewAuthorMeta>
                     Design-system agent

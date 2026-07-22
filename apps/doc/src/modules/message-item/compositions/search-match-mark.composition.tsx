@@ -1,4 +1,4 @@
-import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -10,12 +10,17 @@ import {
   MessageMarkdown,
 } from "raft-ui/wip";
 
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+
 export function MessageSearchMatchMarkComposition() {
   return (
     <div className="w-full max-w-3xl">
       <MessageItemSearchMatch>
         <MessageItemAvatarSlot>
-          <MessageItemExampleAvatar fallback="SR" />
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>SR</AvatarFallback>
+          </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
@@ -25,8 +30,8 @@ export function MessageSearchMatchMarkComposition() {
           <MessageItemBody>
             <MessageMarkdown>
               <p>
-                Jump highlight keeps the cyan row while <mark>migration plan</mark> and{" "}
-                <mark>release notes</mark> use the soft-signal mark wash.
+                Hits keep the cyan source treatment and can also use inline <mark>mark</mark> for
+                token emphasis.
               </p>
             </MessageMarkdown>
           </MessageItemBody>

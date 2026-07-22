@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { useState } from "react";
-import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import { MessageSquare, Pencil } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 
 import {
   MessageItem,
@@ -27,7 +27,10 @@ function RepliesRow({ body, children }: { body: string; children: ReactNode }) {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>
@@ -55,7 +58,10 @@ function InlineThreadRepliesRow() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
-        <MessageItemExampleAvatar />
+        <Avatar size="md" type="agent">
+          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarFallback>AT</AvatarFallback>
+        </Avatar>
       </MessageItemAvatarSlot>
       <MessageItemContent>
         <MessageItemHeader>

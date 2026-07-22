@@ -1,5 +1,6 @@
 import { CheckCircle } from "lucide-react";
-import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 
 import {
   MessageItem,
@@ -18,7 +19,10 @@ export function MessageReadReceiptComposition() {
     <div className="w-full max-w-3xl">
       <MessageItem>
         <MessageItemAvatarSlot>
-          <MessageItemExampleAvatar />
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>

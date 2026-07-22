@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { MessageItemExampleAvatar } from "../message-item-example-avatar.tsx";
 import {
   AlertTriangle,
   Ban,
@@ -21,6 +20,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   useThemeFamily,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
 } from "raft-ui";
 import {
   MessageItem,
@@ -64,7 +66,10 @@ import {
   SystemMessageTime,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
-import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+import {
+  MESSAGE_FIXTURE_AVATAR_SRC,
+  MESSAGE_FIXTURE_IMAGE_SRC,
+} from "#/modules/message-item/message-item.fixtures.ts";
 import {
   MessageItemExampleMarkdown,
   MessageItemExampleMarkdownClosing,
@@ -460,7 +465,10 @@ export function MessageItemPreview({
       <MessageItemInteractionBoundary ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
-            <MessageItemExampleAvatar />
+            <Avatar size="md" type="agent">
+              <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+              <AvatarFallback>AT</AvatarFallback>
+            </Avatar>
           </MessageItemAvatarSlot>
           <MessageItemContent>
             <MessageItemHeader>
@@ -548,7 +556,10 @@ export function MessageItemPreview({
           <MessageItemSelection>
             <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
             <MessageItemAvatarSlot>
-              <MessageItemExampleAvatar />
+              <Avatar size="md" type="agent">
+                <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+                <AvatarFallback>AT</AvatarFallback>
+              </Avatar>
             </MessageItemAvatarSlot>
             {content}
           </MessageItemSelection>
@@ -568,9 +579,14 @@ export function MessageItemPreview({
     <MessageItemInteractionBoundary ref={setPortalContainer}>
       <RowChrome>
         <MessageItemAvatarSlot>
-          <MessageItemExampleAvatar
+          <Avatar
+            size="md"
+            type="agent"
             className={senderState === "deleted" ? "grayscale opacity-60" : undefined}
-          />
+          >
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
         </MessageItemAvatarSlot>
         {content}
         {toolbar ? (
