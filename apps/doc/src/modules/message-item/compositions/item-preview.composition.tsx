@@ -202,7 +202,7 @@ function MessageSystemGroupPreview() {
   return (
     <SystemMessageGroup open={open} onOpenChange={setOpen}>
       <SystemMessageGroupHeader>
-        <SystemMessageGroupDisclosure title={summary}>
+        <SystemMessageGroupDisclosure>
           <SystemMessageGroupSummary>{summary}</SystemMessageGroupSummary>
           <SystemMessageGroupChevron />
         </SystemMessageGroupDisclosure>
@@ -242,7 +242,7 @@ function MessageSystemPreview({ event }: { event: MessageItemPreviewSystemEvent 
           timeFormat="12h"
         />
       ) : (
-        <SystemMessageContent content="Atlas archived this thread." />
+        <SystemMessageContent content="📦 Atlas archived this channel" />
       )}
     </SystemMessage>
   );

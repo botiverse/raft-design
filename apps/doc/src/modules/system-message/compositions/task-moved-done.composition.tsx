@@ -1,0 +1,20 @@
+import { SYSTEM_MESSAGE_FIXTURES } from "../system-message.fixtures.ts";
+import { SystemMessageRow } from "../system-message-row.tsx";
+
+// @docs-source-strip-start
+import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+// @docs-source-strip-end
+
+export function SystemMessageTaskMovedDoneContent() {
+  return <SystemMessageRow message={SYSTEM_MESSAGE_FIXTURES.taskMovedDone} time="2:18 PM" />;
+}
+
+// @docs-source-strip-start
+export function SystemMessageTaskMovedDoneComposition({ className }: { className?: string }) {
+  return (
+    <SourceComparisonPreview className={className}>
+      <SystemMessageTaskMovedDoneContent />
+    </SourceComparisonPreview>
+  );
+}
+// @docs-source-strip-end

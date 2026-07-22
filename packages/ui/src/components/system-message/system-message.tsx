@@ -8,9 +8,7 @@ import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageSystem } from "./system-message.recipe";
 import {
-  formatSystemMessageReminderContentTitle,
   formatSystemMessageReminderTime,
-  formatSystemMessageReminderTooltip,
   splitSystemMessageReminderFireAtTokens,
   type SystemMessageTimeFormatOptions,
 } from "./system-message-reminder";
@@ -69,23 +67,16 @@ export function SystemMessageContent({
   render,
   timeFormat,
   timeZone,
-  title,
   ...props
 }: SystemMessageContentProps) {
   const theme = useThemeFamily();
   const { systemContent } = messageSystem({ theme });
   const timeOptions: SystemMessageTimeFormatOptions = { locale, timeFormat, timeZone };
-  const resolvedTitle =
-    title ??
-    (content != null ? formatSystemMessageReminderContentTitle(content, timeOptions) : undefined);
   const resolvedChildren =
     content != null
       ? splitSystemMessageReminderFireAtTokens(content).map((part, index) =>
           part.type === "reminderFireAt" ? (
-            <span
-              key={`${part.value}-${index}`}
-              title={formatSystemMessageReminderTooltip(part.value, timeOptions)}
-            >
+            <span key={`${part.value}-${index}`}>
               {formatSystemMessageReminderTime(part.value, now ?? new Date(), timeOptions)}
             </span>
           ) : (
@@ -102,7 +93,6 @@ export function SystemMessageContent({
     defaultTagName: "span",
     render,
     props: mergeProps<"span">(defaultProps, props, {
-      title: resolvedTitle,
       children: resolvedChildren,
     }),
     state: {
