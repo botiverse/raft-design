@@ -6,7 +6,6 @@ export {
 } from "./message-item-root";
 export {
   MessageItemAvatarSlot,
-  MessageItemAvatarStatus,
   MessageItemContinuationTime,
   MessageItemGutter,
 } from "./message-item-gutter";
@@ -93,7 +92,6 @@ export type {
 } from "./message-item-root";
 export type {
   MessageItemAvatarSlotProps,
-  MessageItemAvatarStatusProps,
   MessageItemContinuationTimeProps,
   MessageItemGutterProps,
 } from "./message-item-gutter";

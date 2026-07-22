@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { Avatar, type AvatarProps } from "raft-ui";
+import { Avatar, AvatarBadge, Status, type AvatarProps, type StatusProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
@@ -12,14 +12,39 @@ type AvatarPlaygroundPreviewProps = {
   collapsedCode?: CodeContent;
 };
 
+const BADGE_OPTIONS = ["none", "pip", "status"] as const;
+type BadgeOption = (typeof BADGE_OPTIONS)[number];
+
+function statusSizeForAvatar(size: NonNullable<AvatarProps["size"]>): StatusProps["size"] {
+  if (size === "xl" || size === "lg") return "lg";
+  if (size === "md" || size === "sm") return "md";
+  return "sm";
+}
+
 export function AvatarPlaygroundPreview({ code, collapsedCode }: AvatarPlaygroundPreviewProps) {
   const [size, setSize] = useState<NonNullable<AvatarProps["size"]>>("lg");
   const [type, setType] = useState<NonNullable<AvatarProps["type"]>>("agent");
+  const [badge, setBadge] = useState<BadgeOption>("status");
+  const [pulse, setPulse] = useState(false);
 
   return (
     <Preview>
       <Preview.Canvas>
-        <Avatar size={size} type={type} />
+        <Avatar size={size} type={type}>
+          {badge === "pip" ? <AvatarBadge /> : null}
+          {badge === "status" ? (
+            <AvatarBadge
+              render={
+                <Status
+                  aria-hidden
+                  size={statusSizeForAvatar(size)}
+                  variant="success"
+                  pulse={pulse}
+                />
+              }
+            />
+          ) : null}
+        </Avatar>
       </Preview.Canvas>
       <Preview.Controls>
         <Preview.Control label="Size" htmlFor="avatar-preview-size">
@@ -38,6 +63,23 @@ export function AvatarPlaygroundPreview({ code, collapsedCode }: AvatarPlaygroun
             options={TYPES}
             value={type}
             onValueChange={(value) => setType(value as NonNullable<AvatarProps["type"]>)}
+          />
+        </Preview.Control>
+        <Preview.Control label="Badge" htmlFor="avatar-preview-badge">
+          <Preview.Select
+            id="avatar-preview-badge"
+            label="Badge"
+            options={BADGE_OPTIONS}
+            value={badge}
+            onValueChange={(value) => setBadge(value as BadgeOption)}
+          />
+        </Preview.Control>
+        <Preview.Control label="Pulse" htmlFor="avatar-preview-pulse">
+          <Preview.Checkbox
+            id="avatar-preview-pulse"
+            label="Pulse"
+            checked={pulse}
+            onCheckedChange={setPulse}
           />
         </Preview.Control>
       </Preview.Controls>

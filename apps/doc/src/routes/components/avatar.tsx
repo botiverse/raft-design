@@ -7,6 +7,7 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
+  Status,
 } from "raft-ui";
 import { Check } from "lucide-react";
 
@@ -356,7 +357,7 @@ const SNIPPETS = {
 <Avatar size="sm" type="human">
   <AvatarFallback />
 </Avatar>`,
-  badge: `import { Avatar, AvatarFallback, AvatarBadge } from "raft-ui";
+  badge: `import { Avatar, AvatarBadge, AvatarFallback, AvatarImage, Status } from "raft-ui";
 import { Check } from "lucide-react";
 
 <div className="flex items-end gap-4">
@@ -371,6 +372,11 @@ import { Check } from "lucide-react";
     <AvatarBadge className="bg-info-base">
       <Check />
     </AvatarBadge>
+  </Avatar>
+  <Avatar size="xl" type="agent">
+    <AvatarImage src={avatarPhotoUrls[0]} alt="Nova" />
+    <AvatarFallback />
+    <AvatarBadge render={<Status aria-hidden size="lg" variant="success" pulse />} />
   </Avatar>
 </div>
 
@@ -473,9 +479,16 @@ const AVATAR_FALLBACK_PROPS: readonly PropRow[] = [
 
 const AVATAR_BADGE_PROPS: readonly PropRow[] = [
   {
+    name: "render",
+    type: "useRender render prop",
+    description:
+      "Optional element override. Default is the solid pip; pass render={<Status … />} for activity/presence chrome.",
+  },
+  {
     name: "...props",
-    type: 'ComponentProps<"span">',
-    description: "Bottom-right badge slot. Auto-scales from the parent avatar size.",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Corner shell on the avatar. Default pip auto-scales from parent size; custom render owns its own size/color.",
   },
 ];
 
@@ -601,9 +614,9 @@ function AvatarDoc() {
 
           <DocSubsection parentId="usage" id="badge" title="Badge">
             <DocNote>
-              The badge auto-scales with the avatar's <code>size</code> via its{" "}
-              <code>data-size</code> + <code>group/avatar</code> hook. Frame, border weight, and
-              inner icon all track the step.
+              Default pip auto-scales with the avatar&apos;s <code>size</code>. Pass{" "}
+              <code>{`render={<Status />}`}</code> when the indicator needs Status variants or pulse
+              — the badge stays a corner shell.
             </DocNote>
             <Preview previewClassName="!min-h-56 flex-col gap-8">
               <Preview.Canvas>
@@ -619,6 +632,14 @@ function AvatarDoc() {
                     <AvatarBadge className="bg-info-base">
                       <Check />
                     </AvatarBadge>
+                  </Avatar>
+                  <Avatar size="xl" type="agent">
+                    <AvatarImage src={AVATAR_PHOTOS[0]} alt="Nova" />
+                    <AvatarFallback />
+                    <AvatarBadge
+                      title="Working"
+                      render={<Status aria-hidden size="lg" variant="success" pulse />}
+                    />
                   </Avatar>
                 </div>
                 <div className="flex items-end gap-4">

@@ -14,9 +14,6 @@ export const messageItem = tv({
       "transition-[filter,transform] duration-75 hover:brightness-90",
       "data-[avatar-pressed=true]:scale-90 data-[avatar-pressed=true]:brightness-75",
     ],
-    avatarStatus: [
-      "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full",
-    ],
     continuationTime: [
       "absolute right-0 top-1 select-none font-mono text-[10px] leading-none tabular-nums",
     ],
@@ -59,7 +56,6 @@ export const messageItem = tv({
           "mb-1 mt-1.5 px-2 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
-        avatarStatus: "border border-black",
         continuationTime: "text-black/0 group-hover/message:text-black/40",
         header: "items-center gap-2",
         sender: "font-bold text-black",
@@ -95,7 +91,6 @@ export const messageItem = tv({
         ],
         gutter: "max-md:w-8",
         avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
-        avatarStatus: "max-md:size-2.5",
         continuationTime: [
           "top-0 pt-1.5",
           "font-sans text-[12px] leading-none",

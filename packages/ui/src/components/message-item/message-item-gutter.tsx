@@ -49,29 +49,6 @@ export function MessageItemAvatarSlot({
   });
 }
 
-export type MessageItemAvatarStatusProps = useRender.ComponentProps<"span">;
-
-export function MessageItemAvatarStatus({
-  className,
-  render,
-  ...props
-}: MessageItemAvatarStatusProps) {
-  const theme = useThemeFamily();
-  const { avatarStatus } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: avatarStatus({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-item-avatar-status",
-    },
-  });
-}
-
 export type MessageItemContinuationTimeProps = useRender.ComponentProps<"span">;
 
 /** Left-gutter hover clock for continuation rows. Pass 24h `HH:MM` (no AM/PM). */

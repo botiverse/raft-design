@@ -1,5 +1,6 @@
 import {
   Avatar,
+  AvatarBadge,
   AvatarFallback,
   AvatarImage,
   PreviewCard,
@@ -14,7 +15,7 @@ import {
   type StatusProps,
 } from "raft-ui";
 import { User } from "lucide-react";
-import { MessageItemAvatarSlot, MessageItemAvatarStatus } from "raft-ui/wip";
+import { MessageItemAvatarSlot } from "raft-ui/wip";
 
 import { getPlaygroundActor, type PlaygroundActorId } from "../mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
@@ -199,7 +200,7 @@ export function PlaygroundMessageAvatar({
     >
       <PlaygroundAvatarContent actorId={actorId} compactHumanIcon />
       {isAgent && !deactivated ? (
-        <MessageItemAvatarStatus
+        <AvatarBadge
           title={STATUS_LABEL[status]}
           render={
             <Status
