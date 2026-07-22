@@ -207,7 +207,7 @@ function MessageItemDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="references" title="References">
+          <DocSubsection parentId="usage" id="references" title="MessageReference">
             <UsagePreview code={code.referenceShowcase}>
               <div className="w-full max-w-3xl">
                 <MessageReferenceShowcaseComposition />

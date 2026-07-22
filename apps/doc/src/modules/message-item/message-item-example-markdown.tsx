@@ -3,9 +3,7 @@ import {
   MessageCodeBlock,
   MessageInlineCode,
   MessageMarkdown,
-  MessageReferenceChannel,
-  MessageReferenceTask,
-  MessageReferenceThread,
+  MessageReference,
 } from "raft-ui/wip";
 import {
   MessageMentionReferenceComposition,
@@ -68,17 +66,23 @@ export function MessageItemExampleMarkdown({ portalContainer }: ExampleMarkdownP
       </p>
       <p>
         <ExampleSelfMention portalContainer={portalContainer}>@you</ExampleSelfMention> tracked{" "}
-        <MessageReferenceTask href="#task-141" onClick={preventNav}>
+        <MessageReference variant="muted" render={<a href="#task-141" onClick={preventNav} />}>
           #141
-        </MessageReferenceTask>{" "}
+        </MessageReference>{" "}
         in{" "}
-        <MessageReferenceChannel href="#release-notes" onClick={preventNav}>
+        <MessageReference
+          variant="accent"
+          render={<a href="#release-notes" onClick={preventNav} />}
+        >
           #release-notes
-        </MessageReferenceChannel>{" "}
+        </MessageReference>{" "}
         and linked{" "}
-        <MessageReferenceThread href="#release-notes-final" onClick={preventNav}>
+        <MessageReference
+          variant="info"
+          render={<a href="#release-notes-final" onClick={preventNav} />}
+        >
           #release-notes:final
-        </MessageReferenceThread>
+        </MessageReference>
         .
       </p>
       <ul>
@@ -99,9 +103,12 @@ export function MessageItemExampleMarkdownLead({ portalContainer }: ExampleMarkd
       <p>
         <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> starting a short
         sequence — first the <strong>layout pass</strong>, then gutter clock polish for{" "}
-        <MessageReferenceChannel href="#design-system" onClick={preventNav}>
+        <MessageReference
+          variant="accent"
+          render={<a href="#design-system" onClick={preventNav} />}
+        >
           #design-system
-        </MessageReferenceChannel>
+        </MessageReference>
         .
       </p>
     </MessageMarkdown>
@@ -122,9 +129,9 @@ export function MessageItemExampleMarkdownFollowUp({ portalContainer }: ExampleM
         </li>
         <li>
           Land{" "}
-          <MessageReferenceTask href="#task-97" onClick={preventNav}>
+          <MessageReference variant="muted" render={<a href="#task-97" onClick={preventNav} />}>
             #97
-          </MessageReferenceTask>{" "}
+          </MessageReference>{" "}
           before the{" "}
           <MessagePermalinkReferenceComposition href="#message-222">
             message #222
@@ -141,9 +148,9 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
     <MessageMarkdown>
       <p>
         Final note for <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> in{" "}
-        <MessageReferenceThread href="#layout-thread" onClick={preventNav}>
+        <MessageReference variant="info" render={<a href="#layout-thread" onClick={preventNav} />}>
           #layout:thread
-        </MessageReferenceThread>
+        </MessageReference>
         :
       </p>
       <blockquote>Compact rows should read as one thread, not a new speaker.</blockquote>

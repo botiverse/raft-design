@@ -1,17 +1,7 @@
 import type { ReactNode } from "react";
 import { Link as LinkIcon } from "lucide-react";
 import { PreviewCard, PreviewCardContent, PreviewCardTrigger, Spinner } from "raft-ui";
-import {
-  MessageReferenceLabel,
-  MessageReferenceChannelUnavailable,
-  MessageReferenceLoading,
-  MessageReferenceMention,
-  MessageReferenceMeta,
-  MessageReferencePermalink,
-  MessageReferenceSelfMention,
-  MessageReferenceTaskUnavailable,
-  MessageReferenceThreadUnavailable,
-} from "raft-ui/wip";
+import { MessageReference, MessageReferenceLabel, MessageReferenceMeta } from "raft-ui/wip";
 
 type MessageReferenceCompositionProps = {
   children: ReactNode;
@@ -38,7 +28,7 @@ export function MessageMentionReferenceComposition({
       <PreviewCardTrigger
         closeDelay={120}
         delay={200}
-        render={<MessageReferenceMention href={href} />}
+        render={<MessageReference variant="plain" render={<a href={href} />} />}
       >
         {children}
       </PreviewCardTrigger>
@@ -65,7 +55,7 @@ export function MessageSelfMentionReferenceComposition({
       <PreviewCardTrigger
         closeDelay={120}
         delay={200}
-        render={<MessageReferenceSelfMention href={href} />}
+        render={<MessageReference variant="highlight" render={<a href={href} />} />}
       >
         {children}
       </PreviewCardTrigger>
@@ -87,30 +77,30 @@ export function MessagePermalinkReferenceComposition({
   href,
 }: MessageReferenceCompositionProps & { external?: boolean }) {
   return (
-    <MessageReferencePermalink external={external} href={href}>
+    <MessageReference variant={external ? "external" : "panel"} render={<a href={href} />}>
       <LinkIcon />
       <MessageReferenceLabel>{children}</MessageReferenceLabel>
       <MessageReferenceMeta>msg</MessageReferenceMeta>
-    </MessageReferencePermalink>
+    </MessageReference>
   );
 }
 
 export function MessageReferenceLoadingComposition({ children }: { children: ReactNode }) {
   return (
-    <MessageReferenceLoading>
+    <MessageReference variant="pending">
       {children}
       <Spinner size="xs" />
-    </MessageReferenceLoading>
+    </MessageReference>
   );
 }
 
 export function MessageUnavailableReferencesComposition() {
   return (
     <p>
-      Unavailable references retain their source treatment:{" "}
-      <MessageReferenceChannelUnavailable>#archived</MessageReferenceChannelUnavailable>{" "}
-      <MessageReferenceTaskUnavailable>#404</MessageReferenceTaskUnavailable>{" "}
-      <MessageReferenceThreadUnavailable>#general:deadbeef</MessageReferenceThreadUnavailable>
+      Unavailable references use one treatment:{" "}
+      <MessageReference variant="unavailable">#archived</MessageReference>{" "}
+      <MessageReference variant="unavailable">#404</MessageReference>{" "}
+      <MessageReference variant="unavailable">#general:deadbeef</MessageReference>
     </p>
   );
 }

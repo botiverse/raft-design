@@ -35,7 +35,7 @@ import {
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
   MessageQuotedPreviewUnavailable,
-  MessageReferenceThreadUnavailable,
+  MessageReference,
 } from "raft-ui/wip";
 
 function QuotedPreviewMessage({
@@ -122,10 +122,7 @@ export function QuotedPreviewFeedbackComposition() {
     <QuotedPreviewMessage sender="Atlas" time="2:26 PM">
       <MessageItemBody>
         The linked thread is{" "}
-        <MessageReferenceThreadUnavailable>
-          unavailable or deleted
-        </MessageReferenceThreadUnavailable>
-        .
+        <MessageReference variant="unavailable">unavailable or deleted</MessageReference>.
       </MessageItemBody>
       <MessageItemEmbedded>
         <MessageQuotedPreviewLoading data-testid="quoted-message-card-loading">

@@ -114,22 +114,15 @@ export const PROPS: readonly PropRow[] = [
     description: "Translation status and caller-wired original/translation toggle or retry action.",
   },
   {
-    name: "MessageReferenceSelfMention / MessageReferenceChannel / MessageReferenceTask / MessageReferenceThread",
-    type: 'useRender.ComponentProps<"a">',
+    name: "MessageReference",
+    type: 'useRender.ComponentProps<"span"> & Omit<MessageReferenceVariantProps, "theme">',
     description:
-      "Resolved inline reference treatments. Consumers own entity lookup and navigation, while the primitives preserve the source chip treatment.",
+      "Inline message reference (default span). Variants: plain, accent, highlight, muted, info, subtle, panel, external, pending, unavailable. Use render={<a href=… />} for links. Label/Meta compose inside chip variants.",
   },
   {
-    name: "MessageReferenceChannelUnavailable / MessageReferenceTaskUnavailable / MessageReferenceThreadUnavailable",
+    name: "MessageReferenceLabel / MessageReferenceMeta",
     type: 'useRender.ComponentProps<"span">',
-    description:
-      "Non-interactive unavailable reference treatments. Consumers choose the resolved label and when a referenced entity is unavailable.",
-  },
-  {
-    name: "MessageReferenceComment",
-    type: 'useRender.ComponentProps<"a">',
-    description:
-      "Attachment-comment reference chip. Consumers provide the label, optional quoted context, and jump behavior.",
+    description: "Optional label and meta slots for chip-style references (e.g. permalink).",
   },
   {
     name: "MessageItemToolbar",

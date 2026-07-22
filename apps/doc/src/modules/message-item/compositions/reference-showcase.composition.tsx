@@ -13,10 +13,7 @@ import {
   MessageItemSender,
   MessageItemTime,
   MessageMarkdown,
-  MessageReferenceChannel,
-  MessageReferenceComment,
-  MessageReferenceTask,
-  MessageReferenceThread,
+  MessageReference,
 } from "raft-ui/wip";
 import {
   MessageMentionReferenceComposition,
@@ -25,6 +22,10 @@ import {
   MessageSelfMentionReferenceComposition,
   MessageUnavailableReferencesComposition,
 } from "./content.compositions.tsx";
+
+function preventNav(event: { preventDefault: () => void }) {
+  event.preventDefault();
+}
 
 function AttachmentCommentReferenceRow() {
   return (
@@ -41,16 +42,19 @@ function AttachmentCommentReferenceRow() {
           <MessageItemTime>2:21 PM</MessageItemTime>
         </MessageItemHeader>
         <div className="mb-0.5">
-          <MessageReferenceComment
-            href="#attachment-comment"
-            onClick={(event) => {
-              event.preventDefault();
-            }}
-            title="Jump to the message with architecture.pdf · L12"
+          <MessageReference
+            variant="subtle"
+            render={
+              <a
+                href="#attachment-comment"
+                onClick={preventNav}
+                title="Jump to the message with architecture.pdf · L12"
+              />
+            }
           >
             <MessageSquare size={12} />
             <span>re: architecture.pdf · L12</span>
-          </MessageReferenceComment>
+          </MessageReference>
         </div>
         <MessageMarkdown>
           <blockquote>
@@ -114,41 +118,41 @@ export function MessageReferenceShowcaseComposition() {
                     @you
                   </MessageSelfMentionReferenceComposition>{" "}
                   assigned{" "}
-                  <MessageReferenceTask
-                    href="#task-141"
-                    onClick={(event) => event.preventDefault()}
+                  <MessageReference
+                    variant="muted"
+                    render={<a href="#task-141" onClick={preventNav} />}
                   >
                     #141
-                  </MessageReferenceTask>{" "}
+                  </MessageReference>{" "}
                   in{" "}
-                  <MessageReferenceChannel
-                    href="#release-notes"
-                    onClick={(event) => event.preventDefault()}
+                  <MessageReference
+                    variant="accent"
+                    render={<a href="#release-notes" onClick={preventNav} />}
                   >
                     #release-notes
-                  </MessageReferenceChannel>{" "}
+                  </MessageReference>{" "}
                   and linked{" "}
-                  <MessageReferenceThread
-                    href="#release-notes-final"
-                    onClick={(event) => event.preventDefault()}
+                  <MessageReference
+                    variant="info"
+                    render={<a href="#release-notes-final" onClick={preventNav} />}
                   >
                     #release-notes:final
-                  </MessageReferenceThread>
+                  </MessageReference>
                   . DM parents reuse the same chip chrome —{" "}
-                  <MessageReferenceChannel
-                    href="#dm-kai"
-                    onClick={(event) => event.preventDefault()}
+                  <MessageReference
+                    variant="accent"
+                    render={<a href="#dm-kai" onClick={preventNav} />}
                   >
                     dm:@kai
-                  </MessageReferenceChannel>{" "}
-                  (pink) and{" "}
-                  <MessageReferenceThread
-                    href="#dm-kai-a1b2c3d4"
-                    onClick={(event) => event.preventDefault()}
+                  </MessageReference>{" "}
+                  (accent) and{" "}
+                  <MessageReference
+                    variant="info"
+                    render={<a href="#dm-kai-a1b2c3d4" onClick={preventNav} />}
                   >
                     dm:@kai:a1b2c3d4
-                  </MessageReferenceThread>{" "}
-                  (cyan).
+                  </MessageReference>{" "}
+                  (info).
                 </p>
                 <p>
                   <MessageReferenceLoadingComposition>

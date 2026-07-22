@@ -15,50 +15,55 @@ export const messageReference = tv({
       brutal: { root: "focus-visible:outline-black" },
       elegant: { meta: "text-foreground-muted" },
     },
-    treatment: {
-      mention: {
+    variant: {
+      // Underline text mention (@Ada)
+      plain: {
         root: [
           "font-bold underline decoration-2 underline-offset-2",
           "hover:text-accent-500 hover:decoration-accent-500",
         ],
       },
-      // Chip box matches live MSG_REF_CHIP: inherit size + leading-[1.5] + border
-      // + align-bottom (scales with message body font-size preference).
-      selfMention: {
+      // Soft-signal chip (@you / self)
+      highlight: {
         root: [
           "inline-block align-bottom border border-line-strong bg-soft-signal px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-soft-signal/80",
         ],
       },
-      channel: {
+      // Accent / pink chip (#channel)
+      accent: {
         root: [
           "inline-block align-bottom border border-line-strong bg-accent-200/60 px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-accent-400/45",
         ],
       },
-      task: {
+      // Neutral muted chip (#task)
+      muted: {
         root: [
           "inline-block align-bottom border border-line-strong bg-layer-muted px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-layer-strong",
         ],
       },
-      thread: {
+      // Info / cyan chip (thread)
+      info: {
         root: [
           "inline-block align-bottom border border-line-strong bg-info-light px-1 font-bold text-info-dark",
           "[font-size:inherit] leading-[1.5]",
           "hover:bg-info-base/45",
         ],
       },
-      comment: {
+      // Subtle stone chip (comment)
+      subtle: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
         ],
       },
-      permalink: {
+      // Panel chip (internal permalink)
+      panel: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-bold text-foreground",
           "[font-size:inherit] leading-[1.5]",
@@ -66,7 +71,8 @@ export const messageReference = tv({
           "[&_svg]:size-3",
         ],
       },
-      externalPermalink: {
+      // External permalink
+      external: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-bold text-info-dark",
           "[font-size:inherit] leading-[1.5]",
@@ -74,25 +80,15 @@ export const messageReference = tv({
           "[&_svg]:size-3",
         ],
       },
-      loading: {
+      // Resolving / loading chip
+      pending: {
         root: [
           "inline-flex cursor-wait items-center gap-1 align-bottom border border-line-strong bg-layer-muted px-1 font-bold text-foreground opacity-80",
           "[font-size:inherit] leading-[1.5]",
         ],
       },
-      channelUnavailable: {
-        root: [
-          "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
-          "[font-size:inherit] leading-[1.5]",
-        ],
-      },
-      threadUnavailable: {
-        root: [
-          "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
-          "[font-size:inherit] leading-[1.5]",
-        ],
-      },
-      taskUnavailable: {
+      // Missing / unresolvable chip
+      unavailable: {
         root: [
           "inline-block align-bottom border border-line-strong px-1 font-bold opacity-60",
           "[font-size:inherit] leading-[1.5]",
@@ -103,7 +99,7 @@ export const messageReference = tv({
   compoundVariants: [
     {
       theme: "brutal",
-      treatment: "mention",
+      variant: "plain",
       class: {
         root: [
           "cursor-default text-black decoration-black/30",
@@ -113,74 +109,64 @@ export const messageReference = tv({
     },
     {
       theme: "brutal",
-      treatment: "selfMention",
+      variant: "highlight",
       class: { root: "cursor-default border-black bg-soft-signal text-black" },
     },
     {
       theme: "brutal",
-      treatment: "channel",
+      variant: "accent",
       class: {
         root: "cursor-default border-black bg-brutal-pink/30 text-black hover:bg-brutal-pink/60",
       },
     },
     {
       theme: "brutal",
-      treatment: "task",
+      variant: "muted",
       class: {
         root: "cursor-default border-black bg-soft-signal/40 text-black hover:bg-soft-signal",
       },
     },
     {
       theme: "brutal",
-      treatment: "thread",
+      variant: "info",
       class: {
         root: "cursor-default border-black bg-brutal-cyan/30 text-black hover:bg-brutal-cyan/60",
       },
     },
     {
       theme: "brutal",
-      treatment: "comment",
+      variant: "subtle",
       class: {
         root: "cursor-default border-black bg-brutal-stone/25 text-black hover:bg-brutal-stone/40",
       },
     },
     {
       theme: "brutal",
-      treatment: "permalink",
+      variant: "panel",
       class: {
         root: "cursor-default border-black bg-soft-signal/40 text-black hover:bg-soft-signal",
       },
     },
     {
       theme: "brutal",
-      treatment: "externalPermalink",
+      variant: "external",
       class: {
         root: "cursor-default border-black bg-white text-[oklch(0.488_0.243_264.376)] hover:bg-black/5",
       },
     },
     {
       theme: "brutal",
-      treatment: "loading",
+      variant: "pending",
       class: { root: "border-black bg-brutal-cyan/30 text-black" },
     },
     {
       theme: "brutal",
-      treatment: "channelUnavailable",
-      class: { root: "border-black bg-brutal-pink/30 text-black" },
-    },
-    {
-      theme: "brutal",
-      treatment: "threadUnavailable",
-      class: { root: "border-black bg-brutal-cyan/30 text-black" },
-    },
-    {
-      theme: "brutal",
-      treatment: "taskUnavailable",
+      variant: "unavailable",
       class: { root: "border-black bg-soft-signal/30 text-black" },
     },
     {
       theme: "elegant",
-      treatment: "mention",
+      variant: "plain",
       class: {
         root: [
           "inline-block cursor-pointer align-bottom font-medium text-foreground-strong",
@@ -190,15 +176,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      treatment: [
-        "selfMention",
-        "channel",
-        "task",
-        "thread",
-        "comment",
-        "permalink",
-        "externalPermalink",
-      ],
+      variant: ["highlight", "accent", "muted", "info", "subtle", "panel", "external"],
       class: {
         root: [
           "cursor-pointer rounded-sm border-line-subtle px-1.5",
@@ -208,7 +186,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      treatment: "selfMention",
+      variant: "highlight",
       class: {
         root: [
           "border-primary-400/20 bg-primary-400/15 text-foreground-strong",
@@ -218,7 +196,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      treatment: "channel",
+      variant: "accent",
       class: {
         root: [
           "border-accent-400/20 bg-accent-400/10 text-foreground-strong",
@@ -228,14 +206,14 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      treatment: "task",
+      variant: "muted",
       class: {
         root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
       },
     },
     {
       theme: "elegant",
-      treatment: "thread",
+      variant: "info",
       class: {
         root: [
           "border-info-base/20 bg-info-base/10 text-foreground-strong",
@@ -245,21 +223,21 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      treatment: "comment",
+      variant: "subtle",
       class: {
         root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
       },
     },
     {
       theme: "elegant",
-      treatment: ["permalink", "externalPermalink"],
+      variant: ["panel", "external"],
       class: {
         root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
       },
     },
     {
       theme: "elegant",
-      treatment: "loading",
+      variant: "pending",
       class: {
         root: [
           "cursor-wait rounded-sm border-line-subtle bg-layer-muted px-1.5 opacity-100",
@@ -269,7 +247,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      treatment: ["channelUnavailable", "threadUnavailable", "taskUnavailable"],
+      variant: "unavailable",
       class: {
         root: [
           "cursor-default rounded-sm border-line-subtle bg-layer-muted/70 px-1.5 opacity-100",
@@ -278,6 +256,10 @@ export const messageReference = tv({
       },
     },
   ],
+  defaultVariants: {
+    variant: "muted",
+  },
 });
 
 export type MessageReferenceVariantProps = VariantProps<typeof messageReference>;
+export type MessageReferenceVariant = NonNullable<MessageReferenceVariantProps["variant"]>;

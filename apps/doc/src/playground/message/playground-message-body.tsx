@@ -3,11 +3,7 @@ import {
   MessageCodeBlock,
   MessageInlineCode,
   MessageMarkdown,
-  MessageReferenceChannel,
-  MessageReferenceMention,
-  MessageReferenceSelfMention,
-  MessageReferenceTask,
-  MessageReferenceThread,
+  MessageReference,
 } from "raft-ui/wip";
 
 import { PLAYGROUND_ACTORS } from "../mock/actors.ts";
@@ -69,27 +65,35 @@ function renderInlineText(text: string, keyPrefix: string): ReactNode[] {
       const label = `@${mentionName}`;
       if (actor?.id === VIEWER_ACTOR_ID) {
         nodes.push(
-          <MessageReferenceSelfMention key={key} href={`#${actor.id}`} onClick={preventNav}>
+          <MessageReference
+            key={key}
+            variant="highlight"
+            render={<a href={`#${actor.id}`} onClick={preventNav} />}
+          >
             {label}
-          </MessageReferenceSelfMention>,
+          </MessageReference>,
         );
       } else {
         nodes.push(
-          <MessageReferenceMention
+          <MessageReference
             key={key}
-            href={`#${actor?.id ?? mentionName}`}
-            onClick={preventNav}
+            variant="plain"
+            render={<a href={`#${actor?.id ?? mentionName}`} onClick={preventNav} />}
           >
             {label}
-          </MessageReferenceMention>,
+          </MessageReference>,
         );
       }
     } else if (taskWithKeyword !== undefined || bareTask !== undefined) {
       const taskNumber = taskWithKeyword ?? bareTask;
       nodes.push(
-        <MessageReferenceTask key={key} href={`#task-${taskNumber}`} onClick={preventNav}>
+        <MessageReference
+          key={key}
+          variant="muted"
+          render={<a href={`#task-${taskNumber}`} onClick={preventNav} />}
+        >
           #{taskNumber}
-        </MessageReferenceTask>,
+        </MessageReference>,
       );
     } else if (full.startsWith("#")) {
       const channelMatch = full.match(/^#([^:]+)(?::(.+))?$/);
@@ -97,19 +101,23 @@ function renderInlineText(text: string, keyPrefix: string): ReactNode[] {
       const shortId = threadShortId ?? channelMatch?.[2];
       if (shortId) {
         nodes.push(
-          <MessageReferenceThread
+          <MessageReference
             key={key}
-            href={`#${channelName}:${shortId}`}
-            onClick={preventNav}
+            variant="info"
+            render={<a href={`#${channelName}:${shortId}`} onClick={preventNav} />}
           >
             #{channelName}:{shortId}
-          </MessageReferenceThread>,
+          </MessageReference>,
         );
       } else {
         nodes.push(
-          <MessageReferenceChannel key={key} href={`#${channelName}`} onClick={preventNav}>
+          <MessageReference
+            key={key}
+            variant="accent"
+            render={<a href={`#${channelName}`} onClick={preventNav} />}
+          >
             #{channelName}
-          </MessageReferenceChannel>,
+          </MessageReference>,
         );
       }
     } else {
