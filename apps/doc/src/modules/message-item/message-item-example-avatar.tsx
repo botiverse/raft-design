@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage, type AvatarProps } from "raft-ui";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "./message-item.fixtures.ts";
 
+/** Docs-only fixture wrapper: real Avatar + shared photo. Not a UI API. */
 type MessageItemExampleAvatarProps = {
   className?: string;
   fallback?: string;

@@ -42,7 +42,7 @@ const avatar = tv({
       "group-data-[size=3xs]/avatar:[&>svg]:size-2.5",
     ],
     badge: [
-      "absolute right-0 bottom-0 z-10 translate-x-1/4 translate-y-1/4 select-none",
+      "absolute z-10 select-none",
       "inline-flex items-center justify-center rounded-full outline-2 outline-white",
       "size-2 [&>svg]:hidden",
       "group-data-[size=xl]/avatar:size-3.5 group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
@@ -60,7 +60,10 @@ const avatar = tv({
       brutal: {
         root: "border-black text-black",
         fallback: "text-black",
-        badge: ["bg-success-base text-foreground-strong"],
+        badge: [
+          "right-0 bottom-0 translate-x-1/4 translate-y-1/4",
+          "bg-success-base text-foreground-strong",
+        ],
         group: [
           "-space-x-1.5",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-primary-50",
@@ -78,10 +81,14 @@ const avatar = tv({
           "group-data-[size=3xs]/avatar:text-[10px]",
         ],
         badge: [
-          "translate-x-0 translate-y-0 bg-success-base text-foreground-inverse",
-          "right-0.5 bottom-0.5",
-          "group-data-[size=xl]/avatar:right-1 group-data-[size=xl]/avatar:bottom-1",
-          "group-data-[size=lg]/avatar:right-0.75 group-data-[size=lg]/avatar:bottom-0.75",
+          "bg-success-base text-foreground-inverse",
+          "group-data-[size=xl]/avatar:right-[2px] group-data-[size=xl]/avatar:bottom-[2px]",
+          "group-data-[size=lg]/avatar:right-[2px] group-data-[size=lg]/avatar:bottom-[2px]",
+          "group-data-[size=md]/avatar:right-[-1px] group-data-[size=md]/avatar:bottom-[-1px]",
+          "group-data-[size=sm]/avatar:right-[-1px] group-data-[size=sm]/avatar:bottom-[-1px]",
+          "group-data-[size=xs]/avatar:right-0 group-data-[size=xs]/avatar:bottom-0",
+          "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
+          "group-data-[size=3xs]/avatar:right-0 group-data-[size=3xs]/avatar:bottom-0",
         ],
         group: [
           "-space-x-2",
