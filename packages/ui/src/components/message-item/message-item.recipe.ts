@@ -18,7 +18,7 @@ export const messageItem = tv({
       "absolute -right-[2px] -bottom-[2px] inline-block size-[11px] shrink-0 rounded-full",
     ],
     continuationTime: [
-      "absolute right-1 top-1 select-none font-mono text-[10px] leading-none tabular-nums",
+      "absolute right-0 top-1 select-none font-mono text-[10px] leading-none tabular-nums",
     ],
     content: ["min-w-0 flex-1"],
     header: ["flex min-w-0 overflow-hidden pr-24"],
@@ -97,7 +97,7 @@ export const messageItem = tv({
         avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
         avatarStatus: "max-md:size-2.5",
         continuationTime: [
-          "left-0 right-auto top-0 pt-1.5",
+          "top-0 pt-1.5",
           "font-sans text-[12px] leading-none",
           "text-transparent group-hover/message:text-foreground-muted/60",
         ],
