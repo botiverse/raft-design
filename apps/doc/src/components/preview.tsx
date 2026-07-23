@@ -321,7 +321,7 @@ function PreviewRoot({
   previewTheme,
   previewMode,
 }: PreviewProps) {
-  const isDesktop = useMediaQuery("(min-width: 768px)", false);
+  const isDesktop = useMediaQuery("(min-width: 768px)", true);
   const canvas = getPreviewPart(children, PreviewCanvas);
   const controls = getPreviewPart(children, PreviewControls);
   const code = getPreviewPart(children, PreviewCode);
