@@ -35,8 +35,8 @@ const tabs = tv({
     list: [""],
     background: [""],
     tab: [
-      "relative z-10 flex shrink-0 !cursor-pointer touch-manipulation items-center gap-1.5 whitespace-nowrap outline-none",
-      "data-[reorderable=true]:!cursor-pointer data-[dragging-source=true]:!cursor-grabbing",
+      "relative z-10 flex shrink-0 cursor-pointer touch-manipulation items-center gap-1.5 whitespace-nowrap outline-none",
+      "data-[reorderable=true]:cursor-pointer data-[dragging-source=true]:cursor-grabbing",
     ],
     content: ["relative z-10 inline-flex items-center gap-[inherit]"],
     label: [""],

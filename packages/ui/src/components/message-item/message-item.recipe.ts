@@ -96,23 +96,23 @@ export const messageItem = tv({
         avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
         continuationTime: [
           "top-0 pt-1.5",
-          "font-sans text-[12px] leading-none",
+          "font-sans text-xs leading-none",
           "text-transparent group-hover/message:text-foreground-muted/60",
         ],
         // Pre-body chips inherit body type size from content (same as brutal).
-        content: "text-[14px] leading-[21px] tracking-[-0.01em]",
+        content: "text-sm leading-5.25 tracking-[-0.01em]",
         header: "items-baseline gap-1.5",
-        sender: "text-[14px] font-medium leading-none text-foreground-muted",
+        sender: "text-sm font-medium leading-none text-foreground-muted",
         senderState: [
           "rounded-sm border-0 bg-layer-muted px-1.5 py-0.5",
           "text-[10px] font-medium normal-case leading-none text-foreground-muted",
         ],
-        meta: "font-sans text-[12px] leading-none text-foreground-muted",
-        time: "font-sans text-[12px] leading-none tabular-nums text-foreground-muted",
+        meta: "font-sans text-xs leading-none text-foreground-muted",
+        time: "font-sans text-xs leading-none tabular-nums text-foreground-muted",
         inlineStatus: "font-sans text-[11px] font-medium leading-none text-foreground-muted",
         body: [
           "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
-          "text-[14px] leading-[21px] tracking-[-0.01em] text-foreground-muted",
+          "text-sm leading-5.25 tracking-[-0.01em] text-foreground-muted",
           "select-text [&_*]:select-text",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
@@ -129,12 +129,12 @@ export const messageItem = tv({
         ],
         toolbar: [
           "top-1 right-[26px]",
-          "gap-[2px] rounded-sm px-1 py-[2px]",
+          "gap-0.5 rounded-sm px-1 py-0.5",
           "bg-layer-popover bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_0.05)_0%,oklab(0%_0_0_/_0.01)_100%)]",
           "shadow-lg ring-1 ring-line-subtle",
         ],
         toolbarButton: [
-          "size-7 rounded-md border border-transparent bg-transparent !p-0",
+          "size-7 rounded-md border border-transparent bg-transparent p-0",
           "text-foreground-icon hover:bg-layer-strong/80 hover:text-foreground",
           "data-[pressed]:text-primary-400 data-[pressed]:hover:text-primary-400",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
@@ -210,7 +210,7 @@ export const messageItem = tv({
     {
       theme: "elegant",
       compact: true,
-      class: { root: "mt-0 min-h-0 pt-[2px] pb-[2px] max-md:pt-[2px] max-md:pb-[2px]" },
+      class: { root: "mt-0 min-h-0 pt-0.5 pb-0.5 max-md:pt-0.5 max-md:pb-0.5" },
     },
   ],
 });

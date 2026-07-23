@@ -14,12 +14,12 @@ export const chatSidebarSection = tv({
     sidebarSectionTitle: ["min-w-0 truncate"],
     sidebarSectionCount: [],
     sidebarSectionAttention: [
-      "inline-flex min-w-[18px] shrink-0 items-center justify-center",
+      "inline-flex min-w-4.5 shrink-0 items-center justify-center",
       "group-has-[[data-panel-open]]/section-header:hidden",
       "group-has-[[data-popup-open]]/section-header:hidden",
       "group-hover/section-header:hidden",
     ],
-    sidebarSectionTrailing: ["relative flex min-w-[18px] shrink-0 items-center justify-end"],
+    sidebarSectionTrailing: ["relative flex min-w-4.5 shrink-0 items-center justify-end"],
     sidebarSectionControls: [
       "flex shrink-0 items-center gap-1",
       "pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 opacity-0",

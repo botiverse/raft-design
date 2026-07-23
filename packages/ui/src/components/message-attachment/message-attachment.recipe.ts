@@ -10,7 +10,7 @@ export const messageAttachment = tv({
     card: [
       "group/attachment relative inline-flex h-20 w-44 min-w-44 max-w-44 shrink-0 flex-col justify-between overflow-hidden",
       "border px-2.5 py-2 text-left transition-colors",
-      "has-[[data-slot=message-attachment-loading-bar]]:cursor-wait has-[[data-slot=message-attachment-loading-bar]]:!bg-soft-signal/30",
+      "has-[[data-slot=message-attachment-loading-bar]]:cursor-wait has-[[data-slot=message-attachment-loading-bar]]:bg-soft-signal/30",
       "has-[[data-slot=message-attachment-pending-indicator]]:opacity-70",
     ],
     icon: [

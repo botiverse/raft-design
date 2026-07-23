@@ -110,7 +110,7 @@ export const buttonVariants = tv({
       },
       sm: {
         root: [
-          "gap-[5px] px-2.5 py-[6px] text-xs",
+          "gap-[5px] px-2.5 py-1.5 text-xs",
           "has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2",
           "[&_[data-icon]]:size-[1em]",
           "[&_svg:not([class*='size-'])]:size-3.5",
@@ -125,14 +125,14 @@ export const buttonVariants = tv({
       },
       lg: {
         root: [
-          "gap-[6px] px-3.5 py-2 text-base",
+          "gap-1.5 px-3.5 py-2 text-base",
           "has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
           "[&_[data-icon]]:size-[1em]",
           "[&_svg:not([class*='size-'])]:size-4",
         ],
       },
       "icon-xs": { root: ["p-[5px] text-[11px]", "[&_svg:not([class*='size-'])]:size-3"] },
-      "icon-sm": { root: ["p-[6px] text-xs", "[&_svg:not([class*='size-'])]:size-3.5"] },
+      "icon-sm": { root: ["p-1.5 text-xs", "[&_svg:not([class*='size-'])]:size-3.5"] },
       "icon-md": { root: ["p-2 text-sm", "[&_svg:not([class*='size-'])]:size-4"] },
       "icon-lg": { root: ["p-3 text-sm", "[&_svg:not([class*='size-'])]:size-4"] },
     },
@@ -176,7 +176,7 @@ export const buttonVariants = tv({
       theme: "elegant",
       variant: ["outline", "danger-outline"],
       size: "xs",
-      class: { root: "py-[6px]" },
+      class: { root: "py-1.5" },
     },
     {
       theme: "elegant",

@@ -15,7 +15,7 @@ export const files = tv({
     ],
     visual: [
       "flex size-14 shrink-0 items-center justify-center overflow-hidden border-2",
-      "[&_svg]:size-[18px] [&_svg]:shrink-0",
+      "[&_svg]:size-4.5 [&_svg]:shrink-0",
     ],
     image: [
       "block h-full w-full bg-white",

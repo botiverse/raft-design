@@ -30,7 +30,7 @@ export const threadPanel = tv({
         search: "border-b-2 border-black bg-white",
         searchCount: "text-black/50",
         originalMessage: [
-          "bg-white px-[10px] border-b-2 border-black",
+          "bg-white px-2.5 border-b-2 border-black",
           "[&_[data-message-item]]:bg-white",
         ],
         replyCount: "border-black/10 text-black/40",
@@ -41,7 +41,7 @@ export const threadPanel = tv({
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
           "border-b border-line-subtle bg-layer-page lg:border-l lg:pl-[19px]",
-          "max-lg:gap-2 max-lg:px-[14px] max-md:h-[var(--shell-header-height,56px)]",
+          "max-lg:gap-2 max-lg:px-3.5 max-md:h-[var(--shell-header-height,56px)]",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
           "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-sm",
           "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
@@ -50,14 +50,14 @@ export const threadPanel = tv({
         content: [
           "relative overflow-clip",
           "bg-layer-panel",
-          "[&_[data-message-item]]:px-[18px] [&_[data-message-item]]:max-lg:px-[12px]",
+          "[&_[data-message-item]]:px-[18px] [&_[data-message-item]]:max-lg:px-3",
         ],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
         ],
         titleMeta: "text-foreground-muted",
-        search: ["max-lg:px-[14px]", "border-b border-line-subtle bg-layer-page"],
+        search: ["max-lg:px-3.5", "border-b border-line-subtle bg-layer-page"],
         searchTrailing: [
           "[&>[data-slot=thread-panel-actions]]:gap-0.5",
           "[&_[data-slot=panel-action]]:px-1.5 [&_[data-slot=panel-action]]:py-1.5",
@@ -69,9 +69,9 @@ export const threadPanel = tv({
           "border-b border-line-subtle",
           "[&_[data-message-item]]:bg-transparent",
         ],
-        replySummary: "px-5 max-lg:px-[14px]",
+        replySummary: "px-5 max-lg:px-3.5",
         replyCount: "border-line-muted text-foreground-muted",
-        footer: ["px-5 max-lg:px-[14px] md:px-5 max-md:px-[14px]", "text-foreground-muted"],
+        footer: ["px-5 max-lg:px-3.5 md:px-5 max-md:px-3.5", "text-foreground-muted"],
       },
     },
   },

@@ -5,12 +5,12 @@ export const messageFooter = tv({
     savedIndicator: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
       "border border-line-strong px-1.5 text-[10px] font-bold leading-none",
-      "[&_svg]:size-[10px] [&_svg]:shrink-0",
+      "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
     readReceipt: [
       "inline-flex h-5 shrink-0 items-center gap-1 whitespace-nowrap",
       "text-[10px] font-bold leading-none",
-      "[&_svg]:size-[10px] [&_svg]:shrink-0",
+      "[&_svg]:size-2.5 [&_svg]:shrink-0",
     ],
     badge: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
@@ -64,7 +64,7 @@ export const messageFooter = tv({
         ],
         readReceipt: "text-[11px] font-medium text-foreground-muted",
         badge: [
-          "!h-[20px] rounded-md px-1.5 py-0.5 shadow-none ring-0",
+          "rounded-md px-1.5 py-0.5 shadow-none ring-0",
           "text-[12px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",
         ],
         inlineReplies: "border-line-subtle",
@@ -80,8 +80,8 @@ export const messageFooter = tv({
     },
   },
   compoundVariants: [
-    { theme: "brutal", badgeStatus: "read", class: { badge: "!bg-white" } },
-    { theme: "brutal", badgeStatus: "unread", class: { badge: "!bg-brutal-cyan/20" } },
+    { theme: "brutal", badgeStatus: "read", class: { badge: "bg-white" } },
+    { theme: "brutal", badgeStatus: "unread", class: { badge: "bg-brutal-cyan/20" } },
     {
       theme: "elegant",
       badgeStatus: "read",
@@ -92,8 +92,8 @@ export const messageFooter = tv({
       badgeStatus: "unread",
       class: {
         badge: [
-          "!h-[20px] border-transparent !bg-primary-100 !text-primary-800",
-          "text-[12px] tracking-[-0.01em] hover:!bg-primary-200/90",
+          "border-transparent bg-primary-100 text-primary-800",
+          "text-[12px] tracking-[-0.01em] hover:bg-primary-200/90",
         ],
       },
     },

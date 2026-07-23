@@ -189,11 +189,11 @@ export function AppShellSidebarSlot({ className, render, ...props }: AppShellSid
         className,
         sidebar?.collapsible && [
           "will-change-[opacity]",
-          "transition-opacity duration-[160ms] ease-[cubic-bezier(0.32,0.72,0,1)]",
+          "transition-opacity duration-160 ease-[cubic-bezier(0.32,0.72,0,1)]",
           "motion-reduce:transition-none",
           "group-data-[state=collapsed]/app-shell:pointer-events-none",
           "group-data-[state=collapsed]/app-shell:opacity-0",
-          "group-data-[state=collapsed]/app-shell:duration-[120ms]",
+          "group-data-[state=collapsed]/app-shell:duration-120",
         ],
       ),
     }),
@@ -220,8 +220,8 @@ export function AppShellMainSlot({ className, render, ...props }: AppShellMainSl
       className: cn(
         className,
         sidebar?.collapsible && [
-          "absolute inset-y-0 right-0 left-0 z-[45]",
-          "transition-[left] duration-[220ms] ease-[cubic-bezier(0.32,0.72,0,1)]",
+          "absolute inset-y-0 right-0 left-0 z-45",
+          "transition-[left] duration-220 ease-[cubic-bezier(0.32,0.72,0,1)]",
           "motion-reduce:transition-none",
           "group-data-[state=collapsed]/app-shell:left-[calc(var(--app-shell-sidebar-width)*-1)]",
         ],

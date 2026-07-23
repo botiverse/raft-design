@@ -2,16 +2,16 @@ import { tv } from "../../lib/tv";
 
 export const taskLoading = tv({
   slots: {
-    list: ["flex flex-col gap-[8px]"],
-    row: ["flex min-w-0 flex-col gap-[6px] p-[12px]"],
+    list: ["flex flex-col gap-2"],
+    row: ["flex min-w-0 flex-col gap-1.5 p-3"],
   },
   variants: {
     theme: {
       brutal: {
-        row: ["rounded-[4px] border-2 border-line-strong/30"],
+        row: ["rounded-sm border-2 border-line-strong/30"],
       },
       elegant: {
-        row: ["rounded-[8px] border border-line-subtle bg-layer-panel shadow-sm"],
+        row: ["rounded-lg border border-line-subtle bg-layer-panel shadow-sm"],
       },
     },
   },

@@ -15,21 +15,21 @@ const checkbox = tv({
     ],
     indicator: ["pointer-events-none"],
     graphic: ["pointer-events-none"],
-    outerRect: ["transition-[fill,stroke] duration-[160ms] ease-out motion-reduce:transition-none"],
+    outerRect: ["transition-[fill,stroke] duration-160 ease-out motion-reduce:transition-none"],
     overlayRect: [
-      "pointer-events-none opacity-0 transition-opacity duration-[160ms] ease-out motion-reduce:transition-none",
+      "pointer-events-none opacity-0 transition-opacity duration-160 ease-out motion-reduce:transition-none",
       "group-data-[disabled]/checkbox:opacity-0",
       "group-hover/checkbox:group-data-[disabled]/checkbox:opacity-0 group-focus-visible/checkbox:group-data-[disabled]/checkbox:opacity-0",
     ],
     mark: ["absolute left-1/2 top-1/2 shrink-0 origin-center -translate-x-1/2 -translate-y-1/2"],
     checkMark: [
       "-rotate-6 scale-[0.82] opacity-0",
-      "transition-[opacity,transform] duration-[180ms] ease-out motion-reduce:transition-none",
+      "transition-[opacity,transform] duration-180 ease-out motion-reduce:transition-none",
       "motion-reduce:rotate-0 motion-reduce:scale-100",
     ],
     indeterminateMark: [
       "invisible scale-x-50 opacity-0",
-      "transition-[opacity,transform] duration-[160ms] ease-out motion-reduce:transition-none",
+      "transition-[opacity,transform] duration-160 ease-out motion-reduce:transition-none",
       "motion-reduce:scale-x-100",
     ],
   },
@@ -75,7 +75,7 @@ const checkbox = tv({
     {
       theme: "elegant",
       size: "md",
-      class: { root: "size-[18px]" },
+      class: { root: "size-4.5" },
     },
     {
       theme: "elegant",
