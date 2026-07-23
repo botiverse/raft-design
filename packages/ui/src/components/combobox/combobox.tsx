@@ -15,24 +15,23 @@ const combobox = tv({
       "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
       "[&>span[data-slot='combobox-trigger-content']]:min-w-0 [&>span[data-slot='combobox-trigger-content']]:flex-1",
       "[&>span[data-slot='combobox-trigger-content']>svg]:shrink-0",
-      "[&_[data-slot='combobox-trigger-indicator']_svg]:size-3 [&_[data-slot='combobox-trigger-indicator']_svg]:shrink-0",
     ],
     triggerCount: [
       "inline-flex h-4 min-w-4 shrink-0 items-center justify-center px-1",
       "font-mono text-[10px] leading-none",
     ],
-    triggerIndicator: ["ml-auto flex shrink-0 items-center justify-center opacity-60"],
+    triggerIndicator: [
+      "ml-auto flex shrink-0 items-center justify-center opacity-60",
+      "[&>svg]:size-3 [&>svg]:shrink-0",
+    ],
     control: [
       "flex min-w-0 items-center gap-2",
       "outline-none transition-colors",
-      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
-      "[&_[data-slot='combobox-input']]:min-w-0 [&_[data-slot='combobox-input']]:flex-1",
-      "[&_[data-slot='combobox-input']]:border-0 [&_[data-slot='combobox-input']]:bg-transparent [&_[data-slot='combobox-input']]:p-0",
-      "[&_[data-slot='combobox-input']]:shadow-none [&_[data-slot='combobox-input']]:outline-none [&_[data-slot='combobox-input']]:ring-0",
-      "[&_[data-slot='combobox-input']]:focus:border-transparent [&_[data-slot='combobox-input']]:focus:ring-0 [&_[data-slot='combobox-input']]:focus-visible:ring-0",
+      "[&>svg]:pointer-events-none [&>svg]:shrink-0",
+      "[&>svg:not([class*='size-'])]:size-3.5",
       "[&_[data-slot='combobox-clear']]:size-5 [&_[data-slot='combobox-clear']]:min-w-5 [&_[data-slot='combobox-clear']]:shrink-0",
       "[&_[data-slot='combobox-trigger-indicator']]:size-4",
-      "[&_[data-slot='combobox-trigger-indicator']_svg]:!size-3.5 [&_[data-slot='combobox-trigger-indicator']_svg]:shrink-0",
+      "[&_[data-slot='combobox-trigger-indicator']>svg]:size-3.5 [&_[data-slot='combobox-trigger-indicator']>svg]:shrink-0",
     ],
     inputGroup: ["flex items-center gap-2 border-b px-2 py-2"],
     input: ["w-full outline-none"],
@@ -71,39 +70,39 @@ const combobox = tv({
           "active:translate-x-0 active:translate-y-0 active:shadow-none",
           "data-[has-value]:bg-soft-signal data-[has-value]:text-foreground data-[has-value]:shadow-sm",
           "data-[has-value]:hover:bg-soft-signal data-[has-value]:hover:shadow-sm data-[has-value]:active:shadow-sm",
-          "[&>span[data-slot='combobox-trigger-content']>svg]:size-4 [&>span[data-slot='combobox-trigger-content']>svg]:stroke-2 [&>span[data-slot='combobox-trigger-content']>svg_*]:stroke-2",
+          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-4",
+          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-2",
         ],
         triggerCount: ["border border-line-strong"],
         inputGroup: ["border-line-strong bg-layer-field"],
-        input: [
-          "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
-          "shadow-sm focus:shadow-md",
-        ],
         content: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
         separator: ["bg-line-strong"],
         item: [
           "border-b border-ink-10 bg-layer-popover font-sans text-sm font-semibold leading-6 text-foreground last:border-b-0",
           "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+          "[&_svg:not([class*='size-'])]:size-3",
+          "[&_svg:not([class*='stroke-'])]:stroke-2",
         ],
-        itemIndicator: ["text-foreground"],
+        itemIndicator: [
+          "text-foreground [&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
+        ],
         label: [
           "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground",
         ],
         clear: [
           "font-sans text-[10px] font-bold uppercase tracking-wide text-foreground hover:text-foreground",
-          "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
+          "[&>svg]:[stroke-width:2] [&>svg_*]:[stroke-width:2]",
         ],
-        triggerIndicator: ["text-foreground opacity-100", "[&_svg]:stroke-2 [&_svg_*]:stroke-2"],
+        triggerIndicator: ["text-foreground opacity-100", "[&>svg]:stroke-2 [&>svg_*]:stroke-2"],
         control: [
           "border-2 border-line-strong bg-layer-field px-2 py-1",
           "font-sans text-sm font-semibold text-foreground shadow-sm",
           "focus-within:shadow-md",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
-          "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5] [&_svg_*]:fill-none",
-          "[&_[data-slot='combobox-input']]:font-sans [&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-semibold [&_[data-slot='combobox-input']]:text-foreground",
-          "[&_[data-slot='combobox-input']::placeholder]:text-foreground/40",
+          "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
+          "[&_[data-slot='combobox-trigger-indicator']>svg]:[stroke-width:1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:[stroke-width:1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:fill-none",
         ],
         empty: ["font-sans text-sm font-semibold text-foreground/50"],
         groupLabel: [
@@ -119,18 +118,13 @@ const combobox = tv({
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
           "focus-visible:ring-0 focus-visible:ring-offset-0",
-          "[&>span[data-slot='combobox-trigger-content']>svg]:size-3 [&>span[data-slot='combobox-trigger-content']>svg]:stroke-[1.5] [&>span[data-slot='combobox-trigger-content']>svg_*]:stroke-[1.5]",
+          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-3",
+          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],
         triggerCount: [
           "rounded-sm bg-primary-400 font-sans font-medium tracking-[0.22px] text-primary-950",
         ],
         inputGroup: ["border-line-muted bg-layer-popover px-1.5 pt-1 pb-2"],
-        input: [
-          "rounded-sm border border-line-subtle bg-layer-field px-2 py-1 text-sm",
-          "text-foreground outline-none transition duration-150",
-          "placeholder:text-foreground-placeholder/70",
-          "focus:border-line-subtle/30 focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-        ],
         content: ["rounded-md bg-layer-popover", "shadow-lg"],
         header: ["pl-2 pr-1.5 pt-2.5 pb-0.5"],
         separator: ["hidden bg-line-muted"],
@@ -141,13 +135,17 @@ const combobox = tv({
           "hover:bg-ink-4 hover:text-foreground-strong",
           "data-[highlighted]:bg-ink-4 data-[highlighted]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3.5",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+          "[&_svg:not([class*='size-'])]:size-3.5",
+          "[&_svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],
-        itemIndicator: ["text-foreground-strong"],
+        itemIndicator: [
+          "text-foreground-strong [&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
+        ],
         label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong"],
         clear: [
           "text-[11px] font-medium tracking-[-0.005em] text-foreground-muted hover:text-foreground-strong",
-          "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5]",
+          "[&>svg]:[stroke-width:1.5] [&>svg_*]:[stroke-width:1.5]",
         ],
         triggerIndicator: [
           "text-foreground-muted opacity-100",
@@ -157,9 +155,7 @@ const combobox = tv({
           "rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
           "text-sm font-normal text-foreground shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)]",
           "focus-within:border-line-subtle/30 focus-within:ring-2 focus-within:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-within:ring-offset-1 focus-within:ring-offset-background",
-          "[&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
-          "[&_[data-slot='combobox-input']]:text-sm [&_[data-slot='combobox-input']]:font-normal [&_[data-slot='combobox-input']]:text-foreground",
-          "[&_[data-slot='combobox-input']::placeholder]:text-foreground-placeholder/70",
+          "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],
         empty: ["text-foreground-muted"],
         groupLabel: ["text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45"],
@@ -171,7 +167,60 @@ const combobox = tv({
         chipRemove: ["text-foreground-muted hover:text-foreground-strong"],
       },
     },
+    inputOwner: {
+      group: {},
+      control: {
+        input: [
+          "min-w-0 flex-1 rounded-none border-0 bg-transparent p-0 shadow-none",
+          "outline-none ring-0 focus:border-transparent focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+        ],
+      },
+    },
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      inputOwner: "group",
+      class: {
+        input: [
+          "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
+          "shadow-sm focus:shadow-md",
+        ],
+      },
+    },
+    {
+      theme: "brutal",
+      inputOwner: "control",
+      class: {
+        input: [
+          "font-sans text-sm font-semibold text-foreground",
+          "placeholder:text-foreground/40",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      inputOwner: "group",
+      class: {
+        input: [
+          "rounded-sm border border-line-subtle bg-layer-field px-2 py-1 text-sm",
+          "text-foreground outline-none transition duration-150",
+          "placeholder:text-foreground-placeholder/70",
+          "focus:border-line-subtle/30 focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      inputOwner: "control",
+      class: {
+        input: [
+          "text-sm font-normal text-foreground",
+          "placeholder:text-foreground-placeholder/70",
+        ],
+      },
+    },
+  ],
 });
 
 type ComboboxContextValue = {
@@ -180,6 +229,7 @@ type ComboboxContextValue = {
 };
 
 const ComboboxContext = createContext<ComboboxContextValue>({ hasValue: false, visible: false });
+const ComboboxInputOwnerContext = createContext<"control" | "group">("group");
 
 function hasClearableValue(value: unknown) {
   if (Array.isArray(value)) {
@@ -333,11 +383,13 @@ export function ComboboxInputGroup({ className, ...props }: ComboboxInputGroupPr
   const theme = useThemeFamily();
   const { inputGroup } = combobox({ theme });
   return (
-    <BaseCombobox.InputGroup
-      data-slot="combobox-input-group"
-      className={inputGroup({ className })}
-      {...props}
-    />
+    <ComboboxInputOwnerContext value="group">
+      <BaseCombobox.InputGroup
+        data-slot="combobox-input-group"
+        className={inputGroup({ className })}
+        {...props}
+      />
+    </ComboboxInputOwnerContext>
   );
 }
 
@@ -347,11 +399,13 @@ export function ComboboxControl({ className, ...props }: ComboboxControlProps) {
   const theme = useThemeFamily();
   const { control } = combobox({ theme });
   return (
-    <BaseCombobox.InputGroup
-      data-slot="combobox-control"
-      className={control({ className })}
-      {...props}
-    />
+    <ComboboxInputOwnerContext value="control">
+      <BaseCombobox.InputGroup
+        data-slot="combobox-control"
+        className={control({ className })}
+        {...props}
+      />
+    </ComboboxInputOwnerContext>
   );
 }
 
@@ -365,7 +419,8 @@ export function ComboboxInput({
   ...props
 }: ComboboxInputProps) {
   const theme = useThemeFamily();
-  const { input } = combobox({ theme });
+  const inputOwner = use(ComboboxInputOwnerContext);
+  const { input } = combobox({ theme, inputOwner });
   return (
     <BaseCombobox.Input
       data-slot="combobox-input"
