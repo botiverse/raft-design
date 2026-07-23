@@ -5,7 +5,7 @@ export function SpinnerInverseSourcePreview({ className }: { className?: string 
   return (
     <SourceComparisonPreview className={className}>
       <span className="rounded bg-gray-950 p-3 text-white">
-        <LegacySpinner />
+        <LegacySpinner variant="inverse" />
       </span>
     </SourceComparisonPreview>
   );
