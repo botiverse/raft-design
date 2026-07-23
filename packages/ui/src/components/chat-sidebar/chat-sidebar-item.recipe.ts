@@ -8,12 +8,12 @@ export const chatSidebarItem = tv({
       "[@media(max-height:600px)]:py-1 md:py-1",
     ],
     sidebarItemIcon: [
-      "flex size-[18px] shrink-0 items-center justify-center",
+      "flex size-4.5 shrink-0 items-center justify-center",
       "[&>svg]:size-3.5 [&>svg]:shrink-0",
     ],
     sidebarItemChannelIcon: [
       "flex shrink-0 items-center justify-center",
-      "[&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
+      "[&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
     ],
     sidebarItemContent: [
       "has-[>[data-slot=chat-sidebar-item-subtitle]]:[&>[data-slot=chat-sidebar-item-title]]:max-w-[70%]",
@@ -49,6 +49,7 @@ export const chatSidebarItem = tv({
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
         sidebarItemTitle: "font-medium text-black",
+        sidebarItemChannelIcon: "[&_svg]:size-3",
         sidebarItemSubtitle: "text-black/40",
         sidebarItemMeta: "text-xs font-medium text-black/70",
         sidebarItemIndicator: [
@@ -76,9 +77,8 @@ export const chatSidebarItem = tv({
           "data-[popup-open]:shadow-xs data-[popup-open]:ring-1 data-[popup-open]:ring-line-subtle/30",
         ],
         sidebarItemTitle: "font-[450] text-foreground-muted",
-        sidebarItemIcon: "size-[18px] text-foreground-icon [&_svg]:stroke-[1.5]",
-        sidebarItemChannelIcon:
-          "size-3 text-foreground-icon [&_svg]:!size-3.5 [&_svg]:!stroke-[1.5]",
+        sidebarItemIcon: "size-4.5 text-foreground-icon [&_svg]:stroke-[1.5]",
+        sidebarItemChannelIcon: "size-3 text-foreground-icon [&_svg]:size-3.5",
         sidebarItemSubtitle: "text-ink-30",
         sidebarItemMeta:
           "font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",

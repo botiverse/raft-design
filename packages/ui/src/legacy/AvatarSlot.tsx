@@ -79,7 +79,7 @@ const SPEC: Record<AvatarContext, ContextSpec> = {
     placeholderIcon: 12,
   },
   "sidebar-list": {
-    size: "size-[18px]",
+    size: "size-4.5",
     border: "border",
     agentPixel: 16,
     gravatarSize: 16,
@@ -95,7 +95,7 @@ const SPEC: Record<AvatarContext, ContextSpec> = {
     placeholderIcon: 12,
   },
   "preview-mini": {
-    size: "size-[14px]",
+    size: "size-3.5",
     border: "border",
     agentPixel: 14,
     gravatarSize: 14,

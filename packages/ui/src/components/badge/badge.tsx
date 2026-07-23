@@ -11,7 +11,7 @@ export const badge = tv({
       "text-[10px] font-bold leading-none",
       "transition-[filter,opacity] duration-100",
       "disabled:cursor-not-allowed disabled:opacity-60",
-      "[&_[data-slot='spinner']]:!size-3 [&_[data-slot='spinner']]:!text-xs",
+      "[&_[data-slot='spinner']]:size-3 [&_[data-slot='spinner']]:text-xs",
     ],
   },
   variants: {

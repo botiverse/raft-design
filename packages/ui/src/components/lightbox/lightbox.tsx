@@ -13,9 +13,9 @@ import { Button, type ButtonProps } from "../button/button";
 
 const lightbox = tv({
   slots: {
-    backdrop: ["fixed inset-0 z-[70] bg-layer-backdrop data-[closed]:hidden"],
+    backdrop: ["fixed inset-0 z-70 bg-layer-backdrop data-[closed]:hidden"],
     content: [
-      "pointer-events-none fixed inset-0 z-[71] flex flex-col data-[closed]:hidden",
+      "pointer-events-none fixed inset-0 z-71 flex flex-col data-[closed]:hidden",
       // Image shell: Close as a direct Content child pins top-right.
       // Use data-lightbox-close — Button overwrites data-slot to "button".
       "[&>[data-lightbox-close]]:pointer-events-auto [&>[data-lightbox-close]]:absolute [&>[data-lightbox-close]]:z-20",
@@ -87,7 +87,7 @@ const lightbox = tv({
           "[&_svg]:size-6",
         ],
         infoBar: [
-          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-[144px]",
+          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
           "gap-2 rounded-none border-2 border-line-strong py-0.5 pr-0.5 pl-2.5 shadow-sm",
           "[&_[data-slot=button]_svg]:stroke-2",
         ],
@@ -127,7 +127,7 @@ const lightbox = tv({
           "[&_svg]:size-5",
         ],
         infoBar: [
-          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-[144px]",
+          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
           "gap-2 rounded py-0.5 pr-0.5 pl-2.5",
           "bg-[oklch(0.9702_0_0_/_0.8)] text-[oklch(0.205_0_0)] shadow-none backdrop-blur-[10px]",
           "[&_[data-slot=button]]:text-[oklch(0.439_0_0)] [&_[data-slot=button]]:hover:bg-[oklch(0.205_0_0_/_0.1)] [&_[data-slot=button]]:hover:text-[oklch(0.269_0_0)]",

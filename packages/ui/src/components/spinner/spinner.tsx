@@ -124,12 +124,12 @@ const spinner = tv({
     {
       theme: "elegant",
       size: "md",
-      class: { root: "size-[18px]" },
+      class: { root: "size-4.5" },
     },
     {
       theme: "elegant",
       size: "lg",
-      class: { root: "size-[18px]" },
+      class: { root: "size-4.5" },
     },
   ],
 });

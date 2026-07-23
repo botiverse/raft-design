@@ -18,10 +18,7 @@ import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
   slots: {
-    viewport: [
-      "pointer-events-none isolate z-[70] w-[min(24rem,calc(100vw-2rem))]",
-      "outline-none",
-    ],
+    viewport: ["pointer-events-none isolate z-70 w-[min(24rem,calc(100vw-2rem))]", "outline-none"],
     positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
@@ -32,7 +29,7 @@ const toastStyles = tv({
       "[--toast-gap:0.5rem]",
       "[--toast-stack-height:var(--toast-frontmost-height,var(--toast-height))]",
       "[--toast-y:calc((var(--toast-offset-y)*-1)-(var(--toast-index)*var(--toast-gap))+var(--toast-swipe-movement-y))]",
-      "transition-[transform,opacity,height] duration-[220ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+      "transition-[transform,opacity,height] duration-220 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "data-[limited]:opacity-0",
       "data-[starting-style]:opacity-0",
       "data-[ending-style]:opacity-0",

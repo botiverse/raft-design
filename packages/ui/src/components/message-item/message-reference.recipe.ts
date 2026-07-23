@@ -28,7 +28,7 @@ export const messageReference = tv({
       highlight: {
         root: [
           "inline-block align-bottom border border-line-strong bg-soft-signal px-1 font-medium text-foreground",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
           "hover:bg-soft-signal/80",
         ],
       },
@@ -36,7 +36,7 @@ export const messageReference = tv({
       accent: {
         root: [
           "inline-block align-bottom border border-line-strong bg-accent-200/60 px-1 font-medium text-foreground",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
           "hover:bg-accent-400/45",
         ],
       },
@@ -44,7 +44,7 @@ export const messageReference = tv({
       muted: {
         root: [
           "inline-block align-bottom border border-line-strong bg-layer-muted px-1 font-medium text-foreground",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
           "hover:bg-layer-strong",
         ],
       },
@@ -52,7 +52,7 @@ export const messageReference = tv({
       info: {
         root: [
           "inline-block align-bottom border border-line-strong bg-info-light px-1 font-medium text-info-dark",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
           "hover:bg-info-base/45",
         ],
       },
@@ -60,14 +60,14 @@ export const messageReference = tv({
       subtle: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong px-1 font-medium text-foreground",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
         ],
       },
       // Panel chip (internal permalink)
       panel: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-medium text-foreground",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
           "hover:bg-layer-muted",
           "[&_svg]:size-3",
         ],
@@ -76,7 +76,7 @@ export const messageReference = tv({
       external: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-medium text-info-dark",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
           "hover:bg-layer-muted",
           "[&_svg]:size-3",
         ],
@@ -85,14 +85,14 @@ export const messageReference = tv({
       pending: {
         root: [
           "inline-flex cursor-wait items-center gap-1 align-bottom border border-line-strong bg-layer-muted px-1 font-medium text-foreground opacity-80",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
         ],
       },
       // Missing / unresolvable chip
       unavailable: {
         root: [
           "inline-block align-bottom border border-line-strong px-1 font-medium opacity-60",
-          "[font-size:inherit] leading-[1.25]",
+          "[font-size:inherit] leading-tight",
         ],
       },
     },
@@ -181,7 +181,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-pointer rounded-sm border-line-subtle px-1.5",
-          "font-medium leading-[1.25] text-foreground-strong",
+          "font-medium leading-tight text-foreground-strong",
         ],
       },
     },
@@ -242,7 +242,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-wait rounded-sm border-line-subtle bg-layer-muted px-1.5 opacity-100",
-          "font-medium leading-[1.25] text-foreground-muted",
+          "font-medium leading-tight text-foreground-muted",
         ],
       },
     },
@@ -252,7 +252,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-default rounded-sm border-line-subtle bg-layer-muted/70 px-1.5 opacity-100",
-          "font-medium leading-[1.25] text-foreground-muted",
+          "font-medium leading-tight text-foreground-muted",
         ],
       },
     },

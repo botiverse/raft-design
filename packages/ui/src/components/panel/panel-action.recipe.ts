@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 const panelActionBase = tv({
   base: [
     "relative inline-flex w-auto shrink-0 items-center justify-center",
-    "overflow-visible font-sans !leading-none tabular-nums select-none outline-none",
+    "overflow-visible font-sans leading-none tabular-nums select-none outline-none",
     "transition-all duration-100",
     "[&>svg]:pointer-events-none [&>svg]:shrink-0",
   ],
@@ -29,7 +29,7 @@ const panelActionBase = tv({
 export const panelAction = tv({
   extend: panelActionBase,
   base: [
-    "gap-1.5 text-xs whitespace-nowrap",
+    "gap-1.5 text-xs/[1] whitespace-nowrap",
     "disabled:pointer-events-none disabled:opacity-40 disabled:transform-none",
   ],
   variants: {

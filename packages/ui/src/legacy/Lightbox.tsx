@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
  * Full-screen dark-backdrop overlay for lightboxes and bottom sheets.
  *
  * Replaces the recurring pattern:
- *   <div className="fixed inset-0 z-[70] flex flex-col bg-black/75" onClick={...}>
+ *   <div className="fixed inset-0 z-70 flex flex-col bg-black/75" onClick={...}>
  *
  * Used in: ImageLightbox, SelectShareLightbox, MessageItem mobile reaction sheet.
  *
@@ -23,7 +23,7 @@ interface LightboxProps extends Omit<
 > {
   onClose: () => void;
   children: ReactNode;
-  /** CSS z-index. Default 70 (above Modal's z-50/z-[60]). */
+  /** CSS z-index. Default 70 (above Modal's z-50/z-60). */
   zIndex?: number;
   /** Tailwind bg class for the backdrop. Default "bg-black/75". */
   backdropClass?: string;

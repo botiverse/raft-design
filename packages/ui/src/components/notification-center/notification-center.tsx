@@ -39,7 +39,7 @@ const notificationCenter = tv({
           "relative inline-flex size-9 items-center justify-center overflow-visible rounded-none border-2 border-line-strong bg-brutal-orange p-0 text-foreground-strong",
           "select-none shadow-sm transition-all duration-100 hover:bg-brutal-orange hover:shadow-md",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-line-focus",
-          "[&>svg]:size-[18px] [&>svg]:shrink-0",
+          "[&>svg]:size-4.5 [&>svg]:shrink-0",
         ],
         popup: ["border-2 border-line-strong bg-layer-panel shadow-lg"],
         header: ["border-b-2 border-line-strong bg-brutal-cream"],
@@ -175,7 +175,7 @@ function NotificationCenterTriggerContent() {
   if (theme === "brutal") {
     return (
       <>
-        <AlertTriangle aria-hidden className="size-[18px]" />
+        <AlertTriangle aria-hidden className="size-4.5" />
         <Status
           aria-hidden
           variant="warning"

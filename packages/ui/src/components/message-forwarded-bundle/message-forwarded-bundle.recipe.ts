@@ -11,7 +11,7 @@ export const messageForwardedBundle = tv({
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
     ],
     items: ["relative divide-y"],
-    collapsedItems: ["relative max-h-[144px] divide-y overflow-hidden sm:max-h-[180px]"],
+    collapsedItems: ["relative max-h-36 divide-y overflow-hidden sm:max-h-45"],
     item: ["px-3 py-2"],
     itemMeta: ["mb-1 flex min-w-0 flex-wrap items-center gap-1.5 text-[11px] font-mono"],
     itemAuthor: ["font-bold"],

@@ -63,8 +63,8 @@ describe("message composition recipes", () => {
   it("owns collapsed forwarded-bundle clipping in a named part", () => {
     const { collapsedItems } = messageForwardedBundle({ theme: "elegant" });
 
-    expect(collapsedItems()).toContain("max-h-[144px]");
-    expect(collapsedItems()).toContain("sm:max-h-[180px]");
+    expect(collapsedItems()).toContain("max-h-36");
+    expect(collapsedItems()).toContain("sm:max-h-45");
     expect(collapsedItems()).toContain("divide-line-subtle");
   });
 

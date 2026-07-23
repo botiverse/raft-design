@@ -32,7 +32,7 @@ export const taskDnd = tv({
           "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",
         ],
         placeholder: [
-          "h-[var(--task-dnd-placeholder-height,72px)] rounded-[8px] border border-dashed border-line-subtle",
+          "h-[var(--task-dnd-placeholder-height,72px)] rounded-lg border border-dashed border-line-subtle",
           "bg-[color-mix(in_oklch,var(--ink)_4%,var(--layer-panel))]",
           "data-[drop-state=allowed]:block",
         ],

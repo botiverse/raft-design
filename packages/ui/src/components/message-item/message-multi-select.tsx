@@ -149,11 +149,6 @@ const messageMultiSelect = tv({
         action: "btn-brutal-sm",
       },
       elegant: {
-        checkbox: [
-          "!shadow-none",
-          "data-[checked]:!shadow-none data-[indeterminate]:!shadow-none",
-          "hover:data-[checked]:!shadow-none hover:data-[indeterminate]:!shadow-none",
-        ],
         toolbar: "border-t border-line-subtle bg-layer-panel",
         toolbarContent: "gap-1.5",
         count: "text-foreground-muted",

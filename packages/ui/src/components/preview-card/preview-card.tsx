@@ -13,7 +13,7 @@ const previewCard = tv({
       "max-h-[var(--available-height)] min-w-[220px] overflow-hidden",
       "outline-none",
       "origin-[var(--transform-origin)] transform-gpu opacity-100 will-change-[transform,opacity]",
-      "transition-[opacity,transform] duration-[250ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+      "transition-[opacity,transform] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "data-[starting-style]:scale-[0.97] data-[starting-style]:opacity-0",
       "data-[ending-style]:scale-[0.99] data-[ending-style]:opacity-0 data-[ending-style]:duration-150",
       "data-[instant]:transition-none motion-reduce:transition-none",

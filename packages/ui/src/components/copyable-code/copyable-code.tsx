@@ -29,7 +29,7 @@ const copyableCode = tv({
       "[&_[data-slot=copyable-code-icon]]:col-start-1 [&_[data-slot=copyable-code-icon]]:row-start-1",
       "[&_[data-slot=copyable-code-icon]]:origin-center",
       "[&_[data-slot=copyable-code-icon]]:transition-[opacity,filter,scale]",
-      "[&_[data-slot=copyable-code-icon]]:duration-[170ms]",
+      "[&_[data-slot=copyable-code-icon]]:duration-170",
       "[&_[data-slot=copyable-code-icon]]:ease-[cubic-bezier(0.16,1,0.3,1)]",
       "[&_[data-slot=copyable-code-icon]]:will-change-[opacity,filter,scale]",
       "motion-reduce:[&_[data-slot=copyable-code-icon]]:transition-none",

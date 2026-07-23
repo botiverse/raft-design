@@ -11,7 +11,7 @@ const mobileNav = tv({
     item: [
       "relative inline-flex shrink-0 items-center justify-center outline-none",
       "disabled:pointer-events-none disabled:opacity-45",
-      "[&_svg]:size-[18px] [&_svg]:shrink-0",
+      "[&_svg]:size-4.5 [&_svg]:shrink-0",
     ],
     itemLabel: ["min-w-0 truncate"],
   },

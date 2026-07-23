@@ -7,7 +7,7 @@ export const taskCardStatus = tv({
       "data-[busy=true]:pointer-events-none data-[busy=true]:opacity-60",
     ],
     trigger: [
-      "inline-flex touch-manipulation items-center gap-[4px]",
+      "inline-flex touch-manipulation items-center gap-1",
       "transition-[filter,opacity] duration-100",
       "outline-none",
       "disabled:cursor-not-allowed disabled:opacity-60",
@@ -19,18 +19,18 @@ export const taskCardStatus = tv({
       brutal: {
         root: ["order-last ml-auto flex items-center"],
         trigger: [
-          "border-2 border-line-strong px-[8px] py-[2px]",
-          "text-[12px] leading-[16px] font-bold text-foreground",
-          "[&_svg]:pointer-events-none [&_svg]:size-[10px] [&_svg]:shrink-0 [&_svg]:opacity-40",
+          "border-2 border-line-strong px-2 py-0.5",
+          "text-xs leading-4 font-bold text-foreground",
+          "[&_svg]:pointer-events-none [&_svg]:size-2.5 [&_svg]:shrink-0 [&_svg]:opacity-40",
           "hover:brightness-90",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
       },
       elegant: {
-        root: ["flex h-[14px] items-center"],
+        root: ["flex h-3.5 items-center"],
         trigger: [
-          "flex h-[14px] items-center rounded-[4px] border border-transparent p-0 leading-none",
-          "[&_[data-slot=task-status-icon]]:pointer-events-none [&_[data-slot=task-status-icon]]:size-[14px] [&_[data-slot=task-status-icon]]:shrink-0",
+          "flex h-3.5 items-center rounded-sm border border-transparent p-0 leading-none",
+          "[&_[data-slot=task-status-icon]]:pointer-events-none [&_[data-slot=task-status-icon]]:size-3.5 [&_[data-slot=task-status-icon]]:shrink-0",
           "transition-[filter,opacity]",
           "hover:brightness-[0.96] active:scale-[0.985]",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",

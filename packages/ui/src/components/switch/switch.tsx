@@ -7,7 +7,7 @@ const switchRecipe = tv({
   slots: {
     root: [
       "group/switch relative inline-flex shrink-0 touch-manipulation items-center outline-none",
-      "transition-[background-color,box-shadow,transform] duration-[180ms] ease-out",
+      "transition-[background-color,box-shadow,transform] duration-180 ease-out",
       "motion-reduce:transition-none",
       "not-data-[disabled]:cursor-pointer",
       "data-[disabled]:cursor-not-allowed data-[disabled]:active:scale-100",
@@ -15,7 +15,7 @@ const switchRecipe = tv({
     ],
     thumb: [
       "pointer-events-none block",
-      "transition-transform duration-[180ms] ease-out",
+      "transition-transform duration-180 ease-out",
       "motion-reduce:transition-none",
     ],
   },
@@ -83,7 +83,7 @@ const switchRecipe = tv({
       size: "md",
       class: {
         root: "h-6 w-11 p-0",
-        thumb: "size-[18px] translate-x-px data-[checked]:translate-x-5",
+        thumb: "size-4.5 translate-x-px data-[checked]:translate-x-5",
       },
     },
   ],

@@ -4,7 +4,7 @@ export const messageReaction = tv({
   slots: {
     chip: [
       "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden rounded px-1.5",
-      "whitespace-nowrap text-[12px] font-bold leading-none transition-colors",
+      "whitespace-nowrap text-xs font-bold leading-none transition-colors",
     ],
     errorIndicator: ["sr-only"],
     glyph: [
@@ -18,12 +18,18 @@ export const messageReaction = tv({
       "transition-colors",
       "[&_svg]:size-[13px] [&_svg]:shrink-0",
     ],
-    quickRow: ["flex h-9 shrink-0 items-center gap-1 px-2"],
+    quickRow: [
+      "flex h-9 shrink-0 items-center gap-1 px-2",
+      "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
+    ],
     quickButton: [
-      "flex !size-7 items-center justify-center rounded !p-0",
+      "flex size-7 items-center justify-center rounded p-0",
       "bg-transparent transition-colors",
     ],
-    pickerContent: ["inline-flex items-center gap-0.5 px-1.5 py-1"],
+    pickerContent: [
+      "inline-flex items-center gap-0.5 px-1.5 py-1",
+      "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
+    ],
     pickerStatic: ["inline-flex items-center gap-0.5 px-1.5 py-1"],
     tooltip: ["inline-block max-w-[280px] px-2 py-1.5 text-xs"],
     tooltipNames: ["flex max-w-60 flex-wrap items-center gap-y-0.5"],
@@ -71,7 +77,7 @@ export const messageReaction = tv({
           "hover:bg-layer-strong active:bg-layer-strong",
         ],
         quickRow: "bg-layer-popover",
-        quickButton: "hover:!bg-ink-10 data-[highlighted]:!bg-ink-10 active:!bg-ink-16",
+        quickButton: "hover:bg-ink-10 data-[highlighted]:bg-ink-10 active:bg-ink-16",
         pickerContent: "min-w-0 flex-row",
         pickerStatic: [
           "min-w-0 flex-row rounded-md bg-layer-popover p-1",
