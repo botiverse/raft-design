@@ -64,7 +64,7 @@ function ActionCardFixtureSurface({
           ) : (
             <MessageActionCardActions>
               <Button size="sm" variant="accent" onClick={() => setState("executed")}>
-                Simulate: {fixture.verb}
+                {fixture.verb}
               </Button>
             </MessageActionCardActions>
           )}
@@ -77,7 +77,7 @@ function ActionCardFixtureSurface({
           variant="outline"
           onClick={() => setState("prepared")}
         >
-          Reset docs simulation
+          Reset
         </Button>
       ) : null}
     </div>

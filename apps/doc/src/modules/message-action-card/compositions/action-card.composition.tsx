@@ -4,10 +4,6 @@ import { ACTION_CARD_FIXTURES } from "../message-action-card.fixtures.ts";
 export function MessageActionCardShowcaseComposition() {
   return (
     <div className="grid w-full max-w-4xl gap-8">
-      <p className="border border-line-strong bg-layer-muted p-3 text-sm text-foreground">
-        <strong>Docs state simulation only.</strong> These controls switch local prepared/executed
-        presentation and never mutate a server or create a resource.
-      </p>
       {ACTION_CARD_FIXTURES.map((fixture) => (
         <section
           key={fixture.type}
