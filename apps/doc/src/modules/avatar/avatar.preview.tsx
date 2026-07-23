@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { Avatar, AvatarBadge, Status, type AvatarProps, type StatusProps } from "raft-ui";
+import { Avatar, AvatarBadge, Status, type AvatarProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
@@ -12,14 +12,8 @@ type AvatarPlaygroundPreviewProps = {
   collapsedCode?: CodeContent;
 };
 
-const BADGE_OPTIONS = ["none", "pip", "status"] as const;
+const BADGE_OPTIONS = ["none", "dot", "status"] as const;
 type BadgeOption = (typeof BADGE_OPTIONS)[number];
-
-function statusSizeForAvatar(size: NonNullable<AvatarProps["size"]>): StatusProps["size"] {
-  if (size === "xl" || size === "lg") return "lg";
-  if (size === "md" || size === "sm") return "md";
-  return "sm";
-}
 
 export function AvatarPlaygroundPreview({ code, collapsedCode }: AvatarPlaygroundPreviewProps) {
   const [size, setSize] = useState<NonNullable<AvatarProps["size"]>>("lg");
@@ -31,18 +25,9 @@ export function AvatarPlaygroundPreview({ code, collapsedCode }: AvatarPlaygroun
     <Preview>
       <Preview.Canvas>
         <Avatar size={size} type={type}>
-          {badge === "pip" ? <AvatarBadge /> : null}
+          {badge === "dot" ? <AvatarBadge /> : null}
           {badge === "status" ? (
-            <AvatarBadge
-              render={
-                <Status
-                  aria-hidden
-                  size={statusSizeForAvatar(size)}
-                  variant="success"
-                  pulse={pulse}
-                />
-              }
-            />
+            <AvatarBadge render={<Status aria-hidden variant="success" pulse={pulse} />} />
           ) : null}
         </Avatar>
       </Preview.Canvas>

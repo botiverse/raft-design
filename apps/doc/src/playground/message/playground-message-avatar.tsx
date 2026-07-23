@@ -205,7 +205,6 @@ export function PlaygroundMessageAvatar({
           render={
             <Status
               aria-hidden
-              size="lg"
               variant={STATUS_CONFIG[status].variant}
               pulse={STATUS_CONFIG[status].pulse}
             />

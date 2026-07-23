@@ -376,7 +376,7 @@ import { Check } from "lucide-react";
   <Avatar size="xl" type="agent">
     <AvatarImage src={avatarPhotoUrls[0]} alt="Nova" />
     <AvatarFallback />
-    <AvatarBadge render={<Status aria-hidden size="lg" variant="success" pulse />} />
+    <AvatarBadge render={<Status aria-hidden variant="success" pulse />} />
   </Avatar>
 </div>
 
@@ -482,13 +482,13 @@ const AVATAR_BADGE_PROPS: readonly PropRow[] = [
     name: "render",
     type: "useRender render prop",
     description:
-      "Optional element override. Default is the solid pip; pass render={<Status … />} for activity/presence chrome.",
+      "Optional element override. Default is the solid dot; pass render={<Status … />} for activity/presence chrome.",
   },
   {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
-      "Corner shell on the avatar. Default pip auto-scales from parent size; custom render owns its own size/color.",
+      "Corner shell on the avatar. The default dot and custom renders auto-scale from the parent size.",
   },
 ];
 
@@ -614,9 +614,9 @@ function AvatarDoc() {
 
           <DocSubsection parentId="usage" id="badge" title="Badge">
             <DocNote>
-              Default pip auto-scales with the avatar&apos;s <code>size</code>. Pass{" "}
-              <code>{`render={<Status />}`}</code> when the indicator needs Status variants or pulse
-              — the badge stays a corner shell.
+              The default dot and custom indicator both auto-scale with the avatar&apos;s{" "}
+              <code>size</code>. Pass <code>{`render={<Status />}`}</code> when the indicator needs
+              Status variants or pulse — Status only owns its color and behavior.
             </DocNote>
             <Preview previewClassName="!min-h-56 flex-col gap-8">
               <Preview.Canvas>
@@ -638,7 +638,7 @@ function AvatarDoc() {
                     <AvatarFallback />
                     <AvatarBadge
                       title="Working"
-                      render={<Status aria-hidden size="lg" variant="success" pulse />}
+                      render={<Status aria-hidden variant="success" pulse />}
                     />
                   </Avatar>
                 </div>
