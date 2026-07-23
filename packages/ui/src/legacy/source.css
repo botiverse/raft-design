@@ -68,27 +68,29 @@
   transform: none;
 }
 
-.shadow-sm {
+/* Theme scale utilities must not be overridden globally — docs imports this
+   file app-wide. Keep hard source shadows inside SourceThemeScope only. */
+[data-source-theme="slock"] .shadow-sm {
   box-shadow: var(--source-shadow);
 }
 
-.hover\:shadow-sm:hover {
+[data-source-theme="slock"] .hover\:shadow-sm:hover {
   box-shadow: var(--source-shadow);
 }
 
-.active\:shadow-sm:active {
+[data-source-theme="slock"] .active\:shadow-sm:active {
   box-shadow: var(--source-shadow);
 }
 
-.shadow-md {
+[data-source-theme="slock"] .shadow-md {
   box-shadow: var(--source-shadow-hover);
 }
 
-.shadow-xl {
+[data-source-theme="slock"] .shadow-xl {
   box-shadow: var(--source-shadow-lg);
 }
 
-.focus-within\:shadow-md:focus-within {
+[data-source-theme="slock"] .focus-within\:shadow-md:focus-within {
   box-shadow: var(--source-shadow-hover);
 }
 
