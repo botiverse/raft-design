@@ -3,6 +3,8 @@ import type { ReactElement, RefObject } from "react";
 import {
   Select,
   SelectContent,
+  SelectGroup,
+  SelectGroupLabel,
   SelectItem,
   SelectItemIndicator,
   SelectItemText,
@@ -21,6 +23,7 @@ export function TaskStatusSelect({
   defaultOpen,
   onValueChange,
   portalRef,
+  title = "Task status",
 }: {
   value: TaskStatus;
   trigger: ReactElement;
@@ -28,6 +31,7 @@ export function TaskStatusSelect({
   defaultOpen?: boolean;
   onValueChange?: (status: TaskStatus) => void;
   portalRef?: RefObject<HTMLElement | null>;
+  title?: string;
 }) {
   return (
     <Select<TaskStatus>
@@ -41,15 +45,22 @@ export function TaskStatusSelect({
       }}
     >
       <BaseSelect.Trigger render={trigger} onClick={(event) => event.stopPropagation()} />
-      <SelectContent align="end" portalProps={portalRef ? { container: portalRef } : undefined}>
+      <SelectContent
+        align="start"
+        className="w-[220px] min-w-[220px]"
+        portalProps={portalRef ? { container: portalRef } : undefined}
+      >
         <SelectList>
-          {TASK_STATUSES.map((status) => (
-            <SelectItem key={status.id} value={status.id}>
-              <TaskStatusIcon status={status.id} />
-              <SelectItemText>{status.label}</SelectItemText>
-              <SelectItemIndicator />
-            </SelectItem>
-          ))}
+          <SelectGroup>
+            <SelectGroupLabel>{title}</SelectGroupLabel>
+            {TASK_STATUSES.map((status) => (
+              <SelectItem key={status.id} value={status.id}>
+                <TaskStatusIcon status={status.id} />
+                <SelectItemText>{status.label}</SelectItemText>
+                <SelectItemIndicator />
+              </SelectItem>
+            ))}
+          </SelectGroup>
         </SelectList>
       </SelectContent>
     </Select>

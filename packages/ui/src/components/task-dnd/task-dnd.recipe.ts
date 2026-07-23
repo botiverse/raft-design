@@ -5,7 +5,7 @@ export const taskDnd = tv({
     draggable: [
       "group/task-draggable relative cursor-grab touch-none active:cursor-grabbing",
       "outline-none",
-      "data-[dragging=true]:z-20 data-[dragging=true]:opacity-90 data-[dragging=true]:will-change-transform",
+      "data-[dragging=true]:z-20 data-[dragging=true]:will-change-transform",
       "data-[disabled=true]:cursor-default data-[disabled=true]:touch-auto",
     ],
     overlay: "group/task-drag-overlay pointer-events-none",
@@ -27,7 +27,7 @@ export const taskDnd = tv({
         ],
         placeholder: [
           "h-[var(--task-dnd-placeholder-height,72px)] rounded-[8px] border border-dashed border-line-subtle",
-          "bg-[color-mix(in_oklch,var(--ink-2)_35%,var(--layer-panel))]",
+          "bg-[color-mix(in_oklch,var(--ink)_4%,var(--layer-panel))]",
           "data-[drop-state=allowed]:block",
         ],
       },

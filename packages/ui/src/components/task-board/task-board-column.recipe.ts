@@ -45,7 +45,10 @@ export const taskBoardColumn = tv({
         ],
       },
       elegant: {
-        root: ["rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))]"],
+        root: [
+          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))]",
+          "data-[drop-collapsed=true]:data-[drop-state=allowed]:[outline:1px_dashed_var(--line-subtle)]",
+        ],
         heading: ["gap-[6px]"],
         trigger: [
           "rounded-[6px] pl-[8px]",

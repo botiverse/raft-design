@@ -37,7 +37,6 @@ export const taskCard = tv({
         root: [
           "rounded-[8px] border-[0.5px] border-line-subtle bg-layer-panel shadow-xs",
           "hover:bg-ink-2/5 group-data-[drop-over=true]/task-draggable:hover:bg-layer-panel data-[interactive=true]:active:bg-ink-2/5",
-          "group-data-[dragging=true]/task-drag-overlay:bg-ink-2/5",
         ],
         channel: ["font-medium text-foreground-muted"],
         meta: ["gap-[6px]"],

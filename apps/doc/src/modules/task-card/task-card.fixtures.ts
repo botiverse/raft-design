@@ -127,16 +127,15 @@ export function moveTaskFixture(
   const remaining = tasks.filter((item) => item.id !== taskId);
   const targetIndex =
     target.taskId == null ? -1 : remaining.findIndex((item) => item.id === target.taskId);
-  const lastStatusIndex = remaining.reduce(
-    (lastIndex, item, index) => (item.status === target.status ? index : lastIndex),
-    -1,
-  );
+  const firstStatusIndex = remaining.findIndex((item) => item.status === target.status);
   const insertAt =
     targetIndex >= 0
       ? target.placement === "after"
         ? targetIndex + 1
         : targetIndex
-      : lastStatusIndex + 1;
+      : firstStatusIndex < 0
+        ? remaining.length
+        : firstStatusIndex;
   const movedTask = task.status === target.status ? task : { ...task, status: target.status };
 
   return [...remaining.slice(0, insertAt), movedTask, ...remaining.slice(insertAt)];

@@ -6,6 +6,7 @@ type TaskStatusSvgProps = SVGProps<SVGSVGElement>;
 type TaskStatusIconComponent = (props: TaskStatusSvgProps) => ReactNode;
 
 const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
+  todo: "var(--foreground-placeholder)",
   in_progress: "color-mix(in oklch, var(--primary-400) 92%, var(--ink))",
   in_review: "var(--state-warning-hover)",
   done: "var(--state-success-base)",

@@ -39,6 +39,7 @@ const select = tv({
     itemIndicator: ["pointer-events-none ml-auto flex shrink-0 items-center justify-center"],
     itemText: ["min-w-0 flex-1 truncate"],
     label: ["m-0 font-medium"],
+    group: ["flex flex-col"],
     groupLabel: ["px-3 py-2"],
     separator: ["h-px shrink-0 border-0"],
     scrollArrow: [
@@ -113,6 +114,7 @@ const select = tv({
         ],
         itemIndicator: ["text-foreground-strong"],
         label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong"],
+        group: ["gap-0.5"],
         groupLabel: [
           "px-2 text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45",
         ],
@@ -335,7 +337,9 @@ export function SelectLabel({ className, ...props }: SelectLabelProps) {
 export type SelectGroupProps = StyledProps<BaseSelect.Group.Props>;
 
 export function SelectGroup({ className, ...props }: SelectGroupProps) {
-  return <BaseSelect.Group data-slot="select-group" className={className} {...props} />;
+  const theme = useThemeFamily();
+  const { group } = select({ theme });
+  return <BaseSelect.Group data-slot="select-group" className={group({ className })} {...props} />;
 }
 
 export type SelectGroupLabelProps = StyledProps<BaseSelect.GroupLabel.Props>;

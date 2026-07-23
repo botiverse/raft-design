@@ -301,7 +301,8 @@ function TaskBoard({
                 <TaskDropZone
                   id={columnDropId}
                   data={{ status: status.id }}
-                  disabled={visibleTasks.length > 0}
+                  data-drop-collapsed={collapsed[status.id] ? "true" : undefined}
+                  disabled={!collapsed[status.id] && visibleTasks.length > 0}
                 />
               }
               open={!collapsed[status.id]}
