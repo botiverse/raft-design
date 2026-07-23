@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const taskBoardColumn = tv({
   slots: {
-    root: ["group flex w-[320px] shrink-0 self-start flex-col p-[12px]", "transition-colors"],
+    root: "group flex w-[320px] shrink-0 self-start flex-col p-[12px]",
     trigger: [
       "group flex w-full touch-manipulation items-center justify-between gap-[12px] text-left outline-none",
       "data-[panel-open]:mb-[12px]",
@@ -17,7 +17,7 @@ export const taskBoardColumn = tv({
       "motion-reduce:transition-none",
     ],
     panel: ["data-[ending-style]:hidden"],
-    items: ["space-y-[10px]"],
+    items: ["flex flex-col gap-[10px]"],
     empty: ["px-[12px] py-[20px]"],
     emptyIdle: ["group-data-[drop-state=allowed]:hidden group-data-[drop-state=blocked]:hidden"],
     emptyAllowed: ["hidden group-data-[drop-state=allowed]:block"],
@@ -27,7 +27,7 @@ export const taskBoardColumn = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong/20 bg-layer-panel/30",
+          "border-2 border-line-strong/20 bg-layer-panel/30 transition-colors",
           "data-[drop-state=allowed]:border-line-strong data-[drop-state=allowed]:bg-soft-signal/20 data-[drop-state=allowed]:shadow-sm",
           "data-[drop-state=blocked]:border-danger-base data-[drop-state=blocked]:bg-danger-lighter",
         ],
@@ -46,9 +46,8 @@ export const taskBoardColumn = tv({
       },
       elegant: {
         root: [
-          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-2)_60%,var(--layer-panel))]",
-          "data-[drop-state=allowed]:border-info-base/40 data-[drop-state=allowed]:bg-info-lighter/40 data-[drop-state=allowed]:shadow-sm",
-          "data-[drop-state=blocked]:border-danger-base/40 data-[drop-state=blocked]:bg-danger-lighter/40",
+          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))]",
+          "data-[drop-collapsed=true]:data-[drop-state=allowed]:[outline:1px_dashed_var(--line-subtle)]",
         ],
         heading: ["gap-[6px]"],
         trigger: [
@@ -67,7 +66,7 @@ export const taskBoardColumn = tv({
         empty: [
           "rounded-[8px] border border-dashed border-line-subtle bg-layer-panel",
           "text-[13px] leading-[18px] text-foreground-placeholder",
-          "group-data-[drop-state=allowed]:border-info-base/40 group-data-[drop-state=allowed]:text-info-dark",
+          "group-data-[drop-state=allowed]:hidden",
           "group-data-[drop-state=blocked]:border-danger-base/40 group-data-[drop-state=blocked]:text-danger-dark",
         ],
       },

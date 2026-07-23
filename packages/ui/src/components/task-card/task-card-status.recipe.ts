@@ -13,28 +13,16 @@ export const taskCardStatus = tv({
       "disabled:cursor-not-allowed disabled:opacity-60",
       "data-[busy=true]:cursor-wait data-[busy=true]:disabled:opacity-100",
     ],
-    menuContent: ["min-w-[140px]"],
-    menuItem: [
-      "justify-between gap-[8px] text-left",
-      "[&_[data-slot=dropdown-menu-radio-item-label]]:min-w-0 [&_[data-slot=dropdown-menu-radio-item-label]]:truncate",
-      "[&>span:last-child]:!size-[14px] [&>span:last-child_svg]:!size-[14px]",
-    ],
   },
   variants: {
     theme: {
       brutal: {
-        root: ["absolute right-[12px] bottom-[10px]"],
+        root: ["order-last ml-auto flex items-center"],
         trigger: [
-          "mt-[2px] border-2 border-line-strong px-[8px] py-[2px]",
+          "border-2 border-line-strong px-[8px] py-[2px]",
           "text-[12px] leading-[16px] font-bold text-foreground",
           "[&_svg]:pointer-events-none [&_svg]:size-[10px] [&_svg]:shrink-0 [&_svg]:opacity-40",
           "hover:brightness-90",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
-        ],
-        menuItem: [
-          "border-0 bg-layer-panel px-[12px] py-[8px]",
-          "text-[14px] font-normal text-foreground",
-          "transition-colors hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
       },

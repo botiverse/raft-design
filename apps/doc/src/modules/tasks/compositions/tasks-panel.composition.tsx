@@ -1,5 +1,5 @@
 import type { ReactNode, RefObject } from "react";
-import { useMemo, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import {
   Banner,
   BannerDescription,
@@ -17,9 +17,10 @@ import {
   EmptyStateIcon,
   EmptyStateTitle,
   Input,
-  SegmentedControl,
-  SegmentedControlItem,
-  SegmentedControlLabel,
+  Tabs,
+  TabsLabel,
+  TabsList,
+  TabsTab,
 } from "raft-ui";
 import {
   TaskBoardColumn,
@@ -36,7 +37,9 @@ import {
   TaskBoardColumnTrigger,
   TaskBoardRoot,
   TaskDndProvider,
+  TaskDragOverlay,
   TaskDraggable,
+  TaskDropPlaceholder,
   TaskDropZone,
   TaskListRoot,
   TaskSection,
@@ -58,9 +61,9 @@ import {
 import {
   CheckSquare,
   ChevronDown,
-  Columns3,
-  LayoutList,
+  ListTodo,
   Plus,
+  SquareKanban,
   Trash2,
   User,
   UserCircle2,
@@ -69,6 +72,7 @@ import {
 
 import {
   getTaskStatusLabel,
+  moveTaskFixture,
   TASK_FIXTURES,
   TASK_STATUSES,
   type TaskFixture,
@@ -137,16 +141,20 @@ export function TasksPanelComposition({
     setAnnouncement(`${nextView === "board" ? "Board" : "List"} view selected`);
   };
 
-  const sortedTasks = useMemo(
-    () => [...tasks].sort((a, b) => b.taskNumber - a.taskNumber),
-    [tasks],
-  );
-
   const updateStatus = (taskId: string, status: TaskStatus) => {
     const task = tasks.find((item) => item.id === taskId);
     if (!task || task.status === status) return;
-    updateTasks(tasks.map((item) => (item.id === taskId ? { ...item, status } : item)));
+    updateTasks(moveTaskFixture(tasks, taskId, { status }));
     setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
+  };
+  const moveTask = (
+    taskId: string,
+    target: { status: TaskStatus; taskId?: string; placement?: "before" | "after" | null },
+  ) => {
+    const task = tasks.find((item) => item.id === taskId);
+    if (!task) return;
+    updateTasks(moveTaskFixture(tasks, taskId, target));
+    setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(target.status)}`);
   };
   const openTask = (task: TaskFixture) => {
     onOpenTask?.(task);
@@ -166,39 +174,41 @@ export function TasksPanelComposition({
             </Button>
           </TasksPanelToolbarGroup>
           <TasksPanelToolbarGroup>
-            <SegmentedControl value={view} onValueChange={setView} ariaLabel="Task view">
-              <SegmentedControlItem value="board">
-                <Columns3 aria-hidden />
-                <SegmentedControlLabel>Board</SegmentedControlLabel>
-              </SegmentedControlItem>
-              <SegmentedControlItem value="list">
-                <LayoutList aria-hidden />
-                <SegmentedControlLabel>List</SegmentedControlLabel>
-              </SegmentedControlItem>
-            </SegmentedControl>
+            <Tabs value={view} onValueChange={setView} aria-label="Task view">
+              <TabsList>
+                <TabsTab value="board">
+                  <SquareKanban aria-hidden />
+                  <TabsLabel>Board</TabsLabel>
+                </TabsTab>
+                <TabsTab value="list">
+                  <ListTodo aria-hidden />
+                  <TabsLabel>List</TabsLabel>
+                </TabsTab>
+              </TabsList>
+            </Tabs>
           </TasksPanelToolbarGroup>
         </TasksPanelToolbar>
 
         <TasksPanelViewport>
-          {sortedTasks.length === 0 ? (
+          {tasks.length === 0 ? (
             <TaskEmptyState filtered={false} />
           ) : view === "board" ? (
             <TaskBoard
-              tasks={sortedTasks}
+              tasks={tasks}
               collapsed={collapsed}
               onCollapsedChange={(status, nextOpen) =>
                 setCollapsed((current) => ({ ...current, [status]: !nextOpen }))
               }
               onOpenTask={openTask}
               onStatusChange={updateStatus}
-              onMoveTask={updateStatus}
+              onMoveTask={moveTask}
               portalRef={portalRef}
               blockedDropStatus={blockedDropStatus}
               showChannelName={showChannelName}
             />
           ) : (
             <TaskList
-              tasks={sortedTasks}
+              tasks={tasks}
               collapsed={collapsed}
               onCollapsedChange={(status, nextOpen) =>
                 setCollapsed((current) => ({ ...current, [status]: !nextOpen }))
@@ -250,24 +260,51 @@ function TaskBoard({
   blockedDropStatus,
   showChannelName,
 }: TaskGroupedViewProps & {
-  onMoveTask: (taskId: string, status: TaskStatus) => void;
+  onMoveTask: (
+    taskId: string,
+    target: { status: TaskStatus; taskId?: string; placement?: "before" | "after" | null },
+  ) => void;
   blockedDropStatus?: TaskStatus;
 }) {
+  const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+  const activeTask =
+    activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
+
   return (
     <TaskDndProvider
-      isDropAllowed={(activeId, overId) =>
-        overId !== blockedDropStatus &&
+      isDropAllowed={(activeId, _overId, overData) =>
+        isTaskDropTarget(overData) &&
+        overData.status !== blockedDropStatus &&
         tasks.some((task) => task.id === activeId && !task.dragDisabled)
       }
-      onMove={({ activeId, overId }) => onMoveTask(String(activeId), overId as TaskStatus)}
+      onDragStart={({ active }) => setActiveTaskId(String(active.id))}
+      onDragCancel={() => setActiveTaskId(null)}
+      onDragEnd={() => setActiveTaskId(null)}
+      onMove={({ activeId, overData, placement }) => {
+        if (!isTaskDropTarget(overData)) return;
+        onMoveTask(String(activeId), {
+          status: overData.status,
+          taskId: overData.taskId,
+          placement,
+        });
+      }}
     >
       <TaskBoardRoot>
         {TASK_STATUSES.map((status) => {
           const statusTasks = tasks.filter((task) => task.status === status.id);
+          const visibleTasks = statusTasks.filter((task) => task.id !== activeTaskId);
+          const columnDropId = `task-status:${status.id}`;
           return (
             <TaskBoardColumn
               key={status.id}
-              render={<TaskDropZone id={status.id} />}
+              render={
+                <TaskDropZone
+                  id={columnDropId}
+                  data={{ status: status.id }}
+                  data-drop-collapsed={collapsed[status.id] ? "true" : undefined}
+                  disabled={!collapsed[status.id] && visibleTasks.length > 0}
+                />
+              }
               open={!collapsed[status.id]}
               onOpenChange={(open) => onCollapsedChange(status.id, open)}
             >
@@ -282,30 +319,47 @@ function TaskBoard({
               </TaskBoardColumnTrigger>
               <TaskBoardColumnPanel>
                 <TaskBoardColumnItems>
-                  {statusTasks.length === 0 ? (
-                    <TaskBoardColumnEmpty>
-                      <TaskBoardColumnEmptyIdle>
-                        No {status.label.toLowerCase()} tasks.
-                      </TaskBoardColumnEmptyIdle>
-                      <TaskBoardColumnEmptyAllowed>
-                        Drop to set {status.label}
-                      </TaskBoardColumnEmptyAllowed>
-                      <TaskBoardColumnEmptyBlocked>
-                        Cannot move to {status.label}
-                      </TaskBoardColumnEmptyBlocked>
-                    </TaskBoardColumnEmpty>
+                  {visibleTasks.length === 0 ? (
+                    <>
+                      <TaskBoardColumnEmpty>
+                        <TaskBoardColumnEmptyIdle>
+                          No {status.label.toLowerCase()} tasks.
+                        </TaskBoardColumnEmptyIdle>
+                        <TaskBoardColumnEmptyAllowed>
+                          Drop to set {status.label}
+                        </TaskBoardColumnEmptyAllowed>
+                        <TaskBoardColumnEmptyBlocked>
+                          Cannot move to {status.label}
+                        </TaskBoardColumnEmptyBlocked>
+                      </TaskBoardColumnEmpty>
+                      <TaskDropPlaceholder id={columnDropId} />
+                    </>
                   ) : (
-                    statusTasks.map((task) => (
-                      <TaskDraggable key={task.id} id={task.id} disabled={task.dragDisabled}>
-                        <TaskCardComposition
-                          task={task}
-                          onOpen={onOpenTask}
-                          onStatusChange={onStatusChange}
-                          portalRef={portalRef}
-                          showChannelName={showChannelName}
-                        />
-                      </TaskDraggable>
-                    ))
+                    <>
+                      {visibleTasks.map((task) => {
+                        const dropId = `task-item:${task.id}`;
+                        return (
+                          <Fragment key={task.id}>
+                            <TaskDropPlaceholder id={dropId} placement="before" />
+                            <TaskDraggable
+                              id={task.id}
+                              dropId={dropId}
+                              dropData={{ status: status.id, taskId: task.id }}
+                              disabled={task.dragDisabled}
+                            >
+                              <TaskCardComposition
+                                task={task}
+                                onOpen={onOpenTask}
+                                onStatusChange={onStatusChange}
+                                portalRef={portalRef}
+                                showChannelName={showChannelName}
+                              />
+                            </TaskDraggable>
+                            <TaskDropPlaceholder id={dropId} placement="after" />
+                          </Fragment>
+                        );
+                      })}
+                    </>
                   )}
                 </TaskBoardColumnItems>
               </TaskBoardColumnPanel>
@@ -313,7 +367,29 @@ function TaskBoard({
           );
         })}
       </TaskBoardRoot>
+      <TaskDragOverlay>
+        {activeTask == null ? null : (
+          <TaskCardComposition
+            task={activeTask}
+            onStatusChange={onStatusChange}
+            portalRef={portalRef}
+            showChannelName={showChannelName}
+          />
+        )}
+      </TaskDragOverlay>
     </TaskDndProvider>
+  );
+}
+
+function isTaskDropTarget(value: Record<string, unknown> | undefined): value is {
+  status: TaskStatus;
+  taskId?: string;
+} {
+  return (
+    value != null &&
+    typeof value.status === "string" &&
+    TASK_STATUSES.some((status) => status.id === value.status) &&
+    (value.taskId == null || typeof value.taskId === "string")
   );
 }
 
