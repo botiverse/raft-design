@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const taskListSection = tv({
   slots: {
-    root: ["space-y-[10px]"],
+    root: ["space-y-[14px]"],
     trigger: [
       "group flex w-full touch-manipulation items-center justify-between gap-[12px] text-left outline-none",
       "disabled:cursor-default",
@@ -36,11 +36,12 @@ export const taskListSection = tv({
       },
       elegant: {
         root: [
-          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-2)_60%,var(--layer-panel))] p-[12px] shadow-xs",
+          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] p-[12px] shadow-xs",
         ],
+        items: ["[&_[data-slot=task-card]:hover]:bg-ink-2/[3%]"],
         heading: ["gap-[6px]"],
         trigger: [
-          "rounded-[6px] pl-[13px] pr-[5px]",
+          "rounded-[6px] pl-[2px] pr-[5px]",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
           "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",

@@ -1,11 +1,9 @@
 import type { RefObject } from "react";
-import { DropdownMenu, DropdownMenuRadioGroup, DropdownMenuTrigger } from "raft-ui";
 import {
   TaskCard,
   TaskCardBody,
   TaskCardChannel,
   TaskCardDescription,
-  TaskCardHit,
   TaskCardLegacy,
   TaskCardMeta,
   TaskCardNumber,
@@ -13,18 +11,11 @@ import {
   TaskCardStatus,
   TaskCardStatusTrigger,
   TaskCardTitle,
-  TaskStatusMenuContent,
-  TaskStatusMenuItem,
 } from "raft-ui/wip";
 import { Pencil } from "lucide-react";
 
-import {
-  getTaskStatusLabel,
-  TASK_STATUSES,
-  type TaskFixture,
-  type TaskStatus,
-} from "../task-card.fixtures";
-import { TASK_STATUS_OPTIONS } from "../task-card.constants";
+import { getTaskStatusLabel, type TaskFixture, type TaskStatus } from "../task-card.fixtures";
+import { TaskStatusSelect } from "./task-status-select.composition";
 
 export function TaskCardComposition({
   task,
@@ -48,7 +39,7 @@ export function TaskCardComposition({
   showChannelName?: boolean;
 }) {
   return (
-    <TaskCard disabled={disabled}>
+    <TaskCard disabled={disabled} onClick={readOnly || !onOpen ? undefined : () => onOpen(task)}>
       <TaskCardRow>
         <TaskCardBody>
           <TaskCardMeta>
@@ -60,56 +51,31 @@ export function TaskCardComposition({
                 </TaskCardStatusTrigger>
               </TaskCardStatus>
             ) : (
-              <DropdownMenu defaultOpen={menuOpen} modal={false}>
-                <TaskCardStatus busy={busy}>
-                  <DropdownMenuTrigger
-                    disabled={disabled || busy || !onStatusChange}
-                    render={
-                      <TaskCardStatusTrigger
-                        status={task.status}
-                        busy={busy}
-                        disabled={disabled || busy || !onStatusChange}
-                      />
-                    }
-                  >
-                    {getTaskStatusLabel(task.status)}
-                    <Pencil aria-hidden />
-                  </DropdownMenuTrigger>
-                </TaskCardStatus>
-                <TaskStatusMenuContent
-                  align="end"
-                  portalProps={
-                    portalRef
-                      ? { container: portalRef as RefObject<HTMLElement | null> }
-                      : undefined
+              <TaskCardStatus busy={busy}>
+                <TaskStatusSelect
+                  value={task.status}
+                  disabled={disabled || busy || !onStatusChange}
+                  defaultOpen={menuOpen}
+                  onValueChange={(status) => onStatusChange?.(task.id, status)}
+                  portalRef={portalRef as RefObject<HTMLElement | null> | undefined}
+                  trigger={
+                    <TaskCardStatusTrigger
+                      status={task.status}
+                      busy={busy}
+                      disabled={disabled || busy || !onStatusChange}
+                    >
+                      {getTaskStatusLabel(task.status)}
+                      <Pencil aria-hidden />
+                    </TaskCardStatusTrigger>
                   }
-                >
-                  <DropdownMenuRadioGroup
-                    value={task.status}
-                    onValueChange={(status) => onStatusChange?.(task.id, status as TaskStatus)}
-                  >
-                    {TASK_STATUSES.flatMap((status) =>
-                      TASK_STATUS_OPTIONS[task.status].has(status.id)
-                        ? [
-                            <TaskStatusMenuItem key={status.id} value={status.id}>
-                              {status.label}
-                            </TaskStatusMenuItem>,
-                          ]
-                        : [],
-                    )}
-                  </DropdownMenuRadioGroup>
-                </TaskStatusMenuContent>
-              </DropdownMenu>
+                />
+              </TaskCardStatus>
             )}
             <TaskCardNumber>#{task.taskNumber}</TaskCardNumber>
             {task.isLegacy ? <TaskCardLegacy>LEGACY</TaskCardLegacy> : null}
           </TaskCardMeta>
-          <TaskCardHit disabled={disabled || readOnly || !onOpen} onClick={() => onOpen?.(task)}>
-            <TaskCardTitle>{task.title}</TaskCardTitle>
-            {task.description ? (
-              <TaskCardDescription>{task.description}</TaskCardDescription>
-            ) : null}
-          </TaskCardHit>
+          <TaskCardTitle>{task.title}</TaskCardTitle>
+          {task.description ? <TaskCardDescription>{task.description}</TaskCardDescription> : null}
         </TaskCardBody>
       </TaskCardRow>
     </TaskCard>

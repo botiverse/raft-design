@@ -3,8 +3,6 @@ export {
   TaskCardBody,
   TaskCardChannel,
   TaskCardDescription,
-  TaskCardFooter,
-  TaskCardHit,
   TaskCardLegacy,
   TaskCardMeta,
   TaskCardNumber,
@@ -12,15 +10,11 @@ export {
   TaskCardStatus,
   TaskCardStatusTrigger,
   TaskCardTitle,
-  TaskStatusMenuContent,
-  TaskStatusMenuItem,
 } from "./task-card";
 export type {
   TaskCardBodyProps,
   TaskCardChannelProps,
   TaskCardDescriptionProps,
-  TaskCardFooterProps,
-  TaskCardHitProps,
   TaskCardLegacyProps,
   TaskCardMetaProps,
   TaskCardNumberProps,
@@ -29,6 +23,4 @@ export type {
   TaskCardStatusProps,
   TaskCardStatusTriggerProps,
   TaskCardTitleProps,
-  TaskStatusMenuContentProps,
-  TaskStatusMenuItemProps,
 } from "./task-card";

@@ -115,3 +115,29 @@ export const TASK_FIXTURES: readonly TaskFixture[] = [
 export function getTaskStatusLabel(status: TaskStatus) {
   return TASK_STATUSES.find((item) => item.id === status)?.label ?? status;
 }
+
+export function moveTaskFixture(
+  tasks: readonly TaskFixture[],
+  taskId: string,
+  target: { status: TaskStatus; taskId?: string; placement?: "before" | "after" | null },
+) {
+  const task = tasks.find((item) => item.id === taskId);
+  if (task == null) return tasks;
+
+  const remaining = tasks.filter((item) => item.id !== taskId);
+  const targetIndex =
+    target.taskId == null ? -1 : remaining.findIndex((item) => item.id === target.taskId);
+  const lastStatusIndex = remaining.reduce(
+    (lastIndex, item, index) => (item.status === target.status ? index : lastIndex),
+    -1,
+  );
+  const insertAt =
+    targetIndex >= 0
+      ? target.placement === "after"
+        ? targetIndex + 1
+        : targetIndex
+      : lastStatusIndex + 1;
+  const movedTask = task.status === target.status ? task : { ...task, status: target.status };
+
+  return [...remaining.slice(0, insertAt), movedTask, ...remaining.slice(insertAt)];
+}

@@ -3,12 +3,6 @@ import { useRender } from "@base-ui/react/use-render";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import {
-  DropdownMenuContent,
-  DropdownMenuRadioItem,
-  type DropdownMenuContentProps,
-  type DropdownMenuRadioItemProps,
-} from "../dropdown-menu/index";
 import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
 import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskCardStatus } from "./task-card-status.recipe";
@@ -27,34 +21,20 @@ export function TaskCard({
 }: TaskCardProps) {
   const theme = useThemeFamily();
   const { root } = taskCard({ theme });
+  const interactive = props.onClick != null;
   const defaultProps: SlotElementProps<"article"> = {
     "data-slot": "task-card",
     "aria-busy": busy || undefined,
     "aria-disabled": disabled || undefined,
     "data-busy": busy ? "true" : undefined,
     "data-disabled": disabled ? "true" : undefined,
+    "data-interactive": interactive ? "true" : undefined,
     className: root({ className }),
   };
   return useRender({
     defaultTagName: "article",
     render,
     props: mergeProps<"article">(defaultProps, props),
-  });
-}
-
-export type TaskCardHitProps = useRender.ComponentProps<"button">;
-export function TaskCardHit({ className, render, ...props }: TaskCardHitProps) {
-  const theme = useThemeFamily();
-  const { hit } = taskCard({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    "data-slot": "task-card-hit",
-    className: hit({ className }),
-  };
-  return useRender({
-    defaultTagName: "button",
-    render,
-    props: mergeProps<"button">(defaultProps, props),
   });
 }
 
@@ -178,21 +158,6 @@ export function TaskCardDescription({ className, render, ...props }: TaskCardDes
   });
 }
 
-export type TaskCardFooterProps = useRender.ComponentProps<"footer">;
-export function TaskCardFooter({ className, render, ...props }: TaskCardFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = taskCard({ theme });
-  const defaultProps: SlotElementProps<"footer"> = {
-    "data-slot": "task-card-footer",
-    className: footer({ className }),
-  };
-  return useRender({
-    defaultTagName: "footer",
-    render,
-    props: mergeProps<"footer">(defaultProps, props),
-  });
-}
-
 export type TaskCardStatusProps = useRender.ComponentProps<"div"> & { busy?: boolean };
 export function TaskCardStatus({ busy = false, className, render, ...props }: TaskCardStatusProps) {
   const theme = useThemeFamily();
@@ -245,30 +210,4 @@ export function TaskCardStatusTrigger({
     render,
     props: mergeProps<"button">(defaultProps, props, { children: resolvedChildren }),
   });
-}
-
-export type TaskStatusMenuContentProps = DropdownMenuContentProps;
-export function TaskStatusMenuContent({ className, ...props }: TaskStatusMenuContentProps) {
-  const theme = useThemeFamily();
-  const { menuContent } = taskCardStatus({ theme });
-  return (
-    <DropdownMenuContent
-      data-slot="task-status-menu-content"
-      className={menuContent({ className })}
-      {...props}
-    />
-  );
-}
-
-export type TaskStatusMenuItemProps = DropdownMenuRadioItemProps;
-export function TaskStatusMenuItem({ className, ...props }: TaskStatusMenuItemProps) {
-  const theme = useThemeFamily();
-  const { menuItem } = taskCardStatus({ theme });
-  return (
-    <DropdownMenuRadioItem
-      data-slot="task-status-menu-item"
-      className={menuItem({ className })}
-      {...props}
-    />
-  );
 }

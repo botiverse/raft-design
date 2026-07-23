@@ -81,7 +81,6 @@ export const PLAYGROUND_TASKS = [
     creatorActorId: "legacyBot",
     assigneeActorId: "legacyBot",
     legacy: true,
-    movable: false,
   }),
   defineTask({
     channelId: "all",
@@ -106,7 +105,6 @@ export const PLAYGROUND_TASKS = [
     status: "in_review",
     creatorActorId: "legacyBot",
     legacy: true,
-    movable: false,
   }),
   defineTask({
     channelId: "all",
@@ -123,7 +121,6 @@ export const PLAYGROUND_TASKS = [
     status: "done",
     creatorActorId: "legacyBot",
     legacy: true,
-    movable: false,
   }),
   defineTask({
     channelId: "all",

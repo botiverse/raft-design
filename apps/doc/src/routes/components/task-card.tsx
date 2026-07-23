@@ -17,25 +17,21 @@ import taskCardStateMatrixCompositionSource from "#/modules/task-card/compositio
 import { TaskCardPanelSourceComparisonComposition } from "#/modules/task-card/task-card.source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const ANATOMY_SNIPPET = `<TaskCard>
-  <TaskCardHit>
-    <TaskCardRow>
-      <TaskCardBody>
-        <TaskCardMeta>
-          <TaskCardChannel />
-          <TaskCardNumber />
-          <TaskCardLegacy />
-        </TaskCardMeta>
-        <TaskCardTitle />
-        <TaskCardDescription />
-      </TaskCardBody>
-    </TaskCardRow>
-  </TaskCardHit>
-  <TaskCardFooter>
-    <TaskCardStatus>
-      <TaskCardStatusTrigger />
-    </TaskCardStatus>
-  </TaskCardFooter>
+const ANATOMY_SNIPPET = `<TaskCard onClick={openTask}>
+  <TaskCardRow>
+    <TaskCardBody>
+      <TaskCardMeta>
+        <TaskCardStatus>
+          <TaskStatusSelect trigger={<TaskCardStatusTrigger />} />
+        </TaskCardStatus>
+        <TaskCardChannel />
+        <TaskCardNumber />
+        <TaskCardLegacy />
+      </TaskCardMeta>
+      <TaskCardTitle />
+      <TaskCardDescription />
+    </TaskCardBody>
+  </TaskCardRow>
 </TaskCard>`;
 
 const TOC = [
@@ -78,15 +74,7 @@ const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"article">',
-    description: "Card root. Compose hit, body, and footer parts as children.",
-  },
-];
-
-const HIT_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: 'useRender.ComponentProps<"button">',
-    description: "Primary card hit target. The consumer decides what activating a task does.",
+    description: "Card root. Consumers attach an optional open action with native article props.",
   },
 ];
 
@@ -154,14 +142,6 @@ const DESCRIPTION_PROPS: readonly PropRow[] = [
   },
 ];
 
-const FOOTER_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: 'useRender.ComponentProps<"footer">',
-    description: "Footer boundary for status controls.",
-  },
-];
-
 const STATUS_PROPS: readonly PropRow[] = [
   {
     name: "busy",
@@ -172,7 +152,7 @@ const STATUS_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description: "Status-control container. Compose TaskCardStatusTrigger and a menu as children.",
+    description: "Status-control container. Compose a TaskStatusSelect with TaskCardStatusTrigger.",
   },
 ];
 
@@ -191,24 +171,7 @@ const STATUS_TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"button">',
-    description:
-      "Status trigger button. Compose with the menu primitive that owns selection behavior.",
-  },
-];
-
-const STATUS_MENU_CONTENT_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "DropdownMenuContentProps",
-    description: "Status menu surface styled for task status selection.",
-  },
-];
-
-const STATUS_MENU_ITEM_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "DropdownMenuRadioItemProps",
-    description: "Selectable status option inside TaskStatusMenuContent.",
+    description: "Status trigger passed to TaskStatusSelect; its click does not open the card.",
   },
 ];
 
@@ -241,7 +204,7 @@ function TaskCardDoc() {
           <li>
             exposes metadata and content as explicit compound parts instead of task-shaped props
           </li>
-          <li>composes status selection with the existing DropdownMenu behavior</li>
+          <li>composes status selection with the existing Select behavior</li>
           <li>covers long content, legacy, disabled, busy, and open-menu states</li>
         </Differences>
       }
@@ -280,9 +243,6 @@ function TaskCardDoc() {
           <DocSubsection parentId="api" id="api-root" title="TaskCard">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-hit" title="TaskCardHit">
-            <PropsTable rows={HIT_PROPS} />
-          </DocSubsection>
           <DocSubsection parentId="api" id="api-row" title="TaskCardRow">
             <PropsTable rows={ROW_PROPS} />
           </DocSubsection>
@@ -307,20 +267,11 @@ function TaskCardDoc() {
           <DocSubsection parentId="api" id="api-description" title="TaskCardDescription">
             <PropsTable rows={DESCRIPTION_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-footer" title="TaskCardFooter">
-            <PropsTable rows={FOOTER_PROPS} />
-          </DocSubsection>
           <DocSubsection parentId="api" id="api-status" title="TaskCardStatus">
             <PropsTable rows={STATUS_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-status-trigger" title="TaskCardStatusTrigger">
             <PropsTable rows={STATUS_TRIGGER_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-status-menu-content" title="TaskStatusMenuContent">
-            <PropsTable rows={STATUS_MENU_CONTENT_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-status-menu-item" title="TaskStatusMenuItem">
-            <PropsTable rows={STATUS_MENU_ITEM_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

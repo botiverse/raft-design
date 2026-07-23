@@ -12,11 +12,14 @@ import { TaskDndComposition } from "#/modules/task-dnd/compositions/task-dnd.com
 import taskDndCompositionSource from "#/modules/task-dnd/compositions/task-dnd.composition.tsx?raw";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider isDropAllowed={…} onMove={…}>
-  <TaskBoardColumn render={<TaskDropZone id={status} />}>
-    <TaskDraggable id={taskId}>
+  <TaskBoardColumn render={<TaskDropZone id={columnDropId} data={{ status }} />}>
+    <TaskDropPlaceholder id={cardDropId} placement="before" />
+    <TaskDraggable id={taskId} dropId={cardDropId} dropData={{ status, taskId }}>
       <TaskCard />
     </TaskDraggable>
+    <TaskDropPlaceholder id={cardDropId} placement="after" />
   </TaskBoardColumn>
+  <TaskDragOverlay>{activeTask && <TaskCard />}</TaskDragOverlay>
 </TaskDndProvider>`;
 
 const TOC = [
@@ -35,7 +38,7 @@ const DND_PROVIDER_PROPS: readonly PropRow[] = [
   },
   {
     name: "isDropAllowed",
-    type: "(activeId, overId) => boolean",
+    type: "(activeId, overId, overData) => boolean",
     description: "Consumer policy for whether a drop target is allowed.",
   },
   {
@@ -73,6 +76,16 @@ const DRAGGABLE_PROPS: readonly PropRow[] = [
     description: "Disables dragging for this item.",
   },
   {
+    name: "dropId",
+    type: "UniqueIdentifier",
+    description: "Optional card-level drop target id for before/after insertion.",
+  },
+  {
+    name: "dropData",
+    type: "TaskDropData",
+    description: "Consumer metadata returned from onMove for the card-level target.",
+  },
+  {
     name: "...props",
     type: 'ComponentPropsWithRef<"div">',
     description: "Draggable host. Usually wraps a TaskCard.",
@@ -92,9 +105,42 @@ const DROP_ZONE_PROPS: readonly PropRow[] = [
     description: "Disables this drop target.",
   },
   {
+    name: "data",
+    type: "TaskDropData",
+    description: "Consumer metadata returned from onMove for this target.",
+  },
+  {
     name: "...props",
     type: 'useRender.ComponentProps<"div", { dropState: TaskDropState }>',
     description: "Droppable host. Exposes dropState idle | allowed | blocked via render state.",
+  },
+];
+
+const DROP_PLACEHOLDER_PROPS: readonly PropRow[] = [
+  {
+    name: "id",
+    type: "UniqueIdentifier",
+    description:
+      "The matching drop target id. Renders an allowed landing placeholder at the active card height.",
+  },
+  {
+    name: "placement",
+    type: '"before" | "after"',
+    description: "Optional insertion edge for a card-level target.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div", { dropState: TaskDropState }>',
+    description:
+      "A presentational landing slot; it is hidden unless the matching target allows the active task.",
+  },
+];
+
+const DRAG_OVERLAY_PROPS: readonly PropRow[] = [
+  {
+    name: "children",
+    type: "ReactNode",
+    description: "Consumer-rendered drag preview. Render null when no item is active.",
   },
 ];
 
@@ -122,8 +168,8 @@ function TaskDndDoc() {
             <Link to="/components/task-list">TaskList</Link> — not nested inside the panel package
           </li>
           <li>
-            <code>TaskDropZone</code> exposes <code>dropState</code> (<code>idle</code> /{" "}
-            <code>allowed</code> / <code>blocked</code>) for empty-column copy
+            card targets expose before/after placement while an empty column remains a whole-column
+            target
           </li>
           <li>
             <code>isDropAllowed</code> and <code>onMove</code> own permissions and persistence — the
@@ -175,6 +221,12 @@ function TaskDndDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-drop-zone" title="TaskDropZone">
             <PropsTable rows={DROP_ZONE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-drop-placeholder" title="TaskDropPlaceholder">
+            <PropsTable rows={DROP_PLACEHOLDER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-drag-overlay" title="TaskDragOverlay">
+            <PropsTable rows={DRAG_OVERLAY_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

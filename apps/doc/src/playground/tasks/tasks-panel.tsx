@@ -172,7 +172,6 @@ function toTaskFixture(task: PlaygroundTask, channelName: string): TaskFixture {
     creatorId: task.creatorActorId,
     assigneeId: task.assigneeActorId ?? "unassigned",
     isLegacy: task.legacy,
-    disabled: task.legacy,
     dragDisabled: task.movable === false,
   };
 }

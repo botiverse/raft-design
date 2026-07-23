@@ -16,4 +16,5 @@ export type {
 } from "./tasks-panel";
 export { TaskLoadingList, TaskLoadingRow } from "./task-loading";
 export type { TaskLoadingListProps, TaskLoadingRowProps } from "./task-loading";
+export { TaskStatusIcon } from "./task-status-icon";
 export { taskStatus, type TaskStatusId } from "./task-status.recipe";

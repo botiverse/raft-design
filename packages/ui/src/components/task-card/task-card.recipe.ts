@@ -5,13 +5,10 @@ export const taskCard = tv({
     root: [
       "relative w-full px-[12px] py-[10px] text-left",
       "transition-all duration-100",
+      "data-[interactive=true]:cursor-pointer",
       "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-40 data-[disabled=true]:transform-none",
       "group-data-[dragging=true]/task-draggable:transform-none group-data-[dragging=true]/task-draggable:shadow-sm",
       "motion-reduce:transform-none motion-reduce:transition-none",
-    ],
-    hit: [
-      "block w-full min-w-0 touch-manipulation text-left outline-none",
-      "disabled:pointer-events-none",
     ],
     row: ["flex min-w-0 items-start gap-[8px]"],
     body: ["min-w-0 flex-1"],
@@ -21,7 +18,6 @@ export const taskCard = tv({
     legacy: ["shrink-0 px-[6px] py-[2px] text-[10px]"],
     title: ["line-clamp-3 break-words"],
     description: ["mt-[4px] line-clamp-2 break-words"],
-    footer: ["mt-[8px] flex min-w-0 items-center justify-end gap-[8px]"],
   },
   variants: {
     theme: {
@@ -29,12 +25,9 @@ export const taskCard = tv({
         root: [
           "border-2 border-line-strong bg-layer-panel shadow-sm",
           "hover:-translate-y-px hover:shadow-md",
-          "active:translate-x-px active:translate-y-px active:shadow-xs",
         ],
-        hit: [
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
-        ],
-        channel: ["font-bold text-foreground/60"],
+        meta: ["flex-nowrap"],
+        channel: ["min-w-0 truncate", "font-bold text-foreground/60"],
         number: ["font-mono text-foreground/35"],
         legacy: ["border border-line-subtle", "font-heading font-bold text-foreground/50"],
         title: ["text-[14px] leading-[20px] font-bold text-foreground"],
@@ -43,14 +36,8 @@ export const taskCard = tv({
       elegant: {
         root: [
           "rounded-[8px] border-[0.5px] border-line-subtle bg-layer-panel shadow-xs",
-          "hover:bg-ink-2/5",
-          "active:bg-layer-strong active:shadow-xs",
-        ],
-        hit: [
-          "rounded-[6px]",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
-          "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-panel",
-          "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",
+          "hover:bg-ink-2/5 group-data-[drop-over=true]/task-draggable:hover:bg-layer-panel data-[interactive=true]:active:bg-ink-2/5",
+          "group-data-[dragging=true]/task-drag-overlay:bg-ink-2/5",
         ],
         channel: ["font-medium text-foreground-muted"],
         meta: ["gap-[6px]"],

@@ -1,11 +1,12 @@
 import type { ReactNode, SVGProps } from "react";
+import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { TaskStatusId } from "./task-status.recipe";
 
 type TaskStatusSvgProps = SVGProps<SVGSVGElement>;
 type TaskStatusIconComponent = (props: TaskStatusSvgProps) => ReactNode;
 
 const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
-  in_progress: "var(--primary-400)",
+  in_progress: "color-mix(in oklch, var(--primary-400) 92%, var(--ink))",
   in_review: "var(--state-warning-hover)",
   done: "var(--state-success-base)",
   closed: "oklch(0.573 0 0)",
@@ -133,6 +134,14 @@ const TASK_STATUS_ICONS: Record<TaskStatusId, TaskStatusIconComponent> = {
 };
 
 export function TaskStatusIcon({ status }: { status: TaskStatusId }) {
+  const theme = useThemeFamily();
   const Icon = TASK_STATUS_ICONS[status];
-  return <Icon aria-hidden data-slot="task-status-icon" color={TASK_STATUS_ICON_COLORS[status]} />;
+  return (
+    <Icon
+      aria-hidden
+      data-slot="task-status-icon"
+      className={theme === "brutal" ? "hidden" : undefined}
+      color={TASK_STATUS_ICON_COLORS[status]}
+    />
+  );
 }
