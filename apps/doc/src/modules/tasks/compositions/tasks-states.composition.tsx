@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   Banner,
   BannerAction,
@@ -14,12 +14,8 @@ import {
   Skeleton,
 } from "raft-ui";
 import {
-  TaskFilterClear,
-  TaskFilterTrigger,
-  TaskLoadingLines,
   TaskLoadingList,
   TaskLoadingRow,
-  TaskToolbarAction,
   TasksPanelRoot,
   TasksPanelEmpty,
   TasksPanelToolbar,
@@ -36,20 +32,7 @@ import {
   UserCircle2,
 } from "lucide-react";
 
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
-import { TASK_FIXTURES } from "#/modules/task-card/task-card.fixtures.ts";
-import {
-  CreateTaskDialogComposition,
-  TaskIdentityFilterComposition,
-  TasksPanelComposition,
-  type TaskIdentity,
-} from "./tasks-panel.composition";
-
-const FILTER_OPTIONS = [
-  { id: "me" as const, label: "Assigned to me", isSentinel: true },
-  { id: "unassigned" as const, label: "Unassigned", isSentinel: true },
-  { id: "atlas" as const, label: "Atlas" },
-] as const;
+import { TasksToolbarFilterPlaceholder } from "./tasks-panel.composition";
 
 export function TasksLoadingComposition() {
   const [view, setView] = useState("board");
@@ -59,16 +42,18 @@ export function TasksLoadingComposition() {
       <TasksPanelRoot aria-label="Loading tasks">
         <TasksPanelToolbar>
           <TasksPanelToolbarGroup>
-            <TaskFilterTrigger onClick={() => setNotice("Creator filter pressed while loading")}>
-              <UserCircle2 aria-hidden /> Creator
-            </TaskFilterTrigger>
-            <TaskFilterTrigger onClick={() => setNotice("Assignee filter pressed while loading")}>
-              <User aria-hidden /> Assignee
-            </TaskFilterTrigger>
-            <TaskToolbarAction onClick={() => setNotice("New Task pressed while loading")}>
+            <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
+            <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
+            <Button
+              variant="accent"
+              size="sm"
+              onClick={() => setNotice("New Task pressed while loading")}
+            >
               <Plus aria-hidden />
               New Task
-            </TaskToolbarAction>
+            </Button>
+          </TasksPanelToolbarGroup>
+          <TasksPanelToolbarGroup>
             <SegmentedControl
               value={view}
               onValueChange={(nextView) => {
@@ -76,7 +61,6 @@ export function TasksLoadingComposition() {
                 setNotice(`${nextView} view selected while loading`);
               }}
               ariaLabel="Task view"
-              className="ml-auto"
             >
               <SegmentedControlItem value="board">
                 <Columns3 aria-hidden />
@@ -93,10 +77,8 @@ export function TasksLoadingComposition() {
           <TaskLoadingList>
             {Array.from({ length: 5 }, (_, index) => (
               <TaskLoadingRow key={index}>
-                <TaskLoadingLines>
-                  <Skeleton variant="line" className="w-1/2" />
-                  <Skeleton variant="line" className="w-3/4" />
-                </TaskLoadingLines>
+                <Skeleton variant="line" className="w-1/2" />
+                <Skeleton variant="line" className="w-3/4" />
               </TaskLoadingRow>
             ))}
           </TaskLoadingList>
@@ -110,7 +92,6 @@ export function TasksLoadingComposition() {
 }
 
 export function TasksEmptyStatesComposition() {
-  const [filtered, setFiltered] = useState(true);
   return (
     <div className="grid w-full gap-4 lg:grid-cols-2">
       <div className="flex min-h-80 border border-line">
@@ -124,18 +105,11 @@ export function TasksEmptyStatesComposition() {
         <TasksPanelRoot>
           <TasksPanelToolbar>
             <TasksPanelToolbarGroup>
-              {filtered ? (
-                <>
-                  <TaskFilterTrigger aria-pressed="true" disabled>
-                    <User aria-hidden /> Assignee
-                  </TaskFilterTrigger>
-                  <TaskFilterClear onClick={() => setFiltered(false)}>Clear All</TaskFilterClear>
-                </>
-              ) : null}
+              <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
             </TasksPanelToolbarGroup>
           </TasksPanelToolbar>
           <TasksPanelViewport>
-            <TaskEmptyState filtered={filtered} />
+            <TaskEmptyState filtered />
           </TasksPanelViewport>
         </TasksPanelRoot>
       </div>
@@ -182,98 +156,6 @@ export function TasksErrorComposition() {
           </Banner>
         </TasksPanelViewport>
       </TasksPanelRoot>
-    </div>
-  );
-}
-
-export function TasksDragStatesComposition() {
-  return (
-    <div className="flex min-h-[42rem] w-full min-w-0">
-      <TasksPanelComposition
-        tasks={[TASK_FIXTURES[0], TASK_FIXTURES[2], TASK_FIXTURES[7]]}
-        blockedDropStatus="closed"
-      />
-    </div>
-  );
-}
-
-type FilterScenario = "default" | "active" | "open" | "no-results" | "busy" | "disabled";
-
-export function TasksFilterStatesComposition() {
-  const portalRef = useRef<HTMLDivElement>(null);
-  const [scenario, setScenario] = useState<FilterScenario>("open");
-  const [value, setValue] = useState<TaskIdentity[]>([]);
-  const scenarioValue = scenario === "active" ? [FILTER_OPTIONS[2]] : value;
-  return (
-    <div ref={portalRef} className="relative grid min-h-80 w-full content-start gap-6">
-      <SegmentedControl value={scenario} onValueChange={setScenario} ariaLabel="Task filter state">
-        {(["default", "active", "open", "no-results", "busy", "disabled"] as const).map((item) => (
-          <SegmentedControlItem key={item} value={item}>
-            <SegmentedControlLabel>{item}</SegmentedControlLabel>
-          </SegmentedControlItem>
-        ))}
-      </SegmentedControl>
-      <TaskIdentityFilterComposition
-        key={scenario}
-        label="Assignee"
-        icon={<User aria-hidden />}
-        options={FILTER_OPTIONS}
-        value={scenarioValue}
-        onValueChange={setValue}
-        portalRef={portalRef}
-        open={scenario === "open" || scenario === "no-results"}
-        initialQuery={scenario === "no-results" ? "Nobody" : ""}
-        busy={scenario === "busy"}
-        disabled={scenario === "disabled"}
-      />
-    </div>
-  );
-}
-
-type DialogScenario = "single" | "batch" | "error" | "submitting";
-
-export function CreateTaskDialogStatesComposition() {
-  const [scenario, setScenario] = useState<DialogScenario>("single");
-  const [open, setOpen] = useState(true);
-  return (
-    <div className="grid w-full gap-4">
-      <SegmentedControl value={scenario} onValueChange={setScenario} ariaLabel="Create Task state">
-        <SegmentedControlItem value="single">
-          <SegmentedControlLabel>Single</SegmentedControlLabel>
-        </SegmentedControlItem>
-        <SegmentedControlItem value="batch">
-          <SegmentedControlLabel>Batch</SegmentedControlLabel>
-        </SegmentedControlItem>
-        <SegmentedControlItem value="error">
-          <SegmentedControlLabel>Error</SegmentedControlLabel>
-        </SegmentedControlItem>
-        <SegmentedControlItem value="submitting">
-          <SegmentedControlLabel>Submitting</SegmentedControlLabel>
-        </SegmentedControlItem>
-      </SegmentedControl>
-      {!open ? (
-        <Button variant="accent" onClick={() => setOpen(true)}>
-          Open Create Task dialog
-        </Button>
-      ) : null}
-      <SourceComparisonModalPreview className="min-h-[30rem]" contentClassName="max-w-md">
-        {({ portalProps, contentClassName }) => (
-          <CreateTaskDialogComposition
-            key={scenario}
-            open={open}
-            preview
-            portalProps={portalProps}
-            contentClassName={contentClassName}
-            onOpenChange={setOpen}
-            initialTitles={
-              scenario === "batch" ? ["Map task states", "Verify keyboard flow"] : [""]
-            }
-            forceError={scenario === "error" ? "Failed to create task" : undefined}
-            forceSubmitting={scenario === "submitting"}
-            onCreate={() => undefined}
-          />
-        )}
-      </SourceComparisonModalPreview>
     </div>
   );
 }

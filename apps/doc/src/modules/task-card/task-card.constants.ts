@@ -1,13 +1,5 @@
 import type { TaskStatus } from "./task-card.fixtures";
 
-export const TASK_STATUS_TONES = {
-  todo: "warning",
-  in_progress: "information",
-  in_review: "accent-muted",
-  done: "success",
-  closed: "muted",
-} as const;
-
 const TASK_STATUS_TRANSITIONS: Record<TaskStatus, readonly TaskStatus[]> = {
   todo: ["in_progress", "closed"],
   in_progress: ["in_review", "done", "closed"],

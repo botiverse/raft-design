@@ -32,7 +32,7 @@ import {
   type ReactNode,
 } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { tasks } from "./tasks.recipe";
+import { taskDnd } from "./task-dnd.recipe";
 
 export type TaskDropState = "idle" | "allowed" | "blocked";
 
@@ -138,7 +138,7 @@ export function TaskDraggable({
   ...props
 }: TaskDraggableProps) {
   const theme = useThemeFamily();
-  const { draggable } = tasks({ theme });
+  const { draggable } = taskDnd({ theme });
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
     disabled,

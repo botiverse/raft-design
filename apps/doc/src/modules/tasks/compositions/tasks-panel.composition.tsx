@@ -1,12 +1,17 @@
 import type { ReactNode, RefObject } from "react";
 import { useMemo, useRef, useState } from "react";
 import {
-  Avatar,
-  Combobox,
-  ComboboxTrigger,
-  ComboboxTriggerIndicator,
+  Banner,
+  BannerDescription,
+  Button,
+  Dialog,
+  DialogBody,
   DialogClose,
+  DialogContent,
   type DialogContentProps,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   EmptyState,
   EmptyStateDescription,
   EmptyStateIcon,
@@ -30,39 +35,9 @@ import {
   TaskBoardColumnPanel,
   TaskBoardColumnTrigger,
   TaskBoardRoot,
-  TaskCreateAction,
-  TaskCreateAddAction,
-  TaskCreateBody,
-  TaskCreateCloseAction,
-  TaskCreateDialog,
-  TaskCreateDialogContent,
-  TaskCreateDialogError,
-  TaskCreateDialogForm,
-  TaskCreateDialogHeader,
-  TaskCreateDialogTitle,
-  TaskCreateFieldRow,
-  TaskCreateFields,
-  TaskCreateFooter,
-  TaskCreateRemoveAction,
   TaskDndProvider,
   TaskDraggable,
   TaskDropZone,
-  TaskFilterCount,
-  TaskFilterClear,
-  TaskFilterContent,
-  TaskFilterEmpty,
-  TaskFilterHeader,
-  TaskFilterInput,
-  TaskFilterLabel,
-  TaskFilterList,
-  TaskFilterOption,
-  TaskFilterOptionContent,
-  TaskFilterOptionIndicator,
-  TaskFilterOptionLabel,
-  TaskFilterOptionLeading,
-  TaskFilterPopoverClear,
-  TaskFilterSearch,
-  TaskFilterTrigger,
   TaskListRoot,
   TaskSection,
   TaskSectionBadge,
@@ -78,7 +53,6 @@ import {
   TasksPanelToolbar,
   TasksPanelToolbarGroup,
   TasksPanelViewport,
-  TaskToolbarAction,
 } from "raft-ui/wip";
 import {
   CheckSquare,
@@ -99,27 +73,9 @@ import {
   type TaskFixture,
   type TaskStatus,
 } from "#/modules/task-card/task-card.fixtures.ts";
-import { TASK_STATUS_TONES } from "#/modules/task-card/task-card.constants.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 
 type TaskView = "board" | "list";
-export type TaskIdentity = {
-  id: string;
-  label: string;
-  searchText?: string;
-  avatar?: ReactNode;
-  isSentinel?: boolean;
-};
-
-const CREATOR_OPTIONS: readonly TaskIdentity[] = [
-  { id: "me", label: "Created by me", isSentinel: true },
-  { id: "atlas", label: "Atlas" },
-];
-const ASSIGNEE_OPTIONS: readonly TaskIdentity[] = [
-  { id: "me", label: "Assigned to me", isSentinel: true },
-  { id: "unassigned", label: "Unassigned", isSentinel: true },
-  { id: "atlas", label: "Atlas" },
-];
 
 export type TasksPanelCompositionProps = {
   tasks?: readonly TaskFixture[];
@@ -131,9 +87,25 @@ export type TasksPanelCompositionProps = {
   onCreateTasks?: (titles: readonly string[]) => void | Promise<void>;
   blockedDropStatus?: TaskStatus;
   showChannelName?: boolean;
-  creatorOptions?: readonly TaskIdentity[];
-  assigneeOptions?: readonly TaskIdentity[];
 };
+
+/** Static filter chrome for TasksPanel demos. Interactive filters live under Combobox. */
+export function TasksToolbarFilterPlaceholder({ label, icon }: { label: string; icon: ReactNode }) {
+  return (
+    <span
+      aria-hidden
+      className={[
+        "inline-flex items-center gap-2 border-2 border-line-subtle bg-layer-panel px-3 py-1.5",
+        "font-heading text-xs font-bold text-foreground/70",
+        "[&_svg]:size-3.5 [&_svg]:shrink-0",
+      ].join(" ")}
+    >
+      {icon}
+      {label}
+      <ChevronDown aria-hidden className="!size-3" />
+    </span>
+  );
+}
 
 export function TasksPanelComposition({
   tasks: controlledTasks,
@@ -145,14 +117,10 @@ export function TasksPanelComposition({
   onCreateTasks,
   blockedDropStatus,
   showChannelName = false,
-  creatorOptions = CREATOR_OPTIONS,
-  assigneeOptions = ASSIGNEE_OPTIONS,
 }: TasksPanelCompositionProps) {
   const portalRef = useRef<HTMLDivElement>(null);
   const [localTasks, setLocalTasks] = useState<readonly TaskFixture[]>(TASK_FIXTURES);
   const [localView, setLocalView] = useState<TaskView>(initialView);
-  const [creator, setCreator] = useState<TaskIdentity[]>([]);
-  const [assignee, setAssignee] = useState<TaskIdentity[]>([]);
   const [collapsed, setCollapsed] = useState<Record<TaskStatus, boolean>>({
     todo: false,
     in_progress: false,
@@ -175,18 +143,9 @@ export function TasksPanelComposition({
     setAnnouncement(`${nextView === "board" ? "Board" : "List"} view selected`);
   };
 
-  const filteredTasks = useMemo(
-    () =>
-      tasks.filter(
-        (task) =>
-          (creator.length === 0 || creator.some((item) => item.id === task.creatorId)) &&
-          (assignee.length === 0 || assignee.some((item) => item.id === task.assigneeId)),
-      ),
-    [assignee, creator, tasks],
-  );
   const sortedTasks = useMemo(
-    () => [...filteredTasks].sort((a, b) => b.taskNumber - a.taskNumber),
-    [filteredTasks],
+    () => [...tasks].sort((a, b) => b.taskNumber - a.taskNumber),
+    [tasks],
   );
 
   const updateStatus = (taskId: string, status: TaskStatus) => {
@@ -199,50 +158,21 @@ export function TasksPanelComposition({
     onOpenTask?.(task);
     setAnnouncement(`Opened task #${task.taskNumber}: ${task.title}`);
   };
-  const hasFilters = creator.length > 0 || assignee.length > 0;
 
   return (
     <div ref={portalRef} className="relative flex h-full min-h-0 w-full min-w-0">
       <TasksPanelRoot aria-label="Tasks panel">
         <TasksPanelToolbar>
           <TasksPanelToolbarGroup>
-            <TaskIdentityFilterComposition
-              label="Creator"
-              icon={<UserCircle2 aria-hidden />}
-              options={creatorOptions}
-              value={creator}
-              onValueChange={setCreator}
-              portalRef={portalRef}
-            />
-            <TaskIdentityFilterComposition
-              label="Assignee"
-              icon={<User aria-hidden />}
-              options={assigneeOptions}
-              value={assignee}
-              onValueChange={setAssignee}
-              portalRef={portalRef}
-            />
-            {hasFilters ? (
-              <TaskFilterClear
-                onClick={() => {
-                  setCreator([]);
-                  setAssignee([]);
-                  setAnnouncement("All task filters cleared");
-                }}
-              >
-                Clear All
-              </TaskFilterClear>
-            ) : null}
-            <TaskToolbarAction onClick={() => setDialogOpen(true)}>
+            <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
+            <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
+            <Button variant="accent" size="sm" onClick={() => setDialogOpen(true)}>
               <Plus aria-hidden />
               New Task
-            </TaskToolbarAction>
-            <SegmentedControl
-              value={view}
-              onValueChange={setView}
-              ariaLabel="Task view"
-              className="ml-auto"
-            >
+            </Button>
+          </TasksPanelToolbarGroup>
+          <TasksPanelToolbarGroup>
+            <SegmentedControl value={view} onValueChange={setView} ariaLabel="Task view">
               <SegmentedControlItem value="board">
                 <Columns3 aria-hidden />
                 <SegmentedControlLabel>Board</SegmentedControlLabel>
@@ -257,7 +187,7 @@ export function TasksPanelComposition({
 
         <TasksPanelViewport>
           {sortedTasks.length === 0 ? (
-            <TaskEmptyState filtered={hasFilters} />
+            <TaskEmptyState filtered={false} />
           ) : view === "board" ? (
             <TaskBoard
               tasks={sortedTasks}
@@ -304,112 +234,14 @@ export function TasksPanelComposition({
             channelName: "proj-uiux",
             title,
             status: "todo",
-            creatorId: creatorOptions[0]?.id,
-            assigneeId: assigneeOptions.find((option) => option.id === "unassigned")?.id,
+            creatorId: "me",
+            assigneeId: "unassigned",
           }));
           updateTasks([...created, ...tasks]);
           setAnnouncement(`${created.length} ${created.length === 1 ? "task" : "tasks"} created`);
         }}
       />
     </div>
-  );
-}
-
-export function TaskIdentityFilterComposition({
-  label,
-  icon,
-  options,
-  value,
-  onValueChange,
-  portalRef,
-  open,
-  onOpenChange,
-  initialQuery = "",
-  busy = false,
-  disabled = false,
-}: {
-  label: string;
-  icon: React.ReactNode;
-  options: readonly TaskIdentity[];
-  value: TaskIdentity[];
-  onValueChange: (value: TaskIdentity[]) => void;
-  portalRef: RefObject<HTMLDivElement | null>;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  initialQuery?: string;
-  busy?: boolean;
-  disabled?: boolean;
-}) {
-  const [query, setQuery] = useState(initialQuery);
-  return (
-    <Combobox<TaskIdentity, true>
-      multiple
-      open={open}
-      disabled={disabled}
-      onOpenChange={(nextOpen) => {
-        if (nextOpen) setQuery("");
-        onOpenChange?.(nextOpen);
-      }}
-      items={options}
-      value={value}
-      inputValue={query}
-      itemToStringLabel={(item) => `${item.label} ${item.searchText ?? ""}`.trim()}
-      isItemEqualToValue={(item, selected) => item.id === selected.id}
-      onValueChange={onValueChange}
-      onInputValueChange={(nextQuery, details) => {
-        if (details.reason !== "item-press") setQuery(nextQuery);
-      }}
-    >
-      <ComboboxTrigger
-        render={
-          <TaskFilterTrigger
-            aria-pressed={value.length > 0}
-            busy={busy}
-            disabled={disabled || busy}
-          />
-        }
-      >
-        {icon}
-        <span>{label}</span>
-        {value.length > 0 ? <TaskFilterCount>{value.length}</TaskFilterCount> : null}
-        <ComboboxTriggerIndicator>
-          <ChevronDown aria-hidden />
-        </ComboboxTriggerIndicator>
-      </ComboboxTrigger>
-      <TaskFilterContent
-        side="bottom"
-        align="start"
-        sideOffset={8}
-        initialFocus
-        portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-      >
-        <TaskFilterHeader>
-          <TaskFilterLabel>{label}</TaskFilterLabel>
-          {value.length > 0 ? <TaskFilterPopoverClear>Clear</TaskFilterPopoverClear> : null}
-        </TaskFilterHeader>
-        <TaskFilterSearch>
-          <TaskFilterInput aria-label={`Search ${label.toLowerCase()}`} placeholder="Search…" />
-        </TaskFilterSearch>
-        <TaskFilterEmpty>No matches</TaskFilterEmpty>
-        <TaskFilterList>
-          {(identity: TaskIdentity) => (
-            <TaskFilterOption key={identity.id} value={identity}>
-              <TaskFilterOptionContent>
-                <TaskFilterOptionLeading>
-                  {identity.isSentinel
-                    ? null
-                    : (identity.avatar ?? <Avatar size="xs" type="agent" />)}
-                </TaskFilterOptionLeading>
-                <TaskFilterOptionLabel italic={identity.isSentinel}>
-                  {identity.label}
-                </TaskFilterOptionLabel>
-              </TaskFilterOptionContent>
-              <TaskFilterOptionIndicator />
-            </TaskFilterOption>
-          )}
-        </TaskFilterList>
-      </TaskFilterContent>
-    </Combobox>
   );
 }
 
@@ -447,7 +279,7 @@ function TaskBoard({
             >
               <TaskBoardColumnTrigger>
                 <TaskBoardColumnHeading>
-                  <TaskBoardColumnBadge tone={TASK_STATUS_TONES[status.id]}>
+                  <TaskBoardColumnBadge status={status.id}>
                     {status.label.toUpperCase()}
                   </TaskBoardColumnBadge>
                   <TaskBoardColumnCount>{statusTasks.length}</TaskBoardColumnCount>
@@ -516,9 +348,7 @@ function TaskList(props: TaskGroupedViewProps) {
           >
             <TaskSectionTrigger>
               <TaskSectionHeading>
-                <TaskSectionBadge tone={TASK_STATUS_TONES[status.id]}>
-                  {status.label.toUpperCase()}
-                </TaskSectionBadge>
+                <TaskSectionBadge status={status.id}>{status.label.toUpperCase()}</TaskSectionBadge>
                 <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
               </TaskSectionHeading>
               <TaskSectionChevron>
@@ -609,24 +439,25 @@ export function CreateTaskDialogComposition({
   };
 
   return (
-    <TaskCreateDialog open={open} modal={!preview} onOpenChange={handleOpenChange}>
-      <TaskCreateDialogContent
+    <Dialog open={open} modal={!preview} disablePointerDismissal onOpenChange={handleOpenChange}>
+      <DialogContent
         overlay={preview ? false : undefined}
         initialFocus={preview ? false : undefined}
         finalFocus={preview ? false : undefined}
-        className={contentClassName}
+        className={contentClassName ?? "max-w-md"}
         portalProps={
           portalProps ??
           (portalRef ? { container: portalRef as RefObject<HTMLElement | null> } : undefined)
         }
       >
-        <TaskCreateDialogHeader>
-          <TaskCreateDialogTitle>{isBatch ? "Create Tasks" : "Create Task"}</TaskCreateDialogTitle>
-          <DialogClose render={<TaskCreateCloseAction aria-label="Close Create Task dialog" />}>
+        <DialogHeader>
+          <DialogTitle>{isBatch ? "Create Tasks" : "Create Task"}</DialogTitle>
+          <DialogClose aria-label="Close Create Task dialog">
             <X aria-hidden />
           </DialogClose>
-        </TaskCreateDialogHeader>
-        <TaskCreateDialogForm
+        </DialogHeader>
+        <form
+          className="contents"
           onSubmit={async (event) => {
             event.preventDefault();
             const nonEmpty = rows.flatMap((row) => {
@@ -649,13 +480,15 @@ export function CreateTaskDialogComposition({
             }
           }}
         >
-          {forceError || error ? (
-            <TaskCreateDialogError>{forceError || error}</TaskCreateDialogError>
-          ) : null}
-          <TaskCreateBody>
-            <TaskCreateFields>
+          <DialogBody className="grid gap-4">
+            {forceError || error ? (
+              <Banner status="warning" size="sm" role="alert">
+                <BannerDescription className="font-bold">{forceError || error}</BannerDescription>
+              </Banner>
+            ) : null}
+            <div>
               {rows.map((row, index) => (
-                <TaskCreateFieldRow key={row.id}>
+                <div key={row.id} className="mb-1 flex min-w-0 items-center gap-1">
                   <Input
                     aria-label={`Task ${index + 1} title`}
                     value={row.title}
@@ -670,39 +503,49 @@ export function CreateTaskDialogComposition({
                     }
                   />
                   {rows.length > 1 ? (
-                    <TaskCreateRemoveAction
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon-sm"
                       aria-label={`Remove task ${index + 1}`}
                       onClick={() =>
                         setRows((current) => current.filter((item) => item.id !== row.id))
                       }
                     >
                       <Trash2 aria-hidden />
-                    </TaskCreateRemoveAction>
+                    </Button>
                   ) : null}
-                </TaskCreateFieldRow>
+                </div>
               ))}
-            </TaskCreateFields>
-            <TaskCreateAddAction
-              onClick={() =>
-                setRows((current) => [...current, { id: `row-${nextRowId.current++}`, title: "" }])
-              }
-            >
-              <Plus aria-hidden />
-              Add Another
-            </TaskCreateAddAction>
-          </TaskCreateBody>
-          <TaskCreateFooter>
-            <DialogClose render={<TaskCreateAction tone="default" />}>Cancel</DialogClose>
-            <TaskCreateAction type="submit" tone="accent" disabled={isSubmitting}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="mt-3"
+                onClick={() =>
+                  setRows((current) => [
+                    ...current,
+                    { id: `row-${nextRowId.current++}`, title: "" },
+                  ])
+                }
+              >
+                <Plus aria-hidden />
+                Add Another
+              </Button>
+            </div>
+          </DialogBody>
+          <DialogFooter>
+            <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
+            <Button type="submit" variant="accent" disabled={isSubmitting}>
               {isSubmitting
                 ? "Creating…"
                 : isBatch
                   ? `Create ${rows.filter((row) => row.title.trim()).length} Tasks`
                   : "Create Task"}
-            </TaskCreateAction>
-          </TaskCreateFooter>
-        </TaskCreateDialogForm>
-      </TaskCreateDialogContent>
-    </TaskCreateDialog>
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

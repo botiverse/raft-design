@@ -33,7 +33,10 @@ import { Route as ComponentsThreadPanelRouteImport } from './routes/components/t
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
+import { Route as ComponentsTaskListRouteImport } from './routes/components/task-list'
+import { Route as ComponentsTaskDndRouteImport } from './routes/components/task-dnd'
 import { Route as ComponentsTaskCardRouteImport } from './routes/components/task-card'
+import { Route as ComponentsTaskBoardRouteImport } from './routes/components/task-board'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
 import { Route as ComponentsSystemMessageRouteImport } from './routes/components/system-message'
 import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
@@ -233,9 +236,24 @@ const ComponentsTasksRoute = ComponentsTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsTaskListRoute = ComponentsTaskListRouteImport.update({
+  id: '/task-list',
+  path: '/task-list',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskDndRoute = ComponentsTaskDndRouteImport.update({
+  id: '/task-dnd',
+  path: '/task-dnd',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsTaskCardRoute = ComponentsTaskCardRouteImport.update({
   id: '/task-card',
   path: '/task-card',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskBoardRoute = ComponentsTaskBoardRouteImport.update({
+  id: '/task-board',
+  path: '/task-board',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
@@ -708,7 +726,10 @@ export interface FileRoutesByFullPath {
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/task-board': typeof ComponentsTaskBoardRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
+  '/components/task-dnd': typeof ComponentsTaskDndRoute
+  '/components/task-list': typeof ComponentsTaskListRoute
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -809,7 +830,10 @@ export interface FileRoutesByTo {
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/task-board': typeof ComponentsTaskBoardRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
+  '/components/task-dnd': typeof ComponentsTaskDndRoute
+  '/components/task-list': typeof ComponentsTaskListRoute
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -912,7 +936,10 @@ export interface FileRoutesById {
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
+  '/components/task-board': typeof ComponentsTaskBoardRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
+  '/components/task-dnd': typeof ComponentsTaskDndRoute
+  '/components/task-list': typeof ComponentsTaskListRoute
   '/components/tasks': typeof ComponentsTasksRoute
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
@@ -1016,7 +1043,10 @@ export interface FileRouteTypes {
     | '/components/switch'
     | '/components/system-message'
     | '/components/tabs'
+    | '/components/task-board'
     | '/components/task-card'
+    | '/components/task-dnd'
+    | '/components/task-list'
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
@@ -1117,7 +1147,10 @@ export interface FileRouteTypes {
     | '/components/switch'
     | '/components/system-message'
     | '/components/tabs'
+    | '/components/task-board'
     | '/components/task-card'
+    | '/components/task-dnd'
+    | '/components/task-list'
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
@@ -1219,7 +1252,10 @@ export interface FileRouteTypes {
     | '/components/switch'
     | '/components/system-message'
     | '/components/tabs'
+    | '/components/task-board'
     | '/components/task-card'
+    | '/components/task-dnd'
+    | '/components/task-list'
     | '/components/tasks'
     | '/components/text'
     | '/components/textarea'
@@ -1444,11 +1480,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsTasksRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/task-list': {
+      id: '/components/task-list'
+      path: '/task-list'
+      fullPath: '/components/task-list'
+      preLoaderRoute: typeof ComponentsTaskListRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-dnd': {
+      id: '/components/task-dnd'
+      path: '/task-dnd'
+      fullPath: '/components/task-dnd'
+      preLoaderRoute: typeof ComponentsTaskDndRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/task-card': {
       id: '/components/task-card'
       path: '/task-card'
       fullPath: '/components/task-card'
       preLoaderRoute: typeof ComponentsTaskCardRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-board': {
+      id: '/components/task-board'
+      path: '/task-board'
+      fullPath: '/components/task-board'
+      preLoaderRoute: typeof ComponentsTaskBoardRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/tabs': {
@@ -2163,7 +2220,10 @@ interface ComponentsRouteChildren {
   ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsSystemMessageRoute: typeof ComponentsSystemMessageRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
+  ComponentsTaskBoardRoute: typeof ComponentsTaskBoardRoute
   ComponentsTaskCardRoute: typeof ComponentsTaskCardRoute
+  ComponentsTaskDndRoute: typeof ComponentsTaskDndRoute
+  ComponentsTaskListRoute: typeof ComponentsTaskListRoute
   ComponentsTasksRoute: typeof ComponentsTasksRoute
   ComponentsTextRoute: typeof ComponentsTextRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
@@ -2231,7 +2291,10 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsSystemMessageRoute: ComponentsSystemMessageRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,
+  ComponentsTaskBoardRoute: ComponentsTaskBoardRoute,
   ComponentsTaskCardRoute: ComponentsTaskCardRoute,
+  ComponentsTaskDndRoute: ComponentsTaskDndRoute,
+  ComponentsTaskListRoute: ComponentsTaskListRoute,
   ComponentsTasksRoute: ComponentsTasksRoute,
   ComponentsTextRoute: ComponentsTextRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
