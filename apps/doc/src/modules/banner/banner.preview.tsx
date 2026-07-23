@@ -5,14 +5,13 @@ import {
   BannerDescription,
   BannerTitle,
   Button,
-  type BannerActionProps,
   type BannerProps,
 } from "raft-ui";
 import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
-import { ACTION_ALIGNS, SIZES, STATUSES } from "./banner.constants.ts";
+import { SIZES, STATUSES } from "./banner.constants.ts";
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
@@ -32,7 +31,6 @@ type BannerPlaygroundPreviewProps = {
 export function BannerPlaygroundPreview({ code, collapsedCode }: BannerPlaygroundPreviewProps) {
   const [status, setStatus] = useState<NonNullable<BannerProps["status"]>>("warning");
   const [size, setSize] = useState<NonNullable<BannerProps["size"]>>("md");
-  const [actionAlign, setActionAlign] = useState<NonNullable<BannerActionProps["align"]>>("middle");
   const [withIcon, setWithIcon] = useState(true);
   const [withTitle, setWithTitle] = useState(false);
   const [withActions, setWithActions] = useState(false);
@@ -46,7 +44,7 @@ export function BannerPlaygroundPreview({ code, collapsedCode }: BannerPlaygroun
           {withTitle ? <BannerTitle>Review required</BannerTitle> : null}
           <BannerDescription>This action can&rsquo;t be undone.</BannerDescription>
           {withActions ? (
-            <BannerAction align={actionAlign}>
+            <BannerAction>
               <Button size="icon-xs" aria-label="Dismiss">
                 <X />
               </Button>
@@ -71,17 +69,6 @@ export function BannerPlaygroundPreview({ code, collapsedCode }: BannerPlaygroun
             options={SIZES}
             value={size}
             onValueChange={(value) => setSize(value as NonNullable<BannerProps["size"]>)}
-          />
-        </Preview.Control>
-        <Preview.Control label="Action align" htmlFor="banner-preview-action-align">
-          <Preview.Select
-            id="banner-preview-action-align"
-            label="Action align"
-            options={ACTION_ALIGNS}
-            value={actionAlign}
-            onValueChange={(value) =>
-              setActionAlign(value as NonNullable<BannerActionProps["align"]>)
-            }
           />
         </Preview.Control>
         <Preview.Control label="With icon" htmlFor="banner-preview-with-icon">

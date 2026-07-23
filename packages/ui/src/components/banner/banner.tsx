@@ -12,7 +12,7 @@ const banner = tv({
     ],
     title: ["min-w-0 text-foreground-strong"],
     description: ["min-w-0 font-normal"],
-    action: ["shrink-0"],
+    action: ["shrink-0 self-start"],
   },
   variants: {
     theme: {
@@ -25,7 +25,7 @@ const banner = tv({
           "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
           "[&:has(>[data-slot=status]):has(>[data-slot=banner-action])]:grid-cols-[auto_minmax(0,1fr)_auto]",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:items-start",
-          "[&>svg]:size-[18px] [&>svg]:self-center [&>svg]:text-foreground-strong",
+          "[&>svg]:size-4.5 [&>svg]:self-center [&>svg]:text-foreground-strong",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:row-span-2",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:mt-0.5",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:self-start",
@@ -58,11 +58,11 @@ const banner = tv({
           "[&>svg]:row-start-1 [&>svg]:size-4 [&>svg]:self-center",
         ],
         title: [
-          "col-start-1 row-start-1 flex h-5 items-center text-[13.5px] font-medium leading-5",
+          "col-start-1 row-start-1 flex min-h-5 items-center text-[13.5px] font-medium leading-5",
           "group-has-[>svg]/banner:col-start-2",
           "group-has-[>[data-slot=status]]/banner:col-start-2",
-          "group-data-[size=sm]/banner:h-4 group-data-[size=sm]/banner:text-[13px] group-data-[size=sm]/banner:leading-4",
-          "group-data-[size=lg]/banner:h-6 group-data-[size=lg]/banner:text-[14.5px] group-data-[size=lg]/banner:leading-6",
+          "group-data-[size=sm]/banner:min-h-4 group-data-[size=sm]/banner:text-[13px] group-data-[size=sm]/banner:leading-4",
+          "group-data-[size=lg]/banner:min-h-6 group-data-[size=lg]/banner:text-[14.5px] group-data-[size=lg]/banner:leading-6",
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
         ],
         description: [
@@ -71,11 +71,11 @@ const banner = tv({
           "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
-          "group-data-[size=lg]/banner:text-[14px] group-data-[size=lg]/banner:leading-5",
+          "group-data-[size=lg]/banner:text-sm group-data-[size=lg]/banner:leading-5",
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
         ],
         action: [
-          "col-start-2 row-start-1 flex h-5 items-center gap-2",
+          "col-start-2 row-start-1 flex min-h-5 items-center gap-2",
           "group-has-[>svg]/banner:col-start-3",
           "group-has-[>[data-slot=status]]/banner:col-start-3",
           "group-has-[>[data-slot=banner-title]+[data-slot=banner-description]]/banner:row-span-2",
@@ -87,10 +87,10 @@ const banner = tv({
           "[&>button:has(svg):last-child]:hover:border-transparent [&>button:has(svg):last-child]:hover:bg-foreground/5",
           "[&>button:has(svg):last-child]:hover:text-current/70",
           "[&>button:has(svg):last-child>svg]:size-4",
-          "group-data-[size=sm]/banner:h-4 group-data-[size=sm]/banner:[&>button:has(svg):last-child]:size-4",
+          "group-data-[size=sm]/banner:min-h-4 group-data-[size=sm]/banner:[&>button:has(svg):last-child]:size-4",
           "group-data-[size=sm]/banner:[&>button:has(svg):last-child]:min-h-4 group-data-[size=sm]/banner:[&>button:has(svg):last-child]:min-w-4",
           "group-data-[size=sm]/banner:[&>button:has(svg):last-child>svg]:size-3",
-          "group-data-[size=lg]/banner:h-6 group-data-[size=lg]/banner:[&>button:has(svg):last-child]:size-6",
+          "group-data-[size=lg]/banner:min-h-6 group-data-[size=lg]/banner:[&>button:has(svg):last-child]:size-6",
           "group-data-[size=lg]/banner:[&>button:has(svg):last-child]:min-h-6 group-data-[size=lg]/banner:[&>button:has(svg):last-child]:min-w-6",
         ],
       },
@@ -107,14 +107,9 @@ const banner = tv({
       md: {},
       lg: {},
     },
-    align: {
-      top: { action: "self-start" },
-      middle: { action: "self-center" },
-    },
   },
   defaultVariants: {
     size: "md",
-    align: "middle",
   },
   compoundVariants: [
     { theme: "brutal", status: "default", class: { root: "bg-layer-panel" } },
@@ -196,7 +191,7 @@ const banner = tv({
       theme: "elegant",
       size: "lg",
       class: {
-        root: "gap-x-2 px-3.5 py-3 text-sm leading-5 [&>svg]:size-[18px]",
+        root: "gap-x-2 px-3.5 py-3 text-sm leading-5 [&>svg]:size-4.5",
       },
     },
   ],
@@ -267,12 +262,11 @@ export function BannerDescription({ render, className, ...props }: BannerDescrip
   });
 }
 
-export type BannerActionProps = Omit<useRender.ComponentProps<"div">, "align"> &
-  Pick<VariantProps<typeof banner>, "align">;
+export type BannerActionProps = Omit<useRender.ComponentProps<"div">, "align">;
 
-export function BannerAction({ align = "middle", render, className, ...props }: BannerActionProps) {
+export function BannerAction({ render, className, ...props }: BannerActionProps) {
   const theme = useThemeFamily();
-  const { action } = banner({ theme, align });
+  const { action } = banner({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: action({ className }),
   };
@@ -283,7 +277,6 @@ export function BannerAction({ align = "middle", render, className, ...props }: 
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "banner-action",
-      align,
     },
   });
 }
