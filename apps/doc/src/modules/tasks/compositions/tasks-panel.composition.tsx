@@ -84,6 +84,8 @@ type TaskView = "board" | "list";
 
 export type TasksPanelCompositionProps = {
   tasks?: readonly TaskFixture[];
+  toolbarFilters?: ReactNode;
+  filterTask?: (task: TaskFixture) => boolean;
   view?: TaskView;
   initialView?: TaskView;
   onViewChange?: (view: TaskView) => void;
@@ -107,6 +109,8 @@ export function TasksToolbarFilterPlaceholder({ label, icon }: { label: string; 
 
 export function TasksPanelComposition({
   tasks: controlledTasks,
+  toolbarFilters,
+  filterTask,
   view: controlledView,
   initialView = "board",
   onViewChange,
@@ -130,6 +134,7 @@ export function TasksPanelComposition({
   const [announcement, setAnnouncement] = useState("Ready");
 
   const tasks = controlledTasks ?? localTasks;
+  const visibleTasks = filterTask ? tasks.filter(filterTask) : tasks;
   const view = controlledView ?? localView;
   const updateTasks = (nextTasks: readonly TaskFixture[]) => {
     if (controlledTasks === undefined) setLocalTasks(nextTasks);
@@ -166,8 +171,12 @@ export function TasksPanelComposition({
       <TasksPanelRoot aria-label="Tasks panel">
         <TasksPanelToolbar>
           <TasksPanelToolbarGroup>
-            <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
-            <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
+            {toolbarFilters ?? (
+              <>
+                <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
+                <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
+              </>
+            )}
             <Button variant="accent" size="sm" onClick={() => setDialogOpen(true)}>
               <Plus aria-hidden />
               New Task
@@ -192,9 +201,11 @@ export function TasksPanelComposition({
         <TasksPanelViewport>
           {tasks.length === 0 ? (
             <TaskEmptyState filtered={false} />
+          ) : visibleTasks.length === 0 ? (
+            <TaskEmptyState filtered />
           ) : view === "board" ? (
             <TaskBoard
-              tasks={tasks}
+              tasks={visibleTasks}
               collapsed={collapsed}
               onCollapsedChange={(status, nextOpen) =>
                 setCollapsed((current) => ({ ...current, [status]: !nextOpen }))
@@ -208,7 +219,7 @@ export function TasksPanelComposition({
             />
           ) : (
             <TaskList
-              tasks={tasks}
+              tasks={visibleTasks}
               collapsed={collapsed}
               onCollapsedChange={(status, nextOpen) =>
                 setCollapsed((current) => ({ ...current, [status]: !nextOpen }))

@@ -14,8 +14,12 @@ const combobox = tv({
       "outline-none transition-colors",
       "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
       "[&>span[data-slot='combobox-trigger-content']]:min-w-0 [&>span[data-slot='combobox-trigger-content']]:flex-1",
-      "[&_[data-slot='combobox-trigger-content']_svg]:!size-3 [&_[data-slot='combobox-trigger-content']_svg]:shrink-0 [&_[data-slot='combobox-trigger-content']_svg]:!stroke-[1.5] [&_[data-slot='combobox-trigger-content']_svg_*]:!stroke-[1.5]",
-      "[&_[data-slot='combobox-trigger-indicator']]:!stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']_*]:!stroke-[1.5]",
+      "[&>span[data-slot='combobox-trigger-content']>svg]:shrink-0",
+      "[&_[data-slot='combobox-trigger-indicator']_svg]:size-3 [&_[data-slot='combobox-trigger-indicator']_svg]:shrink-0",
+    ],
+    triggerCount: [
+      "inline-flex h-4 min-w-4 shrink-0 items-center justify-center px-1",
+      "font-mono text-[10px] leading-none",
     ],
     triggerIndicator: ["ml-auto flex shrink-0 items-center justify-center opacity-60"],
     control: [
@@ -62,9 +66,14 @@ const combobox = tv({
       brutal: {
         trigger: [
           "font-sans text-sm font-semibold text-foreground",
-          "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
-          "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
+          "shadow-none",
+          "hover:translate-x-0 hover:translate-y-0 hover:shadow-none",
+          "active:translate-x-0 active:translate-y-0 active:shadow-none",
+          "data-[has-value]:bg-soft-signal data-[has-value]:text-foreground data-[has-value]:shadow-sm",
+          "data-[has-value]:hover:bg-soft-signal data-[has-value]:hover:shadow-sm data-[has-value]:active:shadow-sm",
+          "[&>span[data-slot='combobox-trigger-content']>svg]:size-4 [&>span[data-slot='combobox-trigger-content']>svg]:stroke-2 [&>span[data-slot='combobox-trigger-content']>svg_*]:stroke-2",
         ],
+        triggerCount: ["border border-line-strong"],
         inputGroup: ["border-line-strong bg-layer-field"],
         input: [
           "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
@@ -86,10 +95,7 @@ const combobox = tv({
           "font-sans text-[10px] font-bold uppercase tracking-wide text-foreground hover:text-foreground",
           "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
         ],
-        triggerIndicator: [
-          "text-foreground opacity-100",
-          "[&_svg]:![stroke-width:2] [&_svg_*]:![stroke-width:2]",
-        ],
+        triggerIndicator: ["text-foreground opacity-100", "[&_svg]:stroke-2 [&_svg_*]:stroke-2"],
         control: [
           "border-2 border-line-strong bg-layer-field px-2 py-1",
           "font-sans text-sm font-semibold text-foreground shadow-sm",
@@ -113,7 +119,10 @@ const combobox = tv({
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
           "focus-visible:ring-0 focus-visible:ring-offset-0",
-          "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
+          "[&>span[data-slot='combobox-trigger-content']>svg]:size-3 [&>span[data-slot='combobox-trigger-content']>svg]:stroke-[1.5] [&>span[data-slot='combobox-trigger-content']>svg_*]:stroke-[1.5]",
+        ],
+        triggerCount: [
+          "rounded-sm bg-primary-400 font-sans font-medium tracking-[0.22px] text-primary-950",
         ],
         inputGroup: ["border-line-muted bg-layer-popover px-1.5 pt-1 pb-2"],
         input: [
@@ -142,7 +151,7 @@ const combobox = tv({
         ],
         triggerIndicator: [
           "text-foreground-muted opacity-100",
-          "[&_svg]:![stroke-width:1.5] [&_svg_*]:![stroke-width:1.5]",
+          "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
         control: [
           "rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
@@ -165,11 +174,12 @@ const combobox = tv({
   },
 });
 
-type ComboboxClearContextValue = {
+type ComboboxContextValue = {
+  hasValue: boolean;
   visible: boolean;
 };
 
-const ComboboxClearContext = createContext<ComboboxClearContextValue>({ visible: false });
+const ComboboxContext = createContext<ComboboxContextValue>({ hasValue: false, visible: false });
 
 function hasClearableValue(value: unknown) {
   if (Array.isArray(value)) {
@@ -216,12 +226,12 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
 
   const resolvedInputValue = inputValue === undefined ? uncontrolledInputValue : inputValue;
   const resolvedValue = value === undefined ? uncontrolledValue : value;
-  const clearVisible =
-    hasClearableValue(resolvedValue) || hasClearableInputValue(resolvedInputValue);
-  const clearContextValue = useMemo(() => ({ visible: clearVisible }), [clearVisible]);
+  const hasValue = hasClearableValue(resolvedValue);
+  const visible = hasValue || hasClearableInputValue(resolvedInputValue);
+  const contextValue = useMemo(() => ({ hasValue, visible }), [hasValue, visible]);
 
   return (
-    <ComboboxClearContext.Provider value={clearContextValue}>
+    <ComboboxContext.Provider value={contextValue}>
       <BaseCombobox.Root
         data-slot="combobox"
         defaultInputValue={defaultInputValue}
@@ -244,7 +254,7 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
         }}
         {...props}
       />
-    </ComboboxClearContext.Provider>
+    </ComboboxContext.Provider>
   );
 }
 
@@ -273,10 +283,12 @@ export function ComboboxTrigger({
   ...props
 }: ComboboxTriggerProps) {
   const theme = useThemeFamily();
+  const { hasValue } = use(ComboboxContext);
   const { trigger } = combobox({ theme });
   return (
     <BaseCombobox.Trigger
       data-slot="combobox-trigger"
+      data-has-value={hasValue ? "" : undefined}
       render={render}
       className={trigger({ className })}
       {...props}
@@ -288,6 +300,16 @@ export function ComboboxTrigger({
         {children}
       </span>
     </BaseCombobox.Trigger>
+  );
+}
+
+export type ComboboxTriggerCountProps = StyledProps<ComponentPropsWithRef<"span">>;
+
+export function ComboboxTriggerCount({ className, ...props }: ComboboxTriggerCountProps) {
+  const theme = useThemeFamily();
+  const { triggerCount } = combobox({ theme });
+  return (
+    <span data-slot="combobox-trigger-count" className={triggerCount({ className })} {...props} />
   );
 }
 
@@ -509,7 +531,7 @@ export function ComboboxClear({
   ...props
 }: ComboboxClearProps) {
   const theme = useThemeFamily();
-  const { visible } = use(ComboboxClearContext);
+  const { visible } = use(ComboboxContext);
   const { clear } = combobox({ theme });
   return (
     <BaseCombobox.Clear

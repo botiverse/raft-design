@@ -31,15 +31,23 @@ import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/com
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
-import { type PlaygroundChannelRecord, type PlaygroundThread } from "../mock/index.ts";
+import {
+  getPlaygroundActor,
+  type PlaygroundChannelRecord,
+  type PlaygroundTask,
+  type PlaygroundThread,
+} from "../mock/index.ts";
+import { TaskStatusBadge } from "../tasks/task-status-badge.tsx";
 
 export function PlaygroundThreadPanel({
   backToTasks,
   channel,
+  task,
   thread,
 }: {
   backToTasks?: boolean;
   channel: PlaygroundChannelRecord;
+  task?: PlaygroundTask;
   thread: PlaygroundThread;
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -180,6 +188,18 @@ export function PlaygroundThreadPanel({
           <ThreadPanelOriginalMessage>
             <PlaygroundMessageRow
               message={thread.parent}
+              footer={
+                task ? (
+                  <TaskStatusBadge
+                    taskId={task.id}
+                    assignee={
+                      task.assigneeActorId
+                        ? getPlaygroundActor(task.assigneeActorId).name
+                        : undefined
+                    }
+                  />
+                ) : undefined
+              }
               searchMatch={activeMatch?.id === thread.parent.id}
               surface="thread"
               threadId={thread.parent.id}

@@ -29,7 +29,10 @@ export const threadPanel = tv({
         titleMeta: "text-black/50",
         search: "border-b-2 border-black bg-white",
         searchCount: "text-black/50",
-        originalMessage: ["bg-white border-b-2 border-black", "[&_[data-message-item]]:bg-white"],
+        originalMessage: [
+          "bg-white px-[10px] border-b-2 border-black",
+          "[&_[data-message-item]]:bg-white",
+        ],
         replyCount: "border-black/10 text-black/40",
         footer: "border-t-2 border-black bg-white text-black/50",
       },

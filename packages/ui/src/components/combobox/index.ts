@@ -22,6 +22,7 @@ export {
   ComboboxRow,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerCount,
   ComboboxTriggerIndicator,
   ComboboxValue,
   type ComboboxChipProps,
@@ -47,6 +48,7 @@ export {
   type ComboboxRowProps,
   type ComboboxSeparatorProps,
   type ComboboxTriggerIndicatorProps,
+  type ComboboxTriggerCountProps,
   type ComboboxTriggerProps,
   type ComboboxValueProps,
 } from "./combobox";

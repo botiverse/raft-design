@@ -17,7 +17,7 @@ export const taskCard = tv({
     number: ["shrink-0 text-[11px]"],
     legacy: ["shrink-0 px-[6px] py-[2px] text-[10px]"],
     title: ["line-clamp-3 break-words"],
-    description: ["mt-[4px] line-clamp-2 break-words"],
+    description: ["mt-[8px] line-clamp-2 break-words"],
   },
   variants: {
     theme: {

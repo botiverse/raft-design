@@ -2,7 +2,6 @@ import type { RefObject } from "react";
 import { useRef, useState } from "react";
 import { ChevronDown, Hash } from "lucide-react";
 import {
-  Badge,
   Combobox,
   ComboboxClear,
   ComboboxContent,
@@ -15,6 +14,7 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerCount,
   ComboboxTriggerIndicator,
 } from "raft-ui";
 
@@ -51,12 +51,7 @@ export function TasksChannelFilterComposition() {
           <Hash aria-hidden />
           <span className="min-w-0 truncate text-left">Channels</span>
           {selectedChannels.length > 0 && (
-            <Badge
-              appearance="outline"
-              className="h-4 min-w-4 justify-center rounded-none px-1 font-mono text-[10px] leading-none [[data-theme=elegant]_&]:rounded-[3px]"
-            >
-              {selectedChannels.length}
-            </Badge>
+            <ComboboxTriggerCount>{selectedChannels.length}</ComboboxTriggerCount>
           )}
           <ComboboxTriggerIndicator>
             <ChevronDown aria-hidden />
