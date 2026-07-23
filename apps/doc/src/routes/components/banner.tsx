@@ -178,7 +178,6 @@ const SOURCE_SCENES = [
 
 const STATUSES = ["default", "destructive", "warning", "info", "success"] as const;
 const SIZES = ["sm", "md", "lg"] as const;
-const ACTION_ALIGNS = ["top", "middle"] as const;
 
 const BannerCurrent = BANNER_SOURCE_COMPARISON_COMPOSITION;
 
@@ -216,7 +215,7 @@ const SNIPPETS = {
   <Info />
   <BannerTitle>Settings synced</BannerTitle>
   <BannerDescription>Rules now apply to every project.</BannerDescription>
-  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss workspace settings notice"><X /></Button></BannerAction>
+  <BannerAction><Button variant="ghost" size="icon-xs" aria-label="Dismiss workspace settings notice"><X /></Button></BannerAction>
 </Banner>
 <Banner status="destructive">
   <CircleX />
@@ -240,7 +239,7 @@ const SNIPPETS = {
   <CircleCheck />
   <BannerTitle>Deployment live</BannerTitle>
   <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
-  <BannerAction align="top"><Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice"><X /></Button></BannerAction>
+  <BannerAction><Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice"><X /></Button></BannerAction>
 </Banner>`,
   sizes: `<Banner status="info" size="sm">
   <Info />
@@ -264,7 +263,7 @@ const SNIPPETS = {
   <CircleAlert />
   <BannerTitle>Plan limit reached</BannerTitle>
   <BannerDescription>Remove an inactive machine before adding another.</BannerDescription>
-  <BannerAction align="top">
+  <BannerAction>
     <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
   </BannerAction>
 </Banner>`,
@@ -310,15 +309,9 @@ const BANNER_DESCRIPTION_PROPS: readonly PropRow[] = [
 
 const BANNER_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "align",
-    type: ACTION_ALIGNS.map((align) => `"${align}"`).join(" | "),
-    default: '"middle"',
-    description: "Aligns actions to the title row top or vertically centered across the banner.",
-  },
-  {
     name: "...props",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Trailing slot, pinned right.",
+    type: 'Omit<useRender.ComponentProps<"div">, "align">',
+    description: "Trailing slot, pinned right and aligned to the top.",
   },
 ];
 
@@ -375,7 +368,7 @@ function BannerDoc() {
                     <Info />
                     <BannerTitle>Settings synced</BannerTitle>
                     <BannerDescription>Rules now apply to every project.</BannerDescription>
-                    <BannerAction align="top">
+                    <BannerAction>
                       <Button
                         variant="ghost"
                         size="icon-xs"
@@ -419,7 +412,7 @@ function BannerDoc() {
                     <CircleCheck />
                     <BannerTitle>Deployment live</BannerTitle>
                     <BannerDescription>Version 1.8.4 is in production.</BannerDescription>
-                    <BannerAction align="top">
+                    <BannerAction>
                       <Button variant="ghost" size="icon-xs" aria-label="Dismiss deployment notice">
                         <X />
                       </Button>
@@ -485,7 +478,7 @@ function BannerDoc() {
                     <BannerDescription>
                       Remove an inactive machine before adding another.
                     </BannerDescription>
-                    <BannerAction align="top">
+                    <BannerAction>
                       <Button size="icon-xs" aria-label="Dismiss">
                         <X />
                       </Button>
