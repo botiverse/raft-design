@@ -17,10 +17,14 @@ const select = tv({
       "data-invalid:border-danger-base/45 data-invalid:hover:border-danger-base/75 data-invalid:focus-visible:border-danger-base/75 data-invalid:focus-visible:ring-2 data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--state-danger-base)_60%,transparent)] data-invalid:focus-visible:ring-offset-1 data-invalid:focus-visible:ring-offset-background",
       "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
-      "[&_[data-slot='select-trigger-content']_svg]:!size-3.5 [&_[data-slot='select-trigger-content']_svg]:shrink-0 [&_[data-slot='select-trigger-content']_svg]:!stroke-[1.5] [&_[data-slot='select-trigger-content']_svg_*]:!stroke-[1.5]",
-      "[&_[data-slot='select-icon']]:!stroke-[1.5] [&_[data-slot='select-icon']_*]:!stroke-[1.5]",
+      "[&_[data-slot='select-trigger-content']_svg]:shrink-0",
+      "[&_[data-slot='select-trigger-content']_svg:not([class*='size-'])]:size-3.5",
+      "[&_[data-slot='select-trigger-content']_svg:not([class*='stroke-'])]:stroke-[1.5]",
     ],
-    icon: ["ml-auto flex shrink-0 items-center justify-center opacity-80 transition-transform"],
+    icon: [
+      "ml-auto flex shrink-0 items-center justify-center opacity-80 transition-transform",
+      "[&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
+    ],
     value: ["flex min-w-0 flex-1 truncate text-left"],
     positioner: ["isolate z-50 outline-none"],
     content: [
@@ -57,7 +61,7 @@ const select = tv({
           "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-field p-2 text-sm text-foreground shadow-sm focus:outline-none",
           "hover:bg-layer-field hover:shadow-sm",
           "disabled:cursor-not-allowed disabled:bg-[oklch(0.967_0.003_264.542)] disabled:text-foreground/50 disabled:opacity-100",
-          "[&_[data-slot='select-value']_svg]:!stroke-2 [&_[data-slot='select-value']_svg_*]:!stroke-2",
+          "[&_[data-slot='select-value']_svg:not([class*='stroke-'])]:stroke-2",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
           "[&[data-popup-open]_[data-slot='select-icon']]:rotate-180",
@@ -71,13 +75,19 @@ const select = tv({
           "hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
           "data-[selected]:bg-layer-popover data-[selected]:hover:bg-soft-signal/30 data-[selected][data-highlighted]:bg-soft-signal/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3",
-          "[&>svg]:!stroke-2 [&>svg_*]:!stroke-2",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
+          "[&>svg:not([class*='size-'])]:size-3",
+          "[&>svg:not([class*='stroke-'])]:stroke-2",
         ],
         itemLeading: [
-          "size-5 text-foreground [&_svg]:size-3.5 [&_svg]:stroke-2 [&_svg_*]:stroke-2",
+          "size-5 text-foreground",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
+          "[&>svg:not([class*='size-'])]:size-3.5",
+          "[&>svg:not([class*='stroke-'])]:stroke-2",
         ],
-        itemIndicator: ["text-foreground [&_svg]:!stroke-[2.25] [&_svg_*]:!stroke-[2.25]"],
+        itemIndicator: [
+          "text-foreground [&>svg]:size-3 [&>svg]:shrink-0 [&>svg]:stroke-[2.25] [&>svg_*]:stroke-[2.25]",
+        ],
         label: [
           "font-sans text-[10px] font-semibold uppercase leading-none tracking-wide text-foreground",
         ],
@@ -96,7 +106,6 @@ const select = tv({
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
           "focus-visible:ring-0 focus-visible:ring-offset-0",
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
-          "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
         content: ["rounded-md bg-layer-popover", "shadow-lg"],
         list: ["flex flex-col gap-0.5 px-1 py-1"],
@@ -107,12 +116,19 @@ const select = tv({
           "data-[highlighted]:bg-ink-4 data-[highlighted]:text-foreground-strong",
           "data-[selected]:bg-ink-4 data-[selected]:text-foreground-strong",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-3.5",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
+          "[&>svg:not([class*='size-'])]:size-3.5",
+          "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],
         itemLeading: [
-          "size-4 text-foreground-muted [&_svg]:size-3.5 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
+          "size-4 text-foreground-muted",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
+          "[&>svg:not([class*='size-'])]:size-3.5",
+          "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],
-        itemIndicator: ["text-foreground-strong"],
+        itemIndicator: [
+          "text-foreground-strong [&>svg]:size-3 [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
+        ],
         label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong"],
         group: ["gap-0.5"],
         groupLabel: [
@@ -296,7 +312,7 @@ export function SelectItemIndicator({ className, children, ...props }: SelectIte
   const { itemIndicator } = select({ theme });
   const defaultIndicator =
     theme === "brutal" ? (
-      <Check aria-hidden size={12} className="shrink-0 !stroke-[2.25]" />
+      <Check aria-hidden size={12} className="shrink-0" />
     ) : (
       <Check aria-hidden className="size-3 shrink-0" />
     );
