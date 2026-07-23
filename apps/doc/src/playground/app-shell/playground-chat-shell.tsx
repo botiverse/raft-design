@@ -170,7 +170,7 @@ function PlaygroundChatLayout({
             className={
               theme === "brutal"
                 ? "z-50 ml-0 w-0 border-l-2 border-black bg-transparent"
-                : "z-50 bg-line-subtle"
+                : "z-50 bg-transparent"
             }
           />
           <ResizablePanel

@@ -12,6 +12,7 @@ import {
   ThreadPanelHeader,
   ThreadPanelOriginalMessage,
   ThreadPanelReplyCount,
+  ThreadPanelReplySummary,
   ThreadPanelRoot,
   ThreadPanelSearch,
   ThreadPanelSearchCount,
@@ -186,12 +187,12 @@ export function PlaygroundThreadPanel({
           </ThreadPanelOriginalMessage>
           <ThreadPanelBody>
             <MessageList>
-              <div className="px-3 pt-2">
+              <ThreadPanelReplySummary>
                 <MessageListNotice>Beginning of replies</MessageListNotice>
                 <ThreadPanelReplyCount>
                   {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
                 </ThreadPanelReplyCount>
-              </div>
+              </ThreadPanelReplySummary>
               {groupedReplies.map(({ message, compact }) => (
                 <PlaygroundMessageRow
                   key={message.id}

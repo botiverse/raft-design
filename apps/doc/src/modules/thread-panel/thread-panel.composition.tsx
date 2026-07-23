@@ -26,6 +26,7 @@ import {
   ThreadPanelHeader,
   ThreadPanelOriginalMessage,
   ThreadPanelReplyCount,
+  ThreadPanelReplySummary,
   ThreadPanelRoot,
   ThreadPanelSearch,
   ThreadPanelSearchCount,
@@ -178,10 +179,10 @@ const THREAD_REPLIES = [
 function ThreadReplies() {
   return (
     <>
-      <div className="px-3 pt-2">
+      <ThreadPanelReplySummary>
         <MessageListNotice>Beginning of replies</MessageListNotice>
         <ThreadPanelReplyCount>{THREAD_REPLIES.length} replies</ThreadPanelReplyCount>
-      </div>
+      </ThreadPanelReplySummary>
       <MessageListDateDivider>Today</MessageListDateDivider>
       {THREAD_REPLIES.map((reply) => (
         <MessageItem key={`${reply.sender}-${reply.time}`}>
