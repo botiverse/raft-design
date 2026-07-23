@@ -16,8 +16,14 @@ export const taskDnd = tv({
       brutal: {
         draggable: [
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
+          "data-[dragging=true]:opacity-90",
         ],
-        overlay: "z-20",
+        overlay: ["z-20 opacity-90", "[&_[data-slot=task-card]]:shadow-md"],
+        placeholder: [
+          "h-[var(--task-dnd-placeholder-height,72px)] border-2 border-dashed border-line-strong",
+          "bg-soft-signal/20",
+          "data-[drop-state=allowed]:block",
+        ],
       },
       elegant: {
         draggable: [
