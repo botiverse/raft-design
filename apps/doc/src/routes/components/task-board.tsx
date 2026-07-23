@@ -86,9 +86,14 @@ const BOARD_COLUMN_HEADING_PROPS: readonly PropRow[] = [
 
 const BOARD_COLUMN_BADGE_PROPS: readonly PropRow[] = [
   {
+    name: "status",
+    type: '"todo" | "in_progress" | "in_review" | "done" | "closed"',
+    description: "Task status that drives the badge surface color.",
+  },
+  {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
-    description: "Column status badge. Pass surface color via className.",
+    description: "Column status badge.",
   },
 ];
 

@@ -178,6 +178,11 @@ const STATUS_PROPS: readonly PropRow[] = [
 
 const STATUS_TRIGGER_PROPS: readonly PropRow[] = [
   {
+    name: "status",
+    type: '"todo" | "in_progress" | "in_review" | "done" | "closed"',
+    description: "Task status that drives the trigger surface color.",
+  },
+  {
     name: "busy",
     type: "boolean",
     default: "false",
@@ -187,7 +192,7 @@ const STATUS_TRIGGER_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"button">',
     description:
-      "Status trigger button. Pass surface color via className; compose with the menu primitive that owns selection behavior.",
+      "Status trigger button. Compose with the menu primitive that owns selection behavior.",
   },
 ];
 

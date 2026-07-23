@@ -490,5 +490,5 @@ export * from "./components/task-board/index";
 export * from "./components/task-card/index";
 export * from "./components/task-dnd/index";
 export * from "./components/task-list/index";
-export * from "./components/tasks-panel/index";
+export * from "./components/tasks/index";
 export * from "./components/files/index";

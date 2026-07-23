@@ -1,13 +1,5 @@
 import type { TaskStatus } from "./task-card.fixtures";
 
-export const TASK_STATUS_SURFACE = {
-  todo: "bg-brutal-orange",
-  in_progress: "bg-info-base",
-  in_review: "bg-brutal-lavender",
-  done: "bg-brutal-lime",
-  closed: "bg-secondary-400",
-} as const;
-
 const TASK_STATUS_TRANSITIONS: Record<TaskStatus, readonly TaskStatus[]> = {
   todo: ["in_progress", "closed"],
   in_progress: ["in_review", "done", "closed"],

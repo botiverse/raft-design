@@ -2,8 +2,10 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { ComponentProps } from "react";
+import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
 import { taskBoardColumn } from "./task-board-column.recipe";
 import { taskBoard } from "./task-board.recipe";
 
@@ -75,13 +77,20 @@ export function TaskBoardColumnHeading({
   });
 }
 
-export type TaskBoardColumnBadgeProps = useRender.ComponentProps<"span">;
-export function TaskBoardColumnBadge({ className, render, ...props }: TaskBoardColumnBadgeProps) {
+export type TaskBoardColumnBadgeProps = useRender.ComponentProps<"span"> & {
+  status: TaskStatusId;
+};
+export function TaskBoardColumnBadge({
+  status,
+  className,
+  render,
+  ...props
+}: TaskBoardColumnBadgeProps) {
   const theme = useThemeFamily();
   const { badge } = taskBoardColumn({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-badge",
-    className: badge({ className }),
+    className: cn(badge(), taskStatus({ theme, status }), className),
   };
   return useRender({
     defaultTagName: "span",

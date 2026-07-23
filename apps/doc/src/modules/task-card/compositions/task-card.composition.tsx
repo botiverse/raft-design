@@ -25,7 +25,7 @@ import {
   type TaskFixture,
   type TaskStatus,
 } from "../task-card.fixtures";
-import { TASK_STATUS_OPTIONS, TASK_STATUS_SURFACE } from "../task-card.constants";
+import { TASK_STATUS_OPTIONS } from "../task-card.constants";
 
 export function TaskCardComposition({
   task,
@@ -68,7 +68,7 @@ export function TaskCardComposition({
       <TaskCardFooter>
         {readOnly ? (
           <TaskCardStatus busy={busy}>
-            <TaskCardStatusTrigger className={TASK_STATUS_SURFACE[task.status]} render={<span />}>
+            <TaskCardStatusTrigger status={task.status} render={<span />}>
               {getTaskStatusLabel(task.status)} <Pencil aria-hidden />
             </TaskCardStatusTrigger>
           </TaskCardStatus>
@@ -79,7 +79,7 @@ export function TaskCardComposition({
                 disabled={disabled || busy || !onStatusChange}
                 render={
                   <TaskCardStatusTrigger
-                    className={TASK_STATUS_SURFACE[task.status]}
+                    status={task.status}
                     busy={busy}
                     disabled={disabled || busy || !onStatusChange}
                   />

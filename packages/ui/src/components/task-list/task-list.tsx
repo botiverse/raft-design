@@ -2,8 +2,10 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { ComponentProps } from "react";
+import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
 import { taskListSection } from "./task-list-section.recipe";
 import { taskList } from "./task-list.recipe";
 
@@ -71,13 +73,15 @@ export function TaskSectionHeading({ className, render, ...props }: TaskSectionH
   });
 }
 
-export type TaskSectionBadgeProps = useRender.ComponentProps<"span">;
-export function TaskSectionBadge({ className, render, ...props }: TaskSectionBadgeProps) {
+export type TaskSectionBadgeProps = useRender.ComponentProps<"span"> & {
+  status: TaskStatusId;
+};
+export function TaskSectionBadge({ status, className, render, ...props }: TaskSectionBadgeProps) {
   const theme = useThemeFamily();
   const { badge } = taskListSection({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-section-badge",
-    className: badge({ className }),
+    className: cn(badge(), taskStatus({ theme, status }), className),
   };
   return useRender({
     defaultTagName: "span",

@@ -90,8 +90,7 @@ const LOADING_LIST_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description:
-      "Loading skeleton list. Sets aria-busy. Own recipe under tasks-panel/task-loading.",
+    description: "Loading skeleton list. Sets aria-busy. Own recipe under tasks/task-loading.",
   },
 ];
 

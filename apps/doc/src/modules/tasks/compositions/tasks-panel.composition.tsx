@@ -73,7 +73,6 @@ import {
   type TaskFixture,
   type TaskStatus,
 } from "#/modules/task-card/task-card.fixtures.ts";
-import { TASK_STATUS_SURFACE } from "#/modules/task-card/task-card.constants.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 
 type TaskView = "board" | "list";
@@ -280,7 +279,7 @@ function TaskBoard({
             >
               <TaskBoardColumnTrigger>
                 <TaskBoardColumnHeading>
-                  <TaskBoardColumnBadge className={TASK_STATUS_SURFACE[status.id]}>
+                  <TaskBoardColumnBadge status={status.id}>
                     {status.label.toUpperCase()}
                   </TaskBoardColumnBadge>
                   <TaskBoardColumnCount>{statusTasks.length}</TaskBoardColumnCount>
@@ -349,9 +348,7 @@ function TaskList(props: TaskGroupedViewProps) {
           >
             <TaskSectionTrigger>
               <TaskSectionHeading>
-                <TaskSectionBadge className={TASK_STATUS_SURFACE[status.id]}>
-                  {status.label.toUpperCase()}
-                </TaskSectionBadge>
+                <TaskSectionBadge status={status.id}>{status.label.toUpperCase()}</TaskSectionBadge>
                 <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
               </TaskSectionHeading>
               <TaskSectionChevron>

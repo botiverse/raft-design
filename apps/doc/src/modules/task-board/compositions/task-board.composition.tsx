@@ -19,7 +19,6 @@ import {
 } from "raft-ui/wip";
 import { ChevronDown } from "lucide-react";
 
-import { TASK_STATUS_SURFACE } from "#/modules/task-card/task-card.constants.ts";
 import {
   getTaskStatusLabel,
   TASK_FIXTURES,
@@ -106,7 +105,7 @@ export function TaskBoardComposition({
               >
                 <TaskBoardColumnTrigger>
                   <TaskBoardColumnHeading>
-                    <TaskBoardColumnBadge className={TASK_STATUS_SURFACE[status.id]}>
+                    <TaskBoardColumnBadge status={status.id}>
                       {status.label.toUpperCase()}
                     </TaskBoardColumnBadge>
                     <TaskBoardColumnCount>{statusTasks.length}</TaskBoardColumnCount>

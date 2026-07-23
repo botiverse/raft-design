@@ -78,9 +78,14 @@ const SECTION_HEADING_PROPS: readonly PropRow[] = [
 
 const SECTION_BADGE_PROPS: readonly PropRow[] = [
   {
+    name: "status",
+    type: '"todo" | "in_progress" | "in_review" | "done" | "closed"',
+    description: "Task status that drives the badge surface color.",
+  },
+  {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
-    description: "Section status badge. Pass surface color via className.",
+    description: "Section status badge.",
   },
 ];
 

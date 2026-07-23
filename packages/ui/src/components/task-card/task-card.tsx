@@ -1,5 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import {
@@ -8,6 +9,7 @@ import {
   type DropdownMenuContentProps,
   type DropdownMenuRadioItemProps,
 } from "../dropdown-menu/index";
+import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
 import { taskCardStatus } from "./task-card-status.recipe";
 import { taskCard } from "./task-card.recipe";
 
@@ -209,9 +211,11 @@ export function TaskCardStatus({ busy = false, className, render, ...props }: Ta
 
 export type TaskCardStatusTriggerProps = useRender.ComponentProps<"button"> & {
   busy?: boolean;
+  status: TaskStatusId;
 };
 export function TaskCardStatusTrigger({
   busy = false,
+  status,
   className,
   render,
   ...props
@@ -223,7 +227,7 @@ export function TaskCardStatusTrigger({
     "data-slot": "task-card-status-trigger",
     "data-busy": busy ? "true" : undefined,
     "aria-busy": busy || undefined,
-    className: trigger({ className }),
+    className: cn(trigger(), taskStatus({ theme, status }), className),
   };
   return useRender({
     defaultTagName: "button",
