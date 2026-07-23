@@ -60,7 +60,7 @@ export function MessageItemPlaygroundPreview({
   const files = attachments === "files" || attachments === "all";
 
   return (
-    <Preview previewMode="light" previewClassName="items-stretch">
+    <Preview previewClassName="items-stretch">
       <Preview.Canvas>
         <div className="w-full max-w-3xl">
           <MessageItemPreview

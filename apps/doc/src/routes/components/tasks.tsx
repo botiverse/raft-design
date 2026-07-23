@@ -6,20 +6,21 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { TasksEmptyStatesComposition } from "#/modules/tasks/compositions/tasks-empty-states.composition.tsx";
+import tasksEmptyStatesCompositionSource from "#/modules/tasks/compositions/tasks-empty-states.composition.tsx?raw";
+import { TasksErrorComposition } from "#/modules/tasks/compositions/tasks-error.composition.tsx";
+import tasksErrorCompositionSource from "#/modules/tasks/compositions/tasks-error.composition.tsx?raw";
+import { TasksLoadingComposition } from "#/modules/tasks/compositions/tasks-loading.composition.tsx";
+import tasksLoadingCompositionSource from "#/modules/tasks/compositions/tasks-loading.composition.tsx?raw";
 import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
 import tasksPanelCompositionSource from "#/modules/tasks/compositions/tasks-panel.composition.tsx?raw";
-import {
-  TasksEmptyStatesComposition,
-  TasksErrorComposition,
-  TasksLoadingComposition,
-} from "#/modules/tasks/compositions/tasks-states.composition.tsx";
-import tasksStatesCompositionSource from "#/modules/tasks/compositions/tasks-states.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 
 const ANATOMY_SNIPPET = `<TasksPanelRoot>
   <TasksPanelToolbar>
     <TasksPanelToolbarGroup>
+      <TasksPanelToolbarLabel>{/* non-interactive toolbar label */}</TasksPanelToolbarLabel>
       {/* leading: filters / actions */}
     </TasksPanelToolbarGroup>
     <TasksPanelToolbarGroup>
@@ -70,6 +71,15 @@ const PANEL_TOOLBAR_GROUP_PROPS: readonly PropRow[] = [
   },
 ];
 
+const PANEL_TOOLBAR_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Non-interactive visual label for toolbar context or static filter summaries. Consumers provide visible content.",
+  },
+];
+
 const PANEL_VIEWPORT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -109,7 +119,9 @@ export const Route = createFileRoute("/components/tasks")({
       data: {
         anatomy: ANATOMY_SNIPPET,
         panel: stripSourceCodeBlocks(tasksPanelCompositionSource),
-        states: tasksStatesCompositionSource,
+        loading: tasksLoadingCompositionSource,
+        empty: tasksEmptyStatesCompositionSource,
+        error: tasksErrorCompositionSource,
       },
     }),
 });
@@ -129,7 +141,7 @@ function TasksDoc() {
             <Link to="/components/task-dnd">TaskDnd</Link>, and{" "}
             <Link to="/components/task-card">TaskCard</Link>
           </li>
-          <li>preserves the channel Tasks tab structure and Brutal styling</li>
+          <li>preserves the channel Tasks tab structure across Brutal and Elegant themes</li>
           <li>
             toolbar only provides containers — filters, dropdowns, and actions compose{" "}
             <code>Combobox</code>, <code>Button</code>, and related primitives
@@ -144,11 +156,7 @@ function TasksDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="h-[42rem] items-stretch p-0"
-        >
+        <Preview previewClassName="h-[42rem] items-stretch p-0">
           <Preview.Canvas>
             <TasksPanelComposition />
           </Preview.Canvas>
@@ -167,11 +175,11 @@ function TasksDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="loading" title="Loading">
-            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+            <Preview previewClassName="items-stretch">
               <Preview.Canvas>
                 <TasksLoadingComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.states} />
+              <Preview.Code html={code.loading} />
             </Preview>
           </DocSubsection>
 
@@ -182,20 +190,20 @@ function TasksDoc() {
               <Link to="/components/task-board">TaskBoard</Link> and{" "}
               <Link to="/components/task-list">TaskList</Link>.
             </p>
-            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+            <Preview previewClassName="items-stretch">
               <Preview.Canvas>
                 <TasksEmptyStatesComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.states} />
+              <Preview.Code html={code.empty} />
             </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="error" title="Error">
-            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+            <Preview previewClassName="items-stretch">
               <Preview.Canvas>
                 <TasksErrorComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.states} />
+              <Preview.Code html={code.error} />
             </Preview>
           </DocSubsection>
         </div>
@@ -211,6 +219,9 @@ function TasksDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-toolbar-group" title="TasksPanelToolbarGroup">
             <PropsTable rows={PANEL_TOOLBAR_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel-toolbar-label" title="TasksPanelToolbarLabel">
+            <PropsTable rows={PANEL_TOOLBAR_LABEL_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-viewport" title="TasksPanelViewport">
             <PropsTable rows={PANEL_VIEWPORT_PROPS} />

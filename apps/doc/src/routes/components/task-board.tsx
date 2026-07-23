@@ -8,10 +8,9 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
-import {
-  TaskBoardComposition,
-  TaskBoardEmptyColumnsComposition,
-} from "#/modules/task-board/compositions/task-board.composition.tsx";
+import { TaskBoardEmptyColumnsComposition } from "#/modules/task-board/compositions/task-board-empty-columns.composition.tsx";
+import taskBoardEmptyColumnsCompositionSource from "#/modules/task-board/compositions/task-board-empty-columns.composition.tsx?raw";
+import { TaskBoardComposition } from "#/modules/task-board/compositions/task-board.composition.tsx";
 import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider>
@@ -164,6 +163,7 @@ const BOARD_COLUMN_EMPTY_BLOCKED_PROPS: readonly PropRow[] = [
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   board: stripSourceCodeBlocks(taskBoardCompositionSource),
+  empty: taskBoardEmptyColumnsCompositionSource,
 } as const;
 
 export const Route = createFileRoute("/components/task-board")({
@@ -196,11 +196,7 @@ function TaskBoardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="h-[42rem] items-stretch p-0"
-        >
+        <Preview previewClassName="h-[42rem] items-stretch p-0">
           <Preview.Canvas>
             <TaskBoardComposition />
           </Preview.Canvas>
@@ -223,11 +219,7 @@ function TaskBoardDoc() {
               The preview wraps columns in <code>TaskDndProvider</code> and mounts each column as a{" "}
               <code>TaskDropZone</code>. Drop policy and move handlers stay in the composition.
             </p>
-            <Preview
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="h-[42rem] items-stretch p-0"
-            >
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskBoardComposition />
               </Preview.Canvas>
@@ -242,15 +234,11 @@ function TaskBoardDoc() {
               Blocked copy (Closed is not blocked in this demo — see{" "}
               <Link to="/components/task-dnd">TaskDnd</Link>).
             </p>
-            <Preview
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="h-[42rem] items-stretch p-0"
-            >
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskBoardEmptyColumnsComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.board} />
+              <Preview.Code html={code.empty} />
             </Preview>
           </DocSubsection>
         </div>

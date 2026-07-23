@@ -182,7 +182,7 @@ const COMPOSITION_SNIPPET_IDS = {
 
 function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
   return (
-    <Preview previewMode="light" previewClassName="items-stretch">
+    <Preview previewClassName="items-stretch">
       <Preview.Canvas>{children}</Preview.Canvas>
       <Preview.Code html={code} />
     </Preview>
@@ -248,7 +248,7 @@ function SystemMessageDoc() {
         reminder rows.
       </DocNote>
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview previewMode="light" previewClassName="items-stretch">
+        <Preview previewClassName="items-stretch">
           <Preview.Canvas>
             <MessageSystemMessagesComposition />
           </Preview.Canvas>

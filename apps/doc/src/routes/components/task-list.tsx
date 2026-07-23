@@ -8,10 +8,9 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
-import {
-  TaskListComposition,
-  TaskListEmptySectionsComposition,
-} from "#/modules/task-list/compositions/task-list.composition.tsx";
+import { TaskListEmptySectionsComposition } from "#/modules/task-list/compositions/task-list-empty-sections.composition.tsx";
+import taskListEmptySectionsCompositionSource from "#/modules/task-list/compositions/task-list-empty-sections.composition.tsx?raw";
+import { TaskListComposition } from "#/modules/task-list/compositions/task-list.composition.tsx";
 import taskListCompositionSource from "#/modules/task-list/compositions/task-list.composition.tsx?raw";
 
 const ANATOMY_SNIPPET = `<TaskListRoot>
@@ -132,6 +131,7 @@ const SECTION_EMPTY_PROPS: readonly PropRow[] = [
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   list: stripSourceCodeBlocks(taskListCompositionSource),
+  empty: taskListEmptySectionsCompositionSource,
 } as const;
 
 export const Route = createFileRoute("/components/task-list")({
@@ -160,11 +160,7 @@ function TaskListDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="h-[42rem] items-stretch p-0"
-        >
+        <Preview previewClassName="h-[42rem] items-stretch p-0">
           <Preview.Canvas>
             <TaskListComposition />
           </Preview.Canvas>
@@ -187,11 +183,7 @@ function TaskListDoc() {
               Group cards by status with collapsible sections. Collapse and counts are driven by the
               composition.
             </p>
-            <Preview
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="h-[42rem] items-stretch p-0"
-            >
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskListComposition />
               </Preview.Canvas>
@@ -204,15 +196,11 @@ function TaskListDoc() {
               Sparse tasks leave In Review / Done / Closed empty so <code>TaskSectionEmpty</code>{" "}
               shows. List has a single empty host (no DnD idle/allowed/blocked triad).
             </p>
-            <Preview
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="h-[42rem] items-stretch p-0"
-            >
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskListEmptySectionsComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.list} />
+              <Preview.Code html={code.empty} />
             </Preview>
           </DocSubsection>
         </div>

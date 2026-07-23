@@ -6,13 +6,13 @@ import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
+import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskBoardColumn } from "./task-board-column.recipe";
 import { taskBoard } from "./task-board.recipe";
 
 export type TaskBoardRootProps = useRender.ComponentProps<"div">;
 export function TaskBoardRoot({ className, render, ...props }: TaskBoardRootProps) {
-  const theme = useThemeFamily();
-  const { root } = taskBoard({ theme });
+  const { root } = taskBoard();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-board-root",
     className: root({ className }),
@@ -82,20 +82,30 @@ export type TaskBoardColumnBadgeProps = useRender.ComponentProps<"span"> & {
 };
 export function TaskBoardColumnBadge({
   status,
+  children,
   className,
   render,
   ...props
 }: TaskBoardColumnBadgeProps) {
   const theme = useThemeFamily();
   const { badge } = taskBoardColumn({ theme });
+  const resolvedChildren =
+    theme === "elegant" ? (
+      <>
+        <TaskStatusIcon status={status} />
+        {children}
+      </>
+    ) : (
+      children
+    );
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-badge",
-    className: cn(badge(), taskStatus({ theme, status }), className),
+    className: cn(badge(), theme === "brutal" && taskStatus({ theme, status }), className),
   };
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(defaultProps, props),
+    props: mergeProps<"span">(defaultProps, props, { children: resolvedChildren }),
   });
 }
 

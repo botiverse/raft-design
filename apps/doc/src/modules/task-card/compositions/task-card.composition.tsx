@@ -5,7 +5,6 @@ import {
   TaskCardBody,
   TaskCardChannel,
   TaskCardDescription,
-  TaskCardFooter,
   TaskCardHit,
   TaskCardLegacy,
   TaskCardMeta,
@@ -50,69 +49,69 @@ export function TaskCardComposition({
 }) {
   return (
     <TaskCard disabled={disabled}>
-      <TaskCardHit disabled={disabled || readOnly || !onOpen} onClick={() => onOpen?.(task)}>
-        <TaskCardRow>
-          <TaskCardBody>
-            <TaskCardMeta>
-              {showChannelName ? <TaskCardChannel>#{task.channelName}</TaskCardChannel> : null}
-              <TaskCardNumber>#{task.taskNumber}</TaskCardNumber>
-              {task.isLegacy ? <TaskCardLegacy>LEGACY</TaskCardLegacy> : null}
-            </TaskCardMeta>
+      <TaskCardRow>
+        <TaskCardBody>
+          <TaskCardMeta>
+            {showChannelName ? <TaskCardChannel>#{task.channelName}</TaskCardChannel> : null}
+            {readOnly ? (
+              <TaskCardStatus busy={busy}>
+                <TaskCardStatusTrigger status={task.status} render={<span />}>
+                  {getTaskStatusLabel(task.status)} <Pencil aria-hidden />
+                </TaskCardStatusTrigger>
+              </TaskCardStatus>
+            ) : (
+              <DropdownMenu defaultOpen={menuOpen} modal={false}>
+                <TaskCardStatus busy={busy}>
+                  <DropdownMenuTrigger
+                    disabled={disabled || busy || !onStatusChange}
+                    render={
+                      <TaskCardStatusTrigger
+                        status={task.status}
+                        busy={busy}
+                        disabled={disabled || busy || !onStatusChange}
+                      />
+                    }
+                  >
+                    {getTaskStatusLabel(task.status)}
+                    <Pencil aria-hidden />
+                  </DropdownMenuTrigger>
+                </TaskCardStatus>
+                <TaskStatusMenuContent
+                  align="end"
+                  portalProps={
+                    portalRef
+                      ? { container: portalRef as RefObject<HTMLElement | null> }
+                      : undefined
+                  }
+                >
+                  <DropdownMenuRadioGroup
+                    value={task.status}
+                    onValueChange={(status) => onStatusChange?.(task.id, status as TaskStatus)}
+                  >
+                    {TASK_STATUSES.flatMap((status) =>
+                      TASK_STATUS_OPTIONS[task.status].has(status.id)
+                        ? [
+                            <TaskStatusMenuItem key={status.id} value={status.id}>
+                              {status.label}
+                            </TaskStatusMenuItem>,
+                          ]
+                        : [],
+                    )}
+                  </DropdownMenuRadioGroup>
+                </TaskStatusMenuContent>
+              </DropdownMenu>
+            )}
+            <TaskCardNumber>#{task.taskNumber}</TaskCardNumber>
+            {task.isLegacy ? <TaskCardLegacy>LEGACY</TaskCardLegacy> : null}
+          </TaskCardMeta>
+          <TaskCardHit disabled={disabled || readOnly || !onOpen} onClick={() => onOpen?.(task)}>
             <TaskCardTitle>{task.title}</TaskCardTitle>
             {task.description ? (
               <TaskCardDescription>{task.description}</TaskCardDescription>
             ) : null}
-          </TaskCardBody>
-        </TaskCardRow>
-      </TaskCardHit>
-      <TaskCardFooter>
-        {readOnly ? (
-          <TaskCardStatus busy={busy}>
-            <TaskCardStatusTrigger status={task.status} render={<span />}>
-              {getTaskStatusLabel(task.status)} <Pencil aria-hidden />
-            </TaskCardStatusTrigger>
-          </TaskCardStatus>
-        ) : (
-          <DropdownMenu defaultOpen={menuOpen} modal={false}>
-            <TaskCardStatus busy={busy}>
-              <DropdownMenuTrigger
-                disabled={disabled || busy || !onStatusChange}
-                render={
-                  <TaskCardStatusTrigger
-                    status={task.status}
-                    busy={busy}
-                    disabled={disabled || busy || !onStatusChange}
-                  />
-                }
-              >
-                {getTaskStatusLabel(task.status)}
-                <Pencil aria-hidden />
-              </DropdownMenuTrigger>
-            </TaskCardStatus>
-            <TaskStatusMenuContent
-              align="end"
-              portalProps={
-                portalRef ? { container: portalRef as RefObject<HTMLElement | null> } : undefined
-              }
-            >
-              <DropdownMenuRadioGroup
-                value={task.status}
-                onValueChange={(status) => onStatusChange?.(task.id, status as TaskStatus)}
-              >
-                {TASK_STATUSES.flatMap((status) =>
-                  TASK_STATUS_OPTIONS[task.status].has(status.id)
-                    ? [
-                        <TaskStatusMenuItem key={status.id} value={status.id}>
-                          {status.label}
-                        </TaskStatusMenuItem>,
-                      ]
-                    : [],
-                )}
-              </DropdownMenuRadioGroup>
-            </TaskStatusMenuContent>
-          </DropdownMenu>
-        )}
-      </TaskCardFooter>
+          </TaskCardHit>
+        </TaskCardBody>
+      </TaskCardRow>
     </TaskCard>
   );
 }

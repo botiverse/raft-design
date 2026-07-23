@@ -10,7 +10,6 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 import { TaskDndComposition } from "#/modules/task-dnd/compositions/task-dnd.composition.tsx";
 import taskDndCompositionSource from "#/modules/task-dnd/compositions/task-dnd.composition.tsx?raw";
-import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider isDropAllowed={…} onMove={…}>
   <TaskBoardColumn render={<TaskDropZone id={status} />}>
@@ -102,7 +101,6 @@ const DROP_ZONE_PROPS: readonly PropRow[] = [
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   dnd: stripSourceCodeBlocks(taskDndCompositionSource),
-  board: stripSourceCodeBlocks(taskBoardCompositionSource),
 } as const;
 
 export const Route = createFileRoute("/components/task-dnd")({
@@ -136,11 +134,7 @@ function TaskDndDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="h-[42rem] items-stretch p-0"
-        >
+        <Preview previewClassName="h-[42rem] items-stretch p-0">
           <Preview.Canvas>
             <TaskDndComposition />
           </Preview.Canvas>
@@ -162,15 +156,11 @@ function TaskDndDoc() {
             Closed is blocked in this demo. Drag a card onto Closed to see blocked empty-state copy;
             other columns accept the drop and call <code>onMove</code>.
           </p>
-          <Preview
-            previewTheme="brutal"
-            previewMode="light"
-            previewClassName="h-[42rem] items-stretch p-0"
-          >
+          <Preview previewClassName="h-[42rem] items-stretch p-0">
             <Preview.Canvas>
               <TaskDndComposition />
             </Preview.Canvas>
-            <Preview.Code html={code.board} />
+            <Preview.Code html={code.dnd} />
           </Preview>
         </DocSubsection>
       </DocSection>

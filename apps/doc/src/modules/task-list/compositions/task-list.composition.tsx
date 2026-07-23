@@ -38,9 +38,6 @@ const EXPANDED: Record<TaskStatus, boolean> = {
   closed: false,
 };
 
-/** Sparse set so In Review / Done / Closed render section empties. */
-const EMPTY_SECTION_TASKS = [TASK_FIXTURES[0], TASK_FIXTURES[2]] as const;
-
 export type TaskListCompositionProps = {
   tasks?: readonly TaskFixture[];
   showChannelName?: boolean;
@@ -89,9 +86,7 @@ export function TaskListComposition({
             >
               <TaskSectionTrigger>
                 <TaskSectionHeading>
-                  <TaskSectionBadge status={status.id}>
-                    {status.label.toUpperCase()}
-                  </TaskSectionBadge>
+                  <TaskSectionBadge status={status.id}>{status.label}</TaskSectionBadge>
                   <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
                 </TaskSectionHeading>
                 <TaskSectionChevron>
@@ -127,9 +122,4 @@ export function TaskListComposition({
       </span>
     </div>
   );
-}
-
-/** Section empties for In Review / Done / Closed. */
-export function TaskListEmptySectionsComposition() {
-  return <TaskListComposition tasks={EMPTY_SECTION_TASKS} expandAll />;
 }

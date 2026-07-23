@@ -10,6 +10,7 @@ import {
   type DropdownMenuRadioItemProps,
 } from "../dropdown-menu/index";
 import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
+import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskCardStatus } from "./task-card-status.recipe";
 import { taskCard } from "./task-card.recipe";
 
@@ -218,21 +219,31 @@ export function TaskCardStatusTrigger({
   status,
   className,
   render,
+  children,
   ...props
 }: TaskCardStatusTriggerProps) {
   const theme = useThemeFamily();
   const { trigger } = taskCardStatus({ theme });
+  const resolvedChildren =
+    theme === "elegant" ? (
+      <>
+        <TaskStatusIcon status={status} />
+        <span className="sr-only">{children}</span>
+      </>
+    ) : (
+      children
+    );
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "task-card-status-trigger",
     "data-busy": busy ? "true" : undefined,
     "aria-busy": busy || undefined,
-    className: cn(trigger(), taskStatus({ theme, status }), className),
+    className: cn(trigger(), theme === "brutal" && taskStatus({ theme, status }), className),
   };
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(defaultProps, props),
+    props: mergeProps<"button">(defaultProps, props, { children: resolvedChildren }),
   });
 }
 

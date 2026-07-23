@@ -51,7 +51,7 @@ const SOURCE_SCENES = [
 
 function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
   return (
-    <Preview previewMode="light" previewClassName="items-stretch">
+    <Preview previewClassName="items-stretch">
       <Preview.Canvas>{children}</Preview.Canvas>
       <Preview.Code html={code} />
     </Preview>

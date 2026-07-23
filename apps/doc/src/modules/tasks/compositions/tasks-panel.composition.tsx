@@ -52,6 +52,7 @@ import {
   TasksPanelEmpty,
   TasksPanelToolbar,
   TasksPanelToolbarGroup,
+  TasksPanelToolbarLabel,
   TasksPanelViewport,
 } from "raft-ui/wip";
 import {
@@ -92,18 +93,11 @@ export type TasksPanelCompositionProps = {
 /** Static filter chrome for TasksPanel demos. Interactive filters live under Combobox. */
 export function TasksToolbarFilterPlaceholder({ label, icon }: { label: string; icon: ReactNode }) {
   return (
-    <span
-      aria-hidden
-      className={[
-        "inline-flex items-center gap-2 border-2 border-line-subtle bg-layer-panel px-3 py-1.5",
-        "font-heading text-xs font-bold text-foreground/70",
-        "[&_svg]:size-3.5 [&_svg]:shrink-0",
-      ].join(" ")}
-    >
+    <TasksPanelToolbarLabel aria-hidden>
       {icon}
       {label}
-      <ChevronDown aria-hidden className="!size-3" />
-    </span>
+      <ChevronDown aria-hidden />
+    </TasksPanelToolbarLabel>
   );
 }
 
@@ -279,9 +273,7 @@ function TaskBoard({
             >
               <TaskBoardColumnTrigger>
                 <TaskBoardColumnHeading>
-                  <TaskBoardColumnBadge status={status.id}>
-                    {status.label.toUpperCase()}
-                  </TaskBoardColumnBadge>
+                  <TaskBoardColumnBadge status={status.id}>{status.label}</TaskBoardColumnBadge>
                   <TaskBoardColumnCount>{statusTasks.length}</TaskBoardColumnCount>
                 </TaskBoardColumnHeading>
                 <TaskBoardColumnChevron>
@@ -348,7 +340,7 @@ function TaskList(props: TaskGroupedViewProps) {
           >
             <TaskSectionTrigger>
               <TaskSectionHeading>
-                <TaskSectionBadge status={status.id}>{status.label.toUpperCase()}</TaskSectionBadge>
+                <TaskSectionBadge status={status.id}>{status.label}</TaskSectionBadge>
                 <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
               </TaskSectionHeading>
               <TaskSectionChevron>
