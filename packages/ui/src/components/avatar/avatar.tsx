@@ -26,9 +26,9 @@ import type { StyledProps } from "../../lib/styled-props";
 // account-tile, members-row, and creator-link no longer get public size names.
 // Brutal border weight follows size: >=32px frames use `border-2`, smaller ones
 // `AvatarFallback` / `AvatarBadge` auto-scale to the parent via its `data-size` +
-// `group/avatar` hook when using the default pip; keep their per-step selectors
+// `group/avatar` hook when using the default dot; keep their per-step selectors
 // in sync with the `size` scale. `AvatarBadge` is a useRender shell — pass
-// `render={<Status />}` for activity chrome without the default pip styles.
+// `render={<Status />}` for activity chrome without the default dot styles.
 const avatar = tv({
   slots: {
     root: ["group/avatar relative flex shrink-0 items-center justify-center select-none"],
@@ -38,25 +38,31 @@ const avatar = tv({
       "[&>svg]:size-4",
       "group-data-[size=xl]/avatar:[&>svg]:size-6",
       "group-data-[size=lg]/avatar:[&>svg]:size-6",
-      "group-data-[size=md]/avatar:[&>svg]:size-[18px]",
+      "group-data-[size=md]/avatar:[&>svg]:size-4.5",
       "group-data-[size=sm]/avatar:[&>svg]:size-4",
       "group-data-[size=xs]/avatar:[&>svg]:size-3",
       "group-data-[size=2xs]/avatar:[&>svg]:size-2.5",
       "group-data-[size=3xs]/avatar:[&>svg]:size-2.5",
     ],
-    // Corner shell always. Pip chrome (`badgeFace`) only when not rendering a
-    // custom indicator — Status/etc. keep the same anchor as the default pip.
-    badge: ["absolute z-10 select-none"],
-    badgeFace: [
-      "inline-flex items-center justify-center rounded-full outline-2 outline-white",
-      "size-2 [&>svg]:hidden",
-      "group-data-[size=xl]/avatar:size-3.5 group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
-      "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:[&>svg]:block",
-      "group-data-[size=md]/avatar:size-2.5 group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
+    // The corner shell owns placement and scale. The default dot only adds
+    // its visual chrome; custom indicators inherit this same size mapping.
+    badge: [
+      "absolute z-10 size-2 select-none",
+      "group-data-[size=xl]/avatar:size-3.5",
+      "group-data-[size=lg]/avatar:size-3",
+      "group-data-[size=md]/avatar:size-2.5",
       "group-data-[size=sm]/avatar:size-2",
-      "group-data-[size=xs]/avatar:size-1.5 group-data-[size=xs]/avatar:outline",
-      "group-data-[size=2xs]/avatar:size-1.5 group-data-[size=2xs]/avatar:outline",
-      "group-data-[size=3xs]/avatar:size-1.5 group-data-[size=3xs]/avatar:outline",
+      "group-data-[size=xs]/avatar:size-1.5",
+      "group-data-[size=2xs]/avatar:size-1.5",
+      "group-data-[size=3xs]/avatar:size-1.5",
+    ],
+    dot: [
+      "inline-flex items-center justify-center rounded-full outline-2 outline-white",
+      "[&>svg]:hidden",
+      "group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
+      "group-data-[size=lg]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:[&>svg]:block",
+      "group-data-[size=md]/avatar:[&>svg]:size-1.5 group-data-[size=md]/avatar:[&>svg]:block",
+      "group-data-[size=xs]/avatar:outline group-data-[size=2xs]/avatar:outline group-data-[size=3xs]/avatar:outline",
     ],
     group: ["group/avatar-group flex items-center"],
   },
@@ -65,8 +71,17 @@ const avatar = tv({
       brutal: {
         root: "border-black text-black",
         fallback: "text-black",
-        badge: ["right-0 bottom-0 translate-x-1/4 translate-y-1/4"],
-        badgeFace: ["bg-success-base text-foreground-strong"],
+        badge: [
+          "right-0 bottom-0 translate-x-1/4 translate-y-1/4",
+          "group-data-[size=xl]/avatar:translate-x-[5px] group-data-[size=xl]/avatar:translate-y-[5px]",
+          "group-data-[size=lg]/avatar:translate-x-[calc(25%+2px)] group-data-[size=lg]/avatar:translate-y-[calc(25%+2px)]",
+          "group-data-[size=md]/avatar:translate-x-[4.75px] group-data-[size=md]/avatar:translate-y-[4.75px]",
+          "group-data-[size=sm]/avatar:translate-x-1 group-data-[size=sm]/avatar:translate-y-1",
+          "group-data-[size=xs]/avatar:translate-x-[2.75px] group-data-[size=xs]/avatar:translate-y-[2.75px]",
+          "group-data-[size=2xs]/avatar:translate-x-[2.875px] group-data-[size=2xs]/avatar:translate-y-[2.875px]",
+          "group-data-[size=3xs]/avatar:translate-x-[3.125px] group-data-[size=3xs]/avatar:translate-y-[3.125px]",
+        ],
+        dot: ["bg-success-base text-foreground-strong"],
         group: [
           "-space-x-1.5",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-primary-50",
@@ -84,15 +99,15 @@ const avatar = tv({
           "group-data-[size=3xs]/avatar:text-[10px]",
         ],
         badge: [
-          "group-data-[size=xl]/avatar:right-[2px] group-data-[size=xl]/avatar:bottom-[2px]",
-          "group-data-[size=lg]/avatar:right-[2px] group-data-[size=lg]/avatar:bottom-[2px]",
-          "group-data-[size=md]/avatar:right-[-1px] group-data-[size=md]/avatar:bottom-[-1px]",
-          "group-data-[size=sm]/avatar:right-[-1px] group-data-[size=sm]/avatar:bottom-[-1px]",
-          "group-data-[size=xs]/avatar:right-0 group-data-[size=xs]/avatar:bottom-0",
+          "group-data-[size=xl]/avatar:right-[3.667px] group-data-[size=xl]/avatar:bottom-[3.667px]",
+          "group-data-[size=lg]/avatar:right-0.5 group-data-[size=lg]/avatar:bottom-0.5",
+          "group-data-[size=md]/avatar:right-px group-data-[size=md]/avatar:bottom-px",
+          "group-data-[size=sm]/avatar:right-[1.333px] group-data-[size=sm]/avatar:bottom-[1.333px]",
+          "group-data-[size=xs]/avatar:right-[0.333px] group-data-[size=xs]/avatar:bottom-[0.333px]",
           "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
-          "group-data-[size=3xs]/avatar:right-0 group-data-[size=3xs]/avatar:bottom-0",
+          "group-data-[size=3xs]/avatar:right-[-0.667px] group-data-[size=3xs]/avatar:bottom-[-0.667px]",
         ],
-        badgeFace: ["bg-success-base text-foreground-inverse"],
+        dot: ["bg-success-base text-foreground-inverse"],
         group: [
           "-space-x-2",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-background",
@@ -110,8 +125,8 @@ const avatar = tv({
       md: { root: "size-9" },
       sm: { root: "size-8" },
       xs: { root: "size-5" },
-      "2xs": { root: "size-[18px]" },
-      "3xs": { root: "size-[14px]" },
+      "2xs": { root: "size-4.5" },
+      "3xs": { root: "size-3.5" },
     },
   },
   compoundVariants: [
@@ -351,14 +366,14 @@ export function AvatarFallback({ className, children, ...props }: AvatarFallback
 
 export type AvatarBadgeProps = useRender.ComponentProps<"span">;
 
-// Corner presence shell. Default span keeps the solid pip (`badgeFace`); pass
-// `render={<Status … />}` to own indicator chrome while sharing the same anchor.
+// Corner presence shell. The parent avatar owns placement and size; the default
+// dot or a custom render only supplies the visual state.
 export function AvatarBadge({ className, render, ...props }: AvatarBadgeProps) {
   const theme = useThemeFamily();
-  const { badge, badgeFace } = avatar({ theme });
+  const { badge, dot } = avatar({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: badge({
-      className: render ? className : badgeFace({ className }),
+      className: render ? className : dot({ className }),
     }),
   };
 

@@ -105,7 +105,6 @@ export function MessageAvatarStatusComposition() {
                     aria-hidden
                     className={fixture.className}
                     pulse={fixture.pulse}
-                    size="lg"
                     variant={fixture.variant}
                   />
                 }

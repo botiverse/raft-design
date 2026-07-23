@@ -24,10 +24,7 @@ export function MessageItemPreviewContent() {
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
-            <AvatarBadge
-              title="Online"
-              render={<Status aria-hidden size="lg" variant="success" />}
-            />
+            <AvatarBadge title="Online" render={<Status aria-hidden variant="success" />} />
           </Avatar>
         </MessageItemAvatarSlot>
         <MessageItemContent>
