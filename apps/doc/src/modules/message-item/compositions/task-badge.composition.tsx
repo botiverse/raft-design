@@ -2,12 +2,10 @@ import { useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { Ban, Check, CheckCircle, Circle, Eye, Play } from "lucide-react";
 import {
-  Badge,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  useThemeFamily,
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -21,27 +19,25 @@ import {
   MessageItemHeader,
   MessageItemInteractionBoundary,
   MessageItemSender,
+  MessageItemTaskBadge,
   MessageItemTime,
+  type TaskStatusId,
 } from "raft-ui/wip";
 
-type MessageTaskStatus = "todo" | "in_progress" | "in_review" | "done" | "closed";
-
 const TASK_STATUS_OPTIONS = [
-  { id: "todo", icon: Circle, label: "Todo", variant: "warning" },
-  { id: "in_progress", icon: Play, label: "In Progress", variant: "information" },
-  { id: "in_review", icon: Eye, label: "In Review", variant: "accent" },
-  { id: "done", icon: CheckCircle, label: "Done", variant: "success" },
-  { id: "closed", icon: Ban, label: "Closed", variant: "muted" },
+  { id: "todo", icon: Circle, label: "Todo" },
+  { id: "in_progress", icon: Play, label: "In Progress" },
+  { id: "in_review", icon: Eye, label: "In Review" },
+  { id: "done", icon: CheckCircle, label: "Done" },
+  { id: "closed", icon: Ban, label: "Closed" },
 ] as const satisfies readonly {
-  id: MessageTaskStatus;
+  id: TaskStatusId;
   icon: typeof Circle;
   label: string;
-  variant: "accent" | "information" | "muted" | "success" | "warning";
 }[];
 
 function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElement | null }) {
-  const [status, setStatus] = useState<MessageTaskStatus>("todo");
-  const theme = useThemeFamily();
+  const [status, setStatus] = useState<TaskStatusId>("todo");
   const current =
     TASK_STATUS_OPTIONS.find((option) => option.id === status) ?? TASK_STATUS_OPTIONS[0];
   const Icon = current.icon;
@@ -50,9 +46,8 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Badge
-            appearance={theme === "brutal" ? "solid" : "soft"}
-            variant={current.variant}
+          <MessageItemTaskBadge
+            status={status}
             render={
               <button
                 type="button"
@@ -83,23 +78,19 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
 }
 
 function MessageTaskStatusReadonlyBadges() {
-  const theme = useThemeFamily();
-
   return TASK_STATUS_OPTIONS.map((option, index) => {
     const Icon = option.icon;
     const taskNumber = index + 11;
 
     return (
-      <Badge
+      <MessageItemTaskBadge
         key={option.id}
-        appearance={theme === "brutal" ? "solid" : "soft"}
-        data-task-status={option.id}
+        status={option.id}
         title={`task #${taskNumber} · ${option.label} · Read only`}
-        variant={option.variant}
       >
         <Icon size={10} />
         <span>#{taskNumber}</span>
-      </Badge>
+      </MessageItemTaskBadge>
     );
   });
 }
