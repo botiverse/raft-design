@@ -247,8 +247,8 @@ function TaskCardDoc() {
       }
       toc={TOC}
     >
-      <DocSection id="preview" title="Preview">
-        <Preview previewTheme="brutal" previewMode="light">
+      <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <Preview>
           <Preview.Canvas>
             <TaskCardComparisonComposition />
           </Preview.Canvas>
@@ -266,7 +266,7 @@ function TaskCardDoc() {
 
       <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="states" title="States">
-          <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+          <Preview previewClassName="items-stretch">
             <Preview.Canvas>
               <TaskCardStateMatrixComposition />
             </Preview.Canvas>
@@ -332,7 +332,7 @@ function TaskCardDoc() {
             {
               label: "Channel task card",
               status: "review",
-              note: "Source and Brutal only while Elegant TaskCard recipes are empty. Source is a static channel-scoped TaskCard DOM fixture; Brutal runs the canonical panel composition with consumer-owned actions.",
+              note: "Source is a static channel-scoped TaskCard DOM fixture. Brutal, Elegant Light, and Elegant Dark run the canonical panel composition with consumer-owned actions.",
               sourceScenes: SOURCE_SCENES,
               source: (
                 <SourceThemeScope className="w-full">
@@ -340,6 +340,8 @@ function TaskCardDoc() {
                 </SourceThemeScope>
               ),
               brutal: <TaskCardPanelComparisonComposition />,
+              elegant: <TaskCardPanelComparisonComposition />,
+              elegantDark: <TaskCardPanelComparisonComposition />,
               compositionCode: code.panelComparison,
               compositionPath:
                 "apps/doc/src/modules/task-card/compositions/task-card-panel-comparison.composition.tsx",

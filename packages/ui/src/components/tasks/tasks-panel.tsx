@@ -53,6 +53,25 @@ export function TasksPanelToolbarGroup({
   });
 }
 
+export type TasksPanelToolbarLabelProps = useRender.ComponentProps<"span">;
+export function TasksPanelToolbarLabel({
+  className,
+  render,
+  ...props
+}: TasksPanelToolbarLabelProps) {
+  const theme = useThemeFamily();
+  const { toolbarLabel } = tasksPanel({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "tasks-panel-toolbar-label",
+    className: toolbarLabel({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
 export type TasksPanelViewportProps = useRender.ComponentProps<"div">;
 export function TasksPanelViewport({ className, render, ...props }: TasksPanelViewportProps) {
   const theme = useThemeFamily();

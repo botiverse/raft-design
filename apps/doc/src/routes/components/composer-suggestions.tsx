@@ -283,7 +283,7 @@ function ComposerSuggestionsDoc() {
       <DocSection id="usage" title="Usage">
         <div className="grid gap-8">
           <DocSubsection parentId="usage" id="people" title="People">
-            <Preview previewClassName="min-h-[26rem] items-stretch" previewTheme="brutal">
+            <Preview previewClassName="min-h-[26rem] items-stretch">
               <Preview.Canvas>
                 <div className="h-[26rem] w-full max-w-[560px]">
                   <ComposerSuggestionComposition />
@@ -293,7 +293,7 @@ function ComposerSuggestionsDoc() {
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="channels" title="Channels">
-            <Preview previewClassName="min-h-[26rem] items-stretch" previewTheme="elegant">
+            <Preview previewClassName="min-h-[26rem] items-stretch">
               <Preview.Canvas>
                 <div className="h-[26rem] w-full max-w-[560px]">
                   <ComposerSuggestionComposition initialValue="#" />
@@ -303,11 +303,7 @@ function ComposerSuggestionsDoc() {
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="filtered-people" title="Filtered people">
-            <Preview
-              previewClassName="min-h-[26rem] items-stretch"
-              previewMode="dark"
-              previewTheme="elegant"
-            >
+            <Preview previewClassName="min-h-[26rem] items-stretch">
               <Preview.Canvas>
                 <div className="h-[26rem] w-full max-w-[560px]">
                   <ComposerSuggestionComposition initialValue="@av" />

@@ -3,12 +3,14 @@ export {
   TasksPanelRoot,
   TasksPanelToolbar,
   TasksPanelToolbarGroup,
+  TasksPanelToolbarLabel,
   TasksPanelViewport,
 } from "./tasks-panel";
 export type {
   TasksPanelEmptyProps,
   TasksPanelRootProps,
   TasksPanelToolbarGroupProps,
+  TasksPanelToolbarLabelProps,
   TasksPanelToolbarProps,
   TasksPanelViewportProps,
 } from "./tasks-panel";

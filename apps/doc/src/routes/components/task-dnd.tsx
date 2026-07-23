@@ -136,11 +136,7 @@ function TaskDndDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="h-[42rem] items-stretch p-0"
-        >
+        <Preview previewClassName="h-[42rem] items-stretch p-0">
           <Preview.Canvas>
             <TaskDndComposition />
           </Preview.Canvas>
@@ -162,11 +158,7 @@ function TaskDndDoc() {
             Closed is blocked in this demo. Drag a card onto Closed to see blocked empty-state copy;
             other columns accept the drop and call <code>onMove</code>.
           </p>
-          <Preview
-            previewTheme="brutal"
-            previewMode="light"
-            previewClassName="h-[42rem] items-stretch p-0"
-          >
+          <Preview previewClassName="h-[42rem] items-stretch p-0">
             <Preview.Canvas>
               <TaskDndComposition />
             </Preview.Canvas>

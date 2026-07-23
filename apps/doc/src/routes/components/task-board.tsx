@@ -196,11 +196,7 @@ function TaskBoardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="h-[42rem] items-stretch p-0"
-        >
+        <Preview previewClassName="h-[42rem] items-stretch p-0">
           <Preview.Canvas>
             <TaskBoardComposition />
           </Preview.Canvas>
@@ -223,11 +219,7 @@ function TaskBoardDoc() {
               The preview wraps columns in <code>TaskDndProvider</code> and mounts each column as a{" "}
               <code>TaskDropZone</code>. Drop policy and move handlers stay in the composition.
             </p>
-            <Preview
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="h-[42rem] items-stretch p-0"
-            >
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskBoardComposition />
               </Preview.Canvas>
@@ -242,11 +234,7 @@ function TaskBoardDoc() {
               Blocked copy (Closed is not blocked in this demo — see{" "}
               <Link to="/components/task-dnd">TaskDnd</Link>).
             </p>
-            <Preview
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="h-[42rem] items-stretch p-0"
-            >
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskBoardEmptyColumnsComposition />
               </Preview.Canvas>

@@ -20,6 +20,7 @@ import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 const ANATOMY_SNIPPET = `<TasksPanelRoot>
   <TasksPanelToolbar>
     <TasksPanelToolbarGroup>
+      <TasksPanelToolbarLabel>{/* non-interactive toolbar label */}</TasksPanelToolbarLabel>
       {/* leading: filters / actions */}
     </TasksPanelToolbarGroup>
     <TasksPanelToolbarGroup>
@@ -67,6 +68,15 @@ const PANEL_TOOLBAR_GROUP_PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"div">',
     description:
       "Cluster of toolbar controls. First group leads; second group trails (e.g. view switcher).",
+  },
+];
+
+const PANEL_TOOLBAR_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Non-interactive visual label for toolbar context or static filter summaries. Consumers provide visible content.",
   },
 ];
 
@@ -129,7 +139,7 @@ function TasksDoc() {
             <Link to="/components/task-dnd">TaskDnd</Link>, and{" "}
             <Link to="/components/task-card">TaskCard</Link>
           </li>
-          <li>preserves the channel Tasks tab structure and Brutal styling</li>
+          <li>preserves the channel Tasks tab structure across Brutal and Elegant themes</li>
           <li>
             toolbar only provides containers — filters, dropdowns, and actions compose{" "}
             <code>Combobox</code>, <code>Button</code>, and related primitives
@@ -144,11 +154,7 @@ function TasksDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="h-[42rem] items-stretch p-0"
-        >
+        <Preview previewClassName="h-[42rem] items-stretch p-0">
           <Preview.Canvas>
             <TasksPanelComposition />
           </Preview.Canvas>
@@ -167,7 +173,7 @@ function TasksDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="loading" title="Loading">
-            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+            <Preview previewClassName="items-stretch">
               <Preview.Canvas>
                 <TasksLoadingComposition />
               </Preview.Canvas>
@@ -182,7 +188,7 @@ function TasksDoc() {
               <Link to="/components/task-board">TaskBoard</Link> and{" "}
               <Link to="/components/task-list">TaskList</Link>.
             </p>
-            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+            <Preview previewClassName="items-stretch">
               <Preview.Canvas>
                 <TasksEmptyStatesComposition />
               </Preview.Canvas>
@@ -191,7 +197,7 @@ function TasksDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="error" title="Error">
-            <Preview previewTheme="brutal" previewMode="light" previewClassName="items-stretch">
+            <Preview previewClassName="items-stretch">
               <Preview.Canvas>
                 <TasksErrorComposition />
               </Preview.Canvas>
@@ -211,6 +217,9 @@ function TasksDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-toolbar-group" title="TasksPanelToolbarGroup">
             <PropsTable rows={PANEL_TOOLBAR_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel-toolbar-label" title="TasksPanelToolbarLabel">
+            <PropsTable rows={PANEL_TOOLBAR_LABEL_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-viewport" title="TasksPanelViewport">
             <PropsTable rows={PANEL_VIEWPORT_PROPS} />

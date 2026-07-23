@@ -160,11 +160,7 @@ function TaskListDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview
-          previewTheme="brutal"
-          previewMode="light"
-          previewClassName="h-[42rem] items-stretch p-0"
-        >
+        <Preview previewClassName="h-[42rem] items-stretch p-0">
           <Preview.Canvas>
             <TaskListComposition />
           </Preview.Canvas>
@@ -187,11 +183,7 @@ function TaskListDoc() {
               Group cards by status with collapsible sections. Collapse and counts are driven by the
               composition.
             </p>
-            <Preview
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="h-[42rem] items-stretch p-0"
-            >
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskListComposition />
               </Preview.Canvas>
@@ -204,11 +196,7 @@ function TaskListDoc() {
               Sparse tasks leave In Review / Done / Closed empty so <code>TaskSectionEmpty</code>{" "}
               shows. List has a single empty host (no DnD idle/allowed/blocked triad).
             </p>
-            <Preview
-              previewTheme="brutal"
-              previewMode="light"
-              previewClassName="h-[42rem] items-stretch p-0"
-            >
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskListEmptySectionsComposition />
               </Preview.Canvas>
