@@ -1,13 +1,6 @@
 import { useState } from "react";
 import {
-  Banner,
-  BannerAction,
-  BannerDescription,
   Button,
-  EmptyState,
-  EmptyStateDescription,
-  EmptyStateIcon,
-  EmptyStateTitle,
   SegmentedControl,
   SegmentedControlItem,
   SegmentedControlLabel,
@@ -17,20 +10,11 @@ import {
   TaskLoadingList,
   TaskLoadingRow,
   TasksPanelRoot,
-  TasksPanelEmpty,
   TasksPanelToolbar,
   TasksPanelToolbarGroup,
   TasksPanelViewport,
 } from "raft-ui/wip";
-import {
-  CheckSquare,
-  Columns3,
-  LayoutList,
-  Plus,
-  RotateCcw,
-  User,
-  UserCircle2,
-} from "lucide-react";
+import { Columns3, LayoutList, Plus, User, UserCircle2 } from "lucide-react";
 
 import { TasksToolbarFilterPlaceholder } from "./tasks-panel.composition";
 
@@ -86,75 +70,6 @@ export function TasksLoadingComposition() {
         <span className="sr-only" aria-live="polite">
           {notice}
         </span>
-      </TasksPanelRoot>
-    </div>
-  );
-}
-
-export function TasksEmptyStatesComposition() {
-  return (
-    <div className="grid w-full gap-4 lg:grid-cols-2">
-      <div className="flex min-h-80 border border-line">
-        <TasksPanelRoot>
-          <TasksPanelViewport>
-            <TaskEmptyState filtered={false} />
-          </TasksPanelViewport>
-        </TasksPanelRoot>
-      </div>
-      <div className="flex min-h-80 border border-line">
-        <TasksPanelRoot>
-          <TasksPanelToolbar>
-            <TasksPanelToolbarGroup>
-              <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
-            </TasksPanelToolbarGroup>
-          </TasksPanelToolbar>
-          <TasksPanelViewport>
-            <TaskEmptyState filtered />
-          </TasksPanelViewport>
-        </TasksPanelRoot>
-      </div>
-    </div>
-  );
-}
-
-function TaskEmptyState({ filtered }: { filtered: boolean }) {
-  return (
-    <TasksPanelEmpty render={<EmptyState />}>
-      <EmptyStateIcon>
-        <CheckSquare aria-hidden />
-      </EmptyStateIcon>
-      <EmptyStateTitle>{filtered ? "No tasks match this filter" : "No tasks yet"}</EmptyStateTitle>
-      <EmptyStateDescription>
-        {filtered
-          ? "Try a different combination or clear the current selection."
-          : "Create one with the New Task button."}
-      </EmptyStateDescription>
-    </TasksPanelEmpty>
-  );
-}
-
-export function TasksErrorComposition() {
-  const [retryCount, setRetryCount] = useState(0);
-  return (
-    <div className="flex min-h-80 w-full">
-      <TasksPanelRoot>
-        <TasksPanelViewport>
-          <Banner status="warning">
-            <RotateCcw aria-hidden />
-            <BannerDescription>
-              Couldn&apos;t load tasks. Retry attempts: {retryCount}.
-            </BannerDescription>
-            <BannerAction>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setRetryCount((count) => count + 1)}
-              >
-                Retry
-              </Button>
-            </BannerAction>
-          </Banner>
-        </TasksPanelViewport>
       </TasksPanelRoot>
     </div>
   );

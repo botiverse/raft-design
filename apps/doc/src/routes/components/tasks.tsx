@@ -6,14 +6,14 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { TasksEmptyStatesComposition } from "#/modules/tasks/compositions/tasks-empty-states.composition.tsx";
+import tasksEmptyStatesCompositionSource from "#/modules/tasks/compositions/tasks-empty-states.composition.tsx?raw";
+import { TasksErrorComposition } from "#/modules/tasks/compositions/tasks-error.composition.tsx";
+import tasksErrorCompositionSource from "#/modules/tasks/compositions/tasks-error.composition.tsx?raw";
+import { TasksLoadingComposition } from "#/modules/tasks/compositions/tasks-loading.composition.tsx";
+import tasksLoadingCompositionSource from "#/modules/tasks/compositions/tasks-loading.composition.tsx?raw";
 import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
 import tasksPanelCompositionSource from "#/modules/tasks/compositions/tasks-panel.composition.tsx?raw";
-import {
-  TasksEmptyStatesComposition,
-  TasksErrorComposition,
-  TasksLoadingComposition,
-} from "#/modules/tasks/compositions/tasks-states.composition.tsx";
-import tasksStatesCompositionSource from "#/modules/tasks/compositions/tasks-states.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 
@@ -119,7 +119,9 @@ export const Route = createFileRoute("/components/tasks")({
       data: {
         anatomy: ANATOMY_SNIPPET,
         panel: stripSourceCodeBlocks(tasksPanelCompositionSource),
-        states: tasksStatesCompositionSource,
+        loading: tasksLoadingCompositionSource,
+        empty: tasksEmptyStatesCompositionSource,
+        error: tasksErrorCompositionSource,
       },
     }),
 });
@@ -177,7 +179,7 @@ function TasksDoc() {
               <Preview.Canvas>
                 <TasksLoadingComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.states} />
+              <Preview.Code html={code.loading} />
             </Preview>
           </DocSubsection>
 
@@ -192,7 +194,7 @@ function TasksDoc() {
               <Preview.Canvas>
                 <TasksEmptyStatesComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.states} />
+              <Preview.Code html={code.empty} />
             </Preview>
           </DocSubsection>
 
@@ -201,7 +203,7 @@ function TasksDoc() {
               <Preview.Canvas>
                 <TasksErrorComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.states} />
+              <Preview.Code html={code.error} />
             </Preview>
           </DocSubsection>
         </div>

@@ -44,9 +44,6 @@ const EXPANDED: Record<TaskStatus, boolean> = {
   closed: false,
 };
 
-/** Sparse set so In Review / Done / Closed render column empty hosts. */
-const EMPTY_COLUMN_TASKS = [TASK_FIXTURES[0], TASK_FIXTURES[2]] as const;
-
 export type TaskBoardCompositionProps = {
   tasks?: readonly TaskFixture[];
   blockedDropStatus?: TaskStatus;
@@ -155,9 +152,4 @@ export function TaskBoardComposition({
       </span>
     </div>
   );
-}
-
-/** Idle column empties for In Review / Done / Closed. Drag onto empty columns for Allowed/Blocked. */
-export function TaskBoardEmptyColumnsComposition() {
-  return <TaskBoardComposition tasks={EMPTY_COLUMN_TASKS} expandAll />;
 }

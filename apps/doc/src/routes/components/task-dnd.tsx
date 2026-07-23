@@ -10,7 +10,6 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 import { TaskDndComposition } from "#/modules/task-dnd/compositions/task-dnd.composition.tsx";
 import taskDndCompositionSource from "#/modules/task-dnd/compositions/task-dnd.composition.tsx?raw";
-import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider isDropAllowed={…} onMove={…}>
   <TaskBoardColumn render={<TaskDropZone id={status} />}>
@@ -102,7 +101,6 @@ const DROP_ZONE_PROPS: readonly PropRow[] = [
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   dnd: stripSourceCodeBlocks(taskDndCompositionSource),
-  board: stripSourceCodeBlocks(taskBoardCompositionSource),
 } as const;
 
 export const Route = createFileRoute("/components/task-dnd")({
@@ -162,7 +160,7 @@ function TaskDndDoc() {
             <Preview.Canvas>
               <TaskDndComposition />
             </Preview.Canvas>
-            <Preview.Code html={code.board} />
+            <Preview.Code html={code.dnd} />
           </Preview>
         </DocSubsection>
       </DocSection>

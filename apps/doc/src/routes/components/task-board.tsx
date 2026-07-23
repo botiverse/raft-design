@@ -8,10 +8,9 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
-import {
-  TaskBoardComposition,
-  TaskBoardEmptyColumnsComposition,
-} from "#/modules/task-board/compositions/task-board.composition.tsx";
+import { TaskBoardEmptyColumnsComposition } from "#/modules/task-board/compositions/task-board-empty-columns.composition.tsx";
+import taskBoardEmptyColumnsCompositionSource from "#/modules/task-board/compositions/task-board-empty-columns.composition.tsx?raw";
+import { TaskBoardComposition } from "#/modules/task-board/compositions/task-board.composition.tsx";
 import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider>
@@ -164,6 +163,7 @@ const BOARD_COLUMN_EMPTY_BLOCKED_PROPS: readonly PropRow[] = [
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   board: stripSourceCodeBlocks(taskBoardCompositionSource),
+  empty: taskBoardEmptyColumnsCompositionSource,
 } as const;
 
 export const Route = createFileRoute("/components/task-board")({
@@ -238,7 +238,7 @@ function TaskBoardDoc() {
               <Preview.Canvas>
                 <TaskBoardEmptyColumnsComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.board} />
+              <Preview.Code html={code.empty} />
             </Preview>
           </DocSubsection>
         </div>
