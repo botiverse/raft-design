@@ -20,12 +20,12 @@ const tooltip = tv({
       "has-[[data-slot=kbd]]:py-1.5 has-[[data-slot=kbd]]:pr-1.5",
     ],
     body: [
-      "block min-w-0 text-[13px] leading-[18px] whitespace-normal break-words",
+      "block min-w-0 text-[13px] leading-4.5 whitespace-normal break-words",
       "[&_[data-slot=kbd]]:relative [&_[data-slot=kbd]]:z-10 [&_[data-slot=kbd]]:ml-1.5",
       "[&_[data-slot=kbd]]:h-4 [&_[data-slot=kbd]]:min-w-4 [&_[data-slot=kbd]]:px-1 [&_[data-slot=kbd]]:py-0",
       "[&_[data-slot=kbd]]:text-[10px] [&_[data-slot=kbd]]:font-semibold [&_[data-slot=kbd]]:leading-none",
     ],
-    bodyIcon: ["shrink-0 [&>svg]:mt-1 [&>svg]:block [&>svg]:size-3.5 [&>svg]:shrink-0"],
+    bodyIcon: ["shrink-0 [&>svg]:block [&>svg]:size-3.5 [&>svg]:shrink-0"],
     bodyText: ["min-w-0 flex-1"],
     arrow: [
       "pointer-events-none flex overflow-visible",
@@ -40,7 +40,7 @@ const tooltip = tv({
   variants: {
     hasLeadingIcon: {
       true: {
-        body: ["flex items-start gap-x-1.5"],
+        body: ["flex items-center gap-x-1.5"],
       },
       false: {},
     },
