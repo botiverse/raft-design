@@ -105,8 +105,8 @@ function MessageAttachmentDoc() {
       </DocNote>
 
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.attachmentComparison}>
-          <MessageAttachmentComparisonComposition />
+        <UsagePreview code={code.attachmentsShowcase}>
+          <MessageAttachmentsShowcaseComposition />
         </UsagePreview>
       </DocSection>
 
@@ -120,12 +120,6 @@ function MessageAttachmentDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
-          <DocSubsection parentId="usage" id="attachments" title="Attachments">
-            <UsagePreview code={code.attachmentsShowcase}>
-              <MessageAttachmentsShowcaseComposition />
-            </UsagePreview>
-          </DocSubsection>
-
           <DocSubsection
             parentId="usage"
             id="attachment-preview-surfaces"

@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
+import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -19,7 +18,6 @@ import { MessageQuotedPreviewSourcePreview } from "#/modules/message-quoted-prev
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -139,11 +137,6 @@ function MessageQuotedPreviewDoc() {
       description="Quoted message card composed inside a MessageItem body for thread and channel quotes."
       toc={TOC}
     >
-      <DocNote>
-        Body block for <Link to="/components/message-item">MessageItem</Link>. Exported from{" "}
-        <code>raft-ui/wip</code>.
-      </DocNote>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <UsagePreview code={code.quotedPreview}>
           <MessageQuotedPreviewShowcaseComposition />
@@ -156,14 +149,6 @@ function MessageQuotedPreviewDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
-      </DocSection>
-
-      <DocSection id="usage" title="Usage">
-        <DocSubsection parentId="usage" id="quoted-preview" title="Quoted preview">
-          <UsagePreview code={code.quotedPreview}>
-            <MessageQuotedPreviewShowcaseComposition />
-          </UsagePreview>
-        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

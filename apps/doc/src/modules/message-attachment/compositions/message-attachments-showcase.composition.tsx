@@ -80,7 +80,7 @@ export function MessageAttachmentsShowcaseComposition() {
   const theme = useThemeFamily();
 
   return (
-    <div className="flex w-full max-w-3xl flex-col gap-4">
+    <div className="w-full max-w-3xl">
       <MessageItem>
         <MessageItemAvatarSlot>
           <Avatar size="md" type="agent">
@@ -100,8 +100,33 @@ export function MessageAttachmentsShowcaseComposition() {
           </MessageItemBody>
           <MessageItemAttachments>
             <MessageImageGalleryPairComposition />
+            <MessageImageGalleryPendingComposition />
             <MessageVideoPreviewComposition />
-            <MessageFileAttachmentsComposition />
+            <MessageVideoPendingComposition />
+            <MessageAttachmentGroup>
+              <MessageFileAttachmentComposition />
+              <MessageAttachmentReadyComposition
+                name="screening.html"
+                meta="HTML preview · 44 KB"
+                primaryAction={<Download />}
+                primaryActionLabel="Download screening.html"
+                onPrimaryAction={() => downloadMessageFixture("screening.html")}
+              />
+              <MessageAttachmentReadyComposition
+                name="release-notes.md"
+                meta="Markdown · 1 KB"
+                primaryAction={<Download />}
+                primaryActionLabel="Download release-notes.md"
+                onPrimaryAction={() => downloadMessageFixture("release-notes.md")}
+              />
+              <MessageAttachmentPendingComposition name="metrics.csv" meta="CSV · 1 KB" />
+              <MessageAttachmentFailedComposition name="preview.mov" meta="Video · 18 KB" />
+              <MessageAttachmentOpeningComposition
+                name="architecture.pdf"
+                meta="PDF preview · 1.2 MB"
+                label="Opening preview…"
+              />
+            </MessageAttachmentGroup>
           </MessageItemAttachments>
           <MessageItemFooter>
             <Badge
@@ -124,28 +149,6 @@ export function MessageAttachmentsShowcaseComposition() {
         </MessageItemContent>
         <MessageRowToolbarFixture />
       </MessageItem>
-      <section className="flex flex-col gap-3" aria-labelledby="attachment-structural-states">
-        <div>
-          <h3 id="attachment-structural-states" className="text-sm font-bold text-foreground">
-            Structural preview states
-          </h3>
-          <p className="text-xs text-foreground-muted">
-            Component-only loading and failure coverage. The current sent-message flow does not emit
-            upload-pending or upload-failed attachments because the composer blocks send.
-          </p>
-        </div>
-        <MessageImageGalleryPendingComposition />
-        <MessageVideoPendingComposition />
-        <MessageAttachmentGroup>
-          <MessageAttachmentPendingComposition name="screening.html" meta="HTML · 44 KB" />
-          <MessageAttachmentFailedComposition name="preview.mov" meta="Video · 18 KB" />
-          <MessageAttachmentOpeningComposition
-            name="architecture.pdf"
-            meta="PDF preview · 1.2 MB"
-            label="Opening preview…"
-          />
-        </MessageAttachmentGroup>
-      </section>
     </div>
   );
 }

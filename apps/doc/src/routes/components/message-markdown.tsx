@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
+import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -19,7 +18,6 @@ import { MessageMarkdownSourcePreview } from "#/modules/message-markdown/message
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -105,14 +103,9 @@ function MessageMarkdownDoc() {
       description="Markdown body surface for message content — headings, lists, tables, and code blocks."
       toc={TOC}
     >
-      <DocNote>
-        Body block for <Link to="/components/message-item">MessageItem</Link>. Exported from{" "}
-        <code>raft-ui/wip</code>.
-      </DocNote>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.comparison}>
-          <MessageMarkdownComparisonComposition />
+        <UsagePreview code={code.markdown}>
+          <MessageMarkdownShowcaseComposition />
         </UsagePreview>
       </DocSection>
 
@@ -122,14 +115,6 @@ function MessageMarkdownDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
-      </DocSection>
-
-      <DocSection id="usage" title="Usage">
-        <DocSubsection parentId="usage" id="markdown" title="Markdown">
-          <UsagePreview code={code.markdown}>
-            <MessageMarkdownShowcaseComposition />
-          </UsagePreview>
-        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

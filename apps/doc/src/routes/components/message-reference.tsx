@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
+import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -19,7 +18,6 @@ import { MessageReferenceSourcePreview } from "#/modules/message-reference/messa
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -97,12 +95,6 @@ function MessageReferenceDoc() {
       description="Inline message references — mentions, permalinks, channel chips, and pending/unavailable states."
       toc={TOC}
     >
-      <DocNote>
-        Compose inside <Link to="/components/message-markdown">MessageMarkdown</Link> or{" "}
-        <Link to="/components/message-item">MessageItem</Link> body content. Exported from{" "}
-        <code>raft-ui/wip</code>.
-      </DocNote>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <UsagePreview code={code.referenceShowcase}>
           <MessageReferenceShowcaseComposition />
@@ -115,16 +107,6 @@ function MessageReferenceDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
-      </DocSection>
-
-      <DocSection id="usage" title="Usage">
-        <DocSubsection parentId="usage" id="references" title="MessageReference">
-          <UsagePreview code={code.referenceShowcase}>
-            <div className="w-full max-w-3xl">
-              <MessageReferenceShowcaseComposition />
-            </div>
-          </UsagePreview>
-        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">
