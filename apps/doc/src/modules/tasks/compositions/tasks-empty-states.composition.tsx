@@ -13,14 +13,14 @@ import { TasksToolbarFilterPlaceholder } from "./tasks-panel.composition";
 export function TasksEmptyStatesComposition() {
   return (
     <div className="grid w-full gap-4 lg:grid-cols-2">
-      <div className="flex min-h-80 border border-line">
+      <div className="flex min-h-80">
         <TasksPanelRoot>
           <TasksPanelViewport>
             <TaskEmptyState filtered={false} />
           </TasksPanelViewport>
         </TasksPanelRoot>
       </div>
-      <div className="flex min-h-80 border border-line">
+      <div className="flex min-h-80">
         <TasksPanelRoot>
           <TasksPanelToolbar>
             <TasksPanelToolbarGroup>

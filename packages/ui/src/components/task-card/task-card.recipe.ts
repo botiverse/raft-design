@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 export const taskCard = tv({
   slots: {
     root: [
-      "w-full px-[12px] py-[10px] text-left",
+      "relative w-full px-[12px] py-[10px] text-left",
       "transition-all duration-100",
       "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-40 data-[disabled=true]:transform-none",
       "group-data-[dragging=true]/task-draggable:transform-none group-data-[dragging=true]/task-draggable:shadow-sm",
@@ -43,7 +43,7 @@ export const taskCard = tv({
       elegant: {
         root: [
           "rounded-[8px] border-[0.5px] border-line-subtle bg-layer-panel shadow-xs",
-          "hover:bg-ink-2/15",
+          "hover:bg-ink-2/5",
           "active:bg-layer-strong active:shadow-xs",
         ],
         hit: [
@@ -53,7 +53,8 @@ export const taskCard = tv({
           "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",
         ],
         channel: ["font-medium text-foreground-muted"],
-        number: ["font-sans font-medium tabular-nums text-foreground-placeholder"],
+        meta: ["gap-[6px]"],
+        number: ["font-sans leading-[14px] font-medium tabular-nums text-foreground-placeholder"],
         legacy: [
           "rounded-[4px] border border-line-subtle bg-layer-muted",
           "font-sans leading-[12px] font-medium tracking-[0.2px] text-foreground-muted",

@@ -35,14 +35,18 @@ export const taskListSection = tv({
         ],
       },
       elegant: {
+        root: [
+          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-2)_60%,var(--layer-panel))] p-[12px] shadow-xs",
+        ],
+        heading: ["gap-[6px]"],
         trigger: [
-          "rounded-[6px]",
+          "rounded-[6px] pl-[13px] pr-[5px]",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
           "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",
         ],
         badge: [
-          "inline-flex items-center gap-[6px]",
+          "inline-flex items-center gap-[6px] px-0 py-0",
           "font-sans text-[12px] leading-[16px] font-medium text-foreground-muted",
           "[&_svg]:size-[14px] [&_svg]:shrink-0",
         ],

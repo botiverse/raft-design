@@ -86,9 +86,7 @@ export function TaskListComposition({
             >
               <TaskSectionTrigger>
                 <TaskSectionHeading>
-                  <TaskSectionBadge status={status.id}>
-                    {status.label.toUpperCase()}
-                  </TaskSectionBadge>
+                  <TaskSectionBadge status={status.id}>{status.label}</TaskSectionBadge>
                   <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
                 </TaskSectionHeading>
                 <TaskSectionChevron>

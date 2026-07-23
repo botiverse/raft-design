@@ -7,12 +7,11 @@ export const taskCardStatus = tv({
       "data-[busy=true]:pointer-events-none data-[busy=true]:opacity-60",
     ],
     trigger: [
-      "mt-[2px] inline-flex touch-manipulation items-center gap-[4px]",
+      "inline-flex touch-manipulation items-center gap-[4px]",
       "transition-[filter,opacity] duration-100",
       "outline-none",
       "disabled:cursor-not-allowed disabled:opacity-60",
       "data-[busy=true]:cursor-wait data-[busy=true]:disabled:opacity-100",
-      "[&_svg]:pointer-events-none [&_svg]:size-[10px] [&_svg]:shrink-0 [&_svg]:opacity-40",
     ],
     menuContent: ["min-w-[140px]"],
     menuItem: [
@@ -24,9 +23,11 @@ export const taskCardStatus = tv({
   variants: {
     theme: {
       brutal: {
+        root: ["absolute right-[12px] bottom-[10px]"],
         trigger: [
-          "border-2 border-line-strong px-[8px] py-[2px]",
+          "mt-[2px] border-2 border-line-strong px-[8px] py-[2px]",
           "text-[12px] leading-[16px] font-bold text-foreground",
+          "[&_svg]:pointer-events-none [&_svg]:size-[10px] [&_svg]:shrink-0 [&_svg]:opacity-40",
           "hover:brightness-90",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
@@ -38,9 +39,10 @@ export const taskCardStatus = tv({
         ],
       },
       elegant: {
+        root: ["flex h-[14px] items-center"],
         trigger: [
-          "rounded-full border border-transparent px-[10px] py-[2px]",
-          "font-sans text-[11px] leading-[12px] font-medium tracking-[0.22px]",
+          "flex h-[14px] items-center rounded-[4px] border border-transparent p-0 leading-none",
+          "[&_[data-slot=task-status-icon]]:pointer-events-none [&_[data-slot=task-status-icon]]:size-[14px] [&_[data-slot=task-status-icon]]:shrink-0",
           "transition-[filter,opacity]",
           "hover:brightness-[0.96] active:scale-[0.985]",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",

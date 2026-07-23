@@ -102,9 +102,7 @@ export function TaskBoardComposition({
               >
                 <TaskBoardColumnTrigger>
                   <TaskBoardColumnHeading>
-                    <TaskBoardColumnBadge status={status.id}>
-                      {status.label.toUpperCase()}
-                    </TaskBoardColumnBadge>
+                    <TaskBoardColumnBadge status={status.id}>{status.label}</TaskBoardColumnBadge>
                     <TaskBoardColumnCount>{statusTasks.length}</TaskBoardColumnCount>
                   </TaskBoardColumnHeading>
                   <TaskBoardColumnChevron>

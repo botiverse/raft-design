@@ -46,18 +46,19 @@ export const taskBoardColumn = tv({
       },
       elegant: {
         root: [
-          "rounded-[10px] border-[0.5px] border-ink-2/50 bg-ink-2",
+          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-2)_60%,var(--layer-panel))]",
           "data-[drop-state=allowed]:border-info-base/40 data-[drop-state=allowed]:bg-info-lighter/40 data-[drop-state=allowed]:shadow-sm",
           "data-[drop-state=blocked]:border-danger-base/40 data-[drop-state=blocked]:bg-danger-lighter/40",
         ],
+        heading: ["gap-[6px]"],
         trigger: [
-          "rounded-[6px]",
+          "rounded-[6px] pl-[8px]",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-panel",
           "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",
         ],
         badge: [
-          "inline-flex items-center gap-[6px]",
+          "inline-flex items-center gap-[6px] px-0 py-0",
           "font-sans text-[12px] leading-[16px] font-medium text-foreground-muted",
           "[&_svg]:size-[14px] [&_svg]:shrink-0",
         ],
