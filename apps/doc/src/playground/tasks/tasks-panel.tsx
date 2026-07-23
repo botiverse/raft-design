@@ -15,11 +15,15 @@ import {
   TasksPanelComposition,
   type TasksPanelCompositionProps,
 } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
+import { TasksIdentityFiltersComposition } from "#/modules/tasks/compositions/tasks-identity-filters.composition.tsx";
+import type { TasksIdentity } from "#/modules/tasks/tasks-identity-filter.fixtures.ts";
 import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";
 import {
   DEFAULT_CHANNEL_ID,
+  PLAYGROUND_ACTORS,
   PLAYGROUND_SERVER_SLUG,
   getPlaygroundChannel,
+  type PlaygroundActor,
   type PlaygroundChannelRecord,
   type PlaygroundTask,
 } from "../mock/index.ts";
@@ -29,6 +33,16 @@ type Tasks = NonNullable<TasksPanelCompositionProps["tasks"]>;
 type TaskView = NonNullable<TasksPanelCompositionProps["view"]>;
 
 const TASK_VIEW_MODE_STORAGE_KEY = "slock.tasks.viewMode";
+const CURRENT_ACTOR_ID = "cuvii";
+const TASK_FILTER_IDENTITIES: readonly TasksIdentity[] = PLAYGROUND_ACTORS.map(
+  (actor: PlaygroundActor) => ({
+    id: actor.id,
+    label: actor.name,
+    type: actor.type,
+    avatarSrc: actor.avatarSrc,
+    fallback: actor.fallback,
+  }),
+);
 
 function readInitialTaskView(): TaskView {
   if (typeof window === "undefined") return "board";
@@ -61,6 +75,8 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
     (): TaskView => "board",
   );
   const [viewOverride, setViewOverride] = useState<TaskView>();
+  const [creatorFilter, setCreatorFilter] = useState<string[]>([]);
+  const [assigneeFilter, setAssigneeFilter] = useState<string[]>([]);
   const view = viewOverride ?? initialView;
   const { tasks, setTasks } = usePlaygroundTaskState();
   const fallbackChannelId = channel?.id ?? DEFAULT_CHANNEL_ID;
@@ -134,6 +150,32 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
       )}
       <TasksPanelComposition
         tasks={compositionTasks}
+        toolbarFilters={
+          <TasksIdentityFiltersComposition
+            identities={TASK_FILTER_IDENTITIES}
+            creatorValue={creatorFilter}
+            onCreatorValueChange={setCreatorFilter}
+            assigneeValue={assigneeFilter}
+            onAssigneeValueChange={setAssigneeFilter}
+          />
+        }
+        filterTask={(task) => {
+          const creatorMatches =
+            creatorFilter.length === 0 ||
+            creatorFilter.some((creatorId) =>
+              creatorId === "me"
+                ? task.creatorId === CURRENT_ACTOR_ID
+                : task.creatorId === creatorId,
+            );
+          const assigneeMatches =
+            assigneeFilter.length === 0 ||
+            assigneeFilter.some((assigneeId) =>
+              assigneeId === "me"
+                ? task.assigneeId === CURRENT_ACTOR_ID
+                : (task.assigneeId ?? "unassigned") === assigneeId,
+            );
+          return creatorMatches && assigneeMatches;
+        }}
         view={view}
         onTasksChange={updateChannelTasks}
         onViewChange={setViewOverride}

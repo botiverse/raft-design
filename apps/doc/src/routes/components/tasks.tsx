@@ -10,6 +10,10 @@ import { TasksEmptyStatesComposition } from "#/modules/tasks/compositions/tasks-
 import tasksEmptyStatesCompositionSource from "#/modules/tasks/compositions/tasks-empty-states.composition.tsx?raw";
 import { TasksErrorComposition } from "#/modules/tasks/compositions/tasks-error.composition.tsx";
 import tasksErrorCompositionSource from "#/modules/tasks/compositions/tasks-error.composition.tsx?raw";
+import { TasksAssigneeFilterComposition } from "#/modules/tasks/compositions/tasks-assignee-filter.composition.tsx";
+import tasksAssigneeFilterCompositionSource from "#/modules/tasks/compositions/tasks-assignee-filter.composition.tsx?raw";
+import { TasksCreatorFilterComposition } from "#/modules/tasks/compositions/tasks-creator-filter.composition.tsx";
+import tasksCreatorFilterCompositionSource from "#/modules/tasks/compositions/tasks-creator-filter.composition.tsx?raw";
 import { TasksLoadingComposition } from "#/modules/tasks/compositions/tasks-loading.composition.tsx";
 import tasksLoadingCompositionSource from "#/modules/tasks/compositions/tasks-loading.composition.tsx?raw";
 import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
@@ -119,6 +123,8 @@ export const Route = createFileRoute("/components/tasks")({
       data: {
         anatomy: ANATOMY_SNIPPET,
         panel: stripSourceCodeBlocks(tasksPanelCompositionSource),
+        assigneeFilter: tasksAssigneeFilterCompositionSource,
+        creatorFilter: tasksCreatorFilterCompositionSource,
         loading: tasksLoadingCompositionSource,
         empty: tasksEmptyStatesCompositionSource,
         error: tasksErrorCompositionSource,
@@ -174,6 +180,36 @@ function TasksDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
+          <DocSubsection parentId="usage" id="creator-filter" title="Creator filter">
+            <p className="mb-4 text-sm text-foreground/70">
+              The current-user shortcut uses the current user&apos;s identity value and replaces
+              their duplicate avatar row.
+            </p>
+            <Preview previewClassName="h-80 items-stretch p-0">
+              <Preview.Canvas>
+                <div className="flex h-full items-start justify-center pt-8">
+                  <TasksCreatorFilterComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.creatorFilter} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="assignee-filter" title="Assignee filter">
+            <p className="mb-4 text-sm text-foreground/70">
+              Assignee uses the same external identity data and adds explicit Assigned to me and
+              Unassigned options.
+            </p>
+            <Preview previewClassName="h-80 items-stretch p-0">
+              <Preview.Canvas>
+                <div className="flex h-full items-start justify-center pt-8">
+                  <TasksAssigneeFilterComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.assigneeFilter} />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="loading" title="Loading">
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>

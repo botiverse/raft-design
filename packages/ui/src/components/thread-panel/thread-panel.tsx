@@ -131,6 +131,27 @@ export function ThreadPanelOriginalMessage({
   );
 }
 
+export type ThreadPanelReplySummaryProps = useRender.ComponentProps<"div">;
+
+export function ThreadPanelReplySummary({
+  className,
+  render,
+  ...props
+}: ThreadPanelReplySummaryProps) {
+  const theme = useThemeFamily();
+  const { replySummary } = threadPanel({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "thread-panel-reply-summary",
+    className: replySummary({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type ThreadPanelReplyCountProps = useRender.ComponentProps<"div">;
 
 export function ThreadPanelReplyCount({ className, render, ...props }: ThreadPanelReplyCountProps) {

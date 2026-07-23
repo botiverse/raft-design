@@ -61,8 +61,8 @@ import selectionPopoverComboboxCompositionSource from "#/modules/combobox/compos
 import { SelectionPopoverComboboxComposition } from "#/modules/combobox/compositions/selection-popover-combobox.composition.tsx";
 import tasksChannelFilterCompositionSource from "#/modules/combobox/compositions/tasks-channel-filter.composition.tsx?raw";
 import { TasksChannelFilterComposition } from "#/modules/combobox/compositions/tasks-channel-filter.composition.tsx";
-import tasksIdentityFilterCompositionSource from "#/modules/combobox/compositions/tasks-identity-filter.composition.tsx?raw";
-import { TasksIdentityFilterComposition } from "#/modules/combobox/compositions/tasks-identity-filter.composition.tsx";
+import tasksIdentityFiltersCompositionSource from "#/modules/tasks/compositions/tasks-identity-filters.composition.tsx?raw";
+import { TasksIdentityFiltersComposition } from "#/modules/tasks/compositions/tasks-identity-filters.composition.tsx";
 import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.tsx";
 import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
@@ -770,8 +770,8 @@ const SELECTION_POPOVER_COMBOBOX_COMPOSITION_PATH =
   "apps/doc/src/modules/combobox/compositions/selection-popover-combobox.composition.tsx" as const;
 const TASKS_CHANNEL_FILTER_COMPOSITION_PATH =
   "apps/doc/src/modules/combobox/compositions/tasks-channel-filter.composition.tsx" as const;
-const TASKS_IDENTITY_FILTER_COMPOSITION_PATH =
-  "apps/doc/src/modules/combobox/compositions/tasks-identity-filter.composition.tsx" as const;
+const TASKS_IDENTITY_FILTERS_COMPOSITION_PATH =
+  "apps/doc/src/modules/tasks/compositions/tasks-identity-filters.composition.tsx" as const;
 
 const COMPACT_LIST_AVATAR = (
   <LegacyAvatarSlot
@@ -794,7 +794,7 @@ export const Route = createFileRoute("/components/combobox")({
         messageSearchSenderFilterComposition: messageSearchSenderFilterCompositionSource,
         selectionPopoverComboboxComposition: selectionPopoverComboboxCompositionSource,
         tasksChannelFilterComposition: tasksChannelFilterCompositionSource,
-        tasksIdentityFilterComposition: tasksIdentityFilterCompositionSource,
+        tasksIdentityFiltersComposition: tasksIdentityFiltersCompositionSource,
       },
     }),
 });
@@ -1597,22 +1597,22 @@ function ComboboxDoc() {
             },
             {
               id: "source-comparison-tasks-identity",
-              label: "Tasks — identity filter",
+              label: "Tasks — identity filters",
               status: "difference",
               note: (
                 <>
-                  <InlineCode>TasksPanel.tsx</InlineCode>. Searchable assignee picker. Sentinel and
-                  avatar rows share one list.
+                  <InlineCode>TasksPanel.tsx</InlineCode>. Searchable creator and assignee pickers.
+                  Sentinel and avatar rows share one list.
                 </>
               ),
               source: <SourceTasksIdentityFilterComparison />,
-              brutal: <TasksIdentityFilterComposition />,
-              elegant: <TasksIdentityFilterComposition />,
-              elegantDark: <TasksIdentityFilterComposition />,
-              compositionCode: code.tasksIdentityFilterComposition,
-              compositionCollapsedCode: code.tasksIdentityFilterCompositionBody,
-              compositionPath: TASKS_IDENTITY_FILTER_COMPOSITION_PATH,
-              compositionSource: tasksIdentityFilterCompositionSource,
+              brutal: <TasksIdentityFiltersComposition initialOpen="assignee" />,
+              elegant: <TasksIdentityFiltersComposition initialOpen="assignee" />,
+              elegantDark: <TasksIdentityFiltersComposition initialOpen="assignee" />,
+              compositionCode: code.tasksIdentityFiltersComposition,
+              compositionCollapsedCode: code.tasksIdentityFiltersCompositionBody,
+              compositionPath: TASKS_IDENTITY_FILTERS_COMPOSITION_PATH,
+              compositionSource: tasksIdentityFiltersCompositionSource,
               compositionShowLineNumbers: false,
             },
           ]}

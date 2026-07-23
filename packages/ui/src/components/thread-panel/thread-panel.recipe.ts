@@ -15,6 +15,7 @@ export const threadPanel = tv({
     searchTrailing: ["ml-auto flex shrink-0 items-center gap-1.5"],
     searchCount: ["shrink-0 whitespace-nowrap font-mono text-xs tabular-nums"],
     originalMessage: ["relative shrink-0"],
+    replySummary: ["px-3 pt-2"],
     replyCount: ["mb-1 border-b pb-2 text-center font-mono text-xs"],
     footer: ["text-xs"],
   },
@@ -29,8 +30,8 @@ export const threadPanel = tv({
         search: "border-b-2 border-black bg-white",
         searchCount: "text-black/50",
         originalMessage: [
-          "bg-white border-b-2 border-black",
-          "[&_[data-slot=message-item]]:bg-white",
+          "bg-white px-[10px] border-b-2 border-black",
+          "[&_[data-message-item]]:bg-white",
         ],
         replyCount: "border-black/10 text-black/40",
         footer: "border-t-2 border-black bg-white text-black/50",
@@ -39,9 +40,8 @@ export const threadPanel = tv({
         root: "bg-transparent font-sans text-foreground",
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
-          "border-b-0 bg-layer-page",
+          "border-b border-line-subtle bg-layer-page lg:border-l lg:pl-[19px]",
           "max-lg:gap-2 max-lg:px-[14px] max-md:h-[var(--shell-header-height,56px)]",
-          "max-lg:border-b max-lg:border-line-subtle",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
           "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-sm",
           "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
@@ -49,8 +49,8 @@ export const threadPanel = tv({
         ],
         content: [
           "relative overflow-clip",
-          "bg-layer-panel md:shadow-xl",
-          "[&_[data-slot=message-item]]:px-5 [&_[data-slot=message-item]]:max-lg:px-[14px]",
+          "bg-layer-panel",
+          "[&_[data-message-item]]:px-[18px] [&_[data-message-item]]:max-lg:px-[12px]",
         ],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
@@ -67,8 +67,9 @@ export const threadPanel = tv({
         originalMessage: [
           "bg-transparent",
           "border-b border-line-subtle",
-          "[&_[data-slot=message-item]]:bg-transparent",
+          "[&_[data-message-item]]:bg-transparent",
         ],
+        replySummary: "px-5 max-lg:px-[14px]",
         replyCount: "border-line-muted text-foreground-muted",
         footer: ["px-5 max-lg:px-[14px] md:px-5 max-md:px-[14px]", "text-foreground-muted"],
       },

@@ -83,8 +83,10 @@ const SNIPPETS = {
   </ThreadPanelOriginalMessage>
   <ThreadPanelBody>
     <MessageList>
-      <MessageListNotice />
-      <ThreadPanelReplyCount />
+      <ThreadPanelReplySummary>
+        <MessageListNotice />
+        <ThreadPanelReplyCount />
+      </ThreadPanelReplySummary>
       <MessageListDateDivider />
       <MessageItem />
       <MessageItemSearchMatch />
@@ -204,6 +206,15 @@ const THREAD_PANEL_REPLY_COUNT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "div props",
     description: "Labels the reply count above the message list.",
+  },
+];
+
+const THREAD_PANEL_REPLY_SUMMARY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description:
+      "Aligns the reply notice and count with the thread panel content gutter for the active theme.",
   },
 ];
 
@@ -364,6 +375,13 @@ function ThreadPanelDoc() {
             title="ThreadPanelOriginalMessage"
           >
             <PropsTable rows={THREAD_PANEL_ORIGINAL_MESSAGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-thread-panel-reply-summary"
+            title="ThreadPanelReplySummary"
+          >
+            <PropsTable rows={THREAD_PANEL_REPLY_SUMMARY_PROPS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"

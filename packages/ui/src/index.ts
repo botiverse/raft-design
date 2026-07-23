@@ -519,6 +519,7 @@ export {
   ComboboxRow,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerCount,
   ComboboxTriggerIndicator,
   ComboboxValue,
 } from "./components/combobox/index";
@@ -546,6 +547,7 @@ export type {
   ComboboxRowProps,
   ComboboxSeparatorProps,
   ComboboxTriggerIndicatorProps,
+  ComboboxTriggerCountProps,
   ComboboxTriggerProps,
   ComboboxValueProps,
 } from "./components/combobox/index";
@@ -960,6 +962,7 @@ export {
   ThreadPanelHeader,
   ThreadPanelOriginalMessage,
   ThreadPanelReplyCount,
+  ThreadPanelReplySummary,
   ThreadPanelRoot,
   ThreadPanelSearch,
   ThreadPanelSearchCount,
@@ -975,6 +978,7 @@ export type {
   ThreadPanelHeaderProps,
   ThreadPanelOriginalMessageProps,
   ThreadPanelReplyCountProps,
+  ThreadPanelReplySummaryProps,
   ThreadPanelRootProps,
   ThreadPanelSearchCountProps,
   ThreadPanelSearchProps,

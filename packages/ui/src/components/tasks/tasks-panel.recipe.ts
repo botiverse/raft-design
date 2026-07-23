@@ -29,13 +29,13 @@ export const tasksPanel = tv({
         viewport: ["bg-layer-panel"],
       },
       elegant: {
-        toolbar: ["border-b border-line-subtle bg-layer-panel"],
+        toolbar: ["border-b border-line-subtle bg-layer-panel px-[28px]"],
         toolbarLabel: [
           "gap-[6px] rounded-[4px] border border-transparent bg-transparent px-[10px] py-[7px]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
           "font-sans font-medium text-foreground-muted",
         ],
-        viewport: ["bg-layer-panel"],
+        viewport: ["bg-layer-panel px-[28px]"],
       },
     },
   },

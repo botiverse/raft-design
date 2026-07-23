@@ -102,6 +102,7 @@ export function PlaygroundChatShell() {
               key={activeThread.parent.id}
               backToTasks={from === "tasks"}
               channel={channel}
+              task={task}
               thread={activeThread}
             />
           ) : undefined
@@ -170,7 +171,7 @@ function PlaygroundChatLayout({
             className={
               theme === "brutal"
                 ? "z-50 ml-0 w-0 border-l-2 border-black bg-transparent"
-                : "z-50 bg-line-subtle"
+                : "z-50 bg-transparent"
             }
           />
           <ResizablePanel
@@ -197,7 +198,7 @@ function getPlaygroundTaskThread(task: PlaygroundTask): PlaygroundThread {
       senderType: getPlaygroundActor(task.creatorActorId).type === "agent" ? "agent" : "user",
       senderId: task.creatorActorId,
       messageType: "chat",
-      createdAt: `Task #${task.number}`,
+      createdAt: "",
       content: task.description ? `${task.title}\n${task.description}` : task.title,
       reactions: [],
     },

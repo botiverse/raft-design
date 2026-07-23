@@ -26,6 +26,7 @@ function MessageItemRoot({
   const theme = useThemeFamily();
   const { root } = messageItem({ compact, rowState, theme });
   const defaultProps: useRender.ElementProps<"div"> & SlotElementProps<"div"> = {
+    "data-message-item": "",
     "data-compact": compact ? "true" : undefined,
     className: root({ className }),
     onSelect: clearTouchTextSelection,
