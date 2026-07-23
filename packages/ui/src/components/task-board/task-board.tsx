@@ -1,0 +1,230 @@
+import { Collapsible } from "@base-ui/react/collapsible";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import type { ComponentProps } from "react";
+import type { SlotElementProps } from "../../lib/data-attributes";
+import { useThemeFamily } from "../../lib/theme/use-theme";
+import { taskBoardColumn } from "./task-board-column.recipe";
+import { taskBoard } from "./task-board.recipe";
+
+export type TaskBoardRootProps = useRender.ComponentProps<"div">;
+export function TaskBoardRoot({ className, render, ...props }: TaskBoardRootProps) {
+  const theme = useThemeFamily();
+  const { root } = taskBoard({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "task-board-root",
+    className: root({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnProps = Omit<ComponentProps<typeof Collapsible.Root>, "className"> & {
+  className?: string;
+};
+export function TaskBoardColumn({ className, render, ...props }: TaskBoardColumnProps) {
+  const theme = useThemeFamily();
+  const { root } = taskBoardColumn({ theme });
+  return (
+    <Collapsible.Root
+      data-slot="task-board-column"
+      className={root({ className })}
+      render={render ?? <section />}
+      {...props}
+    />
+  );
+}
+
+export type TaskBoardColumnTriggerProps = Omit<
+  ComponentProps<typeof Collapsible.Trigger>,
+  "className"
+> & {
+  className?: string;
+};
+export function TaskBoardColumnTrigger({ className, ...props }: TaskBoardColumnTriggerProps) {
+  const theme = useThemeFamily();
+  const { trigger } = taskBoardColumn({ theme });
+  return (
+    <Collapsible.Trigger
+      data-slot="task-board-column-trigger"
+      className={trigger({ className })}
+      {...props}
+    />
+  );
+}
+
+export type TaskBoardColumnHeadingProps = useRender.ComponentProps<"span">;
+export function TaskBoardColumnHeading({
+  className,
+  render,
+  ...props
+}: TaskBoardColumnHeadingProps) {
+  const theme = useThemeFamily();
+  const { heading } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "task-board-column-heading",
+    className: heading({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnBadgeProps = useRender.ComponentProps<"span">;
+export function TaskBoardColumnBadge({ className, render, ...props }: TaskBoardColumnBadgeProps) {
+  const theme = useThemeFamily();
+  const { badge } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "task-board-column-badge",
+    className: badge({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnCountProps = useRender.ComponentProps<"span">;
+export function TaskBoardColumnCount({ className, render, ...props }: TaskBoardColumnCountProps) {
+  const theme = useThemeFamily();
+  const { count } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "task-board-column-count",
+    className: count({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnChevronProps = useRender.ComponentProps<"span">;
+export function TaskBoardColumnChevron({
+  className,
+  render,
+  ...props
+}: TaskBoardColumnChevronProps) {
+  const theme = useThemeFamily();
+  const { chevron } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "task-board-column-chevron",
+    className: chevron({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnPanelProps = Omit<
+  ComponentProps<typeof Collapsible.Panel>,
+  "className"
+> & {
+  className?: string;
+};
+export function TaskBoardColumnPanel({ className, ...props }: TaskBoardColumnPanelProps) {
+  const theme = useThemeFamily();
+  const { panel } = taskBoardColumn({ theme });
+  return (
+    <Collapsible.Panel
+      data-slot="task-board-column-panel"
+      className={panel({ className })}
+      {...props}
+    />
+  );
+}
+
+export type TaskBoardColumnItemsProps = useRender.ComponentProps<"div">;
+export function TaskBoardColumnItems({ className, render, ...props }: TaskBoardColumnItemsProps) {
+  const theme = useThemeFamily();
+  const { items } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "task-board-column-items",
+    className: items({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnEmptyProps = useRender.ComponentProps<"div">;
+export function TaskBoardColumnEmpty({ className, render, ...props }: TaskBoardColumnEmptyProps) {
+  const theme = useThemeFamily();
+  const { empty } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "task-board-column-empty",
+    className: empty({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnEmptyIdleProps = useRender.ComponentProps<"span">;
+export function TaskBoardColumnEmptyIdle({
+  className,
+  render,
+  ...props
+}: TaskBoardColumnEmptyIdleProps) {
+  const theme = useThemeFamily();
+  const { emptyIdle } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "task-board-column-empty-idle",
+    className: emptyIdle({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnEmptyAllowedProps = useRender.ComponentProps<"span">;
+export function TaskBoardColumnEmptyAllowed({
+  className,
+  render,
+  ...props
+}: TaskBoardColumnEmptyAllowedProps) {
+  const theme = useThemeFamily();
+  const { emptyAllowed } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "task-board-column-empty-allowed",
+    className: emptyAllowed({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type TaskBoardColumnEmptyBlockedProps = useRender.ComponentProps<"span">;
+export function TaskBoardColumnEmptyBlocked({
+  className,
+  render,
+  ...props
+}: TaskBoardColumnEmptyBlockedProps) {
+  const theme = useThemeFamily();
+  const { emptyBlocked } = taskBoardColumn({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "task-board-column-empty-blocked",
+    className: emptyBlocked({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}

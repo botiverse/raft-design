@@ -6,10 +6,10 @@ import {
   TaskCardChannel,
   TaskCardDescription,
   TaskCardFooter,
+  TaskCardHit,
   TaskCardLegacy,
   TaskCardMeta,
   TaskCardNumber,
-  TaskCardOpen,
   TaskCardRow,
   TaskCardStatus,
   TaskCardStatusTrigger,
@@ -25,7 +25,7 @@ import {
   type TaskFixture,
   type TaskStatus,
 } from "../task-card.fixtures";
-import { TASK_STATUS_OPTIONS, TASK_STATUS_TONES } from "../task-card.constants";
+import { TASK_STATUS_OPTIONS, TASK_STATUS_SURFACE } from "../task-card.constants";
 
 export function TaskCardComposition({
   task,
@@ -50,7 +50,7 @@ export function TaskCardComposition({
 }) {
   return (
     <TaskCard disabled={disabled}>
-      <TaskCardOpen disabled={disabled || readOnly || !onOpen} onClick={() => onOpen?.(task)}>
+      <TaskCardHit disabled={disabled || readOnly || !onOpen} onClick={() => onOpen?.(task)}>
         <TaskCardRow>
           <TaskCardBody>
             <TaskCardMeta>
@@ -64,22 +64,22 @@ export function TaskCardComposition({
             ) : null}
           </TaskCardBody>
         </TaskCardRow>
-      </TaskCardOpen>
+      </TaskCardHit>
       <TaskCardFooter>
         {readOnly ? (
           <TaskCardStatus busy={busy}>
-            <TaskCardStatusTrigger tone={TASK_STATUS_TONES[task.status]} render={<span />}>
+            <TaskCardStatusTrigger className={TASK_STATUS_SURFACE[task.status]} render={<span />}>
               {getTaskStatusLabel(task.status)} <Pencil aria-hidden />
             </TaskCardStatusTrigger>
           </TaskCardStatus>
         ) : (
-          <DropdownMenu defaultOpen={menuOpen}>
+          <DropdownMenu defaultOpen={menuOpen} modal={false}>
             <TaskCardStatus busy={busy}>
               <DropdownMenuTrigger
                 disabled={disabled || busy || !onStatusChange}
                 render={
                   <TaskCardStatusTrigger
-                    tone={TASK_STATUS_TONES[task.status]}
+                    className={TASK_STATUS_SURFACE[task.status]}
                     busy={busy}
                     disabled={disabled || busy || !onStatusChange}
                   />

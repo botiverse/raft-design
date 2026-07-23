@@ -18,7 +18,7 @@ import { TaskCardPanelSourceComparisonComposition } from "#/modules/task-card/ta
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const ANATOMY_SNIPPET = `<TaskCard>
-  <TaskCardOpen>
+  <TaskCardHit>
     <TaskCardRow>
       <TaskCardBody>
         <TaskCardMeta>
@@ -30,7 +30,7 @@ const ANATOMY_SNIPPET = `<TaskCard>
         <TaskCardDescription />
       </TaskCardBody>
     </TaskCardRow>
-  </TaskCardOpen>
+  </TaskCardHit>
   <TaskCardFooter>
     <TaskCardStatus>
       <TaskCardStatusTrigger />
@@ -52,7 +52,11 @@ const SOURCE_SCENES = [
     scenes: [
       {
         label: "TaskCard.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/task/TaskCard.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock-ui/packages/ui/source/tasks/TaskCard.tsx",
+      },
+      {
+        label: "taskStatusUi.ts",
+        path: "/Users/cuvii/Development/zolplay/slock-ui/packages/ui/source/tasks/taskStatusUi.ts",
       },
     ],
   },
@@ -74,15 +78,15 @@ const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"article">',
-    description: "Card root. Compose open, body, and footer parts as children.",
+    description: "Card root. Compose hit, body, and footer parts as children.",
   },
 ];
 
-const OPEN_PROPS: readonly PropRow[] = [
+const HIT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"button">',
-    description: "Primary card action. The consumer decides what opening a task does.",
+    description: "Primary card hit target. The consumer decides what activating a task does.",
   },
 ];
 
@@ -174,11 +178,6 @@ const STATUS_PROPS: readonly PropRow[] = [
 
 const STATUS_TRIGGER_PROPS: readonly PropRow[] = [
   {
-    name: "tone",
-    type: "TaskStatusTone",
-    description: "Status tone used for trigger styling.",
-  },
-  {
     name: "busy",
     type: "boolean",
     default: "false",
@@ -188,7 +187,7 @@ const STATUS_TRIGGER_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"button">',
     description:
-      "Status trigger button. Compose it with the menu primitive that owns selection behavior.",
+      "Status trigger button. Pass surface color via className; compose with the menu primitive that owns selection behavior.",
   },
 ];
 
@@ -230,6 +229,9 @@ function TaskCardDoc() {
       description="Business-agnostic task-card parts for composing metadata, content, and status actions."
       overview={
         <Differences from="Slock TaskCard">
+          <li>
+            ships as a peer of <code>TasksPanel</code>, not nested inside the panel compound
+          </li>
           <li>keeps stores, permissions, routing, and status-transition policy in the consumer</li>
           <li>
             exposes metadata and content as explicit compound parts instead of task-shaped props
@@ -273,8 +275,8 @@ function TaskCardDoc() {
           <DocSubsection parentId="api" id="api-root" title="TaskCard">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-open" title="TaskCardOpen">
-            <PropsTable rows={OPEN_PROPS} />
+          <DocSubsection parentId="api" id="api-hit" title="TaskCardHit">
+            <PropsTable rows={HIT_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-row" title="TaskCardRow">
             <PropsTable rows={ROW_PROPS} />
@@ -320,12 +322,12 @@ function TaskCardDoc() {
 
       <DocSection id="source-comparison" title="Source comparison">
         <SourceComparison
-          layout="grid"
+          previewSize="tall"
           items={[
             {
               label: "Channel task card",
               status: "review",
-              note: "The Source pane is a static fixture extracted from the real channel-scoped TaskCard DOM; the three Current panes execute the canonical TaskCard panel composition with consumer-owned actions.",
+              note: "Source and Brutal only while Elegant TaskCard recipes are empty. Source is a static channel-scoped TaskCard DOM fixture; Brutal runs the canonical panel composition with consumer-owned actions.",
               sourceScenes: SOURCE_SCENES,
               source: (
                 <SourceThemeScope className="w-full">
@@ -333,12 +335,11 @@ function TaskCardDoc() {
                 </SourceThemeScope>
               ),
               brutal: <TaskCardPanelComparisonComposition />,
-              elegant: <TaskCardPanelComparisonComposition />,
-              elegantDark: <TaskCardPanelComparisonComposition />,
               compositionCode: code.panelComparison,
               compositionPath:
                 "apps/doc/src/modules/task-card/compositions/task-card-panel-comparison.composition.tsx",
               compositionSource: taskCardPanelComparisonSource,
+              previewClassName: "items-stretch",
             },
           ]}
         />

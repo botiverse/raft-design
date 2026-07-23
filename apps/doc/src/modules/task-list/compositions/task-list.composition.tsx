@@ -1,0 +1,136 @@
+import { useMemo, useRef, useState } from "react";
+import {
+  TaskListRoot,
+  TaskSection,
+  TaskSectionBadge,
+  TaskSectionChevron,
+  TaskSectionCount,
+  TaskSectionEmpty,
+  TaskSectionHeading,
+  TaskSectionItems,
+  TaskSectionPanel,
+  TaskSectionTrigger,
+} from "raft-ui/wip";
+import { ChevronDown } from "lucide-react";
+
+import { TASK_STATUS_SURFACE } from "#/modules/task-card/task-card.constants.ts";
+import {
+  getTaskStatusLabel,
+  TASK_FIXTURES,
+  TASK_STATUSES,
+  type TaskFixture,
+  type TaskStatus,
+} from "#/modules/task-card/task-card.fixtures.ts";
+import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
+
+const DEFAULT_COLLAPSED: Record<TaskStatus, boolean> = {
+  todo: false,
+  in_progress: false,
+  in_review: false,
+  done: true,
+  closed: true,
+};
+
+const EXPANDED: Record<TaskStatus, boolean> = {
+  todo: false,
+  in_progress: false,
+  in_review: false,
+  done: false,
+  closed: false,
+};
+
+/** Sparse set so In Review / Done / Closed render section empties. */
+const EMPTY_SECTION_TASKS = [TASK_FIXTURES[0], TASK_FIXTURES[2]] as const;
+
+export type TaskListCompositionProps = {
+  tasks?: readonly TaskFixture[];
+  showChannelName?: boolean;
+  /** When true, every status section starts expanded (useful for empty-section demos). */
+  expandAll?: boolean;
+};
+
+export function TaskListComposition({
+  tasks: controlledTasks,
+  showChannelName = false,
+  expandAll = false,
+}: TaskListCompositionProps) {
+  const portalRef = useRef<HTMLDivElement>(null);
+  const [localTasks, setLocalTasks] = useState<readonly TaskFixture[]>(TASK_FIXTURES);
+  const [collapsed, setCollapsed] = useState<Record<TaskStatus, boolean>>(
+    expandAll ? EXPANDED : DEFAULT_COLLAPSED,
+  );
+  const [announcement, setAnnouncement] = useState("Ready");
+
+  const tasks = controlledTasks ?? localTasks;
+  const sortedTasks = useMemo(
+    () => [...tasks].sort((a, b) => b.taskNumber - a.taskNumber),
+    [tasks],
+  );
+
+  const updateStatus = (taskId: string, status: TaskStatus) => {
+    const task = tasks.find((item) => item.id === taskId);
+    if (!task || task.status === status) return;
+    const next = tasks.map((item) => (item.id === taskId ? { ...item, status } : item));
+    if (controlledTasks === undefined) setLocalTasks(next);
+    setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
+  };
+
+  return (
+    <div ref={portalRef} className="relative h-full min-h-0 w-full min-w-0 overflow-auto p-4">
+      <TaskListRoot>
+        {TASK_STATUSES.map((status) => {
+          const statusTasks = sortedTasks.filter((task) => task.status === status.id);
+          return (
+            <TaskSection
+              key={status.id}
+              open={!collapsed[status.id]}
+              onOpenChange={(open) =>
+                setCollapsed((current) => ({ ...current, [status.id]: !open }))
+              }
+            >
+              <TaskSectionTrigger>
+                <TaskSectionHeading>
+                  <TaskSectionBadge className={TASK_STATUS_SURFACE[status.id]}>
+                    {status.label.toUpperCase()}
+                  </TaskSectionBadge>
+                  <TaskSectionCount>{statusTasks.length}</TaskSectionCount>
+                </TaskSectionHeading>
+                <TaskSectionChevron>
+                  <ChevronDown aria-hidden />
+                </TaskSectionChevron>
+              </TaskSectionTrigger>
+              <TaskSectionPanel>
+                {statusTasks.length === 0 ? (
+                  <TaskSectionEmpty>No {status.label.toLowerCase()} tasks.</TaskSectionEmpty>
+                ) : (
+                  <TaskSectionItems>
+                    {statusTasks.map((task) => (
+                      <TaskCardComposition
+                        key={task.id}
+                        task={task}
+                        onOpen={(item) =>
+                          setAnnouncement(`Opened task #${item.taskNumber}: ${item.title}`)
+                        }
+                        onStatusChange={updateStatus}
+                        portalRef={portalRef}
+                        showChannelName={showChannelName}
+                      />
+                    ))}
+                  </TaskSectionItems>
+                )}
+              </TaskSectionPanel>
+            </TaskSection>
+          );
+        })}
+      </TaskListRoot>
+      <span className="sr-only" aria-live="polite">
+        {announcement}
+      </span>
+    </div>
+  );
+}
+
+/** Section empties for In Review / Done / Closed. */
+export function TaskListEmptySectionsComposition() {
+  return <TaskListComposition tasks={EMPTY_SECTION_TASKS} expandAll />;
+}

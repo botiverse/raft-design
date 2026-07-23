@@ -18,21 +18,30 @@ const banner = tv({
     theme: {
       brutal: {
         root: [
-          "grid-cols-[0_minmax(0,1fr)] items-start border-2 border-line-strong",
+          "grid-cols-[0_minmax(0,1fr)] items-center border-2 border-line-strong",
           "has-[>[data-slot=banner-action]]:grid-cols-[0_minmax(0,1fr)_auto]",
           "has-[>svg]:grid-cols-[18px_minmax(0,1fr)]",
           "has-[>[data-slot=status]]:grid-cols-[auto_minmax(0,1fr)]",
           "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
           "[&:has(>[data-slot=status]):has(>[data-slot=banner-action])]:grid-cols-[auto_minmax(0,1fr)_auto]",
-          "[&>svg]:row-span-2 [&>svg]:mt-0.5 [&>svg]:size-[18px] [&>svg]:text-foreground-strong",
-          "[&>[data-slot=status]]:row-span-2",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:items-start",
+          "[&>svg]:size-[18px] [&>svg]:self-center [&>svg]:text-foreground-strong",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:row-span-2",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:mt-0.5",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:self-start",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>[data-slot=status]]:row-span-2",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>[data-slot=banner-action]]:row-span-2",
         ],
-        title: ["col-start-2 mb-0.5 text-sm font-bold", "group-data-[size=sm]/banner:text-xs"],
-        description: [
-          "col-start-2 text-sm text-foreground-strong",
+        title: [
+          "col-start-2 row-start-1 mb-0.5 text-sm font-bold",
           "group-data-[size=sm]/banner:text-xs",
         ],
-        action: ["col-start-3 row-span-2 row-start-1"],
+        description: [
+          "col-start-2 row-start-1 text-sm leading-5 text-foreground-strong",
+          "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
+          "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
+        ],
+        action: ["col-start-3 row-start-1 flex items-center"],
       },
       elegant: {
         root: [

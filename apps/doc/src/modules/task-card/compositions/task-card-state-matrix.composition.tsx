@@ -12,40 +12,43 @@ export function TaskCardStateMatrixComposition() {
     setNotice(`${taskId} selected ${status}`);
 
   return (
-    <div
-      ref={portalRef}
-      className="relative grid w-full max-w-5xl gap-4 md:grid-cols-2 xl:grid-cols-3"
-    >
-      <TaskCardComposition
-        task={TASK_FIXTURES[0]}
-        onOpen={handleOpen}
-        onStatusChange={handleStatus}
-        portalRef={portalRef}
+    <div className="relative w-full max-w-5xl">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <TaskCardComposition
+          task={TASK_FIXTURES[0]}
+          onOpen={handleOpen}
+          onStatusChange={handleStatus}
+          portalRef={portalRef}
+        />
+        <TaskCardComposition
+          task={TASK_FIXTURES[1]}
+          onOpen={handleOpen}
+          onStatusChange={handleStatus}
+          portalRef={portalRef}
+        />
+        <TaskCardComposition
+          task={TASK_FIXTURES[3]}
+          onOpen={handleOpen}
+          onStatusChange={handleStatus}
+          portalRef={portalRef}
+        />
+        <TaskCardComposition task={TASK_FIXTURES[0]} disabled />
+        <TaskCardComposition task={TASK_FIXTURES[2]} busy onOpen={handleOpen} />
+        <TaskCardComposition
+          task={TASK_FIXTURES[4]}
+          menuOpen
+          onOpen={handleOpen}
+          onStatusChange={handleStatus}
+          portalRef={portalRef}
+        />
+        <p className="col-span-full text-sm text-foreground-muted" aria-live="polite">
+          {notice}
+        </p>
+      </div>
+      <div
+        ref={portalRef}
+        className="pointer-events-none absolute inset-0 z-50 [&>*]:pointer-events-auto"
       />
-      <TaskCardComposition
-        task={TASK_FIXTURES[1]}
-        onOpen={handleOpen}
-        onStatusChange={handleStatus}
-        portalRef={portalRef}
-      />
-      <TaskCardComposition
-        task={TASK_FIXTURES[3]}
-        onOpen={handleOpen}
-        onStatusChange={handleStatus}
-        portalRef={portalRef}
-      />
-      <TaskCardComposition task={TASK_FIXTURES[0]} disabled />
-      <TaskCardComposition task={TASK_FIXTURES[2]} busy onOpen={handleOpen} />
-      <TaskCardComposition
-        task={TASK_FIXTURES[4]}
-        menuOpen
-        onOpen={handleOpen}
-        onStatusChange={handleStatus}
-        portalRef={portalRef}
-      />
-      <p className="col-span-full text-sm text-foreground-muted" aria-live="polite">
-        {notice}
-      </p>
     </div>
   );
 }

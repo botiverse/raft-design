@@ -2,9 +2,6 @@ import { useNavigate } from "@tanstack/react-router";
 import { CheckSquare } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
   BrutalOnly,
   ConversationPanelHeaderContent,
   ConversationPanelHeaderIcon,
@@ -16,16 +13,13 @@ import {
 
 import {
   TasksPanelComposition,
-  type TaskIdentity,
   type TasksPanelCompositionProps,
 } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
 import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";
 import {
-  PLAYGROUND_ACTORS,
   DEFAULT_CHANNEL_ID,
   PLAYGROUND_SERVER_SLUG,
   getPlaygroundChannel,
-  type PlaygroundActor,
   type PlaygroundChannelRecord,
   type PlaygroundTask,
 } from "../mock/index.ts";
@@ -74,8 +68,6 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
   const compositionTasks = visibleTasks.map((task) =>
     toTaskFixture(task, getPlaygroundChannel(task.channelId).name),
   );
-  const creatorOptions = getCreatorOptions();
-  const assigneeOptions = getAssigneeOptions();
 
   useEffect(() => {
     if (viewOverride !== undefined) persistTaskView(viewOverride);
@@ -143,8 +135,6 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
       <TasksPanelComposition
         tasks={compositionTasks}
         view={view}
-        creatorOptions={creatorOptions}
-        assigneeOptions={assigneeOptions}
         onTasksChange={updateChannelTasks}
         onViewChange={setViewOverride}
         onOpenTask={(task) => {
@@ -184,38 +174,5 @@ function toTaskFixture(task: PlaygroundTask, channelName: string): TaskFixture {
     isLegacy: task.legacy,
     disabled: task.legacy,
     dragDisabled: task.movable === false,
-  };
-}
-
-function getCreatorOptions(): readonly TaskIdentity[] {
-  return getActorOptions({ id: "cuvii", label: "Created by me", isSentinel: true });
-}
-
-function getAssigneeOptions(): readonly TaskIdentity[] {
-  return [
-    { id: "cuvii", label: "Assigned to me", isSentinel: true },
-    { id: "unassigned", label: "Unassigned", isSentinel: true },
-    ...getActorOptions(),
-  ];
-}
-
-function getActorOptions(selfOption?: TaskIdentity): readonly TaskIdentity[] {
-  const actors = PLAYGROUND_ACTORS.filter((actor) => actor.id !== "cuvii").sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
-  );
-  return [...(selfOption ? [selfOption] : []), ...actors.map(toTaskIdentity)];
-}
-
-function toTaskIdentity(actor: PlaygroundActor): TaskIdentity {
-  return {
-    id: actor.id,
-    label: actor.name,
-    searchText: `${actor.id} ${actor.meta}`,
-    avatar: (
-      <Avatar size="xs" type={actor.type}>
-        {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
-        <AvatarFallback>{actor.fallback}</AvatarFallback>
-      </Avatar>
-    ),
   };
 }
