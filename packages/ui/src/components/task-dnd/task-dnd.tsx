@@ -12,6 +12,7 @@ import {
   useSensors,
   type DragCancelEvent,
   type DragEndEvent,
+  type DragMoveEvent,
   type DragOverEvent,
   type DragStartEvent,
   type UniqueIdentifier,
@@ -73,6 +74,7 @@ export type TaskDndProviderProps = {
   onMove?: (details: TaskMoveDetails) => void | Promise<void>;
   onMoveError?: (error: unknown, details: TaskMoveDetails) => void;
   onDragStart?: (event: DragStartEvent) => void;
+  onDragMove?: (event: DragMoveEvent) => void;
   onDragOver?: (event: DragOverEvent) => void;
   onDragCancel?: (event: DragCancelEvent) => void;
   onDragEnd?: (event: DragEndEvent) => void;
@@ -85,6 +87,7 @@ export function TaskDndProvider({
   onMove,
   onMoveError,
   onDragStart,
+  onDragMove,
   onDragOver,
   onDragCancel,
   onDragEnd,
@@ -128,6 +131,10 @@ export function TaskDndProvider({
         setActiveId(event.active.id);
         setActiveHeight(event.active.rect.current.initial?.height ?? null);
         onDragStart?.(event);
+      }}
+      onDragMove={(event) => {
+        setOverPlacement(getDropPlacement(event));
+        onDragMove?.(event);
       }}
       onDragOver={(event) => {
         setOverId(event.over?.id ?? null);
@@ -314,7 +321,7 @@ export function TaskDragOverlay({ children, className }: TaskDragOverlayProps) {
   );
 }
 
-function getDropPlacement(event: DragOverEvent | DragEndEvent): TaskDropPlacement | null {
+function getDropPlacement(event: DragMoveEvent | DragEndEvent): TaskDropPlacement | null {
   const activeRect = event.active.rect.current.translated ?? event.active.rect.current.initial;
   const overRect = event.over?.rect;
   if (activeRect == null || overRect == null) return null;

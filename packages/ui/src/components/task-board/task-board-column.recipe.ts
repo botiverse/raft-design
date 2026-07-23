@@ -18,7 +18,7 @@ export const taskBoardColumn = tv({
     ],
     panel: ["data-[ending-style]:hidden"],
     items: ["flex flex-col gap-[10px]"],
-    empty: ["px-[12px] py-[20px]"],
+    empty: ["px-[12px] py-[20px]", "group-data-[drop-state=allowed]:hidden"],
     emptyIdle: ["group-data-[drop-state=allowed]:hidden group-data-[drop-state=blocked]:hidden"],
     emptyAllowed: ["hidden group-data-[drop-state=allowed]:block"],
     emptyBlocked: ["hidden group-data-[drop-state=blocked]:block"],
@@ -30,6 +30,8 @@ export const taskBoardColumn = tv({
           "border-2 border-line-strong/20 bg-layer-panel/30 transition-colors",
           "data-[drop-state=allowed]:border-line-strong data-[drop-state=allowed]:bg-soft-signal/20 data-[drop-state=allowed]:shadow-sm",
           "data-[drop-state=blocked]:border-danger-base data-[drop-state=blocked]:bg-danger-lighter",
+          "has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:border-line-strong has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:bg-soft-signal/20 has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:shadow-sm",
+          "has-[[data-slot=task-drop-placeholder][data-drop-state=blocked]]:border-danger-base has-[[data-slot=task-drop-placeholder][data-drop-state=blocked]]:bg-danger-lighter",
         ],
         trigger: [
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
@@ -66,7 +68,6 @@ export const taskBoardColumn = tv({
         empty: [
           "rounded-[8px] border border-dashed border-line-subtle bg-layer-panel",
           "text-[13px] leading-[18px] text-foreground-placeholder",
-          "group-data-[drop-state=allowed]:hidden",
           "group-data-[drop-state=blocked]:border-danger-base/40 group-data-[drop-state=blocked]:text-danger-dark",
         ],
       },
