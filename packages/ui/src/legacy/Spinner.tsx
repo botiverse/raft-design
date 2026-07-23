@@ -1,89 +1,47 @@
-import type { ComponentProps } from "react";
-import { cn } from "../lib/cn";
+import type { HTMLAttributes } from "react";
 
-type SpinnerSize = "sm" | "lg";
+export type SpinnerSize = "xs" | "sm" | "md" | "lg";
+export type SpinnerVariant = "default" | "inverse";
 
-type SpinnerProps = ComponentProps<"span"> & {
-  size?: SpinnerSize;
+const SIZE_CLASS: Record<SpinnerSize, string> = {
+  xs: "size-2.5 border-2",
+  sm: "size-4 border-2",
+  md: "size-5 border-2",
+  lg: "size-8 border-2",
 };
 
-const SPINNER_STYLE = `
-@keyframes sitefire-braille-spinner {
-  0%,
-  9.99% {
-    content: "⠋";
-  }
-  10%,
-  19.99% {
-    content: "⠙";
-  }
-  20%,
-  29.99% {
-    content: "⠹";
-  }
-  30%,
-  39.99% {
-    content: "⠸";
-  }
-  40%,
-  49.99% {
-    content: "⠼";
-  }
-  50%,
-  59.99% {
-    content: "⠴";
-  }
-  60%,
-  69.99% {
-    content: "⠦";
-  }
-  70%,
-  79.99% {
-    content: "⠧";
-  }
-  80%,
-  89.99% {
-    content: "⠇";
-  }
-  90%,
-  100% {
-    content: "⠏";
-  }
-}
+const VARIANT_CLASS: Record<SpinnerVariant, string> = {
+  default: "border-black/20 border-t-black",
+  inverse: "border-white/40 border-t-white",
+};
 
-[data-slot="spinner"] [data-spinner-glyph]::before {
-  content: "⠋";
-  animation: sitefire-braille-spinner 800ms steps(1, end) infinite;
+export interface SpinnerProps extends Omit<HTMLAttributes<HTMLSpanElement>, "size"> {
+  size?: SpinnerSize;
+  variant?: SpinnerVariant;
+  label?: string;
+  className?: string;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  [data-slot="spinner"] [data-spinner-glyph]::before {
-    animation-duration: 1600ms;
-  }
-}
-`;
 
 export default function Spinner({
-  className,
-  size = "sm",
-  "aria-label": ariaLabel = "Loading",
+  size = "md",
+  variant = "default",
+  label,
+  className = "",
   ...props
 }: SpinnerProps) {
   return (
     <span
-      data-slot="spinner"
-      data-size={size}
-      role="status"
-      aria-label={ariaLabel}
-      className={cn(
-        "relative inline-flex shrink-0 items-center justify-center font-mono leading-none text-current tabular-nums",
-        size === "sm" ? "h-4 text-base" : "h-6 text-xl",
-        className,
-      )}
       {...props}
-    >
-      <style>{SPINNER_STYLE}</style>
-      <span data-spinner-glyph="" aria-hidden="true" className="inline-block min-w-[1ch]" />
-    </span>
+      role="status"
+      aria-label={label ?? "Loading"}
+      className={[
+        "inline-block shrink-0 animate-spin rounded-full",
+        SIZE_CLASS[size],
+        VARIANT_CLASS[variant],
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    />
   );
 }

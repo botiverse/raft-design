@@ -282,7 +282,7 @@ function SpinnerDoc() {
             {
               label: "Default",
               status: "difference",
-              note: "Brutal keeps the source braille glyph; elegant intentionally switches to the currentColor SVG ring.",
+              note: "Brutal keeps the source CSS ring; elegant uses a currentColor SVG ring with a softer arc animation.",
               source: <SpinnerSource.Default />,
               brutal: <SpinnerCurrent.Default />,
               elegant: <SpinnerCurrent.Default />,
@@ -292,7 +292,7 @@ function SpinnerDoc() {
             {
               label: "Large",
               status: "difference",
-              note: "The size API is shared while elegant uses the ring form.",
+              note: "Brutal keeps the source 32px ring while elegant uses its compact 18px ring.",
               source: <SpinnerSource.Large />,
               brutal: <SpinnerCurrent.Large />,
               elegant: <SpinnerCurrent.Large />,
@@ -302,7 +302,7 @@ function SpinnerDoc() {
             {
               label: "Inverse context",
               status: "difference",
-              note: "Both forms inherit the surrounding text color; elegant applies it through ring opacity layers.",
+              note: "Brutal keeps the source inverse border colors; elegant applies currentColor through SVG opacity layers.",
               source: <SpinnerSource.Inverse />,
               brutal: <SpinnerCurrent.Inverse />,
               elegant: <SpinnerCurrent.Inverse />,
