@@ -9,8 +9,8 @@ import {
   SelectItemIndicator,
   SelectItemText,
   SelectList,
+  TaskStatusIcon,
 } from "raft-ui";
-import { TaskStatusIcon } from "raft-ui/wip";
 
 import { TASK_STATUSES, type TaskStatus } from "../task-card.fixtures";
 

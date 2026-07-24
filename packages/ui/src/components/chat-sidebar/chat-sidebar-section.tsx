@@ -123,10 +123,17 @@ export function ChatSidebarSectionChevron({
     className: cn("size-3", className),
   };
 
-  return useRender({
+  const chevron = useRender({
     render: render ?? <ChevronRight />,
     props: mergeProps<"svg">(defaultProps, props),
   });
+
+  // Match ChatSidebarItemIcon slot width so section chevrons share the item icon axis.
+  return (
+    <span className="flex size-4.5 shrink-0 items-center justify-center" aria-hidden="true">
+      {chevron}
+    </span>
+  );
 }
 
 export type ChatSidebarSectionTitleProps = useRender.ComponentProps<"span">;

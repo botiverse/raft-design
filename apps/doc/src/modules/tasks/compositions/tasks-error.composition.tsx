@@ -1,5 +1,11 @@
-import { Banner, BannerAction, BannerDescription, Button } from "raft-ui";
-import { TasksPanelRoot, TasksPanelViewport } from "raft-ui/wip";
+import {
+  Banner,
+  BannerAction,
+  BannerDescription,
+  Button,
+  TasksPanelRoot,
+  TasksPanelViewport,
+} from "raft-ui";
 import { RotateCcw } from "lucide-react";
 
 export function TasksErrorComposition() {

@@ -7,8 +7,6 @@ import {
   ScrollAreaScrollbar,
   ScrollAreaThumb,
   ScrollAreaViewport,
-} from "raft-ui";
-import {
   TaskBoardColumn,
   TaskBoardColumnBadge,
   TaskBoardColumnCount,
@@ -17,7 +15,7 @@ import {
   TaskBoardColumnPanel,
   TaskBoardColumnTrigger,
   TaskBoardRoot,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";

@@ -6,8 +6,6 @@ import {
   ScrollAreaScrollbar,
   ScrollAreaThumb,
   ScrollAreaViewport,
-} from "raft-ui";
-import {
   TaskBoardColumn,
   TaskBoardColumnBadge,
   TaskBoardColumnChevron,
@@ -26,7 +24,7 @@ import {
   TaskDraggable,
   TaskDropPlaceholder,
   TaskDropZone,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { ChevronDown } from "lucide-react";
 
 import {

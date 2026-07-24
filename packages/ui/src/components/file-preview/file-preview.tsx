@@ -204,6 +204,7 @@ export type FilePreviewBadgeType =
   | "jpeg"
   | "gif"
   | "webp"
+  | "svg"
   | "mp4"
   | "mov";
 
@@ -224,6 +225,7 @@ const FILE_PREVIEW_BADGE_TYPE_COLOR = {
   jpeg: "emerald",
   gif: "emerald",
   webp: "emerald",
+  svg: "emerald",
   mp4: "blue",
   mov: "blue",
 } as const satisfies Record<FilePreviewBadgeType, FilePreviewBadgeColor>;

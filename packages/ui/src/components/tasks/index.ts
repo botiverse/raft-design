@@ -2,16 +2,22 @@ export {
   TasksPanelEmpty,
   TasksPanelRoot,
   TasksPanelToolbar,
+  TasksPanelToolbarFilters,
   TasksPanelToolbarGroup,
   TasksPanelToolbarLabel,
+  TasksPanelToolbarNewTask,
+  TasksPanelToolbarView,
   TasksPanelViewport,
 } from "./tasks-panel";
 export type {
   TasksPanelEmptyProps,
   TasksPanelRootProps,
+  TasksPanelToolbarFiltersProps,
   TasksPanelToolbarGroupProps,
   TasksPanelToolbarLabelProps,
+  TasksPanelToolbarNewTaskProps,
   TasksPanelToolbarProps,
+  TasksPanelToolbarViewProps,
   TasksPanelViewportProps,
 } from "./tasks-panel";
 export { TaskLoadingList, TaskLoadingRow } from "./task-loading";

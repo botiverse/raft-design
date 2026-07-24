@@ -34,6 +34,7 @@ export function TasksPanelToolbar({ className, render, ...props }: TasksPanelToo
   });
 }
 
+/** Generic toolbar cluster. Prefer NewTask / Filters / View for responsive layout. */
 export type TasksPanelToolbarGroupProps = useRender.ComponentProps<"div">;
 export function TasksPanelToolbarGroup({
   className,
@@ -45,6 +46,59 @@ export function TasksPanelToolbarGroup({
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "tasks-panel-toolbar-group",
     className: toolbarGroup({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type TasksPanelToolbarNewTaskProps = useRender.ComponentProps<"div">;
+export function TasksPanelToolbarNewTask({
+  className,
+  render,
+  ...props
+}: TasksPanelToolbarNewTaskProps) {
+  const theme = useThemeFamily();
+  const { toolbarNewTask } = tasksPanel({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "tasks-panel-toolbar-new-task",
+    className: toolbarNewTask({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type TasksPanelToolbarFiltersProps = useRender.ComponentProps<"div">;
+export function TasksPanelToolbarFilters({
+  className,
+  render,
+  ...props
+}: TasksPanelToolbarFiltersProps) {
+  const theme = useThemeFamily();
+  const { toolbarFilters } = tasksPanel({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "tasks-panel-toolbar-filters",
+    className: toolbarFilters({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type TasksPanelToolbarViewProps = useRender.ComponentProps<"div">;
+export function TasksPanelToolbarView({ className, render, ...props }: TasksPanelToolbarViewProps) {
+  const theme = useThemeFamily();
+  const { toolbarView } = tasksPanel({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "tasks-panel-toolbar-view",
+    className: toolbarView({ className }),
   };
   return useRender({
     defaultTagName: "div",

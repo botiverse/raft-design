@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FilesPanelComposition,
   type FileListEntry,
@@ -13,21 +13,44 @@ import {
 } from "../mock/index.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
-const PAGE_SIZE = 2;
+/** Matches source ChannelFilesPanel `FILES_PAGE_SIZE`. */
+const FILES_PAGE_SIZE = 50;
 
 export function PlaygroundFilesPanel({ channel }: { channel: PlaygroundChannelRecord }) {
   const navigate = useNavigate();
   const { selectPanelTab } = usePlaygroundNavigation();
   const channelId = channel.id;
   const files = getPlaygroundFiles(channelId);
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const loadingMoreRef = useRef(false);
+  const [visibleCount, setVisibleCount] = useState(() => Math.min(FILES_PAGE_SIZE, files.length));
+  const [loadingMore, setLoadingMore] = useState(false);
   const visibleFiles = files.slice(0, visibleCount).map(toFileListEntry);
+  const hasMore = visibleCount < files.length;
+
+  useEffect(() => {
+    loadingMoreRef.current = false;
+    setLoadingMore(false);
+    setVisibleCount(Math.min(FILES_PAGE_SIZE, files.length));
+  }, [channelId, files.length]);
+
+  const loadMore = useCallback(() => {
+    if (!hasMore || loadingMoreRef.current) return;
+    loadingMoreRef.current = true;
+    setLoadingMore(true);
+    // Yield so the Load more status can paint before the next page appends.
+    window.setTimeout(() => {
+      setVisibleCount((count) => Math.min(files.length, count + FILES_PAGE_SIZE));
+      loadingMoreRef.current = false;
+      setLoadingMore(false);
+    }, 120);
+  }, [files.length, hasMore]);
 
   return (
     <FilesPanelComposition
       files={visibleFiles}
-      hasMore={visibleCount < files.length}
-      onLoadMore={() => setVisibleCount((count) => Math.min(files.length, count + PAGE_SIZE))}
+      hasMore={hasMore}
+      loadingMore={loadingMore}
+      onLoadMore={loadMore}
       onPreview={(file) => {
         const source = requirePlaygroundFile(file.id);
         window.open(source.previewUrl, "_blank", "noopener,noreferrer");

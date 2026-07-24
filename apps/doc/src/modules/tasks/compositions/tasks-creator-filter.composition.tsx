@@ -91,9 +91,9 @@ export function TasksCreatorFilterComposition({
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
-          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
           positionMethod="absolute"
           side="bottom"
+          align="center"
           portalProps={{ container: portalRef }}
           className="min-w-[280px]"
         >

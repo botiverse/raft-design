@@ -40,7 +40,7 @@ export const chatSidebarSection = tv({
         sidebarSectionHeader: "mt-3 mb-1 h-6 px-2",
         sidebarSectionEmpty: ["px-2", "font-sans text-xs leading-snug", "text-black/50"],
         sidebarSectionDisclosure: [
-          "h-6 gap-1 text-xs font-bold tracking-widest uppercase",
+          "h-6 gap-1.5 border-2 border-transparent text-xs font-bold tracking-widest uppercase",
           "text-black transition-colors hover:text-black/70",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
         ],
@@ -66,10 +66,10 @@ export const chatSidebarSection = tv({
           "hover:bg-layer-strong/80",
         ],
         sidebarSectionDisclosure: [
-          "h-8 w-full justify-start gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)] text-xs font-medium leading-none normal-case tracking-normal",
+          "h-8 w-full justify-start gap-1.5 rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] text-xs font-medium leading-none normal-case tracking-normal",
           "text-foreground-icon",
           "hover:text-foreground",
-          "[&>svg]:opacity-55",
+          "[&_[data-slot=chat-sidebar-section-chevron]]:opacity-55",
         ],
         sidebarSectionCount:
           "shrink-0 font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",

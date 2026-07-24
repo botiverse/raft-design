@@ -41,7 +41,7 @@ export const threadPanel = tv({
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
           "border-b border-line-subtle bg-layer-page lg:border-l lg:pl-[19px]",
-          "max-lg:gap-2 max-lg:px-3.5 max-md:h-[var(--shell-header-height,56px)]",
+          "max-lg:gap-2 max-lg:pl-5 max-lg:pr-3.5 max-md:h-[var(--shell-header-height,56px)]",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
           "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-sm",
           "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
@@ -57,7 +57,7 @@ export const threadPanel = tv({
           "text-foreground-muted",
         ],
         titleMeta: "text-foreground-muted",
-        search: ["max-lg:px-3.5", "border-b border-line-subtle bg-layer-page"],
+        search: ["max-lg:pl-5 max-lg:pr-3.5", "border-b border-line-subtle bg-layer-page"],
         searchTrailing: [
           "[&>[data-slot=thread-panel-actions]]:gap-0.5",
           "[&_[data-slot=panel-action]]:px-1.5 [&_[data-slot=panel-action]]:py-1.5",
