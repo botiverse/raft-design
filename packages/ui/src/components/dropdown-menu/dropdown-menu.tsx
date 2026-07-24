@@ -79,6 +79,7 @@ const dropdownMenu = tv({
         indicator: [],
       },
       elegant: {
+        trigger: ["hover:bg-ink-2"],
         content: [
           "gap-0 rounded-md bg-layer-popover p-1",
           "shadow-lg outline-none",

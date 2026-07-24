@@ -117,6 +117,7 @@ const combobox = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
+          "hover:bg-ink-2",
           "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-3",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-[1.5]",
