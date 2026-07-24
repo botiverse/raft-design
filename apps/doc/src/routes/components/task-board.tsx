@@ -7,11 +7,8 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 import { TaskBoardEmptyColumnsComposition } from "#/modules/task-board/compositions/task-board-empty-columns.composition.tsx";
-import taskBoardEmptyColumnsCompositionSource from "#/modules/task-board/compositions/task-board-empty-columns.composition.tsx?raw";
 import { TaskBoardComposition } from "#/modules/task-board/compositions/task-board.composition.tsx";
-import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider>
   <TaskBoardRoot>
@@ -38,6 +35,61 @@ const ANATOMY_SNIPPET = `<TaskDndProvider>
     </TaskBoardColumn>
   </TaskBoardRoot>
 </TaskDndProvider>`;
+
+const DND_SNIPPET = `<TaskDndProvider isDropAllowed={…} onMove={…}>
+  <TaskBoardRoot>
+    {statuses.map((status) => (
+      <TaskBoardColumn
+        key={status}
+        render={<TaskDropZone id={columnDropId} data={{ status }} />}
+      >
+        <TaskBoardColumnItems>
+          {tasks.map((task) => (
+            <TaskDraggable
+              key={task.id}
+              id={task.id}
+              dropId={cardDropId}
+              dropData={{ status, taskId: task.id }}
+            >
+              <TaskCard />
+            </TaskDraggable>
+          ))}
+        </TaskBoardColumnItems>
+      </TaskBoardColumn>
+    ))}
+  </TaskBoardRoot>
+  <TaskDragOverlay>{activeTask ? <TaskCard /> : null}</TaskDragOverlay>
+</TaskDndProvider>`;
+
+const SCROLL_AREA_SNIPPET = `<ScrollArea className="relative h-full min-h-0 w-full min-w-0">
+  <ScrollAreaViewport className="p-4">
+    <ScrollAreaContent className="min-w-max">
+      <TaskBoardRoot>{/* columns */}</TaskBoardRoot>
+    </ScrollAreaContent>
+  </ScrollAreaViewport>
+  <ScrollAreaScrollbar>
+    <ScrollAreaThumb />
+  </ScrollAreaScrollbar>
+  <ScrollAreaScrollbar orientation="horizontal">
+    <ScrollAreaThumb />
+  </ScrollAreaScrollbar>
+  <ScrollAreaCorner />
+</ScrollArea>`;
+
+const EMPTY_COLUMN_SNIPPET = `<TaskBoardColumnItems>
+  {tasks.length === 0 ? (
+    <>
+      <TaskBoardColumnEmpty>
+        <TaskBoardColumnEmptyIdle>No {label} tasks.</TaskBoardColumnEmptyIdle>
+        <TaskBoardColumnEmptyAllowed>Drop to set {label}</TaskBoardColumnEmptyAllowed>
+        <TaskBoardColumnEmptyBlocked>Cannot move to {label}</TaskBoardColumnEmptyBlocked>
+      </TaskBoardColumnEmpty>
+      <TaskDropPlaceholder id={columnDropId} />
+    </>
+  ) : (
+    /* task cards */
+  )}
+</TaskBoardColumnItems>`;
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -203,8 +255,9 @@ const BOARD_COLUMN_EMPTY_BLOCKED_PROPS: readonly PropRow[] = [
 
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
-  board: stripSourceCodeBlocks(taskBoardCompositionSource),
-  empty: taskBoardEmptyColumnsCompositionSource,
+  dnd: DND_SNIPPET,
+  scrollArea: SCROLL_AREA_SNIPPET,
+  empty: EMPTY_COLUMN_SNIPPET,
   sourceVirtualization: SOURCE_VIRTUALIZATION_SNIPPET,
 } as const;
 
@@ -242,7 +295,7 @@ function TaskBoardDoc() {
           <Preview.Canvas>
             <TaskBoardComposition />
           </Preview.Canvas>
-          <Preview.Code html={code.board} />
+          <Preview.Code html={code.dnd} />
         </Preview>
       </DocSection>
 
@@ -258,14 +311,14 @@ function TaskBoardDoc() {
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="board-with-dnd" title="Board with drag and drop">
             <p className="mb-4 text-sm text-foreground/70">
-              The preview wraps columns in <code>TaskDndProvider</code> and mounts each column as a{" "}
+              Wrap columns in <code>TaskDndProvider</code> and mount each column as a{" "}
               <code>TaskDropZone</code>. Drop policy and move handlers stay in the composition.
             </p>
             <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskBoardComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.board} />
+              <Preview.Code html={code.dnd} />
             </Preview>
           </DocSubsection>
 
@@ -275,11 +328,11 @@ function TaskBoardDoc() {
               vertical and horizontal scrolling; <code>TaskBoardRoot</code> keeps its natural
               minimum width, so columns never become independent scroll regions.
             </p>
-            <Preview previewClassName="h-[42rem] items-stretch p-0">
+            <Preview previewClassName="h-[28rem] items-stretch p-0">
               <Preview.Canvas>
                 <TaskBoardComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.board} />
+              <Preview.Code html={code.scrollArea} />
             </Preview>
           </DocSubsection>
 
