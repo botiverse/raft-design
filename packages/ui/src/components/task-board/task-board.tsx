@@ -8,14 +8,12 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
 import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskBoardColumn } from "./task-board-column.recipe";
-import { taskBoard } from "./task-board.recipe";
 
 export type TaskBoardRootProps = useRender.ComponentProps<"div">;
 export function TaskBoardRoot({ className, render, ...props }: TaskBoardRootProps) {
-  const { root } = taskBoard();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-board-root",
-    className: root({ className }),
+    className: cn("flex min-w-max items-start gap-4 pr-4", className),
   };
   return useRender({
     defaultTagName: "div",
