@@ -1,4 +1,5 @@
-import { MessageItemTaskBadge, TaskStatusIcon } from "raft-ui/wip";
+import { TaskStatusIcon } from "raft-ui";
+import { MessageItemTaskBadge } from "raft-ui/wip";
 
 import { TaskStatusSelect } from "#/modules/task-card/compositions/task-status-select.composition.tsx";
 import type { PlaygroundTaskId } from "../mock/index.ts";

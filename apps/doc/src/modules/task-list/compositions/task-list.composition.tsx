@@ -5,8 +5,6 @@ import {
   ScrollAreaScrollbar,
   ScrollAreaThumb,
   ScrollAreaViewport,
-} from "raft-ui";
-import {
   TaskListRoot,
   TaskSection,
   TaskSectionBadge,
@@ -17,7 +15,7 @@ import {
   TaskSectionItems,
   TaskSectionPanel,
   TaskSectionTrigger,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { ChevronDown } from "lucide-react";
 
 import {
