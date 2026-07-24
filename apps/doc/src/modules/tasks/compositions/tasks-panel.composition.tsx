@@ -21,8 +21,6 @@ import {
   TabsLabel,
   TabsList,
   TabsTab,
-} from "raft-ui";
-import {
   TaskBoardColumn,
   TaskBoardColumnBadge,
   TaskBoardColumnChevron,
@@ -54,10 +52,12 @@ import {
   TasksPanelRoot,
   TasksPanelEmpty,
   TasksPanelToolbar,
-  TasksPanelToolbarGroup,
+  TasksPanelToolbarFilters,
   TasksPanelToolbarLabel,
+  TasksPanelToolbarNewTask,
+  TasksPanelToolbarView,
   TasksPanelViewport,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { CheckSquare, ChevronDown, ListTodo, Plus, SquareKanban, Trash2, X } from "lucide-react";
 
 import {
@@ -161,27 +161,29 @@ export function TasksPanelComposition({
     <div ref={portalRef} className="relative flex h-full min-h-0 w-full min-w-0">
       <TasksPanelRoot aria-label="Tasks panel">
         <TasksPanelToolbar>
-          <TasksPanelToolbarGroup>
+          <TasksPanelToolbarNewTask>
             <Button variant="accent" size="sm" onClick={() => setDialogOpen(true)}>
               <Plus aria-hidden />
               New Task
             </Button>
+          </TasksPanelToolbarNewTask>
+          <TasksPanelToolbarFilters>
             {toolbarFilters ?? <TasksIdentityFiltersComposition />}
-          </TasksPanelToolbarGroup>
-          <TasksPanelToolbarGroup>
+          </TasksPanelToolbarFilters>
+          <TasksPanelToolbarView>
             <Tabs value={view} onValueChange={setView} aria-label="Task view">
               <TabsList>
-                <TabsTab value="board">
+                <TabsTab value="board" aria-label="Board" className="max-md:px-2.5">
                   <SquareKanban aria-hidden />
-                  <TabsLabel>Board</TabsLabel>
+                  <TabsLabel className="max-md:hidden">Board</TabsLabel>
                 </TabsTab>
-                <TabsTab value="list">
+                <TabsTab value="list" aria-label="List" className="max-md:px-2.5">
                   <ListTodo aria-hidden />
-                  <TabsLabel>List</TabsLabel>
+                  <TabsLabel className="max-md:hidden">List</TabsLabel>
                 </TabsTab>
               </TabsList>
             </Tabs>
-          </TasksPanelToolbarGroup>
+          </TasksPanelToolbarView>
         </TasksPanelToolbar>
 
         <TasksPanelViewport>

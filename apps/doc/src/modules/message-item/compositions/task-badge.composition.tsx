@@ -9,6 +9,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  TaskStatusIcon,
+  type TaskStatusId,
 } from "raft-ui";
 import {
   MessageItem,
@@ -21,8 +23,6 @@ import {
   MessageItemSender,
   MessageItemTaskBadge,
   MessageItemTime,
-  TaskStatusIcon,
-  type TaskStatusId,
 } from "raft-ui/wip";
 
 const TASK_STATUS_OPTIONS = [

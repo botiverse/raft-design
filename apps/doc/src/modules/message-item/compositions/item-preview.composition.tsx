@@ -16,6 +16,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  TaskStatusIcon,
+  type TaskStatusId,
 } from "raft-ui";
 import {
   MessageItem,
@@ -58,8 +60,6 @@ import {
   SystemMessageGroupSummary,
   SystemMessageTime,
   MessageItemTaskBadge,
-  TaskStatusIcon,
-  type TaskStatusId,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import {

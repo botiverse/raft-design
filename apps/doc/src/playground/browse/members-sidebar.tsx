@@ -24,6 +24,11 @@ import {
   ChatSidebarSectionHeader,
   ChatSidebarSectionTitle,
   ConversationPanelBody,
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
   Status,
 } from "raft-ui";
 
@@ -101,8 +106,20 @@ export function MembersSidebar({
             <ChatSidebarList>
               {agentGroups.map((group) => (
                 <div key={group.machineId}>
-                  <div className="mt-1.5 mb-0.5 flex items-center gap-1 px-1 text-[10px] font-mono lowercase text-foreground-icon select-none">
-                    <Monitor aria-hidden className="size-2.5 shrink-0" />
+                  <div
+                    className={[
+                      "mt-1.5 mb-0.5 flex w-full items-center gap-1.5",
+                      "border-2 border-transparent px-2",
+                      "text-[10px] font-mono lowercase text-foreground-icon select-none",
+                      "[[data-theme=elegant]_&]:-mx-[var(--sidebar-row-inset-x,6px)]",
+                      "[[data-theme=elegant]_&]:w-[calc(100%+12px)]",
+                      "[[data-theme=elegant]_&]:border",
+                      "[[data-theme=elegant]_&]:px-[var(--sidebar-row-inset-x,6px)]",
+                    ].join(" ")}
+                  >
+                    <ChatSidebarItemIcon aria-hidden>
+                      <Monitor />
+                    </ChatSidebarItemIcon>
                     <span className="truncate">{group.machineName}</span>
                   </div>
                   {group.agents.map((agent) => (
@@ -193,10 +210,8 @@ export function MembersDetailView({ selectedId }: { selectedId?: string }) {
   if (selectedId === "graph") {
     return (
       <MemberDetailLayout icon={<GitBranch aria-hidden />} title="Member graph">
-        <p>
-          Explore how {humans.length} humans and {agents.length} agents are connected across{" "}
-          {PLAYGROUND_MACHINES.length} computers in this workspace.
-        </p>
+        Explore how {humans.length} humans and {agents.length} agents are connected across{" "}
+        {PLAYGROUND_MACHINES.length} computers in this workspace.
       </MemberDetailLayout>
     );
   }
@@ -204,9 +219,7 @@ export function MembersDetailView({ selectedId }: { selectedId?: string }) {
   if (!selected) {
     return (
       <MemberDetailLayout icon={<Users aria-hidden />} title="Members">
-        <p>
-          Select a human or agent to inspect their identity, presence, description, and computer.
-        </p>
+        Select a human or agent to inspect their identity, presence, description, and computer.
       </MemberDetailLayout>
     );
   }
@@ -261,15 +274,13 @@ function MemberDetailLayout({
 }) {
   return (
     <ConversationPanelBody>
-      <div className="flex h-full items-center justify-center p-6">
-        <section className="w-full max-w-md rounded-lg border border-line-subtle bg-layer-panel p-6 text-center shadow-sm">
-          <div className="mx-auto flex size-10 items-center justify-center rounded-md bg-layer-strong text-foreground-icon [&>svg]:size-5">
-            {icon}
-          </div>
-          <h2 className="mt-4 text-lg font-semibold text-foreground-strong">{title}</h2>
-          <div className="mt-2 text-sm text-foreground-muted">{children}</div>
-        </section>
-      </div>
+      <EmptyState className="min-h-full">
+        <EmptyStateContent>
+          <EmptyStateIcon>{icon}</EmptyStateIcon>
+          <EmptyStateTitle>{title}</EmptyStateTitle>
+          <EmptyStateDescription>{children}</EmptyStateDescription>
+        </EmptyStateContent>
+      </EmptyState>
     </ConversationPanelBody>
   );
 }

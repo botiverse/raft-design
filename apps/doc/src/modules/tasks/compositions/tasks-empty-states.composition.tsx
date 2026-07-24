@@ -4,14 +4,12 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-} from "raft-ui";
-import {
   TasksPanelRoot,
   TasksPanelEmpty,
   TasksPanelToolbar,
-  TasksPanelToolbarGroup,
+  TasksPanelToolbarFilters,
   TasksPanelViewport,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { CheckSquare, User } from "lucide-react";
 
 import { TasksToolbarFilterPlaceholder } from "./tasks-panel.composition";
@@ -29,12 +27,12 @@ export function TasksEmptyStatesComposition() {
       <div className="flex min-h-80">
         <TasksPanelRoot>
           <TasksPanelToolbar>
-            <TasksPanelToolbarGroup>
+            <TasksPanelToolbarFilters>
               <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
               <Button variant="ghost" size="sm">
                 Clear
               </Button>
-            </TasksPanelToolbarGroup>
+            </TasksPanelToolbarFilters>
           </TasksPanelToolbar>
           <TasksPanelViewport>
             <TaskEmptyState filtered />

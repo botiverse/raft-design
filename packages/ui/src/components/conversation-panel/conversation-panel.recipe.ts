@@ -17,7 +17,7 @@ const elegantHeader = [
   "border-b-0 bg-transparent max-md:bg-layer-page",
   "max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
   "max-md:h-[var(--shell-header-height,56px)] max-md:items-center",
-  "px-0 max-md:px-3.5 md:pl-9 md:pr-5",
+  "px-0 max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",
 ];
 
 export const conversationPanel = tv({

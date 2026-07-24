@@ -1,19 +1,15 @@
-import {
-  ConversationPanelEmptyState,
-  ConversationPanelEmptyStateBrand,
-  ConversationPanelEmptyStateBrandMark,
-  RaftLogo,
-} from "raft-ui";
+import { Hash } from "lucide-react";
+import { EmptyState, EmptyStateContent, EmptyStateIcon, EmptyStateTitle } from "raft-ui";
 
 export function PlaygroundChannelEmptyState() {
   return (
-    <ConversationPanelEmptyState>
-      <ConversationPanelEmptyStateBrand>
-        <ConversationPanelEmptyStateBrandMark>
-          <RaftLogo aria-hidden />
-        </ConversationPanelEmptyStateBrandMark>
-      </ConversationPanelEmptyStateBrand>
-      <span>Select a channel</span>
-    </ConversationPanelEmptyState>
+    <EmptyState className="h-full min-h-full">
+      <EmptyStateContent>
+        <EmptyStateIcon>
+          <Hash aria-hidden />
+        </EmptyStateIcon>
+        <EmptyStateTitle>Select a channel</EmptyStateTitle>
+      </EmptyStateContent>
+    </EmptyState>
   );
 }
