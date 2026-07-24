@@ -252,7 +252,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
             }}
             aria-label="Task view"
           >
-            <TabsList className="gap-2">
+            <TabsList className="[[data-theme=elegant]_&]:gap-2">
               <TabsTab value="board" aria-label="Board" className="px-2.5">
                 <SquareKanban aria-hidden />
               </TabsTab>
