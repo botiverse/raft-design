@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "raft-ui";
 
 import { TasksAssigneeFilterComposition } from "./tasks-assignee-filter.composition.tsx";
 import { TasksCreatorFilterComposition } from "./tasks-creator-filter.composition.tsx";
@@ -28,14 +29,32 @@ export function TasksIdentityFiltersComposition({
   initialOpen = null,
 }: TasksIdentityFiltersCompositionProps) {
   const [openFilter, setOpenFilter] = useState<IdentityFilterKind | null>(initialOpen);
+  const [localCreatorValue, setLocalCreatorValue] = useState(defaultCreatorValue);
+  const [localAssigneeValue, setLocalAssigneeValue] = useState(defaultAssigneeValue);
+
+  const resolvedCreatorValue = creatorValue ?? localCreatorValue;
+  const resolvedAssigneeValue = assigneeValue ?? localAssigneeValue;
+  const hasActiveFilters = resolvedCreatorValue.length > 0 || resolvedAssigneeValue.length > 0;
+
+  const setCreatorValue = (nextValue: string[]) => {
+    if (creatorValue === undefined) setLocalCreatorValue(nextValue);
+    onCreatorValueChange?.(nextValue);
+  };
+  const setAssigneeValue = (nextValue: string[]) => {
+    if (assigneeValue === undefined) setLocalAssigneeValue(nextValue);
+    onAssigneeValueChange?.(nextValue);
+  };
+  const clearFilters = () => {
+    setCreatorValue([]);
+    setAssigneeValue([]);
+  };
 
   return (
     <div className="flex items-center gap-2">
       <TasksCreatorFilterComposition
         identities={identities}
-        value={creatorValue}
-        defaultValue={defaultCreatorValue}
-        onValueChange={onCreatorValueChange}
+        value={resolvedCreatorValue}
+        onValueChange={setCreatorValue}
         open={openFilter === "creator"}
         onOpenChange={(open) =>
           setOpenFilter((current) => (open ? "creator" : current === "creator" ? null : current))
@@ -43,14 +62,18 @@ export function TasksIdentityFiltersComposition({
       />
       <TasksAssigneeFilterComposition
         identities={identities}
-        value={assigneeValue}
-        defaultValue={defaultAssigneeValue}
-        onValueChange={onAssigneeValueChange}
+        value={resolvedAssigneeValue}
+        onValueChange={setAssigneeValue}
         open={openFilter === "assignee"}
         onOpenChange={(open) =>
           setOpenFilter((current) => (open ? "assignee" : current === "assignee" ? null : current))
         }
       />
+      {hasActiveFilters ? (
+        <Button variant="ghost" size="sm" onClick={clearFilters}>
+          Clear
+        </Button>
+      ) : null}
     </div>
   );
 }
