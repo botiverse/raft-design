@@ -10,7 +10,6 @@ import {
   Status,
 } from "raft-ui";
 
-import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
 import { getPlaygroundDmActor, type PlaygroundDirectMessage } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";
 import { PLAYGROUND_PRESENCE_STATUS } from "../message/playground-presence.ts";
@@ -27,7 +26,6 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
   return (
     <ConversationPanelHeader className={headerClassName}>
       <PlaygroundConversationBackButton />
-      <PlaygroundSidebarTrigger />
       <ConversationPanelHeaderContent>
         <Avatar
           data-slot="conversation-panel-header-icon"

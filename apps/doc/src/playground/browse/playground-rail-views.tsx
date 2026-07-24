@@ -3,7 +3,6 @@ import {
   AtSign,
   Bell,
   Bookmark,
-  Bot,
   Building2,
   ChevronLeft,
   CircleUserRound,
@@ -54,7 +53,6 @@ import {
   ConversationPanelTitle,
 } from "raft-ui";
 
-import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
 import { usePlaygroundConversationHeaderClassName } from "../conversation/playground-conversation-header-class-name.ts";
 import {
   PLAYGROUND_DIRECT_MESSAGES,
@@ -64,6 +62,7 @@ import {
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
+import { MembersDetailView, MembersSidebar } from "./members-sidebar.tsx";
 
 type AuxiliaryRailView = Extract<PlaygroundRailView, "members" | "computers" | "settings">;
 
@@ -76,29 +75,7 @@ type RailDetail = {
   icon: LucideIcon;
 };
 
-const auxiliaryViewDetails: Record<AuxiliaryRailView, readonly RailDetail[]> = {
-  members: [
-    {
-      id: "agents",
-      label: "Agents",
-      description: "Browse the mock agents available in this server.",
-      meta: "8",
-      icon: Bot,
-    },
-    {
-      id: "humans",
-      label: "Humans",
-      description: "Browse members and their current access.",
-      meta: "12",
-      icon: Users,
-    },
-    {
-      id: "graph",
-      label: "Graph",
-      description: "Inspect relationships between members, agents, and channels.",
-      icon: Activity,
-    },
-  ],
+const auxiliaryViewDetails: Record<Exclude<AuxiliaryRailView, "members">, readonly RailDetail[]> = {
   computers: [
     {
       id: "dev-machine",
@@ -216,6 +193,11 @@ const viewMeta: Record<PlaygroundRailView, { title: string; icon: LucideIcon }> 
 
 export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView }) {
   const { railDetailId, selectRailDetail } = usePlaygroundNavigation();
+
+  if (view === "members") {
+    return <MembersSidebar selectedId={railDetailId} onSelect={(id) => selectRailDetail(id)} />;
+  }
+
   const details = auxiliaryViewDetails[view];
   const selectedId = details.some((detail) => detail.id === railDetailId)
     ? railDetailId
@@ -289,7 +271,6 @@ export function PlaygroundRailViewPanel({
             <ChevronLeft aria-hidden />
           </Button>
         ) : null}
-        <PlaygroundSidebarTrigger />
         <ConversationPanelHeaderContent>
           <ConversationPanelHeaderIcon>
             <ViewIcon />
@@ -420,6 +401,11 @@ function PlaygroundActivityView() {
 
 function PlaygroundDetailView({ view }: { view: AuxiliaryRailView }) {
   const { railDetailId } = usePlaygroundNavigation();
+
+  if (view === "members") {
+    return <MembersDetailView selectedId={railDetailId} />;
+  }
+
   const details = auxiliaryViewDetails[view];
   const detail = details.find((item) => item.id === railDetailId) ?? details[0];
   const DetailIcon = detail?.icon ?? viewMeta[view].icon;

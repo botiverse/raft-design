@@ -23,7 +23,7 @@ import {
 
 function DirectMessageStatus({
   status,
-  size = "md",
+  size = "sm",
 }: {
   status: PlaygroundPresence;
   size?: "sm" | "md";
@@ -69,7 +69,7 @@ export function ChatSidebarDirectMessageRowContent({
           {navigation.mention ? <PlaygroundMentionIndicator /> : null}
           {actor.presence ? (
             <ChatSidebarItemStatus>
-              <DirectMessageStatus status={actor.presence} size="md" />
+              <DirectMessageStatus status={actor.presence} />
             </ChatSidebarItemStatus>
           ) : null}
           {showBadge ? <ChatSidebarItemCount>{navigation.badge}</ChatSidebarItemCount> : null}

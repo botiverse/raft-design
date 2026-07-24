@@ -57,11 +57,12 @@ import {
   ChatSidebarServerIndicator,
   ChatSidebarServerLabel,
 } from "#/modules/chat-sidebar/chat-sidebar-server-switcher.tsx";
+import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
+import { PlaygroundThemeSelect } from "../app-shell/playground-theme-select.tsx";
+import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
 import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
 import { isPlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
-import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
-import { PlaygroundThemeSelect } from "../app-shell/playground-theme-select.tsx";
 
 const currentServerName = "Raft 中文社区";
 const currentServerAvatarSrc =
@@ -235,6 +236,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
               </AppRailNav>
             </div>
             <AppRailFooter>
+              <PlaygroundSidebarTrigger />
               <PlaygroundNotificationCenter />
               <PlaygroundThemeSelect side="right">
                 <Tooltip>

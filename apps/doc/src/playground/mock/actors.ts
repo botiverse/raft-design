@@ -1,10 +1,21 @@
 export type PlaygroundPresence = "online" | "working" | "idle" | "offline";
 
+export const PLAYGROUND_MACHINES = [
+  { id: "cuvii-macbook", name: "Cuvii’s MacBook Pro" },
+  { id: "raft-dev", name: "raft-dev" },
+  { id: "cloud-runner", name: "Cloud runner" },
+] as const;
+
+export type PlaygroundMachineId = (typeof PLAYGROUND_MACHINES)[number]["id"];
+
 export type PlaygroundActor = {
   id: string;
   name: string;
   type: "human" | "agent";
   meta: string;
+  description?: string;
+  isSelf?: boolean;
+  machineId?: PlaygroundMachineId;
   presence?: PlaygroundPresence;
   fallback?: string;
   avatarSrc?: string;
@@ -19,11 +30,52 @@ const agentPixelAvatar = (fill: string) =>
   )}`;
 
 export const PLAYGROUND_ACTORS = [
-  { id: "cuvii", name: "Cuvii", type: "human", meta: "member", fallback: "C" },
-  { id: "developer", name: "Developer", type: "human", meta: "member", fallback: "D" },
-  { id: "ada", name: "Ada", type: "human", meta: "member", fallback: "A" },
-  { id: "avery", name: "Avery", type: "human", meta: "product", fallback: "A" },
-  { id: "cindy", name: "Cindy", type: "human", meta: "design", fallback: "C" },
+  {
+    id: "cuvii",
+    name: "Cuvii",
+    type: "human",
+    meta: "member",
+    description: "Workspace owner",
+    isSelf: true,
+    presence: "online",
+    fallback: "C",
+  },
+  {
+    id: "developer",
+    name: "Developer",
+    type: "human",
+    meta: "member",
+    description: "Frontend engineering",
+    presence: "working",
+    fallback: "D",
+  },
+  {
+    id: "ada",
+    name: "Ada",
+    type: "human",
+    meta: "member",
+    description: "Applied research",
+    presence: "idle",
+    fallback: "A",
+  },
+  {
+    id: "avery",
+    name: "Avery",
+    type: "human",
+    meta: "product",
+    description: "Product",
+    presence: "online",
+    fallback: "A",
+  },
+  {
+    id: "cindy",
+    name: "Cindy",
+    type: "human",
+    meta: "design",
+    description: "Design",
+    presence: "online",
+    fallback: "C",
+  },
   { id: "mxChen", name: "Mx. Chen", type: "human", meta: "member", fallback: "MC" },
   { id: "viewer", name: "Viewer", type: "human", meta: "viewer", fallback: "V" },
   { id: "admin", name: "Admin", type: "human", meta: "admin", fallback: "A" },
@@ -72,6 +124,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Atlas",
     type: "agent",
     meta: "owner",
+    description: "Primary coding agent",
+    machineId: "cuvii-macbook",
     presence: "online",
     avatarSrc: agentPixelAvatar("#27CCF3"),
   },
@@ -80,6 +134,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Claude Assistant",
     type: "agent",
     meta: "owner",
+    description: "General assistant",
+    machineId: "cuvii-macbook",
     presence: "online",
     avatarSrc: agentPixelAvatar("#27CCF3"),
   },
@@ -88,6 +144,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Deploy Bot",
     type: "agent",
     meta: "deploy agent",
+    description: "Watches previews and releases",
+    machineId: "cloud-runner",
     presence: "working",
     avatarSrc: agentPixelAvatar("#FF9F43"),
   },
@@ -96,6 +154,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Nyx",
     type: "agent",
     meta: "external agent",
+    description: "External research",
+    machineId: "raft-dev",
     presence: "online",
     avatarSrc: agentPixelAvatar("#7DD3FC"),
   },
@@ -104,6 +164,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Relay",
     type: "agent",
     meta: "shared agent",
+    description: "Coordinates shared work",
+    machineId: "raft-dev",
     presence: "working",
     avatarSrc: agentPixelAvatar("#5EEAD4"),
   },
@@ -112,6 +174,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Legacy Bot",
     type: "agent",
     meta: "deactivated agent",
+    description: "Legacy automation",
+    machineId: "cloud-runner",
     presence: "offline",
     avatarSrc: agentPixelAvatar("#A3A3A3"),
   },
@@ -120,6 +184,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Mira",
     type: "agent",
     meta: "research agent",
+    description: "Product research",
+    machineId: "cuvii-macbook",
     presence: "working",
     avatarSrc: agentPixelAvatar("#B794F4"),
   },
@@ -128,6 +194,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Search Scout",
     type: "agent",
     meta: "retrieval agent",
+    description: "Search and retrieval",
+    machineId: "raft-dev",
     presence: "idle",
     avatarSrc: agentPixelAvatar("#F7D358"),
   },
@@ -136,6 +204,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Release Scribe",
     type: "agent",
     meta: "release agent",
+    description: "Release notes",
+    machineId: "cloud-runner",
     presence: "working",
     avatarSrc: agentPixelAvatar("#FF7AB6"),
   },
@@ -144,6 +214,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Code Pilot",
     type: "agent",
     meta: "coding agent",
+    description: "Implementation support",
+    machineId: "cuvii-macbook",
     presence: "online",
     avatarSrc: agentPixelAvatar("#A3E86A"),
   },
@@ -152,6 +224,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Incident Triage",
     type: "agent",
     meta: "operations agent",
+    description: "Incident response",
+    machineId: "cloud-runner",
     presence: "offline",
     avatarSrc: agentPixelAvatar("#FF9F43"),
   },
@@ -160,6 +234,8 @@ export const PLAYGROUND_ACTORS = [
     name: "QA Sentinel",
     type: "agent",
     meta: "quality agent",
+    description: "Quality checks",
+    machineId: "raft-dev",
     avatarSrc: agentPixelAvatar("#B794F4"),
   },
   {
@@ -167,6 +243,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Deploy Watch",
     type: "agent",
     meta: "deployment agent",
+    description: "Deployment watch",
+    machineId: "cloud-runner",
     presence: "working",
     avatarSrc: agentPixelAvatar("#5EEAD4"),
   },
@@ -175,6 +253,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Research Lark",
     type: "agent",
     meta: "research agent",
+    description: "Research synthesis",
+    machineId: "cuvii-macbook",
     presence: "idle",
     avatarSrc: agentPixelAvatar("#FB7185"),
   },
@@ -183,6 +263,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Spec Writer",
     type: "agent",
     meta: "product agent",
+    description: "Specification drafts",
+    machineId: "raft-dev",
     presence: "idle",
     avatarSrc: agentPixelAvatar("#7DD3FC"),
   },
@@ -191,6 +273,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Data Weaver",
     type: "agent",
     meta: "analytics agent",
+    description: "Product analytics",
+    machineId: "cloud-runner",
     presence: "working",
     avatarSrc: agentPixelAvatar("#FBBF24"),
   },
@@ -199,6 +283,8 @@ export const PLAYGROUND_ACTORS = [
     name: "Support Guide",
     type: "agent",
     meta: "support agent",
+    description: "Support guidance",
+    machineId: "raft-dev",
     presence: "idle",
     avatarSrc: agentPixelAvatar("#F9A8D4"),
   },
@@ -212,6 +298,16 @@ for (const actor of PLAYGROUND_ACTORS) {
     throw new Error(`Duplicate playground actor: ${actor.id}`);
   }
   actorsById.set(actor.id, actor);
+}
+
+const machinesById = new Map<PlaygroundMachineId, (typeof PLAYGROUND_MACHINES)[number]>(
+  PLAYGROUND_MACHINES.map((machine) => [machine.id, machine]),
+);
+
+export function getPlaygroundMachine(id: PlaygroundMachineId) {
+  const machine = machinesById.get(id);
+  if (!machine) throw new Error(`Unknown playground machine: ${id}`);
+  return machine;
 }
 
 export function getPlaygroundActor(id: PlaygroundActorId): PlaygroundActor {
