@@ -32,24 +32,23 @@ export function TaskStatusBadge({
           ),
         )
       }
-      trigger={
-        <MessageItemTaskBadge
-          status={status}
-          busy={busy}
-          render={
-            <button
-              type="button"
-              disabled={busy}
-              title={`${fullLabel} · Change task status`}
-              aria-label={`Change status for ${fullLabel}`}
-            />
-          }
-        >
-          <Icon size={10} />
-          <span>#{taskNumber}</span>
-          {assignee ? <span>@{assignee}</span> : null}
-        </MessageItemTaskBadge>
-      }
-    />
+    >
+      <MessageItemTaskBadge
+        status={status}
+        busy={busy}
+        render={
+          <button
+            type="button"
+            disabled={busy}
+            title={`${fullLabel} · Change task status`}
+            aria-label={`Change status for ${fullLabel}`}
+          />
+        }
+      >
+        <Icon size={10} />
+        <span>#{taskNumber}</span>
+        {assignee ? <span>@{assignee}</span> : null}
+      </MessageItemTaskBadge>
+    </TaskStatusSelect>
   );
 }

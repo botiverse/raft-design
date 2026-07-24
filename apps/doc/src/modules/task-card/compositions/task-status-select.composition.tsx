@@ -18,7 +18,7 @@ const TASK_STATUS_SELECT_ITEMS = TASK_STATUSES.map(({ id, label }) => ({ value: 
 
 export function TaskStatusSelect({
   value,
-  trigger,
+  children,
   disabled = false,
   defaultOpen,
   onValueChange,
@@ -26,7 +26,7 @@ export function TaskStatusSelect({
   title = "Task status",
 }: {
   value: TaskStatus;
-  trigger: ReactElement;
+  children: ReactElement;
   disabled?: boolean;
   defaultOpen?: boolean;
   onValueChange?: (status: TaskStatus) => void;
@@ -44,7 +44,7 @@ export function TaskStatusSelect({
         if (nextValue) onValueChange?.(nextValue);
       }}
     >
-      <BaseSelect.Trigger render={trigger} onClick={(event) => event.stopPropagation()} />
+      <BaseSelect.Trigger render={children} onClick={(event) => event.stopPropagation()} />
       <SelectContent
         align="start"
         className="w-[220px] min-w-[220px]"

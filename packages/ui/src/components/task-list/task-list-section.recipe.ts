@@ -26,7 +26,11 @@ export const taskListSection = tv({
         trigger: [
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
-        badge: ["border border-line-strong", "font-heading font-bold uppercase text-foreground"],
+        badge: [
+          "inline-flex items-center gap-1 border border-line-strong",
+          "font-heading font-bold uppercase text-foreground",
+          "[&_svg]:size-2.5 [&_svg]:shrink-0 [&_svg]:text-foreground",
+        ],
         count: ["font-mono text-foreground/50"],
         chevron: ["text-foreground/50", "group-hover:text-foreground"],
         empty: [
