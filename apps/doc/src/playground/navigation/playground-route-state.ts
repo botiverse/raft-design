@@ -20,7 +20,6 @@ const playgroundRailPaths = {
 const playgroundDisabledRailViews = new Set<PlaygroundRailView>([
   "search",
   "activity",
-  "tasks",
   "computers",
   "settings",
 ]);

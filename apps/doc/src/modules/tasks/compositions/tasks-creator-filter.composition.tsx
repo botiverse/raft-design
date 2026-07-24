@@ -78,9 +78,9 @@ export function TasksCreatorFilterComposition({
           onValueChange?.(nextValue);
         }}
       >
-        <ComboboxTrigger className="h-8 py-0">
-          <UserCircle2 aria-hidden />
-          <span className="min-w-0 truncate text-left">Creator</span>
+        <ComboboxTrigger aria-label="Creator" className="h-8 py-0 max-md:text-[12px]">
+          <UserCircle2 aria-hidden className="size-3.5" />
+          <span className="min-w-0 truncate text-left max-md:hidden">Creator</span>
           {selectedIds.length > 0 && (
             <ComboboxTriggerCount>{selectedIds.length}</ComboboxTriggerCount>
           )}

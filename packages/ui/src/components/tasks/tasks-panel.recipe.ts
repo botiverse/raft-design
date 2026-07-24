@@ -26,7 +26,7 @@ export const tasksPanel = tv({
     ],
     viewport: [
       "min-h-0 flex-1 overflow-auto overscroll-contain p-4",
-      "[padding-bottom:env(safe-area-inset-bottom)]",
+      "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
     ],
     empty: ["flex h-full flex-col items-center justify-center"],
   },
@@ -47,6 +47,7 @@ export const tasksPanel = tv({
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
           "font-sans font-medium text-foreground-muted",
         ],
+        toolbarView: ["[&_[data-slot=tabs-list]]:gap-2"],
         viewport: ["bg-layer-panel px-7", "max-md:pl-5 max-md:pr-3.5"],
       },
     },
