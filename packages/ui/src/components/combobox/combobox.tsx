@@ -117,7 +117,7 @@ const combobox = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
-          "focus-visible:ring-0 focus-visible:ring-offset-0",
+          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-3",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],
@@ -154,14 +154,14 @@ const combobox = tv({
         control: [
           "rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
           "text-sm font-normal text-foreground shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)]",
-          "focus-within:border-line-subtle/30 focus-within:ring-2 focus-within:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-within:ring-offset-1 focus-within:ring-offset-background",
+          "focus-within:ring-1 focus-within:ring-primary-400 focus-within:ring-offset-2 focus-within:ring-offset-background",
           "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],
         empty: ["text-foreground-muted"],
         groupLabel: ["text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45"],
         chips: [
           "rounded-md border border-line-subtle bg-layer-field px-2 py-1",
-          "focus-within:border-line-subtle/30 focus-within:ring-2 focus-within:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-within:ring-offset-1 focus-within:ring-offset-background",
+          "focus-within:ring-1 focus-within:ring-primary-400 focus-within:ring-offset-2 focus-within:ring-offset-background",
         ],
         chip: ["rounded-sm bg-layer-muted px-1.5 py-0.5 text-xs font-medium text-foreground"],
         chipRemove: ["text-foreground-muted hover:text-foreground-strong"],
@@ -206,7 +206,7 @@ const combobox = tv({
           "rounded-sm border border-line-subtle bg-layer-field px-2 py-1 text-sm",
           "text-foreground outline-none transition duration-150",
           "placeholder:text-foreground-placeholder/70",
-          "focus:border-line-subtle/30 focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         ],
       },
     },

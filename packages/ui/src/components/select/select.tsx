@@ -104,7 +104,7 @@ const select = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
-          "focus-visible:ring-0 focus-visible:ring-offset-0",
+          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
         ],
         content: ["rounded-md bg-layer-popover", "shadow-lg"],
