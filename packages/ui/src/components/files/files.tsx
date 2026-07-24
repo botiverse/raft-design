@@ -1,4 +1,5 @@
 import { useRender } from "@base-ui/react/use-render";
+import { Button, type ButtonProps } from "../button/button";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { files } from "./files.recipe";
 
@@ -88,35 +89,16 @@ export function FileActions(props: FileActionsProps) {
   return useFileSlot("actions", "file-actions", "span", props);
 }
 
-export type FileActionProps = FileSlotProps<"button">;
-export function FileAction(props: FileActionProps) {
-  return useFileSlot("action", "file-action", "button", { type: "button", ...props });
-}
+export type FileActionProps = Omit<ButtonProps, "variant" | "size"> &
+  Pick<Partial<ButtonProps>, "variant" | "size">;
 
-export type FilesLoadingProps = FileSlotProps<"div">;
-export function FilesLoading(props: FilesLoadingProps) {
-  return useFileSlot("loading", "files-loading", "div", props);
-}
-
-export type FilesErrorProps = FileSlotProps<"div">;
-export function FilesError(props: FilesErrorProps) {
-  return useFileSlot("error", "files-error", "div", { role: "alert", ...props });
-}
-
-export type FilesLoadMoreProps = FileSlotProps<"div">;
-export function FilesLoadMore(props: FilesLoadMoreProps) {
-  return useFileSlot("loadMore", "files-load-more", "div", props);
-}
-
-export type FilesLoadMoreStatusProps = FileSlotProps<"span">;
-export function FilesLoadMoreStatus(props: FilesLoadMoreStatusProps) {
-  return useFileSlot("loadMoreStatus", "files-load-more-status", "span", props);
-}
-
-export type FilesLoadMoreActionProps = FileSlotProps<"button">;
-export function FilesLoadMoreAction(props: FilesLoadMoreActionProps) {
-  return useFileSlot("loadMoreAction", "files-load-more-action", "button", {
-    type: "button",
-    ...props,
-  });
+export function FileAction({ variant, size = "icon-sm", ...props }: FileActionProps) {
+  const theme = useThemeFamily();
+  return (
+    <Button
+      variant={variant ?? (theme === "brutal" ? "outline" : "ghost")}
+      size={size}
+      {...props}
+    />
+  );
 }
