@@ -11,7 +11,12 @@ export const messageItemTaskBadge = tv({
   variants: {
     theme: {
       brutal: ["border border-line-strong text-foreground"],
-      elegant: ["h-auto rounded-md border-0 py-0.5 px-2", "text-xs font-medium"],
+      elegant: [
+        "h-auto rounded-md border-0 bg-layer-muted px-2 py-0.5 text-foreground-strong",
+        "text-xs font-medium",
+        "hover:bg-layer-strong",
+        "[&_svg]:size-3",
+      ],
     },
   },
 });

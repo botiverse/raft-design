@@ -27,7 +27,9 @@ import {
   useCallback,
   useId,
   useMemo,
+  useRef,
   useState,
+  useSyncExternalStore,
   type ComponentPropsWithRef,
   type CSSProperties,
   type Ref,
@@ -43,9 +45,6 @@ export type TaskDropData = Record<string, unknown>;
 type TaskDndContextValue = {
   activeId: UniqueIdentifier | null;
   activeHeight: number | null;
-  overId: UniqueIdentifier | null;
-  overPlacement: TaskDropPlacement | null;
-  overData: TaskDropData | undefined;
   isDropAllowed: (
     activeId: UniqueIdentifier,
     overId: UniqueIdentifier,
@@ -54,6 +53,24 @@ type TaskDndContextValue = {
 };
 
 const TaskDndContext = createContext<TaskDndContextValue | null>(null);
+type TaskDndOverSnapshot = {
+  overId: UniqueIdentifier | null;
+  overPlacement: TaskDropPlacement | null;
+  overData: TaskDropData | undefined;
+};
+type TaskDndOverStore = {
+  getSnapshot: () => TaskDndOverSnapshot;
+  subscribe: (listener: () => void) => () => void;
+  update: (snapshot: TaskDndOverSnapshot) => void;
+};
+
+const EMPTY_OVER_SNAPSHOT: TaskDndOverSnapshot = {
+  overId: null,
+  overPlacement: null,
+  overData: undefined,
+};
+const EMPTY_OVER_STORE = createTaskDndOverStore();
+const TaskDndOverContext = createContext<TaskDndOverStore | null>(null);
 const allowTaskDrop = () => true;
 
 export type TaskMoveDetails = {
@@ -95,9 +112,9 @@ export function TaskDndProvider({
   const id = useId();
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [activeHeight, setActiveHeight] = useState<number | null>(null);
-  const [overId, setOverId] = useState<UniqueIdentifier | null>(null);
-  const [overPlacement, setOverPlacement] = useState<TaskDropPlacement | null>(null);
-  const [overData, setOverData] = useState<TaskDropData | undefined>(undefined);
+  const overStoreRef = useRef<TaskDndOverStore | null>(null);
+  if (overStoreRef.current == null) overStoreRef.current = createTaskDndOverStore();
+  const overStore = overStoreRef.current;
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
@@ -108,38 +125,40 @@ export function TaskDndProvider({
       ({
         activeId,
         activeHeight,
-        overId,
-        overPlacement,
-        overData,
         isDropAllowed,
       }) satisfies TaskDndContextValue,
-    [activeHeight, activeId, overData, overId, overPlacement, isDropAllowed],
+    [activeHeight, activeId, isDropAllowed],
   );
   const reset = useCallback(() => {
     setActiveId(null);
     setActiveHeight(null);
-    setOverId(null);
-    setOverPlacement(null);
-    setOverData(undefined);
-  }, []);
+    overStore.update(EMPTY_OVER_SNAPSHOT);
+  }, [overStore]);
 
   return (
     <DndContext
       id={id}
       sensors={disabled ? [] : sensors}
       onDragStart={(event) => {
+        overStore.update(EMPTY_OVER_SNAPSHOT);
         setActiveId(event.active.id);
         setActiveHeight(event.active.rect.current.initial?.height ?? null);
         onDragStart?.(event);
       }}
       onDragMove={(event) => {
-        setOverPlacement(getDropPlacement(event));
+        const current = overStore.getSnapshot();
+        overStore.update({
+          ...current,
+          overPlacement: getDropPlacement(event),
+        });
         onDragMove?.(event);
       }}
       onDragOver={(event) => {
-        setOverId(event.over?.id ?? null);
-        setOverPlacement(getDropPlacement(event));
-        setOverData(event.over?.data.current as TaskDropData | undefined);
+        overStore.update({
+          overId: event.over?.id ?? null,
+          overPlacement: getDropPlacement(event),
+          overData: event.over?.data.current as TaskDropData | undefined,
+        });
         onDragOver?.(event);
       }}
       onDragCancel={(event) => {
@@ -165,7 +184,9 @@ export function TaskDndProvider({
         onDragEnd?.(event);
       }}
     >
-      <TaskDndContext value={context}>{children}</TaskDndContext>
+      <TaskDndContext value={context}>
+        <TaskDndOverContext value={overStore}>{children}</TaskDndOverContext>
+      </TaskDndContext>
     </DndContext>
   );
 }
@@ -243,7 +264,7 @@ export type TaskDropZoneProps = useRender.ComponentProps<"div", TaskDropZoneStat
 export function TaskDropZone({ id, data, disabled = false, render, ...props }: TaskDropZoneProps) {
   const context = use(TaskDndContext);
   const { setNodeRef, isOver } = useDroppable({ id, data, disabled });
-  const dropState = getDropState(context, id, isOver);
+  const dropState = getDropState(context, id, isOver, data);
 
   return useRender({
     defaultTagName: "div",
@@ -273,11 +294,12 @@ export function TaskDropPlaceholder({
 }: TaskDropPlaceholderProps) {
   const theme = useThemeFamily();
   const context = use(TaskDndContext);
+  const overStore = use(TaskDndOverContext) ?? EMPTY_OVER_STORE;
   const { placeholder } = taskDnd({ theme });
-  const dropState = getDropState(
-    context,
-    id,
-    context?.overId === id && (placement == null || context?.overPlacement === placement),
+  const dropState = useSyncExternalStore<TaskDropState>(
+    overStore.subscribe,
+    () => getPlaceholderDropState(context, overStore.getSnapshot(), id, placement),
+    () => "idle",
   );
   const placeholderStyle: CSSProperties = {
     ...style,
@@ -335,8 +357,43 @@ function getDropState(
   context: TaskDndContextValue | null,
   id: UniqueIdentifier,
   isOver: boolean,
+  overData: TaskDropData | undefined,
 ): TaskDropState {
   const activeId = context?.activeId ?? null;
   if (!isOver || activeId == null) return "idle";
-  return context?.isDropAllowed(activeId, id, context.overData) ? "allowed" : "blocked";
+  return context?.isDropAllowed(activeId, id, overData) ? "allowed" : "blocked";
+}
+
+function getPlaceholderDropState(
+  context: TaskDndContextValue | null,
+  over: TaskDndOverSnapshot,
+  id: UniqueIdentifier,
+  placement: TaskDropPlacement | undefined,
+) {
+  const isOver = over.overId === id && (placement == null || over.overPlacement === placement);
+  return getDropState(context, id, isOver, over.overData);
+}
+
+function createTaskDndOverStore(): TaskDndOverStore {
+  let snapshot = EMPTY_OVER_SNAPSHOT;
+  const listeners = new Set<() => void>();
+
+  return {
+    getSnapshot: () => snapshot,
+    subscribe: (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    update: (nextSnapshot) => {
+      if (
+        snapshot.overId === nextSnapshot.overId &&
+        snapshot.overPlacement === nextSnapshot.overPlacement &&
+        snapshot.overData === nextSnapshot.overData
+      ) {
+        return;
+      }
+      snapshot = nextSnapshot;
+      listeners.forEach((listener) => listener());
+    },
+  };
 }

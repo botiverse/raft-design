@@ -26,7 +26,7 @@ export function MessageItemTaskBadge({
     "data-busy": busy ? "true" : undefined,
     className: cn(
       messageItemTaskBadge({ theme }),
-      taskStatus({ theme, status }),
+      theme === "brutal" && taskStatus({ theme, status }),
       busy && "pointer-events-none opacity-60",
       className,
     ),

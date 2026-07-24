@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useCallback, useMemo, useRef, useState } from "react";
 import {
   ScrollArea,
   ScrollAreaContent,
@@ -169,13 +169,34 @@ export function TaskBoardComposition({
   const [announcement, setAnnouncement] = useState("Ready");
 
   const tasks = controlledTasks ?? localTasks;
-  const updateStatus = (taskId: string, status: TaskStatus) => {
-    const task = tasks.find((item) => item.id === taskId);
-    if (!task || task.status === status) return;
-    const next = moveTaskFixture(tasks, taskId, { status });
-    if (controlledTasks === undefined) setLocalTasks(next);
-    setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
-  };
+  const draggableTaskIds = useMemo(
+    () => new Set(tasks.filter((task) => !task.dragDisabled).map((task) => task.id)),
+    [tasks],
+  );
+  const isDropAllowed = useCallback(
+    (
+      activeId: string | number,
+      _overId: string | number,
+      overData: Record<string, unknown> | undefined,
+    ) =>
+      isTaskDropTarget(overData) &&
+      overData.status !== blockedDropStatus &&
+      draggableTaskIds.has(String(activeId)),
+    [blockedDropStatus, draggableTaskIds],
+  );
+  const updateStatus = useCallback(
+    (taskId: string, status: TaskStatus) => {
+      const task = tasks.find((item) => item.id === taskId);
+      if (!task || task.status === status) return;
+      const next = moveTaskFixture(tasks, taskId, { status });
+      if (controlledTasks === undefined) setLocalTasks(next);
+      setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
+    },
+    [controlledTasks, tasks],
+  );
+  const openTask = useCallback((task: TaskFixture) => {
+    setAnnouncement(`Opened task #${task.taskNumber}: ${task.title}`);
+  }, []);
   const activeTask =
     activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
 
@@ -184,11 +205,7 @@ export function TaskBoardComposition({
       <ScrollAreaViewport className="p-4">
         <ScrollAreaContent className="min-w-max">
           <TaskDndProvider
-            isDropAllowed={(activeId, _overId, overData) =>
-              isTaskDropTarget(overData) &&
-              overData.status !== blockedDropStatus &&
-              tasks.some((task) => task.id === activeId && !task.dragDisabled)
-            }
+            isDropAllowed={isDropAllowed}
             onDragStart={({ active }) => setActiveTaskId(String(active.id))}
             onDragCancel={() => setActiveTaskId(null)}
             onDragEnd={() => setActiveTaskId(null)}
@@ -271,11 +288,7 @@ export function TaskBoardComposition({
                                   >
                                     <TaskCardComposition
                                       task={task}
-                                      onOpen={(item) =>
-                                        setAnnouncement(
-                                          `Opened task #${item.taskNumber}: ${item.title}`,
-                                        )
-                                      }
+                                      onOpen={openTask}
                                       onStatusChange={updateStatus}
                                       portalRef={portalRef}
                                       showChannelName={showChannelName}
