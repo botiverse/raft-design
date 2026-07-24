@@ -5,12 +5,12 @@ import {
   Button,
   ConversationPanelActions,
   ConversationPanelContent,
-  ConversationPanelHeader,
   ConversationPanelHeaderContent,
   ConversationPanelHeaderIcon,
   ConversationPanelHeading,
   ConversationPanelMeta,
   ConversationPanelRoot,
+  ConversationPanelSectionHeader,
   ConversationPanelTitle,
   Tabs,
   TabsList,
@@ -228,8 +228,8 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
 
   return (
     <ConversationPanelRoot>
-      <ConversationPanelHeader className="[[data-theme=brutal]_&]:max-md:bg-primary-400">
-        <ConversationPanelHeaderContent className="[[data-theme=elegant]_&]:max-md:col-start-1 [[data-theme=elegant]_&]:max-md:self-center">
+      <ConversationPanelSectionHeader>
+        <ConversationPanelHeaderContent>
           {isDesktop ? (
             <ConversationPanelHeaderIcon>
               <CheckSquare aria-hidden />
@@ -244,7 +244,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
             {compositionTasks.length} channel tasks
           </ConversationPanelMeta>
         </ConversationPanelHeaderContent>
-        <ConversationPanelActions className="md:hidden max-md:gap-1.5 [[data-theme=brutal]_&]:max-md:gap-2.5">
+        <ConversationPanelActions className="md:hidden">
           <Tabs
             value={view}
             onValueChange={(nextView) => {
@@ -252,7 +252,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
             }}
             aria-label="Task view"
           >
-            <TabsList className="[[data-theme=elegant]_&]:gap-2">
+            <TabsList>
               <TabsTab value="board" aria-label="Board" className="px-2.5">
                 <SquareKanban aria-hidden />
               </TabsTab>
@@ -266,7 +266,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
             New Task
           </Button>
         </ConversationPanelActions>
-      </ConversationPanelHeader>
+      </ConversationPanelSectionHeader>
       <ConversationPanelContent className="max-md:[&_[data-slot=tasks-panel-viewport]]:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]">
         {panel}
       </ConversationPanelContent>
