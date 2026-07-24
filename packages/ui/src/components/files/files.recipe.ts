@@ -13,7 +13,7 @@ export const files = tv({
       "flex min-w-0 flex-1 items-stretch gap-3 text-left",
       "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2",
     ],
-    visual: [
+    thumbnail: [
       "flex size-14 shrink-0 items-center justify-center overflow-hidden border-2",
       "[&_svg]:size-4.5 [&_svg]:shrink-0",
       "has-[[data-slot=file-preview]]:h-[60px] has-[[data-slot=file-preview]]:w-14",
@@ -54,7 +54,7 @@ export const files = tv({
         panel: "bg-white",
         row: ["border-black/30 bg-white", "hover:border-black hover:shadow-sm"],
         rowOpen: "focus-visible:outline-black",
-        visual: "border-black bg-white text-black",
+        thumbnail: "border-black bg-white text-black",
         name: "text-black",
         meta: "text-black/50",
         action: [
@@ -86,7 +86,7 @@ export const files = tv({
           "focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-panel",
         ],
-        visual: ["rounded-md border border-line-subtle bg-layer-muted", "text-foreground-icon"],
+        thumbnail: ["rounded-md border border-line-subtle bg-layer-muted", "text-foreground-icon"],
         image: "bg-layer-panel",
         name: ["font-sans font-medium text-foreground-strong"],
         meta: ["font-sans text-foreground-placeholder"],

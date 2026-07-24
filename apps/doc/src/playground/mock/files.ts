@@ -115,7 +115,7 @@ const RAFT_UI_MIGRATION_FILE_SEEDS = [
     createdAt: "Today, 8:55 AM",
     type: "file",
     previewUrl: jsonPreview(
-      '{\n  "themes": ["brutal", "elegant"],\n  "slots": ["panel", "row", "visual"]\n}',
+      '{\n  "themes": ["brutal", "elegant"],\n  "slots": ["panel", "row", "thumbnail"]\n}',
     ),
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.stateModel,
   },
@@ -126,7 +126,7 @@ const RAFT_UI_MIGRATION_FILE_SEEDS = [
     createdAt: "Today, 8:41 AM",
     type: "file",
     previewUrl: htmlPreview(
-      "<!doctype html><title>Files anatomy</title><h1>FilesPanel</h1><p>List, row, visual, actions.</p>",
+      "<!doctype html><title>Files anatomy</title><h1>FilesPanel</h1><p>List, row, thumbnail, actions.</p>",
     ),
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.apiDocs,
   },
@@ -422,13 +422,13 @@ const RAFT_UI_MIGRATION_FILE_SEEDS = [
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.apiDocs,
   },
   {
-    slug: "visual-width-notes",
-    filename: "visual-width-notes.md",
+    slug: "thumbnail-width-notes",
+    filename: "thumbnail-width-notes.md",
     size: "710 B",
     createdAt: "Sun, 1:33 PM",
     type: "file",
     previewUrl: markdownPreview(
-      "FileVisual is a layout spacer (`size-14`). FilePreview inside stays 48×60 without chrome.",
+      "FileThumbnail is a layout spacer (`size-14`). FilePreview inside stays 48×60 without chrome.",
     ),
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.selectorPerformance,
   },
