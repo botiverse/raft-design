@@ -31,7 +31,7 @@ import {
   FilesLoadMoreStatus,
   FilesPanel,
   FilesViewport,
-  FileVisual,
+  FileThumbnail,
 } from "raft-ui/wip";
 import { Clock3, Download, ExternalLink, Paperclip } from "lucide-react";
 
@@ -176,7 +176,7 @@ function filePreviewLabel(filename: string) {
   return extension ? extension.slice(0, 4).toUpperCase() : "FILE";
 }
 
-function FileVisualFallback({ file }: { file: FileListEntry }) {
+function FileThumbnailFallback({ file }: { file: FileListEntry }) {
   const extension = file.filename.split(".").at(-1)?.toLowerCase();
   const badgeType = filePreviewBadgeType(file.filename, file.type);
   const badgeLabel = filePreviewLabel(file.filename);
@@ -220,9 +220,9 @@ function FileListRow({
   return (
     <FileRow>
       <FileRowOpen disabled={!onPreview} title="Preview file" onClick={() => onPreview?.(file)}>
-        <FileVisual>
-          <FileVisualFallback file={file} />
-        </FileVisual>
+        <FileThumbnail>
+          <FileThumbnailFallback file={file} />
+        </FileThumbnail>
         <FileContent>
           <FileName>{file.filename}</FileName>
           <FileMeta>
