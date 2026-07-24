@@ -257,10 +257,7 @@ const NAV = [
   },
   {
     title: "Brand",
-    items: [
-      { label: "Logo", to: "/components/logo", status: "done" },
-      { label: "Logo snap", to: "/lab/logo-snap", status: "internal" },
-    ],
+    items: [{ label: "Logo", to: "/components/logo", status: "done" }],
   },
   {
     title: "Data Display",
@@ -498,6 +495,9 @@ export function Sidebar() {
           </li>
           <li>
             <NavRow item={{ label: "Playground", to: "/playground" }} />
+          </li>
+          <li>
+            <NavRow item={{ label: "Lab", to: "/lab" }} />
           </li>
           <li>
             <NavRow item={{ label: "Migration", to: "/migration" }} />

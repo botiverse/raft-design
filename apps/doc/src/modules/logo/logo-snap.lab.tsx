@@ -247,7 +247,7 @@ export function LogoSnapLab() {
   return (
     <div className="flex w-full flex-col items-center gap-10">
       <div className="relative flex min-h-[60vh] w-full items-center justify-center overflow-hidden rounded-xl bg-[oklch(0.97_0.01_95)]">
-        <div role="img" aria-label="Raft" className="relative aspect-[422/132] w-[min(90%,42rem)]">
+        <div role="img" aria-label="Raft" className="relative aspect-[422/132] w-[min(72%,10rem)]">
           <div className="absolute top-1/2 left-0 z-10 aspect-[113/104] h-[78.8%] -translate-y-1/2">
             <div
               ref={markRef}

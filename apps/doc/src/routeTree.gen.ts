@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MigrationRouteImport } from './routes/migration'
+import { Route as LabRouteImport } from './routes/lab'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as ChangelogRouteImport } from './routes/changelog'
@@ -23,7 +24,6 @@ import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
-import { Route as LabLogoSnapRouteImport } from './routes/lab/logo-snap'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
 import { Route as IframeChatSidebarMobilePartsRouteImport } from './routes/iframe/chat-sidebar-mobile-parts'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
@@ -121,6 +121,11 @@ const MigrationRoute = MigrationRouteImport.update({
   path: '/migration',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LabRoute = LabRouteImport.update({
+  id: '/lab',
+  path: '/lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstallationRoute = InstallationRouteImport.update({
   id: '/installation',
   path: '/installation',
@@ -185,11 +190,6 @@ const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
   id: '/$sourceFile',
   path: '/$sourceFile',
   getParentRoute: () => MigrationRoute,
-} as any)
-const LabLogoSnapRoute = LabLogoSnapRouteImport.update({
-  id: '/lab/logo-snap',
-  path: '/lab/logo-snap',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const IframeDrawerRoute = IframeDrawerRouteImport.update({
   id: '/iframe/drawer',
@@ -673,6 +673,7 @@ export interface FileRoutesByFullPath {
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/lab': typeof LabRoute
   '/migration': typeof MigrationRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
@@ -746,7 +747,6 @@ export interface FileRoutesByFullPath {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
-  '/lab/logo-snap': typeof LabLogoSnapRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -778,6 +778,7 @@ export interface FileRoutesByTo {
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/lab': typeof LabRoute
   '/playground': typeof PlaygroundIndexRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
@@ -851,7 +852,6 @@ export interface FileRoutesByTo {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
-  '/lab/logo-snap': typeof LabLogoSnapRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -883,6 +883,7 @@ export interface FileRoutesById {
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/lab': typeof LabRoute
   '/migration': typeof MigrationRouteWithChildren
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
@@ -958,7 +959,6 @@ export interface FileRoutesById {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
-  '/lab/logo-snap': typeof LabLogoSnapRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -993,6 +993,7 @@ export interface FileRouteTypes {
     | '/changelog'
     | '/components'
     | '/installation'
+    | '/lab'
     | '/migration'
     | '/playground/s'
     | '/components/alert-dialog'
@@ -1066,7 +1067,6 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
-    | '/lab/logo-snap'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1098,6 +1098,7 @@ export interface FileRouteTypes {
     | '/changelog'
     | '/components'
     | '/installation'
+    | '/lab'
     | '/playground'
     | '/playground/s'
     | '/components/alert-dialog'
@@ -1171,7 +1172,6 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
-    | '/lab/logo-snap'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1202,6 +1202,7 @@ export interface FileRouteTypes {
     | '/changelog'
     | '/components'
     | '/installation'
+    | '/lab'
     | '/migration'
     | '/playground/_browse'
     | '/playground/_plain'
@@ -1277,7 +1278,6 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
-    | '/lab/logo-snap'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1311,11 +1311,11 @@ export interface RootRouteChildren {
   ChangelogRoute: typeof ChangelogRoute
   ComponentsRoute: typeof ComponentsRouteWithChildren
   InstallationRoute: typeof InstallationRoute
+  LabRoute: typeof LabRoute
   MigrationRoute: typeof MigrationRouteWithChildren
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeChatSidebarMobilePartsRoute: typeof IframeChatSidebarMobilePartsRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
-  LabLogoSnapRoute: typeof LabLogoSnapRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRoute
@@ -1330,6 +1330,13 @@ declare module '@tanstack/react-router' {
       path: '/migration'
       fullPath: '/migration'
       preLoaderRoute: typeof MigrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lab': {
+      id: '/lab'
+      path: '/lab'
+      fullPath: '/lab'
+      preLoaderRoute: typeof LabRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/installation': {
@@ -1422,13 +1429,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/migration/$sourceFile'
       preLoaderRoute: typeof MigrationSourceFileRouteImport
       parentRoute: typeof MigrationRoute
-    }
-    '/lab/logo-snap': {
-      id: '/lab/logo-snap'
-      path: '/lab/logo-snap'
-      fullPath: '/lab/logo-snap'
-      preLoaderRoute: typeof LabLogoSnapRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/iframe/drawer': {
       id: '/iframe/drawer'
@@ -2375,11 +2375,11 @@ const rootRouteChildren: RootRouteChildren = {
   ChangelogRoute: ChangelogRoute,
   ComponentsRoute: ComponentsRouteWithChildren,
   InstallationRoute: InstallationRoute,
+  LabRoute: LabRoute,
   MigrationRoute: MigrationRouteWithChildren,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeChatSidebarMobilePartsRoute: IframeChatSidebarMobilePartsRoute,
   IframeDrawerRoute: IframeDrawerRoute,
-  LabLogoSnapRoute: LabLogoSnapRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRoute,
