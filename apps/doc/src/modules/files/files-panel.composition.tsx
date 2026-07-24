@@ -1,5 +1,6 @@
 import type { ReactNode, UIEvent } from "react";
 import {
+  Button,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -23,12 +24,7 @@ import {
   FileName,
   FileRow,
   FileRowOpen,
-  FilesError,
   FilesList,
-  FilesLoading,
-  FilesLoadMore,
-  FilesLoadMoreAction,
-  FilesLoadMoreStatus,
   FilesPanel,
   FilesViewport,
   FileThumbnail,
@@ -113,9 +109,17 @@ export function FilesPanelComposition({
     <FilesPanel aria-label="Files panel">
       <FilesViewport onScroll={handleViewportScroll}>
         {loading ? (
-          <FilesLoading>Loading files…</FilesLoading>
+          <EmptyState className="h-full">
+            <EmptyStateContent>
+              <EmptyStateTitle>Loading files…</EmptyStateTitle>
+            </EmptyStateContent>
+          </EmptyState>
         ) : error ? (
-          <FilesError>{error}</FilesError>
+          <EmptyState className="h-full" role="alert">
+            <EmptyStateContent>
+              <EmptyStateTitle>{error}</EmptyStateTitle>
+            </EmptyStateContent>
+          </EmptyState>
         ) : files.length === 0 ? (
           <EmptyState className="h-full">
             <EmptyStateIcon>
@@ -143,15 +147,17 @@ export function FilesPanelComposition({
               ))}
             </FilesList>
             {loadingMore || hasMore ? (
-              <FilesLoadMore>
+              <div className="flex justify-center p-4">
                 {loadingMore ? (
-                  <FilesLoadMoreStatus>Loading more files…</FilesLoadMoreStatus>
+                  <span className="font-mono text-xs text-foreground-placeholder">
+                    Loading more files…
+                  </span>
                 ) : (
-                  <FilesLoadMoreAction disabled={!onLoadMore} onClick={onLoadMore}>
+                  <Button variant="outline" size="sm" disabled={!onLoadMore} onClick={onLoadMore}>
                     Load more
-                  </FilesLoadMoreAction>
+                  </Button>
                 )}
-              </FilesLoadMore>
+              </div>
             ) : null}
           </>
         )}
