@@ -12,7 +12,7 @@ export const taskCard = tv({
     ],
     row: ["flex min-w-0 items-start gap-2"],
     body: ["min-w-0 flex-1"],
-    meta: ["mb-1.5 flex min-w-0 flex-wrap items-center gap-2"],
+    meta: ["mb-1.5 flex min-w-0 flex-nowrap items-center gap-2"],
     channel: ["text-xs leading-4"],
     number: ["shrink-0 text-[11px]"],
     legacy: ["shrink-0 px-1.5 py-0.5 text-[10px]"],
@@ -36,9 +36,9 @@ export const taskCard = tv({
       elegant: {
         root: [
           "rounded-lg border-[0.5px] border-line-subtle bg-layer-panel shadow-xs",
-          "hover:bg-ink-2/5 group-data-[drop-over=true]/task-draggable:hover:bg-layer-panel data-[interactive=true]:active:bg-ink-2/5",
+          "hover:bg-[color-mix(in_oklch,oklch(0_0_0)_1%,var(--layer-panel))] group-data-[drop-over=true]/task-draggable:hover:bg-layer-panel data-[interactive=true]:active:bg-[color-mix(in_oklch,oklch(0_0_0)_1%,var(--layer-panel))]",
         ],
-        channel: ["font-medium text-foreground-muted"],
+        channel: ["min-w-0 truncate font-medium text-foreground-muted"],
         meta: ["gap-1.5"],
         number: ["font-sans leading-3.5 font-medium tabular-nums text-foreground-placeholder"],
         legacy: [

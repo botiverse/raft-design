@@ -158,52 +158,27 @@ export function TaskCardDescription({ className, render, ...props }: TaskCardDes
   });
 }
 
-export type TaskCardStatusProps = useRender.ComponentProps<"div"> & { busy?: boolean };
-export function TaskCardStatus({ busy = false, className, render, ...props }: TaskCardStatusProps) {
-  const theme = useThemeFamily();
-  const { root } = taskCardStatus({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "task-card-status",
-    "aria-busy": busy || undefined,
-    "data-busy": busy ? "true" : undefined,
-    className: root({ className }),
-  };
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type TaskCardStatusTriggerProps = useRender.ComponentProps<"button"> & {
+export type TaskCardStatusProps = useRender.ComponentProps<"button"> & {
   busy?: boolean;
   status: TaskStatusId;
 };
-export function TaskCardStatusTrigger({
+export function TaskCardStatus({
   busy = false,
   status,
   className,
   render,
   children,
   ...props
-}: TaskCardStatusTriggerProps) {
+}: TaskCardStatusProps) {
   const theme = useThemeFamily();
-  const { trigger } = taskCardStatus({ theme });
-  const resolvedChildren =
-    theme === "elegant" ? (
-      <>
-        <TaskStatusIcon status={status} />
-        <span className="sr-only">{children}</span>
-      </>
-    ) : (
-      children
-    );
+  const styles = taskCardStatus({ theme });
+  const resolvedChildren = children ?? <TaskStatusIcon status={status} />;
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
-    "data-slot": "task-card-status-trigger",
+    "data-slot": "task-card-status",
     "data-busy": busy ? "true" : undefined,
     "aria-busy": busy || undefined,
-    className: cn(trigger(), theme === "brutal" && taskStatus({ theme, status }), className),
+    className: cn(styles, theme === "brutal" && taskStatus({ theme, status }), className),
   };
   return useRender({
     defaultTagName: "button",

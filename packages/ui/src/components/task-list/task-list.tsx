@@ -83,15 +83,12 @@ export function TaskSectionBadge({
 }: TaskSectionBadgeProps) {
   const theme = useThemeFamily();
   const { badge } = taskListSection({ theme });
-  const resolvedChildren =
-    theme === "elegant" ? (
-      <>
-        <TaskStatusIcon status={status} />
-        {children}
-      </>
-    ) : (
-      children
-    );
+  const resolvedChildren = (
+    <>
+      <TaskStatusIcon status={status} />
+      {children}
+    </>
+  );
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-section-badge",
     className: cn(badge(), theme === "brutal" && taskStatus({ theme, status }), className),

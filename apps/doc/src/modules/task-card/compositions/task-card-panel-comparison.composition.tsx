@@ -5,7 +5,7 @@ export function TaskCardPanelComparisonComposition() {
   return (
     <TaskCardPanel>
       <TaskCardPanelHeader>Channel tasks</TaskCardPanelHeader>
-      <TaskCardComparisonComposition showNotice={false} showChannelName />
+      <TaskCardComparisonComposition showChannelName />
     </TaskCardPanel>
   );
 }

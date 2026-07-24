@@ -87,15 +87,12 @@ export function TaskBoardColumnBadge({
 }: TaskBoardColumnBadgeProps) {
   const theme = useThemeFamily();
   const { badge } = taskBoardColumn({ theme });
-  const resolvedChildren =
-    theme === "elegant" ? (
-      <>
-        <TaskStatusIcon status={status} />
-        {children}
-      </>
-    ) : (
-      children
-    );
+  const resolvedChildren = (
+    <>
+      <TaskStatusIcon status={status} />
+      {children}
+    </>
+  );
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-badge",
     className: cn(badge(), theme === "brutal" && taskStatus({ theme, status }), className),
