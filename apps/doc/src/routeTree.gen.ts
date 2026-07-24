@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MigrationRouteImport } from './routes/migration'
+import { Route as LabRouteImport } from './routes/lab'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as ChangelogRouteImport } from './routes/changelog'
@@ -118,6 +119,11 @@ import { Route as PlaygroundSServerSlugChannelChannelIdRouteImport } from './rou
 const MigrationRoute = MigrationRouteImport.update({
   id: '/migration',
   path: '/migration',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabRoute = LabRouteImport.update({
+  id: '/lab',
+  path: '/lab',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstallationRoute = InstallationRouteImport.update({
@@ -667,6 +673,7 @@ export interface FileRoutesByFullPath {
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/lab': typeof LabRoute
   '/migration': typeof MigrationRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
@@ -771,6 +778,7 @@ export interface FileRoutesByTo {
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/lab': typeof LabRoute
   '/playground': typeof PlaygroundIndexRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
@@ -875,6 +883,7 @@ export interface FileRoutesById {
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
+  '/lab': typeof LabRoute
   '/migration': typeof MigrationRouteWithChildren
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
@@ -984,6 +993,7 @@ export interface FileRouteTypes {
     | '/changelog'
     | '/components'
     | '/installation'
+    | '/lab'
     | '/migration'
     | '/playground/s'
     | '/components/alert-dialog'
@@ -1088,6 +1098,7 @@ export interface FileRouteTypes {
     | '/changelog'
     | '/components'
     | '/installation'
+    | '/lab'
     | '/playground'
     | '/playground/s'
     | '/components/alert-dialog'
@@ -1191,6 +1202,7 @@ export interface FileRouteTypes {
     | '/changelog'
     | '/components'
     | '/installation'
+    | '/lab'
     | '/migration'
     | '/playground/_browse'
     | '/playground/_plain'
@@ -1299,6 +1311,7 @@ export interface RootRouteChildren {
   ChangelogRoute: typeof ChangelogRoute
   ComponentsRoute: typeof ComponentsRouteWithChildren
   InstallationRoute: typeof InstallationRoute
+  LabRoute: typeof LabRoute
   MigrationRoute: typeof MigrationRouteWithChildren
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeChatSidebarMobilePartsRoute: typeof IframeChatSidebarMobilePartsRoute
@@ -1317,6 +1330,13 @@ declare module '@tanstack/react-router' {
       path: '/migration'
       fullPath: '/migration'
       preLoaderRoute: typeof MigrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lab': {
+      id: '/lab'
+      path: '/lab'
+      fullPath: '/lab'
+      preLoaderRoute: typeof LabRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/installation': {
@@ -2355,6 +2375,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChangelogRoute: ChangelogRoute,
   ComponentsRoute: ComponentsRouteWithChildren,
   InstallationRoute: InstallationRoute,
+  LabRoute: LabRoute,
   MigrationRoute: MigrationRouteWithChildren,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeChatSidebarMobilePartsRoute: IframeChatSidebarMobilePartsRoute,

@@ -497,6 +497,9 @@ export function Sidebar() {
             <NavRow item={{ label: "Playground", to: "/playground" }} />
           </li>
           <li>
+            <NavRow item={{ label: "Lab", to: "/lab" }} />
+          </li>
+          <li>
             <NavRow item={{ label: "Migration", to: "/migration" }} />
           </li>
         </ul>
