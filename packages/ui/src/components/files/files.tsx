@@ -53,9 +53,9 @@ export function FileRowOpen(props: FileRowOpenProps) {
   return useFileSlot("rowOpen", "file-row-open", "button", { type: "button", ...props });
 }
 
-export type FileVisualProps = FileSlotProps<"span">;
-export function FileVisual(props: FileVisualProps) {
-  return useFileSlot("visual", "file-visual", "span", props);
+export type FileThumbnailProps = FileSlotProps<"span">;
+export function FileThumbnail(props: FileThumbnailProps) {
+  return useFileSlot("thumbnail", "file-thumbnail", "span", props);
 }
 
 export type FileImageProps = FileSlotProps<"img"> & { fit?: "contain" | "cover" };
