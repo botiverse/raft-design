@@ -28,6 +28,7 @@ catalog:
   "@cloudflare/vite-plugin": ^1.44.0
   react-resizable-panels: ^4.12.1
   react-dropzone: ^19.1.1
+  "@tanstack/react-virtual": ^3.14.8
 overrides:
   vite: "catalog:"
   vitest: "catalog:"

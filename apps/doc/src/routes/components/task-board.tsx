@@ -9,6 +9,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { TaskBoardEmptyColumnsComposition } from "#/modules/task-board/compositions/task-board-empty-columns.composition.tsx";
 import { TaskBoardComposition } from "#/modules/task-board/compositions/task-board.composition.tsx";
+import { TaskBoardVirtualizationComposition } from "#/modules/task-board/compositions/task-board-virtualization.composition.tsx";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider>
   <TaskBoardRoot>
@@ -95,49 +96,37 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
-  { id: "source-virtualization", title: "Source virtualization" },
   { id: "api", title: "API" },
 ] as const;
 
-const SOURCE_VIRTUALIZATION_SNIPPET = `const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-<div ref={scrollContainerRef} data-task-virtual-scroll className="flex-1 overflow-auto">
-  <TaskVirtualLayout
-    scrollElementRef={scrollContainerRef}
-    className="flex min-w-max items-start gap-4 pr-4"
-  >
-    {groupedTasks.map(({ status, tasks }) => (
-      <DroppableColumn
-        key={status}
-        status={status}
-        statusTasks={tasks}
-        scrollElementRef={scrollContainerRef}
-      />
-    ))}
-  </TaskVirtualLayout>
-</div>
+const VIRTUALIZATION_SNIPPET = `const viewportRef = useRef<HTMLDivElement>(null);
 
 const virtualizer = useVirtualizer({
   count: items.length,
-  getScrollElement: () => scrollContainerRef.current,
+  getScrollElement: () => viewportRef.current,
   getItemKey: (index) => items[index]!.id,
   estimateSize: () => 116,
   gap: 10,
   overscan: 6,
-  scrollMargin,
 });
 
-<div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
-  {virtualizer.getVirtualItems().map((row) => (
-    <div
-      key={row.key}
-      ref={virtualizer.measureElement}
-      style={{ position: "absolute", transform: \`translateY(\${row.start - scrollMargin}px)\` }}
-    >
-      {renderItem(items[row.index]!)}
-    </div>
-  ))}
-</div>`;
+<ScrollArea>
+  <ScrollAreaViewport ref={viewportRef}>
+    <TaskBoardColumnItems>
+      <div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
+        {virtualizer.getVirtualItems().map((row) => (
+          <div
+            key={row.key}
+            ref={virtualizer.measureElement}
+            style={{ position: "absolute", transform: \`translateY(\${row.start}px)\` }}
+          >
+            {renderItem(items[row.index]!)}
+          </div>
+        ))}
+      </div>
+    </TaskBoardColumnItems>
+  </ScrollAreaViewport>
+</ScrollArea>`;
 
 const BOARD_ROOT_PROPS: readonly PropRow[] = [
   {
@@ -258,7 +247,7 @@ const SNIPPETS = {
   dnd: DND_SNIPPET,
   scrollArea: SCROLL_AREA_SNIPPET,
   empty: EMPTY_COLUMN_SNIPPET,
-  sourceVirtualization: SOURCE_VIRTUALIZATION_SNIPPET,
+  virtualization: VIRTUALIZATION_SNIPPET,
 } as const;
 
 export const Route = createFileRoute("/components/task-board")({
@@ -350,21 +339,22 @@ function TaskBoardDoc() {
               <Preview.Code html={code.empty} />
             </Preview>
           </DocSubsection>
-        </div>
-      </DocSection>
 
-      <DocSection id="source-virtualization" title="Source-repo virtualization">
-        <p className="mb-4 text-sm text-foreground/70">
-          Slock currently uses a native shared <code>overflow-auto</code> container, not{" "}
-          <code>ScrollArea</code>. Each board column mounts a variable-height virtual stack against
-          that same ref. In a Raft UI consumer, use the <code>ScrollAreaViewport</code> ref in the
-          same place; virtualization remains product code, outside <code>TaskBoard</code>.
-        </p>
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.sourceVirtualization} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
+          <DocSubsection parentId="usage" id="virtualization" title="Virtualization">
+            <p className="mb-4 text-sm text-foreground/70">
+              Keep one shared <code>ScrollAreaViewport</code>, and mount a{" "}
+              <code>useVirtualizer</code> stack inside each tall column. Only viewport rows plus
+              overscan stay mounted — watch the counter while scrolling. Virtualization stays
+              consumer-owned; <code>TaskBoard</code> does not provide it.
+            </p>
+            <Preview previewClassName="h-[28rem] items-stretch p-0">
+              <Preview.Canvas>
+                <TaskBoardVirtualizationComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.virtualization} />
+            </Preview>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">
