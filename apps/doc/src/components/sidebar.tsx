@@ -55,7 +55,7 @@ const NAV = [
       {
         label: "ScrollArea",
         to: "/components/scroll-area",
-        status: "wip",
+        status: "done",
       },
     ],
   },
@@ -118,11 +118,11 @@ const NAV = [
   {
     title: "Tasks",
     items: [
-      { label: "TasksPanel", to: "/components/tasks", status: "todo" },
-      { label: "TaskBoard", to: "/components/task-board", status: "todo" },
-      { label: "TaskList", to: "/components/task-list", status: "todo" },
-      { label: "TaskDnd", to: "/components/task-dnd", status: "todo" },
-      { label: "TaskCard", to: "/components/task-card", status: "todo" },
+      { label: "TasksPanel", to: "/components/tasks", status: "done" },
+      { label: "TaskBoard", to: "/components/task-board", status: "done" },
+      { label: "TaskList", to: "/components/task-list", status: "done" },
+      { label: "TaskDnd", to: "/components/task-dnd", status: "done" },
+      { label: "TaskCard", to: "/components/task-card", status: "done" },
     ],
   },
   {
