@@ -229,7 +229,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
   return (
     <ConversationPanelRoot>
       <ConversationPanelHeader className="[[data-theme=brutal]_&]:max-md:bg-primary-400">
-        <ConversationPanelHeaderContent className="[[data-theme=elegant]_&]:max-md:self-center">
+        <ConversationPanelHeaderContent className="[[data-theme=elegant]_&]:max-md:col-start-1 [[data-theme=elegant]_&]:max-md:self-center">
           {isDesktop ? (
             <ConversationPanelHeaderIcon>
               <CheckSquare aria-hidden />
@@ -267,7 +267,9 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
           </Button>
         </ConversationPanelActions>
       </ConversationPanelHeader>
-      <ConversationPanelContent>{panel}</ConversationPanelContent>
+      <ConversationPanelContent className="max-md:[&_[data-slot=tasks-panel-viewport]]:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]">
+        {panel}
+      </ConversationPanelContent>
     </ConversationPanelRoot>
   );
 }
