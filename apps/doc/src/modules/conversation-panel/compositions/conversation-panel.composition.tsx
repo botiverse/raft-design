@@ -13,6 +13,7 @@ import {
   Avatar,
   Banner,
   BannerDescription,
+  Button,
   Checkbox,
   ConversationPanelBody,
   ConversationPanelContent,
@@ -32,7 +33,6 @@ import {
   ComposerToolbarLabel,
 } from "raft-ui";
 import {
-  ScrollToLatest,
   MessageList,
   MessageItem,
   MessageItemAvatarSlot,
@@ -242,10 +242,16 @@ export function ConversationPanelComposition({
             </div>
           </MessageList>
           {newMessageCount > 0 ? (
-            <ScrollToLatest onClick={handleJump}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 [[data-theme=elegant]_&]:md:bottom-40"
+              onClick={handleJump}
+            >
               <ArrowDown />
               {newMessageCount} new messages
-            </ScrollToLatest>
+            </Button>
           ) : null}
         </ConversationPanelBody>
         <ConversationPanelFooter>

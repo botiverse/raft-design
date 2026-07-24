@@ -1,11 +1,11 @@
-import { Text } from "raft-ui";
 import {
   ScrollArea,
   ScrollAreaContent,
   ScrollAreaScrollbar,
   ScrollAreaThumb,
   ScrollAreaViewport,
-} from "raft-ui/wip";
+  Text,
+} from "raft-ui";
 
 export function ScrollAreaBasicComposition() {
   return (

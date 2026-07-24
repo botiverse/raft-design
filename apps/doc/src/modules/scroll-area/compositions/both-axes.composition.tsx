@@ -1,4 +1,3 @@
-import { Text } from "raft-ui";
 import {
   ScrollArea,
   ScrollAreaContent,
@@ -6,7 +5,8 @@ import {
   ScrollAreaScrollbar,
   ScrollAreaThumb,
   ScrollAreaViewport,
-} from "raft-ui/wip";
+  Text,
+} from "raft-ui";
 
 const CELLS = Array.from({ length: 12 }, (_, row) =>
   Array.from({ length: 12 }, (_, column) => `${row + 1}:${column + 1}`),
