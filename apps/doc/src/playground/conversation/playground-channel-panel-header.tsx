@@ -30,15 +30,13 @@ import { PanelAction, PanelToggleAction } from "raft-ui/wip";
 
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";
-import { usePlaygroundConversationHeaderClassName } from "./playground-conversation-header-class-name.ts";
 
 export function PlaygroundChannelPanelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
   const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
-  const headerClassName = usePlaygroundConversationHeaderClassName();
 
   return (
-    <ConversationPanelHeader className={headerClassName}>
+    <ConversationPanelHeader>
       <PlaygroundConversationBackButton />
       <ConversationPanelHeaderContent>
         <ConversationPanelHeaderIcon>

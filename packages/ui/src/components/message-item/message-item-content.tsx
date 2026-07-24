@@ -29,7 +29,8 @@ export function MessageItemInteractionBoundary({
   render,
   ...props
 }: MessageItemInteractionBoundaryProps) {
-  const { interactionBoundary } = messageItem();
+  const theme = useThemeFamily();
+  const { interactionBoundary } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: interactionBoundary({ className }),
   };

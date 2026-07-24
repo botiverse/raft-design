@@ -57,6 +57,7 @@ export {
   PLAYGROUND_TASKS,
   PLAYGROUND_TASK_STATUSES,
   getPlaygroundTasks,
+  isPlaygroundTaskId,
   type PlaygroundTask,
   type PlaygroundTaskId,
   type PlaygroundTaskStatus,

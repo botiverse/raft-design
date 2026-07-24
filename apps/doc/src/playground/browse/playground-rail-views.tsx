@@ -53,7 +53,6 @@ import {
   ConversationPanelTitle,
 } from "raft-ui";
 
-import { usePlaygroundConversationHeaderClassName } from "../conversation/playground-conversation-header-class-name.ts";
 import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
@@ -247,7 +246,6 @@ export function PlaygroundRailViewPanel({
 }) {
   const ViewIcon = viewMeta[view].icon;
   const { railDetailId, selectRailDetail, selectRailView } = usePlaygroundNavigation();
-  const headerClassName = usePlaygroundConversationHeaderClassName();
   const auxiliaryDetail =
     (view === "members" || view === "computers" || view === "settings") &&
     railDetailId !== undefined;
@@ -256,7 +254,7 @@ export function PlaygroundRailViewPanel({
 
   return (
     <ConversationPanelRoot>
-      <ConversationPanelHeader className={headerClassName}>
+      <ConversationPanelHeader>
         {mobileBack ? (
           <Button
             variant="outline"

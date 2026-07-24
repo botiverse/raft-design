@@ -14,6 +14,7 @@ import { TasksAssigneeFilterComposition } from "#/modules/tasks/compositions/tas
 import tasksAssigneeFilterCompositionSource from "#/modules/tasks/compositions/tasks-assignee-filter.composition.tsx?raw";
 import { TasksCreatorFilterComposition } from "#/modules/tasks/compositions/tasks-creator-filter.composition.tsx";
 import tasksCreatorFilterCompositionSource from "#/modules/tasks/compositions/tasks-creator-filter.composition.tsx?raw";
+import { TasksLegacyTaskPanelComposition } from "#/modules/tasks/compositions/tasks-legacy-task-panel.composition.tsx";
 import { TasksLoadingComposition } from "#/modules/tasks/compositions/tasks-loading.composition.tsx";
 import tasksLoadingCompositionSource from "#/modules/tasks/compositions/tasks-loading.composition.tsx?raw";
 import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
@@ -41,6 +42,46 @@ const ANATOMY_SNIPPET = `<TasksPanelRoot>
     {/* Compose TaskBoard / TaskList / TaskDnd / TaskCard here */}
   </TasksPanelViewport>
 </TasksPanelRoot>`;
+
+const LEGACY_TASK_PANEL_SNIPPET = `// Same right-hand slot as ThreadPanel — mutually exclusive.
+if (task.isLegacy) {
+  openLegacyTaskPanel(task);
+  return;
+}
+openThread(task.sourceMessageId);
+
+<ThreadPanelRoot>
+  <ThreadPanelHeader>
+    <FileTextIcon />
+    <ThreadPanelTitle>
+      #{channelName}
+      <ThreadPanelTitleMeta>Task #{n} · LEGACY</ThreadPanelTitleMeta>
+    </ThreadPanelTitle>
+    <ThreadPanelActions>
+      <PanelAction aria-label="Close legacy task"><X /></PanelAction>
+    </ThreadPanelActions>
+  </ThreadPanelHeader>
+  <ThreadPanelContent>
+    <ThreadPanelBody className="space-y-4 overflow-y-auto px-5 py-4">
+      <TaskCardStatus status="in_progress" render={<span />}>
+        <TaskStatusIcon status="in_progress" />
+      </TaskCardStatus>
+      <TaskCardStatus status="in_progress" render={<span />}>
+        <span data-slot="task-card-status-label">
+          <TaskStatusIcon status="in_progress" />
+          In Progress
+        </span>
+      </TaskCardStatus>
+      {/* title/description + metadata cards */}
+      <Banner status="warning">
+        <BannerTitle>Read-only panel</BannerTitle>
+        <BannerDescription>
+          Legacy tasks do not map to a message thread.
+        </BannerDescription>
+      </Banner>
+    </ThreadPanelBody>
+  </ThreadPanelContent>
+</ThreadPanelRoot>`;
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -128,6 +169,7 @@ export const Route = createFileRoute("/components/tasks")({
         loading: tasksLoadingCompositionSource,
         empty: tasksEmptyStatesCompositionSource,
         error: tasksErrorCompositionSource,
+        legacyTaskPanel: LEGACY_TASK_PANEL_SNIPPET,
       },
     }),
 });
@@ -156,6 +198,9 @@ function TasksDoc() {
           <li>
             does not ship a create-task dialog — consumers compose <code>Dialog</code>,{" "}
             <code>Button</code>, and form fields
+          </li>
+          <li>
+            legacy tasks open a read-only side panel (ThreadPanel chrome, no thread) — see Usage
           </li>
         </Differences>
       }
@@ -240,6 +285,35 @@ function TasksDoc() {
                 <TasksErrorComposition />
               </Preview.Canvas>
               <Preview.Code html={code.error} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="legacy-task-panel" title="Legacy task panel">
+            <p className="mb-4 text-sm text-foreground/70">
+              Legacy tasks do not map to a message thread. Open them in the same right-hand slot as{" "}
+              <Link to="/components/thread-panel">ThreadPanel</Link>, composing the same shell (
+              <code>Root</code> / <code>Header</code> / <code>Title</code> / <code>Actions</code> /{" "}
+              <code>Content</code> / <code>Body</code>) with a consumer metadata body — no{" "}
+              <code>OriginalMessage</code>, replies, search, or composer. Mutually exclusive with a
+              real thread: if <code>task.isLegacy</code>, close the thread and show this panel
+              instead.
+            </p>
+            <Preview previewClassName="h-[36rem] items-stretch justify-center bg-brutal-cream p-6 [[data-theme=elegant]_&]:bg-layer-page">
+              <Preview.Canvas>
+                <TasksLegacyTaskPanelComposition
+                  framed
+                  channelName="raft-ui-migration"
+                  taskNumber={1}
+                  status="in_progress"
+                  title="Migrate legacy task records into the Raft UI board"
+                  description="Imported from the pre-migration store. Metadata is read-only here; open a message task when you need thread replies."
+                  createdBy="@Legacy Bot"
+                  createdAt="Jul 12, 2026, 9:18 AM"
+                  assignee="@Legacy Bot"
+                  completed="Not done"
+                />
+              </Preview.Canvas>
+              <Preview.Code html={code.legacyTaskPanel} />
             </Preview>
           </DocSubsection>
         </div>

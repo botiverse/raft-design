@@ -181,13 +181,24 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
         onViewChange={setViewOverride}
         onOpenTask={(task) => {
           const sourceTask = visibleTasks.find((item) => item.id === task.id);
-          if (!sourceTask || sourceTask.legacy) return;
+          if (!sourceTask) return;
           const conversation = getPlaygroundChannel(sourceTask.channelId);
+          const fromTasks = channel ? undefined : ("tasks" as const);
+          const search = sourceTask.legacy
+            ? {
+                ...(fromTasks ? { from: fromTasks } : {}),
+                legacyTask: sourceTask.id,
+              }
+            : {
+                ...(fromTasks ? { from: fromTasks } : {}),
+                thread: sourceTask.sourceMessageId ?? sourceTask.id,
+              };
+
           if (conversation.kind === "dm") {
             void navigate({
               to: "/playground/s/$serverSlug/dm/$dmId",
               params: { dmId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG },
-              search: { from: "tasks", thread: sourceTask.sourceMessageId ?? sourceTask.id },
+              search,
             });
             return;
           }
@@ -195,7 +206,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
           void navigate({
             to: "/playground/s/$serverSlug/channel/$channelId",
             params: { channelId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG },
-            search: { from: "tasks", thread: sourceTask.sourceMessageId ?? sourceTask.id },
+            search,
           });
         }}
       />
