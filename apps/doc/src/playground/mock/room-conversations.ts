@@ -4,21 +4,252 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
   defineStandardRoom({
     id: "all",
     name: "raft-ui-migration",
-    subtitle: "Company-wide announcements and shared updates",
+    subtitle: "Component migration working channel",
     memberCount: 42,
-    memberIds: ["developer", "atlas", "ada", "cindy", "cuvii", "samira"],
+    memberIds: [
+      "developer",
+      "atlas",
+      "ada",
+      "cindy",
+      "cuvii",
+      "samira",
+      "mira",
+      "olivia",
+      "elliot",
+      "qaSentinel",
+      "specWriter",
+      "avery",
+      "releaseScribe",
+      "noah",
+      "mateo",
+      "claudeAssistant",
+    ],
     threads: RAFT_UI_MIGRATION_THREADS,
     story: {
       opening: {
         senderId: "developer",
+        createdAt: "09:18 AM",
         content:
-          "The migration plan is ready for review in #raft-ui-migration. Remaining work: keep the message and thread data model coherent for @Atlas and task #21.",
+          "Morning checkpoint for #raft-ui-migration — keep message/thread ownership coherent for @Atlas, and park follow-ups on task #21.",
       },
       reply: {
         senderId: "cuvii",
+        createdAt: "09:24 AM",
         content:
-          "I am reviewing the mock conversation flow now so every panel reads the same data — including markdown refs and consecutive compact rows.",
+          "Reviewing the mock conversation flow now so Chat, Tasks, and Files all read the same seed — including markdown refs and consecutive compact rows.",
+        reactions: [
+          { emoji: "👍", count: 2, reactorIds: ["ada", "atlas"] },
+          { emoji: "👀", count: 1, reactorIds: ["cindy"] },
+        ],
       },
+      updates: [
+        {
+          senderId: "ada",
+          createdAt: "09:27 AM",
+          content:
+            "Board density looks thin on Todo. I am seeding more fixtures so ScrollArea / virtualization demos have something real to scroll.",
+        },
+        {
+          senderId: "ada",
+          createdAt: "09:28 AM",
+          content: "Keeping assignees mixed across @Cuvii @Samira @Atlas so filters are not empty.",
+        },
+        {
+          senderId: "atlas",
+          createdAt: "09:31 AM",
+          content:
+            "Before we grow the board further — confirm Closed stays drop-blocked in TaskDnd. Do not invent a second scroll container per column.",
+          reactions: [{ emoji: "✅", count: 1, reactorIds: ["developer"] }],
+        },
+        {
+          senderId: "cindy",
+          createdAt: "09:34 AM",
+          content:
+            "Brutal status labels still feel heavy next to the icon. I will try `text-[10px]` + `size-2.5` on the badge path and post a screenshot.",
+        },
+        {
+          senderId: "samira",
+          createdAt: "09:38 AM",
+          content:
+            "Invite security thread is ready for threshold review — see replies under the morning parent. Security needs the final probe budget before sign-off.",
+        },
+        {
+          senderId: "developer",
+          createdAt: "09:41 AM",
+          content:
+            "Selector perf note: presence updates were still invalidating the whole list. Narrowed the subscription in the branch linked from task #22.",
+        },
+        {
+          senderId: "cuvii",
+          createdAt: "09:44 AM",
+          content:
+            "Virtualization stays consumer-owned. Docs should show `ScrollAreaViewport` + `useVirtualizer`, not a TaskBoard API.",
+        },
+        {
+          senderId: "cuvii",
+          createdAt: "09:45 AM",
+          content:
+            "```ts\nconst virtualizer = useVirtualizer({\n  count: items.length,\n  getScrollElement: () => viewportRef.current,\n  overscan: 6,\n  scrollMargin,\n})\n```",
+        },
+        {
+          senderId: "mira",
+          createdAt: "09:49 AM",
+          content:
+            "Elegant TaskCard hover was washing through the column color. Opaque `color-mix` against `layer-panel` reads cleaner — please try both themes.",
+        },
+        {
+          senderId: "atlas",
+          createdAt: "09:52 AM",
+          content:
+            "@Mira that matches the token guidance — do not swap ink washes onto solid panel fills without checking the backdrop.",
+        },
+        {
+          senderId: "olivia",
+          createdAt: "09:56 AM",
+          content:
+            "Create-task sheet still writes into local playground state only. Fine for demos; call that out so nobody mistakes it for a server mutation.",
+        },
+        {
+          senderId: "elliot",
+          createdAt: "10:01 AM",
+          content: "Keyboard status transitions can wait until the dual-trigger control lands.",
+        },
+        {
+          senderId: "developer",
+          createdAt: "10:04 AM",
+          content:
+            "Dual trigger is in: elegant keeps the icon control; brutal shows the label badge. Ghost more-menu stays composition-owned.",
+          reactions: [{ emoji: "🔥", count: 2, reactorIds: ["cindy", "ada"] }],
+        },
+        {
+          senderId: "cindy",
+          createdAt: "10:07 AM",
+          content:
+            "Checking label + icon sizing on brutal now. Will close #46 if it matches source.",
+        },
+        {
+          senderId: "samira",
+          createdAt: "10:11 AM",
+          content:
+            "QA coverage matrix for empty columns: idle / allowed / blocked. Closed stays special-cased — see TaskDnd docs.",
+        },
+        {
+          senderId: "qaSentinel",
+          createdAt: "10:14 AM",
+          content:
+            "Collapsed columns still accept drops via the column host. Added that to the acceptance checklist under #37.",
+        },
+        {
+          senderId: "atlas",
+          createdAt: "10:18 AM",
+          content:
+            "API docs thread needs one more pass against canonical compositions — do not let generated Swagger become the source of truth.",
+        },
+        {
+          senderId: "specWriter",
+          createdAt: "10:22 AM",
+          content:
+            "Rewrote virtualization usage copy without product-repo branding. Lives under Usage, not a separate section.",
+        },
+        {
+          senderId: "avery",
+          createdAt: "10:26 AM",
+          content:
+            "Release note draft: ScrollArea graduated, TaskBoard/List docs include shared-viewport guidance. Ping @ReleaseScribe when the checklist is green.",
+        },
+        {
+          senderId: "releaseScribe",
+          createdAt: "10:29 AM",
+          content: "Noted. Waiting on #51 review before I cut the changelog entry.",
+        },
+        {
+          senderId: "noah",
+          createdAt: "10:33 AM",
+          content:
+            "Tasks-tab unread counts should follow the active channel filter, not the global task registry. Tracking in #38.",
+        },
+        {
+          senderId: "mateo",
+          createdAt: "10:36 AM",
+          content:
+            "I can take the deep-link path from board cards → thread parents once #57 is unblocked.",
+        },
+        {
+          senderId: "ada",
+          createdAt: "10:40 AM",
+          content:
+            "Assignee fallbacks in playground cards were showing empty glyphs for unassigned todos. Patching fixtures.",
+        },
+        {
+          senderId: "cindy",
+          createdAt: "10:44 AM",
+          content:
+            "Brutal badge pass looks good on Todo / In Progress. In Review still needs the warmer icon color — @Developer can you cherry-pick?",
+        },
+        {
+          senderId: "developer",
+          createdAt: "10:46 AM",
+          content:
+            "Already on `oklch(0.72 0.16 58)` for elegant in_review. Brutal inherits the icon now.",
+          reactions: [{ emoji: "🙌", count: 1, reactorIds: ["cindy"] }],
+        },
+        {
+          senderId: "claudeAssistant",
+          createdAt: "10:51 AM",
+          content:
+            "Synced agent activity chips with in-progress tasks in the playground shell. Progress strings stay mock-owned.",
+        },
+        {
+          senderId: "cuvii",
+          createdAt: "10:55 AM",
+          content:
+            "Reminder: `packages/ui` stays business-agnostic. Product icons (ellipsis ghost button) stay in compositions / playground.",
+        },
+        {
+          senderId: "atlas",
+          createdAt: "11:02 AM",
+          content:
+            "Midday status: Chat should feel as dense as the board. If Tasks outpace conversation, seed the timeline — do not invent fake product APIs.",
+        },
+        {
+          senderId: "samira",
+          createdAt: "11:06 AM",
+          content:
+            "Filter smoke: assignee = @Ada, status = in_progress. Expect a short list after the seed lands.",
+        },
+        {
+          senderId: "ada",
+          createdAt: "11:09 AM",
+          content:
+            "Confirmed on my side. Also checking Done/Closed so archive filters are not empty shells.",
+        },
+        {
+          senderId: "olivia",
+          createdAt: "11:13 AM",
+          content:
+            "Composer still has no pending uploads in this channel. Incidents owns the attachment demo — keep it there.",
+        },
+        {
+          senderId: "developer",
+          createdAt: "11:18 AM",
+          unread: true,
+          content:
+            "Pushing denser `#raft-ui-migration` chat + board seeds. Reload Playground if you still see the two-message timeline.",
+        },
+        {
+          senderId: "cindy",
+          createdAt: "11:21 AM",
+          unread: true,
+          content:
+            "@Cuvii once this is up, can you spot-check compact consecutive rows from me earlier this morning?",
+        },
+        {
+          senderId: "cuvii",
+          createdAt: "11:22 AM",
+          unread: true,
+          content: "On it — will reply here after the Chat tab scroll + Tasks board parity check.",
+        },
+      ],
       thread: { replies: [] },
     },
   }),

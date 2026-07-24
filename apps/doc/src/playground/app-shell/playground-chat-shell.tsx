@@ -24,8 +24,9 @@ import {
 } from "../mock/index.ts";
 import { PlaygroundRail } from "../rail/playground-rail.tsx";
 import { PlaygroundSidebar } from "../chat-sidebar/chat-sidebar.tsx";
-import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
+import { PlaygroundLegacyTaskPanel } from "../tasks/playground-legacy-task-panel.tsx";
 import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
+import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
 import { usePlaygroundDesktop, usePlaygroundLargeDesktop } from "./use-playground-desktop.ts";
 
 export function PlaygroundChatShell() {
@@ -51,7 +52,8 @@ export function PlaygroundChatShell() {
   const isLargeDesktop = usePlaygroundLargeDesktop();
   const channelId = channelMatch?.params.channelId;
   const dmId = dmMatch?.params.dmId;
-  const { from, panel, thread } = channelRouteMatch?.search ?? dmRouteMatch?.search ?? {};
+  const { from, panel, thread, legacyTask } =
+    channelRouteMatch?.search ?? dmRouteMatch?.search ?? {};
 
   const channel =
     channelId && isPlaygroundChannelId(channelId)
@@ -59,15 +61,23 @@ export function PlaygroundChatShell() {
       : dmId && isPlaygroundDmId(dmId)
         ? getPlaygroundDirectMessage(dmId)
         : null;
-  const threadContext = thread ? getPlaygroundThread(thread) : undefined;
-  const task = thread ? tasks.find((item) => item.id === thread) : undefined;
+  const activeLegacyTask =
+    channel && legacyTask
+      ? tasks.find((item) => item.id === legacyTask && item.legacy && item.channelId === channel.id)
+      : undefined;
+  const threadContext = !activeLegacyTask && thread ? getPlaygroundThread(thread) : undefined;
+  const task =
+    !activeLegacyTask && thread
+      ? tasks.find((item) => item.id === thread || item.sourceMessageId === thread)
+      : undefined;
   const activeThread =
     channel && threadContext?.channelId === channel.id
       ? threadContext.thread
-      : channel && task?.channelId === channel.id
+      : channel && task?.channelId === channel.id && !task.legacy
         ? getPlaygroundTaskThread(task)
         : undefined;
-  const mobileListPanel = channel === null || (panel === "list" && !activeThread);
+  const sidePanel = Boolean(activeLegacyTask || activeThread);
+  const mobileListPanel = channel === null || (panel === "list" && !sidePanel);
   const liveAgentActor = getPlaygroundActor(PLAYGROUND_LIVE_AGENT_ACTIVITY.actorId);
 
   return (
@@ -97,7 +107,14 @@ export function PlaygroundChatShell() {
         main={<Outlet />}
         theme={theme}
         thread={
-          activeThread && channel ? (
+          activeLegacyTask && channel ? (
+            <PlaygroundLegacyTaskPanel
+              key={activeLegacyTask.id}
+              backToTasks={from === "tasks"}
+              channel={channel}
+              task={activeLegacyTask}
+            />
+          ) : activeThread && channel ? (
             <PlaygroundThreadPanel
               key={activeThread.parent.id}
               backToTasks={from === "tasks"}

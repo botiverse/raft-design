@@ -1,8 +1,8 @@
 import { tv } from "../../lib/tv";
 
-const headerFrame = ["flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2 px-5"];
+const headerFrame = ["flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2"];
 
-const brutalHeader = ["gap-3 border-b-2 border-black bg-white"];
+const brutalHeader = ["gap-3 border-b-2 border-black bg-white px-5"];
 
 const brutalSectionHeader = [
   "max-md:bg-primary-400",
@@ -15,8 +15,9 @@ const brutalSectionHeader = [
 const elegantHeader = [
   "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
   "border-b-0 bg-transparent max-md:bg-layer-page",
-  "pl-9 max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
-  "max-md:h-[var(--shell-header-height,56px)] max-md:items-center max-md:px-3.5",
+  "max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
+  "max-md:h-[var(--shell-header-height,56px)] max-md:items-center",
+  "px-0 max-md:px-3.5 md:pl-9 md:pr-5",
 ];
 
 export const conversationPanel = tv({
