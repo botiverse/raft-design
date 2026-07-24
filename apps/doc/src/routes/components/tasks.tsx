@@ -25,8 +25,10 @@ import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 const ANATOMY_SNIPPET = `<TasksPanelRoot>
   <TasksPanelToolbar>
     <TasksPanelToolbarGroup>
-      <TasksPanelToolbarLabel>{/* non-interactive toolbar label */}</TasksPanelToolbarLabel>
-      {/* leading: filters / actions */}
+      {/* leading: New Task, then filters, then Clear when filters are active */}
+      <Button variant="accent" size="sm">New Task</Button>
+      <TasksPanelToolbarLabel>{/* non-interactive filter chrome */}</TasksPanelToolbarLabel>
+      <Button variant="ghost" size="sm">Clear</Button>
     </TasksPanelToolbarGroup>
     <TasksPanelToolbarGroup>
       {/* trailing: view switcher */}
@@ -112,7 +114,7 @@ const PANEL_TOOLBAR_GROUP_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Cluster of toolbar controls. First group leads; second group trails (e.g. view switcher).",
+      "Cluster of toolbar controls. First group leads (New Task, filters, Clear when active); second group trails (e.g. view switcher).",
   },
 ];
 
@@ -191,7 +193,8 @@ function TasksDoc() {
           </li>
           <li>preserves the channel Tasks tab structure across Brutal and Elegant themes</li>
           <li>
-            toolbar only provides containers — filters, dropdowns, and actions compose{" "}
+            toolbar only provides containers — leading order is New Task, then filters, then a ghost{" "}
+            <code>Clear</code> when any filter is active; view switcher trails. Compose{" "}
             <code>Combobox</code>, <code>Button</code>, and related primitives
           </li>
           <li>keeps task workflow, permissions, stores, realtime, and routing in the consumer</li>

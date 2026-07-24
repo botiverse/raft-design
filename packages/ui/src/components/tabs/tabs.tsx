@@ -57,7 +57,7 @@ const tabs = tv({
           "hover:bg-[color-mix(in_oklch,var(--line-strong)_6%,var(--layer-panel))]",
           "[&+&]:before:absolute [&+&]:before:inset-y-0 [&+&]:before:left-0 [&+&]:before:w-0.5 [&+&]:before:bg-line-strong",
           "data-[dragging-source=true]:before:hidden",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:[stroke-width:1.5] [&_svg:not([class*='size-'])]:size-3.5",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[2.5] [&_svg_*]:stroke-[2.5] [&_svg:not([class*='size-'])]:size-3.5",
           "data-[active]:bg-primary-400 data-[active]:hover:bg-primary-400",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-40",
         ],
