@@ -24,15 +24,17 @@ import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 
 const ANATOMY_SNIPPET = `<TasksPanelRoot>
   <TasksPanelToolbar>
-    <TasksPanelToolbarGroup>
-      {/* leading: New Task, then filters, then Clear when filters are active */}
+    <TasksPanelToolbarNewTask>
       <Button variant="accent" size="sm">New Task</Button>
+    </TasksPanelToolbarNewTask>
+    <TasksPanelToolbarFilters>
+      {/* Creator / Assignee filters; ghost Clear when any filter is active */}
       <TasksPanelToolbarLabel>{/* non-interactive filter chrome */}</TasksPanelToolbarLabel>
       <Button variant="ghost" size="sm">Clear</Button>
-    </TasksPanelToolbarGroup>
-    <TasksPanelToolbarGroup>
-      {/* trailing: view switcher */}
-    </TasksPanelToolbarGroup>
+    </TasksPanelToolbarFilters>
+    <TasksPanelToolbarView>
+      {/* Board / List view switcher */}
+    </TasksPanelToolbarView>
   </TasksPanelToolbar>
   <TasksPanelViewport>
     <TasksPanelEmpty />
@@ -105,7 +107,32 @@ const PANEL_TOOLBAR_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Toolbar row with justify-between. Place leading and trailing ToolbarGroups as children.",
+      "Toolbar shell. Desktop keeps New Task + Filters on the left and View on the right; mobile stacks View beside New Task, then Filters on a second row.",
+  },
+];
+
+const PANEL_TOOLBAR_NEW_TASK_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Primary create-task action slot. Sits left on both breakpoints.",
+  },
+];
+
+const PANEL_TOOLBAR_FILTERS_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Filter controls cluster (and ghost Clear when active). Full-width second row on mobile; follows New Task on desktop.",
+  },
+];
+
+const PANEL_TOOLBAR_VIEW_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Board/List view switcher slot. Trails on desktop; top-right on mobile.",
   },
 ];
 
@@ -114,7 +141,7 @@ const PANEL_TOOLBAR_GROUP_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Cluster of toolbar controls. First group leads (New Task, filters, Clear when active); second group trails (e.g. view switcher).",
+      "Generic toolbar cluster. Prefer NewTask / Filters / View for the responsive layout; Group remains for custom groupings.",
   },
 ];
 
@@ -182,7 +209,7 @@ function TasksDoc() {
   return (
     <DocPage
       title="TasksPanel"
-      description="Shell for the Tasks tab: toolbar groups, viewport, empty, and loading. Board, list, dnd, and card are separate peers."
+      description="Shell for the Tasks tab: toolbar slots, viewport, empty, and loading. Board, list, dnd, and card are separate peers."
       overview={
         <Differences from="Slock TasksPanel">
           <li>
@@ -193,9 +220,10 @@ function TasksDoc() {
           </li>
           <li>preserves the channel Tasks tab structure across Brutal and Elegant themes</li>
           <li>
-            toolbar only provides containers — leading order is New Task, then filters, then a ghost{" "}
-            <code>Clear</code> when any filter is active; view switcher trails. Compose{" "}
-            <code>Combobox</code>, <code>Button</code>, and related primitives
+            toolbar slots are <code>NewTask</code>, <code>Filters</code>, and <code>View</code> —
+            desktop keeps New Task + filters left and view right; mobile puts New Task / View on row
+            one and filters alone on row two. Ghost <code>Clear</code> stays inside Filters when
+            active. Compose <code>Combobox</code>, <code>Button</code>, and related primitives
           </li>
           <li>keeps task workflow, permissions, stores, realtime, and routing in the consumer</li>
           <li>
@@ -329,6 +357,23 @@ function TasksDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-toolbar" title="TasksPanelToolbar">
             <PropsTable rows={PANEL_TOOLBAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-panel-toolbar-new-task"
+            title="TasksPanelToolbarNewTask"
+          >
+            <PropsTable rows={PANEL_TOOLBAR_NEW_TASK_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-panel-toolbar-filters"
+            title="TasksPanelToolbarFilters"
+          >
+            <PropsTable rows={PANEL_TOOLBAR_FILTERS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel-toolbar-view" title="TasksPanelToolbarView">
+            <PropsTable rows={PANEL_TOOLBAR_VIEW_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-toolbar-group" title="TasksPanelToolbarGroup">
             <PropsTable rows={PANEL_TOOLBAR_GROUP_PROPS} />

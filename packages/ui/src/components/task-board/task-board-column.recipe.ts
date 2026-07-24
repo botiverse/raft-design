@@ -57,7 +57,7 @@ export const taskBoardColumn = tv({
         ],
         heading: ["gap-1.5"],
         trigger: [
-          "rounded-md pl-2",
+          "rounded-md pl-3 pr-0",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-panel",
           "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",

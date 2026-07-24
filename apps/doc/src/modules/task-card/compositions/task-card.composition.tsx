@@ -1,7 +1,7 @@
 import { memo, type RefObject } from "react";
 import { EllipsisVertical } from "lucide-react";
-import { Button, useThemeFamily } from "raft-ui";
 import {
+  Button,
   TaskCard,
   TaskCardBody,
   TaskCardChannel,
@@ -13,7 +13,8 @@ import {
   TaskCardStatus,
   TaskCardTitle,
   TaskStatusIcon,
-} from "raft-ui/wip";
+  useThemeFamily,
+} from "raft-ui";
 
 import { getTaskStatusLabel, type TaskFixture, type TaskStatus } from "../task-card.fixtures";
 import { TaskStatusSelect } from "./task-status-select.composition";

@@ -1,7 +1,11 @@
 import type { ReactNode } from "react";
 import { X } from "lucide-react";
-import { Banner, BannerDescription, BannerTitle, BrutalOnly, ElegantOnly } from "raft-ui";
 import {
+  Banner,
+  BannerDescription,
+  BannerTitle,
+  BrutalOnly,
+  ElegantOnly,
   LegacyTaskPanelActions,
   LegacyTaskPanelBody,
   LegacyTaskPanelField,
@@ -19,10 +23,10 @@ import {
   LegacyTaskPanelStatus,
   LegacyTaskPanelTitle,
   LegacyTaskPanelTitleMeta,
-  PanelAction,
   TaskCardStatus,
   TaskStatusIcon,
-} from "raft-ui/wip";
+} from "raft-ui";
+import { PanelAction } from "raft-ui/wip";
 
 import { getTaskStatusLabel, type TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 

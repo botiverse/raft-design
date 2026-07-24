@@ -5,15 +5,15 @@ import {
   SegmentedControlItem,
   SegmentedControlLabel,
   Skeleton,
-} from "raft-ui";
-import {
   TaskLoadingList,
   TaskLoadingRow,
   TasksPanelRoot,
   TasksPanelToolbar,
-  TasksPanelToolbarGroup,
+  TasksPanelToolbarFilters,
+  TasksPanelToolbarNewTask,
+  TasksPanelToolbarView,
   TasksPanelViewport,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Columns3, LayoutList, Plus, User, UserCircle2 } from "lucide-react";
 
 import { TasksToolbarFilterPlaceholder } from "./tasks-panel.composition";
@@ -25,7 +25,7 @@ export function TasksLoadingComposition() {
     <div className="flex min-h-[34rem] w-full min-w-0">
       <TasksPanelRoot aria-label="Loading tasks">
         <TasksPanelToolbar>
-          <TasksPanelToolbarGroup>
+          <TasksPanelToolbarNewTask>
             <Button
               variant="accent"
               size="sm"
@@ -34,10 +34,12 @@ export function TasksLoadingComposition() {
               <Plus aria-hidden />
               New Task
             </Button>
+          </TasksPanelToolbarNewTask>
+          <TasksPanelToolbarFilters>
             <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
             <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
-          </TasksPanelToolbarGroup>
-          <TasksPanelToolbarGroup>
+          </TasksPanelToolbarFilters>
+          <TasksPanelToolbarView>
             <SegmentedControl
               value={view}
               onValueChange={(nextView) => {
@@ -46,16 +48,16 @@ export function TasksLoadingComposition() {
               }}
               ariaLabel="Task view"
             >
-              <SegmentedControlItem value="board">
+              <SegmentedControlItem value="board" aria-label="Board" className="max-md:px-2.5">
                 <Columns3 aria-hidden />
-                <SegmentedControlLabel>Board</SegmentedControlLabel>
+                <SegmentedControlLabel className="max-md:hidden">Board</SegmentedControlLabel>
               </SegmentedControlItem>
-              <SegmentedControlItem value="list">
+              <SegmentedControlItem value="list" aria-label="List" className="max-md:px-2.5">
                 <LayoutList aria-hidden />
-                <SegmentedControlLabel>List</SegmentedControlLabel>
+                <SegmentedControlLabel className="max-md:hidden">List</SegmentedControlLabel>
               </SegmentedControlItem>
             </SegmentedControl>
-          </TasksPanelToolbarGroup>
+          </TasksPanelToolbarView>
         </TasksPanelToolbar>
         <TasksPanelViewport aria-busy="true">
           <TaskLoadingList>

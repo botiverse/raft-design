@@ -1,10 +1,18 @@
-import type { ReactNode } from "react";
+import type { ReactNode, UIEvent } from "react";
 import {
+  Button,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewCode,
+  FilePreviewDocument,
+  FilePreviewFile,
+  FilePreviewMedia,
+  type FilePreviewBadgeType,
 } from "raft-ui";
 import {
   FileAction,
@@ -16,27 +24,15 @@ import {
   FileName,
   FileRow,
   FileRowOpen,
-  FilesError,
   FilesList,
-  FilesLoading,
-  FilesLoadMore,
-  FilesLoadMoreAction,
-  FilesLoadMoreStatus,
   FilesPanel,
   FilesViewport,
-  FileVisual,
+  FileThumbnail,
 } from "raft-ui/wip";
-import {
-  Archive,
-  Clock3,
-  Download,
-  ExternalLink,
-  File,
-  FileText,
-  Image,
-  Paperclip,
-  Video,
-} from "lucide-react";
+import { Clock3, Download, ExternalLink, Paperclip } from "lucide-react";
+
+/** Matches source ChannelFilesPanel near-bottom auto-load threshold. */
+const LOAD_MORE_THRESHOLD_PX = 320;
 
 export type FileListEntry = {
   id: string;
@@ -60,13 +56,35 @@ export type FilesPanelCompositionProps = {
   onPreview?: (file: FileListEntry) => void;
 };
 
-const FILE_ICONS = {
-  archive: Archive,
-  file: File,
-  image: Image,
-  pdf: FileText,
-  video: Video,
-} as const;
+const FILE_PREVIEW_BADGE_TYPES = new Set<string>([
+  "pdf",
+  "doc",
+  "docx",
+  "txt",
+  "md",
+  "csv",
+  "json",
+  "zip",
+  "html",
+  "code",
+  "img",
+  "png",
+  "jpg",
+  "jpeg",
+  "gif",
+  "webp",
+  "svg",
+  "mp4",
+  "mov",
+]);
+
+const FILE_TYPE_BADGE: Record<FileListEntry["type"], FilePreviewBadgeType | undefined> = {
+  archive: "zip",
+  file: undefined,
+  image: "img",
+  pdf: "pdf",
+  video: "mp4",
+};
 
 export function FilesPanelComposition({
   error,
@@ -79,13 +97,29 @@ export function FilesPanelComposition({
   onLoadMore,
   onPreview,
 }: FilesPanelCompositionProps) {
+  const handleViewportScroll = (event: UIEvent<HTMLDivElement>) => {
+    if (!hasMore || loading || loadingMore || !onLoadMore) return;
+    const target = event.currentTarget;
+    if (target.scrollHeight - target.scrollTop - target.clientHeight < LOAD_MORE_THRESHOLD_PX) {
+      onLoadMore();
+    }
+  };
+
   return (
     <FilesPanel aria-label="Files panel">
-      <FilesViewport>
+      <FilesViewport onScroll={handleViewportScroll}>
         {loading ? (
-          <FilesLoading>Loading files…</FilesLoading>
+          <EmptyState className="h-full">
+            <EmptyStateContent>
+              <EmptyStateTitle>Loading files…</EmptyStateTitle>
+            </EmptyStateContent>
+          </EmptyState>
         ) : error ? (
-          <FilesError>{error}</FilesError>
+          <EmptyState className="h-full" role="alert">
+            <EmptyStateContent>
+              <EmptyStateTitle>{error}</EmptyStateTitle>
+            </EmptyStateContent>
+          </EmptyState>
         ) : files.length === 0 ? (
           <EmptyState className="h-full">
             <EmptyStateIcon>
@@ -113,20 +147,68 @@ export function FilesPanelComposition({
               ))}
             </FilesList>
             {loadingMore || hasMore ? (
-              <FilesLoadMore>
+              <div className="flex justify-center p-4">
                 {loadingMore ? (
-                  <FilesLoadMoreStatus>Loading more files…</FilesLoadMoreStatus>
+                  <span className="font-mono text-xs text-foreground-placeholder">
+                    Loading more files…
+                  </span>
                 ) : (
-                  <FilesLoadMoreAction disabled={!onLoadMore} onClick={onLoadMore}>
+                  <Button variant="outline" size="sm" disabled={!onLoadMore} onClick={onLoadMore}>
                     Load more
-                  </FilesLoadMoreAction>
+                  </Button>
                 )}
-              </FilesLoadMore>
+              </div>
             ) : null}
           </>
         )}
       </FilesViewport>
     </FilesPanel>
+  );
+}
+
+function filePreviewBadgeType(
+  filename: string,
+  type: FileListEntry["type"],
+): FilePreviewBadgeType | undefined {
+  const extension = filename.split(".").at(-1)?.toLowerCase();
+  if (extension && FILE_PREVIEW_BADGE_TYPES.has(extension)) {
+    return extension as FilePreviewBadgeType;
+  }
+  return FILE_TYPE_BADGE[type];
+}
+
+function filePreviewLabel(filename: string) {
+  const extension = filename.split(".").at(-1);
+  return extension ? extension.slice(0, 4).toUpperCase() : "FILE";
+}
+
+function FileThumbnailFallback({ file }: { file: FileListEntry }) {
+  const extension = file.filename.split(".").at(-1)?.toLowerCase();
+  const badgeType = filePreviewBadgeType(file.filename, file.type);
+  const badgeLabel = filePreviewLabel(file.filename);
+  const illustration = file.thumbnailUrl ? (
+    <FilePreviewMedia>
+      <FileImage src={file.thumbnailUrl} alt="" fit={file.imageFit} loading="lazy" />
+    </FilePreviewMedia>
+  ) : file.type === "archive" ? (
+    <FilePreviewFile />
+  ) : file.type === "image" || file.type === "video" ? (
+    <FilePreviewMedia />
+  ) : extension === "html" || extension === "json" || extension === "ts" || extension === "tsx" ? (
+    <FilePreviewCode />
+  ) : (
+    <FilePreviewDocument />
+  );
+
+  return (
+    <FilePreview>
+      {illustration}
+      {badgeType ? (
+        <FilePreviewBadge type={badgeType}>{badgeLabel}</FilePreviewBadge>
+      ) : (
+        <FilePreviewBadge color="neutral">{badgeLabel}</FilePreviewBadge>
+      )}
+    </FilePreview>
   );
 }
 
@@ -141,17 +223,12 @@ function FileListRow({
   onJumpToOriginal?: (file: FileListEntry) => void;
   onPreview?: (file: FileListEntry) => void;
 }) {
-  const Icon = FILE_ICONS[file.type];
   return (
     <FileRow>
       <FileRowOpen disabled={!onPreview} title="Preview file" onClick={() => onPreview?.(file)}>
-        <FileVisual>
-          {file.thumbnailUrl ? (
-            <FileImage src={file.thumbnailUrl} alt="" fit={file.imageFit} loading="lazy" />
-          ) : (
-            <Icon aria-hidden />
-          )}
-        </FileVisual>
+        <FileThumbnail>
+          <FileThumbnailFallback file={file} />
+        </FileThumbnail>
         <FileContent>
           <FileName>{file.filename}</FileName>
           <FileMeta>

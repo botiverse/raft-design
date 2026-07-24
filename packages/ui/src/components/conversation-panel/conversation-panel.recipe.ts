@@ -17,7 +17,7 @@ const elegantHeader = [
   "border-b-0 bg-transparent max-md:bg-layer-page",
   "max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
   "max-md:h-[var(--shell-header-height,56px)] max-md:items-center",
-  "px-0 max-md:px-3.5 md:pl-9 md:pr-5",
+  "px-0 max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",
 ];
 
 export const conversationPanel = tv({
@@ -76,6 +76,7 @@ export const conversationPanel = tv({
           "border-b-2 border-black bg-white",
           "[&>[data-slot=tabs-list]]:max-w-none [&>[data-slot=tabs-list]]:border-y-0 [&>[data-slot=tabs-list]]:border-l-0 [&>[data-slot=tabs-list]]:border-r-2 [&>[data-slot=tabs-list]]:border-black [&>[data-slot=tabs-list]]:bg-white",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:bg-white [&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:text-black",
+          "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]:first-child]:pl-[22px]",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab][data-active]]:bg-soft-signal [&>[data-slot=tabs-list]>[data-slot=tabs-tab][data-active]:hover]:bg-soft-signal",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]+[data-slot=tabs-tab]]:before:bg-black",
         ],
