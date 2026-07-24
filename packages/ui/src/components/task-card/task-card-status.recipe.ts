@@ -10,7 +10,7 @@ export const taskCardStatus = tv({
   variants: {
     theme: {
       brutal: [
-        "ml-auto border-2 border-line-strong px-2 py-0.5",
+        "ml-auto border-2 border-line-strong px-2 py-px",
         "text-[10px] leading-4 font-semibold text-foreground",
         "[&:not(:has([data-slot=task-card-status-label]))]:hidden",
         "[&_svg]:pointer-events-none [&_svg]:size-2.5 [&_svg]:shrink-0 [&_svg]:text-foreground",

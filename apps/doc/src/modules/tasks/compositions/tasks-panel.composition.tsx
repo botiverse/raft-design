@@ -1,5 +1,5 @@
 import type { ReactNode, RefObject } from "react";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useCallback, useMemo, useRef, useState } from "react";
 import {
   Banner,
   BannerDescription,
@@ -266,14 +266,25 @@ function TaskBoard({
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const activeTask =
     activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
+  const draggableTaskIds = useMemo(
+    () => new Set(tasks.filter((task) => !task.dragDisabled).map((task) => task.id)),
+    [tasks],
+  );
+  const isDropAllowed = useCallback(
+    (
+      activeId: string | number,
+      _overId: string | number,
+      overData: Record<string, unknown> | undefined,
+    ) =>
+      isTaskDropTarget(overData) &&
+      overData.status !== blockedDropStatus &&
+      draggableTaskIds.has(String(activeId)),
+    [blockedDropStatus, draggableTaskIds],
+  );
 
   return (
     <TaskDndProvider
-      isDropAllowed={(activeId, _overId, overData) =>
-        isTaskDropTarget(overData) &&
-        overData.status !== blockedDropStatus &&
-        tasks.some((task) => task.id === activeId && !task.dragDisabled)
-      }
+      isDropAllowed={isDropAllowed}
       onDragStart={({ active }) => setActiveTaskId(String(active.id))}
       onDragCancel={() => setActiveTaskId(null)}
       onDragEnd={() => setActiveTaskId(null)}

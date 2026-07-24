@@ -1,4 +1,4 @@
-import type { RefObject } from "react";
+import { memo, type RefObject } from "react";
 import { EllipsisVertical } from "lucide-react";
 import { Button, useThemeFamily } from "raft-ui";
 import {
@@ -18,7 +18,7 @@ import {
 import { getTaskStatusLabel, type TaskFixture, type TaskStatus } from "../task-card.fixtures";
 import { TaskStatusSelect } from "./task-status-select.composition";
 
-export function TaskCardComposition({
+export const TaskCardComposition = memo(function TaskCardComposition({
   task,
   busy = false,
   disabled = task.disabled,
@@ -127,4 +127,4 @@ export function TaskCardComposition({
       </TaskCardRow>
     </TaskCard>
   );
-}
+});
