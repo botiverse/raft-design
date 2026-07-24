@@ -43,7 +43,7 @@ describe("combobox input ownership", () => {
     const className = renderInput("group");
 
     expect(className).toContain("border-line-subtle");
-    expect(className).toContain("focus-visible:ring-2");
+    expect(className).toContain("focus-visible:ring-1");
     expect(className).not.toContain("border-0");
   });
 });
