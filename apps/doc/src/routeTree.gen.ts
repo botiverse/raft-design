@@ -23,6 +23,7 @@ import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
+import { Route as LabLogoSnapRouteImport } from './routes/lab/logo-snap'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
 import { Route as IframeChatSidebarMobilePartsRouteImport } from './routes/iframe/chat-sidebar-mobile-parts'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
@@ -184,6 +185,11 @@ const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
   id: '/$sourceFile',
   path: '/$sourceFile',
   getParentRoute: () => MigrationRoute,
+} as any)
+const LabLogoSnapRoute = LabLogoSnapRouteImport.update({
+  id: '/lab/logo-snap',
+  path: '/lab/logo-snap',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const IframeDrawerRoute = IframeDrawerRouteImport.update({
   id: '/iframe/drawer',
@@ -740,6 +746,7 @@ export interface FileRoutesByFullPath {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
+  '/lab/logo-snap': typeof LabLogoSnapRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -844,6 +851,7 @@ export interface FileRoutesByTo {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
+  '/lab/logo-snap': typeof LabLogoSnapRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -950,6 +958,7 @@ export interface FileRoutesById {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
+  '/lab/logo-snap': typeof LabLogoSnapRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -1057,6 +1066,7 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
+    | '/lab/logo-snap'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1161,6 +1171,7 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
+    | '/lab/logo-snap'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1266,6 +1277,7 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
+    | '/lab/logo-snap'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1303,6 +1315,7 @@ export interface RootRouteChildren {
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeChatSidebarMobilePartsRoute: typeof IframeChatSidebarMobilePartsRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
+  LabLogoSnapRoute: typeof LabLogoSnapRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRoute
@@ -1409,6 +1422,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/migration/$sourceFile'
       preLoaderRoute: typeof MigrationSourceFileRouteImport
       parentRoute: typeof MigrationRoute
+    }
+    '/lab/logo-snap': {
+      id: '/lab/logo-snap'
+      path: '/lab/logo-snap'
+      fullPath: '/lab/logo-snap'
+      preLoaderRoute: typeof LabLogoSnapRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/iframe/drawer': {
       id: '/iframe/drawer'
@@ -2359,6 +2379,7 @@ const rootRouteChildren: RootRouteChildren = {
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeChatSidebarMobilePartsRoute: IframeChatSidebarMobilePartsRoute,
   IframeDrawerRoute: IframeDrawerRoute,
+  LabLogoSnapRoute: LabLogoSnapRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRoute,

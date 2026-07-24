@@ -257,7 +257,10 @@ const NAV = [
   },
   {
     title: "Brand",
-    items: [{ label: "Logo", to: "/components/logo", status: "done" }],
+    items: [
+      { label: "Logo", to: "/components/logo", status: "done" },
+      { label: "Logo snap", to: "/lab/logo-snap", status: "internal" },
+    ],
   },
   {
     title: "Data Display",
