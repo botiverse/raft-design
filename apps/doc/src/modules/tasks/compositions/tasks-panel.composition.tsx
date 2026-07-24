@@ -85,6 +85,12 @@ export type TasksPanelCompositionProps = {
   onCreateTasks?: (titles: readonly string[]) => void | Promise<void>;
   blockedDropStatus?: TaskStatus;
   showChannelName?: boolean;
+  /** When false, hide the toolbar New Task control (e.g. mobile page header owns it). */
+  showToolbarNewTask?: boolean;
+  /** When false, hide the toolbar Board/List control (e.g. mobile page header owns it). */
+  showToolbarView?: boolean;
+  createOpen?: boolean;
+  onCreateOpenChange?: (open: boolean) => void;
 };
 
 /** Static filter chrome for loading / empty demos. Interactive filters: TasksIdentityFiltersComposition. */
@@ -110,6 +116,10 @@ export function TasksPanelComposition({
   onCreateTasks,
   blockedDropStatus,
   showChannelName = false,
+  showToolbarNewTask = true,
+  showToolbarView = true,
+  createOpen,
+  onCreateOpenChange,
 }: TasksPanelCompositionProps) {
   const portalRef = useRef<HTMLDivElement>(null);
   const [localTasks, setLocalTasks] = useState<readonly TaskFixture[]>(TASK_FIXTURES);
@@ -121,12 +131,17 @@ export function TasksPanelComposition({
     done: true,
     closed: true,
   });
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [localCreateOpen, setLocalCreateOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("Ready");
 
   const tasks = controlledTasks ?? localTasks;
   const visibleTasks = filterTask ? tasks.filter(filterTask) : tasks;
   const view = controlledView ?? localView;
+  const dialogOpen = createOpen ?? localCreateOpen;
+  const setDialogOpen = (open: boolean) => {
+    if (createOpen === undefined) setLocalCreateOpen(open);
+    onCreateOpenChange?.(open);
+  };
   const updateTasks = (nextTasks: readonly TaskFixture[]) => {
     if (controlledTasks === undefined) setLocalTasks(nextTasks);
     onTasksChange?.(nextTasks);
@@ -161,29 +176,33 @@ export function TasksPanelComposition({
     <div ref={portalRef} className="relative flex h-full min-h-0 w-full min-w-0">
       <TasksPanelRoot aria-label="Tasks panel">
         <TasksPanelToolbar>
-          <TasksPanelToolbarNewTask>
-            <Button variant="accent" size="sm" onClick={() => setDialogOpen(true)}>
-              <Plus aria-hidden />
-              New Task
-            </Button>
-          </TasksPanelToolbarNewTask>
+          {showToolbarNewTask ? (
+            <TasksPanelToolbarNewTask>
+              <Button variant="accent" size="sm" onClick={() => setDialogOpen(true)}>
+                <Plus aria-hidden />
+                New Task
+              </Button>
+            </TasksPanelToolbarNewTask>
+          ) : null}
           <TasksPanelToolbarFilters>
             {toolbarFilters ?? <TasksIdentityFiltersComposition />}
           </TasksPanelToolbarFilters>
-          <TasksPanelToolbarView>
-            <Tabs value={view} onValueChange={setView} aria-label="Task view">
-              <TabsList>
-                <TabsTab value="board" aria-label="Board" className="max-md:px-2.5">
-                  <SquareKanban aria-hidden />
-                  <TabsLabel className="max-md:hidden">Board</TabsLabel>
-                </TabsTab>
-                <TabsTab value="list" aria-label="List" className="max-md:px-2.5">
-                  <ListTodo aria-hidden />
-                  <TabsLabel className="max-md:hidden">List</TabsLabel>
-                </TabsTab>
-              </TabsList>
-            </Tabs>
-          </TasksPanelToolbarView>
+          {showToolbarView ? (
+            <TasksPanelToolbarView>
+              <Tabs value={view} onValueChange={setView} aria-label="Task view">
+                <TabsList>
+                  <TabsTab value="board" aria-label="Board" className="max-md:px-2.5">
+                    <SquareKanban aria-hidden />
+                    <TabsLabel className="max-md:hidden">Board</TabsLabel>
+                  </TabsTab>
+                  <TabsTab value="list" aria-label="List" className="max-md:px-2.5">
+                    <ListTodo aria-hidden />
+                    <TabsLabel className="max-md:hidden">List</TabsLabel>
+                  </TabsTab>
+                </TabsList>
+              </Tabs>
+            </TasksPanelToolbarView>
+          ) : null}
         </TasksPanelToolbar>
 
         <TasksPanelViewport>

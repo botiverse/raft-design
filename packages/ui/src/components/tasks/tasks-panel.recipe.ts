@@ -26,7 +26,7 @@ export const tasksPanel = tv({
     ],
     viewport: [
       "min-h-0 flex-1 overflow-auto overscroll-contain p-4",
-      "[padding-bottom:env(safe-area-inset-bottom)]",
+      "pb-[calc(1rem+env(safe-area-inset-bottom,0px))]",
     ],
     empty: ["flex h-full flex-col items-center justify-center"],
   },

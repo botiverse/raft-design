@@ -267,7 +267,14 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
         >
           <MobileNavItem
             selected={railView === "chat"}
-            onClick={() => selectView("chat")}
+            nativeButton={false}
+            render={
+              <Link
+                to="/playground/s/$serverSlug"
+                params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
+                search={{}}
+              />
+            }
             aria-label="Home"
           >
             <Home />
@@ -275,7 +282,8 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           </MobileNavItem>
           <MobileNavItem
             selected={railView === "tasks"}
-            onClick={() => selectView("tasks")}
+            nativeButton={false}
+            render={<Link to="/playground/tasks" search={{}} />}
             aria-label="Tasks"
           >
             <CheckSquare />
@@ -283,7 +291,8 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           </MobileNavItem>
           <MobileNavItem
             selected={railView === "members"}
-            onClick={() => selectView("members")}
+            nativeButton={false}
+            render={<Link to="/playground/members" search={{}} />}
             aria-label="Members"
           >
             <Users />

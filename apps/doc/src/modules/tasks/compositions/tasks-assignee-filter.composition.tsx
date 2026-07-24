@@ -79,9 +79,9 @@ export function TasksAssigneeFilterComposition({
           onValueChange?.(nextValue);
         }}
       >
-        <ComboboxTrigger className="h-8 py-0">
-          <User aria-hidden />
-          <span className="min-w-0 truncate text-left">Assignee</span>
+        <ComboboxTrigger aria-label="Assignee" className="h-8 py-0 max-md:text-[12px]">
+          <User aria-hidden className="size-3.5" />
+          <span className="min-w-0 truncate text-left max-md:hidden">Assignee</span>
           {selectedIds.length > 0 && (
             <ComboboxTriggerCount>{selectedIds.length}</ComboboxTriggerCount>
           )}
