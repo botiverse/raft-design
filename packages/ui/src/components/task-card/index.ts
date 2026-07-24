@@ -8,7 +8,6 @@ export {
   TaskCardNumber,
   TaskCardRow,
   TaskCardStatus,
-  TaskCardStatusTrigger,
   TaskCardTitle,
 } from "./task-card";
 export type {
@@ -21,6 +20,5 @@ export type {
   TaskCardProps,
   TaskCardRowProps,
   TaskCardStatusProps,
-  TaskCardStatusTriggerProps,
   TaskCardTitleProps,
 } from "./task-card";

@@ -27,9 +27,15 @@ export type PlaygroundTask = {
   creatorActorId: PlaygroundActorId;
   assigneeActorId?: PlaygroundActorId;
   sourceMessageId?: PlaygroundMessageId;
+  createdAt?: string;
+  completedAt?: string;
   legacy?: boolean;
   movable?: boolean;
 };
+
+export function isPlaygroundTaskId(value: string): value is PlaygroundTaskId {
+  return /^task:[^:]+:\d+$/.test(value);
+}
 
 function defineTask<const TChannelId extends PlaygroundChannelId>(task: {
   channelId: TChannelId;
@@ -40,13 +46,320 @@ function defineTask<const TChannelId extends PlaygroundChannelId>(task: {
   creatorActorId: PlaygroundActorId;
   assigneeActorId?: PlaygroundActorId;
   sourceMessageId?: PlaygroundMessageId;
+  createdAt?: string;
+  completedAt?: string;
   legacy?: boolean;
   movable?: boolean;
 }): PlaygroundTask {
   return { id: `task:${task.channelId}:${task.number}`, ...task };
 }
 
+/** Extra board density for `#raft-ui-migration` — every status, enough to scroll. */
+const ALL_CHANNEL_BULK_TASKS = (
+  [
+    {
+      number: 30,
+      title: "Audit TaskBoard column empty-state copy",
+      description: "Confirm idle, allowed, and blocked empty hosts match the product tone.",
+      status: "todo",
+      creatorActorId: "cindy",
+      assigneeActorId: "mira",
+    },
+    {
+      number: 31,
+      title: "Seed denser fixtures for ScrollArea board previews",
+      status: "todo",
+      creatorActorId: "developer",
+      assigneeActorId: "ada",
+    },
+    {
+      number: 32,
+      title: "Map filter chips to shared task-query helpers",
+      status: "todo",
+      creatorActorId: "atlas",
+      assigneeActorId: "dataWeaver",
+    },
+    {
+      number: 33,
+      title: "Document consumer-owned virtualization for tall columns",
+      description: "Keep useVirtualizer outside TaskBoard and show mounted vs total in docs.",
+      status: "todo",
+      creatorActorId: "specWriter",
+      assigneeActorId: "cuvii",
+    },
+    {
+      number: 34,
+      title: "Normalize TaskCard assignee fallbacks in playground",
+      status: "todo",
+      creatorActorId: "ada",
+      assigneeActorId: "olivia",
+    },
+    {
+      number: 35,
+      title: "Add keyboard shortcuts for status transitions",
+      status: "todo",
+      creatorActorId: "developer",
+      assigneeActorId: "elliot",
+    },
+    {
+      number: 36,
+      title: "Catalog drag-disabled legacy cards in the board demo",
+      status: "todo",
+      creatorActorId: "legacyBot",
+      assigneeActorId: "qaSentinel",
+    },
+    {
+      number: 37,
+      title: "Write acceptance checks for collapsed board columns",
+      status: "todo",
+      creatorActorId: "qaSentinel",
+      assigneeActorId: "samira",
+    },
+    {
+      number: 38,
+      title: "Wire Tasks tab unread counts from channel filters",
+      status: "todo",
+      creatorActorId: "noah",
+      assigneeActorId: "mateo",
+    },
+    {
+      number: 39,
+      title: "Sketch elegant hover states for dense task lists",
+      status: "todo",
+      creatorActorId: "mira",
+      assigneeActorId: "cindy",
+    },
+    {
+      number: 40,
+      title: "Implement shared ScrollArea viewport for board and list",
+      status: "in_progress",
+      creatorActorId: "cuvii",
+      assigneeActorId: "cuvii",
+    },
+    {
+      number: 41,
+      title: "Port TaskStatusIcon colors to token pairs",
+      status: "in_progress",
+      creatorActorId: "developer",
+      assigneeActorId: "ada",
+    },
+    {
+      number: 42,
+      title: "Stabilize DnD placeholders under virtualized stacks",
+      description: "Measure scrollMargin when preceding sections collapse or remount.",
+      status: "in_progress",
+      creatorActorId: "atlas",
+      assigneeActorId: "codePilot",
+    },
+    {
+      number: 43,
+      title: "Connect create-task sheet to playground task state",
+      status: "in_progress",
+      creatorActorId: "cindy",
+      assigneeActorId: "olivia",
+    },
+    {
+      number: 44,
+      title: "Reconcile list-section badges with board column badges",
+      status: "in_progress",
+      creatorActorId: "developer",
+      assigneeActorId: "samira",
+    },
+    {
+      number: 45,
+      title: "Profile board re-renders when dragging across columns",
+      status: "in_progress",
+      creatorActorId: "atlas",
+      assigneeActorId: "dataWeaver",
+    },
+    {
+      number: 46,
+      title: "Finish brutal status-label density pass",
+      status: "in_progress",
+      creatorActorId: "mira",
+      assigneeActorId: "cindy",
+    },
+    {
+      number: 47,
+      title: "Hook TaskCard more-menu into playground actions",
+      status: "in_progress",
+      creatorActorId: "ada",
+      assigneeActorId: "elliot",
+    },
+    {
+      number: 48,
+      title: "Keep closed-column drop rules documented in TaskDnd",
+      status: "in_progress",
+      creatorActorId: "specWriter",
+      assigneeActorId: "atlas",
+    },
+    {
+      number: 49,
+      title: "Sync agent activity chips with in-progress tasks",
+      status: "in_progress",
+      creatorActorId: "claudeAssistant",
+      assigneeActorId: "atlas",
+    },
+    {
+      number: 50,
+      title: "Review TaskBoard anatomy against live compositions",
+      status: "in_review",
+      creatorActorId: "atlas",
+      assigneeActorId: "specWriter",
+    },
+    {
+      number: 51,
+      title: "Review ScrollArea graduation checklist",
+      status: "in_review",
+      creatorActorId: "releaseScribe",
+      assigneeActorId: "avery",
+    },
+    {
+      number: 52,
+      title: "Review elegant TaskCard hover against layer-panel",
+      status: "in_review",
+      creatorActorId: "mira",
+      assigneeActorId: "cindy",
+    },
+    {
+      number: 53,
+      title: "Review playground Tasks filters for assignee coverage",
+      status: "in_review",
+      creatorActorId: "qaSentinel",
+      assigneeActorId: "samira",
+    },
+    {
+      number: 54,
+      title: "Review virtualization usage copy for consumer clarity",
+      status: "in_review",
+      creatorActorId: "specWriter",
+      assigneeActorId: "cuvii",
+    },
+    {
+      number: 55,
+      title: "Review DnD blocked-state messaging on Closed",
+      status: "in_review",
+      creatorActorId: "atlas",
+      assigneeActorId: "ada",
+    },
+    {
+      number: 56,
+      title: "Review list empty-section host parity with board",
+      status: "in_review",
+      creatorActorId: "developer",
+      assigneeActorId: "olivia",
+    },
+    {
+      number: 57,
+      title: "Review task thread deep-links from the board card",
+      status: "in_review",
+      creatorActorId: "noah",
+      assigneeActorId: "mateo",
+    },
+    {
+      number: 58,
+      title: "Ship TaskCard dual-trigger status control",
+      status: "done",
+      creatorActorId: "cuvii",
+      assigneeActorId: "cuvii",
+    },
+    {
+      number: 59,
+      title: "Ship token-based in_review icon color",
+      status: "done",
+      creatorActorId: "developer",
+      assigneeActorId: "ada",
+    },
+    {
+      number: 60,
+      title: "Ship denser board demo fixtures for scroll",
+      status: "done",
+      creatorActorId: "cindy",
+      assigneeActorId: "mira",
+    },
+    {
+      number: 61,
+      title: "Ship TaskBoard usage snippet slim-down",
+      status: "done",
+      creatorActorId: "specWriter",
+      assigneeActorId: "atlas",
+    },
+    {
+      number: 62,
+      title: "Ship elegant ghost more-button on TaskCard meta",
+      status: "done",
+      creatorActorId: "mira",
+      assigneeActorId: "cindy",
+    },
+    {
+      number: 63,
+      title: "Ship shared TaskStatusIcon across board and list",
+      status: "done",
+      creatorActorId: "developer",
+      assigneeActorId: "samira",
+    },
+    {
+      number: 64,
+      title: "Ship playground task-state cloning on shell mount",
+      status: "done",
+      creatorActorId: "atlas",
+      assigneeActorId: "codePilot",
+    },
+    {
+      number: 65,
+      title: "Ship closed-task archive affordance in filters",
+      status: "done",
+      creatorActorId: "releaseScribe",
+      assigneeActorId: "avery",
+    },
+    {
+      number: 66,
+      title: "Close superseded TasksPanel layout experiments",
+      status: "closed",
+      creatorActorId: "legacyBot",
+      assigneeActorId: "qaSentinel",
+    },
+    {
+      number: 67,
+      title: "Close duplicate ScrollArea ownership tickets",
+      status: "closed",
+      creatorActorId: "developer",
+      assigneeActorId: "cuvii",
+    },
+    {
+      number: 68,
+      title: "Close abandoned per-column scroll containers",
+      description: "Board columns must share one viewport; independent scrollers were rejected.",
+      status: "closed",
+      creatorActorId: "atlas",
+      assigneeActorId: "specWriter",
+    },
+    {
+      number: 69,
+      title: "Close obsolete TaskBoard kind/state prop proposals",
+      status: "closed",
+      creatorActorId: "cindy",
+      assigneeActorId: "mira",
+    },
+    {
+      number: 70,
+      title: "Close pre-token brutal status color one-offs",
+      status: "closed",
+      creatorActorId: "releaseScribe",
+      assigneeActorId: "ada",
+    },
+    {
+      number: 71,
+      title: "Close temporary source-repo virtualization docs section",
+      status: "closed",
+      creatorActorId: "specWriter",
+      assigneeActorId: "atlas",
+    },
+  ] as const
+).map((task) => defineTask({ channelId: "all", ...task }));
+
 export const PLAYGROUND_TASKS = [
+  ...ALL_CHANNEL_BULK_TASKS,
   defineTask({
     channelId: "all",
     number: 10,
@@ -77,9 +390,12 @@ export const PLAYGROUND_TASKS = [
     channelId: "all",
     number: 1,
     title: "Migrate legacy task records into the Raft UI board",
+    description:
+      "Imported from the pre-migration store. Metadata is read-only here; open a message task when you need thread replies.",
     status: "in_progress",
     creatorActorId: "legacyBot",
     assigneeActorId: "legacyBot",
+    createdAt: "2026-07-12T09:18:00.000Z",
     legacy: true,
   }),
   defineTask({
@@ -104,6 +420,7 @@ export const PLAYGROUND_TASKS = [
     title: "Verify metadata preserved from imported migration tasks",
     status: "in_review",
     creatorActorId: "legacyBot",
+    createdAt: "2026-07-10T14:02:00.000Z",
     legacy: true,
   }),
   defineTask({
@@ -120,6 +437,8 @@ export const PLAYGROUND_TASKS = [
     title: "Archive superseded migration tasks",
     status: "done",
     creatorActorId: "legacyBot",
+    createdAt: "2026-07-08T11:40:00.000Z",
+    completedAt: "2026-07-15T16:05:00.000Z",
     legacy: true,
   }),
   defineTask({
@@ -255,7 +574,7 @@ export const PLAYGROUND_TASKS = [
     creatorActorId: "incidentTriage",
     assigneeActorId: "deployBot",
   }),
-] as const satisfies readonly PlaygroundTask[];
+] satisfies readonly PlaygroundTask[];
 
 for (const task of PLAYGROUND_TASKS) {
   if (!task.sourceMessageId) continue;

@@ -35,46 +35,37 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
-  { id: "source-virtualization", title: "Source virtualization" },
   { id: "api", title: "API" },
 ] as const;
 
-const SOURCE_VIRTUALIZATION_SNIPPET = `const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-<div ref={scrollContainerRef} data-task-virtual-scroll className="flex-1 overflow-auto">
-  <TaskVirtualLayout scrollElementRef={scrollContainerRef} className="space-y-6">
-    {groupedTasks.map(({ status, tasks }) => (
-      <TaskSection
-        key={status}
-        status={status}
-        tasks={tasks}
-        scrollElementRef={scrollContainerRef}
-      />
-    ))}
-  </TaskVirtualLayout>
-</div>
+const VIRTUALIZATION_SNIPPET = `const viewportRef = useRef<HTMLDivElement>(null);
 
 const virtualizer = useVirtualizer({
   count: items.length,
-  getScrollElement: () => scrollContainerRef.current,
+  getScrollElement: () => viewportRef.current,
   getItemKey: (index) => items[index]!.id,
   estimateSize: () => 116,
   gap: 10,
   overscan: 6,
-  scrollMargin,
 });
 
-<div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
-  {virtualizer.getVirtualItems().map((row) => (
-    <div
-      key={row.key}
-      ref={virtualizer.measureElement}
-      style={{ position: "absolute", transform: \`translateY(\${row.start - scrollMargin}px)\` }}
-    >
-      {renderItem(items[row.index]!)}
-    </div>
-  ))}
-</div>`;
+<ScrollArea>
+  <ScrollAreaViewport ref={viewportRef}>
+    <TaskSectionItems>
+      <div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
+        {virtualizer.getVirtualItems().map((row) => (
+          <div
+            key={row.key}
+            ref={virtualizer.measureElement}
+            style={{ position: "absolute", transform: \`translateY(\${row.start}px)\` }}
+          >
+            {renderItem(items[row.index]!)}
+          </div>
+        ))}
+      </div>
+    </TaskSectionItems>
+  </ScrollAreaViewport>
+</ScrollArea>`;
 
 const LIST_ROOT_PROPS: readonly PropRow[] = [
   {
@@ -170,7 +161,7 @@ const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   list: stripSourceCodeBlocks(taskListCompositionSource),
   empty: taskListEmptySectionsCompositionSource,
-  sourceVirtualization: SOURCE_VIRTUALIZATION_SNIPPET,
+  virtualization: VIRTUALIZATION_SNIPPET,
 } as const;
 
 export const Route = createFileRoute("/components/task-list")({
@@ -256,22 +247,20 @@ function TaskListDoc() {
               <Preview.Code html={code.empty} />
             </Preview>
           </DocSubsection>
-        </div>
-      </DocSection>
 
-      <DocSection id="source-virtualization" title="Source-repo virtualization">
-        <p className="mb-4 text-sm text-foreground/70">
-          Slock currently uses a native shared <code>overflow-auto</code> container, not{" "}
-          <code>ScrollArea</code>. Each status section mounts a variable-height virtual stack on
-          that same ref. In a Raft UI consumer, pass the <code>ScrollAreaViewport</code> ref through
-          the same integration; virtualization stays consumer-owned rather than becoming a{" "}
-          <code>TaskList</code> API.
-        </p>
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.sourceVirtualization} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
+          <DocSubsection parentId="usage" id="virtualization" title="Virtualization">
+            <p className="mb-4 text-sm text-foreground/70">
+              Keep one shared <code>ScrollAreaViewport</code>, and mount a{" "}
+              <code>useVirtualizer</code> stack inside each tall section. Virtualization stays
+              consumer-owned; <code>TaskList</code> does not provide it.
+            </p>
+            <DocsCodeBlock>
+              <DocsCodeBlock.Body>
+                <DocsCodeBlock.Content html={code.virtualization} />
+              </DocsCodeBlock.Body>
+            </DocsCodeBlock>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

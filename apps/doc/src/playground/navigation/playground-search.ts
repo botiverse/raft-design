@@ -1,4 +1,9 @@
-import { isPlaygroundThreadId, type PlaygroundThreadId } from "../mock/index.ts";
+import {
+  isPlaygroundTaskId,
+  isPlaygroundThreadId,
+  type PlaygroundTaskId,
+  type PlaygroundThreadId,
+} from "../mock/index.ts";
 
 export type PlaygroundSearch = {
   detail?: string;
@@ -9,6 +14,8 @@ export type PlaygroundChannelSearch = {
   /** Mobile conversation-list mode while a channel stays selected in the URL. */
   panel?: "list";
   thread?: PlaygroundThreadId;
+  /** Mutually exclusive with `thread` — legacy tasks have no message thread. */
+  legacyTask?: PlaygroundTaskId;
 };
 
 export function validatePlaygroundSearch(search: Record<string, unknown>): PlaygroundSearch {
@@ -20,14 +27,20 @@ export function validatePlaygroundSearch(search: Record<string, unknown>): Playg
 export function validatePlaygroundChannelSearch(
   search: Record<string, unknown>,
 ): PlaygroundChannelSearch {
+  const legacyTask =
+    typeof search.legacyTask === "string" && isPlaygroundTaskId(search.legacyTask)
+      ? search.legacyTask
+      : undefined;
   const thread =
-    typeof search.thread === "string" && isPlaygroundThreadId(search.thread)
+    !legacyTask && typeof search.thread === "string" && isPlaygroundThreadId(search.thread)
       ? search.thread
       : undefined;
+  const sidePanel = Boolean(legacyTask || thread);
 
   return {
     ...(search.panel === "list" ? { panel: "list" as const } : {}),
+    ...(legacyTask ? { legacyTask } : {}),
     ...(thread ? { thread } : {}),
-    ...(thread && search.from === "tasks" ? { from: "tasks" as const } : {}),
+    ...(sidePanel && search.from === "tasks" ? { from: "tasks" as const } : {}),
   };
 }

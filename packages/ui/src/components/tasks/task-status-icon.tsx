@@ -8,7 +8,7 @@ type TaskStatusIconComponent = (props: TaskStatusSvgProps) => ReactNode;
 const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
   todo: "var(--foreground-placeholder)",
   in_progress: "color-mix(in oklch, var(--primary-400) 92%, var(--ink))",
-  in_review: "var(--state-warning-hover)",
+  in_review: "oklch(0.72 0.16 58)",
   done: "var(--state-success-base)",
   closed: "oklch(0.573 0 0)",
 };
@@ -134,15 +134,21 @@ const TASK_STATUS_ICONS: Record<TaskStatusId, TaskStatusIconComponent> = {
   closed: ClosedIcon,
 };
 
-export function TaskStatusIcon({ status }: { status: TaskStatusId }) {
+export function TaskStatusIcon({
+  status,
+  className,
+}: {
+  status: TaskStatusId;
+  className?: string;
+}) {
   const theme = useThemeFamily();
   const Icon = TASK_STATUS_ICONS[status];
   return (
     <Icon
       aria-hidden
       data-slot="task-status-icon"
-      className={theme === "brutal" ? "hidden" : undefined}
-      color={TASK_STATUS_ICON_COLORS[status]}
+      className={className}
+      color={theme === "brutal" ? "currentColor" : TASK_STATUS_ICON_COLORS[status]}
     />
   );
 }

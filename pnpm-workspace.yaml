@@ -29,6 +29,7 @@ catalog:
   react-resizable-panels: ^4.12.1
   react-dropzone: ^19.1.1
   motion: ^12.42.2
+  "@tanstack/react-virtual": ^3.14.8
 overrides:
   vite: "catalog:"
   vitest: "catalog:"

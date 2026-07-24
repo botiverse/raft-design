@@ -1,4 +1,10 @@
-import { EmptyState, EmptyStateDescription, EmptyStateIcon, EmptyStateTitle } from "raft-ui";
+import {
+  Button,
+  EmptyState,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
+} from "raft-ui";
 import {
   TasksPanelRoot,
   TasksPanelEmpty,
@@ -25,6 +31,9 @@ export function TasksEmptyStatesComposition() {
           <TasksPanelToolbar>
             <TasksPanelToolbarGroup>
               <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
+              <Button variant="ghost" size="sm">
+                Clear
+              </Button>
             </TasksPanelToolbarGroup>
           </TasksPanelToolbar>
           <TasksPanelViewport>

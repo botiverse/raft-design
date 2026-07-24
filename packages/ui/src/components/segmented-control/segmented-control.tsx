@@ -23,7 +23,7 @@ const segmentedControl = tv({
         item: [
           "border-2 border-line-strong bg-layer-panel px-2 py-1.5 font-semibold text-foreground-strong",
           "has-[svg]:pl-1.5 has-[[data-slot=segmented-control-count]]:pr-1.5",
-          "[&_svg]:stroke-[2.5]",
+          "[&_svg]:stroke-[2.5] [&_svg_*]:stroke-[2.5]",
           "hover:bg-primary-400/30 data-[checked]:bg-primary-400 data-[checked]:text-foreground-strong",
           "data-[disabled]:cursor-not-allowed",
         ],

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
-import { Ban, Check, CheckCircle, Circle, Eye, Play } from "lucide-react";
+import { Check } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,18 +21,18 @@ import {
   MessageItemSender,
   MessageItemTaskBadge,
   MessageItemTime,
+  TaskStatusIcon,
   type TaskStatusId,
 } from "raft-ui/wip";
 
 const TASK_STATUS_OPTIONS = [
-  { id: "todo", icon: Circle, label: "Todo" },
-  { id: "in_progress", icon: Play, label: "In Progress" },
-  { id: "in_review", icon: Eye, label: "In Review" },
-  { id: "done", icon: CheckCircle, label: "Done" },
-  { id: "closed", icon: Ban, label: "Closed" },
+  { id: "todo", label: "Todo" },
+  { id: "in_progress", label: "In Progress" },
+  { id: "in_review", label: "In Review" },
+  { id: "done", label: "Done" },
+  { id: "closed", label: "Closed" },
 ] as const satisfies readonly {
   id: TaskStatusId;
-  icon: typeof Circle;
   label: string;
 }[];
 
@@ -40,7 +40,6 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
   const [status, setStatus] = useState<TaskStatusId>("todo");
   const current =
     TASK_STATUS_OPTIONS.find((option) => option.id === status) ?? TASK_STATUS_OPTIONS[0];
-  const Icon = current.icon;
 
   return (
     <DropdownMenu>
@@ -58,7 +57,7 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
           />
         }
       >
-        <Icon size={10} />
+        <TaskStatusIcon status={status} />
         <span>#1</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -67,7 +66,7 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
       >
         {TASK_STATUS_OPTIONS.map((option) => (
           <DropdownMenuItem key={option.id} onClick={() => setStatus(option.id)}>
-            <option.icon size={14} />
+            <TaskStatusIcon status={option.id} />
             <span>{option.label}</span>
             {option.id === status ? <Check className="ml-auto" size={14} /> : null}
           </DropdownMenuItem>
@@ -79,7 +78,6 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
 
 function MessageTaskStatusReadonlyBadges() {
   return TASK_STATUS_OPTIONS.map((option, index) => {
-    const Icon = option.icon;
     const taskNumber = index + 11;
 
     return (
@@ -88,7 +86,7 @@ function MessageTaskStatusReadonlyBadges() {
         status={option.id}
         title={`task #${taskNumber} · ${option.label} · Read only`}
       >
-        <Icon size={10} />
+        <TaskStatusIcon status={option.id} />
         <span>#{taskNumber}</span>
       </MessageItemTaskBadge>
     );

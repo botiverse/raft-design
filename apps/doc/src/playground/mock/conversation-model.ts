@@ -197,6 +197,14 @@ export function defineStandardRoom<const TId extends string>(
   input: StandardRoomInput<TId>,
 ): PlaygroundConversation<PlaygroundRoomChannel & { id: TId }> {
   const story = buildStandardStory(input.id, input.story);
+  const threads = input.threads ?? story.threads;
+  // Custom thread parents are not part of the default story timeline — surface
+  // them in Chat so reply badges and task deep-links have a visible root.
+  const messages =
+    input.threads == null
+      ? story.messages
+      : [...input.threads.map((thread) => thread.parent), ...story.messages];
+
   return {
     conversation: {
       id: input.id,
@@ -207,10 +215,10 @@ export function defineStandardRoom<const TId extends string>(
       memberIds: input.memberIds,
       archived: input.archived ?? false,
       ...(input.initialComposer ? { initialComposer: input.initialComposer } : {}),
-      navigation: deriveNavigation(input.navigation, story.messages),
+      navigation: deriveNavigation(input.navigation, messages),
     },
-    messages: story.messages,
-    threads: input.threads ?? story.threads,
+    messages,
+    threads,
   };
 }
 

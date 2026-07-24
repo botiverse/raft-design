@@ -1,5 +1,5 @@
 import type { ReactNode, RefObject } from "react";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useCallback, useMemo, useRef, useState } from "react";
 import {
   Banner,
   BannerDescription,
@@ -58,17 +58,7 @@ import {
   TasksPanelToolbarLabel,
   TasksPanelViewport,
 } from "raft-ui/wip";
-import {
-  CheckSquare,
-  ChevronDown,
-  ListTodo,
-  Plus,
-  SquareKanban,
-  Trash2,
-  User,
-  UserCircle2,
-  X,
-} from "lucide-react";
+import { CheckSquare, ChevronDown, ListTodo, Plus, SquareKanban, Trash2, X } from "lucide-react";
 
 import {
   getTaskStatusLabel,
@@ -79,6 +69,7 @@ import {
   type TaskStatus,
 } from "#/modules/task-card/task-card.fixtures.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
+import { TasksIdentityFiltersComposition } from "./tasks-identity-filters.composition.tsx";
 
 type TaskView = "board" | "list";
 
@@ -96,7 +87,7 @@ export type TasksPanelCompositionProps = {
   showChannelName?: boolean;
 };
 
-/** Static filter chrome for TasksPanel demos. Interactive filters live under Combobox. */
+/** Static filter chrome for loading / empty demos. Interactive filters: TasksIdentityFiltersComposition. */
 export function TasksToolbarFilterPlaceholder({ label, icon }: { label: string; icon: ReactNode }) {
   return (
     <TasksPanelToolbarLabel aria-hidden>
@@ -171,16 +162,11 @@ export function TasksPanelComposition({
       <TasksPanelRoot aria-label="Tasks panel">
         <TasksPanelToolbar>
           <TasksPanelToolbarGroup>
-            {toolbarFilters ?? (
-              <>
-                <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
-                <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
-              </>
-            )}
             <Button variant="accent" size="sm" onClick={() => setDialogOpen(true)}>
               <Plus aria-hidden />
               New Task
             </Button>
+            {toolbarFilters ?? <TasksIdentityFiltersComposition />}
           </TasksPanelToolbarGroup>
           <TasksPanelToolbarGroup>
             <Tabs value={view} onValueChange={setView} aria-label="Task view">
@@ -280,14 +266,25 @@ function TaskBoard({
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const activeTask =
     activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
+  const draggableTaskIds = useMemo(
+    () => new Set(tasks.filter((task) => !task.dragDisabled).map((task) => task.id)),
+    [tasks],
+  );
+  const isDropAllowed = useCallback(
+    (
+      activeId: string | number,
+      _overId: string | number,
+      overData: Record<string, unknown> | undefined,
+    ) =>
+      isTaskDropTarget(overData) &&
+      overData.status !== blockedDropStatus &&
+      draggableTaskIds.has(String(activeId)),
+    [blockedDropStatus, draggableTaskIds],
+  );
 
   return (
     <TaskDndProvider
-      isDropAllowed={(activeId, _overId, overData) =>
-        isTaskDropTarget(overData) &&
-        overData.status !== blockedDropStatus &&
-        tasks.some((task) => task.id === activeId && !task.dragDisabled)
-      }
+      isDropAllowed={isDropAllowed}
       onDragStart={({ active }) => setActiveTaskId(String(active.id))}
       onDragCancel={() => setActiveTaskId(null)}
       onDragEnd={() => setActiveTaskId(null)}

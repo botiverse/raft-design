@@ -26,8 +26,6 @@ export function TasksLoadingComposition() {
       <TasksPanelRoot aria-label="Loading tasks">
         <TasksPanelToolbar>
           <TasksPanelToolbarGroup>
-            <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
-            <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
             <Button
               variant="accent"
               size="sm"
@@ -36,6 +34,8 @@ export function TasksLoadingComposition() {
               <Plus aria-hidden />
               New Task
             </Button>
+            <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
+            <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
           </TasksPanelToolbarGroup>
           <TasksPanelToolbarGroup>
             <SegmentedControl

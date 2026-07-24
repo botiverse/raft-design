@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useCallback, useMemo, useRef, useState } from "react";
 import {
   ScrollArea,
   ScrollAreaContent,
@@ -39,12 +39,103 @@ import {
 } from "#/modules/task-card/task-card.fixtures.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 
+const BOARD_DEMO_EXTRA_TASKS: readonly TaskFixture[] = [
+  {
+    id: "task-151",
+    taskNumber: 151,
+    channelName: "proj-uiux",
+    title: "Tighten board column header density",
+    description: "Keep badge, count, and chevron aligned under dense status labels.",
+    status: "todo",
+    creatorId: "me",
+    assigneeId: "atlas",
+  },
+  {
+    id: "task-150",
+    taskNumber: 150,
+    channelName: "proj-task",
+    title: "Show overflow when a column exceeds the viewport",
+    description: "ScrollArea must own vertical overflow for tall status stacks.",
+    status: "todo",
+    creatorId: "atlas",
+    assigneeId: "me",
+  },
+  {
+    id: "task-149",
+    taskNumber: 149,
+    channelName: "proj-uiux",
+    title: "Preserve drop placeholders while cards are dragging",
+    status: "todo",
+    creatorId: "me",
+    assigneeId: "me",
+  },
+  {
+    id: "task-148",
+    taskNumber: 148,
+    channelName: "proj-task",
+    title: "Clamp long descriptions inside board cards",
+    description: "Two lines max so columns stay scannable at the source width.",
+    status: "todo",
+    creatorId: "atlas",
+    assigneeId: "unassigned",
+  },
+  {
+    id: "task-147",
+    taskNumber: 147,
+    channelName: "proj-uiux",
+    title: "Keep status icon and label paired in brutal badges",
+    status: "todo",
+    creatorId: "me",
+    assigneeId: "atlas",
+  },
+  {
+    id: "task-146",
+    taskNumber: 146,
+    channelName: "proj-task",
+    title: "Verify horizontal scroll across five status columns",
+    description: "Board root stays min-content wide inside one shared viewport.",
+    status: "in_progress",
+    creatorId: "atlas",
+    assigneeId: "me",
+  },
+  {
+    id: "task-145",
+    taskNumber: 145,
+    channelName: "proj-uiux",
+    title: "Wire collapse state without remounting cards",
+    status: "in_progress",
+    creatorId: "me",
+    assigneeId: "me",
+  },
+  {
+    id: "task-144",
+    taskNumber: 144,
+    channelName: "proj-task",
+    title: "Announce blocked drops for closed columns",
+    description: "Empty blocked copy should stay visible while dragging.",
+    status: "in_progress",
+    creatorId: "atlas",
+    assigneeId: "atlas",
+  },
+  {
+    id: "task-143",
+    taskNumber: 143,
+    channelName: "proj-uiux",
+    title: "Sync board counts after keyboard reorders",
+    status: "in_progress",
+    creatorId: "me",
+    assigneeId: "unassigned",
+  },
+];
+
+const BOARD_DEMO_TASKS: readonly TaskFixture[] = [...TASK_FIXTURES, ...BOARD_DEMO_EXTRA_TASKS];
+
 const DEFAULT_COLLAPSED: Record<TaskStatus, boolean> = {
   todo: false,
   in_progress: false,
   in_review: false,
-  done: true,
-  closed: true,
+  done: false,
+  closed: false,
 };
 
 const EXPANDED: Record<TaskStatus, boolean> = {
@@ -70,7 +161,7 @@ export function TaskBoardComposition({
   expandAll = false,
 }: TaskBoardCompositionProps) {
   const portalRef = useRef<HTMLDivElement>(null);
-  const [localTasks, setLocalTasks] = useState<readonly TaskFixture[]>(TASK_FIXTURES);
+  const [localTasks, setLocalTasks] = useState<readonly TaskFixture[]>(BOARD_DEMO_TASKS);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [collapsed, setCollapsed] = useState<Record<TaskStatus, boolean>>(
     expandAll ? EXPANDED : DEFAULT_COLLAPSED,
@@ -78,13 +169,34 @@ export function TaskBoardComposition({
   const [announcement, setAnnouncement] = useState("Ready");
 
   const tasks = controlledTasks ?? localTasks;
-  const updateStatus = (taskId: string, status: TaskStatus) => {
-    const task = tasks.find((item) => item.id === taskId);
-    if (!task || task.status === status) return;
-    const next = moveTaskFixture(tasks, taskId, { status });
-    if (controlledTasks === undefined) setLocalTasks(next);
-    setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
-  };
+  const draggableTaskIds = useMemo(
+    () => new Set(tasks.filter((task) => !task.dragDisabled).map((task) => task.id)),
+    [tasks],
+  );
+  const isDropAllowed = useCallback(
+    (
+      activeId: string | number,
+      _overId: string | number,
+      overData: Record<string, unknown> | undefined,
+    ) =>
+      isTaskDropTarget(overData) &&
+      overData.status !== blockedDropStatus &&
+      draggableTaskIds.has(String(activeId)),
+    [blockedDropStatus, draggableTaskIds],
+  );
+  const updateStatus = useCallback(
+    (taskId: string, status: TaskStatus) => {
+      const task = tasks.find((item) => item.id === taskId);
+      if (!task || task.status === status) return;
+      const next = moveTaskFixture(tasks, taskId, { status });
+      if (controlledTasks === undefined) setLocalTasks(next);
+      setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
+    },
+    [controlledTasks, tasks],
+  );
+  const openTask = useCallback((task: TaskFixture) => {
+    setAnnouncement(`Opened task #${task.taskNumber}: ${task.title}`);
+  }, []);
   const activeTask =
     activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
 
@@ -93,11 +205,7 @@ export function TaskBoardComposition({
       <ScrollAreaViewport className="p-4">
         <ScrollAreaContent className="min-w-max">
           <TaskDndProvider
-            isDropAllowed={(activeId, _overId, overData) =>
-              isTaskDropTarget(overData) &&
-              overData.status !== blockedDropStatus &&
-              tasks.some((task) => task.id === activeId && !task.dragDisabled)
-            }
+            isDropAllowed={isDropAllowed}
             onDragStart={({ active }) => setActiveTaskId(String(active.id))}
             onDragCancel={() => setActiveTaskId(null)}
             onDragEnd={() => setActiveTaskId(null)}
@@ -180,11 +288,7 @@ export function TaskBoardComposition({
                                   >
                                     <TaskCardComposition
                                       task={task}
-                                      onOpen={(item) =>
-                                        setAnnouncement(
-                                          `Opened task #${item.taskNumber}: ${item.title}`,
-                                        )
-                                      }
+                                      onOpen={openTask}
                                       onStatusChange={updateStatus}
                                       portalRef={portalRef}
                                       showChannelName={showChannelName}

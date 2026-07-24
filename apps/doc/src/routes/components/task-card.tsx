@@ -8,30 +8,41 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { TaskCardComparisonComposition } from "#/modules/task-card/compositions/task-card-comparison.composition.tsx";
+import { highlightSnippets } from "#/lib/highlight.tsx";
 import taskCardComparisonCompositionSource from "#/modules/task-card/compositions/task-card-comparison.composition.tsx?raw";
 import { TaskCardPanelComparisonComposition } from "#/modules/task-card/compositions/task-card-panel-comparison.composition.tsx";
 import taskCardPanelComparisonSource from "#/modules/task-card/compositions/task-card-panel-comparison.composition.tsx?raw";
 import { TaskCardStateMatrixComposition } from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx";
 import taskCardStateMatrixCompositionSource from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx?raw";
 import { TaskCardPanelSourceComparisonComposition } from "#/modules/task-card/task-card.source-comparison.tsx";
-import { highlightSnippets } from "#/lib/highlight.tsx";
+import { TaskCardPlaygroundPreview } from "#/modules/task-card/task-card.preview.tsx";
 
-const ANATOMY_SNIPPET = `<TaskCard onClick={openTask}>
-  <TaskCardRow>
-    <TaskCardBody>
-      <TaskCardMeta>
-        <TaskCardStatus>
-          <TaskStatusSelect trigger={<TaskCardStatusTrigger />} />
-        </TaskCardStatus>
-        <TaskCardChannel />
-        <TaskCardNumber />
-        <TaskCardLegacy />
-      </TaskCardMeta>
-      <TaskCardTitle />
-      <TaskCardDescription />
-    </TaskCardBody>
-  </TaskCardRow>
+const ANATOMY_SNIPPET = `<TaskCard>
+  <TaskCardMeta>
+    <TaskCardChannel />
+    <TaskStatusSelect>
+      <TaskCardStatus status={status}>
+        <TaskStatusIcon status={status} />
+      </TaskCardStatus>
+    </TaskStatusSelect>
+    <TaskCardNumber />
+    <TaskCardLegacy />
+    <TaskStatusSelect>
+      <Button variant="ghost" size="icon-xs">
+        <EllipsisVertical />
+      </Button>
+    </TaskStatusSelect>
+    <TaskStatusSelect>
+      <TaskCardStatus status={status}>
+        <span data-slot="task-card-status-label">
+          <TaskStatusIcon status={status} />
+          {label}
+        </span>
+      </TaskCardStatus>
+    </TaskStatusSelect>
+  </TaskCardMeta>
+  <TaskCardTitle />
+  <TaskCardDescription />
 </TaskCard>`;
 
 const TOC = [
@@ -144,29 +155,15 @@ const DESCRIPTION_PROPS: readonly PropRow[] = [
 
 const STATUS_PROPS: readonly PropRow[] = [
   {
-    name: "busy",
-    type: "boolean",
-    default: "false",
-    description: "Marks the status control region as busy.",
-  },
-  {
-    name: "...props",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Status-control container. Compose a TaskStatusSelect with TaskCardStatusTrigger.",
-  },
-];
-
-const STATUS_TRIGGER_PROPS: readonly PropRow[] = [
-  {
     name: "status",
     type: '"todo" | "in_progress" | "in_review" | "done" | "closed"',
-    description: "Task status that drives the trigger surface color.",
+    description: "Task status that drives the trigger surface color and icon.",
   },
   {
     name: "busy",
     type: "boolean",
     default: "false",
-    description: "Busy state for the status trigger.",
+    description: "Disables the status trigger while a change is pending.",
   },
   {
     name: "...props",
@@ -211,12 +208,7 @@ function TaskCardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview>
-          <Preview.Canvas>
-            <TaskCardComparisonComposition />
-          </Preview.Canvas>
-          <Preview.Code html={code.comparison} />
-        </Preview>
+        <TaskCardPlaygroundPreview code={code.comparison} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -269,9 +261,6 @@ function TaskCardDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-status" title="TaskCardStatus">
             <PropsTable rows={STATUS_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-status-trigger" title="TaskCardStatusTrigger">
-            <PropsTable rows={STATUS_TRIGGER_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

@@ -40,12 +40,15 @@ import {
   PlaygroundUnreadRepliesBadge,
 } from "../message/playground-message-row.tsx";
 import {
+  getPlaygroundActor,
   getPlaygroundConversationMessages,
   getPlaygroundThread,
   type PlaygroundChannel,
   type PlaygroundChannelRecord,
   type PlaygroundMessage,
 } from "../mock/index.ts";
+import { TaskStatusBadge } from "../tasks/task-status-badge.tsx";
+import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 
 const TAB_META: Record<PlaygroundPanelTab, { icon: ReactNode; label: string }> = {
   chat: { icon: <MessageSquare />, label: "Chat" },
@@ -151,6 +154,7 @@ function ChannelBody({ channel }: { channel: PlaygroundChannelRecord }) {
 }
 
 function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[] }) {
+  const { tasks } = usePlaygroundTaskState();
   const unreadCount = messages.filter((message) => message.unread).length;
   const groupedRows = messages.map((message, index) => {
     const previous = messages[index - 1];
@@ -179,21 +183,39 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
           ) : null}
           {groupedRows.map(({ message, compact }) => {
             const thread = getPlaygroundThread(message.id)?.thread;
+            const linkedTask = tasks.find((task) => task.sourceMessageId === message.id);
+            const taskBadge = linkedTask ? (
+              <TaskStatusBadge
+                taskId={linkedTask.id}
+                assignee={
+                  linkedTask.assigneeActorId
+                    ? getPlaygroundActor(linkedTask.assigneeActorId).name
+                    : undefined
+                }
+              />
+            ) : null;
+            const repliesBadge = thread ? (
+              thread.unreadCount ? (
+                <PlaygroundUnreadRepliesBadge threadId={message.id} />
+              ) : (
+                <PlaygroundRepliesBadge threadId={message.id} />
+              )
+            ) : null;
+            const footer =
+              taskBadge || repliesBadge ? (
+                <>
+                  {taskBadge}
+                  {repliesBadge}
+                </>
+              ) : null;
+
             return (
               <PlaygroundMessageRow
                 key={message.id}
                 message={message}
                 compact={compact}
                 threadId={thread ? message.id : undefined}
-                footer={
-                  thread ? (
-                    thread.unreadCount ? (
-                      <PlaygroundUnreadRepliesBadge threadId={message.id} />
-                    ) : (
-                      <PlaygroundRepliesBadge threadId={message.id} />
-                    )
-                  ) : null
-                }
+                footer={footer}
               />
             );
           })}

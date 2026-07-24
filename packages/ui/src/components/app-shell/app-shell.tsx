@@ -15,7 +15,7 @@ import { tv } from "../../lib/tv";
 import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { PanelAction, type PanelActionProps } from "../panel/panel-action";
+import { PanelAction } from "../panel/panel-action";
 
 const appShell = tv({
   slots: {
@@ -236,7 +236,7 @@ export function AppShellMainSlot({ className, render, ...props }: AppShellMainSl
   });
 }
 
-export type AppShellSidebarTriggerProps = PanelActionProps & {
+export type AppShellSidebarTriggerProps = useRender.ComponentProps<"button"> & {
   children: ReactNode;
 };
 
@@ -244,6 +244,7 @@ export function AppShellSidebarTrigger({
   className,
   children,
   onClick,
+  render,
   ...props
 }: AppShellSidebarTriggerProps) {
   const sidebar = useOptionalAppShellSidebar();
@@ -251,20 +252,24 @@ export function AppShellSidebarTrigger({
 
   const label = sidebar.open ? "Collapse sidebar" : "Expand sidebar";
 
-  return (
-    <PanelAction
-      {...props}
-      className={cn("group/app-shell-sidebar-trigger max-md:hidden", className)}
-      aria-label={label}
-      aria-pressed={sidebar.open}
-      data-state={sidebar.open ? "expanded" : "collapsed"}
-      title={label}
-      onClick={(event) => {
-        onClick?.(event);
-        if (!event.defaultPrevented) sidebar.toggle();
-      }}
-    >
-      {children}
-    </PanelAction>
-  );
+  // Default to PanelAction for in-panel chrome; consumers can pass AppRailItem (or
+  // another render) so rail placements keep the flatter item styles.
+  const defaultProps: SlotElementProps<"button"> = {
+    className: cn("group/app-shell-sidebar-trigger max-md:hidden", className),
+    "aria-label": label,
+    "aria-pressed": sidebar.open,
+    "data-state": sidebar.open ? "expanded" : "collapsed",
+    title: label,
+    children,
+    onClick: (event) => {
+      onClick?.(event);
+      if (!event.defaultPrevented) sidebar.toggle();
+    },
+  };
+
+  return useRender({
+    defaultTagName: "button",
+    render: render ?? <PanelAction />,
+    props: mergeProps<"button">(defaultProps, props),
+  });
 }
