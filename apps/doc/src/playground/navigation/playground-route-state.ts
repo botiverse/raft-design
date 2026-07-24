@@ -21,7 +21,6 @@ const playgroundDisabledRailViews = new Set<PlaygroundRailView>([
   "search",
   "activity",
   "tasks",
-  "members",
   "computers",
   "settings",
 ]);

@@ -1,9 +1,12 @@
 export {
   PLAYGROUND_ACTORS,
   PLAYGROUND_INVITABLE_ACTORS,
+  PLAYGROUND_MACHINES,
   getPlaygroundActor,
+  getPlaygroundMachine,
   type PlaygroundActor,
   type PlaygroundActorId,
+  type PlaygroundMachineId,
   type PlaygroundPresence,
 } from "./actors.ts";
 
