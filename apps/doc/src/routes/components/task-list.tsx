@@ -35,8 +35,46 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
+  { id: "source-virtualization", title: "Source virtualization" },
   { id: "api", title: "API" },
 ] as const;
+
+const SOURCE_VIRTUALIZATION_SNIPPET = `const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+<div ref={scrollContainerRef} data-task-virtual-scroll className="flex-1 overflow-auto">
+  <TaskVirtualLayout scrollElementRef={scrollContainerRef} className="space-y-6">
+    {groupedTasks.map(({ status, tasks }) => (
+      <TaskSection
+        key={status}
+        status={status}
+        tasks={tasks}
+        scrollElementRef={scrollContainerRef}
+      />
+    ))}
+  </TaskVirtualLayout>
+</div>
+
+const virtualizer = useVirtualizer({
+  count: items.length,
+  getScrollElement: () => scrollContainerRef.current,
+  getItemKey: (index) => items[index]!.id,
+  estimateSize: () => 116,
+  gap: 10,
+  overscan: 6,
+  scrollMargin,
+});
+
+<div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
+  {virtualizer.getVirtualItems().map((row) => (
+    <div
+      key={row.key}
+      ref={virtualizer.measureElement}
+      style={{ position: "absolute", transform: \`translateY(\${row.start - scrollMargin}px)\` }}
+    >
+      {renderItem(items[row.index]!)}
+    </div>
+  ))}
+</div>`;
 
 const LIST_ROOT_PROPS: readonly PropRow[] = [
   {
@@ -132,6 +170,7 @@ const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   list: stripSourceCodeBlocks(taskListCompositionSource),
   empty: taskListEmptySectionsCompositionSource,
+  sourceVirtualization: SOURCE_VIRTUALIZATION_SNIPPET,
 } as const;
 
 export const Route = createFileRoute("/components/task-list")({
@@ -191,6 +230,20 @@ function TaskListDoc() {
             </Preview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="scroll-area" title="Scroll area">
+            <p className="mb-4 text-sm text-foreground/70">
+              Use one <code>ScrollAreaViewport</code> around all status sections. The list remains a
+              single vertical scroll surface, while <code>TaskListRoot</code> and sections only own
+              their layout and collapse state.
+            </p>
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
+              <Preview.Canvas>
+                <TaskListComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.list} />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="section-empty" title="Section empty states">
             <p className="mb-4 text-sm text-foreground/70">
               Sparse tasks leave In Review / Done / Closed empty so <code>TaskSectionEmpty</code>{" "}
@@ -204,6 +257,21 @@ function TaskListDoc() {
             </Preview>
           </DocSubsection>
         </div>
+      </DocSection>
+
+      <DocSection id="source-virtualization" title="Source-repo virtualization">
+        <p className="mb-4 text-sm text-foreground/70">
+          Slock currently uses a native shared <code>overflow-auto</code> container, not{" "}
+          <code>ScrollArea</code>. Each status section mounts a variable-height virtual stack on
+          that same ref. In a Raft UI consumer, pass the <code>ScrollAreaViewport</code> ref through
+          the same integration; virtualization stays consumer-owned rather than becoming a{" "}
+          <code>TaskList</code> API.
+        </p>
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.sourceVirtualization} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

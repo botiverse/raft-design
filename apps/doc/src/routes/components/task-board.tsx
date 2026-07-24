@@ -43,8 +43,49 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
+  { id: "source-virtualization", title: "Source virtualization" },
   { id: "api", title: "API" },
 ] as const;
+
+const SOURCE_VIRTUALIZATION_SNIPPET = `const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+<div ref={scrollContainerRef} data-task-virtual-scroll className="flex-1 overflow-auto">
+  <TaskVirtualLayout
+    scrollElementRef={scrollContainerRef}
+    className="flex min-w-max items-start gap-4 pr-4"
+  >
+    {groupedTasks.map(({ status, tasks }) => (
+      <DroppableColumn
+        key={status}
+        status={status}
+        statusTasks={tasks}
+        scrollElementRef={scrollContainerRef}
+      />
+    ))}
+  </TaskVirtualLayout>
+</div>
+
+const virtualizer = useVirtualizer({
+  count: items.length,
+  getScrollElement: () => scrollContainerRef.current,
+  getItemKey: (index) => items[index]!.id,
+  estimateSize: () => 116,
+  gap: 10,
+  overscan: 6,
+  scrollMargin,
+});
+
+<div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
+  {virtualizer.getVirtualItems().map((row) => (
+    <div
+      key={row.key}
+      ref={virtualizer.measureElement}
+      style={{ position: "absolute", transform: \`translateY(\${row.start - scrollMargin}px)\` }}
+    >
+      {renderItem(items[row.index]!)}
+    </div>
+  ))}
+</div>`;
 
 const BOARD_ROOT_PROPS: readonly PropRow[] = [
   {
@@ -164,6 +205,7 @@ const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   board: stripSourceCodeBlocks(taskBoardCompositionSource),
   empty: taskBoardEmptyColumnsCompositionSource,
+  sourceVirtualization: SOURCE_VIRTUALIZATION_SNIPPET,
 } as const;
 
 export const Route = createFileRoute("/components/task-board")({
@@ -227,6 +269,20 @@ function TaskBoardDoc() {
             </Preview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="scroll-area" title="Scroll area">
+            <p className="mb-4 text-sm text-foreground/70">
+              Keep one <code>ScrollAreaViewport</code> around the whole board. The viewport owns
+              vertical and horizontal scrolling; <code>TaskBoardRoot</code> keeps its natural
+              minimum width, so columns never become independent scroll regions.
+            </p>
+            <Preview previewClassName="h-[42rem] items-stretch p-0">
+              <Preview.Canvas>
+                <TaskBoardComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.board} />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="column-empty" title="Column empty states">
             <p className="mb-4 text-sm text-foreground/70">
               Sparse tasks leave In Review / Done / Closed empty so{" "}
@@ -242,6 +298,20 @@ function TaskBoardDoc() {
             </Preview>
           </DocSubsection>
         </div>
+      </DocSection>
+
+      <DocSection id="source-virtualization" title="Source-repo virtualization">
+        <p className="mb-4 text-sm text-foreground/70">
+          Slock currently uses a native shared <code>overflow-auto</code> container, not{" "}
+          <code>ScrollArea</code>. Each board column mounts a variable-height virtual stack against
+          that same ref. In a Raft UI consumer, use the <code>ScrollAreaViewport</code> ref in the
+          same place; virtualization remains product code, outside <code>TaskBoard</code>.
+        </p>
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.sourceVirtualization} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

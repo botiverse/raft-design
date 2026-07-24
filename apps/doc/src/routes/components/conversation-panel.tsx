@@ -54,7 +54,7 @@ const SNIPPETS = {
     {/* optional caller-owned tabs */}
     <ConversationPanelTabs />
     <ConversationPanelBody>
-      {/* caller-owned scroll content, e.g. MessageList and ScrollToLatest */}
+      {/* caller-owned scroll content and overlays, e.g. MessageList */}
     </ConversationPanelBody>
     {/* optional caller-owned footer */}
     <ConversationPanelFooter>

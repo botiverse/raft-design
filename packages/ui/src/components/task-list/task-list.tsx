@@ -8,14 +8,12 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
 import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskListSection } from "./task-list-section.recipe";
-import { taskList } from "./task-list.recipe";
 
 export type TaskListRootProps = useRender.ComponentProps<"div">;
 export function TaskListRoot({ className, render, ...props }: TaskListRootProps) {
-  const { root } = taskList();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-list-root",
-    className: root({ className }),
+    className: cn("space-y-6", className),
   };
   return useRender({
     defaultTagName: "div",

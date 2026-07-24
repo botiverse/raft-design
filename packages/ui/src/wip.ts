@@ -1,23 +1,6 @@
 export { PanelAction, PanelToggleAction } from "./components/panel/index";
 export type { PanelActionProps, PanelToggleActionProps } from "./components/panel/index";
 
-export {
-  ScrollArea,
-  ScrollAreaContent,
-  ScrollAreaCorner,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
-  ScrollAreaViewport,
-} from "./components/scroll-area/index";
-export type {
-  ScrollAreaContentProps,
-  ScrollAreaCornerProps,
-  ScrollAreaProps,
-  ScrollAreaScrollbarProps,
-  ScrollAreaThumbProps,
-  ScrollAreaViewportProps,
-} from "./components/scroll-area/index";
-
 export { ResizableGroup, ResizableHandle, ResizablePanel } from "./components/resizable/index";
 export type {
   ResizableGroupProps,
@@ -484,9 +467,6 @@ export type {
   MessageListNoticeProps,
   MessageListProps,
 } from "./components/message-list/index";
-
-export { ScrollToLatest } from "./components/scroll-to-latest/index";
-export type { ScrollToLatestProps } from "./components/scroll-to-latest/index";
 
 export * from "./components/task-board/index";
 export * from "./components/task-card/index";
