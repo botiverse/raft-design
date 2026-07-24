@@ -34,7 +34,7 @@ export const appRail = tv({
           "size-10 border-2 border-transparent text-foreground",
           "transition-colors",
           "hover:border-black hover:bg-white",
-          "data-[selected=true]:border-black data-[selected=true]:bg-white data-[selected=true]:shadow-sm",
+          "data-[selected=true]:border-black data-[selected=true]:bg-white",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
           "md:[@media(max-height:600px)]:size-9",
         ],
