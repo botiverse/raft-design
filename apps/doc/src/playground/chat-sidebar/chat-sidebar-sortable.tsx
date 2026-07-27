@@ -1,9 +1,12 @@
-import { useDraggable } from "@dnd-kit/core";
+import { useDraggable, useDroppable } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 import { ChatSidebarList, type ChatSidebarListProps } from "raft-ui";
 import { cn } from "raft-ui/cn";
+
+import type { PlaygroundChannelId } from "../mock/index.ts";
+import type { ChatSidebarDragSection } from "./chat-sidebar-dnd-ids.ts";
 
 type SortableChatSidebarListProps = ChatSidebarListProps & {
   items: readonly string[];
@@ -17,14 +20,53 @@ export function SortableChatSidebarList({ items, ...props }: SortableChatSidebar
   );
 }
 
+export function ChatSidebarDropTarget({
+  id,
+  section,
+  empty,
+  children,
+  className,
+  disabled = false,
+}: {
+  id: string;
+  section: ChatSidebarDragSection;
+  empty: boolean;
+  children: ReactNode;
+  className?: string;
+  disabled?: boolean;
+}) {
+  const { isOver, setNodeRef } = useDroppable({
+    id,
+    data: { kind: "section", section, empty },
+    disabled,
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      data-slot="chat-sidebar-drop-target"
+      data-over={isOver ? "true" : undefined}
+      className={cn("min-h-1 transition-colors data-[over]:bg-ink-5", className)}
+    >
+      {children}
+    </div>
+  );
+}
+
 type SortableChatSidebarItemProps = HTMLAttributes<HTMLDivElement> & {
   id: string;
+  section: ChatSidebarDragSection;
+  channelId: PlaygroundChannelId;
+  active?: boolean;
   children: ReactNode;
   disabled?: boolean;
 };
 
 export function SortableChatSidebarItem({
   id,
+  section,
+  channelId,
+  active = false,
   children,
   className,
   disabled = false,
@@ -33,13 +75,14 @@ export function SortableChatSidebarItem({
 }: SortableChatSidebarItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
+    data: { kind: "item", section, channelId, active },
     disabled,
   });
   const verticalTransform = transform ? { ...transform, x: 0 } : null;
   const sortableStyle: CSSProperties = {
     transform: CSS.Transform.toString(verticalTransform),
     transition,
-    opacity: isDragging ? 0.6 : 1,
+    opacity: isDragging ? 0 : 1,
     zIndex: isDragging ? 10 : undefined,
     ...style,
   };
@@ -60,14 +103,45 @@ export function SortableChatSidebarItem({
   );
 }
 
+export function ChatSidebarProjectionSlot({
+  beforeChannelId,
+  anchorChannelId,
+  height,
+}: {
+  beforeChannelId?: PlaygroundChannelId;
+  anchorChannelId?: PlaygroundChannelId;
+  height?: number;
+}) {
+  if (beforeChannelId !== anchorChannelId) return null;
+
+  return (
+    <div
+      aria-hidden
+      data-slot="chat-sidebar-drop-placeholder"
+      className="pointer-events-none mb-0.5 h-[var(--chat-sidebar-dnd-placeholder-height,33.5px)] w-full shrink-0 [[data-theme=brutal]_&]:mb-1"
+      style={
+        height == null
+          ? undefined
+          : ({ "--chat-sidebar-dnd-placeholder-height": `${height}px` } as CSSProperties)
+      }
+    />
+  );
+}
+
 type DraggableChatSidebarItemProps = HTMLAttributes<HTMLDivElement> & {
   id: string;
+  section: ChatSidebarDragSection;
+  channelId: PlaygroundChannelId;
+  active?: boolean;
   children: ReactNode;
   disabled?: boolean;
 };
 
 export function DraggableChatSidebarItem({
   id,
+  section,
+  channelId,
+  active = false,
   children,
   className,
   disabled = false,
@@ -76,6 +150,7 @@ export function DraggableChatSidebarItem({
 }: DraggableChatSidebarItemProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
+    data: { kind: "item", section, channelId, active },
     disabled,
   });
   const verticalTransform = transform ? { ...transform, x: 0 } : null;
