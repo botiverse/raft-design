@@ -1,5 +1,4 @@
-import { TaskStatusIcon } from "raft-ui";
-import { MessageItemTaskBadge } from "raft-ui/wip";
+import { TaskChip } from "raft-ui";
 
 import { TaskStatusSelect } from "#/modules/task-card/compositions/task-status-select.composition.tsx";
 import type { PlaygroundTaskId } from "../mock/index.ts";
@@ -31,9 +30,11 @@ export function TaskStatusBadge({
         )
       }
     >
-      <MessageItemTaskBadge
+      <TaskChip
         status={status}
-        busy={busy}
+        aria-busy={busy || undefined}
+        data-busy={busy || undefined}
+        className={busy ? "pointer-events-none opacity-60" : undefined}
         render={
           <button
             type="button"
@@ -43,10 +44,9 @@ export function TaskStatusBadge({
           />
         }
       >
-        <TaskStatusIcon status={status} />
         <span>#{taskNumber}</span>
         {assignee ? <span>@{assignee}</span> : null}
-      </MessageItemTaskBadge>
+      </TaskChip>
     </TaskStatusSelect>
   );
 }

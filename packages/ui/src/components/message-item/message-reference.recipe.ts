@@ -8,7 +8,7 @@ export const messageReference = tv({
       "[&_svg]:shrink-0",
     ],
     label: ["min-w-0 truncate"],
-    meta: ["shrink-0 text-[10px] leading-none font-normal text-foreground/50"],
+    meta: ["shrink-0 text-[10px] leading-none font-medium text-foreground/50"],
   },
   variants: {
     theme: {
@@ -169,7 +169,7 @@ export const messageReference = tv({
       class: {
         root: [
           "inline-block cursor-pointer align-bottom rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0 no-underline",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-normal text-[oklch(0.44_0.09_91.39)] hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-medium text-[oklch(0.44_0.09_91.39)] hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
         ],
       },
     },
@@ -179,7 +179,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-pointer rounded-full border-transparent px-2 py-0",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-normal text-foreground-strong",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-medium text-foreground-strong",
         ],
       },
     },
@@ -229,7 +229,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-wait rounded-full border-transparent bg-layer-muted px-2 py-0 opacity-100",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-normal text-foreground-muted",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-medium text-foreground-muted",
         ],
       },
     },
@@ -239,7 +239,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-default rounded-full border-transparent bg-layer-muted px-2 py-0 opacity-100",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-normal text-foreground-muted",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-medium text-foreground-muted",
         ],
       },
     },

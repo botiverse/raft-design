@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Hash } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItem,
@@ -63,6 +64,7 @@ export function MessageReferenceComparisonComposition() {
                     variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
                   >
+                    <Hash size={12} />
                     #release-notes
                   </MessageReference>
                   .

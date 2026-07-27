@@ -92,7 +92,7 @@ export function MessagePermalinkReferenceComposition({
   href,
 }: MessageReferenceCompositionProps) {
   return (
-    <MessageReference variant="permalink" render={<a href={href} />}>
+    <MessageReference variant="conversation" render={<a href={href} />}>
       <MessageSquareText />
       <MessageReferenceLabel>{children}</MessageReferenceLabel>
     </MessageReference>

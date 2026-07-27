@@ -4,7 +4,7 @@ import {
   MESSAGE_PLAYGROUND_URLS,
 } from "#/modules/message-item/message-item.fixtures.ts";
 import { Avatar, AvatarFallback, AvatarImage, TaskChip } from "raft-ui";
-import { MessageSquareQuote } from "lucide-react";
+import { MessageCircle, MessagesSquare, MessageSquareQuote } from "lucide-react";
 
 import {
   MessageItem,
@@ -66,13 +66,15 @@ export function MessageReferenceShowcaseComposition() {
                     status="in_progress"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
                   >
-                    #21
+                    <span className="shrink-0">#21</span>
+                    <span className="min-w-0 truncate">@Noah</span>
                   </TaskChip>
                   {", thread "}
                   <MessageReference
                     variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
                   >
+                    <MessagesSquare size={12} />
                     #release-notes:reply
                   </MessageReference>
                   {", and DM parents "}
@@ -80,6 +82,7 @@ export function MessageReferenceShowcaseComposition() {
                     variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}
                   >
+                    <MessageCircle size={12} />
                     dm:@noah
                   </MessageReference>{" "}
                   and{" "}
@@ -87,6 +90,7 @@ export function MessageReferenceShowcaseComposition() {
                     variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.noahDmThread} />}
                   >
+                    <MessagesSquare size={12} />
                     dm:@noah:reply
                   </MessageReference>
                   {"."}

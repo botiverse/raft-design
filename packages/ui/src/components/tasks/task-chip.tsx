@@ -10,13 +10,13 @@ import { taskStatus, type TaskStatusId } from "./task-status.recipe";
 const taskChip = tv({
   slots: {
     root: [
-      "inline-flex max-w-full items-center gap-1.5 align-baseline overflow-hidden rounded-full border px-2 py-0 font-normal [font-size:inherit] leading-[1.4] tracking-normal whitespace-nowrap",
+      "inline-flex max-w-full items-center gap-1.5 align-baseline overflow-hidden rounded-full border px-2 py-0 font-medium [font-size:inherit] leading-[1.4] tracking-normal whitespace-nowrap",
       "text-foreground-strong no-underline select-text",
       "transition-[filter,opacity] duration-100 hover:brightness-[0.96]",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
     ],
     status: ["inline-flex shrink-0 items-center justify-center", "[&>svg]:size-3"],
-    label: "min-w-0 truncate font-normal [font-size:inherit] leading-[1.4] tracking-normal",
+    label: "min-w-0 truncate font-medium [font-size:inherit] leading-[1.4] tracking-normal",
   },
   variants: {
     theme: {
@@ -36,9 +36,9 @@ const taskChip = tv({
       theme: "brutal",
       status: ["todo", "in_progress", "in_review", "done", "closed"],
       class: {
-        root: "rounded-none border-black px-1.5 py-0.5 text-[10px] font-bold leading-4 text-black hover:brightness-90",
-        status: "[&>svg]:size-2.5",
-        label: "text-[10px] font-bold leading-4",
+        root: "gap-1 align-bottom rounded-none border-black px-1 py-0 text-[13px] font-medium leading-tight text-black hover:brightness-90",
+        status: "[&>svg]:size-3",
+        label: "text-[13px] font-medium leading-tight",
       },
     },
     {
@@ -96,6 +96,7 @@ export function TaskChip({ status, className, render, children, ...props }: Task
   const { root, status: statusSlot, label } = taskChip({ theme, status });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-chip",
+    "data-message-reference": "",
     className: cn(root({ className }), theme === "brutal" && taskStatus({ theme, status })),
     children: (
       <>

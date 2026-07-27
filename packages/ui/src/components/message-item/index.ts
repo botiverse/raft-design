@@ -94,8 +94,6 @@ export {
   MessageReactionTooltipSeparator,
 } from "./message-reaction";
 export { MessageReference, MessageReferenceLabel, MessageReferenceMeta } from "./message-reference";
-export { MessageItemTaskBadge } from "./message-item-task-badge";
-export type { MessageItemTaskBadgeProps } from "./message-item-task-badge";
 export {
   MessageMultiSelect,
   MessageMultiSelectAction,

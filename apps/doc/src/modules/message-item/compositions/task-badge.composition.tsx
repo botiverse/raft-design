@@ -9,6 +9,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  TaskChip,
   TaskStatusIcon,
   type TaskStatusId,
 } from "raft-ui";
@@ -21,7 +22,6 @@ import {
   MessageItemHeader,
   MessageItemInteractionBoundary,
   MessageItemSender,
-  MessageItemTaskBadge,
   MessageItemTime,
 } from "raft-ui/wip";
 
@@ -36,6 +36,8 @@ const TASK_STATUS_OPTIONS = [
   label: string;
 }[];
 
+const TASK_ASSIGNEE = "Noah";
+
 function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElement | null }) {
   const [status, setStatus] = useState<TaskStatusId>("todo");
   const current =
@@ -45,21 +47,21 @@ function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElem
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <MessageItemTaskBadge
+          <TaskChip
             status={status}
             render={
               <button
                 type="button"
-                title={`Task #1 · ${current.label}`}
-                aria-label={`Change status for task #1, currently ${current.label}`}
+                title={`task #1 @${TASK_ASSIGNEE} · ${current.label}`}
+                aria-label={`Change status for task #1 @${TASK_ASSIGNEE}, currently ${current.label}`}
               />
             }
-          />
+          >
+            <span className="shrink-0">#1</span>
+            <span className="min-w-0 truncate">@{TASK_ASSIGNEE}</span>
+          </TaskChip>
         }
-      >
-        <TaskStatusIcon status={status} />
-        <span>#1</span>
-      </DropdownMenuTrigger>
+      />
       <DropdownMenuContent
         align="start"
         portalProps={portalContainer ? { container: portalContainer } : undefined}
@@ -81,14 +83,13 @@ function MessageTaskStatusReadonlyBadges() {
     const taskNumber = index + 11;
 
     return (
-      <MessageItemTaskBadge
+      <TaskChip
         key={option.id}
         status={option.id}
         title={`task #${taskNumber} · ${option.label} · Read only`}
       >
-        <TaskStatusIcon status={option.id} />
         <span>#{taskNumber}</span>
-      </MessageItemTaskBadge>
+      </TaskChip>
     );
   });
 }

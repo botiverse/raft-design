@@ -63,7 +63,7 @@ const ANATOMY_SOURCE = `<MessageReference variant="conversation" render={<a href
   #channel
 </MessageReference>
 
-<MessageReference variant="permalink" render={<a href="…" />}>
+<MessageReference variant="conversation" render={<a href="…" />}>
   <MessageSquareText />
   <MessageReferenceLabel>#release-notes</MessageReferenceLabel>
 </MessageReference>`;
