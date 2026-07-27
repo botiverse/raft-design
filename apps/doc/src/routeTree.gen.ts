@@ -71,6 +71,7 @@ import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
+import { Route as ComponentsFilesRouteImport } from './routes/components/files'
 import { Route as ComponentsFilePreviewRouteImport } from './routes/components/file-preview'
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
@@ -437,6 +438,11 @@ const ComponentsInlineCodeRoute = ComponentsInlineCodeRouteImport.update({
   path: '/inline-code',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsFilesRoute = ComponentsFilesRouteImport.update({
+  id: '/files',
+  path: '/files',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsFilePreviewRoute = ComponentsFilePreviewRouteImport.update({
   id: '/file-preview',
   path: '/file-preview',
@@ -700,6 +706,7 @@ export interface FileRoutesByFullPath {
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
+  '/components/files': typeof ComponentsFilesRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -805,6 +812,7 @@ export interface FileRoutesByTo {
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
+  '/components/files': typeof ComponentsFilesRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -912,6 +920,7 @@ export interface FileRoutesById {
   '/components/empty-state': typeof ComponentsEmptyStateRoute
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
+  '/components/files': typeof ComponentsFilesRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -1020,6 +1029,7 @@ export interface FileRouteTypes {
     | '/components/empty-state'
     | '/components/field'
     | '/components/file-preview'
+    | '/components/files'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -1125,6 +1135,7 @@ export interface FileRouteTypes {
     | '/components/empty-state'
     | '/components/field'
     | '/components/file-preview'
+    | '/components/files'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -1231,6 +1242,7 @@ export interface FileRouteTypes {
     | '/components/empty-state'
     | '/components/field'
     | '/components/file-preview'
+    | '/components/files'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -1759,6 +1771,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsInlineCodeRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/files': {
+      id: '/components/files'
+      path: '/files'
+      fullPath: '/components/files'
+      preLoaderRoute: typeof ComponentsFilesRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/file-preview': {
       id: '/components/file-preview'
       path: '/file-preview'
@@ -2207,6 +2226,7 @@ interface ComponentsRouteChildren {
   ComponentsEmptyStateRoute: typeof ComponentsEmptyStateRoute
   ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsFilePreviewRoute: typeof ComponentsFilePreviewRoute
+  ComponentsFilesRoute: typeof ComponentsFilesRoute
   ComponentsInlineCodeRoute: typeof ComponentsInlineCodeRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
@@ -2278,6 +2298,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsEmptyStateRoute: ComponentsEmptyStateRoute,
   ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsFilePreviewRoute: ComponentsFilePreviewRoute,
+  ComponentsFilesRoute: ComponentsFilesRoute,
   ComponentsInlineCodeRoute: ComponentsInlineCodeRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
@@ -2389,12 +2410,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

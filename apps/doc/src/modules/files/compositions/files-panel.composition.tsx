@@ -12,9 +12,6 @@ import {
   FilePreviewDocument,
   FilePreviewFile,
   FilePreviewMedia,
-  type FilePreviewBadgeType,
-} from "raft-ui";
-import {
   FileAction,
   FileActions,
   FileContent,
@@ -28,7 +25,8 @@ import {
   FilesPanel,
   FilesViewport,
   FileThumbnail,
-} from "raft-ui/wip";
+  type FilePreviewBadgeType,
+} from "raft-ui";
 import { Clock3, Download, ExternalLink, Paperclip } from "lucide-react";
 
 /** Matches source ChannelFilesPanel near-bottom auto-load threshold. */
