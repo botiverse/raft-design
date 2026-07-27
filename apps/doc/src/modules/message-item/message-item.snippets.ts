@@ -244,12 +244,6 @@ export const REACTION_PROPS: readonly PropRow[] = [
     description: "Base UI dropdown content for an interactive quick reaction overlay.",
   },
   {
-    name: "MessageReactionPickerPopup",
-    type: "DropdownMenuPopupProps",
-    description:
-      "Backward-compatible popup primitive. New live overlays should prefer MessageReactionPickerContent; use Static only outside a portal/menu root.",
-  },
-  {
     name: "MessageReactionTooltipContent / Names / Name / NameText / Separator / Meta",
     type: "Tooltip compound parts",
     description:
@@ -271,7 +265,7 @@ export const SELECTION_PROPS: readonly PropRow[] = [
       "Semantic per-row selector. Compose before MessageItemAvatarSlot inside MessageItemSelection.",
   },
   {
-    name: "MessageMultiSelectToolbar / Count / Actions / Action",
+    name: "MessageMultiSelectToolbar / ToolbarContent / Count / Actions / Action",
     type: "compound div, span, and button props",
     description:
       "Selection summary and caller-owned bulk actions. Action supports default/accent tone and default/icon size.",

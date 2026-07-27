@@ -10,6 +10,13 @@ import {
   MessageAttachmentAudioPreviewMedia,
   MessageAttachmentAudioPreviewMeta,
   MessageAttachmentAudioPreviewTitle,
+  MessageAttachmentAction,
+  MessageAttachmentActions,
+  MessageAttachmentBody,
+  MessageAttachmentCard,
+  MessageAttachmentFrame,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaLabel,
   MessageAttachmentPreviewExternalLinkFallback,
   MessageAttachmentPreviewExternalLinkFallbackDismiss,
   MessageAttachmentPreviewExternalLinkHotspot,
@@ -17,12 +24,12 @@ import {
   MessageAttachmentPreviewExternalLinksLoading,
   MessageAttachmentPreviewExternalLinksLoadingPanel,
   MessageAttachmentPreviewRoot,
+  MessageAttachmentTitle,
 } from "raft-ui/wip";
 import {
   MESSAGE_FIXTURE_AUDIO_SRC,
   downloadMessageFixture,
 } from "#/modules/message-item/message-item.fixtures.ts";
-import { MessageAttachmentReadyComposition } from "./attachment.compositions.tsx";
 
 const HTML_PREVIEW_EXTERNAL_URL = "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a";
 
@@ -163,16 +170,32 @@ export function MessageAudioAttachmentComposition() {
 
   return (
     <div className="grid gap-2">
-      <MessageAttachmentReadyComposition
-        name="message-preview.wav"
-        meta="WAV audio · playable fixture"
-        primaryAction={<Play />}
-        primaryActionLabel={previewVisible ? "Hide audio preview" : "Preview message-preview.wav"}
-        onPrimaryAction={() => setPreviewVisible((visible) => !visible)}
-        secondaryAction={<Download />}
-        secondaryActionLabel="Download message-preview.wav"
-        onSecondaryAction={() => downloadMessageFixture("message-preview.wav")}
-      />
+      <MessageAttachmentFrame>
+        <MessageAttachmentCard
+          aria-label={previewVisible ? "Hide audio preview" : "Preview message-preview.wav"}
+          render={<button type="button" />}
+          onClick={() => setPreviewVisible((visible) => !visible)}
+        >
+          <MessageAttachmentBody>
+            <MessageAttachmentTitle>message-preview.wav</MessageAttachmentTitle>
+            <MessageAttachmentMeta>
+              <MessageAttachmentMetaLabel>WAV audio · playable fixture</MessageAttachmentMetaLabel>
+            </MessageAttachmentMeta>
+          </MessageAttachmentBody>
+          <MessageAttachmentActions>
+            <MessageAttachmentAction render={<span />}>
+              <Play />
+            </MessageAttachmentAction>
+          </MessageAttachmentActions>
+        </MessageAttachmentCard>
+        <MessageAttachmentAction
+          aria-label="Download message-preview.wav"
+          title="Download message-preview.wav"
+          onClick={() => downloadMessageFixture("message-preview.wav")}
+        >
+          <Download />
+        </MessageAttachmentAction>
+      </MessageAttachmentFrame>
       {previewVisible ? <AudioPreviewStage /> : null}
     </div>
   );

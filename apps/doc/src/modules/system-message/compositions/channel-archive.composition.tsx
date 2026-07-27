@@ -1,12 +1,17 @@
 import { SYSTEM_MESSAGE_FIXTURES } from "../system-message.fixtures.ts";
-import { SystemMessageRow } from "../system-message-row.tsx";
+import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
 // @docs-source-strip-end
 
 export function SystemMessageChannelArchiveContent() {
-  return <SystemMessageRow message={SYSTEM_MESSAGE_FIXTURES.channelArchive} time="2:16 PM" />;
+  return (
+    <SystemMessage>
+      <SystemMessageTime>2:16 PM</SystemMessageTime>
+      <SystemMessageContent>{SYSTEM_MESSAGE_FIXTURES.channelArchive.content}</SystemMessageContent>
+    </SystemMessage>
+  );
 }
 
 // @docs-source-strip-start

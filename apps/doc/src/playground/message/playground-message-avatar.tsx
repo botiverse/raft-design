@@ -15,6 +15,7 @@ import {
   type StatusProps,
 } from "raft-ui";
 import { User } from "lucide-react";
+import type { ReactNode } from "react";
 import { MessageItemAvatarSlot } from "raft-ui/wip";
 
 import { getPlaygroundActor, type PlaygroundActorId } from "../mock/index.ts";
@@ -76,24 +77,16 @@ const MUTED_META = "truncate font-mono text-xs text-foreground-muted";
 
 function PlaygroundAvatarContent({
   actorId,
-  compactHumanIcon = false,
+  children,
 }: {
   actorId: PlaygroundActorId;
-  compactHumanIcon?: boolean;
+  children?: ReactNode;
 }) {
   const actor = getPlaygroundActor(actorId);
   const isAgent = actor.type === "agent";
   if (actor.avatarSrc) return <AvatarImage src={actor.avatarSrc} alt="" />;
   return (
-    <AvatarFallback>
-      {isAgent ? undefined : (
-        <User
-          aria-hidden
-          size={compactHumanIcon ? 16 : undefined}
-          style={compactHumanIcon ? { width: "1rem", height: "1rem" } : undefined}
-        />
-      )}
-    </AvatarFallback>
+    <AvatarFallback>{isAgent ? undefined : (children ?? <User aria-hidden />)}</AvatarFallback>
   );
 }
 
@@ -198,7 +191,9 @@ export function PlaygroundMessageAvatar({
       type={isAgent ? "agent" : "human"}
       className={cn(deactivated && "opacity-60 grayscale")}
     >
-      <PlaygroundAvatarContent actorId={actorId} compactHumanIcon />
+      <PlaygroundAvatarContent actorId={actorId}>
+        <User aria-hidden size={16} style={{ width: "1rem", height: "1rem" }} />
+      </PlaygroundAvatarContent>
       {isAgent && !deactivated ? (
         <AvatarBadge
           title={STATUS_LABEL[status]}

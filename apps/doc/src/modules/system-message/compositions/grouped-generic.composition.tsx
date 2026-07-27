@@ -1,5 +1,5 @@
 import { SYSTEM_MESSAGE_GROUPED_GENERIC } from "../system-message.fixtures.ts";
-import { SystemMessageGroupedList } from "../system-message-row.tsx";
+import { SystemMessageGroupedList } from "../system-message-grouped-list.tsx";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";

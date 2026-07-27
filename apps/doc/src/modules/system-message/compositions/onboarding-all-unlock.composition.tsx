@@ -1,12 +1,19 @@
 import { SYSTEM_MESSAGE_FIXTURES } from "../system-message.fixtures.ts";
-import { SystemMessageRow } from "../system-message-row.tsx";
+import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
 // @docs-source-strip-end
 
 export function SystemMessageOnboardingAllUnlockContent() {
-  return <SystemMessageRow message={SYSTEM_MESSAGE_FIXTURES.onboardingAllUnlock} time="2:21 PM" />;
+  return (
+    <SystemMessage>
+      <SystemMessageTime>2:21 PM</SystemMessageTime>
+      <SystemMessageContent>
+        {SYSTEM_MESSAGE_FIXTURES.onboardingAllUnlock.content}
+      </SystemMessageContent>
+    </SystemMessage>
+  );
 }
 
 // @docs-source-strip-start

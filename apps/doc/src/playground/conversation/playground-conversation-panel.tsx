@@ -118,7 +118,6 @@ function PlaygroundMessageMultiSelectToolbar({
 
   return (
     <MessageMultiSelectToolbarComposition
-      count={selection.selected.size}
       onCancel={selection.cancel}
       onCopyLink={
         selectedMessages.length
@@ -135,7 +134,9 @@ function PlaygroundMessageMultiSelectToolbar({
       onCopyMarkdown={
         selectedContent ? () => void navigator.clipboard?.writeText(selectedContent) : undefined
       }
-    />
+    >
+      {selection.selected.size} selected
+    </MessageMultiSelectToolbarComposition>
   );
 }
 

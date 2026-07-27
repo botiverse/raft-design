@@ -184,16 +184,14 @@ const messageMultiSelect = tv({
 export type MessageMultiSelectToolbarProps = useRender.ComponentProps<"div">;
 
 export function MessageMultiSelectToolbar({
-  children,
   className,
   render,
   ...props
 }: MessageMultiSelectToolbarProps) {
   const theme = useThemeFamily();
-  const { toolbar, toolbarContent } = messageMultiSelect({ theme });
+  const { toolbar } = messageMultiSelect({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: toolbar({ className }),
-    children: <div className={toolbarContent()}>{children}</div>,
   };
 
   return useRender({
@@ -201,6 +199,27 @@ export function MessageMultiSelectToolbar({
     render,
     props: mergeProps<"div">(defaultProps, props),
     state: { slot: "message-select-toolbar" },
+  });
+}
+
+export type MessageMultiSelectToolbarContentProps = useRender.ComponentProps<"div">;
+
+export function MessageMultiSelectToolbarContent({
+  className,
+  render,
+  ...props
+}: MessageMultiSelectToolbarContentProps) {
+  const theme = useThemeFamily();
+  const { toolbarContent } = messageMultiSelect({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: toolbarContent({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: { slot: "message-select-toolbar-content" },
   });
 }
 

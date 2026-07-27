@@ -40,8 +40,8 @@ const PROPS: readonly PropRow[] = [
   },
   {
     name: "...props",
-    type: 'Omit<ComponentPropsWithRef<"div">, "children">',
-    description: "Native attributes for the stable code-block wrapper.",
+    type: 'Omit<useRender.ComponentProps<"div">, "children">',
+    description: "Native attributes and render substitution for the stable code-block wrapper.",
   },
 ];
 

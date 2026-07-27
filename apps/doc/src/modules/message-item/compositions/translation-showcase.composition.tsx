@@ -165,7 +165,6 @@ export function MessageTranslationShowcaseComposition() {
               <span>Translation unavailable</span>
               <span aria-hidden>·</span>
               <MessageItemTranslationAction
-                tone="failed"
                 title="Translation unavailable"
                 aria-label="Retry"
                 onClick={() => setRetrying(true)}

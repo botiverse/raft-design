@@ -3,7 +3,8 @@ import {
   SYSTEM_MESSAGE_GROUPED_UPDATES,
   SYSTEM_MESSAGE_PREVIEW_CATALOG,
 } from "../system-message.fixtures.ts";
-import { SystemMessageGroupedList, SystemMessageRow } from "../system-message-row.tsx";
+import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
+import { SystemMessageGroupedList } from "../system-message-grouped-list.tsx";
 
 export function MessageSystemMessagesComposition() {
   return (
@@ -13,7 +14,10 @@ export function MessageSystemMessagesComposition() {
           <h3 className="text-sm font-medium text-foreground-muted">{section.title}</h3>
           <div className="flex flex-col gap-1">
             {section.messages.map((message) => (
-              <SystemMessageRow key={message.id} message={message} />
+              <SystemMessage key={message.id}>
+                <SystemMessageTime>2:16 PM</SystemMessageTime>
+                <SystemMessageContent>{message.content}</SystemMessageContent>
+              </SystemMessage>
             ))}
           </div>
         </section>
