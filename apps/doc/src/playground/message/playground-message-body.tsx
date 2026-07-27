@@ -4,7 +4,8 @@ import {
   MessageCodeBlock,
   MessageInlineCode,
   MessageMarkdown,
-  MessageReference,
+  MessageReferenceChip,
+  MessageReferenceText,
 } from "raft-ui/wip";
 
 import {
@@ -78,15 +79,15 @@ function renderInlineText(text: string, keyPrefix: string, channelId?: string): 
       const label = `@${mentionName}`;
       if (actor?.id === VIEWER_ACTOR_ID) {
         nodes.push(
-          <MessageReference key={key} variant="self" title={`${actor.name} · ${actor.meta}`}>
+          <MessageReferenceChip key={key} tone="primary" title={`${actor.name} · ${actor.meta}`}>
             {label}
-          </MessageReference>,
+          </MessageReferenceChip>,
         );
       } else {
         nodes.push(
-          <MessageReference key={key} variant="mention" title={`${actor?.name} · ${actor?.meta}`}>
+          <MessageReferenceText key={key} title={`${actor?.name} · ${actor?.meta}`}>
             {label}
-          </MessageReference>,
+          </MessageReferenceText>,
         );
       }
     } else if (taskWithKeyword !== undefined || bareTask !== undefined) {
@@ -122,9 +123,9 @@ function renderInlineText(text: string, keyPrefix: string, channelId?: string): 
           nodes.push(full);
         } else {
           nodes.push(
-            <MessageReference
+            <MessageReferenceChip
               key={key}
-              variant="conversation"
+              tone="info"
               render={
                 <a
                   href={`${conversationHref(channel.id)}?thread=${encodeURIComponent(threadId)}`}
@@ -132,18 +133,18 @@ function renderInlineText(text: string, keyPrefix: string, channelId?: string): 
               }
             >
               #{channelName}:{shortId}
-            </MessageReference>,
+            </MessageReferenceChip>,
           );
         }
       } else {
         nodes.push(
-          <MessageReference
+          <MessageReferenceChip
             key={key}
-            variant="conversation"
+            tone="accent"
             render={<a href={conversationHref(channel.id)} />}
           >
             #{channelName}
-          </MessageReference>,
+          </MessageReferenceChip>,
         );
       }
     } else {
