@@ -4,6 +4,7 @@ import {
   CheckCircle,
   ClipboardCheck,
   Copy,
+  Languages,
   Link as LinkIcon,
   MessageSquare,
   RotateCcw,
@@ -26,9 +27,11 @@ export type MessageContextMenuCompositionProps = {
   onSavedChange?: (saved: boolean) => void;
   onSelectMessage?: () => void;
   onTaskChange?: (task: MessageTaskState) => void;
+  onTranslate?: () => void;
   portalContainer?: HTMLElement | null;
   saved?: boolean;
   task: MessageTaskState;
+  translating?: boolean;
 };
 
 export function MessageContextMenuComposition({
@@ -41,9 +44,11 @@ export function MessageContextMenuComposition({
   onSavedChange,
   onSelectMessage,
   onTaskChange,
+  onTranslate,
   portalContainer,
   saved,
   task,
+  translating = false,
 }: MessageContextMenuCompositionProps) {
   const taskAction =
     task === "done"
@@ -87,6 +92,12 @@ export function MessageContextMenuComposition({
         <Copy />
         Copy Markdown
       </ContextMenuItem>
+      {onTranslate ? (
+        <ContextMenuItem disabled={translating} onClick={onTranslate}>
+          <Languages />
+          {translating ? "Translating…" : "Translate"}
+        </ContextMenuItem>
+      ) : null}
       {onSelectMessage ? (
         <ContextMenuItem onClick={onSelectMessage}>
           <CheckCircle />
@@ -94,18 +105,22 @@ export function MessageContextMenuComposition({
         </ContextMenuItem>
       ) : null}
       <ContextMenuSeparator />
-      <ContextMenuItem disabled={!onOpenThread} onClick={onOpenThread}>
-        <MessageSquare />
-        Open Thread
-      </ContextMenuItem>
+      {onOpenThread ? (
+        <ContextMenuItem onClick={onOpenThread}>
+          <MessageSquare />
+          Open Thread
+        </ContextMenuItem>
+      ) : null}
       <ContextMenuItem disabled={!onSavedChange} onClick={() => onSavedChange?.(!saved)}>
         {saved ? <BookmarkMinus /> : <Bookmark />}
         {saved ? "Remove from Saved" : "Save Message"}
       </ContextMenuItem>
-      <ContextMenuItem disabled={!onFollowChange} onClick={() => onFollowChange?.(!followed)}>
-        <MessageSquare />
-        {followed ? "Unfollow Thread" : "Follow Thread"}
-      </ContextMenuItem>
+      {onFollowChange ? (
+        <ContextMenuItem onClick={() => onFollowChange(!followed)}>
+          <MessageSquare />
+          {followed ? "Unfollow Thread" : "Follow Thread"}
+        </ContextMenuItem>
+      ) : null}
       <ContextMenuSeparator />
       <ContextMenuItem
         disabled={!onTaskChange}

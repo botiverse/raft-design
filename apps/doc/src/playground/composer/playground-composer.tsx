@@ -58,7 +58,15 @@ import type {
   PlaygroundChannel,
   PlaygroundComposerAttachment,
   PlaygroundInitialComposer,
+  PlaygroundMessage,
+  PlaygroundMessageId,
+  PlaygroundThreadId,
 } from "../mock/index.ts";
+import { definePlaygroundMessage } from "../mock/index.ts";
+import {
+  usePlaygroundThreadDraft,
+  usePlaygroundThreadReplies,
+} from "../message/use-playground-message-workflow.ts";
 import {
   usePlaygroundComposerAutocomplete,
   type ComposerSuggestion,
@@ -73,6 +81,7 @@ type ComposerSendState = { kind: "idle" } | { kind: "sending" } | { kind: "faile
 
 const ATTACHMENT_UPLOAD_DELAY_MS = 900;
 const MESSAGE_SEND_DELAY_MS = 750;
+let localThreadReplySequence = 0;
 
 const FILE_PREVIEW_BADGE_TYPES = new Set<string>([
   "pdf",
@@ -337,15 +346,25 @@ function PlaygroundComposer({
   initialComposer,
   focusOnMount = false,
   footer,
+  initialDraft = "",
+  onDraftChange,
+  onMessageSent,
 }: {
   channel: PlaygroundChannel;
   label: string;
   initialComposer?: PlaygroundInitialComposer;
   focusOnMount?: boolean;
   footer: "main" | "thread";
+  initialDraft?: string;
+  onDraftChange?: (draft: string) => void;
+  onMessageSent?: (content: string, attachments: readonly PlaygroundComposerAttachment[]) => void;
 }) {
-  const [draft, setDraft] = useState("");
-  const autocomplete = usePlaygroundComposerAutocomplete(channel, draft, setDraft);
+  const [draft, setDraft] = useState(initialDraft);
+  const updateDraft = (next: string) => {
+    setDraft(next);
+    onDraftChange?.(next);
+  };
+  const autocomplete = usePlaygroundComposerAutocomplete(channel, draft, updateDraft);
   const [attachmentState, setAttachmentState] = useState<ComposerAttachmentState>(
     initialComposer
       ? { kind: "seeded", attachments: initialComposer.attachments }
@@ -466,9 +485,7 @@ function PlaygroundComposer({
         return {
           name: file.name || `upload-${index + 1}`,
           mediaType,
-          previewUrl: mediaType.startsWith("image/")
-            ? trackPreviewUrl(URL.createObjectURL(file))
-            : undefined,
+          previewUrl: trackPreviewUrl(URL.createObjectURL(file)),
         };
       }),
     );
@@ -518,7 +535,7 @@ function PlaygroundComposer({
     sendTimerRef.current = window.setTimeout(() => {
       sendTimerRef.current = null;
       if (shouldFail) {
-        setDraft(submittedDraft);
+        updateDraft(submittedDraft);
         setAttachmentState(submittedAttachments);
         setSendState({ kind: "failed" });
         setStatusMessage("Send failed. Draft and attachments restored; try again.");
@@ -527,11 +544,15 @@ function PlaygroundComposer({
 
       if (submittedAttachments.kind === "seeded") {
         for (const attachment of submittedAttachments.attachments) {
-          revokePreviewUrl(attachment.previewUrl);
+          if (attachment.previewUrl) previewUrlsRef.current.delete(attachment.previewUrl);
         }
       }
       setSendState({ kind: "idle" });
       setStatusMessage(text ? `Sent: ${text}` : "Attachments sent");
+      onMessageSent?.(
+        text,
+        submittedAttachments.kind === "seeded" ? submittedAttachments.attachments : [],
+      );
     }, MESSAGE_SEND_DELAY_MS);
   };
 
@@ -700,6 +721,53 @@ export function PlaygroundMainComposer({
   );
 }
 
-export function PlaygroundThreadComposer({ channel, label }: PlaygroundComposerProps) {
-  return <PlaygroundComposer channel={channel} label={label} footer="thread" />;
+export function PlaygroundThreadComposer({
+  channel,
+  initialReplies,
+  label,
+  threadId,
+}: PlaygroundComposerProps & {
+  initialReplies: readonly PlaygroundMessage[];
+  threadId: PlaygroundThreadId;
+}) {
+  const { appendReply } = usePlaygroundThreadReplies(threadId, initialReplies);
+  const { draft, setDraft } = usePlaygroundThreadDraft(threadId);
+
+  return (
+    <PlaygroundComposer
+      channel={channel}
+      label={label}
+      footer="thread"
+      initialDraft={draft}
+      onDraftChange={setDraft}
+      onMessageSent={(content, attachments) => {
+        const sentAt = new Date();
+        const createdAt = new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+        }).format(sentAt);
+        localThreadReplySequence += 1;
+        appendReply(
+          definePlaygroundMessage(
+            `${threadId}:local-${localThreadReplySequence}` as PlaygroundMessageId,
+            channel.id,
+            "cuvii",
+            createdAt,
+            content ||
+              `Shared ${attachments.length} ${attachments.length === 1 ? "attachment" : "attachments"}`,
+            false,
+            [],
+            undefined,
+            sentAt.toISOString(),
+            undefined,
+            attachments.map((attachment) => ({
+              mediaType: attachment.mediaType,
+              name: attachment.name,
+              previewUrl: attachment.previewUrl,
+            })),
+          ),
+        );
+      }}
+    />
+  );
 }

@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
-import type { PlaygroundMessageId, PlaygroundThreadId } from "../mock/index.ts";
+import type { PlaygroundMessage, PlaygroundMessageId, PlaygroundThreadId } from "../mock/index.ts";
 import {
   DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW,
   PlaygroundMessageWorkflowContext,
@@ -15,6 +15,30 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
   const [threadFollowById, setThreadFollowById] = useState<
     ReadonlyMap<PlaygroundThreadId, boolean>
   >(() => new Map());
+  const [threadRepliesById, setThreadRepliesById] = useState<
+    ReadonlyMap<PlaygroundThreadId, readonly PlaygroundMessage[]>
+  >(() => new Map());
+  const [threadDraftById, setThreadDraftById] = useState<ReadonlyMap<PlaygroundThreadId, string>>(
+    () => new Map(),
+  );
+  const threadRepliesByIdRef = useRef(threadRepliesById);
+  useEffect(() => {
+    threadRepliesByIdRef.current = threadRepliesById;
+  }, [threadRepliesById]);
+  useEffect(
+    () => () => {
+      for (const replies of threadRepliesByIdRef.current.values()) {
+        for (const reply of replies) {
+          for (const attachment of reply.attachments ?? []) {
+            if (attachment.previewUrl?.startsWith("blob:")) {
+              URL.revokeObjectURL(attachment.previewUrl);
+            }
+          }
+        }
+      }
+    },
+    [],
+  );
   const get = useCallback(
     (messageId: PlaygroundMessageId, fallback = DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW) =>
       workflows.get(messageId) ?? fallback,
@@ -30,6 +54,37 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
     },
     [],
   );
+  const getThreadReplies = useCallback(
+    (threadId: PlaygroundThreadId, fallback: readonly PlaygroundMessage[] = []) =>
+      threadRepliesById.get(threadId) ?? fallback,
+    [threadRepliesById],
+  );
+  const getThreadDraft = useCallback(
+    (threadId: PlaygroundThreadId, fallback = "") => threadDraftById.get(threadId) ?? fallback,
+    [threadDraftById],
+  );
+  const appendThreadReply = useCallback(
+    (
+      threadId: PlaygroundThreadId,
+      fallback: readonly PlaygroundMessage[],
+      reply: PlaygroundMessage,
+    ) => {
+      setThreadRepliesById((current) => {
+        const next = new Map(current);
+        next.set(threadId, [...(current.get(threadId) ?? fallback), reply]);
+        return next;
+      });
+    },
+    [],
+  );
+  const setThreadDraft = useCallback((threadId: PlaygroundThreadId, draft: string) => {
+    setThreadDraftById((current) => {
+      const next = new Map(current);
+      if (draft.trim()) next.set(threadId, draft);
+      else next.delete(threadId);
+      return next;
+    });
+  }, []);
   const isThreadFollowed = useCallback(
     (threadId: PlaygroundThreadId, fallback = false) => threadFollowById.get(threadId) ?? fallback,
     [threadFollowById],
@@ -42,8 +97,26 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
     });
   }, []);
   const value = useMemo(
-    () => ({ get, isThreadFollowed, setThreadFollowed, update }),
-    [get, isThreadFollowed, setThreadFollowed, update],
+    () => ({
+      appendThreadReply,
+      get,
+      getThreadDraft,
+      getThreadReplies,
+      isThreadFollowed,
+      setThreadFollowed,
+      setThreadDraft,
+      update,
+    }),
+    [
+      appendThreadReply,
+      get,
+      getThreadDraft,
+      getThreadReplies,
+      isThreadFollowed,
+      setThreadFollowed,
+      setThreadDraft,
+      update,
+    ],
   );
 
   return (

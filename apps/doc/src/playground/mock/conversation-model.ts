@@ -10,15 +10,33 @@ export type PlaygroundMessageReaction = {
   reactorIds: readonly PlaygroundActorId[];
 };
 
+export type PlaygroundMessageTranslation = {
+  display?: "toggle" | "bilingual";
+  outcome?: "success" | "failure";
+  translatedContent?: string;
+};
+
+export type PlaygroundMessageAttachment = {
+  mediaType: string;
+  name: string;
+  previewUrl?: string;
+};
+
+export type PlaygroundMessagePresentation = "action-card" | "forwarded-bundle" | "quoted-preview";
+
 export type PlaygroundMessage = {
   id: PlaygroundMessageId;
   channelId: string;
   senderType: "user" | "agent";
   senderId: PlaygroundActorId;
-  messageType: "chat";
+  messageType: "chat" | PlaygroundMessagePresentation;
   content: string;
   createdAt: string;
+  createdAtDateTime?: string;
   reactions: readonly PlaygroundMessageReaction[];
+  attachments?: readonly PlaygroundMessageAttachment[];
+  presentation?: PlaygroundMessagePresentation;
+  translation?: PlaygroundMessageTranslation;
   unread?: boolean;
 };
 
@@ -83,7 +101,11 @@ export type PlaygroundStoryMessageInput = {
   senderId: PlaygroundActorId;
   content: string;
   createdAt?: string;
+  createdAtDateTime?: string;
   reactions?: readonly PlaygroundMessageReaction[];
+  attachments?: readonly PlaygroundMessageAttachment[];
+  presentation?: PlaygroundMessagePresentation;
+  translation?: PlaygroundMessageTranslation;
   unread?: boolean;
 };
 
@@ -142,6 +164,10 @@ function buildStandardStory<TId extends string>(
     story.opening.content,
     story.opening.unread,
     story.opening.reactions,
+    story.opening.translation,
+    story.opening.createdAtDateTime,
+    story.opening.presentation,
+    story.opening.attachments,
   );
   const reply = definePlaygroundMessage(
     `${channelId}:reply`,
@@ -151,6 +177,10 @@ function buildStandardStory<TId extends string>(
     story.reply.content,
     story.reply.unread,
     story.reply.reactions,
+    story.reply.translation,
+    story.reply.createdAtDateTime,
+    story.reply.presentation,
+    story.reply.attachments,
   );
   const updates = (story.updates ?? []).map((update, index) =>
     definePlaygroundMessage(
@@ -161,6 +191,10 @@ function buildStandardStory<TId extends string>(
       update.content,
       update.unread,
       update.reactions,
+      update.translation,
+      update.createdAtDateTime,
+      update.presentation,
+      update.attachments,
     ),
   );
   const replies = story.thread.replies.map((threadReply, index) =>
@@ -172,6 +206,10 @@ function buildStandardStory<TId extends string>(
       threadReply.content,
       threadReply.unread,
       threadReply.reactions,
+      threadReply.translation,
+      threadReply.createdAtDateTime,
+      threadReply.presentation,
+      threadReply.attachments,
     ),
   );
 
@@ -275,17 +313,35 @@ export function definePlaygroundMessage(
   content: string,
   unread?: boolean,
   reactions: readonly PlaygroundMessageReaction[] = [],
+  translation?: PlaygroundMessageTranslation,
+  createdAtDateTime?: string,
+  presentation?: PlaygroundMessagePresentation,
+  attachments?: readonly PlaygroundMessageAttachment[],
 ): PlaygroundMessage {
   const sender = getPlaygroundActor(senderId);
+  const displayTimeMatch = createdAt.match(/^(\d{1,2}):(\d{2})\s+(AM|PM)$/i);
+  const resolvedDateTime =
+    createdAtDateTime ??
+    (displayTimeMatch
+      ? (() => {
+          const [, hourText, minute, period] = displayTimeMatch;
+          const hour = (Number(hourText) % 12) + (period.toUpperCase() === "PM" ? 12 : 0);
+          return `2026-07-27T${String(hour).padStart(2, "0")}:${minute}:00Z`;
+        })()
+      : undefined);
   return {
     id,
     channelId,
     senderType: sender.type === "agent" ? "agent" : "user",
     senderId,
-    messageType: "chat",
+    messageType: presentation ?? "chat",
     content,
     createdAt,
+    ...(resolvedDateTime ? { createdAtDateTime: resolvedDateTime } : {}),
     reactions,
+    ...(attachments?.length ? { attachments } : {}),
+    ...(presentation ? { presentation } : {}),
+    ...(translation ? { translation } : {}),
     ...(unread ? { unread: true } : {}),
   };
 }
@@ -295,5 +351,23 @@ export function definePlaygroundThread(
   replies: readonly PlaygroundMessage[],
   unreadCount?: number,
 ): PlaygroundThread {
-  return { parent, replies, unreadCount };
+  const resolvedUnreadCount = unreadCount ?? replies.filter((reply) => reply.unread).length;
+  let unreadRepliesToMark = Math.max(
+    0,
+    resolvedUnreadCount - replies.filter((reply) => reply.unread).length,
+  );
+  const normalizedReplies = [...replies]
+    .reverse()
+    .map((reply) => {
+      if (reply.unread || unreadRepliesToMark === 0) return reply;
+      unreadRepliesToMark -= 1;
+      return { ...reply, unread: true };
+    })
+    .reverse();
+
+  return {
+    parent,
+    replies: normalizedReplies,
+    ...(resolvedUnreadCount ? { unreadCount: resolvedUnreadCount } : {}),
+  };
 }

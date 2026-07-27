@@ -29,6 +29,16 @@ export const messageItem = tv({
     time: ["shrink-0 whitespace-nowrap"],
     inlineStatus: ["shrink-0 text-[10px] font-bold text-foreground/40"],
     body: ["break-words select-text", "[&_*]:select-text"],
+    collapsibleContent: ["min-w-0"],
+    collapsibleContentPanel: ["relative"],
+    collapsibleContentMeasure: ["min-w-0"],
+    collapsibleContentFade: [
+      "pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t",
+    ],
+    collapsibleContentTrigger: [
+      "mt-1 inline-flex text-sm underline underline-offset-2",
+      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+    ],
     translationPlaceholder: ["inline-block h-4 w-44 max-w-full align-middle"],
     translationOriginal: ["mt-1.5"],
     translationOriginalLabel: [],
@@ -72,6 +82,8 @@ export const messageItem = tv({
         inlineStatus: "text-black/40",
         // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
         body: "text-sm text-black",
+        collapsibleContentFade: "from-white to-transparent",
+        collapsibleContentTrigger: "text-black/70 hover:text-black focus-visible:outline-black",
         translationPlaceholder: "border-2 border-black/20",
         translationOriginal: "border-l-2 border-black/20 pl-2 text-black/70",
         translationOriginalLabel:
@@ -117,6 +129,9 @@ export const messageItem = tv({
           "select-text [&_*]:select-text",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
+        collapsibleContentFade: "from-layer-panel to-transparent",
+        collapsibleContentTrigger:
+          "font-medium text-foreground-muted hover:text-foreground focus-visible:outline-line-focus",
         translationPlaceholder: "rounded-sm",
         translationOriginal: "border-l border-line-subtle pl-2 text-foreground-muted",
         translationOriginalLabel:

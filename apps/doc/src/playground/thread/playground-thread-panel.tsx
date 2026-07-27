@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "@tanstack/react-router";
 import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
 import {
   Button,
@@ -31,6 +31,7 @@ import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/com
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
+import { usePlaygroundThreadReplies } from "../message/use-playground-message-workflow.ts";
 import {
   getPlaygroundActor,
   type PlaygroundChannelRecord,
@@ -53,12 +54,16 @@ export function PlaygroundThreadPanel({
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeMatchIndex, setActiveMatchIndex] = useState(0);
+  const location = useLocation();
+  const { replies } = usePlaygroundThreadReplies(thread.parent.id, thread.replies);
+  const hashTargetId = location.hash.replace(/^#/, "");
+  const focusTargetId = hashTargetId.startsWith("thread-message-") ? hashTargetId : undefined;
   const isDm = channel.kind === "dm";
   const channelLabel = isDm ? `@${channel.name}` : `#${channel.name}`;
   const conversationLabel = isDm ? "DM" : "channel";
   const normalizedQuery = searchQuery.trim().toLocaleLowerCase();
   const matchingMessages = normalizedQuery
-    ? [thread.parent, ...thread.replies].filter((message) =>
+    ? [thread.parent, ...replies].filter((message) =>
         message.content.toLocaleLowerCase().includes(normalizedQuery),
       )
     : [];
@@ -72,8 +77,8 @@ export function PlaygroundThreadPanel({
       ? "No matches"
       : "";
 
-  const groupedReplies = thread.replies.map((message, index) => {
-    const previous = thread.replies[index - 1];
+  const groupedReplies = replies.map((message, index) => {
+    const previous = replies[index - 1];
     const compact = Boolean(
       previous &&
       previous.senderId === message.senderId &&
@@ -81,6 +86,18 @@ export function PlaygroundThreadPanel({
     );
     return { message, compact };
   });
+
+  useEffect(() => {
+    if (!focusTargetId) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(focusTargetId);
+      if (!(target instanceof HTMLElement)) return;
+      target.scrollIntoView({ block: "center" });
+      target.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [focusTargetId, replies]);
 
   function moveToMatch(direction: -1 | 1) {
     setActiveMatchIndex((index) =>
@@ -201,6 +218,7 @@ export function PlaygroundThreadPanel({
                 ) : undefined
               }
               searchMatch={activeMatch?.id === thread.parent.id}
+              focusTarget={focusTargetId === `thread-message-${thread.parent.id}`}
               surface="thread"
               threadId={thread.parent.id}
             />
@@ -210,7 +228,7 @@ export function PlaygroundThreadPanel({
               <ThreadPanelReplySummary>
                 <MessageListNotice>Beginning of replies</MessageListNotice>
                 <ThreadPanelReplyCount>
-                  {thread.replies.length === 1 ? "1 reply" : `${thread.replies.length} replies`}
+                  {replies.length === 1 ? "1 reply" : `${replies.length} replies`}
                 </ThreadPanelReplyCount>
               </ThreadPanelReplySummary>
               {groupedReplies.map(({ message, compact }) => (
@@ -218,6 +236,7 @@ export function PlaygroundThreadPanel({
                   key={message.id}
                   message={message}
                   compact={compact}
+                  focusTarget={focusTargetId === `thread-message-${message.id}`}
                   searchMatch={activeMatch?.id === message.id}
                   surface="thread"
                   threadId={thread.parent.id}
@@ -226,8 +245,14 @@ export function PlaygroundThreadPanel({
               <div className="h-6" aria-hidden />
             </MessageList>
           </ThreadPanelBody>
-          <PlaygroundThreadMultiSelectToolbar messages={[thread.parent, ...thread.replies]} />
-          <PlaygroundThreadComposer channel={channel} label="Message thread" />
+          <PlaygroundThreadMultiSelectToolbar messages={[thread.parent, ...replies]} />
+          <PlaygroundThreadComposer
+            key={thread.parent.id}
+            channel={channel}
+            initialReplies={thread.replies}
+            label="Message thread"
+            threadId={thread.parent.id}
+          />
         </MessageMultiSelect>
       </ThreadPanelContent>
     </ThreadPanelRoot>

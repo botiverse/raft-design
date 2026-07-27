@@ -59,6 +59,10 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           createdAt: "09:31 AM",
           content:
             "Before we grow the board further — confirm Closed stays drop-blocked in TaskDnd. Do not invent a second scroll container per column.",
+          translation: {
+            translatedContent:
+              "在继续扩展看板前，请确认 TaskDnd 中 Closed 仍然禁止放入。不要为每一列再创建一层滚动容器。",
+          },
           reactions: [{ emoji: "✅", count: 1, reactorIds: ["developer"] }],
         },
         {
@@ -66,30 +70,39 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           createdAt: "09:34 AM",
           content:
             "Brutal status labels still feel heavy next to the icon. I will try `text-[10px]` + `size-2.5` on the badge path and post a screenshot.",
+          translation: {
+            display: "bilingual",
+            translatedContent:
+              "Brutal 状态标签放在图标旁边仍然显得偏重。我会在徽标路径上尝试 `text-[10px]` 与 `size-2.5`，然后发一张截图。",
+          },
         },
         {
           senderId: "samira",
           createdAt: "09:38 AM",
           content:
             "Invite security thread is ready for threshold review — see replies under the morning parent. Security needs the final probe budget before sign-off.",
+          translation: { outcome: "failure" },
         },
         {
           senderId: "developer",
           createdAt: "09:41 AM",
           content:
             "Selector perf note: presence updates were still invalidating the whole list. Narrowed the subscription in the branch linked from task #22.",
+          presentation: "action-card",
         },
         {
           senderId: "cuvii",
           createdAt: "09:44 AM",
           content:
             "Virtualization stays consumer-owned. Docs should show `ScrollAreaViewport` + `useVirtualizer`, not a TaskBoard API.",
+          presentation: "forwarded-bundle",
         },
         {
           senderId: "cuvii",
           createdAt: "09:45 AM",
           content:
             "```ts\nconst virtualizer = useVirtualizer({\n  count: items.length,\n  getScrollElement: () => viewportRef.current,\n  overscan: 6,\n  scrollMargin,\n})\n```",
+          presentation: "quoted-preview",
         },
         {
           senderId: "mira",

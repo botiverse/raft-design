@@ -5,6 +5,9 @@ import {
   MessageAttachmentAction,
   MessageAttachmentCard,
   MessageAttachmentFrame,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaDetail,
+  MessageAttachmentMetaLabel,
 } from "./message-attachment";
 
 describe("message attachment frame", () => {
@@ -18,5 +21,17 @@ describe("message attachment frame", () => {
 
     expect(markup.match(/<button\b/g)).toHaveLength(2);
     expect(markup).toMatch(/<button\b[^>]*>Preview<\/button><button\b[^>]*>Download<\/button>/);
+  });
+
+  it("separates truncatable metadata from persistent details", () => {
+    const markup = renderToStaticMarkup(
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaLabel>Very long image metadata</MessageAttachmentMetaLabel>
+        <MessageAttachmentMetaDetail>2 comments</MessageAttachmentMetaDetail>
+      </MessageAttachmentMeta>,
+    );
+
+    expect(markup).toContain('data-slot="message-attachment-meta-label"');
+    expect(markup).toContain('data-slot="message-attachment-meta-detail"');
   });
 });

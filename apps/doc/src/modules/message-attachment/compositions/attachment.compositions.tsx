@@ -11,6 +11,7 @@ import {
   MessageAttachmentLoadingBar,
   MessageAttachmentMeta,
   MessageAttachmentMetaDetail,
+  MessageAttachmentMetaLabel,
   MessageAttachmentMetaSeparator,
   MessageAttachmentPendingIndicator,
   MessageAttachmentSummary,
@@ -36,7 +37,7 @@ function MessageAttachmentContent({
         <MessageAttachmentTitle>{name}</MessageAttachmentTitle>
         {meta || commentCount ? (
           <MessageAttachmentMeta>
-            {meta}
+            {meta ? <MessageAttachmentMetaLabel>{meta}</MessageAttachmentMetaLabel> : null}
             {commentCount ? (
               <MessageAttachmentMetaDetail>
                 {meta ? <MessageAttachmentMetaSeparator>·</MessageAttachmentMetaSeparator> : null}

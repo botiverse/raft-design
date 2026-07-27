@@ -6,11 +6,13 @@ import type { PlaygroundChannelSearch } from "./playground-search.ts";
 
 type PlaygroundConversationLinkProps = Omit<ComponentProps<"a">, "href"> & {
   conversation: PlaygroundChannelRecord;
+  hash?: string;
   search?: PlaygroundChannelSearch;
 };
 
 export function PlaygroundConversationLink({
   conversation,
+  hash,
   search = {},
   ...props
 }: PlaygroundConversationLinkProps) {
@@ -20,6 +22,7 @@ export function PlaygroundConversationLink({
       to="/playground/s/$serverSlug/dm/$dmId"
       params={{ dmId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG }}
       search={search}
+      hash={hash}
     />
   ) : (
     <Link
@@ -27,6 +30,7 @@ export function PlaygroundConversationLink({
       to="/playground/s/$serverSlug/channel/$channelId"
       params={{ channelId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG }}
       search={search}
+      hash={hash}
     />
   );
 }

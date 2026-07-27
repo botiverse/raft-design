@@ -34,15 +34,10 @@ import type { PlaygroundPanelTab } from "../navigation/playground-navigation.ts"
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { PlaygroundFilesPanel } from "../files/files-panel.tsx";
 import { PlaygroundTasksPanel } from "../tasks/tasks-panel.tsx";
-import {
-  PlaygroundMessageRow,
-  PlaygroundRepliesBadge,
-  PlaygroundUnreadRepliesBadge,
-} from "../message/playground-message-row.tsx";
+import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
 import {
   getPlaygroundActor,
   getPlaygroundConversationMessages,
-  getPlaygroundThread,
   type PlaygroundChannel,
   type PlaygroundChannelRecord,
   type PlaygroundMessage,
@@ -182,7 +177,6 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
             </div>
           ) : null}
           {groupedRows.map(({ message, compact }) => {
-            const thread = getPlaygroundThread(message.id)?.thread;
             const linkedTask = tasks.find((task) => task.sourceMessageId === message.id);
             const taskBadge = linkedTask ? (
               <TaskStatusBadge
@@ -194,28 +188,14 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
                 }
               />
             ) : null;
-            const repliesBadge = thread ? (
-              thread.unreadCount ? (
-                <PlaygroundUnreadRepliesBadge threadId={message.id} />
-              ) : (
-                <PlaygroundRepliesBadge threadId={message.id} />
-              )
-            ) : null;
-            const footer =
-              taskBadge || repliesBadge ? (
-                <>
-                  {taskBadge}
-                  {repliesBadge}
-                </>
-              ) : null;
 
             return (
               <PlaygroundMessageRow
                 key={message.id}
                 message={message}
                 compact={compact}
-                threadId={thread ? message.id : undefined}
-                footer={footer}
+                threadId={message.id}
+                footer={taskBadge}
               />
             );
           })}

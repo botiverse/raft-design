@@ -19,8 +19,9 @@ export const messageAttachment = tv({
     ],
     body: ["w-full min-w-0 max-w-full overflow-hidden"],
     title: ["block w-full max-w-full truncate text-xs font-bold"],
-    meta: ["mt-0.5 block truncate text-[10px]"],
-    metaDetail: ["inline-flex items-center gap-1 pl-1", "[&_svg]:size-[9px] [&_svg]:shrink-0"],
+    meta: ["mt-0.5 flex min-w-0 max-w-full items-center gap-1.5 text-[10px]"],
+    metaLabel: ["min-w-0 flex-1 truncate"],
+    metaDetail: ["inline-flex shrink-0 items-center gap-1", "[&_svg]:size-[9px] [&_svg]:shrink-0"],
     metaSeparator: ["text-foreground/35"],
     summary: [
       "flex items-center gap-1.5 whitespace-nowrap pr-5",
