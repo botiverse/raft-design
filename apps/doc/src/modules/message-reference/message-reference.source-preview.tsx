@@ -1,4 +1,4 @@
-import { Link } from "lucide-react";
+import { AtSign, Hash, MessageSquareText } from "lucide-react";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
@@ -23,7 +23,7 @@ export function MessageReferenceSourcePreview() {
             disabled
             className="font-bold text-brutal-pink underline disabled:cursor-default"
           >
-            @Atlas
+            <AtSign className="size-3" aria-hidden /> Atlas
           </button>{" "}
           to check the{" "}
           <button
@@ -31,8 +31,7 @@ export function MessageReferenceSourcePreview() {
             disabled
             className="inline-flex items-center gap-1 border border-black bg-brutal-lime px-1 py-0.5 font-mono text-xs font-bold disabled:cursor-default"
           >
-            <Link className="size-3" aria-hidden /> message all:api-docs{" "}
-            <span className="text-[9px] text-black/50">msg</span>
+            <MessageSquareText className="size-3" aria-hidden /> all
           </button>{" "}
           rollout in{" "}
           <button
@@ -40,7 +39,7 @@ export function MessageReferenceSourcePreview() {
             disabled
             className="border border-black bg-brutal-cyan px-1 py-0.5 font-mono text-xs font-bold disabled:cursor-default"
           >
-            #release-notes
+            <Hash className="size-3" aria-hidden /> release-notes
           </button>
           .
         </p>

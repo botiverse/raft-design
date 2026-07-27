@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from "react";
+import { TaskChip } from "raft-ui";
 import {
   MessageCodeBlock,
   MessageInlineCode,
@@ -77,13 +78,13 @@ function renderInlineText(text: string, keyPrefix: string, channelId?: string): 
       const label = `@${mentionName}`;
       if (actor?.id === VIEWER_ACTOR_ID) {
         nodes.push(
-          <MessageReference key={key} variant="highlight" title={`${actor.name} · ${actor.meta}`}>
+          <MessageReference key={key} variant="self" title={`${actor.name} · ${actor.meta}`}>
             {label}
           </MessageReference>,
         );
       } else {
         nodes.push(
-          <MessageReference key={key} variant="plain" title={`${actor?.name} · ${actor?.meta}`}>
+          <MessageReference key={key} variant="mention" title={`${actor?.name} · ${actor?.meta}`}>
             {label}
           </MessageReference>,
         );
@@ -102,9 +103,9 @@ function renderInlineText(text: string, keyPrefix: string, channelId?: string): 
         const threadId = task.sourceMessageId ?? task.id;
         const href = `${conversationHref(task.channelId)}?thread=${encodeURIComponent(threadId)}&from=tasks`;
         nodes.push(
-          <MessageReference key={key} variant="muted" render={<a href={href} />}>
+          <TaskChip key={key} status={task.status} render={<a href={href} />}>
             #{taskNumber}
-          </MessageReference>,
+          </TaskChip>,
         );
       }
     } else if (full.startsWith("#")) {
@@ -123,7 +124,7 @@ function renderInlineText(text: string, keyPrefix: string, channelId?: string): 
           nodes.push(
             <MessageReference
               key={key}
-              variant="info"
+              variant="conversation"
               render={
                 <a
                   href={`${conversationHref(channel.id)}?thread=${encodeURIComponent(threadId)}`}
@@ -138,7 +139,7 @@ function renderInlineText(text: string, keyPrefix: string, channelId?: string): 
         nodes.push(
           <MessageReference
             key={key}
-            variant="accent"
+            variant="conversation"
             render={<a href={conversationHref(channel.id)} />}
           >
             #{channelName}

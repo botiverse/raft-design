@@ -13,7 +13,13 @@ function hasDefaultValue(value: string | undefined): value is string {
   return value != null && !EMPTY_DEFAULTS.has(value.trim());
 }
 
-export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
+export function PropsTable({
+  rows,
+  nameColumnLabel = "Prop",
+}: {
+  rows: readonly PropRow[];
+  nameColumnLabel?: string;
+}) {
   const showDefault = rows.some((row) => hasDefaultValue(row.default));
 
   return (
@@ -21,7 +27,7 @@ export function PropsTable({ rows }: { rows: readonly PropRow[] }) {
       <table className="w-full border-collapse text-left text-sm">
         <thead>
           <tr className="border-b border-line-subtle text-foreground-muted">
-            <th className="py-2 pr-6 font-medium">Prop</th>
+            <th className="py-2 pr-6 font-medium">{nameColumnLabel}</th>
             <th className="py-2 pr-6 font-medium">Type</th>
             {showDefault ? <th className="py-2 pr-6 font-medium">Default</th> : null}
             <th className="py-2 font-medium">Description</th>

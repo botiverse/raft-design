@@ -16,7 +16,7 @@ export type MessageReferenceProps = useRender.ComponentProps<"span"> &
 export function MessageReference({
   className,
   render,
-  variant = "muted",
+  variant = "conversation",
   ...props
 }: MessageReferenceProps) {
   const theme = useThemeFamily();

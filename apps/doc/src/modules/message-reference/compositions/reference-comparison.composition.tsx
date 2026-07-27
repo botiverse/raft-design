@@ -56,11 +56,11 @@ export function MessageReferenceComparisonComposition() {
                   <MessagePermalinkReferenceComposition
                     href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}
                   >
-                    message all:api-docs
+                    #all
                   </MessagePermalinkReferenceComposition>{" "}
                   rollout in{" "}
                   <MessageReference
-                    variant="accent"
+                    variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
                   >
                     #release-notes

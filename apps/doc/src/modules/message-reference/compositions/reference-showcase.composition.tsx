@@ -3,8 +3,8 @@ import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_PLAYGROUND_URLS,
 } from "#/modules/message-item/message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
-import { MessageSquare } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage, TaskChip } from "raft-ui";
+import { MessageSquareQuote } from "lucide-react";
 
 import {
   MessageItem,
@@ -48,13 +48,11 @@ export function MessageReferenceShowcaseComposition() {
             <MessageItemBody>
               <MessageMarkdown>
                 <p>
-                  Keep a real external reference to the{" "}
+                  Open{" "}
                   <MessagePermalinkReferenceComposition
-                    external
-                    href="https://github.com/botiverse/slock"
-                    meta="repo"
+                    href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}
                   >
-                    slock repository
+                    #all
                   </MessagePermalinkReferenceComposition>
                   {", and resolve a self mention separately: "}
                   <MessageSelfMentionReferenceComposition
@@ -64,29 +62,29 @@ export function MessageReferenceShowcaseComposition() {
                     @you
                   </MessageSelfMentionReferenceComposition>
                   {". The same resolver links task "}
-                  <MessageReference
-                    variant="muted"
+                  <TaskChip
+                    status="in_progress"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
                   >
                     #21
-                  </MessageReference>
+                  </TaskChip>
                   {", thread "}
                   <MessageReference
-                    variant="info"
+                    variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
                   >
                     #release-notes:reply
                   </MessageReference>
                   {", and DM parents "}
                   <MessageReference
-                    variant="accent"
+                    variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}
                   >
                     dm:@noah
                   </MessageReference>{" "}
                   and{" "}
                   <MessageReference
-                    variant="info"
+                    variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.noahDmThread} />}
                   >
                     dm:@noah:reply
@@ -118,7 +116,7 @@ export function MessageReferenceShowcaseComposition() {
           </MessageItemHeader>
           <div className="mb-0.5">
             <MessageReference
-              variant="subtle"
+              variant="attachment"
               render={
                 <a
                   href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
@@ -126,7 +124,7 @@ export function MessageReferenceShowcaseComposition() {
                 />
               }
             >
-              <MessageSquare size={12} />
+              <MessageSquareQuote size={12} />
               <span>re: state-ownership-migration-notes.md · § Ownership boundary</span>
             </MessageReference>
           </div>
@@ -135,7 +133,7 @@ export function MessageReferenceShowcaseComposition() {
               The atom model is a better fit only if we keep server state out of the local store.
             </blockquote>
           </MessageMarkdown>
-          <MessageItemBody>Linked the ownership boundary to its source thread.</MessageItemBody>
+          <MessageItemBody>Commented on the attachment source boundary.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
     </div>
