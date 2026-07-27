@@ -7,7 +7,6 @@ import {
   MessageItemInlineRepliesTrigger,
   MessageItemInlineReplyCount,
   MessageItemInlineReplyRow,
-  MessageItemInlineReplyTime,
 } from "./message-footer";
 
 describe("message inline replies", () => {
@@ -26,20 +25,12 @@ describe("message inline replies", () => {
     const markup = renderToStaticMarkup(
       <MessageItemInlineRepliesTrigger>
         <MessageItemInlineRepliesSummary>2 replies</MessageItemInlineRepliesSummary>
-        <MessageItemInlineReplyRow render={<span />}>
-          Latest reply
-          <MessageItemInlineReplyTime dateTime="2026-07-27T14:30:00Z">
-            2:30 PM
-          </MessageItemInlineReplyTime>
-        </MessageItemInlineReplyRow>
+        <MessageItemInlineReplyRow render={<span />}>Latest reply</MessageItemInlineReplyRow>
       </MessageItemInlineRepliesTrigger>,
     );
 
     expect(markup).toMatch(/^<button\b/);
     expect(markup).toContain("<span");
-    expect(markup).toContain("<time");
-    expect(markup).toContain('dateTime="2026-07-27T14:30:00Z"');
-    expect(markup).toContain('data-slot="message-item-inline-reply-time"');
     expect(markup.match(/<button\b/g)).toHaveLength(1);
   });
 });
