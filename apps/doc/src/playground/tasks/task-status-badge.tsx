@@ -1,5 +1,4 @@
-import { TaskStatusIcon } from "raft-ui";
-import { MessageItemTaskBadge } from "raft-ui/wip";
+import { TaskChip } from "raft-ui";
 
 import { TaskStatusSelect } from "#/modules/task-card/compositions/task-status-select.composition.tsx";
 import type { PlaygroundTaskId } from "../mock/index.ts";
@@ -8,11 +7,11 @@ import { usePlaygroundTask, usePlaygroundTaskState } from "./use-playground-task
 export function TaskStatusBadge({
   taskId,
   assignee,
-  busy,
+  loading,
 }: {
   taskId: PlaygroundTaskId;
   assignee?: string;
-  busy?: boolean;
+  loading?: boolean;
 }) {
   const task = usePlaygroundTask(taskId);
   const { setTasks } = usePlaygroundTaskState();
@@ -22,7 +21,7 @@ export function TaskStatusBadge({
   return (
     <TaskStatusSelect
       value={status}
-      disabled={busy}
+      disabled={loading}
       onValueChange={(nextStatus) =>
         setTasks((tasks) =>
           tasks.map((candidate) =>
@@ -31,22 +30,21 @@ export function TaskStatusBadge({
         )
       }
     >
-      <MessageItemTaskBadge
+      <TaskChip
         status={status}
-        busy={busy}
+        loading={loading}
         render={
           <button
             type="button"
-            disabled={busy}
+            disabled={loading}
             title={`${fullLabel} · Change task status`}
             aria-label={`Change status for ${fullLabel}`}
           />
         }
       >
-        <TaskStatusIcon status={status} />
         <span>#{taskNumber}</span>
         {assignee ? <span>@{assignee}</span> : null}
-      </MessageItemTaskBadge>
+      </TaskChip>
     </TaskStatusSelect>
   );
 }

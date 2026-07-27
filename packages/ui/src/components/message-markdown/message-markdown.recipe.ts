@@ -11,7 +11,7 @@ export const messageMarkdown = tv({
       "[&_h5]:mt-1 [&_h5]:mb-0.5 [&_h5]:text-[1em] [&_h5]:leading-tight [&_h5]:font-bold",
       "[&_h6]:mt-1 [&_h6]:mb-0.5 [&_h6]:text-[1em] [&_h6]:leading-tight [&_h6]:font-bold",
       "[&_p]:mb-1 [&_p:last-child]:mb-0",
-      "[&_a:not([data-message-reference])]:select-text [&_a:not([data-message-reference])]:underline [&_a:not([data-message-reference])]:decoration-2 [&_a:not([data-message-reference])]:underline-offset-2",
+      "[&_a:not([data-inline-reference])]:select-text [&_a:not([data-inline-reference])]:underline [&_a:not([data-inline-reference])]:decoration-2 [&_a:not([data-inline-reference])]:underline-offset-2",
       "[&_mark]:bg-soft-signal/70 [&_mark]:text-inherit [&_mark]:[font:inherit]",
       "[&_ul]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:mb-1 [&_ol]:list-decimal [&_ol]:pl-5",
       "[&_li]:mb-0.5",
@@ -35,7 +35,7 @@ export const messageMarkdown = tv({
       brutal: {
         root: [
           "[&_h6]:text-black/70",
-          "[&_a:not([data-message-reference])]:text-[oklch(0.488_0.243_264.376)] [&_a:not([data-message-reference]):hover]:text-brutal-pink",
+          "[&_a:not([data-inline-reference])]:text-[oklch(0.488_0.243_264.376)] [&_a:not([data-inline-reference]):hover]:text-brutal-pink",
           "[&_blockquote]:border-black/40 [&_blockquote]:text-black/70",
           "[&_hr]:border-black",
           "[&_table]:border-black",
@@ -61,8 +61,8 @@ export const messageMarkdown = tv({
           "[&_h4]:font-medium [&_h4]:text-foreground-strong",
           "[&_h5]:font-medium [&_h5]:text-foreground-strong",
           "[&_h6]:font-medium [&_h6]:text-foreground-strong",
-          "[&_a:not([data-message-reference])]:text-foreground-strong [&_a:not([data-message-reference])]:decoration-1 [&_a:not([data-message-reference])]:decoration-foreground/30",
-          "[&_a:not([data-message-reference]):hover]:text-foreground [&_a:not([data-message-reference]):hover]:decoration-foreground/70",
+          "[&_a:not([data-inline-reference])]:text-foreground-strong [&_a:not([data-inline-reference])]:decoration-1 [&_a:not([data-inline-reference])]:decoration-foreground/30",
+          "[&_a:not([data-inline-reference]):hover]:text-foreground [&_a:not([data-inline-reference]):hover]:decoration-foreground/70",
           "[&_p]:max-w-[72ch] [&_ul]:max-w-[72ch] [&_ol]:max-w-[72ch] [&_blockquote]:max-w-[72ch]",
           "[&_mark]:rounded-sm [&_mark]:bg-primary-400/15 [&_mark]:px-0.5 [&_mark]:text-foreground-strong",
           "[&_blockquote]:border-l [&_blockquote]:border-line-subtle [&_blockquote]:bg-layer-muted/70",

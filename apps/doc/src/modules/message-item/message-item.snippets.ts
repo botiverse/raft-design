@@ -136,12 +136,12 @@ export const TRANSLATION_REFERENCE_PROPS: readonly PropRow[] = [
     name: "MessageReference",
     type: 'useRender.ComponentProps<"span"> & Omit<MessageReferenceVariantProps, "theme">',
     description:
-      "Inline message reference (default span). Variants: plain, accent, highlight, muted, info, subtle, panel, external, pending, unavailable. Use render={<a href=… />} for links. Label/Meta compose inside chip variants.",
+      "Visual primitive for source-derived inline references. MessageItem owns parsing and resolution: self mentions, channels, DMs, threads, tasks, message targets, and attachment comments each have distinct trigger rules.",
   },
   {
     name: "MessageReferenceLabel / MessageReferenceMeta",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional label and meta slots for chip-style references (e.g. permalink).",
+    description: "Optional label slot for an icon-bearing message target chip.",
   },
 ];
 

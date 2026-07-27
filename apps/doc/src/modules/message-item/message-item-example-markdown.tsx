@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { TaskChip } from "raft-ui";
 import {
   MessageCodeBlock,
   MessageInlineCode,
@@ -7,7 +8,7 @@ import {
 } from "raft-ui/wip";
 import {
   MessageMentionReferenceComposition,
-  MessagePermalinkReferenceComposition,
+  MessageTargetReferenceComposition,
   MessageSelfMentionReferenceComposition,
 } from "./compositions/content.compositions.tsx";
 import { MESSAGE_PLAYGROUND_URLS } from "./message-item.fixtures.ts";
@@ -63,22 +64,19 @@ export function MessageItemExampleMarkdown({ portalContainer }: ExampleMarkdownP
       </p>
       <p>
         <ExampleSelfMention portalContainer={portalContainer}>@you</ExampleSelfMention> tracked{" "}
-        <MessageReference
-          variant="muted"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
-        >
+        <TaskChip status="in_progress" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
           #21
-        </MessageReference>{" "}
+        </TaskChip>{" "}
         in{" "}
         <MessageReference
-          variant="accent"
+          variant="conversation"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
           #release-notes
         </MessageReference>{" "}
         and linked{" "}
         <MessageReference
-          variant="info"
+          variant="conversation"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
           #release-notes:reply
@@ -104,7 +102,7 @@ export function MessageItemExampleMarkdownLead({ portalContainer }: ExampleMarkd
         <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> starting a short
         sequence — first the <strong>layout pass</strong>, then gutter clock polish for{" "}
         <MessageReference
-          variant="accent"
+          variant="conversation"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
           #release-notes
@@ -129,16 +127,16 @@ export function MessageItemExampleMarkdownFollowUp({ portalContainer }: ExampleM
         </li>
         <li>
           Land{" "}
-          <MessageReference
-            variant="muted"
+          <TaskChip
+            status="in_progress"
             render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
           >
             #21
-          </MessageReference>{" "}
+          </TaskChip>{" "}
           before the{" "}
-          <MessagePermalinkReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
-            message all:api-docs
-          </MessagePermalinkReferenceComposition>{" "}
+          <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
+            #all
+          </MessageTargetReferenceComposition>{" "}
           rollout
         </li>
       </ol>
@@ -152,7 +150,7 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
       <p>
         Final note for <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> in{" "}
         <MessageReference
-          variant="info"
+          variant="conversation"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
           #release-notes:reply

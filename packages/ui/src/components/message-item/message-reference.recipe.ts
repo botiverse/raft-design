@@ -5,10 +5,10 @@ export const messageReference = tv({
     root: [
       "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
-      "[&_svg]:shrink-0",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     label: ["min-w-0 truncate"],
-    meta: ["shrink-0 text-[10px] leading-none font-normal text-foreground/50"],
+    meta: ["shrink-0 text-[10px] leading-none font-medium text-foreground/50"],
   },
   variants: {
     theme: {
@@ -16,69 +16,35 @@ export const messageReference = tv({
       elegant: { meta: "text-foreground-muted" },
     },
     variant: {
-      // Underline text mention (@Ada)
-      plain: {
+      // Other-member mention (@Ada)
+      mention: {
         root: [
           "font-medium underline decoration-2 underline-offset-2",
           "[font-size:inherit]",
           "hover:text-accent-500 hover:decoration-accent-500",
         ],
       },
-      // Soft-signal chip (@you / self)
-      highlight: {
+      // Current-member mention (@you)
+      self: {
         root: [
           "inline-block align-bottom border border-line-strong bg-soft-signal px-1 font-medium text-foreground",
           "[font-size:inherit] leading-tight",
           "hover:bg-soft-signal/80",
         ],
       },
-      // Accent / pink chip (#channel)
-      accent: {
+      // Channel, DM, thread, or message destination
+      conversation: {
         root: [
           "inline-block align-bottom border border-line-strong bg-accent-200/60 px-1 font-medium text-foreground",
           "[font-size:inherit] leading-tight",
           "hover:bg-accent-400/45",
         ],
       },
-      // Neutral muted chip (#task)
-      muted: {
-        root: [
-          "inline-block align-bottom border border-line-strong bg-layer-muted px-1 font-medium text-foreground",
-          "[font-size:inherit] leading-tight",
-          "hover:bg-layer-strong",
-        ],
-      },
-      // Info / cyan chip (thread)
-      info: {
-        root: [
-          "inline-block align-bottom border border-line-strong bg-info-light px-1 font-medium text-info-dark",
-          "[font-size:inherit] leading-tight",
-          "hover:bg-info-base/45",
-        ],
-      },
-      // Subtle stone chip (comment)
-      subtle: {
+      // Attachment-comment context
+      attachment: {
         root: [
           "inline-flex items-center gap-1 align-bottom border border-line-strong px-1 font-medium text-foreground",
           "[font-size:inherit] leading-tight",
-        ],
-      },
-      // Panel chip (internal permalink)
-      panel: {
-        root: [
-          "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-medium text-foreground",
-          "[font-size:inherit] leading-tight",
-          "hover:bg-layer-muted",
-          "[&_svg]:size-3",
-        ],
-      },
-      // External permalink
-      external: {
-        root: [
-          "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-medium text-info-dark",
-          "[font-size:inherit] leading-tight",
-          "hover:bg-layer-muted",
-          "[&_svg]:size-3",
         ],
       },
       // Resolving / loading chip
@@ -100,59 +66,42 @@ export const messageReference = tv({
   compoundVariants: [
     {
       theme: "brutal",
-      variant: "plain",
+      variant: ["mention", "self", "conversation", "attachment", "pending", "unavailable"],
       class: {
         root: [
-          "cursor-default text-black decoration-black/30",
-          "hover:text-brutal-pink hover:decoration-brutal-pink",
+          "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
+          "[&_svg]:[stroke-width:2px] [&_svg_*]:[stroke-width:2px]",
         ],
       },
     },
     {
       theme: "brutal",
-      variant: "highlight",
+      variant: "mention",
+      class: {
+        root: [
+          "inline-block cursor-default align-bottom border border-black bg-primary-400/40 px-1 text-primary-900 no-underline",
+          "[font-size:inherit] leading-tight",
+          "hover:bg-primary-400/60 hover:text-primary-900",
+        ],
+      },
+    },
+    {
+      theme: "brutal",
+      variant: "self",
       class: { root: "cursor-default border-black bg-soft-signal text-black" },
     },
     {
       theme: "brutal",
-      variant: "accent",
+      variant: "conversation",
       class: {
         root: "cursor-default border-black bg-brutal-pink/30 text-black hover:bg-brutal-pink/60",
       },
     },
     {
       theme: "brutal",
-      variant: "muted",
-      class: {
-        root: "cursor-default border-black bg-soft-signal/40 text-black hover:bg-soft-signal",
-      },
-    },
-    {
-      theme: "brutal",
-      variant: "info",
-      class: {
-        root: "cursor-default border-black bg-brutal-cyan/30 text-black hover:bg-brutal-cyan/60",
-      },
-    },
-    {
-      theme: "brutal",
-      variant: "subtle",
+      variant: "attachment",
       class: {
         root: "cursor-default border-black bg-brutal-stone/25 text-black hover:bg-brutal-stone/40",
-      },
-    },
-    {
-      theme: "brutal",
-      variant: "panel",
-      class: {
-        root: "cursor-default border-black bg-soft-signal/40 text-black hover:bg-soft-signal",
-      },
-    },
-    {
-      theme: "brutal",
-      variant: "external",
-      class: {
-        root: "cursor-default border-black bg-white text-[oklch(0.488_0.243_264.376)] hover:bg-black/5",
       },
     },
     {
@@ -167,73 +116,66 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      variant: "plain",
+      variant: ["mention", "self", "conversation"],
+      class: {
+        root: "transition-[filter,opacity] duration-100 hover:brightness-[0.96]",
+      },
+    },
+    {
+      theme: "elegant",
+      variant: ["mention", "self"],
+      class: {
+        root: "has-[>svg]:gap-[2.5px]",
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "mention",
       class: {
         root: [
-          "inline-block cursor-pointer align-bottom font-medium text-foreground-strong",
-          "decoration-1 decoration-foreground/30 hover:text-foreground hover:decoration-foreground/70",
+          "inline-block cursor-pointer align-bottom rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0 no-underline",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-medium text-[oklch(0.44_0.09_91.39)] hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
         ],
       },
     },
     {
       theme: "elegant",
-      variant: ["highlight", "accent", "muted", "info", "subtle", "panel", "external"],
+      variant: ["self", "conversation"],
       class: {
         root: [
-          "cursor-pointer rounded-sm border-line-subtle px-1.5",
-          "font-medium leading-tight text-foreground-strong",
+          "cursor-pointer rounded-full border-transparent px-2 py-0",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-medium text-foreground-strong",
         ],
       },
     },
     {
       theme: "elegant",
-      variant: "highlight",
+      variant: "self",
       class: {
         root: [
-          "border-primary-400/20 bg-primary-400/15 text-foreground-strong",
-          "hover:bg-primary-400/25",
+          "border-transparent bg-[oklch(0.886_0.155_91.41)] text-[oklch(0.431_0.088_86.67)]",
+          "hover:bg-[oklch(0.886_0.155_91.41)] hover:text-[oklch(0.431_0.088_86.67)]",
         ],
       },
     },
     {
       theme: "elegant",
-      variant: "accent",
+      variant: "conversation",
       class: {
         root: [
-          "border-accent-400/20 bg-accent-400/10 text-foreground-strong",
-          "hover:bg-accent-400/15",
+          "border-transparent bg-[oklch(0.914_0.048_358.59)] text-[oklch(0.543_0.215_359.77)]",
+          "hover:bg-[oklch(0.914_0.048_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
         ],
       },
     },
     {
       theme: "elegant",
-      variant: "muted",
-      class: {
-        root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "info",
+      variant: "attachment",
       class: {
         root: [
-          "border-info-base/20 bg-info-base/10 text-foreground-strong",
-          "hover:bg-info-base/20",
+          "cursor-pointer rounded-full border-transparent bg-[oklch(0.91_0.056_224.02)] px-2 py-0 text-[oklch(0.441_0.078_221.2)]",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 hover:bg-[oklch(0.91_0.056_224.02)] hover:text-[oklch(0.441_0.078_221.2)]",
         ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "subtle",
-      class: {
-        root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
-      },
-    },
-    {
-      theme: "elegant",
-      variant: ["panel", "external"],
-      class: {
-        root: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
       },
     },
     {
@@ -241,8 +183,8 @@ export const messageReference = tv({
       variant: "pending",
       class: {
         root: [
-          "cursor-wait rounded-sm border-line-subtle bg-layer-muted px-1.5 opacity-100",
-          "font-medium leading-tight text-foreground-muted",
+          "cursor-wait rounded-full border-transparent bg-layer-muted px-2 py-0 opacity-100",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-medium text-foreground-muted",
         ],
       },
     },
@@ -251,14 +193,23 @@ export const messageReference = tv({
       variant: "unavailable",
       class: {
         root: [
-          "cursor-default rounded-sm border-line-subtle bg-layer-muted/70 px-1.5 opacity-100",
-          "font-medium leading-tight text-foreground-muted",
+          "cursor-default rounded-full border-transparent bg-layer-muted px-2 py-0 opacity-100",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-medium text-foreground-muted",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: ["mention", "self", "conversation", "attachment", "pending", "unavailable"],
+      class: {
+        root: [
+          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px text-[13px] font-medium leading-none tracking-normal",
         ],
       },
     },
   ],
   defaultVariants: {
-    variant: "muted",
+    variant: "conversation",
   },
 });
 

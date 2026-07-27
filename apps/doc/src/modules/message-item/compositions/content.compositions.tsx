@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { Link as LinkIcon } from "lucide-react";
+import { AtSign, MessageSquareText } from "lucide-react";
 import { PreviewCard, PreviewCardContent, PreviewCardTrigger, Spinner } from "raft-ui";
-import { MessageReference, MessageReferenceLabel, MessageReferenceMeta } from "raft-ui/wip";
+import { MessageReference, MessageReferenceLabel } from "raft-ui/wip";
 
 type MessageReferenceCompositionProps = {
   children: ReactNode;
@@ -26,6 +26,7 @@ export function MessageMentionReferenceComposition({
   portalContainer,
   preview,
 }: MessageMentionReferenceCompositionProps) {
+  const label = typeof children === "string" ? children.replace(/^@/, "") : children;
   return (
     <PreviewCard>
       <PreviewCardTrigger
@@ -33,12 +34,13 @@ export function MessageMentionReferenceComposition({
         delay={200}
         render={
           <MessageReference
-            variant="plain"
+            variant="mention"
             render={<button type="button" title="Preview mention" />}
           />
         }
       >
-        {children}
+        <AtSign size={12} />
+        {label}
       </PreviewCardTrigger>
       <PreviewCardContent
         sideOffset={6}
@@ -57,6 +59,7 @@ export function MessageSelfMentionReferenceComposition({
   portalContainer,
   preview,
 }: MessageSelfMentionReferenceCompositionProps) {
+  const label = typeof children === "string" ? children.replace(/^@/, "") : children;
   return (
     <PreviewCard>
       <PreviewCardTrigger
@@ -64,12 +67,13 @@ export function MessageSelfMentionReferenceComposition({
         delay={200}
         render={
           <MessageReference
-            variant="highlight"
+            variant="self"
             render={<button type="button" title="Preview current member" />}
           />
         }
       >
-        {children}
+        <AtSign size={12} />
+        {label}
       </PreviewCardTrigger>
       <PreviewCardContent
         sideOffset={6}
@@ -83,26 +87,16 @@ export function MessageSelfMentionReferenceComposition({
   );
 }
 
-export function MessagePermalinkReferenceComposition({
+export function MessageTargetReferenceComposition({
   children,
-  external,
   href,
-  meta = "msg",
-}: MessageReferenceCompositionProps & { external?: boolean; meta?: ReactNode }) {
+}: MessageReferenceCompositionProps) {
+  const label = typeof children === "string" ? children.replace(/^#/, "") : children;
+
   return (
-    <MessageReference
-      variant={external ? "external" : "panel"}
-      render={
-        <a
-          href={href}
-          rel={external ? "noreferrer" : undefined}
-          target={external ? "_blank" : undefined}
-        />
-      }
-    >
-      <LinkIcon />
-      <MessageReferenceLabel>{children}</MessageReferenceLabel>
-      <MessageReferenceMeta>{meta}</MessageReferenceMeta>
+    <MessageReference variant="conversation" render={<a href={href} />}>
+      <MessageSquareText />
+      <MessageReferenceLabel>{label}</MessageReferenceLabel>
     </MessageReference>
   );
 }
@@ -120,9 +114,9 @@ export function MessageUnavailableReferencesComposition() {
   return (
     <p>
       Unknown channel, task, and authority-unavailable thread references fall back to plain text:{" "}
-      <span>#404</span>, <span>task #999</span>, and <span>#release-notes:unknown</span>. Only a
-      resolved thread token whose route parent later disappeared keeps a non-link info chip:{" "}
-      <MessageReference variant="info">#release-notes:missing-parent</MessageReference>.
+      <span>#404</span>, <span>task #999</span>, and <span>#release-notes:unknown</span>. A resolved
+      thread token whose route parent later disappeared stays visibly unavailable:{" "}
+      <MessageReference variant="unavailable">#release-notes:missing-parent</MessageReference>.
     </p>
   );
 }

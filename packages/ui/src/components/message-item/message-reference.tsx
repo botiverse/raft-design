@@ -16,13 +16,13 @@ export type MessageReferenceProps = useRender.ComponentProps<"span"> &
 export function MessageReference({
   className,
   render,
-  variant = "muted",
+  variant = "conversation",
   ...props
 }: MessageReferenceProps) {
   const theme = useThemeFamily();
   const { root } = messageReference({ theme, variant });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-message-reference": "",
+    "data-inline-reference": "",
     className: root({ className }),
   };
 
