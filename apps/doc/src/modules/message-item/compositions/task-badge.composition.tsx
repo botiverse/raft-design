@@ -38,7 +38,11 @@ const TASK_STATUS_OPTIONS = [
 
 const TASK_ASSIGNEE = "Noah";
 
-function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElement | null }) {
+export function MessageTaskStatusBadgeComposition({
+  portalContainer,
+}: {
+  portalContainer: HTMLElement | null;
+}) {
   const [status, setStatus] = useState<TaskStatusId>("todo");
   const current =
     TASK_STATUS_OPTIONS.find((option) => option.id === status) ?? TASK_STATUS_OPTIONS[0];
@@ -115,7 +119,7 @@ export function MessageTaskBadgeComposition() {
             Task badge status stays caller-owned. Open the badge to change #1.
           </MessageItemBody>
           <MessageItemFooter>
-            <MessageTaskStatusBadge portalContainer={portalContainer} />
+            <MessageTaskStatusBadgeComposition portalContainer={portalContainer} />
           </MessageItemFooter>
         </MessageItemContent>
       </MessageItem>

@@ -25,11 +25,11 @@ export function TaskChipUsageComposition() {
       </p>
       <div className="flex flex-wrap items-center justify-center gap-4">
         {TASK_STATUSES.map(({ status, number, label }) => (
-          <div key={status} className="flex flex-col items-center gap-1">
+          <div key={status} className="flex flex-col items-center gap-3">
             <TaskChip status={status} render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
               #{number}
             </TaskChip>
-            <span className="[font-size:inherit] leading-[1.4] text-foreground-muted">{label}</span>
+            <span className="text-[12px] leading-[1.4] text-foreground-muted">{label}</span>
           </div>
         ))}
       </div>

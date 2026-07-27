@@ -16,7 +16,8 @@ const taskChip = tv({
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
     ],
     status: ["inline-flex shrink-0 items-center justify-center", "[&>svg]:size-3"],
-    label: "min-w-0 truncate font-medium [font-size:inherit] leading-[1.4] tracking-normal",
+    label:
+      "inline-flex min-w-0 items-center gap-1 truncate font-medium [font-size:inherit] leading-[1.4] tracking-normal",
   },
   variants: {
     theme: {
@@ -80,8 +81,8 @@ const taskChip = tv({
       theme: "elegant",
       status: ["todo", "in_progress", "in_review", "done", "closed"],
       class: {
-        root: "h-[19px] align-middle -mt-px text-[11px] font-medium leading-none",
-        label: "text-[11px] font-medium leading-none",
+        root: "h-[19px] align-middle -mt-px text-[13px] font-medium leading-none",
+        label: "text-[13px] font-medium leading-none",
       },
     },
   ],
@@ -89,15 +90,28 @@ const taskChip = tv({
 
 export type TaskChipProps = useRender.ComponentProps<"span"> & {
   status: TaskStatusId;
+  loading?: boolean;
 };
 
-export function TaskChip({ status, className, render, children, ...props }: TaskChipProps) {
+export function TaskChip({
+  status,
+  loading = false,
+  className,
+  render,
+  children,
+  ...props
+}: TaskChipProps) {
   const theme = useThemeFamily();
   const { root, status: statusSlot, label } = taskChip({ theme, status });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-chip",
-    "data-message-reference": "",
-    className: cn(root({ className }), theme === "brutal" && taskStatus({ theme, status })),
+    "data-inline-reference": "",
+    "data-loading": loading ? "true" : undefined,
+    className: cn(
+      root({ className }),
+      theme === "brutal" && taskStatus({ theme, status }),
+      loading && "pointer-events-none opacity-60",
+    ),
     children: (
       <>
         <span data-slot="task-chip-status" className={statusSlot()}>

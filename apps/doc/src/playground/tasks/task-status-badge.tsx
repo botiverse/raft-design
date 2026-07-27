@@ -7,11 +7,11 @@ import { usePlaygroundTask, usePlaygroundTaskState } from "./use-playground-task
 export function TaskStatusBadge({
   taskId,
   assignee,
-  busy,
+  loading,
 }: {
   taskId: PlaygroundTaskId;
   assignee?: string;
-  busy?: boolean;
+  loading?: boolean;
 }) {
   const task = usePlaygroundTask(taskId);
   const { setTasks } = usePlaygroundTaskState();
@@ -21,7 +21,7 @@ export function TaskStatusBadge({
   return (
     <TaskStatusSelect
       value={status}
-      disabled={busy}
+      disabled={loading}
       onValueChange={(nextStatus) =>
         setTasks((tasks) =>
           tasks.map((candidate) =>
@@ -32,13 +32,11 @@ export function TaskStatusBadge({
     >
       <TaskChip
         status={status}
-        aria-busy={busy || undefined}
-        data-busy={busy || undefined}
-        className={busy ? "pointer-events-none opacity-60" : undefined}
+        loading={loading}
         render={
           <button
             type="button"
-            disabled={busy}
+            disabled={loading}
             title={`${fullLabel} · Change task status`}
             aria-label={`Change status for ${fullLabel}`}
           />

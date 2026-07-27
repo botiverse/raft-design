@@ -22,7 +22,7 @@ export function MessageReference({
   const theme = useThemeFamily();
   const { root } = messageReference({ theme, variant });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-message-reference": "",
+    "data-inline-reference": "",
     className: root({ className }),
   };
 

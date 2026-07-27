@@ -17,7 +17,7 @@ import {
 
 import {
   MessageMentionReferenceComposition,
-  MessagePermalinkReferenceComposition,
+  MessageTargetReferenceComposition,
 } from "#/modules/message-item/compositions/content.compositions.tsx";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
@@ -54,18 +54,16 @@ export function MessageReferenceComparisonComposition() {
                     @Atlas
                   </MessageMentionReferenceComposition>{" "}
                   to check the{" "}
-                  <MessagePermalinkReferenceComposition
-                    href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}
-                  >
+                  <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
                     #all
-                  </MessagePermalinkReferenceComposition>{" "}
+                  </MessageTargetReferenceComposition>{" "}
                   rollout in{" "}
                   <MessageReference
                     variant="conversation"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
                   >
                     <Hash size={12} />
-                    #release-notes
+                    release-notes
                   </MessageReference>
                   .
                 </p>

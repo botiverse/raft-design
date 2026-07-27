@@ -5,7 +5,7 @@ export const messageReference = tv({
     root: [
       "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
-      "[&_svg]:shrink-0",
+      "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     label: ["min-w-0 truncate"],
     meta: ["shrink-0 text-[10px] leading-none font-medium text-foreground/50"],
@@ -47,24 +47,6 @@ export const messageReference = tv({
           "[font-size:inherit] leading-tight",
         ],
       },
-      // Internal Slock permalink
-      permalink: {
-        root: [
-          "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-medium text-foreground",
-          "[font-size:inherit] leading-tight",
-          "hover:bg-layer-muted",
-          "[&_svg]:size-3",
-        ],
-      },
-      // External permalink
-      "external-permalink": {
-        root: [
-          "inline-flex items-center gap-1 align-bottom border border-line-strong bg-layer-panel px-1 font-medium text-info-dark",
-          "[font-size:inherit] leading-tight",
-          "hover:bg-layer-muted",
-          "[&_svg]:size-3",
-        ],
-      },
       // Resolving / loading chip
       pending: {
         root: [
@@ -84,25 +66,22 @@ export const messageReference = tv({
   compoundVariants: [
     {
       theme: "brutal",
-      variant: [
-        "mention",
-        "self",
-        "conversation",
-        "attachment",
-        "permalink",
-        "external-permalink",
-        "pending",
-        "unavailable",
-      ],
-      class: { root: "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1" },
+      variant: ["mention", "self", "conversation", "attachment", "pending", "unavailable"],
+      class: {
+        root: [
+          "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
+          "[&_svg]:[stroke-width:2px] [&_svg_*]:[stroke-width:2px]",
+        ],
+      },
     },
     {
       theme: "brutal",
       variant: "mention",
       class: {
         root: [
-          "cursor-default text-black decoration-black/30",
-          "hover:text-brutal-pink hover:decoration-brutal-pink",
+          "inline-block cursor-default align-bottom border border-black bg-primary-400/40 px-1 text-primary-900 no-underline",
+          "[font-size:inherit] leading-tight",
+          "hover:bg-primary-400/60 hover:text-primary-900",
         ],
       },
     },
@@ -127,20 +106,6 @@ export const messageReference = tv({
     },
     {
       theme: "brutal",
-      variant: "permalink",
-      class: {
-        root: "cursor-default border-black bg-soft-signal/40 text-black hover:bg-soft-signal",
-      },
-    },
-    {
-      theme: "brutal",
-      variant: "external-permalink",
-      class: {
-        root: "cursor-default border-black bg-white text-[oklch(0.488_0.243_264.376)] hover:bg-black/5",
-      },
-    },
-    {
-      theme: "brutal",
       variant: "pending",
       class: { root: "border-black bg-brutal-cyan/30 text-black" },
     },
@@ -151,7 +116,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      variant: ["mention", "self", "conversation", "permalink", "external-permalink"],
+      variant: ["mention", "self", "conversation"],
       class: {
         root: "transition-[filter,opacity] duration-100 hover:brightness-[0.96]",
       },
@@ -175,7 +140,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      variant: ["self", "conversation", "permalink", "external-permalink"],
+      variant: ["self", "conversation"],
       class: {
         root: [
           "cursor-pointer rounded-full border-transparent px-2 py-0",
@@ -200,16 +165,6 @@ export const messageReference = tv({
         root: [
           "border-transparent bg-[oklch(0.914_0.048_358.59)] text-[oklch(0.543_0.215_359.77)]",
           "hover:bg-[oklch(0.914_0.048_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: ["permalink", "external-permalink"],
-      class: {
-        root: [
-          "border-transparent bg-[oklch(0.783_0.135_219.26)] text-[oklch(0.445_0.083_224.7)]",
-          "hover:bg-[oklch(0.783_0.135_219.26)] hover:text-[oklch(0.445_0.083_224.7)]",
         ],
       },
     },
@@ -245,20 +200,10 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      variant: [
-        "mention",
-        "self",
-        "conversation",
-        "attachment",
-        "permalink",
-        "external-permalink",
-        "pending",
-        "unavailable",
-      ],
+      variant: ["mention", "self", "conversation", "attachment", "pending", "unavailable"],
       class: {
         root: [
           "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px text-[13px] font-medium leading-none tracking-normal",
-          "[&_svg]:size-3",
         ],
       },
     },

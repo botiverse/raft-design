@@ -71,7 +71,7 @@ const ANATOMY_SOURCE = `<MessageReference variant="conversation" render={<a href
 const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "variant",
-    type: '"mention" | "self" | "conversation" | "attachment" | "permalink" | "external-permalink" | "pending" | "unavailable"',
+    type: '"mention" | "self" | "conversation" | "attachment" | "pending" | "unavailable"',
     default: '"conversation"',
     description:
       "Semantic reference kind. Source integrations select it from the resolved target and state.",
@@ -143,7 +143,7 @@ function MessageReferenceDoc() {
   return (
     <DocPage
       title="MessageReference"
-      description="Inline message references — mentions, permalinks, channel chips, and pending/unavailable states."
+      description="Inline message references — mentions, conversation targets, and pending/unavailable states."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

@@ -8,7 +8,7 @@ import {
 } from "raft-ui/wip";
 import {
   MessageMentionReferenceComposition,
-  MessagePermalinkReferenceComposition,
+  MessageTargetReferenceComposition,
   MessageSelfMentionReferenceComposition,
 } from "./compositions/content.compositions.tsx";
 import { MESSAGE_PLAYGROUND_URLS } from "./message-item.fixtures.ts";
@@ -134,9 +134,9 @@ export function MessageItemExampleMarkdownFollowUp({ portalContainer }: ExampleM
             #21
           </TaskChip>{" "}
           before the{" "}
-          <MessagePermalinkReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
+          <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
             #all
-          </MessagePermalinkReferenceComposition>{" "}
+          </MessageTargetReferenceComposition>{" "}
           rollout
         </li>
       </ol>

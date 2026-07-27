@@ -1,25 +1,6 @@
 import { useState } from "react";
-import {
-  AlertTriangle,
-  Bookmark,
-  Check,
-  Languages,
-  MessageSquare,
-  Pencil,
-  Plus,
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  TaskChip,
-  TaskStatusIcon,
-  type TaskStatusId,
-} from "raft-ui";
+import { AlertTriangle, Bookmark, Languages, MessageSquare, Pencil, Plus } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItem,
   MessageItemActive,
@@ -62,6 +43,7 @@ import {
   SystemMessageTime,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
+import { MessageTaskStatusBadgeComposition } from "./task-badge.composition.tsx";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_FIXTURE_IMAGE_SRC,
@@ -117,19 +99,6 @@ export type MessageItemPreviewSenderState = "none" | "deleted" | "left" | "remov
 
 export type MessageItemPreviewSystemEvent = "archive" | "task-assigned" | "group";
 
-const TASK_STATUS_OPTIONS = [
-  { id: "todo", label: "Todo" },
-  { id: "in_progress", label: "In Progress" },
-  { id: "in_review", label: "In Review" },
-  { id: "done", label: "Done" },
-  { id: "closed", label: "Closed" },
-] as const satisfies readonly {
-  id: TaskStatusId;
-  label: string;
-}[];
-
-const TASK_ASSIGNEE = "Noah";
-
 export type MessageItemPreviewProps = {
   chrome?: MessageItemPreviewChrome;
   meta?: boolean;
@@ -151,46 +120,6 @@ export type MessageItemPreviewProps = {
   mobileReactionAdd?: boolean;
   toolbar?: boolean;
 };
-
-function MessageTaskStatusBadge({ portalContainer }: { portalContainer: HTMLElement | null }) {
-  const [status, setStatus] = useState<TaskStatusId>("todo");
-  const current =
-    TASK_STATUS_OPTIONS.find((option) => option.id === status) ?? TASK_STATUS_OPTIONS[0];
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <TaskChip
-            status={status}
-            render={
-              <button
-                type="button"
-                title={`task #1 @${TASK_ASSIGNEE} · ${current.label}`}
-                aria-label={`Change status for task #1 @${TASK_ASSIGNEE}, currently ${current.label}`}
-              />
-            }
-          >
-            <span className="shrink-0">#1</span>
-            <span className="min-w-0 truncate">@{TASK_ASSIGNEE}</span>
-          </TaskChip>
-        }
-      />
-      <DropdownMenuContent
-        align="start"
-        portalProps={portalContainer ? { container: portalContainer } : undefined}
-      >
-        {TASK_STATUS_OPTIONS.map((option) => (
-          <DropdownMenuItem key={option.id} onClick={() => setStatus(option.id)}>
-            <TaskStatusIcon status={option.id} />
-            <span>{option.label}</span>
-            {option.id === status ? <Check className="ml-auto" size={14} /> : null}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
 
 function MessageSystemGroupPreview() {
   const [open, setOpen] = useState(false);
@@ -389,7 +318,7 @@ export function MessageItemPreview({
   const footer =
     task || isSaved || replies || draftReply || reactions ? (
       <MessageItemFooter>
-        {task ? <MessageTaskStatusBadge portalContainer={portalContainer} /> : null}
+        {task ? <MessageTaskStatusBadgeComposition portalContainer={portalContainer} /> : null}
         {isSaved ? (
           <MessageItemSavedIndicator
             aria-label="Remove from Saved"

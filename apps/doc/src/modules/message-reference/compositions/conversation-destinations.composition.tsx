@@ -4,37 +4,47 @@ import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fix
 
 export function MessageReferenceConversationDestinationsComposition() {
   return (
-    <p className="text-sm text-foreground">
-      Continue in{" "}
-      <MessageReference
-        variant="conversation"
-        render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
-      >
-        <Hash size={12} />
-        release-notes
-      </MessageReference>
-      , message{" "}
-      <MessageReference variant="conversation" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
-        <MessageCircle size={12} />
-        Noah
-      </MessageReference>
-      , or open{" "}
-      <MessageReference
-        variant="conversation"
-        render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
-      >
-        <MessagesSquare size={12} />
-        release-notes · abc123
-      </MessageReference>
-      , or jump to{" "}
-      <MessageReference
-        variant="conversation"
-        render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
-      >
-        <MessageSquareText size={12} />
-        all · api-docs
-      </MessageReference>
-      .
-    </p>
+    <div className="flex w-full flex-wrap items-start justify-center gap-4 text-sm text-foreground">
+      <div className="flex flex-col items-center gap-3">
+        <MessageReference
+          variant="conversation"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
+        >
+          <Hash size={12} />
+          release-notes
+        </MessageReference>
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">Channel</span>
+      </div>
+      <div className="flex flex-col items-center gap-3">
+        <MessageReference
+          variant="conversation"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}
+        >
+          <MessageCircle size={12} />
+          Noah
+        </MessageReference>
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">DM</span>
+      </div>
+      <div className="flex flex-col items-center gap-3">
+        <MessageReference
+          variant="conversation"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
+        >
+          <MessagesSquare size={12} />
+          release-notes · abc123
+        </MessageReference>
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">Thread</span>
+      </div>
+      <div className="flex flex-col items-center gap-3">
+        <MessageReference
+          variant="conversation"
+          render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
+        >
+          <MessageSquareText size={12} />
+          all · api-docs
+        </MessageReference>
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">Message</span>
+      </div>
+    </div>
   );
 }

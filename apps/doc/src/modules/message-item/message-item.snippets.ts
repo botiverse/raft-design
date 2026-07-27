@@ -136,12 +136,12 @@ export const TRANSLATION_REFERENCE_PROPS: readonly PropRow[] = [
     name: "MessageReference",
     type: 'useRender.ComponentProps<"span"> & Omit<MessageReferenceVariantProps, "theme">',
     description:
-      "Visual primitive for source-derived inline references. MessageItem owns parsing and resolution: self mentions, channels, DMs, threads, tasks, message targets, Slock permalinks, and attachment comments each have distinct trigger rules.",
+      "Visual primitive for source-derived inline references. MessageItem owns parsing and resolution: self mentions, channels, DMs, threads, tasks, message targets, and attachment comments each have distinct trigger rules.",
   },
   {
     name: "MessageReferenceLabel / MessageReferenceMeta",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional label slot for the icon-bearing Slock permalink chip.",
+    description: "Optional label slot for an icon-bearing message target chip.",
   },
 ];
 

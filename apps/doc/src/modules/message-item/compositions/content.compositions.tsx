@@ -87,14 +87,16 @@ export function MessageSelfMentionReferenceComposition({
   );
 }
 
-export function MessagePermalinkReferenceComposition({
+export function MessageTargetReferenceComposition({
   children,
   href,
 }: MessageReferenceCompositionProps) {
+  const label = typeof children === "string" ? children.replace(/^#/, "") : children;
+
   return (
     <MessageReference variant="conversation" render={<a href={href} />}>
       <MessageSquareText />
-      <MessageReferenceLabel>{children}</MessageReferenceLabel>
+      <MessageReferenceLabel>{label}</MessageReferenceLabel>
     </MessageReference>
   );
 }
