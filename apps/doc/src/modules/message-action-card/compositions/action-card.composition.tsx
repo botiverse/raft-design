@@ -1,13 +1,13 @@
 import { ActionCardMessageComposition } from "./action-card-message.composition.tsx";
 import { ACTION_CARD_FIXTURES } from "../message-action-card.fixtures.ts";
 
-export function MessageActionCardShowcaseComposition() {
+export function MessageActionCardTypesComposition() {
   return (
-    <div className="grid w-full max-w-4xl gap-8">
+    <div className="grid w-full max-w-4xl gap-6">
       {ACTION_CARD_FIXTURES.map((fixture) => (
         <section
           key={fixture.type}
-          className="grid gap-3"
+          className="grid gap-2"
           aria-labelledby={`action-${fixture.type}`}
         >
           <h3
@@ -16,30 +16,7 @@ export function MessageActionCardShowcaseComposition() {
           >
             {fixture.type}
           </h3>
-          <div className="grid gap-4 xl:grid-cols-2">
-            <div className="grid gap-1">
-              <div className="text-xs font-bold uppercase text-foreground-muted">
-                Initial: prepared
-              </div>
-              <ActionCardMessageComposition fixture={fixture} initialState="prepared" />
-            </div>
-            <div className="grid gap-1">
-              <div className="text-xs font-bold uppercase text-foreground-muted">Initial: busy</div>
-              <ActionCardMessageComposition fixture={fixture} initialState="busy" />
-            </div>
-            <div className="grid gap-1">
-              <div className="text-xs font-bold uppercase text-foreground-muted">
-                Initial: failed
-              </div>
-              <ActionCardMessageComposition fixture={fixture} initialState="failed" />
-            </div>
-            <div className="grid gap-1">
-              <div className="text-xs font-bold uppercase text-foreground-muted">
-                Initial: executed
-              </div>
-              <ActionCardMessageComposition fixture={fixture} initialState="executed" />
-            </div>
-          </div>
+          <ActionCardMessageComposition fixture={fixture} initialState="prepared" />
         </section>
       ))}
     </div>
