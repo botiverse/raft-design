@@ -1,10 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { TaskStatusIcon } from "./task-status-icon";
-import type { TaskStatusId } from "./task-status.recipe";
+import { taskStatus, type TaskStatusId } from "./task-status.recipe";
 
 const taskChip = tv({
   slots: {
@@ -33,28 +34,12 @@ const taskChip = tv({
   compoundVariants: [
     {
       theme: "brutal",
-      status: "todo",
-      class: { root: "border-black bg-black/10" },
-    },
-    {
-      theme: "brutal",
-      status: "in_progress",
-      class: { root: "border-brutal-cyan bg-brutal-cyan/10" },
-    },
-    {
-      theme: "brutal",
-      status: "in_review",
-      class: { root: "border-brutal-lavender bg-brutal-lavender/10" },
-    },
-    {
-      theme: "brutal",
-      status: "done",
-      class: { root: "border-brutal-lime bg-brutal-lime/10" },
-    },
-    {
-      theme: "brutal",
-      status: "closed",
-      class: { root: "border-brutal-stone bg-brutal-stone/10" },
+      status: ["todo", "in_progress", "in_review", "done", "closed"],
+      class: {
+        root: "rounded-none border-black px-1.5 py-0.5 text-[10px] font-bold leading-4 text-black hover:brightness-90",
+        status: "[&>svg]:size-2.5",
+        label: "text-[10px] font-bold leading-4",
+      },
     },
     {
       theme: "elegant",
@@ -95,8 +80,8 @@ const taskChip = tv({
       theme: "elegant",
       status: ["todo", "in_progress", "in_review", "done", "closed"],
       class: {
-        root: "h-[19px] align-middle -mt-px text-[13px] leading-none",
-        label: "text-[13px] leading-none",
+        root: "h-[19px] align-middle -mt-px text-[11px] font-medium leading-none",
+        label: "text-[11px] font-medium leading-none",
       },
     },
   ],
@@ -111,7 +96,7 @@ export function TaskChip({ status, className, render, children, ...props }: Task
   const { root, status: statusSlot, label } = taskChip({ theme, status });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-chip",
-    className: root({ className }),
+    className: cn(root({ className }), theme === "brutal" && taskStatus({ theme, status })),
     children: (
       <>
         <span data-slot="task-chip-status" className={statusSlot()}>

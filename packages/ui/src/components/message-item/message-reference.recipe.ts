@@ -169,7 +169,7 @@ export const messageReference = tv({
       class: {
         root: [
           "inline-block cursor-pointer align-bottom rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0 no-underline",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-1.5 font-normal text-[oklch(0.44_0.09_91.39)] hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-normal text-[oklch(0.44_0.09_91.39)] hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
         ],
       },
     },
@@ -179,7 +179,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-pointer rounded-full border-transparent px-2 py-0",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-1.5 font-normal text-foreground-strong",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-normal text-foreground-strong",
         ],
       },
     },
@@ -219,7 +219,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-pointer rounded-full border-transparent bg-[oklch(0.91_0.056_224.02)] px-2 py-0 text-[oklch(0.441_0.078_221.2)]",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-1.5 hover:bg-[oklch(0.91_0.056_224.02)] hover:text-[oklch(0.441_0.078_221.2)]",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 hover:bg-[oklch(0.91_0.056_224.02)] hover:text-[oklch(0.441_0.078_221.2)]",
         ],
       },
     },
@@ -229,7 +229,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-wait rounded-full border-transparent bg-layer-muted px-2 py-0 opacity-100",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-1.5 font-normal text-foreground-muted",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-normal text-foreground-muted",
         ],
       },
     },
@@ -239,7 +239,7 @@ export const messageReference = tv({
       class: {
         root: [
           "cursor-default rounded-full border-transparent bg-layer-muted px-2 py-0 opacity-100",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-1.5 font-normal text-foreground-muted",
+          "has-[>svg]:pr-2.5 has-[>svg]:pl-2 font-normal text-foreground-muted",
         ],
       },
     },
@@ -257,7 +257,7 @@ export const messageReference = tv({
       ],
       class: {
         root: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px text-[13px] leading-none tracking-normal",
+          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px text-[13px] font-medium leading-none tracking-normal",
           "[&_svg]:size-3",
         ],
       },
