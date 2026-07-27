@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 
@@ -10,7 +9,6 @@ import {
   MessageItemEmbedded,
   MessageItemHeader,
   MessageItemMeta,
-  MessageItemNotice,
   MessageItemSender,
   MessageItemTime,
   MessageQuotedPreviewContent,
@@ -21,7 +19,7 @@ import {
   MessageQuotedPreviewLoadingLine,
   MessageQuotedPreviewLoadingLines,
   MessageQuotedPreviewUnavailable,
-  MessageReference,
+  MessageReferenceUnavailable,
 } from "raft-ui/wip";
 import { QuotedPreviewMessageComposition } from "./quoted-preview-message.composition.tsx";
 
@@ -60,8 +58,6 @@ export function QuotedPreviewLoadingComposition() {
 }
 
 export function QuotedPreviewUnavailableComposition() {
-  const [openAttempted, setOpenAttempted] = useState(false);
-
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
@@ -78,21 +74,12 @@ export function QuotedPreviewUnavailableComposition() {
         </MessageItemHeader>
         <MessageItemBody>
           The linked thread is{" "}
-          <MessageReference variant="unavailable">unavailable or deleted</MessageReference>.
+          <MessageReferenceUnavailable>unavailable or deleted</MessageReferenceUnavailable>.
         </MessageItemBody>
         <MessageItemEmbedded>
-          <MessageQuotedPreviewUnavailable
-            render={<button type="button" />}
-            data-testid="quoted-message-card-unavailable"
-            onClick={() => setOpenAttempted(true)}
-          >
+          <MessageQuotedPreviewUnavailable data-testid="quoted-message-card-unavailable">
             <MessageQuotedPreviewContent>Message unavailable</MessageQuotedPreviewContent>
           </MessageQuotedPreviewUnavailable>
-          {openAttempted ? (
-            <MessageItemNotice>
-              Unable to open thread. It may be unavailable or deleted.
-            </MessageItemNotice>
-          ) : null}
         </MessageItemEmbedded>
       </MessageItemContent>
     </MessageItem>

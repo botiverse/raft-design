@@ -5,7 +5,6 @@ export const messageItem = tv({
     interactionBoundary: ["[contain:layout_style] [overflow:clip_visible]"],
     root: [
       "group/message relative flex h-fit min-h-[3rem] gap-3",
-      "border-2 border-transparent",
       "[@media(hover:none)]:select-none [@media(hover:none)]:[&_*]:select-none",
     ],
     gutter: ["relative w-9 shrink-0 self-stretch"],
@@ -14,20 +13,14 @@ export const messageItem = tv({
       "transition-[filter,transform] duration-75 hover:brightness-90",
       "data-[avatar-pressed=true]:scale-90 data-[avatar-pressed=true]:brightness-75",
     ],
-    continuationTime: [
-      "absolute right-0 top-1 select-none font-mono text-[10px] leading-none tabular-nums",
-    ],
+    continuationTime: ["absolute right-0 top-1 select-none tabular-nums"],
     content: ["min-w-0 flex-1"],
     header: ["flex min-w-0 overflow-hidden pr-24"],
-    sender: [
-      "min-w-0 shrink-0 truncate text-sm",
-      "data-[interactive]:cursor-pointer",
-      "data-[interactive]:hover:underline data-[interactive]:hover:decoration-2 data-[interactive]:hover:underline-offset-2",
-    ],
+    sender: ["min-w-0 shrink-0 truncate", "data-[interactive]:cursor-pointer"],
     senderState: ["inline-flex items-center"],
     meta: ["min-w-0 truncate"],
     time: ["shrink-0 whitespace-nowrap"],
-    inlineStatus: ["shrink-0 text-[10px] font-bold text-foreground/40"],
+    inlineStatus: ["shrink-0"],
     body: ["break-words select-text", "[&_*]:select-text"],
     collapsibleContent: ["min-w-0"],
     collapsibleContentPanel: ["relative"],
@@ -36,7 +29,7 @@ export const messageItem = tv({
       "pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t",
     ],
     collapsibleContentTrigger: [
-      "mt-1 inline-flex text-sm underline underline-offset-2",
+      "mt-1 inline-flex",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
     ],
     translationPlaceholder: ["inline-block h-4 w-44 max-w-full align-middle"],
@@ -45,10 +38,7 @@ export const messageItem = tv({
     translationStatus: ["inline-flex items-center gap-1.5"],
     translationAction: ["font-bold underline underline-offset-2"],
     embedded: ["mt-1.5 min-w-0"],
-    notice: [
-      "mt-1 inline-flex max-w-full border border-line-strong bg-soft-signal/40 px-2 py-1",
-      "text-xs font-bold text-foreground/70",
-    ],
+    notice: ["mt-1 inline-flex max-w-full"],
     attachments: ["mt-1 space-y-2"],
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
     toolbar: [
@@ -64,32 +54,41 @@ export const messageItem = tv({
       brutal: {
         interactionBoundary: "px-3.5",
         root: [
-          "mb-1 mt-1.5 px-2 py-1",
+          "mb-1 mt-1.5 border-2 border-transparent px-2 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
         ],
-        continuationTime: "text-black/0 group-hover/message:text-black/40",
+        continuationTime:
+          "font-mono text-[10px] leading-none text-black/0 group-hover/message:text-black/40",
         // Body + pre-body chips (e.g. AttachmentCommentRefChip) inherit from content.
         // Live Slock applies the same appearance size class to the chip and the body.
         content: "text-sm",
         header: "items-center gap-2",
-        sender: "font-bold text-black",
+        sender: [
+          "text-sm font-bold text-black",
+          "data-[interactive]:hover:underline data-[interactive]:hover:decoration-2 data-[interactive]:hover:underline-offset-2",
+        ],
         senderState: [
           "border border-black bg-[oklch(0.872_0.01_258.338)] px-1.5 py-0.5",
           "text-[10px] font-bold uppercase text-black/60",
         ],
         meta: "font-mono text-xs text-black/40",
         time: "font-mono text-xs text-black/40",
-        inlineStatus: "text-black/40",
+        inlineStatus: "text-[10px] font-bold text-black/40",
         // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
         body: "text-sm text-black",
         collapsibleContentFade: "from-white to-transparent",
-        collapsibleContentTrigger: "text-black/70 hover:text-black focus-visible:outline-black",
+        collapsibleContentTrigger:
+          "text-sm underline underline-offset-2 text-black/70 hover:text-black focus-visible:outline-black",
         translationPlaceholder: "border-2 border-black/20",
         translationOriginal: "border-l-2 border-black/20 pl-2 text-black/70",
         translationOriginalLabel:
           "mb-0.5 text-[10px] font-bold uppercase tracking-normal text-black/40",
         translationStatus: "font-mono text-[11px] text-black/45",
         translationAction: "decoration-black/40 hover:decoration-black",
+        notice: [
+          "border border-line-strong bg-soft-signal/40 px-2 py-1",
+          "text-xs font-bold text-foreground/70",
+        ],
         toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-sm"],
         toolbarButton: [
           "size-6",
@@ -101,9 +100,9 @@ export const messageItem = tv({
       },
       elegant: {
         root: [
-          "gap-3 max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
+          "gap-3 border border-transparent max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
-          "hover:bg-layer-strong/45 active:bg-layer-muted/90",
+          "hover:bg-ink-2 active:bg-ink-8",
         ],
         gutter: "max-md:w-8",
         avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
@@ -115,7 +114,10 @@ export const messageItem = tv({
         // Pre-body chips inherit body type size from content (same as brutal).
         content: "text-sm leading-5.25 tracking-[-0.01em]",
         header: "items-baseline gap-1.5",
-        sender: "text-sm font-medium leading-none text-foreground-muted",
+        sender: [
+          "text-sm font-medium leading-none text-foreground-muted",
+          "data-[interactive]:hover:underline data-[interactive]:hover:decoration-2 data-[interactive]:hover:underline-offset-2",
+        ],
         senderState: [
           "rounded-sm border-0 bg-layer-muted px-1.5 py-0.5",
           "text-[10px] font-medium normal-case leading-none text-foreground-muted",
@@ -131,7 +133,7 @@ export const messageItem = tv({
         ],
         collapsibleContentFade: "from-layer-panel to-transparent",
         collapsibleContentTrigger:
-          "font-medium text-foreground-muted hover:text-foreground focus-visible:outline-line-focus",
+          "text-sm font-medium underline underline-offset-2 text-foreground-muted hover:text-foreground focus-visible:outline-line-focus",
         translationPlaceholder: "rounded-sm",
         translationOriginal: "border-l border-line-subtle pl-2 text-foreground-muted",
         translationOriginalLabel:
@@ -140,7 +142,7 @@ export const messageItem = tv({
         translationAction:
           "decoration-foreground-muted/50 hover:text-foreground hover:decoration-foreground",
         notice: [
-          "rounded-md border-0 bg-layer-muted px-2 py-1.5",
+          "rounded-md bg-layer-muted px-2 py-1.5",
           "text-xs font-medium text-foreground-muted",
         ],
         toolbar: [

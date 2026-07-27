@@ -13,7 +13,8 @@ export type MessageImageGalleryMediaGeometry = NonNullable<
 export type MessageImageGalleryProps = useRender.ComponentProps<"div">;
 
 export function MessageImageGallery({ className, render, ...props }: MessageImageGalleryProps) {
-  const { gallery } = messageMedia();
+  const theme = useThemeFamily();
+  const { gallery } = messageMedia({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: gallery({ className }),
   };
@@ -38,7 +39,8 @@ export function MessageImageGalleryRow({
   render,
   ...props
 }: MessageImageGalleryRowProps) {
-  const { galleryRow } = messageMedia({ rowLayout: layout });
+  const theme = useThemeFamily();
+  const { galleryRow } = messageMedia({ rowLayout: layout, theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: galleryRow({ className }),
   };
@@ -148,7 +150,8 @@ export function MessageImageGalleryPreview({
   render,
   ...props
 }: MessageImageGalleryPreviewProps) {
-  const { galleryPreview } = messageMedia();
+  const theme = useThemeFamily();
+  const { galleryPreview } = messageMedia({ theme });
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: galleryPreview({ className }),
@@ -189,7 +192,8 @@ export function MessageImageGalleryAction({
 export type MessageVideoPreviewProps = useRender.ComponentProps<"div">;
 
 export function MessageVideoPreview({ className, render, ...props }: MessageVideoPreviewProps) {
-  const { video } = messageMedia();
+  const theme = useThemeFamily();
+  const { video } = messageMedia({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: video({ className }),
   };
@@ -277,7 +281,8 @@ export function MessageVideoPreviewAction({
   render,
   ...props
 }: MessageVideoPreviewActionProps) {
-  const { videoAction } = messageMedia();
+  const theme = useThemeFamily();
+  const { videoAction } = messageMedia({ theme });
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: videoAction({ className }),

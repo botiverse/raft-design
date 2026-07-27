@@ -93,7 +93,14 @@ export {
   MessageReactionTooltipNameText,
   MessageReactionTooltipSeparator,
 } from "./message-reaction";
-export { MessageReference, MessageReferenceLabel, MessageReferenceMeta } from "./message-reference";
+export {
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  MessageReferenceMeta,
+  MessageReferencePending,
+  MessageReferenceText,
+  MessageReferenceUnavailable,
+} from "./message-reference";
 export {
   MessageMultiSelect,
   MessageMultiSelectAction,
@@ -196,11 +203,14 @@ export type {
   MessageReactionTooltipSeparatorProps,
 } from "./message-reaction";
 export type {
+  MessageReferenceChipProps,
+  MessageReferenceChipTone,
+  MessageReferenceChipToneProps,
   MessageReferenceLabelProps,
   MessageReferenceMetaProps,
-  MessageReferenceProps,
-  MessageReferenceVariant,
-  MessageReferenceVariantProps,
+  MessageReferencePendingProps,
+  MessageReferenceTextProps,
+  MessageReferenceUnavailableProps,
 } from "./message-reference";
 export type {
   MessageMultiSelectActionProps,

@@ -9,8 +9,6 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { MessageActionCardShowcaseComposition } from "#/modules/message-action-card/compositions/action-card.composition.tsx";
-import actionCardSource from "#/modules/message-action-card/compositions/action-card.composition.tsx?raw";
 import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
 import actionCardComparisonSource from "#/modules/message-action-card/compositions/action-card-message.composition.tsx?raw";
 import { MessageActionCardSourcePreview } from "#/modules/message-action-card/message-action-card.source-preview.tsx";
@@ -87,7 +85,6 @@ export const Route = createFileRoute("/components/message-action-card")({
   loader: () =>
     highlightSnippets({
       data: {
-        actionCard: actionCardSource,
         actionCardComparison: actionCardComparisonSource,
         anatomy: ANATOMY_SOURCE,
       },
@@ -104,8 +101,8 @@ function MessageActionCardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.actionCard}>
-          <MessageActionCardShowcaseComposition />
+        <UsagePreview code={code.actionCardComparison}>
+          <ActionCardMessageComposition />
         </UsagePreview>
       </DocSection>
 

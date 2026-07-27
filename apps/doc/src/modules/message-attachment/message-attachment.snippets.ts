@@ -13,19 +13,19 @@ export const ANATOMY_SOURCE = `<MessageItemAttachments>
       <MessageAttachmentCard>
         <MessageAttachmentBody>
           <MessageAttachmentTitle />
+          <MessageAttachmentSummary />
           <MessageAttachmentMeta>
             <MessageAttachmentMetaDetail>
               <MessageAttachmentMetaSeparator />
             </MessageAttachmentMetaDetail>
           </MessageAttachmentMeta>
         </MessageAttachmentBody>
-        <MessageAttachmentSummary />
+        <MessageAttachmentIcon />
         <MessageAttachmentActions>
           <MessageAttachmentAction render={<span />} />
         </MessageAttachmentActions>
         <MessageAttachmentPendingIndicator />
         <MessageAttachmentLoadingBar />
-        <MessageAttachmentErrorOverlay />
       </MessageAttachmentCard>
       <MessageAttachmentAction />
     </MessageAttachmentFrame>
@@ -95,14 +95,15 @@ export const CARD_PROPS: readonly PropRow[] = [
       'Attachment card root. Use render={<button type="button" />} when the card itself is the primary action.',
   },
   {
-    name: "MessageAttachmentBody / Title / Meta",
+    name: "MessageAttachmentBody / Title / Meta / Icon",
     type: 'useRender.ComponentProps<"span">',
-    description: "Filename, secondary meta line, and optional MetaDetail / MetaSeparator slots.",
+    description:
+      "Filename, secondary meta line, optional MetaDetail / MetaSeparator slots, and a dedicated leading thumbnail column.",
   },
   {
     name: "MessageAttachmentSummary",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional trailing summary chip such as a diff tally.",
+    description: "Optional summary shown directly below the filename, such as a diff tally.",
   },
   {
     name: "MessageAttachmentActions / Action",
@@ -111,10 +112,9 @@ export const CARD_PROPS: readonly PropRow[] = [
       "Hover affordances for preview or download. Icons and callbacks stay caller-owned.",
   },
   {
-    name: "MessageAttachmentPendingIndicator / LoadingBar / ErrorOverlay",
+    name: "MessageAttachmentPendingIndicator / LoadingBar",
     type: 'useRender.ComponentProps<"span">',
-    description:
-      "Explicit pending, opening, and failed overlays. Upload lifecycle stays product-owned.",
+    description: "Explicit pending and opening indicators. Upload lifecycle stays product-owned.",
   },
 ];
 

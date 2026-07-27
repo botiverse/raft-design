@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Check } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage, Badge, Button } from "raft-ui";
 import {
@@ -20,20 +19,15 @@ import {
 } from "raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
-import {
-  ACTION_CARD_FIXTURES,
-  type ActionCardFixture,
-  type SimulatedActionCardState,
-} from "../message-action-card.fixtures.ts";
+import { ACTION_CARD_FIXTURE, type ActionCardFixture } from "../message-action-card.fixtures.ts";
 
 export function ActionCardFixtureSurface({
   fixture,
-  initialState,
+  state = "prepared",
 }: {
   fixture: ActionCardFixture;
-  initialState: SimulatedActionCardState;
+  state?: "prepared" | "executed";
 }) {
-  const [state, setState] = useState<SimulatedActionCardState>(initialState);
   const executed = state === "executed";
 
   return (
@@ -63,33 +57,23 @@ export function ActionCardFixtureSurface({
             </MessageActionCardCompletion>
           ) : (
             <MessageActionCardActions>
-              <Button size="sm" variant="accent" onClick={() => setState("executed")}>
+              <Button size="sm" variant="accent">
                 {fixture.verb}
               </Button>
             </MessageActionCardActions>
           )}
         </MessageActionCardContent>
       </MessageActionCard>
-      {executed ? (
-        <Button
-          className="justify-self-start"
-          size="xs"
-          variant="outline"
-          onClick={() => setState("prepared")}
-        >
-          Reset
-        </Button>
-      ) : null}
     </div>
   );
 }
 
 export function ActionCardMessageComposition({
-  fixture = ACTION_CARD_FIXTURES[0],
-  initialState = "prepared",
+  fixture = ACTION_CARD_FIXTURE,
+  state = "prepared",
 }: {
   fixture?: ActionCardFixture;
-  initialState?: SimulatedActionCardState;
+  state?: "prepared" | "executed";
 } = {}) {
   return (
     <MessageItem>
@@ -106,7 +90,7 @@ export function ActionCardMessageComposition({
           <MessageItemTime>2:27 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          <ActionCardFixtureSurface fixture={fixture} initialState={initialState} />
+          <ActionCardFixtureSurface fixture={fixture} state={state} />
         </MessageItemBody>
       </MessageItemContent>
     </MessageItem>

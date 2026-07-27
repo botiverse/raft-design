@@ -4,13 +4,13 @@ import {
   MessageCodeBlock,
   MessageInlineCode,
   MessageMarkdown,
-  MessageReference,
+  MessageReferenceChip,
 } from "raft-ui/wip";
 import {
   MessageMentionReferenceComposition,
-  MessageTargetReferenceComposition,
   MessageSelfMentionReferenceComposition,
-} from "./compositions/content.compositions.tsx";
+  MessageTargetReferenceComposition,
+} from "#/modules/message-reference/compositions/reference-adapters.composition.tsx";
 import { MESSAGE_PLAYGROUND_URLS } from "./message-item.fixtures.ts";
 
 type ExampleMarkdownProps = {
@@ -68,19 +68,19 @@ export function MessageItemExampleMarkdown({ portalContainer }: ExampleMarkdownP
           #21
         </TaskChip>{" "}
         in{" "}
-        <MessageReference
-          variant="conversation"
+        <MessageReferenceChip
+          tone="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
           #release-notes
-        </MessageReference>{" "}
+        </MessageReferenceChip>{" "}
         and linked{" "}
-        <MessageReference
-          variant="conversation"
+        <MessageReferenceChip
+          tone="info"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
           #release-notes:reply
-        </MessageReference>
+        </MessageReferenceChip>
         .
       </p>
       <ul>
@@ -101,12 +101,12 @@ export function MessageItemExampleMarkdownLead({ portalContainer }: ExampleMarkd
       <p>
         <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> starting a short
         sequence — first the <strong>layout pass</strong>, then gutter clock polish for{" "}
-        <MessageReference
-          variant="conversation"
+        <MessageReferenceChip
+          tone="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
           #release-notes
-        </MessageReference>
+        </MessageReferenceChip>
         .
       </p>
     </MessageMarkdown>
@@ -149,12 +149,12 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
     <MessageMarkdown>
       <p>
         Final note for <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> in{" "}
-        <MessageReference
-          variant="conversation"
+        <MessageReferenceChip
+          tone="info"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
           #release-notes:reply
-        </MessageReference>
+        </MessageReferenceChip>
         :
       </p>
       <blockquote>Compact rows should read as one thread, not a new speaker.</blockquote>

@@ -1,0 +1,51 @@
+import { describe, expect, it } from "vite-plus/test";
+import { messageActionCard } from "./message-action-card/message-action-card.recipe";
+import { messageAttachment } from "./message-attachment/message-attachment.recipe";
+import { messageAttachmentPreview } from "./message-attachment/message-attachment-preview.recipe";
+import { messageForwardedBundle } from "./message-forwarded-bundle/message-forwarded-bundle.recipe";
+import { messageMedia } from "./message-media/message-media.recipe";
+import { messageSystem } from "./system-message/system-message.recipe";
+
+describe("message surface theme ownership", () => {
+  it("keeps Brutal's coarse borders while Elegant selects its own thin treatments", () => {
+    const actionBrutal = messageActionCard({ theme: "brutal" });
+    const actionElegant = messageActionCard({ theme: "elegant" });
+    const previewBrutal = messageAttachmentPreview({ theme: "brutal" });
+    const previewElegant = messageAttachmentPreview({ theme: "elegant" });
+    const mediaBrutal = messageMedia({ theme: "brutal" });
+    const mediaElegant = messageMedia({ theme: "elegant" });
+
+    expect(actionBrutal.root()).toContain("border-2");
+    expect(actionElegant.root()).not.toContain("border-2");
+    expect(actionElegant.hint()).not.toContain("border-l-2");
+    expect(previewBrutal.audioPreviewCard()).toContain("border-2");
+    expect(previewElegant.audioPreviewCard()).not.toContain("border-2");
+    expect(mediaBrutal.galleryItem()).toContain("border-2");
+    expect(mediaElegant.galleryItem()).not.toContain("border-2");
+    expect(mediaElegant.video()).not.toContain("border-2");
+    expect(mediaElegant.galleryItem()).toContain("hover:shadow-sm");
+  });
+
+  it("keeps typography and density with the active theme", () => {
+    const attachmentBrutal = messageAttachment({ theme: "brutal" });
+    const attachmentElegant = messageAttachment({ theme: "elegant" });
+    const forwardedBrutal = messageForwardedBundle({ theme: "brutal" });
+    const forwardedElegant = messageForwardedBundle({ theme: "elegant" });
+    const systemBrutal = messageSystem({ theme: "brutal" });
+    const systemElegant = messageSystem({ theme: "elegant" });
+
+    expect(attachmentBrutal.loadingBar()).toContain("border-t-2");
+    expect(attachmentElegant.loadingBar()).not.toContain("border-t-2");
+    expect(attachmentElegant.card()).toContain("hover:bg-ink-2");
+    expect(attachmentElegant.group()).toContain("flex-wrap");
+    expect(attachmentElegant.group()).toContain("gap-2");
+    expect(attachmentElegant.card()).toContain("h-20");
+    expect(attachmentElegant.card()).toContain("grid-cols-[2.5rem_minmax(0,1fr)]");
+    expect(attachmentElegant.icon()).toContain("col-start-1 row-start-1 self-start");
+    expect(attachmentElegant.meta()).toContain("mt-auto");
+    expect(forwardedBrutal.headerLabel()).toContain("font-black");
+    expect(forwardedElegant.headerLabel()).toContain("font-medium");
+    expect(systemBrutal.systemTime()).toContain("font-mono");
+    expect(systemElegant.systemTime()).toContain("font-sans");
+  });
+});

@@ -6,7 +6,6 @@ import {
   MessageAttachmentActions,
   MessageAttachmentBody,
   MessageAttachmentCard,
-  MessageAttachmentErrorOverlay,
   MessageAttachmentFrame,
   MessageAttachmentLoadingBar,
   MessageAttachmentMeta,
@@ -35,6 +34,7 @@ function MessageAttachmentContent({
     <>
       <MessageAttachmentBody>
         <MessageAttachmentTitle>{name}</MessageAttachmentTitle>
+        {summary ? <MessageAttachmentSummary>{summary}</MessageAttachmentSummary> : null}
         {meta || commentCount ? (
           <MessageAttachmentMeta>
             {meta ? <MessageAttachmentMetaLabel>{meta}</MessageAttachmentMetaLabel> : null}
@@ -48,7 +48,6 @@ function MessageAttachmentContent({
           </MessageAttachmentMeta>
         ) : null}
       </MessageAttachmentBody>
-      {summary ? <MessageAttachmentSummary>{summary}</MessageAttachmentSummary> : null}
     </>
   );
 }
@@ -145,22 +144,6 @@ export function MessageAttachmentPendingComposition(
       <MessageAttachmentPendingIndicator>
         <Spinner size="sm" />
       </MessageAttachmentPendingIndicator>
-    </MessageAttachmentCard>
-  );
-}
-
-export type MessageAttachmentFailedCompositionProps = MessageAttachmentContentProps & {
-  label?: ReactNode;
-};
-
-export function MessageAttachmentFailedComposition({
-  label = "Preview unavailable",
-  ...content
-}: MessageAttachmentFailedCompositionProps) {
-  return (
-    <MessageAttachmentCard aria-invalid>
-      <MessageAttachmentContent {...content} />
-      <MessageAttachmentErrorOverlay>{label}</MessageAttachmentErrorOverlay>
     </MessageAttachmentCard>
   );
 }
