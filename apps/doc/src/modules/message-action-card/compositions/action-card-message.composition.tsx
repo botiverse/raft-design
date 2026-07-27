@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Badge, Button } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Banner,
+  BannerDescription,
+  Button,
+} from "raft-ui";
 import {
   MessageActionCard,
   MessageActionCardActions,
@@ -34,7 +42,9 @@ export function ActionCardFixtureSurface({
   initialState: SimulatedActionCardState;
 }) {
   const [state, setState] = useState<SimulatedActionCardState>(initialState);
+  const busy = state === "busy";
   const executed = state === "executed";
+  const failed = state === "failed";
 
   return (
     <div className="grid gap-2">
@@ -57,15 +67,32 @@ export function ActionCardFixtureSurface({
             ))}
           </MessageActionCardDetails>
           <MessageActionCardHint>{fixture.hint}</MessageActionCardHint>
+          {failed ? (
+            <Banner status="warning" size="sm" className="mt-1">
+              <BannerDescription>
+                The action could not be committed. Review the request and try again.
+              </BannerDescription>
+            </Banner>
+          ) : null}
           {executed ? (
             <MessageActionCardCompletion>
               Committed by <span className="font-bold">Will</span> {fixture.result}
             </MessageActionCardCompletion>
           ) : (
             <MessageActionCardActions>
-              <Button size="sm" variant="accent" onClick={() => setState("executed")}>
-                {fixture.verb}
+              <Button size="sm" variant="accent" disabled={busy} onClick={() => setState("busy")}>
+                {busy ? "Executing…" : failed ? "Try Again" : fixture.verb}
               </Button>
+              {busy ? (
+                <>
+                  <Button size="sm" variant="outline" onClick={() => setState("executed")}>
+                    Complete
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => setState("failed")}>
+                    Fail
+                  </Button>
+                </>
+              ) : null}
             </MessageActionCardActions>
           )}
         </MessageActionCardContent>

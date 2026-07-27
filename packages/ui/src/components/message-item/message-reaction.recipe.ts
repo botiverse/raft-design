@@ -3,8 +3,8 @@ import { tv } from "../../lib/tv";
 export const messageReaction = tv({
   slots: {
     chip: [
-      "inline-flex h-5 min-w-0 max-w-full items-center gap-1 overflow-hidden rounded px-1.5",
-      "whitespace-nowrap text-xs font-bold leading-none transition-colors",
+      "inline-flex min-w-0 max-w-full items-center overflow-hidden whitespace-nowrap",
+      "transition-colors",
     ],
     errorIndicator: ["sr-only"],
     glyph: [
@@ -14,72 +14,82 @@ export const messageReaction = tv({
     ],
     count: ["font-mono tabular-nums"],
     addButton: [
-      "inline-flex h-5 min-w-0 items-center justify-center rounded px-1.5",
+      "inline-flex min-w-0 items-center justify-center",
       "transition-colors",
-      "[&_svg]:size-[13px] [&_svg]:shrink-0",
+      "[&_svg]:shrink-0",
     ],
-    quickRow: [
-      "flex h-9 shrink-0 items-center gap-1 px-2",
-      "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
-    ],
-    quickButton: [
-      "flex size-7 items-center justify-center rounded p-0",
-      "bg-transparent transition-colors",
-    ],
-    pickerContent: [
-      "inline-flex items-center gap-0.5 px-1.5 py-1",
-      "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
-    ],
-    pickerStatic: ["inline-flex items-center gap-0.5 px-1.5 py-1"],
-    tooltip: ["inline-block max-w-[280px] px-2 py-1.5 text-xs"],
+    quickRow: ["flex shrink-0 items-center"],
+    quickButton: ["flex items-center justify-center", "bg-transparent transition-colors"],
+    pickerContent: ["inline-flex items-center"],
+    pickerStatic: ["inline-flex items-center"],
+    tooltip: ["inline-block max-w-[280px]"],
     tooltipNames: ["flex max-w-60 flex-wrap items-center gap-y-0.5"],
     tooltipName: ["inline-flex min-w-0 items-baseline leading-5"],
     tooltipNameText: ["max-w-28 truncate"],
-    tooltipSeparator: ["shrink-0 text-foreground/45"],
-    tooltipMeta: ["leading-5 text-foreground/50"],
+    tooltipSeparator: ["shrink-0"],
+    tooltipMeta: ["leading-5"],
   },
   variants: {
     theme: {
       brutal: {
         chip: [
+          "h-5 gap-1 rounded px-1.5 text-xs font-bold leading-none",
           "bg-black/[0.03] text-black",
           "hover:bg-black/[0.08]",
           "data-[pressed]:bg-brutal-pink/20 data-[pressed]:hover:bg-brutal-pink/30",
           "has-[[data-slot=message-reaction-error-indicator]]:bg-brutal-orange/30 has-[[data-slot=message-reaction-error-indicator]]:hover:bg-brutal-orange/30",
         ],
-        addButton: ["bg-black/[0.03] text-black", "hover:bg-black/[0.08] active:bg-black/[0.08]"],
-        quickRow: "bg-white",
-        quickButton: "hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
+        addButton: [
+          "h-5 rounded px-1.5 [&_svg]:size-[13px]",
+          "bg-black/[0.03] text-black hover:bg-black/[0.08] active:bg-black/[0.08]",
+        ],
+        quickRow: ["h-9 gap-1 bg-white px-2", "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0"],
+        quickButton: "size-7 rounded p-0 hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
         pickerContent: [
+          "gap-0.5 px-1.5 py-1",
+          "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
           "rounded-none border-2 border-line-strong border-black bg-white",
           // Live `shadow-soft-popover`: 0 4px 12px rgba(0,0,0,0.08)
           "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
         pickerStatic: [
+          "gap-0.5 px-1.5 py-1",
           "rounded-none border-2 border-line-strong border-black bg-white",
           "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
-        tooltip: "border-2 border-line-strong bg-white font-bold text-black",
+        tooltip: "border-2 border-line-strong bg-white px-2 py-1.5 text-xs font-bold text-black",
+        tooltipSeparator: "text-foreground/45",
+        tooltipMeta: "text-foreground/50",
       },
       elegant: {
         chip: [
-          "rounded-full gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
+          "h-5 rounded-full gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
           "bg-layer-strong text-foreground-muted",
           "hover:bg-ink-10",
           "data-[pressed]:bg-accent-200/50 data-[pressed]:text-accent-700 data-[pressed]:hover:bg-accent-200/70",
           "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-lighter has-[[data-slot=message-reaction-error-indicator]]:text-danger-base",
         ],
         addButton: [
-          "rounded-full bg-layer-muted text-foreground-icon",
+          "h-5 rounded-full px-1.5 bg-layer-muted text-foreground-icon [&_svg]:size-[13px]",
           "hover:bg-layer-strong active:bg-layer-strong",
         ],
-        quickRow: "bg-layer-popover",
-        quickButton: "hover:bg-ink-10 data-[highlighted]:bg-ink-10 active:bg-ink-16",
-        pickerContent: "min-w-0 flex-row",
+        quickRow: [
+          "h-9 gap-1 bg-layer-popover px-2",
+          "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
+        ],
+        quickButton:
+          "size-7 rounded p-0 hover:bg-ink-10 data-[highlighted]:bg-ink-10 active:bg-ink-16",
+        pickerContent: [
+          "min-w-0 flex-row gap-0.5 px-1.5 py-1",
+          "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
+        ],
         pickerStatic: [
           "min-w-0 flex-row rounded-md bg-layer-popover p-1",
           "shadow-lg outline-none",
         ],
+        tooltip: "px-2 py-1.5 text-xs",
+        tooltipSeparator: "text-foreground/45",
+        tooltipMeta: "text-foreground/50",
       },
     },
   },

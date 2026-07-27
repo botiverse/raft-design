@@ -1,16 +1,23 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { memo } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { InlineCode, type InlineCodeProps } from "../inline-code";
 import { messageMarkdown } from "./message-markdown.recipe";
 
 export type MessageMarkdownProps = useRender.ComponentProps<"div">;
 
-export function MessageMarkdown({ className, render, ...props }: MessageMarkdownProps) {
+export const MessageMarkdown = memo(function MessageMarkdown({
+  children,
+  className,
+  render,
+  ...props
+}: MessageMarkdownProps) {
   const theme = useThemeFamily();
   const { root } = messageMarkdown({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
+    children,
   };
 
   return useRender({
@@ -21,7 +28,7 @@ export function MessageMarkdown({ className, render, ...props }: MessageMarkdown
       slot: "message-markdown",
     },
   });
-}
+});
 
 export type MessageInlineCodeProps = InlineCodeProps;
 

@@ -24,6 +24,16 @@ export function MessageActionCardShowcaseComposition() {
               <ActionCardMessageComposition fixture={fixture} initialState="prepared" />
             </div>
             <div className="grid gap-1">
+              <div className="text-xs font-bold uppercase text-foreground-muted">Initial: busy</div>
+              <ActionCardMessageComposition fixture={fixture} initialState="busy" />
+            </div>
+            <div className="grid gap-1">
+              <div className="text-xs font-bold uppercase text-foreground-muted">
+                Initial: failed
+              </div>
+              <ActionCardMessageComposition fixture={fixture} initialState="failed" />
+            </div>
+            <div className="grid gap-1">
               <div className="text-xs font-bold uppercase text-foreground-muted">
                 Initial: executed
               </div>

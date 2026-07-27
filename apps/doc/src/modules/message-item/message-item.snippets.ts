@@ -133,15 +133,15 @@ export const TRANSLATION_REFERENCE_PROPS: readonly PropRow[] = [
     description: "Translation status and caller-wired original/translation toggle or retry action.",
   },
   {
-    name: "MessageReference",
-    type: 'useRender.ComponentProps<"span"> & Omit<MessageReferenceVariantProps, "theme">',
+    name: "MessageReferenceText / Chip / Pending / Unavailable",
+    type: 'useRender.ComponentProps<"span">',
     description:
-      "Visual primitive for source-derived inline references. MessageItem owns parsing and resolution: self mentions, channels, DMs, threads, tasks, message targets, and attachment comments each have distinct trigger rules.",
+      "Explicit inline text, chip, and resolution-state surfaces. Source parsing and resolution are product-owned; consumers own navigation and integration.",
   },
   {
     name: "MessageReferenceLabel / MessageReferenceMeta",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional label slot for an icon-bearing message target chip.",
+    description: "Optional label and meta slots for chip-style references (e.g. permalink).",
   },
 ];
 

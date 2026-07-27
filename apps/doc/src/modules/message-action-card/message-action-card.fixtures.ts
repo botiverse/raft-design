@@ -101,4 +101,4 @@ export const ACTION_CARD_FIXTURES: readonly ActionCardFixture[] = [
   },
 ] as const;
 
-export type SimulatedActionCardState = "prepared" | "executed";
+export type SimulatedActionCardState = "prepared" | "busy" | "failed" | "executed";

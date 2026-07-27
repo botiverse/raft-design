@@ -228,7 +228,8 @@ export function MessageAttachmentAudioPreviewHeader({
   render,
   ...props
 }: MessageAttachmentAudioPreviewHeaderProps) {
-  const { audioPreviewHeader } = messageAttachmentPreview();
+  const theme = useThemeFamily();
+  const { audioPreviewHeader } = messageAttachmentPreview({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: audioPreviewHeader({ className }),
   };

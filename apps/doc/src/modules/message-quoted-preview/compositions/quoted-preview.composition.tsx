@@ -21,7 +21,7 @@ import {
   MessageQuotedPreviewLoadingLine,
   MessageQuotedPreviewLoadingLines,
   MessageQuotedPreviewUnavailable,
-  MessageReference,
+  MessageReferenceUnavailable,
 } from "raft-ui/wip";
 import { QuotedPreviewMessageComposition } from "./quoted-preview-message.composition.tsx";
 
@@ -78,7 +78,7 @@ export function QuotedPreviewUnavailableComposition() {
         </MessageItemHeader>
         <MessageItemBody>
           The linked thread is{" "}
-          <MessageReference variant="unavailable">unavailable or deleted</MessageReference>.
+          <MessageReferenceUnavailable>unavailable or deleted</MessageReferenceUnavailable>.
         </MessageItemBody>
         <MessageItemEmbedded>
           <MessageQuotedPreviewUnavailable

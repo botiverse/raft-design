@@ -1,0 +1,69 @@
+import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, it } from "vitest";
+import { ThemeProvider } from "raft-ui";
+import { MessageMarkdownComposition } from "./markdown.composition.tsx";
+
+function renderMarkdown(source: string) {
+  return renderToStaticMarkup(
+    <ThemeProvider theme="elegant" syncDom={false}>
+      <MessageMarkdownComposition source={source} />
+    </ThemeProvider>,
+  );
+}
+
+describe("MessageMarkdownComposition", () => {
+  it("parses source Markdown and maps its nodes to UI primitives", () => {
+    const markup = renderMarkdown(`
+# Heading
+
+Inline \`code\` and https://example.com/path，后续。
+
+2. resumed item
+
+- [x] completed item
+- [ ] open item
+
+| Token | Surface |
+| --- | --- |
+| layer-panel | panel |
+
+\`\`\`ts
+const theme = "elegant";
+\`\`\`
+
+\`\`\`
+plain block
+\`\`\`
+`);
+
+    expect(markup).toContain("<h1>Heading</h1>");
+    expect(markup).toContain('href="https://example.com/path"');
+    expect(markup).toContain(">https://example.com/path</a>，后续。");
+    expect(markup).toContain('<ol start="2">');
+    expect(markup.match(/data-slot="checkbox"/g)).toHaveLength(2);
+    expect(markup).toContain('data-slot="message-markdown-table-scroll"');
+    expect(markup.match(/data-slot="message-code-block"/g)).toHaveLength(2);
+    expect(markup.match(/data-slot="inline-code"/g)).toHaveLength(1);
+  });
+
+  it("sanitizes raw user HTML before it reaches the UI primitives", () => {
+    const markup = renderMarkdown('<script>alert("unsafe")</script>');
+
+    expect(markup).not.toContain("<script");
+    expect(markup).not.toContain("alert");
+  });
+
+  it("keeps product-specific node replacements in the docs adapter", () => {
+    const markup = renderToStaticMarkup(
+      <ThemeProvider theme="elegant" syncDom={false}>
+        <MessageMarkdownComposition
+          source="[Task](https://example.com/task)"
+          components={{ a: ({ children }) => <span data-slot="task-reference">{children}</span> }}
+        />
+      </ThemeProvider>,
+    );
+
+    expect(markup).toContain('data-slot="task-reference"');
+    expect(markup).not.toContain('href="https://example.com/task"');
+  });
+});
