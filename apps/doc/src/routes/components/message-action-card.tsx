@@ -15,6 +15,7 @@ import { ActionCardMessageComposition } from "#/modules/message-action-card/comp
 import actionCardComparisonSource from "#/modules/message-action-card/compositions/action-card-message.composition.tsx?raw";
 import { MessageActionCardStatesComposition } from "#/modules/message-action-card/compositions/action-card-states.composition.tsx";
 import actionCardStatesSource from "#/modules/message-action-card/compositions/action-card-states.composition.tsx?raw";
+import { MessageActionCardPreview } from "#/modules/message-action-card/message-action-card.preview.tsx";
 import { MessageActionCardSourcePreview } from "#/modules/message-action-card/message-action-card.source-preview.tsx";
 
 const TOC = [
@@ -108,9 +109,7 @@ function MessageActionCardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.actionCardComparison}>
-          <ActionCardMessageComposition />
-        </UsagePreview>
+        <MessageActionCardPreview code={code.actionCardComparison} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
