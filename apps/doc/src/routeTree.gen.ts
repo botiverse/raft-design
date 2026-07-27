@@ -61,6 +61,7 @@ import { Route as ComponentsMessageQuotedPreviewRouteImport } from './routes/com
 import { Route as ComponentsMessageMarkdownRouteImport } from './routes/components/message-markdown'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
 import { Route as ComponentsMessageForwardedBundleRouteImport } from './routes/components/message-forwarded-bundle'
+import { Route as ComponentsMessageCodeBlockRouteImport } from './routes/components/message-code-block'
 import { Route as ComponentsMessageAttachmentRouteImport } from './routes/components/message-attachment'
 import { Route as ComponentsMessageActionCardRouteImport } from './routes/components/message-action-card'
 import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
@@ -383,6 +384,12 @@ const ComponentsMessageForwardedBundleRoute =
   ComponentsMessageForwardedBundleRouteImport.update({
     id: '/message-forwarded-bundle',
     path: '/message-forwarded-bundle',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsMessageCodeBlockRoute =
+  ComponentsMessageCodeBlockRouteImport.update({
+    id: '/message-code-block',
+    path: '/message-code-block',
     getParentRoute: () => ComponentsRoute,
   } as any)
 const ComponentsMessageAttachmentRoute =
@@ -717,6 +724,7 @@ export interface FileRoutesByFullPath {
   '/components/logo': typeof ComponentsLogoRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
+  '/components/message-code-block': typeof ComponentsMessageCodeBlockRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
@@ -823,6 +831,7 @@ export interface FileRoutesByTo {
   '/components/logo': typeof ComponentsLogoRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
+  '/components/message-code-block': typeof ComponentsMessageCodeBlockRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
@@ -931,6 +940,7 @@ export interface FileRoutesById {
   '/components/logo': typeof ComponentsLogoRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
+  '/components/message-code-block': typeof ComponentsMessageCodeBlockRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
@@ -1040,6 +1050,7 @@ export interface FileRouteTypes {
     | '/components/logo'
     | '/components/message-action-card'
     | '/components/message-attachment'
+    | '/components/message-code-block'
     | '/components/message-forwarded-bundle'
     | '/components/message-item'
     | '/components/message-markdown'
@@ -1146,6 +1157,7 @@ export interface FileRouteTypes {
     | '/components/logo'
     | '/components/message-action-card'
     | '/components/message-attachment'
+    | '/components/message-code-block'
     | '/components/message-forwarded-bundle'
     | '/components/message-item'
     | '/components/message-markdown'
@@ -1253,6 +1265,7 @@ export interface FileRouteTypes {
     | '/components/logo'
     | '/components/message-action-card'
     | '/components/message-attachment'
+    | '/components/message-code-block'
     | '/components/message-forwarded-bundle'
     | '/components/message-item'
     | '/components/message-markdown'
@@ -1699,6 +1712,13 @@ declare module '@tanstack/react-router' {
       path: '/message-forwarded-bundle'
       fullPath: '/components/message-forwarded-bundle'
       preLoaderRoute: typeof ComponentsMessageForwardedBundleRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-code-block': {
+      id: '/components/message-code-block'
+      path: '/message-code-block'
+      fullPath: '/components/message-code-block'
+      preLoaderRoute: typeof ComponentsMessageCodeBlockRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/message-attachment': {
@@ -2237,6 +2257,7 @@ interface ComponentsRouteChildren {
   ComponentsLogoRoute: typeof ComponentsLogoRoute
   ComponentsMessageActionCardRoute: typeof ComponentsMessageActionCardRoute
   ComponentsMessageAttachmentRoute: typeof ComponentsMessageAttachmentRoute
+  ComponentsMessageCodeBlockRoute: typeof ComponentsMessageCodeBlockRoute
   ComponentsMessageForwardedBundleRoute: typeof ComponentsMessageForwardedBundleRoute
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsMessageMarkdownRoute: typeof ComponentsMessageMarkdownRoute
@@ -2309,6 +2330,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsLogoRoute: ComponentsLogoRoute,
   ComponentsMessageActionCardRoute: ComponentsMessageActionCardRoute,
   ComponentsMessageAttachmentRoute: ComponentsMessageAttachmentRoute,
+  ComponentsMessageCodeBlockRoute: ComponentsMessageCodeBlockRoute,
   ComponentsMessageForwardedBundleRoute: ComponentsMessageForwardedBundleRoute,
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsMessageMarkdownRoute: ComponentsMessageMarkdownRoute,
@@ -2410,3 +2432,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

@@ -56,10 +56,7 @@ import {
 } from "#/modules/message-item/message-item-example-markdown.tsx";
 import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
-import {
-  MessageCodeBlockComposition,
-  MessageMarkdownComposition,
-} from "#/modules/message-markdown/compositions/markdown.composition.tsx";
+import { MessageMarkdownComposition } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
 import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
 import { QuotedPreviewMessageComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
 import { QuotedPreviewFeedbackComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
@@ -307,10 +304,7 @@ export function MessageItemPreview({
         <p>{originalTranslation}</p>
       </MessageMarkdown>
     ) : markdown ? (
-      <>
-        <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
-        <MessageCodeBlockComposition />
-      </>
+      <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
     ) : (
       <MessageItemExampleMarkdown portalContainer={portalContainer} />
     );

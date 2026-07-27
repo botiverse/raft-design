@@ -20,7 +20,6 @@ export const messageMarkdown = tv({
     ],
     tableScroll: ["overflow-x-auto"],
     inlineCode: [],
-    codeBlock: ["overflow-x-auto", "[&>code]:border-0 [&>code]:bg-transparent [&>code]:p-0"],
   },
   variants: {
     theme: {
@@ -45,12 +44,6 @@ export const messageMarkdown = tv({
         inlineCode: [
           "rounded-none border-0 bg-black/[0.05] px-1 py-0",
           "[font-size:0.875em] font-mono font-normal leading-[calc(1.7142857em+2px)] text-black [overflow-wrap:break-word]",
-        ],
-        // Live Slock CodeBlock: bg-[#07111f] text-[#f5f7ff]
-        codeBlock: [
-          "border-2 border-black bg-[oklch(0.176_0.033_256.392)] p-3 pr-12",
-          "font-mono [font-size:inherit]",
-          "text-[oklch(0.977_0.011_274.897)]",
         ],
       },
       elegant: {
@@ -83,11 +76,6 @@ export const messageMarkdown = tv({
           "inline rounded-sm px-1 py-0",
           "bg-layer-strong font-mono text-[0.92em] font-normal leading-[inherit] text-foreground-strong",
           "[overflow-wrap:anywhere]",
-        ],
-        codeBlock: [
-          "my-2 rounded-md border border-line-subtle bg-[oklch(0.22_0.01_260)] p-3 pr-12",
-          "font-mono [font-size:inherit]",
-          "text-[oklch(0.97_0_0)]",
         ],
       },
     },

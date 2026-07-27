@@ -397,14 +397,15 @@ export {
   MessageInlineCode,
   MessageMarkdown,
   MessageMarkdownTableScroll,
-  MessageCodeBlock,
 } from "./components/message-markdown/index";
 export type {
   MessageInlineCodeProps,
   MessageMarkdownProps,
   MessageMarkdownTableScrollProps,
-  MessageCodeBlockProps,
 } from "./components/message-markdown/index";
+
+export { MessageCodeBlock } from "./components/message-code-block/index";
+export type { MessageCodeBlockProps } from "./components/message-code-block/index";
 
 export {
   MessageQuotedPreview,

@@ -145,6 +145,8 @@ export function MessageItemExampleMarkdownFollowUp({ portalContainer }: ExampleM
 }
 
 export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMarkdownProps = {}) {
+  const code = "<MessageItem compact>\n  <MessageItemGutter />\n</MessageItem>";
+
   return (
     <MessageMarkdown>
       <p>
@@ -158,8 +160,10 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
         :
       </p>
       <blockquote>Compact rows should read as one thread, not a new speaker.</blockquote>
-      <MessageCodeBlock>
-        <code>{"<MessageItem compact>\n  <MessageItemGutter />\n</MessageItem>"}</code>
+      <MessageCodeBlock code={code}>
+        <pre>
+          <code>{code}</code>
+        </pre>
       </MessageCodeBlock>
     </MessageMarkdown>
   );
