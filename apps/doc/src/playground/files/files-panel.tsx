@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FilesPanelComposition,
   type FileListEntry,
-} from "#/modules/files/files-panel.composition.tsx";
+} from "#/modules/files/compositions/files-panel.composition.tsx";
 import {
   getPlaygroundFiles,
   PLAYGROUND_SERVER_SLUG,

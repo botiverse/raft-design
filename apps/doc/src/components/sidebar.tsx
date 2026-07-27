@@ -100,6 +100,7 @@ const NAV = [
         to: "/components/conversation-panel",
         status: "done",
       },
+      { label: "FilesPanel", to: "/components/files", status: "done" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
       {
         label: "Composer",

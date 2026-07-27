@@ -713,6 +713,8 @@ export type {
   FilePreviewProps,
 } from "./components/file-preview/index";
 
+export * from "./components/files/index";
+
 export {
   Composer,
   ComposerActions,

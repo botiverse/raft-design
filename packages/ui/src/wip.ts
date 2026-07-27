@@ -467,5 +467,3 @@ export type {
   MessageListNoticeProps,
   MessageListProps,
 } from "./components/message-list/index";
-
-export * from "./components/files/index";
