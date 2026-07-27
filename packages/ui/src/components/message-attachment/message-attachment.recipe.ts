@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const messageAttachment = tv({
   slots: {
-    group: ["flex max-w-[22.5rem] flex-wrap items-start"],
+    group: ["flex max-w-[22.5rem] flex-wrap items-start gap-2"],
     frame: [
       "group/attachment relative inline-block h-20 w-44 min-w-44 max-w-44 shrink-0 align-top",
       "[&>[data-slot=message-attachment-action]]:absolute [&>[data-slot=message-attachment-action]]:right-7 [&>[data-slot=message-attachment-action]]:bottom-1.5",
@@ -35,7 +35,6 @@ export const messageAttachment = tv({
   variants: {
     theme: {
       brutal: {
-        group: "gap-x-1.5 gap-y-2",
         card: [
           "border border-black/15 bg-white px-2.5 py-1 text-black transition-colors",
           "hover:border-black/30 hover:bg-black/5",
@@ -52,7 +51,6 @@ export const messageAttachment = tv({
         pendingIndicator: "text-black/60",
       },
       elegant: {
-        group: "gap-x-1.5 gap-y-2",
         card: [
           "rounded-lg border border-line-subtle bg-layer-panel px-2.5 py-1 text-foreground shadow-xs",
           "transition-[background-color,border-color,box-shadow] duration-150",

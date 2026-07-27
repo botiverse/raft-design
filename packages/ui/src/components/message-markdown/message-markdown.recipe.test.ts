@@ -12,5 +12,6 @@ describe("messageMarkdown recipe theme ownership", () => {
     expect(elegant.codeBlock()).not.toContain("border-2");
     expect(elegant.root()).toContain("[&_th]:bg-layer-muted");
     expect(elegant.root()).toContain("[&_th:not(:last-child)]:border-line-subtle");
+    expect(elegant.root()).toContain("[&_blockquote]:border-l-2");
   });
 });

@@ -38,6 +38,7 @@ describe("message surface theme ownership", () => {
     expect(attachmentElegant.loadingBar()).not.toContain("border-t-2");
     expect(attachmentElegant.card()).toContain("hover:bg-ink-2");
     expect(attachmentElegant.group()).toContain("flex-wrap");
+    expect(attachmentElegant.group()).toContain("gap-2");
     expect(attachmentElegant.card()).toContain("h-20");
     expect(attachmentElegant.card()).toContain("grid-cols-[2.5rem_minmax(0,1fr)]");
     expect(attachmentElegant.icon()).toContain("col-start-1 row-start-1 self-start");

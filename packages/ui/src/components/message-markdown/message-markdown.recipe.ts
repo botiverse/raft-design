@@ -65,7 +65,7 @@ export const messageMarkdown = tv({
           "[&_a:not([data-inline-reference]):not([data-message-reference]):hover]:text-primary-active [&_a:not([data-inline-reference]):not([data-message-reference]):hover]:decoration-primary-active",
           "[&_p]:max-w-[72ch] [&_ul]:max-w-[72ch] [&_ol]:max-w-[72ch] [&_blockquote]:max-w-[72ch]",
           "[&_mark]:rounded-sm [&_mark]:bg-primary-400/15 [&_mark]:px-0.5 [&_mark]:text-foreground-strong",
-          "[&_blockquote]:my-1 [&_blockquote]:border-l [&_blockquote]:border-line-subtle [&_blockquote]:bg-layer-muted/70",
+          "[&_blockquote]:my-1 [&_blockquote]:border-l-2 [&_blockquote]:border-line-subtle [&_blockquote]:bg-layer-muted/70",
           "[&_blockquote]:rounded-r-sm [&_blockquote]:px-4 [&_blockquote]:py-2 [&_blockquote]:not-italic [&_blockquote]:text-foreground-muted",
           "[&_hr]:my-2 [&_hr]:border-t [&_hr]:border-line-subtle",
           "[&_table]:border-0 [&_table]:text-sm",
