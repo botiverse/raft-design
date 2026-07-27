@@ -102,7 +102,7 @@ export const messageItem = tv({
         root: [
           "gap-3 border border-transparent max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
-          "hover:bg-ink-4 active:bg-ink-8",
+          "hover:bg-ink-2 active:bg-ink-8",
         ],
         gutter: "max-md:w-8",
         avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
