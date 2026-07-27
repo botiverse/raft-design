@@ -23,6 +23,7 @@ describe("message surface theme ownership", () => {
     expect(mediaBrutal.galleryItem()).toContain("border-2");
     expect(mediaElegant.galleryItem()).not.toContain("border-2");
     expect(mediaElegant.video()).not.toContain("border-2");
+    expect(mediaElegant.galleryItem()).toContain("hover:shadow-sm");
   });
 
   it("keeps typography and density with the active theme", () => {
@@ -35,6 +36,12 @@ describe("message surface theme ownership", () => {
 
     expect(attachmentBrutal.loadingBar()).toContain("border-t-2");
     expect(attachmentElegant.loadingBar()).not.toContain("border-t-2");
+    expect(attachmentElegant.card()).toContain("hover:bg-ink-2");
+    expect(attachmentElegant.group()).toContain("flex-wrap");
+    expect(attachmentElegant.card()).toContain("h-20");
+    expect(attachmentElegant.card()).toContain("grid-cols-[2.5rem_minmax(0,1fr)]");
+    expect(attachmentElegant.icon()).toContain("col-start-1 row-start-1 self-start");
+    expect(attachmentElegant.meta()).toContain("mt-auto");
     expect(forwardedBrutal.headerLabel()).toContain("font-black");
     expect(forwardedElegant.headerLabel()).toContain("font-medium");
     expect(systemBrutal.systemTime()).toContain("font-mono");

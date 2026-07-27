@@ -1,4 +1,4 @@
-import { Download, Play } from "lucide-react";
+import { AlertTriangle, Download, Play } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
   MessageImageGallery,
@@ -135,6 +135,25 @@ export function MessageVideoPendingComposition() {
       <MessageVideoPreviewFrame>
         <MessageVideoPreviewFallback>
           <Spinner size="md" variant="inverse" />
+        </MessageVideoPreviewFallback>
+      </MessageVideoPreviewFrame>
+    </MessageVideoPreview>
+  );
+}
+
+export function MessageVideoPreviewFailedComposition() {
+  return (
+    <MessageVideoPreview title="preview.mov">
+      <MessageVideoPreviewFrame>
+        <MessageVideoPreviewFallback>
+          <div className="flex max-w-[16rem] flex-col items-center gap-2 px-4 text-center text-xs font-bold">
+            <AlertTriangle className="size-6" />
+            <span>This video may use a codec this browser cannot preview.</span>
+            <span className="inline-flex items-center gap-1 text-white/75">
+              <Download className="size-[13px]" />
+              Download to view
+            </span>
+          </div>
         </MessageVideoPreviewFallback>
       </MessageVideoPreviewFrame>
     </MessageVideoPreview>

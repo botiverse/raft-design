@@ -42,23 +42,23 @@ export const messageAttachmentPreview = tv({
         audioPreviewLabel: "text-xs font-bold text-black/50",
       },
       elegant: {
-        externalLinksLoading: "bg-layer-panel/75",
+        externalLinksLoading: "bg-layer-panel/85 backdrop-blur-[1px]",
         externalLinksLoadingPanel: [
-          "gap-2 rounded-md border border-line-subtle bg-layer-popover px-3 py-2 shadow-sm",
+          "gap-2 rounded-md border border-line-subtle bg-layer-popover px-3 py-2 shadow-md",
           "text-xs font-medium text-foreground-muted",
         ],
         externalLinkHotspot: [
           "focus-visible:border focus-visible:border-primary-500 focus-visible:bg-primary-500/10",
         ],
         externalLinkFallback: [
-          "gap-2 rounded-md border border-line-subtle bg-layer-popover p-2 shadow-lg",
+          "gap-2 rounded-md border border-line-subtle bg-layer-popover p-2 shadow-md",
         ],
         externalLinkFallbackDismiss: [
           "rounded-md border border-line-subtle bg-layer-muted",
-          "hover:bg-layer-strong",
+          "transition-colors hover:bg-ink-2 active:bg-ink-8",
         ],
-        audioPreview: "bg-layer-muted p-4",
-        audioPreviewCard: "rounded-lg border border-line-subtle bg-layer-panel p-4 shadow-sm",
+        audioPreview: "bg-ink-2 p-5 sm:p-6",
+        audioPreviewCard: "rounded-lg border border-line-subtle bg-layer-panel p-4 shadow-md",
         audioPreviewHeader: "mb-3 gap-3",
         audioPreviewIcon: [
           "rounded-md border border-line-subtle bg-layer-muted text-foreground-icon",

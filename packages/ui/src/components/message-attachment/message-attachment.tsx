@@ -326,25 +326,3 @@ export function MessageAttachmentPendingIndicator({
     },
   });
 }
-
-export type MessageAttachmentErrorOverlayProps = useRender.ComponentProps<"span">;
-
-export function MessageAttachmentErrorOverlay({
-  className,
-  render,
-  ...props
-}: MessageAttachmentErrorOverlayProps) {
-  const { errorOverlay } = messageAttachment();
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: errorOverlay({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-attachment-error-overlay",
-    },
-  });
-}

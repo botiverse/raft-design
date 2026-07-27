@@ -24,11 +24,11 @@ import { MessageRowToolbarFixture } from "#/modules/message-item/compositions/ro
 import {
   MessageImageGalleryPairComposition,
   MessageImageGalleryPendingComposition,
+  MessageVideoPreviewFailedComposition,
   MessageVideoPendingComposition,
   MessageVideoPreviewComposition,
 } from "#/modules/message-media/compositions/media.compositions.tsx";
 import {
-  MessageAttachmentFailedComposition,
   MessageAttachmentOpeningComposition,
   MessageAttachmentPendingComposition,
   MessageAttachmentReadyComposition,
@@ -120,7 +120,7 @@ export function MessageAttachmentsShowcaseComposition() {
                 onPrimaryAction={() => downloadMessageFixture("release-notes.md")}
               />
               <MessageAttachmentPendingComposition name="metrics.csv" meta="CSV · 1 KB" />
-              <MessageAttachmentFailedComposition name="preview.mov" meta="Video · 18 KB" />
+              <MessageVideoPreviewFailedComposition />
               <MessageAttachmentOpeningComposition
                 name="architecture.pdf"
                 meta="PDF preview · 1.2 MB"

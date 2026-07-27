@@ -69,19 +69,20 @@ export const messageMedia = tv({
         gallery: "space-y-2",
         galleryRow: "gap-2",
         galleryItem: [
-          "rounded-lg border border-line-subtle bg-layer-muted hover:brightness-95",
-          "has-[[data-slot=message-image-gallery-overlay]]:opacity-70 has-[[data-slot=message-image-gallery-overlay]]:hover:brightness-100",
+          "rounded-lg border border-line-subtle bg-layer-muted shadow-xs",
+          "transition-[border-color,box-shadow] duration-150 hover:border-line-muted hover:shadow-sm",
+          "has-[[data-slot=message-image-gallery-overlay]]:opacity-70",
         ],
         galleryPreview:
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-line-focus",
         galleryAction: [
-          "rounded-md border border-line-subtle bg-layer-popover/90 text-foreground-icon",
-          "hover:text-foreground",
+          "rounded-md border border-line-subtle bg-layer-popover/95 text-foreground-icon shadow-xs",
+          "transition-colors hover:bg-layer-popover hover:text-foreground active:bg-ink-8",
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
         ],
-        video: "rounded-lg border border-line-subtle",
+        video: "rounded-lg border border-line-subtle shadow-xs",
         videoAction:
-          "rounded-md border border-line-subtle bg-layer-popover/90 text-foreground-icon hover:bg-layer-popover hover:text-foreground",
+          "rounded-md border border-line-subtle bg-layer-popover/95 text-foreground-icon shadow-xs transition-colors hover:bg-layer-popover hover:text-foreground active:bg-ink-8",
       },
     },
   },
