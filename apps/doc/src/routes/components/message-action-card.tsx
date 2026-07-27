@@ -2,26 +2,20 @@ import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
+import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { MessageActionCardTypesComposition } from "#/modules/message-action-card/compositions/action-card.composition.tsx";
-import actionCardTypesSource from "#/modules/message-action-card/compositions/action-card.composition.tsx?raw";
 import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
 import actionCardComparisonSource from "#/modules/message-action-card/compositions/action-card-message.composition.tsx?raw";
-import { MessageActionCardStatesComposition } from "#/modules/message-action-card/compositions/action-card-states.composition.tsx";
-import actionCardStatesSource from "#/modules/message-action-card/compositions/action-card-states.composition.tsx?raw";
-import { MessageActionCardPreview } from "#/modules/message-action-card/message-action-card.preview.tsx";
 import { MessageActionCardSourcePreview } from "#/modules/message-action-card/message-action-card.source-preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -91,8 +85,6 @@ export const Route = createFileRoute("/components/message-action-card")({
   loader: () =>
     highlightSnippets({
       data: {
-        actionCardTypes: actionCardTypesSource,
-        actionCardStates: actionCardStatesSource,
         actionCardComparison: actionCardComparisonSource,
         anatomy: ANATOMY_SOURCE,
       },
@@ -109,7 +101,9 @@ function MessageActionCardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <MessageActionCardPreview code={code.actionCardComparison} />
+        <UsagePreview code={code.actionCardComparison}>
+          <ActionCardMessageComposition />
+        </UsagePreview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -118,22 +112,6 @@ function MessageActionCardDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
-      </DocSection>
-
-      <DocSection id="usage" title="Usage">
-        <div className="space-y-10">
-          <DocSubsection parentId="usage" id="action-card-types" title="Action types">
-            <UsagePreview code={code.actionCardTypes}>
-              <MessageActionCardTypesComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="action-card-states" title="Lifecycle states">
-            <UsagePreview code={code.actionCardStates}>
-              <MessageActionCardStatesComposition />
-            </UsagePreview>
-          </DocSubsection>
-        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

@@ -1,14 +1,5 @@
-import { useState } from "react";
 import { Check } from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Badge,
-  Banner,
-  BannerDescription,
-  Button,
-} from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage, Badge, Button } from "raft-ui";
 import {
   MessageActionCard,
   MessageActionCardActions,
@@ -28,23 +19,16 @@ import {
 } from "raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
-import {
-  ACTION_CARD_FIXTURES,
-  type ActionCardFixture,
-  type SimulatedActionCardState,
-} from "../message-action-card.fixtures.ts";
+import { ACTION_CARD_FIXTURE, type ActionCardFixture } from "../message-action-card.fixtures.ts";
 
 export function ActionCardFixtureSurface({
   fixture,
-  initialState,
+  state = "prepared",
 }: {
   fixture: ActionCardFixture;
-  initialState: SimulatedActionCardState;
+  state?: "prepared" | "executed";
 }) {
-  const [state, setState] = useState<SimulatedActionCardState>(initialState);
-  const busy = state === "busy";
   const executed = state === "executed";
-  const failed = state === "failed";
 
   return (
     <div className="grid gap-2">
@@ -67,56 +51,29 @@ export function ActionCardFixtureSurface({
             ))}
           </MessageActionCardDetails>
           <MessageActionCardHint>{fixture.hint}</MessageActionCardHint>
-          {failed ? (
-            <Banner status="warning" size="sm" className="mt-1">
-              <BannerDescription>
-                The action could not be committed. Review the request and try again.
-              </BannerDescription>
-            </Banner>
-          ) : null}
           {executed ? (
             <MessageActionCardCompletion>
               Committed by <span className="font-bold">Will</span> {fixture.result}
             </MessageActionCardCompletion>
           ) : (
             <MessageActionCardActions>
-              <Button size="sm" variant="accent" disabled={busy} onClick={() => setState("busy")}>
-                {busy ? "Executing…" : failed ? "Try Again" : fixture.verb}
+              <Button size="sm" variant="accent">
+                {fixture.verb}
               </Button>
-              {busy ? (
-                <>
-                  <Button size="sm" variant="outline" onClick={() => setState("executed")}>
-                    Complete
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={() => setState("failed")}>
-                    Fail
-                  </Button>
-                </>
-              ) : null}
             </MessageActionCardActions>
           )}
         </MessageActionCardContent>
       </MessageActionCard>
-      {executed ? (
-        <Button
-          className="justify-self-start"
-          size="xs"
-          variant="outline"
-          onClick={() => setState("prepared")}
-        >
-          Reset
-        </Button>
-      ) : null}
     </div>
   );
 }
 
 export function ActionCardMessageComposition({
-  fixture = ACTION_CARD_FIXTURES[0],
-  initialState = "prepared",
+  fixture = ACTION_CARD_FIXTURE,
+  state = "prepared",
 }: {
   fixture?: ActionCardFixture;
-  initialState?: SimulatedActionCardState;
+  state?: "prepared" | "executed";
 } = {}) {
   return (
     <MessageItem>
@@ -133,7 +90,7 @@ export function ActionCardMessageComposition({
           <MessageItemTime>2:27 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          <ActionCardFixtureSurface fixture={fixture} initialState={initialState} />
+          <ActionCardFixtureSurface fixture={fixture} state={state} />
         </MessageItemBody>
       </MessageItemContent>
     </MessageItem>

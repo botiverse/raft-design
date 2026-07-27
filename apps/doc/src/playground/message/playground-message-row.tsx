@@ -43,7 +43,7 @@ import {
 } from "#/modules/message-item/compositions/context-menu.composition.tsx";
 import { MessageAttachmentReadyComposition } from "#/modules/message-attachment/compositions/attachment.compositions.tsx";
 import { ActionCardFixtureSurface } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
-import { ACTION_CARD_FIXTURES } from "#/modules/message-action-card/message-action-card.fixtures.ts";
+import { ACTION_CARD_FIXTURE } from "#/modules/message-action-card/message-action-card.fixtures.ts";
 import { ForwardedBundleEmbeddedComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import { QuotedPreviewEmbeddedComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
 import { MessageMobileReactionAdd } from "#/modules/message-item/compositions/item-preview.composition.tsx";
@@ -510,7 +510,7 @@ function MessageRowView({
     );
   const composedBody =
     presentation === "action-card" ? (
-      <ActionCardFixtureSurface fixture={ACTION_CARD_FIXTURES[0]} initialState="prepared" />
+      <ActionCardFixtureSurface fixture={ACTION_CARD_FIXTURE} state="prepared" />
     ) : (
       renderedBody
     );
