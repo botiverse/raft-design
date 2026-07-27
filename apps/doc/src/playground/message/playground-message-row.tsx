@@ -1,6 +1,14 @@
-import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { AlertTriangle, Bookmark, Download, ExternalLink, Languages, Pencil } from "lucide-react";
+import {
+  AlertTriangle,
+  Bookmark,
+  Download,
+  ExternalLink,
+  Languages,
+  MessageSquare,
+  Pencil,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage, ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
   MessageItem,
@@ -16,7 +24,6 @@ import {
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
-  MessageItemInlineStatus,
   MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageReactionChip,
@@ -24,7 +31,6 @@ import {
   MessageItemSearchMatch,
   MessageItemSelection,
   MessageItemSender,
-  MessageItemSenderState,
   MessageItemTime,
   MessageItemThreadRepliesPreview,
   MessageItemTranslationAction,
@@ -32,29 +38,30 @@ import {
   MessageItemTranslationOriginalLabel,
   MessageItemTranslationPlaceholder,
   MessageItemTranslationStatus,
+  MessageAttachmentAction,
+  MessageAttachmentActions,
+  MessageAttachmentBody,
+  MessageAttachmentCard,
+  MessageAttachmentFrame,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaDetail,
+  MessageAttachmentMetaLabel,
+  MessageAttachmentMetaSeparator,
+  MessageAttachmentTitle,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
   useMessageMultiSelect,
 } from "raft-ui/wip";
 
-import {
-  MessageContextMenuComposition,
-  type MessageTaskState,
-} from "#/modules/message-item/compositions/context-menu.composition.tsx";
-import { MessageAttachmentReadyComposition } from "#/modules/message-attachment/compositions/attachment.compositions.tsx";
-import { ActionCardFixtureSurface } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
-import { ACTION_CARD_FIXTURE } from "#/modules/message-action-card/message-action-card.fixtures.ts";
+import { MessageContextMenuComposition } from "#/modules/message-item/compositions/context-menu.composition.tsx";
+import { ActionCardComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
 import { ForwardedBundleEmbeddedComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import { QuotedPreviewEmbeddedComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
 import { MessageMobileReactionAdd } from "#/modules/message-item/compositions/item-preview.composition.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
 import { MessageReactionGlyphComposition } from "#/modules/message-item/compositions/reaction-glyph.composition.tsx";
-import {
-  PlaygroundMessageAvatar,
-  type PlaygroundAgentStatus,
-  type PlaygroundAvatarVariant,
-} from "./playground-message-avatar.tsx";
+import { PlaygroundMessageAvatar } from "./playground-message-avatar.tsx";
 import { PlaygroundMessageBody } from "./playground-message-body.tsx";
 import { playgroundGutterClock } from "./playground-message-time.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "../composer/use-playground-single-composer-mention-target.ts";
@@ -69,9 +76,6 @@ import {
   type PlaygroundFile,
   type PlaygroundMessage,
   type PlaygroundMessageAttachment,
-  type PlaygroundMessageId,
-  type PlaygroundMessagePresentation,
-  type PlaygroundMessageTranslation,
   type PlaygroundThreadId,
 } from "../mock/index.ts";
 import {
@@ -85,57 +89,77 @@ import {
   usePlaygroundThreadReplies,
 } from "./use-playground-message-workflow.ts";
 
-export type RowVariant = PlaygroundAvatarVariant;
-
 function PlaygroundMessageSender({
-  sender,
+  children,
   mentionHandle,
 }: {
-  sender: string;
+  children: ReactNode;
   mentionHandle: PlaygroundActorId;
 }) {
   const mentionTarget = usePlaygroundSingleComposerMentionTarget();
   if (!mentionTarget) {
-    return <MessageItemSender>{sender}</MessageItemSender>;
+    return <MessageItemSender>{children}</MessageItemSender>;
   }
   return (
     <MessageItemSender
+      interactive
       render={
         <button
           type="button"
-          className="cursor-pointer hover:underline hover:decoration-2 hover:underline-offset-2"
           title={`Mention @${mentionHandle}`}
           onClick={() => mentionTarget.insertMention(mentionHandle)}
         />
       }
     >
-      {sender}
+      {children}
     </MessageItemSender>
   );
 }
 
 function PlaygroundMessageAttachments({ files }: { files: readonly PlaygroundFile[] }) {
   return files.map((file) => (
-    <MessageAttachmentReadyComposition
-      key={file.id}
-      name={file.filename}
-      meta={`${file.type.toUpperCase()} · ${file.size}`}
-      commentCount={file.type === "image" ? 2 : undefined}
-      primaryAction={<ExternalLink />}
-      primaryActionLabel={`Preview ${file.filename}`}
-      onPrimaryAction={() => {
-        window.open(file.previewUrl, "_blank", "noopener,noreferrer");
-      }}
-      secondaryAction={<Download />}
-      secondaryActionLabel={`Download ${file.filename}`}
-      onSecondaryAction={() => {
-        const link = document.createElement("a");
-        link.href = file.previewUrl;
-        link.download = file.filename;
-        link.rel = "noopener";
-        link.click();
-      }}
-    />
+    <MessageAttachmentFrame key={file.id}>
+      <MessageAttachmentCard
+        aria-label={`Preview ${file.filename}`}
+        render={<button type="button" />}
+        onClick={() => window.open(file.previewUrl, "_blank", "noopener,noreferrer")}
+      >
+        <MessageAttachmentBody>
+          <MessageAttachmentTitle>{file.filename}</MessageAttachmentTitle>
+          <MessageAttachmentMeta>
+            <MessageAttachmentMetaLabel>
+              {file.type.toUpperCase()} · {file.size}
+            </MessageAttachmentMetaLabel>
+            {file.type === "image" ? (
+              <MessageAttachmentMetaDetail>
+                <MessageAttachmentMetaSeparator>·</MessageAttachmentMetaSeparator>
+                <MessageSquare />2
+              </MessageAttachmentMetaDetail>
+            ) : null}
+          </MessageAttachmentMeta>
+        </MessageAttachmentBody>
+        <MessageAttachmentActions>
+          <MessageAttachmentAction render={<span />}>
+            <ExternalLink />
+          </MessageAttachmentAction>
+        </MessageAttachmentActions>
+      </MessageAttachmentCard>
+      <MessageAttachmentAction
+        aria-label={`Download ${file.filename}`}
+        title={`Download ${file.filename}`}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const link = document.createElement("a");
+          link.href = file.previewUrl;
+          link.download = file.filename;
+          link.rel = "noopener";
+          link.click();
+        }}
+      >
+        <Download />
+      </MessageAttachmentAction>
+    </MessageAttachmentFrame>
   ));
 }
 
@@ -193,16 +217,47 @@ function PlaygroundSentMessageAttachments({
     return (
       <div key={`${attachment.name}:${attachment.mediaType}`} className="grid gap-2">
         {mediaPreview}
-        <MessageAttachmentReadyComposition
-          name={attachment.name}
-          meta={attachment.mediaType}
-          primaryAction={openPreview ? <ExternalLink /> : undefined}
-          primaryActionLabel={`Preview ${attachment.name}`}
-          onPrimaryAction={openPreview}
-          secondaryAction={downloadAttachment ? <Download /> : undefined}
-          secondaryActionLabel={`Download ${attachment.name}`}
-          onSecondaryAction={downloadAttachment}
-        />
+        {openPreview && downloadAttachment ? (
+          <MessageAttachmentFrame>
+            <MessageAttachmentCard
+              aria-label={`Preview ${attachment.name}`}
+              render={<button type="button" />}
+              onClick={openPreview}
+            >
+              <MessageAttachmentBody>
+                <MessageAttachmentTitle>{attachment.name}</MessageAttachmentTitle>
+                <MessageAttachmentMeta>
+                  <MessageAttachmentMetaLabel>{attachment.mediaType}</MessageAttachmentMetaLabel>
+                </MessageAttachmentMeta>
+              </MessageAttachmentBody>
+              <MessageAttachmentActions>
+                <MessageAttachmentAction render={<span />}>
+                  <ExternalLink />
+                </MessageAttachmentAction>
+              </MessageAttachmentActions>
+            </MessageAttachmentCard>
+            <MessageAttachmentAction
+              aria-label={`Download ${attachment.name}`}
+              title={`Download ${attachment.name}`}
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                downloadAttachment();
+              }}
+            >
+              <Download />
+            </MessageAttachmentAction>
+          </MessageAttachmentFrame>
+        ) : (
+          <MessageAttachmentCard>
+            <MessageAttachmentBody>
+              <MessageAttachmentTitle>{attachment.name}</MessageAttachmentTitle>
+              <MessageAttachmentMeta>
+                <MessageAttachmentMetaLabel>{attachment.mediaType}</MessageAttachmentMetaLabel>
+              </MessageAttachmentMeta>
+            </MessageAttachmentBody>
+          </MessageAttachmentCard>
+        )}
       </div>
     );
   });
@@ -220,99 +275,6 @@ export type PlaygroundMessageRowProps = {
   surface?: "conversation" | "thread";
   className?: string;
 };
-
-export function PlaygroundMessageRow({
-  message,
-  searchMatch = false,
-  attachments,
-  footer,
-  focusTarget,
-  threadId,
-  compact,
-  gutterTime,
-  surface = "conversation",
-  className,
-}: PlaygroundMessageRowProps) {
-  const conversationKind = isPlaygroundDmId(message.channelId) ? "dm" : "channel";
-  const threadSearch = threadId ? `?thread=${encodeURIComponent(threadId)}` : "";
-  const messageAnchor = `${surface === "thread" ? "thread-message" : "message"}-${message.id}`;
-  const messagePermalink = `/playground/s/${PLAYGROUND_SERVER_SLUG}/${conversationKind}/${encodeURIComponent(message.channelId)}${threadSearch}#${encodeURIComponent(messageAnchor)}`;
-  const messageFiles = getPlaygroundFilesForMessage(message.id);
-  const resolvedAttachments =
-    attachments ??
-    (message.attachments?.length ? (
-      <PlaygroundSentMessageAttachments attachments={message.attachments} />
-    ) : messageFiles.length ? (
-      <PlaygroundMessageAttachments files={messageFiles} />
-    ) : undefined);
-
-  return (
-    <MessageRowView
-      actorId={message.senderId}
-      attachments={resolvedAttachments}
-      body={message.content}
-      compact={compact}
-      gutterTime={compact ? (gutterTime ?? playgroundGutterClock(message.createdAt)) : gutterTime}
-      footer={footer}
-      focusTarget={focusTarget}
-      reactions={message.reactions}
-      presentation={message.presentation}
-      translation={message.translation}
-      rowState={searchMatch ? "search-match" : undefined}
-      selectId={message.id}
-      messageAnchor={messageAnchor}
-      messageChannelId={message.channelId}
-      messagePermalink={messagePermalink}
-      time={message.createdAt}
-      threadId={threadId}
-      surface={surface}
-      className={className}
-    />
-  );
-}
-
-export type PlaygroundScenarioMessageRowProps = {
-  actorId?: PlaygroundActorId;
-  variant?: RowVariant;
-  sender?: string;
-  meta?: string;
-  status?: PlaygroundAgentStatus;
-  body?: ReactNode;
-  footer?: ReactNode;
-  attachments?: ReactNode;
-  senderState?: string;
-  inlineStatus?: string;
-  compact?: boolean;
-  gutterTime?: string;
-  deactivated?: boolean;
-  saved?: boolean;
-  followed?: boolean;
-  task?: MessageTaskState;
-  reactions?: PlaygroundMessage["reactions"];
-  presentation?: PlaygroundMessagePresentation;
-  translation?: PlaygroundMessageTranslation;
-  rowState?: "active" | "search-match";
-  selectId?: string;
-  threadId?: PlaygroundThreadId;
-  surface?: "conversation" | "thread";
-  time?: string;
-};
-
-export function PlaygroundScenarioMessageRow({
-  actorId,
-  variant,
-  selectId,
-  ...props
-}: PlaygroundScenarioMessageRowProps) {
-  const generatedId = useId();
-  return (
-    <MessageRowView
-      actorId={actorId ?? (variant === "agent" ? "atlas" : "developer")}
-      selectId={`scenario:${selectId ?? generatedId}`}
-      {...props}
-    />
-  );
-}
 
 function PlaygroundInlineReplies({
   replies,
@@ -389,79 +351,51 @@ function PlaygroundInlineReplies({
   );
 }
 
-function MessageRowView({
-  actorId,
-  sender,
-  meta,
-  time,
-  body,
+export function PlaygroundMessageRow({
+  message,
+  searchMatch = false,
   footer,
   focusTarget = false,
   attachments,
-  senderState,
-  inlineStatus,
   compact,
   gutterTime,
-  status,
-  deactivated,
-  saved,
-  followed,
-  task = "none",
-  reactions = [],
-  presentation,
-  translation,
-  rowState,
-  selectId,
   threadId,
   surface = "conversation",
-  messageAnchor,
-  messageChannelId,
-  messagePermalink,
   className,
-}: {
-  actorId: PlaygroundActorId;
-  sender?: string;
-  meta?: string;
-  time?: string;
-  body?: ReactNode;
-  footer?: ReactNode;
-  focusTarget?: boolean;
-  attachments?: ReactNode;
-  senderState?: string;
-  inlineStatus?: string;
-  compact?: boolean;
-  /** Continuation-row hover gutter clock — 24h `HH:MM`, no AM/PM (matches source `formatClock24`). */
-  gutterTime?: string;
-  status?: PlaygroundAgentStatus;
-  deactivated?: boolean;
-  saved?: boolean;
-  followed?: boolean;
-  task?: MessageTaskState;
-  reactions?: PlaygroundMessage["reactions"];
-  presentation?: PlaygroundMessagePresentation;
-  translation?: PlaygroundMessageTranslation;
-  rowState?: "active" | "search-match";
-  selectId: PlaygroundMessageId;
-  threadId?: PlaygroundThreadId;
-  surface?: "conversation" | "thread";
-  messageAnchor?: string;
-  messageChannelId?: string;
-  messagePermalink?: string;
-  className?: string;
-}) {
+}: PlaygroundMessageRowProps) {
+  const {
+    channelId,
+    content: body,
+    createdAt: time,
+    id: selectId,
+    presentation,
+    reactions,
+    senderId: actorId,
+    translation,
+  } = message;
+  const conversationKind = isPlaygroundDmId(channelId) ? "dm" : "channel";
+  const threadSearch = threadId ? `?thread=${encodeURIComponent(threadId)}` : "";
+  const messageAnchor = `${surface === "thread" ? "thread-message" : "message"}-${message.id}`;
+  const messagePermalink = `/playground/s/${PLAYGROUND_SERVER_SLUG}/${conversationKind}/${encodeURIComponent(channelId)}${threadSearch}#${encodeURIComponent(messageAnchor)}`;
+  const messageFiles = getPlaygroundFilesForMessage(message.id);
+  const resolvedAttachments =
+    attachments ??
+    (message.attachments?.length ? (
+      <PlaygroundSentMessageAttachments attachments={message.attachments} />
+    ) : messageFiles.length ? (
+      <PlaygroundMessageAttachments files={messageFiles} />
+    ) : undefined);
+  const resolvedGutterTime = compact
+    ? (gutterTime ?? playgroundGutterClock(message.createdAt))
+    : gutterTime;
   const actor = getPlaygroundActor(actorId);
-  const resolvedSender = sender ?? actor.name;
-  const resolvedMeta = meta ?? actor.meta;
   const selection = useMessageMultiSelect();
   const rowSelectId = selectId;
   const selectMode = selection?.active ?? false;
   const [menuOpen, setMenuOpen] = useState(false);
   const { workflow, update: updateWorkflow } = usePlaygroundMessageWorkflow(
     rowSelectId,
-    useMemo(
-      () => ({ reactions, saved: Boolean(saved), task: task ?? "none" }),
-      [reactions, saved, task],
-    ),
+    useMemo(() => ({ reactions, saved: false, task: "none" }), [reactions]),
   );
   useEffect(() => {
     if (workflow.translation !== "pending") return;
@@ -473,10 +407,7 @@ function MessageRowView({
     }, 400);
     return () => window.clearTimeout(timer);
   }, [translation?.outcome, updateWorkflow, workflow.translation]);
-  const { followed: isFollowed, setFollowed } = usePlaygroundThreadFollow(
-    threadId,
-    Boolean(followed),
-  );
+  const { followed: isFollowed, setFollowed } = usePlaygroundThreadFollow(threadId, false);
   const isSaved = workflow.saved;
   const taskState = workflow.task;
   const toggleReaction = (emoji: string) =>
@@ -497,23 +428,13 @@ function MessageRowView({
   );
   const { draft: threadDraft } = usePlaygroundThreadDraft(threadId);
   const hasThreadDraft = Boolean(threadDraft.trim());
-  const markdownText = typeof body === "string" ? body : "Composed message content";
+  const markdownText = body;
   const visibleBody =
     translation?.translatedContent && workflow.translation === "translated"
       ? translation.translatedContent
       : body;
-  const renderedBody =
-    typeof visibleBody === "string" ? (
-      <PlaygroundMessageBody channelId={messageChannelId} content={visibleBody} />
-    ) : (
-      visibleBody
-    );
-  const composedBody =
-    presentation === "action-card" ? (
-      <ActionCardFixtureSurface fixture={ACTION_CARD_FIXTURE} state="prepared" />
-    ) : (
-      renderedBody
-    );
+  const renderedBody = <PlaygroundMessageBody channelId={channelId} content={visibleBody} />;
+  const composedBody = presentation === "action-card" ? <ActionCardComposition /> : renderedBody;
   const embeddedPresentation =
     presentation === "forwarded-bundle" ? (
       <ForwardedBundleEmbeddedComposition />
@@ -521,7 +442,13 @@ function MessageRowView({
       <QuotedPreviewEmbeddedComposition />
     ) : null;
 
-  const effectiveRowState = selectMode ? "select" : (rowState ?? (menuOpen ? "active" : undefined));
+  const effectiveRowState = selectMode
+    ? "select"
+    : searchMatch
+      ? "search-match"
+      : menuOpen
+        ? "active"
+        : undefined;
   const ItemRoot =
     effectiveRowState === "active"
       ? MessageItemActive
@@ -562,40 +489,24 @@ function MessageRowView({
       ) : null}
       {compact ? (
         <MessageItemGutter>
-          {gutterTime ? (
-            <MessageItemContinuationTime>{gutterTime}</MessageItemContinuationTime>
+          {resolvedGutterTime ? (
+            <MessageItemContinuationTime>{resolvedGutterTime}</MessageItemContinuationTime>
           ) : null}
         </MessageItemGutter>
       ) : (
-        <PlaygroundMessageAvatar
-          actorId={actorId}
-          status={status ?? actor.presence ?? "offline"}
-          deactivated={deactivated}
-        />
+        <PlaygroundMessageAvatar actorId={actorId} status={actor.presence ?? "offline"} />
       )}
       <MessageItemContent>
         {!compact ? (
           <MessageItemHeader>
-            {resolvedSender ? (
-              deactivated || senderState ? (
-                <MessageItemSender>{resolvedSender}</MessageItemSender>
-              ) : (
-                <PlaygroundMessageSender sender={resolvedSender} mentionHandle={actorId} />
-              )
-            ) : null}
-            {senderState ? <MessageItemSenderState>{senderState}</MessageItemSenderState> : null}
-            {resolvedMeta ? (
-              <MessageItemMeta title={resolvedMeta}>{resolvedMeta}</MessageItemMeta>
-            ) : null}
-            {time ? <MessageItemTime>{time}</MessageItemTime> : null}
-            {inlineStatus ? (
-              <MessageItemInlineStatus>{inlineStatus}</MessageItemInlineStatus>
-            ) : null}
+            <PlaygroundMessageSender mentionHandle={actorId}>{actor.name}</PlaygroundMessageSender>
+            {actor.meta ? <MessageItemMeta title={actor.meta}>{actor.meta}</MessageItemMeta> : null}
+            <MessageItemTime>{time}</MessageItemTime>
           </MessageItemHeader>
         ) : null}
         {composedBody ||
         embeddedPresentation ||
-        attachments ||
+        resolvedAttachments ||
         workflow.translation === "pending" ? (
           <MessageItemCollapsibleContent
             disabled={presentation === "action-card"}
@@ -612,17 +523,18 @@ function MessageRowView({
               ) : null}
               {translation?.display === "bilingual" &&
               translation.translatedContent &&
-              workflow.translation === "translated" &&
-              typeof body === "string" ? (
+              workflow.translation === "translated" ? (
                 <MessageItemTranslationOriginal>
                   <MessageItemTranslationOriginalLabel>
                     Original
                   </MessageItemTranslationOriginalLabel>
-                  <PlaygroundMessageBody channelId={messageChannelId} content={body} />
+                  <PlaygroundMessageBody channelId={channelId} content={body} />
                 </MessageItemTranslationOriginal>
               ) : null}
               {embeddedPresentation}
-              {attachments ? <MessageItemAttachments>{attachments}</MessageItemAttachments> : null}
+              {resolvedAttachments ? (
+                <MessageItemAttachments>{resolvedAttachments}</MessageItemAttachments>
+              ) : null}
             </MessageItemCollapsibleContentPanel>
             <MessageItemCollapsibleContentTrigger>
               {({ expanded }) => (expanded ? "Show less" : "Show more")}
@@ -650,7 +562,6 @@ function MessageRowView({
                 <span>Translation unavailable</span>
                 <span aria-hidden>·</span>
                 <MessageItemTranslationAction
-                  tone="failed"
                   onClick={() =>
                     updateWorkflow((current) => ({
                       ...current,
@@ -743,7 +654,7 @@ function MessageRowView({
           />
         ) : null}
       </MessageItemContent>
-      <RowToolbar
+      <MessageRowToolbar
         saved={isSaved}
         onReplyInThread={openThread}
         portalContainer={reactionPortalContainer}
@@ -807,31 +718,5 @@ function MessageRowView({
         />
       </ContextMenu>
     </MessageItemInteractionBoundary>
-  );
-}
-
-// Thin Playground wrapper over the canonical toolbar. Product workflow callbacks
-// stay keyed to the message while transient picker state remains in the composition.
-function RowToolbar({
-  saved,
-  onReact,
-  onReplyInThread,
-  onSavedChange,
-  portalContainer,
-}: {
-  saved?: boolean;
-  onReact: (emoji: string) => void;
-  onReplyInThread?: () => void;
-  onSavedChange: (saved: boolean) => void;
-  portalContainer?: HTMLElement | null;
-}) {
-  return (
-    <MessageRowToolbar
-      saved={saved}
-      onReact={onReact}
-      onReplyInThread={onReplyInThread}
-      onSavedChange={onSavedChange}
-      portalContainer={portalContainer}
-    />
   );
 }

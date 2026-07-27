@@ -1,12 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import {
-  DropdownMenuContent,
-  type DropdownMenuContentProps,
-  DropdownMenuPopup,
-  type DropdownMenuPopupProps,
-} from "../dropdown-menu/index";
+import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
 import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
 import { messageReaction } from "./message-reaction.recipe";
 import { dataPresence, isAriaTrue, type SlotElementProps } from "../../lib/data-attributes";
@@ -62,37 +57,12 @@ export function MessageReactionErrorIndicator({
   });
 }
 
-export type MessageReactionGlyphProps = useRender.ComponentProps<"span"> & {
-  emoji?: string;
-  size?: number;
-};
+export type MessageReactionGlyphProps = useRender.ComponentProps<"span">;
 
-export function MessageReactionGlyph({
-  children,
-  className,
-  emoji,
-  render,
-  size = 15,
-  style,
-  ...props
-}: MessageReactionGlyphProps) {
+export function MessageReactionGlyph({ className, render, ...props }: MessageReactionGlyphProps) {
   const { glyph: glyphSlot } = messageReaction();
-  const glyph = emoji ?? (typeof children === "string" ? children : undefined);
-  const defaultProps: SlotElementProps<"span"> = {
-    "aria-label": glyph,
-    "data-emoji": glyph ? "true" : undefined,
-    children: glyph ?? children,
+  const defaultProps: useRender.ElementProps<"span"> = {
     className: glyphSlot({ className }),
-    role: glyph ? "img" : undefined,
-    style: glyph
-      ? {
-          fontSize: size,
-          height: size,
-          lineHeight: 1,
-          width: size,
-          ...style,
-        }
-      : style,
   };
 
   return useRender({
@@ -213,29 +183,6 @@ export function MessageReactionPickerStatic({
     props: mergeProps<"div">(defaultProps, props),
     state: { slot: "message-reaction-picker-static" },
   });
-}
-
-export type MessageReactionPickerPopupProps = DropdownMenuPopupProps;
-
-export function MessageReactionPickerPopup({
-  className,
-  ...props
-}: MessageReactionPickerPopupProps) {
-  const theme = useThemeFamily();
-  const { pickerContent } = messageReaction({ theme });
-  const resolvedClassName = pickerContent({ className });
-
-  if (theme === "elegant") {
-    return (
-      <DropdownMenuPopup
-        {...props}
-        data-slot="message-reaction-picker"
-        className={resolvedClassName}
-      />
-    );
-  }
-
-  return <div {...props} data-slot="message-reaction-picker" className={resolvedClassName} />;
 }
 
 export type MessageReactionPickerContentProps = DropdownMenuContentProps;

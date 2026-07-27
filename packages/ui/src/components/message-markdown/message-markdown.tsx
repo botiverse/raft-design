@@ -61,22 +61,3 @@ export function MessageMarkdownTableScroll({
     },
   });
 }
-
-export type MessageCodeBlockProps = useRender.ComponentProps<"pre">;
-
-export function MessageCodeBlock({ className, render, ...props }: MessageCodeBlockProps) {
-  const theme = useThemeFamily();
-  const { codeBlock } = messageMarkdown({ theme });
-  const defaultProps: useRender.ElementProps<"pre"> = {
-    className: codeBlock({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "pre",
-    render,
-    props: mergeProps<"pre">(defaultProps, props),
-    state: {
-      slot: "message-code-block",
-    },
-  });
-}

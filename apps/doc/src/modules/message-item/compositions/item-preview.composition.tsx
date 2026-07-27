@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlertTriangle, Bookmark, Languages, MessageSquare, Pencil, Plus } from "lucide-react";
+import { AlertTriangle, Bookmark, Languages, MessageSquare, Plus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItem,
@@ -7,21 +7,18 @@ import {
   MessageItemAttachments,
   MessageItemAvatarSlot,
   MessageItemBadge,
-  MessageItemBadgeSeparator,
   MessageItemBody,
   MessageItemContent,
   MessageItemContinuationTime,
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
-  MessageItemInlineStatus,
   MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
   MessageItemSelection,
   MessageItemSender,
-  MessageItemSenderState,
   MessageItemTime,
   MessageItemTranslationAction,
   MessageItemTranslationOriginal,
@@ -32,18 +29,8 @@ import {
   MessageReactionAddButton,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
-  SystemMessage,
-  SystemMessageContent,
-  SystemMessageGroup,
-  SystemMessageGroupChevron,
-  SystemMessageGroupDisclosure,
-  SystemMessageGroupHeader,
-  SystemMessageGroupPanel,
-  SystemMessageGroupSummary,
-  SystemMessageTime,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
-import { MessageTaskStatusBadgeComposition } from "./task-badge.composition.tsx";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_FIXTURE_IMAGE_SRC,
@@ -56,28 +43,12 @@ import {
 } from "#/modules/message-item/message-item-example-markdown.tsx";
 import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
-import {
-  MessageCodeBlockComposition,
-  MessageMarkdownComposition,
-} from "#/modules/message-markdown/compositions/markdown.composition.tsx";
-import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
-import { QuotedPreviewMessageComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
-import { QuotedPreviewFeedbackComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
-import { ForwardedBundleMessageComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
+import { MessageMarkdownComposition } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
 import {
   MessageImageGallerySingleComposition,
   MessageVideoPreviewComposition,
 } from "#/modules/message-media/compositions/media.compositions.tsx";
 import { MessageFileAttachmentsComposition } from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx";
-
-export type MessageProductStatePreviewState = "forwarded" | "quoted" | "quoted-feedback" | "action";
-
-function MessageProductStatePreview({ state }: { state: MessageProductStatePreviewState }) {
-  if (state === "forwarded") return <ForwardedBundleMessageComposition />;
-  if (state === "quoted") return <QuotedPreviewMessageComposition />;
-  if (state === "quoted-feedback") return <QuotedPreviewFeedbackComposition />;
-  return <ActionCardMessageComposition />;
-}
 
 export type MessageItemPreviewChrome =
   | "default"
@@ -93,80 +64,18 @@ export type MessageItemPreviewTranslation =
   | "bilingual"
   | "failed";
 
-export type MessageItemPreviewProductState = "none" | MessageProductStatePreviewState;
-
-export type MessageItemPreviewSenderState = "none" | "deleted" | "left" | "removed";
-
-export type MessageItemPreviewSystemEvent = "archive" | "task-assigned" | "group";
-
 export type MessageItemPreviewProps = {
   chrome?: MessageItemPreviewChrome;
-  meta?: boolean;
   markdown?: boolean;
   translation?: MessageItemPreviewTranslation;
-  productState?: MessageItemPreviewProductState;
-  senderState?: MessageItemPreviewSenderState;
-  converting?: boolean;
-  systemEvent?: MessageItemPreviewSystemEvent;
-  task?: boolean;
   image?: boolean;
   video?: boolean;
   files?: boolean;
   saved?: boolean;
   replies?: boolean;
-  newReplies?: boolean;
-  draftReply?: boolean;
   reactions?: boolean;
-  mobileReactionAdd?: boolean;
   toolbar?: boolean;
 };
-
-function MessageSystemGroupPreview() {
-  const [open, setOpen] = useState(false);
-  const summary = "There are 2 task updates";
-
-  return (
-    <SystemMessageGroup open={open} onOpenChange={setOpen}>
-      <SystemMessageGroupHeader>
-        <SystemMessageGroupDisclosure>
-          <SystemMessageGroupSummary>{summary}</SystemMessageGroupSummary>
-          <SystemMessageGroupChevron />
-        </SystemMessageGroupDisclosure>
-      </SystemMessageGroupHeader>
-      <SystemMessageGroupPanel>
-        <SystemMessage>
-          <SystemMessageTime>2:18 PM</SystemMessageTime>
-          <SystemMessageContent>
-            ✅ Atlas moved #41 &quot;Release review checklist&quot; to Done
-          </SystemMessageContent>
-        </SystemMessage>
-        <SystemMessage>
-          <SystemMessageTime>2:19 PM</SystemMessageTime>
-          <SystemMessageContent>
-            📌 Assigned @Ada to task #42 &quot;Polish MessageItem docs&quot;
-          </SystemMessageContent>
-        </SystemMessage>
-      </SystemMessageGroupPanel>
-    </SystemMessageGroup>
-  );
-}
-
-function MessageSystemPreview({ event }: { event: MessageItemPreviewSystemEvent }) {
-  if (event === "group") return <MessageSystemGroupPreview />;
-
-  return (
-    <SystemMessage>
-      <SystemMessageTime>2:17 PM</SystemMessageTime>
-      {event === "task-assigned" ? (
-        <SystemMessageContent>
-          📌 Assigned @Ada to task #42 &quot;Polish MessageItem docs&quot;
-        </SystemMessageContent>
-      ) : (
-        <SystemMessageContent>📦 Atlas archived this channel</SystemMessageContent>
-      )}
-    </SystemMessage>
-  );
-}
 
 export function MessageMobileReactionAdd({
   portalContainer,
@@ -205,23 +114,14 @@ export function MessageMobileReactionAdd({
  */
 export function MessageItemPreview({
   chrome = "default",
-  meta = true,
   markdown = false,
   translation = "none",
-  productState = "none",
-  senderState = "none",
-  converting = false,
-  systemEvent,
-  task = false,
   image = false,
   video = false,
   files = false,
   saved = false,
   replies = false,
-  newReplies = false,
-  draftReply = false,
   reactions = false,
-  mobileReactionAdd = false,
   toolbar = false,
 }: MessageItemPreviewProps) {
   // The Saved control is the source of truth; footer and toolbar share one state
@@ -244,12 +144,6 @@ export function MessageItemPreview({
     setRetryingTranslation(false);
   }
   const continuation = chrome === "continuation";
-
-  if (systemEvent) return <MessageSystemPreview event={systemEvent} />;
-
-  if (!continuation && productState !== "none") {
-    return <MessageProductStatePreview state={productState} />;
-  }
   const translationState = retryingTranslation ? "pending" : translation;
 
   const originalTranslation = "Keep this original message available for the team.";
@@ -274,7 +168,6 @@ export function MessageItemPreview({
             <span>Translation unavailable</span>
             <span aria-hidden>·</span>
             <MessageItemTranslationAction
-              tone="failed"
               title="Translation unavailable"
               aria-label="Retry"
               onClick={() => setRetryingTranslation(true)}
@@ -307,18 +200,14 @@ export function MessageItemPreview({
         <p>{originalTranslation}</p>
       </MessageMarkdown>
     ) : markdown ? (
-      <>
-        <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
-        <MessageCodeBlockComposition />
-      </>
+      <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
     ) : (
       <MessageItemExampleMarkdown portalContainer={portalContainer} />
     );
 
   const footer =
-    task || isSaved || replies || draftReply || reactions ? (
+    isSaved || replies || reactions ? (
       <MessageItemFooter>
-        {task ? <MessageTaskStatusBadgeComposition portalContainer={portalContainer} /> : null}
         {isSaved ? (
           <MessageItemSavedIndicator
             aria-label="Remove from Saved"
@@ -328,34 +217,16 @@ export function MessageItemPreview({
             <span>Saved</span>
           </MessageItemSavedIndicator>
         ) : null}
-        {replies || draftReply ? (
-          <MessageItemBadge status={newReplies ? "unread" : "read"}>
-            {replies ? <MessageSquare /> : <Pencil className="text-foreground-muted" />}
-            {replies ? <span>2 replies</span> : null}
-            {newReplies ? (
-              <>
-                <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
-                <span>1 new</span>
-              </>
-            ) : null}
-            {draftReply ? (
-              <>
-                {replies || newReplies ? (
-                  <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>
-                ) : null}
-                {replies ? <Pencil className="text-foreground-muted" /> : null}
-                <span className="text-foreground-muted">draft</span>
-              </>
-            ) : null}
+        {replies ? (
+          <MessageItemBadge status="read">
+            <MessageSquare />
+            <span>2 replies</span>
           </MessageItemBadge>
         ) : null}
         {reactions ? (
           <>
             <MessageReactionComposition emoji="👍" count={3} reacted />
             <MessageReactionComposition emoji="🔥" count={1} />
-            {mobileReactionAdd ? (
-              <MessageMobileReactionAdd portalContainer={portalContainer} onReact={setReaction} />
-            ) : null}
           </>
         ) : null}
       </MessageItemFooter>
@@ -383,7 +254,7 @@ export function MessageItemPreview({
           <MessageItemContent>
             <MessageItemHeader>
               <MessageItemSender>Atlas</MessageItemSender>
-              {meta ? <MessageItemMeta>owner</MessageItemMeta> : null}
+              <MessageItemMeta>owner</MessageItemMeta>
               <MessageItemTime>2:14 PM</MessageItemTime>
             </MessageItemHeader>
             <MessageItemBody>
@@ -435,14 +306,8 @@ export function MessageItemPreview({
     <MessageItemContent>
       <MessageItemHeader>
         <MessageItemSender>Atlas</MessageItemSender>
-        {senderState !== "none" ? (
-          <MessageItemSenderState>
-            {senderState === "deleted" ? "Deleted" : senderState === "left" ? "Left" : "Removed"}
-          </MessageItemSenderState>
-        ) : null}
-        {meta ? <MessageItemMeta>owner</MessageItemMeta> : null}
+        <MessageItemMeta>owner</MessageItemMeta>
         <MessageItemTime>2:14 PM</MessageItemTime>
-        {converting ? <MessageItemInlineStatus>Converting…</MessageItemInlineStatus> : null}
       </MessageItemHeader>
       <MessageItemBody>{messageBody}</MessageItemBody>
       {translationState === "bilingual" && !showOriginal ? (
@@ -489,11 +354,7 @@ export function MessageItemPreview({
     <MessageItemInteractionBoundary ref={setPortalContainer}>
       <RowChrome>
         <MessageItemAvatarSlot>
-          <Avatar
-            size="md"
-            type="agent"
-            className={senderState === "deleted" ? "grayscale opacity-60" : undefined}
-          >
+          <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
             <AvatarFallback>AT</AvatarFallback>
           </Avatar>

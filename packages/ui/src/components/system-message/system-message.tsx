@@ -7,11 +7,6 @@ import { cn } from "../../lib/cn";
 import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageSystem } from "./system-message.recipe";
-import {
-  formatSystemMessageReminderTime,
-  splitSystemMessageReminderFireAtTokens,
-  type SystemMessageTimeFormatOptions,
-} from "./system-message-reminder";
 
 export type SystemMessageProps = useRender.ComponentProps<"div">;
 
@@ -51,40 +46,11 @@ export function SystemMessageTime({ className, render, ...props }: SystemMessage
   });
 }
 
-export type SystemMessageContentProps = useRender.ComponentProps<"span"> &
-  SystemMessageTimeFormatOptions & {
-    /** Raw system body. When set, reminder fire-at spans are parsed and rendered. */
-    content?: string;
-    now?: Date;
-  };
+export type SystemMessageContentProps = useRender.ComponentProps<"span">;
 
-export function SystemMessageContent({
-  children,
-  className,
-  content,
-  locale,
-  now,
-  render,
-  timeFormat,
-  timeZone,
-  ...props
-}: SystemMessageContentProps) {
+export function SystemMessageContent({ className, render, ...props }: SystemMessageContentProps) {
   const theme = useThemeFamily();
   const { systemContent } = messageSystem({ theme });
-  const timeOptions: SystemMessageTimeFormatOptions = { locale, timeFormat, timeZone };
-  const resolvedChildren =
-    content != null
-      ? splitSystemMessageReminderFireAtTokens(content).map((part, index) =>
-          part.type === "reminderFireAt" ? (
-            <span key={`${part.value}-${index}`}>
-              {formatSystemMessageReminderTime(part.value, now ?? new Date(), timeOptions)}
-            </span>
-          ) : (
-            part.value
-          ),
-        )
-      : children;
-
   const defaultProps: useRender.ElementProps<"span"> = {
     className: systemContent({ className }),
   };
@@ -92,9 +58,7 @@ export function SystemMessageContent({
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(defaultProps, props, {
-      children: resolvedChildren,
-    }),
+    props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "system-message-item-content",
     },

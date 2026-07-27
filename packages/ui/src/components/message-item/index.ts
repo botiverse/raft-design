@@ -82,7 +82,6 @@ export {
   MessageReactionErrorIndicator,
   MessageReactionGlyph,
   MessageReactionPickerContent,
-  MessageReactionPickerPopup,
   MessageReactionPickerStatic,
   MessageReactionQuickButton,
   MessageReactionQuickRow,
@@ -108,6 +107,7 @@ export {
   MessageMultiSelectCheckbox,
   MessageMultiSelectCount,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarContent,
   useMessageMultiSelect,
 } from "./message-multi-select";
 export {
@@ -191,7 +191,6 @@ export type {
   MessageReactionErrorIndicatorProps,
   MessageReactionGlyphProps,
   MessageReactionPickerContentProps,
-  MessageReactionPickerPopupProps,
   MessageReactionPickerStaticProps,
   MessageReactionQuickButtonProps,
   MessageReactionQuickRowProps,
@@ -219,6 +218,7 @@ export type {
   MessageMultiSelectCheckboxProps,
   MessageMultiSelectCountProps,
   MessageMultiSelectProps,
+  MessageMultiSelectToolbarContentProps,
   MessageMultiSelectToolbarProps,
 } from "./message-multi-select";
 export type {

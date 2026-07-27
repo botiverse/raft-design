@@ -1,6 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { Skeleton } from "../skeleton";
+import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
@@ -79,7 +80,8 @@ export function MessageItemTranslationStatus({
 }: MessageItemTranslationStatusProps) {
   const theme = useThemeFamily();
   const { translationStatus } = messageItem({ theme, translationTone: tone });
-  const defaultProps: useRender.ElementProps<"div"> = {
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-tone": tone,
     className: translationStatus({ className }),
   };
 
@@ -91,18 +93,15 @@ export function MessageItemTranslationStatus({
   });
 }
 
-export type MessageItemTranslationActionProps = useRender.ComponentProps<"button"> & {
-  tone?: MessageItemTranslationTone;
-};
+export type MessageItemTranslationActionProps = useRender.ComponentProps<"button">;
 
 export function MessageItemTranslationAction({
   className,
   render,
-  tone = "normal",
   ...props
 }: MessageItemTranslationActionProps) {
   const theme = useThemeFamily();
-  const { translationAction } = messageItem({ theme, translationTone: tone });
+  const { translationAction } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: translationAction({ className }),
@@ -112,6 +111,6 @@ export function MessageItemTranslationAction({
     defaultTagName: "button",
     render,
     props: mergeProps<"button">(defaultProps, props),
-    state: { slot: "message-item-translation-action", tone },
+    state: { slot: "message-item-translation-action" },
   });
 }

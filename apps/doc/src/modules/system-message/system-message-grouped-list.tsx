@@ -14,21 +14,6 @@ import {
 import type { SystemMessageSlice } from "./system-message.fixtures.ts";
 import { buildSystemMessageRenderStates } from "./system-message-grouping.ts";
 
-export function SystemMessageRow({
-  message,
-  time = "2:16 PM",
-}: {
-  message: SystemMessageSlice;
-  time?: string;
-}) {
-  return (
-    <SystemMessage>
-      <SystemMessageTime>{time}</SystemMessageTime>
-      <SystemMessageContent>{message.content}</SystemMessageContent>
-    </SystemMessage>
-  );
-}
-
 export function SystemMessageGroupedList({
   messages,
 }: {
@@ -69,13 +54,16 @@ export function SystemMessageGroupedList({
                   const grouped = messages[messageIndex];
                   if (!grouped) return null;
                   return (
-                    <SystemMessageRow
-                      key={grouped.id}
-                      message={grouped}
-                      time={
-                        messageIndex === 0 ? "2:18 PM" : messageIndex === 1 ? "2:19 PM" : "2:20 PM"
-                      }
-                    />
+                    <SystemMessage key={grouped.id}>
+                      <SystemMessageTime>
+                        {messageIndex === 0
+                          ? "2:18 PM"
+                          : messageIndex === 1
+                            ? "2:19 PM"
+                            : "2:20 PM"}
+                      </SystemMessageTime>
+                      <SystemMessageContent>{grouped.content}</SystemMessageContent>
+                    </SystemMessage>
                   );
                 })}
               </SystemMessageGroupPanel>
@@ -83,7 +71,12 @@ export function SystemMessageGroupedList({
           );
         }
 
-        return <SystemMessageRow key={message.id} message={message} time="2:18 PM" />;
+        return (
+          <SystemMessage key={message.id}>
+            <SystemMessageTime>2:18 PM</SystemMessageTime>
+            <SystemMessageContent>{message.content}</SystemMessageContent>
+          </SystemMessage>
+        );
       })}
     </div>
   );

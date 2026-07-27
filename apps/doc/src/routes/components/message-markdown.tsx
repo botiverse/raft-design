@@ -39,11 +39,6 @@ const PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"div">',
     description: "Horizontal scroll wrapper for wide markdown tables.",
   },
-  {
-    name: "MessageCodeBlock",
-    type: 'useRender.ComponentProps<"pre">',
-    description: "Fenced code block shell. Syntax highlighting stays consumer-owned.",
-  },
 ];
 
 function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {

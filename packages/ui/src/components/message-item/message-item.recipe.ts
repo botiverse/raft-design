@@ -213,16 +213,20 @@ export const messageItem = tv({
       theme: "brutal",
       translationTone: "failed",
       class: {
-        translationStatus: "text-brutal-orange",
-        translationAction: "text-brutal-orange",
+        translationStatus: [
+          "text-brutal-orange",
+          "[&_[data-slot=message-item-translation-action]]:text-brutal-orange",
+        ],
       },
     },
     {
       theme: "elegant",
       translationTone: "failed",
       class: {
-        translationStatus: "text-danger-base",
-        translationAction: "text-danger-base",
+        translationStatus: [
+          "text-danger-base",
+          "[&_[data-slot=message-item-translation-action]]:text-danger-base",
+        ],
       },
     },
     {

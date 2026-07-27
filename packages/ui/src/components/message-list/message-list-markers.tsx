@@ -4,33 +4,27 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageList } from "./message-list.recipe";
 
-export type MessageListDateDividerProps = useRender.ComponentProps<"div"> & {
-  sticky?: boolean;
-};
+export type MessageListDateDividerProps = useRender.ComponentProps<"div">;
 
 export function MessageListDateDivider({
   children,
   className,
   render,
-  sticky = false,
   ...props
 }: MessageListDateDividerProps) {
   const theme = useThemeFamily();
   const { dateDividerRoot, dateDividerRule, dateDividerChipWrap, dateDividerChip } = messageList({
     theme,
-    sticky,
   });
-  const chip = <span className={dateDividerChip()}>{children}</span>;
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "message-list-date-divider",
-    "data-sticky": sticky ? "true" : undefined,
     className: dateDividerRoot({ className }),
-    children: sticky ? (
-      chip
-    ) : (
+    children: (
       <>
         <div aria-hidden className={dateDividerRule()} />
-        <div className={dateDividerChipWrap()}>{chip}</div>
+        <div className={dateDividerChipWrap()}>
+          <span className={dateDividerChip()}>{children}</span>
+        </div>
       </>
     ),
   };

@@ -34,7 +34,9 @@ function MessageSelectionToolbarShowcase() {
 
   return (
     <div className="grid gap-2">
-      <MessageMultiSelectToolbarComposition count={3} onCancel={() => setActive(false)} />
+      <MessageMultiSelectToolbarComposition onCancel={() => setActive(false)}>
+        3 selected
+      </MessageMultiSelectToolbarComposition>
       <p className="text-xs text-foreground-muted">
         Copy, Forward, and Generate image are disabled in this isolated chrome example because it
         has no selected-message payload.

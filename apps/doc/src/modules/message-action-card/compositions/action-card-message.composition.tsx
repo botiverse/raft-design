@@ -1,9 +1,7 @@
-import { Check } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Badge, Button } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage, Button } from "raft-ui";
 import {
   MessageActionCard,
   MessageActionCardActions,
-  MessageActionCardCompletion,
   MessageActionCardContent,
   MessageActionCardDetails,
   MessageActionCardHeader,
@@ -19,62 +17,42 @@ import {
 } from "raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
-import { ACTION_CARD_FIXTURE, type ActionCardFixture } from "../message-action-card.fixtures.ts";
 
-export function ActionCardFixtureSurface({
-  fixture,
-  state = "prepared",
-}: {
-  fixture: ActionCardFixture;
-  state?: "prepared" | "executed";
-}) {
-  const executed = state === "executed";
-
+export function ActionCardComposition() {
   return (
     <div className="grid gap-2">
       <MessageActionCard>
         <MessageActionCardContent>
           <MessageActionCardHeader>
-            <span>{fixture.title}</span>
-            {executed ? (
-              <Badge variant="success" uppercase className="ml-auto">
-                <Check size={10} className="shrink-0" />
-                <span className="shrink-0">Done</span>
-              </Badge>
-            ) : null}
+            <span>Create private channel #release-review</span>
           </MessageActionCardHeader>
           <MessageActionCardDetails>
-            {fixture.details.map((detail) => (
-              <div key={detail.label}>
-                <span className="text-foreground-muted">{detail.label}:</span> {detail.value}
-              </div>
-            ))}
+            <div>
+              <span className="text-foreground-muted">Description:</span> Coordinate the final
+              release review.
+            </div>
+            <div>
+              <span className="text-foreground-muted">Humans:</span> Ada, Will
+            </div>
+            <div>
+              <span className="text-foreground-muted">Agents:</span> Atlas
+            </div>
           </MessageActionCardDetails>
-          <MessageActionCardHint>{fixture.hint}</MessageActionCardHint>
-          {executed ? (
-            <MessageActionCardCompletion>
-              Committed by <span className="font-bold">Will</span> {fixture.result}
-            </MessageActionCardCompletion>
-          ) : (
-            <MessageActionCardActions>
-              <Button size="sm" variant="accent">
-                {fixture.verb}
-              </Button>
-            </MessageActionCardActions>
-          )}
+          <MessageActionCardHint>
+            Suggested after the launch checklist was approved.
+          </MessageActionCardHint>
+          <MessageActionCardActions>
+            <Button size="sm" variant="accent">
+              Create Channel
+            </Button>
+          </MessageActionCardActions>
         </MessageActionCardContent>
       </MessageActionCard>
     </div>
   );
 }
 
-export function ActionCardMessageComposition({
-  fixture = ACTION_CARD_FIXTURE,
-  state = "prepared",
-}: {
-  fixture?: ActionCardFixture;
-  state?: "prepared" | "executed";
-} = {}) {
+export function ActionCardMessageComposition() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
@@ -90,7 +68,7 @@ export function ActionCardMessageComposition({
           <MessageItemTime>2:27 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          <ActionCardFixtureSurface fixture={fixture} state={state} />
+          <ActionCardComposition />
         </MessageItemBody>
       </MessageItemContent>
     </MessageItem>

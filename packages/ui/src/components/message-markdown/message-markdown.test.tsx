@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import {
-  MessageCodeBlock,
-  MessageInlineCode,
-  MessageMarkdown,
-  MessageMarkdownTableScroll,
-} from "./message-markdown";
+import { MessageInlineCode, MessageMarkdown, MessageMarkdownTableScroll } from "./message-markdown";
 import { renderToStaticMarkup } from "react-dom/server";
 
 describe("MessageMarkdown", () => {
@@ -25,9 +20,6 @@ describe("MessageMarkdown", () => {
               </tbody>
             </table>
           </MessageMarkdownTableScroll>
-          <MessageCodeBlock>
-            <code>const theme = "elegant";</code>
-          </MessageCodeBlock>
         </MessageMarkdown>
       </ThemeProvider>,
     );
@@ -35,6 +27,5 @@ describe("MessageMarkdown", () => {
     expect(markup).toContain('data-slot="message-markdown"');
     expect(markup).toContain('data-slot="inline-code"');
     expect(markup).toContain('data-slot="message-markdown-table-scroll"');
-    expect(markup).toContain('data-slot="message-code-block"');
   });
 });

@@ -58,22 +58,17 @@ export function MessageImageGalleryRow({
 
 export type MessageImageGalleryItemProps = useRender.ComponentProps<"div"> & {
   size?: MessageImageGalleryItemSize;
-  /** @deprecated Use size="single". */
-  single?: boolean;
 };
 
 export function MessageImageGalleryItem({
   className,
   render,
-  single,
   size,
   ...props
 }: MessageImageGalleryItemProps) {
   const theme = useThemeFamily();
-  const resolvedSize = single ? "single" : size;
-  const { galleryItem } = messageMedia({ itemSize: resolvedSize, theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-single": single ? "true" : undefined,
+  const { galleryItem } = messageMedia({ itemSize: size, theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
     className: galleryItem({ className }),
   };
 
@@ -83,7 +78,7 @@ export function MessageImageGalleryItem({
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "message-image-gallery-item",
-      size: resolvedSize,
+      size,
     },
   });
 }

@@ -6,6 +6,7 @@ import {
   MessageMultiSelectActions,
   MessageMultiSelectCount,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarContent,
   MessageTextSelection,
   MessageTextSelectionMenu,
   MessageTextSelectionMenuItem,
@@ -59,7 +60,7 @@ export function MessageTextSelectionComposition({
 }
 
 export type MessageMultiSelectToolbarCompositionProps = {
-  count: number;
+  children: ReactNode;
   onCancel: () => void;
   onCopyLink?: () => void;
   onCopyMarkdown?: () => void;
@@ -68,7 +69,7 @@ export type MessageMultiSelectToolbarCompositionProps = {
 };
 
 export function MessageMultiSelectToolbarComposition({
-  count,
+  children,
   onCancel,
   onCopyLink,
   onCopyMarkdown,
@@ -116,7 +117,7 @@ export function MessageMultiSelectToolbarComposition({
       cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [compactLevel, count, onCopyLink, onForward]);
+  }, [compactLevel, onCopyLink, onForward]);
 
   return (
     <MessageMultiSelectToolbar
@@ -124,71 +125,73 @@ export function MessageMultiSelectToolbarComposition({
       aria-label="Selected message actions"
       data-testid="select-mode-toolbar"
     >
-      <MessageMultiSelectCount data-testid="select-mode-count">
-        {count} selected
-      </MessageMultiSelectCount>
-      <MessageMultiSelectActions ref={actionsRef}>
-        <MessageMultiSelectAction
-          size={compactCancel ? "icon" : "default"}
-          onClick={onCancel}
-          aria-label="Cancel"
-          title="Cancel"
-        >
-          <X size={14} />
-          {compactCancel ? null : <span>Cancel</span>}
-        </MessageMultiSelectAction>
-        <MessageMultiSelectAction
-          size={compactForward ? "icon" : "default"}
-          tone="accent"
-          aria-label="Forward"
-          disabled={!onForward}
-          onClick={onForward}
-          title="Forward"
-        >
-          <Send size={14} />
-          {compactForward ? null : <span>Forward</span>}
-        </MessageMultiSelectAction>
-        <MessageMultiSelectAction
-          size={compactCopyLink ? "icon" : "default"}
-          aria-label="Copy link"
-          disabled={!onCopyLink}
-          onClick={onCopyLink}
-          title="Copy link"
-        >
-          <Copy size={14} />
-          {compactCopyLink ? null : <span>Copy link</span>}
-        </MessageMultiSelectAction>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <MessageMultiSelectAction
-                size="icon"
-                aria-label="More selected message actions"
-                disabled={!onGenerateImage && !onCopyMarkdown}
-                title="More"
-              >
-                <MoreHorizontal size={14} />
-              </MessageMultiSelectAction>
-            }
-          />
-          <DropdownMenuContent
-            side="top"
-            align="end"
-            sideOffset={8}
-            data-testid="select-mode-more-menu"
-            className="min-w-44"
+      <MessageMultiSelectToolbarContent>
+        <MessageMultiSelectCount data-testid="select-mode-count">
+          {children}
+        </MessageMultiSelectCount>
+        <MessageMultiSelectActions ref={actionsRef}>
+          <MessageMultiSelectAction
+            size={compactCancel ? "icon" : "default"}
+            onClick={onCancel}
+            aria-label="Cancel"
+            title="Cancel"
           >
-            <DropdownMenuItem disabled={!onGenerateImage} onClick={onGenerateImage}>
-              <ImageIcon size={14} />
-              Generate image
-            </DropdownMenuItem>
-            <DropdownMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
-              <Copy size={14} />
-              Copy MD
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </MessageMultiSelectActions>
+            <X size={14} />
+            {compactCancel ? null : <span>Cancel</span>}
+          </MessageMultiSelectAction>
+          <MessageMultiSelectAction
+            size={compactForward ? "icon" : "default"}
+            tone="accent"
+            aria-label="Forward"
+            disabled={!onForward}
+            onClick={onForward}
+            title="Forward"
+          >
+            <Send size={14} />
+            {compactForward ? null : <span>Forward</span>}
+          </MessageMultiSelectAction>
+          <MessageMultiSelectAction
+            size={compactCopyLink ? "icon" : "default"}
+            aria-label="Copy link"
+            disabled={!onCopyLink}
+            onClick={onCopyLink}
+            title="Copy link"
+          >
+            <Copy size={14} />
+            {compactCopyLink ? null : <span>Copy link</span>}
+          </MessageMultiSelectAction>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <MessageMultiSelectAction
+                  size="icon"
+                  aria-label="More selected message actions"
+                  disabled={!onGenerateImage && !onCopyMarkdown}
+                  title="More"
+                >
+                  <MoreHorizontal size={14} />
+                </MessageMultiSelectAction>
+              }
+            />
+            <DropdownMenuContent
+              side="top"
+              align="end"
+              sideOffset={8}
+              data-testid="select-mode-more-menu"
+              className="min-w-44"
+            >
+              <DropdownMenuItem disabled={!onGenerateImage} onClick={onGenerateImage}>
+                <ImageIcon size={14} />
+                Generate image
+              </DropdownMenuItem>
+              <DropdownMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
+                <Copy size={14} />
+                Copy MD
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </MessageMultiSelectActions>
+      </MessageMultiSelectToolbarContent>
     </MessageMultiSelectToolbar>
   );
 }

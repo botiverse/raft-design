@@ -271,7 +271,6 @@ export {
   MessageReactionErrorIndicator,
   MessageReactionGlyph,
   MessageReactionPickerContent,
-  MessageReactionPickerPopup,
   MessageReactionPickerStatic,
   MessageReactionQuickButton,
   MessageReactionQuickRow,
@@ -287,6 +286,7 @@ export {
   MessageMultiSelectCheckbox,
   MessageMultiSelectCount,
   MessageMultiSelectToolbar,
+  MessageMultiSelectToolbarContent,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceMeta,
@@ -361,6 +361,7 @@ export type {
   MessageMultiSelectCheckboxProps,
   MessageMultiSelectCountProps,
   MessageMultiSelectProps,
+  MessageMultiSelectToolbarContentProps,
   MessageMultiSelectToolbarProps,
   MessageTextSelectionMenuItemProps,
   MessageTextSelectionMenuProps,
@@ -373,7 +374,6 @@ export type {
   MessageReactionErrorIndicatorProps,
   MessageReactionGlyphProps,
   MessageReactionPickerContentProps,
-  MessageReactionPickerPopupProps,
   MessageReactionPickerStaticProps,
   MessageReactionQuickButtonProps,
   MessageReactionQuickRowProps,
@@ -397,14 +397,15 @@ export {
   MessageInlineCode,
   MessageMarkdown,
   MessageMarkdownTableScroll,
-  MessageCodeBlock,
 } from "./components/message-markdown/index";
 export type {
   MessageInlineCodeProps,
   MessageMarkdownProps,
   MessageMarkdownTableScrollProps,
-  MessageCodeBlockProps,
 } from "./components/message-markdown/index";
+
+export { MessageCodeBlock } from "./components/message-code-block/index";
+export type { MessageCodeBlockProps } from "./components/message-code-block/index";
 
 export {
   MessageQuotedPreview,
@@ -454,11 +455,6 @@ export type {
 } from "./components/message-quoted-preview/index";
 
 export {
-  buildSystemMessageRenderStates,
-  formatSystemMessageReminderContentTitle,
-  formatSystemMessageReminderTime,
-  formatSystemMessageReminderTooltip,
-  splitSystemMessageReminderFireAtTokens,
   SystemMessage,
   SystemMessageContent,
   SystemMessageGroup,
@@ -478,11 +474,6 @@ export type {
   SystemMessageGroupProps,
   SystemMessageGroupSummaryProps,
   SystemMessageProps,
-  SystemMessageReminderContentPart,
-  SystemMessageRenderState,
-  SystemMessageSlice,
-  SystemMessageTimeFormat,
-  SystemMessageTimeFormatOptions,
   SystemMessageTimeProps,
 } from "./components/system-message/index";
 
