@@ -70,7 +70,7 @@ export const messageMarkdown = tv({
           "[&_hr]:my-2 [&_hr]:border-t [&_hr]:border-line-subtle",
           "[&_table]:border-0 [&_table]:text-sm",
           "[&_th]:border-0 [&_th]:border-b [&_th]:border-line-subtle [&_th]:bg-layer-muted [&_th]:px-3 [&_th]:py-1.5 [&_th]:text-left [&_th]:whitespace-nowrap",
-          "[&_th]:font-medium [&_th]:text-foreground-strong [&_th:not(:last-child)]:border-r",
+          "[&_th]:font-medium [&_th]:text-foreground-strong [&_th:not(:last-child)]:border-r [&_th:not(:last-child)]:border-line-subtle",
           "[&_td]:border-0 [&_td]:border-b [&_td]:border-line-subtle [&_td:not(:last-child)]:border-r [&_td]:px-3 [&_td]:py-1.5",
           "[&_tbody>tr:last-child>td]:border-b-0",
           "[&_img]:my-2 [&_img]:rounded-md [&_img]:border [&_img]:border-line-subtle",
