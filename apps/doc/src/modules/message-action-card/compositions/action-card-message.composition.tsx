@@ -26,7 +26,7 @@ import {
   type SimulatedActionCardState,
 } from "../message-action-card.fixtures.ts";
 
-function ActionCardFixtureSurface({
+export function ActionCardFixtureSurface({
   fixture,
   initialState,
 }: {

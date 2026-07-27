@@ -42,15 +42,12 @@ export const messageReaction = tv({
     theme: {
       brutal: {
         chip: [
-          "bg-[oklch(0.945_0.009_100)] text-black",
-          "hover:bg-[oklch(0.899_0.014_97.5)]",
+          "bg-black/[0.03] text-black",
+          "hover:bg-black/[0.08]",
           "data-[pressed]:bg-brutal-pink/20 data-[pressed]:hover:bg-brutal-pink/30",
           "has-[[data-slot=message-reaction-error-indicator]]:bg-brutal-orange/30 has-[[data-slot=message-reaction-error-indicator]]:hover:bg-brutal-orange/30",
         ],
-        addButton: [
-          "bg-[oklch(0.945_0.009_100)] text-black",
-          "hover:bg-[oklch(0.899_0.014_97.5)] active:bg-[oklch(0.899_0.014_97.5)]",
-        ],
+        addButton: ["bg-black/[0.03] text-black", "hover:bg-black/[0.08] active:bg-black/[0.08]"],
         quickRow: "bg-white",
         quickButton: "hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
         pickerContent: [

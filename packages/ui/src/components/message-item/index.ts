@@ -10,6 +10,18 @@ export {
   MessageItemGutter,
 } from "./message-item-gutter";
 export {
+  MessageItemCollapsibleContent,
+  MessageItemCollapsibleContentPanel,
+  MessageItemCollapsibleContentTrigger,
+  MESSAGE_ITEM_COLLAPSIBLE_CONTENT_HEIGHT,
+  messageItemContentOverflows,
+} from "./message-item-collapsible-content";
+export type {
+  MessageItemCollapsibleContentPanelProps,
+  MessageItemCollapsibleContentProps,
+  MessageItemCollapsibleContentTriggerProps,
+} from "./message-item-collapsible-content";
+export {
   MessageItemAttachments,
   MessageItemBody,
   MessageItemContent,
@@ -34,6 +46,10 @@ export {
 export {
   MessageItemBadge,
   MessageItemBadgeSeparator,
+  MessageItemReadReceipt,
+  MessageItemSavedIndicator,
+} from "./message-footer";
+export {
   MessageItemInlineReplies,
   MessageItemInlineRepliesSummary,
   MessageItemInlineRepliesTrigger,
@@ -42,9 +58,16 @@ export {
   MessageItemInlineReplyPreview,
   MessageItemInlineReplyRow,
   MessageItemInlineReplySender,
-  MessageItemReadReceipt,
-  MessageItemSavedIndicator,
-} from "./message-footer";
+  MessageItemInlineReplyTime,
+  MessageItemThreadRepliesPreview,
+  MessageItemThreadRepliesPreviewSummary,
+  MessageItemThreadRepliesPreviewTrigger,
+  MessageItemThreadReply,
+  MessageItemThreadReplyAvatar,
+  MessageItemThreadReplyPreview,
+  MessageItemThreadReplySender,
+  MessageItemThreadReplyTime,
+} from "./message-thread-replies-preview";
 export {
   MessageItemTranslationAction,
   MessageItemTranslationOriginal,
@@ -126,6 +149,10 @@ export type {
   MessageItemBadgeProps,
   MessageItemBadgeSeparatorProps,
   MessageItemBadgeStatus,
+  MessageItemReadReceiptProps,
+  MessageItemSavedIndicatorProps,
+} from "./message-footer";
+export type {
   MessageItemInlineRepliesProps,
   MessageItemInlineRepliesSummaryProps,
   MessageItemInlineRepliesTriggerProps,
@@ -134,9 +161,16 @@ export type {
   MessageItemInlineReplyPreviewProps,
   MessageItemInlineReplyRowProps,
   MessageItemInlineReplySenderProps,
-  MessageItemReadReceiptProps,
-  MessageItemSavedIndicatorProps,
-} from "./message-footer";
+  MessageItemInlineReplyTimeProps,
+  MessageItemThreadRepliesPreviewProps,
+  MessageItemThreadRepliesPreviewSummaryProps,
+  MessageItemThreadRepliesPreviewTriggerProps,
+  MessageItemThreadReplyAvatarProps,
+  MessageItemThreadReplyPreviewProps,
+  MessageItemThreadReplyProps,
+  MessageItemThreadReplySenderProps,
+  MessageItemThreadReplyTimeProps,
+} from "./message-thread-replies-preview";
 export type {
   MessageItemTranslationActionProps,
   MessageItemTranslationOriginalLabelProps,

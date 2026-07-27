@@ -44,8 +44,8 @@ export const messageMarkdown = tv({
           "[&_img]:border-black",
         ],
         inlineCode: [
-          "border-0 bg-soft-signal/40 px-1",
-          "[font-size:inherit] font-normal leading-normal text-inherit [overflow-wrap:anywhere]",
+          "rounded-none border-0 bg-black/[0.05] px-1 py-0",
+          "[font-size:0.875em] font-mono font-normal leading-[calc(1.7142857em+2px)] text-black [overflow-wrap:break-word]",
         ],
         // Live Slock CodeBlock: bg-[#07111f] text-[#f5f7ff]
         codeBlock: [

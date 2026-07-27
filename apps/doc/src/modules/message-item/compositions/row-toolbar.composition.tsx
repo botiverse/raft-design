@@ -55,15 +55,11 @@ export function MessageRowToolbar({
         <MessageItemToolbarButton aria-label="Reply in thread" render={replyRender}>
           <MessageSquare />
         </MessageItemToolbarButton>
-      ) : (
-        <MessageItemToolbarButton
-          aria-label="Reply in thread"
-          disabled={!onReplyInThread}
-          onClick={onReplyInThread}
-        >
+      ) : onReplyInThread ? (
+        <MessageItemToolbarButton aria-label="Reply in thread" onClick={onReplyInThread}>
           <MessageSquare />
         </MessageItemToolbarButton>
-      )}
+      ) : null}
       <MessageQuickReactionPicker
         open={reactionOpen}
         onOpenChange={setReactionOpen}
@@ -108,6 +104,7 @@ export function MessageRowToolbarFixture({
         visible={visible}
         portalContainer={null}
         onReact={setSelectedReaction}
+        onReplyInThread={() => undefined}
         onSavedChange={setIsSaved}
       />
       {selectedReaction ? (

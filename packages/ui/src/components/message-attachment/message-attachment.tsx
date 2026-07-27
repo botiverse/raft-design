@@ -145,6 +145,28 @@ export function MessageAttachmentMeta({ className, render, ...props }: MessageAt
   });
 }
 
+export type MessageAttachmentMetaLabelProps = useRender.ComponentProps<"span">;
+
+export function MessageAttachmentMetaLabel({
+  className,
+  render,
+  ...props
+}: MessageAttachmentMetaLabelProps) {
+  const { metaLabel } = messageAttachment();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: metaLabel({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-attachment-meta-label",
+    },
+  });
+}
+
 export type MessageAttachmentMetaDetailProps = useRender.ComponentProps<"span">;
 
 export function MessageAttachmentMetaDetail({

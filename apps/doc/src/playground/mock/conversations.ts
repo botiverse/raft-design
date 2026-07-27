@@ -10,6 +10,7 @@ import { PLAYGROUND_JOINT_CONVERSATIONS } from "./joint-conversations.ts";
 import { PLAYGROUND_ROOM_CONVERSATIONS } from "./room-conversations.ts";
 
 export { RAFT_UI_MIGRATION_THREAD_IDS } from "./raft-ui-migration-threads.ts";
+export { definePlaygroundMessage } from "./conversation-model.ts";
 export type {
   PlaygroundChannel,
   PlaygroundChannelKind,
@@ -18,8 +19,11 @@ export type {
   PlaygroundDirectMessage,
   PlaygroundInitialComposer,
   PlaygroundMessage,
+  PlaygroundMessageAttachment,
   PlaygroundMessageId,
+  PlaygroundMessagePresentation,
   PlaygroundMessageReaction,
+  PlaygroundMessageTranslation,
   PlaygroundNavigationState,
   PlaygroundRoomChannel,
   PlaygroundRoomKind,
@@ -69,6 +73,7 @@ const channelIds = new Set<string>();
 const directMessageIds = new Set<string>();
 const channelNames = new Set<string>();
 const threadContexts = new Map<string, PlaygroundThreadContext>();
+const explicitThreadIds = new Set<string>();
 
 for (const conversation of PLAYGROUND_CONVERSATIONS) {
   const channel = conversation.conversation as PlaygroundChannelRecord;
@@ -120,10 +125,21 @@ for (const conversation of PLAYGROUND_CONVERSATIONS) {
     directMessageIds.add(directMessage.id);
     directMessagesById.set(directMessage.id as PlaygroundDmId, directMessage);
   }
+  for (const message of conversation.messages) {
+    if (threadContexts.has(message.id)) {
+      throw new Error(`Duplicate playground message thread target: ${message.id}`);
+    }
+    threadContexts.set(message.id, {
+      channel,
+      channelId: channel.id,
+      thread: { parent: message, replies: [] },
+    });
+  }
   for (const thread of conversation.threads) {
-    if (threadContexts.has(thread.parent.id)) {
+    if (explicitThreadIds.has(thread.parent.id)) {
       throw new Error(`Duplicate playground thread: ${thread.parent.id}`);
     }
+    explicitThreadIds.add(thread.parent.id);
     threadContexts.set(thread.parent.id, { channel, channelId: channel.id, thread });
   }
 }

@@ -1,6 +1,6 @@
 import { use, useCallback, useMemo } from "react";
 
-import type { PlaygroundMessageId, PlaygroundThreadId } from "../mock/index.ts";
+import type { PlaygroundMessage, PlaygroundMessageId, PlaygroundThreadId } from "../mock/index.ts";
 import {
   DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW,
   PlaygroundMessageWorkflowContext,
@@ -30,6 +30,33 @@ export function usePlaygroundThreadFollow(
     [state, threadId],
   );
   return { followed, setFollowed };
+}
+
+export function usePlaygroundThreadReplies(
+  threadId: PlaygroundThreadId | undefined,
+  initialReplies: readonly PlaygroundMessage[],
+) {
+  const state = usePlaygroundMessageWorkflowState();
+  const replies = threadId ? state.getThreadReplies(threadId, initialReplies) : initialReplies;
+  const appendReply = useCallback(
+    (reply: PlaygroundMessage) => {
+      if (threadId) state.appendThreadReply(threadId, initialReplies, reply);
+    },
+    [initialReplies, state, threadId],
+  );
+  return { appendReply, replies };
+}
+
+export function usePlaygroundThreadDraft(threadId: PlaygroundThreadId | undefined) {
+  const state = usePlaygroundMessageWorkflowState();
+  const draft = threadId ? state.getThreadDraft(threadId) : "";
+  const setDraft = useCallback(
+    (next: string) => {
+      if (threadId) state.setThreadDraft(threadId, next);
+    },
+    [state, threadId],
+  );
+  return { draft, setDraft };
 }
 
 export function usePlaygroundMessageWorkflow(

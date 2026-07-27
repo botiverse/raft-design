@@ -12,6 +12,7 @@ export {
 
 export {
   RAFT_UI_MIGRATION_THREAD_IDS,
+  definePlaygroundMessage,
   DEFAULT_CHANNEL_ID,
   PLAYGROUND_SERVER_SLUG,
   PLAYGROUND_CHANNELS,
@@ -41,8 +42,11 @@ export {
   type PlaygroundDmId,
   type PlaygroundInitialComposer,
   type PlaygroundMessage,
+  type PlaygroundMessageAttachment,
   type PlaygroundMessageId,
+  type PlaygroundMessagePresentation,
   type PlaygroundMessageReaction,
+  type PlaygroundMessageTranslation,
   type PlaygroundNavigationState,
   type PlaygroundRoomChannel,
   type PlaygroundRoomChannelId,

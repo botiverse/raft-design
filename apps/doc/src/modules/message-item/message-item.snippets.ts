@@ -21,10 +21,14 @@ export const ANATOMY_SOURCE = `<MessageItem>
     <MessageItemBody />
     <MessageItemAttachments>...</MessageItemAttachments>
     <MessageItemFooter />
-    <MessageItemInlineRepliesTrigger>
-      <MessageItemInlineRepliesSummary />
-      <MessageItemInlineReplyRow render={<span />}>...</MessageItemInlineReplyRow>
-    </MessageItemInlineRepliesTrigger>
+    <MessageItemThreadRepliesPreview>
+      <MessageItemThreadRepliesPreview.Trigger>
+        <MessageItemThreadRepliesPreview.Summary />
+        <MessageItemThreadRepliesPreview.Reply>
+          <MessageItemThreadRepliesPreview.Time />
+        </MessageItemThreadRepliesPreview.Reply>
+      </MessageItemThreadRepliesPreview.Trigger>
+    </MessageItemThreadRepliesPreview>
   </MessageItemContent>
   <MessageItemToolbar />
 </MessageItem>
@@ -179,22 +183,28 @@ export const FOOTER_PROPS: readonly PropRow[] = [
       "Footer badge slot with read and unread treatments. Business labels and icons remain caller-owned.",
   },
   {
-    name: "MessageItemInlineRepliesTrigger / MessageItemInlineRepliesSummary",
+    name: "MessageItemThreadRepliesPreview",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Thread-preview surface placed after the message footer. It owns the stable preview layout; thread data, display cap, copy, and navigation remain consumer-owned.",
+  },
+  {
+    name: "MessageItemThreadRepliesPreview.Trigger / Summary",
     type: "button props and span props",
     description:
-      "One full-width thread-preview trigger. The entire muted surface opens the thread; filtering and the three-row cap stay consumer-owned.",
+      "One full-width thread opener and its count summary. Render Trigger as the consumer's link or button so the whole muted surface is one interactive target.",
   },
   {
-    name: "MessageItemInlineReplies / MessageItemInlineReplyCount",
-    type: "div props and button props",
+    name: "MessageItemThreadRepliesPreview.Reply / Avatar / Sender / Preview / Time",
+    type: "span and time props",
     description:
-      "Backward-compatible granular reply container and count button. Prefer the single Trigger/Summary surface for new compositions.",
+      "Compact latest-reply row parts. Time is a semantic non-shrinking tabular <time> aligned to the right; rows are display-only children of the single Trigger.",
   },
   {
-    name: "MessageItemInlineReplyRow / Avatar / Sender / Preview",
-    type: "div and span props",
+    name: "MessageItemInlineReplies* / MessageItemInlineReply*",
+    type: "legacy props",
     description:
-      "Explicit compact preview-row parts. Render Row as a span with render={<span />} when it is nested inside the single button trigger.",
+      "Backward-compatible granular exports. New compositions should use MessageItemThreadRepliesPreview instead.",
   },
 ];
 
@@ -299,7 +309,7 @@ export const API_GROUPS = [
     rows: TRANSLATION_REFERENCE_PROPS,
   },
   { id: "api-actions", title: "Row actions", rows: ACTION_PROPS },
-  { id: "api-footer", title: "Footer and replies", rows: FOOTER_PROPS },
+  { id: "api-footer", title: "Footer and thread preview", rows: FOOTER_PROPS },
   { id: "api-reactions", title: "Reactions", rows: REACTION_PROPS },
   { id: "api-selection", title: "Selection", rows: SELECTION_PROPS },
 ] as const satisfies readonly { id: string; title: string; rows: readonly PropRow[] }[];

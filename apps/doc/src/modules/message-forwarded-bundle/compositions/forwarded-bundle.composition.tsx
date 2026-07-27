@@ -101,9 +101,51 @@ function ForwardedBundleItemsContent() {
   );
 }
 
-export function ForwardedBundleMessageComposition() {
+export function ForwardedBundleEmbeddedComposition() {
   const [expanded, setExpanded] = useState(false);
 
+  return (
+    <MessageItemEmbedded>
+      <MessageForwardedBundle data-testid="forwarded-bundle-card">
+        <MessageForwardedBundleHeader>
+          <div className="flex min-w-0 items-center gap-2">
+            <MessageForwardedBundleHeaderLabel>Forwarded</MessageForwardedBundleHeaderLabel>
+            <MessageForwardedBundleHeaderCount>4 messages</MessageForwardedBundleHeaderCount>
+          </div>
+          <MessageForwardedBundleSource
+            data-testid="forwarded-bundle-source-label"
+            title="Open source message"
+            render={
+              <a
+                href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread}
+                aria-label="Open source thread in release-notes"
+              />
+            }
+          >
+            from release-notes
+          </MessageForwardedBundleSource>
+        </MessageForwardedBundleHeader>
+        {expanded ? (
+          <MessageForwardedBundleItems>
+            <ForwardedBundleItemsContent />
+          </MessageForwardedBundleItems>
+        ) : (
+          <MessageForwardedBundleCollapsedItems>
+            <ForwardedBundleItemsContent />
+            <MessageForwardedBundleCollapsedFade />
+          </MessageForwardedBundleCollapsedItems>
+        )}
+        <MessageForwardedBundleFooter>
+          <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
+            {expanded ? "Collapse" : "Show all 4 messages"}
+          </MessageForwardedBundleToggle>
+        </MessageForwardedBundleFooter>
+      </MessageForwardedBundle>
+    </MessageItemEmbedded>
+  );
+}
+
+export function ForwardedBundleMessageComposition() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
@@ -119,43 +161,7 @@ export function ForwardedBundleMessageComposition() {
           <MessageItemTime>2:24 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>Forwarded 4 messages</MessageItemBody>
-        <MessageItemEmbedded>
-          <MessageForwardedBundle data-testid="forwarded-bundle-card">
-            <MessageForwardedBundleHeader>
-              <div className="flex min-w-0 items-center gap-2">
-                <MessageForwardedBundleHeaderLabel>Forwarded</MessageForwardedBundleHeaderLabel>
-                <MessageForwardedBundleHeaderCount>4 messages</MessageForwardedBundleHeaderCount>
-              </div>
-              <MessageForwardedBundleSource
-                data-testid="forwarded-bundle-source-label"
-                title="Open source message"
-                render={
-                  <a
-                    href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread}
-                    aria-label="Open source thread in release-notes"
-                  />
-                }
-              >
-                from release-notes
-              </MessageForwardedBundleSource>
-            </MessageForwardedBundleHeader>
-            {expanded ? (
-              <MessageForwardedBundleItems>
-                <ForwardedBundleItemsContent />
-              </MessageForwardedBundleItems>
-            ) : (
-              <MessageForwardedBundleCollapsedItems>
-                <ForwardedBundleItemsContent />
-                <MessageForwardedBundleCollapsedFade />
-              </MessageForwardedBundleCollapsedItems>
-            )}
-            <MessageForwardedBundleFooter>
-              <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
-                {expanded ? "Collapse" : "Show all 4 messages"}
-              </MessageForwardedBundleToggle>
-            </MessageForwardedBundleFooter>
-          </MessageForwardedBundle>
-        </MessageItemEmbedded>
+        <ForwardedBundleEmbeddedComposition />
       </MessageItemContent>
     </MessageItem>
   );

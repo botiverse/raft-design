@@ -15,6 +15,8 @@ import { MessageAvatarStatusComposition } from "#/modules/message-item/compositi
 import avatarStatusSource from "#/modules/message-item/compositions/avatar-status.composition.tsx?raw";
 import { MessageContextMenuShowcaseComposition } from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx";
 import contextMenuShowcaseSource from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx?raw";
+import { MessageCollapsibleContentComposition } from "#/modules/message-item/compositions/collapsible-content.composition.tsx";
+import collapsibleContentSource from "#/modules/message-item/compositions/collapsible-content.composition.tsx?raw";
 import { MessageConvertingComposition } from "#/modules/message-item/compositions/converting.composition.tsx";
 import convertingSource from "#/modules/message-item/compositions/converting.composition.tsx?raw";
 import { MessageInteractiveSenderComposition } from "#/modules/message-item/compositions/interactive-sender.composition.tsx";
@@ -33,6 +35,8 @@ import { MessageTaskBadgeComposition } from "#/modules/message-item/compositions
 import taskBadgeSource from "#/modules/message-item/compositions/task-badge.composition.tsx?raw";
 import { MessageTextSelectionShowcaseComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
 import textSelectionSource from "#/modules/message-item/compositions/text-selection.composition.tsx?raw";
+import { MessageThreadRepliesPreviewComposition } from "#/modules/message-item/compositions/thread-replies-preview.composition.tsx";
+import threadRepliesPreviewSource from "#/modules/message-item/compositions/thread-replies-preview.composition.tsx?raw";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
 import { SourceMessageItemPreview } from "#/modules/message-item/message-item.source-preview.tsx";
 import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
@@ -66,6 +70,7 @@ export const Route = createFileRoute("/components/message-item")({
         anatomy: ANATOMY_SOURCE,
         avatarStatus: avatarStatusSource,
         contextMenu: contextMenuShowcaseSource,
+        collapsibleContent: collapsibleContentSource,
         converting: convertingSource,
         interactiveSender: interactiveSenderSource,
         preview: messageItemPreviewCompositionSource,
@@ -75,6 +80,7 @@ export const Route = createFileRoute("/components/message-item")({
         senderState: senderStateSource,
         taskBadge: taskBadgeSource,
         textSelection: textSelectionSource,
+        threadRepliesPreview: threadRepliesPreviewSource,
       },
     }),
 });
@@ -168,6 +174,22 @@ function MessageItemDoc() {
           <DocSubsection parentId="usage" id="context-menu" title="Context menu">
             <UsagePreview code={code.contextMenu}>
               <MessageContextMenuShowcaseComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="collapsible-content" title="Long content">
+            <UsagePreview code={code.collapsibleContent}>
+              <MessageCollapsibleContentComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="thread-replies-preview"
+            title="Thread replies preview"
+          >
+            <UsagePreview code={code.threadRepliesPreview}>
+              <MessageThreadRepliesPreviewComposition />
             </UsagePreview>
           </DocSubsection>
 
