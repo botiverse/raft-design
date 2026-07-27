@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
   ChatSidebarSection,
   ChatSidebarSectionAttention,
@@ -8,8 +9,6 @@ import {
   ChatSidebarSectionTitle,
   ChatSidebarSectionTrailing,
 } from "raft-ui";
-import { useDroppable } from "@dnd-kit/core";
-import { cn } from "raft-ui/cn";
 
 import {
   SidebarSectionHeaderMenu,
@@ -22,8 +21,13 @@ import type {
   PlaygroundRoomChannelRecord,
 } from "../mock/index.ts";
 import { ChatSidebarPinnedItem } from "./chat-sidebar-pinned-item.tsx";
-import { PLAYGROUND_PINNED_DROP_TARGET_ID } from "./chat-sidebar-dnd-ids.ts";
-import { SortableChatSidebarItem, SortableChatSidebarList } from "./chat-sidebar-sortable.tsx";
+import { ChatSidebarProjectionPreview } from "./chat-sidebar-dnd.tsx";
+import { createChatSidebarDropTargetId } from "./chat-sidebar-dnd-ids.ts";
+import {
+  ChatSidebarDropTarget,
+  SortableChatSidebarItem,
+  SortableChatSidebarList,
+} from "./chat-sidebar-sortable.tsx";
 import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarPinnedSection({
@@ -37,9 +41,9 @@ export function ChatSidebarPinnedSection({
   onCloseDm: (row: PlaygroundDirectMessageRecord) => void;
   rows: readonly PlaygroundChannelRecord[];
 }) {
-  const { getDragId, orderRows } = useChatSidebarDnd();
-  const { isOver, setNodeRef } = useDroppable({ id: PLAYGROUND_PINNED_DROP_TARGET_ID });
+  const { getDragId, getProjection, orderRows } = useChatSidebarDnd();
   const ordered = orderRows("pinned", rows);
+  const projection = getProjection("pinned");
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -58,24 +62,37 @@ export function ChatSidebarPinnedSection({
           </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
-      <div ref={setNodeRef} className={cn(isOver && "bg-ink-5")}>
+      <ChatSidebarDropTarget
+        id={createChatSidebarDropTargetId("pinned")}
+        section="pinned"
+        empty={ordered.length === 0}
+      >
         {ordered.length === 0 ? (
           <ChatSidebarSectionEmpty>Drag channels or DMs here to pin</ChatSidebarSectionEmpty>
         ) : (
           <SortableChatSidebarList items={ordered.map((row) => getDragId("pinned", row.id))}>
             {ordered.map((row) => (
-              <SortableChatSidebarItem key={row.id} id={getDragId("pinned", row.id)}>
-                <ChatSidebarPinnedItem
-                  activeChannelId={activeChannelId}
-                  conversation={row}
-                  onArchive={onArchive}
-                  onCloseDm={onCloseDm}
-                />
-              </SortableChatSidebarItem>
+              <Fragment key={row.id}>
+                <ChatSidebarProjectionPreview anchorChannelId={row.id} projection={projection} />
+                <SortableChatSidebarItem
+                  id={getDragId("pinned", row.id)}
+                  section="pinned"
+                  channelId={row.id}
+                  active={activeChannelId === row.id}
+                >
+                  <ChatSidebarPinnedItem
+                    activeChannelId={activeChannelId}
+                    conversation={row}
+                    onArchive={onArchive}
+                    onCloseDm={onCloseDm}
+                  />
+                </SortableChatSidebarItem>
+              </Fragment>
             ))}
+            <ChatSidebarProjectionPreview projection={projection} />
           </SortableChatSidebarList>
         )}
-      </div>
+      </ChatSidebarDropTarget>
     </ChatSidebarSection>
   );
 }

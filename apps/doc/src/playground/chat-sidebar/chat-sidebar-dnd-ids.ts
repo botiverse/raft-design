@@ -2,24 +2,78 @@ import type { PlaygroundChannelId } from "../mock/index.ts";
 
 export type ChatSidebarDragSection = "pinned" | "joint" | "channels" | "dms";
 
-export const PLAYGROUND_PINNED_DROP_TARGET_ID = "playground-chat-sidebar:pinned";
+const PLAYGROUND_SIDEBAR_ITEM_PREFIX = "playground-chat-sidebar:item:";
+const PLAYGROUND_SECTION_DROP_TARGET_PREFIX = "playground-chat-sidebar:section:";
 
 export function createChatSidebarDragId(
-  section: ChatSidebarDragSection,
+  _section: ChatSidebarDragSection,
   channelId: PlaygroundChannelId,
 ) {
-  return `${section}:${channelId}`;
+  return `${PLAYGROUND_SIDEBAR_ITEM_PREFIX}${channelId}`;
 }
 
-export function parseChatSidebarDragId(value: string): {
+export function createChatSidebarDropTargetId(section: ChatSidebarDragSection) {
+  return `${PLAYGROUND_SECTION_DROP_TARGET_PREFIX}${section}`;
+}
+
+export type ChatSidebarDragItemData = {
+  kind: "item";
   section: ChatSidebarDragSection;
   channelId: PlaygroundChannelId;
-} | null {
-  const separator = value.indexOf(":");
-  if (separator <= 0 || separator === value.length - 1) return null;
-  const section = value.slice(0, separator);
-  if (section !== "pinned" && section !== "joint" && section !== "channels" && section !== "dms") {
+  active: boolean;
+};
+
+export type ChatSidebarDropTargetData = {
+  kind: "section";
+  section: ChatSidebarDragSection;
+  empty: boolean;
+};
+
+export function readChatSidebarDragItemData(value: unknown): ChatSidebarDragItemData | null {
+  if (
+    !value ||
+    typeof value !== "object" ||
+    !("kind" in value) ||
+    value.kind !== "item" ||
+    !("section" in value) ||
+    !isChatSidebarDragSection(value.section) ||
+    !("channelId" in value) ||
+    typeof value.channelId !== "string" ||
+    !("active" in value) ||
+    typeof value.active !== "boolean"
+  ) {
     return null;
   }
-  return { section, channelId: value.slice(separator + 1) as PlaygroundChannelId };
+  return value as ChatSidebarDragItemData;
+}
+
+export function readChatSidebarDropTargetData(value: unknown): ChatSidebarDropTargetData | null {
+  if (
+    !value ||
+    typeof value !== "object" ||
+    !("kind" in value) ||
+    value.kind !== "section" ||
+    !("section" in value) ||
+    !isChatSidebarDragSection(value.section) ||
+    !("empty" in value) ||
+    typeof value.empty !== "boolean"
+  ) {
+    return null;
+  }
+  return value as ChatSidebarDropTargetData;
+}
+
+export function parseChatSidebarDropTargetId(value: string): ChatSidebarDragSection | null {
+  const section = value.slice(PLAYGROUND_SECTION_DROP_TARGET_PREFIX.length);
+  return value.startsWith(PLAYGROUND_SECTION_DROP_TARGET_PREFIX) &&
+    isChatSidebarDragSection(section)
+    ? section
+    : null;
+}
+
+function isChatSidebarDragSection(value: unknown): value is ChatSidebarDragSection {
+  return (
+    typeof value === "string" &&
+    (value === "pinned" || value === "joint" || value === "channels" || value === "dms")
+  );
 }

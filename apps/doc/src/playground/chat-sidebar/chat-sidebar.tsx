@@ -36,7 +36,6 @@ import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state
 import { ChatSidebarArchiveDialog } from "./chat-sidebar-archive-dialog.tsx";
 import { ChatSidebarChannelsSection } from "./chat-sidebar-channels-section.tsx";
 import { ChatSidebarDndProvider } from "./chat-sidebar-dnd.tsx";
-import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 import { ChatSidebarDirectMessagesSection } from "./chat-sidebar-direct-messages-section.tsx";
 import { ChatSidebarJointChannelsSection } from "./chat-sidebar-joint-channels-section.tsx";
 import { ChatSidebarPinnedSection } from "./chat-sidebar-pinned-section.tsx";
@@ -64,7 +63,6 @@ function PlaygroundSidebarContent({
 }: PlaygroundSidebarProps) {
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
-  const { isPinned } = useChatSidebarDnd();
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { activeServer } = usePlaygroundShellState();
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
@@ -72,29 +70,16 @@ function PlaygroundSidebarContent({
   const mobileNavigationContentPad = mobileBottomNavigation
     ? "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]"
     : undefined;
+  const visibleDirectMessages = useMemo(
+    () => PLAYGROUND_DIRECT_MESSAGES.filter((conversation) => !closedDmIds.has(conversation.id)),
+    [closedDmIds],
+  );
   const visiblePinnedChannels = useMemo(
     () =>
       PLAYGROUND_CHANNELS.filter(
-        (conversation) =>
-          isPinned(conversation.id) &&
-          (conversation.kind !== "dm" || !closedDmIds.has(conversation.id)),
+        (conversation) => conversation.kind !== "dm" || !closedDmIds.has(conversation.id),
       ),
-    [closedDmIds, isPinned],
-  );
-  const visibleDirectMessages = useMemo(
-    () =>
-      PLAYGROUND_DIRECT_MESSAGES.filter(
-        (conversation) => !isPinned(conversation.id) && !closedDmIds.has(conversation.id),
-      ),
-    [closedDmIds, isPinned],
-  );
-  const visibleJointChannels = useMemo(
-    () => PLAYGROUND_JOINT_CHANNELS.filter((conversation) => !isPinned(conversation.id)),
-    [isPinned],
-  );
-  const visibleRoomChannels = useMemo(
-    () => PLAYGROUND_ROOM_CHANNELS.filter((conversation) => !isPinned(conversation.id)),
-    [isPinned],
+    [closedDmIds],
   );
   const closeDirectMessage = (conversation: PlaygroundDirectMessageRecord) => {
     setClosedDmIds((current) => new Set(current).add(conversation.id));
@@ -152,12 +137,12 @@ function PlaygroundSidebarContent({
               />
               <ChatSidebarJointChannelsSection
                 activeChannelId={selectedChannelId}
-                rows={visibleJointChannels}
+                rows={PLAYGROUND_JOINT_CHANNELS}
               />
               <ChatSidebarChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(conversation) => setArchiveTarget(conversation.name)}
-                rows={visibleRoomChannels}
+                rows={PLAYGROUND_ROOM_CHANNELS}
               />
               <ChatSidebarDirectMessagesSection
                 activeChannelId={selectedChannelId}

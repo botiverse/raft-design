@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import {
   ChatSidebarList,
   ChatSidebarSection,
@@ -19,7 +19,10 @@ import {
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
 import { ChatSidebarChannelItem } from "./chat-sidebar-channel-item.tsx";
+import { ChatSidebarProjectionPreview } from "./chat-sidebar-dnd.tsx";
+import { createChatSidebarDropTargetId } from "./chat-sidebar-dnd-ids.ts";
 import {
+  ChatSidebarDropTarget,
   DraggableChatSidebarItem,
   SortableChatSidebarItem,
   SortableChatSidebarList,
@@ -36,9 +39,10 @@ export function ChatSidebarChannelsSection({
   rows: readonly PlaygroundRoomChannelRecord[];
 }) {
   const [sortMode, setSortMode] = useState<SidebarSortValue>("manual");
-  const { getDragId, orderRows } = useChatSidebarDnd();
+  const { getDragId, getProjection, orderRows } = useChatSidebarDnd();
   const manualOrder = orderRows("channels", rows);
   const ordered = useMemo(() => sortChannels(manualOrder, sortMode), [manualOrder, sortMode]);
+  const projection = getProjection("channels");
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -74,33 +78,55 @@ export function ChatSidebarChannelsSection({
           </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
-      {ordered.length === 0 ? (
-        <ChatSidebarSectionEmpty>No channels yet</ChatSidebarSectionEmpty>
-      ) : sortMode === "manual" ? (
-        <SortableChatSidebarList items={ordered.map((row) => getDragId("channels", row.id))}>
-          {ordered.map((row) => (
-            <SortableChatSidebarItem key={row.id} id={getDragId("channels", row.id)}>
-              <ChatSidebarChannelItem
-                activeChannelId={activeChannelId}
-                channel={row}
-                onArchive={onArchive}
-              />
-            </SortableChatSidebarItem>
-          ))}
-        </SortableChatSidebarList>
-      ) : (
-        <ChatSidebarList>
-          {ordered.map((row) => (
-            <DraggableChatSidebarItem key={row.id} id={getDragId("channels", row.id)}>
-              <ChatSidebarChannelItem
-                activeChannelId={activeChannelId}
-                channel={row}
-                onArchive={onArchive}
-              />
-            </DraggableChatSidebarItem>
-          ))}
-        </ChatSidebarList>
-      )}
+      <ChatSidebarDropTarget
+        id={createChatSidebarDropTargetId("channels")}
+        section="channels"
+        empty={ordered.length === 0}
+        disabled={sortMode !== "manual"}
+      >
+        {ordered.length === 0 ? (
+          <ChatSidebarSectionEmpty>No channels yet</ChatSidebarSectionEmpty>
+        ) : sortMode === "manual" ? (
+          <SortableChatSidebarList items={ordered.map((row) => getDragId("channels", row.id))}>
+            {ordered.map((row) => (
+              <Fragment key={row.id}>
+                <ChatSidebarProjectionPreview anchorChannelId={row.id} projection={projection} />
+                <SortableChatSidebarItem
+                  id={getDragId("channels", row.id)}
+                  section="channels"
+                  channelId={row.id}
+                  active={activeChannelId === row.id}
+                >
+                  <ChatSidebarChannelItem
+                    activeChannelId={activeChannelId}
+                    channel={row}
+                    onArchive={onArchive}
+                  />
+                </SortableChatSidebarItem>
+              </Fragment>
+            ))}
+            <ChatSidebarProjectionPreview projection={projection} />
+          </SortableChatSidebarList>
+        ) : (
+          <ChatSidebarList>
+            {ordered.map((row) => (
+              <DraggableChatSidebarItem
+                key={row.id}
+                id={getDragId("channels", row.id)}
+                section="channels"
+                channelId={row.id}
+                active={activeChannelId === row.id}
+              >
+                <ChatSidebarChannelItem
+                  activeChannelId={activeChannelId}
+                  channel={row}
+                  onArchive={onArchive}
+                />
+              </DraggableChatSidebarItem>
+            ))}
+          </ChatSidebarList>
+        )}
+      </ChatSidebarDropTarget>
     </ChatSidebarSection>
   );
 }

@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
   ChatSidebarSection,
   ChatSidebarSectionAttention,
@@ -16,7 +17,13 @@ import {
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
 import { ChatSidebarChannelItem } from "./chat-sidebar-channel-item.tsx";
-import { SortableChatSidebarItem, SortableChatSidebarList } from "./chat-sidebar-sortable.tsx";
+import { ChatSidebarProjectionPreview } from "./chat-sidebar-dnd.tsx";
+import { createChatSidebarDropTargetId } from "./chat-sidebar-dnd-ids.ts";
+import {
+  ChatSidebarDropTarget,
+  SortableChatSidebarItem,
+  SortableChatSidebarList,
+} from "./chat-sidebar-sortable.tsx";
 import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";
 
 export function ChatSidebarJointChannelsSection({
@@ -26,8 +33,9 @@ export function ChatSidebarJointChannelsSection({
   activeChannelId: PlaygroundChannelId | null;
   rows: readonly PlaygroundRoomChannelRecord[];
 }) {
-  const { getDragId, orderRows } = useChatSidebarDnd();
+  const { getDragId, getProjection, orderRows } = useChatSidebarDnd();
   const ordered = orderRows("joint", rows);
+  const projection = getProjection("joint");
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -59,17 +67,32 @@ export function ChatSidebarJointChannelsSection({
           </ChatSidebarSectionControls>
         </ChatSidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
-      {ordered.length === 0 ? (
-        <ChatSidebarSectionEmpty>No joint channels yet</ChatSidebarSectionEmpty>
-      ) : (
-        <SortableChatSidebarList items={ordered.map((row) => getDragId("joint", row.id))}>
-          {ordered.map((row) => (
-            <SortableChatSidebarItem key={row.id} id={getDragId("joint", row.id)}>
-              <ChatSidebarChannelItem activeChannelId={activeChannelId} channel={row} />
-            </SortableChatSidebarItem>
-          ))}
-        </SortableChatSidebarList>
-      )}
+      <ChatSidebarDropTarget
+        id={createChatSidebarDropTargetId("joint")}
+        section="joint"
+        empty={ordered.length === 0}
+      >
+        {ordered.length === 0 ? (
+          <ChatSidebarSectionEmpty>No joint channels yet</ChatSidebarSectionEmpty>
+        ) : (
+          <SortableChatSidebarList items={ordered.map((row) => getDragId("joint", row.id))}>
+            {ordered.map((row) => (
+              <Fragment key={row.id}>
+                <ChatSidebarProjectionPreview anchorChannelId={row.id} projection={projection} />
+                <SortableChatSidebarItem
+                  id={getDragId("joint", row.id)}
+                  section="joint"
+                  channelId={row.id}
+                  active={activeChannelId === row.id}
+                >
+                  <ChatSidebarChannelItem activeChannelId={activeChannelId} channel={row} />
+                </SortableChatSidebarItem>
+              </Fragment>
+            ))}
+            <ChatSidebarProjectionPreview projection={projection} />
+          </SortableChatSidebarList>
+        )}
+      </ChatSidebarDropTarget>
     </ChatSidebarSection>
   );
 }
