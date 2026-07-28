@@ -34,7 +34,7 @@ export function MessageReferenceConversationDestinationsComposition() {
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
-          variant="info"
+          variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
           <MessageReferenceBadge label="thread">
@@ -48,7 +48,7 @@ export function MessageReferenceConversationDestinationsComposition() {
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
-          variant="info"
+          variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
         >
           <MessageReferenceBadge label="message">

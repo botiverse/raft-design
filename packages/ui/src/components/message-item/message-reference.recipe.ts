@@ -31,7 +31,9 @@ export const messageReference = tv({
       brutal: {
         root: "focus-visible:outline-black",
         chipMeta: "text-[10px] font-normal leading-none text-foreground/50",
-        badge: "border border-black bg-soft-signal px-1 text-black",
+        // No badge surface here: the icon sits directly in the chip and the caption is dropped.
+        badge: "contents [&&_svg]:size-3",
+        badgeLabel: "hidden",
       },
       elegant: {
         chipMeta: "text-[10px] font-normal leading-none text-foreground-muted",

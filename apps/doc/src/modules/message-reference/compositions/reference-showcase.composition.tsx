@@ -47,7 +47,7 @@ export function MessageReferenceShowcaseComposition() {
                 </TaskChip>{" "}
                 before replying in{" "}
                 <MessageReferenceChip
-                  variant="info"
+                  variant="accent"
                   render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
                 >
                   <MessageReferenceBadge label="thread">
