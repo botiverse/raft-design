@@ -1,5 +1,5 @@
 import { Hash, MessageCircle, MessagesSquare, MessageSquareText } from "lucide-react";
-import { MessageReferenceBadge, MessageReferenceChip } from "raft-ui/wip";
+import { MessageReferenceBadge, MessageReferenceChip, MessageReferenceLabel } from "raft-ui/wip";
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceConversationDestinationsComposition() {
@@ -14,7 +14,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         >
           <MessageReferenceBadge>channel</MessageReferenceBadge>
           <Hash />
-          release-notes
+          <MessageReferenceLabel>release-notes</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Channel</span>
@@ -24,7 +24,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         <MessageReferenceChip variant="accent" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
           <MessageReferenceBadge>dm</MessageReferenceBadge>
           <MessageCircle />
-          Noah
+          <MessageReferenceLabel>Noah</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">DM</span>
@@ -37,7 +37,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         >
           <MessageReferenceBadge>thread</MessageReferenceBadge>
           <MessagesSquare />
-          release-notes · abc123
+          <MessageReferenceLabel>release-notes · abc123</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Thread</span>
@@ -50,7 +50,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         >
           <MessageReferenceBadge>message</MessageReferenceBadge>
           <MessageSquareText />
-          all · api-docs
+          <MessageReferenceLabel>all · api-docs</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Message</span>

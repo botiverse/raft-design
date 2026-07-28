@@ -29,6 +29,11 @@ export const messageReference = tv({
       },
       elegant: {
         chipMeta: "text-[10px] font-normal leading-none text-foreground-muted",
+        // The reference colour lives on the label; the chip keeps the pale wash behind it.
+        chipLabel: [
+          "inline-flex h-4 items-center rounded-full px-1.5",
+          "bg-[var(--reference-badge,transparent)] text-[var(--reference-badge-ink,currentColor)]",
+        ],
         // Parked just left of the chip icon and clipped to nothing, so the caption grows leftwards
         // over preceding text on hover without measuring anything or moving the chip. Decorative —
         // the chip stays the pointer target.

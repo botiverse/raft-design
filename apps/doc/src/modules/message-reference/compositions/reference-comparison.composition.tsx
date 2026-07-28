@@ -14,6 +14,7 @@ import {
   MessageMarkdown,
   MessageReferenceBadge,
   MessageReferenceChip,
+  MessageReferenceLabel,
 } from "raft-ui/wip";
 
 import {
@@ -65,7 +66,7 @@ export function MessageReferenceComparisonComposition() {
                   >
                     <MessageReferenceBadge>channel</MessageReferenceBadge>
                     <Hash />
-                    release-notes
+                    <MessageReferenceLabel>release-notes</MessageReferenceLabel>
                   </MessageReferenceChip>
                   .
                 </p>

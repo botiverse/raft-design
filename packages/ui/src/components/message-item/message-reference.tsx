@@ -54,7 +54,8 @@ export function MessageReferenceChip({
 export type MessageReferenceLabelProps = useRender.ComponentProps<"span">;
 
 export function MessageReferenceLabel({ className, render, ...props }: MessageReferenceLabelProps) {
-  const { chipLabel } = messageReference();
+  const theme = useThemeFamily();
+  const { chipLabel } = messageReference({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: chipLabel({ className }),
   };
