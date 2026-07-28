@@ -35,20 +35,21 @@ export const messageReference = tv({
       },
       elegant: {
         chipMeta: "text-[10px] font-normal leading-none text-foreground-muted",
-        // Anchored by its right edge so the reveal grows leftwards over preceding text.
+        // Laid out at full caption width and anchored by its right edge, then clipped back to a
+        // circle. The reveal grows leftwards over preceding text without measuring anything, so
+        // the caption is never capped. Decorative — the chip stays the pointer target.
         badge: [
-          "absolute top-1/2 right-[calc(100%-17.5px)] z-10 -translate-y-1/2",
-          "h-4 flex-row-reverse gap-0 rounded-full px-[3px]",
+          "pointer-events-none absolute top-1/2 right-[calc(100%-17.5px)] z-10 -translate-y-1/2",
+          "h-4 flex-row-reverse rounded-full pr-[3px] pl-1.5",
           "bg-[var(--reference-badge)] text-[var(--reference-badge-ink)]",
-          "transition-[padding,gap] duration-200 ease-out motion-reduce:transition-none",
-          "group-hover:gap-1 group-hover:pl-1.5",
-          "group-focus-visible:gap-1 group-focus-visible:pl-1.5",
+          "[clip-path:inset(0_0_0_calc(100%-16px)_round_9999px)]",
+          "transition-[clip-path] duration-200 ease-out motion-reduce:transition-none",
+          "group-hover:[clip-path:inset(0_round_9999px)]",
+          "group-focus-visible:[clip-path:inset(0_round_9999px)]",
         ],
         badgeLabel: [
-          "max-w-0 opacity-0",
-          "transition-[max-width,opacity] duration-200 ease-out motion-reduce:transition-none",
-          "group-hover:max-w-16 group-hover:opacity-100",
-          "group-focus-visible:max-w-16 group-focus-visible:opacity-100",
+          "opacity-0 transition-opacity duration-200 ease-out motion-reduce:transition-none",
+          "group-hover:opacity-100 group-focus-visible:opacity-100",
         ],
       },
     },
