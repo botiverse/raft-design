@@ -1,6 +1,5 @@
-import { Spinner } from "raft-ui";
+import { MessageReferencePending, MessageReferenceUnavailable, Spinner } from "raft-ui";
 import { CircleOff } from "lucide-react";
-import { MessageReferencePending, MessageReferenceUnavailable } from "raft-ui/wip";
 
 export function MessageReferenceResolutionStatesComposition() {
   return (

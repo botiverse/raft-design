@@ -1,7 +1,13 @@
 import { MessagesSquare } from "lucide-react";
 import { useRef, type RefObject } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
-import { MessageReferenceChip, MessageReferenceLabel } from "raft-ui/wip";
+import {
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 

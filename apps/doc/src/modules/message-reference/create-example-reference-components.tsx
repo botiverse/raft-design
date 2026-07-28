@@ -1,6 +1,5 @@
 import type { Components } from "react-markdown";
-import { MarkdownLink, TaskChip } from "raft-ui";
-import { MessageReferenceChip } from "raft-ui/wip";
+import { MarkdownLink, MessageReferenceChip, TaskChip } from "raft-ui";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
 import {
   MessageMentionReferenceComposition,

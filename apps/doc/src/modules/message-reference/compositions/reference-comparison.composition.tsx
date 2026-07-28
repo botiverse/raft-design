@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Hash } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, MarkdownParagraph } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MarkdownParagraph,
+  MessageReferenceBadge,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+} from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -11,9 +19,6 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  MessageReferenceBadge,
-  MessageReferenceChip,
-  MessageReferenceLabel,
 } from "raft-ui/wip";
 
 import {

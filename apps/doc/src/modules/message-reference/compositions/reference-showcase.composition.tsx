@@ -8,6 +8,11 @@ import {
   AvatarImage,
   MarkdownBlockquote,
   MarkdownParagraph,
+  MessageReferenceBadge,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  MessageReferencePending,
+  MessageReferenceUnavailable,
   Spinner,
   TaskChip,
 } from "raft-ui";
@@ -28,11 +33,6 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-  MessageReferenceBadge,
-  MessageReferenceChip,
-  MessageReferenceLabel,
-  MessageReferencePending,
-  MessageReferenceUnavailable,
 } from "raft-ui/wip";
 import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
 import { MessageMentionReferenceComposition } from "./reference-adapters.composition.tsx";

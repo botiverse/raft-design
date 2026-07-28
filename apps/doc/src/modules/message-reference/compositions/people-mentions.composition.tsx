@@ -1,5 +1,4 @@
-import { PreviewCard, PreviewCardContent, PreviewCardTrigger } from "raft-ui";
-import { MessageReferenceText } from "raft-ui/wip";
+import { MessageReferenceText, PreviewCard, PreviewCardContent, PreviewCardTrigger } from "raft-ui";
 
 export function MessageReferencePeopleMentionsComposition() {
   return (

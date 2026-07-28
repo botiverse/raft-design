@@ -1,13 +1,15 @@
 import type { ReactNode } from "react";
 import { MessageSquareText } from "lucide-react";
-import { PreviewCard, PreviewCardContent, PreviewCardTrigger } from "raft-ui";
 import {
   MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceText,
+  PreviewCard,
+  PreviewCardContent,
+  PreviewCardTrigger,
   type MessageReferenceTextVariant,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 type MessageReferenceCompositionProps = {
   children: ReactNode;

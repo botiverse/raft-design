@@ -1,9 +1,8 @@
 import type { Components } from "react-markdown";
 import { useMemo } from "react";
-import { MarkdownLink, TaskChip } from "raft-ui";
+import { MarkdownLink, MessageReferenceChip, MessageReferenceText, TaskChip } from "raft-ui";
 import { type MarkdownPluginList } from "#/lib/markdown/markdown-plugins.ts";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
-import { MessageReferenceChip, MessageReferenceText } from "raft-ui/wip";
 import { createRemarkReferences } from "#/lib/markdown/create-remark-references.ts";
 import { markdownReferenceSanitizeSchema } from "#/lib/markdown/markdown-reference-sanitize-schema.ts";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
