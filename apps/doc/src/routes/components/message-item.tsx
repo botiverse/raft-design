@@ -27,6 +27,11 @@ import { MessageItemPreviewContent } from "#/modules/message-item/compositions/p
 import messageItemPreviewCompositionSource from "#/modules/message-item/compositions/preview.composition.tsx?raw";
 import { MessageReadReceiptComposition } from "#/modules/message-item/compositions/read-receipt.composition.tsx";
 import readReceiptSource from "#/modules/message-item/compositions/read-receipt.composition.tsx?raw";
+import { MessageReactionsShowcaseComposition } from "#/modules/message-item/compositions/reactions.composition.tsx";
+import reactionsSource from "#/modules/message-item/compositions/reactions.composition.tsx?raw";
+import reactionPartsSource from "#/modules/message-item/compositions/reaction.compositions.tsx?raw";
+import quickReactionPickerSource from "#/modules/message-item/compositions/quick-reaction-picker.composition.tsx?raw";
+import reactionGlyphSource from "#/modules/message-item/compositions/reaction-glyph.composition.tsx?raw";
 import { MessageRowChromeComposition } from "#/modules/message-item/compositions/row-chrome.composition.tsx";
 import rowChromeSource from "#/modules/message-item/compositions/row-chrome.composition.tsx?raw";
 import selectionSource from "#/modules/message-item/compositions/selection.compositions.tsx?raw";
@@ -48,6 +53,13 @@ const CONTEXT_MENU_SHOWCASE_PATH =
   "apps/doc/src/modules/message-item/compositions/context-menu-showcase.composition.tsx";
 const CONTEXT_MENU_PATH =
   "apps/doc/src/modules/message-item/compositions/context-menu.composition.tsx";
+const REACTIONS_PATH = "apps/doc/src/modules/message-item/compositions/reactions.composition.tsx";
+const REACTION_PARTS_PATH =
+  "apps/doc/src/modules/message-item/compositions/reaction.compositions.tsx";
+const QUICK_REACTION_PICKER_PATH =
+  "apps/doc/src/modules/message-item/compositions/quick-reaction-picker.composition.tsx";
+const REACTION_GLYPH_PATH =
+  "apps/doc/src/modules/message-item/compositions/reaction-glyph.composition.tsx";
 const ROW_CHROME_PATH = "apps/doc/src/modules/message-item/compositions/row-chrome.composition.tsx";
 const SELECTION_PATH = "apps/doc/src/modules/message-item/compositions/selection.compositions.tsx";
 
@@ -94,6 +106,10 @@ export const Route = createFileRoute("/components/message-item")({
         interactiveSender: interactiveSenderSource,
         itemPreview: itemPreviewSource,
         preview: messageItemPreviewCompositionSource,
+        quickReactionPicker: quickReactionPickerSource,
+        reactionGlyph: reactionGlyphSource,
+        reactionParts: reactionPartsSource,
+        reactions: reactionsSource,
         readReceipt: readReceiptSource,
         rowChrome: rowChromeSource,
         selection: selectionSource,
@@ -193,6 +209,47 @@ function MessageItemDoc() {
             <UsagePreview code={code.readReceipt} collapsedCode={code.readReceiptBody}>
               <MessageReadReceiptComposition />
             </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="reactions" title="Reactions">
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <MessageReactionsShowcaseComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                codeBlock={
+                  <DocsCodeBlock.Files
+                    collapsible={false}
+                    files={[
+                      {
+                        path: REACTIONS_PATH,
+                        source: reactionsSource,
+                        html: code.reactions,
+                        collapsedHtml: code.reactionsBody,
+                      },
+                      {
+                        path: REACTION_PARTS_PATH,
+                        source: reactionPartsSource,
+                        html: code.reactionParts,
+                        collapsedHtml: code.reactionPartsBody,
+                      },
+                      {
+                        path: QUICK_REACTION_PICKER_PATH,
+                        source: quickReactionPickerSource,
+                        html: code.quickReactionPicker,
+                        collapsedHtml: code.quickReactionPickerBody,
+                      },
+                      {
+                        path: REACTION_GLYPH_PATH,
+                        source: reactionGlyphSource,
+                        html: code.reactionGlyph,
+                        collapsedHtml: code.reactionGlyphBody,
+                      },
+                    ]}
+                  />
+                }
+              />
+            </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="context-menu" title="Context menu">

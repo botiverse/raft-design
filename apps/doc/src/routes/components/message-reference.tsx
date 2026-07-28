@@ -17,6 +17,8 @@ import { MessageReferenceAttachmentCommentsComposition } from "#/modules/message
 import attachmentCommentsSource from "#/modules/message-reference/compositions/attachment-comments.composition.tsx?raw";
 import { MessageReferenceConversationDestinationsComposition } from "#/modules/message-reference/compositions/conversation-destinations.composition.tsx";
 import conversationDestinationsSource from "#/modules/message-reference/compositions/conversation-destinations.composition.tsx?raw";
+import { MessageReferenceExternalReferencesComposition } from "#/modules/message-reference/compositions/external-references.composition.tsx";
+import externalReferencesSource from "#/modules/message-reference/compositions/external-references.composition.tsx?raw";
 import { MessageReferencePeopleMentionsComposition } from "#/modules/message-reference/compositions/people-mentions.composition.tsx";
 import peopleMentionsSource from "#/modules/message-reference/compositions/people-mentions.composition.tsx?raw";
 import { MessageReferenceResolutionStatesComposition } from "#/modules/message-reference/compositions/resolution-states.composition.tsx";
@@ -183,6 +185,7 @@ export const Route = createFileRoute("/components/message-reference")({
         conversationDestinations: conversationDestinationsSource,
         taskReferences: taskReferencesSource,
         attachmentComments: attachmentCommentsSource,
+        externalReferences: externalReferencesSource,
         resolutionStates: resolutionStatesSource,
       },
     }),
@@ -262,6 +265,26 @@ function MessageReferenceDoc() {
               collapsedCode={code.attachmentCommentsBody}
             >
               <MessageReferenceAttachmentCommentsComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="external-references"
+            title="Permalinks and external links"
+          >
+            <p className="mb-3 text-sm text-foreground-muted">
+              Use the muted chip for an in-product permalink and the link chip for a target outside
+              the workspace. Pair <InlineCode>MessageReferenceLabel</InlineCode> with{" "}
+              <InlineCode>MessageReferenceMeta</InlineCode> when the target needs a secondary
+              qualifier; the consumer owns <InlineCode>target</InlineCode> and{" "}
+              <InlineCode>rel</InlineCode>.
+            </p>
+            <UsagePreview
+              code={code.externalReferences}
+              collapsedCode={code.externalReferencesBody}
+            >
+              <MessageReferenceExternalReferencesComposition />
             </UsagePreview>
           </DocSubsection>
         </div>
