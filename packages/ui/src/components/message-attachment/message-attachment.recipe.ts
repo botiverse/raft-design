@@ -35,7 +35,7 @@ export const messageAttachment = tv({
         ],
         title: "text-xs font-medium text-black",
         meta: "gap-1.5 text-[10px] text-black/45",
-        summary: "font-bold text-black/45",
+        summary: "font-medium text-black/45",
         diffAddition: "text-success-base",
         diffDeletion: "text-danger-base",
         action: "text-black/60 group-hover/attachment:text-black",
