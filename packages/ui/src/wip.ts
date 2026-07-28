@@ -1,30 +1,6 @@
 export { PanelAction, PanelToggleAction } from "./components/panel/index";
 export type { PanelActionProps, PanelToggleActionProps } from "./components/panel/index";
 
-export { ResizableGroup, ResizableHandle, ResizablePanel } from "./components/resizable/index";
-export type {
-  ResizableGroupProps,
-  ResizableHandleProps,
-  ResizablePanelProps,
-} from "./components/resizable/index";
-
-export {
-  LiveAgentActivityBar,
-  LiveAgentActivityBarAvatar,
-  LiveAgentActivityBarContent,
-  LiveAgentActivityBarRow,
-  LiveAgentActivityBarStatus,
-  LiveAgentActivityBarText,
-} from "./components/live-agent-activity-bar/index";
-export type {
-  LiveAgentActivityBarAvatarProps,
-  LiveAgentActivityBarContentProps,
-  LiveAgentActivityBarProps,
-  LiveAgentActivityBarRowProps,
-  LiveAgentActivityBarStatusProps,
-  LiveAgentActivityBarTextProps,
-} from "./components/live-agent-activity-bar/index";
-
 export {
   ToggleGroup,
   ToggleGroupCount,
