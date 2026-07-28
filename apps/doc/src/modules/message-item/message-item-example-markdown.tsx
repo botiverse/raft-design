@@ -1,15 +1,15 @@
 import type { ReactNode } from "react";
-import { TaskChip } from "raft-ui";
 import {
   CodeBlock,
   CodeBlockActions,
   CodeBlockBody,
   CodeBlockHeader,
-  MessageInlineCode,
-  MessageMarkdown,
-  MessageReferenceChip,
-} from "raft-ui/wip";
+  CodeBlockTitle,
+  TaskChip,
+} from "raft-ui";
+import { MessageInlineCode, MessageMarkdown, MessageReferenceChip } from "raft-ui/wip";
 import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
+import { ShikiHighlightedCode } from "#/lib/code-block/shiki-highlighted-code.tsx";
 import {
   MessageMentionReferenceComposition,
   MessageSelfMentionReferenceComposition,
@@ -166,14 +166,13 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
       <blockquote>Compact rows should read as one thread, not a new speaker.</blockquote>
       <CodeBlock>
         <CodeBlockHeader>
+          <CodeBlockTitle>tsx</CodeBlockTitle>
           <CodeBlockActions>
             <CodeCopyAction code={code} />
           </CodeBlockActions>
         </CodeBlockHeader>
         <CodeBlockBody>
-          <pre>
-            <code>{code}</code>
-          </pre>
+          <ShikiHighlightedCode code={code} language="tsx" />
         </CodeBlockBody>
       </CodeBlock>
     </MessageMarkdown>

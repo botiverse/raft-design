@@ -4,7 +4,7 @@ import {
   CodeBlockBody,
   CodeBlockHeader,
   CodeBlockTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { AnimatedCodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
 import { ShikiHighlightedCode } from "#/lib/code-block/shiki-highlighted-code.tsx";
 

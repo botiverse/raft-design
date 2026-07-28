@@ -369,23 +369,6 @@ export type {
 } from "./components/message-markdown/index";
 
 export {
-  CodeBlock,
-  CodeBlockActions,
-  CodeBlockBody,
-  CodeBlockAction,
-  CodeBlockHeader,
-  CodeBlockTitle,
-} from "./components/code-block/index";
-export type {
-  CodeBlockActionsProps,
-  CodeBlockBodyProps,
-  CodeBlockActionProps,
-  CodeBlockHeaderProps,
-  CodeBlockProps,
-  CodeBlockTitleProps,
-} from "./components/code-block/index";
-
-export {
   MessageQuotedPreview,
   MessageQuotedPreviewAttachment,
   MessageQuotedPreviewAttachments,

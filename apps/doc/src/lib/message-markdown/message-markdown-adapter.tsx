@@ -4,17 +4,15 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
-import { Checkbox } from "raft-ui";
 import {
+  Checkbox,
   CodeBlock,
   CodeBlockActions,
   CodeBlockBody,
   CodeBlockHeader,
   CodeBlockTitle,
-  MessageInlineCode,
-  MessageMarkdown,
-  MessageMarkdownTableScroll,
-} from "raft-ui/wip";
+} from "raft-ui";
+import { MessageInlineCode, MessageMarkdown, MessageMarkdownTableScroll } from "raft-ui/wip";
 import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
 import { ShikiHighlightedCode } from "#/lib/code-block/shiki-highlighted-code.tsx";
 import { markdownSanitizeSchema } from "./markdown-sanitize-schema.ts";
