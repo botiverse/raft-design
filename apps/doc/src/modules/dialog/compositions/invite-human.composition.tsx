@@ -5,9 +5,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "raft-ui";
-import { cn } from "raft-ui/cn";
-import {
   Button,
   Field,
   FieldDescription,
@@ -17,6 +14,7 @@ import {
   Separator,
   useThemeFamily,
 } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import { Copy, Link2, Mail, Plus } from "lucide-react";
 
 // @docs-source-strip-start

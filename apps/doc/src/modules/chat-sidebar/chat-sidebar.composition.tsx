@@ -1,7 +1,9 @@
 import { AtSign, BellOff, Bookmark, Hash, Pencil } from "lucide-react";
 import { useState } from "react";
-import { Avatar, AvatarFallback, Status } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  Status,
   ChatSidebarLiveActivity,
   ChatSidebarContent,
   ChatSidebarItemAside,

@@ -1,5 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage, Status } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Status,
   ChatSidebarItemAside,
   ChatSidebarItemContent,
   ChatSidebarItemCount,

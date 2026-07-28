@@ -1,6 +1,7 @@
 import { Download, X } from "lucide-react";
-import { Badge, Button } from "raft-ui";
 import {
+  Badge,
+  Button,
   Lightbox,
   LightboxActions,
   LightboxClose,

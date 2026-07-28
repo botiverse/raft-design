@@ -1,6 +1,6 @@
 import { Download, X } from "lucide-react";
-import { Button } from "raft-ui";
 import {
+  Button,
   Lightbox,
   LightboxClose,
   LightboxContent,

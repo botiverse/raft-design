@@ -1,6 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, InputGroup, InputGroupAddon, InputGroupInput, InlineCode, Kbd } from "raft-ui";
-import { Field, FieldError, FieldLabel } from "raft-ui";
+import {
+  Button,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InlineCode,
+  Kbd,
+  Field,
+  FieldError,
+  FieldLabel,
+} from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";

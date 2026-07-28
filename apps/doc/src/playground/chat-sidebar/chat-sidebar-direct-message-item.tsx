@@ -6,8 +6,8 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
+  ChatSidebarItem as ChatSidebarItemRoot,
 } from "raft-ui";
-import { ChatSidebarItem as ChatSidebarItemRoot } from "raft-ui";
 
 import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
