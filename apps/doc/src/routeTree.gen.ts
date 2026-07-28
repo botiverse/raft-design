@@ -36,6 +36,7 @@ import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
 import { Route as ComponentsTaskListRouteImport } from './routes/components/task-list'
 import { Route as ComponentsTaskDndRouteImport } from './routes/components/task-dnd'
+import { Route as ComponentsTaskChipRouteImport } from './routes/components/task-chip'
 import { Route as ComponentsTaskCardRouteImport } from './routes/components/task-card'
 import { Route as ComponentsTaskBoardRouteImport } from './routes/components/task-board'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
@@ -252,6 +253,11 @@ const ComponentsTaskListRoute = ComponentsTaskListRouteImport.update({
 const ComponentsTaskDndRoute = ComponentsTaskDndRouteImport.update({
   id: '/task-dnd',
   path: '/task-dnd',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskChipRoute = ComponentsTaskChipRouteImport.update({
+  id: '/task-chip',
+  path: '/task-chip',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsTaskCardRoute = ComponentsTaskCardRouteImport.update({
@@ -748,6 +754,7 @@ export interface FileRoutesByFullPath {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/task-board': typeof ComponentsTaskBoardRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
+  '/components/task-chip': typeof ComponentsTaskChipRoute
   '/components/task-dnd': typeof ComponentsTaskDndRoute
   '/components/task-list': typeof ComponentsTaskListRoute
   '/components/tasks': typeof ComponentsTasksRoute
@@ -855,6 +862,7 @@ export interface FileRoutesByTo {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/task-board': typeof ComponentsTaskBoardRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
+  '/components/task-chip': typeof ComponentsTaskChipRoute
   '/components/task-dnd': typeof ComponentsTaskDndRoute
   '/components/task-list': typeof ComponentsTaskListRoute
   '/components/tasks': typeof ComponentsTasksRoute
@@ -964,6 +972,7 @@ export interface FileRoutesById {
   '/components/tabs': typeof ComponentsTabsRoute
   '/components/task-board': typeof ComponentsTaskBoardRoute
   '/components/task-card': typeof ComponentsTaskCardRoute
+  '/components/task-chip': typeof ComponentsTaskChipRoute
   '/components/task-dnd': typeof ComponentsTaskDndRoute
   '/components/task-list': typeof ComponentsTaskListRoute
   '/components/tasks': typeof ComponentsTasksRoute
@@ -1074,6 +1083,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/task-board'
     | '/components/task-card'
+    | '/components/task-chip'
     | '/components/task-dnd'
     | '/components/task-list'
     | '/components/tasks'
@@ -1181,6 +1191,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/task-board'
     | '/components/task-card'
+    | '/components/task-chip'
     | '/components/task-dnd'
     | '/components/task-list'
     | '/components/tasks'
@@ -1289,6 +1300,7 @@ export interface FileRouteTypes {
     | '/components/tabs'
     | '/components/task-board'
     | '/components/task-card'
+    | '/components/task-chip'
     | '/components/task-dnd'
     | '/components/task-list'
     | '/components/tasks'
@@ -1535,6 +1547,13 @@ declare module '@tanstack/react-router' {
       path: '/task-dnd'
       fullPath: '/components/task-dnd'
       preLoaderRoute: typeof ComponentsTaskDndRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-chip': {
+      id: '/components/task-chip'
+      path: '/task-chip'
+      fullPath: '/components/task-chip'
+      preLoaderRoute: typeof ComponentsTaskChipRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/task-card': {
@@ -2281,6 +2300,7 @@ interface ComponentsRouteChildren {
   ComponentsTabsRoute: typeof ComponentsTabsRoute
   ComponentsTaskBoardRoute: typeof ComponentsTaskBoardRoute
   ComponentsTaskCardRoute: typeof ComponentsTaskCardRoute
+  ComponentsTaskChipRoute: typeof ComponentsTaskChipRoute
   ComponentsTaskDndRoute: typeof ComponentsTaskDndRoute
   ComponentsTaskListRoute: typeof ComponentsTaskListRoute
   ComponentsTasksRoute: typeof ComponentsTasksRoute
@@ -2354,6 +2374,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsTabsRoute: ComponentsTabsRoute,
   ComponentsTaskBoardRoute: ComponentsTaskBoardRoute,
   ComponentsTaskCardRoute: ComponentsTaskCardRoute,
+  ComponentsTaskChipRoute: ComponentsTaskChipRoute,
   ComponentsTaskDndRoute: ComponentsTaskDndRoute,
   ComponentsTaskListRoute: ComponentsTaskListRoute,
   ComponentsTasksRoute: ComponentsTasksRoute,
