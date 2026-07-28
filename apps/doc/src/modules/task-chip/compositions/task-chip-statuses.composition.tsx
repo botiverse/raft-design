@@ -45,6 +45,14 @@ export function TaskChipStatusesComposition() {
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Closed</span>
       </div>
+      <div className="flex flex-col items-center gap-3">
+        {/* @docs-source-strip-end */}
+        <TaskChip status="in_progress" loading title="Resolving task #512">
+          #512
+        </TaskChip>
+        {/* @docs-source-strip-start */}
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">Loading</span>
+      </div>
       {/* @docs-source-strip-end */}
     </div>
   );
