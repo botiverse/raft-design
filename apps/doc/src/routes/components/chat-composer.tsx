@@ -457,9 +457,9 @@ function ChatComposerDoc() {
               Attachment count limits are product policy. Keep the Banner outside Composer and show
               it when the consumer rejects another file.
             </DocNote>
-            <Preview previewClassName="min-h-[24rem] items-stretch">
+            <Preview previewClassName="min-h-[31.5rem] items-stretch">
               <Preview.Canvas>
-                <div className="flex h-[24rem] w-full min-w-0 flex-col justify-end">
+                <div className="flex h-[31.5rem] w-full min-w-0 flex-col justify-end">
                   <ComposerAttachmentLimitComposition />
                 </div>
               </Preview.Canvas>
