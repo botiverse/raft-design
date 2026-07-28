@@ -2,8 +2,14 @@ import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_PLAYGROUND_URLS,
 } from "#/modules/message-item/message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage, MarkdownParagraph, TaskChip } from "raft-ui";
-import { Markdown } from "#/lib/markdown/markdown.tsx";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MarkdownBlockquote,
+  MarkdownParagraph,
+  TaskChip,
+} from "raft-ui";
 import { MessagesSquare, MessageSquareQuote } from "lucide-react";
 
 import {
@@ -14,7 +20,9 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
+  MessageReferenceBadge,
   MessageReferenceChip,
+  MessageReferenceLabel,
 } from "raft-ui/wip";
 import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
 
@@ -42,11 +50,12 @@ export function MessageReferenceShowcaseComposition() {
               </TaskChip>{" "}
               before replying in{" "}
               <MessageReferenceChip
-                variant="info"
+                variant="accent"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
               >
-                <MessagesSquare size={12} />
-                release-notes · reply
+                <MessageReferenceBadge>thread</MessageReferenceBadge>
+                <MessagesSquare />
+                <MessageReferenceLabel>release-notes · reply</MessageReferenceLabel>
               </MessageReferenceChip>
               .
             </MarkdownParagraph>
@@ -75,15 +84,16 @@ export function MessageReferenceShowcaseComposition() {
                 />
               }
             >
-              <MessageSquareQuote size={12} />
-              <span>re: state-ownership-migration-notes.md · § Ownership boundary</span>
+              <MessageReferenceBadge>comment</MessageReferenceBadge>
+              <MessageSquareQuote />
+              <MessageReferenceLabel>
+                re: state-ownership-migration-notes.md · § Ownership boundary
+              </MessageReferenceLabel>
             </MessageReferenceChip>
           </div>
-          <Markdown>
-            {
-              "> The atom model is a better fit only if we keep server state out of the local store."
-            }
-          </Markdown>
+          <MarkdownBlockquote>
+            The atom model is a better fit only if we keep server state out of the local store.
+          </MarkdownBlockquote>
           <MessageItemBody>Commented on the attachment source boundary.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>

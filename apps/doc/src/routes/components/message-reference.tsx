@@ -7,11 +7,8 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import referenceAdaptersSource from "#/modules/message-reference/compositions/reference-adapters.composition.tsx?raw";
-import { MessageReferenceComparisonComposition } from "#/modules/message-reference/compositions/reference-comparison.composition.tsx";
 import referenceComparisonSource from "#/modules/message-reference/compositions/reference-comparison.composition.tsx?raw";
 import { MessageReferenceAttachmentCommentsComposition } from "#/modules/message-reference/compositions/attachment-comments.composition.tsx";
 import attachmentCommentsSource from "#/modules/message-reference/compositions/attachment-comments.composition.tsx?raw";
@@ -25,41 +22,13 @@ import { MessageReferenceResolutionStatesComposition } from "#/modules/message-r
 import resolutionStatesSource from "#/modules/message-reference/compositions/resolution-states.composition.tsx?raw";
 import { MessageReferenceShowcaseComposition } from "#/modules/message-reference/compositions/reference-showcase.composition.tsx";
 import referenceShowcaseSource from "#/modules/message-reference/compositions/reference-showcase.composition.tsx?raw";
-import { TaskChipUsageComposition } from "#/modules/message-reference/compositions/task-references.composition.tsx";
-import taskReferencesSource from "#/modules/message-reference/compositions/task-references.composition.tsx?raw";
-import { MessageReferenceSourcePreview } from "#/modules/message-reference/message-reference.source-preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
+  { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "reference-states", title: "Reference states" },
-  { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock message references",
-    scenes: [
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-      {
-        label: "MentionLink.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MentionLink.tsx",
-      },
-      {
-        label: "ReferenceChip.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ReferenceChip.tsx",
-      },
-      {
-        label: "AttachmentCommentRefChip.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/AttachmentCommentRefChip.tsx",
-      },
-    ],
-  },
 ] as const;
 
 const ANATOMY_SOURCE = `<MessageReferenceText render={<button type="button" />}>
@@ -71,8 +40,9 @@ const ANATOMY_SOURCE = `<MessageReferenceText render={<button type="button" />}>
 </MessageReferenceChip>
 
 <MessageReferenceChip variant="muted" render={<a href="…" />}>
+  <MessageReferenceBadge>message</MessageReferenceBadge>
+  <MessageSquareText />
   <MessageReferenceLabel>message #222</MessageReferenceLabel>
-  <MessageReferenceMeta>msg</MessageReferenceMeta>
 </MessageReferenceChip>
 
 <MessageReferencePending>Resolving…</MessageReferencePending>
@@ -106,6 +76,12 @@ const SURFACES: readonly PropRow[] = [
 ];
 
 const PARTS: readonly PropRow[] = [
+  {
+    name: "MessageReferenceBadge",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Optional caption naming the reference type. Hidden until the chip is hovered or focused, then revealed to the left of the chip icon.",
+  },
   {
     name: "MessageReferenceLabel",
     type: 'useRender.ComponentProps<"span">',
@@ -183,7 +159,6 @@ export const Route = createFileRoute("/components/message-reference")({
         referenceShowcase: referenceShowcaseSource,
         peopleMentions: peopleMentionsSource,
         conversationDestinations: conversationDestinationsSource,
-        taskReferences: taskReferencesSource,
         attachmentComments: attachmentCommentsSource,
         externalReferences: externalReferencesSource,
         resolutionStates: resolutionStatesSource,
@@ -209,6 +184,14 @@ function MessageReferenceDoc() {
         </Preview>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
+      </DocSection>
+
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="people-mentions" title="People mentions">
@@ -231,7 +214,8 @@ function MessageReferenceDoc() {
               Use <InlineCode>#channel</InlineCode> for a channel,{" "}
               <InlineCode>{"<dm:@member>"}</InlineCode> for a DM, or append{" "}
               <InlineCode>:short-id</InlineCode> for a thread. A resolved message reference can
-              include its destination icon and label directly.
+              include its destination badge and label directly. Hovering the chip expands the badge
+              leftwards to name the destination type, without moving surrounding text.
             </p>
             <UsagePreview
               code={code.conversationDestinations}
@@ -241,24 +225,14 @@ function MessageReferenceDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="task-references" title="Tasks">
-            <p className="mb-3 text-sm text-foreground-muted">
-              Use <InlineCode>TaskChip</InlineCode> for a resolved task. Its status controls the
-              status icon and task surface; task state remains consumer-owned.
-            </p>
-            <UsagePreview code={code.taskReferences} collapsedCode={code.taskReferencesBody}>
-              <TaskChipUsageComposition />
-            </UsagePreview>
-          </DocSubsection>
-
           <DocSubsection
             parentId="usage"
             id="attachment-comment-context"
             title="Attachment comment context"
           >
             <p className="mb-3 text-sm text-foreground-muted">
-              Compose the neutral chip with the attachment-comment icon and resolved target owned by
-              the message consumer.
+              Compose the neutral chip with the attachment-comment badge and resolved target owned
+              by the message consumer.
             </p>
             <UsagePreview
               code={code.attachmentComments}
@@ -275,10 +249,10 @@ function MessageReferenceDoc() {
           >
             <p className="mb-3 text-sm text-foreground-muted">
               Use the muted chip for an in-product permalink and the link chip for a target outside
-              the workspace. Pair <InlineCode>MessageReferenceLabel</InlineCode> with{" "}
-              <InlineCode>MessageReferenceMeta</InlineCode> when the target needs a secondary
-              qualifier; the consumer owns <InlineCode>target</InlineCode> and{" "}
-              <InlineCode>rel</InlineCode>.
+              the workspace. The source qualifier lives in{" "}
+              <InlineCode>MessageReferenceBadge</InlineCode> and is revealed on hover, so the
+              resting chip stays a plain label; the consumer owns <InlineCode>target</InlineCode>{" "}
+              and <InlineCode>rel</InlineCode>.
             </p>
             <UsagePreview
               code={code.externalReferences}
@@ -300,14 +274,6 @@ function MessageReferenceDoc() {
         </UsagePreview>
       </DocSection>
 
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
-      </DocSection>
-
       <DocSection id="api" title="API">
         <div className="space-y-8">
           <DocSubsection parentId="api" id="api-surfaces" title="Surfaces">
@@ -321,33 +287,6 @@ function MessageReferenceDoc() {
             <PropsTable rows={PARTS} nameColumnLabel="Part" />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Inline references in a message row",
-              status: "review",
-              note: "The Source pane is a static fixture extracted from the real MessageItem, MentionLink, ReferenceChip, and AttachmentCommentRefChip DOM; the three Current panes execute the canonical message composition.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="w-full">
-                  <MessageReferenceSourcePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <MessageReferenceComparisonComposition />,
-              elegant: <MessageReferenceComparisonComposition />,
-              elegantDark: <MessageReferenceComparisonComposition />,
-              compositionCode: code.referenceComparison,
-              compositionCollapsedCode: code.referenceComparisonBody,
-              compositionPath:
-                "apps/doc/src/modules/message-reference/compositions/reference-comparison.composition.tsx",
-              compositionSource: referenceComparisonSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );
