@@ -11,7 +11,7 @@ import {
   MessageItemTime,
 } from "raft-ui/wip";
 
-import { MessageFileAttachmentComposition } from "./compositions/message-attachments-showcase.composition.tsx";
+import { MessageFileAttachmentComposition } from "./compositions/file-attachments.composition.tsx";
 
 export function MessageAttachmentComparisonComposition() {
   return (

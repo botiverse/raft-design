@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vite-plus/test";
 import { messageActionCard } from "./message-action-card/message-action-card.recipe";
-import { messageAttachment } from "./message-attachment/message-attachment.recipe";
 import { messageAttachmentPreview } from "./message-attachment/message-attachment-preview.recipe";
 import { messageForwardedBundle } from "./message-forwarded-bundle/message-forwarded-bundle.recipe";
 import { messageMedia } from "./message-media/message-media.recipe";
@@ -27,22 +26,11 @@ describe("message surface theme ownership", () => {
   });
 
   it("keeps typography and density with the active theme", () => {
-    const attachmentBrutal = messageAttachment({ theme: "brutal" });
-    const attachmentElegant = messageAttachment({ theme: "elegant" });
     const forwardedBrutal = messageForwardedBundle({ theme: "brutal" });
     const forwardedElegant = messageForwardedBundle({ theme: "elegant" });
     const systemBrutal = messageSystem({ theme: "brutal" });
     const systemElegant = messageSystem({ theme: "elegant" });
 
-    expect(attachmentBrutal.loadingBar()).toContain("border-t-2");
-    expect(attachmentElegant.loadingBar()).not.toContain("border-t-2");
-    expect(attachmentElegant.card()).toContain("hover:bg-ink-2");
-    expect(attachmentElegant.group()).toContain("flex-wrap");
-    expect(attachmentElegant.group()).toContain("gap-2");
-    expect(attachmentElegant.card()).toContain("h-20");
-    expect(attachmentElegant.card()).toContain("grid-cols-[2.5rem_minmax(0,1fr)]");
-    expect(attachmentElegant.icon()).toContain("col-start-1 row-start-1 self-start");
-    expect(attachmentElegant.meta()).toContain("mt-auto");
     expect(forwardedBrutal.headerLabel()).toContain("font-black");
     expect(forwardedElegant.headerLabel()).toContain("font-medium");
     expect(systemBrutal.systemTime()).toContain("font-mono");

@@ -21,9 +21,16 @@ export const messageMedia = tv({
     videoFrame: ["relative aspect-video w-full bg-black"],
     videoMedia: ["block h-full w-full bg-black object-contain"],
     videoFallback: ["flex h-full w-full items-center justify-center bg-black text-white"],
+    videoFailureContent: ["flex max-w-[16rem] flex-col items-center px-4 text-center text-xs"],
+    videoFailureIcon: ["[&_svg]:size-6"],
+    videoFailureTitle: [],
+    videoFailureAction: ["inline-flex items-center gap-1 text-white/75", "[&_svg]:size-[13px]"],
     videoAction: [
       "absolute right-1.5 top-1.5 flex size-6 items-center justify-center",
-      "[&_svg]:size-3",
+      "border border-black bg-white/80 text-black/60 hover:bg-white hover:text-black",
+      "transition-colors duration-150",
+      "outline outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-foreground-strong",
+      "disabled:cursor-default [&_svg]:size-3 [&_svg]:shrink-0",
     ],
   },
   variants: {
@@ -62,15 +69,16 @@ export const messageMedia = tv({
         galleryAction:
           "border border-black bg-white/80 text-black/50 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         video: "border-2 border-black",
-        videoAction:
-          "border border-black bg-white/80 text-black/60 hover:bg-white hover:text-black",
+        videoAction: "rounded-none",
+        videoFailureContent: "gap-2 font-bold",
+        videoFailureIcon: "[&_svg]:stroke-2",
       },
       elegant: {
         gallery: "space-y-2",
         galleryRow: "gap-2",
         galleryItem: [
-          "rounded-lg border border-line-subtle bg-layer-muted shadow-xs",
-          "transition-[border-color,box-shadow] duration-150 hover:border-line-muted hover:shadow-sm",
+          "rounded-md bg-layer-muted shadow-xs",
+          "transition-shadow duration-150 hover:shadow-sm",
           "has-[[data-slot=message-image-gallery-overlay]]:opacity-70",
         ],
         galleryPreview:
@@ -81,8 +89,10 @@ export const messageMedia = tv({
           "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
         ],
         video: "rounded-lg border border-line-subtle shadow-xs",
-        videoAction:
-          "rounded-md border border-line-subtle bg-layer-popover/95 text-foreground-icon shadow-xs transition-colors hover:bg-layer-popover hover:text-foreground active:bg-ink-8",
+        videoAction: "rounded-none",
+        videoFailureContent: "gap-3",
+        videoFailureIcon: "[&_svg]:stroke-[1.5]",
+        videoFailureTitle: "font-medium",
       },
     },
   },

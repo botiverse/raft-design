@@ -17,7 +17,7 @@ export function MessageAttachmentSourcePreview() {
             type="button"
             disabled
             aria-label="Download migration.diff"
-            className="relative inline-flex h-20 w-44 cursor-default flex-col justify-between overflow-hidden border-2 border-black bg-white px-2.5 py-2 text-left shadow-sm"
+            className="group/img relative inline-flex h-20 w-44 cursor-default flex-col justify-between overflow-hidden border border-black/15 bg-white px-2.5 py-2 text-left transition-colors hover:border-black/30 hover:bg-black/5"
           >
             <div className="w-full min-w-0 overflow-hidden">
               <p className="truncate text-xs font-bold">migration.diff</p>

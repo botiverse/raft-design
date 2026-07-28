@@ -44,11 +44,9 @@ import {
 import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
 import { MessageMarkdownComposition } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
-import {
-  MessageImageGallerySingleComposition,
-  MessageVideoPreviewComposition,
-} from "#/modules/message-media/compositions/media.compositions.tsx";
-import { MessageFileAttachmentsComposition } from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx";
+import { MessageImageGallerySingleComposition } from "#/modules/message-media/compositions/image-gallery-single.composition.tsx";
+import { MessageVideoPreviewComposition } from "#/modules/message-media/compositions/video-states.composition.tsx";
+import { MessageFileAttachmentsComposition } from "#/modules/message-attachment/compositions/file-attachments.composition.tsx";
 
 export type MessageItemPreviewChrome =
   | "default"

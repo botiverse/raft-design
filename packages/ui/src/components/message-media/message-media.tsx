@@ -269,6 +269,97 @@ export function MessageVideoPreviewFallback({
   });
 }
 
+export type MessageVideoPreviewFailureContentProps = useRender.ComponentProps<"div">;
+
+export function MessageVideoPreviewFailureContent({
+  className,
+  render,
+  ...props
+}: MessageVideoPreviewFailureContentProps) {
+  const theme = useThemeFamily();
+  const { videoFailureContent } = messageMedia({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: videoFailureContent({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "message-video-preview-failure-content",
+    },
+  });
+}
+
+export type MessageVideoPreviewFailureIconProps = useRender.ComponentProps<"span">;
+
+export function MessageVideoPreviewFailureIcon({
+  className,
+  render,
+  ...props
+}: MessageVideoPreviewFailureIconProps) {
+  const theme = useThemeFamily();
+  const { videoFailureIcon } = messageMedia({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: videoFailureIcon({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-video-preview-failure-icon",
+    },
+  });
+}
+
+export type MessageVideoPreviewFailureTitleProps = useRender.ComponentProps<"span">;
+
+export function MessageVideoPreviewFailureTitle({
+  className,
+  render,
+  ...props
+}: MessageVideoPreviewFailureTitleProps) {
+  const theme = useThemeFamily();
+  const { videoFailureTitle } = messageMedia({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: videoFailureTitle({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-video-preview-failure-title",
+    },
+  });
+}
+
+export type MessageVideoPreviewFailureActionProps = useRender.ComponentProps<"span">;
+
+export function MessageVideoPreviewFailureAction({
+  className,
+  render,
+  ...props
+}: MessageVideoPreviewFailureActionProps) {
+  const { videoFailureAction } = messageMedia();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: videoFailureAction({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-video-preview-failure-action",
+    },
+  });
+}
+
 export type MessageVideoPreviewActionProps = useRender.ComponentProps<"button">;
 
 export function MessageVideoPreviewAction({

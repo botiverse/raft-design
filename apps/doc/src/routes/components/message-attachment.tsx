@@ -11,10 +11,14 @@ import { PropsTable } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { MessageAttachmentPreviewSurfacesComposition } from "#/modules/message-attachment/compositions/attachment-preview-surfaces.composition.tsx";
-import attachmentPreviewSurfacesSource from "#/modules/message-attachment/compositions/attachment-preview-surfaces.composition.tsx?raw";
 import { MessageAttachmentsShowcaseComposition } from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx";
 import attachmentsShowcaseSource from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx?raw";
+import { MessageAttachmentStatusesUsageComposition } from "#/modules/message-attachment/compositions/attachment-statuses.composition.tsx";
+import attachmentStatusesSource from "#/modules/message-attachment/compositions/attachment-statuses.composition.tsx?raw";
+import { MessageAttachmentDiffUsageComposition } from "#/modules/message-attachment/compositions/diff-attachment.composition.tsx";
+import diffAttachmentSource from "#/modules/message-attachment/compositions/diff-attachment.composition.tsx?raw";
+import { MessageAttachmentPreviewUsageComposition } from "#/modules/message-attachment/compositions/preview-attachment.composition.tsx";
+import previewAttachmentSource from "#/modules/message-attachment/compositions/preview-attachment.composition.tsx?raw";
 import {
   ANATOMY_SOURCE,
   API_GROUPS,
@@ -22,8 +26,16 @@ import {
 import { MessageAttachmentComparisonComposition } from "#/modules/message-attachment/message-attachment.source-comparison.tsx";
 import attachmentComparisonSource from "#/modules/message-attachment/message-attachment.source-comparison.tsx?raw";
 import { MessageAttachmentSourcePreview } from "#/modules/message-attachment/message-attachment.source-preview.tsx";
-import { MessageImageGalleryLayoutMatrixComposition } from "#/modules/message-media/compositions/gallery-layout-matrix.composition.tsx";
-import galleryLayoutMatrixSource from "#/modules/message-media/compositions/gallery-layout-matrix.composition.tsx?raw";
+import { MessageImageGalleryGeometryComposition } from "#/modules/message-media/compositions/image-gallery-geometry.composition.tsx";
+import imageGalleryGeometrySource from "#/modules/message-media/compositions/image-gallery-geometry.composition.tsx?raw";
+import { MessageImageGalleryPairComposition } from "#/modules/message-media/compositions/image-gallery-pair.composition.tsx";
+import imageGalleryPairSource from "#/modules/message-media/compositions/image-gallery-pair.composition.tsx?raw";
+import { MessageImageGallerySingleComposition } from "#/modules/message-media/compositions/image-gallery-single.composition.tsx";
+import imageGallerySingleSource from "#/modules/message-media/compositions/image-gallery-single.composition.tsx?raw";
+import { MessageImageGalleryTripleComposition } from "#/modules/message-media/compositions/image-gallery-triple.composition.tsx";
+import imageGalleryTripleSource from "#/modules/message-media/compositions/image-gallery-triple.composition.tsx?raw";
+import { MessageVideoPreviewStatesComposition } from "#/modules/message-media/compositions/video-states.composition.tsx";
+import videoStatesSource from "#/modules/message-media/compositions/video-states.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -51,7 +63,7 @@ const SOURCE_SCENES = [
 
 function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
   return (
-    <Preview previewClassName="items-stretch">
+    <Preview>
       <Preview.Canvas>{children}</Preview.Canvas>
       <Preview.Code html={code} />
     </Preview>
@@ -66,8 +78,14 @@ export const Route = createFileRoute("/components/message-attachment")({
         anatomy: ANATOMY_SOURCE,
         attachmentComparison: attachmentComparisonSource,
         attachmentsShowcase: attachmentsShowcaseSource,
-        attachmentPreviewSurfaces: attachmentPreviewSurfacesSource,
-        galleryLayoutMatrix: galleryLayoutMatrixSource,
+        attachmentStatuses: attachmentStatusesSource,
+        diffAttachment: diffAttachmentSource,
+        imageGalleryGeometry: imageGalleryGeometrySource,
+        imageGalleryPair: imageGalleryPairSource,
+        imageGallerySingle: imageGallerySingleSource,
+        imageGalleryTriple: imageGalleryTripleSource,
+        previewAttachment: previewAttachmentSource,
+        videoStates: videoStatesSource,
       },
     }),
 });
@@ -78,7 +96,7 @@ function MessageAttachmentDoc() {
   return (
     <DocPage
       title="MessageAttachment"
-      description="Message-row attachment cards, pending/failed overlays, and HTML/audio preview surfaces — including media galleries composed as attachment children."
+      description="Message-row attachment cards, media galleries, and pending/failed states composed as attachment children."
       overview={
         <Differences from="message attachments">
           <li>
@@ -88,10 +106,7 @@ function MessageAttachmentDoc() {
             media galleries and file cards compose as children of{" "}
             <code>MessageItemAttachments</code>
           </li>
-          <li>
-            file thumbnails belong to <Link to="/components/file-preview">FilePreview</Link>; this
-            page owns the message attachment chrome around them
-          </li>
+          <li>file title, summary, and meta actions compose into attachment cards</li>
           <li>product copy, icons, and callbacks live in docs compositions</li>
         </Differences>
       }
@@ -99,8 +114,7 @@ function MessageAttachmentDoc() {
     >
       <DocNote>
         Row chrome and the <code>MessageItemAttachments</code> slot live on{" "}
-        <Link to="/components/message-item">MessageItem</Link>. Compact file thumbnails are{" "}
-        <Link to="/components/file-preview">FilePreview</Link>; full-screen image browsing is{" "}
+        <Link to="/components/message-item">MessageItem</Link>. Full-screen image browsing is{" "}
         <Link to="/components/lightbox">Lightbox</Link>.
       </DocNote>
 
@@ -120,20 +134,83 @@ function MessageAttachmentDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
-          <DocSubsection
-            parentId="usage"
-            id="attachment-preview-surfaces"
-            title="Attachment preview surfaces"
-          >
-            <UsagePreview code={code.attachmentPreviewSurfaces}>
-              <MessageAttachmentPreviewSurfacesComposition />
+          <DocSubsection parentId="usage" id="downloadable-file" title="Downloadable file">
+            <p className="mb-3 text-sm text-foreground-muted">
+              Compose a filename, diff summary, file size, and caller-owned download action.
+            </p>
+            <UsagePreview code={code.diffAttachment}>
+              <MessageAttachmentDiffUsageComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="previewable-file" title="Previewable file">
+            <p className="mb-3 text-sm text-foreground-muted">
+              Keep preview state in the consumer; replace the Eye with a spinner while the preview
+              opens.
+            </p>
+            <UsagePreview code={code.previewAttachment}>
+              <MessageAttachmentPreviewUsageComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="attachment-statuses" title="Comments and pending">
+            <p className="mb-3 text-sm text-foreground-muted">
+              The comment summary and pending indicator remain explicit parts of the attachment card
+              rather than card-level variants.
+            </p>
+            <UsagePreview code={code.attachmentStatuses}>
+              <MessageAttachmentStatusesUsageComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="video-states" title="Inline video states">
+            <p className="mb-3 text-sm text-foreground-muted">
+              Render real media, URL loading, and unavailable-codec fallback as separate video
+              states. Preview and download workflows remain caller-owned.
+            </p>
+            <UsagePreview code={code.videoStates}>
+              <div className="space-y-2">
+                <MessageVideoPreviewStatesComposition />
+              </div>
             </UsagePreview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="media-layouts" title="Media layouts">
-            <UsagePreview code={code.galleryLayoutMatrix}>
-              <MessageImageGalleryLayoutMatrixComposition />
-            </UsagePreview>
+            <p className="mb-3 text-sm text-foreground-muted">
+              Choose the row layout from attachment metadata, then compose each image cell directly.
+            </p>
+            <div className="space-y-8">
+              <DocSubsection parentId="media-layouts" id="single-image" title="Single image">
+                <UsagePreview code={code.imageGallerySingle}>
+                  <MessageImageGallerySingleComposition />
+                </UsagePreview>
+              </DocSubsection>
+
+              <DocSubsection parentId="media-layouts" id="pair-row" title="Pair row">
+                <UsagePreview code={code.imageGalleryPair}>
+                  <MessageImageGalleryPairComposition />
+                </UsagePreview>
+              </DocSubsection>
+
+              <DocSubsection parentId="media-layouts" id="triple-row" title="Triple dense row">
+                <UsagePreview code={code.imageGalleryTriple}>
+                  <MessageImageGalleryTripleComposition />
+                </UsagePreview>
+              </DocSubsection>
+
+              <DocSubsection
+                parentId="media-layouts"
+                id="image-geometry"
+                title="Wide and tall geometry"
+              >
+                <p className="mb-3 text-sm text-foreground-muted">
+                  Geometry controls source-faithful fit; attachment metadata still decides the row.
+                </p>
+                <UsagePreview code={code.imageGalleryGeometry}>
+                  <MessageImageGalleryGeometryComposition />
+                </UsagePreview>
+              </DocSubsection>
+            </div>
           </DocSubsection>
         </div>
       </DocSection>
