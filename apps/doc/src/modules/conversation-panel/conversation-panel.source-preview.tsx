@@ -145,10 +145,7 @@ export function SourceConversationPanelPreview() {
           </div>
         </div>
       </div>
-      <form
-        className="relative flex shrink-0 items-center border-t-2 border-black bg-white px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="relative flex shrink-0 items-center border-t-2 border-black bg-white px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
         <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-sm">
           <textarea
             aria-label="Message #proj-uiux"
@@ -171,15 +168,15 @@ export function SourceConversationPanelPreview() {
               </button>
             </div>
             <div className="flex items-center gap-3">
-              <label className="inline-flex select-none items-center gap-1.5">
+              <span className="inline-flex select-none items-center gap-1.5">
                 <span
                   aria-hidden
                   className="inline-flex size-3.5 shrink-0 items-center justify-center border-2 border-black bg-white"
                 />
                 <span className="text-xs font-bold text-black/60">As Task</span>
-              </label>
+              </span>
               <button
-                type="submit"
+                type="button"
                 className="btn-brutal-sm flex size-7 items-center justify-center bg-brutal-pink p-0"
                 aria-label="Send"
               >

@@ -33,7 +33,7 @@ import {
   X,
   Download,
 } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useId, useState, type ComponentProps, type ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -379,6 +379,7 @@ function SourceModalCard({
         <h3 className="m-0 text-lg font-bold uppercase leading-none">{title}</h3>
         <button
           type="button"
+          aria-label="Close"
           className="border-2 border-black bg-white p-1 shadow-[2px_2px_0_#000]"
         >
           <X className="size-5" />
@@ -501,10 +502,14 @@ function SourceInput({
   value,
   placeholder,
   disabled,
+  id,
+  "aria-label": ariaLabel,
 }: {
   value?: string;
   placeholder?: string;
   disabled?: boolean;
+  id?: string;
+  "aria-label"?: string;
 }) {
   return (
     <input
@@ -512,6 +517,8 @@ function SourceInput({
       disabled={disabled}
       value={value}
       placeholder={placeholder}
+      id={id}
+      aria-label={ariaLabel}
       className="h-10 w-full border-2 border-black bg-white px-3 text-sm shadow-[2px_2px_0_#000] disabled:opacity-100"
     />
   );
@@ -535,6 +542,7 @@ function SourceEditChannel() {
         <h3 className="m-0 text-lg font-bold uppercase leading-none">Edit Channel</h3>
         <button
           type="button"
+          aria-label="Close"
           className="border-2 border-black bg-white p-1 shadow-[2px_2px_0_#000]"
         >
           <X className="size-5" />
@@ -573,6 +581,7 @@ function SourceEditChannelManagement() {
         <h3 className="m-0 text-lg font-bold uppercase leading-none">Edit Channel</h3>
         <button
           type="button"
+          aria-label="Close"
           className="border-2 border-black bg-white p-1 shadow-[2px_2px_0_#000]"
         >
           <X className="size-5" />
@@ -612,6 +621,8 @@ function SourceEditChannelManagement() {
 }
 
 function SourceInviteHuman() {
+  const emailFieldId = useId();
+
   return (
     <SourceModalCard
       title="Invite Human"
@@ -628,9 +639,9 @@ function SourceInviteHuman() {
     >
       <div className="grid gap-4">
         <div>
-          <label className="mb-1 block text-sm font-bold uppercase tracking-wide text-black">
+          <span className="mb-1 block text-sm font-bold uppercase tracking-wide text-black">
             Join link
-          </label>
+          </span>
           <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
             <div className="min-w-0 truncate border-2 border-black bg-white px-2 py-2 font-mono text-xs shadow-[2px_2px_0_#000]">
               http://localhost:5173/join/slk_invite_8k2
@@ -645,13 +656,16 @@ function SourceInviteHuman() {
           </div>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-bold uppercase tracking-wide text-black">
+          <label
+            htmlFor={emailFieldId}
+            className="mb-1 block text-sm font-bold uppercase tracking-wide text-black"
+          >
             Emails
           </label>
           <div className="grid gap-2">
-            <SourceInput placeholder="teammate@example.com" />
-            <SourceInput placeholder="optional" />
-            <SourceInput placeholder="optional" />
+            <SourceInput id={emailFieldId} placeholder="teammate@example.com" />
+            <SourceInput aria-label="Additional email" placeholder="optional" />
+            <SourceInput aria-label="Additional email" placeholder="optional" />
           </div>
         </div>
       </div>
@@ -708,6 +722,7 @@ function SourceCreateChannel() {
             <Search className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-black/40" />
             <input
               readOnly
+              aria-label="Search members by name"
               placeholder="Search members by name"
               className="h-10 w-full border-2 border-black bg-white pl-9 pr-3 text-sm shadow-[2px_2px_0_#000]"
             />
@@ -940,6 +955,7 @@ function SourceAgreement() {
         </div>
         <button
           type="button"
+          aria-label="Close"
           className="shrink-0 border-2 border-black bg-white p-1 shadow-[2px_2px_0_#000]"
         >
           <X className="size-[18px]" />
@@ -991,12 +1007,12 @@ function SourceOnboarding() {
         </div>
       </div>
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-t-2 border-black/20 pt-4">
-        <label className="inline-flex min-w-0 select-none items-center gap-1.5">
+        <div className="inline-flex min-w-0 select-none items-center gap-1.5">
           <span className="inline-flex size-4 border-2 border-black bg-white shadow-[2px_2px_0_#000]" />
           <span className="truncate text-xs font-bold text-black/60">
             Don&apos;t remind me again
           </span>
-        </label>
+        </div>
         <div className="flex shrink-0 items-center gap-2">
           <SourceButton>Skip</SourceButton>
           <SourceButton tone="pink">
@@ -1016,6 +1032,7 @@ function SourceAnnouncement() {
         <h3 className="m-0 truncate text-lg font-bold uppercase">Workspace Update</h3>
         <button
           type="button"
+          aria-label="Close"
           className="border-2 border-black bg-white p-1 shadow-[2px_2px_0_#000]"
         >
           <X className="size-5" />
@@ -1170,317 +1187,331 @@ function DialogDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          previewSize="tall"
-          items={[
-            {
-              id: "source-comparison-edit-channel",
-              label: "Edit channel",
-              status: "difference",
-              note: "Remaining differences: actions are grouped inside DialogBody; current uses Dialog default chrome and themed Button variants instead of exact source post-footer action styling.",
-              source: <SourceEditChannel />,
-              brutal: <EditChannelDialogComposition />,
-              elegant: <EditChannelDialogComposition />,
-              elegantDark: <EditChannelDialogComposition />,
-              previewClassName: modalComparisonPreviewClassName,
-              sourceScenes: [
-                {
-                  label: "Channel settings dialog",
-                  scenes: [
-                    {
-                      label: "ChatPanel.tsx:706,878",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:706,878",
-                    },
-                    {
-                      label: "EditChannelDialog.tsx:128",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:128",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "EditChannel"),
-            },
-            {
-              id: "source-comparison-edit-channel-management",
-              label: "Edit channel actions",
-              status: "difference",
-              note: "Remaining differences: management actions are grouped inside DialogBody with an Actions separator; source places them below the save footer and uses exact brutal utility colors.",
-              source: <SourceEditChannelManagement />,
-              brutal: <EditChannelManagementDialogComposition />,
-              elegant: <EditChannelManagementDialogComposition />,
-              elegantDark: <EditChannelManagementDialogComposition />,
-              previewClassName: modalComparisonPreviewClassName,
-              sourceScenes: [
-                {
-                  label: "Channel management actions",
-                  scenes: [
-                    {
-                      label: "EditChannelDialog.tsx:210,266",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:210,266",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "EditChannelManagement"),
-            },
-            {
-              id: "source-comparison-invite-human",
-              label: "Invite human",
-              status: "difference",
-              note: "Remaining differences: current adds an or separator and Invite more action; elegant uses a token gray URL container while source keeps fixed email rows and source-styled URL input.",
-              source: <SourceInviteHuman />,
-              brutal: <InviteHumanDialogComposition />,
-              elegant: <InviteHumanDialogComposition />,
-              elegantDark: <InviteHumanDialogComposition />,
-              previewClassName: modalComparisonPreviewClassName,
-              sourceScenes: [
-                {
-                  label: "Invite dialog",
-                  scenes: [
-                    {
-                      label: "InviteHumanDialog.tsx:99",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/InviteHumanDialog.tsx:99",
-                    },
-                    {
-                      label: "SettingsPanel.tsx:1428",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:1428",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "InviteHuman"),
-            },
-            {
-              id: "source-comparison-add-machine",
-              label: "Add computer",
-              status: "difference",
-              note: "Remaining differences: current extracts the command row to CopyableCode and renders the waiting state with Banner plus pulsing Status; source keeps the inline install command and live computer connection flow.",
-              source: <SourceAddMachine />,
-              brutal: <AddMachineDialogComposition />,
-              elegant: <AddMachineDialogComposition />,
-              elegantDark: <AddMachineDialogComposition />,
-              previewClassName: modalComparisonPreviewClassName,
-              sourceScenes: [
-                {
-                  label: "Computer setup dialog",
-                  scenes: [
-                    {
-                      label: "AddMachineDialog.tsx:247-277",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:247-277",
-                    },
-                    {
-                      label: "MachineDetailPanel.tsx:844-873",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:844-873",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "AddMachine"),
-            },
-            {
-              id: "source-comparison-attachment-preview",
-              label: "Attachment preview",
-              status: "difference",
-              note: "Remaining differences: source uses the Lightbox overlay for HTML/PDF/document attachment previews, including custom scroll-lock and browser-find behavior; current represents the same content-preview shell with Dialog primitives, themed header actions, and a sandboxed preview frame body.",
-              source: <SourceAttachmentPreview />,
-              brutal: <AttachmentPreviewDialogComposition />,
-              elegant: <AttachmentPreviewDialogComposition />,
-              elegantDark: <AttachmentPreviewDialogComposition />,
-              previewClassName: modalComparisonPreviewClassName,
-              sourceScenes: [
-                {
-                  label: "Attachment preview lightbox",
-                  scenes: [
-                    {
-                      label: "MessageItem.tsx:885",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:885",
-                    },
-                    {
-                      label: "MessageItem.tsx:993",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:993",
-                    },
-                    {
-                      label: "MessageItem.tsx:1167",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1167",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "AttachmentPreview"),
-            },
-            {
-              id: "source-comparison-announcement",
-              label: "Announcement",
-              status: "difference",
-              note: "Remaining differences: current adds a header icon and uses themed Dialog chrome/button styling; the docs body is static markdown-shaped content rather than the live announcement markdown renderer.",
-              source: <SourceAnnouncement />,
-              brutal: <AnnouncementDialogComposition />,
-              elegant: <AnnouncementDialogComposition />,
-              elegantDark: <AnnouncementDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Account announcement modal",
-                  scenes: [
-                    {
-                      label: "AnnouncementModal.tsx:119",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:119",
-                    },
-                    {
-                      label: "MainLayout.tsx:1406",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/MainLayout.tsx:1406",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "Announcement"),
-            },
-            {
-              id: "source-comparison-create-channel",
-              label: "Create channel",
-              status: "difference",
-              note: "Remaining differences: current uses Dialog/Banner/Field/Combobox primitives and themed button variants; source uses inline brutal form controls, a static expanded member list, and source-specific post-submit archive collision wiring.",
-              source: <SourceCreateChannel />,
-              brutal: <CreateChannelDialogComposition />,
-              elegant: <CreateChannelDialogComposition />,
-              elegantDark: <CreateChannelDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Channel creation and member management",
-                  scenes: [
-                    {
-                      label: "CreateChannelDialog.tsx:196",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:196",
-                    },
-                    {
-                      label: "CreateJointChannelDialog.tsx:150",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:150",
-                    },
-                    {
-                      label: "AddMembersDialog.tsx:205",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/AddMembersDialog.tsx:205",
-                    },
-                    {
-                      label: "ChannelMembers.tsx:121,249",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:121,249",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "CreateChannel"),
-            },
-            {
-              id: "source-comparison-create-agent",
-              label: "Create agent",
-              status: "difference",
-              note: "Remaining differences: current uses Dialog/Field/Select/Button primitives and themed primary/outline actions; source uses inline brutal form controls and source-specific conditional warning/limit states.",
-              source: <SourceCreateAgent />,
-              brutal: <CreateAgentDialogComposition />,
-              elegant: <CreateAgentDialogComposition />,
-              elegantDark: <CreateAgentDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Agent creation dialogs",
-                  scenes: [
-                    {
-                      label: "CreateAgentDialog.tsx:294",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:294",
-                    },
-                    {
-                      label: "Sidebar.tsx:1914",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1914",
-                    },
-                    {
-                      label: "MachineDetailPanel.tsx:492",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:492",
-                    },
-                    {
-                      label: "CreateTaskDialog.tsx:56",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/CreateTaskDialog.tsx:56",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "CreateAgent"),
-            },
-            {
-              id: "source-comparison-reset-agent",
-              label: "Reset agent",
-              status: "difference",
-              note: "Remaining differences: current uses controlled Dialog/RadioGroup/Banner/Button primitives, dynamic footer action variants, and an elegant radio-card treatment; source uses inline brutal buttons, source-local reset mode state, and only shows the full-reset warning when full reset is selected.",
-              source: <SourceResetAgent />,
-              brutal: <ResetAgentDialogComposition />,
-              elegant: <ResetAgentDialogComposition />,
-              elegantDark: <ResetAgentDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Reset mode dialogs",
-                  scenes: [
-                    {
-                      label: "ResetAgentDialog.tsx:58",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ResetAgentDialog.tsx:58",
-                    },
-                    {
-                      label: "MachineDetailPanel.tsx:499",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:499",
-                    },
-                    {
-                      label: "AgentDetailPanel.tsx:1094",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:1094",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "ResetAgent"),
-            },
-            {
-              id: "source-comparison-agreement",
-              label: "Agreement",
-              status: "difference",
-              note: "Remaining differences: current uses Dialog/Text/Button primitives with larger themed actions, separates the intro line from the guideline list, and lets elegant render the list without a container; source uses the card-brutal shell, source pink submit button, rendered markdown body, submitting label, and conditional join-error warning state.",
-              source: <SourceAgreement />,
-              brutal: <AgreementDialogComposition />,
-              elegant: <AgreementDialogComposition />,
-              elegantDark: <AgreementDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Agreement dialogs",
-                  scenes: [
-                    {
-                      label: "CommunityAgreementDialog.tsx:42",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/server/CommunityAgreementDialog.tsx:42",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "Agreement"),
-            },
-            {
-              id: "source-comparison-onboarding",
-              label: "Onboarding step",
-              status: "difference",
-              note: "Remaining differences: current uses Dialog/Checkbox/Button primitives and themed primary/outline actions; source uses a card-brutal shell with caller-supplied footer and optional error banner.",
-              source: <SourceOnboarding />,
-              brutal: <OnboardingDialogComposition />,
-              elegant: <OnboardingDialogComposition />,
-              elegantDark: <OnboardingDialogComposition />,
-              sourceScenes: [
-                {
-                  label: "Onboarding wizard dialog",
-                  scenes: [
-                    {
-                      label: "OnboardingStepDialog.tsx:36",
-                      path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/onboarding/OnboardingStepDialog.tsx:36",
-                    },
-                  ],
-                },
-              ],
-              ...compositionPanelProps(code, "Onboarding"),
-            },
-          ]}
-        />
-      </DocSection>
+      <DialogSourceComparisonSection />
     </DocPage>
   );
+}
+
+function DialogSourceComparisonSection() {
+  const code = Route.useLoaderData();
+
+  return (
+    <DocSection id="source-comparison" title="Source comparison">
+      <SourceComparison
+        layout="grid"
+        previewSize="tall"
+        items={dialogSourceComparisonItems(code)}
+      />
+    </DocSection>
+  );
+}
+
+function dialogSourceComparisonItems(
+  code: Record<string, ReactNode | AnyRenderableServerComponent>,
+): ComponentProps<typeof SourceComparison>["items"] {
+  return [
+    {
+      id: "source-comparison-edit-channel",
+      label: "Edit channel",
+      status: "difference",
+      note: "Remaining differences: actions are grouped inside DialogBody; current uses Dialog default chrome and themed Button variants instead of exact source post-footer action styling.",
+      source: <SourceEditChannel />,
+      brutal: <EditChannelDialogComposition />,
+      elegant: <EditChannelDialogComposition />,
+      elegantDark: <EditChannelDialogComposition />,
+      previewClassName: modalComparisonPreviewClassName,
+      sourceScenes: [
+        {
+          label: "Channel settings dialog",
+          scenes: [
+            {
+              label: "ChatPanel.tsx:706,878",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:706,878",
+            },
+            {
+              label: "EditChannelDialog.tsx:128",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:128",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "EditChannel"),
+    },
+    {
+      id: "source-comparison-edit-channel-management",
+      label: "Edit channel actions",
+      status: "difference",
+      note: "Remaining differences: management actions are grouped inside DialogBody with an Actions separator; source places them below the save footer and uses exact brutal utility colors.",
+      source: <SourceEditChannelManagement />,
+      brutal: <EditChannelManagementDialogComposition />,
+      elegant: <EditChannelManagementDialogComposition />,
+      elegantDark: <EditChannelManagementDialogComposition />,
+      previewClassName: modalComparisonPreviewClassName,
+      sourceScenes: [
+        {
+          label: "Channel management actions",
+          scenes: [
+            {
+              label: "EditChannelDialog.tsx:210,266",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:210,266",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "EditChannelManagement"),
+    },
+    {
+      id: "source-comparison-invite-human",
+      label: "Invite human",
+      status: "difference",
+      note: "Remaining differences: current adds an or separator and Invite more action; elegant uses a token gray URL container while source keeps fixed email rows and source-styled URL input.",
+      source: <SourceInviteHuman />,
+      brutal: <InviteHumanDialogComposition />,
+      elegant: <InviteHumanDialogComposition />,
+      elegantDark: <InviteHumanDialogComposition />,
+      previewClassName: modalComparisonPreviewClassName,
+      sourceScenes: [
+        {
+          label: "Invite dialog",
+          scenes: [
+            {
+              label: "InviteHumanDialog.tsx:99",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/InviteHumanDialog.tsx:99",
+            },
+            {
+              label: "SettingsPanel.tsx:1428",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:1428",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "InviteHuman"),
+    },
+    {
+      id: "source-comparison-add-machine",
+      label: "Add computer",
+      status: "difference",
+      note: "Remaining differences: current extracts the command row to CopyableCode and renders the waiting state with Banner plus pulsing Status; source keeps the inline install command and live computer connection flow.",
+      source: <SourceAddMachine />,
+      brutal: <AddMachineDialogComposition />,
+      elegant: <AddMachineDialogComposition />,
+      elegantDark: <AddMachineDialogComposition />,
+      previewClassName: modalComparisonPreviewClassName,
+      sourceScenes: [
+        {
+          label: "Computer setup dialog",
+          scenes: [
+            {
+              label: "AddMachineDialog.tsx:247-277",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:247-277",
+            },
+            {
+              label: "MachineDetailPanel.tsx:844-873",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:844-873",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "AddMachine"),
+    },
+    {
+      id: "source-comparison-attachment-preview",
+      label: "Attachment preview",
+      status: "difference",
+      note: "Remaining differences: source uses the Lightbox overlay for HTML/PDF/document attachment previews, including custom scroll-lock and browser-find behavior; current represents the same content-preview shell with Dialog primitives, themed header actions, and a sandboxed preview frame body.",
+      source: <SourceAttachmentPreview />,
+      brutal: <AttachmentPreviewDialogComposition />,
+      elegant: <AttachmentPreviewDialogComposition />,
+      elegantDark: <AttachmentPreviewDialogComposition />,
+      previewClassName: modalComparisonPreviewClassName,
+      sourceScenes: [
+        {
+          label: "Attachment preview lightbox",
+          scenes: [
+            {
+              label: "MessageItem.tsx:885",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:885",
+            },
+            {
+              label: "MessageItem.tsx:993",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:993",
+            },
+            {
+              label: "MessageItem.tsx:1167",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1167",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "AttachmentPreview"),
+    },
+    {
+      id: "source-comparison-announcement",
+      label: "Announcement",
+      status: "difference",
+      note: "Remaining differences: current adds a header icon and uses themed Dialog chrome/button styling; the docs body is static markdown-shaped content rather than the live announcement markdown renderer.",
+      source: <SourceAnnouncement />,
+      brutal: <AnnouncementDialogComposition />,
+      elegant: <AnnouncementDialogComposition />,
+      elegantDark: <AnnouncementDialogComposition />,
+      sourceScenes: [
+        {
+          label: "Account announcement modal",
+          scenes: [
+            {
+              label: "AnnouncementModal.tsx:119",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:119",
+            },
+            {
+              label: "MainLayout.tsx:1406",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/MainLayout.tsx:1406",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "Announcement"),
+    },
+    {
+      id: "source-comparison-create-channel",
+      label: "Create channel",
+      status: "difference",
+      note: "Remaining differences: current uses Dialog/Banner/Field/Combobox primitives and themed button variants; source uses inline brutal form controls, a static expanded member list, and source-specific post-submit archive collision wiring.",
+      source: <SourceCreateChannel />,
+      brutal: <CreateChannelDialogComposition />,
+      elegant: <CreateChannelDialogComposition />,
+      elegantDark: <CreateChannelDialogComposition />,
+      sourceScenes: [
+        {
+          label: "Channel creation and member management",
+          scenes: [
+            {
+              label: "CreateChannelDialog.tsx:196",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:196",
+            },
+            {
+              label: "CreateJointChannelDialog.tsx:150",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:150",
+            },
+            {
+              label: "AddMembersDialog.tsx:205",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/AddMembersDialog.tsx:205",
+            },
+            {
+              label: "ChannelMembers.tsx:121,249",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:121,249",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "CreateChannel"),
+    },
+    {
+      id: "source-comparison-create-agent",
+      label: "Create agent",
+      status: "difference",
+      note: "Remaining differences: current uses Dialog/Field/Select/Button primitives and themed primary/outline actions; source uses inline brutal form controls and source-specific conditional warning/limit states.",
+      source: <SourceCreateAgent />,
+      brutal: <CreateAgentDialogComposition />,
+      elegant: <CreateAgentDialogComposition />,
+      elegantDark: <CreateAgentDialogComposition />,
+      sourceScenes: [
+        {
+          label: "Agent creation dialogs",
+          scenes: [
+            {
+              label: "CreateAgentDialog.tsx:294",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:294",
+            },
+            {
+              label: "Sidebar.tsx:1914",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1914",
+            },
+            {
+              label: "MachineDetailPanel.tsx:492",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:492",
+            },
+            {
+              label: "CreateTaskDialog.tsx:56",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/CreateTaskDialog.tsx:56",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "CreateAgent"),
+    },
+    {
+      id: "source-comparison-reset-agent",
+      label: "Reset agent",
+      status: "difference",
+      note: "Remaining differences: current uses controlled Dialog/RadioGroup/Banner/Button primitives, dynamic footer action variants, and an elegant radio-card treatment; source uses inline brutal buttons, source-local reset mode state, and only shows the full-reset warning when full reset is selected.",
+      source: <SourceResetAgent />,
+      brutal: <ResetAgentDialogComposition />,
+      elegant: <ResetAgentDialogComposition />,
+      elegantDark: <ResetAgentDialogComposition />,
+      sourceScenes: [
+        {
+          label: "Reset mode dialogs",
+          scenes: [
+            {
+              label: "ResetAgentDialog.tsx:58",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ResetAgentDialog.tsx:58",
+            },
+            {
+              label: "MachineDetailPanel.tsx:499",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:499",
+            },
+            {
+              label: "AgentDetailPanel.tsx:1094",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:1094",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "ResetAgent"),
+    },
+    {
+      id: "source-comparison-agreement",
+      label: "Agreement",
+      status: "difference",
+      note: "Remaining differences: current uses Dialog/Text/Button primitives with larger themed actions, separates the intro line from the guideline list, and lets elegant render the list without a container; source uses the card-brutal shell, source pink submit button, rendered markdown body, submitting label, and conditional join-error warning state.",
+      source: <SourceAgreement />,
+      brutal: <AgreementDialogComposition />,
+      elegant: <AgreementDialogComposition />,
+      elegantDark: <AgreementDialogComposition />,
+      sourceScenes: [
+        {
+          label: "Agreement dialogs",
+          scenes: [
+            {
+              label: "CommunityAgreementDialog.tsx:42",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/server/CommunityAgreementDialog.tsx:42",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "Agreement"),
+    },
+    {
+      id: "source-comparison-onboarding",
+      label: "Onboarding step",
+      status: "difference",
+      note: "Remaining differences: current uses Dialog/Checkbox/Button primitives and themed primary/outline actions; source uses a card-brutal shell with caller-supplied footer and optional error banner.",
+      source: <SourceOnboarding />,
+      brutal: <OnboardingDialogComposition />,
+      elegant: <OnboardingDialogComposition />,
+      elegantDark: <OnboardingDialogComposition />,
+      sourceScenes: [
+        {
+          label: "Onboarding wizard dialog",
+          scenes: [
+            {
+              label: "OnboardingStepDialog.tsx:36",
+              path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/onboarding/OnboardingStepDialog.tsx:36",
+            },
+          ],
+        },
+      ],
+      ...compositionPanelProps(code, "Onboarding"),
+    },
+  ];
 }

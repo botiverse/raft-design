@@ -641,254 +641,264 @@ function ChatComposerDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="api" title="API">
-        <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-composer-root" title="ComposerRoot">
-            <PropsTable rows={COMPOSER_ROOT_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer" title="Composer">
-            <PropsTable rows={COMPOSER_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-input" title="ComposerInput">
-            <PropsTable rows={COMPOSER_INPUT_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-toolbar" title="ComposerToolbar">
-            <PropsTable rows={COMPOSER_TOOLBAR_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-actions" title="ComposerActions">
-            <PropsTable rows={COMPOSER_ACTIONS_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-meta" title="ComposerMeta">
-            <PropsTable rows={COMPOSER_META_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-icon-button" title="ComposerIconButton">
-            <PropsTable rows={COMPOSER_ICON_BUTTON_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-submit" title="ComposerSubmit">
-            <PropsTable rows={COMPOSER_SUBMIT_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-toolbar-label"
-            title="ComposerToolbarLabel"
-          >
-            <PropsTable rows={COMPOSER_TOOLBAR_LABEL_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-attachments" title="ComposerAttachments">
-            <PropsTable rows={COMPOSER_ATTACHMENTS_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachments-scroll-area"
-            title="ComposerAttachmentsScrollArea"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-sortable-composer-attachments"
-            title="SortableComposerAttachments"
-          >
-            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENTS_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-sortable-composer-attachments-scroll"
-            title="SortableComposerAttachmentsScroll"
-          >
-            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENTS_SCROLL_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-sortable-composer-attachment"
-            title="SortableComposerAttachment"
-          >
-            <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENT_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-attachment" title="ComposerAttachment">
-            <PropsTable rows={COMPOSER_ATTACHMENT_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-file"
-            title="ComposerAttachmentFile"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_FILE_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-image"
-            title="ComposerAttachmentImage"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_IMAGE_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-body"
-            title="ComposerAttachmentBody"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_BODY_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-title"
-            title="ComposerAttachmentTitle"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_TITLE_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-meta"
-            title="ComposerAttachmentMeta"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_META_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-uploading-overlay"
-            title="ComposerAttachmentUploadingOverlay"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_UPLOADING_OVERLAY_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-upload-progress-bar"
-            title="ComposerAttachmentUploadProgressBar"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_UPLOAD_PROGRESS_BAR_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-failed-overlay"
-            title="ComposerAttachmentFailedOverlay"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_FAILED_OVERLAY_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-attachment-remove"
-            title="ComposerAttachmentRemove"
-          >
-            <PropsTable rows={COMPOSER_ATTACHMENT_REMOVE_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-composer-drop-overlay" title="ComposerDropOverlay">
-            <PropsTable rows={COMPOSER_DROP_OVERLAY_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-drop-overlay-label"
-            title="ComposerDropOverlayLabel"
-          >
-            <PropsTable rows={COMPOSER_DROP_OVERLAY_LABEL_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-composer-drop-overlay-prompt"
-            title="ComposerDropOverlayPrompt"
-          >
-            <PropsTable rows={COMPOSER_DROP_OVERLAY_PROMPT_PROPS} />
-          </DocSubsection>
-        </div>
-      </DocSection>
+      <ChatComposerApiSection />
 
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Default composer",
-              status: "difference",
-              note: "Source keeps the icon-only pink send control and CheckMarker task toggle inside MessageInput. Current exposes the same card as composable parts and lets submit/label content stay consumer-owned.",
-              source: (
-                <SourceThemeScope className="w-full">
-                  <ComposerDefaultSourceComparison />
-                </SourceThemeScope>
-              ),
-              brutal: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerDefaultComposition />
-                </div>
-              ),
-              elegant: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerDefaultComposition />
-                </div>
-              ),
-              elegantDark: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerDefaultComposition />
-                </div>
-              ),
-              compositionCode: code.composition,
-              compositionCollapsedCode: code.compositionBody,
-              compositionPath:
-                "apps/doc/src/modules/chat-composer/compositions/composer-default.composition.tsx",
-              compositionSource: composerCompositionSource,
-            },
-            {
-              label: "Pending and failed attachments",
-              status: "difference",
-              note: "Source attachment chips are inline MessageInput markup (64px image / w-32 file + FileText). Current splits the same states into ComposerAttachment parts with FilePreview media.",
-              source: (
-                <SourceThemeScope className="w-full">
-                  <ComposerAttachmentStatesSourceComparison />
-                </SourceThemeScope>
-              ),
-              brutal: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerAttachmentStatesComposition />
-                </div>
-              ),
-              elegant: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerAttachmentStatesComposition />
-                </div>
-              ),
-              elegantDark: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerAttachmentStatesComposition />
-                </div>
-              ),
-              compositionCode: code.attachmentStates,
-              compositionCollapsedCode: code.attachmentStatesBody,
-              compositionPath:
-                "apps/doc/src/modules/chat-composer/compositions/composer-attachment-states.composition.tsx",
-              compositionSource: composerAttachmentStatesSource,
-            },
-            {
-              label: "File drop overlay",
-              status: "difference",
-              note: "Source uses a pink dashed wash with a bordered label chip. Current keeps the same prompt copy but restyles the overlay as a dark scrim with stacked file icons.",
-              source: (
-                <SourceThemeScope className="w-full">
-                  <ComposerDropOverlaySourceComparison />
-                </SourceThemeScope>
-              ),
-              brutal: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerDropOverlayComposition />
-                </div>
-              ),
-              elegant: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerDropOverlayComposition />
-                </div>
-              ),
-              elegantDark: (
-                <div className="flex w-full min-w-0 flex-col justify-end p-3">
-                  <ComposerDropOverlayComposition />
-                </div>
-              ),
-              compositionCode: code.dropOverlay,
-              compositionCollapsedCode: code.dropOverlayBody,
-              compositionPath:
-                "apps/doc/src/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx",
-              compositionSource: composerDropOverlaySource,
-            },
-          ]}
-        />
-      </DocSection>
+      <ChatComposerSourceComparisonSection />
     </DocPage>
+  );
+}
+
+function ChatComposerApiSection() {
+  return (
+    <DocSection id="api" title="API">
+      <div className="space-y-6">
+        <DocSubsection parentId="api" id="api-composer-root" title="ComposerRoot">
+          <PropsTable rows={COMPOSER_ROOT_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer" title="Composer">
+          <PropsTable rows={COMPOSER_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-input" title="ComposerInput">
+          <PropsTable rows={COMPOSER_INPUT_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-toolbar" title="ComposerToolbar">
+          <PropsTable rows={COMPOSER_TOOLBAR_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-actions" title="ComposerActions">
+          <PropsTable rows={COMPOSER_ACTIONS_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-meta" title="ComposerMeta">
+          <PropsTable rows={COMPOSER_META_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-icon-button" title="ComposerIconButton">
+          <PropsTable rows={COMPOSER_ICON_BUTTON_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-submit" title="ComposerSubmit">
+          <PropsTable rows={COMPOSER_SUBMIT_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-toolbar-label" title="ComposerToolbarLabel">
+          <PropsTable rows={COMPOSER_TOOLBAR_LABEL_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-attachments" title="ComposerAttachments">
+          <PropsTable rows={COMPOSER_ATTACHMENTS_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachments-scroll-area"
+          title="ComposerAttachmentsScrollArea"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENTS_SCROLL_AREA_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-sortable-composer-attachments"
+          title="SortableComposerAttachments"
+        >
+          <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENTS_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-sortable-composer-attachments-scroll"
+          title="SortableComposerAttachmentsScroll"
+        >
+          <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENTS_SCROLL_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-sortable-composer-attachment"
+          title="SortableComposerAttachment"
+        >
+          <PropsTable rows={SORTABLE_COMPOSER_ATTACHMENT_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-attachment" title="ComposerAttachment">
+          <PropsTable rows={COMPOSER_ATTACHMENT_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-file"
+          title="ComposerAttachmentFile"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_FILE_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-image"
+          title="ComposerAttachmentImage"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_IMAGE_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-body"
+          title="ComposerAttachmentBody"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_BODY_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-title"
+          title="ComposerAttachmentTitle"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_TITLE_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-meta"
+          title="ComposerAttachmentMeta"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_META_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-uploading-overlay"
+          title="ComposerAttachmentUploadingOverlay"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_UPLOADING_OVERLAY_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-upload-progress-bar"
+          title="ComposerAttachmentUploadProgressBar"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_UPLOAD_PROGRESS_BAR_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-failed-overlay"
+          title="ComposerAttachmentFailedOverlay"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_FAILED_OVERLAY_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-attachment-remove"
+          title="ComposerAttachmentRemove"
+        >
+          <PropsTable rows={COMPOSER_ATTACHMENT_REMOVE_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-drop-overlay" title="ComposerDropOverlay">
+          <PropsTable rows={COMPOSER_DROP_OVERLAY_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-drop-overlay-label"
+          title="ComposerDropOverlayLabel"
+        >
+          <PropsTable rows={COMPOSER_DROP_OVERLAY_LABEL_PROPS} />
+        </DocSubsection>
+        <DocSubsection
+          parentId="api"
+          id="api-composer-drop-overlay-prompt"
+          title="ComposerDropOverlayPrompt"
+        >
+          <PropsTable rows={COMPOSER_DROP_OVERLAY_PROMPT_PROPS} />
+        </DocSubsection>
+      </div>
+    </DocSection>
+  );
+}
+
+function ChatComposerSourceComparisonSection() {
+  const code = Route.useLoaderData();
+
+  return (
+    <DocSection id="source-comparison" title="Source comparison">
+      <SourceComparison
+        layout="grid"
+        sourceScenes={SOURCE_SCENES}
+        items={[
+          {
+            label: "Default composer",
+            status: "difference",
+            note: "Source keeps the icon-only pink send control and CheckMarker task toggle inside MessageInput. Current exposes the same card as composable parts and lets submit/label content stay consumer-owned.",
+            source: (
+              <SourceThemeScope className="w-full">
+                <ComposerDefaultSourceComparison />
+              </SourceThemeScope>
+            ),
+            brutal: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerDefaultComposition />
+              </div>
+            ),
+            elegant: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerDefaultComposition />
+              </div>
+            ),
+            elegantDark: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerDefaultComposition />
+              </div>
+            ),
+            compositionCode: code.composition,
+            compositionCollapsedCode: code.compositionBody,
+            compositionPath:
+              "apps/doc/src/modules/chat-composer/compositions/composer-default.composition.tsx",
+            compositionSource: composerCompositionSource,
+          },
+          {
+            label: "Pending and failed attachments",
+            status: "difference",
+            note: "Source attachment chips are inline MessageInput markup (64px image / w-32 file + FileText). Current splits the same states into ComposerAttachment parts with FilePreview media.",
+            source: (
+              <SourceThemeScope className="w-full">
+                <ComposerAttachmentStatesSourceComparison />
+              </SourceThemeScope>
+            ),
+            brutal: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerAttachmentStatesComposition />
+              </div>
+            ),
+            elegant: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerAttachmentStatesComposition />
+              </div>
+            ),
+            elegantDark: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerAttachmentStatesComposition />
+              </div>
+            ),
+            compositionCode: code.attachmentStates,
+            compositionCollapsedCode: code.attachmentStatesBody,
+            compositionPath:
+              "apps/doc/src/modules/chat-composer/compositions/composer-attachment-states.composition.tsx",
+            compositionSource: composerAttachmentStatesSource,
+          },
+          {
+            label: "File drop overlay",
+            status: "difference",
+            note: "Source uses a pink dashed wash with a bordered label chip. Current keeps the same prompt copy but restyles the overlay as a dark scrim with stacked file icons.",
+            source: (
+              <SourceThemeScope className="w-full">
+                <ComposerDropOverlaySourceComparison />
+              </SourceThemeScope>
+            ),
+            brutal: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerDropOverlayComposition />
+              </div>
+            ),
+            elegant: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerDropOverlayComposition />
+              </div>
+            ),
+            elegantDark: (
+              <div className="flex w-full min-w-0 flex-col justify-end p-3">
+                <ComposerDropOverlayComposition />
+              </div>
+            ),
+            compositionCode: code.dropOverlay,
+            compositionCollapsedCode: code.dropOverlayBody,
+            compositionPath:
+              "apps/doc/src/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx",
+            compositionSource: composerDropOverlaySource,
+          },
+        ]}
+      />
+    </DocSection>
   );
 }

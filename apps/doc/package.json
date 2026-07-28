@@ -30,7 +30,6 @@
     "foxact": "^0.3.8",
     "lucide-react": "catalog:",
     "motion": "catalog:",
-    "next-themes": "^0.4.6",
     "raft-ui": "workspace:*",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

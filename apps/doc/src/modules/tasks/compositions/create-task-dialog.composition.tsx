@@ -138,12 +138,11 @@ export function CreateTaskDialogComposition({
                 variant="outline"
                 size="sm"
                 className="mt-3"
-                onClick={() =>
-                  setRows((current) => [
-                    ...current,
-                    { id: `row-${nextRowId.current++}`, title: "" },
-                  ])
-                }
+                onClick={() => {
+                  const id = `row-${nextRowId.current}`;
+                  nextRowId.current += 1;
+                  setRows((current) => [...current, { id, title: "" }]);
+                }}
               >
                 <Plus aria-hidden />
                 Add Another

@@ -295,17 +295,6 @@ export const Route = createFileRoute("/components/button")({
 
 function ButtonDoc() {
   const code = Route.useLoaderData();
-  const buttonComposition = (key: ButtonCompositionKey) => {
-    const snippetId = BUTTON_COMPOSITION_SNIPPET_IDS[key];
-
-    return {
-      compositionCode: code[snippetId],
-      compositionCollapsedCode: code[`${snippetId}Body`],
-      compositionPath: ButtonCompositionPaths[key],
-      compositionSource: BUTTON_COMPOSITION_SOURCES[key],
-      compositionShowLineNumbers: false,
-    };
-  };
 
   return (
     <DocPage
@@ -472,148 +461,167 @@ function ButtonDoc() {
         <PropsTable rows={PROPS} />
       </DocSection>
 
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Default",
-              status: "match",
-              source: <ButtonSource.Default />,
-              brutal: <ButtonCurrent.Default />,
-              elegant: <ButtonCurrent.Default />,
-              elegantDark: <ButtonCurrent.Default />,
-              ...buttonComposition("Default"),
-            },
-            {
-              label: "Primary",
-              status: "match",
-              source: <ButtonSource.Primary />,
-              brutal: <ButtonCurrent.Primary />,
-              elegant: <ButtonCurrent.Primary />,
-              elegantDark: <ButtonCurrent.Primary />,
-              ...buttonComposition("Primary"),
-            },
-            {
-              label: "Outline",
-              status: "match",
-              source: <ButtonSource.Outline />,
-              brutal: <ButtonCurrent.Outline />,
-              elegant: <ButtonCurrent.Outline />,
-              elegantDark: <ButtonCurrent.Outline />,
-              ...buttonComposition("Outline"),
-            },
-            {
-              label: "Information",
-              status: "match",
-              source: <ButtonSource.Information />,
-              brutal: <ButtonCurrent.Information />,
-              elegant: <ButtonCurrent.Information />,
-              elegantDark: <ButtonCurrent.Information />,
-              ...buttonComposition("Information"),
-            },
-            {
-              label: "Muted",
-              status: "match",
-              source: <ButtonSource.Muted />,
-              brutal: <ButtonCurrent.Muted />,
-              elegant: <ButtonCurrent.Muted />,
-              elegantDark: <ButtonCurrent.Muted />,
-              ...buttonComposition("Muted"),
-            },
-            {
-              label: "Accent",
-              status: "match",
-              source: <ButtonSource.Accent />,
-              brutal: <ButtonCurrent.Accent />,
-              elegant: <ButtonCurrent.Accent />,
-              elegantDark: <ButtonCurrent.Accent />,
-              ...buttonComposition("Accent"),
-            },
-            {
-              label: "Warning",
-              status: "match",
-              source: <ButtonSource.Warning />,
-              brutal: <ButtonCurrent.Warning />,
-              elegant: <ButtonCurrent.Warning />,
-              elegantDark: <ButtonCurrent.Warning />,
-              ...buttonComposition("Warning"),
-            },
-            {
-              label: "Danger",
-              status: "match",
-              source: <ButtonSource.Danger />,
-              brutal: <ButtonCurrent.Danger />,
-              elegant: <ButtonCurrent.Danger />,
-              elegantDark: <ButtonCurrent.Danger />,
-              ...buttonComposition("Danger"),
-            },
-            {
-              label: "Danger secondary",
-              status: "new",
-              source: <ButtonSource.Missing />,
-              brutal: <ButtonCurrent.DangerSecondary />,
-              elegant: <ButtonCurrent.DangerSecondary />,
-              elegantDark: <ButtonCurrent.DangerSecondary />,
-              ...buttonComposition("DangerSecondary"),
-            },
-            {
-              label: "Danger outline",
-              status: "new",
-              source: <ButtonSource.Missing />,
-              brutal: <ButtonCurrent.DangerOutline />,
-              elegant: <ButtonCurrent.DangerOutline />,
-              elegantDark: <ButtonCurrent.DangerOutline />,
-              ...buttonComposition("DangerOutline"),
-            },
-            {
-              label: "Ghost",
-              status: "new",
-              source: <ButtonSource.Missing />,
-              brutal: <ButtonCurrent.Ghost />,
-              elegant: <ButtonCurrent.Ghost />,
-              elegantDark: <ButtonCurrent.Ghost />,
-              ...buttonComposition("Ghost"),
-            },
-            {
-              label: "Link",
-              status: "new",
-              source: <ButtonSource.Missing />,
-              brutal: <ButtonCurrent.Link />,
-              elegant: <ButtonCurrent.Link />,
-              elegantDark: <ButtonCurrent.Link />,
-              ...buttonComposition("Link"),
-            },
-            {
-              label: "Sizes",
-              status: "match",
-              source: <ButtonSource.Sizes />,
-              brutal: <ButtonCurrent.Sizes />,
-              elegant: <ButtonCurrent.Sizes />,
-              elegantDark: <ButtonCurrent.Sizes />,
-              ...buttonComposition("Sizes"),
-            },
-            {
-              label: "Icon only",
-              status: "match",
-              source: <ButtonSource.IconOnly />,
-              brutal: <ButtonCurrent.IconOnly />,
-              elegant: <ButtonCurrent.IconOnly />,
-              elegantDark: <ButtonCurrent.IconOnly />,
-              ...buttonComposition("IconOnly"),
-            },
-            {
-              label: "Inline icon",
-              status: "match",
-              source: <ButtonSource.InlineIcon />,
-              brutal: <ButtonCurrent.InlineIcon />,
-              elegant: <ButtonCurrent.InlineIcon />,
-              elegantDark: <ButtonCurrent.InlineIcon />,
-              ...buttonComposition("InlineIcon"),
-            },
-          ]}
-        />
-      </DocSection>
+      <ButtonSourceComparisonSection />
     </DocPage>
+  );
+}
+
+function ButtonSourceComparisonSection() {
+  const code = Route.useLoaderData();
+  const buttonComposition = (key: ButtonCompositionKey) => {
+    const snippetId = BUTTON_COMPOSITION_SNIPPET_IDS[key];
+
+    return {
+      compositionCode: code[snippetId],
+      compositionCollapsedCode: code[`${snippetId}Body`],
+      compositionPath: ButtonCompositionPaths[key],
+      compositionSource: BUTTON_COMPOSITION_SOURCES[key],
+      compositionShowLineNumbers: false,
+    };
+  };
+
+  return (
+    <DocSection id="source-comparison" title="Source comparison">
+      <SourceComparison
+        sourceScenes={SOURCE_SCENES}
+        items={[
+          {
+            label: "Default",
+            status: "match",
+            source: <ButtonSource.Default />,
+            brutal: <ButtonCurrent.Default />,
+            elegant: <ButtonCurrent.Default />,
+            elegantDark: <ButtonCurrent.Default />,
+            ...buttonComposition("Default"),
+          },
+          {
+            label: "Primary",
+            status: "match",
+            source: <ButtonSource.Primary />,
+            brutal: <ButtonCurrent.Primary />,
+            elegant: <ButtonCurrent.Primary />,
+            elegantDark: <ButtonCurrent.Primary />,
+            ...buttonComposition("Primary"),
+          },
+          {
+            label: "Outline",
+            status: "match",
+            source: <ButtonSource.Outline />,
+            brutal: <ButtonCurrent.Outline />,
+            elegant: <ButtonCurrent.Outline />,
+            elegantDark: <ButtonCurrent.Outline />,
+            ...buttonComposition("Outline"),
+          },
+          {
+            label: "Information",
+            status: "match",
+            source: <ButtonSource.Information />,
+            brutal: <ButtonCurrent.Information />,
+            elegant: <ButtonCurrent.Information />,
+            elegantDark: <ButtonCurrent.Information />,
+            ...buttonComposition("Information"),
+          },
+          {
+            label: "Muted",
+            status: "match",
+            source: <ButtonSource.Muted />,
+            brutal: <ButtonCurrent.Muted />,
+            elegant: <ButtonCurrent.Muted />,
+            elegantDark: <ButtonCurrent.Muted />,
+            ...buttonComposition("Muted"),
+          },
+          {
+            label: "Accent",
+            status: "match",
+            source: <ButtonSource.Accent />,
+            brutal: <ButtonCurrent.Accent />,
+            elegant: <ButtonCurrent.Accent />,
+            elegantDark: <ButtonCurrent.Accent />,
+            ...buttonComposition("Accent"),
+          },
+          {
+            label: "Warning",
+            status: "match",
+            source: <ButtonSource.Warning />,
+            brutal: <ButtonCurrent.Warning />,
+            elegant: <ButtonCurrent.Warning />,
+            elegantDark: <ButtonCurrent.Warning />,
+            ...buttonComposition("Warning"),
+          },
+          {
+            label: "Danger",
+            status: "match",
+            source: <ButtonSource.Danger />,
+            brutal: <ButtonCurrent.Danger />,
+            elegant: <ButtonCurrent.Danger />,
+            elegantDark: <ButtonCurrent.Danger />,
+            ...buttonComposition("Danger"),
+          },
+          {
+            label: "Danger secondary",
+            status: "new",
+            source: <ButtonSource.Missing />,
+            brutal: <ButtonCurrent.DangerSecondary />,
+            elegant: <ButtonCurrent.DangerSecondary />,
+            elegantDark: <ButtonCurrent.DangerSecondary />,
+            ...buttonComposition("DangerSecondary"),
+          },
+          {
+            label: "Danger outline",
+            status: "new",
+            source: <ButtonSource.Missing />,
+            brutal: <ButtonCurrent.DangerOutline />,
+            elegant: <ButtonCurrent.DangerOutline />,
+            elegantDark: <ButtonCurrent.DangerOutline />,
+            ...buttonComposition("DangerOutline"),
+          },
+          {
+            label: "Ghost",
+            status: "new",
+            source: <ButtonSource.Missing />,
+            brutal: <ButtonCurrent.Ghost />,
+            elegant: <ButtonCurrent.Ghost />,
+            elegantDark: <ButtonCurrent.Ghost />,
+            ...buttonComposition("Ghost"),
+          },
+          {
+            label: "Link",
+            status: "new",
+            source: <ButtonSource.Missing />,
+            brutal: <ButtonCurrent.Link />,
+            elegant: <ButtonCurrent.Link />,
+            elegantDark: <ButtonCurrent.Link />,
+            ...buttonComposition("Link"),
+          },
+          {
+            label: "Sizes",
+            status: "match",
+            source: <ButtonSource.Sizes />,
+            brutal: <ButtonCurrent.Sizes />,
+            elegant: <ButtonCurrent.Sizes />,
+            elegantDark: <ButtonCurrent.Sizes />,
+            ...buttonComposition("Sizes"),
+          },
+          {
+            label: "Icon only",
+            status: "match",
+            source: <ButtonSource.IconOnly />,
+            brutal: <ButtonCurrent.IconOnly />,
+            elegant: <ButtonCurrent.IconOnly />,
+            elegantDark: <ButtonCurrent.IconOnly />,
+            ...buttonComposition("IconOnly"),
+          },
+          {
+            label: "Inline icon",
+            status: "match",
+            source: <ButtonSource.InlineIcon />,
+            brutal: <ButtonCurrent.InlineIcon />,
+            elegant: <ButtonCurrent.InlineIcon />,
+            elegantDark: <ButtonCurrent.InlineIcon />,
+            ...buttonComposition("InlineIcon"),
+          },
+        ]}
+      />
+    </DocSection>
   );
 }

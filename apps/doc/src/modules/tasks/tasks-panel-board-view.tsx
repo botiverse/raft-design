@@ -49,10 +49,13 @@ export function TasksPanelBoardView({
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const activeTask =
     activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
-  const draggableTaskIds = useMemo(
-    () => new Set(tasks.filter((task) => !task.dragDisabled).map((task) => task.id)),
-    [tasks],
-  );
+  const draggableTaskIds = useMemo(() => {
+    const ids = new Set<string>();
+    for (const task of tasks) {
+      if (!task.dragDisabled) ids.add(task.id);
+    }
+    return ids;
+  }, [tasks]);
   const isDropAllowed = useCallback(
     (
       activeId: string | number,

@@ -308,7 +308,7 @@ function SourceNotificationPopoverPreview() {
           <button
             type="button"
             aria-label="Notification center (2 active)"
-            className="inline-flex size-9 items-center justify-center border-2 border-black bg-brutal-orange text-black shadow-[2px_2px_0_#141111] transition-all duration-100 hover:shadow-[4px_4px_0_#141111]"
+            className="inline-flex size-9 items-center justify-center border-2 border-black bg-brutal-orange text-black shadow-[2px_2px_0_#141111] transition-shadow duration-100 hover:shadow-[4px_4px_0_#141111]"
           >
             <AlertTriangle className="size-[18px]" />
           </button>
@@ -382,13 +382,9 @@ function SourceMentionCardPreview() {
       <div className="grid w-[20rem] justify-items-start gap-2">
         <p className="m-0 max-w-full text-sm leading-6 text-black">
           <span>Follow up with </span>
-          <a
-            href="#"
-            onClick={(event) => event.preventDefault()}
-            className="cursor-default select-text font-bold text-black underline decoration-black/30 decoration-2 underline-offset-2 hover:text-brutal-pink hover:decoration-brutal-pink"
-          >
+          <span className="cursor-default select-text font-bold text-black underline decoration-black/30 decoration-2 underline-offset-2 hover:text-brutal-pink hover:decoration-brutal-pink">
             @Atlas
-          </a>
+          </span>
           <span> about the token migration.</span>
         </p>
         <div className="ml-16 w-[17.5rem] overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0_#141111]">

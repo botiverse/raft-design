@@ -49,6 +49,10 @@ const BRANCH_OPTIONS = [
   { value: "staging", label: "staging", group: "Preview" },
 ] as const;
 
+const PRODUCTION_BRANCH_OPTIONS = BRANCH_OPTIONS.filter((option) => option.group === "Production");
+const PREVIEW_BRANCH_OPTIONS = BRANCH_OPTIONS.filter((option) => option.group === "Preview");
+const FIELD_SORT_OPTIONS = SORT_OPTIONS.filter((option) => option.value !== "comments");
+
 const REGION_OPTIONS = [
   { value: "us-east", label: "US East" },
   { value: "us-west", label: "US West" },
@@ -566,7 +570,7 @@ function BranchSelect() {
           <SelectList>
             <SelectGroup>
               <SelectGroupLabel>Production</SelectGroupLabel>
-              {BRANCH_OPTIONS.filter((option) => option.group === "Production").map((option) => (
+              {PRODUCTION_BRANCH_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   <SelectItemText>{option.label}</SelectItemText>
                   <SelectItemIndicator />
@@ -576,7 +580,7 @@ function BranchSelect() {
             <SelectSeparator />
             <SelectGroup>
               <SelectGroupLabel>Preview</SelectGroupLabel>
-              {BRANCH_OPTIONS.filter((option) => option.group === "Preview").map((option) => (
+              {PREVIEW_BRANCH_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   <SelectItemText>{option.label}</SelectItemText>
                   <SelectItemIndicator />
@@ -651,7 +655,7 @@ function FieldSelect() {
             className="w-[220px]"
           >
             <SelectList>
-              {SORT_OPTIONS.filter((option) => option.value !== "comments").map((option) => (
+              {FIELD_SORT_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   <SelectItemText>{option.label}</SelectItemText>
                   <SelectItemIndicator />

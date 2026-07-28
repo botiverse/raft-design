@@ -99,12 +99,13 @@ export function MessageMultiSelectToolbarComposition({
         );
         const requiredWidth = childrenWidth + Math.max(0, actions.children.length - 1) * gap;
         const overflow = requiredWidth > width + 1;
+        // Hysteresis: only a clearly wider toolbar resets compaction, so the
+        // breakpoint cannot oscillate. Read and update the ref here, not in the
+        // updater, which React may run more than once.
+        const grew = width > lastActionsWidthRef.current + 8;
+        lastActionsWidthRef.current = width;
         setCompactLevel((current) => {
-          if (width > lastActionsWidthRef.current + 8 && current > 0) {
-            lastActionsWidthRef.current = width;
-            return 0;
-          }
-          lastActionsWidthRef.current = width;
+          if (grew && current > 0) return 0;
           return overflow && current < 3 ? current + 1 : current;
         });
       });

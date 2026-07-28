@@ -1102,8 +1102,8 @@ function PreviewCardPreview() {
           <PreviewCardTrigger
             id={triggerId}
             render={
-              <a
-                href="/components/avatar"
+              <Link
+                to="/components/avatar"
                 className="cursor-default select-text font-bold text-foreground-strong underline decoration-foreground/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30 [[data-theme=brutal]_&]:hover:text-brutal-pink [[data-theme=brutal]_&]:hover:decoration-brutal-pink"
               />
             }

@@ -50,6 +50,7 @@ export function AttachmentPreviewShellComposition() {
             src="https://example.com"
             className="size-full border-0 bg-white"
             referrerPolicy="no-referrer"
+            sandbox=""
           />
         </LightboxStage>
       </LightboxContent>

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Avatar,
   AvatarFallback,
@@ -211,8 +211,8 @@ function DefaultOpenPreviewCard() {
         <PreviewCardTrigger
           id="preview-card-preview-trigger"
           render={
-            <a
-              href="/components/avatar"
+            <Link
+              to="/components/avatar"
               className="cursor-default select-text font-bold text-foreground-strong underline decoration-foreground/30 decoration-2 underline-offset-2 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30"
             />
           }

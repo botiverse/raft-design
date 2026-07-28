@@ -5,7 +5,12 @@ import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { useState, type ReactNode } from "react";
 import { tv } from "tailwind-variants/lite";
 
-import { DocsCodeBlock } from "./docs-code-block.tsx";
+import { DocsCodeBlockBody } from "./docs-code-block-body.tsx";
+import { DocsCodeBlockCollapse } from "./docs-code-block-collapse.tsx";
+import { DocsCodeBlockContent } from "./docs-code-block-content.tsx";
+import { DocsCodeBlockCopy } from "./docs-code-block-copy.tsx";
+import { DocsCodeBlockHeader } from "./docs-code-block-header.tsx";
+import { DocsCodeBlockRoot } from "./docs-code-block-root.tsx";
 
 const docsCodeBlockFiles = tv({
   slots: {
@@ -53,7 +58,7 @@ export function DocsCodeBlockFiles({
   if (!activeFile) return null;
 
   const header = (
-    <DocsCodeBlock.Header showLineNumbers={showLineNumbers}>
+    <DocsCodeBlockHeader showLineNumbers={showLineNumbers}>
       <BaseTabs.Root
         value={activeFile.path}
         onValueChange={(path) => {
@@ -69,36 +74,36 @@ export function DocsCodeBlockFiles({
           ))}
         </BaseTabs.List>
       </BaseTabs.Root>
-      {collapsible ? <DocsCodeBlock.Collapse open={bodyOpen} /> : null}
-      <DocsCodeBlock.Copy key={activeFile.path} source={activeFile.source} />
-    </DocsCodeBlock.Header>
+      {collapsible ? <DocsCodeBlockCollapse open={bodyOpen} /> : null}
+      <DocsCodeBlockCopy key={activeFile.path} source={activeFile.source} />
+    </DocsCodeBlockHeader>
   );
 
   const body = (
-    <DocsCodeBlock.Body showLineNumbers={showLineNumbers} source={activeFile.source}>
-      <DocsCodeBlock.Content
+    <DocsCodeBlockBody showLineNumbers={showLineNumbers} source={activeFile.source}>
+      <DocsCodeBlockContent
         key={activeFile.path}
         html={activeFile.html}
         collapsedHtml={activeFile.collapsedHtml}
       />
-    </DocsCodeBlock.Body>
+    </DocsCodeBlockBody>
   );
 
   if (!collapsible) {
     return (
-      <DocsCodeBlock showLineNumbers={showLineNumbers}>
+      <DocsCodeBlockRoot showLineNumbers={showLineNumbers}>
         {header}
         {body}
-      </DocsCodeBlock>
+      </DocsCodeBlockRoot>
     );
   }
 
   return (
-    <DocsCodeBlock showLineNumbers={showLineNumbers}>
+    <DocsCodeBlockRoot showLineNumbers={showLineNumbers}>
       <Collapsible.Root open={bodyOpen} onOpenChange={setBodyOpen} className="contents">
         {header}
         <Collapsible.Panel className="contents">{body}</Collapsible.Panel>
       </Collapsible.Root>
-    </DocsCodeBlock>
+    </DocsCodeBlockRoot>
   );
 }
