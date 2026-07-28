@@ -9,9 +9,8 @@ export function MessageReferenceExternalReferencesComposition() {
         variant="muted"
         render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
       >
-        <MessageReferenceBadge label="message">
-          <MessageSquareText />
-        </MessageReferenceBadge>
+        <MessageReferenceBadge>message</MessageReferenceBadge>
+        <MessageSquareText />
         <MessageReferenceLabel>all · api-docs</MessageReferenceLabel>
       </MessageReferenceChip>
       <MessageReferenceChip
@@ -20,9 +19,8 @@ export function MessageReferenceExternalReferencesComposition() {
           <a href="https://github.com/botiverse/rui/pull/125" rel="noreferrer" target="_blank" />
         }
       >
-        <MessageReferenceBadge label="github.com">
-          <LinkIcon />
-        </MessageReferenceBadge>
+        <MessageReferenceBadge>github.com</MessageReferenceBadge>
+        <LinkIcon />
         <MessageReferenceLabel>rui#125 Compose message surfaces</MessageReferenceLabel>
       </MessageReferenceChip>
     </div>

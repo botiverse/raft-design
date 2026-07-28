@@ -18,40 +18,28 @@ export const messageReference = tv({
     ],
     chipLabel: ["min-w-0 truncate"],
     chipMeta: ["shrink-0"],
-    badge: [
-      "inline-flex items-center gap-1",
-      "text-[10px] leading-none font-medium",
-      // Doubled class outranks the surface's own `[&_svg]` icon treatment.
-      "[&&_svg]:size-2.5 [&&_svg]:rounded-none [&&_svg]:bg-transparent [&&_svg]:p-0 [&&_svg]:text-current",
-    ],
-    badgeLabel: ["overflow-hidden whitespace-nowrap"],
+    badge: ["inline-flex items-center", "text-[10px] leading-none font-medium whitespace-nowrap"],
   },
   variants: {
     theme: {
       brutal: {
         root: "focus-visible:outline-black",
         chipMeta: "text-[10px] font-normal leading-none text-foreground/50",
-        // No badge surface here: the icon sits directly in the chip and the caption is dropped.
-        badge: "contents [&&_svg]:size-3",
-        badgeLabel: "hidden",
+        badge: "hidden",
       },
       elegant: {
         chipMeta: "text-[10px] font-normal leading-none text-foreground-muted",
-        // Laid out at full caption width and anchored by its right edge, then clipped back to a
-        // circle. The reveal grows leftwards over preceding text without measuring anything, so
-        // the caption is never capped. Decorative — the chip stays the pointer target.
+        // Parked just left of the chip icon and clipped to nothing, so the caption grows leftwards
+        // over preceding text on hover without measuring anything or moving the chip. Decorative —
+        // the chip stays the pointer target.
         badge: [
-          "pointer-events-none absolute top-1/2 right-[calc(100%-17.5px)] z-10 -translate-y-1/2",
-          "h-4 flex-row-reverse rounded-full pr-[3px] pl-1.5",
+          "pointer-events-none absolute top-1/2 right-[calc(100%-6px)] z-10 -translate-y-1/2",
+          "h-4 rounded-full px-1.5",
           "bg-[var(--reference-badge)] text-[var(--reference-badge-ink)]",
-          "[clip-path:inset(0_0_0_calc(100%-16px)_round_9999px)]",
+          "[clip-path:inset(0_0_0_100%_round_9999px)]",
           "transition-[clip-path] duration-200 ease-out motion-reduce:transition-none",
           "group-hover:[clip-path:inset(0_round_9999px)]",
           "group-focus-visible:[clip-path:inset(0_round_9999px)]",
-        ],
-        badgeLabel: [
-          "opacity-0 transition-opacity duration-200 ease-out motion-reduce:transition-none",
-          "group-hover:opacity-100 group-focus-visible:opacity-100",
         ],
       },
     },
@@ -164,19 +152,7 @@ export const messageReference = tv({
           "[font-size:inherit] cursor-pointer font-normal leading-none tracking-normal text-foreground-strong",
           "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
           "has-[>[data-message-reference-badge]]:overflow-visible",
-          "has-[>[data-message-reference-badge]]:pr-2.5 has-[>[data-message-reference-badge]]:pl-[21.5px]",
           "transition-[filter,opacity] duration-100",
-        ],
-      },
-    },
-    {
-      // The bare-icon path renders the icon itself as the badge circle.
-      theme: "elegant",
-      variant: ["accent", "muted", "info", "neutral", "link"],
-      class: {
-        root: [
-          "has-[>svg]:pl-[1.5px]",
-          "[&_svg]:size-4 [&_svg]:rounded-full [&_svg]:bg-[var(--reference-badge)] [&_svg]:p-[3px] [&_svg]:text-[var(--reference-badge-ink)]",
         ],
       },
     },

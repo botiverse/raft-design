@@ -40,9 +40,8 @@ const ANATOMY_SOURCE = `<MessageReferenceText render={<button type="button" />}>
 </MessageReferenceChip>
 
 <MessageReferenceChip variant="muted" render={<a href="…" />}>
-  <MessageReferenceBadge label="message">
-    <MessageSquareText />
-  </MessageReferenceBadge>
+  <MessageReferenceBadge>message</MessageReferenceBadge>
+  <MessageSquareText />
   <MessageReferenceLabel>message #222</MessageReferenceLabel>
 </MessageReferenceChip>
 
@@ -79,15 +78,9 @@ const SURFACES: readonly PropRow[] = [
 const PARTS: readonly PropRow[] = [
   {
     name: "MessageReferenceBadge",
-    type: 'useRender.ComponentProps<"span"> & { label?: ReactNode }',
-    description:
-      "Optional leading badge that overlays the chip. Children hold the reference icon; label adds the hover caption.",
-  },
-  {
-    name: "MessageReferenceBadgeLabel",
     type: 'useRender.ComponentProps<"span">',
     description:
-      "Badge caption behind the badge label prop. Compose it directly when the caption needs more than plain text.",
+      "Optional caption naming the reference type. Hidden until the chip is hovered or focused, then revealed to the left of the chip icon.",
   },
   {
     name: "MessageReferenceLabel",

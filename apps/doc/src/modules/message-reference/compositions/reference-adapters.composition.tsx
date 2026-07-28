@@ -97,9 +97,8 @@ export function MessageTargetReferenceComposition({
 
   return (
     <MessageReferenceChip variant="accent" render={<a href={href} />}>
-      <MessageReferenceBadge label="message">
-        <MessageSquareText />
-      </MessageReferenceBadge>
+      <MessageReferenceBadge>message</MessageReferenceBadge>
+      <MessageSquareText />
       <MessageReferenceLabel>{label}</MessageReferenceLabel>
     </MessageReferenceChip>
   );

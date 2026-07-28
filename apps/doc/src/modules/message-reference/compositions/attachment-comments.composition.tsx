@@ -9,9 +9,8 @@ export function MessageReferenceAttachmentCommentsComposition() {
         variant="neutral"
         render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
       >
-        <MessageReferenceBadge label="comment">
-          <MessageSquareQuote />
-        </MessageReferenceBadge>
+        <MessageReferenceBadge>comment</MessageReferenceBadge>
+        <MessageSquareQuote />
         <span>state-ownership-migration-notes.md · § Ownership boundary</span>
       </MessageReferenceChip>
     </p>

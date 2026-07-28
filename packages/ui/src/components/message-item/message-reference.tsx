@@ -1,4 +1,3 @@
-import { type ReactNode } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -68,31 +67,14 @@ export function MessageReferenceLabel({ className, render, ...props }: MessageRe
   });
 }
 
-export type MessageReferenceBadgeProps = useRender.ComponentProps<"span"> & {
-  /** Sugar for a plain caption. Compose `MessageReferenceBadgeLabel` directly for richer content. */
-  label?: ReactNode;
-};
+export type MessageReferenceBadgeProps = useRender.ComponentProps<"span">;
 
-export function MessageReferenceBadge({
-  children,
-  className,
-  label,
-  render,
-  ...props
-}: MessageReferenceBadgeProps) {
+export function MessageReferenceBadge({ className, render, ...props }: MessageReferenceBadgeProps) {
   const theme = useThemeFamily();
   const { badge } = messageReference({ theme });
   const defaultProps: SlotElementProps<"span"> = {
     "data-message-reference-badge": "",
     className: badge({ className }),
-    children: (
-      <>
-        {children}
-        {label === undefined ? null : (
-          <MessageReferenceBadgeLabel>{label}</MessageReferenceBadgeLabel>
-        )}
-      </>
-    ),
   };
 
   return useRender({
@@ -100,27 +82,6 @@ export function MessageReferenceBadge({
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: { slot: "message-reference-badge" },
-  });
-}
-
-export type MessageReferenceBadgeLabelProps = useRender.ComponentProps<"span">;
-
-export function MessageReferenceBadgeLabel({
-  className,
-  render,
-  ...props
-}: MessageReferenceBadgeLabelProps) {
-  const theme = useThemeFamily();
-  const { badgeLabel } = messageReference({ theme });
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: badgeLabel({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: { slot: "message-reference-badge-label" },
   });
 }
 

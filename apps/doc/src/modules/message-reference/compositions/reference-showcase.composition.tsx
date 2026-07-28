@@ -50,9 +50,8 @@ export function MessageReferenceShowcaseComposition() {
                   variant="accent"
                   render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
                 >
-                  <MessageReferenceBadge label="thread">
-                    <MessagesSquare />
-                  </MessageReferenceBadge>
+                  <MessageReferenceBadge>thread</MessageReferenceBadge>
+                  <MessagesSquare />
                   release-notes · reply
                 </MessageReferenceChip>
                 .
@@ -83,9 +82,8 @@ export function MessageReferenceShowcaseComposition() {
                 />
               }
             >
-              <MessageReferenceBadge label="comment">
-                <MessageSquareQuote />
-              </MessageReferenceBadge>
+              <MessageReferenceBadge>comment</MessageReferenceBadge>
+              <MessageSquareQuote />
               <span>re: state-ownership-migration-notes.md · § Ownership boundary</span>
             </MessageReferenceChip>
           </div>

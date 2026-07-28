@@ -12,9 +12,8 @@ export function MessageReferenceConversationDestinationsComposition() {
           variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
-          <MessageReferenceBadge label="channel">
-            <Hash />
-          </MessageReferenceBadge>
+          <MessageReferenceBadge>channel</MessageReferenceBadge>
+          <Hash />
           release-notes
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
@@ -23,9 +22,8 @@ export function MessageReferenceConversationDestinationsComposition() {
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
         <MessageReferenceChip variant="accent" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
-          <MessageReferenceBadge label="dm">
-            <MessageCircle />
-          </MessageReferenceBadge>
+          <MessageReferenceBadge>dm</MessageReferenceBadge>
+          <MessageCircle />
           Noah
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
@@ -37,9 +35,8 @@ export function MessageReferenceConversationDestinationsComposition() {
           variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
-          <MessageReferenceBadge label="thread">
-            <MessagesSquare />
-          </MessageReferenceBadge>
+          <MessageReferenceBadge>thread</MessageReferenceBadge>
+          <MessagesSquare />
           release-notes · abc123
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
@@ -51,9 +48,8 @@ export function MessageReferenceConversationDestinationsComposition() {
           variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
         >
-          <MessageReferenceBadge label="message">
-            <MessageSquareText />
-          </MessageReferenceBadge>
+          <MessageReferenceBadge>message</MessageReferenceBadge>
+          <MessageSquareText />
           all · api-docs
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}

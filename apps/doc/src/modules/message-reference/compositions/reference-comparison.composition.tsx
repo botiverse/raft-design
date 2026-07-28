@@ -63,9 +63,8 @@ export function MessageReferenceComparisonComposition() {
                     variant="accent"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
                   >
-                    <MessageReferenceBadge label="channel">
-                      <Hash />
-                    </MessageReferenceBadge>
+                    <MessageReferenceBadge>channel</MessageReferenceBadge>
+                    <Hash />
                     release-notes
                   </MessageReferenceChip>
                   .
