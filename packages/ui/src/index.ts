@@ -1006,6 +1006,23 @@ export type {
   ThreadPanelTitleProps,
 } from "./components/thread-panel/index";
 
+export {
+  LiveAgentActivityBar,
+  LiveAgentActivityBarAvatar,
+  LiveAgentActivityBarContent,
+  LiveAgentActivityBarRow,
+  LiveAgentActivityBarStatus,
+  LiveAgentActivityBarText,
+} from "./components/live-agent-activity-bar/index";
+export type {
+  LiveAgentActivityBarAvatarProps,
+  LiveAgentActivityBarContentProps,
+  LiveAgentActivityBarProps,
+  LiveAgentActivityBarRowProps,
+  LiveAgentActivityBarStatusProps,
+  LiveAgentActivityBarTextProps,
+} from "./components/live-agent-activity-bar/index";
+
 export * from "./components/task-board/index";
 export * from "./components/task-card/index";
 export * from "./components/task-dnd/index";
