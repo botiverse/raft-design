@@ -9,38 +9,46 @@ import jsx from "shiki/dist/langs/jsx.mjs";
 import markdown from "shiki/dist/langs/markdown.mjs";
 import tsx from "shiki/dist/langs/tsx.mjs";
 import typescript from "shiki/dist/langs/typescript.mjs";
-import githubDarkHighContrast from "shiki/dist/themes/github-dark-high-contrast.mjs";
-import { normalizeMessageCodeLanguage } from "./message-code-language.ts";
+import vitesseDark from "shiki/dist/themes/vitesse-dark.mjs";
+import vitesseLight from "shiki/dist/themes/vitesse-light.mjs";
+import { normalizeCodeLanguage } from "./code-language.ts";
 
-const SHIKI_THEME = "github-dark-high-contrast";
+// Tokens carry both palettes as --shiki-light/--shiki-dark; the code surface picks
+// one through --message-code-syntax.
+const SHIKI_THEMES = {
+  dark: "vitesse-dark",
+  light: "vitesse-light",
+} as const;
 
 const highlighter = createHighlighterCore({
-  themes: [githubDarkHighContrast],
+  themes: [vitesseDark, vitesseLight],
   langs: [bash, css, html, javascript, json, jsx, markdown, tsx, typescript],
   engine: createJavaScriptRegexEngine(),
 });
 
-export type MessageCodeTokenLine = ThemedToken[];
+export type CodeTokenLine = ThemedToken[];
 
-const highlightCache = new Map<string, Promise<MessageCodeTokenLine[]>>();
+const highlightCache = new Map<string, Promise<CodeTokenLine[]>>();
 const HIGHLIGHT_CACHE_LIMIT = 128;
 
 export function highlightMessageCode(
   code: string,
   language: string | null | undefined,
-): Promise<MessageCodeTokenLine[]> | null {
-  const normalizedLanguage = normalizeMessageCodeLanguage(language);
+): Promise<CodeTokenLine[]> | null {
+  const normalizedLanguage = normalizeCodeLanguage(language);
   if (!normalizedLanguage) return null;
 
   const key = `${normalizedLanguage}\u0000${code}`;
   const cached = highlightCache.get(key);
   if (cached) return cached;
 
-  const highlighted = highlighter.then((instance) =>
-    instance.codeToTokensBase(code, {
-      lang: normalizedLanguage,
-      theme: SHIKI_THEME,
-    }),
+  const highlighted = highlighter.then(
+    (instance) =>
+      instance.codeToTokens(code, {
+        lang: normalizedLanguage,
+        themes: SHIKI_THEMES,
+        defaultColor: false,
+      }).tokens,
   );
 
   if (highlightCache.size >= HIGHLIGHT_CACHE_LIMIT) {

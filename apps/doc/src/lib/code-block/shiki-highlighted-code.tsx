@@ -1,12 +1,12 @@
 "use client";
 
 import { memo, useEffect, useState, type CSSProperties } from "react";
-import { supportsMessageCodeLanguage } from "./message-code-language.ts";
-import type { MessageCodeTokenLine } from "./shiki-highlighter.ts";
+import { supportsCodeLanguage } from "./code-language.ts";
+import type { CodeTokenLine } from "./shiki-highlighter.ts";
 
 type HighlightedCode = {
   key: string;
-  lines: MessageCodeTokenLine[];
+  lines: CodeTokenLine[];
 };
 
 type ShikiHighlighterModule = typeof import("./shiki-highlighter.ts");
@@ -26,11 +26,11 @@ function loadShikiHighlighter() {
 }
 
 function shouldHighlight(code: string, language: string | null | undefined) {
-  if (!supportsMessageCodeLanguage(language) || code.length > MAX_HIGHLIGHT_CHARS) return false;
+  if (!supportsCodeLanguage(language) || code.length > MAX_HIGHLIGHT_CHARS) return false;
   return code.split("\n", MAX_HIGHLIGHT_LINES + 1).length <= MAX_HIGHLIGHT_LINES;
 }
 
-function tokenStyle(token: MessageCodeTokenLine[number]): CSSProperties | undefined {
+function tokenStyle(token: CodeTokenLine[number]): CSSProperties | undefined {
   if (token.htmlStyle) return token.htmlStyle;
   if (!token.color && !token.bgColor) return undefined;
   return {

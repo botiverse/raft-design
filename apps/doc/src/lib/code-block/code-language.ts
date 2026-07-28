@@ -18,7 +18,7 @@ const MESSAGE_CODE_LANGUAGE_ALIASES = {
 export type MessageCodeLanguage =
   (typeof MESSAGE_CODE_LANGUAGE_ALIASES)[keyof typeof MESSAGE_CODE_LANGUAGE_ALIASES];
 
-export function normalizeMessageCodeLanguage(
+export function normalizeCodeLanguage(
   language: string | null | undefined,
 ): MessageCodeLanguage | null {
   if (!language) return null;
@@ -29,6 +29,6 @@ export function normalizeMessageCodeLanguage(
   );
 }
 
-export function supportsMessageCodeLanguage(language: string | null | undefined) {
-  return normalizeMessageCodeLanguage(language) !== null;
+export function supportsCodeLanguage(language: string | null | undefined) {
+  return normalizeCodeLanguage(language) !== null;
 }

@@ -1,11 +1,15 @@
 import type { ReactNode } from "react";
 import { TaskChip } from "raft-ui";
 import {
-  MessageCodeBlock,
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockBody,
+  CodeBlockHeader,
   MessageInlineCode,
   MessageMarkdown,
   MessageReferenceChip,
 } from "raft-ui/wip";
+import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
 import {
   MessageMentionReferenceComposition,
   MessageSelfMentionReferenceComposition,
@@ -160,11 +164,18 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
         :
       </p>
       <blockquote>Compact rows should read as one thread, not a new speaker.</blockquote>
-      <MessageCodeBlock code={code}>
-        <pre>
-          <code>{code}</code>
-        </pre>
-      </MessageCodeBlock>
+      <CodeBlock>
+        <CodeBlockHeader>
+          <CodeBlockActions>
+            <CodeCopyAction code={code} />
+          </CodeBlockActions>
+        </CodeBlockHeader>
+        <CodeBlockBody>
+          <pre>
+            <code>{code}</code>
+          </pre>
+        </CodeBlockBody>
+      </CodeBlock>
     </MessageMarkdown>
   );
 }

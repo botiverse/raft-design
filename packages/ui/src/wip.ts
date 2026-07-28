@@ -368,8 +368,22 @@ export type {
   MessageMarkdownTableScrollProps,
 } from "./components/message-markdown/index";
 
-export { MessageCodeBlock } from "./components/message-code-block/index";
-export type { MessageCodeBlockProps } from "./components/message-code-block/index";
+export {
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockBody,
+  CodeBlockAction,
+  CodeBlockHeader,
+  CodeBlockTitle,
+} from "./components/code-block/index";
+export type {
+  CodeBlockActionsProps,
+  CodeBlockBodyProps,
+  CodeBlockActionProps,
+  CodeBlockHeaderProps,
+  CodeBlockProps,
+  CodeBlockTitleProps,
+} from "./components/code-block/index";
 
 export {
   MessageQuotedPreview,

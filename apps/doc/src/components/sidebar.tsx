@@ -64,7 +64,6 @@ const NAV = [
     items: [
       { label: "MessageItem", to: "/components/message-item", status: "wip" },
       { label: "Markdown", to: "/components/message-markdown", status: "wip" },
-      { label: "CodeBlock", to: "/components/message-code-block", status: "wip" },
       { label: "Reference", to: "/components/message-reference", status: "wip" },
       {
         label: "QuotedPreview",
@@ -253,6 +252,7 @@ const NAV = [
     items: [
       { label: "Text", to: "/components/text", status: "done" },
       { label: "InlineCode", to: "/components/inline-code", status: "done" },
+      { label: "CodeBlock", to: "/components/code-block", status: "wip" },
       { label: "Kbd", to: "/components/kbd", status: "done" },
       { label: "CopyableCode", to: "/components/copyable-code", status: "done" },
     ],
