@@ -42,13 +42,6 @@ function MessageVideoPendingComposition() {
       <MessageVideoPreviewFallback>
         <Spinner size="md" variant="inverse" />
       </MessageVideoPreviewFallback>
-      <MessageVideoPreviewAction
-        aria-label="Download demo-recording.mp4"
-        disabled
-        title="Available once the upload finishes"
-      >
-        <ArrowDownToLine />
-      </MessageVideoPreviewAction>
     </MessageVideoPreview>
   );
 }
