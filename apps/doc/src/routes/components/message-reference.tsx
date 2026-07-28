@@ -25,8 +25,6 @@ import { MessageReferenceResolutionStatesComposition } from "#/modules/message-r
 import resolutionStatesSource from "#/modules/message-reference/compositions/resolution-states.composition.tsx?raw";
 import { MessageReferenceShowcaseComposition } from "#/modules/message-reference/compositions/reference-showcase.composition.tsx";
 import referenceShowcaseSource from "#/modules/message-reference/compositions/reference-showcase.composition.tsx?raw";
-import { TaskChipUsageComposition } from "#/modules/message-reference/compositions/task-references.composition.tsx";
-import taskReferencesSource from "#/modules/message-reference/compositions/task-references.composition.tsx?raw";
 import { MessageReferenceSourcePreview } from "#/modules/message-reference/message-reference.source-preview.tsx";
 
 const TOC = [
@@ -197,7 +195,6 @@ export const Route = createFileRoute("/components/message-reference")({
         referenceShowcase: referenceShowcaseSource,
         peopleMentions: peopleMentionsSource,
         conversationDestinations: conversationDestinationsSource,
-        taskReferences: taskReferencesSource,
         attachmentComments: attachmentCommentsSource,
         externalReferences: externalReferencesSource,
         resolutionStates: resolutionStatesSource,
@@ -261,16 +258,6 @@ function MessageReferenceDoc() {
               collapsedCode={code.conversationDestinationsBody}
             >
               <MessageReferenceConversationDestinationsComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="task-references" title="Tasks">
-            <p className="mb-3 text-sm text-foreground-muted">
-              Use <InlineCode>TaskChip</InlineCode> for a resolved task. Its status controls the
-              status icon and task surface; task state remains consumer-owned.
-            </p>
-            <UsagePreview code={code.taskReferences} collapsedCode={code.taskReferencesBody}>
-              <TaskChipUsageComposition />
             </UsagePreview>
           </DocSubsection>
 

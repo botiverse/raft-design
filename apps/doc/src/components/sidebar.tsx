@@ -65,6 +65,7 @@ const NAV = [
       { label: "MessageItem", to: "/components/message-item", status: "wip" },
       { label: "Markdown", to: "/components/message-markdown", status: "wip" },
       { label: "Reference", to: "/components/message-reference", status: "wip" },
+      { label: "TaskChip", to: "/components/task-chip", status: "done" },
       {
         label: "QuotedPreview",
         to: "/components/message-quoted-preview",
