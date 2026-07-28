@@ -156,6 +156,8 @@ export const messageReference = tv({
           "group relative inline-flex h-[19px] max-w-full items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent px-2 py-0",
           "[font-size:inherit] cursor-pointer font-normal leading-none tracking-normal text-foreground-strong",
           "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
+          // The filled label runs to the chip edge, so the chip drops its right padding.
+          "has-[>[data-slot=message-reference-label]]:pr-0",
           "has-[>[data-message-reference-badge]]:overflow-visible",
           "transition-[filter,opacity] duration-100",
         ],
