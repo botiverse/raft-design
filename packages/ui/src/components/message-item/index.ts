@@ -203,8 +203,7 @@ export type {
 } from "./message-reaction";
 export type {
   MessageReferenceChipProps,
-  MessageReferenceChipTone,
-  MessageReferenceChipToneProps,
+  MessageReferenceChipVariant,
   MessageReferenceLabelProps,
   MessageReferenceMetaProps,
   MessageReferencePendingProps,

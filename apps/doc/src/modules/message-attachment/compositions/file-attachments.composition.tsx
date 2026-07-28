@@ -48,6 +48,7 @@ export function MessageFileAttachmentComposition() {
     <MessageAttachmentCard>
       <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
       <MessageAttachmentSummary render={<MessageAttachmentDiffSummary />}>
+        <span>2 files · 5 hunks</span>
         <MessageAttachmentDiffAddition>+42</MessageAttachmentDiffAddition>
         <MessageAttachmentDiffDeletion>-7</MessageAttachmentDiffDeletion>
       </MessageAttachmentSummary>
@@ -121,6 +122,7 @@ function MessagePendingCsvAttachmentComposition() {
   return (
     <MessageAttachmentCard aria-busy>
       <MessageAttachmentTitle>metrics.csv</MessageAttachmentTitle>
+      <MessageAttachmentSummary>24 rows · 6 columns</MessageAttachmentSummary>
       <MessageAttachmentMeta>
         <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
         <MessageAttachmentMetaEnd>
@@ -135,13 +137,30 @@ function MessageCsvAttachmentComposition() {
   return (
     <MessageAttachmentCard>
       <MessageAttachmentTitle>metrics.csv</MessageAttachmentTitle>
+      <MessageAttachmentSummary>24 rows · 6 columns</MessageAttachmentSummary>
       <MessageAttachmentMeta>
         <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
         <MessageAttachmentMetaEnd>
+          <MessageAttachmentAction aria-hidden render={<span />} title="Preview metrics.csv">
+            <Eye />
+          </MessageAttachmentAction>
+        </MessageAttachmentMetaEnd>
+      </MessageAttachmentMeta>
+    </MessageAttachmentCard>
+  );
+}
+
+function MessageGenericAttachmentComposition() {
+  return (
+    <MessageAttachmentCard>
+      <MessageAttachmentTitle>archive.zip</MessageAttachmentTitle>
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaStart>12 KB</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaEnd>
           <MessageAttachmentAction
-            aria-label="Download metrics.csv"
-            title="Download metrics.csv"
-            onClick={() => downloadMessageFixture("metrics.csv")}
+            aria-label="Download archive.zip"
+            title="Download archive.zip"
+            onClick={() => downloadMessageFixture("archive.zip")}
           >
             <ArrowDownToLine />
           </MessageAttachmentAction>
@@ -159,6 +178,7 @@ export function MessageFileAttachmentsComposition() {
       <MessageAudioAttachmentComposition />
       <MessageCommentedMarkdownAttachmentComposition />
       <MessageCsvAttachmentComposition />
+      <MessageGenericAttachmentComposition />
     </MessageAttachmentGroup>
   );
 }
@@ -171,6 +191,7 @@ export function MessageFileAttachmentStatesComposition() {
       <MessageAudioAttachmentComposition />
       <MessageCommentedMarkdownAttachmentComposition />
       <MessagePendingCsvAttachmentComposition />
+      <MessageGenericAttachmentComposition />
     </MessageAttachmentGroup>
   );
 }

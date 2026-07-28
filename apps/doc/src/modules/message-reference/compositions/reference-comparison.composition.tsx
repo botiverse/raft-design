@@ -59,7 +59,7 @@ export function MessageReferenceComparisonComposition() {
                   </MessageTargetReferenceComposition>{" "}
                   rollout in{" "}
                   <MessageReferenceChip
-                    tone="accent"
+                    variant="accent"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
                   >
                     <Hash size={12} />

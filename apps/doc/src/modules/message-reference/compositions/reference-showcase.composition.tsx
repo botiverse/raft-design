@@ -46,7 +46,7 @@ export function MessageReferenceShowcaseComposition() {
                 </TaskChip>{" "}
                 before replying in{" "}
                 <MessageReferenceChip
-                  tone="info"
+                  variant="info"
                   render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
                 >
                   <MessagesSquare size={12} />
@@ -72,7 +72,7 @@ export function MessageReferenceShowcaseComposition() {
           </MessageItemHeader>
           <div className="mb-0.5">
             <MessageReferenceChip
-              tone="neutral"
+              variant="neutral"
               render={
                 <a
                   href={MESSAGE_PLAYGROUND_URLS.stateModelTask}

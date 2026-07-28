@@ -200,7 +200,7 @@ function createPlaygroundMarkdownComponents(channelId?: string): Components {
 
         if (actor.id === VIEWER_ACTOR_ID) {
           return (
-            <MessageReferenceChip tone="primary" title={`${actor.name} · ${actor.meta}`}>
+            <MessageReferenceChip variant="primary" title={`${actor.name} · ${actor.meta}`}>
               {children}
             </MessageReferenceChip>
           );
@@ -241,7 +241,7 @@ function createPlaygroundMarkdownComponents(channelId?: string): Components {
 
         return (
           <MessageReferenceChip
-            tone="info"
+            variant="info"
             render={
               <a href={`${conversationHref(channel.id)}?thread=${encodeURIComponent(threadId)}`} />
             }
@@ -252,7 +252,7 @@ function createPlaygroundMarkdownComponents(channelId?: string): Components {
       }
 
       return (
-        <MessageReferenceChip tone="accent" render={<a href={conversationHref(channel.id)} />}>
+        <MessageReferenceChip variant="accent" render={<a href={conversationHref(channel.id)} />}>
           {children}
         </MessageReferenceChip>
       );

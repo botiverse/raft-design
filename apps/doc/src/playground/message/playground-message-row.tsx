@@ -124,7 +124,7 @@ function PlaygroundMessageAttachments({ files }: { files: readonly PlaygroundFil
         </MessageAttachmentSummary>
       ) : null}
       <MessageAttachmentMeta>
-        <MessageAttachmentMetaStart>{`${file.type.toUpperCase()} · ${file.size}`}</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaStart>{file.size}</MessageAttachmentMetaStart>
         <MessageAttachmentMetaEnd>
           <MessageAttachmentAction
             aria-label={`Preview ${file.filename}`}
@@ -211,9 +211,8 @@ function PlaygroundSentMessageAttachments({
         <MessageAttachmentCard>
           <MessageAttachmentTitle>{attachment.name}</MessageAttachmentTitle>
           <MessageAttachmentMeta>
-            <MessageAttachmentMetaStart>{attachment.mediaType}</MessageAttachmentMetaStart>
             {openPreview || downloadAttachment ? (
-              <MessageAttachmentMetaEnd>
+              <MessageAttachmentMetaEnd className="ml-auto">
                 {openPreview ? (
                   <MessageAttachmentAction
                     aria-label={`Preview ${attachment.name}`}

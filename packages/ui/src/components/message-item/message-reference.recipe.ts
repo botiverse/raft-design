@@ -8,7 +8,8 @@ export const messageReference = tv({
       "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     chip: [
-      "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
+      "inline-flex max-w-full items-center gap-1 overflow-hidden text-ellipsis whitespace-nowrap align-bottom select-text no-underline",
+      "[font-size:inherit] leading-tight",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
       "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
@@ -36,36 +37,13 @@ export const messageReference = tv({
       },
       elegant: { meta: "text-[10px] font-normal leading-none text-foreground-muted" },
     },
-    tone: {
-      primary: {
-        chip: ["inline-block align-bottom", "[font-size:inherit] leading-tight"],
-      },
-      accent: {
-        chip: ["inline-block align-bottom", "[font-size:inherit] leading-tight"],
-      },
-      muted: {
-        chip: ["inline-block align-bottom", "[font-size:inherit] leading-tight"],
-      },
-      info: {
-        chip: ["inline-block align-bottom", "[font-size:inherit] leading-tight"],
-      },
-      neutral: {
-        chip: ["inline-flex items-center gap-1 align-bottom", "[font-size:inherit] leading-tight"],
-      },
-      panel: {
-        chip: [
-          "inline-flex items-center gap-1 align-bottom",
-          "[font-size:inherit] leading-tight",
-          "[&_svg]:size-3",
-        ],
-      },
-      external: {
-        chip: [
-          "inline-flex items-center gap-1 align-bottom",
-          "[font-size:inherit] leading-tight",
-          "[&_svg]:size-3",
-        ],
-      },
+    variant: {
+      primary: {},
+      accent: {},
+      muted: {},
+      info: {},
+      neutral: {},
+      link: {},
     },
   },
   compoundVariants: [
@@ -73,7 +51,6 @@ export const messageReference = tv({
       theme: "brutal",
       class: {
         text: "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
-        chip: "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
         pending: "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
         unavailable: "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
       },
@@ -103,7 +80,7 @@ export const messageReference = tv({
     },
     {
       theme: "brutal",
-      tone: "primary",
+      variant: "primary",
       class: {
         chip: "cursor-default border-black bg-soft-signal text-black hover:bg-soft-signal/80",
       },
@@ -112,8 +89,8 @@ export const messageReference = tv({
       theme: "elegant",
       class: {
         text: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0",
-          "cursor-pointer font-medium leading-none tracking-normal text-[oklch(0.44_0.09_91.39)]",
+          "inline-flex h-[19px] items-center gap-0.5 align-middle -mt-px rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0",
+          "cursor-pointer font-normal leading-none tracking-normal text-[oklch(0.44_0.09_91.39)]",
           "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
           "transition-[filter,opacity] duration-100 hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
         ],
@@ -121,11 +98,11 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      tone: ["primary", "accent", "muted", "info", "neutral", "panel", "external"],
+      variant: ["primary", "accent", "muted", "info", "neutral", "link"],
       class: {
         chip: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent px-2 py-0",
-          "cursor-pointer font-medium leading-none tracking-normal text-foreground-strong",
+          "h-[19px] gap-1.5 align-middle -mt-px rounded-full border border-transparent px-2 py-0",
+          "cursor-pointer font-normal leading-none tracking-normal text-foreground-strong",
           "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
           "transition-[filter,opacity] duration-100",
         ],
@@ -133,7 +110,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      tone: "primary",
+      variant: "primary",
       class: {
         chip: [
           "bg-[oklch(0.886_0.155_91.41)] text-[oklch(0.431_0.088_86.67)]",
@@ -143,7 +120,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      tone: "accent",
+      variant: "accent",
       class: {
         chip: [
           "bg-[oklch(0.914_0.048_358.59)] text-[oklch(0.543_0.215_359.77)]",
@@ -153,14 +130,14 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      tone: "muted",
+      variant: "muted",
       class: {
         chip: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
       },
     },
     {
       theme: "elegant",
-      tone: "info",
+      variant: "info",
       class: {
         chip: [
           "bg-[oklch(0.914_0.048_358.59)] text-[oklch(0.543_0.215_359.77)]",
@@ -170,7 +147,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      tone: "neutral",
+      variant: "neutral",
       class: {
         chip: [
           "bg-[oklch(0.91_0.056_224.02)] text-[oklch(0.441_0.078_221.2)]",
@@ -180,7 +157,7 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      tone: ["panel", "external"],
+      variant: "link",
       class: {
         chip: "bg-layer-muted text-foreground-strong hover:bg-layer-strong",
       },
@@ -202,35 +179,35 @@ export const messageReference = tv({
     },
     {
       theme: "brutal",
-      tone: "accent",
+      variant: "accent",
       class: {
         chip: "cursor-default border-black bg-brutal-pink/30 text-black hover:bg-brutal-pink/60",
       },
     },
     {
       theme: "brutal",
-      tone: ["muted", "panel"],
+      variant: "muted",
       class: {
         chip: "cursor-default border-black bg-soft-signal/40 text-black hover:bg-soft-signal",
       },
     },
     {
       theme: "brutal",
-      tone: "info",
+      variant: "info",
       class: {
         chip: "cursor-default border-black bg-brutal-cyan/30 text-black hover:bg-brutal-cyan/60",
       },
     },
     {
       theme: "brutal",
-      tone: "neutral",
+      variant: "neutral",
       class: {
         chip: "cursor-default border-black bg-brutal-stone/25 text-black hover:bg-brutal-stone/40",
       },
     },
     {
       theme: "brutal",
-      tone: "external",
+      variant: "link",
       class: {
         chip: "cursor-default border-black bg-white text-[oklch(0.488_0.243_264.376)] hover:bg-black/5",
       },
@@ -243,7 +220,11 @@ export const messageReference = tv({
       },
     },
   ],
+  defaultVariants: {
+    variant: "muted",
+  },
 });
 
-export type MessageReferenceChipToneProps = VariantProps<typeof messageReference>;
-export type MessageReferenceChipTone = NonNullable<MessageReferenceChipToneProps["tone"]>;
+type MessageReferenceVariantProps = VariantProps<typeof messageReference>;
+
+export type MessageReferenceChipVariant = NonNullable<MessageReferenceVariantProps["variant"]>;

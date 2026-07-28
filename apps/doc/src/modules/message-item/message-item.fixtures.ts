@@ -40,6 +40,10 @@ export const MESSAGE_REACTION_SPRITE_ITEMS: Record<
 };
 
 const MESSAGE_DOWNLOAD_FIXTURES = {
+  "archive.zip": {
+    content: "Static archive attachment fixture.\n",
+    mimeType: "application/zip",
+  },
   "architecture.pdf": {
     content: [
       "%PDF-1.4",

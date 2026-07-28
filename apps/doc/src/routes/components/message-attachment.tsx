@@ -17,6 +17,8 @@ import { MessageAttachmentStatusesUsageComposition } from "#/modules/message-att
 import attachmentStatusesSource from "#/modules/message-attachment/compositions/attachment-statuses.composition.tsx?raw";
 import { MessageAttachmentDiffUsageComposition } from "#/modules/message-attachment/compositions/diff-attachment.composition.tsx";
 import diffAttachmentSource from "#/modules/message-attachment/compositions/diff-attachment.composition.tsx?raw";
+import { MessageAttachmentDocumentSummariesComposition } from "#/modules/message-attachment/compositions/document-summaries.composition.tsx";
+import documentSummariesSource from "#/modules/message-attachment/compositions/document-summaries.composition.tsx?raw";
 import { MessageAttachmentPreviewUsageComposition } from "#/modules/message-attachment/compositions/preview-attachment.composition.tsx";
 import previewAttachmentSource from "#/modules/message-attachment/compositions/preview-attachment.composition.tsx?raw";
 import { MessageAttachmentTitleIconUsageComposition } from "#/modules/message-attachment/compositions/title-icon.composition.tsx";
@@ -58,6 +60,10 @@ const SOURCE_SCENES = [
         path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
       },
       {
+        label: "AttachmentChip.tsx",
+        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/AttachmentChip.tsx",
+      },
+      {
         label: "attachmentPreview.ts",
         path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/attachmentPreview.ts",
       },
@@ -86,6 +92,7 @@ export const Route = createFileRoute("/components/message-attachment")({
         attachmentsShowcase: attachmentsShowcaseSource,
         attachmentStatuses: attachmentStatusesSource,
         diffAttachment: diffAttachmentSource,
+        documentSummaries: documentSummariesSource,
         imageGalleryGeometry: imageGalleryGeometrySource,
         imageGalleryPair: imageGalleryPairSource,
         imageGallerySingle: imageGallerySingleSource,
@@ -189,6 +196,16 @@ function MessageAttachmentDoc() {
             </p>
             <UsagePreview code={code.previewAttachment}>
               <MessageAttachmentPreviewUsageComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="document-summaries" title="Document summaries">
+            <p className="mb-3 text-sm text-foreground-muted">
+              Use the summary only when a document has compact status information, such as CSV row
+              and column counts. Metadata stays reserved for the file size.
+            </p>
+            <UsagePreview code={code.documentSummaries}>
+              <MessageAttachmentDocumentSummariesComposition />
             </UsagePreview>
           </DocSubsection>
 
@@ -296,7 +313,7 @@ function MessageAttachmentDoc() {
             {
               label: "File attachment in a message row",
               status: "review",
-              note: "The Source pane is a static fixture extracted from the real MessageItem attachment DOM; the three Current panes execute the canonical attachment showcase in its MessageItem context.",
+              note: "The Source pane is a static structural fixture modeled after the real MessageItem and AttachmentChip DOM; the three Current panes execute the canonical attachment composition in its MessageItem context.",
               sourceScenes: SOURCE_SCENES,
               source: (
                 <SourceThemeScope className="w-full">

@@ -63,11 +63,11 @@ const ANATOMY_SOURCE = `<MessageReferenceText render={<button type="button" />}>
   @Ada
 </MessageReferenceText>
 
-<MessageReferenceChip tone="muted" render={<a href="…" />}>
+<MessageReferenceChip variant="muted" render={<a href="…" />}>
   #channel
 </MessageReferenceChip>
 
-<MessageReferenceChip tone="panel" render={<a href="…" />}>
+<MessageReferenceChip variant="muted" render={<a href="…" />}>
   <MessageReferenceLabel>message #222</MessageReferenceLabel>
   <MessageReferenceMeta>msg</MessageReferenceMeta>
 </MessageReferenceChip>
@@ -84,9 +84,9 @@ const SURFACES: readonly PropRow[] = [
   },
   {
     name: "MessageReferenceChip",
-    type: 'useRender.ComponentProps<"span"> & { tone?: "primary" | "accent" | "muted" | "info" | "neutral" | "panel" | "external" }',
+    type: 'useRender.ComponentProps<"span"> & { variant?: "primary" | "accent" | "muted" | "info" | "neutral" | "link" }',
     description:
-      "Inline chip reference. Tone is visual only; use render={<a href=… />} when the consumer owns navigation.",
+      "Inline chip reference. Variant is visual only; use render={<a href=… />} when the consumer owns navigation.",
   },
   {
     name: "MessageReferencePending",

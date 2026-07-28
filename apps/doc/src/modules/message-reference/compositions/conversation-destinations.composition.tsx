@@ -7,7 +7,7 @@ export function MessageReferenceConversationDestinationsComposition() {
     <div className="flex w-full flex-wrap items-start justify-center gap-4 text-sm text-foreground">
       <div className="flex flex-col items-center gap-3">
         <MessageReferenceChip
-          tone="accent"
+          variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
           <Hash size={12} />
@@ -16,7 +16,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Channel</span>
       </div>
       <div className="flex flex-col items-center gap-3">
-        <MessageReferenceChip tone="accent" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
+        <MessageReferenceChip variant="accent" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
           <MessageCircle size={12} />
           Noah
         </MessageReferenceChip>
@@ -24,7 +24,7 @@ export function MessageReferenceConversationDestinationsComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         <MessageReferenceChip
-          tone="info"
+          variant="info"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
           <MessagesSquare size={12} />
@@ -34,7 +34,7 @@ export function MessageReferenceConversationDestinationsComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         <MessageReferenceChip
-          tone="info"
+          variant="info"
           render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
         >
           <MessageSquareText size={12} />

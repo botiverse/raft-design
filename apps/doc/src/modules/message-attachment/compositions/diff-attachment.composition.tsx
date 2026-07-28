@@ -20,6 +20,7 @@ export function MessageAttachmentDiffUsageComposition() {
       <MessageAttachmentCard>
         <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
         <MessageAttachmentSummary render={<MessageAttachmentDiffSummary />}>
+          <span>2 files · 5 hunks</span>
           <MessageAttachmentDiffAddition>+42</MessageAttachmentDiffAddition>
           <MessageAttachmentDiffDeletion>-7</MessageAttachmentDiffDeletion>
         </MessageAttachmentSummary>

@@ -21,9 +21,13 @@ export function MessageAttachmentSourcePreview() {
           >
             <div className="w-full min-w-0 overflow-hidden">
               <p className="truncate text-xs font-bold">migration.diff</p>
-              <p className="font-mono text-[10px] text-black/50">Diff · 18 KB</p>
+              <p className="font-mono text-[10px] text-black/50">text/x-diff · 18 KB</p>
             </div>
-            <span className="pr-5 font-mono text-[10px] font-bold">+42 -7</span>
+            <span className="flex gap-1.5 pr-5 font-mono text-[10px] font-bold">
+              <span>2 files · 5 hunks</span>
+              <span className="text-success-base">+42</span>
+              <span className="text-danger-base">-7</span>
+            </span>
             <Download className="absolute right-1.5 bottom-1.5 size-3 text-black/60" aria-hidden />
           </button>
         </div>

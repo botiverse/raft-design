@@ -69,14 +69,14 @@ export function MessageItemExampleMarkdown({ portalContainer }: ExampleMarkdownP
         </TaskChip>{" "}
         in{" "}
         <MessageReferenceChip
-          tone="accent"
+          variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
           #release-notes
         </MessageReferenceChip>{" "}
         and linked{" "}
         <MessageReferenceChip
-          tone="info"
+          variant="info"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
           #release-notes:reply
@@ -102,7 +102,7 @@ export function MessageItemExampleMarkdownLead({ portalContainer }: ExampleMarkd
         <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> starting a short
         sequence — first the <strong>layout pass</strong>, then gutter clock polish for{" "}
         <MessageReferenceChip
-          tone="accent"
+          variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
           #release-notes
@@ -152,7 +152,7 @@ export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMa
       <p>
         Final note for <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> in{" "}
         <MessageReferenceChip
-          tone="info"
+          variant="info"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
           #release-notes:reply
