@@ -9,10 +9,9 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type SkeletonPlaygroundPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function SkeletonPlaygroundPreview({ code, collapsedCode }: SkeletonPlaygroundPreviewProps) {
+export function SkeletonPlaygroundPreview({ code }: SkeletonPlaygroundPreviewProps) {
   const [variant, setVariant] = useState<NonNullable<SkeletonProps["variant"]>>("line");
 
   return (
@@ -36,7 +35,7 @@ export function SkeletonPlaygroundPreview({ code, collapsedCode }: SkeletonPlayg
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

@@ -1,4 +1,3 @@
-import { SYSTEM_MESSAGE_FIXTURES } from "../system-message.fixtures.ts";
 import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
 
 // @docs-source-strip-start
@@ -10,7 +9,7 @@ export function SystemMessageTaskMovedInProgressContent() {
     <SystemMessage>
       <SystemMessageTime>2:18 PM</SystemMessageTime>
       <SystemMessageContent>
-        {SYSTEM_MESSAGE_FIXTURES.taskMovedInProgress.content}
+        🔄 Atlas moved #41 "Release review checklist" to In Progress
       </SystemMessageContent>
     </SystemMessage>
   );

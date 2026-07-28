@@ -118,7 +118,7 @@ function FilePreviewDoc() {
               <FilePreviewDefaultComposition />
             </div>
           </Preview.Canvas>
-          <Preview.Code html={code.default} />
+          <Preview.Code html={code.default} collapsedHtml={code.defaultBody} />
         </Preview>
       </DocSection>
 
@@ -151,7 +151,7 @@ function FilePreviewDoc() {
               <Preview.Canvas>
                 <FilePreviewIllustrationsComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.illustrations} />
+              <Preview.Code html={code.illustrations} collapsedHtml={code.illustrationsBody} />
             </Preview>
           </DocSubsection>
 
@@ -165,7 +165,7 @@ function FilePreviewDoc() {
                 <Preview.Canvas>
                   <FilePreviewMediaComposition />
                 </Preview.Canvas>
-                <Preview.Code html={code.media} />
+                <Preview.Code html={code.media} collapsedHtml={code.mediaBody} />
               </Preview>
             </div>
           </DocSubsection>

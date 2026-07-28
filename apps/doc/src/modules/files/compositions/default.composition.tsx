@@ -38,7 +38,7 @@ const MORE_FILE: FileListEntry = {
 
 export function FilesPanelDefaultComposition() {
   const [files, setFiles] = useState(INITIAL_FILES);
-  const [announcement, setAnnouncement] = useState("No file action yet.");
+  const [announcement, setAnnouncement] = useState("Ready");
   const hasMore = files.length === INITIAL_FILES.length;
 
   const describeAction = (action: string, file: FileListEntry) => {

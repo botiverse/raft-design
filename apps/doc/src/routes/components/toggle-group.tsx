@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ToggleGroup, ToggleGroupCount, ToggleGroupItem, ToggleGroupLabel } from "raft-ui/wip";
 import { useState } from "react";
 
-import { CodeBlock } from "#/components/code-block.tsx";
 import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -50,6 +49,9 @@ const SNIPPETS = {
   <ToggleGroupItem value="unread">
     <ToggleGroupLabel>Unread</ToggleGroupLabel>
     <ToggleGroupCount>3</ToggleGroupCount>
+  </ToggleGroupItem>
+  <ToggleGroupItem value="mentions">
+    <ToggleGroupLabel>Mentions</ToggleGroupLabel>
   </ToggleGroupItem>
 </ToggleGroup>`,
   disabled: `<ToggleGroup disabled ariaLabel="Filter" value="all" onValueChange={() => {}}>
@@ -176,9 +178,6 @@ function ToggleGroupDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
-          <DocSubsection parentId="usage" id="counts" title="Counts">
-            <CodeBlock html={code.counts} />
-          </DocSubsection>
           <DocSubsection parentId="usage" id="disabled" title="Disabled">
             <Preview>
               <Preview.Canvas>
@@ -220,6 +219,7 @@ function ToggleGroupDoc() {
               sourceCode: code.sourceDefault,
               currentCode: code.toggleGroupDefaultComposition,
               compositionCode: code.toggleGroupDefaultComposition,
+              compositionCollapsedCode: code.toggleGroupDefaultCompositionBody,
               compositionPath: COMPOSITION_PATHS.Default,
               compositionSource: COMPOSITION_SOURCES.Default,
             },

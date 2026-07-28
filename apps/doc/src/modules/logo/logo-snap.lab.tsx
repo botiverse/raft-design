@@ -1,10 +1,5 @@
 import { useEffect, useId, useRef, useState, type RefObject } from "react";
-import {
-  animate,
-  stagger,
-  useReducedMotion,
-  type AnimationPlaybackControlsWithThen,
-} from "motion/react";
+import { animate, stagger, type AnimationPlaybackControlsWithThen } from "motion/react";
 import { Button, RaftWordmark } from "raft-ui";
 
 const SNAP_EASE = [0.55, 0, 1, 0.45] as const;
@@ -34,11 +29,12 @@ function waitForPaint() {
   });
 }
 
-export function LogoSnapLab() {
-  const reduceMotion = useReducedMotion();
-  const reduceMotionRef = useRef(reduceMotion);
-  reduceMotionRef.current = reduceMotion;
+// Read at playback time so an async run always honours the current preference.
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
+export function LogoSnapLab() {
   const topRef = useRef<SVGGElement>(null);
   const bottomRef = useRef<SVGGElement>(null);
   const markRef = useRef<HTMLDivElement>(null);
@@ -129,7 +125,7 @@ export function LogoSnapLab() {
         return;
       }
 
-      if (reduceMotionRef.current) {
+      if (prefersReducedMotion()) {
         await track(
           animate([
             [top, { y: "0%", rotate: 0 }, { duration: 0 }],
@@ -247,11 +243,16 @@ export function LogoSnapLab() {
   return (
     <div className="flex w-full flex-col items-center gap-10">
       <div className="relative flex min-h-[60vh] w-full items-center justify-center overflow-hidden rounded-xl bg-[oklch(0.97_0.01_95)]">
-        <div role="img" aria-label="Raft" className="relative aspect-[422/132] w-[min(72%,10rem)]">
+        <div
+          role="img"
+          aria-label="Raft"
+          data-playing={playing || undefined}
+          className="group/logo-snap relative aspect-[422/132] w-[min(72%,10rem)]"
+        >
           <div className="absolute top-1/2 left-0 z-10 aspect-[113/104] h-[78.8%] -translate-y-1/2">
             <div
               ref={markRef}
-              className="relative h-full w-full origin-center will-change-transform"
+              className="relative h-full w-full origin-center group-data-[playing]/logo-snap:will-change-transform"
             >
               <SnapMarkArtwork topRef={topRef} bottomRef={bottomRef} />
 
@@ -264,7 +265,7 @@ export function LogoSnapLab() {
               <div
                 ref={sparksRef}
                 aria-hidden
-                className="pointer-events-none absolute inset-0 origin-center will-change-transform"
+                className="pointer-events-none absolute inset-0 origin-center group-data-[playing]/logo-snap:will-change-transform"
               >
                 <ImpactBurst />
               </div>
@@ -274,7 +275,7 @@ export function LogoSnapLab() {
           <div className="absolute top-1/2 left-[24%] z-0 h-[78.8%] w-[76%] -translate-y-1/2 overflow-hidden">
             <div
               ref={wordmarkRef}
-              className="absolute top-0 left-[8.3%] h-full w-[91.7%] opacity-0 will-change-transform"
+              className="absolute top-0 left-[8.3%] h-full w-[91.7%] opacity-0 group-data-[playing]/logo-snap:will-change-transform"
               style={{ transform: "translateX(-108%)" }}
             >
               <RaftWordmark aria-hidden className="h-full w-full" />
@@ -315,7 +316,7 @@ function SnapMarkArtwork({
       <g
         ref={topRef}
         clipPath={`url(#${topClipId})`}
-        className="will-change-transform"
+        className="group-data-[playing]/logo-snap:will-change-transform"
         style={{
           transform: "translate(-10%, -62%) rotate(-3.5deg)",
           transformBox: "fill-box",
@@ -327,7 +328,7 @@ function SnapMarkArtwork({
       <g
         ref={bottomRef}
         clipPath={`url(#${bottomClipId})`}
-        className="will-change-transform"
+        className="group-data-[playing]/logo-snap:will-change-transform"
         style={{
           transform: "translate(10%, 62%) rotate(3.5deg)",
           transformBox: "fill-box",
@@ -380,7 +381,7 @@ function ImpactTriangle({ points }: { points: string }) {
     <g
       data-impact-shard
       opacity={0}
-      className="will-change-transform"
+      className="group-data-[playing]/logo-snap:will-change-transform"
       style={{
         transform: "scale(0.7)",
         transformBox: "fill-box",

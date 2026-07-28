@@ -7,13 +7,13 @@ export const SERVER_SWITCHER_MENU_COMPOSITION_PATH =
 
 export { ServerSwitcherMenuComposition };
 
-export const SERVER_SWITCHER_DEMO_SERVERS = [
+const SERVER_SWITCHER_DEMO_SERVERS = [
   { id: "raft", name: "Raft", slug: "raft" },
   { id: "design", name: "Design Guild", slug: "design" },
   { id: "oss", name: "Open Source", slug: "oss" },
 ] as const;
 
-export const SERVER_SWITCHER_DEMO_UNREAD_COUNTS = {
+const SERVER_SWITCHER_DEMO_UNREAD_COUNTS = {
   design: 4,
   oss: 12,
 } as const;

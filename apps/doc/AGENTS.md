@@ -35,6 +35,55 @@ Use `className` only for example layout and constraints such as preview width, g
 - Do not maintain route-local Current fixtures or hand-written JSX snippet strings that duplicate executable compositions.
 - Source-reference fixtures may remain separate when they intentionally preserve upstream/source DOM for comparison.
 
+## Displayed Code
+
+A code block is documentation a reader copies. What renders and what the reader is _shown_
+are two different things, and the gap between them is where this layer regresses.
+
+Pipeline for every `?raw` source: `stripSourceCodeBlocks` removes `@docs-source-strip` blocks,
+then `highlightSnippets` emits two entries — `id` (full) and `id + "Body"` (imports removed by
+`stripTopLevelImports`). `DocsCodeBlock.Content` shows the `Body` variant behind an
+"imports collapsed, click to expand" affordance **only when a collapsed variant is passed**.
+See `src/lib/highlight.tsx` and `src/lib/source-code.ts`.
+
+Invariants:
+
+- **Show the real API.** The displayed code must contain the `raft-ui` components the page
+  documents. If its only element is a docs-local `<XxxComposition />`, the reader learns
+  nothing — repoint the block at the file that holds the parts, or surface that file as a
+  `DocsCodeBlock.Files` tab. A part listed in the Parts table with no displayed usage anywhere
+  is a documentation gap.
+- **Collapse imports.** Any `?raw` block whose source has more than one top-level import line
+  must pass `collapsedHtml` / `collapsedCode` / `compositionCollapsedCode`. One import line or
+  fewer means `stripTopLevelImports` no-ops and no `Body` key exists, so passing one is dead
+  code — remove it instead. `createCompositionPanelProps` wires this automatically; a
+  route-local preview component must thread the prop through itself.
+- **Strip markers are line-anchored.** `// @docs-source-strip-start` / `-end` at statement
+  level, `{/* @docs-source-strip-start */}` / `{/* @docs-source-strip-end */}` inside JSX.
+  Each marker alone on its line, pairs balanced and at the same nesting level. The regexes
+  anchor with `^\s*` and the `m` flag, so a marker sharing a line with code silently fails to
+  strip and leaks scaffolding into the docs. Markers hide code from display; they never stop
+  it rendering.
+- **Nothing may dangle.** After stripping, no surviving line may reference an identifier whose
+  only definition was inside a stripped block. When hiding a definition would strand its
+  callers, extract it to a sibling module instead — an imported symbol reads fine once imports
+  are collapsed, an undefined one does not.
+- **Code must match its canvas.** The block under a preview must correspond to what renders
+  above it. Repointing a block at a "cleaner" file that renders something else trades one
+  defect for another.
+- **Literal over derived.** Prefer literal JSX to a fixture array plus `.map()`, and inline a
+  fixture when it _is_ the example's visible content. Gallery wrappers, per-example `<h3>`
+  labels and caption chips belong behind strip markers, not in the snippet.
+- **No demo narration.** Example copy is realistic product content. Text describing the demo
+  itself ("Source activity: online → …", "add enough messages that the viewport overflows")
+  never ships to a reader.
+- **Paths must resolve.** Every `compositionPath`, `currentPath` and `DocsCodeBlock.Files`
+  label names a file that exists.
+
+None of this is enforced by `vp check`, `vp test`, or React Doctor. **When you rewrite or
+restructure a module, re-verify these invariants for its route** — a structurally sound
+refactor silently drops them, which is exactly how they were lost before.
+
 ## Docs Routes
 
 `apps/doc/src/routes/components` owns thin page assembly only:
@@ -71,6 +120,12 @@ Otherwise render it disabled or use a non-interactive element. Static examples m
 - Is there exactly one executable Current composition?
 - Do routes import it from the module instead of copying it?
 - Does displayed code come from canonical `?raw` source where possible?
+- Does every code block show real `raft-ui` API rather than a docs-local wrapper?
+- Does every `?raw` block with more than one import line pass a collapsed variant, and does
+  every collapsed prop that is passed resolve to a real `Body` key?
+- Are `@docs-source-strip` pairs balanced, alone on their line, and in the right comment form,
+  with no identifier left dangling after stripping?
+- Does each code block correspond to the canvas above it?
 - Are component visuals owned by `packages/ui` rather than docs classes?
 - Are example interactions functional or explicitly disabled?
 - Do all preview overlays remain inside their theme/container boundary?

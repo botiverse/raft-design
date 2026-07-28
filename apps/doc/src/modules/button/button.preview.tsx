@@ -26,10 +26,9 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type ButtonPlaygroundPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function ButtonPlaygroundPreview({ code, collapsedCode }: ButtonPlaygroundPreviewProps) {
+export function ButtonPlaygroundPreview({ code }: ButtonPlaygroundPreviewProps) {
   const [variant, setVariant] = useState<NonNullable<ButtonProps["variant"]>>("default");
   const [size, setSize] = useState<NonNullable<ButtonProps["size"]>>("sm");
   const [label, setLabel] = useState("Button");
@@ -103,7 +102,7 @@ export function ButtonPlaygroundPreview({ code, collapsedCode }: ButtonPlaygroun
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

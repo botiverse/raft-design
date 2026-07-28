@@ -14,6 +14,8 @@ import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 import { FilesPanelDefaultComposition } from "#/modules/files/compositions/default.composition.tsx";
 import filesPanelDefaultCompositionSource from "#/modules/files/compositions/default.composition.tsx?raw";
+import { FilesPanelFileRowComposition } from "#/modules/files/compositions/file-row.composition.tsx";
+import filesPanelFileRowCompositionSource from "#/modules/files/compositions/file-row.composition.tsx?raw";
 import { FilesPanelFileTypesComposition } from "#/modules/files/compositions/file-types.composition.tsx";
 import filesPanelFileTypesCompositionSource from "#/modules/files/compositions/file-types.composition.tsx?raw";
 import filesPanelCompositionSource from "#/modules/files/compositions/files-panel.composition.tsx?raw";
@@ -80,6 +82,11 @@ const COMPOSITION_SOURCES = createCompositionSourceMap({
   defaultComposition: filesPanelDefaultCompositionSource,
   filesPanelComposition: filesPanelCompositionSource,
 } as const);
+
+const COMPOSITION_PATHS = {
+  defaultComposition: FILES_PANEL_DEFAULT_COMPOSITION_PATH,
+  filesPanelComposition: "apps/doc/src/modules/files/compositions/files-panel.composition.tsx",
+} as const;
 
 const SIMPLE_PART_PROPS = {
   filesPanel: [
@@ -210,6 +217,7 @@ export const Route = createFileRoute("/components/files")({
       data: {
         anatomy: ANATOMY,
         default: stripSourceCodeBlocks(filesPanelDefaultCompositionSource),
+        fileRow: stripSourceCodeBlocks(filesPanelFileRowCompositionSource),
         fileTypes: stripSourceCodeBlocks(filesPanelFileTypesCompositionSource),
         filesPanelComposition: COMPOSITION_SOURCES.filesPanelComposition,
         states: stripSourceCodeBlocks(filesPanelStatesCompositionSource),
@@ -244,10 +252,10 @@ function FilesPanelDoc() {
         <Preview previewClassName="items-stretch p-6">
           <Preview.Canvas>
             <div className="flex w-full justify-center">
-              <FilesPanelDefaultComposition />
+              <FilesPanelFileRowComposition />
             </div>
           </Preview.Canvas>
-          <Preview.Code html={code.default} />
+          <Preview.Code html={code.fileRow} collapsedHtml={code.fileRowBody} />
         </Preview>
       </DocSection>
 
@@ -268,7 +276,7 @@ function FilesPanelDoc() {
                   <FilesPanelFileTypesComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.fileTypes} />
+              <Preview.Code html={code.fileTypes} collapsedHtml={code.fileTypesBody} />
             </Preview>
           </DocSubsection>
 
@@ -277,22 +285,49 @@ function FilesPanelDoc() {
               <Preview.Canvas>
                 <FilesPanelStatesComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.states} />
+              <Preview.Code html={code.states} collapsedHtml={code.statesBody} />
             </Preview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="consumer-ownership" title="Actions and pagination">
+          <DocSubsection
+            parentId="usage"
+            id="consumer-ownership"
+            title="Advanced: actions and pagination"
+          >
             <DocNote>
               The package exposes structure and native event surfaces. The consumer decides how to
               preview, download, jump to the original message, fetch the next cursor, and render
-              loading or error states. The Preview composition keeps those actions observable
-              without introducing product stores or routing into raft-ui.
+              loading or error states. This advanced example keeps those actions observable without
+              introducing product stores or routing into raft-ui.
             </DocNote>
-            <DocsCodeBlock>
-              <DocsCodeBlock.Body>
-                <DocsCodeBlock.Content html={code.filesPanelComposition} />
-              </DocsCodeBlock.Body>
-            </DocsCodeBlock>
+            <Preview previewClassName="items-stretch p-6">
+              <Preview.Canvas>
+                <div className="flex w-full justify-center">
+                  <FilesPanelDefaultComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code
+                codeBlock={
+                  <DocsCodeBlock.Files
+                    collapsible={false}
+                    files={[
+                      {
+                        path: COMPOSITION_PATHS.defaultComposition,
+                        source: COMPOSITION_SOURCES.defaultComposition,
+                        html: code.default,
+                        collapsedHtml: code.defaultBody,
+                      },
+                      {
+                        path: COMPOSITION_PATHS.filesPanelComposition,
+                        source: COMPOSITION_SOURCES.filesPanelComposition,
+                        html: code.filesPanelComposition,
+                        collapsedHtml: code.filesPanelCompositionBody,
+                      },
+                    ]}
+                  />
+                }
+              />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>

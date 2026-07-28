@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { animate, useReducedMotion, type AnimationPlaybackControlsWithThen } from "motion/react";
+import { animate, type AnimationPlaybackControlsWithThen } from "motion/react";
 import { Button, RaftLogoLockup } from "raft-ui";
 
 const SWEEP_EASE = [0.76, 0, 0.24, 1] as const;
@@ -20,11 +20,12 @@ function waitForPaint() {
   });
 }
 
-export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineLabProps = {}) {
-  const reduceMotion = useReducedMotion();
-  const reduceMotionRef = useRef(reduceMotion);
-  reduceMotionRef.current = reduceMotion;
+// Read at playback time so an async run always honours the current preference.
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
+export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineLabProps = {}) {
   const logoRef = useRef<HTMLDivElement>(null);
   const sweepRef = useRef<HTMLDivElement>(null);
   const playIdRef = useRef(0);
@@ -63,7 +64,7 @@ export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineL
       ]);
 
       await waitForPaint();
-      if (!stillCurrent() || reduceMotionRef.current) {
+      if (!stillCurrent() || prefersReducedMotion()) {
         return;
       }
 
@@ -121,10 +122,14 @@ export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineL
         <div
           role="img"
           aria-label="Raft"
-          className="relative aspect-[422/104] w-[min(72%,10rem)]"
+          data-playing={playing || undefined}
+          className="group/logo-shine relative aspect-[422/104] w-[min(72%,10rem)]"
           style={shineStyle}
         >
-          <div ref={logoRef} className="h-full w-full will-change-[filter]">
+          <div
+            ref={logoRef}
+            className="h-full w-full group-data-[playing]/logo-shine:will-change-[filter]"
+          >
             <RaftLogoLockup aria-hidden className="h-full w-full" />
           </div>
 
@@ -144,7 +149,7 @@ export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineL
           >
             <div
               ref={sweepRef}
-              className="absolute inset-0 opacity-0 will-change-transform"
+              className="absolute inset-0 opacity-0 group-data-[playing]/logo-shine:will-change-transform"
               style={{ transform: "translateX(-80%)" }}
             >
               <div

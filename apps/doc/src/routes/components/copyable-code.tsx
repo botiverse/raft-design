@@ -49,16 +49,6 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  preview: `import {
-  CopyableCode,
-  CopyableCodeAction,
-  CopyableCodeRoot,
-} from "raft-ui";
-
-<CopyableCodeRoot>
-  <CopyableCode truncate>{connectCommand}</CopyableCode>
-  <CopyableCodeAction ariaLabel="Copy daemon command" />
-</CopyableCodeRoot>`,
   anatomy: `<CopyableCodeRoot>
   <CopyableCode />
   <CopyableCodeAction />
@@ -189,7 +179,25 @@ function CopyableCodeDoc() {
                 <CompactDetailCommandComposition />
               </div>
             </Preview.Canvas>
-            <Preview.Code html={code.preview} />
+            <Preview.Code
+              codeBlock={
+                <DocsCodeBlock.Files
+                  collapsible={false}
+                  files={[
+                    {
+                      path: COMPOSITION_PATHS.DialogSetupCommand,
+                      source: COMPOSITION_SOURCES.DialogSetupCommand,
+                      html: code.copyableCodeDialogSetupCommandComposition,
+                    },
+                    {
+                      path: COMPOSITION_PATHS.CompactDetailCommand,
+                      source: COMPOSITION_SOURCES.CompactDetailCommand,
+                      html: code.copyableCodeCompactDetailCommandComposition,
+                    },
+                  ]}
+                />
+              }
+            />
           </Preview>
         </div>
       </DocSection>

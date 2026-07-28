@@ -9,13 +9,12 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type AvatarPlaygroundPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
 const BADGE_OPTIONS = ["none", "dot", "status"] as const;
 type BadgeOption = (typeof BADGE_OPTIONS)[number];
 
-export function AvatarPlaygroundPreview({ code, collapsedCode }: AvatarPlaygroundPreviewProps) {
+export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) {
   const [size, setSize] = useState<NonNullable<AvatarProps["size"]>>("lg");
   const [type, setType] = useState<NonNullable<AvatarProps["type"]>>("agent");
   const [badge, setBadge] = useState<BadgeOption>("status");
@@ -68,7 +67,7 @@ export function AvatarPlaygroundPreview({ code, collapsedCode }: AvatarPlaygroun
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

@@ -1,5 +1,8 @@
-import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "raft-ui";
+
+// @docs-source-strip-start
+import { useState } from "react";
+// @docs-source-strip-end
 
 const RESET_MODE_OPTIONS = [
   {
@@ -19,32 +22,20 @@ const RESET_MODE_OPTIONS = [
   },
 ] as const;
 
-type RadioGroupResetModeCompositionProps = {
-  value?: string;
-  onValueChange?: (value: string) => void;
-  disabled?: boolean;
-};
-
-export function RadioGroupResetModeComposition({
+export function RadioGroupResetModeContent({
   value,
   onValueChange,
   disabled = false,
-}: RadioGroupResetModeCompositionProps) {
-  const [selectedValue, setSelectedValue] = useState(value ?? "restart");
-  const currentValue = value ?? selectedValue;
-
-  function handleValueChange(nextValue: string) {
-    if (value === undefined) {
-      setSelectedValue(nextValue);
-    }
-    onValueChange?.(nextValue);
-  }
-
+}: {
+  value: string;
+  onValueChange: (value: string) => void;
+  disabled?: boolean;
+}) {
   return (
     <RadioGroup
       ariaLabel="Restart mode"
-      value={currentValue}
-      onValueChange={handleValueChange}
+      value={value}
+      onValueChange={onValueChange}
       disabled={disabled}
       className="w-[22rem] max-w-full"
     >
@@ -60,3 +51,34 @@ export function RadioGroupResetModeComposition({
     </RadioGroup>
   );
 }
+
+// @docs-source-strip-start
+// Docs shell only: adds the uncontrolled fallback the docs route drives.
+// Use RadioGroupResetModeContent above for real usage.
+export function RadioGroupResetModeComposition({
+  value,
+  onValueChange,
+  disabled = false,
+}: {
+  value?: string;
+  onValueChange?: (value: string) => void;
+  disabled?: boolean;
+}) {
+  const [selectedValue, setSelectedValue] = useState(value ?? "restart");
+
+  function handleValueChange(nextValue: string) {
+    if (value === undefined) {
+      setSelectedValue(nextValue);
+    }
+    onValueChange?.(nextValue);
+  }
+
+  return (
+    <RadioGroupResetModeContent
+      value={value ?? selectedValue}
+      onValueChange={handleValueChange}
+      disabled={disabled}
+    />
+  );
+}
+// @docs-source-strip-end

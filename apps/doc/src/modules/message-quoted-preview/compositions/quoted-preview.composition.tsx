@@ -86,6 +86,7 @@ export function QuotedPreviewUnavailableComposition() {
   );
 }
 
+// @docs-source-strip-start
 export function QuotedPreviewFeedbackComposition() {
   return (
     <div className="grid gap-4">
@@ -103,3 +104,4 @@ export function MessageQuotedPreviewShowcaseComposition() {
     </div>
   );
 }
+// @docs-source-strip-end

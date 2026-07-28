@@ -29,7 +29,18 @@ const SNIPPETS = {
     <SegmentedControlCount />
   </SegmentedControlItem>
 </SegmentedControl>`,
-  filters: `<SegmentedControl
+  filters: `import { useState } from "react";
+import { AtSign, Inbox } from "lucide-react";
+import {
+  SegmentedControl,
+  SegmentedControlCount,
+  SegmentedControlItem,
+  SegmentedControlLabel,
+} from "raft-ui";
+
+const [filter, setFilter] = useState("all");
+
+<SegmentedControl
   ariaLabel="Filter messages"
   value={filter}
   onValueChange={setFilter}
@@ -64,8 +75,8 @@ const SNIPPETS = {
 </SegmentedControl>`,
   searchSort: `<SegmentedControl
   ariaLabel="Sort search results"
-  value={sort}
-  onValueChange={setSort}
+  value={searchSort}
+  onValueChange={setSearchSort}
 >
   <SegmentedControlItem value="relevance">
     <SegmentedControlLabel>Relevant</SegmentedControlLabel>
@@ -160,7 +171,7 @@ function SegmentedControlDoc() {
           <Preview.Canvas>
             <SegmentedControlFiltersExample />
           </Preview.Canvas>
-          <Preview.Code html={code.filters} />
+          <Preview.Code html={code.filters} collapsedHtml={code.filtersBody} />
         </Preview>
       </DocSection>
 
@@ -184,7 +195,7 @@ function SegmentedControlDoc() {
               <Preview.Canvas>
                 <SegmentedControlFiltersExample />
               </Preview.Canvas>
-              <Preview.Code html={code.filters} />
+              <Preview.Code html={code.filters} collapsedHtml={code.filtersBody} />
             </Preview>
           </DocSubsection>
 

@@ -335,13 +335,7 @@ export const Route = createFileRoute("/components/status")({
     }),
 });
 
-function StatusPreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function StatusPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [variant, setVariant] = useState<NonNullable<StatusProps["variant"]>>("success");
   const [size, setSize] = useState<NonNullable<StatusProps["size"]>>("md");
   const [pulse, setPulse] = useState(false);
@@ -421,7 +415,7 @@ function StatusPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -444,7 +438,7 @@ function StatusDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <StatusPreview code={code.preview} collapsedCode={code.previewBody} />
+        <StatusPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -535,7 +529,7 @@ function StatusDoc() {
                   />
                 </span>
               </Preview.Canvas>
-              <Preview.Code html={code.contentGlow} />
+              <Preview.Code html={code.contentGlow} collapsedHtml={code.contentGlowBody} />
             </Preview>
           </DocSubsection>
 

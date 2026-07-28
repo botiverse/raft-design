@@ -10,7 +10,7 @@ import { ContextMenuSourceSelectionMenuPreview } from "./source-comparison/selec
 import { ContextMenuSourceSidebarMenuPreview } from "./source-comparison/sidebar-menu.source.tsx";
 
 export const CONTEXT_MENU_COMPOSITION_PATH =
-  "apps/doc/src/compositions/context-menu-composition.tsx" as const;
+  "apps/doc/src/modules/context-menu/context-menu.composition.tsx" as const;
 
 export {
   ContextMenuCompositionPreview,

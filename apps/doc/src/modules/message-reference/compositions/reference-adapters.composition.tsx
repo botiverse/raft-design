@@ -1,13 +1,7 @@
 import type { ReactNode } from "react";
-import { AtSign, Link as LinkIcon, MessageSquareText } from "lucide-react";
-import { PreviewCard, PreviewCardContent, PreviewCardTrigger, Spinner } from "raft-ui";
-import {
-  MessageReferenceChip,
-  MessageReferenceLabel,
-  MessageReferenceMeta,
-  MessageReferencePending,
-  MessageReferenceText,
-} from "raft-ui/wip";
+import { AtSign, MessageSquareText } from "lucide-react";
+import { PreviewCard, PreviewCardContent, PreviewCardTrigger } from "raft-ui";
+import { MessageReferenceChip, MessageReferenceLabel, MessageReferenceText } from "raft-ui/wip";
 
 type MessageReferenceCompositionProps = {
   children: ReactNode;
@@ -101,49 +95,5 @@ export function MessageTargetReferenceComposition({
       <MessageSquareText size={12} />
       <MessageReferenceLabel>{label}</MessageReferenceLabel>
     </MessageReferenceChip>
-  );
-}
-
-export function MessagePermalinkReferenceComposition({
-  children,
-  external,
-  href,
-  meta = "msg",
-}: MessageReferenceCompositionProps & { external?: boolean; meta?: ReactNode }) {
-  return (
-    <MessageReferenceChip
-      variant={external ? "link" : "muted"}
-      render={
-        <a
-          href={href}
-          rel={external ? "noreferrer" : undefined}
-          target={external ? "_blank" : undefined}
-        />
-      }
-    >
-      <LinkIcon />
-      <MessageReferenceLabel>{children}</MessageReferenceLabel>
-      <MessageReferenceMeta>{meta}</MessageReferenceMeta>
-    </MessageReferenceChip>
-  );
-}
-
-export function MessageReferenceLoadingComposition({ children }: { children: ReactNode }) {
-  return (
-    <MessageReferencePending>
-      {children}
-      <Spinner size="xs" />
-    </MessageReferencePending>
-  );
-}
-
-export function MessageUnavailableReferencesComposition() {
-  return (
-    <p>
-      Unknown channel, task, and authority-unavailable thread references fall back to plain text:{" "}
-      <span>#404</span>, <span>task #999</span>, and <span>#release-notes:unknown</span>. Only a
-      resolved thread token whose route parent later disappeared keeps a non-link info chip:{" "}
-      <MessageReferenceChip variant="info">#release-notes:missing-parent</MessageReferenceChip>.
-    </p>
   );
 }

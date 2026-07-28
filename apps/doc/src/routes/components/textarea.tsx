@@ -311,7 +311,7 @@ function TextareaDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <TextareaPreview code={code.preview} collapsedCode={code.previewBody} />
+        <TextareaPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

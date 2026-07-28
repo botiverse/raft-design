@@ -400,11 +400,17 @@ import { Check } from "lucide-react";
   ))}
   <AvatarGroupCount size="sm">+3</AvatarGroupCount>
 </AvatarGroup>`,
-  sizes: `{(["xl", "lg", "md", "sm", "xs", "2xs", "3xs"] as const).map((size, index) => (
-  <Avatar key={size} size={size} type="agent">
-    <AvatarImage src={avatarPhotoUrls[index % avatarPhotoUrls.length]} alt="" />
-    <AvatarFallback />
-  </Avatar>
+  sizes: `{sizes.map(({ size, context, px }, index) => (
+  <div key={size} className="flex flex-col items-center gap-1.5">
+    <Avatar size={size} type="agent">
+      <AvatarImage src={avatarPhotoUrls[index % avatarPhotoUrls.length]} alt="" />
+      <AvatarFallback />
+    </Avatar>
+    <span className="font-mono text-black/70 text-xs">{size}</span>
+    <span className="text-[10px] text-black/40">
+      {context} · {px}px
+    </span>
+  </div>
 ))}`,
   migrationSizes: `// Source contexts collapsed into public sizes:
 <Avatar size="xl" type="agent" />  // profile-tile
@@ -557,10 +563,7 @@ function AvatarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <AvatarPlaygroundPreview
-          code={code.avatarPreviewComposition}
-          collapsedCode={code.avatarPreviewCompositionBody}
-        />
+        <AvatarPlaygroundPreview code={code.avatarPreviewComposition} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -652,7 +655,7 @@ function AvatarDoc() {
                   ))}
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.badge} />
+              <Preview.Code html={code.badge} collapsedHtml={code.badgeBody} />
             </Preview>
           </DocSubsection>
 

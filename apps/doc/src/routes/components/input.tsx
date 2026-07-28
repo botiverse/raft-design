@@ -309,10 +309,7 @@ function InputDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <InputPlaygroundPreview
-          code={code.inputPreviewComposition}
-          collapsedCode={code.inputPreviewCompositionBody}
-        />
+        <InputPlaygroundPreview code={code.inputPreviewComposition} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

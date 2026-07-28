@@ -14,49 +14,14 @@ import {
 } from "raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
+import type { ReorderAttachment } from "./composer-attachments-reorder.types.ts";
 
-export type ReorderAttachment = {
-  id: string;
-  kind: "image" | "file";
-  name: string;
-};
-
-export const WRAP_REORDER_ATTACHMENTS: readonly ReorderAttachment[] = [
-  { id: "shot", kind: "image", name: "screenshot.png" },
-  { id: "mood", kind: "image", name: "moodboard.png" },
-  { id: "release", kind: "file", name: "release-notes.pdf" },
-  { id: "design", kind: "file", name: "design-spec.pdf" },
-  { id: "research", kind: "file", name: "research-notes.pdf" },
-  { id: "api", kind: "file", name: "api-contract.pdf" },
-  { id: "brief", kind: "file", name: "product-brief.pdf" },
-  { id: "audit", kind: "file", name: "audit-log.pdf" },
-  { id: "plan", kind: "file", name: "rollout-plan.pdf" },
-  { id: "qa", kind: "file", name: "qa-checklist.pdf" },
-];
-
-export const SCROLL_REORDER_ATTACHMENTS: readonly ReorderAttachment[] = [
-  { id: "shot", kind: "image", name: "screenshot.png" },
-  { id: "release", kind: "file", name: "release-notes.pdf" },
-  { id: "design", kind: "file", name: "design-spec.pdf" },
-  { id: "research", kind: "file", name: "research-notes.pdf" },
-  { id: "api", kind: "file", name: "api-contract.pdf" },
-  { id: "brief", kind: "file", name: "product-brief.pdf" },
-  { id: "audit", kind: "file", name: "audit-log.pdf" },
-  { id: "plan", kind: "file", name: "rollout-plan.pdf" },
-  { id: "qa", kind: "file", name: "qa-checklist.pdf" },
-  { id: "notes", kind: "file", name: "meeting-notes.pdf" },
-];
-
-export function reorderAttachmentsByIds(
-  items: readonly ReorderAttachment[],
-  nextIds: readonly string[],
-): ReorderAttachment[] {
-  const byId = new Map(items.map((item) => [item.id, item]));
-  return nextIds.flatMap((id) => {
-    const item = byId.get(id);
-    return item ? [item] : [];
-  });
-}
+export type { ReorderAttachment };
+export {
+  SCROLL_REORDER_ATTACHMENTS,
+  WRAP_REORDER_ATTACHMENTS,
+} from "./composer-attachments-reorder.constants.ts";
+export { reorderAttachmentsByIds } from "./reorder-attachments-by-ids.ts";
 
 export function ReorderAttachmentTile({
   attachment,

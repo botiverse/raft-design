@@ -10,13 +10,9 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type InputGroupPlaygroundPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function InputGroupPlaygroundPreview({
-  code,
-  collapsedCode,
-}: InputGroupPlaygroundPreviewProps) {
+export function InputGroupPlaygroundPreview({ code }: InputGroupPlaygroundPreviewProps) {
   const [addonVariant, setAddonVariant] = useState<(typeof ADDON_VARIANTS)[number]>("container");
   const [disabled, setDisabled] = useState(false);
   const [invalid, setInvalid] = useState(false);
@@ -72,7 +68,7 @@ export function InputGroupPlaygroundPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

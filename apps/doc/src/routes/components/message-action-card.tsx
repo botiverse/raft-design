@@ -71,11 +71,19 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
+function UsagePreview({
+  children,
+  code,
+  collapsedCode,
+}: {
+  children: ReactNode;
+  code: ReactNode;
+  collapsedCode?: ReactNode;
+}) {
   return (
     <Preview previewClassName="items-stretch">
       <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code html={code} />
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
     </Preview>
   );
 }
@@ -101,7 +109,10 @@ function MessageActionCardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.actionCardComparison}>
+        <UsagePreview
+          code={code.actionCardComparison}
+          collapsedCode={code.actionCardComparisonBody}
+        >
           <ActionCardMessageComposition />
         </UsagePreview>
       </DocSection>
@@ -136,6 +147,7 @@ function MessageActionCardDoc() {
               elegant: <ActionCardMessageComposition />,
               elegantDark: <ActionCardMessageComposition />,
               compositionCode: code.actionCardComparison,
+              compositionCollapsedCode: code.actionCardComparisonBody,
               compositionPath:
                 "apps/doc/src/modules/message-action-card/compositions/action-card-message.composition.tsx",
               compositionSource: actionCardComparisonSource,

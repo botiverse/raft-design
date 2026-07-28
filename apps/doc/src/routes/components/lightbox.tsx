@@ -1,24 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import {
-  Button,
-  Lightbox,
-  LightboxClose,
-  LightboxContent,
-  LightboxInfoActions,
-  LightboxInfoBar,
-  LightboxInfoDock,
-  LightboxInfoTitle,
-  LightboxMedia,
-  LightboxNavigationButton,
-  LightboxStage,
-  LightboxThumbnail,
-  LightboxThumbnailStrip,
-  LightboxTitle,
-  LightboxTrigger,
-} from "raft-ui";
-import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
-import { useCallback, useEffect, useEffectEvent, useState, type ReactNode } from "react";
+import { Download, X } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -36,6 +19,8 @@ import attachmentPreviewShellCompositionSource from "#/modules/lightbox/composit
 import { AttachmentPreviewShellComposition } from "#/modules/lightbox/compositions/attachment-preview-shell.composition.tsx";
 import imageLightboxShellCompositionSource from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx?raw";
 import { ImageLightboxShellComposition } from "#/modules/lightbox/compositions/image-lightbox-shell.composition.tsx";
+import lightboxPreviewSource from "#/modules/lightbox/lightbox.preview.tsx?raw";
+import { LightboxPreview } from "#/modules/lightbox/lightbox.preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -45,80 +30,7 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-const DEMO_IMAGES = [
-  {
-    filename: "product-shot.png",
-    src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1440&q=80",
-    thumb:
-      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=160&q=80",
-  },
-  {
-    filename: "ui.png",
-    src: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1440&q=80",
-    thumb:
-      "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=160&q=80",
-  },
-  {
-    filename: "release-card-final-approved-for-directory-cover.png",
-    src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1440&q=80",
-    thumb:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=160&q=80",
-  },
-  {
-    filename: "design-system-token-migration-before-after-comparison-v3.png",
-    src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1440&q=80",
-    thumb:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=160&q=80",
-  },
-  {
-    filename: "status-board.png",
-    src: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1440&q=80",
-    thumb:
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=160&q=80",
-  },
-] as const;
-
 const SNIPPETS = {
-  preview: `import { Button } from "raft-ui";
-import {
-  Lightbox,
-  LightboxClose,
-  LightboxContent,
-  LightboxInfoActions,
-  LightboxInfoBar,
-  LightboxInfoDock,
-  LightboxInfoTitle,
-  LightboxMedia,
-  LightboxStage,
-  LightboxTitle,
-  LightboxTrigger,
-} from "raft-ui";
-import { Download, X } from "lucide-react";
-
-<Lightbox>
-  <LightboxTrigger render={<Button variant="default" />}>
-    Open lightbox
-  </LightboxTrigger>
-  <LightboxContent>
-    <LightboxTitle className="sr-only">product-shot.png</LightboxTitle>
-    <LightboxClose aria-label="Close">
-      <X />
-    </LightboxClose>
-    <LightboxStage>
-      <LightboxMedia render={<img src={url} alt="" />} />
-      <LightboxInfoDock>
-        <LightboxInfoBar>
-          <LightboxInfoTitle>product-shot.png</LightboxInfoTitle>
-          <LightboxInfoActions>
-            <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
-              <Download />
-            </Button>
-          </LightboxInfoActions>
-        </LightboxInfoBar>
-      </LightboxInfoDock>
-    </LightboxStage>
-  </LightboxContent>
-</Lightbox>`,
   anatomy: `<Lightbox>
   <LightboxTrigger />
   <LightboxContent>
@@ -390,7 +302,10 @@ const TITLE_PROPS: readonly PropRow[] = [
 ];
 export const Route = createFileRoute("/components/lightbox")({
   component: LightboxDoc,
-  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...LIGHTBOX_COMPOSITION_SNIPPETS } }),
+  loader: () =>
+    highlightSnippets({
+      data: { ...SNIPPETS, preview: lightboxPreviewSource, ...LIGHTBOX_COMPOSITION_SNIPPETS },
+    }),
 });
 
 function LightboxDoc() {
@@ -405,9 +320,9 @@ function LightboxDoc() {
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview>
           <Preview.Canvas>
-            <LightboxPreviewDemo />
+            <LightboxPreview />
           </Preview.Canvas>
-          <Preview.Code html={code.preview} />
+          <Preview.Code html={code.preview} collapsedHtml={code.previewBody} />
         </Preview>
       </DocSection>
 
@@ -426,7 +341,10 @@ function LightboxDoc() {
               <Preview.Canvas>
                 <ImageLightboxShellComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.lightboxImageLightboxShellComposition} />
+              <Preview.Code
+                html={code.lightboxImageLightboxShellComposition}
+                collapsedHtml={code.lightboxImageLightboxShellCompositionBody}
+              />
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="attachment-shell" title="Attachment shell">
@@ -434,7 +352,10 @@ function LightboxDoc() {
               <Preview.Canvas>
                 <AttachmentPreviewShellComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.lightboxAttachmentPreviewShellComposition} />
+              <Preview.Code
+                html={code.lightboxAttachmentPreviewShellComposition}
+                collapsedHtml={code.lightboxAttachmentPreviewShellCompositionBody}
+              />
             </Preview>
           </DocSubsection>
         </div>
@@ -526,104 +447,6 @@ function LightboxDoc() {
         />
       </DocSection>
     </DocPage>
-  );
-}
-
-function LightboxPreviewDemo() {
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [imageIndex, setImageIndex] = useState(0);
-  const currentImage = DEMO_IMAGES[imageIndex];
-  const isFirstImage = imageIndex === 0;
-  const isLastImage = imageIndex === DEMO_IMAGES.length - 1;
-
-  const updateLightboxOpen = useCallback((nextOpen: boolean) => {
-    setLightboxOpen(nextOpen);
-    if (!nextOpen) {
-      setImageIndex(0);
-    }
-  }, []);
-
-  const showPreviousImage = useCallback(() => {
-    setImageIndex((current) => Math.max(0, current - 1));
-  }, []);
-
-  const showNextImage = useCallback(() => {
-    setImageIndex((current) => Math.min(DEMO_IMAGES.length - 1, current + 1));
-  }, []);
-
-  const switchImageWithArrowKey = useEffectEvent((event: KeyboardEvent) => {
-    if (event.key === "ArrowLeft" && !isFirstImage) {
-      showPreviousImage();
-    } else if (event.key === "ArrowRight" && !isLastImage) {
-      showNextImage();
-    }
-  });
-
-  useEffect(() => {
-    if (!lightboxOpen) return;
-
-    document.addEventListener("keydown", switchImageWithArrowKey);
-    return () => document.removeEventListener("keydown", switchImageWithArrowKey);
-  }, [lightboxOpen]);
-
-  return (
-    <Lightbox open={lightboxOpen} onOpenChange={updateLightboxOpen}>
-      <LightboxTrigger render={<Button variant="default" />}>Open lightbox</LightboxTrigger>
-      <LightboxContent data-testid="lightbox-demo">
-        <LightboxTitle className="sr-only">{currentImage.filename}</LightboxTitle>
-        <LightboxClose aria-label="Close">
-          <X />
-        </LightboxClose>
-        <LightboxStage data-testid="image-lightbox-stage">
-          <LightboxNavigationButton
-            direction="previous"
-            disabled={isFirstImage}
-            aria-label="Previous image"
-            onClick={showPreviousImage}
-          >
-            <ChevronLeft />
-          </LightboxNavigationButton>
-          <LightboxNavigationButton
-            direction="next"
-            disabled={isLastImage}
-            aria-label="Next image"
-            onClick={showNextImage}
-          >
-            <ChevronRight />
-          </LightboxNavigationButton>
-          <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center">
-            <img
-              src={currentImage.src}
-              alt={currentImage.filename}
-              className="size-full object-cover"
-              draggable={false}
-            />
-          </LightboxMedia>
-          <LightboxInfoDock>
-            <LightboxInfoBar>
-              <LightboxInfoTitle>{currentImage.filename}</LightboxInfoTitle>
-              <LightboxInfoActions>
-                <Button type="button" variant="ghost" size="icon-sm" aria-label="Download">
-                  <Download />
-                </Button>
-              </LightboxInfoActions>
-            </LightboxInfoBar>
-          </LightboxInfoDock>
-          <LightboxThumbnailStrip>
-            {DEMO_IMAGES.map((image, index) => (
-              <LightboxThumbnail
-                key={image.filename}
-                active={index === imageIndex}
-                aria-label={`Show ${image.filename}`}
-                onClick={() => setImageIndex(index)}
-              >
-                <img src={image.thumb} alt="" draggable={false} />
-              </LightboxThumbnail>
-            ))}
-          </LightboxThumbnailStrip>
-        </LightboxStage>
-      </LightboxContent>
-    </Lightbox>
   );
 }
 

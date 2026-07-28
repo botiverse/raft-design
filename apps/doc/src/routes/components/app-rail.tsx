@@ -11,10 +11,12 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { AppRailComposition } from "#/modules/app-rail/app-rail.composition.tsx";
 import appRailCompositionSource from "#/modules/app-rail/app-rail.composition.tsx?raw";
+import appRailServerButtonSource from "#/modules/app-rail/app-rail-server-button.tsx?raw";
 import { SourceAppRailPreview } from "#/modules/app-rail/app-rail.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/modules/app-rail/app-rail.composition.tsx";
+const APP_RAIL_SERVER_BUTTON_PATH = "apps/doc/src/modules/app-rail/app-rail-server-button.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -25,6 +27,7 @@ const TOC = [
 
 const SNIPPETS = {
   appRailComposition: appRailCompositionSource,
+  appRailServerButton: appRailServerButtonSource,
   anatomy: `<AppShellRailSlot>
   <AppRailRoot>
     <AppRailHeader>
@@ -234,10 +237,7 @@ function AppRailDoc() {
               </PreviewThemeScope>
             </div>
           </Preview.Canvas>
-          <Preview.Code
-            html={code.appRailComposition}
-            collapsedHtml={code.appRailCompositionBody}
-          />
+          <Preview.Code codeBlock={<AppRailSourceFiles code={code} collapsible={false} />} />
         </Preview>
       </DocSection>
 
@@ -317,15 +317,39 @@ function AppRailDoc() {
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
-        <DocsCodeBlock.Panel
-          path={APP_RAIL_COMPOSITION_PATH}
-          source={appRailCompositionSource}
-          html={code.appRailComposition}
-          collapsedHtml={code.appRailCompositionBody}
-          showLineNumbers={false}
-        />
+        <AppRailSourceFiles code={code} />
       </DocSection>
     </DocPage>
+  );
+}
+
+/** Composition plus the app-owned server-switcher chrome it renders in the rail header. */
+function AppRailSourceFiles({
+  code,
+  collapsible = true,
+}: {
+  code: Record<string, string>;
+  collapsible?: boolean;
+}) {
+  return (
+    <DocsCodeBlock.Files
+      collapsible={collapsible}
+      showLineNumbers={false}
+      files={[
+        {
+          path: APP_RAIL_COMPOSITION_PATH,
+          source: appRailCompositionSource,
+          html: code.appRailComposition,
+          collapsedHtml: code.appRailCompositionBody,
+        },
+        {
+          path: APP_RAIL_SERVER_BUTTON_PATH,
+          source: appRailServerButtonSource,
+          html: code.appRailServerButton,
+          collapsedHtml: code.appRailServerButtonBody,
+        },
+      ]}
+    />
   );
 }
 

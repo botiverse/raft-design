@@ -107,7 +107,7 @@ function ScrollAreaDoc() {
               <ScrollAreaBasicComposition />
             </div>
           </Preview.Canvas>
-          <Preview.Code html={code.basic} />
+          <Preview.Code html={code.basic} collapsedHtml={code.basicBody} />
         </Preview>
       </DocSection>
 
@@ -127,7 +127,7 @@ function ScrollAreaDoc() {
                 <ScrollAreaBothAxesComposition />
               </div>
             </Preview.Canvas>
-            <Preview.Code html={code.bothAxes} />
+            <Preview.Code html={code.bothAxes} collapsedHtml={code.bothAxesBody} />
           </Preview>
         </DocSubsection>
       </DocSection>

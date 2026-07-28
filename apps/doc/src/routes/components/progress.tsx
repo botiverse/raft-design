@@ -114,24 +114,40 @@ const SNIPPETS = {
   </ProgressTrack>
 </Progress>`,
   variants: `<Progress value={64} variant="primary">
+  <ProgressHeader>
+    <ProgressLabel>primary</ProgressLabel>
+    <ProgressValue />
+  </ProgressHeader>
   <ProgressTrack>
     <ProgressIndicator />
   </ProgressTrack>
 </Progress>
 
 <Progress value={64} variant="success">
+  <ProgressHeader>
+    <ProgressLabel>success</ProgressLabel>
+    <ProgressValue />
+  </ProgressHeader>
   <ProgressTrack>
     <ProgressIndicator />
   </ProgressTrack>
 </Progress>
 
 <Progress value={64} variant="warning">
+  <ProgressHeader>
+    <ProgressLabel>warning</ProgressLabel>
+    <ProgressValue />
+  </ProgressHeader>
   <ProgressTrack>
     <ProgressIndicator />
   </ProgressTrack>
 </Progress>
 
 <Progress value={64} variant="danger">
+  <ProgressHeader>
+    <ProgressLabel>danger</ProgressLabel>
+    <ProgressValue />
+  </ProgressHeader>
   <ProgressTrack>
     <ProgressIndicator />
   </ProgressTrack>

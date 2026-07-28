@@ -1,20 +1,7 @@
-import { RadioGroupReferralSourceComposition } from "./compositions/referral-source.composition.tsx";
-import { RadioGroupReferralSourceRestoredComposition } from "./compositions/referral-source-restored.composition.tsx";
-import { RadioGroupResetModeComposition } from "./compositions/reset-mode.composition.tsx";
-import { RadioGroupResetModeRestoredComposition } from "./compositions/reset-mode-restored.composition.tsx";
-
 export { RadioGroupReferralSourcePreview } from "./source-comparison/referral-source.source.tsx";
 export { RadioGroupResetModeSourcePreview } from "./source-comparison/reset-mode.source.tsx";
 
-export const RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS = {
-  ReferralSource:
-    "apps/doc/src/modules/radio-group/compositions/referral-source-restored.composition.tsx",
-  ResetMode: "apps/doc/src/modules/radio-group/compositions/reset-mode-restored.composition.tsx",
-} as const;
-
-export const RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION = {
-  ReferralSource: RadioGroupReferralSourceComposition,
-  ReferralSourceRestored: RadioGroupReferralSourceRestoredComposition,
-  ResetMode: RadioGroupResetModeComposition,
-  ResetModeRestored: RadioGroupResetModeRestoredComposition,
-} as const;
+export {
+  RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION,
+  RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
+} from "./radio-group.source-comparison.constants.ts";

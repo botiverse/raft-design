@@ -9,13 +9,18 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import taskCardComparisonCompositionSource from "#/modules/task-card/compositions/task-card-comparison.composition.tsx?raw";
 import { TaskCardPanelComparisonComposition } from "#/modules/task-card/compositions/task-card-panel-comparison.composition.tsx";
-import taskCardPanelComparisonSource from "#/modules/task-card/compositions/task-card-panel-comparison.composition.tsx?raw";
-import { TaskCardStateMatrixComposition } from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx";
 import taskCardStateMatrixCompositionSource from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx?raw";
+import taskStatusSelectCompositionSource from "#/modules/task-card/compositions/task-status-select.composition.tsx?raw";
+import taskCardCompositionSource from "#/modules/task-card/compositions/task-card.composition.tsx?raw";
+import { TaskCardStateGallery } from "#/modules/task-card/task-card-state-gallery.tsx";
 import { TaskCardPanelSourceComparisonComposition } from "#/modules/task-card/task-card.source-comparison.tsx";
 import { TaskCardPlaygroundPreview } from "#/modules/task-card/task-card.preview.tsx";
+
+const TASK_CARD_COMPOSITION_PATH =
+  "apps/doc/src/modules/task-card/compositions/task-card.composition.tsx";
+const TASK_STATUS_SELECT_COMPOSITION_PATH =
+  "apps/doc/src/modules/task-card/compositions/task-status-select.composition.tsx";
 
 const ANATOMY_SNIPPET = `<TaskCard>
   <TaskCardMeta>
@@ -178,8 +183,8 @@ export const Route = createFileRoute("/components/task-card")({
     highlightSnippets({
       data: {
         anatomy: ANATOMY_SNIPPET,
-        comparison: taskCardComparisonCompositionSource,
-        panelComparison: taskCardPanelComparisonSource,
+        card: taskCardCompositionSource,
+        statusSelect: taskStatusSelectCompositionSource,
         states: taskCardStateMatrixCompositionSource,
       },
     }),
@@ -208,7 +213,29 @@ function TaskCardDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <TaskCardPlaygroundPreview code={code.comparison} />
+        <TaskCardPlaygroundPreview
+          code={code.card}
+          collapsedCode={code.cardBody}
+          codeBlock={
+            <DocsCodeBlock.Files
+              collapsible={false}
+              files={[
+                {
+                  path: TASK_CARD_COMPOSITION_PATH,
+                  source: taskCardCompositionSource,
+                  html: code.card,
+                  collapsedHtml: code.cardBody,
+                },
+                {
+                  path: TASK_STATUS_SELECT_COMPOSITION_PATH,
+                  source: taskStatusSelectCompositionSource,
+                  html: code.statusSelect,
+                  collapsedHtml: code.statusSelectBody,
+                },
+              ]}
+            />
+          }
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -223,9 +250,9 @@ function TaskCardDoc() {
         <DocSubsection parentId="usage" id="states" title="States">
           <Preview previewClassName="items-stretch">
             <Preview.Canvas>
-              <TaskCardStateMatrixComposition />
+              <TaskCardStateGallery />
             </Preview.Canvas>
-            <Preview.Code html={code.states} />
+            <Preview.Code html={code.states} collapsedHtml={code.statesBody} />
           </Preview>
         </DocSubsection>
       </DocSection>
@@ -272,7 +299,14 @@ function TaskCardDoc() {
             {
               label: "Channel task card",
               status: "review",
-              note: "Source is a static channel-scoped TaskCard DOM fixture. Brutal, Elegant Light, and Elegant Dark run the canonical panel composition with consumer-owned actions.",
+              note: (
+                <>
+                  Source is a static channel-scoped TaskCard DOM fixture. Brutal, Elegant Light, and
+                  Elegant Dark run the canonical composition below with <code>showChannelName</code>{" "}
+                  (hence the <code>#proj-uiux</code> line), wrapped in docs-local{" "}
+                  <code>TaskCardPanel</code> chrome that mirrors the source panel surface.
+                </>
+              ),
               sourceScenes: SOURCE_SCENES,
               source: (
                 <SourceThemeScope className="w-full">
@@ -282,10 +316,10 @@ function TaskCardDoc() {
               brutal: <TaskCardPanelComparisonComposition />,
               elegant: <TaskCardPanelComparisonComposition />,
               elegantDark: <TaskCardPanelComparisonComposition />,
-              compositionCode: code.panelComparison,
-              compositionPath:
-                "apps/doc/src/modules/task-card/compositions/task-card-panel-comparison.composition.tsx",
-              compositionSource: taskCardPanelComparisonSource,
+              compositionCode: code.card,
+              compositionCollapsedCode: code.cardBody,
+              compositionPath: TASK_CARD_COMPOSITION_PATH,
+              compositionSource: taskCardCompositionSource,
               previewClassName: "items-stretch",
             },
           ]}

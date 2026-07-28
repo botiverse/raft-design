@@ -9,8 +9,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { DrawerNestedCloseCallbackComposition } from "#/modules/drawer/compositions/nested-close-callback.composition.tsx";
 import nestedCloseCallbackCompositionSource from "#/modules/drawer/compositions/nested-close-callback.composition.tsx?raw";
-import pwaInstallCompositionSource from "#/modules/drawer/compositions/pwa-install-drawer.composition.tsx?raw";
-import pwaInstallOtherCompositionSource from "#/modules/drawer/compositions/pwa-install-other-drawer.composition.tsx?raw";
+import pwaInstallDrawerSource from "#/modules/drawer/compositions/pwa-install-drawer-base.tsx?raw";
 import { DrawerResponsivePlacementComposition } from "#/modules/drawer/compositions/responsive-placement.composition.tsx";
 import responsivePlacementCompositionSource from "#/modules/drawer/compositions/responsive-placement.composition.tsx?raw";
 import { DrawerSnapPointsComposition } from "#/modules/drawer/compositions/snap-points.composition.tsx";
@@ -163,8 +162,7 @@ const SNIPPETS = {
   listenNestedCloseMemberDetails: memberDetailsDrawerSource,
   listenNestedCloseRemoveMember: removeMemberDrawerSource,
   listenNestedCloseWorkspaceSettings: workspaceSettingsDrawerSource,
-  pwaInstall: pwaInstallCompositionSource,
-  pwaInstallOther: pwaInstallOtherCompositionSource,
+  pwaInstall: pwaInstallDrawerSource,
   sourceAdaptive: SOURCE_ADAPTIVE,
   sourceAdaptiveOther: SOURCE_ADAPTIVE_OTHER,
   sourceDrawer: SOURCE_DRAWER,
@@ -308,17 +306,12 @@ function DrawerDoc() {
               ))}
             </div>
           </Preview.Canvas>
-          <Preview.Code html={code.leaveChannel} />
+          <Preview.Code html={code.leaveChannel} collapsedHtml={code.leaveChannelBody} />
         </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock.Panel
-          path="drawer"
-          source={ANATOMY}
-          html={code.anatomy}
-          collapsedHtml={code.anatomyBody}
-        />
+        <DocsCodeBlock.Panel path="drawer" source={ANATOMY} html={code.anatomy} />
       </DocSection>
 
       <DocSection id="usage" title="Usage">
@@ -334,7 +327,7 @@ function DrawerDoc() {
                   <DrawerSnapPointsComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.usageSnapPoints} />
+              <Preview.Code html={code.usageSnapPoints} collapsedHtml={code.usageSnapPointsBody} />
             </Preview>
           </DocSubsection>
 
@@ -362,21 +355,25 @@ function DrawerDoc() {
                         path: "nested-close-callback.composition.tsx",
                         source: nestedCloseCallbackCompositionSource,
                         html: code.listenNestedCloseComposition,
+                        collapsedHtml: code.listenNestedCloseCompositionBody,
                       },
                       {
                         path: "workspace-settings/workspace-settings-drawer.tsx",
                         source: workspaceSettingsDrawerSource,
                         html: code.listenNestedCloseWorkspaceSettings,
+                        collapsedHtml: code.listenNestedCloseWorkspaceSettingsBody,
                       },
                       {
                         path: "workspace-settings/member-details-drawer.tsx",
                         source: memberDetailsDrawerSource,
                         html: code.listenNestedCloseMemberDetails,
+                        collapsedHtml: code.listenNestedCloseMemberDetailsBody,
                       },
                       {
                         path: "workspace-settings/remove-member-drawer.tsx",
                         source: removeMemberDrawerSource,
                         html: code.listenNestedCloseRemoveMember,
+                        collapsedHtml: code.listenNestedCloseRemoveMemberBody,
                       },
                     ]}
                   />
@@ -400,7 +397,10 @@ function DrawerDoc() {
                   <DrawerSideFullWidthUsage />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.usageSideFullWidth} />
+              <Preview.Code
+                html={code.usageSideFullWidth}
+                collapsedHtml={code.usageSideFullWidthBody}
+              />
             </Preview>
           </DocSubsection>
 
@@ -415,7 +415,10 @@ function DrawerDoc() {
                   <DrawerResponsivePlacementComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.usageResponsivePlacement} />
+              <Preview.Code
+                html={code.usageResponsivePlacement}
+                collapsedHtml={code.usageResponsivePlacementBody}
+              />
             </Preview>
           </DocSubsection>
         </div>
@@ -515,9 +518,10 @@ function DrawerDoc() {
               sourceCode: code.sourceAdaptive,
               currentCode: code.pwaInstall,
               compositionCode: code.pwaInstall,
+              compositionCollapsedCode: code.pwaInstallBody,
               compositionPath:
-                "apps/doc/src/modules/drawer/compositions/pwa-install-drawer.composition.tsx",
-              compositionSource: pwaInstallCompositionSource,
+                "apps/doc/src/modules/drawer/compositions/pwa-install-drawer-base.tsx",
+              compositionSource: pwaInstallDrawerSource,
             },
             {
               label: "PWA install non-Safari mobile",
@@ -541,11 +545,12 @@ function DrawerDoc() {
                 />
               ),
               sourceCode: code.sourceAdaptiveOther,
-              currentCode: code.pwaInstallOther,
-              compositionCode: code.pwaInstallOther,
+              currentCode: code.pwaInstall,
+              compositionCode: code.pwaInstall,
+              compositionCollapsedCode: code.pwaInstallBody,
               compositionPath:
-                "apps/doc/src/modules/drawer/compositions/pwa-install-other-drawer.composition.tsx",
-              compositionSource: pwaInstallOtherCompositionSource,
+                "apps/doc/src/modules/drawer/compositions/pwa-install-drawer-base.tsx",
+              compositionSource: pwaInstallDrawerSource,
             },
           ]}
         />
