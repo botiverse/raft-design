@@ -143,9 +143,9 @@ export const messageReference = tv({
       class: {
         root: [
           "inline-flex h-[19px] items-center gap-0.5 align-middle -mt-px rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0",
-          "cursor-pointer font-normal leading-none tracking-normal text-[oklch(0.44_0.09_91.39)]",
+          "cursor-pointer font-normal leading-none tracking-normal text-primary-800",
           "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
-          "transition-[filter,opacity] duration-100 hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
+          "transition-[filter,opacity] duration-100 hover:bg-[oklch(0.955_0.067_93.62)] hover:text-primary-800",
         ],
       },
     },
