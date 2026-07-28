@@ -55,11 +55,7 @@ export function MessageReactionsShowcaseComposition() {
                 onOpenChange={setOpen}
                 onReact={setReaction}
                 trigger={
-                  <MessageReactionAddButton
-                    aria-label="Add reaction"
-                    data-message-affordance="mobile-reaction-add"
-                    className="md:hidden"
-                  >
+                  <MessageReactionAddButton aria-label="Add reaction" className="md:hidden">
                     <Plus strokeWidth={2.5} />
                   </MessageReactionAddButton>
                 }

@@ -106,7 +106,6 @@ function ReactionRow() {
         "-mx-1 rounded-sm bg-layer-panel/70",
         "[[data-theme=brutal]_&]:mx-0 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:bg-white",
       )}
-      data-message-affordance="reaction-quick-row"
     >
       {["👍", "❤️", "😂", "🎉", "👀"].map((emoji) => (
         <button

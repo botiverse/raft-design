@@ -107,7 +107,6 @@ export function MessageItemReadReceipt({
   const theme = useThemeFamily();
   const { readReceipt } = messageFooter({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-message-affordance": "read-receipt",
     className: readReceipt({ className }),
   };
 
