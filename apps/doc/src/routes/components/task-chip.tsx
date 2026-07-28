@@ -23,6 +23,10 @@ const TOC = [
 
 const ANATOMY_SOURCE = `<TaskChip status="in_progress" render={<a href="…" />}>
   #205
+</TaskChip>
+
+<TaskChip status="in_review" loading>
+  #340
 </TaskChip>`;
 
 const PROPS: readonly PropRow[] = [
@@ -122,8 +126,10 @@ function TaskChipDoc() {
 
       <DocSection id="usage" title="Usage">
         <p className="mb-3 text-sm text-foreground-muted">
-          <InlineCode>status</InlineCode> controls the status icon and the chip surface. Task state
-          stays consumer-owned: the chip renders what it is given and never resolves a task itself.
+          <InlineCode>status</InlineCode> controls the status icon and the chip surface.{" "}
+          <InlineCode>loading</InlineCode> dims the chip and drops pointer events while the consumer
+          resolves the task. Task state stays consumer-owned: the chip renders what it is given and
+          never resolves a task itself.
         </p>
         <Preview>
           <Preview.Canvas>

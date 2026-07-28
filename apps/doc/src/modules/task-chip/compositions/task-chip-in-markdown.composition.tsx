@@ -29,16 +29,28 @@ export function TaskChipInMarkdownComposition() {
         </MessageItemHeader>
         <MessageItemBody>
           <MarkdownParagraph>
-            Continue task{" "}
+            Pick up{" "}
+            <TaskChip status="todo" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+              #16
+            </TaskChip>
+            , continue{" "}
             <TaskChip
               status="in_progress"
               render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
             >
               #205
+            </TaskChip>
+            , then close{" "}
+            <TaskChip status="done" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+              #47
             </TaskChip>{" "}
-            before closing{" "}
+            and archive{" "}
             <TaskChip status="closed" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
               #480
+            </TaskChip>
+            . Resolving{" "}
+            <TaskChip status="in_review" loading title="Resolving task #340">
+              #340
             </TaskChip>
             .
           </MarkdownParagraph>
