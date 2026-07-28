@@ -18,7 +18,7 @@ export const messageReference = tv({
     ],
     chipLabel: ["min-w-0 truncate"],
     chipMeta: ["shrink-0"],
-    badge: ["inline-flex items-center", "text-[10px] leading-none font-medium whitespace-nowrap"],
+    badge: ["inline-flex items-center whitespace-nowrap"],
   },
   variants: {
     theme: {
@@ -39,12 +39,14 @@ export const messageReference = tv({
         // the chip stays the pointer target.
         badge: [
           "pointer-events-none absolute top-1/2 right-[calc(100%-6px)] z-10 -translate-y-1/2",
-          "h-4 rounded-full px-1.5",
-          "bg-[var(--reference-badge)] text-[var(--reference-badge-ink)]",
-          "[clip-path:inset(0_0_0_100%_round_9999px)]",
+          // Same surface, height and type as the chip, so the reveal reads as one continuous pill.
+          "h-[19px] rounded-l-full rounded-r-none pr-1 pl-2",
+          "font-normal leading-none tracking-normal",
+          "bg-inherit text-current",
+          "[clip-path:inset(0_0_0_100%_round_9999px_0_0_9999px)]",
           "transition-[clip-path] duration-200 ease-out motion-reduce:transition-none",
-          "group-hover:[clip-path:inset(0_round_9999px)]",
-          "group-focus-visible:[clip-path:inset(0_round_9999px)]",
+          "group-hover:[clip-path:inset(0_round_9999px_0_0_9999px)]",
+          "group-focus-visible:[clip-path:inset(0_round_9999px_0_0_9999px)]",
         ],
       },
     },
