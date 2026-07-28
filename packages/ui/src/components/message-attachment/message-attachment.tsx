@@ -25,28 +25,6 @@ export function MessageAttachmentGroup({
   });
 }
 
-export type MessageAttachmentFrameProps = useRender.ComponentProps<"div">;
-
-export function MessageAttachmentFrame({
-  className,
-  render,
-  ...props
-}: MessageAttachmentFrameProps) {
-  const { frame } = messageAttachment();
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: frame({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: {
-      slot: "message-attachment-frame",
-    },
-  });
-}
-
 export type MessageAttachmentCardProps = useRender.ComponentProps<"div">;
 
 export function MessageAttachmentCard({ className, render, ...props }: MessageAttachmentCardProps) {
@@ -62,43 +40,6 @@ export function MessageAttachmentCard({ className, render, ...props }: MessageAt
     props: mergeProps<"div">(defaultProps, props),
     state: {
       slot: "message-attachment-card",
-    },
-  });
-}
-
-export type MessageAttachmentIconProps = useRender.ComponentProps<"span">;
-
-export function MessageAttachmentIcon({ className, render, ...props }: MessageAttachmentIconProps) {
-  const theme = useThemeFamily();
-  const { icon } = messageAttachment({ theme });
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: icon({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-attachment-icon",
-    },
-  });
-}
-
-export type MessageAttachmentBodyProps = useRender.ComponentProps<"span">;
-
-export function MessageAttachmentBody({ className, render, ...props }: MessageAttachmentBodyProps) {
-  const { body } = messageAttachment();
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: body({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-attachment-body",
     },
   });
 }
@@ -145,16 +86,16 @@ export function MessageAttachmentMeta({ className, render, ...props }: MessageAt
   });
 }
 
-export type MessageAttachmentMetaLabelProps = useRender.ComponentProps<"span">;
+export type MessageAttachmentMetaStartProps = useRender.ComponentProps<"span">;
 
-export function MessageAttachmentMetaLabel({
+export function MessageAttachmentMetaStart({
   className,
   render,
   ...props
-}: MessageAttachmentMetaLabelProps) {
-  const { metaLabel } = messageAttachment();
+}: MessageAttachmentMetaStartProps) {
+  const { metaStart } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: metaLabel({ className }),
+    className: metaStart({ className }),
   };
 
   return useRender({
@@ -162,21 +103,21 @@ export function MessageAttachmentMetaLabel({
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: {
-      slot: "message-attachment-meta-label",
+      slot: "message-attachment-meta-start",
     },
   });
 }
 
-export type MessageAttachmentMetaDetailProps = useRender.ComponentProps<"span">;
+export type MessageAttachmentMetaEndProps = useRender.ComponentProps<"span">;
 
-export function MessageAttachmentMetaDetail({
+export function MessageAttachmentMetaEnd({
   className,
   render,
   ...props
-}: MessageAttachmentMetaDetailProps) {
-  const { metaDetail } = messageAttachment();
+}: MessageAttachmentMetaEndProps) {
+  const { metaEnd } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: metaDetail({ className }),
+    className: metaEnd({ className }),
   };
 
   return useRender({
@@ -184,30 +125,7 @@ export function MessageAttachmentMetaDetail({
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: {
-      slot: "message-attachment-meta-detail",
-    },
-  });
-}
-
-export type MessageAttachmentMetaSeparatorProps = useRender.ComponentProps<"span">;
-
-export function MessageAttachmentMetaSeparator({
-  className,
-  render,
-  ...props
-}: MessageAttachmentMetaSeparatorProps) {
-  const { metaSeparator } = messageAttachment();
-  const defaultProps: useRender.ElementProps<"span"> = {
-    "aria-hidden": true,
-    className: metaSeparator({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-attachment-meta-separator",
+      slot: "message-attachment-meta-end",
     },
   });
 }
@@ -235,17 +153,17 @@ export function MessageAttachmentSummary({
   });
 }
 
-export type MessageAttachmentLoadingBarProps = useRender.ComponentProps<"span">;
+export type MessageAttachmentCommentSummaryProps = useRender.ComponentProps<"span">;
 
-export function MessageAttachmentLoadingBar({
+export function MessageAttachmentCommentSummary({
   className,
   render,
   ...props
-}: MessageAttachmentLoadingBarProps) {
+}: MessageAttachmentCommentSummaryProps) {
   const theme = useThemeFamily();
-  const { loadingBar } = messageAttachment({ theme });
+  const { commentSummary } = messageAttachment({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: loadingBar({ className }),
+    className: commentSummary({ className }),
   };
 
   return useRender({
@@ -253,34 +171,80 @@ export function MessageAttachmentLoadingBar({
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: {
-      slot: "message-attachment-loading-bar",
+      slot: "message-attachment-comment-summary",
+    },
+  });
+}
+
+export type MessageAttachmentDiffSummaryProps = useRender.ComponentProps<"span">;
+
+export function MessageAttachmentDiffSummary({
+  className,
+  render,
+  ...props
+}: MessageAttachmentDiffSummaryProps) {
+  const { diffSummary } = messageAttachment();
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: diffSummary({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-attachment-diff-summary",
+    },
+  });
+}
+
+export type MessageAttachmentDiffAdditionProps = useRender.ComponentProps<"span">;
+
+export function MessageAttachmentDiffAddition({
+  className,
+  render,
+  ...props
+}: MessageAttachmentDiffAdditionProps) {
+  const theme = useThemeFamily();
+  const { diffAddition } = messageAttachment({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: diffAddition({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-attachment-diff-addition",
+    },
+  });
+}
+
+export type MessageAttachmentDiffDeletionProps = useRender.ComponentProps<"span">;
+
+export function MessageAttachmentDiffDeletion({
+  className,
+  render,
+  ...props
+}: MessageAttachmentDiffDeletionProps) {
+  const theme = useThemeFamily();
+  const { diffDeletion } = messageAttachment({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: diffDeletion({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: {
+      slot: "message-attachment-diff-deletion",
     },
   });
 }
 
 export type MessageAttachmentActionProps = useRender.ComponentProps<"button">;
-
-export type MessageAttachmentActionsProps = useRender.ComponentProps<"span">;
-
-export function MessageAttachmentActions({
-  className,
-  render,
-  ...props
-}: MessageAttachmentActionsProps) {
-  const { actions } = messageAttachment();
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: actions({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-attachment-actions",
-    },
-  });
-}
 
 export function MessageAttachmentAction({
   className,
@@ -300,29 +264,6 @@ export function MessageAttachmentAction({
     props: mergeProps<"button">(defaultProps, props),
     state: {
       slot: "message-attachment-action",
-    },
-  });
-}
-
-export type MessageAttachmentPendingIndicatorProps = useRender.ComponentProps<"span">;
-
-export function MessageAttachmentPendingIndicator({
-  className,
-  render,
-  ...props
-}: MessageAttachmentPendingIndicatorProps) {
-  const theme = useThemeFamily();
-  const { pendingIndicator } = messageAttachment({ theme });
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: pendingIndicator({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-attachment-pending-indicator",
     },
   });
 }

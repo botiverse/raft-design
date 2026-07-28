@@ -28,7 +28,7 @@ export function MessageReferencePeopleMentionsComposition() {
           delay={200}
           render={
             <MessageReferenceChip
-              tone="primary"
+              variant="primary"
               render={<button type="button" title="Preview current member" />}
             />
           }

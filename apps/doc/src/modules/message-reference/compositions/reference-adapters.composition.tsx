@@ -70,7 +70,7 @@ export function MessageSelfMentionReferenceComposition({
         delay={200}
         render={
           <MessageReferenceChip
-            tone="primary"
+            variant="primary"
             render={<button type="button" title="Preview current member" />}
           />
         }
@@ -97,7 +97,7 @@ export function MessageTargetReferenceComposition({
   const label = typeof children === "string" ? children.replace(/^#/, "") : children;
 
   return (
-    <MessageReferenceChip tone="accent" render={<a href={href} />}>
+    <MessageReferenceChip variant="accent" render={<a href={href} />}>
       <MessageSquareText size={12} />
       <MessageReferenceLabel>{label}</MessageReferenceLabel>
     </MessageReferenceChip>
@@ -112,7 +112,7 @@ export function MessagePermalinkReferenceComposition({
 }: MessageReferenceCompositionProps & { external?: boolean; meta?: ReactNode }) {
   return (
     <MessageReferenceChip
-      tone={external ? "external" : "panel"}
+      variant={external ? "link" : "muted"}
       render={
         <a
           href={href}
@@ -143,7 +143,7 @@ export function MessageUnavailableReferencesComposition() {
       Unknown channel, task, and authority-unavailable thread references fall back to plain text:{" "}
       <span>#404</span>, <span>task #999</span>, and <span>#release-notes:unknown</span>. Only a
       resolved thread token whose route parent later disappeared keeps a non-link info chip:{" "}
-      <MessageReferenceChip tone="info">#release-notes:missing-parent</MessageReferenceChip>.
+      <MessageReferenceChip variant="info">#release-notes:missing-parent</MessageReferenceChip>.
     </p>
   );
 }

@@ -1,14 +1,10 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import {
-  messageReference,
-  type MessageReferenceChipTone,
-  type MessageReferenceChipToneProps,
-} from "./message-reference.recipe";
+import { messageReference, type MessageReferenceChipVariant } from "./message-reference.recipe";
 import { type SlotElementProps } from "../../lib/data-attributes";
 
-export type { MessageReferenceChipTone, MessageReferenceChipToneProps };
+export type { MessageReferenceChipVariant };
 
 type SpanProps = useRender.ComponentProps<"span">;
 
@@ -39,16 +35,18 @@ export function MessageReferenceText({ className, render, ...props }: MessageRef
   return useReferenceRender(text({ className }), render, props);
 }
 
-export type MessageReferenceChipProps = SpanProps & Omit<MessageReferenceChipToneProps, "theme">;
+export type MessageReferenceChipProps = SpanProps & {
+  variant?: MessageReferenceChipVariant;
+};
 
 export function MessageReferenceChip({
   className,
   render,
-  tone = "muted",
+  variant = "muted",
   ...props
 }: MessageReferenceChipProps) {
   const theme = useThemeFamily();
-  const { chip } = messageReference({ theme, tone });
+  const { chip } = messageReference({ theme, variant });
 
   return useReferenceRender(chip({ className }), render, props);
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Hash } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItem,
@@ -16,7 +17,7 @@ import {
 
 import {
   MessageMentionReferenceComposition,
-  MessagePermalinkReferenceComposition,
+  MessageTargetReferenceComposition,
 } from "./reference-adapters.composition.tsx";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
@@ -53,17 +54,16 @@ export function MessageReferenceComparisonComposition() {
                     @Atlas
                   </MessageMentionReferenceComposition>{" "}
                   to check the{" "}
-                  <MessagePermalinkReferenceComposition
-                    href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}
-                  >
-                    message all:api-docs
-                  </MessagePermalinkReferenceComposition>{" "}
+                  <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
+                    #all
+                  </MessageTargetReferenceComposition>{" "}
                   rollout in{" "}
                   <MessageReferenceChip
-                    tone="accent"
+                    variant="accent"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
                   >
-                    #release-notes
+                    <Hash size={12} />
+                    release-notes
                   </MessageReferenceChip>
                   .
                 </p>

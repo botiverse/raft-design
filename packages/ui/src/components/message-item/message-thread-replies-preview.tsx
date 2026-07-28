@@ -37,7 +37,6 @@ export function MessageItemThreadRepliesPreviewTrigger({
   const { trigger } = messageThreadRepliesPreview({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type,
-    "data-message-affordance": "thread-replies-preview",
     className: trigger({ className }),
   };
 
@@ -59,7 +58,6 @@ export function MessageItemThreadRepliesPreviewSummary({
   const theme = useThemeFamily();
   const { summary } = messageThreadRepliesPreview({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-message-affordance": "thread-replies-preview-summary",
     className: summary({ className }),
   };
 
@@ -198,7 +196,6 @@ export function MessageItemInlineRepliesTrigger({
   const { legacyTrigger } = messageThreadRepliesPreview({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type,
-    "data-message-affordance": "inline-thread-replies",
     className: legacyTrigger({ className }),
   };
 
@@ -220,7 +217,6 @@ export function MessageItemInlineReplies({
   const theme = useThemeFamily();
   const { legacyReplies } = messageThreadRepliesPreview({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-message-affordance": "inline-thread-replies",
     className: legacyReplies({ className }),
   };
 
@@ -242,7 +238,6 @@ export function MessageItemInlineRepliesSummary({
   const theme = useThemeFamily();
   const { legacySummary } = messageThreadRepliesPreview({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-message-affordance": "inline-thread-replies-count",
     className: legacySummary({ className }),
   };
 
@@ -371,7 +366,6 @@ export function MessageItemInlineReplyCount({
   const { legacyCount } = messageThreadRepliesPreview({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type,
-    "data-message-affordance": "inline-thread-replies-count",
     className: legacyCount({ className }),
   };
 

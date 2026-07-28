@@ -13,7 +13,7 @@ describe("MessageReference primitives", () => {
     const markup = renderToStaticMarkup(
       <ThemeProvider theme="elegant" syncDom={false}>
         <MessageReferenceText>@will</MessageReferenceText>
-        <MessageReferenceChip tone="primary">@you</MessageReferenceChip>
+        <MessageReferenceChip variant="primary">@you</MessageReferenceChip>
         <MessageReferencePending>Loading task</MessageReferencePending>
         <MessageReferenceUnavailable>Unavailable task</MessageReferenceUnavailable>
       </ThemeProvider>,

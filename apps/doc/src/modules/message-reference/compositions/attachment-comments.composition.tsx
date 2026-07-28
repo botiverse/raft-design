@@ -6,7 +6,7 @@ export function MessageReferenceAttachmentCommentsComposition() {
   return (
     <p className="text-sm text-foreground">
       <MessageReferenceChip
-        tone="neutral"
+        variant="neutral"
         render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
       >
         <MessageSquareQuote size={12} />

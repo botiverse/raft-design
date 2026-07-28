@@ -1,17 +1,6 @@
-import { Download, Play, MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Badge, Spinner, useThemeFamily } from "raft-ui";
+import { MessageSquare, Play } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage, Badge, useThemeFamily } from "raft-ui";
 import {
-  MessageAttachmentAction,
-  MessageAttachmentActions,
-  MessageAttachmentBody,
-  MessageAttachmentCard,
-  MessageAttachmentGroup,
-  MessageAttachmentLoadingBar,
-  MessageAttachmentMeta,
-  MessageAttachmentMetaLabel,
-  MessageAttachmentPendingIndicator,
-  MessageAttachmentSummary,
-  MessageAttachmentTitle,
   MessageItem,
   MessageItemAttachments,
   MessageItemAvatarSlot,
@@ -25,101 +14,13 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui/wip";
-import {
-  MESSAGE_FIXTURE_AVATAR_SRC,
-  downloadMessageFixture,
-} from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageReactionComposition } from "#/modules/message-item/compositions/reaction.compositions.tsx";
 import { MessageRowToolbarFixture } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
-import {
-  MessageImageGalleryPairComposition,
-  MessageImageGalleryPendingComposition,
-  MessageVideoPreviewFailedComposition,
-  MessageVideoPendingComposition,
-  MessageVideoPreviewComposition,
-} from "#/modules/message-media/compositions/media.compositions.tsx";
-
-export function MessageFileAttachmentComposition() {
-  return (
-    <MessageAttachmentCard
-      aria-label="Download migration.diff"
-      render={<button type="button" />}
-      onClick={() => downloadMessageFixture("migration.diff")}
-    >
-      <MessageAttachmentBody>
-        <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
-        <MessageAttachmentSummary>+42 -7</MessageAttachmentSummary>
-        <MessageAttachmentMeta>
-          <MessageAttachmentMetaLabel>Diff · 18 KB</MessageAttachmentMetaLabel>
-        </MessageAttachmentMeta>
-      </MessageAttachmentBody>
-      <MessageAttachmentActions>
-        <MessageAttachmentAction render={<span />}>
-          <Download />
-        </MessageAttachmentAction>
-      </MessageAttachmentActions>
-    </MessageAttachmentCard>
-  );
-}
-
-export function MessageFileAttachmentsComposition() {
-  return (
-    <MessageAttachmentGroup>
-      <MessageFileAttachmentComposition />
-      <MessageAttachmentCard
-        aria-label="Download screening.html"
-        render={<button type="button" />}
-        onClick={() => downloadMessageFixture("screening.html")}
-      >
-        <MessageAttachmentBody>
-          <MessageAttachmentTitle>screening.html</MessageAttachmentTitle>
-          <MessageAttachmentMeta>
-            <MessageAttachmentMetaLabel>HTML preview · 44 KB</MessageAttachmentMetaLabel>
-          </MessageAttachmentMeta>
-        </MessageAttachmentBody>
-        <MessageAttachmentActions>
-          <MessageAttachmentAction render={<span />}>
-            <Download />
-          </MessageAttachmentAction>
-        </MessageAttachmentActions>
-      </MessageAttachmentCard>
-      <MessageAttachmentCard
-        aria-label="Download release-notes.md"
-        render={<button type="button" />}
-        onClick={() => downloadMessageFixture("release-notes.md")}
-      >
-        <MessageAttachmentBody>
-          <MessageAttachmentTitle>release-notes.md</MessageAttachmentTitle>
-          <MessageAttachmentMeta>
-            <MessageAttachmentMetaLabel>Markdown · 1 KB</MessageAttachmentMetaLabel>
-          </MessageAttachmentMeta>
-        </MessageAttachmentBody>
-        <MessageAttachmentActions>
-          <MessageAttachmentAction render={<span />}>
-            <Download />
-          </MessageAttachmentAction>
-        </MessageAttachmentActions>
-      </MessageAttachmentCard>
-      <MessageAttachmentCard
-        aria-label="Download metrics.csv"
-        render={<button type="button" />}
-        onClick={() => downloadMessageFixture("metrics.csv")}
-      >
-        <MessageAttachmentBody>
-          <MessageAttachmentTitle>metrics.csv</MessageAttachmentTitle>
-          <MessageAttachmentMeta>
-            <MessageAttachmentMetaLabel>CSV · 1 KB</MessageAttachmentMetaLabel>
-          </MessageAttachmentMeta>
-        </MessageAttachmentBody>
-        <MessageAttachmentActions>
-          <MessageAttachmentAction render={<span />}>
-            <Download />
-          </MessageAttachmentAction>
-        </MessageAttachmentActions>
-      </MessageAttachmentCard>
-    </MessageAttachmentGroup>
-  );
-}
+import { MessageImageGalleryPairComposition } from "#/modules/message-media/compositions/image-gallery-pair.composition.tsx";
+import { MessageImageGalleryPendingComposition } from "#/modules/message-media/compositions/image-gallery-pending.composition.tsx";
+import { MessageVideoPreviewStatesComposition } from "#/modules/message-media/compositions/video-states.composition.tsx";
+import { MessageFileAttachmentStatesComposition } from "./file-attachments.composition.tsx";
 
 export function MessageAttachmentsShowcaseComposition() {
   const theme = useThemeFamily();
@@ -146,69 +47,8 @@ export function MessageAttachmentsShowcaseComposition() {
           <MessageItemAttachments>
             <MessageImageGalleryPairComposition />
             <MessageImageGalleryPendingComposition />
-            <MessageVideoPreviewComposition />
-            <MessageVideoPendingComposition />
-            <MessageAttachmentGroup>
-              <MessageFileAttachmentComposition />
-              <MessageAttachmentCard
-                aria-label="Download screening.html"
-                render={<button type="button" />}
-                onClick={() => downloadMessageFixture("screening.html")}
-              >
-                <MessageAttachmentBody>
-                  <MessageAttachmentTitle>screening.html</MessageAttachmentTitle>
-                  <MessageAttachmentMeta>
-                    <MessageAttachmentMetaLabel>HTML preview · 44 KB</MessageAttachmentMetaLabel>
-                  </MessageAttachmentMeta>
-                </MessageAttachmentBody>
-                <MessageAttachmentActions>
-                  <MessageAttachmentAction render={<span />}>
-                    <Download />
-                  </MessageAttachmentAction>
-                </MessageAttachmentActions>
-              </MessageAttachmentCard>
-              <MessageAttachmentCard
-                aria-label="Download release-notes.md"
-                render={<button type="button" />}
-                onClick={() => downloadMessageFixture("release-notes.md")}
-              >
-                <MessageAttachmentBody>
-                  <MessageAttachmentTitle>release-notes.md</MessageAttachmentTitle>
-                  <MessageAttachmentMeta>
-                    <MessageAttachmentMetaLabel>Markdown · 1 KB</MessageAttachmentMetaLabel>
-                  </MessageAttachmentMeta>
-                </MessageAttachmentBody>
-                <MessageAttachmentActions>
-                  <MessageAttachmentAction render={<span />}>
-                    <Download />
-                  </MessageAttachmentAction>
-                </MessageAttachmentActions>
-              </MessageAttachmentCard>
-              <MessageAttachmentCard aria-busy>
-                <MessageAttachmentBody>
-                  <MessageAttachmentTitle>metrics.csv</MessageAttachmentTitle>
-                  <MessageAttachmentMeta>
-                    <MessageAttachmentMetaLabel>CSV · 1 KB</MessageAttachmentMetaLabel>
-                  </MessageAttachmentMeta>
-                </MessageAttachmentBody>
-                <MessageAttachmentPendingIndicator>
-                  <Spinner size="sm" />
-                </MessageAttachmentPendingIndicator>
-              </MessageAttachmentCard>
-              <MessageVideoPreviewFailedComposition />
-              <MessageAttachmentCard aria-busy>
-                <MessageAttachmentBody>
-                  <MessageAttachmentTitle>architecture.pdf</MessageAttachmentTitle>
-                  <MessageAttachmentMeta>
-                    <MessageAttachmentMetaLabel>PDF preview · 1.2 MB</MessageAttachmentMetaLabel>
-                  </MessageAttachmentMeta>
-                </MessageAttachmentBody>
-                <MessageAttachmentLoadingBar>
-                  <Spinner size="xs" />
-                  <span className="truncate">Opening preview…</span>
-                </MessageAttachmentLoadingBar>
-              </MessageAttachmentCard>
-            </MessageAttachmentGroup>
+            <MessageVideoPreviewStatesComposition />
+            <MessageFileAttachmentStatesComposition />
           </MessageItemAttachments>
           <MessageItemFooter>
             <Badge

@@ -1,187 +1,225 @@
 import type { PropRow } from "#/components/props-table.tsx";
 
-export const TOC = [
-  { id: "preview", title: "Preview" },
-  { id: "anatomy", title: "Anatomy" },
-  { id: "usage", title: "Usage" },
-  { id: "api", title: "API" },
-] as const;
-
-export const ANATOMY_SOURCE = `<MessageItemAttachments>
+export const FILE_CARD_ANATOMY_SOURCE = `<MessageItemAttachments>
   <MessageAttachmentGroup>
-    <MessageAttachmentFrame>
-      <MessageAttachmentCard>
-        <MessageAttachmentBody>
-          <MessageAttachmentTitle />
-          <MessageAttachmentSummary />
-          <MessageAttachmentMeta>
-            <MessageAttachmentMetaDetail>
-              <MessageAttachmentMetaSeparator />
-            </MessageAttachmentMetaDetail>
-          </MessageAttachmentMeta>
-        </MessageAttachmentBody>
-        <MessageAttachmentIcon />
-        <MessageAttachmentActions>
-          <MessageAttachmentAction render={<span />} />
-        </MessageAttachmentActions>
-        <MessageAttachmentPendingIndicator />
-        <MessageAttachmentLoadingBar />
-      </MessageAttachmentCard>
-      <MessageAttachmentAction />
-    </MessageAttachmentFrame>
+    <MessageAttachmentCard>
+      <MessageAttachmentTitle />
+      <MessageAttachmentSummary render={<MessageAttachmentCommentSummary />} />
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaStart />
+        <MessageAttachmentMetaEnd>
+          <MessageAttachmentAction />
+        </MessageAttachmentMetaEnd>
+      </MessageAttachmentMeta>
+    </MessageAttachmentCard>
   </MessageAttachmentGroup>
 </MessageItemAttachments>
 
-<MessageAttachmentPreviewRoot>
-  <MessageAttachmentPreviewExternalLinksLoading>
-    <MessageAttachmentPreviewExternalLinksLoadingPanel />
-  </MessageAttachmentPreviewExternalLinksLoading>
-  <MessageAttachmentPreviewExternalLinkHotspots>
-    <MessageAttachmentPreviewExternalLinkHotspot />
-  </MessageAttachmentPreviewExternalLinkHotspots>
-  <MessageAttachmentPreviewExternalLinkFallback>
-    <MessageAttachmentPreviewExternalLinkFallbackDismiss />
-  </MessageAttachmentPreviewExternalLinkFallback>
-</MessageAttachmentPreviewRoot>
+<MessageAttachmentSummary render={<MessageAttachmentDiffSummary />}>
+  <MessageAttachmentDiffAddition />
+  <MessageAttachmentDiffDeletion />
+</MessageAttachmentSummary>`;
 
-<MessageAttachmentAudioPreview>
-  <MessageAttachmentAudioPreviewCard>
-    <MessageAttachmentAudioPreviewHeader>
-      <MessageAttachmentAudioPreviewIcon />
-      <MessageAttachmentAudioPreviewMeta>
-        <MessageAttachmentAudioPreviewTitle />
-        <MessageAttachmentAudioPreviewLabel />
-      </MessageAttachmentAudioPreviewMeta>
-    </MessageAttachmentAudioPreviewHeader>
-    <MessageAttachmentAudioPreviewMedia />
-  </MessageAttachmentAudioPreviewCard>
-</MessageAttachmentAudioPreview>
-
-<MessageImageGallery>
-  <MessageImageGalleryRow layout="single | pair | triple">
-    <MessageImageGalleryItem size="single | regular | dense">
-      <MessageImageGalleryMedia geometry="single | normal | wide | tall" />
+export const IMAGE_GALLERY_ANATOMY_SOURCE = `<MessageImageGallery>
+  <div className="grid grid-cols-2 gap-2">
+    <MessageImageGalleryItem>
+      <MessageImageGalleryMedia>
+        <img className="h-full w-full object-cover" alt="" />
+      </MessageImageGalleryMedia>
       <MessageImageGalleryPreview />
       <MessageImageGalleryAction />
-      <MessageImageGalleryOverlay />
     </MessageImageGalleryItem>
-  </MessageImageGalleryRow>
+  </div>
 </MessageImageGallery>
 
+<MessageImageGallery>
+  <div className="grid grid-cols-1 gap-2">
+    <MessageImageGalleryItem aria-busy>
+      <MessageImageGalleryMedia>
+        <img className="h-full w-full object-contain" alt="" />
+      </MessageImageGalleryMedia>
+      <MessageImageGalleryOverlay />
+    </MessageImageGalleryItem>
+  </div>
+</MessageImageGallery>`;
+
+export const VIDEO_PREVIEW_ANATOMY_SOURCE = `<MessageVideoPreview>
+  <MessageVideoPreviewMedia />
+  <MessageVideoPreviewAction />
+</MessageVideoPreview>
+
+<MessageVideoPreview aria-busy>
+  <MessageVideoPreviewFallback>
+    <Spinner />
+  </MessageVideoPreviewFallback>
+  <MessageVideoPreviewAction />
+</MessageVideoPreview>
+
 <MessageVideoPreview>
-  <MessageVideoPreviewFrame>
-    <MessageVideoPreviewMedia />
-    <MessageVideoPreviewFallback />
-    <MessageVideoPreviewAction />
-  </MessageVideoPreviewFrame>
+  <MessageVideoPreviewFallback>
+    <MessageVideoPreviewFailureContent>
+      <MessageVideoPreviewFailureIcon />
+      <MessageVideoPreviewFailureTitle />
+      <MessageVideoPreviewFailureAction />
+    </MessageVideoPreviewFailureContent>
+  </MessageVideoPreviewFallback>
 </MessageVideoPreview>`;
 
-export const CARD_PROPS: readonly PropRow[] = [
+export const CARD_STRUCTURE_PROPS: readonly PropRow[] = [
   {
     name: "MessageAttachmentGroup",
-    type: 'useRender.ComponentProps<"div">',
+    type: "MessageAttachmentGroupProps",
     description: "Horizontal group of attachment cards inside MessageItemAttachments.",
   },
   {
-    name: "MessageAttachmentFrame",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Optional layout frame for a primary card plus a sibling secondary action. It owns shared dimensions and action positioning.",
-  },
-  {
     name: "MessageAttachmentCard",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      'Attachment card root. Use render={<button type="button" />} when the card itself is the primary action.',
+    type: "MessageAttachmentCardProps",
+    description: "Attachment card root.",
   },
   {
-    name: "MessageAttachmentBody / Title / Meta / Icon",
-    type: 'useRender.ComponentProps<"span">',
-    description:
-      "Filename, secondary meta line, optional MetaDetail / MetaSeparator slots, and a dedicated leading thumbnail column.",
+    name: "MessageAttachmentTitle",
+    type: "MessageAttachmentTitleProps",
+    description: "Filename slot at the start of MessageAttachmentCard.",
   },
+];
+
+export const CARD_SUMMARY_PROPS: readonly PropRow[] = [
   {
     name: "MessageAttachmentSummary",
-    type: 'useRender.ComponentProps<"span">',
-    description: "Optional summary shown directly below the filename, such as a diff tally.",
-  },
-  {
-    name: "MessageAttachmentActions / Action",
-    type: 'useRender.ComponentProps<"span"> / useRender.ComponentProps<"button">',
+    type: "MessageAttachmentSummaryProps",
     description:
-      "Hover affordances for preview or download. Icons and callbacks stay caller-owned.",
+      "Shared summary row. Owns layout, icon sizing, placement, and typography; compose a semantic summary through render.",
   },
   {
-    name: "MessageAttachmentPendingIndicator / LoadingBar",
-    type: 'useRender.ComponentProps<"span">',
-    description: "Explicit pending and opening indicators. Upload lifecycle stays product-owned.",
+    name: "MessageAttachmentCommentSummary",
+    type: "MessageAttachmentCommentSummaryProps",
+    description:
+      "Comment-summary semantics composed onto MessageAttachmentSummary. Owns only its compact gap and muted color.",
+  },
+  {
+    name: "MessageAttachmentDiffSummary",
+    type: "MessageAttachmentDiffSummaryProps",
+    description:
+      "Diff-summary semantics composed onto MessageAttachmentSummary. Owns only its internal gap.",
+  },
+  {
+    name: "MessageAttachmentDiffAddition",
+    type: "MessageAttachmentDiffAdditionProps",
+    description: "Semantic positive-diff value inside MessageAttachmentDiffSummary.",
+  },
+  {
+    name: "MessageAttachmentDiffDeletion",
+    type: "MessageAttachmentDiffDeletionProps",
+    description: "Semantic negative-diff value inside MessageAttachmentDiffSummary.",
   },
 ];
 
-export const PREVIEW_PROPS: readonly PropRow[] = [
+export const CARD_META_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentPreviewRoot",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Host for sandboxed HTML preview surfaces and overlay chrome.",
+    name: "MessageAttachmentMeta",
+    type: "MessageAttachmentMetaProps",
+    description: "Two-sided metadata row inside MessageAttachmentCard.",
   },
   {
-    name: "MessageAttachmentPreviewExternalLinksLoading*",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Loading overlay and panel while interactive external-link preview prepares.",
+    name: "MessageAttachmentMetaStart",
+    type: "MessageAttachmentMetaStartProps",
+    description: "Start-side metadata region, typically file size.",
   },
   {
-    name: "MessageAttachmentPreviewExternalLinkHotspot*",
-    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"button">',
-    description:
-      "Parent-owned hotspot layer over reported link rects. Click policy stays caller-owned.",
+    name: "MessageAttachmentMetaEnd",
+    type: "MessageAttachmentMetaEndProps",
+    description: "End-side metadata region for actions or a pending spinner.",
   },
   {
-    name: "MessageAttachmentPreviewExternalLinkFallback*",
-    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"button">',
-    description: "Blocked-popup fallback banner and dismiss control.",
-  },
-  {
-    name: "MessageAttachmentAudioPreview*",
-    type: "compound slots",
-    description:
-      "Audio preview shell: card, header, icon, meta, title, label, and media. Playback source stays caller-owned.",
+    name: "MessageAttachmentAction",
+    type: "MessageAttachmentActionProps",
+    description: "Caller-owned preview or download action inside MessageAttachmentMetaEnd.",
   },
 ];
 
-export const MEDIA_PROPS: readonly PropRow[] = [
+export const IMAGE_GALLERY_PROPS: readonly PropRow[] = [
   {
-    name: "MessageImageGallery / MessageImageGalleryRow",
-    type: 'div props; Row adds layout?: "single" | "pair" | "triple"',
+    name: "MessageImageGallery",
+    type: "MessageImageGalleryProps",
     description:
-      "Image-gallery root and explicit row grid. Attachment metadata decides row grouping outside the UI package.",
+      "Image-gallery root. Consumers compose each attachment row as a native grid child.",
   },
   {
     name: "MessageImageGalleryItem",
-    type: 'div props & { size?: "single" | "regular" | "dense" }',
-    description:
-      "Image cell sizing. Single-image reserved dimensions remain consumer-owned because they derive from attachment metadata.",
+    type: "MessageImageGalleryItemProps",
+    description: "Image cell with consumer-owned geometry and layout classes.",
   },
   {
     name: "MessageImageGalleryMedia",
-    type: 'img props & { fit?: "contain" | "cover"; geometry?: "single" | "normal" | "wide" | "tall" }',
-    description: "Image media and source-faithful aspect fit treatment.",
+    type: "MessageImageGalleryMediaProps",
+    description:
+      "Media container. Render the source element as children and let it choose cover or contain.",
   },
   {
-    name: "MessageImageGalleryPreview / Action / Overlay",
-    type: "button, button, and div props",
-    description:
-      "Preview hit area, secondary image action, and pending overlay. Lightbox and download workflows stay caller-owned.",
+    name: "MessageImageGalleryPreview",
+    type: "MessageImageGalleryPreviewProps",
+    description: "Preview hit area; Lightbox behavior remains caller-owned.",
   },
   {
-    name: "MessageVideoPreview / Frame / Media / Fallback / Action",
-    type: "compound div, video, and button props",
+    name: "MessageImageGalleryAction",
+    type: "MessageImageGalleryActionProps",
+    description: "Secondary image action, such as caller-owned download.",
+  },
+  {
+    name: "MessageImageGalleryOverlay",
+    type: "MessageImageGalleryOverlayProps",
+    description: "Overlay region for consumer-owned pending content such as Spinner.",
+  },
+];
+
+export const VIDEO_PREVIEW_PROPS: readonly PropRow[] = [
+  {
+    name: "MessageVideoPreview",
+    type: "MessageVideoPreviewProps",
+    description: "Inline video attachment root.",
+  },
+  {
+    name: "MessageVideoPreviewMedia",
+    type: "MessageVideoPreviewMediaProps",
+    description: "Native video media element for a resolved URL.",
+  },
+  {
+    name: "MessageVideoPreviewFallback",
+    type: "MessageVideoPreviewFallbackProps",
     description:
-      "Inline video shell with real media, explicit fallback, and caller-owned action. Loading and failure state stay outside the UI package.",
+      "Fallback region for consumer-owned URL loading or unavailable-media content. Render instead of MessageVideoPreviewMedia.",
+  },
+  {
+    name: "MessageVideoPreviewAction",
+    type: "MessageVideoPreviewActionProps",
+    description: "Top-right caller-owned preview action inside MessageVideoPreview.",
+  },
+  {
+    name: "MessageVideoPreviewFailureContent",
+    type: "MessageVideoPreviewFailureContentProps",
+    description: "Structured unavailable-codec fallback content.",
+  },
+  {
+    name: "MessageVideoPreviewFailureIcon",
+    type: "MessageVideoPreviewFailureIconProps",
+    description: "Warning-icon slot inside failure content.",
+  },
+  {
+    name: "MessageVideoPreviewFailureTitle",
+    type: "MessageVideoPreviewFailureTitleProps",
+    description: "Failure copy slot inside failure content.",
+  },
+  {
+    name: "MessageVideoPreviewFailureAction",
+    type: "MessageVideoPreviewFailureActionProps",
+    description: "Download affordance slot; callers provide its icon, copy, and workflow.",
   },
 ];
 
 export const API_GROUPS = [
-  { id: "api-card", title: "Attachment card", rows: CARD_PROPS },
-  { id: "api-preview", title: "Attachment preview surfaces", rows: PREVIEW_PROPS },
-  { id: "api-media", title: "Message media", rows: MEDIA_PROPS },
+  { id: "api-card-structure", title: "Card structure", rows: CARD_STRUCTURE_PROPS },
+  { id: "api-card-summary", title: "Card summaries", rows: CARD_SUMMARY_PROPS },
+  { id: "api-card-meta", title: "Card metadata", rows: CARD_META_PROPS },
+  { id: "api-image-gallery", title: "Image gallery", rows: IMAGE_GALLERY_PROPS },
+  { id: "api-video-preview", title: "Video preview", rows: VIDEO_PREVIEW_PROPS },
 ] as const satisfies readonly { id: string; title: string; rows: readonly PropRow[] }[];
