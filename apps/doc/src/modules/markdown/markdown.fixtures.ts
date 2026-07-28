@@ -1,6 +1,7 @@
-/** Exhaustive markdown fixture covering every node the message renderer supports. */
-export function createMessageMarkdownSource(imageSrc: string) {
-  return `# Heading 1
+import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
+
+/** Exhaustive Markdown input covering every node the renderer supports. */
+export const MARKDOWN_SOURCE = `# Heading 1
 
 ## Heading 2
 
@@ -42,7 +43,7 @@ Raw user HTML is escaped as text: &lt;span&gt;not message markup&lt;/span&gt;.
 | layer-panel | panel |
 | line-strong | border |
 
-![markdown embed](${imageSrc})
+![markdown embed](${COMPOSER_IMAGE_SRC})
 
 Here is the loader I landed — no highlighting, just the mono block.
 
@@ -50,4 +51,3 @@ Here is the loader I landed — no highlighting, just the mono block.
 const tokens = load();
 console.log(tokens.layerPanel);
 \`\`\``;
-}

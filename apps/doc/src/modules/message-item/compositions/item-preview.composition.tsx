@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AlertTriangle, Bookmark, Languages, MessageSquare, Plus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Markdown } from "#/lib/markdown/markdown.tsx";
 import {
   MessageItem,
   MessageItemActive,
@@ -25,16 +26,12 @@ import {
   MessageItemTranslationOriginalLabel,
   MessageItemTranslationPlaceholder,
   MessageItemTranslationStatus,
-  MessageMarkdown,
-  MessageReactionAddButton,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
+  MessageReactionAddButton,
 } from "raft-ui/wip";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
-import {
-  MESSAGE_FIXTURE_AVATAR_SRC,
-  MESSAGE_FIXTURE_IMAGE_SRC,
-} from "#/modules/message-item/message-item.fixtures.ts";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import {
   MessageItemExampleMarkdown,
   MessageItemExampleMarkdownClosing,
@@ -43,7 +40,8 @@ import {
 } from "#/modules/message-item/message-item-example-markdown.tsx";
 import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
-import { MessageMarkdownComposition } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
+import { renderShikiCodeBlock } from "#/lib/markdown/render-shiki-code-block.tsx";
+import { MARKDOWN_SOURCE } from "#/modules/markdown/markdown.fixtures.ts";
 import { MessageImageGallerySingleComposition } from "#/modules/message-media/compositions/image-gallery-single.composition.tsx";
 import { MessageVideoPreviewComposition } from "#/modules/message-media/compositions/video-states.composition.tsx";
 import { MessageFileAttachmentsComposition } from "#/modules/message-attachment/compositions/file-attachments.composition.tsx";
@@ -189,15 +187,11 @@ export function MessageItemPreview({
     translationState === "pending" ? (
       <MessageItemTranslationPlaceholder data-testid="message-translation-placeholder-preview" />
     ) : translationState === "translated" || translationState === "bilingual" ? (
-      <MessageMarkdown>
-        <p>{showOriginal ? originalTranslation : translatedMessage}</p>
-      </MessageMarkdown>
+      <Markdown>{showOriginal ? originalTranslation : translatedMessage}</Markdown>
     ) : translationState === "failed" ? (
-      <MessageMarkdown>
-        <p>{originalTranslation}</p>
-      </MessageMarkdown>
+      <Markdown>{originalTranslation}</Markdown>
     ) : markdown ? (
-      <MessageMarkdownComposition imageSrc={MESSAGE_FIXTURE_IMAGE_SRC} />
+      <Markdown renderCode={renderShikiCodeBlock}>{MARKDOWN_SOURCE}</Markdown>
     ) : (
       <MessageItemExampleMarkdown portalContainer={portalContainer} />
     );
@@ -310,9 +304,7 @@ export function MessageItemPreview({
       {translationState === "bilingual" && !showOriginal ? (
         <MessageItemTranslationOriginal data-testid="message-translation-bilingual-original-preview">
           <MessageItemTranslationOriginalLabel>Original</MessageItemTranslationOriginalLabel>
-          <MessageMarkdown>
-            <p>{originalTranslation}</p>
-          </MessageMarkdown>
+          <Markdown>{originalTranslation}</Markdown>
         </MessageItemTranslationOriginal>
       ) : null}
       {translationStatus}

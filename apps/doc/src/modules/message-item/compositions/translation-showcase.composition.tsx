@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { AlertTriangle, Languages } from "lucide-react";
 
 import {
@@ -17,7 +18,6 @@ import {
   MessageItemTranslationOriginalLabel,
   MessageItemTranslationPlaceholder,
   MessageItemTranslationStatus,
-  MessageMarkdown,
 } from "raft-ui/wip";
 
 const ORIGINAL_MESSAGE = "Keep this original message available for the team.";
@@ -72,9 +72,7 @@ export function MessageTranslationShowcaseComposition() {
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
-            <MessageMarkdown>
-              <p>{showTranslatedOriginal ? ORIGINAL_MESSAGE : TRANSLATED_MESSAGE}</p>
-            </MessageMarkdown>
+            <Markdown>{showTranslatedOriginal ? ORIGINAL_MESSAGE : TRANSLATED_MESSAGE}</Markdown>
           </MessageItemBody>
           <MessageItemTranslationStatus>
             <Languages size={12} />
@@ -107,16 +105,12 @@ export function MessageTranslationShowcaseComposition() {
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
-            <MessageMarkdown>
-              <p>{showBilingualOriginal ? ORIGINAL_MESSAGE : TRANSLATED_MESSAGE}</p>
-            </MessageMarkdown>
+            <Markdown>{showBilingualOriginal ? ORIGINAL_MESSAGE : TRANSLATED_MESSAGE}</Markdown>
           </MessageItemBody>
           {!showBilingualOriginal ? (
             <MessageItemTranslationOriginal>
               <MessageItemTranslationOriginalLabel>Original</MessageItemTranslationOriginalLabel>
-              <MessageMarkdown>
-                <p>{ORIGINAL_MESSAGE}</p>
-              </MessageMarkdown>
+              <Markdown>{ORIGINAL_MESSAGE}</Markdown>
             </MessageItemTranslationOriginal>
           ) : null}
           <MessageItemTranslationStatus>
@@ -150,9 +144,7 @@ export function MessageTranslationShowcaseComposition() {
             <MessageItemTime>2:14 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
-            <MessageMarkdown>
-              <p>{ORIGINAL_MESSAGE}</p>
-            </MessageMarkdown>
+            <Markdown>{ORIGINAL_MESSAGE}</Markdown>
           </MessageItemBody>
           {retrying ? (
             <MessageItemTranslationStatus tone="pending">

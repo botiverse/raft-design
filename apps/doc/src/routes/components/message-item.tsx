@@ -150,7 +150,7 @@ function MessageItemDoc() {
       <DocNote>
         Centered system-event rows are a timeline peer — see{" "}
         <Link to="/components/system-message">SystemMessage</Link>. Body surfaces live on sibling
-        pages: <Link to="/components/message-markdown">MessageMarkdown</Link>,{" "}
+        pages: <Link to="/components/markdown">Markdown</Link>,{" "}
         <Link to="/components/message-reference">MessageReference</Link>,{" "}
         <Link to="/components/message-quoted-preview">MessageQuotedPreview</Link>,{" "}
         <Link to="/components/message-forwarded-bundle">MessageForwardedBundle</Link>,{" "}

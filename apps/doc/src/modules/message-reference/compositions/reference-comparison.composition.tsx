@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Hash } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage, MarkdownParagraph } from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -11,7 +11,6 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  MessageMarkdown,
   MessageReferenceChip,
 } from "raft-ui/wip";
 
@@ -44,30 +43,28 @@ export function MessageReferenceComparisonComposition() {
               <MessageItemTime>2:20 PM</MessageItemTime>
             </MessageItemHeader>
             <MessageItemBody>
-              <MessageMarkdown>
-                <p>
-                  Ask{" "}
-                  <MessageMentionReferenceComposition
-                    portalContainer={portalContainer}
-                    preview={<p>Atlas · owner</p>}
-                  >
-                    @Atlas
-                  </MessageMentionReferenceComposition>{" "}
-                  to check the{" "}
-                  <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
-                    #all
-                  </MessageTargetReferenceComposition>{" "}
-                  rollout in{" "}
-                  <MessageReferenceChip
-                    variant="accent"
-                    render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
-                  >
-                    <Hash size={12} />
-                    release-notes
-                  </MessageReferenceChip>
-                  .
-                </p>
-              </MessageMarkdown>
+              <MarkdownParagraph>
+                Ask{" "}
+                <MessageMentionReferenceComposition
+                  portalContainer={portalContainer}
+                  preview={<p>Atlas · owner</p>}
+                >
+                  @Atlas
+                </MessageMentionReferenceComposition>{" "}
+                to check the{" "}
+                <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
+                  #all
+                </MessageTargetReferenceComposition>{" "}
+                rollout in{" "}
+                <MessageReferenceChip
+                  variant="accent"
+                  render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
+                >
+                  <Hash size={12} />
+                  release-notes
+                </MessageReferenceChip>
+                .
+              </MarkdownParagraph>
             </MessageItemBody>
           </MessageItemContent>
         </MessageItem>

@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage, MarkdownMark, MarkdownParagraph } from "raft-ui";
 import {
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -7,7 +7,6 @@ import {
   MessageItemSearchMatch,
   MessageItemSender,
   MessageItemTime,
-  MessageMarkdown,
 } from "raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
@@ -28,12 +27,10 @@ export function MessageSearchMatchMarkComposition() {
             <MessageItemTime>3:20 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
-            <MessageMarkdown>
-              <p>
-                Hits keep the cyan source treatment and can also use inline <mark>mark</mark> for
-                token emphasis.
-              </p>
-            </MessageMarkdown>
+            <MarkdownParagraph>
+              Hits keep the cyan source treatment and can also use inline{" "}
+              <MarkdownMark>mark</MarkdownMark> for token emphasis.
+            </MarkdownParagraph>
           </MessageItemBody>
         </MessageItemContent>
       </MessageItemSearchMatch>

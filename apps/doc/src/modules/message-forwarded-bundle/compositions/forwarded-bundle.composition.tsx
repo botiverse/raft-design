@@ -4,6 +4,7 @@ import {
   MESSAGE_PLAYGROUND_URLS,
 } from "#/modules/message-item/message-item.fixtures.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { FileText } from "lucide-react";
 
 import {
@@ -12,9 +13,9 @@ import {
   MessageForwardedBundleAttachmentMeta,
   MessageForwardedBundleAttachmentName,
   MessageForwardedBundleAttachments,
-  MessageForwardedBundleContent,
   MessageForwardedBundleCollapsedFade,
   MessageForwardedBundleCollapsedItems,
+  MessageForwardedBundleContent,
   MessageForwardedBundleFooter,
   MessageForwardedBundleHeader,
   MessageForwardedBundleHeaderCount,
@@ -34,7 +35,6 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  MessageMarkdown,
 } from "raft-ui/wip";
 
 function ForwardedBundleItemsContent() {
@@ -47,9 +47,7 @@ function ForwardedBundleItemsContent() {
           <time dateTime="2026-07-15T06:05:00.000Z">Jul 15, 2:05 PM</time>
         </MessageForwardedBundleItemMeta>
         <MessageForwardedBundleContent>
-          <MessageMarkdown>
-            <p>Rollout is clear for the message reference migration.</p>
-          </MessageMarkdown>
+          <Markdown>Rollout is clear for the message reference migration.</Markdown>
         </MessageForwardedBundleContent>
       </MessageForwardedBundleItem>
       <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
@@ -59,9 +57,7 @@ function ForwardedBundleItemsContent() {
           <time dateTime="2026-07-15T06:09:00.000Z">Jul 15, 2:09 PM</time>
         </MessageForwardedBundleItemMeta>
         <MessageForwardedBundleContent>
-          <MessageMarkdown>
-            <p>Keep the source case with its attachment context.</p>
-          </MessageMarkdown>
+          <Markdown>Keep the source case with its attachment context.</Markdown>
         </MessageForwardedBundleContent>
         <MessageForwardedBundleAttachments>
           <MessageForwardedBundleAttachment>
@@ -80,9 +76,7 @@ function ForwardedBundleItemsContent() {
           <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
         </MessageForwardedBundleItemMeta>
         <MessageForwardedBundleContent>
-          <MessageMarkdown>
-            <p>Keep the original context available to reviewers.</p>
-          </MessageMarkdown>
+          <Markdown>Keep the original context available to reviewers.</Markdown>
         </MessageForwardedBundleContent>
       </MessageForwardedBundleItem>
       <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
@@ -92,9 +86,7 @@ function ForwardedBundleItemsContent() {
           <time dateTime="2026-07-15T06:16:00.000Z">Jul 15, 2:16 PM</time>
         </MessageForwardedBundleItemMeta>
         <MessageForwardedBundleContent>
-          <MessageMarkdown>
-            <p>Follow the same message state contract in the thread.</p>
-          </MessageMarkdown>
+          <Markdown>Follow the same message state contract in the thread.</Markdown>
         </MessageForwardedBundleContent>
       </MessageForwardedBundleItem>
     </>

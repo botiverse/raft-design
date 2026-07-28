@@ -27,6 +27,10 @@ catalog:
   "@vitejs/plugin-rsc": ^0.5.27
   "@cloudflare/vite-plugin": ^1.44.0
   react-resizable-panels: ^4.12.1
+  react-markdown: ^10.1.0
+  rehype-sanitize: ^6.0.0
+  remark-breaks: ^4.0.0
+  remark-gfm: ^4.0.1
   react-dropzone: ^19.1.1
   motion: ^12.42.2
   "@tanstack/react-virtual": ^3.14.8

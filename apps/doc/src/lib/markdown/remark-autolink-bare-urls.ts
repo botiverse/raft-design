@@ -1,3 +1,11 @@
+type MarkdownNode = {
+  children?: MarkdownNode[];
+  title?: string | null;
+  type: string;
+  url?: string;
+  value?: string;
+};
+
 const CJK_URL_BOUNDARY_PUNCTUATION = "，。、；：！？）》」』】》〉”’（《「『【〈“‘";
 const ASCII_CLOSING_PUNCTUATION_PAIRS: Record<string, string> = {
   ")": "(",
@@ -67,22 +75,22 @@ function splitUrlBoundary(rawUrl: string, source: string, nextIndex: number) {
     url = url.slice(0, -1);
   }
 
-  return { url, boundary };
+  return { boundary, url };
 }
 
-function isBareAutolinkNode(node: any): boolean {
-  if (node?.type !== "link" || typeof node.url !== "string") return false;
+function isBareAutolinkNode(node: MarkdownNode): boolean {
+  if (node.type !== "link" || typeof node.url !== "string") return false;
   if (!Array.isArray(node.children) || node.children.length !== 1) return false;
   const child = node.children[0];
-  return child?.type === "text" && child.value === node.url;
+  return child.type === "text" && child.value === node.url;
 }
 
-function transformChildren(parent: any) {
-  if (!Array.isArray(parent?.children)) return;
+function transformChildren(parent: MarkdownNode) {
+  if (!Array.isArray(parent.children)) return;
 
-  const nextChildren: any[] = [];
+  const nextChildren: MarkdownNode[] = [];
   for (const child of parent.children) {
-    if (child?.type === "text" && typeof child.value === "string") {
+    if (child.type === "text" && typeof child.value === "string") {
       const pattern = /https?:\/\/[^\s<>]+/g;
       let cursor = 0;
       for (const match of child.value.matchAll(pattern)) {
@@ -91,13 +99,13 @@ function transformChildren(parent: any) {
         if (index > cursor) {
           nextChildren.push({ type: "text", value: child.value.slice(cursor, index) });
         }
-        const { url, boundary } = splitUrlBoundary(rawUrl, child.value, index + rawUrl.length);
+        const { boundary, url } = splitUrlBoundary(rawUrl, child.value, index + rawUrl.length);
         if (url) {
           nextChildren.push({
+            children: [{ type: "text", value: url }],
+            title: null,
             type: "link",
             url,
-            title: null,
-            children: [{ type: "text", value: url }],
           });
           if (boundary) nextChildren.push({ type: "text", value: boundary });
         } else {
@@ -112,16 +120,17 @@ function transformChildren(parent: any) {
     }
 
     if (isBareAutolinkNode(child)) {
-      const { url, boundary } = splitUrlBoundary(child.url, "", -1);
-      if (boundary && url) {
-        nextChildren.push({ ...child, url, children: [{ ...child.children[0], value: url }] });
+      const { boundary, url } = splitUrlBoundary(child.url ?? "", "", -1);
+      const autolinkText = child.children?.[0];
+      if (boundary && url && autolinkText) {
+        nextChildren.push({ ...child, children: [{ ...autolinkText, value: url }], url });
         nextChildren.push({ type: "text", value: boundary });
         continue;
       }
     }
 
     if (
-      !["link", "linkReference", "definition", "inlineCode", "code", "html"].includes(child?.type)
+      !["link", "linkReference", "definition", "inlineCode", "code", "html"].includes(child.type)
     ) {
       transformChildren(child);
     }
@@ -131,8 +140,9 @@ function transformChildren(parent: any) {
   parent.children = nextChildren;
 }
 
+/** Turns bare `http(s)` text into links, keeping CJK and unbalanced trailing punctuation outside the URL. */
 export function remarkAutolinkBareUrls() {
-  return (tree: any) => {
+  return (tree: MarkdownNode) => {
     transformChildren(tree);
   };
 }
