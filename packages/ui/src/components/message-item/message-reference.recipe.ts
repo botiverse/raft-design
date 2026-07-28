@@ -1,30 +1,36 @@
 import { tv, type VariantProps } from "../../lib/tv";
 
+/** Shared by every reference surface: `text`, `chip`, `pending`, `unavailable`. */
+const surface = [
+  "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+  "[&_svg]:size-3 [&_svg]:shrink-0",
+];
+
+/** Elegant pill geometry, shared by every surface in that theme. */
+const elegantPill = [
+  "h-[19px] align-middle -mt-px rounded-full border border-transparent px-2 py-0",
+  "leading-none tracking-normal",
+  "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
+];
+
+/** Brutal surfaces only become a row when the consumer passes a leading icon. */
+const brutalIconRow = "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1";
+
+const brutalBox = ["align-bottom border px-1 font-medium", "[font-size:inherit] leading-tight"];
+
 export const messageReference = tv({
   slots: {
-    text: [
-      "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
-      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
-      "[&_svg]:size-3 [&_svg]:shrink-0",
-    ],
+    text: surface,
     chip: [
-      "inline-flex max-w-full items-center gap-1 overflow-hidden text-ellipsis whitespace-nowrap align-bottom select-text no-underline",
+      ...surface,
+      "inline-flex items-center gap-1 align-bottom",
       "[font-size:inherit] leading-tight",
-      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
-      "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
-    pending: [
-      "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
-      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
-      "[&_svg]:size-3 [&_svg]:shrink-0",
-    ],
-    unavailable: [
-      "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
-      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
-      "[&_svg]:size-3 [&_svg]:shrink-0",
-    ],
-    label: ["min-w-0 truncate"],
-    meta: ["shrink-0"],
+    pending: surface,
+    unavailable: surface,
+    chipLabel: ["min-w-0 truncate"],
+    chipMeta: ["shrink-0"],
     badge: [
       "inline-flex items-center gap-1",
       "text-[10px] leading-none font-medium",
@@ -36,15 +42,15 @@ export const messageReference = tv({
   variants: {
     theme: {
       brutal: {
-        text: "focus-visible:outline-black",
+        text: ["focus-visible:outline-black", brutalIconRow],
         chip: ["focus-visible:outline-black", "border px-1 font-medium text-foreground"],
-        pending: "focus-visible:outline-black",
-        unavailable: "focus-visible:outline-black",
-        meta: "text-[10px] font-normal leading-none text-foreground/50",
+        pending: ["focus-visible:outline-black", brutalIconRow],
+        unavailable: ["focus-visible:outline-black", brutalIconRow],
+        chipMeta: "text-[10px] font-normal leading-none text-foreground/50",
         badge: "border border-black bg-soft-signal px-1 text-black",
       },
       elegant: {
-        meta: "text-[10px] font-normal leading-none text-foreground-muted",
+        chipMeta: "text-[10px] font-normal leading-none text-foreground-muted",
         // Anchored by its right edge so the reveal grows leftwards over preceding text.
         badge: [
           "absolute top-1/2 right-[calc(100%-17.5px)] z-10 -translate-y-1/2",
@@ -75,32 +81,24 @@ export const messageReference = tv({
     {
       theme: "brutal",
       class: {
-        text: "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
-        pending: "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
-        unavailable: "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
-      },
-    },
-    {
-      theme: "brutal",
-      class: {
         text: [
-          "inline-flex cursor-default items-center gap-1 align-bottom border border-black bg-primary-400/40 px-1",
-          "[font-size:inherit] font-medium leading-tight text-primary-900 no-underline",
-          "hover:bg-primary-400/60 hover:text-primary-900",
+          "inline-flex cursor-default items-center gap-1 border-black bg-primary-400/40",
+          ...brutalBox,
+          "text-primary-900 no-underline hover:bg-primary-400/60 hover:text-primary-900",
         ],
+        pending: [
+          "inline-flex cursor-wait items-center gap-1 border-line-strong bg-layer-muted opacity-80",
+          ...brutalBox,
+          "text-foreground",
+        ],
+        unavailable: ["inline-block border-line-strong opacity-60", ...brutalBox],
       },
     },
     {
       theme: "brutal",
       class: {
-        pending: [
-          "inline-flex cursor-wait items-center gap-1 align-bottom border border-line-strong bg-layer-muted px-1 font-medium text-foreground opacity-80",
-          "[font-size:inherit] leading-tight",
-        ],
-        unavailable: [
-          "inline-block align-bottom border border-line-strong px-1 font-medium opacity-60",
-          "[font-size:inherit] leading-tight",
-        ],
+        pending: "border-black bg-brutal-cyan/30 text-black",
+        unavailable: "border-black bg-soft-signal/30 text-black",
       },
     },
     {
@@ -108,120 +106,6 @@ export const messageReference = tv({
       variant: "primary",
       class: {
         chip: "cursor-default border-black bg-soft-signal text-black hover:bg-soft-signal/80",
-      },
-    },
-    {
-      theme: "elegant",
-      class: {
-        text: [
-          "inline-flex h-[19px] items-center gap-0.5 align-middle -mt-px rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0",
-          "cursor-pointer font-normal leading-none tracking-normal text-[oklch(0.44_0.09_91.39)]",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
-          "transition-[filter,opacity] duration-100 hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: ["primary", "accent", "muted", "info", "neutral", "link"],
-      class: {
-        chip: [
-          "[--reference-badge-ink:var(--color-foreground-inverse)]",
-          "group relative h-[19px] gap-1.5 align-middle -mt-px rounded-full border border-transparent px-2 py-0",
-          "cursor-pointer font-normal leading-none tracking-normal text-foreground-strong",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
-          "has-[>[data-message-reference-badge]]:overflow-visible",
-          "has-[>[data-message-reference-badge]]:pr-2.5 has-[>[data-message-reference-badge]]:pl-[21.5px]",
-          "transition-[filter,opacity] duration-100",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: ["accent", "muted", "info", "neutral", "link"],
-      class: {
-        chip: [
-          "has-[>svg]:pl-[1.5px]",
-          "[&_svg]:size-4 [&_svg]:rounded-full [&_svg]:bg-[var(--reference-badge)] [&_svg]:p-[3px] [&_svg]:text-[var(--reference-badge-ink)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "primary",
-      class: {
-        chip: [
-          "bg-primary-400 text-[oklch(0.431_0.088_86.67)]",
-          "hover:bg-primary-400 hover:text-[oklch(0.431_0.088_86.67)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "accent",
-      class: {
-        chip: [
-          "[--reference-badge:oklch(0.543_0.215_359.77)]",
-          "bg-[oklch(0.965_0.019_358.59)] text-[oklch(0.543_0.215_359.77)]",
-          "hover:bg-[oklch(0.965_0.019_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "muted",
-      class: {
-        chip: [
-          "[--reference-badge:var(--color-foreground-muted)]",
-          "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "info",
-      class: {
-        chip: [
-          "[--reference-badge:oklch(0.543_0.215_359.77)]",
-          "bg-[oklch(0.965_0.019_358.59)] text-[oklch(0.543_0.215_359.77)]",
-          "hover:bg-[oklch(0.965_0.019_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "neutral",
-      class: {
-        chip: [
-          "[--reference-badge:oklch(0.441_0.078_221.2)]",
-          "bg-[oklch(0.966_0.022_224.02)] text-[oklch(0.441_0.078_221.2)]",
-          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-[oklch(0.441_0.078_221.2)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "link",
-      class: {
-        chip: [
-          "[--reference-badge:var(--color-foreground-muted)]",
-          "bg-layer-muted text-foreground-strong hover:bg-layer-strong",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      class: {
-        pending: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-layer-muted px-2 py-0",
-          "cursor-wait font-medium leading-none tracking-normal text-foreground-muted opacity-100",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
-        ],
-        unavailable: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-layer-muted px-2 py-0",
-          "cursor-default font-medium leading-none tracking-normal text-foreground-muted opacity-100",
-          "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
-        ],
       },
     },
     {
@@ -260,10 +144,102 @@ export const messageReference = tv({
       },
     },
     {
-      theme: "brutal",
+      theme: "elegant",
       class: {
-        pending: "border-black bg-brutal-cyan/30 text-black",
-        unavailable: "border-black bg-soft-signal/30 text-black",
+        text: [
+          ...elegantPill,
+          "inline-flex items-center gap-0.5",
+          "cursor-pointer font-normal bg-[oklch(0.955_0.067_93.62)] text-[oklch(0.44_0.09_91.39)]",
+          "transition-[filter,opacity] duration-100 hover:bg-[oklch(0.955_0.067_93.62)] hover:text-[oklch(0.44_0.09_91.39)]",
+        ],
+        pending: [
+          ...elegantPill,
+          "inline-flex items-center gap-1.5",
+          "cursor-wait font-medium bg-layer-muted text-foreground-muted",
+        ],
+        unavailable: [
+          ...elegantPill,
+          "inline-flex items-center gap-1.5",
+          "cursor-default font-medium bg-layer-muted text-foreground-muted",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: ["primary", "accent", "muted", "info", "neutral", "link"],
+      class: {
+        chip: [
+          ...elegantPill,
+          "[--reference-badge-ink:var(--color-foreground-inverse)]",
+          "group relative gap-1.5",
+          "cursor-pointer font-normal text-foreground-strong",
+          "has-[>[data-message-reference-badge]]:overflow-visible",
+          "has-[>[data-message-reference-badge]]:pr-2.5 has-[>[data-message-reference-badge]]:pl-[21.5px]",
+          "transition-[filter,opacity] duration-100",
+        ],
+      },
+    },
+    {
+      // The bare-icon path renders the icon itself as the badge circle.
+      theme: "elegant",
+      variant: ["accent", "muted", "info", "neutral", "link"],
+      class: {
+        chip: [
+          "has-[>svg]:pl-[1.5px]",
+          "[&_svg]:size-4 [&_svg]:rounded-full [&_svg]:bg-[var(--reference-badge)] [&_svg]:p-[3px] [&_svg]:text-[var(--reference-badge-ink)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "primary",
+      class: {
+        chip: [
+          "bg-primary-400 text-[oklch(0.431_0.088_86.67)]",
+          "hover:bg-primary-400 hover:text-[oklch(0.431_0.088_86.67)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: ["accent", "info"],
+      class: {
+        chip: [
+          "[--reference-badge:oklch(0.543_0.215_359.77)]",
+          "bg-[oklch(0.965_0.019_358.59)] text-[oklch(0.543_0.215_359.77)]",
+          "hover:bg-[oklch(0.965_0.019_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "neutral",
+      class: {
+        chip: [
+          "[--reference-badge:oklch(0.441_0.078_221.2)]",
+          "bg-[oklch(0.966_0.022_224.02)] text-[oklch(0.441_0.078_221.2)]",
+          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-[oklch(0.441_0.078_221.2)]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "muted",
+      class: {
+        chip: [
+          "[--reference-badge:var(--color-foreground-muted)]",
+          "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "link",
+      class: {
+        chip: [
+          "[--reference-badge:var(--color-foreground-muted)]",
+          "bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+        ],
       },
     },
   ],

@@ -55,9 +55,9 @@ export function MessageReferenceChip({
 export type MessageReferenceLabelProps = useRender.ComponentProps<"span">;
 
 export function MessageReferenceLabel({ className, render, ...props }: MessageReferenceLabelProps) {
-  const { label } = messageReference();
+  const { chipLabel } = messageReference();
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: label({ className }),
+    className: chipLabel({ className }),
   };
 
   return useRender({
@@ -128,9 +128,9 @@ export type MessageReferenceMetaProps = useRender.ComponentProps<"span">;
 
 export function MessageReferenceMeta({ className, render, ...props }: MessageReferenceMetaProps) {
   const theme = useThemeFamily();
-  const { meta } = messageReference({ theme });
+  const { chipMeta } = messageReference({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: meta({ className }),
+    className: chipMeta({ className }),
   };
 
   return useRender({
