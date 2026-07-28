@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -162,13 +161,6 @@ function MarkdownDoc() {
       description="Styled parts for rendered Markdown — headings, lists, tables, quotes, and inline code."
       toc={TOC}
     >
-      <DocNote>
-        This package ships the parts, not a renderer. Parsing, plugins, sanitizing, and the node
-        mapping stay with the consumer, so react-markdown and MDX can both use the same parts. The
-        docs app wires react-markdown; that wiring is shown below and is meant to be copied, not
-        imported.
-      </DocNote>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview previewClassName="items-stretch">
           <Preview.Canvas>
