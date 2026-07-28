@@ -25,17 +25,13 @@ export function MessageAttachmentGroup({
   });
 }
 
-export type MessageAttachmentContentProps = useRender.ComponentProps<"div">;
+export type MessageAttachmentCardProps = useRender.ComponentProps<"div">;
 
-export function MessageAttachmentContent({
-  className,
-  render,
-  ...props
-}: MessageAttachmentContentProps) {
+export function MessageAttachmentCard({ className, render, ...props }: MessageAttachmentCardProps) {
   const theme = useThemeFamily();
-  const { content } = messageAttachment({ theme });
+  const { card } = messageAttachment({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
-    className: content({ className }),
+    className: card({ className }),
   };
 
   return useRender({
@@ -43,7 +39,7 @@ export function MessageAttachmentContent({
     render,
     props: mergeProps<"div">(defaultProps, props),
     state: {
-      slot: "message-attachment-content",
+      slot: "message-attachment-card",
     },
   });
 }
@@ -90,16 +86,16 @@ export function MessageAttachmentMeta({ className, render, ...props }: MessageAt
   });
 }
 
-export type MessageAttachmentMetaLabelProps = useRender.ComponentProps<"span">;
+export type MessageAttachmentMetaStartProps = useRender.ComponentProps<"span">;
 
-export function MessageAttachmentMetaLabel({
+export function MessageAttachmentMetaStart({
   className,
   render,
   ...props
-}: MessageAttachmentMetaLabelProps) {
-  const { metaLabel } = messageAttachment();
+}: MessageAttachmentMetaStartProps) {
+  const { metaStart } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: metaLabel({ className }),
+    className: metaStart({ className }),
   };
 
   return useRender({
@@ -107,21 +103,21 @@ export function MessageAttachmentMetaLabel({
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: {
-      slot: "message-attachment-meta-label",
+      slot: "message-attachment-meta-start",
     },
   });
 }
 
-export type MessageAttachmentMetaDetailProps = useRender.ComponentProps<"span">;
+export type MessageAttachmentMetaEndProps = useRender.ComponentProps<"span">;
 
-export function MessageAttachmentMetaDetail({
+export function MessageAttachmentMetaEnd({
   className,
   render,
   ...props
-}: MessageAttachmentMetaDetailProps) {
-  const { metaDetail } = messageAttachment();
+}: MessageAttachmentMetaEndProps) {
+  const { metaEnd } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: metaDetail({ className }),
+    className: metaEnd({ className }),
   };
 
   return useRender({
@@ -129,30 +125,7 @@ export function MessageAttachmentMetaDetail({
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: {
-      slot: "message-attachment-meta-detail",
-    },
-  });
-}
-
-export type MessageAttachmentMetaSeparatorProps = useRender.ComponentProps<"span">;
-
-export function MessageAttachmentMetaSeparator({
-  className,
-  render,
-  ...props
-}: MessageAttachmentMetaSeparatorProps) {
-  const { metaSeparator } = messageAttachment();
-  const defaultProps: useRender.ElementProps<"span"> = {
-    "aria-hidden": true,
-    className: metaSeparator({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "message-attachment-meta-separator",
+      slot: "message-attachment-meta-end",
     },
   });
 }
@@ -188,9 +161,9 @@ export function MessageAttachmentCommentSummary({
   ...props
 }: MessageAttachmentCommentSummaryProps) {
   const theme = useThemeFamily();
-  const { commentSummary, summary } = messageAttachment({ theme });
+  const { commentSummary } = messageAttachment({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: summary({ className: commentSummary({ className }) }),
+    className: commentSummary({ className }),
   };
 
   return useRender({
@@ -210,10 +183,9 @@ export function MessageAttachmentDiffSummary({
   render,
   ...props
 }: MessageAttachmentDiffSummaryProps) {
-  const theme = useThemeFamily();
-  const { diffSummary, summary } = messageAttachment({ theme });
+  const { diffSummary } = messageAttachment();
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: summary({ className: diffSummary({ className }) }),
+    className: diffSummary({ className }),
   };
 
   return useRender({

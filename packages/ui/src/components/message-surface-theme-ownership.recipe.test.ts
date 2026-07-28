@@ -1,28 +1,25 @@
 import { describe, expect, it } from "vite-plus/test";
 import { messageActionCard } from "./message-action-card/message-action-card.recipe";
-import { messageAttachmentPreview } from "./message-attachment/message-attachment-preview.recipe";
 import { messageForwardedBundle } from "./message-forwarded-bundle/message-forwarded-bundle.recipe";
-import { messageMedia } from "./message-media/message-media.recipe";
+import { messageImageGallery } from "./message-attachment/message-image-gallery.recipe";
+import { messageVideoPreview } from "./message-attachment/message-video-preview.recipe";
 import { messageSystem } from "./system-message/system-message.recipe";
 
 describe("message surface theme ownership", () => {
   it("keeps Brutal's coarse borders while Elegant selects its own thin treatments", () => {
     const actionBrutal = messageActionCard({ theme: "brutal" });
     const actionElegant = messageActionCard({ theme: "elegant" });
-    const previewBrutal = messageAttachmentPreview({ theme: "brutal" });
-    const previewElegant = messageAttachmentPreview({ theme: "elegant" });
-    const mediaBrutal = messageMedia({ theme: "brutal" });
-    const mediaElegant = messageMedia({ theme: "elegant" });
+    const galleryBrutal = messageImageGallery({ theme: "brutal" });
+    const galleryElegant = messageImageGallery({ theme: "elegant" });
+    const videoElegant = messageVideoPreview({ theme: "elegant" });
 
     expect(actionBrutal.root()).toContain("border-2");
     expect(actionElegant.root()).not.toContain("border-2");
     expect(actionElegant.hint()).not.toContain("border-l-2");
-    expect(previewBrutal.audioPreviewCard()).toContain("border-2");
-    expect(previewElegant.audioPreviewCard()).not.toContain("border-2");
-    expect(mediaBrutal.galleryItem()).toContain("border-2");
-    expect(mediaElegant.galleryItem()).not.toContain("border-2");
-    expect(mediaElegant.video()).not.toContain("border-2");
-    expect(mediaElegant.galleryItem()).toContain("hover:shadow-sm");
+    expect(galleryBrutal.item()).toContain("border-2");
+    expect(galleryElegant.item()).not.toContain("border-2");
+    expect(videoElegant.root()).not.toContain("border-2");
+    expect(galleryElegant.item()).toContain("hover:shadow-sm");
   });
 
   it("keeps typography and density with the active theme", () => {

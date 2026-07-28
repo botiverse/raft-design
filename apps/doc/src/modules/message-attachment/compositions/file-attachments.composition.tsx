@@ -4,64 +4,76 @@ import { Spinner } from "raft-ui";
 import {
   MessageAttachmentAction,
   MessageAttachmentCommentSummary,
-  MessageAttachmentContent,
+  MessageAttachmentCard,
   MessageAttachmentDiffAddition,
   MessageAttachmentDiffDeletion,
   MessageAttachmentDiffSummary,
   MessageAttachmentGroup,
   MessageAttachmentMeta,
-  MessageAttachmentMetaDetail,
-  MessageAttachmentMetaLabel,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
+  MessageAttachmentSummary,
   MessageAttachmentTitle,
 } from "raft-ui/wip";
 import {
   MESSAGE_FIXTURE_AUDIO_SRC,
   downloadMessageFixture,
 } from "#/modules/message-item/message-item.fixtures.ts";
-import {
-  MessageAttachmentPendingComposition,
-  MessageAttachmentReadyComposition,
-} from "./attachment.compositions.tsx";
 
 function MessageHtmlPreviewAttachmentComposition() {
   const [opening, setOpening] = useState(false);
 
   return (
-    <MessageAttachmentReadyComposition
-      name="screening.html"
-      meta="44 KB"
-      loading={opening}
-      primaryAction={opening ? <Spinner size="xs" /> : <Eye aria-hidden />}
-      primaryActionLabel="Preview screening.html"
-      onPrimaryAction={opening ? undefined : () => setOpening(true)}
-    />
+    <MessageAttachmentCard aria-busy={opening || undefined}>
+      <MessageAttachmentTitle>screening.html</MessageAttachmentTitle>
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaStart>44 KB</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaEnd>
+          <MessageAttachmentAction
+            aria-label="Preview screening.html"
+            title="Preview screening.html"
+            onClick={opening ? undefined : () => setOpening(true)}
+            render={opening ? <span aria-hidden /> : undefined}
+          >
+            {opening ? <Spinner size="xs" /> : <Eye aria-hidden />}
+          </MessageAttachmentAction>
+        </MessageAttachmentMetaEnd>
+      </MessageAttachmentMeta>
+    </MessageAttachmentCard>
   );
 }
 
 export function MessageFileAttachmentComposition() {
   return (
-    <MessageAttachmentReadyComposition
-      name="migration.diff"
-      meta="18 KB"
-      primaryAction={<ArrowDownToLine />}
-      primaryActionLabel="Download migration.diff"
-      onPrimaryAction={() => downloadMessageFixture("migration.diff")}
-    >
-      <MessageAttachmentDiffSummary>
+    <MessageAttachmentCard>
+      <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
+      <MessageAttachmentSummary render={<MessageAttachmentDiffSummary />}>
         <MessageAttachmentDiffAddition>+42</MessageAttachmentDiffAddition>
         <MessageAttachmentDiffDeletion>-7</MessageAttachmentDiffDeletion>
-      </MessageAttachmentDiffSummary>
-    </MessageAttachmentReadyComposition>
+      </MessageAttachmentSummary>
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaStart>18 KB</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaEnd>
+          <MessageAttachmentAction
+            aria-label="Download migration.diff"
+            title="Download migration.diff"
+            onClick={() => downloadMessageFixture("migration.diff")}
+          >
+            <ArrowDownToLine />
+          </MessageAttachmentAction>
+        </MessageAttachmentMetaEnd>
+      </MessageAttachmentMeta>
+    </MessageAttachmentCard>
   );
 }
 
 function MessageAudioAttachmentComposition() {
   return (
-    <MessageAttachmentContent>
+    <MessageAttachmentCard>
       <MessageAttachmentTitle>message-preview.wav</MessageAttachmentTitle>
       <MessageAttachmentMeta>
-        <MessageAttachmentMetaLabel>4 KB</MessageAttachmentMetaLabel>
-        <MessageAttachmentMetaDetail>
+        <MessageAttachmentMetaStart>4 KB</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaEnd>
           <MessageAttachmentAction
             aria-label="Preview message-preview.wav"
             onClick={() => window.open(MESSAGE_FIXTURE_AUDIO_SRC, "_blank", "noopener,noreferrer")}
@@ -76,25 +88,66 @@ function MessageAudioAttachmentComposition() {
           >
             <ArrowDownToLine aria-hidden />
           </MessageAttachmentAction>
-        </MessageAttachmentMetaDetail>
+        </MessageAttachmentMetaEnd>
       </MessageAttachmentMeta>
-    </MessageAttachmentContent>
+    </MessageAttachmentCard>
   );
 }
 
 function MessageCommentedMarkdownAttachmentComposition() {
   return (
-    <MessageAttachmentReadyComposition
-      name="release-notes.md"
-      meta="1 KB"
-      primaryAction={<ArrowDownToLine />}
-      primaryActionLabel="Download release-notes.md"
-      onPrimaryAction={() => downloadMessageFixture("release-notes.md")}
-    >
-      <MessageAttachmentCommentSummary>
+    <MessageAttachmentCard>
+      <MessageAttachmentTitle>release-notes.md</MessageAttachmentTitle>
+      <MessageAttachmentSummary render={<MessageAttachmentCommentSummary />}>
         <MessageSquare />6
-      </MessageAttachmentCommentSummary>
-    </MessageAttachmentReadyComposition>
+      </MessageAttachmentSummary>
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaEnd>
+          <MessageAttachmentAction
+            aria-label="Download release-notes.md"
+            title="Download release-notes.md"
+            onClick={() => downloadMessageFixture("release-notes.md")}
+          >
+            <ArrowDownToLine />
+          </MessageAttachmentAction>
+        </MessageAttachmentMetaEnd>
+      </MessageAttachmentMeta>
+    </MessageAttachmentCard>
+  );
+}
+
+function MessagePendingCsvAttachmentComposition() {
+  return (
+    <MessageAttachmentCard aria-busy>
+      <MessageAttachmentTitle>metrics.csv</MessageAttachmentTitle>
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaEnd>
+          <Spinner size="xs" />
+        </MessageAttachmentMetaEnd>
+      </MessageAttachmentMeta>
+    </MessageAttachmentCard>
+  );
+}
+
+function MessageCsvAttachmentComposition() {
+  return (
+    <MessageAttachmentCard>
+      <MessageAttachmentTitle>metrics.csv</MessageAttachmentTitle>
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaEnd>
+          <MessageAttachmentAction
+            aria-label="Download metrics.csv"
+            title="Download metrics.csv"
+            onClick={() => downloadMessageFixture("metrics.csv")}
+          >
+            <ArrowDownToLine />
+          </MessageAttachmentAction>
+        </MessageAttachmentMetaEnd>
+      </MessageAttachmentMeta>
+    </MessageAttachmentCard>
   );
 }
 
@@ -105,13 +158,7 @@ export function MessageFileAttachmentsComposition() {
       <MessageHtmlPreviewAttachmentComposition />
       <MessageAudioAttachmentComposition />
       <MessageCommentedMarkdownAttachmentComposition />
-      <MessageAttachmentReadyComposition
-        name="metrics.csv"
-        meta="1 KB"
-        primaryAction={<ArrowDownToLine />}
-        primaryActionLabel="Download metrics.csv"
-        onPrimaryAction={() => downloadMessageFixture("metrics.csv")}
-      />
+      <MessageCsvAttachmentComposition />
     </MessageAttachmentGroup>
   );
 }
@@ -123,7 +170,7 @@ export function MessageFileAttachmentStatesComposition() {
       <MessageHtmlPreviewAttachmentComposition />
       <MessageAudioAttachmentComposition />
       <MessageCommentedMarkdownAttachmentComposition />
-      <MessageAttachmentPendingComposition name="metrics.csv" meta="1 KB" />
+      <MessagePendingCsvAttachmentComposition />
     </MessageAttachmentGroup>
   );
 }

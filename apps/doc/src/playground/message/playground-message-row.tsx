@@ -31,6 +31,14 @@ import {
   MessageItemSearchMatch,
   MessageItemSelection,
   MessageItemSender,
+  MessageAttachmentAction,
+  MessageAttachmentCommentSummary,
+  MessageAttachmentCard,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
+  MessageAttachmentSummary,
+  MessageAttachmentTitle,
   MessageItemTime,
   MessageItemThreadRepliesPreview,
   MessageItemTranslationAction,
@@ -38,16 +46,6 @@ import {
   MessageItemTranslationOriginalLabel,
   MessageItemTranslationPlaceholder,
   MessageItemTranslationStatus,
-  MessageAttachmentAction,
-  MessageAttachmentActions,
-  MessageAttachmentBody,
-  MessageAttachmentCard,
-  MessageAttachmentFrame,
-  MessageAttachmentMeta,
-  MessageAttachmentMetaDetail,
-  MessageAttachmentMetaLabel,
-  MessageAttachmentMetaSeparator,
-  MessageAttachmentTitle,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
   useMessageMultiSelect,
@@ -118,48 +116,41 @@ function PlaygroundMessageSender({
 
 function PlaygroundMessageAttachments({ files }: { files: readonly PlaygroundFile[] }) {
   return files.map((file) => (
-    <MessageAttachmentFrame key={file.id}>
-      <MessageAttachmentCard
-        aria-label={`Preview ${file.filename}`}
-        render={<button type="button" />}
-        onClick={() => window.open(file.previewUrl, "_blank", "noopener,noreferrer")}
-      >
-        <MessageAttachmentBody>
-          <MessageAttachmentTitle>{file.filename}</MessageAttachmentTitle>
-          <MessageAttachmentMeta>
-            <MessageAttachmentMetaLabel>
-              {file.type.toUpperCase()} · {file.size}
-            </MessageAttachmentMetaLabel>
-            {file.type === "image" ? (
-              <MessageAttachmentMetaDetail>
-                <MessageAttachmentMetaSeparator>·</MessageAttachmentMetaSeparator>
-                <MessageSquare />2
-              </MessageAttachmentMetaDetail>
-            ) : null}
-          </MessageAttachmentMeta>
-        </MessageAttachmentBody>
-        <MessageAttachmentActions>
-          <MessageAttachmentAction render={<span />}>
+    <MessageAttachmentCard key={file.id}>
+      <MessageAttachmentTitle>{file.filename}</MessageAttachmentTitle>
+      {file.type === "image" ? (
+        <MessageAttachmentSummary render={<MessageAttachmentCommentSummary />}>
+          <MessageSquare />2
+        </MessageAttachmentSummary>
+      ) : null}
+      <MessageAttachmentMeta>
+        <MessageAttachmentMetaStart>{`${file.type.toUpperCase()} · ${file.size}`}</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaEnd>
+          <MessageAttachmentAction
+            aria-label={`Preview ${file.filename}`}
+            title={`Preview ${file.filename}`}
+            onClick={() => {
+              window.open(file.previewUrl, "_blank", "noopener,noreferrer");
+            }}
+          >
             <ExternalLink />
           </MessageAttachmentAction>
-        </MessageAttachmentActions>
-      </MessageAttachmentCard>
-      <MessageAttachmentAction
-        aria-label={`Download ${file.filename}`}
-        title={`Download ${file.filename}`}
-        onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          const link = document.createElement("a");
-          link.href = file.previewUrl;
-          link.download = file.filename;
-          link.rel = "noopener";
-          link.click();
-        }}
-      >
-        <Download />
-      </MessageAttachmentAction>
-    </MessageAttachmentFrame>
+          <MessageAttachmentAction
+            aria-label={`Download ${file.filename}`}
+            title={`Download ${file.filename}`}
+            onClick={() => {
+              const link = document.createElement("a");
+              link.href = file.previewUrl;
+              link.download = file.filename;
+              link.rel = "noopener";
+              link.click();
+            }}
+          >
+            <Download />
+          </MessageAttachmentAction>
+        </MessageAttachmentMetaEnd>
+      </MessageAttachmentMeta>
+    </MessageAttachmentCard>
   ));
 }
 
@@ -185,7 +176,7 @@ function PlaygroundSentMessageAttachments({
       attachment.previewUrl && attachment.mediaType.startsWith("image/") ? (
         <button
           type="button"
-          className="block w-fit max-w-[26rem] overflow-hidden border-2 border-line-strong bg-layer-muted text-left hover:brightness-95"
+          className="block w-fit max-w-[416px] overflow-hidden border-2 border-line-strong bg-layer-muted text-left hover:brightness-95"
           aria-label={`Preview ${attachment.name}`}
           onClick={openPreview}
         >
@@ -217,47 +208,34 @@ function PlaygroundSentMessageAttachments({
     return (
       <div key={`${attachment.name}:${attachment.mediaType}`} className="grid gap-2">
         {mediaPreview}
-        {openPreview && downloadAttachment ? (
-          <MessageAttachmentFrame>
-            <MessageAttachmentCard
-              aria-label={`Preview ${attachment.name}`}
-              render={<button type="button" />}
-              onClick={openPreview}
-            >
-              <MessageAttachmentBody>
-                <MessageAttachmentTitle>{attachment.name}</MessageAttachmentTitle>
-                <MessageAttachmentMeta>
-                  <MessageAttachmentMetaLabel>{attachment.mediaType}</MessageAttachmentMetaLabel>
-                </MessageAttachmentMeta>
-              </MessageAttachmentBody>
-              <MessageAttachmentActions>
-                <MessageAttachmentAction render={<span />}>
-                  <ExternalLink />
-                </MessageAttachmentAction>
-              </MessageAttachmentActions>
-            </MessageAttachmentCard>
-            <MessageAttachmentAction
-              aria-label={`Download ${attachment.name}`}
-              title={`Download ${attachment.name}`}
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                downloadAttachment();
-              }}
-            >
-              <Download />
-            </MessageAttachmentAction>
-          </MessageAttachmentFrame>
-        ) : (
-          <MessageAttachmentCard>
-            <MessageAttachmentBody>
-              <MessageAttachmentTitle>{attachment.name}</MessageAttachmentTitle>
-              <MessageAttachmentMeta>
-                <MessageAttachmentMetaLabel>{attachment.mediaType}</MessageAttachmentMetaLabel>
-              </MessageAttachmentMeta>
-            </MessageAttachmentBody>
-          </MessageAttachmentCard>
-        )}
+        <MessageAttachmentCard>
+          <MessageAttachmentTitle>{attachment.name}</MessageAttachmentTitle>
+          <MessageAttachmentMeta>
+            <MessageAttachmentMetaStart>{attachment.mediaType}</MessageAttachmentMetaStart>
+            {openPreview || downloadAttachment ? (
+              <MessageAttachmentMetaEnd>
+                {openPreview ? (
+                  <MessageAttachmentAction
+                    aria-label={`Preview ${attachment.name}`}
+                    title={`Preview ${attachment.name}`}
+                    onClick={openPreview}
+                  >
+                    <ExternalLink />
+                  </MessageAttachmentAction>
+                ) : null}
+                {downloadAttachment ? (
+                  <MessageAttachmentAction
+                    aria-label={`Download ${attachment.name}`}
+                    title={`Download ${attachment.name}`}
+                    onClick={downloadAttachment}
+                  >
+                    <Download />
+                  </MessageAttachmentAction>
+                ) : null}
+              </MessageAttachmentMetaEnd>
+            ) : null}
+          </MessageAttachmentMeta>
+        </MessageAttachmentCard>
       </div>
     );
   });

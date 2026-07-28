@@ -5,7 +5,6 @@ import {
   MessageImageGalleryItem,
   MessageImageGalleryMedia,
   MessageImageGalleryPreview,
-  MessageImageGalleryRow,
 } from "raft-ui/wip";
 import {
   downloadMessageFixture,
@@ -16,13 +15,15 @@ import {
 export function MessageImageGalleryPairComposition() {
   return (
     <MessageImageGallery>
-      <MessageImageGalleryRow layout="pair">
-        <MessageImageGalleryItem size="regular">
-          <MessageImageGalleryMedia
-            src={MESSAGE_FIXTURE_IMAGE_SRC}
-            alt="release poster"
-            geometry="normal"
-          />
+      <div className="grid grid-cols-2 gap-2">
+        <MessageImageGalleryItem className="h-[128px] sm:h-[144px]">
+          <MessageImageGalleryMedia>
+            <img
+              src={MESSAGE_FIXTURE_IMAGE_SRC}
+              alt="release poster"
+              className="block h-full w-full object-cover"
+            />
+          </MessageImageGalleryMedia>
           <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
           <MessageImageGalleryAction
             aria-label="Download image"
@@ -31,12 +32,14 @@ export function MessageImageGalleryPairComposition() {
             <Download />
           </MessageImageGalleryAction>
         </MessageImageGalleryItem>
-        <MessageImageGalleryItem size="regular">
-          <MessageImageGalleryMedia
-            src={MESSAGE_FIXTURE_IMAGE_SRC}
-            alt="release poster detail"
-            geometry="normal"
-          />
+        <MessageImageGalleryItem className="h-[128px] sm:h-[144px]">
+          <MessageImageGalleryMedia>
+            <img
+              src={MESSAGE_FIXTURE_IMAGE_SRC}
+              alt="release poster detail"
+              className="block h-full w-full object-cover"
+            />
+          </MessageImageGalleryMedia>
           <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
           <MessageImageGalleryAction
             aria-label="Download image"
@@ -45,7 +48,7 @@ export function MessageImageGalleryPairComposition() {
             <Download />
           </MessageImageGalleryAction>
         </MessageImageGalleryItem>
-      </MessageImageGalleryRow>
+      </div>
     </MessageImageGallery>
   );
 }

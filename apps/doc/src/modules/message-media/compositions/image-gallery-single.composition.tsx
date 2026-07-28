@@ -4,7 +4,6 @@ import {
   MessageImageGalleryAction,
   MessageImageGalleryItem,
   MessageImageGalleryMedia,
-  MessageImageGalleryRow,
 } from "raft-ui/wip";
 import {
   downloadMessageFixture,
@@ -14,17 +13,18 @@ import {
 export function MessageImageGallerySingleComposition() {
   return (
     <MessageImageGallery>
-      <MessageImageGalleryRow layout="single">
+      <div className="grid grid-cols-1 gap-2">
         <MessageImageGalleryItem
-          size="single"
-          style={{ width: "min(18rem, 100%)", aspectRatio: "4 / 3" }}
+          className="inline-block w-fit max-w-[416px] justify-self-start"
+          style={{ width: "min(288px, 100%)", aspectRatio: "4 / 3" }}
         >
-          <MessageImageGalleryMedia
-            src={MESSAGE_FIXTURE_IMAGE_SRC}
-            alt="attachment preview"
-            fit="contain"
-            geometry="single"
-          />
+          <MessageImageGalleryMedia>
+            <img
+              src={MESSAGE_FIXTURE_IMAGE_SRC}
+              alt="attachment preview"
+              className="block h-full w-full object-contain"
+            />
+          </MessageImageGalleryMedia>
           <MessageImageGalleryAction
             aria-label="Download image"
             onClick={() => downloadMessageFixture("message-image.jpg")}
@@ -32,7 +32,7 @@ export function MessageImageGallerySingleComposition() {
             <Download />
           </MessageImageGalleryAction>
         </MessageImageGalleryItem>
-      </MessageImageGalleryRow>
+      </div>
     </MessageImageGallery>
   );
 }

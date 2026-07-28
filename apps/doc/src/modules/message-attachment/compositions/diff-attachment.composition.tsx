@@ -1,14 +1,15 @@
 import { ArrowDownToLine } from "lucide-react";
 import {
   MessageAttachmentAction,
-  MessageAttachmentContent,
+  MessageAttachmentCard,
   MessageAttachmentDiffAddition,
   MessageAttachmentDiffDeletion,
   MessageAttachmentDiffSummary,
   MessageAttachmentGroup,
   MessageAttachmentMeta,
-  MessageAttachmentMetaDetail,
-  MessageAttachmentMetaLabel,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
+  MessageAttachmentSummary,
   MessageAttachmentTitle,
 } from "raft-ui/wip";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
@@ -16,15 +17,15 @@ import { downloadMessageFixture } from "#/modules/message-item/message-item.fixt
 export function MessageAttachmentDiffUsageComposition() {
   return (
     <MessageAttachmentGroup>
-      <MessageAttachmentContent>
+      <MessageAttachmentCard>
         <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
-        <MessageAttachmentDiffSummary>
+        <MessageAttachmentSummary render={<MessageAttachmentDiffSummary />}>
           <MessageAttachmentDiffAddition>+42</MessageAttachmentDiffAddition>
           <MessageAttachmentDiffDeletion>-7</MessageAttachmentDiffDeletion>
-        </MessageAttachmentDiffSummary>
+        </MessageAttachmentSummary>
         <MessageAttachmentMeta>
-          <MessageAttachmentMetaLabel>18 KB</MessageAttachmentMetaLabel>
-          <MessageAttachmentMetaDetail>
+          <MessageAttachmentMetaStart>18 KB</MessageAttachmentMetaStart>
+          <MessageAttachmentMetaEnd>
             <MessageAttachmentAction
               aria-label="Download migration.diff"
               onClick={() => downloadMessageFixture("migration.diff")}
@@ -32,9 +33,9 @@ export function MessageAttachmentDiffUsageComposition() {
             >
               <ArrowDownToLine />
             </MessageAttachmentAction>
-          </MessageAttachmentMetaDetail>
+          </MessageAttachmentMetaEnd>
         </MessageAttachmentMeta>
-      </MessageAttachmentContent>
+      </MessageAttachmentCard>
     </MessageAttachmentGroup>
   );
 }

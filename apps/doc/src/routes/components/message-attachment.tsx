@@ -19,9 +19,13 @@ import { MessageAttachmentDiffUsageComposition } from "#/modules/message-attachm
 import diffAttachmentSource from "#/modules/message-attachment/compositions/diff-attachment.composition.tsx?raw";
 import { MessageAttachmentPreviewUsageComposition } from "#/modules/message-attachment/compositions/preview-attachment.composition.tsx";
 import previewAttachmentSource from "#/modules/message-attachment/compositions/preview-attachment.composition.tsx?raw";
+import { MessageAttachmentTitleIconUsageComposition } from "#/modules/message-attachment/compositions/title-icon.composition.tsx";
+import titleIconSource from "#/modules/message-attachment/compositions/title-icon.composition.tsx?raw";
 import {
-  ANATOMY_SOURCE,
   API_GROUPS,
+  FILE_CARD_ANATOMY_SOURCE,
+  IMAGE_GALLERY_ANATOMY_SOURCE,
+  VIDEO_PREVIEW_ANATOMY_SOURCE,
 } from "#/modules/message-attachment/message-attachment.snippets.ts";
 import { MessageAttachmentComparisonComposition } from "#/modules/message-attachment/message-attachment.source-comparison.tsx";
 import attachmentComparisonSource from "#/modules/message-attachment/message-attachment.source-comparison.tsx?raw";
@@ -75,7 +79,9 @@ export const Route = createFileRoute("/components/message-attachment")({
   loader: () =>
     highlightSnippets({
       data: {
-        anatomy: ANATOMY_SOURCE,
+        fileCardAnatomy: FILE_CARD_ANATOMY_SOURCE,
+        imageGalleryAnatomy: IMAGE_GALLERY_ANATOMY_SOURCE,
+        videoPreviewAnatomy: VIDEO_PREVIEW_ANATOMY_SOURCE,
         attachmentComparison: attachmentComparisonSource,
         attachmentsShowcase: attachmentsShowcaseSource,
         attachmentStatuses: attachmentStatusesSource,
@@ -85,6 +91,7 @@ export const Route = createFileRoute("/components/message-attachment")({
         imageGallerySingle: imageGallerySingleSource,
         imageGalleryTriple: imageGalleryTripleSource,
         previewAttachment: previewAttachmentSource,
+        titleIcon: titleIconSource,
         videoStates: videoStatesSource,
       },
     }),
@@ -125,18 +132,50 @@ function MessageAttachmentDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
+        <div className="space-y-8">
+          <DocSubsection parentId="anatomy" id="anatomy-file-card" title="File card and summaries">
+            <p className="text-sm text-foreground-muted">
+              The card owns the shared title, summary, and two-sided metadata structure. Comment and
+              diff content are alternative children of the same summary slot.
+            </p>
+            <DocsCodeBlock>
+              <DocsCodeBlock.Body>
+                <DocsCodeBlock.Content html={code.fileCardAnatomy} />
+              </DocsCodeBlock.Body>
+            </DocsCodeBlock>
+          </DocSubsection>
+
+          <DocSubsection parentId="anatomy" id="anatomy-image-gallery" title="Image gallery">
+            <p className="text-sm text-foreground-muted">
+              Consumers own native grid rows and image fit. Gallery parts provide cell chrome,
+              preview actions, and an optional pending overlay.
+            </p>
+            <DocsCodeBlock>
+              <DocsCodeBlock.Body>
+                <DocsCodeBlock.Content html={code.imageGalleryAnatomy} />
+              </DocsCodeBlock.Body>
+            </DocsCodeBlock>
+          </DocSubsection>
+
+          <DocSubsection parentId="anatomy" id="anatomy-video-preview" title="Video preview">
+            <p className="text-sm text-foreground-muted">
+              Resolved media, loading fallback, and failure fallback are separate compositions.
+            </p>
+            <DocsCodeBlock>
+              <DocsCodeBlock.Body>
+                <DocsCodeBlock.Content html={code.videoPreviewAnatomy} />
+              </DocsCodeBlock.Body>
+            </DocsCodeBlock>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="downloadable-file" title="Downloadable file">
             <p className="mb-3 text-sm text-foreground-muted">
-              Compose a filename, diff summary, file size, and caller-owned download action.
+              Put attachment-specific diff content inside the shared summary slot. Keep file size
+              and the caller-owned download action on opposite sides of the metadata row.
             </p>
             <UsagePreview code={code.diffAttachment}>
               <MessageAttachmentDiffUsageComposition />
@@ -145,18 +184,41 @@ function MessageAttachmentDoc() {
 
           <DocSubsection parentId="usage" id="previewable-file" title="Previewable file">
             <p className="mb-3 text-sm text-foreground-muted">
-              Keep preview state in the consumer; replace the Eye with a spinner while the preview
-              opens.
+              Keep preview state in the consumer; replace the Eye with the shared Spinner inside
+              MessageAttachmentMetaEnd while the preview opens.
             </p>
             <UsagePreview code={code.previewAttachment}>
               <MessageAttachmentPreviewUsageComposition />
             </UsagePreview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="title-icon" title="Title icon">
+            <p className="mb-3 text-sm text-foreground-muted">
+              Render an SVG directly beside the filename inside the title slot; the attachment UI
+              does not need a file-type prop or an icon slot.
+              <span className="mt-1 block">
+                File-type icons are available from{" "}
+                <a
+                  href="https://icones.js.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground-strong underline underline-offset-4"
+                >
+                  Icônes
+                </a>
+                .
+              </span>
+            </p>
+            <UsagePreview code={code.titleIcon}>
+              <MessageAttachmentTitleIconUsageComposition />
+            </UsagePreview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="attachment-statuses" title="Comments and pending">
             <p className="mb-3 text-sm text-foreground-muted">
-              The comment summary and pending indicator remain explicit parts of the attachment card
-              rather than card-level variants.
+              Put comment content inside MessageAttachmentSummary. For pending state, place the
+              shared Spinner in MessageAttachmentMetaEnd instead of introducing a card-level
+              variant.
             </p>
             <UsagePreview code={code.attachmentStatuses}>
               <MessageAttachmentStatusesUsageComposition />
@@ -177,7 +239,8 @@ function MessageAttachmentDoc() {
 
           <DocSubsection parentId="usage" id="media-layouts" title="Media layouts">
             <p className="mb-3 text-sm text-foreground-muted">
-              Choose the row layout from attachment metadata, then compose each image cell directly.
+              Compose native grid rows in the consumer. MessageImageGalleryItem owns cell chrome;
+              MessageImageGalleryMedia only provides the media container.
             </p>
             <div className="space-y-8">
               <DocSubsection parentId="media-layouts" id="single-image" title="Single image">
@@ -204,7 +267,8 @@ function MessageAttachmentDoc() {
                 title="Wide and tall geometry"
               >
                 <p className="mb-3 text-sm text-foreground-muted">
-                  Geometry controls source-faithful fit; attachment metadata still decides the row.
+                  Consumer layout classes set cell geometry, while the media child chooses
+                  object-cover or object-contain.
                 </p>
                 <UsagePreview code={code.imageGalleryGeometry}>
                   <MessageImageGalleryGeometryComposition />

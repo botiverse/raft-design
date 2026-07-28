@@ -3,11 +3,12 @@ import { Spinner } from "raft-ui";
 import {
   MessageAttachmentAction,
   MessageAttachmentCommentSummary,
-  MessageAttachmentContent,
+  MessageAttachmentCard,
   MessageAttachmentGroup,
   MessageAttachmentMeta,
-  MessageAttachmentMetaDetail,
-  MessageAttachmentMetaLabel,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
+  MessageAttachmentSummary,
   MessageAttachmentTitle,
 } from "raft-ui/wip";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
@@ -15,14 +16,14 @@ import { downloadMessageFixture } from "#/modules/message-item/message-item.fixt
 export function MessageAttachmentStatusesUsageComposition() {
   return (
     <MessageAttachmentGroup>
-      <MessageAttachmentContent>
+      <MessageAttachmentCard>
         <MessageAttachmentTitle>release-notes.md</MessageAttachmentTitle>
-        <MessageAttachmentCommentSummary>
+        <MessageAttachmentSummary render={<MessageAttachmentCommentSummary />}>
           <MessageSquare />6
-        </MessageAttachmentCommentSummary>
+        </MessageAttachmentSummary>
         <MessageAttachmentMeta>
-          <MessageAttachmentMetaLabel>1 KB</MessageAttachmentMetaLabel>
-          <MessageAttachmentMetaDetail>
+          <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
+          <MessageAttachmentMetaEnd>
             <MessageAttachmentAction
               aria-label="Download release-notes.md"
               onClick={() => downloadMessageFixture("release-notes.md")}
@@ -30,19 +31,19 @@ export function MessageAttachmentStatusesUsageComposition() {
             >
               <ArrowDownToLine />
             </MessageAttachmentAction>
-          </MessageAttachmentMetaDetail>
+          </MessageAttachmentMetaEnd>
         </MessageAttachmentMeta>
-      </MessageAttachmentContent>
+      </MessageAttachmentCard>
 
-      <MessageAttachmentContent aria-busy>
+      <MessageAttachmentCard aria-busy>
         <MessageAttachmentTitle>metrics.csv</MessageAttachmentTitle>
         <MessageAttachmentMeta>
-          <MessageAttachmentMetaLabel>1 KB</MessageAttachmentMetaLabel>
-          <MessageAttachmentMetaDetail>
+          <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
+          <MessageAttachmentMetaEnd>
             <Spinner size="xs" />
-          </MessageAttachmentMetaDetail>
+          </MessageAttachmentMetaEnd>
         </MessageAttachmentMeta>
-      </MessageAttachmentContent>
+      </MessageAttachmentCard>
     </MessageAttachmentGroup>
   );
 }

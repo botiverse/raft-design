@@ -3,11 +3,11 @@ import { Eye } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
   MessageAttachmentAction,
-  MessageAttachmentContent,
+  MessageAttachmentCard,
   MessageAttachmentGroup,
   MessageAttachmentMeta,
-  MessageAttachmentMetaDetail,
-  MessageAttachmentMetaLabel,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
   MessageAttachmentTitle,
 } from "raft-ui/wip";
 
@@ -16,11 +16,11 @@ export function MessageAttachmentPreviewUsageComposition() {
 
   return (
     <MessageAttachmentGroup>
-      <MessageAttachmentContent aria-busy={opening || undefined}>
+      <MessageAttachmentCard aria-busy={opening || undefined}>
         <MessageAttachmentTitle>screening.html</MessageAttachmentTitle>
         <MessageAttachmentMeta>
-          <MessageAttachmentMetaLabel>44 KB</MessageAttachmentMetaLabel>
-          <MessageAttachmentMetaDetail>
+          <MessageAttachmentMetaStart>44 KB</MessageAttachmentMetaStart>
+          <MessageAttachmentMetaEnd>
             <MessageAttachmentAction
               aria-label="Preview screening.html"
               onClick={opening ? undefined : () => setOpening(true)}
@@ -29,9 +29,9 @@ export function MessageAttachmentPreviewUsageComposition() {
             >
               {opening ? <Spinner size="xs" /> : <Eye />}
             </MessageAttachmentAction>
-          </MessageAttachmentMetaDetail>
+          </MessageAttachmentMetaEnd>
         </MessageAttachmentMeta>
-      </MessageAttachmentContent>
+      </MessageAttachmentCard>
     </MessageAttachmentGroup>
   );
 }
