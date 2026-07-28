@@ -1,5 +1,5 @@
 import { Hash, MessageCircle, MessagesSquare, MessageSquareText } from "lucide-react";
-import { MessageReferenceChip } from "raft-ui/wip";
+import { MessageReferenceBadge, MessageReferenceChip, MessageReferenceLabel } from "raft-ui/wip";
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceConversationDestinationsComposition() {
@@ -12,8 +12,9 @@ export function MessageReferenceConversationDestinationsComposition() {
           variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
         >
-          <Hash size={12} />
-          release-notes
+          <MessageReferenceBadge>channel</MessageReferenceBadge>
+          <Hash />
+          <MessageReferenceLabel>release-notes</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Channel</span>
@@ -21,8 +22,9 @@ export function MessageReferenceConversationDestinationsComposition() {
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
         <MessageReferenceChip variant="accent" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
-          <MessageCircle size={12} />
-          Noah
+          <MessageReferenceBadge>dm</MessageReferenceBadge>
+          <MessageCircle />
+          <MessageReferenceLabel>Noah</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">DM</span>
@@ -30,11 +32,12 @@ export function MessageReferenceConversationDestinationsComposition() {
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
-          variant="info"
+          variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
         >
-          <MessagesSquare size={12} />
-          release-notes · abc123
+          <MessageReferenceBadge>thread</MessageReferenceBadge>
+          <MessagesSquare />
+          <MessageReferenceLabel>release-notes · abc123</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Thread</span>
@@ -42,11 +45,12 @@ export function MessageReferenceConversationDestinationsComposition() {
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
         <MessageReferenceChip
-          variant="info"
+          variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
         >
-          <MessageSquareText size={12} />
-          all · api-docs
+          <MessageReferenceBadge>message</MessageReferenceBadge>
+          <MessageSquareText />
+          <MessageReferenceLabel>all · api-docs</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Message</span>

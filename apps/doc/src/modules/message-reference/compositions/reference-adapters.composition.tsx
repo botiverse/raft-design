@@ -1,7 +1,12 @@
 import type { ReactNode } from "react";
 import { AtSign, MessageSquareText } from "lucide-react";
 import { PreviewCard, PreviewCardContent, PreviewCardTrigger } from "raft-ui";
-import { MessageReferenceChip, MessageReferenceLabel, MessageReferenceText } from "raft-ui/wip";
+import {
+  MessageReferenceBadge,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  MessageReferenceText,
+} from "raft-ui/wip";
 
 type MessageReferenceCompositionProps = {
   children: ReactNode;
@@ -92,7 +97,8 @@ export function MessageTargetReferenceComposition({
 
   return (
     <MessageReferenceChip variant="accent" render={<a href={href} />}>
-      <MessageSquareText size={12} />
+      <MessageReferenceBadge>message</MessageReferenceBadge>
+      <MessageSquareText />
       <MessageReferenceLabel>{label}</MessageReferenceLabel>
     </MessageReferenceChip>
   );

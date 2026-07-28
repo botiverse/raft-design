@@ -1,5 +1,5 @@
-import { Link as LinkIcon } from "lucide-react";
-import { MessageReferenceChip, MessageReferenceLabel, MessageReferenceMeta } from "raft-ui/wip";
+import { Link as LinkIcon, MessageSquareText } from "lucide-react";
+import { MessageReferenceBadge, MessageReferenceChip, MessageReferenceLabel } from "raft-ui/wip";
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceExternalReferencesComposition() {
@@ -9,9 +9,9 @@ export function MessageReferenceExternalReferencesComposition() {
         variant="muted"
         render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
       >
-        <LinkIcon size={12} />
+        <MessageReferenceBadge>message</MessageReferenceBadge>
+        <MessageSquareText />
         <MessageReferenceLabel>all · api-docs</MessageReferenceLabel>
-        <MessageReferenceMeta>msg</MessageReferenceMeta>
       </MessageReferenceChip>
       <MessageReferenceChip
         variant="link"
@@ -19,9 +19,9 @@ export function MessageReferenceExternalReferencesComposition() {
           <a href="https://github.com/botiverse/rui/pull/125" rel="noreferrer" target="_blank" />
         }
       >
-        <LinkIcon size={12} />
+        <MessageReferenceBadge>github.com</MessageReferenceBadge>
+        <LinkIcon />
         <MessageReferenceLabel>rui#125 Compose message surfaces</MessageReferenceLabel>
-        <MessageReferenceMeta>github.com</MessageReferenceMeta>
       </MessageReferenceChip>
     </div>
   );
