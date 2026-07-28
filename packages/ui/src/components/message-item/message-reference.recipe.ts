@@ -25,6 +25,13 @@ export const messageReference = tv({
     ],
     label: ["min-w-0 truncate"],
     meta: ["shrink-0"],
+    badge: [
+      "inline-flex items-center gap-1",
+      "text-[10px] leading-none font-medium",
+      // Doubled class outranks the surface's own `[&_svg]` icon treatment.
+      "[&&_svg]:size-2.5 [&&_svg]:rounded-none [&&_svg]:bg-transparent [&&_svg]:p-0 [&&_svg]:text-current",
+    ],
+    badgeLabel: ["overflow-hidden whitespace-nowrap"],
   },
   variants: {
     theme: {
@@ -34,8 +41,26 @@ export const messageReference = tv({
         pending: "focus-visible:outline-black",
         unavailable: "focus-visible:outline-black",
         meta: "text-[10px] font-normal leading-none text-foreground/50",
+        badge: "border border-black bg-soft-signal px-1 text-black",
       },
-      elegant: { meta: "text-[10px] font-normal leading-none text-foreground-muted" },
+      elegant: {
+        meta: "text-[10px] font-normal leading-none text-foreground-muted",
+        // Anchored by its right edge so the reveal grows leftwards over preceding text.
+        badge: [
+          "absolute top-1/2 right-[calc(100%-17.5px)] z-10 -translate-y-1/2",
+          "h-4 flex-row-reverse gap-0 rounded-full px-[3px]",
+          "bg-[var(--reference-badge)] text-[var(--reference-badge-ink)]",
+          "transition-[padding,gap] duration-200 ease-out motion-reduce:transition-none",
+          "group-hover:gap-1 group-hover:pl-1.5",
+          "group-focus-visible:gap-1 group-focus-visible:pl-1.5",
+        ],
+        badgeLabel: [
+          "max-w-0 opacity-0",
+          "transition-[max-width,opacity] duration-200 ease-out motion-reduce:transition-none",
+          "group-hover:max-w-16 group-hover:opacity-100",
+          "group-focus-visible:max-w-16 group-focus-visible:opacity-100",
+        ],
+      },
     },
     variant: {
       primary: {},
@@ -101,10 +126,23 @@ export const messageReference = tv({
       variant: ["primary", "accent", "muted", "info", "neutral", "link"],
       class: {
         chip: [
-          "h-[19px] gap-1.5 align-middle -mt-px rounded-full border border-transparent px-2 py-0",
+          "[--reference-badge-ink:var(--color-foreground-inverse)]",
+          "group relative h-[19px] gap-1.5 align-middle -mt-px rounded-full border border-transparent px-2 py-0",
           "cursor-pointer font-normal leading-none tracking-normal text-foreground-strong",
           "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
+          "has-[>[data-message-reference-badge]]:overflow-visible",
+          "has-[>[data-message-reference-badge]]:pr-2.5 has-[>[data-message-reference-badge]]:pl-[21.5px]",
           "transition-[filter,opacity] duration-100",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: ["accent", "muted", "info", "neutral", "link"],
+      class: {
+        chip: [
+          "has-[>svg]:pl-[1.5px]",
+          "[&_svg]:size-4 [&_svg]:rounded-full [&_svg]:bg-[var(--reference-badge)] [&_svg]:p-[3px] [&_svg]:text-[var(--reference-badge-ink)]",
         ],
       },
     },
@@ -113,8 +151,8 @@ export const messageReference = tv({
       variant: "primary",
       class: {
         chip: [
-          "bg-[oklch(0.886_0.155_91.41)] text-[oklch(0.431_0.088_86.67)]",
-          "hover:bg-[oklch(0.886_0.155_91.41)] hover:text-[oklch(0.431_0.088_86.67)]",
+          "bg-primary-400 text-[oklch(0.431_0.088_86.67)]",
+          "hover:bg-primary-400 hover:text-[oklch(0.431_0.088_86.67)]",
         ],
       },
     },
@@ -123,8 +161,9 @@ export const messageReference = tv({
       variant: "accent",
       class: {
         chip: [
-          "bg-[oklch(0.914_0.048_358.59)] text-[oklch(0.543_0.215_359.77)]",
-          "hover:bg-[oklch(0.914_0.048_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
+          "[--reference-badge:oklch(0.543_0.215_359.77)]",
+          "bg-[oklch(0.965_0.019_358.59)] text-[oklch(0.543_0.215_359.77)]",
+          "hover:bg-[oklch(0.965_0.019_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
         ],
       },
     },
@@ -132,7 +171,10 @@ export const messageReference = tv({
       theme: "elegant",
       variant: "muted",
       class: {
-        chip: "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+        chip: [
+          "[--reference-badge:var(--color-foreground-muted)]",
+          "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+        ],
       },
     },
     {
@@ -140,8 +182,9 @@ export const messageReference = tv({
       variant: "info",
       class: {
         chip: [
-          "bg-[oklch(0.914_0.048_358.59)] text-[oklch(0.543_0.215_359.77)]",
-          "hover:bg-[oklch(0.914_0.048_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
+          "[--reference-badge:oklch(0.543_0.215_359.77)]",
+          "bg-[oklch(0.965_0.019_358.59)] text-[oklch(0.543_0.215_359.77)]",
+          "hover:bg-[oklch(0.965_0.019_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
         ],
       },
     },
@@ -150,8 +193,9 @@ export const messageReference = tv({
       variant: "neutral",
       class: {
         chip: [
-          "bg-[oklch(0.91_0.056_224.02)] text-[oklch(0.441_0.078_221.2)]",
-          "hover:bg-[oklch(0.91_0.056_224.02)] hover:text-[oklch(0.441_0.078_221.2)]",
+          "[--reference-badge:oklch(0.441_0.078_221.2)]",
+          "bg-[oklch(0.966_0.022_224.02)] text-[oklch(0.441_0.078_221.2)]",
+          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-[oklch(0.441_0.078_221.2)]",
         ],
       },
     },
@@ -159,7 +203,10 @@ export const messageReference = tv({
       theme: "elegant",
       variant: "link",
       class: {
-        chip: "bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+        chip: [
+          "[--reference-badge:var(--color-foreground-muted)]",
+          "bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+        ],
       },
     },
     {

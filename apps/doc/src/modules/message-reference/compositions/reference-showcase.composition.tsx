@@ -14,6 +14,7 @@ import {
   MessageItemSender,
   MessageItemTime,
   MessageMarkdown,
+  MessageReferenceBadge,
   MessageReferenceChip,
 } from "raft-ui/wip";
 import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
@@ -49,7 +50,9 @@ export function MessageReferenceShowcaseComposition() {
                   variant="info"
                   render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
                 >
-                  <MessagesSquare size={12} />
+                  <MessageReferenceBadge label="thread">
+                    <MessagesSquare />
+                  </MessageReferenceBadge>
                   release-notes · reply
                 </MessageReferenceChip>
                 .
@@ -80,7 +83,9 @@ export function MessageReferenceShowcaseComposition() {
                 />
               }
             >
-              <MessageSquareQuote size={12} />
+              <MessageReferenceBadge label="comment">
+                <MessageSquareQuote />
+              </MessageReferenceBadge>
               <span>re: state-ownership-migration-notes.md · § Ownership boundary</span>
             </MessageReferenceChip>
           </div>

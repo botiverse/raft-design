@@ -31,9 +31,9 @@ import { MessageReferenceSourcePreview } from "#/modules/message-reference/messa
 
 const TOC = [
   { id: "preview", title: "Preview" },
+  { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "reference-states", title: "Reference states" },
-  { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -71,8 +71,10 @@ const ANATOMY_SOURCE = `<MessageReferenceText render={<button type="button" />}>
 </MessageReferenceChip>
 
 <MessageReferenceChip variant="muted" render={<a href="…" />}>
+  <MessageReferenceBadge label="message">
+    <MessageSquareText />
+  </MessageReferenceBadge>
   <MessageReferenceLabel>message #222</MessageReferenceLabel>
-  <MessageReferenceMeta>msg</MessageReferenceMeta>
 </MessageReferenceChip>
 
 <MessageReferencePending>Resolving…</MessageReferencePending>
@@ -106,6 +108,18 @@ const SURFACES: readonly PropRow[] = [
 ];
 
 const PARTS: readonly PropRow[] = [
+  {
+    name: "MessageReferenceBadge",
+    type: 'useRender.ComponentProps<"span"> & { label?: ReactNode }',
+    description:
+      "Optional leading badge that overlays the chip. Children hold the reference icon; label adds the hover caption.",
+  },
+  {
+    name: "MessageReferenceBadgeLabel",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Badge caption behind the badge label prop. Compose it directly when the caption needs more than plain text.",
+  },
   {
     name: "MessageReferenceLabel",
     type: 'useRender.ComponentProps<"span">',
@@ -209,6 +223,14 @@ function MessageReferenceDoc() {
         </Preview>
       </DocSection>
 
+      <DocSection id="anatomy" title="Anatomy">
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
+      </DocSection>
+
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="people-mentions" title="People mentions">
@@ -231,7 +253,8 @@ function MessageReferenceDoc() {
               Use <InlineCode>#channel</InlineCode> for a channel,{" "}
               <InlineCode>{"<dm:@member>"}</InlineCode> for a DM, or append{" "}
               <InlineCode>:short-id</InlineCode> for a thread. A resolved message reference can
-              include its destination icon and label directly.
+              include its destination badge and label directly. Hovering the chip expands the badge
+              leftwards to name the destination type, without moving surrounding text.
             </p>
             <UsagePreview
               code={code.conversationDestinations}
@@ -257,8 +280,8 @@ function MessageReferenceDoc() {
             title="Attachment comment context"
           >
             <p className="mb-3 text-sm text-foreground-muted">
-              Compose the neutral chip with the attachment-comment icon and resolved target owned by
-              the message consumer.
+              Compose the neutral chip with the attachment-comment badge and resolved target owned
+              by the message consumer.
             </p>
             <UsagePreview
               code={code.attachmentComments}
@@ -275,10 +298,10 @@ function MessageReferenceDoc() {
           >
             <p className="mb-3 text-sm text-foreground-muted">
               Use the muted chip for an in-product permalink and the link chip for a target outside
-              the workspace. Pair <InlineCode>MessageReferenceLabel</InlineCode> with{" "}
-              <InlineCode>MessageReferenceMeta</InlineCode> when the target needs a secondary
-              qualifier; the consumer owns <InlineCode>target</InlineCode> and{" "}
-              <InlineCode>rel</InlineCode>.
+              the workspace. The source qualifier lives in{" "}
+              <InlineCode>MessageReferenceBadge</InlineCode> and is revealed on hover, so the
+              resting chip stays a plain label; the consumer owns <InlineCode>target</InlineCode>{" "}
+              and <InlineCode>rel</InlineCode>.
             </p>
             <UsagePreview
               code={code.externalReferences}
@@ -298,14 +321,6 @@ function MessageReferenceDoc() {
         <UsagePreview code={code.resolutionStates} collapsedCode={code.resolutionStatesBody}>
           <MessageReferenceResolutionStatesComposition />
         </UsagePreview>
-      </DocSection>
-
-      <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="api" title="API">

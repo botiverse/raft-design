@@ -12,6 +12,7 @@ import {
   MessageItemSender,
   MessageItemTime,
   MessageMarkdown,
+  MessageReferenceBadge,
   MessageReferenceChip,
 } from "raft-ui/wip";
 
@@ -62,7 +63,9 @@ export function MessageReferenceComparisonComposition() {
                     variant="accent"
                     render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
                   >
-                    <Hash size={12} />
+                    <MessageReferenceBadge label="channel">
+                      <Hash />
+                    </MessageReferenceBadge>
                     release-notes
                   </MessageReferenceChip>
                   .

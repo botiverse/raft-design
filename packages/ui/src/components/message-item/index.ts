@@ -93,6 +93,8 @@ export {
   MessageReactionTooltipSeparator,
 } from "./message-reaction";
 export {
+  MessageReferenceBadge,
+  MessageReferenceBadgeLabel,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceMeta,
@@ -202,6 +204,8 @@ export type {
   MessageReactionTooltipSeparatorProps,
 } from "./message-reaction";
 export type {
+  MessageReferenceBadgeLabelProps,
+  MessageReferenceBadgeProps,
   MessageReferenceChipProps,
   MessageReferenceChipVariant,
   MessageReferenceLabelProps,
