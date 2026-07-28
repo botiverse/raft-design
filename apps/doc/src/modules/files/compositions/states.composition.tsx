@@ -1,18 +1,79 @@
+import {
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  FilesPanel,
+  FilesViewport,
+} from "raft-ui";
+import { Paperclip } from "lucide-react";
+
+// @docs-source-strip-start
 import type { ReactNode } from "react";
+// @docs-source-strip-end
 
-import { FilesPanelComposition } from "./files-panel.composition.tsx";
+export function FilesPanelLoadingContent() {
+  return (
+    <FilesPanel aria-label="Files panel">
+      <FilesViewport>
+        <EmptyState className="h-full">
+          <EmptyStateContent>
+            <EmptyStateTitle>Loading files…</EmptyStateTitle>
+          </EmptyStateContent>
+        </EmptyState>
+      </FilesViewport>
+    </FilesPanel>
+  );
+}
 
+export function FilesPanelErrorContent() {
+  return (
+    <FilesPanel aria-label="Files panel">
+      <FilesViewport>
+        <EmptyState className="h-full" role="alert">
+          <EmptyStateContent>
+            <EmptyStateTitle>Could not load files.</EmptyStateTitle>
+          </EmptyStateContent>
+        </EmptyState>
+      </FilesViewport>
+    </FilesPanel>
+  );
+}
+
+export function FilesPanelEmptyContent() {
+  return (
+    <FilesPanel aria-label="Files panel">
+      <FilesViewport>
+        <EmptyState className="h-full">
+          <EmptyStateIcon>
+            <Paperclip aria-hidden />
+          </EmptyStateIcon>
+          <EmptyStateContent>
+            <EmptyStateTitle>No files yet</EmptyStateTitle>
+            <EmptyStateDescription>
+              Attach files in Chat, or drag files into the message composer. They will appear here
+              after the message is sent.
+            </EmptyStateDescription>
+          </EmptyStateContent>
+        </EmptyState>
+      </FilesViewport>
+    </FilesPanel>
+  );
+}
+
+// @docs-source-strip-start
 export function FilesPanelStatesComposition() {
   return (
     <div className="grid w-full gap-4 lg:grid-cols-3">
       <FilesPanelState label="Loading">
-        <FilesPanelComposition files={[]} loading />
+        <FilesPanelLoadingContent />
       </FilesPanelState>
       <FilesPanelState label="Error">
-        <FilesPanelComposition files={[]} error="Could not load files." />
+        <FilesPanelErrorContent />
       </FilesPanelState>
       <FilesPanelState label="Empty">
-        <FilesPanelComposition files={[]} />
+        <FilesPanelEmptyContent />
       </FilesPanelState>
     </div>
   );
@@ -28,3 +89,4 @@ function FilesPanelState({ children, label }: { children: ReactNode; label: stri
     </section>
   );
 }
+// @docs-source-strip-end

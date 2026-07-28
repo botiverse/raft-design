@@ -8,38 +8,40 @@ import {
   TasksPanelEmpty,
   TasksPanelToolbar,
   TasksPanelToolbarFilters,
+  TasksPanelToolbarLabel,
   TasksPanelViewport,
 } from "raft-ui";
-import { CheckSquare, User } from "lucide-react";
+import { CheckSquare, ChevronDown, User } from "lucide-react";
 
-import { TasksToolbarFilterPlaceholder } from "./tasks-panel.composition";
-
-export function TasksEmptyStatesComposition() {
+export function TasksPanelEmptyContent() {
   return (
-    <div className="grid w-full gap-4 lg:grid-cols-2">
-      <div className="flex min-h-80">
-        <TasksPanelRoot>
-          <TasksPanelViewport>
-            <TaskEmptyState filtered={false} />
-          </TasksPanelViewport>
-        </TasksPanelRoot>
-      </div>
-      <div className="flex min-h-80">
-        <TasksPanelRoot>
-          <TasksPanelToolbar>
-            <TasksPanelToolbarFilters>
-              <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
-              <Button variant="ghost" size="sm">
-                Clear
-              </Button>
-            </TasksPanelToolbarFilters>
-          </TasksPanelToolbar>
-          <TasksPanelViewport>
-            <TaskEmptyState filtered />
-          </TasksPanelViewport>
-        </TasksPanelRoot>
-      </div>
-    </div>
+    <TasksPanelRoot>
+      <TasksPanelViewport>
+        <TaskEmptyState filtered={false} />
+      </TasksPanelViewport>
+    </TasksPanelRoot>
+  );
+}
+
+export function TasksPanelFilteredEmptyContent() {
+  return (
+    <TasksPanelRoot>
+      <TasksPanelToolbar>
+        <TasksPanelToolbarFilters>
+          <TasksPanelToolbarLabel aria-hidden>
+            <User aria-hidden />
+            Assignee
+            <ChevronDown aria-hidden />
+          </TasksPanelToolbarLabel>
+          <Button variant="ghost" size="sm">
+            Clear
+          </Button>
+        </TasksPanelToolbarFilters>
+      </TasksPanelToolbar>
+      <TasksPanelViewport>
+        <TaskEmptyState filtered />
+      </TasksPanelViewport>
+    </TasksPanelRoot>
   );
 }
 
@@ -58,3 +60,19 @@ function TaskEmptyState({ filtered }: { filtered: boolean }) {
     </TasksPanelEmpty>
   );
 }
+
+// @docs-source-strip-start
+// Side-by-side display shell only. Use the content components above for real usage.
+export function TasksEmptyStatesComposition() {
+  return (
+    <div className="grid w-full gap-4 lg:grid-cols-2">
+      <div className="flex min-h-80">
+        <TasksPanelEmptyContent />
+      </div>
+      <div className="flex min-h-80">
+        <TasksPanelFilteredEmptyContent />
+      </div>
+    </div>
+  );
+}
+// @docs-source-strip-end

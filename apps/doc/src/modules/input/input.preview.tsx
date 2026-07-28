@@ -8,10 +8,9 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type InputPlaygroundPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function InputPlaygroundPreview({ code, collapsedCode }: InputPlaygroundPreviewProps) {
+export function InputPlaygroundPreview({ code }: InputPlaygroundPreviewProps) {
   const [disabled, setDisabled] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const [placeholder, setPlaceholder] = useState("you@example.com");
@@ -62,7 +61,7 @@ export function InputPlaygroundPreview({ code, collapsedCode }: InputPlaygroundP
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

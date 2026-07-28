@@ -145,6 +145,7 @@ export function ForwardedBundleEmbeddedComposition() {
   );
 }
 
+// @docs-source-strip-start
 export function ForwardedBundleMessageComposition() {
   return (
     <MessageItem>
@@ -174,3 +175,4 @@ export function MessageForwardedBundleShowcaseComposition() {
     </div>
   );
 }
+// @docs-source-strip-end

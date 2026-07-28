@@ -9,6 +9,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { TaskBoardEmptyColumnsComposition } from "#/modules/task-board/compositions/task-board-empty-columns.composition.tsx";
 import { TaskBoardComposition } from "#/modules/task-board/compositions/task-board.composition.tsx";
+import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 import { TaskBoardVirtualizationComposition } from "#/modules/task-board/compositions/task-board-virtualization.composition.tsx";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider>
@@ -88,7 +89,11 @@ const EMPTY_COLUMN_SNIPPET = `<TaskBoardColumnItems>
       <TaskDropPlaceholder id={columnDropId} />
     </>
   ) : (
-    /* task cards */
+    tasks.map((task) => (
+      <TaskDraggable key={task.id} id={task.id} dropId={cardDropId}>
+        <TaskCard />
+      </TaskDraggable>
+    ))
   )}
 </TaskBoardColumnItems>`;
 
@@ -244,6 +249,7 @@ const BOARD_COLUMN_EMPTY_BLOCKED_PROPS: readonly PropRow[] = [
 
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
+  board: taskBoardCompositionSource,
   dnd: DND_SNIPPET,
   scrollArea: SCROLL_AREA_SNIPPET,
   empty: EMPTY_COLUMN_SNIPPET,
@@ -284,7 +290,7 @@ function TaskBoardDoc() {
           <Preview.Canvas>
             <TaskBoardComposition />
           </Preview.Canvas>
-          <Preview.Code html={code.dnd} />
+          <Preview.Code html={code.board} collapsedHtml={code.boardBody} />
         </Preview>
       </DocSection>
 

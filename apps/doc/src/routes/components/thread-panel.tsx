@@ -45,7 +45,6 @@ const SOURCE_SCENES = [
 
 const SNIPPETS = {
   threadPanelComposition: threadPanelCompositionSource,
-  preview: `<ThreadPanelComposition search />`,
   anatomy: `<ThreadPanelRoot>
   <ThreadPanelHeader>
     <Button className="mr-1 lg:hidden" variant="outline" size="icon-sm">
@@ -269,8 +268,8 @@ function ThreadPanelPreview({
   code,
   collapsedCode,
 }: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
+  code: ReturnType<typeof Route.useLoaderData>["threadPanelComposition"];
+  collapsedCode?: ReturnType<typeof Route.useLoaderData>["threadPanelCompositionBody"];
 }) {
   const [search, setSearch] = useState(true);
 
@@ -308,7 +307,10 @@ function ThreadPanelDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ThreadPanelPreview code={code.preview} collapsedCode={code.previewBody} />
+        <ThreadPanelPreview
+          code={code.threadPanelComposition}
+          collapsedCode={code.threadPanelCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -321,7 +323,10 @@ function ThreadPanelDoc() {
 
       <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="thread-with-search" title="Thread with search">
-          <ThreadPanelPreview code={code.preview} collapsedCode={code.previewBody} />
+          <ThreadPanelPreview
+            code={code.threadPanelComposition}
+            collapsedCode={code.threadPanelCompositionBody}
+          />
         </DocSubsection>
       </DocSection>
 

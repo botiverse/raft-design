@@ -184,6 +184,7 @@ function AppShellDoc() {
                 path={APP_SHELL_COLLAPSIBLE_SIDEBAR_COMPOSITION_PATH}
                 source={appShellCollapsibleSidebarCompositionSource}
                 html={code.collapsibleSidebarComposition}
+                collapsedHtml={code.collapsibleSidebarCompositionBody}
                 showLineNumbers={false}
               />
             </div>
@@ -233,6 +234,7 @@ function AppShellDoc() {
               elegant: <AppShellDesktopComposition />,
               elegantDark: <AppShellDesktopComposition />,
               compositionCode: code.desktopComposition,
+              compositionCollapsedCode: code.desktopCompositionBody,
               compositionPath:
                 "apps/doc/src/modules/app-shell/compositions/desktop.composition.tsx",
               compositionSource: appShellDesktopCompositionSource,

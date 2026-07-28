@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { Plus } from "lucide-react";
-
+import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -20,6 +18,7 @@ import {
   MessageReactionOverlaysComposition,
 } from "./reaction.compositions.tsx";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
+import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReactionsShowcaseComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
@@ -42,20 +41,20 @@ export function MessageReactionsShowcaseComposition() {
               <MessageItemTime>2:33 PM</MessageItemTime>
             </MessageItemHeader>
             <MessageItemBody>
-              Sprite reactions, a custom Unicode fallback, failure flash, and the mobile add control
-              stay caller-wired.
+              Release 2.4 is live in the release channel. Changelog and rollback steps are in the
+              thread.
             </MessageItemBody>
             <MessageItemFooter>
               <MessageReactionComposition emoji="👍" count={5} reacted />
               <MessageReactionComposition emoji="👀" count={2} />
-              <MessageReactionComposition emoji="🧭" count={1} title="Custom emoji fallback" />
+              <MessageReactionComposition emoji="🧭" count={1} />
               <MessageReactionComposition emoji="🔥" count={1} failed />
               <MessageQuickReactionPicker
                 open={open}
                 onOpenChange={setOpen}
                 onReact={setReaction}
                 trigger={
-                  <MessageReactionAddButton aria-label="Add reaction" className="md:hidden">
+                  <MessageReactionAddButton aria-label="Add reaction">
                     <Plus strokeWidth={2.5} />
                   </MessageReactionAddButton>
                 }

@@ -1,4 +1,3 @@
-import type { ComponentProps } from "react";
 import { Avatar, AvatarBadge, AvatarFallback, AvatarImage, Status } from "raft-ui";
 import {
   MessageItem,
@@ -13,117 +12,151 @@ import {
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 
-type StatusVariant = NonNullable<ComponentProps<typeof Status>["variant"]>;
-
-type ActivityFixture = {
-  activity: string;
-  activityText: string;
-  className?: string;
-  fallback: string;
-  meta: string;
-  name: string;
-  pulse?: boolean;
-  tone: string;
-  variant: StatusVariant;
-};
-
-const ACTIVITY_FIXTURES: readonly ActivityFixture[] = [
-  {
-    activity: "online",
-    activityText: "Online",
-    fallback: "KA",
-    meta: "claude-sonnet",
-    name: "Kai",
-    tone: "success / lime",
-    variant: "success",
-  },
-  {
-    activity: "thinking",
-    activityText: "Thinking…",
-    className: "[--status-color:var(--color-soft-signal)]",
-    fallback: "MI",
-    meta: "claude-opus",
-    name: "Mira",
-    pulse: true,
-    tone: "warning / yellow",
-    variant: "warning",
-  },
-  {
-    activity: "working",
-    activityText: "Working…",
-    className: "[--status-color:var(--color-soft-signal)]",
-    fallback: "NO",
-    meta: "gpt-4.1",
-    name: "Nova",
-    pulse: true,
-    tone: "warning / yellow",
-    variant: "warning",
-  },
-  {
-    activity: "error",
-    activityText: "Error",
-    className: "[--status-color:var(--color-brutal-orange)]",
-    fallback: "ER",
-    meta: "runtime problem",
-    name: "Eris",
-    tone: "warning / orange",
-    variant: "warning",
-  },
-  {
-    activity: "offline",
-    activityText: "Offline",
-    fallback: "AT",
-    meta: "owner",
-    name: "Atlas",
-    tone: "default / stone",
-    variant: "default",
-  },
-  {
-    activity: "external",
-    activityText: "External",
-    fallback: "RE",
-    meta: "external agent",
-    name: "Relay",
-    tone: "information / cyan (neutral)",
-    variant: "information",
-  },
-] as const;
-
 export function MessageAvatarStatusComposition() {
   return (
     <div className="flex w-full max-w-3xl flex-col gap-3">
-      {ACTIVITY_FIXTURES.map((fixture) => (
-        <MessageItem key={fixture.activity}>
-          <MessageItemAvatarSlot>
-            <Avatar size="md" type="agent">
-              <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
-              <AvatarFallback>{fixture.fallback}</AvatarFallback>
-              <AvatarBadge
-                title={fixture.activityText}
-                render={
-                  <Status
-                    aria-hidden
-                    className={fixture.className}
-                    pulse={fixture.pulse}
-                    variant={fixture.variant}
-                  />
-                }
-              />
-            </Avatar>
-          </MessageItemAvatarSlot>
-          <MessageItemContent>
-            <MessageItemHeader>
-              <MessageItemSender>{fixture.name}</MessageItemSender>
-              <MessageItemMeta>{fixture.meta}</MessageItemMeta>
-              <MessageItemTime>2:14 PM</MessageItemTime>
-            </MessageItemHeader>
-            <MessageItemBody>
-              Source activity: {fixture.activity} → “{fixture.activityText}” · {fixture.tone}
-              {fixture.pulse ? " · pulse" : " · no pulse"}.
-            </MessageItemBody>
-          </MessageItemContent>
-        </MessageItem>
-      ))}
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>KA</AvatarFallback>
+            <AvatarBadge title="Online" render={<Status aria-hidden variant="success" />} />
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Kai</MessageItemSender>
+            <MessageItemMeta>claude-sonnet</MessageItemMeta>
+            <MessageItemTime>2:14 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>
+            Picking up the review queue for the reference migration.
+          </MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>MI</AvatarFallback>
+            <AvatarBadge
+              title="Thinking…"
+              render={
+                <Status
+                  aria-hidden
+                  className="[--status-color:var(--color-soft-signal)]"
+                  pulse
+                  variant="warning"
+                />
+              }
+            />
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Mira</MessageItemSender>
+            <MessageItemMeta>claude-opus</MessageItemMeta>
+            <MessageItemTime>2:14 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>Comparing both store shapes before I answer.</MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>NO</AvatarFallback>
+            <AvatarBadge
+              title="Working…"
+              render={
+                <Status
+                  aria-hidden
+                  className="[--status-color:var(--color-soft-signal)]"
+                  pulse
+                  variant="warning"
+                />
+              }
+            />
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Nova</MessageItemSender>
+            <MessageItemMeta>gpt-4.1</MessageItemMeta>
+            <MessageItemTime>2:14 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>
+            Running the migration script against the staging workspace.
+          </MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>ER</AvatarFallback>
+            <AvatarBadge
+              title="Error"
+              render={
+                <Status
+                  aria-hidden
+                  className="[--status-color:var(--color-brutal-orange)]"
+                  variant="warning"
+                />
+              }
+            />
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Eris</MessageItemSender>
+            <MessageItemMeta>runtime problem</MessageItemMeta>
+            <MessageItemTime>2:14 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>The last run failed before it reached the token pass.</MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+            <AvatarBadge title="Offline" render={<Status aria-hidden variant="default" />} />
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Atlas</MessageItemSender>
+            <MessageItemMeta>owner</MessageItemMeta>
+            <MessageItemTime>2:14 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>
+            Handing the thread over for the night — notes are in the doc.
+          </MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>RE</AvatarFallback>
+            <AvatarBadge title="External" render={<Status aria-hidden variant="information" />} />
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Relay</MessageItemSender>
+            <MessageItemMeta>external agent</MessageItemMeta>
+            <MessageItemTime>2:14 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>Mirroring updates from the partner workspace.</MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
     </div>
   );
 }

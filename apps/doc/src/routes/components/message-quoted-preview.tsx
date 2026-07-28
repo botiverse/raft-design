@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -14,6 +13,11 @@ import quotedPreviewMessageSource from "#/modules/message-quoted-preview/composi
 import { MessageQuotedPreviewShowcaseComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
 import quotedPreviewSource from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx?raw";
 import { MessageQuotedPreviewSourcePreview } from "#/modules/message-quoted-preview/message-quoted-preview.source-preview.tsx";
+
+const QUOTED_PREVIEW_MESSAGE_PATH =
+  "apps/doc/src/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
+const QUOTED_PREVIEW_STATES_PATH =
+  "apps/doc/src/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -107,15 +111,6 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
-  return (
-    <Preview previewClassName="items-stretch">
-      <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code html={code} />
-    </Preview>
-  );
-}
-
 export const Route = createFileRoute("/components/message-quoted-preview")({
   component: MessageQuotedPreviewDoc,
   loader: () =>
@@ -138,9 +133,32 @@ function MessageQuotedPreviewDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.quotedPreview}>
-          <MessageQuotedPreviewShowcaseComposition />
-        </UsagePreview>
+        <Preview previewClassName="items-stretch">
+          <Preview.Canvas>
+            <MessageQuotedPreviewShowcaseComposition />
+          </Preview.Canvas>
+          <Preview.Code
+            codeBlock={
+              <DocsCodeBlock.Files
+                collapsible={false}
+                files={[
+                  {
+                    path: QUOTED_PREVIEW_MESSAGE_PATH,
+                    source: quotedPreviewMessageSource,
+                    html: code.quotedPreviewMessage,
+                    collapsedHtml: code.quotedPreviewMessageBody,
+                  },
+                  {
+                    path: QUOTED_PREVIEW_STATES_PATH,
+                    source: quotedPreviewSource,
+                    html: code.quotedPreview,
+                    collapsedHtml: code.quotedPreviewBody,
+                  },
+                ]}
+              />
+            }
+          />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -173,8 +191,8 @@ function MessageQuotedPreviewDoc() {
               elegant: <QuotedPreviewMessageComposition />,
               elegantDark: <QuotedPreviewMessageComposition />,
               compositionCode: code.quotedPreviewMessage,
-              compositionPath:
-                "apps/doc/src/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx",
+              compositionCollapsedCode: code.quotedPreviewMessageBody,
+              compositionPath: QUOTED_PREVIEW_MESSAGE_PATH,
               compositionSource: quotedPreviewMessageSource,
             },
           ]}

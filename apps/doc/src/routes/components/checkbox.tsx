@@ -289,10 +289,7 @@ function CheckboxDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <CheckboxPlaygroundPreview
-          code={code.checkboxPreviewComposition}
-          collapsedCode={code.checkboxPreviewCompositionBody}
-        />
+        <CheckboxPlaygroundPreview code={code.checkboxPreviewComposition} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

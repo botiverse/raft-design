@@ -10,15 +10,9 @@ type RadioGroupPreviewProps = {
   value: string;
   onValueChange: (value: string) => void;
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function RadioGroupPreview({
-  value,
-  onValueChange,
-  code,
-  collapsedCode,
-}: RadioGroupPreviewProps) {
+export function RadioGroupPreview({ value, onValueChange, code }: RadioGroupPreviewProps) {
   const [disabled, setDisabled] = useState(false);
 
   return (
@@ -40,7 +34,7 @@ export function RadioGroupPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

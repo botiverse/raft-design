@@ -1,0 +1,69 @@
+import { useState } from "react";
+import {
+  FileAction,
+  FileActions,
+  FileContent,
+  FileMeta,
+  FileMetaItem,
+  FileName,
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewDocument,
+  FileRow,
+  FileRowOpen,
+  FilesList,
+  FilesPanel,
+  FilesViewport,
+  FileThumbnail,
+} from "raft-ui";
+import { Clock3, Download, ExternalLink } from "lucide-react";
+
+export function FilesPanelFileRowComposition() {
+  const [lastAction, setLastAction] = useState<string | null>(null);
+
+  return (
+    <FilesPanel aria-label="Files panel" className="w-full max-w-2xl">
+      <FilesViewport>
+        <FilesList>
+          <FileRow>
+            <FileRowOpen title="Preview file" onClick={() => setLastAction("Previewed")}>
+              <FileThumbnail>
+                <FilePreview>
+                  <FilePreviewDocument />
+                  <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+                </FilePreview>
+              </FileThumbnail>
+              <FileContent>
+                <FileName>release-checklist.pdf</FileName>
+                <FileMeta>
+                  <FileMetaItem>184 KB</FileMetaItem>
+                  <FileMetaItem>
+                    <Clock3 aria-hidden />
+                    Yesterday, 4:18 PM
+                  </FileMetaItem>
+                  {lastAction ? <FileMetaItem>{lastAction}</FileMetaItem> : null}
+                </FileMeta>
+              </FileContent>
+            </FileRowOpen>
+            <FileActions>
+              <FileAction
+                aria-label="Jump to original message"
+                title="Jump to original message"
+                onClick={() => setLastAction("Jumped to message")}
+              >
+                <ExternalLink aria-hidden />
+              </FileAction>
+              <FileAction
+                aria-label="Download file"
+                title="Download file"
+                onClick={() => setLastAction("Downloaded")}
+              >
+                <Download aria-hidden />
+              </FileAction>
+            </FileActions>
+          </FileRow>
+        </FilesList>
+      </FilesViewport>
+    </FilesPanel>
+  );
+}

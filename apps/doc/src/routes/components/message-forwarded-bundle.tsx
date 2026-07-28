@@ -92,11 +92,19 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
+function UsagePreview({
+  children,
+  code,
+  collapsedCode,
+}: {
+  children: ReactNode;
+  code: ReactNode;
+  collapsedCode?: ReactNode;
+}) {
   return (
     <Preview previewClassName="items-stretch">
       <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code html={code} />
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
     </Preview>
   );
 }
@@ -122,7 +130,7 @@ function MessageForwardedBundleDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.forwardedBundle}>
+        <UsagePreview code={code.forwardedBundle} collapsedCode={code.forwardedBundleBody}>
           <MessageForwardedBundleShowcaseComposition />
         </UsagePreview>
       </DocSection>
@@ -157,6 +165,7 @@ function MessageForwardedBundleDoc() {
               elegant: <MessageForwardedBundleShowcaseComposition />,
               elegantDark: <MessageForwardedBundleShowcaseComposition />,
               compositionCode: code.forwardedBundle,
+              compositionCollapsedCode: code.forwardedBundleBody,
               compositionPath:
                 "apps/doc/src/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx",
               compositionSource: forwardedBundleSource,

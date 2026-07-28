@@ -1,13 +1,5 @@
-import { TaskChip, type TaskStatusId } from "raft-ui";
+import { TaskChip } from "raft-ui";
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
-
-const TASK_STATUSES = [
-  { status: "todo", number: 16, label: "Todo" },
-  { status: "in_progress", number: 205, label: "In Progress" },
-  { status: "in_review", number: 340, label: "In Review" },
-  { status: "done", number: 47, label: "Done" },
-  { status: "closed", number: 480, label: "Closed" },
-] as const satisfies readonly { status: TaskStatusId; number: number; label: string }[];
 
 export function TaskChipUsageComposition() {
   return (
@@ -24,14 +16,51 @@ export function TaskChipUsageComposition() {
         .
       </p>
       <div className="flex flex-wrap items-center justify-center gap-4">
-        {TASK_STATUSES.map(({ status, number, label }) => (
-          <div key={status} className="flex flex-col items-center gap-3">
-            <TaskChip status={status} render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
-              #{number}
-            </TaskChip>
-            <span className="text-[12px] leading-[1.4] text-foreground-muted">{label}</span>
-          </div>
-        ))}
+        {/* @docs-source-strip-start */}
+        <div className="flex flex-col items-center gap-3">
+          {/* @docs-source-strip-end */}
+          <TaskChip status="todo" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+            #16
+          </TaskChip>
+          {/* @docs-source-strip-start */}
+          <span className="text-[12px] leading-[1.4] text-foreground-muted">Todo</span>
+        </div>
+        <div className="flex flex-col items-center gap-3">
+          {/* @docs-source-strip-end */}
+          <TaskChip
+            status="in_progress"
+            render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+          >
+            #205
+          </TaskChip>
+          {/* @docs-source-strip-start */}
+          <span className="text-[12px] leading-[1.4] text-foreground-muted">In Progress</span>
+        </div>
+        <div className="flex flex-col items-center gap-3">
+          {/* @docs-source-strip-end */}
+          <TaskChip status="in_review" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+            #340
+          </TaskChip>
+          {/* @docs-source-strip-start */}
+          <span className="text-[12px] leading-[1.4] text-foreground-muted">In Review</span>
+        </div>
+        <div className="flex flex-col items-center gap-3">
+          {/* @docs-source-strip-end */}
+          <TaskChip status="done" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+            #47
+          </TaskChip>
+          {/* @docs-source-strip-start */}
+          <span className="text-[12px] leading-[1.4] text-foreground-muted">Done</span>
+        </div>
+        <div className="flex flex-col items-center gap-3">
+          {/* @docs-source-strip-end */}
+          <TaskChip status="closed" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
+            #480
+          </TaskChip>
+          {/* @docs-source-strip-start */}
+          <span className="text-[12px] leading-[1.4] text-foreground-muted">Closed</span>
+        </div>
+        {/* @docs-source-strip-end */}
       </div>
     </div>
   );

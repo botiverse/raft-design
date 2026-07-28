@@ -16,7 +16,7 @@ export function SourceAppRailPreview() {
       <div className="relative flex h-[62px] w-full items-center justify-center border-b-2 border-[var(--source-ink)]">
         <button
           type="button"
-          className="relative inline-flex size-10 items-center justify-center rounded-none border-2 border-[var(--source-ink)] bg-[var(--source-ink)] text-base font-bold text-soft-signal shadow-[var(--source-shadow-sm)] transition-all duration-100 hover:shadow-[var(--source-shadow-md)] [@media(max-height:600px)]:h-9 [@media(max-height:600px)]:w-9"
+          className="relative inline-flex size-10 items-center justify-center rounded-none border-2 border-[var(--source-ink)] bg-[var(--source-ink)] text-base font-bold text-soft-signal shadow-[var(--source-shadow-sm)] transition-shadow duration-100 hover:shadow-[var(--source-shadow-md)] [@media(max-height:600px)]:h-9 [@media(max-height:600px)]:w-9"
           aria-label="Switch server"
         >
           R
@@ -45,7 +45,7 @@ function SourceNotificationButton() {
   return (
     <button
       type="button"
-      className="relative inline-flex size-9 items-center justify-center rounded-none border-2 border-[var(--source-ink)] bg-brutal-orange shadow-[var(--source-shadow-sm)] transition-all duration-100 hover:shadow-[var(--source-shadow-md)]"
+      className="relative inline-flex size-9 items-center justify-center rounded-none border-2 border-[var(--source-ink)] bg-brutal-orange shadow-[var(--source-shadow-sm)] transition-shadow duration-100 hover:shadow-[var(--source-shadow-md)]"
       aria-label="Notification center"
     >
       <AlertTriangle className="size-[18px] text-[var(--source-ink)]" />

@@ -121,10 +121,7 @@ function SkeletonDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <SkeletonPlaygroundPreview
-          code={code.skeletonPreviewComposition}
-          collapsedCode={code.skeletonPreviewCompositionBody}
-        />
+        <SkeletonPlaygroundPreview code={code.skeletonPreviewComposition} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

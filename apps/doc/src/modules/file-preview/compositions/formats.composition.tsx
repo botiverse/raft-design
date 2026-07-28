@@ -1,8 +1,8 @@
 import { FilePreview, FilePreviewBadge, FilePreviewDocument } from "raft-ui";
 
-export function FilePreviewFormatsComposition() {
+export function FilePreviewFormatsContent() {
   return (
-    <div className="flex flex-wrap items-center gap-5">
+    <>
       <FilePreview>
         <FilePreviewDocument />
         <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
@@ -15,6 +15,16 @@ export function FilePreviewFormatsComposition() {
         <FilePreviewDocument />
         <FilePreviewBadge type="txt">TXT</FilePreviewBadge>
       </FilePreview>
+    </>
+  );
+}
+
+// @docs-source-strip-start
+export function FilePreviewFormatsComposition() {
+  return (
+    <div className="flex flex-wrap items-center gap-5">
+      <FilePreviewFormatsContent />
     </div>
   );
 }
+// @docs-source-strip-end

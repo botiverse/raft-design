@@ -17,6 +17,7 @@ import {
 
 import { MessageMultiSelectToolbarComposition } from "./selection.compositions.tsx";
 
+// @docs-source-strip-start
 function MessageSelectionToolbarShowcase() {
   const [active, setActive] = useState(true);
 
@@ -44,6 +45,7 @@ function MessageSelectionToolbarShowcase() {
     </div>
   );
 }
+// @docs-source-strip-end
 
 export function MessageRowChromeComposition() {
   return (
@@ -104,7 +106,9 @@ export function MessageRowChromeComposition() {
           </MessageItemSelection>
         </MessageMultiSelect>
       </div>
+      {/* @docs-source-strip-start */}
       <MessageSelectionToolbarShowcase />
+      {/* @docs-source-strip-end */}
     </div>
   );
 }

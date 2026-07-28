@@ -11,11 +11,13 @@ import { ChatSidebarComposition } from "#/modules/chat-sidebar/chat-sidebar.comp
 import { ChatSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.preview.tsx";
 import { SourceSidebarPreview } from "#/modules/chat-sidebar/chat-sidebar.source-preview.tsx";
 import chatSidebarCompositionSource from "#/modules/chat-sidebar/chat-sidebar.composition.tsx?raw";
-import chatSidebarPreviewCompositionSource from "#/modules/chat-sidebar/compositions/preview.composition.tsx?raw";
+import sidebarSectionHeaderMenuCompositionSource from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CHAT_SIDEBAR_COMPOSITION_PATH =
   "apps/doc/src/modules/chat-sidebar/chat-sidebar.composition.tsx";
+const SIDEBAR_SECTION_HEADER_MENU_COMPOSITION_PATH =
+  "apps/doc/src/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -26,7 +28,7 @@ const TOC = [
 
 const SNIPPETS = {
   chatSidebarComposition: chatSidebarCompositionSource,
-  chatSidebarPreviewComposition: chatSidebarPreviewCompositionSource,
+  sidebarSectionHeaderMenuComposition: sidebarSectionHeaderMenuCompositionSource,
   anatomy: `<ChatSidebarRoot>
   <ChatSidebarHeader>
     <ChatSidebarHeaderTitle />
@@ -413,8 +415,7 @@ function ChatSidebarDoc() {
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <ChatSidebarPreview
-          code={code.chatSidebarPreviewComposition}
-          collapsedCode={code.chatSidebarPreviewCompositionBody}
+          codeBlock={<ChatSidebarSourceFiles code={code} collapsible={false} />}
         />
       </DocSection>
 
@@ -688,15 +689,39 @@ function ChatSidebarDoc() {
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
-        <DocsCodeBlock.Panel
-          path={CHAT_SIDEBAR_COMPOSITION_PATH}
-          source={chatSidebarCompositionSource}
-          html={code.chatSidebarComposition}
-          collapsedHtml={code.chatSidebarCompositionBody}
-          showLineNumbers={false}
-        />
+        <ChatSidebarSourceFiles code={code} />
       </DocSection>
     </DocPage>
+  );
+}
+
+/** Sidebar composition plus the shared section-header menu helpers it renders. */
+function ChatSidebarSourceFiles({
+  code,
+  collapsible = true,
+}: {
+  code: Record<string, string>;
+  collapsible?: boolean;
+}) {
+  return (
+    <DocsCodeBlock.Files
+      collapsible={collapsible}
+      showLineNumbers={false}
+      files={[
+        {
+          path: CHAT_SIDEBAR_COMPOSITION_PATH,
+          source: chatSidebarCompositionSource,
+          html: code.chatSidebarComposition,
+          collapsedHtml: code.chatSidebarCompositionBody,
+        },
+        {
+          path: SIDEBAR_SECTION_HEADER_MENU_COMPOSITION_PATH,
+          source: sidebarSectionHeaderMenuCompositionSource,
+          html: code.sidebarSectionHeaderMenuComposition,
+          collapsedHtml: code.sidebarSectionHeaderMenuCompositionBody,
+        },
+      ]}
+    />
   );
 }
 

@@ -8,10 +8,9 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type FieldPlaygroundPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function FieldPlaygroundPreview({ code, collapsedCode }: FieldPlaygroundPreviewProps) {
+export function FieldPlaygroundPreview({ code }: FieldPlaygroundPreviewProps) {
   const [invalid, setInvalid] = useState(false);
   const [required, setRequired] = useState(true);
   const [optional, setOptional] = useState(false);
@@ -87,7 +86,7 @@ export function FieldPlaygroundPreview({ code, collapsedCode }: FieldPlaygroundP
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

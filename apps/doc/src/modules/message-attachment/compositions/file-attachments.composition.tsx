@@ -43,7 +43,7 @@ function MessageHtmlPreviewAttachmentComposition() {
   );
 }
 
-export function MessageFileAttachmentComposition() {
+function MessageFileAttachmentComposition() {
   return (
     <MessageAttachmentCard>
       <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
@@ -141,8 +141,12 @@ function MessageCsvAttachmentComposition() {
       <MessageAttachmentMeta>
         <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
         <MessageAttachmentMetaEnd>
-          <MessageAttachmentAction aria-hidden render={<span />} title="Preview metrics.csv">
-            <Eye />
+          <MessageAttachmentAction
+            aria-label="Download metrics.csv"
+            title="Download metrics.csv"
+            onClick={() => downloadMessageFixture("metrics.csv")}
+          >
+            <ArrowDownToLine />
           </MessageAttachmentAction>
         </MessageAttachmentMetaEnd>
       </MessageAttachmentMeta>

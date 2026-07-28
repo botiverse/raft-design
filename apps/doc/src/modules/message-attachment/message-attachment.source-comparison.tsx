@@ -1,6 +1,17 @@
+import { ArrowDownToLine } from "lucide-react";
 import { Avatar, AvatarFallback } from "raft-ui";
 import {
+  MessageAttachmentAction,
+  MessageAttachmentCard,
+  MessageAttachmentDiffAddition,
+  MessageAttachmentDiffDeletion,
+  MessageAttachmentDiffSummary,
   MessageAttachmentGroup,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
+  MessageAttachmentSummary,
+  MessageAttachmentTitle,
   MessageItem,
   MessageItemAttachments,
   MessageItemAvatarSlot,
@@ -10,8 +21,7 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui/wip";
-
-import { MessageFileAttachmentComposition } from "./compositions/file-attachments.composition.tsx";
+import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageAttachmentComparisonComposition() {
   return (
@@ -30,7 +40,26 @@ export function MessageAttachmentComparisonComposition() {
           <MessageItemBody>Here is the source parity pass.</MessageItemBody>
           <MessageItemAttachments>
             <MessageAttachmentGroup>
-              <MessageFileAttachmentComposition />
+              <MessageAttachmentCard>
+                <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>
+                <MessageAttachmentSummary render={<MessageAttachmentDiffSummary />}>
+                  <span>2 files · 5 hunks</span>
+                  <MessageAttachmentDiffAddition>+42</MessageAttachmentDiffAddition>
+                  <MessageAttachmentDiffDeletion>-7</MessageAttachmentDiffDeletion>
+                </MessageAttachmentSummary>
+                <MessageAttachmentMeta>
+                  <MessageAttachmentMetaStart>18 KB</MessageAttachmentMetaStart>
+                  <MessageAttachmentMetaEnd>
+                    <MessageAttachmentAction
+                      aria-label="Download migration.diff"
+                      title="Download migration.diff"
+                      onClick={() => downloadMessageFixture("migration.diff")}
+                    >
+                      <ArrowDownToLine />
+                    </MessageAttachmentAction>
+                  </MessageAttachmentMetaEnd>
+                </MessageAttachmentMeta>
+              </MessageAttachmentCard>
             </MessageAttachmentGroup>
           </MessageItemAttachments>
         </MessageItemContent>

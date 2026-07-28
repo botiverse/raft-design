@@ -30,7 +30,6 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import toastPreviewCompositionSource from "#/modules/toast/compositions/preview.composition.tsx?raw";
 import { ToastPreviewScene } from "#/modules/toast/toast.composition.tsx";
 import { ToastPlaygroundPreview } from "#/modules/toast/toast.preview.tsx";
 
@@ -119,7 +118,6 @@ type AnatomyVariantData = {
 };
 
 const SNIPPETS = {
-  previewComposition: toastPreviewCompositionSource,
   anatomy: `<ToastProvider>
   <ToastPortal>
     <ToastViewport>
@@ -228,19 +226,37 @@ const SNIPPETS = {
     </ToastBody>
   </ToastContent>
 </ToastRoot>`,
-  preview: `import { toast } from "raft-ui";
+  preview: `import { Button, createToastManager, ToastProvider, useToastManager } from "raft-ui";
+
+const previewToastManager = createToastManager();
 
 function ToastDemo() {
+  return (
+    <ToastProvider toastManager={previewToastManager} timeout={3600} limit={3}>
+      <CopyLinkButton />
+    </ToastProvider>
+  );
+}
+
+function CopyLinkButton() {
+  const toastManager = useToastManager();
+
   return (
     <Button
       type="button"
       size="sm"
       variant="primary"
       onClick={() =>
-        toast.success("Link copied.", {
+        toastManager.add({
+          type: "info",
+          title: "Link copied.",
           description: "The message link is ready to paste.",
-          action: { label: "Copy again" },
-        })}
+          actionProps: {
+            children: "Copy again",
+            onClick: () => toastManager.close(),
+          },
+        })
+      }
     >
       Copy link
     </Button>
@@ -568,10 +584,7 @@ function ToastDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ToastPlaygroundPreview
-          code={code.previewComposition}
-          collapsedCode={code.previewCompositionBody}
-        />
+        <ToastPlaygroundPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -661,7 +674,7 @@ function ToastDoc() {
               <Preview.Canvas>
                 <InlineUsageToast />
               </Preview.Canvas>
-              <Preview.Code html={code.usage} />
+              <Preview.Code html={code.usage} collapsedHtml={code.usageBody} />
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="anchored-with-arrow" title="Anchored with arrow">
@@ -675,7 +688,7 @@ function ToastDoc() {
               <Preview.Canvas>
                 <AnchoredUsageToast />
               </Preview.Canvas>
-              <Preview.Code html={code.anchoredUsage} />
+              <Preview.Code html={code.anchoredUsage} collapsedHtml={code.anchoredUsageBody} />
             </Preview>
           </DocSubsection>
         </div>

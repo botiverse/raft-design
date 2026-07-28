@@ -16,7 +16,8 @@ import {
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
 import { MessageSystemMessagesComposition } from "#/modules/system-message/compositions/preview.composition.tsx";
-import previewSource from "#/modules/system-message/compositions/preview.composition.tsx?raw";
+import systemMessagePreviewSource from "#/modules/system-message/compositions/preview.composition.tsx?raw";
+import systemMessageGroupedListSource from "#/modules/system-message/system-message-grouped-list.tsx?raw";
 import { SystemMessageChannelArchiveContent } from "#/modules/system-message/compositions/channel-archive.composition.tsx";
 import channelArchiveSource from "#/modules/system-message/compositions/channel-archive.composition.tsx?raw";
 import { SystemMessageChannelUnarchiveContent } from "#/modules/system-message/compositions/channel-unarchive.composition.tsx";
@@ -180,11 +181,71 @@ const COMPOSITION_SNIPPET_IDS = {
   GroupedUpdates: "groupedUpdatesComposition",
 } as const;
 
+const GROUPED_LIST_PATH = "apps/doc/src/modules/system-message/system-message-grouped-list.tsx";
+
+const GROUPED_COMPOSITION_PATHS = {
+  groupedUpdates:
+    "apps/doc/src/modules/system-message/compositions/grouped-updates.composition.tsx",
+  groupedGeneric:
+    "apps/doc/src/modules/system-message/compositions/grouped-generic.composition.tsx",
+} as const;
+
+const GROUPED_COMPOSITION_SOURCES = createCompositionSourceMap({
+  groupedUpdates: groupedUpdatesSource,
+  groupedGeneric: groupedGenericSource,
+});
+
 function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
   return (
     <Preview previewClassName="items-stretch">
       <Preview.Canvas>{children}</Preview.Canvas>
       <Preview.Code html={code} />
+    </Preview>
+  );
+}
+
+/** Grouped runs render through the shared grouped-list helper, so both files are shown. */
+function GroupedUsagePreview({
+  children,
+  compositionHtml,
+  compositionCollapsedHtml,
+  compositionPath,
+  compositionSource,
+  groupedListHtml,
+  groupedListCollapsedHtml,
+}: {
+  children: ReactNode;
+  compositionHtml: ReactNode;
+  compositionCollapsedHtml: ReactNode;
+  compositionPath: string;
+  compositionSource: string;
+  groupedListHtml: ReactNode;
+  groupedListCollapsedHtml: ReactNode;
+}) {
+  return (
+    <Preview previewClassName="items-stretch">
+      <Preview.Canvas>{children}</Preview.Canvas>
+      <Preview.Code
+        codeBlock={
+          <DocsCodeBlock.Files
+            collapsible={false}
+            files={[
+              {
+                path: compositionPath,
+                source: compositionSource,
+                html: compositionHtml,
+                collapsedHtml: compositionCollapsedHtml,
+              },
+              {
+                path: GROUPED_LIST_PATH,
+                source: systemMessageGroupedListSource,
+                html: groupedListHtml,
+                collapsedHtml: groupedListCollapsedHtml,
+              },
+            ]}
+          />
+        }
+      />
     </Preview>
   );
 }
@@ -195,7 +256,8 @@ export const Route = createFileRoute("/components/system-message")({
     highlightSnippets({
       data: {
         anatomy: ANATOMY_SOURCE,
-        preview: previewSource,
+        preview: systemMessagePreviewSource,
+        groupedList: systemMessageGroupedListSource,
         channelArchive: channelArchiveSource,
         channelUnarchive: channelUnarchiveSource,
         channelRename: channelRenameSource,
@@ -366,14 +428,28 @@ function SystemMessageDoc() {
             </UsagePreview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="grouped-updates" title="Grouped updates">
-            <UsagePreview code={code.groupedUpdates}>
+            <GroupedUsagePreview
+              compositionHtml={code.groupedUpdates}
+              compositionCollapsedHtml={code.groupedUpdatesBody}
+              compositionPath={GROUPED_COMPOSITION_PATHS.groupedUpdates}
+              compositionSource={GROUPED_COMPOSITION_SOURCES.groupedUpdates}
+              groupedListHtml={code.groupedList}
+              groupedListCollapsedHtml={code.groupedListBody}
+            >
               <SystemMessageGroupedUpdatesContent />
-            </UsagePreview>
+            </GroupedUsagePreview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="grouped-generic" title="Grouped generic">
-            <UsagePreview code={code.groupedGeneric}>
+            <GroupedUsagePreview
+              compositionHtml={code.groupedGeneric}
+              compositionCollapsedHtml={code.groupedGenericBody}
+              compositionPath={GROUPED_COMPOSITION_PATHS.groupedGeneric}
+              compositionSource={GROUPED_COMPOSITION_SOURCES.groupedGeneric}
+              groupedListHtml={code.groupedList}
+              groupedListCollapsedHtml={code.groupedListBody}
+            >
               <SystemMessageGroupedGenericContent />
-            </UsagePreview>
+            </GroupedUsagePreview>
           </DocSubsection>
         </div>
       </DocSection>

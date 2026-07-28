@@ -1,84 +1,55 @@
 import {
   ContextMenu,
-  ContextMenuContent,
   ContextMenuItem,
   ContextMenuPopup,
   ContextMenuSeparator,
   ContextMenuShortcut,
-  ContextMenuSubmenu,
-  ContextMenuSubmenuTrigger,
-  ContextMenuTrigger,
 } from "raft-ui";
-import {
-  Archive,
-  BookmarkPlus,
-  MessageCircle,
-  ChevronRight,
-  ClipboardCheck,
-  Copy,
-  Link2,
-  Mailbox,
-  MessageSquareQuote,
-  MoonStar,
-  Pin,
-  Forward,
-  Trash,
-} from "lucide-react";
+import { Archive, ChevronRight, Copy, MoonStar, Pin, Trash } from "lucide-react";
 
 // @docs-source-strip-start
 import type { ReactNode } from "react";
 import { cn } from "tailwind-variants";
+import {
+  BookmarkPlus,
+  ClipboardCheck,
+  Forward,
+  Link2,
+  Mailbox,
+  MessageCircle,
+  MessageSquareQuote,
+} from "lucide-react";
 // @docs-source-strip-end
-
-export function ContextMenuContentPreview() {
-  return (
-    <>
-      <ContextMenuItem>
-        <Pin />
-        <span className="min-w-0 flex-1 truncate">Pin thread</span>
-      </ContextMenuItem>
-      <ContextMenuItem>
-        <Copy />
-        <span className="min-w-0 flex-1 truncate">Copy link</span>
-        <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-      </ContextMenuItem>
-      <ContextMenuSubmenu>
-        <ContextMenuSubmenuTrigger>
-          <MoonStar />
-          <span className="min-w-0 flex-1 truncate">Move to</span>
-          <ChevronRight className="ml-auto" />
-        </ContextMenuSubmenuTrigger>
-        <ContextMenuContent
-          side="right"
-          align="start"
-          sideOffset={10}
-          className="flex w-36 min-w-36 flex-col"
-        >
-          <ContextMenuItem>Inbox</ContextMenuItem>
-          <ContextMenuItem>Archive</ContextMenuItem>
-        </ContextMenuContent>
-      </ContextMenuSubmenu>
-      <ContextMenuSeparator />
-      <ContextMenuItem>
-        <Archive />
-        <span className="min-w-0 flex-1 truncate">Archive</span>
-      </ContextMenuItem>
-      <ContextMenuItem>
-        <Trash />
-        <span className="min-w-0 flex-1 truncate">Delete</span>
-        <ContextMenuShortcut>⌫</ContextMenuShortcut>
-      </ContextMenuItem>
-    </>
-  );
-}
 
 export function ContextMenuComposition() {
   return (
     <ContextMenu>
-      <ContextMenuTrigger>Right click thread</ContextMenuTrigger>
-      <ContextMenuContent className="flex w-56 min-w-56 flex-col">
-        <ContextMenuContentPreview />
-      </ContextMenuContent>
+      <ContextMenuPopup className="flex w-56 min-w-56 flex-col">
+        <ContextMenuItem>
+          <Pin />
+          <span className="min-w-0 flex-1 truncate">Pin thread</span>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <Copy />
+          <span className="min-w-0 flex-1 truncate">Copy link</span>
+          <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <MoonStar />
+          <span className="min-w-0 flex-1 truncate">Move to</span>
+          <ChevronRight className="ml-auto" />
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem>
+          <Archive />
+          <span className="min-w-0 flex-1 truncate">Archive</span>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <Trash />
+          <span className="min-w-0 flex-1 truncate">Delete</span>
+          <ContextMenuShortcut>⌫</ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuPopup>
     </ContextMenu>
   );
 }
@@ -122,37 +93,6 @@ function ReactionRow() {
         </button>
       ))}
     </div>
-  );
-}
-
-function StaticContextMenuRows() {
-  return (
-    <>
-      <ContextMenuItem>
-        <Pin />
-        <span className="min-w-0 flex-1 truncate">Pin thread</span>
-      </ContextMenuItem>
-      <ContextMenuItem>
-        <Copy />
-        <span className="min-w-0 flex-1 truncate">Copy link</span>
-        <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-      </ContextMenuItem>
-      <ContextMenuItem>
-        <MoonStar />
-        <span className="min-w-0 flex-1 truncate">Move to</span>
-        <ChevronRight className="ml-auto" />
-      </ContextMenuItem>
-      <ContextMenuSeparator />
-      <ContextMenuItem>
-        <Archive />
-        <span className="min-w-0 flex-1 truncate">Archive</span>
-      </ContextMenuItem>
-      <ContextMenuItem>
-        <Trash />
-        <span className="min-w-0 flex-1 truncate">Delete</span>
-        <ContextMenuShortcut>⌫</ContextMenuShortcut>
-      </ContextMenuItem>
-    </>
   );
 }
 
@@ -228,13 +168,11 @@ function StaticSidebarMenuRows() {
 function InteractiveContextMenuPreview({
   children,
   className,
-  contentClassName,
   minHeight = "min-h-56",
   triggerLabel,
 }: {
   children: ReactNode;
   className?: string;
-  contentClassName: string;
   minHeight?: string;
   triggerLabel: string;
 }) {
@@ -243,9 +181,7 @@ function InteractiveContextMenuPreview({
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="flex flex-col items-center gap-2">
           <ContextMenuPreviewTrigger>{triggerLabel}</ContextMenuPreviewTrigger>
-          <ContextMenu>
-            <ContextMenuPopup className={contentClassName}>{children}</ContextMenuPopup>
-          </ContextMenu>
+          {children}
         </div>
       </div>
     </div>
@@ -254,12 +190,8 @@ function InteractiveContextMenuPreview({
 
 export function ContextMenuCompositionPreview({ className }: { className?: string }) {
   return (
-    <InteractiveContextMenuPreview
-      className={className}
-      contentClassName="flex w-56 min-w-56 flex-col"
-      triggerLabel="Right click thread"
-    >
-      <StaticContextMenuRows />
+    <InteractiveContextMenuPreview className={className} triggerLabel="Right click thread">
+      <ContextMenuComposition />
     </InteractiveContextMenuPreview>
   );
 }
@@ -268,11 +200,14 @@ export function ContextMenuMessageMenuPreview({ className }: { className?: strin
   return (
     <InteractiveContextMenuPreview
       className={className}
-      contentClassName="flex w-64 min-w-64 flex-col"
       minHeight="min-h-72"
       triggerLabel="Right click message"
     >
-      <StaticMessageMenuRows />
+      <ContextMenu>
+        <ContextMenuPopup className="flex w-64 min-w-64 flex-col">
+          <StaticMessageMenuRows />
+        </ContextMenuPopup>
+      </ContextMenu>
     </InteractiveContextMenuPreview>
   );
 }
@@ -281,11 +216,14 @@ export function ContextMenuSelectionMenuPreview({ className }: { className?: str
   return (
     <InteractiveContextMenuPreview
       className={className}
-      contentClassName="flex w-48 min-w-48 flex-col"
       minHeight="min-h-40"
       triggerLabel="Right click selection"
     >
-      <StaticSelectionMenuRows />
+      <ContextMenu>
+        <ContextMenuPopup className="flex w-48 min-w-48 flex-col">
+          <StaticSelectionMenuRows />
+        </ContextMenuPopup>
+      </ContextMenu>
     </InteractiveContextMenuPreview>
   );
 }
@@ -294,11 +232,14 @@ export function ContextMenuSidebarMenuPreview({ className }: { className?: strin
   return (
     <InteractiveContextMenuPreview
       className={className}
-      contentClassName="flex w-48 min-w-48 flex-col"
       minHeight="min-h-48"
       triggerLabel="Right click channel"
     >
-      <StaticSidebarMenuRows />
+      <ContextMenu>
+        <ContextMenuPopup className="flex w-48 min-w-48 flex-col">
+          <StaticSidebarMenuRows />
+        </ContextMenuPopup>
+      </ContextMenu>
     </InteractiveContextMenuPreview>
   );
 }

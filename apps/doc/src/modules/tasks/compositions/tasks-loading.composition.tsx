@@ -10,13 +10,12 @@ import {
   TasksPanelRoot,
   TasksPanelToolbar,
   TasksPanelToolbarFilters,
+  TasksPanelToolbarLabel,
   TasksPanelToolbarNewTask,
   TasksPanelToolbarView,
   TasksPanelViewport,
 } from "raft-ui";
-import { Columns3, LayoutList, Plus, User, UserCircle2 } from "lucide-react";
-
-import { TasksToolbarFilterPlaceholder } from "./tasks-panel.composition";
+import { ChevronDown, Columns3, LayoutList, Plus, User, UserCircle2 } from "lucide-react";
 
 export function TasksLoadingComposition() {
   const [view, setView] = useState("board");
@@ -36,8 +35,16 @@ export function TasksLoadingComposition() {
             </Button>
           </TasksPanelToolbarNewTask>
           <TasksPanelToolbarFilters>
-            <TasksToolbarFilterPlaceholder label="Creator" icon={<UserCircle2 aria-hidden />} />
-            <TasksToolbarFilterPlaceholder label="Assignee" icon={<User aria-hidden />} />
+            <TasksPanelToolbarLabel aria-hidden>
+              <UserCircle2 aria-hidden />
+              Creator
+              <ChevronDown aria-hidden />
+            </TasksPanelToolbarLabel>
+            <TasksPanelToolbarLabel aria-hidden>
+              <User aria-hidden />
+              Assignee
+              <ChevronDown aria-hidden />
+            </TasksPanelToolbarLabel>
           </TasksPanelToolbarFilters>
           <TasksPanelToolbarView>
             <SegmentedControl

@@ -27,10 +27,9 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type ToastPlaygroundPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function ToastPlaygroundPreview({ code, collapsedCode }: ToastPlaygroundPreviewProps) {
+export function ToastPlaygroundPreview({ code }: ToastPlaygroundPreviewProps) {
   const [mode, setMode] = useState<ToastDemoOptions["mode"]>("stacked");
   const [placement, setPlacement] = useState<ToastDemoOptions["placement"]>("bottom-center");
   const [side, setSide] = useState<ToastDemoOptions["side"]>("bottom");
@@ -133,7 +132,7 @@ export function ToastPlaygroundPreview({ code, collapsedCode }: ToastPlaygroundP
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

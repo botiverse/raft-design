@@ -62,13 +62,11 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const SIZES = ["sm", "lg"] as const;
+const SIZES = ["xs", "sm", "md", "lg"] as const;
 const VARIANTS = ["default", "inverse"] as const;
 
 const SNIPPETS = {
-  preview: `<div className="rounded px-4 py-3 text-black">
-  <Spinner size="sm" />
-</div>`,
+  preview: `<Spinner size="sm" variant="default" />`,
   anatomy: `<Spinner />`,
   sizes: `<Spinner size="sm" />
 <Spinner size="lg" />`,
@@ -111,9 +109,16 @@ type SpinnerCompositionKey = keyof typeof SPINNER_COMPOSITION_SOURCES;
 const PROPS: readonly PropRow[] = [
   {
     name: "size",
-    type: SIZES.map((size) => `"${size}"`).join(" | "),
+    type: '"xs" | "sm" | "md" | "lg"',
     default: '"sm"',
-    description: "sm mirrors source h-4/text-base; lg mirrors source h-6/text-xl.",
+    description:
+      "Ring diameter. Brutal scales the ring across all four steps (16px at sm, 32px at lg); elegant keeps a compact 14-18px ring.",
+  },
+  {
+    name: "variant",
+    type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
+    default: '"default"',
+    description: "Use inverse on dark surfaces so the brutal ring keeps enough contrast.",
   },
   {
     name: "aria-label",
@@ -147,13 +152,7 @@ export const Route = createFileRoute("/components/spinner")({
     }),
 });
 
-function SpinnerPreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function SpinnerPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [size, setSize] = useState<NonNullable<SpinnerProps["size"]>>("sm");
   const [variant, setVariant] = useState<(typeof VARIANTS)[number]>("default");
   const variantClassName = variant === "inverse" ? "bg-gray-950 text-white" : "text-black";
@@ -162,7 +161,7 @@ function SpinnerPreview({
     <Preview>
       <Preview.Canvas>
         <div className={`rounded px-4 py-3 ${variantClassName}`}>
-          <Spinner size={size} />
+          <Spinner size={size} variant={variant} />
         </div>
       </Preview.Canvas>
       <Preview.Controls>
@@ -185,7 +184,7 @@ function SpinnerPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -197,7 +196,6 @@ function SpinnerDoc() {
 
     return {
       compositionCode: code[snippetId],
-      compositionCollapsedCode: code[`${snippetId}Body`],
       compositionPath: SpinnerCompositionPaths[key],
       compositionSource: SPINNER_COMPOSITION_SOURCES[key],
       compositionShowLineNumbers: false,
@@ -211,7 +209,7 @@ function SpinnerDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <SpinnerPreview code={code.preview} collapsedCode={code.previewBody} />
+        <SpinnerPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

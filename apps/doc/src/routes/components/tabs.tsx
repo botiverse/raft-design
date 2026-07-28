@@ -168,7 +168,9 @@ import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "raft-ui";
   <TabsPanel value="alerts" />
   <TabsPanel value="settings" />
 </Tabs>`,
-  reorderable: `import {
+  reorderable: `import { useState } from "react";
+import { Bell, Files, MessageSquare, Users } from "lucide-react";
+import {
   SortableTabsList,
   SortableTabsTab,
   Tabs,
@@ -176,6 +178,23 @@ import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "raft-ui";
   TabsLabel,
   useOrderedTabs,
 } from "raft-ui";
+
+const TABS = [
+  { id: "chat", label: "Chat", icon: MessageSquare },
+  { id: "files", label: "Files", icon: Files },
+  { id: "members", label: "Members", icon: Users },
+  { id: "alerts", label: "Alerts", icon: Bell },
+];
+const INITIAL_ORDER = ["chat", "files", "members", "alerts"];
+
+const [order, setOrder] = useState(INITIAL_ORDER);
+const [active, setActive] = useState("chat");
+const [plainOrder, setPlainOrder] = useState(INITIAL_ORDER);
+const [plainActive, setPlainActive] = useState("chat");
+const [underlineBackgroundOrder, setUnderlineBackgroundOrder] = useState(INITIAL_ORDER);
+const [underlineBackgroundActive, setUnderlineBackgroundActive] = useState("chat");
+const [underlineOrder, setUnderlineOrder] = useState(INITIAL_ORDER);
+const [underlineActive, setUnderlineActive] = useState("chat");
 
 const orderedTabs = useOrderedTabs(TABS, order);
 const plainTabs = useOrderedTabs(TABS, plainOrder);
@@ -397,13 +416,7 @@ const SETTINGS_TABS: readonly (OrderedTabItem<SettingsTabId> & {
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-function TabsPreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [variant, setVariant] = useState<(typeof VARIANTS)[number]>("default");
   const [background, setBackground] = useState(true);
   const [icons, setIcons] = useState(true);
@@ -459,7 +472,7 @@ function TabsPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -474,7 +487,7 @@ function TabsDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <TabsPreview code={code.preview} collapsedCode={code.previewBody} />
+        <TabsPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -558,7 +571,7 @@ function TabsDoc() {
                   </Tabs>
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.variants} />
+              <Preview.Code html={code.variants} collapsedHtml={code.variantsBody} />
             </Preview>
           </DocSubsection>
 
@@ -610,7 +623,7 @@ function TabsDoc() {
                   </Tabs>
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.icons} />
+              <Preview.Code html={code.icons} collapsedHtml={code.iconsBody} />
             </Preview>
           </DocSubsection>
 
@@ -624,7 +637,7 @@ function TabsDoc() {
                   <ReorderableTabsDemo variant="underline" />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.reorderable} />
+              <Preview.Code html={code.reorderable} collapsedHtml={code.reorderableBody} />
             </Preview>
           </DocSubsection>
         </div>

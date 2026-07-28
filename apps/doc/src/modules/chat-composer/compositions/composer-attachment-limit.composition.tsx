@@ -1,5 +1,5 @@
 import { AlertTriangle, Paperclip, Send, X } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Banner,
   BannerAction,
@@ -7,20 +7,59 @@ import {
   BannerTitle,
   Button,
   ComposerActions,
+  ComposerAttachment,
+  ComposerAttachmentBody,
+  ComposerAttachmentFile,
+  ComposerAttachmentMeta,
+  ComposerAttachmentRemove,
+  ComposerAttachments,
+  ComposerAttachmentTitle,
   ComposerIconButton,
   ComposerMeta,
   ComposerRoot,
   ComposerSubmit,
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewDocument,
 } from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
 
-import { ComposerAttachmentsComposition } from "./composer-shared.composition.tsx";
-
 const MAX_ATTACHMENTS = 10;
 
+const INITIAL_ATTACHMENTS = [
+  "release-notes.pdf",
+  "design-spec.pdf",
+  "research-notes.pdf",
+  "api-contract.pdf",
+  "attachment-5.pdf",
+  "attachment-6.pdf",
+  "attachment-7.pdf",
+  "attachment-8.pdf",
+  "attachment-9.pdf",
+  "attachment-10.pdf",
+];
+
 export function ComposerAttachmentLimitComposition() {
-  const [count, setCount] = useState(MAX_ATTACHMENTS);
+  const [attachments, setAttachments] = useState(INITIAL_ATTACHMENTS);
   const [limitReached, setLimitReached] = useState(true);
+  // Monotonic suffix so a name is never reused after a tile is removed.
+  const nextAttachmentNumber = useRef(INITIAL_ATTACHMENTS.length + 1);
+
+  const addAttachment = () => {
+    if (attachments.length >= MAX_ATTACHMENTS) {
+      setLimitReached(true);
+      return;
+    }
+    const name = `attachment-${nextAttachmentNumber.current}.pdf`;
+    nextAttachmentNumber.current += 1;
+    setAttachments((current) => [...current, name]);
+    setLimitReached(false);
+  };
+
+  const removeAttachment = (name: string) => {
+    setAttachments((current) => current.filter((attachment) => attachment !== name));
+    setLimitReached(false);
+  };
 
   return (
     <div className="flex w-full min-w-0 flex-col gap-2">
@@ -44,29 +83,33 @@ export function ComposerAttachmentLimitComposition() {
         </Banner>
       ) : null}
       <ComposerRoot>
-        <ComposerAttachmentsComposition
-          imageStates={[]}
-          fileStates={Array.from({ length: count }, () => "uploaded" as const)}
-          onRemove={() => {
-            setCount((current) => Math.max(0, current - 1));
-            setLimitReached(false);
-          }}
-        />
+        <ComposerAttachments>
+          {attachments.map((name) => (
+            <ComposerAttachment key={name}>
+              <ComposerAttachmentFile>
+                <FilePreview className="h-[46px]">
+                  <FilePreviewDocument className="h-[46px]" />
+                  <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+                </FilePreview>
+                <ComposerAttachmentBody>
+                  <ComposerAttachmentTitle>{name}</ComposerAttachmentTitle>
+                  <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+                </ComposerAttachmentBody>
+              </ComposerAttachmentFile>
+              <ComposerAttachmentRemove
+                aria-label={`Remove ${name}`}
+                onClick={() => removeAttachment(name)}
+              >
+                <X />
+              </ComposerAttachmentRemove>
+            </ComposerAttachment>
+          ))}
+        </ComposerAttachments>
         <Composer>
           <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" />
           <ComposerToolbar>
             <ComposerActions>
-              <ComposerIconButton
-                aria-label="Attach file"
-                onClick={() => {
-                  if (count >= MAX_ATTACHMENTS) {
-                    setLimitReached(true);
-                    return;
-                  }
-                  setCount((current) => current + 1);
-                  setLimitReached(false);
-                }}
-              >
+              <ComposerIconButton aria-label="Attach file" onClick={addAttachment}>
                 <Paperclip />
               </ComposerIconButton>
             </ComposerActions>

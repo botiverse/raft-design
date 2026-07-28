@@ -323,7 +323,7 @@ function InputGroupDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <InputGroupPlaygroundPreview code={code.preview} collapsedCode={code.previewBody} />
+        <InputGroupPlaygroundPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

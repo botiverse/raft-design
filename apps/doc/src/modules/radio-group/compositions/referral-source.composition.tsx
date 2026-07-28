@@ -1,5 +1,8 @@
-import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "raft-ui";
+
+// @docs-source-strip-start
+import { useState } from "react";
+// @docs-source-strip-end
 
 const REFERRAL_OPTIONS = [
   { value: "twitter_x", label: "Twitter / X" },
@@ -11,32 +14,20 @@ const REFERRAL_OPTIONS = [
   { value: "other", label: "Other" },
 ] as const;
 
-type RadioGroupReferralSourceCompositionProps = {
-  value?: string;
-  onValueChange?: (value: string) => void;
-  disabled?: boolean;
-};
-
-export function RadioGroupReferralSourceComposition({
+export function RadioGroupReferralSourceContent({
   value,
   onValueChange,
   disabled = false,
-}: RadioGroupReferralSourceCompositionProps) {
-  const [selectedValue, setSelectedValue] = useState(value ?? "twitter_x");
-  const currentValue = value ?? selectedValue;
-
-  function handleValueChange(nextValue: string) {
-    if (value === undefined) {
-      setSelectedValue(nextValue);
-    }
-    onValueChange?.(nextValue);
-  }
-
+}: {
+  value: string;
+  onValueChange: (value: string) => void;
+  disabled?: boolean;
+}) {
   return (
     <RadioGroup
       ariaLabel="Where did you hear about us?"
-      value={currentValue}
-      onValueChange={handleValueChange}
+      value={value}
+      onValueChange={onValueChange}
       disabled={disabled}
       className="w-64"
     >
@@ -49,3 +40,34 @@ export function RadioGroupReferralSourceComposition({
     </RadioGroup>
   );
 }
+
+// @docs-source-strip-start
+// Docs shell only: adds the uncontrolled fallback the docs route drives.
+// Use RadioGroupReferralSourceContent above for real usage.
+export function RadioGroupReferralSourceComposition({
+  value,
+  onValueChange,
+  disabled = false,
+}: {
+  value?: string;
+  onValueChange?: (value: string) => void;
+  disabled?: boolean;
+}) {
+  const [selectedValue, setSelectedValue] = useState(value ?? "twitter_x");
+
+  function handleValueChange(nextValue: string) {
+    if (value === undefined) {
+      setSelectedValue(nextValue);
+    }
+    onValueChange?.(nextValue);
+  }
+
+  return (
+    <RadioGroupReferralSourceContent
+      value={value ?? selectedValue}
+      onValueChange={handleValueChange}
+      disabled={disabled}
+    />
+  );
+}
+// @docs-source-strip-end

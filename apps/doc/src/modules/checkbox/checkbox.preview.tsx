@@ -9,10 +9,9 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type CheckboxPlaygroundPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function CheckboxPlaygroundPreview({ code, collapsedCode }: CheckboxPlaygroundPreviewProps) {
+export function CheckboxPlaygroundPreview({ code }: CheckboxPlaygroundPreviewProps) {
   const [size, setSize] = useState<NonNullable<CheckboxProps["size"]>>("sm");
   const [variant, setVariant] = useState<NonNullable<CheckboxProps["variant"]>>("default");
   const [checked, setChecked] = useState(true);
@@ -74,7 +73,7 @@ export function CheckboxPlaygroundPreview({ code, collapsedCode }: CheckboxPlayg
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

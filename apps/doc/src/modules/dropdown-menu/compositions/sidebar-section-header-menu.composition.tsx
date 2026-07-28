@@ -34,7 +34,7 @@ import { ChatSidebarControl, ChatSidebarSectionHeader } from "raft-ui";
 const SORT_MENU_CLASS = "flex w-[160px] min-w-[160px] flex-col";
 const CHANNELS_MENU_CLASS = "flex w-[190px] min-w-[190px] flex-col";
 
-export const SIDEBAR_SORT_OPTIONS = [
+const SIDEBAR_SORT_OPTIONS = [
   { value: "manual", label: "Manual", icon: <GripVertical /> },
   { value: "recent", label: "Recent", icon: <Clock /> },
   { value: "az", label: "A-Z", icon: <ArrowDownAZ /> },

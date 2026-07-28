@@ -166,13 +166,7 @@ export const Route = createFileRoute("/components/badge")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function BadgePreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function BadgePreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [appearance, setAppearance] = useState<NonNullable<BadgeProps["appearance"]>>("solid");
   const [variant, setVariant] = useState<NonNullable<BadgeProps["variant"]>>("primary");
   const [uppercase, setUppercase] = useState(false);
@@ -221,7 +215,7 @@ function BadgePreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -236,7 +230,7 @@ function BadgeDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <BadgePreview code={code.preview} collapsedCode={code.previewBody} />
+        <BadgePreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

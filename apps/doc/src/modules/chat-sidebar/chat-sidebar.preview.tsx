@@ -1,5 +1,4 @@
 import { useState, type ReactNode } from "react";
-import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
 import {
@@ -19,14 +18,11 @@ function getLiveActivityState(liveActivity: boolean): ChatSidebarLiveActivitySta
   return liveActivity ? "active" : "none";
 }
 
-type CodeContent = ReactNode | AnyRenderableServerComponent;
-
 type ChatSidebarPreviewProps = {
-  code: CodeContent;
-  collapsedCode?: CodeContent;
+  codeBlock: ReactNode;
 };
 
-export function ChatSidebarPreview({ code, collapsedCode }: ChatSidebarPreviewProps) {
+export function ChatSidebarPreview({ codeBlock }: ChatSidebarPreviewProps) {
   const [content, setContent] = useState<PreviewContentState>("Populated");
   const [liveActivity, setLiveActivity] = useState(true);
 
@@ -62,7 +58,7 @@ export function ChatSidebarPreview({ code, collapsedCode }: ChatSidebarPreviewPr
           </Preview.Control>
         </Preview.ControlGroup>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code codeBlock={codeBlock} />
     </Preview>
   );
 }

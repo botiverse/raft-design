@@ -232,6 +232,7 @@ function SourceModalCard({
           <h3 className="m-0 text-lg font-bold uppercase leading-none">{title}</h3>
           <button
             type="button"
+            aria-label="Close"
             className="inline-flex size-8 items-center justify-center border-2 border-black bg-white shadow-[2px_2px_0_#000]"
           >
             <X className="size-5" />
@@ -365,7 +366,7 @@ function AlertDialogDoc() {
               </AlertDialogContent>
             </AlertDialog>
           </Preview.Canvas>
-          <Preview.Code html={code.preview} />
+          <Preview.Code html={code.preview} collapsedHtml={code.previewBody} />
         </Preview>
       </DocSection>
 
@@ -390,7 +391,10 @@ function AlertDialogDoc() {
               <Preview.Canvas>
                 <TypedDeleteAlertDialogComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.alertDialogDeleteServerComposition} />
+              <Preview.Code
+                html={code.alertDialogDeleteServerComposition}
+                collapsedHtml={code.alertDialogDeleteServerCompositionBody}
+              />
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="confirm-action" title="Confirm action">
@@ -398,7 +402,10 @@ function AlertDialogDoc() {
               <Preview.Canvas>
                 <ConfirmActionAlertDialogComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.alertDialogConfirmActionComposition} />
+              <Preview.Code
+                html={code.alertDialogConfirmActionComposition}
+                collapsedHtml={code.alertDialogConfirmActionCompositionBody}
+              />
             </Preview>
           </DocSubsection>
         </div>

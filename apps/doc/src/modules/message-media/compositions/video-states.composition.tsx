@@ -1,4 +1,4 @@
-import { AlertTriangle, ArrowDownToLine, Eye } from "lucide-react";
+import { AlertTriangle, ArrowDownToLine } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
   MessageVideoPreview,
@@ -10,7 +10,10 @@ import {
   MessageVideoPreviewFallback,
   MessageVideoPreviewMedia,
 } from "raft-ui/wip";
-import { MESSAGE_FIXTURE_VIDEO_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+import {
+  MESSAGE_FIXTURE_VIDEO_SRC,
+  downloadMessageFixture,
+} from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageVideoPreviewComposition() {
   return (
@@ -22,8 +25,12 @@ export function MessageVideoPreviewComposition() {
         preload="metadata"
         src={MESSAGE_FIXTURE_VIDEO_SRC}
       />
-      <MessageVideoPreviewAction aria-hidden render={<span />} title="Open video preview">
-        <Eye />
+      <MessageVideoPreviewAction
+        aria-label="Download demo-recording.webm"
+        title="Download demo-recording.webm"
+        onClick={() => downloadMessageFixture("demo-recording.webm")}
+      >
+        <ArrowDownToLine />
       </MessageVideoPreviewAction>
     </MessageVideoPreview>
   );
@@ -35,9 +42,6 @@ function MessageVideoPendingComposition() {
       <MessageVideoPreviewFallback>
         <Spinner size="md" variant="inverse" />
       </MessageVideoPreviewFallback>
-      <MessageVideoPreviewAction aria-hidden render={<span />} title="Open video preview">
-        <Eye />
-      </MessageVideoPreviewAction>
     </MessageVideoPreview>
   );
 }
@@ -65,10 +69,10 @@ function MessageVideoPreviewFailedComposition() {
 
 export function MessageVideoPreviewStatesComposition() {
   return (
-    <>
+    <div className="space-y-2">
       <MessageVideoPreviewComposition />
       <MessageVideoPendingComposition />
       <MessageVideoPreviewFailedComposition />
-    </>
+    </div>
   );
 }

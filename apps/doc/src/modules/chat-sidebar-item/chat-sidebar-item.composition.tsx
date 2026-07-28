@@ -16,26 +16,15 @@ import {
   ChatSidebarItemTitle,
 } from "raft-ui";
 
-const ITEMS = [
-  "selected",
-  "channel",
-  "popup",
-  "unread",
-  "mention",
-  "draft",
-  "muted",
-  "agent",
-  "dm",
-] as const;
-
-type ItemKey = (typeof ITEMS)[number];
-
 export function ChatSidebarItemStatesComposition() {
-  const [currentItem, setCurrentItem] = useState<ItemKey>("selected");
+  const [currentItem, setCurrentItem] = useState("selected");
 
   return (
     <div className="grid w-full max-w-2xl gap-y-6 md:grid-cols-2 md:gap-x-[36px]">
       <StateGroup title="Channel rows">
+        {/* @docs-source-strip-start */}
+        <StateLabel>Selected channel</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem
           active={currentItem === "selected"}
           onClick={() => setCurrentItem("selected")}
@@ -45,10 +34,13 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
             <ChatSidebarItemTitle>proj-uiux</ChatSidebarItemTitle>
-            <ChatSidebarItemSubtitle>Selected channel</ChatSidebarItemSubtitle>
+            <ChatSidebarItemSubtitle>Cindy replied</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
         </ChatSidebarItem>
 
+        {/* @docs-source-strip-start */}
+        <StateLabel>Channel with timestamp</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem
           active={currentItem === "channel"}
           onClick={() => setCurrentItem("channel")}
@@ -58,11 +50,14 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
             <ChatSidebarItemTitle>general</ChatSidebarItemTitle>
-            <ChatSidebarItemSubtitle>Channel</ChatSidebarItemSubtitle>
+            <ChatSidebarItemSubtitle>Ken shared a spec</ChatSidebarItemSubtitle>
             <ChatSidebarItemMeta>2h</ChatSidebarItemMeta>
           </ChatSidebarItemContent>
         </ChatSidebarItem>
 
+        {/* @docs-source-strip-start */}
+        <StateLabel>Menu open</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem
           data-popup-open
           active={currentItem === "popup"}
@@ -73,17 +68,20 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
             <ChatSidebarItemTitle>community</ChatSidebarItemTitle>
-            <ChatSidebarItemSubtitle>Menu open</ChatSidebarItemSubtitle>
+            <ChatSidebarItemSubtitle>New pinned message</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
         </ChatSidebarItem>
 
+        {/* @docs-source-strip-start */}
+        <StateLabel>Unread count and draft</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem active={currentItem === "unread"} onClick={() => setCurrentItem("unread")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
             <ChatSidebarItemTitle>release</ChatSidebarItemTitle>
-            <ChatSidebarItemSubtitle>Unread activity</ChatSidebarItemSubtitle>
+            <ChatSidebarItemSubtitle>Build 4.2 shipped</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemCount>3</ChatSidebarItemCount>
@@ -93,6 +91,9 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
+        {/* @docs-source-strip-start */}
+        <StateLabel>Mention, unread count, and muted</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem
           active={currentItem === "mention"}
           onClick={() => setCurrentItem("mention")}
@@ -102,7 +103,7 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemChannelIcon>
           <ChatSidebarItemContent>
             <ChatSidebarItemTitle>design</ChatSidebarItemTitle>
-            <ChatSidebarItemSubtitle>Mention and badge</ChatSidebarItemSubtitle>
+            <ChatSidebarItemSubtitle>Mentioned you</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemIndicator role="img" aria-label="Mentioned you">
@@ -117,6 +118,9 @@ export function ChatSidebarItemStatesComposition() {
       </StateGroup>
 
       <StateGroup title="Metadata and direct messages">
+        {/* @docs-source-strip-start */}
+        <StateLabel>Draft</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem active={currentItem === "draft"} onClick={() => setCurrentItem("draft")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
@@ -132,6 +136,9 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
+        {/* @docs-source-strip-start */}
+        <StateLabel>Muted</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem active={currentItem === "muted"} onClick={() => setCurrentItem("muted")}>
           <ChatSidebarItemChannelIcon aria-hidden>
             <Hash />
@@ -147,6 +154,9 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
+        {/* @docs-source-strip-start */}
+        <StateLabel>Agent activity</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem active={currentItem === "agent"} onClick={() => setCurrentItem("agent")}>
           <ChatSidebarItemIcon>
             <Avatar size="2xs" type="agent">
@@ -155,7 +165,7 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemIcon>
           <ChatSidebarItemContent>
             <ChatSidebarItemTitle>Atlas</ChatSidebarItemTitle>
-            <ChatSidebarItemSubtitle>Agent activity</ChatSidebarItemSubtitle>
+            <ChatSidebarItemSubtitle>Working on release notes</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemStatus>
@@ -165,6 +175,9 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemAside>
         </ChatSidebarItem>
 
+        {/* @docs-source-strip-start */}
+        <StateLabel>Direct message</StateLabel>
+        {/* @docs-source-strip-end */}
         <ChatSidebarItem active={currentItem === "dm"} onClick={() => setCurrentItem("dm")}>
           <ChatSidebarItemIcon>
             <Avatar size="2xs" type="human">
@@ -173,7 +186,7 @@ export function ChatSidebarItemStatesComposition() {
           </ChatSidebarItemIcon>
           <ChatSidebarItemContent>
             <ChatSidebarItemTitle>Cindy</ChatSidebarItemTitle>
-            <ChatSidebarItemSubtitle>Direct message</ChatSidebarItemSubtitle>
+            <ChatSidebarItemSubtitle>Sent you a file</ChatSidebarItemSubtitle>
           </ChatSidebarItemContent>
           <ChatSidebarItemAside>
             <ChatSidebarItemStatus>
@@ -189,6 +202,17 @@ export function ChatSidebarItemStatesComposition() {
     </div>
   );
 }
+
+// @docs-source-strip-start
+// Canvas-only legend so the reader can tell which state each row demonstrates.
+function StateLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mt-3 mb-1 font-mono text-[10px] leading-none text-foreground-placeholder">
+      {children}
+    </p>
+  );
+}
+// @docs-source-strip-end
 
 function StateGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (

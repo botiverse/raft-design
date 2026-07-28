@@ -19,6 +19,7 @@ import { MessageAttachmentDiffUsageComposition } from "#/modules/message-attachm
 import diffAttachmentSource from "#/modules/message-attachment/compositions/diff-attachment.composition.tsx?raw";
 import { MessageAttachmentDocumentSummariesComposition } from "#/modules/message-attachment/compositions/document-summaries.composition.tsx";
 import documentSummariesSource from "#/modules/message-attachment/compositions/document-summaries.composition.tsx?raw";
+import fileAttachmentsSource from "#/modules/message-attachment/compositions/file-attachments.composition.tsx?raw";
 import { MessageAttachmentPreviewUsageComposition } from "#/modules/message-attachment/compositions/preview-attachment.composition.tsx";
 import previewAttachmentSource from "#/modules/message-attachment/compositions/preview-attachment.composition.tsx?raw";
 import { MessageAttachmentTitleIconUsageComposition } from "#/modules/message-attachment/compositions/title-icon.composition.tsx";
@@ -36,6 +37,7 @@ import { MessageImageGalleryGeometryComposition } from "#/modules/message-media/
 import imageGalleryGeometrySource from "#/modules/message-media/compositions/image-gallery-geometry.composition.tsx?raw";
 import { MessageImageGalleryPairComposition } from "#/modules/message-media/compositions/image-gallery-pair.composition.tsx";
 import imageGalleryPairSource from "#/modules/message-media/compositions/image-gallery-pair.composition.tsx?raw";
+import imageGalleryPendingSource from "#/modules/message-media/compositions/image-gallery-pending.composition.tsx?raw";
 import { MessageImageGallerySingleComposition } from "#/modules/message-media/compositions/image-gallery-single.composition.tsx";
 import imageGallerySingleSource from "#/modules/message-media/compositions/image-gallery-single.composition.tsx?raw";
 import { MessageImageGalleryTripleComposition } from "#/modules/message-media/compositions/image-gallery-triple.composition.tsx";
@@ -71,11 +73,26 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
+const SHOWCASE_COMPOSITION_PATH =
+  "apps/doc/src/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx";
+const FILE_ATTACHMENTS_COMPOSITION_PATH =
+  "apps/doc/src/modules/message-attachment/compositions/file-attachments.composition.tsx";
+const IMAGE_GALLERY_PENDING_COMPOSITION_PATH =
+  "apps/doc/src/modules/message-media/compositions/image-gallery-pending.composition.tsx";
+
+function UsagePreview({
+  children,
+  code,
+  collapsedCode,
+}: {
+  children: ReactNode;
+  code: ReactNode;
+  collapsedCode?: ReactNode;
+}) {
   return (
     <Preview>
       <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code html={code} />
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
     </Preview>
   );
 }
@@ -93,8 +110,10 @@ export const Route = createFileRoute("/components/message-attachment")({
         attachmentStatuses: attachmentStatusesSource,
         diffAttachment: diffAttachmentSource,
         documentSummaries: documentSummariesSource,
+        fileAttachments: fileAttachmentsSource,
         imageGalleryGeometry: imageGalleryGeometrySource,
         imageGalleryPair: imageGalleryPairSource,
+        imageGalleryPending: imageGalleryPendingSource,
         imageGallerySingle: imageGallerySingleSource,
         imageGalleryTriple: imageGalleryTripleSource,
         previewAttachment: previewAttachmentSource,
@@ -133,9 +152,12 @@ function MessageAttachmentDoc() {
       </DocNote>
 
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.attachmentsShowcase}>
-          <MessageAttachmentsShowcaseComposition />
-        </UsagePreview>
+        <Preview>
+          <Preview.Canvas>
+            <MessageAttachmentsShowcaseComposition />
+          </Preview.Canvas>
+          <Preview.Code codeBlock={<MessageAttachmentShowcaseFiles code={code} />} />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -184,7 +206,7 @@ function MessageAttachmentDoc() {
               Put attachment-specific diff content inside the shared summary slot. Keep file size
               and the caller-owned download action on opposite sides of the metadata row.
             </p>
-            <UsagePreview code={code.diffAttachment}>
+            <UsagePreview code={code.diffAttachment} collapsedCode={code.diffAttachmentBody}>
               <MessageAttachmentDiffUsageComposition />
             </UsagePreview>
           </DocSubsection>
@@ -194,7 +216,7 @@ function MessageAttachmentDoc() {
               Keep preview state in the consumer; replace the Eye with the shared Spinner inside
               MessageAttachmentMetaEnd while the preview opens.
             </p>
-            <UsagePreview code={code.previewAttachment}>
+            <UsagePreview code={code.previewAttachment} collapsedCode={code.previewAttachmentBody}>
               <MessageAttachmentPreviewUsageComposition />
             </UsagePreview>
           </DocSubsection>
@@ -204,7 +226,7 @@ function MessageAttachmentDoc() {
               Use the summary only when a document has compact status information, such as CSV row
               and column counts. Metadata stays reserved for the file size.
             </p>
-            <UsagePreview code={code.documentSummaries}>
+            <UsagePreview code={code.documentSummaries} collapsedCode={code.documentSummariesBody}>
               <MessageAttachmentDocumentSummariesComposition />
             </UsagePreview>
           </DocSubsection>
@@ -226,7 +248,7 @@ function MessageAttachmentDoc() {
                 .
               </span>
             </p>
-            <UsagePreview code={code.titleIcon}>
+            <UsagePreview code={code.titleIcon} collapsedCode={code.titleIconBody}>
               <MessageAttachmentTitleIconUsageComposition />
             </UsagePreview>
           </DocSubsection>
@@ -237,7 +259,10 @@ function MessageAttachmentDoc() {
               shared Spinner in MessageAttachmentMetaEnd instead of introducing a card-level
               variant.
             </p>
-            <UsagePreview code={code.attachmentStatuses}>
+            <UsagePreview
+              code={code.attachmentStatuses}
+              collapsedCode={code.attachmentStatusesBody}
+            >
               <MessageAttachmentStatusesUsageComposition />
             </UsagePreview>
           </DocSubsection>
@@ -247,10 +272,8 @@ function MessageAttachmentDoc() {
               Render real media, URL loading, and unavailable-codec fallback as separate video
               states. Preview and download workflows remain caller-owned.
             </p>
-            <UsagePreview code={code.videoStates}>
-              <div className="space-y-2">
-                <MessageVideoPreviewStatesComposition />
-              </div>
+            <UsagePreview code={code.videoStates} collapsedCode={code.videoStatesBody}>
+              <MessageVideoPreviewStatesComposition />
             </UsagePreview>
           </DocSubsection>
 
@@ -261,19 +284,28 @@ function MessageAttachmentDoc() {
             </p>
             <div className="space-y-8">
               <DocSubsection parentId="media-layouts" id="single-image" title="Single image">
-                <UsagePreview code={code.imageGallerySingle}>
+                <UsagePreview
+                  code={code.imageGallerySingle}
+                  collapsedCode={code.imageGallerySingleBody}
+                >
                   <MessageImageGallerySingleComposition />
                 </UsagePreview>
               </DocSubsection>
 
               <DocSubsection parentId="media-layouts" id="pair-row" title="Pair row">
-                <UsagePreview code={code.imageGalleryPair}>
+                <UsagePreview
+                  code={code.imageGalleryPair}
+                  collapsedCode={code.imageGalleryPairBody}
+                >
                   <MessageImageGalleryPairComposition />
                 </UsagePreview>
               </DocSubsection>
 
               <DocSubsection parentId="media-layouts" id="triple-row" title="Triple dense row">
-                <UsagePreview code={code.imageGalleryTriple}>
+                <UsagePreview
+                  code={code.imageGalleryTriple}
+                  collapsedCode={code.imageGalleryTripleBody}
+                >
                   <MessageImageGalleryTripleComposition />
                 </UsagePreview>
               </DocSubsection>
@@ -287,7 +319,10 @@ function MessageAttachmentDoc() {
                   Consumer layout classes set cell geometry, while the media child chooses
                   object-cover or object-contain.
                 </p>
-                <UsagePreview code={code.imageGalleryGeometry}>
+                <UsagePreview
+                  code={code.imageGalleryGeometry}
+                  collapsedCode={code.imageGalleryGeometryBody}
+                >
                   <MessageImageGalleryGeometryComposition />
                 </UsagePreview>
               </DocSubsection>
@@ -324,6 +359,7 @@ function MessageAttachmentDoc() {
               elegant: <MessageAttachmentComparisonComposition />,
               elegantDark: <MessageAttachmentComparisonComposition />,
               compositionCode: code.attachmentComparison,
+              compositionCollapsedCode: code.attachmentComparisonBody,
               compositionPath:
                 "apps/doc/src/modules/message-attachment/message-attachment.source-comparison.tsx",
               compositionSource: attachmentComparisonSource,
@@ -332,5 +368,39 @@ function MessageAttachmentDoc() {
         />
       </DocSection>
     </DocPage>
+  );
+}
+
+/** Showcase row plus the attachment compositions it renders inside that row. */
+function MessageAttachmentShowcaseFiles({
+  code,
+}: {
+  code: ReturnType<typeof Route.useLoaderData>;
+}) {
+  return (
+    <DocsCodeBlock.Files
+      collapsible={false}
+      showLineNumbers={false}
+      files={[
+        {
+          path: SHOWCASE_COMPOSITION_PATH,
+          source: attachmentsShowcaseSource,
+          html: code.attachmentsShowcase,
+          collapsedHtml: code.attachmentsShowcaseBody,
+        },
+        {
+          path: FILE_ATTACHMENTS_COMPOSITION_PATH,
+          source: fileAttachmentsSource,
+          html: code.fileAttachments,
+          collapsedHtml: code.fileAttachmentsBody,
+        },
+        {
+          path: IMAGE_GALLERY_PENDING_COMPOSITION_PATH,
+          source: imageGalleryPendingSource,
+          html: code.imageGalleryPending,
+          collapsedHtml: code.imageGalleryPendingBody,
+        },
+      ]}
+    />
   );
 }

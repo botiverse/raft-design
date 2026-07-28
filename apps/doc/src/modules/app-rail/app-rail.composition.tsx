@@ -63,16 +63,7 @@ export function AppRailNavItem({
 
 export function AppRailComposition() {
   const [view, setView] = useState("chat");
-  const [announcement, setAnnouncement] = useState({ message: "", sequence: 0 });
-
-  function announce(message: string) {
-    setAnnouncement((current) => ({ message, sequence: current.sequence + 1 }));
-  }
-
-  function selectView(next: string) {
-    setView(next);
-    announce(`Opened ${next}`);
-  }
+  const [otherServersUnread, setOtherServersUnread] = useState(true);
 
   return (
     <AppShellRailSlot>
@@ -80,36 +71,37 @@ export function AppRailComposition() {
         <AppRailHeader>
           <AppRailServerButton
             title="Raft 中文社区"
-            aria-label="Switch server (current: Raft 中文社区)"
-            onClick={() => announce("Opened server switcher")}
+            aria-label={
+              otherServersUnread
+                ? "Raft 中文社区. Mark other servers read"
+                : "Raft 中文社区. Mark other servers unread"
+            }
+            onClick={() => setOtherServersUnread((current) => !current)}
           >
             <img
               alt=""
               src="https://cdn.slock.ai/avatars/server-46a34a4b-a324-4723-ad1d-4921b58ffe48/3f42727015df244421d70c681ff65093.webp"
             />
-            <AppRailItemIndicator size="sm" aria-hidden />
+            {otherServersUnread ? <AppRailItemIndicator size="sm" aria-hidden /> : null}
           </AppRailServerButton>
         </AppRailHeader>
-        <span className="sr-only" aria-live="polite">
-          <span key={announcement.sequence}>{announcement.message}</span>
-        </span>
         <TooltipProvider delay={650}>
           <AppRailNav>
             <AppRailNavItem
               selected={view === "search"}
-              render={<button type="button" onClick={() => selectView("search")} />}
+              render={<button type="button" onClick={() => setView("search")} />}
               label="Search"
               icon={<Search />}
             />
             <AppRailNavItem
               selected={view === "chat"}
-              render={<button type="button" onClick={() => selectView("chat")} />}
+              render={<button type="button" onClick={() => setView("chat")} />}
               label="Chat"
               icon={<MessageSquare />}
             />
             <AppRailNavItem
               selected={view === "activity"}
-              render={<button type="button" onClick={() => selectView("activity")} />}
+              render={<button type="button" onClick={() => setView("activity")} />}
               label="Activity"
               icon={<Activity />}
               attention={
@@ -120,19 +112,19 @@ export function AppRailComposition() {
             />
             <AppRailNavItem
               selected={view === "tasks"}
-              render={<button type="button" onClick={() => selectView("tasks")} />}
+              render={<button type="button" onClick={() => setView("tasks")} />}
               label="Tasks"
               icon={<CheckSquare />}
             />
             <AppRailNavItem
               selected={view === "members"}
-              render={<button type="button" onClick={() => selectView("members")} />}
+              render={<button type="button" onClick={() => setView("members")} />}
               label="Members"
               icon={<Users />}
             />
             <AppRailNavItem
               selected={view === "computers"}
-              render={<button type="button" onClick={() => selectView("computers")} />}
+              render={<button type="button" onClick={() => setView("computers")} />}
               label="Computers"
               icon={<Monitor />}
               attention={
@@ -148,7 +140,7 @@ export function AppRailComposition() {
             </NotificationCenter>
             <AppRailNavItem
               selected={view === "settings"}
-              render={<button type="button" onClick={() => selectView("settings")} />}
+              render={<button type="button" onClick={() => setView("settings")} />}
               label="Settings"
               icon={<Settings />}
             />

@@ -108,7 +108,7 @@ function CodeBlockDoc() {
                 <ShikiCodeBlockComposition />
               </div>
             </Preview.Canvas>
-            <Preview.Code html={code.shiki} />
+            <Preview.Code html={code.shiki} collapsedHtml={code.shikiBody} />
           </Preview>
         </div>
       </DocSection>
@@ -134,7 +134,7 @@ function CodeBlockDoc() {
                   <PlainCodeBlockComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.plain} />
+              <Preview.Code html={code.plain} collapsedHtml={code.plainBody} />
             </Preview>
           </DocSubsection>
 
@@ -149,7 +149,7 @@ function CodeBlockDoc() {
                   <WithoutHeaderCodeBlockComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.withoutHeader} />
+              <Preview.Code html={code.withoutHeader} collapsedHtml={code.withoutHeaderBody} />
             </Preview>
           </DocSubsection>
 
@@ -165,7 +165,7 @@ function CodeBlockDoc() {
                   <AnimatedCopyCodeBlockComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.animatedCopy} />
+              <Preview.Code html={code.animatedCopy} collapsedHtml={code.animatedCopyBody} />
             </Preview>
           </DocSubsection>
         </div>

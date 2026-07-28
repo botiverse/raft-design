@@ -217,7 +217,7 @@ export function PixelLoaderLab() {
               }
               data-pixel-key
               aria-hidden
-              className="shrink-0 origin-bottom border-2 border-[oklch(0.181_0.005_17.62)] will-change-transform"
+              className="shrink-0 origin-bottom border-2 border-[oklch(0.181_0.005_17.62)]"
               style={{ boxShadow: `2px 2px 0 ${INK}` }}
             >
               {"rows" in item ? (

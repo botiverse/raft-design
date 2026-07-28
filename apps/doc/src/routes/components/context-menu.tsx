@@ -113,7 +113,7 @@ const SNIPPETS = {
   </ContextMenuContent>
 </ContextMenu>`,
   submenu: `<ContextMenu defaultOpen>
-  <ContextMenuTrigger id="context-submenu-trigger">Right click this surface</ContextMenuTrigger>
+  <ContextMenuTrigger id="context-submenu-trigger">Right click item</ContextMenuTrigger>
   <ContextMenuContent className="flex w-56 min-w-56 flex-col">
     <ContextMenuItem>
       <Pin />
@@ -133,7 +133,7 @@ const SNIPPETS = {
   </ContextMenuContent>
 </ContextMenu>`,
   radioGroup: `<ContextMenu defaultOpen>
-  <ContextMenuTrigger id="context-radio-trigger">Right click this surface</ContextMenuTrigger>
+  <ContextMenuTrigger id="context-radio-trigger">Right click notification</ContextMenuTrigger>
   <ContextMenuContent className="flex w-60 min-w-60 flex-col">
     <ContextMenuLabel>Theme</ContextMenuLabel>
     <ContextMenuRadioGroup defaultValue="system">
@@ -153,7 +153,7 @@ const SNIPPETS = {
   </ContextMenuContent>
 </ContextMenu>`,
   checkboxes: `<ContextMenu defaultOpen>
-  <ContextMenuTrigger id="context-checkbox-trigger">Right click this surface</ContextMenuTrigger>
+  <ContextMenuTrigger id="context-checkbox-trigger">Right click list</ContextMenuTrigger>
   <ContextMenuContent className="flex w-64 min-w-64 flex-col">
     <ContextMenuLabel>Visible rows</ContextMenuLabel>
     <ContextMenuCheckboxItem defaultChecked>Unread threads</ContextMenuCheckboxItem>
@@ -420,13 +420,7 @@ function OpenContextMenuExample({
   );
 }
 
-function ContextMenuPreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function ContextMenuPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [label, setLabel] = useState("Right click thread");
 
   return (
@@ -446,7 +440,7 @@ function ContextMenuPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -465,7 +459,7 @@ function ContextMenuDoc() {
           Preview defaults the menu open so the row styling, density, and theme differences are
           visible immediately; dismiss it and right-click the trigger to reopen it.
         </p>
-        <ContextMenuPreview code={code.preview} collapsedCode={code.previewBody} />
+        <ContextMenuPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

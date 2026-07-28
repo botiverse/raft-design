@@ -49,6 +49,10 @@ const BRANCH_OPTIONS = [
   { value: "staging", label: "staging", group: "Preview" },
 ] as const;
 
+const PRODUCTION_BRANCH_OPTIONS = BRANCH_OPTIONS.filter((option) => option.group === "Production");
+const PREVIEW_BRANCH_OPTIONS = BRANCH_OPTIONS.filter((option) => option.group === "Preview");
+const FIELD_SORT_OPTIONS = SORT_OPTIONS.filter((option) => option.value !== "comments");
+
 const REGION_OPTIONS = [
   { value: "us-east", label: "US East" },
   { value: "us-west", label: "US West" },
@@ -67,19 +71,44 @@ const REGION_OPTIONS = [
 type SortIconValue = (typeof SORT_ICON_OPTIONS)[number]["value"];
 
 const SNIPPETS = {
-  preview: `<Select defaultValue="relevance" items={sortOptions}>
+  preview: `const sortOptions = [
+  { value: "relevance", label: "Relevance", icon: Search },
+  { value: "recent", label: "Most recent", icon: Clock },
+  { value: "comments", label: "Most commented", icon: MessageSquare },
+] as const;
+
+<Select defaultValue="relevance" items={sortOptions}>
   <SelectTrigger>
-    <SelectValue placeholder="Sort" />
+    <SelectValue placeholder="Sort">
+      {(selectedValue) => {
+        const selected = sortOptions.find((option) => option.value === selectedValue);
+        const Icon = selected?.icon;
+
+        return selected && Icon ? (
+          <span className="flex min-w-0 items-center gap-2">
+            <Icon aria-hidden className="size-3.5 shrink-0 stroke-[1.5] opacity-80" />
+            <span className="truncate">{selected.label}</span>
+          </span>
+        ) : (
+          "Sort"
+        );
+      }}
+    </SelectValue>
     <SelectIcon />
   </SelectTrigger>
-  <SelectContent>
+  <SelectContent className="w-[220px]">
     <SelectList>
-      {sortOptions.map((option) => (
-        <SelectItem key={option.value} value={option.value}>
-          <SelectItemText>{option.label}</SelectItemText>
-          <SelectItemIndicator />
-        </SelectItem>
-      ))}
+      {sortOptions.map((option) => {
+        const Icon = option.icon;
+
+        return (
+          <SelectItem key={option.value} value={option.value}>
+            <Icon aria-hidden className="size-3.5 shrink-0 stroke-[1.5] opacity-80" />
+            <SelectItemText>{option.label}</SelectItemText>
+            <SelectItemIndicator />
+          </SelectItem>
+        );
+      })}
     </SelectList>
   </SelectContent>
 </Select>`,
@@ -210,23 +239,44 @@ function SortSelectWithIcons() {
   { value: "comments", label: "Most commented" },
 ] as const;
 
-<Select defaultValue="relevance" items={sortOptions}>
+const sortIconOptions = [
+  { value: "relevance", label: "Relevance", icon: Search },
+  { value: "recent", label: "Most recent", icon: Clock },
+  { value: "comments", label: "Most commented", icon: MessageSquare },
+] as const;
+
+<Select defaultValue="relevance" items={sortIconOptions}>
   <SelectTrigger>
-    <SelectValue />
+    <SelectValue placeholder="Sort">
+      {(selectedValue) => {
+        const selected = sortIconOptions.find((option) => option.value === selectedValue);
+        const Icon = selected?.icon;
+
+        return selected && Icon ? (
+          <span className="flex min-w-0 items-center gap-2">
+            <Icon aria-hidden className="size-3.5 shrink-0 stroke-[1.5] opacity-80" />
+            <span className="truncate">{selected.label}</span>
+          </span>
+        ) : (
+          "Sort"
+        );
+      }}
+    </SelectValue>
     <SelectIcon />
   </SelectTrigger>
   <SelectContent className="w-[220px]">
     <SelectList>
-      {sortOptions.map((option) => (
-        <SelectItem
-          key={option.value}
-          value={option.value}
-          disabled={option.value === "comments"}
-        >
-          <SelectItemText>{option.label}</SelectItemText>
-          <SelectItemIndicator />
-        </SelectItem>
-      ))}
+      {sortIconOptions.map((option) => {
+        const Icon = option.icon;
+
+        return (
+          <SelectItem key={option.value} value={option.value}>
+            <Icon aria-hidden className="size-3.5 shrink-0 stroke-[1.5] opacity-80" />
+            <SelectItemText>{option.label}</SelectItemText>
+            <SelectItemIndicator />
+          </SelectItem>
+        );
+      })}
     </SelectList>
   </SelectContent>
 </Select>
@@ -237,9 +287,7 @@ function SortSelectWithIcons() {
     <SelectIcon />
   </SelectTrigger>
 </Select>`,
-  scrolling: `import { useState } from "react";
-
-const regionOptions = [
+  scrolling: `const regionOptions = [
   { value: "us-east", label: "US East" },
   { value: "us-west", label: "US West" },
   { value: "eu-west", label: "EU West" },
@@ -255,15 +303,8 @@ const regionOptions = [
 ] as const;
 
 function RegionSelect() {
-  const [open, setOpen] = useState(true);
-
   return (
-    <Select
-      open={open}
-      onOpenChange={setOpen}
-      defaultValue="us-east"
-      items={regionOptions}
-    >
+    <Select defaultValue="us-east" items={regionOptions}>
       <SelectTrigger>
         <SelectValue placeholder="Region" />
         <SelectIcon />
@@ -529,7 +570,7 @@ function BranchSelect() {
           <SelectList>
             <SelectGroup>
               <SelectGroupLabel>Production</SelectGroupLabel>
-              {BRANCH_OPTIONS.filter((option) => option.group === "Production").map((option) => (
+              {PRODUCTION_BRANCH_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   <SelectItemText>{option.label}</SelectItemText>
                   <SelectItemIndicator />
@@ -539,7 +580,7 @@ function BranchSelect() {
             <SelectSeparator />
             <SelectGroup>
               <SelectGroupLabel>Preview</SelectGroupLabel>
-              {BRANCH_OPTIONS.filter((option) => option.group === "Preview").map((option) => (
+              {PREVIEW_BRANCH_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   <SelectItemText>{option.label}</SelectItemText>
                   <SelectItemIndicator />
@@ -614,7 +655,7 @@ function FieldSelect() {
             className="w-[220px]"
           >
             <SelectList>
-              {SORT_OPTIONS.filter((option) => option.value !== "comments").map((option) => (
+              {FIELD_SORT_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   <SelectItemText>{option.label}</SelectItemText>
                   <SelectItemIndicator />
@@ -629,13 +670,7 @@ function FieldSelect() {
   );
 }
 
-function SelectPreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function SelectPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [disabled, setDisabled] = useState(false);
 
   return (
@@ -653,7 +688,7 @@ function SelectPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -668,7 +703,7 @@ function SelectDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <SelectPreview code={code.preview} collapsedCode={code.previewBody} />
+        <SelectPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -686,7 +721,7 @@ function SelectDoc() {
               <Preview.Canvas>
                 <IconSelect />
               </Preview.Canvas>
-              <Preview.Code html={code.icons} />
+              <Preview.Code html={code.icons} collapsedHtml={code.iconsBody} />
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="groups" title="Groups">

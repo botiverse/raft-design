@@ -45,6 +45,7 @@ export function MessageQuickReactionPicker({
         {MESSAGE_QUICK_REACTIONS.map((emoji) => (
           <DropdownMenuItem
             key={emoji}
+            nativeButton
             render={
               <MessageReactionQuickButton
                 title={`React with ${emoji}`}

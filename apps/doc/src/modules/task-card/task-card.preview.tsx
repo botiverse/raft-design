@@ -17,9 +17,15 @@ const STATUS_OPTIONS = TASK_STATUSES.map((status) => status.label);
 type TaskCardPlaygroundPreviewProps = {
   code: CodeContent;
   collapsedCode?: CodeContent;
+  /** Multi-file code block; takes precedence over the single `code` snippet. */
+  codeBlock?: ReactNode;
 };
 
-export function TaskCardPlaygroundPreview({ code, collapsedCode }: TaskCardPlaygroundPreviewProps) {
+export function TaskCardPlaygroundPreview({
+  code,
+  collapsedCode,
+  codeBlock,
+}: TaskCardPlaygroundPreviewProps) {
   const portalRef = useRef<HTMLDivElement>(null);
   const [task, setTask] = useState(() => TASK_FIXTURES[0]);
 
@@ -57,7 +63,7 @@ export function TaskCardPlaygroundPreview({ code, collapsedCode }: TaskCardPlayg
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} collapsedHtml={collapsedCode} codeBlock={codeBlock} />
     </Preview>
   );
 }

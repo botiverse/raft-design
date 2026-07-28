@@ -13,6 +13,7 @@ import {
   type ConversationPanelCompositionProps,
 } from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx";
 import conversationPanelCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx?raw";
+import conversationPanelHeaderCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx?raw";
 import { SourceConversationPanelPreview } from "#/modules/conversation-panel/conversation-panel.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -25,8 +26,12 @@ const TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
+const CONVERSATION_PANEL_COMPOSITION_PATH =
+  "apps/doc/src/modules/conversation-panel/compositions/conversation-panel.composition.tsx";
+const CONVERSATION_PANEL_HEADER_COMPOSITION_PATH =
+  "apps/doc/src/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx";
+
 const SNIPPETS = {
-  preview: `<ConversationPanelComposition conversation="channel" />`,
   anatomy: `<ConversationPanelRoot>
   <ConversationPanelHeader>
     {/* Sticks to the top on mobile by default. */}
@@ -71,6 +76,7 @@ const SNIPPETS = {
   </ConversationPanelEmptyState>
 </ConversationPanelRoot>`,
   conversationPanelComposition: conversationPanelCompositionSource,
+  conversationPanelHeaderComposition: conversationPanelHeaderCompositionSource,
 } as const;
 
 const CONVERSATION_PANEL_ROOT_PROPS: readonly PropRow[] = [
@@ -239,13 +245,7 @@ export const Route = createFileRoute("/components/conversation-panel")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function ConversationPanelPreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function ConversationPanelPreview({ code }: { code: Record<string, string> }) {
   const [conversation, setConversation] =
     useState<NonNullable<ConversationPanelCompositionProps["conversation"]>>("channel");
   const [muted, setMuted] = useState(false);
@@ -305,7 +305,7 @@ function ConversationPanelPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code codeBlock={<ConversationPanelSourceFiles code={code} collapsible={false} />} />
     </Preview>
   );
 }
@@ -320,7 +320,7 @@ function ConversationPanelDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ConversationPanelPreview code={code.preview} collapsedCode={code.previewBody} />
+        <ConversationPanelPreview code={code} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -489,14 +489,39 @@ function ConversationPanelDoc() {
             </PreviewThemeScope>
           </PreviewPane>
         </PreviewGrid>
-        <DocsCodeBlock.Panel
-          path="apps/doc/src/modules/conversation-panel/compositions/conversation-panel.composition.tsx"
-          source={SNIPPETS.conversationPanelComposition}
-          html={code.conversationPanelComposition}
-          showLineNumbers={false}
-        />
+        <ConversationPanelSourceFiles code={code} />
       </DocSection>
     </DocPage>
+  );
+}
+
+/** Panel composition plus the header composition it delegates its identity row to. */
+function ConversationPanelSourceFiles({
+  code,
+  collapsible = true,
+}: {
+  code: Record<string, string>;
+  collapsible?: boolean;
+}) {
+  return (
+    <DocsCodeBlock.Files
+      collapsible={collapsible}
+      showLineNumbers={false}
+      files={[
+        {
+          path: CONVERSATION_PANEL_COMPOSITION_PATH,
+          source: conversationPanelCompositionSource,
+          html: code.conversationPanelComposition,
+          collapsedHtml: code.conversationPanelCompositionBody,
+        },
+        {
+          path: CONVERSATION_PANEL_HEADER_COMPOSITION_PATH,
+          source: conversationPanelHeaderCompositionSource,
+          html: code.conversationPanelHeaderComposition,
+          collapsedHtml: code.conversationPanelHeaderCompositionBody,
+        },
+      ]}
+    />
   );
 }
 

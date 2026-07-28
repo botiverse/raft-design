@@ -26,9 +26,6 @@ export function LegacyTaskPanelRoot({
   children,
   ...props
 }: LegacyTaskPanelRootProps) {
-  const theme = useThemeFamily();
-  const { frame } = legacyTaskPanel({ theme, framed });
-
   if (!framed) {
     return (
       <ThreadPanelRoot
@@ -41,6 +38,22 @@ export function LegacyTaskPanelRoot({
       </ThreadPanelRoot>
     );
   }
+
+  return (
+    <LegacyTaskPanelFrame className={className} render={render} {...props}>
+      {children}
+    </LegacyTaskPanelFrame>
+  );
+}
+
+function LegacyTaskPanelFrame({
+  className,
+  render,
+  children,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { frame } = legacyTaskPanel({ theme, framed: true });
 
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "legacy-task-panel-frame",

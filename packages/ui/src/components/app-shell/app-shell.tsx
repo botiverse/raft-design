@@ -240,16 +240,21 @@ export type AppShellSidebarTriggerProps = useRender.ComponentProps<"button"> & {
   children: ReactNode;
 };
 
-export function AppShellSidebarTrigger({
+export function AppShellSidebarTrigger(props: AppShellSidebarTriggerProps) {
+  const sidebar = useOptionalAppShellSidebar();
+  if (!sidebar?.collapsible) return null;
+
+  return <AppShellSidebarTriggerButton sidebar={sidebar} {...props} />;
+}
+
+function AppShellSidebarTriggerButton({
+  sidebar,
   className,
   children,
   onClick,
   render,
   ...props
-}: AppShellSidebarTriggerProps) {
-  const sidebar = useOptionalAppShellSidebar();
-  if (!sidebar?.collapsible) return null;
-
+}: AppShellSidebarTriggerProps & { sidebar: AppShellSidebarContextValue }) {
   const label = sidebar.open ? "Collapse sidebar" : "Expand sidebar";
 
   // Default to PanelAction for in-panel chrome; consumers can pass AppRailItem (or

@@ -164,23 +164,10 @@ const SNIPPETS = {
     </NotificationCenterScroller>
   </NotificationCenterPopup>
 </NotificationCenter>`,
-  preview: `import { Bell, CircleGauge } from "lucide-react";
+  preview: `import { CircleGauge } from "lucide-react";
 
 <NotificationCenter open modal={false} triggerId={triggerId}>
-  <div className="relative size-9">
-    <NotificationCenterTrigger
-      id={triggerId}
-      render={<button type="button" aria-label="Notification center" />}
-    >
-      <Bell aria-hidden />
-    </NotificationCenterTrigger>
-    <Status
-      aria-hidden
-      variant="accent"
-      size="sm"
-      className="pointer-events-none absolute top-[7px] right-[8px] border-0 ring-2 ring-white"
-    />
-  </div>
+  <NotificationCenterTrigger id={triggerId} type="button" aria-label="Notification center" />
   <NotificationCenterPopup
     viewport="desktop"
     side="bottom"
@@ -257,20 +244,7 @@ const SNIPPETS = {
   </NotificationCenterPopup>
 </NotificationCenter>`,
   empty: `<NotificationCenter open modal={false} triggerId={triggerId}>
-  <div className="relative size-9">
-    <NotificationCenterTrigger
-      id={triggerId}
-      render={<button type="button" aria-label="Notification center" />}
-    >
-      <Bell aria-hidden />
-    </NotificationCenterTrigger>
-    <Status
-      aria-hidden
-      variant="accent"
-      size="sm"
-      className="pointer-events-none absolute top-[7px] right-[8px] border-0 ring-2 ring-white"
-    />
-  </div>
+  <NotificationCenterTrigger id={triggerId} type="button" aria-label="Notification center" />
   <NotificationCenterPopup viewport="desktop" size="sm" side="bottom" align="center">
     <NotificationCenterHeader>
       <NotificationCenterTitle>Notifications</NotificationCenterTitle>
@@ -623,6 +597,10 @@ function NotificationCenterDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
+        <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
+          The snippets show the default trigger. Brutal previews swap in a custom trigger through{" "}
+          <InlineCode>render</InlineCode> to demonstrate the source bell affordance.
+        </p>
         <Preview previewClassName="!min-h-[38rem] items-start pt-16">
           <Preview.Canvas>
             <NotificationCenterBasicExample />

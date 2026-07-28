@@ -10,6 +10,8 @@ import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ComposerSuggestionComposition } from "#/modules/composer-suggestions/composer-suggestions.composition.tsx";
 import composerSuggestionCompositionSource from "#/modules/composer-suggestions/composer-suggestions.composition.tsx?raw";
+import composerSuggestionResultsSource from "#/modules/composer-suggestions/composer-suggestion-results.tsx?raw";
+import composerSuggestionsDataSource from "#/modules/composer-suggestions/composer-suggestions.data.ts?raw";
 import { ComposerSuggestionsSourceComparison } from "#/modules/composer-suggestions/composer-suggestions.source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -63,9 +65,19 @@ const ANATOMY_SNIPPET = `<ComposerRoot>
   </Composer>
 </ComposerRoot>`;
 
+const COMPOSITION_PATH =
+  "apps/doc/src/modules/composer-suggestions/composer-suggestions.composition.tsx";
+const RESULTS_PATH = "apps/doc/src/modules/composer-suggestions/composer-suggestion-results.tsx";
+const DATA_PATH = "apps/doc/src/modules/composer-suggestions/composer-suggestions.data.ts";
+
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   composition: composerSuggestionCompositionSource,
+  suggestionResults: composerSuggestionResultsSource,
+  suggestionsData: composerSuggestionsDataSource,
+  peopleUsage: `<ComposerSuggestionComposition initialValue="@" />`,
+  channelsUsage: `<ComposerSuggestionComposition initialValue="#" />`,
+  filteredPeopleUsage: `<ComposerSuggestionComposition initialValue="@av" />`,
 } as const;
 
 const HOOK_PROPS: readonly PropRow[] = [
@@ -268,7 +280,9 @@ function ComposerSuggestionsDoc() {
               <ComposerSuggestionComposition initialValue="@" />
             </div>
           </Preview.Canvas>
-          <Preview.Code html={code.composition} />
+          <Preview.Code
+            codeBlock={<ComposerSuggestionsSourceFiles code={code} collapsible={false} />}
+          />
         </Preview>
       </DocSection>
 
@@ -286,10 +300,19 @@ function ComposerSuggestionsDoc() {
             <Preview previewClassName="min-h-[26rem] items-stretch">
               <Preview.Canvas>
                 <div className="h-[26rem] w-full max-w-[560px]">
-                  <ComposerSuggestionComposition />
+                  <ComposerSuggestionComposition initialValue="@" />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.composition} />
+              <Preview.Code
+                codeBlock={
+                  <ComposerSuggestionsSourceFiles
+                    code={code}
+                    collapsible={false}
+                    defaultPath={COMPOSITION_PATH}
+                    usageHtml={code.peopleUsage}
+                  />
+                }
+              />
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="channels" title="Channels">
@@ -299,7 +322,16 @@ function ComposerSuggestionsDoc() {
                   <ComposerSuggestionComposition initialValue="#" />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.composition} />
+              <Preview.Code
+                codeBlock={
+                  <ComposerSuggestionsSourceFiles
+                    code={code}
+                    collapsible={false}
+                    defaultPath={RESULTS_PATH}
+                    usageHtml={code.channelsUsage}
+                  />
+                }
+              />
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="filtered-people" title="Filtered people">
@@ -309,7 +341,16 @@ function ComposerSuggestionsDoc() {
                   <ComposerSuggestionComposition initialValue="@av" />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.composition} />
+              <Preview.Code
+                codeBlock={
+                  <ComposerSuggestionsSourceFiles
+                    code={code}
+                    collapsible={false}
+                    defaultPath={DATA_PATH}
+                    usageHtml={code.filteredPeopleUsage}
+                  />
+                }
+              />
             </Preview>
           </DocSubsection>
         </div>
@@ -389,13 +430,66 @@ function ComposerSuggestionsDoc() {
                 </div>
               ),
               compositionCode: code.composition,
-              compositionPath:
-                "apps/doc/src/modules/composer-suggestions/composer-suggestions.composition.tsx",
+              compositionCollapsedCode: code.compositionBody,
+              compositionPath: COMPOSITION_PATH,
               compositionSource: composerSuggestionCompositionSource,
             },
           ]}
         />
       </DocSection>
     </DocPage>
+  );
+}
+
+/**
+ * Composition, the suggestion parts it renders, and the trigger/query contract
+ * that feeds useComposerSuggestions. `usageHtml` shows the callsite that puts the
+ * canvas into its documented state.
+ */
+function ComposerSuggestionsSourceFiles({
+  code,
+  collapsible = true,
+  defaultPath,
+  usageHtml,
+}: {
+  code: Record<string, string>;
+  collapsible?: boolean;
+  defaultPath?: string;
+  usageHtml?: string;
+}) {
+  return (
+    <>
+      {usageHtml ? (
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={usageHtml} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
+      ) : null}
+      <DocsCodeBlock.Files
+        collapsible={collapsible}
+        showLineNumbers={false}
+        defaultPath={defaultPath}
+        files={[
+          {
+            path: COMPOSITION_PATH,
+            source: composerSuggestionCompositionSource,
+            html: code.composition,
+            collapsedHtml: code.compositionBody,
+          },
+          {
+            path: RESULTS_PATH,
+            source: composerSuggestionResultsSource,
+            html: code.suggestionResults,
+            collapsedHtml: code.suggestionResultsBody,
+          },
+          {
+            path: DATA_PATH,
+            source: composerSuggestionsDataSource,
+            html: code.suggestionsData,
+          },
+        ]}
+      />
+    </>
   );
 }

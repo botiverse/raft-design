@@ -1,12 +1,12 @@
-import { AvatarImage } from "raft-ui";
 import {
+  AvatarImage,
   LiveAgentActivityBar,
   LiveAgentActivityBarAvatar,
   LiveAgentActivityBarContent,
   LiveAgentActivityBarRow,
   LiveAgentActivityBarStatus,
   LiveAgentActivityBarText,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export type LiveAgentActivityBarItem = {
   agentAvatarSrc?: string | null;
