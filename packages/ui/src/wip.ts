@@ -334,17 +334,6 @@ export type {
 } from "./components/message-item/index";
 
 export {
-  MessageInlineCode,
-  MessageMarkdown,
-  MessageMarkdownTableScroll,
-} from "./components/message-markdown/index";
-export type {
-  MessageInlineCodeProps,
-  MessageMarkdownProps,
-  MessageMarkdownTableScrollProps,
-} from "./components/message-markdown/index";
-
-export {
   MessageQuotedPreview,
   MessageQuotedPreviewAttachment,
   MessageQuotedPreviewAttachments,

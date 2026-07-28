@@ -1,7 +1,7 @@
 import { ChevronDown, Hash } from "lucide-react";
 import { useState } from "react";
-import { Status } from "raft-ui";
 import {
+  Status,
   ChatSidebarBody,
   ChatSidebarContent,
   ChatSidebarGroupLabel,

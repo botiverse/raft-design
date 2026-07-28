@@ -1,6 +1,4 @@
-/** Exhaustive markdown fixture covering every node the message renderer supports. */
-export function createMessageMarkdownSource(imageSrc: string) {
-  return `# Heading 1
+# Heading 1
 
 ## Heading 2
 
@@ -12,7 +10,7 @@ export function createMessageMarkdownSource(imageSrc: string) {
 
 ###### Heading 6
 
-Inline: **bold**, _italic_, ~~strikethrough~~, \`inline code\`, plus escaped \\*literal\\* asterisks.
+Inline: **bold**, _italic_, ~~strikethrough~~, `inline code`, plus escaped \*literal\* asterisks.
 
 First line
 hard-break second line.
@@ -37,17 +35,16 @@ Raw user HTML is escaped as text: &lt;span&gt;not message markup&lt;/span&gt;.
 
 ---
 
-| Token | Surface |
-| --- | --- |
-| layer-panel | panel |
-| line-strong | border |
+| Token       | Surface |
+| ----------- | ------- |
+| layer-panel | panel   |
+| line-strong | border  |
 
-![markdown embed](${imageSrc})
+![markdown embed](https://images.unsplash.com/photo-1756891675732-62eb5872f8e5?auto=format&fit=crop&w=800&q=80)
 
 Here is the loader I landed — no highlighting, just the mono block.
 
-\`\`\`ts
+```ts
 const tokens = load();
 console.log(tokens.layerPanel);
-\`\`\``;
-}
+```

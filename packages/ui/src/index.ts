@@ -666,6 +666,46 @@ export type {
 export { InlineCode } from "./components/inline-code/index";
 export type { InlineCodeProps } from "./components/inline-code/index";
 
+export {
+  MarkdownBlockquote,
+  MarkdownCell,
+  MarkdownCheckbox,
+  MarkdownHeaderCell,
+  MarkdownHeading,
+  MarkdownImage,
+  MarkdownInlineCode,
+  MarkdownLink,
+  MarkdownList,
+  MarkdownListItem,
+  MarkdownMark,
+  MarkdownOrderedList,
+  MarkdownParagraph,
+  MarkdownRule,
+  MarkdownTable,
+  MarkdownTableRow,
+  MarkdownTableScroll,
+} from "./components/markdown/index";
+export type {
+  MarkdownBlockquoteProps,
+  MarkdownCellProps,
+  MarkdownCheckboxProps,
+  MarkdownHeaderCellProps,
+  MarkdownHeadingLevel,
+  MarkdownHeadingProps,
+  MarkdownImageProps,
+  MarkdownInlineCodeProps,
+  MarkdownLinkProps,
+  MarkdownListItemProps,
+  MarkdownListProps,
+  MarkdownMarkProps,
+  MarkdownOrderedListProps,
+  MarkdownParagraphProps,
+  MarkdownRuleProps,
+  MarkdownTableProps,
+  MarkdownTableRowProps,
+  MarkdownTableScrollProps,
+} from "./components/markdown/index";
+
 export { Kbd, KbdGroup } from "./components/kbd/index";
 export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
 

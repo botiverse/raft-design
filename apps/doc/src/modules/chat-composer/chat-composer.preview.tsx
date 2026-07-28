@@ -1,8 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { ImagePlus, Paperclip, Send } from "lucide-react";
-import { Checkbox } from "raft-ui";
-import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import {
+  Checkbox,
   ComposerActions,
   ComposerDropOverlay,
   ComposerDropOverlayPrompt,
@@ -12,6 +11,7 @@ import {
   ComposerSubmit,
   ComposerToolbarLabel,
 } from "raft-ui";
+import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { Composer, ComposerInput, ComposerToolbar } from "./composer-responsive.tsx";
 
 import { Preview } from "#/components/preview.tsx";

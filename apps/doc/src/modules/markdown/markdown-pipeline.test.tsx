@@ -1,17 +1,18 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import type { Components } from "react-markdown";
 import { ThemeProvider } from "raft-ui";
-import { MessageMarkdownComposition } from "./markdown.composition.tsx";
+import { Markdown } from "#/lib/markdown/markdown.tsx";
 
-function renderMarkdown(source: string) {
+function renderMarkdown(source: string, components?: Components) {
   return renderToStaticMarkup(
     <ThemeProvider theme="elegant" syncDom={false}>
-      <MessageMarkdownComposition source={source} />
+      <Markdown components={components}>{source}</Markdown>
     </ThemeProvider>,
   );
 }
 
-describe("MessageMarkdownComposition", () => {
+describe("Markdown docs pipeline", () => {
   it("parses source Markdown and maps its nodes to UI primitives", () => {
     const markup = renderMarkdown(`
 # Heading
@@ -36,12 +37,13 @@ plain block
 \`\`\`
 `);
 
-    expect(markup).toContain("<h1>Heading</h1>");
+    expect(markup).toContain('data-slot="markdown-heading"');
+    expect(markup).toContain(">Heading</h1>");
     expect(markup).toContain('href="https://example.com/path"');
     expect(markup).toContain(">https://example.com/path</a>，后续。");
-    expect(markup).toContain('<ol start="2">');
+    expect(markup).toContain('start="2"');
     expect(markup.match(/data-slot="checkbox"/g)).toHaveLength(2);
-    expect(markup).toContain('data-slot="message-markdown-table-scroll"');
+    expect(markup).toContain('data-slot="markdown-table-scroll"');
     expect(markup.match(/data-slot="code-block"/g)).toHaveLength(2);
     expect(markup.match(/data-slot="inline-code"/g)).toHaveLength(1);
   });
@@ -53,15 +55,10 @@ plain block
     expect(markup).not.toContain("alert");
   });
 
-  it("keeps product-specific node replacements in the docs adapter", () => {
-    const markup = renderToStaticMarkup(
-      <ThemeProvider theme="elegant" syncDom={false}>
-        <MessageMarkdownComposition
-          source="[Task](https://example.com/task)"
-          components={{ a: ({ children }) => <span data-slot="task-reference">{children}</span> }}
-        />
-      </ThemeProvider>,
-    );
+  it("lets a consumer replace a node with a domain component", () => {
+    const markup = renderMarkdown("[Task](https://example.com/task)", {
+      a: ({ children }) => <span data-slot="task-reference">{children}</span>,
+    });
 
     expect(markup).toContain('data-slot="task-reference"');
     expect(markup).not.toContain('href="https://example.com/task"');

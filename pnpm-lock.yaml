@@ -45,9 +45,21 @@ catalogs:
     react-dropzone:
       specifier: ^19.1.1
       version: 19.1.1
+    react-markdown:
+      specifier: ^10.1.0
+      version: 10.1.0
     react-resizable-panels:
       specifier: ^4.12.1
       version: 4.12.1
+    rehype-sanitize:
+      specifier: ^6.0.0
+      version: 6.0.0
+    remark-breaks:
+      specifier: ^4.0.0
+      version: 4.0.0
+    remark-gfm:
+      specifier: ^4.0.1
+      version: 4.0.1
     shiki:
       specifier: ^4.3.1
       version: 4.3.1
@@ -139,19 +151,19 @@ importers:
         specifier: 'catalog:'
         version: 19.1.1(@types/react@19.2.17)(react@19.2.7)
       react-markdown:
-        specifier: ^10.1.0
+        specifier: 'catalog:'
         version: 10.1.0(@types/react@19.2.17)(react@19.2.7)
       react-resizable-panels:
         specifier: 'catalog:'
         version: 4.12.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       rehype-sanitize:
-        specifier: ^6.0.0
+        specifier: 'catalog:'
         version: 6.0.0
       remark-breaks:
-        specifier: ^4.0.0
+        specifier: 'catalog:'
         version: 4.0.0
       remark-gfm:
-        specifier: ^4.0.1
+        specifier: 'catalog:'
         version: 4.0.1
       shiki:
         specifier: 'catalog:'

@@ -52,16 +52,15 @@ export const codeBlock = tv({
       elegant: {
         root: [
           "[--code-block-header-height:calc(var(--spacing)*8)]",
-          "overflow-clip rounded-none px-6 pb-0",
+          "overflow-clip rounded-none px-3 pb-0",
           "bg-[oklch(0.988_0.002_106.42)] shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
           "dark:bg-layer-muted dark:shadow-[0_0_0_0.5px_oklch(1_0_0_/_0.16)]",
         ],
         header: [
           "px-2.5",
-          "border-x border-dashed border-x-[oklch(0_0_0_/_0.12)]",
-          "border-b border-solid border-b-[oklch(0_0_0_/_0.06)]",
+          "border-x border-b border-dashed border-[oklch(0_0_0_/_0.12)]",
           "bg-layer-panel text-sm/5 font-medium text-foreground-muted",
-          "dark:border-x-[oklch(1_0_0_/_0.14)] dark:border-b-[oklch(1_0_0_/_0.08)]",
+          "dark:border-[oklch(1_0_0_/_0.14)]",
         ],
         corner: ["hidden"],
         title: ["text-xs"],

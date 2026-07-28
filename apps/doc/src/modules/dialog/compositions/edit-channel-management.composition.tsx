@@ -5,8 +5,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  Button,
+  Field,
+  FieldLabel,
+  Input,
+  Separator,
+  Textarea,
 } from "raft-ui";
-import { Button, Field, FieldLabel, Input, Separator, Textarea } from "raft-ui";
 import { Archive, Lock, Trash2 } from "lucide-react";
 
 // @docs-source-strip-start

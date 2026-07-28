@@ -1,180 +1,68 @@
-import type { ReactNode } from "react";
-import {
-  CodeBlock,
-  CodeBlockActions,
-  CodeBlockBody,
-  CodeBlockHeader,
-  CodeBlockTitle,
-  TaskChip,
-} from "raft-ui";
-import { MessageInlineCode, MessageMarkdown, MessageReferenceChip } from "raft-ui/wip";
-import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
-import { ShikiHighlightedCode } from "#/lib/code-block/shiki-highlighted-code.tsx";
-import {
-  MessageMentionReferenceComposition,
-  MessageSelfMentionReferenceComposition,
-  MessageTargetReferenceComposition,
-} from "#/modules/message-reference/compositions/reference-adapters.composition.tsx";
-import { MESSAGE_PLAYGROUND_URLS } from "./message-item.fixtures.ts";
+import { useMemo } from "react";
+import { Markdown } from "#/lib/markdown/markdown.tsx";
+import { markdownReferenceSanitizeSchema } from "#/lib/markdown/markdown-reference-sanitize-schema.ts";
+import { createExampleReferenceComponents } from "#/modules/message-reference/create-example-reference-components.tsx";
+import { EXAMPLE_REFERENCE_REMARK_PLUGINS } from "#/modules/message-reference/example-reference-remark-plugins.ts";
 
 type ExampleMarkdownProps = {
   portalContainer?: HTMLElement | null;
 };
 
-function ExampleMention({
-  children,
-  portalContainer,
-}: {
-  children: ReactNode;
-  portalContainer?: HTMLElement | null;
-}) {
-  return (
-    <MessageMentionReferenceComposition
-      portalContainer={portalContainer}
-      preview={<p>Atlas · owner</p>}
-    >
-      {children}
-    </MessageMentionReferenceComposition>
-  );
-}
+const EXAMPLE_SOURCE = `Ask @Atlas to ship the **token fixture** pass — \`layer-panel\`, mentions, and [docs links](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a) stay caller-owned.
 
-function ExampleSelfMention({
-  children,
-  portalContainer,
-}: {
-  children: ReactNode;
-  portalContainer?: HTMLElement | null;
-}) {
+@you tracked #21 in #release-notes and linked #release-notes:reply.
+
+- Keep body content in \`MessageItemBody\`
+- Prefer ~~ad-hoc spans~~ semantic markdown + reference parts`;
+
+const LEAD_SOURCE = `@Atlas starting a short sequence — first the **layout pass**, then gutter clock polish for #release-notes.`;
+
+const FOLLOW_UP_SOURCE = `@you — the second row keeps only its timestamp in the gutter, with a quick \`HH:MM\` hover clock.
+
+1. Align the gutter to the **avatar column**
+2. Land #21 before the #all rollout`;
+
+const CLOSING_SOURCE = `Final note for @Atlas in #release-notes:reply:
+
+> Compact rows should read as one thread, not a new speaker.
+
+\`\`\`tsx
+<MessageItem compact>
+  <MessageItemGutter />
+</MessageItem>
+\`\`\``;
+
+function ExampleMarkdown({ portalContainer, source }: ExampleMarkdownProps & { source: string }) {
+  // react-markdown re-parses whenever the components identity changes, so keep it stable.
+  const components = useMemo(
+    () => createExampleReferenceComponents(portalContainer),
+    [portalContainer],
+  );
+
   return (
-    <MessageSelfMentionReferenceComposition
-      portalContainer={portalContainer}
-      preview={<p>You · Current workspace member</p>}
+    <Markdown
+      additionalRemarkPlugins={EXAMPLE_REFERENCE_REMARK_PLUGINS}
+      components={components}
+      sanitizeSchema={markdownReferenceSanitizeSchema}
     >
-      {children}
-    </MessageSelfMentionReferenceComposition>
+      {source}
+    </Markdown>
   );
 }
 
 /** Compact markdown used by MessageItem docs examples (not the full catalog). */
 export function MessageItemExampleMarkdown({ portalContainer }: ExampleMarkdownProps = {}) {
-  return (
-    <MessageMarkdown>
-      <p>
-        Ask <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> to ship the{" "}
-        <strong>token fixture</strong> pass — <MessageInlineCode>layer-panel</MessageInlineCode>,
-        mentions, and{" "}
-        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a">docs links</a> stay
-        caller-owned.
-      </p>
-      <p>
-        <ExampleSelfMention portalContainer={portalContainer}>@you</ExampleSelfMention> tracked{" "}
-        <TaskChip status="in_progress" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
-          #21
-        </TaskChip>{" "}
-        in{" "}
-        <MessageReferenceChip
-          variant="accent"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
-        >
-          #release-notes
-        </MessageReferenceChip>{" "}
-        and linked{" "}
-        <MessageReferenceChip
-          variant="info"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
-        >
-          #release-notes:reply
-        </MessageReferenceChip>
-        .
-      </p>
-      <ul>
-        <li>
-          Keep body content in <MessageInlineCode>MessageItemBody</MessageInlineCode>
-        </li>
-        <li>
-          Prefer <del>ad-hoc spans</del> semantic markdown + reference parts
-        </li>
-      </ul>
-    </MessageMarkdown>
-  );
+  return <ExampleMarkdown portalContainer={portalContainer} source={EXAMPLE_SOURCE} />;
 }
 
 export function MessageItemExampleMarkdownLead({ portalContainer }: ExampleMarkdownProps = {}) {
-  return (
-    <MessageMarkdown>
-      <p>
-        <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> starting a short
-        sequence — first the <strong>layout pass</strong>, then gutter clock polish for{" "}
-        <MessageReferenceChip
-          variant="accent"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
-        >
-          #release-notes
-        </MessageReferenceChip>
-        .
-      </p>
-    </MessageMarkdown>
-  );
+  return <ExampleMarkdown portalContainer={portalContainer} source={LEAD_SOURCE} />;
 }
 
 export function MessageItemExampleMarkdownFollowUp({ portalContainer }: ExampleMarkdownProps = {}) {
-  return (
-    <MessageMarkdown>
-      <p>
-        <ExampleSelfMention portalContainer={portalContainer}>@you</ExampleSelfMention> — the second
-        row keeps only its timestamp in the gutter, with a quick{" "}
-        <MessageInlineCode>HH:MM</MessageInlineCode> hover clock.
-      </p>
-      <ol>
-        <li>
-          Align the gutter to the <strong>avatar column</strong>
-        </li>
-        <li>
-          Land{" "}
-          <TaskChip
-            status="in_progress"
-            render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
-          >
-            #21
-          </TaskChip>{" "}
-          before the{" "}
-          <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
-            #all
-          </MessageTargetReferenceComposition>{" "}
-          rollout
-        </li>
-      </ol>
-    </MessageMarkdown>
-  );
+  return <ExampleMarkdown portalContainer={portalContainer} source={FOLLOW_UP_SOURCE} />;
 }
 
 export function MessageItemExampleMarkdownClosing({ portalContainer }: ExampleMarkdownProps = {}) {
-  const code = "<MessageItem compact>\n  <MessageItemGutter />\n</MessageItem>";
-
-  return (
-    <MessageMarkdown>
-      <p>
-        Final note for <ExampleMention portalContainer={portalContainer}>@Atlas</ExampleMention> in{" "}
-        <MessageReferenceChip
-          variant="info"
-          render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
-        >
-          #release-notes:reply
-        </MessageReferenceChip>
-        :
-      </p>
-      <blockquote>Compact rows should read as one thread, not a new speaker.</blockquote>
-      <CodeBlock>
-        <CodeBlockHeader>
-          <CodeBlockTitle>tsx</CodeBlockTitle>
-          <CodeBlockActions>
-            <CodeCopyAction code={code} />
-          </CodeBlockActions>
-        </CodeBlockHeader>
-        <CodeBlockBody>
-          <ShikiHighlightedCode code={code} language="tsx" />
-        </CodeBlockBody>
-      </CodeBlock>
-    </MessageMarkdown>
-  );
+  return <ExampleMarkdown portalContainer={portalContainer} source={CLOSING_SOURCE} />;
 }
