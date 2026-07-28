@@ -43,7 +43,7 @@ function MessageHtmlPreviewAttachmentComposition() {
   );
 }
 
-export function MessageFileAttachmentComposition() {
+function MessageFileAttachmentComposition() {
   return (
     <MessageAttachmentCard>
       <MessageAttachmentTitle>migration.diff</MessageAttachmentTitle>

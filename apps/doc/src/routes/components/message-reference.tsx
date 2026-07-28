@@ -10,6 +10,7 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import referenceAdaptersSource from "#/modules/message-reference/compositions/reference-adapters.composition.tsx?raw";
 import { MessageReferenceComparisonComposition } from "#/modules/message-reference/compositions/reference-comparison.composition.tsx";
 import referenceComparisonSource from "#/modules/message-reference/compositions/reference-comparison.composition.tsx?raw";
 import { MessageReferenceAttachmentCommentsComposition } from "#/modules/message-reference/compositions/attachment-comments.composition.tsx";
@@ -115,20 +116,57 @@ const PARTS: readonly PropRow[] = [
   },
 ];
 
+const REFERENCE_SHOWCASE_PATH =
+  "apps/doc/src/modules/message-reference/compositions/reference-showcase.composition.tsx";
+const REFERENCE_COMPARISON_PATH =
+  "apps/doc/src/modules/message-reference/compositions/reference-comparison.composition.tsx";
+const REFERENCE_ADAPTERS_PATH =
+  "apps/doc/src/modules/message-reference/compositions/reference-adapters.composition.tsx";
+
 function UsagePreview({
   children,
   code,
-  stretch = false,
+  collapsedCode,
 }: {
   children: ReactNode;
   code: ReactNode;
-  stretch?: boolean;
+  collapsedCode?: ReactNode;
 }) {
   return (
-    <Preview previewClassName={stretch ? "items-stretch" : undefined}>
+    <Preview>
       <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code html={code} />
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
     </Preview>
+  );
+}
+
+/** Showcase composition plus the message row and the mention/target adapters it renders. */
+function MessageReferenceSourceFiles({ code }: { code: Record<string, string> }) {
+  return (
+    <DocsCodeBlock.Files
+      collapsible={false}
+      showLineNumbers={false}
+      files={[
+        {
+          path: REFERENCE_SHOWCASE_PATH,
+          source: referenceShowcaseSource,
+          html: code.referenceShowcase,
+          collapsedHtml: code.referenceShowcaseBody,
+        },
+        {
+          path: REFERENCE_COMPARISON_PATH,
+          source: referenceComparisonSource,
+          html: code.referenceComparison,
+          collapsedHtml: code.referenceComparisonBody,
+        },
+        {
+          path: REFERENCE_ADAPTERS_PATH,
+          source: referenceAdaptersSource,
+          html: code.referenceAdapters,
+          collapsedHtml: code.referenceAdaptersBody,
+        },
+      ]}
+    />
   );
 }
 
@@ -138,6 +176,7 @@ export const Route = createFileRoute("/components/message-reference")({
     highlightSnippets({
       data: {
         anatomy: ANATOMY_SOURCE,
+        referenceAdapters: referenceAdaptersSource,
         referenceComparison: referenceComparisonSource,
         referenceShowcase: referenceShowcaseSource,
         peopleMentions: peopleMentionsSource,
@@ -159,9 +198,12 @@ function MessageReferenceDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.referenceShowcase} stretch>
-          <MessageReferenceShowcaseComposition />
-        </UsagePreview>
+        <Preview previewClassName="items-stretch">
+          <Preview.Canvas>
+            <MessageReferenceShowcaseComposition />
+          </Preview.Canvas>
+          <Preview.Code codeBlock={<MessageReferenceSourceFiles code={code} />} />
+        </Preview>
       </DocSection>
 
       <DocSection id="usage" title="Usage">
@@ -172,7 +214,7 @@ function MessageReferenceDoc() {
               owns member-preview behavior; use the text surface for another member and the primary
               chip for the current member.
             </p>
-            <UsagePreview code={code.peopleMentions}>
+            <UsagePreview code={code.peopleMentions} collapsedCode={code.peopleMentionsBody}>
               <MessageReferencePeopleMentionsComposition />
             </UsagePreview>
           </DocSubsection>
@@ -188,7 +230,10 @@ function MessageReferenceDoc() {
               <InlineCode>:short-id</InlineCode> for a thread. A resolved message reference can
               include its destination icon and label directly.
             </p>
-            <UsagePreview code={code.conversationDestinations}>
+            <UsagePreview
+              code={code.conversationDestinations}
+              collapsedCode={code.conversationDestinationsBody}
+            >
               <MessageReferenceConversationDestinationsComposition />
             </UsagePreview>
           </DocSubsection>
@@ -198,7 +243,7 @@ function MessageReferenceDoc() {
               Use <InlineCode>TaskChip</InlineCode> for a resolved task. Its status controls the
               status icon and task surface; task state remains consumer-owned.
             </p>
-            <UsagePreview code={code.taskReferences}>
+            <UsagePreview code={code.taskReferences} collapsedCode={code.taskReferencesBody}>
               <TaskChipUsageComposition />
             </UsagePreview>
           </DocSubsection>
@@ -212,7 +257,10 @@ function MessageReferenceDoc() {
               Compose the neutral chip with the attachment-comment icon and resolved target owned by
               the message consumer.
             </p>
-            <UsagePreview code={code.attachmentComments}>
+            <UsagePreview
+              code={code.attachmentComments}
+              collapsedCode={code.attachmentCommentsBody}
+            >
               <MessageReferenceAttachmentCommentsComposition />
             </UsagePreview>
           </DocSubsection>
@@ -224,7 +272,7 @@ function MessageReferenceDoc() {
           Use explicit pending and unavailable surfaces only after the consumer has resolved the
           reference state. Unknown bare tokens remain plain text.
         </p>
-        <UsagePreview code={code.resolutionStates}>
+        <UsagePreview code={code.resolutionStates} collapsedCode={code.resolutionStatesBody}>
           <MessageReferenceResolutionStatesComposition />
         </UsagePreview>
       </DocSection>
@@ -270,6 +318,7 @@ function MessageReferenceDoc() {
               elegant: <MessageReferenceComparisonComposition />,
               elegantDark: <MessageReferenceComparisonComposition />,
               compositionCode: code.referenceComparison,
+              compositionCollapsedCode: code.referenceComparisonBody,
               compositionPath:
                 "apps/doc/src/modules/message-reference/compositions/reference-comparison.composition.tsx",
               compositionSource: referenceComparisonSource,
