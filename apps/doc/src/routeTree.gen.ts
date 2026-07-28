@@ -61,7 +61,6 @@ import { Route as ComponentsMessageQuotedPreviewRouteImport } from './routes/com
 import { Route as ComponentsMessageMarkdownRouteImport } from './routes/components/message-markdown'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
 import { Route as ComponentsMessageForwardedBundleRouteImport } from './routes/components/message-forwarded-bundle'
-import { Route as ComponentsMessageCodeBlockRouteImport } from './routes/components/message-code-block'
 import { Route as ComponentsMessageAttachmentRouteImport } from './routes/components/message-attachment'
 import { Route as ComponentsMessageActionCardRouteImport } from './routes/components/message-action-card'
 import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
@@ -85,6 +84,7 @@ import { Route as ComponentsConversationPanelRouteImport } from './routes/compon
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
+import { Route as ComponentsCodeBlockRouteImport } from './routes/components/code-block'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsChatSidebarItemRouteImport } from './routes/components/chat-sidebar-item'
 import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
@@ -386,12 +386,6 @@ const ComponentsMessageForwardedBundleRoute =
     path: '/message-forwarded-bundle',
     getParentRoute: () => ComponentsRoute,
   } as any)
-const ComponentsMessageCodeBlockRoute =
-  ComponentsMessageCodeBlockRouteImport.update({
-    id: '/message-code-block',
-    path: '/message-code-block',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsMessageAttachmentRoute =
   ComponentsMessageAttachmentRouteImport.update({
     id: '/message-attachment',
@@ -511,6 +505,11 @@ const ComponentsComposerSuggestionsRoute =
 const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
   id: '/combobox',
   path: '/combobox',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsCodeBlockRoute = ComponentsCodeBlockRouteImport.update({
+  id: '/code-block',
+  path: '/code-block',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
@@ -701,6 +700,7 @@ export interface FileRoutesByFullPath {
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -724,7 +724,6 @@ export interface FileRoutesByFullPath {
   '/components/logo': typeof ComponentsLogoRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-code-block': typeof ComponentsMessageCodeBlockRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
@@ -808,6 +807,7 @@ export interface FileRoutesByTo {
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -831,7 +831,6 @@ export interface FileRoutesByTo {
   '/components/logo': typeof ComponentsLogoRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-code-block': typeof ComponentsMessageCodeBlockRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
@@ -917,6 +916,7 @@ export interface FileRoutesById {
   '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
   '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
+  '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -940,7 +940,6 @@ export interface FileRoutesById {
   '/components/logo': typeof ComponentsLogoRoute
   '/components/message-action-card': typeof ComponentsMessageActionCardRoute
   '/components/message-attachment': typeof ComponentsMessageAttachmentRoute
-  '/components/message-code-block': typeof ComponentsMessageCodeBlockRoute
   '/components/message-forwarded-bundle': typeof ComponentsMessageForwardedBundleRoute
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-markdown': typeof ComponentsMessageMarkdownRoute
@@ -1027,6 +1026,7 @@ export interface FileRouteTypes {
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
     | '/components/checkbox'
+    | '/components/code-block'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
@@ -1050,7 +1050,6 @@ export interface FileRouteTypes {
     | '/components/logo'
     | '/components/message-action-card'
     | '/components/message-attachment'
-    | '/components/message-code-block'
     | '/components/message-forwarded-bundle'
     | '/components/message-item'
     | '/components/message-markdown'
@@ -1134,6 +1133,7 @@ export interface FileRouteTypes {
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
     | '/components/checkbox'
+    | '/components/code-block'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
@@ -1157,7 +1157,6 @@ export interface FileRouteTypes {
     | '/components/logo'
     | '/components/message-action-card'
     | '/components/message-attachment'
-    | '/components/message-code-block'
     | '/components/message-forwarded-bundle'
     | '/components/message-item'
     | '/components/message-markdown'
@@ -1242,6 +1241,7 @@ export interface FileRouteTypes {
     | '/components/chat-sidebar'
     | '/components/chat-sidebar-item'
     | '/components/checkbox'
+    | '/components/code-block'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
@@ -1265,7 +1265,6 @@ export interface FileRouteTypes {
     | '/components/logo'
     | '/components/message-action-card'
     | '/components/message-attachment'
-    | '/components/message-code-block'
     | '/components/message-forwarded-bundle'
     | '/components/message-item'
     | '/components/message-markdown'
@@ -1714,13 +1713,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsMessageForwardedBundleRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/message-code-block': {
-      id: '/components/message-code-block'
-      path: '/message-code-block'
-      fullPath: '/components/message-code-block'
-      preLoaderRoute: typeof ComponentsMessageCodeBlockRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/message-attachment': {
       id: '/components/message-attachment'
       path: '/message-attachment'
@@ -1880,6 +1872,13 @@ declare module '@tanstack/react-router' {
       path: '/combobox'
       fullPath: '/components/combobox'
       preLoaderRoute: typeof ComponentsComboboxRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/code-block': {
+      id: '/components/code-block'
+      path: '/code-block'
+      fullPath: '/components/code-block'
+      preLoaderRoute: typeof ComponentsCodeBlockRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/checkbox': {
@@ -2234,6 +2233,7 @@ interface ComponentsRouteChildren {
   ComponentsChatSidebarRoute: typeof ComponentsChatSidebarRoute
   ComponentsChatSidebarItemRoute: typeof ComponentsChatSidebarItemRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
+  ComponentsCodeBlockRoute: typeof ComponentsCodeBlockRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsComposerSuggestionsRoute: typeof ComponentsComposerSuggestionsRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
@@ -2257,7 +2257,6 @@ interface ComponentsRouteChildren {
   ComponentsLogoRoute: typeof ComponentsLogoRoute
   ComponentsMessageActionCardRoute: typeof ComponentsMessageActionCardRoute
   ComponentsMessageAttachmentRoute: typeof ComponentsMessageAttachmentRoute
-  ComponentsMessageCodeBlockRoute: typeof ComponentsMessageCodeBlockRoute
   ComponentsMessageForwardedBundleRoute: typeof ComponentsMessageForwardedBundleRoute
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsMessageMarkdownRoute: typeof ComponentsMessageMarkdownRoute
@@ -2307,6 +2306,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsChatSidebarRoute: ComponentsChatSidebarRoute,
   ComponentsChatSidebarItemRoute: ComponentsChatSidebarItemRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
+  ComponentsCodeBlockRoute: ComponentsCodeBlockRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsComposerSuggestionsRoute: ComponentsComposerSuggestionsRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
@@ -2330,7 +2330,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsLogoRoute: ComponentsLogoRoute,
   ComponentsMessageActionCardRoute: ComponentsMessageActionCardRoute,
   ComponentsMessageAttachmentRoute: ComponentsMessageAttachmentRoute,
-  ComponentsMessageCodeBlockRoute: ComponentsMessageCodeBlockRoute,
   ComponentsMessageForwardedBundleRoute: ComponentsMessageForwardedBundleRoute,
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsMessageMarkdownRoute: ComponentsMessageMarkdownRoute,

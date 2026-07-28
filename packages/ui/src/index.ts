@@ -646,6 +646,23 @@ export type {
   AvatarProps,
 } from "./components/avatar/index";
 
+export {
+  CodeBlock,
+  CodeBlockAction,
+  CodeBlockActions,
+  CodeBlockBody,
+  CodeBlockHeader,
+  CodeBlockTitle,
+} from "./components/code-block/index";
+export type {
+  CodeBlockActionProps,
+  CodeBlockActionsProps,
+  CodeBlockBodyProps,
+  CodeBlockHeaderProps,
+  CodeBlockProps,
+  CodeBlockTitleProps,
+} from "./components/code-block/index";
+
 export { InlineCode } from "./components/inline-code/index";
 export type { InlineCodeProps } from "./components/inline-code/index";
 

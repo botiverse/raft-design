@@ -42,7 +42,7 @@ plain block
     expect(markup).toContain('<ol start="2">');
     expect(markup.match(/data-slot="checkbox"/g)).toHaveLength(2);
     expect(markup).toContain('data-slot="message-markdown-table-scroll"');
-    expect(markup.match(/data-slot="message-code-block"/g)).toHaveLength(2);
+    expect(markup.match(/data-slot="code-block"/g)).toHaveLength(2);
     expect(markup.match(/data-slot="inline-code"/g)).toHaveLength(1);
   });
 

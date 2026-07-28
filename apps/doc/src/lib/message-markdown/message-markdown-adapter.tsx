@@ -4,14 +4,17 @@ import ReactMarkdown from "react-markdown";
 import rehypeSanitize from "rehype-sanitize";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
-import { Checkbox } from "raft-ui";
 import {
-  MessageCodeBlock,
-  MessageInlineCode,
-  MessageMarkdown,
-  MessageMarkdownTableScroll,
-} from "raft-ui/wip";
-import { ShikiHighlightedCode } from "#/lib/message-code-block/shiki-highlighted-code.tsx";
+  Checkbox,
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockBody,
+  CodeBlockHeader,
+  CodeBlockTitle,
+} from "raft-ui";
+import { MessageInlineCode, MessageMarkdown, MessageMarkdownTableScroll } from "raft-ui/wip";
+import { CodeCopyAction } from "#/lib/code-block/code-copy-action.tsx";
+import { ShikiHighlightedCode } from "#/lib/code-block/shiki-highlighted-code.tsx";
 import { markdownSanitizeSchema } from "./markdown-sanitize-schema.ts";
 import { remarkAutolinkBareUrls } from "./remark-autolink-bare-urls.ts";
 
@@ -57,9 +60,17 @@ const DEFAULT_COMPONENTS: Components = {
       const language = languageFromClassName(className);
 
       return (
-        <MessageCodeBlock code={code}>
-          <ShikiHighlightedCode code={code} language={language} />
-        </MessageCodeBlock>
+        <CodeBlock>
+          <CodeBlockHeader>
+            {language ? <CodeBlockTitle>{language}</CodeBlockTitle> : null}
+            <CodeBlockActions>
+              <CodeCopyAction code={code} />
+            </CodeBlockActions>
+          </CodeBlockHeader>
+          <CodeBlockBody>
+            <ShikiHighlightedCode code={code} language={language} />
+          </CodeBlockBody>
+        </CodeBlock>
       );
     }
 

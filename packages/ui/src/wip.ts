@@ -344,9 +344,6 @@ export type {
   MessageMarkdownTableScrollProps,
 } from "./components/message-markdown/index";
 
-export { MessageCodeBlock } from "./components/message-code-block/index";
-export type { MessageCodeBlockProps } from "./components/message-code-block/index";
-
 export {
   MessageQuotedPreview,
   MessageQuotedPreviewAttachment,
