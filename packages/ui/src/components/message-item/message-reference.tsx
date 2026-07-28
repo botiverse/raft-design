@@ -31,9 +31,9 @@ export type MessageReferenceTextProps = SpanProps;
 
 export function MessageReferenceText({ className, render, ...props }: MessageReferenceTextProps) {
   const theme = useThemeFamily();
-  const { text } = messageReference({ theme });
+  const { root } = messageReference({ theme, variant: "mention" });
 
-  return useReferenceRender(text({ className }), render, props);
+  return useReferenceRender(root({ className }), render, props);
 }
 
 export type MessageReferenceChipProps = SpanProps & {
@@ -47,9 +47,9 @@ export function MessageReferenceChip({
   ...props
 }: MessageReferenceChipProps) {
   const theme = useThemeFamily();
-  const { chip } = messageReference({ theme, variant });
+  const { root } = messageReference({ theme, variant });
 
-  return useReferenceRender(chip({ className }), render, props);
+  return useReferenceRender(root({ className }), render, props);
 }
 
 export type MessageReferenceLabelProps = useRender.ComponentProps<"span">;
@@ -149,9 +149,9 @@ export function MessageReferencePending({
   ...props
 }: MessageReferencePendingProps) {
   const theme = useThemeFamily();
-  const { pending } = messageReference({ theme });
+  const { root } = messageReference({ theme, variant: "pending" });
 
-  return useReferenceRender(pending({ className }), render, props);
+  return useReferenceRender(root({ className }), render, props);
 }
 
 export type MessageReferenceUnavailableProps = SpanProps;
@@ -162,7 +162,7 @@ export function MessageReferenceUnavailable({
   ...props
 }: MessageReferenceUnavailableProps) {
   const theme = useThemeFamily();
-  const { unavailable } = messageReference({ theme });
+  const { root } = messageReference({ theme, variant: "unavailable" });
 
-  return useReferenceRender(unavailable({ className }), render, props);
+  return useReferenceRender(root({ className }), render, props);
 }
