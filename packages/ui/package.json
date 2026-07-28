@@ -10,7 +10,8 @@
   },
   "files": [
     "CHANGELOG.md",
-    "dist"
+    "dist",
+    "skills"
   ],
   "type": "module",
   "exports": {
