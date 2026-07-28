@@ -228,13 +228,6 @@ export {
   MessageMultiSelectCount,
   MessageMultiSelectToolbar,
   MessageMultiSelectToolbarContent,
-  MessageReferenceBadge,
-  MessageReferenceChip,
-  MessageReferenceLabel,
-  MessageReferenceMeta,
-  MessageReferencePending,
-  MessageReferenceText,
-  MessageReferenceUnavailable,
   MessageTextSelection,
   MessageTextSelectionMenu,
   MessageTextSelectionMenuItem,
@@ -325,14 +318,6 @@ export type {
   MessageReactionTooltipNamesProps,
   MessageReactionTooltipNameTextProps,
   MessageReactionTooltipSeparatorProps,
-  MessageReferenceBadgeProps,
-  MessageReferenceChipProps,
-  MessageReferenceChipVariant,
-  MessageReferenceLabelProps,
-  MessageReferenceMetaProps,
-  MessageReferencePendingProps,
-  MessageReferenceTextProps,
-  MessageReferenceUnavailableProps,
 } from "./components/message-item/index";
 
 export {

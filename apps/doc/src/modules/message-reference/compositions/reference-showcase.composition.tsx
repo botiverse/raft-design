@@ -8,9 +8,22 @@ import {
   AvatarImage,
   MarkdownBlockquote,
   MarkdownParagraph,
+  MessageReferenceBadge,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  MessageReferencePending,
+  MessageReferenceUnavailable,
+  Spinner,
   TaskChip,
 } from "raft-ui";
-import { MessagesSquare, MessageSquareQuote } from "lucide-react";
+import {
+  CircleOff,
+  Link as LinkIcon,
+  MessageCircle,
+  MessagesSquare,
+  MessageSquareQuote,
+  MessageSquareText,
+} from "lucide-react";
 
 import {
   MessageItem,
@@ -20,11 +33,9 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-  MessageReferenceBadge,
-  MessageReferenceChip,
-  MessageReferenceLabel,
 } from "raft-ui/wip";
 import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
+import { MessageMentionReferenceComposition } from "./reference-adapters.composition.tsx";
 
 export function MessageReferenceShowcaseComposition() {
   return (
@@ -44,18 +55,34 @@ export function MessageReferenceShowcaseComposition() {
           </MessageItemHeader>
           <MessageItemBody>
             <MarkdownParagraph>
-              Finish task{" "}
+              Please finish{" "}
               <TaskChip status="todo" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
                 #21
               </TaskChip>{" "}
-              before replying in{" "}
+              with{" "}
+              <MessageMentionReferenceComposition
+                preview={<p>Ada · current workspace member</p>}
+                variant="primary"
+              >
+                Ada
+              </MessageMentionReferenceComposition>{" "}
+              before posting the migration summary in{" "}
               <MessageReferenceChip
                 variant="accent"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
               >
                 <MessageReferenceBadge>thread</MessageReferenceBadge>
                 <MessagesSquare />
-                <MessageReferenceLabel>release-notes · reply</MessageReferenceLabel>
+                <MessageReferenceLabel>release-notes</MessageReferenceLabel>
+              </MessageReferenceChip>
+              {" or sending it to "}
+              <MessageReferenceChip
+                variant="accent"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}
+              >
+                <MessageReferenceBadge>dm</MessageReferenceBadge>
+                <MessageCircle />
+                <MessageReferenceLabel>Noah</MessageReferenceLabel>
               </MessageReferenceChip>
               .
             </MarkdownParagraph>
@@ -76,10 +103,10 @@ export function MessageReferenceShowcaseComposition() {
           </MessageItemHeader>
           <div className="mb-0.5">
             <MessageReferenceChip
-              variant="neutral"
+              variant="muted"
               render={
                 <a
-                  href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                  href={MESSAGE_PLAYGROUND_URLS.stateOwnershipAttachment}
                   title="Jump to state-ownership-migration-notes.md · § Ownership boundary"
                 />
               }
@@ -94,7 +121,73 @@ export function MessageReferenceShowcaseComposition() {
           <MarkdownBlockquote>
             The atom model is a better fit only if we keep server state out of the local store.
           </MarkdownBlockquote>
-          <MessageItemBody>Commented on the attachment source boundary.</MessageItemBody>
+          <MessageItemBody>
+            <MarkdownParagraph>
+              Track the rollout in{" "}
+              <MessageReferenceChip
+                variant="link"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
+              >
+                <MessageReferenceBadge>message</MessageReferenceBadge>
+                <MessageSquareText />
+                <MessageReferenceLabel>all</MessageReferenceLabel>
+              </MessageReferenceChip>
+              {" and review "}
+              <MessageReferenceChip
+                variant="link"
+                render={
+                  <a
+                    href="https://github.com/botiverse/rui/pull/125"
+                    rel="noreferrer"
+                    target="_blank"
+                  />
+                }
+              >
+                <MessageReferenceBadge>github.com</MessageReferenceBadge>
+                <LinkIcon />
+                <MessageReferenceLabel>rui#125 Compose message surfaces</MessageReferenceLabel>
+              </MessageReferenceChip>
+              {" before posting the final migration note in "}
+              <MessageReferenceChip
+                variant="info"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
+              >
+                <MessageReferenceBadge>thread</MessageReferenceBadge>
+                <MessagesSquare />
+                <MessageReferenceLabel>release-notes</MessageReferenceLabel>
+              </MessageReferenceChip>
+              .
+            </MarkdownParagraph>
+          </MessageItemBody>
+        </MessageItemContent>
+      </MessageItem>
+      <MessageItem>
+        <MessageItemAvatarSlot>
+          <Avatar size="md" type="agent">
+            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+            <AvatarFallback>AT</AvatarFallback>
+          </Avatar>
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Atlas</MessageItemSender>
+            <MessageItemTime>2:22 PM</MessageItemTime>
+          </MessageItemHeader>
+          <MessageItemBody>
+            <MarkdownParagraph>
+              I&apos;m still resolving{" "}
+              <MessageReferencePending>
+                <Spinner size="xs" />
+                release-notes
+              </MessageReferencePending>
+              . The earlier{" "}
+              <MessageReferenceUnavailable>
+                <CircleOff size={12} />
+                release-notes
+              </MessageReferenceUnavailable>{" "}
+              thread was removed, so keep missing in the draft until its target is confirmed.
+            </MarkdownParagraph>
+          </MessageItemBody>
         </MessageItemContent>
       </MessageItem>
     </div>

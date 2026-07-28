@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Hash } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, MarkdownParagraph } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MarkdownParagraph,
+  MessageReferenceBadge,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+} from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -11,9 +19,6 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  MessageReferenceBadge,
-  MessageReferenceChip,
-  MessageReferenceLabel,
 } from "raft-ui/wip";
 
 import {
@@ -53,11 +58,19 @@ export function MessageReferenceComparisonComposition() {
                 >
                   @Atlas
                 </MessageMentionReferenceComposition>{" "}
-                to check the{" "}
+                or{" "}
+                <MessageMentionReferenceComposition
+                  portalContainer={portalContainer}
+                  preview={<p>Ada · current workspace member</p>}
+                  variant="primary"
+                >
+                  Ada
+                </MessageMentionReferenceComposition>{" "}
+                to review the linked message in{" "}
                 <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
-                  #all
+                  all
                 </MessageTargetReferenceComposition>{" "}
-                rollout in{" "}
+                before posting the rollout in{" "}
                 <MessageReferenceChip
                   variant="accent"
                   render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}

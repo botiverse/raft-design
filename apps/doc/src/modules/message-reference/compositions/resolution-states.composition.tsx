@@ -1,21 +1,18 @@
-import { Spinner } from "raft-ui";
-import { CircleHelp, CircleOff } from "lucide-react";
-import { MessageReferencePending, MessageReferenceUnavailable } from "raft-ui/wip";
+import { MessageReferencePending, MessageReferenceUnavailable, Spinner } from "raft-ui";
+import { CircleOff } from "lucide-react";
 
 export function MessageReferenceResolutionStatesComposition() {
   return (
     <p className="text-sm text-foreground">
       <MessageReferencePending>
-        release-notes · abc123 <Spinner size="xs" />
+        <Spinner size="xs" />
+        release-notes
       </MessageReferencePending>{" "}
       <MessageReferenceUnavailable>
         <CircleOff size={12} />
-        release-notes · missing-parent
+        release-notes
       </MessageReferenceUnavailable>{" "}
-      <MessageReferenceUnavailable>
-        <CircleHelp size={12} />
-        missing
-      </MessageReferenceUnavailable>
+      missing
     </p>
   );
 }

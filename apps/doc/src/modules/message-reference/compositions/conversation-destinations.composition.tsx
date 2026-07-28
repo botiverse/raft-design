@@ -1,5 +1,5 @@
 import { Hash, MessageCircle, MessagesSquare, MessageSquareText } from "lucide-react";
-import { MessageReferenceBadge, MessageReferenceChip, MessageReferenceLabel } from "raft-ui/wip";
+import { MessageReferenceBadge, MessageReferenceChip, MessageReferenceLabel } from "raft-ui";
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReferenceConversationDestinationsComposition() {
@@ -37,7 +37,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         >
           <MessageReferenceBadge>thread</MessageReferenceBadge>
           <MessagesSquare />
-          <MessageReferenceLabel>release-notes · abc123</MessageReferenceLabel>
+          <MessageReferenceLabel>release-notes</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Thread</span>
@@ -50,7 +50,7 @@ export function MessageReferenceConversationDestinationsComposition() {
         >
           <MessageReferenceBadge>message</MessageReferenceBadge>
           <MessageSquareText />
-          <MessageReferenceLabel>all · api-docs</MessageReferenceLabel>
+          <MessageReferenceLabel>all</MessageReferenceLabel>
         </MessageReferenceChip>
         {/* @docs-source-strip-start */}
         <span className="text-[12px] leading-[1.4] text-foreground-muted">Message</span>

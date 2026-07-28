@@ -1,9 +1,8 @@
 import type { Components } from "react-markdown";
 import { useMemo } from "react";
-import { MarkdownLink, TaskChip } from "raft-ui";
+import { MarkdownLink, MessageReferenceChip, MessageReferenceText, TaskChip } from "raft-ui";
 import { type MarkdownPluginList } from "#/lib/markdown/markdown-plugins.ts";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
-import { MessageReferenceChip, MessageReferenceText } from "raft-ui/wip";
 import { createRemarkReferences } from "#/lib/markdown/create-remark-references.ts";
 import { markdownReferenceSanitizeSchema } from "#/lib/markdown/markdown-reference-sanitize-schema.ts";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
@@ -57,16 +56,11 @@ function createPlaygroundMarkdownComponents(channelId?: string): Components {
         const actor = ACTORS_BY_NAME.get(reference.name.toLocaleLowerCase());
         if (!actor) return <>{children}</>;
 
-        if (actor.id === VIEWER_ACTOR_ID) {
-          return (
-            <MessageReferenceChip variant="primary" title={`${actor.name} · ${actor.meta}`}>
-              {children}
-            </MessageReferenceChip>
-          );
-        }
-
         return (
-          <MessageReferenceText title={`${actor.name} · ${actor.meta}`}>
+          <MessageReferenceText
+            variant={actor.id === VIEWER_ACTOR_ID ? "primary" : "secondary"}
+            title={`${actor.name} · ${actor.meta}`}
+          >
             {children}
           </MessageReferenceText>
         );

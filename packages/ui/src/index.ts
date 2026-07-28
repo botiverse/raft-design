@@ -706,6 +706,27 @@ export type {
   MarkdownTableScrollProps,
 } from "./components/markdown/index";
 
+export {
+  MessageReferenceBadge,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  MessageReferenceMeta,
+  MessageReferencePending,
+  MessageReferenceText,
+  MessageReferenceUnavailable,
+} from "./components/message-item/index";
+export type {
+  MessageReferenceBadgeProps,
+  MessageReferenceChipProps,
+  MessageReferenceChipVariant,
+  MessageReferenceLabelProps,
+  MessageReferenceMetaProps,
+  MessageReferencePendingProps,
+  MessageReferenceTextProps,
+  MessageReferenceTextVariant,
+  MessageReferenceUnavailableProps,
+} from "./components/message-item/index";
+
 export { Kbd, KbdGroup } from "./components/kbd/index";
 export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
 

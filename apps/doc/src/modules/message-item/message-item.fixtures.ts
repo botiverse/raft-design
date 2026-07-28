@@ -17,6 +17,8 @@ export const MESSAGE_PLAYGROUND_URLS = {
   noahDmThread: "/playground/s/raft/dm/dm-noah?thread=dm-noah%3Areply",
   releaseNotesChannel: "/playground/s/raft/channel/release-notes",
   releaseNotesThread: "/playground/s/raft/channel/release-notes?thread=release-notes%3Areply",
+  stateOwnershipAttachment:
+    "/playground/s/raft/channel/all?thread=all%3Astate-model#thread-message-all%3Astate-model",
   stateModelTask: "/playground/s/raft/channel/all?thread=all%3Astate-model&from=tasks",
 } as const;
 

@@ -1,10 +1,8 @@
 import type { Components } from "react-markdown";
-import { MarkdownLink, TaskChip } from "raft-ui";
-import { MessageReferenceChip } from "raft-ui/wip";
+import { MarkdownLink, MessageReferenceChip, TaskChip } from "raft-ui";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
 import {
   MessageMentionReferenceComposition,
-  MessageSelfMentionReferenceComposition,
   MessageTargetReferenceComposition,
 } from "./compositions/reference-adapters.composition.tsx";
 import {
@@ -46,15 +44,15 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
         const actor = findActor(reference.name);
         if (!actor) return <>{children}</>;
 
-        const Mention = actor.self
-          ? MessageSelfMentionReferenceComposition
-          : MessageMentionReferenceComposition;
-
-        // The adapters strip the sigil off a string label, so pass the resolved name.
+        // Pass the resolved name so the adapter can restore the mention sigil consistently.
         return (
-          <Mention portalContainer={portalContainer} preview={<p>{actor.preview}</p>}>
+          <MessageMentionReferenceComposition
+            portalContainer={portalContainer}
+            preview={<p>{actor.preview}</p>}
+            variant={actor.self ? "primary" : "secondary"}
+          >
             {actor.name}
-          </Mention>
+          </MessageMentionReferenceComposition>
         );
       }
 
@@ -85,7 +83,7 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
       if (reference.shortId) {
         return (
           <MessageReferenceChip variant="info" render={<a href={channel.threadHref} />}>
-            {children}
+            {channel.name}
           </MessageReferenceChip>
         );
       }
