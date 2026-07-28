@@ -7,11 +7,8 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import referenceAdaptersSource from "#/modules/message-reference/compositions/reference-adapters.composition.tsx?raw";
-import { MessageReferenceComparisonComposition } from "#/modules/message-reference/compositions/reference-comparison.composition.tsx";
 import referenceComparisonSource from "#/modules/message-reference/compositions/reference-comparison.composition.tsx?raw";
 import { MessageReferenceAttachmentCommentsComposition } from "#/modules/message-reference/compositions/attachment-comments.composition.tsx";
 import attachmentCommentsSource from "#/modules/message-reference/compositions/attachment-comments.composition.tsx?raw";
@@ -25,7 +22,6 @@ import { MessageReferenceResolutionStatesComposition } from "#/modules/message-r
 import resolutionStatesSource from "#/modules/message-reference/compositions/resolution-states.composition.tsx?raw";
 import { MessageReferenceShowcaseComposition } from "#/modules/message-reference/compositions/reference-showcase.composition.tsx";
 import referenceShowcaseSource from "#/modules/message-reference/compositions/reference-showcase.composition.tsx?raw";
-import { MessageReferenceSourcePreview } from "#/modules/message-reference/message-reference.source-preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -33,31 +29,6 @@ const TOC = [
   { id: "usage", title: "Usage" },
   { id: "reference-states", title: "Reference states" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock message references",
-    scenes: [
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-      {
-        label: "MentionLink.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MentionLink.tsx",
-      },
-      {
-        label: "ReferenceChip.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ReferenceChip.tsx",
-      },
-      {
-        label: "AttachmentCommentRefChip.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/AttachmentCommentRefChip.tsx",
-      },
-    ],
-  },
 ] as const;
 
 const ANATOMY_SOURCE = `<MessageReferenceText render={<button type="button" />}>
@@ -323,33 +294,6 @@ function MessageReferenceDoc() {
             <PropsTable rows={PARTS} nameColumnLabel="Part" />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Inline references in a message row",
-              status: "review",
-              note: "The Source pane is a static fixture extracted from the real MessageItem, MentionLink, ReferenceChip, and AttachmentCommentRefChip DOM; the three Current panes execute the canonical message composition.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="w-full">
-                  <MessageReferenceSourcePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <MessageReferenceComparisonComposition />,
-              elegant: <MessageReferenceComparisonComposition />,
-              elegantDark: <MessageReferenceComparisonComposition />,
-              compositionCode: code.referenceComparison,
-              compositionCollapsedCode: code.referenceComparisonBody,
-              compositionPath:
-                "apps/doc/src/modules/message-reference/compositions/reference-comparison.composition.tsx",
-              compositionSource: referenceComparisonSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );
