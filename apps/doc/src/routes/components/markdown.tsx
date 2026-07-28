@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -8,27 +7,17 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import markdownComponentsSource from "#/lib/markdown/create-markdown-components.tsx?raw";
+import markdownComponentsSource from "#/lib/markdown/markdown-components.tsx?raw";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import markdownRendererSource from "#/lib/markdown/markdown.tsx?raw";
-import { renderShikiCodeBlock } from "#/lib/markdown/render-shiki-code-block.tsx";
-import shikiCodeBlockSource from "#/lib/markdown/render-shiki-code-block.tsx?raw";
 import { plainSnippet } from "#/lib/plain-snippet.ts";
-import { MARKDOWN_SOURCE } from "#/modules/markdown/markdown.fixtures.ts";
+import markdownInputSource from "#/modules/markdown/markdown-input.md?raw";
 
-const MARKDOWN_COMPONENTS_PATH = "apps/doc/src/lib/markdown/create-markdown-components.tsx";
+const MARKDOWN_COMPONENTS_PATH = "apps/doc/src/lib/markdown/markdown-components.tsx";
 const MARKDOWN_RENDERER_PATH = "apps/doc/src/lib/markdown/markdown.tsx";
-const SHIKI_CODE_BLOCK_PATH = "apps/doc/src/lib/markdown/render-shiki-code-block.tsx";
 
-const PREVIEW_INPUT_HTML = plainSnippet(MARKDOWN_SOURCE);
-
-const USAGE_SOURCE = `const components = {
-  p: (props) => <MarkdownParagraph {...props} />,
-  a: (props) => <MarkdownLink {...props} />,
-  // ...one part per node
-};
-
-<ReactMarkdown components={components}>{source}</ReactMarkdown>`;
+const MARKDOWN_INPUT_PATH = "apps/doc/src/modules/markdown/markdown-input.md";
+const MARKDOWN_INPUT_HTML = plainSnippet(markdownInputSource);
 
 const ANATOMY_SOURCE = `<MarkdownHeading level={2} />
 <MarkdownParagraph>
@@ -74,9 +63,14 @@ const PROPS: readonly PropRow[] = [
       "Link. Only the anchors a renderer maps here are styled, so reference chips passed as node overrides keep their own treatment.",
   },
   {
-    name: "MarkdownList / MarkdownOrderedList",
-    type: 'ComponentPropsWithRef<"ul"> / ComponentPropsWithRef<"ol">',
-    description: "Lists. Both share one slot; the ordered one switches the marker.",
+    name: "MarkdownList",
+    type: 'ComponentPropsWithRef<"ul">',
+    description: "Bulleted list.",
+  },
+  {
+    name: "MarkdownOrderedList",
+    type: 'ComponentPropsWithRef<"ol">',
+    description: "Numbered list. Shares the list slot and only switches the marker.",
   },
   {
     name: "MarkdownListItem",
@@ -119,31 +113,31 @@ const PROPS: readonly PropRow[] = [
     description: "Horizontal scroll container. Wrap the table in it so wide tables never overflow.",
   },
   {
-    name: "MarkdownTable / MarkdownTableRow",
-    type: 'ComponentPropsWithRef<"table"> / ComponentPropsWithRef<"tr">',
-    description: "Table and row. The last row drops its bottom border.",
+    name: "MarkdownTable",
+    type: 'ComponentPropsWithRef<"table">',
+    description: "Table. Borders live on the cells, not here.",
   },
   {
-    name: "MarkdownHeaderCell / MarkdownCell",
-    type: 'ComponentPropsWithRef<"th"> / ComponentPropsWithRef<"td">',
-    description: "Cells. Dividers come from the cells themselves, not from the table.",
+    name: "MarkdownTableRow",
+    type: 'ComponentPropsWithRef<"tr">',
+    description: "Table row. The last one drops its cells' bottom border.",
+  },
+  {
+    name: "MarkdownHeaderCell",
+    type: 'ComponentPropsWithRef<"th">',
+    description: "Header cell. Carries the header surface and the column divider.",
+  },
+  {
+    name: "MarkdownCell",
+    type: 'ComponentPropsWithRef<"td">',
+    description: "Body cell. Carries the row and column dividers.",
   },
 ];
 
-function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
-  return (
-    <Preview previewClassName="items-stretch">
-      <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code html={code} />
-    </Preview>
-  );
-}
-
 const TOC = [
   { id: "preview", title: "Preview" },
-  { id: "input", title: "Markdown input" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "wiring", title: "Wiring a renderer" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -155,8 +149,6 @@ export const Route = createFileRoute("/components/markdown")({
         anatomy: ANATOMY_SOURCE,
         markdownComponents: markdownComponentsSource,
         markdownRenderer: markdownRendererSource,
-        shikiCodeBlock: shikiCodeBlockSource,
-        usage: USAGE_SOURCE,
       },
     }),
 });
@@ -178,17 +170,26 @@ function MarkdownDoc() {
       </DocNote>
 
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.usage}>
-          <Markdown renderCode={renderShikiCodeBlock}>{MARKDOWN_SOURCE}</Markdown>
-        </UsagePreview>
-      </DocSection>
-
-      <DocSection id="input" title="Markdown input">
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={PREVIEW_INPUT_HTML} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
+        <Preview previewClassName="items-stretch">
+          <Preview.Canvas>
+            <Markdown>{markdownInputSource}</Markdown>
+          </Preview.Canvas>
+          <Preview.Code
+            codeBlock={
+              <DocsCodeBlock.Files
+                collapsible={false}
+                showLineNumbers={false}
+                files={[
+                  {
+                    path: MARKDOWN_INPUT_PATH,
+                    source: markdownInputSource,
+                    html: MARKDOWN_INPUT_HTML,
+                  },
+                ]}
+              />
+            }
+          />
+        </Preview>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -199,7 +200,7 @@ function MarkdownDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="wiring" title="Wiring a renderer">
+      <DocSection id="usage" title="Usage">
         <DocsCodeBlock.Files
           files={[
             {
@@ -213,12 +214,6 @@ function MarkdownDoc() {
               source: markdownRendererSource,
               html: code.markdownRenderer,
               collapsedHtml: code.markdownRendererBody,
-            },
-            {
-              path: SHIKI_CODE_BLOCK_PATH,
-              source: shikiCodeBlockSource,
-              html: code.shikiCodeBlock,
-              collapsedHtml: code.shikiCodeBlockBody,
             },
           ]}
         />

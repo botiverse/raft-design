@@ -7,7 +7,6 @@ import { MessageReferenceChip, MessageReferenceText } from "raft-ui/wip";
 import { createRemarkReferences } from "#/lib/markdown/create-remark-references.ts";
 import { markdownReferenceSanitizeSchema } from "#/lib/markdown/markdown-reference-sanitize-schema.ts";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
-import { renderShikiCodeBlock } from "#/lib/markdown/render-shiki-code-block.tsx";
 
 import {
   getPlaygroundThread,
@@ -134,7 +133,6 @@ export function PlaygroundMessageBody({
     <Markdown
       additionalRemarkPlugins={PLAYGROUND_REMARK_PLUGINS}
       components={components}
-      renderCode={renderShikiCodeBlock}
       sanitizeSchema={markdownReferenceSanitizeSchema}
     >
       {content}

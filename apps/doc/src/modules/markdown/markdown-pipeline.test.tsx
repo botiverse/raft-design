@@ -3,14 +3,11 @@ import { describe, expect, it } from "vitest";
 import type { Components } from "react-markdown";
 import { ThemeProvider } from "raft-ui";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
-import { renderShikiCodeBlock } from "#/lib/markdown/render-shiki-code-block.tsx";
 
 function renderMarkdown(source: string, components?: Components) {
   return renderToStaticMarkup(
     <ThemeProvider theme="elegant" syncDom={false}>
-      <Markdown components={components} renderCode={renderShikiCodeBlock}>
-        {source}
-      </Markdown>
+      <Markdown components={components}>{source}</Markdown>
     </ThemeProvider>,
   );
 }

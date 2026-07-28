@@ -49,10 +49,6 @@ export const markdown = tv({
         ],
         cell: ["border border-black px-3 py-1.5"],
         image: ["my-2 border-2 border-black"],
-        inlineCode: [
-          "rounded-none border-0 bg-black/[0.05] px-1 py-0",
-          "[font-size:0.875em] font-mono font-normal leading-[calc(1.7142857em+2px)] text-black [overflow-wrap:break-word]",
-        ],
       },
       elegant: {
         heading: ["font-medium text-foreground-strong"],
@@ -80,11 +76,7 @@ export const markdown = tv({
         ],
         cell: ["px-3 py-1.5", "border-0 border-b border-ink-6 not-last:border-r"],
         image: ["my-2 rounded-md border border-line-subtle"],
-        inlineCode: [
-          "inline rounded-sm px-1 py-0",
-          "bg-layer-strong font-mono text-[0.92em] font-normal leading-[inherit] text-foreground-strong",
-          "[overflow-wrap:anywhere]",
-        ],
+        inlineCode: ["inline leading-[inherit] [overflow-wrap:anywhere]"],
       },
     },
   },

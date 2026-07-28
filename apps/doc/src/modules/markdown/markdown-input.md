@@ -1,7 +1,4 @@
-import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
-
-/** Exhaustive Markdown input covering every node the renderer supports. */
-export const MARKDOWN_SOURCE = `# Heading 1
+# Heading 1
 
 ## Heading 2
 
@@ -13,7 +10,7 @@ export const MARKDOWN_SOURCE = `# Heading 1
 
 ###### Heading 6
 
-Inline: **bold**, _italic_, ~~strikethrough~~, \`inline code\`, plus escaped \\*literal\\* asterisks.
+Inline: **bold**, _italic_, ~~strikethrough~~, `inline code`, plus escaped \*literal\* asterisks.
 
 First line
 hard-break second line.
@@ -38,16 +35,16 @@ Raw user HTML is escaped as text: &lt;span&gt;not message markup&lt;/span&gt;.
 
 ---
 
-| Token | Surface |
-| --- | --- |
-| layer-panel | panel |
-| line-strong | border |
+| Token       | Surface |
+| ----------- | ------- |
+| layer-panel | panel   |
+| line-strong | border  |
 
-![markdown embed](${COMPOSER_IMAGE_SRC})
+![markdown embed](https://images.unsplash.com/photo-1756891675732-62eb5872f8e5?auto=format&fit=crop&w=800&q=80)
 
 Here is the loader I landed — no highlighting, just the mono block.
 
-\`\`\`ts
+```ts
 const tokens = load();
 console.log(tokens.layerPanel);
-\`\`\``;
+```

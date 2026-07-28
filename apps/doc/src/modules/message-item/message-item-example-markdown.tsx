@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
-import { renderShikiCodeBlock } from "#/lib/markdown/render-shiki-code-block.tsx";
 import { markdownReferenceSanitizeSchema } from "#/lib/markdown/markdown-reference-sanitize-schema.ts";
 import { createExampleReferenceComponents } from "#/modules/message-reference/create-example-reference-components.tsx";
 import { EXAMPLE_REFERENCE_REMARK_PLUGINS } from "#/modules/message-reference/example-reference-remark-plugins.ts";
@@ -44,7 +43,6 @@ function ExampleMarkdown({ portalContainer, source }: ExampleMarkdownProps & { s
     <Markdown
       additionalRemarkPlugins={EXAMPLE_REFERENCE_REMARK_PLUGINS}
       components={components}
-      renderCode={renderShikiCodeBlock}
       sanitizeSchema={markdownReferenceSanitizeSchema}
     >
       {source}

@@ -40,8 +40,7 @@ import {
 } from "#/modules/message-item/message-item-example-markdown.tsx";
 import { MessageRowToolbar } from "./row-toolbar.composition.tsx";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
-import { renderShikiCodeBlock } from "#/lib/markdown/render-shiki-code-block.tsx";
-import { MARKDOWN_SOURCE } from "#/modules/markdown/markdown.fixtures.ts";
+import markdownInputSource from "#/modules/markdown/markdown-input.md?raw";
 import { MessageImageGallerySingleComposition } from "#/modules/message-media/compositions/image-gallery-single.composition.tsx";
 import { MessageVideoPreviewComposition } from "#/modules/message-media/compositions/video-states.composition.tsx";
 import { MessageFileAttachmentsComposition } from "#/modules/message-attachment/compositions/file-attachments.composition.tsx";
@@ -191,7 +190,7 @@ export function MessageItemPreview({
     ) : translationState === "failed" ? (
       <Markdown>{originalTranslation}</Markdown>
     ) : markdown ? (
-      <Markdown renderCode={renderShikiCodeBlock}>{MARKDOWN_SOURCE}</Markdown>
+      <Markdown>{markdownInputSource}</Markdown>
     ) : (
       <MessageItemExampleMarkdown portalContainer={portalContainer} />
     );

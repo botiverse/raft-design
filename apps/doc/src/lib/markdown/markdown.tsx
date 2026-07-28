@@ -2,10 +2,8 @@ import type { Components } from "react-markdown";
 import type { Options as RehypeSanitizeOptions } from "rehype-sanitize";
 import { memo, useMemo, type ComponentPropsWithRef } from "react";
 import ReactMarkdown from "react-markdown";
-import {
-  createMarkdownComponents,
-  type MarkdownCodeRenderer,
-} from "./create-markdown-components.tsx";
+import { MarkdownCodeFence } from "./markdown-code-fence.tsx";
+import { MARKDOWN_COMPONENTS } from "./markdown-components.tsx";
 import {
   createMarkdownRehypePlugins,
   markdownSanitizeSchema,
@@ -20,8 +18,6 @@ export type MarkdownProps = Omit<ComponentPropsWithRef<"div">, "children"> & {
   children: string;
   /** Node overrides layered over the default part mapping. */
   components?: Components;
-  /** Replaces the fenced code frame, for highlighting or header actions. */
-  renderCode?: MarkdownCodeRenderer;
   /** Sanitize policy. Extend the exported default when plugins add attributes. */
   sanitizeSchema?: RehypeSanitizeOptions;
 };
@@ -31,14 +27,13 @@ export const Markdown = memo(function Markdown({
   additionalRemarkPlugins,
   children,
   components,
-  renderCode,
   sanitizeSchema = markdownSanitizeSchema,
   ...rootProps
 }: MarkdownProps) {
-  const markdownComponents = useMemo(() => {
-    const defaults = createMarkdownComponents(renderCode);
-    return components ? { ...defaults, ...components } : defaults;
-  }, [components, renderCode]);
+  const markdownComponents = useMemo(
+    () => ({ ...MARKDOWN_COMPONENTS, pre: MarkdownCodeFence, ...components }),
+    [components],
+  );
   const remarkPlugins = useMemo(
     () =>
       additionalRemarkPlugins
