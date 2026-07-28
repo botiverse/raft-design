@@ -310,7 +310,7 @@ function ContextMenuCheckIcon() {
         strokeWidth="1"
         stroke="currentColor"
       >
-        <path d="M1.75391 6.41392L4.4001 9.24985L10.2467 2.98532" />
+        <path d="M1.75 6.41L4.4 9.25L10.25 2.99" />
       </g>
     </svg>
   );

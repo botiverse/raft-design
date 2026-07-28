@@ -25,9 +25,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import {
   Children,
-  createContext,
   isValidElement,
-  use,
   useCallback,
   useId,
   useMemo,
@@ -47,11 +45,7 @@ export type SortableComposerAttachmentsProps = {
 
 type SortableAttachmentsAxis = "x" | "xy";
 
-type OverlayRegistry = {
-  register: (id: string, node: ReactNode) => void;
-};
-
-const OverlayRegistryContext = createContext<OverlayRegistry | null>(null);
+type SortableAttachmentElement = ReactElement<{ children?: ReactNode }>;
 
 const SORTABLE_TRANSITION = {
   duration: 160,
@@ -114,16 +108,16 @@ function samePointer(a: { x: number; y: number }, b: { x: number; y: number }, t
   return Math.abs(a.x - b.x) <= tolerance && Math.abs(a.y - b.y) <= tolerance;
 }
 
-function orderChildrenByIds(children: ReactNode, ids: readonly string[]) {
-  const byId = new Map<string, ReactElement>();
+/** Attachment tiles keyed by id; also the source of the DragOverlay ghost content. */
+function attachmentsById(children: ReactNode) {
+  const byId = new Map<string, SortableAttachmentElement>();
   Children.forEach(children, (child) => {
-    if (!isValidElement<{ id?: string }>(child) || child.props.id == null) return;
+    if (!isValidElement<{ id?: string; children?: ReactNode }>(child) || child.props.id == null) {
+      return;
+    }
     byId.set(String(child.props.id), child);
   });
-  return ids.flatMap((id) => {
-    const child = byId.get(id);
-    return child ? [child] : [];
-  });
+  return byId;
 }
 
 function SortableComposerAttachmentsRoot({
@@ -142,11 +136,8 @@ function SortableComposerAttachmentsRoot({
   const [draftIds, setDraftIds] = useState<string[]>([]);
   const [overlay, setOverlay] = useState<ReactNode>(null);
   const [listMinHeight, setListMinHeight] = useState<number | undefined>();
-  const overlaysRef = useRef(new Map<string, ReactNode>());
-  const draftIdsRef = useRef(draftIds);
-  draftIdsRef.current = draftIds;
-  const itemsRef = useRef(items);
-  itemsRef.current = items;
+  // Mirrors draftIds for the drag handlers; owned by them, reset on every drag start.
+  const draftIdsRef = useRef<string[]>([]);
   // Ignore collision flips caused by our own layout update while the pointer is still.
   const lastReorderPointerRef = useRef<{ x: number; y: number } | null>(null);
 
@@ -156,25 +147,19 @@ function SortableComposerAttachmentsRoot({
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
-  // Rebuild overlay nodes each render; tiles register during render (no effect).
-  overlaysRef.current = new Map();
-  const registry = useMemo<OverlayRegistry>(
-    () => ({
-      register: (id, node) => {
-        overlaysRef.current.set(id, node);
-      },
-    }),
-    [],
-  );
-
+  const attachments = useMemo(() => attachmentsById(children), [children]);
   const itemIds = useMemo(() => items.map(String), [items]);
   const horizontal = axis === "x";
   // Live draft order drives the DOM during drag so the opacity-0 slot tracks the
   // drop index. Wrap uses liveReorderStrategy (null); horizontal keeps its strategy.
   const displayIds = activeId !== null ? draftIds : itemIds;
   const orderedChildren = useMemo(
-    () => orderChildrenByIds(children, displayIds),
-    [children, displayIds],
+    () =>
+      displayIds.flatMap((id) => {
+        const child = attachments.get(id);
+        return child ? [child] : [];
+      }),
+    [attachments, displayIds],
   );
 
   const listClassName = horizontal
@@ -187,7 +172,7 @@ function SortableComposerAttachmentsRoot({
     ({ active }: DragStartEvent) => {
       const id = String(active.id);
       lastReorderPointerRef.current = null;
-      const nextDraft = itemsRef.current.map(String);
+      const nextDraft = [...itemIds];
       draftIdsRef.current = nextDraft;
       setDraftIds(nextDraft);
       // Lock wrap height so packing reflow cannot collapse the shell mid-drag.
@@ -195,9 +180,9 @@ function SortableComposerAttachmentsRoot({
         setListMinHeight(listRef.current.getBoundingClientRect().height);
       }
       setActiveId(id);
-      setOverlay(overlaysRef.current.get(id) ?? null);
+      setOverlay(attachments.get(id)?.props.children ?? null);
     },
-    [horizontal],
+    [attachments, horizontal, itemIds],
   );
 
   const handleDragOver = useCallback(({ active, over, activatorEvent, delta }: DragOverEvent) => {
@@ -221,6 +206,7 @@ function SortableComposerAttachmentsRoot({
 
   const clearDrag = useCallback(() => {
     lastReorderPointerRef.current = null;
+    draftIdsRef.current = [];
     setActiveId(null);
     setDraftIds([]);
     setOverlay(null);
@@ -257,18 +243,16 @@ function SortableComposerAttachmentsRoot({
       onDragCancel={handleDragCancel}
       onDragEnd={handleDragEnd}
     >
-      <OverlayRegistryContext.Provider value={registry}>
-        <div
-          ref={listRef}
-          data-slot="sortable-composer-attachments-list"
-          className={listClassName}
-          style={listMinHeight != null ? { minHeight: listMinHeight } : undefined}
-        >
-          <SortableContext items={displayIds} strategy={strategy}>
-            {orderedChildren}
-          </SortableContext>
-        </div>
-      </OverlayRegistryContext.Provider>
+      <div
+        ref={listRef}
+        data-slot="sortable-composer-attachments-list"
+        className={listClassName}
+        style={listMinHeight != null ? { minHeight: listMinHeight } : undefined}
+      >
+        <SortableContext items={displayIds} strategy={strategy}>
+          {orderedChildren}
+        </SortableContext>
+      </div>
       <DragOverlay dropAnimation={null} modifiers={modifiers}>
         {activeId && overlay ? (
           <div className="w-max max-w-full shrink-0 cursor-grabbing">{overlay}</div>
@@ -304,17 +288,15 @@ export type SortableComposerAttachmentProps = {
 
 /**
  * Sized placeholder stays in the flex flow (opacity 0). DragOverlay is the
- * pointer ghost. Live draft reorder moves this slot to the drop index; wrap
- * skips strategy transforms so siblings FLIP via layout instead of wrong gaps.
+ * pointer ghost — the root reads these `children` for it. Live draft reorder
+ * moves this slot to the drop index; wrap skips strategy transforms so siblings
+ * FLIP via layout instead of wrong gaps.
  */
 export function SortableComposerAttachment({
   id,
   label,
   children,
 }: SortableComposerAttachmentProps) {
-  const registry = use(OverlayRegistryContext);
-  registry?.register(id, children);
-
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
     animateLayoutChanges: defaultAnimateLayoutChanges,

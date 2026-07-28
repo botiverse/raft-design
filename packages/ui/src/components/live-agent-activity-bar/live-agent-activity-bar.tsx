@@ -73,8 +73,11 @@ function ElegantLiveAgentActivityMotion({
     children: ReactNode;
     motion: "entering" | "entered" | "exiting";
   }>({ children, motion: "entered" });
+  const [renderedChildren, setRenderedChildren] = useState(children);
 
-  useEffect(() => {
+  // Derive the transition during render so the bar never paints the stale value.
+  if (children !== renderedChildren) {
+    setRenderedChildren(children);
     setTransition((previous) => {
       if (children != null) {
         const motion =
@@ -86,7 +89,7 @@ function ElegantLiveAgentActivityMotion({
 
       return previous.children == null ? previous : { ...previous, motion: "exiting" };
     });
-  }, [children]);
+  }
 
   useEffect(() => {
     if (transition.motion !== "entering") return;
