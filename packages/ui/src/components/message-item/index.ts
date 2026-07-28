@@ -210,6 +210,7 @@ export type {
   MessageReferenceMetaProps,
   MessageReferencePendingProps,
   MessageReferenceTextProps,
+  MessageReferenceTextVariant,
   MessageReferenceUnavailableProps,
 } from "./message-reference";
 export type {

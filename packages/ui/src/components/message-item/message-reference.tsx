@@ -1,10 +1,14 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { messageReference, type MessageReferenceChipVariant } from "./message-reference.recipe";
+import {
+  messageReference,
+  type MessageReferenceChipVariant,
+  type MessageReferenceTextVariant,
+} from "./message-reference.recipe";
 import { type SlotElementProps } from "../../lib/data-attributes";
 
-export type { MessageReferenceChipVariant };
+export type { MessageReferenceChipVariant, MessageReferenceTextVariant };
 
 type SpanProps = useRender.ComponentProps<"span">;
 
@@ -26,11 +30,18 @@ function useReferenceRender(
   });
 }
 
-export type MessageReferenceTextProps = SpanProps;
+export type MessageReferenceTextProps = SpanProps & {
+  variant?: MessageReferenceTextVariant;
+};
 
-export function MessageReferenceText({ className, render, ...props }: MessageReferenceTextProps) {
+export function MessageReferenceText({
+  className,
+  render,
+  variant = "secondary",
+  ...props
+}: MessageReferenceTextProps) {
   const theme = useThemeFamily();
-  const { root } = messageReference({ theme, variant: "mention" });
+  const { root } = messageReference({ theme, variant });
 
   return useReferenceRender(root({ className }), render, props);
 }

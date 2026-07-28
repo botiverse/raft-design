@@ -10,8 +10,6 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import referenceAdaptersSource from "#/modules/message-reference/compositions/reference-adapters.composition.tsx?raw";
 import referenceComparisonSource from "#/modules/message-reference/compositions/reference-comparison.composition.tsx?raw";
-import { MessageReferenceAttachmentCommentsComposition } from "#/modules/message-reference/compositions/attachment-comments.composition.tsx";
-import attachmentCommentsSource from "#/modules/message-reference/compositions/attachment-comments.composition.tsx?raw";
 import { MessageReferenceConversationDestinationsComposition } from "#/modules/message-reference/compositions/conversation-destinations.composition.tsx";
 import conversationDestinationsSource from "#/modules/message-reference/compositions/conversation-destinations.composition.tsx?raw";
 import { MessageReferenceExternalReferencesComposition } from "#/modules/message-reference/compositions/external-references.composition.tsx";
@@ -22,6 +20,8 @@ import { MessageReferenceResolutionStatesComposition } from "#/modules/message-r
 import resolutionStatesSource from "#/modules/message-reference/compositions/resolution-states.composition.tsx?raw";
 import { MessageReferenceShowcaseComposition } from "#/modules/message-reference/compositions/reference-showcase.composition.tsx";
 import referenceShowcaseSource from "#/modules/message-reference/compositions/reference-showcase.composition.tsx?raw";
+import { MessageReferenceTooltipHintComposition } from "#/modules/message-reference/compositions/tooltip-hint.composition.tsx";
+import tooltipHintSource from "#/modules/message-reference/compositions/tooltip-hint.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -31,18 +31,26 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const ANATOMY_SOURCE = `<MessageReferenceText render={<button type="button" />}>
-  @Ada
+const ANATOMY_SOURCE = `<MessageReferenceText variant="secondary" render={<button type="button" />}>
+  @Atlas
 </MessageReferenceText>
 
-<MessageReferenceChip variant="muted" render={<a href="…" />}>
-  #channel
-</MessageReferenceChip>
+<MessageReferenceText variant="primary" render={<button type="button" />}>
+  @Ada
+</MessageReferenceText>
 
 <MessageReferenceChip variant="muted" render={<a href="…" />}>
   <MessageReferenceBadge>message</MessageReferenceBadge>
   <MessageSquareText />
   <MessageReferenceLabel>message #222</MessageReferenceLabel>
+</MessageReferenceChip>
+
+<MessageReferenceChip variant="info" render={<a href="…" />}>
+  #release-notes
+</MessageReferenceChip>
+
+<MessageReferenceChip variant="link" render={<a href="…" />}>
+  external
 </MessageReferenceChip>
 
 <MessageReferencePending>Resolving…</MessageReferencePending>
@@ -51,13 +59,13 @@ const ANATOMY_SOURCE = `<MessageReferenceText render={<button type="button" />}>
 const SURFACES: readonly PropRow[] = [
   {
     name: "MessageReferenceText",
-    type: 'useRender.ComponentProps<"span">',
+    type: 'useRender.ComponentProps<"span"> & { variant?: "primary" | "secondary" }',
     description:
-      "Inline text-reference surface, for example a mention. The caller owns navigation and preview behavior.",
+      "Inline mention surface. Use primary for the current member; secondary is the default for everyone else. The caller owns navigation and preview behavior.",
   },
   {
     name: "MessageReferenceChip",
-    type: 'useRender.ComponentProps<"span"> & { variant?: "primary" | "accent" | "muted" | "info" | "neutral" | "link" }',
+    type: 'useRender.ComponentProps<"span"> & { variant?: "accent" | "muted" | "info" | "link" }',
     description:
       "Inline chip reference. Variant is visual only; use render={<a href=… />} when the consumer owns navigation.",
   },
@@ -159,7 +167,7 @@ export const Route = createFileRoute("/components/message-reference")({
         referenceShowcase: referenceShowcaseSource,
         peopleMentions: peopleMentionsSource,
         conversationDestinations: conversationDestinationsSource,
-        attachmentComments: attachmentCommentsSource,
+        tooltipHint: tooltipHintSource,
         externalReferences: externalReferencesSource,
         resolutionStates: resolutionStatesSource,
       },
@@ -196,9 +204,9 @@ function MessageReferenceDoc() {
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="people-mentions" title="People mentions">
             <p className="mb-3 text-sm text-foreground-muted">
-              Type <InlineCode>@Atlas</InlineCode> or <InlineCode>@you</InlineCode>. The consumer
-              owns member-preview behavior; use the text surface for another member and the primary
-              chip for the current member.
+              Type <InlineCode>@Atlas</InlineCode> or <InlineCode>@Ada</InlineCode>. The consumer
+              owns member-preview behavior; use the primary variant for the current member and
+              secondary for everyone else.
             </p>
             <UsagePreview code={code.peopleMentions} collapsedCode={code.peopleMentionsBody}>
               <MessageReferencePeopleMentionsComposition />
@@ -212,10 +220,10 @@ function MessageReferenceDoc() {
           >
             <p className="mb-3 text-sm text-foreground-muted">
               Use <InlineCode>#channel</InlineCode> for a channel,{" "}
-              <InlineCode>{"<dm:@member>"}</InlineCode> for a DM, or append{" "}
-              <InlineCode>:short-id</InlineCode> for a thread. A resolved message reference can
-              include its destination badge and label directly. Hovering the chip expands the badge
-              leftwards to name the destination type, without moving surrounding text.
+              <InlineCode>dm:@member</InlineCode> for a DM, or a thread reference for a resolved
+              parent. The visible label may omit its internal short ID. A resolved message reference
+              can include its destination badge and label directly. Hovering the chip expands the
+              badge leftwards to name the destination type, without moving surrounding text.
             </p>
             <UsagePreview
               code={code.conversationDestinations}
@@ -225,20 +233,14 @@ function MessageReferenceDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection
-            parentId="usage"
-            id="attachment-comment-context"
-            title="Attachment comment context"
-          >
+          <DocSubsection parentId="usage" id="tooltip-hint" title="Tooltip hint">
             <p className="mb-3 text-sm text-foreground-muted">
-              Compose the neutral chip with the attachment-comment badge and resolved target owned
-              by the message consumer.
+              Wrap the whole reference with <InlineCode>TooltipTrigger</InlineCode>, then anchor the
+              tooltip to its leading icon. Without <InlineCode>MessageReferenceBadge</InlineCode>,
+              hovering the chip shows its type above the icon instead of expanding the icon area.
             </p>
-            <UsagePreview
-              code={code.attachmentComments}
-              collapsedCode={code.attachmentCommentsBody}
-            >
-              <MessageReferenceAttachmentCommentsComposition />
+            <UsagePreview code={code.tooltipHint} collapsedCode={code.tooltipHintBody}>
+              <MessageReferenceTooltipHintComposition />
             </UsagePreview>
           </DocSubsection>
 
@@ -248,11 +250,10 @@ function MessageReferenceDoc() {
             title="Permalinks and external links"
           >
             <p className="mb-3 text-sm text-foreground-muted">
-              Use the muted chip for an in-product permalink and the link chip for a target outside
-              the workspace. The source qualifier lives in{" "}
-              <InlineCode>MessageReferenceBadge</InlineCode> and is revealed on hover, so the
-              resting chip stays a plain label; the consumer owns <InlineCode>target</InlineCode>{" "}
-              and <InlineCode>rel</InlineCode>.
+              Use the link chip for both an in-product permalink and a target outside the workspace.
+              The source qualifier lives in <InlineCode>MessageReferenceBadge</InlineCode> and is
+              revealed on hover, so the resting chip stays a plain label; the consumer owns{" "}
+              <InlineCode>target</InlineCode> and <InlineCode>rel</InlineCode>.
             </p>
             <UsagePreview
               code={code.externalReferences}

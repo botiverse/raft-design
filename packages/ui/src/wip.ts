@@ -332,6 +332,7 @@ export type {
   MessageReferenceMetaProps,
   MessageReferencePendingProps,
   MessageReferenceTextProps,
+  MessageReferenceTextVariant,
   MessageReferenceUnavailableProps,
 } from "./components/message-item/index";
 

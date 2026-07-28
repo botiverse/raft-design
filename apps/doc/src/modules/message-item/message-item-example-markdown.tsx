@@ -10,14 +10,14 @@ type ExampleMarkdownProps = {
 
 const EXAMPLE_SOURCE = `Ask @Atlas to ship the **token fixture** pass — \`layer-panel\`, mentions, and [docs links](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a) stay caller-owned.
 
-@you tracked #21 in #release-notes and linked #release-notes:reply.
+@Ada tracked #21 in #release-notes and linked #release-notes:reply.
 
 - Keep body content in \`MessageItemBody\`
 - Prefer ~~ad-hoc spans~~ semantic markdown + reference parts`;
 
 const LEAD_SOURCE = `@Atlas starting a short sequence — first the **layout pass**, then gutter clock polish for #release-notes.`;
 
-const FOLLOW_UP_SOURCE = `@you — the second row keeps only its timestamp in the gutter, with a quick \`HH:MM\` hover clock.
+const FOLLOW_UP_SOURCE = `@Ada — the second row keeps only its timestamp in the gutter, with a quick \`HH:MM\` hover clock.
 
 1. Align the gutter to the **avatar column**
 2. Land #21 before the #all rollout`;

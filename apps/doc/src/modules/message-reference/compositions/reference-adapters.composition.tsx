@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
-import { AtSign, MessageSquareText } from "lucide-react";
+import { MessageSquareText } from "lucide-react";
 import { PreviewCard, PreviewCardContent, PreviewCardTrigger } from "raft-ui";
 import {
   MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceText,
+  type MessageReferenceTextVariant,
 } from "raft-ui/wip";
 
 type MessageReferenceCompositionProps = {
@@ -18,64 +19,35 @@ type MessageMentionReferenceBaseProps = {
   portalContainer?: HTMLElement | null;
 };
 
-export type MessageSelfMentionReferenceCompositionProps = MessageMentionReferenceBaseProps & {
-  preview: ReactNode;
-};
-
 export type MessageMentionReferenceCompositionProps = MessageMentionReferenceBaseProps & {
   preview: ReactNode;
+  variant?: MessageReferenceTextVariant;
 };
+
+function mentionLabel(children: ReactNode) {
+  if (typeof children !== "string") return children;
+  return children.startsWith("@") ? children : `@${children}`;
+}
 
 export function MessageMentionReferenceComposition({
   children,
   portalContainer,
   preview,
+  variant,
 }: MessageMentionReferenceCompositionProps) {
-  const label = typeof children === "string" ? children.replace(/^@/, "") : children;
-
-  return (
-    <PreviewCard>
-      <PreviewCardTrigger
-        closeDelay={120}
-        delay={200}
-        render={<MessageReferenceText render={<button type="button" title="Preview mention" />} />}
-      >
-        <AtSign size={12} />
-        {label}
-      </PreviewCardTrigger>
-      <PreviewCardContent
-        sideOffset={6}
-        collisionPadding={6}
-        portalProps={portalContainer ? { container: portalContainer } : undefined}
-        className="w-[17.5rem]"
-      >
-        {preview}
-      </PreviewCardContent>
-    </PreviewCard>
-  );
-}
-
-export function MessageSelfMentionReferenceComposition({
-  children,
-  portalContainer,
-  preview,
-}: MessageSelfMentionReferenceCompositionProps) {
-  const label = typeof children === "string" ? children.replace(/^@/, "") : children;
-
   return (
     <PreviewCard>
       <PreviewCardTrigger
         closeDelay={120}
         delay={200}
         render={
-          <MessageReferenceChip
-            variant="primary"
-            render={<button type="button" title="Preview current member" />}
+          <MessageReferenceText
+            variant={variant}
+            render={<button type="button" title="Preview mention" />}
           />
         }
       >
-        <AtSign size={12} />
-        {label}
+        {mentionLabel(children)}
       </PreviewCardTrigger>
       <PreviewCardContent
         sideOffset={6}

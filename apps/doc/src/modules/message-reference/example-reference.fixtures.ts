@@ -3,7 +3,7 @@ import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fix
 /** Actors, channels, and tasks the docs Markdown examples reference by name. */
 export const EXAMPLE_REFERENCE_ACTORS = [
   { name: "Atlas", preview: "Atlas · owner", self: false },
-  { name: "you", preview: "You · Current workspace member", self: true },
+  { name: "Ada", preview: "Ada · current workspace member", self: true },
 ] as const;
 
 export const EXAMPLE_REFERENCE_CHANNELS = [

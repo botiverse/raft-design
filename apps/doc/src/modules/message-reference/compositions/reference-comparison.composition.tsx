@@ -53,11 +53,19 @@ export function MessageReferenceComparisonComposition() {
                 >
                   @Atlas
                 </MessageMentionReferenceComposition>{" "}
-                to check the{" "}
+                or{" "}
+                <MessageMentionReferenceComposition
+                  portalContainer={portalContainer}
+                  preview={<p>Ada · current workspace member</p>}
+                  variant="primary"
+                >
+                  Ada
+                </MessageMentionReferenceComposition>{" "}
+                to review the linked message in{" "}
                 <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
-                  #all
+                  all
                 </MessageTargetReferenceComposition>{" "}
-                rollout in{" "}
+                before posting the rollout in{" "}
                 <MessageReferenceChip
                   variant="accent"
                   render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}

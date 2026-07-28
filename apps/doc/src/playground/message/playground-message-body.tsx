@@ -57,16 +57,11 @@ function createPlaygroundMarkdownComponents(channelId?: string): Components {
         const actor = ACTORS_BY_NAME.get(reference.name.toLocaleLowerCase());
         if (!actor) return <>{children}</>;
 
-        if (actor.id === VIEWER_ACTOR_ID) {
-          return (
-            <MessageReferenceChip variant="primary" title={`${actor.name} · ${actor.meta}`}>
-              {children}
-            </MessageReferenceChip>
-          );
-        }
-
         return (
-          <MessageReferenceText title={`${actor.name} · ${actor.meta}`}>
+          <MessageReferenceText
+            variant={actor.id === VIEWER_ACTOR_ID ? "primary" : "secondary"}
+            title={`${actor.name} · ${actor.meta}`}
+          >
             {children}
           </MessageReferenceText>
         );

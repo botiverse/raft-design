@@ -1,6 +1,5 @@
-import { AtSign } from "lucide-react";
 import { PreviewCard, PreviewCardContent, PreviewCardTrigger } from "raft-ui";
-import { MessageReferenceChip, MessageReferenceText } from "raft-ui/wip";
+import { MessageReferenceText } from "raft-ui/wip";
 
 export function MessageReferencePeopleMentionsComposition() {
   return (
@@ -14,8 +13,7 @@ export function MessageReferencePeopleMentionsComposition() {
             <MessageReferenceText render={<button type="button" title="Preview mention" />} />
           }
         >
-          <AtSign size={12} />
-          Atlas
+          @Atlas
         </PreviewCardTrigger>
         <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[17.5rem]">
           <p>Atlas · owner</p>
@@ -27,17 +25,16 @@ export function MessageReferencePeopleMentionsComposition() {
           closeDelay={120}
           delay={200}
           render={
-            <MessageReferenceChip
+            <MessageReferenceText
               variant="primary"
               render={<button type="button" title="Preview current member" />}
             />
           }
         >
-          <AtSign size={12} />
-          you
+          @Ada
         </PreviewCardTrigger>
         <PreviewCardContent sideOffset={6} collisionPadding={6} className="w-[17.5rem]">
-          <p>You · Current workspace member</p>
+          <p>Ada · current workspace member</p>
         </PreviewCardContent>
       </PreviewCard>
       .
