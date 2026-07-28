@@ -158,6 +158,12 @@ export const messageReference = tv({
           "group relative inline-flex h-[19px] max-w-full items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent px-2 py-0",
           "[font-size:inherit] cursor-pointer font-normal leading-none tracking-normal text-foreground-strong",
           "has-[>svg]:pr-2.5 has-[>svg]:pl-2",
+          // Raw copy in a chip (a member name, say) reads low because the line box centres the
+          // descender too. Lift it, and put the icon back on the exact centre. Chips carrying a
+          // filled label are untouched: that pill does its own centring.
+          "not-has-[>[data-slot=message-reference-label]]:pt-0",
+          "not-has-[>[data-slot=message-reference-label]]:pb-[3px]",
+          "not-has-[>[data-slot=message-reference-label]]:[&>svg]:translate-y-[1.5px]",
           // The filled label runs to the chip edge, so the chip drops its right padding.
           "has-[>[data-slot=message-reference-label]]:pr-0",
           "has-[>[data-message-reference-badge]]:overflow-visible",
