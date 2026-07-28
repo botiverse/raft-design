@@ -89,13 +89,7 @@ export const Route = createFileRoute("/components/switch")({
     }),
 });
 
-function SwitchPreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function SwitchPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [size, setSize] = useState<NonNullable<SwitchProps["size"]>>("sm");
   const [disabled, setDisabled] = useState(false);
 
@@ -123,7 +117,7 @@ function SwitchPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -138,7 +132,7 @@ function SwitchDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <SwitchPreview code={code.preview} collapsedCode={code.previewBody} />
+        <SwitchPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

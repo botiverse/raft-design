@@ -1,4 +1,3 @@
-import { SYSTEM_MESSAGE_FIXTURES } from "../system-message.fixtures.ts";
 import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
 
 // @docs-source-strip-start
@@ -9,7 +8,9 @@ export function SystemMessageChannelRenameContent() {
   return (
     <SystemMessage>
       <SystemMessageTime>2:16 PM</SystemMessageTime>
-      <SystemMessageContent>{SYSTEM_MESSAGE_FIXTURES.channelRename.content}</SystemMessageContent>
+      <SystemMessageContent>
+        @atlas renamed this channel from #rename-before to #rename-after.
+      </SystemMessageContent>
     </SystemMessage>
   );
 }

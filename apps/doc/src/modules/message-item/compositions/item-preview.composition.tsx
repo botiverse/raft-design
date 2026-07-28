@@ -75,6 +75,7 @@ export type MessageItemPreviewProps = {
   toolbar?: boolean;
 };
 
+// @docs-source-strip-start
 export function MessageMobileReactionAdd({
   portalContainer,
   onReact,
@@ -100,6 +101,7 @@ export function MessageMobileReactionAdd({
     />
   );
 }
+// @docs-source-strip-end
 
 /**
  * Configurable authored row for the docs playground. Row chrome, the saved
@@ -118,25 +120,26 @@ export function MessageItemPreview({
   reactions = false,
   toolbar = false,
 }: MessageItemPreviewProps) {
-  // The Saved control is the source of truth; footer and toolbar share one state
-  // so the in-preview save button and the control never diverge. Re-sync on the
-  // render pass where the control prop changes (no effect needed).
   const [isSaved, setIsSaved] = useState(saved);
+  const [reaction, setReaction] = useState<string>();
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
+  const [showOriginal, setShowOriginal] = useState(false);
+  const [retryingTranslation, setRetryingTranslation] = useState(false);
+  // @docs-source-strip-start
+  // Docs-playground plumbing: the controls panel is the source of truth, so
+  // re-sync local state on the render pass where a control prop changes.
   const [savedControl, setSavedControl] = useState(saved);
   if (saved !== savedControl) {
     setSavedControl(saved);
     setIsSaved(saved);
   }
-  const [reaction, setReaction] = useState<string>();
-  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
-  const [showOriginal, setShowOriginal] = useState(false);
   const [translationControl, setTranslationControl] = useState(translation);
-  const [retryingTranslation, setRetryingTranslation] = useState(false);
   if (translation !== translationControl) {
     setTranslationControl(translation);
     setShowOriginal(false);
     setRetryingTranslation(false);
   }
+  // @docs-source-strip-end
   const continuation = chrome === "continuation";
   const translationState = retryingTranslation ? "pending" : translation;
 

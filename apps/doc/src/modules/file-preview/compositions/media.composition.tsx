@@ -2,9 +2,9 @@ import { FilePreview, FilePreviewBadge, FilePreviewMedia } from "raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "#/modules/chat-composer/composer-image.ts";
 
-export function FilePreviewMediaComposition() {
+export function FilePreviewMediaContent() {
   return (
-    <div className="flex flex-wrap items-center gap-5">
+    <>
       <FilePreview>
         <FilePreviewMedia>
           <img alt="" className="size-full object-cover" src={COMPOSER_IMAGE_SRC} />
@@ -29,6 +29,16 @@ export function FilePreviewMediaComposition() {
         </FilePreviewMedia>
         <FilePreviewBadge type="jpg">JPG</FilePreviewBadge>
       </FilePreview>
+    </>
+  );
+}
+
+// @docs-source-strip-start
+export function FilePreviewMediaComposition() {
+  return (
+    <div className="flex flex-wrap items-center gap-5">
+      <FilePreviewMediaContent />
     </div>
   );
 }
+// @docs-source-strip-end

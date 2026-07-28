@@ -210,30 +210,53 @@ const COMBOBOX_BODY_SNIPPET = `  <ComboboxInputGroup>
 ${CHANNEL_LIST_SNIPPET}`;
 
 const SNIPPETS = {
-  preview: `<Combobox items={models} value={selectedModel} onValueChange={setSelectedModel} autoHighlight>
-  <Field className="w-56 gap-1.5">
-    <FieldLabel>Model</FieldLabel>
-    <ComboboxControl>
-      <Sparkles aria-hidden />
-      <ComboboxInput aria-label="Search models" placeholder="Search models..." />
-      <ComboboxClear aria-label="Clear model" />
-      <ComboboxTriggerIndicator>
-        <ChevronDown aria-hidden />
-      </ComboboxTriggerIndicator>
-    </ComboboxControl>
-  </Field>
-  <ComboboxContent>
-    <ComboboxList>
-      {(model) => (
-        <ComboboxItem key={model.id} value={model}>
-          <span>{model.label}</span>
-          <ComboboxItemIndicator />
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-    <ComboboxEmpty>No models found</ComboboxEmpty>
-  </ComboboxContent>
-</Combobox>`,
+  preview: `const models = [
+  { id: "reasoning", label: "Raft Reasoning", description: "Long-context planning" },
+  { id: "fast", label: "Raft Fast", description: "Low-latency responses" },
+  { id: "vision", label: "Raft Vision", description: "Image understanding" },
+  { id: "code", label: "Raft Code", description: "Repository-aware coding" },
+] as const;
+
+function ModelCombobox() {
+  const [selectedModel, setSelectedModel] = useState<typeof models[number] | null>(models[0]);
+
+  return (
+    <Combobox
+      items={models}
+      value={selectedModel}
+      itemToStringLabel={(model) => model.label}
+      onValueChange={setSelectedModel}
+      autoHighlight
+    >
+      <Field className="w-56 gap-1.5">
+        <FieldLabel>Model</FieldLabel>
+        <ComboboxControl>
+          <Sparkles aria-hidden />
+          <ComboboxInput
+            aria-label="Search models"
+            placeholder="Search models..."
+            suppressPasswordManager
+          />
+          <ComboboxClear aria-label="Clear model" />
+          <ComboboxTriggerIndicator>
+            <ChevronDown aria-hidden />
+          </ComboboxTriggerIndicator>
+        </ComboboxControl>
+      </Field>
+      <ComboboxContent className="w-[var(--anchor-width)]">
+        <ComboboxList>
+          {(model) => (
+            <ComboboxItem key={model.id} value={model}>
+              <span className="truncate leading-6">{model.label}</span>
+              <ComboboxItemIndicator />
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+        <ComboboxEmpty>No models found</ComboboxEmpty>
+      </ComboboxContent>
+    </Combobox>
+  );
+}`,
   anatomy: `<Combobox>
   <Field>
     <FieldLabel />
@@ -319,6 +342,7 @@ import {
   ComboboxTrigger,
   ComboboxTriggerIndicator,
 } from "raft-ui";
+import { ChevronDown, Folder, Loader } from "lucide-react";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
 
 const repositories = [
@@ -326,6 +350,8 @@ const repositories = [
   { id: "raft", label: "raft", description: "Workspace app" },
   { id: "source", label: "source", description: "Reference repo" },
 ] as const;
+
+type Repository = (typeof repositories)[number];
 
 const repositoryQuery = mockQueryOptions({
   queryKey: ["combobox", "repositories"],
@@ -336,7 +362,7 @@ const repositoryQuery = mockQueryOptions({
 
 function RepositoryPicker() {
   const [open, setOpen] = useState(true);
-  const [value, setValue] = useState<typeof repositories[number] | null>(null);
+  const [value, setValue] = useState<Repository | null>(null);
   const { data: items = [], isLoading } = useMockQuery({
     query: repositoryQuery,
     enabled: open,

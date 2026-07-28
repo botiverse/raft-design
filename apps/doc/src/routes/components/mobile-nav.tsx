@@ -105,7 +105,10 @@ function MobileNavDoc() {
           <Preview.Canvas>
             <MobileNavPreview />
           </Preview.Canvas>
-          <Preview.Code html={code.mobileNavComposition} />
+          <Preview.Code
+            html={code.mobileNavComposition}
+            collapsedHtml={code.mobileNavCompositionBody}
+          />
         </Preview>
       </DocSection>
 
@@ -148,7 +151,8 @@ function MobileNavDoc() {
               brutal: <MobileNavComposition />,
               elegant: <MobileNavComposition />,
               elegantDark: <MobileNavComposition />,
-              compositionCode: mobileNavCompositionSource,
+              compositionCode: code.mobileNavComposition,
+              compositionCollapsedCode: code.mobileNavCompositionBody,
               compositionPath: "apps/doc/src/modules/mobile-nav/mobile-nav.composition.tsx",
               compositionSource: mobileNavCompositionSource,
             },

@@ -125,13 +125,6 @@ const SOURCE_SCENES = [
 const PREVIEW_TOP_CLASS = "!items-start !pt-16";
 
 const SNIPPETS = {
-  preview: `import { Field, FieldDescription, FieldError, FieldLabel, Input } from "raft-ui";
-
-<Field invalid>
-  <FieldLabel htmlFor="email" required>Email</FieldLabel>
-  <Input id="email" type="email" aria-invalid defaultValue="oops" />
-  <FieldError match>Email is required.</FieldError>
-</Field>`,
   anatomy: `<Field>
   <FieldLabel />
   <Input />
@@ -381,10 +374,7 @@ function FieldDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <FieldPlaygroundPreview
-          code={code.fieldPreviewComposition}
-          collapsedCode={code.fieldPreviewCompositionBody}
-        />
+        <FieldPlaygroundPreview code={code.fieldPreviewComposition} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -507,7 +497,7 @@ function FieldDoc() {
                   </div>
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.controls} />
+              <Preview.Code html={code.controls} collapsedHtml={code.controlsBody} />
             </Preview>
           </DocSubsection>
         </div>

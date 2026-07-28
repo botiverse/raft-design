@@ -30,103 +30,12 @@ import { ChevronDown } from "lucide-react";
 import {
   getTaskStatusLabel,
   moveTaskFixture,
-  TASK_FIXTURES,
   TASK_STATUSES,
   type TaskFixture,
   type TaskStatus,
 } from "#/modules/task-card/task-card.fixtures.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
-
-const BOARD_DEMO_EXTRA_TASKS: readonly TaskFixture[] = [
-  {
-    id: "task-151",
-    taskNumber: 151,
-    channelName: "proj-uiux",
-    title: "Tighten board column header density",
-    description: "Keep badge, count, and chevron aligned under dense status labels.",
-    status: "todo",
-    creatorId: "me",
-    assigneeId: "atlas",
-  },
-  {
-    id: "task-150",
-    taskNumber: 150,
-    channelName: "proj-task",
-    title: "Show overflow when a column exceeds the viewport",
-    description: "ScrollArea must own vertical overflow for tall status stacks.",
-    status: "todo",
-    creatorId: "atlas",
-    assigneeId: "me",
-  },
-  {
-    id: "task-149",
-    taskNumber: 149,
-    channelName: "proj-uiux",
-    title: "Preserve drop placeholders while cards are dragging",
-    status: "todo",
-    creatorId: "me",
-    assigneeId: "me",
-  },
-  {
-    id: "task-148",
-    taskNumber: 148,
-    channelName: "proj-task",
-    title: "Clamp long descriptions inside board cards",
-    description: "Two lines max so columns stay scannable at the source width.",
-    status: "todo",
-    creatorId: "atlas",
-    assigneeId: "unassigned",
-  },
-  {
-    id: "task-147",
-    taskNumber: 147,
-    channelName: "proj-uiux",
-    title: "Keep status icon and label paired in brutal badges",
-    status: "todo",
-    creatorId: "me",
-    assigneeId: "atlas",
-  },
-  {
-    id: "task-146",
-    taskNumber: 146,
-    channelName: "proj-task",
-    title: "Verify horizontal scroll across five status columns",
-    description: "Board root stays min-content wide inside one shared viewport.",
-    status: "in_progress",
-    creatorId: "atlas",
-    assigneeId: "me",
-  },
-  {
-    id: "task-145",
-    taskNumber: 145,
-    channelName: "proj-uiux",
-    title: "Wire collapse state without remounting cards",
-    status: "in_progress",
-    creatorId: "me",
-    assigneeId: "me",
-  },
-  {
-    id: "task-144",
-    taskNumber: 144,
-    channelName: "proj-task",
-    title: "Announce blocked drops for closed columns",
-    description: "Empty blocked copy should stay visible while dragging.",
-    status: "in_progress",
-    creatorId: "atlas",
-    assigneeId: "atlas",
-  },
-  {
-    id: "task-143",
-    taskNumber: 143,
-    channelName: "proj-uiux",
-    title: "Sync board counts after keyboard reorders",
-    status: "in_progress",
-    creatorId: "me",
-    assigneeId: "unassigned",
-  },
-];
-
-const BOARD_DEMO_TASKS: readonly TaskFixture[] = [...TASK_FIXTURES, ...BOARD_DEMO_EXTRA_TASKS];
+import { BOARD_DEMO_TASKS } from "#/modules/task-board/task-board.fixtures.ts";
 
 const DEFAULT_COLLAPSED: Record<TaskStatus, boolean> = {
   todo: false,

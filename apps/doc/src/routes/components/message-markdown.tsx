@@ -7,17 +7,21 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { MessageMarkdownShowcaseComposition } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
+import markdownAdapterSource from "#/lib/message-markdown/message-markdown-adapter.tsx?raw";
+import { MessageMarkdownComposition } from "#/modules/message-markdown/compositions/markdown.composition.tsx";
 import markdownSource from "#/modules/message-markdown/compositions/markdown.composition.tsx?raw";
+
+const MARKDOWN_ADAPTER_PATH = "apps/doc/src/lib/message-markdown/message-markdown-adapter.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "component-overrides", title: "Component overrides" },
   { id: "api", title: "API" },
 ] as const;
 
 const ANATOMY_SOURCE = `<MessageMarkdown>
-  <ReactMarkdown components={MESSAGE_MARKDOWN_COMPONENTS}>
+  <ReactMarkdown components={DEFAULT_COMPONENTS}>
     {markdown}
   </ReactMarkdown>
 </MessageMarkdown>`;
@@ -41,11 +45,19 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
+function UsagePreview({
+  children,
+  code,
+  collapsedCode,
+}: {
+  children: ReactNode;
+  code: ReactNode;
+  collapsedCode?: ReactNode;
+}) {
   return (
     <Preview previewClassName="items-stretch">
       <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code html={code} />
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
     </Preview>
   );
 }
@@ -57,6 +69,7 @@ export const Route = createFileRoute("/components/message-markdown")({
       data: {
         anatomy: ANATOMY_SOURCE,
         markdown: markdownSource,
+        markdownAdapter: markdownAdapterSource,
       },
     }),
 });
@@ -71,8 +84,8 @@ function MessageMarkdownDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <UsagePreview code={code.markdown}>
-          <MessageMarkdownShowcaseComposition />
+        <UsagePreview code={code.markdown} collapsedCode={code.markdownBody}>
+          <MessageMarkdownComposition />
         </UsagePreview>
       </DocSection>
 
@@ -82,6 +95,15 @@ function MessageMarkdownDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
+      </DocSection>
+
+      <DocSection id="component-overrides" title="Component overrides">
+        <DocsCodeBlock.Panel
+          path={MARKDOWN_ADAPTER_PATH}
+          source={markdownAdapterSource}
+          html={code.markdownAdapter}
+          collapsedHtml={code.markdownAdapterBody}
+        />
       </DocSection>
 
       <DocSection id="api" title="API">

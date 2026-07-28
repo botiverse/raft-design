@@ -24,14 +24,10 @@ const TOC = [
 const SNIPPETS = {
   preview: `<LiveAgentActivityBar>
   <LiveAgentActivityBarRow>
-    <LiveAgentActivityBarAvatar>
-      <AvatarImage src={agent.avatarSrc} alt="" />
-    </LiveAgentActivityBarAvatar>
+    <LiveAgentActivityBarAvatar />
     <LiveAgentActivityBarContent>
       <LiveAgentActivityBarStatus />
-      <LiveAgentActivityBarText title="Summarizing thread">
-        Summarizing thread
-      </LiveAgentActivityBarText>
+      <LiveAgentActivityBarText title="Thinking…">Thinking…</LiveAgentActivityBarText>
     </LiveAgentActivityBarContent>
   </LiveAgentActivityBarRow>
 </LiveAgentActivityBar>`,
@@ -104,10 +100,8 @@ export const Route = createFileRoute("/components/live-agent-activity-bar")({
 
 function LiveAgentActivityBarPreview({
   code,
-  collapsedCode,
 }: {
   code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
 }) {
   const [active, setActive] = useState(true);
 
@@ -128,7 +122,7 @@ function LiveAgentActivityBarPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -143,7 +137,7 @@ function LiveAgentActivityBarDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <LiveAgentActivityBarPreview code={code.preview} collapsedCode={code.previewBody} />
+        <LiveAgentActivityBarPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

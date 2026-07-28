@@ -1,4 +1,3 @@
-import { SYSTEM_MESSAGE_FIXTURES } from "../system-message.fixtures.ts";
 import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
 
 // @docs-source-strip-start
@@ -9,7 +8,7 @@ export function SystemMessageTaskDeletedContent() {
   return (
     <SystemMessage>
       <SystemMessageTime>2:18 PM</SystemMessageTime>
-      <SystemMessageContent>{SYSTEM_MESSAGE_FIXTURES.taskDeleted.content}</SystemMessageContent>
+      <SystemMessageContent>🗑 Atlas deleted #41 "Release review checklist"</SystemMessageContent>
     </SystemMessage>
   );
 }

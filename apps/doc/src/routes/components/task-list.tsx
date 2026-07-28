@@ -7,11 +7,15 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 import { TaskListEmptySectionsComposition } from "#/modules/task-list/compositions/task-list-empty-sections.composition.tsx";
 import taskListEmptySectionsCompositionSource from "#/modules/task-list/compositions/task-list-empty-sections.composition.tsx?raw";
 import { TaskListComposition } from "#/modules/task-list/compositions/task-list.composition.tsx";
 import taskListCompositionSource from "#/modules/task-list/compositions/task-list.composition.tsx?raw";
+
+const TASK_LIST_COMPOSITION_PATH =
+  "apps/doc/src/modules/task-list/compositions/task-list.composition.tsx";
+const TASK_LIST_EMPTY_SECTIONS_COMPOSITION_PATH =
+  "apps/doc/src/modules/task-list/compositions/task-list-empty-sections.composition.tsx";
 
 const ANATOMY_SNIPPET = `<TaskListRoot>
   <TaskSection>
@@ -159,8 +163,8 @@ const SECTION_EMPTY_PROPS: readonly PropRow[] = [
 
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
-  list: stripSourceCodeBlocks(taskListCompositionSource),
-  empty: taskListEmptySectionsCompositionSource,
+  list: taskListCompositionSource,
+  emptySections: taskListEmptySectionsCompositionSource,
   virtualization: VIRTUALIZATION_SNIPPET,
 } as const;
 
@@ -194,7 +198,7 @@ function TaskListDoc() {
           <Preview.Canvas>
             <TaskListComposition />
           </Preview.Canvas>
-          <Preview.Code html={code.list} />
+          <Preview.Code html={code.list} collapsedHtml={code.listBody} />
         </Preview>
       </DocSection>
 
@@ -217,7 +221,7 @@ function TaskListDoc() {
               <Preview.Canvas>
                 <TaskListComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.list} />
+              <Preview.Code html={code.list} collapsedHtml={code.listBody} />
             </Preview>
           </DocSubsection>
 
@@ -231,7 +235,7 @@ function TaskListDoc() {
               <Preview.Canvas>
                 <TaskListComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.list} />
+              <Preview.Code html={code.list} collapsedHtml={code.listBody} />
             </Preview>
           </DocSubsection>
 
@@ -244,7 +248,27 @@ function TaskListDoc() {
               <Preview.Canvas>
                 <TaskListEmptySectionsComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.empty} />
+              <Preview.Code
+                codeBlock={
+                  <DocsCodeBlock.Files
+                    collapsible={false}
+                    files={[
+                      {
+                        path: TASK_LIST_EMPTY_SECTIONS_COMPOSITION_PATH,
+                        source: taskListEmptySectionsCompositionSource,
+                        html: code.emptySections,
+                        collapsedHtml: code.emptySectionsBody,
+                      },
+                      {
+                        path: TASK_LIST_COMPOSITION_PATH,
+                        source: taskListCompositionSource,
+                        html: code.list,
+                        collapsedHtml: code.listBody,
+                      },
+                    ]}
+                  />
+                }
+              />
             </Preview>
           </DocSubsection>
 

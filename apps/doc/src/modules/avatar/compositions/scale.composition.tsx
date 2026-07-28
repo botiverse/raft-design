@@ -14,6 +14,7 @@ const SIZE_LABELS = {
   "2xs": "18px nav",
   "3xs": "14px preview",
 } as const;
+
 const AVATAR_PHOTOS = [
   "https://unsplash.com/photos/n4KewLKFOZw/download?force=true&w=160&h=160&fit=crop&crop=faces",
   "https://unsplash.com/photos/H6FbE_vxaxQ/download?force=true&w=160&h=160&fit=crop&crop=faces",

@@ -365,7 +365,7 @@ function AlertDialogDoc() {
               </AlertDialogContent>
             </AlertDialog>
           </Preview.Canvas>
-          <Preview.Code html={code.preview} />
+          <Preview.Code html={code.preview} collapsedHtml={code.previewBody} />
         </Preview>
       </DocSection>
 
@@ -390,7 +390,10 @@ function AlertDialogDoc() {
               <Preview.Canvas>
                 <TypedDeleteAlertDialogComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.alertDialogDeleteServerComposition} />
+              <Preview.Code
+                html={code.alertDialogDeleteServerComposition}
+                collapsedHtml={code.alertDialogDeleteServerCompositionBody}
+              />
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="confirm-action" title="Confirm action">
@@ -398,7 +401,10 @@ function AlertDialogDoc() {
               <Preview.Canvas>
                 <ConfirmActionAlertDialogComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.alertDialogConfirmActionComposition} />
+              <Preview.Code
+                html={code.alertDialogConfirmActionComposition}
+                collapsedHtml={code.alertDialogConfirmActionCompositionBody}
+              />
             </Preview>
           </DocSubsection>
         </div>

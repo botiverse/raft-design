@@ -9,10 +9,9 @@ type CodeContent = ReactNode | AnyRenderableServerComponent;
 
 type TextareaPreviewProps = {
   code: CodeContent;
-  collapsedCode?: CodeContent;
 };
 
-export function TextareaPreview({ code, collapsedCode }: TextareaPreviewProps) {
+export function TextareaPreview({ code }: TextareaPreviewProps) {
   const [disabled, setDisabled] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const [placeholder, setPlaceholder] = useState("Type your message here.");
@@ -54,7 +53,7 @@ export function TextareaPreview({ code, collapsedCode }: TextareaPreviewProps) {
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }

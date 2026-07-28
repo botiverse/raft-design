@@ -314,10 +314,7 @@ function ButtonDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <ButtonPlaygroundPreview
-          code={code.buttonPreviewComposition}
-          collapsedCode={code.buttonPreviewCompositionBody}
-        />
+        <ButtonPlaygroundPreview code={code.buttonPreviewComposition} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">

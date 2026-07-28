@@ -31,6 +31,8 @@ import composerAttachmentStatesSource from "#/modules/chat-composer/compositions
 import composerAttachmentsReorderSource from "#/modules/chat-composer/compositions/composer-attachments-reorder.composition.tsx?raw";
 import composerAttachmentsScrollSource from "#/modules/chat-composer/compositions/composer-attachments-scroll.composition.tsx?raw";
 import composerAttachmentsScrollReorderSource from "#/modules/chat-composer/compositions/composer-attachments-scroll-reorder.composition.tsx?raw";
+import composerAttachmentsReorderSharedSource from "#/modules/chat-composer/compositions/composer-attachments-reorder-shared.tsx?raw";
+import composerSharedSource from "#/modules/chat-composer/compositions/composer-shared.composition.tsx?raw";
 import composerCompositionSource from "#/modules/chat-composer/compositions/composer-default.composition.tsx?raw";
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
 import composerFooterAddSource from "#/modules/chat-composer/compositions/composer-footer-add.composition.tsx?raw";
@@ -121,6 +123,17 @@ const ANATOMY_SNIPPET = `<div className="relative">
   </ComposerDropOverlay>
 </div>`;
 
+const COMPOSER_ATTACHMENTS_REORDER_PATH =
+  "apps/doc/src/modules/chat-composer/compositions/composer-attachments-reorder.composition.tsx";
+const COMPOSER_ATTACHMENTS_SCROLL_REORDER_PATH =
+  "apps/doc/src/modules/chat-composer/compositions/composer-attachments-scroll-reorder.composition.tsx";
+const COMPOSER_ATTACHMENTS_REORDER_SHARED_PATH =
+  "apps/doc/src/modules/chat-composer/compositions/composer-attachments-reorder-shared.tsx";
+const COMPOSER_ATTACHMENTS_SCROLL_PATH =
+  "apps/doc/src/modules/chat-composer/compositions/composer-attachments-scroll.composition.tsx";
+const COMPOSER_SHARED_PATH =
+  "apps/doc/src/modules/chat-composer/compositions/composer-shared.composition.tsx";
+
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
   attachmentLimit: composerAttachmentLimitSource,
@@ -133,6 +146,8 @@ const SNIPPETS = {
   footerAdd: composerFooterAddSource,
   footerNotice: composerFooterNoticeSource,
   withLightbox: composerWithLightboxSource,
+  attachmentsReorderShared: composerAttachmentsReorderSharedSource,
+  composerShared: composerSharedSource,
 } as const;
 
 const COMPOSER_ROOT_PROPS: readonly PropRow[] = [
@@ -415,7 +430,7 @@ function ChatComposerDoc() {
                   <ComposerDefaultComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.composition} />
+              <Preview.Code html={code.composition} collapsedHtml={code.compositionBody} />
             </Preview>
           </DocSubsection>
 
@@ -430,7 +445,10 @@ function ChatComposerDoc() {
                   <ComposerAttachmentStatesComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.attachmentStates} />
+              <Preview.Code
+                html={code.attachmentStates}
+                collapsedHtml={code.attachmentStatesBody}
+              />
             </Preview>
           </DocSubsection>
 
@@ -445,7 +463,7 @@ function ChatComposerDoc() {
                   <ComposerAttachmentLimitComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.attachmentLimit} />
+              <Preview.Code html={code.attachmentLimit} collapsedHtml={code.attachmentLimitBody} />
             </Preview>
           </DocSubsection>
 
@@ -465,7 +483,28 @@ function ChatComposerDoc() {
                   <ComposerAttachmentsScrollComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.attachmentsScroll} />
+              <Preview.Code
+                codeBlock={
+                  <DocsCodeBlock.Files
+                    collapsible={false}
+                    showLineNumbers={false}
+                    files={[
+                      {
+                        path: COMPOSER_ATTACHMENTS_SCROLL_PATH,
+                        source: composerAttachmentsScrollSource,
+                        html: code.attachmentsScroll,
+                        collapsedHtml: code.attachmentsScrollBody,
+                      },
+                      {
+                        path: COMPOSER_SHARED_PATH,
+                        source: composerSharedSource,
+                        html: code.composerShared,
+                        collapsedHtml: code.composerSharedBody,
+                      },
+                    ]}
+                  />
+                }
+              />
             </Preview>
           </DocSubsection>
 
@@ -485,7 +524,28 @@ function ChatComposerDoc() {
                   <ComposerAttachmentsReorderComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.attachmentsReorder} />
+              <Preview.Code
+                codeBlock={
+                  <DocsCodeBlock.Files
+                    collapsible={false}
+                    showLineNumbers={false}
+                    files={[
+                      {
+                        path: COMPOSER_ATTACHMENTS_REORDER_PATH,
+                        source: composerAttachmentsReorderSource,
+                        html: code.attachmentsReorder,
+                        collapsedHtml: code.attachmentsReorderBody,
+                      },
+                      {
+                        path: COMPOSER_ATTACHMENTS_REORDER_SHARED_PATH,
+                        source: composerAttachmentsReorderSharedSource,
+                        html: code.attachmentsReorderShared,
+                        collapsedHtml: code.attachmentsReorderSharedBody,
+                      },
+                    ]}
+                  />
+                }
+              />
             </Preview>
           </DocSubsection>
 
@@ -505,7 +565,28 @@ function ChatComposerDoc() {
                   <ComposerAttachmentsScrollReorderComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.attachmentsScrollReorder} />
+              <Preview.Code
+                codeBlock={
+                  <DocsCodeBlock.Files
+                    collapsible={false}
+                    showLineNumbers={false}
+                    files={[
+                      {
+                        path: COMPOSER_ATTACHMENTS_SCROLL_REORDER_PATH,
+                        source: composerAttachmentsScrollReorderSource,
+                        html: code.attachmentsScrollReorder,
+                        collapsedHtml: code.attachmentsScrollReorderBody,
+                      },
+                      {
+                        path: COMPOSER_ATTACHMENTS_REORDER_SHARED_PATH,
+                        source: composerAttachmentsReorderSharedSource,
+                        html: code.attachmentsReorderShared,
+                        collapsedHtml: code.attachmentsReorderSharedBody,
+                      },
+                    ]}
+                  />
+                }
+              />
             </Preview>
           </DocSubsection>
 
@@ -520,7 +601,7 @@ function ChatComposerDoc() {
                   <ComposerWithLightboxComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.withLightbox} />
+              <Preview.Code html={code.withLightbox} collapsedHtml={code.withLightboxBody} />
             </Preview>
           </DocSubsection>
 
@@ -531,7 +612,7 @@ function ChatComposerDoc() {
                   <ComposerDropOverlayComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.dropOverlay} />
+              <Preview.Code html={code.dropOverlay} collapsedHtml={code.dropOverlayBody} />
             </Preview>
           </DocSubsection>
 
@@ -546,7 +627,7 @@ function ChatComposerDoc() {
                   <ComposerFooterNoticeComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.footerNotice} />
+              <Preview.Code html={code.footerNotice} collapsedHtml={code.footerNoticeBody} />
             </Preview>
             <Preview previewClassName="items-center">
               <Preview.Canvas>
@@ -554,7 +635,7 @@ function ChatComposerDoc() {
                   <ComposerFooterAddComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.footerAdd} />
+              <Preview.Code html={code.footerAdd} collapsedHtml={code.footerAddBody} />
             </Preview>
           </DocSubsection>
         </div>
@@ -740,6 +821,7 @@ function ChatComposerDoc() {
                 </div>
               ),
               compositionCode: code.composition,
+              compositionCollapsedCode: code.compositionBody,
               compositionPath:
                 "apps/doc/src/modules/chat-composer/compositions/composer-default.composition.tsx",
               compositionSource: composerCompositionSource,
@@ -769,6 +851,7 @@ function ChatComposerDoc() {
                 </div>
               ),
               compositionCode: code.attachmentStates,
+              compositionCollapsedCode: code.attachmentStatesBody,
               compositionPath:
                 "apps/doc/src/modules/chat-composer/compositions/composer-attachment-states.composition.tsx",
               compositionSource: composerAttachmentStatesSource,
@@ -798,6 +881,7 @@ function ChatComposerDoc() {
                 </div>
               ),
               compositionCode: code.dropOverlay,
+              compositionCollapsedCode: code.dropOverlayBody,
               compositionPath:
                 "apps/doc/src/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx",
               compositionSource: composerDropOverlaySource,

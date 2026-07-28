@@ -90,15 +90,28 @@ const SNIPPETS = {
     Needs review
   </label>
 </RadioGroup>`,
-  disabled: `<RadioGroup disabled defaultValue="twitter_x" ariaLabel="Referral source">
-  <label>
-    <RadioGroupItem value="twitter_x" />
-    Twitter / X
-  </label>
-  <label>
-    <RadioGroupItem value="linkedin" />
-    LinkedIn
-  </label>
+  disabled: `const referralOptions = [
+  { value: "twitter_x", label: "Twitter / X" },
+  { value: "linkedin", label: "LinkedIn" },
+  { value: "friend_colleague", label: "A friend or colleague" },
+  { value: "search", label: "Search" },
+  { value: "hn_reddit", label: "Hacker News / Reddit" },
+  { value: "podcast_blog_newsletter", label: "Podcast / blog / newsletter" },
+  { value: "other", label: "Other" },
+] as const;
+
+<RadioGroup
+  disabled
+  defaultValue="twitter_x"
+  ariaLabel="Where did you hear about us?"
+  className="w-64"
+>
+  {referralOptions.map((option) => (
+    <label key={option.value} className="flex cursor-pointer items-center gap-2 text-sm">
+      <RadioGroupItem value={option.value} />
+      <span>{option.label}</span>
+    </label>
+  ))}
 </RadioGroup>`,
 } as const;
 
@@ -245,7 +258,6 @@ function RadioGroupDoc() {
           value={referralValue}
           onValueChange={setReferralValue}
           code={code.radioGroupReferralSourceComposition}
-          collapsedCode={code.radioGroupReferralSourceCompositionBody}
         />
       </DocSection>
 
@@ -314,7 +326,10 @@ function RadioGroupDoc() {
                   onValueChange={setResetMode}
                 />
               </Preview.Canvas>
-              <Preview.Code html={code.radioGroupResetModeRestoredComposition} />
+              <Preview.Code
+                html={code.radioGroupResetModeRestoredComposition}
+                collapsedHtml={code.radioGroupResetModeRestoredCompositionBody}
+              />
             </Preview>
           </DocSubsection>
 

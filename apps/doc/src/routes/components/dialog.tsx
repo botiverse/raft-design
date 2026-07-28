@@ -1104,7 +1104,7 @@ function DialogDoc() {
               </DialogContent>
             </Dialog>
           </Preview.Canvas>
-          <Preview.Code html={code.preview} />
+          <Preview.Code html={code.preview} collapsedHtml={code.previewBody} />
         </Preview>
       </DocSection>
 
@@ -1128,7 +1128,10 @@ function DialogDoc() {
             <DocSubsection key={item.id} parentId="usage" id={item.id} title={item.title}>
               <Preview previewClassName="items-stretch p-0">
                 <Preview.Canvas>{item.preview}</Preview.Canvas>
-                <Preview.Code html={code[item.codeKey]} />
+                <Preview.Code
+                  html={code[item.codeKey]}
+                  collapsedHtml={code[`${item.codeKey}Body`]}
+                />
               </Preview>
             </DocSubsection>
           ))}

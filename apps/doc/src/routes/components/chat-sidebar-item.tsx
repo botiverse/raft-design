@@ -187,7 +187,7 @@ function ChatSidebarItemDoc() {
           <Preview.Canvas>
             <ChatSidebarItemStatesComposition />
           </Preview.Canvas>
-          <Preview.Code html={code.composition} />
+          <Preview.Code html={code.composition} collapsedHtml={code.compositionBody} />
         </Preview>
       </DocSection>
 
@@ -293,6 +293,7 @@ function ChatSidebarItemDoc() {
               elegant: <ChatSidebarItemSelectedChannelComposition />,
               elegantDark: <ChatSidebarItemSelectedChannelComposition />,
               compositionCode: code.selectedChannel,
+              compositionCollapsedCode: code.selectedChannelBody,
               compositionPath:
                 "apps/doc/src/modules/chat-sidebar-item/compositions/selected-channel.composition.tsx",
               compositionSource: selectedChannelCompositionSource,
@@ -309,6 +310,7 @@ function ChatSidebarItemDoc() {
               elegant: <ChatSidebarItemMentionAndUnreadComposition />,
               elegantDark: <ChatSidebarItemMentionAndUnreadComposition />,
               compositionCode: code.mentionAndUnread,
+              compositionCollapsedCode: code.mentionAndUnreadBody,
               compositionPath:
                 "apps/doc/src/modules/chat-sidebar-item/compositions/mention-and-unread.composition.tsx",
               compositionSource: mentionAndUnreadCompositionSource,
@@ -325,6 +327,7 @@ function ChatSidebarItemDoc() {
               elegant: <ChatSidebarItemAgentPresenceComposition />,
               elegantDark: <ChatSidebarItemAgentPresenceComposition />,
               compositionCode: code.agentPresence,
+              compositionCollapsedCode: code.agentPresenceBody,
               compositionPath:
                 "apps/doc/src/modules/chat-sidebar-item/compositions/agent-presence.composition.tsx",
               compositionSource: agentPresenceCompositionSource,

@@ -1,4 +1,3 @@
-import { SYSTEM_MESSAGE_FIXTURES } from "../system-message.fixtures.ts";
 import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
 
 // @docs-source-strip-start
@@ -9,7 +8,9 @@ export function SystemMessageTaskAssignedContent() {
   return (
     <SystemMessage>
       <SystemMessageTime>2:18 PM</SystemMessageTime>
-      <SystemMessageContent>{SYSTEM_MESSAGE_FIXTURES.taskAssigned.content}</SystemMessageContent>
+      <SystemMessageContent>
+        📌 Assigned @Ada to task #42 "Polish SystemMessage docs"
+      </SystemMessageContent>
     </SystemMessage>
   );
 }

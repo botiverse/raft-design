@@ -95,7 +95,7 @@ function MessageCodeBlockDoc() {
                 <ShikiMessageCodeBlockComposition />
               </div>
             </Preview.Canvas>
-            <Preview.Code html={code.shiki} />
+            <Preview.Code html={code.shiki} collapsedHtml={code.shikiBody} />
           </Preview>
         </div>
       </DocSection>

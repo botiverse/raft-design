@@ -211,6 +211,7 @@ export function ConversationPanelComposition({
                 </MessageItem>
               </div>
             </div>
+            {/* @docs-source-strip-start */}
             {Array.from({ length: 8 }, (_, index) => (
               <div
                 key={`preview-overflow-${index}`}
@@ -236,6 +237,7 @@ export function ConversationPanelComposition({
                 </div>
               </div>
             ))}
+            {/* @docs-source-strip-end */}
             <div className="h-px" aria-hidden />
             <div className="px-3 pb-3">
               <div className="h-3" />

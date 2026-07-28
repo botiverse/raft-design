@@ -77,14 +77,17 @@ const SOURCE_SCENES = [
 
 const PANEL_BODY_SNIPPET = `    <PopoverHeader>
       <PopoverTitle>Usage notes</PopoverTitle>
-      <PopoverClose aria-label="Close usage notes">
+      <PopoverClose aria-label="Close usage notes" className="[&_svg]:size-3">
         <X />
       </PopoverClose>
     </PopoverHeader>
     <PopoverSeparator />
     <div className="grid gap-2 px-3 py-3 text-sm leading-6 text-foreground-muted [[data-theme=brutal]_&]:text-black">
-      <p>Use #channel names, @people, or exact phrases to narrow results.</p>
-      <p className="font-mono text-xs text-foreground/50">Try: #design "token audit"</p>
+      <p>Use channel names, people, and exact phrases to narrow message history.</p>
+      <div className="grid gap-1 rounded-sm bg-foreground/[0.04] px-2 py-2 font-mono text-xs text-foreground/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
+        <span>#design "token audit"</span>
+        <span>@atlas migration notes</span>
+      </div>
     </div>`;
 
 const SNIPPETS = {
@@ -414,13 +417,7 @@ function SourceMentionCardPreview() {
   );
 }
 
-function PopoverPreview({
-  code,
-  collapsedCode,
-}: {
-  code: ReturnType<typeof Route.useLoaderData>["preview"];
-  collapsedCode?: ReturnType<typeof Route.useLoaderData>["previewBody"];
-}) {
+function PopoverPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [open, setOpen] = useState(true);
 
   return (
@@ -438,7 +435,7 @@ function PopoverPreview({
           />
         </Preview.Control>
       </Preview.Controls>
-      <Preview.Code html={code} collapsedHtml={collapsedCode} />
+      <Preview.Code html={code} />
     </Preview>
   );
 }
@@ -456,7 +453,7 @@ function PopoverDoc() {
         <p className="mb-3 max-w-2xl text-sm leading-6 text-foreground-muted">
           Preview keeps the surface to one trigger and its supporting guidance panel.
         </p>
-        <PopoverPreview code={code.preview} collapsedCode={code.previewBody} />
+        <PopoverPreview code={code.preview} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -545,7 +542,6 @@ function PopoverDoc() {
               elegant: <PopoverMentionCardComposition />,
               elegantDark: <PopoverMentionCardComposition />,
               compositionCode: code.popoverMentionCardComposition,
-              compositionCollapsedCode: code.popoverMentionCardCompositionBody,
               compositionPath: POPOVER_MENTION_CARD_COMPOSITION_PATH,
               compositionSource: popoverMentionCardCompositionSource,
               compositionShowLineNumbers: false,

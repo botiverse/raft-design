@@ -1,4 +1,3 @@
-import { SYSTEM_MESSAGE_FIXTURES } from "../system-message.fixtures.ts";
 import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
 
 // @docs-source-strip-start
@@ -9,9 +8,7 @@ export function SystemMessageChannelUnarchiveContent() {
   return (
     <SystemMessage>
       <SystemMessageTime>2:16 PM</SystemMessageTime>
-      <SystemMessageContent>
-        {SYSTEM_MESSAGE_FIXTURES.channelUnarchive.content}
-      </SystemMessageContent>
+      <SystemMessageContent>📤 Atlas unarchived this channel</SystemMessageContent>
     </SystemMessage>
   );
 }

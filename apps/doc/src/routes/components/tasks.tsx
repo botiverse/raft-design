@@ -15,12 +15,12 @@ import tasksAssigneeFilterCompositionSource from "#/modules/tasks/compositions/t
 import { TasksCreatorFilterComposition } from "#/modules/tasks/compositions/tasks-creator-filter.composition.tsx";
 import tasksCreatorFilterCompositionSource from "#/modules/tasks/compositions/tasks-creator-filter.composition.tsx?raw";
 import { TasksLegacyTaskPanelComposition } from "#/modules/tasks/compositions/tasks-legacy-task-panel.composition.tsx";
+import tasksLegacyTaskPanelCompositionSource from "#/modules/tasks/compositions/tasks-legacy-task-panel.composition.tsx?raw";
 import { TasksLoadingComposition } from "#/modules/tasks/compositions/tasks-loading.composition.tsx";
 import tasksLoadingCompositionSource from "#/modules/tasks/compositions/tasks-loading.composition.tsx?raw";
 import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
 import tasksPanelCompositionSource from "#/modules/tasks/compositions/tasks-panel.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 
 const ANATOMY_SNIPPET = `<TasksPanelRoot>
   <TasksPanelToolbar>
@@ -46,46 +46,6 @@ const ANATOMY_SNIPPET = `<TasksPanelRoot>
     {/* Compose TaskBoard / TaskList / TaskDnd / TaskCard here */}
   </TasksPanelViewport>
 </TasksPanelRoot>`;
-
-const LEGACY_TASK_PANEL_SNIPPET = `// Same right-hand slot as ThreadPanel — mutually exclusive.
-if (task.isLegacy) {
-  openLegacyTaskPanel(task);
-  return;
-}
-openThread(task.sourceMessageId);
-
-<ThreadPanelRoot>
-  <ThreadPanelHeader>
-    <FileTextIcon />
-    <ThreadPanelTitle>
-      #{channelName}
-      <ThreadPanelTitleMeta>Task #{n} · LEGACY</ThreadPanelTitleMeta>
-    </ThreadPanelTitle>
-    <ThreadPanelActions>
-      <PanelAction aria-label="Close legacy task"><X /></PanelAction>
-    </ThreadPanelActions>
-  </ThreadPanelHeader>
-  <ThreadPanelContent>
-    <ThreadPanelBody className="space-y-4 overflow-y-auto px-5 py-4">
-      <TaskCardStatus status="in_progress" render={<span />}>
-        <TaskStatusIcon status="in_progress" />
-      </TaskCardStatus>
-      <TaskCardStatus status="in_progress" render={<span />}>
-        <span data-slot="task-card-status-label">
-          <TaskStatusIcon status="in_progress" />
-          In Progress
-        </span>
-      </TaskCardStatus>
-      {/* title/description + metadata cards */}
-      <Banner status="warning">
-        <BannerTitle>Read-only panel</BannerTitle>
-        <BannerDescription>
-          Legacy tasks do not map to a message thread.
-        </BannerDescription>
-      </Banner>
-    </ThreadPanelBody>
-  </ThreadPanelContent>
-</ThreadPanelRoot>`;
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -192,13 +152,13 @@ export const Route = createFileRoute("/components/tasks")({
     highlightSnippets({
       data: {
         anatomy: ANATOMY_SNIPPET,
-        panel: stripSourceCodeBlocks(tasksPanelCompositionSource),
+        panel: tasksPanelCompositionSource,
         assigneeFilter: tasksAssigneeFilterCompositionSource,
         creatorFilter: tasksCreatorFilterCompositionSource,
         loading: tasksLoadingCompositionSource,
         empty: tasksEmptyStatesCompositionSource,
         error: tasksErrorCompositionSource,
-        legacyTaskPanel: LEGACY_TASK_PANEL_SNIPPET,
+        legacyTaskPanel: tasksLegacyTaskPanelCompositionSource,
       },
     }),
 });
@@ -242,7 +202,7 @@ function TasksDoc() {
           <Preview.Canvas>
             <TasksPanelComposition />
           </Preview.Canvas>
-          <Preview.Code html={code.panel} />
+          <Preview.Code html={code.panel} collapsedHtml={code.panelBody} />
         </Preview>
       </DocSection>
 
@@ -267,7 +227,7 @@ function TasksDoc() {
                   <TasksCreatorFilterComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.creatorFilter} />
+              <Preview.Code html={code.creatorFilter} collapsedHtml={code.creatorFilterBody} />
             </Preview>
           </DocSubsection>
 
@@ -282,7 +242,7 @@ function TasksDoc() {
                   <TasksAssigneeFilterComposition />
                 </div>
               </Preview.Canvas>
-              <Preview.Code html={code.assigneeFilter} />
+              <Preview.Code html={code.assigneeFilter} collapsedHtml={code.assigneeFilterBody} />
             </Preview>
           </DocSubsection>
 
@@ -291,7 +251,7 @@ function TasksDoc() {
               <Preview.Canvas>
                 <TasksLoadingComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.loading} />
+              <Preview.Code html={code.loading} collapsedHtml={code.loadingBody} />
             </Preview>
           </DocSubsection>
 
@@ -306,7 +266,7 @@ function TasksDoc() {
               <Preview.Canvas>
                 <TasksEmptyStatesComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.empty} />
+              <Preview.Code html={code.empty} collapsedHtml={code.emptyBody} />
             </Preview>
           </DocSubsection>
 
@@ -315,19 +275,19 @@ function TasksDoc() {
               <Preview.Canvas>
                 <TasksErrorComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.error} />
+              <Preview.Code html={code.error} collapsedHtml={code.errorBody} />
             </Preview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="legacy-task-panel" title="Legacy task panel">
             <p className="mb-4 text-sm text-foreground/70">
               Legacy tasks do not map to a message thread. Open them in the same right-hand slot as{" "}
-              <Link to="/components/thread-panel">ThreadPanel</Link>, composing the same shell (
-              <code>Root</code> / <code>Header</code> / <code>Title</code> / <code>Actions</code> /{" "}
-              <code>Content</code> / <code>Body</code>) with a consumer metadata body — no{" "}
-              <code>OriginalMessage</code>, replies, search, or composer. Mutually exclusive with a
-              real thread: if <code>task.isLegacy</code>, close the thread and show this panel
-              instead.
+              <Link to="/components/thread-panel">ThreadPanel</Link>, composing{" "}
+              <code>LegacyTaskPanel</code> (<code>Root</code> / <code>Header</code> /{" "}
+              <code>Title</code> / <code>Actions</code> / <code>Body</code>) with a consumer
+              metadata body — no <code>OriginalMessage</code>, replies, search, or composer.
+              Mutually exclusive with a real thread: if <code>task.isLegacy</code>, close the thread
+              and show this panel instead.
             </p>
             <Preview previewClassName="h-[36rem] items-stretch justify-center bg-brutal-cream p-6 [[data-theme=elegant]_&]:bg-layer-page">
               <Preview.Canvas>
@@ -344,7 +304,7 @@ function TasksDoc() {
                   completed="Not done"
                 />
               </Preview.Canvas>
-              <Preview.Code html={code.legacyTaskPanel} />
+              <Preview.Code html={code.legacyTaskPanel} collapsedHtml={code.legacyTaskPanelBody} />
             </Preview>
           </DocSubsection>
         </div>

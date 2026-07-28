@@ -7,9 +7,14 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
+import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 import { TaskDndComposition } from "#/modules/task-dnd/compositions/task-dnd.composition.tsx";
 import taskDndCompositionSource from "#/modules/task-dnd/compositions/task-dnd.composition.tsx?raw";
+
+const TASK_BOARD_COMPOSITION_PATH =
+  "apps/doc/src/modules/task-board/compositions/task-board.composition.tsx";
+const TASK_DND_COMPOSITION_PATH =
+  "apps/doc/src/modules/task-dnd/compositions/task-dnd.composition.tsx";
 
 const ANATOMY_SNIPPET = `<TaskDndProvider isDropAllowed={…} onMove={…}>
   <TaskBoardColumn render={<TaskDropZone id={columnDropId} data={{ status }} />}>
@@ -146,13 +151,37 @@ const DRAG_OVERLAY_PROPS: readonly PropRow[] = [
 
 const SNIPPETS = {
   anatomy: ANATOMY_SNIPPET,
-  dnd: stripSourceCodeBlocks(taskDndCompositionSource),
+  dnd: taskBoardCompositionSource,
+  dndDemo: taskDndCompositionSource,
 } as const;
 
 export const Route = createFileRoute("/components/task-dnd")({
   component: TaskDndDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
+
+/** Board wiring plus the demo composition that sets the blocked-drop policy and fixtures. */
+function TaskDndSourceFiles({ code }: { code: Record<string, string> }) {
+  return (
+    <DocsCodeBlock.Files
+      collapsible={false}
+      files={[
+        {
+          path: TASK_BOARD_COMPOSITION_PATH,
+          source: taskBoardCompositionSource,
+          html: code.dnd,
+          collapsedHtml: code.dndBody,
+        },
+        {
+          path: TASK_DND_COMPOSITION_PATH,
+          source: taskDndCompositionSource,
+          html: code.dndDemo,
+          collapsedHtml: code.dndDemoBody,
+        },
+      ]}
+    />
+  );
+}
 
 function TaskDndDoc() {
   const code = Route.useLoaderData();
@@ -184,7 +213,7 @@ function TaskDndDoc() {
           <Preview.Canvas>
             <TaskDndComposition />
           </Preview.Canvas>
-          <Preview.Code html={code.dnd} />
+          <Preview.Code codeBlock={<TaskDndSourceFiles code={code} />} />
         </Preview>
       </DocSection>
 
@@ -199,14 +228,15 @@ function TaskDndDoc() {
       <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="allowed-blocked" title="Allowed and blocked drops">
           <p className="mb-4 text-sm text-foreground/70">
-            Closed is blocked in this demo. Drag a card onto Closed to see blocked empty-state copy;
-            other columns accept the drop and call <code>onMove</code>.
+            The demo composition passes <code>blockedDropStatus=&quot;closed&quot;</code>, which the
+            board turns into an <code>isDropAllowed</code> policy. Drag a card onto Closed to see
+            blocked empty-state copy; other columns accept the drop and call <code>onMove</code>.
           </p>
           <Preview previewClassName="h-[42rem] items-stretch p-0">
             <Preview.Canvas>
               <TaskDndComposition />
             </Preview.Canvas>
-            <Preview.Code html={code.dnd} />
+            <Preview.Code codeBlock={<TaskDndSourceFiles code={code} />} />
           </Preview>
         </DocSubsection>
       </DocSection>
