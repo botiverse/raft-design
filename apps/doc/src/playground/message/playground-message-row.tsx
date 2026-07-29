@@ -26,6 +26,14 @@ import {
   MessageItemHeader,
   MessageItemInteractionBoundary,
   MessageItemMeta,
+  MessageItemReplies,
+  MessageItemRepliesSummary,
+  MessageItemRepliesTrigger,
+  MessageItemReply,
+  MessageItemReplyAvatar,
+  MessageItemReplyContent,
+  MessageItemReplySender,
+  MessageItemReplyTime,
   MessageReactionChip,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
@@ -40,7 +48,6 @@ import {
   MessageAttachmentSummary,
   MessageAttachmentTitle,
   MessageItemTime,
-  MessageItemThreadRepliesPreview,
   MessageItemTranslationAction,
   MessageItemTranslationOriginal,
   MessageItemTranslationOriginalLabel,
@@ -276,8 +283,8 @@ function PlaygroundInlineReplies({
         : `${replies.length} replies`;
 
   return (
-    <MessageItemThreadRepliesPreview>
-      <MessageItemThreadRepliesPreview.Trigger
+    <MessageItemReplies>
+      <MessageItemRepliesTrigger
         aria-label={`Open thread with ${replies.length} replies`}
         render={
           <PlaygroundConversationLink
@@ -287,7 +294,7 @@ function PlaygroundInlineReplies({
           />
         }
       >
-        <MessageItemThreadRepliesPreview.Summary>
+        <MessageItemRepliesSummary>
           {summary}
           {unreadCount ? ` · ${unreadCount} new` : null}
           {hasDraft ? (
@@ -298,33 +305,29 @@ function PlaygroundInlineReplies({
             </>
           ) : null}
           {" ›"}
-        </MessageItemThreadRepliesPreview.Summary>
+        </MessageItemRepliesSummary>
         {previews.map((reply) => {
           const replyActor = getPlaygroundActor(reply.senderId);
           return (
-            <MessageItemThreadRepliesPreview.Reply key={reply.id}>
-              <MessageItemThreadRepliesPreview.Avatar>
+            <MessageItemReply key={reply.id}>
+              <MessageItemReplyAvatar>
                 <Avatar size="sm" type={replyActor.type}>
                   {replyActor.avatarSrc ? <AvatarImage src={replyActor.avatarSrc} alt="" /> : null}
                   <AvatarFallback>
                     {replyActor.fallback ?? replyActor.name.slice(0, 2)}
                   </AvatarFallback>
                 </Avatar>
-              </MessageItemThreadRepliesPreview.Avatar>
-              <MessageItemThreadRepliesPreview.Sender>
-                {replyActor.name}
-              </MessageItemThreadRepliesPreview.Sender>
-              <MessageItemThreadRepliesPreview.Preview>
-                {reply.content}
-              </MessageItemThreadRepliesPreview.Preview>
-              <MessageItemThreadRepliesPreview.Time dateTime={reply.createdAtDateTime}>
+              </MessageItemReplyAvatar>
+              <MessageItemReplySender>{replyActor.name}</MessageItemReplySender>
+              <MessageItemReplyContent>{reply.content}</MessageItemReplyContent>
+              <MessageItemReplyTime dateTime={reply.createdAtDateTime}>
                 {reply.createdAt}
-              </MessageItemThreadRepliesPreview.Time>
-            </MessageItemThreadRepliesPreview.Reply>
+              </MessageItemReplyTime>
+            </MessageItemReply>
           );
         })}
-      </MessageItemThreadRepliesPreview.Trigger>
-    </MessageItemThreadRepliesPreview>
+      </MessageItemRepliesTrigger>
+    </MessageItemReplies>
   );
 }
 

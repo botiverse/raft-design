@@ -5,29 +5,6 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
 import { messageFooter } from "./message-footer.recipe";
 
-export {
-  MessageItemInlineReplies,
-  MessageItemInlineRepliesSummary,
-  MessageItemInlineRepliesTrigger,
-  MessageItemInlineReplyAvatar,
-  MessageItemInlineReplyCount,
-  MessageItemInlineReplyPreview,
-  MessageItemInlineReplyRow,
-  MessageItemInlineReplySender,
-  MessageItemInlineReplyTime,
-} from "./message-thread-replies-preview";
-export type {
-  MessageItemInlineRepliesProps,
-  MessageItemInlineRepliesSummaryProps,
-  MessageItemInlineRepliesTriggerProps,
-  MessageItemInlineReplyAvatarProps,
-  MessageItemInlineReplyCountProps,
-  MessageItemInlineReplyPreviewProps,
-  MessageItemInlineReplyRowProps,
-  MessageItemInlineReplySenderProps,
-  MessageItemInlineReplyTimeProps,
-} from "./message-thread-replies-preview";
-
 export type MessageItemBadgeStatus = "read" | "unread";
 
 export type MessageItemBadgeProps = useRender.ComponentProps<"span"> & {
