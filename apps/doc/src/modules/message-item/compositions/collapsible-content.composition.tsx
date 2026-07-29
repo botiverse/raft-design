@@ -65,6 +65,8 @@ const PARAGRAPHS = [
   "Detection took six of those minutes because our alert watches error rate on the API gateway, which was still mostly healthy.",
   "Mitigation: we rolled the migration forward with a backfill default rather than reverting, since the revert would have dropped data written after 17:55.",
   "Action items: add a rule that non-null columns ship with a default, and alert on per-endpoint error rate instead of the gateway aggregate.",
+  "Follow-up: the rollout playbook now requires a compatibility window whenever old and new application revisions can write to the same schema.",
+  "We are also adding a canary check that exercises channel joins and invite acceptance before a migration reaches the remaining pods.",
   "I'll open both tickets this afternoon. Shout if you saw anything else odd around that window — I'd rather over-collect now.",
 ] as const;
 
