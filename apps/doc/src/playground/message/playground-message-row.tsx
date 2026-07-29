@@ -614,7 +614,7 @@ export function PlaygroundMessageRow({
                 <MessageReactionChip
                   key={reaction.emoji}
                   aria-label={`${reaction.emoji} ${reaction.count}`}
-                  aria-pressed={reacted}
+                  selected={reacted}
                   onClick={() => toggleReaction(reaction.emoji)}
                 >
                   <MessageReactionGlyphComposition emoji={reaction.emoji} />

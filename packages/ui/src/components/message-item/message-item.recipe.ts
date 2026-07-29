@@ -37,6 +37,7 @@ export const messageItem = tv({
       "pointer-events-none absolute z-20 flex items-center overflow-hidden opacity-0",
       "group-hover/message:pointer-events-auto group-hover/message:opacity-100",
       "group-focus-within/message:pointer-events-auto group-focus-within/message:opacity-100",
+      "group-has-[[data-popup-open]]/message:pointer-events-auto group-has-[[data-popup-open]]/message:opacity-100",
     ],
     toolbarButton: ["inline-flex shrink-0 items-center justify-center", "[&_svg]:shrink-0"],
     saveButton: [],
@@ -46,10 +47,11 @@ export const messageItem = tv({
       brutal: {
         root: [
           "mb-1 mt-1.5 border-2 border-transparent px-2 py-1",
-          "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
+          "hover:border-line-strong hover:bg-layer-panel",
+          "has-[[data-popup-open]]:border-line-strong has-[[data-popup-open]]:bg-layer-panel",
         ],
         continuationTime:
-          "font-mono text-[10px] leading-none text-black/0 group-hover/message:text-black/40",
+          "font-mono text-[10px] leading-none text-black/0 group-hover/message:text-black/40 group-has-[[data-popup-open]]/message:text-black/40",
         // Body + pre-body chips (e.g. AttachmentCommentRefChip) inherit from content.
         // Live Slock applies the same appearance size class to the chip and the body.
         content: "text-sm",
@@ -79,24 +81,23 @@ export const messageItem = tv({
         toolbarButton: [
           "size-6",
           "text-black/50 hover:bg-soft-signal/30 hover:text-black",
-          "data-[pressed]:text-black data-[pressed]:hover:text-black",
+          "data-popup-open:bg-soft-signal/30 data-popup-open:text-black",
           "[&_svg]:size-[13px]",
         ],
-        saveButton: "data-[pressed]:text-brutal-orange data-[pressed]:hover:text-brutal-orange",
+        saveButton: "data-[selected]:text-brutal-orange data-[selected]:hover:text-brutal-orange",
       },
       elegant: {
         root: [
           "gap-3 border border-transparent max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
-          "[&:hover:not(:active):not(:has([data-slot=message-item-footer]:hover))]:bg-ink-2",
-          "[&:active:not(:has([data-slot=message-item-footer]:active))]:bg-ink-8",
+          "hover:bg-ink-2 has-[[data-popup-open]]:bg-ink-2",
         ],
         gutter: "max-md:w-8",
         avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
         continuationTime: [
           "top-0 pt-1.5",
           "font-sans text-xs leading-none",
-          "text-transparent group-hover/message:text-foreground-muted/60",
+          "text-transparent group-hover/message:text-foreground-muted/60 group-has-[[data-popup-open]]/message:text-foreground-muted/60",
         ],
         // Pre-body chips inherit body type size from content (same as brutal).
         content: "text-sm leading-5.25 tracking-[-0.01em]",
@@ -144,10 +145,11 @@ export const messageItem = tv({
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent p-0",
           "text-foreground-icon hover:bg-layer-strong/80 hover:text-foreground",
-          "data-[pressed]:text-primary-400 data-[pressed]:hover:text-primary-400",
+          "data-popup-open:bg-layer-strong/80 data-popup-open:text-foreground",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-3.5",
         ],
+        saveButton: "data-[selected]:text-primary-400 data-[selected]:hover:text-primary-400",
         footer: "mt-2.5 max-md:mt-1.5",
       },
     },
@@ -156,8 +158,8 @@ export const messageItem = tv({
       "search-match": {},
       select: {
         root: [
-          "hover:border-transparent active:border-transparent",
-          "hover:bg-layer-panel active:bg-layer-panel",
+          "hover:border-transparent hover:bg-layer-panel",
+          "has-[[data-popup-open]]:border-transparent has-[[data-popup-open]]:bg-layer-panel",
         ],
       },
     },

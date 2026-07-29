@@ -166,12 +166,13 @@ export const ACTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemToolbarButton",
     type: 'useRender.ComponentProps<"button">',
-    description: "Toolbar action button. Use native aria-pressed for toggled actions.",
+    description:
+      "Toolbar action button. Popup triggers receive Base UI state attributes through render composition.",
   },
   {
     name: "MessageItemSaveButton",
-    type: 'useRender.ComponentProps<"button">',
-    description: "Semantic saved action with the source accent treatment when pressed.",
+    type: 'useRender.ComponentProps<"button"> & { selected?: boolean }',
+    description: "Semantic saved action with an explicit selected accent state.",
   },
   {
     name: "MessageItemSavedIndicator",
@@ -198,9 +199,9 @@ export const FOOTER_PROPS: readonly PropRow[] = [
 export const REACTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageReactionChip",
-    type: 'useRender.ComponentProps<"button">',
+    type: 'useRender.ComponentProps<"button"> & { selected?: boolean }',
     description:
-      "Reaction chip styled through native aria-pressed. Mutation failure is composed as an explicit indicator child.",
+      "Reaction chip with an explicit selected state. Mutation failure is composed as an explicit indicator child.",
   },
   {
     name: "MessageReactionErrorIndicator",

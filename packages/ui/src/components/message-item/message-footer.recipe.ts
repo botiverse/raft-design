@@ -42,7 +42,7 @@ export const messageFooter = tv({
         readReceipt: "h-5 text-[11px] font-medium text-foreground-muted [&_svg]:size-2.5",
         badge: [
           "h-5 rounded-md px-1.5 py-0.5 shadow-none ring-0",
-          "text-[12px] font-[420] tracking-[-0.01em] hover:brightness-[0.96] [&_svg]:size-[11px]",
+          "text-[12px] font-[420] tracking-[-0.01em] hover:bg-layer-strong/80 [&_svg]:size-[11px]",
         ],
         badgeSeparator: "text-foreground/45",
       },

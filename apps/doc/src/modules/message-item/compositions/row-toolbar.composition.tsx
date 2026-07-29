@@ -47,7 +47,7 @@ export function MessageRowToolbar({
 
   return (
     <MessageItemToolbar
-      visible={visible || reactionOpen}
+      visible={visible}
       onMouseEnter={clearCloseTimer}
       onMouseLeave={reactionOpen ? scheduleClose : undefined}
     >
@@ -65,20 +65,20 @@ export function MessageRowToolbar({
         onOpenChange={setReactionOpen}
         onReact={onReact}
         trigger={
-          <MessageItemToolbarButton aria-pressed={reactionOpen} aria-label="Add reaction">
+          <MessageItemToolbarButton aria-label="Add reaction">
             <SmilePlus />
           </MessageItemToolbarButton>
         }
         side="bottom"
-        align="end"
-        sideOffset={4}
+        align="center"
+        sideOffset={8}
         portalContainer={portalContainer}
         contentOnMouseEnter={clearCloseTimer}
         contentOnMouseLeave={scheduleClose}
       />
       <MessageItemSaveButton
-        aria-pressed={saved}
         aria-label={saved ? "Remove from Saved" : "Save message"}
+        selected={saved}
         onClick={() => onSavedChange(!saved)}
       >
         <Bookmark fill={saved ? "currentColor" : "none"} />

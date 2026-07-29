@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { dataPresence, isAriaTrue, type SlotElementProps } from "../../lib/data-attributes";
+import { dataPresence, type SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
@@ -35,7 +35,6 @@ export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button">;
 export function MessageItemToolbarButton({
   className,
   render,
-  "aria-pressed": ariaPressed,
   ...props
 }: MessageItemToolbarButtonProps) {
   const theme = useThemeFamily();
@@ -48,38 +47,36 @@ export function MessageItemToolbarButton({
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(defaultProps, props, {
-      "aria-pressed": ariaPressed,
-      ...(isAriaTrue(ariaPressed) ? { "data-pressed": dataPresence(true) } : {}),
-    }),
+    props: mergeProps<"button">(defaultProps, props),
     state: {
       slot: "message-item-toolbar-button",
     },
   });
 }
 
-export type MessageItemSaveButtonProps = MessageItemToolbarButtonProps;
+export type MessageItemSaveButtonProps = MessageItemToolbarButtonProps & {
+  selected?: boolean;
+};
 
 export function MessageItemSaveButton({
   className,
   render,
-  "aria-pressed": ariaPressed,
+  selected,
   ...props
 }: MessageItemSaveButtonProps) {
   const theme = useThemeFamily();
   const { saveButton, toolbarButton } = messageItem({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
+    "aria-pressed": selected,
+    "data-selected": dataPresence(selected),
     className: toolbarButton({ className: saveButton({ className }) }),
   };
 
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(defaultProps, props, {
-      "aria-pressed": ariaPressed,
-      ...(isAriaTrue(ariaPressed) ? { "data-pressed": dataPresence(true) } : {}),
-    }),
+    props: mergeProps<"button">(defaultProps, props),
     state: {
       slot: "message-item-save-button",
     },
