@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -232,20 +231,6 @@ function FilesPanelDoc() {
     <DocPage
       title="FilesPanel"
       description="Composable panel structure for channel files, thumbnails, metadata, and file actions."
-      overview={
-        <Differences from="Slock ChannelFilesPanel">
-          <li>replaces AvatarListRow coupling with explicit file-row parts</li>
-          <li>
-            keeps fetching, cursor state, signed URLs, lightbox policy, downloads, and navigation in
-            the consumer
-          </li>
-          <li>
-            composes <code>FilePreview</code> for archive, document, code, media, and badge
-            fallbacks
-          </li>
-          <li>preserves the source list, row, metadata, actions, and load-more structure</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

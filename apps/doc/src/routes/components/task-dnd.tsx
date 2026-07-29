@@ -1,6 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -190,22 +189,6 @@ function TaskDndDoc() {
     <DocPage
       title="TaskDnd"
       description="dnd-kit wiring for task drag sources and drop targets. Drop policy and move effects stay consumer-owned."
-      overview={
-        <Differences from="Slock Tasks drag">
-          <li>
-            peer of <Link to="/components/task-board">TaskBoard</Link> and{" "}
-            <Link to="/components/task-list">TaskList</Link> — not nested inside the panel package
-          </li>
-          <li>
-            card targets expose before/after placement while an empty column remains a whole-column
-            target
-          </li>
-          <li>
-            <code>isDropAllowed</code> and <code>onMove</code> own permissions and persistence — the
-            package only runs sensors and hit-testing
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

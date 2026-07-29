@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -165,25 +164,7 @@ function SandboxedPreviewFrameDoc() {
     <DocPage
       title="SandboxedPreviewFrame"
       description="A source security utility that should stay app-local instead of becoming a design-system component."
-      overview={
-        <div className="grid gap-4">
-          <Differences from="SandboxedPreviewFrame">
-            <li>
-              skipped for <code>raft-ui</code>: no visual contract, no theme contract, and no Base
-              UI/composition value
-            </li>
-            <li>
-              HTML/PDF previews keep <code>sandbox=&quot;allow-scripts&quot;</code> without{" "}
-              <code>allow-same-origin</code>; Mermaid keeps an empty sandbox
-            </li>
-            <li>
-              keep the source implementation as an app-level utility so security policy stays close
-              to attachment and markdown preview callsites
-            </li>
-          </Differences>
-          <TodoList items={TODOS} />
-        </div>
-      }
+      overview={<TodoList items={TODOS} />}
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

@@ -15,7 +15,6 @@ import {
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
-  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
@@ -35,7 +34,7 @@ export function MessageReferenceComparisonComposition() {
 
   return (
     <div className="w-full max-w-xl">
-      <MessageItemInteractionBoundary ref={setPortalContainer}>
+      <div ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
             <Avatar size="md" type="agent">
@@ -84,7 +83,7 @@ export function MessageReferenceComparisonComposition() {
             </MessageItemBody>
           </MessageItemContent>
         </MessageItem>
-      </MessageItemInteractionBoundary>
+      </div>
     </div>
   );
 }

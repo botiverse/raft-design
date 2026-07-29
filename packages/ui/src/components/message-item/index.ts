@@ -10,24 +10,22 @@ export {
   MessageItemGutter,
 } from "./message-item-gutter";
 export {
-  MessageItemCollapsibleContent,
-  MessageItemCollapsibleContentPanel,
-  MessageItemCollapsibleContentTrigger,
-  MESSAGE_ITEM_COLLAPSIBLE_CONTENT_HEIGHT,
-  messageItemContentOverflows,
-} from "./message-item-collapsible-content";
+  MessageItemContentCollapse,
+  MessageItemContentCollapsePanel,
+  MessageItemContentCollapseTrigger,
+  MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT,
+} from "./message-item-content-collapse";
 export type {
-  MessageItemCollapsibleContentPanelProps,
-  MessageItemCollapsibleContentProps,
-  MessageItemCollapsibleContentTriggerProps,
-} from "./message-item-collapsible-content";
+  MessageItemContentCollapsePanelProps,
+  MessageItemContentCollapseProps,
+  MessageItemContentCollapseTriggerProps,
+} from "./message-item-content-collapse";
 export {
   MessageItemAttachments,
   MessageItemBody,
   MessageItemContent,
   MessageItemEmbedded,
   MessageItemFooter,
-  MessageItemInteractionBoundary,
   MessageItemNotice,
 } from "./message-item-content";
 export {
@@ -109,7 +107,6 @@ export type {
   MessageItemContentProps,
   MessageItemEmbeddedProps,
   MessageItemFooterProps,
-  MessageItemInteractionBoundaryProps,
   MessageItemNoticeProps,
 } from "./message-item-content";
 export type {

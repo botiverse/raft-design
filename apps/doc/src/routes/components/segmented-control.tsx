@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -152,18 +151,6 @@ function SegmentedControlDoc() {
     <DocPage
       title="SegmentedControl"
       description="A compact single-choice control for filters, view modes, and persistent preference choices."
-      overview={
-        <Differences from="source SegmentedControl">
-          <li>keeps the source radiogroup semantics instead of modeling the control as tabs</li>
-          <li>
-            replaces the source <code>options</code> array with explicit item composition for icons,
-            counts, and labels
-          </li>
-          <li>
-            brutal preserves the source bordered yellow segment; elegant adds a quiet inset rail
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

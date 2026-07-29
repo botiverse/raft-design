@@ -8,7 +8,6 @@ import {
   DescriptionTerm,
 } from "raft-ui/wip";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -162,19 +161,6 @@ function DescriptionListDoc() {
     <DocPage
       title="DescriptionList"
       description="A compact term/details composition for detail-panel metadata."
-      overview={
-        <Differences from="KeyValueRow">
-          <li>
-            <code>KeyValueRow</code> moved to <code>src/legacy</code>; the package surface now
-            exposes a description-list composition family
-          </li>
-          <li>
-            source props such as <code>label</code>, <code>value</code>, <code>mono</code>,{" "}
-            <code>breakAll</code>, and <code>action</code> are now explicit slots and classes
-          </li>
-          <li>brutal typography and spacing are preserved for the original detail-panel pattern</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="todo" title="Todo">

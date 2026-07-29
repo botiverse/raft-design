@@ -1,6 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -180,17 +179,6 @@ function TaskListDoc() {
     <DocPage
       title="TaskList"
       description="Stacked status sections for the Tasks list view. Compose TaskCard (and optionally TaskDnd) as children."
-      overview={
-        <Differences from="Slock Tasks list">
-          <li>
-            peer of <code>TasksPanel</code>, <Link to="/components/task-board">TaskBoard</Link>,{" "}
-            <Link to="/components/task-dnd">TaskDnd</Link>, and{" "}
-            <Link to="/components/task-card">TaskCard</Link>
-          </li>
-          <li>owns section layout, collapse, and empty-section structure only</li>
-          <li>does not own filters, create flows, or task workflow state</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

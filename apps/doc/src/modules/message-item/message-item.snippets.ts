@@ -18,9 +18,44 @@ export const ANATOMY_SOURCE = `<MessageItem>
       <MessageItemTime />
       <MessageItemInlineStatus />
     </MessageItemHeader>
-    <MessageItemBody />
-    <MessageItemAttachments>...</MessageItemAttachments>
-    <MessageItemFooter />
+    <MessageItemContentCollapse
+      collapsible={collapsible}
+      expanded={expanded}
+      onExpandedChange={setExpanded}
+    >
+      <MessageItemContentCollapsePanel>
+        <MessageItemBody />
+        <MessageItemTranslationOriginal />
+        <MessageItemEmbedded />
+        <MessageItemNotice />
+        <MessageItemAttachments>...</MessageItemAttachments>
+      </MessageItemContentCollapsePanel>
+      <MessageItemContentCollapseTrigger>
+        {expanded ? (
+          <>
+            <ChevronsDownUp aria-hidden data-icon="inline-start" />
+            Show less
+          </>
+        ) : (
+          <>
+            <ChevronsUpDown aria-hidden data-icon="inline-start" />
+            Show more
+          </>
+        )}
+      </MessageItemContentCollapseTrigger>
+    </MessageItemContentCollapse>
+    <MessageItemTranslationStatus />
+    <MessageItemFooter>
+      <TaskChip />
+      <MessageItemSavedIndicator />
+      <MessageItemBadge />
+      <MessageReactionChip />
+      <MessageItemReadReceipt />
+    </MessageItemFooter>
+    <MessageReplies>
+      <MessageRepliesSummary />
+      <MessageRepliesItem />
+    </MessageReplies>
   </MessageItemContent>
   <MessageItemToolbar />
 </MessageItem>
@@ -68,10 +103,9 @@ export const ROW_PROPS: readonly PropRow[] = [
       "Compact consecutive-row gutter and hover timestamp. Used when compact hides sender chrome.",
   },
   {
-    name: "MessageItemContent / MessageItemInteractionBoundary",
+    name: "MessageItemContent",
     type: 'useRender.ComponentProps<"div">',
-    description:
-      "Main row column and an optional boundary that prevents nested controls from triggering row-level interactions.",
+    description: "Main row column.",
   },
   {
     name: "MessageItemHeader / MessageItemSender / MessageItemSenderState",
@@ -87,6 +121,18 @@ export const ROW_PROPS: readonly PropRow[] = [
 ];
 
 export const CONTENT_PROPS: readonly PropRow[] = [
+  {
+    name: "MessageItemContentCollapse",
+    type: 'useRender.ComponentProps<"div"> & { collapsible: boolean; expanded: boolean; collapseHeight?: number; onExpandedChange: (expanded: boolean) => void }',
+    description:
+      "Controlled content-collapse root. Consumers own height measurement, eligibility, expanded persistence, and timeline coordination.",
+  },
+  {
+    name: "MessageItemContentCollapsePanel / MessageItemContentCollapseTrigger",
+    type: 'useRender.ComponentProps<"div"> / Omit<ButtonProps, "children" | "size" | "variant">',
+    description:
+      "Clipped content viewport and its outline toggle. The trigger sits centered over the fade while collapsed, returns below the content when expanded, and owns the ARIA relationship.",
+  },
   {
     name: "MessageItemBody",
     type: 'useRender.ComponentProps<"div">',
@@ -130,12 +176,13 @@ export const ACTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemToolbarButton",
     type: 'useRender.ComponentProps<"button">',
-    description: "Toolbar action button. Use native aria-pressed for toggled actions.",
+    description:
+      "Toolbar action button. Popup triggers receive Base UI state attributes through render composition.",
   },
   {
     name: "MessageItemSaveButton",
-    type: 'useRender.ComponentProps<"button">',
-    description: "Semantic saved action with the source accent treatment when pressed.",
+    type: 'useRender.ComponentProps<"button"> & { selected?: boolean }',
+    description: "Semantic saved action with an explicit selected accent state.",
   },
   {
     name: "MessageItemSavedIndicator",
@@ -162,9 +209,9 @@ export const FOOTER_PROPS: readonly PropRow[] = [
 export const REACTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageReactionChip",
-    type: 'useRender.ComponentProps<"button">',
+    type: 'useRender.ComponentProps<"button"> & { selected?: boolean }',
     description:
-      "Reaction chip styled through native aria-pressed. Mutation failure is composed as an explicit indicator child.",
+      "Reaction chip with an explicit selected state. Mutation failure is composed as an explicit indicator child.",
   },
   {
     name: "MessageReactionErrorIndicator",

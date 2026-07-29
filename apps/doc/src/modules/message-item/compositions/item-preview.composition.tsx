@@ -14,7 +14,6 @@ import {
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
-  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
@@ -56,7 +55,6 @@ export type MessageItemPreviewProps = {
   saved?: boolean;
   replies?: boolean;
   reactions?: boolean;
-  toolbar?: boolean;
 };
 
 // @docs-source-strip-start
@@ -89,8 +87,8 @@ export function MessageMobileReactionAdd({
 
 /**
  * Configurable authored row for the docs playground. Row chrome, the saved
- * indicator, reactions, and the hover toolbar are driven by controls; business
- * state and copy stay caller-owned like every other composition.
+ * indicator, and reactions are driven by controls; the toolbar follows its
+ * real row hover and focus-within behavior.
  */
 export function MessageItemPreview({
   chrome = "default",
@@ -101,7 +99,6 @@ export function MessageItemPreview({
   saved = false,
   replies = false,
   reactions = false,
-  toolbar = false,
 }: MessageItemPreviewProps) {
   const [isSaved, setIsSaved] = useState(saved);
   const [reaction, setReaction] = useState<string>();
@@ -160,7 +157,7 @@ export function MessageItemPreview({
 
   if (continuation) {
     return (
-      <MessageItemInteractionBoundary ref={setPortalContainer}>
+      <div ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
             <Avatar size="md" type="agent">
@@ -200,22 +197,19 @@ export function MessageItemPreview({
             {attachments}
             {footer}
           </MessageItemContent>
-          {toolbar ? (
-            <MessageRowToolbar
-              saved={isSaved}
-              visible
-              portalContainer={portalContainer}
-              onReact={setReaction}
-              onSavedChange={setIsSaved}
-            />
-          ) : null}
+          <MessageRowToolbar
+            saved={isSaved}
+            portalContainer={portalContainer}
+            onReact={setReaction}
+            onSavedChange={setIsSaved}
+          />
         </MessageItem>
         {reaction ? (
           <span className="sr-only" role="status">
             Reacted with {reaction}
           </span>
         ) : null}
-      </MessageItemInteractionBoundary>
+      </div>
     );
   }
 
@@ -235,7 +229,7 @@ export function MessageItemPreview({
   if (chrome === "selected") {
     return (
       <MessageMultiSelect defaultActive defaultSelected={new Set(["preview"])}>
-        <MessageItemInteractionBoundary>
+        <div>
           <MessageItemSelection>
             <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
             <MessageItemAvatarSlot>
@@ -246,7 +240,7 @@ export function MessageItemPreview({
             </MessageItemAvatarSlot>
             {content}
           </MessageItemSelection>
-        </MessageItemInteractionBoundary>
+        </div>
       </MessageMultiSelect>
     );
   }
@@ -259,7 +253,7 @@ export function MessageItemPreview({
         : MessageItem;
 
   return (
-    <MessageItemInteractionBoundary ref={setPortalContainer}>
+    <div ref={setPortalContainer}>
       <RowChrome>
         <MessageItemAvatarSlot>
           <Avatar size="md" type="agent">
@@ -268,21 +262,18 @@ export function MessageItemPreview({
           </Avatar>
         </MessageItemAvatarSlot>
         {content}
-        {toolbar ? (
-          <MessageRowToolbar
-            saved={isSaved}
-            visible
-            portalContainer={portalContainer}
-            onReact={setReaction}
-            onSavedChange={setIsSaved}
-          />
-        ) : null}
+        <MessageRowToolbar
+          saved={isSaved}
+          portalContainer={portalContainer}
+          onReact={setReaction}
+          onSavedChange={setIsSaved}
+        />
       </RowChrome>
       {reaction ? (
         <span className="sr-only" role="status">
           Reacted with {reaction}
         </span>
       ) : null}
-    </MessageItemInteractionBoundary>
+    </div>
   );
 }

@@ -44,7 +44,6 @@ export function MessageItemPlaygroundPreview({
   const [replies, setReplies] = useState(false);
   const [reactions, setReactions] = useState(true);
   const [saved, setSaved] = useState(false);
-  const [toolbar, setToolbar] = useState(true);
 
   const isMessage = scenario === "message";
 
@@ -65,7 +64,6 @@ export function MessageItemPlaygroundPreview({
             saved={isMessage && saved}
             replies={isMessage && replies}
             reactions={isMessage && reactions}
-            toolbar={isMessage && toolbar && chrome !== "selected"}
           />
         </div>
       </Preview.Canvas>
@@ -136,16 +134,6 @@ export function MessageItemPlaygroundPreview({
                   onCheckedChange={setSaved}
                 />
               </Preview.Control>
-              {chrome !== "selected" ? (
-                <Preview.Control label="Toolbar" htmlFor="message-item-preview-toolbar">
-                  <Preview.Checkbox
-                    id="message-item-preview-toolbar"
-                    label="Toolbar"
-                    checked={toolbar}
-                    onCheckedChange={setToolbar}
-                  />
-                </Preview.Control>
-              ) : null}
             </Preview.ControlGroup>
           </>
         ) : null}

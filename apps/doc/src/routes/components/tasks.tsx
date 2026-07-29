@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -169,32 +168,7 @@ function TasksDoc() {
   return (
     <DocPage
       title="TasksPanel"
-      description="Shell for the Tasks tab: toolbar slots, viewport, empty, and loading. Board, list, dnd, and card are separate peers."
-      overview={
-        <Differences from="Slock TasksPanel">
-          <li>
-            package split: shell here; see <Link to="/components/task-board">TaskBoard</Link>,{" "}
-            <Link to="/components/task-list">TaskList</Link>,{" "}
-            <Link to="/components/task-dnd">TaskDnd</Link>, and{" "}
-            <Link to="/components/task-card">TaskCard</Link>
-          </li>
-          <li>preserves the channel Tasks tab structure across Brutal and Elegant themes</li>
-          <li>
-            toolbar slots are <code>NewTask</code>, <code>Filters</code>, and <code>View</code> —
-            desktop keeps New Task + filters left and view right; mobile puts New Task / View on row
-            one and filters alone on row two. Ghost <code>Clear</code> stays inside Filters when
-            active. Compose <code>Combobox</code>, <code>Button</code>, and related primitives
-          </li>
-          <li>keeps task workflow, permissions, stores, realtime, and routing in the consumer</li>
-          <li>
-            does not ship a create-task dialog — consumers compose <code>Dialog</code>,{" "}
-            <code>Button</code>, and form fields
-          </li>
-          <li>
-            legacy tasks open a read-only side panel (ThreadPanel chrome, no thread) — see Usage
-          </li>
-        </Differences>
-      }
+      description="Shell for the Tasks tab with toolbar slots, viewport, empty, and loading states."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

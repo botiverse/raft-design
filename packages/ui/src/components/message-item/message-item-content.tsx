@@ -22,29 +22,6 @@ export function MessageItemContent({ className, render, ...props }: MessageItemC
   });
 }
 
-export type MessageItemInteractionBoundaryProps = useRender.ComponentProps<"div">;
-
-export function MessageItemInteractionBoundary({
-  className,
-  render,
-  ...props
-}: MessageItemInteractionBoundaryProps) {
-  const theme = useThemeFamily();
-  const { interactionBoundary } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: interactionBoundary({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: {
-      slot: "message-item-interaction-boundary",
-    },
-  });
-}
-
 export type MessageItemBodyProps = useRender.ComponentProps<"div">;
 
 export function MessageItemBody({ className, render, ...props }: MessageItemBodyProps) {

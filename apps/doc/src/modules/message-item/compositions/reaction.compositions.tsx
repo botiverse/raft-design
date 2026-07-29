@@ -102,8 +102,8 @@ export function MessageReactionComposition({
 
   return (
     <MessageReactionChip
-      aria-pressed={reacted}
       aria-label={label}
+      selected={reacted}
       title={title ?? label}
       onClick={handleClick}
     >
@@ -145,8 +145,8 @@ export function MessageReactionTooltipComposition({
       <TooltipTrigger
         render={
           <MessageReactionChip
-            aria-pressed={reacted}
             aria-label={summary}
+            selected={reacted}
             onClick={() => setReacted((current) => !current)}
           >
             <MessageReactionGlyphComposition emoji={emoji} size={15} />

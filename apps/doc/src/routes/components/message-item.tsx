@@ -1,8 +1,6 @@
 import type { ReactNode } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -126,35 +124,8 @@ function MessageItemDoc() {
     <DocPage
       title="MessageItem"
       description="Business-agnostic message row chrome and the body blocks composed inside it."
-      overview={
-        <Differences from="MessageItem">
-          <li>
-            store data, permission checks, reaction picker state, and thread behavior stay outside
-          </li>
-          <li>context menu is composed with the existing ContextMenu primitive</li>
-          <li>
-            active, search-match, and selection chrome use explicit composition roots without owning
-            business state
-          </li>
-          <li>
-            product copy, icons, callbacks, and async state live in docs compositions rather than
-            the UI package
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
-      <DocNote>
-        Centered system-event rows are a timeline peer — see{" "}
-        <Link to="/components/system-message">SystemMessage</Link>. Body surfaces live on sibling
-        pages: <Link to="/components/markdown">Markdown</Link>,{" "}
-        <Link to="/components/message-reference">MessageReference</Link>,{" "}
-        <Link to="/components/message-quoted-preview">MessageQuotedPreview</Link>,{" "}
-        <Link to="/components/message-forwarded-bundle">MessageForwardedBundle</Link>,{" "}
-        <Link to="/components/message-action-card">MessageActionCard</Link>, and{" "}
-        <Link to="/components/message-attachment">MessageAttachment</Link>.
-      </DocNote>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <MessageItemPlaygroundPreview
           code={code.itemPreview}
@@ -278,7 +249,7 @@ function MessageItemDoc() {
             </Preview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="collapsible-content" title="Long content">
+          <DocSubsection parentId="usage" id="collapsible-content" title="Collapsible content">
             <UsagePreview
               code={code.collapsibleContent}
               collapsedCode={code.collapsibleContentBody}

@@ -36,7 +36,7 @@ export function MessageQuickReactionPicker({
         align={align}
         side={side}
         sideOffset={sideOffset}
-        collisionAvoidance={{ side: "flip", align: "flip" }}
+        collisionAvoidance={{ side: "flip", align: "shift", fallbackAxisSide: "none" }}
         collisionPadding={8}
         portalProps={portalContainer ? { container: portalContainer } : undefined}
         onMouseEnter={contentOnMouseEnter}
