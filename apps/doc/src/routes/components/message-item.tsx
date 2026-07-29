@@ -249,7 +249,7 @@ function MessageItemDoc() {
             </Preview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="collapsible-content" title="Long content">
+          <DocSubsection parentId="usage" id="collapsible-content" title="Collapsible content">
             <UsagePreview
               code={code.collapsibleContent}
               collapsedCode={code.collapsibleContentBody}
