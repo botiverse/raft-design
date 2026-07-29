@@ -1,6 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
-import { devtools } from "@tanstack/devtools-vite";
 
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
@@ -43,7 +42,6 @@ const config = defineConfig({
     include: ["foxact/use-clipboard", "foxact/use-media-query", "torph/react"],
   },
   plugins: [
-    devtools({ consolePiping: { enabled: false } }),
     cloudflare({ viteEnvironment: { name: "ssr", childEnvironments: ["rsc"] } }),
     tailwindcss(),
     tanstackStart({

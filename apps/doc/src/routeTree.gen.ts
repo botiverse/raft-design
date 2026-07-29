@@ -9,135 +9,120 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as MigrationRouteImport } from './routes/migration'
-import { Route as LabRouteImport } from './routes/lab'
-import { Route as InstallationRouteImport } from './routes/installation'
-import { Route as ComponentsRouteImport } from './routes/components'
-import { Route as ChangelogRouteImport } from './routes/changelog'
-import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
-import { Route as MigrationIndexRouteImport } from './routes/migration.index'
-import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
-import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
-import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
-import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
-import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
-import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
-import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
-import { Route as IframeChatSidebarMobilePartsRouteImport } from './routes/iframe/chat-sidebar-mobile-parts'
-import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
-import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
-import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
-import { Route as ComponentsToastRouteImport } from './routes/components/toast'
-import { Route as ComponentsThreadPanelRouteImport } from './routes/components/thread-panel'
-import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
-import { Route as ComponentsTextRouteImport } from './routes/components/text'
-import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
-import { Route as ComponentsTaskListRouteImport } from './routes/components/task-list'
-import { Route as ComponentsTaskDndRouteImport } from './routes/components/task-dnd'
-import { Route as ComponentsTaskChipRouteImport } from './routes/components/task-chip'
-import { Route as ComponentsTaskCardRouteImport } from './routes/components/task-card'
-import { Route as ComponentsTaskBoardRouteImport } from './routes/components/task-board'
-import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
-import { Route as ComponentsSystemMessageRouteImport } from './routes/components/system-message'
-import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
-import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
-import { Route as ComponentsStatusRouteImport } from './routes/components/status'
-import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
-import { Route as ComponentsSkeletonRouteImport } from './routes/components/skeleton'
-import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
-import { Route as ComponentsSelectRouteImport } from './routes/components/select'
-import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
-import { Route as ComponentsScrollAreaRouteImport } from './routes/components/scroll-area'
-import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
-import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
-import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
-import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
-import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
-import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
-import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
-import { Route as ComponentsMessageRepliesRouteImport } from './routes/components/message-replies'
-import { Route as ComponentsMessageReferenceRouteImport } from './routes/components/message-reference'
-import { Route as ComponentsMessageQuotedPreviewRouteImport } from './routes/components/message-quoted-preview'
-import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
-import { Route as ComponentsMessageForwardedBundleRouteImport } from './routes/components/message-forwarded-bundle'
-import { Route as ComponentsMessageAttachmentRouteImport } from './routes/components/message-attachment'
-import { Route as ComponentsMessageActionCardRouteImport } from './routes/components/message-action-card'
-import { Route as ComponentsMarkdownRouteImport } from './routes/components/markdown'
-import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
-import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
-import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
-import { Route as ComponentsLabelRouteImport } from './routes/components/label'
-import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
-import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
-import { Route as ComponentsInputRouteImport } from './routes/components/input'
-import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
-import { Route as ComponentsFilesRouteImport } from './routes/components/files'
-import { Route as ComponentsFilePreviewRouteImport } from './routes/components/file-preview'
-import { Route as ComponentsFieldRouteImport } from './routes/components/field'
-import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
-import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
-import { Route as ComponentsDrawerRouteImport } from './routes/components/drawer'
-import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
-import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
-import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
-import { Route as ComponentsConversationPanelRouteImport } from './routes/components/conversation-panel'
-import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
-import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
-import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
-import { Route as ComponentsCodeBlockRouteImport } from './routes/components/code-block'
-import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
-import { Route as ComponentsChatSidebarItemRouteImport } from './routes/components/chat-sidebar-item'
-import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
-import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
-import { Route as ComponentsButtonRouteImport } from './routes/components/button'
-import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
-import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
-import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
-import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
-import { Route as ComponentsAppShellRouteImport } from './routes/components/app-shell'
-import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
+import { Route as ChangelogRouteImport } from './routes/changelog'
+import { Route as ComponentsRouteImport } from './routes/components'
+import { Route as InstallationRouteImport } from './routes/installation'
+import { Route as LabRouteImport } from './routes/lab'
+import { Route as MigrationRouteImport } from './routes/migration'
+import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
-import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
-import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
+import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
+import { Route as ComponentsAppShellRouteImport } from './routes/components/app-shell'
+import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
+import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
+import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
+import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
+import { Route as ComponentsButtonRouteImport } from './routes/components/button'
+import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
+import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
+import { Route as ComponentsChatSidebarItemRouteImport } from './routes/components/chat-sidebar-item'
+import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
+import { Route as ComponentsCodeBlockRouteImport } from './routes/components/code-block'
+import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
+import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
+import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
+import { Route as ComponentsConversationPanelRouteImport } from './routes/components/conversation-panel'
+import { Route as ComponentsCopyableCodeRouteImport } from './routes/components/copyable-code'
+import { Route as ComponentsDescriptionListRouteImport } from './routes/components/description-list'
+import { Route as ComponentsDialogRouteImport } from './routes/components/dialog'
+import { Route as ComponentsDrawerRouteImport } from './routes/components/drawer'
+import { Route as ComponentsDropdownMenuRouteImport } from './routes/components/dropdown-menu'
+import { Route as ComponentsEmptyStateRouteImport } from './routes/components/empty-state'
+import { Route as ComponentsFieldRouteImport } from './routes/components/field'
+import { Route as ComponentsFilePreviewRouteImport } from './routes/components/file-preview'
+import { Route as ComponentsFilesRouteImport } from './routes/components/files'
+import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
+import { Route as ComponentsInputRouteImport } from './routes/components/input'
+import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
+import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
+import { Route as ComponentsLabelRouteImport } from './routes/components/label'
+import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
+import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
+import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
+import { Route as ComponentsMarkdownRouteImport } from './routes/components/markdown'
+import { Route as ComponentsMessageActionCardRouteImport } from './routes/components/message-action-card'
+import { Route as ComponentsMessageAttachmentRouteImport } from './routes/components/message-attachment'
+import { Route as ComponentsMessageForwardedBundleRouteImport } from './routes/components/message-forwarded-bundle'
+import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
+import { Route as ComponentsMessageQuotedPreviewRouteImport } from './routes/components/message-quoted-preview'
+import { Route as ComponentsMessageReferenceRouteImport } from './routes/components/message-reference'
+import { Route as ComponentsMessageRepliesRouteImport } from './routes/components/message-replies'
+import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
+import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
+import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
+import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
+import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
+import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
+import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
+import { Route as ComponentsScrollAreaRouteImport } from './routes/components/scroll-area'
+import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
+import { Route as ComponentsSelectRouteImport } from './routes/components/select'
+import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
+import { Route as ComponentsSkeletonRouteImport } from './routes/components/skeleton'
+import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
+import { Route as ComponentsStatusRouteImport } from './routes/components/status'
+import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
+import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
+import { Route as ComponentsSystemMessageRouteImport } from './routes/components/system-message'
+import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
+import { Route as ComponentsTaskBoardRouteImport } from './routes/components/task-board'
+import { Route as ComponentsTaskCardRouteImport } from './routes/components/task-card'
+import { Route as ComponentsTaskChipRouteImport } from './routes/components/task-chip'
+import { Route as ComponentsTaskDndRouteImport } from './routes/components/task-dnd'
+import { Route as ComponentsTaskListRouteImport } from './routes/components/task-list'
+import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
+import { Route as ComponentsTextRouteImport } from './routes/components/text'
+import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
+import { Route as ComponentsThreadPanelRouteImport } from './routes/components/thread-panel'
+import { Route as ComponentsToastRouteImport } from './routes/components/toast'
+import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
+import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
+import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
+import { Route as IframeChatSidebarMobilePartsRouteImport } from './routes/iframe/chat-sidebar-mobile-parts'
+import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
+import { Route as MigrationIndexRouteImport } from './routes/migration.index'
+import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
+import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
-import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typography/elegant'
-import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
-import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadows/elegant'
-import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
-import { Route as PlaygroundPlainTasksRouteImport } from './routes/playground/_plain/tasks'
-import { Route as PlaygroundPlainSettingsRouteImport } from './routes/playground/_plain/settings'
-import { Route as PlaygroundPlainSearchRouteImport } from './routes/playground/_plain/search'
-import { Route as PlaygroundPlainSavedRouteImport } from './routes/playground/_plain/saved'
-import { Route as PlaygroundPlainActivityRouteImport } from './routes/playground/_plain/activity'
-import { Route as PlaygroundBrowseMembersRouteImport } from './routes/playground/_browse/members'
+import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
+import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
+import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
+import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
+import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
+import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
+import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
 import { Route as PlaygroundBrowseComputersRouteImport } from './routes/playground/_browse/computers'
+import { Route as PlaygroundBrowseMembersRouteImport } from './routes/playground/_browse/members'
+import { Route as PlaygroundPlainActivityRouteImport } from './routes/playground/_plain/activity'
+import { Route as PlaygroundPlainSavedRouteImport } from './routes/playground/_plain/saved'
+import { Route as PlaygroundPlainSearchRouteImport } from './routes/playground/_plain/search'
+import { Route as PlaygroundPlainSettingsRouteImport } from './routes/playground/_plain/settings'
+import { Route as PlaygroundPlainTasksRouteImport } from './routes/playground/_plain/tasks'
 import { Route as PlaygroundSServerSlugRouteRouteImport } from './routes/playground/s/$serverSlug/route'
+import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
+import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadows/elegant'
+import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
+import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typography/elegant'
 import { Route as PlaygroundSServerSlugIndexRouteImport } from './routes/playground/s/$serverSlug/index'
-import { Route as PlaygroundSServerSlugDmRouteRouteImport } from './routes/playground/s/$serverSlug/dm/route'
 import { Route as PlaygroundSServerSlugChannelRouteRouteImport } from './routes/playground/s/$serverSlug/channel/route'
-import { Route as PlaygroundSServerSlugDmDmIdRouteImport } from './routes/playground/s/$serverSlug/dm/$dmId'
+import { Route as PlaygroundSServerSlugDmRouteRouteImport } from './routes/playground/s/$serverSlug/dm/route'
 import { Route as PlaygroundSServerSlugChannelChannelIdRouteImport } from './routes/playground/s/$serverSlug/channel/$channelId'
+import { Route as PlaygroundSServerSlugDmDmIdRouteImport } from './routes/playground/s/$serverSlug/dm/$dmId'
 
-const MigrationRoute = MigrationRouteImport.update({
-  id: '/migration',
-  path: '/migration',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LabRoute = LabRouteImport.update({
-  id: '/lab',
-  path: '/lab',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InstallationRoute = InstallationRouteImport.update({
-  id: '/installation',
-  path: '/installation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ComponentsRoute = ComponentsRouteImport.update({
-  id: '/components',
-  path: '/components',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChangelogRoute = ChangelogRouteImport.update({
@@ -145,388 +130,79 @@ const ChangelogRoute = ChangelogRouteImport.update({
   path: '/changelog',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComponentsRoute = ComponentsRouteImport.update({
+  id: '/components',
+  path: '/components',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallationRoute = InstallationRouteImport.update({
+  id: '/installation',
+  path: '/installation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabRoute = LabRouteImport.update({
+  id: '/lab',
+  path: '/lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MigrationRoute = MigrationRouteImport.update({
+  id: '/migration',
+  path: '/migration',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
   id: '/playground',
   path: '/playground',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PlaygroundRouteRoute,
-} as any)
-const MigrationIndexRoute = MigrationIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => MigrationRoute,
-} as any)
-const TokensTypographyRoute = TokensTypographyRouteImport.update({
-  id: '/tokens/typography',
-  path: '/tokens/typography',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TokensShadowsRoute = TokensShadowsRouteImport.update({
-  id: '/tokens/shadows',
-  path: '/tokens/shadows',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TokensColorsRoute = TokensColorsRouteImport.update({
-  id: '/tokens/colors',
-  path: '/tokens/colors',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SkillsNewComponentRoute = SkillsNewComponentRouteImport.update({
-  id: '/skills/new-component',
-  path: '/skills/new-component',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
-  id: '/skills/migration',
-  path: '/skills/migration',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
-  id: '/$sourceFile',
-  path: '/$sourceFile',
-  getParentRoute: () => MigrationRoute,
-} as any)
-const IframeDrawerRoute = IframeDrawerRouteImport.update({
-  id: '/iframe/drawer',
-  path: '/iframe/drawer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IframeChatSidebarMobilePartsRoute =
-  IframeChatSidebarMobilePartsRouteImport.update({
-    id: '/iframe/chat-sidebar-mobile-parts',
-    path: '/iframe/chat-sidebar-mobile-parts',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const IframeAppShellMobileRoute = IframeAppShellMobileRouteImport.update({
-  id: '/iframe/app-shell-mobile',
-  path: '/iframe/app-shell-mobile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
-  id: '/tooltip',
-  path: '/tooltip',
+const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
+  id: '/alert-dialog',
+  path: '/alert-dialog',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsToggleGroupRoute = ComponentsToggleGroupRouteImport.update({
-  id: '/toggle-group',
-  path: '/toggle-group',
+const ComponentsAppRailRoute = ComponentsAppRailRouteImport.update({
+  id: '/app-rail',
+  path: '/app-rail',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsToastRoute = ComponentsToastRouteImport.update({
-  id: '/toast',
-  path: '/toast',
+const ComponentsAppShellRoute = ComponentsAppShellRouteImport.update({
+  id: '/app-shell',
+  path: '/app-shell',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsThreadPanelRoute = ComponentsThreadPanelRouteImport.update({
-  id: '/thread-panel',
-  path: '/thread-panel',
+const ComponentsAttentionDotRoute = ComponentsAttentionDotRouteImport.update({
+  id: '/attention-dot',
+  path: '/attention-dot',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
-  id: '/textarea',
-  path: '/textarea',
+const ComponentsAvatarRoute = ComponentsAvatarRouteImport.update({
+  id: '/avatar',
+  path: '/avatar',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsTextRoute = ComponentsTextRouteImport.update({
-  id: '/text',
-  path: '/text',
+const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
+  id: '/badge',
+  path: '/badge',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsTasksRoute = ComponentsTasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
+const ComponentsBannerRoute = ComponentsBannerRouteImport.update({
+  id: '/banner',
+  path: '/banner',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsTaskListRoute = ComponentsTaskListRouteImport.update({
-  id: '/task-list',
-  path: '/task-list',
+const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
+  id: '/button',
+  path: '/button',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsTaskDndRoute = ComponentsTaskDndRouteImport.update({
-  id: '/task-dnd',
-  path: '/task-dnd',
+const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
+  id: '/chat-composer',
+  path: '/chat-composer',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsTaskChipRoute = ComponentsTaskChipRouteImport.update({
-  id: '/task-chip',
-  path: '/task-chip',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTaskCardRoute = ComponentsTaskCardRouteImport.update({
-  id: '/task-card',
-  path: '/task-card',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTaskBoardRoute = ComponentsTaskBoardRouteImport.update({
-  id: '/task-board',
-  path: '/task-board',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
-  id: '/tabs',
-  path: '/tabs',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSystemMessageRoute = ComponentsSystemMessageRouteImport.update({
-  id: '/system-message',
-  path: '/system-message',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSwitchRoute = ComponentsSwitchRouteImport.update({
-  id: '/switch',
-  path: '/switch',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
-  id: '/status-dot',
-  path: '/status-dot',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsStatusRoute = ComponentsStatusRouteImport.update({
-  id: '/status',
-  path: '/status',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
-  id: '/spinner',
-  path: '/spinner',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSkeletonRoute = ComponentsSkeletonRouteImport.update({
-  id: '/skeleton',
-  path: '/skeleton',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSeparatorRoute = ComponentsSeparatorRouteImport.update({
-  id: '/separator',
-  path: '/separator',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSelectRoute = ComponentsSelectRouteImport.update({
-  id: '/select',
-  path: '/select',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSegmentedControlRoute =
-  ComponentsSegmentedControlRouteImport.update({
-    id: '/segmented-control',
-    path: '/segmented-control',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsScrollAreaRoute = ComponentsScrollAreaRouteImport.update({
-  id: '/scroll-area',
-  path: '/scroll-area',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsSandboxedPreviewFrameRoute =
-  ComponentsSandboxedPreviewFrameRouteImport.update({
-    id: '/sandboxed-preview-frame',
-    path: '/sandboxed-preview-frame',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
-  id: '/radio-group',
-  path: '/radio-group',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsProgressRoute = ComponentsProgressRouteImport.update({
-  id: '/progress',
-  path: '/progress',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsPreviewCardRoute = ComponentsPreviewCardRouteImport.update({
-  id: '/preview-card',
-  path: '/preview-card',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
-  id: '/popover',
-  path: '/popover',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsNotificationCenterRoute =
-  ComponentsNotificationCenterRouteImport.update({
-    id: '/notification-center',
-    path: '/notification-center',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
-  id: '/mobile-nav',
-  path: '/mobile-nav',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsMessageRepliesRoute =
-  ComponentsMessageRepliesRouteImport.update({
-    id: '/message-replies',
-    path: '/message-replies',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageReferenceRoute =
-  ComponentsMessageReferenceRouteImport.update({
-    id: '/message-reference',
-    path: '/message-reference',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageQuotedPreviewRoute =
-  ComponentsMessageQuotedPreviewRouteImport.update({
-    id: '/message-quoted-preview',
-    path: '/message-quoted-preview',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
-  id: '/message-item',
-  path: '/message-item',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsMessageForwardedBundleRoute =
-  ComponentsMessageForwardedBundleRouteImport.update({
-    id: '/message-forwarded-bundle',
-    path: '/message-forwarded-bundle',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageAttachmentRoute =
-  ComponentsMessageAttachmentRouteImport.update({
-    id: '/message-attachment',
-    path: '/message-attachment',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMessageActionCardRoute =
-  ComponentsMessageActionCardRouteImport.update({
-    id: '/message-action-card',
-    path: '/message-action-card',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsMarkdownRoute = ComponentsMarkdownRouteImport.update({
-  id: '/markdown',
-  path: '/markdown',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsLogoRoute = ComponentsLogoRouteImport.update({
-  id: '/logo',
-  path: '/logo',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsLiveAgentActivityBarRoute =
-  ComponentsLiveAgentActivityBarRouteImport.update({
-    id: '/live-agent-activity-bar',
-    path: '/live-agent-activity-bar',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
-  id: '/lightbox',
-  path: '/lightbox',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsLabelRoute = ComponentsLabelRouteImport.update({
-  id: '/label',
-  path: '/label',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsKbdRoute = ComponentsKbdRouteImport.update({
-  id: '/kbd',
-  path: '/kbd',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsInputGroupRoute = ComponentsInputGroupRouteImport.update({
-  id: '/input-group',
-  path: '/input-group',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsInputRoute = ComponentsInputRouteImport.update({
-  id: '/input',
-  path: '/input',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsInlineCodeRoute = ComponentsInlineCodeRouteImport.update({
-  id: '/inline-code',
-  path: '/inline-code',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsFilesRoute = ComponentsFilesRouteImport.update({
-  id: '/files',
-  path: '/files',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsFilePreviewRoute = ComponentsFilePreviewRouteImport.update({
-  id: '/file-preview',
-  path: '/file-preview',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsFieldRoute = ComponentsFieldRouteImport.update({
-  id: '/field',
-  path: '/field',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsEmptyStateRoute = ComponentsEmptyStateRouteImport.update({
-  id: '/empty-state',
-  path: '/empty-state',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsDropdownMenuRoute = ComponentsDropdownMenuRouteImport.update({
-  id: '/dropdown-menu',
-  path: '/dropdown-menu',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsDrawerRoute = ComponentsDrawerRouteImport.update({
-  id: '/drawer',
-  path: '/drawer',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
-  id: '/dialog',
-  path: '/dialog',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsDescriptionListRoute =
-  ComponentsDescriptionListRouteImport.update({
-    id: '/description-list',
-    path: '/description-list',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsCopyableCodeRoute = ComponentsCopyableCodeRouteImport.update({
-  id: '/copyable-code',
-  path: '/copyable-code',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsConversationPanelRoute =
-  ComponentsConversationPanelRouteImport.update({
-    id: '/conversation-panel',
-    path: '/conversation-panel',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
-  id: '/context-menu',
-  path: '/context-menu',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsComposerSuggestionsRoute =
-  ComponentsComposerSuggestionsRouteImport.update({
-    id: '/composer-suggestions',
-    path: '/composer-suggestions',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
-const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
-  id: '/combobox',
-  path: '/combobox',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsCodeBlockRoute = ComponentsCodeBlockRouteImport.update({
-  id: '/code-block',
-  path: '/code-block',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
-  id: '/checkbox',
-  path: '/checkbox',
+const ComponentsChatSidebarRoute = ComponentsChatSidebarRouteImport.update({
+  id: '/chat-sidebar',
+  path: '/chat-sidebar',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsChatSidebarItemRoute =
@@ -535,118 +211,392 @@ const ComponentsChatSidebarItemRoute =
     path: '/chat-sidebar-item',
     getParentRoute: () => ComponentsRoute,
   } as any)
-const ComponentsChatSidebarRoute = ComponentsChatSidebarRouteImport.update({
-  id: '/chat-sidebar',
-  path: '/chat-sidebar',
+const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
+  id: '/checkbox',
+  path: '/checkbox',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
-  id: '/chat-composer',
-  path: '/chat-composer',
+const ComponentsCodeBlockRoute = ComponentsCodeBlockRouteImport.update({
+  id: '/code-block',
+  path: '/code-block',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
-  id: '/button',
-  path: '/button',
+const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
+  id: '/combobox',
+  path: '/combobox',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsBannerRoute = ComponentsBannerRouteImport.update({
-  id: '/banner',
-  path: '/banner',
+const ComponentsComposerSuggestionsRoute =
+  ComponentsComposerSuggestionsRouteImport.update({
+    id: '/composer-suggestions',
+    path: '/composer-suggestions',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsContextMenuRoute = ComponentsContextMenuRouteImport.update({
+  id: '/context-menu',
+  path: '/context-menu',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsBadgeRoute = ComponentsBadgeRouteImport.update({
-  id: '/badge',
-  path: '/badge',
+const ComponentsConversationPanelRoute =
+  ComponentsConversationPanelRouteImport.update({
+    id: '/conversation-panel',
+    path: '/conversation-panel',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsCopyableCodeRoute = ComponentsCopyableCodeRouteImport.update({
+  id: '/copyable-code',
+  path: '/copyable-code',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsAvatarRoute = ComponentsAvatarRouteImport.update({
-  id: '/avatar',
-  path: '/avatar',
+const ComponentsDescriptionListRoute =
+  ComponentsDescriptionListRouteImport.update({
+    id: '/description-list',
+    path: '/description-list',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsDialogRoute = ComponentsDialogRouteImport.update({
+  id: '/dialog',
+  path: '/dialog',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsAttentionDotRoute = ComponentsAttentionDotRouteImport.update({
-  id: '/attention-dot',
-  path: '/attention-dot',
+const ComponentsDrawerRoute = ComponentsDrawerRouteImport.update({
+  id: '/drawer',
+  path: '/drawer',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsAppShellRoute = ComponentsAppShellRouteImport.update({
-  id: '/app-shell',
-  path: '/app-shell',
+const ComponentsDropdownMenuRoute = ComponentsDropdownMenuRouteImport.update({
+  id: '/dropdown-menu',
+  path: '/dropdown-menu',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsAppRailRoute = ComponentsAppRailRouteImport.update({
-  id: '/app-rail',
-  path: '/app-rail',
+const ComponentsEmptyStateRoute = ComponentsEmptyStateRouteImport.update({
+  id: '/empty-state',
+  path: '/empty-state',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
-  id: '/alert-dialog',
-  path: '/alert-dialog',
+const ComponentsFieldRoute = ComponentsFieldRouteImport.update({
+  id: '/field',
+  path: '/field',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const PlaygroundSRouteRoute = PlaygroundSRouteRouteImport.update({
-  id: '/s',
-  path: '/s',
-  getParentRoute: () => PlaygroundRouteRoute,
+const ComponentsFilePreviewRoute = ComponentsFilePreviewRouteImport.update({
+  id: '/file-preview',
+  path: '/file-preview',
+  getParentRoute: () => ComponentsRoute,
 } as any)
-const PlaygroundPlainRouteRoute = PlaygroundPlainRouteRouteImport.update({
-  id: '/_plain',
+const ComponentsFilesRoute = ComponentsFilesRouteImport.update({
+  id: '/files',
+  path: '/files',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsInlineCodeRoute = ComponentsInlineCodeRouteImport.update({
+  id: '/inline-code',
+  path: '/inline-code',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsInputRoute = ComponentsInputRouteImport.update({
+  id: '/input',
+  path: '/input',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsInputGroupRoute = ComponentsInputGroupRouteImport.update({
+  id: '/input-group',
+  path: '/input-group',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsKbdRoute = ComponentsKbdRouteImport.update({
+  id: '/kbd',
+  path: '/kbd',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsLabelRoute = ComponentsLabelRouteImport.update({
+  id: '/label',
+  path: '/label',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
+  id: '/lightbox',
+  path: '/lightbox',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsLiveAgentActivityBarRoute =
+  ComponentsLiveAgentActivityBarRouteImport.update({
+    id: '/live-agent-activity-bar',
+    path: '/live-agent-activity-bar',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsLogoRoute = ComponentsLogoRouteImport.update({
+  id: '/logo',
+  path: '/logo',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsMarkdownRoute = ComponentsMarkdownRouteImport.update({
+  id: '/markdown',
+  path: '/markdown',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsMessageActionCardRoute =
+  ComponentsMessageActionCardRouteImport.update({
+    id: '/message-action-card',
+    path: '/message-action-card',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsMessageAttachmentRoute =
+  ComponentsMessageAttachmentRouteImport.update({
+    id: '/message-attachment',
+    path: '/message-attachment',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsMessageForwardedBundleRoute =
+  ComponentsMessageForwardedBundleRouteImport.update({
+    id: '/message-forwarded-bundle',
+    path: '/message-forwarded-bundle',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsMessageItemRoute = ComponentsMessageItemRouteImport.update({
+  id: '/message-item',
+  path: '/message-item',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsMessageQuotedPreviewRoute =
+  ComponentsMessageQuotedPreviewRouteImport.update({
+    id: '/message-quoted-preview',
+    path: '/message-quoted-preview',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsMessageReferenceRoute =
+  ComponentsMessageReferenceRouteImport.update({
+    id: '/message-reference',
+    path: '/message-reference',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsMessageRepliesRoute =
+  ComponentsMessageRepliesRouteImport.update({
+    id: '/message-replies',
+    path: '/message-replies',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
+  id: '/mobile-nav',
+  path: '/mobile-nav',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsNotificationCenterRoute =
+  ComponentsNotificationCenterRouteImport.update({
+    id: '/notification-center',
+    path: '/notification-center',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
+  id: '/popover',
+  path: '/popover',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsPreviewCardRoute = ComponentsPreviewCardRouteImport.update({
+  id: '/preview-card',
+  path: '/preview-card',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsProgressRoute = ComponentsProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
+  id: '/radio-group',
+  path: '/radio-group',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSandboxedPreviewFrameRoute =
+  ComponentsSandboxedPreviewFrameRouteImport.update({
+    id: '/sandboxed-preview-frame',
+    path: '/sandboxed-preview-frame',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsScrollAreaRoute = ComponentsScrollAreaRouteImport.update({
+  id: '/scroll-area',
+  path: '/scroll-area',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSegmentedControlRoute =
+  ComponentsSegmentedControlRouteImport.update({
+    id: '/segmented-control',
+    path: '/segmented-control',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsSelectRoute = ComponentsSelectRouteImport.update({
+  id: '/select',
+  path: '/select',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSeparatorRoute = ComponentsSeparatorRouteImport.update({
+  id: '/separator',
+  path: '/separator',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSkeletonRoute = ComponentsSkeletonRouteImport.update({
+  id: '/skeleton',
+  path: '/skeleton',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
+  id: '/spinner',
+  path: '/spinner',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsStatusRoute = ComponentsStatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
+  id: '/status-dot',
+  path: '/status-dot',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSwitchRoute = ComponentsSwitchRouteImport.update({
+  id: '/switch',
+  path: '/switch',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSystemMessageRoute = ComponentsSystemMessageRouteImport.update({
+  id: '/system-message',
+  path: '/system-message',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTabsRoute = ComponentsTabsRouteImport.update({
+  id: '/tabs',
+  path: '/tabs',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskBoardRoute = ComponentsTaskBoardRouteImport.update({
+  id: '/task-board',
+  path: '/task-board',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskCardRoute = ComponentsTaskCardRouteImport.update({
+  id: '/task-card',
+  path: '/task-card',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskChipRoute = ComponentsTaskChipRouteImport.update({
+  id: '/task-chip',
+  path: '/task-chip',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskDndRoute = ComponentsTaskDndRouteImport.update({
+  id: '/task-dnd',
+  path: '/task-dnd',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTaskListRoute = ComponentsTaskListRouteImport.update({
+  id: '/task-list',
+  path: '/task-list',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTasksRoute = ComponentsTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTextRoute = ComponentsTextRouteImport.update({
+  id: '/text',
+  path: '/text',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTextareaRoute = ComponentsTextareaRouteImport.update({
+  id: '/textarea',
+  path: '/textarea',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsThreadPanelRoute = ComponentsThreadPanelRouteImport.update({
+  id: '/thread-panel',
+  path: '/thread-panel',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsToastRoute = ComponentsToastRouteImport.update({
+  id: '/toast',
+  path: '/toast',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsToggleGroupRoute = ComponentsToggleGroupRouteImport.update({
+  id: '/toggle-group',
+  path: '/toggle-group',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
+  id: '/tooltip',
+  path: '/tooltip',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const IframeAppShellMobileRoute = IframeAppShellMobileRouteImport.update({
+  id: '/iframe/app-shell-mobile',
+  path: '/iframe/app-shell-mobile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IframeChatSidebarMobilePartsRoute =
+  IframeChatSidebarMobilePartsRouteImport.update({
+    id: '/iframe/chat-sidebar-mobile-parts',
+    path: '/iframe/chat-sidebar-mobile-parts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const IframeDrawerRoute = IframeDrawerRouteImport.update({
+  id: '/iframe/drawer',
+  path: '/iframe/drawer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MigrationIndexRoute = MigrationIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MigrationRoute,
+} as any)
+const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
+  id: '/$sourceFile',
+  path: '/$sourceFile',
+  getParentRoute: () => MigrationRoute,
+} as any)
+const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => PlaygroundRouteRoute,
 } as any)
 const PlaygroundBrowseRouteRoute = PlaygroundBrowseRouteRouteImport.update({
   id: '/_browse',
   getParentRoute: () => PlaygroundRouteRoute,
 } as any)
-const TokensTypographyElegantRoute = TokensTypographyElegantRouteImport.update({
-  id: '/elegant',
-  path: '/elegant',
-  getParentRoute: () => TokensTypographyRoute,
+const PlaygroundPlainRouteRoute = PlaygroundPlainRouteRouteImport.update({
+  id: '/_plain',
+  getParentRoute: () => PlaygroundRouteRoute,
 } as any)
-const TokensTypographyBrutalRoute = TokensTypographyBrutalRouteImport.update({
-  id: '/brutal',
-  path: '/brutal',
-  getParentRoute: () => TokensTypographyRoute,
+const PlaygroundSRouteRoute = PlaygroundSRouteRouteImport.update({
+  id: '/s',
+  path: '/s',
+  getParentRoute: () => PlaygroundRouteRoute,
 } as any)
-const TokensShadowsElegantRoute = TokensShadowsElegantRouteImport.update({
-  id: '/elegant',
-  path: '/elegant',
-  getParentRoute: () => TokensShadowsRoute,
+const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
+  id: '/skills/migration',
+  path: '/skills/migration',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const TokensShadowsBrutalRoute = TokensShadowsBrutalRouteImport.update({
-  id: '/brutal',
-  path: '/brutal',
-  getParentRoute: () => TokensShadowsRoute,
+const SkillsNewComponentRoute = SkillsNewComponentRouteImport.update({
+  id: '/skills/new-component',
+  path: '/skills/new-component',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const PlaygroundPlainTasksRoute = PlaygroundPlainTasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
+const TokensColorsRoute = TokensColorsRouteImport.update({
+  id: '/tokens/colors',
+  path: '/tokens/colors',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const PlaygroundPlainSettingsRoute = PlaygroundPlainSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
+const TokensShadowsRoute = TokensShadowsRouteImport.update({
+  id: '/tokens/shadows',
+  path: '/tokens/shadows',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const PlaygroundPlainSearchRoute = PlaygroundPlainSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
-} as any)
-const PlaygroundPlainSavedRoute = PlaygroundPlainSavedRouteImport.update({
-  id: '/saved',
-  path: '/saved',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
-} as any)
-const PlaygroundPlainActivityRoute = PlaygroundPlainActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
-} as any)
-const PlaygroundBrowseMembersRoute = PlaygroundBrowseMembersRouteImport.update({
-  id: '/members',
-  path: '/members',
-  getParentRoute: () => PlaygroundBrowseRouteRoute,
+const TokensTypographyRoute = TokensTypographyRouteImport.update({
+  id: '/tokens/typography',
+  path: '/tokens/typography',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PlaygroundBrowseComputersRoute =
   PlaygroundBrowseComputersRouteImport.update({
@@ -654,22 +604,66 @@ const PlaygroundBrowseComputersRoute =
     path: '/computers',
     getParentRoute: () => PlaygroundBrowseRouteRoute,
   } as any)
+const PlaygroundBrowseMembersRoute = PlaygroundBrowseMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => PlaygroundBrowseRouteRoute,
+} as any)
+const PlaygroundPlainActivityRoute = PlaygroundPlainActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundPlainSavedRoute = PlaygroundPlainSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundPlainSearchRoute = PlaygroundPlainSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundPlainSettingsRoute = PlaygroundPlainSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
+const PlaygroundPlainTasksRoute = PlaygroundPlainTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => PlaygroundPlainRouteRoute,
+} as any)
 const PlaygroundSServerSlugRouteRoute =
   PlaygroundSServerSlugRouteRouteImport.update({
     id: '/$serverSlug',
     path: '/$serverSlug',
     getParentRoute: () => PlaygroundSRouteRoute,
   } as any)
+const TokensShadowsBrutalRoute = TokensShadowsBrutalRouteImport.update({
+  id: '/brutal',
+  path: '/brutal',
+  getParentRoute: () => TokensShadowsRoute,
+} as any)
+const TokensShadowsElegantRoute = TokensShadowsElegantRouteImport.update({
+  id: '/elegant',
+  path: '/elegant',
+  getParentRoute: () => TokensShadowsRoute,
+} as any)
+const TokensTypographyBrutalRoute = TokensTypographyBrutalRouteImport.update({
+  id: '/brutal',
+  path: '/brutal',
+  getParentRoute: () => TokensTypographyRoute,
+} as any)
+const TokensTypographyElegantRoute = TokensTypographyElegantRouteImport.update({
+  id: '/elegant',
+  path: '/elegant',
+  getParentRoute: () => TokensTypographyRoute,
+} as any)
 const PlaygroundSServerSlugIndexRoute =
   PlaygroundSServerSlugIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
-  } as any)
-const PlaygroundSServerSlugDmRouteRoute =
-  PlaygroundSServerSlugDmRouteRouteImport.update({
-    id: '/dm',
-    path: '/dm',
     getParentRoute: () => PlaygroundSServerSlugRouteRoute,
   } as any)
 const PlaygroundSServerSlugChannelRouteRoute =
@@ -678,17 +672,23 @@ const PlaygroundSServerSlugChannelRouteRoute =
     path: '/channel',
     getParentRoute: () => PlaygroundSServerSlugRouteRoute,
   } as any)
-const PlaygroundSServerSlugDmDmIdRoute =
-  PlaygroundSServerSlugDmDmIdRouteImport.update({
-    id: '/$dmId',
-    path: '/$dmId',
-    getParentRoute: () => PlaygroundSServerSlugDmRouteRoute,
+const PlaygroundSServerSlugDmRouteRoute =
+  PlaygroundSServerSlugDmRouteRouteImport.update({
+    id: '/dm',
+    path: '/dm',
+    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
   } as any)
 const PlaygroundSServerSlugChannelChannelIdRoute =
   PlaygroundSServerSlugChannelChannelIdRouteImport.update({
     id: '/$channelId',
     path: '/$channelId',
     getParentRoute: () => PlaygroundSServerSlugChannelRouteRoute,
+  } as any)
+const PlaygroundSServerSlugDmDmIdRoute =
+  PlaygroundSServerSlugDmDmIdRouteImport.update({
+    id: '/$dmId',
+    path: '/$dmId',
+    getParentRoute: () => PlaygroundSServerSlugDmRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -1373,32 +1373,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/migration': {
-      id: '/migration'
-      path: '/migration'
-      fullPath: '/migration'
-      preLoaderRoute: typeof MigrationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/lab': {
-      id: '/lab'
-      path: '/lab'
-      fullPath: '/lab'
-      preLoaderRoute: typeof LabRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/installation': {
-      id: '/installation'
-      path: '/installation'
-      fullPath: '/installation'
-      preLoaderRoute: typeof InstallationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/components': {
-      id: '/components'
-      path: '/components'
-      fullPath: '/components'
-      preLoaderRoute: typeof ComponentsRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/changelog': {
@@ -1408,6 +1387,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChangelogRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/components': {
+      id: '/components'
+      path: '/components'
+      fullPath: '/components'
+      preLoaderRoute: typeof ComponentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/installation': {
+      id: '/installation'
+      path: '/installation'
+      fullPath: '/installation'
+      preLoaderRoute: typeof InstallationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lab': {
+      id: '/lab'
+      path: '/lab'
+      fullPath: '/lab'
+      preLoaderRoute: typeof LabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/migration': {
+      id: '/migration'
+      path: '/migration'
+      fullPath: '/migration'
+      preLoaderRoute: typeof MigrationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/playground': {
       id: '/playground'
       path: '/playground'
@@ -1415,578 +1422,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/playground/': {
-      id: '/playground/'
-      path: '/'
-      fullPath: '/playground/'
-      preLoaderRoute: typeof PlaygroundIndexRouteImport
-      parentRoute: typeof PlaygroundRouteRoute
-    }
-    '/migration/': {
-      id: '/migration/'
-      path: '/'
-      fullPath: '/migration/'
-      preLoaderRoute: typeof MigrationIndexRouteImport
-      parentRoute: typeof MigrationRoute
-    }
-    '/tokens/typography': {
-      id: '/tokens/typography'
-      path: '/tokens/typography'
-      fullPath: '/tokens/typography'
-      preLoaderRoute: typeof TokensTypographyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tokens/shadows': {
-      id: '/tokens/shadows'
-      path: '/tokens/shadows'
-      fullPath: '/tokens/shadows'
-      preLoaderRoute: typeof TokensShadowsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tokens/colors': {
-      id: '/tokens/colors'
-      path: '/tokens/colors'
-      fullPath: '/tokens/colors'
-      preLoaderRoute: typeof TokensColorsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/skills/new-component': {
-      id: '/skills/new-component'
-      path: '/skills/new-component'
-      fullPath: '/skills/new-component'
-      preLoaderRoute: typeof SkillsNewComponentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/skills/migration': {
-      id: '/skills/migration'
-      path: '/skills/migration'
-      fullPath: '/skills/migration'
-      preLoaderRoute: typeof SkillsMigrationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/migration/$sourceFile': {
-      id: '/migration/$sourceFile'
-      path: '/$sourceFile'
-      fullPath: '/migration/$sourceFile'
-      preLoaderRoute: typeof MigrationSourceFileRouteImport
-      parentRoute: typeof MigrationRoute
-    }
-    '/iframe/drawer': {
-      id: '/iframe/drawer'
-      path: '/iframe/drawer'
-      fullPath: '/iframe/drawer'
-      preLoaderRoute: typeof IframeDrawerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/iframe/chat-sidebar-mobile-parts': {
-      id: '/iframe/chat-sidebar-mobile-parts'
-      path: '/iframe/chat-sidebar-mobile-parts'
-      fullPath: '/iframe/chat-sidebar-mobile-parts'
-      preLoaderRoute: typeof IframeChatSidebarMobilePartsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/iframe/app-shell-mobile': {
-      id: '/iframe/app-shell-mobile'
-      path: '/iframe/app-shell-mobile'
-      fullPath: '/iframe/app-shell-mobile'
-      preLoaderRoute: typeof IframeAppShellMobileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/components/tooltip': {
-      id: '/components/tooltip'
-      path: '/tooltip'
-      fullPath: '/components/tooltip'
-      preLoaderRoute: typeof ComponentsTooltipRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/toggle-group': {
-      id: '/components/toggle-group'
-      path: '/toggle-group'
-      fullPath: '/components/toggle-group'
-      preLoaderRoute: typeof ComponentsToggleGroupRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/toast': {
-      id: '/components/toast'
-      path: '/toast'
-      fullPath: '/components/toast'
-      preLoaderRoute: typeof ComponentsToastRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/thread-panel': {
-      id: '/components/thread-panel'
-      path: '/thread-panel'
-      fullPath: '/components/thread-panel'
-      preLoaderRoute: typeof ComponentsThreadPanelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/textarea': {
-      id: '/components/textarea'
-      path: '/textarea'
-      fullPath: '/components/textarea'
-      preLoaderRoute: typeof ComponentsTextareaRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/text': {
-      id: '/components/text'
-      path: '/text'
-      fullPath: '/components/text'
-      preLoaderRoute: typeof ComponentsTextRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/tasks': {
-      id: '/components/tasks'
-      path: '/tasks'
-      fullPath: '/components/tasks'
-      preLoaderRoute: typeof ComponentsTasksRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-list': {
-      id: '/components/task-list'
-      path: '/task-list'
-      fullPath: '/components/task-list'
-      preLoaderRoute: typeof ComponentsTaskListRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-dnd': {
-      id: '/components/task-dnd'
-      path: '/task-dnd'
-      fullPath: '/components/task-dnd'
-      preLoaderRoute: typeof ComponentsTaskDndRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-chip': {
-      id: '/components/task-chip'
-      path: '/task-chip'
-      fullPath: '/components/task-chip'
-      preLoaderRoute: typeof ComponentsTaskChipRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-card': {
-      id: '/components/task-card'
-      path: '/task-card'
-      fullPath: '/components/task-card'
-      preLoaderRoute: typeof ComponentsTaskCardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/task-board': {
-      id: '/components/task-board'
-      path: '/task-board'
-      fullPath: '/components/task-board'
-      preLoaderRoute: typeof ComponentsTaskBoardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/tabs': {
-      id: '/components/tabs'
-      path: '/tabs'
-      fullPath: '/components/tabs'
-      preLoaderRoute: typeof ComponentsTabsRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/system-message': {
-      id: '/components/system-message'
-      path: '/system-message'
-      fullPath: '/components/system-message'
-      preLoaderRoute: typeof ComponentsSystemMessageRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/switch': {
-      id: '/components/switch'
-      path: '/switch'
-      fullPath: '/components/switch'
-      preLoaderRoute: typeof ComponentsSwitchRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/status-dot': {
-      id: '/components/status-dot'
-      path: '/status-dot'
-      fullPath: '/components/status-dot'
-      preLoaderRoute: typeof ComponentsStatusDotRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/status': {
-      id: '/components/status'
-      path: '/status'
-      fullPath: '/components/status'
-      preLoaderRoute: typeof ComponentsStatusRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/spinner': {
-      id: '/components/spinner'
-      path: '/spinner'
-      fullPath: '/components/spinner'
-      preLoaderRoute: typeof ComponentsSpinnerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/skeleton': {
-      id: '/components/skeleton'
-      path: '/skeleton'
-      fullPath: '/components/skeleton'
-      preLoaderRoute: typeof ComponentsSkeletonRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/separator': {
-      id: '/components/separator'
-      path: '/separator'
-      fullPath: '/components/separator'
-      preLoaderRoute: typeof ComponentsSeparatorRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/select': {
-      id: '/components/select'
-      path: '/select'
-      fullPath: '/components/select'
-      preLoaderRoute: typeof ComponentsSelectRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/segmented-control': {
-      id: '/components/segmented-control'
-      path: '/segmented-control'
-      fullPath: '/components/segmented-control'
-      preLoaderRoute: typeof ComponentsSegmentedControlRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/scroll-area': {
-      id: '/components/scroll-area'
-      path: '/scroll-area'
-      fullPath: '/components/scroll-area'
-      preLoaderRoute: typeof ComponentsScrollAreaRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/sandboxed-preview-frame': {
-      id: '/components/sandboxed-preview-frame'
-      path: '/sandboxed-preview-frame'
-      fullPath: '/components/sandboxed-preview-frame'
-      preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/radio-group': {
-      id: '/components/radio-group'
-      path: '/radio-group'
-      fullPath: '/components/radio-group'
-      preLoaderRoute: typeof ComponentsRadioGroupRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/progress': {
-      id: '/components/progress'
-      path: '/progress'
-      fullPath: '/components/progress'
-      preLoaderRoute: typeof ComponentsProgressRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/preview-card': {
-      id: '/components/preview-card'
-      path: '/preview-card'
-      fullPath: '/components/preview-card'
-      preLoaderRoute: typeof ComponentsPreviewCardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/popover': {
-      id: '/components/popover'
-      path: '/popover'
-      fullPath: '/components/popover'
-      preLoaderRoute: typeof ComponentsPopoverRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/notification-center': {
-      id: '/components/notification-center'
-      path: '/notification-center'
-      fullPath: '/components/notification-center'
-      preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/mobile-nav': {
-      id: '/components/mobile-nav'
-      path: '/mobile-nav'
-      fullPath: '/components/mobile-nav'
-      preLoaderRoute: typeof ComponentsMobileNavRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-replies': {
-      id: '/components/message-replies'
-      path: '/message-replies'
-      fullPath: '/components/message-replies'
-      preLoaderRoute: typeof ComponentsMessageRepliesRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-reference': {
-      id: '/components/message-reference'
-      path: '/message-reference'
-      fullPath: '/components/message-reference'
-      preLoaderRoute: typeof ComponentsMessageReferenceRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-quoted-preview': {
-      id: '/components/message-quoted-preview'
-      path: '/message-quoted-preview'
-      fullPath: '/components/message-quoted-preview'
-      preLoaderRoute: typeof ComponentsMessageQuotedPreviewRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-item': {
-      id: '/components/message-item'
-      path: '/message-item'
-      fullPath: '/components/message-item'
-      preLoaderRoute: typeof ComponentsMessageItemRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-forwarded-bundle': {
-      id: '/components/message-forwarded-bundle'
-      path: '/message-forwarded-bundle'
-      fullPath: '/components/message-forwarded-bundle'
-      preLoaderRoute: typeof ComponentsMessageForwardedBundleRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-attachment': {
-      id: '/components/message-attachment'
-      path: '/message-attachment'
-      fullPath: '/components/message-attachment'
-      preLoaderRoute: typeof ComponentsMessageAttachmentRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/message-action-card': {
-      id: '/components/message-action-card'
-      path: '/message-action-card'
-      fullPath: '/components/message-action-card'
-      preLoaderRoute: typeof ComponentsMessageActionCardRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/markdown': {
-      id: '/components/markdown'
-      path: '/markdown'
-      fullPath: '/components/markdown'
-      preLoaderRoute: typeof ComponentsMarkdownRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/logo': {
-      id: '/components/logo'
-      path: '/logo'
-      fullPath: '/components/logo'
-      preLoaderRoute: typeof ComponentsLogoRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/live-agent-activity-bar': {
-      id: '/components/live-agent-activity-bar'
-      path: '/live-agent-activity-bar'
-      fullPath: '/components/live-agent-activity-bar'
-      preLoaderRoute: typeof ComponentsLiveAgentActivityBarRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/lightbox': {
-      id: '/components/lightbox'
-      path: '/lightbox'
-      fullPath: '/components/lightbox'
-      preLoaderRoute: typeof ComponentsLightboxRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/label': {
-      id: '/components/label'
-      path: '/label'
-      fullPath: '/components/label'
-      preLoaderRoute: typeof ComponentsLabelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/kbd': {
-      id: '/components/kbd'
-      path: '/kbd'
-      fullPath: '/components/kbd'
-      preLoaderRoute: typeof ComponentsKbdRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/input-group': {
-      id: '/components/input-group'
-      path: '/input-group'
-      fullPath: '/components/input-group'
-      preLoaderRoute: typeof ComponentsInputGroupRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/input': {
-      id: '/components/input'
-      path: '/input'
-      fullPath: '/components/input'
-      preLoaderRoute: typeof ComponentsInputRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/inline-code': {
-      id: '/components/inline-code'
-      path: '/inline-code'
-      fullPath: '/components/inline-code'
-      preLoaderRoute: typeof ComponentsInlineCodeRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/files': {
-      id: '/components/files'
-      path: '/files'
-      fullPath: '/components/files'
-      preLoaderRoute: typeof ComponentsFilesRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/file-preview': {
-      id: '/components/file-preview'
-      path: '/file-preview'
-      fullPath: '/components/file-preview'
-      preLoaderRoute: typeof ComponentsFilePreviewRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/field': {
-      id: '/components/field'
-      path: '/field'
-      fullPath: '/components/field'
-      preLoaderRoute: typeof ComponentsFieldRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/empty-state': {
-      id: '/components/empty-state'
-      path: '/empty-state'
-      fullPath: '/components/empty-state'
-      preLoaderRoute: typeof ComponentsEmptyStateRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/dropdown-menu': {
-      id: '/components/dropdown-menu'
-      path: '/dropdown-menu'
-      fullPath: '/components/dropdown-menu'
-      preLoaderRoute: typeof ComponentsDropdownMenuRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/drawer': {
-      id: '/components/drawer'
-      path: '/drawer'
-      fullPath: '/components/drawer'
-      preLoaderRoute: typeof ComponentsDrawerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/dialog': {
-      id: '/components/dialog'
-      path: '/dialog'
-      fullPath: '/components/dialog'
-      preLoaderRoute: typeof ComponentsDialogRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/description-list': {
-      id: '/components/description-list'
-      path: '/description-list'
-      fullPath: '/components/description-list'
-      preLoaderRoute: typeof ComponentsDescriptionListRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/copyable-code': {
-      id: '/components/copyable-code'
-      path: '/copyable-code'
-      fullPath: '/components/copyable-code'
-      preLoaderRoute: typeof ComponentsCopyableCodeRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/conversation-panel': {
-      id: '/components/conversation-panel'
-      path: '/conversation-panel'
-      fullPath: '/components/conversation-panel'
-      preLoaderRoute: typeof ComponentsConversationPanelRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/context-menu': {
-      id: '/components/context-menu'
-      path: '/context-menu'
-      fullPath: '/components/context-menu'
-      preLoaderRoute: typeof ComponentsContextMenuRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/composer-suggestions': {
-      id: '/components/composer-suggestions'
-      path: '/composer-suggestions'
-      fullPath: '/components/composer-suggestions'
-      preLoaderRoute: typeof ComponentsComposerSuggestionsRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/combobox': {
-      id: '/components/combobox'
-      path: '/combobox'
-      fullPath: '/components/combobox'
-      preLoaderRoute: typeof ComponentsComboboxRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/code-block': {
-      id: '/components/code-block'
-      path: '/code-block'
-      fullPath: '/components/code-block'
-      preLoaderRoute: typeof ComponentsCodeBlockRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/checkbox': {
-      id: '/components/checkbox'
-      path: '/checkbox'
-      fullPath: '/components/checkbox'
-      preLoaderRoute: typeof ComponentsCheckboxRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/chat-sidebar-item': {
-      id: '/components/chat-sidebar-item'
-      path: '/chat-sidebar-item'
-      fullPath: '/components/chat-sidebar-item'
-      preLoaderRoute: typeof ComponentsChatSidebarItemRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/chat-sidebar': {
-      id: '/components/chat-sidebar'
-      path: '/chat-sidebar'
-      fullPath: '/components/chat-sidebar'
-      preLoaderRoute: typeof ComponentsChatSidebarRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/chat-composer': {
-      id: '/components/chat-composer'
-      path: '/chat-composer'
-      fullPath: '/components/chat-composer'
-      preLoaderRoute: typeof ComponentsChatComposerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/button': {
-      id: '/components/button'
-      path: '/button'
-      fullPath: '/components/button'
-      preLoaderRoute: typeof ComponentsButtonRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/banner': {
-      id: '/components/banner'
-      path: '/banner'
-      fullPath: '/components/banner'
-      preLoaderRoute: typeof ComponentsBannerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/badge': {
-      id: '/components/badge'
-      path: '/badge'
-      fullPath: '/components/badge'
-      preLoaderRoute: typeof ComponentsBadgeRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/avatar': {
-      id: '/components/avatar'
-      path: '/avatar'
-      fullPath: '/components/avatar'
-      preLoaderRoute: typeof ComponentsAvatarRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/attention-dot': {
-      id: '/components/attention-dot'
-      path: '/attention-dot'
-      fullPath: '/components/attention-dot'
-      preLoaderRoute: typeof ComponentsAttentionDotRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/app-shell': {
-      id: '/components/app-shell'
-      path: '/app-shell'
-      fullPath: '/components/app-shell'
-      preLoaderRoute: typeof ComponentsAppShellRouteImport
+    '/components/alert-dialog': {
+      id: '/components/alert-dialog'
+      path: '/alert-dialog'
+      fullPath: '/components/alert-dialog'
+      preLoaderRoute: typeof ComponentsAlertDialogRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/app-rail': {
@@ -1996,25 +1436,536 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsAppRailRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/alert-dialog': {
-      id: '/components/alert-dialog'
-      path: '/alert-dialog'
-      fullPath: '/components/alert-dialog'
-      preLoaderRoute: typeof ComponentsAlertDialogRouteImport
+    '/components/app-shell': {
+      id: '/components/app-shell'
+      path: '/app-shell'
+      fullPath: '/components/app-shell'
+      preLoaderRoute: typeof ComponentsAppShellRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/playground/s': {
-      id: '/playground/s'
-      path: '/s'
-      fullPath: '/playground/s'
-      preLoaderRoute: typeof PlaygroundSRouteRouteImport
-      parentRoute: typeof PlaygroundRouteRoute
+    '/components/attention-dot': {
+      id: '/components/attention-dot'
+      path: '/attention-dot'
+      fullPath: '/components/attention-dot'
+      preLoaderRoute: typeof ComponentsAttentionDotRouteImport
+      parentRoute: typeof ComponentsRoute
     }
-    '/playground/_plain': {
-      id: '/playground/_plain'
-      path: ''
-      fullPath: '/playground'
-      preLoaderRoute: typeof PlaygroundPlainRouteRouteImport
+    '/components/avatar': {
+      id: '/components/avatar'
+      path: '/avatar'
+      fullPath: '/components/avatar'
+      preLoaderRoute: typeof ComponentsAvatarRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/badge': {
+      id: '/components/badge'
+      path: '/badge'
+      fullPath: '/components/badge'
+      preLoaderRoute: typeof ComponentsBadgeRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/banner': {
+      id: '/components/banner'
+      path: '/banner'
+      fullPath: '/components/banner'
+      preLoaderRoute: typeof ComponentsBannerRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/button': {
+      id: '/components/button'
+      path: '/button'
+      fullPath: '/components/button'
+      preLoaderRoute: typeof ComponentsButtonRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/chat-composer': {
+      id: '/components/chat-composer'
+      path: '/chat-composer'
+      fullPath: '/components/chat-composer'
+      preLoaderRoute: typeof ComponentsChatComposerRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/chat-sidebar': {
+      id: '/components/chat-sidebar'
+      path: '/chat-sidebar'
+      fullPath: '/components/chat-sidebar'
+      preLoaderRoute: typeof ComponentsChatSidebarRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/chat-sidebar-item': {
+      id: '/components/chat-sidebar-item'
+      path: '/chat-sidebar-item'
+      fullPath: '/components/chat-sidebar-item'
+      preLoaderRoute: typeof ComponentsChatSidebarItemRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/checkbox': {
+      id: '/components/checkbox'
+      path: '/checkbox'
+      fullPath: '/components/checkbox'
+      preLoaderRoute: typeof ComponentsCheckboxRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/code-block': {
+      id: '/components/code-block'
+      path: '/code-block'
+      fullPath: '/components/code-block'
+      preLoaderRoute: typeof ComponentsCodeBlockRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/combobox': {
+      id: '/components/combobox'
+      path: '/combobox'
+      fullPath: '/components/combobox'
+      preLoaderRoute: typeof ComponentsComboboxRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/composer-suggestions': {
+      id: '/components/composer-suggestions'
+      path: '/composer-suggestions'
+      fullPath: '/components/composer-suggestions'
+      preLoaderRoute: typeof ComponentsComposerSuggestionsRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/context-menu': {
+      id: '/components/context-menu'
+      path: '/context-menu'
+      fullPath: '/components/context-menu'
+      preLoaderRoute: typeof ComponentsContextMenuRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/conversation-panel': {
+      id: '/components/conversation-panel'
+      path: '/conversation-panel'
+      fullPath: '/components/conversation-panel'
+      preLoaderRoute: typeof ComponentsConversationPanelRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/copyable-code': {
+      id: '/components/copyable-code'
+      path: '/copyable-code'
+      fullPath: '/components/copyable-code'
+      preLoaderRoute: typeof ComponentsCopyableCodeRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/description-list': {
+      id: '/components/description-list'
+      path: '/description-list'
+      fullPath: '/components/description-list'
+      preLoaderRoute: typeof ComponentsDescriptionListRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/dialog': {
+      id: '/components/dialog'
+      path: '/dialog'
+      fullPath: '/components/dialog'
+      preLoaderRoute: typeof ComponentsDialogRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/drawer': {
+      id: '/components/drawer'
+      path: '/drawer'
+      fullPath: '/components/drawer'
+      preLoaderRoute: typeof ComponentsDrawerRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/dropdown-menu': {
+      id: '/components/dropdown-menu'
+      path: '/dropdown-menu'
+      fullPath: '/components/dropdown-menu'
+      preLoaderRoute: typeof ComponentsDropdownMenuRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/empty-state': {
+      id: '/components/empty-state'
+      path: '/empty-state'
+      fullPath: '/components/empty-state'
+      preLoaderRoute: typeof ComponentsEmptyStateRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/field': {
+      id: '/components/field'
+      path: '/field'
+      fullPath: '/components/field'
+      preLoaderRoute: typeof ComponentsFieldRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/file-preview': {
+      id: '/components/file-preview'
+      path: '/file-preview'
+      fullPath: '/components/file-preview'
+      preLoaderRoute: typeof ComponentsFilePreviewRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/files': {
+      id: '/components/files'
+      path: '/files'
+      fullPath: '/components/files'
+      preLoaderRoute: typeof ComponentsFilesRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/inline-code': {
+      id: '/components/inline-code'
+      path: '/inline-code'
+      fullPath: '/components/inline-code'
+      preLoaderRoute: typeof ComponentsInlineCodeRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/input': {
+      id: '/components/input'
+      path: '/input'
+      fullPath: '/components/input'
+      preLoaderRoute: typeof ComponentsInputRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/input-group': {
+      id: '/components/input-group'
+      path: '/input-group'
+      fullPath: '/components/input-group'
+      preLoaderRoute: typeof ComponentsInputGroupRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/kbd': {
+      id: '/components/kbd'
+      path: '/kbd'
+      fullPath: '/components/kbd'
+      preLoaderRoute: typeof ComponentsKbdRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/label': {
+      id: '/components/label'
+      path: '/label'
+      fullPath: '/components/label'
+      preLoaderRoute: typeof ComponentsLabelRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/lightbox': {
+      id: '/components/lightbox'
+      path: '/lightbox'
+      fullPath: '/components/lightbox'
+      preLoaderRoute: typeof ComponentsLightboxRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/live-agent-activity-bar': {
+      id: '/components/live-agent-activity-bar'
+      path: '/live-agent-activity-bar'
+      fullPath: '/components/live-agent-activity-bar'
+      preLoaderRoute: typeof ComponentsLiveAgentActivityBarRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/logo': {
+      id: '/components/logo'
+      path: '/logo'
+      fullPath: '/components/logo'
+      preLoaderRoute: typeof ComponentsLogoRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/markdown': {
+      id: '/components/markdown'
+      path: '/markdown'
+      fullPath: '/components/markdown'
+      preLoaderRoute: typeof ComponentsMarkdownRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-action-card': {
+      id: '/components/message-action-card'
+      path: '/message-action-card'
+      fullPath: '/components/message-action-card'
+      preLoaderRoute: typeof ComponentsMessageActionCardRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-attachment': {
+      id: '/components/message-attachment'
+      path: '/message-attachment'
+      fullPath: '/components/message-attachment'
+      preLoaderRoute: typeof ComponentsMessageAttachmentRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-forwarded-bundle': {
+      id: '/components/message-forwarded-bundle'
+      path: '/message-forwarded-bundle'
+      fullPath: '/components/message-forwarded-bundle'
+      preLoaderRoute: typeof ComponentsMessageForwardedBundleRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-item': {
+      id: '/components/message-item'
+      path: '/message-item'
+      fullPath: '/components/message-item'
+      preLoaderRoute: typeof ComponentsMessageItemRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-quoted-preview': {
+      id: '/components/message-quoted-preview'
+      path: '/message-quoted-preview'
+      fullPath: '/components/message-quoted-preview'
+      preLoaderRoute: typeof ComponentsMessageQuotedPreviewRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-reference': {
+      id: '/components/message-reference'
+      path: '/message-reference'
+      fullPath: '/components/message-reference'
+      preLoaderRoute: typeof ComponentsMessageReferenceRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-replies': {
+      id: '/components/message-replies'
+      path: '/message-replies'
+      fullPath: '/components/message-replies'
+      preLoaderRoute: typeof ComponentsMessageRepliesRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/mobile-nav': {
+      id: '/components/mobile-nav'
+      path: '/mobile-nav'
+      fullPath: '/components/mobile-nav'
+      preLoaderRoute: typeof ComponentsMobileNavRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/notification-center': {
+      id: '/components/notification-center'
+      path: '/notification-center'
+      fullPath: '/components/notification-center'
+      preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/popover': {
+      id: '/components/popover'
+      path: '/popover'
+      fullPath: '/components/popover'
+      preLoaderRoute: typeof ComponentsPopoverRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/preview-card': {
+      id: '/components/preview-card'
+      path: '/preview-card'
+      fullPath: '/components/preview-card'
+      preLoaderRoute: typeof ComponentsPreviewCardRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/progress': {
+      id: '/components/progress'
+      path: '/progress'
+      fullPath: '/components/progress'
+      preLoaderRoute: typeof ComponentsProgressRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/radio-group': {
+      id: '/components/radio-group'
+      path: '/radio-group'
+      fullPath: '/components/radio-group'
+      preLoaderRoute: typeof ComponentsRadioGroupRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/sandboxed-preview-frame': {
+      id: '/components/sandboxed-preview-frame'
+      path: '/sandboxed-preview-frame'
+      fullPath: '/components/sandboxed-preview-frame'
+      preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/scroll-area': {
+      id: '/components/scroll-area'
+      path: '/scroll-area'
+      fullPath: '/components/scroll-area'
+      preLoaderRoute: typeof ComponentsScrollAreaRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/segmented-control': {
+      id: '/components/segmented-control'
+      path: '/segmented-control'
+      fullPath: '/components/segmented-control'
+      preLoaderRoute: typeof ComponentsSegmentedControlRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/select': {
+      id: '/components/select'
+      path: '/select'
+      fullPath: '/components/select'
+      preLoaderRoute: typeof ComponentsSelectRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/separator': {
+      id: '/components/separator'
+      path: '/separator'
+      fullPath: '/components/separator'
+      preLoaderRoute: typeof ComponentsSeparatorRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/skeleton': {
+      id: '/components/skeleton'
+      path: '/skeleton'
+      fullPath: '/components/skeleton'
+      preLoaderRoute: typeof ComponentsSkeletonRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/spinner': {
+      id: '/components/spinner'
+      path: '/spinner'
+      fullPath: '/components/spinner'
+      preLoaderRoute: typeof ComponentsSpinnerRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/status': {
+      id: '/components/status'
+      path: '/status'
+      fullPath: '/components/status'
+      preLoaderRoute: typeof ComponentsStatusRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/status-dot': {
+      id: '/components/status-dot'
+      path: '/status-dot'
+      fullPath: '/components/status-dot'
+      preLoaderRoute: typeof ComponentsStatusDotRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/switch': {
+      id: '/components/switch'
+      path: '/switch'
+      fullPath: '/components/switch'
+      preLoaderRoute: typeof ComponentsSwitchRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/system-message': {
+      id: '/components/system-message'
+      path: '/system-message'
+      fullPath: '/components/system-message'
+      preLoaderRoute: typeof ComponentsSystemMessageRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/tabs': {
+      id: '/components/tabs'
+      path: '/tabs'
+      fullPath: '/components/tabs'
+      preLoaderRoute: typeof ComponentsTabsRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-board': {
+      id: '/components/task-board'
+      path: '/task-board'
+      fullPath: '/components/task-board'
+      preLoaderRoute: typeof ComponentsTaskBoardRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-card': {
+      id: '/components/task-card'
+      path: '/task-card'
+      fullPath: '/components/task-card'
+      preLoaderRoute: typeof ComponentsTaskCardRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-chip': {
+      id: '/components/task-chip'
+      path: '/task-chip'
+      fullPath: '/components/task-chip'
+      preLoaderRoute: typeof ComponentsTaskChipRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-dnd': {
+      id: '/components/task-dnd'
+      path: '/task-dnd'
+      fullPath: '/components/task-dnd'
+      preLoaderRoute: typeof ComponentsTaskDndRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/task-list': {
+      id: '/components/task-list'
+      path: '/task-list'
+      fullPath: '/components/task-list'
+      preLoaderRoute: typeof ComponentsTaskListRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/tasks': {
+      id: '/components/tasks'
+      path: '/tasks'
+      fullPath: '/components/tasks'
+      preLoaderRoute: typeof ComponentsTasksRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/text': {
+      id: '/components/text'
+      path: '/text'
+      fullPath: '/components/text'
+      preLoaderRoute: typeof ComponentsTextRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/textarea': {
+      id: '/components/textarea'
+      path: '/textarea'
+      fullPath: '/components/textarea'
+      preLoaderRoute: typeof ComponentsTextareaRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/thread-panel': {
+      id: '/components/thread-panel'
+      path: '/thread-panel'
+      fullPath: '/components/thread-panel'
+      preLoaderRoute: typeof ComponentsThreadPanelRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/toast': {
+      id: '/components/toast'
+      path: '/toast'
+      fullPath: '/components/toast'
+      preLoaderRoute: typeof ComponentsToastRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/toggle-group': {
+      id: '/components/toggle-group'
+      path: '/toggle-group'
+      fullPath: '/components/toggle-group'
+      preLoaderRoute: typeof ComponentsToggleGroupRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/tooltip': {
+      id: '/components/tooltip'
+      path: '/tooltip'
+      fullPath: '/components/tooltip'
+      preLoaderRoute: typeof ComponentsTooltipRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/iframe/app-shell-mobile': {
+      id: '/iframe/app-shell-mobile'
+      path: '/iframe/app-shell-mobile'
+      fullPath: '/iframe/app-shell-mobile'
+      preLoaderRoute: typeof IframeAppShellMobileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iframe/chat-sidebar-mobile-parts': {
+      id: '/iframe/chat-sidebar-mobile-parts'
+      path: '/iframe/chat-sidebar-mobile-parts'
+      fullPath: '/iframe/chat-sidebar-mobile-parts'
+      preLoaderRoute: typeof IframeChatSidebarMobilePartsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iframe/drawer': {
+      id: '/iframe/drawer'
+      path: '/iframe/drawer'
+      fullPath: '/iframe/drawer'
+      preLoaderRoute: typeof IframeDrawerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/migration/': {
+      id: '/migration/'
+      path: '/'
+      fullPath: '/migration/'
+      preLoaderRoute: typeof MigrationIndexRouteImport
+      parentRoute: typeof MigrationRoute
+    }
+    '/migration/$sourceFile': {
+      id: '/migration/$sourceFile'
+      path: '/$sourceFile'
+      fullPath: '/migration/$sourceFile'
+      preLoaderRoute: typeof MigrationSourceFileRouteImport
+      parentRoute: typeof MigrationRoute
+    }
+    '/playground/': {
+      id: '/playground/'
+      path: '/'
+      fullPath: '/playground/'
+      preLoaderRoute: typeof PlaygroundIndexRouteImport
       parentRoute: typeof PlaygroundRouteRoute
     }
     '/playground/_browse': {
@@ -2024,53 +1975,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundBrowseRouteRouteImport
       parentRoute: typeof PlaygroundRouteRoute
     }
-    '/tokens/typography/elegant': {
-      id: '/tokens/typography/elegant'
-      path: '/elegant'
-      fullPath: '/tokens/typography/elegant'
-      preLoaderRoute: typeof TokensTypographyElegantRouteImport
-      parentRoute: typeof TokensTypographyRoute
+    '/playground/_plain': {
+      id: '/playground/_plain'
+      path: ''
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundPlainRouteRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
     }
-    '/tokens/typography/brutal': {
-      id: '/tokens/typography/brutal'
-      path: '/brutal'
-      fullPath: '/tokens/typography/brutal'
-      preLoaderRoute: typeof TokensTypographyBrutalRouteImport
-      parentRoute: typeof TokensTypographyRoute
+    '/playground/s': {
+      id: '/playground/s'
+      path: '/s'
+      fullPath: '/playground/s'
+      preLoaderRoute: typeof PlaygroundSRouteRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
     }
-    '/tokens/shadows/elegant': {
-      id: '/tokens/shadows/elegant'
-      path: '/elegant'
-      fullPath: '/tokens/shadows/elegant'
-      preLoaderRoute: typeof TokensShadowsElegantRouteImport
-      parentRoute: typeof TokensShadowsRoute
+    '/skills/migration': {
+      id: '/skills/migration'
+      path: '/skills/migration'
+      fullPath: '/skills/migration'
+      preLoaderRoute: typeof SkillsMigrationRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/tokens/shadows/brutal': {
-      id: '/tokens/shadows/brutal'
-      path: '/brutal'
-      fullPath: '/tokens/shadows/brutal'
-      preLoaderRoute: typeof TokensShadowsBrutalRouteImport
-      parentRoute: typeof TokensShadowsRoute
+    '/skills/new-component': {
+      id: '/skills/new-component'
+      path: '/skills/new-component'
+      fullPath: '/skills/new-component'
+      preLoaderRoute: typeof SkillsNewComponentRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/playground/_plain/tasks': {
-      id: '/playground/_plain/tasks'
-      path: '/tasks'
-      fullPath: '/playground/tasks'
-      preLoaderRoute: typeof PlaygroundPlainTasksRouteImport
-      parentRoute: typeof PlaygroundPlainRouteRoute
+    '/tokens/colors': {
+      id: '/tokens/colors'
+      path: '/tokens/colors'
+      fullPath: '/tokens/colors'
+      preLoaderRoute: typeof TokensColorsRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/playground/_plain/settings': {
-      id: '/playground/_plain/settings'
-      path: '/settings'
-      fullPath: '/playground/settings'
-      preLoaderRoute: typeof PlaygroundPlainSettingsRouteImport
-      parentRoute: typeof PlaygroundPlainRouteRoute
+    '/tokens/shadows': {
+      id: '/tokens/shadows'
+      path: '/tokens/shadows'
+      fullPath: '/tokens/shadows'
+      preLoaderRoute: typeof TokensShadowsRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/playground/_plain/search': {
-      id: '/playground/_plain/search'
-      path: '/search'
-      fullPath: '/playground/search'
-      preLoaderRoute: typeof PlaygroundPlainSearchRouteImport
+    '/tokens/typography': {
+      id: '/tokens/typography'
+      path: '/tokens/typography'
+      fullPath: '/tokens/typography'
+      preLoaderRoute: typeof TokensTypographyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playground/_browse/computers': {
+      id: '/playground/_browse/computers'
+      path: '/computers'
+      fullPath: '/playground/computers'
+      preLoaderRoute: typeof PlaygroundBrowseComputersRouteImport
+      parentRoute: typeof PlaygroundBrowseRouteRoute
+    }
+    '/playground/_browse/members': {
+      id: '/playground/_browse/members'
+      path: '/members'
+      fullPath: '/playground/members'
+      preLoaderRoute: typeof PlaygroundBrowseMembersRouteImport
+      parentRoute: typeof PlaygroundBrowseRouteRoute
+    }
+    '/playground/_plain/activity': {
+      id: '/playground/_plain/activity'
+      path: '/activity'
+      fullPath: '/playground/activity'
+      preLoaderRoute: typeof PlaygroundPlainActivityRouteImport
       parentRoute: typeof PlaygroundPlainRouteRoute
     }
     '/playground/_plain/saved': {
@@ -2080,26 +2052,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundPlainSavedRouteImport
       parentRoute: typeof PlaygroundPlainRouteRoute
     }
-    '/playground/_plain/activity': {
-      id: '/playground/_plain/activity'
-      path: '/activity'
-      fullPath: '/playground/activity'
-      preLoaderRoute: typeof PlaygroundPlainActivityRouteImport
+    '/playground/_plain/search': {
+      id: '/playground/_plain/search'
+      path: '/search'
+      fullPath: '/playground/search'
+      preLoaderRoute: typeof PlaygroundPlainSearchRouteImport
       parentRoute: typeof PlaygroundPlainRouteRoute
     }
-    '/playground/_browse/members': {
-      id: '/playground/_browse/members'
-      path: '/members'
-      fullPath: '/playground/members'
-      preLoaderRoute: typeof PlaygroundBrowseMembersRouteImport
-      parentRoute: typeof PlaygroundBrowseRouteRoute
+    '/playground/_plain/settings': {
+      id: '/playground/_plain/settings'
+      path: '/settings'
+      fullPath: '/playground/settings'
+      preLoaderRoute: typeof PlaygroundPlainSettingsRouteImport
+      parentRoute: typeof PlaygroundPlainRouteRoute
     }
-    '/playground/_browse/computers': {
-      id: '/playground/_browse/computers'
-      path: '/computers'
-      fullPath: '/playground/computers'
-      preLoaderRoute: typeof PlaygroundBrowseComputersRouteImport
-      parentRoute: typeof PlaygroundBrowseRouteRoute
+    '/playground/_plain/tasks': {
+      id: '/playground/_plain/tasks'
+      path: '/tasks'
+      fullPath: '/playground/tasks'
+      preLoaderRoute: typeof PlaygroundPlainTasksRouteImport
+      parentRoute: typeof PlaygroundPlainRouteRoute
     }
     '/playground/s/$serverSlug': {
       id: '/playground/s/$serverSlug'
@@ -2108,18 +2080,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundSServerSlugRouteRouteImport
       parentRoute: typeof PlaygroundSRouteRoute
     }
+    '/tokens/shadows/brutal': {
+      id: '/tokens/shadows/brutal'
+      path: '/brutal'
+      fullPath: '/tokens/shadows/brutal'
+      preLoaderRoute: typeof TokensShadowsBrutalRouteImport
+      parentRoute: typeof TokensShadowsRoute
+    }
+    '/tokens/shadows/elegant': {
+      id: '/tokens/shadows/elegant'
+      path: '/elegant'
+      fullPath: '/tokens/shadows/elegant'
+      preLoaderRoute: typeof TokensShadowsElegantRouteImport
+      parentRoute: typeof TokensShadowsRoute
+    }
+    '/tokens/typography/brutal': {
+      id: '/tokens/typography/brutal'
+      path: '/brutal'
+      fullPath: '/tokens/typography/brutal'
+      preLoaderRoute: typeof TokensTypographyBrutalRouteImport
+      parentRoute: typeof TokensTypographyRoute
+    }
+    '/tokens/typography/elegant': {
+      id: '/tokens/typography/elegant'
+      path: '/elegant'
+      fullPath: '/tokens/typography/elegant'
+      preLoaderRoute: typeof TokensTypographyElegantRouteImport
+      parentRoute: typeof TokensTypographyRoute
+    }
     '/playground/s/$serverSlug/': {
       id: '/playground/s/$serverSlug/'
       path: '/'
       fullPath: '/playground/s/$serverSlug/'
       preLoaderRoute: typeof PlaygroundSServerSlugIndexRouteImport
-      parentRoute: typeof PlaygroundSServerSlugRouteRoute
-    }
-    '/playground/s/$serverSlug/dm': {
-      id: '/playground/s/$serverSlug/dm'
-      path: '/dm'
-      fullPath: '/playground/s/$serverSlug/dm'
-      preLoaderRoute: typeof PlaygroundSServerSlugDmRouteRouteImport
       parentRoute: typeof PlaygroundSServerSlugRouteRoute
     }
     '/playground/s/$serverSlug/channel': {
@@ -2129,12 +2122,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundSServerSlugChannelRouteRouteImport
       parentRoute: typeof PlaygroundSServerSlugRouteRoute
     }
-    '/playground/s/$serverSlug/dm/$dmId': {
-      id: '/playground/s/$serverSlug/dm/$dmId'
-      path: '/$dmId'
-      fullPath: '/playground/s/$serverSlug/dm/$dmId'
-      preLoaderRoute: typeof PlaygroundSServerSlugDmDmIdRouteImport
-      parentRoute: typeof PlaygroundSServerSlugDmRouteRoute
+    '/playground/s/$serverSlug/dm': {
+      id: '/playground/s/$serverSlug/dm'
+      path: '/dm'
+      fullPath: '/playground/s/$serverSlug/dm'
+      preLoaderRoute: typeof PlaygroundSServerSlugDmRouteRouteImport
+      parentRoute: typeof PlaygroundSServerSlugRouteRoute
     }
     '/playground/s/$serverSlug/channel/$channelId': {
       id: '/playground/s/$serverSlug/channel/$channelId'
@@ -2142,6 +2135,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/playground/s/$serverSlug/channel/$channelId'
       preLoaderRoute: typeof PlaygroundSServerSlugChannelChannelIdRouteImport
       parentRoute: typeof PlaygroundSServerSlugChannelRouteRoute
+    }
+    '/playground/s/$serverSlug/dm/$dmId': {
+      id: '/playground/s/$serverSlug/dm/$dmId'
+      path: '/$dmId'
+      fullPath: '/playground/s/$serverSlug/dm/$dmId'
+      preLoaderRoute: typeof PlaygroundSServerSlugDmDmIdRouteImport
+      parentRoute: typeof PlaygroundSServerSlugDmRouteRoute
     }
   }
 }
