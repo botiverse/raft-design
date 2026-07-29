@@ -34,7 +34,7 @@ const TOKENS = [
 
 const NAV = [
   {
-    title: "Shell & Layout",
+    title: "Shell",
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "done" },
       { label: "AppRail", to: "/components/app-rail", status: "done" },
@@ -86,14 +86,12 @@ const NAV = [
       {
         label: "ChatSidebar",
         to: "/components/chat-sidebar",
-        children: [
-          { label: "ChatSidebarItem", to: "/components/chat-sidebar-item" },
-          {
-            label: "LiveAgentActivityBar",
-            to: "/components/live-agent-activity-bar",
-            status: "done",
-          },
-        ],
+      },
+      { label: "ChatSidebarItem", to: "/components/chat-sidebar-item" },
+      {
+        label: "LiveAgentActivityBar",
+        to: "/components/live-agent-activity-bar",
+        status: "done",
       },
       {
         label: "ConversationPanel",
@@ -106,13 +104,11 @@ const NAV = [
         label: "Composer",
         to: "/components/chat-composer",
         status: "done",
-        children: [
-          {
-            label: "ComposerSuggestions",
-            to: "/components/composer-suggestions",
-            status: "done",
-          },
-        ],
+      },
+      {
+        label: "ComposerSuggestions",
+        to: "/components/composer-suggestions",
+        status: "done",
       },
     ],
   },
@@ -235,7 +231,7 @@ const NAV = [
     ],
   },
   {
-    title: "Status & Indicators",
+    title: "Status",
     items: [
       { label: "Badge", to: "/components/badge", status: "done" },
       { label: "Status", to: "/components/status", status: "done" },
@@ -248,7 +244,7 @@ const NAV = [
     ],
   },
   {
-    title: "Content & Code",
+    title: "Content",
     items: [
       { label: "Text", to: "/components/text", status: "done" },
       { label: "Markdown", to: "/components/markdown", status: "done" },
@@ -298,7 +294,6 @@ type NavItem = {
   hash?: string;
   status?: NavStatus;
   reason?: string;
-  children?: readonly NavItem[];
 };
 
 type BadgeVariant =
@@ -330,12 +325,10 @@ const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
 const sidebarPathActiveOptions = { exact: true, includeSearch: false };
 const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
 
-function NavRow({ item, badge, depth = 0 }: { item: NavItem; badge?: ReactNode; depth?: 0 | 1 }) {
-  const className = `flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${
-    depth === 1 ? "text-xs" : "text-[13px]"
-  } ${item.to || item.docsHref ? sidebarItemFocusClassName : "cursor-default"} ${
-    item.to || item.docsHref ? "" : "text-foreground-muted"
-  }`;
+function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
+  const className = `flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${
+    item.to || item.docsHref ? sidebarItemFocusClassName : "cursor-default"
+  } ${item.to || item.docsHref ? "" : "text-foreground-muted"}`;
   const title = item.reason
     ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
     : undefined;
@@ -431,10 +424,9 @@ function NavGroup({
   to?: string;
   items: readonly NavItem[];
 }) {
-  const titleClassName =
-    items.length > 0
-      ? sectionTitleClassName
-      : "block rounded-md px-2 py-1.5 text-[13px] font-medium text-foreground-strong transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong";
+  if (title && to && items.length === 0) {
+    return <NavRow item={{ label: title, to }} />;
+  }
 
   return (
     <div>
@@ -445,12 +437,12 @@ function NavGroup({
             activeOptions={sidebarPathActiveOptions}
             activeProps={sidebarItemActiveProps}
             inactiveProps={{ className: "text-foreground-strong" }}
-            className={`${titleClassName} ${sidebarItemFocusClassName}`}
+            className={`${sectionTitleClassName} ${sidebarItemFocusClassName}`}
           >
             {title}
           </Link>
         ) : (
-          <p className={titleClassName}>{title}</p>
+          <p className={sectionTitleClassName}>{title}</p>
         )
       ) : null}
       {items.length > 0 ? (
@@ -458,19 +450,6 @@ function NavGroup({
           {items.map((item) => (
             <li key={item.label}>
               <NavRow item={item} badge={<StatusBadge status={item.status} />} />
-              {item.children ? (
-                <ul className="mt-1 ml-2 space-y-1 border-l border-line-subtle pl-2">
-                  {item.children.map((child) => (
-                    <li key={child.label}>
-                      <NavRow
-                        item={child}
-                        depth={1}
-                        badge={<StatusBadge status={child.status} />}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
             </li>
           ))}
         </ul>
@@ -480,7 +459,7 @@ function NavGroup({
 }
 
 function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
-  const className = `flex min-h-11 items-center justify-center rounded-md px-1.5 py-2 text-center text-[13px] leading-4 text-foreground-muted transition-colors hover:bg-layer-muted hover:text-foreground-strong active:bg-layer-strong ${sidebarItemFocusClassName}`;
+  const className = `flex min-h-12 items-center justify-start rounded-md px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted transition-colors hover:bg-layer-muted hover:text-foreground-strong active:bg-layer-strong ${sidebarItemFocusClassName}`;
   const title = item.reason
     ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
     : undefined;
@@ -521,7 +500,7 @@ function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => 
   return (
     <span
       title={title}
-      className="flex min-h-11 items-center justify-center px-1.5 py-2 text-center text-[13px] leading-4 text-foreground-muted"
+      className="flex min-h-12 items-center justify-start px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted"
     >
       {item.label}
     </span>
@@ -539,27 +518,29 @@ function MobileNavGroup({
   items: readonly NavItem[];
   onNavigate: () => void;
 }) {
-  const mobileItems = items.flatMap((item) => [item, ...(item.children ?? [])]);
+  if (to && items.length === 0) {
+    return <MobileNavItem item={{ label: title, to }} onNavigate={onNavigate} />;
+  }
 
   return (
     <section>
-      <h2 className="mb-2 text-center text-xs font-medium text-foreground-strong">
+      <h2 className="mb-3 text-left text-xs font-medium text-foreground-muted/70">
         {to ? (
           <Link
             to={to}
             activeOptions={sidebarPathActiveOptions}
             activeProps={sidebarItemActiveProps}
-            className={`inline-flex min-h-11 items-center justify-center rounded-md px-3 ${sidebarItemFocusClassName}`}
+            className={`flex min-h-12 items-center justify-start rounded-md px-3 ${sidebarItemFocusClassName}`}
             onClick={onNavigate}
           >
             {title}
           </Link>
         ) : (
-          title
+          <span className="block px-3">{title}</span>
         )}
       </h2>
-      <div className="grid grid-cols-3 gap-1">
-        {mobileItems.map((item) => (
+      <div className="flex flex-col gap-2">
+        {items.map((item) => (
           <MobileNavItem key={item.label} item={item} onNavigate={onNavigate} />
         ))}
       </div>
@@ -635,10 +616,10 @@ function MobileSidebar() {
         <nav
           id="mobile-docs-navigation"
           aria-label="Documentation"
-          className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-3 pt-2 pb-[max(2rem,env(safe-area-inset-bottom))]"
+          className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-4 pt-3 pb-[max(2rem,env(safe-area-inset-bottom))]"
         >
-          <div className="mx-auto max-w-xl space-y-7">
-            <div className="grid grid-cols-3 gap-1">
+          <div className="mx-auto max-w-xl space-y-9">
+            <div className="flex flex-col gap-2">
               {primaryItems.map((item) => (
                 <MobileNavItem key={item.label} item={item} onNavigate={close} />
               ))}
