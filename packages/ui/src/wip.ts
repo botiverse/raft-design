@@ -181,11 +181,6 @@ export {
   MessageItemSender,
   MessageItemSenderState,
   MessageItemTime,
-  MessageItemTranslationAction,
-  MessageItemTranslationOriginal,
-  MessageItemTranslationOriginalLabel,
-  MessageItemTranslationPlaceholder,
-  MessageItemTranslationStatus,
   messageItemContentOverflows,
   MessageItemToolbar,
   MessageItemToolbarButton,
@@ -248,12 +243,6 @@ export type {
   MessageItemSenderProps,
   MessageItemSenderStateProps,
   MessageItemTimeProps,
-  MessageItemTranslationActionProps,
-  MessageItemTranslationOriginalLabelProps,
-  MessageItemTranslationOriginalProps,
-  MessageItemTranslationPlaceholderProps,
-  MessageItemTranslationStatusProps,
-  MessageItemTranslationTone,
   MessageItemToolbarButtonProps,
   MessageItemToolbarProps,
   MessageMultiSelectActionProps,
@@ -285,6 +274,25 @@ export type {
   MessageReactionTooltipNameTextProps,
   MessageReactionTooltipSeparatorProps,
 } from "./components/message-item/index";
+
+export {
+  MessageItemTranslationAction,
+  MessageItemTranslationFailedStatus,
+  MessageItemTranslationOriginal,
+  MessageItemTranslationOriginalLabel,
+  MessageItemTranslationPendingStatus,
+  MessageItemTranslationRetryAction,
+  MessageItemTranslationStatus,
+} from "./components/message-translation/index";
+export type {
+  MessageItemTranslationActionProps,
+  MessageItemTranslationFailedStatusProps,
+  MessageItemTranslationOriginalLabelProps,
+  MessageItemTranslationOriginalProps,
+  MessageItemTranslationPendingStatusProps,
+  MessageItemTranslationRetryActionProps,
+  MessageItemTranslationStatusProps,
+} from "./components/message-translation/index";
 
 export {
   MessageQuotedPreview,

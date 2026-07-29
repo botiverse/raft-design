@@ -58,6 +58,7 @@ import { Route as ComponentsMessageItemRouteImport } from './routes/components/m
 import { Route as ComponentsMessageQuotedPreviewRouteImport } from './routes/components/message-quoted-preview'
 import { Route as ComponentsMessageReferenceRouteImport } from './routes/components/message-reference'
 import { Route as ComponentsMessageRepliesRouteImport } from './routes/components/message-replies'
+import { Route as ComponentsMessageTranslationRouteImport } from './routes/components/message-translation'
 import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
@@ -374,6 +375,12 @@ const ComponentsMessageRepliesRoute =
   ComponentsMessageRepliesRouteImport.update({
     id: '/message-replies',
     path: '/message-replies',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
+const ComponentsMessageTranslationRoute =
+  ComponentsMessageTranslationRouteImport.update({
+    id: '/message-translation',
+    path: '/message-translation',
     getParentRoute: () => ComponentsRoute,
   } as any)
 const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
@@ -742,6 +749,7 @@ export interface FileRoutesByFullPath {
   '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/message-reference': typeof ComponentsMessageReferenceRoute
   '/components/message-replies': typeof ComponentsMessageRepliesRoute
+  '/components/message-translation': typeof ComponentsMessageTranslationRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -851,6 +859,7 @@ export interface FileRoutesByTo {
   '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/message-reference': typeof ComponentsMessageReferenceRoute
   '/components/message-replies': typeof ComponentsMessageRepliesRoute
+  '/components/message-translation': typeof ComponentsMessageTranslationRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -962,6 +971,7 @@ export interface FileRoutesById {
   '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/message-reference': typeof ComponentsMessageReferenceRoute
   '/components/message-replies': typeof ComponentsMessageRepliesRoute
+  '/components/message-translation': typeof ComponentsMessageTranslationRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -1074,6 +1084,7 @@ export interface FileRouteTypes {
     | '/components/message-quoted-preview'
     | '/components/message-reference'
     | '/components/message-replies'
+    | '/components/message-translation'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1183,6 +1194,7 @@ export interface FileRouteTypes {
     | '/components/message-quoted-preview'
     | '/components/message-reference'
     | '/components/message-replies'
+    | '/components/message-translation'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1293,6 +1305,7 @@ export interface FileRouteTypes {
     | '/components/message-quoted-preview'
     | '/components/message-reference'
     | '/components/message-replies'
+    | '/components/message-translation'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1714,6 +1727,13 @@ declare module '@tanstack/react-router' {
       path: '/message-replies'
       fullPath: '/components/message-replies'
       preLoaderRoute: typeof ComponentsMessageRepliesRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-translation': {
+      id: '/components/message-translation'
+      path: '/message-translation'
+      fullPath: '/components/message-translation'
+      preLoaderRoute: typeof ComponentsMessageTranslationRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/mobile-nav': {
@@ -2301,6 +2321,7 @@ interface ComponentsRouteChildren {
   ComponentsMessageQuotedPreviewRoute: typeof ComponentsMessageQuotedPreviewRoute
   ComponentsMessageReferenceRoute: typeof ComponentsMessageReferenceRoute
   ComponentsMessageRepliesRoute: typeof ComponentsMessageRepliesRoute
+  ComponentsMessageTranslationRoute: typeof ComponentsMessageTranslationRoute
   ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
@@ -2376,6 +2397,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsMessageQuotedPreviewRoute: ComponentsMessageQuotedPreviewRoute,
   ComponentsMessageReferenceRoute: ComponentsMessageReferenceRoute,
   ComponentsMessageRepliesRoute: ComponentsMessageRepliesRoute,
+  ComponentsMessageTranslationRoute: ComponentsMessageTranslationRoute,
   ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,

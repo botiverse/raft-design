@@ -91,7 +91,7 @@ export const CONTENT_PROPS: readonly PropRow[] = [
     name: "MessageItemBody",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Message content slot. Markdown, mentions, links, translation output, and product parsing stay caller-owned.",
+      "Message content slot. Markdown, mentions, links, and product parsing stay caller-owned.",
   },
   {
     name: "MessageItemAttachments / MessageItemEmbedded / MessageItemNotice",
@@ -106,24 +106,7 @@ export const CONTENT_PROPS: readonly PropRow[] = [
   },
 ];
 
-export const TRANSLATION_REFERENCE_PROPS: readonly PropRow[] = [
-  {
-    name: "MessageItemTranslationPlaceholder",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Source-faithful pending translation placeholder. Translation eligibility stays caller-owned.",
-  },
-  {
-    name: "MessageItemTranslationOriginal / MessageItemTranslationOriginalLabel",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Bilingual original-content container and label. Consumers choose when the original is visible.",
-  },
-  {
-    name: "MessageItemTranslationStatus / MessageItemTranslationAction",
-    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"button">',
-    description: "Translation status and caller-wired original/translation toggle or retry action.",
-  },
+export const REFERENCE_PROPS: readonly PropRow[] = [
   {
     name: "MessageReferenceText / Chip / Pending / Unavailable",
     type: 'useRender.ComponentProps<"span">',
@@ -255,7 +238,7 @@ export const SELECTION_PROPS: readonly PropRow[] = [
 export const PROPS = [
   ...ROW_PROPS,
   ...CONTENT_PROPS,
-  ...TRANSLATION_REFERENCE_PROPS,
+  ...REFERENCE_PROPS,
   ...ACTION_PROPS,
   ...FOOTER_PROPS,
   ...REACTION_PROPS,
@@ -266,9 +249,9 @@ export const API_GROUPS = [
   { id: "api-row-structure", title: "Row structure", rows: ROW_PROPS },
   { id: "api-content", title: "Content regions", rows: CONTENT_PROPS },
   {
-    id: "api-translation-references",
-    title: "Translation and references",
-    rows: TRANSLATION_REFERENCE_PROPS,
+    id: "api-references",
+    title: "References",
+    rows: REFERENCE_PROPS,
   },
   { id: "api-actions", title: "Row actions", rows: ACTION_PROPS },
   { id: "api-footer", title: "Footer", rows: FOOTER_PROPS },

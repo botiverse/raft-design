@@ -32,11 +32,6 @@ export const messageItem = tv({
       "mt-1 inline-flex",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
     ],
-    translationPlaceholder: ["inline-block h-4 w-44 max-w-full align-middle"],
-    translationOriginal: ["mt-1.5"],
-    translationOriginalLabel: [],
-    translationStatus: ["inline-flex items-center gap-1.5"],
-    translationAction: ["font-bold underline underline-offset-2"],
     embedded: ["mt-1.5 min-w-0"],
     notice: ["mt-1 inline-flex max-w-full"],
     attachments: ["mt-1 space-y-2"],
@@ -79,12 +74,6 @@ export const messageItem = tv({
         collapsibleContentFade: "from-white to-transparent",
         collapsibleContentTrigger:
           "text-sm underline underline-offset-2 text-black/70 hover:text-black focus-visible:outline-black",
-        translationPlaceholder: "border-2 border-black/20",
-        translationOriginal: "border-l-2 border-black/20 pl-2 text-black/70",
-        translationOriginalLabel:
-          "mb-0.5 text-[10px] font-bold uppercase tracking-normal text-black/40",
-        translationStatus: "font-mono text-[11px] text-black/45",
-        translationAction: "decoration-black/40 hover:decoration-black",
         notice: [
           "border border-line-strong bg-soft-signal/40 px-2 py-1",
           "text-xs font-bold text-foreground/70",
@@ -134,13 +123,6 @@ export const messageItem = tv({
         collapsibleContentFade: "from-layer-panel to-transparent",
         collapsibleContentTrigger:
           "text-sm font-medium underline underline-offset-2 text-foreground-muted hover:text-foreground focus-visible:outline-line-focus",
-        translationPlaceholder: "rounded-sm",
-        translationOriginal: "border-l border-line-subtle pl-2 text-foreground-muted",
-        translationOriginalLabel:
-          "mb-0.5 text-[10px] font-medium uppercase tracking-normal text-foreground-muted",
-        translationStatus: "text-[11px] leading-none text-foreground-muted",
-        translationAction:
-          "decoration-foreground-muted/50 hover:text-foreground hover:decoration-foreground",
         notice: [
           "rounded-md bg-layer-muted px-2 py-1.5",
           "text-xs font-medium text-foreground-muted",
@@ -175,11 +157,6 @@ export const messageItem = tv({
       true: { body: "mt-0 mb-0" },
     },
     toolbarVisible: { true: { toolbar: "pointer-events-auto opacity-100" } },
-    translationTone: {
-      failed: {},
-      normal: {},
-      pending: { translationStatus: "[&_svg]:animate-pulse" },
-    },
   },
   compoundVariants: [
     { theme: "brutal", rowState: "active", class: { root: "border-line-strong bg-white" } },
@@ -206,26 +183,6 @@ export const messageItem = tv({
         root: [
           "border-transparent bg-info-base/10 shadow-none",
           "ring-1 ring-inset ring-info-dark",
-        ],
-      },
-    },
-    {
-      theme: "brutal",
-      translationTone: "failed",
-      class: {
-        translationStatus: [
-          "text-brutal-orange",
-          "[&_[data-slot=message-item-translation-action]]:text-brutal-orange",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      translationTone: "failed",
-      class: {
-        translationStatus: [
-          "text-danger-base",
-          "[&_[data-slot=message-item-translation-action]]:text-danger-base",
         ],
       },
     },
