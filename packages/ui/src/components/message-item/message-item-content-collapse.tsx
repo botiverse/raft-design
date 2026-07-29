@@ -130,11 +130,6 @@ export function MessageItemContentCollapsePanel({
                 className={contentCollapseFadeLayer()}
               />
               <div
-                data-layer="soft"
-                data-slot="message-item-content-collapse-fade-layer"
-                className={contentCollapseFadeLayer()}
-              />
-              <div
                 data-layer="blur"
                 data-slot="message-item-content-collapse-fade-layer"
                 className={contentCollapseFadeLayer()}
