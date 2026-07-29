@@ -7,9 +7,23 @@ import {
   ExternalLink,
   Languages,
   MessageSquare,
+  MessageSquareDot,
   Pencil,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, ContextMenu, ContextMenuTrigger } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  ContextMenu,
+  ContextMenuTrigger,
+  MessageReplies,
+  MessageRepliesItem,
+  MessageRepliesItemContent,
+  MessageRepliesItemSender,
+  MessageRepliesItemTime,
+  MessageRepliesSummary,
+  MessageRepliesSummaryItem,
+} from "raft-ui";
 import {
   MessageItem,
   MessageItemActive,
@@ -26,14 +40,6 @@ import {
   MessageItemHeader,
   MessageItemInteractionBoundary,
   MessageItemMeta,
-  MessageItemReplies,
-  MessageItemRepliesSummary,
-  MessageItemRepliesTrigger,
-  MessageItemReply,
-  MessageItemReplyAvatar,
-  MessageItemReplyContent,
-  MessageItemReplySender,
-  MessageItemReplyTime,
   MessageReactionChip,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
@@ -273,61 +279,59 @@ function PlaygroundInlineReplies({
 }) {
   const { channel } = requirePlaygroundThread(threadId);
   const previews = replies.slice(-3);
-  const undisplayedReplyCount = Math.max(0, replies.length - previews.length);
   const firstUnreadReply = replies.find((reply) => reply.unread);
-  const summary =
-    undisplayedReplyCount > 0
-      ? `View ${undisplayedReplyCount} earlier ${undisplayedReplyCount === 1 ? "reply" : "replies"}`
-      : replies.length === 1
-        ? "1 reply"
-        : `${replies.length} replies`;
+  const summary = replies.length === 1 ? "1 reply" : `${replies.length} replies`;
 
   return (
-    <MessageItemReplies>
-      <MessageItemRepliesTrigger
-        aria-label={`Open thread with ${replies.length} replies`}
-        render={
-          <PlaygroundConversationLink
-            conversation={channel}
-            hash={firstUnreadReply ? `thread-message-${firstUnreadReply.id}` : undefined}
-            search={{ thread: threadId }}
-          />
-        }
-      >
-        <MessageItemRepliesSummary>
-          {summary}
-          {unreadCount ? ` · ${unreadCount} new` : null}
-          {hasDraft ? (
-            <>
-              {" · "}
-              <Pencil className="mx-0.5 inline-block size-3" />
+    <MessageReplies
+      aria-label={`Open thread with ${replies.length} replies`}
+      render={
+        <PlaygroundConversationLink
+          conversation={channel}
+          hash={firstUnreadReply ? `thread-message-${firstUnreadReply.id}` : undefined}
+          search={{ thread: threadId }}
+        />
+      }
+    >
+      <MessageRepliesSummary>
+        <MessageRepliesSummaryItem>{summary}</MessageRepliesSummaryItem>
+        {unreadCount ? (
+          <>
+            <span aria-hidden>·</span>
+            <MessageRepliesSummaryItem render={<strong />}>
+              <MessageSquareDot aria-hidden />
+              {unreadCount} new
+            </MessageRepliesSummaryItem>
+          </>
+        ) : null}
+        {hasDraft ? (
+          <>
+            <span aria-hidden>·</span>
+            <MessageRepliesSummaryItem>
+              <Pencil aria-hidden />
               draft
-            </>
-          ) : null}
-          {" ›"}
-        </MessageItemRepliesSummary>
-        {previews.map((reply) => {
-          const replyActor = getPlaygroundActor(reply.senderId);
-          return (
-            <MessageItemReply key={reply.id}>
-              <MessageItemReplyAvatar>
-                <Avatar size="sm" type={replyActor.type}>
-                  {replyActor.avatarSrc ? <AvatarImage src={replyActor.avatarSrc} alt="" /> : null}
-                  <AvatarFallback>
-                    {replyActor.fallback ?? replyActor.name.slice(0, 2)}
-                  </AvatarFallback>
-                </Avatar>
-              </MessageItemReplyAvatar>
-              <MessageItemReplySender>{replyActor.name}</MessageItemReplySender>
-              <MessageItemReplyContent>{reply.content}</MessageItemReplyContent>
-              <MessageItemReplyTime dateTime={reply.createdAtDateTime}>
-                {reply.createdAt}
-              </MessageItemReplyTime>
-            </MessageItemReply>
-          );
-        })}
-      </MessageItemRepliesTrigger>
-    </MessageItemReplies>
+            </MessageRepliesSummaryItem>
+          </>
+        ) : null}
+        <span aria-hidden>›</span>
+      </MessageRepliesSummary>
+      {previews.map((reply) => {
+        const replyActor = getPlaygroundActor(reply.senderId);
+        return (
+          <MessageRepliesItem key={reply.id}>
+            <Avatar size="sm" type={replyActor.type}>
+              {replyActor.avatarSrc ? <AvatarImage src={replyActor.avatarSrc} alt="" /> : null}
+              <AvatarFallback>{replyActor.fallback ?? replyActor.name.slice(0, 2)}</AvatarFallback>
+            </Avatar>
+            <MessageRepliesItemSender>{replyActor.name}</MessageRepliesItemSender>
+            <MessageRepliesItemContent>{reply.content}</MessageRepliesItemContent>
+            <MessageRepliesItemTime dateTime={reply.createdAtDateTime}>
+              {reply.createdAt}
+            </MessageRepliesItemTime>
+          </MessageRepliesItem>
+        );
+      })}
+    </MessageReplies>
   );
 }
 
