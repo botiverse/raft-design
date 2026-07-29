@@ -167,8 +167,7 @@ export function MessageItemContentCollapseTrigger({
   ...props
 }: MessageItemContentCollapseTriggerProps) {
   const context = useContentCollapseContext();
-  const theme = useThemeFamily();
-  const { contentCollapseTrigger } = messageItem({ theme });
+  const { contentCollapseTriggerPositioner } = messageItem();
   const content =
     typeof children === "function"
       ? children({ collapsible: context.collapsible, expanded: context.expanded })
@@ -177,24 +176,28 @@ export function MessageItemContentCollapseTrigger({
   if (!context.collapsible) return null;
 
   return (
-    <Button
-      {...props}
-      render={render}
-      variant="outline"
-      size="xs"
-      type="button"
-      aria-controls={context.panelId}
-      aria-expanded={context.expanded}
-      data-slot="message-item-content-collapse-trigger"
+    <div
+      data-slot="message-item-content-collapse-trigger-positioner"
       data-collapsed={context.collapsed ? "true" : undefined}
-      className={contentCollapseTrigger({ className })}
-      onClick={(event) => {
-        event.stopPropagation();
-        context.setExpanded(!context.expanded);
-        onClick?.(event);
-      }}
+      className={contentCollapseTriggerPositioner()}
     >
-      {content}
-    </Button>
+      <Button
+        {...props}
+        render={render}
+        variant="outline"
+        size="xs"
+        type="button"
+        aria-controls={context.panelId}
+        aria-expanded={context.expanded}
+        className={className}
+        onClick={(event) => {
+          event.stopPropagation();
+          context.setExpanded(!context.expanded);
+          onClick?.(event);
+        }}
+      >
+        {content}
+      </Button>
+    </div>
   );
 }

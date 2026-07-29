@@ -25,7 +25,7 @@ export const messageItem = tv({
     contentCollapsePanel: ["relative"],
     contentCollapseFade: ["pointer-events-none absolute inset-x-0 bottom-0"],
     contentCollapseFadeLayer: ["absolute inset-x-0 bottom-0"],
-    contentCollapseTrigger: [
+    contentCollapseTriggerPositioner: [
       "z-10 mx-auto flex w-fit",
       "data-[collapsed=true]:absolute data-[collapsed=true]:inset-x-0 data-[collapsed=true]:bottom-1.5",
       "not-data-[collapsed=true]:mt-2",
@@ -72,8 +72,6 @@ export const messageItem = tv({
         body: "text-sm text-black",
         contentCollapseFade: "h-12 bg-gradient-to-t from-white to-transparent",
         contentCollapseFadeLayer: "hidden",
-        contentCollapseTrigger:
-          "text-sm underline underline-offset-2 text-black/70 hover:text-black focus-visible:outline-black",
         notice: [
           "border border-line-strong bg-soft-signal/40 px-2 py-1",
           "text-xs font-bold text-foreground/70",
