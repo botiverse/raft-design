@@ -6,8 +6,6 @@ import {
   useLocation,
   useMatches,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ThemeProvider } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
@@ -144,19 +142,6 @@ function RootDocument({ children }: { children: ReactNode }) {
             </div>
           </DocumentThemeProvider>
         </PreviewThemeProvider>
-        {isStandalonePage ? null : (
-          <TanStackDevtools
-            config={{
-              position: "bottom-right",
-            }}
-            plugins={[
-              {
-                name: "Tanstack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-            ]}
-          />
-        )}
         <Scripts />
       </body>
     </html>

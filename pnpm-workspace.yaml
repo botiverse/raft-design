@@ -6,34 +6,49 @@ packages:
 catalogMode: prefer
 
 catalog:
-  "@types/node": ^26.1.1
+  "@types/node": ^26.1.2
   typescript: ^7.0.2
-  vite: npm:@voidzero-dev/vite-plus-core@0.2.4
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.6
   vitest: 4.1.10
-  vite-plus: 0.2.4
-  tailwind-variants: ^3.2.2
-  "@base-ui-components/react": 1.0.0-rc.0
+  vite-plus: 0.2.6
+  tailwind-variants: ^3.3.0
   "@base-ui/react": ^1.6.0
   "@base-ui/utils": ^0.3.1
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
-  lucide-react: ^1.24.0
-  cnfast: ^0.0.8
+  lucide-react: ^1.27.0
+  cnfast: ^0.1.0
   tailwind-merge: ^3.6.0
-  wrangler: ^4.110.0
+  wrangler: ^4.115.0
   shiki: ^4.3.1
   "@tanstack/react-hotkeys": ^0.10.0
-  "@vitejs/plugin-rsc": ^0.5.27
-  "@cloudflare/vite-plugin": ^1.44.0
-  react-resizable-panels: ^4.12.1
+  "@vitejs/plugin-rsc": ^0.5.32
+  "@cloudflare/vite-plugin": ^1.48.0
+  react-resizable-panels: ^4.12.2
   react-markdown: ^10.1.0
   rehype-sanitize: ^6.0.0
   remark-breaks: ^4.0.0
   remark-gfm: ^4.0.1
   react-dropzone: ^19.1.1
-  motion: ^12.42.2
-  "@tanstack/react-virtual": ^3.14.8
+  motion: ^12.43.0
+  "@tanstack/react-virtual": ^3.14.9
+  "@tailwindcss/typography": ^0.5.20
+  "@testing-library/dom": ^10.4.1
+  "@testing-library/react": ^16.3.2
+  "@types/react": ^19.2.17
+  "@types/react-dom": ^19.2.3
+  "@vitejs/plugin-react": ^6.0.4
+  jsdom: ^30.0.1
+  "@tailwindcss/vite": ^4.3.3
+  "@tanstack/react-router": 1.170.18
+  "@tanstack/react-start": 1.168.32
+  foxact: ^0.3.8
+  react: ^19.2.8
+  react-dom: ^19.2.8
+  tailwindcss: ^4.3.3
+  torph: ^0.0.9
+  "@typescript/native-preview": 7.0.0-dev.20260707.2
 overrides:
   vite: "catalog:"
   vitest: "catalog:"
@@ -50,9 +65,13 @@ allowBuilds:
   sharp: false
   workerd: true
 minimumReleaseAgeExclude:
-  - "@cloudflare/vite-plugin@1.40.0"
-  - miniflare@4.20260603.0
-  - wrangler@4.98.0
+  - "@cloudflare/vite-plugin@1.48.0"
+  - "@vitejs/plugin-rsc@0.5.32"
+  - "@tanstack/react-virtual@3.14.9"
+  - jsdom@30.0.1
+  - motion@12.43.0
+  - miniflare@4.20260603.0 || 4.20260722.1
+  - wrangler@4.115.0
   - cnfast@0.0.7
   - "@typescript/typescript-aix-ppc64@7.0.2"
   - "@typescript/typescript-darwin-arm64@7.0.2"
@@ -75,3 +94,6 @@ minimumReleaseAgeExclude:
   - "@typescript/typescript-win32-arm64@7.0.2"
   - "@typescript/typescript-win32-x64@7.0.2"
   - typescript@7.0.2
+  - "@tanstack/virtual-core@3.17.7"
+  - framer-motion@12.43.0
+  - motion-dom@12.43.0
