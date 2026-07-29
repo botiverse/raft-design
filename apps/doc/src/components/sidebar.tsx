@@ -1,7 +1,7 @@
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Badge, Separator } from "raft-ui";
-import { Globe2 } from "lucide-react";
+import { Globe2, Menu, X } from "lucide-react";
 
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
@@ -479,46 +479,230 @@ function NavGroup({
   );
 }
 
+function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+  const className = `flex min-h-11 items-center justify-center rounded-md px-1.5 py-2 text-center text-[13px] leading-4 text-foreground-muted transition-colors hover:bg-layer-muted hover:text-foreground-strong active:bg-layer-strong ${sidebarItemFocusClassName}`;
+  const title = item.reason
+    ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
+    : undefined;
+
+  if (item.to) {
+    return (
+      <Link
+        to={item.to}
+        hash={item.hash}
+        title={title}
+        aria-label={title}
+        activeOptions={item.hash ? sidebarHashActiveOptions : sidebarPathActiveOptions}
+        activeProps={sidebarItemActiveProps}
+        className={className}
+        onClick={onNavigate}
+      >
+        {item.label}
+      </Link>
+    );
+  }
+
+  if (item.docsHref) {
+    return (
+      <a
+        href={item.docsHref}
+        target="_blank"
+        rel="noreferrer"
+        title={title}
+        aria-label={title ? `${title} Open Base UI docs.` : `${item.label}. Open Base UI docs.`}
+        className={className}
+        onClick={onNavigate}
+      >
+        {item.label}
+      </a>
+    );
+  }
+
+  return (
+    <span
+      title={title}
+      className="flex min-h-11 items-center justify-center px-1.5 py-2 text-center text-[13px] leading-4 text-foreground-muted"
+    >
+      {item.label}
+    </span>
+  );
+}
+
+function MobileNavGroup({
+  title,
+  to,
+  items,
+  onNavigate,
+}: {
+  title: string;
+  to?: string;
+  items: readonly NavItem[];
+  onNavigate: () => void;
+}) {
+  const mobileItems = items.flatMap((item) => [item, ...(item.children ?? [])]);
+
+  return (
+    <section>
+      <h2 className="mb-2 text-center text-xs font-medium text-foreground-strong">
+        {to ? (
+          <Link
+            to={to}
+            activeOptions={sidebarPathActiveOptions}
+            activeProps={sidebarItemActiveProps}
+            className={`inline-flex min-h-11 items-center justify-center rounded-md px-3 ${sidebarItemFocusClassName}`}
+            onClick={onNavigate}
+          >
+            {title}
+          </Link>
+        ) : (
+          title
+        )}
+      </h2>
+      <div className="grid grid-cols-3 gap-1">
+        {mobileItems.map((item) => (
+          <MobileNavItem key={item.label} item={item} onNavigate={onNavigate} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function MobileSidebar() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open]);
+
+  const close = () => setOpen(false);
+  const primaryItems: readonly NavItem[] = [
+    { label: "Home", to: "/" },
+    { label: "Installation", to: "/installation" },
+    { label: "Changelog", to: "/changelog" },
+    { label: "Playground", to: "/playground" },
+    { label: "Lab", to: "/lab" },
+    { label: "Migration", to: "/migration" },
+  ];
+
+  return (
+    <div
+      className={`fixed inset-x-0 top-0 z-40 lg:hidden ${
+        open
+          ? "h-dvh bg-layer-panel/70 backdrop-blur-2xl"
+          : "h-[calc(5rem+env(safe-area-inset-top))] bg-[linear-gradient(to_bottom,var(--layer-panel)_0%,color-mix(in_oklch,var(--layer-panel)_70%,transparent)_55%,transparent_100%)]"
+      }`}
+    >
+      <header className="flex h-[calc(4rem+env(safe-area-inset-top))] items-center justify-between px-4 pt-[env(safe-area-inset-top)]">
+        <Link
+          to="/"
+          aria-label="Raft UI home"
+          className={`flex min-h-11 items-center rounded-md px-2 text-foreground-strong ${sidebarItemFocusClassName}`}
+          onClick={close}
+        >
+          <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
+        </Link>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls="mobile-docs-navigation"
+          aria-label={open ? "Close navigation" : "Open navigation"}
+          className={`flex size-11 items-center justify-center rounded-md text-foreground-strong transition-colors hover:bg-layer-muted active:bg-layer-strong ${sidebarItemFocusClassName}`}
+          onClick={() => setOpen((current) => !current)}
+        >
+          {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
+        </button>
+      </header>
+
+      {open ? (
+        <nav
+          id="mobile-docs-navigation"
+          aria-label="Documentation"
+          className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-3 pt-2 pb-[max(2rem,env(safe-area-inset-bottom))]"
+        >
+          <div className="mx-auto max-w-xl space-y-7">
+            <div className="grid grid-cols-3 gap-1">
+              {primaryItems.map((item) => (
+                <MobileNavItem key={item.label} item={item} onNavigate={close} />
+              ))}
+            </div>
+
+            <MobileNavGroup title={SKILLS.title} items={SKILLS.items} onNavigate={close} />
+
+            {TOKENS.map((group) => (
+              <MobileNavGroup key={group.title} {...group} onNavigate={close} />
+            ))}
+
+            {NAV.map((group) => (
+              <MobileNavGroup key={group.title} {...group} onNavigate={close} />
+            ))}
+          </div>
+        </nav>
+      ) : null}
+    </div>
+  );
+}
+
 export function Sidebar() {
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--sidebar-w)] overflow-y-auto px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
-      <Link to="/" className="flex items-center gap-2 text-foreground-strong">
-        <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
-      </Link>
-      <nav className="mt-8 space-y-8">
-        <ul className="space-y-1">
-          <li>
-            <NavRow item={{ label: "Home", to: "/" }} />
-          </li>
-          <li>
-            <NavRow item={{ label: "Installation", to: "/installation" }} />
-          </li>
-          <li>
-            <NavRow item={{ label: "Changelog", to: "/changelog" }} badge={<VersionBadge />} />
-          </li>
-          <li>
-            <NavRow item={{ label: "Playground", to: "/playground" }} />
-          </li>
-          <li>
-            <NavRow item={{ label: "Lab", to: "/lab" }} />
-          </li>
-          <li>
-            <NavRow item={{ label: "Migration", to: "/migration" }} />
-          </li>
-        </ul>
+    <>
+      <MobileSidebar />
+      <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--sidebar-w)] overflow-y-auto px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
+        <Link to="/" className="flex items-center gap-2 text-foreground-strong">
+          <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
+        </Link>
+        <nav className="mt-8 space-y-8">
+          <ul className="space-y-1">
+            <li>
+              <NavRow item={{ label: "Home", to: "/" }} />
+            </li>
+            <li>
+              <NavRow item={{ label: "Installation", to: "/installation" }} />
+            </li>
+            <li>
+              <NavRow item={{ label: "Changelog", to: "/changelog" }} badge={<VersionBadge />} />
+            </li>
+            <li>
+              <NavRow item={{ label: "Playground", to: "/playground" }} />
+            </li>
+            <li>
+              <NavRow item={{ label: "Lab", to: "/lab" }} />
+            </li>
+            <li>
+              <NavRow item={{ label: "Migration", to: "/migration" }} />
+            </li>
+          </ul>
 
-        <NavGroup title={SKILLS.title} items={SKILLS.items} />
+          <NavGroup title={SKILLS.title} items={SKILLS.items} />
 
-        {TOKENS.map((group) => (
-          <NavGroup key={group.title} {...group} />
-        ))}
+          {TOKENS.map((group) => (
+            <NavGroup key={group.title} {...group} />
+          ))}
 
-        <Separator className="h-0 bg-transparent border-t border-dashed border-line-muted data-[orientation=horizontal]:w-[65%]" />
+          <Separator className="h-0 bg-transparent border-t border-dashed border-line-muted data-[orientation=horizontal]:w-[65%]" />
 
-        {NAV.map((group) => (
-          <NavGroup key={group.title} {...group} />
-        ))}
-      </nav>
-    </aside>
+          {NAV.map((group) => (
+            <NavGroup key={group.title} {...group} />
+          ))}
+        </nav>
+      </aside>
+    </>
   );
 }
