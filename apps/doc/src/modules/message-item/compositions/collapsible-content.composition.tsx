@@ -1,13 +1,25 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { Hash, MessageSquare } from "lucide-react";
+import { MessageReferenceChip, MessageReferenceLabel } from "raft-ui";
 import {
   MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT,
+  MessageAttachmentCard,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaStart,
+  MessageAttachmentSummary,
+  MessageAttachmentTitle,
   MessageItem,
+  MessageItemAttachments,
+  MessageItemBadge,
   MessageItemBody,
+  MessageItemContent,
   MessageItemContentCollapse,
   MessageItemContentCollapsePanel,
   MessageItemContentCollapseTrigger,
-  MessageItemContent,
+  MessageItemFooter,
+  MessageItemNotice,
 } from "raft-ui/wip";
+import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 
 function getRenderedHeight(entry: ResizeObserverEntry) {
   const borderBoxSize = entry.borderBoxSize as
@@ -56,20 +68,6 @@ function MeasuredMessageContent({ children }: { children: ReactNode }) {
   );
 }
 
-const PARAGRAPHS = [
-  "Postmortem for yesterday's 18:40 UTC outage — writing it up here so nobody has to dig through the incident channel.",
-  "Trigger: the 17:55 deploy shipped a migration that added a non-null column to conversation_members without a default.",
-  "The migration itself succeeded, but the previous app revision was still serving traffic for about four minutes during the rollout.",
-  "Those pods kept inserting rows without the new column, so every write to conversation_members started failing with a constraint violation.",
-  "Impact: channel joins and invite acceptance returned 500s for 11 minutes. Message send and read paths were unaffected.",
-  "Detection took six of those minutes because our alert watches error rate on the API gateway, which was still mostly healthy.",
-  "Mitigation: we rolled the migration forward with a backfill default rather than reverting, since the revert would have dropped data written after 17:55.",
-  "Action items: add a rule that non-null columns ship with a default, and alert on per-endpoint error rate instead of the gateway aggregate.",
-  "Follow-up: the rollout playbook now requires a compatibility window whenever old and new application revisions can write to the same schema.",
-  "We are also adding a canary check that exercises channel joins and invite acceptance before a migration reaches the remaining pods.",
-  "I'll open both tickets this afternoon. Shout if you saw anything else odd around that window — I'd rather over-collect now.",
-] as const;
-
 export function MessageCollapsibleContentComposition() {
   return (
     <MessageItem>
@@ -77,12 +75,70 @@ export function MessageCollapsibleContentComposition() {
         <MeasuredMessageContent>
           <MessageItemBody>
             <div className="space-y-3">
-              {PARAGRAPHS.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              <p>
+                Postmortem for yesterday&apos;s 18:40 UTC outage — writing it up here so nobody has
+                to dig through the incident channel.
+              </p>
+              <p>
+                Trigger: the 17:55 deploy shipped a migration that added a non-null column to
+                conversation_members without a default.
+              </p>
+              <p>
+                The migration succeeded, but the previous app revision was still serving traffic
+                during the rollout and kept writing the old schema.
+              </p>
+              <p>
+                Impact: channel joins and invite acceptance returned 500s for 11 minutes. Message
+                send and read paths were unaffected.
+              </p>
+              <p>
+                Mitigation: we rolled the migration forward with a backfill default rather than
+                reverting and risking newer writes.
+              </p>
+              <p>
+                Follow-up: every schema rollout now requires a compatibility window and a canary
+                check for affected endpoints.
+              </p>
+              <p>
+                I&apos;ll open the alerting and rollout-policy tickets this afternoon and link them
+                back to the incident.
+              </p>
+              <p>
+                The full rollout notes are in{" "}
+                <MessageReferenceChip
+                  variant="accent"
+                  render={
+                    <a
+                      href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel}
+                      aria-label="Open release-notes channel"
+                    />
+                  }
+                >
+                  <Hash />
+                  <MessageReferenceLabel>release-notes</MessageReferenceLabel>
+                </MessageReferenceChip>
+                .
+              </p>
             </div>
           </MessageItemBody>
+          <MessageItemNotice>
+            Compatibility review is required before the next schema migration.
+          </MessageItemNotice>
+          <MessageItemAttachments>
+            <MessageAttachmentCard>
+              <MessageAttachmentTitle>conversation-members-migration.diff</MessageAttachmentTitle>
+              <MessageAttachmentSummary>2 files · 5 hunks</MessageAttachmentSummary>
+              <MessageAttachmentMeta>
+                <MessageAttachmentMetaStart>18 KB</MessageAttachmentMetaStart>
+              </MessageAttachmentMeta>
+            </MessageAttachmentCard>
+          </MessageItemAttachments>
         </MeasuredMessageContent>
+        <MessageItemFooter>
+          <MessageItemBadge status="unread">
+            <MessageSquare />4 replies
+          </MessageItemBadge>
+        </MessageItemFooter>
       </MessageItemContent>
     </MessageItem>
   );
