@@ -31,7 +31,17 @@ export const ANATOMY_SOURCE = `<MessageItem>
         <MessageItemAttachments>...</MessageItemAttachments>
       </MessageItemContentCollapsePanel>
       <MessageItemContentCollapseTrigger>
-        {expanded ? "Show less" : "Show more"}
+        {expanded ? (
+          <>
+            <ChevronsDownUp aria-hidden data-icon="inline-start" />
+            Show less
+          </>
+        ) : (
+          <>
+            <ChevronsUpDown aria-hidden data-icon="inline-start" />
+            Show more
+          </>
+        )}
       </MessageItemContentCollapseTrigger>
     </MessageItemContentCollapse>
     <MessageItemTranslationStatus />

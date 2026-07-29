@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import {
   MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT,
   MessageItemContentCollapse,
@@ -78,7 +79,19 @@ export function PlaygroundMessageContentCollapse({
         </div>
       </MessageItemContentCollapsePanel>
       <MessageItemContentCollapseTrigger>
-        {({ expanded: isExpanded }) => (isExpanded ? "Show less" : "Show more")}
+        {({ expanded: isExpanded }) =>
+          isExpanded ? (
+            <>
+              <ChevronsDownUp aria-hidden data-icon="inline-start" />
+              Show less
+            </>
+          ) : (
+            <>
+              <ChevronsUpDown aria-hidden data-icon="inline-start" />
+              Show more
+            </>
+          )
+        }
       </MessageItemContentCollapseTrigger>
     </MessageItemContentCollapse>
   );

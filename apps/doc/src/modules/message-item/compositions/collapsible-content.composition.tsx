@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
-import { Hash, MessageSquare } from "lucide-react";
+import { ChevronsDownUp, ChevronsUpDown, Hash, MessageSquare } from "lucide-react";
 import { MessageReferenceChip, MessageReferenceLabel } from "raft-ui";
 import {
   MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT,
@@ -62,7 +62,19 @@ function MeasuredMessageContent({ children }: { children: ReactNode }) {
         </div>
       </MessageItemContentCollapsePanel>
       <MessageItemContentCollapseTrigger>
-        {({ expanded: isExpanded }) => (isExpanded ? "Show less" : "Show more")}
+        {({ expanded: isExpanded }) =>
+          isExpanded ? (
+            <>
+              <ChevronsDownUp aria-hidden data-icon="inline-start" />
+              Show less
+            </>
+          ) : (
+            <>
+              <ChevronsUpDown aria-hidden data-icon="inline-start" />
+              Show more
+            </>
+          )
+        }
       </MessageItemContentCollapseTrigger>
     </MessageItemContentCollapse>
   );
