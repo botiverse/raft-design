@@ -31,6 +31,14 @@ export function MessageReferenceConversationDestinationsComposition() {
       </div>
       <div className="flex flex-col items-center gap-3">
         {/* @docs-source-strip-end */}
+        <MessageReferenceChip variant="accent" render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}>
+          dm:@noah
+        </MessageReferenceChip>
+        {/* @docs-source-strip-start */}
+        <span className="text-[12px] leading-[1.4] text-foreground-muted">DM text</span>
+      </div>
+      <div className="flex flex-col items-center gap-3">
+        {/* @docs-source-strip-end */}
         <MessageReferenceChip
           variant="accent"
           render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
