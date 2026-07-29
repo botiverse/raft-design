@@ -62,7 +62,7 @@ function MeasuredMessageContent({ children }: { children: ReactNode }) {
         </div>
       </MessageItemContentCollapsePanel>
       <MessageItemContentCollapseTrigger>
-        {({ expanded: isExpanded }) => (isExpanded ? "Collapse" : "Show more")}
+        {({ expanded: isExpanded }) => (isExpanded ? "Show less" : "Show more")}
       </MessageItemContentCollapseTrigger>
     </MessageItemContentCollapse>
   );

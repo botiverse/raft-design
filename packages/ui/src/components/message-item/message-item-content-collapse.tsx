@@ -4,6 +4,7 @@ import { createContext, useContext, useId, useMemo, type ReactNode } from "react
 
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { type SlotElementProps } from "../../lib/data-attributes";
+import { Button, type ButtonProps } from "../button/index";
 import { messageItem } from "./message-item.recipe";
 
 export const MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT = 320;
@@ -150,8 +151,8 @@ export function MessageItemContentCollapsePanel({
 }
 
 export type MessageItemContentCollapseTriggerProps = Omit<
-  useRender.ComponentProps<"button">,
-  "children"
+  ButtonProps,
+  "children" | "size" | "variant"
 > & {
   children:
     | ReactNode
@@ -168,33 +169,32 @@ export function MessageItemContentCollapseTrigger({
   const context = useContentCollapseContext();
   const theme = useThemeFamily();
   const { contentCollapseTrigger } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"button"> & SlotElementProps<"button"> = {
-    type: "button",
-    "aria-controls": context.panelId,
-    "aria-expanded": context.expanded,
-    "data-slot": "message-item-content-collapse-trigger",
-    className: contentCollapseTrigger({ className }),
-    onClick: (event) => {
-      event.stopPropagation();
-      context.setExpanded(!context.expanded);
-      onClick?.(event);
-    },
-  };
   const content =
     typeof children === "function"
       ? children({ collapsible: context.collapsible, expanded: context.expanded })
       : children;
 
-  const trigger = useRender({
-    defaultTagName: "button",
-    render,
-    props: mergeProps<"button">(defaultProps, props, { children: content }),
-    state: {
-      collapsible: context.collapsible,
-      expanded: context.expanded,
-      slot: "message-item-content-collapse-trigger",
-    },
-  });
+  if (!context.collapsible) return null;
 
-  return context.collapsible ? trigger : null;
+  return (
+    <Button
+      {...props}
+      render={render}
+      variant="outline"
+      size="xs"
+      type="button"
+      aria-controls={context.panelId}
+      aria-expanded={context.expanded}
+      data-slot="message-item-content-collapse-trigger"
+      data-collapsed={context.collapsed ? "true" : undefined}
+      className={contentCollapseTrigger({ className })}
+      onClick={(event) => {
+        event.stopPropagation();
+        context.setExpanded(!context.expanded);
+        onClick?.(event);
+      }}
+    >
+      {content}
+    </Button>
+  );
 }

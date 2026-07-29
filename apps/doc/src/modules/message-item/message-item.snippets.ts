@@ -31,7 +31,7 @@ export const ANATOMY_SOURCE = `<MessageItem>
         <MessageItemAttachments>...</MessageItemAttachments>
       </MessageItemContentCollapsePanel>
       <MessageItemContentCollapseTrigger>
-        {expanded ? "Collapse" : "Show more"}
+        {expanded ? "Show less" : "Show more"}
       </MessageItemContentCollapseTrigger>
     </MessageItemContentCollapse>
     <MessageItemTranslationStatus />
@@ -119,9 +119,9 @@ export const CONTENT_PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageItemContentCollapsePanel / MessageItemContentCollapseTrigger",
-    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"button">',
+    type: 'useRender.ComponentProps<"div"> / Omit<ButtonProps, "children" | "size" | "variant">',
     description:
-      "Clipped content viewport and its external toggle. The panel owns clipping, fade, and focus-safe expansion; the trigger owns the ARIA relationship.",
+      "Clipped content viewport and its outline toggle. The trigger sits centered over the fade while collapsed, returns below the content when expanded, and owns the ARIA relationship.",
   },
   {
     name: "MessageItemBody",
