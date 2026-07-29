@@ -43,8 +43,6 @@ import { MessageTaskBadgeComposition } from "#/modules/message-item/compositions
 import taskBadgeSource from "#/modules/message-item/compositions/task-badge.composition.tsx?raw";
 import { MessageTextSelectionShowcaseComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
 import textSelectionSource from "#/modules/message-item/compositions/text-selection.composition.tsx?raw";
-import { MessageItemRepliesComposition } from "#/modules/message-item/compositions/replies.composition.tsx";
-import repliesSource from "#/modules/message-item/compositions/replies.composition.tsx?raw";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
 import { SourceMessageItemPreview } from "#/modules/message-item/message-item.source-preview.tsx";
 import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
@@ -117,7 +115,6 @@ export const Route = createFileRoute("/components/message-item")({
         senderState: senderStateSource,
         taskBadge: taskBadgeSource,
         textSelection: textSelectionSource,
-        replies: repliesSource,
       },
     }),
 });
@@ -287,12 +284,6 @@ function MessageItemDoc() {
               collapsedCode={code.collapsibleContentBody}
             >
               <MessageCollapsibleContentComposition />
-            </UsagePreview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="replies" title="Replies">
-            <UsagePreview code={code.replies} collapsedCode={code.repliesBody}>
-              <MessageItemRepliesComposition />
             </UsagePreview>
           </DocSubsection>
 

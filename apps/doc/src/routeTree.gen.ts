@@ -57,6 +57,7 @@ import { Route as ComponentsPreviewCardRouteImport } from './routes/components/p
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
+import { Route as ComponentsMessageRepliesRouteImport } from './routes/components/message-replies'
 import { Route as ComponentsMessageReferenceRouteImport } from './routes/components/message-reference'
 import { Route as ComponentsMessageQuotedPreviewRouteImport } from './routes/components/message-quoted-preview'
 import { Route as ComponentsMessageItemRouteImport } from './routes/components/message-item'
@@ -363,6 +364,12 @@ const ComponentsMobileNavRoute = ComponentsMobileNavRouteImport.update({
   path: '/mobile-nav',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsMessageRepliesRoute =
+  ComponentsMessageRepliesRouteImport.update({
+    id: '/message-replies',
+    path: '/message-replies',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsMessageReferenceRoute =
   ComponentsMessageReferenceRouteImport.update({
     id: '/message-reference',
@@ -734,6 +741,7 @@ export interface FileRoutesByFullPath {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/message-reference': typeof ComponentsMessageReferenceRoute
+  '/components/message-replies': typeof ComponentsMessageRepliesRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -842,6 +850,7 @@ export interface FileRoutesByTo {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/message-reference': typeof ComponentsMessageReferenceRoute
+  '/components/message-replies': typeof ComponentsMessageRepliesRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -952,6 +961,7 @@ export interface FileRoutesById {
   '/components/message-item': typeof ComponentsMessageItemRoute
   '/components/message-quoted-preview': typeof ComponentsMessageQuotedPreviewRoute
   '/components/message-reference': typeof ComponentsMessageReferenceRoute
+  '/components/message-replies': typeof ComponentsMessageRepliesRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/popover': typeof ComponentsPopoverRoute
@@ -1063,6 +1073,7 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/message-quoted-preview'
     | '/components/message-reference'
+    | '/components/message-replies'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1171,6 +1182,7 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/message-quoted-preview'
     | '/components/message-reference'
+    | '/components/message-replies'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1280,6 +1292,7 @@ export interface FileRouteTypes {
     | '/components/message-item'
     | '/components/message-quoted-preview'
     | '/components/message-reference'
+    | '/components/message-replies'
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/popover'
@@ -1694,6 +1707,13 @@ declare module '@tanstack/react-router' {
       path: '/mobile-nav'
       fullPath: '/components/mobile-nav'
       preLoaderRoute: typeof ComponentsMobileNavRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/message-replies': {
+      id: '/components/message-replies'
+      path: '/message-replies'
+      fullPath: '/components/message-replies'
+      preLoaderRoute: typeof ComponentsMessageRepliesRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/message-reference': {
@@ -2280,6 +2300,7 @@ interface ComponentsRouteChildren {
   ComponentsMessageItemRoute: typeof ComponentsMessageItemRoute
   ComponentsMessageQuotedPreviewRoute: typeof ComponentsMessageQuotedPreviewRoute
   ComponentsMessageReferenceRoute: typeof ComponentsMessageReferenceRoute
+  ComponentsMessageRepliesRoute: typeof ComponentsMessageRepliesRoute
   ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
@@ -2354,6 +2375,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsMessageItemRoute: ComponentsMessageItemRoute,
   ComponentsMessageQuotedPreviewRoute: ComponentsMessageQuotedPreviewRoute,
   ComponentsMessageReferenceRoute: ComponentsMessageReferenceRoute,
+  ComponentsMessageRepliesRoute: ComponentsMessageRepliesRoute,
   ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,

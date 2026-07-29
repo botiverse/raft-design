@@ -727,6 +727,25 @@ export type {
   MessageReferenceUnavailableProps,
 } from "./components/message-item/index";
 
+export {
+  MessageReplies,
+  MessageRepliesItem,
+  MessageRepliesItemContent,
+  MessageRepliesItemSender,
+  MessageRepliesItemTime,
+  MessageRepliesSummary,
+  MessageRepliesSummaryItem,
+} from "./components/message-replies/index";
+export type {
+  MessageRepliesItemContentProps,
+  MessageRepliesItemProps,
+  MessageRepliesItemSenderProps,
+  MessageRepliesItemTimeProps,
+  MessageRepliesProps,
+  MessageRepliesSummaryProps,
+  MessageRepliesSummaryItemProps,
+} from "./components/message-replies/index";
+
 export { Kbd, KbdGroup } from "./components/kbd/index";
 export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
 

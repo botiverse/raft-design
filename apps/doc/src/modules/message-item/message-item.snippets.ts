@@ -21,14 +21,6 @@ export const ANATOMY_SOURCE = `<MessageItem>
     <MessageItemBody />
     <MessageItemAttachments>...</MessageItemAttachments>
     <MessageItemFooter />
-    <MessageItemReplies>
-      <MessageItemRepliesTrigger>
-        <MessageItemRepliesSummary />
-        <MessageItemReply>
-          <MessageItemReplyTime />
-        </MessageItemReply>
-      </MessageItemRepliesTrigger>
-    </MessageItemReplies>
   </MessageItemContent>
   <MessageItemToolbar />
 </MessageItem>
@@ -110,7 +102,7 @@ export const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemFooter",
     type: 'useRender.ComponentProps<"div">',
-    description: "Footer layout for receipts, task badges, thread summaries, and reactions.",
+    description: "Footer layout for receipts, task badges, and reactions.",
   },
 ];
 
@@ -181,24 +173,6 @@ export const FOOTER_PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"span"> & { status?: "read" | "unread" }',
     description:
       "Footer badge slot with read and unread treatments. Business labels and icons remain caller-owned.",
-  },
-  {
-    name: "MessageItemReplies",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Replies container placed after the message footer. It owns the stable region layout; thread data, display cap, copy, and navigation remain consumer-owned.",
-  },
-  {
-    name: "MessageItemRepliesTrigger / MessageItemRepliesSummary",
-    type: "button props and span props",
-    description:
-      "One full-width thread opener and its count summary. Render the trigger as the consumer's link or button so the whole muted surface is one interactive target.",
-  },
-  {
-    name: "MessageItemReply / MessageItemReplyAvatar / MessageItemReplySender / MessageItemReplyContent / MessageItemReplyTime",
-    type: "span and time props",
-    description:
-      "Compact latest-reply row parts. Time is a semantic non-shrinking tabular <time> aligned to the right; rows are display-only children of the single trigger.",
   },
 ];
 
@@ -297,7 +271,7 @@ export const API_GROUPS = [
     rows: TRANSLATION_REFERENCE_PROPS,
   },
   { id: "api-actions", title: "Row actions", rows: ACTION_PROPS },
-  { id: "api-footer", title: "Footer and thread preview", rows: FOOTER_PROPS },
+  { id: "api-footer", title: "Footer", rows: FOOTER_PROPS },
   { id: "api-reactions", title: "Reactions", rows: REACTION_PROPS },
   { id: "api-selection", title: "Selection", rows: SELECTION_PROPS },
 ] as const satisfies readonly { id: string; title: string; rows: readonly PropRow[] }[];

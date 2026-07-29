@@ -50,16 +50,6 @@ export {
   MessageItemSavedIndicator,
 } from "./message-footer";
 export {
-  MessageItemReplies,
-  MessageItemRepliesSummary,
-  MessageItemRepliesTrigger,
-  MessageItemReply,
-  MessageItemReplyAvatar,
-  MessageItemReplyContent,
-  MessageItemReplySender,
-  MessageItemReplyTime,
-} from "./message-item-replies";
-export {
   MessageItemTranslationAction,
   MessageItemTranslationOriginal,
   MessageItemTranslationOriginalLabel,
@@ -149,16 +139,6 @@ export type {
   MessageItemReadReceiptProps,
   MessageItemSavedIndicatorProps,
 } from "./message-footer";
-export type {
-  MessageItemRepliesProps,
-  MessageItemRepliesSummaryProps,
-  MessageItemRepliesTriggerProps,
-  MessageItemReplyAvatarProps,
-  MessageItemReplyContentProps,
-  MessageItemReplyProps,
-  MessageItemReplySenderProps,
-  MessageItemReplyTimeProps,
-} from "./message-item-replies";
 export type {
   MessageItemTranslationActionProps,
   MessageItemTranslationOriginalLabelProps,
