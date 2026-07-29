@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -197,19 +196,6 @@ function TaskCardDoc() {
     <DocPage
       title="TaskCard"
       description="Business-agnostic task-card parts for composing metadata, content, and status actions."
-      overview={
-        <Differences from="Slock TaskCard">
-          <li>
-            ships as a peer of <code>TasksPanel</code>, not nested inside the panel compound
-          </li>
-          <li>keeps stores, permissions, routing, and status-transition policy in the consumer</li>
-          <li>
-            exposes metadata and content as explicit compound parts instead of task-shaped props
-          </li>
-          <li>composes status selection with the existing Select behavior</li>
-          <li>covers long content, legacy, disabled, busy, and open-menu states</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

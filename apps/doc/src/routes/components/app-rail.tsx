@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -213,19 +212,6 @@ function AppRailDoc() {
     <DocPage
       title="AppRail"
       description="Composable rail structure for server switching, destinations, unread attention, and footer actions."
-      overview={
-        <Differences from="LeftRail">
-          <li>
-            does not import stores, router memory, server unread summaries, or notification wiring
-          </li>
-          <li>
-            keeps the source rail geometry: yellow column, 64px desktop width, square icon slots
-          </li>
-          <li>
-            selection is per-item via AppRailItem selected; routing and tab memory stay app-owned
-          </li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

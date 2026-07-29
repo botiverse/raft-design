@@ -35,15 +35,11 @@ import {
   MessageItemAttachments,
   MessageItemBadge,
   MessageItemBody,
-  MessageItemCollapsibleContent,
-  MessageItemCollapsibleContentPanel,
-  MessageItemCollapsibleContentTrigger,
   MessageItemContent,
   MessageItemContinuationTime,
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
-  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageReactionChip,
   MessageItemSavedIndicator,
@@ -81,6 +77,7 @@ import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolb
 import { MessageReactionGlyphComposition } from "#/modules/message-item/compositions/reaction-glyph.composition.tsx";
 import { PlaygroundMessageAvatar } from "./playground-message-avatar.tsx";
 import { PlaygroundMessageBody } from "./playground-message-body.tsx";
+import { PlaygroundMessageContentCollapse } from "./playground-message-content-collapse.tsx";
 import { playgroundGutterClock } from "./playground-message-time.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "../composer/use-playground-single-composer-mention-target.ts";
 import {
@@ -499,47 +496,40 @@ export function PlaygroundMessageRow({
         embeddedPresentation ||
         resolvedAttachments ||
         workflow.translation === "pending" ? (
-          <MessageItemCollapsibleContent
-            disabled={presentation === "action-card"}
+          <PlaygroundMessageContentCollapse
+            enabled={presentation !== "action-card" && presentation !== "forwarded-bundle"}
             expanded={workflow.expanded}
             onExpandedChange={(expanded) => updateWorkflow((current) => ({ ...current, expanded }))}
           >
-            <MessageItemCollapsibleContentPanel>
-              {workflow.translation === "pending" ? (
-                <MessageItemBody>
-                  <Progress
-                    value={null}
-                    size="sm"
-                    aria-label="Translating message"
-                    className="w-44 max-w-full"
-                  >
-                    <ProgressTrack>
-                      <ProgressIndicator />
-                    </ProgressTrack>
-                  </Progress>
-                </MessageItemBody>
-              ) : composedBody ? (
-                <MessageItemBody>{composedBody}</MessageItemBody>
-              ) : null}
-              {translation?.display === "bilingual" &&
-              translation.translatedContent &&
-              workflow.translation === "translated" ? (
-                <MessageItemTranslationOriginal>
-                  <MessageItemTranslationOriginalLabel>
-                    Original
-                  </MessageItemTranslationOriginalLabel>
-                  <PlaygroundMessageBody channelId={channelId} content={body} />
-                </MessageItemTranslationOriginal>
-              ) : null}
-              {embeddedPresentation}
-              {resolvedAttachments ? (
-                <MessageItemAttachments>{resolvedAttachments}</MessageItemAttachments>
-              ) : null}
-            </MessageItemCollapsibleContentPanel>
-            <MessageItemCollapsibleContentTrigger>
-              {({ expanded }) => (expanded ? "Show less" : "Show more")}
-            </MessageItemCollapsibleContentTrigger>
-          </MessageItemCollapsibleContent>
+            {workflow.translation === "pending" ? (
+              <MessageItemBody>
+                <Progress
+                  value={null}
+                  size="sm"
+                  aria-label="Translating message"
+                  className="w-44 max-w-full"
+                >
+                  <ProgressTrack>
+                    <ProgressIndicator />
+                  </ProgressTrack>
+                </Progress>
+              </MessageItemBody>
+            ) : composedBody ? (
+              <MessageItemBody>{composedBody}</MessageItemBody>
+            ) : null}
+            {translation?.display === "bilingual" &&
+            translation.translatedContent &&
+            workflow.translation === "translated" ? (
+              <MessageItemTranslationOriginal>
+                <MessageItemTranslationOriginalLabel>Original</MessageItemTranslationOriginalLabel>
+                <PlaygroundMessageBody channelId={channelId} content={body} />
+              </MessageItemTranslationOriginal>
+            ) : null}
+            {embeddedPresentation}
+            {resolvedAttachments ? (
+              <MessageItemAttachments>{resolvedAttachments}</MessageItemAttachments>
+            ) : null}
+          </PlaygroundMessageContentCollapse>
         ) : null}
         {translation && workflow.translation !== "idle" ? (
           workflow.translation === "pending" ? (
@@ -663,11 +653,11 @@ export function PlaygroundMessageRow({
   // Select mode disables the right-click menu (source parity), so the row skips
   // the ContextMenu wrapper entirely.
   if (selectMode) {
-    return <MessageItemInteractionBoundary>{messageItem}</MessageItemInteractionBoundary>;
+    return messageItem;
   }
 
   return (
-    <MessageItemInteractionBoundary ref={setContextMenuPortalContainer}>
+    <div ref={setContextMenuPortalContainer}>
       <ContextMenu
         open={menuOpen}
         onOpenChange={(open) => {
@@ -718,6 +708,6 @@ export function PlaygroundMessageRow({
           ) : null}
         </MessageContextMenuComposition>
       </ContextMenu>
-    </MessageItemInteractionBoundary>
+    </div>
   );
 }

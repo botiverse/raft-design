@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ToggleGroup, ToggleGroupCount, ToggleGroupItem, ToggleGroupLabel } from "raft-ui/wip";
 import { useState } from "react";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -135,19 +134,7 @@ function ToggleGroupDoc() {
     <DocPage
       title="ToggleGroup"
       description="A controlled single-select toggle group rendered as a row of bordered segments."
-      overview={
-        <div className="grid gap-4">
-          <Differences from="SegmentedControl">
-            <li>brutal styling reproduced 1:1 (active yellow + shadow, yellow/30 hover)</li>
-            <li>
-              source <code>SegmentedControl</code> is renamed to Base UI terminology:{" "}
-              <code>ToggleGroup</code> / <code>ToggleGroupItem</code> /{" "}
-              <code>ToggleGroupLabel</code> / <code>ToggleGroupCount</code>
-            </li>
-          </Differences>
-          <TodoList items={TODOS} />
-        </div>
-      }
+      overview={<TodoList items={TODOS} />}
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

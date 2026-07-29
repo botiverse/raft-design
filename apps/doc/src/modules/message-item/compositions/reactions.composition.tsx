@@ -8,7 +8,6 @@ import {
   MessageItemContent,
   MessageItemFooter,
   MessageItemHeader,
-  MessageItemInteractionBoundary,
   MessageItemSender,
   MessageItemTime,
   MessageReactionAddButton,
@@ -27,7 +26,7 @@ export function MessageReactionsShowcaseComposition() {
 
   return (
     <div className="grid w-full max-w-3xl gap-6">
-      <MessageItemInteractionBoundary ref={setPortalContainer}>
+      <div ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
             <Avatar size="md" type="agent">
@@ -70,7 +69,7 @@ export function MessageReactionsShowcaseComposition() {
             Reacted with {reaction}
           </span>
         ) : null}
-      </MessageItemInteractionBoundary>
+      </div>
       <MessageReactionOverlaysComposition />
     </div>
   );

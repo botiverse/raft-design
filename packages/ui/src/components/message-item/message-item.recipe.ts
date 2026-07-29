@@ -2,7 +2,6 @@ import { tv, type VariantProps } from "../../lib/tv";
 
 export const messageItem = tv({
   slots: {
-    interactionBoundary: ["[contain:layout_style] [overflow:clip_visible]"],
     root: [
       "group/message relative flex h-fit min-h-[3rem] gap-3",
       "[@media(hover:none)]:select-none [@media(hover:none)]:[&_*]:select-none",
@@ -22,13 +21,11 @@ export const messageItem = tv({
     time: ["shrink-0 whitespace-nowrap"],
     inlineStatus: ["shrink-0"],
     body: ["break-words select-text", "[&_*]:select-text"],
-    collapsibleContent: ["min-w-0"],
-    collapsibleContentPanel: ["relative"],
-    collapsibleContentMeasure: ["min-w-0"],
-    collapsibleContentFade: [
-      "pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t",
-    ],
-    collapsibleContentTrigger: [
+    contentCollapse: ["min-w-0"],
+    contentCollapsePanel: ["relative"],
+    contentCollapseFade: ["pointer-events-none absolute inset-x-0 bottom-0"],
+    contentCollapseFadeLayer: ["absolute inset-x-0 bottom-0"],
+    contentCollapseTrigger: [
       "mt-1 inline-flex",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
     ],
@@ -47,7 +44,6 @@ export const messageItem = tv({
   variants: {
     theme: {
       brutal: {
-        interactionBoundary: "px-3.5",
         root: [
           "mb-1 mt-1.5 border-2 border-transparent px-2 py-1",
           "hover:border-line-strong hover:bg-layer-panel active:border-line-strong active:bg-layer-panel",
@@ -71,8 +67,9 @@ export const messageItem = tv({
         inlineStatus: "text-[10px] font-bold text-black/40",
         // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
         body: "text-sm text-black",
-        collapsibleContentFade: "from-white to-transparent",
-        collapsibleContentTrigger:
+        contentCollapseFade: "h-12 bg-gradient-to-t from-white to-transparent",
+        contentCollapseFadeLayer: "hidden",
+        contentCollapseTrigger:
           "text-sm underline underline-offset-2 text-black/70 hover:text-black focus-visible:outline-black",
         notice: [
           "border border-line-strong bg-soft-signal/40 px-2 py-1",
@@ -91,7 +88,8 @@ export const messageItem = tv({
         root: [
           "gap-3 border border-transparent max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
-          "hover:bg-ink-2 active:bg-ink-8",
+          "[&:hover:not(:active):not(:has([data-slot=message-item-footer]:hover))]:bg-ink-2",
+          "[&:active:not(:has([data-slot=message-item-footer]:active))]:bg-ink-8",
         ],
         gutter: "max-md:w-8",
         avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
@@ -111,8 +109,8 @@ export const messageItem = tv({
           "rounded-sm border-0 bg-layer-muted px-1.5 py-0.5",
           "text-[10px] font-medium normal-case leading-none text-foreground-muted",
         ],
-        meta: "font-sans text-xs leading-none text-foreground-muted",
-        time: "font-sans text-xs leading-none tabular-nums text-foreground-muted",
+        meta: "font-sans text-xs leading-none text-foreground-muted/70",
+        time: "font-sans text-xs leading-none tabular-nums text-foreground-muted/70",
         inlineStatus: "font-sans text-[11px] font-medium leading-none text-foreground-muted",
         body: [
           "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
@@ -120,8 +118,18 @@ export const messageItem = tv({
           "select-text [&_*]:select-text",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
-        collapsibleContentFade: "from-layer-panel to-transparent",
-        collapsibleContentTrigger:
+        contentCollapseFade: "h-16",
+        contentCollapseFadeLayer: [
+          "data-[layer=solid]:h-full",
+          "data-[layer=solid]:bg-[linear-gradient(to_top,var(--layer-page)_0%,var(--layer-page)_28%,color-mix(in_oklch,var(--layer-page)_82%,transparent)_52%,transparent_100%)]",
+          "data-[layer=soft]:h-[108%]",
+          "data-[layer=soft]:bg-[linear-gradient(to_top,color-mix(in_oklch,var(--layer-page)_48%,transparent)_0%,color-mix(in_oklch,var(--layer-page)_18%,transparent)_40%,transparent_100%)]",
+          "data-[layer=blur]:h-[112%]",
+          "data-[layer=blur]:backdrop-blur-[14px] data-[layer=blur]:backdrop-saturate-125",
+          "data-[layer=blur]:[mask-image:linear-gradient(to_top,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
+          "data-[layer=blur]:[-webkit-mask-image:linear-gradient(to_top,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
+        ],
+        contentCollapseTrigger:
           "text-sm font-medium underline underline-offset-2 text-foreground-muted hover:text-foreground focus-visible:outline-line-focus",
         notice: [
           "rounded-md bg-layer-muted px-2 py-1.5",

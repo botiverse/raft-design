@@ -20,7 +20,6 @@ import {
   MessageItemContent,
   MessageItemFooter,
   MessageItemHeader,
-  MessageItemInteractionBoundary,
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui/wip";
@@ -102,7 +101,7 @@ export function MessageTaskBadgeComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <MessageItemInteractionBoundary ref={setPortalContainer} className="w-full max-w-3xl">
+    <div ref={setPortalContainer} className="w-full max-w-3xl">
       <MessageItem>
         <MessageItemAvatarSlot>
           <Avatar size="md" type="agent">
@@ -143,6 +142,6 @@ export function MessageTaskBadgeComposition() {
           </MessageItemFooter>
         </MessageItemContent>
       </MessageItem>
-    </MessageItemInteractionBoundary>
+    </div>
   );
 }

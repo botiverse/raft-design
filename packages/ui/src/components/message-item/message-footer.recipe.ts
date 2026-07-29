@@ -3,12 +3,12 @@ import { tv, type VariantProps } from "../../lib/tv";
 export const messageFooter = tv({
   slots: {
     savedIndicator: [
-      "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
+      "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap select-none",
       "[&_svg]:shrink-0",
     ],
     readReceipt: ["inline-flex shrink-0 items-center gap-1 whitespace-nowrap", "[&_svg]:shrink-0"],
     badge: [
-      "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap",
+      "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap select-none",
       "transition-colors [&_svg]:shrink-0",
     ],
     badgeSeparator: [],
@@ -33,16 +33,16 @@ export const messageFooter = tv({
       },
       elegant: {
         savedIndicator: [
-          "h-auto gap-1.5 rounded-full bg-[oklch(0.955_0.067_93.62)] px-2 py-0.5",
+          "h-5 gap-1.5 rounded-full bg-[oklch(0.955_0.067_93.62)] px-1.5 py-0.5",
           "text-[11px] font-medium leading-3 tracking-[0.22px] text-primary-600",
-          "transition-[filter,opacity] duration-100 enabled:hover:brightness-90",
+          "transition-[filter,opacity] duration-100 hover:brightness-95",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-[11px] [&_svg]:shrink-0",
         ],
         readReceipt: "h-5 text-[11px] font-medium text-foreground-muted [&_svg]:size-2.5",
         badge: [
           "h-5 rounded-md px-1.5 py-0.5 shadow-none ring-0",
-          "text-[12px] font-[420] tracking-[-0.01em] [&_svg]:size-[11px]",
+          "text-[12px] font-[420] tracking-[-0.01em] hover:brightness-[0.96] [&_svg]:size-[11px]",
         ],
         badgeSeparator: "text-foreground/45",
       },

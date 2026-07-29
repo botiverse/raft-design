@@ -14,7 +14,6 @@ import {
   MessageItemContinuationTime,
   MessageItemGutter,
   MessageItemHeader,
-  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
@@ -24,10 +23,7 @@ export function MessageConsecutiveComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <MessageItemInteractionBoundary
-      ref={setPortalContainer}
-      className="flex w-full max-w-3xl flex-col"
-    >
+    <div ref={setPortalContainer} className="flex w-full max-w-3xl flex-col">
       <MessageItem>
         <MessageItemAvatarSlot>
           <Avatar size="md" type="agent">
@@ -66,6 +62,6 @@ export function MessageConsecutiveComposition() {
           </MessageItemBody>
         </MessageItemContent>
       </MessageItem>
-    </MessageItemInteractionBoundary>
+    </div>
   );
 }

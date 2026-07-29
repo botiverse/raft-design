@@ -14,7 +14,6 @@ import {
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
-  MessageItemInteractionBoundary,
   MessageItemMeta,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
@@ -160,7 +159,7 @@ export function MessageItemPreview({
 
   if (continuation) {
     return (
-      <MessageItemInteractionBoundary ref={setPortalContainer}>
+      <div ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
             <Avatar size="md" type="agent">
@@ -215,7 +214,7 @@ export function MessageItemPreview({
             Reacted with {reaction}
           </span>
         ) : null}
-      </MessageItemInteractionBoundary>
+      </div>
     );
   }
 
@@ -235,7 +234,7 @@ export function MessageItemPreview({
   if (chrome === "selected") {
     return (
       <MessageMultiSelect defaultActive defaultSelected={new Set(["preview"])}>
-        <MessageItemInteractionBoundary>
+        <div>
           <MessageItemSelection>
             <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
             <MessageItemAvatarSlot>
@@ -246,7 +245,7 @@ export function MessageItemPreview({
             </MessageItemAvatarSlot>
             {content}
           </MessageItemSelection>
-        </MessageItemInteractionBoundary>
+        </div>
       </MessageMultiSelect>
     );
   }
@@ -259,7 +258,7 @@ export function MessageItemPreview({
         : MessageItem;
 
   return (
-    <MessageItemInteractionBoundary ref={setPortalContainer}>
+    <div ref={setPortalContainer}>
       <RowChrome>
         <MessageItemAvatarSlot>
           <Avatar size="md" type="agent">
@@ -283,6 +282,6 @@ export function MessageItemPreview({
           Reacted with {reaction}
         </span>
       ) : null}
-    </MessageItemInteractionBoundary>
+    </div>
   );
 }

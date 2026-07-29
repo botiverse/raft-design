@@ -18,9 +18,34 @@ export const ANATOMY_SOURCE = `<MessageItem>
       <MessageItemTime />
       <MessageItemInlineStatus />
     </MessageItemHeader>
-    <MessageItemBody />
-    <MessageItemAttachments>...</MessageItemAttachments>
-    <MessageItemFooter />
+    <MessageItemContentCollapse
+      collapsible={collapsible}
+      expanded={expanded}
+      onExpandedChange={setExpanded}
+    >
+      <MessageItemContentCollapsePanel>
+        <MessageItemBody />
+        <MessageItemTranslationOriginal />
+        <MessageItemEmbedded />
+        <MessageItemNotice />
+        <MessageItemAttachments>...</MessageItemAttachments>
+      </MessageItemContentCollapsePanel>
+      <MessageItemContentCollapseTrigger>
+        {expanded ? "Collapse" : "Show more"}
+      </MessageItemContentCollapseTrigger>
+    </MessageItemContentCollapse>
+    <MessageItemTranslationStatus />
+    <MessageItemFooter>
+      <TaskChip />
+      <MessageItemSavedIndicator />
+      <MessageItemBadge />
+      <MessageReactionChip />
+      <MessageItemReadReceipt />
+    </MessageItemFooter>
+    <MessageReplies>
+      <MessageRepliesSummary />
+      <MessageRepliesItem />
+    </MessageReplies>
   </MessageItemContent>
   <MessageItemToolbar />
 </MessageItem>
@@ -68,10 +93,9 @@ export const ROW_PROPS: readonly PropRow[] = [
       "Compact consecutive-row gutter and hover timestamp. Used when compact hides sender chrome.",
   },
   {
-    name: "MessageItemContent / MessageItemInteractionBoundary",
+    name: "MessageItemContent",
     type: 'useRender.ComponentProps<"div">',
-    description:
-      "Main row column and an optional boundary that prevents nested controls from triggering row-level interactions.",
+    description: "Main row column.",
   },
   {
     name: "MessageItemHeader / MessageItemSender / MessageItemSenderState",
@@ -87,6 +111,18 @@ export const ROW_PROPS: readonly PropRow[] = [
 ];
 
 export const CONTENT_PROPS: readonly PropRow[] = [
+  {
+    name: "MessageItemContentCollapse",
+    type: 'useRender.ComponentProps<"div"> & { collapsible: boolean; expanded: boolean; collapseHeight?: number; onExpandedChange: (expanded: boolean) => void }',
+    description:
+      "Controlled content-collapse root. Consumers own height measurement, eligibility, expanded persistence, and timeline coordination.",
+  },
+  {
+    name: "MessageItemContentCollapsePanel / MessageItemContentCollapseTrigger",
+    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"button">',
+    description:
+      "Clipped content viewport and its external toggle. The panel owns clipping, fade, and focus-safe expansion; the trigger owns the ARIA relationship.",
+  },
   {
     name: "MessageItemBody",
     type: 'useRender.ComponentProps<"div">',

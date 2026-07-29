@@ -1,8 +1,6 @@
 import type { ReactNode } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -130,27 +128,8 @@ function MessageAttachmentDoc() {
     <DocPage
       title="MessageAttachment"
       description="Message-row attachment cards, media galleries, and pending/failed states composed as attachment children."
-      overview={
-        <Differences from="message attachments">
-          <li>
-            upload lifecycle, download policy, and preview open/close stay outside the UI package
-          </li>
-          <li>
-            media galleries and file cards compose as children of{" "}
-            <code>MessageItemAttachments</code>
-          </li>
-          <li>file title, summary, and meta actions compose into attachment cards</li>
-          <li>product copy, icons, and callbacks live in docs compositions</li>
-        </Differences>
-      }
       toc={TOC}
     >
-      <DocNote>
-        Row chrome and the <code>MessageItemAttachments</code> slot live on{" "}
-        <Link to="/components/message-item">MessageItem</Link>. Full-screen image browsing is{" "}
-        <Link to="/components/lightbox">Lightbox</Link>.
-      </DocNote>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview>
           <Preview.Canvas>

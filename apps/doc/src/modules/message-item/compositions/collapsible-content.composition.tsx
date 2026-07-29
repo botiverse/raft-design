@@ -1,12 +1,60 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import {
+  MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT,
   MessageItem,
   MessageItemBody,
-  MessageItemCollapsibleContent,
-  MessageItemCollapsibleContentPanel,
-  MessageItemCollapsibleContentTrigger,
+  MessageItemContentCollapse,
+  MessageItemContentCollapsePanel,
+  MessageItemContentCollapseTrigger,
   MessageItemContent,
 } from "raft-ui/wip";
+
+function getRenderedHeight(entry: ResizeObserverEntry) {
+  const borderBoxSize = entry.borderBoxSize as
+    | ResizeObserverSize
+    | readonly ResizeObserverSize[]
+    | undefined;
+  const firstBoxSize = Array.isArray(borderBoxSize) ? borderBoxSize[0] : borderBoxSize;
+  return firstBoxSize?.blockSize ?? entry.contentRect.height;
+}
+
+function MeasuredMessageContent({ children }: { children: ReactNode }) {
+  const measureRef = useRef<HTMLDivElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [renderedHeight, setRenderedHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    const element = measureRef.current;
+    if (!element) return;
+    if (typeof ResizeObserver === "undefined") {
+      setRenderedHeight(element.scrollHeight);
+      return;
+    }
+
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry) setRenderedHeight(getRenderedHeight(entry));
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <MessageItemContentCollapse
+      collapsible={renderedHeight > MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT}
+      expanded={expanded}
+      onExpandedChange={setExpanded}
+    >
+      <MessageItemContentCollapsePanel>
+        <div ref={measureRef} className="min-w-0">
+          {children}
+        </div>
+      </MessageItemContentCollapsePanel>
+      <MessageItemContentCollapseTrigger>
+        {({ expanded: isExpanded }) => (isExpanded ? "Collapse" : "Show more")}
+      </MessageItemContentCollapseTrigger>
+    </MessageItemContentCollapse>
+  );
+}
 
 const PARAGRAPHS = [
   "Postmortem for yesterday's 18:40 UTC outage — writing it up here so nobody has to dig through the incident channel.",
@@ -21,25 +69,18 @@ const PARAGRAPHS = [
 ] as const;
 
 export function MessageCollapsibleContentComposition() {
-  const [expanded, setExpanded] = useState(false);
-
   return (
     <MessageItem>
       <MessageItemContent>
-        <MessageItemCollapsibleContent expanded={expanded} onExpandedChange={setExpanded}>
-          <MessageItemCollapsibleContentPanel>
-            <MessageItemBody>
-              <div className="space-y-3">
-                {PARAGRAPHS.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-            </MessageItemBody>
-          </MessageItemCollapsibleContentPanel>
-          <MessageItemCollapsibleContentTrigger>
-            {({ expanded: isExpanded }) => (isExpanded ? "Collapse" : "Show more")}
-          </MessageItemCollapsibleContentTrigger>
-        </MessageItemCollapsibleContent>
+        <MeasuredMessageContent>
+          <MessageItemBody>
+            <div className="space-y-3">
+              {PARAGRAPHS.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </MessageItemBody>
+        </MeasuredMessageContent>
       </MessageItemContent>
     </MessageItem>
   );

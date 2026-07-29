@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { Differences } from "#/components/differences.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -268,21 +267,6 @@ function TaskBoardDoc() {
     <DocPage
       title="TaskBoard"
       description="Horizontal status columns for the Tasks board view. Pair with TaskDnd for drag targets and TaskCard for items."
-      overview={
-        <Differences from="Slock Tasks board">
-          <li>
-            peer of <code>TasksPanel</code>, <Link to="/components/task-list">TaskList</Link>,{" "}
-            <Link to="/components/task-dnd">TaskDnd</Link>, and{" "}
-            <Link to="/components/task-card">TaskCard</Link>
-          </li>
-          <li>owns column layout, collapse, and empty-column structure only</li>
-          <li>
-            drag policy lives on <Link to="/components/task-dnd">TaskDnd</Link> — compose{" "}
-            <code>TaskDropZone</code> onto columns via <code>render</code>
-          </li>
-          <li>status labels, counts, and workflow remain consumer-owned</li>
-        </Differences>
-      }
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
