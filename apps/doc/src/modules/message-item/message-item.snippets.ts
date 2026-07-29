@@ -21,14 +21,14 @@ export const ANATOMY_SOURCE = `<MessageItem>
     <MessageItemBody />
     <MessageItemAttachments>...</MessageItemAttachments>
     <MessageItemFooter />
-    <MessageItemThreadRepliesPreview>
-      <MessageItemThreadRepliesPreview.Trigger>
-        <MessageItemThreadRepliesPreview.Summary />
-        <MessageItemThreadRepliesPreview.Reply>
-          <MessageItemThreadRepliesPreview.Time />
-        </MessageItemThreadRepliesPreview.Reply>
-      </MessageItemThreadRepliesPreview.Trigger>
-    </MessageItemThreadRepliesPreview>
+    <MessageItemReplies>
+      <MessageItemRepliesTrigger>
+        <MessageItemRepliesSummary />
+        <MessageItemReply>
+          <MessageItemReplyTime />
+        </MessageItemReply>
+      </MessageItemRepliesTrigger>
+    </MessageItemReplies>
   </MessageItemContent>
   <MessageItemToolbar />
 </MessageItem>
@@ -183,28 +183,22 @@ export const FOOTER_PROPS: readonly PropRow[] = [
       "Footer badge slot with read and unread treatments. Business labels and icons remain caller-owned.",
   },
   {
-    name: "MessageItemThreadRepliesPreview",
+    name: "MessageItemReplies",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Thread-preview surface placed after the message footer. It owns the stable preview layout; thread data, display cap, copy, and navigation remain consumer-owned.",
+      "Replies container placed after the message footer. It owns the stable region layout; thread data, display cap, copy, and navigation remain consumer-owned.",
   },
   {
-    name: "MessageItemThreadRepliesPreview.Trigger / Summary",
+    name: "MessageItemRepliesTrigger / MessageItemRepliesSummary",
     type: "button props and span props",
     description:
-      "One full-width thread opener and its count summary. Render Trigger as the consumer's link or button so the whole muted surface is one interactive target.",
+      "One full-width thread opener and its count summary. Render the trigger as the consumer's link or button so the whole muted surface is one interactive target.",
   },
   {
-    name: "MessageItemThreadRepliesPreview.Reply / Avatar / Sender / Preview / Time",
+    name: "MessageItemReply / MessageItemReplyAvatar / MessageItemReplySender / MessageItemReplyContent / MessageItemReplyTime",
     type: "span and time props",
     description:
-      "Compact latest-reply row parts. Time is a semantic non-shrinking tabular <time> aligned to the right; rows are display-only children of the single Trigger.",
-  },
-  {
-    name: "MessageItemInlineReplies* / MessageItemInlineReply*",
-    type: "legacy props",
-    description:
-      "Backward-compatible granular exports. New compositions should use MessageItemThreadRepliesPreview instead.",
+      "Compact latest-reply row parts. Time is a semantic non-shrinking tabular <time> aligned to the right; rows are display-only children of the single trigger.",
   },
 ];
 

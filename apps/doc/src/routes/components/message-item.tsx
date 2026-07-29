@@ -43,8 +43,8 @@ import { MessageTaskBadgeComposition } from "#/modules/message-item/compositions
 import taskBadgeSource from "#/modules/message-item/compositions/task-badge.composition.tsx?raw";
 import { MessageTextSelectionShowcaseComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
 import textSelectionSource from "#/modules/message-item/compositions/text-selection.composition.tsx?raw";
-import { MessageThreadRepliesPreviewComposition } from "#/modules/message-item/compositions/thread-replies-preview.composition.tsx";
-import threadRepliesPreviewSource from "#/modules/message-item/compositions/thread-replies-preview.composition.tsx?raw";
+import { MessageItemRepliesComposition } from "#/modules/message-item/compositions/replies.composition.tsx";
+import repliesSource from "#/modules/message-item/compositions/replies.composition.tsx?raw";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
 import { SourceMessageItemPreview } from "#/modules/message-item/message-item.source-preview.tsx";
 import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
@@ -117,7 +117,7 @@ export const Route = createFileRoute("/components/message-item")({
         senderState: senderStateSource,
         taskBadge: taskBadgeSource,
         textSelection: textSelectionSource,
-        threadRepliesPreview: threadRepliesPreviewSource,
+        replies: repliesSource,
       },
     }),
 });
@@ -290,16 +290,9 @@ function MessageItemDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection
-            parentId="usage"
-            id="thread-replies-preview"
-            title="Thread replies preview"
-          >
-            <UsagePreview
-              code={code.threadRepliesPreview}
-              collapsedCode={code.threadRepliesPreviewBody}
-            >
-              <MessageThreadRepliesPreviewComposition />
+          <DocSubsection parentId="usage" id="replies" title="Replies">
+            <UsagePreview code={code.replies} collapsedCode={code.repliesBody}>
+              <MessageItemRepliesComposition />
             </UsagePreview>
           </DocSubsection>
 
