@@ -9,12 +9,14 @@ import {
   MessageSquare,
   MessageSquareDot,
   Pencil,
+  RotateCcw,
 } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   ContextMenu,
+  ContextMenuItem,
   ContextMenuTrigger,
   MessageReplies,
   MessageRepliesItem,
@@ -23,6 +25,9 @@ import {
   MessageRepliesItemTime,
   MessageRepliesSummary,
   MessageRepliesSummaryItem,
+  Progress,
+  ProgressIndicator,
+  ProgressTrack,
 } from "raft-ui";
 import {
   MessageItem,
@@ -55,9 +60,11 @@ import {
   MessageAttachmentTitle,
   MessageItemTime,
   MessageItemTranslationAction,
+  MessageItemTranslationFailedStatus,
   MessageItemTranslationOriginal,
   MessageItemTranslationOriginalLabel,
-  MessageItemTranslationPlaceholder,
+  MessageItemTranslationPendingStatus,
+  MessageItemTranslationRetryAction,
   MessageItemTranslationStatus,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
@@ -500,7 +507,16 @@ export function PlaygroundMessageRow({
             <MessageItemCollapsibleContentPanel>
               {workflow.translation === "pending" ? (
                 <MessageItemBody>
-                  <MessageItemTranslationPlaceholder />
+                  <Progress
+                    value={null}
+                    size="sm"
+                    aria-label="Translating message"
+                    className="w-44 max-w-full"
+                  >
+                    <ProgressTrack>
+                      <ProgressIndicator />
+                    </ProgressTrack>
+                  </Progress>
                 </MessageItemBody>
               ) : composedBody ? (
                 <MessageItemBody>{composedBody}</MessageItemBody>
@@ -526,60 +542,55 @@ export function PlaygroundMessageRow({
           </MessageItemCollapsibleContent>
         ) : null}
         {translation && workflow.translation !== "idle" ? (
-          <MessageItemTranslationStatus
-            tone={
-              workflow.translation === "pending"
-                ? "pending"
-                : workflow.translation === "failed"
-                  ? "failed"
-                  : "normal"
-            }
-          >
-            {workflow.translation === "pending" ? (
-              <>
-                <Languages size={12} />
-                <span>Translating…</span>
-              </>
-            ) : workflow.translation === "failed" ? (
-              <>
-                <AlertTriangle size={12} />
-                <span>Translation unavailable</span>
-                <span aria-hidden>·</span>
-                <MessageItemTranslationAction
-                  onClick={() =>
-                    updateWorkflow((current) => ({
-                      ...current,
-                      translation: "pending",
-                    }))
-                  }
-                >
-                  Retry
-                </MessageItemTranslationAction>
-              </>
-            ) : translation.display === "bilingual" ? (
-              <>
-                <Languages size={12} />
-                <span>Translated</span>
-              </>
-            ) : (
-              <>
-                <Languages size={12} />
-                <MessageItemTranslationAction
-                  aria-label={
-                    workflow.translation === "original" ? "Show translation" : "Show original"
-                  }
-                  onClick={() =>
-                    updateWorkflow((current) => ({
-                      ...current,
-                      translation: current.translation === "original" ? "translated" : "original",
-                    }))
-                  }
-                >
-                  {workflow.translation === "original" ? "Show translation" : "Show original"}
-                </MessageItemTranslationAction>
-              </>
-            )}
-          </MessageItemTranslationStatus>
+          workflow.translation === "pending" ? (
+            <MessageItemTranslationPendingStatus>
+              <Languages size={12} />
+              <span>Translating…</span>
+            </MessageItemTranslationPendingStatus>
+          ) : workflow.translation === "failed" ? (
+            <MessageItemTranslationFailedStatus>
+              <AlertTriangle size={12} />
+              <span>Translation unavailable</span>
+              <span aria-hidden>·</span>
+              <MessageItemTranslationRetryAction
+                onClick={() =>
+                  updateWorkflow((current) => ({
+                    ...current,
+                    translation: "pending",
+                  }))
+                }
+              >
+                <RotateCcw size={12} aria-hidden />
+                Retry
+              </MessageItemTranslationRetryAction>
+            </MessageItemTranslationFailedStatus>
+          ) : (
+            <MessageItemTranslationStatus>
+              {translation.display === "bilingual" ? (
+                <>
+                  <Languages size={12} />
+                  <span>Translated</span>
+                </>
+              ) : (
+                <>
+                  <Languages size={12} />
+                  <MessageItemTranslationAction
+                    aria-label={
+                      workflow.translation === "original" ? "Show translation" : "Show original"
+                    }
+                    onClick={() =>
+                      updateWorkflow((current) => ({
+                        ...current,
+                        translation: current.translation === "original" ? "translated" : "original",
+                      }))
+                    }
+                  >
+                    {workflow.translation === "original" ? "Show translation" : "Show original"}
+                  </MessageItemTranslationAction>
+                </>
+              )}
+            </MessageItemTranslationStatus>
+          )
         ) : null}
         {footer ||
         workflow.reactions.length > 0 ||
@@ -687,19 +698,25 @@ export function PlaygroundMessageRow({
           }}
           onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
           onTaskChange={(next) => updateWorkflow((current) => ({ ...current, task: next }))}
-          onTranslate={
-            translation && (workflow.translation === "idle" || workflow.translation === "pending")
-              ? () =>
-                  updateWorkflow((current) => ({
-                    ...current,
-                    translation: "pending",
-                  }))
-              : undefined
-          }
-          translating={workflow.translation === "pending"}
           onSelectMessage={selection ? () => selection.enter(rowSelectId) : undefined}
           onOpenThread={openThread}
-        />
+        >
+          {translation &&
+          (workflow.translation === "idle" || workflow.translation === "pending") ? (
+            <ContextMenuItem
+              disabled={workflow.translation === "pending"}
+              onClick={() =>
+                updateWorkflow((current) => ({
+                  ...current,
+                  translation: "pending",
+                }))
+              }
+            >
+              <Languages />
+              {workflow.translation === "pending" ? "Translating…" : "Translate"}
+            </ContextMenuItem>
+          ) : null}
+        </MessageContextMenuComposition>
       </ContextMenu>
     </MessageItemInteractionBoundary>
   );

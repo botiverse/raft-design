@@ -5,7 +5,6 @@ import { Preview } from "#/components/preview.tsx";
 import {
   MessageItemPreview,
   type MessageItemPreviewChrome,
-  type MessageItemPreviewTranslation,
 } from "./compositions/item-preview.composition.tsx";
 
 const SCENARIO_OPTIONS = ["message", "consecutive"] as const;
@@ -19,20 +18,13 @@ const CHROME_OPTIONS = [
   "selected",
 ] as const satisfies readonly Exclude<MessageItemPreviewChrome, "continuation">[];
 
-const CONTENT_OPTIONS = ["plain", "markdown", "translation"] as const;
+const CONTENT_OPTIONS = ["plain", "markdown"] as const;
 
 type PreviewContent = (typeof CONTENT_OPTIONS)[number];
 
 const ATTACHMENT_OPTIONS = ["none", "image", "video", "files", "all"] as const;
 
 type PreviewAttachments = (typeof ATTACHMENT_OPTIONS)[number];
-
-const TRANSLATION_OPTIONS = [
-  "pending",
-  "translated",
-  "bilingual",
-  "failed",
-] as const satisfies readonly Exclude<MessageItemPreviewTranslation, "none">[];
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
@@ -49,8 +41,6 @@ export function MessageItemPlaygroundPreview({
   const [chrome, setChrome] = useState<(typeof CHROME_OPTIONS)[number]>("default");
   const [content, setContent] = useState<PreviewContent>("plain");
   const [attachments, setAttachments] = useState<PreviewAttachments>("none");
-  const [translation, setTranslation] =
-    useState<(typeof TRANSLATION_OPTIONS)[number]>("translated");
   const [replies, setReplies] = useState(false);
   const [reactions, setReactions] = useState(true);
   const [saved, setSaved] = useState(false);
@@ -69,7 +59,6 @@ export function MessageItemPlaygroundPreview({
           <MessageItemPreview
             chrome={scenario === "consecutive" ? "continuation" : chrome}
             markdown={content === "markdown"}
-            translation={content === "translation" ? translation : "none"}
             image={isMessage && image}
             video={isMessage && video}
             files={isMessage && files}
@@ -111,19 +100,6 @@ export function MessageItemPlaygroundPreview({
                   onValueChange={(value) => setContent(value as PreviewContent)}
                 />
               </Preview.Control>
-              {content === "translation" ? (
-                <Preview.Control label="Translation" htmlFor="message-item-preview-translation">
-                  <Preview.Select
-                    id="message-item-preview-translation"
-                    label="Translation"
-                    options={TRANSLATION_OPTIONS}
-                    value={translation}
-                    onValueChange={(value) =>
-                      setTranslation(value as (typeof TRANSLATION_OPTIONS)[number])
-                    }
-                  />
-                </Preview.Control>
-              ) : null}
               <Preview.Control label="Attachments" htmlFor="message-item-preview-attachments">
                 <Preview.Select
                   id="message-item-preview-attachments"

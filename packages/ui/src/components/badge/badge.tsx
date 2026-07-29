@@ -306,7 +306,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "warning",
       class: {
-        root: "border-transparent bg-[oklch(0.887_0.064_43.95)] text-[oklch(0.499_0.143_43.52)]",
+        root: "border-transparent bg-[oklch(0.95_0.03_44.33)] text-[oklch(0.59_0.2_40.57)]",
       },
     },
     {

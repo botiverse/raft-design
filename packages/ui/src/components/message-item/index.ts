@@ -50,13 +50,6 @@ export {
   MessageItemSavedIndicator,
 } from "./message-footer";
 export {
-  MessageItemTranslationAction,
-  MessageItemTranslationOriginal,
-  MessageItemTranslationOriginalLabel,
-  MessageItemTranslationPlaceholder,
-  MessageItemTranslationStatus,
-} from "./message-translation";
-export {
   MessageReactionAddButton,
   MessageReactionChip,
   MessageReactionCount,
@@ -139,14 +132,6 @@ export type {
   MessageItemReadReceiptProps,
   MessageItemSavedIndicatorProps,
 } from "./message-footer";
-export type {
-  MessageItemTranslationActionProps,
-  MessageItemTranslationOriginalLabelProps,
-  MessageItemTranslationOriginalProps,
-  MessageItemTranslationPlaceholderProps,
-  MessageItemTranslationStatusProps,
-  MessageItemTranslationTone,
-} from "./message-translation";
 export type {
   MessageReactionAddButtonProps,
   MessageReactionChipProps,

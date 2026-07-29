@@ -1,10 +1,10 @@
+import type { ReactNode } from "react";
 import {
   Bookmark,
   BookmarkMinus,
   CheckCircle,
   ClipboardCheck,
   Copy,
-  Languages,
   Link as LinkIcon,
   MessageSquare,
   RotateCcw,
@@ -18,6 +18,7 @@ import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.ts
 export type MessageTaskState = "none" | "open" | "done";
 
 export type MessageContextMenuCompositionProps = {
+  children?: ReactNode;
   followed?: boolean;
   onCopyLink?: () => void;
   onCopyMarkdown?: () => void;
@@ -27,14 +28,13 @@ export type MessageContextMenuCompositionProps = {
   onSavedChange?: (saved: boolean) => void;
   onSelectMessage?: () => void;
   onTaskChange?: (task: MessageTaskState) => void;
-  onTranslate?: () => void;
   portalContainer?: HTMLElement | null;
   saved?: boolean;
   task: MessageTaskState;
-  translating?: boolean;
 };
 
 export function MessageContextMenuComposition({
+  children,
   followed,
   onCopyLink,
   onCopyMarkdown,
@@ -44,11 +44,9 @@ export function MessageContextMenuComposition({
   onSavedChange,
   onSelectMessage,
   onTaskChange,
-  onTranslate,
   portalContainer,
   saved,
   task,
-  translating = false,
 }: MessageContextMenuCompositionProps) {
   const taskAction =
     task === "done"
@@ -92,12 +90,7 @@ export function MessageContextMenuComposition({
         <Copy />
         Copy Markdown
       </ContextMenuItem>
-      {onTranslate ? (
-        <ContextMenuItem disabled={translating} onClick={onTranslate}>
-          <Languages />
-          {translating ? "Translating…" : "Translate"}
-        </ContextMenuItem>
-      ) : null}
+      {children}
       {onSelectMessage ? (
         <ContextMenuItem onClick={onSelectMessage}>
           <CheckCircle />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlertTriangle, Bookmark, Languages, MessageSquare, Plus } from "lucide-react";
+import { Bookmark, MessageSquare, Plus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import {
@@ -21,11 +21,6 @@ import {
   MessageItemSelection,
   MessageItemSender,
   MessageItemTime,
-  MessageItemTranslationAction,
-  MessageItemTranslationOriginal,
-  MessageItemTranslationOriginalLabel,
-  MessageItemTranslationPlaceholder,
-  MessageItemTranslationStatus,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   MessageReactionAddButton,
@@ -52,17 +47,9 @@ export type MessageItemPreviewChrome =
   | "selected"
   | "continuation";
 
-export type MessageItemPreviewTranslation =
-  | "none"
-  | "pending"
-  | "translated"
-  | "bilingual"
-  | "failed";
-
 export type MessageItemPreviewProps = {
   chrome?: MessageItemPreviewChrome;
   markdown?: boolean;
-  translation?: MessageItemPreviewTranslation;
   image?: boolean;
   video?: boolean;
   files?: boolean;
@@ -108,7 +95,6 @@ export function MessageMobileReactionAdd({
 export function MessageItemPreview({
   chrome = "default",
   markdown = false,
-  translation = "none",
   image = false,
   video = false,
   files = false,
@@ -120,8 +106,6 @@ export function MessageItemPreview({
   const [isSaved, setIsSaved] = useState(saved);
   const [reaction, setReaction] = useState<string>();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
-  const [showOriginal, setShowOriginal] = useState(false);
-  const [retryingTranslation, setRetryingTranslation] = useState(false);
   // @docs-source-strip-start
   // Docs-playground plumbing: the controls panel is the source of truth, so
   // re-sync local state on the render pass where a control prop changes.
@@ -130,70 +114,13 @@ export function MessageItemPreview({
     setSavedControl(saved);
     setIsSaved(saved);
   }
-  const [translationControl, setTranslationControl] = useState(translation);
-  if (translation !== translationControl) {
-    setTranslationControl(translation);
-    setShowOriginal(false);
-    setRetryingTranslation(false);
-  }
   // @docs-source-strip-end
   const continuation = chrome === "continuation";
-  const translationState = retryingTranslation ? "pending" : translation;
-
-  const originalTranslation = "Keep this original message available for the team.";
-  const translatedMessage = "让团队保留这条原始消息。";
-
-  const translationStatus =
-    translationState === "none" ? null : (
-      <MessageItemTranslationStatus
-        tone={
-          translationState === "failed"
-            ? "failed"
-            : translationState === "pending"
-              ? "pending"
-              : "normal"
-        }
-        data-testid={`message-translation-indicator-preview`}
-      >
-        {translationState === "failed" ? <AlertTriangle size={12} /> : <Languages size={12} />}
-        {translationState === "pending" ? <span>Translating…</span> : null}
-        {translationState === "failed" ? (
-          <>
-            <span>Translation unavailable</span>
-            <span aria-hidden>·</span>
-            <MessageItemTranslationAction
-              title="Translation unavailable"
-              aria-label="Retry"
-              onClick={() => setRetryingTranslation(true)}
-            >
-              Retry
-            </MessageItemTranslationAction>
-          </>
-        ) : null}
-        {translationState === "translated" || translationState === "bilingual" ? (
-          <MessageItemTranslationAction
-            title={showOriginal ? "Original shown. Show translation" : "Translated. Show original"}
-            aria-label={showOriginal ? "Show translation" : "Show original"}
-            onClick={() => setShowOriginal((current) => !current)}
-          >
-            {showOriginal ? "Show translation" : "Show original"}
-          </MessageItemTranslationAction>
-        ) : null}
-      </MessageItemTranslationStatus>
-    );
-
-  const messageBody =
-    translationState === "pending" ? (
-      <MessageItemTranslationPlaceholder data-testid="message-translation-placeholder-preview" />
-    ) : translationState === "translated" || translationState === "bilingual" ? (
-      <Markdown>{showOriginal ? originalTranslation : translatedMessage}</Markdown>
-    ) : translationState === "failed" ? (
-      <Markdown>{originalTranslation}</Markdown>
-    ) : markdown ? (
-      <Markdown>{markdownInputSource}</Markdown>
-    ) : (
-      <MessageItemExampleMarkdown portalContainer={portalContainer} />
-    );
+  const messageBody = markdown ? (
+    <Markdown>{markdownInputSource}</Markdown>
+  ) : (
+    <MessageItemExampleMarkdown portalContainer={portalContainer} />
+  );
 
   const footer =
     isSaved || replies || reactions ? (
@@ -300,13 +227,6 @@ export function MessageItemPreview({
         <MessageItemTime>2:14 PM</MessageItemTime>
       </MessageItemHeader>
       <MessageItemBody>{messageBody}</MessageItemBody>
-      {translationState === "bilingual" && !showOriginal ? (
-        <MessageItemTranslationOriginal data-testid="message-translation-bilingual-original-preview">
-          <MessageItemTranslationOriginalLabel>Original</MessageItemTranslationOriginalLabel>
-          <Markdown>{originalTranslation}</Markdown>
-        </MessageItemTranslationOriginal>
-      ) : null}
-      {translationStatus}
       {attachments}
       {footer}
     </MessageItemContent>
