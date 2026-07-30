@@ -1,4 +1,4 @@
-import { TaskChip } from "raft-ui";
+import { TaskChip, TaskStatusIcon } from "raft-ui";
 
 import { TaskStatusSelect } from "#/modules/task-card/compositions/task-status-select.composition.tsx";
 import type { PlaygroundTaskId } from "../mock/index.ts";
@@ -42,6 +42,7 @@ export function TaskStatusBadge({
           />
         }
       >
+        <TaskStatusIcon status={status} />
         <span>#{taskNumber}</span>
         {assignee ? <span>@{assignee}</span> : null}
       </TaskChip>

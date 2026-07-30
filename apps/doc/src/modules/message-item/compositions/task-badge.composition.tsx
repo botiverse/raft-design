@@ -26,8 +26,8 @@ import {
 
 const TASK_STATUS_OPTIONS = [
   { id: "todo", label: "Todo" },
-  { id: "in_progress", label: "In Progress" },
-  { id: "in_review", label: "In Review" },
+  { id: "in-progress", label: "In Progress" },
+  { id: "in-review", label: "In Review" },
   { id: "done", label: "Done" },
   { id: "closed", label: "Closed" },
 ] as const satisfies readonly {
@@ -60,6 +60,7 @@ export function MessageTaskStatusBadgeComposition({
               />
             }
           >
+            <TaskStatusIcon status={status} />
             <span className="shrink-0">#1</span>
             <span className="min-w-0 truncate">@{TASK_ASSIGNEE}</span>
           </TaskChip>
@@ -91,6 +92,7 @@ function MessageTaskStatusReadonlyBadges() {
         status={option.id}
         title={`task #${taskNumber} · ${option.label} · Read only`}
       >
+        <TaskStatusIcon status={option.id} />
         <span>#{taskNumber}</span>
       </TaskChip>
     );

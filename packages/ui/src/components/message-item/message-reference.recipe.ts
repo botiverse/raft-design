@@ -162,6 +162,7 @@ export const messageReference = tv({
           "has-[>[data-slot=message-reference-label]]:pr-2",
           "has-[>[data-slot=message-reference-label]]:pl-0",
           "has-[>[data-slot=message-reference-label]]:isolate",
+          "has-[>[data-slot=message-reference-label]]:overflow-visible",
           "has-[>[data-message-reference-badge]]:overflow-visible",
           "has-[>[data-slot=message-reference-label]]:before:pointer-events-none",
           "has-[>[data-slot=message-reference-label]]:before:absolute",
@@ -221,7 +222,7 @@ export const messageReference = tv({
       class: {
         root: [
           "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-layer-muted px-2 py-0",
-          "cursor-wait font-medium leading-none tracking-normal text-foreground-muted",
+          "cursor-wait font-normal leading-none tracking-normal text-foreground-muted",
         ],
       },
     },
@@ -231,7 +232,7 @@ export const messageReference = tv({
       class: {
         root: [
           "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-layer-muted px-2 py-0",
-          "cursor-default font-medium leading-none tracking-normal text-foreground-muted",
+          "cursor-default font-normal leading-none tracking-normal text-foreground-muted",
         ],
       },
     },

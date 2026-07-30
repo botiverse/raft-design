@@ -1,11 +1,10 @@
-import { Link2, MessageSquare } from "lucide-react";
+import { Link, MessageSquare } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   MessageReferenceChip,
   MessageReferenceLabel,
-  MessageReferenceMeta,
 } from "raft-ui";
 import {
   MessageItem,
@@ -22,8 +21,8 @@ import {
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
-  MessageQuotedPreviewContext,
   MessageQuotedPreviewHeader,
+  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewThread,
   MessageQuotedPreviewTimestamp,
@@ -57,9 +56,8 @@ export function QuotedPreviewDirectMessageThreadComposition() {
               />
             }
           >
-            <Link2 />
+            <Link />
             <MessageReferenceLabel>@Atlas</MessageReferenceLabel>
-            <MessageReferenceMeta>msg</MessageReferenceMeta>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>
@@ -72,6 +70,13 @@ export function QuotedPreviewDirectMessageThreadComposition() {
             }
           >
             <MessageQuotedPreviewHeader>
+              <MessageQuotedPreviewAuthor>
+                <Avatar size="xs" type="agent">
+                  <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.atlas} alt="" />
+                  <AvatarFallback>AT</AvatarFallback>
+                </Avatar>
+                <MessageQuotedPreviewAuthorName>Atlas</MessageQuotedPreviewAuthorName>
+              </MessageQuotedPreviewAuthor>
               <MessageQuotedPreviewChannel>@Atlas</MessageQuotedPreviewChannel>
               <MessageQuotedPreviewThread>
                 <MessageSquare size={10} />
@@ -79,20 +84,13 @@ export function QuotedPreviewDirectMessageThreadComposition() {
               </MessageQuotedPreviewThread>
               <MessageQuotedPreviewTimestamp>Today · 8:29 AM</MessageQuotedPreviewTimestamp>
             </MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewContent>
-              <MessageQuotedPreviewContext>
-                <MessageQuotedPreviewAuthor>
-                  <Avatar size="xs" type="agent">
-                    <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.atlas} alt="" />
-                    <AvatarFallback>AT</AvatarFallback>
-                  </Avatar>
-                  <MessageQuotedPreviewAuthorName>Atlas</MessageQuotedPreviewAuthorName>
-                </MessageQuotedPreviewAuthor>
-              </MessageQuotedPreviewContext>
-              <MessageQuotedPreviewText>
-                I&apos;ll post the follow-up in this conversation once the handoff is complete.
-              </MessageQuotedPreviewText>
-            </MessageQuotedPreviewContent>
+            <MessageQuotedPreviewInset>
+              <MessageQuotedPreviewContent>
+                <MessageQuotedPreviewText>
+                  I&apos;ll post the follow-up in this conversation once the handoff is complete.
+                </MessageQuotedPreviewText>
+              </MessageQuotedPreviewContent>
+            </MessageQuotedPreviewInset>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>

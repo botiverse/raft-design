@@ -1,11 +1,10 @@
-import { Hash, Link2 } from "lucide-react";
+import { Hash, Link } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   MessageReferenceChip,
   MessageReferenceLabel,
-  MessageReferenceMeta,
 } from "raft-ui";
 import {
   MessageItem,
@@ -24,8 +23,8 @@ import {
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
-  MessageQuotedPreviewContext,
   MessageQuotedPreviewHeader,
+  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
 } from "raft-ui/wip";
@@ -58,9 +57,8 @@ export function QuotedPreviewLongContentComposition() {
               />
             }
           >
-            <Link2 />
+            <Link />
             <MessageReferenceLabel>#platform-migration</MessageReferenceLabel>
-            <MessageReferenceMeta>msg</MessageReferenceMeta>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>
@@ -73,31 +71,31 @@ export function QuotedPreviewLongContentComposition() {
             }
           >
             <MessageQuotedPreviewHeader>
+              <MessageQuotedPreviewAuthor>
+                <Avatar size="xs" type="human">
+                  <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.kai} alt="" />
+                  <AvatarFallback>K</AvatarFallback>
+                </Avatar>
+                <MessageQuotedPreviewAuthorName>Kai</MessageQuotedPreviewAuthorName>
+              </MessageQuotedPreviewAuthor>
               <MessageQuotedPreviewChannel>
                 <Hash size={11} />
                 platform-migration
               </MessageQuotedPreviewChannel>
               <MessageQuotedPreviewTimestamp>Yesterday · 4:46 PM</MessageQuotedPreviewTimestamp>
             </MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewContent>
-              <MessageQuotedPreviewContext>
-                <MessageQuotedPreviewAuthor>
-                  <Avatar size="xs" type="human">
-                    <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.kai} alt="" />
-                    <AvatarFallback>K</AvatarFallback>
-                  </Avatar>
-                  <MessageQuotedPreviewAuthorName>Kai</MessageQuotedPreviewAuthorName>
-                </MessageQuotedPreviewAuthor>
-              </MessageQuotedPreviewContext>
-              <MessageQuotedPreviewText>
-                Before we cut over, keep the read model running against both event streams, validate
-                account and workspace permissions in the staging environment, and only then move the
-                webhook consumers to the new endpoint.
-              </MessageQuotedPreviewText>
-              <MessageQuotedPreviewAttachments>
-                <MessageQuotedPreviewAttachment>2 attachments</MessageQuotedPreviewAttachment>
-              </MessageQuotedPreviewAttachments>
-            </MessageQuotedPreviewContent>
+            <MessageQuotedPreviewInset>
+              <MessageQuotedPreviewContent>
+                <MessageQuotedPreviewText>
+                  Before we cut over, keep the read model running against both event streams,
+                  validate account and workspace permissions in the staging environment, and only
+                  then move the webhook consumers to the new endpoint.
+                </MessageQuotedPreviewText>
+                <MessageQuotedPreviewAttachments>
+                  <MessageQuotedPreviewAttachment>2 attachments</MessageQuotedPreviewAttachment>
+                </MessageQuotedPreviewAttachments>
+              </MessageQuotedPreviewContent>
+            </MessageQuotedPreviewInset>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>

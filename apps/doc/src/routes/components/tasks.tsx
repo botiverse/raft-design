@@ -269,7 +269,7 @@ function TasksDoc() {
                   framed
                   channelName="raft-ui-migration"
                   taskNumber={1}
-                  status="in_progress"
+                  status="in-progress"
                   title="Migrate legacy task records into the Raft UI board"
                   description="Imported from the pre-migration store. Metadata is read-only here; open a message task when you need thread replies."
                   createdBy="@Legacy Bot"

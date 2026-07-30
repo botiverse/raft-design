@@ -26,8 +26,8 @@ export function TaskCardStateMatrixComposition({
   const theme = useThemeFamily();
   const [defaultStatus, setDefaultStatus] = useState<TaskStatus>("todo");
   const [longStatus, setLongStatus] = useState<TaskStatus>("todo");
-  const [legacyStatus, setLegacyStatus] = useState<TaskStatus>("in_progress");
-  const [menuStatus, setMenuStatus] = useState<TaskStatus>("in_review");
+  const [legacyStatus, setLegacyStatus] = useState<TaskStatus>("in-progress");
+  const [menuStatus, setMenuStatus] = useState<TaskStatus>("in-review");
 
   return (
     <>
@@ -274,18 +274,18 @@ export function TaskCardStateMatrixComposition({
         <TaskCardRow>
           <TaskCardBody>
             <TaskCardMeta>
-              <TaskStatusSelect value="in_progress" disabled title="Change task status">
+              <TaskStatusSelect value="in-progress" disabled title="Change task status">
                 <TaskCardStatus
-                  status="in_progress"
+                  status="in-progress"
                   busy
                   disabled
                   aria-label="Change status for task #137"
                 >
-                  <TaskStatusIcon status="in_progress" />
+                  <TaskStatusIcon status="in-progress" />
                 </TaskCardStatus>
               </TaskStatusSelect>
               <TaskCardNumber>#137</TaskCardNumber>
-              <TaskStatusSelect value="in_progress" disabled title="Change task status">
+              <TaskStatusSelect value="in-progress" disabled title="Change task status">
                 <Button
                   variant="ghost"
                   size="icon-xs"
@@ -296,15 +296,15 @@ export function TaskCardStateMatrixComposition({
                   <EllipsisVertical />
                 </Button>
               </TaskStatusSelect>
-              <TaskStatusSelect value="in_progress" disabled title="Change task status">
+              <TaskStatusSelect value="in-progress" disabled title="Change task status">
                 <TaskCardStatus
-                  status="in_progress"
+                  status="in-progress"
                   busy
                   disabled
                   aria-label="Change status for task #137"
                 >
                   <span data-slot="task-card-status-label">
-                    <TaskStatusIcon status="in_progress" />
+                    <TaskStatusIcon status="in-progress" />
                     In Progress
                   </span>
                 </TaskCardStatus>

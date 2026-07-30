@@ -4,22 +4,19 @@ import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { TaskStatusIcon } from "./task-status-icon";
 import { taskStatus, type TaskStatusId } from "./task-status.recipe";
 
-export type TaskChipVariant = "default" | "message";
+export type TaskChipVariant = "default" | "inline";
 
 const taskChip = tv({
   slots: {
     root: [
       "inline-flex max-w-full items-center gap-1.5 align-baseline overflow-hidden rounded-full border px-2 py-0 font-medium [font-size:inherit] leading-[1.4] tracking-normal whitespace-nowrap",
+      "[&>svg]:shrink-0 [&>svg]:size-3",
       "text-foreground-strong no-underline select-text",
       "transition-[filter,opacity] duration-100 hover:brightness-[0.96]",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
     ],
-    status: ["inline-flex shrink-0 items-center justify-center", "[&>svg]:size-3"],
-    label:
-      "inline-flex min-w-0 items-center gap-1 truncate font-medium [font-size:inherit] leading-[1.4] tracking-normal",
   },
   variants: {
     theme: {
@@ -28,100 +25,92 @@ const taskChip = tv({
     },
     status: {
       todo: {},
-      in_progress: {},
-      in_review: {},
+      "in-progress": {},
+      "in-review": {},
       done: {},
       closed: {},
     },
     variant: {
       default: {},
-      message: {},
+      inline: {},
     },
   },
   compoundVariants: [
     {
       theme: "brutal",
-      status: ["todo", "in_progress", "in_review", "done", "closed"],
+      status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: "gap-1 align-bottom rounded-none border-black px-1 py-0 text-[13px] font-medium leading-tight text-black hover:brightness-90",
-        status: "[&>svg]:size-3",
-        label: "text-[13px] font-medium leading-tight",
       },
     },
     {
       theme: "elegant",
       status: "todo",
       class: {
-        root: "border-line-subtle bg-ink-4 text-foreground-strong",
+        root: "border-[color-mix(in_oklch,var(--line-subtle)_75%,transparent)] bg-ink-4 text-foreground-strong",
       },
     },
     {
       theme: "elegant",
-      status: "in_progress",
+      status: "in-progress",
       class: {
-        root: "border-primary-500 bg-primary-500/10 text-primary-800",
+        root: "border-primary-500/75 bg-primary-500/10 text-primary-800",
       },
     },
     {
       theme: "elegant",
-      status: "in_review",
+      status: "in-review",
       class: {
-        root: "border-warning-base bg-warning-base/10 text-warning-dark",
+        root: "border-warning-base/75 bg-warning-base/10 text-warning-dark",
       },
     },
     {
       theme: "elegant",
       status: "done",
       class: {
-        root: "border-success-base bg-success-base/10 text-success-dark",
+        root: "border-success-base/75 bg-success-base/10 text-success-dark",
       },
     },
     {
       theme: "elegant",
       status: "closed",
       class: {
-        root: "border-line-subtle bg-ink-4 text-foreground-strong",
+        root: "border-[color-mix(in_oklch,var(--line-subtle)_75%,transparent)] bg-ink-4 text-foreground-strong",
       },
     },
     {
       theme: "elegant",
-      status: ["todo", "in_progress", "in_review", "done", "closed"],
+      status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
-        root: "h-[19px] align-middle -mt-px text-[13px] font-normal leading-none",
-        label: "text-[13px] font-normal leading-none",
+        root: ["h-[19px] align-middle -mt-px gap-1.5 text-[13px] font-normal leading-none"],
       },
     },
     {
-      variant: "message",
-      status: ["todo", "in_progress", "in_review", "done", "closed"],
+      theme: "elegant",
+      variant: "default",
+      status: ["todo", "in-progress", "in-review", "done", "closed"],
+      class: { root: "border-[0.5px]" },
+    },
+    {
+      variant: "inline",
+      status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
-          "h-[19px] align-middle -mt-px gap-1.5 rounded-full border-0 bg-layer-strong py-0 pr-2 pl-0.5",
-          "text-[12px] font-[450] leading-none text-foreground-muted hover:brightness-100",
+          "h-[19px] align-middle -mt-px gap-1.5 rounded-full border-0 bg-layer-muted py-0 pr-2 pl-1",
+          "text-[12px] font-[450] leading-none text-foreground-muted hover:brightness-100 [&>svg]:size-3",
         ],
-        status: "[&>svg]:size-3.5",
-        label: "text-[12px] font-[450] leading-none",
       },
     },
     {
-      variant: "message",
-      status: "todo",
-      class: { status: "text-foreground-muted" },
-    },
-    {
-      variant: "message",
-      status: "in_review",
-      class: { status: "text-warning-base" },
-    },
-    {
-      variant: "message",
-      status: "done",
-      class: { status: "text-success-base" },
-    },
-    {
-      variant: "message",
-      status: "closed",
-      class: { status: "text-foreground-muted" },
+      theme: "brutal",
+      variant: "inline",
+      status: ["todo", "in-progress", "in-review", "done", "closed"],
+      class: {
+        root: [
+          "gap-1 align-bottom rounded-none border border-black px-1 py-0",
+          "text-[13px] font-medium leading-tight text-black hover:brightness-90 [&>svg]:size-3",
+        ],
+      },
     },
   ],
   defaultVariants: {
@@ -145,26 +134,17 @@ export function TaskChip({
   ...props
 }: TaskChipProps) {
   const theme = useThemeFamily();
-  const { root, status: statusSlot, label } = taskChip({ theme, status, variant });
+  const { root } = taskChip({ theme, status, variant });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-chip",
     "data-inline-reference": "",
     "data-loading": loading ? "true" : undefined,
     className: cn(
       root({ className }),
-      theme === "brutal" && variant === "default" && taskStatus({ theme, status }),
+      theme === "brutal" && taskStatus({ theme, status }),
       loading && "pointer-events-none opacity-60",
     ),
-    children: (
-      <>
-        <span data-slot="task-chip-status" className={statusSlot()}>
-          <TaskStatusIcon status={status} />
-        </span>
-        <span data-slot="task-chip-label" className={label()}>
-          {children}
-        </span>
-      </>
-    ),
+    children,
   };
 
   return useRender({

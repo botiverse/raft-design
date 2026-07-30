@@ -1,4 +1,15 @@
-import { Avatar, AvatarFallback, AvatarImage, MarkdownParagraph, TaskChip } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MarkdownParagraph,
+  TaskChip,
+  TaskClosedIcon,
+  TaskDoneIcon,
+  TaskInProgressIcon,
+  TaskInReviewIcon,
+  TaskTodoIcon,
+} from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -31,38 +42,43 @@ export function TaskChipInMarkdownComposition() {
           <MarkdownParagraph>
             Pick up{" "}
             <TaskChip
-              variant="message"
+              variant="inline"
               status="todo"
               render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
             >
+              <TaskTodoIcon />
               #16
             </TaskChip>
             , continue{" "}
             <TaskChip
-              variant="message"
-              status="in_progress"
+              variant="inline"
+              status="in-progress"
               render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
             >
+              <TaskInProgressIcon />
               #205
             </TaskChip>
             , then close{" "}
             <TaskChip
-              variant="message"
+              variant="inline"
               status="done"
               render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
             >
+              <TaskDoneIcon />
               #47
             </TaskChip>{" "}
             and archive{" "}
             <TaskChip
-              variant="message"
+              variant="inline"
               status="closed"
               render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
             >
+              <TaskClosedIcon />
               #480
             </TaskChip>
             . Resolving{" "}
-            <TaskChip variant="message" status="in_review" loading title="Resolving task #340">
+            <TaskChip variant="inline" status="in-review" loading title="Resolving task #340">
+              <TaskInReviewIcon />
               #340
             </TaskChip>
             .

@@ -1,4 +1,4 @@
-import { Hash, Link2 } from "lucide-react";
+import { Hash, Link } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -6,7 +6,6 @@ import {
   Badge,
   MessageReferenceChip,
   MessageReferenceLabel,
-  MessageReferenceMeta,
 } from "raft-ui";
 import {
   MessageItem,
@@ -23,8 +22,8 @@ import {
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
-  MessageQuotedPreviewContext,
   MessageQuotedPreviewHeader,
+  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
 } from "raft-ui/wip";
@@ -57,9 +56,8 @@ export function QuotedPreviewArchivedChannelComposition() {
               />
             }
           >
-            <Link2 />
+            <Link />
             <MessageReferenceLabel>#legacy-migration</MessageReferenceLabel>
-            <MessageReferenceMeta>msg</MessageReferenceMeta>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>
@@ -72,6 +70,13 @@ export function QuotedPreviewArchivedChannelComposition() {
             }
           >
             <MessageQuotedPreviewHeader>
+              <MessageQuotedPreviewAuthor>
+                <Avatar size="xs" type="human">
+                  <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.kai} alt="" />
+                  <AvatarFallback>K</AvatarFallback>
+                </Avatar>
+                <MessageQuotedPreviewAuthorName>Kai</MessageQuotedPreviewAuthorName>
+              </MessageQuotedPreviewAuthor>
               <MessageQuotedPreviewChannel>
                 <Hash size={11} />
                 legacy-migration
@@ -81,21 +86,14 @@ export function QuotedPreviewArchivedChannelComposition() {
               </Badge>
               <MessageQuotedPreviewTimestamp>May 4 · 3:16 PM</MessageQuotedPreviewTimestamp>
             </MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewContent>
-              <MessageQuotedPreviewContext>
-                <MessageQuotedPreviewAuthor>
-                  <Avatar size="xs" type="human">
-                    <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.kai} alt="" />
-                    <AvatarFallback>K</AvatarFallback>
-                  </Avatar>
-                  <MessageQuotedPreviewAuthorName>Kai</MessageQuotedPreviewAuthorName>
-                </MessageQuotedPreviewAuthor>
-              </MessageQuotedPreviewContext>
-              <MessageQuotedPreviewText>
-                Keep this decision linked for historical context, but continue the work in the
-                active channel.
-              </MessageQuotedPreviewText>
-            </MessageQuotedPreviewContent>
+            <MessageQuotedPreviewInset>
+              <MessageQuotedPreviewContent>
+                <MessageQuotedPreviewText>
+                  Keep this decision linked for historical context, but continue the work in the
+                  active channel.
+                </MessageQuotedPreviewText>
+              </MessageQuotedPreviewContent>
+            </MessageQuotedPreviewInset>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>

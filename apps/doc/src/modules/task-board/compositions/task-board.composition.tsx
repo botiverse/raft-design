@@ -39,16 +39,16 @@ import { BOARD_DEMO_TASKS } from "#/modules/task-board/task-board.fixtures.ts";
 
 const DEFAULT_COLLAPSED: Record<TaskStatus, boolean> = {
   todo: false,
-  in_progress: false,
-  in_review: false,
+  "in-progress": false,
+  "in-review": false,
   done: false,
   closed: false,
 };
 
 const EXPANDED: Record<TaskStatus, boolean> = {
   todo: false,
-  in_progress: false,
-  in_review: false,
+  "in-progress": false,
+  "in-review": false,
   done: false,
   closed: false,
 };

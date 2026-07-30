@@ -315,7 +315,7 @@ const RAFT_UI_MIGRATION_FILE_SEEDS = [
     createdAt: "Mon, 2:14 PM",
     type: "file",
     previewUrl: csvPreview(
-      "status,count,notes\ntodo,12,seeded\nin_progress,9,seeded\ndone,14,seeded",
+      "status,count,notes\ntodo,12,seeded\nin-progress,9,seeded\ndone,14,seeded",
     ),
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.stateModel,
   },

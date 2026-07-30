@@ -72,8 +72,8 @@ export function TasksPanelComposition({
   const [localView, setLocalView] = useState<TaskView>(initialView);
   const [collapsed, setCollapsed] = useState<Record<TaskStatus, boolean>>({
     todo: false,
-    in_progress: false,
-    in_review: false,
+    "in-progress": false,
+    "in-review": false,
     done: true,
     closed: true,
   });

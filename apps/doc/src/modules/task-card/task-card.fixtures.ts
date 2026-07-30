@@ -1,4 +1,4 @@
-export type TaskStatus = "todo" | "in_progress" | "in_review" | "done" | "closed";
+export type TaskStatus = "todo" | "in-progress" | "in-review" | "done" | "closed";
 
 export type TaskFixture = {
   id: string;
@@ -16,16 +16,16 @@ export type TaskFixture = {
 
 export const TASK_STATUSES = [
   { id: "todo", label: "Todo" },
-  { id: "in_progress", label: "In Progress" },
-  { id: "in_review", label: "In Review" },
+  { id: "in-progress", label: "In Progress" },
+  { id: "in-review", label: "In Review" },
   { id: "done", label: "Done" },
   { id: "closed", label: "Closed" },
 ] as const satisfies readonly { id: TaskStatus; label: string }[];
 
 export const TASK_STATUS_BACKGROUNDS: Record<TaskStatus, string> = {
   todo: "bg-brutal-orange",
-  in_progress: "bg-brutal-cyan",
-  in_review: "bg-brutal-lavender",
+  "in-progress": "bg-brutal-cyan",
+  "in-review": "bg-brutal-lavender",
   done: "bg-brutal-lime",
   closed: "bg-brutal-stone",
 };
@@ -59,7 +59,7 @@ export const TASK_FIXTURES: readonly TaskFixture[] = [
     channelName: "proj-task",
     title: "Connect keyboard drag feedback",
     description: "Announce allowed and blocked status targets.",
-    status: "in_progress",
+    status: "in-progress",
     creatorId: "me",
     assigneeId: "me",
   },
@@ -68,7 +68,7 @@ export const TASK_FIXTURES: readonly TaskFixture[] = [
     taskNumber: 126,
     channelName: "proj-task",
     title: "Retire the legacy task inspector",
-    status: "in_progress",
+    status: "in-progress",
     isLegacy: true,
     creatorId: "atlas",
     assigneeId: "unassigned",
@@ -79,7 +79,7 @@ export const TASK_FIXTURES: readonly TaskFixture[] = [
     channelName: "proj-uiux",
     title: "Review task filter empty states",
     description: "Compare empty, filtered empty, loading, and failure structures.",
-    status: "in_review",
+    status: "in-review",
     creatorId: "atlas",
     assigneeId: "me",
   },
@@ -88,7 +88,7 @@ export const TASK_FIXTURES: readonly TaskFixture[] = [
     taskNumber: 118,
     channelName: "proj-uiux",
     title: "Document the consumer-owned workflow boundary",
-    status: "in_review",
+    status: "in-review",
     creatorId: "me",
     assigneeId: "atlas",
   },

@@ -7,8 +7,8 @@ type TaskStatusIconComponent = (props: TaskStatusSvgProps) => ReactNode;
 
 const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
   todo: "var(--foreground-placeholder)",
-  in_progress: "oklch(0.8 0.19 88.97)",
-  in_review: "oklch(0.72 0.16 58)",
+  "in-progress": "oklch(0.8 0.19 88.97)",
+  "in-review": "oklch(0.72 0.16 58)",
   done: "var(--state-success-base)",
   closed: "oklch(0.573 0 0)",
 };
@@ -128,19 +128,13 @@ function ClosedIcon(props: TaskStatusSvgProps) {
 
 const TASK_STATUS_ICONS: Record<TaskStatusId, TaskStatusIconComponent> = {
   todo: TodoIcon,
-  in_progress: InProgressIcon,
-  in_review: InReviewIcon,
+  "in-progress": InProgressIcon,
+  "in-review": InReviewIcon,
   done: DoneIcon,
   closed: ClosedIcon,
 };
 
-export function TaskStatusIcon({
-  status,
-  className,
-}: {
-  status: TaskStatusId;
-  className?: string;
-}) {
+function TaskStatusIconRoot({ status, className }: { status: TaskStatusId; className?: string }) {
   const theme = useThemeFamily();
   const Icon = TASK_STATUS_ICONS[status];
   return (
@@ -151,4 +145,34 @@ export function TaskStatusIcon({
       color={theme === "brutal" ? "currentColor" : TASK_STATUS_ICON_COLORS[status]}
     />
   );
+}
+
+export function TaskTodoIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="todo" {...props} />;
+}
+
+export function TaskInProgressIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="in-progress" {...props} />;
+}
+
+export function TaskInReviewIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="in-review" {...props} />;
+}
+
+export function TaskDoneIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="done" {...props} />;
+}
+
+export function TaskClosedIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="closed" {...props} />;
+}
+
+export function TaskStatusIcon({
+  status,
+  className,
+}: {
+  status: TaskStatusId;
+  className?: string;
+}) {
+  return <TaskStatusIconRoot status={status} className={className} />;
 }

@@ -203,7 +203,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           senderId: "developer",
           createdAt: "10:46 AM",
           content:
-            "Already on `oklch(0.72 0.16 58)` for elegant in_review. Brutal inherits the icon now.",
+            "Already on `oklch(0.72 0.16 58)` for elegant in-review. Brutal inherits the icon now.",
           reactions: [{ emoji: "🙌", count: 1, reactorIds: ["cindy"] }],
         },
         {
@@ -228,7 +228,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           senderId: "samira",
           createdAt: "11:06 AM",
           content:
-            "Filter smoke: assignee = @Ada, status = in_progress. Expect a short list after the seed lands.",
+            "Filter smoke: assignee = @Ada, status = in-progress. Expect a short list after the seed lands.",
         },
         {
           senderId: "ada",

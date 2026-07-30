@@ -4,7 +4,6 @@ import {
   AvatarImage,
   MessageReferenceChip,
   MessageReferenceLabel,
-  MessageReferenceMeta,
   MessageReferenceUnavailable,
   Skeleton,
   useThemeFamily,
@@ -24,7 +23,7 @@ import {
   MessageQuotedPreviewLoading,
   MessageQuotedPreviewUnavailable,
 } from "raft-ui/wip";
-import { Link2 } from "lucide-react";
+import { CircleOff, Link } from "lucide-react";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 import { QuotedPreviewDirectMessageComposition } from "./quoted-preview-direct-message.composition.tsx";
@@ -37,20 +36,18 @@ function QuotedPreviewLoadingSkeleton() {
   if (theme === "brutal") {
     return (
       <>
-        <Skeleton
-          variant="block"
-          className="h-[34px] border-b-2 border-black bg-white/60 animate-none"
-        />
-        <div className="flex gap-3 px-3 py-2.5">
+        <div className="flex items-center gap-2 border-b border-black/15 px-2.5 py-2 sm:px-3 sm:py-2.5">
           <Skeleton
             variant="block"
-            className="size-7 shrink-0 border-2 border-black bg-black/5 animate-none"
+            className="size-4 shrink-0 border border-black/15 bg-black/5 animate-none"
           />
-          <div className="flex-1 space-y-2">
-            <Skeleton variant="line" className="w-32 animate-none" />
-            <Skeleton variant="line" className="w-full animate-none" />
-            <Skeleton variant="line" className="w-3/4 animate-none" />
-          </div>
+          <Skeleton variant="line" className="h-2.5 w-16 animate-none" />
+          <Skeleton variant="line" className="h-2.5 w-24 animate-none" />
+          <Skeleton variant="line" className="ml-auto h-2.5 w-20 animate-none" />
+        </div>
+        <div className="space-y-2 px-2.5 py-2.5 sm:px-3 sm:py-3">
+          <Skeleton variant="line" className="h-2.5 w-full animate-none" />
+          <Skeleton variant="line" className="h-2.5 w-3/4 animate-none" />
         </div>
       </>
     );
@@ -58,11 +55,14 @@ function QuotedPreviewLoadingSkeleton() {
 
   return (
     <>
-      <Skeleton variant="line" className="w-2/5 bg-layer-strong animate-none" />
-      <div className="mt-3 flex gap-2">
-        <Skeleton variant="circle" className="size-6 bg-layer-strong animate-none" />
-        <div className="flex-1 space-y-1.5">
-          <Skeleton variant="line" className="h-2.5 w-32 bg-layer-strong animate-none" />
+      <div className="flex items-center gap-2 px-3 py-1.5 sm:px-3.5">
+        <Skeleton variant="circle" className="size-4 bg-layer-strong animate-none" />
+        <Skeleton variant="line" className="h-2.5 w-16 bg-layer-strong animate-none" />
+        <Skeleton variant="line" className="h-2.5 w-24 bg-layer-strong animate-none" />
+        <Skeleton variant="line" className="ml-auto h-2.5 w-20 bg-layer-strong animate-none" />
+      </div>
+      <div className="overflow-clip rounded-[5.5px] border-[0.5px] border-line-subtle bg-[oklch(1_0_0)]">
+        <div className="space-y-1.5 px-3 py-3 sm:px-3.5 sm:py-3.5">
           <Skeleton variant="line" className="h-2.5 w-full bg-layer-strong animate-none" />
           <Skeleton variant="line" className="h-2.5 w-3/4 bg-layer-strong animate-none" />
         </div>
@@ -96,9 +96,8 @@ export function QuotedPreviewLoadingComposition() {
               />
             }
           >
-            <Link2 />
+            <Link />
             <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>
-            <MessageReferenceMeta>msg</MessageReferenceMeta>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>
@@ -127,11 +126,16 @@ export function QuotedPreviewUnavailableComposition() {
           <MessageItemTime>2:27 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          <MessageReferenceUnavailable>Quoted message unavailable</MessageReferenceUnavailable>
+          <MessageReferenceUnavailable>
+            <CircleOff size={12} />
+            Message unavailable
+          </MessageReferenceUnavailable>
         </MessageItemBody>
         <MessageItemEmbedded>
           <MessageQuotedPreviewUnavailable data-testid="quoted-message-card-unavailable">
-            <MessageQuotedPreviewContent>Message unavailable</MessageQuotedPreviewContent>
+            <MessageQuotedPreviewContent>
+              <MessageReferenceUnavailable>Message unavailable</MessageReferenceUnavailable>
+            </MessageQuotedPreviewContent>
           </MessageQuotedPreviewUnavailable>
         </MessageItemEmbedded>
       </MessageItemContent>

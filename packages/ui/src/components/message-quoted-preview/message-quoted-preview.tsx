@@ -29,6 +29,18 @@ export function MessageQuotedPreviewContent({ className, render, ...props }: Div
   });
 }
 
+export function MessageQuotedPreviewInset({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { inset } = messageQuotedPreview({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: inset({ className }) }, props),
+    state: { slot: "message-quoted-preview-inset" },
+  });
+}
+
 export function MessageQuotedPreviewHeader({ className, render, ...props }: DivProps) {
   const theme = useThemeFamily();
   const { header } = messageQuotedPreview({ theme });
@@ -38,18 +50,6 @@ export function MessageQuotedPreviewHeader({ className, render, ...props }: DivP
     render,
     props: mergeProps<"div">({ className: header({ className }) }, props),
     state: { slot: "message-quoted-preview-header" },
-  });
-}
-
-export function MessageQuotedPreviewContext({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { context } = messageQuotedPreview({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: context({ className }) }, props),
-    state: { slot: "message-quoted-preview-context" },
   });
 }
 
@@ -186,8 +186,8 @@ export function MessageQuotedPreviewUnavailable({ className, render, ...props }:
 
 export type MessageQuotedPreviewProps = DivProps;
 export type MessageQuotedPreviewContentProps = DivProps;
+export type MessageQuotedPreviewInsetProps = DivProps;
 export type MessageQuotedPreviewHeaderProps = DivProps;
-export type MessageQuotedPreviewContextProps = DivProps;
 export type MessageQuotedPreviewChannelProps = SpanProps;
 export type MessageQuotedPreviewThreadProps = SpanProps;
 export type MessageQuotedPreviewAuthorProps = SpanProps;

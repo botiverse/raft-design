@@ -1,11 +1,10 @@
-import { Hash, Link2, MessageSquare } from "lucide-react";
+import { Hash, Link, MessageSquare } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   MessageReferenceChip,
   MessageReferenceLabel,
-  MessageReferenceMeta,
 } from "raft-ui";
 import {
   MessageItem,
@@ -25,8 +24,8 @@ import {
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
-  MessageQuotedPreviewContext,
   MessageQuotedPreviewHeader,
+  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewThread,
   MessageQuotedPreviewTimestamp,
@@ -48,6 +47,14 @@ export function QuotedPreviewEmbeddedComposition() {
         data-testid="quoted-message-card"
       >
         <MessageQuotedPreviewHeader>
+          <MessageQuotedPreviewAuthor>
+            <Avatar size="xs" type="human">
+              <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.developer} alt="" />
+              <AvatarFallback>D</AvatarFallback>
+            </Avatar>
+            <MessageQuotedPreviewAuthorName>Developer</MessageQuotedPreviewAuthorName>
+            <MessageQuotedPreviewAuthorMeta>member</MessageQuotedPreviewAuthorMeta>
+          </MessageQuotedPreviewAuthor>
           <MessageQuotedPreviewChannel>
             <Hash size={11} />
             raft-ui-migration
@@ -58,25 +65,17 @@ export function QuotedPreviewEmbeddedComposition() {
           </MessageQuotedPreviewThread>
           <MessageQuotedPreviewTimestamp>Today · 8:17 AM</MessageQuotedPreviewTimestamp>
         </MessageQuotedPreviewHeader>
-        <MessageQuotedPreviewContent>
-          <MessageQuotedPreviewContext>
-            <MessageQuotedPreviewAuthor>
-              <Avatar size="xs" type="human">
-                <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.developer} alt="" />
-                <AvatarFallback>D</AvatarFallback>
-              </Avatar>
-              <MessageQuotedPreviewAuthorName>Developer</MessageQuotedPreviewAuthorName>
-              <MessageQuotedPreviewAuthorMeta>member</MessageQuotedPreviewAuthorMeta>
-            </MessageQuotedPreviewAuthor>
-          </MessageQuotedPreviewContext>
-          <MessageQuotedPreviewText>
-            Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for our
-            store structure.
-          </MessageQuotedPreviewText>
-          <MessageQuotedPreviewAttachments>
-            <MessageQuotedPreviewAttachment>1 file</MessageQuotedPreviewAttachment>
-          </MessageQuotedPreviewAttachments>
-        </MessageQuotedPreviewContent>
+        <MessageQuotedPreviewInset>
+          <MessageQuotedPreviewContent>
+            <MessageQuotedPreviewText>
+              Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for
+              our store structure.
+            </MessageQuotedPreviewText>
+            <MessageQuotedPreviewAttachments>
+              <MessageQuotedPreviewAttachment>1 file</MessageQuotedPreviewAttachment>
+            </MessageQuotedPreviewAttachments>
+          </MessageQuotedPreviewContent>
+        </MessageQuotedPreviewInset>
       </MessageQuotedPreview>
     </MessageItemEmbedded>
   );
@@ -107,9 +106,8 @@ export function QuotedPreviewMessageComposition() {
               />
             }
           >
-            <Link2 />
+            <Link />
             <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>
-            <MessageReferenceMeta>msg</MessageReferenceMeta>
           </MessageReferenceChip>
         </MessageItemBody>
         <QuotedPreviewEmbeddedComposition />

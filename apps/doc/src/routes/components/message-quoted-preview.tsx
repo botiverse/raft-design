@@ -55,23 +55,23 @@ const SOURCE_SCENES = [
 
 const ANATOMY_SOURCE = `<MessageQuotedPreview>
   <MessageQuotedPreviewHeader>
+    <MessageQuotedPreviewAuthor>
+      <Avatar />
+      <MessageQuotedPreviewAuthorName />
+      <MessageQuotedPreviewAuthorMeta />
+    </MessageQuotedPreviewAuthor>
     <MessageQuotedPreviewChannel />
     <MessageQuotedPreviewThread />
     <MessageQuotedPreviewTimestamp />
   </MessageQuotedPreviewHeader>
-  <MessageQuotedPreviewContent>
-    <MessageQuotedPreviewContext>
-      <MessageQuotedPreviewAuthor>
-        <Avatar />
-        <MessageQuotedPreviewAuthorName />
-        <MessageQuotedPreviewAuthorMeta />
-      </MessageQuotedPreviewAuthor>
-    </MessageQuotedPreviewContext>
-    <MessageQuotedPreviewText />
-    <MessageQuotedPreviewAttachments>
-      <MessageQuotedPreviewAttachment />
-    </MessageQuotedPreviewAttachments>
-  </MessageQuotedPreviewContent>
+  <MessageQuotedPreviewInset>
+    <MessageQuotedPreviewContent>
+      <MessageQuotedPreviewText />
+      <MessageQuotedPreviewAttachments>
+        <MessageQuotedPreviewAttachment />
+      </MessageQuotedPreviewAttachments>
+    </MessageQuotedPreviewContent>
+  </MessageQuotedPreviewInset>
 </MessageQuotedPreview>
 
 <MessageQuotedPreviewLoading>
@@ -90,17 +90,18 @@ const PROPS: readonly PropRow[] = [
   {
     name: "MessageQuotedPreviewContent",
     type: 'useRender.ComponentProps<"div">',
-    description: "Quoted excerpt region for author context, text, and optional attachment chips.",
+    description: "Quoted excerpt region for text and optional attachment chips.",
+  },
+  {
+    name: "MessageQuotedPreviewInset",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Optional inner surface that groups the quoted content.",
   },
   {
     name: "MessageQuotedPreviewHeader",
     type: 'useRender.ComponentProps<"div">',
-    description: "Header row with channel and optional thread at left, plus a trailing timestamp.",
-  },
-  {
-    name: "MessageQuotedPreviewContext",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Leading content row for author metadata and caller-owned separators.",
+    description:
+      "Header row for author identity, channel, optional thread, and trailing timestamp.",
   },
   {
     name: "MessageQuotedPreviewChannel",
@@ -115,7 +116,7 @@ const PROPS: readonly PropRow[] = [
   {
     name: "MessageQuotedPreviewAuthor",
     type: 'useRender.ComponentProps<"span">',
-    description: "Inline author identity region, usually composed with Avatar and author fields.",
+    description: "Inline header identity region, usually composed with Avatar and author fields.",
   },
   {
     name: "MessageQuotedPreviewAuthorName",

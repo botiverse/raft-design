@@ -1,5 +1,5 @@
 import type { Components } from "react-markdown";
-import { MarkdownLink, MessageReferenceChip, TaskChip } from "raft-ui";
+import { MarkdownLink, MessageReferenceChip, TaskChip, TaskStatusIcon } from "raft-ui";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
 import {
   MessageMentionReferenceComposition,
@@ -63,7 +63,8 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
         if (!task) return <>{children}</>;
 
         return (
-          <TaskChip variant="message" status={task.status} render={<a href={task.href} />}>
+          <TaskChip variant="inline" status={task.status} render={<a href={task.href} />}>
+            <TaskStatusIcon status={task.status} />
             {`#${task.number}`}
           </TaskChip>
         );

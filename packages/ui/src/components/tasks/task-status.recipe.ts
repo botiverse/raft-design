@@ -1,6 +1,6 @@
 import { tv } from "../../lib/tv";
 
-export type TaskStatusId = "todo" | "in_progress" | "in_review" | "done" | "closed";
+export type TaskStatusId = "todo" | "in-progress" | "in-review" | "done" | "closed";
 
 export const taskStatus = tv({
   variants: {
@@ -10,16 +10,16 @@ export const taskStatus = tv({
     },
     status: {
       todo: "",
-      in_progress: "",
-      in_review: "",
+      "in-progress": "",
+      "in-review": "",
       done: "",
       closed: "",
     },
   },
   compoundVariants: [
     { theme: "brutal", status: "todo", class: "bg-brutal-orange" },
-    { theme: "brutal", status: "in_progress", class: "bg-brutal-cyan" },
-    { theme: "brutal", status: "in_review", class: "bg-brutal-lavender" },
+    { theme: "brutal", status: "in-progress", class: "bg-brutal-cyan" },
+    { theme: "brutal", status: "in-review", class: "bg-brutal-lavender" },
     { theme: "brutal", status: "done", class: "bg-brutal-lime" },
     { theme: "brutal", status: "closed", class: "bg-brutal-stone" },
     {
@@ -29,12 +29,12 @@ export const taskStatus = tv({
     },
     {
       theme: "elegant",
-      status: "in_progress",
+      status: "in-progress",
       class: "bg-primary-400 text-primary-950",
     },
     {
       theme: "elegant",
-      status: "in_review",
+      status: "in-review",
       class: "bg-warning-base text-foreground-inverse",
     },
     {

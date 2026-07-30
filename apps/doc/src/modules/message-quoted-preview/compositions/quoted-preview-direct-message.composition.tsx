@@ -1,11 +1,10 @@
-import { Link2 } from "lucide-react";
+import { Link } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
   MessageReferenceChip,
   MessageReferenceLabel,
-  MessageReferenceMeta,
 } from "raft-ui";
 import {
   MessageItem,
@@ -22,8 +21,8 @@ import {
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
-  MessageQuotedPreviewContext,
   MessageQuotedPreviewHeader,
+  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
 } from "raft-ui/wip";
@@ -53,9 +52,8 @@ export function QuotedPreviewDirectMessageComposition() {
               <a href={MESSAGE_PLAYGROUND_URLS.noahDm} aria-label="Open Atlas direct message" />
             }
           >
-            <Link2 />
+            <Link />
             <MessageReferenceLabel>@Atlas</MessageReferenceLabel>
-            <MessageReferenceMeta>msg</MessageReferenceMeta>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>
@@ -68,23 +66,23 @@ export function QuotedPreviewDirectMessageComposition() {
             }
           >
             <MessageQuotedPreviewHeader>
+              <MessageQuotedPreviewAuthor>
+                <Avatar size="xs" type="agent">
+                  <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.atlas} alt="" />
+                  <AvatarFallback>AT</AvatarFallback>
+                </Avatar>
+                <MessageQuotedPreviewAuthorName>Atlas</MessageQuotedPreviewAuthorName>
+              </MessageQuotedPreviewAuthor>
               <MessageQuotedPreviewChannel>@Atlas</MessageQuotedPreviewChannel>
               <MessageQuotedPreviewTimestamp>Today · 8:24 AM</MessageQuotedPreviewTimestamp>
             </MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewContent>
-              <MessageQuotedPreviewContext>
-                <MessageQuotedPreviewAuthor>
-                  <Avatar size="xs" type="agent">
-                    <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.atlas} alt="" />
-                    <AvatarFallback>AT</AvatarFallback>
-                  </Avatar>
-                  <MessageQuotedPreviewAuthorName>Atlas</MessageQuotedPreviewAuthorName>
-                </MessageQuotedPreviewAuthor>
-              </MessageQuotedPreviewContext>
-              <MessageQuotedPreviewText>
-                I&apos;ll take the deployment handoff and post a summary when it completes.
-              </MessageQuotedPreviewText>
-            </MessageQuotedPreviewContent>
+            <MessageQuotedPreviewInset>
+              <MessageQuotedPreviewContent>
+                <MessageQuotedPreviewText>
+                  I&apos;ll take the deployment handoff and post a summary when it completes.
+                </MessageQuotedPreviewText>
+              </MessageQuotedPreviewContent>
+            </MessageQuotedPreviewInset>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>
