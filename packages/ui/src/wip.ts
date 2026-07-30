@@ -278,6 +278,7 @@ export {
   MessageItemTranslationOriginal,
   MessageItemTranslationOriginalLabel,
   MessageItemTranslationPendingStatus,
+  MessageItemTranslationProgressTrack,
   MessageItemTranslationRetryAction,
   MessageItemTranslationStatus,
 } from "./components/message-translation/index";
@@ -287,6 +288,7 @@ export type {
   MessageItemTranslationOriginalLabelProps,
   MessageItemTranslationOriginalProps,
   MessageItemTranslationPendingStatusProps,
+  MessageItemTranslationProgressTrackProps,
   MessageItemTranslationRetryActionProps,
   MessageItemTranslationStatusProps,
 } from "./components/message-translation/index";

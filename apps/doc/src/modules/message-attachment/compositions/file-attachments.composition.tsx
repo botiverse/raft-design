@@ -29,14 +29,17 @@ function MessageHtmlPreviewAttachmentComposition() {
       <MessageAttachmentMeta>
         <MessageAttachmentMetaStart>44 KB</MessageAttachmentMetaStart>
         <MessageAttachmentMetaEnd>
-          <MessageAttachmentAction
-            aria-label="Preview screening.html"
-            title="Preview screening.html"
-            onClick={opening ? undefined : () => setOpening(true)}
-            render={opening ? <span aria-hidden /> : undefined}
-          >
-            {opening ? <Spinner size="xs" /> : <Eye aria-hidden />}
-          </MessageAttachmentAction>
+          {opening ? (
+            <Spinner size="xs" />
+          ) : (
+            <MessageAttachmentAction
+              aria-label="Preview screening.html"
+              title="Preview screening.html"
+              onClick={() => setOpening(true)}
+            >
+              <Eye aria-hidden />
+            </MessageAttachmentAction>
+          )}
         </MessageAttachmentMetaEnd>
       </MessageAttachmentMeta>
     </MessageAttachmentCard>
