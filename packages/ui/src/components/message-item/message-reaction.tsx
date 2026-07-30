@@ -1,38 +1,26 @@
 import { mergeProps } from "@base-ui/react/merge-props";
+import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { useRender } from "@base-ui/react/use-render";
+import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
 import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
 import { messageReaction } from "./message-reaction.recipe";
-import { dataPresence, type SlotElementProps } from "../../lib/data-attributes";
 
-export type MessageReactionChipProps = useRender.ComponentProps<"button"> & {
-  selected?: boolean;
-};
+export type MessageReactionChipProps = Omit<StyledProps<BaseToggle.Props>, "type">;
 
-export function MessageReactionChip({
-  className,
-  render,
-  selected,
-  ...props
-}: MessageReactionChipProps) {
+export function MessageReactionChip({ className, ...props }: MessageReactionChipProps) {
   const theme = useThemeFamily();
   const { chip } = messageReaction({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    "aria-pressed": selected,
-    "data-selected": dataPresence(selected),
-    className: chip({ className }),
-  };
 
-  return useRender({
-    defaultTagName: "button",
-    render,
-    props: mergeProps<"button">(defaultProps, props),
-    state: {
-      slot: "message-reaction-chip",
-    },
-  });
+  return (
+    <BaseToggle
+      {...props}
+      type="button"
+      data-slot="message-reaction-chip"
+      className={chip({ className })}
+    />
+  );
 }
 
 export type MessageReactionErrorIndicatorProps = useRender.ComponentProps<"span">;

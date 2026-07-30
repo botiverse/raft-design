@@ -28,8 +28,6 @@ import {
   Progress,
   ProgressIndicator,
   ProgressTrack,
-} from "raft-ui";
-import {
   MessageItem,
   MessageItemAttachments,
   MessageItemBadge,
@@ -42,10 +40,13 @@ import {
   MessageItemMeta,
   MessageReactionChip,
   MessageItemSavedIndicator,
-  MessageItemSearchMatch,
-  MessageItemSelection,
   MessageItemSender,
   MessageItemSenderButton,
+  MessageItemTime,
+  MessageMultiSelectCheckbox,
+  MessageReactionCount,
+} from "raft-ui";
+import {
   MessageAttachmentAction,
   MessageAttachmentCommentSummary,
   MessageAttachmentCard,
@@ -54,7 +55,6 @@ import {
   MessageAttachmentMetaStart,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
-  MessageItemTime,
   MessageItemTranslationAction,
   MessageItemTranslationFailedStatus,
   MessageItemTranslationOriginal,
@@ -62,8 +62,6 @@ import {
   MessageItemTranslationPendingStatus,
   MessageItemTranslationRetryAction,
   MessageItemTranslationStatus,
-  MessageMultiSelectCheckbox,
-  MessageReactionCount,
 } from "raft-ui/wip";
 
 import { MessageContextMenuComposition } from "#/modules/message-item/compositions/context-menu.composition.tsx";
@@ -251,7 +249,7 @@ function PlaygroundSentMessageAttachments({
 
 export type PlaygroundMessageRowProps = {
   message: PlaygroundMessage;
-  searchMatch?: boolean;
+  searchQuery?: string;
   attachments?: ReactNode;
   footer?: ReactNode;
   focusTarget?: boolean;
@@ -337,7 +335,7 @@ function PlaygroundInlineReplies({
 
 export function PlaygroundMessageRow({
   message,
-  searchMatch = false,
+  searchQuery,
   footer,
   focusTarget = false,
   attachments,
@@ -419,7 +417,9 @@ export function PlaygroundMessageRow({
     translation?.translatedContent && workflow.translation === "translated"
       ? translation.translatedContent
       : body;
-  const renderedBody = <PlaygroundMessageBody channelId={channelId} content={visibleBody} />;
+  const renderedBody = (
+    <PlaygroundMessageBody channelId={channelId} content={visibleBody} searchQuery={searchQuery} />
+  );
   const composedBody = presentation === "action-card" ? <ActionCardComposition /> : renderedBody;
   const embeddedPresentation =
     presentation === "forwarded-bundle" ? (
@@ -427,14 +427,6 @@ export function PlaygroundMessageRow({
     ) : presentation === "quoted-preview" ? (
       <QuotedPreviewEmbeddedComposition />
     ) : null;
-
-  const effectiveRowState = selectionMode ? "select" : searchMatch ? "search-match" : undefined;
-  const ItemRoot =
-    effectiveRowState === "search-match"
-      ? MessageItemSearchMatch
-      : effectiveRowState === "select"
-        ? MessageItemSelection
-        : MessageItem;
 
   const openThread =
     surface === "conversation" && threadId && threadContext
@@ -456,7 +448,7 @@ export function PlaygroundMessageRow({
         }
       : undefined;
   const messageItem = (
-    <ItemRoot
+    <MessageItem
       id={messageAnchor}
       compact={compact}
       className={className}
@@ -605,8 +597,8 @@ export function PlaygroundMessageRow({
                 <MessageReactionChip
                   key={reaction.emoji}
                   aria-label={`${reaction.emoji} ${reaction.count}`}
-                  selected={reacted}
-                  onClick={() => toggleReaction(reaction.emoji)}
+                  pressed={reacted}
+                  onPressedChange={() => toggleReaction(reaction.emoji)}
                 >
                   <MessageReactionGlyphComposition emoji={reaction.emoji} />
                   <MessageReactionCount>{reaction.count}</MessageReactionCount>
@@ -638,7 +630,7 @@ export function PlaygroundMessageRow({
         onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
       />
       <div ref={setReactionPortalContainer} className="contents" />
-    </ItemRoot>
+    </MessageItem>
   );
 
   // Select mode disables the right-click menu (source parity), so the row skips

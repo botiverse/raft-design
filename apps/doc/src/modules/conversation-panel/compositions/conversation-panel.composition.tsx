@@ -31,9 +31,6 @@ import {
   ComposerRoot,
   ComposerSubmit,
   ComposerToolbarLabel,
-} from "raft-ui";
-import {
-  MessageList,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBadge,
@@ -48,9 +45,8 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
-  MessageListDateDivider,
-  MessageListNotice,
-} from "raft-ui/wip";
+} from "raft-ui";
+import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui/wip";
 import {
   Composer,
   ComposerInput,

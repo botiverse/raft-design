@@ -56,6 +56,7 @@ export function MessageMultiSelectCheckbox({
 
   return (
     <Checkbox
+      data-slot="message-multi-select-checkbox"
       className={checkbox({ className })}
       shape="circle"
       size="lg"

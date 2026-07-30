@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC, MESSAGE_PLAYGROUND_URLS } from "../message-item.fixtures.ts";
 import { Bookmark, MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  ContextMenu,
+  ContextMenuTrigger,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBadge,
@@ -15,7 +19,7 @@ import {
   MessageItemSavedIndicator,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import {
   MessageContextMenuComposition,

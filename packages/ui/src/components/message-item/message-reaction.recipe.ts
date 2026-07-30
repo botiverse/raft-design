@@ -35,7 +35,7 @@ export const messageReaction = tv({
           "h-5 gap-1 rounded px-1.5 text-xs font-bold leading-none",
           "bg-black/[0.03] text-black",
           "hover:bg-black/[0.08]",
-          "data-[selected]:bg-brutal-pink/20 data-[selected]:hover:bg-brutal-pink/30",
+          "data-[pressed]:bg-brutal-pink/20 data-[pressed]:hover:bg-brutal-pink/30",
           "has-[[data-slot=message-reaction-error-indicator]]:bg-brutal-orange/30 has-[[data-slot=message-reaction-error-indicator]]:hover:bg-brutal-orange/30",
         ],
         addButton: [
@@ -63,7 +63,7 @@ export const messageReaction = tv({
           "h-5 rounded-full gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
           "bg-layer-strong text-foreground-muted",
           "hover:bg-ink-10",
-          "data-[selected]:bg-accent-200/50 data-[selected]:text-accent-700 data-[selected]:hover:bg-accent-200/70",
+          "data-[pressed]:bg-accent-200/50 data-[pressed]:text-accent-700 data-[pressed]:hover:bg-accent-200/70",
           "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-lighter has-[[data-slot=message-reaction-error-indicator]]:text-danger-base",
         ],
         addButton: [

@@ -19,8 +19,9 @@ import {
   ThreadPanelSearchTrailing,
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
+  MessageMultiSelect,
 } from "raft-ui";
-import { MessageList, MessageListNotice, MessageMultiSelect, PanelAction } from "raft-ui/wip";
+import { MessageList, MessageListNotice, PanelAction } from "raft-ui/wip";
 import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
@@ -213,7 +214,7 @@ export function PlaygroundThreadPanel({
                   />
                 ) : undefined
               }
-              searchMatch={activeMatch?.id === thread.parent.id}
+              searchQuery={activeMatch?.id === thread.parent.id ? normalizedQuery : undefined}
               focusTarget={focusTargetId === `thread-message-${thread.parent.id}`}
               surface="thread"
               threadId={thread.parent.id}
@@ -237,7 +238,7 @@ export function PlaygroundThreadPanel({
                   message={message}
                   compact={compact}
                   focusTarget={focusTargetId === `thread-message-${message.id}`}
-                  searchMatch={activeMatch?.id === message.id}
+                  searchQuery={activeMatch?.id === message.id ? normalizedQuery : undefined}
                   surface="thread"
                   threadId={thread.parent.id}
                   selectionMode={selection.active}

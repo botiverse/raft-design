@@ -15,13 +15,9 @@ import {
   Tabs,
   TabsIndicator,
   TabsLabel,
-} from "raft-ui";
-import {
-  MessageList,
-  MessageListDateDivider,
-  MessageListNotice,
   MessageMultiSelect,
-} from "raft-ui/wip";
+} from "raft-ui";
+import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui/wip";
 
 import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { MessageTextSelectionComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";

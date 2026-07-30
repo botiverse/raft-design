@@ -1,6 +1,8 @@
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -10,7 +12,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export function MessageConvertingComposition() {
   return (

@@ -14,6 +14,7 @@ export const messageItem = tv({
     time: ["shrink-0 whitespace-nowrap"],
     inlineStatus: ["shrink-0"],
     body: ["break-words select-text", "[&_*]:select-text"],
+    searchMatch: ["bg-soft-signal/70 text-inherit [font:inherit]"],
     embedded: ["mt-1.5 min-w-0"],
     notice: ["mt-1 inline-flex max-w-full"],
     attachments: ["mt-1 space-y-2"],
@@ -34,6 +35,10 @@ export const messageItem = tv({
           "hover:border-line-strong hover:bg-layer-panel",
           "data-[popup-open]:border-line-strong data-[popup-open]:bg-layer-panel",
           "has-[[data-popup-open]]:border-line-strong has-[[data-popup-open]]:bg-layer-panel",
+          "has-[[data-slot=message-item-search-match]]:border-line-strong",
+          "has-[[data-slot=message-item-search-match]]:bg-brutal-cyan/25",
+          "has-[[data-slot=message-item-search-match]]:shadow-md",
+          "has-[[data-slot=message-item-search-match]]:hover:bg-brutal-cyan/25",
         ],
         continuationTime:
           "font-mono text-[10px] leading-none text-black/0 group-hover/message:text-black/40 group-has-[[data-popup-open]]/message:text-black/40",
@@ -68,6 +73,13 @@ export const messageItem = tv({
           "border border-transparent max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-ink-2 data-[popup-open]:bg-ink-2 has-[[data-popup-open]]:bg-ink-2",
+          "has-[[data-slot=message-item-search-match]]:border-transparent",
+          "has-[[data-slot=message-item-search-match]]:bg-info-base/10",
+          "has-[[data-slot=message-item-search-match]]:shadow-none",
+          "has-[[data-slot=message-item-search-match]]:hover:bg-info-base/10",
+          "has-[[data-slot=message-item-search-match]]:ring-[0.5px]",
+          "has-[[data-slot=message-item-search-match]]:ring-inset",
+          "has-[[data-slot=message-item-search-match]]:ring-info-base/50",
         ],
         gutter: "max-md:w-8",
         avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
@@ -112,36 +124,12 @@ export const messageItem = tv({
         footer: "mt-2.5 max-md:mt-1.5",
       },
     },
-    rowState: {
-      "search-match": {},
-      select: {
-        root: [
-          "hover:border-transparent hover:bg-layer-panel",
-          "has-[[data-popup-open]]:border-transparent has-[[data-popup-open]]:bg-layer-panel",
-        ],
-      },
-    },
     compact: {
       true: {},
     },
   },
   compoundVariants: [
-    {
-      theme: "brutal",
-      rowState: "search-match",
-      class: { root: "border-line-strong bg-brutal-cyan/25 shadow-md hover:bg-brutal-cyan/25" },
-    },
     { theme: "brutal", compact: true, class: { root: "mt-0 min-h-0 py-1" } },
-    {
-      theme: "elegant",
-      rowState: "search-match",
-      class: {
-        root: [
-          "border-transparent bg-info-base/10 shadow-none hover:bg-info-base/10",
-          "ring-[0.5px] ring-inset ring-info-base/50",
-        ],
-      },
-    },
     {
       theme: "elegant",
       compact: true,

@@ -1,5 +1,9 @@
-import { Avatar, AvatarFallback, AvatarImage, MarkdownParagraph, TaskChip } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MarkdownParagraph,
+  TaskChip,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -7,7 +11,8 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
+
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_PLAYGROUND_URLS,

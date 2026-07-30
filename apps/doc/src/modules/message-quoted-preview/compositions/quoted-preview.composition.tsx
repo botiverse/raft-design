@@ -1,7 +1,9 @@
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage, MessageReferenceUnavailable } from "raft-ui";
-
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MessageReferenceUnavailable,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -11,6 +13,9 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
+} from "raft-ui";
+
+import {
   MessageQuotedPreviewContent,
   MessageQuotedPreviewLoading,
   MessageQuotedPreviewLoadingAvatar,

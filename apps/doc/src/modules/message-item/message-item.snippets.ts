@@ -19,7 +19,9 @@ export const ANATOMY_SOURCE = `<MessageItem>
       <MessageItemTime />
       <MessageItemInlineStatus />
     </MessageItemHeader>
-    <MessageItemBody />
+    <MessageItemBody>
+      Find the <MessageItemSearchMatch>matching text</MessageItemSearchMatch>.
+    </MessageItemBody>
     <MessageItemTranslationOriginal />
     <MessageItemEmbedded />
     <MessageItemNotice />
@@ -56,7 +58,7 @@ function MessageSelectionExample() {
 
   return (
     <MessageMultiSelect>
-      <MessageItemSelection>
+      <MessageItem>
         <MessageMultiSelectCheckbox
           checked={selected.has("id")}
           value="id"
@@ -66,7 +68,7 @@ function MessageSelectionExample() {
         />
         <MessageItemAvatarSlot />
         <MessageItemContent>...</MessageItemContent>
-      </MessageItemSelection>
+      </MessageItem>
     </MessageMultiSelect>
   );
 }`;
@@ -75,18 +77,13 @@ export const ROW_PROPS: readonly PropRow[] = [
   {
     name: "MessageItem",
     type: 'useRender.ComponentProps<"div"> & { compact?: boolean }',
-    description:
-      "Default message-row root. Use one of the explicit state roots instead when the row is active, a search match, or in selection mode.",
+    description: "Stable message-row root. Keep the same root while composing transient UI parts.",
   },
   {
     name: "MessageItemSearchMatch",
-    type: "MessageItemProps",
-    description: "Explicit root for search-match chrome. It is an alternative to MessageItem.",
-  },
-  {
-    name: "MessageItemSelection",
-    type: "MessageItemProps",
-    description: "Explicit root for multi-select chrome. It is an alternative to MessageItem.",
+    type: 'useRender.ComponentProps<"mark">',
+    description:
+      "Inline matched-text part. Rendering it also applies the reusable search-result surface to its containing MessageItem.",
   },
   {
     name: "MessageItemAvatarSlot",
@@ -260,9 +257,9 @@ export const FOOTER_PROPS: readonly PropRow[] = [
 export const REACTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageReactionChip",
-    type: 'useRender.ComponentProps<"button"> & { selected?: boolean }',
+    type: 'Omit<StyledProps<Toggle.Props>, "type">',
     description:
-      "Reaction chip with an explicit selected state. Mutation failure is composed as an explicit indicator child.",
+      "Base UI toggle for adding or removing the caller-owned reaction. Supports controlled and uncontrolled pressed state.",
   },
   {
     name: "MessageReactionErrorIndicator",

@@ -8,8 +8,6 @@ import {
   MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceLabel,
-} from "raft-ui";
-import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -18,7 +16,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import {
   MessageMentionReferenceComposition,

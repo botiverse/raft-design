@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Bookmark, MessageSquare, Plus } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
-import { Markdown } from "#/lib/markdown/markdown.tsx";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItem,
   MessageItemAttachments,
   MessageItemAvatarSlot,
@@ -16,13 +17,14 @@ import {
   MessageItemMeta,
   MessageItemSavedIndicator,
   MessageItemSearchMatch,
-  MessageItemSelection,
   MessageItemSender,
   MessageItemTime,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   MessageReactionAddButton,
-} from "raft-ui/wip";
+} from "raft-ui";
+import { Markdown } from "#/lib/markdown/markdown.tsx";
+
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import {
@@ -108,11 +110,17 @@ export function MessageItemPreview({
   }
   // @docs-source-strip-end
   const continuation = chrome === "continuation";
-  const messageBody = markdown ? (
-    <Markdown>{markdownInputSource}</Markdown>
-  ) : (
-    <MessageItemExampleMarkdown portalContainer={portalContainer} />
-  );
+  const messageBody =
+    chrome === "search-match" ? (
+      <>
+        Review the <MessageItemSearchMatch>migration checklist</MessageItemSearchMatch> before the
+        release.
+      </>
+    ) : markdown ? (
+      <Markdown>{markdownInputSource}</Markdown>
+    ) : (
+      <MessageItemExampleMarkdown portalContainer={portalContainer} />
+    );
 
   const footer =
     isSaved || replies || reactions ? (
@@ -224,7 +232,7 @@ export function MessageItemPreview({
   if (chrome === "selected") {
     return (
       <MessageMultiSelect>
-        <MessageItemSelection>
+        <MessageItem>
           <MessageMultiSelectCheckbox
             aria-label="Select message"
             checked={previewSelected}
@@ -238,16 +246,14 @@ export function MessageItemPreview({
             </Avatar>
           </MessageItemAvatarSlot>
           {content}
-        </MessageItemSelection>
+        </MessageItem>
       </MessageMultiSelect>
     );
   }
 
-  const RowChrome = chrome === "search-match" ? MessageItemSearchMatch : MessageItem;
-
   return (
     <div ref={setPortalContainer}>
-      <RowChrome>
+      <MessageItem>
         <MessageItemAvatarSlot>
           <Avatar size="md" type="agent">
             <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
@@ -261,7 +267,7 @@ export function MessageItemPreview({
           onReact={setReaction}
           onSavedChange={setIsSaved}
         />
-      </RowChrome>
+      </MessageItem>
       {reaction ? (
         <span className="sr-only" role="status">
           Reacted with {reaction}

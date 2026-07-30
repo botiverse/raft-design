@@ -1,5 +1,16 @@
 import { ArrowDownToLine } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  MessageItem,
+  MessageItemAttachments,
+  MessageItemAvatarSlot,
+  MessageItemBody,
+  MessageItemContent,
+  MessageItemHeader,
+  MessageItemSender,
+  MessageItemTime,
+} from "raft-ui";
 import {
   MessageAttachmentAction,
   MessageAttachmentCard,
@@ -12,14 +23,6 @@ import {
   MessageAttachmentMetaStart,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
-  MessageItem,
-  MessageItemAttachments,
-  MessageItemAvatarSlot,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemHeader,
-  MessageItemSender,
-  MessageItemTime,
 } from "raft-ui/wip";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 

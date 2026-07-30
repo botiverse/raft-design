@@ -1,6 +1,14 @@
 import type { Components } from "react-markdown";
-import { useMemo } from "react";
-import { MarkdownLink, MessageReferenceChip, MessageReferenceText, TaskChip } from "raft-ui";
+import { Children, useMemo, type ReactNode } from "react";
+import {
+  MarkdownLink,
+  MarkdownParagraph,
+  MessageReferenceChip,
+  MessageReferenceText,
+  TaskChip,
+  MessageItemSearchMatch,
+} from "raft-ui";
+
 import { type MarkdownPluginList } from "#/lib/markdown/markdown-plugins.ts";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { createRemarkReferences } from "#/lib/markdown/create-remark-references.ts";
@@ -39,8 +47,43 @@ function conversationHref(channelId: string) {
   return `/playground/s/${PLAYGROUND_SERVER_SLUG}/${kind}/${encodeURIComponent(channelId)}`;
 }
 
-function createPlaygroundMarkdownComponents(channelId?: string): Components {
+function highlightSearchMatch(text: string, query: string): ReactNode {
+  const normalizedQuery = query.toLocaleLowerCase();
+  if (!normalizedQuery) return text;
+
+  const parts: ReactNode[] = [];
+  const normalizedText = text.toLocaleLowerCase();
+  let cursor = 0;
+  let matchIndex = normalizedText.indexOf(normalizedQuery);
+
+  while (matchIndex !== -1) {
+    if (matchIndex > cursor) parts.push(text.slice(cursor, matchIndex));
+    const matchEnd = matchIndex + query.length;
+    parts.push(
+      <MessageItemSearchMatch key={`${matchIndex}-${matchEnd}`}>
+        {text.slice(matchIndex, matchEnd)}
+      </MessageItemSearchMatch>,
+    );
+    cursor = matchEnd;
+    matchIndex = normalizedText.indexOf(normalizedQuery, cursor);
+  }
+
+  if (cursor === 0) return text;
+  if (cursor < text.length) parts.push(text.slice(cursor));
+  return parts;
+}
+
+function createPlaygroundMarkdownComponents(channelId?: string, searchQuery?: string): Components {
   return {
+    p: ({ node: _node, children, ...props }) => (
+      <MarkdownParagraph {...props}>
+        {searchQuery
+          ? Children.map(children, (child) =>
+              typeof child === "string" ? highlightSearchMatch(child, searchQuery) : child,
+            )
+          : children}
+      </MarkdownParagraph>
+    ),
     a: ({ node, href, children, ...props }) => {
       const reference = parseMarkdownReference(node?.properties?.dataMarkdownReference);
 
@@ -117,11 +160,16 @@ function createPlaygroundMarkdownComponents(channelId?: string): Components {
 export function PlaygroundMessageBody({
   channelId,
   content,
+  searchQuery,
 }: {
   channelId?: string;
   content: string;
+  searchQuery?: string;
 }) {
-  const components = useMemo(() => createPlaygroundMarkdownComponents(channelId), [channelId]);
+  const components = useMemo(
+    () => createPlaygroundMarkdownComponents(channelId, searchQuery),
+    [channelId, searchQuery],
+  );
 
   return (
     <Markdown

@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItemAvatarSlot,
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
-  MessageItemSelection,
+  MessageItem,
   MessageItemSender,
   MessageItemTime,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { MessageMultiSelectToolbarComposition } from "./selection.compositions.tsx";
@@ -37,7 +39,7 @@ export function MessageSelectionShowcaseComposition() {
   return (
     <div className="grid w-full max-w-3xl gap-6">
       <MessageMultiSelect>
-        <MessageItemSelection>
+        <MessageItem>
           <MessageMultiSelectCheckbox
             aria-label="Select message"
             checked={selected.has("selected-row")}
@@ -59,7 +61,7 @@ export function MessageSelectionShowcaseComposition() {
             </MessageItemHeader>
             <MessageItemBody>Selection is represented by a real checkbox.</MessageItemBody>
           </MessageItemContent>
-        </MessageItemSelection>
+        </MessageItem>
       </MessageMultiSelect>
 
       <div className="grid gap-2">

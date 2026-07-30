@@ -1,5 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -8,7 +10,8 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
+
 import {
   MessageReactionComposition,
   MessageReactionOverlaysComposition,

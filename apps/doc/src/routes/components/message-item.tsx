@@ -256,7 +256,7 @@ function MessageItemDoc() {
         <div className="grid gap-8">
           {API_GROUPS.map((group) => (
             <DocSubsection key={group.id} parentId="api" id={group.id} title={group.title}>
-              <PropsTable rows={group.rows} />
+              <PropsTable rows={group.rows} nameColumnLabel="Part" />
             </DocSubsection>
           ))}
         </div>

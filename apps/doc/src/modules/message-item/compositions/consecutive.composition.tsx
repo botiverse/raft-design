@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
-  MessageItemExampleMarkdownClosing,
-  MessageItemExampleMarkdownFollowUp,
-  MessageItemExampleMarkdownLead,
-} from "../message-item-example-markdown.tsx";
-import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -17,7 +14,12 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
+import {
+  MessageItemExampleMarkdownClosing,
+  MessageItemExampleMarkdownFollowUp,
+  MessageItemExampleMarkdownLead,
+} from "../message-item-example-markdown.tsx";
 
 export function MessageConsecutiveComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);

@@ -2,7 +2,13 @@ import { tv } from "../../lib/tv";
 
 export const messageMultiSelect = tv({
   slots: {
-    root: ["flex min-h-0 min-w-0 flex-1 flex-col"],
+    root: [
+      "flex min-h-0 min-w-0 flex-1 flex-col",
+      "[&_[data-message-item]]:hover:border-transparent",
+      "[&_[data-message-item]]:hover:bg-layer-panel",
+      "[&_[data-message-item]:has([data-popup-open])]:border-transparent",
+      "[&_[data-message-item]:has([data-popup-open])]:bg-layer-panel",
+    ],
     checkbox: [
       "mt-1.5 self-start rounded-full",
       "data-[checked]:shadow-none data-[indeterminate]:shadow-none",

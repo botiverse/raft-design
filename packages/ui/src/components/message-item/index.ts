@@ -1,4 +1,4 @@
-export { MessageItem, MessageItemSearchMatch, MessageItemSelection } from "./message-item-root";
+export { MessageItem } from "./message-item-root";
 export {
   MessageItemAvatarSlot,
   MessageItemContinuationTime,
@@ -11,6 +11,7 @@ export {
   MessageItemEmbedded,
   MessageItemFooter,
   MessageItemNotice,
+  MessageItemSearchMatch,
 } from "./message-item-content";
 export {
   MessageItemHeader,
@@ -64,11 +65,7 @@ export {
   MessageTextSelectionToolbarButton,
   MessageTextSelectionToolbarSeparator,
 } from "./message-text-selection-toolbar";
-export type {
-  MessageItemProps,
-  MessageItemSearchMatchProps,
-  MessageItemSelectionProps,
-} from "./message-item-root";
+export type { MessageItemProps } from "./message-item-root";
 export type {
   MessageItemAvatarSlotProps,
   MessageItemContinuationTimeProps,
@@ -81,6 +78,7 @@ export type {
   MessageItemEmbeddedProps,
   MessageItemFooterProps,
   MessageItemNoticeProps,
+  MessageItemSearchMatchProps,
 } from "./message-item-content";
 export type {
   MessageItemHeaderProps,

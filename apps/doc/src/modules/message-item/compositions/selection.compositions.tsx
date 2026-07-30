@@ -7,8 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   useThemeFamily,
+  MessageMultiSelectToolbar,
 } from "raft-ui";
-import { MessageMultiSelectToolbar } from "raft-ui/wip";
 
 export type MessageMultiSelectToolbarCompositionProps = {
   children: ReactNode;

@@ -1,18 +1,21 @@
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItemAvatarSlot,
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
+  MessageItem,
   MessageItemSearchMatch,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export function MessageRowChromeComposition() {
   return (
-    <MessageItemSearchMatch>
+    <MessageItem>
       <MessageItemAvatarSlot>
         <Avatar size="md" type="agent">
           <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
@@ -24,8 +27,11 @@ export function MessageRowChromeComposition() {
           <MessageItemSender>Search result</MessageItemSender>
           <MessageItemTime>3:20 PM</MessageItemTime>
         </MessageItemHeader>
-        <MessageItemBody>Search jump highlight keeps the cyan source treatment.</MessageItemBody>
+        <MessageItemBody>
+          <MessageItemSearchMatch>Search jump</MessageItemSearchMatch> highlight keeps the cyan
+          source treatment.
+        </MessageItemBody>
       </MessageItemContent>
-    </MessageItemSearchMatch>
+    </MessageItem>
   );
 }
