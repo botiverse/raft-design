@@ -123,13 +123,20 @@ export const messageReference = tv({
     },
     {
       theme: "elegant",
-      variant: ["primary", "secondary"],
+      variant: "primary",
       class: {
         root: [
           "inline-flex h-[19px] items-center gap-0.5 align-middle -mt-px rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0",
           "[font-size:inherit] cursor-pointer font-normal leading-none tracking-normal text-primary-800",
           "transition-[filter,opacity] duration-100 hover:bg-[oklch(0.955_0.067_93.62)] hover:text-primary-800",
         ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "secondary",
+      class: {
+        root: "inline cursor-pointer font-medium underline underline-offset-2",
       },
     },
     {
