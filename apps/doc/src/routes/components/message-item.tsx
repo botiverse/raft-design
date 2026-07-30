@@ -6,8 +6,6 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { MessageAvatarStatusComposition } from "#/modules/message-item/compositions/avatar-status.composition.tsx";
 import avatarStatusSource from "#/modules/message-item/compositions/avatar-status.composition.tsx?raw";
@@ -19,8 +17,6 @@ import convertingSource from "#/modules/message-item/compositions/converting.com
 import { MessageInteractiveSenderComposition } from "#/modules/message-item/compositions/interactive-sender.composition.tsx";
 import interactiveSenderSource from "#/modules/message-item/compositions/interactive-sender.composition.tsx?raw";
 import itemPreviewSource from "#/modules/message-item/compositions/item-preview.composition.tsx?raw";
-import { MessageItemPreviewContent } from "#/modules/message-item/compositions/preview.composition.tsx";
-import messageItemPreviewCompositionSource from "#/modules/message-item/compositions/preview.composition.tsx?raw";
 import { MessageReadReceiptComposition } from "#/modules/message-item/compositions/read-receipt.composition.tsx";
 import readReceiptSource from "#/modules/message-item/compositions/read-receipt.composition.tsx?raw";
 import { MessageReactionsShowcaseComposition } from "#/modules/message-item/compositions/reactions.composition.tsx";
@@ -41,7 +37,6 @@ import taskBadgeSource from "#/modules/message-item/compositions/task-badge.comp
 import { MessageTextSelectionShowcaseComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
 import textSelectionSource from "#/modules/message-item/compositions/text-selection.composition.tsx?raw";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
-import { SourceMessageItemPreview } from "#/modules/message-item/message-item.source-preview.tsx";
 import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
 
 const CONTEXT_MENU_SHOWCASE_PATH =
@@ -55,18 +50,6 @@ const QUICK_REACTION_PICKER_PATH =
   "apps/doc/src/modules/message-item/compositions/quick-reaction-picker.composition.tsx";
 const REACTION_GLYPH_PATH =
   "apps/doc/src/modules/message-item/compositions/reaction-glyph.composition.tsx";
-const SOURCE_SCENES = [
-  {
-    label: "Slock message row",
-    scenes: [
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-    ],
-  },
-] as const;
-
 function UsagePreview({
   children,
   code,
@@ -96,7 +79,6 @@ export const Route = createFileRoute("/components/message-item")({
         converting: convertingSource,
         interactiveSender: interactiveSenderSource,
         itemPreview: itemPreviewSource,
-        preview: messageItemPreviewCompositionSource,
         quickReactionPicker: quickReactionPickerSource,
         reactionGlyph: reactionGlyphSource,
         reactionParts: reactionPartsSource,
@@ -278,33 +260,6 @@ function MessageItemDoc() {
             </DocSubsection>
           ))}
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Standard message row",
-              status: "review",
-              note: "The Source pane is a non-interactive DOM fixture extracted from the current Slock row; its controls are intentionally disabled. Brutal and Elegant execute the canonical docs composition with product data and navigation kept consumer-owned.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope>
-                  <SourceMessageItemPreview />
-                </SourceThemeScope>
-              ),
-              brutal: <MessageItemPreviewContent />,
-              elegant: <MessageItemPreviewContent />,
-              elegantDark: <MessageItemPreviewContent />,
-              compositionCode: code.preview,
-              compositionCollapsedCode: code.previewBody,
-              compositionPath:
-                "apps/doc/src/modules/message-item/compositions/preview.composition.tsx",
-              compositionSource: messageItemPreviewCompositionSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

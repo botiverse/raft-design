@@ -5,7 +5,6 @@ export const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 export const ANATOMY_SOURCE = `<MessageItem>
@@ -66,10 +65,14 @@ export const ROW_PROPS: readonly PropRow[] = [
       "Default message-row root. Use one of the explicit state roots instead when the row is active, a search match, or in selection mode.",
   },
   {
-    name: "MessageItemSearchMatch / MessageItemSelection",
+    name: "MessageItemSearchMatch",
     type: "MessageItemProps",
-    description:
-      "Explicit roots for search-match and multi-select chrome. They are alternatives to MessageItem, not wrappers around it.",
+    description: "Explicit root for search-match chrome. It is an alternative to MessageItem.",
+  },
+  {
+    name: "MessageItemSelection",
+    type: "MessageItemProps",
+    description: "Explicit root for multi-select chrome. It is an alternative to MessageItem.",
   },
   {
     name: "MessageItemAvatarSlot",
@@ -78,10 +81,14 @@ export const ROW_PROPS: readonly PropRow[] = [
       "Avatar gutter slot. Consumers own avatar interaction behavior and feedback. Keep this slot in select mode beside MessageMultiSelectCheckbox.",
   },
   {
-    name: "MessageItemGutter / MessageItemContinuationTime",
-    type: 'useRender.ComponentProps<"div"> / useRender.ComponentProps<"span">',
-    description:
-      "Compact consecutive-row gutter and hover timestamp. Used when compact hides sender chrome.",
+    name: "MessageItemGutter",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Compact consecutive-row gutter used when compact hides sender chrome.",
+  },
+  {
+    name: "MessageItemContinuationTime",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Hover timestamp rendered inside MessageItemGutter for a compact row.",
   },
   {
     name: "MessageItemContent",
@@ -89,15 +96,34 @@ export const ROW_PROPS: readonly PropRow[] = [
     description: "Main row column.",
   },
   {
-    name: "MessageItemHeader / MessageItemSender / MessageItemSenderBadges",
-    type: "div and span props; Sender adds interactive?: boolean",
-    description:
-      "Header structure, sender name, and an inline container for caller-owned Badge elements. interactive only adds sender affordance styling.",
+    name: "MessageItemHeader",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Header layout for sender and row metadata.",
   },
   {
-    name: "MessageItemMeta / MessageItemTime / MessageItemInlineStatus",
+    name: "MessageItemSender",
+    type: 'useRender.ComponentProps<"span"> & { interactive?: boolean }',
+    description: "Sender name. interactive only adds sender affordance styling.",
+  },
+  {
+    name: "MessageItemSenderBadges",
     type: 'useRender.ComponentProps<"span">',
-    description: "Header metadata, timestamp, and caller-owned transient state such as Converting.",
+    description: "Inline container for caller-owned Badge elements next to the sender.",
+  },
+  {
+    name: "MessageItemMeta",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Caller-owned header metadata, such as a role or agent type.",
+  },
+  {
+    name: "MessageItemTime",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Timestamp in the message header.",
+  },
+  {
+    name: "MessageItemInlineStatus",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Caller-owned transient header state, such as Converting.",
   },
 ];
 
@@ -109,10 +135,22 @@ export const CONTENT_PROPS: readonly PropRow[] = [
       "Message content slot. Markdown, mentions, links, and product parsing stay caller-owned.",
   },
   {
-    name: "MessageItemAttachments / MessageItemEmbedded / MessageItemNotice",
+    name: "MessageItemAttachments",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Dedicated row regions for media/files, embedded cards, and notices. Their content and workflows stay caller-owned.",
+      "Dedicated message region for media and files. Its content and workflow stay caller-owned.",
+  },
+  {
+    name: "MessageItemEmbedded",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Dedicated message region for embedded cards. Its content and workflow stay caller-owned.",
+  },
+  {
+    name: "MessageItemNotice",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Dedicated message region for notices. Its content and workflow stay caller-owned.",
   },
   {
     name: "MessageItemFooter",
@@ -123,15 +161,40 @@ export const CONTENT_PROPS: readonly PropRow[] = [
 
 export const REFERENCE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReferenceText / Chip / Pending / Unavailable",
+    name: "MessageReferenceText",
     type: 'useRender.ComponentProps<"span">',
-    description:
-      "Explicit inline text, chip, and resolution-state surfaces. Source parsing and resolution are product-owned; consumers own navigation and integration.",
+    description: "Inline reference text. Source parsing and navigation stay product-owned.",
   },
   {
-    name: "MessageReferenceLabel / MessageReferenceMeta",
+    name: "MessageReferenceChip",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional label and meta slots for chip-style references (e.g. permalink).",
+    description:
+      "Chip-shaped inline reference surface. Resolution and navigation stay product-owned.",
+  },
+  {
+    name: "MessageReferencePending",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Inline reference surface while resolution is pending.",
+  },
+  {
+    name: "MessageReferenceUnavailable",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Inline reference surface when the target is unavailable.",
+  },
+  {
+    name: "MessageReferenceBadge",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Badge-shaped inline reference surface.",
+  },
+  {
+    name: "MessageReferenceLabel",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Optional label slot for a chip-style reference.",
+  },
+  {
+    name: "MessageReferenceMeta",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Optional meta slot for a chip-style reference, such as a permalink.",
   },
 ];
 
@@ -168,10 +231,15 @@ export const FOOTER_PROPS: readonly PropRow[] = [
       "Footer read-receipt chip. Consumers provide the icon and label; visibility stays product-owned.",
   },
   {
-    name: "MessageItemBadge / MessageItemBadgeSeparator",
+    name: "MessageItemBadge",
     type: 'useRender.ComponentProps<"span"> & { status?: "read" | "unread" }',
     description:
-      "Footer badge slot with read and unread treatments. Business labels and icons remain caller-owned.",
+      "Footer badge with read and unread treatments. Labels and icons stay caller-owned.",
+  },
+  {
+    name: "MessageItemBadgeSeparator",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Decorative separator for adjacent footer badges.",
   },
 ];
 
@@ -189,15 +257,29 @@ export const REACTION_PROPS: readonly PropRow[] = [
       "Screen-reader status and stable styling slot for caller-owned reaction failure copy.",
   },
   {
-    name: "MessageReactionGlyph / MessageReactionCount",
-    type: 'useRender.ComponentProps<"span"> & { emoji?: string; size?: number }',
-    description: "Native emoji or caller-provided icon plus the numeric reaction-count slot.",
+    name: "MessageReactionGlyph",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Reaction glyph slot for a native emoji or caller-provided icon.",
   },
   {
-    name: "MessageReactionAddButton / MessageReactionQuickRow / MessageReactionQuickButton",
-    type: "button, div, and button props",
-    description:
-      "Add-reaction affordance and inline quick-reaction controls. Selection state and mutation stay caller-owned.",
+    name: "MessageReactionCount",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Numeric reaction-count slot.",
+  },
+  {
+    name: "MessageReactionAddButton",
+    type: 'useRender.ComponentProps<"button">',
+    description: "Add-reaction affordance. Selection state and mutation stay caller-owned.",
+  },
+  {
+    name: "MessageReactionQuickRow",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Inline layout for quick-reaction controls.",
+  },
+  {
+    name: "MessageReactionQuickButton",
+    type: 'useRender.ComponentProps<"button">',
+    description: "Quick-reaction control. Selection state and mutation stay caller-owned.",
   },
   {
     name: "MessageReactionPickerStatic",
@@ -211,19 +293,48 @@ export const REACTION_PROPS: readonly PropRow[] = [
     description: "Base UI dropdown content for an interactive quick reaction overlay.",
   },
   {
-    name: "MessageReactionTooltipContent / Names / Name / NameText / Separator / Meta",
-    type: "Tooltip compound parts",
-    description:
-      "Reactors tooltip with Base UI trigger, positioning, names, and +N overflow anatomy.",
+    name: "MessageReactionTooltipContent",
+    type: "TooltipContentProps",
+    description: "Base UI tooltip content for reactors.",
+  },
+  {
+    name: "MessageReactionTooltipNames",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Container for reactor names in the tooltip.",
+  },
+  {
+    name: "MessageReactionTooltipName",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Single reactor-name slot in the tooltip.",
+  },
+  {
+    name: "MessageReactionTooltipNameText",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Text slot inside a reactor name.",
+  },
+  {
+    name: "MessageReactionTooltipSeparator",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Decorative separator between tooltip names.",
+  },
+  {
+    name: "MessageReactionTooltipMeta",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Tooltip meta slot for overflow information such as +N.",
   },
 ];
 
 export const SELECTION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageMultiSelect / useMessageMultiSelect",
-    type: "controlled or uncontrolled selection provider and context API",
+    name: "MessageMultiSelect",
+    type: "controlled or uncontrolled selection provider",
+    description: "Owns selection-mode activity and selected IDs.",
+  },
+  {
+    name: "useMessageMultiSelect",
+    type: "selection context API",
     description:
-      "Owns selection-mode activity and selected IDs. Compose its toolbar from Button and DropdownMenu in the consumer; the hook exposes active, selected, enter, toggle, and cancel.",
+      "Exposes active, selected, enter, toggle, and cancel for a MessageMultiSelect subtree.",
   },
   {
     name: "MessageMultiSelectToolbar",
@@ -238,16 +349,29 @@ export const SELECTION_PROPS: readonly PropRow[] = [
       "Semantic per-row selector. Compose before MessageItemAvatarSlot inside MessageItemSelection.",
   },
   {
-    name: "MessageTextSelection / useMessageTextSelection",
-    type: "div props with optional portal container and selection API",
-    description:
-      "Scopes browser text selection to a message region. The hook exposes selected text and clear().",
+    name: "MessageTextSelection",
+    type: "div props with optional portal container",
+    description: "Scopes browser text selection to a message region.",
   },
   {
-    name: "MessageTextSelectionMenu / MenuItem / MenuSeparator",
-    type: "Popover content, button, and separator props",
-    description:
-      "Keyboard-accessible selection menu positioned over the selected range. Commands remain caller-owned.",
+    name: "useMessageTextSelection",
+    type: "text selection context API",
+    description: "Exposes the selected text and clear() for a MessageTextSelection subtree.",
+  },
+  {
+    name: "MessageTextSelectionMenu",
+    type: "Popover content props",
+    description: "Keyboard-accessible selection menu positioned over the selected range.",
+  },
+  {
+    name: "MessageTextSelectionMenuItem",
+    type: 'useRender.ComponentProps<"button">',
+    description: "Selection command button. Its behavior remains caller-owned.",
+  },
+  {
+    name: "MessageTextSelectionMenuSeparator",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Decorative separator between selection menu commands.",
   },
 ];
 
