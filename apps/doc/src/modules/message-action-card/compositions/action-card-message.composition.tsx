@@ -22,10 +22,10 @@ export function ActionCardComposition() {
   return (
     <div className="grid gap-2">
       <MessageActionCard>
+        <MessageActionCardHeader>
+          <span>Create private channel #release-review</span>
+        </MessageActionCardHeader>
         <MessageActionCardContent>
-          <MessageActionCardHeader>
-            <span>Create private channel #release-review</span>
-          </MessageActionCardHeader>
           <MessageActionCardDetails>
             <div>
               <span className="text-foreground-muted">Description:</span> Coordinate the final

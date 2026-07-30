@@ -19,14 +19,17 @@ export const messageReplies = tv({
   variants: {
     theme: {
       brutal: {
-        root: "bg-secondary-50 hover:bg-secondary-100",
+        root: "bg-white hover:bg-ink-2",
         summary: "text-secondary-700 group-hover/message-replies:text-foreground",
         sender: "text-secondary-800",
         content: "text-secondary-700",
         time: "text-secondary-500",
       },
       elegant: {
-        root: "rounded-md bg-layer-muted/70 hover:bg-layer-strong/80",
+        root: [
+          "rounded-md bg-[oklch(0.985_0.003_84.559)]",
+          "hover:bg-[color-mix(in_oklch,var(--ink)_2%,oklch(0.985_0.003_84.559))]",
+        ],
         summary: "text-foreground-muted",
         sender: "text-foreground-muted",
         content: "text-foreground-muted/80",
