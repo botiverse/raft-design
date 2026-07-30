@@ -60,12 +60,10 @@ export {
   MessageMultiSelectToolbar,
 } from "./message-multi-select";
 export {
-  MessageTextSelection,
-  MessageTextSelectionMenu,
-  MessageTextSelectionMenuItem,
-  MessageTextSelectionMenuSeparator,
-  useMessageTextSelection,
-} from "./message-text-selection";
+  MessageTextSelectionToolbar,
+  MessageTextSelectionToolbarButton,
+  MessageTextSelectionToolbarSeparator,
+} from "./message-text-selection-toolbar";
 export type {
   MessageItemProps,
   MessageItemSearchMatchProps,
@@ -138,9 +136,7 @@ export type {
   MessageMultiSelectToolbarProps,
 } from "./message-multi-select";
 export type {
-  MessageTextSelectionApi,
-  MessageTextSelectionMenuItemProps,
-  MessageTextSelectionMenuProps,
-  MessageTextSelectionMenuSeparatorProps,
-  MessageTextSelectionProps,
-} from "./message-text-selection";
+  MessageTextSelectionToolbarButtonProps,
+  MessageTextSelectionToolbarProps,
+  MessageTextSelectionToolbarSeparatorProps,
+} from "./message-text-selection-toolbar";

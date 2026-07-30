@@ -358,29 +358,21 @@ export const SELECTION_PROPS: readonly PropRow[] = [
       "Styled per-row selector with native Checkbox props. Control it with checked and onCheckedChange.",
   },
   {
-    name: "MessageTextSelection",
-    type: "div props with optional portal container",
-    description: "Scopes browser text selection to a message region.",
+    name: "MessageTextSelectionToolbar",
+    type: "Toolbar.Root props",
+    description:
+      "Selection-toolbar surface with Base UI keyboard navigation. Consumers own the Popover, range anchor, and visibility.",
   },
   {
-    name: "useMessageTextSelection",
-    type: "text selection context API",
-    description: "Exposes the selected text and clear() for a MessageTextSelection subtree.",
+    name: "MessageTextSelectionToolbarButton",
+    type: "Toolbar.Button props",
+    description:
+      "Selection command button with toolbar focus behavior. Its command remains caller-owned.",
   },
   {
-    name: "MessageTextSelectionMenu",
-    type: "Popover content props",
-    description: "Keyboard-accessible selection menu positioned over the selected range.",
-  },
-  {
-    name: "MessageTextSelectionMenuItem",
-    type: 'useRender.ComponentProps<"button">',
-    description: "Selection command button. Its behavior remains caller-owned.",
-  },
-  {
-    name: "MessageTextSelectionMenuSeparator",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Decorative separator between selection menu commands.",
+    name: "MessageTextSelectionToolbarSeparator",
+    type: "Toolbar.Separator props",
+    description: "Semantic separator between selection toolbar commands.",
   },
 ];
 

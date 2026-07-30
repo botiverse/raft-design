@@ -23,10 +23,8 @@ import {
   MessageMultiSelect,
 } from "raft-ui/wip";
 
-import {
-  MessageMultiSelectToolbarComposition,
-  MessageTextSelectionComposition,
-} from "#/modules/message-item/compositions/selection.compositions.tsx";
+import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
+import { MessageTextSelectionComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
 import { PlaygroundMainComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundSingleComposerMentionProvider } from "../composer/playground-composer-mentions.tsx";
 import type { PlaygroundPanelTab } from "../navigation/playground-navigation.ts";

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
-import { Copy, Image as ImageIcon, MoreHorizontal, Send, TextQuote, X } from "lucide-react";
+import { Copy, Image as ImageIcon, MoreHorizontal, Send, X } from "lucide-react";
 import {
   Button,
   DropdownMenu,
@@ -8,59 +8,7 @@ import {
   DropdownMenuTrigger,
   useThemeFamily,
 } from "raft-ui";
-import {
-  MessageTextSelection,
-  MessageTextSelectionMenu,
-  MessageTextSelectionMenuItem,
-  MessageTextSelectionMenuSeparator,
-  MessageMultiSelectToolbar,
-  useMessageTextSelection,
-} from "raft-ui/wip";
-
-export type MessageTextSelectionCompositionProps = {
-  children: ReactNode;
-  onQuote?: (text: string) => void;
-};
-
-function MessageTextSelectionActions({
-  onQuote,
-}: Pick<MessageTextSelectionCompositionProps, "onQuote">) {
-  const selection = useMessageTextSelection();
-
-  return (
-    <MessageTextSelectionMenu>
-      {onQuote ? (
-        <>
-          <MessageTextSelectionMenuItem onClick={() => onQuote(selection?.text ?? "")}>
-            <TextQuote size={13} />
-            Quote
-          </MessageTextSelectionMenuItem>
-          <MessageTextSelectionMenuSeparator />
-        </>
-      ) : null}
-      <MessageTextSelectionMenuItem
-        onClick={() => {
-          if (selection?.text) void navigator.clipboard.writeText(selection.text);
-        }}
-      >
-        <Copy size={13} />
-        Copy
-      </MessageTextSelectionMenuItem>
-    </MessageTextSelectionMenu>
-  );
-}
-
-export function MessageTextSelectionComposition({
-  children,
-  onQuote,
-}: MessageTextSelectionCompositionProps) {
-  return (
-    <MessageTextSelection>
-      {children}
-      <MessageTextSelectionActions onQuote={onQuote} />
-    </MessageTextSelection>
-  );
-}
+import { MessageMultiSelectToolbar } from "raft-ui/wip";
 
 export type MessageMultiSelectToolbarCompositionProps = {
   children: ReactNode;
