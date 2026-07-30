@@ -9,7 +9,6 @@ export const messageReaction = tv({
     errorIndicator: ["sr-only"],
     glyph: [
       "inline-flex items-center justify-center leading-none",
-      "data-[emoji=true]:shrink-0",
       "[&>svg]:size-[13px] [&>svg]:shrink-0",
     ],
     count: ["font-mono tabular-nums"],
@@ -26,8 +25,8 @@ export const messageReaction = tv({
     tooltipNames: ["flex max-w-60 flex-wrap items-center gap-y-0.5"],
     tooltipName: ["inline-flex min-w-0 items-baseline leading-5"],
     tooltipNameText: ["max-w-28 truncate"],
-    tooltipSeparator: ["shrink-0"],
-    tooltipMeta: ["leading-5"],
+    tooltipSeparator: ["shrink-0 text-foreground/45"],
+    tooltipMeta: ["leading-5 text-foreground/50"],
   },
   variants: {
     theme: {
@@ -48,18 +47,16 @@ export const messageReaction = tv({
         pickerContent: [
           "gap-0.5 px-1.5 py-1",
           "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
-          "rounded-none border-2 border-line-strong border-black bg-white",
+          "rounded-none border-2 border-black bg-white",
           // Live `shadow-soft-popover`: 0 4px 12px rgba(0,0,0,0.08)
           "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
         pickerStatic: [
           "gap-0.5 px-1.5 py-1",
-          "rounded-none border-2 border-line-strong border-black bg-white",
+          "rounded-none border-2 border-black bg-white",
           "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
         tooltip: "border-2 border-line-strong bg-white px-2 py-1.5 text-xs font-bold text-black",
-        tooltipSeparator: "text-foreground/45",
-        tooltipMeta: "text-foreground/50",
       },
       elegant: {
         chip: [
@@ -88,8 +85,6 @@ export const messageReaction = tv({
           "shadow-lg outline-none",
         ],
         tooltip: "px-2 py-1.5 text-xs",
-        tooltipSeparator: "text-foreground/45",
-        tooltipMeta: "text-foreground/50",
       },
     },
   },

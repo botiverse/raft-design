@@ -17,13 +17,17 @@ import { MessageMultiSelectToolbarComposition } from "./selection.compositions.t
 
 export function MessageSelectionShowcaseComposition() {
   const [active, setActive] = useState(true);
+  const [selected, setSelected] = useState<ReadonlySet<string>>(() => new Set(["selected-row"]));
 
   if (!active) {
     return (
       <button
         type="button"
         className="text-xs font-bold underline underline-offset-2"
-        onClick={() => setActive(true)}
+        onClick={() => {
+          setActive(true);
+          setSelected(new Set(["selected-row"]));
+        }}
       >
         Re-enter multi-select mode
       </button>
@@ -32,9 +36,16 @@ export function MessageSelectionShowcaseComposition() {
 
   return (
     <div className="grid w-full max-w-3xl gap-6">
-      <MessageMultiSelect defaultActive defaultSelected={new Set(["selected-row"])}>
+      <MessageMultiSelect>
         <MessageItemSelection>
-          <MessageMultiSelectCheckbox value="selected-row" aria-label="Select message" />
+          <MessageMultiSelectCheckbox
+            aria-label="Select message"
+            checked={selected.has("selected-row")}
+            value="selected-row"
+            onCheckedChange={(checked) =>
+              setSelected(checked ? new Set(["selected-row"]) : new Set())
+            }
+          />
           <MessageItemAvatarSlot>
             <Avatar size="md" type="agent">
               <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
@@ -52,8 +63,13 @@ export function MessageSelectionShowcaseComposition() {
       </MessageMultiSelect>
 
       <div className="grid gap-2">
-        <MessageMultiSelectToolbarComposition onCancel={() => setActive(false)}>
-          3 selected
+        <MessageMultiSelectToolbarComposition
+          onCancel={() => {
+            setActive(false);
+            setSelected(new Set());
+          }}
+        >
+          {selected.size} selected
         </MessageMultiSelectToolbarComposition>
         <p className="text-xs text-foreground-muted">
           Copy, Forward, and Generate image are disabled in this isolated example because it has no

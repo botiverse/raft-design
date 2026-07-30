@@ -2,16 +2,13 @@ import { tv, type VariantProps } from "../../lib/tv";
 
 export const messageItem = tv({
   slots: {
-    root: [
-      "group/message relative flex h-fit min-h-[3rem] gap-3",
-      "[@media(hover:none)]:select-none [@media(hover:none)]:[&_*]:select-none",
-    ],
+    root: ["group/message relative flex h-fit min-h-[3rem] gap-3"],
     gutter: ["relative w-9 shrink-0 self-stretch"],
     avatarSlot: ["relative mt-0.5 w-9 shrink-0 self-start"],
     continuationTime: ["absolute right-0 top-1 select-none tabular-nums"],
     content: ["min-w-0 flex-1"],
     header: ["flex min-w-0 overflow-hidden pr-24"],
-    sender: ["min-w-0 shrink-0 truncate", "data-[interactive]:cursor-pointer"],
+    sender: ["min-w-0 shrink-0 truncate", "data-[slot=message-item-sender-button]:cursor-pointer"],
     senderBadges: ["inline-flex shrink-0 items-center gap-1"],
     meta: ["min-w-0 truncate"],
     time: ["shrink-0 whitespace-nowrap"],
@@ -28,7 +25,6 @@ export const messageItem = tv({
       "group-has-[[data-popup-open]]/message:pointer-events-auto group-has-[[data-popup-open]]/message:opacity-100",
     ],
     toolbarButton: ["inline-flex shrink-0 items-center justify-center", "[&_svg]:shrink-0"],
-    saveButton: [],
   },
   variants: {
     theme: {
@@ -47,7 +43,7 @@ export const messageItem = tv({
         header: "items-center gap-2",
         sender: [
           "text-sm font-bold text-black",
-          "data-[interactive]:hover:underline data-[interactive]:hover:decoration-2 data-[interactive]:hover:underline-offset-2",
+          "data-[slot=message-item-sender-button]:hover:underline data-[slot=message-item-sender-button]:hover:decoration-2 data-[slot=message-item-sender-button]:hover:underline-offset-2",
         ],
         meta: "font-mono text-xs text-black/40",
         time: "font-mono text-xs text-black/40",
@@ -63,13 +59,13 @@ export const messageItem = tv({
           "size-6",
           "text-black/50 hover:bg-soft-signal/30 hover:text-black",
           "data-popup-open:bg-soft-signal/30 data-popup-open:text-black",
+          "aria-pressed:text-brutal-orange aria-pressed:hover:text-brutal-orange",
           "[&_svg]:size-[13px]",
         ],
-        saveButton: "data-[selected]:text-brutal-orange data-[selected]:hover:text-brutal-orange",
       },
       elegant: {
         root: [
-          "gap-3 border border-transparent max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
+          "border border-transparent max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-ink-2 data-[popup-open]:bg-ink-2 has-[[data-popup-open]]:bg-ink-2",
         ],
@@ -85,7 +81,7 @@ export const messageItem = tv({
         header: "items-baseline gap-1.5",
         sender: [
           "text-sm font-medium leading-none text-foreground-muted",
-          "data-[interactive]:hover:underline data-[interactive]:hover:decoration-2 data-[interactive]:hover:underline-offset-2",
+          "data-[slot=message-item-sender-button]:hover:underline data-[slot=message-item-sender-button]:hover:decoration-2 data-[slot=message-item-sender-button]:hover:underline-offset-2",
         ],
         meta: "font-sans text-xs leading-none text-foreground-muted/70",
         time: "font-sans text-xs leading-none tabular-nums text-foreground-muted/70",
@@ -93,7 +89,6 @@ export const messageItem = tv({
         body: [
           "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
           "text-sm leading-5.25 tracking-[-0.01em] text-foreground-muted",
-          "select-text [&_*]:select-text",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
         notice: [
@@ -111,14 +106,13 @@ export const messageItem = tv({
           "text-foreground-icon hover:bg-layer-strong/80 hover:text-foreground",
           "data-popup-open:bg-layer-strong/80 data-popup-open:text-foreground",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
+          "aria-pressed:text-primary-400 aria-pressed:hover:text-primary-400",
           "[&_svg]:size-3.5",
         ],
-        saveButton: "data-[selected]:text-primary-400 data-[selected]:hover:text-primary-400",
         footer: "mt-2.5 max-md:mt-1.5",
       },
     },
     rowState: {
-      active: {},
       "search-match": {},
       select: {
         root: [
@@ -128,9 +122,8 @@ export const messageItem = tv({
       },
     },
     compact: {
-      true: { body: "mt-0 mb-0" },
+      true: {},
     },
-    toolbarVisible: { true: { toolbar: "pointer-events-auto opacity-100" } },
   },
   compoundVariants: [
     {

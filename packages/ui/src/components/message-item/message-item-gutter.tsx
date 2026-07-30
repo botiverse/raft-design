@@ -6,7 +6,8 @@ import { messageItem } from "./message-item.recipe";
 export type MessageItemGutterProps = useRender.ComponentProps<"div">;
 
 export function MessageItemGutter({ className, render, ...props }: MessageItemGutterProps) {
-  const { gutter } = messageItem();
+  const theme = useThemeFamily();
+  const { gutter } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: gutter({ className }),
   };
@@ -24,7 +25,8 @@ export function MessageItemGutter({ className, render, ...props }: MessageItemGu
 export type MessageItemAvatarSlotProps = useRender.ComponentProps<"div">;
 
 export function MessageItemAvatarSlot({ className, render, ...props }: MessageItemAvatarSlotProps) {
-  const { avatarSlot } = messageItem();
+  const theme = useThemeFamily();
+  const { avatarSlot } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: avatarSlot({ className }),
   };

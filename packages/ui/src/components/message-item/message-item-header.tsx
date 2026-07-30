@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { dataPresence, type SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
@@ -23,21 +22,12 @@ export function MessageItemHeader({ className, render, ...props }: MessageItemHe
   });
 }
 
-export type MessageItemSenderProps = useRender.ComponentProps<"span"> & {
-  /** Pointer + underline hover treatment for clickable sender names. */
-  interactive?: boolean;
-};
+export type MessageItemSenderProps = useRender.ComponentProps<"span">;
 
-export function MessageItemSender({
-  className,
-  interactive,
-  render,
-  ...props
-}: MessageItemSenderProps) {
+export function MessageItemSender({ className, render, ...props }: MessageItemSenderProps) {
   const theme = useThemeFamily();
   const { sender } = messageItem({ theme });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-interactive": dataPresence(interactive),
+  const defaultProps: useRender.ElementProps<"span"> = {
     className: sender({ className }),
   };
 
@@ -47,6 +37,30 @@ export function MessageItemSender({
     props: mergeProps<"span">(defaultProps, props),
     state: {
       slot: "message-item-sender",
+    },
+  });
+}
+
+export type MessageItemSenderButtonProps = useRender.ComponentProps<"button">;
+
+export function MessageItemSenderButton({
+  className,
+  render,
+  ...props
+}: MessageItemSenderButtonProps) {
+  const theme = useThemeFamily();
+  const { sender } = messageItem({ theme });
+  const defaultProps: useRender.ElementProps<"button"> = {
+    type: "button",
+    className: sender({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: mergeProps<"button">(defaultProps, props),
+    state: {
+      slot: "message-item-sender-button",
     },
   });
 }

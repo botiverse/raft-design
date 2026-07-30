@@ -21,7 +21,6 @@ import {
   MessageListDateDivider,
   MessageListNotice,
   MessageMultiSelect,
-  useMessageMultiSelect,
 } from "raft-ui/wip";
 
 import {
@@ -35,6 +34,7 @@ import { usePlaygroundNavigation } from "../navigation/use-playground-navigation
 import { PlaygroundFilesPanel } from "../files/files-panel.tsx";
 import { PlaygroundTasksPanel } from "../tasks/tasks-panel.tsx";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
+import { usePlaygroundMessageMultiSelect } from "../message/use-playground-message-multi-select.ts";
 import {
   getPlaygroundActor,
   getPlaygroundConversationMessages,
@@ -104,11 +104,12 @@ export function PlaygroundConversationPanel({
 
 function PlaygroundMessageMultiSelectToolbar({
   messages,
+  selection,
 }: {
   messages: readonly PlaygroundMessage[];
+  selection: ReturnType<typeof usePlaygroundMessageMultiSelect>;
 }) {
-  const selection = useMessageMultiSelect();
-  if (!selection?.active) return null;
+  if (!selection.active) return null;
 
   const selectedContent = messages
     .filter((message) => selection.selected.has(message.id))
@@ -142,14 +143,21 @@ function PlaygroundMessageMultiSelectToolbar({
 
 function ChannelBody({ channel }: { channel: PlaygroundChannelRecord }) {
   const messages = getPlaygroundConversationMessages(channel.id);
+  const selection = usePlaygroundMessageMultiSelect();
   return messages.length ? (
-    <ConversationBody messages={messages} />
+    <ConversationBody messages={messages} selection={selection} />
   ) : (
     <NewChannelBody channel={channel} />
   );
 }
 
-function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[] }) {
+function ConversationBody({
+  messages,
+  selection,
+}: {
+  messages: readonly PlaygroundMessage[];
+  selection: ReturnType<typeof usePlaygroundMessageMultiSelect>;
+}) {
   const { tasks } = usePlaygroundTaskState();
   const unreadCount = messages.filter((message) => message.unread).length;
   const groupedRows = messages.map((message, index) => {
@@ -197,13 +205,17 @@ function ConversationBody({ messages }: { messages: readonly PlaygroundMessage[]
                 compact={compact}
                 threadId={message.id}
                 footer={taskBadge}
+                selectionMode={selection.active}
+                selected={selection.selected.has(message.id)}
+                onEnterSelectionMode={() => selection.enter(message.id)}
+                onSelectedChange={() => selection.toggle(message.id)}
               />
             );
           })}
           <div className="pb-3" aria-hidden />
         </MessageList>
       </ConversationPanelBody>
-      <PlaygroundMessageMultiSelectToolbar messages={messages} />
+      <PlaygroundMessageMultiSelectToolbar messages={messages} selection={selection} />
     </>
   );
 }

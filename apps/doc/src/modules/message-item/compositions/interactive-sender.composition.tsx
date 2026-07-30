@@ -8,7 +8,7 @@ import {
   MessageItemBody,
   MessageItemContent,
   MessageItemHeader,
-  MessageItemSender,
+  MessageItemSenderButton,
   MessageItemTime,
 } from "raft-ui/wip";
 
@@ -33,13 +33,9 @@ export function MessageInteractiveSenderComposition() {
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
-            <MessageItemSender
-              interactive
-              render={<button type="button" onClick={() => setAction("mention")} />}
-              title="Mention @Atlas"
-            >
+            <MessageItemSenderButton onClick={() => setAction("mention")} title="Mention @Atlas">
               Atlas
-            </MessageItemSender>
+            </MessageItemSenderButton>
             <MessageItemTime>2:20 PM</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>Please add the owner to the release review thread.</MessageItemBody>

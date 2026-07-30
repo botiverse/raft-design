@@ -20,17 +20,12 @@ import {
   ThreadPanelTitle,
   ThreadPanelTitleMeta,
 } from "raft-ui";
-import {
-  MessageList,
-  MessageListNotice,
-  MessageMultiSelect,
-  PanelAction,
-  useMessageMultiSelect,
-} from "raft-ui/wip";
+import { MessageList, MessageListNotice, MessageMultiSelect, PanelAction } from "raft-ui/wip";
 import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
+import { usePlaygroundMessageMultiSelect } from "../message/use-playground-message-multi-select.ts";
 import { usePlaygroundThreadReplies } from "../message/use-playground-message-workflow.ts";
 import {
   getPlaygroundActor,
@@ -56,6 +51,7 @@ export function PlaygroundThreadPanel({
   const [activeMatchIndex, setActiveMatchIndex] = useState(0);
   const location = useLocation();
   const { replies } = usePlaygroundThreadReplies(thread.parent.id, thread.replies);
+  const selection = usePlaygroundMessageMultiSelect();
   const hashTargetId = location.hash.replace(/^#/, "");
   const focusTargetId = hashTargetId.startsWith("thread-message-") ? hashTargetId : undefined;
   const isDm = channel.kind === "dm";
@@ -221,6 +217,10 @@ export function PlaygroundThreadPanel({
               focusTarget={focusTargetId === `thread-message-${thread.parent.id}`}
               surface="thread"
               threadId={thread.parent.id}
+              selectionMode={selection.active}
+              selected={selection.selected.has(thread.parent.id)}
+              onEnterSelectionMode={() => selection.enter(thread.parent.id)}
+              onSelectedChange={() => selection.toggle(thread.parent.id)}
             />
           </ThreadPanelOriginalMessage>
           <ThreadPanelBody>
@@ -240,12 +240,19 @@ export function PlaygroundThreadPanel({
                   searchMatch={activeMatch?.id === message.id}
                   surface="thread"
                   threadId={thread.parent.id}
+                  selectionMode={selection.active}
+                  selected={selection.selected.has(message.id)}
+                  onEnterSelectionMode={() => selection.enter(message.id)}
+                  onSelectedChange={() => selection.toggle(message.id)}
                 />
               ))}
               <div className="h-6" aria-hidden />
             </MessageList>
           </ThreadPanelBody>
-          <PlaygroundThreadMultiSelectToolbar messages={[thread.parent, ...replies]} />
+          <PlaygroundThreadMultiSelectToolbar
+            messages={[thread.parent, ...replies]}
+            selection={selection}
+          />
           <PlaygroundThreadComposer
             key={thread.parent.id}
             channel={channel}
@@ -261,11 +268,12 @@ export function PlaygroundThreadPanel({
 
 function PlaygroundThreadMultiSelectToolbar({
   messages,
+  selection,
 }: {
   messages: readonly { id: string; content: string }[];
+  selection: ReturnType<typeof usePlaygroundMessageMultiSelect>;
 }) {
-  const selection = useMessageMultiSelect();
-  if (!selection?.active) return null;
+  if (!selection.active) return null;
 
   const selectedContent = messages
     .filter((message) => selection.selected.has(message.id))

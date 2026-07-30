@@ -45,6 +45,7 @@ import {
   MessageItemSearchMatch,
   MessageItemSelection,
   MessageItemSender,
+  MessageItemSenderButton,
   MessageAttachmentAction,
   MessageAttachmentCommentSummary,
   MessageAttachmentCard,
@@ -63,7 +64,6 @@ import {
   MessageItemTranslationStatus,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
-  useMessageMultiSelect,
 } from "raft-ui/wip";
 
 import { MessageContextMenuComposition } from "#/modules/message-item/compositions/context-menu.composition.tsx";
@@ -114,18 +114,12 @@ function PlaygroundMessageSender({
     return <MessageItemSender>{children}</MessageItemSender>;
   }
   return (
-    <MessageItemSender
-      interactive
-      render={
-        <button
-          type="button"
-          title={`Mention @${mentionHandle}`}
-          onClick={() => mentionTarget.insertMention(mentionHandle)}
-        />
-      }
+    <MessageItemSenderButton
+      title={`Mention @${mentionHandle}`}
+      onClick={() => mentionTarget.insertMention(mentionHandle)}
     >
       {children}
-    </MessageItemSender>
+    </MessageItemSenderButton>
   );
 }
 
@@ -266,6 +260,10 @@ export type PlaygroundMessageRowProps = {
   gutterTime?: string;
   surface?: "conversation" | "thread";
   className?: string;
+  selectionMode?: boolean;
+  selected?: boolean;
+  onEnterSelectionMode?: () => void;
+  onSelectedChange?: (selected: boolean) => void;
 };
 
 function PlaygroundInlineReplies({
@@ -348,6 +346,10 @@ export function PlaygroundMessageRow({
   threadId,
   surface = "conversation",
   className,
+  selectionMode = false,
+  selected = false,
+  onEnterSelectionMode,
+  onSelectedChange,
 }: PlaygroundMessageRowProps) {
   const {
     channelId,
@@ -375,9 +377,7 @@ export function PlaygroundMessageRow({
     ? (gutterTime ?? playgroundGutterClock(message.createdAt))
     : gutterTime;
   const actor = getPlaygroundActor(actorId);
-  const selection = useMessageMultiSelect();
   const rowSelectId = selectId;
-  const selectMode = selection?.active ?? false;
   const [menuOpen, setMenuOpen] = useState(false);
   const { workflow, update: updateWorkflow } = usePlaygroundMessageWorkflow(
     rowSelectId,
@@ -428,7 +428,7 @@ export function PlaygroundMessageRow({
       <QuotedPreviewEmbeddedComposition />
     ) : null;
 
-  const effectiveRowState = selectMode ? "select" : searchMatch ? "search-match" : undefined;
+  const effectiveRowState = selectionMode ? "select" : searchMatch ? "search-match" : undefined;
   const ItemRoot =
     effectiveRowState === "search-match"
       ? MessageItemSearchMatch
@@ -462,8 +462,13 @@ export function PlaygroundMessageRow({
       className={className}
       tabIndex={surface === "thread" && focusTarget ? -1 : undefined}
     >
-      {selectMode ? (
-        <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
+      {selectionMode ? (
+        <MessageMultiSelectCheckbox
+          aria-label="Select message"
+          checked={selected}
+          value={rowSelectId}
+          onCheckedChange={onSelectedChange}
+        />
       ) : null}
       {compact ? (
         <MessageItemGutter>
@@ -638,7 +643,7 @@ export function PlaygroundMessageRow({
 
   // Select mode disables the right-click menu (source parity), so the row skips
   // the ContextMenu wrapper entirely.
-  if (selectMode) {
+  if (selectionMode) {
     return messageItem;
   }
 
@@ -674,7 +679,7 @@ export function PlaygroundMessageRow({
           }}
           onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
           onTaskChange={(next) => updateWorkflow((current) => ({ ...current, task: next }))}
-          onSelectMessage={selection ? () => selection.enter(rowSelectId) : undefined}
+          onSelectMessage={onEnterSelectionMode}
           onOpenThread={openThread}
         >
           {translation &&

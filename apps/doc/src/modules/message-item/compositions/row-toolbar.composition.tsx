@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import { useMediaQuery } from "foxact/use-media-query";
 import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
-import { MessageItemSaveButton, MessageItemToolbar, MessageItemToolbarButton } from "raft-ui/wip";
+import { MessageItemToolbar, MessageItemToolbarButton } from "raft-ui/wip";
 import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
 
 export type MessageRowToolbarProps = {
@@ -47,7 +47,7 @@ export function MessageRowToolbar({
 
   return (
     <MessageItemToolbar
-      visible={visible}
+      className={visible ? "pointer-events-auto opacity-100" : undefined}
       onMouseEnter={clearCloseTimer}
       onMouseLeave={reactionOpen ? scheduleClose : undefined}
     >
@@ -76,13 +76,13 @@ export function MessageRowToolbar({
         contentOnMouseEnter={clearCloseTimer}
         contentOnMouseLeave={scheduleClose}
       />
-      <MessageItemSaveButton
+      <MessageItemToolbarButton
         aria-label={saved ? "Remove from Saved" : "Save message"}
-        selected={saved}
+        aria-pressed={saved}
         onClick={() => onSavedChange(!saved)}
       >
         <Bookmark fill={saved ? "currentColor" : "none"} />
-      </MessageItemSaveButton>
+      </MessageItemToolbarButton>
     </MessageItemToolbar>
   );
 }

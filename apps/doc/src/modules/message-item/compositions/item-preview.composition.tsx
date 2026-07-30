@@ -95,6 +95,7 @@ export function MessageItemPreview({
   reactions = false,
 }: MessageItemPreviewProps) {
   const [isSaved, setIsSaved] = useState(saved);
+  const [previewSelected, setPreviewSelected] = useState(true);
   const [reaction, setReaction] = useState<string>();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   // @docs-source-strip-start
@@ -222,19 +223,22 @@ export function MessageItemPreview({
 
   if (chrome === "selected") {
     return (
-      <MessageMultiSelect defaultActive defaultSelected={new Set(["preview"])}>
-        <div>
-          <MessageItemSelection>
-            <MessageMultiSelectCheckbox value="preview" aria-label="Select message" />
-            <MessageItemAvatarSlot>
-              <Avatar size="md" type="agent">
-                <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
-                <AvatarFallback>AT</AvatarFallback>
-              </Avatar>
-            </MessageItemAvatarSlot>
-            {content}
-          </MessageItemSelection>
-        </div>
+      <MessageMultiSelect>
+        <MessageItemSelection>
+          <MessageMultiSelectCheckbox
+            aria-label="Select message"
+            checked={previewSelected}
+            value="preview"
+            onCheckedChange={setPreviewSelected}
+          />
+          <MessageItemAvatarSlot>
+            <Avatar size="md" type="agent">
+              <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+              <AvatarFallback>AT</AvatarFallback>
+            </Avatar>
+          </MessageItemAvatarSlot>
+          {content}
+        </MessageItemSelection>
       </MessageMultiSelect>
     );
   }

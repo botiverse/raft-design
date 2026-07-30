@@ -49,13 +49,27 @@ export const ANATOMY_SOURCE = `<MessageItem>
   </MessageItemContent>
 </MessageItem>
 
-<MessageMultiSelect>
-  <MessageItemSelection>
-    <MessageMultiSelectCheckbox value="id" />
-    <MessageItemAvatarSlot />
-    <MessageItemContent>...</MessageItemContent>
-  </MessageItemSelection>
-</MessageMultiSelect>`;
+function MessageSelectionExample() {
+  const [selected, setSelected] = useState<ReadonlySet<string>>(
+    () => new Set(["id"]),
+  );
+
+  return (
+    <MessageMultiSelect>
+      <MessageItemSelection>
+        <MessageMultiSelectCheckbox
+          checked={selected.has("id")}
+          value="id"
+          onCheckedChange={(checked) =>
+            setSelected(checked ? new Set(["id"]) : new Set())
+          }
+        />
+        <MessageItemAvatarSlot />
+        <MessageItemContent>...</MessageItemContent>
+      </MessageItemSelection>
+    </MessageMultiSelect>
+  );
+}`;
 
 export const ROW_PROPS: readonly PropRow[] = [
   {
@@ -102,8 +116,13 @@ export const ROW_PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageItemSender",
-    type: 'useRender.ComponentProps<"span"> & { interactive?: boolean }',
-    description: "Sender name. interactive only adds sender affordance styling.",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Static sender name.",
+  },
+  {
+    name: "MessageItemSenderButton",
+    type: 'useRender.ComponentProps<"button">',
+    description: "Interactive sender action with the sender-name visual treatment.",
   },
   {
     name: "MessageItemSenderBadges",
@@ -201,7 +220,7 @@ export const REFERENCE_PROPS: readonly PropRow[] = [
 export const ACTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemToolbar",
-    type: 'useRender.ComponentProps<"div"> & { visible?: boolean }',
+    type: 'useRender.ComponentProps<"div">',
     description:
       "Action toolbar revealed on row hover or when keyboard focus enters it via focus-within.",
   },
@@ -210,11 +229,6 @@ export const ACTION_PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"button">',
     description:
       "Toolbar action button. Popup triggers receive Base UI state attributes through render composition.",
-  },
-  {
-    name: "MessageItemSaveButton",
-    type: 'useRender.ComponentProps<"button"> & { selected?: boolean }',
-    description: "Semantic saved action with an explicit selected accent state.",
   },
   {
     name: "MessageItemSavedIndicator",
@@ -327,14 +341,9 @@ export const REACTION_PROPS: readonly PropRow[] = [
 export const SELECTION_PROPS: readonly PropRow[] = [
   {
     name: "MessageMultiSelect",
-    type: "controlled or uncontrolled selection provider",
-    description: "Owns selection-mode activity and selected IDs.",
-  },
-  {
-    name: "useMessageMultiSelect",
-    type: "selection context API",
+    type: 'useRender.ComponentProps<"div">',
     description:
-      "Exposes active, selected, enter, toggle, and cancel for a MessageMultiSelect subtree.",
+      "Stateless multi-select structure root. Consumers own selection mode, selected IDs, and selection actions.",
   },
   {
     name: "MessageMultiSelectToolbar",
@@ -344,9 +353,9 @@ export const SELECTION_PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageMultiSelectCheckbox",
-    type: "Checkbox props with required value: string",
+    type: "CheckboxProps",
     description:
-      "Semantic per-row selector. Compose before MessageItemAvatarSlot inside MessageItemSelection.",
+      "Styled per-row selector with native Checkbox props. Control it with checked and onCheckedChange.",
   },
   {
     name: "MessageTextSelection",

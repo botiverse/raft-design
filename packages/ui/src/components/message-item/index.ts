@@ -18,13 +18,10 @@ export {
   MessageItemMeta,
   MessageItemSender,
   MessageItemSenderBadges,
+  MessageItemSenderButton,
   MessageItemTime,
-} from "./message-item-regions";
-export {
-  MessageItemSaveButton,
-  MessageItemToolbar,
-  MessageItemToolbarButton,
-} from "./message-item-toolbar";
+} from "./message-item-header";
+export { MessageItemToolbar, MessageItemToolbarButton } from "./message-item-toolbar";
 export {
   MessageItemBadge,
   MessageItemBadgeSeparator,
@@ -61,7 +58,6 @@ export {
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
   MessageMultiSelectToolbar,
-  useMessageMultiSelect,
 } from "./message-multi-select";
 export {
   MessageTextSelection,
@@ -94,11 +90,11 @@ export type {
   MessageItemMetaProps,
   MessageItemSenderProps,
   MessageItemSenderBadgesProps,
+  MessageItemSenderButtonProps,
   MessageItemTimeProps,
-} from "./message-item-regions";
+} from "./message-item-header";
 export type {
   MessageItemToolbarButtonProps,
-  MessageItemSaveButtonProps,
   MessageItemToolbarProps,
 } from "./message-item-toolbar";
 export type {
@@ -137,7 +133,6 @@ export type {
   MessageReferenceUnavailableProps,
 } from "./message-reference";
 export type {
-  MessageMultiSelectApi,
   MessageMultiSelectCheckboxProps,
   MessageMultiSelectProps,
   MessageMultiSelectToolbarProps,
