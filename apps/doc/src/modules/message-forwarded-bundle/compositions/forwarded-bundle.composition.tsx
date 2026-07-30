@@ -13,11 +13,9 @@ import {
   MessageForwardedBundleAttachmentMeta,
   MessageForwardedBundleAttachmentName,
   MessageForwardedBundleAttachments,
-  MessageForwardedBundleCollapsedFade,
-  MessageForwardedBundleCollapsedItems,
-  MessageForwardedBundleContent,
   MessageForwardedBundleFooter,
   MessageForwardedBundleHeader,
+  MessageForwardedBundleHeaderContent,
   MessageForwardedBundleHeaderCount,
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
@@ -46,9 +44,7 @@ function ForwardedBundleItemsContent() {
           <span aria-hidden>·</span>
           <time dateTime="2026-07-15T06:05:00.000Z">Jul 15, 2:05 PM</time>
         </MessageForwardedBundleItemMeta>
-        <MessageForwardedBundleContent>
-          <Markdown>Rollout is clear for the message reference migration.</Markdown>
-        </MessageForwardedBundleContent>
+        <Markdown>Rollout is clear for the message reference migration.</Markdown>
       </MessageForwardedBundleItem>
       <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
         <MessageForwardedBundleItemMeta>
@@ -56,9 +52,7 @@ function ForwardedBundleItemsContent() {
           <span aria-hidden>·</span>
           <time dateTime="2026-07-15T06:09:00.000Z">Jul 15, 2:09 PM</time>
         </MessageForwardedBundleItemMeta>
-        <MessageForwardedBundleContent>
-          <Markdown>Keep the source case with its attachment context.</Markdown>
-        </MessageForwardedBundleContent>
+        <Markdown>Keep the source case with its attachment context.</Markdown>
         <MessageForwardedBundleAttachments>
           <MessageForwardedBundleAttachment>
             <FileText size={12} />
@@ -75,9 +69,7 @@ function ForwardedBundleItemsContent() {
           <span aria-hidden>·</span>
           <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
         </MessageForwardedBundleItemMeta>
-        <MessageForwardedBundleContent>
-          <Markdown>Keep the original context available to reviewers.</Markdown>
-        </MessageForwardedBundleContent>
+        <Markdown>Keep the original context available to reviewers.</Markdown>
       </MessageForwardedBundleItem>
       <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
         <MessageForwardedBundleItemMeta>
@@ -85,9 +77,7 @@ function ForwardedBundleItemsContent() {
           <span aria-hidden>·</span>
           <time dateTime="2026-07-15T06:16:00.000Z">Jul 15, 2:16 PM</time>
         </MessageForwardedBundleItemMeta>
-        <MessageForwardedBundleContent>
-          <Markdown>Follow the same message state contract in the thread.</Markdown>
-        </MessageForwardedBundleContent>
+        <Markdown>Follow the same message state contract in the thread.</Markdown>
       </MessageForwardedBundleItem>
     </>
   );
@@ -100,10 +90,10 @@ export function ForwardedBundleEmbeddedComposition() {
     <MessageItemEmbedded>
       <MessageForwardedBundle data-testid="forwarded-bundle-card">
         <MessageForwardedBundleHeader>
-          <div className="flex min-w-0 items-center gap-2">
+          <MessageForwardedBundleHeaderContent>
             <MessageForwardedBundleHeaderLabel>Forwarded</MessageForwardedBundleHeaderLabel>
             <MessageForwardedBundleHeaderCount>4 messages</MessageForwardedBundleHeaderCount>
-          </div>
+          </MessageForwardedBundleHeaderContent>
           <MessageForwardedBundleSource
             data-testid="forwarded-bundle-source-label"
             title="Open source message"
@@ -117,16 +107,9 @@ export function ForwardedBundleEmbeddedComposition() {
             from release-notes
           </MessageForwardedBundleSource>
         </MessageForwardedBundleHeader>
-        {expanded ? (
-          <MessageForwardedBundleItems>
-            <ForwardedBundleItemsContent />
-          </MessageForwardedBundleItems>
-        ) : (
-          <MessageForwardedBundleCollapsedItems>
-            <ForwardedBundleItemsContent />
-            <MessageForwardedBundleCollapsedFade />
-          </MessageForwardedBundleCollapsedItems>
-        )}
+        <MessageForwardedBundleItems collapsed={!expanded}>
+          <ForwardedBundleItemsContent />
+        </MessageForwardedBundleItems>
         <MessageForwardedBundleFooter>
           <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
             {expanded ? "Collapse" : "Show all 4 messages"}
