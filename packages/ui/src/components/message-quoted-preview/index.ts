@@ -1,5 +1,6 @@
 export {
   MessageQuotedPreview,
+  MessageQuotedPreviewAttachments,
   MessageQuotedPreviewAttachment,
   MessageQuotedPreviewAuthor,
   MessageQuotedPreviewAuthorMeta,
@@ -7,7 +8,6 @@ export {
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewContext,
-  MessageQuotedPreviewFooter,
   MessageQuotedPreviewHeader,
   MessageQuotedPreviewLoading,
   MessageQuotedPreviewText,
@@ -17,13 +17,13 @@ export {
 } from "./message-quoted-preview";
 export type {
   MessageQuotedPreviewAttachmentProps,
+  MessageQuotedPreviewAttachmentsProps,
   MessageQuotedPreviewAuthorMetaProps,
   MessageQuotedPreviewAuthorNameProps,
   MessageQuotedPreviewAuthorProps,
   MessageQuotedPreviewChannelProps,
   MessageQuotedPreviewContentProps,
   MessageQuotedPreviewContextProps,
-  MessageQuotedPreviewFooterProps,
   MessageQuotedPreviewHeaderProps,
   MessageQuotedPreviewLoadingProps,
   MessageQuotedPreviewProps,

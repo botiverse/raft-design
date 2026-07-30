@@ -1,5 +1,12 @@
-import { Hash } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import { Hash, Link2 } from "lucide-react";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  MessageReferenceMeta,
+} from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -12,24 +19,26 @@ import {
   MessageItemTime,
   MessageQuotedPreview,
   MessageQuotedPreviewAttachment,
+  MessageQuotedPreviewAttachments,
   MessageQuotedPreviewAuthor,
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewContext,
-  MessageQuotedPreviewFooter,
   MessageQuotedPreviewHeader,
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
 } from "raft-ui/wip";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
 export function QuotedPreviewLongContentComposition() {
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
         <Avatar size="md" type="human">
+          <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.ravi} alt="" />
           <AvatarFallback>R</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -40,7 +49,19 @@ export function QuotedPreviewLongContentComposition() {
           <MessageItemTime>2:38 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          Sharing the original migration plan and its supporting files.
+          <MessageReferenceChip
+            variant="link"
+            render={
+              <a
+                href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                aria-label="Open platform migration message"
+              />
+            }
+          >
+            <Link2 />
+            <MessageReferenceLabel>#platform-migration</MessageReferenceLabel>
+            <MessageReferenceMeta>msg</MessageReferenceMeta>
+          </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>
           <MessageQuotedPreview
@@ -62,6 +83,7 @@ export function QuotedPreviewLongContentComposition() {
               <MessageQuotedPreviewContext>
                 <MessageQuotedPreviewAuthor>
                   <Avatar size="xs" type="human">
+                    <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.kai} alt="" />
                     <AvatarFallback>K</AvatarFallback>
                   </Avatar>
                   <MessageQuotedPreviewAuthorName>Kai</MessageQuotedPreviewAuthorName>
@@ -72,15 +94,10 @@ export function QuotedPreviewLongContentComposition() {
                 account and workspace permissions in the staging environment, and only then move the
                 webhook consumers to the new endpoint.
               </MessageQuotedPreviewText>
+              <MessageQuotedPreviewAttachments>
+                <MessageQuotedPreviewAttachment>2 attachments</MessageQuotedPreviewAttachment>
+              </MessageQuotedPreviewAttachments>
             </MessageQuotedPreviewContent>
-            <MessageQuotedPreviewFooter>
-              <MessageQuotedPreviewAttachment>
-                migration-checklist.md
-              </MessageQuotedPreviewAttachment>
-              <MessageQuotedPreviewAttachment>
-                webhook-cutover-plan.pdf
-              </MessageQuotedPreviewAttachment>
-            </MessageQuotedPreviewFooter>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>

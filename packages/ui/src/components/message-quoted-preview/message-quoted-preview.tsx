@@ -125,18 +125,6 @@ export function MessageQuotedPreviewTimestamp({ className, render, ...props }: S
   });
 }
 
-export function MessageQuotedPreviewFooter({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { footer } = messageQuotedPreview({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: footer({ className }) }, props),
-    state: { slot: "message-quoted-preview-footer" },
-  });
-}
-
 export function MessageQuotedPreviewText({ className, render, ...props }: DivProps) {
   const theme = useThemeFamily();
   const { text } = messageQuotedPreview({ theme });
@@ -146,6 +134,18 @@ export function MessageQuotedPreviewText({ className, render, ...props }: DivPro
     render,
     props: mergeProps<"div">({ className: text({ className }) }, props),
     state: { slot: "message-quoted-preview-text" },
+  });
+}
+
+export function MessageQuotedPreviewAttachments({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { attachments } = messageQuotedPreview({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: attachments({ className }) }, props),
+    state: { slot: "message-quoted-preview-attachments" },
   });
 }
 
@@ -194,8 +194,8 @@ export type MessageQuotedPreviewAuthorProps = SpanProps;
 export type MessageQuotedPreviewAuthorNameProps = SpanProps;
 export type MessageQuotedPreviewAuthorMetaProps = SpanProps;
 export type MessageQuotedPreviewTimestampProps = SpanProps;
-export type MessageQuotedPreviewFooterProps = DivProps;
 export type MessageQuotedPreviewTextProps = DivProps;
+export type MessageQuotedPreviewAttachmentsProps = DivProps;
 export type MessageQuotedPreviewAttachmentProps = SpanProps;
 export type MessageQuotedPreviewLoadingProps = DivProps;
 export type MessageQuotedPreviewUnavailableProps = DivProps;

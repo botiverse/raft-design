@@ -293,6 +293,7 @@ export type {
 
 export {
   MessageQuotedPreview,
+  MessageQuotedPreviewAttachments,
   MessageQuotedPreviewAttachment,
   MessageQuotedPreviewAuthor,
   MessageQuotedPreviewAuthorMeta,
@@ -300,7 +301,6 @@ export {
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewContext,
-  MessageQuotedPreviewFooter,
   MessageQuotedPreviewHeader,
   MessageQuotedPreviewLoading,
   MessageQuotedPreviewText,
@@ -310,13 +310,13 @@ export {
 } from "./components/message-quoted-preview/index";
 export type {
   MessageQuotedPreviewAttachmentProps,
+  MessageQuotedPreviewAttachmentsProps,
   MessageQuotedPreviewAuthorMetaProps,
   MessageQuotedPreviewAuthorNameProps,
   MessageQuotedPreviewAuthorProps,
   MessageQuotedPreviewChannelProps,
   MessageQuotedPreviewContentProps,
   MessageQuotedPreviewContextProps,
-  MessageQuotedPreviewFooterProps,
   MessageQuotedPreviewHeaderProps,
   MessageQuotedPreviewLoadingProps,
   MessageQuotedPreviewProps,

@@ -13,9 +13,14 @@ import { QuotedPreviewMessageComposition } from "#/modules/message-quoted-previe
 import quotedPreviewMessageSource from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx?raw";
 import { QuotedPreviewDirectMessageComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-direct-message.composition.tsx";
 import quotedPreviewDirectMessageSource from "#/modules/message-quoted-preview/compositions/quoted-preview-direct-message.composition.tsx?raw";
+import { QuotedPreviewDirectMessageThreadComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-direct-message-thread.composition.tsx";
+import quotedPreviewDirectMessageThreadSource from "#/modules/message-quoted-preview/compositions/quoted-preview-direct-message-thread.composition.tsx?raw";
+import { QuotedPreviewArchivedChannelComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-archived-channel.composition.tsx";
+import quotedPreviewArchivedChannelSource from "#/modules/message-quoted-preview/compositions/quoted-preview-archived-channel.composition.tsx?raw";
 import { QuotedPreviewLongContentComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-long-content.composition.tsx";
 import quotedPreviewLongContentSource from "#/modules/message-quoted-preview/compositions/quoted-preview-long-content.composition.tsx?raw";
 import { MessageQuotedPreviewShowcaseComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
+import { QuotedPreviewFeedbackComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
 import quotedPreviewSource from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx?raw";
 import { MessageQuotedPreviewSourcePreview } from "#/modules/message-quoted-preview/message-quoted-preview.source-preview.tsx";
 
@@ -63,10 +68,10 @@ const ANATOMY_SOURCE = `<MessageQuotedPreview>
       </MessageQuotedPreviewAuthor>
     </MessageQuotedPreviewContext>
     <MessageQuotedPreviewText />
+    <MessageQuotedPreviewAttachments>
+      <MessageQuotedPreviewAttachment />
+    </MessageQuotedPreviewAttachments>
   </MessageQuotedPreviewContent>
-  <MessageQuotedPreviewFooter>
-    <MessageQuotedPreviewAttachment />
-  </MessageQuotedPreviewFooter>
 </MessageQuotedPreview>
 
 <MessageQuotedPreviewLoading>
@@ -85,7 +90,7 @@ const PROPS: readonly PropRow[] = [
   {
     name: "MessageQuotedPreviewContent",
     type: 'useRender.ComponentProps<"div">',
-    description: "Quoted excerpt region between the header and optional footer.",
+    description: "Quoted excerpt region for author context, text, and optional attachment chips.",
   },
   {
     name: "MessageQuotedPreviewHeader",
@@ -128,11 +133,6 @@ const PROPS: readonly PropRow[] = [
     description: "Header timestamp aligned to the trailing edge.",
   },
   {
-    name: "MessageQuotedPreviewFooter",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Optional footer region for attachment chips or other trailing quote context.",
-  },
-  {
     name: "MessageQuotedPreviewText",
     type: 'useRender.ComponentProps<"div">',
     description: "Quoted text excerpt, visually clamped to two lines.",
@@ -141,6 +141,11 @@ const PROPS: readonly PropRow[] = [
     name: "MessageQuotedPreviewAttachment",
     type: 'useRender.ComponentProps<"span">',
     description: "One quoted attachment chip. The caller owns its filename or media label.",
+  },
+  {
+    name: "MessageQuotedPreviewAttachments",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Wrapping attachment-chip region within the quoted content.",
   },
   {
     name: "MessageQuotedPreviewLoading",
@@ -161,6 +166,8 @@ export const Route = createFileRoute("/components/message-quoted-preview")({
       data: {
         anatomy: ANATOMY_SOURCE,
         quotedPreviewDirectMessage: quotedPreviewDirectMessageSource,
+        quotedPreviewDirectMessageThread: quotedPreviewDirectMessageThreadSource,
+        quotedPreviewArchivedChannel: quotedPreviewArchivedChannelSource,
         quotedPreviewLongContent: quotedPreviewLongContentSource,
         quotedPreviewMessage: quotedPreviewMessageSource,
         quotedPreview: quotedPreviewSource,
@@ -216,6 +223,23 @@ function MessageQuotedPreviewDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
+          <DocSubsection parentId="usage" id="channel-thread" title="Channel thread and attachment">
+            <DocNote>
+              Use a hash-prefixed channel label for channel permalinks. Render
+              <code>MessageQuotedPreviewThread</code> only when the permalink includes a thread
+              parent; attachment chips remain in the content region.
+            </DocNote>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <QuotedPreviewMessageComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.quotedPreviewMessage}
+                collapsedHtml={code.quotedPreviewMessageBody}
+              />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection
             parentId="usage"
             id="direct-message"
@@ -226,8 +250,7 @@ function MessageQuotedPreviewDoc() {
               Thread, author meta, and attachments are optional; render those parts only when the
               quoted target has that data. Use <code>MessageQuotedPreviewLoading</code> while
               resolving the target and <code>MessageQuotedPreviewUnavailable</code> when it is
-              missing or inaccessible. Archived labels remain caller-owned product policy in the
-              context row.
+              missing or inaccessible.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -240,11 +263,25 @@ function MessageQuotedPreviewDoc() {
             </Preview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="direct-message-thread" title="Direct-message thread">
+            <DocNote>
+              DM permalinks use an <code>@</code> recipient label. A DM can also target a thread
+              reply, in which case render the same thread marker beside that label.
+            </DocNote>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <QuotedPreviewDirectMessageThreadComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.quotedPreviewDirectMessageThread} />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="long-content" title="Long excerpt and attachments">
             <DocNote>
-              Quoted text clamps to two lines. Attachments are outside that clamp, so use
-              <code>MessageQuotedPreviewFooter</code> when files must remain visible with a long
-              excerpt.
+              Quoted text clamps to two lines. Wrap attachment chips in
+              <code>MessageQuotedPreviewAttachments</code> after{" "}
+              <code>MessageQuotedPreviewText</code>
+              so files remain visible with a long excerpt.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -254,6 +291,32 @@ function MessageQuotedPreviewDoc() {
                 html={code.quotedPreviewLongContent}
                 collapsedHtml={code.quotedPreviewLongContentBody}
               />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="archived-channel" title="Archived channel">
+            <DocNote>
+              Archive policy stays caller-owned. Compose the channel&apos;s archived label from an
+              existing <code>Badge</code> alongside the channel and timestamp.
+            </DocNote>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <QuotedPreviewArchivedChannelComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.quotedPreviewArchivedChannel} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="resolution-states" title="Loading and unavailable">
+            <DocNote>
+              Use <code>MessageQuotedPreviewLoading</code> while resolving the target and
+              <code>MessageQuotedPreviewUnavailable</code> when it is missing or inaccessible.
+            </DocNote>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <QuotedPreviewFeedbackComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.quotedPreview} />
             </Preview>
           </DocSubsection>
         </div>

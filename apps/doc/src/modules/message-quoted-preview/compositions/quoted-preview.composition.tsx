@@ -1,8 +1,10 @@
-import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  MessageReferenceMeta,
   MessageReferenceUnavailable,
   Skeleton,
   useThemeFamily,
@@ -22,8 +24,12 @@ import {
   MessageQuotedPreviewLoading,
   MessageQuotedPreviewUnavailable,
 } from "raft-ui/wip";
+import { Link2 } from "lucide-react";
+
+import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 import { QuotedPreviewDirectMessageComposition } from "./quoted-preview-direct-message.composition.tsx";
 import { QuotedPreviewMessageComposition } from "./quoted-preview-message.composition.tsx";
+import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
 function QuotedPreviewLoadingSkeleton() {
   const theme = useThemeFamily();
@@ -70,7 +76,7 @@ export function QuotedPreviewLoadingComposition() {
     <MessageItem>
       <MessageItemAvatarSlot>
         <Avatar size="md" type="agent">
-          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.loading} alt="" />
           <AvatarFallback>AT</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -80,7 +86,21 @@ export function QuotedPreviewLoadingComposition() {
           <MessageItemMeta>owner</MessageItemMeta>
           <MessageItemTime>2:26 PM</MessageItemTime>
         </MessageItemHeader>
-        <MessageItemBody>Loading quoted message context.</MessageItemBody>
+        <MessageItemBody>
+          <MessageReferenceChip
+            variant="link"
+            render={
+              <a
+                href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                aria-label="Open raft-ui migration message"
+              />
+            }
+          >
+            <Link2 />
+            <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>
+            <MessageReferenceMeta>msg</MessageReferenceMeta>
+          </MessageReferenceChip>
+        </MessageItemBody>
         <MessageItemEmbedded>
           <MessageQuotedPreviewLoading data-testid="quoted-message-card-loading">
             <QuotedPreviewLoadingSkeleton />
@@ -96,7 +116,7 @@ export function QuotedPreviewUnavailableComposition() {
     <MessageItem>
       <MessageItemAvatarSlot>
         <Avatar size="md" type="agent">
-          <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+          <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.unavailable} alt="" />
           <AvatarFallback>AT</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -107,8 +127,7 @@ export function QuotedPreviewUnavailableComposition() {
           <MessageItemTime>2:27 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          The linked thread is{" "}
-          <MessageReferenceUnavailable>unavailable or deleted</MessageReferenceUnavailable>.
+          <MessageReferenceUnavailable>Quoted message unavailable</MessageReferenceUnavailable>
         </MessageItemBody>
         <MessageItemEmbedded>
           <MessageQuotedPreviewUnavailable data-testid="quoted-message-card-unavailable">

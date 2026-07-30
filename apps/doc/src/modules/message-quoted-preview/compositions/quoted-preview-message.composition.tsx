@@ -1,5 +1,12 @@
-import { Hash, MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
+import { Hash, Link2, MessageSquare } from "lucide-react";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+  MessageReferenceMeta,
+} from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -12,13 +19,13 @@ import {
   MessageItemTime,
   MessageQuotedPreview,
   MessageQuotedPreviewAttachment,
+  MessageQuotedPreviewAttachments,
   MessageQuotedPreviewAuthor,
   MessageQuotedPreviewAuthorMeta,
   MessageQuotedPreviewAuthorName,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewContext,
-  MessageQuotedPreviewFooter,
   MessageQuotedPreviewHeader,
   MessageQuotedPreviewText,
   MessageQuotedPreviewThread,
@@ -26,6 +33,7 @@ import {
 } from "raft-ui/wip";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
 export function QuotedPreviewEmbeddedComposition() {
   return (
@@ -54,6 +62,7 @@ export function QuotedPreviewEmbeddedComposition() {
           <MessageQuotedPreviewContext>
             <MessageQuotedPreviewAuthor>
               <Avatar size="xs" type="human">
+                <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.developer} alt="" />
                 <AvatarFallback>D</AvatarFallback>
               </Avatar>
               <MessageQuotedPreviewAuthorName>Developer</MessageQuotedPreviewAuthorName>
@@ -64,12 +73,10 @@ export function QuotedPreviewEmbeddedComposition() {
             Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for our
             store structure.
           </MessageQuotedPreviewText>
+          <MessageQuotedPreviewAttachments>
+            <MessageQuotedPreviewAttachment>1 file</MessageQuotedPreviewAttachment>
+          </MessageQuotedPreviewAttachments>
         </MessageQuotedPreviewContent>
-        <MessageQuotedPreviewFooter>
-          <MessageQuotedPreviewAttachment>
-            state-ownership-migration-notes.md
-          </MessageQuotedPreviewAttachment>
-        </MessageQuotedPreviewFooter>
       </MessageQuotedPreview>
     </MessageItemEmbedded>
   );
@@ -80,6 +87,7 @@ export function QuotedPreviewMessageComposition() {
     <MessageItem>
       <MessageItemAvatarSlot>
         <Avatar size="md" type="human">
+          <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.ada} alt="" />
           <AvatarFallback>A</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -89,7 +97,21 @@ export function QuotedPreviewMessageComposition() {
           <MessageItemMeta>owner</MessageItemMeta>
           <MessageItemTime>2:25 PM</MessageItemTime>
         </MessageItemHeader>
-        <MessageItemBody>Quoting the state-ownership decision and its source note.</MessageItemBody>
+        <MessageItemBody>
+          <MessageReferenceChip
+            variant="link"
+            render={
+              <a
+                href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                aria-label="Open raft-ui migration message"
+              />
+            }
+          >
+            <Link2 />
+            <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>
+            <MessageReferenceMeta>msg</MessageReferenceMeta>
+          </MessageReferenceChip>
+        </MessageItemBody>
         <QuotedPreviewEmbeddedComposition />
       </MessageItemContent>
     </MessageItem>
