@@ -1,5 +1,5 @@
-import { MessageSquare, Play } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Badge, useThemeFamily } from "raft-ui";
+import { MessageSquare } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage, TaskChip } from "raft-ui";
 import {
   MessageItem,
   MessageItemAttachments,
@@ -23,8 +23,6 @@ import { MessageVideoPreviewStatesComposition } from "#/modules/message-media/co
 import { MessageFileAttachmentStatesComposition } from "./file-attachments.composition.tsx";
 
 export function MessageAttachmentsShowcaseComposition() {
-  const theme = useThemeFamily();
-
   return (
     <div className="w-full max-w-3xl">
       <MessageItem>
@@ -51,15 +49,9 @@ export function MessageAttachmentsShowcaseComposition() {
             <MessageFileAttachmentStatesComposition />
           </MessageItemAttachments>
           <MessageItemFooter>
-            <Badge
-              appearance={theme === "brutal" ? "solid" : "soft"}
-              variant="information"
-              uppercase={false}
-              title="Task #222 · In Progress"
-            >
-              <Play size={10} />
-              <span>#222</span>
-            </Badge>
+            <TaskChip status="done" title="Task #222 · Done">
+              #222
+            </TaskChip>
             <MessageItemBadge status="unread">
               <MessageSquare />6 replies
               <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>3 new

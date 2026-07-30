@@ -1,6 +1,7 @@
 import type { ComponentProps } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { MarkdownBlockquote, type MarkdownBlockquoteProps } from "../markdown/markdown-parts";
+import { ProgressTrack, type ProgressTrackProps } from "../progress";
 import { messageTranslation } from "./message-translation.recipe";
 
 export type MessageItemTranslationOriginalProps = MarkdownBlockquoteProps;
@@ -73,6 +74,18 @@ export function MessageItemTranslationPendingStatus({
       {...props}
     />
   );
+}
+
+export type MessageItemTranslationProgressTrackProps = ProgressTrackProps;
+
+export function MessageItemTranslationProgressTrack({
+  className,
+  ...props
+}: MessageItemTranslationProgressTrackProps) {
+  const theme = useThemeFamily();
+  const { translationProgressTrack } = messageTranslation({ theme });
+
+  return <ProgressTrack className={translationProgressTrack({ className })} {...props} />;
 }
 
 export type MessageItemTranslationFailedStatusProps = ComponentProps<"div">;

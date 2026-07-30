@@ -7,6 +7,7 @@ export const messageTranslation = tv({
     translationStatus: ["inline-flex items-center gap-1.5"],
     translationPendingStatus: ["inline-flex items-center gap-1.5"],
     translationFailedStatus: ["inline-flex items-center gap-1.5"],
+    translationProgressTrack: [],
     translationAction: [
       "inline-flex items-center gap-1",
       "font-medium underline underline-offset-2",
@@ -34,6 +35,7 @@ export const messageTranslation = tv({
         translationStatus: "text-[11px] leading-none text-foreground-muted",
         translationPendingStatus: "text-[11px] leading-none text-foreground-muted",
         translationFailedStatus: "text-[11px] leading-none text-warning-base",
+        translationProgressTrack: "h-1.5",
         translationAction: "text-foreground-muted/70 no-underline hover:text-foreground-muted",
         translationRetryAction: [
           "rounded-sm px-1 py-0.5",

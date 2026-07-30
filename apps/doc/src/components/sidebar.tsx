@@ -78,7 +78,7 @@ const NAV = [
         status: "wip",
       },
       { label: "ActionCard", to: "/components/message-action-card", status: "wip" },
-      { label: "Attachment", to: "/components/message-attachment", status: "wip" },
+      { label: "Attachment", to: "/components/message-attachment", status: "done" },
       { label: "System message", to: "/components/system-message", status: "wip" },
     ],
   },

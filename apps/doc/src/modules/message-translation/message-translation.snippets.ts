@@ -51,6 +51,11 @@ export const MESSAGE_TRANSLATION_PROPS: readonly PropRow[] = [
     description: "Pending status row with translation activity treatment.",
   },
   {
+    name: "MessageItemTranslationProgressTrack",
+    type: "ProgressTrackProps",
+    description: "Translation progress track with theme-specific height treatment.",
+  },
+  {
     name: "MessageItemTranslationFailedStatus",
     type: 'ComponentProps<"div">',
     description: "Failed status row with failure treatment for copy and retry actions.",

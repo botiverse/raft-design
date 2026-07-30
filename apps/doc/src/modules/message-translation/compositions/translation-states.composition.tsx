@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { AlertTriangle, Languages, RotateCcw } from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Progress,
-  ProgressIndicator,
-  ProgressTrack,
-} from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage, Progress, ProgressIndicator } from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -19,6 +12,7 @@ import {
   MessageItemTime,
   MessageItemTranslationFailedStatus,
   MessageItemTranslationPendingStatus,
+  MessageItemTranslationProgressTrack,
   MessageItemTranslationRetryAction,
 } from "raft-ui/wip";
 
@@ -52,9 +46,9 @@ export function MessageTranslationStatesComposition() {
               aria-label="Translating message"
               className="w-44 max-w-full"
             >
-              <ProgressTrack>
+              <MessageItemTranslationProgressTrack>
                 <ProgressIndicator />
-              </ProgressTrack>
+              </MessageItemTranslationProgressTrack>
             </Progress>
           </MessageItemBody>
           <MessageItemTranslationPendingStatus>
