@@ -7,6 +7,8 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 import { TaskStatusIcon } from "./task-status-icon";
 import { taskStatus, type TaskStatusId } from "./task-status.recipe";
 
+export type TaskChipVariant = "default" | "message";
+
 const taskChip = tv({
   slots: {
     root: [
@@ -30,6 +32,10 @@ const taskChip = tv({
       in_review: {},
       done: {},
       closed: {},
+    },
+    variant: {
+      default: {},
+      message: {},
     },
   },
   compoundVariants: [
@@ -85,31 +91,68 @@ const taskChip = tv({
         label: "text-[13px] font-normal leading-none",
       },
     },
+    {
+      variant: "message",
+      status: ["todo", "in_progress", "in_review", "done", "closed"],
+      class: {
+        root: [
+          "h-[19px] align-middle -mt-px gap-1.5 rounded-full border-0 bg-layer-strong py-0 pr-2 pl-0.5",
+          "text-[12px] font-[450] leading-none text-foreground-muted hover:brightness-100",
+        ],
+        status: "[&>svg]:size-3.5",
+        label: "text-[12px] font-[450] leading-none",
+      },
+    },
+    {
+      variant: "message",
+      status: "todo",
+      class: { status: "text-foreground-muted" },
+    },
+    {
+      variant: "message",
+      status: "in_review",
+      class: { status: "text-warning-base" },
+    },
+    {
+      variant: "message",
+      status: "done",
+      class: { status: "text-success-base" },
+    },
+    {
+      variant: "message",
+      status: "closed",
+      class: { status: "text-foreground-muted" },
+    },
   ],
+  defaultVariants: {
+    variant: "default",
+  },
 });
 
 export type TaskChipProps = useRender.ComponentProps<"span"> & {
   status: TaskStatusId;
   loading?: boolean;
+  variant?: TaskChipVariant;
 };
 
 export function TaskChip({
   status,
   loading = false,
+  variant = "default",
   className,
   render,
   children,
   ...props
 }: TaskChipProps) {
   const theme = useThemeFamily();
-  const { root, status: statusSlot, label } = taskChip({ theme, status });
+  const { root, status: statusSlot, label } = taskChip({ theme, status, variant });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-chip",
     "data-inline-reference": "",
     "data-loading": loading ? "true" : undefined,
     className: cn(
       root({ className }),
-      theme === "brutal" && taskStatus({ theme, status }),
+      theme === "brutal" && variant === "default" && taskStatus({ theme, status }),
       loading && "pointer-events-none opacity-60",
     ),
     children: (

@@ -78,7 +78,7 @@ function createPlaygroundMarkdownComponents(channelId?: string): Components {
         const threadId = task.sourceMessageId ?? task.id;
         const href = `${conversationHref(task.channelId)}?thread=${encodeURIComponent(threadId)}&from=tasks`;
         return (
-          <TaskChip status={task.status} render={<a href={href} />}>
+          <TaskChip variant="message" status={task.status} render={<a href={href} />}>
             #{reference.number}
           </TaskChip>
         );

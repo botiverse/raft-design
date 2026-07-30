@@ -55,9 +55,50 @@ export function MessageReferenceShowcaseComposition() {
           </MessageItemHeader>
           <MessageItemBody>
             <MarkdownParagraph>
-              Please finish{" "}
-              <TaskChip status="todo" render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}>
-                #21
+              Please triage{" "}
+              <TaskChip
+                variant="message"
+                status="todo"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              >
+                <span>#21</span>
+                <span>@Ada</span>
+              </TaskChip>{" "}
+              , continue{" "}
+              <TaskChip
+                variant="message"
+                status="in_progress"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              >
+                <span>#22</span>
+                <span>@Atlas</span>
+              </TaskChip>
+              , review{" "}
+              <TaskChip
+                variant="message"
+                status="in_review"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              >
+                <span>#23</span>
+                <span>@Noah</span>
+              </TaskChip>
+              , confirm{" "}
+              <TaskChip
+                variant="message"
+                status="done"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              >
+                <span>#24</span>
+                <span>@Mira</span>
+              </TaskChip>
+              , and archive{" "}
+              <TaskChip
+                variant="message"
+                status="closed"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
+              >
+                <span>#25</span>
+                <span>@Cindy</span>
               </TaskChip>{" "}
               with{" "}
               <MessageMentionReferenceComposition

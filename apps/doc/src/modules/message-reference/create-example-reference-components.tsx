@@ -63,7 +63,7 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
         if (!task) return <>{children}</>;
 
         return (
-          <TaskChip status={task.status} render={<a href={task.href} />}>
+          <TaskChip variant="message" status={task.status} render={<a href={task.href} />}>
             {`#${task.number}`}
           </TaskChip>
         );

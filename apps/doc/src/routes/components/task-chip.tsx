@@ -31,6 +31,13 @@ const ANATOMY_SOURCE = `<TaskChip status="in_progress" render={<a href="…" />}
 
 const PROPS: readonly PropRow[] = [
   {
+    name: "variant",
+    type: '"default" | "message"',
+    default: '"default"',
+    description:
+      "Message uses a neutral, borderless inline surface with a 2px leading icon inset; task status continues to color only the icon.",
+  },
+  {
     name: "status",
     type: '"todo" | "in_progress" | "in_review" | "done" | "closed"',
     description: "Resolved task status. Selects the status icon and the chip surface.",

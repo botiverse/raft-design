@@ -7,7 +7,7 @@ type TaskStatusIconComponent = (props: TaskStatusSvgProps) => ReactNode;
 
 const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
   todo: "var(--foreground-placeholder)",
-  in_progress: "color-mix(in oklch, var(--primary-400) 92%, var(--ink))",
+  in_progress: "oklch(0.8 0.19 88.97)",
   in_review: "oklch(0.72 0.16 58)",
   done: "var(--state-success-base)",
   closed: "oklch(0.573 0 0)",
@@ -84,7 +84,7 @@ function DoneIcon(props: TaskStatusSvgProps) {
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
-      viewBox="0 0 24 24"
+      viewBox="1.2 1.2 21.6 21.6"
       fill="currentColor"
       {...props}
     >
@@ -108,7 +108,7 @@ function ClosedIcon(props: TaskStatusSvgProps) {
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
-      viewBox="0 0 24 24"
+      viewBox="1.2 1.2 21.6 21.6"
       fill="currentColor"
       {...props}
     >
