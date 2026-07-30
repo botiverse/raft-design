@@ -6,9 +6,6 @@ import {
   AvatarImage,
   Progress,
   ProgressIndicator,
-  ProgressTrack,
-} from "raft-ui";
-import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -17,8 +14,11 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
+} from "raft-ui";
+import {
   MessageItemTranslationFailedStatus,
   MessageItemTranslationPendingStatus,
+  MessageItemTranslationProgressTrack,
   MessageItemTranslationRetryAction,
 } from "raft-ui/wip";
 
@@ -52,9 +52,9 @@ export function MessageTranslationStatesComposition() {
               aria-label="Translating message"
               className="w-44 max-w-full"
             >
-              <ProgressTrack>
+              <MessageItemTranslationProgressTrack>
                 <ProgressIndicator />
-              </ProgressTrack>
+              </MessageItemTranslationProgressTrack>
             </Progress>
           </MessageItemBody>
           <MessageItemTranslationPendingStatus>

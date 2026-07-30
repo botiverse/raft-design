@@ -21,14 +21,17 @@ export function MessageAttachmentPreviewUsageComposition() {
         <MessageAttachmentMeta>
           <MessageAttachmentMetaStart>44 KB</MessageAttachmentMetaStart>
           <MessageAttachmentMetaEnd>
-            <MessageAttachmentAction
-              aria-label="Preview screening.html"
-              onClick={opening ? undefined : () => setOpening(true)}
-              render={opening ? <span aria-hidden /> : undefined}
-              title="Preview screening.html"
-            >
-              {opening ? <Spinner size="xs" /> : <Eye />}
-            </MessageAttachmentAction>
+            {opening ? (
+              <Spinner size="xs" />
+            ) : (
+              <MessageAttachmentAction
+                aria-label="Preview screening.html"
+                onClick={() => setOpening(true)}
+                title="Preview screening.html"
+              >
+                <Eye />
+              </MessageAttachmentAction>
+            )}
           </MessageAttachmentMetaEnd>
         </MessageAttachmentMeta>
       </MessageAttachmentCard>

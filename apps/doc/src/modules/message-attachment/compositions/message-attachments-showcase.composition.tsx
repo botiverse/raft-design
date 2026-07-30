@@ -1,6 +1,9 @@
-import { MessageSquare, Play } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Badge, useThemeFamily } from "raft-ui";
+import { MessageSquare } from "lucide-react";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  TaskChip,
   MessageItem,
   MessageItemAttachments,
   MessageItemAvatarSlot,
@@ -13,7 +16,8 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
+
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageReactionComposition } from "#/modules/message-item/compositions/reaction.compositions.tsx";
 import { MessageRowToolbarFixture } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
@@ -23,8 +27,6 @@ import { MessageVideoPreviewStatesComposition } from "#/modules/message-media/co
 import { MessageFileAttachmentStatesComposition } from "./file-attachments.composition.tsx";
 
 export function MessageAttachmentsShowcaseComposition() {
-  const theme = useThemeFamily();
-
   return (
     <div className="w-full max-w-3xl">
       <MessageItem>
@@ -51,15 +53,9 @@ export function MessageAttachmentsShowcaseComposition() {
             <MessageFileAttachmentStatesComposition />
           </MessageItemAttachments>
           <MessageItemFooter>
-            <Badge
-              appearance={theme === "brutal" ? "solid" : "soft"}
-              variant="information"
-              uppercase={false}
-              title="Task #222 · In Progress"
-            >
-              <Play size={10} />
-              <span>#222</span>
-            </Badge>
+            <TaskChip status="done" title="Task #222 · Done">
+              #222
+            </TaskChip>
             <MessageItemBadge status="unread">
               <MessageSquare />6 replies
               <MessageItemBadgeSeparator>·</MessageItemBadgeSeparator>3 new

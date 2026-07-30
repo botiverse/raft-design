@@ -15,9 +15,9 @@ export function MessageItemBadge({ className, status = "read", ...props }: Messa
   const theme = useThemeFamily();
   const { badge } = messageFooter({ badgeStatus: status, theme });
   // Brutal matches source ThreadRepliesBadge (solid default + bg override).
-  // Elegant uses outline Badge chrome; unread uses the primary outline.
+  // Elegant uses outline Badge chrome; unread thread activity uses information.
   const appearance = theme === "elegant" ? "outline" : "solid";
-  const variant = theme === "elegant" && status === "unread" ? "primary" : "default";
+  const variant = theme === "elegant" && status === "unread" ? "information" : "default";
   return (
     <Badge
       appearance={appearance}

@@ -1,5 +1,9 @@
-import { Avatar, AvatarBadge, AvatarFallback, AvatarImage, Status } from "raft-ui";
 import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarImage,
+  Status,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -8,7 +12,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 

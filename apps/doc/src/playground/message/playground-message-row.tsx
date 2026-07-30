@@ -28,10 +28,7 @@ import {
   Progress,
   ProgressIndicator,
   ProgressTrack,
-} from "raft-ui";
-import {
   MessageItem,
-  MessageItemActive,
   MessageItemAttachments,
   MessageItemBadge,
   MessageItemBody,
@@ -43,9 +40,13 @@ import {
   MessageItemMeta,
   MessageReactionChip,
   MessageItemSavedIndicator,
-  MessageItemSearchMatch,
-  MessageItemSelection,
   MessageItemSender,
+  MessageItemSenderButton,
+  MessageItemTime,
+  MessageMultiSelectCheckbox,
+  MessageReactionCount,
+} from "raft-ui";
+import {
   MessageAttachmentAction,
   MessageAttachmentCommentSummary,
   MessageAttachmentCard,
@@ -54,7 +55,6 @@ import {
   MessageAttachmentMetaStart,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
-  MessageItemTime,
   MessageItemTranslationAction,
   MessageItemTranslationFailedStatus,
   MessageItemTranslationOriginal,
@@ -62,9 +62,6 @@ import {
   MessageItemTranslationPendingStatus,
   MessageItemTranslationRetryAction,
   MessageItemTranslationStatus,
-  MessageMultiSelectCheckbox,
-  MessageReactionCount,
-  useMessageMultiSelect,
 } from "raft-ui/wip";
 
 import { MessageContextMenuComposition } from "#/modules/message-item/compositions/context-menu.composition.tsx";
@@ -77,7 +74,6 @@ import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolb
 import { MessageReactionGlyphComposition } from "#/modules/message-item/compositions/reaction-glyph.composition.tsx";
 import { PlaygroundMessageAvatar } from "./playground-message-avatar.tsx";
 import { PlaygroundMessageBody } from "./playground-message-body.tsx";
-import { PlaygroundMessageContentCollapse } from "./playground-message-content-collapse.tsx";
 import { playgroundGutterClock } from "./playground-message-time.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "../composer/use-playground-single-composer-mention-target.ts";
 import {
@@ -116,18 +112,12 @@ function PlaygroundMessageSender({
     return <MessageItemSender>{children}</MessageItemSender>;
   }
   return (
-    <MessageItemSender
-      interactive
-      render={
-        <button
-          type="button"
-          title={`Mention @${mentionHandle}`}
-          onClick={() => mentionTarget.insertMention(mentionHandle)}
-        />
-      }
+    <MessageItemSenderButton
+      title={`Mention @${mentionHandle}`}
+      onClick={() => mentionTarget.insertMention(mentionHandle)}
     >
       {children}
-    </MessageItemSender>
+    </MessageItemSenderButton>
   );
 }
 
@@ -259,7 +249,7 @@ function PlaygroundSentMessageAttachments({
 
 export type PlaygroundMessageRowProps = {
   message: PlaygroundMessage;
-  searchMatch?: boolean;
+  searchQuery?: string;
   attachments?: ReactNode;
   footer?: ReactNode;
   focusTarget?: boolean;
@@ -268,6 +258,10 @@ export type PlaygroundMessageRowProps = {
   gutterTime?: string;
   surface?: "conversation" | "thread";
   className?: string;
+  selectionMode?: boolean;
+  selected?: boolean;
+  onEnterSelectionMode?: () => void;
+  onSelectedChange?: (selected: boolean) => void;
 };
 
 function PlaygroundInlineReplies({
@@ -341,7 +335,7 @@ function PlaygroundInlineReplies({
 
 export function PlaygroundMessageRow({
   message,
-  searchMatch = false,
+  searchQuery,
   footer,
   focusTarget = false,
   attachments,
@@ -350,6 +344,10 @@ export function PlaygroundMessageRow({
   threadId,
   surface = "conversation",
   className,
+  selectionMode = false,
+  selected = false,
+  onEnterSelectionMode,
+  onSelectedChange,
 }: PlaygroundMessageRowProps) {
   const {
     channelId,
@@ -377,9 +375,7 @@ export function PlaygroundMessageRow({
     ? (gutterTime ?? playgroundGutterClock(message.createdAt))
     : gutterTime;
   const actor = getPlaygroundActor(actorId);
-  const selection = useMessageMultiSelect();
   const rowSelectId = selectId;
-  const selectMode = selection?.active ?? false;
   const [menuOpen, setMenuOpen] = useState(false);
   const { workflow, update: updateWorkflow } = usePlaygroundMessageWorkflow(
     rowSelectId,
@@ -421,7 +417,9 @@ export function PlaygroundMessageRow({
     translation?.translatedContent && workflow.translation === "translated"
       ? translation.translatedContent
       : body;
-  const renderedBody = <PlaygroundMessageBody channelId={channelId} content={visibleBody} />;
+  const renderedBody = (
+    <PlaygroundMessageBody channelId={channelId} content={visibleBody} searchQuery={searchQuery} />
+  );
   const composedBody = presentation === "action-card" ? <ActionCardComposition /> : renderedBody;
   const embeddedPresentation =
     presentation === "forwarded-bundle" ? (
@@ -429,22 +427,6 @@ export function PlaygroundMessageRow({
     ) : presentation === "quoted-preview" ? (
       <QuotedPreviewEmbeddedComposition />
     ) : null;
-
-  const effectiveRowState = selectMode
-    ? "select"
-    : searchMatch
-      ? "search-match"
-      : menuOpen
-        ? "active"
-        : undefined;
-  const ItemRoot =
-    effectiveRowState === "active"
-      ? MessageItemActive
-      : effectiveRowState === "search-match"
-        ? MessageItemSearchMatch
-        : effectiveRowState === "select"
-          ? MessageItemSelection
-          : MessageItem;
 
   const openThread =
     surface === "conversation" && threadId && threadContext
@@ -466,14 +448,19 @@ export function PlaygroundMessageRow({
         }
       : undefined;
   const messageItem = (
-    <ItemRoot
+    <MessageItem
       id={messageAnchor}
       compact={compact}
       className={className}
       tabIndex={surface === "thread" && focusTarget ? -1 : undefined}
     >
-      {selectMode ? (
-        <MessageMultiSelectCheckbox value={rowSelectId} aria-label="Select message" />
+      {selectionMode ? (
+        <MessageMultiSelectCheckbox
+          aria-label="Select message"
+          checked={selected}
+          value={rowSelectId}
+          onCheckedChange={onSelectedChange}
+        />
       ) : null}
       {compact ? (
         <MessageItemGutter>
@@ -496,11 +483,7 @@ export function PlaygroundMessageRow({
         embeddedPresentation ||
         resolvedAttachments ||
         workflow.translation === "pending" ? (
-          <PlaygroundMessageContentCollapse
-            enabled={presentation !== "action-card" && presentation !== "forwarded-bundle"}
-            expanded={workflow.expanded}
-            onExpandedChange={(expanded) => updateWorkflow((current) => ({ ...current, expanded }))}
-          >
+          <>
             {workflow.translation === "pending" ? (
               <MessageItemBody>
                 <Progress
@@ -529,7 +512,7 @@ export function PlaygroundMessageRow({
             {resolvedAttachments ? (
               <MessageItemAttachments>{resolvedAttachments}</MessageItemAttachments>
             ) : null}
-          </PlaygroundMessageContentCollapse>
+          </>
         ) : null}
         {translation && workflow.translation !== "idle" ? (
           workflow.translation === "pending" ? (
@@ -614,8 +597,8 @@ export function PlaygroundMessageRow({
                 <MessageReactionChip
                   key={reaction.emoji}
                   aria-label={`${reaction.emoji} ${reaction.count}`}
-                  selected={reacted}
-                  onClick={() => toggleReaction(reaction.emoji)}
+                  pressed={reacted}
+                  onPressedChange={() => toggleReaction(reaction.emoji)}
                 >
                   <MessageReactionGlyphComposition emoji={reaction.emoji} />
                   <MessageReactionCount>{reaction.count}</MessageReactionCount>
@@ -647,12 +630,12 @@ export function PlaygroundMessageRow({
         onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
       />
       <div ref={setReactionPortalContainer} className="contents" />
-    </ItemRoot>
+    </MessageItem>
   );
 
   // Select mode disables the right-click menu (source parity), so the row skips
   // the ContextMenu wrapper entirely.
-  if (selectMode) {
+  if (selectionMode) {
     return messageItem;
   }
 
@@ -688,7 +671,7 @@ export function PlaygroundMessageRow({
           }}
           onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
           onTaskChange={(next) => updateWorkflow((current) => ({ ...current, task: next }))}
-          onSelectMessage={selection ? () => selection.enter(rowSelectId) : undefined}
+          onSelectMessage={onEnterSelectionMode}
           onOpenThread={openThread}
         >
           {translation &&

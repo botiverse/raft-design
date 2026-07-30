@@ -1,25 +1,9 @@
-export {
-  MessageItem,
-  MessageItemActive,
-  MessageItemSearchMatch,
-  MessageItemSelection,
-} from "./message-item-root";
+export { MessageItem } from "./message-item-root";
 export {
   MessageItemAvatarSlot,
   MessageItemContinuationTime,
   MessageItemGutter,
 } from "./message-item-gutter";
-export {
-  MessageItemContentCollapse,
-  MessageItemContentCollapsePanel,
-  MessageItemContentCollapseTrigger,
-  MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT,
-} from "./message-item-content-collapse";
-export type {
-  MessageItemContentCollapsePanelProps,
-  MessageItemContentCollapseProps,
-  MessageItemContentCollapseTriggerProps,
-} from "./message-item-content-collapse";
 export {
   MessageItemAttachments,
   MessageItemBody,
@@ -27,20 +11,18 @@ export {
   MessageItemEmbedded,
   MessageItemFooter,
   MessageItemNotice,
+  MessageItemSearchMatch,
 } from "./message-item-content";
 export {
   MessageItemHeader,
   MessageItemInlineStatus,
   MessageItemMeta,
   MessageItemSender,
-  MessageItemSenderState,
+  MessageItemSenderBadges,
+  MessageItemSenderButton,
   MessageItemTime,
-} from "./message-item-regions";
-export {
-  MessageItemSaveButton,
-  MessageItemToolbar,
-  MessageItemToolbarButton,
-} from "./message-item-toolbar";
+} from "./message-item-header";
+export { MessageItemToolbar, MessageItemToolbarButton } from "./message-item-toolbar";
 export {
   MessageItemBadge,
   MessageItemBadgeSeparator,
@@ -75,27 +57,15 @@ export {
 } from "./message-reference";
 export {
   MessageMultiSelect,
-  MessageMultiSelectAction,
-  MessageMultiSelectActions,
   MessageMultiSelectCheckbox,
-  MessageMultiSelectCount,
   MessageMultiSelectToolbar,
-  MessageMultiSelectToolbarContent,
-  useMessageMultiSelect,
 } from "./message-multi-select";
 export {
-  MessageTextSelection,
-  MessageTextSelectionMenu,
-  MessageTextSelectionMenuItem,
-  MessageTextSelectionMenuSeparator,
-  useMessageTextSelection,
-} from "./message-text-selection";
-export type {
-  MessageItemActiveProps,
-  MessageItemProps,
-  MessageItemSearchMatchProps,
-  MessageItemSelectionProps,
-} from "./message-item-root";
+  MessageTextSelectionToolbar,
+  MessageTextSelectionToolbarButton,
+  MessageTextSelectionToolbarSeparator,
+} from "./message-text-selection-toolbar";
+export type { MessageItemProps } from "./message-item-root";
 export type {
   MessageItemAvatarSlotProps,
   MessageItemContinuationTimeProps,
@@ -108,18 +78,19 @@ export type {
   MessageItemEmbeddedProps,
   MessageItemFooterProps,
   MessageItemNoticeProps,
+  MessageItemSearchMatchProps,
 } from "./message-item-content";
 export type {
   MessageItemHeaderProps,
   MessageItemInlineStatusProps,
   MessageItemMetaProps,
   MessageItemSenderProps,
-  MessageItemSenderStateProps,
+  MessageItemSenderBadgesProps,
+  MessageItemSenderButtonProps,
   MessageItemTimeProps,
-} from "./message-item-regions";
+} from "./message-item-header";
 export type {
   MessageItemToolbarButtonProps,
-  MessageItemSaveButtonProps,
   MessageItemToolbarProps,
 } from "./message-item-toolbar";
 export type {
@@ -158,19 +129,12 @@ export type {
   MessageReferenceUnavailableProps,
 } from "./message-reference";
 export type {
-  MessageMultiSelectActionProps,
-  MessageMultiSelectActionsProps,
-  MessageMultiSelectApi,
   MessageMultiSelectCheckboxProps,
-  MessageMultiSelectCountProps,
   MessageMultiSelectProps,
-  MessageMultiSelectToolbarContentProps,
   MessageMultiSelectToolbarProps,
 } from "./message-multi-select";
 export type {
-  MessageTextSelectionApi,
-  MessageTextSelectionMenuItemProps,
-  MessageTextSelectionMenuProps,
-  MessageTextSelectionMenuSeparatorProps,
-  MessageTextSelectionProps,
-} from "./message-text-selection";
+  MessageTextSelectionToolbarButtonProps,
+  MessageTextSelectionToolbarProps,
+  MessageTextSelectionToolbarSeparatorProps,
+} from "./message-text-selection-toolbar";

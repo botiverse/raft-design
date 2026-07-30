@@ -10,10 +10,6 @@ import {
   MessageRepliesItemTime,
   MessageRepliesSummary,
   MessageRepliesSummaryItem,
-} from "raft-ui";
-
-import { MESSAGE_REPLIES_AVATAR_SRC } from "#/modules/message-replies/message-replies.fixtures.ts";
-import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -21,7 +17,9 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
+
+import { MESSAGE_REPLIES_AVATAR_SRC } from "#/modules/message-replies/message-replies.fixtures.ts";
 
 export function MessageRepliesUnreadDraftComposition() {
   return (

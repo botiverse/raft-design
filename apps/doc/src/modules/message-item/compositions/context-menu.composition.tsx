@@ -9,8 +9,13 @@ import {
   MessageSquare,
   RotateCcw,
 } from "lucide-react";
-import { ContextMenuContent, ContextMenuItem, ContextMenuSeparator } from "raft-ui";
-import { MessageReactionQuickButton, MessageReactionQuickRow } from "raft-ui/wip";
+import {
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  MessageReactionQuickButton,
+  MessageReactionQuickRow,
+} from "raft-ui";
 
 import { MESSAGE_QUICK_REACTIONS } from "./reaction.compositions.tsx";
 import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.tsx";

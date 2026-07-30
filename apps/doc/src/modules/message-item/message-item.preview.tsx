@@ -11,12 +11,10 @@ const SCENARIO_OPTIONS = ["message", "consecutive"] as const;
 
 type PreviewScenario = (typeof SCENARIO_OPTIONS)[number];
 
-const CHROME_OPTIONS = [
-  "default",
-  "active",
-  "search-match",
-  "selected",
-] as const satisfies readonly Exclude<MessageItemPreviewChrome, "continuation">[];
+const CHROME_OPTIONS = ["default", "search-match", "selected"] as const satisfies readonly Exclude<
+  MessageItemPreviewChrome,
+  "continuation"
+>[];
 
 const CONTENT_OPTIONS = ["plain", "markdown"] as const;
 

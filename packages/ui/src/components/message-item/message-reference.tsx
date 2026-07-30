@@ -18,7 +18,6 @@ function useReferenceRender(
   props: Omit<SpanProps, "className" | "render">,
 ) {
   const defaultProps: SlotElementProps<"span"> = {
-    "data-message-reference": "",
     className,
   };
 

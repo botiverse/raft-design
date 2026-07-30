@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Plus } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -10,23 +10,18 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-  MessageReactionAddButton,
-} from "raft-ui/wip";
+} from "raft-ui";
+
 import {
   MessageReactionComposition,
   MessageReactionOverlaysComposition,
 } from "./reaction.compositions.tsx";
-import { MessageQuickReactionPicker } from "./quick-reaction-picker.composition.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageReactionsShowcaseComposition() {
-  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
-  const [reaction, setReaction] = useState<string>();
-  const [open, setOpen] = useState(false);
-
   return (
-    <div className="grid w-full max-w-3xl gap-6">
-      <div ref={setPortalContainer}>
+    <div className="flex w-full max-w-3xl flex-col gap-14">
+      <div>
         <MessageItem>
           <MessageItemAvatarSlot>
             <Avatar size="md" type="agent">
@@ -46,29 +41,10 @@ export function MessageReactionsShowcaseComposition() {
             <MessageItemFooter>
               <MessageReactionComposition emoji="👍" count={5} reacted />
               <MessageReactionComposition emoji="👀" count={2} />
-              <MessageReactionComposition emoji="🧭" count={1} />
               <MessageReactionComposition emoji="🔥" count={1} failed />
-              <MessageQuickReactionPicker
-                open={open}
-                onOpenChange={setOpen}
-                onReact={setReaction}
-                trigger={
-                  <MessageReactionAddButton aria-label="Add reaction">
-                    <Plus strokeWidth={2.5} />
-                  </MessageReactionAddButton>
-                }
-                side="top"
-                align="center"
-                portalContainer={portalContainer}
-              />
             </MessageItemFooter>
           </MessageItemContent>
         </MessageItem>
-        {reaction ? (
-          <span className="sr-only" role="status">
-            Reacted with {reaction}
-          </span>
-        ) : null}
       </div>
       <MessageReactionOverlaysComposition />
     </div>

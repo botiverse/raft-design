@@ -1,4 +1,4 @@
-import { MessageReactionGlyph } from "raft-ui/wip";
+import { MessageReactionGlyph } from "raft-ui";
 import {
   MESSAGE_REACTION_SPRITE_ITEMS,
   MESSAGE_REACTION_SPRITE_PATH,

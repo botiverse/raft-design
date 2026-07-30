@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Languages } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -10,6 +12,8 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
+} from "raft-ui";
+import {
   MessageItemTranslationAction,
   MessageItemTranslationOriginal,
   MessageItemTranslationOriginalLabel,

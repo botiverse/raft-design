@@ -34,6 +34,10 @@ const TOKENS = [
 
 const NAV = [
   {
+    title: "Foundations",
+    items: [{ label: "Icons", to: "/components/icons", status: "wip" }],
+  },
+  {
     title: "Shell",
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "done" },
@@ -62,8 +66,8 @@ const NAV = [
   {
     title: "Message",
     items: [
-      { label: "MessageItem", to: "/components/message-item", status: "wip" },
-      { label: "Translation", to: "/components/message-translation", status: "wip" },
+      { label: "MessageItem", to: "/components/message-item", status: "done" },
+      { label: "Translation", to: "/components/message-translation", status: "done" },
       { label: "Replies", to: "/components/message-replies", status: "done" },
       { label: "Reference", to: "/components/message-reference", status: "done" },
       { label: "TaskChip", to: "/components/task-chip", status: "done" },
@@ -78,7 +82,7 @@ const NAV = [
         status: "wip",
       },
       { label: "ActionCard", to: "/components/message-action-card", status: "wip" },
-      { label: "Attachment", to: "/components/message-attachment", status: "wip" },
+      { label: "Attachment", to: "/components/message-attachment", status: "done" },
       { label: "System message", to: "/components/system-message", status: "wip" },
     ],
   },

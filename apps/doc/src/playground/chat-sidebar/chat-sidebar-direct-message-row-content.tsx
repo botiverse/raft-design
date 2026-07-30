@@ -24,15 +24,9 @@ import {
   PlaygroundMutedIndicator,
 } from "./chat-sidebar-indicators.tsx";
 
-function DirectMessageStatus({
-  status,
-  size = "sm",
-}: {
-  status: PlaygroundPresence;
-  size?: "sm" | "md";
-}) {
+function DirectMessageStatus({ status }: { status: PlaygroundPresence }) {
   const config = PLAYGROUND_PRESENCE_STATUS[status];
-  return <Status aria-hidden variant={config.variant} size={size} pulse={config.pulse} />;
+  return <Status aria-hidden variant={config.variant} size="xs" pulse={config.pulse} />;
 }
 
 export function ChatSidebarDirectMessageRowContent({

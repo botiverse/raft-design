@@ -6,23 +6,17 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { MessageAvatarStatusComposition } from "#/modules/message-item/compositions/avatar-status.composition.tsx";
 import avatarStatusSource from "#/modules/message-item/compositions/avatar-status.composition.tsx?raw";
 import { MessageContextMenuShowcaseComposition } from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx";
 import contextMenuShowcaseSource from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx?raw";
 import contextMenuSource from "#/modules/message-item/compositions/context-menu.composition.tsx?raw";
-import { MessageCollapsibleContentComposition } from "#/modules/message-item/compositions/collapsible-content.composition.tsx";
-import collapsibleContentSource from "#/modules/message-item/compositions/collapsible-content.composition.tsx?raw";
 import { MessageConvertingComposition } from "#/modules/message-item/compositions/converting.composition.tsx";
 import convertingSource from "#/modules/message-item/compositions/converting.composition.tsx?raw";
 import { MessageInteractiveSenderComposition } from "#/modules/message-item/compositions/interactive-sender.composition.tsx";
 import interactiveSenderSource from "#/modules/message-item/compositions/interactive-sender.composition.tsx?raw";
 import itemPreviewSource from "#/modules/message-item/compositions/item-preview.composition.tsx?raw";
-import { MessageItemPreviewContent } from "#/modules/message-item/compositions/preview.composition.tsx";
-import messageItemPreviewCompositionSource from "#/modules/message-item/compositions/preview.composition.tsx?raw";
 import { MessageReadReceiptComposition } from "#/modules/message-item/compositions/read-receipt.composition.tsx";
 import readReceiptSource from "#/modules/message-item/compositions/read-receipt.composition.tsx?raw";
 import { MessageReactionsShowcaseComposition } from "#/modules/message-item/compositions/reactions.composition.tsx";
@@ -32,9 +26,10 @@ import quickReactionPickerSource from "#/modules/message-item/compositions/quick
 import reactionGlyphSource from "#/modules/message-item/compositions/reaction-glyph.composition.tsx?raw";
 import { MessageRowChromeComposition } from "#/modules/message-item/compositions/row-chrome.composition.tsx";
 import rowChromeSource from "#/modules/message-item/compositions/row-chrome.composition.tsx?raw";
-import selectionSource from "#/modules/message-item/compositions/selection.compositions.tsx?raw";
 import { MessageSearchMatchMarkComposition } from "#/modules/message-item/compositions/search-match-mark.composition.tsx";
 import searchMatchMarkSource from "#/modules/message-item/compositions/search-match-mark.composition.tsx?raw";
+import { MessageSelectionShowcaseComposition } from "#/modules/message-item/compositions/selection-showcase.composition.tsx";
+import selectionShowcaseSource from "#/modules/message-item/compositions/selection-showcase.composition.tsx?raw";
 import { MessageSenderStateComposition } from "#/modules/message-item/compositions/sender-state.composition.tsx";
 import senderStateSource from "#/modules/message-item/compositions/sender-state.composition.tsx?raw";
 import { MessageTaskBadgeComposition } from "#/modules/message-item/compositions/task-badge.composition.tsx";
@@ -42,7 +37,6 @@ import taskBadgeSource from "#/modules/message-item/compositions/task-badge.comp
 import { MessageTextSelectionShowcaseComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
 import textSelectionSource from "#/modules/message-item/compositions/text-selection.composition.tsx?raw";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
-import { SourceMessageItemPreview } from "#/modules/message-item/message-item.source-preview.tsx";
 import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
 
 const CONTEXT_MENU_SHOWCASE_PATH =
@@ -56,21 +50,6 @@ const QUICK_REACTION_PICKER_PATH =
   "apps/doc/src/modules/message-item/compositions/quick-reaction-picker.composition.tsx";
 const REACTION_GLYPH_PATH =
   "apps/doc/src/modules/message-item/compositions/reaction-glyph.composition.tsx";
-const ROW_CHROME_PATH = "apps/doc/src/modules/message-item/compositions/row-chrome.composition.tsx";
-const SELECTION_PATH = "apps/doc/src/modules/message-item/compositions/selection.compositions.tsx";
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock message row",
-    scenes: [
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-    ],
-  },
-] as const;
-
 function UsagePreview({
   children,
   code,
@@ -81,7 +60,7 @@ function UsagePreview({
   collapsedCode?: ReactNode;
 }) {
   return (
-    <Preview previewClassName="items-stretch">
+    <Preview>
       <Preview.Canvas>{children}</Preview.Canvas>
       <Preview.Code html={code} collapsedHtml={collapsedCode} />
     </Preview>
@@ -97,19 +76,17 @@ export const Route = createFileRoute("/components/message-item")({
         avatarStatus: avatarStatusSource,
         contextMenu: contextMenuSource,
         contextMenuShowcase: contextMenuShowcaseSource,
-        collapsibleContent: collapsibleContentSource,
         converting: convertingSource,
         interactiveSender: interactiveSenderSource,
         itemPreview: itemPreviewSource,
-        preview: messageItemPreviewCompositionSource,
         quickReactionPicker: quickReactionPickerSource,
         reactionGlyph: reactionGlyphSource,
         reactionParts: reactionPartsSource,
         reactions: reactionsSource,
         readReceipt: readReceiptSource,
         rowChrome: rowChromeSource,
-        selection: selectionSource,
         searchMatchMark: searchMatchMarkSource,
+        selectionShowcase: selectionShowcaseSource,
         senderState: senderStateSource,
         taskBadge: taskBadgeSource,
         textSelection: textSelectionSource,
@@ -180,7 +157,7 @@ function MessageItemDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="reactions" title="Reactions">
-            <Preview previewClassName="items-stretch">
+            <Preview>
               <Preview.Canvas>
                 <MessageReactionsShowcaseComposition />
               </Preview.Canvas>
@@ -249,42 +226,16 @@ function MessageItemDoc() {
             </Preview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="collapsible-content" title="Collapsible content">
-            <UsagePreview
-              code={code.collapsibleContent}
-              collapsedCode={code.collapsibleContentBody}
-            >
-              <MessageCollapsibleContentComposition />
+          <DocSubsection parentId="usage" id="row-chrome" title="Row chrome">
+            <UsagePreview code={code.rowChrome} collapsedCode={code.rowChromeBody}>
+              <MessageRowChromeComposition />
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="row-chrome" title="Row chrome">
-            <Preview previewClassName="items-stretch">
-              <Preview.Canvas>
-                <MessageRowChromeComposition />
-              </Preview.Canvas>
-              <Preview.Code
-                codeBlock={
-                  <DocsCodeBlock.Files
-                    collapsible={false}
-                    files={[
-                      {
-                        path: ROW_CHROME_PATH,
-                        source: rowChromeSource,
-                        html: code.rowChrome,
-                        collapsedHtml: code.rowChromeBody,
-                      },
-                      {
-                        path: SELECTION_PATH,
-                        source: selectionSource,
-                        html: code.selection,
-                        collapsedHtml: code.selectionBody,
-                      },
-                    ]}
-                  />
-                }
-              />
-            </Preview>
+          <DocSubsection parentId="usage" id="selection" title="Selection">
+            <UsagePreview code={code.selectionShowcase} collapsedCode={code.selectionShowcaseBody}>
+              <MessageSelectionShowcaseComposition />
+            </UsagePreview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="search-match-mark" title="Search match + mark">
@@ -305,37 +256,10 @@ function MessageItemDoc() {
         <div className="grid gap-8">
           {API_GROUPS.map((group) => (
             <DocSubsection key={group.id} parentId="api" id={group.id} title={group.title}>
-              <PropsTable rows={group.rows} />
+              <PropsTable rows={group.rows} nameColumnLabel="Part" />
             </DocSubsection>
           ))}
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Standard message row",
-              status: "review",
-              note: "The Source pane is a non-interactive DOM fixture extracted from the current Slock row; its controls are intentionally disabled. Brutal and Elegant execute the canonical docs composition with product data and navigation kept consumer-owned.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope>
-                  <SourceMessageItemPreview />
-                </SourceThemeScope>
-              ),
-              brutal: <MessageItemPreviewContent />,
-              elegant: <MessageItemPreviewContent />,
-              elegantDark: <MessageItemPreviewContent />,
-              compositionCode: code.preview,
-              compositionCollapsedCode: code.previewBody,
-              compositionPath:
-                "apps/doc/src/modules/message-item/compositions/preview.composition.tsx",
-              compositionSource: messageItemPreviewCompositionSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

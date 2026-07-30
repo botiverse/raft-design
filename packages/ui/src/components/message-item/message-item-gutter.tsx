@@ -1,13 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemGutterProps = useRender.ComponentProps<"div">;
 
 export function MessageItemGutter({ className, render, ...props }: MessageItemGutterProps) {
-  const { gutter } = messageItem();
+  const theme = useThemeFamily();
+  const { gutter } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: gutter({ className }),
   };
@@ -22,20 +22,12 @@ export function MessageItemGutter({ className, render, ...props }: MessageItemGu
   });
 }
 
-export type MessageItemAvatarSlotProps = useRender.ComponentProps<"div"> & {
-  /** Mobile long-press pressed treatment (`data-avatar-pressed`). */
-  pressed?: boolean;
-};
+export type MessageItemAvatarSlotProps = useRender.ComponentProps<"div">;
 
-export function MessageItemAvatarSlot({
-  className,
-  pressed,
-  render,
-  ...props
-}: MessageItemAvatarSlotProps) {
-  const { avatarSlot } = messageItem();
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-avatar-pressed": pressed ? "true" : undefined,
+export function MessageItemAvatarSlot({ className, render, ...props }: MessageItemAvatarSlotProps) {
+  const theme = useThemeFamily();
+  const { avatarSlot } = messageItem({ theme });
+  const defaultProps: useRender.ElementProps<"div"> = {
     className: avatarSlot({ className }),
   };
 
