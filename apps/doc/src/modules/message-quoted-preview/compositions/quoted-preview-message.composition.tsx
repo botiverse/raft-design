@@ -21,8 +21,8 @@ import {
   MessageQuotedPreviewContent,
   MessageQuotedPreviewContext,
   MessageQuotedPreviewHeader,
-  MessageQuotedPreviewSeparator,
   MessageQuotedPreviewText,
+  MessageQuotedPreviewThread,
   MessageQuotedPreviewTimestamp,
 } from "raft-ui/wip";
 
@@ -47,7 +47,7 @@ export function QuotedPreviewEmbeddedComposition() {
                 <Hash size={11} />
                 raft-ui-migration
               </MessageQuotedPreviewChannel>
-              <MessageQuotedPreviewSeparator>·</MessageQuotedPreviewSeparator>
+              <span>·</span>
               <MessageQuotedPreviewAuthor>
                 <Avatar size="xs" type="human">
                   <AvatarFallback>D</AvatarFallback>
@@ -55,11 +55,11 @@ export function QuotedPreviewEmbeddedComposition() {
                 <MessageQuotedPreviewAuthorName>Developer</MessageQuotedPreviewAuthorName>
                 <MessageQuotedPreviewAuthorMeta>member</MessageQuotedPreviewAuthorMeta>
               </MessageQuotedPreviewAuthor>
-              <MessageQuotedPreviewSeparator>·</MessageQuotedPreviewSeparator>
-              <MessageQuotedPreviewChannel>
+              <span>·</span>
+              <MessageQuotedPreviewThread>
                 <MessageSquare size={10} />
                 Thread
-              </MessageQuotedPreviewChannel>
+              </MessageQuotedPreviewThread>
             </MessageQuotedPreviewContext>
             <MessageQuotedPreviewTimestamp>Today · 8:17 AM</MessageQuotedPreviewTimestamp>
           </MessageQuotedPreviewHeader>

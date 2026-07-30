@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -10,6 +11,10 @@ import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { QuotedPreviewMessageComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
 import quotedPreviewMessageSource from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx?raw";
+import { QuotedPreviewDirectMessageComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-direct-message.composition.tsx";
+import quotedPreviewDirectMessageSource from "#/modules/message-quoted-preview/compositions/quoted-preview-direct-message.composition.tsx?raw";
+import { QuotedPreviewLongContentComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-long-content.composition.tsx";
+import quotedPreviewLongContentSource from "#/modules/message-quoted-preview/compositions/quoted-preview-long-content.composition.tsx?raw";
 import { MessageQuotedPreviewShowcaseComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
 import quotedPreviewSource from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx?raw";
 import { MessageQuotedPreviewSourcePreview } from "#/modules/message-quoted-preview/message-quoted-preview.source-preview.tsx";
@@ -22,6 +27,7 @@ const QUOTED_PREVIEW_STATES_PATH =
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -47,13 +53,16 @@ const ANATOMY_SOURCE = `<MessageQuotedPreview>
     <MessageQuotedPreviewHeader>
       <MessageQuotedPreviewContext>
         <MessageQuotedPreviewChannel />
-        <MessageQuotedPreviewSeparator />
+        <span>·</span>
         <MessageQuotedPreviewAuthor>
+          <Avatar />
           <MessageQuotedPreviewAuthorName />
           <MessageQuotedPreviewAuthorMeta />
         </MessageQuotedPreviewAuthor>
-        <MessageQuotedPreviewTimestamp />
+        <span>·</span>
+        <MessageQuotedPreviewThread />
       </MessageQuotedPreviewContext>
+      <MessageQuotedPreviewTimestamp />
     </MessageQuotedPreviewHeader>
     <MessageQuotedPreviewBody>
       <MessageQuotedPreviewText />
@@ -65,13 +74,7 @@ const ANATOMY_SOURCE = `<MessageQuotedPreview>
 </MessageQuotedPreview>
 
 <MessageQuotedPreviewLoading>
-  <MessageQuotedPreviewLoadingHeader>
-    <MessageQuotedPreviewLoadingAvatar />
-    <MessageQuotedPreviewLoadingLines>
-      <MessageQuotedPreviewLoadingLine />
-    </MessageQuotedPreviewLoadingLines>
-  </MessageQuotedPreviewLoadingHeader>
-  <MessageQuotedPreviewLoadingContent />
+  <Skeleton variant="line" />
 </MessageQuotedPreviewLoading>
 
 <MessageQuotedPreviewUnavailable />`;
@@ -84,25 +87,74 @@ const PROPS: readonly PropRow[] = [
       "Quoted message card root. Compose inside MessageItemEmbedded; use render for button/link shells.",
   },
   {
-    name: "MessageQuotedPreviewContent / Header / Body",
+    name: "MessageQuotedPreviewContent",
     type: 'useRender.ComponentProps<"div">',
-    description: "Structural regions for context chrome and quoted body content.",
+    description: "Padded inner region for the quoted card content.",
   },
   {
-    name: "MessageQuotedPreviewContext / Channel / Author / Timestamp",
-    type: "div or span props",
-    description:
-      "Source channel, author identity, separators, and timestamp. Icons and labels stay consumer-owned.",
-  },
-  {
-    name: "MessageQuotedPreviewText / Attachments / Attachment",
+    name: "MessageQuotedPreviewHeader",
     type: 'useRender.ComponentProps<"div">',
-    description: "Quoted copy and attachment chips. Product media and filenames stay outside.",
+    description: "Header row that aligns quote context with its timestamp.",
   },
   {
-    name: "MessageQuotedPreviewLoading*",
-    type: "div or span props",
-    description: "Skeleton anatomy while the quoted target resolves.",
+    name: "MessageQuotedPreviewContext",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Wrapping context row for channel, author, thread, and caller-owned separators.",
+  },
+  {
+    name: "MessageQuotedPreviewChannel",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Channel or direct-message label. The caller owns the icon and label content.",
+  },
+  {
+    name: "MessageQuotedPreviewThread",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Optional thread marker. The caller owns its icon and label content.",
+  },
+  {
+    name: "MessageQuotedPreviewAuthor",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Inline author identity region, usually composed with Avatar and author fields.",
+  },
+  {
+    name: "MessageQuotedPreviewAuthorName",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Truncated author display name.",
+  },
+  {
+    name: "MessageQuotedPreviewAuthorMeta",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Optional muted author metadata, such as a role or agent description.",
+  },
+  {
+    name: "MessageQuotedPreviewTimestamp",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Timestamp aligned to the trailing edge of the header.",
+  },
+  {
+    name: "MessageQuotedPreviewBody",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Body region for the quoted excerpt and any attachments.",
+  },
+  {
+    name: "MessageQuotedPreviewText",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Quoted text excerpt, visually clamped to two lines.",
+  },
+  {
+    name: "MessageQuotedPreviewAttachments",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Optional wrapping row for quoted attachment chips.",
+  },
+  {
+    name: "MessageQuotedPreviewAttachment",
+    type: 'useRender.ComponentProps<"span">',
+    description: "One quoted attachment chip. The caller owns its filename or media label.",
+  },
+  {
+    name: "MessageQuotedPreviewLoading",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Loading-state container; compose it with Skeleton parts for the target context.",
   },
   {
     name: "MessageQuotedPreviewUnavailable",
@@ -117,6 +169,8 @@ export const Route = createFileRoute("/components/message-quoted-preview")({
     highlightSnippets({
       data: {
         anatomy: ANATOMY_SOURCE,
+        quotedPreviewDirectMessage: quotedPreviewDirectMessageSource,
+        quotedPreviewLongContent: quotedPreviewLongContentSource,
         quotedPreviewMessage: quotedPreviewMessageSource,
         quotedPreview: quotedPreviewSource,
       },
@@ -167,6 +221,51 @@ function MessageQuotedPreviewDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
+      </DocSection>
+
+      <DocSection id="usage" title="Usage">
+        <div className="space-y-10">
+          <DocSubsection
+            parentId="usage"
+            id="direct-message"
+            title="Direct message and optional metadata"
+          >
+            <DocNote>
+              Render the channel part as an <code>@</code> label for DMs and omit the hash icon.
+              Thread, author meta, and attachments are optional; render those parts only when the
+              quoted target has that data. Use <code>MessageQuotedPreviewLoading</code> while
+              resolving the target and <code>MessageQuotedPreviewUnavailable</code> when it is
+              missing or inaccessible. Archived labels remain caller-owned product policy in the
+              context row.
+            </DocNote>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <QuotedPreviewDirectMessageComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.quotedPreviewDirectMessage}
+                collapsedHtml={code.quotedPreviewDirectMessageBody}
+              />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="long-content" title="Long excerpt and attachments">
+            <DocNote>
+              Quoted text clamps to two lines. Attachments are outside that clamp, so use
+              <code>MessageQuotedPreviewAttachments</code> when files must remain visible with a
+              long excerpt.
+            </DocNote>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <QuotedPreviewLongContentComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.quotedPreviewLongContent}
+                collapsedHtml={code.quotedPreviewLongContentBody}
+              />
+            </Preview>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">
