@@ -99,6 +99,7 @@ const avatar = tv({
           "group-data-[size=3xs]/avatar:text-[10px]",
         ],
         badge: [
+          "outline-2 outline-layer-panel",
           "group-data-[size=xl]/avatar:right-[3.667px] group-data-[size=xl]/avatar:bottom-[3.667px]",
           "group-data-[size=lg]/avatar:right-0.5 group-data-[size=lg]/avatar:bottom-0.5",
           "group-data-[size=md]/avatar:right-px group-data-[size=md]/avatar:bottom-px",
