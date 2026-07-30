@@ -70,7 +70,7 @@ const NAV = [
       {
         label: "QuotedPreview",
         to: "/components/message-quoted-preview",
-        status: "wip",
+        status: "done",
       },
       {
         label: "ForwardedBundle",

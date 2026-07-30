@@ -3,6 +3,15 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  MessageQuotedPreview,
+  MessageQuotedPreviewAuthor,
+  MessageQuotedPreviewAuthorName,
+  MessageQuotedPreviewChannel,
+  MessageQuotedPreviewContent,
+  MessageQuotedPreviewHeader,
+  MessageQuotedPreviewInset,
+  MessageQuotedPreviewText,
+  MessageQuotedPreviewTimestamp,
   MessageReferenceChip,
   MessageReferenceLabel,
 } from "raft-ui";
@@ -16,15 +25,6 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  MessageQuotedPreview,
-  MessageQuotedPreviewAuthor,
-  MessageQuotedPreviewAuthorName,
-  MessageQuotedPreviewChannel,
-  MessageQuotedPreviewContent,
-  MessageQuotedPreviewHeader,
-  MessageQuotedPreviewInset,
-  MessageQuotedPreviewText,
-  MessageQuotedPreviewTimestamp,
 } from "raft-ui/wip";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";

@@ -19,15 +19,19 @@ import { QuotedPreviewArchivedChannelComposition } from "#/modules/message-quote
 import quotedPreviewArchivedChannelSource from "#/modules/message-quoted-preview/compositions/quoted-preview-archived-channel.composition.tsx?raw";
 import { QuotedPreviewLongContentComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-long-content.composition.tsx";
 import quotedPreviewLongContentSource from "#/modules/message-quoted-preview/compositions/quoted-preview-long-content.composition.tsx?raw";
+import { QuotedPreviewLoadingComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-loading.composition.tsx";
+import quotedPreviewLoadingSource from "#/modules/message-quoted-preview/compositions/quoted-preview-loading.composition.tsx?raw";
 import { MessageQuotedPreviewShowcaseComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
-import { QuotedPreviewFeedbackComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
-import quotedPreviewSource from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx?raw";
+import { QuotedPreviewUnavailableComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-unavailable.composition.tsx";
+import quotedPreviewUnavailableSource from "#/modules/message-quoted-preview/compositions/quoted-preview-unavailable.composition.tsx?raw";
 import { MessageQuotedPreviewSourcePreview } from "#/modules/message-quoted-preview/message-quoted-preview.source-preview.tsx";
 
 const QUOTED_PREVIEW_MESSAGE_PATH =
   "apps/doc/src/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
-const QUOTED_PREVIEW_STATES_PATH =
-  "apps/doc/src/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
+const QUOTED_PREVIEW_LOADING_PATH =
+  "apps/doc/src/modules/message-quoted-preview/compositions/quoted-preview-loading.composition.tsx";
+const QUOTED_PREVIEW_UNAVAILABLE_PATH =
+  "apps/doc/src/modules/message-quoted-preview/compositions/quoted-preview-unavailable.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -170,8 +174,9 @@ export const Route = createFileRoute("/components/message-quoted-preview")({
         quotedPreviewDirectMessageThread: quotedPreviewDirectMessageThreadSource,
         quotedPreviewArchivedChannel: quotedPreviewArchivedChannelSource,
         quotedPreviewLongContent: quotedPreviewLongContentSource,
+        quotedPreviewLoading: quotedPreviewLoadingSource,
         quotedPreviewMessage: quotedPreviewMessageSource,
-        quotedPreview: quotedPreviewSource,
+        quotedPreviewUnavailable: quotedPreviewUnavailableSource,
       },
     }),
 });
@@ -202,10 +207,16 @@ function MessageQuotedPreviewDoc() {
                     collapsedHtml: code.quotedPreviewMessageBody,
                   },
                   {
-                    path: QUOTED_PREVIEW_STATES_PATH,
-                    source: quotedPreviewSource,
-                    html: code.quotedPreview,
-                    collapsedHtml: code.quotedPreviewBody,
+                    path: QUOTED_PREVIEW_LOADING_PATH,
+                    source: quotedPreviewLoadingSource,
+                    html: code.quotedPreviewLoading,
+                    collapsedHtml: code.quotedPreviewLoadingBody,
+                  },
+                  {
+                    path: QUOTED_PREVIEW_UNAVAILABLE_PATH,
+                    source: quotedPreviewUnavailableSource,
+                    html: code.quotedPreviewUnavailable,
+                    collapsedHtml: code.quotedPreviewUnavailableBody,
                   },
                 ]}
               />
@@ -308,16 +319,35 @@ function MessageQuotedPreviewDoc() {
             </Preview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="resolution-states" title="Loading and unavailable">
+          <DocSubsection parentId="usage" id="loading" title="Loading">
             <DocNote>
-              Use <code>MessageQuotedPreviewLoading</code> while resolving the target and
-              <code>MessageQuotedPreviewUnavailable</code> when it is missing or inaccessible.
+              Use <code>MessageQuotedPreviewLoading</code> while resolving the target. Its skeleton
+              structure remains caller-owned.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
-                <QuotedPreviewFeedbackComposition />
+                <QuotedPreviewLoadingComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.quotedPreview} />
+              <Preview.Code
+                html={code.quotedPreviewLoading}
+                collapsedHtml={code.quotedPreviewLoadingBody}
+              />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="unavailable" title="Unavailable">
+            <DocNote>
+              Use <code>MessageQuotedPreviewUnavailable</code> when the target is missing or
+              inaccessible. Failure copy stays caller-owned.
+            </DocNote>
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <QuotedPreviewUnavailableComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.quotedPreviewUnavailable}
+                collapsedHtml={code.quotedPreviewUnavailableBody}
+              />
             </Preview>
           </DocSubsection>
         </div>
