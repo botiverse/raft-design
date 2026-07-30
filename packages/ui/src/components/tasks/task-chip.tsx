@@ -15,7 +15,10 @@ const taskChip = tv({
       "transition-[filter,opacity] duration-100 hover:brightness-[0.96]",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
     ],
-    status: ["inline-flex shrink-0 items-center justify-center", "[&>svg]:size-3"],
+    status: [
+      "inline-flex shrink-0 items-center justify-center",
+      "[&>svg]:size-3.5 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
+    ],
     label:
       "inline-flex min-w-0 items-center gap-1 truncate font-medium [font-size:inherit] leading-[1.4] tracking-normal",
   },
@@ -38,7 +41,7 @@ const taskChip = tv({
       status: ["todo", "in_progress", "in_review", "done", "closed"],
       class: {
         root: "gap-1 align-bottom rounded-none border-black px-1 py-0 text-[13px] font-medium leading-tight text-black hover:brightness-90",
-        status: "[&>svg]:size-3",
+        status: "[&>svg]:size-3.5",
         label: "text-[13px] font-medium leading-tight",
       },
     },

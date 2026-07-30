@@ -17,18 +17,17 @@ function TodoIcon(props: TaskStatusSvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="1.2 1.2 21.6 21.6"
+      width={18}
+      height={18}
+      viewBox="0 0 18 18"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
+      strokeWidth={1}
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+      <circle cx={9} cy={9} r={7.25} />
     </svg>
   );
 }
@@ -37,22 +36,21 @@ function InProgressIcon(props: TaskStatusSvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="1.2 1.2 21.6 21.6"
+      width={18}
+      height={18}
+      viewBox="0 0 18 18"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
+      strokeWidth={1}
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-      <path d="M12 3v18" />
-      <path d="M12 14l7 -7" />
-      <path d="M12 19l8.5 -8.5" />
-      <path d="M12 9l4.5 -4.5" />
+      <circle cx={9} cy={9} r={7.25} />
+      <path d="M9 1.75V16.25" />
+      <path d="M9 7L12.5 3.5" />
+      <path d="M9 10.5L14.5 5" />
+      <path d="M9 14.5L15.5 8" />
     </svg>
   );
 }
@@ -61,19 +59,18 @@ function InReviewIcon(props: TaskStatusSvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="1.2 1.2 21.6 21.6"
+      width={18}
+      height={18}
+      viewBox="0 0 18 18"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2}
+      strokeWidth={1}
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+      <circle cx={9} cy={9} r={7.25} />
+      <circle cx={9} cy={9} r={1.25} fill="currentColor" stroke="none" />
     </svg>
   );
 }
@@ -82,19 +79,18 @@ function DoneIcon(props: TaskStatusSvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
+      width={18}
+      height={18}
+      viewBox="0 0 18 18"
       fill="currentColor"
       {...props}
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336z" />
+      <circle cx={9} cy={9} r={7.5} />
       <path
-        d="m8.5 12 2.5 2.5 4.5 -5"
+        d="M5.75 9L8 11.25L12.25 7"
         fill="none"
         stroke="var(--foreground-inverse)"
-        strokeWidth={2.25}
+        strokeWidth={1.25}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -106,19 +102,18 @@ function ClosedIcon(props: TaskStatusSvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
+      width={18}
+      height={18}
+      viewBox="0 0 18 18"
       fill="currentColor"
       {...props}
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336z" />
+      <circle cx={9} cy={9} r={7.5} />
       <path
-        d="m8.5 8.5 7 7m0 -7 -7 7"
+        d="M6.5 6.5L11.5 11.5M11.5 6.5L6.5 11.5"
         fill="none"
         stroke="var(--foreground-inverse)"
-        strokeWidth={2.25}
+        strokeWidth={1.25}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
