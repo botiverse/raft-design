@@ -3,7 +3,20 @@ import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_PLAYGROUND_URLS,
 } from "#/modules/message-item/message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  MessageItem,
+  MessageItemAvatarSlot,
+  MessageItemBody,
+  MessageItemContent,
+  MessageItemEmbedded,
+  MessageItemHeader,
+  MessageItemMeta,
+  MessageItemSender,
+  MessageItemTime,
+} from "raft-ui";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { FileText } from "lucide-react";
 
@@ -26,15 +39,6 @@ import {
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
   MessageForwardedBundleToggle,
-  MessageItem,
-  MessageItemAvatarSlot,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemEmbedded,
-  MessageItemHeader,
-  MessageItemMeta,
-  MessageItemSender,
-  MessageItemTime,
 } from "raft-ui/wip";
 
 function ForwardedBundleItemsContent() {

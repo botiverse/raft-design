@@ -41,6 +41,28 @@ export function MessageItemBody({ className, render, ...props }: MessageItemBody
   });
 }
 
+export type MessageItemSearchMatchProps = useRender.ComponentProps<"mark">;
+
+export function MessageItemSearchMatch({
+  className,
+  render,
+  ...props
+}: MessageItemSearchMatchProps) {
+  const { searchMatch } = messageItem();
+  const defaultProps: useRender.ElementProps<"mark"> = {
+    className: searchMatch({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "mark",
+    render,
+    props: mergeProps<"mark">(defaultProps, props),
+    state: {
+      slot: "message-item-search-match",
+    },
+  });
+}
+
 export type MessageItemEmbeddedProps = useRender.ComponentProps<"div">;
 
 export function MessageItemEmbedded({ className, render, ...props }: MessageItemEmbeddedProps) {

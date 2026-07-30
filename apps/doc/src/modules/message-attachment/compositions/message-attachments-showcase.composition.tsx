@@ -1,6 +1,9 @@
 import { MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, TaskChip } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  TaskChip,
   MessageItem,
   MessageItemAttachments,
   MessageItemAvatarSlot,
@@ -13,7 +16,8 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
+
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageReactionComposition } from "#/modules/message-item/compositions/reaction.compositions.tsx";
 import { MessageRowToolbarFixture } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";

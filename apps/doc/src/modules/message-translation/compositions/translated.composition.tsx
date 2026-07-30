@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Languages } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -10,9 +12,8 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  MessageItemTranslationAction,
-  MessageItemTranslationStatus,
-} from "raft-ui/wip";
+} from "raft-ui";
+import { MessageItemTranslationAction, MessageItemTranslationStatus } from "raft-ui/wip";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Tooltip, TooltipTrigger } from "raft-ui";
 import {
+  Tooltip,
+  TooltipTrigger,
   MessageReactionChip,
   MessageReactionCount,
   MessageReactionErrorIndicator,
@@ -12,7 +13,8 @@ import {
   MessageReactionTooltipNames,
   MessageReactionTooltipNameText,
   MessageReactionTooltipSeparator,
-} from "raft-ui/wip";
+} from "raft-ui";
+
 import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.tsx";
 import { MESSAGE_QUICK_REACTIONS } from "#/modules/message-item/message-item.fixtures.ts";
 export { MESSAGE_QUICK_REACTIONS } from "#/modules/message-item/message-item.fixtures.ts";
@@ -48,15 +50,19 @@ export function MessageReactionOverlaysComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <div ref={setPortalContainer} className="relative flex flex-wrap items-start gap-4 px-2">
-      <MessageQuickReactionPickerComposition />
-      <MessageReactionTooltipComposition
-        container={portalContainer}
-        count={5}
-        emoji="👍"
-        names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
-        open
-      />
+    <div ref={setPortalContainer} className="grid w-full grid-cols-2 items-center">
+      <div className="justify-self-center">
+        <MessageQuickReactionPickerComposition />
+      </div>
+      <div className="justify-self-center">
+        <MessageReactionTooltipComposition
+          container={portalContainer}
+          count={5}
+          emoji="👍"
+          names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
+          open
+        />
+      </div>
     </div>
   );
 }
@@ -84,9 +90,9 @@ export function MessageReactionComposition({
     };
   }, []);
 
-  const handleClick = () => {
+  const handlePressedChange = (pressed: boolean) => {
     if (!failed) {
-      setReacted((current) => !current);
+      setReacted(pressed);
       return;
     }
 
@@ -103,9 +109,9 @@ export function MessageReactionComposition({
   return (
     <MessageReactionChip
       aria-label={label}
-      selected={reacted}
+      pressed={reacted}
       title={title ?? label}
-      onClick={handleClick}
+      onPressedChange={handlePressedChange}
     >
       <MessageReactionGlyphComposition emoji={emoji} size={15} />
       <MessageReactionCount>{count}</MessageReactionCount>
@@ -144,17 +150,13 @@ export function MessageReactionTooltipComposition({
     <Tooltip open={open}>
       <TooltipTrigger
         render={
-          <MessageReactionChip
-            aria-label={summary}
-            selected={reacted}
-            onClick={() => setReacted((current) => !current)}
-          >
+          <MessageReactionChip aria-label={summary} pressed={reacted} onPressedChange={setReacted}>
             <MessageReactionGlyphComposition emoji={emoji} size={15} />
             <MessageReactionCount>{displayedCount}</MessageReactionCount>
           </MessageReactionChip>
         }
       />
-      <MessageReactionTooltipContent container={container} side="bottom">
+      <MessageReactionTooltipContent container={container} side="top">
         <MessageReactionTooltipNames>
           {visibleNames.map((name, index) => (
             <MessageReactionTooltipName key={name}>

@@ -1,6 +1,12 @@
 import type { MouseEventHandler, ReactElement } from "react";
-import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger } from "raft-ui";
-import { MessageReactionPickerContent, MessageReactionQuickButton } from "raft-ui/wip";
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  MessageReactionPickerContent,
+  MessageReactionQuickButton,
+} from "raft-ui";
+
 import { MESSAGE_QUICK_REACTIONS } from "#/modules/message-item/message-item.fixtures.ts";
 import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.tsx";
 

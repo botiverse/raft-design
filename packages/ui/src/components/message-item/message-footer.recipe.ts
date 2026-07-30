@@ -6,12 +6,15 @@ export const messageFooter = tv({
       "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap select-none",
       "[&_svg]:shrink-0",
     ],
-    readReceipt: ["inline-flex shrink-0 items-center gap-1 whitespace-nowrap", "[&_svg]:shrink-0"],
+    readReceipt: [
+      "ml-auto inline-flex shrink-0 items-center gap-1 whitespace-nowrap",
+      "[&_svg]:shrink-0",
+    ],
     badge: [
       "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap select-none",
       "transition-colors [&_svg]:shrink-0",
     ],
-    badgeSeparator: [],
+    badgeSeparator: ["text-foreground/45"],
   },
   variants: {
     badgeStatus: { read: {}, unread: {} },
@@ -26,10 +29,9 @@ export const messageFooter = tv({
         readReceipt: "h-5 text-[10px] font-bold leading-none text-black/45 [&_svg]:size-2.5",
         badge: [
           "h-5 border border-line-strong px-1.5 text-[10px] font-bold leading-none text-black",
-          "transition-colors hover:bg-brutal-cyan/40",
+          "hover:bg-brutal-cyan/40",
           "[&_svg]:size-3",
         ],
-        badgeSeparator: "text-foreground/45",
       },
       elegant: {
         savedIndicator: [
@@ -37,14 +39,13 @@ export const messageFooter = tv({
           "text-[11px] font-medium leading-3 tracking-[0.22px] text-primary-600",
           "transition-[filter,opacity] duration-100 hover:brightness-95",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
-          "[&_svg]:size-[11px] [&_svg]:shrink-0",
+          "[&_svg]:size-[11px]",
         ],
         readReceipt: "h-5 text-[11px] font-medium text-foreground-muted [&_svg]:size-2.5",
         badge: [
-          "h-5 rounded-md px-1.5 py-0.5 shadow-none ring-0",
+          "h-5 rounded-md px-1.5",
           "text-[12px] font-[420] tracking-[-0.01em] hover:bg-layer-strong/80 [&_svg]:size-[11px]",
         ],
-        badgeSeparator: "text-foreground/45",
       },
     },
   },
@@ -60,10 +61,7 @@ export const messageFooter = tv({
       theme: "elegant",
       badgeStatus: "unread",
       class: {
-        badge: [
-          "border-transparent bg-primary-100 text-primary-800",
-          "text-[12px] tracking-[-0.01em] hover:bg-primary-200/90",
-        ],
+        badge: ["bg-info-lighter/50 text-[12px] tracking-[-0.01em]"],
       },
     },
   ],

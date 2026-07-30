@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC, MESSAGE_PLAYGROUND_URLS } from "../message-item.fixtures.ts";
 import { Bookmark, MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, ContextMenu, ContextMenuTrigger } from "raft-ui";
 import {
-  MessageItemActive,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  ContextMenu,
+  ContextMenuTrigger,
+  MessageItem,
   MessageItemAvatarSlot,
   MessageItemBadge,
+  MessageItemBadgeSeparator,
   MessageItemBody,
   MessageItemContent,
   MessageItemFooter,
@@ -14,7 +19,7 @@ import {
   MessageItemSavedIndicator,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import {
   MessageContextMenuComposition,
@@ -34,7 +39,7 @@ export function MessageContextMenuShowcaseComposition() {
     <div className="w-full max-w-3xl">
       <div ref={setPortalContainer} className="relative w-full">
         <ContextMenu>
-          <ContextMenuTrigger render={<MessageItemActive />}>
+          <ContextMenuTrigger render={<MessageItem />}>
             <MessageItemAvatarSlot>
               <Avatar size="md" type="agent">
                 <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
@@ -58,7 +63,10 @@ export function MessageContextMenuShowcaseComposition() {
                   </MessageItemSavedIndicator>
                 ) : null}
                 <MessageItemBadge status="unread">
-                  <MessageSquare />4 replies
+                  <MessageSquare />
+                  <span>4 replies</span>
+                  <MessageItemBadgeSeparator />
+                  <span>1 new</span>
                 </MessageItemBadge>
                 <MessageReactionComposition emoji={reaction} count={2} reacted />
               </MessageItemFooter>

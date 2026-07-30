@@ -1,11 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage, Button } from "raft-ui";
 import {
-  MessageActionCard,
-  MessageActionCardActions,
-  MessageActionCardContent,
-  MessageActionCardDetails,
-  MessageActionCardHeader,
-  MessageActionCardHint,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Button,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -14,6 +11,14 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
+} from "raft-ui";
+import {
+  MessageActionCard,
+  MessageActionCardActions,
+  MessageActionCardContent,
+  MessageActionCardDetails,
+  MessageActionCardHeader,
+  MessageActionCardHint,
 } from "raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";

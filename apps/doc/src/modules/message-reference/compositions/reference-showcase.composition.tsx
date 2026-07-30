@@ -15,6 +15,13 @@ import {
   MessageReferenceUnavailable,
   Spinner,
   TaskChip,
+  MessageItem,
+  MessageItemAvatarSlot,
+  MessageItemBody,
+  MessageItemContent,
+  MessageItemHeader,
+  MessageItemSender,
+  MessageItemTime,
 } from "raft-ui";
 import {
   CircleOff,
@@ -25,15 +32,6 @@ import {
   MessageSquareText,
 } from "lucide-react";
 
-import {
-  MessageItem,
-  MessageItemAvatarSlot,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemHeader,
-  MessageItemSender,
-  MessageItemTime,
-} from "raft-ui/wip";
 import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
 import { MessageMentionReferenceComposition } from "./reference-adapters.composition.tsx";
 

@@ -1,6 +1,7 @@
 import { Hash, MessageSquare } from "lucide-react";
-import { Avatar, AvatarFallback } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -10,6 +11,8 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
+} from "raft-ui";
+import {
   MessageQuotedPreview,
   MessageQuotedPreviewAttachment,
   MessageQuotedPreviewAttachments,

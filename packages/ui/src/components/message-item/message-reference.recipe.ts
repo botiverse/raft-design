@@ -28,7 +28,7 @@ export const messageReference = tv({
         chipMeta: "text-[10px] font-normal leading-none text-foreground-muted",
         badge: [
           "pointer-events-none absolute -top-px right-[calc(100%-10px)] z-0",
-          "inline-flex h-[19px] items-center rounded-l-full rounded-r-none pr-2.5 pl-2",
+          "h-[19px] items-center rounded-l-full rounded-r-none pr-2.5 pl-2",
           "font-normal leading-none tracking-normal",
           "bg-[var(--reference-badge,transparent)] text-[var(--reference-badge-ink,currentColor)]",
           "[clip-path:inset(0_0_0_100%_round_9999px_0_0_9999px)]",
@@ -56,7 +56,7 @@ export const messageReference = tv({
       class: {
         root: [
           "inline-flex cursor-default items-center gap-1 align-bottom border border-black bg-primary-400/40 px-1",
-          "[font-size:inherit] font-medium leading-tight text-primary-900 no-underline",
+          "[font-size:inherit] font-medium leading-tight text-primary-900",
           "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
           "hover:bg-primary-400/60 hover:text-primary-900",
         ],

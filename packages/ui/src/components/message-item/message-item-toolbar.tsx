@@ -1,21 +1,14 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { dataPresence, type SlotElementProps } from "../../lib/data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
-export type MessageItemToolbarProps = useRender.ComponentProps<"div"> & {
-  visible?: boolean;
-};
+export type MessageItemToolbarProps = useRender.ComponentProps<"div">;
 
-export function MessageItemToolbar({
-  className,
-  render,
-  visible,
-  ...props
-}: MessageItemToolbarProps) {
+export function MessageItemToolbar({ className, render, ...props }: MessageItemToolbarProps) {
   const theme = useThemeFamily();
-  const { toolbar } = messageItem({ toolbarVisible: visible, theme });
+  const { toolbar } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: toolbar({ className }),
   };
@@ -50,35 +43,6 @@ export function MessageItemToolbarButton({
     props: mergeProps<"button">(defaultProps, props),
     state: {
       slot: "message-item-toolbar-button",
-    },
-  });
-}
-
-export type MessageItemSaveButtonProps = MessageItemToolbarButtonProps & {
-  selected?: boolean;
-};
-
-export function MessageItemSaveButton({
-  className,
-  render,
-  selected,
-  ...props
-}: MessageItemSaveButtonProps) {
-  const theme = useThemeFamily();
-  const { saveButton, toolbarButton } = messageItem({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    type: "button",
-    "aria-pressed": selected,
-    "data-selected": dataPresence(selected),
-    className: toolbarButton({ className: saveButton({ className }) }),
-  };
-
-  return useRender({
-    defaultTagName: "button",
-    render,
-    props: mergeProps<"button">(defaultProps, props),
-    state: {
-      slot: "message-item-save-button",
     },
   });
 }

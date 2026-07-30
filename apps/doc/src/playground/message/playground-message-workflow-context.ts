@@ -9,7 +9,6 @@ import type {
 } from "../mock/index.ts";
 
 export type PlaygroundMessageWorkflow = {
-  expanded: boolean;
   reactions: readonly PlaygroundMessageReaction[];
   saved: boolean;
   task: MessageTaskState;
@@ -17,7 +16,6 @@ export type PlaygroundMessageWorkflow = {
 };
 
 export const DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW: PlaygroundMessageWorkflow = {
-  expanded: false,
   reactions: [],
   saved: false,
   task: "none",

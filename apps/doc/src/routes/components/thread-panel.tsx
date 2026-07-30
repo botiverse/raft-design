@@ -88,7 +88,11 @@ const SNIPPETS = {
       </ThreadPanelReplySummary>
       <MessageListDateDivider />
       <MessageItem />
-      <MessageItemSearchMatch />
+      <MessageItem>
+        <MessageItemBody>
+          <MessageItemSearchMatch>Matching text</MessageItemSearchMatch>
+        </MessageItemBody>
+      </MessageItem>
     </MessageList>
   </ThreadPanelBody>
   <ThreadPanelFooter>
@@ -244,9 +248,9 @@ const MESSAGE_LIST_NOTICE_PROPS: readonly PropRow[] = [
 const MESSAGE_ITEM_SEARCH_MATCH_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "MessageItem props",
+    type: "mark props",
     description:
-      "Message row variant that highlights the active in-thread search match. Caller-owned like MessageItem.",
+      "Inline matched-text part that also applies the search-result surface to its containing MessageItem.",
   },
 ];
 

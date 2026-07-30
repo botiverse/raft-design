@@ -13,10 +13,10 @@ import {
   Status,
   cn,
   type StatusProps,
+  MessageItemAvatarSlot,
 } from "raft-ui";
 import { User } from "lucide-react";
 import type { ReactNode } from "react";
-import { MessageItemAvatarSlot } from "raft-ui/wip";
 
 import { getPlaygroundActor, type PlaygroundActorId } from "../mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";

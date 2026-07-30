@@ -81,8 +81,8 @@ const taskChip = tv({
       theme: "elegant",
       status: ["todo", "in_progress", "in_review", "done", "closed"],
       class: {
-        root: "h-[19px] align-middle -mt-px text-[13px] font-normal leading-none",
-        label: "text-[13px] font-normal leading-none",
+        root: "h-[19px] align-middle -mt-px text-[12px] font-[450] leading-none",
+        label: "text-[12px] font-[450] leading-none",
       },
     },
   ],

@@ -12,8 +12,6 @@ import {
   TaskChip,
   TaskStatusIcon,
   type TaskStatusId,
-} from "raft-ui";
-import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -22,7 +20,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 const TASK_STATUS_OPTIONS = [
   { id: "todo", label: "Todo" },

@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { AlertTriangle, Languages, RotateCcw } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage, Progress, ProgressIndicator } from "raft-ui";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Progress,
+  ProgressIndicator,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -10,6 +14,8 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
+} from "raft-ui";
+import {
   MessageItemTranslationFailedStatus,
   MessageItemTranslationPendingStatus,
   MessageItemTranslationProgressTrack,
