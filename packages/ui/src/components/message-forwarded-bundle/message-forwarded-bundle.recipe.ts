@@ -2,8 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const messageForwardedBundle = tv({
   slots: {
-    root: ["max-w-[min(34rem,100%)]"],
-    inset: ["min-w-0"],
+    root: ["mt-1 max-w-[min(34rem,100%)]"],
     header: ["flex flex-wrap items-center justify-between"],
     headerContent: ["flex min-w-0 items-center"],
     headerLabel: ["inline-flex shrink-0 items-center"],
@@ -17,9 +16,8 @@ export const messageForwardedBundle = tv({
   variants: {
     theme: {
       brutal: {
-        root: "mt-1 border border-black/20 bg-white",
-        inset: "contents",
-        header: "gap-2 border-b border-black/10 bg-white px-2.5 py-1.5",
+        root: "",
+        header: "gap-2",
         headerContent: "gap-2",
         headerLabel: "gap-1 text-[11px] font-black leading-none text-black/60",
         headerCount: "text-[11px] font-bold text-black/50",
@@ -27,19 +25,13 @@ export const messageForwardedBundle = tv({
           "inline-flex items-center gap-1 text-[11px] font-bold transition-colors text-black/45 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         sourceLabel: "inline-flex items-center gap-1 text-[11px] font-bold text-black/40",
         items: "divide-y-[0.5px] divide-black/[0.08]",
-        footer: "border-t border-black/10 bg-white px-3 py-1.5",
+        footer: "",
         toggle:
           "inline-flex items-center gap-1 text-[11px] font-black text-black/50 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       },
       elegant: {
-        root: [
-          "group mt-1 rounded-lg border-[0.5px] border-line-subtle bg-[oklch(0.985_0.003_84.559)] p-[2px] shadow-xs",
-          "transition-[background-color,box-shadow] duration-150",
-          "hover:bg-[color-mix(in_oklch,var(--ink)_2%,oklch(0.985_0.003_84.559))] hover:shadow-sm",
-        ],
-        inset:
-          "overflow-clip rounded-[5.5px] border-[0.5px] border-line-subtle bg-[oklch(1_0_0)] transition-colors duration-150 group-hover:bg-[color-mix(in_oklch,var(--ink)_2%,oklch(1_0_0))]",
-        header: "gap-2 px-3 py-1.5 sm:px-3.5",
+        root: "",
+        header: "gap-2",
         headerContent: "gap-2",
         headerLabel: "gap-1 text-[11px] font-medium leading-none text-foreground-muted",
         headerCount: "text-[11px] font-medium text-foreground-placeholder",
@@ -48,7 +40,7 @@ export const messageForwardedBundle = tv({
         sourceLabel:
           "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder",
         items: "divide-y-[0.5px] divide-line-subtle/75",
-        footer: "px-3 py-1.5 sm:px-3.5",
+        footer: "",
         toggle:
           "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
       },

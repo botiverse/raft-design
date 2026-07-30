@@ -38,6 +38,19 @@ export {
   MessageActionCardHeader,
   MessageActionCardHint,
 } from "./components/message-action-card/index";
+
+export {
+  MessageEmbed,
+  MessageEmbedContent,
+  MessageEmbedFooter,
+  MessageEmbedHeader,
+} from "./components/message-embed/index";
+export type {
+  MessageEmbedContentProps,
+  MessageEmbedFooterProps,
+  MessageEmbedHeaderProps,
+  MessageEmbedProps,
+} from "./components/message-embed/index";
 export type {
   MessageActionCardActionsProps,
   MessageActionCardCompletionProps,
@@ -92,7 +105,6 @@ export {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
-  MessageForwardedBundleInset,
   MessageForwardedBundleSource,
   MessageForwardedBundleSourceLabel,
   MessageForwardedBundleToggle,
@@ -107,7 +119,6 @@ export type {
   MessageForwardedBundleHeaderContentProps,
   MessageForwardedBundleHeaderLabelProps,
   MessageForwardedBundleHeaderProps,
-  MessageForwardedBundleInsetProps,
   MessageForwardedBundleItemAuthorProps,
   MessageForwardedBundleItemMetaProps,
   MessageForwardedBundleItemProps,

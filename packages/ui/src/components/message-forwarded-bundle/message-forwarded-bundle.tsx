@@ -3,6 +3,12 @@ import { useRender } from "@base-ui/react/use-render";
 import type { Theme } from "../../lib/theme/theme-context";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import {
+  MessageEmbed,
+  MessageEmbedContent,
+  MessageEmbedFooter,
+  MessageEmbedHeader,
+} from "../message-embed";
+import {
   messageForwardedBundle,
   messageForwardedBundleItem,
 } from "./message-forwarded-bundle.recipe";
@@ -40,18 +46,19 @@ function createSpanPart(slot: string, resolveRecipePart: ResolveRecipePart) {
   };
 }
 
-export const MessageForwardedBundle = createDivPart(
-  "message-forwarded-bundle",
-  (theme) => messageForwardedBundle({ theme }).root,
-);
-export const MessageForwardedBundleInset = createDivPart(
-  "message-forwarded-bundle-inset",
-  (theme) => messageForwardedBundle({ theme }).inset,
-);
-export const MessageForwardedBundleHeader = createDivPart(
-  "message-forwarded-bundle-header",
-  (theme) => messageForwardedBundle({ theme }).header,
-);
+export function MessageForwardedBundle({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { root } = messageForwardedBundle({ theme });
+
+  return <MessageEmbed className={root({ className })} render={render} {...props} />;
+}
+
+export function MessageForwardedBundleHeader({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { header } = messageForwardedBundle({ theme });
+
+  return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
+}
 export const MessageForwardedBundleHeaderContent = createDivPart(
   "message-forwarded-bundle-header-content",
   (theme) => messageForwardedBundle({ theme }).headerContent,
@@ -74,12 +81,14 @@ export function MessageForwardedBundleItems({
 }: MessageForwardedBundleItemsProps) {
   const theme = useThemeFamily();
   const { items } = messageForwardedBundle({ theme, collapsed });
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: items({ className }) }, props),
-    state: { collapsed, slot: "message-forwarded-bundle-items" },
-  });
+  return (
+    <MessageEmbedContent
+      className={items({ className })}
+      data-collapsed={collapsed || undefined}
+      render={render}
+      {...props}
+    />
+  );
 }
 export function MessageForwardedBundleItem({ className, render, ...props }: ArticleProps) {
   const theme = useThemeFamily();
@@ -115,10 +124,12 @@ export const MessageForwardedBundleAttachmentMeta = createSpanPart(
   "message-forwarded-bundle-attachment-meta",
   (theme) => messageForwardedBundleItem({ theme }).attachmentMeta,
 );
-export const MessageForwardedBundleFooter = createDivPart(
-  "message-forwarded-bundle-footer",
-  (theme) => messageForwardedBundle({ theme }).footer,
-);
+export function MessageForwardedBundleFooter({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { footer } = messageForwardedBundle({ theme });
+
+  return <MessageEmbedFooter className={footer({ className })} render={render} {...props} />;
+}
 
 export type MessageForwardedBundleSourceProps = ButtonProps;
 
@@ -160,7 +171,6 @@ export function MessageForwardedBundleToggle({
 }
 
 export type MessageForwardedBundleProps = DivProps;
-export type MessageForwardedBundleInsetProps = DivProps;
 export type MessageForwardedBundleHeaderProps = DivProps;
 export type MessageForwardedBundleHeaderContentProps = DivProps;
 export type MessageForwardedBundleHeaderLabelProps = SpanProps;

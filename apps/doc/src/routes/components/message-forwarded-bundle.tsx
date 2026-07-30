@@ -57,21 +57,19 @@ const ANATOMY_SOURCE = `<MessageForwardedBundle>
     </MessageForwardedBundleHeaderContent>
     <MessageForwardedBundleSource />
   </MessageForwardedBundleHeader>
-  <MessageForwardedBundleInset>
-    <MessageForwardedBundleItems collapsed>
-      <MessageForwardedBundleItem>
-        <MessageForwardedBundleItemMeta>
-          <MessageForwardedBundleItemAuthor />
-        </MessageForwardedBundleItemMeta>
-        <MessageForwardedBundleAttachments>
-          <MessageForwardedBundleAttachment>
-            <MessageForwardedBundleAttachmentName />
-            <MessageForwardedBundleAttachmentMeta />
-          </MessageForwardedBundleAttachment>
-        </MessageForwardedBundleAttachments>
-      </MessageForwardedBundleItem>
-    </MessageForwardedBundleItems>
-  </MessageForwardedBundleInset>
+  <MessageForwardedBundleItems collapsed>
+    <MessageForwardedBundleItem>
+      <MessageForwardedBundleItemMeta>
+        <MessageForwardedBundleItemAuthor />
+      </MessageForwardedBundleItemMeta>
+      <MessageForwardedBundleAttachments>
+        <MessageForwardedBundleAttachment>
+          <MessageForwardedBundleAttachmentName />
+          <MessageForwardedBundleAttachmentMeta />
+        </MessageForwardedBundleAttachment>
+      </MessageForwardedBundleAttachments>
+    </MessageForwardedBundleItem>
+  </MessageForwardedBundleItems>
   <MessageForwardedBundleFooter>
     <MessageForwardedBundleToggle />
   </MessageForwardedBundleFooter>
@@ -83,11 +81,6 @@ const PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"div">',
     description:
       "Forwarded messages card root. Compose inside MessageItemEmbedded; expand/collapse state stays consumer-owned.",
-  },
-  {
-    name: "MessageForwardedBundleInset",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Inner card surface; use inside the bundle root.",
   },
   {
     name: "MessageForwardedBundleHeader",

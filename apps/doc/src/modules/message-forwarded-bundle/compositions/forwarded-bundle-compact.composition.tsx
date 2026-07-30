@@ -9,7 +9,6 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
-  MessageForwardedBundleInset,
 } from "raft-ui/wip";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
@@ -54,24 +53,22 @@ export function ForwardedBundleCompactComposition() {
                 <MessageForwardedBundleHeaderCount>2 messages</MessageForwardedBundleHeaderCount>
               </MessageForwardedBundleHeaderContent>
             </MessageForwardedBundleHeader>
-            <MessageForwardedBundleInset>
-              <MessageForwardedBundleItems>
-                <MessageForwardedBundleItem>
-                  <MessageForwardedBundleItemMeta>
-                    <MessageForwardedBundleItemAuthor>@Ada</MessageForwardedBundleItemAuthor>
-                    <time dateTime="2026-07-15T06:05:00.000Z">Jul 15, 2:05 PM</time>
-                  </MessageForwardedBundleItemMeta>
-                  <Markdown>Rollout is clear for the message reference migration.</Markdown>
-                </MessageForwardedBundleItem>
-                <MessageForwardedBundleItem>
-                  <MessageForwardedBundleItemMeta>
-                    <MessageForwardedBundleItemAuthor>@Will</MessageForwardedBundleItemAuthor>
-                    <time dateTime="2026-07-15T06:09:00.000Z">Jul 15, 2:09 PM</time>
-                  </MessageForwardedBundleItemMeta>
-                  <Markdown>Keep the source case with its attachment context.</Markdown>
-                </MessageForwardedBundleItem>
-              </MessageForwardedBundleItems>
-            </MessageForwardedBundleInset>
+            <MessageForwardedBundleItems>
+              <MessageForwardedBundleItem>
+                <MessageForwardedBundleItemMeta>
+                  <MessageForwardedBundleItemAuthor>@Ada</MessageForwardedBundleItemAuthor>
+                  <time dateTime="2026-07-15T06:05:00.000Z">Jul 15, 2:05 PM</time>
+                </MessageForwardedBundleItemMeta>
+                <Markdown>Rollout is clear for the message reference migration.</Markdown>
+              </MessageForwardedBundleItem>
+              <MessageForwardedBundleItem>
+                <MessageForwardedBundleItemMeta>
+                  <MessageForwardedBundleItemAuthor>@Will</MessageForwardedBundleItemAuthor>
+                  <time dateTime="2026-07-15T06:09:00.000Z">Jul 15, 2:09 PM</time>
+                </MessageForwardedBundleItemMeta>
+                <Markdown>Keep the source case with its attachment context.</Markdown>
+              </MessageForwardedBundleItem>
+            </MessageForwardedBundleItems>
           </MessageForwardedBundle>
         </MessageItemEmbedded>
       </MessageItemContent>

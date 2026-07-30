@@ -22,7 +22,6 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
-  MessageForwardedBundleInset,
   MessageForwardedBundleSource,
   MessageForwardedBundleToggle,
   MessageItem,
@@ -107,11 +106,9 @@ export function ForwardedBundleEmbeddedComposition() {
             from #release-notes
           </MessageForwardedBundleSource>
         </MessageForwardedBundleHeader>
-        <MessageForwardedBundleInset>
-          <MessageForwardedBundleItems collapsed={!expanded}>
-            <ForwardedBundleItemsContent />
-          </MessageForwardedBundleItems>
-        </MessageForwardedBundleInset>
+        <MessageForwardedBundleItems collapsed={!expanded}>
+          <ForwardedBundleItemsContent />
+        </MessageForwardedBundleItems>
         <MessageForwardedBundleFooter>
           <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
             {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}

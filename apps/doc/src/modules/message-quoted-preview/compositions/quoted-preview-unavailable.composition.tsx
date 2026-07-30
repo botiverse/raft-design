@@ -2,7 +2,6 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  MessageQuotedPreviewContent,
   MessageQuotedPreviewUnavailable,
   MessageReferenceUnavailable,
 } from "raft-ui";
@@ -44,9 +43,7 @@ export function QuotedPreviewUnavailableComposition() {
         </MessageItemBody>
         <MessageItemEmbedded>
           <MessageQuotedPreviewUnavailable data-testid="quoted-message-card-unavailable">
-            <MessageQuotedPreviewContent>
-              <MessageReferenceUnavailable>Message unavailable</MessageReferenceUnavailable>
-            </MessageQuotedPreviewContent>
+            Message unavailable
           </MessageQuotedPreviewUnavailable>
         </MessageItemEmbedded>
       </MessageItemContent>

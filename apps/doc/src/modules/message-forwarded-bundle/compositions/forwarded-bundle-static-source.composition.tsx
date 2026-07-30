@@ -9,7 +9,6 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
-  MessageForwardedBundleInset,
   MessageForwardedBundleSourceLabel,
 } from "raft-ui/wip";
 
@@ -58,17 +57,15 @@ export function ForwardedBundleStaticSourceComposition() {
                 from #release-notes
               </MessageForwardedBundleSourceLabel>
             </MessageForwardedBundleHeader>
-            <MessageForwardedBundleInset>
-              <MessageForwardedBundleItems>
-                <MessageForwardedBundleItem>
-                  <MessageForwardedBundleItemMeta>
-                    <MessageForwardedBundleItemAuthor>@Kai</MessageForwardedBundleItemAuthor>
-                    <time dateTime="2026-07-15T06:19:00.000Z">Jul 15, 2:19 PM</time>
-                  </MessageForwardedBundleItemMeta>
-                  <Markdown>The original message is no longer available to open.</Markdown>
-                </MessageForwardedBundleItem>
-              </MessageForwardedBundleItems>
-            </MessageForwardedBundleInset>
+            <MessageForwardedBundleItems>
+              <MessageForwardedBundleItem>
+                <MessageForwardedBundleItemMeta>
+                  <MessageForwardedBundleItemAuthor>@Kai</MessageForwardedBundleItemAuthor>
+                  <time dateTime="2026-07-15T06:19:00.000Z">Jul 15, 2:19 PM</time>
+                </MessageForwardedBundleItemMeta>
+                <Markdown>The original message is no longer available to open.</Markdown>
+              </MessageForwardedBundleItem>
+            </MessageForwardedBundleItems>
           </MessageForwardedBundle>
         </MessageItemEmbedded>
       </MessageItemContent>

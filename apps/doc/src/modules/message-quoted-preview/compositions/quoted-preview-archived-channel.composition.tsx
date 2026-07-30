@@ -10,7 +10,6 @@ import {
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewHeader,
-  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
   MessageReferenceChip,
@@ -86,14 +85,12 @@ export function QuotedPreviewArchivedChannelComposition() {
               </Badge>
               <MessageQuotedPreviewTimestamp>May 4 · 3:16 PM</MessageQuotedPreviewTimestamp>
             </MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewInset>
-              <MessageQuotedPreviewContent>
-                <MessageQuotedPreviewText>
-                  Keep this decision linked for historical context, but continue the work in the
-                  active channel.
-                </MessageQuotedPreviewText>
-              </MessageQuotedPreviewContent>
-            </MessageQuotedPreviewInset>
+            <MessageQuotedPreviewContent>
+              <MessageQuotedPreviewText>
+                Keep this decision linked for historical context, but continue the work in the
+                active channel.
+              </MessageQuotedPreviewText>
+            </MessageQuotedPreviewContent>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>

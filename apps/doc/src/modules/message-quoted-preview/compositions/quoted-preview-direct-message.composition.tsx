@@ -9,7 +9,6 @@ import {
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewHeader,
-  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
   MessageReferenceChip,
@@ -76,13 +75,11 @@ export function QuotedPreviewDirectMessageComposition() {
               <MessageQuotedPreviewChannel>@Atlas</MessageQuotedPreviewChannel>
               <MessageQuotedPreviewTimestamp>Today · 8:24 AM</MessageQuotedPreviewTimestamp>
             </MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewInset>
-              <MessageQuotedPreviewContent>
-                <MessageQuotedPreviewText>
-                  I&apos;ll take the deployment handoff and post a summary when it completes.
-                </MessageQuotedPreviewText>
-              </MessageQuotedPreviewContent>
-            </MessageQuotedPreviewInset>
+            <MessageQuotedPreviewContent>
+              <MessageQuotedPreviewText>
+                I&apos;ll take the deployment handoff and post a summary when it completes.
+              </MessageQuotedPreviewText>
+            </MessageQuotedPreviewContent>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>

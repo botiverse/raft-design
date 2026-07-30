@@ -11,7 +11,6 @@ import {
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewHeader,
-  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewTimestamp,
   MessageReferenceChip,
@@ -84,18 +83,16 @@ export function QuotedPreviewLongContentComposition() {
               </MessageQuotedPreviewChannel>
               <MessageQuotedPreviewTimestamp>Yesterday · 4:46 PM</MessageQuotedPreviewTimestamp>
             </MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewInset>
-              <MessageQuotedPreviewContent>
-                <MessageQuotedPreviewText>
-                  Before we cut over, keep the read model running against both event streams,
-                  validate account and workspace permissions in the staging environment, and only
-                  then move the webhook consumers to the new endpoint.
-                </MessageQuotedPreviewText>
-                <MessageQuotedPreviewAttachments>
-                  <MessageQuotedPreviewAttachment>2 attachments</MessageQuotedPreviewAttachment>
-                </MessageQuotedPreviewAttachments>
-              </MessageQuotedPreviewContent>
-            </MessageQuotedPreviewInset>
+            <MessageQuotedPreviewContent>
+              <MessageQuotedPreviewText>
+                Before we cut over, keep the read model running against both event streams, validate
+                account and workspace permissions in the staging environment, and only then move the
+                webhook consumers to the new endpoint.
+              </MessageQuotedPreviewText>
+              <MessageQuotedPreviewAttachments>
+                <MessageQuotedPreviewAttachment>2 attachments</MessageQuotedPreviewAttachment>
+              </MessageQuotedPreviewAttachments>
+            </MessageQuotedPreviewContent>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>

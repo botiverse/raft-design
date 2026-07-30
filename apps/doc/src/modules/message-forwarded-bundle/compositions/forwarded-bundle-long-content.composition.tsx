@@ -15,7 +15,6 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
-  MessageForwardedBundleInset,
   MessageForwardedBundleToggle,
 } from "raft-ui/wip";
 
@@ -95,11 +94,9 @@ export function ForwardedBundleLongContentComposition() {
                 <MessageForwardedBundleHeaderCount>message</MessageForwardedBundleHeaderCount>
               </MessageForwardedBundleHeaderContent>
             </MessageForwardedBundleHeader>
-            <MessageForwardedBundleInset>
-              <MessageForwardedBundleItems collapsed={!expanded}>
-                <LongForwardedItem />
-              </MessageForwardedBundleItems>
-            </MessageForwardedBundleInset>
+            <MessageForwardedBundleItems collapsed={!expanded}>
+              <LongForwardedItem />
+            </MessageForwardedBundleItems>
             <MessageForwardedBundleFooter>
               <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
                 {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}

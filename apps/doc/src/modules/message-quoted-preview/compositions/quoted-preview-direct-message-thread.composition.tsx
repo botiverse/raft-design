@@ -9,7 +9,6 @@ import {
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewHeader,
-  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewThread,
   MessageQuotedPreviewTimestamp,
@@ -84,13 +83,11 @@ export function QuotedPreviewDirectMessageThreadComposition() {
               </MessageQuotedPreviewThread>
               <MessageQuotedPreviewTimestamp>Today · 8:29 AM</MessageQuotedPreviewTimestamp>
             </MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewInset>
-              <MessageQuotedPreviewContent>
-                <MessageQuotedPreviewText>
-                  I&apos;ll post the follow-up in this conversation once the handoff is complete.
-                </MessageQuotedPreviewText>
-              </MessageQuotedPreviewContent>
-            </MessageQuotedPreviewInset>
+            <MessageQuotedPreviewContent>
+              <MessageQuotedPreviewText>
+                I&apos;ll post the follow-up in this conversation once the handoff is complete.
+              </MessageQuotedPreviewText>
+            </MessageQuotedPreviewContent>
           </MessageQuotedPreview>
         </MessageItemEmbedded>
       </MessageItemContent>

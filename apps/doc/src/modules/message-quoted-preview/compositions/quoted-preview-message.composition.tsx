@@ -12,7 +12,6 @@ import {
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewHeader,
-  MessageQuotedPreviewInset,
   MessageQuotedPreviewText,
   MessageQuotedPreviewThread,
   MessageQuotedPreviewTimestamp,
@@ -65,17 +64,15 @@ export function QuotedPreviewEmbeddedComposition() {
           </MessageQuotedPreviewThread>
           <MessageQuotedPreviewTimestamp>Today · 8:17 AM</MessageQuotedPreviewTimestamp>
         </MessageQuotedPreviewHeader>
-        <MessageQuotedPreviewInset>
-          <MessageQuotedPreviewContent>
-            <MessageQuotedPreviewText>
-              Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for
-              our store structure.
-            </MessageQuotedPreviewText>
-            <MessageQuotedPreviewAttachments>
-              <MessageQuotedPreviewAttachment>1 file</MessageQuotedPreviewAttachment>
-            </MessageQuotedPreviewAttachments>
-          </MessageQuotedPreviewContent>
-        </MessageQuotedPreviewInset>
+        <MessageQuotedPreviewContent>
+          <MessageQuotedPreviewText>
+            Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for our
+            store structure.
+          </MessageQuotedPreviewText>
+          <MessageQuotedPreviewAttachments>
+            <MessageQuotedPreviewAttachment>1 file</MessageQuotedPreviewAttachment>
+          </MessageQuotedPreviewAttachments>
+        </MessageQuotedPreviewContent>
       </MessageQuotedPreview>
     </MessageItemEmbedded>
   );

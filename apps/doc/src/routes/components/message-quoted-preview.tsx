@@ -68,14 +68,12 @@ const ANATOMY_SOURCE = `<MessageQuotedPreview>
     <MessageQuotedPreviewThread />
     <MessageQuotedPreviewTimestamp />
   </MessageQuotedPreviewHeader>
-  <MessageQuotedPreviewInset>
-    <MessageQuotedPreviewContent>
-      <MessageQuotedPreviewText />
-      <MessageQuotedPreviewAttachments>
-        <MessageQuotedPreviewAttachment />
-      </MessageQuotedPreviewAttachments>
-    </MessageQuotedPreviewContent>
-  </MessageQuotedPreviewInset>
+  <MessageQuotedPreviewContent>
+    <MessageQuotedPreviewText />
+    <MessageQuotedPreviewAttachments>
+      <MessageQuotedPreviewAttachment />
+    </MessageQuotedPreviewAttachments>
+  </MessageQuotedPreviewContent>
 </MessageQuotedPreview>
 
 <MessageQuotedPreviewLoading>
@@ -95,11 +93,6 @@ const PROPS: readonly PropRow[] = [
     name: "MessageQuotedPreviewContent",
     type: 'useRender.ComponentProps<"div">',
     description: "Quoted excerpt region for text and optional attachment chips.",
-  },
-  {
-    name: "MessageQuotedPreviewInset",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Optional inner surface that groups the quoted content.",
   },
   {
     name: "MessageQuotedPreviewHeader",

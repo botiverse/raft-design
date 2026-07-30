@@ -9,7 +9,6 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
-  MessageForwardedBundleInset,
   MessageForwardedBundleSource,
 } from "raft-ui/wip";
 
@@ -68,17 +67,15 @@ export function ForwardedBundleThreadComposition() {
                 from #release-notes · thread
               </MessageForwardedBundleSource>
             </MessageForwardedBundleHeader>
-            <MessageForwardedBundleInset>
-              <MessageForwardedBundleItems>
-                <MessageForwardedBundleItem>
-                  <MessageForwardedBundleItemMeta>
-                    <MessageForwardedBundleItemAuthor>@Mia</MessageForwardedBundleItemAuthor>
-                    <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
-                  </MessageForwardedBundleItemMeta>
-                  <Markdown>Follow the same message state contract in the thread.</Markdown>
-                </MessageForwardedBundleItem>
-              </MessageForwardedBundleItems>
-            </MessageForwardedBundleInset>
+            <MessageForwardedBundleItems>
+              <MessageForwardedBundleItem>
+                <MessageForwardedBundleItemMeta>
+                  <MessageForwardedBundleItemAuthor>@Mia</MessageForwardedBundleItemAuthor>
+                  <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
+                </MessageForwardedBundleItemMeta>
+                <Markdown>Follow the same message state contract in the thread.</Markdown>
+              </MessageForwardedBundleItem>
+            </MessageForwardedBundleItems>
           </MessageForwardedBundle>
         </MessageItemEmbedded>
       </MessageItemContent>

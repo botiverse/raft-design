@@ -1,6 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
 import { messageQuotedPreview } from "./message-quoted-preview.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
@@ -9,48 +10,21 @@ export function MessageQuotedPreview({ className, render, ...props }: DivProps) 
   const theme = useThemeFamily();
   const { root } = messageQuotedPreview({ theme });
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: root({ className }) }, props),
-    state: { slot: "message-quoted-preview" },
-  });
+  return <MessageEmbed className={root({ className })} render={render} {...props} />;
 }
 
 export function MessageQuotedPreviewContent({ className, render, ...props }: DivProps) {
   const theme = useThemeFamily();
   const { content } = messageQuotedPreview({ theme });
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: content({ className }) }, props),
-    state: { slot: "message-quoted-preview-content" },
-  });
-}
-
-export function MessageQuotedPreviewInset({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { inset } = messageQuotedPreview({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: inset({ className }) }, props),
-    state: { slot: "message-quoted-preview-inset" },
-  });
+  return <MessageEmbedContent className={content({ className })} render={render} {...props} />;
 }
 
 export function MessageQuotedPreviewHeader({ className, render, ...props }: DivProps) {
   const theme = useThemeFamily();
   const { header } = messageQuotedPreview({ theme });
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: header({ className }) }, props),
-    state: { slot: "message-quoted-preview-header" },
-  });
+  return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
 }
 
 export function MessageQuotedPreviewChannel({ className, render, ...props }: SpanProps) {
@@ -165,12 +139,7 @@ export function MessageQuotedPreviewLoading({ className, render, ...props }: Div
   const theme = useThemeFamily();
   const { loading } = messageQuotedPreview({ theme });
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: loading({ className }) }, props),
-    state: { slot: "message-quoted-preview-loading" },
-  });
+  return <MessageEmbed className={loading({ className })} render={render} {...props} />;
 }
 export function MessageQuotedPreviewUnavailable({ className, render, ...props }: DivProps) {
   const theme = useThemeFamily();
@@ -186,7 +155,6 @@ export function MessageQuotedPreviewUnavailable({ className, render, ...props }:
 
 export type MessageQuotedPreviewProps = DivProps;
 export type MessageQuotedPreviewContentProps = DivProps;
-export type MessageQuotedPreviewInsetProps = DivProps;
 export type MessageQuotedPreviewHeaderProps = DivProps;
 export type MessageQuotedPreviewChannelProps = SpanProps;
 export type MessageQuotedPreviewThreadProps = SpanProps;
