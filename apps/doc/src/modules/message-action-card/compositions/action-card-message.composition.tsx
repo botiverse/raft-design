@@ -54,7 +54,7 @@ export function ActionCardComposition() {
 
 export function ActionCardMessageComposition() {
   return (
-    <MessageItem>
+    <MessageItem className="w-full max-w-4xl">
       <MessageItemAvatarSlot>
         <Avatar size="md" type="agent">
           <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
