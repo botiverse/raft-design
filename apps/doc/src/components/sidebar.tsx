@@ -34,6 +34,10 @@ const TOKENS = [
 
 const NAV = [
   {
+    title: "Foundations",
+    items: [{ label: "Icons", to: "/components/icons", status: "wip" }],
+  },
+  {
     title: "Shell",
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "done" },

@@ -42,6 +42,7 @@ import { Route as ComponentsEmptyStateRouteImport } from './routes/components/em
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsFilePreviewRouteImport } from './routes/components/file-preview'
 import { Route as ComponentsFilesRouteImport } from './routes/components/files'
+import { Route as ComponentsIconsRouteImport } from './routes/components/icons'
 import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
 import { Route as ComponentsInputGroupRouteImport } from './routes/components/input-group'
@@ -288,6 +289,11 @@ const ComponentsFilePreviewRoute = ComponentsFilePreviewRouteImport.update({
 const ComponentsFilesRoute = ComponentsFilesRouteImport.update({
   id: '/files',
   path: '/files',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsIconsRoute = ComponentsIconsRouteImport.update({
+  id: '/icons',
+  path: '/icons',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsInlineCodeRoute = ComponentsInlineCodeRouteImport.update({
@@ -733,6 +739,7 @@ export interface FileRoutesByFullPath {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -843,6 +850,7 @@ export interface FileRoutesByTo {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -955,6 +963,7 @@ export interface FileRoutesById {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
   '/components/input-group': typeof ComponentsInputGroupRoute
@@ -1068,6 +1077,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/icons'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -1178,6 +1188,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/icons'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -1289,6 +1300,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/icons'
     | '/components/inline-code'
     | '/components/input'
     | '/components/input-group'
@@ -1615,6 +1627,13 @@ declare module '@tanstack/react-router' {
       path: '/files'
       fullPath: '/components/files'
       preLoaderRoute: typeof ComponentsFilesRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/icons': {
+      id: '/components/icons'
+      path: '/icons'
+      fullPath: '/components/icons'
+      preLoaderRoute: typeof ComponentsIconsRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/inline-code': {
@@ -2305,6 +2324,7 @@ interface ComponentsRouteChildren {
   ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsFilePreviewRoute: typeof ComponentsFilePreviewRoute
   ComponentsFilesRoute: typeof ComponentsFilesRoute
+  ComponentsIconsRoute: typeof ComponentsIconsRoute
   ComponentsInlineCodeRoute: typeof ComponentsInlineCodeRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
   ComponentsInputGroupRoute: typeof ComponentsInputGroupRoute
@@ -2381,6 +2401,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsFilePreviewRoute: ComponentsFilePreviewRoute,
   ComponentsFilesRoute: ComponentsFilesRoute,
+  ComponentsIconsRoute: ComponentsIconsRoute,
   ComponentsInlineCodeRoute: ComponentsInlineCodeRoute,
   ComponentsInputRoute: ComponentsInputRoute,
   ComponentsInputGroupRoute: ComponentsInputGroupRoute,
