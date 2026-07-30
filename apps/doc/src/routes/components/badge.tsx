@@ -146,7 +146,7 @@ const PROPS: readonly PropRow[] = [
     type: "boolean",
     default: "false",
     description:
-      "Apply the badge casing recipe: uppercase plus wider tracking. Defaults off so case-sensitive content stays intact.",
+      "Apply the Brutal badge casing recipe: uppercase plus wider tracking. Elegant preserves the caller's casing. Defaults off so case-sensitive content stays intact.",
   },
   {
     name: "render",

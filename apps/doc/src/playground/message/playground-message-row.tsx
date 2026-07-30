@@ -31,7 +31,6 @@ import {
 } from "raft-ui";
 import {
   MessageItem,
-  MessageItemActive,
   MessageItemAttachments,
   MessageItemBadge,
   MessageItemBody,
@@ -77,7 +76,6 @@ import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolb
 import { MessageReactionGlyphComposition } from "#/modules/message-item/compositions/reaction-glyph.composition.tsx";
 import { PlaygroundMessageAvatar } from "./playground-message-avatar.tsx";
 import { PlaygroundMessageBody } from "./playground-message-body.tsx";
-import { PlaygroundMessageContentCollapse } from "./playground-message-content-collapse.tsx";
 import { playgroundGutterClock } from "./playground-message-time.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "../composer/use-playground-single-composer-mention-target.ts";
 import {
@@ -430,21 +428,13 @@ export function PlaygroundMessageRow({
       <QuotedPreviewEmbeddedComposition />
     ) : null;
 
-  const effectiveRowState = selectMode
-    ? "select"
-    : searchMatch
-      ? "search-match"
-      : menuOpen
-        ? "active"
-        : undefined;
+  const effectiveRowState = selectMode ? "select" : searchMatch ? "search-match" : undefined;
   const ItemRoot =
-    effectiveRowState === "active"
-      ? MessageItemActive
-      : effectiveRowState === "search-match"
-        ? MessageItemSearchMatch
-        : effectiveRowState === "select"
-          ? MessageItemSelection
-          : MessageItem;
+    effectiveRowState === "search-match"
+      ? MessageItemSearchMatch
+      : effectiveRowState === "select"
+        ? MessageItemSelection
+        : MessageItem;
 
   const openThread =
     surface === "conversation" && threadId && threadContext
@@ -496,11 +486,7 @@ export function PlaygroundMessageRow({
         embeddedPresentation ||
         resolvedAttachments ||
         workflow.translation === "pending" ? (
-          <PlaygroundMessageContentCollapse
-            enabled={presentation !== "action-card" && presentation !== "forwarded-bundle"}
-            expanded={workflow.expanded}
-            onExpandedChange={(expanded) => updateWorkflow((current) => ({ ...current, expanded }))}
-          >
+          <>
             {workflow.translation === "pending" ? (
               <MessageItemBody>
                 <Progress
@@ -529,7 +515,7 @@ export function PlaygroundMessageRow({
             {resolvedAttachments ? (
               <MessageItemAttachments>{resolvedAttachments}</MessageItemAttachments>
             ) : null}
-          </PlaygroundMessageContentCollapse>
+          </>
         ) : null}
         {translation && workflow.translation !== "idle" ? (
           workflow.translation === "pending" ? (

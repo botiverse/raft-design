@@ -1,25 +1,9 @@
-export {
-  MessageItem,
-  MessageItemActive,
-  MessageItemSearchMatch,
-  MessageItemSelection,
-} from "./message-item-root";
+export { MessageItem, MessageItemSearchMatch, MessageItemSelection } from "./message-item-root";
 export {
   MessageItemAvatarSlot,
   MessageItemContinuationTime,
   MessageItemGutter,
 } from "./message-item-gutter";
-export {
-  MessageItemContentCollapse,
-  MessageItemContentCollapsePanel,
-  MessageItemContentCollapseTrigger,
-  MESSAGE_ITEM_CONTENT_COLLAPSE_HEIGHT,
-} from "./message-item-content-collapse";
-export type {
-  MessageItemContentCollapsePanelProps,
-  MessageItemContentCollapseProps,
-  MessageItemContentCollapseTriggerProps,
-} from "./message-item-content-collapse";
 export {
   MessageItemAttachments,
   MessageItemBody,
@@ -33,7 +17,7 @@ export {
   MessageItemInlineStatus,
   MessageItemMeta,
   MessageItemSender,
-  MessageItemSenderState,
+  MessageItemSenderBadges,
   MessageItemTime,
 } from "./message-item-regions";
 export {
@@ -75,12 +59,8 @@ export {
 } from "./message-reference";
 export {
   MessageMultiSelect,
-  MessageMultiSelectAction,
-  MessageMultiSelectActions,
   MessageMultiSelectCheckbox,
-  MessageMultiSelectCount,
   MessageMultiSelectToolbar,
-  MessageMultiSelectToolbarContent,
   useMessageMultiSelect,
 } from "./message-multi-select";
 export {
@@ -91,7 +71,6 @@ export {
   useMessageTextSelection,
 } from "./message-text-selection";
 export type {
-  MessageItemActiveProps,
   MessageItemProps,
   MessageItemSearchMatchProps,
   MessageItemSelectionProps,
@@ -114,7 +93,7 @@ export type {
   MessageItemInlineStatusProps,
   MessageItemMetaProps,
   MessageItemSenderProps,
-  MessageItemSenderStateProps,
+  MessageItemSenderBadgesProps,
   MessageItemTimeProps,
 } from "./message-item-regions";
 export type {
@@ -158,13 +137,9 @@ export type {
   MessageReferenceUnavailableProps,
 } from "./message-reference";
 export type {
-  MessageMultiSelectActionProps,
-  MessageMultiSelectActionsProps,
   MessageMultiSelectApi,
   MessageMultiSelectCheckboxProps,
-  MessageMultiSelectCountProps,
   MessageMultiSelectProps,
-  MessageMultiSelectToolbarContentProps,
   MessageMultiSelectToolbarProps,
 } from "./message-multi-select";
 export type {

@@ -13,37 +13,18 @@ export const ANATOMY_SOURCE = `<MessageItem>
   <MessageItemContent>
     <MessageItemHeader>
       <MessageItemSender />
-      <MessageItemSenderState />
+      <MessageItemSenderBadges>
+        <Badge />
+      </MessageItemSenderBadges>
       <MessageItemMeta />
       <MessageItemTime />
       <MessageItemInlineStatus />
     </MessageItemHeader>
-    <MessageItemContentCollapse
-      collapsible={collapsible}
-      expanded={expanded}
-      onExpandedChange={setExpanded}
-    >
-      <MessageItemContentCollapsePanel>
-        <MessageItemBody />
-        <MessageItemTranslationOriginal />
-        <MessageItemEmbedded />
-        <MessageItemNotice />
-        <MessageItemAttachments>...</MessageItemAttachments>
-      </MessageItemContentCollapsePanel>
-      <MessageItemContentCollapseTrigger>
-        {expanded ? (
-          <>
-            <ChevronsDownUp aria-hidden data-icon="inline-start" />
-            Show less
-          </>
-        ) : (
-          <>
-            <ChevronsUpDown aria-hidden data-icon="inline-start" />
-            Show more
-          </>
-        )}
-      </MessageItemContentCollapseTrigger>
-    </MessageItemContentCollapse>
+    <MessageItemBody />
+    <MessageItemTranslationOriginal />
+    <MessageItemEmbedded />
+    <MessageItemNotice />
+    <MessageItemAttachments>...</MessageItemAttachments>
     <MessageItemTranslationStatus />
     <MessageItemFooter>
       <TaskChip />
@@ -85,16 +66,16 @@ export const ROW_PROPS: readonly PropRow[] = [
       "Default message-row root. Use one of the explicit state roots instead when the row is active, a search match, or in selection mode.",
   },
   {
-    name: "MessageItemActive / MessageItemSearchMatch / MessageItemSelection",
+    name: "MessageItemSearchMatch / MessageItemSelection",
     type: "MessageItemProps",
     description:
-      "Mutually exclusive root variants for active, search-match, and multi-select chrome. They are alternatives to MessageItem, not wrappers around it.",
+      "Explicit roots for search-match and multi-select chrome. They are alternatives to MessageItem, not wrappers around it.",
   },
   {
     name: "MessageItemAvatarSlot",
-    type: 'useRender.ComponentProps<"div"> & { pressed?: boolean }',
+    type: 'useRender.ComponentProps<"div">',
     description:
-      "Avatar gutter slot. Optional pressed enables the source long-press scale and brightness treatment via data-avatar-pressed. Keep this slot in select mode beside MessageMultiSelectCheckbox.",
+      "Avatar gutter slot. Consumers own avatar interaction behavior and feedback. Keep this slot in select mode beside MessageMultiSelectCheckbox.",
   },
   {
     name: "MessageItemGutter / MessageItemContinuationTime",
@@ -108,10 +89,10 @@ export const ROW_PROPS: readonly PropRow[] = [
     description: "Main row column.",
   },
   {
-    name: "MessageItemHeader / MessageItemSender / MessageItemSenderState",
+    name: "MessageItemHeader / MessageItemSender / MessageItemSenderBadges",
     type: "div and span props; Sender adds interactive?: boolean",
     description:
-      "Header structure, sender name, and source-faithful Deleted / Left / Removed badge. interactive only adds sender affordance styling.",
+      "Header structure, sender name, and an inline container for caller-owned Badge elements. interactive only adds sender affordance styling.",
   },
   {
     name: "MessageItemMeta / MessageItemTime / MessageItemInlineStatus",
@@ -121,18 +102,6 @@ export const ROW_PROPS: readonly PropRow[] = [
 ];
 
 export const CONTENT_PROPS: readonly PropRow[] = [
-  {
-    name: "MessageItemContentCollapse",
-    type: 'useRender.ComponentProps<"div"> & { collapsible: boolean; expanded: boolean; collapseHeight?: number; onExpandedChange: (expanded: boolean) => void }',
-    description:
-      "Controlled content-collapse root. Consumers own height measurement, eligibility, expanded persistence, and timeline coordination.",
-  },
-  {
-    name: "MessageItemContentCollapsePanel / MessageItemContentCollapseTrigger",
-    type: 'useRender.ComponentProps<"div"> / Omit<ButtonProps, "children" | "size" | "variant">',
-    description:
-      "Clipped content viewport and its outline toggle. The trigger sits centered over the fade while collapsed, returns below the content when expanded, and owns the ARIA relationship.",
-  },
   {
     name: "MessageItemBody",
     type: 'useRender.ComponentProps<"div">',
@@ -254,19 +223,19 @@ export const SELECTION_PROPS: readonly PropRow[] = [
     name: "MessageMultiSelect / useMessageMultiSelect",
     type: "controlled or uncontrolled selection provider and context API",
     description:
-      "Owns selection-mode activity and selected IDs. The hook exposes active, selected, enter, toggle, and cancel.",
+      "Owns selection-mode activity and selected IDs. Compose its toolbar from Button and DropdownMenu in the consumer; the hook exposes active, selected, enter, toggle, and cancel.",
+  },
+  {
+    name: "MessageMultiSelectToolbar",
+    type: "div props",
+    description:
+      "Shared select-mode toolbar shell. Pass the selected count and consumer-owned Button or DropdownMenu actions as children.",
   },
   {
     name: "MessageMultiSelectCheckbox",
     type: "Checkbox props with required value: string",
     description:
       "Semantic per-row selector. Compose before MessageItemAvatarSlot inside MessageItemSelection.",
-  },
-  {
-    name: "MessageMultiSelectToolbar / ToolbarContent / Count / Actions / Action",
-    type: "compound div, span, and button props",
-    description:
-      "Selection summary and caller-owned bulk actions. Action supports default/accent tone and default/icon size.",
   },
   {
     name: "MessageTextSelection / useMessageTextSelection",

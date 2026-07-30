@@ -58,7 +58,6 @@ export const markdown = tv({
           "decoration-1 decoration-[oklch(0.81_0.19_88.08)]",
           "hover:text-primary-active hover:decoration-primary-active",
         ],
-        mark: ["rounded-sm bg-primary-400/15 px-0.5 text-foreground-strong"],
         blockquote: [
           "my-1 max-w-[72ch] rounded-r-sm px-4 py-2",
           "border-l-2 border-line-subtle bg-layer-muted/70",

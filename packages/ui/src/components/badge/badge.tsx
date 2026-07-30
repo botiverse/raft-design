@@ -67,10 +67,11 @@ export const badge = tv({
       },
     },
     // Enables the old brutal casing recipe when a badge should read as a compact
-    // label. It defaults off so case-sensitive content stays intact.
+    // label. It defaults off so case-sensitive content stays intact; Elegant
+    // preserves the caller's casing.
     uppercase: {
       true: {
-        root: "uppercase tracking-wide",
+        root: "",
       },
       false: {
         root: "",
@@ -83,6 +84,11 @@ export const badge = tv({
     uppercase: false,
   },
   compoundVariants: [
+    {
+      theme: "brutal",
+      uppercase: true,
+      class: { root: "uppercase tracking-wide" },
+    },
     {
       theme: "brutal",
       appearance: "solid",

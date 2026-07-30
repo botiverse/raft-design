@@ -1,16 +1,19 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { Copy, Image as ImageIcon, MoreHorizontal, Send, TextQuote, X } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "raft-ui";
 import {
-  MessageMultiSelectAction,
-  MessageMultiSelectActions,
-  MessageMultiSelectCount,
-  MessageMultiSelectToolbar,
-  MessageMultiSelectToolbarContent,
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  useThemeFamily,
+} from "raft-ui";
+import {
   MessageTextSelection,
   MessageTextSelectionMenu,
   MessageTextSelectionMenuItem,
   MessageTextSelectionMenuSeparator,
+  MessageMultiSelectToolbar,
   useMessageTextSelection,
 } from "raft-ui/wip";
 
@@ -76,6 +79,8 @@ export function MessageMultiSelectToolbarComposition({
   onForward,
   onGenerateImage,
 }: MessageMultiSelectToolbarCompositionProps) {
+  const theme = useThemeFamily();
+  const secondaryActionVariant = theme === "elegant" ? "outline" : "default";
   const actionsRef = useRef<HTMLDivElement>(null);
   const lastActionsWidthRef = useRef(0);
   const [compactLevel, setCompactLevel] = useState(0);
@@ -126,73 +131,84 @@ export function MessageMultiSelectToolbarComposition({
       aria-label="Selected message actions"
       data-testid="select-mode-toolbar"
     >
-      <MessageMultiSelectToolbarContent>
-        <MessageMultiSelectCount data-testid="select-mode-count">
-          {children}
-        </MessageMultiSelectCount>
-        <MessageMultiSelectActions ref={actionsRef}>
-          <MessageMultiSelectAction
-            size={compactCancel ? "icon" : "default"}
-            onClick={onCancel}
-            aria-label="Cancel"
-            title="Cancel"
+      <span
+        data-testid="select-mode-count"
+        className={
+          theme === "brutal"
+            ? "whitespace-nowrap font-mono text-xs font-bold text-foreground/70"
+            : "inline-flex items-center whitespace-nowrap font-sans text-xs font-[400] leading-none tabular-nums text-foreground-muted"
+        }
+      >
+        {children}
+      </span>
+      <div
+        ref={actionsRef}
+        className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-1.5"
+      >
+        <Button
+          size={compactCancel ? "icon-xs" : "xs"}
+          variant={secondaryActionVariant}
+          onClick={onCancel}
+          aria-label="Cancel"
+          title="Cancel"
+        >
+          <X className="size-3.5" />
+          {compactCancel ? null : <span>Cancel</span>}
+        </Button>
+        <Button
+          size={compactForward ? "icon-xs" : "xs"}
+          variant="accent"
+          aria-label="Forward"
+          disabled={!onForward}
+          onClick={onForward}
+          title="Forward"
+        >
+          <Send className="size-3.5" />
+          {compactForward ? null : <span>Forward</span>}
+        </Button>
+        <Button
+          size={compactCopyLink ? "icon-xs" : "xs"}
+          variant={secondaryActionVariant}
+          aria-label="Copy link"
+          disabled={!onCopyLink}
+          onClick={onCopyLink}
+          title="Copy link"
+        >
+          <Copy className="size-3.5" />
+          {compactCopyLink ? null : <span>Copy link</span>}
+        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
+              <Button
+                size="icon-xs"
+                variant={secondaryActionVariant}
+                aria-label="More selected message actions"
+                disabled={!onGenerateImage && !onCopyMarkdown}
+                title="More"
+              >
+                <MoreHorizontal className="size-3.5" />
+              </Button>
+            }
+          />
+          <DropdownMenuContent
+            side="top"
+            align="end"
+            sideOffset={8}
+            data-testid="select-mode-more-menu"
+            className="min-w-44"
           >
-            <X size={14} />
-            {compactCancel ? null : <span>Cancel</span>}
-          </MessageMultiSelectAction>
-          <MessageMultiSelectAction
-            size={compactForward ? "icon" : "default"}
-            tone="accent"
-            aria-label="Forward"
-            disabled={!onForward}
-            onClick={onForward}
-            title="Forward"
-          >
-            <Send size={14} />
-            {compactForward ? null : <span>Forward</span>}
-          </MessageMultiSelectAction>
-          <MessageMultiSelectAction
-            size={compactCopyLink ? "icon" : "default"}
-            aria-label="Copy link"
-            disabled={!onCopyLink}
-            onClick={onCopyLink}
-            title="Copy link"
-          >
-            <Copy size={14} />
-            {compactCopyLink ? null : <span>Copy link</span>}
-          </MessageMultiSelectAction>
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <MessageMultiSelectAction
-                  size="icon"
-                  aria-label="More selected message actions"
-                  disabled={!onGenerateImage && !onCopyMarkdown}
-                  title="More"
-                >
-                  <MoreHorizontal size={14} />
-                </MessageMultiSelectAction>
-              }
-            />
-            <DropdownMenuContent
-              side="top"
-              align="end"
-              sideOffset={8}
-              data-testid="select-mode-more-menu"
-              className="min-w-44"
-            >
-              <DropdownMenuItem disabled={!onGenerateImage} onClick={onGenerateImage}>
-                <ImageIcon size={14} />
-                Generate image
-              </DropdownMenuItem>
-              <DropdownMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
-                <Copy size={14} />
-                Copy MD
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </MessageMultiSelectActions>
-      </MessageMultiSelectToolbarContent>
+            <DropdownMenuItem disabled={!onGenerateImage} onClick={onGenerateImage}>
+              <ImageIcon size={14} />
+              Generate image
+            </DropdownMenuItem>
+            <DropdownMenuItem disabled={!onCopyMarkdown} onClick={onCopyMarkdown}>
+              <Copy size={14} />
+              Copy MD
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </MessageMultiSelectToolbar>
   );
 }

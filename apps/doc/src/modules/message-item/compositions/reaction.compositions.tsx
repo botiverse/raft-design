@@ -48,15 +48,19 @@ export function MessageReactionOverlaysComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <div ref={setPortalContainer} className="relative flex flex-wrap items-start gap-4 px-2">
-      <MessageQuickReactionPickerComposition />
-      <MessageReactionTooltipComposition
-        container={portalContainer}
-        count={5}
-        emoji="👍"
-        names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
-        open
-      />
+    <div ref={setPortalContainer} className="grid w-full grid-cols-2 items-center">
+      <div className="justify-self-center">
+        <MessageQuickReactionPickerComposition />
+      </div>
+      <div className="justify-self-center">
+        <MessageReactionTooltipComposition
+          container={portalContainer}
+          count={5}
+          emoji="👍"
+          names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
+          open
+        />
+      </div>
     </div>
   );
 }
@@ -154,7 +158,7 @@ export function MessageReactionTooltipComposition({
           </MessageReactionChip>
         }
       />
-      <MessageReactionTooltipContent container={container} side="bottom">
+      <MessageReactionTooltipContent container={container} side="top">
         <MessageReactionTooltipNames>
           {visibleNames.map((name, index) => (
             <MessageReactionTooltipName key={name}>

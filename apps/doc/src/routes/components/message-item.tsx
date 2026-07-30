@@ -14,8 +14,6 @@ import avatarStatusSource from "#/modules/message-item/compositions/avatar-statu
 import { MessageContextMenuShowcaseComposition } from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx";
 import contextMenuShowcaseSource from "#/modules/message-item/compositions/context-menu-showcase.composition.tsx?raw";
 import contextMenuSource from "#/modules/message-item/compositions/context-menu.composition.tsx?raw";
-import { MessageCollapsibleContentComposition } from "#/modules/message-item/compositions/collapsible-content.composition.tsx";
-import collapsibleContentSource from "#/modules/message-item/compositions/collapsible-content.composition.tsx?raw";
 import { MessageConvertingComposition } from "#/modules/message-item/compositions/converting.composition.tsx";
 import convertingSource from "#/modules/message-item/compositions/converting.composition.tsx?raw";
 import { MessageInteractiveSenderComposition } from "#/modules/message-item/compositions/interactive-sender.composition.tsx";
@@ -32,9 +30,10 @@ import quickReactionPickerSource from "#/modules/message-item/compositions/quick
 import reactionGlyphSource from "#/modules/message-item/compositions/reaction-glyph.composition.tsx?raw";
 import { MessageRowChromeComposition } from "#/modules/message-item/compositions/row-chrome.composition.tsx";
 import rowChromeSource from "#/modules/message-item/compositions/row-chrome.composition.tsx?raw";
-import selectionSource from "#/modules/message-item/compositions/selection.compositions.tsx?raw";
 import { MessageSearchMatchMarkComposition } from "#/modules/message-item/compositions/search-match-mark.composition.tsx";
 import searchMatchMarkSource from "#/modules/message-item/compositions/search-match-mark.composition.tsx?raw";
+import { MessageSelectionShowcaseComposition } from "#/modules/message-item/compositions/selection-showcase.composition.tsx";
+import selectionShowcaseSource from "#/modules/message-item/compositions/selection-showcase.composition.tsx?raw";
 import { MessageSenderStateComposition } from "#/modules/message-item/compositions/sender-state.composition.tsx";
 import senderStateSource from "#/modules/message-item/compositions/sender-state.composition.tsx?raw";
 import { MessageTaskBadgeComposition } from "#/modules/message-item/compositions/task-badge.composition.tsx";
@@ -56,9 +55,6 @@ const QUICK_REACTION_PICKER_PATH =
   "apps/doc/src/modules/message-item/compositions/quick-reaction-picker.composition.tsx";
 const REACTION_GLYPH_PATH =
   "apps/doc/src/modules/message-item/compositions/reaction-glyph.composition.tsx";
-const ROW_CHROME_PATH = "apps/doc/src/modules/message-item/compositions/row-chrome.composition.tsx";
-const SELECTION_PATH = "apps/doc/src/modules/message-item/compositions/selection.compositions.tsx";
-
 const SOURCE_SCENES = [
   {
     label: "Slock message row",
@@ -81,7 +77,7 @@ function UsagePreview({
   collapsedCode?: ReactNode;
 }) {
   return (
-    <Preview previewClassName="items-stretch">
+    <Preview>
       <Preview.Canvas>{children}</Preview.Canvas>
       <Preview.Code html={code} collapsedHtml={collapsedCode} />
     </Preview>
@@ -97,7 +93,6 @@ export const Route = createFileRoute("/components/message-item")({
         avatarStatus: avatarStatusSource,
         contextMenu: contextMenuSource,
         contextMenuShowcase: contextMenuShowcaseSource,
-        collapsibleContent: collapsibleContentSource,
         converting: convertingSource,
         interactiveSender: interactiveSenderSource,
         itemPreview: itemPreviewSource,
@@ -108,8 +103,8 @@ export const Route = createFileRoute("/components/message-item")({
         reactions: reactionsSource,
         readReceipt: readReceiptSource,
         rowChrome: rowChromeSource,
-        selection: selectionSource,
         searchMatchMark: searchMatchMarkSource,
+        selectionShowcase: selectionShowcaseSource,
         senderState: senderStateSource,
         taskBadge: taskBadgeSource,
         textSelection: textSelectionSource,
@@ -180,7 +175,7 @@ function MessageItemDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="reactions" title="Reactions">
-            <Preview previewClassName="items-stretch">
+            <Preview>
               <Preview.Canvas>
                 <MessageReactionsShowcaseComposition />
               </Preview.Canvas>
@@ -249,42 +244,16 @@ function MessageItemDoc() {
             </Preview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="collapsible-content" title="Collapsible content">
-            <UsagePreview
-              code={code.collapsibleContent}
-              collapsedCode={code.collapsibleContentBody}
-            >
-              <MessageCollapsibleContentComposition />
+          <DocSubsection parentId="usage" id="row-chrome" title="Row chrome">
+            <UsagePreview code={code.rowChrome} collapsedCode={code.rowChromeBody}>
+              <MessageRowChromeComposition />
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection parentId="usage" id="row-chrome" title="Row chrome">
-            <Preview previewClassName="items-stretch">
-              <Preview.Canvas>
-                <MessageRowChromeComposition />
-              </Preview.Canvas>
-              <Preview.Code
-                codeBlock={
-                  <DocsCodeBlock.Files
-                    collapsible={false}
-                    files={[
-                      {
-                        path: ROW_CHROME_PATH,
-                        source: rowChromeSource,
-                        html: code.rowChrome,
-                        collapsedHtml: code.rowChromeBody,
-                      },
-                      {
-                        path: SELECTION_PATH,
-                        source: selectionSource,
-                        html: code.selection,
-                        collapsedHtml: code.selectionBody,
-                      },
-                    ]}
-                  />
-                }
-              />
-            </Preview>
+          <DocSubsection parentId="usage" id="selection" title="Selection">
+            <UsagePreview code={code.selectionShowcase} collapsedCode={code.selectionShowcaseBody}>
+              <MessageSelectionShowcaseComposition />
+            </UsagePreview>
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="search-match-mark" title="Search match + mark">

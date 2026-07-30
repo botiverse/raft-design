@@ -51,17 +51,17 @@ export function MessageItemSender({
   });
 }
 
-export type MessageItemSenderStateProps = useRender.ComponentProps<"span">;
+export type MessageItemSenderBadgesProps = useRender.ComponentProps<"span">;
 
-export function MessageItemSenderState({
+export function MessageItemSenderBadges({
   className,
   render,
   ...props
-}: MessageItemSenderStateProps) {
+}: MessageItemSenderBadgesProps) {
   const theme = useThemeFamily();
-  const { senderState } = messageItem({ theme });
+  const { senderBadges } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: senderState({ className }),
+    className: senderBadges({ className }),
   };
 
   return useRender({
@@ -69,7 +69,7 @@ export function MessageItemSenderState({
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: {
-      slot: "message-item-sender-state",
+      slot: "message-item-sender-badges",
     },
   });
 }

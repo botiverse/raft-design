@@ -13,50 +13,41 @@ import {
 } from "raft-ui/wip";
 
 export function MessageInteractiveSenderComposition() {
-  const [pressed, setPressed] = useState(false);
-  const [mentioned, setMentioned] = useState(false);
+  const [action, setAction] = useState<"mention" | "profile" | null>(null);
 
   return (
     <div className="flex w-full max-w-3xl flex-col gap-3">
       <MessageItem>
-        <MessageItemAvatarSlot
-          pressed={pressed}
-          render={
-            <button
-              type="button"
-              aria-label="Atlas avatar"
-              onPointerDown={() => setPressed(true)}
-              onPointerUp={() => setPressed(false)}
-              onPointerLeave={() => setPressed(false)}
-              onPointerCancel={() => setPressed(false)}
-            />
-          }
-        >
-          <Avatar size="md" type="agent">
-            <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
-            <AvatarFallback>AT</AvatarFallback>
-          </Avatar>
+        <MessageItemAvatarSlot>
+          <button
+            type="button"
+            aria-label="Open Atlas profile"
+            className="block cursor-pointer border-0 bg-transparent p-0 transition-[filter,transform] duration-75 hover:brightness-90"
+            onClick={() => setAction("profile")}
+          >
+            <Avatar size="md" type="agent">
+              <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />
+              <AvatarFallback>AT</AvatarFallback>
+            </Avatar>
+          </button>
         </MessageItemAvatarSlot>
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender
               interactive
-              render={<button type="button" onClick={() => setMentioned(true)} />}
+              render={<button type="button" onClick={() => setAction("mention")} />}
               title="Mention @Atlas"
             >
               Atlas
             </MessageItemSender>
             <MessageItemTime>2:20 PM</MessageItemTime>
           </MessageItemHeader>
-          <MessageItemBody>
-            Interactive sender underline and avatar pressed scale are additive. Hold the avatar to
-            preview the long-press treatment.
-          </MessageItemBody>
+          <MessageItemBody>Please add the owner to the release review thread.</MessageItemBody>
         </MessageItemContent>
       </MessageItem>
-      {mentioned ? (
+      {action ? (
         <p className="text-xs text-foreground-muted" role="status">
-          Sender mention action fired.
+          {action === "mention" ? "Mentioned @Atlas." : "Opened Atlas profile."}
         </p>
       ) : null}
     </div>

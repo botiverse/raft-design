@@ -8,7 +8,7 @@ import { type SlotElementProps } from "../../lib/data-attributes";
 export type MessageItemProps = useRender.ComponentProps<"div"> &
   Pick<MessageItemVariantProps, "compact">;
 
-type MessageItemRowState = "active" | "search-match" | "select";
+type MessageItemRowState = "search-match" | "select";
 
 function clearTouchTextSelection(event: SyntheticEvent) {
   if (!window.matchMedia("(hover: none)").matches) return;
@@ -44,12 +44,6 @@ function MessageItemRoot({
 
 export function MessageItem(props: MessageItemProps) {
   return <MessageItemRoot {...props} />;
-}
-
-export type MessageItemActiveProps = MessageItemProps;
-
-export function MessageItemActive(props: MessageItemActiveProps) {
-  return <MessageItemRoot rowState="active" {...props} />;
 }
 
 export type MessageItemSearchMatchProps = MessageItemProps;

@@ -1,5 +1,5 @@
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
-import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
+import { Avatar, AvatarFallback, AvatarImage, Badge } from "raft-ui";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -7,7 +7,7 @@ import {
   MessageItemContent,
   MessageItemHeader,
   MessageItemSender,
-  MessageItemSenderState,
+  MessageItemSenderBadges,
   MessageItemTime,
 } from "raft-ui/wip";
 
@@ -24,7 +24,11 @@ export function MessageSenderStateComposition() {
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Mx. Chen</MessageItemSender>
-            <MessageItemSenderState>Removed</MessageItemSenderState>
+            <MessageItemSenderBadges>
+              <Badge appearance="soft" variant="muted" uppercase>
+                Removed
+              </Badge>
+            </MessageItemSenderBadges>
             <MessageItemTime>Yesterday</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>
@@ -43,7 +47,11 @@ export function MessageSenderStateComposition() {
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Noah</MessageItemSender>
-            <MessageItemSenderState>Left</MessageItemSenderState>
+            <MessageItemSenderBadges>
+              <Badge appearance="soft" variant="muted" uppercase>
+                Left
+              </Badge>
+            </MessageItemSenderBadges>
             <MessageItemTime>Monday</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>This history row remains visible after a member left.</MessageItemBody>
@@ -60,7 +68,11 @@ export function MessageSenderStateComposition() {
         <MessageItemContent>
           <MessageItemHeader>
             <MessageItemSender>Atlas</MessageItemSender>
-            <MessageItemSenderState>Deleted</MessageItemSenderState>
+            <MessageItemSenderBadges>
+              <Badge appearance="soft" variant="muted" uppercase>
+                Deleted
+              </Badge>
+            </MessageItemSenderBadges>
             <MessageItemTime>Last week</MessageItemTime>
           </MessageItemHeader>
           <MessageItemBody>

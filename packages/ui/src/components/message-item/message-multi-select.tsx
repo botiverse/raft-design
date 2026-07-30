@@ -1,9 +1,21 @@
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { tv } from "tailwind-variants";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { tv, type VariantProps } from "../../lib/tv";
 import { Checkbox, type CheckboxProps } from "../checkbox/index";
+
+const messageMultiSelectToolbar = tv({
+  base: "flex items-center gap-1.5",
+  variants: {
+    theme: {
+      brutal:
+        "border-t-2 border-line-strong bg-soft-signal px-2 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom,0px))]",
+      elegant:
+        "rounded-lg border-[0.5px] border-line-subtle bg-layer-panel px-2.5 py-2.5 shadow-xs",
+    },
+  },
+});
 
 export type MessageMultiSelectApi = {
   active: boolean;
@@ -95,6 +107,29 @@ export function useMessageMultiSelect() {
   return useContext(MessageMultiSelectContext);
 }
 
+export type MessageMultiSelectToolbarProps = useRender.ComponentProps<"div">;
+
+/** Shared select-mode toolbar shell. Consumers compose the count and actions as children. */
+export function MessageMultiSelectToolbar({
+  className,
+  render,
+  ...props
+}: MessageMultiSelectToolbarProps) {
+  const theme = useThemeFamily();
+  const defaultProps: useRender.ElementProps<"div"> = {
+    className: messageMultiSelectToolbar({ theme, className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "message-multi-select-toolbar",
+    },
+  });
+}
+
 export type MessageMultiSelectCheckboxProps = Omit<
   CheckboxProps,
   "checked" | "defaultChecked" | "onCheckedChange" | "value"
@@ -111,12 +146,17 @@ export function MessageMultiSelectCheckbox({
   if (!selection) {
     throw new Error("MessageMultiSelectCheckbox must be rendered inside MessageMultiSelect");
   }
-  const { checkbox } = messageMultiSelect();
-
   return (
     <Checkbox
       checked={selection.selected.has(value)}
-      className={checkbox({ className })}
+      className={[
+        "mt-1.5 self-start rounded-full",
+        "data-[checked]:shadow-none data-[indeterminate]:shadow-none",
+        "hover:data-[checked]:shadow-none hover:data-[indeterminate]:shadow-none",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
       shape="circle"
       size="lg"
       variant="primary"
@@ -124,166 +164,4 @@ export function MessageMultiSelectCheckbox({
       {...props}
     />
   );
-}
-
-const messageMultiSelect = tv({
-  slots: {
-    checkbox: ["mt-1.5 self-start"],
-    toolbar: [],
-    toolbarContent: ["flex items-center px-2 py-2"],
-    count: ["whitespace-nowrap font-mono text-xs font-bold"],
-    actions: ["flex min-w-0 flex-1 flex-wrap items-center justify-end"],
-    action: [
-      "inline-flex shrink-0 items-center justify-center whitespace-nowrap outline-none",
-      "font-bold leading-none",
-      "focus-visible:ring-2 focus-visible:ring-line-focus",
-    ],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        toolbar: "safe-bottom border-t-2 border-line-strong bg-soft-signal",
-        toolbarContent: "gap-1 sm:gap-1.5",
-        count: "text-foreground/70",
-        actions: "gap-1 sm:gap-1.5",
-        action: "btn-brutal-sm",
-      },
-      elegant: {
-        toolbar: "border-t border-line-subtle bg-layer-panel",
-        toolbarContent: "gap-1.5",
-        count: "text-foreground-muted",
-        actions: "gap-1.5",
-        action: [
-          "rounded-md border border-line-subtle bg-layer-panel text-foreground",
-          "shadow-xs hover:bg-layer-muted active:bg-layer-strong",
-        ],
-      },
-    },
-    tone: { default: {}, accent: {} },
-    size: {
-      default: { action: "h-7 gap-1.5 px-2.5 text-xs" },
-      icon: { action: "size-7 text-xs" },
-    },
-  },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      tone: "default",
-      class: { action: "bg-layer-panel text-foreground" },
-    },
-    { theme: "brutal", tone: "accent", class: { action: "bg-brutal-pink text-black" } },
-    {
-      theme: "elegant",
-      tone: "accent",
-      class: { action: "border-accent-400/40 bg-accent-200/40 text-accent-700" },
-    },
-  ],
-  defaultVariants: { tone: "default", size: "default" },
-});
-
-export type MessageMultiSelectToolbarProps = useRender.ComponentProps<"div">;
-
-export function MessageMultiSelectToolbar({
-  className,
-  render,
-  ...props
-}: MessageMultiSelectToolbarProps) {
-  const theme = useThemeFamily();
-  const { toolbar } = messageMultiSelect({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: toolbar({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: { slot: "message-select-toolbar" },
-  });
-}
-
-export type MessageMultiSelectToolbarContentProps = useRender.ComponentProps<"div">;
-
-export function MessageMultiSelectToolbarContent({
-  className,
-  render,
-  ...props
-}: MessageMultiSelectToolbarContentProps) {
-  const theme = useThemeFamily();
-  const { toolbarContent } = messageMultiSelect({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: toolbarContent({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: { slot: "message-select-toolbar-content" },
-  });
-}
-
-export type MessageMultiSelectCountProps = useRender.ComponentProps<"span">;
-
-export function MessageMultiSelectCount({
-  className,
-  render,
-  ...props
-}: MessageMultiSelectCountProps) {
-  const theme = useThemeFamily();
-  const { count } = messageMultiSelect({ theme });
-  const defaultProps: useRender.ElementProps<"span"> = { className: count({ className }) };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: { slot: "message-select-count" },
-  });
-}
-
-export type MessageMultiSelectActionsProps = useRender.ComponentProps<"div">;
-
-export function MessageMultiSelectActions({
-  className,
-  render,
-  ...props
-}: MessageMultiSelectActionsProps) {
-  const theme = useThemeFamily();
-  const { actions } = messageMultiSelect({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = { className: actions({ className }) };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: { slot: "message-select-actions" },
-  });
-}
-
-type MessageMultiSelectVariants = VariantProps<typeof messageMultiSelect>;
-
-export type MessageMultiSelectActionProps = useRender.ComponentProps<"button"> &
-  Pick<MessageMultiSelectVariants, "size" | "tone">;
-
-export function MessageMultiSelectAction({
-  className,
-  render,
-  size,
-  tone,
-  ...props
-}: MessageMultiSelectActionProps) {
-  const theme = useThemeFamily();
-  const { action } = messageMultiSelect({ theme, size, tone });
-  const defaultProps: useRender.ElementProps<"button"> = {
-    className: action({ className }),
-    type: "button",
-  };
-
-  return useRender({
-    defaultTagName: "button",
-    render,
-    props: mergeProps<"button">(defaultProps, props),
-    state: { slot: "message-select-action" },
-  });
 }

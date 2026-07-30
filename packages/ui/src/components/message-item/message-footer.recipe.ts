@@ -6,7 +6,10 @@ export const messageFooter = tv({
       "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap select-none",
       "[&_svg]:shrink-0",
     ],
-    readReceipt: ["inline-flex shrink-0 items-center gap-1 whitespace-nowrap", "[&_svg]:shrink-0"],
+    readReceipt: [
+      "ml-auto inline-flex shrink-0 items-center gap-1 whitespace-nowrap",
+      "[&_svg]:shrink-0",
+    ],
     badge: [
       "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap select-none",
       "transition-colors [&_svg]:shrink-0",
@@ -60,10 +63,7 @@ export const messageFooter = tv({
       theme: "elegant",
       badgeStatus: "unread",
       class: {
-        badge: [
-          "border-transparent bg-primary-100 text-primary-800",
-          "text-[12px] tracking-[-0.01em] hover:bg-primary-200/90",
-        ],
+        badge: ["bg-info-lighter/50 text-[12px] tracking-[-0.01em]"],
       },
     },
   ],

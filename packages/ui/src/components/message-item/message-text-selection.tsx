@@ -14,12 +14,12 @@ import {
 import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { tv } from "../../lib/tv";
-import { Popover, PopoverClose, PopoverContent, type PopoverContentProps } from "../popover/index";
+import { Popover, PopoverContent, type PopoverContentProps } from "../popover/index";
 import { type SlotElementProps } from "../../lib/data-attributes";
 
 const messageTextSelection = tv({
   slots: {
-    menu: ["flex min-w-0 select-none overflow-hidden text-xs"],
+    menu: ["flex min-w-0 items-center select-none overflow-hidden text-xs"],
     item: ["flex h-7 items-center gap-1.5 px-2 outline-none transition-colors"],
     separator: ["w-px"],
   },
@@ -31,13 +31,13 @@ const messageTextSelection = tv({
         separator: "bg-black/20",
       },
       elegant: {
-        menu: "rounded-md border border-line-subtle bg-layer-popover font-medium shadow-xl",
+        menu: "gap-1 rounded-lg border-[0.5px] border-line-subtle bg-layer-panel p-1 font-medium shadow-xs",
         item: [
-          "text-foreground-muted",
-          "hover:bg-ink-4 hover:text-foreground-strong",
-          "focus-visible:bg-ink-4 focus-visible:text-foreground-strong",
+          "rounded-sm text-foreground-muted",
+          "hover:bg-layer-muted hover:text-foreground-strong",
+          "focus-visible:bg-layer-muted focus-visible:text-foreground-strong",
         ],
-        separator: "bg-line-muted",
+        separator: "hidden",
       },
     },
   },
@@ -130,6 +130,10 @@ export function MessageTextSelection({
 
     const ownerDocument = root.ownerDocument;
     const focusMenu = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        clear();
+        return;
+      }
       if (!event.shiftKey || event.key !== "F10") return;
 
       const selection = ownerDocument.getSelection();
@@ -152,7 +156,7 @@ export function MessageTextSelection({
 
     ownerDocument.addEventListener("keydown", focusMenu);
     return () => ownerDocument.removeEventListener("keydown", focusMenu);
-  }, [range]);
+  }, [clear, range]);
 
   const anchor = useMemo<PopoverContentProps["anchor"]>(() => {
     if (!range) return null;
@@ -172,7 +176,21 @@ export function MessageTextSelection({
     "data-slot": "message-text-selection",
     children: (
       <MessageTextSelectionContext.Provider value={contextValue}>
-        <Popover open={Boolean(anchor)} onOpenChange={(open) => !open && clear()}>
+        <Popover
+          open={Boolean(anchor)}
+          onOpenChange={(open) => {
+            if (open) return;
+            const root = rootRef.current;
+            const selection = root?.ownerDocument.getSelection();
+            const preservesCurrentSelection =
+              root &&
+              selection &&
+              !selection.isCollapsed &&
+              selection.rangeCount > 0 &&
+              selectionBelongsToRoot(selection.getRangeAt(0), root);
+            if (!preservesCurrentSelection) clear();
+          }}
+        >
           {children}
         </Popover>
       </MessageTextSelectionContext.Provider>
@@ -248,23 +266,27 @@ export type MessageTextSelectionMenuItemProps = useRender.ComponentProps<"button
 export function MessageTextSelectionMenuItem({
   className,
   render,
+  onClick,
   ...props
 }: MessageTextSelectionMenuItemProps) {
+  const selection = useMessageTextSelectionContext();
   const theme = useThemeFamily();
   const { item } = messageTextSelection({ theme });
   const defaultProps: useRender.ElementProps<"button"> = {
     className: item({ className }),
+    onClick: (event) => {
+      onClick?.(event);
+      if (!event.defaultPrevented) selection?.clear();
+    },
     type: "button",
   };
 
-  const element = useRender({
+  return useRender({
     defaultTagName: "button",
     render,
     props: mergeProps<"button">(defaultProps, props),
     state: { slot: "message-text-selection-menu-item" },
   });
-
-  return <PopoverClose render={element} />;
 }
 
 export type MessageTextSelectionMenuSeparatorProps = useRender.ComponentProps<"div">;

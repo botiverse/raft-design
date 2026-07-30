@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import {
   MessageItem,
-  MessageItemActive,
   MessageItemAttachments,
   MessageItemAvatarSlot,
   MessageItemBadge,
@@ -39,12 +38,7 @@ import { MessageImageGallerySingleComposition } from "#/modules/message-media/co
 import { MessageVideoPreviewComposition } from "#/modules/message-media/compositions/video-states.composition.tsx";
 import { MessageFileAttachmentsComposition } from "#/modules/message-attachment/compositions/file-attachments.composition.tsx";
 
-export type MessageItemPreviewChrome =
-  | "default"
-  | "active"
-  | "search-match"
-  | "selected"
-  | "continuation";
+export type MessageItemPreviewChrome = "default" | "search-match" | "selected" | "continuation";
 
 export type MessageItemPreviewProps = {
   chrome?: MessageItemPreviewChrome;
@@ -245,12 +239,7 @@ export function MessageItemPreview({
     );
   }
 
-  const RowChrome =
-    chrome === "active"
-      ? MessageItemActive
-      : chrome === "search-match"
-        ? MessageItemSearchMatch
-        : MessageItem;
+  const RowChrome = chrome === "search-match" ? MessageItemSearchMatch : MessageItem;
 
   return (
     <div ref={setPortalContainer}>
