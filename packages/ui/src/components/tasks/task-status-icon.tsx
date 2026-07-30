@@ -7,8 +7,8 @@ type TaskStatusIconComponent = (props: TaskStatusSvgProps) => ReactNode;
 
 const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
   todo: "var(--foreground-placeholder)",
-  in_progress: "oklch(0.8 0.19 88.97)",
-  in_review: "oklch(0.72 0.16 58)",
+  "in-progress": "oklch(0.8 0.19 88.97)",
+  "in-review": "oklch(0.72 0.16 58)",
   done: "var(--state-success-base)",
   closed: "oklch(0.573 0 0)",
 };
@@ -17,17 +17,18 @@ function TodoIcon(props: TaskStatusSvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={18}
-      height={18}
-      viewBox="0 0 18 18"
+      width={24}
+      height={24}
+      viewBox="1.2 1.2 21.6 21.6"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <circle cx={9} cy={9} r={7.25} />
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
     </svg>
   );
 }
@@ -36,21 +37,22 @@ function InProgressIcon(props: TaskStatusSvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={18}
-      height={18}
-      viewBox="0 0 18 18"
+      width={24}
+      height={24}
+      viewBox="1.2 1.2 21.6 21.6"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <circle cx={9} cy={9} r={7.25} />
-      <path d="M9 1.75V16.25" />
-      <path d="M9 7L12.5 3.5" />
-      <path d="M9 10.5L14.5 5" />
-      <path d="M9 14.5L15.5 8" />
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+      <path d="M12 3v18" />
+      <path d="M12 14l7 -7" />
+      <path d="M12 19l8.5 -8.5" />
+      <path d="M12 9l4.5 -4.5" />
     </svg>
   );
 }
@@ -59,18 +61,19 @@ function InReviewIcon(props: TaskStatusSvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={18}
-      height={18}
-      viewBox="0 0 18 18"
+      width={24}
+      height={24}
+      viewBox="1.2 1.2 21.6 21.6"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1}
+      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <circle cx={9} cy={9} r={7.25} />
-      <circle cx={9} cy={9} r={1.25} fill="currentColor" stroke="none" />
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
     </svg>
   );
 }
@@ -85,12 +88,13 @@ function DoneIcon(props: TaskStatusSvgProps) {
       fill="currentColor"
       {...props}
     >
-      <circle cx={9} cy={9} r={7.5} />
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336z" />
       <path
-        d="M5.75 9L8 11.25L12.25 7"
+        d="m8.5 12 2.5 2.5 4.5 -5"
         fill="none"
         stroke="var(--foreground-inverse)"
-        strokeWidth={1.25}
+        strokeWidth={2.25}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -108,12 +112,13 @@ function ClosedIcon(props: TaskStatusSvgProps) {
       fill="currentColor"
       {...props}
     >
-      <circle cx={9} cy={9} r={7.5} />
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336z" />
       <path
-        d="M6.5 6.5L11.5 11.5M11.5 6.5L6.5 11.5"
+        d="m8.5 8.5 7 7m0 -7 -7 7"
         fill="none"
         stroke="var(--foreground-inverse)"
-        strokeWidth={1.25}
+        strokeWidth={2.25}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -123,19 +128,13 @@ function ClosedIcon(props: TaskStatusSvgProps) {
 
 const TASK_STATUS_ICONS: Record<TaskStatusId, TaskStatusIconComponent> = {
   todo: TodoIcon,
-  in_progress: InProgressIcon,
-  in_review: InReviewIcon,
+  "in-progress": InProgressIcon,
+  "in-review": InReviewIcon,
   done: DoneIcon,
   closed: ClosedIcon,
 };
 
-export function TaskStatusIcon({
-  status,
-  className,
-}: {
-  status: TaskStatusId;
-  className?: string;
-}) {
+function TaskStatusIconRoot({ status, className }: { status: TaskStatusId; className?: string }) {
   const theme = useThemeFamily();
   const Icon = TASK_STATUS_ICONS[status];
   return (
@@ -146,4 +145,34 @@ export function TaskStatusIcon({
       color={theme === "brutal" ? "currentColor" : TASK_STATUS_ICON_COLORS[status]}
     />
   );
+}
+
+export function TaskTodoIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="todo" {...props} />;
+}
+
+export function TaskInProgressIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="in-progress" {...props} />;
+}
+
+export function TaskInReviewIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="in-review" {...props} />;
+}
+
+export function TaskDoneIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="done" {...props} />;
+}
+
+export function TaskClosedIcon(props: { className?: string }) {
+  return <TaskStatusIconRoot status="closed" {...props} />;
+}
+
+export function TaskStatusIcon({
+  status,
+  className,
+}: {
+  status: TaskStatusId;
+  className?: string;
+}) {
+  return <TaskStatusIconRoot status={status} className={className} />;
 }

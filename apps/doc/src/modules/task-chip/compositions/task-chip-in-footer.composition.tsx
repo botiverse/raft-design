@@ -3,6 +3,13 @@ import {
   AvatarFallback,
   AvatarImage,
   TaskChip,
+  TaskClosedIcon,
+  TaskDoneIcon,
+  TaskInProgressIcon,
+  TaskInReviewIcon,
+  TaskTodoIcon,
+} from "raft-ui";
+import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -11,8 +18,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
-
+} from "raft-ui/wip";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function TaskChipInFooterComposition() {
@@ -34,25 +40,31 @@ export function TaskChipInFooterComposition() {
         </MessageItemBody>
         <MessageItemFooter>
           <TaskChip status="todo" title="task #16 @Cuvii · Todo">
+            <TaskTodoIcon />
             <span className="shrink-0">#16</span>
             <span className="min-w-0 truncate">@Cuvii</span>
           </TaskChip>
-          <TaskChip status="in_progress" title="task #205 @Noah · In Progress">
+          <TaskChip status="in-progress" title="task #205 @Noah · In Progress">
+            <TaskInProgressIcon />
             <span className="shrink-0">#205</span>
             <span className="min-w-0 truncate">@Noah</span>
           </TaskChip>
-          <TaskChip status="in_review" title="task #340 @Ada · In Review">
+          <TaskChip status="in-review" title="task #340 @Ada · In Review">
+            <TaskInReviewIcon />
             <span className="shrink-0">#340</span>
             <span className="min-w-0 truncate">@Ada</span>
           </TaskChip>
           <TaskChip status="done" title="task #47 @Atlas · Done">
+            <TaskDoneIcon />
             <span className="shrink-0">#47</span>
             <span className="min-w-0 truncate">@Atlas</span>
           </TaskChip>
           <TaskChip status="closed" title="task #480 · Closed">
+            <TaskClosedIcon />
             <span className="shrink-0">#480</span>
           </TaskChip>
-          <TaskChip status="in_progress" loading title="Resolving task #512">
+          <TaskChip status="in-progress" loading title="Resolving task #512">
+            <TaskInProgressIcon />
             <span className="shrink-0">#512</span>
           </TaskChip>
         </MessageItemFooter>

@@ -2,7 +2,7 @@ import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.
 
 export function MessageActionCardSourcePreview() {
   return (
-    <article className="flex w-full max-w-xl gap-3 bg-white p-4 font-sans text-black">
+    <article className="flex w-full max-w-3xl gap-3 bg-white p-4 font-sans text-black">
       <img
         src={MESSAGE_FIXTURE_AVATAR_SRC}
         alt=""

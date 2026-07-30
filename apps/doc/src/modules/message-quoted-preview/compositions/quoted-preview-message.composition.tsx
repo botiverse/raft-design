@@ -1,7 +1,24 @@
-import { Hash, MessageSquare } from "lucide-react";
+import { Hash, Link, MessageSquare } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
+  AvatarImage,
+  MessageQuotedPreview,
+  MessageQuotedPreviewAttachment,
+  MessageQuotedPreviewAttachments,
+  MessageQuotedPreviewAuthor,
+  MessageQuotedPreviewAuthorMeta,
+  MessageQuotedPreviewAuthorName,
+  MessageQuotedPreviewChannel,
+  MessageQuotedPreviewContent,
+  MessageQuotedPreviewHeader,
+  MessageQuotedPreviewText,
+  MessageQuotedPreviewThread,
+  MessageQuotedPreviewTimestamp,
+  MessageReferenceChip,
+  MessageReferenceLabel,
+} from "raft-ui";
+import {
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -11,25 +28,10 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui";
-import {
-  MessageQuotedPreview,
-  MessageQuotedPreviewAttachment,
-  MessageQuotedPreviewAttachments,
-  MessageQuotedPreviewAuthor,
-  MessageQuotedPreviewAuthorMeta,
-  MessageQuotedPreviewAuthorName,
-  MessageQuotedPreviewBody,
-  MessageQuotedPreviewChannel,
-  MessageQuotedPreviewContent,
-  MessageQuotedPreviewContext,
-  MessageQuotedPreviewHeader,
-  MessageQuotedPreviewSeparator,
-  MessageQuotedPreviewText,
-  MessageQuotedPreviewTimestamp,
 } from "raft-ui/wip";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
+import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
 export function QuotedPreviewEmbeddedComposition() {
   return (
@@ -43,40 +45,33 @@ export function QuotedPreviewEmbeddedComposition() {
         }
         data-testid="quoted-message-card"
       >
+        <MessageQuotedPreviewHeader>
+          <MessageQuotedPreviewAuthor>
+            <Avatar size="xs" type="human">
+              <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.developer} alt="" />
+              <AvatarFallback>D</AvatarFallback>
+            </Avatar>
+            <MessageQuotedPreviewAuthorName>Developer</MessageQuotedPreviewAuthorName>
+            <MessageQuotedPreviewAuthorMeta>member</MessageQuotedPreviewAuthorMeta>
+          </MessageQuotedPreviewAuthor>
+          <MessageQuotedPreviewChannel>
+            <Hash size={11} />
+            raft-ui-migration
+          </MessageQuotedPreviewChannel>
+          <MessageQuotedPreviewThread>
+            <MessageSquare size={10} />
+            Thread
+          </MessageQuotedPreviewThread>
+          <MessageQuotedPreviewTimestamp>Today · 8:17 AM</MessageQuotedPreviewTimestamp>
+        </MessageQuotedPreviewHeader>
         <MessageQuotedPreviewContent>
-          <MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewContext>
-              <MessageQuotedPreviewChannel>
-                <Hash size={11} />
-                raft-ui-migration
-              </MessageQuotedPreviewChannel>
-              <MessageQuotedPreviewSeparator>·</MessageQuotedPreviewSeparator>
-              <MessageQuotedPreviewAuthor>
-                <Avatar size="xs" type="human">
-                  <AvatarFallback>D</AvatarFallback>
-                </Avatar>
-                <MessageQuotedPreviewAuthorName>Developer</MessageQuotedPreviewAuthorName>
-                <MessageQuotedPreviewAuthorMeta>member</MessageQuotedPreviewAuthorMeta>
-              </MessageQuotedPreviewAuthor>
-              <MessageQuotedPreviewSeparator>·</MessageQuotedPreviewSeparator>
-              <MessageQuotedPreviewChannel>
-                <MessageSquare size={10} />
-                Thread
-              </MessageQuotedPreviewChannel>
-            </MessageQuotedPreviewContext>
-            <MessageQuotedPreviewTimestamp>Today · 8:17 AM</MessageQuotedPreviewTimestamp>
-          </MessageQuotedPreviewHeader>
-          <MessageQuotedPreviewBody>
-            <MessageQuotedPreviewText>
-              Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for
-              our store structure.
-            </MessageQuotedPreviewText>
-            <MessageQuotedPreviewAttachments>
-              <MessageQuotedPreviewAttachment>
-                state-ownership-migration-notes.md
-              </MessageQuotedPreviewAttachment>
-            </MessageQuotedPreviewAttachments>
-          </MessageQuotedPreviewBody>
+          <MessageQuotedPreviewText>
+            Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for our
+            store structure.
+          </MessageQuotedPreviewText>
+          <MessageQuotedPreviewAttachments>
+            <MessageQuotedPreviewAttachment>1 file</MessageQuotedPreviewAttachment>
+          </MessageQuotedPreviewAttachments>
         </MessageQuotedPreviewContent>
       </MessageQuotedPreview>
     </MessageItemEmbedded>
@@ -88,6 +83,7 @@ export function QuotedPreviewMessageComposition() {
     <MessageItem>
       <MessageItemAvatarSlot>
         <Avatar size="md" type="human">
+          <AvatarImage src={QUOTED_PREVIEW_AVATAR_SRC.ada} alt="" />
           <AvatarFallback>A</AvatarFallback>
         </Avatar>
       </MessageItemAvatarSlot>
@@ -97,7 +93,20 @@ export function QuotedPreviewMessageComposition() {
           <MessageItemMeta>owner</MessageItemMeta>
           <MessageItemTime>2:25 PM</MessageItemTime>
         </MessageItemHeader>
-        <MessageItemBody>Quoting the state-ownership decision and its source note.</MessageItemBody>
+        <MessageItemBody>
+          <MessageReferenceChip
+            variant="link"
+            render={
+              <a
+                href={MESSAGE_PLAYGROUND_URLS.stateModelTask}
+                aria-label="Open raft-ui migration message"
+              />
+            }
+          >
+            <Link />
+            <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>
+          </MessageReferenceChip>
+        </MessageItemBody>
         <QuotedPreviewEmbeddedComposition />
       </MessageItemContent>
     </MessageItem>

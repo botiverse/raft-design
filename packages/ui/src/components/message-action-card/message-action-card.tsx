@@ -1,54 +1,79 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { Theme } from "../../lib/theme/theme-context";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
 import { messageActionCard } from "./message-action-card.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
-type RecipePart = (options?: { className?: string }) => string;
-type ResolveRecipePart = (theme: Theme) => RecipePart;
 
-function createPart(slot: string, resolveRecipePart: ResolveRecipePart) {
-  return function MessageActionCardPart({ className, render, ...props }: DivProps) {
-    const theme = useThemeFamily();
-    const recipe = resolveRecipePart(theme);
-    return useRender({
-      defaultTagName: "div",
-      render,
-      props: mergeProps<"div">({ className: recipe({ className }) }, props),
-      state: { slot },
-    });
-  };
+export function MessageActionCard({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { root } = messageActionCard({ theme });
+
+  return <MessageEmbed className={root({ className })} render={render} {...props} />;
 }
 
-export const MessageActionCard = createPart(
-  "message-action-card",
-  (theme) => messageActionCard({ theme }).root,
-);
-export const MessageActionCardContent = createPart(
-  "message-action-card-content",
-  (theme) => messageActionCard({ theme }).content,
-);
-export const MessageActionCardHeader = createPart(
-  "message-action-card-header",
-  (theme) => messageActionCard({ theme }).header,
-);
-export const MessageActionCardDetails = createPart(
-  "message-action-card-details",
-  (theme) => messageActionCard({ theme }).details,
-);
-export const MessageActionCardHint = createPart(
-  "message-action-card-hint",
-  (theme) => messageActionCard({ theme }).hint,
-);
-export const MessageActionCardCompletion = createPart(
-  "message-action-card-completion",
-  (theme) => messageActionCard({ theme }).completion,
-);
-export const MessageActionCardActions = createPart(
-  "message-action-card-actions",
-  (theme) => messageActionCard({ theme }).actions,
-);
+export function MessageActionCardContent({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { content } = messageActionCard({ theme });
+
+  return <MessageEmbedContent className={content({ className })} render={render} {...props} />;
+}
+
+export function MessageActionCardHeader({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { header } = messageActionCard({ theme });
+
+  return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
+}
+
+export function MessageActionCardDetails({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { details } = messageActionCard({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: details({ className }) }, props),
+    state: { slot: "message-action-card-details" },
+  });
+}
+
+export function MessageActionCardHint({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { hint } = messageActionCard({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: hint({ className }) }, props),
+    state: { slot: "message-action-card-hint" },
+  });
+}
+
+export function MessageActionCardCompletion({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { completion } = messageActionCard({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: completion({ className }) }, props),
+    state: { slot: "message-action-card-completion" },
+  });
+}
+
+export function MessageActionCardActions({ className, render, ...props }: DivProps) {
+  const theme = useThemeFamily();
+  const { actions } = messageActionCard({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: actions({ className }) }, props),
+    state: { slot: "message-action-card-actions" },
+  });
+}
 
 export type MessageActionCardProps = DivProps;
 export type MessageActionCardContentProps = DivProps;

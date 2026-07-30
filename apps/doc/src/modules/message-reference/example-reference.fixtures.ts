@@ -21,5 +21,5 @@ export const EXAMPLE_REFERENCE_CHANNELS = [
 ] as const;
 
 export const EXAMPLE_REFERENCE_TASKS = [
-  { href: MESSAGE_PLAYGROUND_URLS.stateModelTask, number: "21", status: "in_progress" },
+  { href: MESSAGE_PLAYGROUND_URLS.stateModelTask, number: "21", status: "in-progress" },
 ] as const;

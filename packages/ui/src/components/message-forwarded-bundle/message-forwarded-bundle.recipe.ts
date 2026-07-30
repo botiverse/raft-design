@@ -2,70 +2,101 @@ import { tv } from "../../lib/tv";
 
 export const messageForwardedBundle = tv({
   slots: {
-    root: ["max-w-[min(34rem,100%)]"],
+    root: ["mt-1 max-w-[min(34rem,100%)]"],
     header: ["flex flex-wrap items-center justify-between"],
-    headerLabel: ["inline-flex shrink-0"],
+    headerContent: ["flex min-w-0 items-center"],
+    headerLabel: ["inline-flex shrink-0 items-center"],
     headerCount: ["shrink-0"],
     source: ["min-w-0 truncate"],
+    sourceLabel: ["min-w-0 truncate"],
     items: ["relative"],
-    collapsedItems: ["relative max-h-36 overflow-hidden sm:max-h-45"],
-    item: [],
-    itemMeta: ["flex min-w-0 flex-wrap items-center"],
-    itemAuthor: [],
-    content: [],
-    attachments: ["flex flex-wrap"],
-    attachment: ["inline-flex max-w-full items-center"],
-    attachmentName: ["min-w-0 truncate"],
-    attachmentMeta: ["shrink-0"],
-    collapsedFade: ["pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t"],
     footer: [],
     toggle: [],
   },
   variants: {
     theme: {
       brutal: {
-        root: "mt-1 border border-black/20 bg-white",
-        header: "gap-2 border-b border-black/10 bg-white px-2.5 py-1.5",
-        headerLabel: "text-[11px] font-black uppercase leading-none text-black/70",
-        headerCount: "text-[11px] font-bold text-black/55",
+        root: "",
+        header: "gap-2",
+        headerContent: "gap-2",
+        headerLabel: "gap-1 text-[11px] font-black leading-none text-black/60",
+        headerCount: "text-[11px] font-bold text-black/50",
         source:
-          "text-[11px] font-bold underline-offset-2 transition-colors text-black/50 hover:text-black hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
-        items: "divide-y divide-black/10",
-        collapsedItems: "divide-y divide-black/10",
-        item: "bg-white px-3 py-2",
-        itemMeta: "mb-1 gap-1.5 text-[11px] font-mono text-black/55",
-        itemAuthor: "font-bold text-black/75",
-        content: "text-sm text-black",
-        attachments: "mt-1.5 gap-1.5",
-        attachment:
-          "gap-1 border border-black/20 bg-white px-1.5 py-1 text-[11px] font-bold text-black/80",
-        attachmentMeta: "text-black/50",
-        collapsedFade: "from-white via-white/80 to-white/0",
-        footer: "border-t border-black/10 bg-white px-3 py-1.5",
+          "inline-flex items-center gap-1 text-[11px] font-bold transition-colors text-black/45 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        sourceLabel: "inline-flex items-center gap-1 text-[11px] font-bold text-black/40",
+        items: "divide-y-[0.5px] divide-black/[0.08]",
+        footer: "",
         toggle:
-          "text-[11px] font-black underline underline-offset-2 text-black/60 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+          "inline-flex items-center gap-1 text-[11px] font-black text-black/50 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       },
       elegant: {
-        root: "mt-1 rounded-md border border-line-subtle bg-layer-panel",
-        header: "gap-2 border-b border-line-subtle bg-layer-muted px-2.5 py-1.5",
-        headerLabel: "text-[11px] font-medium uppercase leading-none text-foreground-strong",
-        headerCount: "text-[11px] font-medium text-foreground-muted",
+        root: "",
+        header: "gap-2",
+        headerContent: "gap-2",
+        headerLabel: "gap-1 text-[11px] font-medium leading-none text-foreground-muted",
+        headerCount: "text-[11px] font-medium text-foreground-placeholder",
         source:
-          "text-[11px] font-medium underline-offset-2 transition-colors text-foreground-muted hover:text-foreground hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
-        items: "divide-y divide-line-subtle",
-        collapsedItems: "divide-y divide-line-subtle",
-        item: "bg-layer-panel px-3 py-2",
-        itemMeta: "mb-1 gap-1.5 text-[11px] font-mono text-foreground-muted",
-        itemAuthor: "font-medium text-foreground-strong",
-        content: "text-sm text-foreground-muted",
+          "inline-flex items-center gap-1 text-[11px] font-medium transition-colors text-foreground-placeholder hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+        sourceLabel:
+          "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder",
+        items: "divide-y-[0.5px] divide-line-subtle/75",
+        footer: "",
+        toggle:
+          "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+      },
+    },
+    collapsed: {
+      true: {
+        items: [
+          "max-h-36 overflow-hidden sm:max-h-45",
+          "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-gradient-to-t",
+        ],
+      },
+    },
+  },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      collapsed: true,
+      class: { items: "after:from-white after:via-white/80 after:to-white/0" },
+    },
+    {
+      theme: "elegant",
+      collapsed: true,
+      class: { items: "after:from-white after:via-white/80 after:to-white/0" },
+    },
+  ],
+});
+
+export const messageForwardedBundleItem = tv({
+  slots: {
+    root: [],
+    meta: ["flex min-w-0 flex-wrap items-center"],
+    author: [],
+    attachments: ["flex flex-wrap"],
+    attachment: ["inline-flex max-w-full items-center"],
+    attachmentName: ["min-w-0 truncate"],
+    attachmentMeta: ["shrink-0"],
+  },
+  variants: {
+    theme: {
+      brutal: {
+        root: "bg-white px-3 py-3.5 text-[13px] leading-5 text-black",
+        meta: "mb-1 gap-1.5 text-[11px] font-sans tabular-nums text-black/60",
+        author: "font-normal text-black/60",
         attachments: "mt-1.5 gap-1.5",
         attachment:
-          "gap-1 rounded-sm border border-line-subtle bg-layer-muted px-1.5 py-1 text-[11px] font-medium text-foreground-muted",
+          "gap-1 border-[1.5px] border-black bg-brutal-lavender px-1.5 py-0.5 font-mono text-[10px] font-bold leading-none text-black",
+        attachmentMeta: "text-black/50",
+      },
+      elegant: {
+        root: "px-3 py-3.5 text-[13px] leading-5 text-foreground-muted",
+        meta: "mb-1 gap-1.5 text-[11px] font-sans tabular-nums text-foreground-placeholder",
+        author: "font-normal text-foreground-placeholder",
+        attachments: "mt-1.5 gap-1.5",
+        attachment:
+          "gap-1 rounded-sm border border-line-subtle bg-layer-field px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted",
         attachmentMeta: "text-foreground-placeholder",
-        collapsedFade: "from-layer-panel via-layer-panel/80 to-layer-panel/0",
-        footer: "border-t border-line-subtle bg-layer-panel px-3 py-1.5",
-        toggle:
-          "text-[11px] font-medium underline underline-offset-2 text-foreground-muted hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
       },
     },
   },

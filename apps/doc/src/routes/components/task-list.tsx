@@ -110,7 +110,7 @@ const SECTION_HEADING_PROPS: readonly PropRow[] = [
 const SECTION_BADGE_PROPS: readonly PropRow[] = [
   {
     name: "status",
-    type: '"todo" | "in_progress" | "in_review" | "done" | "closed"',
+    type: '"todo" | "in-progress" | "in-review" | "done" | "closed"',
     description: "Task status that drives the badge surface color.",
   },
   {

@@ -38,10 +38,10 @@ export function IconsComposition() {
         <TaskStatusIcon status="todo" className="size-[18px] text-foreground" />
       </IconGridItem>
       <IconGridItem label="In progress">
-        <TaskStatusIcon status="in_progress" className="size-[18px] text-foreground" />
+        <TaskStatusIcon status="in-progress" className="size-[18px] text-foreground" />
       </IconGridItem>
       <IconGridItem label="In review">
-        <TaskStatusIcon status="in_review" className="size-[18px] text-foreground" />
+        <TaskStatusIcon status="in-review" className="size-[18px] text-foreground" />
       </IconGridItem>
       <IconGridItem label="Done">
         <TaskStatusIcon status="done" className="size-[18px] text-foreground" />

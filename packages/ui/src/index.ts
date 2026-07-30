@@ -824,6 +824,39 @@ export type {
 } from "./components/message-item/index";
 
 export {
+  MessageQuotedPreview,
+  MessageQuotedPreviewAttachments,
+  MessageQuotedPreviewAttachment,
+  MessageQuotedPreviewAuthor,
+  MessageQuotedPreviewAuthorMeta,
+  MessageQuotedPreviewAuthorName,
+  MessageQuotedPreviewChannel,
+  MessageQuotedPreviewContent,
+  MessageQuotedPreviewHeader,
+  MessageQuotedPreviewLoading,
+  MessageQuotedPreviewText,
+  MessageQuotedPreviewThread,
+  MessageQuotedPreviewTimestamp,
+  MessageQuotedPreviewUnavailable,
+} from "./components/message-quoted-preview/index";
+export type {
+  MessageQuotedPreviewAttachmentProps,
+  MessageQuotedPreviewAttachmentsProps,
+  MessageQuotedPreviewAuthorMetaProps,
+  MessageQuotedPreviewAuthorNameProps,
+  MessageQuotedPreviewAuthorProps,
+  MessageQuotedPreviewChannelProps,
+  MessageQuotedPreviewContentProps,
+  MessageQuotedPreviewHeaderProps,
+  MessageQuotedPreviewLoadingProps,
+  MessageQuotedPreviewProps,
+  MessageQuotedPreviewTextProps,
+  MessageQuotedPreviewThreadProps,
+  MessageQuotedPreviewTimestampProps,
+  MessageQuotedPreviewUnavailableProps,
+} from "./components/message-quoted-preview/index";
+
+export {
   MessageReplies,
   MessageRepliesItem,
   MessageRepliesItemContent,

@@ -27,10 +27,10 @@ export function ActionCardComposition() {
   return (
     <div className="grid gap-2">
       <MessageActionCard>
+        <MessageActionCardHeader>
+          <span>Create private channel #release-review</span>
+        </MessageActionCardHeader>
         <MessageActionCardContent>
-          <MessageActionCardHeader>
-            <span>Create private channel #release-review</span>
-          </MessageActionCardHeader>
           <MessageActionCardDetails>
             <div>
               <span className="text-foreground-muted">Description:</span> Coordinate the final
@@ -59,7 +59,7 @@ export function ActionCardComposition() {
 
 export function ActionCardMessageComposition() {
   return (
-    <MessageItem>
+    <MessageItem className="w-full max-w-4xl">
       <MessageItemAvatarSlot>
         <Avatar size="md" type="agent">
           <AvatarImage src={MESSAGE_FIXTURE_AVATAR_SRC} alt="" />

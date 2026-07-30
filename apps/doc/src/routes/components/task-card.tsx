@@ -160,7 +160,7 @@ const DESCRIPTION_PROPS: readonly PropRow[] = [
 const STATUS_PROPS: readonly PropRow[] = [
   {
     name: "status",
-    type: '"todo" | "in_progress" | "in_review" | "done" | "closed"',
+    type: '"todo" | "in-progress" | "in-review" | "done" | "closed"',
     description: "Task status that drives the trigger surface color and icon.",
   },
   {

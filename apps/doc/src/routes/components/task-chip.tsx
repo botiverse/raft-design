@@ -21,11 +21,18 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const ANATOMY_SOURCE = `<TaskChip status="in_progress" render={<a href="…" />}>
+const ANATOMY_SOURCE = `<TaskChip status="in-progress" render={<a href="…" />}>
+  <TaskInProgressIcon />
   #205
 </TaskChip>
 
-<TaskChip status="in_review" loading>
+<TaskChip variant="inline" status="in-review" render={<a href="…" />}>
+  <TaskInReviewIcon />
+  #340
+</TaskChip>
+
+<TaskChip variant="inline" status="in-review" loading>
+  <TaskInReviewIcon />
   #340
 </TaskChip>`;
 
@@ -35,12 +42,13 @@ const PROPS: readonly PropRow[] = [
     type: '"default" | "message"',
     default: '"default"',
     description:
-      "Message uses a neutral, borderless inline surface with a 2px leading icon inset; task status continues to color only the icon.",
+      "Inline uses a neutral, borderless inline surface with a 2px leading icon inset; task status continues to color only the icon.",
   },
   {
     name: "status",
-    type: '"todo" | "in_progress" | "in_review" | "done" | "closed"',
-    description: "Resolved task status. Selects the status icon and the chip surface.",
+    type: '"todo" | "in-progress" | "in-review" | "done" | "closed"',
+    description:
+      "Resolved task status. Selects the chip surface; the caller renders the matching icon.",
   },
   {
     name: "loading",
@@ -108,13 +116,13 @@ function TaskChipDoc() {
   return (
     <DocPage
       title="TaskChip"
-      description="An inline chip for a resolved task, carrying its status icon and status surface."
+      description="An inline chip whose caller supplies the task-status icon as content."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview previewClassName="items-stretch">
           <Preview.Canvas>
-            <div className="flex w-full max-w-3xl flex-col gap-3">
+            <div className="flex w-full max-w-3xl self-stretch flex-col justify-center gap-3">
               <TaskChipInMarkdownComposition />
               <TaskChipInFooterComposition />
             </div>
@@ -133,10 +141,10 @@ function TaskChipDoc() {
 
       <DocSection id="usage" title="Usage">
         <p className="mb-3 text-sm text-foreground-muted">
-          <InlineCode>status</InlineCode> controls the status icon and the chip surface.{" "}
-          <InlineCode>loading</InlineCode> dims the chip and drops pointer events while the consumer
-          resolves the task. Task state stays consumer-owned: the chip renders what it is given and
-          never resolves a task itself.
+          <InlineCode>status</InlineCode> controls the chip surface. Pass a named task-status icon
+          for a known status, or <InlineCode>TaskStatusIcon</InlineCode> when status comes from
+          consumer-owned data. <InlineCode>loading</InlineCode> dims the chip and drops pointer
+          events while the consumer resolves the task.
         </p>
         <Preview>
           <Preview.Canvas>

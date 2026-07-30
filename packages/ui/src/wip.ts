@@ -29,6 +29,8 @@ export type {
   DescriptionTermProps,
 } from "./components/description-list/index";
 
+export * from "./components/message-item/index";
+
 export {
   MessageActionCard,
   MessageActionCardActions,
@@ -38,6 +40,19 @@ export {
   MessageActionCardHeader,
   MessageActionCardHint,
 } from "./components/message-action-card/index";
+
+export {
+  MessageEmbed,
+  MessageEmbedContent,
+  MessageEmbedFooter,
+  MessageEmbedHeader,
+} from "./components/message-embed/index";
+export type {
+  MessageEmbedContentProps,
+  MessageEmbedFooterProps,
+  MessageEmbedHeaderProps,
+  MessageEmbedProps,
+} from "./components/message-embed/index";
 export type {
   MessageActionCardActionsProps,
   MessageActionCardCompletionProps,
@@ -83,11 +98,9 @@ export {
   MessageForwardedBundleAttachmentMeta,
   MessageForwardedBundleAttachmentName,
   MessageForwardedBundleAttachments,
-  MessageForwardedBundleCollapsedFade,
-  MessageForwardedBundleCollapsedItems,
-  MessageForwardedBundleContent,
   MessageForwardedBundleFooter,
   MessageForwardedBundleHeader,
+  MessageForwardedBundleHeaderContent,
   MessageForwardedBundleHeaderCount,
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
@@ -95,6 +108,7 @@ export {
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
+  MessageForwardedBundleSourceLabel,
   MessageForwardedBundleToggle,
 } from "./components/message-forwarded-bundle/index";
 export type {
@@ -102,11 +116,9 @@ export type {
   MessageForwardedBundleAttachmentNameProps,
   MessageForwardedBundleAttachmentProps,
   MessageForwardedBundleAttachmentsProps,
-  MessageForwardedBundleCollapsedFadeProps,
-  MessageForwardedBundleCollapsedItemsProps,
-  MessageForwardedBundleContentProps,
   MessageForwardedBundleFooterProps,
   MessageForwardedBundleHeaderCountProps,
+  MessageForwardedBundleHeaderContentProps,
   MessageForwardedBundleHeaderLabelProps,
   MessageForwardedBundleHeaderProps,
   MessageForwardedBundleItemAuthorProps,
@@ -114,6 +126,7 @@ export type {
   MessageForwardedBundleItemProps,
   MessageForwardedBundleItemsProps,
   MessageForwardedBundleProps,
+  MessageForwardedBundleSourceLabelProps,
   MessageForwardedBundleSourceProps,
   MessageForwardedBundleToggleProps,
 } from "./components/message-forwarded-bundle/index";
@@ -171,53 +184,6 @@ export type {
   MessageItemTranslationRetryActionProps,
   MessageItemTranslationStatusProps,
 } from "./components/message-translation/index";
-
-export {
-  MessageQuotedPreview,
-  MessageQuotedPreviewAttachment,
-  MessageQuotedPreviewAttachments,
-  MessageQuotedPreviewAuthor,
-  MessageQuotedPreviewAuthorMeta,
-  MessageQuotedPreviewAuthorName,
-  MessageQuotedPreviewBody,
-  MessageQuotedPreviewChannel,
-  MessageQuotedPreviewContent,
-  MessageQuotedPreviewContext,
-  MessageQuotedPreviewHeader,
-  MessageQuotedPreviewLoading,
-  MessageQuotedPreviewLoadingAvatar,
-  MessageQuotedPreviewLoadingContent,
-  MessageQuotedPreviewLoadingHeader,
-  MessageQuotedPreviewLoadingLine,
-  MessageQuotedPreviewLoadingLines,
-  MessageQuotedPreviewSeparator,
-  MessageQuotedPreviewText,
-  MessageQuotedPreviewTimestamp,
-  MessageQuotedPreviewUnavailable,
-} from "./components/message-quoted-preview/index";
-export type {
-  MessageQuotedPreviewAttachmentProps,
-  MessageQuotedPreviewAttachmentsProps,
-  MessageQuotedPreviewAuthorMetaProps,
-  MessageQuotedPreviewAuthorNameProps,
-  MessageQuotedPreviewAuthorProps,
-  MessageQuotedPreviewBodyProps,
-  MessageQuotedPreviewChannelProps,
-  MessageQuotedPreviewContentProps,
-  MessageQuotedPreviewContextProps,
-  MessageQuotedPreviewHeaderProps,
-  MessageQuotedPreviewLoadingAvatarProps,
-  MessageQuotedPreviewLoadingContentProps,
-  MessageQuotedPreviewLoadingHeaderProps,
-  MessageQuotedPreviewLoadingLineProps,
-  MessageQuotedPreviewLoadingLinesProps,
-  MessageQuotedPreviewLoadingProps,
-  MessageQuotedPreviewProps,
-  MessageQuotedPreviewSeparatorProps,
-  MessageQuotedPreviewTextProps,
-  MessageQuotedPreviewTimestampProps,
-  MessageQuotedPreviewUnavailableProps,
-} from "./components/message-quoted-preview/index";
 
 export {
   SystemMessage,

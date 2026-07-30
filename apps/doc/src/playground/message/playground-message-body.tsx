@@ -3,12 +3,12 @@ import { Children, useMemo, type ReactNode } from "react";
 import {
   MarkdownLink,
   MarkdownParagraph,
+  MessageItemSearchMatch,
   MessageReferenceChip,
   MessageReferenceText,
   TaskChip,
-  MessageItemSearchMatch,
+  TaskStatusIcon,
 } from "raft-ui";
-
 import { type MarkdownPluginList } from "#/lib/markdown/markdown-plugins.ts";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { createRemarkReferences } from "#/lib/markdown/create-remark-references.ts";
@@ -121,8 +121,8 @@ function createPlaygroundMarkdownComponents(channelId?: string, searchQuery?: st
         const threadId = task.sourceMessageId ?? task.id;
         const href = `${conversationHref(task.channelId)}?thread=${encodeURIComponent(threadId)}&from=tasks`;
         return (
-          <TaskChip variant="message" status={task.status} render={<a href={href} />}>
-            #{reference.number}
+          <TaskChip variant="inline" status={task.status} render={<a href={href} />}>
+            <TaskStatusIcon status={task.status} />#{reference.number}
           </TaskChip>
         );
       }

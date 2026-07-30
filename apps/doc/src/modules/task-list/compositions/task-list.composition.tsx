@@ -29,16 +29,16 @@ import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.
 
 const DEFAULT_COLLAPSED: Record<TaskStatus, boolean> = {
   todo: false,
-  in_progress: false,
-  in_review: false,
+  "in-progress": false,
+  "in-review": false,
   done: true,
   closed: true,
 };
 
 const EXPANDED: Record<TaskStatus, boolean> = {
   todo: false,
-  in_progress: false,
-  in_review: false,
+  "in-progress": false,
+  "in-review": false,
   done: false,
   closed: false,
 };

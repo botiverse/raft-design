@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -11,11 +11,18 @@ import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
 import actionCardComparisonSource from "#/modules/message-action-card/compositions/action-card-message.composition.tsx?raw";
+import { ActionCardDialogBackedComposition } from "#/modules/message-action-card/compositions/dialog-backed-actions.composition.tsx";
+import actionCardDialogBackedSource from "#/modules/message-action-card/compositions/dialog-backed-actions.composition.tsx?raw";
+import { ActionCardIntegrationComposition } from "#/modules/message-action-card/compositions/integration-actions.composition.tsx";
+import actionCardIntegrationSource from "#/modules/message-action-card/compositions/integration-actions.composition.tsx?raw";
+import { ActionCardResolutionStatesComposition } from "#/modules/message-action-card/compositions/resolution-states.composition.tsx";
+import actionCardResolutionStatesSource from "#/modules/message-action-card/compositions/resolution-states.composition.tsx?raw";
 import { MessageActionCardSourcePreview } from "#/modules/message-action-card/message-action-card.source-preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -37,8 +44,8 @@ const SOURCE_SCENES = [
 ] as const;
 
 const ANATOMY_SOURCE = `<MessageActionCard>
+  <MessageActionCardHeader />
   <MessageActionCardContent>
-    <MessageActionCardHeader />
     <MessageActionCardDetails />
     <MessageActionCardHint />
     <MessageActionCardActions />
@@ -54,20 +61,34 @@ const PROPS: readonly PropRow[] = [
       "Suggested-action card root. Compose inside MessageItemBody; execution state stays consumer-owned.",
   },
   {
+    name: "MessageActionCardHeader",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Outer title row. Compose the action title and any ready-state badge here.",
+  },
+  {
     name: "MessageActionCardContent",
     type: 'useRender.ComponentProps<"div">',
-    description: "Inner content stack for header, details, hint, actions, and completion.",
+    description: "White inner content stack for details, hint, actions, and completion.",
   },
   {
-    name: "MessageActionCardHeader / Details / Hint",
+    name: "MessageActionCardDetails",
     type: 'useRender.ComponentProps<"div">',
-    description: "Title, supporting details, and hint copy. Product labels stay consumer-owned.",
+    description: "Readonly summary supplied by the action consumer.",
   },
   {
-    name: "MessageActionCardActions / Completion",
+    name: "MessageActionCardHint",
     type: 'useRender.ComponentProps<"div">',
-    description:
-      "Pre-commit action slot and post-commit completion slot. Buttons and badges stay consumer-owned.",
+    description: "Optional agent-provided rationale or guidance.",
+  },
+  {
+    name: "MessageActionCardActions",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Pre-commit action area. Buttons and dialog state stay consumer-owned.",
+  },
+  {
+    name: "MessageActionCardCompletion",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Post-commit result and actor summary supplied by the consumer.",
   },
 ];
 
@@ -94,6 +115,9 @@ export const Route = createFileRoute("/components/message-action-card")({
     highlightSnippets({
       data: {
         actionCardComparison: actionCardComparisonSource,
+        actionCardDialogBacked: actionCardDialogBackedSource,
+        actionCardIntegration: actionCardIntegrationSource,
+        actionCardResolutionStates: actionCardResolutionStatesSource,
         anatomy: ANATOMY_SOURCE,
       },
     }),
@@ -123,6 +147,64 @@ function MessageActionCardDoc() {
             <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
+      </DocSection>
+
+      <DocSection id="usage" title="Usage">
+        <div className="space-y-10">
+          <DocSubsection
+            parentId="usage"
+            id="dialog-backed-actions"
+            title="Channel and agent actions"
+            showThemeSwitcher
+          >
+            <p className="text-sm leading-6 text-foreground-muted">
+              Channel creation, agent creation, and member changes open their existing dialogs with
+              the card values prefilled. The human can adjust those values before committing.
+            </p>
+            <UsagePreview
+              code={code.actionCardDialogBacked}
+              collapsedCode={code.actionCardDialogBackedBody}
+            >
+              <ActionCardDialogBackedComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="integration-actions"
+            title="Connected App actions"
+            showThemeSwitcher
+          >
+            <p className="text-sm leading-6 text-foreground-muted">
+              Login approval and Connected App registration, update, and owner recovery execute from
+              the card after the human confirms the action.
+            </p>
+            <UsagePreview
+              code={code.actionCardIntegration}
+              collapsedCode={code.actionCardIntegrationBody}
+            >
+              <ActionCardIntegrationComposition />
+            </UsagePreview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="usage"
+            id="resolution-states"
+            title="Completion and failure"
+            showThemeSwitcher
+          >
+            <p className="text-sm leading-6 text-foreground-muted">
+              The consumer replaces the action area after a successful commit. A failed action keeps
+              its original action available for retry and can render its own warning.
+            </p>
+            <UsagePreview
+              code={code.actionCardResolutionStates}
+              collapsedCode={code.actionCardResolutionStatesBody}
+            >
+              <ActionCardResolutionStatesComposition />
+            </UsagePreview>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

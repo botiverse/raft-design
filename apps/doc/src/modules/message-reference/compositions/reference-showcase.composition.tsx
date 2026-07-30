@@ -15,13 +15,11 @@ import {
   MessageReferenceUnavailable,
   Spinner,
   TaskChip,
-  MessageItem,
-  MessageItemAvatarSlot,
-  MessageItemBody,
-  MessageItemContent,
-  MessageItemHeader,
-  MessageItemSender,
-  MessageItemTime,
+  TaskClosedIcon,
+  TaskDoneIcon,
+  TaskInProgressIcon,
+  TaskInReviewIcon,
+  TaskTodoIcon,
 } from "raft-ui";
 import {
   CircleOff,
@@ -32,6 +30,15 @@ import {
   MessageSquareText,
 } from "lucide-react";
 
+import {
+  MessageItem,
+  MessageItemAvatarSlot,
+  MessageItemBody,
+  MessageItemContent,
+  MessageItemHeader,
+  MessageItemSender,
+  MessageItemTime,
+} from "raft-ui/wip";
 import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
 import { MessageMentionReferenceComposition } from "./reference-adapters.composition.tsx";
 
@@ -55,46 +62,51 @@ export function MessageReferenceShowcaseComposition() {
             <MarkdownParagraph>
               Please triage{" "}
               <TaskChip
-                variant="message"
+                variant="inline"
                 status="todo"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
               >
+                <TaskTodoIcon />
                 <span>#21</span>
                 <span>@Ada</span>
               </TaskChip>{" "}
               , continue{" "}
               <TaskChip
-                variant="message"
-                status="in_progress"
+                variant="inline"
+                status="in-progress"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
               >
+                <TaskInProgressIcon />
                 <span>#22</span>
                 <span>@Atlas</span>
               </TaskChip>
               , review{" "}
               <TaskChip
-                variant="message"
-                status="in_review"
+                variant="inline"
+                status="in-review"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
               >
+                <TaskInReviewIcon />
                 <span>#23</span>
                 <span>@Noah</span>
               </TaskChip>
               , confirm{" "}
               <TaskChip
-                variant="message"
+                variant="inline"
                 status="done"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
               >
+                <TaskDoneIcon />
                 <span>#24</span>
                 <span>@Mira</span>
               </TaskChip>
               , and archive{" "}
               <TaskChip
-                variant="message"
+                variant="inline"
                 status="closed"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
               >
+                <TaskClosedIcon />
                 <span>#25</span>
                 <span>@Cindy</span>
               </TaskChip>{" "}
