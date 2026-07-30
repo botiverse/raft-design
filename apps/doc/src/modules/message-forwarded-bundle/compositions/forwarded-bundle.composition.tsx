@@ -5,7 +5,7 @@ import {
 } from "#/modules/message-item/message-item.fixtures.ts";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
-import { FileText } from "lucide-react";
+import { ChevronDown, ChevronUp, FileText, Forward } from "lucide-react";
 
 import {
   MessageForwardedBundle,
@@ -22,6 +22,7 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
+  MessageForwardedBundleInset,
   MessageForwardedBundleSource,
   MessageForwardedBundleToggle,
   MessageItem,
@@ -41,7 +42,6 @@ function ForwardedBundleItemsContent() {
       <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
         <MessageForwardedBundleItemMeta>
           <MessageForwardedBundleItemAuthor>@Ada</MessageForwardedBundleItemAuthor>
-          <span aria-hidden>·</span>
           <time dateTime="2026-07-15T06:05:00.000Z">Jul 15, 2:05 PM</time>
         </MessageForwardedBundleItemMeta>
         <Markdown>Rollout is clear for the message reference migration.</Markdown>
@@ -49,7 +49,6 @@ function ForwardedBundleItemsContent() {
       <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
         <MessageForwardedBundleItemMeta>
           <MessageForwardedBundleItemAuthor>@Will</MessageForwardedBundleItemAuthor>
-          <span aria-hidden>·</span>
           <time dateTime="2026-07-15T06:09:00.000Z">Jul 15, 2:09 PM</time>
         </MessageForwardedBundleItemMeta>
         <Markdown>Keep the source case with its attachment context.</Markdown>
@@ -59,14 +58,13 @@ function ForwardedBundleItemsContent() {
             <MessageForwardedBundleAttachmentName>
               release-notes.md
             </MessageForwardedBundleAttachmentName>
-            <MessageForwardedBundleAttachmentMeta>· MARKDOWN</MessageForwardedBundleAttachmentMeta>
+            <MessageForwardedBundleAttachmentMeta>· markdown</MessageForwardedBundleAttachmentMeta>
           </MessageForwardedBundleAttachment>
         </MessageForwardedBundleAttachments>
       </MessageForwardedBundleItem>
       <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
         <MessageForwardedBundleItemMeta>
           <MessageForwardedBundleItemAuthor>@Mia</MessageForwardedBundleItemAuthor>
-          <span aria-hidden>·</span>
           <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
         </MessageForwardedBundleItemMeta>
         <Markdown>Keep the original context available to reviewers.</Markdown>
@@ -74,7 +72,6 @@ function ForwardedBundleItemsContent() {
       <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
         <MessageForwardedBundleItemMeta>
           <MessageForwardedBundleItemAuthor>@Nia</MessageForwardedBundleItemAuthor>
-          <span aria-hidden>·</span>
           <time dateTime="2026-07-15T06:16:00.000Z">Jul 15, 2:16 PM</time>
         </MessageForwardedBundleItemMeta>
         <Markdown>Follow the same message state contract in the thread.</Markdown>
@@ -91,7 +88,10 @@ export function ForwardedBundleEmbeddedComposition() {
       <MessageForwardedBundle data-testid="forwarded-bundle-card">
         <MessageForwardedBundleHeader>
           <MessageForwardedBundleHeaderContent>
-            <MessageForwardedBundleHeaderLabel>Forwarded</MessageForwardedBundleHeaderLabel>
+            <MessageForwardedBundleHeaderLabel>
+              <Forward size={12} />
+              Forwarded
+            </MessageForwardedBundleHeaderLabel>
             <MessageForwardedBundleHeaderCount>4 messages</MessageForwardedBundleHeaderCount>
           </MessageForwardedBundleHeaderContent>
           <MessageForwardedBundleSource
@@ -104,14 +104,17 @@ export function ForwardedBundleEmbeddedComposition() {
               />
             }
           >
-            from release-notes
+            from #release-notes
           </MessageForwardedBundleSource>
         </MessageForwardedBundleHeader>
-        <MessageForwardedBundleItems collapsed={!expanded}>
-          <ForwardedBundleItemsContent />
-        </MessageForwardedBundleItems>
+        <MessageForwardedBundleInset>
+          <MessageForwardedBundleItems collapsed={!expanded}>
+            <ForwardedBundleItemsContent />
+          </MessageForwardedBundleItems>
+        </MessageForwardedBundleInset>
         <MessageForwardedBundleFooter>
           <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
+            {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             {expanded ? "Collapse" : "Show all 4 messages"}
           </MessageForwardedBundleToggle>
         </MessageForwardedBundleFooter>

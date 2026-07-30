@@ -44,6 +44,10 @@ export const MessageForwardedBundle = createDivPart(
   "message-forwarded-bundle",
   (theme) => messageForwardedBundle({ theme }).root,
 );
+export const MessageForwardedBundleInset = createDivPart(
+  "message-forwarded-bundle-inset",
+  (theme) => messageForwardedBundle({ theme }).inset,
+);
 export const MessageForwardedBundleHeader = createDivPart(
   "message-forwarded-bundle-header",
   (theme) => messageForwardedBundle({ theme }).header,
@@ -156,6 +160,7 @@ export function MessageForwardedBundleToggle({
 }
 
 export type MessageForwardedBundleProps = DivProps;
+export type MessageForwardedBundleInsetProps = DivProps;
 export type MessageForwardedBundleHeaderProps = DivProps;
 export type MessageForwardedBundleHeaderContentProps = DivProps;
 export type MessageForwardedBundleHeaderLabelProps = SpanProps;

@@ -15,12 +15,13 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
+  MessageForwardedBundleInset,
   MessageForwardedBundleToggle,
 } from "raft-ui/wip";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
-import { FileText } from "lucide-react";
+import { ChevronDown, ChevronUp, FileText, Forward } from "lucide-react";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -38,7 +39,6 @@ function LongForwardedItem() {
     <MessageForwardedBundleItem>
       <MessageForwardedBundleItemMeta>
         <MessageForwardedBundleItemAuthor>@Nia</MessageForwardedBundleItemAuthor>
-        <span aria-hidden>·</span>
         <time dateTime="2026-07-15T06:16:00.000Z">Jul 15, 2:16 PM</time>
       </MessageForwardedBundleItemMeta>
       <Markdown>{`Before we cut over, keep the read model running against both event streams and validate account, workspace, and channel permissions in staging.
@@ -52,14 +52,14 @@ Review the operational checklist with the owners of notifications, search, and t
           <MessageForwardedBundleAttachmentName>
             migration-checklist.md
           </MessageForwardedBundleAttachmentName>
-          <MessageForwardedBundleAttachmentMeta>· MARKDOWN</MessageForwardedBundleAttachmentMeta>
+          <MessageForwardedBundleAttachmentMeta>· markdown</MessageForwardedBundleAttachmentMeta>
         </MessageForwardedBundleAttachment>
         <MessageForwardedBundleAttachment>
           <FileText size={12} />
           <MessageForwardedBundleAttachmentName>
             webhook-cutover-plan.pdf
           </MessageForwardedBundleAttachmentName>
-          <MessageForwardedBundleAttachmentMeta>· PDF</MessageForwardedBundleAttachmentMeta>
+          <MessageForwardedBundleAttachmentMeta>· pdf</MessageForwardedBundleAttachmentMeta>
         </MessageForwardedBundleAttachment>
       </MessageForwardedBundleAttachments>
     </MessageForwardedBundleItem>
@@ -88,15 +88,21 @@ export function ForwardedBundleLongContentComposition() {
           <MessageForwardedBundle>
             <MessageForwardedBundleHeader>
               <MessageForwardedBundleHeaderContent>
-                <MessageForwardedBundleHeaderLabel>Forwarded</MessageForwardedBundleHeaderLabel>
+                <MessageForwardedBundleHeaderLabel>
+                  <Forward size={12} />
+                  Forwarded
+                </MessageForwardedBundleHeaderLabel>
                 <MessageForwardedBundleHeaderCount>message</MessageForwardedBundleHeaderCount>
               </MessageForwardedBundleHeaderContent>
             </MessageForwardedBundleHeader>
-            <MessageForwardedBundleItems collapsed={!expanded}>
-              <LongForwardedItem />
-            </MessageForwardedBundleItems>
+            <MessageForwardedBundleInset>
+              <MessageForwardedBundleItems collapsed={!expanded}>
+                <LongForwardedItem />
+              </MessageForwardedBundleItems>
+            </MessageForwardedBundleInset>
             <MessageForwardedBundleFooter>
               <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
+                {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                 {expanded ? "Collapse" : "Show all 1 message"}
               </MessageForwardedBundleToggle>
             </MessageForwardedBundleFooter>

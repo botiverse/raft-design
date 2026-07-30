@@ -9,6 +9,7 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
+  MessageForwardedBundleInset,
   MessageForwardedBundleSource,
 } from "raft-ui/wip";
 
@@ -17,6 +18,7 @@ import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_PLAYGROUND_URLS,
 } from "#/modules/message-item/message-item.fixtures.ts";
+import { Forward } from "lucide-react";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -49,7 +51,10 @@ export function ForwardedBundleThreadComposition() {
           <MessageForwardedBundle>
             <MessageForwardedBundleHeader>
               <MessageForwardedBundleHeaderContent>
-                <MessageForwardedBundleHeaderLabel>Forwarded</MessageForwardedBundleHeaderLabel>
+                <MessageForwardedBundleHeaderLabel>
+                  <Forward size={12} />
+                  Forwarded
+                </MessageForwardedBundleHeaderLabel>
                 <MessageForwardedBundleHeaderCount>message</MessageForwardedBundleHeaderCount>
               </MessageForwardedBundleHeaderContent>
               <MessageForwardedBundleSource
@@ -60,19 +65,20 @@ export function ForwardedBundleThreadComposition() {
                   />
                 }
               >
-                from release-notes · thread
+                from #release-notes · thread
               </MessageForwardedBundleSource>
             </MessageForwardedBundleHeader>
-            <MessageForwardedBundleItems>
-              <MessageForwardedBundleItem>
-                <MessageForwardedBundleItemMeta>
-                  <MessageForwardedBundleItemAuthor>@Mia</MessageForwardedBundleItemAuthor>
-                  <span aria-hidden>·</span>
-                  <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
-                </MessageForwardedBundleItemMeta>
-                <Markdown>Follow the same message state contract in the thread.</Markdown>
-              </MessageForwardedBundleItem>
-            </MessageForwardedBundleItems>
+            <MessageForwardedBundleInset>
+              <MessageForwardedBundleItems>
+                <MessageForwardedBundleItem>
+                  <MessageForwardedBundleItemMeta>
+                    <MessageForwardedBundleItemAuthor>@Mia</MessageForwardedBundleItemAuthor>
+                    <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
+                  </MessageForwardedBundleItemMeta>
+                  <Markdown>Follow the same message state contract in the thread.</Markdown>
+                </MessageForwardedBundleItem>
+              </MessageForwardedBundleItems>
+            </MessageForwardedBundleInset>
           </MessageForwardedBundle>
         </MessageItemEmbedded>
       </MessageItemContent>

@@ -3,9 +3,10 @@ import { tv } from "../../lib/tv";
 export const messageForwardedBundle = tv({
   slots: {
     root: ["max-w-[min(34rem,100%)]"],
+    inset: ["min-w-0"],
     header: ["flex flex-wrap items-center justify-between"],
     headerContent: ["flex min-w-0 items-center"],
-    headerLabel: ["inline-flex shrink-0"],
+    headerLabel: ["inline-flex shrink-0 items-center"],
     headerCount: ["shrink-0"],
     source: ["min-w-0 truncate"],
     sourceLabel: ["min-w-0 truncate"],
@@ -17,31 +18,39 @@ export const messageForwardedBundle = tv({
     theme: {
       brutal: {
         root: "mt-1 border border-black/20 bg-white",
+        inset: "contents",
         header: "gap-2 border-b border-black/10 bg-white px-2.5 py-1.5",
         headerContent: "gap-2",
-        headerLabel: "text-[11px] font-black uppercase leading-none text-black/70",
-        headerCount: "text-[11px] font-bold text-black/55",
+        headerLabel: "gap-1 text-[11px] font-black leading-none text-black/60",
+        headerCount: "text-[11px] font-bold text-black/50",
         source:
-          "text-[11px] font-bold underline-offset-2 transition-colors text-black/50 hover:text-black hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
-        sourceLabel: "text-[11px] font-bold text-black/45",
-        items: "divide-y divide-black/10",
+          "inline-flex items-center gap-1 text-[11px] font-bold transition-colors text-black/45 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        sourceLabel: "inline-flex items-center gap-1 text-[11px] font-bold text-black/40",
+        items: "divide-y-[0.5px] divide-black/[0.08]",
         footer: "border-t border-black/10 bg-white px-3 py-1.5",
         toggle:
-          "text-[11px] font-black underline underline-offset-2 text-black/60 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+          "inline-flex items-center gap-1 text-[11px] font-black text-black/50 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       },
       elegant: {
-        root: "mt-1 rounded-md border border-line-subtle bg-layer-panel",
-        header: "gap-2 border-b border-line-subtle bg-layer-muted px-2.5 py-1.5",
+        root: [
+          "group mt-1 rounded-lg border-[0.5px] border-line-subtle bg-[oklch(0.985_0.003_84.559)] p-[2px] shadow-xs",
+          "transition-[background-color,box-shadow] duration-150",
+          "hover:bg-[color-mix(in_oklch,var(--ink)_2%,oklch(0.985_0.003_84.559))] hover:shadow-sm",
+        ],
+        inset:
+          "overflow-clip rounded-[5.5px] border-[0.5px] border-line-subtle bg-[oklch(1_0_0)] transition-colors duration-150 group-hover:bg-[color-mix(in_oklch,var(--ink)_2%,oklch(1_0_0))]",
+        header: "gap-2 px-3 py-1.5 sm:px-3.5",
         headerContent: "gap-2",
-        headerLabel: "text-[11px] font-medium uppercase leading-none text-foreground-strong",
-        headerCount: "text-[11px] font-medium text-foreground-muted",
+        headerLabel: "gap-1 text-[11px] font-medium leading-none text-foreground-muted",
+        headerCount: "text-[11px] font-medium text-foreground-placeholder",
         source:
-          "text-[11px] font-medium underline-offset-2 transition-colors text-foreground-muted hover:text-foreground hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
-        sourceLabel: "text-[11px] font-medium text-foreground-muted",
-        items: "divide-y divide-line-subtle",
-        footer: "border-t border-line-subtle bg-layer-panel px-3 py-1.5",
+          "inline-flex items-center gap-1 text-[11px] font-medium transition-colors text-foreground-placeholder hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+        sourceLabel:
+          "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder",
+        items: "divide-y-[0.5px] divide-line-subtle/75",
+        footer: "px-3 py-1.5 sm:px-3.5",
         toggle:
-          "text-[11px] font-medium underline underline-offset-2 text-foreground-muted hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+          "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
       },
     },
     collapsed: {
@@ -62,7 +71,7 @@ export const messageForwardedBundle = tv({
     {
       theme: "elegant",
       collapsed: true,
-      class: { items: "after:from-layer-panel after:via-layer-panel/80 after:to-layer-panel/0" },
+      class: { items: "after:from-white after:via-white/80 after:to-white/0" },
     },
   ],
 });
@@ -80,21 +89,21 @@ export const messageForwardedBundleItem = tv({
   variants: {
     theme: {
       brutal: {
-        root: "bg-white px-3 py-2 text-sm text-black",
-        meta: "mb-1 gap-1.5 text-[11px] font-mono text-black/55",
-        author: "font-bold text-black/75",
+        root: "bg-white px-3 py-3.5 text-[13px] leading-5 text-black",
+        meta: "mb-1 gap-1.5 text-[11px] font-sans tabular-nums text-black/60",
+        author: "font-normal text-black/60",
         attachments: "mt-1.5 gap-1.5",
         attachment:
-          "gap-1 border border-black/20 bg-white px-1.5 py-1 text-[11px] font-bold text-black/80",
+          "gap-1 border-[1.5px] border-black bg-brutal-lavender px-1.5 py-0.5 font-mono text-[10px] font-bold leading-none text-black",
         attachmentMeta: "text-black/50",
       },
       elegant: {
-        root: "bg-layer-panel px-3 py-2 text-sm text-foreground-muted",
-        meta: "mb-1 gap-1.5 text-[11px] font-mono text-foreground-muted",
-        author: "font-medium text-foreground-strong",
+        root: "px-3 py-3.5 text-[13px] leading-5 text-foreground-muted",
+        meta: "mb-1 gap-1.5 text-[11px] font-sans tabular-nums text-foreground-placeholder",
+        author: "font-normal text-foreground-placeholder",
         attachments: "mt-1.5 gap-1.5",
         attachment:
-          "gap-1 rounded-sm border border-line-subtle bg-layer-muted px-1.5 py-1 text-[11px] font-medium text-foreground-muted",
+          "gap-1 rounded-sm border border-line-subtle bg-layer-field px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted",
         attachmentMeta: "text-foreground-placeholder",
       },
     },

@@ -9,11 +9,13 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
+  MessageForwardedBundleInset,
   MessageForwardedBundleSourceLabel,
 } from "raft-ui/wip";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
+import { Forward } from "lucide-react";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -46,23 +48,27 @@ export function ForwardedBundleStaticSourceComposition() {
           <MessageForwardedBundle>
             <MessageForwardedBundleHeader>
               <MessageForwardedBundleHeaderContent>
-                <MessageForwardedBundleHeaderLabel>Forwarded</MessageForwardedBundleHeaderLabel>
+                <MessageForwardedBundleHeaderLabel>
+                  <Forward size={12} />
+                  Forwarded
+                </MessageForwardedBundleHeaderLabel>
                 <MessageForwardedBundleHeaderCount>message</MessageForwardedBundleHeaderCount>
               </MessageForwardedBundleHeaderContent>
               <MessageForwardedBundleSourceLabel>
-                from release-notes
+                from #release-notes
               </MessageForwardedBundleSourceLabel>
             </MessageForwardedBundleHeader>
-            <MessageForwardedBundleItems>
-              <MessageForwardedBundleItem>
-                <MessageForwardedBundleItemMeta>
-                  <MessageForwardedBundleItemAuthor>@Kai</MessageForwardedBundleItemAuthor>
-                  <span aria-hidden>·</span>
-                  <time dateTime="2026-07-15T06:19:00.000Z">Jul 15, 2:19 PM</time>
-                </MessageForwardedBundleItemMeta>
-                <Markdown>The original message is no longer available to open.</Markdown>
-              </MessageForwardedBundleItem>
-            </MessageForwardedBundleItems>
+            <MessageForwardedBundleInset>
+              <MessageForwardedBundleItems>
+                <MessageForwardedBundleItem>
+                  <MessageForwardedBundleItemMeta>
+                    <MessageForwardedBundleItemAuthor>@Kai</MessageForwardedBundleItemAuthor>
+                    <time dateTime="2026-07-15T06:19:00.000Z">Jul 15, 2:19 PM</time>
+                  </MessageForwardedBundleItemMeta>
+                  <Markdown>The original message is no longer available to open.</Markdown>
+                </MessageForwardedBundleItem>
+              </MessageForwardedBundleItems>
+            </MessageForwardedBundleInset>
           </MessageForwardedBundle>
         </MessageItemEmbedded>
       </MessageItemContent>
