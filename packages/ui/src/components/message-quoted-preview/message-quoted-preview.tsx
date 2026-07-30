@@ -125,15 +125,15 @@ export function MessageQuotedPreviewTimestamp({ className, render, ...props }: S
   });
 }
 
-export function MessageQuotedPreviewBody({ className, render, ...props }: DivProps) {
+export function MessageQuotedPreviewFooter({ className, render, ...props }: DivProps) {
   const theme = useThemeFamily();
-  const { body } = messageQuotedPreview({ theme });
+  const { footer } = messageQuotedPreview({ theme });
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">({ className: body({ className }) }, props),
-    state: { slot: "message-quoted-preview-body" },
+    props: mergeProps<"div">({ className: footer({ className }) }, props),
+    state: { slot: "message-quoted-preview-footer" },
   });
 }
 
@@ -146,18 +146,6 @@ export function MessageQuotedPreviewText({ className, render, ...props }: DivPro
     render,
     props: mergeProps<"div">({ className: text({ className }) }, props),
     state: { slot: "message-quoted-preview-text" },
-  });
-}
-
-export function MessageQuotedPreviewAttachments({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { attachments } = messageQuotedPreview({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: attachments({ className }) }, props),
-    state: { slot: "message-quoted-preview-attachments" },
   });
 }
 
@@ -206,9 +194,8 @@ export type MessageQuotedPreviewAuthorProps = SpanProps;
 export type MessageQuotedPreviewAuthorNameProps = SpanProps;
 export type MessageQuotedPreviewAuthorMetaProps = SpanProps;
 export type MessageQuotedPreviewTimestampProps = SpanProps;
-export type MessageQuotedPreviewBodyProps = DivProps;
+export type MessageQuotedPreviewFooterProps = DivProps;
 export type MessageQuotedPreviewTextProps = DivProps;
-export type MessageQuotedPreviewAttachmentsProps = DivProps;
 export type MessageQuotedPreviewAttachmentProps = SpanProps;
 export type MessageQuotedPreviewLoadingProps = DivProps;
 export type MessageQuotedPreviewUnavailableProps = DivProps;

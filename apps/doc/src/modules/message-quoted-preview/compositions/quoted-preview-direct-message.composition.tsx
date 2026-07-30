@@ -12,7 +12,6 @@ import {
   MessageQuotedPreview,
   MessageQuotedPreviewAuthor,
   MessageQuotedPreviewAuthorName,
-  MessageQuotedPreviewBody,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewContext,
@@ -47,25 +46,22 @@ export function QuotedPreviewDirectMessageComposition() {
               />
             }
           >
+            <MessageQuotedPreviewHeader>
+              <MessageQuotedPreviewChannel>@Atlas</MessageQuotedPreviewChannel>
+              <MessageQuotedPreviewTimestamp>Today · 8:24 AM</MessageQuotedPreviewTimestamp>
+            </MessageQuotedPreviewHeader>
             <MessageQuotedPreviewContent>
-              <MessageQuotedPreviewHeader>
-                <MessageQuotedPreviewContext>
-                  <MessageQuotedPreviewChannel>@Atlas</MessageQuotedPreviewChannel>
-                  <span>·</span>
-                  <MessageQuotedPreviewAuthor>
-                    <Avatar size="xs" type="agent">
-                      <AvatarFallback>AT</AvatarFallback>
-                    </Avatar>
-                    <MessageQuotedPreviewAuthorName>Atlas</MessageQuotedPreviewAuthorName>
-                  </MessageQuotedPreviewAuthor>
-                </MessageQuotedPreviewContext>
-                <MessageQuotedPreviewTimestamp>Today · 8:24 AM</MessageQuotedPreviewTimestamp>
-              </MessageQuotedPreviewHeader>
-              <MessageQuotedPreviewBody>
-                <MessageQuotedPreviewText>
-                  I&apos;ll take the deployment handoff and post a summary when it completes.
-                </MessageQuotedPreviewText>
-              </MessageQuotedPreviewBody>
+              <MessageQuotedPreviewContext>
+                <MessageQuotedPreviewAuthor>
+                  <Avatar size="xs" type="agent">
+                    <AvatarFallback>AT</AvatarFallback>
+                  </Avatar>
+                  <MessageQuotedPreviewAuthorName>Atlas</MessageQuotedPreviewAuthorName>
+                </MessageQuotedPreviewAuthor>
+              </MessageQuotedPreviewContext>
+              <MessageQuotedPreviewText>
+                I&apos;ll take the deployment handoff and post a summary when it completes.
+              </MessageQuotedPreviewText>
             </MessageQuotedPreviewContent>
           </MessageQuotedPreview>
         </MessageItemEmbedded>

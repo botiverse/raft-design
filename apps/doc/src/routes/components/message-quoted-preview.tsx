@@ -49,28 +49,24 @@ const SOURCE_SCENES = [
 ] as const;
 
 const ANATOMY_SOURCE = `<MessageQuotedPreview>
+  <MessageQuotedPreviewHeader>
+    <MessageQuotedPreviewChannel />
+    <MessageQuotedPreviewThread />
+    <MessageQuotedPreviewTimestamp />
+  </MessageQuotedPreviewHeader>
   <MessageQuotedPreviewContent>
-    <MessageQuotedPreviewHeader>
-      <MessageQuotedPreviewContext>
-        <MessageQuotedPreviewChannel />
-        <span>·</span>
-        <MessageQuotedPreviewAuthor>
-          <Avatar />
-          <MessageQuotedPreviewAuthorName />
-          <MessageQuotedPreviewAuthorMeta />
-        </MessageQuotedPreviewAuthor>
-        <span>·</span>
-        <MessageQuotedPreviewThread />
-      </MessageQuotedPreviewContext>
-      <MessageQuotedPreviewTimestamp />
-    </MessageQuotedPreviewHeader>
-    <MessageQuotedPreviewBody>
-      <MessageQuotedPreviewText />
-      <MessageQuotedPreviewAttachments>
-        <MessageQuotedPreviewAttachment />
-      </MessageQuotedPreviewAttachments>
-    </MessageQuotedPreviewBody>
+    <MessageQuotedPreviewContext>
+      <MessageQuotedPreviewAuthor>
+        <Avatar />
+        <MessageQuotedPreviewAuthorName />
+        <MessageQuotedPreviewAuthorMeta />
+      </MessageQuotedPreviewAuthor>
+    </MessageQuotedPreviewContext>
+    <MessageQuotedPreviewText />
   </MessageQuotedPreviewContent>
+  <MessageQuotedPreviewFooter>
+    <MessageQuotedPreviewAttachment />
+  </MessageQuotedPreviewFooter>
 </MessageQuotedPreview>
 
 <MessageQuotedPreviewLoading>
@@ -89,27 +85,27 @@ const PROPS: readonly PropRow[] = [
   {
     name: "MessageQuotedPreviewContent",
     type: 'useRender.ComponentProps<"div">',
-    description: "Padded inner region for the quoted card content.",
+    description: "Quoted excerpt region between the header and optional footer.",
   },
   {
     name: "MessageQuotedPreviewHeader",
     type: 'useRender.ComponentProps<"div">',
-    description: "Header row that aligns quote context with its timestamp.",
+    description: "Header row with channel and optional thread at left, plus a trailing timestamp.",
   },
   {
     name: "MessageQuotedPreviewContext",
     type: 'useRender.ComponentProps<"div">',
-    description: "Wrapping context row for channel, author, thread, and caller-owned separators.",
+    description: "Leading content row for author metadata and caller-owned separators.",
   },
   {
     name: "MessageQuotedPreviewChannel",
     type: 'useRender.ComponentProps<"span">',
-    description: "Channel or direct-message label. The caller owns the icon and label content.",
+    description: "Header channel or direct-message label. The caller owns icon and label content.",
   },
   {
     name: "MessageQuotedPreviewThread",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional thread marker. The caller owns its icon and label content.",
+    description: "Optional header thread marker. The caller owns its icon and label content.",
   },
   {
     name: "MessageQuotedPreviewAuthor",
@@ -129,22 +125,17 @@ const PROPS: readonly PropRow[] = [
   {
     name: "MessageQuotedPreviewTimestamp",
     type: 'useRender.ComponentProps<"span">',
-    description: "Timestamp aligned to the trailing edge of the header.",
+    description: "Header timestamp aligned to the trailing edge.",
   },
   {
-    name: "MessageQuotedPreviewBody",
+    name: "MessageQuotedPreviewFooter",
     type: 'useRender.ComponentProps<"div">',
-    description: "Body region for the quoted excerpt and any attachments.",
+    description: "Optional footer region for attachment chips or other trailing quote context.",
   },
   {
     name: "MessageQuotedPreviewText",
     type: 'useRender.ComponentProps<"div">',
     description: "Quoted text excerpt, visually clamped to two lines.",
-  },
-  {
-    name: "MessageQuotedPreviewAttachments",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Optional wrapping row for quoted attachment chips.",
   },
   {
     name: "MessageQuotedPreviewAttachment",
@@ -252,8 +243,8 @@ function MessageQuotedPreviewDoc() {
           <DocSubsection parentId="usage" id="long-content" title="Long excerpt and attachments">
             <DocNote>
               Quoted text clamps to two lines. Attachments are outside that clamp, so use
-              <code>MessageQuotedPreviewAttachments</code> when files must remain visible with a
-              long excerpt.
+              <code>MessageQuotedPreviewFooter</code> when files must remain visible with a long
+              excerpt.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>

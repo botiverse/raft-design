@@ -12,14 +12,13 @@ import {
   MessageItemTime,
   MessageQuotedPreview,
   MessageQuotedPreviewAttachment,
-  MessageQuotedPreviewAttachments,
   MessageQuotedPreviewAuthor,
   MessageQuotedPreviewAuthorMeta,
   MessageQuotedPreviewAuthorName,
-  MessageQuotedPreviewBody,
   MessageQuotedPreviewChannel,
   MessageQuotedPreviewContent,
   MessageQuotedPreviewContext,
+  MessageQuotedPreviewFooter,
   MessageQuotedPreviewHeader,
   MessageQuotedPreviewText,
   MessageQuotedPreviewThread,
@@ -40,41 +39,37 @@ export function QuotedPreviewEmbeddedComposition() {
         }
         data-testid="quoted-message-card"
       >
+        <MessageQuotedPreviewHeader>
+          <MessageQuotedPreviewChannel>
+            <Hash size={11} />
+            raft-ui-migration
+          </MessageQuotedPreviewChannel>
+          <MessageQuotedPreviewThread>
+            <MessageSquare size={10} />
+            Thread
+          </MessageQuotedPreviewThread>
+          <MessageQuotedPreviewTimestamp>Today · 8:17 AM</MessageQuotedPreviewTimestamp>
+        </MessageQuotedPreviewHeader>
         <MessageQuotedPreviewContent>
-          <MessageQuotedPreviewHeader>
-            <MessageQuotedPreviewContext>
-              <MessageQuotedPreviewChannel>
-                <Hash size={11} />
-                raft-ui-migration
-              </MessageQuotedPreviewChannel>
-              <span>·</span>
-              <MessageQuotedPreviewAuthor>
-                <Avatar size="xs" type="human">
-                  <AvatarFallback>D</AvatarFallback>
-                </Avatar>
-                <MessageQuotedPreviewAuthorName>Developer</MessageQuotedPreviewAuthorName>
-                <MessageQuotedPreviewAuthorMeta>member</MessageQuotedPreviewAuthorMeta>
-              </MessageQuotedPreviewAuthor>
-              <span>·</span>
-              <MessageQuotedPreviewThread>
-                <MessageSquare size={10} />
-                Thread
-              </MessageQuotedPreviewThread>
-            </MessageQuotedPreviewContext>
-            <MessageQuotedPreviewTimestamp>Today · 8:17 AM</MessageQuotedPreviewTimestamp>
-          </MessageQuotedPreviewHeader>
-          <MessageQuotedPreviewBody>
-            <MessageQuotedPreviewText>
-              Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for
-              our store structure.
-            </MessageQuotedPreviewText>
-            <MessageQuotedPreviewAttachments>
-              <MessageQuotedPreviewAttachment>
-                state-ownership-migration-notes.md
-              </MessageQuotedPreviewAttachment>
-            </MessageQuotedPreviewAttachments>
-          </MessageQuotedPreviewBody>
+          <MessageQuotedPreviewContext>
+            <MessageQuotedPreviewAuthor>
+              <Avatar size="xs" type="human">
+                <AvatarFallback>D</AvatarFallback>
+              </Avatar>
+              <MessageQuotedPreviewAuthorName>Developer</MessageQuotedPreviewAuthorName>
+              <MessageQuotedPreviewAuthorMeta>member</MessageQuotedPreviewAuthorMeta>
+            </MessageQuotedPreviewAuthor>
+          </MessageQuotedPreviewContext>
+          <MessageQuotedPreviewText>
+            Should we migrate from Zustand to Jotai? Jotai&apos;s atom model might be better for our
+            store structure.
+          </MessageQuotedPreviewText>
         </MessageQuotedPreviewContent>
+        <MessageQuotedPreviewFooter>
+          <MessageQuotedPreviewAttachment>
+            state-ownership-migration-notes.md
+          </MessageQuotedPreviewAttachment>
+        </MessageQuotedPreviewFooter>
       </MessageQuotedPreview>
     </MessageItemEmbedded>
   );

@@ -22,6 +22,7 @@ import {
   MessageQuotedPreviewLoading,
   MessageQuotedPreviewUnavailable,
 } from "raft-ui/wip";
+import { QuotedPreviewDirectMessageComposition } from "./quoted-preview-direct-message.composition.tsx";
 import { QuotedPreviewMessageComposition } from "./quoted-preview-message.composition.tsx";
 
 function QuotedPreviewLoadingSkeleton() {
@@ -133,6 +134,7 @@ export function MessageQuotedPreviewShowcaseComposition() {
   return (
     <div className="grid w-full max-w-3xl gap-4">
       <QuotedPreviewMessageComposition />
+      <QuotedPreviewDirectMessageComposition />
       <QuotedPreviewFeedbackComposition />
     </div>
   );
