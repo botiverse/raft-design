@@ -48,11 +48,19 @@ export function SystemMessageTime({ className, render, ...props }: SystemMessage
 
 export type SystemMessageContentProps = useRender.ComponentProps<"span">;
 
-export function SystemMessageContent({ className, render, ...props }: SystemMessageContentProps) {
+export function SystemMessageContent({
+  children,
+  className,
+  render,
+  title,
+  ...props
+}: SystemMessageContentProps) {
   const theme = useThemeFamily();
   const { systemContent } = messageSystem({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: systemContent({ className }),
+    children,
+    title: title ?? (typeof children === "string" ? children : undefined),
   };
 
   return useRender({
@@ -174,11 +182,9 @@ export function SystemMessageGroupPanel({
   render,
   ...props
 }: SystemMessageGroupPanelProps) {
-  const theme = useThemeFamily();
-  const { systemGroupPanel } = messageSystem({ theme });
   const defaultProps: ComponentProps<typeof Collapsible.Panel> & DataAttributes = {
     "data-slot": "system-message-group-panel",
-    className: systemGroupPanel({ className }),
+    className: cn(className),
   };
 
   return <Collapsible.Panel render={render} {...mergeProps(defaultProps, props)} />;

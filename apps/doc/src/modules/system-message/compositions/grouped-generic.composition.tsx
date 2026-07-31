@@ -1,25 +1,42 @@
-import type { SystemMessageSlice } from "../system-message.fixtures.ts";
-import { SystemMessageGroupedList } from "../system-message-grouped-list.tsx";
+import {
+  SystemMessage,
+  SystemMessageContent,
+  SystemMessageGroup,
+  SystemMessageGroupChevron,
+  SystemMessageGroupDisclosure,
+  SystemMessageGroupHeader,
+  SystemMessageGroupPanel,
+  SystemMessageGroupSummary,
+  SystemMessageTime,
+} from "raft-ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
 // @docs-source-strip-end
 
-const MESSAGES: SystemMessageSlice[] = [
-  {
-    id: "sys-channel-archive",
-    messageType: "system",
-    content: "📦 Atlas archived this channel",
-  },
-  {
-    id: "sys-channel-unarchive",
-    messageType: "system",
-    content: "📤 Atlas unarchived this channel",
-  },
-];
-
 export function SystemMessageGroupedGenericContent() {
-  return <SystemMessageGroupedList messages={MESSAGES} />;
+  return (
+    <div className="w-full max-w-3xl">
+      <SystemMessageGroup>
+        <SystemMessageGroupHeader>
+          <SystemMessageGroupDisclosure title="There are 2 system messages">
+            <SystemMessageGroupSummary>There are 2 system messages</SystemMessageGroupSummary>
+            <SystemMessageGroupChevron />
+          </SystemMessageGroupDisclosure>
+        </SystemMessageGroupHeader>
+        <SystemMessageGroupPanel>
+          <SystemMessage>
+            <SystemMessageTime>2:18 PM</SystemMessageTime>
+            <SystemMessageContent>📦 Atlas archived this channel</SystemMessageContent>
+          </SystemMessage>
+          <SystemMessage>
+            <SystemMessageTime>2:19 PM</SystemMessageTime>
+            <SystemMessageContent>📤 Atlas unarchived this channel</SystemMessageContent>
+          </SystemMessage>
+        </SystemMessageGroupPanel>
+      </SystemMessageGroup>
+    </div>
+  );
 }
 
 // @docs-source-strip-start

@@ -1,4 +1,4 @@
-import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
+import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";

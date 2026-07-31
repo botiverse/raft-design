@@ -1,4 +1,4 @@
-import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui/wip";
+import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui";
 
 export function MessageSystemMessagesComposition() {
   return (
