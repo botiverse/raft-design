@@ -10,7 +10,7 @@ type ExampleMarkdownProps = {
 
 const EXAMPLE_SOURCE = `Ask @Atlas to ship the **token fixture** pass — \`layer-panel\`, mentions, and [docs links](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a) stay caller-owned.
 
-@Ada tracked #21 in #release-notes and linked #release-notes:reply.
+@Ada tracked #21 in #release-notes and coordinated in #northstar-launch-handoff.
 
 - Keep body content in \`MessageItemBody\`
 - Prefer ~~ad-hoc spans~~ semantic markdown + reference parts`;

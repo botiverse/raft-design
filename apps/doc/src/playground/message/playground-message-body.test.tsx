@@ -62,4 +62,13 @@ describe("PlaygroundMessageBody", () => {
     expect(unknownMarkup).not.toContain('data-slot="message-reference-indicator"');
     expect(humanMarkup).not.toContain('data-slot="message-reference-indicator"');
   });
+
+  it("renders channel and thread references with the current compound parts", () => {
+    const markup = renderMessageBody("See #v2-4-release-control and #v2-4-release-control:reply.");
+
+    expect(markup.match(/data-slot="message-reference-badge"/g)).toHaveLength(2);
+    expect(markup.match(/data-slot="message-reference-label"/g)).toHaveLength(2);
+    expect(markup).toContain(">channel</span>");
+    expect(markup).toContain(">thread</span>");
+  });
 });

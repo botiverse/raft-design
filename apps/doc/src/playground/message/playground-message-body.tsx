@@ -1,12 +1,15 @@
 import type { Components } from "react-markdown";
 import { Children, useMemo, type ReactNode } from "react";
+import { Hash, MessagesSquare } from "lucide-react";
 import {
   MarkdownInlineCode,
   MarkdownLink,
   MarkdownParagraph,
   MessageItemSearchMatch,
+  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceIndicator,
+  MessageReferenceLabel,
   MessageReferenceText,
   Status,
   TaskChip,
@@ -152,7 +155,11 @@ function createPlaygroundMarkdownComponents(
         const threadId = task.sourceMessageId ?? task.id;
         const href = `${conversationHref(task.channelId)}?thread=${encodeURIComponent(threadId)}&from=tasks`;
         return (
-          <TaskChip variant="inline" status={task.status} render={<a href={href} />}>
+          <TaskChip
+            variant="inline"
+            status={task.status}
+            render={<a href={href} aria-label={`Open task #${reference.number}`} />}
+          >
             <TaskStatusIcon status={task.status} />#{reference.number}
           </TaskChip>
         );
@@ -170,17 +177,27 @@ function createPlaygroundMarkdownComponents(
           <MessageReferenceChip
             variant="info"
             render={
-              <a href={`${conversationHref(channel.id)}?thread=${encodeURIComponent(threadId)}`} />
+              <a
+                href={`${conversationHref(channel.id)}?thread=${encodeURIComponent(threadId)}`}
+                aria-label={`Open thread in #${channel.name}`}
+              />
             }
           >
-            {children}
+            <MessageReferenceBadge>thread</MessageReferenceBadge>
+            <MessagesSquare />
+            <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
           </MessageReferenceChip>
         );
       }
 
       return (
-        <MessageReferenceChip variant="accent" render={<a href={conversationHref(channel.id)} />}>
-          {children}
+        <MessageReferenceChip
+          variant="accent"
+          render={<a href={conversationHref(channel.id)} aria-label={`Open #${channel.name}`} />}
+        >
+          <MessageReferenceBadge>channel</MessageReferenceBadge>
+          <Hash />
+          <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
         </MessageReferenceChip>
       );
     },

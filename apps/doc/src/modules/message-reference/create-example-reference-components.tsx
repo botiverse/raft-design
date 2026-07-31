@@ -1,5 +1,15 @@
 import type { Components } from "react-markdown";
-import { MarkdownLink, MessageReferenceChip, TaskChip, TaskStatusIcon } from "raft-ui";
+import { GitBranch, Hash, MessagesSquare } from "lucide-react";
+import {
+  MarkdownLink,
+  MessageReferenceBadge,
+  MessageReferenceChip,
+  MessageReferenceIndicator,
+  MessageReferenceLabel,
+  Status,
+  TaskChip,
+  TaskStatusIcon,
+} from "raft-ui";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
 import {
   MessageMentionReferenceComposition,
@@ -43,15 +53,24 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
       if (reference.kind === "mention") {
         const actor = findActor(reference.name);
         if (!actor) return <>{children}</>;
+        const readStateLabel = actor.readState === "read" ? "Read" : "Not read yet";
 
-        // Pass the resolved name so the adapter can restore the mention sigil consistently.
         return (
           <MessageMentionReferenceComposition
             portalContainer={portalContainer}
             preview={<p>{actor.preview}</p>}
             variant={actor.self ? "primary" : "secondary"}
           >
-            {actor.name}
+            {`@${actor.name}`}
+            {actor.readState ? (
+              <MessageReferenceIndicator title={readStateLabel}>
+                <Status
+                  aria-label={readStateLabel}
+                  size="sm"
+                  variant={actor.readState === "read" ? "success" : "default"}
+                />
+              </MessageReferenceIndicator>
+            ) : null}
           </MessageMentionReferenceComposition>
         );
       }
@@ -63,7 +82,11 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
         if (!task) return <>{children}</>;
 
         return (
-          <TaskChip variant="inline" status={task.status} render={<a href={task.href} />}>
+          <TaskChip
+            variant="inline"
+            status={task.status}
+            render={<a href={task.href} aria-label={`Open task #${task.number}`} />}
+          >
             <TaskStatusIcon status={task.status} />
             {`#${task.number}`}
           </TaskChip>
@@ -81,17 +104,40 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
         );
       }
 
+      if (channel.treatment === "joint") {
+        return (
+          <MessageReferenceChip
+            variant="accent"
+            render={<a href={channel.href} aria-label={`Open joint channel #${channel.name}`} />}
+          >
+            <MessageReferenceBadge>joint</MessageReferenceBadge>
+            <GitBranch />
+            <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
+          </MessageReferenceChip>
+        );
+      }
+
       if (reference.shortId) {
         return (
-          <MessageReferenceChip variant="info" render={<a href={channel.threadHref} />}>
-            {channel.name}
+          <MessageReferenceChip
+            variant="info"
+            render={<a href={channel.threadHref} aria-label={`Open thread in #${channel.name}`} />}
+          >
+            <MessageReferenceBadge>thread</MessageReferenceBadge>
+            <MessagesSquare />
+            <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
           </MessageReferenceChip>
         );
       }
 
       return (
-        <MessageReferenceChip variant="accent" render={<a href={channel.href} />}>
-          {children}
+        <MessageReferenceChip
+          variant="accent"
+          render={<a href={channel.href} aria-label={`Open #${channel.name}`} />}
+        >
+          <MessageReferenceBadge>channel</MessageReferenceBadge>
+          <Hash />
+          <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
         </MessageReferenceChip>
       );
     },

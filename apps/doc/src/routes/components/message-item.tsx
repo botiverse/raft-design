@@ -37,7 +37,7 @@ import taskBadgeSource from "#/modules/message-item/compositions/task-badge.comp
 import { MessageTextSelectionShowcaseComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
 import textSelectionSource from "#/modules/message-item/compositions/text-selection.composition.tsx?raw";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
-import { API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
+import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
 
 const CONTEXT_MENU_SHOWCASE_PATH =
   "apps/doc/src/modules/message-item/compositions/context-menu-showcase.composition.tsx";
@@ -72,7 +72,7 @@ export const Route = createFileRoute("/components/message-item")({
   loader: () =>
     highlightSnippets({
       data: {
-        anatomy: itemPreviewSource,
+        anatomy: ANATOMY_SOURCE,
         avatarStatus: avatarStatusSource,
         contextMenu: contextMenuSource,
         contextMenuShowcase: contextMenuShowcaseSource,
@@ -113,7 +113,7 @@ function MessageItemDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
+            <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

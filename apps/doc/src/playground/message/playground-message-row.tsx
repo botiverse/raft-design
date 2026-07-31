@@ -48,6 +48,7 @@ import {
   MessageReactionCount,
 } from "raft-ui";
 import {
+  MessageAttachmentGroup,
   MessageItemTranslationAction,
   MessageItemTranslationFailedStatus,
   MessageItemTranslationOriginal,
@@ -128,15 +129,19 @@ function PlaygroundMessageSender({
 }
 
 function PlaygroundMessageAttachments({ files }: { files: readonly PlaygroundFile[] }) {
-  return files.map((file) => (
-    <MessageGenericAttachmentComposition
-      key={file.id}
-      name={file.filename}
-      meta={file.size}
-      onPreview={() => window.open(file.previewUrl, "_blank", "noopener,noreferrer")}
-      onDownload={() => downloadMessageAttachment(file.previewUrl, file.filename)}
-    />
-  ));
+  return (
+    <MessageAttachmentGroup>
+      {files.map((file) => (
+        <MessageGenericAttachmentComposition
+          key={file.id}
+          name={file.filename}
+          meta={file.size}
+          onPreview={() => window.open(file.previewUrl, "_blank", "noopener,noreferrer")}
+          onDownload={() => downloadMessageAttachment(file.previewUrl, file.filename)}
+        />
+      ))}
+    </MessageAttachmentGroup>
+  );
 }
 
 function downloadMessageAttachment(url: string, name: string) {

@@ -7,6 +7,42 @@ export const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
+export const ANATOMY_SOURCE = `<>
+  <MessageItem>
+    <MessageItemAvatarSlot>
+      <Avatar />
+    </MessageItemAvatarSlot>
+    <MessageItemContent>
+      <MessageItemHeader>
+        <MessageItemSender />
+        <MessageItemSenderBadges />
+        <MessageItemMeta />
+        <MessageItemTime />
+        <MessageItemInlineStatus />
+      </MessageItemHeader>
+      <MessageItemBody />
+      <MessageItemAttachments />
+      <MessageItemEmbedded />
+      <MessageItemFooter />
+    </MessageItemContent>
+    <MessageItemToolbar>
+      <MessageItemToolbarButton />
+    </MessageItemToolbar>
+  </MessageItem>
+
+  <MessageItem compact>
+    <MessageItemGutter>
+      <MessageItemContinuationTime />
+    </MessageItemGutter>
+    <MessageItemContent>
+      <MessageItemBody />
+    </MessageItemContent>
+    <MessageItemToolbar>
+      <MessageItemToolbarButton />
+    </MessageItemToolbar>
+  </MessageItem>
+</>`;
+
 export const ROW_PROPS: readonly PropRow[] = [
   {
     name: "MessageItem",

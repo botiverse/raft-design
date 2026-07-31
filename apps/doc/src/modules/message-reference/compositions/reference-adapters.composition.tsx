@@ -70,7 +70,15 @@ export function MessageTargetReferenceComposition({
   const label = typeof children === "string" ? children.replace(/^#/, "") : children;
 
   return (
-    <MessageReferenceChip variant="accent" render={<a href={href} />}>
+    <MessageReferenceChip
+      variant="accent"
+      render={
+        <a
+          href={href}
+          aria-label={typeof label === "string" ? `Open message in #${label}` : "Open message"}
+        />
+      }
+    >
       <MessageReferenceBadge>message</MessageReferenceBadge>
       <MessageSquareText />
       <MessageReferenceLabel>{label}</MessageReferenceLabel>
