@@ -2,11 +2,11 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  ConversationPanelHeader,
-  ConversationPanelHeaderContent,
-  ConversationPanelHeading,
-  ConversationPanelStatus,
-  ConversationPanelTitle,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelHeading,
+  PanelStatus,
+  PanelTitle,
   Status,
 } from "raft-ui";
 
@@ -22,29 +22,23 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
     : PLAYGROUND_PRESENCE_STATUS.offline;
 
   return (
-    <ConversationPanelHeader>
+    <PanelHeader>
       <PlaygroundConversationBackButton />
-      <ConversationPanelHeaderContent>
-        <Avatar
-          data-slot="conversation-panel-header-icon"
-          size={isAgent ? "sm" : "md"}
-          type={actor.type}
-        >
+      <PanelHeaderContent>
+        <Avatar data-slot="panel-header-icon" size={isAgent ? "sm" : "md"} type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           <AvatarFallback>{actor.fallback}</AvatarFallback>
         </Avatar>
-        <ConversationPanelHeading>
-          <ConversationPanelTitle className={isAgent ? "max-md:text-[15px]" : undefined}>
-            {dm.name}
-          </ConversationPanelTitle>
+        <PanelHeading>
+          <PanelTitle className={isAgent ? "max-md:text-[15px]" : undefined}>{dm.name}</PanelTitle>
           {isAgent ? (
-            <ConversationPanelStatus title={presence.label}>
+            <PanelStatus title={presence.label}>
               <Status aria-hidden size="sm" variant={presence.variant} pulse={presence.pulse} />
               {presence.label}
-            </ConversationPanelStatus>
+            </PanelStatus>
           ) : null}
-        </ConversationPanelHeading>
-      </ConversationPanelHeaderContent>
-    </ConversationPanelHeader>
+        </PanelHeading>
+      </PanelHeaderContent>
+    </PanelHeader>
   );
 }

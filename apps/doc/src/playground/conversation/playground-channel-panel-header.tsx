@@ -13,14 +13,14 @@ import {
 import { useState } from "react";
 import {
   BrutalOnly,
-  ConversationPanelActions,
-  ConversationPanelHeader,
-  ConversationPanelHeaderContent,
-  ConversationPanelHeaderIcon,
-  ConversationPanelHeading,
-  ConversationPanelMeta,
-  ConversationPanelStatus,
-  ConversationPanelTitle,
+  PanelActions,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeading,
+  PanelMeta,
+  PanelStatus,
+  PanelTitle,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -36,25 +36,25 @@ export function PlaygroundChannelPanelHeader({ channel }: { channel: PlaygroundR
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
 
   return (
-    <ConversationPanelHeader>
+    <PanelHeader>
       <PlaygroundConversationBackButton />
-      <ConversationPanelHeaderContent>
-        <ConversationPanelHeaderIcon>
+      <PanelHeaderContent>
+        <PanelHeaderIcon>
           <Icon />
-        </ConversationPanelHeaderIcon>
-        <ConversationPanelHeading>
-          <ConversationPanelTitle>{channel.name}</ConversationPanelTitle>
+        </PanelHeaderIcon>
+        <PanelHeading>
+          <PanelTitle>{channel.name}</PanelTitle>
           {isMuted ? (
-            <ConversationPanelStatus title="Activity muted. Direct mentions can still notify you.">
+            <PanelStatus title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
               <BrutalOnly>Muted</BrutalOnly>
-            </ConversationPanelStatus>
+            </PanelStatus>
           ) : null}
-        </ConversationPanelHeading>
-        <ConversationPanelMeta>{channel.subtitle}</ConversationPanelMeta>
-      </ConversationPanelHeaderContent>
+        </PanelHeading>
+        <PanelMeta>{channel.subtitle}</PanelMeta>
+      </PanelHeaderContent>
       <TooltipProvider delay={650}>
-        <ConversationPanelActions>
+        <PanelActions>
           <Tooltip>
             <TooltipTrigger render={<PanelAction aria-label="Search this channel" />}>
               <Search />
@@ -113,8 +113,8 @@ export function PlaygroundChannelPanelHeader({ channel }: { channel: PlaygroundR
           <PanelAction className="md:hidden" aria-label="More options">
             <EllipsisVertical />
           </PanelAction>
-        </ConversationPanelActions>
+        </PanelActions>
       </TooltipProvider>
-    </ConversationPanelHeader>
+    </PanelHeader>
   );
 }

@@ -61,6 +61,11 @@ const NAV = [
         to: "/components/scroll-area",
         status: "done",
       },
+      {
+        label: "Panel",
+        to: "/components/panel",
+        status: "done",
+      },
       { label: "Sidebar", to: "/components/sidebar", status: "done" },
       { label: "SidebarItem", to: "/components/sidebar-item", status: "done" },
     ],

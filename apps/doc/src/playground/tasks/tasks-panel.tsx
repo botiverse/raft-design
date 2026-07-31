@@ -3,15 +3,15 @@ import { CheckSquare, ListTodo, Plus, SquareKanban } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import {
   Button,
-  ConversationPanelActions,
+  PanelActions,
   ConversationPanelContent,
-  ConversationPanelHeaderContent,
-  ConversationPanelHeaderIcon,
-  ConversationPanelHeading,
-  ConversationPanelMeta,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeading,
+  PanelMeta,
   ConversationPanelRoot,
-  ConversationPanelSectionHeader,
-  ConversationPanelTitle,
+  PanelSectionHeader,
+  PanelTitle,
   Tabs,
   TabsList,
   TabsTab,
@@ -228,23 +228,19 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
 
   return (
     <ConversationPanelRoot>
-      <ConversationPanelSectionHeader>
-        <ConversationPanelHeaderContent>
+      <PanelSectionHeader>
+        <PanelHeaderContent>
           {isDesktop ? (
-            <ConversationPanelHeaderIcon>
+            <PanelHeaderIcon>
               <CheckSquare aria-hidden />
-            </ConversationPanelHeaderIcon>
+            </PanelHeaderIcon>
           ) : null}
-          <ConversationPanelHeading>
-            <ConversationPanelTitle render={<h2 aria-label="Tasks" />}>
-              Tasks
-            </ConversationPanelTitle>
-          </ConversationPanelHeading>
-          <ConversationPanelMeta render={<p />}>
-            {compositionTasks.length} channel tasks
-          </ConversationPanelMeta>
-        </ConversationPanelHeaderContent>
-        <ConversationPanelActions className="md:hidden">
+          <PanelHeading>
+            <PanelTitle render={<h2 aria-label="Tasks" />}>Tasks</PanelTitle>
+          </PanelHeading>
+          <PanelMeta render={<p />}>{compositionTasks.length} channel tasks</PanelMeta>
+        </PanelHeaderContent>
+        <PanelActions className="md:hidden">
           <Tabs
             value={view}
             onValueChange={(nextView) => {
@@ -265,8 +261,8 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
             <Plus aria-hidden />
             New Task
           </Button>
-        </ConversationPanelActions>
-      </ConversationPanelSectionHeader>
+        </PanelActions>
+      </PanelSectionHeader>
       <ConversationPanelContent className="max-md:[&_[data-slot=tasks-panel-viewport]]:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]">
         {panel}
       </ConversationPanelContent>

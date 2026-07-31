@@ -2,17 +2,19 @@ export {
   Panel,
   PanelBody,
   PanelFooter,
-  PanelHeader,
+  PanelHeaderFrame,
   PanelScrollContent,
   PanelScrollViewport,
+  PanelSection,
 } from "./panel";
 export type {
   PanelBodyProps,
   PanelFooterProps,
-  PanelHeaderProps,
+  PanelHeaderFrameProps,
   PanelProps,
   PanelScrollContentProps,
   PanelScrollViewportProps,
+  PanelSectionProps,
 } from "./panel";
 export { PanelAction } from "./panel-action";
 export type { PanelActionProps } from "./panel-action";
