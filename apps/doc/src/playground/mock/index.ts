@@ -11,6 +11,12 @@ export {
 } from "./actors.ts";
 
 export {
+  getPlaygroundHumanProfile,
+  type PlaygroundHumanProfile,
+  type PlaygroundMemberRole,
+} from "./member-profiles.ts";
+
+export {
   RAFT_UI_MIGRATION_THREAD_IDS,
   definePlaygroundMessage,
   getPlaygroundMessageText,

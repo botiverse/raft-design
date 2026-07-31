@@ -65,6 +65,8 @@ import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx"
 import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
+import { MemberDetailPanel } from "./member-detail-panel.tsx";
+import { getSelectedMember, memberDetailId } from "./member-selection.ts";
 import { MembersDetailView, MembersSidebar } from "./members-sidebar.tsx";
 import { MessageList } from "raft-ui/wip";
 
@@ -251,11 +253,30 @@ export function PlaygroundRailViewPanel({
 }) {
   const ViewIcon = viewMeta[view].icon;
   const { railDetailId, selectRailDetail, selectRailView } = usePlaygroundNavigation();
+  const selectedMember = view === "members" ? getSelectedMember(railDetailId) : undefined;
   const auxiliaryDetail =
     (view === "members" || view === "computers" || view === "settings") &&
     railDetailId !== undefined;
   const mobileBack =
     view === "search" || view === "activity" || view === "saved" || auxiliaryDetail;
+
+  if (selectedMember) {
+    return (
+      <MemberDetailPanel
+        key={selectedMember.id}
+        actor={selectedMember}
+        onBack={() => selectRailDetail(undefined)}
+        onClose={() => selectRailDetail(undefined)}
+        onSelectActor={(actor) =>
+          selectRailDetail(
+            actor.type === "agent"
+              ? memberDetailId.agent(actor.id)
+              : memberDetailId.human(actor.id),
+          )
+        }
+      />
+    );
+  }
 
   return (
     <ConversationPanelRoot>
