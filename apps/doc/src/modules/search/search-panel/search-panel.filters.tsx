@@ -98,24 +98,8 @@ const SEARCH_SORT_ITEMS = SEARCH_SORTS.map((value) => ({
   value,
 }));
 
-const filterTriggerClass = [
-  "h-8 w-auto px-3 py-0 text-xs font-bold",
-  "border-black/30 bg-white text-black/70 shadow-none",
-  "hover:border-black hover:bg-white hover:shadow-none",
-  "disabled:cursor-not-allowed disabled:bg-white disabled:text-black/70 disabled:opacity-50",
-  "data-[has-value]:border-black data-[has-value]:bg-soft-signal data-[has-value]:text-black data-[has-value]:shadow-sm",
-  "data-[has-value]:hover:bg-soft-signal data-[has-value]:hover:shadow-sm data-[has-value]:active:shadow-sm",
-].join(" ");
+const filterTriggerClass = "h-8 w-auto px-3 py-0 text-xs font-bold";
 const filterContentClass = "min-w-[220px]";
-
-function selectTriggerClass(active: boolean) {
-  return [
-    filterTriggerClass,
-    active
-      ? "border-black bg-soft-signal text-black shadow-sm hover:bg-soft-signal hover:shadow-sm"
-      : "",
-  ].join(" ");
-}
 
 export function BrutalSearchFilters({
   senders,
@@ -323,10 +307,7 @@ export function BrutalSearchFilters({
             if (nextValue) onTimeRangeChange(nextValue);
           }}
         >
-          <SelectTrigger
-            aria-label="Time range"
-            className={selectTriggerClass(timeRange !== "any")}
-          >
+          <SelectTrigger aria-label="Time range" className={filterTriggerClass}>
             <CalendarRange aria-hidden size={14} />
             <span>{timeLabel(timeRange)}</span>
             <SelectIcon>
@@ -362,7 +343,7 @@ export function BrutalSearchFilters({
             if (nextValue) onSortChange(nextValue);
           }}
         >
-          <SelectTrigger aria-label="Sort" className={selectTriggerClass(sort !== "relevance")}>
+          <SelectTrigger aria-label="Sort" className={filterTriggerClass}>
             <ArrowDownUp aria-hidden size={14} />
             <span>{sort === "recent" ? "Recent" : "Relevant"}</span>
             <SelectIcon>
