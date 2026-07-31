@@ -7,7 +7,7 @@ const descriptionList = tv({
   slots: {
     root: ["m-0"],
     item: [""],
-    term: ["mb-1 flex items-center gap-2 text-xs"],
+    term: ["mb-1 flex items-center gap-2 text-xs", "[&>[data-slot=button]]:-ml-[5px]"],
     details: ["m-0 text-sm"],
   },
   variants: {
