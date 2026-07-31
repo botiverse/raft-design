@@ -13,10 +13,10 @@ import {
   MessageActionCardActions,
   MessageActionCardCompletion,
   MessageActionCardContent,
-  MessageActionCardFact,
-  MessageActionCardFactLabel,
-  MessageActionCardFacts,
-  MessageActionCardFactValue,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardProperties,
+  MessageActionCardPropertyValue,
   MessageActionCardHeader,
   MessageItem,
   MessageItemAvatarSlot,
@@ -56,14 +56,14 @@ export function ActionCardResolutionStatesComposition() {
                 </Badge>
               </MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Description</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Description</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>
                       Coordinate the final release review.
-                    </MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                    </MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <MessageActionCardCompletion>
                   Committed by Ada → #release-review
                 </MessageActionCardCompletion>
@@ -90,16 +90,16 @@ export function ActionCardResolutionStatesComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Approve Linear for @lumen</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Service</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>Linear</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Agent</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>@lumen</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Service</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>Linear</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Agent</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>@lumen</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <Banner status="warning" size="sm" className="mt-2">
                   <BannerDescription>
                     Linear rejected the requested scopes. The product can permit a retry after the

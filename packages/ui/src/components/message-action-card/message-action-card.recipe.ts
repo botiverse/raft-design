@@ -2,18 +2,16 @@ import { tv } from "../../lib/tv";
 
 export const messageActionCard = tv({
   slots: {
-    root: ["action-card relative mt-1 w-full text-left"],
-    header: ["flex flex-wrap items-center"],
+    root: ["mt-1 w-full"],
+    header: ["flex flex-wrap items-center gap-2 leading-snug"],
   },
   variants: {
     theme: {
       brutal: {
-        root: "",
-        header: "gap-2 border-b-0 text-sm font-bold leading-snug",
+        header: "border-b-0 text-sm font-bold",
       },
       elegant: {
-        root: "",
-        header: "gap-2 py-2 text-[13px] font-[550] leading-snug",
+        header: "py-2 text-[13px] font-[550]",
       },
     },
   },

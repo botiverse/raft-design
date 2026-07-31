@@ -3,10 +3,10 @@ import {
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardContent,
-  MessageActionCardFact,
-  MessageActionCardFactLabel,
-  MessageActionCardFacts,
-  MessageActionCardFactValue,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardProperties,
+  MessageActionCardPropertyValue,
   MessageActionCardHeader,
   MessageActionCardHint,
   MessageItem,
@@ -43,22 +43,22 @@ export function ActionCardChannelAndAgentComposition() {
                 Create private channel #release-review
               </MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Description</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Description</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>
                       Coordinate the final release review.
-                    </MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Humans</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>Ada, Will</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Agents</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>Atlas</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                    </MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Humans</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>Ada, Will</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Agents</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>Atlas</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <MessageActionCardHint>
                   Suggested after the launch checklist was approved.
                 </MessageActionCardHint>
@@ -90,18 +90,20 @@ export function ActionCardChannelAndAgentComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Create Agent @lumen</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Description</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Description</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>
                       Own the regression-triage queue.
-                    </MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Suggested computer</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>Studio Mac</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                    </MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>
+                      Suggested computer
+                    </MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>Studio Mac</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <MessageActionCardActions>
                   <Button size="sm" variant="accent" disabled>
                     Create Agent
@@ -130,20 +132,20 @@ export function ActionCardChannelAndAgentComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Add 3 members to #release-review</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Channel</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>#release-review</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Humans</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>Ada, Will</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Agents</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>Lumen</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Channel</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>#release-review</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Humans</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>Ada, Will</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Agents</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>Lumen</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <MessageActionCardActions>
                   <Button size="sm" variant="accent" disabled>
                     Add Members

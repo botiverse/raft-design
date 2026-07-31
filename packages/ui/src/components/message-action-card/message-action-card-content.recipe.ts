@@ -2,14 +2,15 @@ import { tv } from "../../lib/tv";
 
 export const messageActionCardContent = tv({
   slots: {
-    root: ["min-w-0 p-3"],
-    details: [],
-    facts: ["m-0"],
-    fact: [],
-    factLabel: [],
-    factValue: [],
+    root: ["p-3"],
+    properties: [
+      "m-0 grid grid-cols-[max-content_minmax(0,1fr)] items-baseline",
+      "max-sm:grid-cols-1 max-sm:gap-y-0.5",
+    ],
+    property: ["contents"],
+    propertyLabel: ["max-w-40 min-w-0 break-words"],
+    propertyValue: ["m-0 min-w-0 break-words"],
     scopeList: ["mt-3 space-y-1.5"],
-    scopeLabel: ["text-xs"],
     scope: ["min-w-0 border p-1.5"],
     scopeName: ["break-all font-mono text-[11px] font-bold"],
     scopeDescription: ["text-xs leading-snug"],
@@ -21,13 +22,9 @@ export const messageActionCardContent = tv({
     theme: {
       brutal: {
         root: "pt-0",
-        details: "mt-1 text-xs text-black/55",
-        facts:
-          "mt-1 grid grid-cols-[max-content_minmax(0,1fr)] items-baseline gap-x-3 gap-y-1 max-sm:grid-cols-1 max-sm:gap-y-0.5",
-        fact: "contents",
-        factLabel: "max-w-40 min-w-0 break-words text-xs text-black/55",
-        factValue: "m-0 min-w-0 break-words text-xs text-black/75",
-        scopeLabel: "text-black/55",
+        properties: "mt-1 gap-x-3 gap-y-1",
+        propertyLabel: "text-xs text-black/55",
+        propertyValue: "text-xs text-black/75",
         scope: "border-black/15 bg-white",
         scopeName: "text-black/55",
         scopeDescription: "text-black/60",
@@ -37,14 +34,10 @@ export const messageActionCardContent = tv({
       },
       elegant: {
         root: "px-3.5 pt-2.5 pb-3.5 sm:px-4",
-        details: "mt-1.5 space-y-0.5 text-[13px] leading-5 text-foreground-muted",
-        facts:
-          "mt-2 grid grid-cols-[max-content_minmax(0,1fr)] items-baseline gap-x-6 gap-y-2 max-sm:grid-cols-1 max-sm:gap-y-0.5",
-        fact: "contents",
-        factLabel: "max-w-40 min-w-0 break-words text-[13px] leading-5 text-foreground-muted/80",
-        factValue: "m-0 min-w-0 break-words text-[13px] leading-5 text-foreground",
-        scopeList: "mt-3 space-y-2",
-        scopeLabel: "text-[13px] leading-5 font-medium text-foreground",
+        properties: "mt-2 gap-x-6 gap-y-2",
+        propertyLabel: "text-[13px] leading-5 text-foreground-muted/80",
+        propertyValue: "text-[13px] leading-5 text-foreground",
+        scopeList: "space-y-2",
         scope: "rounded-md border-line-subtle bg-layer-panel/70 px-2.5 py-2 shadow-xs",
         scopeName: "font-sans text-xs leading-4 font-medium text-foreground-muted",
         scopeDescription: "mt-0.5 text-[13px] leading-5 text-pretty text-foreground-muted/80",

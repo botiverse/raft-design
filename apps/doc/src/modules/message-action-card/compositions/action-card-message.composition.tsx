@@ -16,10 +16,10 @@ import {
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardContent,
-  MessageActionCardFact,
-  MessageActionCardFactLabel,
-  MessageActionCardFacts,
-  MessageActionCardFactValue,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardProperties,
+  MessageActionCardPropertyValue,
   MessageActionCardHeader,
   MessageActionCardHint,
 } from "raft-ui/wip";
@@ -34,22 +34,22 @@ export function ActionCardComposition() {
           <span>Create private channel #release-review</span>
         </MessageActionCardHeader>
         <MessageActionCardContent>
-          <MessageActionCardFacts>
-            <MessageActionCardFact>
-              <MessageActionCardFactLabel>Description</MessageActionCardFactLabel>
-              <MessageActionCardFactValue>
+          <MessageActionCardProperties>
+            <MessageActionCardProperty>
+              <MessageActionCardPropertyLabel>Description</MessageActionCardPropertyLabel>
+              <MessageActionCardPropertyValue>
                 Coordinate the final release review.
-              </MessageActionCardFactValue>
-            </MessageActionCardFact>
-            <MessageActionCardFact>
-              <MessageActionCardFactLabel>Humans</MessageActionCardFactLabel>
-              <MessageActionCardFactValue>Ada, Will</MessageActionCardFactValue>
-            </MessageActionCardFact>
-            <MessageActionCardFact>
-              <MessageActionCardFactLabel>Agents</MessageActionCardFactLabel>
-              <MessageActionCardFactValue>Atlas</MessageActionCardFactValue>
-            </MessageActionCardFact>
-          </MessageActionCardFacts>
+              </MessageActionCardPropertyValue>
+            </MessageActionCardProperty>
+            <MessageActionCardProperty>
+              <MessageActionCardPropertyLabel>Humans</MessageActionCardPropertyLabel>
+              <MessageActionCardPropertyValue>Ada, Will</MessageActionCardPropertyValue>
+            </MessageActionCardProperty>
+            <MessageActionCardProperty>
+              <MessageActionCardPropertyLabel>Agents</MessageActionCardPropertyLabel>
+              <MessageActionCardPropertyValue>Atlas</MessageActionCardPropertyValue>
+            </MessageActionCardProperty>
+          </MessageActionCardProperties>
           <MessageActionCardHint>
             Suggested after the launch checklist was approved.
           </MessageActionCardHint>

@@ -46,15 +46,13 @@ const SOURCE_SCENES = [
 const ANATOMY_SOURCE = `<MessageActionCard>
   <MessageActionCardHeader />
   <MessageActionCardContent>
-    <MessageActionCardDetails />
-    <MessageActionCardFacts>
-      <MessageActionCardFact>
-        <MessageActionCardFactLabel />
-        <MessageActionCardFactValue />
-      </MessageActionCardFact>
-    </MessageActionCardFacts>
+    <MessageActionCardProperties>
+      <MessageActionCardProperty>
+        <MessageActionCardPropertyLabel />
+        <MessageActionCardPropertyValue />
+      </MessageActionCardProperty>
+    </MessageActionCardProperties>
     <MessageActionCardScopeList>
-      <MessageActionCardScopeLabel />
       <MessageActionCardScope>
         <MessageActionCardScopeName />
         <MessageActionCardScopeDescription />
@@ -87,27 +85,23 @@ const PROPS: readonly PropRow[] = [
     description: "White inner content stack for details, hint, actions, and completion.",
   },
   {
-    name: "MessageActionCardDetails",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Readonly summary supplied by the action consumer.",
-  },
-  {
-    name: "MessageActionCardFacts",
+    name: "MessageActionCardProperties",
     type: 'useRender.ComponentProps<"dl">',
-    description: "Optional aligned definition list for compact action metadata.",
+    description: "Optional aligned definition list for compact action properties.",
   },
   {
-    name: "MessageActionCardFact",
+    name: "MessageActionCardProperty",
     type: 'useRender.ComponentProps<"div">',
-    description: "One responsive label/value row within MessageActionCardFacts.",
+    description:
+      "Semantic label/value pair in the shared Properties grid; it does not create its own surface.",
   },
   {
-    name: "MessageActionCardFactLabel",
+    name: "MessageActionCardPropertyLabel",
     type: 'useRender.ComponentProps<"dt">',
     description: "Muted metadata label with a shared column width.",
   },
   {
-    name: "MessageActionCardFactValue",
+    name: "MessageActionCardPropertyValue",
     type: 'useRender.ComponentProps<"dd">',
     description: "Metadata value that wraps without widening the card.",
   },
@@ -115,11 +109,6 @@ const PROPS: readonly PropRow[] = [
     name: "MessageActionCardScopeList",
     type: 'useRender.ComponentProps<"div">',
     description: "Optional named scope section rendered directly in the content stack.",
-  },
-  {
-    name: "MessageActionCardScopeLabel",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Scope section label.",
   },
   {
     name: "MessageActionCardScope",

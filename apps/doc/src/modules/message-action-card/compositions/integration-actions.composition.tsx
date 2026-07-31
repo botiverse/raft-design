@@ -11,15 +11,14 @@ import {
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardContent,
-  MessageActionCardFact,
-  MessageActionCardFactLabel,
-  MessageActionCardFacts,
-  MessageActionCardFactValue,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardProperties,
+  MessageActionCardPropertyValue,
   MessageActionCardHeader,
   MessageActionCardHint,
   MessageActionCardScope,
   MessageActionCardScopeDescription,
-  MessageActionCardScopeLabel,
   MessageActionCardScopeList,
   MessageActionCardScopeName,
   MessageItem,
@@ -54,18 +53,20 @@ export function ActionCardIntegrationComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Approve Linear for @lumen</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Service</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>Linear</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Agent</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>@lumen</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Service</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>Linear</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Agent</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>@lumen</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <MessageActionCardScopeList>
-                  <MessageActionCardScopeLabel>Scopes:</MessageActionCardScopeLabel>
+                  <div className="text-[13px] leading-5 font-medium text-foreground [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:leading-4 [[data-theme=brutal]_&]:font-normal [[data-theme=brutal]_&]:text-black/55">
+                    Scopes:
+                  </div>
                   <MessageActionCardScope>
                     <MessageActionCardScopeName>openid</MessageActionCardScopeName>
                     <MessageActionCardScopeDescription>
@@ -119,20 +120,22 @@ export function ActionCardIntegrationComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Register app Release Notes</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Client key</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>release-notes</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Redirect URL</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Client key</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>release-notes</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Redirect URL</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>
                       https://notes.example.com/oauth/callback
-                    </MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                    </MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <MessageActionCardScopeList>
-                  <MessageActionCardScopeLabel>Scopes:</MessageActionCardScopeLabel>
+                  <div className="text-[13px] leading-5 font-medium text-foreground [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:leading-4 [[data-theme=brutal]_&]:font-normal [[data-theme=brutal]_&]:text-black/55">
+                    Scopes:
+                  </div>
                   <MessageActionCardScope>
                     <MessageActionCardScopeName>openid</MessageActionCardScopeName>
                     <MessageActionCardScopeDescription>
@@ -147,11 +150,6 @@ export function ActionCardIntegrationComposition() {
                     </MessageActionCardScopeDescription>
                   </MessageActionCardScope>
                 </MessageActionCardScopeList>
-                <Banner status="warning" size="sm" className="mt-3">
-                  <BannerDescription>
-                    The requesting agent becomes this app&apos;s owner after commit.
-                  </BannerDescription>
-                </Banner>
                 <MessageActionCardHint>
                   The requesting agent becomes this app&apos;s owner after commit.
                 </MessageActionCardHint>
@@ -188,20 +186,22 @@ export function ActionCardIntegrationComposition() {
                 </Badge>
               </MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Client key</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>release-notes</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>App URL</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Client key</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>release-notes</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>App URL</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>
                       https://notes.example.com
-                    </MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                    </MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <MessageActionCardScopeList>
-                  <MessageActionCardScopeLabel>Scopes:</MessageActionCardScopeLabel>
+                  <div className="text-[13px] leading-5 font-medium text-foreground [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:leading-4 [[data-theme=brutal]_&]:font-normal [[data-theme=brutal]_&]:text-black/55">
+                    Scopes:
+                  </div>
                   <MessageActionCardScope>
                     <MessageActionCardScopeName>openid</MessageActionCardScopeName>
                     <MessageActionCardScopeDescription>
@@ -259,16 +259,16 @@ export function ActionCardIntegrationComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Recover release-notes for @lumen</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardFacts>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Client key</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>release-notes</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                  <MessageActionCardFact>
-                    <MessageActionCardFactLabel>Recovery owner</MessageActionCardFactLabel>
-                    <MessageActionCardFactValue>@lumen</MessageActionCardFactValue>
-                  </MessageActionCardFact>
-                </MessageActionCardFacts>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Client key</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>release-notes</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Recovery owner</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>@lumen</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <Banner status="warning" size="sm" className="mt-3">
                   <BannerDescription>
                     Admin recovery only. Execution is rejected while the app has an active owner.
