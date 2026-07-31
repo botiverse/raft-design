@@ -32,7 +32,7 @@ function QuotedPreviewLoadingSkeleton() {
   if (theme === "brutal") {
     return (
       <>
-        <MessageEmbedHeader className="flex items-center gap-2 border-b border-black/15 px-2.5 py-2 sm:px-3 sm:py-2.5">
+        <MessageEmbedHeader className="flex items-center gap-2 border-black/15 px-2.5 py-2 sm:px-3 sm:py-2.5">
           <Skeleton
             variant="block"
             className="size-4 shrink-0 border border-black/15 bg-black/5 animate-none"

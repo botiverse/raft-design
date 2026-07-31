@@ -22,7 +22,7 @@ export const messageQuotedPreview = tv({
       brutal: {
         root: "w-full border-black/15 hover:border-black/20 hover:bg-[color-mix(in_oklch,black_2%,white)]",
         content: "px-2.5 py-2.5 sm:px-3 sm:py-3",
-        header: "gap-2 border-b border-black/15 px-2.5 py-2 sm:px-3 sm:py-2.5",
+        header: "gap-2 border-black/15 px-2.5 py-2 sm:px-3 sm:py-2.5",
         channel: "gap-1 text-[11px] leading-4 font-bold text-black/70",
         author: "gap-1.5",
         authorName: "font-bold text-black/70",

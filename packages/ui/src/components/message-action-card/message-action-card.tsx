@@ -3,45 +3,175 @@ import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
 import { messageActionCard } from "./message-action-card.recipe";
-
-type DivProps = useRender.ComponentProps<"div">;
-
-export function MessageActionCard({ className, render, ...props }: DivProps) {
+import { messageActionCardContent } from "./message-action-card-content.recipe";
+export function MessageActionCard({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
   const theme = useThemeFamily();
   const { root } = messageActionCard({ theme });
 
   return <MessageEmbed className={root({ className })} render={render} {...props} />;
 }
 
-export function MessageActionCardContent({ className, render, ...props }: DivProps) {
+export function MessageActionCardContent({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
   const theme = useThemeFamily();
-  const { content } = messageActionCard({ theme });
+  const { root } = messageActionCardContent({ theme });
 
-  return <MessageEmbedContent className={content({ className })} render={render} {...props} />;
+  return <MessageEmbedContent className={root({ className })} render={render} {...props} />;
 }
 
-export function MessageActionCardHeader({ className, render, ...props }: DivProps) {
+export function MessageActionCardHeader({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
   const theme = useThemeFamily();
   const { header } = messageActionCard({ theme });
 
   return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
 }
 
-export function MessageActionCardDetails({ className, render, ...props }: DivProps) {
+export function MessageActionCardProperties({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"dl">) {
   const theme = useThemeFamily();
-  const { details } = messageActionCard({ theme });
+  const { properties } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "dl",
+    render,
+    props: mergeProps<"dl">({ className: properties({ className }) }, props),
+    state: { slot: "message-action-card-properties" },
+  });
+}
+
+export function MessageActionCardProperty({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { property } = messageActionCardContent({ theme });
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">({ className: details({ className }) }, props),
-    state: { slot: "message-action-card-details" },
+    props: mergeProps<"div">({ className: property({ className }) }, props),
+    state: { slot: "message-action-card-property" },
   });
 }
 
-export function MessageActionCardHint({ className, render, ...props }: DivProps) {
+export function MessageActionCardPropertyLabel({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"dt">) {
   const theme = useThemeFamily();
-  const { hint } = messageActionCard({ theme });
+  const { propertyLabel } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "dt",
+    render,
+    props: mergeProps<"dt">({ className: propertyLabel({ className }) }, props),
+    state: { slot: "message-action-card-property-label" },
+  });
+}
+
+export function MessageActionCardPropertyValue({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"dd">) {
+  const theme = useThemeFamily();
+  const { propertyValue } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "dd",
+    render,
+    props: mergeProps<"dd">({ className: propertyValue({ className }) }, props),
+    state: { slot: "message-action-card-property-value" },
+  });
+}
+
+export function MessageActionCardScopeList({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { scopeList } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: scopeList({ className }) }, props),
+    state: { slot: "message-action-card-scope-list" },
+  });
+}
+
+export function MessageActionCardScope({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { scope } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: scope({ className }) }, props),
+    state: { slot: "message-action-card-scope" },
+  });
+}
+
+export function MessageActionCardScopeName({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { scopeName } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: scopeName({ className }) }, props),
+    state: { slot: "message-action-card-scope-name" },
+  });
+}
+
+export function MessageActionCardScopeDescription({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { scopeDescription } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: scopeDescription({ className }) }, props),
+    state: { slot: "message-action-card-scope-description" },
+  });
+}
+
+export function MessageActionCardHint({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { hint } = messageActionCardContent({ theme });
 
   return useRender({
     defaultTagName: "div",
@@ -51,9 +181,13 @@ export function MessageActionCardHint({ className, render, ...props }: DivProps)
   });
 }
 
-export function MessageActionCardCompletion({ className, render, ...props }: DivProps) {
+export function MessageActionCardCompletion({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
   const theme = useThemeFamily();
-  const { completion } = messageActionCard({ theme });
+  const { completion } = messageActionCardContent({ theme });
 
   return useRender({
     defaultTagName: "div",
@@ -63,9 +197,13 @@ export function MessageActionCardCompletion({ className, render, ...props }: Div
   });
 }
 
-export function MessageActionCardActions({ className, render, ...props }: DivProps) {
+export function MessageActionCardActions({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
   const theme = useThemeFamily();
-  const { actions } = messageActionCard({ theme });
+  const { actions } = messageActionCardContent({ theme });
 
   return useRender({
     defaultTagName: "div",
@@ -75,10 +213,17 @@ export function MessageActionCardActions({ className, render, ...props }: DivPro
   });
 }
 
-export type MessageActionCardProps = DivProps;
-export type MessageActionCardContentProps = DivProps;
-export type MessageActionCardHeaderProps = DivProps;
-export type MessageActionCardDetailsProps = DivProps;
-export type MessageActionCardHintProps = DivProps;
-export type MessageActionCardCompletionProps = DivProps;
-export type MessageActionCardActionsProps = DivProps;
+export type MessageActionCardProps = useRender.ComponentProps<"div">;
+export type MessageActionCardContentProps = useRender.ComponentProps<"div">;
+export type MessageActionCardHeaderProps = useRender.ComponentProps<"div">;
+export type MessageActionCardPropertiesProps = useRender.ComponentProps<"dl">;
+export type MessageActionCardPropertyProps = useRender.ComponentProps<"div">;
+export type MessageActionCardPropertyLabelProps = useRender.ComponentProps<"dt">;
+export type MessageActionCardPropertyValueProps = useRender.ComponentProps<"dd">;
+export type MessageActionCardScopeListProps = useRender.ComponentProps<"div">;
+export type MessageActionCardScopeProps = useRender.ComponentProps<"div">;
+export type MessageActionCardScopeNameProps = useRender.ComponentProps<"div">;
+export type MessageActionCardScopeDescriptionProps = useRender.ComponentProps<"div">;
+export type MessageActionCardHintProps = useRender.ComponentProps<"div">;
+export type MessageActionCardCompletionProps = useRender.ComponentProps<"div">;
+export type MessageActionCardActionsProps = useRender.ComponentProps<"div">;

@@ -7,12 +7,16 @@ import {
   BannerDescription,
   Button,
 } from "raft-ui";
+import { Check } from "lucide-react";
 import {
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardCompletion,
   MessageActionCardContent,
-  MessageActionCardDetails,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardProperties,
+  MessageActionCardPropertyValue,
   MessageActionCardHeader,
   MessageItem,
   MessageItemAvatarSlot,
@@ -47,16 +51,19 @@ export function ActionCardResolutionStatesComposition() {
               <MessageActionCardHeader>
                 <span>Create private channel #release-review</span>
                 <Badge variant="success" className="ml-auto">
+                  <Check aria-hidden="true" className="size-3" />
                   Done
                 </Badge>
               </MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Description:</span> Coordinate the final
-                    release review.
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Description</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>
+                      Coordinate the final release review.
+                    </MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <MessageActionCardCompletion>
                   Committed by Ada → #release-review
                 </MessageActionCardCompletion>
@@ -83,17 +90,20 @@ export function ActionCardResolutionStatesComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Approve Linear for @lumen</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Service:</span> Linear
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Agent:</span> @lumen
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardProperties>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Service</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>Linear</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                  <MessageActionCardProperty>
+                    <MessageActionCardPropertyLabel>Agent</MessageActionCardPropertyLabel>
+                    <MessageActionCardPropertyValue>@lumen</MessageActionCardPropertyValue>
+                  </MessageActionCardProperty>
+                </MessageActionCardProperties>
                 <Banner status="warning" size="sm" className="mt-2">
                   <BannerDescription>
-                    Linear rejected the requested scopes. Review and retry.
+                    Linear rejected the requested scopes. The product can permit a retry after the
+                    request is corrected.
                   </BannerDescription>
                 </Banner>
                 <MessageActionCardActions>

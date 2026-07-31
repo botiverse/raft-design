@@ -16,7 +16,10 @@ import {
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardContent,
-  MessageActionCardDetails,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardProperties,
+  MessageActionCardPropertyValue,
   MessageActionCardHeader,
   MessageActionCardHint,
 } from "raft-ui/wip";
@@ -31,18 +34,22 @@ export function ActionCardComposition() {
           <span>Create private channel #release-review</span>
         </MessageActionCardHeader>
         <MessageActionCardContent>
-          <MessageActionCardDetails>
-            <div>
-              <span className="text-foreground-muted">Description:</span> Coordinate the final
-              release review.
-            </div>
-            <div>
-              <span className="text-foreground-muted">Humans:</span> Ada, Will
-            </div>
-            <div>
-              <span className="text-foreground-muted">Agents:</span> Atlas
-            </div>
-          </MessageActionCardDetails>
+          <MessageActionCardProperties>
+            <MessageActionCardProperty>
+              <MessageActionCardPropertyLabel>Description</MessageActionCardPropertyLabel>
+              <MessageActionCardPropertyValue>
+                Coordinate the final release review.
+              </MessageActionCardPropertyValue>
+            </MessageActionCardProperty>
+            <MessageActionCardProperty>
+              <MessageActionCardPropertyLabel>Humans</MessageActionCardPropertyLabel>
+              <MessageActionCardPropertyValue>Ada, Will</MessageActionCardPropertyValue>
+            </MessageActionCardProperty>
+            <MessageActionCardProperty>
+              <MessageActionCardPropertyLabel>Agents</MessageActionCardPropertyLabel>
+              <MessageActionCardPropertyValue>Atlas</MessageActionCardPropertyValue>
+            </MessageActionCardProperty>
+          </MessageActionCardProperties>
           <MessageActionCardHint>
             Suggested after the launch checklist was approved.
           </MessageActionCardHint>
