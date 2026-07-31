@@ -72,6 +72,8 @@ export const PLAYGROUND_JOINT_CONVERSATIONS = [
       },
       reply: {
         senderId: "atlas",
+        savedAt: "Today, 09:52 AM",
+        savedAtDateTime: "2026-07-27T09:52:00Z",
         content:
           "I compared this revision with the previous questionnaire and summarized the changed controls.",
       },
@@ -142,6 +144,8 @@ export const PLAYGROUND_JOINT_CONVERSATIONS = [
       },
       reply: {
         senderId: "specWriter",
+        savedAt: "Today, 09:26 AM",
+        savedAtDateTime: "2026-07-27T09:26:00Z",
         content:
           "The brief now includes owners, confidence, and the decision date for every milestone.",
       },

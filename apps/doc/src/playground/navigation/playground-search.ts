@@ -1,4 +1,6 @@
 import {
+  getPlaygroundTask,
+  getPlaygroundThread,
   isPlaygroundTaskId,
   isPlaygroundThreadId,
   type PlaygroundTaskId,
@@ -32,7 +34,9 @@ export function validatePlaygroundChannelSearch(
       ? search.legacyTask
       : undefined;
   const thread =
-    !legacyTask && typeof search.thread === "string" && isPlaygroundThreadId(search.thread)
+    !legacyTask &&
+    typeof search.thread === "string" &&
+    (isPlaygroundThreadId(search.thread) || isPlaygroundTaskId(search.thread))
       ? search.thread
       : undefined;
   const sidePanel = Boolean(legacyTask || thread);
@@ -43,4 +47,20 @@ export function validatePlaygroundChannelSearch(
     ...(thread ? { thread } : {}),
     ...(sidePanel && search.from === "tasks" ? { from: "tasks" as const } : {}),
   };
+}
+
+export function getPlaygroundSidePanelOwner(
+  search: Pick<PlaygroundChannelSearch, "legacyTask" | "thread">,
+) {
+  if (search.legacyTask) {
+    const task = getPlaygroundTask(search.legacyTask);
+    return task?.legacy ? task.channelId : undefined;
+  }
+  if (!search.thread) return undefined;
+
+  const thread = getPlaygroundThread(search.thread);
+  if (thread) return thread.channelId;
+
+  const task = isPlaygroundTaskId(search.thread) ? getPlaygroundTask(search.thread) : undefined;
+  return task && !task.legacy ? task.channelId : undefined;
 }

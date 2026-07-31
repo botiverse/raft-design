@@ -20,6 +20,20 @@ import { CircleOff } from "lucide-react";
 
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
 
+export function QuotedPreviewUnavailableEmbeddedComposition({
+  reason = "Message unavailable",
+}: {
+  reason?: string;
+} = {}) {
+  return (
+    <MessageItemEmbedded>
+      <MessageQuotedPreviewUnavailable data-testid="quoted-message-card-unavailable">
+        {reason}
+      </MessageQuotedPreviewUnavailable>
+    </MessageItemEmbedded>
+  );
+}
+
 export function QuotedPreviewUnavailableComposition() {
   return (
     <MessageItem>
@@ -41,11 +55,7 @@ export function QuotedPreviewUnavailableComposition() {
             Message unavailable
           </MessageReferenceUnavailable>
         </MessageItemBody>
-        <MessageItemEmbedded>
-          <MessageQuotedPreviewUnavailable data-testid="quoted-message-card-unavailable">
-            Message unavailable
-          </MessageQuotedPreviewUnavailable>
-        </MessageItemEmbedded>
+        <QuotedPreviewUnavailableEmbeddedComposition />
       </MessageItemContent>
     </MessageItem>
   );

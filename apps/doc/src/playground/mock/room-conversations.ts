@@ -85,25 +85,63 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           translation: { outcome: "failure" },
         },
         {
-          senderId: "developer",
+          senderId: "atlas",
           createdAt: "09:41 AM",
           content:
             "Selector perf note: presence updates were still invalidating the whole list. Narrowed the subscription in the branch linked from task #22.",
-          presentation: "action-card",
+          presentation: {
+            kind: "action-card",
+            title: "Apply the selector-performance patch",
+            properties: [
+              { label: "Branch", value: "fix/message-selector-scope" },
+              { label: "Owner", value: "Developer" },
+            ],
+            resolution: {
+              kind: "completed",
+              label: "Applied",
+              detail: "Merged by Cuvii into the migration branch",
+            },
+          },
         },
         {
           senderId: "cuvii",
           createdAt: "09:44 AM",
           content:
             "Virtualization stays consumer-owned. Docs should show `ScrollAreaViewport` + `useVirtualizer`, not a TaskBoard API.",
-          presentation: "forwarded-bundle",
+          presentation: {
+            kind: "forwarded-bundle",
+            display: "compact",
+            source: { channelId: "all" },
+            items: [
+              {
+                id: "virtualization-1",
+                senderId: "developer",
+                createdAt: "09:18 AM",
+                content: "Keep the virtualizer in the consumer that owns the scrolling viewport.",
+              },
+              {
+                id: "virtualization-2",
+                senderId: "atlas",
+                createdAt: "09:22 AM",
+                content: "The board primitive should only expose the layout and drop semantics.",
+              },
+            ],
+          },
         },
         {
           senderId: "cuvii",
           createdAt: "09:45 AM",
           content:
             "```ts\nconst virtualizer = useVirtualizer({\n  count: items.length,\n  getScrollElement: () => viewportRef.current,\n  overscan: 6,\n  scrollMargin,\n})\n```",
-          presentation: "quoted-preview",
+          presentation: {
+            kind: "quoted-preview",
+            state: "ready",
+            target: { channelId: "all", messageId: "all:opening" },
+            senderId: "developer",
+            createdAt: "09:18 AM",
+            content:
+              "Morning checkpoint for #raft-ui-migration — keep message/thread ownership coherent for @Atlas, and park follow-ups on task #21.",
+          },
         },
         {
           senderId: "mira",
@@ -281,6 +319,8 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       },
       reply: {
         senderId: "cuvii",
+        savedAt: "Today, 10:34 AM",
+        savedAtDateTime: "2026-07-27T10:34:00Z",
         content:
           "I claimed the playground data pass and added the dependency notes to the planning doc.",
         reactions: [
@@ -318,6 +358,8 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       },
       reply: {
         senderId: "mira",
+        savedAt: "Today, 10:08 AM",
+        savedAtDateTime: "2026-07-27T10:08:00Z",
         content:
           "Coverage matrix is ready — `layer-panel` badges, mentions, and task #18 stay caller-owned.\n\n- Keep body content in MessageItemBody\n- Prefer semantic markdown + reference parts",
       },
@@ -464,7 +506,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
   defineStandardRoom({
     id: "frontend",
     name: "message-state-lab",
-    subtitle: "Components, application shell, and client architecture",
+    subtitle: "Release readiness and client delivery",
     memberCount: 13,
     memberIds: [
       "ada",
@@ -473,28 +515,354 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
       "deployBot",
       "nyx",
       "relay",
-      "legacyBot",
-      "mxChen",
       "elliot",
       "codePilot",
+      "cuvii",
+      "olivia",
+      "samira",
     ],
     story: {
       opening: {
         senderId: "ada",
         content:
-          "The message states are now represented by normal conversation data instead of a channel-specific render branch.",
+          "The release candidate is signed. Please keep rollout decisions and media evidence in this thread until the 10% canary is stable.",
+        savedAt: "Today, 09:18 AM",
+        savedAtDateTime: "2026-07-27T09:18:00Z",
+        reactions: [{ emoji: "👍", count: 2, reactorIds: ["developer", "cuvii"] }],
       },
       reply: {
         senderId: "codePilot",
         content:
-          "The timeline can render one message shape for channels, DMs, and threads. Visual coverage belongs in the message docs.",
+          "Client checks are green on Safari and Chromium. Android still needs the failed-video fallback verified before promotion.",
+        translation: {
+          initialState: "translated",
+          translatedContent:
+            "Safari 和 Chromium 的客户端检查已通过。Android 在升级前仍需验证视频失败时的回退界面。",
+        },
       },
       updates: [
         {
-          senderId: "developer",
+          kind: "system",
+          createdAt: "09:26 AM",
+          event: {
+            kind: "single",
+            content: "Deploy Bot opened the 10% canary window for web release 2026.07.27.",
+          },
+        },
+        {
+          senderId: "deployBot",
+          createdAt: "09:27 AM",
+          content: "The rollback room can be prepared before traffic moves.",
+          presentation: {
+            kind: "action-card",
+            title: "Prepare the canary rollback room",
+            properties: [
+              { label: "Release", value: "Web 2026.07.27" },
+              { label: "Visibility", value: "Private" },
+              { label: "Trigger", value: "First canary SLO breach" },
+            ],
+            hint: "Preparing the room does not change production traffic.",
+            resolution: {
+              kind: "ready",
+              actionLabel: "Create rollback room",
+              completion: {
+                label: "Created",
+                detail: "Created by Cuvii · #web-canary-rollback",
+              },
+            },
+          },
+        },
+        {
+          senderId: "deployBot",
           createdAt: "09:30 AM",
+          content: "The first promotion completed and monitoring is active.",
+          presentation: {
+            kind: "action-card",
+            title: "Promote web release 2026.07.27 to 10%",
+            properties: [
+              { label: "Environment", value: "Production" },
+              { label: "Traffic", value: "10%" },
+            ],
+            resolution: {
+              kind: "completed",
+              label: "Approved",
+              detail: "Approved by Ada · canary monitoring started",
+            },
+          },
+        },
+        {
+          senderId: "deployBot",
+          createdAt: "09:32 AM",
+          content: "The desktop promotion remains blocked while its signing request is corrected.",
+          presentation: {
+            kind: "action-card",
+            title: "Publish desktop release 2026.07.27",
+            properties: [
+              { label: "Target", value: "macOS arm64" },
+              { label: "Channel", value: "Stable" },
+            ],
+            resolution: {
+              kind: "failed",
+              reason: "Notarization rejected the expired signing profile.",
+            },
+          },
+        },
+        {
+          senderId: "developer",
+          createdAt: "09:35 AM",
+          content: "These two notes explain why the canary is limited to web.",
+          presentation: {
+            kind: "forwarded-bundle",
+            display: "compact",
+            source: { channelId: "all" },
+            items: [
+              {
+                id: "canary-context-1",
+                senderId: "samira",
+                createdAt: "09:11 AM",
+                content: "The web artifact passed provenance verification.",
+              },
+              {
+                id: "canary-context-2",
+                senderId: "elliot",
+                createdAt: "09:14 AM",
+                content: "Desktop auto-update stays paused until notarization succeeds.",
+              },
+            ],
+          },
+        },
+        {
+          senderId: "ada",
+          createdAt: "09:38 AM",
+          content: "Forwarding the full QA handoff for the promotion decision.",
+          presentation: {
+            kind: "forwarded-bundle",
+            display: "collapsible",
+            source: { channelId: "all" },
+            items: [
+              {
+                id: "qa-handoff-1",
+                senderId: "olivia",
+                createdAt: "08:54 AM",
+                content: "Safari playback and image zoom passed on the production artifact.",
+              },
+              {
+                id: "qa-handoff-2",
+                senderId: "codePilot",
+                createdAt: "08:58 AM",
+                content: "Chromium downloads preserve the original filename and MIME type.",
+                attachment: { name: "client-smoke-results.csv", mediaType: "text/csv" },
+              },
+              {
+                id: "qa-handoff-3",
+                senderId: "olivia",
+                createdAt: "09:03 AM",
+                content: "Android reports an unsupported codec for the desktop capture.",
+              },
+              {
+                id: "qa-handoff-4",
+                senderId: "developer",
+                createdAt: "09:07 AM",
+                content: "Use the original file download when inline playback is unavailable.",
+              },
+            ],
+          },
+        },
+        {
+          senderId: "cuvii",
+          createdAt: "09:41 AM",
+          content: "This is the release criterion I am using for the next promotion.",
+          presentation: {
+            kind: "quoted-preview",
+            state: "ready",
+            target: { channelId: "frontend", messageId: "frontend:reply", thread: true },
+            senderId: "codePilot",
+            createdAt: "09:24 AM",
+            content:
+              "Client checks are green on Safari and Chromium. Android still needs the failed-video fallback verified before promotion.",
+          },
+        },
+        {
+          senderId: "relay",
+          createdAt: "09:43 AM",
+          content: "The source message is still being fetched from the partner workspace.",
+          presentation: {
+            kind: "quoted-preview",
+            state: "loading",
+            target: { channelId: "shared-roadmap", messageId: "shared-roadmap:reply" },
+            label: "Loading partner approval",
+          },
+        },
+        {
+          senderId: "relay",
+          createdAt: "09:44 AM",
+          content: "The earlier approval cannot be shown after the partner room retention window.",
+          presentation: {
+            kind: "quoted-preview",
+            state: "unavailable",
+            target: { channelId: "shared-roadmap", messageId: "shared-roadmap:expired-approval" },
+            reason: "The quoted message expired under the partner workspace retention policy.",
+          },
+        },
+        {
+          senderId: "olivia",
+          createdAt: "09:47 AM",
+          content: "Here are the approved release assets and the raw verification notes.",
+          attachments: [
+            {
+              name: "release-dashboard.png",
+              mediaType: "image/png",
+              state: {
+                kind: "ready",
+                previewUrl:
+                  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+                size: "284 KB",
+              },
+            },
+            {
+              name: "canary-walkthrough.mp4",
+              mediaType: "video/mp4",
+              state: {
+                kind: "ready",
+                previewUrl:
+                  "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+                size: "1.1 MB",
+              },
+            },
+            {
+              name: "screen-reader-check.mp3",
+              mediaType: "audio/mpeg",
+              state: {
+                kind: "ready",
+                previewUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                size: "3.2 MB",
+              },
+            },
+            {
+              name: "verification-notes.txt",
+              mediaType: "text/plain",
+              state: {
+                kind: "ready",
+                previewUrl: "data:text/plain;charset=utf-8,Release%20verification%20passed.",
+                size: "2 KB",
+              },
+            },
+          ],
+        },
+        {
+          senderId: "codePilot",
+          createdAt: "09:50 AM",
+          content: "The accessibility capture is still being converted for inline playback.",
+          inlineStatus: "converting",
+          attachments: [
+            {
+              name: "accessibility-capture.webm",
+              mediaType: "video/webm",
+              state: { kind: "processing", label: "Transcoding video…" },
+            },
+          ],
+        },
+        {
+          senderId: "codePilot",
+          createdAt: "09:52 AM",
+          content: "Android could not decode this capture; the original file remains available.",
+          attachments: [
+            {
+              name: "android-playback.webm",
+              mediaType: "video/webm",
+              state: {
+                kind: "failed",
+                reason: "This video uses a codec that is not available on this device.",
+                downloadUrl:
+                  "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm",
+              },
+            },
+          ],
+        },
+        {
+          senderId: "mxChen",
+          createdAt: "09:55 AM",
           content:
-            "I linked the state examples to the component compositions and kept this channel as a real team conversation.",
+            "I left the reproduction steps in task #11 before I was removed from this channel.",
+          senderLifecycle: "removed",
+        },
+        {
+          senderId: "noah",
+          createdAt: "09:57 AM",
+          content: "The customer-facing release note is ready for the support handoff.",
+          senderLifecycle: "left",
+        },
+        {
+          senderId: "legacyBot",
+          createdAt: "09:59 AM",
+          content:
+            "Legacy desktop update polling was disabled after the new release service took over.",
+          senderLifecycle: "deleted",
+        },
+        {
+          senderId: "atlas",
+          createdAt: "10:02 AM",
+          content: "I am converting the client evidence into the final promotion summary.",
+          inlineStatus: "converting",
+        },
+        {
+          senderId: "nyx",
+          createdAt: "10:04 AM",
+          content: "La ventana de observación termina a las 10:24; no hay alertas activas.",
+          translation: {
+            autoResolve: false,
+            initialState: "pending",
+            outcome: "success",
+            translatedContent: "The observation window ends at 10:24; there are no active alerts.",
+          },
+        },
+        {
+          senderId: "samira",
+          createdAt: "10:06 AM",
+          content: "La vérification de provenance est terminée pour l’artefact web.",
+          translation: {
+            initialState: "original",
+            translatedContent: "Provenance verification is complete for the web artifact.",
+          },
+        },
+        {
+          senderId: "relay",
+          createdAt: "10:08 AM",
+          content: "承認メッセージはパートナーワークスペースから取得できませんでした。",
+          translation: { initialState: "failed", outcome: "failure" },
+        },
+        {
+          kind: "system",
+          createdAt: "10:10 AM",
+          event: {
+            kind: "group",
+            summary: "3 release membership updates",
+            events: [
+              {
+                id: "release-membership-1",
+                createdAt: "09:55 AM",
+                content: "Admin removed Mx. Chen from this channel.",
+              },
+              {
+                id: "release-membership-2",
+                createdAt: "09:57 AM",
+                content: "Noah Bennett left this channel.",
+              },
+              {
+                id: "release-membership-3",
+                createdAt: "09:59 AM",
+                content: "Admin deleted Legacy Bot.",
+              },
+            ],
+          },
+        },
+        {
+          senderId: "developer",
+          createdAt: "10:12 AM",
+          content:
+            "Task #11 now owns the Android fallback check. Once Olivia signs it off, the canary can move to 25%.",
+          savedAt: "Today, 10:13 AM",
+          savedAtDateTime: "2026-07-27T10:13:00Z",
         },
       ],
       thread: {
@@ -502,7 +870,7 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
           {
             senderId: "atlas",
             content:
-              "That keeps the product shell data-driven while preserving focused component coverage outside it.",
+              "I will post the error-rate and playback summary at the end of the observation window.",
           },
         ],
       },

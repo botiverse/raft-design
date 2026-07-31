@@ -13,6 +13,7 @@ import { cn } from "raft-ui/cn";
 
 import {
   PLAYGROUND_LIVE_AGENT_ACTIVITY,
+  findPlaygroundTaskForMessage,
   getPlaygroundActor,
   getPlaygroundChannel,
   getPlaygroundDirectMessage,
@@ -67,9 +68,7 @@ export function PlaygroundChatShell() {
       : undefined;
   const threadContext = !activeLegacyTask && thread ? getPlaygroundThread(thread) : undefined;
   const task =
-    !activeLegacyTask && thread
-      ? tasks.find((item) => item.id === thread || item.sourceMessageId === thread)
-      : undefined;
+    !activeLegacyTask && thread ? findPlaygroundTaskForMessage(tasks, thread) : undefined;
   const activeThread =
     channel && threadContext?.channelId === channel.id
       ? threadContext.thread
@@ -212,9 +211,9 @@ function getPlaygroundTaskThread(task: PlaygroundTask): PlaygroundThread {
     parent: {
       id: task.id,
       channelId: task.channelId,
+      kind: "chat",
       senderType: getPlaygroundActor(task.creatorActorId).type === "agent" ? "agent" : "user",
       senderId: task.creatorActorId,
-      messageType: "chat",
       createdAt: "",
       content: task.description ? `${task.title}\n${task.description}` : task.title,
       reactions: [],

@@ -1,22 +1,54 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
-import type { PlaygroundMessage, PlaygroundMessageId, PlaygroundThreadId } from "../mock/index.ts";
+import type {
+  PlaygroundChatMessage,
+  PlaygroundMessageId,
+  PlaygroundThreadId,
+} from "../mock/index.ts";
+import {
+  PLAYGROUND_SAVED_MESSAGES,
+  getPlaygroundMessageContext,
+  isPlaygroundChatMessage,
+} from "../mock/index.ts";
 import {
   DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW,
   PlaygroundMessageWorkflowContext,
   type PlaygroundMessageWorkflow,
   type PlaygroundMessageWorkflowState,
+  type PlaygroundSavedMessageState,
 } from "./playground-message-workflow-context.ts";
 
 export function PlaygroundMessageWorkflowProvider({ children }: { children: ReactNode }) {
   const [workflows, setWorkflows] = useState<
     ReadonlyMap<PlaygroundMessageId, PlaygroundMessageWorkflow>
   >(() => new Map());
+  const [savedMessagesById, setSavedMessagesById] = useState<
+    ReadonlyMap<PlaygroundMessageId, PlaygroundSavedMessageState>
+  >(() => {
+    const entries = PLAYGROUND_SAVED_MESSAGES.flatMap(({ messageId, savedAt, savedAtDateTime }) => {
+      const context = getPlaygroundMessageContext(messageId);
+      return context && isPlaygroundChatMessage(context.message)
+        ? ([
+            [
+              messageId,
+              {
+                message: context.message,
+                savedAt,
+                savedAtDateTime,
+                surface: context.threadId ? "thread" : "conversation",
+                threadId: context.threadId,
+              },
+            ],
+          ] as const)
+        : [];
+    });
+    return new Map(entries);
+  });
   const [threadFollowById, setThreadFollowById] = useState<
     ReadonlyMap<PlaygroundThreadId, boolean>
   >(() => new Map());
   const [threadRepliesById, setThreadRepliesById] = useState<
-    ReadonlyMap<PlaygroundThreadId, readonly PlaygroundMessage[]>
+    ReadonlyMap<PlaygroundThreadId, readonly PlaygroundChatMessage[]>
   >(() => new Map());
   const [threadDraftById, setThreadDraftById] = useState<ReadonlyMap<PlaygroundThreadId, string>>(
     () => new Map(),
@@ -30,8 +62,10 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
       for (const replies of threadRepliesByIdRef.current.values()) {
         for (const reply of replies) {
           for (const attachment of reply.attachments ?? []) {
-            if (attachment.previewUrl?.startsWith("blob:")) {
-              URL.revokeObjectURL(attachment.previewUrl);
+            const previewUrl =
+              attachment.state.kind === "ready" ? attachment.state.previewUrl : undefined;
+            if (previewUrl?.startsWith("blob:")) {
+              URL.revokeObjectURL(previewUrl);
             }
           }
         }
@@ -55,7 +89,7 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
     [],
   );
   const getThreadReplies = useCallback(
-    (threadId: PlaygroundThreadId, fallback: readonly PlaygroundMessage[] = []) =>
+    (threadId: PlaygroundThreadId, fallback: readonly PlaygroundChatMessage[] = []) =>
       threadRepliesById.get(threadId) ?? fallback,
     [threadRepliesById],
   );
@@ -66,8 +100,8 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
   const appendThreadReply = useCallback(
     (
       threadId: PlaygroundThreadId,
-      fallback: readonly PlaygroundMessage[],
-      reply: PlaygroundMessage,
+      fallback: readonly PlaygroundChatMessage[],
+      reply: PlaygroundChatMessage,
     ) => {
       setThreadRepliesById((current) => {
         const next = new Map(current);
@@ -85,6 +119,33 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
       return next;
     });
   }, []);
+  const setMessageSaved = useCallback(
+    (
+      message: PlaygroundChatMessage,
+      saved: boolean,
+      surface: "conversation" | "thread",
+      threadId?: PlaygroundThreadId,
+    ) => {
+      setSavedMessagesById((current) => {
+        const messageId = message.id;
+        const currentSavedMessage = current.get(messageId);
+        const next = new Map(current);
+        if (saved) {
+          next.set(messageId, {
+            message,
+            savedAt: currentSavedMessage?.savedAt ?? "Just now",
+            savedAtDateTime: currentSavedMessage?.savedAtDateTime ?? new Date().toISOString(),
+            surface,
+            threadId: currentSavedMessage?.threadId ?? threadId,
+          });
+        } else {
+          next.delete(messageId);
+        }
+        return next;
+      });
+    },
+    [],
+  );
   const isThreadFollowed = useCallback(
     (threadId: PlaygroundThreadId, fallback = false) => threadFollowById.get(threadId) ?? fallback,
     [threadFollowById],
@@ -103,6 +164,8 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
       getThreadDraft,
       getThreadReplies,
       isThreadFollowed,
+      savedMessagesById,
+      setMessageSaved,
       setThreadFollowed,
       setThreadDraft,
       update,
@@ -113,6 +176,8 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
       getThreadDraft,
       getThreadReplies,
       isThreadFollowed,
+      savedMessagesById,
+      setMessageSaved,
       setThreadFollowed,
       setThreadDraft,
       update,

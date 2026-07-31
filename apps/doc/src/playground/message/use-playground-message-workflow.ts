@@ -1,6 +1,10 @@
 import { use, useCallback, useMemo } from "react";
 
-import type { PlaygroundMessage, PlaygroundMessageId, PlaygroundThreadId } from "../mock/index.ts";
+import type {
+  PlaygroundChatMessage,
+  PlaygroundMessageId,
+  PlaygroundThreadId,
+} from "../mock/index.ts";
 import {
   DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW,
   PlaygroundMessageWorkflowContext,
@@ -34,12 +38,12 @@ export function usePlaygroundThreadFollow(
 
 export function usePlaygroundThreadReplies(
   threadId: PlaygroundThreadId | undefined,
-  initialReplies: readonly PlaygroundMessage[],
+  initialReplies: readonly PlaygroundChatMessage[],
 ) {
   const state = usePlaygroundMessageWorkflowState();
   const replies = threadId ? state.getThreadReplies(threadId, initialReplies) : initialReplies;
   const appendReply = useCallback(
-    (reply: PlaygroundMessage) => {
+    (reply: PlaygroundChatMessage) => {
       if (threadId) state.appendThreadReply(threadId, initialReplies, reply);
     },
     [initialReplies, state, threadId],
@@ -57,6 +61,28 @@ export function usePlaygroundThreadDraft(threadId: PlaygroundThreadId | undefine
     [state, threadId],
   );
   return { draft, setDraft };
+}
+
+export function usePlaygroundSavedMessages() {
+  const state = usePlaygroundMessageWorkflowState();
+  return {
+    savedMessagesById: state.savedMessagesById,
+    setMessageSaved: state.setMessageSaved,
+  };
+}
+
+export function usePlaygroundMessageSaved(
+  message: PlaygroundChatMessage,
+  surface: "conversation" | "thread",
+  threadId?: PlaygroundThreadId,
+) {
+  const state = usePlaygroundMessageWorkflowState();
+  const savedAt = state.savedMessagesById.get(message.id)?.savedAt;
+  const setSaved = useCallback(
+    (saved: boolean) => state.setMessageSaved(message, saved, surface, threadId),
+    [message, state, surface, threadId],
+  );
+  return { saved: savedAt !== undefined, savedAt, setSaved };
 }
 
 export function usePlaygroundMessageWorkflow(

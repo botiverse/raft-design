@@ -1,7 +1,12 @@
+import { useState } from "react";
+import { Check } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Badge,
+  Banner,
+  BannerDescription,
   Button,
   MessageItem,
   MessageItemAvatarSlot,
@@ -15,49 +20,82 @@ import {
 import {
   MessageActionCard,
   MessageActionCardActions,
+  MessageActionCardCompletion,
   MessageActionCardContent,
   MessageActionCardProperty,
   MessageActionCardPropertyLabel,
   MessageActionCardProperties,
   MessageActionCardPropertyValue,
   MessageActionCardHeader,
+  MessageActionCardHeaderStatus,
   MessageActionCardHint,
 } from "raft-ui/wip";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
-export function ActionCardComposition() {
+export type ActionCardCompositionResolution =
+  | { kind: "ready"; actionLabel: string }
+  | { kind: "completed"; label: string; detail: string }
+  | { kind: "failed"; reason: string };
+
+export type ActionCardCompositionProps = {
+  title?: string;
+  properties?: readonly { label: string; value: string }[];
+  hint?: string;
+  resolution?: ActionCardCompositionResolution;
+  onAction?: () => void;
+};
+
+const DEFAULT_ACTION_PROPERTIES = [
+  { label: "Description", value: "Coordinate the final release review." },
+  { label: "Humans", value: "Ada, Will" },
+  { label: "Agents", value: "Atlas" },
+] as const;
+
+export function ActionCardComposition({
+  title = "Create private channel #release-review",
+  properties = DEFAULT_ACTION_PROPERTIES,
+  hint = "Suggested after the launch checklist was approved.",
+  resolution = { kind: "ready", actionLabel: "Create Channel" },
+  onAction,
+}: ActionCardCompositionProps = {}) {
   return (
     <div className="grid gap-2">
       <MessageActionCard>
         <MessageActionCardHeader>
-          <span>Create private channel #release-review</span>
+          <span>{title}</span>
+          {resolution.kind === "completed" ? (
+            <MessageActionCardHeaderStatus render={<Badge variant="success" />}>
+              <Check aria-hidden className="size-3" />
+              {resolution.label}
+            </MessageActionCardHeaderStatus>
+          ) : null}
         </MessageActionCardHeader>
         <MessageActionCardContent>
           <MessageActionCardProperties>
-            <MessageActionCardProperty>
-              <MessageActionCardPropertyLabel>Description</MessageActionCardPropertyLabel>
-              <MessageActionCardPropertyValue>
-                Coordinate the final release review.
-              </MessageActionCardPropertyValue>
-            </MessageActionCardProperty>
-            <MessageActionCardProperty>
-              <MessageActionCardPropertyLabel>Humans</MessageActionCardPropertyLabel>
-              <MessageActionCardPropertyValue>Ada, Will</MessageActionCardPropertyValue>
-            </MessageActionCardProperty>
-            <MessageActionCardProperty>
-              <MessageActionCardPropertyLabel>Agents</MessageActionCardPropertyLabel>
-              <MessageActionCardPropertyValue>Atlas</MessageActionCardPropertyValue>
-            </MessageActionCardProperty>
+            {properties.map((property) => (
+              <MessageActionCardProperty key={property.label}>
+                <MessageActionCardPropertyLabel>{property.label}</MessageActionCardPropertyLabel>
+                <MessageActionCardPropertyValue>{property.value}</MessageActionCardPropertyValue>
+              </MessageActionCardProperty>
+            ))}
           </MessageActionCardProperties>
-          <MessageActionCardHint>
-            Suggested after the launch checklist was approved.
-          </MessageActionCardHint>
-          <MessageActionCardActions>
-            <Button size="sm" variant="accent">
-              Create Channel
-            </Button>
-          </MessageActionCardActions>
+          {resolution.kind === "ready" && hint ? (
+            <MessageActionCardHint>{hint}</MessageActionCardHint>
+          ) : null}
+          {resolution.kind === "ready" ? (
+            <MessageActionCardActions>
+              <Button size="sm" variant="accent" disabled={!onAction} onClick={onAction}>
+                {resolution.actionLabel}
+              </Button>
+            </MessageActionCardActions>
+          ) : resolution.kind === "completed" ? (
+            <MessageActionCardCompletion>{resolution.detail}</MessageActionCardCompletion>
+          ) : (
+            <Banner status="warning" size="sm">
+              <BannerDescription>{resolution.reason}</BannerDescription>
+            </Banner>
+          )}
         </MessageActionCardContent>
       </MessageActionCard>
     </div>
@@ -65,6 +103,11 @@ export function ActionCardComposition() {
 }
 
 export function ActionCardMessageComposition() {
+  const [resolution, setResolution] = useState<ActionCardCompositionResolution>({
+    kind: "ready",
+    actionLabel: "Create Channel",
+  });
+
   return (
     <MessageItem className="w-full max-w-4xl">
       <MessageItemAvatarSlot>
@@ -80,7 +123,16 @@ export function ActionCardMessageComposition() {
           <MessageItemTime>2:27 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          <ActionCardComposition />
+          <ActionCardComposition
+            resolution={resolution}
+            onAction={() =>
+              setResolution({
+                kind: "completed",
+                label: "Created",
+                detail: "Created by Ada → #release-review",
+              })
+            }
+          />
         </MessageItemBody>
       </MessageItemContent>
     </MessageItem>

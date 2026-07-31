@@ -65,6 +65,24 @@ function QuotedPreviewLoadingSkeleton() {
   );
 }
 
+export function QuotedPreviewLoadingEmbeddedComposition({
+  label = "Loading quoted message",
+}: {
+  label?: string;
+} = {}) {
+  return (
+    <MessageItemEmbedded>
+      <MessageQuotedPreviewLoading
+        aria-label={label}
+        aria-busy
+        data-testid="quoted-message-card-loading"
+      >
+        <QuotedPreviewLoadingSkeleton />
+      </MessageQuotedPreviewLoading>
+    </MessageItemEmbedded>
+  );
+}
+
 export function QuotedPreviewLoadingComposition() {
   return (
     <MessageItem>
@@ -94,11 +112,7 @@ export function QuotedPreviewLoadingComposition() {
             <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>
           </MessageReferenceChip>
         </MessageItemBody>
-        <MessageItemEmbedded>
-          <MessageQuotedPreviewLoading data-testid="quoted-message-card-loading">
-            <QuotedPreviewLoadingSkeleton />
-          </MessageQuotedPreviewLoading>
-        </MessageItemEmbedded>
+        <QuotedPreviewLoadingEmbeddedComposition />
       </MessageItemContent>
     </MessageItem>
   );

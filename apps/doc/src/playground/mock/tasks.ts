@@ -34,7 +34,7 @@ export type PlaygroundTask = {
 };
 
 export function isPlaygroundTaskId(value: string): value is PlaygroundTaskId {
-  return /^task:[^:]+:\d+$/.test(value);
+  return playgroundTaskIds.has(value);
 }
 
 function defineTask<const TChannelId extends PlaygroundChannelId>(task: {
@@ -392,10 +392,11 @@ export const PLAYGROUND_TASKS = [
     title: "Migrate legacy task records into the Raft UI board",
     description:
       "Imported from the pre-migration store. Metadata is read-only here; open a message task when you need thread replies.",
-    status: "in-progress",
+    status: "closed",
     creatorActorId: "legacyBot",
     assigneeActorId: "legacyBot",
     createdAt: "2026-07-12T09:18:00.000Z",
+    completedAt: "2026-07-27T09:59:00.000Z",
     legacy: true,
   }),
   defineTask({
@@ -505,6 +506,8 @@ export const PLAYGROUND_TASKS = [
     title: "Verify attachment previews across pending and failed messages",
     status: "in-progress",
     creatorActorId: "ada",
+    assigneeActorId: "olivia",
+    sourceMessageId: "frontend:update-11",
   }),
   defineTask({
     channelId: "frontend",
@@ -575,6 +578,20 @@ export const PLAYGROUND_TASKS = [
     assigneeActorId: "deployBot",
   }),
 ] satisfies readonly PlaygroundTask[];
+
+const playgroundTaskIds = new Set<string>(PLAYGROUND_TASKS.map((task) => task.id));
+const playgroundTasksById = new Map(PLAYGROUND_TASKS.map((task) => [task.id, task]));
+
+export function getPlaygroundTask(id: PlaygroundTaskId): PlaygroundTask | undefined {
+  return playgroundTasksById.get(id);
+}
+
+export function findPlaygroundTaskForMessage(
+  tasks: readonly PlaygroundTask[],
+  messageId: PlaygroundMessageId,
+): PlaygroundTask | undefined {
+  return tasks.find((task) => task.id === messageId || task.sourceMessageId === messageId);
+}
 
 for (const task of PLAYGROUND_TASKS) {
   if (!task.sourceMessageId) continue;

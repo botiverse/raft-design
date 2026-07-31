@@ -1,22 +1,39 @@
 import { SystemMessage, SystemMessageContent, SystemMessageTime } from "raft-ui";
 
+export type SystemMessageRowCompositionProps = {
+  content: string;
+  createdAt: string;
+  createdAtDateTime?: string;
+  id?: string;
+};
+
+export function SystemMessageRowComposition({
+  content,
+  createdAt,
+  createdAtDateTime,
+  id,
+}: SystemMessageRowCompositionProps) {
+  return (
+    <SystemMessage id={id}>
+      <SystemMessageTime
+        render={createdAtDateTime ? <time dateTime={createdAtDateTime} /> : undefined}
+      >
+        {createdAt}
+      </SystemMessageTime>
+      <SystemMessageContent>{content}</SystemMessageContent>
+    </SystemMessage>
+  );
+}
+
 export function MessageSystemMessagesComposition() {
   return (
     <div className="flex w-full max-w-3xl flex-col gap-1">
-      <SystemMessage>
-        <SystemMessageTime>2:16 PM</SystemMessageTime>
-        <SystemMessageContent>📦 Atlas archived this channel</SystemMessageContent>
-      </SystemMessage>
-      <SystemMessage>
-        <SystemMessageTime>2:16 PM</SystemMessageTime>
-        <SystemMessageContent>@hermes joined this channel.</SystemMessageContent>
-      </SystemMessage>
-      <SystemMessage>
-        <SystemMessageTime>2:16 PM</SystemMessageTime>
-        <SystemMessageContent>
-          ✅ Atlas moved #41 &quot;Release review checklist&quot; to Done
-        </SystemMessageContent>
-      </SystemMessage>
+      <SystemMessageRowComposition createdAt="2:16 PM" content="📦 Atlas archived this channel" />
+      <SystemMessageRowComposition createdAt="2:16 PM" content="@hermes joined this channel." />
+      <SystemMessageRowComposition
+        createdAt="2:16 PM"
+        content={'✅ Atlas moved #41 "Release review checklist" to Done'}
+      />
     </div>
   );
 }

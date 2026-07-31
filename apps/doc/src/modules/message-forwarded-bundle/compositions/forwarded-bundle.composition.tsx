@@ -39,51 +39,97 @@ import {
   MessageForwardedBundleToggle,
 } from "raft-ui/wip";
 
-function ForwardedBundleItemsContent() {
+export type ForwardedBundleCompositionItem = {
+  id: string;
+  author: string;
+  createdAt: string;
+  createdAtDateTime?: string;
+  content: string;
+  attachment?: { name: string; meta: string };
+};
+
+export type ForwardedBundleEmbeddedCompositionProps = {
+  items?: readonly ForwardedBundleCompositionItem[];
+  sourceLabel?: string;
+  sourceHref?: string | null;
+  sourceAriaLabel?: string;
+  sourceTitle?: string;
+  collapsible?: boolean;
+};
+
+const DEFAULT_FORWARDED_ITEMS: readonly ForwardedBundleCompositionItem[] = [
+  {
+    id: "rollout",
+    author: "Ada",
+    createdAt: "Jul 15, 2:05 PM",
+    createdAtDateTime: "2026-07-15T06:05:00.000Z",
+    content: "Rollout is clear for the message reference migration.",
+  },
+  {
+    id: "attachment-context",
+    author: "Will",
+    createdAt: "Jul 15, 2:09 PM",
+    createdAtDateTime: "2026-07-15T06:09:00.000Z",
+    content: "Keep the source case with its attachment context.",
+    attachment: { name: "release-notes.md", meta: "markdown" },
+  },
+  {
+    id: "review-context",
+    author: "Mia",
+    createdAt: "Jul 15, 2:12 PM",
+    createdAtDateTime: "2026-07-15T06:12:00.000Z",
+    content: "Keep the original context available to reviewers.",
+  },
+  {
+    id: "thread-contract",
+    author: "Nia",
+    createdAt: "Jul 15, 2:16 PM",
+    createdAtDateTime: "2026-07-15T06:16:00.000Z",
+    content: "Follow the same message state contract in the thread.",
+  },
+];
+
+function ForwardedBundleItemsContent({
+  items,
+}: {
+  items: readonly ForwardedBundleCompositionItem[];
+}) {
   return (
     <>
-      <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
-        <MessageForwardedBundleItemMeta>
-          <MessageForwardedBundleItemAuthor>@Ada</MessageForwardedBundleItemAuthor>
-          <time dateTime="2026-07-15T06:05:00.000Z">Jul 15, 2:05 PM</time>
-        </MessageForwardedBundleItemMeta>
-        <Markdown>Rollout is clear for the message reference migration.</Markdown>
-      </MessageForwardedBundleItem>
-      <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
-        <MessageForwardedBundleItemMeta>
-          <MessageForwardedBundleItemAuthor>@Will</MessageForwardedBundleItemAuthor>
-          <time dateTime="2026-07-15T06:09:00.000Z">Jul 15, 2:09 PM</time>
-        </MessageForwardedBundleItemMeta>
-        <Markdown>Keep the source case with its attachment context.</Markdown>
-        <MessageForwardedBundleAttachments>
-          <MessageForwardedBundleAttachment>
-            <FileText size={12} />
-            <MessageForwardedBundleAttachmentName>
-              release-notes.md
-            </MessageForwardedBundleAttachmentName>
-            <MessageForwardedBundleAttachmentMeta>· markdown</MessageForwardedBundleAttachmentMeta>
-          </MessageForwardedBundleAttachment>
-        </MessageForwardedBundleAttachments>
-      </MessageForwardedBundleItem>
-      <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
-        <MessageForwardedBundleItemMeta>
-          <MessageForwardedBundleItemAuthor>@Mia</MessageForwardedBundleItemAuthor>
-          <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
-        </MessageForwardedBundleItemMeta>
-        <Markdown>Keep the original context available to reviewers.</Markdown>
-      </MessageForwardedBundleItem>
-      <MessageForwardedBundleItem data-testid="forwarded-bundle-item">
-        <MessageForwardedBundleItemMeta>
-          <MessageForwardedBundleItemAuthor>@Nia</MessageForwardedBundleItemAuthor>
-          <time dateTime="2026-07-15T06:16:00.000Z">Jul 15, 2:16 PM</time>
-        </MessageForwardedBundleItemMeta>
-        <Markdown>Follow the same message state contract in the thread.</Markdown>
-      </MessageForwardedBundleItem>
+      {items.map((item) => (
+        <MessageForwardedBundleItem key={item.id} data-testid="forwarded-bundle-item">
+          <MessageForwardedBundleItemMeta>
+            <MessageForwardedBundleItemAuthor>@{item.author}</MessageForwardedBundleItemAuthor>
+            <time dateTime={item.createdAtDateTime}>{item.createdAt}</time>
+          </MessageForwardedBundleItemMeta>
+          <Markdown>{item.content}</Markdown>
+          {item.attachment ? (
+            <MessageForwardedBundleAttachments>
+              <MessageForwardedBundleAttachment>
+                <FileText size={12} />
+                <MessageForwardedBundleAttachmentName>
+                  {item.attachment.name}
+                </MessageForwardedBundleAttachmentName>
+                <MessageForwardedBundleAttachmentMeta>
+                  · {item.attachment.meta}
+                </MessageForwardedBundleAttachmentMeta>
+              </MessageForwardedBundleAttachment>
+            </MessageForwardedBundleAttachments>
+          ) : null}
+        </MessageForwardedBundleItem>
+      ))}
     </>
   );
 }
 
-export function ForwardedBundleEmbeddedComposition() {
+export function ForwardedBundleEmbeddedComposition({
+  items = DEFAULT_FORWARDED_ITEMS,
+  sourceLabel = "release-notes",
+  sourceHref = MESSAGE_PLAYGROUND_URLS.releaseNotesThread,
+  sourceAriaLabel = "Open source thread in release-notes",
+  sourceTitle = "Open source message",
+  collapsible = true,
+}: ForwardedBundleEmbeddedCompositionProps = {}) {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -95,30 +141,29 @@ export function ForwardedBundleEmbeddedComposition() {
               <Forward size={12} />
               Forwarded
             </MessageForwardedBundleHeaderLabel>
-            <MessageForwardedBundleHeaderCount>4 messages</MessageForwardedBundleHeaderCount>
+            <MessageForwardedBundleHeaderCount>
+              {items.length} messages
+            </MessageForwardedBundleHeaderCount>
           </MessageForwardedBundleHeaderContent>
           <MessageForwardedBundleSource
             data-testid="forwarded-bundle-source-label"
-            title="Open source message"
-            render={
-              <a
-                href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread}
-                aria-label="Open source thread in release-notes"
-              />
-            }
+            title={sourceHref ? sourceTitle : undefined}
+            render={sourceHref ? <a href={sourceHref} aria-label={sourceAriaLabel} /> : undefined}
           >
-            from #release-notes
+            from #{sourceLabel}
           </MessageForwardedBundleSource>
         </MessageForwardedBundleHeader>
-        <MessageForwardedBundleItems collapsed={!expanded}>
-          <ForwardedBundleItemsContent />
+        <MessageForwardedBundleItems collapsed={collapsible && !expanded}>
+          <ForwardedBundleItemsContent items={items} />
         </MessageForwardedBundleItems>
-        <MessageForwardedBundleFooter>
-          <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
-            {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-            {expanded ? "Collapse" : "Show all 4 messages"}
-          </MessageForwardedBundleToggle>
-        </MessageForwardedBundleFooter>
+        {collapsible ? (
+          <MessageForwardedBundleFooter>
+            <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
+              {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+              {expanded ? "Collapse" : `Show all ${items.length} messages`}
+            </MessageForwardedBundleToggle>
+          </MessageForwardedBundleFooter>
+        ) : null}
       </MessageForwardedBundle>
     </MessageItemEmbedded>
   );

@@ -1,40 +1,65 @@
 import {
-  SystemMessage,
-  SystemMessageContent,
   SystemMessageGroup,
   SystemMessageGroupChevron,
   SystemMessageGroupDisclosure,
   SystemMessageGroupHeader,
   SystemMessageGroupPanel,
   SystemMessageGroupSummary,
-  SystemMessageTime,
 } from "raft-ui";
+import {
+  SystemMessageRowComposition,
+  type SystemMessageRowCompositionProps,
+} from "./preview.composition.tsx";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
 // @docs-source-strip-end
 
+export function SystemMessageGroupComposition({
+  id,
+  summary,
+  events,
+}: {
+  id?: string;
+  summary: string;
+  events: readonly SystemMessageRowCompositionProps[];
+}) {
+  return (
+    <SystemMessageGroup id={id}>
+      <SystemMessageGroupHeader>
+        <SystemMessageGroupDisclosure title={summary}>
+          <SystemMessageGroupSummary>{summary}</SystemMessageGroupSummary>
+          <SystemMessageGroupChevron />
+        </SystemMessageGroupDisclosure>
+      </SystemMessageGroupHeader>
+      <SystemMessageGroupPanel>
+        {events.map((event) => (
+          <SystemMessageRowComposition
+            key={event.id ?? `${event.createdAt}:${event.content}`}
+            {...event}
+          />
+        ))}
+      </SystemMessageGroupPanel>
+    </SystemMessageGroup>
+  );
+}
+
 export function SystemMessageGroupedGenericContent() {
   return (
     <div className="w-full max-w-3xl">
-      <SystemMessageGroup>
-        <SystemMessageGroupHeader>
-          <SystemMessageGroupDisclosure title="There are 2 system messages">
-            <SystemMessageGroupSummary>There are 2 system messages</SystemMessageGroupSummary>
-            <SystemMessageGroupChevron />
-          </SystemMessageGroupDisclosure>
-        </SystemMessageGroupHeader>
-        <SystemMessageGroupPanel>
-          <SystemMessage>
-            <SystemMessageTime>2:18 PM</SystemMessageTime>
-            <SystemMessageContent>📦 Atlas archived this channel</SystemMessageContent>
-          </SystemMessage>
-          <SystemMessage>
-            <SystemMessageTime>2:19 PM</SystemMessageTime>
-            <SystemMessageContent>📤 Atlas unarchived this channel</SystemMessageContent>
-          </SystemMessage>
-        </SystemMessageGroupPanel>
-      </SystemMessageGroup>
+      <SystemMessageGroupComposition
+        summary="There are 2 system messages"
+        events={[
+          {
+            createdAt: "2:18 PM",
+            content: "📦 Atlas archived this channel",
+          },
+          {
+            createdAt: "2:19 PM",
+            content: "📤 Atlas unarchived this channel",
+          },
+        ]}
+      />
     </div>
   );
 }
