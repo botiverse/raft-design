@@ -1,10 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { PlaygroundChannelPanel } from "#/playground/conversation/playground-channel-panel.tsx";
+import { getPlaygroundSidePanelOwner } from "#/playground/navigation/playground-search.ts";
 import {
   DEFAULT_CHANNEL_ID,
   getPlaygroundChannel,
-  getPlaygroundThread,
   isPlaygroundDmId,
   isPlaygroundRoomChannelId,
 } from "#/playground/mock/index.ts";
@@ -28,8 +28,9 @@ export const Route = createFileRoute("/playground/s/$serverSlug/channel/$channel
       });
     }
 
-    const threadContext = search.thread ? getPlaygroundThread(search.thread) : undefined;
-    if (threadContext && threadContext.channelId !== params.channelId) {
+    const hasSidePanelSearch = Boolean(search.thread || search.legacyTask);
+    const sidePanelOwner = getPlaygroundSidePanelOwner(search);
+    if (hasSidePanelSearch && sidePanelOwner !== params.channelId) {
       throw redirect({
         to: "/playground/s/$serverSlug/channel/$channelId",
         params: { channelId: params.channelId, serverSlug: params.serverSlug },

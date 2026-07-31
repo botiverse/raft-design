@@ -56,23 +56,29 @@ function MessageVideoPendingComposition() {
   );
 }
 
-function MessageVideoPreviewFailedComposition() {
+export function MessageVideoPreviewFailedComposition({
+  name = "demo-recording.webm",
+  reason = "This video may use a codec this browser cannot preview.",
+  onDownload = () => downloadMessageFixture("demo-recording.webm"),
+}: {
+  name?: string;
+  reason?: string;
+  onDownload?: (() => void) | null;
+} = {}) {
   return (
-    <MessageVideoPreview title="demo-recording.webm">
+    <MessageVideoPreview title={name}>
       <MessageVideoPreviewFallback>
         <MessageVideoPreviewFailureContent>
           <MessageVideoPreviewFailureIcon>
             <AlertTriangle />
           </MessageVideoPreviewFailureIcon>
-          <MessageVideoPreviewFailureTitle>
-            This video may use a codec this browser cannot preview.
-          </MessageVideoPreviewFailureTitle>
-          <MessageVideoPreviewFailureAction
-            onClick={() => downloadMessageFixture("demo-recording.webm")}
-          >
-            <ArrowDownToLine />
-            Download to view
-          </MessageVideoPreviewFailureAction>
+          <MessageVideoPreviewFailureTitle>{reason}</MessageVideoPreviewFailureTitle>
+          {onDownload ? (
+            <MessageVideoPreviewFailureAction onClick={onDownload}>
+              <ArrowDownToLine />
+              Download to view
+            </MessageVideoPreviewFailureAction>
+          ) : null}
         </MessageVideoPreviewFailureContent>
       </MessageVideoPreviewFallback>
     </MessageVideoPreview>

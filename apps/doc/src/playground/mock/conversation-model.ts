@@ -12,40 +12,150 @@ export type PlaygroundMessageReaction = {
 
 export type PlaygroundMessageTranslation = {
   display?: "toggle" | "bilingual";
+  autoResolve?: boolean;
+  initialState?: "idle" | "pending" | "translated" | "original" | "failed";
   outcome?: "success" | "failure";
   translatedContent?: string;
 };
 
 export type PlaygroundMentionReadState = "read" | "unread";
 
-export type PlaygroundMessageAttachment = {
+type PlaygroundMessageAttachmentBase = {
   mediaType: string;
   name: string;
-  previewUrl?: string;
 };
 
-export type PlaygroundMessagePresentation = "action-card" | "forwarded-bundle" | "quoted-preview";
+export type PlaygroundMessageAttachment =
+  | (PlaygroundMessageAttachmentBase & {
+      state: { kind: "ready"; previewUrl?: string; size?: string };
+    })
+  | (PlaygroundMessageAttachmentBase & {
+      state: { kind: "processing"; label: string };
+    })
+  | (PlaygroundMessageAttachmentBase & {
+      state: { kind: "failed"; reason: string; downloadUrl?: string };
+    });
 
-export type PlaygroundMessage = {
-  id: PlaygroundMessageId;
-  channelId: string;
-  senderType: "user" | "agent";
+export type PlaygroundActionCardResolution =
+  | {
+      kind: "ready";
+      actionLabel: string;
+      completion: { label: string; detail: string };
+    }
+  | { kind: "completed"; label: string; detail: string }
+  | { kind: "failed"; reason: string };
+
+export type PlaygroundActionCardPresentation = {
+  kind: "action-card";
+  title: string;
+  properties: readonly { label: string; value: string }[];
+  hint?: string;
+  resolution: PlaygroundActionCardResolution;
+};
+
+export type PlaygroundForwardedBundleItem = {
+  id: string;
   senderId: PlaygroundActorId;
-  messageType: "chat" | PlaygroundMessagePresentation;
-  content: string;
   createdAt: string;
   createdAtDateTime?: string;
+  content: string;
+  attachment?: { name: string; mediaType: string };
+};
+
+export type PlaygroundForwardedBundlePresentation = {
+  kind: "forwarded-bundle";
+  display: "compact" | "collapsible";
+  source: {
+    channelId: string;
+    messageId?: PlaygroundMessageId;
+  };
+  items: readonly [PlaygroundForwardedBundleItem, ...PlaygroundForwardedBundleItem[]];
+};
+
+export type PlaygroundQuotedPreviewTarget = {
+  channelId: string;
+  messageId: PlaygroundMessageId;
+  thread?: boolean;
+};
+
+export type PlaygroundQuotedPreviewPresentation =
+  | {
+      kind: "quoted-preview";
+      state: "ready";
+      target: PlaygroundQuotedPreviewTarget;
+      senderId: PlaygroundActorId;
+      createdAt: string;
+      content: string;
+      attachmentCount?: number;
+    }
+  | {
+      kind: "quoted-preview";
+      state: "loading";
+      target: PlaygroundQuotedPreviewTarget;
+      label: string;
+    }
+  | {
+      kind: "quoted-preview";
+      state: "unavailable";
+      target: PlaygroundQuotedPreviewTarget;
+      reason: string;
+    };
+
+export type PlaygroundMessagePresentation =
+  | PlaygroundActionCardPresentation
+  | PlaygroundForwardedBundlePresentation
+  | PlaygroundQuotedPreviewPresentation;
+
+export type PlaygroundSenderLifecycle = "left" | "removed" | "deleted";
+
+type PlaygroundMessageBase = {
+  id: PlaygroundMessageId;
+  channelId: string;
+  createdAt: string;
+  createdAtDateTime?: string;
+  unread?: boolean;
+};
+
+export type PlaygroundChatMessage = PlaygroundMessageBase & {
+  kind: "chat";
+  senderType: "user" | "agent";
+  senderId: PlaygroundActorId;
+  content: string;
   reactions: readonly PlaygroundMessageReaction[];
   attachments?: readonly PlaygroundMessageAttachment[];
   presentation?: PlaygroundMessagePresentation;
   translation?: PlaygroundMessageTranslation;
-  unread?: boolean;
+  senderLifecycle?: PlaygroundSenderLifecycle;
+  inlineStatus?: "converting";
+  readReceipt?: { kind: "read"; readAt?: string };
+  savedAt?: string;
+  savedAtDateTime?: string;
   mentionReadStates?: Readonly<Partial<Record<PlaygroundActorId, PlaygroundMentionReadState>>>;
 };
 
+export type PlaygroundSystemEvent = {
+  id: string;
+  createdAt: string;
+  createdAtDateTime?: string;
+  content: string;
+};
+
+export type PlaygroundSystemMessage = PlaygroundMessageBase & {
+  kind: "system";
+  event:
+    | { kind: "single"; content: string }
+    | {
+        kind: "group";
+        summary: string;
+        events: readonly [PlaygroundSystemEvent, ...PlaygroundSystemEvent[]];
+      };
+};
+
+export type PlaygroundMessage = PlaygroundChatMessage | PlaygroundSystemMessage;
+
 export type PlaygroundThread = {
-  parent: PlaygroundMessage;
-  replies: readonly PlaygroundMessage[];
+  parent: PlaygroundChatMessage;
+  replies: readonly PlaygroundChatMessage[];
   unreadCount?: number;
 };
 
@@ -109,14 +219,32 @@ export type PlaygroundStoryMessageInput = {
   attachments?: readonly PlaygroundMessageAttachment[];
   presentation?: PlaygroundMessagePresentation;
   translation?: PlaygroundMessageTranslation;
+  senderLifecycle?: PlaygroundSenderLifecycle;
+  inlineStatus?: "converting";
+  readReceipt?: { kind: "read"; readAt?: string };
+  savedAt?: string;
+  savedAtDateTime?: string;
   unread?: boolean;
   mentionReadStates?: Readonly<Partial<Record<PlaygroundActorId, PlaygroundMentionReadState>>>;
 };
 
+export type PlaygroundStorySystemMessageInput = {
+  kind: "system";
+  createdAt?: string;
+  createdAtDateTime?: string;
+  event: PlaygroundSystemMessage["event"];
+};
+
+function isPlaygroundStorySystemMessage(
+  input: PlaygroundStoryMessageInput | PlaygroundStorySystemMessageInput,
+): input is PlaygroundStorySystemMessageInput {
+  return "kind" in input && input.kind === "system";
+}
+
 export type PlaygroundConversationStory = {
   opening: PlaygroundStoryMessageInput;
   reply: PlaygroundStoryMessageInput;
-  updates?: readonly PlaygroundStoryMessageInput[];
+  updates?: readonly (PlaygroundStoryMessageInput | PlaygroundStorySystemMessageInput)[];
   thread: {
     replies: readonly PlaygroundStoryMessageInput[];
   };
@@ -173,6 +301,13 @@ function buildStandardStory<TId extends string>(
     story.opening.presentation,
     story.opening.attachments,
     story.opening.mentionReadStates,
+    {
+      inlineStatus: story.opening.inlineStatus,
+      readReceipt: story.opening.readReceipt,
+      savedAt: story.opening.savedAt,
+      savedAtDateTime: story.opening.savedAtDateTime,
+      senderLifecycle: story.opening.senderLifecycle,
+    },
   );
   const reply = definePlaygroundMessage(
     `${channelId}:reply`,
@@ -187,13 +322,31 @@ function buildStandardStory<TId extends string>(
     story.reply.presentation,
     story.reply.attachments,
     story.reply.mentionReadStates,
+    {
+      inlineStatus: story.reply.inlineStatus,
+      readReceipt: story.reply.readReceipt,
+      savedAt: story.reply.savedAt,
+      savedAtDateTime: story.reply.savedAtDateTime,
+      senderLifecycle: story.reply.senderLifecycle,
+    },
   );
-  const updates = (story.updates ?? []).map((update, index) =>
-    definePlaygroundMessage(
-      `${channelId}:update-${index + 1}`,
+  const updates = (story.updates ?? []).map((update, index) => {
+    const id = `${channelId}:update-${index + 1}` as PlaygroundMessageId;
+    const createdAt = update.createdAt ?? defaultThreadReplyTime(index);
+    if (isPlaygroundStorySystemMessage(update)) {
+      return definePlaygroundSystemMessage(
+        id,
+        channelId,
+        createdAt,
+        update.event,
+        update.createdAtDateTime,
+      );
+    }
+    return definePlaygroundMessage(
+      id,
       channelId,
       update.senderId,
-      update.createdAt ?? defaultThreadReplyTime(index),
+      createdAt,
       update.content,
       update.unread,
       update.reactions,
@@ -202,8 +355,15 @@ function buildStandardStory<TId extends string>(
       update.presentation,
       update.attachments,
       update.mentionReadStates,
-    ),
-  );
+      {
+        inlineStatus: update.inlineStatus,
+        readReceipt: update.readReceipt,
+        savedAt: update.savedAt,
+        savedAtDateTime: update.savedAtDateTime,
+        senderLifecycle: update.senderLifecycle,
+      },
+    );
+  });
   const replies = story.thread.replies.map((threadReply, index) =>
     definePlaygroundMessage(
       `${channelId}:thread-reply-${index + 1}`,
@@ -218,6 +378,13 @@ function buildStandardStory<TId extends string>(
       threadReply.presentation,
       threadReply.attachments,
       threadReply.mentionReadStates,
+      {
+        inlineStatus: threadReply.inlineStatus,
+        readReceipt: threadReply.readReceipt,
+        savedAt: threadReply.savedAt,
+        savedAtDateTime: threadReply.savedAtDateTime,
+        senderLifecycle: threadReply.senderLifecycle,
+      },
     ),
   );
 
@@ -326,7 +493,11 @@ export function definePlaygroundMessage(
   presentation?: PlaygroundMessagePresentation,
   attachments?: readonly PlaygroundMessageAttachment[],
   mentionReadStates?: Readonly<Partial<Record<PlaygroundActorId, PlaygroundMentionReadState>>>,
-): PlaygroundMessage {
+  initial?: Pick<
+    PlaygroundChatMessage,
+    "inlineStatus" | "readReceipt" | "savedAt" | "savedAtDateTime" | "senderLifecycle"
+  >,
+): PlaygroundChatMessage {
   const sender = getPlaygroundActor(senderId);
   const displayTimeMatch = createdAt.match(/^(\d{1,2}):(\d{2})\s+(AM|PM)$/i);
   const resolvedDateTime =
@@ -339,11 +510,11 @@ export function definePlaygroundMessage(
         })()
       : undefined);
   return {
+    kind: "chat",
     id,
     channelId,
     senderType: sender.type === "agent" ? "agent" : "user",
     senderId,
-    messageType: presentation ?? "chat",
     content,
     createdAt,
     ...(resolvedDateTime ? { createdAtDateTime: resolvedDateTime } : {}),
@@ -353,12 +524,43 @@ export function definePlaygroundMessage(
     ...(translation ? { translation } : {}),
     ...(unread ? { unread: true } : {}),
     ...(mentionReadStates ? { mentionReadStates } : {}),
+    ...initial,
   };
 }
 
+export function definePlaygroundSystemMessage(
+  id: PlaygroundMessageId,
+  channelId: string,
+  createdAt: string,
+  event: PlaygroundSystemMessage["event"],
+  createdAtDateTime?: string,
+): PlaygroundSystemMessage {
+  return {
+    kind: "system",
+    id,
+    channelId,
+    createdAt,
+    ...(createdAtDateTime ? { createdAtDateTime } : {}),
+    event,
+  };
+}
+
+export function getPlaygroundMessageText(message: PlaygroundMessage): string {
+  if (message.kind === "chat") return message.content;
+  return message.event.kind === "single"
+    ? message.event.content
+    : [message.event.summary, ...message.event.events.map((event) => event.content)].join("\n");
+}
+
+export function isPlaygroundChatMessage(
+  message: PlaygroundMessage,
+): message is PlaygroundChatMessage {
+  return message.kind === "chat";
+}
+
 export function definePlaygroundThread(
-  parent: PlaygroundMessage,
-  replies: readonly PlaygroundMessage[],
+  parent: PlaygroundChatMessage,
+  replies: readonly PlaygroundChatMessage[],
   unreadCount?: number,
 ): PlaygroundThread {
   const resolvedUnreadCount = unreadCount ?? replies.filter((reply) => reply.unread).length;

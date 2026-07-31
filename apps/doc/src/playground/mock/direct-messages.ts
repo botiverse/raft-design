@@ -163,6 +163,14 @@ export const PLAYGROUND_DIRECT_MESSAGE_CONVERSATIONS = [
           content:
             "I added a cold-start trace so the generated-assets step is visible in the setup report.",
         },
+        {
+          senderId: "cuvii",
+          createdAt: "09:32 AM",
+          content: "I added the cold-start trace to the bootstrap guide and sent it for review.",
+          readReceipt: { kind: "read", readAt: "09:34 AM" },
+          savedAt: "Today, 09:35 AM",
+          savedAtDateTime: "2026-07-27T09:35:00Z",
+        },
       ],
       thread: {
         replies: [

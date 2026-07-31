@@ -3,10 +3,8 @@ import { useNavigate } from "@tanstack/react-router";
 import {
   AlertTriangle,
   Bookmark,
-  Download,
-  ExternalLink,
+  CheckCircle,
   Languages,
-  MessageSquare,
   MessageSquareDot,
   Pencil,
   RotateCcw,
@@ -15,6 +13,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Badge,
   ContextMenu,
   ContextMenuItem,
   ContextMenuTrigger,
@@ -36,24 +35,19 @@ import {
   MessageItemFooter,
   MessageItemGutter,
   MessageItemHeader,
+  MessageItemInlineStatus,
   MessageItemMeta,
+  MessageItemReadReceipt,
   MessageReactionChip,
   MessageItemSavedIndicator,
   MessageItemSender,
+  MessageItemSenderBadges,
   MessageItemSenderButton,
   MessageItemTime,
   MessageMultiSelectCheckbox,
   MessageReactionCount,
 } from "raft-ui";
 import {
-  MessageAttachmentAction,
-  MessageAttachmentCommentSummary,
-  MessageAttachmentCard,
-  MessageAttachmentMeta,
-  MessageAttachmentMetaEnd,
-  MessageAttachmentMetaStart,
-  MessageAttachmentSummary,
-  MessageAttachmentTitle,
   MessageItemTranslationAction,
   MessageItemTranslationFailedStatus,
   MessageItemTranslationOriginal,
@@ -64,12 +58,16 @@ import {
 } from "raft-ui/wip";
 
 import { MessageContextMenuComposition } from "#/modules/message-item/compositions/context-menu.composition.tsx";
-import { ActionCardComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
-import { ForwardedBundleEmbeddedComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
-import { QuotedPreviewEmbeddedComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
-import { MessageAudioAttachmentComposition } from "#/modules/message-attachment/compositions/file-attachments.composition.tsx";
+import {
+  MessageAudioAttachmentComposition,
+  MessageGenericAttachmentComposition,
+  MessagePendingAttachmentComposition,
+} from "#/modules/message-attachment/compositions/file-attachments.composition.tsx";
 import { MessageImageGallerySingleComposition } from "#/modules/message-media/compositions/image-gallery-single.composition.tsx";
-import { MessageVideoPreviewComposition } from "#/modules/message-media/compositions/video-states.composition.tsx";
+import {
+  MessageVideoPreviewComposition,
+  MessageVideoPreviewFailedComposition,
+} from "#/modules/message-media/compositions/video-states.composition.tsx";
 import { MessageMobileReactionAdd } from "#/modules/message-item/compositions/item-preview.composition.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
@@ -86,21 +84,27 @@ import {
   PLAYGROUND_SERVER_SLUG,
   requirePlaygroundThread,
   type PlaygroundActorId,
+  type PlaygroundChatMessage,
   type PlaygroundFile,
   type PlaygroundMessage,
   type PlaygroundMessageAttachment,
+  type PlaygroundTask,
   type PlaygroundThreadId,
 } from "../mock/index.ts";
+import { PlaygroundMessagePresentation } from "./playground-message-presentations.tsx";
+import { PlaygroundSystemMessageRow } from "./playground-system-message-row.tsx";
 import {
   isPlaygroundReactionFromViewer,
   togglePlaygroundMessageReaction,
 } from "./playground-message-reactions.ts";
 import {
+  usePlaygroundMessageSaved,
   usePlaygroundMessageWorkflow,
   usePlaygroundThreadDraft,
   usePlaygroundThreadFollow,
   usePlaygroundThreadReplies,
 } from "./use-playground-message-workflow.ts";
+import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 
 function PlaygroundMessageSender({
   children,
@@ -125,42 +129,22 @@ function PlaygroundMessageSender({
 
 function PlaygroundMessageAttachments({ files }: { files: readonly PlaygroundFile[] }) {
   return files.map((file) => (
-    <MessageAttachmentCard key={file.id}>
-      <MessageAttachmentTitle>{file.filename}</MessageAttachmentTitle>
-      {file.type === "image" ? (
-        <MessageAttachmentSummary render={<MessageAttachmentCommentSummary />}>
-          <MessageSquare />2
-        </MessageAttachmentSummary>
-      ) : null}
-      <MessageAttachmentMeta>
-        <MessageAttachmentMetaStart>{file.size}</MessageAttachmentMetaStart>
-        <MessageAttachmentMetaEnd>
-          <MessageAttachmentAction
-            aria-label={`Preview ${file.filename}`}
-            title={`Preview ${file.filename}`}
-            onClick={() => {
-              window.open(file.previewUrl, "_blank", "noopener,noreferrer");
-            }}
-          >
-            <ExternalLink />
-          </MessageAttachmentAction>
-          <MessageAttachmentAction
-            aria-label={`Download ${file.filename}`}
-            title={`Download ${file.filename}`}
-            onClick={() => {
-              const link = document.createElement("a");
-              link.href = file.previewUrl;
-              link.download = file.filename;
-              link.rel = "noopener";
-              link.click();
-            }}
-          >
-            <Download />
-          </MessageAttachmentAction>
-        </MessageAttachmentMetaEnd>
-      </MessageAttachmentMeta>
-    </MessageAttachmentCard>
+    <MessageGenericAttachmentComposition
+      key={file.id}
+      name={file.filename}
+      meta={file.size}
+      onPreview={() => window.open(file.previewUrl, "_blank", "noopener,noreferrer")}
+      onDownload={() => downloadMessageAttachment(file.previewUrl, file.filename)}
+    />
   ));
+}
+
+function downloadMessageAttachment(url: string, name: string) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = name;
+  link.rel = "noopener";
+  link.click();
 }
 
 function PlaygroundSentMessageAttachments({
@@ -169,19 +153,37 @@ function PlaygroundSentMessageAttachments({
   attachments: readonly PlaygroundMessageAttachment[];
 }) {
   return attachments.map((attachment) => {
-    const openPreview = attachment.previewUrl
-      ? () => window.open(attachment.previewUrl, "_blank", "noopener,noreferrer")
+    const previewUrl = attachment.state.kind === "ready" ? attachment.state.previewUrl : undefined;
+    const downloadUrl =
+      attachment.state.kind === "failed" ? attachment.state.downloadUrl : previewUrl;
+    const openPreview = previewUrl
+      ? () => window.open(previewUrl, "_blank", "noopener,noreferrer")
       : undefined;
-    const downloadAttachment = attachment.previewUrl
-      ? () => {
-          const link = document.createElement("a");
-          link.href = attachment.previewUrl ?? "";
-          link.download = attachment.name;
-          link.rel = "noopener";
-          link.click();
-        }
+    const downloadAttachment = downloadUrl
+      ? () => downloadMessageAttachment(downloadUrl, attachment.name)
       : undefined;
-    if (attachment.previewUrl && attachment.mediaType.startsWith("image/")) {
+    if (attachment.state.kind === "processing") {
+      return (
+        <MessagePendingAttachmentComposition
+          key={`${attachment.name}:${attachment.mediaType}`}
+          name={attachment.name}
+          label={attachment.state.label}
+        />
+      );
+    }
+
+    if (attachment.state.kind === "failed" && attachment.mediaType.startsWith("video/")) {
+      return (
+        <MessageVideoPreviewFailedComposition
+          key={`${attachment.name}:${attachment.mediaType}`}
+          name={attachment.name}
+          reason={attachment.state.reason}
+          onDownload={downloadAttachment ?? null}
+        />
+      );
+    }
+
+    if (previewUrl && attachment.mediaType.startsWith("image/")) {
       return (
         <MessageImageGallerySingleComposition
           key={`${attachment.name}:${attachment.mediaType}`}
@@ -189,23 +191,23 @@ function PlaygroundSentMessageAttachments({
           name={attachment.name}
           onDownload={downloadAttachment}
           onPreview={openPreview}
-          src={attachment.previewUrl}
+          src={previewUrl}
         />
       );
     }
 
-    if (attachment.previewUrl && attachment.mediaType.startsWith("video/")) {
+    if (previewUrl && attachment.mediaType.startsWith("video/")) {
       return (
         <MessageVideoPreviewComposition
           key={`${attachment.name}:${attachment.mediaType}`}
           name={attachment.name}
           onDownload={downloadAttachment}
-          src={attachment.previewUrl}
+          src={previewUrl}
         />
       );
     }
 
-    if (attachment.previewUrl && attachment.mediaType.startsWith("audio/")) {
+    if (previewUrl && attachment.mediaType.startsWith("audio/")) {
       return (
         <MessageAudioAttachmentComposition
           key={`${attachment.name}:${attachment.mediaType}`}
@@ -218,41 +220,20 @@ function PlaygroundSentMessageAttachments({
     }
 
     return (
-      <div key={`${attachment.name}:${attachment.mediaType}`} className="grid gap-2">
-        <MessageAttachmentCard>
-          <MessageAttachmentTitle>{attachment.name}</MessageAttachmentTitle>
-          <MessageAttachmentMeta>
-            {openPreview || downloadAttachment ? (
-              <MessageAttachmentMetaEnd>
-                {openPreview ? (
-                  <MessageAttachmentAction
-                    aria-label={`Preview ${attachment.name}`}
-                    title={`Preview ${attachment.name}`}
-                    onClick={openPreview}
-                  >
-                    <ExternalLink />
-                  </MessageAttachmentAction>
-                ) : null}
-                {downloadAttachment ? (
-                  <MessageAttachmentAction
-                    aria-label={`Download ${attachment.name}`}
-                    title={`Download ${attachment.name}`}
-                    onClick={downloadAttachment}
-                  >
-                    <Download />
-                  </MessageAttachmentAction>
-                ) : null}
-              </MessageAttachmentMetaEnd>
-            ) : null}
-          </MessageAttachmentMeta>
-        </MessageAttachmentCard>
-      </div>
+      <MessageGenericAttachmentComposition
+        key={`${attachment.name}:${attachment.mediaType}`}
+        name={attachment.name}
+        meta={attachment.state.kind === "ready" ? attachment.state.size : attachment.state.reason}
+        onPreview={openPreview}
+        onDownload={downloadAttachment ?? null}
+      />
     );
   });
 }
 
 export type PlaygroundMessageRowProps = {
   message: PlaygroundMessage;
+  task?: PlaygroundTask;
   searchQuery?: string;
   attachments?: ReactNode;
   footer?: ReactNode;
@@ -275,7 +256,7 @@ function PlaygroundInlineReplies({
   hasDraft,
 }: {
   hasDraft: boolean;
-  replies: readonly PlaygroundMessage[];
+  replies: readonly PlaygroundChatMessage[];
   threadId: PlaygroundThreadId;
   unreadCount?: number;
 }) {
@@ -337,8 +318,18 @@ function PlaygroundInlineReplies({
   );
 }
 
-export function PlaygroundMessageRow({
+function initialTranslationState(message: PlaygroundChatMessage) {
+  return message.translation?.initialState ?? "idle";
+}
+
+function initialTaskState(task: PlaygroundTask | undefined) {
+  if (!task) return "none";
+  return task.status === "done" || task.status === "closed" ? "done" : "open";
+}
+
+function PlaygroundChatMessageRow({
   message,
+  task,
   searchQuery,
   footer,
   focusTarget = false,
@@ -352,13 +343,12 @@ export function PlaygroundMessageRow({
   selected = false,
   onEnterSelectionMode,
   onSelectedChange,
-}: PlaygroundMessageRowProps) {
+}: PlaygroundMessageRowProps & { message: PlaygroundChatMessage }) {
   const {
     channelId,
     content: body,
     createdAt: time,
     id: selectId,
-    presentation,
     reactions,
     senderId: actorId,
     translation,
@@ -383,10 +373,21 @@ export function PlaygroundMessageRow({
   const [menuOpen, setMenuOpen] = useState(false);
   const { workflow, update: updateWorkflow } = usePlaygroundMessageWorkflow(
     rowSelectId,
-    useMemo(() => ({ reactions, saved: false, task: "none" }), [reactions]),
+    useMemo(
+      () => ({
+        ...(message.presentation?.kind === "action-card"
+          ? { actionCardResolution: message.presentation.resolution }
+          : {}),
+        reactions,
+        translation: initialTranslationState(message),
+      }),
+      [message, reactions],
+    ),
   );
+  const { saved: isSaved, setSaved } = usePlaygroundMessageSaved(message, surface, threadId);
+  const { setTasks } = usePlaygroundTaskState();
   useEffect(() => {
-    if (workflow.translation !== "pending") return;
+    if (workflow.translation !== "pending" || translation?.autoResolve === false) return;
     const timer = window.setTimeout(() => {
       updateWorkflow((current) => ({
         ...current,
@@ -394,10 +395,9 @@ export function PlaygroundMessageRow({
       }));
     }, 400);
     return () => window.clearTimeout(timer);
-  }, [translation?.outcome, updateWorkflow, workflow.translation]);
+  }, [translation?.autoResolve, translation?.outcome, updateWorkflow, workflow.translation]);
   const { followed: isFollowed, setFollowed } = usePlaygroundThreadFollow(threadId, false);
-  const isSaved = workflow.saved;
-  const taskState = workflow.task;
+  const taskState = initialTaskState(task);
   const toggleReaction = (emoji: string) =>
     updateWorkflow((current) => ({
       ...current,
@@ -429,12 +429,31 @@ export function PlaygroundMessageRow({
       searchQuery={searchQuery}
     />
   );
-  const composedBody = presentation === "action-card" ? <ActionCardComposition /> : renderedBody;
+  const actionCardPresentation =
+    message.presentation?.kind === "action-card" ? message.presentation : undefined;
+  const actionPresentation = actionCardPresentation ? (
+    <PlaygroundMessagePresentation
+      presentation={actionCardPresentation}
+      actionCardResolution={workflow.actionCardResolution}
+      onActionCardResolve={() =>
+        updateWorkflow((current) => {
+          const resolution = current.actionCardResolution ?? actionCardPresentation.resolution;
+          if (resolution?.kind !== "ready") return current;
+          return {
+            ...current,
+            actionCardResolution: {
+              kind: "completed",
+              ...resolution.completion,
+            },
+          };
+        })
+      }
+    />
+  ) : null;
+  const composedBody = actionPresentation ?? renderedBody;
   const embeddedPresentation =
-    presentation === "forwarded-bundle" ? (
-      <ForwardedBundleEmbeddedComposition />
-    ) : presentation === "quoted-preview" ? (
-      <QuotedPreviewEmbeddedComposition />
+    message.presentation && message.presentation.kind !== "action-card" ? (
+      <PlaygroundMessagePresentation presentation={message.presentation} />
     ) : null;
 
   const openThread =
@@ -478,14 +497,34 @@ export function PlaygroundMessageRow({
           ) : null}
         </MessageItemGutter>
       ) : (
-        <PlaygroundMessageAvatar actorId={actorId} status={actor.presence ?? "offline"} />
+        <PlaygroundMessageAvatar
+          actorId={actorId}
+          status={actor.presence ?? "offline"}
+          deactivated={Boolean(message.senderLifecycle)}
+        />
       )}
       <MessageItemContent>
         {!compact ? (
           <MessageItemHeader>
-            <PlaygroundMessageSender mentionHandle={actorId}>{actor.name}</PlaygroundMessageSender>
+            {message.senderLifecycle ? (
+              <MessageItemSender>{actor.name}</MessageItemSender>
+            ) : (
+              <PlaygroundMessageSender mentionHandle={actorId}>
+                {actor.name}
+              </PlaygroundMessageSender>
+            )}
+            {message.senderLifecycle ? (
+              <MessageItemSenderBadges>
+                <Badge appearance="soft" variant="muted" uppercase>
+                  {message.senderLifecycle}
+                </Badge>
+              </MessageItemSenderBadges>
+            ) : null}
             {actor.meta ? <MessageItemMeta title={actor.meta}>{actor.meta}</MessageItemMeta> : null}
             <MessageItemTime>{time}</MessageItemTime>
+            {message.inlineStatus ? (
+              <MessageItemInlineStatus>Converting…</MessageItemInlineStatus>
+            ) : null}
           </MessageItemHeader>
         ) : null}
         {composedBody ||
@@ -581,6 +620,7 @@ export function PlaygroundMessageRow({
         {footer ||
         workflow.reactions.length > 0 ||
         isSaved ||
+        message.readReceipt ||
         (surface === "conversation" && hasThreadDraft && !threadReplies.length) ? (
           <MessageItemFooter>
             {footer}
@@ -593,12 +633,7 @@ export function PlaygroundMessageRow({
             {isSaved ? (
               <MessageItemSavedIndicator
                 aria-label="Remove from Saved"
-                render={
-                  <button
-                    type="button"
-                    onClick={() => updateWorkflow((current) => ({ ...current, saved: false }))}
-                  />
-                }
+                render={<button type="button" onClick={() => setSaved(false)} />}
               >
                 <Bookmark fill="currentColor" />
                 <span>Saved</span>
@@ -624,6 +659,17 @@ export function PlaygroundMessageRow({
                 onReact={toggleReaction}
               />
             ) : null}
+            {message.readReceipt ? (
+              <MessageItemReadReceipt
+                title={
+                  message.readReceipt.readAt ? `Read at ${message.readReceipt.readAt}` : "Read"
+                }
+                aria-label="Read"
+              >
+                <CheckCircle />
+                <span>Read</span>
+              </MessageItemReadReceipt>
+            ) : null}
           </MessageItemFooter>
         ) : null}
         {surface === "conversation" && threadId && threadReplies.length ? (
@@ -640,7 +686,7 @@ export function PlaygroundMessageRow({
         onReplyInThread={openThread}
         portalContainer={reactionPortalContainer}
         onReact={toggleReaction}
-        onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
+        onSavedChange={setSaved}
       />
       <div ref={setReactionPortalContainer} className="contents" />
     </MessageItem>
@@ -682,8 +728,19 @@ export function PlaygroundMessageRow({
             toggleReaction(emoji);
             setMenuOpen(false);
           }}
-          onSavedChange={(next) => updateWorkflow((current) => ({ ...current, saved: next }))}
-          onTaskChange={(next) => updateWorkflow((current) => ({ ...current, task: next }))}
+          onSavedChange={setSaved}
+          onTaskChange={
+            task
+              ? (next) =>
+                  setTasks((tasks) =>
+                    tasks.map((candidate) =>
+                      candidate.id === task.id
+                        ? { ...candidate, status: next === "done" ? "done" : "todo" }
+                        : candidate,
+                    ),
+                  )
+              : undefined
+          }
           onSelectMessage={onEnterSelectionMode}
           onOpenThread={openThread}
         >
@@ -706,4 +763,11 @@ export function PlaygroundMessageRow({
       </ContextMenu>
     </div>
   );
+}
+
+export function PlaygroundMessageRow(props: PlaygroundMessageRowProps) {
+  if (props.message.kind === "system") {
+    return <PlaygroundSystemMessageRow message={props.message} />;
+  }
+  return <PlaygroundChatMessageRow {...props} message={props.message} />;
 }

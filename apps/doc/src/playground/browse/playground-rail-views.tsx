@@ -57,11 +57,16 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
+  findPlaygroundTaskForMessage,
 } from "../mock/index.ts";
+import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
+import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
+import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 import { MembersDetailView, MembersSidebar } from "./members-sidebar.tsx";
+import { MessageList } from "raft-ui/wip";
 
 type AuxiliaryRailView = Extract<PlaygroundRailView, "members" | "computers" | "settings">;
 
@@ -295,6 +300,37 @@ export function PlaygroundRailViewPanel({
 }
 
 function PlaygroundSavedView() {
+  const { savedMessagesById } = usePlaygroundSavedMessages();
+  const { tasks } = usePlaygroundTaskState();
+  const savedMessages = [...savedMessagesById.values()].sort(
+    (left, right) => Date.parse(right.savedAtDateTime) - Date.parse(left.savedAtDateTime),
+  );
+
+  if (savedMessages.length) {
+    return (
+      <ConversationPanelBody>
+        <MessageList>
+          <div className="px-3 py-2 text-xs text-foreground-muted">
+            {savedMessages.length === 1
+              ? "1 saved message"
+              : `${savedMessages.length} saved messages`}
+          </div>
+          {savedMessages.map(({ message, savedAt, surface, threadId }) => (
+            <PlaygroundMessageRow
+              key={message.id}
+              message={message}
+              task={findPlaygroundTaskForMessage(tasks, message.id)}
+              threadId={threadId ?? message.id}
+              surface={surface}
+              footer={<span className="text-xs text-foreground-muted">Saved {savedAt}</span>}
+            />
+          ))}
+          <div className="pb-3" aria-hidden />
+        </MessageList>
+      </ConversationPanelBody>
+    );
+  }
+
   return (
     <ConversationPanelBody>
       <EmptyState className="min-h-full">

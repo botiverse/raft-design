@@ -58,7 +58,7 @@ import type {
   PlaygroundChannel,
   PlaygroundComposerAttachment,
   PlaygroundInitialComposer,
-  PlaygroundMessage,
+  PlaygroundChatMessage,
   PlaygroundMessageId,
   PlaygroundThreadId,
 } from "../mock/index.ts";
@@ -727,7 +727,7 @@ export function PlaygroundThreadComposer({
   label,
   threadId,
 }: PlaygroundComposerProps & {
-  initialReplies: readonly PlaygroundMessage[];
+  initialReplies: readonly PlaygroundChatMessage[];
   threadId: PlaygroundThreadId;
 }) {
   const { appendReply } = usePlaygroundThreadReplies(threadId, initialReplies);
@@ -763,7 +763,7 @@ export function PlaygroundThreadComposer({
             attachments.map((attachment) => ({
               mediaType: attachment.mediaType,
               name: attachment.name,
-              previewUrl: attachment.previewUrl,
+              state: { kind: "ready", previewUrl: attachment.previewUrl },
             })),
           ),
         );

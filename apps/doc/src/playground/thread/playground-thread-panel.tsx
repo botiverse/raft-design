@@ -76,11 +76,7 @@ export function PlaygroundThreadPanel({
 
   const groupedReplies = replies.map((message, index) => {
     const previous = replies[index - 1];
-    const compact = Boolean(
-      previous &&
-      previous.senderId === message.senderId &&
-      previous.messageType === message.messageType,
-    );
+    const compact = Boolean(previous && previous.senderId === message.senderId);
     return { message, compact };
   });
 
@@ -202,6 +198,7 @@ export function PlaygroundThreadPanel({
           <ThreadPanelOriginalMessage>
             <PlaygroundMessageRow
               message={thread.parent}
+              task={task}
               footer={
                 task ? (
                   <TaskStatusBadge

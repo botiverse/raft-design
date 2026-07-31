@@ -31,6 +31,9 @@ import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
 import { usePlaygroundMessageMultiSelect } from "../message/use-playground-message-multi-select.ts";
 import {
   getPlaygroundActor,
+  findPlaygroundTaskForMessage,
+  getPlaygroundMessageText,
+  isPlaygroundChatMessage,
   getPlaygroundConversationMessages,
   type PlaygroundChannel,
   type PlaygroundChannelRecord,
@@ -106,8 +109,8 @@ function PlaygroundMessageMultiSelectToolbar({
   if (!selection.active) return null;
 
   const selectedContent = messages
-    .filter((message) => selection.selected.has(message.id))
-    .map((message) => message.content)
+    .filter((message) => selection.selected.has(message.id) && isPlaygroundChatMessage(message))
+    .map(getPlaygroundMessageText)
     .join("\n\n");
   const selectedMessages = messages.filter((message) => selection.selected.has(message.id));
 
@@ -158,8 +161,9 @@ function ConversationBody({
     const previous = messages[index - 1];
     const compact = Boolean(
       previous &&
-      previous.senderId === message.senderId &&
-      previous.messageType === message.messageType,
+      previous.kind === "chat" &&
+      message.kind === "chat" &&
+      previous.senderId === message.senderId,
     );
     return { message, compact };
   });
@@ -180,7 +184,7 @@ function ConversationBody({
             </div>
           ) : null}
           {groupedRows.map(({ message, compact }) => {
-            const linkedTask = tasks.find((task) => task.sourceMessageId === message.id);
+            const linkedTask = findPlaygroundTaskForMessage(tasks, message.id);
             const taskBadge = linkedTask ? (
               <TaskStatusBadge
                 taskId={linkedTask.id}
@@ -196,6 +200,7 @@ function ConversationBody({
               <PlaygroundMessageRow
                 key={message.id}
                 message={message}
+                task={linkedTask}
                 compact={compact}
                 threadId={message.id}
                 footer={taskBadge}

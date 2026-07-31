@@ -133,13 +133,23 @@ function MessageCommentedMarkdownAttachmentComposition() {
   );
 }
 
-function MessagePendingCsvAttachmentComposition() {
+export function MessagePendingAttachmentComposition({
+  name = "metrics.csv",
+  label = "Processing…",
+  meta,
+  summary,
+}: {
+  name?: string;
+  label?: ReactNode;
+  meta?: ReactNode;
+  summary?: ReactNode;
+} = {}) {
   return (
     <MessageAttachmentCard aria-busy>
-      <MessageAttachmentTitle>metrics.csv</MessageAttachmentTitle>
-      <MessageAttachmentSummary>24 rows · 6 columns</MessageAttachmentSummary>
+      <MessageAttachmentTitle>{name}</MessageAttachmentTitle>
+      {summary ? <MessageAttachmentSummary>{summary}</MessageAttachmentSummary> : null}
       <MessageAttachmentMeta>
-        <MessageAttachmentMetaStart>1 KB</MessageAttachmentMetaStart>
+        <MessageAttachmentMetaStart>{meta ?? label}</MessageAttachmentMetaStart>
         <MessageAttachmentMetaEnd>
           <Spinner size="xs" />
         </MessageAttachmentMetaEnd>
@@ -169,20 +179,41 @@ function MessageCsvAttachmentComposition() {
   );
 }
 
-function MessageGenericAttachmentComposition() {
+export function MessageGenericAttachmentComposition({
+  name = "archive.zip",
+  meta = "12 KB",
+  onDownload = () => downloadMessageFixture("archive.zip"),
+  onPreview,
+}: {
+  name?: string;
+  meta?: ReactNode;
+  onDownload?: (() => void) | null;
+  onPreview?: () => void;
+} = {}) {
   return (
     <MessageAttachmentCard>
-      <MessageAttachmentTitle>archive.zip</MessageAttachmentTitle>
+      <MessageAttachmentTitle>{name}</MessageAttachmentTitle>
       <MessageAttachmentMeta>
-        <MessageAttachmentMetaStart>12 KB</MessageAttachmentMetaStart>
+        {meta ? <MessageAttachmentMetaStart>{meta}</MessageAttachmentMetaStart> : null}
         <MessageAttachmentMetaEnd>
-          <MessageAttachmentAction
-            aria-label="Download archive.zip"
-            title="Download archive.zip"
-            onClick={() => downloadMessageFixture("archive.zip")}
-          >
-            <ArrowDownToLine />
-          </MessageAttachmentAction>
+          {onPreview ? (
+            <MessageAttachmentAction
+              aria-label={`Preview ${name}`}
+              title={`Preview ${name}`}
+              onClick={onPreview}
+            >
+              <Eye />
+            </MessageAttachmentAction>
+          ) : null}
+          {onDownload ? (
+            <MessageAttachmentAction
+              aria-label={`Download ${name}`}
+              title={`Download ${name}`}
+              onClick={onDownload}
+            >
+              <ArrowDownToLine />
+            </MessageAttachmentAction>
+          ) : null}
         </MessageAttachmentMetaEnd>
       </MessageAttachmentMeta>
     </MessageAttachmentCard>
@@ -209,7 +240,12 @@ export function MessageFileAttachmentStatesComposition() {
       <MessageHtmlPreviewAttachmentComposition />
       <MessageAudioAttachmentComposition meta="4 KB" />
       <MessageCommentedMarkdownAttachmentComposition />
-      <MessagePendingCsvAttachmentComposition />
+      <MessagePendingAttachmentComposition
+        name="metrics.csv"
+        label="Processing…"
+        meta="1 KB"
+        summary="24 rows · 6 columns"
+      />
       <MessageGenericAttachmentComposition />
     </MessageAttachmentGroup>
   );

@@ -1,25 +1,30 @@
 import { createContext } from "react";
 
-import type { MessageTaskState } from "#/modules/message-item/compositions/context-menu.composition.tsx";
 import type {
-  PlaygroundMessage,
+  PlaygroundActionCardResolution,
+  PlaygroundChatMessage,
   PlaygroundMessageId,
   PlaygroundMessageReaction,
   PlaygroundThreadId,
 } from "../mock/index.ts";
 
 export type PlaygroundMessageWorkflow = {
+  actionCardResolution?: PlaygroundActionCardResolution;
   reactions: readonly PlaygroundMessageReaction[];
-  saved: boolean;
-  task: MessageTaskState;
   translation: "idle" | "pending" | "translated" | "original" | "failed";
 };
 
 export const DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW: PlaygroundMessageWorkflow = {
   reactions: [],
-  saved: false,
-  task: "none",
   translation: "idle",
+};
+
+export type PlaygroundSavedMessageState = {
+  message: PlaygroundChatMessage;
+  savedAt: string;
+  savedAtDateTime: string;
+  surface: "conversation" | "thread";
+  threadId?: PlaygroundThreadId;
 };
 
 export type PlaygroundMessageWorkflowState = {
@@ -29,13 +34,20 @@ export type PlaygroundMessageWorkflowState = {
   ) => PlaygroundMessageWorkflow;
   getThreadReplies: (
     threadId: PlaygroundThreadId,
-    fallback?: readonly PlaygroundMessage[],
-  ) => readonly PlaygroundMessage[];
+    fallback?: readonly PlaygroundChatMessage[],
+  ) => readonly PlaygroundChatMessage[];
   getThreadDraft: (threadId: PlaygroundThreadId, fallback?: string) => string;
+  savedMessagesById: ReadonlyMap<PlaygroundMessageId, PlaygroundSavedMessageState>;
   appendThreadReply: (
     threadId: PlaygroundThreadId,
-    fallback: readonly PlaygroundMessage[],
-    reply: PlaygroundMessage,
+    fallback: readonly PlaygroundChatMessage[],
+    reply: PlaygroundChatMessage,
+  ) => void;
+  setMessageSaved: (
+    message: PlaygroundChatMessage,
+    saved: boolean,
+    surface: "conversation" | "thread",
+    threadId?: PlaygroundThreadId,
   ) => void;
   setThreadDraft: (threadId: PlaygroundThreadId, draft: string) => void;
   update: (
