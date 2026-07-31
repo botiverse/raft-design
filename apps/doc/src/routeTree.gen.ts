@@ -63,6 +63,7 @@ import { Route as ComponentsNotificationCenterRouteImport } from './routes/compo
 import { Route as ComponentsPanelRouteImport } from './routes/components/panel'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
+import { Route as ComponentsProfilePanelRouteImport } from './routes/components/profile-panel'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
@@ -403,6 +404,11 @@ const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
 const ComponentsPreviewCardRoute = ComponentsPreviewCardRouteImport.update({
   id: '/preview-card',
   path: '/preview-card',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsProfilePanelRoute = ComponentsProfilePanelRouteImport.update({
+  id: '/profile-panel',
+  path: '/profile-panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsProgressRoute = ComponentsProgressRouteImport.update({
@@ -765,6 +771,7 @@ export interface FileRoutesByFullPath {
   '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
+  '/components/profile-panel': typeof ComponentsProfilePanelRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
@@ -877,6 +884,7 @@ export interface FileRoutesByTo {
   '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
+  '/components/profile-panel': typeof ComponentsProfilePanelRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
@@ -991,6 +999,7 @@ export interface FileRoutesById {
   '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
+  '/components/profile-panel': typeof ComponentsProfilePanelRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
@@ -1106,6 +1115,7 @@ export interface FileRouteTypes {
     | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
+    | '/components/profile-panel'
     | '/components/progress'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
@@ -1218,6 +1228,7 @@ export interface FileRouteTypes {
     | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
+    | '/components/profile-panel'
     | '/components/progress'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
@@ -1331,6 +1342,7 @@ export interface FileRouteTypes {
     | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
+    | '/components/profile-panel'
     | '/components/progress'
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
@@ -1785,6 +1797,13 @@ declare module '@tanstack/react-router' {
       path: '/preview-card'
       fullPath: '/components/preview-card'
       preLoaderRoute: typeof ComponentsPreviewCardRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/profile-panel': {
+      id: '/components/profile-panel'
+      path: '/profile-panel'
+      fullPath: '/components/profile-panel'
+      preLoaderRoute: typeof ComponentsProfilePanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/progress': {
@@ -2363,6 +2382,7 @@ interface ComponentsRouteChildren {
   ComponentsPanelRoute: typeof ComponentsPanelRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
+  ComponentsProfilePanelRoute: typeof ComponentsProfilePanelRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
@@ -2441,6 +2461,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsPanelRoute: ComponentsPanelRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
+  ComponentsProfilePanelRoute: ComponentsProfilePanelRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,

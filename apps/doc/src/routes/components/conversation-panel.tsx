@@ -265,8 +265,10 @@ function ConversationPanelDoc() {
           ConversationPanel owns the active-conversation layout: tabs, the message scroll boundary,
           and an optional composer footer. Compose its identity and action row with PanelHeader and
           its parts; that shared API is documented on the <Link to="/components/panel">Panel</Link>
-          page. This page documents the conversation-specific parts and keeps the complete
-          message-list and composer assembly in the executable composition above.
+          page. Member and agent details use the separate{" "}
+          <Link to="/components/profile-panel">ProfilePanel</Link> specialization. This page
+          documents the conversation-specific parts and keeps the complete message-list and composer
+          assembly in the executable composition above.
         </p>
       </DocSection>
 

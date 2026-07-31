@@ -66,6 +66,12 @@ const NAV = [
         to: "/components/panel",
         status: "done",
       },
+      {
+        label: "ProfilePanel",
+        to: "/components/profile-panel",
+        status: "wip",
+        reason: "Profile-specific API and theme treatment are still being refined.",
+      },
       { label: "Sidebar", to: "/components/sidebar", status: "done" },
       { label: "SidebarItem", to: "/components/sidebar-item", status: "done" },
     ],

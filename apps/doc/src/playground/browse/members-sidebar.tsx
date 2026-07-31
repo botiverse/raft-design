@@ -39,6 +39,7 @@ import {
   type PlaygroundActor,
 } from "../mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "../message/playground-presence.ts";
+import { getSelectedMember, memberDetailId } from "./member-selection.ts";
 
 const agents: readonly PlaygroundActor[] = PLAYGROUND_ACTORS.filter(
   (actor) => actor.type === "agent",
@@ -46,11 +47,6 @@ const agents: readonly PlaygroundActor[] = PLAYGROUND_ACTORS.filter(
 const humans: readonly PlaygroundActor[] = PLAYGROUND_ACTORS.filter(
   (actor) => actor.type === "human",
 );
-
-const memberDetailId = {
-  agent: (id: string) => `agent:${id}`,
-  human: (id: string) => `human:${id}`,
-} as const;
 
 type AgentGroup = {
   machineId: string;
@@ -224,42 +220,10 @@ export function MembersDetailView({ selectedId }: { selectedId?: string }) {
     );
   }
 
-  const presence = selected.presence ? PLAYGROUND_PRESENCE_STATUS[selected.presence] : null;
-  const machine = selected.machineId ? getPlaygroundMachine(selected.machineId) : null;
-
   return (
-    <ConversationPanelBody>
-      <div className="flex h-full items-center justify-center p-6">
-        <section className="w-full max-w-md rounded-lg border border-line-subtle bg-layer-panel p-6 shadow-sm">
-          <div className="flex items-center gap-3">
-            <Avatar size="lg" type={selected.type}>
-              {selected.avatarSrc ? <AvatarImage src={selected.avatarSrc} alt="" /> : null}
-              <AvatarFallback>{selected.fallback}</AvatarFallback>
-            </Avatar>
-            <div className="min-w-0 flex-1">
-              <h2 className="truncate text-lg font-semibold text-foreground-strong">
-                {selected.name}
-                {selected.isSelf ? (
-                  <span className="ml-1 font-normal text-foreground-muted">(you)</span>
-                ) : null}
-              </h2>
-              <p className="text-sm capitalize text-foreground-muted">{selected.type}</p>
-            </div>
-            {presence ? (
-              <div className="flex items-center gap-2 text-sm text-foreground-muted">
-                <Status variant={presence.variant} pulse={presence.pulse} />
-                {presence.label}
-              </div>
-            ) : null}
-          </div>
-          <dl className="mt-6 grid gap-4 text-sm">
-            <MemberDetailRow label="Description" value={selected.description ?? selected.meta} />
-            <MemberDetailRow label="Handle" value={`@${selected.id}`} />
-            {machine ? <MemberDetailRow label="Computer" value={machine.name} /> : null}
-          </dl>
-        </section>
-      </div>
-    </ConversationPanelBody>
+    <MemberDetailLayout icon={<Users aria-hidden />} title={selected.name}>
+      Select the member again to open their full profile.
+    </MemberDetailLayout>
   );
 }
 
@@ -283,23 +247,4 @@ function MemberDetailLayout({
       </EmptyState>
     </ConversationPanelBody>
   );
-}
-
-function MemberDetailRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="grid grid-cols-[7rem_1fr] gap-3 border-t border-line-subtle pt-4 first:border-t-0 first:pt-0">
-      <dt className="text-foreground-icon">{label}</dt>
-      <dd className="min-w-0 truncate text-foreground">{value}</dd>
-    </div>
-  );
-}
-
-function getSelectedMember(selectedId?: string): PlaygroundActor | undefined {
-  if (!selectedId) return undefined;
-  const separator = selectedId.indexOf(":");
-  if (separator < 0) return undefined;
-  const type = selectedId.slice(0, separator);
-  const id = selectedId.slice(separator + 1);
-  if (type !== "agent" && type !== "human") return undefined;
-  return PLAYGROUND_ACTORS.find((actor) => actor.type === type && actor.id === id);
 }
