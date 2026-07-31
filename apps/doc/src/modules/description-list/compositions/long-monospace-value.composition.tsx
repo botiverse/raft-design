@@ -1,4 +1,4 @@
-import { DescriptionDetails, DescriptionItem, DescriptionList, DescriptionTerm } from "raft-ui/wip";
+import { DescriptionDetails, DescriptionItem, DescriptionList, DescriptionTerm } from "raft-ui";
 
 // @docs-source-strip-start
 import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";

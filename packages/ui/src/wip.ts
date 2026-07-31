@@ -14,21 +14,6 @@ export type {
   ToggleGroupProps,
 } from "./components/toggle-group/index";
 
-export {
-  DescriptionAction,
-  DescriptionDetails,
-  DescriptionItem,
-  DescriptionList,
-  DescriptionTerm,
-} from "./components/description-list/index";
-export type {
-  DescriptionActionProps,
-  DescriptionDetailsProps,
-  DescriptionItemProps,
-  DescriptionListProps,
-  DescriptionTermProps,
-} from "./components/description-list/index";
-
 export * from "./components/message-item/index";
 
 export {
