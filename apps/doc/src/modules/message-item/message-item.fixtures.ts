@@ -13,6 +13,7 @@ export const MESSAGE_FIXTURE_VIDEO_SRC =
 
 export const MESSAGE_PLAYGROUND_URLS = {
   apiDocsMessage: "/playground/s/raft/channel/all?thread=all%3Aapi-docs#message-all%3Aapi-docs",
+  northstarJointChannel: "/playground/s/raft/channel/partner-ops",
   noahDm: "/playground/s/raft/dm/dm-noah",
   noahDmThread: "/playground/s/raft/dm/dm-noah?thread=dm-noah%3Areply",
   releaseNotesChannel: "/playground/s/raft/channel/release-notes",
