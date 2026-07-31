@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -17,45 +16,8 @@ import {
 } from "#/lib/source-comparison-code.ts";
 import { MessageSystemMessagesComposition } from "#/modules/system-message/compositions/preview.composition.tsx";
 import systemMessagePreviewSource from "#/modules/system-message/compositions/preview.composition.tsx?raw";
-import systemMessageGroupedListSource from "#/modules/system-message/system-message-grouped-list.tsx?raw";
-import { SystemMessageChannelArchiveContent } from "#/modules/system-message/compositions/channel-archive.composition.tsx";
 import channelArchiveSource from "#/modules/system-message/compositions/channel-archive.composition.tsx?raw";
-import { SystemMessageChannelUnarchiveContent } from "#/modules/system-message/compositions/channel-unarchive.composition.tsx";
-import channelUnarchiveSource from "#/modules/system-message/compositions/channel-unarchive.composition.tsx?raw";
-import { SystemMessageChannelRenameContent } from "#/modules/system-message/compositions/channel-rename.composition.tsx";
-import channelRenameSource from "#/modules/system-message/compositions/channel-rename.composition.tsx?raw";
-import { SystemMessageAgentAddedContent } from "#/modules/system-message/compositions/agent-added.composition.tsx";
-import agentAddedSource from "#/modules/system-message/compositions/agent-added.composition.tsx?raw";
-import { SystemMessageAgentRemovedContent } from "#/modules/system-message/compositions/agent-removed.composition.tsx";
-import agentRemovedSource from "#/modules/system-message/compositions/agent-removed.composition.tsx?raw";
-import { SystemMessageAgentJoinedContent } from "#/modules/system-message/compositions/agent-joined.composition.tsx";
-import agentJoinedSource from "#/modules/system-message/compositions/agent-joined.composition.tsx?raw";
-import { SystemMessageTaskCreatedContent } from "#/modules/system-message/compositions/task-created.composition.tsx";
-import taskCreatedSource from "#/modules/system-message/compositions/task-created.composition.tsx?raw";
-import { SystemMessageTaskConvertedContent } from "#/modules/system-message/compositions/task-converted.composition.tsx";
-import taskConvertedSource from "#/modules/system-message/compositions/task-converted.composition.tsx?raw";
-import { SystemMessageTaskClaimedContent } from "#/modules/system-message/compositions/task-claimed.composition.tsx";
-import taskClaimedSource from "#/modules/system-message/compositions/task-claimed.composition.tsx?raw";
-import { SystemMessageTaskReleasedContent } from "#/modules/system-message/compositions/task-released.composition.tsx";
-import taskReleasedSource from "#/modules/system-message/compositions/task-released.composition.tsx?raw";
-import { SystemMessageTaskMovedTodoContent } from "#/modules/system-message/compositions/task-moved-todo.composition.tsx";
-import taskMovedTodoSource from "#/modules/system-message/compositions/task-moved-todo.composition.tsx?raw";
-import { SystemMessageTaskMovedInProgressContent } from "#/modules/system-message/compositions/task-moved-in-progress.composition.tsx";
-import taskMovedInProgressSource from "#/modules/system-message/compositions/task-moved-in-progress.composition.tsx?raw";
-import { SystemMessageTaskMovedInReviewContent } from "#/modules/system-message/compositions/task-moved-in-review.composition.tsx";
-import taskMovedInReviewSource from "#/modules/system-message/compositions/task-moved-in-review.composition.tsx?raw";
-import { SystemMessageTaskMovedDoneContent } from "#/modules/system-message/compositions/task-moved-done.composition.tsx";
 import taskMovedDoneSource from "#/modules/system-message/compositions/task-moved-done.composition.tsx?raw";
-import { SystemMessageTaskMovedClosedContent } from "#/modules/system-message/compositions/task-moved-closed.composition.tsx";
-import taskMovedClosedSource from "#/modules/system-message/compositions/task-moved-closed.composition.tsx?raw";
-import { SystemMessageTaskDeletedContent } from "#/modules/system-message/compositions/task-deleted.composition.tsx";
-import taskDeletedSource from "#/modules/system-message/compositions/task-deleted.composition.tsx?raw";
-import { SystemMessageTaskAssignedContent } from "#/modules/system-message/compositions/task-assigned.composition.tsx";
-import taskAssignedSource from "#/modules/system-message/compositions/task-assigned.composition.tsx?raw";
-import { SystemMessageTaskStartedContent } from "#/modules/system-message/compositions/task-started.composition.tsx";
-import taskStartedSource from "#/modules/system-message/compositions/task-started.composition.tsx?raw";
-import { SystemMessageOnboardingAllUnlockContent } from "#/modules/system-message/compositions/onboarding-all-unlock.composition.tsx";
-import onboardingAllUnlockSource from "#/modules/system-message/compositions/onboarding-all-unlock.composition.tsx?raw";
 import { SystemMessageGroupedUpdatesContent } from "#/modules/system-message/compositions/grouped-updates.composition.tsx";
 import groupedUpdatesSource from "#/modules/system-message/compositions/grouped-updates.composition.tsx?raw";
 import { SystemMessageGroupedGenericContent } from "#/modules/system-message/compositions/grouped-generic.composition.tsx";
@@ -106,8 +68,6 @@ const ANATOMY_SOURCE = `<SystemMessage>
   <SystemMessageTime />
   <SystemMessageContent>{message.content}</SystemMessageContent>
 </SystemMessage>
-
-const states = buildProductSystemMessageRenderStates(messages);
 
 <SystemMessageGroup open={open} onOpenChange={setOpen}>
   <SystemMessageGroupHeader>
@@ -181,71 +141,19 @@ const COMPOSITION_SNIPPET_IDS = {
   GroupedUpdates: "groupedUpdatesComposition",
 } as const;
 
-const GROUPED_LIST_PATH = "apps/doc/src/modules/system-message/system-message-grouped-list.tsx";
-
-const GROUPED_COMPOSITION_PATHS = {
-  groupedUpdates:
-    "apps/doc/src/modules/system-message/compositions/grouped-updates.composition.tsx",
-  groupedGeneric:
-    "apps/doc/src/modules/system-message/compositions/grouped-generic.composition.tsx",
-} as const;
-
-const GROUPED_COMPOSITION_SOURCES = createCompositionSourceMap({
-  groupedUpdates: groupedUpdatesSource,
-  groupedGeneric: groupedGenericSource,
-});
-
-function UsagePreview({ children, code }: { children: ReactNode; code: ReactNode }) {
-  return (
-    <Preview previewClassName="items-stretch">
-      <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code html={code} />
-    </Preview>
-  );
-}
-
-/** Grouped runs render through the shared grouped-list helper, so both files are shown. */
 function GroupedUsagePreview({
   children,
-  compositionHtml,
-  compositionCollapsedHtml,
-  compositionPath,
-  compositionSource,
-  groupedListHtml,
-  groupedListCollapsedHtml,
+  code,
+  collapsedCode,
 }: {
   children: ReactNode;
-  compositionHtml: ReactNode;
-  compositionCollapsedHtml: ReactNode;
-  compositionPath: string;
-  compositionSource: string;
-  groupedListHtml: ReactNode;
-  groupedListCollapsedHtml: ReactNode;
+  code: ReactNode;
+  collapsedCode: ReactNode;
 }) {
   return (
-    <Preview previewClassName="items-stretch">
+    <Preview previewClassName="items-center">
       <Preview.Canvas>{children}</Preview.Canvas>
-      <Preview.Code
-        codeBlock={
-          <DocsCodeBlock.Files
-            collapsible={false}
-            files={[
-              {
-                path: compositionPath,
-                source: compositionSource,
-                html: compositionHtml,
-                collapsedHtml: compositionCollapsedHtml,
-              },
-              {
-                path: GROUPED_LIST_PATH,
-                source: systemMessageGroupedListSource,
-                html: groupedListHtml,
-                collapsedHtml: groupedListCollapsedHtml,
-              },
-            ]}
-          />
-        }
-      />
+      <Preview.Code html={code} collapsedHtml={collapsedCode} />
     </Preview>
   );
 }
@@ -257,26 +165,8 @@ export const Route = createFileRoute("/components/system-message")({
       data: {
         anatomy: ANATOMY_SOURCE,
         preview: systemMessagePreviewSource,
-        groupedList: systemMessageGroupedListSource,
         channelArchive: channelArchiveSource,
-        channelUnarchive: channelUnarchiveSource,
-        channelRename: channelRenameSource,
-        agentAdded: agentAddedSource,
-        agentRemoved: agentRemovedSource,
-        agentJoined: agentJoinedSource,
-        taskCreated: taskCreatedSource,
-        taskConverted: taskConvertedSource,
-        taskClaimed: taskClaimedSource,
-        taskReleased: taskReleasedSource,
-        taskMovedTodo: taskMovedTodoSource,
-        taskMovedInProgress: taskMovedInProgressSource,
-        taskMovedInReview: taskMovedInReviewSource,
         taskMovedDone: taskMovedDoneSource,
-        taskMovedClosed: taskMovedClosedSource,
-        taskDeleted: taskDeletedSource,
-        taskAssigned: taskAssignedSource,
-        taskStarted: taskStartedSource,
-        onboardingAllUnlock: onboardingAllUnlockSource,
         groupedUpdates: groupedUpdatesSource,
         groupedGeneric: groupedGenericSource,
         ...createCompositionSnippetMap(COMPOSITION_SOURCES, COMPOSITION_SNIPPET_IDS),
@@ -304,13 +194,8 @@ function SystemMessageDoc() {
       description="Centered system-event rows and consumer-owned adjacent-run grouping."
       toc={TOC}
     >
-      <DocNote>
-        Current reminder scheduling and firing do not write chat messages. Reminder audit and wake
-        delivery belong to the reminder product surface, so this page intentionally shows no
-        reminder rows.
-      </DocNote>
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview previewClassName="items-stretch">
+        <Preview previewClassName="items-center">
           <Preview.Canvas>
             <MessageSystemMessagesComposition />
           </Preview.Canvas>
@@ -328,126 +213,13 @@ function SystemMessageDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
-          <DocSubsection parentId="usage" id="channel-archive" title="Channel archive">
-            <UsagePreview code={code.channelArchive}>
-              <SystemMessageChannelArchiveContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="channel-unarchive" title="Channel unarchive">
-            <UsagePreview code={code.channelUnarchive}>
-              <SystemMessageChannelUnarchiveContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="channel-rename" title="Channel rename">
-            <UsagePreview code={code.channelRename}>
-              <SystemMessageChannelRenameContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="agent-added" title="Agent added">
-            <UsagePreview code={code.agentAdded}>
-              <SystemMessageAgentAddedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="agent-removed" title="Agent removed">
-            <UsagePreview code={code.agentRemoved}>
-              <SystemMessageAgentRemovedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="agent-joined" title="Agent joined">
-            <UsagePreview code={code.agentJoined}>
-              <SystemMessageAgentJoinedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-created" title="Task created">
-            <UsagePreview code={code.taskCreated}>
-              <SystemMessageTaskCreatedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-converted" title="Task converted">
-            <UsagePreview code={code.taskConverted}>
-              <SystemMessageTaskConvertedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-claimed" title="Task claimed">
-            <UsagePreview code={code.taskClaimed}>
-              <SystemMessageTaskClaimedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-released" title="Task released">
-            <UsagePreview code={code.taskReleased}>
-              <SystemMessageTaskReleasedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-moved-todo" title="Task moved to Todo">
-            <UsagePreview code={code.taskMovedTodo}>
-              <SystemMessageTaskMovedTodoContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection
-            parentId="usage"
-            id="task-moved-in-progress"
-            title="Task moved to In Progress"
-          >
-            <UsagePreview code={code.taskMovedInProgress}>
-              <SystemMessageTaskMovedInProgressContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-moved-in-review" title="Task moved to In Review">
-            <UsagePreview code={code.taskMovedInReview}>
-              <SystemMessageTaskMovedInReviewContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-moved-done" title="Task moved to Done">
-            <UsagePreview code={code.taskMovedDone}>
-              <SystemMessageTaskMovedDoneContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-moved-closed" title="Task moved to Closed">
-            <UsagePreview code={code.taskMovedClosed}>
-              <SystemMessageTaskMovedClosedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-deleted" title="Task deleted">
-            <UsagePreview code={code.taskDeleted}>
-              <SystemMessageTaskDeletedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-assigned" title="Task assigned">
-            <UsagePreview code={code.taskAssigned}>
-              <SystemMessageTaskAssignedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="task-started" title="Task started">
-            <UsagePreview code={code.taskStarted}>
-              <SystemMessageTaskStartedContent />
-            </UsagePreview>
-          </DocSubsection>
-          <DocSubsection parentId="usage" id="onboarding-all-unlock" title="Onboarding #all unlock">
-            <UsagePreview code={code.onboardingAllUnlock}>
-              <SystemMessageOnboardingAllUnlockContent />
-            </UsagePreview>
-          </DocSubsection>
           <DocSubsection parentId="usage" id="grouped-updates" title="Grouped updates">
-            <GroupedUsagePreview
-              compositionHtml={code.groupedUpdates}
-              compositionCollapsedHtml={code.groupedUpdatesBody}
-              compositionPath={GROUPED_COMPOSITION_PATHS.groupedUpdates}
-              compositionSource={GROUPED_COMPOSITION_SOURCES.groupedUpdates}
-              groupedListHtml={code.groupedList}
-              groupedListCollapsedHtml={code.groupedListBody}
-            >
+            <GroupedUsagePreview code={code.groupedUpdates} collapsedCode={code.groupedUpdatesBody}>
               <SystemMessageGroupedUpdatesContent />
             </GroupedUsagePreview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="grouped-generic" title="Grouped generic">
-            <GroupedUsagePreview
-              compositionHtml={code.groupedGeneric}
-              compositionCollapsedHtml={code.groupedGenericBody}
-              compositionPath={GROUPED_COMPOSITION_PATHS.groupedGeneric}
-              compositionSource={GROUPED_COMPOSITION_SOURCES.groupedGeneric}
-              groupedListHtml={code.groupedList}
-              groupedListCollapsedHtml={code.groupedListBody}
-            >
+            <GroupedUsagePreview code={code.groupedGeneric} collapsedCode={code.groupedGenericBody}>
               <SystemMessageGroupedGenericContent />
             </GroupedUsagePreview>
           </DocSubsection>

@@ -824,6 +824,29 @@ export type {
 } from "./components/message-item/index";
 
 export {
+  SystemMessage,
+  SystemMessageContent,
+  SystemMessageGroup,
+  SystemMessageGroupChevron,
+  SystemMessageGroupDisclosure,
+  SystemMessageGroupHeader,
+  SystemMessageGroupPanel,
+  SystemMessageGroupSummary,
+  SystemMessageTime,
+} from "./components/system-message/index";
+export type {
+  SystemMessageContentProps,
+  SystemMessageGroupChevronProps,
+  SystemMessageGroupDisclosureProps,
+  SystemMessageGroupHeaderProps,
+  SystemMessageGroupPanelProps,
+  SystemMessageGroupProps,
+  SystemMessageGroupSummaryProps,
+  SystemMessageProps,
+  SystemMessageTimeProps,
+} from "./components/system-message/index";
+
+export {
   MessageQuotedPreview,
   MessageQuotedPreviewAttachments,
   MessageQuotedPreviewAttachment,
