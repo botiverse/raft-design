@@ -19,15 +19,15 @@ export const messageForwardedBundle = tv({
         root: "",
         header: "gap-2",
         headerContent: "gap-2",
-        headerLabel: "gap-1 text-[11px] font-black leading-none text-black/60",
-        headerCount: "text-[11px] font-bold text-black/50",
+        headerLabel: "gap-1 text-[11px] font-black uppercase leading-none text-black/70",
+        headerCount: "text-[11px] font-bold text-black/55",
         source:
-          "inline-flex items-center gap-1 text-[11px] font-bold transition-colors text-black/45 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
-        sourceLabel: "inline-flex items-center gap-1 text-[11px] font-bold text-black/40",
-        items: "divide-y-[0.5px] divide-black/[0.08]",
+          "inline-flex items-center gap-1 text-[11px] font-bold underline-offset-2 transition-colors text-black/50 hover:text-black hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+        sourceLabel: "inline-flex items-center gap-1 text-[11px] font-bold text-black/45",
+        items: "divide-y divide-black/10",
         footer: "",
         toggle:
-          "inline-flex items-center gap-1 text-[11px] font-black text-black/50 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+          "inline-flex items-center gap-1 text-[11px] font-black underline underline-offset-2 text-black/60 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       },
       elegant: {
         root: "",
@@ -81,12 +81,12 @@ export const messageForwardedBundleItem = tv({
   variants: {
     theme: {
       brutal: {
-        root: "bg-white px-3 py-3.5 text-[13px] leading-5 text-black",
-        meta: "mb-1 gap-1.5 text-[11px] font-sans tabular-nums text-black/60",
-        author: "font-normal text-black/60",
+        root: "bg-white px-3 py-2 text-sm text-black",
+        meta: "mb-1 gap-1.5 text-[11px] font-mono text-black/55",
+        author: "font-bold text-black/75",
         attachments: "mt-1.5 gap-1.5",
         attachment:
-          "gap-1 border-[1.5px] border-black bg-brutal-lavender px-1.5 py-0.5 font-mono text-[10px] font-bold leading-none text-black",
+          "gap-1 border border-black/20 bg-white px-1.5 py-1 text-[11px] font-bold text-black/80",
         attachmentMeta: "text-black/50",
       },
       elegant: {

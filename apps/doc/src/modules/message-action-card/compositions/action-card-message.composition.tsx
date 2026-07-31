@@ -16,7 +16,10 @@ import {
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardContent,
-  MessageActionCardDetails,
+  MessageActionCardFact,
+  MessageActionCardFactLabel,
+  MessageActionCardFacts,
+  MessageActionCardFactValue,
   MessageActionCardHeader,
   MessageActionCardHint,
 } from "raft-ui/wip";
@@ -31,18 +34,22 @@ export function ActionCardComposition() {
           <span>Create private channel #release-review</span>
         </MessageActionCardHeader>
         <MessageActionCardContent>
-          <MessageActionCardDetails>
-            <div>
-              <span className="text-foreground-muted">Description:</span> Coordinate the final
-              release review.
-            </div>
-            <div>
-              <span className="text-foreground-muted">Humans:</span> Ada, Will
-            </div>
-            <div>
-              <span className="text-foreground-muted">Agents:</span> Atlas
-            </div>
-          </MessageActionCardDetails>
+          <MessageActionCardFacts>
+            <MessageActionCardFact>
+              <MessageActionCardFactLabel>Description</MessageActionCardFactLabel>
+              <MessageActionCardFactValue>
+                Coordinate the final release review.
+              </MessageActionCardFactValue>
+            </MessageActionCardFact>
+            <MessageActionCardFact>
+              <MessageActionCardFactLabel>Humans</MessageActionCardFactLabel>
+              <MessageActionCardFactValue>Ada, Will</MessageActionCardFactValue>
+            </MessageActionCardFact>
+            <MessageActionCardFact>
+              <MessageActionCardFactLabel>Agents</MessageActionCardFactLabel>
+              <MessageActionCardFactValue>Atlas</MessageActionCardFactValue>
+            </MessageActionCardFact>
+          </MessageActionCardFacts>
           <MessageActionCardHint>
             Suggested after the launch checklist was approved.
           </MessageActionCardHint>

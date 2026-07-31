@@ -11,8 +11,8 @@ import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
 import actionCardComparisonSource from "#/modules/message-action-card/compositions/action-card-message.composition.tsx?raw";
-import { ActionCardDialogBackedComposition } from "#/modules/message-action-card/compositions/dialog-backed-actions.composition.tsx";
-import actionCardDialogBackedSource from "#/modules/message-action-card/compositions/dialog-backed-actions.composition.tsx?raw";
+import { ActionCardChannelAndAgentComposition } from "#/modules/message-action-card/compositions/channel-agent-actions.composition.tsx";
+import actionCardChannelAndAgentSource from "#/modules/message-action-card/compositions/channel-agent-actions.composition.tsx?raw";
 import { ActionCardIntegrationComposition } from "#/modules/message-action-card/compositions/integration-actions.composition.tsx";
 import actionCardIntegrationSource from "#/modules/message-action-card/compositions/integration-actions.composition.tsx?raw";
 import { ActionCardResolutionStatesComposition } from "#/modules/message-action-card/compositions/resolution-states.composition.tsx";
@@ -47,6 +47,22 @@ const ANATOMY_SOURCE = `<MessageActionCard>
   <MessageActionCardHeader />
   <MessageActionCardContent>
     <MessageActionCardDetails />
+    <MessageActionCardFacts>
+      <MessageActionCardFact>
+        <MessageActionCardFactLabel />
+        <MessageActionCardFactValue />
+      </MessageActionCardFact>
+    </MessageActionCardFacts>
+    <MessageActionCardScopeList>
+      <MessageActionCardScopeLabel />
+      <MessageActionCardScope>
+        <MessageActionCardScopeName />
+        <MessageActionCardScopeDescription />
+      </MessageActionCardScope>
+    </MessageActionCardScopeList>
+    <Banner status="warning">
+      <BannerDescription />
+    </Banner>
     <MessageActionCardHint />
     <MessageActionCardActions />
     <MessageActionCardCompletion />
@@ -74,6 +90,51 @@ const PROPS: readonly PropRow[] = [
     name: "MessageActionCardDetails",
     type: 'useRender.ComponentProps<"div">',
     description: "Readonly summary supplied by the action consumer.",
+  },
+  {
+    name: "MessageActionCardFacts",
+    type: 'useRender.ComponentProps<"dl">',
+    description: "Optional aligned definition list for compact action metadata.",
+  },
+  {
+    name: "MessageActionCardFact",
+    type: 'useRender.ComponentProps<"div">',
+    description: "One responsive label/value row within MessageActionCardFacts.",
+  },
+  {
+    name: "MessageActionCardFactLabel",
+    type: 'useRender.ComponentProps<"dt">',
+    description: "Muted metadata label with a shared column width.",
+  },
+  {
+    name: "MessageActionCardFactValue",
+    type: 'useRender.ComponentProps<"dd">',
+    description: "Metadata value that wraps without widening the card.",
+  },
+  {
+    name: "MessageActionCardScopeList",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Optional named scope section rendered directly in the content stack.",
+  },
+  {
+    name: "MessageActionCardScopeLabel",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Scope section label.",
+  },
+  {
+    name: "MessageActionCardScope",
+    type: 'useRender.ComponentProps<"div">',
+    description: "One bordered scope explanation block.",
+  },
+  {
+    name: "MessageActionCardScopeName",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Scope identifier.",
+  },
+  {
+    name: "MessageActionCardScopeDescription",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Scope capability explanation.",
   },
   {
     name: "MessageActionCardHint",
@@ -115,7 +176,7 @@ export const Route = createFileRoute("/components/message-action-card")({
     highlightSnippets({
       data: {
         actionCardComparison: actionCardComparisonSource,
-        actionCardDialogBacked: actionCardDialogBackedSource,
+        actionCardChannelAndAgent: actionCardChannelAndAgentSource,
         actionCardIntegration: actionCardIntegrationSource,
         actionCardResolutionStates: actionCardResolutionStatesSource,
         anatomy: ANATOMY_SOURCE,
@@ -153,19 +214,20 @@ function MessageActionCardDoc() {
         <div className="space-y-10">
           <DocSubsection
             parentId="usage"
-            id="dialog-backed-actions"
+            id="channel-and-agent-actions"
             title="Channel and agent actions"
             showThemeSwitcher
           >
             <p className="text-sm leading-6 text-foreground-muted">
-              Channel creation, agent creation, and member changes open their existing dialogs with
-              the card values prefilled. The human can adjust those values before committing.
+              These three prepared-card shapes cover channel creation, agent creation, and member
+              changes. The caller owns the dialog and execution path; this usage keeps the card
+              itself static.
             </p>
             <UsagePreview
-              code={code.actionCardDialogBacked}
-              collapsedCode={code.actionCardDialogBackedBody}
+              code={code.actionCardChannelAndAgent}
+              collapsedCode={code.actionCardChannelAndAgentBody}
             >
-              <ActionCardDialogBackedComposition />
+              <ActionCardChannelAndAgentComposition />
             </UsagePreview>
           </DocSubsection>
 
@@ -176,8 +238,8 @@ function MessageActionCardDoc() {
             showThemeSwitcher
           >
             <p className="text-sm leading-6 text-foreground-muted">
-              Login approval and Connected App registration, update, and owner recovery execute from
-              the card after the human confirms the action.
+              Login approval, Connected App registration, legacy update, and owner recovery each
+              provide their own prepared-card content. Their execute policy remains product-owned.
             </p>
             <UsagePreview
               code={code.actionCardIntegration}
@@ -194,8 +256,8 @@ function MessageActionCardDoc() {
             showThemeSwitcher
           >
             <p className="text-sm leading-6 text-foreground-muted">
-              The consumer replaces the action area after a successful commit. A failed action keeps
-              its original action available for retry and can render its own warning.
+              A completed card replaces its action area with result content. A rejected card keeps
+              its prepared structure and lets the product choose whether retry is permitted.
             </p>
             <UsagePreview
               code={code.actionCardResolutionStates}

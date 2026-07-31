@@ -1,11 +1,27 @@
-import { Avatar, AvatarFallback, AvatarImage, Button } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Banner,
+  BannerDescription,
+  Button,
+} from "raft-ui";
 import {
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardContent,
-  MessageActionCardDetails,
+  MessageActionCardFact,
+  MessageActionCardFactLabel,
+  MessageActionCardFacts,
+  MessageActionCardFactValue,
   MessageActionCardHeader,
   MessageActionCardHint,
+  MessageActionCardScope,
+  MessageActionCardScopeDescription,
+  MessageActionCardScopeLabel,
+  MessageActionCardScopeList,
+  MessageActionCardScopeName,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -38,18 +54,43 @@ export function ActionCardIntegrationComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Approve Linear for @lumen</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Service:</span> Linear
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Agent:</span> @lumen
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Scopes:</span> issues:read,
-                    comments:write
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardFacts>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Service</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>Linear</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Agent</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>@lumen</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                </MessageActionCardFacts>
+                <MessageActionCardScopeList>
+                  <MessageActionCardScopeLabel>Scopes:</MessageActionCardScopeLabel>
+                  <MessageActionCardScope>
+                    <MessageActionCardScopeName>openid</MessageActionCardScopeName>
+                    <MessageActionCardScopeDescription>
+                      Signs you in with Raft and issues a stable identity token. Authentication
+                      only.
+                    </MessageActionCardScopeDescription>
+                  </MessageActionCardScope>
+                  <MessageActionCardScope>
+                    <MessageActionCardScopeName>profile</MessageActionCardScopeName>
+                    <MessageActionCardScopeDescription>
+                      Reads your basic profile fields. No access to messages, files, or agents.
+                    </MessageActionCardScopeDescription>
+                  </MessageActionCardScope>
+                  <MessageActionCardScope>
+                    <MessageActionCardScopeName>agent:event:write</MessageActionCardScopeName>
+                    <MessageActionCardScopeDescription>
+                      Sends structured event messages to the agent you authorize.
+                    </MessageActionCardScopeDescription>
+                  </MessageActionCardScope>
+                </MessageActionCardScopeList>
+                <Banner status="warning" size="sm" className="mt-3">
+                  <BannerDescription>
+                    Cannot send chat as you, speak as the agent, read messages, or take actions.
+                  </BannerDescription>
+                </Banner>
                 <MessageActionCardActions>
                   <Button size="sm" variant="accent" disabled>
                     Approve Login
@@ -78,19 +119,39 @@ export function ActionCardIntegrationComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Register app Release Notes</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Client key:</span> release-notes
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Redirect URL:</span>{" "}
-                    https://notes.example.com/oauth/callback
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Scopes:</span> messages:read,
-                    messages:write
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardFacts>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Client key</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>release-notes</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Redirect URL</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>
+                      https://notes.example.com/oauth/callback
+                    </MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                </MessageActionCardFacts>
+                <MessageActionCardScopeList>
+                  <MessageActionCardScopeLabel>Scopes:</MessageActionCardScopeLabel>
+                  <MessageActionCardScope>
+                    <MessageActionCardScopeName>openid</MessageActionCardScopeName>
+                    <MessageActionCardScopeDescription>
+                      Signs you in with Raft and issues a stable identity token. Authentication
+                      only.
+                    </MessageActionCardScopeDescription>
+                  </MessageActionCardScope>
+                  <MessageActionCardScope>
+                    <MessageActionCardScopeName>profile</MessageActionCardScopeName>
+                    <MessageActionCardScopeDescription>
+                      Reads your basic profile fields. No access to messages, files, or agents.
+                    </MessageActionCardScopeDescription>
+                  </MessageActionCardScope>
+                </MessageActionCardScopeList>
+                <Banner status="warning" size="sm" className="mt-3">
+                  <BannerDescription>
+                    The requesting agent becomes this app&apos;s owner after commit.
+                  </BannerDescription>
+                </Banner>
                 <MessageActionCardHint>
                   The requesting agent becomes this app&apos;s owner after commit.
                 </MessageActionCardHint>
@@ -120,20 +181,56 @@ export function ActionCardIntegrationComposition() {
           </MessageItemHeader>
           <MessageItemBody>
             <MessageActionCard>
-              <MessageActionCardHeader>Update app release-notes</MessageActionCardHeader>
+              <MessageActionCardHeader>
+                Update app release-notes
+                <Badge variant="muted" className="ml-auto">
+                  Legacy
+                </Badge>
+              </MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Client key:</span> release-notes
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">App URL:</span>{" "}
-                    https://notes.example.com
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Scopes:</span> messages:read
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardFacts>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Client key</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>release-notes</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>App URL</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>
+                      https://notes.example.com
+                    </MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                </MessageActionCardFacts>
+                <MessageActionCardScopeList>
+                  <MessageActionCardScopeLabel>Scopes:</MessageActionCardScopeLabel>
+                  <MessageActionCardScope>
+                    <MessageActionCardScopeName>openid</MessageActionCardScopeName>
+                    <MessageActionCardScopeDescription>
+                      Signs you in with Raft and issues a stable identity token. Authentication
+                      only.
+                    </MessageActionCardScopeDescription>
+                  </MessageActionCardScope>
+                  <MessageActionCardScope>
+                    <MessageActionCardScopeName>profile</MessageActionCardScopeName>
+                    <MessageActionCardScopeDescription>
+                      Reads your basic profile fields. No access to messages, files, or agents.
+                    </MessageActionCardScopeDescription>
+                  </MessageActionCardScope>
+                  <MessageActionCardScope>
+                    <MessageActionCardScopeName>agent:event:write</MessageActionCardScopeName>
+                    <MessageActionCardScopeDescription>
+                      Sends structured event messages to the agent you authorize.
+                    </MessageActionCardScopeDescription>
+                  </MessageActionCardScope>
+                </MessageActionCardScopeList>
+                <Banner status="warning" size="sm" className="mt-3">
+                  <BannerDescription>
+                    Cannot send chat as you, speak as the agent, read messages, or take actions.
+                  </BannerDescription>
+                </Banner>
+                <MessageActionCardHint>
+                  Historical update cards can still render. New executions use the current
+                  registration flow instead.
+                </MessageActionCardHint>
                 <MessageActionCardActions>
                   <Button size="sm" variant="accent" disabled>
                     Update App
@@ -162,16 +259,23 @@ export function ActionCardIntegrationComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Recover release-notes for @lumen</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Client key:</span> release-notes
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Recovery owner:</span> @lumen
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardFacts>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Client key</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>release-notes</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Recovery owner</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>@lumen</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                </MessageActionCardFacts>
+                <Banner status="warning" size="sm" className="mt-3">
+                  <BannerDescription>
+                    Admin recovery only. Execution is rejected while the app has an active owner.
+                  </BannerDescription>
+                </Banner>
                 <MessageActionCardHint>
-                  Admin recovery only. Execution is rejected while the app has an active owner.
+                  Real orphaned Connected App; safe to recover locally.
                 </MessageActionCardHint>
                 <MessageActionCardActions>
                   <Button size="sm" variant="accent" disabled>

@@ -37,8 +37,17 @@ export {
   MessageActionCardCompletion,
   MessageActionCardContent,
   MessageActionCardDetails,
+  MessageActionCardFact,
+  MessageActionCardFactLabel,
+  MessageActionCardFacts,
+  MessageActionCardFactValue,
   MessageActionCardHeader,
   MessageActionCardHint,
+  MessageActionCardScope,
+  MessageActionCardScopeDescription,
+  MessageActionCardScopeLabel,
+  MessageActionCardScopeList,
+  MessageActionCardScopeName,
 } from "./components/message-action-card/index";
 
 export {
@@ -58,9 +67,18 @@ export type {
   MessageActionCardCompletionProps,
   MessageActionCardContentProps,
   MessageActionCardDetailsProps,
+  MessageActionCardFactLabelProps,
+  MessageActionCardFactProps,
+  MessageActionCardFactsProps,
+  MessageActionCardFactValueProps,
   MessageActionCardHeaderProps,
   MessageActionCardHintProps,
   MessageActionCardProps,
+  MessageActionCardScopeDescriptionProps,
+  MessageActionCardScopeLabelProps,
+  MessageActionCardScopeListProps,
+  MessageActionCardScopeNameProps,
+  MessageActionCardScopeProps,
 } from "./components/message-action-card/index";
 
 export {

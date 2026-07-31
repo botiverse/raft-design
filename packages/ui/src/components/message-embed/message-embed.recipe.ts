@@ -11,9 +11,9 @@ export const messageEmbed = tv({
     theme: {
       brutal: {
         root: "border border-black/20 bg-white",
-        header: "bg-white px-2.5 py-1.5",
+        header: "border-b border-black/10 bg-white px-2.5 py-1.5",
         content: "bg-white",
-        footer: "bg-white px-3 py-1.5",
+        footer: "border-t border-black/10 bg-white px-3 py-1.5",
       },
       elegant: {
         root: [

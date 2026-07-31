@@ -3,7 +3,10 @@ import {
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardContent,
-  MessageActionCardDetails,
+  MessageActionCardFact,
+  MessageActionCardFactLabel,
+  MessageActionCardFacts,
+  MessageActionCardFactValue,
   MessageActionCardHeader,
   MessageActionCardHint,
   MessageItem,
@@ -18,7 +21,7 @@ import {
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
-export function ActionCardDialogBackedComposition() {
+export function ActionCardChannelAndAgentComposition() {
   return (
     <div className="grid gap-5">
       <MessageItem className="w-full max-w-4xl">
@@ -40,18 +43,22 @@ export function ActionCardDialogBackedComposition() {
                 Create private channel #release-review
               </MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Description:</span> Coordinate the final
-                    release review.
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Humans:</span> Ada, Will
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Agents:</span> Atlas
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardFacts>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Description</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>
+                      Coordinate the final release review.
+                    </MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Humans</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>Ada, Will</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Agents</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>Atlas</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                </MessageActionCardFacts>
                 <MessageActionCardHint>
                   Suggested after the launch checklist was approved.
                 </MessageActionCardHint>
@@ -83,15 +90,18 @@ export function ActionCardDialogBackedComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Create Agent @lumen</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Description:</span> Own the
-                    regression-triage queue.
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Suggested computer:</span> Studio Mac
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardFacts>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Description</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>
+                      Own the regression-triage queue.
+                    </MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Suggested computer</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>Studio Mac</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                </MessageActionCardFacts>
                 <MessageActionCardActions>
                   <Button size="sm" variant="accent" disabled>
                     Create Agent
@@ -120,17 +130,20 @@ export function ActionCardDialogBackedComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>Add 3 members to #release-review</MessageActionCardHeader>
               <MessageActionCardContent>
-                <MessageActionCardDetails>
-                  <div>
-                    <span className="text-foreground-muted">Channel:</span> #release-review
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Humans:</span> Ada, Will
-                  </div>
-                  <div>
-                    <span className="text-foreground-muted">Agents:</span> Lumen
-                  </div>
-                </MessageActionCardDetails>
+                <MessageActionCardFacts>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Channel</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>#release-review</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Humans</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>Ada, Will</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                  <MessageActionCardFact>
+                    <MessageActionCardFactLabel>Agents</MessageActionCardFactLabel>
+                    <MessageActionCardFactValue>Lumen</MessageActionCardFactValue>
+                  </MessageActionCardFact>
+                </MessageActionCardFacts>
                 <MessageActionCardActions>
                   <Button size="sm" variant="accent" disabled>
                     Add Members
