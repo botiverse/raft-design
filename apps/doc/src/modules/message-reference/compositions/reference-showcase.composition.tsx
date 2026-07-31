@@ -15,14 +15,12 @@ import {
   MessageReferenceUnavailable,
   Spinner,
   TaskChip,
-  TaskClosedIcon,
-  TaskDoneIcon,
   TaskInProgressIcon,
-  TaskInReviewIcon,
   TaskTodoIcon,
 } from "raft-ui";
 import {
   CircleOff,
+  GitBranch,
   Link as LinkIcon,
   MessageCircle,
   MessagesSquare,
@@ -70,7 +68,7 @@ export function MessageReferenceShowcaseComposition() {
                 <span>#21</span>
                 <span>@Ada</span>
               </TaskChip>{" "}
-              , continue{" "}
+              and continue{" "}
               <TaskChip
                 variant="inline"
                 status="in-progress"
@@ -79,36 +77,6 @@ export function MessageReferenceShowcaseComposition() {
                 <TaskInProgressIcon />
                 <span>#22</span>
                 <span>@Atlas</span>
-              </TaskChip>
-              , review{" "}
-              <TaskChip
-                variant="inline"
-                status="in-review"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
-              >
-                <TaskInReviewIcon />
-                <span>#23</span>
-                <span>@Noah</span>
-              </TaskChip>
-              , confirm{" "}
-              <TaskChip
-                variant="inline"
-                status="done"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
-              >
-                <TaskDoneIcon />
-                <span>#24</span>
-                <span>@Mira</span>
-              </TaskChip>
-              , and archive{" "}
-              <TaskChip
-                variant="inline"
-                status="closed"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelTask} />}
-              >
-                <TaskClosedIcon />
-                <span>#25</span>
-                <span>@Cindy</span>
               </TaskChip>{" "}
               with{" "}
               <MessageMentionReferenceComposition
@@ -117,7 +85,16 @@ export function MessageReferenceShowcaseComposition() {
               >
                 Ada
               </MessageMentionReferenceComposition>{" "}
-              before posting the migration summary in{" "}
+              before posting the migration summary in the joint channel{" "}
+              <MessageReferenceChip
+                variant="accent"
+                render={<a href={MESSAGE_PLAYGROUND_URLS.northstarJointChannel} />}
+              >
+                <MessageReferenceBadge>joint</MessageReferenceBadge>
+                <GitBranch />
+                <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
+              </MessageReferenceChip>
+              {" and continuing the rollout in "}
               <MessageReferenceChip
                 variant="accent"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
