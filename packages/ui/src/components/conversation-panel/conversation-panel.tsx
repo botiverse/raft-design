@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Panel, PanelBody, PanelFooter, PanelHeader } from "../panel/panel";
+import { Panel, PanelBody, PanelFooter, PanelHeaderFrame } from "../panel/panel";
 import { conversationPanel } from "./conversation-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
@@ -21,62 +21,53 @@ export function ConversationPanelRoot({ className, render, ...props }: Conversat
   );
 }
 
-export type ConversationPanelHeaderProps = useRender.ComponentProps<"div">;
+export type PanelHeaderProps = useRender.ComponentProps<"div">;
 
-export function ConversationPanelHeader({
-  children,
-  className,
-  render,
-  ...props
-}: ConversationPanelHeaderProps) {
+export function PanelHeader({ children, className, render, ...props }: PanelHeaderProps) {
   const theme = useThemeFamily();
   const { header } = conversationPanel({ theme });
   return (
-    <PanelHeader
+    <PanelHeaderFrame
       {...props}
       render={render}
-      data-slot="conversation-panel-header"
+      data-slot="panel-header"
       className={header({ className })}
     >
       {children}
-    </PanelHeader>
+    </PanelHeaderFrame>
   );
 }
 
-export type ConversationPanelSectionHeaderProps = useRender.ComponentProps<"div">;
+export type PanelSectionHeaderProps = useRender.ComponentProps<"div">;
 
-export function ConversationPanelSectionHeader({
+export function PanelSectionHeader({
   children,
   className,
   render,
   ...props
-}: ConversationPanelSectionHeaderProps) {
+}: PanelSectionHeaderProps) {
   const theme = useThemeFamily();
   const { sectionHeader } = conversationPanel({ theme });
 
   return (
-    <PanelHeader
+    <PanelHeaderFrame
       {...props}
       render={render}
-      data-slot="conversation-panel-section-header"
+      data-slot="panel-section-header"
       className={sectionHeader({ className })}
     >
       {children}
-    </PanelHeader>
+    </PanelHeaderFrame>
   );
 }
 
-export type ConversationPanelHeaderIconProps = useRender.ComponentProps<"div">;
+export type PanelHeaderIconProps = useRender.ComponentProps<"div">;
 
-export function ConversationPanelHeaderIcon({
-  className,
-  render,
-  ...props
-}: ConversationPanelHeaderIconProps) {
+export function PanelHeaderIcon({ className, render, ...props }: PanelHeaderIconProps) {
   const theme = useThemeFamily();
   const { headerIcon } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "conversation-panel-header-icon",
+    "data-slot": "panel-header-icon",
     className: headerIcon({ className }),
   };
 
@@ -87,17 +78,13 @@ export function ConversationPanelHeaderIcon({
   });
 }
 
-export type ConversationPanelHeaderContentProps = useRender.ComponentProps<"div">;
+export type PanelHeaderContentProps = useRender.ComponentProps<"div">;
 
-export function ConversationPanelHeaderContent({
-  className,
-  render,
-  ...props
-}: ConversationPanelHeaderContentProps) {
+export function PanelHeaderContent({ className, render, ...props }: PanelHeaderContentProps) {
   const theme = useThemeFamily();
   const { headerContent } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "conversation-panel-header-content",
+    "data-slot": "panel-header-content",
     className: headerContent({ className }),
   };
 
@@ -108,16 +95,12 @@ export function ConversationPanelHeaderContent({
   });
 }
 
-export type ConversationPanelHeadingProps = useRender.ComponentProps<"div">;
+export type PanelHeadingProps = useRender.ComponentProps<"div">;
 
-export function ConversationPanelHeading({
-  className,
-  render,
-  ...props
-}: ConversationPanelHeadingProps) {
+export function PanelHeading({ className, render, ...props }: PanelHeadingProps) {
   const { heading } = conversationPanel();
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "conversation-panel-heading",
+    "data-slot": "panel-heading",
     className: heading({ className }),
   };
 
@@ -128,17 +111,13 @@ export function ConversationPanelHeading({
   });
 }
 
-export type ConversationPanelTitleProps = useRender.ComponentProps<"div">;
+export type PanelTitleProps = useRender.ComponentProps<"div">;
 
-export function ConversationPanelTitle({
-  className,
-  render,
-  ...props
-}: ConversationPanelTitleProps) {
+export function PanelTitle({ className, render, ...props }: PanelTitleProps) {
   const theme = useThemeFamily();
   const { title } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "conversation-panel-title",
+    "data-slot": "panel-title",
     className: title({ className }),
   };
 
@@ -149,20 +128,15 @@ export function ConversationPanelTitle({
   });
 }
 
-export type ConversationPanelMetaProps = useRender.ComponentProps<"div"> & {
+export type PanelMetaProps = useRender.ComponentProps<"div"> & {
   size?: "sm" | "md";
 };
 
-export function ConversationPanelMeta({
-  className,
-  render,
-  size = "sm",
-  ...props
-}: ConversationPanelMetaProps) {
+export function PanelMeta({ className, render, size = "sm", ...props }: PanelMetaProps) {
   const theme = useThemeFamily();
   const { meta } = conversationPanel({ theme, size });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "conversation-panel-meta",
+    "data-slot": "panel-meta",
     className: meta({ className }),
   };
 
@@ -173,17 +147,13 @@ export function ConversationPanelMeta({
   });
 }
 
-export type ConversationPanelStatusProps = useRender.ComponentProps<"span">;
+export type PanelStatusProps = useRender.ComponentProps<"span">;
 
-export function ConversationPanelStatus({
-  className,
-  render,
-  ...props
-}: ConversationPanelStatusProps) {
+export function PanelStatus({ className, render, ...props }: PanelStatusProps) {
   const theme = useThemeFamily();
   const { status } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "conversation-panel-status",
+    "data-slot": "panel-status",
     className: status({ className }),
   };
 
@@ -194,17 +164,13 @@ export function ConversationPanelStatus({
   });
 }
 
-export type ConversationPanelActionsProps = useRender.ComponentProps<"div">;
+export type PanelActionsProps = useRender.ComponentProps<"div">;
 
-export function ConversationPanelActions({
-  className,
-  render,
-  ...props
-}: ConversationPanelActionsProps) {
+export function PanelActions({ className, render, ...props }: PanelActionsProps) {
   const theme = useThemeFamily();
   const { actions } = conversationPanel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "conversation-panel-actions",
+    "data-slot": "panel-actions",
     className: actions({ className }),
   };
 

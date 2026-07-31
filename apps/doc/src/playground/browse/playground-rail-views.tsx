@@ -44,13 +44,13 @@ import {
   SidebarRoot,
   ConversationPanelBody,
   ConversationPanelContent,
-  ConversationPanelHeader,
-  ConversationPanelHeaderContent,
-  ConversationPanelHeading,
-  ConversationPanelHeaderIcon,
-  ConversationPanelMeta,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelHeading,
+  PanelHeaderIcon,
+  PanelMeta,
   ConversationPanelRoot,
-  ConversationPanelTitle,
+  PanelTitle,
 } from "raft-ui";
 
 import {
@@ -259,7 +259,7 @@ export function PlaygroundRailViewPanel({
 
   return (
     <ConversationPanelRoot>
-      <ConversationPanelHeader>
+      <PanelHeader>
         {mobileBack ? (
           <Button
             variant="outline"
@@ -274,16 +274,16 @@ export function PlaygroundRailViewPanel({
             <ChevronLeft aria-hidden />
           </Button>
         ) : null}
-        <ConversationPanelHeaderContent>
-          <ConversationPanelHeaderIcon>
+        <PanelHeaderContent>
+          <PanelHeaderIcon>
             <ViewIcon />
-          </ConversationPanelHeaderIcon>
-          <ConversationPanelHeading>
-            <ConversationPanelTitle>{viewMeta[view].title}</ConversationPanelTitle>
-          </ConversationPanelHeading>
-          <ConversationPanelMeta>Playground preview</ConversationPanelMeta>
-        </ConversationPanelHeaderContent>
-      </ConversationPanelHeader>
+          </PanelHeaderIcon>
+          <PanelHeading>
+            <PanelTitle>{viewMeta[view].title}</PanelTitle>
+          </PanelHeading>
+          <PanelMeta>Playground preview</PanelMeta>
+        </PanelHeaderContent>
+      </PanelHeader>
       <ConversationPanelContent>
         {view === "search" ? (
           <PlaygroundSearchView />

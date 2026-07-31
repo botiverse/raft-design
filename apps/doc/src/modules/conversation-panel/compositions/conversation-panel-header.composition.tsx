@@ -12,14 +12,14 @@ import {
   Avatar,
   AvatarFallback,
   BrutalOnly,
-  ConversationPanelActions,
-  ConversationPanelHeader,
-  ConversationPanelHeaderContent,
-  ConversationPanelHeaderIcon,
-  ConversationPanelHeading,
-  ConversationPanelMeta,
-  ConversationPanelStatus,
-  ConversationPanelTitle,
+  PanelActions,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeading,
+  PanelMeta,
+  PanelStatus,
+  PanelTitle,
   Status,
 } from "raft-ui";
 import { PanelAction, PanelToggleAction } from "raft-ui/wip";
@@ -37,41 +37,41 @@ export function ConversationPanelHeaderComposition({
 }: ConversationPanelHeaderCompositionProps) {
   if (conversation === "dm") {
     return (
-      <ConversationPanelHeader>
-        <ConversationPanelHeaderContent>
-          <Avatar data-slot="conversation-panel-header-icon" size="md" type="agent">
+      <PanelHeader>
+        <PanelHeaderContent>
+          <Avatar data-slot="panel-header-icon" size="md" type="agent">
             <AvatarFallback>AT</AvatarFallback>
           </Avatar>
-          <ConversationPanelHeading>
-            <ConversationPanelTitle>Atlas</ConversationPanelTitle>
-            <ConversationPanelStatus title="Working…">
+          <PanelHeading>
+            <PanelTitle>Atlas</PanelTitle>
+            <PanelStatus title="Working…">
               <Status aria-hidden size="sm" variant="success" pulse />
               Working…
-            </ConversationPanelStatus>
-          </ConversationPanelHeading>
-        </ConversationPanelHeaderContent>
-      </ConversationPanelHeader>
+            </PanelStatus>
+          </PanelHeading>
+        </PanelHeaderContent>
+      </PanelHeader>
     );
   }
 
   return (
-    <ConversationPanelHeader>
-      <ConversationPanelHeaderContent>
-        <ConversationPanelHeaderIcon>
+    <PanelHeader>
+      <PanelHeaderContent>
+        <PanelHeaderIcon>
           <Hash />
-        </ConversationPanelHeaderIcon>
-        <ConversationPanelHeading>
-          <ConversationPanelTitle>proj-uiux</ConversationPanelTitle>
+        </PanelHeaderIcon>
+        <PanelHeading>
+          <PanelTitle>proj-uiux</PanelTitle>
           {muted ? (
-            <ConversationPanelStatus title="Activity muted. Direct mentions can still notify you.">
+            <PanelStatus title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
               <BrutalOnly>Muted</BrutalOnly>
-            </ConversationPanelStatus>
+            </PanelStatus>
           ) : null}
-        </ConversationPanelHeading>
-        <ConversationPanelMeta>Design system migration</ConversationPanelMeta>
-      </ConversationPanelHeaderContent>
-      <ConversationPanelActions>
+        </PanelHeading>
+        <PanelMeta>Design system migration</PanelMeta>
+      </PanelHeaderContent>
+      <PanelActions>
         <PanelAction aria-label="Search conversation">
           <Search />
         </PanelAction>
@@ -96,7 +96,7 @@ export function ConversationPanelHeaderComposition({
         <PanelAction className="md:hidden" aria-label="More options">
           <EllipsisVertical />
         </PanelAction>
-      </ConversationPanelActions>
-    </ConversationPanelHeader>
+      </PanelActions>
+    </PanelHeader>
   );
 }

@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Panel, PanelBody, PanelFooter, PanelHeader } from "../panel/panel";
+import { Panel, PanelBody, PanelFooter, PanelHeaderFrame } from "../panel/panel";
 import { threadPanel } from "./thread-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
@@ -28,7 +28,7 @@ export function ThreadPanelHeader({ className, render, ...props }: ThreadPanelHe
   const { header } = threadPanel({ theme });
 
   return (
-    <PanelHeader
+    <PanelHeaderFrame
       {...props}
       render={render}
       data-slot="thread-panel-header"

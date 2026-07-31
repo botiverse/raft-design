@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -22,6 +22,7 @@ const CONVERSATIONS = ["channel", "dm"] as const;
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
@@ -33,25 +34,25 @@ const CONVERSATION_PANEL_HEADER_COMPOSITION_PATH =
 
 const SNIPPETS = {
   anatomy: `<ConversationPanelRoot>
-  <ConversationPanelHeader>
+  <PanelHeader>
     {/* Sticks to the top on mobile by default. */}
-    <ConversationPanelHeaderContent>
+    <PanelHeaderContent>
       {/* optional caller-owned identity; it shares the title row on mobile */}
-      <ConversationPanelHeaderIcon />
+      <PanelHeaderIcon />
       {/* use Heading when Title and Status form one group */}
-      <ConversationPanelHeading>
-        <ConversationPanelTitle />
+      <PanelHeading>
+        <PanelTitle />
         {/* optional */}
-        <ConversationPanelStatus />
-      </ConversationPanelHeading>
+        <PanelStatus />
+      </PanelHeading>
       {/* optional */}
-      <ConversationPanelMeta />
-    </ConversationPanelHeaderContent>
+      <PanelMeta />
+    </PanelHeaderContent>
     {/* optional caller-owned actions */}
-    <ConversationPanelActions>
+    <PanelActions>
       {/* PanelAction / PanelToggleAction */}
-    </ConversationPanelActions>
-  </ConversationPanelHeader>
+    </PanelActions>
+  </PanelHeader>
 
   {/* optional caller-owned state layer, e.g. Banner */}
 
@@ -85,83 +86,6 @@ const CONVERSATION_PANEL_ROOT_PROPS: readonly PropRow[] = [
     type: "section props",
     description:
       "Full-height active conversation surface between sidebar and panel stack. Product shells own responsive placement and scroll behavior.",
-  },
-];
-
-const CONVERSATION_PANEL_HEADER_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description:
-      "Header layout for caller-owned leading content, title metadata, and actions. It sticks to the top on mobile by default.",
-  },
-];
-
-const CONVERSATION_PANEL_SECTION_HEADER_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description:
-      "Top-level section header with the reusable Brutal mobile accent treatment and standard Elegant header treatment.",
-  },
-];
-
-const CONVERSATION_PANEL_HEADER_ICON_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description:
-      "Optional identity icon. Put it inside HeaderContent to align it with the title on mobile.",
-  },
-];
-
-const CONVERSATION_PANEL_HEADER_CONTENT_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description:
-      "Flexible identity region for an optional icon, title, metadata, and status parts.",
-  },
-];
-
-const CONVERSATION_PANEL_HEADING_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description: "Optional inline group for a title and its adjacent status.",
-  },
-];
-
-const CONVERSATION_PANEL_TITLE_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description: "Caller-owned conversation or section title.",
-  },
-];
-
-const CONVERSATION_PANEL_META_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: 'div props & { size?: "sm" | "md" }',
-    description: "Optional secondary metadata below or alongside the title.",
-  },
-];
-
-const CONVERSATION_PANEL_STATUS_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Optional caller-owned status. It remains visible on mobile by default.",
-  },
-];
-
-const CONVERSATION_PANEL_ACTIONS_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description:
-      "Optional action region for caller-owned PanelAction and PanelToggleAction controls.",
   },
 ];
 
@@ -336,6 +260,16 @@ function ConversationPanelDoc() {
         </DocsCodeBlock>
       </DocSection>
 
+      <DocSection id="usage" title="Usage">
+        <p>
+          ConversationPanel owns the active-conversation layout: tabs, the message scroll boundary,
+          and an optional composer footer. Compose its identity and action row with PanelHeader and
+          its parts; that shared API is documented on the <Link to="/components/panel">Panel</Link>
+          page. This page documents the conversation-specific parts and keeps the complete
+          message-list and composer assembly in the executable composition above.
+        </p>
+      </DocSection>
+
       <DocSection id="api" title="API">
         <div className="space-y-6">
           <DocSubsection
@@ -344,69 +278,6 @@ function ConversationPanelDoc() {
             title="ConversationPanelRoot"
           >
             <PropsTable rows={CONVERSATION_PANEL_ROOT_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-header"
-            title="ConversationPanelHeader"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_HEADER_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-section-header"
-            title="ConversationPanelSectionHeader"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_SECTION_HEADER_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-header-icon"
-            title="ConversationPanelHeaderIcon"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_HEADER_ICON_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-header-content"
-            title="ConversationPanelHeaderContent"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_HEADER_CONTENT_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-heading"
-            title="ConversationPanelHeading"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_HEADING_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-title"
-            title="ConversationPanelTitle"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_TITLE_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-meta"
-            title="ConversationPanelMeta"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_META_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-status"
-            title="ConversationPanelStatus"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_STATUS_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-conversation-panel-actions"
-            title="ConversationPanelActions"
-          >
-            <PropsTable rows={CONVERSATION_PANEL_ACTIONS_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-action" title="PanelAction">
             <PropsTable rows={PANEL_ACTION_PROPS} />

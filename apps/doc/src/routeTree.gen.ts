@@ -60,6 +60,7 @@ import { Route as ComponentsMessageRepliesRouteImport } from './routes/component
 import { Route as ComponentsMessageTranslationRouteImport } from './routes/components/message-translation'
 import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
+import { Route as ComponentsPanelRouteImport } from './routes/components/panel'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
@@ -389,6 +390,11 @@ const ComponentsNotificationCenterRoute =
     path: '/notification-center',
     getParentRoute: () => ComponentsRoute,
   } as any)
+const ComponentsPanelRoute = ComponentsPanelRouteImport.update({
+  id: '/panel',
+  path: '/panel',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
   id: '/popover',
   path: '/popover',
@@ -756,6 +762,7 @@ export interface FileRoutesByFullPath {
   '/components/message-translation': typeof ComponentsMessageTranslationRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
@@ -867,6 +874,7 @@ export interface FileRoutesByTo {
   '/components/message-translation': typeof ComponentsMessageTranslationRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
@@ -980,6 +988,7 @@ export interface FileRoutesById {
   '/components/message-translation': typeof ComponentsMessageTranslationRoute
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
+  '/components/panel': typeof ComponentsPanelRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/progress': typeof ComponentsProgressRoute
@@ -1094,6 +1103,7 @@ export interface FileRouteTypes {
     | '/components/message-translation'
     | '/components/mobile-nav'
     | '/components/notification-center'
+    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
@@ -1205,6 +1215,7 @@ export interface FileRouteTypes {
     | '/components/message-translation'
     | '/components/mobile-nav'
     | '/components/notification-center'
+    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
@@ -1317,6 +1328,7 @@ export interface FileRouteTypes {
     | '/components/message-translation'
     | '/components/mobile-nav'
     | '/components/notification-center'
+    | '/components/panel'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/progress'
@@ -1752,6 +1764,13 @@ declare module '@tanstack/react-router' {
       path: '/notification-center'
       fullPath: '/components/notification-center'
       preLoaderRoute: typeof ComponentsNotificationCenterRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/panel': {
+      id: '/components/panel'
+      path: '/panel'
+      fullPath: '/components/panel'
+      preLoaderRoute: typeof ComponentsPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/popover': {
@@ -2341,6 +2360,7 @@ interface ComponentsRouteChildren {
   ComponentsMessageTranslationRoute: typeof ComponentsMessageTranslationRoute
   ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
+  ComponentsPanelRoute: typeof ComponentsPanelRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
@@ -2418,6 +2438,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsMessageTranslationRoute: ComponentsMessageTranslationRoute,
   ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
+  ComponentsPanelRoute: ComponentsPanelRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,

@@ -10,6 +10,7 @@ export const panel = tv({
       "[overflow-anchor:auto] [-webkit-overflow-scrolling:touch]",
     ],
     scrollContent: ["min-h-full"],
+    section: ["border-t border-ink-10 px-5 py-4"],
     footer: [
       "relative flex shrink-0 items-center px-3 max-md:px-1.5 pt-3",
       "pb-[calc(env(safe-area-inset-bottom)+0.75rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+0.375rem)]",
