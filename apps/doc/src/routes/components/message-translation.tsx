@@ -17,7 +17,6 @@ import translationStatesSource from "#/modules/message-translation/compositions/
 import { MessageTranslationTranslatedComposition } from "#/modules/message-translation/compositions/translated.composition.tsx";
 import translatedSource from "#/modules/message-translation/compositions/translated.composition.tsx?raw";
 import {
-  MESSAGE_TRANSLATION_ANATOMY_SOURCE,
   MESSAGE_TRANSLATION_PROPS,
   MESSAGE_TRANSLATION_TOC,
 } from "#/modules/message-translation/message-translation.snippets.ts";
@@ -96,7 +95,7 @@ export const Route = createFileRoute("/components/message-translation")({
   loader: () =>
     highlightSnippets({
       data: {
-        anatomy: MESSAGE_TRANSLATION_ANATOMY_SOURCE,
+        anatomy: bilingualSource,
         bilingual: bilingualSource,
         translated: translatedSource,
         translationStates: translationStatesSource,
@@ -125,7 +124,7 @@ function MessageTranslationDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

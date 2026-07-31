@@ -158,10 +158,12 @@ export function SystemMessageGroupChevron({
   render,
   ...props
 }: SystemMessageGroupChevronProps) {
+  const theme = useThemeFamily();
+  const { systemGroupChevron } = messageSystem({ theme });
   const defaultProps: useRender.ElementProps<"svg"> & DataAttributes = {
     "data-slot": "system-message-group-chevron",
     "aria-hidden": true,
-    className: cn(className),
+    className: systemGroupChevron({ className }),
   };
 
   return useRender({

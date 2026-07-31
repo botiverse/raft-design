@@ -16,6 +16,8 @@ import { MessageReferenceExternalReferencesComposition } from "#/modules/message
 import externalReferencesSource from "#/modules/message-reference/compositions/external-references.composition.tsx?raw";
 import { MessageReferencePeopleMentionsComposition } from "#/modules/message-reference/compositions/people-mentions.composition.tsx";
 import peopleMentionsSource from "#/modules/message-reference/compositions/people-mentions.composition.tsx?raw";
+import { MessageReferenceReadIndicatorsComposition } from "#/modules/message-reference/compositions/read-indicators.composition.tsx";
+import readIndicatorsSource from "#/modules/message-reference/compositions/read-indicators.composition.tsx?raw";
 import { MessageReferenceResolutionStatesComposition } from "#/modules/message-reference/compositions/resolution-states.composition.tsx";
 import resolutionStatesSource from "#/modules/message-reference/compositions/resolution-states.composition.tsx?raw";
 import { MessageReferenceShowcaseComposition } from "#/modules/message-reference/compositions/reference-showcase.composition.tsx";
@@ -30,31 +32,6 @@ const TOC = [
   { id: "reference-states", title: "Reference states" },
   { id: "api", title: "API" },
 ] as const;
-
-const ANATOMY_SOURCE = `<MessageReferenceText variant="secondary" render={<button type="button" />}>
-  @Atlas
-</MessageReferenceText>
-
-<MessageReferenceText variant="primary" render={<button type="button" />}>
-  @Ada
-</MessageReferenceText>
-
-<MessageReferenceChip variant="muted" render={<a href="…" />}>
-  <MessageReferenceBadge>message</MessageReferenceBadge>
-  <MessageSquareText />
-  <MessageReferenceLabel>message #222</MessageReferenceLabel>
-</MessageReferenceChip>
-
-<MessageReferenceChip variant="info" render={<a href="…" />}>
-  #release-notes
-</MessageReferenceChip>
-
-<MessageReferenceChip variant="link" render={<a href="…" />}>
-  external
-</MessageReferenceChip>
-
-<MessageReferencePending>Resolving…</MessageReferencePending>
-<MessageReferenceUnavailable>Unavailable</MessageReferenceUnavailable>`;
 
 const SURFACES: readonly PropRow[] = [
   {
@@ -88,7 +65,7 @@ const PARTS: readonly PropRow[] = [
     name: "MessageReferenceBadge",
     type: 'useRender.ComponentProps<"span">',
     description:
-      "Optional caption naming the reference type. Hidden until the chip is hovered or focused, then revealed to the left of the chip icon.",
+      "Optional caption naming the reference type. Elegant reveals it to the left of the chip icon on hover or focus; Brutal keeps it hidden.",
   },
   {
     name: "MessageReferenceLabel",
@@ -96,9 +73,10 @@ const PARTS: readonly PropRow[] = [
     description: "Optional primary-label part that truncates safely inside a structured chip.",
   },
   {
-    name: "MessageReferenceMeta",
+    name: "MessageReferenceIndicator",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional secondary metadata part for permalink and external-reference chips.",
+    description:
+      "Optional child part that positions caller-owned status content on an inline reference. The consumer decides whether to render it.",
   },
 ];
 
@@ -161,11 +139,12 @@ export const Route = createFileRoute("/components/message-reference")({
   loader: () =>
     highlightSnippets({
       data: {
-        anatomy: ANATOMY_SOURCE,
+        anatomy: referenceComparisonSource,
         referenceAdapters: referenceAdaptersSource,
         referenceComparison: referenceComparisonSource,
         referenceShowcase: referenceShowcaseSource,
         peopleMentions: peopleMentionsSource,
+        readIndicators: readIndicatorsSource,
         conversationDestinations: conversationDestinationsSource,
         tooltipHint: tooltipHintSource,
         externalReferences: externalReferencesSource,
@@ -195,7 +174,7 @@ function MessageReferenceDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>
@@ -213,6 +192,18 @@ function MessageReferenceDoc() {
             </UsagePreview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="read-indicators" title="Agent read state">
+            <p className="mb-3 text-sm text-foreground-muted">
+              The consumer owns each mentioned agent&apos;s read state. Compose a caller-owned{" "}
+              <InlineCode>Status</InlineCode> inside{" "}
+              <InlineCode>MessageReferenceIndicator</InlineCode> for read and not-yet-read states;
+              omit the indicator when the state is unknown.
+            </p>
+            <UsagePreview code={code.readIndicators}>
+              <MessageReferenceReadIndicatorsComposition />
+            </UsagePreview>
+          </DocSubsection>
+
           <DocSubsection
             parentId="usage"
             id="conversation-destinations"
@@ -222,8 +213,9 @@ function MessageReferenceDoc() {
               Use <InlineCode>#channel</InlineCode> for a channel,{" "}
               <InlineCode>dm:@member</InlineCode> for a DM, or a thread reference for a resolved
               parent. The visible label may omit its internal short ID. A resolved message reference
-              can include its destination badge and label directly. Hovering the chip expands the
-              badge leftwards to name the destination type, without moving surrounding text.
+              can include its destination badge and label directly. In Elegant, hovering or focusing
+              the chip expands the badge leftwards to name the destination type without moving
+              surrounding text; Brutal keeps the badge hidden.
             </p>
             <UsagePreview
               code={code.conversationDestinations}
@@ -236,8 +228,9 @@ function MessageReferenceDoc() {
           <DocSubsection parentId="usage" id="tooltip-hint" title="Tooltip hint">
             <p className="mb-3 text-sm text-foreground-muted">
               Wrap the whole reference with <InlineCode>TooltipTrigger</InlineCode>, then anchor the
-              tooltip to its leading icon. Without <InlineCode>MessageReferenceBadge</InlineCode>,
-              hovering the chip shows its type above the icon instead of expanding the icon area.
+              tooltip to its leading icon. In Elegant, without{" "}
+              <InlineCode>MessageReferenceBadge</InlineCode>, hovering the chip shows its type above
+              the icon instead of expanding the icon area. Brutal keeps the badge hidden.
             </p>
             <UsagePreview code={code.tooltipHint} collapsedCode={code.tooltipHintBody}>
               <MessageReferenceTooltipHintComposition />
@@ -251,9 +244,10 @@ function MessageReferenceDoc() {
           >
             <p className="mb-3 text-sm text-foreground-muted">
               Use the link chip for both an in-product permalink and a target outside the workspace.
-              The source qualifier lives in <InlineCode>MessageReferenceBadge</InlineCode> and is
-              revealed on hover, so the resting chip stays a plain label; the consumer owns{" "}
-              <InlineCode>target</InlineCode> and <InlineCode>rel</InlineCode>.
+              The source qualifier lives in <InlineCode>MessageReferenceBadge</InlineCode>. Elegant
+              reveals it on hover or focus so the resting chip stays a plain label; Brutal keeps it
+              hidden. The consumer owns <InlineCode>target</InlineCode> and{" "}
+              <InlineCode>rel</InlineCode>.
             </p>
             <UsagePreview
               code={code.externalReferences}

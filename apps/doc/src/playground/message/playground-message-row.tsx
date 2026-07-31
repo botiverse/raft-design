@@ -27,7 +27,6 @@ import {
   MessageRepliesSummaryItem,
   Progress,
   ProgressIndicator,
-  ProgressTrack,
   MessageItem,
   MessageItemAttachments,
   MessageItemBadge,
@@ -59,7 +58,7 @@ import {
   MessageItemTranslationFailedStatus,
   MessageItemTranslationOriginal,
   MessageItemTranslationOriginalLabel,
-  MessageItemTranslationPendingStatus,
+  MessageItemTranslationProgressTrack,
   MessageItemTranslationRetryAction,
   MessageItemTranslationStatus,
 } from "raft-ui/wip";
@@ -68,6 +67,9 @@ import { MessageContextMenuComposition } from "#/modules/message-item/compositio
 import { ActionCardComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
 import { ForwardedBundleEmbeddedComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import { QuotedPreviewEmbeddedComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
+import { MessageAudioAttachmentComposition } from "#/modules/message-attachment/compositions/file-attachments.composition.tsx";
+import { MessageImageGallerySingleComposition } from "#/modules/message-media/compositions/image-gallery-single.composition.tsx";
+import { MessageVideoPreviewComposition } from "#/modules/message-media/compositions/video-states.composition.tsx";
 import { MessageMobileReactionAdd } from "#/modules/message-item/compositions/item-preview.composition.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { MessageRowToolbar } from "#/modules/message-item/compositions/row-toolbar.composition.tsx";
@@ -179,47 +181,49 @@ function PlaygroundSentMessageAttachments({
           link.click();
         }
       : undefined;
-    const mediaPreview =
-      attachment.previewUrl && attachment.mediaType.startsWith("image/") ? (
-        <button
-          type="button"
-          className="block w-fit max-w-[416px] overflow-hidden border-2 border-line-strong bg-layer-muted text-left hover:brightness-95"
-          aria-label={`Preview ${attachment.name}`}
-          onClick={openPreview}
-        >
-          <img
-            src={attachment.previewUrl}
-            alt={attachment.name}
-            className="block max-h-80 max-w-full object-contain"
-          />
-        </button>
-      ) : attachment.previewUrl && attachment.mediaType.startsWith("video/") ? (
-        <video
-          controls
-          preload="metadata"
+    if (attachment.previewUrl && attachment.mediaType.startsWith("image/")) {
+      return (
+        <MessageImageGallerySingleComposition
+          key={`${attachment.name}:${attachment.mediaType}`}
+          alt={attachment.name}
+          name={attachment.name}
+          onDownload={downloadAttachment}
+          onPreview={openPreview}
           src={attachment.previewUrl}
-          aria-label={`Play ${attachment.name}`}
-          className="max-h-80 max-w-full border-2 border-line-strong bg-layer-muted"
-        >
-          <track
-            kind="captions"
-            src="data:text/vtt;charset=utf-8,WEBVTT"
-            srcLang="en"
-            label="Captions unavailable"
-          />
-        </video>
-      ) : attachment.previewUrl && attachment.mediaType.startsWith("audio/") ? (
-        <audio controls preload="metadata" src={attachment.previewUrl} className="max-w-full" />
-      ) : null;
+        />
+      );
+    }
+
+    if (attachment.previewUrl && attachment.mediaType.startsWith("video/")) {
+      return (
+        <MessageVideoPreviewComposition
+          key={`${attachment.name}:${attachment.mediaType}`}
+          name={attachment.name}
+          onDownload={downloadAttachment}
+          src={attachment.previewUrl}
+        />
+      );
+    }
+
+    if (attachment.previewUrl && attachment.mediaType.startsWith("audio/")) {
+      return (
+        <MessageAudioAttachmentComposition
+          key={`${attachment.name}:${attachment.mediaType}`}
+          meta={attachment.mediaType}
+          name={attachment.name}
+          onDownload={downloadAttachment}
+          onPreview={openPreview}
+        />
+      );
+    }
 
     return (
       <div key={`${attachment.name}:${attachment.mediaType}`} className="grid gap-2">
-        {mediaPreview}
         <MessageAttachmentCard>
           <MessageAttachmentTitle>{attachment.name}</MessageAttachmentTitle>
           <MessageAttachmentMeta>
             {openPreview || downloadAttachment ? (
-              <MessageAttachmentMetaEnd className="ml-auto">
+              <MessageAttachmentMetaEnd>
                 {openPreview ? (
                   <MessageAttachmentAction
                     aria-label={`Preview ${attachment.name}`}
@@ -418,7 +422,12 @@ export function PlaygroundMessageRow({
       ? translation.translatedContent
       : body;
   const renderedBody = (
-    <PlaygroundMessageBody channelId={channelId} content={visibleBody} searchQuery={searchQuery} />
+    <PlaygroundMessageBody
+      channelId={channelId}
+      content={visibleBody}
+      mentionReadStates={message.mentionReadStates}
+      searchQuery={searchQuery}
+    />
   );
   const composedBody = presentation === "action-card" ? <ActionCardComposition /> : renderedBody;
   const embeddedPresentation =
@@ -492,9 +501,9 @@ export function PlaygroundMessageRow({
                   aria-label="Translating message"
                   className="w-44 max-w-full"
                 >
-                  <ProgressTrack>
+                  <MessageItemTranslationProgressTrack>
                     <ProgressIndicator />
-                  </ProgressTrack>
+                  </MessageItemTranslationProgressTrack>
                 </Progress>
               </MessageItemBody>
             ) : composedBody ? (
@@ -505,7 +514,11 @@ export function PlaygroundMessageRow({
             workflow.translation === "translated" ? (
               <MessageItemTranslationOriginal>
                 <MessageItemTranslationOriginalLabel>Original</MessageItemTranslationOriginalLabel>
-                <PlaygroundMessageBody channelId={channelId} content={body} />
+                <PlaygroundMessageBody
+                  channelId={channelId}
+                  content={body}
+                  mentionReadStates={message.mentionReadStates}
+                />
               </MessageItemTranslationOriginal>
             ) : null}
             {embeddedPresentation}
@@ -516,10 +529,10 @@ export function PlaygroundMessageRow({
         ) : null}
         {translation && workflow.translation !== "idle" ? (
           workflow.translation === "pending" ? (
-            <MessageItemTranslationPendingStatus>
+            <MessageItemTranslationStatus>
               <Languages size={12} />
               <span>Translating…</span>
-            </MessageItemTranslationPendingStatus>
+            </MessageItemTranslationStatus>
           ) : workflow.translation === "failed" ? (
             <MessageItemTranslationFailedStatus>
               <AlertTriangle size={12} />

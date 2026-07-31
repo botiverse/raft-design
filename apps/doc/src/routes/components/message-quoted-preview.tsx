@@ -277,7 +277,10 @@ function MessageQuotedPreviewDoc() {
               <Preview.Canvas>
                 <QuotedPreviewDirectMessageThreadComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.quotedPreviewDirectMessageThread} />
+              <Preview.Code
+                html={code.quotedPreviewDirectMessageThread}
+                collapsedHtml={code.quotedPreviewDirectMessageThreadBody}
+              />
             </Preview>
           </DocSubsection>
 
@@ -308,7 +311,10 @@ function MessageQuotedPreviewDoc() {
               <Preview.Canvas>
                 <QuotedPreviewArchivedChannelComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.quotedPreviewArchivedChannel} />
+              <Preview.Code
+                html={code.quotedPreviewArchivedChannel}
+                collapsedHtml={code.quotedPreviewArchivedChannelBody}
+              />
             </Preview>
           </DocSubsection>
 

@@ -36,7 +36,8 @@ export const PLAYGROUND_ROOM_CONVERSATIONS = [
         senderId: "cuvii",
         createdAt: "09:24 AM",
         content:
-          "Reviewing the mock conversation flow now so Chat, Tasks, and Files all read the same seed — including markdown refs and consecutive compact rows.",
+          "Reviewing the mock conversation flow with @Atlas now so Chat, Tasks, and Files all read the same seed — including markdown refs and consecutive compact rows.",
+        mentionReadStates: { atlas: "read" },
         reactions: [
           { emoji: "👍", count: 2, reactorIds: ["ada", "atlas"] },
           { emoji: "👀", count: 1, reactorIds: ["cindy"] },

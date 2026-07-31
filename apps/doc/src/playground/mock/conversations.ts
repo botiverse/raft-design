@@ -18,6 +18,7 @@ export type {
   PlaygroundConversation,
   PlaygroundDirectMessage,
   PlaygroundInitialComposer,
+  PlaygroundMentionReadState,
   PlaygroundMessage,
   PlaygroundMessageAttachment,
   PlaygroundMessageId,

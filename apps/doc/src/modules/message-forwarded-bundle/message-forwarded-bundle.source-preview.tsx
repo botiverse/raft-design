@@ -15,6 +15,7 @@ export function MessageForwardedBundleSourcePreview() {
         </div>
         <button
           type="button"
+          disabled
           className="min-w-0 truncate text-[11px] font-bold text-black/50 underline-offset-2 transition-colors hover:text-black hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           data-testid="forwarded-bundle-source-label"
         >
@@ -74,6 +75,7 @@ export function MessageForwardedBundleSourcePreview() {
       <div className="border-t border-black/10 bg-white px-3 py-1.5">
         <button
           type="button"
+          disabled
           className="text-[11px] font-black text-black/60 underline underline-offset-2 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
         >
           Show all 4 messages

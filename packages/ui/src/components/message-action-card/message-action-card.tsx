@@ -37,6 +37,22 @@ export function MessageActionCardHeader({
   return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
 }
 
+export function MessageActionCardHeaderStatus({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"span">) {
+  const theme = useThemeFamily();
+  const { headerStatus } = messageActionCard({ theme });
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">({ className: headerStatus({ className }) }, props),
+    state: { slot: "message-action-card-header-status" },
+  });
+}
+
 export function MessageActionCardProperties({
   className,
   render,
@@ -114,6 +130,22 @@ export function MessageActionCardScopeList({
     render,
     props: mergeProps<"div">({ className: scopeList({ className }) }, props),
     state: { slot: "message-action-card-scope-list" },
+  });
+}
+
+export function MessageActionCardScopeListLabel({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { scopeListLabel } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: scopeListLabel({ className }) }, props),
+    state: { slot: "message-action-card-scope-list-label" },
   });
 }
 
@@ -216,11 +248,13 @@ export function MessageActionCardActions({
 export type MessageActionCardProps = useRender.ComponentProps<"div">;
 export type MessageActionCardContentProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHeaderProps = useRender.ComponentProps<"div">;
+export type MessageActionCardHeaderStatusProps = useRender.ComponentProps<"span">;
 export type MessageActionCardPropertiesProps = useRender.ComponentProps<"dl">;
 export type MessageActionCardPropertyProps = useRender.ComponentProps<"div">;
 export type MessageActionCardPropertyLabelProps = useRender.ComponentProps<"dt">;
 export type MessageActionCardPropertyValueProps = useRender.ComponentProps<"dd">;
 export type MessageActionCardScopeListProps = useRender.ComponentProps<"div">;
+export type MessageActionCardScopeListLabelProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeNameProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeDescriptionProps = useRender.ComponentProps<"div">;

@@ -10,13 +10,11 @@ export const messageForwardedBundle = tv({
     source: ["min-w-0 truncate"],
     sourceLabel: ["min-w-0 truncate"],
     items: ["relative"],
-    footer: [],
     toggle: [],
   },
   variants: {
     theme: {
       brutal: {
-        root: "",
         header: "gap-2",
         headerContent: "gap-2",
         headerLabel: "gap-1 text-[11px] font-black uppercase leading-none text-black/70",
@@ -25,12 +23,10 @@ export const messageForwardedBundle = tv({
           "inline-flex items-center gap-1 text-[11px] font-bold underline-offset-2 transition-colors text-black/50 hover:text-black hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         sourceLabel: "inline-flex items-center gap-1 text-[11px] font-bold text-black/45",
         items: "divide-y divide-black/10",
-        footer: "",
         toggle:
           "inline-flex items-center gap-1 text-[11px] font-black underline underline-offset-2 text-black/60 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       },
       elegant: {
-        root: "",
         header: "gap-2",
         headerContent: "gap-2",
         headerLabel: "gap-1 text-[11px] font-medium leading-none text-foreground-muted",
@@ -40,7 +36,6 @@ export const messageForwardedBundle = tv({
         sourceLabel:
           "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder",
         items: "divide-y-[0.5px] divide-line-subtle/75",
-        footer: "",
         toggle:
           "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
       },

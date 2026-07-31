@@ -21,23 +21,6 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const ANATOMY_SOURCE = `<MessageReplies render={<a href="/messages/123?thread=456" />}>
-  <MessageRepliesSummary>
-    <MessageRepliesSummaryItem>4 replies</MessageRepliesSummaryItem>
-    <span aria-hidden>·</span>
-    <MessageRepliesSummaryItem render={<strong />}>
-      <MessageSquareDot />1 new
-    </MessageRepliesSummaryItem>
-    <span aria-hidden>›</span>
-  </MessageRepliesSummary>
-  <MessageRepliesItem>
-    <Avatar />
-    <MessageRepliesItemSender />
-    <MessageRepliesItemContent />
-    <MessageRepliesItemTime />
-  </MessageRepliesItem>
-</MessageReplies>`;
-
 const SURFACE_PARTS: readonly PropRow[] = [
   {
     name: "MessageReplies",
@@ -86,7 +69,7 @@ export const Route = createFileRoute("/components/message-replies")({
   loader: () =>
     highlightSnippets({
       data: {
-        anatomy: ANATOMY_SOURCE,
+        anatomy: messageRepliesDefaultSource,
         preview: messageRepliesDefaultSource,
         singleUnread: messageRepliesSingleUnreadSource,
         unreadDraft: messageRepliesUnreadDraftSource,
@@ -115,7 +98,7 @@ function MessageRepliesDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

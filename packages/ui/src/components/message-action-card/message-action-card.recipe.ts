@@ -4,6 +4,7 @@ export const messageActionCard = tv({
   slots: {
     root: ["mt-1 w-full"],
     header: ["flex flex-wrap items-center gap-2 leading-snug"],
+    headerStatus: ["ml-auto"],
   },
   variants: {
     theme: {

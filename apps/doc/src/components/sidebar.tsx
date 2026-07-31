@@ -79,9 +79,9 @@ const NAV = [
       {
         label: "ForwardedBundle",
         to: "/components/message-forwarded-bundle",
-        status: "wip",
+        status: "done",
       },
-      { label: "ActionCard", to: "/components/message-action-card", status: "wip" },
+      { label: "ActionCard", to: "/components/message-action-card", status: "done" },
       { label: "Attachment", to: "/components/message-attachment", status: "done" },
       { label: "System message", to: "/components/system-message", status: "done" },
     ],

@@ -2,6 +2,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  MessageQuotedPreviewContent,
+  MessageQuotedPreviewHeader,
   MessageQuotedPreviewLoading,
   MessageReferenceChip,
   MessageReferenceLabel,
@@ -18,8 +20,6 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-  MessageEmbedContent,
-  MessageEmbedHeader,
 } from "raft-ui/wip";
 import { Link } from "lucide-react";
 
@@ -32,7 +32,7 @@ function QuotedPreviewLoadingSkeleton() {
   if (theme === "brutal") {
     return (
       <>
-        <MessageEmbedHeader className="flex items-center gap-2 border-black/15 px-2.5 py-2 sm:px-3 sm:py-2.5">
+        <MessageQuotedPreviewHeader>
           <Skeleton
             variant="block"
             className="size-4 shrink-0 border border-black/15 bg-black/5 animate-none"
@@ -40,27 +40,27 @@ function QuotedPreviewLoadingSkeleton() {
           <Skeleton variant="line" className="h-2.5 w-16 animate-none" />
           <Skeleton variant="line" className="h-2.5 w-24 animate-none" />
           <Skeleton variant="line" className="ml-auto h-2.5 w-20 animate-none" />
-        </MessageEmbedHeader>
-        <MessageEmbedContent className="space-y-2 px-2.5 py-2.5 sm:px-3 sm:py-3">
+        </MessageQuotedPreviewHeader>
+        <MessageQuotedPreviewContent className="space-y-2">
           <Skeleton variant="line" className="h-2.5 w-full animate-none" />
           <Skeleton variant="line" className="h-2.5 w-3/4 animate-none" />
-        </MessageEmbedContent>
+        </MessageQuotedPreviewContent>
       </>
     );
   }
 
   return (
     <>
-      <MessageEmbedHeader className="flex items-center gap-2">
+      <MessageQuotedPreviewHeader>
         <Skeleton variant="circle" className="size-4 bg-layer-strong animate-none" />
         <Skeleton variant="line" className="h-2.5 w-16 bg-layer-strong animate-none" />
         <Skeleton variant="line" className="h-2.5 w-24 bg-layer-strong animate-none" />
         <Skeleton variant="line" className="ml-auto h-2.5 w-20 bg-layer-strong animate-none" />
-      </MessageEmbedHeader>
-      <MessageEmbedContent className="space-y-1.5 px-3 py-3 sm:px-3.5 sm:py-3.5">
+      </MessageQuotedPreviewHeader>
+      <MessageQuotedPreviewContent className="space-y-1.5">
         <Skeleton variant="line" className="h-2.5 w-full bg-layer-strong animate-none" />
         <Skeleton variant="line" className="h-2.5 w-3/4 bg-layer-strong animate-none" />
-      </MessageEmbedContent>
+      </MessageQuotedPreviewContent>
     </>
   );
 }

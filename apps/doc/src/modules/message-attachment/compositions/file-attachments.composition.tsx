@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { ArrowDownToLine, Eye, MessageSquare } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
@@ -71,24 +71,36 @@ function MessageFileAttachmentComposition() {
   );
 }
 
-function MessageAudioAttachmentComposition() {
+export type MessageAudioAttachmentCompositionProps = {
+  meta?: ReactNode;
+  name?: string;
+  onDownload?: () => void;
+  onPreview?: () => void;
+};
+
+export function MessageAudioAttachmentComposition({
+  meta,
+  name = "message-preview.wav",
+  onDownload = () => downloadMessageFixture("message-preview.wav"),
+  onPreview = () => window.open(MESSAGE_FIXTURE_AUDIO_SRC, "_blank", "noopener,noreferrer"),
+}: MessageAudioAttachmentCompositionProps = {}) {
   return (
     <MessageAttachmentCard>
-      <MessageAttachmentTitle>message-preview.wav</MessageAttachmentTitle>
+      <MessageAttachmentTitle>{name}</MessageAttachmentTitle>
       <MessageAttachmentMeta>
-        <MessageAttachmentMetaStart>4 KB</MessageAttachmentMetaStart>
+        {meta ? <MessageAttachmentMetaStart>{meta}</MessageAttachmentMetaStart> : null}
         <MessageAttachmentMetaEnd>
           <MessageAttachmentAction
-            aria-label="Preview message-preview.wav"
-            onClick={() => window.open(MESSAGE_FIXTURE_AUDIO_SRC, "_blank", "noopener,noreferrer")}
-            title="Preview message-preview.wav"
+            aria-label={`Preview ${name}`}
+            onClick={onPreview}
+            title={`Preview ${name}`}
           >
             <Eye aria-hidden />
           </MessageAttachmentAction>
           <MessageAttachmentAction
-            aria-label="Download message-preview.wav"
-            onClick={() => downloadMessageFixture("message-preview.wav")}
-            title="Download message-preview.wav"
+            aria-label={`Download ${name}`}
+            onClick={onDownload}
+            title={`Download ${name}`}
           >
             <ArrowDownToLine aria-hidden />
           </MessageAttachmentAction>
@@ -182,7 +194,7 @@ export function MessageFileAttachmentsComposition() {
     <MessageAttachmentGroup>
       <MessageFileAttachmentComposition />
       <MessageHtmlPreviewAttachmentComposition />
-      <MessageAudioAttachmentComposition />
+      <MessageAudioAttachmentComposition meta="4 KB" />
       <MessageCommentedMarkdownAttachmentComposition />
       <MessageCsvAttachmentComposition />
       <MessageGenericAttachmentComposition />
@@ -195,7 +207,7 @@ export function MessageFileAttachmentStatesComposition() {
     <MessageAttachmentGroup>
       <MessageFileAttachmentComposition />
       <MessageHtmlPreviewAttachmentComposition />
-      <MessageAudioAttachmentComposition />
+      <MessageAudioAttachmentComposition meta="4 KB" />
       <MessageCommentedMarkdownAttachmentComposition />
       <MessagePendingCsvAttachmentComposition />
       <MessageGenericAttachmentComposition />

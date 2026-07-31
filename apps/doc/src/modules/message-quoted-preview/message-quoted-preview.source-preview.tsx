@@ -5,6 +5,7 @@ export function MessageQuotedPreviewSourcePreview() {
     <article className="group/message relative flex h-fit min-h-[3rem] w-full max-w-xl gap-3 border-2 border-transparent px-2 py-1 font-sans text-black">
       <button
         type="button"
+        disabled
         aria-label="Open Ada profile"
         className="mt-0.5 shrink-0 self-start transition-[filter,transform] duration-75 hover:brightness-90"
       >
@@ -25,6 +26,7 @@ export function MessageQuotedPreviewSourcePreview() {
         </div>
         <button
           type="button"
+          disabled
           className="group mt-1.5 block w-full border border-black/15 bg-white text-left hover:border-black/30 hover:bg-black/5"
         >
           <span className="block px-2.5 py-2 sm:px-3 sm:py-2.5">

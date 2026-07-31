@@ -1,11 +1,14 @@
 import type { Components } from "react-markdown";
 import { Children, useMemo, type ReactNode } from "react";
 import {
+  MarkdownInlineCode,
   MarkdownLink,
   MarkdownParagraph,
   MessageItemSearchMatch,
   MessageReferenceChip,
+  MessageReferenceIndicator,
   MessageReferenceText,
+  Status,
   TaskChip,
   TaskStatusIcon,
 } from "raft-ui";
@@ -23,6 +26,8 @@ import {
   PLAYGROUND_CHANNELS,
   PLAYGROUND_SERVER_SLUG,
   PLAYGROUND_TASKS,
+  type PlaygroundActorId,
+  type PlaygroundMentionReadState,
 } from "../mock/index.ts";
 
 const VIEWER_ACTOR_ID = "cuvii";
@@ -48,7 +53,7 @@ function conversationHref(channelId: string) {
 }
 
 function highlightSearchMatch(text: string, query: string): ReactNode {
-  const normalizedQuery = query.toLocaleLowerCase();
+  const normalizedQuery = query.trim().toLocaleLowerCase();
   if (!normalizedQuery) return text;
 
   const parts: ReactNode[] = [];
@@ -58,7 +63,7 @@ function highlightSearchMatch(text: string, query: string): ReactNode {
 
   while (matchIndex !== -1) {
     if (matchIndex > cursor) parts.push(text.slice(cursor, matchIndex));
-    const matchEnd = matchIndex + query.length;
+    const matchEnd = matchIndex + normalizedQuery.length;
     parts.push(
       <MessageItemSearchMatch key={`${matchIndex}-${matchEnd}`}>
         {text.slice(matchIndex, matchEnd)}
@@ -73,7 +78,17 @@ function highlightSearchMatch(text: string, query: string): ReactNode {
   return parts;
 }
 
-function createPlaygroundMarkdownComponents(channelId?: string, searchQuery?: string): Components {
+function highlightSearchChildren(children: ReactNode, query: string): ReactNode {
+  return Children.map(children, (child) =>
+    typeof child === "string" ? highlightSearchMatch(child, query) : child,
+  );
+}
+
+function createPlaygroundMarkdownComponents(
+  channelId?: string,
+  searchQuery?: string,
+  mentionReadStates?: Readonly<Partial<Record<PlaygroundActorId, PlaygroundMentionReadState>>>,
+): Components {
   return {
     p: ({ node: _node, children, ...props }) => (
       <MarkdownParagraph {...props}>
@@ -83,6 +98,11 @@ function createPlaygroundMarkdownComponents(channelId?: string, searchQuery?: st
             )
           : children}
       </MarkdownParagraph>
+    ),
+    code: ({ node: _node, className, children, ...props }) => (
+      <MarkdownInlineCode className={className} {...props}>
+        {className || !searchQuery ? children : highlightSearchChildren(children, searchQuery)}
+      </MarkdownInlineCode>
     ),
     a: ({ node, href, children, ...props }) => {
       const reference = parseMarkdownReference(node?.properties?.dataMarkdownReference);
@@ -98,6 +118,8 @@ function createPlaygroundMarkdownComponents(channelId?: string, searchQuery?: st
       if (reference.kind === "mention") {
         const actor = ACTORS_BY_NAME.get(reference.name.toLocaleLowerCase());
         if (!actor) return <>{children}</>;
+        const mentionReadState = actor.type === "agent" ? mentionReadStates?.[actor.id] : undefined;
+        const mentionReadLabel = mentionReadState === "read" ? "Read" : "Not read yet";
 
         return (
           <MessageReferenceText
@@ -105,6 +127,15 @@ function createPlaygroundMarkdownComponents(channelId?: string, searchQuery?: st
             title={`${actor.name} · ${actor.meta}`}
           >
             {children}
+            {mentionReadState ? (
+              <MessageReferenceIndicator title={mentionReadLabel}>
+                <Status
+                  aria-label={mentionReadLabel}
+                  size="sm"
+                  variant={mentionReadState === "read" ? "success" : "default"}
+                />
+              </MessageReferenceIndicator>
+            ) : null}
           </MessageReferenceText>
         );
       }
@@ -160,15 +191,17 @@ function createPlaygroundMarkdownComponents(channelId?: string, searchQuery?: st
 export function PlaygroundMessageBody({
   channelId,
   content,
+  mentionReadStates,
   searchQuery,
 }: {
   channelId?: string;
   content: string;
+  mentionReadStates?: Readonly<Partial<Record<PlaygroundActorId, PlaygroundMentionReadState>>>;
   searchQuery?: string;
 }) {
   const components = useMemo(
-    () => createPlaygroundMarkdownComponents(channelId, searchQuery),
-    [channelId, searchQuery],
+    () => createPlaygroundMarkdownComponents(channelId, searchQuery, mentionReadStates),
+    [channelId, mentionReadStates, searchQuery],
   );
 
   return (

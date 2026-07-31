@@ -7,72 +7,6 @@ export const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-export const ANATOMY_SOURCE = `<MessageItem>
-  <MessageItemAvatarSlot />
-  <MessageItemContent>
-    <MessageItemHeader>
-      <MessageItemSender />
-      <MessageItemSenderBadges>
-        <Badge />
-      </MessageItemSenderBadges>
-      <MessageItemMeta />
-      <MessageItemTime />
-      <MessageItemInlineStatus />
-    </MessageItemHeader>
-    <MessageItemBody>
-      Find the <MessageItemSearchMatch>matching text</MessageItemSearchMatch>.
-    </MessageItemBody>
-    <MessageItemTranslationOriginal />
-    <MessageItemEmbedded />
-    <MessageItemNotice />
-    <MessageItemAttachments>...</MessageItemAttachments>
-    <MessageItemTranslationStatus />
-    <MessageItemFooter>
-      <TaskChip />
-      <MessageItemSavedIndicator />
-      <MessageItemBadge />
-      <MessageReactionChip />
-      <MessageItemReadReceipt />
-    </MessageItemFooter>
-    <MessageReplies>
-      <MessageRepliesSummary />
-      <MessageRepliesItem />
-    </MessageReplies>
-  </MessageItemContent>
-  <MessageItemToolbar />
-</MessageItem>
-
-<MessageItem compact>
-  <MessageItemGutter>
-    <MessageItemContinuationTime />
-  </MessageItemGutter>
-  <MessageItemContent>
-    <MessageItemBody />
-  </MessageItemContent>
-</MessageItem>
-
-function MessageSelectionExample() {
-  const [selected, setSelected] = useState<ReadonlySet<string>>(
-    () => new Set(["id"]),
-  );
-
-  return (
-    <MessageMultiSelect>
-      <MessageItem>
-        <MessageMultiSelectCheckbox
-          checked={selected.has("id")}
-          value="id"
-          onCheckedChange={(checked) =>
-            setSelected(checked ? new Set(["id"]) : new Set())
-          }
-        />
-        <MessageItemAvatarSlot />
-        <MessageItemContent>...</MessageItemContent>
-      </MessageItem>
-    </MessageMultiSelect>
-  );
-}`;
-
 export const ROW_PROPS: readonly PropRow[] = [
   {
     name: "MessageItem",
@@ -163,12 +97,6 @@ export const CONTENT_PROPS: readonly PropRow[] = [
       "Dedicated message region for embedded cards. Its content and workflow stay caller-owned.",
   },
   {
-    name: "MessageItemNotice",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Dedicated message region for notices. Its content and workflow stay caller-owned.",
-  },
-  {
     name: "MessageItemFooter",
     type: 'useRender.ComponentProps<"div">',
     description: "Footer layout for receipts, task badges, and reactions.",
@@ -208,9 +136,10 @@ export const REFERENCE_PROPS: readonly PropRow[] = [
     description: "Optional label slot for a chip-style reference.",
   },
   {
-    name: "MessageReferenceMeta",
+    name: "MessageReferenceIndicator",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional meta slot for a chip-style reference, such as a permalink.",
+    description:
+      "Optional child slot for caller-owned read-state or other reference-local status content.",
   },
 ];
 

@@ -16,10 +16,12 @@ import {
   MessageActionCardProperties,
   MessageActionCardPropertyValue,
   MessageActionCardHeader,
+  MessageActionCardHeaderStatus,
   MessageActionCardHint,
   MessageActionCardScope,
   MessageActionCardScopeDescription,
   MessageActionCardScopeList,
+  MessageActionCardScopeListLabel,
   MessageActionCardScopeName,
   MessageItem,
   MessageItemAvatarSlot,
@@ -64,9 +66,7 @@ export function ActionCardIntegrationComposition() {
                   </MessageActionCardProperty>
                 </MessageActionCardProperties>
                 <MessageActionCardScopeList>
-                  <div className="text-[13px] leading-5 font-medium text-foreground [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:leading-4 [[data-theme=brutal]_&]:font-normal [[data-theme=brutal]_&]:text-black/55">
-                    Scopes:
-                  </div>
+                  <MessageActionCardScopeListLabel>Scopes:</MessageActionCardScopeListLabel>
                   <MessageActionCardScope>
                     <MessageActionCardScopeName>openid</MessageActionCardScopeName>
                     <MessageActionCardScopeDescription>
@@ -133,9 +133,7 @@ export function ActionCardIntegrationComposition() {
                   </MessageActionCardProperty>
                 </MessageActionCardProperties>
                 <MessageActionCardScopeList>
-                  <div className="text-[13px] leading-5 font-medium text-foreground [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:leading-4 [[data-theme=brutal]_&]:font-normal [[data-theme=brutal]_&]:text-black/55">
-                    Scopes:
-                  </div>
+                  <MessageActionCardScopeListLabel>Scopes:</MessageActionCardScopeListLabel>
                   <MessageActionCardScope>
                     <MessageActionCardScopeName>openid</MessageActionCardScopeName>
                     <MessageActionCardScopeDescription>
@@ -181,9 +179,9 @@ export function ActionCardIntegrationComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>
                 Update app release-notes
-                <Badge variant="muted" className="ml-auto">
+                <MessageActionCardHeaderStatus render={<Badge variant="muted" />}>
                   Legacy
-                </Badge>
+                </MessageActionCardHeaderStatus>
               </MessageActionCardHeader>
               <MessageActionCardContent>
                 <MessageActionCardProperties>
@@ -199,9 +197,7 @@ export function ActionCardIntegrationComposition() {
                   </MessageActionCardProperty>
                 </MessageActionCardProperties>
                 <MessageActionCardScopeList>
-                  <div className="text-[13px] leading-5 font-medium text-foreground [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:leading-4 [[data-theme=brutal]_&]:font-normal [[data-theme=brutal]_&]:text-black/55">
-                    Scopes:
-                  </div>
+                  <MessageActionCardScopeListLabel>Scopes:</MessageActionCardScopeListLabel>
                   <MessageActionCardScope>
                     <MessageActionCardScopeName>openid</MessageActionCardScopeName>
                     <MessageActionCardScopeDescription>

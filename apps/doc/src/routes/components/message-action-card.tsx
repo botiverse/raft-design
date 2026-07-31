@@ -44,7 +44,9 @@ const SOURCE_SCENES = [
 ] as const;
 
 const ANATOMY_SOURCE = `<MessageActionCard>
-  <MessageActionCardHeader />
+  <MessageActionCardHeader>
+    <MessageActionCardHeaderStatus />
+  </MessageActionCardHeader>
   <MessageActionCardContent>
     <MessageActionCardProperties>
       <MessageActionCardProperty>
@@ -53,6 +55,7 @@ const ANATOMY_SOURCE = `<MessageActionCard>
       </MessageActionCardProperty>
     </MessageActionCardProperties>
     <MessageActionCardScopeList>
+      <MessageActionCardScopeListLabel />
       <MessageActionCardScope>
         <MessageActionCardScopeName />
         <MessageActionCardScopeDescription />
@@ -77,7 +80,13 @@ const PROPS: readonly PropRow[] = [
   {
     name: "MessageActionCardHeader",
     type: 'useRender.ComponentProps<"div">',
-    description: "Outer title row. Compose the action title and any ready-state badge here.",
+    description: "Outer title row. Compose the action title and any trailing status here.",
+  },
+  {
+    name: "MessageActionCardHeaderStatus",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Trailing header region. Use render to apply its alignment to a caller-owned badge or status.",
   },
   {
     name: "MessageActionCardContent",
@@ -109,6 +118,11 @@ const PROPS: readonly PropRow[] = [
     name: "MessageActionCardScopeList",
     type: 'useRender.ComponentProps<"div">',
     description: "Optional named scope section rendered directly in the content stack.",
+  },
+  {
+    name: "MessageActionCardScopeListLabel",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Theme-aware heading for a scope list.",
   },
   {
     name: "MessageActionCardScope",

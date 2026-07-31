@@ -7,6 +7,7 @@ import {
   MarkdownParagraph,
   MessageReferenceBadge,
   MessageReferenceChip,
+  MessageReferenceIndicator,
   MessageReferenceLabel,
   MessageItem,
   MessageItemAvatarSlot,
@@ -16,6 +17,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
+  Status,
 } from "raft-ui";
 
 import {
@@ -54,6 +56,9 @@ export function MessageReferenceComparisonComposition() {
                   preview={<p>Atlas · owner</p>}
                 >
                   @Atlas
+                  <MessageReferenceIndicator>
+                    <Status aria-label="Read" size="sm" variant="success" />
+                  </MessageReferenceIndicator>
                 </MessageMentionReferenceComposition>{" "}
                 or{" "}
                 <MessageMentionReferenceComposition

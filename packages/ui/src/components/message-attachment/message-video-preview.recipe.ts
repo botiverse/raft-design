@@ -11,7 +11,12 @@ export const messageVideoPreview = tv({
     failureContent: "flex max-w-[256px] flex-col items-center px-4 text-center text-xs",
     failureIcon: "[&_svg]:size-6",
     failureTitle: [],
-    failureAction: ["inline-flex items-center gap-1 text-white/75", "[&_svg]:size-[13px]"],
+    failureAction: [
+      "inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 text-white/75 [font:inherit]",
+      "hover:text-white",
+      "outline outline-1 outline-offset-2 outline-transparent focus-visible:outline-white",
+      "[&_svg]:size-[13px]",
+    ],
     action: [
       "absolute right-1.5 top-1.5 flex size-6 items-center justify-center",
       "border border-black bg-white/80 text-black/60 hover:bg-white hover:text-black",

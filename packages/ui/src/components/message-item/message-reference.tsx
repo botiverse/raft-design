@@ -45,6 +45,27 @@ export function MessageReferenceText({
   return useReferenceRender(root({ className }), render, props);
 }
 
+export type MessageReferenceIndicatorProps = useRender.ComponentProps<"span">;
+
+export function MessageReferenceIndicator({
+  className,
+  render,
+  ...props
+}: MessageReferenceIndicatorProps) {
+  const theme = useThemeFamily();
+  const { indicator } = messageReference({ theme });
+  const defaultProps: useRender.ElementProps<"span"> = {
+    className: indicator({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+    state: { slot: "message-reference-indicator" },
+  });
+}
+
 export type MessageReferenceChipProps = SpanProps & {
   variant?: MessageReferenceChipVariant;
 };
@@ -93,23 +114,6 @@ export function MessageReferenceBadge({ className, render, ...props }: MessageRe
     render,
     props: mergeProps<"span">(defaultProps, props),
     state: { slot: "message-reference-badge" },
-  });
-}
-
-export type MessageReferenceMetaProps = useRender.ComponentProps<"span">;
-
-export function MessageReferenceMeta({ className, render, ...props }: MessageReferenceMetaProps) {
-  const theme = useThemeFamily();
-  const { chipMeta } = messageReference({ theme });
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: chipMeta({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: { slot: "message-reference-meta" },
   });
 }
 
