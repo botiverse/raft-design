@@ -1,4 +1,12 @@
 import { useState } from "react";
+import {
+  SearchResultsContent,
+  SearchResultsList,
+  SearchResultsSection,
+  SearchResultsSectionHeading,
+  SearchResultsSummary,
+  SearchResultsViewport,
+} from "raft-ui/wip";
 
 import type {
   SearchChannelFixture,
@@ -87,22 +95,18 @@ export function BrutalSearchResults({
   const showError = view === "error" && !recovered;
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto bg-white">
+    <SearchResultsViewport>
       {!hasIntent ? (
         <SearchEmpty />
       ) : (
-        <div className="p-4">
-          <div className="mb-3 px-1">
-            <span className="text-xs font-bold uppercase tracking-widest text-black/60">
-              {view === "loading" ? "Searching…" : `${totalResults} results`}
-            </span>
-          </div>
+        <SearchResultsContent>
+          <SearchResultsSummary>
+            {view === "loading" ? "Searching…" : `${totalResults} results`}
+          </SearchResultsSummary>
 
           {view === "loading" ? (
             <>
-              <div className="px-1 py-2 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-black/50">
-                Messages
-              </div>
+              <SearchResultsSectionHeading>Messages</SearchResultsSectionHeading>
               <SearchSkeleton />
             </>
           ) : showError ? (
@@ -112,11 +116,9 @@ export function BrutalSearchResults({
           ) : (
             <>
               {entities.length > 0 ? (
-                <div className="mb-3">
-                  <div className="px-1 py-2 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-black/50">
-                    Server entities
-                  </div>
-                  <div className="flex flex-col gap-2">
+                <SearchResultsSection>
+                  <SearchResultsSectionHeading>Server entities</SearchResultsSectionHeading>
+                  <SearchResultsList>
                     {entities.map((entity) => {
                       const key = entity.key;
                       return (
@@ -129,16 +131,14 @@ export function BrutalSearchResults({
                         />
                       );
                     })}
-                  </div>
-                </div>
+                  </SearchResultsList>
+                </SearchResultsSection>
               ) : null}
 
               {groups.length > 0 ? (
-                <div>
-                  <div className="px-1 py-2 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-black/50">
-                    Messages
-                  </div>
-                  <div className="flex flex-col gap-2">
+                <SearchResultsSection className="mb-0">
+                  <SearchResultsSectionHeading>Messages</SearchResultsSectionHeading>
+                  <SearchResultsList>
                     {groups.map((group) =>
                       group.kind === "message" ? (
                         <MessageResult
@@ -167,8 +167,8 @@ export function BrutalSearchResults({
                         />
                       ),
                     )}
-                  </div>
-                </div>
+                  </SearchResultsList>
+                </SearchResultsSection>
               ) : null}
 
               {messages.length < messageCount ? (
@@ -184,8 +184,8 @@ export function BrutalSearchResults({
               ) : null}
             </>
           )}
-        </div>
+        </SearchResultsContent>
       )}
-    </div>
+    </SearchResultsViewport>
   );
 }

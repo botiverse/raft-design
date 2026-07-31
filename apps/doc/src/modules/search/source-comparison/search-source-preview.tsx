@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Kbd } from "raft-ui";
 
+import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { SearchComparisonPreviewFrame } from "./search-comparison-preview-frame.tsx";
 
 const SOURCE_FILTERS = [
@@ -98,7 +99,7 @@ function SourceMessageHit({ nested = false }: { nested?: boolean }) {
       className={`w-full bg-white text-left transition-colors ${
         nested
           ? "border-t-2 border-black/10 px-3 py-3 hover:bg-black/[0.03]"
-          : "border-2 border-black/30 p-3 hover:border-black hover:shadow-brutal-sm active:border-black active:shadow-brutal-sm"
+          : "border-2 border-black/30 p-3 hover:border-black hover:shadow-sm active:border-black active:shadow-sm"
       }`}
     >
       <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
@@ -141,7 +142,7 @@ function FrozenSourceSearchPanel() {
             <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-soft-signal">
               <Search aria-hidden size={18} />
             </div>
-            <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-brutal-sm focus-within:shadow-brutal">
+            <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-sm focus-within:shadow-md">
               <input
                 value="preview"
                 readOnly
@@ -187,7 +188,7 @@ function FrozenSourceSearchPanel() {
               Server entities
             </div>
             <div className="flex flex-col gap-2">
-              <div className="flex w-full items-stretch border-2 border-black bg-white text-left shadow-brutal-sm transition-colors">
+              <div className="flex w-full items-stretch border-2 border-black bg-white text-left shadow-sm transition-colors">
                 <button
                   type="button"
                   aria-disabled="true"
@@ -212,7 +213,7 @@ function FrozenSourceSearchPanel() {
                   </div>
                 </button>
               </div>
-              <div className="flex w-full items-stretch border-2 border-black/30 bg-white text-left transition-colors hover:border-black hover:shadow-brutal-sm active:border-black active:shadow-brutal-sm">
+              <div className="flex w-full items-stretch border-2 border-black/30 bg-white text-left transition-colors hover:border-black hover:shadow-sm active:border-black active:shadow-sm">
                 <button
                   type="button"
                   aria-disabled="true"
@@ -248,7 +249,7 @@ function FrozenSourceSearchPanel() {
             </div>
             <div className="flex flex-col gap-2">
               <SourceMessageHit />
-              <div className="overflow-hidden border-2 border-black/30 bg-white transition-colors hover:border-black hover:shadow-brutal-sm">
+              <div className="overflow-hidden border-2 border-black/30 bg-white transition-colors hover:border-black hover:shadow-sm">
                 <div className="border-b-2 border-black bg-[#ffeefb] px-3 py-2">
                   <div className="mb-1 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-wide text-black/70">
                     <span className="inline-flex items-center gap-1 border border-black bg-white px-1.5 py-0.5">
@@ -276,7 +277,9 @@ function FrozenSourceSearchPanel() {
 export function SearchSourcePreview() {
   return (
     <SearchComparisonPreviewFrame>
-      <FrozenSourceSearchPanel />
+      <SourceThemeScope className="flex h-full min-h-0 flex-col">
+        <FrozenSourceSearchPanel />
+      </SourceThemeScope>
     </SearchComparisonPreviewFrame>
   );
 }

@@ -10,6 +10,7 @@ import {
   type SearchMessageFixture,
   type SearchSenderFixture,
 } from "../search.fixtures.ts";
+
 import { BrutalSearchFilters } from "../search-panel/search-panel.filters.tsx";
 import {
   BrutalSearchFrame,

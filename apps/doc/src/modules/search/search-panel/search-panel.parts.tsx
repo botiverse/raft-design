@@ -1,6 +1,17 @@
 import type { KeyboardEvent, ReactNode, Ref } from "react";
-import { Check, Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
-import { Kbd, Skeleton } from "raft-ui";
+import { Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
+import { Kbd, Panel, PanelHeader, Skeleton } from "raft-ui";
+import {
+  SearchEntityResult,
+  SearchEntityResultOpen,
+  SearchMessageResult,
+  SearchResultsEmpty as SearchResultsEmptyFrame,
+  SearchResultsError as SearchResultsErrorFrame,
+  SearchThreadMessageResult,
+  SearchThreadResult,
+  SearchThreadResultHeader,
+  SearchThreadResultMessages,
+} from "raft-ui/wip";
 
 import type {
   SearchChannelFixture,
@@ -79,9 +90,9 @@ export function BrutalSearchFrame({
   onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
 }) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col bg-white" onKeyDown={onKeyDown}>
+    <Panel render={<div />} className="flex min-h-0 flex-1 flex-col bg-white" onKeyDown={onKeyDown}>
       {children}
-    </div>
+    </Panel>
   );
 }
 
@@ -103,7 +114,7 @@ export function BrutalSearchHeader({
   onClear: () => void;
 }) {
   return (
-    <div className="flex h-panel-header items-center gap-3 border-b-2 border-black bg-white px-5">
+    <PanelHeader className="flex h-panel-header items-center gap-3 border-b-2 border-black bg-white px-5 [@media(max-height:600px)]:!h-panel-header">
       <button
         type="button"
         onClick={onBack}
@@ -130,7 +141,7 @@ export function BrutalSearchHeader({
           <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-soft-signal">
             <Search aria-hidden size={18} />
           </div>
-          <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-brutal-sm focus-within:shadow-brutal">
+          <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-sm focus-within:shadow-md">
             <input
               ref={inputRef}
               value={query}
@@ -157,124 +168,7 @@ export function BrutalSearchHeader({
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-export type SelectionOption = {
-  key: string;
-  checked: boolean;
-  label: string;
-  onClick: () => void;
-  leading?: ReactNode;
-  reserveLeadingSlot?: boolean;
-};
-
-export function BrutalSelectionPopover({
-  title,
-  options,
-  search,
-  onSearchChange,
-  onSearchKeyDown,
-  showClear = false,
-  onClear,
-}: {
-  title: string;
-  options: readonly SelectionOption[];
-  search?: string;
-  onSearchChange?: (value: string) => void;
-  onSearchKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
-  showClear?: boolean;
-  onClear?: () => void;
-}) {
-  return (
-    <div className="absolute left-0 top-[calc(100%+8px)] z-20 min-w-[220px] border-2 border-black bg-white shadow-brutal">
-      <div className="flex items-center justify-between border-b border-black px-3 py-2">
-        <span className="text-[10px] font-bold uppercase tracking-wide text-black/60">{title}</span>
-        {showClear && onClear ? (
-          <button
-            type="button"
-            onClick={onClear}
-            className="text-[10px] font-bold tracking-wide text-black/50 hover:text-black"
-          >
-            Clear
-          </button>
-        ) : null}
-      </div>
-      {search !== undefined && onSearchChange ? (
-        <div className="border-b border-black px-2 py-2">
-          <input
-            autoFocus
-            type="text"
-            value={search}
-            onChange={(event) => onSearchChange(event.currentTarget.value)}
-            onKeyDown={(event) => {
-              event.stopPropagation();
-              onSearchKeyDown?.(event);
-            }}
-            placeholder="Search…"
-            aria-label={title}
-            className="input-brutal w-full px-2 py-1 text-xs font-mono"
-          />
-        </div>
-      ) : null}
-      <div className="max-h-64 overflow-y-auto">
-        {options.length === 0 ? (
-          <div className="px-3 py-3 text-center text-[11px] font-mono text-black/40">
-            No matches
-          </div>
-        ) : (
-          options.map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              onClick={option.onClick}
-              className="flex h-9 w-full items-center justify-between gap-2 overflow-hidden border-b border-black/10 bg-white px-3 text-left text-xs font-bold text-black last:border-b-0 hover:bg-soft-signal/30"
-            >
-              <span className="flex min-w-0 items-center gap-2">
-                {option.reserveLeadingSlot || option.leading ? (
-                  <span className="flex size-5 shrink-0 items-center justify-center">
-                    {option.leading}
-                  </span>
-                ) : null}
-                <span className="truncate leading-6">{option.label}</span>
-              </span>
-              {option.checked ? <Check aria-hidden size={12} className="shrink-0" /> : null}
-            </button>
-          ))
-        )}
-      </div>
-    </div>
-  );
-}
-
-export function FilterChip({
-  active = false,
-  disabled = false,
-  children,
-  onClick,
-  ariaLabel,
-}: {
-  active?: boolean;
-  disabled?: boolean;
-  children: ReactNode;
-  onClick: () => void;
-  ariaLabel?: string;
-}) {
-  return (
-    <button
-      type="button"
-      aria-label={ariaLabel}
-      onClick={onClick}
-      disabled={disabled}
-      className={`inline-flex items-center gap-2 border-2 px-3 py-1.5 text-xs font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
-        active
-          ? "border-black bg-soft-signal text-black shadow-brutal-sm"
-          : "border-black/30 bg-white text-black/70 hover:border-black"
-      }`}
-    >
-      {children}
-    </button>
+    </PanelHeader>
   );
 }
 
@@ -302,19 +196,8 @@ export function EntityResult({
           : "Human";
 
   return (
-    <div
-      className={`flex w-full items-stretch border-2 bg-white text-left transition-colors ${
-        selected
-          ? "border-black shadow-brutal-sm"
-          : "border-black/30 hover:border-black hover:shadow-brutal-sm active:border-black active:shadow-brutal-sm"
-      }`}
-    >
-      <button
-        ref={buttonRef}
-        type="button"
-        onClick={onOpen}
-        className="min-w-0 flex-1 p-3 text-left"
-      >
+    <SearchEntityResult selected={selected}>
+      <SearchEntityResultOpen ref={buttonRef} onClick={onOpen}>
         <div className="flex items-center gap-3">
           <div className="relative flex shrink-0">
             {entity.type === "channel" || entity.type === "computer" ? (
@@ -378,8 +261,8 @@ export function EntityResult({
             </div>
           </div>
         </div>
-      </button>
-    </div>
+      </SearchEntityResultOpen>
+    </SearchEntityResult>
   );
 }
 
@@ -424,17 +307,10 @@ export function MessageResult({
   buttonRef?: (element: HTMLButtonElement | null) => void;
   onOpen: () => void;
 }) {
-  const resultTone = nested
-    ? `border-t-2 px-3 py-3 ${selected ? "border-black bg-[#fff4bf]" : "border-black/10 hover:bg-black/[0.03]"}`
-    : `border-2 p-3 ${selected ? "border-black shadow-brutal-sm" : "border-black/30 hover:border-black hover:shadow-brutal-sm active:border-black active:shadow-brutal-sm"}`;
+  const Result = nested ? SearchThreadMessageResult : SearchMessageResult;
 
   return (
-    <button
-      ref={buttonRef}
-      type="button"
-      onClick={onOpen}
-      className={`w-full bg-white text-left transition-colors ${resultTone}`}
-    >
+    <Result ref={buttonRef} onClick={onOpen} selected={selected}>
       <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
         <span className="font-bold text-black/50">
           {channel?.kind === "dm" ? "@" : "#"}
@@ -463,7 +339,7 @@ export function MessageResult({
       <div className="line-clamp-2 text-sm leading-relaxed text-black/70">
         <SearchHighlight text={message.content} query={query} />
       </div>
-    </button>
+    </Result>
   );
 }
 
@@ -494,10 +370,8 @@ export function ThreadResult({
   const channel = first ? getChannel(first.channelId) : undefined;
   const hasSelected = messages.some((message) => selectedKey === `message:${message.id}`);
   return (
-    <div
-      className={`overflow-hidden border-2 bg-white transition-colors ${hasSelected ? "border-black shadow-brutal-sm" : "border-black/30 hover:border-black hover:shadow-brutal-sm"}`}
-    >
-      <div className="border-b-2 border-black bg-[#ffeefb] px-3 py-2">
+    <SearchThreadResult selected={hasSelected}>
+      <SearchThreadResultHeader>
         <div className="mb-1 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-wide text-black/70">
           <span className="inline-flex items-center gap-1 border border-black bg-white px-1.5 py-0.5">
             <MessageSquare aria-hidden size={11} /> Thread
@@ -512,8 +386,8 @@ export function ThreadResult({
           </span>
         </div>
         <div className="text-sm font-bold text-black">{title || "Thread discussion"}</div>
-      </div>
-      <div className="flex flex-col [&>*:first-child]:border-t-0">
+      </SearchThreadResultHeader>
+      <SearchThreadResultMessages>
         {messages.map((message) => (
           <MessageResult
             key={message.id}
@@ -527,8 +401,8 @@ export function ThreadResult({
             onOpen={() => onOpenMessage(message)}
           />
         ))}
-      </div>
-    </div>
+      </SearchThreadResultMessages>
+    </SearchThreadResult>
   );
 }
 
@@ -555,9 +429,7 @@ export function SearchSkeleton() {
 export function SearchEmpty({ query, filtered = false }: { query?: string; filtered?: boolean }) {
   const hasIntent = Boolean(query || filtered);
   return (
-    <div
-      className={`flex flex-col items-center justify-center text-center ${hasIntent ? "py-20" : "h-full"}`}
-    >
+    <SearchResultsEmptyFrame className={hasIntent ? "py-20" : "h-full"}>
       <Search aria-hidden size={48} className="mb-3 text-black/20" />
       <p className="text-sm font-bold text-black/50">
         {hasIntent
@@ -573,13 +445,13 @@ export function SearchEmpty({ query, filtered = false }: { query?: string; filte
             : "Try a different filter set."
           : "Search channels, DMs, people, agents, and message history."}
       </p>
-    </div>
+    </SearchResultsEmptyFrame>
   );
 }
 
 export function SearchError({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="border-2 border-black bg-white p-4 shadow-brutal-sm">
+    <SearchResultsErrorFrame>
       <div className="mb-2 text-sm font-bold text-black">Search failed</div>
       <div className="mb-3 text-xs text-black/60">
         The last search request failed. Existing results are preserved when possible, but this query
@@ -592,7 +464,7 @@ export function SearchError({ onRetry }: { onRetry: () => void }) {
       >
         Retry
       </button>
-    </div>
+    </SearchResultsErrorFrame>
   );
 }
 

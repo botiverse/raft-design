@@ -101,8 +101,8 @@ function SearchDoc() {
       overview={
         <ul className="list-disc space-y-1 pl-4">
           <li>
-            preserves the source header, filters, popovers, result cards, message hits, and thread
-            groups without restyling them through generic recipes
+            maps the source header, filters, result cards, message hits, and thread groups onto
+            canonical raft-ui primitives and the Search result family
           </li>
           <li>
             keeps URL state, API requests, caches, routing, and workspace drag behavior in the
@@ -120,7 +120,7 @@ function SearchDoc() {
             {
               label: "Global Search panel",
               status: "difference",
-              note: "The independent frozen source renderer and Brutal composition preserve the source DOM and class contract while keeping the current raft-ui fonts. The docs fixture ranker covers exact, prefix, token-prefix, and substring ordering; product pinyin and fuzzy ranking stay in the source app.",
+              note: "The independent frozen source renderer and Brutal composition keep the source visual hierarchy while using canonical raft-ui behavior primitives and the current raft-ui fonts. The docs fixture ranker covers exact, prefix, token-prefix, and substring ordering; product pinyin and fuzzy ranking stay in the source app.",
               sourceScenes: SOURCE_SCENES,
               source: <SearchSourcePreview />,
               brutal: (
@@ -168,9 +168,9 @@ function SearchDoc() {
       <DocSection id="ownership" title="Ownership">
         <div className="prose prose-sm max-w-none text-foreground-muted">
           <p>
-            This module is the executable Brutal product composition. Module-private parts preserve
-            the source DOM and classes while the composition owns deterministic search filtering and
-            visible business structure.
+            This module is the executable Brutal product composition. Packages own generic panel,
+            selection, and Search result-family parts; the composition owns deterministic search
+            filtering and visible business structure.
           </p>
           <p>
             Production consumers remain responsible for URL search params, server requests,

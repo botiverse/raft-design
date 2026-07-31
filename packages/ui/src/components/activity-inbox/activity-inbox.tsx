@@ -7,6 +7,7 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Panel, PanelHeader } from "../panel/panel";
 import { activityInbox } from "./activity-inbox.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
@@ -21,28 +22,28 @@ export type ActivityInboxRootProps = DivProps;
 export function ActivityInboxRoot({ className, render, ...props }: ActivityInboxRootProps) {
   const theme = useThemeFamily();
   const { root } = activityInbox({ theme });
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(
-      withSlot<"div">({ "data-slot": "activity-inbox-root", className: root({ className }) }),
-      props,
-    ),
-  });
+  return (
+    <Panel
+      render={render ?? <div />}
+      {...props}
+      data-slot="activity-inbox-root"
+      className={root({ className })}
+    />
+  );
 }
 
 export type ActivityInboxHeaderProps = DivProps;
 export function ActivityInboxHeader({ className, render, ...props }: ActivityInboxHeaderProps) {
   const theme = useThemeFamily();
   const { header } = activityInbox({ theme });
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(
-      withSlot<"div">({ "data-slot": "activity-inbox-header", className: header({ className }) }),
-      props,
-    ),
-  });
+  return (
+    <PanelHeader
+      render={render}
+      {...props}
+      data-slot="activity-inbox-header"
+      className={header({ className })}
+    />
+  );
 }
 
 export type ActivityInboxHeaderBackProps = ButtonProps;
