@@ -2,16 +2,16 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { chatSidebarMenu } from "./chat-sidebar-menu.recipe";
+import { sidebarMenuRecipe } from "./sidebar-menu.recipe";
 
-export type ChatSidebarMenuProps = useRender.ComponentProps<"button">;
+export type SidebarMenuProps = useRender.ComponentProps<"button">;
 
-export function ChatSidebarMenu({ className, render, ...props }: ChatSidebarMenuProps) {
+export function SidebarMenu({ className, render, ...props }: SidebarMenuProps) {
   const theme = useThemeFamily();
-  const { sidebarMenu } = chatSidebarMenu({ theme });
+  const { sidebarMenu } = sidebarMenuRecipe({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
-    "data-slot": "chat-sidebar-menu",
+    "data-slot": "sidebar-menu",
     className: sidebarMenu({ className }),
   };
 
@@ -22,13 +22,13 @@ export function ChatSidebarMenu({ className, render, ...props }: ChatSidebarMenu
   });
 }
 
-export type ChatSidebarMenuIconProps = useRender.ComponentProps<"span">;
+export type SidebarMenuIconProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarMenuIcon({ className, render, ...props }: ChatSidebarMenuIconProps) {
+export function SidebarMenuIcon({ className, render, ...props }: SidebarMenuIconProps) {
   const theme = useThemeFamily();
-  const { sidebarMenuIcon } = chatSidebarMenu({ theme });
+  const { sidebarMenuIcon } = sidebarMenuRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-menu-icon",
+    "data-slot": "sidebar-menu-icon",
     className: sidebarMenuIcon({ className }),
   };
 
@@ -39,12 +39,12 @@ export function ChatSidebarMenuIcon({ className, render, ...props }: ChatSidebar
   });
 }
 
-export type ChatSidebarMenuTitleProps = useRender.ComponentProps<"span">;
+export type SidebarMenuTitleProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarMenuTitle({ className, render, ...props }: ChatSidebarMenuTitleProps) {
-  const { sidebarMenuTitle } = chatSidebarMenu();
+export function SidebarMenuTitle({ className, render, ...props }: SidebarMenuTitleProps) {
+  const { sidebarMenuTitle } = sidebarMenuRecipe();
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-menu-title",
+    "data-slot": "sidebar-menu-title",
     className: sidebarMenuTitle({ className }),
   };
 
@@ -55,13 +55,13 @@ export function ChatSidebarMenuTitle({ className, render, ...props }: ChatSideba
   });
 }
 
-export type ChatSidebarMenuAsideProps = useRender.ComponentProps<"span">;
+export type SidebarMenuAsideProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarMenuAside({ className, render, ...props }: ChatSidebarMenuAsideProps) {
+export function SidebarMenuAside({ className, render, ...props }: SidebarMenuAsideProps) {
   const theme = useThemeFamily();
-  const { sidebarMenuAside } = chatSidebarMenu({ theme });
+  const { sidebarMenuAside } = sidebarMenuRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-menu-aside",
+    "data-slot": "sidebar-menu-aside",
     className: sidebarMenuAside({ className }),
   };
 
@@ -72,13 +72,13 @@ export function ChatSidebarMenuAside({ className, render, ...props }: ChatSideba
   });
 }
 
-export type ChatSidebarMenuCountProps = useRender.ComponentProps<"span">;
+export type SidebarMenuCountProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarMenuCount({ className, render, ...props }: ChatSidebarMenuCountProps) {
+export function SidebarMenuCount({ className, render, ...props }: SidebarMenuCountProps) {
   const theme = useThemeFamily();
-  const { sidebarMenuCount } = chatSidebarMenu({ theme });
+  const { sidebarMenuCount } = sidebarMenuRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-menu-count",
+    "data-slot": "sidebar-menu-count",
     className: sidebarMenuCount({ className }),
   };
 

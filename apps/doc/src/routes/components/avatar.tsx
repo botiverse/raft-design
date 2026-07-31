@@ -275,7 +275,7 @@ const SOURCE_SIZE_ROWS = [
     current: "2xs / 18px",
     reason:
       "Sidebar and DM rows need exact source density, so this stays a public compact step on the t-shirt scale.",
-    implementation: 'Use <Avatar size="2xs"> inside ChatSidebarItemIcon.',
+    implementation: 'Use <Avatar size="2xs"> inside SidebarItemIcon.',
   },
   {
     context: "compact-list",

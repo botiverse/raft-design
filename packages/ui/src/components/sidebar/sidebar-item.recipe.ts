@@ -1,6 +1,6 @@
 import { tv } from "../../lib/tv";
 
-export const chatSidebarItem = tv({
+export const sidebarItemRecipe = tv({
   slots: {
     sidebarItem: [
       "group/sidebar-item mb-1 flex w-full items-center gap-1.5 px-2 py-2 text-left",
@@ -16,9 +16,9 @@ export const chatSidebarItem = tv({
       "[&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
     ],
     sidebarItemContent: [
-      "has-[>[data-slot=chat-sidebar-item-subtitle]]:[&>[data-slot=chat-sidebar-item-title]]:max-w-[70%]",
-      "has-[>[data-slot=chat-sidebar-item-subtitle]]:[&>[data-slot=chat-sidebar-item-title]]:shrink-0",
-      "has-[>[data-slot=chat-sidebar-item-meta-icon]]:items-center",
+      "has-[>[data-slot=sidebar-item-subtitle]]:[&>[data-slot=sidebar-item-title]]:max-w-[70%]",
+      "has-[>[data-slot=sidebar-item-subtitle]]:[&>[data-slot=sidebar-item-title]]:shrink-0",
+      "has-[>[data-slot=sidebar-item-meta-icon]]:items-center",
     ],
     sidebarItemTitle: ["block min-w-0 truncate"],
     sidebarItemSubtitle: ["block min-w-0 flex-1 truncate text-xs font-normal"],

@@ -10,22 +10,22 @@ import { Button, type ButtonProps } from "../button";
 import { Spinner } from "../spinner";
 import { Status, type StatusProps } from "../status";
 import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes";
-import { chatSidebarSection } from "./chat-sidebar-section.recipe";
+import { sidebarSectionRecipe } from "./sidebar-section.recipe";
 
-export type ChatSidebarSectionProps = Omit<ComponentProps<typeof Collapsible.Root>, "className"> & {
+export type SidebarSectionProps = Omit<ComponentProps<typeof Collapsible.Root>, "className"> & {
   className?: string;
 };
 
-export function ChatSidebarSection({
+export function SidebarSection({
   className,
   defaultOpen = true,
   render,
   ...props
-}: ChatSidebarSectionProps) {
+}: SidebarSectionProps) {
   const theme = useThemeFamily();
-  const { sidebarSection } = chatSidebarSection({ theme });
+  const { sidebarSection } = sidebarSectionRecipe({ theme });
   const defaultProps: ComponentProps<typeof Collapsible.Root> & DataAttributes = {
-    "data-slot": "chat-sidebar-section",
+    "data-slot": "sidebar-section",
     defaultOpen,
     className: sidebarSection({ className }),
   };
@@ -33,53 +33,45 @@ export function ChatSidebarSection({
   return <Collapsible.Root render={render ?? <section />} {...mergeProps(defaultProps, props)} />;
 }
 
-export type ChatSidebarListProps = Omit<ComponentProps<typeof Collapsible.Panel>, "className"> & {
+export type SidebarListProps = Omit<ComponentProps<typeof Collapsible.Panel>, "className"> & {
   className?: string;
 };
 
-export function ChatSidebarList({ className, render, ...props }: ChatSidebarListProps) {
-  const { sidebarList } = chatSidebarSection();
+export function SidebarList({ className, render, ...props }: SidebarListProps) {
+  const { sidebarList } = sidebarSectionRecipe();
   const defaultProps: ComponentProps<typeof Collapsible.Panel> & DataAttributes = {
-    "data-slot": "chat-sidebar-list",
+    "data-slot": "sidebar-list",
     className: sidebarList({ className }),
   };
 
   return <Collapsible.Panel render={render} {...mergeProps(defaultProps, props)} />;
 }
 
-export type ChatSidebarSectionEmptyProps = Omit<
+export type SidebarSectionEmptyProps = Omit<
   ComponentProps<typeof Collapsible.Panel>,
   "className"
 > & {
   className?: string;
 };
 
-export function ChatSidebarSectionEmpty({
-  className,
-  render,
-  ...props
-}: ChatSidebarSectionEmptyProps) {
+export function SidebarSectionEmpty({ className, render, ...props }: SidebarSectionEmptyProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionEmpty } = chatSidebarSection({ theme });
+  const { sidebarSectionEmpty } = sidebarSectionRecipe({ theme });
   const defaultProps: ComponentProps<typeof Collapsible.Panel> & DataAttributes = {
-    "data-slot": "chat-sidebar-section-empty",
+    "data-slot": "sidebar-section-empty",
     className: sidebarSectionEmpty({ className }),
   };
 
   return <Collapsible.Panel render={render} {...mergeProps(defaultProps, props)} />;
 }
 
-export type ChatSidebarSectionHeaderProps = useRender.ComponentProps<"div">;
+export type SidebarSectionHeaderProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarSectionHeader({
-  className,
-  render,
-  ...props
-}: ChatSidebarSectionHeaderProps) {
+export function SidebarSectionHeader({ className, render, ...props }: SidebarSectionHeaderProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionHeader } = chatSidebarSection({ theme });
+  const { sidebarSectionHeader } = sidebarSectionRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-section-header",
+    "data-slot": "sidebar-section-header",
     className: sidebarSectionHeader({ className }),
   };
 
@@ -90,18 +82,18 @@ export function ChatSidebarSectionHeader({
   });
 }
 
-export type ChatSidebarSectionDisclosureProps = useRender.ComponentProps<"button">;
+export type SidebarSectionDisclosureProps = useRender.ComponentProps<"button">;
 
-export function ChatSidebarSectionDisclosure({
+export function SidebarSectionDisclosure({
   className,
   render,
   ...props
-}: ChatSidebarSectionDisclosureProps) {
+}: SidebarSectionDisclosureProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionDisclosure } = chatSidebarSection({ theme });
+  const { sidebarSectionDisclosure } = sidebarSectionRecipe({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
-    "data-slot": "chat-sidebar-section-disclosure",
+    "data-slot": "sidebar-section-disclosure",
     className: sidebarSectionDisclosure({ className }),
   };
 
@@ -111,15 +103,11 @@ export function ChatSidebarSectionDisclosure({
   });
 }
 
-export type ChatSidebarSectionChevronProps = useRender.ComponentProps<"svg">;
+export type SidebarSectionChevronProps = useRender.ComponentProps<"svg">;
 
-export function ChatSidebarSectionChevron({
-  className,
-  render,
-  ...props
-}: ChatSidebarSectionChevronProps) {
+export function SidebarSectionChevron({ className, render, ...props }: SidebarSectionChevronProps) {
   const defaultProps: useRender.ElementProps<"svg"> & DataAttributes = {
-    "data-slot": "chat-sidebar-section-chevron",
+    "data-slot": "sidebar-section-chevron",
     className: cn("size-3", className),
   };
 
@@ -128,7 +116,7 @@ export function ChatSidebarSectionChevron({
     props: mergeProps<"svg">(defaultProps, props),
   });
 
-  // Match ChatSidebarItemIcon slot width so section chevrons share the item icon axis.
+  // Match SidebarItemIcon slot width so section chevrons share the item icon axis.
   return (
     <span className="flex size-4.5 shrink-0 items-center justify-center" aria-hidden="true">
       {chevron}
@@ -136,16 +124,12 @@ export function ChatSidebarSectionChevron({
   );
 }
 
-export type ChatSidebarSectionTitleProps = useRender.ComponentProps<"span">;
+export type SidebarSectionTitleProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarSectionTitle({
-  className,
-  render,
-  ...props
-}: ChatSidebarSectionTitleProps) {
-  const { sidebarSectionTitle } = chatSidebarSection();
+export function SidebarSectionTitle({ className, render, ...props }: SidebarSectionTitleProps) {
+  const { sidebarSectionTitle } = sidebarSectionRecipe();
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-section-title",
+    "data-slot": "sidebar-section-title",
     className: sidebarSectionTitle({ className }),
   };
 
@@ -156,17 +140,13 @@ export function ChatSidebarSectionTitle({
   });
 }
 
-export type ChatSidebarSectionCountProps = useRender.ComponentProps<"span">;
+export type SidebarSectionCountProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarSectionCount({
-  className,
-  render,
-  ...props
-}: ChatSidebarSectionCountProps) {
+export function SidebarSectionCount({ className, render, ...props }: SidebarSectionCountProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionCount } = chatSidebarSection({ theme });
+  const { sidebarSectionCount } = sidebarSectionRecipe({ theme });
   const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "chat-sidebar-section-count",
+    "data-slot": "sidebar-section-count",
     className: sidebarSectionCount({ className }),
   };
 
@@ -177,40 +157,36 @@ export function ChatSidebarSectionCount({
   });
 }
 
-export type ChatSidebarSectionAttentionProps = StatusProps;
+export type SidebarSectionAttentionProps = StatusProps;
 
-export function ChatSidebarSectionAttention({
+export function SidebarSectionAttention({
   className,
   size = "md",
   variant,
   ...props
-}: ChatSidebarSectionAttentionProps) {
+}: SidebarSectionAttentionProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionAttention } = chatSidebarSection();
+  const { sidebarSectionAttention } = sidebarSectionRecipe();
   const resolvedVariant = variant ?? (theme === "elegant" ? "primary" : "accent");
   return (
-    <span
-      aria-hidden
-      data-slot="chat-sidebar-section-attention"
-      className={sidebarSectionAttention()}
-    >
+    <span aria-hidden data-slot="sidebar-section-attention" className={sidebarSectionAttention()}>
       <Status size={size} variant={resolvedVariant} className={className} {...props} />
     </span>
   );
 }
 
-export type ChatSidebarSectionTrailingProps = useRender.ComponentProps<"div">;
-export type ChatSidebarSectionControlsProps = useRender.ComponentProps<"div">;
+export type SidebarSectionTrailingProps = useRender.ComponentProps<"div">;
+export type SidebarSectionControlsProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarSectionTrailing({
+export function SidebarSectionTrailing({
   className,
   render,
   ...props
-}: ChatSidebarSectionTrailingProps) {
+}: SidebarSectionTrailingProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionTrailing } = chatSidebarSection({ theme });
+  const { sidebarSectionTrailing } = sidebarSectionRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-section-trailing",
+    "data-slot": "sidebar-section-trailing",
     className: sidebarSectionTrailing({ className }),
   };
 
@@ -221,15 +197,15 @@ export function ChatSidebarSectionTrailing({
   });
 }
 
-export function ChatSidebarSectionControls({
+export function SidebarSectionControls({
   className,
   render,
   ...props
-}: ChatSidebarSectionControlsProps) {
+}: SidebarSectionControlsProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionControls } = chatSidebarSection({ theme });
+  const { sidebarSectionControls } = sidebarSectionRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-section-controls",
+    "data-slot": "sidebar-section-controls",
     className: sidebarSectionControls({ className }),
   };
 
@@ -240,10 +216,10 @@ export function ChatSidebarSectionControls({
   });
 }
 
-export type ChatSidebarSectionControlProps = useRender.ComponentProps<"button"> &
+export type SidebarSectionControlProps = useRender.ComponentProps<"button"> &
   Pick<ButtonProps, "size" | "variant" | "loading" | "loadingLabel">;
 
-export function ChatSidebarSectionControl({
+export function SidebarSectionControl({
   className,
   render,
   size = "icon-sm",
@@ -253,12 +229,12 @@ export function ChatSidebarSectionControl({
   children,
   disabled,
   ...props
-}: ChatSidebarSectionControlProps) {
+}: SidebarSectionControlProps) {
   const theme = useThemeFamily();
-  const { sidebarSectionControl } = chatSidebarSection({ theme });
+  const { sidebarSectionControl } = sidebarSectionRecipe({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
-    "data-slot": "chat-sidebar-section-control",
+    "data-slot": "sidebar-section-control",
     "data-loading": loading ? "true" : undefined,
     disabled: disabled || loading,
     "aria-disabled": loading || undefined,
@@ -273,7 +249,7 @@ export function ChatSidebarSectionControl({
   if (theme === "elegant") {
     return (
       <Button
-        data-slot="chat-sidebar-section-control"
+        data-slot="sidebar-section-control"
         size={size}
         variant={variant}
         loading={loading}
@@ -291,5 +267,5 @@ export function ChatSidebarSectionControl({
   return brutalControl;
 }
 
-export type ChatSidebarControlProps = ChatSidebarSectionControlProps;
-export const ChatSidebarControl = ChatSidebarSectionControl;
+export type SidebarControlProps = SidebarSectionControlProps;
+export const SidebarControl = SidebarSectionControl;

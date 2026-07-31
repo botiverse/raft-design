@@ -2,16 +2,16 @@ import { useMediaQuery } from "foxact/use-media-query";
 import { Activity, Bookmark, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
-  ChatSidebarBody,
-  ChatSidebarContent,
-  ChatSidebarHeader,
-  ChatSidebarHeaderTitle,
-  ChatSidebarItem,
-  ChatSidebarItemIcon,
-  ChatSidebarItemMeta,
-  ChatSidebarItemTitle,
-  ChatSidebarLiveActivity,
-  ChatSidebarRoot,
+  SidebarBody,
+  SidebarContent,
+  SidebarHeader,
+  SidebarHeaderTitle,
+  SidebarItem,
+  SidebarItemIcon,
+  SidebarItemMeta,
+  SidebarItemTitle,
+  SidebarLiveActivity,
+  SidebarRoot,
 } from "raft-ui";
 
 import { SidebarCreateMenu } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
@@ -87,47 +87,42 @@ function PlaygroundSidebarContent({
 
   return (
     <>
-      <ChatSidebarRoot>
-        <ChatSidebarHeader className="md:hidden">
+      <SidebarRoot>
+        <SidebarHeader className="md:hidden">
           <PlaygroundSidebarServerSwitcher name={activeServer.name} />
           <div className="min-w-0 flex-1" />
           <PlaygroundNotificationCenter mobile />
-        </ChatSidebarHeader>
-        <ChatSidebarHeader className="max-md:hidden">
+        </SidebarHeader>
+        <SidebarHeader className="max-md:hidden">
           <div className="min-w-0 flex-1">
-            <ChatSidebarHeaderTitle className="leading-tight tabular-nums">
-              {title}
-            </ChatSidebarHeaderTitle>
+            <SidebarHeaderTitle className="leading-tight tabular-nums">{title}</SidebarHeaderTitle>
           </div>
           <SidebarCreateMenu />
-        </ChatSidebarHeader>
-        <ChatSidebarBody>
-          <ChatSidebarContent className={mobileNavigationContentPad}>
+        </SidebarHeader>
+        <SidebarBody>
+          <SidebarContent className={mobileNavigationContentPad}>
             <div className="min-h-full">
-              <ChatSidebarItem className="md:hidden">
-                <ChatSidebarItemIcon aria-hidden>
+              <SidebarItem className="md:hidden">
+                <SidebarItemIcon aria-hidden>
                   <Search />
-                </ChatSidebarItemIcon>
-                <ChatSidebarItemTitle>Search</ChatSidebarItemTitle>
-              </ChatSidebarItem>
+                </SidebarItemIcon>
+                <SidebarItemTitle>Search</SidebarItemTitle>
+              </SidebarItem>
 
-              <ChatSidebarItem className="md:hidden">
-                <ChatSidebarItemIcon aria-hidden>
+              <SidebarItem className="md:hidden">
+                <SidebarItemIcon aria-hidden>
                   <Activity />
-                </ChatSidebarItemIcon>
-                <ChatSidebarItemTitle>Activity</ChatSidebarItemTitle>
-              </ChatSidebarItem>
+                </SidebarItemIcon>
+                <SidebarItemTitle>Activity</SidebarItemTitle>
+              </SidebarItem>
 
-              <ChatSidebarItem
-                active={railView === "saved"}
-                onClick={() => selectRailView("saved")}
-              >
-                <ChatSidebarItemIcon aria-hidden>
+              <SidebarItem active={railView === "saved"} onClick={() => selectRailView("saved")}>
+                <SidebarItemIcon aria-hidden>
                   <Bookmark />
-                </ChatSidebarItemIcon>
-                <ChatSidebarItemTitle>Saved</ChatSidebarItemTitle>
-                <ChatSidebarItemMeta>33</ChatSidebarItemMeta>
-              </ChatSidebarItem>
+                </SidebarItemIcon>
+                <SidebarItemTitle>Saved</SidebarItemTitle>
+                <SidebarItemMeta>33</SidebarItemMeta>
+              </SidebarItem>
 
               <ChatSidebarPinnedSection
                 activeChannelId={selectedChannelId}
@@ -150,12 +145,12 @@ function PlaygroundSidebarContent({
                 rows={visibleDirectMessages}
               />
             </div>
-          </ChatSidebarContent>
-        </ChatSidebarBody>
-        <ChatSidebarLiveActivity>
+          </SidebarContent>
+        </SidebarBody>
+        <SidebarLiveActivity>
           <LiveAgentActivityBarComposition latest={liveAgentActivity} />
-        </ChatSidebarLiveActivity>
-      </ChatSidebarRoot>
+        </SidebarLiveActivity>
+      </SidebarRoot>
 
       <ChatSidebarArchiveDialog
         channelName={archiveTarget}

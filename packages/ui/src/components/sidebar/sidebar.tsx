@@ -10,15 +10,15 @@ import {
   ScrollAreaThumb,
   ScrollAreaViewport,
 } from "../scroll-area";
-import { chatSidebar } from "./chat-sidebar.recipe";
+import { sidebarRecipe } from "./sidebar.recipe";
 
-export type ChatSidebarRootProps = useRender.ComponentProps<"div">;
+export type SidebarRootProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarRoot({ className, render, ...props }: ChatSidebarRootProps) {
+export function SidebarRoot({ className, render, ...props }: SidebarRootProps) {
   const theme = useThemeFamily();
-  const { sidebarRoot } = chatSidebar({ theme });
+  const { sidebarRoot } = sidebarRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-root",
+    "data-slot": "sidebar-root",
     className: sidebarRoot({ className }),
   };
 
@@ -29,34 +29,29 @@ export function ChatSidebarRoot({ className, render, ...props }: ChatSidebarRoot
   });
 }
 
-export type ChatSidebarHeaderProps = useRender.ComponentProps<"div">;
+export type SidebarHeaderProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarHeader({
-  children,
-  className,
-  render,
-  ...props
-}: ChatSidebarHeaderProps) {
+export function SidebarHeader({ children, className, render, ...props }: SidebarHeaderProps) {
   const theme = useThemeFamily();
-  const { sidebarHeader, sidebarHeaderMask, sidebarHeaderMaskLayer } = chatSidebar({ theme });
+  const { sidebarHeader, sidebarHeaderMask, sidebarHeaderMaskLayer } = sidebarRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-header",
+    "data-slot": "sidebar-header",
     className: sidebarHeader({ className }),
     children: (
       <>
-        <div aria-hidden data-slot="chat-sidebar-header-mask" className={sidebarHeaderMask()}>
+        <div aria-hidden data-slot="sidebar-header-mask" className={sidebarHeaderMask()}>
           <div
-            data-slot="chat-sidebar-header-mask-layer"
+            data-slot="sidebar-header-mask-layer"
             data-layer="solid"
             className={sidebarHeaderMaskLayer()}
           />
           <div
-            data-slot="chat-sidebar-header-mask-layer"
+            data-slot="sidebar-header-mask-layer"
             data-layer="soft"
             className={sidebarHeaderMaskLayer()}
           />
           <div
-            data-slot="chat-sidebar-header-mask-layer"
+            data-slot="sidebar-header-mask-layer"
             data-layer="blur"
             className={sidebarHeaderMaskLayer()}
           />
@@ -73,17 +68,13 @@ export function ChatSidebarHeader({
   });
 }
 
-export type ChatSidebarHeaderTitleProps = useRender.ComponentProps<"div">;
+export type SidebarHeaderTitleProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarHeaderTitle({
-  className,
-  render,
-  ...props
-}: ChatSidebarHeaderTitleProps) {
+export function SidebarHeaderTitle({ className, render, ...props }: SidebarHeaderTitleProps) {
   const theme = useThemeFamily();
-  const { sidebarHeaderTitle } = chatSidebar({ theme });
+  const { sidebarHeaderTitle } = sidebarRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-header-title",
+    "data-slot": "sidebar-header-title",
     className: sidebarHeaderTitle({ className }),
   };
 
@@ -94,13 +85,13 @@ export function ChatSidebarHeaderTitle({
   });
 }
 
-export type ChatSidebarGroupLabelProps = useRender.ComponentProps<"div">;
+export type SidebarGroupLabelProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarGroupLabel({ className, render, ...props }: ChatSidebarGroupLabelProps) {
+export function SidebarGroupLabel({ className, render, ...props }: SidebarGroupLabelProps) {
   const theme = useThemeFamily();
-  const { sidebarGroupLabel } = chatSidebar({ theme });
+  const { sidebarGroupLabel } = sidebarRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-group-label",
+    "data-slot": "sidebar-group-label",
     className: sidebarGroupLabel({ className }),
   };
 
@@ -111,13 +102,13 @@ export function ChatSidebarGroupLabel({ className, render, ...props }: ChatSideb
   });
 }
 
-export type ChatSidebarBodyProps = useRender.ComponentProps<"div">;
+export type SidebarBodyProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarBody({ className, render, ...props }: ChatSidebarBodyProps) {
+export function SidebarBody({ className, render, ...props }: SidebarBodyProps) {
   const theme = useThemeFamily();
-  const { sidebarBody } = chatSidebar({ theme });
+  const { sidebarBody } = sidebarRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-body",
+    "data-slot": "sidebar-body",
     className: sidebarBody({ className }),
   };
 
@@ -128,22 +119,17 @@ export function ChatSidebarBody({ className, render, ...props }: ChatSidebarBody
   });
 }
 
-export type ChatSidebarContentProps = useRender.ComponentProps<"div">;
+export type SidebarContentProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarContent({
-  children,
-  className,
-  render,
-  ...props
-}: ChatSidebarContentProps) {
+export function SidebarContent({ children, className, render, ...props }: SidebarContentProps) {
   const isMobile = useMobileViewport();
   const theme = useThemeFamily();
-  const { sidebarContent, sidebarContentInner, sidebarScrollbar, sidebarViewport } = chatSidebar({
+  const { sidebarContent, sidebarContentInner, sidebarScrollbar, sidebarViewport } = sidebarRecipe({
     theme,
   });
 
   const nativeViewportProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-content",
+    "data-slot": "sidebar-content",
     className: sidebarViewport(),
     children: (
       <div className={sidebarContentInner({ className })} style={{ minWidth: 0, width: "100%" }}>
@@ -159,18 +145,18 @@ export function ChatSidebarContent({
 
   if (isMobile) {
     return (
-      <div data-slot="chat-sidebar-native-scroll-area" className={sidebarContent()}>
+      <div data-slot="sidebar-native-scroll-area" className={sidebarContent()}>
         {nativeViewport}
       </div>
     );
   }
 
   return (
-    <ScrollArea data-slot="chat-sidebar-scroll-area" className={sidebarContent()}>
+    <ScrollArea data-slot="sidebar-scroll-area" className={sidebarContent()}>
       <ScrollAreaViewport
         {...props}
         render={render}
-        data-slot="chat-sidebar-content"
+        data-slot="sidebar-content"
         className={sidebarViewport()}
       >
         <ScrollAreaContent
@@ -187,18 +173,18 @@ export function ChatSidebarContent({
   );
 }
 
-export type ChatSidebarLiveActivityProps = useRender.ComponentProps<"div">;
+export type SidebarLiveActivityProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarLiveActivity({
+export function SidebarLiveActivity({
   children,
   className,
   render,
   ...props
-}: ChatSidebarLiveActivityProps) {
+}: SidebarLiveActivityProps) {
   const theme = useThemeFamily();
-  const { sidebarLiveActivity } = chatSidebar({ theme });
+  const { sidebarLiveActivity } = sidebarRecipe({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "chat-sidebar-live-activity",
+    "data-slot": "sidebar-live-activity",
     className: sidebarLiveActivity({ className }),
     children,
   };

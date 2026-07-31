@@ -28,8 +28,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  ChatSidebarControl,
-  ChatSidebarSectionHeader,
+  SidebarControl,
+  SidebarSectionHeader,
 } from "raft-ui";
 
 const SORT_MENU_CLASS = "flex w-[160px] min-w-[160px] flex-col";
@@ -279,9 +279,9 @@ export function SidebarSectionSortMenu({
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <ChatSidebarControl type="button" aria-label={ariaLabel}>
+          <SidebarControl type="button" aria-label={ariaLabel}>
             <ArrowUpDown />
-          </ChatSidebarControl>
+          </SidebarControl>
         }
       />
       <SidebarSectionSortDropdownContent value={value} onValueChange={onValueChange} />
@@ -300,14 +300,14 @@ export function SidebarSectionAddButton({
   onClick?: () => void;
 }) {
   return (
-    <ChatSidebarControl
+    <SidebarControl
       type="button"
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={disabled ? undefined : onClick}
     >
       <Plus />
-    </ChatSidebarControl>
+    </SidebarControl>
   );
 }
 
@@ -337,9 +337,9 @@ export function SidebarSectionChannelsMenu({
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <ChatSidebarControl type="button" aria-label={ariaLabel}>
+          <SidebarControl type="button" aria-label={ariaLabel}>
             <EllipsisVertical />
-          </ChatSidebarControl>
+          </SidebarControl>
         }
       />
       <SidebarSectionChannelsDropdownContent
@@ -385,7 +385,7 @@ export function SidebarSectionHeaderMenu({
   return (
     <ContextMenu>
       <ContextMenuTrigger className="w-full min-w-0">
-        <ChatSidebarSectionHeader>{children}</ChatSidebarSectionHeader>
+        <SidebarSectionHeader>{children}</SidebarSectionHeader>
       </ContextMenuTrigger>
       {menu === "sort" ? (
         <SidebarSectionSortContextContent value={sortValue} onValueChange={onSortValueChange} />

@@ -21,7 +21,7 @@ import {
   type PlaygroundChannelId,
   type PlaygroundChannelRecord,
 } from "../mock/index.ts";
-import { ChatSidebarItem } from "raft-ui";
+import { SidebarItem } from "raft-ui";
 import { ChatSidebarChannelRowContent } from "./chat-sidebar-channel-row-content.tsx";
 import {
   ChatSidebarDndContext,
@@ -334,7 +334,7 @@ function ChatSidebarDragPreview({
   width?: number;
 }) {
   return (
-    <ChatSidebarItem
+    <SidebarItem
       active={active}
       aria-hidden
       className={
@@ -350,7 +350,7 @@ function ChatSidebarDragPreview({
       ) : (
         <ChatSidebarChannelRowContent row={channel} />
       )}
-    </ChatSidebarItem>
+    </SidebarItem>
   );
 }
 

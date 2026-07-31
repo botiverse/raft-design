@@ -1,6 +1,6 @@
 import { tv } from "../../lib/tv";
 
-export const chatSidebarMenu = tv({
+export const sidebarMenuRecipe = tv({
   slots: {
     sidebarMenu: ["flex min-w-0 flex-1 items-center"],
     sidebarMenuIcon: [

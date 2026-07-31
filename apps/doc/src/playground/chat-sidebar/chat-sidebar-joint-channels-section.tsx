@@ -1,13 +1,13 @@
 import { Fragment } from "react";
 import {
-  ChatSidebarSection,
-  ChatSidebarSectionAttention,
-  ChatSidebarSectionChevron,
-  ChatSidebarSectionControls,
-  ChatSidebarSectionDisclosure,
-  ChatSidebarSectionEmpty,
-  ChatSidebarSectionTitle,
-  ChatSidebarSectionTrailing,
+  SidebarSection,
+  SidebarSectionAttention,
+  SidebarSectionChevron,
+  SidebarSectionControls,
+  SidebarSectionDisclosure,
+  SidebarSectionEmpty,
+  SidebarSectionTitle,
+  SidebarSectionTrailing,
 } from "raft-ui";
 
 import {
@@ -41,7 +41,7 @@ export function ChatSidebarJointChannelsSection({
   );
 
   return (
-    <ChatSidebarSection>
+    <SidebarSection>
       <SidebarSectionHeaderMenu
         menu="channels"
         count={ordered.length}
@@ -49,13 +49,13 @@ export function ChatSidebarJointChannelsSection({
         createLabel="Create Joint Channel"
         createIcon="joint"
       >
-        <ChatSidebarSectionDisclosure type="button">
-          <ChatSidebarSectionTitle>Joint channels</ChatSidebarSectionTitle>
-          <ChatSidebarSectionChevron />
-        </ChatSidebarSectionDisclosure>
-        <ChatSidebarSectionTrailing>
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionControls>
+        <SidebarSectionDisclosure type="button">
+          <SidebarSectionTitle>Joint channels</SidebarSectionTitle>
+          <SidebarSectionChevron />
+        </SidebarSectionDisclosure>
+        <SidebarSectionTrailing>
+          {hasUnread ? <SidebarSectionAttention /> : null}
+          <SidebarSectionControls>
             <SidebarSectionAddButton aria-label="Create joint channel" />
             <SidebarSectionChannelsMenu
               aria-label="Joint channels menu"
@@ -64,8 +64,8 @@ export function ChatSidebarJointChannelsSection({
               createLabel="Create Joint Channel"
               createIcon="joint"
             />
-          </ChatSidebarSectionControls>
-        </ChatSidebarSectionTrailing>
+          </SidebarSectionControls>
+        </SidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
       <ChatSidebarDropTarget
         id={createChatSidebarDropTargetId("joint")}
@@ -73,7 +73,7 @@ export function ChatSidebarJointChannelsSection({
         empty={ordered.length === 0}
       >
         {ordered.length === 0 ? (
-          <ChatSidebarSectionEmpty>No joint channels yet</ChatSidebarSectionEmpty>
+          <SidebarSectionEmpty>No joint channels yet</SidebarSectionEmpty>
         ) : (
           <SortableChatSidebarList items={ordered.map((row) => getDragId("joint", row.id))}>
             {ordered.map((row) => (
@@ -93,6 +93,6 @@ export function ChatSidebarJointChannelsSection({
           </SortableChatSidebarList>
         )}
       </ChatSidebarDropTarget>
-    </ChatSidebarSection>
+    </SidebarSection>
   );
 }

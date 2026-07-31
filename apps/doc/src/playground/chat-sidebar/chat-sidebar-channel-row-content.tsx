@@ -1,11 +1,11 @@
 import { GitBranch, Hash, Lock } from "lucide-react";
 import {
-  ChatSidebarItemAside,
-  ChatSidebarItemChannelIcon,
-  ChatSidebarItemContent,
-  ChatSidebarItemCount,
-  ChatSidebarItemIcon,
-  ChatSidebarItemTitle,
+  SidebarItemAside,
+  SidebarItemChannelIcon,
+  SidebarItemContent,
+  SidebarItemCount,
+  SidebarItemIcon,
+  SidebarItemTitle,
 } from "raft-ui";
 
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
@@ -32,21 +32,21 @@ export function ChatSidebarChannelRowContent({
   const ChannelIcon = getPlaygroundChannelIcon(row);
   return (
     <>
-      <ChatSidebarItemIcon aria-hidden>
-        <ChatSidebarItemChannelIcon>
+      <SidebarItemIcon aria-hidden>
+        <SidebarItemChannelIcon>
           <ChannelIcon />
-        </ChatSidebarItemChannelIcon>
-      </ChatSidebarItemIcon>
-      <ChatSidebarItemContent>
-        <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
+        </SidebarItemChannelIcon>
+      </SidebarItemIcon>
+      <SidebarItemContent>
+        <SidebarItemTitle>{row.name}</SidebarItemTitle>
         {navigation.muted ? <PlaygroundMutedIndicator /> : null}
-      </ChatSidebarItemContent>
+      </SidebarItemContent>
       {showAside ? (
-        <ChatSidebarItemAside>
+        <SidebarItemAside>
           {navigation.mention ? <PlaygroundMentionIndicator /> : null}
-          {showBadge ? <ChatSidebarItemCount>{navigation.badge}</ChatSidebarItemCount> : null}
+          {showBadge ? <SidebarItemCount>{navigation.badge}</SidebarItemCount> : null}
           {navigation.draft ? <PlaygroundDraftIndicator /> : null}
-        </ChatSidebarItemAside>
+        </SidebarItemAside>
       ) : null}
     </>
   );

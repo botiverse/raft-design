@@ -4,9 +4,9 @@ import { useThemeFamily } from "raft-ui";
 import { tv } from "tailwind-variants/lite";
 
 // App-owned server switcher chrome for the sidebar header slot. Lives in the docs
-// module (not packages/ui) so ChatSidebarHeader stays a layout-only region while
+// module (not packages/ui) so SidebarHeader stays a layout-only region while
 // composition and Playground share one pixel-identical implementation.
-const chatSidebarServer = tv({
+const sidebarServerRecipe = tv({
   slots: {
     sidebarServer: ["relative inline-flex shrink-0 items-center"],
     sidebarServerAvatar: [
@@ -47,103 +47,91 @@ const chatSidebarServer = tv({
   },
 });
 
-export type ChatSidebarServerProps = useRender.ComponentProps<"div">;
+export type SidebarServerProps = useRender.ComponentProps<"div">;
 
-export function ChatSidebarServer({ className, render, ...props }: ChatSidebarServerProps) {
+export function SidebarServer({ className, render, ...props }: SidebarServerProps) {
   const theme = useThemeFamily();
-  const { sidebarServer } = chatSidebarServer({ theme });
+  const { sidebarServer } = sidebarServerRecipe({ theme });
   const defaultProps = {
-    "data-slot": "chat-sidebar-server",
+    "data-slot": "sidebar-server",
     className: sidebarServer({ className }),
   };
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(defaultProps as ChatSidebarServerProps, props),
+    props: mergeProps<"div">(defaultProps as SidebarServerProps, props),
   });
 }
 
-export type ChatSidebarServerAvatarProps = useRender.ComponentProps<"span">;
+export type SidebarServerAvatarProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarServerAvatar({
-  className,
-  render,
-  ...props
-}: ChatSidebarServerAvatarProps) {
+export function SidebarServerAvatar({ className, render, ...props }: SidebarServerAvatarProps) {
   const theme = useThemeFamily();
-  const { sidebarServerAvatar } = chatSidebarServer({ theme });
+  const { sidebarServerAvatar } = sidebarServerRecipe({ theme });
   const defaultProps = {
-    "data-slot": "chat-sidebar-server-avatar",
+    "data-slot": "sidebar-server-avatar",
     className: sidebarServerAvatar({ className }),
   };
 
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(defaultProps as ChatSidebarServerAvatarProps, props),
+    props: mergeProps<"span">(defaultProps as SidebarServerAvatarProps, props),
   });
 }
 
-export type ChatSidebarServerLabelProps = useRender.ComponentProps<"span">;
+export type SidebarServerLabelProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarServerLabel({
-  className,
-  render,
-  ...props
-}: ChatSidebarServerLabelProps) {
+export function SidebarServerLabel({ className, render, ...props }: SidebarServerLabelProps) {
   const theme = useThemeFamily();
-  const { sidebarServerLabel } = chatSidebarServer({ theme });
+  const { sidebarServerLabel } = sidebarServerRecipe({ theme });
   const defaultProps = {
-    "data-slot": "chat-sidebar-server-label",
+    "data-slot": "sidebar-server-label",
     className: sidebarServerLabel({ className }),
   };
 
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(defaultProps as ChatSidebarServerLabelProps, props),
+    props: mergeProps<"span">(defaultProps as SidebarServerLabelProps, props),
   });
 }
 
-export type ChatSidebarServerChevronProps = useRender.ComponentProps<"span">;
+export type SidebarServerChevronProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarServerChevron({
-  className,
-  render,
-  ...props
-}: ChatSidebarServerChevronProps) {
+export function SidebarServerChevron({ className, render, ...props }: SidebarServerChevronProps) {
   const theme = useThemeFamily();
-  const { sidebarServerChevron } = chatSidebarServer({ theme });
+  const { sidebarServerChevron } = sidebarServerRecipe({ theme });
   const defaultProps = {
-    "data-slot": "chat-sidebar-server-chevron",
+    "data-slot": "sidebar-server-chevron",
     className: sidebarServerChevron({ className }),
   };
 
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(defaultProps as ChatSidebarServerChevronProps, props),
+    props: mergeProps<"span">(defaultProps as SidebarServerChevronProps, props),
   });
 }
 
-export type ChatSidebarServerIndicatorProps = useRender.ComponentProps<"span">;
+export type SidebarServerIndicatorProps = useRender.ComponentProps<"span">;
 
-export function ChatSidebarServerIndicator({
+export function SidebarServerIndicator({
   className,
   render,
   ...props
-}: ChatSidebarServerIndicatorProps) {
+}: SidebarServerIndicatorProps) {
   const theme = useThemeFamily();
-  const { sidebarServerIndicator } = chatSidebarServer({ theme });
+  const { sidebarServerIndicator } = sidebarServerRecipe({ theme });
   const defaultProps = {
-    "data-slot": "chat-sidebar-server-indicator",
+    "data-slot": "sidebar-server-indicator",
     className: sidebarServerIndicator({ className }),
   };
 
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(defaultProps as ChatSidebarServerIndicatorProps, props),
+    props: mergeProps<"span">(defaultProps as SidebarServerIndicatorProps, props),
   });
 }

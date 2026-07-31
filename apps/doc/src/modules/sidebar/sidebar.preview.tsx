@@ -2,27 +2,27 @@ import { useState, type ReactNode } from "react";
 
 import { Preview } from "#/components/preview.tsx";
 import {
-  ChatSidebarComposition,
-  type ChatSidebarContentState,
-  type ChatSidebarLiveActivityState,
-} from "./chat-sidebar.composition.tsx";
+  SidebarComposition,
+  type SidebarContentState,
+  type SidebarLiveActivityState,
+} from "./sidebar.composition.tsx";
 
 const CONTENT_STATES = ["Populated", "Empty"] as const;
 type PreviewContentState = (typeof CONTENT_STATES)[number];
 
-function getContentState(content: PreviewContentState): ChatSidebarContentState {
+function getContentState(content: PreviewContentState): SidebarContentState {
   return content === "Empty" ? "empty" : "populated";
 }
 
-function getLiveActivityState(liveActivity: boolean): ChatSidebarLiveActivityState {
+function getLiveActivityState(liveActivity: boolean): SidebarLiveActivityState {
   return liveActivity ? "active" : "none";
 }
 
-type ChatSidebarPreviewProps = {
+type SidebarPreviewProps = {
   codeBlock: ReactNode;
 };
 
-export function ChatSidebarPreview({ codeBlock }: ChatSidebarPreviewProps) {
+export function SidebarPreview({ codeBlock }: SidebarPreviewProps) {
   const [content, setContent] = useState<PreviewContentState>("Populated");
   const [liveActivity, setLiveActivity] = useState(true);
 
@@ -30,7 +30,7 @@ export function ChatSidebarPreview({ codeBlock }: ChatSidebarPreviewProps) {
     <Preview previewClassName="!h-[560px] !min-h-0 !items-stretch !justify-center !p-2">
       <Preview.Canvas>
         <div className="flex h-full w-[308px] items-stretch bg-layer-page">
-          <ChatSidebarComposition
+          <SidebarComposition
             contentState={getContentState(content)}
             liveActivityState={getLiveActivityState(liveActivity)}
           />
@@ -48,9 +48,9 @@ export function ChatSidebarPreview({ codeBlock }: ChatSidebarPreviewProps) {
           </Preview.Control>
         </Preview.ControlGroup>
         <Preview.ControlGroup label="Live activity">
-          <Preview.Control label="Show activity" htmlFor="chat-sidebar-preview-live-activity">
+          <Preview.Control label="Show activity" htmlFor="sidebar-preview-live-activity">
             <Preview.Checkbox
-              id="chat-sidebar-preview-live-activity"
+              id="sidebar-preview-live-activity"
               label="Show activity"
               checked={liveActivity}
               onCheckedChange={setLiveActivity}

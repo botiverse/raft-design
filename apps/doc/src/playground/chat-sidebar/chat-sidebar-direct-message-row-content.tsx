@@ -3,13 +3,13 @@ import {
   AvatarFallback,
   AvatarImage,
   Status,
-  ChatSidebarItemAside,
-  ChatSidebarItemContent,
-  ChatSidebarItemCount,
-  ChatSidebarItemIcon,
-  ChatSidebarItemStatus,
-  ChatSidebarItemSubtitle,
-  ChatSidebarItemTitle,
+  SidebarItemAside,
+  SidebarItemContent,
+  SidebarItemCount,
+  SidebarItemIcon,
+  SidebarItemStatus,
+  SidebarItemSubtitle,
+  SidebarItemTitle,
 } from "raft-ui";
 
 import {
@@ -46,7 +46,7 @@ export function ChatSidebarDirectMessageRowContent({
     Boolean(actor.presence);
   return (
     <>
-      <ChatSidebarItemIcon>
+      <SidebarItemIcon>
         <Avatar size="2xs" type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           {actor.fallback ? (
@@ -55,23 +55,23 @@ export function ChatSidebarDirectMessageRowContent({
             <AvatarFallback />
           ) : null}
         </Avatar>
-      </ChatSidebarItemIcon>
-      <ChatSidebarItemContent>
-        <ChatSidebarItemTitle>{row.name}</ChatSidebarItemTitle>
+      </SidebarItemIcon>
+      <SidebarItemContent>
+        <SidebarItemTitle>{row.name}</SidebarItemTitle>
         {navigation.muted ? <PlaygroundMutedIndicator /> : null}
-        <ChatSidebarItemSubtitle>{row.subtitle}</ChatSidebarItemSubtitle>
-      </ChatSidebarItemContent>
+        <SidebarItemSubtitle>{row.subtitle}</SidebarItemSubtitle>
+      </SidebarItemContent>
       {showAside ? (
-        <ChatSidebarItemAside>
+        <SidebarItemAside>
           {navigation.mention ? <PlaygroundMentionIndicator /> : null}
           {actor.presence ? (
-            <ChatSidebarItemStatus>
+            <SidebarItemStatus>
               <DirectMessageStatus status={actor.presence} />
-            </ChatSidebarItemStatus>
+            </SidebarItemStatus>
           ) : null}
-          {showBadge ? <ChatSidebarItemCount>{navigation.badge}</ChatSidebarItemCount> : null}
+          {showBadge ? <SidebarItemCount>{navigation.badge}</SidebarItemCount> : null}
           {navigation.draft ? <PlaygroundDraftIndicator /> : null}
-        </ChatSidebarItemAside>
+        </SidebarItemAside>
       ) : null}
     </>
   );

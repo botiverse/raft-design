@@ -32,16 +32,16 @@ import {
   SegmentedControl,
   SegmentedControlItem,
   SegmentedControlLabel,
-  ChatSidebarBody,
-  ChatSidebarContent,
-  ChatSidebarGroupLabel,
-  ChatSidebarHeader,
-  ChatSidebarHeaderTitle,
-  ChatSidebarItem,
-  ChatSidebarItemIcon,
-  ChatSidebarItemMeta,
-  ChatSidebarItemTitle,
-  ChatSidebarRoot,
+  SidebarBody,
+  SidebarContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarHeaderTitle,
+  SidebarItem,
+  SidebarItemIcon,
+  SidebarItemMeta,
+  SidebarItemTitle,
+  SidebarRoot,
   ConversationPanelBody,
   ConversationPanelContent,
   ConversationPanelHeader,
@@ -208,39 +208,39 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
     : undefined;
 
   return (
-    <ChatSidebarRoot>
-      <ChatSidebarHeader className="md:hidden">
-        <ChatSidebarHeaderTitle>{viewMeta[view].title}</ChatSidebarHeaderTitle>
-      </ChatSidebarHeader>
-      <ChatSidebarHeader className="max-md:hidden">
-        <ChatSidebarHeaderTitle>{viewMeta[view].title}</ChatSidebarHeaderTitle>
-      </ChatSidebarHeader>
-      <ChatSidebarBody>
-        <ChatSidebarContent>
+    <SidebarRoot>
+      <SidebarHeader className="md:hidden">
+        <SidebarHeaderTitle>{viewMeta[view].title}</SidebarHeaderTitle>
+      </SidebarHeader>
+      <SidebarHeader className="max-md:hidden">
+        <SidebarHeaderTitle>{viewMeta[view].title}</SidebarHeaderTitle>
+      </SidebarHeader>
+      <SidebarBody>
+        <SidebarContent>
           {details.map((detail, index) => {
             const DetailIcon = detail.icon;
             const previousGroup = details[index - 1]?.group;
             return (
               <Fragment key={detail.id}>
                 {detail.group && detail.group !== previousGroup ? (
-                  <ChatSidebarGroupLabel>{detail.group}</ChatSidebarGroupLabel>
+                  <SidebarGroupLabel>{detail.group}</SidebarGroupLabel>
                 ) : null}
-                <ChatSidebarItem
+                <SidebarItem
                   active={selectedId === detail.id}
                   onClick={() => selectRailDetail(detail.id)}
                 >
-                  <ChatSidebarItemIcon aria-hidden>
+                  <SidebarItemIcon aria-hidden>
                     <DetailIcon />
-                  </ChatSidebarItemIcon>
-                  <ChatSidebarItemTitle>{detail.label}</ChatSidebarItemTitle>
-                  {detail.meta ? <ChatSidebarItemMeta>{detail.meta}</ChatSidebarItemMeta> : null}
-                </ChatSidebarItem>
+                  </SidebarItemIcon>
+                  <SidebarItemTitle>{detail.label}</SidebarItemTitle>
+                  {detail.meta ? <SidebarItemMeta>{detail.meta}</SidebarItemMeta> : null}
+                </SidebarItem>
               </Fragment>
             );
           })}
-        </ChatSidebarContent>
-      </ChatSidebarBody>
-    </ChatSidebarRoot>
+        </SidebarContent>
+      </SidebarBody>
+    </SidebarRoot>
   );
 }
 

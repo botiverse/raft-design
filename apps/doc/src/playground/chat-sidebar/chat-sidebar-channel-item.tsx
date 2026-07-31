@@ -6,7 +6,7 @@ import {
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
-  ChatSidebarItem as ChatSidebarItemRoot,
+  SidebarItem as SidebarItemRoot,
 } from "raft-ui";
 
 import {
@@ -50,7 +50,7 @@ export function ChatSidebarChannelItem({
     <ContextMenu>
       <ContextMenuTrigger
         render={
-          <ChatSidebarItemRoot
+          <SidebarItemRoot
             active={active}
             aria-current={active ? "page" : undefined}
             render={<PlaygroundConversationLink conversation={channel} />}
@@ -59,7 +59,7 @@ export function ChatSidebarChannelItem({
             <span className="sr-only" aria-live="polite">
               {announcement}
             </span>
-          </ChatSidebarItemRoot>
+          </SidebarItemRoot>
         }
       />
       <ContextMenuContent className="w-48">

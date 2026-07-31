@@ -1,30 +1,30 @@
 import { AtSign, BellOff, Pencil } from "lucide-react";
-import { ChatSidebarItemIndicator, ChatSidebarItemMetaIcon } from "raft-ui";
+import { SidebarItemIndicator, SidebarItemMetaIcon } from "raft-ui";
 
 export function PlaygroundMutedIndicator() {
   return (
-    <ChatSidebarItemMetaIcon
+    <SidebarItemMetaIcon
       role="img"
       aria-label="Activity muted"
       title="Activity muted. Direct mentions can still notify you."
     >
       <BellOff aria-hidden />
-    </ChatSidebarItemMetaIcon>
+    </SidebarItemMetaIcon>
   );
 }
 
 export function PlaygroundMentionIndicator() {
   return (
-    <ChatSidebarItemIndicator role="img" aria-label="Mentioned you">
+    <SidebarItemIndicator role="img" aria-label="Mentioned you">
       <AtSign aria-hidden />
-    </ChatSidebarItemIndicator>
+    </SidebarItemIndicator>
   );
 }
 
 export function PlaygroundDraftIndicator() {
   return (
-    <ChatSidebarItemMetaIcon role="img" aria-label="Draft">
+    <SidebarItemMetaIcon role="img" aria-label="Draft">
       <Pencil aria-hidden />
-    </ChatSidebarItemMetaIcon>
+    </SidebarItemMetaIcon>
   );
 }

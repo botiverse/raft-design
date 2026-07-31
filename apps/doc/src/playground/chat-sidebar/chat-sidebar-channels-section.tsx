@@ -1,14 +1,14 @@
 import { Fragment, useMemo, useState } from "react";
 import {
-  ChatSidebarList,
-  ChatSidebarSection,
-  ChatSidebarSectionAttention,
-  ChatSidebarSectionChevron,
-  ChatSidebarSectionControls,
-  ChatSidebarSectionDisclosure,
-  ChatSidebarSectionEmpty,
-  ChatSidebarSectionTitle,
-  ChatSidebarSectionTrailing,
+  SidebarList,
+  SidebarSection,
+  SidebarSectionAttention,
+  SidebarSectionChevron,
+  SidebarSectionControls,
+  SidebarSectionDisclosure,
+  SidebarSectionEmpty,
+  SidebarSectionTitle,
+  SidebarSectionTrailing,
 } from "raft-ui";
 
 import {
@@ -48,7 +48,7 @@ export function ChatSidebarChannelsSection({
   );
 
   return (
-    <ChatSidebarSection>
+    <SidebarSection>
       <SidebarSectionHeaderMenu
         menu="channels"
         count={ordered.length}
@@ -58,13 +58,13 @@ export function ChatSidebarChannelsSection({
         sortValue={sortMode}
         onSortValueChange={setSortMode}
       >
-        <ChatSidebarSectionDisclosure type="button">
-          <ChatSidebarSectionTitle>Channels</ChatSidebarSectionTitle>
-          <ChatSidebarSectionChevron />
-        </ChatSidebarSectionDisclosure>
-        <ChatSidebarSectionTrailing>
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionControls>
+        <SidebarSectionDisclosure type="button">
+          <SidebarSectionTitle>Channels</SidebarSectionTitle>
+          <SidebarSectionChevron />
+        </SidebarSectionDisclosure>
+        <SidebarSectionTrailing>
+          {hasUnread ? <SidebarSectionAttention /> : null}
+          <SidebarSectionControls>
             <SidebarSectionAddButton aria-label="Create channel" />
             <SidebarSectionChannelsMenu
               aria-label="Channels menu"
@@ -75,8 +75,8 @@ export function ChatSidebarChannelsSection({
               sortValue={sortMode}
               onSortValueChange={setSortMode}
             />
-          </ChatSidebarSectionControls>
-        </ChatSidebarSectionTrailing>
+          </SidebarSectionControls>
+        </SidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
       <ChatSidebarDropTarget
         id={createChatSidebarDropTargetId("channels")}
@@ -85,7 +85,7 @@ export function ChatSidebarChannelsSection({
         disabled={sortMode !== "manual"}
       >
         {ordered.length === 0 ? (
-          <ChatSidebarSectionEmpty>No channels yet</ChatSidebarSectionEmpty>
+          <SidebarSectionEmpty>No channels yet</SidebarSectionEmpty>
         ) : sortMode === "manual" ? (
           <SortableChatSidebarList items={ordered.map((row) => getDragId("channels", row.id))}>
             {ordered.map((row) => (
@@ -108,7 +108,7 @@ export function ChatSidebarChannelsSection({
             <ChatSidebarProjectionPreview projection={projection} />
           </SortableChatSidebarList>
         ) : (
-          <ChatSidebarList>
+          <SidebarList>
             {ordered.map((row) => (
               <DraggableChatSidebarItem
                 key={row.id}
@@ -124,10 +124,10 @@ export function ChatSidebarChannelsSection({
                 />
               </DraggableChatSidebarItem>
             ))}
-          </ChatSidebarList>
+          </SidebarList>
         )}
       </ChatSidebarDropTarget>
-    </ChatSidebarSection>
+    </SidebarSection>
   );
 }
 
