@@ -629,6 +629,20 @@ export { Badge } from "./components/badge/index";
 export type { BadgeProps } from "./components/badge/index";
 
 export {
+  DescriptionDetails,
+  DescriptionItem,
+  DescriptionList,
+  DescriptionTerm,
+} from "./components/description-list/index";
+export type {
+  DescriptionDetailsProps,
+  DescriptionItemProps,
+  DescriptionListDirection,
+  DescriptionListProps,
+  DescriptionTermProps,
+} from "./components/description-list/index";
+
+export {
   Avatar,
   AvatarBadge,
   AvatarFallback,

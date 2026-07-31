@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { tv } from "../../lib/tv";
+import { tv, type VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const descriptionList = tv({
@@ -9,24 +9,74 @@ const descriptionList = tv({
     item: [""],
     term: ["mb-1 flex items-center gap-2 text-xs"],
     details: ["m-0 text-sm"],
-    action: ["inline-flex shrink-0 items-center", "[&_svg]:size-3 [&_svg]:shrink-0"],
   },
   variants: {
+    direction: {
+      vertical: {},
+      horizontal: {
+        root: [
+          "grid grid-cols-[max-content_minmax(0,1fr)] items-baseline",
+          "max-sm:grid-cols-1 max-sm:gap-y-0.5",
+          "[&>[data-slot=description-item]]:contents",
+          "[&>[data-slot=description-item]>[data-slot=description-term]]:mb-0",
+          "[&>[data-slot=description-item]>[data-slot=description-term]]:max-w-40",
+          "[&>[data-slot=description-item]>[data-slot=description-term]]:min-w-0",
+          "[&>[data-slot=description-item]>[data-slot=description-term]]:break-words",
+          "[&>[data-slot=description-item]>[data-slot=description-details]]:min-w-0",
+          "[&>[data-slot=description-item]>[data-slot=description-details]]:break-words",
+        ],
+      },
+    },
     theme: {
       brutal: {
         term: "text-foreground/50",
         details: "text-foreground-strong",
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
+      elegant: {
+        term: [
+          "mb-1.5 gap-1.5",
+          "font-sans text-[11px] font-medium leading-none text-foreground-placeholder",
+        ],
+        details: "font-sans leading-5 text-foreground-muted",
+      },
     },
+  },
+  compoundVariants: [
+    {
+      direction: "horizontal",
+      theme: "brutal",
+      class: {
+        root: "gap-x-3 gap-y-1",
+      },
+    },
+    {
+      direction: "horizontal",
+      theme: "elegant",
+      class: {
+        root: "gap-x-6 gap-y-2",
+      },
+    },
+  ],
+  defaultVariants: {
+    direction: "vertical",
   },
 });
 
-export type DescriptionListProps = useRender.ComponentProps<"dl">;
+export type DescriptionListDirection = NonNullable<
+  VariantProps<typeof descriptionList>["direction"]
+>;
 
-export function DescriptionList({ className, render, ...props }: DescriptionListProps) {
-  const { root } = descriptionList();
+export type DescriptionListProps = useRender.ComponentProps<"dl"> &
+  Pick<VariantProps<typeof descriptionList>, "direction">;
+
+export function DescriptionList({
+  direction = "vertical",
+  className,
+  render,
+  ...props
+}: DescriptionListProps) {
+  const theme = useThemeFamily();
+  const { root } = descriptionList({ direction, theme });
   const defaultProps: useRender.ElementProps<"dl"> = {
     className: root({ className }),
   };
@@ -93,24 +143,6 @@ export function DescriptionDetails({ className, render, ...props }: DescriptionD
     props: mergeProps<"dd">(defaultProps, props),
     state: {
       slot: "description-details",
-    },
-  });
-}
-
-export type DescriptionActionProps = useRender.ComponentProps<"span">;
-
-export function DescriptionAction({ className, render, ...props }: DescriptionActionProps) {
-  const { action } = descriptionList();
-  const defaultProps: useRender.ElementProps<"span"> = {
-    className: action({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: {
-      slot: "description-action",
     },
   });
 }

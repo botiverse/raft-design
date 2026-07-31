@@ -266,12 +266,7 @@ const NAV = [
     items: [
       { label: "Avatar", to: "/components/avatar", status: "done" },
       { label: "FilePreview", to: "/components/file-preview", status: "done" },
-      {
-        label: "DescriptionList",
-        to: "/components/description-list",
-        status: "parked",
-        reason: "Generic key-value primitive without a real consumer yet; revisit with a use case.",
-      },
+      { label: "DescriptionList", to: "/components/description-list", status: "done" },
       {
         label: "Table / DataGrid",
         status: "parked",

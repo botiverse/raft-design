@@ -1,12 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Pencil } from "lucide-react";
-import {
-  DescriptionAction,
-  DescriptionDetails,
-  DescriptionItem,
-  DescriptionList,
-  DescriptionTerm,
-} from "raft-ui/wip";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -14,7 +6,6 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
@@ -22,53 +13,40 @@ import {
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import detailMetadataCompositionSource from "#/modules/description-list/compositions/detail-metadata.composition.tsx?raw";
 import { DetailMetadataComposition } from "#/modules/description-list/compositions/detail-metadata.composition.tsx";
+import horizontalCompositionSource from "#/modules/description-list/compositions/horizontal.composition.tsx?raw";
+import { HorizontalDescriptionListComposition } from "#/modules/description-list/compositions/horizontal.composition.tsx";
 import longMonospaceValueCompositionSource from "#/modules/description-list/compositions/long-monospace-value.composition.tsx?raw";
 import { LongMonospaceValueComposition } from "#/modules/description-list/compositions/long-monospace-value.composition.tsx";
+import memberInfoCompositionSource from "#/modules/description-list/compositions/member-info.composition.tsx?raw";
 import richCreatorValueCompositionSource from "#/modules/description-list/compositions/rich-creator-value.composition.tsx?raw";
 import { RichCreatorValueComposition } from "#/modules/description-list/compositions/rich-creator-value.composition.tsx";
+import { DescriptionListPreview } from "#/modules/description-list/description-list.preview.tsx";
 import LegacyKeyValueRow from "../../../../../packages/ui/src/legacy/KeyValueRow.tsx";
 
 const TOC = [
-  { id: "todo", title: "Todo" },
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
-
-const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
   anatomy: `<DescriptionList>
   <DescriptionItem>
     <DescriptionTerm>
-      <DescriptionAction />
+      Role
+      {/* Optional term-side control */}
+      <Button variant="ghost" size="icon-xs" aria-label="Explain member roles">
+        <CircleHelp />
+      </Button>
     </DescriptionTerm>
-    <DescriptionDetails />
-  </DescriptionItem>
-</DescriptionList>`,
-  examples: `<DescriptionList className="flex flex-wrap gap-x-8 gap-y-3">
-  <DescriptionItem>
-    <DescriptionTerm>Created</DescriptionTerm>
-    <DescriptionDetails className="font-mono">Jun 5, 2026</DescriptionDetails>
-  </DescriptionItem>
-  <DescriptionItem>
-    <DescriptionTerm>Email</DescriptionTerm>
-    <DescriptionDetails className="break-all font-mono">ada@example.com</DescriptionDetails>
-  </DescriptionItem>
-  <DescriptionItem>
-    <DescriptionTerm>
-      Creator
-      <DescriptionAction
-        render={<button type="button" aria-label="Edit creator" />}
-      >
-        <Pencil />
-      </DescriptionAction>
-    </DescriptionTerm>
-    <DescriptionDetails className="flex items-center gap-2">
-      <span className="size-5 border-2 border-black bg-brutal-yellow" />
-      <span className="font-bold">Ada</span>
-      <span className="font-mono text-xs text-black/50">@ada</span>
+    <DescriptionDetails>
+      {/* Values can compose other UI components */}
+      <Badge render={<button type="button" aria-label="Change role" />}>
+        Owner
+        <ChevronDown />
+      </Badge>
     </DescriptionDetails>
   </DescriptionItem>
 </DescriptionList>`,
@@ -89,13 +67,17 @@ const SNIPPETS = {
 
 const COMPOSITION_SOURCES = createCompositionSourceMap({
   DetailMetadata: detailMetadataCompositionSource,
+  Horizontal: horizontalCompositionSource,
   LongMonospaceValue: longMonospaceValueCompositionSource,
+  MemberInfo: memberInfoCompositionSource,
   RichCreatorValue: richCreatorValueCompositionSource,
 });
 
 const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
   DetailMetadata: "descriptionListDetailMetadataComposition",
+  Horizontal: "descriptionListHorizontalComposition",
   LongMonospaceValue: "descriptionListLongMonospaceValueComposition",
+  MemberInfo: "descriptionListMemberInfoComposition",
   RichCreatorValue: "descriptionListRichCreatorValueComposition",
 });
 
@@ -104,48 +86,45 @@ const COMPOSITION_PATHS = {
     "apps/doc/src/modules/description-list/compositions/detail-metadata.composition.tsx",
   LongMonospaceValue:
     "apps/doc/src/modules/description-list/compositions/long-monospace-value.composition.tsx",
+  MemberInfo: "apps/doc/src/modules/description-list/compositions/member-info.composition.tsx",
   RichCreatorValue:
     "apps/doc/src/modules/description-list/compositions/rich-creator-value.composition.tsx",
 } as const;
 
-const DESCRIPTION_LIST_PROPS: readonly PropRow[] = [
+const DESCRIPTION_LIST_PARTS: readonly PropRow[] = [
   {
-    name: "...props",
-    type: 'useRender.ComponentProps<"dl">',
-    description: "Semantic list root for description metadata groups.",
+    name: "DescriptionList",
+    type: 'useRender.ComponentProps<"dl"> & { direction?: "vertical" | "horizontal" }',
+    description:
+      "Semantic definition-list root. Owns the vertical or horizontal layout shared by its direct items.",
   },
-];
-
-const DESCRIPTION_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "...props",
+    name: "DescriptionItem",
     type: 'useRender.ComponentProps<"div">',
-    description: "Wrapper for one term/details pair. Keeps dl grouping valid and layout-neutral.",
+    description:
+      "Groups one term/details pair. Horizontal lists expand direct items into the root grid.",
   },
-];
-
-const DESCRIPTION_TERM_PROPS: readonly PropRow[] = [
   {
-    name: "...props",
+    name: "DescriptionTerm",
     type: 'useRender.ComponentProps<"dt">',
-    description: "Muted detail label. Actions can be composed as children.",
+    description:
+      "Theme-styled metadata label. Compose optional controls directly alongside the label.",
   },
-];
-
-const DESCRIPTION_DETAILS_PROPS: readonly PropRow[] = [
   {
-    name: "...props",
+    name: "DescriptionDetails",
     type: 'useRender.ComponentProps<"dd">',
     description:
-      "Value cell with dd margin reset. Use className for mono, wrapping, badges, or links.",
+      "Metadata value with the native dd margin reset. Values may contain text, badges, links, or controls.",
   },
 ];
 
-const DESCRIPTION_ACTION_PROPS: readonly PropRow[] = [
+const DESCRIPTION_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "...props",
-    type: 'useRender.ComponentProps<"span">',
-    description: "Inline trailing action container for controls next to the term.",
+    name: "direction",
+    type: '"vertical" | "horizontal"',
+    default: '"vertical"',
+    description:
+      "Vertical preserves the normal item flow. Horizontal aligns direct term/details pairs in a shared grid and returns to one column below sm.",
   },
 ];
 
@@ -160,44 +139,14 @@ function DescriptionListDoc() {
   return (
     <DocPage
       title="DescriptionList"
-      description="A compact term/details composition for detail-panel metadata."
+      description="A semantic term/details list with vertical and responsive horizontal layouts."
       toc={TOC}
     >
-      <DocSection id="todo" title="Todo">
-        <TodoList items={TODOS} />
-      </DocSection>
-
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview>
-          <Preview.Canvas>
-            <DescriptionList className="flex w-full max-w-xl flex-wrap gap-x-8 gap-y-3">
-              <DescriptionItem>
-                <DescriptionTerm>Created</DescriptionTerm>
-                <DescriptionDetails className="font-mono">Jun 5, 2026</DescriptionDetails>
-              </DescriptionItem>
-              <DescriptionItem>
-                <DescriptionTerm>Email</DescriptionTerm>
-                <DescriptionDetails className="break-all font-mono">
-                  ada@example.com
-                </DescriptionDetails>
-              </DescriptionItem>
-              <DescriptionItem>
-                <DescriptionTerm>
-                  Creator
-                  <DescriptionAction render={<button type="button" aria-label="Edit creator" />}>
-                    <Pencil />
-                  </DescriptionAction>
-                </DescriptionTerm>
-                <DescriptionDetails className="flex items-center gap-2">
-                  <span className="size-5 border-2 border-black bg-brutal-yellow" />
-                  <span className="font-bold">Ada</span>
-                  <span className="font-mono text-xs text-black/50">@ada</span>
-                </DescriptionDetails>
-              </DescriptionItem>
-            </DescriptionList>
-          </Preview.Canvas>
-          <Preview.Code html={code.examples} />
-        </Preview>
+        <DescriptionListPreview
+          code={code.descriptionListMemberInfoComposition}
+          collapsedCode={code.descriptionListMemberInfoCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -207,22 +156,37 @@ function DescriptionListDoc() {
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>
+
+      <DocSection id="usage" title="Usage">
+        <DocSubsection parentId="usage" id="horizontal" title="Horizontal">
+          <p>
+            Use the horizontal direction for compact label/value metadata, such as action-card
+            properties. It returns to one column on small screens.
+          </p>
+          <div className="mt-4">
+            <Preview>
+              <Preview.Canvas>
+                <HorizontalDescriptionListComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.descriptionListHorizontalComposition}
+                collapsedHtml={code.descriptionListHorizontalCompositionBody}
+              />
+            </Preview>
+          </div>
+        </DocSubsection>
+      </DocSection>
       <DocSection id="api" title="API">
-        <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-description-list" title="DescriptionList">
+        <div className="space-y-8">
+          <DocSubsection parentId="api" id="api-parts" title="Parts">
+            <PropsTable rows={DESCRIPTION_LIST_PARTS} nameColumnLabel="Part" />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-description-list-props"
+            title="DescriptionList props"
+          >
             <PropsTable rows={DESCRIPTION_LIST_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-description-item" title="DescriptionItem">
-            <PropsTable rows={DESCRIPTION_ITEM_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-description-term" title="DescriptionTerm">
-            <PropsTable rows={DESCRIPTION_TERM_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-description-details" title="DescriptionDetails">
-            <PropsTable rows={DESCRIPTION_DETAILS_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-description-action" title="DescriptionAction">
-            <PropsTable rows={DESCRIPTION_ACTION_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>
@@ -237,7 +201,6 @@ function DescriptionListDoc() {
               source: <LegacyKeyValueRow label="Created" value="Jun 5, 2026" mono />,
               current: <DetailMetadataComposition />,
               sourceCode: code.sourceCreated,
-              currentCode: code.descriptionListDetailMetadataComposition,
               compositionCode: code.descriptionListDetailMetadataComposition,
               compositionPath: COMPOSITION_PATHS.DetailMetadata,
               compositionSource: COMPOSITION_SOURCES.DetailMetadata,
@@ -249,7 +212,6 @@ function DescriptionListDoc() {
               source: <LegacyKeyValueRow label="Email" value="ada@example.com" mono breakAll />,
               current: <LongMonospaceValueComposition />,
               sourceCode: code.sourceEmail,
-              currentCode: code.descriptionListLongMonospaceValueComposition,
               compositionCode: code.descriptionListLongMonospaceValueComposition,
               compositionPath: COMPOSITION_PATHS.LongMonospaceValue,
               compositionSource: COMPOSITION_SOURCES.LongMonospaceValue,
@@ -276,7 +238,6 @@ function DescriptionListDoc() {
               ),
               current: <RichCreatorValueComposition />,
               sourceCode: code.sourceCreator,
-              currentCode: code.descriptionListRichCreatorValueComposition,
               compositionCode: code.descriptionListRichCreatorValueComposition,
               compositionPath: COMPOSITION_PATHS.RichCreatorValue,
               compositionSource: COMPOSITION_SOURCES.RichCreatorValue,
