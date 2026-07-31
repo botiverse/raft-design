@@ -8,6 +8,7 @@ import { PlaygroundNavigationProvider } from "../navigation/playground-navigatio
 import { usePlaygroundRouteState } from "../navigation/playground-route-state.ts";
 import { PlaygroundTaskStateProvider } from "../tasks/task-state.tsx";
 import { PlaygroundShellStateProvider } from "./playground-shell-state.tsx";
+import { PlaygroundActivityStateProvider } from "../activity/activity-state.tsx";
 
 const playgroundPlainPaths = new Set([
   "/playground/tasks",
@@ -47,9 +48,11 @@ export function PlaygroundShell() {
         onRailDetailChange={route.selectRailDetail}
       >
         <PlaygroundShellStateProvider>
-          <PlaygroundTaskStateProvider>
-            <Outlet />
-          </PlaygroundTaskStateProvider>
+          <PlaygroundActivityStateProvider>
+            <PlaygroundTaskStateProvider>
+              <Outlet />
+            </PlaygroundTaskStateProvider>
+          </PlaygroundActivityStateProvider>
         </PlaygroundShellStateProvider>
       </PlaygroundNavigationProvider>
     </PreviewThemeScope>

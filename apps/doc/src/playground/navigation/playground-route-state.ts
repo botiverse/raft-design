@@ -18,11 +18,7 @@ const playgroundRailPaths = {
   settings: "/playground/settings",
 } as const satisfies Record<PlaygroundRailView, string>;
 
-const playgroundDisabledRailViews = new Set<PlaygroundRailView>([
-  "activity",
-  "computers",
-  "settings",
-]);
+const playgroundDisabledRailViews = new Set<PlaygroundRailView>(["computers", "settings"]);
 
 export function usePlaygroundRouteState() {
   const navigate = useNavigate();

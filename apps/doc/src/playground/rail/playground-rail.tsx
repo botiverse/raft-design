@@ -47,6 +47,7 @@ import {
   Settings,
   Users,
 } from "lucide-react";
+import { usePlaygroundActivityState } from "../activity/activity-state.tsx";
 
 import { AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
@@ -154,6 +155,7 @@ export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
 
 export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation: boolean }) {
   const { railView, selectRailView } = usePlaygroundNavigation();
+  const { unreadCount: activityUnreadCount } = usePlaygroundActivityState();
 
   function selectView(view: string) {
     if (isPlaygroundRailView(view)) selectRailView(view);
@@ -201,8 +203,8 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   label="Activity"
                   icon={<Activity />}
                   attention={
-                    railView !== "activity" ? (
-                      <AppRailItemAttention title="Unread activity">
+                    railView !== "activity" && activityUnreadCount > 0 ? (
+                      <AppRailItemAttention title={`${activityUnreadCount} unread activity items`}>
                         <Activity />
                       </AppRailItemAttention>
                     ) : undefined

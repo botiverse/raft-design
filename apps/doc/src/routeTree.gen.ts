@@ -16,6 +16,7 @@ import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
+import { Route as ComponentsActivityRouteImport } from './routes/components/activity'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
 import { Route as ComponentsAppShellRouteImport } from './routes/components/app-shell'
@@ -159,6 +160,11 @@ const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
   id: '/playground',
   path: '/playground',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsActivityRoute = ComponentsActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
   id: '/alert-dialog',
@@ -730,6 +736,7 @@ export interface FileRoutesByFullPath {
   '/lab': typeof LabRoute
   '/migration': typeof MigrationRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
+  '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
@@ -844,6 +851,7 @@ export interface FileRoutesByTo {
   '/lab': typeof LabRoute
   '/playground': typeof PlaygroundIndexRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
+  '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
@@ -960,6 +968,7 @@ export interface FileRoutesById {
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
+  '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
@@ -1077,6 +1086,7 @@ export interface FileRouteTypes {
     | '/lab'
     | '/migration'
     | '/playground/s'
+    | '/components/activity'
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
@@ -1191,6 +1201,7 @@ export interface FileRouteTypes {
     | '/lab'
     | '/playground'
     | '/playground/s'
+    | '/components/activity'
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
@@ -1306,6 +1317,7 @@ export interface FileRouteTypes {
     | '/playground/_browse'
     | '/playground/_plain'
     | '/playground/s'
+    | '/components/activity'
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
@@ -1481,6 +1493,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/playground'
       preLoaderRoute: typeof PlaygroundRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/components/activity': {
+      id: '/components/activity'
+      path: '/activity'
+      fullPath: '/components/activity'
+      preLoaderRoute: typeof ComponentsActivityRouteImport
+      parentRoute: typeof ComponentsRoute
     }
     '/components/alert-dialog': {
       id: '/components/alert-dialog'
@@ -2354,6 +2373,7 @@ const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(
 )
 
 interface ComponentsRouteChildren {
+  ComponentsActivityRoute: typeof ComponentsActivityRoute
   ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
   ComponentsAppRailRoute: typeof ComponentsAppRailRoute
   ComponentsAppShellRoute: typeof ComponentsAppShellRoute
@@ -2434,6 +2454,7 @@ interface ComponentsRouteChildren {
 }
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
+  ComponentsActivityRoute: ComponentsActivityRoute,
   ComponentsAlertDialogRoute: ComponentsAlertDialogRoute,
   ComponentsAppRailRoute: ComponentsAppRailRoute,
   ComponentsAppShellRoute: ComponentsAppShellRoute,

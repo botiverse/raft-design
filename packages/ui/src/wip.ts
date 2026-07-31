@@ -23,3 +23,5 @@ export type {
   ToggleGroupLabelProps,
   ToggleGroupProps,
 } from "./components/toggle-group/index";
+
+export * from "./components/activity-inbox/index";

@@ -20,7 +20,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import {
   Button,
   EmptyState,
@@ -28,9 +28,6 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-  SegmentedControl,
-  SegmentedControlItem,
-  SegmentedControlLabel,
   SidebarBody,
   SidebarContent,
   SidebarGroupLabel,
@@ -68,6 +65,7 @@ import { MemberDetailPanel } from "./member-detail-panel.tsx";
 import { getSelectedMember, memberDetailId } from "./member-selection.ts";
 import { MembersDetailView, MembersSidebar } from "./members-sidebar.tsx";
 import { MessageList } from "raft-ui";
+import { PlaygroundActivityPanel } from "../activity/playground-activity-panel.tsx";
 
 type AuxiliaryRailView = Extract<PlaygroundRailView, "members" | "computers" | "settings">;
 
@@ -250,13 +248,17 @@ export function PlaygroundRailViewPanel({
 }: {
   view: Exclude<PlaygroundRailView, "search" | "chat" | "tasks">;
 }) {
+  if (view === "activity") {
+    return <PlaygroundActivityPanel />;
+  }
+
   const ViewIcon = viewMeta[view].icon;
   const { railDetailId, selectRailDetail, selectRailView } = usePlaygroundNavigation();
   const selectedMember = view === "members" ? getSelectedMember(railDetailId) : undefined;
   const auxiliaryDetail =
     (view === "members" || view === "computers" || view === "settings") &&
     railDetailId !== undefined;
-  const mobileBack = view === "activity" || view === "saved" || auxiliaryDetail;
+  const mobileBack = view === "saved" || auxiliaryDetail;
 
   if (selectedMember) {
     return (
@@ -304,13 +306,7 @@ export function PlaygroundRailViewPanel({
         </PanelHeaderContent>
       </PanelHeader>
       <ConversationPanelContent>
-        {view === "activity" ? (
-          <PlaygroundActivityView />
-        ) : view === "saved" ? (
-          <PlaygroundSavedView />
-        ) : (
-          <PlaygroundDetailView view={view} />
-        )}
+        {view === "saved" ? <PlaygroundSavedView /> : <PlaygroundDetailView view={view} />}
       </ConversationPanelContent>
     </ConversationPanelRoot>
   );
@@ -361,44 +357,6 @@ function PlaygroundSavedView() {
           </EmptyStateDescription>
         </EmptyStateContent>
       </EmptyState>
-    </ConversationPanelBody>
-  );
-}
-
-function PlaygroundActivityView() {
-  const [filter, setFilter] = useState("all");
-  const labels = {
-    all: "No activity yet",
-    unread: "No unread activity",
-    mentions: "No mentions yet",
-  } as const;
-
-  return (
-    <ConversationPanelBody>
-      <div className="flex h-full min-h-0 flex-col gap-4 p-4">
-        <SegmentedControl ariaLabel="Filter activity" value={filter} onValueChange={setFilter}>
-          <SegmentedControlItem value="all">
-            <SegmentedControlLabel>All</SegmentedControlLabel>
-          </SegmentedControlItem>
-          <SegmentedControlItem value="unread">
-            <SegmentedControlLabel>Unread</SegmentedControlLabel>
-          </SegmentedControlItem>
-          <SegmentedControlItem value="mentions">
-            <SegmentedControlLabel>Mentions</SegmentedControlLabel>
-          </SegmentedControlItem>
-        </SegmentedControl>
-        <EmptyState className="min-h-0 flex-1">
-          <EmptyStateContent>
-            <EmptyStateIcon>
-              <Activity />
-            </EmptyStateIcon>
-            <EmptyStateTitle>{labels[filter as keyof typeof labels]}</EmptyStateTitle>
-            <EmptyStateDescription>
-              New replies and mentions will appear here as the mock workspace changes.
-            </EmptyStateDescription>
-          </EmptyStateContent>
-        </EmptyState>
-      </div>
     </ConversationPanelBody>
   );
 }

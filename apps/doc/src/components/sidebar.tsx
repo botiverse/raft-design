@@ -113,6 +113,7 @@ const NAV = [
         status: "done",
       },
       { label: "Search", to: "/components/search", status: "todo" },
+      { label: "ActivityInbox", to: "/components/activity", status: "wip" },
       { label: "FilesPanel", to: "/components/files", status: "done" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
       {
