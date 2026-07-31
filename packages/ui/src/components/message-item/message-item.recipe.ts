@@ -30,7 +30,7 @@ export const messageItem = tv({
     theme: {
       brutal: {
         root: [
-          "mb-1 mt-1.5 border-2 border-transparent px-2 py-1",
+          "mx-3 mb-1 mt-1.5 border-2 border-transparent px-1.5 py-1",
           "hover:border-line-strong hover:bg-layer-panel",
           "data-[popup-open]:border-line-strong data-[popup-open]:bg-layer-panel",
           "has-[[data-popup-open]]:border-line-strong has-[[data-popup-open]]:bg-layer-panel",
