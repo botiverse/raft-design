@@ -16,7 +16,6 @@ export const messageItem = tv({
     body: ["break-words select-text", "[&_*]:select-text"],
     searchMatch: ["bg-soft-signal/70 text-inherit [font:inherit]"],
     embedded: ["mt-1.5 min-w-0"],
-    notice: ["mt-1 inline-flex max-w-full"],
     attachments: ["mt-1 space-y-2"],
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
     toolbar: [
@@ -55,10 +54,6 @@ export const messageItem = tv({
         inlineStatus: "text-[10px] font-bold text-black/40",
         // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
         body: "text-sm text-black",
-        notice: [
-          "border border-line-strong bg-soft-signal/40 px-2 py-1",
-          "text-xs font-bold text-foreground/70",
-        ],
         toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-sm"],
         toolbarButton: [
           "size-6",
@@ -102,10 +97,6 @@ export const messageItem = tv({
           "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
           "text-sm leading-5.25 tracking-[-0.01em] text-foreground-muted",
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
-        ],
-        notice: [
-          "rounded-md bg-layer-muted px-2 py-1.5",
-          "text-xs font-medium text-foreground-muted",
         ],
         toolbar: [
           "top-1 right-[26px]",

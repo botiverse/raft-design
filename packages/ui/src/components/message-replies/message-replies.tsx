@@ -2,22 +2,25 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { MessageEmbed } from "../message-embed";
+import { messageEmbed } from "../message-embed/message-embed.recipe";
 import { messageReplies } from "./message-replies.recipe";
 
-export type MessageRepliesProps = useRender.ComponentProps<"div">;
+export type MessageRepliesProps = useRender.ComponentProps<"button">;
 
 export function MessageReplies({ className, render, ...props }: MessageRepliesProps) {
   const theme = useThemeFamily();
   const { root } = messageReplies({ theme });
+  const { root: embedRoot } = messageEmbed({ theme });
+  const defaultProps: SlotElementProps<"button"> = {
+    className: embedRoot({ className: root({ className }) }),
+  };
 
-  return (
-    <MessageEmbed
-      className={root({ className })}
-      render={render ?? <button type="button" />}
-      {...props}
-    />
-  );
+  return useRender({
+    defaultTagName: "button",
+    render: render ?? <button type="button" />,
+    props: mergeProps<"button">(defaultProps, props),
+    state: { slot: "message-embed" },
+  });
 }
 
 export type MessageRepliesSummaryProps = useRender.ComponentProps<"span">;

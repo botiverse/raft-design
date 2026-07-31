@@ -137,7 +137,7 @@ export function MessageTaskBadgeComposition() {
           <MessageItemBody>
             Read-only task badges use the persisted status vocabulary and are not buttons.
           </MessageItemBody>
-          <MessageItemFooter className="flex-wrap">
+          <MessageItemFooter>
             <MessageTaskStatusReadonlyBadges />
           </MessageItemFooter>
         </MessageItemContent>

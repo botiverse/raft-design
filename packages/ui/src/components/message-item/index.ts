@@ -10,7 +10,6 @@ export {
   MessageItemContent,
   MessageItemEmbedded,
   MessageItemFooter,
-  MessageItemNotice,
   MessageItemSearchMatch,
 } from "./message-item-content";
 export {
@@ -49,8 +48,8 @@ export {
 export {
   MessageReferenceBadge,
   MessageReferenceChip,
+  MessageReferenceIndicator,
   MessageReferenceLabel,
-  MessageReferenceMeta,
   MessageReferencePending,
   MessageReferenceText,
   MessageReferenceUnavailable,
@@ -77,7 +76,6 @@ export type {
   MessageItemContentProps,
   MessageItemEmbeddedProps,
   MessageItemFooterProps,
-  MessageItemNoticeProps,
   MessageItemSearchMatchProps,
 } from "./message-item-content";
 export type {
@@ -121,8 +119,8 @@ export type {
   MessageReferenceBadgeProps,
   MessageReferenceChipProps,
   MessageReferenceChipVariant,
+  MessageReferenceIndicatorProps,
   MessageReferenceLabelProps,
-  MessageReferenceMetaProps,
   MessageReferencePendingProps,
   MessageReferenceTextProps,
   MessageReferenceTextVariant,

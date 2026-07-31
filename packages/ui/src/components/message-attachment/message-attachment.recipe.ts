@@ -10,7 +10,10 @@ export const messageAttachment = tv({
     title: "block w-full max-w-full shrink-0 truncate",
     meta: "mt-auto flex w-full min-w-0 max-w-full items-center justify-between",
     metaStart: "min-w-0 flex-1 truncate",
-    metaEnd: ["inline-flex shrink-0 items-center gap-1", "[&_svg]:size-[10px] [&_svg]:shrink-0"],
+    metaEnd: [
+      "ml-auto inline-flex shrink-0 items-center gap-1",
+      "[&_svg]:size-[10px] [&_svg]:shrink-0",
+    ],
     summary: [
       "mt-0.5 inline-flex shrink-0 items-center whitespace-nowrap",
       "text-[10px]",

@@ -15,20 +15,30 @@ import {
   downloadMessageFixture,
 } from "#/modules/message-item/message-item.fixtures.ts";
 
-export function MessageVideoPreviewComposition() {
+export type MessageVideoPreviewCompositionProps = {
+  name?: string;
+  onDownload?: () => void;
+  src?: string;
+};
+
+export function MessageVideoPreviewComposition({
+  name = "demo-recording.webm",
+  onDownload = () => downloadMessageFixture("demo-recording.webm"),
+  src = MESSAGE_FIXTURE_VIDEO_SRC,
+}: MessageVideoPreviewCompositionProps = {}) {
   return (
-    <MessageVideoPreview title="demo-recording.webm">
+    <MessageVideoPreview title={name}>
       <MessageVideoPreviewMedia
-        aria-label="Inline video attachment"
+        aria-label={`Play ${name}`}
         controls
         playsInline
         preload="metadata"
-        src={MESSAGE_FIXTURE_VIDEO_SRC}
+        src={src}
       />
       <MessageVideoPreviewAction
-        aria-label="Download demo-recording.webm"
-        title="Download demo-recording.webm"
-        onClick={() => downloadMessageFixture("demo-recording.webm")}
+        aria-label={`Download ${name}`}
+        title={`Download ${name}`}
+        onClick={onDownload}
       >
         <ArrowDownToLine />
       </MessageVideoPreviewAction>
@@ -48,7 +58,7 @@ function MessageVideoPendingComposition() {
 
 function MessageVideoPreviewFailedComposition() {
   return (
-    <MessageVideoPreview title="preview.mov">
+    <MessageVideoPreview title="demo-recording.webm">
       <MessageVideoPreviewFallback>
         <MessageVideoPreviewFailureContent>
           <MessageVideoPreviewFailureIcon>
@@ -57,7 +67,9 @@ function MessageVideoPreviewFailedComposition() {
           <MessageVideoPreviewFailureTitle>
             This video may use a codec this browser cannot preview.
           </MessageVideoPreviewFailureTitle>
-          <MessageVideoPreviewFailureAction>
+          <MessageVideoPreviewFailureAction
+            onClick={() => downloadMessageFixture("demo-recording.webm")}
+          >
             <ArrowDownToLine />
             Download to view
           </MessageVideoPreviewFailureAction>

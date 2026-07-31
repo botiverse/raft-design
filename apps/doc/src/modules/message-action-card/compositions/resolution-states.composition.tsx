@@ -18,6 +18,7 @@ import {
   MessageActionCardProperties,
   MessageActionCardPropertyValue,
   MessageActionCardHeader,
+  MessageActionCardHeaderStatus,
   MessageItem,
   MessageItemAvatarSlot,
   MessageItemBody,
@@ -50,10 +51,10 @@ export function ActionCardResolutionStatesComposition() {
             <MessageActionCard>
               <MessageActionCardHeader>
                 <span>Create private channel #release-review</span>
-                <Badge variant="success" className="ml-auto">
+                <MessageActionCardHeaderStatus render={<Badge variant="success" />}>
                   <Check aria-hidden="true" className="size-3" />
                   Done
-                </Badge>
+                </MessageActionCardHeaderStatus>
               </MessageActionCardHeader>
               <MessageActionCardContent>
                 <MessageActionCardProperties>

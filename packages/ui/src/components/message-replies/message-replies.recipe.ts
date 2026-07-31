@@ -27,8 +27,8 @@ export const messageReplies = tv({
       },
       elegant: {
         root: [
-          "rounded-md bg-[oklch(0.985_0.003_84.559)]",
-          "hover:bg-[color-mix(in_oklch,var(--ink)_2%,oklch(0.985_0.003_84.559))]",
+          "rounded-md bg-[oklch(0.985_0.003_84.559)] shadow-none",
+          "hover:bg-[color-mix(in_oklch,var(--ink)_2%,oklch(0.985_0.003_84.559))] hover:shadow-none",
         ],
         summary: "text-foreground-muted",
         sender: "text-foreground-muted",

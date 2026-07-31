@@ -212,7 +212,8 @@ export const VIDEO_PREVIEW_PROPS: readonly PropRow[] = [
   {
     name: "MessageVideoPreviewFailureAction",
     type: "MessageVideoPreviewFailureActionProps",
-    description: "Download affordance slot; callers provide its icon, copy, and workflow.",
+    description:
+      "Download button inside failure content; callers provide its icon, copy, and workflow.",
   },
 ];
 

@@ -17,9 +17,9 @@ import {
 } from "raft-ui";
 import {
   MessageItemTranslationFailedStatus,
-  MessageItemTranslationPendingStatus,
   MessageItemTranslationProgressTrack,
   MessageItemTranslationRetryAction,
+  MessageItemTranslationStatus,
 } from "raft-ui/wip";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
@@ -57,10 +57,10 @@ export function MessageTranslationStatesComposition() {
               </MessageItemTranslationProgressTrack>
             </Progress>
           </MessageItemBody>
-          <MessageItemTranslationPendingStatus>
+          <MessageItemTranslationStatus>
             <Languages size={12} />
             <span>Translating…</span>
-          </MessageItemTranslationPendingStatus>
+          </MessageItemTranslationStatus>
         </MessageItemContent>
       </MessageItem>
 
@@ -81,10 +81,10 @@ export function MessageTranslationStatesComposition() {
             <Markdown>{ORIGINAL_MESSAGE}</Markdown>
           </MessageItemBody>
           {retrying ? (
-            <MessageItemTranslationPendingStatus aria-live="polite">
+            <MessageItemTranslationStatus aria-live="polite">
               <Languages size={12} />
               <span>Translating…</span>
-            </MessageItemTranslationPendingStatus>
+            </MessageItemTranslationStatus>
           ) : (
             <MessageItemTranslationFailedStatus aria-live="polite">
               <AlertTriangle size={12} />

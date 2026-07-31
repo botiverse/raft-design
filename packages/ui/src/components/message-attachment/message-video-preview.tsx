@@ -135,7 +135,7 @@ export function MessageVideoPreviewFailureTitle({
   });
 }
 
-export type MessageVideoPreviewFailureActionProps = useRender.ComponentProps<"span">;
+export type MessageVideoPreviewFailureActionProps = useRender.ComponentProps<"button">;
 
 export function MessageVideoPreviewFailureAction({
   className,
@@ -143,14 +143,15 @@ export function MessageVideoPreviewFailureAction({
   ...props
 }: MessageVideoPreviewFailureActionProps) {
   const { failureAction } = messageVideoPreview();
-  const defaultProps: useRender.ElementProps<"span"> = {
+  const defaultProps: useRender.ElementProps<"button"> = {
+    type: "button",
     className: failureAction({ className }),
   };
 
   return useRender({
-    defaultTagName: "span",
+    defaultTagName: "button",
     render,
-    props: mergeProps<"span">(defaultProps, props),
+    props: mergeProps<"button">(defaultProps, props),
     state: {
       slot: "message-video-preview-failure-action",
     },

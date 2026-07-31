@@ -58,24 +58,6 @@ export function MessageItemTranslationStatus({
   );
 }
 
-export type MessageItemTranslationPendingStatusProps = ComponentProps<"div">;
-
-export function MessageItemTranslationPendingStatus({
-  className,
-  ...props
-}: MessageItemTranslationPendingStatusProps) {
-  const theme = useThemeFamily();
-  const { translationPendingStatus } = messageTranslation({ theme });
-
-  return (
-    <div
-      data-slot="message-item-translation-status"
-      className={translationPendingStatus({ className })}
-      {...props}
-    />
-  );
-}
-
 export type MessageItemTranslationProgressTrackProps = ProgressTrackProps;
 
 export function MessageItemTranslationProgressTrack({

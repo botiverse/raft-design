@@ -125,10 +125,7 @@ export const MessageForwardedBundleAttachmentMeta = createSpanPart(
   (theme) => messageForwardedBundleItem({ theme }).attachmentMeta,
 );
 export function MessageForwardedBundleFooter({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { footer } = messageForwardedBundle({ theme });
-
-  return <MessageEmbedFooter className={footer({ className })} render={render} {...props} />;
+  return <MessageEmbedFooter className={className} render={render} {...props} />;
 }
 
 export type MessageForwardedBundleSourceProps = ButtonProps;

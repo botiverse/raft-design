@@ -10,14 +10,10 @@ export const messageSystem = tv({
     systemGroupDisclosure: [
       "group flex max-w-full items-center",
       "gap-1.5 px-2 py-1 text-black/50 hover:text-black/75",
-      "[&_[data-slot=system-message-group-chevron]]:shrink-0",
-      "[&_[data-slot=system-message-group-chevron]]:rotate-90",
-      "[&_[data-slot=system-message-group-chevron]]:transition-transform",
-      "[&_[data-slot=system-message-group-chevron]]:size-3",
-      "[&_[data-slot=system-message-group-chevron]]:text-black/35",
       "[&[data-panel-open]_[data-slot=system-message-group-chevron]]:-rotate-90",
     ],
     systemGroupSummary: ["truncate"],
+    systemGroupChevron: ["size-3 shrink-0 rotate-90 text-black/35 transition-transform"],
   },
   variants: {
     theme: {

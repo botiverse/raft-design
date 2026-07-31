@@ -16,6 +16,8 @@ export type PlaygroundMessageTranslation = {
   translatedContent?: string;
 };
 
+export type PlaygroundMentionReadState = "read" | "unread";
+
 export type PlaygroundMessageAttachment = {
   mediaType: string;
   name: string;
@@ -38,6 +40,7 @@ export type PlaygroundMessage = {
   presentation?: PlaygroundMessagePresentation;
   translation?: PlaygroundMessageTranslation;
   unread?: boolean;
+  mentionReadStates?: Readonly<Partial<Record<PlaygroundActorId, PlaygroundMentionReadState>>>;
 };
 
 export type PlaygroundThread = {
@@ -107,6 +110,7 @@ export type PlaygroundStoryMessageInput = {
   presentation?: PlaygroundMessagePresentation;
   translation?: PlaygroundMessageTranslation;
   unread?: boolean;
+  mentionReadStates?: Readonly<Partial<Record<PlaygroundActorId, PlaygroundMentionReadState>>>;
 };
 
 export type PlaygroundConversationStory = {
@@ -168,6 +172,7 @@ function buildStandardStory<TId extends string>(
     story.opening.createdAtDateTime,
     story.opening.presentation,
     story.opening.attachments,
+    story.opening.mentionReadStates,
   );
   const reply = definePlaygroundMessage(
     `${channelId}:reply`,
@@ -181,6 +186,7 @@ function buildStandardStory<TId extends string>(
     story.reply.createdAtDateTime,
     story.reply.presentation,
     story.reply.attachments,
+    story.reply.mentionReadStates,
   );
   const updates = (story.updates ?? []).map((update, index) =>
     definePlaygroundMessage(
@@ -195,6 +201,7 @@ function buildStandardStory<TId extends string>(
       update.createdAtDateTime,
       update.presentation,
       update.attachments,
+      update.mentionReadStates,
     ),
   );
   const replies = story.thread.replies.map((threadReply, index) =>
@@ -210,6 +217,7 @@ function buildStandardStory<TId extends string>(
       threadReply.createdAtDateTime,
       threadReply.presentation,
       threadReply.attachments,
+      threadReply.mentionReadStates,
     ),
   );
 
@@ -317,6 +325,7 @@ export function definePlaygroundMessage(
   createdAtDateTime?: string,
   presentation?: PlaygroundMessagePresentation,
   attachments?: readonly PlaygroundMessageAttachment[],
+  mentionReadStates?: Readonly<Partial<Record<PlaygroundActorId, PlaygroundMentionReadState>>>,
 ): PlaygroundMessage {
   const sender = getPlaygroundActor(senderId);
   const displayTimeMatch = createdAt.match(/^(\d{1,2}):(\d{2})\s+(AM|PM)$/i);
@@ -343,6 +352,7 @@ export function definePlaygroundMessage(
     ...(presentation ? { presentation } : {}),
     ...(translation ? { translation } : {}),
     ...(unread ? { unread: true } : {}),
+    ...(mentionReadStates ? { mentionReadStates } : {}),
   };
 }
 

@@ -12,20 +12,24 @@ export const messageReference = tv({
       "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
       "[&_svg]:size-3 [&_svg]:shrink-0",
+      "has-[>[data-slot=message-reference-indicator]]:relative has-[>[data-slot=message-reference-indicator]]:mr-2",
+      "has-[>[data-slot=message-reference-indicator]]:inline-block",
+      "has-[>[data-slot=message-reference-indicator]]:overflow-visible",
     ],
     chipLabel: ["min-w-0 truncate"],
-    chipMeta: ["shrink-0"],
     badge: ["inline-flex items-center whitespace-nowrap"],
+    indicator: [
+      "pointer-events-none absolute -right-1.5 top-0 inline-flex size-2 shrink-0 items-center justify-center",
+      "[&>[data-slot=status]]:size-full",
+    ],
   },
   variants: {
     theme: {
       brutal: {
         root: "focus-visible:outline-black",
-        chipMeta: "text-[10px] font-normal leading-none text-foreground/50",
         badge: "hidden",
       },
       elegant: {
-        chipMeta: "text-[10px] font-normal leading-none text-foreground-muted",
         badge: [
           "pointer-events-none absolute -top-px right-[calc(100%-10px)] z-0",
           "h-[19px] items-center rounded-l-full rounded-r-none pr-2.5 pl-2",
@@ -52,21 +56,24 @@ export const messageReference = tv({
   compoundVariants: [
     {
       theme: "brutal",
-      variant: ["primary", "secondary"],
+      variant: "primary",
       class: {
         root: [
-          "inline-flex cursor-default items-center gap-1 align-bottom border border-black bg-primary-400/40 px-1",
-          "[font-size:inherit] font-medium leading-tight text-primary-900",
+          "inline-flex cursor-default items-center gap-1 align-bottom border border-black bg-soft-signal px-1",
+          "[font-size:inherit] font-medium leading-tight text-black",
           "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
-          "hover:bg-primary-400/60 hover:text-primary-900",
+          "hover:bg-soft-signal/80 hover:text-black",
         ],
       },
     },
     {
       theme: "brutal",
-      variant: "primary",
+      variant: "secondary",
       class: {
-        root: "bg-soft-signal text-black hover:bg-soft-signal/80 hover:text-black",
+        root: [
+          "inline cursor-default font-bold text-black underline decoration-black/30 decoration-2 underline-offset-2",
+          "hover:text-brutal-pink hover:decoration-brutal-pink",
+        ],
       },
     },
     {
@@ -126,9 +133,9 @@ export const messageReference = tv({
       variant: "primary",
       class: {
         root: [
-          "inline-flex h-[19px] items-center gap-0.5 align-middle -mt-px rounded-full border border-transparent bg-[oklch(0.955_0.067_93.62)] px-2 py-0",
-          "[font-size:inherit] cursor-pointer font-normal leading-none tracking-normal text-primary-800",
-          "transition-[filter,opacity] duration-100 hover:bg-[oklch(0.955_0.067_93.62)] hover:text-primary-800",
+          "inline-flex h-[19px] items-center gap-0.5 align-middle -mt-px rounded-full border border-transparent bg-primary-400 px-2 py-0",
+          "[font-size:inherit] cursor-pointer font-normal leading-none tracking-normal text-[oklch(0.431_0.088_86.67)]",
+          "transition-[filter,opacity] duration-100 hover:bg-primary-400 hover:text-[oklch(0.431_0.088_86.67)]",
         ],
       },
     },
@@ -137,16 +144,6 @@ export const messageReference = tv({
       variant: "secondary",
       class: {
         root: "inline cursor-pointer font-medium underline underline-offset-2",
-      },
-    },
-    {
-      theme: "elegant",
-      variant: "primary",
-      class: {
-        root: [
-          "bg-primary-400 text-[oklch(0.431_0.088_86.67)]",
-          "hover:bg-primary-400 hover:text-[oklch(0.431_0.088_86.67)]",
-        ],
       },
     },
     {

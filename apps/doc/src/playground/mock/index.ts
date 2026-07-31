@@ -41,6 +41,7 @@ export {
   type PlaygroundDirectMessageRecord,
   type PlaygroundDmId,
   type PlaygroundInitialComposer,
+  type PlaygroundMentionReadState,
   type PlaygroundMessage,
   type PlaygroundMessageAttachment,
   type PlaygroundMessageId,

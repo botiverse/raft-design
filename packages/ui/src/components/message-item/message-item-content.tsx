@@ -81,25 +81,6 @@ export function MessageItemEmbedded({ className, render, ...props }: MessageItem
   });
 }
 
-export type MessageItemNoticeProps = useRender.ComponentProps<"div">;
-
-export function MessageItemNotice({ className, render, ...props }: MessageItemNoticeProps) {
-  const theme = useThemeFamily();
-  const { notice } = messageItem({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: notice({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-    state: {
-      slot: "message-item-notice",
-    },
-  });
-}
-
 export type MessageItemAttachmentsProps = useRender.ComponentProps<"div">;
 
 export function MessageItemAttachments({

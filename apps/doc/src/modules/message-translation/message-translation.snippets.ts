@@ -8,25 +8,6 @@ export const MESSAGE_TRANSLATION_TOC = [
   { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
-export const MESSAGE_TRANSLATION_ANATOMY_SOURCE = `<MessageItemContent>
-  <MessageItemBody>
-    {/* Translated message */}
-    <Markdown>{translatedContent}</Markdown>
-  </MessageItemBody>
-
-  <MessageItemTranslationOriginal>
-    <MessageItemTranslationOriginalLabel>Original</MessageItemTranslationOriginalLabel>
-    <Markdown>{originalContent}</Markdown>
-  </MessageItemTranslationOriginal>
-
-  <MessageItemTranslationStatus>
-    <Languages />
-    <MessageItemTranslationAction onClick={toggleOriginal}>
-      Show original
-    </MessageItemTranslationAction>
-  </MessageItemTranslationStatus>
-</MessageItemContent>`;
-
 export const MESSAGE_TRANSLATION_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemTranslationOriginal",
@@ -43,12 +24,8 @@ export const MESSAGE_TRANSLATION_PROPS: readonly PropRow[] = [
   {
     name: "MessageItemTranslationStatus",
     type: 'ComponentProps<"div">',
-    description: "Translated status row. Consumers compose icons, copy, and actions.",
-  },
-  {
-    name: "MessageItemTranslationPendingStatus",
-    type: 'ComponentProps<"div">',
-    description: "Pending status row with translation activity treatment.",
+    description:
+      "Translation status row for translated or pending states. Consumers compose icons, copy, and actions.",
   },
   {
     name: "MessageItemTranslationProgressTrack",
