@@ -4,25 +4,25 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  ChatSidebarBody,
-  ChatSidebarContent,
-  ChatSidebarHeader,
-  ChatSidebarHeaderTitle,
-  ChatSidebarItem,
-  ChatSidebarItemAside,
-  ChatSidebarItemContent,
-  ChatSidebarItemIcon,
-  ChatSidebarItemStatus,
-  ChatSidebarItemSubtitle,
-  ChatSidebarItemTitle,
-  ChatSidebarList,
-  ChatSidebarRoot,
-  ChatSidebarSection,
-  ChatSidebarSectionChevron,
-  ChatSidebarSectionCount,
-  ChatSidebarSectionDisclosure,
-  ChatSidebarSectionHeader,
-  ChatSidebarSectionTitle,
+  SidebarBody,
+  SidebarContent,
+  SidebarHeader,
+  SidebarHeaderTitle,
+  SidebarItem,
+  SidebarItemAside,
+  SidebarItemContent,
+  SidebarItemIcon,
+  SidebarItemStatus,
+  SidebarItemSubtitle,
+  SidebarItemTitle,
+  SidebarList,
+  SidebarRoot,
+  SidebarSection,
+  SidebarSectionChevron,
+  SidebarSectionCount,
+  SidebarSectionDisclosure,
+  SidebarSectionHeader,
+  SidebarSectionTitle,
   ConversationPanelBody,
   EmptyState,
   EmptyStateContent,
@@ -82,28 +82,28 @@ export function MembersSidebar({
   onSelect: (id: string) => void;
 }) {
   return (
-    <ChatSidebarRoot>
-      <ChatSidebarHeader>
-        <ChatSidebarHeaderTitle>Members</ChatSidebarHeaderTitle>
-      </ChatSidebarHeader>
-      <ChatSidebarBody>
-        <ChatSidebarContent>
-          <ChatSidebarItem active={selectedId === "graph"} onClick={() => onSelect("graph")}>
-            <ChatSidebarItemIcon aria-hidden>
+    <SidebarRoot>
+      <SidebarHeader>
+        <SidebarHeaderTitle>Members</SidebarHeaderTitle>
+      </SidebarHeader>
+      <SidebarBody>
+        <SidebarContent>
+          <SidebarItem active={selectedId === "graph"} onClick={() => onSelect("graph")}>
+            <SidebarItemIcon aria-hidden>
               <GitBranch />
-            </ChatSidebarItemIcon>
-            <ChatSidebarItemTitle>Graph</ChatSidebarItemTitle>
-          </ChatSidebarItem>
+            </SidebarItemIcon>
+            <SidebarItemTitle>Graph</SidebarItemTitle>
+          </SidebarItem>
 
-          <ChatSidebarSection>
-            <ChatSidebarSectionHeader>
-              <ChatSidebarSectionDisclosure>
-                <ChatSidebarSectionChevron />
-                <ChatSidebarSectionTitle>Agents</ChatSidebarSectionTitle>
-                <ChatSidebarSectionCount>{agents.length}</ChatSidebarSectionCount>
-              </ChatSidebarSectionDisclosure>
-            </ChatSidebarSectionHeader>
-            <ChatSidebarList>
+          <SidebarSection>
+            <SidebarSectionHeader>
+              <SidebarSectionDisclosure>
+                <SidebarSectionChevron />
+                <SidebarSectionTitle>Agents</SidebarSectionTitle>
+                <SidebarSectionCount>{agents.length}</SidebarSectionCount>
+              </SidebarSectionDisclosure>
+            </SidebarSectionHeader>
+            <SidebarList>
               {agentGroups.map((group) => (
                 <div key={group.machineId}>
                   <div
@@ -117,9 +117,9 @@ export function MembersSidebar({
                       "[[data-theme=elegant]_&]:px-[var(--sidebar-row-inset-x,6px)]",
                     ].join(" ")}
                   >
-                    <ChatSidebarItemIcon aria-hidden>
+                    <SidebarItemIcon aria-hidden>
                       <Monitor />
-                    </ChatSidebarItemIcon>
+                    </SidebarItemIcon>
                     <span className="truncate">{group.machineName}</span>
                   </div>
                   {group.agents.map((agent) => (
@@ -132,18 +132,18 @@ export function MembersSidebar({
                   ))}
                 </div>
               ))}
-            </ChatSidebarList>
-          </ChatSidebarSection>
+            </SidebarList>
+          </SidebarSection>
 
-          <ChatSidebarSection>
-            <ChatSidebarSectionHeader>
-              <ChatSidebarSectionDisclosure>
-                <ChatSidebarSectionChevron />
-                <ChatSidebarSectionTitle>Humans</ChatSidebarSectionTitle>
-                <ChatSidebarSectionCount>{humans.length}</ChatSidebarSectionCount>
-              </ChatSidebarSectionDisclosure>
-            </ChatSidebarSectionHeader>
-            <ChatSidebarList>
+          <SidebarSection>
+            <SidebarSectionHeader>
+              <SidebarSectionDisclosure>
+                <SidebarSectionChevron />
+                <SidebarSectionTitle>Humans</SidebarSectionTitle>
+                <SidebarSectionCount>{humans.length}</SidebarSectionCount>
+              </SidebarSectionDisclosure>
+            </SidebarSectionHeader>
+            <SidebarList>
               {humans.map((human) => (
                 <MemberSidebarItem
                   key={human.id}
@@ -152,11 +152,11 @@ export function MembersSidebar({
                   onSelect={() => onSelect(memberDetailId.human(human.id))}
                 />
               ))}
-            </ChatSidebarList>
-          </ChatSidebarSection>
-        </ChatSidebarContent>
-      </ChatSidebarBody>
-    </ChatSidebarRoot>
+            </SidebarList>
+          </SidebarSection>
+        </SidebarContent>
+      </SidebarBody>
+    </SidebarRoot>
   );
 }
 
@@ -172,35 +172,35 @@ function MemberSidebarItem({
   const presence = actor.presence ? PLAYGROUND_PRESENCE_STATUS[actor.presence] : null;
 
   return (
-    <ChatSidebarItem active={active} onClick={onSelect}>
-      <ChatSidebarItemIcon>
+    <SidebarItem active={active} onClick={onSelect}>
+      <SidebarItemIcon>
         <Avatar size="2xs" type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
           <AvatarFallback>{actor.fallback}</AvatarFallback>
         </Avatar>
-      </ChatSidebarItemIcon>
-      <ChatSidebarItemContent>
-        <ChatSidebarItemTitle>
+      </SidebarItemIcon>
+      <SidebarItemContent>
+        <SidebarItemTitle>
           {actor.name}
           {actor.isSelf ? (
             <span className="ml-1 font-normal text-foreground-icon">(you)</span>
           ) : null}
-        </ChatSidebarItemTitle>
-        <ChatSidebarItemSubtitle>{actor.description ?? actor.meta}</ChatSidebarItemSubtitle>
-      </ChatSidebarItemContent>
+        </SidebarItemTitle>
+        <SidebarItemSubtitle>{actor.description ?? actor.meta}</SidebarItemSubtitle>
+      </SidebarItemContent>
       {actor.type === "agent" && presence ? (
-        <ChatSidebarItemAside>
-          <ChatSidebarItemStatus className="right-[calc(100%+4px)]">
+        <SidebarItemAside>
+          <SidebarItemStatus className="right-[calc(100%+4px)]">
             <Status
               aria-label={presence.label}
               size="sm"
               variant={presence.variant}
               pulse={presence.pulse}
             />
-          </ChatSidebarItemStatus>
-        </ChatSidebarItemAside>
+          </SidebarItemStatus>
+        </SidebarItemAside>
       ) : null}
-    </ChatSidebarItem>
+    </SidebarItem>
   );
 }
 

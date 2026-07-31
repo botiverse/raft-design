@@ -2,23 +2,23 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { Theme, ThemeMode } from "raft-ui";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
-import { ChatSidebarMobilePartsComposition } from "#/modules/chat-sidebar/compositions/mobile-parts.composition.tsx";
+import { SidebarMobilePartsComposition } from "#/modules/sidebar/compositions/mobile-parts.composition.tsx";
 
-export const Route = createFileRoute("/iframe/chat-sidebar-mobile-parts")({
+export const Route = createFileRoute("/iframe/sidebar-mobile-parts")({
   staticData: { standalone: true },
   validateSearch: (search) => ({
     mode: getMode(search.mode),
     theme: getTheme(search.theme),
   }),
-  component: ChatSidebarMobilePartsPreviewPage,
+  component: SidebarMobilePartsPreviewPage,
 });
 
-function ChatSidebarMobilePartsPreviewPage() {
+function SidebarMobilePartsPreviewPage() {
   const search = Route.useSearch();
 
   return (
     <PreviewThemeScope family={search.theme} mode={search.mode} className="h-dvh overflow-hidden">
-      <ChatSidebarMobilePartsComposition />
+      <SidebarMobilePartsComposition />
     </PreviewThemeScope>
   );
 }

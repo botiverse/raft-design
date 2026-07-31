@@ -16,11 +16,11 @@ const liveActivityFadeOverlay = [
   "has-[_[data-slot=live-agent-activity-bar]]:before:content-['']",
 ];
 
-export const chatSidebar = tv({
+export const sidebarRecipe = tv({
   slots: {
     sidebarRoot: [
       "relative flex h-full min-h-0 w-full select-none flex-col",
-      "has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
+      "has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
     ],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
     sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
@@ -35,7 +35,7 @@ export const chatSidebar = tv({
     sidebarViewport: ["h-full min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto"],
     sidebarContentInner: [
       "min-h-full min-w-0 w-full px-2 pt-3",
-      "pb-[var(--chat-sidebar-content-bottom,12px)]",
+      "pb-[var(--sidebar-content-bottom,12px)]",
     ],
     sidebarScrollbar: [
       "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
@@ -48,7 +48,7 @@ export const chatSidebar = tv({
     theme: {
       brutal: {
         sidebarRoot:
-          "md:has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:52px]",
+          "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:52px]",
         sidebarHeader: [
           "h-[var(--shell-header-height,62px)] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
           "max-md:bg-primary-400 max-md:px-4",
@@ -61,7 +61,7 @@ export const chatSidebar = tv({
         sidebarRoot: [
           "relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",
           "md:[--sidebar-inset-end:18px]",
-          "md:has-[>[data-slot=chat-sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--chat-sidebar-content-bottom:68px]",
+          "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:68px]",
         ],
         sidebarHeader: [
           "absolute inset-x-0 top-0 z-20 isolate",

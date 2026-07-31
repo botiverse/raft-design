@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 import {
-  ChatSidebarSection,
-  ChatSidebarSectionAttention,
-  ChatSidebarSectionChevron,
-  ChatSidebarSectionControls,
-  ChatSidebarSectionDisclosure,
-  ChatSidebarSectionTitle,
-  ChatSidebarSectionTrailing,
+  SidebarSection,
+  SidebarSectionAttention,
+  SidebarSectionChevron,
+  SidebarSectionControls,
+  SidebarSectionDisclosure,
+  SidebarSectionTitle,
+  SidebarSectionTrailing,
 } from "raft-ui";
 
 import {
@@ -41,18 +41,18 @@ export function ChatSidebarDirectMessagesSection({
   );
 
   return (
-    <ChatSidebarSection>
+    <SidebarSection>
       <SidebarSectionHeaderMenu menu="sort">
-        <ChatSidebarSectionDisclosure type="button">
-          <ChatSidebarSectionTitle>Direct Messages</ChatSidebarSectionTitle>
-          <ChatSidebarSectionChevron />
-        </ChatSidebarSectionDisclosure>
-        <ChatSidebarSectionTrailing>
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionControls>
+        <SidebarSectionDisclosure type="button">
+          <SidebarSectionTitle>Direct Messages</SidebarSectionTitle>
+          <SidebarSectionChevron />
+        </SidebarSectionDisclosure>
+        <SidebarSectionTrailing>
+          {hasUnread ? <SidebarSectionAttention /> : null}
+          <SidebarSectionControls>
             <SidebarSectionSortMenu aria-label="Sort direct messages" />
-          </ChatSidebarSectionControls>
-        </ChatSidebarSectionTrailing>
+          </SidebarSectionControls>
+        </SidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
       <ChatSidebarDropTarget
         id={createChatSidebarDropTargetId("dms")}
@@ -80,6 +80,6 @@ export function ChatSidebarDirectMessagesSection({
           <ChatSidebarProjectionPreview projection={projection} />
         </SortableChatSidebarList>
       </ChatSidebarDropTarget>
-    </ChatSidebarSection>
+    </SidebarSection>
   );
 }

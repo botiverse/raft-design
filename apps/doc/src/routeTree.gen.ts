@@ -25,8 +25,6 @@ import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
 import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
-import { Route as ComponentsChatSidebarRouteImport } from './routes/components/chat-sidebar'
-import { Route as ComponentsChatSidebarItemRouteImport } from './routes/components/chat-sidebar-item'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCodeBlockRouteImport } from './routes/components/code-block'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
@@ -71,6 +69,8 @@ import { Route as ComponentsScrollAreaRouteImport } from './routes/components/sc
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
+import { Route as ComponentsSidebarRouteImport } from './routes/components/sidebar'
+import { Route as ComponentsSidebarItemRouteImport } from './routes/components/sidebar-item'
 import { Route as ComponentsSkeletonRouteImport } from './routes/components/skeleton'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
@@ -91,8 +91,8 @@ import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
-import { Route as IframeChatSidebarMobilePartsRouteImport } from './routes/iframe/chat-sidebar-mobile-parts'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
+import { Route as IframeSidebarMobilePartsRouteImport } from './routes/iframe/sidebar-mobile-parts'
 import { Route as MigrationIndexRouteImport } from './routes/migration.index'
 import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
@@ -202,17 +202,6 @@ const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
   path: '/chat-composer',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsChatSidebarRoute = ComponentsChatSidebarRouteImport.update({
-  id: '/chat-sidebar',
-  path: '/chat-sidebar',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsChatSidebarItemRoute =
-  ComponentsChatSidebarItemRouteImport.update({
-    id: '/chat-sidebar-item',
-    path: '/chat-sidebar-item',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
   id: '/checkbox',
   path: '/checkbox',
@@ -447,6 +436,16 @@ const ComponentsSeparatorRoute = ComponentsSeparatorRouteImport.update({
   path: '/separator',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsSidebarRoute = ComponentsSidebarRouteImport.update({
+  id: '/sidebar',
+  path: '/sidebar',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSidebarItemRoute = ComponentsSidebarItemRouteImport.update({
+  id: '/sidebar-item',
+  path: '/sidebar-item',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsSkeletonRoute = ComponentsSkeletonRouteImport.update({
   id: '/skeleton',
   path: '/skeleton',
@@ -547,17 +546,17 @@ const IframeAppShellMobileRoute = IframeAppShellMobileRouteImport.update({
   path: '/iframe/app-shell-mobile',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IframeChatSidebarMobilePartsRoute =
-  IframeChatSidebarMobilePartsRouteImport.update({
-    id: '/iframe/chat-sidebar-mobile-parts',
-    path: '/iframe/chat-sidebar-mobile-parts',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const IframeDrawerRoute = IframeDrawerRouteImport.update({
   id: '/iframe/drawer',
   path: '/iframe/drawer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IframeSidebarMobilePartsRoute =
+  IframeSidebarMobilePartsRouteImport.update({
+    id: '/iframe/sidebar-mobile-parts',
+    path: '/iframe/sidebar-mobile-parts',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const MigrationIndexRoute = MigrationIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -722,8 +721,6 @@ export interface FileRoutesByFullPath {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
-  '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
@@ -768,6 +765,8 @@ export interface FileRoutesByFullPath {
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/sidebar-item': typeof ComponentsSidebarItemRoute
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
@@ -788,8 +787,8 @@ export interface FileRoutesByFullPath {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
-  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
+  '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -833,8 +832,6 @@ export interface FileRoutesByTo {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
-  '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
@@ -879,6 +876,8 @@ export interface FileRoutesByTo {
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/sidebar-item': typeof ComponentsSidebarItemRoute
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
@@ -899,8 +898,8 @@ export interface FileRoutesByTo {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
-  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
+  '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -946,8 +945,6 @@ export interface FileRoutesById {
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
-  '/components/chat-sidebar': typeof ComponentsChatSidebarRoute
-  '/components/chat-sidebar-item': typeof ComponentsChatSidebarItemRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
@@ -992,6 +989,8 @@ export interface FileRoutesById {
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
+  '/components/sidebar': typeof ComponentsSidebarRoute
+  '/components/sidebar-item': typeof ComponentsSidebarItemRoute
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
@@ -1012,8 +1011,8 @@ export interface FileRoutesById {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
-  '/iframe/chat-sidebar-mobile-parts': typeof IframeChatSidebarMobilePartsRoute
   '/iframe/drawer': typeof IframeDrawerRoute
+  '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/skills/migration': typeof SkillsMigrationRoute
   '/skills/new-component': typeof SkillsNewComponentRoute
@@ -1060,8 +1059,6 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/chat-sidebar'
-    | '/components/chat-sidebar-item'
     | '/components/checkbox'
     | '/components/code-block'
     | '/components/combobox'
@@ -1106,6 +1103,8 @@ export interface FileRouteTypes {
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
+    | '/components/sidebar'
+    | '/components/sidebar-item'
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
@@ -1126,8 +1125,8 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/iframe/app-shell-mobile'
-    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
+    | '/iframe/sidebar-mobile-parts'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1171,8 +1170,6 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/chat-sidebar'
-    | '/components/chat-sidebar-item'
     | '/components/checkbox'
     | '/components/code-block'
     | '/components/combobox'
@@ -1217,6 +1214,8 @@ export interface FileRouteTypes {
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
+    | '/components/sidebar'
+    | '/components/sidebar-item'
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
@@ -1237,8 +1236,8 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/iframe/app-shell-mobile'
-    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
+    | '/iframe/sidebar-mobile-parts'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1283,8 +1282,6 @@ export interface FileRouteTypes {
     | '/components/banner'
     | '/components/button'
     | '/components/chat-composer'
-    | '/components/chat-sidebar'
-    | '/components/chat-sidebar-item'
     | '/components/checkbox'
     | '/components/code-block'
     | '/components/combobox'
@@ -1329,6 +1326,8 @@ export interface FileRouteTypes {
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
+    | '/components/sidebar'
+    | '/components/sidebar-item'
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
@@ -1349,8 +1348,8 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/iframe/app-shell-mobile'
-    | '/iframe/chat-sidebar-mobile-parts'
     | '/iframe/drawer'
+    | '/iframe/sidebar-mobile-parts'
     | '/migration/$sourceFile'
     | '/skills/migration'
     | '/skills/new-component'
@@ -1387,8 +1386,8 @@ export interface RootRouteChildren {
   LabRoute: typeof LabRoute
   MigrationRoute: typeof MigrationRouteWithChildren
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
-  IframeChatSidebarMobilePartsRoute: typeof IframeChatSidebarMobilePartsRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
+  IframeSidebarMobilePartsRoute: typeof IframeSidebarMobilePartsRoute
   SkillsMigrationRoute: typeof SkillsMigrationRoute
   SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRoute
@@ -1508,20 +1507,6 @@ declare module '@tanstack/react-router' {
       path: '/chat-composer'
       fullPath: '/components/chat-composer'
       preLoaderRoute: typeof ComponentsChatComposerRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/chat-sidebar': {
-      id: '/components/chat-sidebar'
-      path: '/chat-sidebar'
-      fullPath: '/components/chat-sidebar'
-      preLoaderRoute: typeof ComponentsChatSidebarRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/chat-sidebar-item': {
-      id: '/components/chat-sidebar-item'
-      path: '/chat-sidebar-item'
-      fullPath: '/components/chat-sidebar-item'
-      preLoaderRoute: typeof ComponentsChatSidebarItemRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/checkbox': {
@@ -1832,6 +1817,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsSeparatorRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/sidebar': {
+      id: '/components/sidebar'
+      path: '/sidebar'
+      fullPath: '/components/sidebar'
+      preLoaderRoute: typeof ComponentsSidebarRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/sidebar-item': {
+      id: '/components/sidebar-item'
+      path: '/sidebar-item'
+      fullPath: '/components/sidebar-item'
+      preLoaderRoute: typeof ComponentsSidebarItemRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/skeleton': {
       id: '/components/skeleton'
       path: '/skeleton'
@@ -1972,18 +1971,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IframeAppShellMobileRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/iframe/chat-sidebar-mobile-parts': {
-      id: '/iframe/chat-sidebar-mobile-parts'
-      path: '/iframe/chat-sidebar-mobile-parts'
-      fullPath: '/iframe/chat-sidebar-mobile-parts'
-      preLoaderRoute: typeof IframeChatSidebarMobilePartsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/iframe/drawer': {
       id: '/iframe/drawer'
       path: '/iframe/drawer'
       fullPath: '/iframe/drawer'
       preLoaderRoute: typeof IframeDrawerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iframe/sidebar-mobile-parts': {
+      id: '/iframe/sidebar-mobile-parts'
+      path: '/iframe/sidebar-mobile-parts'
+      fullPath: '/iframe/sidebar-mobile-parts'
+      preLoaderRoute: typeof IframeSidebarMobilePartsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/migration/': {
@@ -2307,8 +2306,6 @@ interface ComponentsRouteChildren {
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
   ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
-  ComponentsChatSidebarRoute: typeof ComponentsChatSidebarRoute
-  ComponentsChatSidebarItemRoute: typeof ComponentsChatSidebarItemRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsCodeBlockRoute: typeof ComponentsCodeBlockRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
@@ -2353,6 +2350,8 @@ interface ComponentsRouteChildren {
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
+  ComponentsSidebarRoute: typeof ComponentsSidebarRoute
+  ComponentsSidebarItemRoute: typeof ComponentsSidebarItemRoute
   ComponentsSkeletonRoute: typeof ComponentsSkeletonRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
@@ -2384,8 +2383,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
   ComponentsChatComposerRoute: ComponentsChatComposerRoute,
-  ComponentsChatSidebarRoute: ComponentsChatSidebarRoute,
-  ComponentsChatSidebarItemRoute: ComponentsChatSidebarItemRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsCodeBlockRoute: ComponentsCodeBlockRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
@@ -2430,6 +2427,8 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSeparatorRoute: ComponentsSeparatorRoute,
+  ComponentsSidebarRoute: ComponentsSidebarRoute,
+  ComponentsSidebarItemRoute: ComponentsSidebarItemRoute,
   ComponentsSkeletonRoute: ComponentsSkeletonRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
@@ -2505,8 +2504,8 @@ const rootRouteChildren: RootRouteChildren = {
   LabRoute: LabRoute,
   MigrationRoute: MigrationRouteWithChildren,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
-  IframeChatSidebarMobilePartsRoute: IframeChatSidebarMobilePartsRoute,
   IframeDrawerRoute: IframeDrawerRoute,
+  IframeSidebarMobilePartsRoute: IframeSidebarMobilePartsRoute,
   SkillsMigrationRoute: SkillsMigrationRoute,
   SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRoute,

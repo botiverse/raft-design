@@ -51,12 +51,12 @@ import {
 import { AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
 import {
-  ChatSidebarServer,
-  ChatSidebarServerAvatar,
-  ChatSidebarServerChevron,
-  ChatSidebarServerIndicator,
-  ChatSidebarServerLabel,
-} from "#/modules/chat-sidebar/chat-sidebar-server-switcher.tsx";
+  SidebarServer,
+  SidebarServerAvatar,
+  SidebarServerChevron,
+  SidebarServerIndicator,
+  SidebarServerLabel,
+} from "#/modules/sidebar/sidebar-server-switcher.tsx";
 import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
 import { PlaygroundThemeSelect } from "../app-shell/playground-theme-select.tsx";
 import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
@@ -132,23 +132,23 @@ export function PlaygroundServerSwitcher({ className }: { className?: string }) 
 
 export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
   return (
-    <ChatSidebarServer title={name}>
-      <ChatSidebarServerAvatar>
+    <SidebarServer title={name}>
+      <SidebarServerAvatar>
         <img alt="" src={currentServerAvatarSrc} />
-      </ChatSidebarServerAvatar>
-      <ChatSidebarServerLabel>{name}</ChatSidebarServerLabel>
-      <ChatSidebarServerChevron aria-hidden>
+      </SidebarServerAvatar>
+      <SidebarServerLabel>{name}</SidebarServerLabel>
+      <SidebarServerChevron aria-hidden>
         <ChevronDown />
-      </ChatSidebarServerChevron>
-      <ChatSidebarServerIndicator>
+      </SidebarServerChevron>
+      <SidebarServerIndicator>
         <Status
           aria-label="Other servers have unread messages"
           attention
           size="sm"
           variant="primary"
         />
-      </ChatSidebarServerIndicator>
-    </ChatSidebarServer>
+      </SidebarServerIndicator>
+    </SidebarServer>
   );
 }
 

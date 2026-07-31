@@ -1,6 +1,6 @@
 import { AtSign, Hash } from "lucide-react";
 
-export function SourceChatSidebarItemPreview() {
+export function SourceSidebarItemPreview() {
   return (
     <div className="w-72 border-2 border-black bg-brutal-cream p-2 font-sans text-black">
       <SourceSidebarItem selected label="proj-uiux" detail="Cindy replied" />
@@ -10,7 +10,7 @@ export function SourceChatSidebarItemPreview() {
   );
 }
 
-export function SourceChatSidebarItemSelectedPreview() {
+export function SourceSidebarItemSelectedPreview() {
   return (
     <SourceSidebarItemFrame>
       <SourceSidebarItem selected label="proj-uiux" detail="Cindy replied" />
@@ -18,7 +18,7 @@ export function SourceChatSidebarItemSelectedPreview() {
   );
 }
 
-export function SourceChatSidebarItemNotificationPreview() {
+export function SourceSidebarItemNotificationPreview() {
   return (
     <SourceSidebarItemFrame>
       <SourceSidebarItem label="design" detail="Mentioned you" mention muted unread="12" />
@@ -26,7 +26,7 @@ export function SourceChatSidebarItemNotificationPreview() {
   );
 }
 
-export function SourceChatSidebarItemDirectMessagePreview() {
+export function SourceSidebarItemDirectMessagePreview() {
   return (
     <SourceSidebarItemFrame>
       <SourceSidebarItem label="Atlas" detail="Working on release notes" online unread="2" />

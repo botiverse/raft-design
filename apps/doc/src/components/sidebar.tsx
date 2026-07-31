@@ -61,6 +61,8 @@ const NAV = [
         to: "/components/scroll-area",
         status: "done",
       },
+      { label: "Sidebar", to: "/components/sidebar", status: "done" },
+      { label: "SidebarItem", to: "/components/sidebar-item", status: "done" },
     ],
   },
   {
@@ -89,11 +91,6 @@ const NAV = [
   {
     title: "Chat",
     items: [
-      {
-        label: "ChatSidebar",
-        to: "/components/chat-sidebar",
-      },
-      { label: "ChatSidebarItem", to: "/components/chat-sidebar-item" },
       {
         label: "LiveAgentActivityBar",
         to: "/components/live-agent-activity-bar",

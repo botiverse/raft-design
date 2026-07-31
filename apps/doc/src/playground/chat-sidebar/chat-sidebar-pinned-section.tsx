@@ -1,13 +1,13 @@
 import { Fragment } from "react";
 import {
-  ChatSidebarSection,
-  ChatSidebarSectionAttention,
-  ChatSidebarSectionChevron,
-  ChatSidebarSectionControls,
-  ChatSidebarSectionDisclosure,
-  ChatSidebarSectionEmpty,
-  ChatSidebarSectionTitle,
-  ChatSidebarSectionTrailing,
+  SidebarSection,
+  SidebarSectionAttention,
+  SidebarSectionChevron,
+  SidebarSectionControls,
+  SidebarSectionDisclosure,
+  SidebarSectionEmpty,
+  SidebarSectionTitle,
+  SidebarSectionTrailing,
 } from "raft-ui";
 
 import {
@@ -49,18 +49,18 @@ export function ChatSidebarPinnedSection({
   );
 
   return (
-    <ChatSidebarSection>
+    <SidebarSection>
       <SidebarSectionHeaderMenu menu="sort">
-        <ChatSidebarSectionDisclosure type="button">
-          <ChatSidebarSectionTitle>Pinned</ChatSidebarSectionTitle>
-          <ChatSidebarSectionChevron />
-        </ChatSidebarSectionDisclosure>
-        <ChatSidebarSectionTrailing>
-          {hasUnread ? <ChatSidebarSectionAttention /> : null}
-          <ChatSidebarSectionControls>
+        <SidebarSectionDisclosure type="button">
+          <SidebarSectionTitle>Pinned</SidebarSectionTitle>
+          <SidebarSectionChevron />
+        </SidebarSectionDisclosure>
+        <SidebarSectionTrailing>
+          {hasUnread ? <SidebarSectionAttention /> : null}
+          <SidebarSectionControls>
             <SidebarSectionSortMenu aria-label="Sort pinned" />
-          </ChatSidebarSectionControls>
-        </ChatSidebarSectionTrailing>
+          </SidebarSectionControls>
+        </SidebarSectionTrailing>
       </SidebarSectionHeaderMenu>
       <ChatSidebarDropTarget
         id={createChatSidebarDropTargetId("pinned")}
@@ -68,7 +68,7 @@ export function ChatSidebarPinnedSection({
         empty={ordered.length === 0}
       >
         {ordered.length === 0 ? (
-          <ChatSidebarSectionEmpty>Drag channels or DMs here to pin</ChatSidebarSectionEmpty>
+          <SidebarSectionEmpty>Drag channels or DMs here to pin</SidebarSectionEmpty>
         ) : (
           <SortableChatSidebarList items={ordered.map((row) => getDragId("pinned", row.id))}>
             {ordered.map((row) => (
@@ -93,6 +93,6 @@ export function ChatSidebarPinnedSection({
           </SortableChatSidebarList>
         )}
       </ChatSidebarDropTarget>
-    </ChatSidebarSection>
+    </SidebarSection>
   );
 }

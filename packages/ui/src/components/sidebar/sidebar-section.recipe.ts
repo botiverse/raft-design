@@ -1,6 +1,6 @@
 import { tv } from "../../lib/tv";
 
-export const chatSidebarSection = tv({
+export const sidebarSectionRecipe = tv({
   slots: {
     sidebarSection: [],
     sidebarList: [],
@@ -8,8 +8,8 @@ export const chatSidebarSection = tv({
     sidebarSectionHeader: ["flex items-center justify-between", "group/section-header"],
     sidebarSectionDisclosure: [
       "flex min-w-0 flex-1 items-center",
-      "[&_[data-slot=chat-sidebar-section-chevron]]:transition-transform",
-      "[&[data-panel-open]_[data-slot=chat-sidebar-section-chevron]]:rotate-90",
+      "[&_[data-slot=sidebar-section-chevron]]:transition-transform",
+      "[&[data-panel-open]_[data-slot=sidebar-section-chevron]]:rotate-90",
     ],
     sidebarSectionTitle: ["min-w-0 truncate"],
     sidebarSectionCount: [],
@@ -69,7 +69,7 @@ export const chatSidebarSection = tv({
           "h-8 w-full justify-start gap-1.5 rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] text-xs font-medium leading-none normal-case tracking-normal",
           "text-foreground-icon",
           "hover:text-foreground",
-          "[&_[data-slot=chat-sidebar-section-chevron]]:opacity-55",
+          "[&_[data-slot=sidebar-section-chevron]]:opacity-55",
         ],
         sidebarSectionCount:
           "shrink-0 font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",

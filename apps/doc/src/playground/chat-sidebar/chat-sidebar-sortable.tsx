@@ -2,20 +2,20 @@ import { useDraggable, useDroppable } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
-import { ChatSidebarList, type ChatSidebarListProps } from "raft-ui";
+import { SidebarList, type SidebarListProps } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
 import type { PlaygroundChannelId } from "../mock/index.ts";
 import type { ChatSidebarDragSection } from "./chat-sidebar-dnd-ids.ts";
 
-type SortableChatSidebarListProps = ChatSidebarListProps & {
+type SortableChatSidebarListProps = SidebarListProps & {
   items: readonly string[];
 };
 
 export function SortableChatSidebarList({ items, ...props }: SortableChatSidebarListProps) {
   return (
     <SortableContext items={[...items]} strategy={verticalListSortingStrategy}>
-      <ChatSidebarList {...props} />
+      <SidebarList {...props} />
     </SortableContext>
   );
 }
