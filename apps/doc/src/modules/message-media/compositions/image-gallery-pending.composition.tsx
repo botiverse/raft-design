@@ -4,7 +4,7 @@ import {
   MessageImageGalleryItem,
   MessageImageGalleryMedia,
   MessageImageGalleryOverlay,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageImageGalleryPendingComposition() {

@@ -11,7 +11,7 @@ import {
   LightboxTitle,
   LightboxTrigger,
 } from "raft-ui";
-import { MessageImageGalleryPreview } from "raft-ui/wip";
+import { MessageImageGalleryPreview } from "raft-ui";
 
 import { openMockAttachmentPreview } from "./open-mock-attachment-preview.ts";
 

@@ -15,7 +15,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { CircleOff } from "lucide-react";
 
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";

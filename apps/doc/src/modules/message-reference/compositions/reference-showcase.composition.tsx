@@ -36,7 +36,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
 import { MessageMentionReferenceComposition } from "./reference-adapters.composition.tsx";
 

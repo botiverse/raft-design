@@ -10,7 +10,7 @@ import {
   MessageAttachmentMetaStart,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 
 export function MessageAttachmentStatusesUsageComposition() {

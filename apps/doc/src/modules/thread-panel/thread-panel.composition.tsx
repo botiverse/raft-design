@@ -49,7 +49,8 @@ import {
   MessageItemToolbar,
   MessageItemToolbarButton,
 } from "raft-ui";
-import { MessageList, MessageListDateDivider, MessageListNotice, PanelAction } from "raft-ui/wip";
+import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
+import { PanelAction } from "raft-ui/wip";
 import {
   Composer,
   ComposerInput,

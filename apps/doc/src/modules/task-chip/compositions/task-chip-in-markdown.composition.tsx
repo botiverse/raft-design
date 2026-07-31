@@ -18,7 +18,7 @@ import {
   MessageItemHeader,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_PLAYGROUND_URLS,

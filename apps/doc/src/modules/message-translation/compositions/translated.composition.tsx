@@ -13,7 +13,7 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui";
-import { MessageItemTranslationAction, MessageItemTranslationStatus } from "raft-ui/wip";
+import { MessageItemTranslationAction, MessageItemTranslationStatus } from "raft-ui";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";

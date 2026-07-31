@@ -68,7 +68,7 @@ import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 import { MemberDetailPanel } from "./member-detail-panel.tsx";
 import { getSelectedMember, memberDetailId } from "./member-selection.ts";
 import { MembersDetailView, MembersSidebar } from "./members-sidebar.tsx";
-import { MessageList } from "raft-ui/wip";
+import { MessageList } from "raft-ui";
 
 type AuxiliaryRailView = Extract<PlaygroundRailView, "members" | "computers" | "settings">;
 

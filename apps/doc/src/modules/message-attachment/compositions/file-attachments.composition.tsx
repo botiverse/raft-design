@@ -14,7 +14,7 @@ import {
   MessageAttachmentMetaStart,
   MessageAttachmentSummary,
   MessageAttachmentTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 import {
   MESSAGE_FIXTURE_AUDIO_SRC,
   downloadMessageFixture,

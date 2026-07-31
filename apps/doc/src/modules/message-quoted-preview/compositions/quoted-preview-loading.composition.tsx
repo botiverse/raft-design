@@ -20,7 +20,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 import { Link } from "lucide-react";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";

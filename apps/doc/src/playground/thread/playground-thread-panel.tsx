@@ -21,7 +21,8 @@ import {
   ThreadPanelTitleMeta,
   MessageMultiSelect,
 } from "raft-ui";
-import { MessageList, MessageListNotice, PanelAction } from "raft-ui/wip";
+import { MessageList, MessageListNotice } from "raft-ui";
+import { PanelAction } from "raft-ui/wip";
 import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
 import { PlaygroundThreadComposer } from "../composer/playground-composer.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";

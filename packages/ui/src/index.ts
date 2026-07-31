@@ -910,6 +910,189 @@ export type {
   MessageRepliesSummaryItemProps,
 } from "./components/message-replies/index";
 
+export {
+  MessageActionCard,
+  MessageActionCardActions,
+  MessageActionCardCompletion,
+  MessageActionCardContent,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardProperties,
+  MessageActionCardPropertyValue,
+  MessageActionCardHeader,
+  MessageActionCardHeaderStatus,
+  MessageActionCardHint,
+  MessageActionCardScope,
+  MessageActionCardScopeDescription,
+  MessageActionCardScopeList,
+  MessageActionCardScopeListLabel,
+  MessageActionCardScopeName,
+} from "./components/message-action-card/index";
+export type {
+  MessageActionCardActionsProps,
+  MessageActionCardCompletionProps,
+  MessageActionCardContentProps,
+  MessageActionCardPropertyLabelProps,
+  MessageActionCardPropertyProps,
+  MessageActionCardPropertiesProps,
+  MessageActionCardPropertyValueProps,
+  MessageActionCardHeaderStatusProps,
+  MessageActionCardHeaderProps,
+  MessageActionCardHintProps,
+  MessageActionCardProps,
+  MessageActionCardScopeDescriptionProps,
+  MessageActionCardScopeListLabelProps,
+  MessageActionCardScopeListProps,
+  MessageActionCardScopeNameProps,
+  MessageActionCardScopeProps,
+} from "./components/message-action-card/index";
+
+export {
+  MessageAttachmentAction,
+  MessageAttachmentCard,
+  MessageAttachmentCommentSummary,
+  MessageAttachmentDiffAddition,
+  MessageAttachmentDiffDeletion,
+  MessageAttachmentDiffSummary,
+  MessageAttachmentGroup,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
+  MessageAttachmentSummary,
+  MessageAttachmentTitle,
+} from "./components/message-attachment/index";
+export type {
+  MessageAttachmentActionProps,
+  MessageAttachmentCardProps,
+  MessageAttachmentCommentSummaryProps,
+  MessageAttachmentDiffAdditionProps,
+  MessageAttachmentDiffDeletionProps,
+  MessageAttachmentDiffSummaryProps,
+  MessageAttachmentGroupProps,
+  MessageAttachmentMetaProps,
+  MessageAttachmentMetaEndProps,
+  MessageAttachmentMetaStartProps,
+  MessageAttachmentSummaryProps,
+  MessageAttachmentTitleProps,
+} from "./components/message-attachment/index";
+
+export {
+  MessageEmbed,
+  MessageEmbedContent,
+  MessageEmbedFooter,
+  MessageEmbedHeader,
+} from "./components/message-embed/index";
+export type {
+  MessageEmbedContentProps,
+  MessageEmbedFooterProps,
+  MessageEmbedHeaderProps,
+  MessageEmbedProps,
+} from "./components/message-embed/index";
+
+export {
+  MessageForwardedBundle,
+  MessageForwardedBundleAttachment,
+  MessageForwardedBundleAttachmentMeta,
+  MessageForwardedBundleAttachmentName,
+  MessageForwardedBundleAttachments,
+  MessageForwardedBundleFooter,
+  MessageForwardedBundleHeader,
+  MessageForwardedBundleHeaderContent,
+  MessageForwardedBundleHeaderCount,
+  MessageForwardedBundleHeaderLabel,
+  MessageForwardedBundleItem,
+  MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemMeta,
+  MessageForwardedBundleItems,
+  MessageForwardedBundleSource,
+  MessageForwardedBundleSourceLabel,
+  MessageForwardedBundleToggle,
+} from "./components/message-forwarded-bundle/index";
+export type {
+  MessageForwardedBundleAttachmentMetaProps,
+  MessageForwardedBundleAttachmentNameProps,
+  MessageForwardedBundleAttachmentProps,
+  MessageForwardedBundleAttachmentsProps,
+  MessageForwardedBundleFooterProps,
+  MessageForwardedBundleHeaderCountProps,
+  MessageForwardedBundleHeaderContentProps,
+  MessageForwardedBundleHeaderLabelProps,
+  MessageForwardedBundleHeaderProps,
+  MessageForwardedBundleItemAuthorProps,
+  MessageForwardedBundleItemMetaProps,
+  MessageForwardedBundleItemProps,
+  MessageForwardedBundleItemsProps,
+  MessageForwardedBundleProps,
+  MessageForwardedBundleSourceLabelProps,
+  MessageForwardedBundleSourceProps,
+  MessageForwardedBundleToggleProps,
+} from "./components/message-forwarded-bundle/index";
+
+export {
+  MessageImageGallery,
+  MessageImageGalleryAction,
+  MessageImageGalleryItem,
+  MessageImageGalleryMedia,
+  MessageImageGalleryOverlay,
+  MessageImageGalleryPreview,
+  MessageVideoPreview,
+  MessageVideoPreviewAction,
+  MessageVideoPreviewFallback,
+  MessageVideoPreviewFailureAction,
+  MessageVideoPreviewFailureContent,
+  MessageVideoPreviewFailureIcon,
+  MessageVideoPreviewFailureTitle,
+  MessageVideoPreviewMedia,
+} from "./components/message-attachment/index";
+export type {
+  MessageImageGalleryItemProps,
+  MessageImageGalleryActionProps,
+  MessageImageGalleryMediaProps,
+  MessageImageGalleryOverlayProps,
+  MessageImageGalleryPreviewProps,
+  MessageImageGalleryProps,
+  MessageVideoPreviewActionProps,
+  MessageVideoPreviewFallbackProps,
+  MessageVideoPreviewFailureActionProps,
+  MessageVideoPreviewFailureContentProps,
+  MessageVideoPreviewFailureIconProps,
+  MessageVideoPreviewFailureTitleProps,
+  MessageVideoPreviewMediaProps,
+  MessageVideoPreviewProps,
+} from "./components/message-attachment/index";
+
+export {
+  MessageItemTranslationAction,
+  MessageItemTranslationFailedStatus,
+  MessageItemTranslationOriginal,
+  MessageItemTranslationOriginalLabel,
+  MessageItemTranslationProgressTrack,
+  MessageItemTranslationRetryAction,
+  MessageItemTranslationStatus,
+} from "./components/message-translation/index";
+export type {
+  MessageItemTranslationActionProps,
+  MessageItemTranslationFailedStatusProps,
+  MessageItemTranslationOriginalLabelProps,
+  MessageItemTranslationOriginalProps,
+  MessageItemTranslationProgressTrackProps,
+  MessageItemTranslationRetryActionProps,
+  MessageItemTranslationStatusProps,
+} from "./components/message-translation/index";
+
+export {
+  MessageList,
+  MessageListDateDivider,
+  MessageListHistoryLimited,
+  MessageListNotice,
+} from "./components/message-list/index";
+export type {
+  MessageListDateDividerProps,
+  MessageListHistoryLimitedProps,
+  MessageListNoticeProps,
+  MessageListProps,
+} from "./components/message-list/index";
+
 export { Kbd, KbdGroup } from "./components/kbd/index";
 export type { KbdGroupProps, KbdProps } from "./components/kbd/index";
 

@@ -9,7 +9,7 @@ import {
   MessageVideoPreviewFailureTitle,
   MessageVideoPreviewFallback,
   MessageVideoPreviewMedia,
-} from "raft-ui/wip";
+} from "raft-ui";
 import {
   MESSAGE_FIXTURE_VIDEO_SRC,
   downloadMessageFixture,

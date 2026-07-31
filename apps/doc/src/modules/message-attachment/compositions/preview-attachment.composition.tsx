@@ -9,7 +9,7 @@ import {
   MessageAttachmentMetaEnd,
   MessageAttachmentMetaStart,
   MessageAttachmentTitle,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export function MessageAttachmentPreviewUsageComposition() {
   const [opening, setOpening] = useState(false);

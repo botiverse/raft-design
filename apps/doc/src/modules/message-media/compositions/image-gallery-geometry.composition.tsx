@@ -1,8 +1,4 @@
-import {
-  MessageImageGallery,
-  MessageImageGalleryItem,
-  MessageImageGalleryMedia,
-} from "raft-ui/wip";
+import { MessageImageGallery, MessageImageGalleryItem, MessageImageGalleryMedia } from "raft-ui";
 
 export function MessageImageGalleryGeometryComposition() {
   return (

@@ -10,7 +10,7 @@ import {
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSourceLabel,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "#/modules/message-item/message-item.fixtures.ts";
@@ -25,7 +25,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export function ForwardedBundleStaticSourceComposition() {
   return (

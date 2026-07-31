@@ -10,7 +10,7 @@ import {
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import {
@@ -28,7 +28,7 @@ import {
   MessageItemMeta,
   MessageItemSender,
   MessageItemTime,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export function ForwardedBundleThreadComposition() {
   return (

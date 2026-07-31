@@ -56,7 +56,7 @@ import {
   MessageItemTranslationProgressTrack,
   MessageItemTranslationRetryAction,
   MessageItemTranslationStatus,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import { MessageContextMenuComposition } from "#/modules/message-item/compositions/context-menu.composition.tsx";
 import {

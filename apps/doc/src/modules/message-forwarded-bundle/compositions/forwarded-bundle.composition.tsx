@@ -37,7 +37,7 @@ import {
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
   MessageForwardedBundleToggle,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 export type ForwardedBundleCompositionItem = {
   id: string;
