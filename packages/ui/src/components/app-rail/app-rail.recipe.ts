@@ -22,7 +22,7 @@ export const appRail = tv({
       "absolute -right-1 -top-1 inline-flex min-w-4 items-center justify-center",
       "px-1 text-[10px] font-bold leading-4",
     ],
-    itemIndicator: ["pointer-events-none absolute -right-1 -top-1"],
+    itemIndicator: ["pointer-events-none absolute -right-1 top-[-2px]"],
   },
   variants: {
     theme: {
