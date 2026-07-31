@@ -124,7 +124,7 @@ export const messageItem = tv({
     {
       theme: "elegant",
       compact: true,
-      class: { root: "mt-0 min-h-0 pt-0.5 pb-0.5 max-md:pt-0.5 max-md:pb-0.5" },
+      class: { root: "mt-0 min-h-0 pt-1.5 pb-1.5 max-md:pt-1.5 max-md:pb-1.5" },
     },
   ],
 });

@@ -403,11 +403,7 @@ function PlaygroundChatMessageRow({
       ...current,
       reactions: togglePlaygroundMessageReaction(current.reactions, emoji),
     }));
-  const [contextMenuPortalContainer, setContextMenuPortalContainer] =
-    useState<HTMLDivElement | null>(null);
-  const [reactionPortalContainer, setReactionPortalContainer] = useState<HTMLDivElement | null>(
-    null,
-  );
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const threadContext = threadId ? getPlaygroundThread(threadId) : undefined;
   const { replies: threadReplies } = usePlaygroundThreadReplies(
@@ -655,7 +651,7 @@ function PlaygroundChatMessageRow({
             })}
             {workflow.reactions.length > 0 ? (
               <MessageMobileReactionAdd
-                portalContainer={reactionPortalContainer}
+                portalContainer={portalContainer}
                 onReact={toggleReaction}
               />
             ) : null}
@@ -684,11 +680,11 @@ function PlaygroundChatMessageRow({
       <MessageRowToolbar
         saved={isSaved}
         onReplyInThread={openThread}
-        portalContainer={reactionPortalContainer}
+        portalContainer={portalContainer}
         onReact={toggleReaction}
         onSavedChange={setSaved}
       />
-      <div ref={setReactionPortalContainer} className="contents" />
+      <div ref={setPortalContainer} className="absolute top-0 left-0 size-0" />
     </MessageItem>
   );
 
@@ -699,69 +695,66 @@ function PlaygroundChatMessageRow({
   }
 
   return (
-    <div ref={setContextMenuPortalContainer}>
-      <ContextMenu
-        open={menuOpen}
-        onOpenChange={(open) => {
-          setMenuOpen(open);
-        }}
-      >
-        <ContextMenuTrigger render={messageItem} />
-        <MessageContextMenuComposition
-          saved={isSaved}
-          followed={isFollowed}
-          task={taskState}
-          portalContainer={contextMenuPortalContainer}
-          onCopyLink={
-            messagePermalink
-              ? () => {
-                  const permalink = new URL(messagePermalink, window.location.origin);
-                  void navigator.clipboard?.writeText(permalink.href);
-                }
-              : undefined
-          }
-          onCopyMarkdown={() => void navigator.clipboard?.writeText(markdownText)}
-          onFollowChange={
-            surface === "conversation" && threadReplies.length ? setFollowed : undefined
-          }
-          onQuickReact={(emoji) => {
-            toggleReaction(emoji);
-            setMenuOpen(false);
-          }}
-          onSavedChange={setSaved}
-          onTaskChange={
-            task
-              ? (next) =>
-                  setTasks((tasks) =>
-                    tasks.map((candidate) =>
-                      candidate.id === task.id
-                        ? { ...candidate, status: next === "done" ? "done" : "todo" }
-                        : candidate,
-                    ),
-                  )
-              : undefined
-          }
-          onSelectMessage={onEnterSelectionMode}
-          onOpenThread={openThread}
-        >
-          {translation &&
-          (workflow.translation === "idle" || workflow.translation === "pending") ? (
-            <ContextMenuItem
-              disabled={workflow.translation === "pending"}
-              onClick={() =>
-                updateWorkflow((current) => ({
-                  ...current,
-                  translation: "pending",
-                }))
+    <ContextMenu
+      open={menuOpen}
+      onOpenChange={(open) => {
+        setMenuOpen(open);
+      }}
+    >
+      <ContextMenuTrigger render={messageItem} />
+      <MessageContextMenuComposition
+        saved={isSaved}
+        followed={isFollowed}
+        task={taskState}
+        portalContainer={portalContainer}
+        onCopyLink={
+          messagePermalink
+            ? () => {
+                const permalink = new URL(messagePermalink, window.location.origin);
+                void navigator.clipboard?.writeText(permalink.href);
               }
-            >
-              <Languages />
-              {workflow.translation === "pending" ? "Translating…" : "Translate"}
-            </ContextMenuItem>
-          ) : null}
-        </MessageContextMenuComposition>
-      </ContextMenu>
-    </div>
+            : undefined
+        }
+        onCopyMarkdown={() => void navigator.clipboard?.writeText(markdownText)}
+        onFollowChange={
+          surface === "conversation" && threadReplies.length ? setFollowed : undefined
+        }
+        onQuickReact={(emoji) => {
+          toggleReaction(emoji);
+          setMenuOpen(false);
+        }}
+        onSavedChange={setSaved}
+        onTaskChange={
+          task
+            ? (next) =>
+                setTasks((tasks) =>
+                  tasks.map((candidate) =>
+                    candidate.id === task.id
+                      ? { ...candidate, status: next === "done" ? "done" : "todo" }
+                      : candidate,
+                  ),
+                )
+            : undefined
+        }
+        onSelectMessage={onEnterSelectionMode}
+        onOpenThread={openThread}
+      >
+        {translation && (workflow.translation === "idle" || workflow.translation === "pending") ? (
+          <ContextMenuItem
+            disabled={workflow.translation === "pending"}
+            onClick={() =>
+              updateWorkflow((current) => ({
+                ...current,
+                translation: "pending",
+              }))
+            }
+          >
+            <Languages />
+            {workflow.translation === "pending" ? "Translating…" : "Translate"}
+          </ContextMenuItem>
+        ) : null}
+      </MessageContextMenuComposition>
+    </ContextMenu>
   );
 }
 
