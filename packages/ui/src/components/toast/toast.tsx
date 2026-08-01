@@ -92,7 +92,8 @@ const toastStyles = tv({
         ],
         close: [
           "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground/70 shadow-xs",
-          "hover:bg-brutal-yellow hover:text-foreground active:translate-x-px active:translate-y-px active:shadow-none",
+          "hover:bg-layer-panel hover:text-foreground hover:-translate-y-px hover:shadow-sm",
+          "active:translate-x-px active:translate-y-px active:shadow-none",
         ],
         arrow: ["hidden"],
       },
@@ -284,7 +285,8 @@ const toastAction = tv({
       brutal: {
         root: [
           "order-2 border-2 border-line-strong bg-foreground font-bold text-white shadow-xs",
-          "hover:bg-foreground/85 active:translate-x-px active:translate-y-px active:shadow-none",
+          "hover:bg-foreground/85 hover:-translate-y-px hover:shadow-sm",
+          "active:translate-x-px active:translate-y-px active:shadow-none",
         ],
       },
       elegant: {
@@ -578,7 +580,7 @@ export function ToastAction({
     <>
       {loading ? (
         <span data-slot="toast-action-loading-indicator" className={loadingIndicator()}>
-          <Spinner aria-label={loadingLabel} />
+          <Spinner aria-label={loadingLabel} variant={theme === "brutal" ? "inverse" : "default"} />
         </span>
       ) : null}
       <span
