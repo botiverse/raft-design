@@ -1,3 +1,9 @@
+## [0.2.1](https://github.com/botiverse/rui/compare/v0.2.0...v0.2.1) (2026-08-01)
+
+### Fixed
+
+- Restored the Brutal Toast action and close button treatment. ([#173](https://github.com/botiverse/rui/pull/173))
+
 ## [0.2.0](https://github.com/botiverse/rui/compare/v0.1.0...v0.2.0) (2026-07-31)
 
 ### Breaking Changes
