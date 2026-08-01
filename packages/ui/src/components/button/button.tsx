@@ -561,6 +561,16 @@ export const buttonVariants = tv({
         ],
       },
     },
+    {
+      theme: "brutal",
+      variant: "danger-outline",
+      class: {
+        root: [
+          "hover:-translate-y-px",
+          "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
+        ],
+      },
+    },
   ],
 });
 
