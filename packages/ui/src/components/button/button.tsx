@@ -368,7 +368,7 @@ export const buttonVariants = tv({
           "[--button-focus-ring:var(--foreground-strong)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground-strong)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
-          "hover:bg-[oklch(0.31_0.006_106.42)]",
+          "hover:bg-[oklch(0.31_0.006_106.42)] dark:hover:bg-[oklch(0.87_0_0)]",
         ],
       },
     },
@@ -380,7 +380,7 @@ export const buttonVariants = tv({
           "bg-primary-400 text-primary-950",
           "[--button-focus-outline:var(--primary-400)]",
           "[--button-focus-ring:var(--primary-400)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.15),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.83)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.15),0_0_0_1px_var(--primary-edge)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_11%)_0%,oklab(100%_0_0_/_0%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-primary-hover",
         ],
@@ -487,7 +487,7 @@ export const buttonVariants = tv({
       variant: "accent",
       class: {
         root: [
-          "bg-accent-400 text-white",
+          "bg-accent-400 text-accent-950",
           "[--button-focus-outline:var(--accent-400)]",
           "[--button-focus-ring:var(--accent-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--accent-400)]",

@@ -214,32 +214,34 @@ export const badge = tv({
       appearance: "solid",
       variant: "default",
       class: {
-        root: "bg-[oklch(0.209_0.006_91.63_/_0.078)] text-[oklch(0.359_0.005_106.65)]",
+        root: "bg-ink-8 text-foreground-muted",
       },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "muted",
-      class: { root: "bg-[oklch(0.573_0_0)] text-[oklch(0.946_0_0)]" },
+      class: {
+        root: "bg-[oklch(0.573_0_0)] text-[oklch(0.946_0_0)] dark:bg-[oklch(0.65_0_0)] dark:text-[oklch(0.145_0_0)]",
+      },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "primary",
-      class: { root: "bg-[oklch(0.886_0.155_91.41)] text-[oklch(0.431_0.088_86.67)]" },
+      class: { root: "bg-primary-400 text-[oklch(0.431_0.088_86.67)]" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-[oklch(0.783_0.135_219.26)] text-[oklch(0.445_0.083_224.7)]" },
+      class: { root: "bg-info-base text-[oklch(0.445_0.083_224.7)]" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "accent",
-      class: { root: "bg-[oklch(0.749_0.162_0.7)] text-[oklch(0.281_0.112_3.73)]" },
+      class: { root: "bg-accent-400 text-[oklch(0.281_0.112_3.73)]" },
     },
     {
       theme: "elegant",
@@ -264,7 +266,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "default",
       class: {
-        root: "border-transparent bg-[oklch(0.946_0_0)] text-[oklch(0.409_0_0)]",
+        root: "border-transparent bg-layer-strong text-[oklch(0.409_0_0)] dark:text-[oklch(0.87_0_0)]",
       },
     },
     {
@@ -272,7 +274,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "muted",
       class: {
-        root: "border-transparent bg-[oklch(0.946_0_0)] text-[oklch(0.447_0.002_67.77)]",
+        root: "border-transparent bg-layer-strong text-[oklch(0.447_0.002_67.77)] dark:text-[oklch(0.8_0.002_67.77)]",
       },
     },
     {
@@ -280,7 +282,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "primary",
       class: {
-        root: "border-transparent bg-[oklch(0.955_0.067_93.62)] text-[oklch(0.44_0.09_91.39)]",
+        root: "border-transparent bg-primary-tint text-primary-tint-foreground",
       },
     },
     {
@@ -288,7 +290,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "information",
       class: {
-        root: "border-transparent bg-[oklch(0.91_0.056_224.02)] text-[oklch(0.441_0.078_221.2)]",
+        root: "border-transparent bg-info-tint text-info-tint-foreground",
       },
     },
     {
@@ -296,7 +298,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "accent",
       class: {
-        root: "border-transparent bg-[oklch(0.914_0.048_358.59)] text-[oklch(0.543_0.215_359.77)]",
+        root: "border-transparent bg-accent-tint text-accent-tint-foreground",
       },
     },
     {
@@ -304,7 +306,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "success",
       class: {
-        root: "border-transparent bg-[oklch(0.913_0.11_159.9)] text-[oklch(0.425_0.113_151.2)]",
+        root: "border-transparent bg-success-tint text-success-tint-foreground",
       },
     },
     {
@@ -312,7 +314,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "warning",
       class: {
-        root: "border-transparent bg-[oklch(0.95_0.03_44.33)] text-[oklch(0.59_0.2_40.57)]",
+        root: "border-transparent bg-warning-tint text-warning-tint-foreground",
       },
     },
     {
@@ -320,7 +322,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "danger",
       class: {
-        root: "border-transparent bg-[oklch(0.898_0.05_22.7)] text-[oklch(0.445_0.153_32.91)]",
+        root: "border-transparent bg-danger-tint text-danger-tint-foreground",
       },
     },
     {
@@ -333,25 +335,27 @@ export const badge = tv({
       theme: "elegant",
       appearance: "outline",
       variant: "muted",
-      class: { root: "border-secondary-500 bg-transparent text-secondary-900" },
+      class: {
+        root: "border-secondary-500 bg-transparent text-secondary-900 dark:text-secondary-300",
+      },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "primary",
-      class: { root: "border-primary-500 bg-transparent text-primary-800" },
+      class: { root: "border-primary-500 bg-transparent text-primary-tint-foreground" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "information",
-      class: { root: "border-info-base bg-transparent text-[oklch(0.48_0.09_219.2)]" },
+      class: { root: "border-info-base bg-transparent text-info-tint-foreground" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "accent",
-      class: { root: "border-accent-500 bg-transparent text-accent-800" },
+      class: { root: "border-accent-500 bg-transparent text-accent-tint-foreground" },
     },
     {
       theme: "elegant",

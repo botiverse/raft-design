@@ -42,8 +42,10 @@ const switchRecipe = tv({
         root: [
           "rounded-full bg-foreground/[0.12]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.08)]",
+          "dark:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.3)]",
           "hover:bg-foreground/[0.16]",
           "data-[checked]:bg-foreground-strong data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_1px_1.5px_-1px_oklch(0_0_0_/_0.12)]",
+          "dark:data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_1px_1.5px_-1px_oklch(0_0_0_/_0.4)]",
           "data-[checked]:hover:bg-foreground-strong",
           "data-[disabled]:bg-layer-panel data-[disabled]:shadow-[inset_0_0_0_1px_var(--line-subtle)]",
           "data-[checked]:data-[disabled]:bg-layer-panel data-[checked]:data-[disabled]:shadow-[inset_0_0_0_1px_var(--line-subtle)]",
@@ -52,9 +54,12 @@ const switchRecipe = tv({
         ],
         thumb: [
           "rounded-full bg-layer-popover",
+          "dark:bg-[oklch(0.985_0_0)] dark:data-[checked]:bg-[oklch(0.205_0_0)]",
           "shadow-[0_1px_1.5px_-0.5px_oklch(0_0_0_/_0.18),0_0_0_1px_oklch(0_0_0_/_0.04)]",
           "data-[disabled]:bg-[oklch(0.88_0.004_106.42)] data-[disabled]:shadow-none",
+          "dark:data-[disabled]:bg-[oklch(0.37_0.006_286)]",
           "data-[checked]:data-[disabled]:bg-[oklch(0.88_0.004_106.42)]",
+          "dark:data-[checked]:data-[disabled]:bg-[oklch(0.37_0.006_286)]",
         ],
       },
     },

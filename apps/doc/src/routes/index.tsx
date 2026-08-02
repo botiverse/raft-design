@@ -222,15 +222,16 @@ type ComponentGridItem = {
 };
 
 type ThemePreset = {
-  id: "brutal" | "elegant";
+  id: "brutal" | "elegant" | "elegant-dark";
   label: string;
   family: Theme;
-  mode: "light";
+  mode: "light" | "dark";
 };
 
 const THEME_PRESETS = [
   { id: "brutal", label: "brutal", family: "brutal", mode: "light" },
   { id: "elegant", label: "elegant", family: "elegant", mode: "light" },
+  { id: "elegant-dark", label: "elegant dark", family: "elegant", mode: "dark" },
 ] as const satisfies readonly ThemePreset[];
 
 const avatarSvg = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
@@ -1360,7 +1361,7 @@ function HomeToastList() {
   const { toasts } = useToastManager<{ hasIcon?: boolean; hasClose?: boolean }>();
 
   return (
-    <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-white p-4">
+    <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-panel p-4">
       <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-background/80 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-blue/20" />
       <div className="absolute inset-x-5 top-24 grid grid-cols-3 gap-2">
         <div className="h-10 rounded-md bg-background/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
@@ -1412,19 +1413,19 @@ function Home() {
   }, []);
 
   return (
-    <ThemeProvider theme={themePreset.family} syncDom={false}>
+    <ThemeProvider theme={themePreset.family} mode={themePreset.mode} syncDom={false}>
       <div
         data-theme={themePreset.family}
-        className="min-h-screen bg-white pb-28 text-foreground"
+        className={`${themePreset.family === "elegant" ? themePreset.mode : "light"} min-h-screen bg-layer-panel pb-28 text-foreground`}
         style={{ colorScheme: themePreset.mode }}
       >
-        <div className="grid grid-cols-1 border-l border-line-subtle bg-white md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 border-l border-line-subtle bg-layer-panel md:grid-cols-2 xl:grid-cols-3">
           {COMPONENT_GRID.map((item) => (
             <article
               key={item.label}
               className={[
                 "relative isolate h-[clamp(420px,36vh,520px)] overflow-hidden",
-                "border-b border-r border-line-subtle bg-white",
+                "border-b border-r border-line-subtle bg-layer-panel",
               ].join(" ")}
             >
               <Link
@@ -1448,7 +1449,7 @@ function Home() {
           aria-label="Preview theme"
           className={[
             "fixed bottom-6 left-[calc(50vw+var(--sidebar-w)/2)] z-[80] -translate-x-1/2",
-            "grid grid-cols-2 overflow-hidden rounded-none bg-layer-panel text-foreground backdrop-blur",
+            "grid grid-cols-3 overflow-hidden rounded-none bg-layer-panel text-foreground backdrop-blur",
             "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
           ].join(" ")}
         >

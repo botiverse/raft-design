@@ -67,11 +67,23 @@ const SHADOW_TOKENS = [
     sourceToken: "--theme-shadow-xl",
     brutal: "6px 6px 0px var(--line-strong)",
     elegant:
-      "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px, oklch(0.145 0.002 106.42 / 0.031) 0px 18px 24px -12px, oklch(0.145 0.002 106.42 / 0.039) 0px 12px 12px -6px, oklch(0.145 0.002 106.42 / 0.039) 0px 4px 6px -3px",
+      "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px, 0px 0px 0px 1px oklch(0.21 0.006 106.42 / 0.08), oklch(0.145 0.002 106.42 / 0.031) 0px 18px 24px -12px, oklch(0.145 0.002 106.42 / 0.039) 0px 12px 12px -6px, oklch(0.145 0.002 106.42 / 0.039) 0px 4px 6px -3px",
   },
 ] as const;
 
-const THEME_PREVIEWS = [{ theme: "brutal" }, { theme: "elegant" }] as const;
+const ELEGANT_DARK_SHADOWS = {
+  xs: "0 0 0 1px oklch(1 0 0 / 0.06), 0 0.5px 0 oklch(0 0 0 / 0.4)",
+  sm: "0 0 0 1px oklch(1 0 0 / 0.07), 0px 5px 4px -2px oklch(0 0 0 / 0.1), 0px 3px 3px -1px oklch(0 0 0 / 0.14), 0px 1px 2px -1px oklch(0 0 0 / 0.2)",
+  md: "0 0 0 1px oklch(1 0 0 / 0.07), 0px 8px 8px -4px oklch(0 0 0 / 0.12), 0px 5px 5px -2px oklch(0 0 0 / 0.16), 0px 2px 3px -1px oklch(0 0 0 / 0.22)",
+  lg: "0px 1px 1px oklch(0 0 0 / 0.3), 0px 0px 0px 1px oklch(1 0 0 / 0.08), 0px 2px 12px -4px oklch(0 0 0 / 0.4)",
+  xl: "0px 0px 0px 1px oklch(1 0 0 / 0.1), 0px 18px 24px -12px oklch(0 0 0 / 0.45), 0px 12px 12px -6px oklch(0 0 0 / 0.45), 0px 4px 6px -3px oklch(0 0 0 / 0.5)",
+} as const satisfies Record<(typeof SHADOW_TOKENS)[number]["name"], string>;
+
+const THEME_PREVIEWS = [
+  { theme: "brutal", mode: "light", label: null },
+  { theme: "elegant", mode: "light", label: "Light" },
+  { theme: "elegant", mode: "dark", label: "Dark" },
+] as const;
 
 export const SHADOW_SNIPPETS = {
   usage: `<div className="border border-line bg-layer-panel shadow-sm" />
@@ -105,7 +117,7 @@ export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Record<s
         <DocSection id="scale" title="Theme scale">
           <div className="grid gap-4">
             {previews.map((preview) => (
-              <ThemeScaleCard key={preview.theme} theme={preview} />
+              <ThemeScaleCard key={`${preview.theme}-${preview.mode}`} theme={preview} />
             ))}
           </div>
         </DocSection>
@@ -120,7 +132,14 @@ export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Record<s
                 <div>
                   <p className="font-mono text-xs font-semibold text-gray-950">{shadow.name}</p>
                 </div>
-                <ShadowValue value={shadow[theme]} />
+                {theme === "elegant" ? (
+                  <div className="grid gap-2">
+                    <ShadowValue label="light" value={shadow.elegant} />
+                    <ShadowValue label="dark" value={ELEGANT_DARK_SHADOWS[shadow.name]} />
+                  </div>
+                ) : (
+                  <ShadowValue value={shadow.brutal} />
+                )}
               </div>
             ))}
           </div>
@@ -156,13 +175,19 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
   return (
     <div
       data-theme={theme.theme}
-      className="p-4"
+      className={`${theme.theme === "elegant" ? theme.mode : "light"} p-4`}
       style={{
         background: "var(--layer-panel)",
         color: "var(--foreground)",
         fontFamily: "var(--heading-font)",
+        colorScheme: theme.mode,
       }}
     >
+      {theme.label ? (
+        <p className="mb-2 font-mono text-xs" style={{ color: "var(--foreground-muted)" }}>
+          {theme.label}
+        </p>
+      ) : null}
       <div className="grid grid-cols-2 gap-4">
         {SHADOW_TOKENS.map((shadow) => (
           <div key={shadow.sourceToken} className="flex h-28 items-center justify-center">
@@ -186,9 +211,12 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
   );
 }
 
-function ShadowValue({ value }: { value: string }) {
+function ShadowValue({ value, label }: { value: string; label?: string }) {
   return (
     <div>
+      {label ? (
+        <p className="mb-0.5 font-mono text-[11px] text-foreground-placeholder">{label}</p>
+      ) : null}
       <p className="break-words font-mono text-xs leading-relaxed text-gray-600">{value}</p>
     </div>
   );

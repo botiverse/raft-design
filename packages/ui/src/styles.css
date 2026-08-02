@@ -1,13 +1,9 @@
-/* `dark:` tracks the elegant theme's dark context (forced .dark class, or system
-   preference unless forced .light) instead of Tailwind's bare media-query default. */
+/* `dark:` tracks the elegant theme's dark context. System preference is resolved
+   in JS (ThemeProvider always stamps the resolved .light/.dark class), so the
+   class is the single source of truth — no media-query arm. */
 @custom-variant dark {
   &:where([data-theme="elegant"].dark, [data-theme="elegant"].dark *) {
     @slot;
-  }
-  @media (prefers-color-scheme: dark) {
-    &:where([data-theme="elegant"]:not(.light), [data-theme="elegant"]:not(.light) *) {
-      @slot;
-    }
   }
 }
 
@@ -148,6 +144,7 @@
   --color-foreground-placeholder: var(--foreground-placeholder);
   --color-foreground-disabled: var(--foreground-disabled);
   --color-foreground-inverse: var(--foreground-inverse);
+  --color-foreground-secondary: var(--foreground-secondary);
 
   --color-layer-page: var(--layer-page);
   --color-layer-panel: var(--layer-panel);
@@ -158,6 +155,7 @@
   --color-layer-backdrop: var(--layer-backdrop);
   --color-layer-hover: var(--layer-hover);
   --color-layer-active: var(--layer-active);
+  --color-layer-inset: var(--layer-inset);
 
   --color-line-strong: var(--line-strong);
   --color-line: var(--line);
@@ -191,6 +189,8 @@
   --color-primary-950: var(--primary-950);
   --color-primary-hover: var(--primary-hover);
   --color-primary-active: var(--primary-active);
+  --color-primary-tint: var(--primary-tint);
+  --color-primary-tint-foreground: var(--primary-tint-foreground);
 
   --color-accent-50: var(--accent-50);
   --color-accent-100: var(--accent-100);
@@ -220,26 +220,36 @@
   --color-info-base: var(--state-info-base);
   --color-info-light: var(--state-info-light);
   --color-info-lighter: var(--state-info-lighter);
+  --color-info-tint: var(--state-info-tint);
+  --color-info-tint-foreground: var(--state-info-tint-foreground);
   --color-soft-signal: var(--soft-signal);
 
   --color-success-dark: var(--state-success-dark);
   --color-success-base: var(--state-success-base);
   --color-success-light: var(--state-success-light);
   --color-success-lighter: var(--state-success-lighter);
+  --color-success-tint: var(--state-success-tint);
+  --color-success-tint-foreground: var(--state-success-tint-foreground);
 
   --color-warning-dark: var(--state-warning-dark);
   --color-warning-base: var(--state-warning-base);
   --color-warning-light: var(--state-warning-light);
   --color-warning-lighter: var(--state-warning-lighter);
+  --color-warning-tint: var(--state-warning-tint);
+  --color-warning-tint-foreground: var(--state-warning-tint-foreground);
 
   --color-danger-dark: var(--state-danger-dark);
   --color-danger-base: var(--state-danger-base);
   --color-danger-light: var(--state-danger-light);
   --color-danger-lighter: var(--state-danger-lighter);
+  --color-danger-tint: var(--state-danger-tint);
+  --color-danger-tint-foreground: var(--state-danger-tint-foreground);
   --color-danger-hover: var(--state-danger-hover);
   --color-danger-active: var(--state-danger-active);
   --color-accent-hover: var(--accent-hover);
   --color-accent-active: var(--accent-active);
+  --color-accent-tint: var(--accent-tint);
+  --color-accent-tint-foreground: var(--accent-tint-foreground);
   --color-warning-hover: var(--state-warning-hover);
   --color-warning-active: var(--state-warning-active);
   --color-info-hover: var(--state-info-hover);
@@ -250,7 +260,7 @@
   --shadow-md: var(--theme-shadow-md);
   --shadow-lg: var(--theme-shadow-lg);
   --shadow-xl: var(--theme-shadow-xl);
-  --shadow-field-hover: 0px 1px 2px 0px oklch(0.159 0.016 266.594 / 0.03);
+  --shadow-field-hover: var(--theme-shadow-field-hover);
 
   --font-heading: var(--heading-font, system-ui, sans-serif);
   --font-sans: var(--sans-font, system-ui, sans-serif);
@@ -334,6 +344,29 @@
 
   --line-field: oklch(0.94 0 0);
   --line-field-hover: oklch(0.91 0 0);
+  --theme-shadow-field-hover: 0px 1px 2px 0px oklch(0.159 0.016 266.594 / 0.03);
+
+  /* Soft tint pairs — wash background + readable text on it. Light values are the
+     tuned badge/banner tones; elegant dark re-derives them as alpha washes. */
+  --primary-tint: oklch(0.955 0.067 93.62);
+  --primary-tint-foreground: oklch(0.44 0.09 91.39);
+  --primary-edge: oklch(0.83 0.14 91.89 / 0.7);
+  --accent-tint: oklch(0.914 0.048 358.59);
+  --accent-tint-foreground: oklch(0.543 0.215 359.77);
+  --state-info-tint: oklch(0.91 0.056 224.02);
+  --state-info-tint-foreground: oklch(0.441 0.078 221.2);
+  --state-success-tint: oklch(0.913 0.11 159.9);
+  --state-success-tint-foreground: oklch(0.425 0.113 151.2);
+  --state-warning-tint: oklch(0.95 0.03 44.33);
+  --state-warning-tint-foreground: oklch(0.59 0.2 40.57);
+  --state-danger-tint: oklch(0.898 0.05 22.7);
+  --state-danger-tint-foreground: oklch(0.445 0.153 32.91);
+
+  --foreground-secondary: oklch(0.48 0 0);
+  --layer-inset: oklch(0.99 0.002 84.559);
+
+  --checker-bg: oklch(1 0 0);
+  --checker-cell: oklch(0.1813 0.00497 17.62 / 0.12);
 }
 
 :where(:root),
@@ -437,43 +470,17 @@
     oklch(0.145 0.002 106.42 / 0.039) 0px 4px 6px -3px;
 }
 
-@media (prefers-color-scheme: dark) {
-  [data-theme="elegant"]:not(.light) {
-    --ink: oklch(1 0 0);
-    --ink-2: oklch(1 0 0 / 0.02);
-    --ink-4: oklch(1 0 0 / 0.04);
-    --ink-6: oklch(1 0 0 / 0.06);
-    --ink-8: oklch(1 0 0 / 0.08);
-    --ink-10: oklch(1 0 0 / 0.1);
-    --ink-16: oklch(1 0 0 / 0.16);
-    --ink-20: oklch(1 0 0 / 0.2);
-    --ink-30: oklch(1 0 0 / 0.3);
-    --ink-40: oklch(1 0 0 / 0.4);
-
-    --layer-page: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --foreground-strong: oklch(0.95 0 0);
-    --foreground-muted: oklch(0.82 0 0);
-    --foreground-icon: oklch(0.82 0 0 / 0.68);
-    --foreground-placeholder: oklch(0.72 0.006 286);
-    --foreground-disabled: oklch(0.65 0.006 286);
-    --foreground-inverse: oklch(0.145 0 0);
-
-    --layer-panel: oklch(0.21 0.006 285);
-    --layer-muted: oklch(0.274 0.006 286);
-    --layer-strong: var(--layer-muted);
-    --layer-field: oklch(0.21 0.006 285);
-    --layer-popover: oklch(0.145 0 0);
-
-    --line-strong: oklch(0.95 0 0);
-    --line: oklch(0.56 0.006 286);
-    --line-subtle: oklch(0.4 0.006 286);
-    --line-muted: oklch(0.96 0 89.37 / 0.08);
-    --line-focus: oklch(0.95 0 0);
-  }
+/* Native controls, scrollbars, and portaled scopes follow the stamped class even
+   when it disagrees with an ancestor's scheme. */
+[data-theme="elegant"].light {
+  color-scheme: light;
 }
 
+/* The single dark definition block (shadcn model). System preference never reaches
+   CSS — ThemeProvider resolves it to a concrete class before paint. */
 [data-theme="elegant"].dark {
+  color-scheme: dark;
+
   --ink: oklch(1 0 0);
   --ink-2: oklch(1 0 0 / 0.02);
   --ink-4: oklch(1 0 0 / 0.04);
@@ -493,18 +500,74 @@
   --foreground-placeholder: oklch(0.72 0.006 286);
   --foreground-disabled: oklch(0.65 0.006 286);
   --foreground-inverse: oklch(0.145 0 0);
+  --foreground-secondary: oklch(0.76 0 0);
 
+  /* Elevation ladder: page < inset < panel/field < popover/muted < strong.
+     Dark elevation is surface lightness first; shadows are a secondary cue. */
   --layer-panel: oklch(0.21 0.006 285);
   --layer-muted: oklch(0.274 0.006 286);
-  --layer-strong: var(--layer-muted);
+  --layer-strong: oklch(0.31 0.006 286);
   --layer-field: oklch(0.21 0.006 285);
-  --layer-popover: oklch(0.145 0 0);
+  --layer-popover: oklch(0.274 0.006 286);
+  --layer-backdrop: oklch(0 0 0 / 0.6);
+  --layer-inset: oklch(0.185 0.005 285);
 
   --line-strong: oklch(0.95 0 0);
   --line: oklch(0.56 0.006 286);
-  --line-subtle: oklch(0.4 0.006 286);
-  --line-muted: oklch(0.96 0 89.37 / 0.08);
+  --line-subtle: oklch(1 0 0 / 0.1);
+  --line-muted: oklch(1 0 0 / 0.08);
   --line-focus: oklch(0.95 0 0);
+  --line-field: oklch(1 0 0 / 0.15);
+  --line-field-hover: oklch(1 0 0 / 0.22);
+
+  /* Soft state washes: alpha tints composite correctly on page, panel, and
+     popover alike. Text partners lift to ~L0.80. */
+  --state-info-dark: oklch(0.8 0.1 220);
+  --state-info-light: oklch(0.52 0.1 222 / 0.28);
+  --state-info-lighter: oklch(0.45 0.09 224 / 0.18);
+  --state-success-dark: oklch(0.8 0.14 153);
+  --state-success-light: oklch(0.52 0.13 153 / 0.28);
+  --state-success-lighter: oklch(0.5 0.12 153 / 0.18);
+  --state-warning-dark: oklch(0.82 0.12 55);
+  --state-warning-light: oklch(0.55 0.13 50 / 0.28);
+  --state-warning-lighter: oklch(0.52 0.12 50 / 0.18);
+  --state-danger-dark: oklch(0.8 0.1 25);
+  --state-danger-light: oklch(0.58 0.19 29 / 0.3);
+  --state-danger-lighter: oklch(0.55 0.19 29 / 0.18);
+
+  --primary-tint: oklch(0.55 0.1 92 / 0.16);
+  --primary-tint-foreground: oklch(0.88 0.13 92);
+  --primary-edge: oklch(0.88 0.15 92 / 0.4);
+  --accent-tint: oklch(0.6 0.18 0 / 0.16);
+  --accent-tint-foreground: oklch(0.84 0.11 0);
+  --state-info-tint: oklch(0.45 0.09 224 / 0.18);
+  --state-info-tint-foreground: oklch(0.8 0.1 220);
+  --state-success-tint: oklch(0.5 0.12 153 / 0.18);
+  --state-success-tint-foreground: oklch(0.8 0.14 153);
+  --state-warning-tint: oklch(0.52 0.12 50 / 0.18);
+  --state-warning-tint-foreground: oklch(0.82 0.12 55);
+  --state-danger-tint: oklch(0.55 0.19 29 / 0.18);
+  --state-danger-tint-foreground: oklch(0.8 0.1 25);
+
+  /* Dark shadows: white-alpha hairline ring replaces the light edge, ambient
+     drops darken instead of disappearing. */
+  --theme-shadow-xs: 0 0 0 1px oklch(1 0 0 / 0.06), 0 0.5px 0 oklch(0 0 0 / 0.4);
+  --theme-shadow-sm:
+    0 0 0 1px oklch(1 0 0 / 0.07), 0px 5px 4px -2px oklch(0 0 0 / 0.1),
+    0px 3px 3px -1px oklch(0 0 0 / 0.14), 0px 1px 2px -1px oklch(0 0 0 / 0.2);
+  --theme-shadow-md:
+    0 0 0 1px oklch(1 0 0 / 0.07), 0px 8px 8px -4px oklch(0 0 0 / 0.12),
+    0px 5px 5px -2px oklch(0 0 0 / 0.16), 0px 2px 3px -1px oklch(0 0 0 / 0.22);
+  --theme-shadow-lg:
+    0px 1px 1px oklch(0 0 0 / 0.3), 0px 0px 0px 1px oklch(1 0 0 / 0.08),
+    0px 2px 12px -4px oklch(0 0 0 / 0.4);
+  --theme-shadow-xl:
+    0px 0px 0px 1px oklch(1 0 0 / 0.1), 0px 18px 24px -12px oklch(0 0 0 / 0.45),
+    0px 12px 12px -6px oklch(0 0 0 / 0.45), 0px 4px 6px -3px oklch(0 0 0 / 0.5);
+  --theme-shadow-field-hover: 0px 1px 2px 0px oklch(0 0 0 / 0.35);
+
+  --checker-bg: oklch(0.23 0 0);
+  --checker-cell: oklch(1 0 0 / 0.1);
 }
 
 *,
@@ -535,12 +598,12 @@ body {
 }
 
 @utility image-transparency-bg {
-  background-color: oklch(1 0 0);
+  background-color: var(--checker-bg);
   background-image:
-    linear-gradient(45deg, oklch(0.1813 0.00497 17.62 / 0.12) 25%, transparent 25%),
-    linear-gradient(-45deg, oklch(0.1813 0.00497 17.62 / 0.12) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, oklch(0.1813 0.00497 17.62 / 0.12) 75%),
-    linear-gradient(-45deg, transparent 75%, oklch(0.1813 0.00497 17.62 / 0.12) 75%);
+    linear-gradient(45deg, var(--checker-cell) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--checker-cell) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--checker-cell) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--checker-cell) 75%);
   background-position:
     0 0,
     0 8px,

@@ -7,7 +7,7 @@ type ThemeScopeProps = {
   "data-theme"?: string;
 };
 
-type ThemeScopeState = Pick<ThemeState, "theme" | "mode">;
+type ThemeScopeState = Pick<ThemeState, "theme" | "resolvedMode">;
 
 type ClassNameCallback<ClassName> = Extract<
   NonNullable<ClassName>,
@@ -20,12 +20,12 @@ type ClassNameState<Props extends ThemeScopeProps> = Parameters<
 
 export function resolveThemeScopeProps<Props extends ThemeScopeProps>(
   { className, "data-theme": _dataTheme, ...props }: Props,
-  { theme, mode }: ThemeScopeState,
+  { theme, resolvedMode }: ThemeScopeState,
 ): Omit<Props, "className" | "data-theme"> & {
   className?: Props["className"];
   "data-theme": Theme;
 } {
-  const modeClassName = theme === "elegant" && mode !== "system" ? mode : undefined;
+  const modeClassName = theme === "elegant" ? resolvedMode : undefined;
   const resolvedClassName =
     typeof className === "function" && modeClassName
       ? (state: ClassNameState<Props>) =>

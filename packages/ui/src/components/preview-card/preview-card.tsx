@@ -40,7 +40,7 @@ const previewCard = tv({
         popup: ["rounded-md bg-layer-popover shadow-xl"],
         separator: ["border-line-subtle"],
         title: ["font-sans font-medium text-foreground-strong"],
-        description: ["bg-ink-2 font-sans", "text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]"],
+        description: ["bg-ink-2 font-sans", "text-foreground-secondary"],
         arrow: ["border-l border-t border-line-muted bg-layer-popover"],
       },
     },

@@ -92,10 +92,10 @@ const checkbox = tv({
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)]",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)] dark:group-hover/checkbox:fill-[oklch(0.26_0.005_286)]",
           "group-focus-visible/checkbox:fill-foreground-strong",
-          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.38_0.006_106.42)]",
-          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.38_0.006_106.42)]",
+          "group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.38_0.006_106.42)] dark:group-hover/checkbox:group-data-[checked]/checkbox:fill-[oklch(0.85_0.005_286)]",
+          "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.38_0.006_106.42)] dark:group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-[oklch(0.85_0.005_286)]",
           "group-focus-visible/checkbox:group-data-[checked]/checkbox:fill-foreground-strong",
           "group-focus-visible/checkbox:group-data-[indeterminate]/checkbox:fill-foreground-strong",
           "group-data-[checked]/checkbox:fill-foreground-strong",
@@ -116,10 +116,10 @@ const checkbox = tv({
       variant: "primary",
       class: {
         root: [
-          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
-          "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
-          "hover:data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.81_0.136_91.89_/_0.7)]",
-          "hover:data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.81_0.136_91.89_/_0.7)]",
+          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_var(--primary-edge)]",
+          "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_var(--primary-edge)]",
+          "hover:data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_var(--primary-edge)]",
+          "hover:data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_var(--primary-edge)]",
           "hover:data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
           "hover:data-[indeterminate]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
           "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
@@ -129,7 +129,7 @@ const checkbox = tv({
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)]",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)] dark:group-hover/checkbox:fill-[oklch(0.26_0.005_286)]",
           "group-focus-visible/checkbox:fill-primary-400",
           "group-hover/checkbox:group-data-[checked]/checkbox:fill-primary-hover",
           "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-primary-hover",
@@ -158,10 +158,10 @@ const checkbox = tv({
       color: "primary",
       class: {
         root: [
-          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
-          "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.83_0.14_91.89_/_0.7)]",
-          "hover:data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.81_0.136_91.89_/_0.7)]",
-          "hover:data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_oklch(0.81_0.136_91.89_/_0.7)]",
+          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_var(--primary-edge)]",
+          "data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_var(--primary-edge)]",
+          "hover:data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_var(--primary-edge)]",
+          "hover:data-[indeterminate]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.2),0_1px_1px_-0.5px_oklch(0.85_0.162_91.89_/_0.1),0_2px_2px_-1px_oklch(0.85_0.162_91.89_/_0.06),0_0_0_1px_var(--primary-edge)]",
           "hover:data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
           "hover:data-[indeterminate]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
           "data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
@@ -171,7 +171,7 @@ const checkbox = tv({
         outerRect: [
           "fill-layer-panel",
           "stroke-transparent",
-          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)]",
+          "group-hover/checkbox:fill-[oklch(0.976_0.001_106.42)] dark:group-hover/checkbox:fill-[oklch(0.26_0.005_286)]",
           "group-focus-visible/checkbox:fill-primary-400",
           "group-hover/checkbox:group-data-[checked]/checkbox:fill-primary-hover",
           "group-hover/checkbox:group-data-[indeterminate]/checkbox:fill-primary-hover",

@@ -63,7 +63,7 @@ const banner = tv({
           "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-data-[size=sm]/banner:min-h-4 group-data-[size=sm]/banner:text-[13px] group-data-[size=sm]/banner:leading-4",
           "group-data-[size=lg]/banner:min-h-6 group-data-[size=lg]/banner:text-[14.5px] group-data-[size=lg]/banner:leading-6",
-          "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
+          "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)] dark:group-data-[status=warning]/banner:text-[oklch(0.82_0.12_61.907)]",
         ],
         description: [
           "col-start-1 row-start-1 leading-4 text-foreground-muted",
@@ -72,7 +72,7 @@ const banner = tv({
           "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
           "group-data-[size=lg]/banner:text-sm group-data-[size=lg]/banner:leading-5",
-          "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)]",
+          "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)] dark:group-data-[status=warning]/banner:text-[oklch(0.82_0.12_61.907)]",
         ],
         action: [
           "col-start-2 row-start-1 flex min-h-5 items-center gap-2",
@@ -149,21 +149,21 @@ const banner = tv({
       theme: "elegant",
       status: "success",
       class: {
-        root: "bg-[oklch(0.94_0.035_153.079)] [&>svg]:text-success-base",
+        root: "bg-[oklch(0.94_0.035_153.079)] dark:bg-[oklch(0.5_0.12_153_/_0.18)] [&>svg]:text-success-base",
       },
     },
     {
       theme: "elegant",
       status: "warning",
       class: {
-        root: "bg-[oklch(0.973_0.071_103.193)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)]",
+        root: "bg-[oklch(0.973_0.071_103.193)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)] dark:bg-[oklch(0.52_0.09_103.193_/_0.18)] dark:text-[oklch(0.82_0.12_61.907)] dark:[&>svg]:text-[oklch(0.82_0.12_61.907)]",
       },
     },
     {
       theme: "elegant",
       status: "info",
       class: {
-        root: "bg-info-lighter [&>svg]:text-[oklch(0.55_0.11_220)]",
+        root: "bg-info-lighter [&>svg]:text-[oklch(0.55_0.11_220)] dark:[&>svg]:text-[oklch(0.8_0.1_220)]",
       },
     },
     {

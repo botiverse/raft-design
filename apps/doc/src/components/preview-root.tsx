@@ -36,7 +36,7 @@ export function PreviewRoot({
     <PreviewThemeScope
       family={previewTheme}
       mode={previewMode}
-      className="bg-white text-foreground"
+      className="bg-layer-panel text-foreground"
     >
       <div
         className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}

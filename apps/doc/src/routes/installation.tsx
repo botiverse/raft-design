@@ -229,6 +229,13 @@ function InstallationDoc() {
                 Add <InlineCode>TooltipProvider</InlineCode> when the app uses Tooltip. Add{" "}
                 <InlineCode>ToastProvider</InlineCode> once when the app uses toast feedback.
               </p>
+              <p>
+                Dark mode is class-driven: the provider resolves the system preference and stamps
+                the <InlineCode>.light</InlineCode> or <InlineCode>.dark</InlineCode> class on the
+                root. Server-rendered apps that persist a mode should replay it with a small inline
+                script before first paint (the next-themes pattern) so system-dark visitors do not
+                flash light.
+              </p>
               <CodeSnippet path="src/App.tsx" source={SNIPPETS.appShell} html={code.appShell} />
             </li>
             <li className="space-y-3">
