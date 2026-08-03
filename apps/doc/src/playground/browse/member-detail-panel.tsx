@@ -19,6 +19,7 @@ import {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
+  PanelAction,
   PanelActions,
   PanelHeading,
   PanelMeta,
@@ -37,7 +38,6 @@ import {
 } from "raft-ui";
 import { cn } from "raft-ui/cn";
 import {
-  PanelAction,
   ProfilePanel,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,

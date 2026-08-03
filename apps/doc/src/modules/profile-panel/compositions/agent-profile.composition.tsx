@@ -6,19 +6,19 @@ import {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
+  PanelAction,
   PanelActions,
   PanelBody,
   PanelHeading,
   PanelMeta,
   PanelScrollContent,
   PanelScrollViewport,
-  PanelStatus,
+  PanelActivity,
   PanelTitle,
   Status,
   Text,
 } from "raft-ui";
 import {
-  PanelAction,
   ProfilePanel,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
@@ -85,10 +85,10 @@ export function AgentProfileComposition() {
                   >
                     Tw93
                   </Text.Heading>
-                  <PanelStatus className="[[data-theme=brutal]_&]:gap-1.5 [[data-theme=brutal]_&]:font-mono [[data-theme=brutal]_&]:text-sm [[data-theme=brutal]_&]:text-foreground-muted">
+                  <PanelActivity className="[[data-theme=brutal]_&]:gap-1.5 [[data-theme=brutal]_&]:font-mono [[data-theme=brutal]_&]:text-sm [[data-theme=brutal]_&]:text-foreground-muted">
                     <Status size="md" variant="warning" aria-label="Working" />
                     Working…
-                  </PanelStatus>
+                  </PanelActivity>
                 </PanelHeading>
                 <Text.Mono size="meta" className="truncate [[data-theme=brutal]_&]:text-sm">
                   @Tw93

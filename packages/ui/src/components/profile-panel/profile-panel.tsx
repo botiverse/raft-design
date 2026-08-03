@@ -1,11 +1,11 @@
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Panel, PanelSection, type PanelProps, type PanelSectionProps } from "../panel/panel";
 import {
   PanelHeader,
   PanelHeaderContent,
   type PanelHeaderContentProps,
   type PanelHeaderProps,
-} from "../conversation-panel/conversation-panel";
-import { Panel, PanelSection, type PanelProps, type PanelSectionProps } from "../panel/panel";
+} from "../panel/panel-header";
 import { profilePanel } from "./profile-panel.recipe";
 
 export type ProfilePanelProps = PanelProps;

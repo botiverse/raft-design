@@ -2,7 +2,7 @@ export {
   Panel,
   PanelBody,
   PanelFooter,
-  PanelHeaderFrame,
+  PanelHeaderRoot,
   PanelScrollContent,
   PanelScrollViewport,
   PanelSection,
@@ -10,12 +10,36 @@ export {
 export type {
   PanelBodyProps,
   PanelFooterProps,
-  PanelHeaderFrameProps,
+  PanelHeaderRootProps,
   PanelProps,
   PanelScrollContentProps,
   PanelScrollViewportProps,
   PanelSectionProps,
 } from "./panel";
+export {
+  PanelActions,
+  PanelActivity,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeading,
+  PanelMeta,
+  PanelSectionHeader,
+  PanelStatus,
+  PanelTitle,
+} from "./panel-header";
+export type {
+  PanelActionsProps,
+  PanelActivityProps,
+  PanelHeaderContentProps,
+  PanelHeaderIconProps,
+  PanelHeaderProps,
+  PanelHeadingProps,
+  PanelMetaProps,
+  PanelSectionHeaderProps,
+  PanelStatusProps,
+  PanelTitleProps,
+} from "./panel-header";
 export { PanelAction } from "./panel-action";
 export type { PanelActionProps } from "./panel-action";
 export { PanelToggleAction } from "./panel-toggle-action";

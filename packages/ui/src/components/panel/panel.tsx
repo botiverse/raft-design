@@ -21,13 +21,18 @@ export function Panel({ className, render, ...props }: PanelProps) {
   });
 }
 
-export type PanelHeaderFrameProps = useRender.ComponentProps<"div">;
+export type PanelHeaderRootProps = useRender.ComponentProps<"div">;
 
-export function PanelHeaderFrame({ className, render, ...props }: PanelHeaderFrameProps) {
+/**
+ * Bare header bar: fixed height and centered flex row, no border, fill, or padding.
+ * Shared base for `PanelHeader`, `PanelSectionHeader`, and panel-specific headers
+ * such as `ThreadPanelHeader` — it is not exclusive to `PanelHeader`.
+ */
+export function PanelHeaderRoot({ className, render, ...props }: PanelHeaderRootProps) {
   const theme = useThemeFamily();
   const { header } = panel({ theme });
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "panel-header-frame",
+    "data-slot": "panel-header-root",
     className: header({ className }),
   };
 

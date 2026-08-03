@@ -19,6 +19,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
+  PanelAction,
   ThreadPanelActions,
   ThreadPanelBody,
   ThreadPanelContent,
@@ -50,7 +51,6 @@ import {
   MessageItemToolbarButton,
 } from "raft-ui";
 import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
-import { PanelAction } from "raft-ui/wip";
 import {
   Composer,
   ComposerInput,

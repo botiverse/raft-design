@@ -6,6 +6,7 @@ import {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
+  PanelAction,
   PanelActions,
   PanelBody,
   PanelHeading,
@@ -16,7 +17,6 @@ import {
   Text,
 } from "raft-ui";
 import {
-  PanelAction,
   ProfilePanel,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
