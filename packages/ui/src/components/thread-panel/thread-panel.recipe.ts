@@ -37,10 +37,10 @@ export const threadPanel = tv({
         footer: "border-t-2 border-black bg-white text-black/50",
       },
       elegant: {
-        root: "bg-transparent font-sans text-foreground",
+        root: "bg-transparent font-sans text-foreground-strong",
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
-          "border-b border-line-subtle bg-layer-page lg:border-l lg:pl-[19px]",
+          "border-b border-line-muted bg-layer-page lg:border-l lg:pl-[19px]",
           "max-lg:gap-2 max-lg:pl-5 max-lg:pr-3.5 max-md:h-[var(--shell-header-height,56px)]",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
           "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-sm",
@@ -57,7 +57,7 @@ export const threadPanel = tv({
           "text-foreground-muted",
         ],
         titleMeta: "text-foreground-muted",
-        search: ["max-lg:pl-5 max-lg:pr-3.5", "border-b border-line-subtle bg-layer-page"],
+        search: ["max-lg:pl-5 max-lg:pr-3.5", "border-b border-line-muted bg-layer-page"],
         searchTrailing: [
           "[&>[data-slot=thread-panel-actions]]:gap-0.5",
           "[&_[data-slot=panel-action]]:px-1.5 [&_[data-slot=panel-action]]:py-1.5",
@@ -66,11 +66,11 @@ export const threadPanel = tv({
         searchCount: "text-foreground-muted",
         originalMessage: [
           "bg-transparent",
-          "border-b border-line-subtle",
+          "border-b border-line-muted",
           "[&_[data-message-item]]:bg-transparent",
         ],
         replySummary: "px-5 max-lg:px-3.5",
-        replyCount: "border-line-muted text-foreground-muted",
+        replyCount: "border-line-faint text-foreground-muted",
         footer: ["px-5 max-lg:px-3.5 md:px-5 max-md:px-3.5", "text-foreground-muted"],
       },
     },

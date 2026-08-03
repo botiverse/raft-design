@@ -20,7 +20,7 @@ const composerRoot = tv({
         "has-[>[data-slot=composer-attachments]]:before:rounded-xl",
         "has-[>[data-slot=composer-attachments]]:before:bg-layer-inset",
         "has-[>[data-slot=composer-attachments]]:before:ring-1",
-        "has-[>[data-slot=composer-attachments]]:before:ring-line-subtle/60",
+        "has-[>[data-slot=composer-attachments]]:before:ring-line-muted/60",
       ],
     },
   },

@@ -25,8 +25,8 @@ export const messageReaction = tv({
     tooltipNames: ["flex max-w-60 flex-wrap items-center gap-y-0.5"],
     tooltipName: ["inline-flex min-w-0 items-baseline leading-5"],
     tooltipNameText: ["max-w-28 truncate"],
-    tooltipSeparator: ["shrink-0 text-foreground/45"],
-    tooltipMeta: ["leading-5 text-foreground/50"],
+    tooltipSeparator: ["shrink-0 text-foreground-strong/45"],
+    tooltipMeta: ["leading-5 text-foreground-strong/50"],
   },
   variants: {
     theme: {
@@ -64,7 +64,7 @@ export const messageReaction = tv({
           "bg-layer-strong text-foreground-muted",
           "hover:bg-ink-10",
           "data-[pressed]:bg-accent-200/50 data-[pressed]:text-accent-700 data-[pressed]:hover:bg-accent-200/70",
-          "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-lighter has-[[data-slot=message-reaction-error-indicator]]:text-danger-base",
+          "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-tint has-[[data-slot=message-reaction-error-indicator]]:text-danger",
         ],
         addButton: [
           "h-5 rounded-full px-1.5 bg-layer-muted text-foreground-icon [&_svg]:size-[13px]",

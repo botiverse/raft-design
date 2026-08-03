@@ -406,7 +406,7 @@ const COMPONENT_GRID = [
         </Label>
         <Label htmlFor="home-label-project-url">
           Project URL
-          <Info aria-hidden className="size-3.5 text-foreground/40" />
+          <Info aria-hidden className="size-3.5 text-foreground-strong/40" />
         </Label>
       </div>
     ),
@@ -564,7 +564,7 @@ const COMPONENT_GRID = [
           </Avatar>
           <Avatar size="lg" type="human">
             <AvatarFallback />
-            <AvatarBadge className="bg-info-base" />
+            <AvatarBadge className="bg-info" />
           </Avatar>
         </div>
       </div>
@@ -1077,7 +1077,7 @@ function PopoverPreview() {
             <PopoverDescription>
               Mix channels, people, and quoted phrases to narrow message history.
             </PopoverDescription>
-            <div className="grid gap-1 rounded-sm bg-foreground/[0.04] px-2 py-2 font-mono text-xs text-foreground/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
+            <div className="grid gap-1 rounded-sm bg-foreground-strong/[0.04] px-2 py-2 font-mono text-xs text-foreground-strong/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
               <span className="truncate">#design "token audit"</span>
               <span className="truncate">@atlas migration notes</span>
             </div>
@@ -1098,14 +1098,14 @@ function PreviewCardPreview() {
       className="relative flex h-64 w-full max-w-[22rem] min-w-0 items-start justify-center px-1 pt-14"
     >
       <PreviewCard open triggerId={triggerId}>
-        <p className="m-0 max-w-full text-center text-sm leading-6 text-foreground">
+        <p className="m-0 max-w-full text-center text-sm leading-6 text-foreground-strong">
           Follow up with{" "}
           <PreviewCardTrigger
             id={triggerId}
             render={
               <Link
                 to="/components/avatar"
-                className="cursor-default select-text font-bold text-foreground-strong underline decoration-foreground/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30 [[data-theme=brutal]_&]:hover:text-brutal-pink [[data-theme=brutal]_&]:hover:decoration-brutal-pink"
+                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30 [[data-theme=brutal]_&]:hover:text-brutal-pink [[data-theme=brutal]_&]:hover:decoration-brutal-pink"
               />
             }
           >
@@ -1168,9 +1168,12 @@ function AlertDialogPreview() {
           </AlertDialogHeader>
           <AlertDialogBody className="grid gap-2">
             <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
-            <p className="m-0 text-sm leading-5 break-words text-foreground/60 [[data-theme=brutal]_&]:text-black/70">
-              Delete task <strong className="font-bold text-foreground">#42</strong>{" "}
-              <strong className="font-bold text-foreground">"Review dialog migration"</strong>?
+            <p className="m-0 text-sm leading-5 break-words text-foreground-strong/60 [[data-theme=brutal]_&]:text-black/70">
+              Delete task <strong className="font-bold text-foreground-strong">#42</strong>{" "}
+              <strong className="font-bold text-foreground-strong">
+                "Review dialog migration"
+              </strong>
+              ?
             </p>
           </AlertDialogBody>
           <AlertDialogFooter className="grid grid-cols-2 gap-2">
@@ -1362,11 +1365,11 @@ function HomeToastList() {
 
   return (
     <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-panel p-4">
-      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-background/80 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-blue/20" />
+      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-page/80 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cyan/20" />
       <div className="absolute inset-x-5 top-24 grid grid-cols-3 gap-2">
-        <div className="h-10 rounded-md bg-background/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
-        <div className="h-10 rounded-md bg-background/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
-        <div className="h-10 rounded-md bg-background/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-page/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-page/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-page/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
       </div>
       <div className="relative z-10">
         {toasts.map((toastObject) => (
@@ -1416,16 +1419,16 @@ function Home() {
     <ThemeProvider theme={themePreset.family} mode={themePreset.mode} syncDom={false}>
       <div
         data-theme={themePreset.family}
-        className={`${themePreset.family === "elegant" ? themePreset.mode : "light"} min-h-screen bg-layer-panel pb-28 text-foreground`}
+        className={`${themePreset.family === "elegant" ? themePreset.mode : "light"} min-h-screen bg-layer-panel pb-28 text-foreground-strong`}
         style={{ colorScheme: themePreset.mode }}
       >
-        <div className="grid grid-cols-1 border-l border-line-subtle bg-layer-panel md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 border-l border-line-muted bg-layer-panel md:grid-cols-2 xl:grid-cols-3">
           {COMPONENT_GRID.map((item) => (
             <article
               key={item.label}
               className={[
                 "relative isolate h-[clamp(420px,36vh,520px)] overflow-hidden",
-                "border-b border-r border-line-subtle bg-layer-panel",
+                "border-b border-r border-line-muted bg-layer-panel",
               ].join(" ")}
             >
               <Link
@@ -1449,7 +1452,7 @@ function Home() {
           aria-label="Preview theme"
           className={[
             "fixed bottom-6 left-[calc(50vw+var(--sidebar-w)/2)] z-[80] -translate-x-1/2",
-            "grid grid-cols-3 overflow-hidden rounded-none bg-layer-panel text-foreground backdrop-blur",
+            "grid grid-cols-3 overflow-hidden rounded-none bg-layer-panel text-foreground-strong backdrop-blur",
             "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
           ].join(" ")}
         >
@@ -1463,12 +1466,10 @@ function Home() {
                 aria-pressed={isActive}
                 className={[
                   "h-9 min-w-20 px-4 text-xs font-medium outline-none transition-colors",
-                  "border-l border-line-subtle first:border-l-0",
-                  "hover:bg-layer-muted hover:text-foreground-strong",
+                  "border-l border-line-muted first:border-l-0",
+                  "hover:bg-layer-muted hover:text-foreground",
                   "focus-visible:relative focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-                  isActive
-                    ? "bg-layer-muted text-foreground-strong"
-                    : "text-foreground-placeholder",
+                  isActive ? "bg-layer-muted text-foreground" : "text-foreground-placeholder",
                 ].join(" ")}
                 onClick={() => setThemePreset(preset)}
               >

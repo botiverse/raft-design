@@ -3,19 +3,19 @@ import { useRender } from "@base-ui/react/use-render";
 import { tv, type VariantProps } from "../../lib/tv";
 
 const textColorVariants = {
-  default: ["text-foreground-strong"],
+  default: ["text-foreground"],
   primary: ["text-primary-700"],
-  information: ["text-info-dark"],
+  information: ["text-info-tint-foreground"],
   muted: ["text-foreground-muted"],
   placeholder: ["text-foreground-placeholder"],
   accent: ["text-accent-700"],
-  success: ["text-success-base"],
-  warning: ["text-warning-base"],
-  danger: ["text-danger-base"],
+  success: ["text-success"],
+  warning: ["text-warning"],
+  danger: ["text-danger"],
 };
 
 const heading = tv({
-  base: ["m-0 font-heading font-medium text-foreground-strong"],
+  base: ["m-0 font-heading font-medium text-foreground"],
   variants: {
     level: {
       1: ["text-[56px] tracking-[-0.01em] leading-16"],
@@ -36,8 +36,8 @@ const sans = tv({
   base: ["m-0 font-sans font-normal"],
   variants: {
     size: {
-      large: ["text-lg leading-7 text-foreground"],
-      body: ["text-base leading-6 text-foreground"],
+      large: ["text-lg leading-7 text-foreground-strong"],
+      body: ["text-base leading-6 text-foreground-strong"],
       small: ["text-sm leading-5 text-foreground-muted"],
       caption: ["text-xs leading-4 text-foreground-muted"],
     },
@@ -52,13 +52,13 @@ const mono = tv({
   base: ["m-0 font-mono font-normal"],
   variants: {
     size: {
-      code: ["text-sm leading-5 text-foreground"],
+      code: ["text-sm leading-5 text-foreground-strong"],
       meta: ["text-xs leading-4 text-foreground-muted"],
       eyebrow: [
         "text-[10px] font-medium uppercase tracking-wide leading-none",
         "text-foreground-placeholder",
       ],
-      tabular: ["text-sm tabular-nums leading-5 text-foreground"],
+      tabular: ["text-sm tabular-nums leading-5 text-foreground-strong"],
     },
     variant: textColorVariants,
   },

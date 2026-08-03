@@ -105,11 +105,11 @@ function RootDocument({ children }: { children: ReactNode }) {
         className={
           isStandalonePage
             ? cn(
-                "h-dvh overflow-hidden overscroll-none bg-background text-foreground antialiased",
+                "h-dvh overflow-hidden overscroll-none bg-layer-page text-foreground-strong antialiased",
                 usesPlaygroundDocumentScroll &&
                   "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
               )
-            : "bg-layer-panel text-foreground antialiased"
+            : "bg-layer-panel text-foreground-strong antialiased"
         }
       >
         <PreviewThemeProvider>

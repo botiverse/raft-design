@@ -28,14 +28,14 @@ export const taskListSection = tv({
         ],
         badge: [
           "inline-flex items-center gap-1 border border-line-strong",
-          "font-heading font-bold uppercase text-foreground",
-          "[&_svg]:size-2.5 [&_svg]:shrink-0 [&_svg]:text-foreground",
+          "font-heading font-bold uppercase text-foreground-strong",
+          "[&_svg]:size-2.5 [&_svg]:shrink-0 [&_svg]:text-foreground-strong",
         ],
-        count: ["font-mono text-foreground/50"],
-        chevron: ["text-foreground/50", "group-hover:text-foreground"],
+        count: ["font-mono text-foreground-strong/50"],
+        chevron: ["text-foreground-strong/50", "group-hover:text-foreground-strong"],
         empty: [
           "border-2 border-dashed border-line-strong/20",
-          "text-sm leading-5 text-foreground/40",
+          "text-sm leading-5 text-foreground-strong/40",
         ],
       },
       elegant: {
@@ -56,9 +56,9 @@ export const taskListSection = tv({
           "[&_svg]:size-3.5 [&_svg]:shrink-0",
         ],
         count: ["font-sans font-medium tabular-nums text-foreground-placeholder"],
-        chevron: ["text-foreground-icon", "group-hover:text-foreground"],
+        chevron: ["text-foreground-icon", "group-hover:text-foreground-strong"],
         empty: [
-          "rounded-lg border border-dashed border-line-subtle bg-layer-muted",
+          "rounded-lg border border-dashed border-line-muted bg-layer-muted",
           "text-[13px] leading-4.5 text-foreground-placeholder",
         ],
       },

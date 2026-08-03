@@ -31,7 +31,7 @@ export const appRail = tv({
           "h-[var(--shell-header-height,62px)] border-b-2 border-black [@media(max-height:600px)]:h-12",
         footer: "h-auto pb-2 [@media(max-height:600px)]:pb-1",
         item: [
-          "size-10 border-2 border-transparent text-foreground",
+          "size-10 border-2 border-transparent text-foreground-strong",
           "transition-colors",
           "hover:border-black hover:bg-white",
           "data-[selected=true]:border-black data-[selected=true]:bg-white",
@@ -48,8 +48,8 @@ export const appRail = tv({
         item: [
           "size-auto min-w-9 p-3 rounded-md border border-transparent",
           "text-[13px] text-foreground-icon [&_svg]:size-4",
-          "hover:bg-layer-strong/80 hover:text-foreground",
-          "active:bg-layer-strong/80 active:text-foreground",
+          "hover:bg-layer-strong/80 hover:text-foreground-strong",
+          "active:bg-layer-strong/80 active:text-foreground-strong",
           "data-[selected=true]:border-transparent data-[selected=true]:bg-layer-strong",
           "data-[selected=true]:text-foreground-muted data-[selected=true]:shadow-none",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",

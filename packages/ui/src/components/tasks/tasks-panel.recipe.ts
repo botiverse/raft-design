@@ -35,16 +35,16 @@ export const tasksPanel = tv({
       brutal: {
         toolbar: ["border-b-2 border-line-strong bg-layer-panel"],
         toolbarLabel: [
-          "gap-2 border-2 border-line-subtle bg-layer-panel px-3 py-1.5",
-          "font-heading font-bold text-foreground/70",
+          "gap-2 border-2 border-line-muted bg-layer-panel px-3 py-1.5",
+          "font-heading font-bold text-foreground-strong/70",
         ],
         viewport: ["bg-layer-panel"],
       },
       elegant: {
-        toolbar: ["border-b border-line-subtle bg-layer-panel px-7", "max-md:pl-5 max-md:pr-3.5"],
+        toolbar: ["border-b border-line-muted bg-layer-panel px-7", "max-md:pl-5 max-md:pr-3.5"],
         toolbarLabel: [
           "gap-1.5 rounded-sm border border-transparent bg-transparent px-2.5 py-[7px]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "font-sans font-medium text-foreground-muted",
         ],
         toolbarView: ["[&_[data-slot=tabs-list]]:gap-2"],

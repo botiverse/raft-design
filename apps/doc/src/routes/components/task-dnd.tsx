@@ -210,7 +210,7 @@ function TaskDndDoc() {
 
       <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="allowed-blocked" title="Allowed and blocked drops">
-          <p className="mb-4 text-sm text-foreground/70">
+          <p className="mb-4 text-sm text-foreground-strong/70">
             The demo composition passes <code>blockedDropStatus=&quot;closed&quot;</code>, which the
             board turns into an <code>isDropAllowed</code> policy. Drag a card onto Closed to see
             blocked empty-state copy; other columns accept the drop and call <code>onMove</code>.

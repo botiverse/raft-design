@@ -114,7 +114,7 @@ export function MemberDetailComposition() {
             <MemberDetailSection title="Created agents" count={1}>
               <SidebarItem
                 disabled
-                className="[[data-theme=brutal]_&]:border-line-subtle [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
+                className="[[data-theme=brutal]_&]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
               >
                 <SidebarItemIcon className="size-8">
                   <Avatar size="sm" type="agent">

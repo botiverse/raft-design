@@ -39,7 +39,7 @@ function AttachmentPreviewDialogParts() {
           </DialogTitle>
           <span
             className={cn(
-              "shrink-0 rounded-full border border-line-subtle bg-layer-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-foreground-muted",
+              "shrink-0 rounded-full border border-line-muted bg-layer-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-foreground-muted",
               isBrutal && "border-black/20 bg-black/5 text-black/60",
             )}
           >
@@ -60,7 +60,7 @@ function AttachmentPreviewDialogParts() {
         >
           <div
             className={cn(
-              "grid h-full min-h-56 w-full place-items-center border border-line-subtle bg-white text-sm text-foreground-muted",
+              "grid h-full min-h-56 w-full place-items-center border border-line-muted bg-white text-sm text-foreground-muted",
               isBrutal &&
                 "border-2 border-line-strong bg-white font-mono text-xs text-black/50 shadow-sm",
             )}

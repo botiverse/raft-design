@@ -14,7 +14,7 @@ export const messageFooter = tv({
       "inline-flex min-w-0 max-w-full items-center gap-1 overflow-hidden whitespace-nowrap select-none",
       "transition-colors [&_svg]:shrink-0",
     ],
-    badgeSeparator: ["text-foreground/45"],
+    badgeSeparator: ["text-foreground-strong/45"],
   },
   variants: {
     badgeStatus: { read: {}, unread: {} },
@@ -35,7 +35,7 @@ export const messageFooter = tv({
       },
       elegant: {
         savedIndicator: [
-          "h-5 gap-1.5 rounded-full bg-[oklch(0.955_0.067_93.62)] px-1.5 py-0.5",
+          "h-5 gap-1.5 rounded-full bg-primary-tint px-1.5 py-0.5",
           "text-[11px] font-medium leading-3 tracking-[0.22px] text-primary-600",
           "transition-[filter,opacity] duration-100 hover:brightness-95",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
@@ -61,7 +61,7 @@ export const messageFooter = tv({
       theme: "elegant",
       badgeStatus: "unread",
       class: {
-        badge: ["bg-info-lighter/50 text-[12px] tracking-[-0.01em]"],
+        badge: ["bg-info-tint/50 text-[12px] tracking-[-0.01em]"],
       },
     },
   ],

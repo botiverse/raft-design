@@ -22,11 +22,11 @@ export const docsCodeBlock = tv({
     lineNumber: "text-right tabular-nums",
     copyButton: [
       "shrink-0 pr-0 !leading-snug text-foreground-muted",
-      "hover:bg-transparent hover:text-foreground-strong hover:before:bg-transparent",
+      "hover:bg-transparent hover:text-foreground hover:before:bg-transparent",
     ],
     collapseButton: [
       "min-w-[4.625rem] shrink-0 gap-1 pr-0 !leading-snug text-foreground-muted",
-      "hover:bg-transparent hover:text-foreground-strong hover:before:bg-transparent",
+      "hover:bg-transparent hover:text-foreground hover:before:bg-transparent",
       "[&[data-panel-open]_svg]:rotate-180",
     ],
   },

@@ -29,7 +29,7 @@ function JoinLinkCode() {
   return (
     <InlineCode
       className={cn(
-        "w-0 min-w-full truncate px-3 py-2 text-foreground-strong",
+        "w-0 min-w-full truncate px-3 py-2 text-foreground",
         theme === "brutal"
           ? "rounded-none border-2 border-line-strong bg-layer-panel shadow-sm"
           : "rounded bg-layer-muted shadow-none",

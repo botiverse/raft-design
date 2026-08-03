@@ -14,10 +14,10 @@ export const profilePanel = tv({
     theme: {
       brutal: {},
       elegant: {
-        root: "relative font-sans text-foreground",
-        header: "border-b border-line-subtle max-md:flex max-md:px-6 md:px-6",
+        root: "relative font-sans text-foreground-strong",
+        header: "border-b border-line-muted max-md:flex max-md:px-6 md:px-6",
         headerContent: "md:flex-col md:items-stretch md:gap-0",
-        section: "border-line-subtle px-6 py-5",
+        section: "border-line-muted px-6 py-5",
       },
     },
   },

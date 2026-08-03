@@ -41,13 +41,13 @@ const composerSuggestionList = tv({
         group: "flex flex-col gap-0.5",
         groupLabel: [
           "mb-0.5 px-3 py-2",
-          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45",
+          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground-strong/45",
         ],
         item: [
           "cursor-default gap-2.5 rounded-sm text-[13px] font-medium tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
-          "hover:bg-ink-2 hover:text-foreground-strong",
-          "data-[highlighted=true]:bg-ink-4 data-[highlighted=true]:text-foreground-strong",
+          "hover:bg-ink-2 hover:text-foreground",
+          "data-[highlighted=true]:bg-ink-4 data-[highlighted=true]:text-foreground",
           "data-[disabled=true]:pointer-events-none data-[disabled=true]:text-foreground-disabled",
         ],
         meta: "text-xs text-foreground-placeholder",

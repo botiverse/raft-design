@@ -84,7 +84,7 @@ export const conversationPanel = tv({
         footer: "border-t-2 border-black bg-white",
       },
       elegant: {
-        root: "relative bg-layer-page font-sans text-foreground",
+        root: "relative bg-layer-page font-sans text-foreground-strong",
         header: [
           ...elegantHeader,
           "max-md:[&>button+[data-slot=panel-header-content]]:col-start-2",
@@ -140,7 +140,7 @@ export const conversationPanel = tv({
         ],
         tabs: [
           "border-b-0 bg-layer-panel max-md:bg-layer-page",
-          "max-md:border-b max-md:border-line-subtle",
+          "max-md:border-b max-md:border-line-muted",
           "[&>[data-slot=tabs-list]]:border-b-0",
           "[&>[data-slot=tabs-list]]:max-md:h-10",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:max-md:h-10",

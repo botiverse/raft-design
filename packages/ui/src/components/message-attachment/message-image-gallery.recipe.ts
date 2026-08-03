@@ -35,12 +35,12 @@ export const messageImageGallery = tv({
           "has-[[data-slot=message-image-gallery-overlay]]:opacity-70",
         ],
         preview:
-          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-line-focus",
+          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-line-strong",
         action: [
           "rounded-full border-0 bg-white/75 text-foreground-muted shadow-none backdrop-blur-md",
           "transition-[background-color,color,opacity,box-shadow,transform] duration-150",
-          "hover:bg-white/85 hover:text-foreground-strong active:scale-[0.97]",
-          "outline outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-foreground-strong",
+          "hover:bg-white/85 hover:text-foreground active:scale-[0.97]",
+          "outline outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-foreground",
         ],
       },
     },

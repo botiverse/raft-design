@@ -66,18 +66,16 @@ export function MemberDetailsDrawer({
               <AvatarFallback>AR</AvatarFallback>
             </Avatar>
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-foreground-strong">Alex Rivera</p>
+              <p className="truncate text-sm font-medium text-foreground">Alex Rivera</p>
               <p className="truncate text-xs text-foreground-muted">alex@acme.design</p>
             </div>
           </div>
 
-          <dl className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 border-y border-line-subtle py-4 text-left text-sm">
+          <dl className="mt-6 grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 border-y border-line-muted py-4 text-left text-sm">
             <dt className="text-foreground-muted">Role</dt>
-            <dd className="truncate text-right font-medium text-foreground-strong">Editor</dd>
+            <dd className="truncate text-right font-medium text-foreground">Editor</dd>
             <dt className="text-foreground-muted">Joined</dt>
-            <dd className="truncate text-right font-medium text-foreground-strong">
-              June 12, 2026
-            </dd>
+            <dd className="truncate text-right font-medium text-foreground">June 12, 2026</dd>
           </dl>
 
           <div className="mt-6">{children}</div>

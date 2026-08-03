@@ -24,7 +24,7 @@ const mobileNav = tv({
         ],
         item: [
           "min-w-0 flex-col gap-0.5 border-0 border-r-2 border-line-strong px-0 py-2 text-[10px] tracking-wider last:border-r-0",
-          "text-black/55 hover:text-black active:bg-ink-5",
+          "text-black/55 hover:text-black active:bg-ink-6",
           "data-[selected=true]:text-black data-[selected=true]:bg-primary-400 data-[selected=true]:shadow-none",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
@@ -38,7 +38,7 @@ const mobileNav = tv({
           "relative size-11 min-w-0 gap-0 rounded-full border-0 p-0",
           "text-foreground-placeholder [&>*]:relative [&>*]:z-10",
           "hover:text-foreground-muted active:bg-layer-strong",
-          "data-[selected=true]:bg-layer-panel data-[selected=true]:text-foreground data-[selected=true]:shadow-xl data-[selected=true]:ring-1 data-[selected=true]:ring-line-subtle/45",
+          "data-[selected=true]:bg-layer-panel data-[selected=true]:text-foreground-strong data-[selected=true]:shadow-xl data-[selected=true]:ring-1 data-[selected=true]:ring-line-muted/45",
           "data-[selected=true]:before:pointer-events-none data-[selected=true]:before:absolute data-[selected=true]:before:inset-0 data-[selected=true]:before:z-0 data-[selected=true]:before:rounded-[inherit]",
           "data-[selected=true]:before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_12%)_0%,oklab(0%_0_0_/_6%)_100%)] data-[selected=true]:before:content-['']",
         ],

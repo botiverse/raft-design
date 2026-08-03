@@ -22,7 +22,7 @@ const emptyState = tv({
     title: ["mb-2 w-full max-w-full text-center text-balance font-heading text-lg font-semibold"],
     description: [
       "mx-auto w-full max-w-[32ch] text-center text-sm leading-relaxed text-pretty",
-      "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-foreground-strong",
+      "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-foreground",
     ],
     actions: ["mt-5"],
   },
@@ -30,12 +30,12 @@ const emptyState = tv({
     theme: {
       brutal: {
         icon: "text-foreground-muted [&_svg]:size-9",
-        title: "text-foreground/60",
-        description: "text-foreground/60",
+        title: "text-foreground-strong/60",
+        description: "text-foreground-strong/60",
       },
       elegant: {
         icon: "rounded-md bg-layer-muted p-2 text-foreground-placeholder [&_svg]:size-4.5",
-        title: "text-sm font-medium text-foreground-strong",
+        title: "text-sm font-medium text-foreground",
         description: "text-foreground-muted",
       },
     },

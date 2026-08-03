@@ -27,7 +27,7 @@ function AnnouncementDialogParts() {
       <DialogHeader
         className={cn(
           "bg-primary-400 px-5 py-3",
-          isBrutal ? "border-b-2 border-line-strong" : "border-b border-line-subtle",
+          isBrutal ? "border-b-2 border-line-strong" : "border-b border-line-muted",
         )}
       >
         <div className="flex min-w-0 items-center gap-2">
@@ -51,9 +51,7 @@ function AnnouncementDialogParts() {
           isBrutal ? "py-5" : "py-[38px]",
         )}
       >
-        <h3 className="m-0 text-base font-bold uppercase text-foreground-strong">
-          New migration queue
-        </h3>
+        <h3 className="m-0 text-base font-bold uppercase text-foreground">New migration queue</h3>
         <p className="m-0 text-foreground-muted">
           Review newly ready components and compare them against their source scenes before
           migration.
@@ -66,7 +64,7 @@ function AnnouncementDialogParts() {
       <DialogFooter
         className={cn(
           "justify-between px-5 py-3",
-          isBrutal ? "border-t-2 border-line-strong" : "border-t border-line-subtle",
+          isBrutal ? "border-t-2 border-line-strong" : "border-t border-line-muted",
         )}
       >
         <div className="flex items-center gap-1.5">
@@ -81,7 +79,7 @@ function AnnouncementDialogParts() {
                 variant={isCurrentPage ? "primary" : "default"}
                 className={cn(
                   isBrutal && {
-                    "[--status-color:var(--foreground-strong)]": isCurrentPage,
+                    "[--status-color:var(--foreground)]": isCurrentPage,
                     "[--status-color:var(--layer-panel)]": !isCurrentPage,
                   },
                   !isBrutal && !isCurrentPage && "opacity-40",

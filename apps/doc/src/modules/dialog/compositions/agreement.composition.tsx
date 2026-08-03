@@ -47,7 +47,7 @@ function AgreementDialogParts() {
         <p className="m-0 text-sm">Before joining, review the workspace rules.</p>
         <div
           className={cn(
-            "max-h-[50vh] overflow-y-auto border border-line-subtle bg-layer-panel p-4 text-sm",
+            "max-h-[50vh] overflow-y-auto border border-line-muted bg-layer-panel p-4 text-sm",
             isBrutal && "border-2 border-line-strong bg-white",
             isElegant && "max-h-none overflow-visible border-0 bg-transparent p-0",
           )}

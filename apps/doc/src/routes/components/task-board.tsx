@@ -289,7 +289,7 @@ function TaskBoardDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="board-with-dnd" title="Board with drag and drop">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Wrap columns in <code>TaskDndProvider</code> and mount each column as a{" "}
               <code>TaskDropZone</code>. Drop policy and move handlers stay in the composition.
             </p>
@@ -302,7 +302,7 @@ function TaskBoardDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="scroll-area" title="Scroll area">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Keep one <code>ScrollAreaViewport</code> around the whole board. The viewport owns
               vertical and horizontal scrolling; <code>TaskBoardRoot</code> keeps its natural
               minimum width, so columns never become independent scroll regions.
@@ -316,7 +316,7 @@ function TaskBoardDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="column-empty" title="Column empty states">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Sparse tasks leave In Review / Done / Closed empty so{" "}
               <code>TaskBoardColumnEmptyIdle</code> shows. Drag onto an empty column for Allowed /
               Blocked copy (Closed is not blocked in this demo — see{" "}
@@ -331,7 +331,7 @@ function TaskBoardDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="virtualization" title="Virtualization">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Keep one shared <code>ScrollAreaViewport</code>, and mount a{" "}
               <code>useVirtualizer</code> stack inside each tall column. Only viewport rows plus
               overscan stay mounted — watch the counter while scrolling. Virtualization stays

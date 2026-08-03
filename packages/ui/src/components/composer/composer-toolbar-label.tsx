@@ -11,7 +11,7 @@ const composerToolbarLabel = tv({
   variants: {
     theme: {
       brutal: {
-        root: "font-bold text-foreground/60",
+        root: "font-bold text-foreground-strong/60",
       },
       elegant: {
         root: [

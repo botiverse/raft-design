@@ -4,13 +4,13 @@ export const filePreview = tv({
   slots: {
     root: ["relative flex h-10 w-10 shrink-0 items-center justify-center"],
     document: [
-      "relative h-10 w-8 space-y-1.5 rounded-md rounded-tr-[15%] bg-layer-panel p-1.5 shadow-sm ring-1 ring-line-subtle",
+      "relative h-10 w-8 space-y-1.5 rounded-md rounded-tr-[15%] bg-layer-panel p-1.5 shadow-sm ring-1 ring-line-muted",
     ],
     file: [
-      "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-sm ring-1 ring-line-subtle",
+      "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-sm ring-1 ring-line-muted",
     ],
     code: [
-      "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-sm ring-1 ring-line-subtle",
+      "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-sm ring-1 ring-line-muted",
     ],
     fileZip: ["flex h-7 items-center justify-center"],
     fileZipStack: ["relative -translate-y-0.5 flex flex-col items-center"],
@@ -23,19 +23,19 @@ export const filePreview = tv({
     codeRow: ["flex items-center gap-0.5 leading-none"],
     codeRowIndent: ["flex items-center gap-0.5 pl-1.5 leading-none"],
     codeTextRow: ["block pl-3"],
-    codeGlyph: ["font-mono text-[4px] leading-none text-foreground/30"],
+    codeGlyph: ["font-mono text-[4px] leading-none text-foreground-strong/30"],
     codeTagLine: ["h-0.5 w-3 rounded-full bg-primary-400/60"],
     codeAttributeLine: ["h-0.5 w-2.5 rounded-full bg-accent-400/60"],
-    codeTextLine: ["h-0.5 w-6 rounded-full bg-foreground/10"],
+    codeTextLine: ["h-0.5 w-6 rounded-full bg-foreground-strong/10"],
     codeSelfClosingLine: ["h-0.5 w-2 rounded-full bg-primary-400/60"],
     badge: [
       "absolute -right-1.5 bottom-0.5 z-10 w-fit whitespace-nowrap rounded-sm px-1.5 py-0.5",
-      "font-mono text-[10px] leading-none font-semibold text-[oklch(1_0_0)]",
+      "font-mono text-[10px] leading-none font-semibold text-white",
       "shadow-[0_3px_6px_oklch(0.42_0.12_20_/_0.25)] [text-shadow:0_1px_1px_oklch(0.25_0.08_20_/_0.45)]",
       "after:pointer-events-none after:absolute after:inset-0 after:rounded-sm after:border after:border-[oklch(1_0_0_/_0.2)] after:content-['']",
     ],
     media: [
-      "relative h-10 w-8 overflow-hidden rounded-md bg-[oklch(1_0_0)] shadow-sm ring-1 ring-line-subtle",
+      "relative h-10 w-8 overflow-hidden rounded-md bg-white shadow-sm ring-1 ring-line-muted",
     ],
   },
   variants: {
@@ -45,7 +45,7 @@ export const filePreview = tv({
       amber: { badge: "bg-[oklch(0.52_0.13_75)]" },
       emerald: { badge: "bg-[oklch(0.54_0.14_160)]" },
       violet: { badge: "bg-[oklch(0.52_0.16_300)]" },
-      neutral: { badge: "bg-foreground-strong" },
+      neutral: { badge: "bg-foreground" },
     },
     theme: {
       brutal: {

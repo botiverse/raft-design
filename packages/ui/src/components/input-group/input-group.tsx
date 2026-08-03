@@ -32,26 +32,26 @@ const inputGroup = tv({
           "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][data-invalid]]:shadow-md",
           "has-[[data-slot=input-group-control][data-invalid]]:border-brutal-red has-[[data-slot=input-group-control][data-invalid]]:bg-brutal-red/5 has-[[data-slot=input-group-control][data-invalid]]:shadow-none has-[[data-slot=input-group-control][data-invalid]]:ring-2 has-[[data-slot=input-group-control][data-invalid]]:ring-brutal-red/60",
         ],
-        addon: ["text-foreground/50"],
-        text: ["font-heading text-foreground/50"],
+        addon: ["text-foreground-strong/50"],
+        text: ["font-heading text-foreground-strong/50"],
         control: ["font-heading"],
       },
       elegant: {
         root: [
-          "overflow-hidden rounded-md border border-line-field bg-layer-field shadow-none",
-          "text-foreground-strong transition duration-200 ease-out dark:text-foreground",
+          "overflow-hidden rounded-md border border-line-field bg-layer-panel shadow-none",
+          "text-foreground transition duration-200 ease-out dark:text-foreground-strong",
           "hover:border-line-field-hover hover:shadow-field-hover",
-          "has-[[data-slot=input-group-control]:focus]:bg-layer-field",
-          "has-[[data-slot=input-group-control]:focus-visible]:ring-1 has-[[data-slot=input-group-control]:focus-visible]:ring-primary-400 has-[[data-slot=input-group-control]:focus-visible]:ring-offset-2 has-[[data-slot=input-group-control]:focus-visible]:ring-offset-background",
-          "has-[[data-slot=input-group-control][data-invalid]]:border-danger-base/45 has-[[data-slot=input-group-control][data-invalid]]:hover:border-danger-base/75 has-[[data-slot=input-group-control][data-invalid]:focus]:border-danger-base/75",
-          "has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-2 has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-[color-mix(in_oklch,var(--state-danger-base)_60%,transparent)] has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-offset-0",
-          "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control]:disabled]:bg-layer-muted/50",
-          "has-[[data-slot=input-group-control]:disabled]:hover:border-line-subtle/60 has-[[data-slot=input-group-control]:disabled]:hover:shadow-none",
-          "has-[[data-slot=input-group-control][data-invalid]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control][data-invalid]:disabled]:ring-0",
+          "has-[[data-slot=input-group-control]:focus]:bg-layer-panel",
+          "has-[[data-slot=input-group-control]:focus-visible]:ring-1 has-[[data-slot=input-group-control]:focus-visible]:ring-primary-400 has-[[data-slot=input-group-control]:focus-visible]:ring-offset-2 has-[[data-slot=input-group-control]:focus-visible]:ring-offset-layer-page",
+          "has-[[data-slot=input-group-control][data-invalid]]:border-danger/45 has-[[data-slot=input-group-control][data-invalid]]:hover:border-danger/75 has-[[data-slot=input-group-control][data-invalid]:focus]:border-danger/75",
+          "has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-2 has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-[color-mix(in_oklch,var(--danger)_60%,transparent)] has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-offset-0",
+          "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-muted/60 has-[[data-slot=input-group-control]:disabled]:bg-layer-muted/50",
+          "has-[[data-slot=input-group-control]:disabled]:hover:border-line-muted/60 has-[[data-slot=input-group-control]:disabled]:hover:shadow-none",
+          "has-[[data-slot=input-group-control][data-invalid]:disabled]:border-line-muted/60 has-[[data-slot=input-group-control][data-invalid]:disabled]:ring-0",
         ],
         addon: [
           "text-foreground-muted transition duration-200 ease-out",
-          "group-has-[[data-slot=input-group-control]:focus]/input-group:text-foreground",
+          "group-has-[[data-slot=input-group-control]:focus]/input-group:text-foreground-strong",
           "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
         ],
         text: [
@@ -60,7 +60,7 @@ const inputGroup = tv({
           "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
         ],
         control: [
-          "text-foreground-strong placeholder:text-foreground-placeholder/70 dark:text-foreground",
+          "text-foreground placeholder:text-foreground-placeholder/70 dark:text-foreground-strong",
           "transition duration-200 ease-out placeholder:transition placeholder:duration-200 placeholder:ease-out",
           "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],
@@ -74,11 +74,11 @@ const inputGroup = tv({
       default: {},
       container: {
         addon: [
-          "self-stretch border-line-subtle/90 bg-layer-muted/35",
+          "self-stretch border-line-muted/90 bg-layer-muted/35",
           "text-foreground-placeholder",
         ],
         text: [
-          "self-stretch border-line-subtle/90 bg-layer-muted/35",
+          "self-stretch border-line-muted/90 bg-layer-muted/35",
           "text-foreground-placeholder",
         ],
       },
@@ -89,8 +89,8 @@ const inputGroup = tv({
       theme: "brutal",
       variant: "container",
       class: {
-        addon: "bg-brutal-yellow/30 font-bold text-foreground/70",
-        text: "bg-brutal-yellow/30 font-bold text-foreground/70",
+        addon: "bg-brutal-yellow/30 font-bold text-foreground-strong/70",
+        text: "bg-brutal-yellow/30 font-bold text-foreground-strong/70",
       },
     },
     {

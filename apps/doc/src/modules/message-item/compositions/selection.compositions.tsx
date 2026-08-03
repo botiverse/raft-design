@@ -83,7 +83,7 @@ export function MessageMultiSelectToolbarComposition({
         data-testid="select-mode-count"
         className={
           theme === "brutal"
-            ? "whitespace-nowrap font-mono text-xs font-bold text-foreground/70"
+            ? "whitespace-nowrap font-mono text-xs font-bold text-foreground-strong/70"
             : "inline-flex items-center whitespace-nowrap font-sans text-xs font-[400] leading-none tabular-nums text-foreground-muted"
         }
       >

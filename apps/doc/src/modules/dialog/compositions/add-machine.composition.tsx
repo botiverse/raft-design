@@ -32,7 +32,7 @@ function AddMachineDialogParts() {
         <DialogClose />
       </DialogHeader>
       <DialogBody>
-        <div className="mb-6 flex items-center gap-2 text-sm font-medium text-foreground-strong">
+        <div className="mb-6 flex items-center gap-2 text-sm font-medium text-foreground">
           <Terminal className="size-4" />
           Run this command on your computer to connect:
         </div>

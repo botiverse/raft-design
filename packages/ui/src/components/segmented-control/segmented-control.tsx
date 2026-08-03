@@ -21,27 +21,27 @@ const segmentedControl = tv({
     theme: {
       brutal: {
         item: [
-          "border-2 border-line-strong bg-layer-panel px-2 py-1.5 font-semibold text-foreground-strong",
+          "border-2 border-line-strong bg-layer-panel px-2 py-1.5 font-semibold text-foreground",
           "has-[svg]:pl-1.5 has-[[data-slot=segmented-control-count]]:pr-1.5",
           "[&_svg]:stroke-[2.5] [&_svg_*]:stroke-[2.5]",
-          "hover:bg-primary-400/30 data-[checked]:bg-primary-400 data-[checked]:text-foreground-strong",
+          "hover:bg-primary-400/30 data-[checked]:bg-primary-400 data-[checked]:text-foreground",
           "data-[disabled]:cursor-not-allowed",
         ],
         count: [
-          "font-bold text-foreground/65",
-          "group-data-[checked]/segmented-control-item:text-foreground/70",
+          "font-bold text-foreground-strong/65",
+          "group-data-[checked]/segmented-control-item:text-foreground-strong/70",
         ],
       },
       elegant: {
         root: ["gap-1.5"],
         item: [
-          "rounded-sm bg-layer-panel px-2.5 py-2 font-medium text-foreground-strong antialiased",
+          "rounded-sm bg-layer-panel px-2.5 py-2 font-medium text-foreground antialiased",
           "has-[svg]:pl-2 has-[[data-slot=segmented-control-count]]:pr-2",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-subtle)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-muted)]",
           "data-[unchecked]:hover:bg-[color-mix(in_oklch,var(--layer-muted)_55%,var(--layer-panel))]",
           "data-[checked]:bg-primary-400 data-[checked]:text-primary-950 data-[checked]:hover:bg-primary-hover",
-          "data-[checked]:shadow-[0_1px_1.5px_-1px_oklch(0.85_0.162_91.89_/_0.08),0_0_0_1px_var(--primary-edge)]",
-          "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+          "data-[checked]:shadow-[0_1px_1.5px_-1px_color-mix(in_srgb,var(--primary-glow)_8%,transparent),0_0_0_1px_var(--primary-edge)]",
+          "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-layer-page",
           "data-[disabled]:cursor-not-allowed",
         ],
         count: [

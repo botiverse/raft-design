@@ -123,7 +123,7 @@ export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Record<s
         </DocSection>
 
         <DocSection id="values" title="Values">
-          <div className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-line-subtle">
+          <div className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-line-muted">
             {SHADOW_TOKENS.map((shadow) => (
               <div
                 key={shadow.sourceToken}
@@ -160,7 +160,7 @@ function TokenThemeScope({ theme, children }: { theme: ShadowTheme; children: Re
       data-theme="elegant"
       className="light min-h-screen bg-layer-panel"
       style={{
-        color: "var(--foreground)",
+        color: "var(--foreground-strong)",
         fontFamily: "var(--sans-font)",
       }}
     >
@@ -178,7 +178,7 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
       className={`${theme.theme === "elegant" ? theme.mode : "light"} p-4`}
       style={{
         background: "var(--layer-panel)",
-        color: "var(--foreground)",
+        color: "var(--foreground-strong)",
         fontFamily: "var(--heading-font)",
         colorScheme: theme.mode,
       }}
@@ -198,7 +198,7 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
               style={{
                 background: isBrutal ? "var(--layer-panel)" : "var(--layer-muted)",
                 boxShadow: `var(${shadow.sourceToken})`,
-                color: "var(--foreground-strong)",
+                color: "var(--foreground)",
                 fontFamily: "var(--sans-font)",
               }}
             >

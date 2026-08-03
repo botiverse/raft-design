@@ -12,7 +12,7 @@ export const Route = createFileRoute("/lab")({
 
 function LabPage() {
   return (
-    <div className="h-full overflow-y-auto bg-layer-page text-foreground">
+    <div className="h-full overflow-y-auto bg-layer-page text-foreground-strong">
       <main className="w-full pb-24">
         <LabSection
           id="pixel-loader"
@@ -54,9 +54,9 @@ function LabSection({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="border-t border-line-subtle py-12 first:border-t-0">
+    <section id={id} className="border-t border-line-muted py-12 first:border-t-0">
       <header className="mb-7 px-6">
-        <h2 className="font-heading text-xl font-medium text-foreground-strong">{title}</h2>
+        <h2 className="font-heading text-xl font-medium text-foreground">{title}</h2>
         <p className="mt-2 text-sm leading-relaxed text-foreground-muted">{description}</p>
       </header>
       {children}

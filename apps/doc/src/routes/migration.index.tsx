@@ -17,7 +17,7 @@ function MigrationIndexPage() {
       articleClassName="mx-auto max-w-4xl"
     >
       <div className="grid gap-5">
-        <div className="flex items-center justify-between gap-4 border-b border-line-subtle pb-3">
+        <div className="flex items-center justify-between gap-4 border-b border-line-muted pb-3">
           <Text.Sans size="body" variant="placeholder">
             {MIGRATION_GUIDES.length} source files
           </Text.Sans>
@@ -32,7 +32,7 @@ function MigrationIndexPage() {
               key={guide.slug}
               to="/migration/$sourceFile"
               params={{ sourceFile: guide.slug }}
-              className="group grid gap-3 border-t border-line-subtle px-4 py-4 transition-colors first:border-t-0 hover:bg-layer-muted/60 focus-visible:outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500"
+              className="group grid gap-3 border-t border-line-muted px-4 py-4 transition-colors first:border-t-0 hover:bg-layer-muted/60 focus-visible:outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500"
             >
               <div className="flex min-w-0 items-center gap-3">
                 <Text.Mono size="code" variant="muted" className="min-w-0 flex-1 truncate">

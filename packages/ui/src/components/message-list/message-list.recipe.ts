@@ -25,21 +25,21 @@ export const messageList = tv({
       elegant: {
         content: "md:pb-[var(--panel-footer-clearance)]",
         dateDividerRoot: "opacity-70",
-        dateDividerRule: "border-t border-line-muted",
+        dateDividerRule: "border-t border-line-faint",
         dateDividerChipWrap: "bg-layer-panel",
         dateDividerChip:
           "bg-layer-panel px-2 font-mono text-[11px] font-normal uppercase tracking-widest text-foreground-muted",
         notice: "pb-2 font-sans text-xs",
         historyLimited:
-          "rounded border border-line-subtle bg-layer-panel/70 px-2 py-1 [&_svg]:size-3",
+          "rounded border border-line-muted bg-layer-panel/70 px-2 py-1 [&_svg]:size-3",
       },
     },
     tone: {
       faint: {
-        notice: "text-foreground/40",
+        notice: "text-foreground-strong/40",
       },
       muted: {
-        notice: "text-foreground/50",
+        notice: "text-foreground-strong/50",
       },
     },
   },

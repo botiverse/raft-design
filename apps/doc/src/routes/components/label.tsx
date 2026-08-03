@@ -117,7 +117,7 @@ const SNIPPETS = {
 
 <Label htmlFor="project-url">
   Project URL
-  <Info aria-hidden className="size-3.5 text-foreground/40" />
+  <Info aria-hidden className="size-3.5 text-foreground-strong/40" />
 </Label>`,
   states: `<Label htmlFor="email">Email address</Label>
 
@@ -289,7 +289,7 @@ function LabelDoc() {
                   </Label>
                   <Label htmlFor="label-project-url">
                     Project URL
-                    <Info aria-hidden className="size-3.5 text-foreground/40" />
+                    <Info aria-hidden className="size-3.5 text-foreground-strong/40" />
                   </Label>
                 </div>
               </Preview.Canvas>

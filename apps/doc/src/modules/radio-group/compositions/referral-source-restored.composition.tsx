@@ -38,7 +38,7 @@ const referralSource = tv({
           "gap-3 border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black",
           "hover:bg-brutal-yellow/30",
           "has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-yellow has-[[data-slot=radio-group-item][data-checked]]:shadow-sm",
-          "has-[[data-slot=radio-group-item][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-layer-muted",
+          "has-[[data-slot=radio-group-item][data-disabled]]:border-line-faint has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-layer-muted",
           "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-checked][data-disabled]]:shadow-none",
         ],
         label: "font-bold",
@@ -47,11 +47,11 @@ const referralSource = tv({
       elegant: {
         row: [
           "gap-2.5 rounded-sm bg-layer-panel px-3 py-2 text-[13px] font-medium leading-5 tracking-[-0.005em] text-foreground-muted",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-subtle)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-muted)]",
           "hover:bg-foreground/[0.04]",
           "has-[[data-slot=radio-group-item][data-checked]]:bg-foreground/[0.04] has-[[data-slot=radio-group-item][data-checked]]:text-foreground-strong",
           "has-[[data-slot=radio-group-item][data-checked]]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.05),0_0_0_1px_oklch(0_0_0_/_0.14)]",
-          "has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-[0_0_0_1px_var(--line-subtle)]",
+          "has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-[0_0_0_1px_var(--line-muted)]",
         ],
         label: "font-medium",
         check: "size-3 text-foreground-strong",

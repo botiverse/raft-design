@@ -24,7 +24,7 @@ const dialog = tv({
     header: ["grid grid-cols-[minmax(0,1fr)_max-content] items-center gap-3 min-w-0"],
     body: ["min-w-0"],
     footer: ["flex items-center justify-end gap-3"],
-    title: ["m-0 min-w-0 text-foreground-strong"],
+    title: ["m-0 min-w-0 text-foreground"],
     description: ["m-0 text-foreground-muted"],
   },
   variants: {
@@ -34,16 +34,16 @@ const dialog = tv({
         content: ["gap-4 border-2 border-line-strong bg-layer-panel px-6 py-4 shadow-xl"],
         body: ["py-2 font-medium"],
         title: ["font-heading text-lg leading-none font-bold uppercase"],
-        description: ["font-sans text-sm leading-5 text-foreground/60"],
+        description: ["font-sans text-sm leading-5 text-foreground-strong/60"],
       },
       elegant: {
         overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
         content: ["overflow-clip rounded-lg bg-layer-popover shadow-xl"],
-        header: ["border-b border-line-subtle/75 bg-layer-inset px-6 py-3"],
+        header: ["border-b border-line-muted/75 bg-layer-inset px-6 py-3"],
         body: ["px-6 py-5"],
-        footer: ["border-t border-line-subtle/75 bg-layer-inset px-6 py-3"],
+        footer: ["border-t border-line-muted/75 bg-layer-inset px-6 py-3"],
         title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
-        description: ["font-sans text-sm leading-5 text-foreground-secondary"],
+        description: ["font-sans text-sm leading-5 text-foreground-faint"],
       },
     },
   },
@@ -139,7 +139,7 @@ export function DialogClose({
             isBrutal
               ? className
               : cn(
-                  "p-0 text-foreground-placeholder hover:border-transparent hover:bg-transparent hover:text-foreground",
+                  "p-0 text-foreground-placeholder hover:border-transparent hover:bg-transparent hover:text-foreground-strong",
                   className,
                 )
           }

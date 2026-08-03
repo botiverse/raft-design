@@ -48,7 +48,7 @@ export function PopoverNotificationComposition() {
         </span>
         <PopoverPopup className="h-72 w-full">
           <PopoverHeader>
-            <span className="text-[11px] leading-none font-medium tracking-[-0.005em] text-foreground/45 [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-wide [[data-theme=brutal]_&]:text-black/60 [[data-theme=brutal]_&]:uppercase">
+            <span className="text-[11px] leading-none font-medium tracking-[-0.005em] text-foreground-strong/45 [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-[10px] [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-wide [[data-theme=brutal]_&]:text-black/60 [[data-theme=brutal]_&]:uppercase">
               Notifications
             </span>
             <span className="ml-auto font-mono text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/40">
@@ -56,15 +56,15 @@ export function PopoverNotificationComposition() {
             </span>
           </PopoverHeader>
           <PopoverSeparator />
-          <ul className="divide-y divide-line-muted [[data-theme=brutal]_&]:divide-y-2 [[data-theme=brutal]_&]:divide-black">
+          <ul className="divide-y divide-line-faint [[data-theme=brutal]_&]:divide-y-2 [[data-theme=brutal]_&]:divide-black">
             {notifications.map((notification) => (
               <li key={notification.id} className="px-3 py-3">
                 <div className="flex items-start gap-2">
-                  <div className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded bg-warning-lighter text-warning-base [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-orange [[data-theme=brutal]_&]:text-black">
+                  <div className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded bg-warning-tint text-warning [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-orange [[data-theme=brutal]_&]:text-black">
                     <AlertTriangle aria-hidden className="size-4" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="break-words text-sm font-medium text-foreground-strong [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black">
+                    <div className="break-words text-sm font-medium text-foreground [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black">
                       {notification.title}
                     </div>
                     <div className="mt-0.5 break-words text-sm text-foreground-muted [[data-theme=brutal]_&]:text-black">

@@ -25,7 +25,7 @@ export const taskStatus = tv({
     {
       theme: "elegant",
       status: "todo",
-      class: "bg-[oklch(0.209_0.006_91.63_/_0.078)] text-[oklch(0.359_0.005_106.65)]",
+      class: "bg-ink-8 text-foreground-muted",
     },
     {
       theme: "elegant",
@@ -35,17 +35,17 @@ export const taskStatus = tv({
     {
       theme: "elegant",
       status: "in-review",
-      class: "bg-warning-base text-foreground-inverse",
+      class: "bg-warning text-warning-foreground",
     },
     {
       theme: "elegant",
       status: "done",
-      class: "bg-[oklch(0.714_0.176_153.03)] text-[oklch(1_0_0)]",
+      class: "bg-success text-success-foreground",
     },
     {
       theme: "elegant",
       status: "closed",
-      class: "bg-[oklch(0.573_0_0)] text-[oklch(0.946_0_0)]",
+      class: "bg-neutral text-neutral-foreground",
     },
   ],
 });

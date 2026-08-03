@@ -10,7 +10,7 @@ const banner = tv({
       "[&>svg]:col-start-1 [&>svg]:shrink-0",
       "[&>[data-slot=status]]:col-start-1 [&>[data-slot=status]]:row-start-1 [&>[data-slot=status]]:self-center",
     ],
-    title: ["min-w-0 text-foreground-strong"],
+    title: ["min-w-0 text-foreground"],
     description: ["min-w-0 font-normal"],
     action: ["shrink-0 self-start"],
   },
@@ -25,7 +25,7 @@ const banner = tv({
           "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
           "[&:has(>[data-slot=status]):has(>[data-slot=banner-action])]:grid-cols-[auto_minmax(0,1fr)_auto]",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:items-start",
-          "[&>svg]:size-4.5 [&>svg]:self-center [&>svg]:text-foreground-strong",
+          "[&>svg]:size-4.5 [&>svg]:self-center [&>svg]:text-foreground",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:row-span-2",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:mt-0.5",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:self-start",
@@ -37,7 +37,7 @@ const banner = tv({
           "group-data-[size=sm]/banner:text-xs",
         ],
         description: [
-          "col-start-2 row-start-1 text-sm leading-5 text-foreground-strong",
+          "col-start-2 row-start-1 text-sm leading-5 text-foreground",
           "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
         ],
@@ -46,7 +46,7 @@ const banner = tv({
       elegant: {
         root: [
           "w-full grid-cols-[minmax(0,1fr)] items-center gap-x-2 rounded-sm border-0",
-          "text-[13px] leading-5 tracking-[-0.005em] text-foreground-strong",
+          "text-[13px] leading-5 tracking-[-0.005em] text-foreground",
           "has-[>svg]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=status]]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=banner-action]]:grid-cols-[minmax(0,1fr)_auto]",
@@ -84,7 +84,7 @@ const banner = tv({
           "[&>button:has(svg):last-child]:border-transparent [&>button:has(svg):last-child]:bg-transparent [&>button:has(svg):last-child]:shadow-none",
           "[&>button:has(svg):last-child]:text-current/45",
           "[&>button:has(svg):last-child]:transition-colors [&>button:has(svg):last-child]:duration-200",
-          "[&>button:has(svg):last-child]:hover:border-transparent [&>button:has(svg):last-child]:hover:bg-foreground/5",
+          "[&>button:has(svg):last-child]:hover:border-transparent [&>button:has(svg):last-child]:hover:bg-foreground-strong/5",
           "[&>button:has(svg):last-child]:hover:text-current/70",
           "[&>button:has(svg):last-child>svg]:size-4",
           "group-data-[size=sm]/banner:min-h-4 group-data-[size=sm]/banner:[&>button:has(svg):last-child]:size-4",
@@ -113,10 +113,10 @@ const banner = tv({
   },
   compoundVariants: [
     { theme: "brutal", status: "default", class: { root: "bg-layer-panel" } },
-    { theme: "brutal", status: "destructive", class: { root: "bg-danger-lighter" } },
-    { theme: "brutal", status: "warning", class: { root: "bg-brutal-yellow-100" } },
-    { theme: "brutal", status: "info", class: { root: "bg-info-lighter" } },
-    { theme: "brutal", status: "success", class: { root: "bg-brutal-lime-100" } },
+    { theme: "brutal", status: "destructive", class: { root: "bg-danger-tint" } },
+    { theme: "brutal", status: "warning", class: { root: "bg-(--color-brutal-yellow-100)" } },
+    { theme: "brutal", status: "info", class: { root: "bg-info-tint" } },
+    { theme: "brutal", status: "success", class: { root: "bg-(--color-brutal-lime-100)" } },
     {
       theme: "brutal",
       size: "sm",
@@ -149,9 +149,10 @@ const banner = tv({
       theme: "elegant",
       status: "success",
       class: {
-        root: "bg-[oklch(0.94_0.035_153.079)] dark:bg-[oklch(0.5_0.12_153_/_0.18)] [&>svg]:text-success-base",
+        root: "bg-[oklch(0.94_0.035_153.079)] dark:bg-[oklch(0.5_0.12_153_/_0.18)] [&>svg]:text-success",
       },
     },
+    /* Tuned warm-hue warning optics (hue 61.9), intentionally warmer than the warning family. */
     {
       theme: "elegant",
       status: "warning",
@@ -163,14 +164,14 @@ const banner = tv({
       theme: "elegant",
       status: "info",
       class: {
-        root: "bg-info-lighter [&>svg]:text-[oklch(0.55_0.11_220)] dark:[&>svg]:text-[oklch(0.8_0.1_220)]",
+        root: "bg-info-tint [&>svg]:text-[oklch(0.55_0.11_220)] dark:[&>svg]:text-[oklch(0.8_0.1_220)]",
       },
     },
     {
       theme: "elegant",
       status: "destructive",
       class: {
-        root: "bg-danger-lighter [&>svg]:text-danger-base",
+        root: "bg-danger-tint [&>svg]:text-danger",
       },
     },
     {

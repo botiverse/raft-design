@@ -191,7 +191,7 @@ function TasksDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="creator-filter" title="Creator filter">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               The current-user shortcut uses the current user&apos;s identity value and replaces
               their duplicate avatar row.
             </p>
@@ -206,7 +206,7 @@ function TasksDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="assignee-filter" title="Assignee filter">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Assignee uses the same external identity data and adds explicit Assigned to me and
               Unassigned options.
             </p>
@@ -230,7 +230,7 @@ function TasksDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="panel-empty" title="Panel empty states">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               <code>TasksPanelEmpty</code> hosts consumer <code>EmptyState</code> for unfiltered and
               filtered-empty. Column/section empties live on{" "}
               <Link to="/components/task-board">TaskBoard</Link> and{" "}
@@ -254,7 +254,7 @@ function TasksDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="legacy-task-panel" title="Legacy task panel">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Legacy tasks do not map to a message thread. Open them in the same right-hand slot as{" "}
               <Link to="/components/thread-panel">ThreadPanel</Link>, composing{" "}
               <code>LegacyTaskPanel</code> (<code>Root</code> / <code>Header</code> /{" "}

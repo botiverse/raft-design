@@ -48,18 +48,17 @@ const tooltip = tv({
       brutal: {
         content: [
           "border-2 border-line-strong bg-soft-signal",
-          "font-sans font-bold text-foreground",
+          "font-sans font-bold text-foreground-strong",
           "shadow-sm",
-          "[&_[data-slot=kbd]]:border-line-strong/70 [&_[data-slot=kbd]]:bg-layer-panel [&_[data-slot=kbd]]:text-foreground/70 [&_[data-slot=kbd]]:ring-0",
+          "[&_[data-slot=kbd]]:border-line-strong/70 [&_[data-slot=kbd]]:bg-layer-panel [&_[data-slot=kbd]]:text-foreground-strong/70 [&_[data-slot=kbd]]:ring-0",
         ],
         arrow: ["hidden"],
       },
       elegant: {
         content: [
-          "rounded-md bg-[oklch(0.263_0.009_106.42)] text-[oklch(0.965_0.002_106.42)]",
+          "rounded-md bg-layer-chrome text-[oklch(0.965_0.002_106.42)]",
           "font-sans text-[13px] font-medium tracking-[-0.005em]",
           "shadow-lg",
-          "dark:bg-[oklch(0.230_0.010_294.8)]",
           "[&_[data-slot=kbd]]:bg-white/[0.08] [&_[data-slot=kbd]]:text-white/72 [&_[data-slot=kbd]]:ring-0",
         ],
         arrow: [],
@@ -124,11 +123,7 @@ function TooltipArrowSvg({
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
       <path
         d="M1 0H11L6 5.25Z"
-        className={
-          isElegant
-            ? "fill-[oklch(0.263_0.009_294.9)] dark:fill-[oklch(0.230_0.010_294.8)]"
-            : "fill-layer-popover"
-        }
+        className={isElegant ? "fill-layer-chrome" : "fill-layer-popover"}
       />
     </svg>
   );

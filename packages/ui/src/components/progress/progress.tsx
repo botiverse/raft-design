@@ -28,7 +28,7 @@ const progress = tv({
   slots: {
     root: [
       "group/progress grid w-full min-w-0 gap-1.5",
-      "[--progress-color:var(--foreground-strong)]",
+      "[--progress-color:var(--foreground)]",
       "[--progress-light:var(--layer-muted)]",
       "[--progress-indicator:var(--progress-color)]",
       "[--progress-track:var(--layer-muted)]",
@@ -48,8 +48,8 @@ const progress = tv({
     theme: {
       brutal: {
         root: ["font-heading"],
-        label: ["text-xs font-bold text-foreground-strong"],
-        value: ["font-mono text-xs font-bold text-foreground/70"],
+        label: ["text-xs font-bold text-foreground"],
+        value: ["font-mono text-xs font-bold text-foreground-strong/70"],
         track: [
           "border-2 border-line-strong bg-layer-panel",
           "shadow-xs",
@@ -60,10 +60,10 @@ const progress = tv({
         root: [
           "font-sans",
           "[--progress-indicator:color-mix(in_oklab,var(--progress-color)_90%,transparent)]",
-          "[--progress-track:color-mix(in_oklab,var(--line-subtle)_35%,var(--layer-panel))]",
-          "data-[indeterminate]:[--progress-track:color-mix(in_oklab,var(--line-subtle)_65%,var(--layer-panel))]",
+          "[--progress-track:color-mix(in_oklab,var(--line-muted)_35%,var(--layer-panel))]",
+          "data-[indeterminate]:[--progress-track:color-mix(in_oklab,var(--line-muted)_65%,var(--layer-panel))]",
         ],
-        label: ["text-[13px] font-medium leading-5 text-foreground"],
+        label: ["text-[13px] font-medium leading-5 text-foreground-strong"],
         value: ["font-mono text-[11px] font-medium leading-5 text-foreground-placeholder"],
         track: ["rounded-full"],
         indicator: ["rounded-full"],
@@ -78,8 +78,8 @@ const progress = tv({
       },
       information: {
         root: [
-          "[--progress-color:var(--color-info-base)]",
-          "[--progress-light:var(--color-info-light)]",
+          "[--progress-color:var(--color-info)]",
+          "[--progress-light:var(--color-info-tint-hover)]",
         ],
       },
       accent: {
@@ -90,20 +90,20 @@ const progress = tv({
       },
       success: {
         root: [
-          "[--progress-color:var(--color-success-base)]",
-          "[--progress-light:var(--color-success-light)]",
+          "[--progress-color:var(--color-success)]",
+          "[--progress-light:var(--color-success-tint-hover)]",
         ],
       },
       warning: {
         root: [
-          "[--progress-color:var(--color-warning-base)]",
-          "[--progress-light:var(--color-warning-light)]",
+          "[--progress-color:var(--color-warning)]",
+          "[--progress-light:var(--color-warning-tint-hover)]",
         ],
       },
       danger: {
         root: [
-          "[--progress-color:var(--color-danger-base)]",
-          "[--progress-light:var(--color-danger-light)]",
+          "[--progress-color:var(--color-danger)]",
+          "[--progress-light:var(--color-danger-tint-hover)]",
         ],
       },
     },

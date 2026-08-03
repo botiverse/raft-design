@@ -20,14 +20,14 @@ export function PreviewCardMentionComposition({
 }: PreviewCardMentionCompositionProps = {}) {
   return (
     <div className="flex h-full min-h-72 w-full items-start justify-center pt-8">
-      <p className="m-0 max-w-full text-sm leading-6 text-foreground [[data-theme=brutal]_&]:text-black">
+      <p className="m-0 max-w-full text-sm leading-6 text-foreground-strong [[data-theme=brutal]_&]:text-black">
         <span>Follow up with </span>
         <PreviewCard defaultOpen={defaultOpen}>
           <PreviewCardTrigger
             render={
               <a
                 href="/components/avatar"
-                className="cursor-default select-text font-bold text-foreground-strong underline decoration-foreground/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30 [[data-theme=brutal]_&]:hover:text-brutal-pink [[data-theme=brutal]_&]:hover:decoration-brutal-pink"
+                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30 [[data-theme=brutal]_&]:hover:text-brutal-pink [[data-theme=brutal]_&]:hover:decoration-brutal-pink"
               />
             }
           >

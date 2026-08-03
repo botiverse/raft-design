@@ -20,11 +20,14 @@ const toggleGroup = tv({
     theme: {
       brutal: {
         item: [
-          "border-2 border-line-strong bg-layer-panel text-foreground-strong",
-          "hover:bg-primary-400/30 data-[pressed]:bg-primary-400 data-[pressed]:text-foreground-strong",
+          "border-2 border-line-strong bg-layer-panel text-foreground",
+          "hover:bg-primary-400/30 data-[pressed]:bg-primary-400 data-[pressed]:text-foreground",
           "data-[pressed]:shadow-sm data-[disabled]:cursor-not-allowed",
         ],
-        count: ["text-foreground/40", "group-data-[pressed]/toggle-group-item:text-foreground/60"],
+        count: [
+          "text-foreground-strong/40",
+          "group-data-[pressed]/toggle-group-item:text-foreground-strong/60",
+        ],
       },
       // Elegant styling is deferred; see the component TODO.
       elegant: {},

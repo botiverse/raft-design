@@ -8,12 +8,12 @@ export const composerDropOverlay = tv({
       "text-center font-medium text-foreground-inverse",
     ],
     dropOverlayIconCluster: ["relative flex items-center justify-center"],
-    dropOverlayIcon: ["bg-layer-panel shadow-md ring-1 ring-line-subtle"],
+    dropOverlayIcon: ["bg-layer-panel shadow-md ring-1 ring-line-muted"],
   },
   variants: {
     theme: {
       brutal: {
-        dropOverlay: "border-dashed border-black bg-[oklch(0_0_0/0.65)]",
+        dropOverlay: "border-dashed border-black bg-layer-backdrop",
         dropOverlayLabel: "text-sm",
         dropOverlayIconCluster: "h-9 w-18",
         dropOverlayIcon: ["rounded-none p-1.5", "[&_svg]:size-3.5"],

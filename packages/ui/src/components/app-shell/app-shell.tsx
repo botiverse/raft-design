@@ -22,7 +22,7 @@ const appShell = tv({
     root: [
       "flex min-h-0 w-full overflow-visible md:overflow-hidden",
       "max-md:flex-col max-md:pt-[env(safe-area-inset-top,0px)]",
-      "font-sans text-foreground",
+      "font-sans text-foreground-strong",
     ],
     railSlot: ["hidden h-full shrink-0 flex-col md:flex"],
     sidebarSlot: ["hidden min-h-0 shrink-0 flex-col md:flex"],
@@ -33,7 +33,7 @@ const appShell = tv({
       brutal: {
         root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black max-md:bg-white"],
         railSlot:
-          "w-16 md:border-r-2 md:border-black bg-soft-signal text-foreground md:[@media(max-height:600px)]:w-[50px]",
+          "w-16 md:border-r-2 md:border-black bg-soft-signal text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
         sidebarSlot: "w-60 border-r-2 border-black bg-brutal-cream",
         mainSlot: "bg-white",
       },

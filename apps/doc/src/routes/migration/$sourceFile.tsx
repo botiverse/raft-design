@@ -47,7 +47,7 @@ function MigrationGuidePage() {
       }))}
     >
       <div className="grid gap-10">
-        <div className="grid gap-4 border-b border-line-subtle pb-6">
+        <div className="grid gap-4 border-b border-line-muted pb-6">
           <Link
             to="/migration"
             className="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-foreground-muted transition-colors hover:text-foreground-strong"

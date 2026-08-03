@@ -81,7 +81,7 @@ const avatar = tv({
           "group-data-[size=2xs]/avatar:translate-x-[2.875px] group-data-[size=2xs]/avatar:translate-y-[2.875px]",
           "group-data-[size=3xs]/avatar:translate-x-[3.125px] group-data-[size=3xs]/avatar:translate-y-[3.125px]",
         ],
-        dot: ["bg-success-base text-foreground-strong"],
+        dot: ["bg-success text-foreground"],
         group: [
           "-space-x-1.5",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-primary-50",
@@ -108,11 +108,11 @@ const avatar = tv({
           "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
           "group-data-[size=3xs]/avatar:right-[-0.667px] group-data-[size=3xs]/avatar:bottom-[-0.667px]",
         ],
-        dot: ["bg-success-base text-foreground-inverse"],
+        dot: ["bg-success text-success-foreground"],
         group: [
           "-space-x-2",
-          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-background",
-          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-background",
+          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-layer-page",
+          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-layer-page",
         ],
       },
     },
@@ -409,7 +409,7 @@ export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCount
   const countClassName =
     theme === "elegant"
       ? "bg-layer-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
-      : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground-strong";
+      : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground";
   return (
     <span
       data-slot="avatar-group-count"

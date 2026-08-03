@@ -31,8 +31,8 @@ export const buttonVariants = tv({
         root: [
           "overflow-clip border-0 font-sans font-medium antialiased",
           "focus-visible:outline-transparent",
-          "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
+          "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-layer-page",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
           "active:not-data-[has-popup]:scale-[0.985]",
         ],
@@ -43,10 +43,10 @@ export const buttonVariants = tv({
         root: ["border-line-strong bg-primary-400 text-primary-950", "hover:bg-primary-500"],
       },
       default: {
-        root: ["border-line-strong bg-layer-panel text-foreground-strong", "hover:bg-layer-panel"],
+        root: ["border-line-strong bg-layer-panel text-foreground", "hover:bg-layer-panel"],
       },
       information: {
-        root: ["border-line-strong bg-info-base text-foreground-inverse", "hover:bg-info-base"],
+        root: ["border-line-strong bg-info text-foreground-inverse", "hover:bg-info"],
       },
       muted: {
         root: [
@@ -58,42 +58,39 @@ export const buttonVariants = tv({
         root: ["border-line-strong bg-accent-400 text-accent-950", "hover:bg-accent-500"],
       },
       warning: {
-        root: [
-          "border-line-strong bg-warning-base text-foreground-inverse",
-          "hover:bg-warning-base",
-        ],
+        root: ["border-line-strong bg-warning text-warning-foreground", "hover:bg-warning"],
       },
       outline: {
         root: [
-          "border-line-strong bg-transparent text-foreground-strong",
+          "border-line-strong bg-transparent text-foreground",
           "hover:bg-layer-muted",
           "shadow-none",
         ],
       },
       ghost: {
         root: [
-          "border-transparent bg-transparent text-foreground shadow-none",
+          "border-transparent bg-transparent text-foreground-strong shadow-none",
           "hover:border-line-strong hover:bg-layer-muted",
         ],
       },
       link: {
         root: [
-          "border-transparent bg-transparent text-foreground-strong shadow-none underline-offset-4",
+          "border-transparent bg-transparent text-foreground shadow-none underline-offset-4",
           "hover:underline",
         ],
       },
       "danger-secondary": {
-        root: ["border-line-strong bg-danger-lighter text-danger-base", "hover:bg-danger-lighter"],
+        root: ["border-line-strong bg-danger-tint text-danger", "hover:bg-danger-tint"],
       },
       danger: {
         root: [
-          "border-line-strong bg-danger-base text-foreground-inverse",
+          "border-line-strong bg-danger text-danger-foreground",
           "hover:border-danger-hover hover:bg-danger-hover",
         ],
       },
       "danger-outline": {
         root: [
-          "border-line-strong bg-transparent text-danger-base",
+          "border-line-strong bg-transparent text-danger",
           "hover:bg-layer-muted",
           "shadow-none",
         ],
@@ -259,43 +256,43 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       variant: "primary",
-      class: { root: "bg-brutal-yellow text-foreground hover:bg-brutal-yellow" },
+      class: { root: "bg-brutal-yellow text-foreground-strong hover:bg-brutal-yellow" },
     },
     {
       theme: "brutal",
       variant: "default",
-      class: { root: "bg-layer-panel text-foreground hover:bg-layer-panel" },
+      class: { root: "bg-layer-panel text-foreground-strong hover:bg-layer-panel" },
     },
     {
       theme: "brutal",
       variant: "outline",
-      class: { root: "bg-layer-panel text-foreground shadow-sm hover:bg-layer-panel" },
+      class: { root: "bg-layer-panel text-foreground-strong shadow-sm hover:bg-layer-panel" },
     },
     {
       theme: "brutal",
       variant: "information",
-      class: { root: "bg-brutal-cyan text-foreground hover:bg-brutal-cyan" },
+      class: { root: "bg-brutal-cyan text-foreground-strong hover:bg-brutal-cyan" },
     },
     {
       theme: "brutal",
       variant: "muted",
-      class: { root: "bg-brutal-stone text-foreground hover:bg-brutal-stone" },
+      class: { root: "bg-brutal-stone text-foreground-strong hover:bg-brutal-stone" },
     },
     {
       theme: "brutal",
       variant: "accent",
-      class: { root: "bg-brutal-pink text-foreground hover:bg-brutal-pink" },
+      class: { root: "bg-brutal-pink text-foreground-strong hover:bg-brutal-pink" },
     },
     {
       theme: "brutal",
       variant: "danger",
-      class: { root: "bg-brutal-red text-foreground hover:bg-brutal-red" },
+      class: { root: "bg-brutal-red text-foreground-strong hover:bg-brutal-red" },
     },
     {
       theme: "brutal",
       variant: "warning",
       class: {
-        root: "bg-brutal-orange text-foreground hover:bg-brutal-orange",
+        root: "bg-brutal-orange text-foreground-strong hover:bg-brutal-orange",
       },
     },
     {
@@ -363,10 +360,10 @@ export const buttonVariants = tv({
       variant: "default",
       class: {
         root: [
-          "bg-foreground-strong text-foreground-inverse",
-          "[--button-focus-outline:var(--foreground-strong)]",
-          "[--button-focus-ring:var(--foreground-strong)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground-strong)]",
+          "bg-foreground text-foreground-inverse",
+          "[--button-focus-outline:var(--foreground)]",
+          "[--button-focus-ring:var(--foreground)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.31_0.006_106.42)] dark:hover:bg-[oklch(0.87_0_0)]",
         ],
@@ -391,10 +388,10 @@ export const buttonVariants = tv({
       variant: "outline",
       class: {
         root: [
-          "bg-layer-panel text-foreground-strong",
+          "bg-layer-panel text-foreground",
           "[--button-focus-outline:var(--layer-panel)]",
-          "[--button-focus-ring:var(--foreground-strong)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
+          "[--button-focus-ring:var(--foreground)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-layer-muted",
         ],
@@ -406,9 +403,9 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-transparent text-foreground-muted shadow-none",
-          "[--button-focus-outline:var(--line-muted)]",
-          "[--button-focus-ring:var(--line-muted)]",
-          "before:bg-transparent hover:bg-layer-hover",
+          "[--button-focus-outline:var(--line-faint)]",
+          "[--button-focus-ring:var(--line-faint)]",
+          "before:bg-transparent hover:bg-ink-4",
         ],
       },
     },
@@ -417,12 +414,12 @@ export const buttonVariants = tv({
       variant: "danger-secondary",
       class: {
         root: [
-          "bg-danger-lighter text-danger-base",
-          "[--button-focus-outline:var(--state-danger-lighter)]",
-          "[--button-focus-ring:var(--state-danger-base)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.18),0_0_0_1px_var(--state-danger-light)]",
+          "bg-danger-tint text-danger",
+          "[--button-focus-outline:var(--danger-tint)]",
+          "[--button-focus-ring:var(--danger)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.18),0_0_0_1px_var(--danger-tint-hover)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_9%)_0%,oklab(0%_0_0_/_1%)_100%)]",
-          "hover:bg-danger-light",
+          "hover:bg-danger-tint-hover",
         ],
       },
     },
@@ -431,10 +428,10 @@ export const buttonVariants = tv({
       variant: "danger",
       class: {
         root: [
-          "bg-danger-base text-foreground-inverse",
-          "[--button-focus-outline:var(--state-danger-base)]",
-          "[--button-focus-ring:var(--state-danger-base)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--state-danger-base)]",
+          "bg-danger text-danger-foreground",
+          "[--button-focus-outline:var(--danger)]",
+          "[--button-focus-ring:var(--danger)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--danger)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-danger-hover",
         ],
@@ -445,7 +442,7 @@ export const buttonVariants = tv({
       variant: "danger",
       class: {
         root: [
-          "border-line-strong bg-brutal-red text-foreground",
+          "border-line-strong bg-brutal-red text-foreground-strong",
           "shadow-sm",
           "hover:border-line-strong hover:bg-brutal-red",
           "hover:-translate-y-px hover:shadow-md",
@@ -459,9 +456,9 @@ export const buttonVariants = tv({
       variant: "danger-secondary",
       class: {
         root: [
-          "border-line-strong bg-danger-lighter text-[color-mix(in_oklab,var(--state-danger-base)_72%,transparent)]",
+          "border-line-strong bg-danger-tint text-[color-mix(in_oklab,var(--danger)_72%,transparent)]",
           "shadow-sm",
-          "hover:border-line-strong hover:bg-danger-lighter",
+          "hover:border-line-strong hover:bg-danger-tint",
           "hover:-translate-y-px hover:shadow-md",
           "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
           "active:shadow-xs",
@@ -473,12 +470,12 @@ export const buttonVariants = tv({
       variant: "danger-outline",
       class: {
         root: [
-          "bg-layer-panel text-danger-base",
+          "bg-layer-panel text-danger",
           "[--button-focus-outline:var(--layer-panel)]",
-          "[--button-focus-ring:var(--state-danger-base)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--state-danger-light)]",
+          "[--button-focus-ring:var(--danger)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--danger-tint-hover)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
-          "hover:bg-danger-lighter",
+          "hover:bg-danger-tint",
         ],
       },
     },
@@ -501,10 +498,10 @@ export const buttonVariants = tv({
       variant: "warning",
       class: {
         root: [
-          "bg-warning-base text-foreground-inverse",
-          "[--button-focus-outline:var(--state-warning-base)]",
-          "[--button-focus-ring:var(--state-warning-base)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.14),0_0_0_1px_var(--state-warning-base)]",
+          "bg-warning text-warning-foreground",
+          "[--button-focus-outline:var(--warning)]",
+          "[--button-focus-ring:var(--warning)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.14),0_0_0_1px_var(--warning)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-warning-hover",
         ],
@@ -517,7 +514,7 @@ export const buttonVariants = tv({
         root: [
           "bg-transparent text-foreground-muted shadow-none",
           "[--button-focus-outline:transparent]",
-          "[--button-focus-ring:var(--line-muted)]",
+          "[--button-focus-ring:var(--line-faint)]",
           "before:bg-transparent hover:bg-transparent hover:text-foreground-muted",
         ],
       },
@@ -527,10 +524,10 @@ export const buttonVariants = tv({
       variant: "information",
       class: {
         root: [
-          "bg-info-base text-foreground-inverse",
-          "[--button-focus-outline:var(--state-info-base)]",
-          "[--button-focus-ring:var(--state-info-base)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--state-info-base)]",
+          "bg-info text-foreground-inverse",
+          "[--button-focus-outline:var(--info)]",
+          "[--button-focus-ring:var(--info)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--info)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-info-hover",
         ],
@@ -543,10 +540,10 @@ export const buttonVariants = tv({
         root: [
           "bg-layer-muted text-foreground-placeholder",
           "[--button-focus-outline:var(--layer-muted)]",
-          "[--button-focus-ring:var(--line-muted)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-subtle)]",
+          "[--button-focus-ring:var(--line-faint)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_5%)_0%,oklab(0%_0_0_/_1%)_100%)]",
-          "hover:bg-line-subtle",
+          "hover:bg-line-muted",
         ],
       },
     },

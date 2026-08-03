@@ -18,7 +18,7 @@ const panelActionBase = tv({
       ],
       elegant: [
         "rounded-md border-0 bg-transparent px-2 py-2",
-        "hover:bg-layer-strong/80 hover:text-foreground",
+        "hover:bg-layer-strong/80 hover:text-foreground-strong",
         "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         "[&>svg]:size-4",
       ],
@@ -40,7 +40,7 @@ export const panelAction = tv({
       ],
       elegant: [
         "text-foreground-icon shadow-none",
-        "active:bg-layer-strong/80 active:text-foreground",
+        "active:bg-layer-strong/80 active:text-foreground-strong",
       ],
     },
   },
@@ -61,8 +61,8 @@ export const panelToggleAction = tv({
       ],
       elegant: [
         "text-foreground-icon shadow-none",
-        "active:bg-layer-strong/80 active:text-foreground",
-        "data-[pressed]:bg-layer-strong data-[pressed]:text-foreground",
+        "active:bg-layer-strong/80 active:text-foreground-strong",
+        "data-[pressed]:bg-layer-strong data-[pressed]:text-foreground-strong",
         "data-[pressed]:hover:bg-layer-strong",
       ],
     },

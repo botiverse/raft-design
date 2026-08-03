@@ -201,7 +201,7 @@ function TaskListDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="status-sections" title="Status sections">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Group cards by status with collapsible sections. Collapse and counts are driven by the
               composition.
             </p>
@@ -214,7 +214,7 @@ function TaskListDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="scroll-area" title="Scroll area">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Use one <code>ScrollAreaViewport</code> around all status sections. The list remains a
               single vertical scroll surface, while <code>TaskListRoot</code> and sections only own
               their layout and collapse state.
@@ -228,7 +228,7 @@ function TaskListDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="section-empty" title="Section empty states">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Sparse tasks leave In Review / Done / Closed empty so <code>TaskSectionEmpty</code>{" "}
               shows. List has a single empty host (no DnD idle/allowed/blocked triad).
             </p>
@@ -261,7 +261,7 @@ function TaskListDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="virtualization" title="Virtualization">
-            <p className="mb-4 text-sm text-foreground/70">
+            <p className="mb-4 text-sm text-foreground-strong/70">
               Keep one shared <code>ScrollAreaViewport</code>, and mount a{" "}
               <code>useVirtualizer</code> stack inside each tall section. Virtualization stays
               consumer-owned; <code>TaskList</code> does not provide it.

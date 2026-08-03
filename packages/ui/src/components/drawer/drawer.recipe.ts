@@ -97,7 +97,7 @@ export const drawer = tv({
     viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
     popup: [
       "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none",
-      "text-foreground",
+      "text-foreground-strong",
       "[--drawer-inset:12px] [--drawer-content-height:var(--drawer-height,auto)]",
       "data-nested-drawer-open:overflow-hidden",
     ],
@@ -115,8 +115,8 @@ export const drawer = tv({
     body: ["flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center"],
     footer: ["mt-auto px-6 py-5"],
     actions: ["flex w-full flex-col items-stretch gap-2.5", "[&_[data-slot=button]]:w-full"],
-    title: ["max-w-sm text-pretty text-center text-2xl leading-8 text-foreground-strong"],
-    description: ["max-w-sm text-pretty text-center text-sm leading-5 text-foreground/60"],
+    title: ["max-w-sm text-pretty text-center text-2xl leading-8 text-foreground"],
+    description: ["max-w-sm text-pretty text-center text-sm leading-5 text-foreground-strong/60"],
   },
   variants: {
     theme: {
@@ -130,7 +130,9 @@ export const drawer = tv({
       elegant: {
         overlay: ["backdrop-blur-[2px]"],
         popup: ["overflow-clip rounded-lg bg-layer-popover shadow-xl md:rounded-xl"],
-        close: ["p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground"],
+        close: [
+          "p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground-strong",
+        ],
         closeIcon: ["size-4"],
         header: ["bg-layer-panel px-8 pt-9 pb-2"],
         body: ["bg-layer-panel px-8 pt-4 pb-7"],

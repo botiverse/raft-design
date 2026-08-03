@@ -31,7 +31,7 @@ export const composer = tv({
         ],
         input: [
           "min-h-16 px-3 pt-3",
-          "font-sans text-foreground",
+          "font-sans text-foreground-strong",
           "placeholder:text-foreground-placeholder",
         ],
         toolbar: "translate-y-1 gap-2 px-2.5 pt-1 pb-2.5",
@@ -39,8 +39,8 @@ export const composer = tv({
         iconButton: [
           "p-[7px]",
           "text-foreground-icon",
-          "hover:bg-layer-strong/80 hover:text-foreground",
-          "active:bg-layer-strong/80 active:text-foreground",
+          "hover:bg-layer-strong/80 hover:text-foreground-strong",
+          "active:bg-layer-strong/80 active:text-foreground-strong",
         ],
       },
     },

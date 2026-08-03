@@ -26,7 +26,7 @@ export function PropsTable({
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-line-subtle text-foreground-muted">
+          <tr className="border-b border-line-muted text-foreground-muted">
             <th className="py-2 pr-6 font-medium">{nameColumnLabel}</th>
             <th className="py-2 pr-6 font-medium">Type</th>
             {showDefault ? <th className="py-2 pr-6 font-medium">Default</th> : null}
@@ -35,13 +35,13 @@ export function PropsTable({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.name} className="border-b border-line-subtle align-top">
+            <tr key={row.name} className="border-b border-line-muted align-top">
               <td className="py-3 pr-6 whitespace-nowrap">
                 <InlineCode className="whitespace-nowrap [overflow-wrap:normal]">
                   {row.name}
                 </InlineCode>
               </td>
-              <td className="py-3 pr-6 font-mono text-xs text-info-dark">{row.type}</td>
+              <td className="py-3 pr-6 font-mono text-xs text-info-tint-foreground">{row.type}</td>
               {showDefault ? (
                 <td className="py-3 pr-6 font-mono text-xs text-foreground-muted">
                   {hasDefaultValue(row.default) ? row.default : "—"}

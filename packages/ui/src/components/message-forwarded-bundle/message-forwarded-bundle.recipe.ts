@@ -32,12 +32,12 @@ export const messageForwardedBundle = tv({
         headerLabel: "gap-1 text-[11px] font-medium leading-none text-foreground-muted",
         headerCount: "text-[11px] font-medium text-foreground-placeholder",
         source:
-          "inline-flex items-center gap-1 text-[11px] font-medium transition-colors text-foreground-placeholder hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+          "inline-flex items-center gap-1 text-[11px] font-medium transition-colors text-foreground-placeholder hover:text-foreground-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
         sourceLabel:
           "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder",
-        items: "divide-y-[0.5px] divide-line-subtle/75",
+        items: "divide-y-[0.5px] divide-line-muted/75",
         toggle:
-          "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+          "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder hover:text-foreground-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
       },
     },
     collapsed: {
@@ -90,7 +90,7 @@ export const messageForwardedBundleItem = tv({
         author: "font-normal text-foreground-placeholder",
         attachments: "mt-1.5 gap-1.5",
         attachment:
-          "gap-1 rounded-sm border border-line-subtle bg-layer-field px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted",
+          "gap-1 rounded-sm border border-line-muted bg-layer-panel px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted",
         attachmentMeta: "text-foreground-placeholder",
       },
     },

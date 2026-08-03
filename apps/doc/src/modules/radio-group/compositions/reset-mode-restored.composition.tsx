@@ -30,10 +30,10 @@ const resetModeOption = tv({
   slots: {
     card: [
       "flex w-full cursor-pointer items-start text-left",
-      "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-focus has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-background",
+      "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-page",
       "has-[[data-slot=radio-group-item][data-disabled]]:cursor-not-allowed",
     ],
-    label: "text-foreground-strong",
+    label: "text-foreground",
   },
   variants: {
     theme: {
@@ -42,7 +42,7 @@ const resetModeOption = tv({
           "gap-2 border-2 border-black/30 bg-white p-4",
           "hover:bg-brutal-cyan/10",
           "has-[[data-slot=radio-group-item][data-checked]]:border-black has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-cyan/20 has-[[data-slot=radio-group-item][data-checked]]:shadow-sm",
-          "has-[[data-slot=radio-group-item][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-none has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-layer-muted",
+          "has-[[data-slot=radio-group-item][data-disabled]]:border-line-faint has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-none has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-layer-muted",
           "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-layer-muted",
         ],
         label: "text-sm font-bold leading-none",
@@ -50,11 +50,11 @@ const resetModeOption = tv({
       elegant: {
         card: [
           "gap-2.5 rounded-md bg-layer-panel p-3.5",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-subtle)]",
-          "hover:bg-foreground/[0.04]",
-          "has-[[data-slot=radio-group-item][data-checked]]:bg-foreground/[0.04]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-muted)]",
+          "hover:bg-foreground-strong/[0.04]",
+          "has-[[data-slot=radio-group-item][data-checked]]:bg-foreground-strong/[0.04]",
           "has-[[data-slot=radio-group-item][data-checked]]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.05),0_0_0_1px_oklch(0_0_0_/_0.14)]",
-          "has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-[0_0_0_1px_var(--line-subtle)]",
+          "has-[[data-slot=radio-group-item][data-disabled]]:bg-layer-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-[0_0_0_1px_var(--line-muted)]",
         ],
         label: "text-[13px] font-medium tracking-[-0.005em]",
       },

@@ -28,8 +28,8 @@ export const sidebarMenuRecipe = tv({
           "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)]",
           "text-xs leading-none font-normal normal-case tracking-normal",
           "text-foreground-muted",
-          "hover:bg-layer-strong/80 hover:text-foreground-strong",
-          "active:text-foreground-strong",
+          "hover:bg-layer-strong/80 hover:text-foreground",
+          "active:text-foreground",
         ],
         sidebarMenuIcon: [
           "text-foreground-icon",

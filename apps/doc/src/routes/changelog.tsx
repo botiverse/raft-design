@@ -100,7 +100,7 @@ function renderInlineMarkdown(value: string): ReactNode[] {
           href={linkMatch[2]}
           target="_blank"
           rel="noreferrer"
-          className="font-medium text-foreground-strong underline decoration-line-muted underline-offset-4 transition-colors hover:decoration-foreground-muted"
+          className="font-medium text-foreground underline decoration-line-faint underline-offset-4 transition-colors hover:decoration-foreground-muted"
         >
           {linkMatch[1]}
         </a>,
@@ -111,7 +111,7 @@ function renderInlineMarkdown(value: string): ReactNode[] {
 
     if (token.startsWith("**") && token.endsWith("**")) {
       nodes.push(
-        <strong key={key} className="font-semibold text-foreground-strong">
+        <strong key={key} className="font-semibold text-foreground">
           {token.slice(2, -2)}
         </strong>,
       );
@@ -154,11 +154,11 @@ function ChangelogDoc() {
             <section
               key={release.version}
               id={releaseId(release.version)}
-              className="scroll-mt-8 border-t border-line-subtle pt-10 first:border-t-0 first:pt-0"
+              className="scroll-mt-8 border-t border-line-muted pt-10 first:border-t-0 first:pt-0"
             >
               <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                 <div className="flex items-center gap-3">
-                  <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground-strong">
+                  <h2 className="font-heading text-2xl font-medium tracking-tight text-foreground">
                     v{release.version}
                   </h2>
                   {releaseIndex === 0 ? (
@@ -174,7 +174,7 @@ function ChangelogDoc() {
                       href={release.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="font-medium text-foreground-strong underline decoration-line-muted underline-offset-4 transition-colors hover:decoration-foreground-muted"
+                      className="font-medium text-foreground underline decoration-line-faint underline-offset-4 transition-colors hover:decoration-foreground-muted"
                     >
                       Compare
                     </a>
@@ -185,9 +185,7 @@ function ChangelogDoc() {
               <div className="mt-8 space-y-8">
                 {release.sections.map((section) => (
                   <section key={section.title}>
-                    <h3 className="text-sm font-semibold text-foreground-strong">
-                      {section.title}
-                    </h3>
+                    <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
                     <ul className="mt-4 space-y-3 text-sm leading-6 text-foreground-muted">
                       {section.entries.map((entry) => (
                         <li key={entry} className="grid grid-cols-[0.375rem_1fr] gap-3">

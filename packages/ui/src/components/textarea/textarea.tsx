@@ -20,16 +20,16 @@ const textarea = tv({
       },
       elegant: {
         root: [
-          "rounded-md border border-line-field bg-layer-field shadow-none",
-          "text-sm text-foreground-strong transition duration-200 ease-out dark:text-foreground",
+          "rounded-md border border-line-field bg-layer-panel shadow-none",
+          "text-sm text-foreground transition duration-200 ease-out dark:text-foreground-strong",
           "placeholder:text-foreground-placeholder/70",
           "hover:not-data-invalid:border-line-field-hover hover:shadow-field-hover",
-          "focus:bg-layer-field",
-          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-          "data-invalid:border-danger-base/45 data-invalid:hover:border-danger-base/75 data-invalid:focus-visible:border-danger-base/75 data-invalid:focus-visible:ring-3 data-invalid:focus-visible:ring-danger-base/12 data-invalid:focus-visible:ring-offset-0",
-          "disabled:cursor-not-allowed disabled:border-line-subtle/60 disabled:bg-layer-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
-          "disabled:hover:border-line-subtle/60 disabled:hover:shadow-none",
-          "data-invalid:disabled:border-line-subtle/60 data-invalid:disabled:ring-0",
+          "focus:bg-layer-panel",
+          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
+          "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-3 data-invalid:focus-visible:ring-danger/12 data-invalid:focus-visible:ring-offset-0",
+          "disabled:cursor-not-allowed disabled:border-line-muted/60 disabled:bg-layer-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
+          "disabled:hover:border-line-muted/60 disabled:hover:shadow-none",
+          "data-invalid:disabled:border-line-muted/60 data-invalid:disabled:ring-0",
         ],
       },
     },
@@ -66,20 +66,20 @@ const textareaCounter = tv({
     theme: {
       brutal: {
         root: [
-          "text-foreground/50",
-          "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-danger-base",
+          "text-foreground-strong/50",
+          "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-danger",
         ],
       },
       elegant: {
         root: [
           "text-[11px] leading-none text-foreground-placeholder/80 transition duration-200 ease-out",
-          "group-data-[invalid]/field:font-medium group-data-[invalid]/field:text-danger-base",
+          "group-data-[invalid]/field:font-medium group-data-[invalid]/field:text-danger",
         ],
       },
     },
     overLimit: {
       true: {
-        root: "text-danger-base",
+        root: "text-danger",
       },
       false: {
         root: "",
