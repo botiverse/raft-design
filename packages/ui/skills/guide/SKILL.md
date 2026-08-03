@@ -19,7 +19,7 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 | `<Button size="icon">`                                           | `size="icon-xs\|icon-sm\|icon-md\|icon-lg"`. Text sizes are `xs` `sm` `md` `lg`                                                                                  |
 | Pass `theme="brutal"` to style a component                       | **`theme` is not a public prop.** It is stripped from every component's props and resolved from `ThemeProvider` via `useThemeFamily()`                           |
 | `className="text-gray-500 bg-slate-50"`                          | Tailwind's default palette is banned. Use oklch semantic tokens: `text-foreground-muted`, `bg-layer-muted`                                                       |
-| Flat props: `<Dialog title="x" description="y">`                 | Compound parts: `<Dialog><DialogPortal><DialogContent><DialogTitle>…`                                                                                            |
+| Flat props: `<Dialog title="x" description="y">`                 | Compound parts: `<Dialog><DialogContent><DialogHeader><DialogTitle>…` — `DialogContent` portals itself                                                           |
 | Radix API (`asChild`, `Portal.Root`)                             | Base UI API. Use the `render` prop, not `asChild`                                                                                                                |
 | Add a `kind`/`state`/`emphasis` prop for a structural difference | Use the dedicated part or component instead                                                                                                                      |
 | `<Button loading>` doesn't exist, roll a spinner                 | `loading` and `loadingLabel` are real props on `Button`                                                                                                          |
@@ -99,14 +99,13 @@ Intent names are **not** consistent across components — negative is `danger` o
 | Keyboard shortcut               | `Kbd` / `KbdGroup`                               |
 | Any text                        | `Text` — never a bare styled `<p>`/`<span>`      |
 
-Full scenario map: [rules/selection.md](./rules/selection.md)
+Each domain file below opens with its own scenario table for the components it covers.
 
 ## Read these when relevant
 
 | File                                             | Read it when                                                            |
 | ------------------------------------------------ | ----------------------------------------------------------------------- |
 | [rules/lookup.md](./rules/lookup.md)             | You need a prop, variant value, or token — read this before guessing    |
-| [rules/selection.md](./rules/selection.md)       | Flat scenario → component index across every domain                     |
 | [rules/composition.md](./rules/composition.md)   | Assembling compound parts, or tempted to hand-roll markup               |
 | [rules/forms.md](./rules/forms.md)               | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu` |
 | [rules/overlays.md](./rules/overlays.md)         | Dialogs, drawers, popovers, menus, tooltips                             |

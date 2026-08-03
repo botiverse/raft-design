@@ -64,7 +64,7 @@ Use `AlertDialogAction` and `AlertDialogCancel` — not bare `Button`s. They car
 
 Everything else — a form, a settings pane, a multi-step flow — is `Dialog`.
 
-An `AlertDialog` should not contain a form. If the user has to fill something in, it is a `Dialog`.
+An `AlertDialog` may still contain an input when the input is part of the confirmation itself — type-to-confirm deletion (`Field` + `Input` asking the user to type the resource name) is a canonical pattern. The line is purpose: confirming stays `AlertDialog`, editing is a `Dialog`.
 
 ---
 
@@ -135,7 +135,7 @@ Rules that apply to both:
 - Every interactive row must be a `…Item`. A raw `<button>` inside menu content does not join the keyboard collection and will be skipped by arrow navigation.
 - Use `…Shortcut` for key hints instead of right-aligned text in the label.
 - Group related rows with `…Separator`, not with margin.
-- A right-click affordance should usually also be reachable from a visible `DropdownMenu`. Do not make `ContextMenu` the only path to an action.
+- Right-click is invisible — actions that live only in a `ContextMenu` are hard to discover, so prefer also exposing them somewhere visible.
 
 `DropdownMenuItemCount` exists for rows carrying a number.
 
@@ -151,19 +151,16 @@ Do not build a media viewer out of `Dialog`. Do not use `Lightbox` for non-media
 
 ## Portals and structure
 
-Blocking overlays follow the same shape:
+**The `Content` part portals itself.** `DialogContent`, `DropdownMenuContent`, and their siblings already wrap the Base UI portal and popup internally — the canonical usage is just:
 
 ```
-Root → Portal → Overlay/Backdrop → Content → Header / Body / Footer
+Root → Trigger → Content → Header / Body / Footer   (blocking)
+Root → Trigger → Content                            (anchored)
 ```
 
-Anchored overlays follow:
+Do not add a `…Portal` or `…Popup` wrapper around `Content` — that double-portals. The exported `…Portal` / `…Overlay` / `…Popup` parts and the `portalProps` prop on `Content` exist for granular control (custom containers, split rendering); reach for them only when the default placement is wrong.
 
-```
-Root → Trigger → Portal → Popup → Content
-```
-
-Preserve the portal and container props when you wrap these. Do not introduce your own portal provider — the primitive's container API already solves placement ownership.
+Do not introduce your own portal provider — the primitive's container API already solves placement ownership.
 
 Every blocking overlay needs a `Title`, even when the design shows no visible heading. It is what screen readers announce.
 

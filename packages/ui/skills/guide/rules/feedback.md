@@ -76,7 +76,7 @@ The user scrolls away, the toast expires, and the disabled composer now has no e
 }
 ```
 
-**`Banner`** — `status` is `default` `destructive` `warning` `info` `success`; `size` is `sm` `md` `lg`. Compose `BannerTitle`, `BannerDescription`, `BannerAction`. Use a `BannerAction` when there is a way out of the condition; a banner the user can do nothing about is usually noise.
+**`Banner`** — `status` is `default` `destructive` `warning` `info` `success`; `size` is `sm` `md` `lg`. Compose `BannerTitle`, `BannerDescription`, `BannerAction`. Use a `BannerAction` when there is a way out of the condition.
 
 **`Toast`** — `tone` is `info` `success` `warning` `error`. `placement` is `bottom-center` `bottom-right` `top-center` `top-right` `none`; `layout` is `stacked` or `inline`; `strategy` is `fixed` or `absolute`. Set these once on `ToastProvider` / `ToastViewport`, not per toast. Fire toasts with `toast()`; use `useToastManager()` when you need to update or dismiss one you created, and `createToastManager()` for a scoped manager.
 

@@ -47,17 +47,15 @@ These look alike and are not interchangeable. The rule is about **what happens o
 ```tsx
 <DropdownMenu>
   <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>…</DropdownMenuTrigger>
-  <DropdownMenuPortal>
-    <DropdownMenuPopup>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={rename}>Rename</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={remove}>Delete</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenuPopup>
-  </DropdownMenuPortal>
+  <DropdownMenuContent>
+    <DropdownMenuItem onClick={rename}>Rename</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem onClick={remove}>Delete</DropdownMenuItem>
+  </DropdownMenuContent>
 </DropdownMenu>
 ```
+
+`DropdownMenuContent` handles the portal and popup itself — do not wrap it in `DropdownMenuPortal` or `DropdownMenuPopup`. Those parts exist for granular control only.
 
 Quick test: if the trigger should still read "Actions" after the user picks something, it is a menu. If the trigger should now read "Rename", it is a select.
 
@@ -201,7 +199,7 @@ Standalone `Label` exists for cases outside a field (a section caption above a g
 
 **`RadioGroup`** — each `RadioGroupItem` needs a `RadioGroupIndicator`.
 
-**`Checkbox`** — has both `variant` and `color` (`default` / `primary`). Reserve `primary` for the affirmative choice in a set, not for every checkbox.
+**`Checkbox`** — has both `variant` and `color`, each `default` / `primary`.
 
 **`SegmentedControl`** — compose `SegmentedControlItem` with `SegmentedControlLabel`, and `SegmentedControlCount` when an option carries a number. Do not put a count in the label string.
 
