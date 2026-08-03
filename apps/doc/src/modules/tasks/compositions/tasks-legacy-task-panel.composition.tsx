@@ -23,10 +23,10 @@ import {
   LegacyTaskPanelStatus,
   LegacyTaskPanelTitle,
   LegacyTaskPanelTitleMeta,
+  PanelAction,
   TaskCardStatus,
   TaskStatusIcon,
 } from "raft-ui";
-import { PanelAction } from "raft-ui/wip";
 
 import { getTaskStatusLabel, type TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 

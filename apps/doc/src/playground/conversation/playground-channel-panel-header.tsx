@@ -13,6 +13,7 @@ import {
 import { useState } from "react";
 import {
   BrutalOnly,
+  PanelAction,
   PanelActions,
   PanelHeader,
   PanelHeaderContent,
@@ -21,12 +22,12 @@ import {
   PanelMeta,
   PanelStatus,
   PanelTitle,
+  PanelToggleAction,
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "raft-ui";
-import { PanelAction, PanelToggleAction } from "raft-ui/wip";
 
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";

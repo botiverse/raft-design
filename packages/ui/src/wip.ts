@@ -1,6 +1,3 @@
-export { PanelAction, PanelToggleAction } from "./components/panel/index";
-export type { PanelActionProps, PanelToggleActionProps } from "./components/panel/index";
-
 export {
   ProfilePanel,
   ProfilePanelHeader,

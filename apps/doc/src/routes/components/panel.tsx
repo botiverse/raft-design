@@ -18,8 +18,8 @@ const TOC = [
 const SNIPPETS = {
   panelComposition: panelCompositionSource,
   anatomy: `<Panel>
-  {/* Use PanelHeaderFrame directly for a fully custom fixed header. */}
-  <PanelHeaderFrame />
+  {/* Use PanelHeaderRoot directly for a fully custom fixed header. */}
+  <PanelHeaderRoot />
 
   <PanelBody>
     <PanelScrollViewport>
@@ -64,7 +64,7 @@ const PANEL_PROPS: readonly PropRow[] = [
   },
 ];
 
-const PANEL_HEADER_FRAME_PROPS: readonly PropRow[] = [
+const PANEL_HEADER_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
@@ -140,7 +140,15 @@ const PANEL_STATUS_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
-    description: "Optional caller-owned status alongside the title.",
+    description: "Attribute badge alongside the title, such as a muted marker.",
+  },
+];
+
+const PANEL_ACTIVITY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Live status readout alongside the title, wrapping a Status.",
   },
 ];
 
@@ -241,8 +249,8 @@ function PanelDoc() {
           <DocSubsection parentId="api" id="api-panel" title="Panel">
             <PropsTable rows={PANEL_PROPS} />
           </DocSubsection>
-          <DocSubsection parentId="api" id="api-panel-header-frame" title="PanelHeaderFrame">
-            <PropsTable rows={PANEL_HEADER_FRAME_PROPS} />
+          <DocSubsection parentId="api" id="api-panel-header-root" title="PanelHeaderRoot">
+            <PropsTable rows={PANEL_HEADER_ROOT_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-header" title="PanelHeader">
             <PropsTable rows={PANEL_HEADER_PROPS} />
@@ -267,6 +275,9 @@ function PanelDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-status" title="PanelStatus">
             <PropsTable rows={PANEL_STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel-activity" title="PanelActivity">
+            <PropsTable rows={PANEL_ACTIVITY_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-actions" title="PanelActions">
             <PropsTable rows={PANEL_ACTIONS_PROPS} />

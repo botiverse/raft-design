@@ -5,7 +5,7 @@ import {
   PanelHeader,
   PanelHeaderContent,
   PanelHeading,
-  PanelStatus,
+  PanelActivity,
   PanelTitle,
   Status,
 } from "raft-ui";
@@ -32,10 +32,10 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
         <PanelHeading>
           <PanelTitle className={isAgent ? "max-md:text-[15px]" : undefined}>{dm.name}</PanelTitle>
           {isAgent ? (
-            <PanelStatus title={presence.label}>
+            <PanelActivity title={presence.label}>
               <Status aria-hidden size="sm" variant={presence.variant} pulse={presence.pulse} />
               {presence.label}
-            </PanelStatus>
+            </PanelActivity>
           ) : null}
         </PanelHeading>
       </PanelHeaderContent>

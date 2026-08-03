@@ -12,17 +12,19 @@ import {
   Avatar,
   AvatarFallback,
   BrutalOnly,
+  PanelAction,
   PanelActions,
   PanelHeader,
   PanelHeaderContent,
   PanelHeaderIcon,
   PanelHeading,
   PanelMeta,
+  PanelActivity,
   PanelStatus,
   PanelTitle,
+  PanelToggleAction,
   Status,
 } from "raft-ui";
-import { PanelAction, PanelToggleAction } from "raft-ui/wip";
 
 export type ConversationPanelHeaderCompositionProps = {
   conversation: "channel" | "dm";
@@ -44,10 +46,10 @@ export function ConversationPanelHeaderComposition({
           </Avatar>
           <PanelHeading>
             <PanelTitle>Atlas</PanelTitle>
-            <PanelStatus title="Working…">
+            <PanelActivity title="Working…">
               <Status aria-hidden size="sm" variant="success" pulse />
               Working…
-            </PanelStatus>
+            </PanelActivity>
           </PanelHeading>
         </PanelHeaderContent>
       </PanelHeader>
