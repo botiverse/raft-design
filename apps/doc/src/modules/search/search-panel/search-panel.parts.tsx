@@ -139,6 +139,7 @@ export const searchShell = tv({
         headerBack: [
           "rounded-md border border-line-field bg-layer-field text-foreground-muted",
           "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         headerIconChip: ["rounded-md bg-layer-muted text-foreground-icon"],
         inputRow: [
@@ -151,6 +152,7 @@ export const searchShell = tv({
         inputClear: [
           "rounded-sm p-1 text-foreground-muted",
           "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         inputKbd: ["text-foreground-muted"],
         filtersRow: [
@@ -159,17 +161,20 @@ export const searchShell = tv({
         ],
         channelActiveChip: [
           "rounded-md border border-line-subtle bg-layer-muted font-medium text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         channelOptionIcon: ["text-foreground-icon"],
         clearAllButton: [
           "rounded-md border-0 font-medium text-foreground-muted",
           "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         resultsViewport: ["bg-layer-panel"],
         resultsContent: ["bg-layer-panel", "px-7 max-md:pl-5 max-md:pr-3.5"],
         loadMoreButton: [
           "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
           "shadow-none transition-colors hover:bg-layer-hover",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         highlightMark: ["rounded-[3px] bg-soft-signal/70 font-medium text-foreground-strong"],
         metaLabel: ["font-medium text-foreground-muted"],
@@ -210,6 +215,7 @@ export const searchShell = tv({
         retryButton: [
           "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
           "shadow-none transition-colors hover:bg-layer-hover",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         identityAvatar: ["rounded-md border-line-subtle"],
       },

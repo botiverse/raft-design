@@ -5,6 +5,9 @@ import {
   DropdownMenuContent,
   Panel,
   PanelHeaderRoot,
+  SidebarBody,
+  SidebarContent,
+  SidebarRoot,
   useThemeFamily,
   type DropdownMenuContentProps,
 } from "raft-ui";
@@ -37,10 +40,12 @@ export const activityShell = tv({
     headerSubtitle: ["truncate font-mono text-xs"],
     layout: ["flex min-h-0 flex-1"],
     sidebar: [
-      "scrollbar-quiet w-48 shrink-0 flex-col overflow-y-auto p-3",
+      "w-48 shrink-0",
       "group-data-[layout=compact]/activity-inbox:hidden",
       "group-data-[layout=wide]/activity-inbox:flex",
     ],
+    sidebarBody: [],
+    sidebarInner: ["p-3"],
     sidebarSection: ["flex flex-col gap-1"],
     sidebarHeading: ["mb-1 mt-5 flex items-center gap-2 px-2"],
     sidebarHeadingLabel: ["flex-1 text-[10px] font-black uppercase tracking-widest"],
@@ -118,7 +123,8 @@ export const activityShell = tv({
         headerIcon: ["border-2 border-black bg-soft-signal text-black"],
         headerTitle: ["text-black"],
         headerSubtitle: ["text-black/50"],
-        sidebar: ["border-r-2 border-black bg-white"],
+        sidebar: ["border-r-2 border-black"],
+        sidebarBody: ["bg-white"],
         sidebarHeadingLabel: ["text-black/40"],
         sidebarShowAllLink: ["font-black text-black/50 hover:text-black"],
         navigationItem: [
@@ -181,6 +187,7 @@ export const activityShell = tv({
         headerBack: [
           "rounded-md border border-line-field bg-layer-field text-foreground-muted",
           "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         headerIcon: ["rounded-md bg-layer-muted text-foreground-icon"],
         headerTitle: [
@@ -188,7 +195,7 @@ export const activityShell = tv({
           "text-foreground-muted",
         ],
         headerSubtitle: ["font-sans text-foreground-placeholder"],
-        sidebar: ["bg-layer-page"],
+        sidebar: ["w-56"],
         sidebarHeadingLabel: ["font-medium tracking-wider text-foreground-placeholder"],
         sidebarShowAllLink: ["font-medium text-foreground-muted hover:text-foreground-strong"],
         navigationItem: [
@@ -198,6 +205,7 @@ export const activityShell = tv({
           "aria-[current=page]:shadow-sm aria-[current=page]:ring-1 aria-[current=page]:ring-line-subtle/45",
           "aria-pressed:border-transparent aria-pressed:bg-layer-panel aria-pressed:text-foreground",
           "aria-pressed:shadow-sm aria-pressed:ring-1 aria-pressed:ring-line-subtle/45",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         navigationCount: ["font-sans text-xs font-normal tabular-nums text-foreground-icon"],
         main: [
@@ -208,8 +216,9 @@ export const activityShell = tv({
         mobileNavigationButton: [
           "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
           "shadow-none transition-colors hover:bg-layer-hover",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
-        switcherBackdrop: ["bg-layer-backdrop"],
+        switcherBackdrop: ["bg-layer-backdrop backdrop-blur-[2px]"],
         switcherContent: [
           "rounded-xl border-[0.5px] border-line-subtle bg-layer-popover shadow-xl",
         ],
@@ -218,6 +227,7 @@ export const activityShell = tv({
         switcherClose: [
           "rounded-md text-foreground-muted",
           "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         switcherBody: [],
         switcherItem: [
@@ -225,6 +235,7 @@ export const activityShell = tv({
           "hover:bg-layer-hover",
           "aria-[current=page]:bg-layer-active",
           "aria-pressed:bg-layer-active",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         switcherItemCount: ["font-sans font-normal tabular-nums text-foreground-placeholder"],
         switcherSeparator: ["border-t border-line-subtle"],
@@ -236,7 +247,10 @@ export const activityShell = tv({
           "hover:border-line-field-hover hover:shadow-field-hover",
           "focus:ring-1 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-background",
         ],
-        searchClear: ["text-foreground-muted transition-colors hover:text-foreground-strong"],
+        searchClear: [
+          "text-foreground-muted transition-colors hover:text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+        ],
         selectionToolbar: [
           "border-b border-line-subtle bg-layer-muted",
           "px-4 max-md:pl-5 max-md:pr-3.5",
@@ -246,18 +260,22 @@ export const activityShell = tv({
           "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
           "shadow-none transition-colors hover:bg-layer-hover",
           "disabled:pointer-events-none disabled:opacity-50",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         toolbarPrimaryAction: [
           "rounded-md border border-transparent bg-foreground font-medium text-background",
           "transition-colors hover:bg-foreground/90",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         toolbarLink: [
-          "font-medium text-foreground-muted underline decoration-1 underline-offset-2",
+          "rounded-sm font-medium text-foreground-muted underline decoration-1 underline-offset-2",
           "transition-colors hover:text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         sortTrigger: [
-          "font-sans font-medium text-foreground-muted",
+          "rounded-sm font-sans font-medium text-foreground-muted",
           "transition-colors hover:text-foreground-strong",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         sortContent: ["p-1"],
         sortItem: [
@@ -375,10 +393,25 @@ export function ActivityPanelLayout({ className, ...props }: ComponentProps<"div
   return <div data-slot="activity-inbox-layout" className={layout({ className })} {...props} />;
 }
 
-export function ActivityPanelSidebar({ className, ...props }: ComponentProps<"aside">) {
+export function ActivityPanelSidebar({
+  className,
+  children,
+  ...props
+}: ComponentProps<typeof SidebarRoot>) {
   const theme = useThemeFamily();
-  const { sidebar } = activityShell({ theme });
-  return <aside data-slot="activity-inbox-sidebar" className={sidebar({ className })} {...props} />;
+  const { sidebar, sidebarBody, sidebarInner } = activityShell({ theme });
+  return (
+    <SidebarRoot
+      render={<aside />}
+      data-slot="activity-inbox-sidebar"
+      className={sidebar({ className })}
+      {...props}
+    >
+      <SidebarBody className={sidebarBody()}>
+        <SidebarContent className={sidebarInner()}>{children}</SidebarContent>
+      </SidebarBody>
+    </SidebarRoot>
+  );
 }
 
 export function ActivityPanelSidebarSection({ className, ...props }: ComponentProps<"div">) {
