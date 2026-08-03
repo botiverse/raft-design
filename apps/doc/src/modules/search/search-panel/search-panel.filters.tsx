@@ -143,7 +143,7 @@ export function BrutalSearchFilters({
             onSenderChange(senders.find((item) => item.id === nextValue) ?? null);
           }}
         >
-          <ComboboxTrigger aria-label="From" className={filterTriggerClass}>
+          <ComboboxTrigger aria-label="From" className={filterTriggerClass} variant="filter">
             <UserCircle2 aria-hidden size={14} />
             <span>{sender ? `From: ${sender.isCurrentUser ? "Me" : sender.label}` : "From"}</span>
             <ComboboxTriggerIndicator>
@@ -198,7 +198,7 @@ export function BrutalSearchFilters({
           value={[...scopes]}
           onValueChange={(nextValue) => onScopesChange(nextValue)}
         >
-          <ComboboxTrigger aria-label="Scope" className={filterTriggerClass}>
+          <ComboboxTrigger aria-label="Scope" className={filterTriggerClass} variant="filter">
             <AtSign aria-hidden size={14} />
             <span>
               {scopes.length === 0
@@ -258,7 +258,7 @@ export function BrutalSearchFilters({
               onChannelChange(channels.find((item) => item.id === nextValue) ?? null);
             }}
           >
-            <ComboboxTrigger aria-label="Channel" className={filterTriggerClass}>
+            <ComboboxTrigger aria-label="Channel" className={filterTriggerClass} variant="filter">
               <Hash aria-hidden size={14} />
               <span>Channel</span>
               <ComboboxTriggerIndicator>
@@ -307,7 +307,12 @@ export function BrutalSearchFilters({
             if (nextValue) onTimeRangeChange(nextValue);
           }}
         >
-          <SelectTrigger aria-label="Time range" className={filterTriggerClass}>
+          <SelectTrigger
+            aria-label="Time range"
+            className={filterTriggerClass}
+            data-active={timeRange !== "any" ? "" : undefined}
+            variant="filter"
+          >
             <CalendarRange aria-hidden size={14} />
             <span>{timeLabel(timeRange)}</span>
             <SelectIcon>
@@ -343,7 +348,12 @@ export function BrutalSearchFilters({
             if (nextValue) onSortChange(nextValue);
           }}
         >
-          <SelectTrigger aria-label="Sort" className={filterTriggerClass}>
+          <SelectTrigger
+            aria-label="Sort"
+            className={filterTriggerClass}
+            data-active={sort !== "relevance" ? "" : undefined}
+            variant="filter"
+          >
             <ArrowDownUp aria-hidden size={14} />
             <span>{sort === "recent" ? "Recent" : "Relevant"}</span>
             <SelectIcon>

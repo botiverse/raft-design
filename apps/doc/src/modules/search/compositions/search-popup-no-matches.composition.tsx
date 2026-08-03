@@ -1,12 +1,11 @@
-import { SearchEmpty } from "../search-panel/search-panel.parts.tsx";
-import { BrutalSearchPopupStateExample } from "../search-panel/search-state-frame.tsx";
+import { BrutalSearchPanelComposition } from "./brutal-search-panel.composition.tsx";
 
 export function SearchPopupNoMatchesComposition() {
   return (
-    <BrutalSearchPopupStateExample>
-      <div className="min-h-0 flex-1 overflow-y-auto bg-white">
-        <SearchEmpty />
-      </div>
-    </BrutalSearchPopupStateExample>
+    <BrutalSearchPanelComposition
+      defaultOpenEmptySenderPopup
+      defaultQuery=""
+      onBack={() => window.history.back()}
+    />
   );
 }

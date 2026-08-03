@@ -6,6 +6,7 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
+import { filterTrigger } from "../filter-trigger/filter-trigger.recipe";
 
 const combobox = tv({
   slots: {
@@ -325,12 +326,15 @@ export function ComboboxValue(props: ComboboxValueProps) {
   return <BaseCombobox.Value data-slot="combobox-value" {...props} />;
 }
 
-export type ComboboxTriggerProps = StyledProps<BaseCombobox.Trigger.Props>;
+export type ComboboxTriggerProps = StyledProps<BaseCombobox.Trigger.Props> & {
+  variant?: "default" | "filter";
+};
 
 export function ComboboxTrigger({
   className,
   children,
   render = <Button variant="outline" size="md" />,
+  variant = "default",
   ...props
 }: ComboboxTriggerProps) {
   const theme = useThemeFamily();
@@ -339,9 +343,12 @@ export function ComboboxTrigger({
   return (
     <BaseCombobox.Trigger
       data-slot="combobox-trigger"
-      data-has-value={hasValue ? "" : undefined}
+      data-has-value={variant === "default" && hasValue ? "" : undefined}
+      data-active={variant === "filter" && hasValue ? "" : undefined}
       render={render}
-      className={trigger({ className })}
+      className={trigger({
+        className: [variant === "filter" && filterTrigger({ theme }), className],
+      })}
       {...props}
     >
       <span

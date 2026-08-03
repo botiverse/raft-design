@@ -1,6 +1,5 @@
 export {
   ActivityInboxControls,
-  ActivityInboxControlsFilter,
   ActivityInboxHeader,
   ActivityInboxHeaderBack,
   ActivityInboxHeaderContent,
@@ -15,6 +14,8 @@ export {
   ActivityInboxItemContent,
   ActivityInboxItemHeading,
   ActivityInboxItemMetadata,
+  ActivityInboxItemMenuContent,
+  ActivityInboxItemMenuItem,
   ActivityInboxItemOpen,
   ActivityInboxItemSelection,
   ActivityInboxItemSavedAction,
@@ -44,6 +45,9 @@ export {
   ActivityInboxSidebarHeadingLabel,
   ActivityInboxSidebarSection,
   ActivityInboxSortTrigger,
+  ActivityInboxSortContent,
+  ActivityInboxSortItem,
+  ActivityInboxSortItemIndicator,
   ActivityInboxSwitcher,
   ActivityInboxSwitcherBody,
   ActivityInboxSwitcherClose,
@@ -62,7 +66,6 @@ export {
 } from "./activity-inbox";
 
 export type {
-  ActivityInboxControlsFilterProps,
   ActivityInboxControlsProps,
   ActivityInboxHeaderBackProps,
   ActivityInboxHeaderContentProps,
@@ -77,6 +80,8 @@ export type {
   ActivityInboxItemContentProps,
   ActivityInboxItemHeadingProps,
   ActivityInboxItemMetadataProps,
+  ActivityInboxItemMenuContentProps,
+  ActivityInboxItemMenuItemProps,
   ActivityInboxItemOpenProps,
   ActivityInboxItemProps,
   ActivityInboxItemSelectionProps,
@@ -107,6 +112,9 @@ export type {
   ActivityInboxSidebarProps,
   ActivityInboxSidebarSectionProps,
   ActivityInboxSortTriggerProps,
+  ActivityInboxSortContentProps,
+  ActivityInboxSortItemIndicatorProps,
+  ActivityInboxSortItemProps,
   ActivityInboxSwitcherBodyProps,
   ActivityInboxSwitcherCloseProps,
   ActivityInboxSwitcherContentProps,

@@ -24,14 +24,15 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
-import { Menu as BaseMenu } from "@base-ui/react/menu";
 import {
   Badge,
   Avatar,
   ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
+  ContextMenuItemLabel,
   ContextMenuTrigger,
+  DropdownMenu,
+  DropdownMenuRadioGroup,
+  DropdownMenuTrigger,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -44,7 +45,6 @@ import {
 } from "raft-ui";
 import {
   ActivityInboxControls,
-  ActivityInboxControlsFilter,
   ActivityInboxHeader,
   ActivityInboxHeaderBack,
   ActivityInboxHeaderContent,
@@ -59,6 +59,8 @@ import {
   ActivityInboxItemContent,
   ActivityInboxItemHeading,
   ActivityInboxItemMetadata,
+  ActivityInboxItemMenuContent,
+  ActivityInboxItemMenuItem,
   ActivityInboxItemOpen,
   ActivityInboxItemSelection,
   ActivityInboxItemSavedAction,
@@ -88,6 +90,9 @@ import {
   ActivityInboxSidebarHeadingLabel,
   ActivityInboxSidebarSection,
   ActivityInboxSortTrigger,
+  ActivityInboxSortContent,
+  ActivityInboxSortItem,
+  ActivityInboxSortItemIndicator,
   ActivityInboxSwitcher,
   ActivityInboxSwitcherBody,
   ActivityInboxSwitcherClose,
@@ -104,7 +109,15 @@ import {
   ActivityInboxToolbarPrimaryAction,
   ActivityInboxViewport,
 } from "raft-ui/wip";
-import { useEffect, useMemo, useRef, useState, type ComponentProps, type ReactNode } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentProps,
+  type ReactNode,
+  type RefObject,
+} from "react";
 
 import {
   ACTIVITY_COMPOSITION_ITEMS,
@@ -420,7 +433,7 @@ export function ActivityInboxComposition({
                   </ActivityInboxMobileNavigationLabel>
                   <ChevronDown />
                 </ActivityInboxSwitcherTrigger>
-                <ActivityInboxSwitcherContent portalProps={{ container: rootRef.current }}>
+                <ActivityInboxSwitcherContent portalProps={{ container: rootRef }}>
                   <ActivityInboxSwitcherHeader>
                     <ActivityInboxSwitcherTitle>Switch Activity</ActivityInboxSwitcherTitle>
                     <ActivityInboxSwitcherClose aria-label="Close">
@@ -491,20 +504,19 @@ export function ActivityInboxComposition({
             </ActivityInboxMobileNavigation>
 
             {view === "active" ? (
-              <ActivityInboxControlsFilter>
-                <SegmentedControl
-                  value={readFilter}
-                  onValueChange={(value) => setReadFilter(value as ActivityReadFilter)}
-                  ariaLabel="Filter activity"
-                >
-                  <SegmentedControlItem value="all">
-                    <SegmentedControlLabel>All</SegmentedControlLabel>
-                  </SegmentedControlItem>
-                  <SegmentedControlItem value="unread">
-                    <SegmentedControlLabel>Unread</SegmentedControlLabel>
-                  </SegmentedControlItem>
-                </SegmentedControl>
-              </ActivityInboxControlsFilter>
+              <SegmentedControl
+                className="shrink-0"
+                value={readFilter}
+                onValueChange={(value) => setReadFilter(value as ActivityReadFilter)}
+                ariaLabel="Filter activity"
+              >
+                <SegmentedControlItem value="all">
+                  <SegmentedControlLabel>All</SegmentedControlLabel>
+                </SegmentedControlItem>
+                <SegmentedControlItem value="unread">
+                  <SegmentedControlLabel>Unread</SegmentedControlLabel>
+                </SegmentedControlItem>
+              </SegmentedControl>
             ) : null}
 
             <ActivityInboxSearch>
@@ -535,42 +547,33 @@ export function ActivityInboxComposition({
                 >
                   Select all
                 </ActivityInboxToolbarButton>
-                <BaseMenu.Root>
-                  <BaseMenu.Trigger render={<ActivityInboxSortTrigger className="ml-auto" />}>
+                <DropdownMenu>
+                  <DropdownMenuTrigger render={<ActivityInboxSortTrigger className="ml-auto" />}>
                     {sortDirection === "desc" ? "Newest to oldest" : "Oldest to newest"}
                     <ChevronDown />
-                  </BaseMenu.Trigger>
-                  <BaseMenu.Portal container={rootRef.current}>
-                    <BaseMenu.Positioner
-                      align="end"
-                      side="bottom"
-                      sideOffset={8}
-                      className="isolate z-30 outline-none"
+                  </DropdownMenuTrigger>
+                  <ActivityInboxSortContent
+                    align="end"
+                    side="bottom"
+                    sideOffset={8}
+                    className="w-48"
+                    portalProps={{ container: rootRef }}
+                  >
+                    <DropdownMenuRadioGroup
+                      value={sortDirection}
+                      onValueChange={(value) => setSortDirection(value as ActivitySortDirection)}
                     >
-                      <BaseMenu.Popup className="w-48 border-2 border-black bg-white p-1 shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)] outline-none">
-                        <BaseMenu.RadioGroup
-                          value={sortDirection}
-                          onValueChange={(value) =>
-                            setSortDirection(value as ActivitySortDirection)
-                          }
-                        >
-                          {(["desc", "asc"] as const).map((direction) => (
-                            <BaseMenu.RadioItem
-                              key={direction}
-                              value={direction}
-                              className="flex w-full items-center gap-2 px-2 py-2 text-left text-xs font-bold outline-none hover:bg-black/5 data-[highlighted]:bg-black/5 data-[checked]:bg-soft-signal"
-                            >
-                              <span className="flex size-4 items-center justify-center">
-                                {sortDirection === direction ? <Check /> : null}
-                              </span>
-                              {direction === "desc" ? "Newest to oldest" : "Oldest to newest"}
-                            </BaseMenu.RadioItem>
-                          ))}
-                        </BaseMenu.RadioGroup>
-                      </BaseMenu.Popup>
-                    </BaseMenu.Positioner>
-                  </BaseMenu.Portal>
-                </BaseMenu.Root>
+                      {(["desc", "asc"] as const).map((direction) => (
+                        <ActivityInboxSortItem key={direction} value={direction}>
+                          <ActivityInboxSortItemIndicator>
+                            {sortDirection === direction ? <Check /> : null}
+                          </ActivityInboxSortItemIndicator>
+                          {direction === "desc" ? "Newest to oldest" : "Oldest to newest"}
+                        </ActivityInboxSortItem>
+                      ))}
+                    </DropdownMenuRadioGroup>
+                  </ActivityInboxSortContent>
+                </DropdownMenu>
               </>
             ) : (
               <>
@@ -642,7 +645,7 @@ export function ActivityInboxComposition({
                     active={openItemId === item.id}
                     selected={selectedIds.has(item.id)}
                     view={view}
-                    portalContainer={rootRef.current}
+                    portalContainer={rootRef}
                     onOpen={(detail) => {
                       setOpenItemId(item.id);
                       onOpenItem?.(item, {
@@ -702,11 +705,8 @@ function ActivityLoadingList() {
   return (
     <ActivityInboxList>
       {Array.from({ length: 6 }, (_, index) => (
-        <div
-          key={index}
-          className="flex w-full items-start gap-3 border-2 border-black/30 bg-white p-3"
-        >
-          <div className="flex min-w-0 flex-1 flex-col gap-2">
+        <ActivityInboxItem key={index} aria-hidden aria-disabled>
+          <ActivityInboxItemContent className="flex flex-col gap-2">
             <div className="flex items-center gap-2.5">
               <Skeleton variant="line" className="w-20" />
               <Skeleton variant="line" className="w-16" />
@@ -714,8 +714,8 @@ function ActivityLoadingList() {
             </div>
             <Skeleton variant="line" className="w-full" />
             <Skeleton variant="line" className="w-3/5" />
-          </div>
-        </div>
+          </ActivityInboxItemContent>
+        </ActivityInboxItem>
       ))}
     </ActivityInboxList>
   );
@@ -822,7 +822,7 @@ function ActivityItem({
   active: boolean;
   selected: boolean;
   view: ActivityView;
-  portalContainer: HTMLElement | null;
+  portalContainer: RefObject<HTMLDivElement | null>;
   onOpen: (detail: number) => void;
   onSelect: () => void;
   onToggleSaved: () => void;
@@ -932,42 +932,33 @@ function ActivityItem({
   return (
     <ContextMenu>
       <ContextMenuTrigger render={row} />
-      <ContextMenuContent
-        className="w-[184px] min-w-[184px] max-w-[184px] overflow-y-auto overflow-x-hidden border-2 border-black bg-white p-0 shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]"
+      <ActivityInboxItemMenuContent
+        className="w-[184px] min-w-[184px] max-w-[184px] overflow-y-auto overflow-x-hidden"
         portalProps={{ container: portalContainer }}
       >
         {item.kind !== "thread" || item.following !== false ? (
           <>
-            <ContextMenuItem
-              className="font-medium hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30"
-              onClick={onToggleRead}
-            >
+            <ActivityInboxItemMenuItem onClick={onToggleRead}>
               {item.unreadCount > 0 ? <MailOpen /> : <Mail />}
-              <span className="min-w-0 flex-1 truncate">
+              <ContextMenuItemLabel>
                 {item.unreadCount > 0 ? "Mark as read" : "Mark as unread"}
-              </span>
-            </ContextMenuItem>
-            <ContextMenuItem
-              className="font-medium hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30"
-              onClick={onToggleDone}
-            >
+              </ContextMenuItemLabel>
+            </ActivityInboxItemMenuItem>
+            <ActivityInboxItemMenuItem onClick={onToggleDone}>
               <Check />
-              <span className="min-w-0 flex-1 truncate">Mark as done</span>
-            </ContextMenuItem>
+              <ContextMenuItemLabel>Mark as done</ContextMenuItemLabel>
+            </ActivityInboxItemMenuItem>
           </>
         ) : null}
         {item.kind === "thread" ? (
-          <ContextMenuItem
-            className="font-medium hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30"
-            onClick={onToggleFollowing}
-          >
+          <ActivityInboxItemMenuItem onClick={onToggleFollowing}>
             {item.following === false ? <Bell /> : <BellOff />}
-            <span className="min-w-0 flex-1 truncate">
+            <ContextMenuItemLabel>
               {item.following === false ? "Follow thread" : "Unfollow thread"}
-            </span>
-          </ContextMenuItem>
+            </ContextMenuItemLabel>
+          </ActivityInboxItemMenuItem>
         ) : null}
-      </ContextMenuContent>
+      </ActivityInboxItemMenuContent>
     </ContextMenu>
   );
 }

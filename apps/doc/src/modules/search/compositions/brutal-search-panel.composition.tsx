@@ -27,6 +27,9 @@ export type BrutalSearchPanelCompositionProps = {
   senders?: readonly SearchSenderFixture[];
   channels?: readonly SearchChannelFixture[];
   defaultQuery?: string;
+  defaultSenderId?: string;
+  defaultOpenEmptySenderPopup?: boolean;
+  view?: "ready" | "loading" | "error";
   focusRequestKey?: number;
   onBack: () => void;
   onOpenEntity?: (entity: SearchEntityFixture) => void;
@@ -193,16 +196,21 @@ function SearchPanel({
   senders = SEARCH_SENDER_FIXTURES,
   channels = SEARCH_CHANNEL_FIXTURES,
   defaultQuery = "preview",
+  defaultSenderId,
+  defaultOpenEmptySenderPopup = false,
+  view = "ready",
   focusRequestKey,
   onBack,
   onOpenEntity,
   onOpenMessage,
 }: BrutalSearchPanelCompositionProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const resultRefs = useRef(new Map<string, HTMLButtonElement>());
+  const resultRefs = useRef<Map<string, HTMLButtonElement>>(undefined);
   const composing = useRef(false);
   const [query, setQuery] = useState(defaultQuery);
-  const [sender, setSender] = useState<SearchSenderFixture | null>(null);
+  const [sender, setSender] = useState<SearchSenderFixture | null>(
+    () => senders.find((item) => item.id === defaultSenderId) ?? null,
+  );
   const [channel, setChannel] = useState<SearchChannelFixture | null>(null);
   const [scopes, setScopes] = useState<BrutalSearchScope[]>([]);
   const [timeRange, setTimeRange] = useState<BrutalSearchTimeRange>("any");
@@ -260,25 +268,29 @@ function SearchPanel({
   const visibleMessages = messageResults.slice(0, visibleLimit);
   const hasActiveFilters = Boolean(sender || channel || scopes.length || timeRange !== "any");
   const hasIntent = Boolean(normalize(query) || hasActiveFilters);
-  const selectableResults: SelectableResult[] = [
-    ...entityResults.map((entity) => ({
-      key: entity.key,
-      kind: "entity" as const,
-      entity,
-    })),
-    ...visibleMessages.map((message) => ({
-      key: `message:${message.id}`,
-      kind: "message" as const,
-      message,
-    })),
-  ];
+  const selectableResults: SelectableResult[] =
+    view === "ready"
+      ? [
+          ...entityResults.map((entity) => ({
+            key: entity.key,
+            kind: "entity" as const,
+            entity,
+          })),
+          ...visibleMessages.map((message) => ({
+            key: `message:${message.id}`,
+            kind: "message" as const,
+            message,
+          })),
+        ]
+      : [];
   const resolvedSelectedKey = selectableResults.some((item) => item.key === selectedKey)
     ? selectedKey
     : (selectableResults[0]?.key ?? null);
 
   function setResultRef(key: string, element: HTMLButtonElement | null) {
-    if (element) resultRefs.current.set(key, element);
-    else resultRefs.current.delete(key);
+    const refs = (resultRefs.current ??= new Map());
+    if (element) refs.set(key, element);
+    else refs.delete(key);
   }
 
   function activate(result: SelectableResult) {
@@ -297,7 +309,7 @@ function SearchPanel({
     const result = selectableResults[next];
     if (!result) return;
     setSelectedKey(result.key);
-    resultRefs.current.get(result.key)?.focus();
+    resultRefs.current?.get(result.key)?.focus();
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -360,6 +372,7 @@ function SearchPanel({
         scopes={scopes}
         timeRange={timeRange}
         sort={sort}
+        showEmptySenderPopup={defaultOpenEmptySenderPopup}
         onSenderChange={(nextSender) => {
           setSender(nextSender);
           if (!nextSender) return;
@@ -395,7 +408,7 @@ function SearchPanel({
         selectedKey={resolvedSelectedKey}
         hasIntent={hasIntent}
         hasActiveFilters={hasActiveFilters}
-        view="ready"
+        view={view}
         setResultRef={setResultRef}
         onOpenEntity={(entity) => activate({ key: entity.key, kind: "entity", entity })}
         onOpenMessage={(message) =>

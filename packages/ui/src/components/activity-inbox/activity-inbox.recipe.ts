@@ -75,7 +75,6 @@ export const activityInbox = tv({
     switcherItemLabel: ["min-w-0 flex-1 truncate"],
     switcherItemCount: ["shrink-0 font-mono"],
     switcherSeparator: ["mx-3 my-3"],
-    controlsFilter: ["shrink-0"],
     search: ["relative min-w-0 flex-1"],
     searchIcon: [
       "pointer-events-none absolute top-1/2 left-2.5 -translate-y-1/2",
@@ -102,6 +101,9 @@ export const activityInbox = tv({
       "inline-flex items-center gap-1 font-mono text-[11px] font-bold",
       "[&_svg]:size-3",
     ],
+    sortContent: [],
+    sortItem: ["flex w-full items-center gap-2 px-2 py-2 text-left outline-none"],
+    sortItemIndicator: ["flex size-4 shrink-0 items-center justify-center", "[&_svg]:size-[13px]"],
     viewport: ["scrollbar-quiet safe-bottom relative flex-1 overflow-y-overlay p-3"],
     list: ["flex flex-col gap-2"],
     item: ["relative flex w-full items-start gap-3 border-2 p-3 text-left", "transition-colors"],
@@ -129,6 +131,8 @@ export const activityInbox = tv({
       "inline-flex shrink-0 items-center justify-center p-1.5 outline-none",
       "[&_svg]:size-3.5",
     ],
+    itemMenuContent: [],
+    itemMenuItem: [],
   },
   variants: {
     theme: {
@@ -178,11 +182,17 @@ export const activityInbox = tv({
         toolbarPrimaryAction: ["border-2 border-black bg-brutal-cyan", ...sourceButtonMotion],
         toolbarLink: ["text-black"],
         sortTrigger: ["text-black/60 hover:text-black"],
+        sortContent: ["p-1 shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]"],
+        sortItem: [
+          "text-xs font-bold",
+          "hover:bg-black/5 data-[highlighted]:bg-black/5 data-[checked]:bg-soft-signal",
+        ],
         viewport: ["bg-white"],
         item: [
           "border-black/30 bg-white",
           "hover:border-black hover:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
           "active:border-black active:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
+          "aria-disabled:pointer-events-none aria-disabled:hover:border-black/30 aria-disabled:hover:shadow-none",
           "data-[active=true]:border-black data-[active=true]:bg-white data-[active=true]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
           "data-[focused=true]:border-black data-[focused=true]:bg-brutal-cyan/25 data-[focused=true]:shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]",
           "has-[[data-slot=activity-inbox-item-open]:focus-visible]:border-black has-[[data-slot=activity-inbox-item-open]:focus-visible]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
@@ -212,6 +222,10 @@ export const activityInbox = tv({
           ...sourceButtonMotion,
           "focus-visible:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
         ],
+        itemMenuContent: [
+          "border-2 border-black bg-white p-0 shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]",
+        ],
+        itemMenuItem: ["font-medium hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30"],
       },
       elegant: {},
     },

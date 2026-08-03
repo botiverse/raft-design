@@ -30,8 +30,8 @@ const SEARCH_RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat("en", { numer
 
 const PIXEL_PALETTE = {
   _: "transparent",
-  K: "#141111",
-  W: "white",
+  K: "oklch(0.1812926 0.0049716 17.6198)",
+  W: "oklch(1 0 0)",
   C: "var(--color-brutal-cyan)",
   Y: "var(--color-brutal-yellow)",
   V: "var(--color-brutal-lavender)",

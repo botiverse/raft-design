@@ -1,12 +1,20 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
+import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { ElementType, MouseEvent } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import {
+  ContextMenuContent,
+  ContextMenuItem,
+  type ContextMenuContentProps,
+  type ContextMenuItemProps,
+} from "../context-menu/context-menu";
+import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/dropdown-menu";
 import { Panel, PanelHeader } from "../panel/panel";
 import { activityInbox } from "./activity-inbox.recipe";
 
@@ -432,7 +440,7 @@ export function ActivityInboxSwitcherTrigger(props: ActivityInboxSwitcherTrigger
 
 export type ActivityInboxSwitcherPortalProps = BaseDialog.Portal.Props;
 
-export type ActivityInboxSwitcherContentProps = useRender.ComponentProps<"div"> & {
+export type ActivityInboxSwitcherContentProps = StyledProps<BaseDialog.Popup.Props> & {
   portalProps?: ActivityInboxSwitcherPortalProps;
 };
 export function ActivityInboxSwitcherContent({
@@ -611,27 +619,6 @@ export function ActivityInboxSwitcherSeparator({
       withSlot<"div">({
         "data-slot": "activity-inbox-switcher-separator",
         className: switcherSeparator({ className }),
-      }),
-      props,
-    ),
-  });
-}
-
-export type ActivityInboxControlsFilterProps = DivProps;
-export function ActivityInboxControlsFilter({
-  className,
-  render,
-  ...props
-}: ActivityInboxControlsFilterProps) {
-  const theme = useThemeFamily();
-  const { controlsFilter } = activityInbox({ theme });
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(
-      withSlot<"div">({
-        "data-slot": "activity-inbox-controls-filter",
-        className: controlsFilter({ className }),
       }),
       props,
     ),
@@ -836,6 +823,46 @@ export function ActivityInboxSortTrigger({
   });
 }
 
+export type ActivityInboxSortContentProps = DropdownMenuContentProps;
+export function ActivityInboxSortContent({ className, ...props }: ActivityInboxSortContentProps) {
+  const theme = useThemeFamily();
+  const { sortContent } = activityInbox({ theme });
+  return <DropdownMenuContent className={sortContent({ className })} {...props} />;
+}
+
+export type ActivityInboxSortItemProps = StyledProps<BaseMenu.RadioItem.Props>;
+export function ActivityInboxSortItem({ className, ...props }: ActivityInboxSortItemProps) {
+  const theme = useThemeFamily();
+  const { sortItem } = activityInbox({ theme });
+  return (
+    <BaseMenu.RadioItem
+      data-slot="activity-inbox-sort-item"
+      className={sortItem({ className })}
+      {...props}
+    />
+  );
+}
+
+export type ActivityInboxSortItemIndicatorProps = SpanProps;
+export function ActivityInboxSortItemIndicator({
+  className,
+  render,
+  ...props
+}: ActivityInboxSortItemIndicatorProps) {
+  const { sortItemIndicator } = activityInbox();
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(
+      withSlot<"span">({
+        "data-slot": "activity-inbox-sort-item-indicator",
+        className: sortItemIndicator({ className }),
+      }),
+      props,
+    ),
+  });
+}
+
 export type ActivityInboxViewportProps = DivProps;
 export function ActivityInboxViewport({ className, render, ...props }: ActivityInboxViewportProps) {
   const theme = useThemeFamily();
@@ -880,6 +907,23 @@ export function ActivityInboxItem({ className, render, ...props }: ActivityInbox
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
+}
+
+export type ActivityInboxItemMenuContentProps = ContextMenuContentProps;
+export function ActivityInboxItemMenuContent({
+  className,
+  ...props
+}: ActivityInboxItemMenuContentProps) {
+  const theme = useThemeFamily();
+  const { itemMenuContent } = activityInbox({ theme });
+  return <ContextMenuContent className={itemMenuContent({ className })} {...props} />;
+}
+
+export type ActivityInboxItemMenuItemProps = ContextMenuItemProps;
+export function ActivityInboxItemMenuItem({ className, ...props }: ActivityInboxItemMenuItemProps) {
+  const theme = useThemeFamily();
+  const { itemMenuItem } = activityInbox({ theme });
+  return <ContextMenuItem className={itemMenuItem({ className })} {...props} />;
 }
 
 export type ActivityInboxItemOpenProps = ButtonProps;
