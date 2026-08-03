@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { PlaygroundRailViewPanel } from "#/playground/browse/playground-rail-views.tsx";
+import { PlaygroundSearchPanel } from "#/playground/search/playground-search-panel.tsx";
 
 export const Route = createFileRoute("/playground/_plain/search")({
-  component: () => <PlaygroundRailViewPanel view="search" />,
+  component: PlaygroundSearchPanel,
 });

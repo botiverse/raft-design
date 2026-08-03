@@ -7,6 +7,7 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
+import { filterTrigger } from "../filter-trigger/filter-trigger.recipe";
 
 const select = tv({
   slots: {
@@ -154,12 +155,15 @@ export function Select<Value, Multiple extends boolean | undefined = false>(
   return <BaseSelect.Root data-slot="select" {...props} />;
 }
 
-export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props>;
+export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props> & {
+  variant?: "default" | "filter";
+};
 
 export function SelectTrigger({
   className,
   children,
   render,
+  variant = "default",
   "aria-invalid": ariaInvalid,
   ...props
 }: SelectTriggerProps) {
@@ -172,7 +176,9 @@ export function SelectTrigger({
     <BaseSelect.Trigger
       data-slot="select-trigger"
       {...(renderProp ? { render: renderProp } : {})}
-      className={trigger({ className })}
+      className={trigger({
+        className: [variant === "filter" && filterTrigger({ theme }), className],
+      })}
       {...props}
       aria-invalid={ariaInvalid}
       {...(isAriaTrue(ariaInvalid) ? { "data-invalid": dataPresence(true) } : {})}

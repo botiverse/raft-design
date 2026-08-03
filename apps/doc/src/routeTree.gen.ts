@@ -16,6 +16,7 @@ import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
+import { Route as ComponentsActivityRouteImport } from './routes/components/activity'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
 import { Route as ComponentsAppShellRouteImport } from './routes/components/app-shell'
@@ -68,6 +69,7 @@ import { Route as ComponentsProgressRouteImport } from './routes/components/prog
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
 import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
 import { Route as ComponentsScrollAreaRouteImport } from './routes/components/scroll-area'
+import { Route as ComponentsSearchRouteImport } from './routes/components/search'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
 import { Route as ComponentsSelectRouteImport } from './routes/components/select'
 import { Route as ComponentsSeparatorRouteImport } from './routes/components/separator'
@@ -158,6 +160,11 @@ const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
   id: '/playground',
   path: '/playground',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ComponentsActivityRoute = ComponentsActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsAlertDialogRoute = ComponentsAlertDialogRouteImport.update({
   id: '/alert-dialog',
@@ -430,6 +437,11 @@ const ComponentsSandboxedPreviewFrameRoute =
 const ComponentsScrollAreaRoute = ComponentsScrollAreaRouteImport.update({
   id: '/scroll-area',
   path: '/scroll-area',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsSearchRoute = ComponentsSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsSegmentedControlRoute =
@@ -724,6 +736,7 @@ export interface FileRoutesByFullPath {
   '/lab': typeof LabRoute
   '/migration': typeof MigrationRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
+  '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
@@ -776,6 +789,7 @@ export interface FileRoutesByFullPath {
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
+  '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -837,6 +851,7 @@ export interface FileRoutesByTo {
   '/lab': typeof LabRoute
   '/playground': typeof PlaygroundIndexRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
+  '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
@@ -889,6 +904,7 @@ export interface FileRoutesByTo {
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
+  '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -952,6 +968,7 @@ export interface FileRoutesById {
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
+  '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
@@ -1004,6 +1021,7 @@ export interface FileRoutesById {
   '/components/radio-group': typeof ComponentsRadioGroupRoute
   '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
+  '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
   '/components/select': typeof ComponentsSelectRoute
   '/components/separator': typeof ComponentsSeparatorRoute
@@ -1068,6 +1086,7 @@ export interface FileRouteTypes {
     | '/lab'
     | '/migration'
     | '/playground/s'
+    | '/components/activity'
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
@@ -1120,6 +1139,7 @@ export interface FileRouteTypes {
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
+    | '/components/search'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1181,6 +1201,7 @@ export interface FileRouteTypes {
     | '/lab'
     | '/playground'
     | '/playground/s'
+    | '/components/activity'
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
@@ -1233,6 +1254,7 @@ export interface FileRouteTypes {
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
+    | '/components/search'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1295,6 +1317,7 @@ export interface FileRouteTypes {
     | '/playground/_browse'
     | '/playground/_plain'
     | '/playground/s'
+    | '/components/activity'
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
@@ -1347,6 +1370,7 @@ export interface FileRouteTypes {
     | '/components/radio-group'
     | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
+    | '/components/search'
     | '/components/segmented-control'
     | '/components/select'
     | '/components/separator'
@@ -1469,6 +1493,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/playground'
       preLoaderRoute: typeof PlaygroundRouteRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/components/activity': {
+      id: '/components/activity'
+      path: '/activity'
+      fullPath: '/components/activity'
+      preLoaderRoute: typeof ComponentsActivityRouteImport
+      parentRoute: typeof ComponentsRoute
     }
     '/components/alert-dialog': {
       id: '/components/alert-dialog'
@@ -1832,6 +1863,13 @@ declare module '@tanstack/react-router' {
       path: '/scroll-area'
       fullPath: '/components/scroll-area'
       preLoaderRoute: typeof ComponentsScrollAreaRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/search': {
+      id: '/components/search'
+      path: '/search'
+      fullPath: '/components/search'
+      preLoaderRoute: typeof ComponentsSearchRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/segmented-control': {
@@ -2335,6 +2373,7 @@ const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(
 )
 
 interface ComponentsRouteChildren {
+  ComponentsActivityRoute: typeof ComponentsActivityRoute
   ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
   ComponentsAppRailRoute: typeof ComponentsAppRailRoute
   ComponentsAppShellRoute: typeof ComponentsAppShellRoute
@@ -2387,6 +2426,7 @@ interface ComponentsRouteChildren {
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
   ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsScrollAreaRoute: typeof ComponentsScrollAreaRoute
+  ComponentsSearchRoute: typeof ComponentsSearchRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
   ComponentsSelectRoute: typeof ComponentsSelectRoute
   ComponentsSeparatorRoute: typeof ComponentsSeparatorRoute
@@ -2414,6 +2454,7 @@ interface ComponentsRouteChildren {
 }
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
+  ComponentsActivityRoute: ComponentsActivityRoute,
   ComponentsAlertDialogRoute: ComponentsAlertDialogRoute,
   ComponentsAppRailRoute: ComponentsAppRailRoute,
   ComponentsAppShellRoute: ComponentsAppShellRoute,
@@ -2466,6 +2507,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
   ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsScrollAreaRoute: ComponentsScrollAreaRoute,
+  ComponentsSearchRoute: ComponentsSearchRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
   ComponentsSelectRoute: ComponentsSelectRoute,
   ComponentsSeparatorRoute: ComponentsSeparatorRoute,

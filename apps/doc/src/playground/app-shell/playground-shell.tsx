@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 import { PreviewThemeScope, usePreviewTheme } from "#/components/preview-theme.tsx";
 
@@ -7,6 +8,7 @@ import { PlaygroundNavigationProvider } from "../navigation/playground-navigatio
 import { usePlaygroundRouteState } from "../navigation/playground-route-state.ts";
 import { PlaygroundTaskStateProvider } from "../tasks/task-state.tsx";
 import { PlaygroundShellStateProvider } from "./playground-shell-state.tsx";
+import { PlaygroundActivityStateProvider } from "../activity/activity-state.tsx";
 
 const playgroundPlainPaths = new Set([
   "/playground/tasks",
@@ -21,6 +23,18 @@ export function PlaygroundShell() {
   const location = useLocation();
   usePlaygroundEmbeddedPreview(setTheme);
   const route = usePlaygroundRouteState();
+
+  useEffect(() => {
+    const openSearch = (event: KeyboardEvent) => {
+      if (event.isComposing || event.key.toLocaleLowerCase() !== "k") return;
+      if (!event.metaKey && !event.ctrlKey) return;
+      event.preventDefault();
+      route.selectRailView("search");
+    };
+    window.addEventListener("keydown", openSearch);
+    return () => window.removeEventListener("keydown", openSearch);
+  }, [route.selectRailView]);
+
   const isChatRoute = location.pathname.startsWith("/playground/s/");
   const lockMobileHeight = isChatRoute || playgroundPlainPaths.has(location.pathname);
   const content = (
@@ -34,9 +48,11 @@ export function PlaygroundShell() {
         onRailDetailChange={route.selectRailDetail}
       >
         <PlaygroundShellStateProvider>
-          <PlaygroundTaskStateProvider>
-            <Outlet />
-          </PlaygroundTaskStateProvider>
+          <PlaygroundActivityStateProvider>
+            <PlaygroundTaskStateProvider>
+              <Outlet />
+            </PlaygroundTaskStateProvider>
+          </PlaygroundActivityStateProvider>
         </PlaygroundShellStateProvider>
       </PlaygroundNavigationProvider>
     </PreviewThemeScope>

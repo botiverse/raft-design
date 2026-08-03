@@ -11,7 +11,11 @@ type PlaygroundActivityBase = {
   channelId: PlaygroundChannelId;
   messageId: PlaygroundMessageId;
   occurredAt: string;
+  sortAt: string;
   unread: boolean;
+  saved?: boolean;
+  done?: boolean;
+  following?: boolean;
 };
 export type PlaygroundActivity =
   | (PlaygroundActivityBase & {
@@ -30,6 +34,7 @@ export const PLAYGROUND_ACTIVITY = [
     channelId: "design",
     messageId: "design:reply",
     occurredAt: "10:42 AM",
+    sortAt: "2026-07-31T10:42:00+08:00",
     unread: true,
   },
   {
@@ -40,6 +45,7 @@ export const PLAYGROUND_ACTIVITY = [
     messageId: "general:reply",
     reaction: "👍",
     occurredAt: "10:31 AM",
+    sortAt: "2026-07-31T10:31:00+08:00",
     unread: true,
   },
   {
@@ -49,6 +55,7 @@ export const PLAYGROUND_ACTIVITY = [
     channelId: "shared-roadmap",
     messageId: "shared-roadmap:reply",
     occurredAt: "10:18 AM",
+    sortAt: "2026-07-31T10:18:00+08:00",
     unread: true,
   },
   {
@@ -59,7 +66,9 @@ export const PLAYGROUND_ACTIVITY = [
     messageId: "dm-samira:reply",
     reaction: "✅",
     occurredAt: "09:56 AM",
+    sortAt: "2026-07-31T09:56:00+08:00",
     unread: false,
+    saved: true,
   },
   {
     id: "activity:vendor-review-reply",
@@ -68,7 +77,9 @@ export const PLAYGROUND_ACTIVITY = [
     channelId: "vendor-review",
     messageId: "vendor-review:reply",
     occurredAt: "09:38 AM",
+    sortAt: "2026-07-31T09:38:00+08:00",
     unread: false,
+    done: true,
   },
   {
     id: "activity:partner-ops-reaction",
@@ -78,7 +89,9 @@ export const PLAYGROUND_ACTIVITY = [
     messageId: "partner-ops:reply",
     reaction: "✅",
     occurredAt: "09:24 AM",
+    sortAt: "2026-07-31T09:24:00+08:00",
     unread: false,
+    following: false,
   },
 ] as const satisfies readonly PlaygroundActivity[];
 

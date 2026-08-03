@@ -102,14 +102,22 @@ function PlaygroundSidebarContent({
         <SidebarBody>
           <SidebarContent className={mobileNavigationContentPad}>
             <div className="min-h-full">
-              <SidebarItem className="md:hidden">
+              <SidebarItem
+                className="md:hidden"
+                active={railView === "search"}
+                onClick={() => selectRailView("search")}
+              >
                 <SidebarItemIcon aria-hidden>
                   <Search />
                 </SidebarItemIcon>
                 <SidebarItemTitle>Search</SidebarItemTitle>
               </SidebarItem>
 
-              <SidebarItem className="md:hidden">
+              <SidebarItem
+                className="md:hidden"
+                active={railView === "activity"}
+                onClick={() => selectRailView("activity")}
+              >
                 <SidebarItemIcon aria-hidden>
                   <Activity />
                 </SidebarItemIcon>

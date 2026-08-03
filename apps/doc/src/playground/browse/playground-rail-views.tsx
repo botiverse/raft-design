@@ -20,7 +20,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import {
   Button,
   EmptyState,
@@ -28,10 +28,7 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-  Input,
-  SegmentedControl,
-  SegmentedControlItem,
-  SegmentedControlLabel,
+  MessageList,
   SidebarBody,
   SidebarContent,
   SidebarGroupLabel,
@@ -53,22 +50,16 @@ import {
   PanelTitle,
 } from "raft-ui";
 
-import {
-  PLAYGROUND_DIRECT_MESSAGES,
-  PLAYGROUND_JOINT_CHANNELS,
-  PLAYGROUND_ROOM_CHANNELS,
-  findPlaygroundTaskForMessage,
-} from "../mock/index.ts";
+import { findPlaygroundTaskForMessage } from "../mock/index.ts";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
 import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
-import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 import { MemberDetailPanel } from "./member-detail-panel.tsx";
 import { getSelectedMember, memberDetailId } from "./member-selection.ts";
 import { MembersDetailView, MembersSidebar } from "./members-sidebar.tsx";
-import { MessageList } from "raft-ui";
+import { PlaygroundActivityPanel } from "../activity/playground-activity-panel.tsx";
 
 type AuxiliaryRailView = Extract<PlaygroundRailView, "members" | "computers" | "settings">;
 
@@ -249,16 +240,19 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
 export function PlaygroundRailViewPanel({
   view,
 }: {
-  view: Exclude<PlaygroundRailView, "chat" | "tasks">;
+  view: Exclude<PlaygroundRailView, "search" | "chat" | "tasks">;
 }) {
+  if (view === "activity") {
+    return <PlaygroundActivityPanel />;
+  }
+
   const ViewIcon = viewMeta[view].icon;
   const { railDetailId, selectRailDetail, selectRailView } = usePlaygroundNavigation();
   const selectedMember = view === "members" ? getSelectedMember(railDetailId) : undefined;
   const auxiliaryDetail =
     (view === "members" || view === "computers" || view === "settings") &&
     railDetailId !== undefined;
-  const mobileBack =
-    view === "search" || view === "activity" || view === "saved" || auxiliaryDetail;
+  const mobileBack = view === "saved" || auxiliaryDetail;
 
   if (selectedMember) {
     return (
@@ -306,15 +300,7 @@ export function PlaygroundRailViewPanel({
         </PanelHeaderContent>
       </PanelHeader>
       <ConversationPanelContent>
-        {view === "search" ? (
-          <PlaygroundSearchView />
-        ) : view === "activity" ? (
-          <PlaygroundActivityView />
-        ) : view === "saved" ? (
-          <PlaygroundSavedView />
-        ) : (
-          <PlaygroundDetailView view={view} />
-        )}
+        {view === "saved" ? <PlaygroundSavedView /> : <PlaygroundDetailView view={view} />}
       </ConversationPanelContent>
     </ConversationPanelRoot>
   );
@@ -365,91 +351,6 @@ function PlaygroundSavedView() {
           </EmptyStateDescription>
         </EmptyStateContent>
       </EmptyState>
-    </ConversationPanelBody>
-  );
-}
-
-function PlaygroundSearchView() {
-  const [query, setQuery] = useState("");
-  const normalizedQuery = query.trim().toLocaleLowerCase();
-  const results = [
-    ...PLAYGROUND_JOINT_CHANNELS,
-    ...PLAYGROUND_ROOM_CHANNELS,
-    ...PLAYGROUND_DIRECT_MESSAGES,
-  ].filter((channel) => channel.name.toLocaleLowerCase().includes(normalizedQuery));
-
-  return (
-    <ConversationPanelBody>
-      <div className="flex h-full min-h-0 flex-col gap-4 overflow-y-auto p-4">
-        <Input
-          aria-label="Search channels and direct messages"
-          value={query}
-          onChange={(event) => setQuery(event.currentTarget.value)}
-          placeholder="Search channels and direct messages…"
-        />
-        <div className="grid gap-2">
-          {results.slice(0, 8).map((channel) => (
-            <Button
-              key={channel.id}
-              variant="outline"
-              nativeButton={false}
-              render={<PlaygroundConversationLink conversation={channel} />}
-            >
-              {channel.kind === "dm" ? "@" : "#"}
-              {channel.name}
-            </Button>
-          ))}
-        </div>
-        {results.length === 0 ? (
-          <EmptyState className="min-h-48">
-            <EmptyStateContent>
-              <EmptyStateIcon>
-                <Search />
-              </EmptyStateIcon>
-              <EmptyStateTitle>No matches</EmptyStateTitle>
-              <EmptyStateDescription>Try another channel or member name.</EmptyStateDescription>
-            </EmptyStateContent>
-          </EmptyState>
-        ) : null}
-      </div>
-    </ConversationPanelBody>
-  );
-}
-
-function PlaygroundActivityView() {
-  const [filter, setFilter] = useState("all");
-  const labels = {
-    all: "No activity yet",
-    unread: "No unread activity",
-    mentions: "No mentions yet",
-  } as const;
-
-  return (
-    <ConversationPanelBody>
-      <div className="flex h-full min-h-0 flex-col gap-4 p-4">
-        <SegmentedControl ariaLabel="Filter activity" value={filter} onValueChange={setFilter}>
-          <SegmentedControlItem value="all">
-            <SegmentedControlLabel>All</SegmentedControlLabel>
-          </SegmentedControlItem>
-          <SegmentedControlItem value="unread">
-            <SegmentedControlLabel>Unread</SegmentedControlLabel>
-          </SegmentedControlItem>
-          <SegmentedControlItem value="mentions">
-            <SegmentedControlLabel>Mentions</SegmentedControlLabel>
-          </SegmentedControlItem>
-        </SegmentedControl>
-        <EmptyState className="min-h-0 flex-1">
-          <EmptyStateContent>
-            <EmptyStateIcon>
-              <Activity />
-            </EmptyStateIcon>
-            <EmptyStateTitle>{labels[filter as keyof typeof labels]}</EmptyStateTitle>
-            <EmptyStateDescription>
-              New replies and mentions will appear here as the mock workspace changes.
-            </EmptyStateDescription>
-          </EmptyStateContent>
-        </EmptyState>
-      </div>
     </ConversationPanelBody>
   );
 }
