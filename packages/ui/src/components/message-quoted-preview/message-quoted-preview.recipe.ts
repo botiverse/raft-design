@@ -46,7 +46,7 @@ export const messageQuotedPreview = tv({
         timestamp: "text-[11px] leading-4 text-foreground-placeholder tabular-nums",
         text: "text-[13px] leading-5 text-foreground-muted",
         attachment:
-          "gap-1 rounded-sm border border-line-muted bg-layer-panel px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted",
+          "gap-1 rounded-sm border border-line-muted bg-layer-panel px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted dark:bg-fill-muted",
         thread: "gap-1 text-[11px] leading-4 font-medium text-foreground-placeholder",
         unavailable: [
           "rounded-lg border-[0.5px] border-line-muted bg-layer-card px-3 py-3 shadow-raft-xs sm:px-3.5 sm:py-3.5",

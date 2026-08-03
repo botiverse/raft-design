@@ -36,7 +36,7 @@ export const messageFooter = tv({
       elegant: {
         savedIndicator: [
           "h-5 gap-1.5 rounded-full bg-primary-soft px-1.5 py-0.5",
-          "text-[11px] font-medium leading-3 tracking-[0.22px] text-primary-600",
+          "text-[11px] font-medium leading-3 tracking-[0.22px] text-primary-600 dark:text-primary-strong",
           "transition-[filter,opacity] duration-100 hover:brightness-95",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "[&_svg]:size-[11px]",

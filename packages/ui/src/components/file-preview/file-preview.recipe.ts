@@ -5,12 +5,15 @@ export const filePreview = tv({
     root: ["relative flex h-10 w-10 shrink-0 items-center justify-center"],
     document: [
       "relative h-10 w-8 space-y-1.5 rounded-md rounded-tr-[15%] bg-layer-panel p-1.5 shadow-raft-sm ring-1 ring-line-muted",
+      "dark:ring-transparent",
     ],
     file: [
       "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-raft-sm ring-1 ring-line-muted",
+      "dark:ring-transparent",
     ],
     code: [
       "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-raft-sm ring-1 ring-line-muted",
+      "dark:ring-transparent",
     ],
     fileZip: ["flex h-7 items-center justify-center"],
     fileZipStack: ["relative -translate-y-0.5 flex flex-col items-center"],
@@ -33,19 +36,36 @@ export const filePreview = tv({
       "font-mono text-[10px] leading-none font-semibold text-white",
       "shadow-[0_3px_6px_oklch(0.42_0.12_20_/_0.25)] [text-shadow:0_1px_1px_oklch(0.25_0.08_20_/_0.45)]",
       "after:pointer-events-none after:absolute after:inset-0 after:rounded-sm after:border after:border-[oklch(1_0_0_/_0.2)] after:content-['']",
+      "dark:shadow-none dark:[text-shadow:none] dark:after:border-[oklch(1_0_0_/_0.08)]",
     ],
     media: [
-      "relative h-10 w-8 overflow-hidden rounded-md bg-white shadow-raft-sm ring-1 ring-line-muted",
+      "relative h-10 w-8 overflow-hidden rounded-md bg-layer-panel shadow-raft-sm ring-1 ring-line-muted",
+      "dark:ring-transparent",
     ],
   },
   variants: {
     badgeColor: {
-      rose: { badge: "bg-[oklch(0.63_0.21_20)]" },
-      blue: { badge: "bg-[oklch(0.56_0.16_250)]" },
-      amber: { badge: "bg-[oklch(0.52_0.13_75)]" },
-      emerald: { badge: "bg-[oklch(0.54_0.14_160)]" },
-      violet: { badge: "bg-[oklch(0.52_0.16_300)]" },
-      neutral: { badge: "bg-foreground" },
+      rose: {
+        badge:
+          "bg-[oklch(0.63_0.21_20)] dark:bg-[oklch(0.42_0.14_20)] dark:text-[oklch(0.88_0.06_18)]",
+      },
+      blue: {
+        badge:
+          "bg-[oklch(0.56_0.16_250)] dark:bg-[oklch(0.4_0.12_250)] dark:text-[oklch(0.87_0.06_250)]",
+      },
+      amber: {
+        badge:
+          "bg-[oklch(0.52_0.13_75)] dark:bg-[oklch(0.42_0.1_75)] dark:text-[oklch(0.89_0.08_80)]",
+      },
+      emerald: {
+        badge:
+          "bg-[oklch(0.54_0.14_160)] dark:bg-[oklch(0.4_0.11_160)] dark:text-[oklch(0.86_0.09_160)]",
+      },
+      violet: {
+        badge:
+          "bg-[oklch(0.52_0.16_300)] dark:bg-[oklch(0.4_0.13_300)] dark:text-[oklch(0.87_0.06_300)]",
+      },
+      neutral: { badge: "bg-foreground dark:bg-fill-strong dark:text-foreground-strong" },
     },
     theme: {
       brutal: {

@@ -41,7 +41,8 @@ export const messageActionCardContent = tv({
         propertyValue: "text-[13px] leading-5 text-foreground-strong",
         scopeList: "space-y-2",
         scopeListLabel: "text-[13px] leading-5 font-medium text-foreground-strong",
-        scope: "rounded-md border-line-muted bg-layer-panel/70 px-2.5 py-2 shadow-raft-xs",
+        scope:
+          "rounded-md border-line-muted bg-layer-panel/70 px-2.5 py-2 shadow-raft-xs dark:border-transparent dark:bg-fill-muted",
         scopeName: "font-sans text-xs leading-4 font-medium text-foreground-muted",
         scopeDescription: "mt-0.5 text-[13px] leading-5 text-pretty text-foreground-muted/80",
         hint: "mt-2.5 border-l border-line-muted pl-2.5 text-xs leading-4 italic text-foreground-muted/80",

@@ -37,7 +37,7 @@ export const composerAttachment = tv({
       "text-center text-[10px] font-bold leading-3",
     ],
     attachmentUploadProgressBar: [
-      "absolute bottom-0 left-0 z-20 h-1 w-full overflow-hidden bg-black/15",
+      "absolute bottom-0 left-0 z-20 h-1 w-full overflow-hidden bg-black/15 dark:bg-ink-16",
     ],
     attachmentUploadProgressBarIndicator: ["block h-full"],
     attachmentFailedOverlay: [
@@ -98,8 +98,10 @@ export const composerAttachment = tv({
         attachmentMeta: "absolute right-2.5 bottom-1.5 text-foreground-placeholder",
         attachmentUploadProgressBar: "rounded-b-md",
         attachmentUploadProgressBarIndicator: "bg-accent-400",
-        attachmentUploadingOverlay: "rounded-md bg-white/85 text-foreground-strong",
-        attachmentFailedOverlay: "rounded-md border-0 bg-white/85 text-danger",
+        attachmentUploadingOverlay:
+          "rounded-md bg-white/85 text-foreground-strong dark:bg-layer-page/80",
+        attachmentFailedOverlay:
+          "rounded-md border-0 bg-white/85 text-danger dark:bg-layer-page/80 dark:text-danger-strong",
         attachmentRemove:
           "bg-foreground text-foreground-inverse outline-2 outline-solid outline-layer-panel",
       },

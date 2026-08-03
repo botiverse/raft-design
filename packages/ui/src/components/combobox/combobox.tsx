@@ -157,7 +157,7 @@ const combobox = tv({
         ],
         control: [
           "rounded-md border border-line-muted bg-layer-panel px-2.5 py-1.5",
-          "text-sm font-normal text-foreground-strong shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)]",
+          "text-sm font-normal text-foreground-strong shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)] dark:shadow-none",
           "focus-within:ring-1 focus-within:ring-primary-400 focus-within:ring-offset-2 focus-within:ring-offset-layer-page",
           "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],

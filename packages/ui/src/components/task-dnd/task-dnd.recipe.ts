@@ -29,6 +29,7 @@ export const taskDnd = tv({
         draggable: [
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
+          "dark:focus-visible:ring-offset-layer-card",
           "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",
         ],
         placeholder: [

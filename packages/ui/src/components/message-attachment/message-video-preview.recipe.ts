@@ -34,9 +34,10 @@ export const messageVideoPreview = tv({
         failureIcon: "[&_svg]:stroke-2",
       },
       elegant: {
-        root: "rounded-lg border border-line-muted shadow-raft-xs",
+        root: "rounded-lg border border-line-muted shadow-raft-xs dark:border-transparent",
         action: [
           "rounded-full border-0 bg-white/75 text-foreground-muted shadow-none backdrop-blur-md",
+          "dark:text-[oklch(0.36_0.006_106.42)] dark:hover:text-[oklch(0.21_0.006_106.42)]",
           "transition-[background-color,color,opacity,box-shadow,transform] duration-150",
           "hover:bg-white/85 hover:text-foreground active:scale-[0.97]",
           "outline outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-foreground",

@@ -31,13 +31,19 @@ export const legacyTaskPanel = tv({
         metaValue: ["text-black"],
       },
       elegant: {
-        frame: ["rounded-xl border border-line-muted shadow-raft-sm"],
-        icon: ["rounded-md border-[0.5px] border-line-muted bg-white text-foreground-icon"],
-        section: ["space-y-3 rounded-lg border-[0.5px] border-line-muted bg-white shadow-raft-xs"],
+        frame: ["rounded-xl border border-line-muted shadow-raft-sm", "dark:border-transparent"],
+        icon: ["rounded-md border-[0.5px] border-line-muted bg-layer-panel text-foreground-icon"],
+        section: [
+          "space-y-3 rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
+          "dark:border-transparent",
+        ],
         fieldLabel: ["text-foreground-muted"],
         fieldTitle: ["font-heading font-medium text-foreground"],
         fieldText: ["text-foreground/80"],
-        meta: ["rounded-lg border-[0.5px] border-line-muted bg-white shadow-raft-xs"],
+        meta: [
+          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
+          "dark:border-transparent",
+        ],
         metaLabel: ["text-xs text-foreground-placeholder"],
         metaValue: ["text-foreground"],
       },

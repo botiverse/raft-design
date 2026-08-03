@@ -90,7 +90,7 @@ export const messageForwardedBundleItem = tv({
         author: "font-normal text-foreground-placeholder",
         attachments: "mt-1.5 gap-1.5",
         attachment:
-          "gap-1 rounded-sm border border-line-muted bg-layer-panel px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted",
+          "gap-1 rounded-sm border border-line-muted bg-layer-panel px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted dark:bg-fill-muted",
         attachmentMeta: "text-foreground-placeholder",
       },
     },

@@ -17,8 +17,10 @@ export const messageMultiSelect = tv({
           "border-t-2 border-line-strong bg-primary px-2 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom,0px))]",
       },
       elegant: {
-        toolbar:
+        toolbar: [
           "rounded-lg border-[0.5px] border-line-muted bg-layer-panel px-2.5 py-2.5 shadow-raft-xs",
+          "dark:border-transparent",
+        ],
       },
     },
   },

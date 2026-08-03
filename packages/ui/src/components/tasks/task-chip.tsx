@@ -54,7 +54,7 @@ const taskChip = tv({
       theme: "elegant",
       status: "in-progress",
       class: {
-        root: "border-primary-500/75 bg-primary-500/10 text-primary-800",
+        root: "border-primary-500/75 bg-primary-500/10 text-primary-800 dark:text-primary-strong",
       },
     },
     {

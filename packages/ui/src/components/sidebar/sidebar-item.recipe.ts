@@ -67,6 +67,7 @@ export const sidebarItemRecipe = tv({
           "[&>*]:z-10",
           "text-[13px] font-medium text-foreground-muted",
           "hover:border-transparent hover:bg-fill-strong/80 hover:text-foreground",
+          "dark:hover:bg-ink-6 dark:active:bg-ink-6",
           "active:border-transparent active:bg-fill-strong/80 active:text-foreground",
           "data-[active]:border-transparent data-[active]:bg-layer-panel",
           "data-[active]:text-foreground-strong",

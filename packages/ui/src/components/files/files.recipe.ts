@@ -45,6 +45,8 @@ export const files = tv({
         row: [
           "rounded-lg border-[0.5px] border-line-muted bg-layer-panel px-3 py-3 shadow-raft-xs",
           "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
+          "dark:hover:bg-[color-mix(in_oklch,var(--ink)_5%,var(--layer-panel))]",
+          "dark:border-transparent",
         ],
         rowOpen: [
           "focus-visible:outline-transparent",

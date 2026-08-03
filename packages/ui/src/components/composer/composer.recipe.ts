@@ -27,7 +27,8 @@ export const composer = tv({
         root: [
           "overflow-hidden rounded-lg border-0 p-0",
           "bg-layer-panel",
-          "shadow-raft-sm ring-1 ring-ink-6",
+          "shadow-raft-sm ring-1 ring-ink-6 dark:ring-transparent",
+          "dark:focus-within:ring-ink-16",
         ],
         input: [
           "min-h-16 px-3 pt-3",

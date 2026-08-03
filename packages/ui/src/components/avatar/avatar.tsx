@@ -108,7 +108,7 @@ const avatar = tv({
           "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
           "group-data-[size=3xs]/avatar:right-[-0.667px] group-data-[size=3xs]/avatar:bottom-[-0.667px]",
         ],
-        dot: ["bg-success text-success-foreground"],
+        dot: ["bg-success text-success-foreground outline-layer-panel"],
         group: [
           "-space-x-2",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-layer-page",

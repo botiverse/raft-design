@@ -63,7 +63,9 @@ export const messageReaction = tv({
           "h-5 rounded-full gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
           "bg-fill-strong text-foreground-muted",
           "hover:bg-ink-10",
+          "dark:bg-fill-muted dark:hover:bg-fill-strong",
           "data-[pressed]:bg-accent-200/50 data-[pressed]:text-accent-700 data-[pressed]:hover:bg-accent-200/70",
+          "dark:data-[pressed]:bg-accent-soft dark:data-[pressed]:text-accent-strong dark:data-[pressed]:hover:bg-accent-soft",
           "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-soft has-[[data-slot=message-reaction-error-indicator]]:text-danger",
         ],
         addButton: [

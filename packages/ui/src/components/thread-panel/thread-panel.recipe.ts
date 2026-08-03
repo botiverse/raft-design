@@ -50,6 +50,7 @@ export const threadPanel = tv({
         content: [
           "relative overflow-clip",
           "bg-layer-panel",
+          "dark:bg-transparent",
           "[&_[data-message-item]]:px-[18px] [&_[data-message-item]]:max-lg:px-3",
         ],
         title: [

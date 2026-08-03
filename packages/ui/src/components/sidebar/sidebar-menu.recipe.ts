@@ -29,6 +29,7 @@ export const sidebarMenuRecipe = tv({
           "text-xs leading-none font-normal normal-case tracking-normal",
           "text-foreground-muted",
           "hover:bg-fill-strong/80 hover:text-foreground",
+          "dark:hover:bg-ink-6",
           "active:text-foreground",
         ],
         sidebarMenuIcon: [

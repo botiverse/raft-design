@@ -41,6 +41,7 @@ export const taskListSection = tv({
       elegant: {
         root: [
           "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] p-3 shadow-raft-xs",
+          "dark:bg-layer-card",
         ],
         items: ["[&_[data-slot=task-card]:hover]:bg-ink-2/[3%]"],
         heading: ["gap-1.5"],
@@ -48,6 +49,7 @@ export const taskListSection = tv({
           "rounded-md pl-0.5 pr-[5px]",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
+          "dark:focus-visible:ring-offset-layer-card",
           "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",
         ],
         badge: [

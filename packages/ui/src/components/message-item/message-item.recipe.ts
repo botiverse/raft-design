@@ -14,7 +14,7 @@ export const messageItem = tv({
     time: ["shrink-0 whitespace-nowrap"],
     inlineStatus: ["shrink-0"],
     body: ["break-words select-text", "[&_*]:select-text"],
-    searchMatch: ["bg-primary/70 text-inherit [font:inherit]"],
+    searchMatch: ["bg-primary/70 text-inherit [font:inherit]", "dark:bg-primary/30"],
     embedded: ["mt-1.5 min-w-0"],
     attachments: ["mt-1 space-y-2"],
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
