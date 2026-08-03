@@ -25,9 +25,19 @@
 
 /* `dark:` tracks the elegant theme's dark context. System preference is resolved
    in JS (ThemeProvider always stamps the resolved .light/.dark class), so the
-   class is the single source of truth — no media-query arm. */
+   class is the single source of truth — no media-query arm.
+   Nearest theme scope wins: a `[data-theme]` element without `.dark` (a brutal or
+   elegant-light preview island) re-enters light context for its subtree even when
+   the document root is dark. Supports one level of scope nesting. */
 @custom-variant dark {
-  &:where([data-theme="elegant"].dark, [data-theme="elegant"].dark *) {
+  &:where(
+    :is([data-theme="elegant"].dark, [data-theme="elegant"].dark *):not(
+      :where(
+        [data-theme="elegant"].dark :is([data-theme]:not(.dark)),
+        [data-theme="elegant"].dark :is([data-theme]:not(.dark)) *
+      )
+    )
+  ) {
     @slot;
   }
 }

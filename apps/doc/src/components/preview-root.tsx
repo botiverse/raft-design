@@ -15,7 +15,7 @@ const PREVIEW_CONTROLS_MAX_SIZE = 480;
 const PREVIEW_CANVAS_MIN_SIZE = 280;
 
 const frameClass =
-  "min-w-0 overflow-clip rounded-lg bg-white shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
+  "min-w-0 overflow-clip rounded-lg bg-white shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)] dark:bg-layer-panel dark:shadow-[0_0_0_1px_oklch(1_0_0_/_0.08),0_12px_28px_-10px_oklch(0_0_0_/_0.5),0_2px_6px_-2px_oklch(0_0_0_/_0.3)]";
 
 /** Compound docs preview: canvas, optional controls, and code via composition parts. */
 export function PreviewRoot({
@@ -36,7 +36,7 @@ export function PreviewRoot({
     <PreviewThemeScope
       family={previewTheme}
       mode={previewMode}
-      className="bg-layer-panel text-foreground-strong"
+      className="h-full bg-layer-panel text-foreground-strong dark:bg-transparent"
     >
       <div
         className={`flex min-h-84 w-full flex-wrap justify-center ${previewInsetClass} ${previewClassName}`}
@@ -50,8 +50,8 @@ export function PreviewRoot({
     <div
       className={
         isDesktop
-          ? "h-full bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8"
-          : "border-t border-[oklch(0_0_0_/_0.10)] bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8"
+          ? "h-full bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8 dark:bg-layer-card"
+          : "border-t border-[oklch(0_0_0_/_0.10)] bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8 dark:border-ink-10 dark:bg-layer-card"
       }
     >
       {controls}
@@ -71,7 +71,7 @@ export function PreviewRoot({
               >
                 {canvasNode}
               </ResizablePanel>
-              <ResizableHandle className="ml-0 w-0 border-l border-[oklch(0_0_0_/_0.10)] bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0" />
+              <ResizableHandle className="ml-0 w-0 border-l border-[oklch(0_0_0_/_0.10)] bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-ink-10" />
               <ResizablePanel
                 id="preview-controls"
                 defaultSize={PREVIEW_CONTROLS_DEFAULT_SIZE}
@@ -92,7 +92,11 @@ export function PreviewRoot({
         ) : (
           canvasNode
         )}
-        {code ? <div className="border-t border-[oklch(0_0_0_/_0.10)] bg-white">{code}</div> : null}
+        {code ? (
+          <div className="border-t border-[oklch(0_0_0_/_0.10)] bg-white dark:border-transparent dark:bg-transparent">
+            {code}
+          </div>
+        ) : null}
       </div>
     </div>
   );

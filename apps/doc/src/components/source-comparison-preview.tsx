@@ -71,7 +71,10 @@ export function SourceComparisonModalPreview({
   return (
     <SourceComparisonPreview className={cn("px-0 py-0", className)}>
       <div
-        className={cn("relative grid w-full min-w-0 overflow-visible bg-white", minHeightClassName)}
+        className={cn(
+          "relative grid w-full min-w-0 overflow-visible bg-layer-panel",
+          minHeightClassName,
+        )}
       >
         {backdrop ? (
           <div

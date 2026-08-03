@@ -5,19 +5,26 @@ export const docsCodeBlock = tv({
     frame: [
       "flex h-full min-h-0 min-w-0 flex-col overflow-clip rounded-none bg-white",
       "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
+      "dark:bg-layer-card dark:shadow-[inset_0_1px_0_oklch(1_0_0_/_0.04),0_0_0_1px_oklch(0_0_0_/_0.35)]",
     ],
     inner: "relative flex min-h-0 min-w-0 flex-1 flex-col",
-    rail: ["pointer-events-none absolute inset-y-0 w-0", "border-[oklch(0_0_0_/_0.12)]"],
+    rail: [
+      "pointer-events-none absolute inset-y-0 w-0",
+      "border-[oklch(0_0_0_/_0.12)] dark:border-ink-10",
+    ],
     section: "flex min-w-0 items-stretch",
-    gutter: "flex w-6 shrink-0 justify-end self-stretch bg-[oklch(0.988_0.002_106.42)]",
+    gutter: [
+      "flex w-6 shrink-0 justify-end self-stretch",
+      "bg-[oklch(0.988_0.002_106.42)] dark:bg-[oklch(0.2_0.004_106.42)]",
+    ],
     sectionInner: "flex min-h-0 min-w-0 flex-1 flex-col",
-    headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-1.5",
-    bodyRow: "flex min-h-0 min-w-0 flex-1 bg-white pt-3 pb-3",
+    headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-1.5 dark:bg-transparent",
+    bodyRow: "flex min-h-0 min-w-0 flex-1 bg-white pt-3 pb-3 dark:bg-transparent",
     bodyContent: "min-w-0 flex-1 overflow-hidden",
     path: ["min-w-0 flex-1 truncate font-mono text-xs leading-snug", "text-foreground-muted"],
     lineNumbers: [
       "w-full select-none pt-3 pb-3 font-mono text-sm leading-relaxed",
-      "text-[oklch(0.72_0.006_106.42)]",
+      "text-[oklch(0.72_0.006_106.42)] dark:text-[oklch(0.48_0.006_106.42)]",
     ],
     lineNumber: "text-right tabular-nums",
     copyButton: [
@@ -36,7 +43,7 @@ export const docsCodeBlock = tv({
       right: { rail: "right-6 border-r border-dashed" },
     },
     sectionKind: {
-      header: { section: "shrink-0 border-b border-[oklch(0_0_0_/_0.06)]" },
+      header: { section: "shrink-0 border-b border-[oklch(0_0_0_/_0.06)] dark:border-ink-8" },
       body: { section: "min-h-0 flex-1" },
     },
     showLineNumbers: {

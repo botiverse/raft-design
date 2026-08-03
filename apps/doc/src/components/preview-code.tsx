@@ -25,7 +25,7 @@ export function PreviewCode({ html, collapsedHtml, codeBlock }: PreviewCodeProps
           />
         </Button>
       </div>
-      <Collapsible.Panel className="min-w-0 border-t border-[oklch(0_0_0_/_0.06)]">
+      <Collapsible.Panel className="min-w-0 border-t border-[oklch(0_0_0_/_0.06)] dark:border-transparent">
         {codeBlock ?? (
           <DocsCodeBlockRoot>
             <DocsCodeBlockBody showLineNumbers={false}>
