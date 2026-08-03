@@ -188,7 +188,7 @@ export const activityShell = tv({
           "text-foreground-muted",
         ],
         headerSubtitle: ["font-sans text-foreground-placeholder"],
-        sidebar: ["border-r border-line-subtle bg-layer-page"],
+        sidebar: ["bg-layer-page"],
         sidebarHeadingLabel: ["font-medium tracking-wider text-foreground-placeholder"],
         sidebarShowAllLink: ["font-medium text-foreground-muted hover:text-foreground-strong"],
         navigationItem: [
@@ -200,6 +200,10 @@ export const activityShell = tv({
           "aria-pressed:shadow-sm aria-pressed:ring-1 aria-pressed:ring-line-subtle/45",
         ],
         navigationCount: ["font-sans text-xs font-normal tabular-nums text-foreground-icon"],
+        main: [
+          "relative overflow-clip bg-layer-panel",
+          "md:ml-2 md:rounded-tl-[10px] md:shadow-xl",
+        ],
         controls: ["border-b border-line-subtle bg-layer-panel", "px-4 max-md:pl-5 max-md:pr-3.5"],
         mobileNavigationButton: [
           "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
