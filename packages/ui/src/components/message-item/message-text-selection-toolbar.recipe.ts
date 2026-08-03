@@ -14,8 +14,10 @@ export const messageTextSelectionToolbar = tv({
         separator: "bg-black/20",
       },
       elegant: {
-        toolbar:
+        toolbar: [
           "gap-1 rounded-lg border-[0.5px] border-line-muted bg-layer-panel p-1 font-medium shadow-raft-xs",
+          "dark:border-transparent",
+        ],
         button: [
           "rounded-sm text-foreground-muted",
           "hover:bg-fill-muted hover:text-foreground",

@@ -591,16 +591,22 @@
   --accent-strong: oklch(0.84 0.11 0);
   --accent-soft: oklch(0.6 0.18 0 / 0.16);
 
-  /* Dark small elevations are ring-first: surface lightness does the lifting,
-     drops stay whisper-light so chips never sit in a dark smudge. lg/xl keep
-     heavy drops — real overlays still need separation from the page. */
-  --theme-shadow-xs: 0 0 0 1px oklch(0.985 0.004 106.42 / 0.05), 0 1px 2px 0 oklch(0 0 0 / 0.2);
+  /* Dark small elevations follow a top-left light model (lab01 btn-primary):
+     a dark outer ring cuts the seam against the background, white lives only
+     inside (top-edge light + inner hairline), drops fall off near-to-far.
+     lg/xl keep heavy drops — real overlays still need page separation. */
+  --theme-shadow-xs:
+    inset 0 1px 0 oklch(0.985 0.004 106.42 / 0.045), 0 0 0 1px oklch(0 0 0 / 0.4),
+    0 1px 3px oklch(0 0 0 / 0.22);
   --theme-shadow-sm:
-    0 0 0 1px oklch(0.985 0.004 106.42 / 0.08), 0px 1px 2px -1px oklch(0 0 0 / 0.15),
-    0px 2px 5px -2px oklch(0 0 0 / 0.12);
+    inset 0 1px 0 oklch(0.985 0.004 106.42 / 0.05),
+    inset 0 0 0 1px oklch(0.985 0.004 106.42 / 0.03), 0 0 0 1px oklch(0 0 0 / 0.45),
+    0 6px 6px -2px oklch(0 0 0 / 0.15), 0 2px 4px oklch(0 0 0 / 0.25);
   --theme-shadow-md:
-    0 0 0 1px oklch(0.985 0.004 106.42 / 0.09), 0px 2px 3px -1px oklch(0 0 0 / 0.16),
-    0px 4px 8px -3px oklch(0 0 0 / 0.14);
+    inset 0 1px 0 oklch(0.985 0.004 106.42 / 0.05),
+    inset 0 0 0 1px oklch(0.985 0.004 106.42 / 0.03), 0 0 0 1px oklch(0 0 0 / 0.45),
+    0 10px 10px -4px oklch(0 0 0 / 0.16), 0 4px 6px -2px oklch(0 0 0 / 0.2),
+    0 1px 2px oklch(0 0 0 / 0.25);
   --theme-shadow-lg:
     0px 1px 1px oklch(0 0 0 / 0.3), 0px 0px 0px 1px oklch(0.985 0.004 106.42 / 0.08),
     0px 2px 12px -4px oklch(0 0 0 / 0.4);

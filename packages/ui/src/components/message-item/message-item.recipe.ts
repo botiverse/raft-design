@@ -103,6 +103,7 @@ export const messageItem = tv({
           "gap-0.5 rounded-sm px-1 py-0.5",
           "bg-layer-popover bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_0.05)_0%,oklab(0%_0_0_/_0.01)_100%)]",
           "shadow-raft-lg ring-1 ring-line-muted",
+          "dark:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_0.04)_0%,oklab(100%_0_0_/_0)_60%)] dark:ring-transparent",
         ],
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent p-0",

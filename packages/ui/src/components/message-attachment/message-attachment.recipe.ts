@@ -48,6 +48,7 @@ export const messageAttachment = tv({
           "h-18 rounded-[5px] border-[0.5px] border-line-muted/70 bg-layer-panel px-2.5 py-1.5 text-foreground-strong shadow-raft-xs",
           "transition-[background-color,border-color] duration-150",
           "hover:border-line-muted hover:bg-ink-2 active:bg-ink-8",
+          "dark:border-transparent dark:hover:border-transparent",
         ],
         title: "text-xs font-medium text-foreground",
         meta: "gap-1.5 text-[10px] text-foreground-placeholder",
