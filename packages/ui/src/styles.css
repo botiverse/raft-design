@@ -608,11 +608,14 @@
     0 10px 10px -4px oklch(0 0 0 / 0.16), 0 4px 6px -2px oklch(0 0 0 / 0.2),
     0 1px 2px oklch(0 0 0 / 0.25);
   --theme-shadow-lg:
-    0px 1px 1px oklch(0 0 0 / 0.3), 0px 0px 0px 1px oklch(0.985 0.004 106.42 / 0.08),
-    0px 2px 12px -4px oklch(0 0 0 / 0.4);
+    inset 0 1px 0 oklch(0.985 0.004 106.42 / 0.06),
+    inset 0 0 0 1px oklch(0.985 0.004 106.42 / 0.04), 0 0 0 1px oklch(0 0 0 / 0.55),
+    0 10px 20px -6px oklch(0 0 0 / 0.45), 0 4px 8px -3px oklch(0 0 0 / 0.35);
   --theme-shadow-xl:
-    0px 0px 0px 1px oklch(0.985 0.004 106.42 / 0.1), 0px 18px 24px -12px oklch(0 0 0 / 0.45),
-    0px 12px 12px -6px oklch(0 0 0 / 0.45), 0px 4px 6px -3px oklch(0 0 0 / 0.5);
+    inset 0 1px 0 oklch(0.985 0.004 106.42 / 0.06),
+    inset 0 0 0 1px oklch(0.985 0.004 106.42 / 0.04), 0 0 0 1px oklch(0 0 0 / 0.6),
+    0 24px 44px -12px oklch(0 0 0 / 0.5), 0 10px 16px -6px oklch(0 0 0 / 0.45),
+    0 4px 6px -3px oklch(0 0 0 / 0.4);
 }
 
 *,

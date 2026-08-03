@@ -39,9 +39,15 @@ const alertDialog = tv({
       elegant: {
         overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
         content: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl"],
-        header: ["border-b border-line-muted/75 bg-layer-inset px-5 py-3"],
+        header: [
+          "border-b border-line-muted/75 bg-layer-inset px-5 py-3",
+          "dark:border-transparent dark:bg-transparent",
+        ],
         body: ["px-6 py-5"],
-        footer: ["border-t border-line-muted/75 bg-layer-inset px-5 py-3"],
+        footer: [
+          "border-t border-line-muted/75 bg-layer-inset px-5 py-3",
+          "dark:border-transparent dark:bg-transparent",
+        ],
         title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
         description: ["font-sans text-sm leading-5 text-foreground-hint"],
       },
