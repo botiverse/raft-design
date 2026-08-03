@@ -57,7 +57,7 @@ export const badge = tv({
         root: "bg-accent-400 text-accent-950",
       },
       success: {
-        root: "bg-success text-success-tint-foreground",
+        root: "bg-success text-success-soft-foreground",
       },
       warning: {
         root: "bg-warning text-warning-foreground",
@@ -105,7 +105,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-info text-info-tint-foreground" },
+      class: { root: "bg-info text-info-soft-foreground" },
     },
     {
       theme: "brutal",
@@ -135,7 +135,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "soft",
       variant: "information",
-      class: { root: "bg-info-tint-hover text-info-tint-foreground" },
+      class: { root: "bg-info-soft-strong text-info-soft-foreground" },
     },
     {
       theme: "brutal",
@@ -153,13 +153,13 @@ export const badge = tv({
       theme: "brutal",
       appearance: "soft",
       variant: "warning",
-      class: { root: "bg-warning-tint-hover text-[oklch(0.43_0.12_44.441)]" },
+      class: { root: "bg-warning-soft-strong text-[oklch(0.43_0.12_44.441)]" },
     },
     {
       theme: "brutal",
       appearance: "soft",
       variant: "danger",
-      class: { root: "bg-danger-tint-hover text-danger-tint-foreground" },
+      class: { root: "bg-danger-soft-strong text-danger-soft-foreground" },
     },
     {
       theme: "brutal",
@@ -183,7 +183,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "outline",
       variant: "information",
-      class: { root: "bg-transparent text-info-tint-foreground" },
+      class: { root: "bg-transparent text-info-soft-foreground" },
     },
     {
       theme: "brutal",
@@ -201,7 +201,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "outline",
       variant: "warning",
-      class: { root: "bg-transparent text-warning-tint-foreground" },
+      class: { root: "bg-transparent text-warning-soft-foreground" },
     },
     {
       theme: "brutal",
@@ -235,7 +235,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-info text-info-tint-foreground" },
+      class: { root: "bg-info text-info-soft-foreground" },
     },
     {
       theme: "elegant",
@@ -266,7 +266,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "default",
       class: {
-        root: "border-transparent bg-layer-strong text-[oklch(0.409_0_0)] dark:text-[oklch(0.87_0_0)]",
+        root: "border-transparent bg-fill-strong text-[oklch(0.409_0_0)] dark:text-[oklch(0.87_0_0)]",
       },
     },
     {
@@ -274,7 +274,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "muted",
       class: {
-        root: "border-transparent bg-layer-strong text-[oklch(0.447_0.002_67.77)] dark:text-[oklch(0.8_0.002_67.77)]",
+        root: "border-transparent bg-fill-strong text-[oklch(0.447_0.002_67.77)] dark:text-[oklch(0.8_0.002_67.77)]",
       },
     },
     {
@@ -282,7 +282,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "primary",
       class: {
-        root: "border-transparent bg-primary-tint text-primary-tint-foreground",
+        root: "border-transparent bg-primary-soft text-primary-soft-foreground",
       },
     },
     {
@@ -290,7 +290,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "information",
       class: {
-        root: "border-transparent bg-info-tint text-info-tint-foreground",
+        root: "border-transparent bg-info-soft text-info-soft-foreground",
       },
     },
     {
@@ -298,7 +298,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "accent",
       class: {
-        root: "border-transparent bg-accent-tint text-accent-tint-foreground",
+        root: "border-transparent bg-accent-soft text-accent-soft-foreground",
       },
     },
     {
@@ -306,7 +306,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "success",
       class: {
-        root: "border-transparent bg-success-tint text-success-tint-foreground",
+        root: "border-transparent bg-success-soft text-success-soft-foreground",
       },
     },
     {
@@ -314,7 +314,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "warning",
       class: {
-        root: "border-transparent bg-warning-tint text-warning-tint-foreground",
+        root: "border-transparent bg-warning-soft text-warning-soft-foreground",
       },
     },
     {
@@ -322,7 +322,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "danger",
       class: {
-        root: "border-transparent bg-danger-tint text-danger-tint-foreground",
+        root: "border-transparent bg-danger-soft text-danger-soft-foreground",
       },
     },
     {
@@ -343,37 +343,37 @@ export const badge = tv({
       theme: "elegant",
       appearance: "outline",
       variant: "primary",
-      class: { root: "border-primary-500 bg-transparent text-primary-tint-foreground" },
+      class: { root: "border-primary-500 bg-transparent text-primary-soft-foreground" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "information",
-      class: { root: "border-info bg-transparent text-info-tint-foreground" },
+      class: { root: "border-info bg-transparent text-info-soft-foreground" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "accent",
-      class: { root: "border-accent-500 bg-transparent text-accent-tint-foreground" },
+      class: { root: "border-accent-500 bg-transparent text-accent-soft-foreground" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "success",
-      class: { root: "border-success bg-transparent text-success-tint-foreground" },
+      class: { root: "border-success bg-transparent text-success-soft-foreground" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "warning",
-      class: { root: "border-warning bg-transparent text-warning-tint-foreground" },
+      class: { root: "border-warning bg-transparent text-warning-soft-foreground" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "danger",
-      class: { root: "border-danger bg-transparent text-danger-tint-foreground" },
+      class: { root: "border-danger bg-transparent text-danger-soft-foreground" },
     },
   ],
 });

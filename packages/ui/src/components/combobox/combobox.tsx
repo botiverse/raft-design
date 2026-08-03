@@ -169,9 +169,7 @@ const combobox = tv({
           "rounded-md border border-line-muted bg-layer-panel px-2 py-1",
           "focus-within:ring-1 focus-within:ring-primary-400 focus-within:ring-offset-2 focus-within:ring-offset-layer-page",
         ],
-        chip: [
-          "rounded-sm bg-layer-muted px-1.5 py-0.5 text-xs font-medium text-foreground-strong",
-        ],
+        chip: ["rounded-sm bg-fill-muted px-1.5 py-0.5 text-xs font-medium text-foreground-strong"],
         chipRemove: ["text-foreground-muted hover:text-foreground"],
       },
     },

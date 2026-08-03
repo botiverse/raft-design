@@ -119,7 +119,7 @@ const tabs = tv({
           "data-[sorting=true]:[&_[data-slot=tabs-indicator]]:opacity-0 data-[sorting=true]:[&_[data-slot=tabs-indicator]]:transition-none",
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         ],
-        background: ["pointer-events-none absolute inset-0 z-0 rounded-[7px] bg-layer-muted"],
+        background: ["pointer-events-none absolute inset-0 z-0 rounded-[7px] bg-fill-muted"],
         tab: [
           "group/tabs-tab h-9 justify-center gap-1.5 rounded-md px-3.5 py-2",
           "text-[13px] font-medium tracking-[-0.005em] text-foreground-placeholder",

@@ -1467,9 +1467,9 @@ function Home() {
                 className={[
                   "h-9 min-w-20 px-4 text-xs font-medium outline-none transition-colors",
                   "border-l border-line-muted first:border-l-0",
-                  "hover:bg-layer-muted hover:text-foreground",
+                  "hover:bg-fill-muted hover:text-foreground",
                   "focus-visible:relative focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-                  isActive ? "bg-layer-muted text-foreground" : "text-foreground-placeholder",
+                  isActive ? "bg-fill-muted text-foreground" : "text-foreground-placeholder",
                 ].join(" ")}
                 onClick={() => setThemePreset(preset)}
               >

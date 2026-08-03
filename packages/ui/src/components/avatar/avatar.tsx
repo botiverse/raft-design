@@ -89,10 +89,10 @@ const avatar = tv({
         ],
       },
       elegant: {
-        root: ["bg-layer-muted"],
+        root: ["bg-fill-muted"],
         image: ["rounded-full"],
         fallback: [
-          "overflow-hidden bg-layer-muted text-foreground-placeholder/70 text-sm",
+          "overflow-hidden bg-fill-muted text-foreground-placeholder/70 text-sm",
           "rounded-full",
           "group-data-[size=xs]/avatar:text-xs",
           "group-data-[size=2xs]/avatar:text-[10px]",
@@ -408,7 +408,7 @@ export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCount
   const { root } = avatar({ theme, size });
   const countClassName =
     theme === "elegant"
-      ? "bg-layer-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
+      ? "bg-fill-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
       : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground";
   return (
     <span

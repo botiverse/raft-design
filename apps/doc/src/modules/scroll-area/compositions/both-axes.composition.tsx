@@ -23,7 +23,7 @@ export function ScrollAreaBothAxesComposition() {
                 <Text.Sans
                   key={cell}
                   size="small"
-                  className="flex size-12 items-center justify-center bg-layer-muted [[data-theme=elegant]_&]:rounded-md"
+                  className="flex size-12 items-center justify-center bg-fill-muted [[data-theme=elegant]_&]:rounded-md"
                 >
                   {cell}
                 </Text.Sans>

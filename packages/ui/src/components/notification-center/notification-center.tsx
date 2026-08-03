@@ -56,8 +56,8 @@ const notificationCenter = tv({
           "relative inline-flex size-auto min-w-9 items-center justify-center overflow-visible rounded-md border border-transparent p-3",
           "text-[13px] text-foreground-icon [&_svg]:size-4 [&_svg]:shrink-0",
           "select-none transition-colors",
-          "hover:bg-layer-strong/80 hover:text-foreground-strong",
-          "active:bg-layer-strong/80 active:text-foreground-strong",
+          "hover:bg-fill-strong/80 hover:text-foreground-strong",
+          "active:bg-fill-strong/80 active:text-foreground-strong",
           "focus-visible:outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         ],
         triggerIcon: ["relative inline-flex size-4 items-center justify-center"],
@@ -133,22 +133,22 @@ const notificationCenter = tv({
     {
       theme: "elegant",
       status: "error",
-      class: { itemIcon: "bg-danger/80 text-danger-tint-foreground" },
+      class: { itemIcon: "bg-danger/80 text-danger-soft-foreground" },
     },
     {
       theme: "elegant",
       status: "warning",
-      class: { itemIcon: "bg-warning/80 text-warning-tint-foreground" },
+      class: { itemIcon: "bg-warning/80 text-warning-soft-foreground" },
     },
     {
       theme: "elegant",
       status: "info",
-      class: { itemIcon: "bg-info/80 text-info-tint-foreground" },
+      class: { itemIcon: "bg-info/80 text-info-soft-foreground" },
     },
     {
       theme: "elegant",
       status: "success",
-      class: { itemIcon: "bg-success/80 text-success-tint-foreground" },
+      class: { itemIcon: "bg-success/80 text-success-soft-foreground" },
     },
   ],
   defaultVariants: {

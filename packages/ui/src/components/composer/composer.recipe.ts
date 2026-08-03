@@ -39,8 +39,8 @@ export const composer = tv({
         iconButton: [
           "p-[7px]",
           "text-foreground-icon",
-          "hover:bg-layer-strong/80 hover:text-foreground-strong",
-          "active:bg-layer-strong/80 active:text-foreground-strong",
+          "hover:bg-fill-strong/80 hover:text-foreground-strong",
+          "active:bg-fill-strong/80 active:text-foreground-strong",
         ],
       },
     },

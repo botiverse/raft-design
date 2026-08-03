@@ -18,8 +18,8 @@ export const messageTextSelectionToolbar = tv({
           "gap-1 rounded-lg border-[0.5px] border-line-muted bg-layer-panel p-1 font-medium shadow-xs",
         button: [
           "rounded-sm text-foreground-muted",
-          "hover:bg-layer-muted hover:text-foreground",
-          "focus-visible:bg-layer-muted focus-visible:text-foreground",
+          "hover:bg-fill-muted hover:text-foreground",
+          "focus-visible:bg-fill-muted focus-visible:text-foreground",
         ],
         separator: "hidden",
       },

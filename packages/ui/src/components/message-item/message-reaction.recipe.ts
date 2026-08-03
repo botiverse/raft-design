@@ -61,14 +61,14 @@ export const messageReaction = tv({
       elegant: {
         chip: [
           "h-5 rounded-full gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
-          "bg-layer-strong text-foreground-muted",
+          "bg-fill-strong text-foreground-muted",
           "hover:bg-ink-10",
           "data-[pressed]:bg-accent-200/50 data-[pressed]:text-accent-700 data-[pressed]:hover:bg-accent-200/70",
-          "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-tint has-[[data-slot=message-reaction-error-indicator]]:text-danger",
+          "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-soft has-[[data-slot=message-reaction-error-indicator]]:text-danger",
         ],
         addButton: [
-          "h-5 rounded-full px-1.5 bg-layer-muted text-foreground-icon [&_svg]:size-[13px]",
-          "hover:bg-layer-strong active:bg-layer-strong",
+          "h-5 rounded-full px-1.5 bg-fill-muted text-foreground-icon [&_svg]:size-[13px]",
+          "hover:bg-fill-strong active:bg-fill-strong",
         ],
         quickRow: [
           "h-9 gap-1 bg-layer-popover px-2",

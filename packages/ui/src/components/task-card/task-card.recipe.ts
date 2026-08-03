@@ -42,7 +42,7 @@ export const taskCard = tv({
         meta: ["gap-1.5"],
         number: ["font-sans leading-3.5 font-medium tabular-nums text-foreground-placeholder"],
         legacy: [
-          "rounded-sm border border-line-muted bg-layer-muted",
+          "rounded-sm border border-line-muted bg-fill-muted",
           "font-sans leading-3 font-medium tracking-[0.2px] text-foreground-muted",
         ],
         title: ["text-sm leading-5 font-medium text-foreground"],

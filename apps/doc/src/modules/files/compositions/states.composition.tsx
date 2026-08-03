@@ -82,7 +82,7 @@ export function FilesPanelStatesComposition() {
 function FilesPanelState({ children, label }: { children: ReactNode; label: string }) {
   return (
     <section className="flex min-h-80 flex-col overflow-hidden border border-line-muted">
-      <h3 className="border-b border-line-muted bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
+      <h3 className="border-b border-line-muted bg-fill-muted px-3 py-2 text-xs font-medium text-foreground-muted">
         {label}
       </h3>
       {children}

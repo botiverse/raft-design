@@ -29,9 +29,9 @@ export const taskBoardColumn = tv({
         root: [
           "border-2 border-line-strong/20 bg-layer-panel/30 transition-colors",
           "data-[drop-state=allowed]:border-line-strong data-[drop-state=allowed]:bg-soft-signal/20 data-[drop-state=allowed]:shadow-sm",
-          "data-[drop-state=blocked]:border-danger data-[drop-state=blocked]:bg-danger-tint",
+          "data-[drop-state=blocked]:border-danger data-[drop-state=blocked]:bg-danger-soft",
           "has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:border-line-strong has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:bg-soft-signal/20 has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:shadow-sm",
-          "has-[[data-slot=task-drop-placeholder][data-drop-state=blocked]]:border-danger has-[[data-slot=task-drop-placeholder][data-drop-state=blocked]]:bg-danger-tint",
+          "has-[[data-slot=task-drop-placeholder][data-drop-state=blocked]]:border-danger has-[[data-slot=task-drop-placeholder][data-drop-state=blocked]]:bg-danger-soft",
         ],
         trigger: [
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
@@ -47,7 +47,7 @@ export const taskBoardColumn = tv({
           "border-2 border-dashed border-line-strong/20",
           "text-sm leading-5 text-foreground-strong/40",
           "group-data-[drop-state=allowed]:border-line-strong group-data-[drop-state=allowed]:text-foreground-strong/60",
-          "group-data-[drop-state=blocked]:border-danger group-data-[drop-state=blocked]:text-danger-tint-foreground",
+          "group-data-[drop-state=blocked]:border-danger group-data-[drop-state=blocked]:text-danger-soft-foreground",
         ],
       },
       elegant: {
@@ -72,7 +72,7 @@ export const taskBoardColumn = tv({
         empty: [
           "rounded-lg border border-dashed border-line-muted bg-layer-panel",
           "text-[13px] leading-4.5 text-foreground-placeholder",
-          "group-data-[drop-state=blocked]:border-danger/40 group-data-[drop-state=blocked]:text-danger-tint-foreground",
+          "group-data-[drop-state=blocked]:border-danger/40 group-data-[drop-state=blocked]:text-danger-soft-foreground",
         ],
       },
     },

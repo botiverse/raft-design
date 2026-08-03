@@ -50,7 +50,7 @@ export const files = tv({
           "focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-panel",
         ],
-        thumbnail: ["rounded-md border border-line-muted bg-layer-muted", "text-foreground-icon"],
+        thumbnail: ["rounded-md border border-line-muted bg-fill-muted", "text-foreground-icon"],
         image: "bg-layer-panel",
         name: ["font-sans font-medium text-foreground"],
         meta: ["font-sans text-foreground-placeholder"],

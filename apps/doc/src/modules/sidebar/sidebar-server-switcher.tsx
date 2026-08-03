@@ -36,7 +36,7 @@ const sidebarServerRecipe = tv({
       elegant: {
         sidebarServer: [
           "size-8 justify-center rounded-md bg-layer-panel",
-          "transition-colors hover:bg-layer-strong/80",
+          "transition-colors hover:bg-fill-strong/80",
         ],
         sidebarServerAvatar: "size-8 rounded-[inherit]",
         sidebarServerLabel: "sr-only",

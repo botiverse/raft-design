@@ -166,43 +166,43 @@ const LEGACY_CONTEXTS = [
 const LEGACY_CONTEXT_MARKERS = {
   "profile-tile": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-tint-foreground",
+    className: "border-success/40 bg-success/10 text-success-soft-foreground",
   },
   "account-tile": {
     label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-tint-foreground",
+    className: "border-warning/40 bg-warning/10 text-warning-soft-foreground",
   },
   "mention-card": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-tint-foreground",
+    className: "border-success/40 bg-success/10 text-success-soft-foreground",
   },
   "panel-header": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-tint-foreground",
+    className: "border-success/40 bg-success/10 text-success-soft-foreground",
   },
   "surface-list": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-tint-foreground",
+    className: "border-success/40 bg-success/10 text-success-soft-foreground",
   },
   "members-row": {
     label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-tint-foreground",
+    className: "border-warning/40 bg-warning/10 text-warning-soft-foreground",
   },
   "creator-link": {
     label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-tint-foreground",
+    className: "border-warning/40 bg-warning/10 text-warning-soft-foreground",
   },
   "compact-list": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-tint-foreground",
+    className: "border-success/40 bg-success/10 text-success-soft-foreground",
   },
   "sidebar-list": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-tint-foreground",
+    className: "border-success/40 bg-success/10 text-success-soft-foreground",
   },
   "preview-mini": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-tint-foreground",
+    className: "border-success/40 bg-success/10 text-success-soft-foreground",
   },
 } as const;
 
@@ -885,7 +885,7 @@ function SourceSizeTable() {
         <tbody>
           {SOURCE_SIZE_ROWS.map((row) => (
             <tr key={row.context} className="border-b border-line-muted align-top">
-              <td className="py-3 pr-6 font-mono text-xs text-info-tint-foreground">
+              <td className="py-3 pr-6 font-mono text-xs text-info-soft-foreground">
                 {row.context}
               </td>
               <td className="py-3 pr-6 text-foreground-muted">{row.sourceFrame}</td>

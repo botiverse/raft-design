@@ -16,7 +16,7 @@ const composerToolbarLabel = tv({
       elegant: {
         root: [
           "min-h-8 rounded-md border-0 bg-transparent px-2.5 py-1.5 font-medium text-foreground-muted",
-          "transition-colors hover:bg-layer-muted",
+          "transition-colors hover:bg-fill-muted",
         ],
       },
     },

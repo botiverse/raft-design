@@ -63,7 +63,7 @@ export const sidebarSectionRecipe = tv({
         ],
         sidebarSectionHeader: [
           "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 h-8 w-[calc(100%+12px)] rounded-md px-0",
-          "hover:bg-layer-strong/80",
+          "hover:bg-fill-strong/80",
         ],
         sidebarSectionDisclosure: [
           "h-8 w-full justify-start gap-1.5 rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] text-xs font-medium leading-none normal-case tracking-normal",

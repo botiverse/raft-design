@@ -60,7 +60,7 @@ export function FilesPanelDefaultComposition() {
       />
       <p
         aria-live="polite"
-        className="border-t border-line-muted bg-layer-muted px-4 py-2 text-xs text-foreground-muted"
+        className="border-t border-line-muted bg-fill-muted px-4 py-2 text-xs text-foreground-muted"
       >
         {announcement}
       </p>

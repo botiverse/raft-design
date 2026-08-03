@@ -60,7 +60,7 @@ export const markdown = tv({
         ],
         blockquote: [
           "my-1 max-w-[72ch] rounded-r-sm px-4 py-2",
-          "border-l-2 border-line-muted bg-layer-muted/70",
+          "border-l-2 border-line-muted bg-fill-muted/70",
           "text-foreground-muted not-italic",
         ],
         rule: ["my-2 border-t border-line-muted"],
@@ -70,7 +70,7 @@ export const markdown = tv({
         headerCell: [
           "px-3 py-1.5",
           "border-0 border-b border-ink-6 not-last:border-r not-last:border-ink-6",
-          "bg-layer-muted/50",
+          "bg-fill-muted/50",
           "text-left font-medium whitespace-nowrap text-foreground",
         ],
         cell: ["px-3 py-1.5", "border-0 border-b border-ink-6 not-last:border-r"],

@@ -30,7 +30,7 @@ export const messageImageGallery = tv({
       elegant: {
         root: "space-y-2",
         item: [
-          "rounded-md bg-layer-muted shadow-xs",
+          "rounded-md bg-fill-muted shadow-xs",
           "transition-shadow duration-150 hover:shadow-sm",
           "has-[[data-slot=message-image-gallery-overlay]]:opacity-70",
         ],

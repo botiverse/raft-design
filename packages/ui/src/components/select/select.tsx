@@ -60,7 +60,7 @@ const select = tv({
         trigger: [
           "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-panel p-2 text-sm text-foreground-strong shadow-sm focus:outline-none",
           "hover:bg-layer-panel hover:shadow-sm",
-          "disabled:cursor-not-allowed disabled:bg-layer-muted disabled:text-foreground-strong/50 disabled:opacity-100",
+          "disabled:cursor-not-allowed disabled:bg-fill-muted disabled:text-foreground-strong/50 disabled:opacity-100",
           "[&_[data-slot='select-value']_svg:not([class*='stroke-'])]:stroke-2",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",

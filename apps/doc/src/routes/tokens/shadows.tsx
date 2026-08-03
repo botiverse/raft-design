@@ -196,7 +196,7 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
                 isBrutal ? "rounded-none" : "rounded"
               }`}
               style={{
-                background: isBrutal ? "var(--layer-panel)" : "var(--layer-muted)",
+                background: isBrutal ? "var(--layer-panel)" : "var(--fill-muted)",
                 boxShadow: `var(${shadow.sourceToken})`,
                 color: "var(--foreground)",
                 fontFamily: "var(--sans-font)",

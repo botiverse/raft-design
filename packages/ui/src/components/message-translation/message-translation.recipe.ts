@@ -37,7 +37,7 @@ export const messageTranslation = tv({
         translationRetryAction: [
           "rounded-sm px-1 py-0.5",
           "text-warning no-underline",
-          "transition-colors hover:bg-warning-tint hover:text-warning",
+          "transition-colors hover:bg-warning-soft hover:text-warning",
         ],
       },
     },

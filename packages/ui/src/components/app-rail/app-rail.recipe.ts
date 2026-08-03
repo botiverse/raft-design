@@ -48,9 +48,9 @@ export const appRail = tv({
         item: [
           "size-auto min-w-9 p-3 rounded-md border border-transparent",
           "text-[13px] text-foreground-icon [&_svg]:size-4",
-          "hover:bg-layer-strong/80 hover:text-foreground-strong",
-          "active:bg-layer-strong/80 active:text-foreground-strong",
-          "data-[selected=true]:border-transparent data-[selected=true]:bg-layer-strong",
+          "hover:bg-fill-strong/80 hover:text-foreground-strong",
+          "active:bg-fill-strong/80 active:text-foreground-strong",
+          "data-[selected=true]:border-transparent data-[selected=true]:bg-fill-strong",
           "data-[selected=true]:text-foreground-muted data-[selected=true]:shadow-none",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         ],

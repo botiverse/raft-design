@@ -35,7 +35,7 @@ export const messageFooter = tv({
       },
       elegant: {
         savedIndicator: [
-          "h-5 gap-1.5 rounded-full bg-primary-tint px-1.5 py-0.5",
+          "h-5 gap-1.5 rounded-full bg-primary-soft px-1.5 py-0.5",
           "text-[11px] font-medium leading-3 tracking-[0.22px] text-primary-600",
           "transition-[filter,opacity] duration-100 hover:brightness-95",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
@@ -44,7 +44,7 @@ export const messageFooter = tv({
         readReceipt: "h-5 text-[11px] font-medium text-foreground-muted [&_svg]:size-2.5",
         badge: [
           "h-5 rounded-md px-1.5",
-          "text-[12px] font-[420] tracking-[-0.01em] hover:bg-layer-strong/80 [&_svg]:size-[11px]",
+          "text-[12px] font-[420] tracking-[-0.01em] hover:bg-fill-strong/80 [&_svg]:size-[11px]",
         ],
       },
     },
@@ -61,7 +61,7 @@ export const messageFooter = tv({
       theme: "elegant",
       badgeStatus: "unread",
       class: {
-        badge: ["bg-info-tint/50 text-[12px] tracking-[-0.01em]"],
+        badge: ["bg-info-soft/50 text-[12px] tracking-[-0.01em]"],
       },
     },
   ],

@@ -32,7 +32,7 @@ function JoinLinkCode() {
         "w-0 min-w-full truncate px-3 py-2 text-foreground",
         theme === "brutal"
           ? "rounded-none border-2 border-line-strong bg-layer-panel shadow-sm"
-          : "rounded bg-layer-muted shadow-none",
+          : "rounded bg-fill-muted shadow-none",
       )}
     >
       http://localhost:5173/join/slk_invite_8k2

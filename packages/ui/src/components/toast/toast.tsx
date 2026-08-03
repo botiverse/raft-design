@@ -99,9 +99,9 @@ const toastStyles = tv({
       },
       elegant: {
         root: [
-          "relative rounded-xl bg-layer-chrome/50 text-[oklch(0.965_0.002_286)] backdrop-blur-2xl saturate-150",
+          "relative rounded-xl bg-layer-hud/50 text-layer-hud-foreground backdrop-blur-2xl saturate-150",
           "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
-          "data-[expanded]:bg-layer-chrome-raised/54 data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.54)]",
+          "data-[expanded]:bg-layer-hud-strong/54 data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.54)]",
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
           "dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)] dark:data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.68)]",
         ],
@@ -259,7 +259,7 @@ const toastStyles = tv({
       theme: "elegant",
       layout: "inline",
       class: {
-        root: "bg-layer-chrome/62 after:hidden",
+        root: "bg-layer-hud/62 after:hidden",
       },
     },
   ],
@@ -757,7 +757,7 @@ function ToastArrowSvg({
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
       <path
         d="M1 0H11L6 5.25Z"
-        className={theme === "elegant" ? "fill-layer-chrome/50" : "fill-soft-signal"}
+        className={theme === "elegant" ? "fill-layer-hud/50" : "fill-soft-signal"}
       />
       {theme === "elegant" ? null : (
         <path

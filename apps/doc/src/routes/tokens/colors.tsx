@@ -9,6 +9,7 @@ const TOC = [
   { id: "grammar", title: "Token grammar" },
   { id: "foreground", title: "Foreground" },
   { id: "layer", title: "Layer" },
+  { id: "fill", title: "Fill" },
   { id: "line", title: "Line" },
   { id: "ink", title: "Ink ramp" },
   { id: "brand", title: "Brand families" },
@@ -85,18 +86,27 @@ const LAYER_GROUPS: readonly TokenGroup[] = [
     tokens: [
       ["page", "--layer-page"],
       ["panel", "--layer-panel"],
-      ["muted", "--layer-muted"],
-      ["strong", "--layer-strong"],
       ["popover", "--layer-popover"],
       ["inset", "--layer-inset"],
       ["card", "--layer-card"],
-      ["chrome", "--layer-chrome"],
-      ["chrome raised", "--layer-chrome-raised"],
+      ["hud", "--layer-hud"],
+      ["hud strong", "--layer-hud-strong"],
+      ["hud foreground", "--layer-hud-foreground"],
     ],
   },
   {
     label: "Overlay",
     tokens: [["backdrop", "--layer-backdrop"]],
+  },
+];
+
+const FILL_GROUPS: readonly TokenGroup[] = [
+  {
+    label: "Interaction fills",
+    tokens: [
+      ["muted", "--fill-muted"],
+      ["strong", "--fill-strong"],
+    ],
   },
 ];
 
@@ -143,8 +153,8 @@ const BRAND_GROUPS: readonly TokenGroup[] = [
     label: "Primary slots",
     tokens: [
       ["primary", "--color-primary"],
-      ["tint", "--primary-tint"],
-      ["tint foreground", "--primary-tint-foreground"],
+      ["soft", "--primary-soft"],
+      ["soft foreground", "--primary-soft-foreground"],
       ["edge", "--primary-edge"],
       ["hover", "--primary-hover"],
       ["active", "--primary-active"],
@@ -154,8 +164,8 @@ const BRAND_GROUPS: readonly TokenGroup[] = [
     label: "Accent slots",
     tokens: [
       ["accent", "--color-accent"],
-      ["tint", "--accent-tint"],
-      ["tint foreground", "--accent-tint-foreground"],
+      ["soft", "--accent-soft"],
+      ["soft foreground", "--accent-soft-foreground"],
       ["hover", "--accent-hover"],
       ["active", "--accent-active"],
     ],
@@ -182,9 +192,9 @@ function stateTokens(
   const slots: (readonly [string, string])[] = [
     [role, `--color-${role}`],
     ...(hasForeground ? [["foreground", `--color-${role}-foreground`] as const] : []),
-    ["tint", `--color-${role}-tint`],
-    ["tint hover", `--color-${role}-tint-hover`],
-    ["tint foreground", `--color-${role}-tint-foreground`],
+    ["soft", `--color-${role}-soft`],
+    ["soft strong", `--color-${role}-soft-strong`],
+    ["soft foreground", `--color-${role}-soft-foreground`],
   ];
   if (hasInteraction) {
     slots.push(["hover", `--color-${role}-hover`], ["active", `--color-${role}-active`]);
@@ -209,6 +219,7 @@ const STATE_GROUPS: readonly TokenGroup[] = [
 const TOKEN_SECTIONS = [
   { id: "foreground", title: "Foreground", groups: FOREGROUND_GROUPS },
   { id: "layer", title: "Layer", groups: LAYER_GROUPS },
+  { id: "fill", title: "Fill", groups: FILL_GROUPS },
   { id: "line", title: "Line", groups: LINE_GROUPS },
   { id: "ink", title: "Ink ramp", groups: INK_GROUPS },
   { id: "brand", title: "Brand families", groups: BRAND_GROUPS },
@@ -256,10 +267,16 @@ function TokenGrammar() {
     <div className="max-w-3xl space-y-4 text-sm leading-relaxed text-foreground-muted">
       <p>
         Neutrals follow <GrammarCode>{"{role}(-{purpose})(-{intensity})"}</GrammarCode> where the
-        role is <GrammarCode>foreground</GrammarCode>, <GrammarCode>layer</GrammarCode>, or{" "}
-        <GrammarCode>line</GrammarCode>. The intensity ladder is strictly ordered:{" "}
-        <GrammarCode>strong</GrammarCode> &gt; default (bare) &gt; <GrammarCode>muted</GrammarCode>{" "}
-        &gt; <GrammarCode>faint</GrammarCode>.
+        role is <GrammarCode>foreground</GrammarCode>, <GrammarCode>layer</GrammarCode>,{" "}
+        <GrammarCode>line</GrammarCode>, or <GrammarCode>fill</GrammarCode>. The intensity ladder is
+        strictly ordered: <GrammarCode>strong</GrammarCode> &gt; default (bare) &gt;{" "}
+        <GrammarCode>muted</GrammarCode> &gt; <GrammarCode>faint</GrammarCode>.
+      </p>
+      <p>
+        <GrammarCode>layer</GrammarCode> tokens name places on the elevation ladder;{" "}
+        <GrammarCode>fill</GrammarCode> tokens are the opaque neutral interaction fills
+        (resting/hover/active/disabled surfaces) — the opaque counterpart of the translucent ink
+        washes.
       </p>
       <p>
         Color families — <GrammarCode>primary</GrammarCode>, <GrammarCode>accent</GrammarCode>,{" "}
@@ -267,8 +284,8 @@ function TokenGrammar() {
         <GrammarCode>success</GrammarCode>, <GrammarCode>warning</GrammarCode>, and{" "}
         <GrammarCode>danger</GrammarCode> — share one slot shape: the bare name is the solid fill,{" "}
         <GrammarCode>-foreground</GrammarCode> is text on that solid,{" "}
-        <GrammarCode>-tint</GrammarCode> is the soft wash, <GrammarCode>-tint-hover</GrammarCode>{" "}
-        the strong wash, and <GrammarCode>-tint-foreground</GrammarCode> text on the wash. The solid
+        <GrammarCode>-soft</GrammarCode> is the soft wash, <GrammarCode>-soft-strong</GrammarCode>{" "}
+        the strong wash, and <GrammarCode>-soft-foreground</GrammarCode> text on the wash. The solid
         interaction pair <GrammarCode>-hover</GrammarCode>/<GrammarCode>-active</GrammarCode> is
         opt-in: primary, accent, info, warning, and danger define it; success and secondary do not.
       </p>

@@ -111,7 +111,7 @@ const lightbox = tv({
         header: ["bg-transparent shadow-none"],
         toolbar: ["border-b border-line-muted bg-layer-panel shadow-none"],
         headerLabel: [
-          "rounded-full border border-line-muted bg-layer-muted font-sans text-foreground-muted",
+          "rounded-full border border-line-muted bg-fill-muted font-sans text-foreground-muted",
         ],
         title: ["font-sans font-medium text-foreground"],
         actions: ["gap-2"],

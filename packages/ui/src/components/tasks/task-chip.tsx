@@ -61,14 +61,14 @@ const taskChip = tv({
       theme: "elegant",
       status: "in-review",
       class: {
-        root: "border-warning/75 bg-warning/10 text-warning-tint-foreground",
+        root: "border-warning/75 bg-warning/10 text-warning-soft-foreground",
       },
     },
     {
       theme: "elegant",
       status: "done",
       class: {
-        root: "border-success/75 bg-success/10 text-success-tint-foreground",
+        root: "border-success/75 bg-success/10 text-success-soft-foreground",
       },
     },
     {
@@ -96,7 +96,7 @@ const taskChip = tv({
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
-          "h-[19px] align-middle -mt-px gap-1.5 rounded-full border-0 bg-layer-muted py-0 pr-2 pl-1",
+          "h-[19px] align-middle -mt-px gap-1.5 rounded-full border-0 bg-fill-muted py-0 pr-2 pl-1",
           "text-[12px] font-[450] leading-none text-foreground-muted hover:brightness-100 [&>svg]:size-3",
         ],
       },

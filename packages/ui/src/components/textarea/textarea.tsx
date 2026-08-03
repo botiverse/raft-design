@@ -27,7 +27,7 @@ const textarea = tv({
           "focus:bg-layer-panel",
           "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
           "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-3 data-invalid:focus-visible:ring-danger/12 data-invalid:focus-visible:ring-offset-0",
-          "disabled:cursor-not-allowed disabled:border-line-muted/60 disabled:bg-layer-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
+          "disabled:cursor-not-allowed disabled:border-line-muted/60 disabled:bg-fill-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
           "disabled:hover:border-line-muted/60 disabled:hover:shadow-none",
           "data-invalid:disabled:border-line-muted/60 data-invalid:disabled:ring-0",
         ],

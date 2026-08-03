@@ -34,7 +34,7 @@ const emptyState = tv({
         description: "text-foreground-strong/60",
       },
       elegant: {
-        icon: "rounded-md bg-layer-muted p-2 text-foreground-placeholder [&_svg]:size-4.5",
+        icon: "rounded-md bg-fill-muted p-2 text-foreground-placeholder [&_svg]:size-4.5",
         title: "text-sm font-medium text-foreground",
         description: "text-foreground-muted",
       },

@@ -113,9 +113,9 @@ const banner = tv({
   },
   compoundVariants: [
     { theme: "brutal", status: "default", class: { root: "bg-layer-panel" } },
-    { theme: "brutal", status: "destructive", class: { root: "bg-danger-tint" } },
+    { theme: "brutal", status: "destructive", class: { root: "bg-danger-soft" } },
     { theme: "brutal", status: "warning", class: { root: "bg-(--color-brutal-yellow-100)" } },
-    { theme: "brutal", status: "info", class: { root: "bg-info-tint" } },
+    { theme: "brutal", status: "info", class: { root: "bg-info-soft" } },
     { theme: "brutal", status: "success", class: { root: "bg-(--color-brutal-lime-100)" } },
     {
       theme: "brutal",
@@ -142,7 +142,7 @@ const banner = tv({
       theme: "elegant",
       status: "default",
       class: {
-        root: "bg-layer-muted [&>svg]:text-foreground-muted",
+        root: "bg-fill-muted [&>svg]:text-foreground-muted",
       },
     },
     {
@@ -164,14 +164,14 @@ const banner = tv({
       theme: "elegant",
       status: "info",
       class: {
-        root: "bg-info-tint [&>svg]:text-[oklch(0.55_0.11_220)] dark:[&>svg]:text-[oklch(0.8_0.1_220)]",
+        root: "bg-info-soft [&>svg]:text-[oklch(0.55_0.11_220)] dark:[&>svg]:text-[oklch(0.8_0.1_220)]",
       },
     },
     {
       theme: "elegant",
       status: "destructive",
       class: {
-        root: "bg-danger-tint [&>svg]:text-danger",
+        root: "bg-danger-soft [&>svg]:text-danger",
       },
     },
     {

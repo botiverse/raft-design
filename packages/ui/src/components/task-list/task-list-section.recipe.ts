@@ -58,7 +58,7 @@ export const taskListSection = tv({
         count: ["font-sans font-medium tabular-nums text-foreground-placeholder"],
         chevron: ["text-foreground-icon", "group-hover:text-foreground-strong"],
         empty: [
-          "rounded-lg border border-dashed border-line-muted bg-layer-muted",
+          "rounded-lg border border-dashed border-line-muted bg-fill-muted",
           "text-[13px] leading-4.5 text-foreground-placeholder",
         ],
       },

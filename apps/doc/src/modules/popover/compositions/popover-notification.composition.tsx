@@ -60,7 +60,7 @@ export function PopoverNotificationComposition() {
             {notifications.map((notification) => (
               <li key={notification.id} className="px-3 py-3">
                 <div className="flex items-start gap-2">
-                  <div className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded bg-warning-tint text-warning [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-orange [[data-theme=brutal]_&]:text-black">
+                  <div className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded bg-warning-soft text-warning [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-orange [[data-theme=brutal]_&]:text-black">
                     <AlertTriangle aria-hidden className="size-4" />
                   </div>
                   <div className="min-w-0 flex-1">

@@ -63,14 +63,14 @@ export const buttonVariants = tv({
       outline: {
         root: [
           "border-line-strong bg-transparent text-foreground",
-          "hover:bg-layer-muted",
+          "hover:bg-fill-muted",
           "shadow-none",
         ],
       },
       ghost: {
         root: [
           "border-transparent bg-transparent text-foreground-strong shadow-none",
-          "hover:border-line-strong hover:bg-layer-muted",
+          "hover:border-line-strong hover:bg-fill-muted",
         ],
       },
       link: {
@@ -80,7 +80,7 @@ export const buttonVariants = tv({
         ],
       },
       "danger-secondary": {
-        root: ["border-line-strong bg-danger-tint text-danger", "hover:bg-danger-tint"],
+        root: ["border-line-strong bg-danger-soft text-danger", "hover:bg-danger-soft"],
       },
       danger: {
         root: [
@@ -91,7 +91,7 @@ export const buttonVariants = tv({
       "danger-outline": {
         root: [
           "border-line-strong bg-transparent text-danger",
-          "hover:bg-layer-muted",
+          "hover:bg-fill-muted",
           "shadow-none",
         ],
       },
@@ -393,7 +393,7 @@ export const buttonVariants = tv({
           "[--button-focus-ring:var(--foreground)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
-          "hover:bg-layer-muted",
+          "hover:bg-fill-muted",
         ],
       },
     },
@@ -414,12 +414,12 @@ export const buttonVariants = tv({
       variant: "danger-secondary",
       class: {
         root: [
-          "bg-danger-tint text-danger",
-          "[--button-focus-outline:var(--danger-tint)]",
+          "bg-danger-soft text-danger",
+          "[--button-focus-outline:var(--danger-soft)]",
           "[--button-focus-ring:var(--danger)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.18),0_0_0_1px_var(--danger-tint-hover)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.18),0_0_0_1px_var(--danger-soft-strong)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_9%)_0%,oklab(0%_0_0_/_1%)_100%)]",
-          "hover:bg-danger-tint-hover",
+          "hover:bg-danger-soft-strong",
         ],
       },
     },
@@ -456,9 +456,9 @@ export const buttonVariants = tv({
       variant: "danger-secondary",
       class: {
         root: [
-          "border-line-strong bg-danger-tint text-[color-mix(in_oklab,var(--danger)_72%,transparent)]",
+          "border-line-strong bg-danger-soft text-[color-mix(in_oklab,var(--danger)_72%,transparent)]",
           "shadow-sm",
-          "hover:border-line-strong hover:bg-danger-tint",
+          "hover:border-line-strong hover:bg-danger-soft",
           "hover:-translate-y-px hover:shadow-md",
           "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
           "active:shadow-xs",
@@ -473,9 +473,9 @@ export const buttonVariants = tv({
           "bg-layer-panel text-danger",
           "[--button-focus-outline:var(--layer-panel)]",
           "[--button-focus-ring:var(--danger)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--danger-tint-hover)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--danger-soft-strong)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
-          "hover:bg-danger-tint",
+          "hover:bg-danger-soft",
         ],
       },
     },
@@ -538,8 +538,8 @@ export const buttonVariants = tv({
       variant: "muted",
       class: {
         root: [
-          "bg-layer-muted text-foreground-placeholder",
-          "[--button-focus-outline:var(--layer-muted)]",
+          "bg-fill-muted text-foreground-placeholder",
+          "[--button-focus-outline:var(--fill-muted)]",
           "[--button-focus-ring:var(--line-faint)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_5%)_0%,oklab(0%_0_0_/_1%)_100%)]",

@@ -327,7 +327,7 @@ const statusMeta = {
 const sectionTitleClassName = "mb-2.5 pl-[8px] text-[13px] font-medium text-foreground";
 const sidebarItemFocusClassName =
   "outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500";
-const sidebarItemActiveClassName = "bg-layer-muted text-foreground";
+const sidebarItemActiveClassName = "bg-fill-muted text-foreground";
 const sidebarItemInactiveClassName = "text-foreground-muted";
 const sidebarItemActiveProps = { className: sidebarItemActiveClassName };
 const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
@@ -335,7 +335,7 @@ const sidebarPathActiveOptions = { exact: true, includeSearch: false };
 const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
 
 function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
-  const className = `flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors hover:bg-layer-muted/80 hover:text-foreground ${
+  const className = `flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors hover:bg-fill-muted/80 hover:text-foreground ${
     item.to || item.docsHref ? sidebarItemFocusClassName : "cursor-default"
   } ${item.to || item.docsHref ? "" : "text-foreground-muted"}`;
   const title = item.reason
@@ -468,7 +468,7 @@ function NavGroup({
 }
 
 function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
-  const className = `flex min-h-12 items-center justify-start rounded-md px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted transition-colors hover:bg-layer-muted hover:text-foreground active:bg-layer-strong ${sidebarItemFocusClassName}`;
+  const className = `flex min-h-12 items-center justify-start rounded-md px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted transition-colors hover:bg-fill-muted hover:text-foreground active:bg-fill-strong ${sidebarItemFocusClassName}`;
   const title = item.reason
     ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
     : undefined;
@@ -614,7 +614,7 @@ function MobileSidebar() {
           aria-expanded={open}
           aria-controls="mobile-docs-navigation"
           aria-label={open ? "Close navigation" : "Open navigation"}
-          className={`flex size-11 items-center justify-center rounded-md text-foreground transition-colors hover:bg-layer-muted active:bg-layer-strong ${sidebarItemFocusClassName}`}
+          className={`flex size-11 items-center justify-center rounded-md text-foreground transition-colors hover:bg-fill-muted active:bg-fill-strong ${sidebarItemFocusClassName}`}
           onClick={() => setOpen((current) => !current)}
         >
           {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}

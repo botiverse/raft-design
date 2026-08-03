@@ -54,7 +54,7 @@ export const codeBlock = tv({
           "[--code-block-header-height:calc(var(--spacing)*8)]",
           "overflow-clip rounded-none px-3 pb-0",
           "bg-layer-inset shadow-code-edge",
-          "dark:bg-layer-muted",
+          "dark:bg-fill-muted",
         ],
         header: [
           "px-2.5",

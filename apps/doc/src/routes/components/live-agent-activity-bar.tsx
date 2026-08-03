@@ -225,7 +225,7 @@ function LiveAgentActivityBarDoc() {
 function ComparisonPane({ label, children }: { label: string; children: ReactNode }) {
   return (
     <section className="overflow-hidden border border-line-muted bg-layer-panel">
-      <div className="border-b border-line-muted bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
+      <div className="border-b border-line-muted bg-fill-muted px-3 py-2 text-xs font-medium text-foreground-muted">
         {label}
       </div>
       <div className="flex min-h-28 items-center justify-center bg-white p-4">{children}</div>

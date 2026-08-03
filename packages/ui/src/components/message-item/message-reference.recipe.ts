@@ -186,7 +186,7 @@ export const messageReference = tv({
       variant: ["accent", "info"],
       class: {
         root: [
-          "[--reference-badge:var(--accent-tint-foreground)]",
+          "[--reference-badge:var(--accent-soft-foreground)]",
           "bg-[oklch(0.965_0.019_358.59)] text-[oklch(0.543_0.215_359.77)]",
           "hover:bg-[oklch(0.965_0.019_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
         ],
@@ -198,7 +198,7 @@ export const messageReference = tv({
       class: {
         root: [
           "[--reference-badge:var(--color-foreground-muted)]",
-          "border-line-muted bg-layer-muted text-foreground hover:bg-layer-strong",
+          "border-line-muted bg-fill-muted text-foreground hover:bg-fill-strong",
         ],
       },
     },
@@ -207,9 +207,9 @@ export const messageReference = tv({
       variant: "link",
       class: {
         root: [
-          "[--reference-badge:var(--info-tint-foreground)]",
-          "bg-[oklch(0.966_0.022_224.02)] text-info-tint-foreground",
-          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-info-tint-foreground",
+          "[--reference-badge:var(--info-soft-foreground)]",
+          "bg-[oklch(0.966_0.022_224.02)] text-info-soft-foreground",
+          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-info-soft-foreground",
         ],
       },
     },
@@ -218,7 +218,7 @@ export const messageReference = tv({
       variant: "pending",
       class: {
         root: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-layer-muted px-2 py-0",
+          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-fill-muted px-2 py-0",
           "cursor-wait font-normal leading-none tracking-normal text-foreground-muted",
         ],
       },
@@ -228,7 +228,7 @@ export const messageReference = tv({
       variant: "unavailable",
       class: {
         root: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-layer-muted px-2 py-0",
+          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-fill-muted px-2 py-0",
           "cursor-default font-normal leading-none tracking-normal text-foreground-muted",
         ],
       },

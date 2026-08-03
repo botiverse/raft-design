@@ -106,8 +106,8 @@ export const messageItem = tv({
         ],
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent p-0",
-          "text-foreground-icon hover:bg-layer-strong/80 hover:text-foreground-strong",
-          "data-popup-open:bg-layer-strong/80 data-popup-open:text-foreground-strong",
+          "text-foreground-icon hover:bg-fill-strong/80 hover:text-foreground-strong",
+          "data-popup-open:bg-fill-strong/80 data-popup-open:text-foreground-strong",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
           "aria-pressed:text-primary-400 aria-pressed:hover:text-primary-400",
           "[&_svg]:size-3.5",
