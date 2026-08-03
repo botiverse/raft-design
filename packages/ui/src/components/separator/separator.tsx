@@ -27,11 +27,11 @@ const separator = tv({
       },
       elegant: {
         root: [
-          "bg-line-faint",
+          "bg-line-hairline",
           "data-[orientation=horizontal]:h-px",
           "data-[orientation=vertical]:w-px",
         ],
-        labeledLine: ["h-px bg-line-faint"],
+        labeledLine: ["h-px bg-line-hairline"],
         labeledContent: ["text-foreground-placeholder"],
       },
     },

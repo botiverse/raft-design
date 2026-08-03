@@ -125,7 +125,7 @@ function SourceSidebarMainPreview() {
   return (
     <div className="flex h-full min-w-0 flex-1 flex-col overflow-hidden bg-white text-black">
       <div className="flex h-[62px] shrink-0 items-center gap-3 border-b-2 border-black bg-white px-5">
-        <div className="flex size-9 shrink-0 items-center justify-center border-2 border-black bg-soft-signal">
+        <div className="flex size-9 shrink-0 items-center justify-center border-2 border-black bg-primary">
           <Hash className="size-[18px]" />
         </div>
         <div className="min-w-0 flex-1">
@@ -235,7 +235,7 @@ function SourceMainTab({
       type="button"
       className={`relative z-10 inline-flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap px-4 py-1.5 text-xs font-semibold outline-none ${
         active
-          ? "bg-soft-signal"
+          ? "bg-primary"
           : "bg-white before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-black"
       }`}
     >
@@ -404,7 +404,7 @@ function SourceSidebarRow({
         )}
       </span>
       {mention && (
-        <span className="ml-1 inline-flex size-4 shrink-0 items-center justify-center rounded border border-black bg-soft-signal text-black">
+        <span className="ml-1 inline-flex size-4 shrink-0 items-center justify-center rounded border border-black bg-primary text-black">
           <AtSign className="size-2.5" />
         </span>
       )}

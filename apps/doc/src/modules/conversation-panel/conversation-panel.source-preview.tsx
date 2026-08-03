@@ -17,7 +17,7 @@ export function SourceConversationPanelPreview() {
   return (
     <div className="flex h-full min-h-0 w-[560px] min-w-0 shrink-0 flex-1 flex-col overflow-hidden bg-white font-sans text-black">
       <div className="flex h-[62px] shrink-0 items-center gap-3 border-b-2 border-black bg-white px-5 [@media(max-height:600px)]:h-12">
-        <div className="flex size-9 shrink-0 items-center justify-center border-2 border-black bg-soft-signal">
+        <div className="flex size-9 shrink-0 items-center justify-center border-2 border-black bg-primary">
           <Hash className="size-[18px]" />
         </div>
         <div className="min-w-0 flex-1">
@@ -66,7 +66,7 @@ export function SourceConversationPanelPreview() {
         <div className="flex w-max max-w-full items-stretch overflow-x-auto border-r-2 border-black bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <button
             type="button"
-            className="relative z-10 inline-flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap bg-soft-signal px-4 py-1.5 text-xs font-semibold outline-none"
+            className="relative z-10 inline-flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap bg-primary px-4 py-1.5 text-xs font-semibold outline-none"
           >
             <MessageSquare className="size-3.5" />
             Chat

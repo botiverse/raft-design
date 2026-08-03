@@ -23,7 +23,7 @@ const field = tv({
       elegant: {
         label: ["font-medium text-foreground-strong"],
         description: [
-          "text-[13px] text-foreground-faint",
+          "text-[13px] text-foreground-hint",
           "group-data-[disabled]/field:text-foreground-disabled",
         ],
         error: ["text-[13px] text-danger"],

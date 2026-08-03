@@ -53,7 +53,7 @@ export const sidebarItemRecipe = tv({
         sidebarItemSubtitle: "text-black/40",
         sidebarItemMeta: "text-xs font-medium text-black/70",
         sidebarItemIndicator: [
-          "rounded border border-black bg-soft-signal",
+          "rounded border border-black bg-primary",
           "text-[10px] font-bold leading-none text-black",
         ],
         sidebarItemMetaIcon: "text-black/70",

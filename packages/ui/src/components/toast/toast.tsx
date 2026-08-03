@@ -73,7 +73,7 @@ const toastStyles = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong bg-soft-signal text-foreground-strong shadow-md",
+          "border-2 border-line-strong bg-primary text-foreground-strong shadow-md",
           "focus-visible:outline-transparent",
         ],
         content: [
@@ -757,7 +757,7 @@ function ToastArrowSvg({
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
       <path
         d="M1 0H11L6 5.25Z"
-        className={theme === "elegant" ? "fill-layer-hud/50" : "fill-soft-signal"}
+        className={theme === "elegant" ? "fill-layer-hud/50" : "fill-primary"}
       />
       {theme === "elegant" ? null : (
         <path

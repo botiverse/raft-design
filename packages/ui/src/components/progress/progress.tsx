@@ -79,7 +79,7 @@ const progress = tv({
       information: {
         root: [
           "[--progress-color:var(--color-info)]",
-          "[--progress-light:var(--color-info-soft-strong)]",
+          "[--progress-light:var(--color-info-muted)]",
         ],
       },
       accent: {
@@ -91,19 +91,19 @@ const progress = tv({
       success: {
         root: [
           "[--progress-color:var(--color-success)]",
-          "[--progress-light:var(--color-success-soft-strong)]",
+          "[--progress-light:var(--color-success-muted)]",
         ],
       },
       warning: {
         root: [
           "[--progress-color:var(--color-warning)]",
-          "[--progress-light:var(--color-warning-soft-strong)]",
+          "[--progress-light:var(--color-warning-muted)]",
         ],
       },
       danger: {
         root: [
           "[--progress-color:var(--color-danger)]",
-          "[--progress-light:var(--color-danger-soft-strong)]",
+          "[--progress-light:var(--color-danger-muted)]",
         ],
       },
     },

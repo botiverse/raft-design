@@ -64,12 +64,12 @@ const FOREGROUND_GROUPS: readonly TokenGroup[] = [
       ["strong", "--foreground-strong"],
       ["default", "--foreground"],
       ["muted", "--foreground-muted"],
-      ["faint", "--foreground-faint"],
     ],
   },
   {
     label: "Purpose",
     tokens: [
+      ["hint", "--foreground-hint"],
       ["icon", "--foreground-icon"],
       ["placeholder", "--foreground-placeholder"],
       ["disabled", "--foreground-disabled"],
@@ -117,12 +117,12 @@ const LINE_GROUPS: readonly TokenGroup[] = [
       ["strong", "--line-strong"],
       ["default", "--line"],
       ["muted", "--line-muted"],
-      ["faint", "--line-faint"],
     ],
   },
   {
     label: "Purpose",
     tokens: [
+      ["hairline", "--line-hairline"],
       ["field", "--line-field"],
       ["field hover", "--line-field-hover"],
       ["code", "--line-code"],
@@ -153,8 +153,8 @@ const BRAND_GROUPS: readonly TokenGroup[] = [
     label: "Primary slots",
     tokens: [
       ["primary", "--color-primary"],
+      ["strong", "--primary-strong"],
       ["soft", "--primary-soft"],
-      ["soft foreground", "--primary-soft-foreground"],
       ["edge", "--primary-edge"],
       ["hover", "--primary-hover"],
       ["active", "--primary-active"],
@@ -164,8 +164,8 @@ const BRAND_GROUPS: readonly TokenGroup[] = [
     label: "Accent slots",
     tokens: [
       ["accent", "--color-accent"],
+      ["strong", "--accent-strong"],
       ["soft", "--accent-soft"],
-      ["soft foreground", "--accent-soft-foreground"],
       ["hover", "--accent-hover"],
       ["active", "--accent-active"],
     ],
@@ -192,9 +192,9 @@ function stateTokens(
   const slots: (readonly [string, string])[] = [
     [role, `--color-${role}`],
     ...(hasForeground ? [["foreground", `--color-${role}-foreground`] as const] : []),
+    ["strong", `--color-${role}-strong`],
+    ["muted", `--color-${role}-muted`],
     ["soft", `--color-${role}-soft`],
-    ["soft strong", `--color-${role}-soft-strong`],
-    ["soft foreground", `--color-${role}-soft-foreground`],
   ];
   if (hasInteraction) {
     slots.push(["hover", `--color-${role}-hover`], ["active", `--color-${role}-active`]);
@@ -270,7 +270,7 @@ function TokenGrammar() {
         role is <GrammarCode>foreground</GrammarCode>, <GrammarCode>layer</GrammarCode>,{" "}
         <GrammarCode>line</GrammarCode>, or <GrammarCode>fill</GrammarCode>. The intensity ladder is
         strictly ordered: <GrammarCode>strong</GrammarCode> &gt; default (bare) &gt;{" "}
-        <GrammarCode>muted</GrammarCode> &gt; <GrammarCode>faint</GrammarCode>.
+        <GrammarCode>muted</GrammarCode>.
       </p>
       <p>
         <GrammarCode>layer</GrammarCode> tokens name places on the elevation ladder;{" "}
@@ -282,12 +282,13 @@ function TokenGrammar() {
         Color families — <GrammarCode>primary</GrammarCode>, <GrammarCode>accent</GrammarCode>,{" "}
         <GrammarCode>secondary</GrammarCode>, <GrammarCode>info</GrammarCode>,{" "}
         <GrammarCode>success</GrammarCode>, <GrammarCode>warning</GrammarCode>, and{" "}
-        <GrammarCode>danger</GrammarCode> — share one slot shape: the bare name is the solid fill,{" "}
-        <GrammarCode>-foreground</GrammarCode> is text on that solid,{" "}
-        <GrammarCode>-soft</GrammarCode> is the soft wash, <GrammarCode>-soft-strong</GrammarCode>{" "}
-        the strong wash, and <GrammarCode>-soft-foreground</GrammarCode> text on the wash. The solid
-        interaction pair <GrammarCode>-hover</GrammarCode>/<GrammarCode>-active</GrammarCode> is
-        opt-in: primary, accent, info, warning, and danger define it; success and secondary do not.
+        <GrammarCode>danger</GrammarCode> — share the same intensity ladder as neutrals:{" "}
+        <GrammarCode>-strong</GrammarCode> (deep shade for readable text and rings) &gt; the bare
+        solid fill &gt; <GrammarCode>-muted</GrammarCode> (strong wash) &gt;{" "}
+        <GrammarCode>-soft</GrammarCode> (soft wash), plus <GrammarCode>-foreground</GrammarCode>{" "}
+        for text on the solid. The solid interaction pair <GrammarCode>-hover</GrammarCode>/
+        <GrammarCode>-active</GrammarCode> is opt-in: primary, accent, info, warning, and danger
+        define it; success and secondary do not.
       </p>
       <p>
         The ink ramp <GrammarCode>ink-2</GrammarCode> … <GrammarCode>ink-40</GrammarCode> is a

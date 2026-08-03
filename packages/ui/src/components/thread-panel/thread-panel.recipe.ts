@@ -70,7 +70,7 @@ export const threadPanel = tv({
           "[&_[data-message-item]]:bg-transparent",
         ],
         replySummary: "px-5 max-lg:px-3.5",
-        replyCount: "border-line-faint text-foreground-muted",
+        replyCount: "border-line-hairline text-foreground-muted",
         footer: ["px-5 max-lg:px-3.5 md:px-5 max-md:px-3.5", "text-foreground-muted"],
       },
     },

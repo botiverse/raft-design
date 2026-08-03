@@ -19,7 +19,7 @@ const kbd = tv({
       elegant: {
         root: [
           "min-w-5 rounded bg-layer-panel px-1.5 py-1 text-[10px]",
-          "font-medium text-foreground-muted ring-1 ring-inset ring-line-faint",
+          "font-medium text-foreground-muted ring-1 ring-inset ring-line-hairline",
         ],
       },
     },

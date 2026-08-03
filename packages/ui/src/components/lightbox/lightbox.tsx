@@ -79,7 +79,7 @@ const lightbox = tv({
       brutal: {
         header: ["bg-transparent shadow-none"],
         toolbar: ["border-b-2 border-black bg-white shadow-none"],
-        headerLabel: ["border-2 border-black bg-soft-signal font-display text-black"],
+        headerLabel: ["border-2 border-black bg-primary font-display text-black"],
         title: ["font-display font-semibold text-black"],
         navigationButton: [
           "size-8 rounded-none",

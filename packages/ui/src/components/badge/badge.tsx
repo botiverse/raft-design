@@ -57,7 +57,7 @@ export const badge = tv({
         root: "bg-accent-400 text-accent-950",
       },
       success: {
-        root: "bg-success text-success-soft-foreground",
+        root: "bg-success text-success-strong",
       },
       warning: {
         root: "bg-warning text-warning-foreground",
@@ -105,7 +105,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-info text-info-soft-foreground" },
+      class: { root: "bg-info text-info-strong" },
     },
     {
       theme: "brutal",
@@ -135,7 +135,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "soft",
       variant: "information",
-      class: { root: "bg-info-soft-strong text-info-soft-foreground" },
+      class: { root: "bg-info-muted text-info-strong" },
     },
     {
       theme: "brutal",
@@ -153,13 +153,13 @@ export const badge = tv({
       theme: "brutal",
       appearance: "soft",
       variant: "warning",
-      class: { root: "bg-warning-soft-strong text-[oklch(0.43_0.12_44.441)]" },
+      class: { root: "bg-warning-muted text-[oklch(0.43_0.12_44.441)]" },
     },
     {
       theme: "brutal",
       appearance: "soft",
       variant: "danger",
-      class: { root: "bg-danger-soft-strong text-danger-soft-foreground" },
+      class: { root: "bg-danger-muted text-danger-strong" },
     },
     {
       theme: "brutal",
@@ -183,7 +183,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "outline",
       variant: "information",
-      class: { root: "bg-transparent text-info-soft-foreground" },
+      class: { root: "bg-transparent text-info-strong" },
     },
     {
       theme: "brutal",
@@ -201,7 +201,7 @@ export const badge = tv({
       theme: "brutal",
       appearance: "outline",
       variant: "warning",
-      class: { root: "bg-transparent text-warning-soft-foreground" },
+      class: { root: "bg-transparent text-warning-strong" },
     },
     {
       theme: "brutal",
@@ -235,7 +235,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-info text-info-soft-foreground" },
+      class: { root: "bg-info text-info-strong" },
     },
     {
       theme: "elegant",
@@ -282,7 +282,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "primary",
       class: {
-        root: "border-transparent bg-primary-soft text-primary-soft-foreground",
+        root: "border-transparent bg-primary-soft text-primary-strong",
       },
     },
     {
@@ -290,7 +290,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "information",
       class: {
-        root: "border-transparent bg-info-soft text-info-soft-foreground",
+        root: "border-transparent bg-info-soft text-info-strong",
       },
     },
     {
@@ -298,7 +298,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "accent",
       class: {
-        root: "border-transparent bg-accent-soft text-accent-soft-foreground",
+        root: "border-transparent bg-accent-soft text-accent-strong",
       },
     },
     {
@@ -306,7 +306,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "success",
       class: {
-        root: "border-transparent bg-success-soft text-success-soft-foreground",
+        root: "border-transparent bg-success-soft text-success-strong",
       },
     },
     {
@@ -314,7 +314,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "warning",
       class: {
-        root: "border-transparent bg-warning-soft text-warning-soft-foreground",
+        root: "border-transparent bg-warning-soft text-warning-strong",
       },
     },
     {
@@ -322,7 +322,7 @@ export const badge = tv({
       appearance: "soft",
       variant: "danger",
       class: {
-        root: "border-transparent bg-danger-soft text-danger-soft-foreground",
+        root: "border-transparent bg-danger-soft text-danger-strong",
       },
     },
     {
@@ -343,37 +343,37 @@ export const badge = tv({
       theme: "elegant",
       appearance: "outline",
       variant: "primary",
-      class: { root: "border-primary-500 bg-transparent text-primary-soft-foreground" },
+      class: { root: "border-primary-500 bg-transparent text-primary-strong" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "information",
-      class: { root: "border-info bg-transparent text-info-soft-foreground" },
+      class: { root: "border-info bg-transparent text-info-strong" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "accent",
-      class: { root: "border-accent-500 bg-transparent text-accent-soft-foreground" },
+      class: { root: "border-accent-500 bg-transparent text-accent-strong" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "success",
-      class: { root: "border-success bg-transparent text-success-soft-foreground" },
+      class: { root: "border-success bg-transparent text-success-strong" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "warning",
-      class: { root: "border-warning bg-transparent text-warning-soft-foreground" },
+      class: { root: "border-warning bg-transparent text-warning-strong" },
     },
     {
       theme: "elegant",
       appearance: "outline",
       variant: "danger",
-      class: { root: "border-danger bg-transparent text-danger-soft-foreground" },
+      class: { root: "border-danger bg-transparent text-danger-strong" },
     },
   ],
 });

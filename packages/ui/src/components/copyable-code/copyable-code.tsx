@@ -48,7 +48,7 @@ const copyableCode = tv({
       elegant: {
         code: [
           "bg-layer-inset text-[oklch(0.45_0.04_74)]",
-          "shadow-code-edge",
+          "ring-[0.5px] ring-ink-20 dark:ring-ink-16",
           "dark:bg-layer-panel dark:text-[oklch(0.82_0.06_90)]",
         ],
         codeInner: [

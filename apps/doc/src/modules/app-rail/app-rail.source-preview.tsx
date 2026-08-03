@@ -12,11 +12,11 @@ import type { ReactNode } from "react";
 
 export function SourceAppRailPreview() {
   return (
-    <div className="relative flex h-full w-[64px] shrink-0 select-none flex-col items-center border-r-2 border-[var(--source-ink)] bg-soft-signal text-[var(--source-ink)] [@media(max-height:600px)]:w-[50px]">
+    <div className="relative flex h-full w-[64px] shrink-0 select-none flex-col items-center border-r-2 border-[var(--source-ink)] bg-primary text-[var(--source-ink)] [@media(max-height:600px)]:w-[50px]">
       <div className="relative flex h-[62px] w-full items-center justify-center border-b-2 border-[var(--source-ink)]">
         <button
           type="button"
-          className="relative inline-flex size-10 items-center justify-center rounded-none border-2 border-[var(--source-ink)] bg-[var(--source-ink)] text-base font-bold text-soft-signal shadow-[var(--source-shadow-sm)] transition-shadow duration-100 hover:shadow-[var(--source-shadow-md)] [@media(max-height:600px)]:h-9 [@media(max-height:600px)]:w-9"
+          className="relative inline-flex size-10 items-center justify-center rounded-none border-2 border-[var(--source-ink)] bg-[var(--source-ink)] text-base font-bold text-primary shadow-[var(--source-shadow-sm)] transition-shadow duration-100 hover:shadow-[var(--source-shadow-md)] [@media(max-height:600px)]:h-9 [@media(max-height:600px)]:w-9"
           aria-label="Switch server"
         >
           R

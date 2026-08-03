@@ -72,8 +72,8 @@ const select = tv({
         item: [
           "border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground-strong last:border-b-0",
           "[&_[data-slot='select-item-text']]:font-bold",
-          "hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30",
-          "data-[selected]:bg-layer-popover data-[selected]:hover:bg-soft-signal/30 data-[selected][data-highlighted]:bg-soft-signal/30",
+          "hover:bg-primary/30 data-[highlighted]:bg-primary/30",
+          "data-[selected]:bg-layer-popover data-[selected]:hover:bg-primary/30 data-[selected][data-highlighted]:bg-primary/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-strong/30",
           "[&>svg]:pointer-events-none [&>svg]:shrink-0",
           "[&>svg:not([class*='size-'])]:size-3",
@@ -135,7 +135,7 @@ const select = tv({
         groupLabel: [
           "px-2 text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground-strong/45",
         ],
-        separator: ["hidden bg-line-faint"],
+        separator: ["hidden bg-line-hairline"],
         scrollArrow: ["bg-layer-popover text-foreground-placeholder hover:text-foreground-muted"],
         empty: ["text-foreground-muted"],
       },

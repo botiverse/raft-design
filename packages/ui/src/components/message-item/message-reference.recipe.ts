@@ -59,10 +59,10 @@ export const messageReference = tv({
       variant: "primary",
       class: {
         root: [
-          "inline-flex cursor-default items-center gap-1 align-bottom border border-black bg-soft-signal px-1",
+          "inline-flex cursor-default items-center gap-1 align-bottom border border-black bg-primary px-1",
           "[font-size:inherit] font-medium leading-tight text-black",
           "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
-          "hover:bg-soft-signal/80 hover:text-black",
+          "hover:bg-primary/80 hover:text-black",
         ],
       },
     },
@@ -186,7 +186,7 @@ export const messageReference = tv({
       variant: ["accent", "info"],
       class: {
         root: [
-          "[--reference-badge:var(--accent-soft-foreground)]",
+          "[--reference-badge:var(--accent-strong)]",
           "bg-[oklch(0.965_0.019_358.59)] text-[oklch(0.543_0.215_359.77)]",
           "hover:bg-[oklch(0.965_0.019_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
         ],
@@ -207,9 +207,9 @@ export const messageReference = tv({
       variant: "link",
       class: {
         root: [
-          "[--reference-badge:var(--info-soft-foreground)]",
-          "bg-[oklch(0.966_0.022_224.02)] text-info-soft-foreground",
-          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-info-soft-foreground",
+          "[--reference-badge:var(--info-strong)]",
+          "bg-[oklch(0.966_0.022_224.02)] text-info-strong",
+          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-info-strong",
         ],
       },
     },

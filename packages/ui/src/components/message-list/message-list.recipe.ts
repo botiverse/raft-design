@@ -25,7 +25,7 @@ export const messageList = tv({
       elegant: {
         content: "md:pb-[var(--panel-footer-clearance)]",
         dateDividerRoot: "opacity-70",
-        dateDividerRule: "border-t border-line-faint",
+        dateDividerRule: "border-t border-line-hairline",
         dateDividerChipWrap: "bg-layer-panel",
         dateDividerChip:
           "bg-layer-panel px-2 font-mono text-[11px] font-normal uppercase tracking-widest text-foreground-muted",

@@ -48,7 +48,7 @@ export const messageReaction = tv({
           "gap-0.5 px-1.5 py-1",
           "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
           "rounded-none border-2 border-black bg-white",
-          // Live `shadow-soft-popover`: 0 4px 12px rgba(0,0,0,0.08)
+          // Live `shadow-faint-popover`: 0 4px 12px rgba(0,0,0,0.08)
           "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
         pickerStatic: [

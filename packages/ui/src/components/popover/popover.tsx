@@ -41,14 +41,14 @@ const popover = tv({
       },
       elegant: {
         content: ["rounded-md bg-layer-popover", "shadow-xl"],
-        separator: ["border-line-faint"],
+        separator: ["border-line-hairline"],
         title: ["text-[11px] font-medium tracking-[-0.005em] text-foreground-strong/45"],
         description: ["text-xs leading-5 text-foreground-muted"],
         close: [
           "text-[11px] font-medium tracking-[-0.005em]",
           "text-foreground-muted transition-colors duration-150 hover:text-foreground",
         ],
-        arrow: ["border-l border-t border-line-faint bg-layer-popover"],
+        arrow: ["border-l border-t border-line-hairline bg-layer-popover"],
         backdrop: ["bg-layer-backdrop backdrop-blur-[2px]"],
       },
     },

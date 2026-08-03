@@ -4,12 +4,12 @@ const drawerMotion = tv({
   slots: {
     overlay: [
       "opacity-[max(var(--drawer-overlay-min-opacity,0),calc(1-var(--drawer-swipe-progress)))]",
-      "transition-opacity duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
+      "transition-opacity duration-200 ease-slide",
       "data-starting-style:opacity-0 data-ending-style:pointer-events-none data-ending-style:opacity-0 data-ending-style:duration-150",
       "motion-reduce:transition-none",
     ],
     popup: [
-      "[--drawer-blur:2px] [--drawer-ease:cubic-bezier(0.32,0.72,0,1)]",
+      "[--drawer-blur:2px] [--drawer-ease:var(--ease-slide)]",
       "[--closed-transform:translate3d(var(--drawer-exit-x,0px),var(--drawer-exit-y,0px),0)]",
       "[--drawer-stack-peek:16px] [--drawer-stack-step:0.05]",
       "[--drawer-stack-progress:clamp(0,var(--drawer-swipe-progress),1)]",
@@ -28,7 +28,7 @@ const drawerMotion = tv({
       "data-swiping:duration-0 data-nested-drawer-swiping:duration-0 motion-reduce:transition-none",
     ],
     content: [
-      "transition-opacity duration-150 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none",
+      "transition-opacity duration-150 ease-slide motion-reduce:transition-none",
       "group-data-nested-drawer-open/drawer-popup:opacity-0 group-data-nested-drawer-swiping/drawer-popup:opacity-100",
     ],
     swipeHandle: [

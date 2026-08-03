@@ -47,7 +47,7 @@ const tooltip = tv({
     theme: {
       brutal: {
         content: [
-          "border-2 border-line-strong bg-soft-signal",
+          "border-2 border-line-strong bg-primary",
           "font-sans font-bold text-foreground-strong",
           "shadow-sm",
           "[&_[data-slot=kbd]]:border-line-strong/70 [&_[data-slot=kbd]]:bg-layer-panel [&_[data-slot=kbd]]:text-foreground-strong/70 [&_[data-slot=kbd]]:ring-0",

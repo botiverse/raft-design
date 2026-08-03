@@ -21,7 +21,7 @@ export const taskDnd = tv({
         overlay: ["z-20 opacity-90", "[&_[data-slot=task-card]]:shadow-md"],
         placeholder: [
           "h-[var(--task-dnd-placeholder-height,72px)] border-2 border-dashed border-line-strong",
-          "bg-soft-signal/20",
+          "bg-primary/20",
           "data-[drop-state=allowed]:block",
         ],
       },

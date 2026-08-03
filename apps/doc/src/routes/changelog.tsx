@@ -100,7 +100,7 @@ function renderInlineMarkdown(value: string): ReactNode[] {
           href={linkMatch[2]}
           target="_blank"
           rel="noreferrer"
-          className="font-medium text-foreground underline decoration-line-faint underline-offset-4 transition-colors hover:decoration-foreground-muted"
+          className="font-medium text-foreground underline decoration-line-hairline underline-offset-4 transition-colors hover:decoration-foreground-muted"
         >
           {linkMatch[1]}
         </a>,
@@ -174,7 +174,7 @@ function ChangelogDoc() {
                       href={release.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="font-medium text-foreground underline decoration-line-faint underline-offset-4 transition-colors hover:decoration-foreground-muted"
+                      className="font-medium text-foreground underline decoration-line-hairline underline-offset-4 transition-colors hover:decoration-foreground-muted"
                     >
                       Compare
                     </a>

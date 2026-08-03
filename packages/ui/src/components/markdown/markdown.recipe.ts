@@ -8,7 +8,7 @@ export const markdown = tv({
       "select-text underline decoration-2 underline-offset-2",
       "text-[oklch(0.81_0.19_88.08)]",
     ],
-    mark: ["bg-soft-signal/70 text-inherit [font:inherit]"],
+    mark: ["bg-primary/70 text-inherit [font:inherit]"],
     list: ["mb-1 pl-5"],
     listItem: ["mb-0.5"],
     blockquote: [],

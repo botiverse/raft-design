@@ -41,7 +41,7 @@ export function PropsTable({
                   {row.name}
                 </InlineCode>
               </td>
-              <td className="py-3 pr-6 font-mono text-xs text-info-soft-foreground">{row.type}</td>
+              <td className="py-3 pr-6 font-mono text-xs text-info-strong">{row.type}</td>
               {showDefault ? (
                 <td className="py-3 pr-6 font-mono text-xs text-foreground-muted">
                   {hasDefaultValue(row.default) ? row.default : "—"}

@@ -5,7 +5,7 @@ import { tv, type VariantProps } from "../../lib/tv";
 const textColorVariants = {
   default: ["text-foreground"],
   primary: ["text-primary-700"],
-  information: ["text-info-soft-foreground"],
+  information: ["text-info-strong"],
   muted: ["text-foreground-muted"],
   placeholder: ["text-foreground-placeholder"],
   accent: ["text-accent-700"],

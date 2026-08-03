@@ -77,7 +77,7 @@ type DriverConfig = {
 type LiveAgentActivityMotion = "entering" | "entered" | "exiting";
 
 const activityMotionClass = [
-  "motion-safe:transition-[transform,opacity,filter] motion-safe:duration-220 motion-safe:ease-[cubic-bezier(0.32,0.72,0,1)] motion-safe:will-change-[transform,opacity,filter]",
+  "motion-safe:transition-[transform,opacity,filter] motion-safe:duration-220 motion-safe:ease-slide motion-safe:will-change-[transform,opacity,filter]",
   "data-[motion=entering]:translate-y-2 data-[motion=entering]:opacity-0 data-[motion=entering]:blur-[2px]",
   "data-[motion=exiting]:translate-y-2 data-[motion=exiting]:opacity-0 data-[motion=exiting]:blur-[2px]",
   "motion-reduce:!translate-y-0 motion-reduce:!blur-none motion-reduce:transition-opacity",

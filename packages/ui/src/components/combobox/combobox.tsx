@@ -68,8 +68,8 @@ const combobox = tv({
           "shadow-none",
           "hover:translate-x-0 hover:translate-y-0 hover:shadow-none",
           "active:translate-x-0 active:translate-y-0 active:shadow-none",
-          "data-[has-value]:bg-soft-signal data-[has-value]:text-foreground-strong data-[has-value]:shadow-sm",
-          "data-[has-value]:hover:bg-soft-signal data-[has-value]:hover:shadow-sm data-[has-value]:active:shadow-sm",
+          "data-[has-value]:bg-primary data-[has-value]:text-foreground-strong data-[has-value]:shadow-sm",
+          "data-[has-value]:hover:bg-primary data-[has-value]:hover:shadow-sm data-[has-value]:active:shadow-sm",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-4",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-2",
         ],
@@ -128,10 +128,10 @@ const combobox = tv({
         triggerCount: [
           "rounded-sm bg-primary-400 font-sans font-medium tracking-[0.22px] text-primary-950",
         ],
-        inputGroup: ["border-line-faint bg-layer-popover px-1.5 pt-1 pb-2"],
+        inputGroup: ["border-line-hairline bg-layer-popover px-1.5 pt-1 pb-2"],
         content: ["rounded-md bg-layer-popover", "shadow-lg"],
         header: ["pl-2 pr-1.5 pt-2.5 pb-0.5"],
-        separator: ["hidden bg-line-faint"],
+        separator: ["hidden bg-line-hairline"],
         list: ["flex flex-col gap-0.5 px-1.5 py-1"],
         item: [
           "rounded-sm bg-transparent px-2 text-sm font-normal tracking-[-0.005em] text-foreground-muted",

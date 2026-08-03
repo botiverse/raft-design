@@ -166,43 +166,43 @@ const LEGACY_CONTEXTS = [
 const LEGACY_CONTEXT_MARKERS = {
   "profile-tile": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-soft-foreground",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "account-tile": {
     label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-soft-foreground",
+    className: "border-warning/40 bg-warning/10 text-warning-strong",
   },
   "mention-card": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-soft-foreground",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "panel-header": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-soft-foreground",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "surface-list": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-soft-foreground",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "members-row": {
     label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-soft-foreground",
+    className: "border-warning/40 bg-warning/10 text-warning-strong",
   },
   "creator-link": {
     label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-soft-foreground",
+    className: "border-warning/40 bg-warning/10 text-warning-strong",
   },
   "compact-list": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-soft-foreground",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "sidebar-list": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-soft-foreground",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "preview-mini": {
     label: "kept",
-    className: "border-success/40 bg-success/10 text-success-soft-foreground",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
 } as const;
 
@@ -885,9 +885,7 @@ function SourceSizeTable() {
         <tbody>
           {SOURCE_SIZE_ROWS.map((row) => (
             <tr key={row.context} className="border-b border-line-muted align-top">
-              <td className="py-3 pr-6 font-mono text-xs text-info-soft-foreground">
-                {row.context}
-              </td>
+              <td className="py-3 pr-6 font-mono text-xs text-info-strong">{row.context}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.sourceFrame}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.sourceInner}</td>
               <td className="py-3 pr-6 font-mono text-xs text-foreground">{row.current}</td>

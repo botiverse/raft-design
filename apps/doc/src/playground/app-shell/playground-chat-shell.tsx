@@ -84,7 +84,7 @@ export function PlaygroundChatShell() {
       sidebarCollapsible={isDesktop}
       className={cn(
         "h-full max-md:h-dvh max-md:overflow-hidden",
-        theme === "brutal" && (mobileListPanel ? "max-md:bg-soft-signal" : "max-md:bg-white"),
+        theme === "brutal" && (mobileListPanel ? "max-md:bg-primary" : "max-md:bg-white"),
       )}
     >
       <PlaygroundRail showBottomNavigation={mobileListPanel} />

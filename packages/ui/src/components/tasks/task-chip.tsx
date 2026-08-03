@@ -61,14 +61,14 @@ const taskChip = tv({
       theme: "elegant",
       status: "in-review",
       class: {
-        root: "border-warning/75 bg-warning/10 text-warning-soft-foreground",
+        root: "border-warning/75 bg-warning/10 text-warning-strong",
       },
     },
     {
       theme: "elegant",
       status: "done",
       class: {
-        root: "border-success/75 bg-success/10 text-success-soft-foreground",
+        root: "border-success/75 bg-success/10 text-success-strong",
       },
     },
     {

@@ -27,8 +27,8 @@ const composerSuggestionList = tv({
         item: [
           "cursor-pointer text-sm font-medium text-black transition-colors",
           "data-[disabled=true]:cursor-not-allowed",
-          "data-[highlighted=true]:bg-soft-signal data-[highlighted=true]:font-bold",
-          "hover:bg-soft-signal/50",
+          "data-[highlighted=true]:bg-primary data-[highlighted=true]:font-bold",
+          "hover:bg-primary/50",
           "data-[disabled=true]:text-black/50 data-[disabled=true]:hover:bg-black/5",
         ],
         meta: "text-xs text-black/50",
@@ -75,7 +75,7 @@ const composerSuggestionList = tv({
         icon: [
           "flex size-5 items-center justify-center border",
           "[&_svg]:size-3",
-          "border-black bg-soft-signal text-black",
+          "border-black bg-primary text-black",
         ],
       },
     },

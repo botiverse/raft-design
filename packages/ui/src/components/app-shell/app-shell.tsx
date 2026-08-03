@@ -33,7 +33,7 @@ const appShell = tv({
       brutal: {
         root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black max-md:bg-white"],
         railSlot:
-          "w-16 md:border-r-2 md:border-black bg-soft-signal text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
+          "w-16 md:border-r-2 md:border-black bg-primary text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
         sidebarSlot: "w-60 border-r-2 border-black bg-brutal-cream",
         mainSlot: "bg-white",
       },
@@ -189,7 +189,7 @@ export function AppShellSidebarSlot({ className, render, ...props }: AppShellSid
         className,
         sidebar?.collapsible && [
           "will-change-[opacity]",
-          "transition-opacity duration-160 ease-[cubic-bezier(0.32,0.72,0,1)]",
+          "transition-opacity duration-160 ease-slide",
           "motion-reduce:transition-none",
           "group-data-[state=collapsed]/app-shell:pointer-events-none",
           "group-data-[state=collapsed]/app-shell:opacity-0",
@@ -221,7 +221,7 @@ export function AppShellMainSlot({ className, render, ...props }: AppShellMainSl
         className,
         sidebar?.collapsible && [
           "absolute inset-y-0 right-0 left-0 z-45",
-          "transition-[left] duration-220 ease-[cubic-bezier(0.32,0.72,0,1)]",
+          "transition-[left] duration-220 ease-slide",
           "motion-reduce:transition-none",
           "group-data-[state=collapsed]/app-shell:left-[calc(var(--app-shell-sidebar-width)*-1)]",
         ],

@@ -10,7 +10,7 @@ export const messageTextSelectionToolbar = tv({
     theme: {
       brutal: {
         toolbar: "border-2 border-black bg-white font-semibold shadow-sm",
-        button: "text-black hover:bg-soft-signal/30 focus-visible:bg-soft-signal/30",
+        button: "text-black hover:bg-primary/30 focus-visible:bg-primary/30",
         separator: "bg-black/20",
       },
       elegant: {

@@ -21,7 +21,7 @@ export const legacyTaskPanel = tv({
     theme: {
       brutal: {
         frame: ["border-2 border-black shadow-md"],
-        icon: ["border-2 border-black bg-soft-signal text-black"],
+        icon: ["border-2 border-black bg-primary text-black"],
         section: ["space-y-3 border-2 border-black bg-white shadow-md"],
         fieldLabel: ["text-black/40"],
         fieldTitle: ["font-bold text-black"],

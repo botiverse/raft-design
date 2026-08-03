@@ -18,7 +18,7 @@ export function SourceMobileNavPreview() {
           key={label}
           className={`flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-bold tracking-wider ${
             index < ITEMS.length - 1 ? "border-r-2 border-black" : ""
-          } ${selected ? "bg-soft-signal" : "bg-white"}`}
+          } ${selected ? "bg-primary" : "bg-white"}`}
         >
           <Icon size={18} aria-hidden />
           <span>{label}</span>

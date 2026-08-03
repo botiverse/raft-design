@@ -27,7 +27,7 @@ const radioGroup = tv({
         item: [
           "size-4 border-2 border-line-strong bg-layer-panel text-foreground",
           "hover:bg-primary-400/30 data-[checked]:bg-primary-400",
-          "data-[disabled]:border-line-faint data-[disabled]:bg-fill-muted data-[disabled]:text-line data-[disabled]:hover:bg-fill-muted",
+          "data-[disabled]:border-line-hairline data-[disabled]:bg-fill-muted data-[disabled]:text-line data-[disabled]:hover:bg-fill-muted",
           "data-[checked]:data-[disabled]:bg-fill-muted",
           "focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
         ],

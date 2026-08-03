@@ -686,7 +686,7 @@ export function Sidebar() {
             <NavGroup key={group.title} {...group} />
           ))}
 
-          <Separator className="h-0 bg-transparent border-t border-dashed border-line-faint data-[orientation=horizontal]:w-[65%]" />
+          <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
 
           {NAV.map((group) => (
             <NavGroup key={group.title} {...group} />

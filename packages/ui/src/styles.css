@@ -3,23 +3,23 @@
      role      = foreground | layer | line | fill
      purpose   = icon, placeholder, disabled, inverse, page, panel, popover, ...
                  (unordered axis — names say where the token is used)
-     intensity = strong > (bare default) > muted > faint
-                 (strictly ordered axis, four steps max; "subtle" is banned)
+     intensity = strong > (bare default) > muted
+                 (strictly ordered axis; "subtle" is banned)
      layer = places on the elevation ladder; fill = opaque neutral interaction
      fills (resting/hover/active/disabled surfaces) — the opaque counterpart
      of the translucent ink washes.
-   Families:  {family}(-{slot})
+   Families:  {family}(-{slot}) — the neutral ladder plus a fourth wash step:
      family = primary | accent | secondary | info | success | warning | danger
-     slot   = bare (solid fill) | -foreground (text on the solid)
-              | -soft (soft wash) | -soft-strong (strong wash)
-              | -soft-foreground (text on the wash)
+     slot   = -strong (deep shade: readable text, rings) > bare (solid fill)
+              > -muted (strong wash) > -soft (soft wash)
+              | -foreground (text on the solid)
               | -hover / -active (derived interaction pair, opt-in per family;
                 an opted-in family always gets both)
    Washes:    ink-{alpha%} (2..40) — neutral overlays, hairlines, hover fills.
    Opacity rule: layer and fill tokens are opaque in every theme; -backdrop is
    the only translucent layer token (an overlay by contract).
    Interaction fills: transparent resting → ink-N directly; solid family fill →
-   the family's -hover/-active pair; neutral surface → step up the fill pair.
+   the family's -hover/-active pair; neutral or tinted surface → step up its ladder.
    Escape hatches: ink ramp for one-off washes; inline oklch() literals for
    one-off precision values (tokenize on the third repeat). */
 
@@ -34,6 +34,7 @@
 
 @theme {
   --shadow-*: initial;
+  --color-neutral-*: initial;
 
   --color-black: oklch(0 0 0);
   --color-white: oklch(1 0 0);
@@ -51,16 +52,15 @@
   --color-brutal-red: var(--color-brutal-red-400);
   --color-brutal-stone: var(--color-brutal-stone-400);
   --color-brutal-cream: var(--color-brutal-cream-200);
-  --color-soft-signal: var(--color-brutal-yellow-400);
 
-  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-slide: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 @theme inline {
   --color-foreground: var(--foreground);
   --color-foreground-strong: var(--foreground-strong);
   --color-foreground-muted: var(--foreground-muted);
-  --color-foreground-faint: var(--foreground-faint);
+  --color-foreground-hint: var(--foreground-hint);
   --color-foreground-icon: var(--foreground-icon);
   --color-foreground-placeholder: var(--foreground-placeholder);
   --color-foreground-disabled: var(--foreground-disabled);
@@ -84,7 +84,7 @@
   --color-line-strong: var(--line-strong);
   --color-line: var(--line);
   --color-line-muted: var(--line-muted);
-  --color-line-faint: var(--line-faint);
+  --color-line-hairline: var(--line-hairline);
   --color-line-field: var(--line-field);
   --color-line-field-hover: var(--line-field-hover);
   --color-line-code: var(--line-code);
@@ -112,10 +112,10 @@
   --color-primary-800: var(--primary-800);
   --color-primary-900: var(--primary-900);
   --color-primary-950: var(--primary-950);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
   --color-primary-hover: var(--primary-hover);
   --color-primary-active: var(--primary-active);
-  --color-primary-soft: var(--primary-soft);
-  --color-primary-soft-foreground: var(--primary-soft-foreground);
 
   --color-accent: var(--accent-400);
   --color-accent-50: var(--accent-50);
@@ -129,10 +129,10 @@
   --color-accent-800: var(--accent-800);
   --color-accent-900: var(--accent-900);
   --color-accent-950: var(--accent-950);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
   --color-accent-hover: var(--accent-hover);
   --color-accent-active: var(--accent-active);
-  --color-accent-soft: var(--accent-soft);
-  --color-accent-soft-foreground: var(--accent-soft-foreground);
 
   --color-secondary: var(--secondary-400);
   --color-secondary-50: var(--secondary-50);
@@ -147,47 +147,43 @@
   --color-secondary-900: var(--secondary-900);
   --color-secondary-950: var(--secondary-950);
 
-  --color-neutral: var(--neutral);
-  --color-neutral-foreground: var(--neutral-foreground);
-
   --color-info: var(--info);
+  --color-info-strong: var(--info-strong);
+  --color-info-muted: var(--info-muted);
   --color-info-soft: var(--info-soft);
-  --color-info-soft-strong: var(--info-soft-strong);
-  --color-info-soft-foreground: var(--info-soft-foreground);
   --color-info-hover: var(--info-hover);
   --color-info-active: var(--info-active);
 
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+  --color-success-strong: var(--success-strong);
+  --color-success-muted: var(--success-muted);
   --color-success-soft: var(--success-soft);
-  --color-success-soft-strong: var(--success-soft-strong);
-  --color-success-soft-foreground: var(--success-soft-foreground);
 
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-warning-strong: var(--warning-strong);
+  --color-warning-muted: var(--warning-muted);
   --color-warning-soft: var(--warning-soft);
-  --color-warning-soft-strong: var(--warning-soft-strong);
-  --color-warning-soft-foreground: var(--warning-soft-foreground);
   --color-warning-hover: var(--warning-hover);
   --color-warning-active: var(--warning-active);
 
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
+  --color-danger-strong: var(--danger-strong);
+  --color-danger-muted: var(--danger-muted);
   --color-danger-soft: var(--danger-soft);
-  --color-danger-soft-strong: var(--danger-soft-strong);
-  --color-danger-soft-foreground: var(--danger-soft-foreground);
   --color-danger-hover: var(--danger-hover);
   --color-danger-active: var(--danger-active);
+
+  --color-neutral: var(--neutral);
+  --color-neutral-foreground: var(--neutral-foreground);
 
   --shadow-xs: var(--theme-shadow-xs);
   --shadow-sm: var(--theme-shadow-sm);
   --shadow-md: var(--theme-shadow-md);
   --shadow-lg: var(--theme-shadow-lg);
   --shadow-xl: var(--theme-shadow-xl);
-  --shadow-field-hover: var(--theme-shadow-field-hover);
-  --shadow-code-edge: var(--theme-shadow-code-edge);
-  --shadow-tab-raised: var(--theme-shadow-tab-raised);
-  --shadow-tab-raised-dim: var(--theme-shadow-tab-raised-dim);
 
   --font-heading: var(--heading-font, system-ui, sans-serif);
   --font-sans: var(--sans-font, system-ui, sans-serif);
@@ -310,22 +306,10 @@
    too, so a nested brutal scope inside an elegant page resolves brutal values. */
 :where(:root),
 [data-theme="brutal"] {
-  /* Ink overlay ramp — step suffix = alpha %. For fills, hairlines, hover/active washes. */
-  --ink: oklch(0 0 0);
-  --ink-2: oklch(0 0 0 / 0.02);
-  --ink-4: oklch(0 0 0 / 0.04);
-  --ink-6: oklch(0 0 0 / 0.06);
-  --ink-8: oklch(0 0 0 / 0.08);
-  --ink-10: oklch(0 0 0 / 0.1);
-  --ink-16: oklch(0 0 0 / 0.16);
-  --ink-20: oklch(0 0 0 / 0.2);
-  --ink-30: oklch(0 0 0 / 0.3);
-  --ink-40: oklch(0 0 0 / 0.4);
-
   --foreground: oklch(0.18 0.006 25);
   --foreground-strong: oklch(0.18 0.006 25);
   --foreground-muted: oklch(0.18 0.006 25 / 0.6);
-  --foreground-faint: oklch(0.48 0 0);
+  --foreground-hint: oklch(0.48 0 0);
   --foreground-icon: oklch(0.18 0.006 25 / 0.68);
   --foreground-placeholder: oklch(0.18 0.006 25 / 0.5);
   --foreground-disabled: oklch(0.18 0.006 25 / 0.3);
@@ -354,13 +338,24 @@
   --line-strong: oklch(0.18 0.006 25);
   --line: oklch(0.18 0.006 25);
   --line-muted: oklch(0.18 0.006 25 / 0.3);
-  --line-faint: oklch(0.18 0.006 25 / 0.15);
+  --line-hairline: oklch(0.18 0.006 25 / 0.15);
   --line-code: oklch(0 0 0 / 0.12);
 
   /* Field-scoped tokens shared by input, input-group, and textarea. */
   --line-field: oklch(0.94 0 0);
   --line-field-hover: oklch(0.91 0 0);
-  --theme-shadow-field-hover: 0px 1px 2px 0px oklch(0.159 0.016 266.594 / 0.03);
+
+  /* Ink overlay ramp — step suffix = alpha %. For fills, hairlines, hover/active washes. */
+  --ink: oklch(0 0 0);
+  --ink-2: oklch(0 0 0 / 0.02);
+  --ink-4: oklch(0 0 0 / 0.04);
+  --ink-6: oklch(0 0 0 / 0.06);
+  --ink-8: oklch(0 0 0 / 0.08);
+  --ink-10: oklch(0 0 0 / 0.1);
+  --ink-16: oklch(0 0 0 / 0.16);
+  --ink-20: oklch(0 0 0 / 0.2);
+  --ink-30: oklch(0 0 0 / 0.3);
+  --ink-40: oklch(0 0 0 / 0.4);
 
   --primary-50: var(--color-brutal-yellow-50);
   --primary-100: var(--color-brutal-yellow-100);
@@ -399,40 +394,40 @@
   --secondary-950: var(--color-brutal-stone-950);
 
   /* State families — brutal-parity slot values. Solids and -foreground are
-     theme-invariant; each theme re-tunes only the soft triad. */
+     theme-invariant; each theme re-tunes the ladder steps. */
   --info: var(--color-brutal-cyan-400);
+  --info-strong: var(--color-brutal-cyan-800);
+  --info-muted: var(--color-brutal-cyan-200);
   --info-soft: var(--color-brutal-cyan-100);
-  --info-soft-strong: var(--color-brutal-cyan-200);
-  --info-soft-foreground: var(--color-brutal-cyan-800);
 
   --success: oklch(0.714 0.176 153.079);
   --success-foreground: oklch(1 0 0);
+  --success-strong: oklch(0.366 0.09 153.079);
+  --success-muted: oklch(0.91 0.149 153.079);
   --success-soft: oklch(0.949 0.079 153.079);
-  --success-soft-strong: oklch(0.91 0.149 153.079);
-  --success-soft-foreground: oklch(0.366 0.09 153.079);
 
   --warning: oklch(0.7 0.202 44.441);
   --warning-foreground: oklch(1 0 0);
+  --warning-strong: oklch(0.366 0.106 44.441);
+  --warning-muted: oklch(0.91 0.05 44.441);
   --warning-soft: oklch(0.949 0.027 44.441);
-  --warning-soft-strong: oklch(0.91 0.05 44.441);
-  --warning-soft-foreground: oklch(0.366 0.106 44.441);
 
   --danger: oklch(0.616 0.249 26.758);
   --danger-foreground: oklch(1 0 0);
+  --danger-strong: var(--color-brutal-red-800);
+  --danger-muted: var(--color-brutal-red-200);
   --danger-soft: var(--color-brutal-red-100);
-  --danger-soft-strong: var(--color-brutal-red-200);
-  --danger-soft-foreground: var(--color-brutal-red-800);
 
   --neutral: oklch(0.573 0 0);
   --neutral-foreground: oklch(0.946 0 0);
 
-  /* Brand soft pairs + the shared primary ring edge. */
+  /* Brand ladder steps + the shared primary ring edge. */
+  --primary-strong: oklch(0.44 0.09 91.39);
   --primary-soft: oklch(0.955 0.067 93.62);
-  --primary-soft-foreground: oklch(0.44 0.09 91.39);
   --primary-edge: oklch(0.83 0.14 91.89 / 0.7);
   --primary-glow: oklch(0.85 0.162 91.89);
+  --accent-strong: oklch(0.543 0.215 359.77);
   --accent-soft: oklch(0.914 0.048 358.59);
-  --accent-soft-foreground: oklch(0.543 0.215 359.77);
 
   /* Interaction axis — resting color ⊕ ink, resolves per-theme at use point.
      Families opt in as components need them; an opted-in family always gets the full hover/active pair. */
@@ -453,30 +448,9 @@
   --theme-shadow-md: 4px 4px 0px var(--line-strong);
   --theme-shadow-lg: 4px 4px 0px var(--color-black);
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
-
-  --theme-shadow-code-edge: 0 0 0 0.5px oklch(0 0 0 / 0.22);
-  --theme-shadow-tab-raised:
-    0 0 0 1px oklch(0 0 0 / 0.1), 0 1px 1px -1px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.03);
-  --theme-shadow-tab-raised-dim:
-    0 0 0 1px oklch(0 0 0 / 0.045), 0 1px 1px -1px oklch(0 0 0 / 0.025),
-    0 1px 2px oklch(0 0 0 / 0.02);
-
-  --checker-bg: oklch(1 0 0);
-  --checker-cell: oklch(0.1813 0.00497 17.62 / 0.12);
 }
 
 [data-theme="elegant"] {
-  --ink: oklch(0.21 0.006 106.42);
-  --ink-2: oklch(0.21 0.006 106.42 / 0.02);
-  --ink-4: oklch(0.21 0.006 106.42 / 0.04);
-  --ink-6: oklch(0.21 0.006 106.42 / 0.06);
-  --ink-8: oklch(0.21 0.006 106.42 / 0.08);
-  --ink-10: oklch(0.21 0.006 106.42 / 0.1);
-  --ink-16: oklch(0.21 0.006 106.42 / 0.16);
-  --ink-20: oklch(0.21 0.006 106.42 / 0.2);
-  --ink-30: oklch(0.21 0.006 106.42 / 0.3);
-  --ink-40: oklch(0.21 0.006 106.42 / 0.4);
-
   --foreground: oklch(0.21 0.006 106.42);
   --foreground-strong: oklch(0.145 0 0);
   --foreground-muted: oklch(0.36 0.006 106.42);
@@ -497,21 +471,32 @@
   --line-strong: oklch(0.21 0.006 106.42);
   --line: oklch(0.84 0.006 106.42);
   --line-muted: oklch(0.92 0.004 106.42);
-  --line-faint: var(--ink-8);
+  --line-hairline: var(--ink-8);
 
-  /* Elegant re-tunes the soft washes; solids and -foreground stay shared. */
+  --ink: oklch(0.21 0.006 106.42);
+  --ink-2: oklch(0.21 0.006 106.42 / 0.02);
+  --ink-4: oklch(0.21 0.006 106.42 / 0.04);
+  --ink-6: oklch(0.21 0.006 106.42 / 0.06);
+  --ink-8: oklch(0.21 0.006 106.42 / 0.08);
+  --ink-10: oklch(0.21 0.006 106.42 / 0.1);
+  --ink-16: oklch(0.21 0.006 106.42 / 0.16);
+  --ink-20: oklch(0.21 0.006 106.42 / 0.2);
+  --ink-30: oklch(0.21 0.006 106.42 / 0.3);
+  --ink-40: oklch(0.21 0.006 106.42 / 0.4);
+
+  /* Elegant re-tunes the ladder steps; solids and -foreground stay shared. */
+  --info-strong: oklch(0.441 0.078 221.2);
+  --info-muted: oklch(0.87 0.07 224);
   --info-soft: oklch(0.91 0.056 224.02);
-  --info-soft-strong: oklch(0.87 0.07 224);
-  --info-soft-foreground: oklch(0.441 0.078 221.2);
+  --success-strong: oklch(0.425 0.113 151.2);
+  --success-muted: oklch(0.875 0.13 160);
   --success-soft: oklch(0.913 0.11 159.9);
-  --success-soft-strong: oklch(0.875 0.13 160);
-  --success-soft-foreground: oklch(0.425 0.113 151.2);
+  --warning-strong: oklch(0.59 0.2 40.57);
+  --warning-muted: oklch(0.92 0.045 44.4);
   --warning-soft: oklch(0.95 0.03 44.33);
-  --warning-soft-strong: oklch(0.92 0.045 44.4);
-  --warning-soft-foreground: oklch(0.59 0.2 40.57);
+  --danger-strong: oklch(0.445 0.153 32.91);
+  --danger-muted: oklch(0.862 0.065 22.7);
   --danger-soft: oklch(0.898 0.05 22.7);
-  --danger-soft-strong: oklch(0.862 0.065 22.7);
-  --danger-soft-foreground: oklch(0.445 0.153 32.91);
 
   /* xs: pressed · sm: resting · md: hover/focus · lg: floating overlay · xl: modal */
   --theme-shadow-xs: oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px;
@@ -547,21 +532,10 @@
 [data-theme="elegant"].dark {
   color-scheme: dark;
 
-  --ink: oklch(1 0 0);
-  --ink-2: oklch(1 0 0 / 0.02);
-  --ink-4: oklch(1 0 0 / 0.04);
-  --ink-6: oklch(1 0 0 / 0.06);
-  --ink-8: oklch(1 0 0 / 0.08);
-  --ink-10: oklch(1 0 0 / 0.1);
-  --ink-16: oklch(1 0 0 / 0.16);
-  --ink-20: oklch(1 0 0 / 0.2);
-  --ink-30: oklch(1 0 0 / 0.3);
-  --ink-40: oklch(1 0 0 / 0.4);
-
   --foreground: oklch(0.95 0 0);
   --foreground-strong: oklch(0.985 0 0);
   --foreground-muted: oklch(0.82 0 0);
-  --foreground-faint: oklch(0.76 0 0);
+  --foreground-hint: oklch(0.76 0 0);
   --foreground-icon: oklch(0.82 0 0 / 0.68);
   --foreground-placeholder: oklch(0.72 0.006 286);
   --foreground-disabled: oklch(0.65 0.006 286);
@@ -587,34 +561,45 @@
   --line-strong: oklch(0.95 0 0);
   --line: oklch(0.56 0.006 286);
   --line-muted: oklch(1 0 0 / 0.1);
-  --line-faint: oklch(1 0 0 / 0.08);
+  --line-hairline: oklch(1 0 0 / 0.08);
   --line-field: oklch(1 0 0 / 0.15);
   --line-field-hover: oklch(1 0 0 / 0.22);
   --line-code: oklch(1 0 0 / 0.14);
 
-  /* Soft state washes: alpha tints composite correctly on page, panel, and
-     popover alike. Text partners lift to ~L0.80. */
+  --ink: oklch(1 0 0);
+  --ink-2: oklch(1 0 0 / 0.02);
+  --ink-4: oklch(1 0 0 / 0.04);
+  --ink-6: oklch(1 0 0 / 0.06);
+  --ink-8: oklch(1 0 0 / 0.08);
+  --ink-10: oklch(1 0 0 / 0.1);
+  --ink-16: oklch(1 0 0 / 0.16);
+  --ink-20: oklch(1 0 0 / 0.2);
+  --ink-30: oklch(1 0 0 / 0.3);
+  --ink-40: oklch(1 0 0 / 0.4);
+
+  /* State washes: alpha values composite correctly on page, panel, and
+     popover alike. -strong lifts to ~L0.80. */
+  --info-strong: oklch(0.8 0.1 220);
+  --info-muted: oklch(0.52 0.1 222 / 0.28);
   --info-soft: oklch(0.45 0.09 224 / 0.18);
-  --info-soft-strong: oklch(0.52 0.1 222 / 0.28);
-  --info-soft-foreground: oklch(0.8 0.1 220);
+  --success-strong: oklch(0.8 0.14 153);
+  --success-muted: oklch(0.52 0.13 153 / 0.28);
   --success-soft: oklch(0.5 0.12 153 / 0.18);
-  --success-soft-strong: oklch(0.52 0.13 153 / 0.28);
-  --success-soft-foreground: oklch(0.8 0.14 153);
+  --warning-strong: oklch(0.82 0.12 55);
+  --warning-muted: oklch(0.55 0.13 50 / 0.28);
   --warning-soft: oklch(0.52 0.12 50 / 0.18);
-  --warning-soft-strong: oklch(0.55 0.13 50 / 0.28);
-  --warning-soft-foreground: oklch(0.82 0.12 55);
+  --danger-strong: oklch(0.8 0.1 25);
+  --danger-muted: oklch(0.58 0.19 29 / 0.3);
   --danger-soft: oklch(0.55 0.19 29 / 0.18);
-  --danger-soft-strong: oklch(0.58 0.19 29 / 0.3);
-  --danger-soft-foreground: oklch(0.8 0.1 25);
 
   --neutral: oklch(0.65 0 0);
   --neutral-foreground: oklch(0.145 0 0);
 
+  --primary-strong: oklch(0.88 0.13 92);
   --primary-soft: oklch(0.55 0.1 92 / 0.16);
-  --primary-soft-foreground: oklch(0.88 0.13 92);
   --primary-edge: oklch(0.88 0.15 92 / 0.4);
+  --accent-strong: oklch(0.84 0.11 0);
   --accent-soft: oklch(0.6 0.18 0 / 0.16);
-  --accent-soft-foreground: oklch(0.84 0.11 0);
 
   /* Dark shadows: white-alpha hairline ring replaces the light edge, ambient
      drops darken instead of disappearing. */
@@ -631,16 +616,6 @@
   --theme-shadow-xl:
     0px 0px 0px 1px oklch(1 0 0 / 0.1), 0px 18px 24px -12px oklch(0 0 0 / 0.45),
     0px 12px 12px -6px oklch(0 0 0 / 0.45), 0px 4px 6px -3px oklch(0 0 0 / 0.5);
-  --theme-shadow-field-hover: 0px 1px 2px 0px oklch(0 0 0 / 0.35);
-
-  --theme-shadow-code-edge: 0 0 0 0.5px oklch(1 0 0 / 0.16);
-  --theme-shadow-tab-raised:
-    0 0 0 1px oklch(1 0 0 / 0.1), 0 1px 1px -1px oklch(0 0 0 / 0.2), 0 1px 2px oklch(0 0 0 / 0.15);
-  --theme-shadow-tab-raised-dim:
-    0 0 0 1px oklch(1 0 0 / 0.08), 0 1px 1px -1px oklch(0 0 0 / 0.15), 0 1px 2px oklch(0 0 0 / 0.1);
-
-  --checker-bg: oklch(0.23 0 0);
-  --checker-cell: oklch(1 0 0 / 0.1);
 }
 
 *,
@@ -671,7 +646,8 @@ body {
 }
 
 @utility image-transparency-bg {
-  background-color: var(--checker-bg);
+  --checker-cell: light-dark(oklch(0.1813 0.00497 17.62 / 0.12), oklch(1 0 0 / 0.1));
+  background-color: light-dark(oklch(1 0 0), oklch(0.23 0 0));
   background-image:
     linear-gradient(45deg, var(--checker-cell) 25%, transparent 25%),
     linear-gradient(-45deg, var(--checker-cell) 25%, transparent 25%),

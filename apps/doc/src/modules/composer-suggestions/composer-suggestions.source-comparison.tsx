@@ -40,7 +40,7 @@ export function ComposerSuggestionsSourceComparison() {
               <div
                 key={person.handle}
                 className={`flex w-full items-center gap-2 px-3 py-2 text-sm font-medium transition-colors ${
-                  selected ? "bg-soft-signal font-bold text-black" : "text-black"
+                  selected ? "bg-primary font-bold text-black" : "text-black"
                 }`}
               >
                 <LegacyAvatarSlot
@@ -56,7 +56,7 @@ export function ComposerSuggestionsSourceComparison() {
                   {person.type === "agent" ? (
                     <span
                       aria-hidden
-                      className="size-2.5 shrink-0 animate-pulse rounded-full border border-black bg-soft-signal"
+                      className="size-2.5 shrink-0 animate-pulse rounded-full border border-black bg-primary"
                     />
                   ) : null}
                   <span

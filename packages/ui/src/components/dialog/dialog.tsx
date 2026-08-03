@@ -43,7 +43,7 @@ const dialog = tv({
         body: ["px-6 py-5"],
         footer: ["border-t border-line-muted/75 bg-layer-inset px-6 py-3"],
         title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
-        description: ["font-sans text-sm leading-5 text-foreground-faint"],
+        description: ["font-sans text-sm leading-5 text-foreground-hint"],
       },
     },
   },

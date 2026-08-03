@@ -56,7 +56,7 @@ export function PopoverNotificationComposition() {
             </span>
           </PopoverHeader>
           <PopoverSeparator />
-          <ul className="divide-y divide-line-faint [[data-theme=brutal]_&]:divide-y-2 [[data-theme=brutal]_&]:divide-black">
+          <ul className="divide-y divide-line-hairline [[data-theme=brutal]_&]:divide-y-2 [[data-theme=brutal]_&]:divide-black">
             {notifications.map((notification) => (
               <li key={notification.id} className="px-3 py-3">
                 <div className="flex items-start gap-2">

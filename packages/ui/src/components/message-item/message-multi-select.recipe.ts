@@ -14,7 +14,7 @@ export const messageMultiSelect = tv({
     theme: {
       brutal: {
         toolbar:
-          "border-t-2 border-line-strong bg-soft-signal px-2 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom,0px))]",
+          "border-t-2 border-line-strong bg-primary px-2 pt-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom,0px))]",
       },
       elegant: {
         toolbar:
