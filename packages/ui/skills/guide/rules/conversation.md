@@ -49,7 +49,7 @@ They are not the same component with a different width.
 
 `ThreadPanel` carries thread-specific parts that have no equivalent in the conversation column: `ThreadPanelOriginalMessage`, `ThreadPanelReplyCount`, `ThreadPanelReplySummary`, and an in-thread search (`ThreadPanelSearch`, `ThreadPanelSearchCount`, `ThreadPanelSearchTrailing`).
 
-`ConversationPanel` keeps its own root, body, tabs, and empty state (`ConversationPanelRoot`, `ConversationPanelBody`, `ConversationPanelContent`, `ConversationPanelFooter`, `ConversationPanelTabs`, `ConversationPanelEmptyState` with `…Brand` / `…BrandMark`), but its **header chrome is the shared `Panel*` set**: `PanelHeader`, `PanelHeaderContent`, `PanelHeaderIcon`, `PanelHeading`, `PanelTitle`, `PanelStatus`, `PanelMeta`, `PanelActions`, `PanelSectionHeader`. These shared header parts are exported for panel-shaped surfaces in general — see the naming warning in [layout.md](./layout.md).
+`ConversationPanel` keeps its own root, body, tabs, and empty state (`ConversationPanelRoot`, `ConversationPanelBody`, `ConversationPanelContent`, `ConversationPanelFooter`, `ConversationPanelTabs`, `ConversationPanelEmptyState` with `…Brand` / `…BrandMark`), but its **header chrome is the shared `Panel*` set owned by the `Panel` component**: `PanelHeader` with `PanelHeaderContent` / `PanelHeaderIcon` / `PanelHeading` / `PanelTitle` / `PanelMeta` / `PanelActions`, plus `PanelStatus` and `PanelActivity` — see the header guidance in [layout.md](./layout.md).
 
 Use `ConversationPanelEmptyState` rather than the generic `EmptyState` inside a conversation.
 

@@ -1,6 +1,6 @@
 ---
 name: layout
-description: "Shell and layout: AppShell slots, Panel and the PanelHeaderFrame naming trap, AppRail vs Sidebar vs MobileNav, Resizable, ScrollArea, task surfaces."
+description: "Shell and layout: AppShell slots, Panel and the PanelHeaderRoot vs PanelHeader distinction, AppRail vs Sidebar vs MobileNav, Resizable, ScrollArea, task surfaces."
 ---
 
 # Layout and shell
@@ -82,19 +82,21 @@ Every adjacent pair of `ResizablePanel`s needs a `ResizableHandle` between them.
 
 ## Panel vs a bordered div
 
-`Panel` is the standard bounded region.
+`Panel` is the standard bounded region, and it owns the whole header vocabulary.
 
 ```tsx
 <Panel>
-  <PanelHeaderFrame>…</PanelHeaderFrame>
+  <PanelHeaderRoot>…</PanelHeaderRoot>
   <PanelBody>…</PanelBody>
   <PanelFooter>…</PanelFooter>
 </Panel>
 ```
 
-**Naming trap:** `Panel`'s own header is `PanelHeaderFrame`. A component named `PanelHeader` also exists, but it is the shared _conversation-style_ header chrome (`PanelHeader` / `PanelHeading` / `PanelTitle` / `PanelStatus` / `PanelMeta` / `PanelActions` / `PanelSectionHeader`) used by panel-shaped product surfaces like `ConversationPanel`. Both type-check inside a `Panel`, so picking the wrong one fails silently. For a plain bounded region use `PanelHeaderFrame`; reach for the `PanelHeader` chrome set when the surface has an identity row (icon, title, status, actions).
+**Two headers, pick by need:** `PanelHeaderRoot` is the bare frame — use it when you lay the header out yourself. `PanelHeader` is the composed identity chrome built on top of it, with `PanelHeaderContent` / `PanelHeaderIcon` / `PanelHeading` / `PanelTitle` / `PanelMeta` / `PanelActions` (`PanelAction`, `PanelToggleAction`) — use it when the surface has an identity row, as `ConversationPanel` does. Both type-check inside a `Panel`, so the wrong pick fails silently.
 
-When the body scrolls, use `PanelScrollViewport` + `PanelScrollContent` instead of putting `overflow-auto` on `PanelBody` — the scroll parts keep the header and footer pinned correctly. `PanelSection` divides the body into sections.
+**`PanelStatus` vs `PanelActivity`:** `PanelStatus` is a standalone attribute badge in the header; `PanelActivity` is a live status readout wrapping a `Status`. Do not use one for the other.
+
+When the body scrolls, use `PanelScrollViewport` + `PanelScrollContent` instead of putting `overflow-auto` on `PanelBody` — the scroll parts keep the header and footer pinned correctly. `PanelSection` divides the body into sections; `PanelSectionHeader` labels one.
 
 Reach for `Panel` before writing `rounded-lg border border-line bg-layer-panel`.
 

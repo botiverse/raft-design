@@ -35,18 +35,18 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 
 ## Common mistakes
 
-| Mistake                                           | Fix                                                                                                 |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `asChild` on a trigger or close part              | Base UI: `render={<Button … />}`                                                                    |
-| Actions menu built out of `Select`                | `DropdownMenu` — see [rules/forms.md](./rules/forms.md)                                             |
-| Persistent condition announced with `toast()`     | `Banner` — toasts expire, conditions don't                                                          |
-| Buttons or links inside a `Tooltip`               | `Popover` — tooltip content is unreachable                                                          |
-| Destructive confirm as a styled `Dialog`          | `AlertDialog` with `AlertDialogAction` / `AlertDialogCancel`                                        |
-| Variant value copied from another component       | Look it up — negative is `danger` / `destructive` / `error` depending on the component              |
-| Hand-rolled error text under an input             | `Field` + `FieldError`                                                                              |
-| `<Panel><PanelHeader>` for a plain bounded region | `PanelHeaderFrame` — `PanelHeader` is conversation chrome, see [rules/layout.md](./rules/layout.md) |
-| Spinner hand-placed inside a `Button`             | `loading` / `loadingLabel` props                                                                    |
-| `<hr>`, styled `<span>` badge, bare `<p>`         | `Separator`, `Badge`, `Text`                                                                        |
+| Mistake                                       | Fix                                                                                                         |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `asChild` on a trigger or close part          | Base UI: `render={<Button … />}`                                                                            |
+| Actions menu built out of `Select`            | `DropdownMenu` — see [rules/forms.md](./rules/forms.md)                                                     |
+| Persistent condition announced with `toast()` | `Banner` — toasts expire, conditions don't                                                                  |
+| Buttons or links inside a `Tooltip`           | `Popover` — tooltip content is unreachable                                                                  |
+| Destructive confirm as a styled `Dialog`      | `AlertDialog` with `AlertDialogAction` / `AlertDialogCancel`                                                |
+| Variant value copied from another component   | Look it up — negative is `danger` / `destructive` / `error` depending on the component                      |
+| Hand-rolled error text under an input         | `Field` + `FieldError`                                                                                      |
+| `PanelHeader` where you meant the bare frame  | `PanelHeaderRoot` — `PanelHeader` is the composed identity chrome, see [rules/layout.md](./rules/layout.md) |
+| Spinner hand-placed inside a `Button`         | `loading` / `loadingLabel` props                                                                            |
+| `<hr>`, styled `<span>` badge, bare `<p>`     | `Separator`, `Badge`, `Text`                                                                                |
 
 ## Which control? Which feedback channel?
 
