@@ -4,7 +4,8 @@
 
 - Never write bare text
 - Text vs TextHeading vs TextMono vs TextSans
-- InlineCode vs CopyableCode
+- InlineCode vs CopyableCode vs CodeBlock
+- Markdown and DescriptionList
 - Avatar
 - FilePreview vs Files
 - Kbd
@@ -55,14 +56,15 @@ Use `size="meta"` for timestamps and IDs, `size="eyebrow"` for the small label a
 
 ---
 
-## InlineCode vs CopyableCode
+## InlineCode vs CopyableCode vs CodeBlock
 
-|                | Use                                                    |
-| -------------- | ------------------------------------------------------ |
-| `InlineCode`   | a token inside a sentence — a prop name, a flag, a key |
-| `CopyableCode` | something the user is meant to run or paste            |
+|                | Use                                                     |
+| -------------- | ------------------------------------------------------- |
+| `InlineCode`   | a token inside a sentence — a prop name, a flag, a key  |
+| `CopyableCode` | a single-line command the user is meant to run or paste |
+| `CodeBlock`    | multi-line code on display                              |
 
-If the user's next move is to select the text, it should have been `CopyableCode`.
+If the user's next move is to select the text, it should have been `CopyableCode` or `CodeBlock`.
 
 ```tsx
 <CopyableCodeRoot>
@@ -73,7 +75,15 @@ If the user's next move is to select the text, it should have been `CopyableCode
 
 `CopyableCode` sizes are `sm` and `md`. Use `truncate` for long single-line commands, and always give `CopyableCodeAction` an `ariaLabel` that says what is being copied.
 
-Never render a `<pre>`/`<code>` block with a hand-built copy button.
+`CodeBlock` composes `CodeBlockHeader` + `CodeBlockTitle` + `CodeBlockActions` + `CodeBlockAction` above a `CodeBlockBody`. Never render a `<pre>`/`<code>` block with a hand-built header or copy button.
+
+---
+
+## Markdown and DescriptionList
+
+Rendered markdown (message bodies, agent output) is styled by the `Markdown*` part set — `MarkdownParagraph`, `MarkdownHeading`, `MarkdownList` / `MarkdownOrderedList` / `MarkdownListItem`, `MarkdownInlineCode`, `MarkdownLink`, `MarkdownBlockquote`, `MarkdownTable` (with `MarkdownTableScroll`), `MarkdownImage`, `MarkdownCheckbox`, `MarkdownRule`, `MarkdownMark`. Map your markdown renderer's nodes to these parts instead of styling tags by hand.
+
+`DescriptionList` renders term/value pairs: `DescriptionItem` wraps `DescriptionTerm` + `DescriptionDetails`, in `horizontal` or `vertical` layout. Use it for metadata blocks and detail panes instead of a hand-built two-column grid.
 
 ---
 

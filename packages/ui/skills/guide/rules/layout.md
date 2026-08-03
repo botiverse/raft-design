@@ -4,7 +4,7 @@
 
 - Use the shell, do not rebuild it
 - AppShell vs Panel vs Resizable
-- AppRail vs ChatSidebar vs MobileNav
+- AppRail vs Sidebar vs MobileNav
 - Panel vs a bordered div
 - ScrollArea vs overflow
 - Per-component norms
@@ -61,13 +61,13 @@ Every adjacent pair of `ResizablePanel`s needs a `ResizableHandle` between them.
 
 ---
 
-## AppRail vs ChatSidebar vs MobileNav
+## AppRail vs Sidebar vs MobileNav
 
-|               | For                                           |
-| ------------- | --------------------------------------------- |
-| `AppRail`     | the narrow icon rail — top-level destinations |
-| `ChatSidebar` | the wide list — channels, DMs, sections       |
-| `MobileNav`   | bottom navigation on small screens            |
+|             | For                                           |
+| ----------- | --------------------------------------------- |
+| `AppRail`   | the narrow icon rail — top-level destinations |
+| `Sidebar`   | the wide list — channels, DMs, sections       |
+| `MobileNav` | bottom navigation on small screens            |
 
 `AppRail` composes `AppRailRoot`, `AppRailHeader`, `AppRailNav`, `AppRailFooter`, and items built from `AppRailItem` + `AppRailItemIcon` + `AppRailItemLabel`. Unread and attention signals have dedicated parts — `AppRailItemBadge`, `AppRailItemIndicator`, `AppRailItemAttention`, `AppRailItemAttentionMask`. Do not position a dot yourself.
 
@@ -81,17 +81,17 @@ Every adjacent pair of `ResizablePanel`s needs a `ResizableHandle` between them.
 
 ```tsx
 <Panel>
-  <PanelHeader>…</PanelHeader>
+  <PanelHeaderFrame>…</PanelHeaderFrame>
   <PanelBody>…</PanelBody>
   <PanelFooter>…</PanelFooter>
 </Panel>
 ```
 
-When the body scrolls, use `PanelScrollViewport` + `PanelScrollContent` instead of putting `overflow-auto` on `PanelBody` — the scroll parts keep the header and footer pinned correctly.
+**Naming trap:** `Panel`'s own header is `PanelHeaderFrame`. A component named `PanelHeader` also exists, but it is the shared _conversation-style_ header chrome (`PanelHeader` / `PanelHeading` / `PanelTitle` / `PanelStatus` / `PanelMeta` / `PanelActions` / `PanelSectionHeader`) used by panel-shaped product surfaces like `ConversationPanel`. Both type-check inside a `Panel`, so picking the wrong one fails silently. For a plain bounded region use `PanelHeaderFrame`; reach for the `PanelHeader` chrome set when the surface has an identity row (icon, title, status, actions).
+
+When the body scrolls, use `PanelScrollViewport` + `PanelScrollContent` instead of putting `overflow-auto` on `PanelBody` — the scroll parts keep the header and footer pinned correctly. `PanelSection` divides the body into sections.
 
 Reach for `Panel` before writing `rounded-lg border border-line bg-layer-panel`.
-
-`PanelAction` and `PanelToggleAction` are in `raft-ui/wip` and may break.
 
 ---
 

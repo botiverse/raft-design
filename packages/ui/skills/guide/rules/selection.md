@@ -82,6 +82,9 @@ Prop signatures are not listed anywhere in this skill — see [lookup.md](./look
 | Timestamps and IDs           | `TextMono size="meta"`    |
 | Code token in a sentence     | `InlineCode`              |
 | Command meant to be copied   | `CopyableCode`            |
+| Multi-line code display      | `CodeBlock`               |
+| Rendered markdown nodes      | `Markdown*` parts         |
+| Term/value pairs             | `DescriptionList`         |
 | Keyboard shortcut            | `Kbd` / `KbdGroup`        |
 | Person or agent              | `Avatar`                  |
 | One file as a tile           | `FilePreview`             |
@@ -90,25 +93,32 @@ Prop signatures are not listed anywhere in this skill — see [lookup.md](./look
 
 ## Layout
 
-| Scenario                    | Component        |
-| --------------------------- | ---------------- |
-| The application frame       | `AppShellRoot`   |
-| Icon rail                   | `AppRail`        |
-| Bottom nav on small screens | `MobileNav`      |
-| A bounded region            | `Panel`          |
-| User-draggable split        | `ResizableGroup` |
-| Bounded scroll region       | `ScrollArea`     |
-| Switching content panels    | `Tabs`           |
+| Scenario                    | Component              |
+| --------------------------- | ---------------------- |
+| The application frame       | `AppShellRoot`         |
+| Icon rail                   | `AppRail`              |
+| Bottom nav on small screens | `MobileNav`            |
+| A bounded region            | `Panel`                |
+| Shared panel header chrome  | `PanelHeader` set      |
+| Profile detail pane         | `ProfilePanel` _(wip)_ |
+| User-draggable split        | `ResizableGroup`       |
+| Bounded scroll region       | `ScrollArea`           |
+| Switching content panels    | `Tabs`                 |
 
 ## Conversation
 
-| Scenario                       | Component            |
-| ------------------------------ | -------------------- |
-| Channel and DM list            | `ChatSidebar`        |
-| Main conversation column       | `ConversationPanel`  |
-| Thread beside the conversation | `ThreadPanel`        |
-| Message input                  | `Composer`           |
-| Notification inbox             | `NotificationCenter` |
+| Scenario                           | Component                                                       |
+| ---------------------------------- | --------------------------------------------------------------- |
+| Channel and DM list                | `Sidebar`                                                       |
+| Main conversation column           | `ConversationPanel`                                             |
+| Thread beside the conversation     | `ThreadPanel`                                                   |
+| Scrolling message list             | `MessageList` + `MessageItem`                                   |
+| One message                        | `MessageItem`                                                   |
+| Join/leave/rename event            | `SystemMessage`                                                 |
+| Reactions, references, attachments | `MessageReaction*` / `MessageReference*` / `MessageAttachment*` |
+| Message input                      | `Composer`                                                      |
+| Notification inbox                 | `NotificationCenter`                                            |
+| Live agent activity strip          | `LiveAgentActivityBar`                                          |
 
 ## Tasks
 

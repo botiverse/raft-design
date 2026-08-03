@@ -7,7 +7,8 @@ These encode the Raft product shape. Reach for them before assembling anything c
 - Which surface
 - ConversationPanel vs ThreadPanel
 - Composer vs Textarea
-- ChatSidebar structure
+- Sidebar structure
+- Message surfaces
 - Composer structure
 - What stays in your app
 
@@ -15,13 +16,19 @@ These encode the Raft product shape. Reach for them before assembling anything c
 
 ## Which surface
 
-| Scenario                         | Component            |
-| -------------------------------- | -------------------- |
-| Channel and DM list              | `ChatSidebar`        |
-| The main conversation column     | `ConversationPanel`  |
-| A thread beside the conversation | `ThreadPanel`        |
-| Message input                    | `Composer`           |
-| Notification inbox               | `NotificationCenter` |
+| Scenario                            | Component                     |
+| ----------------------------------- | ----------------------------- |
+| Channel and DM list                 | `Sidebar`                     |
+| The main conversation column        | `ConversationPanel`           |
+| A thread beside the conversation    | `ThreadPanel`                 |
+| The scrolling list of messages      | `MessageList` + `MessageItem` |
+| One human or agent message          | `MessageItem`                 |
+| Join/leave/rename event in the flow | `SystemMessage`               |
+| Message input                       | `Composer`                    |
+| Notification inbox                  | `NotificationCenter`          |
+| Live agent activity strip           | `LiveAgentActivityBar`        |
+
+The sidebar family is named `Sidebar*`, not `ChatSidebar*` — it was generalized to shared navigation primitives. If you find `ChatSidebar` anywhere, it is pre-0.2 code.
 
 ---
 
@@ -37,9 +44,9 @@ They are not the same component with a different width.
 
 `ThreadPanel` carries thread-specific parts that have no equivalent in the conversation column: `ThreadPanelOriginalMessage`, `ThreadPanelReplyCount`, `ThreadPanelReplySummary`, and an in-thread search (`ThreadPanelSearch`, `ThreadPanelSearchCount`, `ThreadPanelSearchTrailing`).
 
-`ConversationPanel` carries the channel-level chrome: `ConversationPanelHeader` with `ConversationPanelHeaderIcon` / `ConversationPanelHeading` / `ConversationPanelTitle` / `ConversationPanelStatus` / `ConversationPanelMeta`, plus `ConversationPanelTabs` and `ConversationPanelSectionHeader`.
+`ConversationPanel` keeps its own root, body, tabs, and empty state (`ConversationPanelRoot`, `ConversationPanelBody`, `ConversationPanelContent`, `ConversationPanelFooter`, `ConversationPanelTabs`, `ConversationPanelEmptyState` with `…Brand` / `…BrandMark`), but its **header chrome is the shared `Panel*` set**: `PanelHeader`, `PanelHeaderContent`, `PanelHeaderIcon`, `PanelHeading`, `PanelTitle`, `PanelStatus`, `PanelMeta`, `PanelActions`, `PanelSectionHeader`. These shared header parts are exported for panel-shaped surfaces in general — see the naming warning in [layout.md](./layout.md).
 
-Its empty state is `ConversationPanelEmptyState` with `ConversationPanelEmptyStateBrand` / `ConversationPanelEmptyStateBrandMark` — use it rather than the generic `EmptyState` inside a conversation.
+Use `ConversationPanelEmptyState` rather than the generic `EmptyState` inside a conversation.
 
 ---
 
@@ -53,30 +60,51 @@ Use `Textarea` for a description field in a form.
 
 ---
 
-## ChatSidebar structure
+## Sidebar structure
 
 Deeply parted by design. Render the parts you need; do not pass item config objects.
 
-```
-ChatSidebarRoot
-  ChatSidebarHeader → ChatSidebarHeaderTitle, ChatSidebarControl
-  ChatSidebarBody
-    ChatSidebarSection
-      ChatSidebarSectionHeader → SectionTitle, SectionCount, SectionChevron,
-                                 SectionAttention, SectionControls, SectionTrailing
-      ChatSidebarSectionDisclosure
-      ChatSidebarList
-        ChatSidebarItem → ItemIcon | ItemChannelIcon, ItemContent → ItemTitle, ItemSubtitle,
-                          ItemMeta → ItemMetaIcon, ItemAside, ItemCount, ItemIndicator, ItemStatus
-      ChatSidebarSectionEmpty
-  ChatSidebarLiveActivity
-```
+Naming is regular at three levels — guess by pattern, then confirm against the declarations ([lookup.md](./lookup.md)):
 
-Naming is regular: section-level parts are `ChatSidebarSection*`, row-level parts are `ChatSidebarItem*`, and menu rows are `ChatSidebarMenu*`. When you need a part you have not seen, guess by that pattern and confirm against the source.
+| Level       | Prefix            | Anchor parts                                                         |
+| ----------- | ----------------- | -------------------------------------------------------------------- |
+| Frame       | `Sidebar*`        | `SidebarRoot`, `SidebarHeader`, `SidebarBody`, `SidebarLiveActivity` |
+| Section     | `SidebarSection*` | `…Header`, `…Title`, `…Count`, `…Chevron`, `…Disclosure`, `…Empty`   |
+| Row         | `SidebarItem*`    | `…Icon`, `…Title`, `…Subtitle`, `…Meta`, `…Count`, `…Status`         |
+| Footer menu | `SidebarMenu*`    | `…Icon`, `…Title`, `…Count`, `…Aside`                                |
 
-- Unread counts go in `ChatSidebarItemCount`, not appended to the title string.
-- Presence goes in `ChatSidebarItemStatus`, not a hand-placed dot.
-- `ChatSidebarGroupLabel` labels a group of sections; `ChatSidebarSectionTitle` labels one section.
+- Unread counts go in `SidebarItemCount`, not appended to the title string.
+- Presence goes in `SidebarItemStatus`, not a hand-placed dot.
+- `SidebarGroupLabel` labels a group of sections; `SidebarSectionTitle` labels one section.
+- `SidebarLiveActivity` is the slot in the sidebar frame; the standalone strip is `LiveAgentActivityBar` (stable) with `…Row` / `…Avatar` / `…Status` / `…Text` parts.
+
+---
+
+## Message surfaces
+
+The message family is large and satellite-structured: `MessageItem` is the anchor, and each concern is its own part family with a regular prefix. Do not hand-roll any of these — every state below already has a dedicated part.
+
+| Prefix                         | Owns                                                                                                                                     |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `MessageList*`                 | the scroller: `MessageListDateDivider`, `…Notice`, `…HistoryLimited`                                                                     |
+| `MessageItem*`                 | one message: `…Header`, `…Sender`, `…Time`, `…Body`, `…Footer`, `…Gutter`, `…Toolbar`, `…ReadReceipt`, `…SavedIndicator`, `…SearchMatch` |
+| `MessageReaction*`             | reaction chips, quick row, picker, tooltip                                                                                               |
+| `MessageReference*`            | reference chips: `…Chip`, `…Pending`, `…Unavailable`                                                                                     |
+| `MessageAttachment*`           | attachment cards, diff summaries; plus `MessageImageGallery*` and `MessageVideoPreview*`                                                 |
+| `MessageEmbed*`                | link embeds                                                                                                                              |
+| `MessageActionCard*`           | agent action cards with scope and properties                                                                                             |
+| `MessageQuotedPreview*`        | quoted message preview, including `…Loading` and `…Unavailable`                                                                          |
+| `MessageReplies*`              | the reply summary row under a message                                                                                                    |
+| `MessageForwardedBundle*`      | forwarded message bundles                                                                                                                |
+| `MessageItemTranslation*`      | translation status, original text, retry                                                                                                 |
+| `MessageMultiSelect*`          | multi-select checkboxes and toolbar                                                                                                      |
+| `MessageTextSelectionToolbar*` | the toolbar that appears over selected text                                                                                              |
+
+`SystemMessage` is separate from `MessageItem` — join/leave/rename events use `SystemMessage` + `SystemMessageTime`, and consecutive events collapse with the `SystemMessageGroup*` disclosure parts.
+
+Product-state parts follow the library-wide pattern: the consumer decides which state part to render (`MessageReferencePending`, `MessageQuotedPreviewUnavailable`, `MessageItemTranslationFailedStatus`), the root never takes a `state` prop.
+
+For message text content, the `Markdown*` renderer parts (see [display.md](./display.md)) style each markdown node.
 
 ---
 
