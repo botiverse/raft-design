@@ -1,6 +1,6 @@
 import type { KeyboardEvent, ReactNode, Ref } from "react";
 import { Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
-import { Kbd, Panel, PanelHeader, Skeleton } from "raft-ui";
+import { Kbd, Panel, PanelHeaderRoot, Skeleton } from "raft-ui";
 import {
   SearchEntityResult,
   SearchEntityResultOpen,
@@ -114,7 +114,7 @@ export function BrutalSearchHeader({
   onClear: () => void;
 }) {
   return (
-    <PanelHeader className="flex h-panel-header items-center gap-3 border-b-2 border-black bg-white px-5 [@media(max-height:600px)]:!h-panel-header">
+    <PanelHeaderRoot className="flex h-panel-header items-center gap-3 border-b-2 border-black bg-white px-5 [@media(max-height:600px)]:!h-panel-header">
       <button
         type="button"
         onClick={onBack}
@@ -168,7 +168,7 @@ export function BrutalSearchHeader({
           </div>
         </div>
       </div>
-    </PanelHeader>
+    </PanelHeaderRoot>
   );
 }
 

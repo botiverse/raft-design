@@ -28,6 +28,7 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  MessageList,
   SidebarBody,
   SidebarContent,
   SidebarGroupLabel,
@@ -49,22 +50,15 @@ import {
   PanelTitle,
 } from "raft-ui";
 
-import {
-  PLAYGROUND_DIRECT_MESSAGES,
-  PLAYGROUND_JOINT_CHANNELS,
-  PLAYGROUND_ROOM_CHANNELS,
-  findPlaygroundTaskForMessage,
-} from "../mock/index.ts";
+import { findPlaygroundTaskForMessage } from "../mock/index.ts";
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
 import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
-import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 import { MemberDetailPanel } from "./member-detail-panel.tsx";
 import { getSelectedMember, memberDetailId } from "./member-selection.ts";
 import { MembersDetailView, MembersSidebar } from "./members-sidebar.tsx";
-import { MessageList } from "raft-ui";
 import { PlaygroundActivityPanel } from "../activity/playground-activity-panel.tsx";
 
 type AuxiliaryRailView = Extract<PlaygroundRailView, "members" | "computers" | "settings">;

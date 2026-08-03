@@ -15,7 +15,7 @@ import {
   type ContextMenuItemProps,
 } from "../context-menu/context-menu";
 import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/dropdown-menu";
-import { Panel, PanelHeader } from "../panel/panel";
+import { Panel, PanelHeaderRoot } from "../panel/panel";
 import { activityInbox } from "./activity-inbox.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
@@ -45,7 +45,7 @@ export function ActivityInboxHeader({ className, render, ...props }: ActivityInb
   const theme = useThemeFamily();
   const { header } = activityInbox({ theme });
   return (
-    <PanelHeader
+    <PanelHeaderRoot
       render={render}
       {...props}
       data-slot="activity-inbox-header"

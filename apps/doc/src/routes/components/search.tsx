@@ -7,23 +7,15 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SearchDisabledSortComposition } from "#/modules/search/compositions/search-disabled-sort.composition.tsx";
-import searchDisabledSortCompositionSource from "#/modules/search/compositions/search-disabled-sort.composition.tsx?raw";
 import { SearchErrorComposition } from "#/modules/search/compositions/search-error.composition.tsx";
-import searchErrorCompositionSource from "#/modules/search/compositions/search-error.composition.tsx?raw";
 import { SearchFilterOnlyEmptyComposition } from "#/modules/search/compositions/search-filter-only-empty.composition.tsx";
-import searchFilterOnlyEmptyCompositionSource from "#/modules/search/compositions/search-filter-only-empty.composition.tsx?raw";
 import { SearchLoadingComposition } from "#/modules/search/compositions/search-loading.composition.tsx";
-import searchLoadingCompositionSource from "#/modules/search/compositions/search-loading.composition.tsx?raw";
 import { SearchNoIntentComposition } from "#/modules/search/compositions/search-no-intent.composition.tsx";
-import searchNoIntentCompositionSource from "#/modules/search/compositions/search-no-intent.composition.tsx?raw";
 import { SearchNoResultsComposition } from "#/modules/search/compositions/search-no-results.composition.tsx";
-import searchNoResultsCompositionSource from "#/modules/search/compositions/search-no-results.composition.tsx?raw";
 import { BrutalSearchPanelComposition } from "#/modules/search/compositions/brutal-search-panel.composition.tsx";
 import searchPanelCompositionSource from "#/modules/search/compositions/brutal-search-panel.composition.tsx?raw";
 import { SearchPopupNoMatchesComposition } from "#/modules/search/compositions/search-popup-no-matches.composition.tsx";
-import searchPopupNoMatchesCompositionSource from "#/modules/search/compositions/search-popup-no-matches.composition.tsx?raw";
 import { SearchSelectedComposition } from "#/modules/search/compositions/search-selected.composition.tsx";
-import searchSelectedCompositionSource from "#/modules/search/compositions/search-selected.composition.tsx?raw";
 import searchPanelFiltersSource from "#/modules/search/search-panel/search-panel.filters.tsx?raw";
 import searchPanelPartsSource from "#/modules/search/search-panel/search-panel.parts.tsx?raw";
 import searchPanelResultsSource from "#/modules/search/search-panel/search-panel.results.tsx?raw";
@@ -146,21 +138,19 @@ const SOURCE_SCENES = [
 ] as const;
 
 const STATE_EXAMPLES = [
-  { label: "No search intent", preview: <SearchNoIntentComposition />, code: "noIntent" },
-  { label: "Loading", preview: <SearchLoadingComposition />, code: "loading" },
-  { label: "No query matches", preview: <SearchNoResultsComposition />, code: "noResults" },
+  { label: "No search intent", preview: <SearchNoIntentComposition /> },
+  { label: "Loading", preview: <SearchLoadingComposition /> },
+  { label: "No query matches", preview: <SearchNoResultsComposition /> },
   {
     label: "Filter-only empty",
     preview: <SearchFilterOnlyEmptyComposition />,
-    code: "filterOnlyEmpty",
   },
-  { label: "Request error and retry", preview: <SearchErrorComposition />, code: "error" },
-  { label: "Selected result", preview: <SearchSelectedComposition />, code: "selected" },
-  { label: "Disabled sort", preview: <SearchDisabledSortComposition />, code: "disabledSort" },
+  { label: "Request error and retry", preview: <SearchErrorComposition /> },
+  { label: "Selected result", preview: <SearchSelectedComposition /> },
+  { label: "Disabled sort", preview: <SearchDisabledSortComposition /> },
   {
     label: "Filter popup with no matches",
     preview: <SearchPopupNoMatchesComposition />,
-    code: "popupNoMatches",
   },
 ] as const;
 
@@ -173,14 +163,6 @@ export const Route = createFileRoute("/components/search")({
         parts: searchPanelPartsSource,
         filters: searchPanelFiltersSource,
         results: searchPanelResultsSource,
-        noIntent: searchNoIntentCompositionSource,
-        loading: searchLoadingCompositionSource,
-        noResults: searchNoResultsCompositionSource,
-        filterOnlyEmpty: searchFilterOnlyEmptyCompositionSource,
-        error: searchErrorCompositionSource,
-        selected: searchSelectedCompositionSource,
-        disabledSort: searchDisabledSortCompositionSource,
-        popupNoMatches: searchPopupNoMatchesCompositionSource,
       },
     }),
 });
@@ -243,7 +225,6 @@ function SearchDoc() {
                 previewTheme="brutal"
               >
                 <Preview.Canvas>{example.preview}</Preview.Canvas>
-                <Preview.Code html={code[example.code]} />
               </Preview>
             </div>
           ))}

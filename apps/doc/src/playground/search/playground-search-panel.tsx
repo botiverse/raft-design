@@ -1,6 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { BrutalOnly } from "raft-ui";
 
 import { BrutalSearchPanelComposition } from "#/modules/search/compositions/brutal-search-panel.composition.tsx";
 import type {
@@ -16,12 +15,14 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_MACHINES,
   PLAYGROUND_SERVER_SLUG,
+  isPlaygroundChatMessage,
   isPlaygroundChannelId,
   isPlaygroundDmId,
   isPlaygroundThreadId,
-  type PlaygroundMessage,
+  type PlaygroundChatMessage,
 } from "../mock/index.ts";
 import { PLAYGROUND_CONVERSATIONS } from "../mock/conversations.ts";
+import { memberDetailId } from "../browse/member-selection.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { PLAYGROUND_SEARCH_FOCUS_EVENT } from "./playground-search-focus.ts";
 
@@ -113,7 +114,7 @@ const SEARCH_DATE_BASE = Date.parse("2026-05-30T12:00:00.000Z");
 
 function toSearchMessage(
   channelId: string,
-  message: PlaygroundMessage,
+  message: PlaygroundChatMessage,
   sequence: number,
   thread?: {
     id: string;
@@ -152,6 +153,7 @@ function buildSearchMessages(): readonly SearchMessageFixture[] {
 
     for (const message of conversationMessages) {
       if (threadMessageIds.has(message.id)) continue;
+      if (!isPlaygroundChatMessage(message)) continue;
       messages.push(toSearchMessage(channel.id, message, sequence++));
     }
 
@@ -175,7 +177,7 @@ const PLAYGROUND_SEARCH_MESSAGES = buildSearchMessages();
 
 export function PlaygroundSearchPanel() {
   const navigate = useNavigate();
-  const { selectRailView } = usePlaygroundNavigation();
+  const { selectRailDetail, selectRailView } = usePlaygroundNavigation();
   const [focusRequestKey, setFocusRequestKey] = useState(0);
 
   useEffect(() => {
@@ -185,61 +187,73 @@ export function PlaygroundSearchPanel() {
   }, []);
 
   return (
-    <BrutalOnly>
-      <BrutalSearchPanelComposition
-        entities={PLAYGROUND_SEARCH_ENTITIES}
-        messages={PLAYGROUND_SEARCH_MESSAGES}
-        senders={PLAYGROUND_SEARCH_SENDERS}
-        channels={PLAYGROUND_SEARCH_CHANNELS}
-        defaultQuery=""
-        focusRequestKey={focusRequestKey}
-        onBack={() => selectRailView("chat")}
-        onOpenEntity={(entity) => {
-          if (entity.machineId) {
-            void navigate({
-              to: "/playground/computers",
-              search: { detail: entity.machineId },
-            });
-            return;
-          }
-
-          const channelId = entity.channelId;
-          if (!channelId || !isPlaygroundChannelId(channelId)) return;
-
-          if (isPlaygroundDmId(channelId)) {
-            void navigate({
-              to: "/playground/s/$serverSlug/dm/$dmId",
-              params: { dmId: channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
-              search: {},
-            });
-            return;
-          }
-
+    <BrutalSearchPanelComposition
+      entities={PLAYGROUND_SEARCH_ENTITIES}
+      messages={PLAYGROUND_SEARCH_MESSAGES}
+      senders={PLAYGROUND_SEARCH_SENDERS}
+      channels={PLAYGROUND_SEARCH_CHANNELS}
+      defaultQuery=""
+      focusRequestKey={focusRequestKey}
+      onBack={() => selectRailView("chat")}
+      onOpenEntity={(entity) => {
+        if (entity.machineId) {
           void navigate({
-            to: "/playground/s/$serverSlug/channel/$channelId",
-            params: { channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
+            to: "/playground/computers",
+            search: { detail: entity.machineId },
+          });
+          return;
+        }
+
+        const channelId = entity.channelId;
+        if (!channelId || !isPlaygroundChannelId(channelId)) {
+          const detailId = entity.agentId
+            ? memberDetailId.agent(entity.agentId)
+            : entity.userId
+              ? memberDetailId.human(entity.userId)
+              : undefined;
+          if (detailId) {
+            selectRailView("members");
+            selectRailDetail(detailId);
+          }
+          return;
+        }
+
+        if (isPlaygroundDmId(channelId)) {
+          void navigate({
+            to: "/playground/s/$serverSlug/dm/$dmId",
+            params: { dmId: channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
             search: {},
           });
-        }}
-        onOpenMessage={(message) => {
-          if (!isPlaygroundChannelId(message.channelId)) return;
-          const threadId = message.threadId;
-          const search = threadId && isPlaygroundThreadId(threadId) ? { thread: threadId } : {};
-          if (isPlaygroundDmId(message.channelId)) {
-            void navigate({
-              to: "/playground/s/$serverSlug/dm/$dmId",
-              params: { dmId: message.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
-              search,
-            });
-            return;
-          }
+          return;
+        }
+
+        void navigate({
+          to: "/playground/s/$serverSlug/channel/$channelId",
+          params: { channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
+          search: {},
+        });
+      }}
+      onOpenMessage={(message) => {
+        if (!isPlaygroundChannelId(message.channelId)) return;
+        const threadId = message.threadId;
+        const search = threadId && isPlaygroundThreadId(threadId) ? { thread: threadId } : {};
+        const hash = threadId ? `thread-message-${message.id}` : `message-${message.id}`;
+        if (isPlaygroundDmId(message.channelId)) {
           void navigate({
-            to: "/playground/s/$serverSlug/channel/$channelId",
-            params: { channelId: message.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
+            to: "/playground/s/$serverSlug/dm/$dmId",
+            params: { dmId: message.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
             search,
+            hash,
           });
-        }}
-      />
-    </BrutalOnly>
+          return;
+        }
+        void navigate({
+          to: "/playground/s/$serverSlug/channel/$channelId",
+          params: { channelId: message.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
+          search,
+          hash,
+        });
+      }}
+    />
   );
 }

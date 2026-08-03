@@ -9,19 +9,12 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
 import activityInboxCompositionSource from "#/modules/activity/compositions/activity-inbox.composition.tsx?raw";
 import { CompactActivityComposition } from "#/modules/activity/compositions/compact-activity.composition.tsx";
-import compactActivitySource from "#/modules/activity/compositions/compact-activity.composition.tsx?raw";
 import { DoneActivityComposition } from "#/modules/activity/compositions/done-activity.composition.tsx";
-import doneActivitySource from "#/modules/activity/compositions/done-activity.composition.tsx?raw";
 import { EmptyActivityComposition } from "#/modules/activity/compositions/empty-activity.composition.tsx";
-import emptyActivitySource from "#/modules/activity/compositions/empty-activity.composition.tsx?raw";
 import { LoadingActivityComposition } from "#/modules/activity/compositions/loading-activity.composition.tsx";
-import loadingActivitySource from "#/modules/activity/compositions/loading-activity.composition.tsx?raw";
 import { LoadingMoreActivityComposition } from "#/modules/activity/compositions/loading-more-activity.composition.tsx";
-import loadingMoreActivitySource from "#/modules/activity/compositions/loading-more-activity.composition.tsx?raw";
 import { SavedActivityComposition } from "#/modules/activity/compositions/saved-activity.composition.tsx";
-import savedActivitySource from "#/modules/activity/compositions/saved-activity.composition.tsx?raw";
 import { ActivityV2SourcePreview } from "../../../../../packages/ui/source/activity/ActivityV2SourcePreview.tsx";
-import activityV2Source from "../../../../../packages/ui/source/activity/ActivityV2SourcePreview.tsx?raw";
 
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },
@@ -120,15 +113,15 @@ const ACTIVITY_PART_ROWS: readonly PropRow[] = ACTIVITY_PARTS.map((part) => ({
 }));
 
 const STATE_EXAMPLES = [
-  { label: "Saved", preview: <SavedActivityComposition />, code: "saved" },
-  { label: "Done", preview: <DoneActivityComposition />, code: "done" },
-  { label: "Compact", preview: <CompactActivityComposition />, code: "compact" },
-  { label: "Empty", preview: <EmptyActivityComposition />, code: "empty" },
-  { label: "Initial loading", preview: <LoadingActivityComposition />, code: "loading" },
+  { label: "Saved", preview: <SavedActivityComposition />, compact: false },
+  { label: "Done", preview: <DoneActivityComposition />, compact: false },
+  { label: "Compact", preview: <CompactActivityComposition />, compact: true },
+  { label: "Empty", preview: <EmptyActivityComposition />, compact: false },
+  { label: "Initial loading", preview: <LoadingActivityComposition />, compact: false },
   {
     label: "Loading more",
     preview: <LoadingMoreActivityComposition />,
-    code: "loadingMore",
+    compact: false,
   },
 ] as const;
 
@@ -138,13 +131,6 @@ export const Route = createFileRoute("/components/activity")({
     highlightSnippets({
       data: {
         composition: activityInboxCompositionSource,
-        source: activityV2Source,
-        saved: savedActivitySource,
-        done: doneActivitySource,
-        compact: compactActivitySource,
-        empty: emptyActivitySource,
-        loading: loadingActivitySource,
-        loadingMore: loadingMoreActivitySource,
       },
     }),
 });
@@ -185,8 +171,6 @@ function ActivityDoc() {
               sourceScenes: SOURCE_SCENES,
               source: <ActivityV2SourcePreview />,
               brutal: <ActivityInboxComposition layout="wide" />,
-              sourceCode: code.source,
-              brutalCode: code.composition,
               compositionCode: code.composition,
               compositionCollapsedCode: code.compositionBody,
               compositionPath:
@@ -205,7 +189,7 @@ function ActivityDoc() {
               <h3 className="text-sm font-medium text-foreground-strong">{example.label}</h3>
               <Preview
                 previewClassName={
-                  example.code === "compact"
+                  example.compact
                     ? "h-[42rem] max-w-md items-stretch overflow-hidden p-0"
                     : "h-[42rem] items-stretch overflow-hidden p-0"
                 }
@@ -213,10 +197,6 @@ function ActivityDoc() {
                 previewTheme="brutal"
               >
                 <Preview.Canvas>{example.preview}</Preview.Canvas>
-                <Preview.Code
-                  html={code[example.code]}
-                  collapsedHtml={code[`${example.code}Body`]}
-                />
               </Preview>
             </div>
           ))}

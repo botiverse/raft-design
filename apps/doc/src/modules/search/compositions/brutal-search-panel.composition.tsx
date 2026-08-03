@@ -313,7 +313,15 @@ function SearchPanel({
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-    if (event.nativeEvent.isComposing || composing.current) return;
+    if (event.defaultPrevented || event.nativeEvent.isComposing || composing.current) return;
+    const target = event.target;
+    const isSearchNavigationTarget =
+      target === inputRef.current ||
+      (target instanceof HTMLElement &&
+        target.closest(
+          "[data-slot='search-entity-result-open'], [data-slot='search-message-result']",
+        ));
+    if (!isSearchNavigationTarget) return;
     if (event.key === "Escape") {
       if (query) {
         event.preventDefault();

@@ -137,6 +137,7 @@ export const activityInbox = tv({
   variants: {
     theme: {
       brutal: {
+        root: ["bg-white text-black"],
         header: ["border-b-2 border-black bg-white"],
         headerBack: ["border-2 border-black bg-white", ...sourceButtonMotion],
         headerIcon: ["border-2 border-black bg-soft-signal text-black"],
