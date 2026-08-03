@@ -136,12 +136,13 @@ export const conversationPanel = tv({
         content: [
           "relative overflow-clip",
           "bg-layer-panel md:shadow-raft-xl",
-          "dark:bg-layer-inset",
+          "dark:bg-[oklch(0.19_0.004_106.42)]",
+          "dark:md:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.07),inset_0_0_0_1px_oklch(0.985_0.004_106.42_/_0.05),0_0_0_1px_oklch(0_0_0_/_0.6),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
           "md:ml-2 md:rounded-tl-[10px]",
         ],
         tabs: [
           "border-b-0 bg-layer-panel max-md:bg-layer-page",
-          "dark:bg-layer-inset dark:max-md:bg-layer-page",
+          "dark:bg-transparent dark:max-md:bg-layer-page",
           "max-md:border-b max-md:border-line-muted",
           "[&>[data-slot=tabs-list]]:border-b-0",
           "[&>[data-slot=tabs-list]]:max-md:h-10",

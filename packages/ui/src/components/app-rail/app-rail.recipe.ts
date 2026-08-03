@@ -50,8 +50,8 @@ export const appRail = tv({
           "text-[13px] text-foreground-icon [&_svg]:size-4",
           "hover:bg-fill-strong/80 hover:text-foreground-strong",
           "active:bg-fill-strong/80 active:text-foreground-strong",
-          "data-[selected=true]:border-transparent data-[selected=true]:bg-fill-strong",
-          "data-[selected=true]:text-foreground-muted data-[selected=true]:shadow-none",
+          "data-[selected=true]:border-transparent data-[selected=true]:bg-layer-panel",
+          "data-[selected=true]:text-foreground-strong data-[selected=true]:shadow-raft-sm",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         ],
         itemBadge: [

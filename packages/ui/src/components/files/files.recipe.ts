@@ -40,7 +40,7 @@ export const files = tv({
         meta: "text-black/50",
       },
       elegant: {
-        panel: "bg-layer-panel",
+        panel: ["bg-layer-panel", "dark:bg-transparent"],
         list: ["gap-2.5 px-5 py-4"],
         row: [
           "rounded-lg border-[0.5px] border-line-muted bg-layer-panel px-3 py-3 shadow-raft-xs",
