@@ -58,7 +58,7 @@ export const messageForwardedBundle = tv({
     {
       theme: "elegant",
       collapsed: true,
-      class: { items: "after:from-white after:via-white/80 after:to-white/0" },
+      class: { items: "after:from-layer-panel after:via-layer-panel/80 after:to-layer-panel/0" },
     },
   ],
 });

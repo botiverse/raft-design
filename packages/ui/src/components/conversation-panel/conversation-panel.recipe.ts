@@ -136,10 +136,12 @@ export const conversationPanel = tv({
         content: [
           "relative overflow-clip",
           "bg-layer-panel md:shadow-raft-xl",
+          "dark:bg-layer-inset",
           "md:ml-2 md:rounded-tl-[10px]",
         ],
         tabs: [
           "border-b-0 bg-layer-panel max-md:bg-layer-page",
+          "dark:bg-layer-inset dark:max-md:bg-layer-page",
           "max-md:border-b max-md:border-line-muted",
           "[&>[data-slot=tabs-list]]:border-b-0",
           "[&>[data-slot=tabs-list]]:max-md:h-10",
