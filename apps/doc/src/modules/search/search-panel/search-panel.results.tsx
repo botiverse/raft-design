@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useThemeFamily } from "raft-ui";
 import {
   SearchResultsList,
   SearchResultsSection,
@@ -17,6 +18,7 @@ import {
   MessageResult,
   SearchEmpty,
   SearchError,
+  searchShell,
   SearchSkeleton,
   ThreadResult,
 } from "./search-panel.parts.tsx";
@@ -87,17 +89,19 @@ export function BrutalSearchResults({
   onOpenMessage: (message: SearchMessageFixture) => void;
   onLoadMore: () => void;
 }) {
+  const theme = useThemeFamily();
+  const shell = searchShell({ theme });
   const [recovered, setRecovered] = useState(false);
   const groups = groupMessages(messages);
   const totalResults = entities.length + messageCount;
   const showError = view === "error" && !recovered;
 
   return (
-    <div data-slot="search-results-viewport" className="min-h-0 flex-1 overflow-y-auto bg-white">
+    <div data-slot="search-results-viewport" className={shell.resultsViewport()}>
       {!hasIntent ? (
         <SearchEmpty />
       ) : (
-        <div data-slot="search-results-content" className="bg-white p-4">
+        <div data-slot="search-results-content" className={shell.resultsContent()}>
           <SearchResultsSummary>
             {view === "loading" ? "Searching…" : `${totalResults} results`}
           </SearchResultsSummary>
@@ -171,11 +175,7 @@ export function BrutalSearchResults({
 
               {messages.length < messageCount ? (
                 <div className="flex justify-center py-4">
-                  <button
-                    type="button"
-                    onClick={onLoadMore}
-                    className="btn-brutal-sm bg-white px-4 py-1.5 text-xs"
-                  >
+                  <button type="button" onClick={onLoadMore} className={shell.loadMoreButton()}>
                     Load More
                   </button>
                 </div>

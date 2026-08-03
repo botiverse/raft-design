@@ -1,6 +1,7 @@
 import type { KeyboardEvent, ReactNode, Ref } from "react";
 import { Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
-import { Kbd, Panel, PanelHeaderRoot, Skeleton } from "raft-ui";
+import { Kbd, Panel, PanelHeaderRoot, Skeleton, useThemeFamily } from "raft-ui";
+import { tv } from "tailwind-variants/lite";
 import {
   SearchEntityResult,
   SearchEntityResultOpen,
@@ -25,6 +26,205 @@ import type {
 export type BrutalSearchScope = "mentioned" | "humans" | "agents";
 export type BrutalSearchTimeRange = "any" | "today" | "7d" | "30d";
 export type BrutalSearchSort = "relevance" | "recent";
+
+export const searchShell = tv({
+  slots: {
+    frame: ["flex min-h-0 flex-1 flex-col"],
+    header: ["flex h-panel-header items-center gap-3 px-5"],
+    headerBack: [
+      "inline-flex size-7 shrink-0 items-center justify-center font-bold leading-none md:hidden",
+    ],
+    headerIconChip: ["flex size-icon-header shrink-0 items-center justify-center"],
+    inputRow: ["flex min-w-0 flex-1 items-center gap-2 px-3 py-2"],
+    input: ["min-w-0 flex-1 bg-transparent text-sm outline-none"],
+    inputClear: [],
+    inputKbd: ["hidden text-[10px] font-bold uppercase sm:inline"],
+    filtersRow: ["shrink-0 px-4 py-3"],
+    channelActiveChip: ["inline-flex items-center gap-2 px-3 py-1.5 text-xs"],
+    channelOptionIcon: [],
+    clearAllButton: ["inline-flex items-center gap-2 px-2.5 py-1 text-[11px]"],
+    resultsViewport: ["min-h-0 flex-1 overflow-y-auto"],
+    resultsContent: ["p-4"],
+    loadMoreButton: ["px-4 py-1.5 text-xs"],
+    highlightMark: ["px-0.5"],
+    metaLabel: [],
+    metaThreadChip: ["inline-flex items-center gap-1"],
+    metaArchivedChip: [
+      "inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] uppercase tracking-wide",
+    ],
+    metaSender: ["inline-flex items-center gap-1"],
+    metaTimestamp: [],
+    resultBody: ["line-clamp-2 text-sm leading-relaxed"],
+    entityIconChannel: ["flex size-8 items-center justify-center overflow-hidden"],
+    entityIconComputer: ["flex size-8 items-center justify-center overflow-hidden"],
+    entityIconArchived: ["flex size-8 items-center justify-center overflow-hidden"],
+    activityDot: ["absolute -right-0.5 -bottom-0.5 inline-block size-2.5 shrink-0 rounded-full"],
+    entityTitle: ["truncate text-sm"],
+    entityTitleArchived: ["truncate text-sm"],
+    typeBadge: ["px-1 py-0.5 text-[9px] uppercase leading-none"],
+    archivedBadge: ["px-1 py-0.5 text-[9px] uppercase leading-none"],
+    archivedBadgeMuted: ["px-1 py-0.5 text-[9px] uppercase leading-none"],
+    entitySubtitle: ["block truncate text-xs"],
+    entitySubtitleArchived: ["block truncate text-xs"],
+    threadHeaderMeta: ["mb-1 flex flex-wrap items-center gap-2 text-[11px]"],
+    threadChip: ["inline-flex items-center gap-1 px-1.5 py-0.5"],
+    threadTimestamp: ["normal-case"],
+    threadTitle: ["text-sm"],
+    skeletonCard: ["p-3"],
+    emptyIcon: ["mb-3"],
+    emptyTitle: ["text-sm"],
+    emptyDescription: ["mt-1 text-xs"],
+    errorTitle: ["mb-2 text-sm"],
+    errorDescription: ["mb-3 text-xs"],
+    retryButton: ["px-3 py-1.5 text-xs"],
+    identityAvatar: ["flex shrink-0 items-center justify-center overflow-hidden"],
+  },
+  variants: {
+    theme: {
+      brutal: {
+        frame: ["bg-white"],
+        header: ["border-b-2 border-black bg-white", "[@media(max-height:600px)]:!h-panel-header"],
+        headerBack: ["btn-brutal-sm bg-white text-black"],
+        headerIconChip: ["border-2 border-black bg-soft-signal"],
+        inputRow: ["border-2 border-black bg-white shadow-sm focus-within:shadow-md"],
+        input: ["font-display font-medium placeholder:text-black/40"],
+        inputClear: ["btn-brutal-sm bg-white p-1"],
+        inputKbd: ["text-black/50"],
+        filtersRow: ["border-b-2 border-black bg-white"],
+        channelActiveChip: ["border-2 border-black bg-soft-signal font-bold text-black shadow-sm"],
+        channelOptionIcon: ["text-black/50"],
+        clearAllButton: ["border border-black bg-white font-bold text-black/60 hover:text-black"],
+        resultsViewport: ["bg-white"],
+        resultsContent: ["bg-white"],
+        loadMoreButton: ["btn-brutal-sm bg-white"],
+        highlightMark: ["bg-soft-signal font-bold text-black"],
+        metaLabel: ["font-bold text-black/50"],
+        metaThreadChip: ["font-bold text-black/40"],
+        metaArchivedChip: ["border border-black bg-brutal-orange/30 font-bold"],
+        metaSender: ["font-bold text-black"],
+        metaTimestamp: ["font-mono text-black/40"],
+        resultBody: ["text-black/70"],
+        entityIconChannel: ["border-2 border-black bg-soft-signal text-black"],
+        entityIconComputer: ["border-2 border-black bg-brutal-lime"],
+        entityIconArchived: ["border-2 border-black/40 bg-black/5 text-black/45"],
+        activityDot: ["border border-black bg-brutal-lime"],
+        entityTitle: ["font-bold text-black"],
+        entityTitleArchived: ["font-bold text-black/45"],
+        typeBadge: ["border border-black bg-white font-bold text-black/60"],
+        archivedBadge: ["border border-black bg-brutal-orange/30 font-bold text-black"],
+        archivedBadgeMuted: ["border border-black/40 bg-black/5 font-bold text-black/45"],
+        entitySubtitle: ["text-black/50"],
+        entitySubtitleArchived: ["text-black/30"],
+        threadHeaderMeta: ["font-bold uppercase tracking-wide text-black/70"],
+        threadChip: ["border border-black bg-white"],
+        threadTimestamp: ["font-mono text-black/50"],
+        threadTitle: ["font-bold text-black"],
+        skeletonCard: ["border-2 border-black/30 bg-white"],
+        emptyIcon: ["text-black/20"],
+        emptyTitle: ["font-bold text-black/50"],
+        emptyDescription: ["text-black/40"],
+        errorTitle: ["font-bold text-black"],
+        errorDescription: ["text-black/60"],
+        retryButton: ["btn-brutal-sm bg-white"],
+        identityAvatar: ["border-black"],
+      },
+      elegant: {
+        frame: ["bg-layer-page"],
+        header: [
+          "h-auto min-h-[var(--shell-header-height,56px)]",
+          "max-md:h-[var(--shell-header-height,56px)]",
+          "border-b-0 bg-transparent max-md:bg-layer-page",
+          "px-0 max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",
+        ],
+        headerBack: [
+          "rounded-md border border-line-field bg-layer-field text-foreground-muted",
+          "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+        ],
+        headerIconChip: ["rounded-md bg-layer-muted text-foreground-icon"],
+        inputRow: [
+          "rounded-md border border-line-field bg-layer-field shadow-none",
+          "transition duration-200 ease-out",
+          "hover:border-line-field-hover hover:shadow-field-hover",
+          "focus-within:ring-1 focus-within:ring-primary-400 focus-within:ring-offset-2 focus-within:ring-offset-background",
+        ],
+        input: ["font-sans text-foreground-strong placeholder:text-foreground-placeholder/70"],
+        inputClear: [
+          "rounded-sm p-1 text-foreground-muted",
+          "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+        ],
+        inputKbd: ["text-foreground-muted"],
+        filtersRow: [
+          "border-b border-line-subtle bg-layer-panel",
+          "px-7 max-md:pl-5 max-md:pr-3.5",
+        ],
+        channelActiveChip: [
+          "rounded-md border border-line-subtle bg-layer-muted font-medium text-foreground-strong",
+        ],
+        channelOptionIcon: ["text-foreground-icon"],
+        clearAllButton: [
+          "rounded-md border-0 font-medium text-foreground-muted",
+          "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+        ],
+        resultsViewport: ["bg-layer-panel"],
+        resultsContent: ["bg-layer-panel", "px-7 max-md:pl-5 max-md:pr-3.5"],
+        loadMoreButton: [
+          "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
+          "shadow-none transition-colors hover:bg-layer-hover",
+        ],
+        highlightMark: ["rounded-[3px] bg-soft-signal/70 font-medium text-foreground-strong"],
+        metaLabel: ["font-medium text-foreground-muted"],
+        metaThreadChip: ["font-medium text-foreground-placeholder"],
+        metaArchivedChip: [
+          "rounded-sm border-[0.5px] border-line-subtle bg-layer-muted font-medium text-foreground-muted",
+        ],
+        metaSender: ["font-medium text-foreground-strong"],
+        metaTimestamp: ["font-sans text-foreground-placeholder"],
+        resultBody: ["text-foreground-muted"],
+        entityIconChannel: ["rounded-md bg-layer-muted text-foreground-icon"],
+        entityIconComputer: ["rounded-md bg-layer-muted text-foreground-icon"],
+        entityIconArchived: ["rounded-md bg-layer-muted text-foreground-disabled"],
+        activityDot: ["border border-layer-panel bg-brutal-lime"],
+        entityTitle: ["font-medium text-foreground-strong"],
+        entityTitleArchived: ["font-medium text-foreground-disabled"],
+        typeBadge: [
+          "rounded-sm border-[0.5px] border-line-subtle bg-layer-panel font-medium text-foreground-muted",
+        ],
+        archivedBadge: [
+          "rounded-sm border-[0.5px] border-line-subtle bg-layer-muted font-medium text-foreground-muted",
+        ],
+        archivedBadgeMuted: [
+          "rounded-sm border-[0.5px] border-line-subtle bg-layer-muted font-medium text-foreground-disabled",
+        ],
+        entitySubtitle: ["text-foreground-muted"],
+        entitySubtitleArchived: ["text-foreground-disabled"],
+        threadHeaderMeta: ["font-medium normal-case tracking-normal text-foreground-muted"],
+        threadChip: ["rounded-sm border-[0.5px] border-line-subtle bg-layer-panel"],
+        threadTimestamp: ["font-sans text-foreground-placeholder"],
+        threadTitle: ["font-medium text-foreground-strong"],
+        skeletonCard: ["rounded-lg border-[0.5px] border-line-subtle bg-layer-panel shadow-xs"],
+        emptyIcon: ["text-foreground-disabled"],
+        emptyTitle: ["font-medium text-foreground-strong"],
+        emptyDescription: ["text-foreground-muted"],
+        errorTitle: ["font-medium text-foreground-strong"],
+        errorDescription: ["text-foreground-muted"],
+        retryButton: [
+          "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
+          "shadow-none transition-colors hover:bg-layer-hover",
+        ],
+        identityAvatar: ["rounded-md border-line-subtle"],
+      },
+    },
+    avatarContext: {
+      "surface-list": { identityAvatar: "size-8 border-2" },
+      "compact-list": { identityAvatar: "size-5 border" },
+      "preview-mini": { identityAvatar: "size-[14px] border" },
+    },
+    avatarType: {
+      agent: { identityAvatar: "bg-brutal-cyan" },
+      human: { identityAvatar: "bg-brutal-lavender text-black" },
+    },
+  },
+});
 
 const SEARCH_RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
@@ -89,8 +289,10 @@ export function BrutalSearchFrame({
   children: ReactNode;
   onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
 }) {
+  const theme = useThemeFamily();
+  const { frame } = searchShell({ theme });
   return (
-    <Panel render={<div />} className="flex min-h-0 flex-1 flex-col bg-white" onKeyDown={onKeyDown}>
+    <Panel render={<div />} className={frame()} onKeyDown={onKeyDown}>
       {children}
     </Panel>
   );
@@ -113,14 +315,18 @@ export function BrutalSearchHeader({
   onCompositionEnd: (value: string) => void;
   onClear: () => void;
 }) {
+  const theme = useThemeFamily();
+  const { header, headerBack, headerIconChip, inputRow, input, inputClear, inputKbd } = searchShell(
+    { theme },
+  );
   return (
-    <PanelHeaderRoot className="flex h-panel-header items-center gap-3 border-b-2 border-black bg-white px-5 [@media(max-height:600px)]:!h-panel-header">
+    <PanelHeaderRoot className={header()}>
       <button
         type="button"
         onClick={onBack}
         title="Back"
         aria-label="Back"
-        className="btn-brutal-sm inline-flex size-7 shrink-0 items-center justify-center bg-white font-bold leading-none text-black md:hidden"
+        className={headerBack()}
       >
         <svg
           aria-hidden
@@ -138,10 +344,10 @@ export function BrutalSearchHeader({
       </button>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-3">
-          <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-primary">
+          <div className={headerIconChip()}>
             <Search aria-hidden size={18} />
           </div>
-          <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-raft-sm focus-within:shadow-raft-md">
+          <div className={inputRow()}>
             <input
               ref={inputRef}
               value={query}
@@ -150,21 +356,19 @@ export function BrutalSearchHeader({
               onCompositionEnd={(event) => onCompositionEnd(event.currentTarget.value)}
               placeholder="Search channels, DMs, messages…   ⌘K"
               aria-label="Search channels, DMs, people, agents, and messages"
-              className="min-w-0 flex-1 bg-transparent text-sm font-display font-medium outline-none placeholder:text-black/40"
+              className={input()}
             />
             {query ? (
               <button
                 type="button"
                 onClick={onClear}
-                className="btn-brutal-sm bg-white p-1"
+                className={inputClear()}
                 aria-label="Clear search"
               >
                 <X aria-hidden size={12} />
               </button>
             ) : null}
-            <Kbd className="hidden text-[10px] font-bold uppercase text-black/50 sm:inline">
-              Esc
-            </Kbd>
+            <Kbd className={inputKbd()}>Esc</Kbd>
           </div>
         </div>
       </div>
@@ -183,6 +387,8 @@ export function EntityResult({
   buttonRef?: (element: HTMLButtonElement | null) => void;
   onOpen: () => void;
 }) {
+  const theme = useThemeFamily();
+  const shell = searchShell({ theme });
   const isArchivedChannel = entity.type === "channel" && Boolean(entity.archivedAt);
   const Icon = entity.type === "channel" ? Hash : Monitor;
   const identityType = entity.type === "agentDm" ? "agent" : "human";
@@ -202,13 +408,13 @@ export function EntityResult({
           <div className="relative flex shrink-0">
             {entity.type === "channel" || entity.type === "computer" ? (
               <div
-                className={`flex size-8 items-center justify-center overflow-hidden border-2 ${
+                className={
                   isArchivedChannel
-                    ? "border-black/40 bg-black/5 text-black/45"
+                    ? shell.entityIconArchived()
                     : entity.type === "channel"
-                      ? "border-black bg-primary text-black"
-                      : "border-black bg-brutal-lime"
-                }`}
+                      ? shell.entityIconChannel()
+                      : shell.entityIconComputer()
+                }
               >
                 <Icon aria-hidden size={14} />
               </div>
@@ -220,42 +426,31 @@ export function EntityResult({
               />
             )}
             {entity.type === "agentDm" && entity.activity === "active" ? (
-              <span
-                aria-label="Active"
-                className="absolute -right-0.5 -bottom-0.5 inline-block size-2.5 shrink-0 rounded-full border border-black bg-brutal-lime"
-              />
+              <span aria-label="Active" className={shell.activityDot()} />
             ) : null}
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               <span
-                className={`truncate text-sm font-bold ${isArchivedChannel ? "text-black/45" : "text-black"}`}
+                className={isArchivedChannel ? shell.entityTitleArchived() : shell.entityTitle()}
               >
                 {entity.title}
               </span>
-              <span
-                className={
-                  isArchivedChannel
-                    ? "border border-black/40 bg-black/5 px-1 py-0.5 text-[9px] font-bold uppercase leading-none text-black/45"
-                    : "border border-black bg-white px-1 py-0.5 text-[9px] font-bold uppercase leading-none text-black/60"
-                }
-              >
+              <span className={isArchivedChannel ? shell.archivedBadgeMuted() : shell.typeBadge()}>
                 {typeLabel}
               </span>
               {entity.archivedAt ? (
                 <span
-                  className={
-                    isArchivedChannel
-                      ? "border border-black/40 bg-black/5 px-1 py-0.5 text-[9px] font-bold uppercase leading-none text-black/45"
-                      : "border border-black bg-brutal-orange/30 px-1 py-0.5 text-[9px] font-bold uppercase leading-none text-black"
-                  }
+                  className={isArchivedChannel ? shell.archivedBadgeMuted() : shell.archivedBadge()}
                 >
                   Archived
                 </span>
               ) : null}
             </div>
             <div
-              className={`block truncate text-xs ${isArchivedChannel ? "text-black/30" : "text-black/50"}`}
+              className={
+                isArchivedChannel ? shell.entitySubtitleArchived() : shell.entitySubtitle()
+              }
             >
               {formatEntitySubtitle(entity.subtitle)}
             </div>
@@ -267,6 +462,8 @@ export function EntityResult({
 }
 
 function SearchHighlight({ text, query }: { text: string; query: string }) {
+  const theme = useThemeFamily();
+  const { highlightMark } = searchShell({ theme });
   const tokens = query.trim().split(/\s+/).filter(Boolean);
   if (tokens.length === 0) return <>{text}</>;
   const expression = new RegExp(
@@ -277,7 +474,7 @@ function SearchHighlight({ text, query }: { text: string; query: string }) {
     <>
       {text.split(expression).map((part, index) =>
         tokens.some((token) => token.toLowerCase() === part.toLowerCase()) ? (
-          <mark key={`${part}-${index}`} className="bg-primary px-0.5 font-bold text-black">
+          <mark key={`${part}-${index}`} className={highlightMark()}>
             {part}
           </mark>
         ) : (
@@ -307,26 +504,24 @@ export function MessageResult({
   buttonRef?: (element: HTMLButtonElement | null) => void;
   onOpen: () => void;
 }) {
+  const theme = useThemeFamily();
+  const shell = searchShell({ theme });
   const Result = nested ? SearchThreadMessageResult : SearchMessageResult;
 
   return (
     <Result ref={buttonRef} onClick={onOpen} selected={selected}>
       <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
-        <span className="font-bold text-black/50">
+        <span className={shell.metaLabel()}>
           {channel?.kind === "dm" ? "@" : "#"}
           {channel?.name ?? "unknown"}
         </span>
         {message.threadId ? (
-          <span className="inline-flex items-center gap-1 font-bold text-black/40">
+          <span className={shell.metaThreadChip()}>
             <MessageSquare aria-hidden size={10} /> thread
           </span>
         ) : null}
-        {channel?.archivedAt ? (
-          <span className="inline-flex items-center gap-1 border border-black bg-brutal-orange/30 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide">
-            Archived
-          </span>
-        ) : null}
-        <span className="inline-flex items-center gap-1 font-bold text-black">
+        {channel?.archivedAt ? <span className={shell.metaArchivedChip()}>Archived</span> : null}
+        <span className={shell.metaSender()}>
           <SourceIdentityAvatar
             context="preview-mini"
             type={sender?.kind ?? "human"}
@@ -334,9 +529,9 @@ export function MessageResult({
           />
           <span>{sender?.label ?? "Unknown"}</span>
         </span>
-        <span className="font-mono text-black/40">{formatTimestamp(message.createdAt)}</span>
+        <span className={shell.metaTimestamp()}>{formatTimestamp(message.createdAt)}</span>
       </div>
-      <div className="line-clamp-2 text-sm leading-relaxed text-black/70">
+      <div className={shell.resultBody()}>
         <SearchHighlight text={message.content} query={query} />
       </div>
     </Result>
@@ -362,6 +557,8 @@ export function ThreadResult({
   setResultRef: (key: string, element: HTMLButtonElement | null) => void;
   onOpenMessage: (message: SearchMessageFixture) => void;
 }) {
+  const theme = useThemeFamily();
+  const shell = searchShell({ theme });
   const first = messages[0];
   const latest = messages.reduce<SearchMessageFixture | undefined>((current, message) => {
     if (!current) return message;
@@ -372,8 +569,8 @@ export function ThreadResult({
   return (
     <SearchThreadResult selected={hasSelected}>
       <SearchThreadResultHeader>
-        <div className="mb-1 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-wide text-black/70">
-          <span className="inline-flex items-center gap-1 border border-black bg-white px-1.5 py-0.5">
+        <div className={shell.threadHeaderMeta()}>
+          <span className={shell.threadChip()}>
             <MessageSquare aria-hidden size={11} /> Thread
           </span>
           <span className="normal-case">
@@ -381,11 +578,11 @@ export function ThreadResult({
             {channel?.name ?? "unknown"}
           </span>
           <span>{messages.length} hits</span>
-          <span className="font-mono normal-case text-black/50">
+          <span className={shell.threadTimestamp()}>
             {latest ? formatTimestamp(latest.createdAt) : ""}
           </span>
         </div>
-        <div className="text-sm font-bold text-black">{title || "Thread discussion"}</div>
+        <div className={shell.threadTitle()}>{title || "Thread discussion"}</div>
       </SearchThreadResultHeader>
       <SearchThreadResultMessages>
         {messages.map((message) => (
@@ -407,10 +604,12 @@ export function ThreadResult({
 }
 
 export function SearchSkeleton() {
+  const theme = useThemeFamily();
+  const { skeletonCard } = searchShell({ theme });
   return (
     <div className="flex flex-col gap-2" aria-busy="true">
       {Array.from({ length: 5 }, (_, index) => (
-        <div key={index} className="border-2 border-black/30 bg-white p-3">
+        <div key={index} className={skeletonCard()}>
           <div className="mb-2 flex gap-2">
             <Skeleton variant="line" className="w-24" />
             <Skeleton variant="line" className="w-20" />
@@ -427,18 +626,20 @@ export function SearchSkeleton() {
 }
 
 export function SearchEmpty({ query, filtered = false }: { query?: string; filtered?: boolean }) {
+  const theme = useThemeFamily();
+  const { emptyIcon, emptyTitle, emptyDescription } = searchShell({ theme });
   const hasIntent = Boolean(query || filtered);
   return (
     <SearchResultsEmptyFrame className={hasIntent ? "py-20" : "h-full"}>
-      <Search aria-hidden size={48} className="mb-3 text-black/20" />
-      <p className="text-sm font-bold text-black/50">
+      <Search aria-hidden size={48} className={emptyIcon()} />
+      <p className={emptyTitle()}>
         {hasIntent
           ? query
             ? `No results for "${query}"`
             : "No matching messages"
           : "Search everything"}
       </p>
-      <p className="mt-1 text-xs text-black/40">
+      <p className={emptyDescription()}>
         {hasIntent
           ? query
             ? "Try different keywords or a shorter phrase."
@@ -450,18 +651,16 @@ export function SearchEmpty({ query, filtered = false }: { query?: string; filte
 }
 
 export function SearchError({ onRetry }: { onRetry: () => void }) {
+  const theme = useThemeFamily();
+  const { errorTitle, errorDescription, retryButton } = searchShell({ theme });
   return (
     <SearchResultsErrorFrame>
-      <div className="mb-2 text-sm font-bold text-black">Search failed</div>
-      <div className="mb-3 text-xs text-black/60">
+      <div className={errorTitle()}>Search failed</div>
+      <div className={errorDescription()}>
         The last search request failed. Existing results are preserved when possible, but this query
         needs a retry.
       </div>
-      <button
-        type="button"
-        onClick={onRetry}
-        className="btn-brutal-sm bg-white px-3 py-1.5 text-xs"
-      >
+      <button type="button" onClick={onRetry} className={retryButton()}>
         Retry
       </button>
     </SearchResultsErrorFrame>
@@ -503,18 +702,11 @@ export function SourceIdentityAvatar({
   type: "agent" | "human";
   avatar?: SearchIdentityAvatarFixture;
 }) {
-  const boxClass =
-    context === "surface-list"
-      ? "size-8 border-2"
-      : context === "compact-list"
-        ? "size-5 border"
-        : "size-[14px] border";
-  const fallbackClass = type === "agent" ? "bg-brutal-cyan" : "bg-brutal-lavender text-black";
+  const theme = useThemeFamily();
+  const { identityAvatar } = searchShell({ theme, avatarContext: context, avatarType: type });
 
   return (
-    <span
-      className={`flex shrink-0 items-center justify-center overflow-hidden border-black ${boxClass} ${fallbackClass}`}
-    >
+    <span className={identityAvatar()}>
       {avatar?.kind === "image" ? (
         <img src={avatar.src} alt="" className="h-full w-full object-cover" />
       ) : type === "agent" ? (

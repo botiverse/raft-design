@@ -42,6 +42,7 @@ import {
   SegmentedControlItem,
   SegmentedControlLabel,
   Skeleton,
+  useThemeFamily,
 } from "raft-ui";
 import {
   ActivityInboxItem,
@@ -111,6 +112,7 @@ import {
   ActivityPanelToolbarLink,
   ActivityPanelToolbarPrimaryAction,
   ActivityPanelViewport,
+  activityShell,
 } from "../activity-panel.parts.tsx";
 import {
   useEffect,
@@ -195,6 +197,8 @@ export function ActivityInboxComposition({
   loading = false,
   loadingMore = false,
 }: ActivityInboxCompositionProps = {}) {
+  const theme = useThemeFamily();
+  const shell = activityShell({ theme });
   const [localItems, setLocalItems] = useState<readonly ActivityCompositionItem[]>(defaultItems);
   const items = controlledItems ?? localItems;
   const [view, setView] = useState<ActivityView>(defaultView);
@@ -393,7 +397,7 @@ export function ActivityInboxComposition({
             <ActivityPanelSidebarHeadingLabel>DM &amp; Channels</ActivityPanelSidebarHeadingLabel>
             {channelFilterId ? (
               <ActivityPanelToolbarLink
-                className="text-[10px] font-black text-black/50 underline-offset-2 hover:text-black"
+                className={shell.sidebarShowAllLink()}
                 onClick={() => setChannelFilterId(undefined)}
               >
                 Show all
@@ -690,11 +694,7 @@ export function ActivityInboxComposition({
                     }
                   />
                 ))}
-                {loadingMore ? (
-                  <div className="py-3 text-center text-xs font-bold text-black/40">
-                    Loading more…
-                  </div>
-                ) : null}
+                {loadingMore ? <div className={shell.loadingMore()}>Loading more…</div> : null}
               </ActivityInboxList>
             )}
           </ActivityPanelViewport>
@@ -725,13 +725,14 @@ function ActivityLoadingList() {
 }
 
 function ActivityTaskBadge({ task }: { task: NonNullable<ActivityCompositionItem["task"]> }) {
+  const theme = useThemeFamily();
   const config = activityTaskStatus[task.status];
   const Icon = config.icon;
   return (
     <Badge
       variant={config.variant}
       uppercase={false}
-      style={{ backgroundColor: config.background }}
+      style={theme === "brutal" ? { backgroundColor: config.background } : undefined}
     >
       <Icon size={10} className="shrink-0" />#{task.number}
       {task.claimedBy ? ` @${task.claimedBy}` : null}

@@ -36,8 +36,11 @@ import {
   SelectTrigger,
 } from "raft-ui";
 
+import { useThemeFamily } from "raft-ui";
+
 import type { SearchChannelFixture, SearchSenderFixture } from "../search.fixtures.ts";
 import {
+  searchShell,
   SourceIdentityAvatar,
   type BrutalSearchScope,
   type BrutalSearchSort,
@@ -117,6 +120,8 @@ export function BrutalSearchFilters({
   onTimeRangeChange,
   onSortChange,
 }: SearchFiltersProps) {
+  const theme = useThemeFamily();
+  const shell = searchShell({ theme });
   const portalRef = useRef<HTMLDivElement>(null);
   const [senderQuery, setSenderQuery] = useState(showEmptySenderPopup ? "Nobody" : "");
   const [channelQuery, setChannelQuery] = useState("");
@@ -127,7 +132,7 @@ export function BrutalSearchFilters({
   const hasActiveFilters = Boolean(sender || channel || scopes.length || timeRange !== "any");
 
   return (
-    <div ref={portalRef} className="shrink-0 border-b-2 border-black bg-white px-4 py-3">
+    <div ref={portalRef} className={shell.filtersRow()}>
       <div className="flex flex-wrap items-center gap-2">
         <Combobox<string>
           autoHighlight
@@ -239,7 +244,7 @@ export function BrutalSearchFilters({
           <button
             type="button"
             onClick={() => onChannelChange(null)}
-            className="inline-flex items-center gap-2 border-2 border-black bg-primary px-3 py-1.5 text-xs font-bold text-black shadow-raft-sm"
+            className={shell.channelActiveChip()}
           >
             <Hash aria-hidden size={12} />#{channel.name}
             <X aria-hidden size={10} />
@@ -288,7 +293,7 @@ export function BrutalSearchFilters({
                 {filteredChannels.map((item) => (
                   <ComboboxItem key={item.id} value={item.id}>
                     <span className="flex size-5 shrink-0 items-center justify-center">
-                      <Hash aria-hidden size={12} className="text-black/50" />
+                      <Hash aria-hidden size={12} className={shell.channelOptionIcon()} />
                     </span>
                     <span>#{item.name}</span>
                     <ComboboxItemIndicator />
@@ -390,7 +395,7 @@ export function BrutalSearchFilters({
               onScopesChange([]);
               onTimeRangeChange("any");
             }}
-            className="inline-flex items-center gap-2 border border-black bg-white px-2.5 py-1 text-[11px] font-bold text-black/60 hover:text-black"
+            className={shell.clearAllButton()}
           >
             Clear All
           </button>
