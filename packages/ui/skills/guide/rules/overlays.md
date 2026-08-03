@@ -162,6 +162,8 @@ Do not add a `…Portal` or `…Popup` wrapper around `Content` — that double-
 
 Do not introduce your own portal provider — the primitive's container API already solves placement ownership.
 
+Do not fight overlay stacking with `z-index`. Portaled content escapes your local stacking context by construction; a `z-index: 9999` on app chrome that must sit above or below an overlay is a sign the element is in the wrong place, not that the number is too small.
+
 Every blocking overlay needs a `Title`, even when the design shows no visible heading. It is what screen readers announce.
 
 ---

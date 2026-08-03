@@ -1,6 +1,6 @@
 ---
 name: styling
-description: "Styling contract: oklch semantic token families, banned palettes, interaction color pairs, tv() recipe conventions, the var-first shadow trap."
+description: "Styling contract: oklch semantic token families, banned palettes, interaction color pairs, tv() recipe conventions, the data-slot protocol, the var-first shadow trap."
 ---
 
 # Styling
@@ -13,6 +13,7 @@ description: "Styling contract: oklch semantic token families, banned palettes, 
 - When a raw oklch literal is allowed
 - Never write a var-first shadow
 - Writing a `tv()` recipe
+- Styling by `data-slot`
 - Merging classes
 
 ---
@@ -93,7 +94,13 @@ Use a named `@theme inline` shadow utility (`shadow-field-hover`) or keep the sh
 
 ## Writing a `tv()` recipe
 
-Long class strings become arrays, grouped one concern per entry. Keep a property together with its own state and responsive variants; split unrelated concerns apart. No comments — the grouping carries the intent.
+Long class strings become arrays, one responsibility per entry. Keep a property together with its own state and responsive variants; split unrelated responsibilities apart. No comments — the grouping carries the intent. Group by:
+
+- **layout** — display, grid/flex, gap, min/max size, overflow
+- **typography** — font, size, line-height, weight, wrapping
+- **surface** — background, border, radius, shadow, ring
+- **state** — hover, active, focus-visible, disabled, selected, invalid
+- **child/slot selectors** — icon sizing, `has-*`, `data-*` relationships
 
 ```ts
 const button = tv({
@@ -111,6 +118,30 @@ const button = tv({
 ```
 
 Add a `theme: { brutal, elegant }` variant when the two families genuinely differ, and resolve it from `useThemeFamily()` inside the component — never from a public prop.
+
+**Never construct Tailwind utilities dynamically.** Tailwind's static extraction cannot see them, and the class silently does nothing:
+
+```ts
+// Broken — the class is never generated.
+const padding = `px-${size}`;
+```
+
+Use static recipe entries (a `size` variant with literal classes) instead.
+
+---
+
+## Styling by `data-slot`
+
+Every raft-ui part stamps a stable `data-slot` attribute (`data-slot="dialog-content"`, `data-slot="banner-action"`, …). This is the DOM styling protocol — the recipes themselves use it for structural relationships (`has-[[data-slot=…]]`).
+
+When your styling depends on a part's presence or identity, target `data-slot`, never the part's class names:
+
+```tsx
+// React to a slot's presence from a parent you control:
+<div className="grid has-[[data-slot=banner-action]]:grid-cols-[1fr_auto]">
+```
+
+Class names are recipe internals and change between releases; `data-slot` values are the stable contract. This is also how the library's own style tests select elements.
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: composition
-description: "Compound-part composition: render vs asChild, theme resolution, structure rules, and what never to hand-roll."
+description: "Compound-part composition: render vs asChild, theme resolution, structure rules, wrapping raft-ui components, and what never to hand-roll."
 ---
 
 # Composition
@@ -15,6 +15,7 @@ description: "Compound-part composition: render vs asChild, theme resolution, st
 - Form controls always go through Field
 - Use the component instead of hand-rolled markup
 - Product state stays outside the component
+- Wrapping raft-ui components
 
 ---
 
@@ -179,3 +180,24 @@ A dialog always needs a `Title`. If the design has no visible title, it still ne
 Generic interaction state (open, focus, selection, keyboard navigation, controlled value) belongs to the component. Product state does not.
 
 Upload lifecycle, notification policy, saved/followed flags, permissions, and workflow status live in your app. Pass the result down by choosing which parts to render, not by adding a status prop to a primitive.
+
+---
+
+## Wrapping raft-ui components
+
+When you build your own component on top of a raft-ui one, the wrapper must stay transparent:
+
+```tsx
+import { Button, type ButtonProps } from "raft-ui";
+import { cn } from "raft-ui/cn";
+
+export function DangerZoneButton({ className, ...props }: ButtonProps) {
+  return <Button variant="danger-outline" className={cn("w-full", className)} {...props} />;
+}
+```
+
+- **Spread the rest props and keep `className` mergeable via `cn`.** Swallowing either breaks callsites that need an override.
+- **Keep `render` working through the wrapper** — it is the element-substitution path, and a wrapper that drops it can no longer be used as a trigger/close target.
+- **Do not rebuild variants outside the recipe.** A one-off tweak is `className`; a combination you repeat is a named wrapper component in your module — not a patched copy of the library recipe.
+- **Business wrappers live in your app's module, not in a shared UI folder.** The wrapper is where product copy, icons, and policy enter; keep it next to the feature that owns them.
+- Base UI `data-*` state attributes and `data-slot` pass through automatically — style against them rather than adding parallel state props ([styling.md](./styling.md)).
