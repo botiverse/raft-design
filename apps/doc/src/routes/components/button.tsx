@@ -86,13 +86,6 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const HEIGHT_ALIGNMENT_SIZES = ["xs", "sm", "md", "lg"] as const;
-const HEIGHT_ALIGNMENT_VARIANTS = [
-  { variant: "outline", label: "Outline" },
-  { variant: "primary", label: "Primary" },
-  { variant: "danger-outline", label: "Danger outline" },
-] as const;
-
 const SNIPPETS = {
   anatomy: `<Button />`,
   variants: `<Button variant="default">Default</Button>
@@ -107,32 +100,6 @@ const SNIPPETS = {
 <Button variant="danger-outline">Remove</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="link">Link</Button>`,
-  heightAlignment: `const sizes = ["xs", "sm", "md", "lg"] as const;
-const variants = [
-  { variant: "outline", label: "Outline" },
-  { variant: "primary", label: "Primary" },
-  { variant: "danger-outline", label: "Danger outline" },
-] as const;
-
-{sizes.map((size) => (
-  <div key={size}>
-    {variants.map(({ variant, label }) => (
-      <div key={variant}>
-        <Button variant={variant} size={size}>
-          {label}
-        </Button>
-        <Button variant={variant} size={size}>
-          <Plus data-icon="inline-start" />
-          {label}
-        </Button>
-        <Button variant={variant} size={size}>
-          {label}
-          <Plus data-icon="inline-end" />
-        </Button>
-      </div>
-    ))}
-  </div>
-))}`,
   states: `<Button>Default</Button>
 <Button>Focus visible</Button>
 <Button disabled>Disabled</Button>`,
@@ -335,41 +302,6 @@ function ButtonDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.variants} />
-            </Preview>
-          </DocSubsection>
-
-          <DocSubsection parentId="usage" id="height-alignment" title="Height alignment">
-            <Preview>
-              <Preview.Canvas>
-                <div className="-m-1 max-w-full overflow-x-auto p-1">
-                  <div className="grid min-w-max gap-3">
-                    {HEIGHT_ALIGNMENT_SIZES.map((size) => (
-                      <div
-                        key={size}
-                        className="grid grid-cols-[2.5rem_repeat(9,max-content)] items-center gap-2"
-                      >
-                        <span className="font-mono text-xs text-foreground-muted">{size}</span>
-                        {HEIGHT_ALIGNMENT_VARIANTS.map(({ variant, label }) => (
-                          <div key={variant} className="contents">
-                            <Button variant={variant} size={size}>
-                              {label}
-                            </Button>
-                            <Button variant={variant} size={size}>
-                              <Plus data-icon="inline-start" />
-                              {label}
-                            </Button>
-                            <Button variant={variant} size={size}>
-                              {label}
-                              <Plus data-icon="inline-end" />
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Preview.Canvas>
-              <Preview.Code html={code.heightAlignment} />
             </Preview>
           </DocSubsection>
 

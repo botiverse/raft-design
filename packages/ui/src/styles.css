@@ -523,48 +523,49 @@
 [data-theme="elegant"].dark {
   color-scheme: dark;
 
-  --foreground: oklch(0.95 0 0);
-  --foreground-strong: oklch(0.985 0 0);
-  --foreground-muted: oklch(0.82 0 0);
-  --foreground-hint: oklch(0.76 0 0);
-  --foreground-icon: oklch(0.82 0 0 / 0.68);
-  --foreground-placeholder: oklch(0.72 0.006 286);
-  --foreground-disabled: oklch(0.65 0.006 286);
+  --foreground: oklch(0.88 0.004 106.42);
+  --foreground-strong: oklch(0.92 0.003 106.42);
+  --foreground-muted: oklch(0.82 0.005 106.42);
+  --foreground-hint: oklch(0.76 0.005 106.42);
+  --foreground-icon: oklch(0.82 0.005 106.42 / 0.68);
+  --foreground-placeholder: oklch(0.72 0.005 106.42);
+  --foreground-disabled: oklch(0.65 0.005 106.42);
   --foreground-inverse: oklch(0.145 0 0);
-  --foreground-active: oklch(0.95 0 0);
-  --foreground-hover: oklch(0.85 0 0);
+  --foreground-active: oklch(0.88 0.004 106.42);
+  --foreground-hover: oklch(0.85 0.004 106.42);
 
-  /* Place ladder: page < inset < card < panel < popover; the fill pair sits at
-     popover lightness and one step above. Dark elevation is surface lightness
-     first; shadows are a secondary cue. */
-  --layer-page: oklch(0.145 0 0);
-  --layer-panel: oklch(0.21 0.006 285);
-  --layer-popover: oklch(0.274 0.006 286);
+  /* Place ladder: page < inset < card < panel < popover; the fill pair sits
+     just above popover. Dark elevation is surface lightness first; shadows are
+     a secondary cue. Dark shares the light theme's warm stone hue (106.42) so
+     both modes read as the same material. */
+  --layer-page: oklch(0.145 0.002 106.42);
+  --layer-panel: oklch(0.21 0.004 106.42);
+  --layer-popover: oklch(0.262 0.004 106.42);
   --layer-backdrop: oklch(0 0 0 / 0.6);
-  --layer-inset: oklch(0.185 0.005 285);
-  --layer-card: oklch(0.195 0.005 285);
+  --layer-inset: oklch(0.185 0.003 106.42);
+  --layer-card: oklch(0.195 0.004 106.42);
   --layer-hud: oklch(0.23 0.01 294.8);
 
-  --fill-muted: oklch(0.274 0.006 286);
-  --fill-strong: oklch(0.31 0.006 286);
+  --fill-muted: oklch(0.274 0.005 106.42);
+  --fill-strong: oklch(0.31 0.005 106.42);
 
-  --line-strong: oklch(0.95 0 0);
-  --line: oklch(0.56 0.006 286);
-  --line-muted: oklch(1 0 0 / 0.1);
-  --line-hairline: oklch(1 0 0 / 0.08);
+  --line-strong: oklch(0.95 0.003 106.42);
+  --line: oklch(0.56 0.005 106.42);
+  --line-muted: var(--ink-10);
+  --line-hairline: var(--ink-6);
   --line-field: var(--ink-16);
   --line-field-hover: var(--ink-20);
 
-  --ink: oklch(1 0 0);
-  --ink-2: oklch(1 0 0 / 0.02);
-  --ink-4: oklch(1 0 0 / 0.04);
-  --ink-6: oklch(1 0 0 / 0.06);
-  --ink-8: oklch(1 0 0 / 0.08);
-  --ink-10: oklch(1 0 0 / 0.1);
-  --ink-16: oklch(1 0 0 / 0.16);
-  --ink-20: oklch(1 0 0 / 0.2);
-  --ink-30: oklch(1 0 0 / 0.3);
-  --ink-40: oklch(1 0 0 / 0.4);
+  --ink: oklch(0.985 0.004 106.42);
+  --ink-2: oklch(0.985 0.004 106.42 / 0.02);
+  --ink-4: oklch(0.985 0.004 106.42 / 0.04);
+  --ink-6: oklch(0.985 0.004 106.42 / 0.06);
+  --ink-8: oklch(0.985 0.004 106.42 / 0.08);
+  --ink-10: oklch(0.985 0.004 106.42 / 0.1);
+  --ink-16: oklch(0.985 0.004 106.42 / 0.16);
+  --ink-20: oklch(0.985 0.004 106.42 / 0.2);
+  --ink-30: oklch(0.985 0.004 106.42 / 0.3);
+  --ink-40: oklch(0.985 0.004 106.42 / 0.4);
 
   /* State washes: alpha values composite correctly on page, panel, and
      popover alike. -strong lifts to ~L0.80. */
@@ -581,8 +582,8 @@
   --danger-muted: oklch(0.58 0.19 29 / 0.3);
   --danger-soft: oklch(0.55 0.19 29 / 0.18);
 
-  --inactive: oklch(0.65 0 0);
-  --inactive-foreground: oklch(0.145 0 0);
+  --inactive: oklch(0.65 0.004 106.42);
+  --inactive-foreground: oklch(0.145 0.002 106.42);
 
   --primary-strong: oklch(0.88 0.13 92);
   --primary-soft: oklch(0.55 0.1 92 / 0.16);
