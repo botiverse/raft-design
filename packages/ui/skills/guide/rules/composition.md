@@ -1,3 +1,8 @@
+---
+name: composition
+description: "Compound-part composition: render vs asChild, theme resolution, structure rules, and what never to hand-roll."
+---
+
 # Composition
 
 ## Contents

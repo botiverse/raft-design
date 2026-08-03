@@ -1,3 +1,8 @@
+---
+name: overlays
+description: "Choosing and structuring overlays: Dialog vs AlertDialog vs Drawer, Tooltip vs Popover vs PreviewCard, menu rules, portal structure."
+---
+
 # Overlays
 
 ## Contents

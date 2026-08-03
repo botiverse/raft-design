@@ -1,3 +1,8 @@
+---
+name: selection
+description: "Flat scenario-to-component index across every domain, with links to the reasoning files."
+---
+
 # Selection index
 
 One flat lookup from scenario to component. For the reasoning behind a choice, follow the domain file.

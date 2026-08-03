@@ -1,3 +1,8 @@
+---
+name: styling
+description: "Styling contract: oklch semantic token families, banned palettes, interaction color pairs, tv() recipe conventions, the var-first shadow trap."
+---
+
 # Styling
 
 ## Contents

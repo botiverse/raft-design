@@ -1,3 +1,8 @@
+---
+name: layout
+description: "Shell and layout: AppShell slots, Panel and the PanelHeaderFrame naming trap, AppRail vs Sidebar vs MobileNav, Resizable, ScrollArea, task surfaces."
+---
+
 # Layout and shell
 
 ## Contents

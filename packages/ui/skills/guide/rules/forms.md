@@ -1,3 +1,8 @@
+---
+name: forms
+description: "Choosing and composing form controls: Select vs DropdownMenu, Switch vs Checkbox, Combobox, SegmentedControl vs RadioGroup vs Tabs, Field wiring."
+---
+
 # Form controls
 
 ## Contents

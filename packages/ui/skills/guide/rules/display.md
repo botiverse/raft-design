@@ -1,3 +1,8 @@
+---
+name: display
+description: "Typography and display: the Text family, InlineCode vs CopyableCode vs CodeBlock, Markdown parts, DescriptionList, Avatar, FilePreview vs Files, Kbd."
+---
+
 # Text and display
 
 ## Contents

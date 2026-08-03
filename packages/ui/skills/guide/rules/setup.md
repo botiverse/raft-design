@@ -1,3 +1,8 @@
+---
+name: setup
+description: "First-time install: stylesheet order, fonts, ThemeProvider props, reading the theme, package entry points."
+---
+
 # Setup
 
 ## Install

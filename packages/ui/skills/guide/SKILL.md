@@ -33,14 +33,42 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 - Base UI owns headless behavior (open state, focus, keyboard, collections). Product state (upload lifecycle, permissions, workflow) belongs in your app, not in a component prop.
 - Two theme families, `brutal` and `elegant`, are switched globally by `ThemeProvider`. Components adapt themselves.
 
-## Four decisions to get right
+## Common mistakes
 
-| Question                                        | Answer                     |
-| ----------------------------------------------- | -------------------------- |
-| Picking a **value**, or running an **action**?  | `Select` vs `DropdownMenu` |
-| Applies **immediately**, or on **submit**?      | `Switch` vs `Checkbox`     |
-| Would **missing** the message confuse the user? | `Banner` vs `toast()`      |
-| Is the floating content **interactive**?        | `Popover` vs `Tooltip`     |
+| Mistake                                           | Fix                                                                                                 |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `asChild` on a trigger or close part              | Base UI: `render={<Button … />}`                                                                    |
+| Actions menu built out of `Select`                | `DropdownMenu` — see [rules/forms.md](./rules/forms.md)                                             |
+| Persistent condition announced with `toast()`     | `Banner` — toasts expire, conditions don't                                                          |
+| Buttons or links inside a `Tooltip`               | `Popover` — tooltip content is unreachable                                                          |
+| Destructive confirm as a styled `Dialog`          | `AlertDialog` with `AlertDialogAction` / `AlertDialogCancel`                                        |
+| Variant value copied from another component       | Look it up — negative is `danger` / `destructive` / `error` depending on the component              |
+| Hand-rolled error text under an input             | `Field` + `FieldError`                                                                              |
+| `<Panel><PanelHeader>` for a plain bounded region | `PanelHeaderFrame` — `PanelHeader` is conversation chrome, see [rules/layout.md](./rules/layout.md) |
+| Spinner hand-placed inside a `Button`             | `loading` / `loadingLabel` props                                                                    |
+| `<hr>`, styled `<span>` badge, bare `<p>`         | `Separator`, `Badge`, `Text`                                                                        |
+
+## Which control? Which feedback channel?
+
+```
+Choosing an option control:
+Is it an action, not a value? ──────────── DropdownMenu / ContextMenu
+└─ No: on/off?
+   ├─ Applies immediately ──────────────── Switch
+   ├─ Submitted with a form ────────────── Checkbox
+   └─ No: one of several?
+      ├─ 2–5, form answer ──────────────── RadioGroup
+      ├─ 2–5, switches a view in place ─── SegmentedControl
+      ├─ Swaps visible content panels ──── Tabs
+      ├─ One of many ──────────────────── Select
+      └─ Searchable or multi-select ────── Combobox (chips for multi)
+
+Delivering a message:
+Caused by the user's last action, safe to miss? ── toast()
+Condition that is still true? ──────────────────── Banner
+Happened elsewhere, must persist until read? ───── NotificationCenter
+Loading? ── known layout → Skeleton · unknown duration → Spinner · known % → Progress
+```
 
 Intent names are **not** consistent across components — negative is `danger` on `Button`/`Badge`/`Status`/`Progress`, `destructive` on `Banner`, and `error` on `Toast`/`NotificationCenter`. Never carry a variant value from one component to another.
 
@@ -88,6 +116,22 @@ Full scenario map: [rules/selection.md](./rules/selection.md)
 | [rules/conversation.md](./rules/conversation.md) | Chat sidebar, conversation panel, thread, composer                      |
 | [rules/styling.md](./rules/styling.md)           | Writing any `className`, color, shadow, or `tv()` recipe                |
 | [rules/setup.md](./rules/setup.md)               | First-time install, Tailwind v4 wiring, fonts, theme provider           |
+
+## Review checklist
+
+When reviewing or editing code that uses raft-ui, check:
+
+- [ ] No `theme` prop passed to any component — family comes from `ThemeProvider`
+- [ ] No variant value carried across components — verify against the declarations
+- [ ] Every labelled control is wrapped in `Field`; errors go through `FieldError`
+- [ ] No Tailwind default palette (`gray-*`, `slate-*`, …), hex, `rgb()`, or `hsl()` — semantic oklch tokens only
+- [ ] No `asChild` — element substitution uses `render`
+- [ ] No hand-rolled markup where a component exists: `<hr>` → `Separator`, styled `<span>` → `Badge`, bare text → `Text`, pulsing div → `Skeleton`
+- [ ] Every `Avatar` has an `AvatarFallback`; every blocking overlay has a `Title`
+- [ ] Menu rows are `…Item` parts, not raw `<button>`s — raw buttons drop out of keyboard navigation
+- [ ] Product state (upload, permissions, read/unread) lives in the app; the component renders parts, not a `state` prop
+- [ ] Nothing imported from `raft-ui/wip` unless explicitly requested
+- [ ] No shadow written as `shadow-[var(--…)]` — named utility or fully literal
 
 ## Stability
 

@@ -1,3 +1,8 @@
+---
+name: conversation
+description: "Raft conversation surfaces: Sidebar, ConversationPanel vs ThreadPanel, MessageList/MessageItem satellite families, SystemMessage, Composer structure."
+---
+
 # Conversation surfaces
 
 These encode the Raft product shape. Reach for them before assembling anything chat-like out of primitives.

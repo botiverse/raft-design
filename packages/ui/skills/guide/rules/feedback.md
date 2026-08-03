@@ -1,3 +1,8 @@
+---
+name: feedback
+description: "Feedback and status surfaces: Banner vs toast vs NotificationCenter, Skeleton vs Spinner vs Progress, Badge vs Status, and the inconsistent intent names."
+---
+
 # Feedback and status
 
 ## Contents

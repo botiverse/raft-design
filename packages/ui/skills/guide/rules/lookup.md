@@ -1,3 +1,8 @@
+---
+name: lookup
+description: "Where to find props, variant values, and tokens for the installed raft-ui version — declarations, stylesheet, docs. Read before guessing any name."
+---
+
 # Looking things up
 
 This skill deliberately carries no prop signatures — they would go stale. Look them up instead. **Never guess a prop or variant name.**
