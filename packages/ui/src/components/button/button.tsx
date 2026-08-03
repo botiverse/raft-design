@@ -360,12 +360,12 @@ export const buttonVariants = tv({
       variant: "default",
       class: {
         root: [
-          "bg-foreground text-foreground-inverse",
-          "[--button-focus-outline:var(--foreground)]",
+          "bg-foreground text-foreground-inverse dark:bg-layer-popover dark:text-foreground-strong",
+          "[--button-focus-outline:var(--foreground)] dark:[--button-focus-outline:var(--layer-popover)]",
           "[--button-focus-ring:var(--foreground)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground)]",
-          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
-          "hover:bg-[oklch(0.31_0.006_106.42)] dark:hover:bg-[oklch(0.87_0_0)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground)] dark:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.08),0_0_0_1px_var(--line-muted)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)] dark:before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_6%)_0%,oklab(0%_0_0_/_0%)_100%)]",
+          "hover:bg-[oklch(0.31_0.006_106.42)] dark:hover:bg-fill-strong",
         ],
       },
     },

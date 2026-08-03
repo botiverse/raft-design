@@ -35,9 +35,8 @@ export const taskCard = tv({
       },
       elegant: {
         root: [
-          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
+          "rounded-lg border-[0.5px] border-transparent bg-layer-panel shadow-raft-xs",
           "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))] group-data-[drop-over=true]/task-draggable:hover:bg-layer-panel data-[interactive=true]:active:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
-          "dark:border-transparent",
         ],
         channel: ["min-w-0 truncate font-medium text-foreground-muted"],
         meta: ["gap-1.5"],
