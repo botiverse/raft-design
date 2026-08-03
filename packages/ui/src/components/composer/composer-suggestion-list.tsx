@@ -22,7 +22,7 @@ const composerSuggestionList = tv({
   variants: {
     theme: {
       brutal: {
-        root: "mb-2 max-h-48 border-2 border-black bg-white shadow-md",
+        root: "mb-2 max-h-48 border-2 border-black bg-white shadow-raft-md",
         groupLabel: "text-xs font-bold tracking-widest uppercase text-black/60",
         item: [
           "cursor-pointer text-sm font-medium text-black transition-colors",
@@ -36,7 +36,7 @@ const composerSuggestionList = tv({
       elegant: {
         root: [
           "mb-1 max-h-[204px] overflow-x-hidden rounded-lg p-1 bg-layer-popover",
-          "shadow-sm ring-1 ring-ink-6",
+          "shadow-raft-sm ring-1 ring-ink-6",
         ],
         group: "flex flex-col gap-0.5",
         groupLabel: [

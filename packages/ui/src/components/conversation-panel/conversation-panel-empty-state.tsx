@@ -23,9 +23,9 @@ const conversationPanelEmptyState = tv({
       },
       elegant: {
         root: "font-heading text-sm font-medium tracking-wide text-foreground-muted",
-        brand: "block bg-primary-100 shadow-md ring-1 ring-line-muted/45",
+        brand: "block bg-primary-100 shadow-raft-md ring-1 ring-line-muted/45",
         brandMark: [
-          "bg-primary-400 shadow-md ring-1 ring-line-muted/45",
+          "bg-primary-400 shadow-raft-md ring-1 ring-line-muted/45",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_3%)_100%)] before:content-['']",
         ],

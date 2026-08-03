@@ -28,7 +28,7 @@ export const codeBlock = tv({
         root: [
           "[--code-block-header-height:calc(var(--spacing)*9)]",
           "px-0 pb-0",
-          "border-2 border-line-strong bg-black shadow-sm",
+          "border-2 border-line-strong bg-black shadow-raft-sm",
         ],
         header: ["px-3", "text-sm font-bold tracking-wide text-foreground-inverse uppercase"],
         title: ["text-xs before:mr-1.5 before:text-foreground-inverse/45 before:content-['»']"],
@@ -58,7 +58,7 @@ export const codeBlock = tv({
         ],
         header: [
           "px-2.5",
-          "border-x border-b border-dashed border-line-code",
+          "border-x border-b border-dashed border-ink-10 dark:border-ink-16",
           "bg-layer-panel text-sm/5 font-medium text-foreground-muted",
         ],
         corner: ["hidden"],
@@ -66,7 +66,7 @@ export const codeBlock = tv({
         body: [
           "py-3 pr-6 pl-2.5 leading-relaxed",
           "bg-layer-panel text-foreground",
-          "border-x border-dashed border-line-code",
+          "border-x border-dashed border-ink-10 dark:border-ink-16",
           "[&_pre_span]:text-[var(--shiki-light,currentColor)]",
           "dark:[&_pre_span]:text-[var(--shiki-dark,currentColor)]",
         ],

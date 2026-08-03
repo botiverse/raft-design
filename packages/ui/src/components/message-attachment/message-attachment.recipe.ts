@@ -45,7 +45,7 @@ export const messageAttachment = tv({
       },
       elegant: {
         card: [
-          "h-18 rounded-[5px] border-[0.5px] border-line-muted/70 bg-layer-panel px-2.5 py-1.5 text-foreground-strong shadow-xs",
+          "h-18 rounded-[5px] border-[0.5px] border-line-muted/70 bg-layer-panel px-2.5 py-1.5 text-foreground-strong shadow-raft-xs",
           "transition-[background-color,border-color] duration-150",
           "hover:border-line-muted hover:bg-ink-2 active:bg-ink-8",
         ],

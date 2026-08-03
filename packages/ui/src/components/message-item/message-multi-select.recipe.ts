@@ -18,7 +18,7 @@ export const messageMultiSelect = tv({
       },
       elegant: {
         toolbar:
-          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel px-2.5 py-2.5 shadow-xs",
+          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel px-2.5 py-2.5 shadow-raft-xs",
       },
     },
   },

@@ -34,7 +34,7 @@ export const messageVideoPreview = tv({
         failureIcon: "[&_svg]:stroke-2",
       },
       elegant: {
-        root: "rounded-lg border border-line-muted shadow-xs",
+        root: "rounded-lg border border-line-muted shadow-raft-xs",
         action: [
           "rounded-full border-0 bg-white/75 text-foreground-muted shadow-none backdrop-blur-md",
           "transition-[background-color,color,opacity,box-shadow,transform] duration-150",

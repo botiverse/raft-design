@@ -8,7 +8,7 @@ export const composerDropOverlay = tv({
       "text-center font-medium text-foreground-inverse",
     ],
     dropOverlayIconCluster: ["relative flex items-center justify-center"],
-    dropOverlayIcon: ["bg-layer-panel shadow-md ring-1 ring-line-muted"],
+    dropOverlayIcon: ["bg-layer-panel shadow-raft-md ring-1 ring-line-muted"],
   },
   variants: {
     theme: {

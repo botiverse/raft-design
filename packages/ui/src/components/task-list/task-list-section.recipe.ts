@@ -40,7 +40,7 @@ export const taskListSection = tv({
       },
       elegant: {
         root: [
-          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] p-3 shadow-xs",
+          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] p-3 shadow-raft-xs",
         ],
         items: ["[&_[data-slot=task-card]:hover]:bg-ink-2/[3%]"],
         heading: ["gap-1.5"],

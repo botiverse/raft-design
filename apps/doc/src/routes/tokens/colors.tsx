@@ -90,7 +90,6 @@ const LAYER_GROUPS: readonly TokenGroup[] = [
       ["inset", "--layer-inset"],
       ["card", "--layer-card"],
       ["hud", "--layer-hud"],
-      ["hud strong", "--layer-hud-strong"],
       ["hud foreground", "--layer-hud-foreground"],
     ],
   },
@@ -125,7 +124,6 @@ const LINE_GROUPS: readonly TokenGroup[] = [
       ["hairline", "--line-hairline"],
       ["field", "--line-field"],
       ["field hover", "--line-field-hover"],
-      ["code", "--line-code"],
     ],
   },
 ];
@@ -204,10 +202,10 @@ function stateTokens(
 
 const STATE_GROUPS: readonly TokenGroup[] = [
   {
-    label: "neutral",
+    label: "inactive",
     tokens: [
-      ["neutral", "--color-neutral"],
-      ["foreground", "--color-neutral-foreground"],
+      ["inactive", "--color-inactive"],
+      ["foreground", "--color-inactive-foreground"],
     ],
   },
   { label: "info", tokens: stateTokens("info", true, false) },

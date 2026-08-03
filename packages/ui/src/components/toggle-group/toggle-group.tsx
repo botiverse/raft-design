@@ -22,7 +22,7 @@ const toggleGroup = tv({
         item: [
           "border-2 border-line-strong bg-layer-panel text-foreground",
           "hover:bg-primary-400/30 data-[pressed]:bg-primary-400 data-[pressed]:text-foreground",
-          "data-[pressed]:shadow-sm data-[disabled]:cursor-not-allowed",
+          "data-[pressed]:shadow-raft-sm data-[disabled]:cursor-not-allowed",
         ],
         count: [
           "text-foreground-strong/40",

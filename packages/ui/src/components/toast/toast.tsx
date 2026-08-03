@@ -73,7 +73,7 @@ const toastStyles = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong bg-primary text-foreground-strong shadow-md",
+          "border-2 border-line-strong bg-primary text-foreground-strong shadow-raft-md",
           "focus-visible:outline-transparent",
         ],
         content: [
@@ -91,8 +91,8 @@ const toastStyles = tv({
           "col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end gap-1",
         ],
         close: [
-          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground-strong/70 shadow-xs",
-          "hover:bg-layer-panel hover:text-foreground-strong hover:-translate-y-px hover:shadow-sm",
+          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground-strong/70 shadow-raft-xs",
+          "hover:bg-layer-panel hover:text-foreground-strong hover:-translate-y-px hover:shadow-raft-sm",
           "active:translate-x-px active:translate-y-px active:shadow-none",
         ],
         arrow: ["hidden"],
@@ -101,7 +101,7 @@ const toastStyles = tv({
         root: [
           "relative rounded-xl bg-layer-hud/50 text-layer-hud-foreground backdrop-blur-2xl saturate-150",
           "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
-          "data-[expanded]:bg-layer-hud-strong/54 data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.54)]",
+          "data-[expanded]:bg-layer-hud/54 data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.54)]",
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
           "dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)] dark:data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.68)]",
         ],
@@ -238,7 +238,7 @@ const toastStyles = tv({
       theme: "brutal",
       tone: "error",
       class: {
-        root: "bg-brutal-orange shadow-sm",
+        root: "bg-brutal-orange shadow-raft-sm",
       },
     },
     {
@@ -284,8 +284,8 @@ const toastAction = tv({
     toastTheme: {
       brutal: {
         root: [
-          "order-2 border-2 border-line-strong bg-foreground-strong font-bold text-white shadow-xs",
-          "hover:bg-foreground-strong/85 hover:-translate-y-px hover:shadow-sm",
+          "order-2 border-2 border-line-strong bg-foreground-strong font-bold text-white shadow-raft-xs",
+          "hover:bg-foreground-strong/85 hover:-translate-y-px hover:shadow-raft-sm",
           "active:translate-x-px active:translate-y-px active:shadow-none",
         ],
       },

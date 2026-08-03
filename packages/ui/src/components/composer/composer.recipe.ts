@@ -14,20 +14,20 @@ export const composer = tv({
   variants: {
     theme: {
       brutal: {
-        root: "border-black bg-white shadow-sm focus-within:shadow-md",
+        root: "border-black bg-white shadow-raft-sm focus-within:shadow-raft-md",
         input: "font-sans text-black placeholder:text-black/35",
         meta: "gap-3",
         iconButton: [
-          "size-[26px] p-1 border-black bg-white text-black shadow-sm",
-          "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-md",
-          "active:translate-x-px active:translate-y-px active:shadow-xs",
+          "size-[26px] p-1 border-black bg-white text-black shadow-raft-sm",
+          "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-raft-md",
+          "active:translate-x-px active:translate-y-px active:shadow-raft-xs",
         ],
       },
       elegant: {
         root: [
           "overflow-hidden rounded-lg border-0 p-0",
           "bg-layer-panel",
-          "shadow-sm ring-1 ring-ink-6",
+          "shadow-raft-sm ring-1 ring-ink-6",
         ],
         input: [
           "min-h-16 px-3 pt-3",

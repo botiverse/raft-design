@@ -10,7 +10,7 @@ const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
   "in-progress": "oklch(0.8 0.19 88.97)",
   "in-review": "oklch(0.72 0.16 58)",
   done: "var(--success)",
-  closed: "var(--neutral)",
+  closed: "var(--inactive)",
 };
 
 function TodoIcon(props: TaskStatusSvgProps) {

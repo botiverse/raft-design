@@ -222,7 +222,7 @@ export const badge = tv({
       appearance: "solid",
       variant: "muted",
       class: {
-        root: "bg-neutral text-neutral-foreground",
+        root: "bg-inactive text-inactive-foreground",
       },
     },
     {

@@ -28,8 +28,8 @@ const inputGroup = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong bg-layer-panel shadow-sm",
-          "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][data-invalid]]:shadow-md",
+          "border-2 border-line-strong bg-layer-panel shadow-raft-sm",
+          "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][data-invalid]]:shadow-raft-md",
           "has-[[data-slot=input-group-control][data-invalid]]:border-brutal-red has-[[data-slot=input-group-control][data-invalid]]:bg-brutal-red/5 has-[[data-slot=input-group-control][data-invalid]]:shadow-none has-[[data-slot=input-group-control][data-invalid]]:ring-2 has-[[data-slot=input-group-control][data-invalid]]:ring-brutal-red/60",
         ],
         addon: ["text-foreground-strong/50"],

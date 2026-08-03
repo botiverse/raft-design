@@ -14,7 +14,7 @@ const taskCardPanel = tv({
         header: ["border-b-2 border-line-strong font-bold text-foreground-strong"],
       },
       elegant: {
-        root: ["rounded-[10px] border border-line-muted shadow-sm"],
+        root: ["rounded-[10px] border border-line-muted shadow-raft-sm"],
         header: ["border-b border-line-muted font-medium text-foreground"],
       },
     },

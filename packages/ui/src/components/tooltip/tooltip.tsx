@@ -49,7 +49,7 @@ const tooltip = tv({
         content: [
           "border-2 border-line-strong bg-primary",
           "font-sans font-bold text-foreground-strong",
-          "shadow-sm",
+          "shadow-raft-sm",
           "[&_[data-slot=kbd]]:border-line-strong/70 [&_[data-slot=kbd]]:bg-layer-panel [&_[data-slot=kbd]]:text-foreground-strong/70 [&_[data-slot=kbd]]:ring-0",
         ],
         arrow: ["hidden"],
@@ -58,7 +58,7 @@ const tooltip = tv({
         content: [
           "rounded-md bg-layer-hud text-layer-hud-foreground",
           "font-sans text-[13px] font-medium tracking-[-0.005em]",
-          "shadow-lg",
+          "shadow-raft-lg",
           "[&_[data-slot=kbd]]:bg-white/[0.08] [&_[data-slot=kbd]]:text-white/72 [&_[data-slot=kbd]]:ring-0",
         ],
         arrow: [],

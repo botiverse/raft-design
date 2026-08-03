@@ -147,9 +147,9 @@ export function ThemeStatus() {
 }`,
   themeDataTheme: `<section
   className={cn(
-    "rounded-lg border border-line bg-layer-panel p-4 text-foreground-strong shadow-sm",
+    "rounded-lg border border-line bg-layer-panel p-4 text-foreground-strong shadow-raft-sm",
     "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black",
-    "[[data-theme=elegant]_&]:shadow-md",
+    "[[data-theme=elegant]_&]:shadow-raft-md",
     "[[data-theme=elegant].dark_&]:bg-layer-popover",
   )}
 >

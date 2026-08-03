@@ -123,13 +123,13 @@ export const drawer = tv({
       brutal: {
         title: ["font-bold"],
         swipeHandle: ["before:rounded-none before:bg-ink-40"],
-        popup: ["border-2 border-line-strong bg-layer-panel shadow-xl"],
+        popup: ["border-2 border-line-strong bg-layer-panel shadow-raft-xl"],
         close: ["bg-layer-panel"],
         closeIcon: ["size-5"],
       },
       elegant: {
         overlay: ["backdrop-blur-[2px]"],
-        popup: ["overflow-clip rounded-lg bg-layer-popover shadow-xl md:rounded-xl"],
+        popup: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl md:rounded-xl"],
         close: [
           "p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground-strong",
         ],

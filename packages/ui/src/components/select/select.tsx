@@ -58,8 +58,8 @@ const select = tv({
     theme: {
       brutal: {
         trigger: [
-          "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-panel p-2 text-sm text-foreground-strong shadow-sm focus:outline-none",
-          "hover:bg-layer-panel hover:shadow-sm",
+          "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-panel p-2 text-sm text-foreground-strong shadow-raft-sm focus:outline-none",
+          "hover:bg-layer-panel hover:shadow-raft-sm",
           "disabled:cursor-not-allowed disabled:bg-fill-muted disabled:text-foreground-strong/50 disabled:opacity-100",
           "[&_[data-slot='select-value']_svg:not([class*='stroke-'])]:stroke-2",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
@@ -67,7 +67,7 @@ const select = tv({
           "[&[data-popup-open]_[data-slot='select-icon']]:rotate-180",
         ],
         content: [
-          "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-line-strong bg-layer-popover shadow-md",
+          "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-line-strong bg-layer-popover shadow-raft-md",
         ],
         item: [
           "border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground-strong last:border-b-0",
@@ -108,7 +108,7 @@ const select = tv({
           "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
         ],
-        content: ["rounded-md bg-layer-popover", "shadow-lg"],
+        content: ["rounded-md bg-layer-popover", "shadow-raft-lg"],
         list: ["flex flex-col gap-0.5 px-1 py-1"],
         item: [
           "rounded-sm bg-transparent px-2 py-1.5 text-[13px] font-normal leading-5 tracking-[-0.005em] text-foreground-muted",

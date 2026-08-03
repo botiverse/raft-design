@@ -146,7 +146,7 @@ export function SourceConversationPanelPreview() {
         </div>
       </div>
       <form className="relative flex shrink-0 items-center border-t-2 border-black bg-white px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
-        <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-sm">
+        <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-raft-sm">
           <textarea
             aria-label="Message #proj-uiux"
             readOnly

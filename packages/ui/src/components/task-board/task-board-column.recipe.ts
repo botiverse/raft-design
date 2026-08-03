@@ -28,9 +28,9 @@ export const taskBoardColumn = tv({
       brutal: {
         root: [
           "border-2 border-line-strong/20 bg-layer-panel/30 transition-colors",
-          "data-[drop-state=allowed]:border-line-strong data-[drop-state=allowed]:bg-primary/20 data-[drop-state=allowed]:shadow-sm",
+          "data-[drop-state=allowed]:border-line-strong data-[drop-state=allowed]:bg-primary/20 data-[drop-state=allowed]:shadow-raft-sm",
           "data-[drop-state=blocked]:border-danger data-[drop-state=blocked]:bg-danger-soft",
-          "has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:border-line-strong has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:bg-primary/20 has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:shadow-sm",
+          "has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:border-line-strong has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:bg-primary/20 has-[[data-slot=task-drop-placeholder][data-drop-state=allowed]]:shadow-raft-sm",
           "has-[[data-slot=task-drop-placeholder][data-drop-state=blocked]]:border-danger has-[[data-slot=task-drop-placeholder][data-drop-state=blocked]]:bg-danger-soft",
         ],
         trigger: [

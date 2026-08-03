@@ -598,7 +598,7 @@ function SidebarDoc() {
           <PreviewPane label="Brutal">
             <PreviewThemeScope
               family="brutal"
-              className="h-full w-[308px] shrink-0 border border-line-strong bg-brutal-cream shadow-sm"
+              className="h-full w-[308px] shrink-0 border border-line-strong bg-brutal-cream shadow-raft-sm"
             >
               <SidebarComposition />
             </PreviewThemeScope>
@@ -607,7 +607,7 @@ function SidebarDoc() {
             <PreviewThemeScope
               family="elegant"
               mode="light"
-              className="h-full w-[308px] shrink-0 border border-line-strong bg-layer-page shadow-sm"
+              className="h-full w-[308px] shrink-0 border border-line-strong bg-layer-page shadow-raft-sm"
             >
               <SidebarComposition />
             </PreviewThemeScope>
@@ -616,7 +616,7 @@ function SidebarDoc() {
             <PreviewThemeScope
               family="elegant"
               mode="dark"
-              className="dark h-full w-[308px] shrink-0 border border-line-strong bg-layer-page shadow-sm"
+              className="dark h-full w-[308px] shrink-0 border border-line-strong bg-layer-page shadow-raft-sm"
             >
               <SidebarComposition />
             </PreviewThemeScope>

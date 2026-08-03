@@ -27,17 +27,17 @@ const previewCard = tv({
   variants: {
     theme: {
       // Matches slock's hand-rolled `.card-brutal` (border-2 border-line-strong
-      // bg-white shadow-lg) so the migrated MentionHoverCard keeps its exact
+      // bg-white shadow-raft-lg) so the migrated MentionHoverCard keeps its exact
       // silhouette. Source never rendered an arrow, so brutal hides it too.
       brutal: {
-        popup: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
+        popup: ["border-2 border-line-strong bg-layer-popover shadow-raft-lg"],
         separator: ["border-line-strong"],
         title: ["font-sans font-bold text-foreground-strong"],
         description: ["font-sans text-foreground-strong/70"],
         arrow: ["hidden"],
       },
       elegant: {
-        popup: ["rounded-md bg-layer-popover shadow-xl"],
+        popup: ["rounded-md bg-layer-popover shadow-raft-xl"],
         separator: ["border-line-muted"],
         title: ["font-sans font-medium text-foreground"],
         description: ["bg-ink-2 font-sans", "text-foreground-hint"],

@@ -20,13 +20,13 @@ export function MemberDetailSourcePreview() {
           <span className="block truncate font-mono text-xs text-black/50">@CaliCastle</span>
         </span>
         <span
-          className="flex size-7 items-center justify-center border-2 border-black bg-white shadow-sm"
+          className="flex size-7 items-center justify-center border-2 border-black bg-white shadow-raft-sm"
           aria-hidden
         >
           <MessageSquare className="size-3.5" aria-hidden />
         </span>
         <span
-          className="flex size-7 items-center justify-center border-2 border-black bg-white shadow-sm"
+          className="flex size-7 items-center justify-center border-2 border-black bg-white shadow-raft-sm"
           aria-hidden
         >
           <X className="size-3.5" aria-hidden />
@@ -94,7 +94,7 @@ export function MemberDetailSourcePreview() {
 
         <SourceSection title="Actions">
           <span
-            className="flex w-full items-center justify-center gap-2 border-2 border-black bg-brutal-red px-4 py-2 text-sm font-bold shadow-sm"
+            className="flex w-full items-center justify-center gap-2 border-2 border-black bg-brutal-red px-4 py-2 text-sm font-bold shadow-raft-sm"
             aria-hidden
           >
             <Trash2 className="size-3.5" aria-hidden />

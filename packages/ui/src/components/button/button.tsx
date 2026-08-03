@@ -11,7 +11,7 @@ export const buttonVariants = tv({
       "relative inline-flex shrink-0 items-center justify-center",
       "font-heading leading-none whitespace-nowrap select-none",
       "border-line rounded-none",
-      "shadow-sm transition-all duration-100",
+      "shadow-raft-sm transition-all duration-100",
       "outline outline-[1px] outline-offset-2 outline-transparent",
       "data-[loading=true]:cursor-wait",
       "disabled:pointer-events-none disabled:opacity-40 data-[loading=true]:opacity-100",
@@ -266,7 +266,7 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       variant: "outline",
-      class: { root: "bg-layer-panel text-foreground-strong shadow-sm hover:bg-layer-panel" },
+      class: { root: "bg-layer-panel text-foreground-strong shadow-raft-sm hover:bg-layer-panel" },
     },
     {
       theme: "brutal",
@@ -443,11 +443,11 @@ export const buttonVariants = tv({
       class: {
         root: [
           "border-line-strong bg-brutal-red text-foreground-strong",
-          "shadow-sm",
+          "shadow-raft-sm",
           "hover:border-line-strong hover:bg-brutal-red",
-          "hover:-translate-y-px hover:shadow-md",
+          "hover:-translate-y-px hover:shadow-raft-md",
           "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
-          "active:shadow-xs",
+          "active:shadow-raft-xs",
         ],
       },
     },
@@ -457,11 +457,11 @@ export const buttonVariants = tv({
       class: {
         root: [
           "border-line-strong bg-danger-soft text-[color-mix(in_oklab,var(--danger)_72%,transparent)]",
-          "shadow-sm",
+          "shadow-raft-sm",
           "hover:border-line-strong hover:bg-danger-soft",
-          "hover:-translate-y-px hover:shadow-md",
+          "hover:-translate-y-px hover:shadow-raft-md",
           "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
-          "active:shadow-xs",
+          "active:shadow-raft-xs",
         ],
       },
     },
@@ -552,9 +552,9 @@ export const buttonVariants = tv({
       variant: ["primary", "default", "information", "muted", "accent", "warning", "outline"],
       class: {
         root: [
-          "hover:-translate-y-px hover:shadow-md",
+          "hover:-translate-y-px hover:shadow-raft-md",
           "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
-          "active:shadow-xs",
+          "active:shadow-raft-xs",
         ],
       },
     },

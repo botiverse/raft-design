@@ -135,7 +135,7 @@ const banner = tv({
       theme: "brutal",
       size: "lg",
       class: {
-        root: "p-4 shadow-sm has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3 has-[>[data-slot=status]]:gap-x-2",
+        root: "p-4 shadow-raft-sm has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3 has-[>[data-slot=status]]:gap-x-2",
       },
     },
     {

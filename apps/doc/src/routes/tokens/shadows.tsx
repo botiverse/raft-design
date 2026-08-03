@@ -23,8 +23,8 @@ const SHADOW_TOKENS = [
   {
     name: "xs",
     role: "Pressed",
-    utility: "shadow-xs",
-    themeToken: "--shadow-xs",
+    utility: "shadow-raft-xs",
+    themeToken: "--shadow-raft-xs",
     sourceToken: "--theme-shadow-xs",
     brutal: "1px 1px 0px var(--line-strong)",
     elegant: "oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px",
@@ -32,8 +32,8 @@ const SHADOW_TOKENS = [
   {
     name: "sm",
     role: "Resting",
-    utility: "shadow-sm",
-    themeToken: "--shadow-sm",
+    utility: "shadow-raft-sm",
+    themeToken: "--shadow-raft-sm",
     sourceToken: "--theme-shadow-sm",
     brutal: "2px 2px 0px var(--line-strong)",
     elegant:
@@ -42,8 +42,8 @@ const SHADOW_TOKENS = [
   {
     name: "md",
     role: "Hover / focus",
-    utility: "shadow-md",
-    themeToken: "--shadow-md",
+    utility: "shadow-raft-md",
+    themeToken: "--shadow-raft-md",
     sourceToken: "--theme-shadow-md",
     brutal: "4px 4px 0px var(--line-strong)",
     elegant:
@@ -52,8 +52,8 @@ const SHADOW_TOKENS = [
   {
     name: "lg",
     role: "Floating overlay",
-    utility: "shadow-lg",
-    themeToken: "--shadow-lg",
+    utility: "shadow-raft-lg",
+    themeToken: "--shadow-raft-lg",
     sourceToken: "--theme-shadow-lg",
     brutal: "4px 4px 0px var(--color-black)",
     elegant:
@@ -62,8 +62,8 @@ const SHADOW_TOKENS = [
   {
     name: "xl",
     role: "Modal",
-    utility: "shadow-xl",
-    themeToken: "--shadow-xl",
+    utility: "shadow-raft-xl",
+    themeToken: "--shadow-raft-xl",
     sourceToken: "--theme-shadow-xl",
     brutal: "6px 6px 0px var(--line-strong)",
     elegant:
@@ -86,9 +86,9 @@ const THEME_PREVIEWS = [
 ] as const;
 
 export const SHADOW_SNIPPETS = {
-  usage: `<div className="border border-line bg-layer-panel shadow-sm" />
+  usage: `<div className="border border-line bg-layer-panel shadow-raft-sm" />
 
-<button className="border-2 border-line-strong bg-primary-400 shadow-sm hover:shadow-md active:shadow-xs">
+<button className="border-2 border-line-strong bg-primary-400 shadow-raft-sm hover:shadow-raft-md active:shadow-raft-xs">
   Raised
 </button>`,
 } as const;

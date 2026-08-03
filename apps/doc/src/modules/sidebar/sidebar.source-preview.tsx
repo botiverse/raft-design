@@ -173,7 +173,7 @@ function SourceSidebarMainPreview() {
         </div>
       </div>
       <form className="relative flex shrink-0 items-center border-t-2 border-black bg-white px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
-        <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-sm">
+        <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-raft-sm">
           <textarea
             aria-label="Message #proj-uiux"
             readOnly
@@ -340,7 +340,7 @@ function SourceSidebarNavRow({
   return (
     <button
       type="button"
-      className="mb-1 flex w-full items-center gap-1.5 border-2 border-transparent px-2 py-2 text-left text-sm font-medium transition-colors hover:border-black hover:bg-white hover:shadow-sm active:border-black active:bg-white active:shadow-sm [@media(max-height:600px)]:py-1 md:py-1"
+      className="mb-1 flex w-full items-center gap-1.5 border-2 border-transparent px-2 py-2 text-left text-sm font-medium transition-colors hover:border-black hover:bg-white hover:shadow-raft-sm active:border-black active:bg-white active:shadow-raft-sm [@media(max-height:600px)]:py-1 md:py-1"
     >
       {icon}
       <span className="min-w-0 flex-1 truncate">{label}</span>
@@ -377,10 +377,10 @@ function SourceSidebarRow({
       type="button"
       className={`mb-1 flex w-full items-center gap-1.5 border-2 px-2 py-2 text-sm font-medium [@media(max-height:600px)]:py-1 md:py-1 ${
         selected
-          ? "border-black bg-brutal-pink font-bold text-black shadow-sm"
+          ? "border-black bg-brutal-pink font-bold text-black shadow-raft-sm"
           : menuOpen
-            ? "border-black bg-white shadow-sm"
-            : "border-transparent transition-colors hover:border-black hover:bg-white hover:shadow-sm active:border-black active:bg-white active:shadow-sm"
+            ? "border-black bg-white shadow-raft-sm"
+            : "border-transparent transition-colors hover:border-black hover:bg-white hover:shadow-raft-sm active:border-black active:bg-white active:shadow-raft-sm"
       }`}
     >
       <span className="flex size-[18px] shrink-0 items-center justify-center">

@@ -145,11 +145,11 @@ function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: bool
     padded ? "p-4" : null,
     theme === "brutal"
       ? [
-          "border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-xl",
+          "border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-raft-xl",
           isDesktop ? "bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))]" : null,
         ]
       : [
-          "overflow-clip rounded-lg bg-layer-popover text-foreground-strong shadow-xl",
+          "overflow-clip rounded-lg bg-layer-popover text-foreground-strong shadow-raft-xl",
           isDesktop ? "max-w-md rounded-xl" : null,
         ],
   ]

@@ -23,8 +23,11 @@ const lightbox = tv({
     ],
     // In-flow chrome (e.g. playground): title + actions row.
     header: [
-      "safe-top safe-left safe-right pointer-events-auto shrink-0",
-      "flex items-center gap-3 px-4 py-3",
+      "pointer-events-auto shrink-0",
+      "flex items-center gap-3 pb-3",
+      "pt-[calc(env(safe-area-inset-top,0px)+--spacing(3))]",
+      "pl-[calc(env(safe-area-inset-left,0px)+--spacing(4))]",
+      "pr-[calc(env(safe-area-inset-right,0px)+--spacing(4))]",
     ],
     // Attachment header: left Meta, right Actions. Close stays in-flow here.
     toolbar: [
@@ -47,7 +50,7 @@ const lightbox = tv({
     media: ["pointer-events-auto max-h-[80vh] max-w-[86vw] border-0 bg-transparent shadow-none"],
     navigationButton: [
       "pointer-events-auto absolute z-10 inline-flex items-center justify-center",
-      "border-2 border-line-strong bg-layer-panel text-foreground shadow-sm",
+      "border-2 border-line-strong bg-layer-panel text-foreground shadow-raft-sm",
       "transition-[background-color,color,opacity,box-shadow,transform] duration-150",
       "outline outline-[1px] outline-offset-2 outline-transparent",
       "focus-visible:outline-foreground",
@@ -88,7 +91,7 @@ const lightbox = tv({
         ],
         infoBar: [
           "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
-          "gap-2 rounded-none border-2 border-line-strong py-0.5 pr-0.5 pl-2.5 shadow-sm",
+          "gap-2 rounded-none border-2 border-line-strong py-0.5 pr-0.5 pl-2.5 shadow-raft-sm",
           "[&_[data-slot=button]_svg]:stroke-2",
         ],
         infoTitle: ["text-xs text-foreground-strong"],

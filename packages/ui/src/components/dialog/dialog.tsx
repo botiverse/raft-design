@@ -31,14 +31,14 @@ const dialog = tv({
     theme: {
       brutal: {
         overlay: ["bg-layer-backdrop"],
-        content: ["gap-4 border-2 border-line-strong bg-layer-panel px-6 py-4 shadow-xl"],
+        content: ["gap-4 border-2 border-line-strong bg-layer-panel px-6 py-4 shadow-raft-xl"],
         body: ["py-2 font-medium"],
         title: ["font-heading text-lg leading-none font-bold uppercase"],
         description: ["font-sans text-sm leading-5 text-foreground-strong/60"],
       },
       elegant: {
         overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
-        content: ["overflow-clip rounded-lg bg-layer-popover shadow-xl"],
+        content: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl"],
         header: ["border-b border-line-muted/75 bg-layer-inset px-6 py-3"],
         body: ["px-6 py-5"],
         footer: ["border-t border-line-muted/75 bg-layer-inset px-6 py-3"],

@@ -31,7 +31,7 @@ function JoinLinkCode() {
       className={cn(
         "w-0 min-w-full truncate px-3 py-2 text-foreground",
         theme === "brutal"
-          ? "rounded-none border-2 border-line-strong bg-layer-panel shadow-sm"
+          ? "rounded-none border-2 border-line-strong bg-layer-panel shadow-raft-sm"
           : "rounded bg-fill-muted shadow-none",
       )}
     >

@@ -37,11 +37,11 @@ const notificationCenter = tv({
       brutal: {
         trigger: [
           "relative inline-flex size-9 items-center justify-center overflow-visible rounded-none border-2 border-line-strong bg-brutal-orange p-0 text-foreground",
-          "select-none shadow-sm transition-all duration-100 hover:bg-brutal-orange hover:shadow-md",
+          "select-none shadow-raft-sm transition-all duration-100 hover:bg-brutal-orange hover:shadow-raft-md",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-line-strong",
           "[&>svg]:size-4.5 [&>svg]:shrink-0",
         ],
-        popup: ["border-2 border-line-strong bg-layer-panel shadow-lg"],
+        popup: ["border-2 border-line-strong bg-layer-panel shadow-raft-lg"],
         header: ["border-b-2 border-line-strong bg-brutal-cream"],
         title: ["font-bold uppercase tracking-widest text-foreground-strong/60"],
         count: ["font-mono text-foreground-strong/40"],
@@ -69,7 +69,7 @@ const notificationCenter = tv({
           "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
         ],
         triggerDot: ["pointer-events-none absolute top-2.5 right-2.5"],
-        popup: ["rounded-md bg-layer-popover", "shadow-lg"],
+        popup: ["rounded-md bg-layer-popover", "shadow-raft-lg"],
         header: ["border-b border-line-hairline bg-layer-panel pt-2.5"],
         scroller: ["bg-layer-panel"],
         title: ["text-sm font-medium normal-case tracking-normal text-foreground"],

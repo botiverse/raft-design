@@ -127,7 +127,7 @@ const USAGE_SIDE_FULL_WIDTH = `import {
 </Drawer>`;
 
 const SOURCE_DRAWER = `<div className="fixed inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]">
-  <div className="mx-auto max-w-md border-2 border-black bg-white shadow-xl">
+  <div className="mx-auto max-w-md border-2 border-black bg-white shadow-raft-xl">
     ...
   </div>
 </div>`;

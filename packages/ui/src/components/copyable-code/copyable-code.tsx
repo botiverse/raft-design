@@ -42,7 +42,7 @@ const copyableCode = tv({
   variants: {
     theme: {
       brutal: {
-        code: ["border-2 border-line-strong bg-black text-[oklch(0.88_0.18_132)] shadow-sm"],
+        code: ["border-2 border-line-strong bg-black text-[oklch(0.88_0.18_132)] shadow-raft-sm"],
         codeInner: "break-all",
       },
       elegant: {
@@ -52,7 +52,7 @@ const copyableCode = tv({
           "dark:bg-layer-panel dark:text-[oklch(0.82_0.06_90)]",
         ],
         codeInner: [
-          "border-x border-dashed border-line-code bg-layer-panel px-1",
+          "border-x border-dashed border-ink-10 dark:border-ink-16 bg-layer-panel px-1",
           "dark:bg-layer-popover",
         ],
         action: [

@@ -52,7 +52,7 @@ const progress = tv({
         value: ["font-mono text-xs font-bold text-foreground-strong/70"],
         track: [
           "border-2 border-line-strong bg-layer-panel",
-          "shadow-xs",
+          "shadow-raft-xs",
           "group-data-[complete]/progress:shadow-none",
         ],
       },

@@ -22,7 +22,7 @@ const appRailServerButton = tv({
       brutal: [
         "rounded-none border-2 border-black bg-black",
         "font-sans text-base font-bold text-primary",
-        "shadow-sm hover:shadow-md",
+        "shadow-raft-sm hover:shadow-raft-md",
         "transition-all duration-100",
         "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         "[&_img]:rounded-[inherit]",

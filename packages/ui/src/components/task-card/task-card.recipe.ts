@@ -7,7 +7,7 @@ export const taskCard = tv({
       "transition-all duration-100",
       "data-[interactive=true]:cursor-pointer",
       "data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-40 data-[disabled=true]:transform-none",
-      "group-data-[dragging=true]/task-draggable:transform-none group-data-[dragging=true]/task-draggable:shadow-sm",
+      "group-data-[dragging=true]/task-draggable:transform-none group-data-[dragging=true]/task-draggable:shadow-raft-sm",
       "motion-reduce:transform-none motion-reduce:transition-none",
     ],
     row: ["flex min-w-0 items-start gap-2"],
@@ -23,8 +23,8 @@ export const taskCard = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong bg-layer-panel shadow-sm",
-          "hover:-translate-y-px hover:shadow-md",
+          "border-2 border-line-strong bg-layer-panel shadow-raft-sm",
+          "hover:-translate-y-px hover:shadow-raft-md",
         ],
         meta: ["flex-nowrap"],
         channel: ["min-w-0 truncate", "font-bold text-foreground-strong/60"],
@@ -35,7 +35,7 @@ export const taskCard = tv({
       },
       elegant: {
         root: [
-          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-xs",
+          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
           "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))] group-data-[drop-over=true]/task-draggable:hover:bg-layer-panel data-[interactive=true]:active:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
         ],
         channel: ["min-w-0 truncate font-medium text-foreground-muted"],

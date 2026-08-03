@@ -4,13 +4,13 @@ export const filePreview = tv({
   slots: {
     root: ["relative flex h-10 w-10 shrink-0 items-center justify-center"],
     document: [
-      "relative h-10 w-8 space-y-1.5 rounded-md rounded-tr-[15%] bg-layer-panel p-1.5 shadow-sm ring-1 ring-line-muted",
+      "relative h-10 w-8 space-y-1.5 rounded-md rounded-tr-[15%] bg-layer-panel p-1.5 shadow-raft-sm ring-1 ring-line-muted",
     ],
     file: [
-      "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-sm ring-1 ring-line-muted",
+      "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-raft-sm ring-1 ring-line-muted",
     ],
     code: [
-      "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-sm ring-1 ring-line-muted",
+      "relative flex h-10 w-8 items-center justify-center rounded-md rounded-tr-[15%] bg-layer-panel shadow-raft-sm ring-1 ring-line-muted",
     ],
     fileZip: ["flex h-7 items-center justify-center"],
     fileZipStack: ["relative -translate-y-0.5 flex flex-col items-center"],
@@ -35,7 +35,7 @@ export const filePreview = tv({
       "after:pointer-events-none after:absolute after:inset-0 after:rounded-sm after:border after:border-[oklch(1_0_0_/_0.2)] after:content-['']",
     ],
     media: [
-      "relative h-10 w-8 overflow-hidden rounded-md bg-white shadow-sm ring-1 ring-line-muted",
+      "relative h-10 w-8 overflow-hidden rounded-md bg-white shadow-raft-sm ring-1 ring-line-muted",
     ],
   },
   variants: {
@@ -49,13 +49,13 @@ export const filePreview = tv({
     },
     theme: {
       brutal: {
-        document: "rounded-none border-2 border-black bg-white shadow-sm ring-0",
-        file: "rounded-none border-2 border-black bg-white shadow-sm ring-0",
-        code: "rounded-none border-2 border-black bg-white shadow-sm ring-0",
-        media: "rounded-none border-2 border-black bg-white shadow-sm ring-0",
+        document: "rounded-none border-2 border-black bg-white shadow-raft-sm ring-0",
+        file: "rounded-none border-2 border-black bg-white shadow-raft-sm ring-0",
+        code: "rounded-none border-2 border-black bg-white shadow-raft-sm ring-0",
+        media: "rounded-none border-2 border-black bg-white shadow-raft-sm ring-0",
         badge: [
           "-right-0.5 bottom-0.5 rounded-none border-2 border-black px-1 py-0.5",
-          "font-bold text-foreground-inverse shadow-sm [text-shadow:none] after:hidden",
+          "font-bold text-foreground-inverse shadow-raft-sm [text-shadow:none] after:hidden",
         ],
       },
       elegant: {

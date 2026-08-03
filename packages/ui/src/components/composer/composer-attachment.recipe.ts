@@ -64,9 +64,9 @@ export const composerAttachment = tv({
       brutal: {
         attachmentsViewport: "pe-1.5",
         attachmentsNav: [
-          "shadow-sm",
-          "hover:-translate-y-1/2 hover:shadow-sm",
-          "active:not-data-[has-popup]:translate-x-0 active:not-data-[has-popup]:-translate-y-1/2 active:shadow-sm",
+          "shadow-raft-sm",
+          "hover:-translate-y-1/2 hover:shadow-raft-sm",
+          "active:not-data-[has-popup]:translate-x-0 active:not-data-[has-popup]:-translate-y-1/2 active:shadow-raft-sm",
         ],
         attachment: [
           "has-[[data-slot=composer-attachment-image]]:size-16",
@@ -87,7 +87,7 @@ export const composerAttachment = tv({
       elegant: {
         attachments: ["pt-0.5", "has-[[data-slot=composer-attachments-scroll-area]]:-mx-1"],
         attachmentsViewport: "px-1",
-        attachmentsNav: "rounded-full shadow-md",
+        attachmentsNav: "rounded-full shadow-raft-md",
         attachmentFile: [
           "items-start gap-3 overflow-hidden rounded-md border-0 bg-layer-panel pt-1.5 pr-2.5 pl-1.5",
           "ring-1 ring-ink-10 [&_svg]:text-foreground-icon",

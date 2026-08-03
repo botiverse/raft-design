@@ -41,7 +41,7 @@ const resetModeOption = tv({
         card: [
           "gap-2 border-2 border-black/30 bg-white p-4",
           "hover:bg-brutal-cyan/10",
-          "has-[[data-slot=radio-group-item][data-checked]]:border-black has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-cyan/20 has-[[data-slot=radio-group-item][data-checked]]:shadow-sm",
+          "has-[[data-slot=radio-group-item][data-checked]]:border-black has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-cyan/20 has-[[data-slot=radio-group-item][data-checked]]:shadow-raft-sm",
           "has-[[data-slot=radio-group-item][data-disabled]]:border-line-hairline has-[[data-slot=radio-group-item][data-disabled]]:bg-fill-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-none has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-fill-muted",
           "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-fill-muted",
         ],

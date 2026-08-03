@@ -78,7 +78,7 @@ function CreateAgentDialogParts() {
         <div
           className={cn(
             "grid gap-2 rounded-md border border-[oklch(0.94_0_0)] bg-layer-panel p-3 shadow-none",
-            "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-line-strong [[data-theme=brutal]_&]:bg-layer-panel [[data-theme=brutal]_&]:shadow-sm",
+            "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-line-strong [[data-theme=brutal]_&]:bg-layer-panel [[data-theme=brutal]_&]:shadow-raft-sm",
           )}
         >
           <div className="flex items-center justify-between gap-3">

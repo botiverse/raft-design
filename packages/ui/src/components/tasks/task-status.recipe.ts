@@ -45,7 +45,7 @@ export const taskStatus = tv({
     {
       theme: "elegant",
       status: "closed",
-      class: "bg-neutral text-neutral-foreground",
+      class: "bg-inactive text-inactive-foreground",
     },
   ],
 });

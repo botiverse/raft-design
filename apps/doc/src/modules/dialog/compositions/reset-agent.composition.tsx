@@ -82,7 +82,7 @@ function ResetModeOption({
           ? [
               "block border-2 border-line-muted bg-layer-panel p-4",
               "has-[[data-checked]]:border-line-strong",
-              "has-[[data-checked]]:shadow-sm",
+              "has-[[data-checked]]:shadow-raft-sm",
               resetModeSelectedClassName(tone),
             ]
           : [

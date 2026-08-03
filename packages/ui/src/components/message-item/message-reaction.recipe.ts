@@ -82,7 +82,7 @@ export const messageReaction = tv({
         ],
         pickerStatic: [
           "min-w-0 flex-row rounded-md bg-layer-popover p-1",
-          "shadow-lg outline-none",
+          "shadow-raft-lg outline-none",
         ],
         tooltip: "px-2 py-1.5 text-xs",
       },

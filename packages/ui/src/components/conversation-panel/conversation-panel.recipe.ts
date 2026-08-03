@@ -135,7 +135,7 @@ export const conversationPanel = tv({
         ],
         content: [
           "relative overflow-clip",
-          "bg-layer-panel md:shadow-xl",
+          "bg-layer-panel md:shadow-raft-xl",
           "md:ml-2 md:rounded-tl-[10px]",
         ],
         tabs: [

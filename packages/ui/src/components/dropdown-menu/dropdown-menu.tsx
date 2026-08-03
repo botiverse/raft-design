@@ -44,7 +44,7 @@ const dropdownMenu = tv({
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
         ],
-        content: ["border-2 border-black bg-layer-popover shadow-md"],
+        content: ["border-2 border-black bg-layer-popover shadow-raft-md"],
         item: [
           "py-2 font-sans text-sm font-medium text-foreground-strong hover:bg-primary/30 data-[highlighted]:bg-primary/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-strong/30",
@@ -82,7 +82,7 @@ const dropdownMenu = tv({
         trigger: ["hover:bg-ink-2"],
         content: [
           "gap-0 rounded-md bg-layer-popover p-1",
-          "shadow-lg outline-none",
+          "shadow-raft-lg outline-none",
           "flex flex-col",
         ],
         item: [

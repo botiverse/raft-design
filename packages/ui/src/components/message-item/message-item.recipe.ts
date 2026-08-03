@@ -36,7 +36,7 @@ export const messageItem = tv({
           "has-[[data-popup-open]]:border-line-strong has-[[data-popup-open]]:bg-layer-panel",
           "has-[[data-slot=message-item-search-match]]:border-line-strong",
           "has-[[data-slot=message-item-search-match]]:bg-brutal-cyan/25",
-          "has-[[data-slot=message-item-search-match]]:shadow-md",
+          "has-[[data-slot=message-item-search-match]]:shadow-raft-md",
           "has-[[data-slot=message-item-search-match]]:hover:bg-brutal-cyan/25",
         ],
         continuationTime:
@@ -54,7 +54,7 @@ export const messageItem = tv({
         inlineStatus: "text-[10px] font-bold text-black/40",
         // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
         body: "text-sm text-black",
-        toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-sm"],
+        toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-raft-sm"],
         toolbarButton: [
           "size-6",
           "text-black/50 hover:bg-primary/30 hover:text-black",
@@ -102,7 +102,7 @@ export const messageItem = tv({
           "top-1 right-[26px]",
           "gap-0.5 rounded-sm px-1 py-0.5",
           "bg-layer-popover bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_0.05)_0%,oklab(0%_0_0_/_0.01)_100%)]",
-          "shadow-lg ring-1 ring-line-muted",
+          "shadow-raft-lg ring-1 ring-line-muted",
         ],
         toolbarButton: [
           "size-7 rounded-md border border-transparent bg-transparent p-0",

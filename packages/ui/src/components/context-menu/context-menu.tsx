@@ -36,7 +36,7 @@ const contextMenu = tv({
   variants: {
     theme: {
       brutal: {
-        content: ["border-2 border-black bg-layer-popover shadow-md"],
+        content: ["border-2 border-black bg-layer-popover shadow-raft-md"],
         item: [
           "py-2 font-sans text-sm font-semibold leading-5 text-foreground-strong hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
           "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-strong/30",
@@ -63,7 +63,7 @@ const contextMenu = tv({
         indicator: [],
       },
       elegant: {
-        content: ["gap-0.5 rounded-md bg-layer-popover p-1", "shadow-lg outline-none"],
+        content: ["gap-0.5 rounded-md bg-layer-popover p-1", "shadow-raft-lg outline-none"],
         item: [
           "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
           "text-foreground-muted",

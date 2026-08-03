@@ -33,7 +33,7 @@ export const files = tv({
     theme: {
       brutal: {
         panel: "bg-white",
-        row: ["border-black/30 bg-white", "hover:border-black hover:shadow-sm"],
+        row: ["border-black/30 bg-white", "hover:border-black hover:shadow-raft-sm"],
         rowOpen: "focus-visible:outline-black",
         thumbnail: "border-black bg-white text-black",
         name: "text-black",
@@ -43,7 +43,7 @@ export const files = tv({
         panel: "bg-layer-panel",
         list: ["gap-2.5 px-5 py-4"],
         row: [
-          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel px-3 py-3 shadow-xs",
+          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel px-3 py-3 shadow-raft-xs",
           "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
         ],
         rowOpen: [

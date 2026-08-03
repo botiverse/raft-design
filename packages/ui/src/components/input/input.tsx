@@ -24,7 +24,7 @@ const input = tv({
       class: {
         root: [
           "border-2 border-line-strong bg-layer-panel",
-          "shadow-sm focus:shadow-md",
+          "shadow-raft-sm focus:shadow-raft-md",
           "data-invalid:border-brutal-red data-invalid:bg-brutal-red/5 data-invalid:shadow-none data-invalid:ring-2 data-invalid:ring-brutal-red/60",
         ],
       },

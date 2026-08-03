@@ -17,9 +17,9 @@ export const messageEmbed = tv({
       },
       elegant: {
         root: [
-          "rounded-lg border-[0.5px] border-line-muted bg-layer-card p-[2px] shadow-xs",
+          "rounded-lg border-[0.5px] border-line-muted bg-layer-card p-[2px] shadow-raft-xs",
           "transition-[background-color,box-shadow] duration-150",
-          "hover:bg-[color-mix(in_oklch,var(--ink)_2%,var(--layer-card))] hover:shadow-sm",
+          "hover:bg-[color-mix(in_oklch,var(--ink)_2%,var(--layer-card))] hover:shadow-raft-sm",
           "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] focus-visible:outline-[oklch(0.507_0.185_257.731)]",
         ],
         header: "px-3 py-1.5 sm:px-3.5",

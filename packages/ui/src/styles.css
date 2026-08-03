@@ -9,7 +9,7 @@
      fills (resting/hover/active/disabled surfaces) — the opaque counterpart
      of the translucent ink washes.
    Families:  {family}(-{slot}) — the neutral ladder plus a fourth wash step:
-     family = primary | accent | secondary | info | success | warning | danger
+     family = primary | accent | secondary | info | success | warning | danger | inactive
      slot   = -strong (deep shade: readable text, rings) > bare (solid fill)
               > -muted (strong wash) > -soft (soft wash)
               | -foreground (text on the solid)
@@ -33,9 +33,6 @@
 }
 
 @theme {
-  --shadow-*: initial;
-  --color-neutral-*: initial;
-
   --color-black: oklch(0 0 0);
   --color-white: oklch(1 0 0);
 
@@ -75,7 +72,6 @@
   --color-layer-inset: var(--layer-inset);
   --color-layer-card: var(--layer-card);
   --color-layer-hud: var(--layer-hud);
-  --color-layer-hud-strong: var(--layer-hud-strong);
   --color-layer-hud-foreground: var(--layer-hud-foreground);
 
   --color-fill-muted: var(--fill-muted);
@@ -87,7 +83,6 @@
   --color-line-hairline: var(--line-hairline);
   --color-line-field: var(--line-field);
   --color-line-field-hover: var(--line-field-hover);
-  --color-line-code: var(--line-code);
 
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
@@ -176,14 +171,14 @@
   --color-danger-hover: var(--danger-hover);
   --color-danger-active: var(--danger-active);
 
-  --color-neutral: var(--neutral);
-  --color-neutral-foreground: var(--neutral-foreground);
+  --color-inactive: var(--inactive);
+  --color-inactive-foreground: var(--inactive-foreground);
 
-  --shadow-xs: var(--theme-shadow-xs);
-  --shadow-sm: var(--theme-shadow-sm);
-  --shadow-md: var(--theme-shadow-md);
-  --shadow-lg: var(--theme-shadow-lg);
-  --shadow-xl: var(--theme-shadow-xl);
+  --shadow-raft-xs: var(--theme-shadow-xs);
+  --shadow-raft-sm: var(--theme-shadow-sm);
+  --shadow-raft-md: var(--theme-shadow-md);
+  --shadow-raft-lg: var(--theme-shadow-lg);
+  --shadow-raft-xl: var(--theme-shadow-xl);
 
   --font-heading: var(--heading-font, system-ui, sans-serif);
   --font-sans: var(--sans-font, system-ui, sans-serif);
@@ -327,7 +322,6 @@
   --layer-inset: oklch(0.99 0.002 84.559);
   --layer-card: oklch(0.985 0.003 84.559);
   --layer-hud: oklch(0.263 0.009 294.9);
-  --layer-hud-strong: oklch(0.254 0.01 298);
   --layer-hud-foreground: oklch(0.965 0.002 286);
 
   /* The fills are the old brutal alpha washes flattened over white
@@ -339,11 +333,10 @@
   --line: oklch(0.18 0.006 25);
   --line-muted: oklch(0.18 0.006 25 / 0.3);
   --line-hairline: oklch(0.18 0.006 25 / 0.15);
-  --line-code: oklch(0 0 0 / 0.12);
 
   /* Field-scoped tokens shared by input, input-group, and textarea. */
-  --line-field: oklch(0.94 0 0);
-  --line-field-hover: oklch(0.91 0 0);
+  --line-field: var(--ink-8);
+  --line-field-hover: var(--ink-10);
 
   /* Ink overlay ramp — step suffix = alpha %. For fills, hairlines, hover/active washes. */
   --ink: oklch(0 0 0);
@@ -418,8 +411,8 @@
   --danger-muted: var(--color-brutal-red-200);
   --danger-soft: var(--color-brutal-red-100);
 
-  --neutral: oklch(0.573 0 0);
-  --neutral-foreground: oklch(0.946 0 0);
+  --inactive: oklch(0.573 0 0);
+  --inactive-foreground: oklch(0.946 0 0);
 
   /* Brand ladder steps + the shared primary ring edge. */
   --primary-strong: oklch(0.44 0.09 91.39);
@@ -442,7 +435,6 @@
   --danger-hover: color-mix(in srgb-linear, var(--danger) 84%, var(--ink));
   --danger-active: color-mix(in srgb-linear, var(--danger) 76%, var(--ink));
 
-  /* xs: pressed · sm: resting · md: hover/focus · lg: floating overlay · xl: modal */
   --theme-shadow-xs: 1px 1px 0px var(--line-strong);
   --theme-shadow-sm: 2px 2px 0px var(--line-strong);
   --theme-shadow-md: 4px 4px 0px var(--line-strong);
@@ -498,7 +490,6 @@
   --danger-muted: oklch(0.862 0.065 22.7);
   --danger-soft: oklch(0.898 0.05 22.7);
 
-  /* xs: pressed · sm: resting · md: hover/focus · lg: floating overlay · xl: modal */
   --theme-shadow-xs: oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px;
   --theme-shadow-sm:
     oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px,
@@ -553,7 +544,6 @@
   --layer-inset: oklch(0.185 0.005 285);
   --layer-card: oklch(0.195 0.005 285);
   --layer-hud: oklch(0.23 0.01 294.8);
-  --layer-hud-strong: oklch(0.22 0.01 294.7);
 
   --fill-muted: oklch(0.274 0.006 286);
   --fill-strong: oklch(0.31 0.006 286);
@@ -562,9 +552,8 @@
   --line: oklch(0.56 0.006 286);
   --line-muted: oklch(1 0 0 / 0.1);
   --line-hairline: oklch(1 0 0 / 0.08);
-  --line-field: oklch(1 0 0 / 0.15);
-  --line-field-hover: oklch(1 0 0 / 0.22);
-  --line-code: oklch(1 0 0 / 0.14);
+  --line-field: var(--ink-16);
+  --line-field-hover: var(--ink-20);
 
   --ink: oklch(1 0 0);
   --ink-2: oklch(1 0 0 / 0.02);
@@ -592,8 +581,8 @@
   --danger-muted: oklch(0.58 0.19 29 / 0.3);
   --danger-soft: oklch(0.55 0.19 29 / 0.18);
 
-  --neutral: oklch(0.65 0 0);
-  --neutral-foreground: oklch(0.145 0 0);
+  --inactive: oklch(0.65 0 0);
+  --inactive-foreground: oklch(0.145 0 0);
 
   --primary-strong: oklch(0.88 0.13 92);
   --primary-soft: oklch(0.55 0.1 92 / 0.16);
@@ -601,8 +590,6 @@
   --accent-strong: oklch(0.84 0.11 0);
   --accent-soft: oklch(0.6 0.18 0 / 0.16);
 
-  /* Dark shadows: white-alpha hairline ring replaces the light edge, ambient
-     drops darken instead of disappearing. */
   --theme-shadow-xs: 0 0 0 1px oklch(1 0 0 / 0.06), 0 0.5px 0 oklch(0 0 0 / 0.4);
   --theme-shadow-sm:
     0 0 0 1px oklch(1 0 0 / 0.07), 0px 5px 4px -2px oklch(0 0 0 / 0.1),
@@ -627,22 +614,6 @@
 
 body {
   position: relative;
-}
-
-@utility safe-top {
-  padding-top: env(safe-area-inset-top, 0px);
-}
-
-@utility safe-bottom {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-@utility safe-left {
-  padding-left: env(safe-area-inset-left, 0px);
-}
-
-@utility safe-right {
-  padding-right: env(safe-area-inset-right, 0px);
 }
 
 @utility image-transparency-bg {
