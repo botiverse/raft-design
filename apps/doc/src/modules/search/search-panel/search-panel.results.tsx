@@ -1,11 +1,9 @@
 import { useState } from "react";
 import {
-  SearchResultsContent,
   SearchResultsList,
   SearchResultsSection,
   SearchResultsSectionHeading,
   SearchResultsSummary,
-  SearchResultsViewport,
 } from "raft-ui/wip";
 
 import type {
@@ -95,11 +93,11 @@ export function BrutalSearchResults({
   const showError = view === "error" && !recovered;
 
   return (
-    <SearchResultsViewport>
+    <div data-slot="search-results-viewport" className="min-h-0 flex-1 overflow-y-auto bg-white">
       {!hasIntent ? (
         <SearchEmpty />
       ) : (
-        <SearchResultsContent>
+        <div data-slot="search-results-content" className="bg-white p-4">
           <SearchResultsSummary>
             {view === "loading" ? "Searching…" : `${totalResults} results`}
           </SearchResultsSummary>
@@ -184,8 +182,8 @@ export function BrutalSearchResults({
               ) : null}
             </>
           )}
-        </SearchResultsContent>
+        </div>
       )}
-    </SearchResultsViewport>
+    </div>
   );
 }

@@ -14,37 +14,6 @@ function withSlot<Tag extends "div" | "button" | "span">(
   return props;
 }
 
-export type SearchResultsViewportProps = DivProps;
-export function SearchResultsViewport({ className, render, ...props }: SearchResultsViewportProps) {
-  const theme = useThemeFamily();
-  const { viewport } = searchResults({ theme });
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(
-      withSlot<"div">({
-        "data-slot": "search-results-viewport",
-        className: viewport({ className }),
-      }),
-      props,
-    ),
-  });
-}
-
-export type SearchResultsContentProps = DivProps;
-export function SearchResultsContent({ className, render, ...props }: SearchResultsContentProps) {
-  const theme = useThemeFamily();
-  const { content } = searchResults({ theme });
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(
-      withSlot<"div">({ "data-slot": "search-results-content", className: content({ className }) }),
-      props,
-    ),
-  });
-}
-
 export type SearchResultsSummaryProps = useRender.ComponentProps<"span">;
 export function SearchResultsSummary({ className, render, ...props }: SearchResultsSummaryProps) {
   const theme = useThemeFamily();

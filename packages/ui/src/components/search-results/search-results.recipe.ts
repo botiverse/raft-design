@@ -2,8 +2,6 @@ import { tv } from "../../lib/tv";
 
 export const searchResults = tv({
   slots: {
-    viewport: ["min-h-0 flex-1 overflow-y-auto"],
-    content: ["p-4"],
     summary: ["mb-3 block px-1 text-xs font-bold uppercase tracking-widest"],
     section: ["mb-3"],
     sectionHeading: ["px-1 py-2 text-[10px] font-mono font-bold uppercase tracking-[0.2em]"],
@@ -20,8 +18,6 @@ export const searchResults = tv({
   variants: {
     theme: {
       brutal: {
-        viewport: ["bg-white"],
-        content: ["bg-white"],
         summary: ["text-black/60"],
         sectionHeading: ["text-black/50"],
         entity: [

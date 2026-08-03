@@ -44,14 +44,6 @@ import {
   Skeleton,
 } from "raft-ui";
 import {
-  ActivityInboxControls,
-  ActivityInboxHeader,
-  ActivityInboxHeaderBack,
-  ActivityInboxHeaderContent,
-  ActivityInboxHeaderHeading,
-  ActivityInboxHeaderIcon,
-  ActivityInboxHeaderSubtitle,
-  ActivityInboxHeaderTitle,
   ActivityInboxItem,
   ActivityInboxItemAction,
   ActivityInboxItemActions,
@@ -69,46 +61,57 @@ import {
   ActivityInboxItemTimestamp,
   ActivityInboxItemTitle,
   ActivityInboxItemTitleIcon,
-  ActivityInboxLayout,
   ActivityInboxList,
-  ActivityInboxMain,
-  ActivityInboxMobileNavigation,
-  ActivityInboxMobileNavigationButton,
-  ActivityInboxMobileNavigationLabel,
-  ActivityInboxNavigationCount,
-  ActivityInboxNavigationItem,
-  ActivityInboxNavigationLabel,
-  ActivityInboxRoot,
-  ActivityInboxSearch,
-  ActivityInboxSearchClear,
-  ActivityInboxSearchIcon,
-  ActivityInboxSearchInput,
-  ActivityInboxSelectionCount,
-  ActivityInboxSelectionToolbar,
-  ActivityInboxSidebar,
-  ActivityInboxSidebarHeading,
-  ActivityInboxSidebarHeadingLabel,
-  ActivityInboxSidebarSection,
-  ActivityInboxSortTrigger,
-  ActivityInboxSortContent,
-  ActivityInboxSortItem,
-  ActivityInboxSortItemIndicator,
-  ActivityInboxSwitcher,
-  ActivityInboxSwitcherBody,
-  ActivityInboxSwitcherClose,
-  ActivityInboxSwitcherContent,
-  ActivityInboxSwitcherHeader,
-  ActivityInboxSwitcherItem,
-  ActivityInboxSwitcherItemCount,
-  ActivityInboxSwitcherItemLabel,
-  ActivityInboxSwitcherSeparator,
-  ActivityInboxSwitcherTitle,
-  ActivityInboxSwitcherTrigger,
-  ActivityInboxToolbarButton,
-  ActivityInboxToolbarLink,
-  ActivityInboxToolbarPrimaryAction,
-  ActivityInboxViewport,
 } from "raft-ui/wip";
+
+import {
+  ActivityPanelControls,
+  ActivityPanelHeader,
+  ActivityPanelHeaderBack,
+  ActivityPanelHeaderContent,
+  ActivityPanelHeaderHeading,
+  ActivityPanelHeaderIcon,
+  ActivityPanelHeaderSubtitle,
+  ActivityPanelHeaderTitle,
+  ActivityPanelLayout,
+  ActivityPanelMain,
+  ActivityPanelMobileNavigation,
+  ActivityPanelMobileNavigationButton,
+  ActivityPanelMobileNavigationLabel,
+  ActivityPanelNavigationCount,
+  ActivityPanelNavigationItem,
+  ActivityPanelNavigationLabel,
+  ActivityPanelRoot,
+  ActivityPanelSearch,
+  ActivityPanelSearchClear,
+  ActivityPanelSearchIcon,
+  ActivityPanelSearchInput,
+  ActivityPanelSelectionCount,
+  ActivityPanelSelectionToolbar,
+  ActivityPanelSidebar,
+  ActivityPanelSidebarHeading,
+  ActivityPanelSidebarHeadingLabel,
+  ActivityPanelSidebarSection,
+  ActivityPanelSortTrigger,
+  ActivityPanelSortContent,
+  ActivityPanelSortItem,
+  ActivityPanelSortItemIndicator,
+  ActivityPanelSwitcher,
+  ActivityPanelSwitcherBody,
+  ActivityPanelSwitcherClose,
+  ActivityPanelSwitcherContent,
+  ActivityPanelSwitcherHeader,
+  ActivityPanelSwitcherItem,
+  ActivityPanelSwitcherItemCount,
+  ActivityPanelSwitcherItemLabel,
+  ActivityPanelSwitcherSeparator,
+  ActivityPanelSwitcherTitle,
+  ActivityPanelSwitcherTrigger,
+  ActivityPanelToolbarButton,
+  ActivityPanelToolbarLink,
+  ActivityPanelToolbarPrimaryAction,
+  ActivityPanelViewport,
+} from "../activity-panel.parts.tsx";
 import {
   useEffect,
   useMemo,
@@ -325,29 +328,29 @@ export function ActivityInboxComposition({
   const savedTotal = items.filter((item) => item.saved).length;
 
   return (
-    <ActivityInboxRoot ref={rootRef} data-layout={resolvedLayout}>
-      <ActivityInboxHeader>
+    <ActivityPanelRoot ref={rootRef} data-layout={resolvedLayout}>
+      <ActivityPanelHeader>
         {onBack ? (
-          <ActivityInboxHeaderBack onClick={onBack} aria-label="Back to Home">
+          <ActivityPanelHeaderBack onClick={onBack} aria-label="Back to Home">
             <ArrowLeft />
-          </ActivityInboxHeaderBack>
+          </ActivityPanelHeaderBack>
         ) : null}
-        <ActivityInboxHeaderIcon>
+        <ActivityPanelHeaderIcon>
           <Activity />
-        </ActivityInboxHeaderIcon>
-        <ActivityInboxHeaderContent>
-          <ActivityInboxHeaderHeading>
-            <ActivityInboxHeaderTitle>Activity</ActivityInboxHeaderTitle>
-          </ActivityInboxHeaderHeading>
-          <ActivityInboxHeaderSubtitle>
+        </ActivityPanelHeaderIcon>
+        <ActivityPanelHeaderContent>
+          <ActivityPanelHeaderHeading>
+            <ActivityPanelHeaderTitle>Activity</ActivityPanelHeaderTitle>
+          </ActivityPanelHeaderHeading>
+          <ActivityPanelHeaderSubtitle>
             Triage what needs your attention
-          </ActivityInboxHeaderSubtitle>
-        </ActivityInboxHeaderContent>
-      </ActivityInboxHeader>
+          </ActivityPanelHeaderSubtitle>
+        </ActivityPanelHeaderContent>
+      </ActivityPanelHeader>
 
-      <ActivityInboxLayout>
-        <ActivityInboxSidebar>
-          <ActivityInboxSidebarSection>
+      <ActivityPanelLayout>
+        <ActivityPanelSidebar>
+          <ActivityPanelSidebarSection>
             <ActivityNavigationItem
               active={view === "active"}
               icon={<Inbox size={15} />}
@@ -368,12 +371,12 @@ export function ActivityInboxComposition({
               label="Done"
               onClick={() => setActivityView("done")}
             />
-          </ActivityInboxSidebarSection>
+          </ActivityPanelSidebarSection>
 
-          <ActivityInboxSidebarHeading>
-            <ActivityInboxSidebarHeadingLabel>Filters</ActivityInboxSidebarHeadingLabel>
-          </ActivityInboxSidebarHeading>
-          <ActivityInboxSidebarSection>
+          <ActivityPanelSidebarHeading>
+            <ActivityPanelSidebarHeadingLabel>Filters</ActivityPanelSidebarHeadingLabel>
+          </ActivityPanelSidebarHeading>
+          <ActivityPanelSidebarSection>
             <ActivityNavigationItem
               pressed={view === "active" && mentionsOnly}
               disabled={view !== "active"}
@@ -384,20 +387,20 @@ export function ActivityInboxComposition({
                 setMentionsOnly((current) => !current);
               }}
             />
-          </ActivityInboxSidebarSection>
+          </ActivityPanelSidebarSection>
 
-          <ActivityInboxSidebarHeading>
-            <ActivityInboxSidebarHeadingLabel>DM &amp; Channels</ActivityInboxSidebarHeadingLabel>
+          <ActivityPanelSidebarHeading>
+            <ActivityPanelSidebarHeadingLabel>DM &amp; Channels</ActivityPanelSidebarHeadingLabel>
             {channelFilterId ? (
-              <ActivityInboxToolbarLink
+              <ActivityPanelToolbarLink
                 className="text-[10px] font-black text-black/50 underline-offset-2 hover:text-black"
                 onClick={() => setChannelFilterId(undefined)}
               >
                 Show all
-              </ActivityInboxToolbarLink>
+              </ActivityPanelToolbarLink>
             ) : null}
-          </ActivityInboxSidebarHeading>
-          <ActivityInboxSidebarSection className="gap-0">
+          </ActivityPanelSidebarHeading>
+          <ActivityPanelSidebarSection className="gap-0">
             {groups.map((group) => (
               <ActivityNavigationItem
                 key={group.id}
@@ -411,15 +414,15 @@ export function ActivityInboxComposition({
                 }}
               />
             ))}
-          </ActivityInboxSidebarSection>
-        </ActivityInboxSidebar>
+          </ActivityPanelSidebarSection>
+        </ActivityPanelSidebar>
 
-        <ActivityInboxMain>
-          <ActivityInboxControls>
-            <ActivityInboxMobileNavigation>
-              <ActivityInboxSwitcher open={mobileSwitcherOpen} onOpenChange={setMobileSwitcherOpen}>
-                <ActivityInboxSwitcherTrigger
-                  render={<ActivityInboxMobileNavigationButton aria-label="Switch Activity" />}
+        <ActivityPanelMain>
+          <ActivityPanelControls>
+            <ActivityPanelMobileNavigation>
+              <ActivityPanelSwitcher open={mobileSwitcherOpen} onOpenChange={setMobileSwitcherOpen}>
+                <ActivityPanelSwitcherTrigger
+                  render={<ActivityPanelMobileNavigationButton aria-label="Switch Activity" />}
                 >
                   {view === "active" ? (
                     <Inbox />
@@ -428,19 +431,19 @@ export function ActivityInboxComposition({
                   ) : (
                     <CheckCircle2 />
                   )}
-                  <ActivityInboxMobileNavigationLabel>
+                  <ActivityPanelMobileNavigationLabel>
                     {view === "active" ? "Active" : view === "saved" ? "Saved" : "Done"}
-                  </ActivityInboxMobileNavigationLabel>
+                  </ActivityPanelMobileNavigationLabel>
                   <ChevronDown />
-                </ActivityInboxSwitcherTrigger>
-                <ActivityInboxSwitcherContent portalProps={{ container: rootRef }}>
-                  <ActivityInboxSwitcherHeader>
-                    <ActivityInboxSwitcherTitle>Switch Activity</ActivityInboxSwitcherTitle>
-                    <ActivityInboxSwitcherClose aria-label="Close">
+                </ActivityPanelSwitcherTrigger>
+                <ActivityPanelSwitcherContent portalProps={{ container: rootRef }}>
+                  <ActivityPanelSwitcherHeader>
+                    <ActivityPanelSwitcherTitle>Switch Activity</ActivityPanelSwitcherTitle>
+                    <ActivityPanelSwitcherClose aria-label="Close">
                       <X />
-                    </ActivityInboxSwitcherClose>
-                  </ActivityInboxSwitcherHeader>
-                  <ActivityInboxSwitcherBody>
+                    </ActivityPanelSwitcherClose>
+                  </ActivityPanelSwitcherHeader>
+                  <ActivityPanelSwitcherBody>
                     <ActivitySwitcherItem
                       active={view === "active"}
                       icon={<Inbox />}
@@ -470,7 +473,7 @@ export function ActivityInboxComposition({
                         setMobileSwitcherOpen(false);
                       }}
                     />
-                    <ActivityInboxSwitcherSeparator />
+                    <ActivityPanelSwitcherSeparator />
                     <ActivitySwitcherItem
                       pressed={view === "active" && mentionsOnly}
                       icon={<AtSign />}
@@ -481,7 +484,7 @@ export function ActivityInboxComposition({
                         setMobileSwitcherOpen(false);
                       }}
                     />
-                    <ActivityInboxSwitcherSeparator />
+                    <ActivityPanelSwitcherSeparator />
                     {groups.map((group) => (
                       <ActivitySwitcherItem
                         key={group.id}
@@ -498,10 +501,10 @@ export function ActivityInboxComposition({
                         }}
                       />
                     ))}
-                  </ActivityInboxSwitcherBody>
-                </ActivityInboxSwitcherContent>
-              </ActivityInboxSwitcher>
-            </ActivityInboxMobileNavigation>
+                  </ActivityPanelSwitcherBody>
+                </ActivityPanelSwitcherContent>
+              </ActivityPanelSwitcher>
+            </ActivityPanelMobileNavigation>
 
             {view === "active" ? (
               <SegmentedControl
@@ -519,40 +522,40 @@ export function ActivityInboxComposition({
               </SegmentedControl>
             ) : null}
 
-            <ActivityInboxSearch>
-              <ActivityInboxSearchIcon>
+            <ActivityPanelSearch>
+              <ActivityPanelSearchIcon>
                 <Search />
-              </ActivityInboxSearchIcon>
-              <ActivityInboxSearchInput
+              </ActivityPanelSearchIcon>
+              <ActivityPanelSearchInput
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search activity"
                 aria-label="Search activity"
               />
               {query ? (
-                <ActivityInboxSearchClear onClick={() => setQuery("")} aria-label="Clear search">
+                <ActivityPanelSearchClear onClick={() => setQuery("")} aria-label="Clear search">
                   <X />
-                </ActivityInboxSearchClear>
+                </ActivityPanelSearchClear>
               ) : null}
-            </ActivityInboxSearch>
-          </ActivityInboxControls>
+            </ActivityPanelSearch>
+          </ActivityPanelControls>
 
-          <ActivityInboxSelectionToolbar>
+          <ActivityPanelSelectionToolbar>
             {selectedItems.length === 0 ? (
               <>
-                <ActivityInboxToolbarButton
+                <ActivityPanelToolbarButton
                   onClick={toggleAllVisible}
                   disabled={visibleItems.length === 0}
                   aria-pressed={allVisibleSelected}
                 >
                   Select all
-                </ActivityInboxToolbarButton>
+                </ActivityPanelToolbarButton>
                 <DropdownMenu>
-                  <DropdownMenuTrigger render={<ActivityInboxSortTrigger className="ml-auto" />}>
+                  <DropdownMenuTrigger render={<ActivityPanelSortTrigger className="ml-auto" />}>
                     {sortDirection === "desc" ? "Newest to oldest" : "Oldest to newest"}
                     <ChevronDown />
                   </DropdownMenuTrigger>
-                  <ActivityInboxSortContent
+                  <ActivityPanelSortContent
                     align="end"
                     side="bottom"
                     sideOffset={8}
@@ -564,48 +567,48 @@ export function ActivityInboxComposition({
                       onValueChange={(value) => setSortDirection(value as ActivitySortDirection)}
                     >
                       {(["desc", "asc"] as const).map((direction) => (
-                        <ActivityInboxSortItem key={direction} value={direction}>
-                          <ActivityInboxSortItemIndicator>
+                        <ActivityPanelSortItem key={direction} value={direction}>
+                          <ActivityPanelSortItemIndicator>
                             {sortDirection === direction ? <Check /> : null}
-                          </ActivityInboxSortItemIndicator>
+                          </ActivityPanelSortItemIndicator>
                           {direction === "desc" ? "Newest to oldest" : "Oldest to newest"}
-                        </ActivityInboxSortItem>
+                        </ActivityPanelSortItem>
                       ))}
                     </DropdownMenuRadioGroup>
-                  </ActivityInboxSortContent>
+                  </ActivityPanelSortContent>
                 </DropdownMenu>
               </>
             ) : (
               <>
-                <ActivityInboxSelectionCount>
+                <ActivityPanelSelectionCount>
                   {selectedItems.length} selected
-                </ActivityInboxSelectionCount>
-                <ActivityInboxToolbarLink onClick={() => setSelectedIds(new Set())}>
+                </ActivityPanelSelectionCount>
+                <ActivityPanelToolbarLink onClick={() => setSelectedIds(new Set())}>
                   Clear
-                </ActivityInboxToolbarLink>
+                </ActivityPanelToolbarLink>
                 {view === "active" ? (
                   <>
-                    <ActivityInboxToolbarButton onClick={() => runBulkAction("read")}>
+                    <ActivityPanelToolbarButton onClick={() => runBulkAction("read")}>
                       Mark read
-                    </ActivityInboxToolbarButton>
-                    <ActivityInboxToolbarPrimaryAction onClick={() => runBulkAction("done")}>
+                    </ActivityPanelToolbarButton>
+                    <ActivityPanelToolbarPrimaryAction onClick={() => runBulkAction("done")}>
                       Mark done
-                    </ActivityInboxToolbarPrimaryAction>
+                    </ActivityPanelToolbarPrimaryAction>
                   </>
                 ) : view === "done" ? (
-                  <ActivityInboxToolbarPrimaryAction onClick={() => runBulkAction("restore")}>
+                  <ActivityPanelToolbarPrimaryAction onClick={() => runBulkAction("restore")}>
                     Restore
-                  </ActivityInboxToolbarPrimaryAction>
+                  </ActivityPanelToolbarPrimaryAction>
                 ) : (
-                  <ActivityInboxToolbarPrimaryAction onClick={() => runBulkAction("unsave")}>
+                  <ActivityPanelToolbarPrimaryAction onClick={() => runBulkAction("unsave")}>
                     Remove from Saved
-                  </ActivityInboxToolbarPrimaryAction>
+                  </ActivityPanelToolbarPrimaryAction>
                 )}
               </>
             )}
-          </ActivityInboxSelectionToolbar>
+          </ActivityPanelSelectionToolbar>
 
-          <ActivityInboxViewport aria-busy={loading || loadingMore || undefined}>
+          <ActivityPanelViewport aria-busy={loading || loadingMore || undefined}>
             {loading && visibleItems.length === 0 ? (
               <ActivityLoadingList />
             ) : visibleItems.length === 0 ? (
@@ -694,10 +697,10 @@ export function ActivityInboxComposition({
                 ) : null}
               </ActivityInboxList>
             )}
-          </ActivityInboxViewport>
-        </ActivityInboxMain>
-      </ActivityInboxLayout>
-    </ActivityInboxRoot>
+          </ActivityPanelViewport>
+        </ActivityPanelMain>
+      </ActivityPanelLayout>
+    </ActivityPanelRoot>
   );
 }
 
@@ -749,19 +752,19 @@ function ActivityNavigationItem({
   icon: ReactNode;
   label: string;
   count?: number;
-} & ComponentProps<typeof ActivityInboxNavigationItem>) {
+} & ComponentProps<typeof ActivityPanelNavigationItem>) {
   return (
-    <ActivityInboxNavigationItem
+    <ActivityPanelNavigationItem
       aria-current={active ? "page" : undefined}
       aria-pressed={pressed || undefined}
       {...props}
     >
       {icon}
-      <ActivityInboxNavigationLabel>{label}</ActivityInboxNavigationLabel>
+      <ActivityPanelNavigationLabel>{label}</ActivityPanelNavigationLabel>
       {count === undefined ? null : (
-        <ActivityInboxNavigationCount>{count}</ActivityInboxNavigationCount>
+        <ActivityPanelNavigationCount>{count}</ActivityPanelNavigationCount>
       )}
-    </ActivityInboxNavigationItem>
+    </ActivityPanelNavigationItem>
   );
 }
 
@@ -789,19 +792,19 @@ function ActivitySwitcherItem({
   icon: ReactNode;
   label: string;
   count?: number;
-} & ComponentProps<typeof ActivityInboxSwitcherItem>) {
+} & ComponentProps<typeof ActivityPanelSwitcherItem>) {
   return (
-    <ActivityInboxSwitcherItem
+    <ActivityPanelSwitcherItem
       aria-current={active ? "page" : undefined}
       aria-pressed={pressed || undefined}
       {...props}
     >
       {icon}
-      <ActivityInboxSwitcherItemLabel>{label}</ActivityInboxSwitcherItemLabel>
+      <ActivityPanelSwitcherItemLabel>{label}</ActivityPanelSwitcherItemLabel>
       {count === undefined ? null : (
-        <ActivityInboxSwitcherItemCount>{count}</ActivityInboxSwitcherItemCount>
+        <ActivityPanelSwitcherItemCount>{count}</ActivityPanelSwitcherItemCount>
       )}
-    </ActivityInboxSwitcherItem>
+    </ActivityPanelSwitcherItem>
   );
 }
 

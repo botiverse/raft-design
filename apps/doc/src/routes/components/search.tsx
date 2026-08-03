@@ -38,17 +38,6 @@ const SEARCH_RESULTS_PATH = "apps/doc/src/modules/search/search-panel/search-pan
 
 const SEARCH_RESULT_PART_ROWS: readonly PropRow[] = [
   {
-    name: "SearchResultsViewport",
-    type: "SearchResultsViewportProps",
-    description:
-      "Scrollable results viewport that fills the remaining panel height and owns vertical overflow.",
-  },
-  {
-    name: "SearchResultsContent",
-    type: "SearchResultsContentProps",
-    description: "Padded content container for the result summary, sections, and result states.",
-  },
-  {
     name: "SearchResultsSummary",
     type: "SearchResultsSummaryProps",
     description: "Compact summary line for the result count or current search progress.",

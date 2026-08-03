@@ -2,10 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import activityPanelPartsSource from "#/modules/activity/activity-panel.parts.tsx?raw";
+import { ActivityV2SourcePreview } from "#/modules/activity/activity.source-preview.tsx";
 import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
 import activityInboxCompositionSource from "#/modules/activity/compositions/activity-inbox.composition.tsx?raw";
 import { CompactActivityComposition } from "#/modules/activity/compositions/compact-activity.composition.tsx";
@@ -14,7 +17,6 @@ import { EmptyActivityComposition } from "#/modules/activity/compositions/empty-
 import { LoadingActivityComposition } from "#/modules/activity/compositions/loading-activity.composition.tsx";
 import { LoadingMoreActivityComposition } from "#/modules/activity/compositions/loading-more-activity.composition.tsx";
 import { SavedActivityComposition } from "#/modules/activity/compositions/saved-activity.composition.tsx";
-import { ActivityV2SourcePreview } from "../../../../../packages/ui/source/activity/ActivityV2SourcePreview.tsx";
 
 const TOC = [
   { id: "source-comparison", title: "Source comparison" },
@@ -39,78 +41,105 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const ACTIVITY_PARTS = [
-  "Root",
-  "Header",
-  "HeaderBack",
-  "HeaderIcon",
-  "HeaderContent",
-  "HeaderHeading",
-  "HeaderTitle",
-  "HeaderSubtitle",
-  "Layout",
-  "Sidebar",
-  "SidebarSection",
-  "SidebarHeading",
-  "SidebarHeadingLabel",
-  "NavigationItem",
-  "NavigationLabel",
-  "NavigationCount",
-  "Main",
-  "Controls",
-  "MobileNavigation",
-  "MobileNavigationButton",
-  "MobileNavigationLabel",
-  "Search",
-  "SearchIcon",
-  "SearchInput",
-  "SearchClear",
-  "SelectionToolbar",
-  "SelectionCount",
-  "ToolbarButton",
-  "ToolbarPrimaryAction",
-  "ToolbarLink",
-  "SortTrigger",
-  "SortContent",
-  "SortItem",
-  "SortItemIndicator",
-  "Switcher",
-  "SwitcherTrigger",
-  "SwitcherContent",
-  "SwitcherHeader",
-  "SwitcherTitle",
-  "SwitcherClose",
-  "SwitcherBody",
-  "SwitcherItem",
-  "SwitcherItemLabel",
-  "SwitcherItemCount",
-  "SwitcherSeparator",
-  "Viewport",
-  "List",
-  "Item",
-  "ItemOpen",
-  "ItemSelection",
-  "ItemContent",
-  "ItemSubtitle",
-  "ItemHeading",
-  "ItemTitle",
-  "ItemTitleIcon",
-  "ItemTimestamp",
-  "ItemBody",
-  "ItemSender",
-  "ItemMetadata",
-  "ItemMenuContent",
-  "ItemMenuItem",
-  "ItemActions",
-  "ItemAction",
-  "ItemSavedAction",
-] as const;
+const ACTIVITY_COMPOSITION_PATH =
+  "apps/doc/src/modules/activity/compositions/activity-inbox.composition.tsx";
+const ACTIVITY_PARTS_PATH = "apps/doc/src/modules/activity/activity-panel.parts.tsx";
 
-const ACTIVITY_PART_ROWS: readonly PropRow[] = ACTIVITY_PARTS.map((part) => ({
-  name: `ActivityInbox${part}`,
-  type: `ActivityInbox${part}Props`,
-  description: activityPartDescription(part),
-}));
+const ACTIVITY_ITEM_PART_ROWS: readonly PropRow[] = [
+  {
+    name: "ActivityInboxList",
+    type: "ActivityInboxListProps",
+    description: "Vertical stack layout for activity row cards.",
+  },
+  {
+    name: "ActivityInboxItem",
+    type: "ActivityInboxItemProps",
+    description:
+      "Activity row card frame. data-unread drives the unread emphasis and data-active drives the opened treatment.",
+  },
+  {
+    name: "ActivityInboxItemOpen",
+    type: "ActivityInboxItemOpenProps",
+    description:
+      "Full-card open target layered behind the content so selection and actions stay independently interactive.",
+  },
+  {
+    name: "ActivityInboxItemSelection",
+    type: "ActivityInboxItemSelectionProps",
+    description:
+      "Checkbox-role selection control with checked and onCheckedChange; stops propagation to the open target.",
+  },
+  {
+    name: "ActivityInboxItemContent",
+    type: "ActivityInboxItemContentProps",
+    description: "Text column between the selection control and the action cluster.",
+  },
+  {
+    name: "ActivityInboxItemSubtitle",
+    type: "ActivityInboxItemSubtitleProps",
+    description: "Channel line rendered above the title on thread rows.",
+  },
+  {
+    name: "ActivityInboxItemHeading",
+    type: "ActivityInboxItemHeadingProps",
+    description: "Row pairing the clamped title with the timestamp.",
+  },
+  {
+    name: "ActivityInboxItemTitle",
+    type: "ActivityInboxItemTitleProps",
+    description: "Two-line clamped title; unread emphasis comes from the card's data-unread state.",
+  },
+  {
+    name: "ActivityInboxItemTitleIcon",
+    type: "ActivityInboxItemTitleIconProps",
+    description: "Decorative inline icon before the title text; hidden from assistive technology.",
+  },
+  {
+    name: "ActivityInboxItemTimestamp",
+    type: "ActivityInboxItemTimestampProps",
+    description: "Right-aligned monospace timestamp.",
+  },
+  {
+    name: "ActivityInboxItemBody",
+    type: "ActivityInboxItemBodyProps",
+    description: "Two-line clamped message preview.",
+  },
+  {
+    name: "ActivityInboxItemSender",
+    type: "ActivityInboxItemSenderProps",
+    description: "Bold sender prefix inside the body preview.",
+  },
+  {
+    name: "ActivityInboxItemMetadata",
+    type: "ActivityInboxItemMetadataProps",
+    description: "Badge row under the body for replies, mentions, unread counts, and drafts.",
+  },
+  {
+    name: "ActivityInboxItemActions",
+    type: "ActivityInboxItemActionsProps",
+    description: "Action cluster on the right edge of the card.",
+  },
+  {
+    name: "ActivityInboxItemAction",
+    type: "ActivityInboxItemActionProps",
+    description: "Square bordered card action button (save, done, restore).",
+  },
+  {
+    name: "ActivityInboxItemSavedAction",
+    type: "ActivityInboxItemSavedActionProps",
+    description: "Saved-state variant of the card action with the orange saved treatment.",
+  },
+  {
+    name: "ActivityInboxItemMenuContent",
+    type: "ActivityInboxItemMenuContentProps",
+    description: "ContextMenuContent styled for activity row context menus.",
+  },
+  {
+    name: "ActivityInboxItemMenuItem",
+    type: "ActivityInboxItemMenuItemProps",
+    description: "ContextMenuItem styled for activity row context menus.",
+  },
+];
 
 const STATE_EXAMPLES = [
   { label: "Saved", preview: <SavedActivityComposition />, compact: false },
@@ -131,6 +160,7 @@ export const Route = createFileRoute("/components/activity")({
     highlightSnippets({
       data: {
         composition: activityInboxCompositionSource,
+        parts: activityPanelPartsSource,
       },
     }),
 });
@@ -141,19 +171,20 @@ function ActivityDoc() {
   return (
     <DocPage
       title="ActivityInbox"
-      description="Source-aligned Activity inbox parts and an executable composition for Active, Saved, and Done workflows."
+      description="Activity row card family; the surrounding inbox shell is composed from the generic Panel container."
       overview={
         <ul className="list-disc space-y-1 pl-4">
           <li>
-            preserves the source Activity v2 Brutal spacing, borders, shadows, and selected
-            treatments
+            raft-ui owns the activity row card: frame, open target, selection, text column, metadata
+            badges, and card actions
           </li>
           <li>
-            keeps stores, transport, routing, analytics, feature flags, and product workflow state
-            in the consumer
+            the inbox shell (header, sidebar, controls, toolbar, viewport) is composed in the docs
+            module from Panel, PanelHeaderRoot, and local panel parts
           </li>
           <li>
-            uses the current raft-ui font stack; no Activity-specific Elegant recipe is authored
+            stores, transport, routing, analytics, feature flags, and product workflow state stay in
+            the consumer
           </li>
         </ul>
       }
@@ -173,13 +204,13 @@ function ActivityDoc() {
               brutal: <ActivityInboxComposition layout="wide" />,
               compositionCode: code.composition,
               compositionCollapsedCode: code.compositionBody,
-              compositionPath:
-                "apps/doc/src/modules/activity/compositions/activity-inbox.composition.tsx",
+              compositionPath: ACTIVITY_COMPOSITION_PATH,
               compositionSource: activityInboxCompositionSource,
               previewClassName: "items-stretch overflow-hidden p-0",
             },
           ]}
         />
+        <ActivitySourceFiles code={code} />
       </DocSection>
 
       <DocSection id="states" title="Activity states">
@@ -204,15 +235,16 @@ function ActivityDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={ACTIVITY_PART_ROWS} nameColumnLabel="Export" />
+        <PropsTable rows={ACTIVITY_ITEM_PART_ROWS} nameColumnLabel="Export" />
       </DocSection>
 
       <DocSection id="ownership" title="Ownership">
         <div className="prose prose-sm max-w-none text-foreground-muted">
           <p>
-            <code>packages/ui</code> owns only the Activity visual parts and the keyboard behavior
-            for nested selection/action controls. The docs composition owns deterministic example
-            state and visible product copy.
+            <code>packages/ui</code> owns the activity row card parts and the keyboard behavior for
+            the nested open/selection/action controls. The docs module owns the inbox shell,
+            composed from the generic <code>Panel</code> container plus local panel parts, and the
+            deterministic example state.
           </p>
           <p>
             Production and Playground consumers own item unions, read/save/done policy, server
@@ -225,15 +257,25 @@ function ActivityDoc() {
   );
 }
 
-function activityPartDescription(part: (typeof ACTIVITY_PARTS)[number]): string {
-  if (part.startsWith("Item")) {
-    return `Activity row ${part.replace(/^Item/, "").toLocaleLowerCase() || "root"} part. Visible content stays consumer-owned.`;
-  }
-  if (part.startsWith("Header")) {
-    return `Source-aligned panel header ${part.replace(/^Header/, "").toLocaleLowerCase() || "root"} part.`;
-  }
-  if (part.startsWith("Navigation") || part.startsWith("Sidebar")) {
-    return `Activity navigation ${part.toLocaleLowerCase()} part. Selection is expressed with native ARIA state.`;
-  }
-  return `Activity inbox ${part.toLocaleLowerCase()} part with native element props and render substitution.`;
+/** Canonical composition plus the Panel-based shell parts it renders. */
+function ActivitySourceFiles({ code }: { code: Record<string, string> }) {
+  return (
+    <DocsCodeBlock.Files
+      showLineNumbers={false}
+      files={[
+        {
+          path: ACTIVITY_COMPOSITION_PATH,
+          source: activityInboxCompositionSource,
+          html: code.composition,
+          collapsedHtml: code.compositionBody,
+        },
+        {
+          path: ACTIVITY_PARTS_PATH,
+          source: activityPanelPartsSource,
+          html: code.parts,
+          collapsedHtml: code.partsBody,
+        },
+      ]}
+    />
+  );
 }
