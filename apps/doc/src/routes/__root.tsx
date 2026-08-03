@@ -11,10 +11,20 @@ import { cn } from "raft-ui/cn";
 
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { Sidebar } from "#/components/sidebar.tsx";
+import {
+  getStoredPreviewTheme,
+  readPreviewThemeCookieFromDocument,
+} from "#/lib/preview-theme-storage.ts";
 import fontsCss from "raft-ui/fonts.css?url";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
+  loader: async () => ({
+    storedPreviewTheme:
+      typeof document === "undefined"
+        ? await getStoredPreviewTheme()
+        : readPreviewThemeCookieFromDocument(),
+  }),
   head: () => ({
     meta: [
       {
@@ -77,6 +87,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const { storedPreviewTheme } = Route.useLoaderData();
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
@@ -84,14 +95,17 @@ function RootDocument({ children }: { children: ReactNode }) {
   const isPlaygroundChatPage = isPlaygroundPage && location.pathname.startsWith("/playground/s/");
   const usesPlaygroundDocumentScroll = isPlaygroundPage && !isPlaygroundChatPage;
   const documentTitle = getDocumentTitle(location.pathname);
+  const isDarkDocument =
+    storedPreviewTheme?.theme === "elegant" && storedPreviewTheme.mode === "dark";
 
   return (
     <html
       lang="en"
       data-standalone={isStandalonePage || undefined}
       data-theme="elegant"
+      style={{ colorScheme: isDarkDocument ? "dark" : "light" }}
       className={cn(
-        "light",
+        isDarkDocument ? "dark" : "light",
         usesPlaygroundDocumentScroll &&
           "max-md:!h-auto max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
       )}
@@ -109,10 +123,10 @@ function RootDocument({ children }: { children: ReactNode }) {
                 usesPlaygroundDocumentScroll &&
                   "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
               )
-            : "bg-layer-panel text-foreground-strong antialiased"
+            : "bg-layer-panel text-foreground-strong antialiased dark:bg-layer-page"
         }
       >
-        <PreviewThemeProvider>
+        <PreviewThemeProvider initial={storedPreviewTheme}>
           <DocumentThemeProvider standalone={isStandalonePage}>
             <div
               className={
@@ -159,7 +173,13 @@ function DocumentThemeProvider({
   return (
     <ThemeProvider
       theme={standalone ? previewTheme.theme : "elegant"}
-      mode={standalone ? previewTheme.mode : "light"}
+      mode={
+        previewTheme.theme === "elegant"
+          ? previewTheme.mode
+          : standalone
+            ? previewTheme.mode
+            : "light"
+      }
     >
       {children}
     </ThemeProvider>

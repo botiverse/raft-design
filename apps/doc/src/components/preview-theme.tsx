@@ -9,6 +9,8 @@ import {
 } from "react";
 import { ThemeProvider, useTheme, type Theme, type ThemeMode } from "raft-ui";
 
+import { writePreviewThemeCookie, type StoredPreviewTheme } from "#/lib/preview-theme-storage.ts";
+
 export type PreviewMode = ThemeMode;
 
 type PreviewThemeValue = {
@@ -25,13 +27,19 @@ const DEFAULT_PREVIEW_THEME_VALUE: PreviewThemeValue = {
   setTheme: () => undefined,
 };
 
-export function PreviewThemeProvider({ children }: { children: ReactNode }) {
-  const [selected, setSelected] = useState<{ theme: Theme; mode: PreviewMode }>({
-    theme: "elegant",
-    mode: "light",
-  });
+export function PreviewThemeProvider({
+  children,
+  initial,
+}: {
+  children: ReactNode;
+  initial?: StoredPreviewTheme | null;
+}) {
+  const [selected, setSelected] = useState<StoredPreviewTheme>(
+    () => initial ?? { theme: "elegant", mode: "light" },
+  );
   const setTheme = useCallback<PreviewThemeValue["setTheme"]>((theme, options) => {
     const mode = options?.mode ?? "light";
+    writePreviewThemeCookie({ theme, mode });
     setSelected((current) =>
       current.theme === theme && current.mode === mode ? current : { theme, mode },
     );
