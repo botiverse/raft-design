@@ -1,11 +1,10 @@
 import { useState } from "react";
+import { useThemeFamily } from "raft-ui";
 import {
-  SearchResultsContent,
   SearchResultsList,
   SearchResultsSection,
   SearchResultsSectionHeading,
   SearchResultsSummary,
-  SearchResultsViewport,
 } from "raft-ui/wip";
 
 import type {
@@ -19,6 +18,7 @@ import {
   MessageResult,
   SearchEmpty,
   SearchError,
+  searchShell,
   SearchSkeleton,
   ThreadResult,
 } from "./search-panel.parts.tsx";
@@ -89,17 +89,19 @@ export function BrutalSearchResults({
   onOpenMessage: (message: SearchMessageFixture) => void;
   onLoadMore: () => void;
 }) {
+  const theme = useThemeFamily();
+  const shell = searchShell({ theme });
   const [recovered, setRecovered] = useState(false);
   const groups = groupMessages(messages);
   const totalResults = entities.length + messageCount;
   const showError = view === "error" && !recovered;
 
   return (
-    <SearchResultsViewport>
+    <div data-slot="search-results-viewport" className={shell.resultsViewport()}>
       {!hasIntent ? (
         <SearchEmpty />
       ) : (
-        <SearchResultsContent>
+        <div data-slot="search-results-content" className={shell.resultsContent()}>
           <SearchResultsSummary>
             {view === "loading" ? "Searching…" : `${totalResults} results`}
           </SearchResultsSummary>
@@ -173,19 +175,15 @@ export function BrutalSearchResults({
 
               {messages.length < messageCount ? (
                 <div className="flex justify-center py-4">
-                  <button
-                    type="button"
-                    onClick={onLoadMore}
-                    className="btn-brutal-sm bg-white px-4 py-1.5 text-xs"
-                  >
+                  <button type="button" onClick={onLoadMore} className={shell.loadMoreButton()}>
                     Load More
                   </button>
                 </div>
               ) : null}
             </>
           )}
-        </SearchResultsContent>
+        </div>
       )}
-    </SearchResultsViewport>
+    </div>
   );
 }

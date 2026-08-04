@@ -1,4 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
+import { useThemeFamily } from "raft-ui";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { type ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
@@ -19,6 +20,7 @@ import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
 import { usePlaygroundActivityState } from "./activity-state.tsx";
 
 export function PlaygroundActivityPanel() {
+  const theme = useThemeFamily();
   const navigate = useNavigate();
   const { items, setItems } = usePlaygroundActivityState();
   const { selectRailView } = usePlaygroundNavigation();
@@ -111,7 +113,9 @@ export function PlaygroundActivityPanel() {
       <div
         className={
           activeChannel
-            ? "flex min-w-0 flex-[0_1_48rem] border-r-2 border-black"
+            ? theme === "brutal"
+              ? "flex min-w-0 flex-[0_1_48rem] border-r-2 border-black"
+              : "flex min-w-0 flex-[0_1_48rem]"
             : "flex min-w-0 flex-1"
         }
       >
@@ -123,7 +127,13 @@ export function PlaygroundActivityPanel() {
         />
       </div>
       {activeChannel ? (
-        <div className="hidden min-w-0 flex-1 md:flex">
+        <div
+          className={
+            theme === "brutal"
+              ? "hidden min-w-0 flex-1 md:flex"
+              : "relative hidden min-w-0 flex-1 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-subtle before:content-[''] md:flex"
+          }
+        >
           {activeThread ? (
             <PlaygroundThreadPanel channel={activeChannel} thread={activeThread} />
           ) : activeChannel.kind === "dm" ? (

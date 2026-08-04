@@ -391,7 +391,7 @@ export const buttonVariants = tv({
       variant: "outline",
       class: {
         root: [
-          "bg-layer-panel text-foreground dark:text-foreground-strong",
+          "bg-layer-panel text-foreground dark:text-foreground-muted",
           "[--button-focus-outline:var(--layer-panel)]",
           "[--button-focus-ring:var(--foreground)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",

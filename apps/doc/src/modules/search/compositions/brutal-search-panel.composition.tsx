@@ -1,5 +1,6 @@
 import type { KeyboardEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ConversationPanelContent } from "raft-ui";
 import {
   SEARCH_CHANNEL_FIXTURES,
   SEARCH_ENTITY_FIXTURES,
@@ -371,59 +372,61 @@ function SearchPanel({
         }}
       />
 
-      <BrutalSearchFilters
-        senders={senders}
-        channels={channels}
-        query={query}
-        sender={sender}
-        channel={channel}
-        scopes={scopes}
-        timeRange={timeRange}
-        sort={sort}
-        showEmptySenderPopup={defaultOpenEmptySenderPopup}
-        onSenderChange={(nextSender) => {
-          setSender(nextSender);
-          if (!nextSender) return;
-          const exclusiveKind = getExclusiveSenderKind(scopes);
-          if (exclusiveKind && exclusiveKind !== nextSender.kind) {
-            setScopes((current) =>
-              current.filter(
-                (scope) =>
-                  scope === "mentioned" ||
-                  (scope === "humans" && nextSender.kind === "human") ||
-                  (scope === "agents" && nextSender.kind === "agent"),
-              ),
-            );
-          }
-        }}
-        onChannelChange={setChannel}
-        onScopesChange={(nextScopes) => {
-          setScopes(nextScopes);
-          const exclusiveKind = getExclusiveSenderKind(nextScopes);
-          if (sender && exclusiveKind && exclusiveKind !== sender.kind) setSender(null);
-        }}
-        onTimeRangeChange={setTimeRange}
-        onSortChange={setSort}
-      />
+      <ConversationPanelContent data-slot="search-panel-content" className="overflow-visible">
+        <BrutalSearchFilters
+          senders={senders}
+          channels={channels}
+          query={query}
+          sender={sender}
+          channel={channel}
+          scopes={scopes}
+          timeRange={timeRange}
+          sort={sort}
+          showEmptySenderPopup={defaultOpenEmptySenderPopup}
+          onSenderChange={(nextSender) => {
+            setSender(nextSender);
+            if (!nextSender) return;
+            const exclusiveKind = getExclusiveSenderKind(scopes);
+            if (exclusiveKind && exclusiveKind !== nextSender.kind) {
+              setScopes((current) =>
+                current.filter(
+                  (scope) =>
+                    scope === "mentioned" ||
+                    (scope === "humans" && nextSender.kind === "human") ||
+                    (scope === "agents" && nextSender.kind === "agent"),
+                ),
+              );
+            }
+          }}
+          onChannelChange={setChannel}
+          onScopesChange={(nextScopes) => {
+            setScopes(nextScopes);
+            const exclusiveKind = getExclusiveSenderKind(nextScopes);
+            if (sender && exclusiveKind && exclusiveKind !== sender.kind) setSender(null);
+          }}
+          onTimeRangeChange={setTimeRange}
+          onSortChange={setSort}
+        />
 
-      <BrutalSearchResults
-        entities={entityResults}
-        messages={visibleMessages}
-        messageCount={messageResults.length}
-        senders={senders}
-        channels={channels}
-        query={query}
-        selectedKey={resolvedSelectedKey}
-        hasIntent={hasIntent}
-        hasActiveFilters={hasActiveFilters}
-        view={view}
-        setResultRef={setResultRef}
-        onOpenEntity={(entity) => activate({ key: entity.key, kind: "entity", entity })}
-        onOpenMessage={(message) =>
-          activate({ key: `message:${message.id}`, kind: "message", message })
-        }
-        onLoadMore={() => setVisibleLimit((limit) => limit + PAGE_SIZE)}
-      />
+        <BrutalSearchResults
+          entities={entityResults}
+          messages={visibleMessages}
+          messageCount={messageResults.length}
+          senders={senders}
+          channels={channels}
+          query={query}
+          selectedKey={resolvedSelectedKey}
+          hasIntent={hasIntent}
+          hasActiveFilters={hasActiveFilters}
+          view={view}
+          setResultRef={setResultRef}
+          onOpenEntity={(entity) => activate({ key: entity.key, kind: "entity", entity })}
+          onOpenMessage={(message) =>
+            activate({ key: `message:${message.id}`, kind: "message", message })
+          }
+          onLoadMore={() => setVisibleLimit((limit) => limit + PAGE_SIZE)}
+        />
+      </ConversationPanelContent>
     </BrutalSearchFrame>
   );
 }
