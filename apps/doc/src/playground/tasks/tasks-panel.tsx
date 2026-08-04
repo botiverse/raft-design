@@ -13,6 +13,7 @@ import {
   PanelSectionHeader,
   PanelTitle,
   Tabs,
+  TabsBackground,
   TabsList,
   TabsTab,
 } from "raft-ui";
@@ -249,6 +250,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
             aria-label="Task view"
           >
             <TabsList>
+              <TabsBackground />
               <TabsTab value="board" aria-label="Board" className="px-2.5">
                 <SquareKanban aria-hidden />
               </TabsTab>
