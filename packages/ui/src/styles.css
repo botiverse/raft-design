@@ -550,11 +550,12 @@
      both modes read as the same material. */
   --layer-page: oklch(0.16 0.005 106.42);
   --layer-panel: oklch(0.26 0.004 106.42);
-  --layer-popover: oklch(0.3 0.004 106.42);
+  --layer-popover: oklch(0.24 0.004 106.42);
   --layer-backdrop: oklch(0 0 0 / 0.6);
   --layer-inset: oklch(0.185 0.003 106.42);
   --layer-card: oklch(0.22 0.004 106.42);
   --layer-hud: oklch(0.23 0.01 294.8);
+  --layer-hud-foreground: oklch(0.78 0.006 294.8);
 
   --fill-muted: oklch(0.315 0.005 106.42);
   --fill-strong: oklch(0.345 0.005 106.42);

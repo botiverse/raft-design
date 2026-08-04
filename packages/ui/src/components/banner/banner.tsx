@@ -82,6 +82,7 @@ const banner = tv({
           "[&>button:has(svg):last-child]:size-5 [&>button:has(svg):last-child]:min-h-5 [&>button:has(svg):last-child]:min-w-5",
           "[&>button:has(svg):last-child]:rounded-sm",
           "[&>button:has(svg):last-child]:border-transparent [&>button:has(svg):last-child]:bg-transparent [&>button:has(svg):last-child]:shadow-none",
+          "[&>button:has(svg):last-child]:before:bg-transparent",
           "[&>button:has(svg):last-child]:text-current/45",
           "[&>button:has(svg):last-child]:transition-colors [&>button:has(svg):last-child]:duration-200",
           "[&>button:has(svg):last-child]:hover:border-transparent [&>button:has(svg):last-child]:hover:bg-foreground-strong/5",

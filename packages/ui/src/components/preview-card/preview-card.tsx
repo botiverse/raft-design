@@ -38,9 +38,9 @@ const previewCard = tv({
       },
       elegant: {
         popup: ["rounded-md bg-layer-popover shadow-raft-xl"],
-        separator: ["border-line-muted"],
+        separator: ["border-line-muted dark:border-ink-6"],
         title: ["font-sans font-medium text-foreground"],
-        description: ["bg-ink-2 font-sans", "text-foreground-hint"],
+        description: ["bg-ink-2 font-sans dark:bg-transparent", "text-foreground-hint"],
         arrow: ["border-l border-t border-line-hairline bg-layer-popover"],
       },
     },

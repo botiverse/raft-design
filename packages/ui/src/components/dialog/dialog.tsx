@@ -43,7 +43,7 @@ const dialog = tv({
           "border-b border-line-muted/75 bg-layer-inset px-6 py-3",
           "dark:border-transparent dark:bg-transparent",
         ],
-        body: ["px-6 py-5"],
+        body: ["px-6 py-5 dark:pt-2.5"],
         footer: [
           "border-t border-line-muted/75 bg-layer-inset px-6 py-3",
           "dark:border-transparent dark:bg-transparent",

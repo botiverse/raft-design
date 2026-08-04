@@ -65,7 +65,7 @@ const notificationCenter = tv({
         triggerBellGlow: [
           "pointer-events-none absolute inset-0 size-4 shrink-0",
           "text-[oklch(73.4%_0.149_89.2)]",
-          "drop-shadow-[0_0_1px_#FFD440D1]",
+          "drop-shadow-[0_0_1px_oklch(0.87_0.16_92_/_0.82)]",
           "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
         ],
         triggerDot: ["pointer-events-none absolute top-2.5 right-2.5"],
@@ -133,22 +133,22 @@ const notificationCenter = tv({
     {
       theme: "elegant",
       status: "error",
-      class: { itemIcon: "bg-danger/80 text-danger-strong" },
+      class: { itemIcon: "bg-danger/80 text-danger-strong dark:bg-danger-muted" },
     },
     {
       theme: "elegant",
       status: "warning",
-      class: { itemIcon: "bg-warning/80 text-warning-strong" },
+      class: { itemIcon: "bg-warning/80 text-warning-strong dark:bg-warning-muted" },
     },
     {
       theme: "elegant",
       status: "info",
-      class: { itemIcon: "bg-info/80 text-info-strong" },
+      class: { itemIcon: "bg-info/80 text-info-strong dark:bg-info-muted" },
     },
     {
       theme: "elegant",
       status: "success",
-      class: { itemIcon: "bg-success/80 text-success-strong" },
+      class: { itemIcon: "bg-success/80 text-success-strong dark:bg-success-muted" },
     },
   ],
   defaultVariants: {
