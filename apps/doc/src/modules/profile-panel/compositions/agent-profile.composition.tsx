@@ -47,8 +47,8 @@ export function AgentProfileComposition() {
         </PanelActions>
       </ProfilePanelHeader>
 
-      <div className="border-b border-line-muted [[data-theme=brutal]_&]:border-b-2 [[data-theme=brutal]_&]:border-line-strong">
-        <div className="flex h-12 w-max items-center gap-1.5 px-5 text-[13px] font-medium text-foreground-strong [[data-theme=brutal]_&]:h-auto [[data-theme=brutal]_&]:border-r-2 [[data-theme=brutal]_&]:border-line-strong [[data-theme=brutal]_&]:bg-primary-400 [[data-theme=brutal]_&]:py-1.5 [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-semibold">
+      <div className="border-b border-line-hairline [[data-theme=brutal]_&]:border-b-2 [[data-theme=brutal]_&]:border-line-strong">
+        <div className="flex h-12 w-max items-center gap-1.5 px-5 text-[13px] font-medium text-foreground [[data-theme=brutal]_&]:h-auto [[data-theme=brutal]_&]:border-r-2 [[data-theme=brutal]_&]:border-line-strong [[data-theme=brutal]_&]:bg-primary-400 [[data-theme=brutal]_&]:py-1.5 [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-semibold">
           <Bot className="size-3.5" aria-hidden />
           Profile
         </div>

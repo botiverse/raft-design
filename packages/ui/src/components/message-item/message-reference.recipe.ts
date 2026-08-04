@@ -10,7 +10,7 @@ export const messageReference = tv({
   slots: {
     root: [
       "max-w-full overflow-hidden text-ellipsis whitespace-nowrap select-text no-underline",
-      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
       "[&_svg]:size-3 [&_svg]:shrink-0",
       "has-[>[data-slot=message-reference-indicator]]:relative has-[>[data-slot=message-reference-indicator]]:mr-2",
       "has-[>[data-slot=message-reference-indicator]]:inline-block",
@@ -59,10 +59,10 @@ export const messageReference = tv({
       variant: "primary",
       class: {
         root: [
-          "inline-flex cursor-default items-center gap-1 align-bottom border border-black bg-soft-signal px-1",
+          "inline-flex cursor-default items-center gap-1 align-bottom border border-black bg-primary px-1",
           "[font-size:inherit] font-medium leading-tight text-black",
           "has-[>svg]:inline-flex has-[>svg]:items-center has-[>svg]:gap-1",
-          "hover:bg-soft-signal/80 hover:text-black",
+          "hover:bg-primary/80 hover:text-black",
         ],
       },
     },
@@ -153,7 +153,7 @@ export const messageReference = tv({
         root: [
           "[--reference-badge-ink:var(--color-foreground-inverse)]",
           "group relative inline-flex h-[19px] max-w-full items-center gap-1 align-middle -mt-px rounded-full border border-transparent py-0 pr-2 pl-2",
-          "[font-size:inherit] cursor-pointer font-normal leading-none tracking-normal text-foreground-strong",
+          "[font-size:inherit] cursor-pointer font-normal leading-none tracking-normal text-foreground",
           "transition-[filter,opacity] duration-100",
           "has-[>[data-slot=message-reference-label]]:gap-1",
           "has-[>[data-slot=message-reference-label]]:pr-2",
@@ -186,9 +186,11 @@ export const messageReference = tv({
       variant: ["accent", "info"],
       class: {
         root: [
-          "[--reference-badge:oklch(0.543_0.215_359.77)]",
+          "[--reference-badge:var(--accent-strong)]",
           "bg-[oklch(0.965_0.019_358.59)] text-[oklch(0.543_0.215_359.77)]",
           "hover:bg-[oklch(0.965_0.019_358.59)] hover:text-[oklch(0.543_0.215_359.77)]",
+          "dark:bg-accent-soft dark:text-accent-strong",
+          "dark:hover:bg-accent-soft dark:hover:text-accent-strong",
         ],
       },
     },
@@ -198,7 +200,7 @@ export const messageReference = tv({
       class: {
         root: [
           "[--reference-badge:var(--color-foreground-muted)]",
-          "border-line-subtle bg-layer-muted text-foreground-strong hover:bg-layer-strong",
+          "border-line-muted bg-fill-muted text-foreground hover:bg-fill-strong",
         ],
       },
     },
@@ -207,9 +209,10 @@ export const messageReference = tv({
       variant: "link",
       class: {
         root: [
-          "[--reference-badge:oklch(0.441_0.078_221.2)]",
-          "bg-[oklch(0.966_0.022_224.02)] text-[oklch(0.441_0.078_221.2)]",
-          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-[oklch(0.441_0.078_221.2)]",
+          "[--reference-badge:var(--info-strong)]",
+          "bg-[oklch(0.966_0.022_224.02)] text-info-strong",
+          "hover:bg-[oklch(0.966_0.022_224.02)] hover:text-info-strong",
+          "dark:bg-info-soft dark:hover:bg-info-soft",
         ],
       },
     },
@@ -218,7 +221,7 @@ export const messageReference = tv({
       variant: "pending",
       class: {
         root: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-layer-muted px-2 py-0",
+          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-fill-muted px-2 py-0",
           "cursor-wait font-normal leading-none tracking-normal text-foreground-muted",
         ],
       },
@@ -228,7 +231,7 @@ export const messageReference = tv({
       variant: "unavailable",
       class: {
         root: [
-          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-layer-muted px-2 py-0",
+          "inline-flex h-[19px] items-center gap-1.5 align-middle -mt-px rounded-full border border-transparent bg-fill-muted px-2 py-0",
           "cursor-default font-normal leading-none tracking-normal text-foreground-muted",
         ],
       },

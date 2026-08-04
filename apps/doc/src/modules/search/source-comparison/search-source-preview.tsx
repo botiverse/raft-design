@@ -99,7 +99,7 @@ function SourceMessageHit({ nested = false }: { nested?: boolean }) {
       className={`w-full bg-white text-left transition-colors ${
         nested
           ? "border-t-2 border-black/10 px-3 py-3 hover:bg-black/[0.03]"
-          : "border-2 border-black/30 p-3 hover:border-black hover:shadow-sm active:border-black active:shadow-sm"
+          : "border-2 border-black/30 p-3 hover:border-black hover:shadow-raft-sm active:border-black active:shadow-raft-sm"
       }`}
     >
       <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
@@ -116,8 +116,8 @@ function SourceMessageHit({ nested = false }: { nested?: boolean }) {
         <span className="font-mono text-black/40">2 hours ago</span>
       </div>
       <div className="line-clamp-2 text-sm leading-relaxed text-black/70">
-        The Search <mark className="bg-soft-signal px-0.5 font-bold text-black">preview</mark> keeps
-        the original result structure and selected-state treatment.
+        The Search <mark className="bg-primary px-0.5 font-bold text-black">preview</mark> keeps the
+        original result structure and selected-state treatment.
       </div>
     </button>
   );
@@ -139,10 +139,10 @@ function FrozenSourceSearchPanel() {
         </button>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
-            <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-soft-signal">
+            <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-primary">
               <Search aria-hidden size={18} />
             </div>
-            <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-sm focus-within:shadow-md">
+            <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-raft-sm focus-within:shadow-raft-md">
               <input
                 value="preview"
                 readOnly
@@ -188,7 +188,7 @@ function FrozenSourceSearchPanel() {
               Server entities
             </div>
             <div className="flex flex-col gap-2">
-              <div className="flex w-full items-stretch border-2 border-black bg-white text-left shadow-sm transition-colors">
+              <div className="flex w-full items-stretch border-2 border-black bg-white text-left shadow-raft-sm transition-colors">
                 <button
                   type="button"
                   aria-disabled="true"
@@ -197,7 +197,7 @@ function FrozenSourceSearchPanel() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="relative flex shrink-0">
-                      <div className="flex size-8 items-center justify-center overflow-hidden border-2 border-black bg-soft-signal text-black">
+                      <div className="flex size-8 items-center justify-center overflow-hidden border-2 border-black bg-primary text-black">
                         <Hash aria-hidden size={14} />
                       </div>
                     </div>
@@ -213,7 +213,7 @@ function FrozenSourceSearchPanel() {
                   </div>
                 </button>
               </div>
-              <div className="flex w-full items-stretch border-2 border-black/30 bg-white text-left transition-colors hover:border-black hover:shadow-sm active:border-black active:shadow-sm">
+              <div className="flex w-full items-stretch border-2 border-black/30 bg-white text-left transition-colors hover:border-black hover:shadow-raft-sm active:border-black active:shadow-raft-sm">
                 <button
                   type="button"
                   aria-disabled="true"
@@ -249,7 +249,7 @@ function FrozenSourceSearchPanel() {
             </div>
             <div className="flex flex-col gap-2">
               <SourceMessageHit />
-              <div className="overflow-hidden border-2 border-black/30 bg-white transition-colors hover:border-black hover:shadow-sm">
+              <div className="overflow-hidden border-2 border-black/30 bg-white transition-colors hover:border-black hover:shadow-raft-sm">
                 <div className="border-b-2 border-black bg-[#ffeefb] px-3 py-2">
                   <div className="mb-1 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-wide text-black/70">
                     <span className="inline-flex items-center gap-1 border border-black bg-white px-1.5 py-0.5">

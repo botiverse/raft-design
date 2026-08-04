@@ -11,7 +11,10 @@ export const taskLoading = tv({
         row: ["rounded-sm border-2 border-line-strong/30"],
       },
       elegant: {
-        row: ["rounded-lg border border-line-subtle bg-layer-panel shadow-sm"],
+        row: [
+          "rounded-lg border border-line-muted bg-layer-panel shadow-raft-sm",
+          "dark:border-transparent",
+        ],
       },
     },
   },

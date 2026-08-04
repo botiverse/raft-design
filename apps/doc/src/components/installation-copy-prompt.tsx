@@ -105,7 +105,7 @@ export function InstallationCopyPrompt({ prompt }: InstallationCopyPromptProps) 
         onPointerEnter={showPreview}
         onPointerLeave={hidePreview}
       >
-        <pre className="max-h-80 overflow-auto px-3 py-3 font-mono text-xs leading-relaxed text-foreground-strong whitespace-pre-wrap">
+        <pre className="max-h-80 overflow-auto px-3 py-3 font-mono text-xs leading-relaxed text-foreground whitespace-pre-wrap">
           {prompt}
         </pre>
       </PopoverContent>

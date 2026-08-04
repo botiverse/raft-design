@@ -12,7 +12,7 @@ export function TextTaskRowContent() {
           render={<span />}
           size="small"
           variant="default"
-          className="truncate font-medium text-foreground-strong"
+          className="truncate font-medium text-foreground"
         >
           Audit component migration
         </Text.Sans>

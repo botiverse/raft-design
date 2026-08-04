@@ -16,17 +16,17 @@ const field = tv({
     theme: {
       brutal: {
         root: ["gap-1"],
-        label: ["font-bold text-foreground-strong"],
-        description: ["text-foreground/50"],
-        error: ["text-danger-base"],
+        label: ["font-bold text-foreground"],
+        description: ["text-foreground-strong/50"],
+        error: ["text-danger"],
       },
       elegant: {
-        label: ["font-medium text-foreground"],
+        label: ["font-medium text-foreground-strong dark:text-foreground-hint"],
         description: [
-          "text-[13px] text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]",
+          "text-[13px] text-foreground-hint",
           "group-data-[disabled]/field:text-foreground-disabled",
         ],
-        error: ["text-[13px] text-danger-base"],
+        error: ["text-[13px] text-danger"],
       },
     },
     size: {
@@ -34,7 +34,9 @@ const field = tv({
       md: { label: "text-sm" },
     },
   },
-  compoundVariants: [{ theme: "brutal", size: "sm", class: { label: "text-foreground/60" } }],
+  compoundVariants: [
+    { theme: "brutal", size: "sm", class: { label: "text-foreground-strong/60" } },
+  ],
   defaultVariants: {
     size: "md",
   },

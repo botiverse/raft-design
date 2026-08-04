@@ -23,9 +23,17 @@ export const messageSystem = tv({
         systemGroupDisclosure: ["text-xs"],
       },
       elegant: {
-        systemTime: ["font-sans text-[11px] font-medium tabular-nums"],
-        systemContent: ["font-sans text-[12px]"],
-        systemGroupDisclosure: ["rounded-md font-sans text-[12px]", "transition-colors"],
+        systemTime: [
+          "font-sans text-[11px] font-medium tabular-nums",
+          "dark:text-foreground-strong/40",
+        ],
+        systemContent: ["font-sans text-[12px]", "dark:text-foreground-strong/50"],
+        systemGroupDisclosure: [
+          "rounded-md font-sans text-[12px]",
+          "transition-colors",
+          "dark:text-foreground-strong/50 dark:hover:text-foreground-strong/75",
+        ],
+        systemGroupChevron: ["dark:text-foreground-strong/35"],
       },
     },
   },

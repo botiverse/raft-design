@@ -27,21 +27,21 @@ const previewCard = tv({
   variants: {
     theme: {
       // Matches slock's hand-rolled `.card-brutal` (border-2 border-line-strong
-      // bg-white shadow-lg) so the migrated MentionHoverCard keeps its exact
+      // bg-white shadow-raft-lg) so the migrated MentionHoverCard keeps its exact
       // silhouette. Source never rendered an arrow, so brutal hides it too.
       brutal: {
-        popup: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
+        popup: ["border-2 border-line-strong bg-layer-popover shadow-raft-lg"],
         separator: ["border-line-strong"],
-        title: ["font-sans font-bold text-foreground"],
-        description: ["font-sans text-foreground/70"],
+        title: ["font-sans font-bold text-foreground-strong"],
+        description: ["font-sans text-foreground-strong/70"],
         arrow: ["hidden"],
       },
       elegant: {
-        popup: ["rounded-md bg-layer-popover shadow-xl"],
-        separator: ["border-line-subtle"],
-        title: ["font-sans font-medium text-foreground-strong"],
-        description: ["bg-ink-2 font-sans", "text-[oklch(0.48_0_0)] dark:text-[oklch(0.76_0_0)]"],
-        arrow: ["border-l border-t border-line-muted bg-layer-popover"],
+        popup: ["rounded-md bg-layer-popover shadow-raft-xl"],
+        separator: ["border-line-muted dark:border-ink-6"],
+        title: ["font-sans font-medium text-foreground"],
+        description: ["bg-ink-2 font-sans dark:bg-transparent", "text-foreground-hint"],
+        arrow: ["border-l border-t border-line-hairline bg-layer-popover"],
       },
     },
   },

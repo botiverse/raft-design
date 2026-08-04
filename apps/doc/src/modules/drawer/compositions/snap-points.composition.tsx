@@ -34,11 +34,11 @@ export function DrawerSnapPointsComposition() {
           <DrawerBody>
             <dl className="mt-6 grid w-full grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 text-left text-sm leading-6">
               <dt className="text-foreground-muted">Owner</dt>
-              <dd className="text-foreground-strong">Maya Chen</dd>
+              <dd className="text-foreground">Maya Chen</dd>
               <dt className="text-foreground-muted">Due</dt>
-              <dd className="text-foreground-strong">July 16, 2026</dd>
+              <dd className="text-foreground">July 16, 2026</dd>
               <dt className="text-foreground-muted">Checklist</dt>
-              <dd className="text-foreground-strong">3 of 5 complete</dd>
+              <dd className="text-foreground">3 of 5 complete</dd>
             </dl>
             <DrawerActions className="mt-6">
               <DrawerClose render={<Button variant="primary" />}>Dismiss notification</DrawerClose>
@@ -52,11 +52,11 @@ export function DrawerSnapPointsComposition() {
           <DrawerBody>
             <dl className="grid w-full grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 text-left text-sm leading-6">
               <dt className="text-foreground-muted">Owner</dt>
-              <dd className="text-foreground-strong">Maya Chen</dd>
+              <dd className="text-foreground">Maya Chen</dd>
               <dt className="text-foreground-muted">Due</dt>
-              <dd className="text-foreground-strong">July 16, 2026</dd>
+              <dd className="text-foreground">July 16, 2026</dd>
               <dt className="text-foreground-muted">Checklist</dt>
-              <dd className="text-foreground-strong">3 of 5 complete</dd>
+              <dd className="text-foreground">3 of 5 complete</dd>
             </dl>
             <DrawerActions className="mt-6">
               <DrawerClose render={<Button variant="primary" />}>Dismiss notification</DrawerClose>

@@ -132,12 +132,12 @@ const ATTENTION_PREVIEW_COPY =
 const ATTENTION_GLOW_COLOR: Record<(typeof VARIANTS)[number], string> = {
   default: "var(--color-gray-400)",
   primary: "var(--color-primary-400)",
-  information: "var(--color-info-base)",
+  information: "var(--color-info)",
   muted: "var(--color-secondary-400)",
   accent: "var(--color-accent-400)",
-  success: "var(--color-success-base)",
-  warning: "var(--color-warning-base)",
-  danger: "var(--color-danger-base)",
+  success: "var(--color-success)",
+  warning: "var(--color-warning)",
+  danger: "var(--color-danger)",
 };
 
 type LegacyStatusDotProps = Parameters<typeof LegacyStatusDot>[0];

@@ -26,7 +26,7 @@ const sidebarServerRecipe = tv({
         sidebarServer: [
           "-rotate-2 gap-1.5 border-2 border-black bg-black px-3 py-1",
           "font-sans text-base font-bold text-primary-400",
-          "shadow-sm transition-shadow hover:shadow-md",
+          "shadow-raft-sm transition-shadow hover:shadow-raft-md",
         ],
         sidebarServerAvatar: "hidden",
         sidebarServerLabel: "max-w-[200px]",
@@ -36,7 +36,7 @@ const sidebarServerRecipe = tv({
       elegant: {
         sidebarServer: [
           "size-8 justify-center rounded-md bg-layer-panel",
-          "transition-colors hover:bg-layer-strong/80",
+          "transition-colors hover:bg-fill-strong/80",
         ],
         sidebarServerAvatar: "size-8 rounded-[inherit]",
         sidebarServerLabel: "sr-only",

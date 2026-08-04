@@ -7,7 +7,7 @@ import { SourceComparisonPreview } from "#/components/source-comparison-preview.
 
 export function InputGroupContent() {
   return (
-    <InputGroup className="w-80 max-w-full min-w-0 has-[[data-slot=input-group-control]:focus]:!shadow-sm">
+    <InputGroup className="w-80 max-w-full min-w-0 has-[[data-slot=input-group-control]:focus]:!shadow-raft-sm">
       <InputGroupAddon>
         <Search />
       </InputGroupAddon>

@@ -9,17 +9,19 @@ export const messageTextSelectionToolbar = tv({
   variants: {
     theme: {
       brutal: {
-        toolbar: "border-2 border-black bg-white font-semibold shadow-sm",
-        button: "text-black hover:bg-soft-signal/30 focus-visible:bg-soft-signal/30",
+        toolbar: "border-2 border-black bg-white font-semibold shadow-raft-sm",
+        button: "text-black hover:bg-primary/30 focus-visible:bg-primary/30",
         separator: "bg-black/20",
       },
       elegant: {
-        toolbar:
-          "gap-1 rounded-lg border-[0.5px] border-line-subtle bg-layer-panel p-1 font-medium shadow-xs",
+        toolbar: [
+          "gap-1 rounded-lg border-[0.5px] border-line-muted bg-layer-panel p-1 font-medium shadow-raft-xs",
+          "dark:border-transparent",
+        ],
         button: [
           "rounded-sm text-foreground-muted",
-          "hover:bg-layer-muted hover:text-foreground-strong",
-          "focus-visible:bg-layer-muted focus-visible:text-foreground-strong",
+          "hover:bg-fill-muted hover:text-foreground",
+          "focus-visible:bg-fill-muted focus-visible:text-foreground",
         ],
         separator: "hidden",
       },

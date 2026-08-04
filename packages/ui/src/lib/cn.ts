@@ -1,16 +1,12 @@
 import { clsx, type ClassValue } from "cnfast";
 import { extendTailwindMerge } from "tailwind-merge";
 
-/**
- * Custom theme shadows (e.g. `--shadow-field-hover`) generate `shadow-*`
- * utilities that default cnfast/tailwind-merge do not treat as part of the
- * `shadow` conflict group. Standard scale tokens (`shadow-sm`…`shadow-xl`)
- * already merge correctly.
- */
+// `shadow-raft-*` are custom shadow *geometry* utilities; without this they
+// would be classified as shadow colors and stop conflicting with `shadow-[...]`.
 const twMerge = extendTailwindMerge({
   extend: {
-    theme: {
-      shadow: ["field-hover"],
+    classGroups: {
+      shadow: [{ shadow: [{ raft: ["xs", "sm", "md", "lg", "xl"] }] }],
     },
   },
 });

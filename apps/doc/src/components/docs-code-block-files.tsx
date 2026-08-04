@@ -22,10 +22,10 @@ const docsCodeBlockFiles = tv({
     tab: [
       "relative shrink-0 px-2 py-1 font-mono text-xs leading-snug outline-none",
       "text-foreground-placeholder transition-colors duration-150",
-      "hover:text-foreground-muted data-[active]:text-foreground-strong",
+      "hover:text-foreground-muted data-[active]:text-foreground",
       "focus-visible:outline-1 focus-visible:outline-line-strong",
       "[&+&]:before:absolute [&+&]:before:top-[-0.375rem] [&+&]:before:bottom-[-0.375rem] [&+&]:before:left-0",
-      "[&+&]:before:w-px [&+&]:before:bg-[oklch(0_0_0_/_0.12)] [&+&]:before:content-['']",
+      "[&+&]:before:w-px [&+&]:before:bg-[oklch(0_0_0_/_0.12)] [&+&]:before:content-[''] dark:[&+&]:before:bg-ink-10",
     ],
   },
 });

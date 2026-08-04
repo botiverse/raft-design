@@ -51,7 +51,7 @@ const dot = tv({
         root: "[--status-color:var(--color-primary-400)]",
       },
       information: {
-        root: "[--status-color:var(--color-info-base)]",
+        root: "[--status-color:var(--color-info)]",
       },
       muted: {
         root: "[--status-color:var(--color-secondary-400)]",
@@ -60,13 +60,13 @@ const dot = tv({
         root: "[--status-color:var(--color-accent-400)]",
       },
       success: {
-        root: "[--status-color:var(--color-success-base)]",
+        root: "[--status-color:var(--color-success)]",
       },
       warning: {
-        root: "[--status-color:var(--color-warning-base)]",
+        root: "[--status-color:var(--color-warning)]",
       },
       danger: {
-        root: "[--status-color:var(--color-danger-base)]",
+        root: "[--status-color:var(--color-danger)]",
       },
     },
   },
@@ -128,7 +128,7 @@ const status = tv({
     {
       theme: "brutal",
       variant: "warning",
-      class: { root: "[--status-color:var(--color-warning-base)]" },
+      class: { root: "[--status-color:var(--color-warning)]" },
     },
     {
       theme: "brutal",

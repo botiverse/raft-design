@@ -67,7 +67,7 @@ function InlineCodeDoc() {
           </DocNote>
           <Preview>
             <Preview.Canvas>
-              <p className="max-w-2xl text-sm leading-6 text-foreground">
+              <p className="max-w-2xl text-sm leading-6 text-foreground-strong">
                 Set <InlineCode>aria-invalid</InlineCode> on the control.
               </p>
             </Preview.Canvas>
@@ -92,7 +92,7 @@ function InlineCodeDoc() {
           </DocNote>
           <Preview>
             <Preview.Canvas>
-              <div className="grid max-w-2xl gap-4 text-sm leading-6 text-foreground">
+              <div className="grid max-w-2xl gap-4 text-sm leading-6 text-foreground-strong">
                 <p>
                   Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on
                   the control.

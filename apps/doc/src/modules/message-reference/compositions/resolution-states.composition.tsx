@@ -3,7 +3,7 @@ import { CircleOff } from "lucide-react";
 
 export function MessageReferenceResolutionStatesComposition() {
   return (
-    <p className="text-sm text-foreground">
+    <p className="text-sm text-foreground-strong">
       <MessageReferencePending>
         <Spinner size="xs" />
         release-notes

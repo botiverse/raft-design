@@ -14,24 +14,26 @@ export const composer = tv({
   variants: {
     theme: {
       brutal: {
-        root: "border-black bg-white shadow-sm focus-within:shadow-md",
+        root: "border-black bg-white shadow-raft-sm focus-within:shadow-raft-md",
         input: "font-sans text-black placeholder:text-black/35",
         meta: "gap-3",
         iconButton: [
-          "size-[26px] p-1 border-black bg-white text-black shadow-sm",
-          "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-md",
-          "active:translate-x-px active:translate-y-px active:shadow-xs",
+          "size-[26px] p-1 border-black bg-white text-black shadow-raft-sm",
+          "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-raft-md",
+          "active:translate-x-px active:translate-y-px active:shadow-raft-xs",
         ],
       },
       elegant: {
         root: [
           "overflow-hidden rounded-lg border-0 p-0",
           "bg-layer-panel",
-          "shadow-sm ring-1 ring-ink-6",
+          "shadow-raft-sm ring-1 ring-ink-6 dark:ring-transparent",
+          "dark:focus-within:ring-[0.5px] dark:focus-within:ring-accent-400/70",
+          "dark:focus-within:shadow-[0_0_0_1px_oklch(0_0_0_/_0.45),0_0_14px_color-mix(in_oklab,var(--accent-400)_22%,transparent),0_2px_4px_oklch(0_0_0_/_0.25)]",
         ],
         input: [
           "min-h-16 px-3 pt-3",
-          "font-sans text-foreground",
+          "font-sans text-foreground-strong",
           "placeholder:text-foreground-placeholder",
         ],
         toolbar: "translate-y-1 gap-2 px-2.5 pt-1 pb-2.5",
@@ -39,8 +41,8 @@ export const composer = tv({
         iconButton: [
           "p-[7px]",
           "text-foreground-icon",
-          "hover:bg-layer-strong/80 hover:text-foreground",
-          "active:bg-layer-strong/80 active:text-foreground",
+          "hover:bg-fill-strong/80 hover:text-foreground-strong",
+          "active:bg-fill-strong/80 active:text-foreground-strong",
         ],
       },
     },

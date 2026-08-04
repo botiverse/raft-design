@@ -31,13 +31,13 @@ export const messageTranslation = tv({
         translationOriginalLabel:
           "mb-0.5 text-[10px] font-medium tracking-normal text-foreground-muted/70",
         translationStatus: "text-[11px] leading-none text-foreground-muted",
-        translationFailedStatus: "text-[11px] leading-none text-warning-base",
+        translationFailedStatus: "text-[11px] leading-none text-warning",
         translationProgressTrack: "h-1.5",
         translationAction: "text-foreground-muted/70 no-underline hover:text-foreground-muted",
         translationRetryAction: [
           "rounded-sm px-1 py-0.5",
-          "text-warning-base no-underline",
-          "transition-colors hover:bg-[oklch(0.95_0.03_44.33)] hover:text-warning-base",
+          "text-warning no-underline",
+          "transition-colors hover:bg-warning-soft hover:text-warning",
         ],
       },
     },

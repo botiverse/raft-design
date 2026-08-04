@@ -125,7 +125,7 @@ function SourceSidebarMainPreview() {
   return (
     <div className="flex h-full min-w-0 flex-1 flex-col overflow-hidden bg-white text-black">
       <div className="flex h-[62px] shrink-0 items-center gap-3 border-b-2 border-black bg-white px-5">
-        <div className="flex size-9 shrink-0 items-center justify-center border-2 border-black bg-soft-signal">
+        <div className="flex size-9 shrink-0 items-center justify-center border-2 border-black bg-primary">
           <Hash className="size-[18px]" />
         </div>
         <div className="min-w-0 flex-1">
@@ -173,7 +173,7 @@ function SourceSidebarMainPreview() {
         </div>
       </div>
       <form className="relative flex shrink-0 items-center border-t-2 border-black bg-white px-3 pt-3 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
-        <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-sm">
+        <div className="flex w-full flex-col gap-2 border-2 border-black bg-white p-2 shadow-raft-sm">
           <textarea
             aria-label="Message #proj-uiux"
             readOnly
@@ -235,7 +235,7 @@ function SourceMainTab({
       type="button"
       className={`relative z-10 inline-flex shrink-0 touch-manipulation items-center gap-1.5 whitespace-nowrap px-4 py-1.5 text-xs font-semibold outline-none ${
         active
-          ? "bg-soft-signal"
+          ? "bg-primary"
           : "bg-white before:absolute before:inset-y-0 before:left-0 before:w-0.5 before:bg-black"
       }`}
     >
@@ -340,7 +340,7 @@ function SourceSidebarNavRow({
   return (
     <button
       type="button"
-      className="mb-1 flex w-full items-center gap-1.5 border-2 border-transparent px-2 py-2 text-left text-sm font-medium transition-colors hover:border-black hover:bg-white hover:shadow-sm active:border-black active:bg-white active:shadow-sm [@media(max-height:600px)]:py-1 md:py-1"
+      className="mb-1 flex w-full items-center gap-1.5 border-2 border-transparent px-2 py-2 text-left text-sm font-medium transition-colors hover:border-black hover:bg-white hover:shadow-raft-sm active:border-black active:bg-white active:shadow-raft-sm [@media(max-height:600px)]:py-1 md:py-1"
     >
       {icon}
       <span className="min-w-0 flex-1 truncate">{label}</span>
@@ -377,10 +377,10 @@ function SourceSidebarRow({
       type="button"
       className={`mb-1 flex w-full items-center gap-1.5 border-2 px-2 py-2 text-sm font-medium [@media(max-height:600px)]:py-1 md:py-1 ${
         selected
-          ? "border-black bg-brutal-pink font-bold text-black shadow-sm"
+          ? "border-black bg-brutal-pink font-bold text-black shadow-raft-sm"
           : menuOpen
-            ? "border-black bg-white shadow-sm"
-            : "border-transparent transition-colors hover:border-black hover:bg-white hover:shadow-sm active:border-black active:bg-white active:shadow-sm"
+            ? "border-black bg-white shadow-raft-sm"
+            : "border-transparent transition-colors hover:border-black hover:bg-white hover:shadow-raft-sm active:border-black active:bg-white active:shadow-raft-sm"
       }`}
     >
       <span className="flex size-[18px] shrink-0 items-center justify-center">
@@ -404,7 +404,7 @@ function SourceSidebarRow({
         )}
       </span>
       {mention && (
-        <span className="ml-1 inline-flex size-4 shrink-0 items-center justify-center rounded border border-black bg-soft-signal text-black">
+        <span className="ml-1 inline-flex size-4 shrink-0 items-center justify-center rounded border border-black bg-primary text-black">
           <AtSign className="size-2.5" />
         </span>
       )}

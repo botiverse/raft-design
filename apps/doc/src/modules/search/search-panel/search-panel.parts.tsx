@@ -138,10 +138,10 @@ export function BrutalSearchHeader({
       </button>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-3">
-          <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-soft-signal">
+          <div className="flex size-icon-header shrink-0 items-center justify-center border-2 border-black bg-primary">
             <Search aria-hidden size={18} />
           </div>
-          <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-sm focus-within:shadow-md">
+          <div className="flex min-w-0 flex-1 items-center gap-2 border-2 border-black bg-white px-3 py-2 shadow-raft-sm focus-within:shadow-raft-md">
             <input
               ref={inputRef}
               value={query}
@@ -206,7 +206,7 @@ export function EntityResult({
                   isArchivedChannel
                     ? "border-black/40 bg-black/5 text-black/45"
                     : entity.type === "channel"
-                      ? "border-black bg-soft-signal text-black"
+                      ? "border-black bg-primary text-black"
                       : "border-black bg-brutal-lime"
                 }`}
               >
@@ -277,7 +277,7 @@ function SearchHighlight({ text, query }: { text: string; query: string }) {
     <>
       {text.split(expression).map((part, index) =>
         tokens.some((token) => token.toLowerCase() === part.toLowerCase()) ? (
-          <mark key={`${part}-${index}`} className="bg-soft-signal px-0.5 font-bold text-black">
+          <mark key={`${part}-${index}`} className="bg-primary px-0.5 font-bold text-black">
             {part}
           </mark>
         ) : (

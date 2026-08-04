@@ -2,18 +2,24 @@ import type { CSSProperties } from "react";
 import { createHighlighterCore } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import tsx from "shiki/dist/langs/tsx.mjs";
+import vitesseDark from "shiki/dist/themes/vitesse-dark.mjs";
 import vitesseLight from "shiki/dist/themes/vitesse-light.mjs";
 import type { ThemedToken } from "shiki";
 
 import { stripSourceCodeBlocks, stripTopLevelImports } from "./source-code.ts";
 
-const HIGHLIGHT_THEME = "vitesse-light";
+// Tokens carry both palettes as --shiki-light/--shiki-dark CSS vars; the code
+// surface (CodeBlock / DocsCodeBlock) picks one per mode.
+const HIGHLIGHT_THEMES = {
+  dark: "vitesse-dark",
+  light: "vitesse-light",
+} as const;
 
-// Fine-grained bundle: register only the `tsx` grammar, the `vitesse-light`
-// theme, and the JS regex engine. Avoids shiki's full bundle pulling ~50 unused
+// Fine-grained bundle: register only the `tsx` grammar, the vitesse themes,
+// and the JS regex engine. Avoids shiki's full bundle pulling ~50 unused
 // grammars and the oniguruma WASM in.
 const highlighter = createHighlighterCore({
-  themes: [vitesseLight],
+  themes: [vitesseLight, vitesseDark],
   langs: [tsx],
   engine: createJavaScriptRegexEngine(),
 });
@@ -77,7 +83,10 @@ function codeToHtml(lines: Array<Array<ThemedToken>>) {
 export async function highlightSnippets({ data }: { data: Record<string, string> }) {
   const core = await highlighter;
   const highlight = (code: string) =>
-    codeToHtml(core.codeToTokensBase(code, { lang: "tsx", theme: HIGHLIGHT_THEME }));
+    codeToHtml(
+      core.codeToTokens(code, { lang: "tsx", themes: HIGHLIGHT_THEMES, defaultColor: false })
+        .tokens,
+    );
 
   const entries: Array<[string, string]> = [];
 

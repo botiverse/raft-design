@@ -84,7 +84,7 @@ export function PlaygroundChatShell() {
       sidebarCollapsible={isDesktop}
       className={cn(
         "h-full max-md:h-dvh max-md:overflow-hidden",
-        theme === "brutal" && (mobileListPanel ? "max-md:bg-soft-signal" : "max-md:bg-white"),
+        theme === "brutal" && (mobileListPanel ? "max-md:bg-primary" : "max-md:bg-white"),
       )}
     >
       <PlaygroundRail showBottomNavigation={mobileListPanel} />
@@ -175,7 +175,7 @@ function PlaygroundChatLayout({
         <AppShellMainSlot className="flex h-full min-w-0 flex-1">
           {main}
           {thread && !isLargeDesktop ? (
-            <div className="absolute inset-0 z-20 flex min-h-0 min-w-0 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-subtle before:content-['']">
+            <div className="absolute inset-0 z-20 flex min-h-0 min-w-0 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-muted before:content-['']">
               {thread}
             </div>
           ) : null}

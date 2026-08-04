@@ -40,7 +40,7 @@ export function DocSection({
   return (
     <section id={id} className="scroll-mt-8 py-10 first:pt-0">
       <div className="flex items-center justify-between gap-4">
-        <h2 className="group flex items-center gap-2 text-lg font-medium tracking-tight text-foreground-strong">
+        <h2 className="group flex items-center gap-2 text-lg font-medium tracking-tight text-foreground">
           <a href={`#${id}`} className="no-underline">
             {title}
             <span className="ml-2 text-foreground-placeholder opacity-0 transition-opacity group-hover:opacity-100">
@@ -77,7 +77,7 @@ export function DocSubsection({
       className="scroll-mt-8 space-y-4"
     >
       <div className="flex items-center justify-between gap-4">
-        <h3 className="group flex items-center gap-2 text-sm font-medium text-foreground-strong">
+        <h3 className="group flex items-center gap-2 text-sm font-medium text-foreground">
           <a href={`#${id}`} className="no-underline">
             {title}
             <span className="ml-2 text-foreground-placeholder opacity-0 transition-opacity group-hover:opacity-100">

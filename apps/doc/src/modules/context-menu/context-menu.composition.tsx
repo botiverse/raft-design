@@ -84,7 +84,7 @@ function ReactionRow() {
           type="button"
           className={cn(
             "flex size-7 items-center justify-center rounded bg-transparent text-base leading-none transition-colors",
-            "hover:bg-foreground/[0.04] active:bg-foreground/[0.06]",
+            "hover:bg-foreground-strong/[0.04] active:bg-foreground-strong/[0.06]",
             "[[data-theme=brutal]_&]:hover:bg-brutal-pink/20 [[data-theme=brutal]_&]:active:bg-brutal-pink/20",
           )}
           aria-label={`React with ${emoji}`}

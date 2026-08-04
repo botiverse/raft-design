@@ -129,7 +129,7 @@ const PROFILE_MENU_SNIPPET = `    <DropdownMenuLabel>Account</DropdownMenuLabel>
       <span className="min-w-0 flex-1 truncate">Sign out</span>
       <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
     </DropdownMenuItem>
-    <DropdownMenuItem className="text-danger-base hover:bg-danger-lighter hover:text-danger-base data-[highlighted]:bg-danger-lighter data-[highlighted]:text-danger-base [&>svg]:text-danger-base hover:[&>svg]:text-danger-base data-[highlighted]:[&>svg]:text-danger-base">
+    <DropdownMenuItem className="text-danger hover:bg-danger-soft hover:text-danger data-[highlighted]:bg-danger-soft data-[highlighted]:text-danger [&>svg]:text-danger hover:[&>svg]:text-danger data-[highlighted]:[&>svg]:text-danger">
       <Trash />
       <span className="min-w-0 flex-1 truncate">Delete account</span>
     </DropdownMenuItem>`;
@@ -338,7 +338,7 @@ function ProfileMenuRows() {
         <span className="min-w-0 flex-1 truncate">Sign out</span>
         <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
       </DropdownMenuItem>
-      <DropdownMenuItem className="text-danger-base hover:bg-danger-lighter hover:text-danger-base data-[highlighted]:bg-danger-lighter data-[highlighted]:text-danger-base [&>svg]:text-danger-base hover:[&>svg]:text-danger-base data-[highlighted]:[&>svg]:text-danger-base">
+      <DropdownMenuItem className="text-danger hover:bg-danger-soft hover:text-danger data-[highlighted]:bg-danger-soft data-[highlighted]:text-danger [&>svg]:text-danger hover:[&>svg]:text-danger data-[highlighted]:[&>svg]:text-danger">
         <Trash />
         <span className="min-w-0 flex-1 truncate">Delete account</span>
       </DropdownMenuItem>

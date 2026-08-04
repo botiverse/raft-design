@@ -37,7 +37,7 @@ function OnboardingDialogParts() {
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground-strong",
+              "flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground",
               isBrutal && "size-7 border-2 border-black bg-[oklch(0.883_0.162_91.89)] text-black",
               isElegant &&
                 "rounded-md border-transparent bg-[oklch(0.97_0.07_91.89)] text-[oklch(0.56_0.12_83)]",
@@ -47,7 +47,7 @@ function OnboardingDialogParts() {
           </div>
           <DialogTitle
             className={cn(
-              "text-foreground-strong",
+              "text-foreground",
               isBrutal && "font-sans text-xl font-bold uppercase text-black",
               isElegant && "text-lg font-semibold",
             )}
@@ -88,7 +88,7 @@ function OnboardingDialogParts() {
         </Field>
         <div className="flex shrink-0 items-center gap-2">
           <Button variant="outline">Skip</Button>
-          <Button variant="primary">
+          <Button variant="accent">
             <Monitor data-icon="inline-start" />
             Add Computer
           </Button>

@@ -30,7 +30,7 @@ export function ComposerSuggestionsSourceComparison() {
   return (
     <div className="h-[21rem] w-full max-w-[560px] p-3">
       <div className="flex h-full flex-col justify-end gap-1">
-        <div className="max-h-48 overflow-y-auto border-2 border-black bg-white shadow-md">
+        <div className="max-h-48 overflow-y-auto border-2 border-black bg-white shadow-raft-md">
           <SectionEyebrow as="div" className="px-3 py-1.5">
             In this channel
           </SectionEyebrow>
@@ -40,7 +40,7 @@ export function ComposerSuggestionsSourceComparison() {
               <div
                 key={person.handle}
                 className={`flex w-full items-center gap-2 px-3 py-2 text-sm font-medium transition-colors ${
-                  selected ? "bg-soft-signal font-bold text-black" : "text-black"
+                  selected ? "bg-primary font-bold text-black" : "text-black"
                 }`}
               >
                 <LegacyAvatarSlot
@@ -56,7 +56,7 @@ export function ComposerSuggestionsSourceComparison() {
                   {person.type === "agent" ? (
                     <span
                       aria-hidden
-                      className="size-2.5 shrink-0 animate-pulse rounded-full border border-black bg-soft-signal"
+                      className="size-2.5 shrink-0 animate-pulse rounded-full border border-black bg-primary"
                     />
                   ) : null}
                   <span
@@ -91,7 +91,7 @@ export function ComposerSuggestionsSourceComparison() {
           </div>
         </div>
 
-        <div className="flex shrink-0 flex-col gap-2 border-2 border-black bg-white p-2 shadow-sm">
+        <div className="flex shrink-0 flex-col gap-2 border-2 border-black bg-white p-2 shadow-raft-sm">
           <div className="min-h-5 font-display text-base leading-5 text-black/40 md:min-h-10 md:text-sm">
             @
           </div>

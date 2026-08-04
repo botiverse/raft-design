@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const panel = tv({
   slots: {
-    root: ["[--panel-footer-clearance:10rem]", "text-foreground"],
+    root: ["[--panel-footer-clearance:10rem]", "text-foreground-strong"],
     header: ["[@media(max-height:600px)]:h-12"],
     body: ["relative min-h-0 flex-1 overflow-hidden"],
     scrollViewport: [

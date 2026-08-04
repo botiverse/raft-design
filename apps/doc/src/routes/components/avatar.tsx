@@ -166,43 +166,43 @@ const LEGACY_CONTEXTS = [
 const LEGACY_CONTEXT_MARKERS = {
   "profile-tile": {
     label: "kept",
-    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "account-tile": {
     label: "dropped",
-    className: "border-warning-base/40 bg-warning-base/10 text-warning-dark",
+    className: "border-warning/40 bg-warning/10 text-warning-strong",
   },
   "mention-card": {
     label: "kept",
-    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "panel-header": {
     label: "kept",
-    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "surface-list": {
     label: "kept",
-    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "members-row": {
     label: "dropped",
-    className: "border-warning-base/40 bg-warning-base/10 text-warning-dark",
+    className: "border-warning/40 bg-warning/10 text-warning-strong",
   },
   "creator-link": {
     label: "dropped",
-    className: "border-warning-base/40 bg-warning-base/10 text-warning-dark",
+    className: "border-warning/40 bg-warning/10 text-warning-strong",
   },
   "compact-list": {
     label: "kept",
-    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "sidebar-list": {
     label: "kept",
-    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
   "preview-mini": {
     label: "kept",
-    className: "border-success-base/40 bg-success-base/10 text-success-dark",
+    className: "border-success/40 bg-success/10 text-success-strong",
   },
 } as const;
 
@@ -369,7 +369,7 @@ import { Check } from "lucide-react";
   <Avatar size="xl" type="human">
     <AvatarImage src={avatarPhotoUrls[1]} alt="Ada" />
     <AvatarFallback />
-    <AvatarBadge className="bg-info-base">
+    <AvatarBadge className="bg-info">
       <Check />
     </AvatarBadge>
   </Avatar>
@@ -632,7 +632,7 @@ function AvatarDoc() {
                   <Avatar size="xl" type="human">
                     <AvatarImage src={AVATAR_PHOTOS[1]} alt="Ada" />
                     <AvatarFallback />
-                    <AvatarBadge className="bg-info-base">
+                    <AvatarBadge className="bg-info">
                       <Check />
                     </AvatarBadge>
                   </Avatar>
@@ -834,7 +834,7 @@ function SourceDifferenceTable() {
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-line-subtle text-foreground-muted">
+          <tr className="border-b border-line-muted text-foreground-muted">
             <th className="py-2 pr-6 font-medium">Area</th>
             <th className="py-2 pr-6 font-medium">Source</th>
             <th className="py-2 font-medium">Current</th>
@@ -842,8 +842,8 @@ function SourceDifferenceTable() {
         </thead>
         <tbody>
           {SOURCE_DIFFERENCE_ROWS.map((row) => (
-            <tr key={row.area} className="border-b border-line-subtle align-top">
-              <td className="py-3 pr-6 font-medium text-foreground-strong">{row.area}</td>
+            <tr key={row.area} className="border-b border-line-muted align-top">
+              <td className="py-3 pr-6 font-medium text-foreground">{row.area}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.source}</td>
               <td className="py-3 text-foreground-muted">{row.current}</td>
             </tr>
@@ -873,7 +873,7 @@ function SourceSizeTable() {
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-line-subtle text-foreground-muted">
+          <tr className="border-b border-line-muted text-foreground-muted">
             <th className="py-2 pr-6 font-medium">Source context</th>
             <th className="py-2 pr-6 font-medium">Source frame</th>
             <th className="py-2 pr-6 font-medium">Source inner</th>
@@ -884,11 +884,11 @@ function SourceSizeTable() {
         </thead>
         <tbody>
           {SOURCE_SIZE_ROWS.map((row) => (
-            <tr key={row.context} className="border-b border-line-subtle align-top">
-              <td className="py-3 pr-6 font-mono text-xs text-info-dark">{row.context}</td>
+            <tr key={row.context} className="border-b border-line-muted align-top">
+              <td className="py-3 pr-6 font-mono text-xs text-info-strong">{row.context}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.sourceFrame}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.sourceInner}</td>
-              <td className="py-3 pr-6 font-mono text-xs text-foreground-strong">{row.current}</td>
+              <td className="py-3 pr-6 font-mono text-xs text-foreground">{row.current}</td>
               <td className="py-3 pr-6 text-foreground-muted">{row.reason}</td>
               <td className="py-3 text-foreground-muted">{row.implementation}</td>
             </tr>

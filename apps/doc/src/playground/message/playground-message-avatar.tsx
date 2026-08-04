@@ -155,7 +155,10 @@ export function ProfileCardBody({
                     pulse={row.status.pulse}
                     className="shrink-0"
                   />
-                  <span className="min-w-0 flex-1 truncate text-foreground/70" title={row.text}>
+                  <span
+                    className="min-w-0 flex-1 truncate text-foreground-strong/70"
+                    title={row.text}
+                  >
                     {row.text}
                   </span>
                 </div>

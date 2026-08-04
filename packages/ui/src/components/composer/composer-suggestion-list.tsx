@@ -22,13 +22,13 @@ const composerSuggestionList = tv({
   variants: {
     theme: {
       brutal: {
-        root: "mb-2 max-h-48 border-2 border-black bg-white shadow-md",
+        root: "mb-2 max-h-48 border-2 border-black bg-white shadow-raft-md",
         groupLabel: "text-xs font-bold tracking-widest uppercase text-black/60",
         item: [
           "cursor-pointer text-sm font-medium text-black transition-colors",
           "data-[disabled=true]:cursor-not-allowed",
-          "data-[highlighted=true]:bg-soft-signal data-[highlighted=true]:font-bold",
-          "hover:bg-soft-signal/50",
+          "data-[highlighted=true]:bg-primary data-[highlighted=true]:font-bold",
+          "hover:bg-primary/50",
           "data-[disabled=true]:text-black/50 data-[disabled=true]:hover:bg-black/5",
         ],
         meta: "text-xs text-black/50",
@@ -36,18 +36,18 @@ const composerSuggestionList = tv({
       elegant: {
         root: [
           "mb-1 max-h-[204px] overflow-x-hidden rounded-lg p-1 bg-layer-popover",
-          "shadow-sm ring-1 ring-ink-6",
+          "shadow-raft-sm ring-1 ring-ink-6 dark:ring-transparent",
         ],
         group: "flex flex-col gap-0.5",
         groupLabel: [
           "mb-0.5 px-3 py-2",
-          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground/45",
+          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground-strong/45",
         ],
         item: [
           "cursor-default gap-2.5 rounded-sm text-[13px] font-medium tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
-          "hover:bg-ink-2 hover:text-foreground-strong",
-          "data-[highlighted=true]:bg-ink-4 data-[highlighted=true]:text-foreground-strong",
+          "hover:bg-ink-2 hover:text-foreground",
+          "data-[highlighted=true]:bg-ink-4 data-[highlighted=true]:text-foreground",
           "data-[disabled=true]:pointer-events-none data-[disabled=true]:text-foreground-disabled",
         ],
         meta: "text-xs text-foreground-placeholder",
@@ -75,7 +75,7 @@ const composerSuggestionList = tv({
         icon: [
           "flex size-5 items-center justify-center border",
           "[&_svg]:size-3",
-          "border-black bg-soft-signal text-black",
+          "border-black bg-primary text-black",
         ],
       },
     },

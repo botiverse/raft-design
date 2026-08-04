@@ -14,12 +14,14 @@ const kbd = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["text-[13px] text-foreground/70"],
+        root: ["text-[13px] text-foreground-strong/70"],
       },
       elegant: {
         root: [
           "min-w-5 rounded bg-layer-panel px-1.5 py-1 text-[10px]",
-          "font-medium text-foreground-muted ring-1 ring-inset ring-line-muted",
+          "font-medium text-foreground-muted ring-1 ring-inset ring-line-hairline",
+          "dark:bg-fill-muted dark:ring-transparent",
+          "dark:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.07),0_0_0_1px_oklch(0_0_0_/_0.45),0_1.5px_0_oklch(0_0_0_/_0.5)]",
         ],
       },
     },

@@ -18,7 +18,7 @@ export function MessageReferenceTooltipHintComposition() {
   return (
     <div
       ref={portalRef}
-      className="relative flex w-full items-center justify-center text-sm text-foreground"
+      className="relative flex w-full items-center justify-center text-sm text-foreground-strong"
     >
       <TooltipProvider>
         <Tooltip>

@@ -189,7 +189,7 @@ const SNIPPETS = {
 <SearchInput aria-label="Search" placeholder="Search..." />
 
 // Current, preserving the old no-focus-lift shell
-<InputGroup className="has-[[data-slot=input-group-control]:focus]:!shadow-sm">
+<InputGroup className="has-[[data-slot=input-group-control]:focus]:!shadow-raft-sm">
   <InputGroupAddon>
     <Search />
   </InputGroupAddon>

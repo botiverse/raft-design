@@ -17,7 +17,7 @@ export function Composer({ className, ...props }: ComposerProps) {
 
   return (
     <ComposerPrimitive
-      className={cn(theme === "elegant" && "md:shadow-lg md:ring-ink-2", className)}
+      className={cn(theme === "elegant" && "md:shadow-raft-lg md:ring-ink-2", className)}
       {...props}
     />
   );
@@ -50,7 +50,7 @@ export function ComposerSuggestionList({ className, ...props }: ComposerSuggesti
 
   return (
     <ComposerSuggestionListPrimitive
-      className={cn(theme === "elegant" && "md:shadow-lg md:ring-ink-2", className)}
+      className={cn(theme === "elegant" && "md:shadow-raft-lg md:ring-ink-2", className)}
       {...props}
     />
   );

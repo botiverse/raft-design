@@ -25,7 +25,7 @@ export const sidebarRecipe = tv({
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
     sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
     sidebarHeaderMaskLayer: ["absolute inset-x-0 top-0"],
-    sidebarHeaderTitle: ["truncate text-lg font-bold text-foreground-strong"],
+    sidebarHeaderTitle: ["truncate text-lg font-bold text-foreground"],
     sidebarGroupLabel: [
       "px-2 pt-1 pb-2",
       "font-mono text-[10px] font-medium uppercase tracking-wider text-foreground-muted",

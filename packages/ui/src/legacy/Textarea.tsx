@@ -14,8 +14,8 @@ import { forwardRef, type ReactNode, type TextareaHTMLAttributes } from "react";
  * re-invent it.
  *
  * **Visual contract:**
- *   - Default: `input-brutal` (border-2 black, white bg, shadow-sm, focus shadow-md)
- *   - Error:   red border + red ring + coral-tinted bg (bg-brutal-red/5)
+ *   - Default: `input-brutal` (border-2 black, white bg, shadow-raft-sm, focus shadow-raft-md)
+ *   - Error:   red border + red ring + coral-fainted bg (bg-brutal-red/5)
  *   - Counter: bottom-right, red when over limit
  *   - Message: below the field, red when error
  *

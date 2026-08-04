@@ -72,8 +72,12 @@ const checkboxIndicator = tv({
   },
   compoundVariants: [
     { checked: true, fill: "black", class: { root: "bg-line-strong text-foreground-inverse" } },
-    { checked: true, fill: "yellow", class: { root: "bg-primary-400 text-foreground-strong" } },
-    { checked: false, previewOnHover: true, class: { root: "group-hover:text-foreground/20" } },
+    { checked: true, fill: "yellow", class: { root: "bg-primary-400 text-foreground" } },
+    {
+      checked: false,
+      previewOnHover: true,
+      class: { root: "group-hover:text-foreground-strong/20" },
+    },
   ],
   defaultVariants: {
     shape: "square",

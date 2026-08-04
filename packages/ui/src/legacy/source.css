@@ -70,27 +70,27 @@
 
 /* Theme scale utilities must not be overridden globally — docs imports this
    file app-wide. Keep hard source shadows inside SourceThemeScope only. */
-[data-source-theme="slock"] .shadow-sm {
+[data-source-theme="slock"] .shadow-raft-sm {
   box-shadow: var(--source-shadow);
 }
 
-[data-source-theme="slock"] .hover\:shadow-sm:hover {
+[data-source-theme="slock"] .hover\:shadow-raft-sm:hover {
   box-shadow: var(--source-shadow);
 }
 
-[data-source-theme="slock"] .active\:shadow-sm:active {
+[data-source-theme="slock"] .active\:shadow-raft-sm:active {
   box-shadow: var(--source-shadow);
 }
 
-[data-source-theme="slock"] .shadow-md {
+[data-source-theme="slock"] .shadow-raft-md {
   box-shadow: var(--source-shadow-hover);
 }
 
-[data-source-theme="slock"] .shadow-xl {
+[data-source-theme="slock"] .shadow-raft-xl {
   box-shadow: var(--source-shadow-lg);
 }
 
-[data-source-theme="slock"] .focus-within\:shadow-md:focus-within {
+[data-source-theme="slock"] .focus-within\:shadow-raft-md:focus-within {
   box-shadow: var(--source-shadow-hover);
 }
 

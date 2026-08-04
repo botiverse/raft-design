@@ -5,7 +5,7 @@ import { Text } from "raft-ui";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 
-const SPEC_DIVIDER = "border-[color-mix(in_oklch,var(--foreground-strong)_5%,transparent)]";
+const SPEC_DIVIDER = "border-[color-mix(in_oklch,var(--foreground)_5%,transparent)]";
 
 export type TypographyTheme = "brutal" | "elegant";
 
@@ -28,8 +28,7 @@ const FAMILIES = [
         family: "Hanken Grotesk",
         utility: "font-heading",
         px: "24px",
-        className:
-          "font-heading text-2xl font-medium leading-[1.24] text-[var(--foreground-strong)]",
+        className: "font-heading text-2xl font-medium leading-[1.24] text-[var(--foreground)]",
         specimenClassName: "font-heading text-[5.5rem] font-semibold leading-none",
       },
       {
@@ -63,8 +62,7 @@ const FAMILIES = [
         family: "Inter",
         utility: "font-heading",
         px: "24px",
-        className:
-          "font-heading text-2xl font-medium leading-[1.24] text-[var(--foreground-strong)]",
+        className: "font-heading text-2xl font-medium leading-[1.24] text-[var(--foreground)]",
         specimenClassName: "font-heading text-[5.5rem] font-medium leading-none",
       },
       {
@@ -201,7 +199,7 @@ const THEME_TYPOGRAPHY = {
         weightValue: "400",
         tracking: "0em",
         leading: "1.75",
-        className: "font-sans text-lg font-normal leading-7 text-[var(--foreground)]",
+        className: "font-sans text-lg font-normal leading-7 text-[var(--foreground-strong)]",
       },
       {
         title: "Body",
@@ -213,7 +211,7 @@ const THEME_TYPOGRAPHY = {
         weightValue: "400",
         tracking: "0em",
         leading: "1.5",
-        className: "font-sans text-base font-normal leading-6 text-[var(--foreground)]",
+        className: "font-sans text-base font-normal leading-6 text-[var(--foreground-strong)]",
       },
       {
         title: "Small",
@@ -251,7 +249,7 @@ const THEME_TYPOGRAPHY = {
         weightValue: "400",
         tracking: "0em",
         leading: "1.43",
-        className: "font-mono text-sm font-normal leading-5 text-[var(--foreground)]",
+        className: "font-mono text-sm font-normal leading-5 text-[var(--foreground-strong)]",
       },
       {
         title: "Meta",
@@ -288,7 +286,8 @@ const THEME_TYPOGRAPHY = {
         weightValue: "400",
         tracking: "0em",
         leading: "1.43",
-        className: "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground)]",
+        className:
+          "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground-strong)]",
       },
     ],
   },
@@ -305,7 +304,7 @@ const THEME_TYPOGRAPHY = {
         weightValue: "400",
         tracking: "0em",
         leading: "1.75",
-        className: "font-sans text-lg font-normal leading-7 text-[var(--foreground)]",
+        className: "font-sans text-lg font-normal leading-7 text-[var(--foreground-strong)]",
       },
       {
         title: "Body",
@@ -317,7 +316,7 @@ const THEME_TYPOGRAPHY = {
         weightValue: "400",
         tracking: "0em",
         leading: "1.5",
-        className: "font-sans text-base font-normal leading-6 text-[var(--foreground)]",
+        className: "font-sans text-base font-normal leading-6 text-[var(--foreground-strong)]",
       },
       {
         title: "Small",
@@ -355,7 +354,7 @@ const THEME_TYPOGRAPHY = {
         weightValue: "400",
         tracking: "0em",
         leading: "1.43",
-        className: "font-mono text-sm font-normal leading-5 text-[var(--foreground)]",
+        className: "font-mono text-sm font-normal leading-5 text-[var(--foreground-strong)]",
       },
       {
         title: "Meta",
@@ -392,7 +391,8 @@ const THEME_TYPOGRAPHY = {
         weightValue: "400",
         tracking: "0em",
         leading: "1.43",
-        className: "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground)]",
+        className:
+          "font-mono text-sm font-normal tabular-nums leading-5 text-[var(--foreground-strong)]",
       },
     ],
   },
@@ -528,7 +528,7 @@ function TokenThemeScope({ theme, children }: { theme: TypographyTheme; children
       data-theme={theme}
       className="light min-h-screen bg-layer-panel font-sans [&_article_header_h1]:font-heading [&_article_header_h1]:!font-medium [&_article_header_p]:font-sans [&_article_header_p]:!text-base [&_section]:border-t-0 [&_section>h2]:font-heading"
       style={{
-        color: "var(--foreground)",
+        color: "var(--foreground-strong)",
         fontFamily: "var(--sans-font)",
       }}
     >
@@ -547,9 +547,9 @@ function ThemeTypographyScope({
   return (
     <div
       data-theme={theme}
-      className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-[color-mix(in_oklch,var(--foreground-strong)_5%,transparent)]"
+      className="grid gap-0 [&>*+*]:border-t [&>*+*]:border-[color-mix(in_oklch,var(--foreground)_5%,transparent)]"
       style={{
-        color: "var(--foreground)",
+        color: "var(--foreground-strong)",
         fontFamily: "var(--sans-font)",
       }}
     >
@@ -623,7 +623,7 @@ function TypographySpecMeta({ items }: { items: { label: string; value: string }
       {items.map((item, index) => (
         <span key={item.label} className={index === 0 ? "pr-4" : `border-l px-4 ${SPEC_DIVIDER}`}>
           <span className="text-foreground-placeholder">{item.label}:</span>{" "}
-          <span className="text-foreground-strong">{item.value}</span>
+          <span className="text-foreground">{item.value}</span>
         </span>
       ))}
     </div>
@@ -644,12 +644,12 @@ function TypographySpecRow({ spec }: { spec: TypographySpec }) {
   return (
     <div className="py-11">
       <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3">
-        <p className="text-sm font-medium uppercase text-foreground-strong">
+        <p className="text-sm font-medium uppercase text-foreground">
           {spec.category ? `${spec.category} / ${spec.name}` : spec.name}
         </p>
         {metaItems.length > 0 ? <TypographySpecMeta items={metaItems} /> : null}
       </div>
-      <div className="mt-[60px] min-w-0 overflow-x-auto text-[var(--foreground-strong)]">
+      <div className="mt-[60px] min-w-0 overflow-x-auto text-[var(--foreground)]">
         {spec.preview}
       </div>
     </div>
@@ -665,7 +665,7 @@ function SpecimenCard({ family }: { family: (typeof FAMILIES)[number] }) {
           className="grid min-w-0 items-end gap-x-10 gap-y-6 pt-7 pb-3.5 md:grid-cols-[9rem_minmax(0,1fr)_9rem]"
         >
           <div className="grid min-w-0 content-end gap-1 pb-1">
-            <p className="text-sm font-medium text-[var(--foreground-strong)]">{sample.title}</p>
+            <p className="text-sm font-medium text-[var(--foreground)]">{sample.title}</p>
             <p className="text-xs text-[var(--foreground-muted)]">{sample.family}</p>
           </div>
           <div className="min-w-0 overflow-x-auto pb-1">
@@ -675,7 +675,7 @@ function SpecimenCard({ family }: { family: (typeof FAMILIES)[number] }) {
             <div
               className={sample.specimenClassName}
               style={{
-                color: "var(--foreground-strong)",
+                color: "var(--foreground)",
               }}
             >
               Aa

@@ -24,7 +24,6 @@ import {
   PanelHeading,
   PanelMeta,
   PanelTitle,
-  PanelBody,
   PanelScrollContent,
   PanelScrollViewport,
   SidebarItem,
@@ -39,6 +38,7 @@ import {
 import { cn } from "raft-ui/cn";
 import {
   ProfilePanel,
+  ProfilePanelBody,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
   ProfilePanelSection,
@@ -127,7 +127,7 @@ export function MemberDetailPanel({
         </PanelActions>
       </ProfilePanelHeader>
 
-      <PanelBody>
+      <ProfilePanelBody>
         <PanelScrollViewport>
           <PanelScrollContent>
             <ProfilePanelSection className="flex items-start gap-4 border-t-0 py-5">
@@ -215,7 +215,7 @@ export function MemberDetailPanel({
                           variant={removed ? "muted" : "default"}
                           className={cn(
                             canChangeRole &&
-                              "cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-line-focus focus-visible:ring-offset-1",
+                              "cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-1",
                           )}
                         >
                           {removed ? "Removed" : role[0]?.toUpperCase() + role.slice(1)}
@@ -278,7 +278,7 @@ export function MemberDetailPanel({
                       return (
                         <SidebarItem
                           key={createdAgent.id}
-                          className="[[data-theme=brutal]_&]:border-line-subtle [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
+                          className="[[data-theme=brutal]_&]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
                           onClick={() => onSelectActor(createdAgent)}
                         >
                           <SidebarItemIcon className="size-8">
@@ -337,8 +337,8 @@ export function MemberDetailPanel({
                     </AlertDialogHeader>
                     <AlertDialogBody>
                       <p className="m-0 text-sm leading-5 text-foreground-muted">
-                        Remove <strong className="text-foreground-strong">{actor.name}</strong> from
-                        this mock workspace?
+                        Remove <strong className="text-foreground">{actor.name}</strong> from this
+                        mock workspace?
                       </p>
                     </AlertDialogBody>
                     <AlertDialogFooter>
@@ -353,7 +353,7 @@ export function MemberDetailPanel({
             ) : null}
           </PanelScrollContent>
         </PanelScrollViewport>
-      </PanelBody>
+      </ProfilePanelBody>
     </ProfilePanel>
   );
 }

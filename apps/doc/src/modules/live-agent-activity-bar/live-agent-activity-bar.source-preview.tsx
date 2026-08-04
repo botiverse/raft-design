@@ -16,7 +16,7 @@ export function SourceLiveAgentActivityBar({
           <SourceAgentPixelAvatar />
         </div>
         <div className="flex min-w-0 flex-1 items-center gap-1.5">
-          <span className="size-2.5 shrink-0 animate-pulse rounded-full border border-black bg-soft-signal" />
+          <span className="size-2.5 shrink-0 animate-pulse rounded-full border border-black bg-primary" />
           <span className="min-w-0 truncate font-mono text-sm text-black/60" title="Thinking…">
             Thinking…
           </span>

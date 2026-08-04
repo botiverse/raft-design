@@ -20,24 +20,30 @@ export const legacyTaskPanel = tv({
   variants: {
     theme: {
       brutal: {
-        frame: ["border-2 border-black shadow-md"],
-        icon: ["border-2 border-black bg-soft-signal text-black"],
-        section: ["space-y-3 border-2 border-black bg-white shadow-md"],
+        frame: ["border-2 border-black shadow-raft-md"],
+        icon: ["border-2 border-black bg-primary text-black"],
+        section: ["space-y-3 border-2 border-black bg-white shadow-raft-md"],
         fieldLabel: ["text-black/40"],
         fieldTitle: ["font-bold text-black"],
         fieldText: ["text-black/80"],
-        meta: ["border-2 border-black bg-white shadow-md"],
+        meta: ["border-2 border-black bg-white shadow-raft-md"],
         metaLabel: ["text-black/50"],
         metaValue: ["text-black"],
       },
       elegant: {
-        frame: ["rounded-xl border border-line-subtle shadow-sm"],
-        icon: ["rounded-md border-[0.5px] border-line-subtle bg-white text-foreground-icon"],
-        section: ["space-y-3 rounded-lg border-[0.5px] border-line-subtle bg-white shadow-xs"],
+        frame: ["rounded-xl border border-line-muted shadow-raft-sm", "dark:border-transparent"],
+        icon: ["rounded-md border-[0.5px] border-line-muted bg-layer-panel text-foreground-icon"],
+        section: [
+          "space-y-3 rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
+          "dark:border-transparent",
+        ],
         fieldLabel: ["text-foreground-muted"],
         fieldTitle: ["font-heading font-medium text-foreground"],
         fieldText: ["text-foreground/80"],
-        meta: ["rounded-lg border-[0.5px] border-line-subtle bg-white shadow-xs"],
+        meta: [
+          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
+          "dark:border-transparent",
+        ],
         metaLabel: ["text-xs text-foreground-placeholder"],
         metaValue: ["text-foreground"],
       },

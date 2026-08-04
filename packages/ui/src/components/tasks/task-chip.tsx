@@ -13,9 +13,9 @@ const taskChip = tv({
     root: [
       "inline-flex max-w-full items-center gap-1.5 align-baseline overflow-hidden rounded-full border px-2 py-0 font-medium [font-size:inherit] leading-[1.4] tracking-normal whitespace-nowrap",
       "[&>svg]:shrink-0 [&>svg]:size-3",
-      "text-foreground-strong no-underline select-text",
+      "text-foreground no-underline select-text",
       "transition-[filter,opacity] duration-100 hover:brightness-[0.96]",
-      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus",
+      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
     ],
   },
   variants: {
@@ -47,35 +47,35 @@ const taskChip = tv({
       theme: "elegant",
       status: "todo",
       class: {
-        root: "border-[color-mix(in_oklch,var(--line-subtle)_75%,transparent)] bg-ink-4 text-foreground-strong",
+        root: "border-[color-mix(in_oklch,var(--line-muted)_75%,transparent)] bg-ink-4 text-foreground",
       },
     },
     {
       theme: "elegant",
       status: "in-progress",
       class: {
-        root: "border-primary-500/75 bg-primary-500/10 text-primary-800",
+        root: "border-primary-500/75 bg-primary-500/10 text-primary-800 dark:text-primary-strong",
       },
     },
     {
       theme: "elegant",
       status: "in-review",
       class: {
-        root: "border-warning-base/75 bg-warning-base/10 text-warning-dark",
+        root: "border-warning/75 bg-warning/10 text-warning-strong",
       },
     },
     {
       theme: "elegant",
       status: "done",
       class: {
-        root: "border-success-base/75 bg-success-base/10 text-success-dark",
+        root: "border-success/75 bg-success/10 text-success-strong",
       },
     },
     {
       theme: "elegant",
       status: "closed",
       class: {
-        root: "border-[color-mix(in_oklch,var(--line-subtle)_75%,transparent)] bg-ink-4 text-foreground-strong",
+        root: "border-[color-mix(in_oklch,var(--line-muted)_75%,transparent)] bg-ink-4 text-foreground",
       },
     },
     {
@@ -96,7 +96,7 @@ const taskChip = tv({
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
-          "h-[19px] align-middle -mt-px gap-1.5 rounded-full border-0 bg-layer-muted py-0 pr-2 pl-1",
+          "h-[19px] align-middle -mt-px gap-1.5 rounded-full border-0 bg-fill-muted py-0 pr-2 pl-1",
           "text-[12px] font-[450] leading-none text-foreground-muted hover:brightness-100 [&>svg]:size-3",
         ],
       },

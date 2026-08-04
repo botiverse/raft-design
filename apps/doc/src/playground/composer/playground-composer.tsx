@@ -654,7 +654,7 @@ function PlaygroundComposer({
             </ComposerActions>
             <ComposerMeta>
               {sendState.kind === "failed" ? (
-                <span className="text-xs font-medium text-danger-base">Send failed · retry</span>
+                <span className="text-xs font-medium text-danger">Send failed · retry</span>
               ) : null}
               {footer === "main" ? (
                 <ComposerToolbarLabel>
