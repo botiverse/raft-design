@@ -59,9 +59,8 @@ const SNIPPETS = {
       {/* thread rows only */}
       <ActivityInboxItemSubtitle />
       <ActivityInboxItemHeading>
-        <ActivityInboxItemTitle>
-          <ActivityInboxItemTitleIcon />
-        </ActivityInboxItemTitle>
+        {/* an inline leading svg is styled by the title */}
+        <ActivityInboxItemTitle />
         <ActivityInboxItemTimestamp />
       </ActivityInboxItemHeading>
       <ActivityInboxItemBody>
@@ -161,15 +160,8 @@ const ACTIVITY_INBOX_ITEM_TITLE_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
-    description: "Two-line clamped title; unread emphasis comes from the card's data-unread state.",
-  },
-];
-
-const ACTIVITY_INBOX_ITEM_TITLE_ICON_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Decorative inline icon before the title text; hidden from assistive technology.",
+    description:
+      "Two-line clamped title; a leading inline svg child is sized and tinted by the title, and unread emphasis comes from the card's data-unread state.",
   },
 ];
 
@@ -270,11 +262,6 @@ const API_SUBSECTIONS = [
     rows: ACTIVITY_INBOX_ITEM_HEADING_PROPS,
   },
   { id: "api-item-title", title: "ActivityInboxItemTitle", rows: ACTIVITY_INBOX_ITEM_TITLE_PROPS },
-  {
-    id: "api-item-title-icon",
-    title: "ActivityInboxItemTitleIcon",
-    rows: ACTIVITY_INBOX_ITEM_TITLE_ICON_PROPS,
-  },
   {
     id: "api-item-timestamp",
     title: "ActivityInboxItemTimestamp",

@@ -61,7 +61,6 @@ import {
   ActivityInboxItemSubtitle,
   ActivityInboxItemTimestamp,
   ActivityInboxItemTitle,
-  ActivityInboxItemTitleIcon,
   ActivityInboxList,
 } from "raft-ui/wip";
 
@@ -858,9 +857,7 @@ function ActivityItem({
         ) : null}
         <ActivityInboxItemHeading>
           <ActivityInboxItemTitle>
-            <ActivityInboxItemTitleIcon data-kind={item.kind}>
-              <Icon />
-            </ActivityInboxItemTitleIcon>
+            <Icon aria-hidden />
             {item.title}
           </ActivityInboxItemTitle>
           <ActivityInboxItemTimestamp>{item.timestamp}</ActivityInboxItemTimestamp>

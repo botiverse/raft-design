@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { ElementType, MouseEvent } from "react";
+import type { MouseEvent } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -12,29 +12,22 @@ import {
 } from "../context-menu/context-menu";
 import { activityInbox } from "./activity-inbox.recipe";
 
-type DivProps = useRender.ComponentProps<"div">;
-type SpanProps = useRender.ComponentProps<"span">;
-type ButtonProps = useRender.ComponentProps<"button">;
-
-function withSlot<Tag extends ElementType>(props: SlotElementProps<Tag>): SlotElementProps<Tag> {
-  return props;
-}
-
-export type ActivityInboxListProps = DivProps;
+export type ActivityInboxListProps = useRender.ComponentProps<"div">;
 export function ActivityInboxList({ className, render, ...props }: ActivityInboxListProps) {
   const theme = useThemeFamily();
   const { list } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "activity-inbox-list",
+    className: list({ className }),
+  };
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(
-      withSlot<"div">({ "data-slot": "activity-inbox-list", className: list({ className }) }),
-      props,
-    ),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemProps = DivProps;
+export type ActivityInboxItemProps = useRender.ComponentProps<"div">;
 export function ActivityInboxItem({ className, render, ...props }: ActivityInboxItemProps) {
   const theme = useThemeFamily();
   const { item } = activityInbox({ theme });
@@ -66,7 +59,7 @@ export function ActivityInboxItemMenuItem({ className, ...props }: ActivityInbox
   return <ContextMenuItem className={itemMenuItem({ className })} {...props} />;
 }
 
-export type ActivityInboxItemOpenProps = ButtonProps;
+export type ActivityInboxItemOpenProps = useRender.ComponentProps<"button">;
 export function ActivityInboxItemOpen({ className, render, ...props }: ActivityInboxItemOpenProps) {
   const theme = useThemeFamily();
   const { itemOpen } = activityInbox({ theme });
@@ -82,7 +75,10 @@ export function ActivityInboxItemOpen({ className, render, ...props }: ActivityI
   });
 }
 
-export type ActivityInboxItemSelectionProps = Omit<ButtonProps, "onChange"> & {
+export type ActivityInboxItemSelectionProps = Omit<
+  useRender.ComponentProps<"button">,
+  "onChange"
+> & {
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
 };
@@ -96,29 +92,26 @@ export function ActivityInboxItemSelection({
 }: ActivityInboxItemSelectionProps) {
   const theme = useThemeFamily();
   const { itemSelection } = activityInbox({ theme });
-  const activate = () => onCheckedChange(!checked);
+  const defaultProps: SlotElementProps<"button"> = {
+    "aria-checked": checked,
+    "data-slot": "activity-inbox-item-selection",
+    className: itemSelection({ className }),
+    onClick: (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onCheckedChange(!checked);
+      onClick?.(event);
+    },
+    role: "checkbox",
+    type: "button",
+  };
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(
-      withSlot<"button">({
-        "aria-checked": checked,
-        "data-slot": "activity-inbox-item-selection",
-        className: itemSelection({ className }),
-        onClick: (event: MouseEvent<HTMLButtonElement>) => {
-          event.stopPropagation();
-          activate();
-          onClick?.(event);
-        },
-        role: "checkbox",
-        type: "button",
-      }),
-      props,
-    ),
+    props: mergeProps<"button">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemContentProps = DivProps;
+export type ActivityInboxItemContentProps = useRender.ComponentProps<"div">;
 export function ActivityInboxItemContent({
   className,
   render,
@@ -126,20 +119,18 @@ export function ActivityInboxItemContent({
 }: ActivityInboxItemContentProps) {
   const theme = useThemeFamily();
   const { itemContent } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "activity-inbox-item-content",
+    className: itemContent({ className }),
+  };
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(
-      withSlot<"div">({
-        "data-slot": "activity-inbox-item-content",
-        className: itemContent({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemSubtitleProps = DivProps;
+export type ActivityInboxItemSubtitleProps = useRender.ComponentProps<"div">;
 export function ActivityInboxItemSubtitle({
   className,
   render,
@@ -147,20 +138,18 @@ export function ActivityInboxItemSubtitle({
 }: ActivityInboxItemSubtitleProps) {
   const theme = useThemeFamily();
   const { itemSubtitle } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "activity-inbox-item-subtitle",
+    className: itemSubtitle({ className }),
+  };
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(
-      withSlot<"div">({
-        "data-slot": "activity-inbox-item-subtitle",
-        className: itemSubtitle({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemHeadingProps = DivProps;
+export type ActivityInboxItemHeadingProps = useRender.ComponentProps<"div">;
 export function ActivityInboxItemHeading({
   className,
   render,
@@ -168,20 +157,18 @@ export function ActivityInboxItemHeading({
 }: ActivityInboxItemHeadingProps) {
   const theme = useThemeFamily();
   const { itemHeading } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "activity-inbox-item-heading",
+    className: itemHeading({ className }),
+  };
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(
-      withSlot<"div">({
-        "data-slot": "activity-inbox-item-heading",
-        className: itemHeading({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemTitleProps = DivProps;
+export type ActivityInboxItemTitleProps = useRender.ComponentProps<"div">;
 export function ActivityInboxItemTitle({
   className,
   render,
@@ -189,42 +176,18 @@ export function ActivityInboxItemTitle({
 }: ActivityInboxItemTitleProps) {
   const theme = useThemeFamily();
   const { itemTitle } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "activity-inbox-item-title",
+    className: itemTitle({ className }),
+  };
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(
-      withSlot<"div">({
-        "data-slot": "activity-inbox-item-title",
-        className: itemTitle({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemTitleIconProps = SpanProps;
-export function ActivityInboxItemTitleIcon({
-  className,
-  render,
-  ...props
-}: ActivityInboxItemTitleIconProps) {
-  const theme = useThemeFamily();
-  const { itemTitleIcon } = activityInbox({ theme });
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(
-      withSlot<"span">({
-        "aria-hidden": true,
-        "data-slot": "activity-inbox-item-title-icon",
-        className: itemTitleIcon({ className }),
-      }),
-      props,
-    ),
-  });
-}
-
-export type ActivityInboxItemTimestampProps = SpanProps;
+export type ActivityInboxItemTimestampProps = useRender.ComponentProps<"span">;
 export function ActivityInboxItemTimestamp({
   className,
   render,
@@ -232,16 +195,14 @@ export function ActivityInboxItemTimestamp({
 }: ActivityInboxItemTimestampProps) {
   const theme = useThemeFamily();
   const { itemTimestamp } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "activity-inbox-item-timestamp",
+    className: itemTimestamp({ className }),
+  };
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(
-      withSlot<"span">({
-        "data-slot": "activity-inbox-item-timestamp",
-        className: itemTimestamp({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"span">(defaultProps, props),
   });
 }
 
@@ -249,20 +210,18 @@ export type ActivityInboxItemBodyProps = useRender.ComponentProps<"p">;
 export function ActivityInboxItemBody({ className, render, ...props }: ActivityInboxItemBodyProps) {
   const theme = useThemeFamily();
   const { itemBody } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"p"> = {
+    "data-slot": "activity-inbox-item-body",
+    className: itemBody({ className }),
+  };
   return useRender({
     defaultTagName: "p",
     render,
-    props: mergeProps<"p">(
-      withSlot<"p">({
-        "data-slot": "activity-inbox-item-body",
-        className: itemBody({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"p">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemSenderProps = SpanProps;
+export type ActivityInboxItemSenderProps = useRender.ComponentProps<"span">;
 export function ActivityInboxItemSender({
   className,
   render,
@@ -270,20 +229,18 @@ export function ActivityInboxItemSender({
 }: ActivityInboxItemSenderProps) {
   const theme = useThemeFamily();
   const { itemSender } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "activity-inbox-item-sender",
+    className: itemSender({ className }),
+  };
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">(
-      withSlot<"span">({
-        "data-slot": "activity-inbox-item-sender",
-        className: itemSender({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"span">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemMetadataProps = DivProps;
+export type ActivityInboxItemMetadataProps = useRender.ComponentProps<"div">;
 export function ActivityInboxItemMetadata({
   className,
   render,
@@ -291,20 +248,18 @@ export function ActivityInboxItemMetadata({
 }: ActivityInboxItemMetadataProps) {
   const theme = useThemeFamily();
   const { itemMetadata } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "activity-inbox-item-metadata",
+    className: itemMetadata({ className }),
+  };
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(
-      withSlot<"div">({
-        "data-slot": "activity-inbox-item-metadata",
-        className: itemMetadata({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemActionsProps = DivProps;
+export type ActivityInboxItemActionsProps = useRender.ComponentProps<"div">;
 export function ActivityInboxItemActions({
   className,
   render,
@@ -312,20 +267,18 @@ export function ActivityInboxItemActions({
 }: ActivityInboxItemActionsProps) {
   const theme = useThemeFamily();
   const { itemActions } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "activity-inbox-item-actions",
+    className: itemActions({ className }),
+  };
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(
-      withSlot<"div">({
-        "data-slot": "activity-inbox-item-actions",
-        className: itemActions({ className }),
-      }),
-      props,
-    ),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
-export type ActivityInboxItemActionProps = ButtonProps;
+export type ActivityInboxItemActionProps = useRender.ComponentProps<"button">;
 export function ActivityInboxItemAction({
   className,
   render,
@@ -333,17 +286,15 @@ export function ActivityInboxItemAction({
 }: ActivityInboxItemActionProps) {
   const theme = useThemeFamily();
   const { itemAction } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"button"> = {
+    "data-slot": "activity-inbox-item-action",
+    className: itemAction({ className }),
+    type: "button",
+  };
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(
-      withSlot<"button">({
-        "data-slot": "activity-inbox-item-action",
-        className: itemAction({ className }),
-        type: "button",
-      }),
-      props,
-    ),
+    props: mergeProps<"button">(defaultProps, props),
   });
 }
 
@@ -355,16 +306,14 @@ export function ActivityInboxItemSavedAction({
 }: ActivityInboxItemSavedActionProps) {
   const theme = useThemeFamily();
   const { itemSavedAction } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"button"> = {
+    "data-slot": "activity-inbox-item-saved-action",
+    className: itemSavedAction({ className }),
+    type: "button",
+  };
   return useRender({
     defaultTagName: "button",
     render,
-    props: mergeProps<"button">(
-      withSlot<"button">({
-        "data-slot": "activity-inbox-item-saved-action",
-        className: itemSavedAction({ className }),
-        type: "button",
-      }),
-      props,
-    ),
+    props: mergeProps<"button">(defaultProps, props),
   });
 }

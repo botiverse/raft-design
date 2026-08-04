@@ -15,7 +15,6 @@ export {
   ActivityInboxItemSubtitle,
   ActivityInboxItemTimestamp,
   ActivityInboxItemTitle,
-  ActivityInboxItemTitleIcon,
   ActivityInboxList,
 } from "./activity-inbox";
 
@@ -35,7 +34,6 @@ export type {
   ActivityInboxItemSenderProps,
   ActivityInboxItemSubtitleProps,
   ActivityInboxItemTimestampProps,
-  ActivityInboxItemTitleIconProps,
   ActivityInboxItemTitleProps,
   ActivityInboxListProps,
 } from "./activity-inbox";
