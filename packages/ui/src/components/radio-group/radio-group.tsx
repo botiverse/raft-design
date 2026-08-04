@@ -38,10 +38,10 @@ const radioGroup = tv({
         item: [
           "size-3.5 bg-layer-panel text-foreground-inverse",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-subtle)]",
-          "hover:bg-ink-4 data-[checked]:bg-foreground-strong",
-          "data-[checked]:shadow-[0_1px_1.5px_-1px_oklch(0_0_0_/_0.08),0_0_0_1px_oklch(0_0_0_/_0.68)]",
+          "hover:bg-ink-4 data-[checked]:bg-primary-400 data-[checked]:text-primary-950 dark:data-[checked]:text-foreground-inverse",
+          "data-[checked]:shadow-[0_1px_1.5px_-1px_oklch(0_0_0_/_0.08),0_0_0_0.5px_color-mix(in_srgb,var(--primary-500)_35%,transparent)]",
           "data-[disabled]:bg-layer-muted data-[disabled]:text-line data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)] data-[disabled]:hover:bg-layer-muted",
-          "data-[checked]:data-[disabled]:bg-layer-muted data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
+          "data-[checked]:data-[disabled]:bg-layer-muted data-[checked]:data-[disabled]:text-line data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-subtle)]",
           "active:scale-[0.96] data-[disabled]:active:scale-100 motion-reduce:active:scale-100",
           "focus-visible:ring-2 focus-visible:ring-line-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         ],

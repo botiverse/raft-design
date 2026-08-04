@@ -157,6 +157,7 @@ const combobox = tv({
           "rounded-md border border-line-subtle bg-layer-field px-2.5 py-1.5",
           "text-sm font-normal text-foreground shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)]",
           "focus-within:ring-1 focus-within:ring-primary-400 focus-within:ring-offset-2 focus-within:ring-offset-background",
+          "dark:focus-within:ring-2 dark:focus-within:ring-primary-400/60 dark:focus-within:ring-offset-0",
           "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
         ],
         empty: ["text-foreground-muted"],
@@ -164,6 +165,7 @@ const combobox = tv({
         chips: [
           "rounded-md border border-line-subtle bg-layer-field px-2 py-1",
           "focus-within:ring-1 focus-within:ring-primary-400 focus-within:ring-offset-2 focus-within:ring-offset-background",
+          "dark:focus-within:ring-2 dark:focus-within:ring-primary-400/60 dark:focus-within:ring-offset-0",
         ],
         chip: ["rounded-sm bg-layer-muted px-1.5 py-0.5 text-xs font-medium text-foreground"],
         chipRemove: ["text-foreground-muted hover:text-foreground-strong"],

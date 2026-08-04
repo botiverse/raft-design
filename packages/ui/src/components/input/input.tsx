@@ -39,6 +39,7 @@ const input = tv({
           "shadow-none hover:not-data-invalid:border-line-field-hover hover:shadow-field-hover",
           "focus:bg-layer-field",
           "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
           "data-invalid:border-danger-base/45 data-invalid:hover:border-danger-base/75 data-invalid:focus-visible:border-danger-base/75 data-invalid:focus-visible:ring-3 data-invalid:focus-visible:ring-danger-base/12 data-invalid:focus-visible:ring-offset-0",
           "disabled:cursor-not-allowed disabled:border-line-subtle/60 disabled:bg-layer-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
           "disabled:hover:border-line-subtle/60 disabled:hover:shadow-none",
