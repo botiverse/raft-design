@@ -1,6 +1,6 @@
 ---
 name: display
-description: "Typography and display: the Text family, InlineCode vs CopyableCode vs CodeBlock, Markdown parts, DescriptionList, Avatar, FilePreview vs Files, Kbd."
+description: "Typography and display: the Text family, InlineCode vs CopyableCode vs CodeBlock, Markdown parts, DescriptionList, Avatar, FilePreview vs Files, Kbd, icons."
 ---
 
 # Text and display
@@ -14,6 +14,7 @@ description: "Typography and display: the Text family, InlineCode vs CopyableCod
 - Avatar
 - FilePreview vs Files
 - Kbd
+- Icons
 - Per-component norms
 
 ---
@@ -140,6 +141,34 @@ Use `FilePreview` for attachments inside a composer or message; use `Files` for 
 One key per `Kbd`. `KbdGroup` wraps a combination. Do not write `<Kbd>⌘K</Kbd>` — the group handles the spacing and separators.
 
 Inside menus, use `DropdownMenuShortcut` / `ContextMenuShortcut` instead of `Kbd`; they handle the right alignment within the row.
+
+---
+
+## Icons
+
+`lucide-react` is the icon library — it is a raft-ui dependency, and the recipes are tuned to it.
+
+**Inside raft-ui components, do not size or restyle icons.** Components that render icons (`Button`, menu items, sidebar items, toasts, tabs, …) own icon treatment in their recipe: automatic sizing (`[&_svg]:size-4` or `[data-icon]:size-[1em]`) and stroke normalization to `1.5`.
+
+**Incorrect:**
+
+```tsx
+<Button size="icon-sm">
+  <SearchIcon className="size-4 stroke-2" />
+</Button>
+```
+
+**Correct:**
+
+```tsx
+<Button size="icon-sm">
+  <SearchIcon />
+</Button>
+```
+
+In your own markup — outside any icon-owning component — size icons explicitly (`className="size-4"`).
+
+When a component accepts an icon as a prop, pass the component object, not a string key into a lookup map: `icon={CheckIcon}`.
 
 ---
 

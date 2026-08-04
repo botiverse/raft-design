@@ -152,3 +152,13 @@ import { cn } from "raft-ui/cn";
 ```
 
 `cn` is exported from the package. Do not add `clsx` or `tailwind-merge` as direct dependencies to compose raft-ui classes.
+
+Conditional classes go through `cn`, not template-literal ternaries:
+
+```tsx
+// Incorrect
+<div className={`px-3 ${active ? "bg-layer-active" : ""}`} />
+
+// Correct
+<div className={cn("px-3", active && "bg-layer-active")} />
+```

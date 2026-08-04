@@ -164,7 +164,7 @@ Do not introduce your own portal provider — the primitive's container API alre
 
 Do not fight overlay stacking with `z-index`. Portaled content escapes your local stacking context by construction; a `z-index: 9999` on app chrome that must sit above or below an overlay is a sign the element is in the wrong place, not that the number is too small.
 
-Every blocking overlay needs a `Title`, even when the design shows no visible heading. It is what screen readers announce.
+Every blocking overlay needs a `Title`, even when the design shows no visible heading — it is what screen readers announce. When the design hides it, keep the part and add `className="sr-only"`.
 
 ---
 
