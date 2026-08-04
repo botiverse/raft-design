@@ -71,7 +71,7 @@ export function PreviewRoot({
               >
                 {canvasNode}
               </ResizablePanel>
-              <ResizableHandle className="ml-0 w-0 border-l border-[oklch(0_0_0_/_0.10)] bg-transparent hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-ink-10" />
+              <ResizableHandle className="ml-0 mr-0 w-0 border-l border-[oklch(0_0_0_/_0.10)] bg-transparent before:opacity-0 hover:bg-transparent focus-visible:before:opacity-100 focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-ink-10" />
               <ResizablePanel
                 id="preview-controls"
                 defaultSize={PREVIEW_CONTROLS_DEFAULT_SIZE}

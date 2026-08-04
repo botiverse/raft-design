@@ -28,6 +28,7 @@ export const panel = tv({
           "border-t-0 bg-transparent",
           "before:pointer-events-none before:absolute before:inset-x-0 before:bottom-0 before:z-0 before:h-36",
           "before:bg-[linear-gradient(to_bottom,transparent,var(--layer-panel))] before:backdrop-blur-[4px]",
+          "dark:before:bg-[linear-gradient(to_bottom,transparent,oklch(0_0_0_/_0.16))] dark:before:backdrop-blur-[2px]",
           "before:[mask-image:linear-gradient(to_top,black_50%,transparent),linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)]",
           "before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent),linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)]",
           "before:[mask-composite:intersect] before:[-webkit-mask-composite:source-in]",

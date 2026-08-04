@@ -170,12 +170,17 @@ function PlaygroundChatLayout({
           {sidebar}
         </AppShellSidebarSlot>
       </ResizablePanel>
-      <ResizableHandle />
-      <ResizablePanel id="playground-main" minSize={360} className="relative !overflow-visible">
+      <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
+      <ResizablePanel id="playground-main" minSize={360} className="relative z-0 !overflow-visible">
         <AppShellMainSlot className="flex h-full min-w-0 flex-1">
           {main}
           {thread && !isLargeDesktop ? (
-            <div className="absolute inset-0 z-20 flex min-h-0 min-w-0 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-muted before:content-['']">
+            <div
+              className={cn(
+                "absolute inset-0 z-20 flex min-h-0 min-w-0",
+                theme === "brutal" && "border-l-2 border-black",
+              )}
+            >
               {thread}
             </div>
           ) : null}
@@ -186,8 +191,8 @@ function PlaygroundChatLayout({
           <ResizableHandle
             className={
               theme === "brutal"
-                ? "z-50 ml-0 w-0 border-l-2 border-black bg-transparent"
-                : "z-50 bg-transparent"
+                ? "z-50 ml-0 mr-0 w-0 border-l-2 border-black bg-transparent"
+                : "z-50 translate-x-[7px] bg-transparent"
             }
           />
           <ResizablePanel
@@ -196,7 +201,7 @@ function PlaygroundChatLayout({
             minSize={360}
             maxSize="60vw"
             groupResizeBehavior="preserve-pixel-size"
-            className="min-w-0"
+            className="relative z-20 min-w-0 !overflow-visible"
           >
             {thread}
           </ResizablePanel>
