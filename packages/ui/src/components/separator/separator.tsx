@@ -23,15 +23,15 @@ const separator = tv({
           "data-[orientation=vertical]:w-0 data-[orientation=vertical]:border-l-2 data-[orientation=vertical]:border-line-strong",
         ],
         labeledLine: ["h-0 border-t-2 border-line-strong"],
-        labeledContent: ["font-medium text-foreground/70"],
+        labeledContent: ["font-medium text-foreground-strong/70"],
       },
       elegant: {
         root: [
-          "bg-line-muted",
+          "bg-line-hairline",
           "data-[orientation=horizontal]:h-px",
           "data-[orientation=vertical]:w-px",
         ],
-        labeledLine: ["h-px bg-line-muted"],
+        labeledLine: ["h-px bg-line-hairline"],
         labeledContent: ["text-foreground-placeholder"],
       },
     },

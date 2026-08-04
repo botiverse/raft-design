@@ -50,7 +50,7 @@ export function PlaygroundMobilePreview({ src, theme, mode }: PlaygroundMobilePr
   }, [syncTheme]);
 
   return (
-    <div className="flex h-full min-h-0 items-center justify-center overflow-auto bg-layer-muted px-4 pt-10 pb-4">
+    <div className="flex h-full min-h-0 items-center justify-center overflow-auto bg-fill-muted px-4 pt-10 pb-4">
       <iframe
         ref={frameRef}
         src={src}

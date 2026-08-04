@@ -30,7 +30,7 @@ const PRESETS: readonly PreviewThemePreset[] = [
 ];
 
 const segment = "h-6 rounded-[3px] px-2 text-[11px] leading-none transition duration-200 ease-out";
-const active = "font-medium text-foreground-strong";
+const active = "font-medium text-foreground";
 const idle = "font-medium text-foreground-placeholder hover:text-foreground-muted";
 
 /** Docs control: switches the isolated component preview theme. */

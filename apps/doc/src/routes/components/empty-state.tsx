@@ -169,11 +169,11 @@ import { Upload } from "lucide-react";
   <div className="mt-5 flex flex-col items-center gap-2">
     <Button variant="primary" size="sm">Choose file</Button>
     <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
-      <button type="button" className="underline underline-offset-4 hover:text-foreground-strong">
+      <button type="button" className="underline underline-offset-4 hover:text-foreground">
         Download template
       </button>
       <span aria-hidden>·</span>
-      <button type="button" className="underline underline-offset-4 hover:text-foreground-strong">
+      <button type="button" className="underline underline-offset-4 hover:text-foreground">
         View import guide
       </button>
     </div>
@@ -419,14 +419,14 @@ function EmptyStateDoc() {
                     <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-foreground-muted">
                       <button
                         type="button"
-                        className="underline underline-offset-4 hover:text-foreground-strong"
+                        className="underline underline-offset-4 hover:text-foreground"
                       >
                         Download template
                       </button>
                       <span aria-hidden>·</span>
                       <button
                         type="button"
-                        className="underline underline-offset-4 hover:text-foreground-strong"
+                        className="underline underline-offset-4 hover:text-foreground"
                       >
                         View import guide
                       </button>

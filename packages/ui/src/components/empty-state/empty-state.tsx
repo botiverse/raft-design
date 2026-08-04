@@ -22,7 +22,7 @@ const emptyState = tv({
     title: ["mb-2 w-full max-w-full text-center text-balance font-heading text-lg font-semibold"],
     description: [
       "mx-auto w-full max-w-[32ch] text-center text-sm leading-relaxed text-pretty",
-      "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-foreground-strong",
+      "[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-foreground",
     ],
     actions: ["mt-5"],
   },
@@ -30,12 +30,16 @@ const emptyState = tv({
     theme: {
       brutal: {
         icon: "text-foreground-muted [&_svg]:size-9",
-        title: "text-foreground/60",
-        description: "text-foreground/60",
+        title: "text-foreground-strong/60",
+        description: "text-foreground-strong/60",
       },
       elegant: {
-        icon: "rounded-md bg-layer-muted p-2 text-foreground-placeholder [&_svg]:size-4.5",
-        title: "text-sm font-medium text-foreground-strong",
+        icon: [
+          "rounded-md bg-fill-muted p-2 text-foreground-placeholder [&_svg]:size-4.5",
+          "dark:bg-layer-inset",
+          "dark:shadow-[inset_0_1px_1.5px_oklch(0_0_0_/_0.3),0_0_0_1px_oklch(0_0_0_/_0.4),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
+        ],
+        title: "text-sm font-medium text-foreground",
         description: "text-foreground-muted",
       },
     },

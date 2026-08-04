@@ -136,7 +136,7 @@ function CreateChannelDialogParts() {
       </DialogBody>
       <DialogFooter>
         <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-        <Button variant="primary">Create Channel</Button>
+        <Button variant="accent">Create Channel</Button>
       </DialogFooter>
     </>
   );

@@ -84,7 +84,7 @@ const PANEL_BODY_SNIPPET = `    <PopoverHeader>
     <PopoverSeparator />
     <div className="grid gap-2 px-3 py-3 text-sm leading-6 text-foreground-muted [[data-theme=brutal]_&]:text-black">
       <p>Use channel names, people, and exact phrases to narrow message history.</p>
-      <div className="grid gap-1 rounded-sm bg-foreground/[0.04] px-2 py-2 font-mono text-xs text-foreground/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
+      <div className="grid gap-1 rounded-sm bg-foreground-strong/[0.04] px-2 py-2 font-mono text-xs text-foreground-strong/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
         <span>#design "token audit"</span>
         <span>@atlas migration notes</span>
       </div>
@@ -264,7 +264,7 @@ function PopoverPanelBody() {
       <PopoverSeparator />
       <div className="grid gap-2 px-3 py-3 text-sm leading-6 text-foreground-muted [[data-theme=brutal]_&]:text-black">
         <p>Use channel names, people, and exact phrases to narrow message history.</p>
-        <div className="grid gap-1 rounded-sm bg-foreground/[0.04] px-2 py-2 font-mono text-xs text-foreground/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
+        <div className="grid gap-1 rounded-sm bg-foreground-strong/[0.04] px-2 py-2 font-mono text-xs text-foreground-strong/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
           <span>#design "token audit"</span>
           <span>@atlas migration notes</span>
         </div>

@@ -239,7 +239,7 @@ export function BrutalSearchFilters({
           <button
             type="button"
             onClick={() => onChannelChange(null)}
-            className="inline-flex items-center gap-2 border-2 border-black bg-soft-signal px-3 py-1.5 text-xs font-bold text-black shadow-sm"
+            className="inline-flex items-center gap-2 border-2 border-black bg-primary px-3 py-1.5 text-xs font-bold text-black shadow-raft-sm"
           >
             <Hash aria-hidden size={12} />#{channel.name}
             <X aria-hidden size={10} />

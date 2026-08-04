@@ -598,7 +598,7 @@ function SidebarDoc() {
           <PreviewPane label="Brutal">
             <PreviewThemeScope
               family="brutal"
-              className="h-full w-[308px] shrink-0 border border-line-strong bg-brutal-cream shadow-sm"
+              className="h-full w-[308px] shrink-0 border border-line-strong bg-brutal-cream shadow-raft-sm"
             >
               <SidebarComposition />
             </PreviewThemeScope>
@@ -607,7 +607,7 @@ function SidebarDoc() {
             <PreviewThemeScope
               family="elegant"
               mode="light"
-              className="h-full w-[308px] shrink-0 border border-line-strong bg-layer-page shadow-sm"
+              className="h-full w-[308px] shrink-0 border border-line-strong bg-layer-page shadow-raft-sm"
             >
               <SidebarComposition />
             </PreviewThemeScope>
@@ -616,7 +616,7 @@ function SidebarDoc() {
             <PreviewThemeScope
               family="elegant"
               mode="dark"
-              className="dark h-full w-[308px] shrink-0 border border-line-strong bg-layer-page shadow-sm"
+              className="dark h-full w-[308px] shrink-0 border border-line-strong bg-layer-page shadow-raft-sm"
             >
               <SidebarComposition />
             </PreviewThemeScope>
@@ -665,7 +665,7 @@ function PreviewGrid({ children }: { children: ReactNode }) {
 function PreviewPane({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="min-w-0 overflow-hidden rounded-none border border-line bg-layer-panel">
-      <div className="border-b border-line bg-layer-muted px-3 py-2 text-xs font-medium text-foreground-muted">
+      <div className="border-b border-line bg-fill-muted px-3 py-2 text-xs font-medium text-foreground-muted">
         {label}
       </div>
       <div className="flex h-[560px] items-stretch justify-start overflow-x-auto bg-white p-2">

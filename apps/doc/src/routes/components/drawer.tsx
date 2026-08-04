@@ -113,7 +113,7 @@ const USAGE_SIDE_FULL_WIDTH = `import {
         On small screens the panel spans the floating inset. From md up it keeps the default
         narrow side width. Scroll the body to verify long content.
       </DrawerDescription>
-      <div className="mt-6 w-full space-y-4 text-left text-sm leading-6 text-foreground/70">
+      <div className="mt-6 w-full space-y-4 text-left text-sm leading-6 text-foreground-strong/70">
         {/* long lorem paragraphs */}
       </div>
     </DrawerBody>
@@ -127,7 +127,7 @@ const USAGE_SIDE_FULL_WIDTH = `import {
 </Drawer>`;
 
 const SOURCE_DRAWER = `<div className="fixed inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]">
-  <div className="mx-auto max-w-md border-2 border-black bg-white shadow-xl">
+  <div className="mx-auto max-w-md border-2 border-black bg-white shadow-raft-xl">
     ...
   </div>
 </div>`;

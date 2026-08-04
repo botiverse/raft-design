@@ -157,7 +157,7 @@ function FilePreviewDoc() {
 
           <DocSubsection parentId="usage" id="customization" title="Customization">
             <div className="grid gap-3">
-              <p className="text-sm text-foreground">
+              <p className="text-sm text-foreground-strong">
                 FilePreviewMedia owns the frame, crop, and rounding. Supply an image, video, SVG, or
                 other preview through children.
               </p>

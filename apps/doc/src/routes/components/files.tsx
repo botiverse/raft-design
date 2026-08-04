@@ -389,7 +389,7 @@ function FilesPanelDoc() {
 function ApiPart({ rows, title }: { rows: readonly PropRow[]; title: string }) {
   return (
     <div className="space-y-3">
-      <h4 className="font-mono text-xs font-medium text-foreground-strong">{title}</h4>
+      <h4 className="font-mono text-xs font-medium text-foreground">{title}</h4>
       <PropsTable rows={rows} />
     </div>
   );

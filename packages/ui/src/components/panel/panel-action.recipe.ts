@@ -11,14 +11,14 @@ const panelActionBase = tv({
     theme: {
       brutal: [
         "rounded-none border-2 border-black bg-white px-1 py-[5px] text-black",
-        "shadow-sm",
-        "hover:-translate-y-px hover:bg-white hover:shadow-md",
+        "shadow-raft-sm",
+        "hover:-translate-y-px hover:bg-white hover:shadow-raft-md",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         "[&>svg]:size-3.5",
       ],
       elegant: [
         "rounded-md border-0 bg-transparent px-2 py-2",
-        "hover:bg-layer-strong/80 hover:text-foreground",
+        "hover:bg-fill-strong/80 hover:text-foreground-strong",
         "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         "[&>svg]:size-4",
       ],
@@ -35,12 +35,12 @@ export const panelAction = tv({
   variants: {
     theme: {
       brutal: [
-        "active:not-data-[has-popup]:scale-100 active:translate-x-px active:translate-y-px active:shadow-xs",
-        "disabled:shadow-sm",
+        "active:not-data-[has-popup]:scale-100 active:translate-x-px active:translate-y-px active:shadow-raft-xs",
+        "disabled:shadow-raft-sm",
       ],
       elegant: [
         "text-foreground-icon shadow-none",
-        "active:bg-layer-strong/80 active:text-foreground",
+        "active:bg-fill-strong/80 active:text-foreground-strong",
       ],
     },
   },
@@ -54,16 +54,16 @@ export const panelToggleAction = tv({
   variants: {
     theme: {
       brutal: [
-        "active:translate-x-px active:translate-y-px active:shadow-xs",
+        "active:translate-x-px active:translate-y-px active:shadow-raft-xs",
         "data-[pressed]:bg-brutal-orange data-[pressed]:text-black",
         "data-[pressed]:hover:bg-brutal-orange",
-        "data-[disabled]:shadow-sm",
+        "data-[disabled]:shadow-raft-sm",
       ],
       elegant: [
         "text-foreground-icon shadow-none",
-        "active:bg-layer-strong/80 active:text-foreground",
-        "data-[pressed]:bg-layer-strong data-[pressed]:text-foreground",
-        "data-[pressed]:hover:bg-layer-strong",
+        "active:bg-fill-strong/80 active:text-foreground-strong",
+        "data-[pressed]:bg-fill-strong data-[pressed]:text-foreground-strong",
+        "data-[pressed]:hover:bg-fill-strong",
       ],
     },
   },

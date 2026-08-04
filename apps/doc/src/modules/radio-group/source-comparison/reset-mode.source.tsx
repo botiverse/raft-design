@@ -33,7 +33,7 @@ export function RadioGroupResetModeSourcePreview({ className }: { className?: st
             className={[
               "w-full border-2 p-4 text-left",
               option.checked
-                ? "border-black bg-brutal-cyan/20 shadow-sm"
+                ? "border-black bg-brutal-cyan/20 shadow-raft-sm"
                 : "border-black/30 bg-white",
             ].join(" ")}
           >

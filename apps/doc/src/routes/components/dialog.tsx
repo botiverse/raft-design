@@ -104,7 +104,7 @@ const SNIPPETS = {
 } from "raft-ui";
 
 <Dialog>
-  <DialogTrigger render={<Button variant="primary" />}>
+  <DialogTrigger render={<Button variant="accent" />}>
     Edit channel
   </DialogTrigger>
   <DialogContent>
@@ -128,7 +128,7 @@ const SNIPPETS = {
     </DialogBody>
     <DialogFooter>
       <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-      <Button variant="primary">Save Changes</Button>
+      <Button variant="accent">Save Changes</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`,
@@ -861,7 +861,7 @@ function SourceAddMachine() {
 function SourceAttachmentPreview() {
   return (
     <div className="flex h-80 w-full max-w-3xl flex-col overflow-hidden border-2 border-black bg-white font-sans text-black shadow-[6px_6px_0_#000]">
-      <div className="safe-top safe-left pointer-events-auto shrink-0 border-b-2 border-black bg-white">
+      <div className="pointer-events-auto shrink-0 border-b-2 border-black bg-white pt-[env(safe-area-inset-top,0px)] pl-[env(safe-area-inset-left,0px)]">
         <div className="flex h-14 items-center gap-3 px-4">
           <div className="flex min-w-0 flex-1 items-center gap-2">
             <span className="min-w-0 flex-1 truncate text-sm font-medium text-black">
@@ -1100,7 +1100,7 @@ function DialogDoc() {
         <Preview>
           <Preview.Canvas>
             <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger render={<Button variant="primary" />}>Edit channel</DialogTrigger>
+              <DialogTrigger render={<Button variant="accent" />}>Edit channel</DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Edit Channel</DialogTitle>
@@ -1122,7 +1122,7 @@ function DialogDoc() {
                 </DialogBody>
                 <DialogFooter>
                   <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-                  <Button variant="primary">Save Changes</Button>
+                  <Button variant="accent">Save Changes</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>

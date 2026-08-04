@@ -42,23 +42,23 @@ const copyableCode = tv({
   variants: {
     theme: {
       brutal: {
-        code: ["border-2 border-line-strong bg-black text-[oklch(0.88_0.18_132)] shadow-sm"],
+        code: ["border-2 border-line-strong bg-black text-[oklch(0.88_0.18_132)] shadow-raft-sm"],
         codeInner: "break-all",
       },
       elegant: {
         code: [
-          "bg-[oklch(0.988_0.002_106.42)] text-[oklch(0.45_0.04_74)]",
-          "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
-          "dark:bg-layer-panel dark:text-[oklch(0.82_0.06_90)] dark:shadow-[0_0_0_0.5px_oklch(1_0_0_/_0.16)]",
+          "bg-layer-inset text-[oklch(0.45_0.04_74)]",
+          "ring-[0.5px] ring-ink-20 dark:ring-ink-10",
+          "dark:text-[oklch(0.82_0.06_90)]",
         ],
         codeInner: [
-          "border-x border-dashed border-[oklch(0_0_0_/_0.12)] bg-layer-panel px-1",
-          "dark:border-[oklch(1_0_0_/_0.14)] dark:bg-layer-popover",
+          "border-x border-dashed border-ink-10 dark:border-ink-16 bg-layer-panel px-1",
+          "dark:bg-[oklch(0.15_0.004_106.42)]",
         ],
         action: [
           "[&_[data-slot=button]]:text-foreground-muted",
           "[&_[data-slot=button]]:shadow-none",
-          "[&_[data-slot=button]]:hover:bg-transparent [&_[data-slot=button]]:hover:text-foreground-strong [&_[data-slot=button]]:hover:before:bg-transparent",
+          "[&_[data-slot=button]]:hover:bg-transparent [&_[data-slot=button]]:hover:text-foreground [&_[data-slot=button]]:hover:before:bg-transparent",
         ],
       },
     },

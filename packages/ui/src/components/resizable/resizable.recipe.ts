@@ -26,9 +26,9 @@ export const resizable = tv({
       },
       elegant: {
         handle: [
-          "hover:bg-layer-muted",
-          "data-[separator=active]:bg-layer-strong/80",
-          "focus-visible:bg-layer-muted",
+          "hover:bg-fill-muted",
+          "data-[separator=active]:bg-fill-strong/80",
+          "focus-visible:bg-fill-muted",
           "focus-visible:outline-none",
         ],
       },

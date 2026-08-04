@@ -92,8 +92,9 @@ const STATUS_ICON = {
   todo: Circle,
 } as const;
 
-const frameClass = "overflow-clip shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)]";
-const horizontalDividerClass = "border-[oklch(0_0_0_/_0.06)]";
+const frameClass =
+  "overflow-clip shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.20)] dark:shadow-[0_0_0_0.5px_oklch(1_0_0_/_0.1)]";
+const horizontalDividerClass = "border-[oklch(0_0_0_/_0.06)] dark:border-ink-8";
 
 function ComparisonPreview({
   label,
@@ -126,42 +127,44 @@ function ComparisonPreview({
       data-source-comparison-pane={label.toLowerCase()}
       className="grid min-w-0 grid-rows-[minmax(6rem,1fr)_auto]"
     >
-      <div
-        className={[
-          `relative flex h-full min-h-0 w-full min-w-0 max-w-full ${previewMinHeight} items-center justify-center overflow-hidden bg-white px-5 py-6 text-foreground`,
-          previewClassName,
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        {labelPlacement === "corner" ? (
-          <span className="pointer-events-none absolute top-4 left-4 inline-flex items-center gap-1.5">
-            <span className="font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
-              {label}
+      <PreviewThemeScope family={family} mode={mode} className="contents">
+        <div
+          className={[
+            `relative flex h-full min-h-0 w-full min-w-0 max-w-full ${previewMinHeight} items-center justify-center overflow-hidden bg-layer-panel px-5 py-6 text-foreground`,
+            previewClassName,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {labelPlacement === "corner" ? (
+            <span className="pointer-events-none absolute top-4 left-4 inline-flex items-center gap-1.5">
+              <span className="font-mono text-[10px] leading-none font-medium text-foreground-placeholder uppercase">
+                {label}
+              </span>
+              {showWipBadge ? (
+                <Badge
+                  appearance="soft"
+                  variant="warning"
+                  uppercase
+                  className="h-4 px-1.5 text-[9px]"
+                >
+                  WIP
+                </Badge>
+              ) : null}
             </span>
-            {showWipBadge ? (
-              <Badge
-                appearance="soft"
-                variant="warning"
-                uppercase
-                className="h-4 px-1.5 text-[9px]"
-              >
-                WIP
-              </Badge>
-            ) : null}
-          </span>
-        ) : null}
-        <div className="flex w-full min-w-0 max-w-full items-center justify-center">
-          <PreviewThemeScope family={family} mode={mode} className="contents">
+          ) : null}
+          <div className="flex w-full min-w-0 max-w-full items-center justify-center">
             {children}
-          </PreviewThemeScope>
+          </div>
         </div>
-      </div>
-      {code ? (
-        <div className={`border-t ${horizontalDividerClass} bg-[oklch(0.986_0_0)] px-4 py-4`}>
-          <CodeBlock html={code} variant="embedded" />
-        </div>
-      ) : null}
+        {code ? (
+          <div
+            className={`border-t ${horizontalDividerClass} bg-[oklch(0.986_0_0)] px-4 py-4 dark:bg-layer-card`}
+          >
+            <CodeBlock html={code} variant="embedded" />
+          </div>
+        ) : null}
+      </PreviewThemeScope>
     </div>
   );
 }
@@ -281,7 +284,7 @@ function SourceSceneReferences({ groups }: { groups: readonly SourceSceneGroup[]
           {triggerLabel}
         </PopoverTrigger>
         <PopoverContent align="end" sideOffset={8} className="w-[min(34rem,calc(100vw-2rem))] p-0">
-          <div className="border-b border-line-muted bg-[oklch(0.988_0.002_106.42)] px-3 py-2.5">
+          <div className="border-b border-line-muted bg-[oklch(0.988_0.002_106.42)] px-3 py-2.5 dark:bg-ink-4">
             <p className="font-mono text-xs leading-snug font-semibold text-foreground-muted uppercase">
               Source refs
             </p>
@@ -340,8 +343,8 @@ export function SourceComparison({
               ? "xl:grid-cols-3"
               : "md:grid-cols-2";
         const previewFrameClass = isGridLayout
-          ? `grid gap-px bg-[oklch(0_0_0_/_0.10)] ${columnClass} ${frameClass}`
-          : `grid bg-white divide-y divide-[oklch(0_0_0_/_0.06)] ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)]`;
+          ? `grid gap-px bg-[oklch(0_0_0_/_0.10)] dark:bg-ink-10 ${columnClass} ${frameClass}`
+          : `grid bg-white dark:bg-layer-card divide-y divide-[oklch(0_0_0_/_0.06)] dark:divide-ink-8 ${columnClass} ${frameClass} md:divide-x md:divide-y-0 md:divide-[oklch(0_0_0_/_0.10)] dark:md:divide-ink-10`;
         return (
           <section
             key={itemId}

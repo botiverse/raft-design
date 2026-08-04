@@ -36,7 +36,7 @@ export const panelHeader = tv({
   variants: {
     theme: {
       brutal: {
-        headerIcon: "border-black bg-soft-signal text-black",
+        headerIcon: "border-black bg-primary text-black",
         headerContent: [
           "flex flex-col",
           "has-[>[data-slot=panel-header-icon]]:grid has-[>[data-slot=panel-header-icon]]:grid-cols-[auto_minmax(0,1fr)]",

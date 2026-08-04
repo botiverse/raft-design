@@ -40,7 +40,7 @@ function DrawerSourcePreviewPage() {
     <PreviewThemeScope
       family={search.theme}
       mode={search.mode}
-      className="min-h-screen bg-transparent text-foreground"
+      className="min-h-screen bg-transparent text-foreground-strong"
     >
       <div className="flex min-h-screen w-full items-center justify-center overflow-hidden bg-transparent p-0">
         <DrawerScenePreview
@@ -145,11 +145,11 @@ function getCurrentSheetClassName(theme: Theme, isDesktop: boolean, padded: bool
     padded ? "p-4" : null,
     theme === "brutal"
       ? [
-          "border-2 border-line-strong bg-layer-panel text-foreground shadow-xl",
+          "border-2 border-line-strong bg-layer-panel text-foreground-strong shadow-raft-xl",
           isDesktop ? "bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))]" : null,
         ]
       : [
-          "overflow-clip rounded-lg bg-layer-popover text-foreground shadow-xl",
+          "overflow-clip rounded-lg bg-layer-popover text-foreground-strong shadow-raft-xl",
           isDesktop ? "max-w-md rounded-xl" : null,
         ],
   ]
@@ -162,7 +162,7 @@ function LeaveChannelContent() {
   const theme = useThemeFamily();
   const titleClassName =
     theme === "brutal"
-      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-foreground-strong"
+      ? "max-w-sm text-pretty text-2xl leading-8 font-bold text-foreground"
       : "max-w-sm text-pretty text-2xl leading-8 font-semibold text-[oklch(0.22_0_0)]";
 
   return (
@@ -175,7 +175,7 @@ function LeaveChannelContent() {
       <div className="flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center">
         <Text.Sans
           size="small"
-          className="max-w-sm text-pretty text-center text-foreground/60 [[data-theme=brutal]_&]:text-black/60"
+          className="max-w-sm text-pretty text-center text-foreground-strong/60 [[data-theme=brutal]_&]:text-black/60"
         >
           You can rejoin anytime from the directory.
         </Text.Sans>
@@ -186,7 +186,7 @@ function LeaveChannelContent() {
           <div className="min-w-0">
             <Text.Sans
               size="small"
-              className="font-medium text-foreground-strong [[data-theme=brutal]_&]:text-black"
+              className="font-medium text-foreground [[data-theme=brutal]_&]:text-black"
             >
               #design-system
             </Text.Sans>

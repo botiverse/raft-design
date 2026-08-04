@@ -53,7 +53,7 @@ const SNIPPETS = {
     render={
       <a
         href="/components/avatar"
-        className="font-bold underline decoration-foreground/30 decoration-2 underline-offset-2"
+        className="font-bold underline decoration-foreground-strong/30 decoration-2 underline-offset-2"
       />
     }
   >
@@ -79,7 +79,7 @@ ${MENTION_CARD_BODY_SNIPPET}
       render={
         <a
           href="/components/avatar"
-          className="font-bold underline decoration-foreground/30 decoration-2 underline-offset-2"
+          className="font-bold underline decoration-foreground-strong/30 decoration-2 underline-offset-2"
         />
       }
     >
@@ -213,7 +213,7 @@ function DefaultOpenPreviewCard() {
           render={
             <Link
               to="/components/avatar"
-              className="cursor-default select-text font-bold text-foreground-strong underline decoration-foreground/30 decoration-2 underline-offset-2 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30"
+              className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30"
             />
           }
         >

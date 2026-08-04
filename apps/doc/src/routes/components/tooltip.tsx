@@ -527,7 +527,7 @@ function ArrowPlacementExample() {
                   render={
                     <span
                       tabIndex={0}
-                      className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-line-focus"
+                      className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-line-strong"
                     />
                   }
                 >
@@ -545,7 +545,7 @@ function ArrowPlacementExample() {
                     <time
                       dateTime="2026-06-23T09:30:00+08:00"
                       tabIndex={0}
-                      className="rounded-sm px-1 py-0.5 font-mono text-xs text-foreground-muted outline-none focus-visible:ring-2 focus-visible:ring-line-focus"
+                      className="rounded-sm px-1 py-0.5 font-mono text-xs text-foreground-muted outline-none focus-visible:ring-2 focus-visible:ring-line-strong"
                     />
                   }
                 >
@@ -610,7 +610,7 @@ function TooltipDoc() {
                         <span
                           tabIndex={0}
                           aria-label="Agent is thinking"
-                          className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-line-focus"
+                          className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-line-strong"
                         />
                       }
                     >
@@ -696,7 +696,7 @@ function TooltipDoc() {
                         <time
                           dateTime="2026-06-23T09:30:00+08:00"
                           tabIndex={0}
-                          className="rounded-sm px-1 py-0.5 font-mono text-xs text-foreground-muted outline-none focus-visible:ring-2 focus-visible:ring-line-focus"
+                          className="rounded-sm px-1 py-0.5 font-mono text-xs text-foreground-muted outline-none focus-visible:ring-2 focus-visible:ring-line-strong"
                         />
                       }
                     >

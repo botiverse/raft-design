@@ -147,9 +147,9 @@ export function ThemeStatus() {
 }`,
   themeDataTheme: `<section
   className={cn(
-    "rounded-lg border border-line bg-layer-panel p-4 text-foreground shadow-sm",
+    "rounded-lg border border-line bg-layer-panel p-4 text-foreground-strong shadow-raft-sm",
     "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black",
-    "[[data-theme=elegant]_&]:shadow-md",
+    "[[data-theme=elegant]_&]:shadow-raft-md",
     "[[data-theme=elegant].dark_&]:bg-layer-popover",
   )}
 >
@@ -198,9 +198,7 @@ function InstallationDoc() {
 
           <StepList>
             <li className="space-y-3">
-              <span className="block font-medium text-foreground-strong">
-                Import the stylesheet.
-              </span>
+              <span className="block font-medium text-foreground">Import the stylesheet.</span>
               <p>
                 Load the package source hint, <InlineCode>raft-ui/styles.css</InlineCode>, and
                 Tailwind once from your global stylesheet.
@@ -223,18 +221,23 @@ function InstallationDoc() {
               <CodeSnippet path="src/main.tsx" source={SNIPPETS.fontCss} html={code.fontCss} />
             </li>
             <li className="space-y-3">
-              <span className="block font-medium text-foreground-strong">Wrap the app.</span>
+              <span className="block font-medium text-foreground">Wrap the app.</span>
               <p>
                 <InlineCode>ThemeProvider</InlineCode> syncs theme attributes to the document root.
                 Add <InlineCode>TooltipProvider</InlineCode> when the app uses Tooltip. Add{" "}
                 <InlineCode>ToastProvider</InlineCode> once when the app uses toast feedback.
               </p>
+              <p>
+                Dark mode is class-driven: the provider resolves the system preference and stamps
+                the <InlineCode>.light</InlineCode> or <InlineCode>.dark</InlineCode> class on the
+                root. Server-rendered apps that persist a mode should replay it with a small inline
+                script before first paint (the next-themes pattern) so system-dark visitors do not
+                flash light.
+              </p>
               <CodeSnippet path="src/App.tsx" source={SNIPPETS.appShell} html={code.appShell} />
             </li>
             <li className="space-y-3">
-              <span className="block font-medium text-foreground-strong">
-                Isolate the layout root.
-              </span>
+              <span className="block font-medium text-foreground">Isolate the layout root.</span>
               <p>
                 Base UI portals render floating surfaces such as Dialog, Popover, Select,
                 DropdownMenu, and Tooltip at the document body. Add Tailwind's{" "}
@@ -294,7 +297,7 @@ function InstallationDoc() {
 
           <StepList>
             <li className="space-y-3">
-              <span className="block font-medium text-foreground-strong">Install Tailwind v4.</span>
+              <span className="block font-medium text-foreground">Install Tailwind v4.</span>
               <CodeSnippet
                 path="Shell"
                 source={SNIPPETS.installTailwind}
@@ -302,14 +305,12 @@ function InstallationDoc() {
               />
             </li>
             <li className="space-y-3">
-              <span className="block font-medium text-foreground-strong">
-                Register the Vite plugin.
-              </span>
+              <span className="block font-medium text-foreground">Register the Vite plugin.</span>
               <CodeSnippet path="vite.config.ts" source={SNIPPETS.vite} html={code.vite} />
             </li>
           </StepList>
 
-          <div className="space-y-3 border-l-2 border-line-subtle pl-4">
+          <div className="space-y-3 border-l-2 border-line-muted pl-4">
             <p className="text-sm leading-relaxed text-foreground-muted">
               <InlineCode>@source</InlineCode> is relative to this CSS file.
             </p>
@@ -335,9 +336,7 @@ function InstallationDoc() {
       <DocSection id="theme" title="Theme">
         <div className="space-y-6">
           <div className="space-y-3">
-            <h3 className="font-heading text-lg font-medium text-foreground-strong">
-              Switch themes
-            </h3>
+            <h3 className="font-heading text-lg font-medium text-foreground">Switch themes</h3>
             <Lead>
               Use <InlineCode>setTheme</InlineCode>. Pass a mode only for elegant light, dark, or
               system.
@@ -350,9 +349,7 @@ function InstallationDoc() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="font-heading text-lg font-medium text-foreground-strong">
-              Read theme state
-            </h3>
+            <h3 className="font-heading text-lg font-medium text-foreground">Read theme state</h3>
             <Lead>
               Read the active family, selected mode, and resolved mode from{" "}
               <InlineCode>useTheme</InlineCode>.
@@ -365,7 +362,7 @@ function InstallationDoc() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="font-heading text-lg font-medium text-foreground-strong">
+            <h3 className="font-heading text-lg font-medium text-foreground">
               Customize with data-theme
             </h3>
             <Lead>
@@ -384,22 +381,22 @@ function InstallationDoc() {
       <DocSection id="requirements" title="Requirements">
         <ul className="space-y-3 text-sm leading-relaxed text-foreground-muted">
           <li>
-            <span className="font-medium text-foreground-strong">React:</span> RUI expects React 19
-            and React DOM 19.
+            <span className="font-medium text-foreground">React:</span> RUI expects React 19 and
+            React DOM 19.
           </li>
           <li>
-            <span className="font-medium text-foreground-strong">CSS:</span> import{" "}
+            <span className="font-medium text-foreground">CSS:</span> import{" "}
             <InlineCode>raft-ui/styles.css</InlineCode> once.
           </li>
           <li>
-            <span className="font-medium text-foreground-strong">Fonts:</span>{" "}
+            <span className="font-medium text-foreground">Fonts:</span>{" "}
             <InlineCode>raft-ui/fonts.css</InlineCode> is optional. It loads the package default
             fonts and assigns the default font-family tokens. Use it, replace it, or self-host the
             font families your app wants.
           </li>
           <li>
-            <span className="font-medium text-foreground-strong">Build:</span> use a Tailwind
-            v4-capable build pipeline.
+            <span className="font-medium text-foreground">Build:</span> use a Tailwind v4-capable
+            build pipeline.
           </li>
         </ul>
       </DocSection>

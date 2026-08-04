@@ -22,7 +22,7 @@ const toastStyles = tv({
     positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
-      "select-text text-foreground-strong",
+      "select-text text-foreground",
       "outline outline-1 outline-offset-2 outline-transparent",
       "[--toast-scale:calc(max(0.84,1-(var(--toast-index)*0.04)))]",
       "[--toast-peek:0.5rem]",
@@ -73,7 +73,7 @@ const toastStyles = tv({
     theme: {
       brutal: {
         root: [
-          "border-2 border-line-strong bg-soft-signal text-foreground shadow-md",
+          "border-2 border-line-strong bg-primary text-foreground-strong shadow-raft-md",
           "focus-visible:outline-transparent",
         ],
         content: [
@@ -82,28 +82,28 @@ const toastStyles = tv({
           "[&:has([data-slot=toast-icon])]:grid-cols-[auto_minmax(0,1fr)]",
         ],
         icon: [
-          "size-7 border-2 border-line-strong bg-layer-panel p-1.5 text-foreground shadow-[2px_2px_0_0_black]",
+          "size-7 border-2 border-line-strong bg-layer-panel p-1.5 text-foreground-strong shadow-[2px_2px_0_0_black]",
           "[&_svg]:size-4 [&_svg]:stroke-[2.5]",
         ],
-        title: ["font-bold text-foreground"],
-        description: ["font-semibold text-foreground/75"],
+        title: ["font-bold text-foreground-strong"],
+        description: ["font-semibold text-foreground-strong/75"],
         actions: [
           "col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end gap-1",
         ],
         close: [
-          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground/70 shadow-xs",
-          "hover:bg-layer-panel hover:text-foreground hover:-translate-y-px hover:shadow-sm",
+          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground-strong/70 shadow-raft-xs",
+          "hover:bg-layer-panel hover:text-foreground-strong hover:-translate-y-px hover:shadow-raft-sm",
           "active:translate-x-px active:translate-y-px active:shadow-none",
         ],
         arrow: ["hidden"],
       },
       elegant: {
         root: [
-          "relative rounded-xl bg-[oklch(0.263_0.009_294.9_/_0.50)] text-[oklch(0.965_0.002_286)] backdrop-blur-2xl saturate-150",
+          "relative rounded-xl bg-layer-hud/50 text-layer-hud-foreground backdrop-blur-2xl saturate-150",
           "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
-          "data-[expanded]:bg-[oklch(0.254_0.010_298_/_0.54)] data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.54)]",
+          "data-[expanded]:bg-layer-hud/54 data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.54)]",
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
-          "dark:bg-[oklch(0.230_0.010_294.8_/_0.50)] dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)] dark:data-[expanded]:bg-[oklch(0.220_0.010_294.7_/_0.54)]",
+          "dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)] dark:data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.68)]",
         ],
         content: [
           "gap-x-3.5 font-sans",
@@ -238,7 +238,7 @@ const toastStyles = tv({
       theme: "brutal",
       tone: "error",
       class: {
-        root: "bg-brutal-orange shadow-sm",
+        root: "bg-brutal-orange shadow-raft-sm",
       },
     },
     {
@@ -259,7 +259,7 @@ const toastStyles = tv({
       theme: "elegant",
       layout: "inline",
       class: {
-        root: "bg-[oklch(0.263_0.009_294.9_/_0.62)] after:hidden dark:bg-[oklch(0.230_0.010_294.8_/_0.62)]",
+        root: "bg-layer-hud/62 after:hidden",
       },
     },
   ],
@@ -284,8 +284,8 @@ const toastAction = tv({
     toastTheme: {
       brutal: {
         root: [
-          "order-2 border-2 border-line-strong bg-foreground font-bold text-white shadow-xs",
-          "hover:bg-foreground/85 hover:-translate-y-px hover:shadow-sm",
+          "order-2 border-2 border-line-strong bg-foreground-strong font-bold text-white shadow-raft-xs",
+          "hover:bg-foreground-strong/85 hover:-translate-y-px hover:shadow-raft-sm",
           "active:translate-x-px active:translate-y-px active:shadow-none",
         ],
       },
@@ -757,11 +757,7 @@ function ToastArrowSvg({
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
       <path
         d="M1 0H11L6 5.25Z"
-        className={
-          theme === "elegant"
-            ? "fill-[oklch(0.263_0.009_294.9_/_0.50)] dark:fill-[oklch(0.230_0.010_294.8_/_0.50)]"
-            : "fill-soft-signal"
-        }
+        className={theme === "elegant" ? "fill-layer-hud/50" : "fill-primary"}
       />
       {theme === "elegant" ? null : (
         <path

@@ -14,7 +14,7 @@ export function MessageActionCardSourcePreview() {
           <span className="font-mono text-xs text-black/50">owner</span>
           <span className="font-mono text-xs text-black/50">2:27 PM</span>
         </div>
-        <div className="mt-2 border-2 border-black bg-white p-3 shadow-sm">
+        <div className="mt-2 border-2 border-black bg-white p-3 shadow-raft-sm">
           <p className="font-bold">Create private channel #release-review</p>
           <dl className="mt-2 grid gap-1 text-sm text-black/70">
             <div>
@@ -34,7 +34,7 @@ export function MessageActionCardSourcePreview() {
           <button
             type="button"
             disabled
-            className="mt-3 inline-flex border-2 border-black bg-brutal-pink px-3 py-1 text-xs font-bold shadow-sm disabled:cursor-default"
+            className="mt-3 inline-flex border-2 border-black bg-brutal-pink px-3 py-1 text-xs font-bold shadow-raft-sm disabled:cursor-default"
           >
             Simulate: Create Channel
           </button>

@@ -81,7 +81,7 @@ const avatar = tv({
           "group-data-[size=2xs]/avatar:translate-x-[2.875px] group-data-[size=2xs]/avatar:translate-y-[2.875px]",
           "group-data-[size=3xs]/avatar:translate-x-[3.125px] group-data-[size=3xs]/avatar:translate-y-[3.125px]",
         ],
-        dot: ["bg-success-base text-foreground-strong"],
+        dot: ["bg-success text-foreground"],
         group: [
           "-space-x-1.5",
           "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-primary-50",
@@ -89,10 +89,10 @@ const avatar = tv({
         ],
       },
       elegant: {
-        root: ["bg-layer-muted"],
+        root: ["bg-fill-muted"],
         image: ["rounded-full"],
         fallback: [
-          "overflow-hidden bg-layer-muted text-foreground-placeholder/70 text-sm",
+          "overflow-hidden bg-fill-muted text-foreground-placeholder/70 text-sm",
           "rounded-full",
           "group-data-[size=xs]/avatar:text-xs",
           "group-data-[size=2xs]/avatar:text-[10px]",
@@ -108,11 +108,11 @@ const avatar = tv({
           "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
           "group-data-[size=3xs]/avatar:right-[-0.667px] group-data-[size=3xs]/avatar:bottom-[-0.667px]",
         ],
-        dot: ["bg-success-base text-foreground-inverse"],
+        dot: ["bg-success text-success-foreground outline-layer-panel"],
         group: [
           "-space-x-2",
-          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-background",
-          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-background",
+          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-layer-page",
+          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-layer-page",
         ],
       },
     },
@@ -140,6 +140,19 @@ const avatar = tv({
       theme: "brutal",
       size: ["xs", "2xs", "3xs"],
       class: { root: "border" },
+    },
+    // Elegant mirrors brutal's border scale with a transparent frame so both
+    // themes render the same visual image diameter per size step; clip the
+    // root fill to the padding box so no ring shows through the frame.
+    {
+      theme: "elegant",
+      size: ["xl", "lg", "md", "sm"],
+      class: { root: "border-2 border-transparent bg-clip-padding" },
+    },
+    {
+      theme: "elegant",
+      size: ["xs", "2xs", "3xs"],
+      class: { root: "border border-transparent bg-clip-padding" },
     },
     // Identity-keyed placeholder fills (source AvatarSlot parity): cyan agent /
     // lavender human. Only visible when fallback content shows; real images
@@ -408,8 +421,8 @@ export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCount
   const { root } = avatar({ theme, size });
   const countClassName =
     theme === "elegant"
-      ? "bg-layer-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
-      : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground-strong";
+      ? "bg-fill-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
+      : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground";
   return (
     <span
       data-slot="avatar-group-count"

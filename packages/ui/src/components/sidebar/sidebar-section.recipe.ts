@@ -63,19 +63,20 @@ export const sidebarSectionRecipe = tv({
         ],
         sidebarSectionHeader: [
           "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 h-8 w-[calc(100%+12px)] rounded-md px-0",
-          "hover:bg-layer-strong/80",
+          "hover:bg-fill-strong/80",
+          "dark:hover:bg-ink-6",
         ],
         sidebarSectionDisclosure: [
           "h-8 w-full justify-start gap-1.5 rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] text-xs font-medium leading-none normal-case tracking-normal",
           "text-foreground-icon",
-          "hover:text-foreground",
+          "hover:text-foreground-strong",
           "[&_[data-slot=sidebar-section-chevron]]:opacity-55",
         ],
         sidebarSectionCount:
           "shrink-0 font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",
         sidebarSectionTrailing: "pr-[var(--sidebar-row-inset-x,6px)]",
         sidebarSectionControls: "right-[var(--sidebar-row-inset-x,6px)]",
-        sidebarSectionControl: ["shrink-0", "text-foreground-icon hover:text-foreground"],
+        sidebarSectionControl: ["shrink-0", "text-foreground-icon hover:text-foreground-strong"],
       },
     },
   },

@@ -34,7 +34,7 @@ const serverSwitcherMenu = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border-2 border-black bg-white shadow-md"],
+        root: ["border-2 border-black bg-white shadow-raft-md"],
         serverRow: ["font-medium text-black hover:bg-brutal-yellow"],
         actionRow: ["font-bold text-black hover:bg-brutal-pink"],
       },

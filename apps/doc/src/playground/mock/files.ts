@@ -104,7 +104,7 @@ const RAFT_UI_MIGRATION_FILE_SEEDS = [
     createdAt: "Today, 9:02 AM",
     type: "file",
     previewUrl: csvPreview(
-      "token,usage,notes\nlayer-panel,high,surfaces\nline-subtle,high,borders\nforeground-muted,medium,meta",
+      "token,usage,notes\nlayer-panel,high,surfaces\nline-muted,high,borders\nforeground-muted,medium,meta",
     ),
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.stateModel,
   },

@@ -14,7 +14,7 @@ const CELLS = Array.from({ length: 12 }, (_, row) =>
 
 export function ScrollAreaBothAxesComposition() {
   return (
-    <ScrollArea className="h-56 w-72 border border-line-subtle bg-layer-panel [[data-theme=elegant]_&]:rounded-lg">
+    <ScrollArea className="h-56 w-72 border border-line-muted bg-layer-panel [[data-theme=elegant]_&]:rounded-lg">
       <ScrollAreaViewport>
         <ScrollAreaContent className="p-4">
           <div className="grid w-[36rem] grid-cols-12 gap-2">
@@ -23,7 +23,7 @@ export function ScrollAreaBothAxesComposition() {
                 <Text.Sans
                   key={cell}
                   size="small"
-                  className="flex size-12 items-center justify-center bg-layer-muted [[data-theme=elegant]_&]:rounded-md"
+                  className="flex size-12 items-center justify-center bg-fill-muted [[data-theme=elegant]_&]:rounded-md"
                 >
                   {cell}
                 </Text.Sans>

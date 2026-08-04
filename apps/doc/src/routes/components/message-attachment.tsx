@@ -220,7 +220,7 @@ function MessageAttachmentDoc() {
                   href="https://icones.js.org/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground-strong underline underline-offset-4"
+                  className="text-foreground underline underline-offset-4"
                 >
                   Icônes
                 </a>

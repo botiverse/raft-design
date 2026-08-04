@@ -46,7 +46,7 @@ export function ChatSidebarDropTarget({
       ref={setNodeRef}
       data-slot="chat-sidebar-drop-target"
       data-over={isOver ? "true" : undefined}
-      className={cn("min-h-1 transition-colors data-[over]:bg-ink-5", className)}
+      className={cn("min-h-1 transition-colors data-[over]:bg-ink-6", className)}
     >
       {children}
     </div>

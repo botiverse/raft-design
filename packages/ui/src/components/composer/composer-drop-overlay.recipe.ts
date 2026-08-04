@@ -5,15 +5,15 @@ export const composerDropOverlay = tv({
     dropOverlay: ["absolute inset-0 z-30 flex items-center justify-center border-2"],
     dropOverlayLabel: [
       "flex flex-col items-center gap-4 border-0 p-0",
-      "text-center font-medium text-foreground-inverse",
+      "text-center font-medium text-foreground-inverse dark:text-foreground-strong",
     ],
     dropOverlayIconCluster: ["relative flex items-center justify-center"],
-    dropOverlayIcon: ["bg-layer-panel shadow-md ring-1 ring-line-subtle"],
+    dropOverlayIcon: ["bg-layer-panel shadow-raft-md ring-1 ring-line-muted dark:ring-transparent"],
   },
   variants: {
     theme: {
       brutal: {
-        dropOverlay: "border-dashed border-black bg-[oklch(0_0_0/0.65)]",
+        dropOverlay: "border-dashed border-black bg-layer-backdrop",
         dropOverlayLabel: "text-sm",
         dropOverlayIconCluster: "h-9 w-18",
         dropOverlayIcon: ["rounded-none p-1.5", "[&_svg]:size-3.5"],

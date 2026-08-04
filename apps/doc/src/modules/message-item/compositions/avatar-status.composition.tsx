@@ -49,7 +49,7 @@ export function MessageAvatarStatusComposition() {
               render={
                 <Status
                   aria-hidden
-                  className="[--status-color:var(--color-soft-signal)]"
+                  className="[--status-color:var(--color-primary)]"
                   pulse
                   variant="warning"
                 />
@@ -77,7 +77,7 @@ export function MessageAvatarStatusComposition() {
               render={
                 <Status
                   aria-hidden
-                  className="[--status-color:var(--color-soft-signal)]"
+                  className="[--status-color:var(--color-primary)]"
                   pulse
                   variant="warning"
                 />

@@ -486,7 +486,7 @@ function SourceLightboxHeader({
           {title}
         </div>
         {label ? (
-          <div className="shrink-0 border-2 border-black bg-soft-signal px-1.5 py-0.5 text-[10px] font-display font-bold tracking-wide text-black uppercase">
+          <div className="shrink-0 border-2 border-black bg-primary px-1.5 py-0.5 text-[10px] font-display font-bold tracking-wide text-black uppercase">
             {label}
           </div>
         ) : null}

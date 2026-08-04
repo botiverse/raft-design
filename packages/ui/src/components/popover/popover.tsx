@@ -29,24 +29,26 @@ const popover = tv({
   variants: {
     theme: {
       brutal: {
-        content: ["border-2 border-line-strong bg-layer-popover shadow-lg"],
+        content: ["border-2 border-line-strong bg-layer-popover shadow-raft-lg"],
         separator: ["border-line-strong"],
-        title: ["font-sans uppercase tracking-wide text-foreground/60"],
-        description: ["font-sans text-foreground"],
-        close: ["font-sans uppercase tracking-wide text-foreground/60 hover:text-foreground"],
+        title: ["font-sans uppercase tracking-wide text-foreground-strong/60"],
+        description: ["font-sans text-foreground-strong"],
+        close: [
+          "font-sans uppercase tracking-wide text-foreground-strong/60 hover:text-foreground-strong",
+        ],
         arrow: ["border-l-2 border-t-2 border-line-strong bg-layer-popover"],
         backdrop: ["bg-transparent"],
       },
       elegant: {
-        content: ["rounded-md bg-layer-popover", "shadow-xl"],
-        separator: ["border-line-muted"],
-        title: ["text-[11px] font-medium tracking-[-0.005em] text-foreground/45"],
+        content: ["rounded-md bg-layer-popover", "shadow-raft-xl"],
+        separator: ["border-line-hairline"],
+        title: ["text-[11px] font-medium tracking-[-0.005em] text-foreground-strong/45"],
         description: ["text-xs leading-5 text-foreground-muted"],
         close: [
           "text-[11px] font-medium tracking-[-0.005em]",
-          "text-foreground-muted transition-colors duration-150 hover:text-foreground-strong",
+          "text-foreground-muted transition-colors duration-150 hover:text-foreground",
         ],
-        arrow: ["border-l border-t border-line-muted bg-layer-popover"],
+        arrow: ["border-l border-t border-line-hairline bg-layer-popover"],
         backdrop: ["bg-layer-backdrop backdrop-blur-[2px]"],
       },
     },

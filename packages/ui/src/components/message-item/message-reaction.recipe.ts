@@ -25,8 +25,8 @@ export const messageReaction = tv({
     tooltipNames: ["flex max-w-60 flex-wrap items-center gap-y-0.5"],
     tooltipName: ["inline-flex min-w-0 items-baseline leading-5"],
     tooltipNameText: ["max-w-28 truncate"],
-    tooltipSeparator: ["shrink-0 text-foreground/45"],
-    tooltipMeta: ["leading-5 text-foreground/50"],
+    tooltipSeparator: ["shrink-0 text-foreground-strong/45"],
+    tooltipMeta: ["leading-5 text-foreground-strong/50"],
   },
   variants: {
     theme: {
@@ -48,7 +48,7 @@ export const messageReaction = tv({
           "gap-0.5 px-1.5 py-1",
           "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
           "rounded-none border-2 border-black bg-white",
-          // Live `shadow-soft-popover`: 0 4px 12px rgba(0,0,0,0.08)
+          // Live `shadow-faint-popover`: 0 4px 12px rgba(0,0,0,0.08)
           "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
         ],
         pickerStatic: [
@@ -61,14 +61,16 @@ export const messageReaction = tv({
       elegant: {
         chip: [
           "h-5 rounded-full gap-1.5 px-2 text-[11px] font-medium leading-3 tracking-[0.22px]",
-          "bg-layer-strong text-foreground-muted",
+          "bg-fill-strong text-foreground-muted",
           "hover:bg-ink-10",
+          "dark:bg-fill-muted dark:hover:bg-fill-strong",
           "data-[pressed]:bg-accent-200/50 data-[pressed]:text-accent-700 data-[pressed]:hover:bg-accent-200/70",
-          "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-lighter has-[[data-slot=message-reaction-error-indicator]]:text-danger-base",
+          "dark:data-[pressed]:bg-accent-soft dark:data-[pressed]:text-accent-strong dark:data-[pressed]:hover:bg-accent-soft",
+          "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-soft has-[[data-slot=message-reaction-error-indicator]]:text-danger",
         ],
         addButton: [
-          "h-5 rounded-full px-1.5 bg-layer-muted text-foreground-icon [&_svg]:size-[13px]",
-          "hover:bg-layer-strong active:bg-layer-strong",
+          "h-5 rounded-full px-1.5 bg-fill-muted text-foreground-icon [&_svg]:size-[13px]",
+          "hover:bg-fill-strong active:bg-fill-strong",
         ],
         quickRow: [
           "h-9 gap-1 bg-layer-popover px-2",
@@ -82,7 +84,7 @@ export const messageReaction = tv({
         ],
         pickerStatic: [
           "min-w-0 flex-row rounded-md bg-layer-popover p-1",
-          "shadow-lg outline-none",
+          "shadow-raft-lg outline-none",
         ],
         tooltip: "px-2 py-1.5 text-xs",
       },

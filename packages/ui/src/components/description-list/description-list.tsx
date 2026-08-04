@@ -29,8 +29,8 @@ const descriptionList = tv({
     },
     theme: {
       brutal: {
-        term: "text-foreground/50",
-        details: "text-foreground-strong",
+        term: "text-foreground-strong/50",
+        details: "text-foreground",
       },
       elegant: {
         term: [

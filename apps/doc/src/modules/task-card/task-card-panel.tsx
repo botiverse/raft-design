@@ -4,18 +4,18 @@ import { tv } from "tailwind-variants/lite";
 
 const taskCardPanel = tv({
   slots: {
-    root: ["w-full max-w-[448px] bg-layer-panel p-[16px] text-foreground"],
+    root: ["w-full max-w-[448px] bg-layer-panel p-[16px] text-foreground-strong"],
     header: ["mb-[16px] pb-[8px]"],
   },
   variants: {
     theme: {
       brutal: {
         root: ["border-2 border-line-strong"],
-        header: ["border-b-2 border-line-strong font-bold text-foreground"],
+        header: ["border-b-2 border-line-strong font-bold text-foreground-strong"],
       },
       elegant: {
-        root: ["rounded-[10px] border border-line-subtle shadow-sm"],
-        header: ["border-b border-line-subtle font-medium text-foreground-strong"],
+        root: ["rounded-[10px] border border-line-muted shadow-raft-sm"],
+        header: ["border-b border-line-muted font-medium text-foreground"],
       },
     },
   },

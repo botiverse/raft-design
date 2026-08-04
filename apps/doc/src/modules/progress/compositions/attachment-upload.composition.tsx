@@ -11,11 +11,11 @@ export function ProgressAttachmentUploadContent() {
       <div className="flex h-full items-center gap-2 px-2">
         <FileText className="size-4 shrink-0 text-foreground-muted" />
         <div className="min-w-0">
-          <div className="truncate text-xs font-bold text-foreground-strong">report.pdf</div>
+          <div className="truncate text-xs font-bold text-foreground">report.pdf</div>
           <div className="truncate text-[10px] text-foreground-placeholder">application/pdf</div>
         </div>
       </div>
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center border-2 border-line-strong bg-layer-panel/85 px-1 text-center text-[10px] font-bold text-foreground-strong">
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center border-2 border-line-strong bg-layer-panel/85 px-1 text-center text-[10px] font-bold text-foreground">
         <LoaderCircle className="mb-1 size-3.5 animate-spin" />
         <span>58%</span>
         <Progress

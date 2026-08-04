@@ -41,7 +41,7 @@ export function SourceTaskCard({
   showChannelName?: boolean;
 }) {
   return (
-    <div className="w-full border-2 border-black bg-white px-3 py-2.5 text-left shadow-sm">
+    <div className="w-full border-2 border-black bg-white px-3 py-2.5 text-left shadow-raft-sm">
       <div className="w-full text-left">
         <div className="flex items-start gap-2">
           <div className="min-w-0 flex-1">

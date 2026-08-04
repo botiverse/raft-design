@@ -245,26 +245,26 @@ const SNIPPETS = {
   <Info />
   <BannerTitle>Small banner</BannerTitle>
   <BannerDescription>Tight form-error banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
+  <BannerAction><Button variant="ghost" size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>
 <Banner status="info" size="md">
   <Info />
   <BannerTitle>Medium banner</BannerTitle>
   <BannerDescription>Default banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
+  <BannerAction><Button variant="ghost" size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>
 <Banner status="info" size="lg">
   <Info />
   <BannerTitle>Large banner</BannerTitle>
   <BannerDescription>Prominent surface banner.</BannerDescription>
-  <BannerAction><Button size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
+  <BannerAction><Button variant="ghost" size="icon-xs" aria-label="Dismiss"><X /></Button></BannerAction>
 </Banner>`,
   composition: `<Banner status="warning">
   <CircleAlert />
   <BannerTitle>Plan limit reached</BannerTitle>
   <BannerDescription>Remove an inactive machine before adding another.</BannerDescription>
   <BannerAction>
-    <Button size="icon-xs" aria-label="Dismiss"><X /></Button>
+    <Button variant="ghost" size="icon-xs" aria-label="Dismiss"><X /></Button>
   </BannerAction>
 </Banner>`,
 } as const;
@@ -437,7 +437,7 @@ function BannerDoc() {
                     <BannerTitle>Small banner</BannerTitle>
                     <BannerDescription>Tight form-error banner.</BannerDescription>
                     <BannerAction>
-                      <Button size="icon-xs" aria-label="Dismiss">
+                      <Button variant="ghost" size="icon-xs" aria-label="Dismiss">
                         <X />
                       </Button>
                     </BannerAction>
@@ -447,7 +447,7 @@ function BannerDoc() {
                     <BannerTitle>Medium banner</BannerTitle>
                     <BannerDescription>Default banner.</BannerDescription>
                     <BannerAction>
-                      <Button size="icon-xs" aria-label="Dismiss">
+                      <Button variant="ghost" size="icon-xs" aria-label="Dismiss">
                         <X />
                       </Button>
                     </BannerAction>
@@ -457,7 +457,7 @@ function BannerDoc() {
                     <BannerTitle>Large banner</BannerTitle>
                     <BannerDescription>Prominent surface banner.</BannerDescription>
                     <BannerAction>
-                      <Button size="icon-xs" aria-label="Dismiss">
+                      <Button variant="ghost" size="icon-xs" aria-label="Dismiss">
                         <X />
                       </Button>
                     </BannerAction>
@@ -479,7 +479,7 @@ function BannerDoc() {
                       Remove an inactive machine before adding another.
                     </BannerDescription>
                     <BannerAction>
-                      <Button size="icon-xs" aria-label="Dismiss">
+                      <Button variant="ghost" size="icon-xs" aria-label="Dismiss">
                         <X />
                       </Button>
                     </BannerAction>

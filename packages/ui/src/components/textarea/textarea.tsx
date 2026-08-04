@@ -13,24 +13,27 @@ const textarea = tv({
       brutal: {
         root: [
           "border-2 border-line-strong bg-layer-panel font-heading",
-          "shadow-sm focus:shadow-md",
+          "shadow-raft-sm focus:shadow-raft-md",
           "data-invalid:border-brutal-red data-invalid:bg-brutal-red/5 data-invalid:shadow-none data-invalid:ring-2 data-invalid:ring-brutal-red/60",
           "disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none",
         ],
       },
       elegant: {
         root: [
-          "rounded-md border border-line-field bg-layer-field shadow-none",
-          "text-sm text-foreground-strong transition duration-200 ease-out dark:text-foreground",
+          "rounded-md border border-line-field bg-layer-panel shadow-none",
+          "dark:bg-layer-inset dark:not-data-invalid:border-transparent",
+          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.3),inset_0_0_0_1px_oklch(0_0_0_/_0.35),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
+          "dark:hover:not-data-invalid:border-ink-8",
+          "text-sm text-foreground transition duration-200 ease-out dark:text-foreground-strong",
           "placeholder:text-foreground-placeholder/70",
-          "hover:not-data-invalid:border-line-field-hover hover:shadow-field-hover",
-          "focus:bg-layer-field",
-          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "hover:not-data-invalid:border-line-field-hover",
+          "focus:bg-layer-panel dark:focus:bg-layer-card",
+          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
           "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
-          "data-invalid:border-danger-base/45 data-invalid:hover:border-danger-base/75 data-invalid:focus-visible:border-danger-base/75 data-invalid:focus-visible:ring-3 data-invalid:focus-visible:ring-danger-base/12 data-invalid:focus-visible:ring-offset-0",
-          "disabled:cursor-not-allowed disabled:border-line-subtle/60 disabled:bg-layer-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
-          "disabled:hover:border-line-subtle/60 disabled:hover:shadow-none",
-          "data-invalid:disabled:border-line-subtle/60 data-invalid:disabled:ring-0",
+          "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-3 data-invalid:focus-visible:ring-danger/12 data-invalid:focus-visible:ring-offset-0",
+          "disabled:cursor-not-allowed disabled:border-line-muted/60 disabled:bg-fill-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
+          "disabled:hover:border-line-muted/60",
+          "data-invalid:disabled:border-line-muted/60 data-invalid:disabled:ring-0",
         ],
       },
     },
@@ -67,20 +70,20 @@ const textareaCounter = tv({
     theme: {
       brutal: {
         root: [
-          "text-foreground/50",
-          "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-danger-base",
+          "text-foreground-strong/50",
+          "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-danger",
         ],
       },
       elegant: {
         root: [
           "text-[11px] leading-none text-foreground-placeholder/80 transition duration-200 ease-out",
-          "group-data-[invalid]/field:font-medium group-data-[invalid]/field:text-danger-base",
+          "group-data-[invalid]/field:font-medium group-data-[invalid]/field:text-danger",
         ],
       },
     },
     overLimit: {
       true: {
-        root: "text-danger-base",
+        root: "text-danger",
       },
       false: {
         root: "",

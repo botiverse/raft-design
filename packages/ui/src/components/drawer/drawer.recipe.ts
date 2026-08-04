@@ -4,12 +4,12 @@ const drawerMotion = tv({
   slots: {
     overlay: [
       "opacity-[max(var(--drawer-overlay-min-opacity,0),calc(1-var(--drawer-swipe-progress)))]",
-      "transition-opacity duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
+      "transition-opacity duration-200 ease-slide",
       "data-starting-style:opacity-0 data-ending-style:pointer-events-none data-ending-style:opacity-0 data-ending-style:duration-150",
       "motion-reduce:transition-none",
     ],
     popup: [
-      "[--drawer-blur:2px] [--drawer-ease:cubic-bezier(0.32,0.72,0,1)]",
+      "[--drawer-blur:2px] [--drawer-ease:var(--ease-slide)]",
       "[--closed-transform:translate3d(var(--drawer-exit-x,0px),var(--drawer-exit-y,0px),0)]",
       "[--drawer-stack-peek:16px] [--drawer-stack-step:0.05]",
       "[--drawer-stack-progress:clamp(0,var(--drawer-swipe-progress),1)]",
@@ -28,7 +28,7 @@ const drawerMotion = tv({
       "data-swiping:duration-0 data-nested-drawer-swiping:duration-0 motion-reduce:transition-none",
     ],
     content: [
-      "transition-opacity duration-150 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none",
+      "transition-opacity duration-150 ease-slide motion-reduce:transition-none",
       "group-data-nested-drawer-open/drawer-popup:opacity-0 group-data-nested-drawer-swiping/drawer-popup:opacity-100",
     ],
     swipeHandle: [
@@ -97,7 +97,7 @@ export const drawer = tv({
     viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
     popup: [
       "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none",
-      "text-foreground",
+      "text-foreground-strong",
       "[--drawer-inset:12px] [--drawer-content-height:var(--drawer-height,auto)]",
       "data-nested-drawer-open:overflow-hidden",
     ],
@@ -115,25 +115,27 @@ export const drawer = tv({
     body: ["flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center"],
     footer: ["mt-auto px-6 py-5"],
     actions: ["flex w-full flex-col items-stretch gap-2.5", "[&_[data-slot=button]]:w-full"],
-    title: ["max-w-sm text-pretty text-center text-2xl leading-8 text-foreground-strong"],
-    description: ["max-w-sm text-pretty text-center text-sm leading-5 text-foreground/60"],
+    title: ["max-w-sm text-pretty text-center text-2xl leading-8 text-foreground"],
+    description: ["max-w-sm text-pretty text-center text-sm leading-5 text-foreground-strong/60"],
   },
   variants: {
     theme: {
       brutal: {
         title: ["font-bold"],
         swipeHandle: ["before:rounded-none before:bg-ink-40"],
-        popup: ["border-2 border-line-strong bg-layer-panel shadow-xl"],
+        popup: ["border-2 border-line-strong bg-layer-panel shadow-raft-xl"],
         close: ["bg-layer-panel"],
         closeIcon: ["size-5"],
       },
       elegant: {
         overlay: ["backdrop-blur-[2px]"],
-        popup: ["overflow-clip rounded-lg bg-layer-popover shadow-xl md:rounded-xl"],
-        close: ["p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground"],
+        popup: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl md:rounded-xl"],
+        close: [
+          "p-0 text-foreground-placeholder hover:bg-transparent hover:text-foreground-strong",
+        ],
         closeIcon: ["size-4"],
-        header: ["bg-layer-panel px-8 pt-9 pb-2"],
-        body: ["bg-layer-panel px-8 pt-4 pb-7"],
+        header: ["bg-layer-panel px-8 pt-9 pb-2", "dark:bg-transparent"],
+        body: ["bg-layer-panel px-8 pt-4 pb-7", "dark:bg-transparent"],
         footer: ["mt-0 px-8 py-5"],
         title: ["font-sans text-2xl leading-8 font-semibold"],
         description: ["font-sans text-sm leading-5 text-foreground-muted"],

@@ -326,10 +326,10 @@ const statusMeta = {
   skipped: { label: "Skipped", short: "Skip", variant: "muted" },
 } satisfies Record<NavStatus, { label: string; short: string; variant: BadgeVariant }>;
 
-const sectionTitleClassName = "mb-2.5 pl-[8px] text-[13px] font-medium text-foreground-strong";
+const sectionTitleClassName = "mb-2.5 pl-[8px] text-[13px] font-medium text-foreground";
 const sidebarItemFocusClassName =
   "outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500";
-const sidebarItemActiveClassName = "bg-layer-muted text-foreground-strong";
+const sidebarItemActiveClassName = "bg-fill-muted text-foreground";
 const sidebarItemInactiveClassName = "text-foreground-muted";
 const sidebarItemActiveProps = { className: sidebarItemActiveClassName };
 const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
@@ -337,7 +337,7 @@ const sidebarPathActiveOptions = { exact: true, includeSearch: false };
 const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
 
 function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
-  const className = `flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors hover:bg-layer-muted/80 hover:text-foreground-strong ${
+  const className = `flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors hover:bg-fill-muted/80 hover:text-foreground ${
     item.to || item.docsHref ? sidebarItemFocusClassName : "cursor-default"
   } ${item.to || item.docsHref ? "" : "text-foreground-muted"}`;
   const title = item.reason
@@ -447,7 +447,7 @@ function NavGroup({
             to={to}
             activeOptions={sidebarPathActiveOptions}
             activeProps={sidebarItemActiveProps}
-            inactiveProps={{ className: "text-foreground-strong" }}
+            inactiveProps={{ className: "text-foreground" }}
             className={`${sectionTitleClassName} ${sidebarItemFocusClassName}`}
           >
             {title}
@@ -470,7 +470,7 @@ function NavGroup({
 }
 
 function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
-  const className = `flex min-h-12 items-center justify-start rounded-md px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted transition-colors hover:bg-layer-muted hover:text-foreground-strong active:bg-layer-strong ${sidebarItemFocusClassName}`;
+  const className = `flex min-h-12 items-center justify-start rounded-md px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted transition-colors hover:bg-fill-muted hover:text-foreground active:bg-fill-strong ${sidebarItemFocusClassName}`;
   const title = item.reason
     ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
     : undefined;
@@ -606,7 +606,7 @@ function MobileSidebar() {
         <Link
           to="/"
           aria-label="Raft UI home"
-          className={`flex min-h-11 items-center rounded-md px-2 text-foreground-strong ${sidebarItemFocusClassName}`}
+          className={`flex min-h-11 items-center rounded-md px-2 text-foreground ${sidebarItemFocusClassName}`}
           onClick={close}
         >
           <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
@@ -616,7 +616,7 @@ function MobileSidebar() {
           aria-expanded={open}
           aria-controls="mobile-docs-navigation"
           aria-label={open ? "Close navigation" : "Open navigation"}
-          className={`flex size-11 items-center justify-center rounded-md text-foreground-strong transition-colors hover:bg-layer-muted active:bg-layer-strong ${sidebarItemFocusClassName}`}
+          className={`flex size-11 items-center justify-center rounded-md text-foreground transition-colors hover:bg-fill-muted active:bg-fill-strong ${sidebarItemFocusClassName}`}
           onClick={() => setOpen((current) => !current)}
         >
           {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
@@ -657,7 +657,7 @@ export function Sidebar() {
     <>
       <MobileSidebar />
       <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--sidebar-w)] overflow-y-auto px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
-        <Link to="/" className="flex items-center gap-2 text-foreground-strong">
+        <Link to="/" className="flex items-center gap-2 text-foreground">
           <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
         </Link>
         <nav className="mt-8 space-y-8">
@@ -688,7 +688,7 @@ export function Sidebar() {
             <NavGroup key={group.title} {...group} />
           ))}
 
-          <Separator className="h-0 bg-transparent border-t border-dashed border-line-muted data-[orientation=horizontal]:w-[65%]" />
+          <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
 
           {NAV.map((group) => (
             <NavGroup key={group.title} {...group} />

@@ -195,7 +195,7 @@ export function MessageTextSelectionShowcaseComposition() {
   return (
     <div className="grid w-full max-w-3xl gap-2">
       <MessageTextSelectionComposition onQuote={setQuoted}>
-        <p className="max-w-[65ch] text-sm text-foreground">
+        <p className="max-w-[65ch] text-sm text-foreground-strong">
           Select this sentence to expose the Quote and Copy toolbar, without making text selection a
           message-row concern.
         </p>

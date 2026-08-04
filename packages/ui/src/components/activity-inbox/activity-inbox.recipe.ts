@@ -104,7 +104,10 @@ export const activityInbox = tv({
     sortContent: [],
     sortItem: ["flex w-full items-center gap-2 px-2 py-2 text-left outline-none"],
     sortItemIndicator: ["flex size-4 shrink-0 items-center justify-center", "[&_svg]:size-[13px]"],
-    viewport: ["scrollbar-quiet safe-bottom relative flex-1 overflow-y-overlay p-3"],
+    viewport: [
+      "scrollbar-quiet relative flex-1 overflow-y-overlay",
+      "p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]",
+    ],
     list: ["flex flex-col gap-2"],
     item: ["relative flex w-full items-start gap-3 border-2 p-3 text-left", "transition-colors"],
     itemOpen: ["absolute inset-0 z-0 outline-none"],
@@ -140,7 +143,7 @@ export const activityInbox = tv({
         root: ["bg-white text-black"],
         header: ["border-b-2 border-black bg-white"],
         headerBack: ["border-2 border-black bg-white", ...sourceButtonMotion],
-        headerIcon: ["border-2 border-black bg-soft-signal text-black"],
+        headerIcon: ["border-2 border-black bg-primary text-black"],
         headerTitle: ["text-black"],
         headerSubtitle: ["text-black/50"],
         sidebar: ["border-r-2 border-black bg-white"],
@@ -148,8 +151,8 @@ export const activityInbox = tv({
         navigationItem: [
           "border-transparent text-black",
           "hover:border-black/30 hover:bg-black/5",
-          "aria-[current=page]:border-black aria-[current=page]:bg-soft-signal aria-[current=page]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
-          "aria-pressed:border-black aria-pressed:bg-soft-signal aria-pressed:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
+          "aria-[current=page]:border-black aria-[current=page]:bg-primary aria-[current=page]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
+          "aria-pressed:border-black aria-pressed:bg-primary aria-pressed:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
         ],
         navigationCount: ["text-black/45"],
         controls: ["border-b-2 border-black bg-white"],
@@ -186,7 +189,7 @@ export const activityInbox = tv({
         sortContent: ["p-1 shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]"],
         sortItem: [
           "text-xs font-bold",
-          "hover:bg-black/5 data-[highlighted]:bg-black/5 data-[checked]:bg-soft-signal",
+          "hover:bg-black/5 data-[highlighted]:bg-black/5 data-[checked]:bg-primary",
         ],
         viewport: ["bg-white"],
         item: [
@@ -200,7 +203,7 @@ export const activityInbox = tv({
         ],
         itemSelection: [
           "border-black bg-white",
-          "aria-checked:bg-soft-signal",
+          "aria-checked:bg-primary",
           "focus-visible:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
         ],
         itemSubtitle: ["text-black/45"],
@@ -226,7 +229,7 @@ export const activityInbox = tv({
         itemMenuContent: [
           "border-2 border-black bg-white p-0 shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]",
         ],
-        itemMenuItem: ["font-medium hover:bg-soft-signal/30 data-[highlighted]:bg-soft-signal/30"],
+        itemMenuItem: ["font-medium hover:bg-primary/30 data-[highlighted]:bg-primary/30"],
       },
       elegant: {},
     },

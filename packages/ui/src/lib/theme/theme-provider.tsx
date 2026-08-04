@@ -168,8 +168,8 @@ export function ThemeProvider({
 
     const root = document.documentElement;
     root.dataset.theme = activeTheme;
-    root.classList.toggle("light", activeTheme === "elegant" && activeMode === "light");
-    root.classList.toggle("dark", activeTheme === "elegant" && activeMode === "dark");
+    root.classList.toggle("light", activeTheme === "elegant" && resolvedMode === "light");
+    root.classList.toggle("dark", activeTheme === "elegant" && resolvedMode === "dark");
     root.style.colorScheme = activeTheme === "elegant" ? resolvedMode : "light";
   }, [activeMode, activeTheme, resolvedMode, syncDom]);
 

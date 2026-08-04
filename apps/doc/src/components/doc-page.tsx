@@ -39,7 +39,7 @@ export function DocPage({
             <header className="mb-10">
               <div className="flex items-start justify-between gap-6">
                 <div className="min-w-0">
-                  <h1 className="font-heading text-3xl font-medium tracking-tight text-foreground-strong">
+                  <h1 className="font-heading text-3xl font-medium tracking-tight text-foreground">
                     {title}
                   </h1>
                   {description ? (
@@ -51,7 +51,7 @@ export function DocPage({
                 {headerAction ? <div className="shrink-0 pt-1">{headerAction}</div> : null}
               </div>
               {overview ? (
-                <div className="mt-4 border-l-2 border-line-subtle pl-4 text-sm leading-relaxed text-foreground-muted">
+                <div className="mt-4 border-l-2 border-line-muted pl-4 text-sm leading-relaxed text-foreground-muted">
                   {overview}
                 </div>
               ) : null}
