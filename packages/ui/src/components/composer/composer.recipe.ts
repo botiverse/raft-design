@@ -27,9 +27,8 @@ export const composer = tv({
         root: [
           "overflow-hidden rounded-lg border-0 p-0",
           "bg-layer-panel",
-          "shadow-raft-sm ring-1 ring-ink-6 dark:ring-transparent",
+          "shadow-raft-sm ring-1 ring-ink-6 dark:shadow-none dark:ring-transparent",
           "dark:focus-within:ring-[0.5px] dark:focus-within:ring-accent-400/70",
-          "dark:focus-within:shadow-[0_0_0_1px_oklch(0_0_0_/_0.45),0_0_14px_color-mix(in_oklab,var(--accent-400)_22%,transparent),0_2px_4px_oklch(0_0_0_/_0.25)]",
         ],
         input: [
           "min-h-16 px-3 pt-3",

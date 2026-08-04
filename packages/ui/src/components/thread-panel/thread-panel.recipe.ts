@@ -2,11 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const threadPanel = tv({
   slots: {
-    root: [
-      "isolate flex h-full min-h-0 w-full flex-col",
-      "dark:bg-[oklch(0.2_0.004_106.42)]",
-      "dark:lg:relative dark:lg:before:pointer-events-none dark:lg:before:absolute dark:lg:before:inset-y-0 dark:lg:before:left-0 dark:lg:before:z-20 dark:lg:before:w-px dark:lg:before:bg-line-muted dark:lg:before:content-['']",
-    ],
+    root: ["isolate flex h-full min-h-0 w-full flex-col", "dark:bg-[oklch(0.2_0.004_106.42)]"],
     header: ["flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-3 px-5"],
     content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     title: ["m-0 min-w-0 flex-1 truncate", "text-base font-bold"],
@@ -44,7 +40,7 @@ export const threadPanel = tv({
         root: "bg-transparent font-sans text-foreground-strong",
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
-          "border-b border-line-muted bg-layer-page lg:border-l lg:pl-[19px] dark:lg:border-l-0",
+          "border-b border-line-muted bg-layer-page lg:border-l lg:pl-[19px] dark:lg:border-b-0 dark:lg:border-l-0",
           "max-lg:gap-2 max-lg:pl-5 max-lg:pr-3.5 max-md:h-[var(--shell-header-height,56px)]",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
           "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-sm",
@@ -54,7 +50,7 @@ export const threadPanel = tv({
         content: [
           "relative overflow-clip",
           "bg-layer-panel",
-          "dark:bg-transparent",
+          "dark:bg-transparent dark:lg:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.07),inset_0_0_0_1px_oklch(0.985_0.004_106.42_/_0.03)]",
           "[&_[data-message-item]]:px-[18px] [&_[data-message-item]]:max-lg:px-3",
         ],
         title: [
