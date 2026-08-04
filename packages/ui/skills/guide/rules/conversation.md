@@ -128,6 +128,7 @@ ComposerRoot
   ComposerDropOverlay → DropOverlayLabel, DropOverlayPrompt
 ```
 
+- `ComposerSubmit` is a `Button` locked to `variant="accent"` — the core-action color. Its props omit `variant`; do not try to restyle it into a yellow or default button.
 - Upload state has dedicated overlay parts. Render `ComposerAttachmentUploadingOverlay` while uploading and `ComposerAttachmentFailedOverlay` on failure — do not dim the tile with a className.
 - Reorderable attachments use `SortableComposerAttachments` / `SortableComposerAttachment` / `SortableComposerAttachmentsScroll`.
 - Mentions and slash commands use the `useComposerSuggestions` hook with `ComposerSuggestionList`, `ComposerSuggestionGroup`, `ComposerSuggestionOption`, `ComposerSuggestionIcon`, `ComposerSuggestionTitle`, `ComposerSuggestionMeta`, `ComposerSuggestionAside`.

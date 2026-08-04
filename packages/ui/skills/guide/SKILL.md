@@ -32,7 +32,7 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 - Semantic tokens over raw color. Every color is authored in oklch and reached through a token.
 - Base UI owns headless behavior (open state, focus, keyboard, collections). Product state (upload lifecycle, permissions, workflow) belongs in your app, not in a component prop.
 - Two theme families, `brutal` and `elegant`, are switched globally by `ThemeProvider`. Components adapt themselves.
-- `primary` (Source Yellow) is the brand signal and is rare — one primary action per context, never as decoration or background wash. Ghost and secondary variants stay semantically quiet.
+- Yellow and pink split roles. `primary` (Source Yellow) carries **hints and interactive expression** — new-message indicators, attention badges, the active tab, focus rings. `accent` carries **core and important actions** — a dialog's confirm, the composer's send. Never use yellow as decoration or background wash, and keep ghost/secondary variants semantically quiet.
 
 ## Common mistakes
 

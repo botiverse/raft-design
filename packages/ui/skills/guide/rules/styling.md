@@ -52,6 +52,13 @@ Reach for these first. The token contract lives in `raft-ui/styles.css`.
 
 The `ink` ramp step is the alpha percentage — `ink-8` is 8% ink. Use it for hairlines, hover fills, and pressed states on transparent backgrounds.
 
+Within the state families, `primary` and `accent` split roles rather than rank:
+
+- **`primary-*` (Source Yellow) — hints and interactive expression.** New-message indicators, attention badges, the active tab, focus rings. This is how the recipes already use it (`data-[active]:bg-primary-400` on tabs, `bg-primary-400` on the rail's attention badge, `ring-primary-500` on focus).
+- **`accent-*` — core and important actions.** A dialog's confirm, the composer's send. `ComposerSubmit` locks `variant="accent"` at the type level.
+
+Do not use yellow for an action button just because it is the brand color, and do not use accent for a passive indicator.
+
 Opaque tokens and alpha washes composite differently on non-white backdrops. Never swap one for the other during a refactor without checking the actual background.
 
 ---

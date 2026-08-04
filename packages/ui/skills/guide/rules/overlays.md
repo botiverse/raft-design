@@ -172,7 +172,7 @@ Every blocking overlay needs a `Title`, even when the design shows no visible he
 
 **`Popover`** — `PopoverViewport` handles scrolling content; `PopoverArrow` is optional and should be omitted when the popover is wide. `PopoverHeader`, `PopoverTitle`, `PopoverDescription`, and `PopoverSeparator` are available for structured content.
 
-**`Dialog` / `AlertDialog` / `Drawer`** — put actions in the `Footer`, not at the end of the `Body`. `DialogClose` in the `Header` renders the corner dismiss; `DialogClose` in the `Footer` with `render={<Button variant="outline" />}` renders the cancel button.
+**`Dialog` / `AlertDialog` / `Drawer`** — put actions in the `Footer`, not at the end of the `Body`. `DialogClose` in the `Header` renders the corner dismiss; `DialogClose` in the `Footer` with `render={<Button variant="outline" />}` renders the cancel button. The confirm button uses `variant="accent"` — accent is the core-action color — unless the action is destructive, which stays `danger`.
 
 **`Tooltip`** — keep to a phrase. No punctuation-heavy sentences, no line breaks.
 
