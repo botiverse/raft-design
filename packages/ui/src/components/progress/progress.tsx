@@ -17,6 +17,15 @@ const PROGRESS_STYLE = `
   }
 }
 
+@keyframes raft-progress-sweep {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(360%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-slot="progress-indicator"][data-indeterminate] {
     animation-duration: 2400ms;
@@ -51,6 +60,7 @@ const progress = tv({
         label: ["text-xs font-bold text-foreground"],
         value: ["font-mono text-xs font-bold text-foreground-strong/70"],
         track: [
+          "h-4 group-data-[size=sm]/progress:h-3 group-data-[size=lg]/progress:h-5",
           "border-2 border-line-strong bg-layer-panel",
           "shadow-raft-xs",
           "group-data-[complete]/progress:shadow-none",
@@ -62,11 +72,28 @@ const progress = tv({
           "[--progress-indicator:color-mix(in_oklab,var(--progress-color)_90%,transparent)]",
           "[--progress-track:color-mix(in_oklab,var(--line-muted)_35%,var(--layer-panel))]",
           "data-[indeterminate]:[--progress-track:color-mix(in_oklab,var(--line-muted)_65%,var(--layer-panel))]",
+          "dark:[--progress-indicator:var(--progress-color)]",
+          "[--progress-sweep:color-mix(in_oklab,var(--progress-color)_40%,transparent)]",
+          "dark:[--progress-sweep:color-mix(in_oklab,var(--progress-color)_55%,transparent)]",
+          "dark:[--progress-track:var(--layer-inset)]",
+          "dark:data-[indeterminate]:[--progress-track:oklch(0.21_0.004_106.42)]",
         ],
         label: ["text-[13px] font-medium leading-5 text-foreground-strong"],
         value: ["font-mono text-[11px] font-medium leading-5 text-foreground-placeholder"],
-        track: ["rounded-full"],
-        indicator: ["rounded-full"],
+        track: [
+          "h-2 group-data-[size=sm]/progress:h-1.5 group-data-[size=lg]/progress:h-2.5",
+          "rounded-full",
+          "dark:shadow-[inset_0_1px_1px_oklch(0_0_0_/_0.35),0_1px_0_oklch(0.985_0.004_106.42_/_0.03)]",
+          "dark:not-has-[[data-indeterminate]]:overflow-visible",
+        ],
+        indicator: [
+          "rounded-full",
+          "data-[indeterminate]:w-2/5",
+          "data-[indeterminate]:bg-[linear-gradient(90deg,transparent,var(--progress-sweep),transparent)]",
+          "data-[indeterminate]:[animation:raft-progress-sweep_1.6s_ease-in-out_infinite]",
+          "dark:data-[indeterminate]:shadow-none",
+          "dark:shadow-[inset_0_1px_0_oklch(1_0_0_/_0.08),0_1px_1px_color-mix(in_oklab,var(--progress-color)_14%,transparent),0_2px_3px_color-mix(in_oklab,var(--progress-color)_7%,transparent)]",
+        ],
       },
     },
     variant: {
@@ -108,38 +135,16 @@ const progress = tv({
       },
     },
     size: {
-      sm: {
-        track: ["h-1.5"],
-      },
-      md: {
-        track: ["h-2"],
-      },
-      lg: {
-        track: ["h-2.5"],
-      },
+      sm: {},
+      md: {},
+      lg: {},
     },
   },
   defaultVariants: {
     variant: "primary",
     size: "md",
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      size: "sm",
-      class: { track: "h-3" },
-    },
-    {
-      theme: "brutal",
-      size: "md",
-      class: { track: "h-4" },
-    },
-    {
-      theme: "brutal",
-      size: "lg",
-      class: { track: "h-5" },
-    },
-  ],
+  compoundVariants: [],
 });
 
 const progressStyle = (
