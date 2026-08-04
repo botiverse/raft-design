@@ -43,6 +43,7 @@ const inputGroup = tv({
           "hover:border-line-field-hover hover:shadow-field-hover",
           "has-[[data-slot=input-group-control]:focus]:bg-layer-field",
           "has-[[data-slot=input-group-control]:focus-visible]:ring-1 has-[[data-slot=input-group-control]:focus-visible]:ring-primary-400 has-[[data-slot=input-group-control]:focus-visible]:ring-offset-2 has-[[data-slot=input-group-control]:focus-visible]:ring-offset-background",
+          "dark:has-[[data-slot=input-group-control]:focus-visible]:ring-2 dark:has-[[data-slot=input-group-control]:focus-visible]:ring-primary-400/60 dark:has-[[data-slot=input-group-control]:focus-visible]:ring-offset-0",
           "has-[[data-slot=input-group-control][data-invalid]]:border-danger-base/45 has-[[data-slot=input-group-control][data-invalid]]:hover:border-danger-base/75 has-[[data-slot=input-group-control][data-invalid]:focus]:border-danger-base/75",
           "has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-2 has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-[color-mix(in_oklch,var(--state-danger-base)_60%,transparent)] has-[[data-slot=input-group-control][data-invalid]:focus-visible]:ring-offset-0",
           "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-subtle/60 has-[[data-slot=input-group-control]:disabled]:bg-layer-muted/50",
