@@ -235,7 +235,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "information",
-      class: { root: "bg-info text-info-strong" },
+      class: { root: "bg-info text-info-strong dark:text-foreground-inverse" },
     },
     {
       theme: "elegant",
@@ -247,19 +247,21 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "success",
-      class: { root: "bg-success text-success-foreground" },
+      class: { root: "bg-success text-success-foreground dark:text-foreground-inverse" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "warning",
-      class: { root: "bg-warning text-warning-foreground" },
+      class: { root: "bg-warning text-warning-foreground dark:text-foreground-inverse" },
     },
     {
       theme: "elegant",
       appearance: "solid",
       variant: "danger",
-      class: { root: "bg-[oklch(0.672_0.215_26.69)] text-[oklch(1_0_0)]" },
+      class: {
+        root: "bg-[oklch(0.672_0.215_26.69)] text-[oklch(1_0_0)] dark:text-foreground-inverse",
+      },
     },
     {
       theme: "elegant",
