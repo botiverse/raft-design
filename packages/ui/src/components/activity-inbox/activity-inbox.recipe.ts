@@ -88,7 +88,7 @@ export const activityInbox = tv({
         item: [
           "rounded-lg border-[0.5px] border-line-subtle bg-layer-panel shadow-xs",
           "transition-[background-color,box-shadow] duration-150",
-          "hover:bg-layer-hover hover:shadow-sm",
+          "hover:bg-ink-2 hover:shadow-sm",
           "aria-disabled:pointer-events-none",
           "data-[active=true]:border-line data-[active=true]:bg-layer-panel data-[active=true]:shadow-sm data-[active=true]:ring-1 data-[active=true]:ring-line-focus/40",
           "has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-1 has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-primary-400",
@@ -99,19 +99,19 @@ export const activityInbox = tv({
           "aria-checked:border-transparent aria-checked:bg-foreground aria-checked:text-background",
           "focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
-        itemSubtitle: ["text-foreground-placeholder"],
+        itemSubtitle: ["font-medium text-foreground-muted/70"],
         itemTitle: [
-          "font-normal text-foreground-muted",
+          "font-normal tracking-[-0.01em] text-foreground-muted",
           "group-data-[unread=true]/activity-item:font-medium",
           "group-data-[unread=true]/activity-item:text-foreground-strong",
           "[&>svg]:text-foreground-icon",
         ],
-        itemTimestamp: ["font-sans text-foreground-placeholder"],
+        itemTimestamp: ["font-sans tabular-nums text-foreground-muted/70"],
         itemBody: [
-          "text-foreground-muted",
+          "tracking-[-0.01em] text-foreground-muted",
           "group-data-[unread=true]/activity-item:text-foreground",
         ],
-        itemSender: ["font-medium text-foreground-strong"],
+        itemSender: ["font-medium text-foreground-muted"],
         itemAction: [
           "rounded-md border border-line-field bg-layer-field text-foreground-muted",
           "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
