@@ -34,9 +34,8 @@ import {
   SelectList,
   SelectSeparator,
   SelectTrigger,
+  useThemeFamily,
 } from "raft-ui";
-
-import { useThemeFamily } from "raft-ui";
 
 import type { SearchChannelFixture, SearchSenderFixture } from "../search.fixtures.ts";
 import {
@@ -101,9 +100,6 @@ const SEARCH_SORT_ITEMS = SEARCH_SORTS.map((value) => ({
   value,
 }));
 
-const filterTriggerClass = "h-8 w-auto px-3 py-0 text-xs font-bold";
-const filterContentClass = "min-w-[220px]";
-
 export function BrutalSearchFilters({
   senders,
   channels,
@@ -148,7 +144,7 @@ export function BrutalSearchFilters({
             onSenderChange(senders.find((item) => item.id === nextValue) ?? null);
           }}
         >
-          <ComboboxTrigger aria-label="From" className={filterTriggerClass} variant="filter">
+          <ComboboxTrigger aria-label="From" className={shell.filterTrigger()} variant="filter">
             <UserCircle2 aria-hidden size={14} />
             <span>{sender ? `From: ${sender.isCurrentUser ? "Me" : sender.label}` : "From"}</span>
             <ComboboxTriggerIndicator>
@@ -157,7 +153,7 @@ export function BrutalSearchFilters({
           </ComboboxTrigger>
           <ComboboxContent
             align="start"
-            className={filterContentClass}
+            className={shell.filterContent()}
             finalFocus={false}
             initialFocus={false}
             portalProps={{ container: portalRef }}
@@ -203,7 +199,7 @@ export function BrutalSearchFilters({
           value={[...scopes]}
           onValueChange={(nextValue) => onScopesChange(nextValue)}
         >
-          <ComboboxTrigger aria-label="Scope" className={filterTriggerClass} variant="filter">
+          <ComboboxTrigger aria-label="Scope" className={shell.filterTrigger()} variant="filter">
             <AtSign aria-hidden size={14} />
             <span>
               {scopes.length === 0
@@ -218,7 +214,7 @@ export function BrutalSearchFilters({
           </ComboboxTrigger>
           <ComboboxContent
             align="start"
-            className={filterContentClass}
+            className={shell.filterContent()}
             finalFocus={false}
             initialFocus={false}
             portalProps={{ container: portalRef }}
@@ -263,7 +259,11 @@ export function BrutalSearchFilters({
               onChannelChange(channels.find((item) => item.id === nextValue) ?? null);
             }}
           >
-            <ComboboxTrigger aria-label="Channel" className={filterTriggerClass} variant="filter">
+            <ComboboxTrigger
+              aria-label="Channel"
+              className={shell.filterTrigger()}
+              variant="filter"
+            >
               <Hash aria-hidden size={14} />
               <span>Channel</span>
               <ComboboxTriggerIndicator>
@@ -272,7 +272,7 @@ export function BrutalSearchFilters({
             </ComboboxTrigger>
             <ComboboxContent
               align="start"
-              className={filterContentClass}
+              className={shell.filterContent()}
               finalFocus={false}
               initialFocus={false}
               portalProps={{ container: portalRef }}
@@ -314,7 +314,7 @@ export function BrutalSearchFilters({
         >
           <SelectTrigger
             aria-label="Time range"
-            className={filterTriggerClass}
+            className={shell.filterTrigger()}
             data-active={timeRange !== "any" ? "" : undefined}
             variant="filter"
           >
@@ -326,7 +326,7 @@ export function BrutalSearchFilters({
           </SelectTrigger>
           <SelectContent
             align="start"
-            className={filterContentClass}
+            className={shell.filterContent()}
             portalProps={{ container: portalRef }}
             positionMethod="absolute"
           >
@@ -355,7 +355,7 @@ export function BrutalSearchFilters({
         >
           <SelectTrigger
             aria-label="Sort"
-            className={filterTriggerClass}
+            className={shell.filterTrigger()}
             data-active={sort !== "relevance" ? "" : undefined}
             variant="filter"
           >
@@ -367,7 +367,7 @@ export function BrutalSearchFilters({
           </SelectTrigger>
           <SelectContent
             align="start"
-            className={filterContentClass}
+            className={shell.filterContent()}
             portalProps={{ container: portalRef }}
             positionMethod="absolute"
           >

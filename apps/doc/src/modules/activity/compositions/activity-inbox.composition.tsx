@@ -554,7 +554,7 @@ export function ActivityInboxComposition({
                   Select all
                 </ActivityPanelToolbarButton>
                 <DropdownMenu>
-                  <DropdownMenuTrigger render={<ActivityPanelSortTrigger className="ml-auto" />}>
+                  <DropdownMenuTrigger render={<ActivityPanelSortTrigger />}>
                     {sortDirection === "desc" ? "Newest to oldest" : "Oldest to newest"}
                     <ChevronDown />
                   </DropdownMenuTrigger>
@@ -562,7 +562,6 @@ export function ActivityInboxComposition({
                     align="end"
                     side="bottom"
                     sideOffset={8}
-                    className="w-48"
                     portalProps={{ container: rootRef }}
                   >
                     <DropdownMenuRadioGroup
@@ -933,10 +932,7 @@ function ActivityItem({
   return (
     <ContextMenu>
       <ContextMenuTrigger render={row} />
-      <ActivityInboxItemMenuContent
-        className="w-[184px] min-w-[184px] max-w-[184px] overflow-y-auto overflow-x-hidden"
-        portalProps={{ container: portalContainer }}
-      >
+      <ActivityInboxItemMenuContent portalProps={{ container: portalContainer }}>
         {item.kind !== "thread" || item.following !== false ? (
           <>
             <ActivityInboxItemMenuItem onClick={onToggleRead}>

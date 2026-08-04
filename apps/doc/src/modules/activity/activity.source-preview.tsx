@@ -153,7 +153,7 @@ export function ActivityV2SourcePreview() {
             </button>
           </div>
 
-          <div className="scrollbar-quiet safe-bottom relative flex-1 overflow-y-overlay bg-white p-3">
+          <div className="safe-bottom relative flex-1 overflow-y-auto bg-white p-3">
             <div className="flex flex-col gap-2">
               {rows.map((row) => (
                 <SourceActivityRow key={row.id} row={row} />

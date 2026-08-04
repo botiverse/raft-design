@@ -40,6 +40,8 @@ export const searchShell = tv({
     inputClear: [],
     inputKbd: ["hidden text-[10px] font-bold uppercase sm:inline"],
     filtersRow: ["shrink-0 px-4 py-3"],
+    filterTrigger: ["h-8 w-auto px-3 py-0 text-xs font-bold"],
+    filterContent: ["min-w-[220px]"],
     channelActiveChip: ["inline-flex items-center gap-2 px-3 py-1.5 text-xs"],
     channelOptionIcon: [],
     clearAllButton: ["inline-flex items-center gap-2 px-2.5 py-1 text-[11px]"],

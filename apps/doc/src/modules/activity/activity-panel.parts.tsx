@@ -107,11 +107,13 @@ export const activityShell = tv({
     toolbarButton: ["inline-flex items-center justify-center px-2 py-1 text-xs font-bold"],
     toolbarPrimaryAction: ["inline-flex items-center justify-center px-2 py-1 text-xs font-bold"],
     toolbarLink: ["text-xs font-bold underline decoration-2"],
-    sortTrigger: ["inline-flex items-center gap-1 font-mono text-[11px] font-bold [&_svg]:size-3"],
-    sortContent: [],
+    sortTrigger: [
+      "ml-auto inline-flex items-center gap-1 font-mono text-[11px] font-bold [&_svg]:size-3",
+    ],
+    sortContent: ["w-48"],
     sortItem: ["flex w-full items-center gap-2 px-2 py-2 text-left outline-none"],
     sortItemIndicator: ["flex size-4 shrink-0 items-center justify-center [&_svg]:size-[13px]"],
-    viewport: ["scrollbar-quiet safe-bottom relative flex-1 overflow-y-overlay p-3"],
+    viewport: ["safe-bottom relative flex-1 overflow-y-auto p-3"],
     loadingMore: ["py-3 text-center text-xs font-bold"],
   },
   variants: {
@@ -144,7 +146,6 @@ export const activityShell = tv({
         switcherHeader: ["border-b-2 border-black"],
         switcherTitle: ["text-black"],
         switcherClose: ["border-2 border-black bg-white", sourceButtonMotion],
-        switcherBody: ["bg-white"],
         switcherItem: [
           "text-black hover:bg-black/[0.04]",
           "aria-[current=page]:bg-black/[0.06]",

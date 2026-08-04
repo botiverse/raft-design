@@ -40,7 +40,7 @@ export const activityInbox = tv({
       "inline-flex shrink-0 items-center justify-center p-1.5 outline-none",
       "[&_svg]:size-3.5",
     ],
-    itemMenuContent: [],
+    itemMenuContent: ["w-[184px] min-w-[184px] max-w-[184px] overflow-x-hidden overflow-y-auto"],
     itemMenuItem: [],
   },
   variants: {
@@ -52,7 +52,6 @@ export const activityInbox = tv({
           "active:border-black active:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
           "aria-disabled:pointer-events-none aria-disabled:hover:border-black/30 aria-disabled:hover:shadow-none",
           "data-[active=true]:border-black data-[active=true]:bg-white data-[active=true]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
-          "data-[focused=true]:border-black data-[focused=true]:bg-brutal-cyan/25 data-[focused=true]:shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]",
           "has-[[data-slot=activity-inbox-item-open]:focus-visible]:border-black has-[[data-slot=activity-inbox-item-open]:focus-visible]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
         ],
         itemSelection: [
@@ -92,7 +91,6 @@ export const activityInbox = tv({
           "hover:bg-layer-hover hover:shadow-sm",
           "aria-disabled:pointer-events-none",
           "data-[active=true]:border-line data-[active=true]:bg-layer-panel data-[active=true]:shadow-sm data-[active=true]:ring-1 data-[active=true]:ring-line-focus/40",
-          "data-[focused=true]:bg-layer-active data-[focused=true]:shadow-sm data-[focused=true]:ring-1 data-[focused=true]:ring-line-focus/40",
           "has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-1 has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-primary-400",
         ],
         itemSelection: [
