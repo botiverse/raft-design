@@ -1,5 +1,4 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
-import { Menu as BaseMenu } from "@base-ui/react/menu";
 import type { ComponentProps, ComponentRef, Ref } from "react";
 import {
   DropdownMenuContent,
@@ -109,8 +108,6 @@ export const activityShell = tv({
     toolbarLink: ["text-xs underline"],
     sortTrigger: ["ml-auto inline-flex items-center gap-1 text-[11px] [&_svg]:size-3"],
     sortContent: ["w-48"],
-    sortItem: ["flex w-full items-center gap-2 px-2 py-2 text-left outline-none"],
-    sortItemIndicator: ["flex size-4 shrink-0 items-center justify-center [&_svg]:size-[13px]"],
     viewport: ["safe-bottom relative flex-1 overflow-y-auto p-3"],
     loadingMore: ["py-3 text-center text-xs"],
   },
@@ -175,10 +172,6 @@ export const activityShell = tv({
         toolbarLink: ["font-bold decoration-2 text-black"],
         sortTrigger: ["font-mono font-bold text-black/60 hover:text-black"],
         sortContent: ["p-1 shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]"],
-        sortItem: [
-          "text-xs font-bold",
-          "hover:bg-black/5 data-[highlighted]:bg-black/5 data-[checked]:bg-soft-signal",
-        ],
         viewport: ["bg-white"],
         loadingMore: ["font-bold text-black/40"],
       },
@@ -256,10 +249,7 @@ export const activityShell = tv({
           "text-foreground-muted transition-colors hover:text-foreground-strong",
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
-        selectionToolbar: [
-          "border-b border-line-subtle bg-layer-muted",
-          "px-4 max-md:pl-5 max-md:pr-3.5",
-        ],
+        selectionToolbar: ["px-4 max-md:pl-5 max-md:pr-3.5"],
         selectionCount: ["font-medium text-foreground-strong"],
         toolbarButton: [
           "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
@@ -283,10 +273,6 @@ export const activityShell = tv({
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
         ],
         sortContent: ["p-1"],
-        sortItem: [
-          "rounded-sm text-xs font-medium text-foreground",
-          "hover:bg-layer-hover data-[highlighted]:bg-layer-hover data-[checked]:bg-layer-active",
-        ],
         viewport: ["bg-layer-panel", "px-4 max-md:pl-5 max-md:pr-3.5"],
         loadingMore: ["font-medium text-foreground-placeholder"],
       },
@@ -802,33 +788,6 @@ export function ActivityPanelSortContent({ className, ...props }: DropdownMenuCo
   const theme = useThemeFamily();
   const { sortContent } = activityShell({ theme });
   return <DropdownMenuContent className={sortContent({ className })} {...props} />;
-}
-
-export function ActivityPanelSortItem({
-  className,
-  ...props
-}: StyledProps<BaseMenu.RadioItem.Props>) {
-  const theme = useThemeFamily();
-  const { sortItem } = activityShell({ theme });
-  return (
-    <BaseMenu.RadioItem
-      data-slot="activity-inbox-sort-item"
-      className={sortItem({ className })}
-      {...props}
-    />
-  );
-}
-
-export function ActivityPanelSortItemIndicator({ className, ...props }: ComponentProps<"span">) {
-  const theme = useThemeFamily();
-  const { sortItemIndicator } = activityShell({ theme });
-  return (
-    <span
-      data-slot="activity-inbox-sort-item-indicator"
-      className={sortItemIndicator({ className })}
-      {...props}
-    />
-  );
 }
 
 export function ActivityPanelViewport({ className, ...props }: ComponentProps<"div">) {

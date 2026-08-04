@@ -54,14 +54,15 @@ const SNIPPETS = {
   <ActivityInboxItem>
     {/* full-card open target layered behind the content */}
     <ActivityInboxItemOpen />
-    <ActivityInboxItemSelection />
+    <ActivityInboxItemSelection>
+      <Checkbox />
+    </ActivityInboxItemSelection>
     <ActivityInboxItemContent>
       {/* thread rows only */}
       <ActivityInboxItemSubtitle />
       <ActivityInboxItemHeading>
         {/* an inline leading svg is styled by the title */}
         <ActivityInboxItemTitle />
-        <ActivityInboxItemTimestamp />
       </ActivityInboxItemHeading>
       <ActivityInboxItemBody>
         <ActivityInboxItemSender />
@@ -69,19 +70,22 @@ const SNIPPETS = {
       {/* caller-owned badges */}
       <ActivityInboxItemMetadata />
     </ActivityInboxItemContent>
-    <ActivityInboxItemActions>
-      <ActivityInboxItemAction />
-      <ActivityInboxItemSavedAction />
-    </ActivityInboxItemActions>
+    <ActivityInboxItemTrailing>
+      <ActivityInboxItemTimestamp />
+      <ActivityInboxItemActions>
+        <PanelToggleAction />
+        <PanelAction />
+      </ActivityInboxItemActions>
+    </ActivityInboxItemTrailing>
   </ActivityInboxItem>
 </ActivityInboxList>`,
   menuAnatomy: `<ContextMenu>
   <ContextMenuTrigger render={row} />
-  <ActivityInboxItemMenuContent>
-    <ActivityInboxItemMenuItem>
+  <ContextMenuContent>
+    <ContextMenuItem>
       <ContextMenuItemLabel />
-    </ActivityInboxItemMenuItem>
-  </ActivityInboxItemMenuContent>
+    </ContextMenuItem>
+  </ContextMenuContent>
 </ContextMenu>`,
   composition: activityInboxCompositionSource,
   parts: activityPanelPartsSource,
@@ -115,20 +119,9 @@ const ACTIVITY_INBOX_ITEM_OPEN_PROPS: readonly PropRow[] = [
 
 const ACTIVITY_INBOX_ITEM_SELECTION_PROPS: readonly PropRow[] = [
   {
-    name: "checked",
-    type: "boolean",
-    description: "Controlled selection state, exposed as aria-checked on the checkbox-role button.",
-  },
-  {
-    name: "onCheckedChange",
-    type: "(checked: boolean) => void",
-    description:
-      "Called with the next selection state. Click propagation to the open target is stopped.",
-  },
-  {
     name: "...props",
-    type: "button props",
-    description: "The caller owns the accessible label and the checked indicator child.",
+    type: "div props",
+    description: "Layout slot for a caller-owned Checkbox selection control.",
   },
 ];
 
@@ -152,7 +145,7 @@ const ACTIVITY_INBOX_ITEM_HEADING_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
-    description: "Row pairing the clamped title with the timestamp.",
+    description: "Heading row containing the clamped activity title.",
   },
 ];
 
@@ -169,7 +162,15 @@ const ACTIVITY_INBOX_ITEM_TIMESTAMP_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "span props",
-    description: "Right-aligned monospace timestamp.",
+    description: "Right-aligned timestamp placed in the trailing rail.",
+  },
+];
+
+const ACTIVITY_INBOX_ITEM_TRAILING_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description: "Trailing rail that aligns the timestamp and caller-owned actions.",
   },
 ];
 
@@ -205,38 +206,6 @@ const ACTIVITY_INBOX_ITEM_ACTIONS_PROPS: readonly PropRow[] = [
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_ACTION_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "button props",
-    description: "Square bordered card action button (save, done, restore).",
-  },
-];
-
-const ACTIVITY_INBOX_ITEM_SAVED_ACTION_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "button props",
-    description: "Saved-state variant of the card action with the orange saved treatment.",
-  },
-];
-
-const ACTIVITY_INBOX_ITEM_MENU_CONTENT_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "ContextMenuContent props",
-    description: "ContextMenuContent styled for activity row context menus.",
-  },
-];
-
-const ACTIVITY_INBOX_ITEM_MENU_ITEM_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "ContextMenuItem props",
-    description: "ContextMenuItem styled for activity row context menus.",
-  },
-];
-
 const API_SUBSECTIONS = [
   { id: "api-list", title: "ActivityInboxList", rows: ACTIVITY_INBOX_LIST_PROPS },
   { id: "api-item", title: "ActivityInboxItem", rows: ACTIVITY_INBOX_ITEM_PROPS },
@@ -267,6 +236,11 @@ const API_SUBSECTIONS = [
     title: "ActivityInboxItemTimestamp",
     rows: ACTIVITY_INBOX_ITEM_TIMESTAMP_PROPS,
   },
+  {
+    id: "api-item-trailing",
+    title: "ActivityInboxItemTrailing",
+    rows: ACTIVITY_INBOX_ITEM_TRAILING_PROPS,
+  },
   { id: "api-item-body", title: "ActivityInboxItemBody", rows: ACTIVITY_INBOX_ITEM_BODY_PROPS },
   {
     id: "api-item-sender",
@@ -282,26 +256,6 @@ const API_SUBSECTIONS = [
     id: "api-item-actions",
     title: "ActivityInboxItemActions",
     rows: ACTIVITY_INBOX_ITEM_ACTIONS_PROPS,
-  },
-  {
-    id: "api-item-action",
-    title: "ActivityInboxItemAction",
-    rows: ACTIVITY_INBOX_ITEM_ACTION_PROPS,
-  },
-  {
-    id: "api-item-saved-action",
-    title: "ActivityInboxItemSavedAction",
-    rows: ACTIVITY_INBOX_ITEM_SAVED_ACTION_PROPS,
-  },
-  {
-    id: "api-item-menu-content",
-    title: "ActivityInboxItemMenuContent",
-    rows: ACTIVITY_INBOX_ITEM_MENU_CONTENT_PROPS,
-  },
-  {
-    id: "api-item-menu-item",
-    title: "ActivityInboxItemMenuItem",
-    rows: ACTIVITY_INBOX_ITEM_MENU_ITEM_PROPS,
   },
 ] as const;
 
@@ -364,9 +318,10 @@ function ActivityDoc() {
       overview={
         <ul className="list-disc space-y-1 pl-4">
           <li>
-            raft-ui owns the activity row card: frame, open target, selection, text column, metadata
-            badges, and card actions
+            raft-ui owns the activity row structure: frame, open target, selection slot, text
+            column, metadata slot, and action group
           </li>
+          <li>Checkbox, PanelAction, PanelToggleAction, and ContextMenu own their behavior</li>
           <li>
             the inbox shell (header, sidebar, controls, toolbar, viewport) is composed in the docs
             module from Panel, PanelHeaderRoot, and local panel parts
@@ -398,12 +353,13 @@ function ActivityDoc() {
 
       <DocSection id="usage" title="Usage">
         <p>
-          ActivityInbox owns the row card and the keyboard behavior of its nested open, selection,
-          and action controls. The inbox shell around it — header, view sidebar, filter controls,
-          selection toolbar, and scroll viewport — is not part of the raft-ui API: the executable
-          composition assembles it from the generic Panel container and local panel parts.
-          Production consumers own item unions, read/save/done policy, server synchronization,
-          search and sort persistence, navigation, and master/detail coordination.
+          ActivityInbox owns the row card layout and its full-card open target. Structural slots
+          position caller-owned Checkbox, Badge, PanelAction, PanelToggleAction, and ContextMenu
+          parts, so Activity does not duplicate their interaction behavior. The inbox shell around
+          it — header, view sidebar, filter controls, selection toolbar, and scroll viewport — is
+          assembled from the generic Panel container and local panel parts. Production consumers own
+          item unions, read/save/done policy, server synchronization, search and sort persistence,
+          navigation, and master/detail coordination.
         </p>
         <DocSubsection parentId="usage" id="states" title="States">
           <div className="grid gap-8">
@@ -450,7 +406,7 @@ function ActivityDoc() {
             {
               label: "Activity v2 inbox",
               status: "difference",
-              note: "Brutal preserves the source visual class contract while replacing the source row's nested interactive markup with pixel-neutral sibling buttons. The composition replaces source stores and API calls with deterministic local state. Existing Badge and SegmentedControl primitives are retained because the source already consumes raft-ui. Elegant re-expresses the same DOM through semantic tokens.",
+              note: "Brutal preserves the source row structure while composing selection, actions, menus, badges, and filtering from shared raft-ui primitives. The composition replaces source stores and API calls with deterministic local state. Elegant re-expresses the row frame through semantic tokens.",
               sourceScenes: SOURCE_SCENES,
               source: <ActivityV2SourcePreview />,
               brutal: <ActivityInboxComposition layout="wide" />,

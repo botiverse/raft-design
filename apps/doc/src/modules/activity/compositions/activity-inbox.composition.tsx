@@ -27,40 +27,45 @@ import {
 import {
   Badge,
   Avatar,
+  Checkbox,
   ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
   ContextMenuItemLabel,
   ContextMenuTrigger,
   DropdownMenu,
   DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuTrigger,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-  SegmentedControl,
-  SegmentedControlItem,
-  SegmentedControlLabel,
+  PanelAction,
+  PanelToggleAction,
   Skeleton,
+  Tabs,
+  TabsBackground,
+  TabsLabel,
+  TabsList,
+  TabsTab,
   useThemeFamily,
 } from "raft-ui";
 import {
   ActivityInboxItem,
-  ActivityInboxItemAction,
   ActivityInboxItemActions,
   ActivityInboxItemBody,
   ActivityInboxItemContent,
   ActivityInboxItemHeading,
   ActivityInboxItemMetadata,
-  ActivityInboxItemMenuContent,
-  ActivityInboxItemMenuItem,
   ActivityInboxItemOpen,
   ActivityInboxItemSelection,
-  ActivityInboxItemSavedAction,
   ActivityInboxItemSender,
   ActivityInboxItemSubtitle,
   ActivityInboxItemTimestamp,
   ActivityInboxItemTitle,
+  ActivityInboxItemTrailing,
   ActivityInboxList,
 } from "raft-ui/wip";
 
@@ -94,8 +99,6 @@ import {
   ActivityPanelSidebarSection,
   ActivityPanelSortTrigger,
   ActivityPanelSortContent,
-  ActivityPanelSortItem,
-  ActivityPanelSortItemIndicator,
   ActivityPanelSwitcher,
   ActivityPanelSwitcherBody,
   ActivityPanelSwitcherClose,
@@ -510,19 +513,21 @@ export function ActivityInboxComposition({
             </ActivityPanelMobileNavigation>
 
             {view === "active" ? (
-              <SegmentedControl
-                className="shrink-0"
+              <Tabs<ActivityReadFilter>
+                className="w-auto shrink-0"
                 value={readFilter}
-                onValueChange={(value) => setReadFilter(value as ActivityReadFilter)}
-                ariaLabel="Filter activity"
+                onValueChange={(value) => setReadFilter(value)}
               >
-                <SegmentedControlItem value="all">
-                  <SegmentedControlLabel>All</SegmentedControlLabel>
-                </SegmentedControlItem>
-                <SegmentedControlItem value="unread">
-                  <SegmentedControlLabel>Unread</SegmentedControlLabel>
-                </SegmentedControlItem>
-              </SegmentedControl>
+                <TabsList aria-label="Filter activity">
+                  <TabsBackground />
+                  <TabsTab value="all">
+                    <TabsLabel>All</TabsLabel>
+                  </TabsTab>
+                  <TabsTab value="unread">
+                    <TabsLabel>Unread</TabsLabel>
+                  </TabsTab>
+                </TabsList>
+              </Tabs>
             ) : null}
 
             <ActivityPanelSearch>
@@ -569,12 +574,9 @@ export function ActivityInboxComposition({
                       onValueChange={(value) => setSortDirection(value as ActivitySortDirection)}
                     >
                       {(["desc", "asc"] as const).map((direction) => (
-                        <ActivityPanelSortItem key={direction} value={direction}>
-                          <ActivityPanelSortItemIndicator>
-                            {sortDirection === direction ? <Check /> : null}
-                          </ActivityPanelSortItemIndicator>
+                        <DropdownMenuRadioItem key={direction} value={direction}>
                           {direction === "desc" ? "Newest to oldest" : "Oldest to newest"}
-                        </ActivityPanelSortItem>
+                        </DropdownMenuRadioItem>
                       ))}
                     </DropdownMenuRadioGroup>
                   </ActivityPanelSortContent>
@@ -843,12 +845,13 @@ function ActivityItem({
         aria-label={`Open ${item.title}`}
         onClick={(event) => onOpen(event.detail)}
       />
-      <ActivityInboxItemSelection
-        checked={selected}
-        onCheckedChange={onSelect}
-        aria-label={selected ? "Remove activity item from selection" : "Select activity item"}
-      >
-        {selected ? <Check /> : null}
+      <ActivityInboxItemSelection>
+        <Checkbox
+          checked={selected}
+          onCheckedChange={onSelect}
+          onClick={(event) => event.stopPropagation()}
+          aria-label={selected ? "Remove activity item from selection" : "Select activity item"}
+        />
       </ActivityInboxItemSelection>
       <ActivityInboxItemContent>
         {item.kind === "thread" ? (
@@ -859,7 +862,6 @@ function ActivityItem({
             <Icon aria-hidden />
             {item.title}
           </ActivityInboxItemTitle>
-          <ActivityInboxItemTimestamp>{item.timestamp}</ActivityInboxItemTimestamp>
         </ActivityInboxItemHeading>
         <ActivityInboxItemBody>
           <ActivityInboxItemSender>{item.sender}: </ActivityInboxItemSender>
@@ -896,34 +898,28 @@ function ActivityItem({
           ) : null}
         </ActivityInboxItemMetadata>
       </ActivityInboxItemContent>
-      <ActivityInboxItemActions>
-        {item.saved ? (
-          <ActivityInboxItemSavedAction
-            onClick={onToggleSaved}
-            aria-label="Remove from Saved"
-            title="Remove from Saved"
+      <ActivityInboxItemTrailing>
+        <ActivityInboxItemTimestamp>{item.timestamp}</ActivityInboxItemTimestamp>
+        <ActivityInboxItemActions>
+          <PanelToggleAction
+            pressed={item.saved}
+            onPressedChange={onToggleSaved}
+            aria-label={item.saved ? "Remove from Saved" : "Save activity item"}
+            title={item.saved ? "Remove from Saved" : "Save activity item"}
           >
-            <Bookmark fill="currentColor" />
-          </ActivityInboxItemSavedAction>
-        ) : (
-          <ActivityInboxItemAction
-            onClick={onToggleSaved}
-            aria-label="Save activity item"
-            title="Save activity item"
-          >
-            <Bookmark />
-          </ActivityInboxItemAction>
-        )}
-        {view === "saved" ? null : (
-          <ActivityInboxItemAction
-            onClick={onToggleDone}
-            aria-label={view === "done" ? "Restore to Active" : "Mark as done"}
-            title={view === "done" ? "Restore to Active" : "Mark as done"}
-          >
-            {view === "done" ? <RotateCcw /> : <Check />}
-          </ActivityInboxItemAction>
-        )}
-      </ActivityInboxItemActions>
+            <Bookmark fill={item.saved ? "currentColor" : "none"} />
+          </PanelToggleAction>
+          {view === "saved" ? null : (
+            <PanelAction
+              onClick={onToggleDone}
+              aria-label={view === "done" ? "Restore to Active" : "Mark as done"}
+              title={view === "done" ? "Restore to Active" : "Mark as done"}
+            >
+              {view === "done" ? <RotateCcw /> : <Check />}
+            </PanelAction>
+          )}
+        </ActivityInboxItemActions>
+      </ActivityInboxItemTrailing>
     </ActivityInboxItem>
   );
 
@@ -932,30 +928,30 @@ function ActivityItem({
   return (
     <ContextMenu>
       <ContextMenuTrigger render={row} />
-      <ActivityInboxItemMenuContent portalProps={{ container: portalContainer }}>
+      <ContextMenuContent portalProps={{ container: portalContainer }}>
         {item.kind !== "thread" || item.following !== false ? (
           <>
-            <ActivityInboxItemMenuItem onClick={onToggleRead}>
+            <ContextMenuItem onClick={onToggleRead}>
               {item.unreadCount > 0 ? <MailOpen /> : <Mail />}
               <ContextMenuItemLabel>
                 {item.unreadCount > 0 ? "Mark as read" : "Mark as unread"}
               </ContextMenuItemLabel>
-            </ActivityInboxItemMenuItem>
-            <ActivityInboxItemMenuItem onClick={onToggleDone}>
+            </ContextMenuItem>
+            <ContextMenuItem onClick={onToggleDone}>
               <Check />
               <ContextMenuItemLabel>Mark as done</ContextMenuItemLabel>
-            </ActivityInboxItemMenuItem>
+            </ContextMenuItem>
           </>
         ) : null}
         {item.kind === "thread" ? (
-          <ActivityInboxItemMenuItem onClick={onToggleFollowing}>
+          <ContextMenuItem onClick={onToggleFollowing}>
             {item.following === false ? <Bell /> : <BellOff />}
             <ContextMenuItemLabel>
               {item.following === false ? "Follow thread" : "Unfollow thread"}
             </ContextMenuItemLabel>
-          </ActivityInboxItemMenuItem>
+          </ContextMenuItem>
         ) : null}
-      </ActivityInboxItemMenuContent>
+      </ContextMenuContent>
     </ContextMenu>
   );
 }

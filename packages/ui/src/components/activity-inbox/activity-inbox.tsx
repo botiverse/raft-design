@@ -1,15 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { MouseEvent } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import {
-  ContextMenuContent,
-  ContextMenuItem,
-  type ContextMenuContentProps,
-  type ContextMenuItemProps,
-} from "../context-menu/context-menu";
 import { activityInbox } from "./activity-inbox.recipe";
 
 export type ActivityInboxListProps = useRender.ComponentProps<"div">;
@@ -42,23 +35,6 @@ export function ActivityInboxItem({ className, render, ...props }: ActivityInbox
   });
 }
 
-export type ActivityInboxItemMenuContentProps = ContextMenuContentProps;
-export function ActivityInboxItemMenuContent({
-  className,
-  ...props
-}: ActivityInboxItemMenuContentProps) {
-  const theme = useThemeFamily();
-  const { itemMenuContent } = activityInbox({ theme });
-  return <ContextMenuContent className={itemMenuContent({ className })} {...props} />;
-}
-
-export type ActivityInboxItemMenuItemProps = ContextMenuItemProps;
-export function ActivityInboxItemMenuItem({ className, ...props }: ActivityInboxItemMenuItemProps) {
-  const theme = useThemeFamily();
-  const { itemMenuItem } = activityInbox({ theme });
-  return <ContextMenuItem className={itemMenuItem({ className })} {...props} />;
-}
-
 export type ActivityInboxItemOpenProps = useRender.ComponentProps<"button">;
 export function ActivityInboxItemOpen({ className, render, ...props }: ActivityInboxItemOpenProps) {
   const theme = useThemeFamily();
@@ -75,39 +51,22 @@ export function ActivityInboxItemOpen({ className, render, ...props }: ActivityI
   });
 }
 
-export type ActivityInboxItemSelectionProps = Omit<
-  useRender.ComponentProps<"button">,
-  "onChange"
-> & {
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
-};
+export type ActivityInboxItemSelectionProps = useRender.ComponentProps<"div">;
 export function ActivityInboxItemSelection({
-  checked,
   className,
-  onCheckedChange,
-  onClick,
   render,
   ...props
 }: ActivityInboxItemSelectionProps) {
   const theme = useThemeFamily();
   const { itemSelection } = activityInbox({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    "aria-checked": checked,
+  const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "activity-inbox-item-selection",
     className: itemSelection({ className }),
-    onClick: (event: MouseEvent<HTMLButtonElement>) => {
-      event.stopPropagation();
-      onCheckedChange(!checked);
-      onClick?.(event);
-    },
-    role: "checkbox",
-    type: "button",
   };
   return useRender({
-    defaultTagName: "button",
+    defaultTagName: "div",
     render,
-    props: mergeProps<"button">(defaultProps, props),
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 
@@ -179,6 +138,25 @@ export function ActivityInboxItemTitle({
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "activity-inbox-item-title",
     className: itemTitle({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type ActivityInboxItemTrailingProps = useRender.ComponentProps<"div">;
+export function ActivityInboxItemTrailing({
+  className,
+  render,
+  ...props
+}: ActivityInboxItemTrailingProps) {
+  const theme = useThemeFamily();
+  const { itemTrailing } = activityInbox({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "activity-inbox-item-trailing",
+    className: itemTrailing({ className }),
   };
   return useRender({
     defaultTagName: "div",
@@ -275,45 +253,5 @@ export function ActivityInboxItemActions({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type ActivityInboxItemActionProps = useRender.ComponentProps<"button">;
-export function ActivityInboxItemAction({
-  className,
-  render,
-  ...props
-}: ActivityInboxItemActionProps) {
-  const theme = useThemeFamily();
-  const { itemAction } = activityInbox({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    "data-slot": "activity-inbox-item-action",
-    className: itemAction({ className }),
-    type: "button",
-  };
-  return useRender({
-    defaultTagName: "button",
-    render,
-    props: mergeProps<"button">(defaultProps, props),
-  });
-}
-
-export type ActivityInboxItemSavedActionProps = ActivityInboxItemActionProps;
-export function ActivityInboxItemSavedAction({
-  className,
-  render,
-  ...props
-}: ActivityInboxItemSavedActionProps) {
-  const theme = useThemeFamily();
-  const { itemSavedAction } = activityInbox({ theme });
-  const defaultProps: SlotElementProps<"button"> = {
-    "data-slot": "activity-inbox-item-saved-action",
-    className: itemSavedAction({ className }),
-    type: "button",
-  };
-  return useRender({
-    defaultTagName: "button",
-    render,
-    props: mergeProps<"button">(defaultProps, props),
   });
 }
