@@ -53,19 +53,20 @@ export const codeBlock = tv({
         root: [
           "[--code-block-header-height:calc(var(--spacing)*8)]",
           "overflow-clip rounded-none px-3 pb-0",
-          "bg-layer-inset ring-[0.5px] ring-ink-20 dark:ring-ink-16",
-          "dark:bg-fill-muted",
+          "bg-layer-inset ring-[0.5px] ring-ink-20 dark:ring-ink-10",
         ],
         header: [
           "px-2.5",
           "border-x border-b border-dashed border-ink-10 dark:border-ink-16",
           "bg-layer-panel text-sm/5 font-medium text-foreground-muted",
+          "dark:bg-transparent",
         ],
         corner: ["hidden"],
         title: ["text-xs"],
         body: [
           "py-3 pr-6 pl-2.5 leading-relaxed",
           "bg-layer-panel text-foreground",
+          "dark:bg-[oklch(0.15_0.004_106.42)]",
           "border-x border-dashed border-ink-10 dark:border-ink-16",
           "[&_pre_span]:text-[var(--shiki-light,currentColor)]",
           "dark:[&_pre_span]:text-[var(--shiki-dark,currentColor)]",

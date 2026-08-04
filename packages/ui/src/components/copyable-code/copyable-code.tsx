@@ -48,12 +48,12 @@ const copyableCode = tv({
       elegant: {
         code: [
           "bg-layer-inset text-[oklch(0.45_0.04_74)]",
-          "ring-[0.5px] ring-ink-20 dark:ring-ink-16",
-          "dark:bg-layer-panel dark:text-[oklch(0.82_0.06_90)]",
+          "ring-[0.5px] ring-ink-20 dark:ring-ink-10",
+          "dark:text-[oklch(0.82_0.06_90)]",
         ],
         codeInner: [
           "border-x border-dashed border-ink-10 dark:border-ink-16 bg-layer-panel px-1",
-          "dark:bg-layer-popover",
+          "dark:bg-[oklch(0.15_0.004_106.42)]",
         ],
         action: [
           "[&_[data-slot=button]]:text-foreground-muted",
