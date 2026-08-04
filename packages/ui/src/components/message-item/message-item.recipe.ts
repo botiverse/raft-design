@@ -65,7 +65,7 @@ export const messageItem = tv({
       },
       elegant: {
         root: [
-          "border border-transparent max-md:gap-2 px-7 py-3.5 max-md:px-4 max-md:py-2",
+          "border border-transparent max-md:gap-2 px-7 pt-3.5 pb-3 max-md:px-4 max-md:pt-2 max-md:pb-1.5",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-ink-2 data-[popup-open]:bg-ink-2 has-[[data-popup-open]]:bg-ink-2",
           "has-[[data-slot=message-item-search-match]]:border-transparent",

@@ -76,6 +76,7 @@ import { MessageReactionGlyphComposition } from "#/modules/message-item/composit
 import { PlaygroundMessageAvatar } from "./playground-message-avatar.tsx";
 import { PlaygroundMessageBody } from "./playground-message-body.tsx";
 import { playgroundGutterClock } from "./playground-message-time.ts";
+import { groupPlaygroundSentAttachments } from "./group-playground-sent-attachments.ts";
 import { usePlaygroundSingleComposerMentionTarget } from "../composer/use-playground-single-composer-mention-target.ts";
 import {
   getPlaygroundActor,
@@ -157,83 +158,99 @@ function PlaygroundSentMessageAttachments({
 }: {
   attachments: readonly PlaygroundMessageAttachment[];
 }) {
-  return attachments.map((attachment) => {
-    const previewUrl = attachment.state.kind === "ready" ? attachment.state.previewUrl : undefined;
-    const downloadUrl =
-      attachment.state.kind === "failed" ? attachment.state.downloadUrl : previewUrl;
-    const openPreview = previewUrl
-      ? () => window.open(previewUrl, "_blank", "noopener,noreferrer")
-      : undefined;
-    const downloadAttachment = downloadUrl
-      ? () => downloadMessageAttachment(downloadUrl, attachment.name)
-      : undefined;
-    if (attachment.state.kind === "processing") {
-      return (
-        <MessagePendingAttachmentComposition
-          key={`${attachment.name}:${attachment.mediaType}`}
-          name={attachment.name}
-          label={attachment.state.label}
-        />
-      );
-    }
+  return groupPlaygroundSentAttachments(attachments).map((run) =>
+    run.kind === "card-group" ? (
+      <MessageAttachmentGroup key={`group:${attachmentKey(run.attachments[0])}`}>
+        {run.attachments.map(renderPlaygroundSentAttachment)}
+      </MessageAttachmentGroup>
+    ) : (
+      renderPlaygroundSentAttachment(run.attachment)
+    ),
+  );
+}
 
-    if (attachment.state.kind === "failed" && attachment.mediaType.startsWith("video/")) {
-      return (
-        <MessageVideoPreviewFailedComposition
-          key={`${attachment.name}:${attachment.mediaType}`}
-          name={attachment.name}
-          reason={attachment.state.reason}
-          onDownload={downloadAttachment ?? null}
-        />
-      );
-    }
+function attachmentKey(attachment: PlaygroundMessageAttachment) {
+  return `${attachment.name}:${attachment.mediaType}`;
+}
 
-    if (previewUrl && attachment.mediaType.startsWith("image/")) {
-      return (
-        <MessageImageGallerySingleComposition
-          key={`${attachment.name}:${attachment.mediaType}`}
-          alt={attachment.name}
-          name={attachment.name}
-          onDownload={downloadAttachment}
-          onPreview={openPreview}
-          src={previewUrl}
-        />
-      );
-    }
+function renderPlaygroundSentAttachment(attachment: PlaygroundMessageAttachment) {
+  const previewUrl = attachment.state.kind === "ready" ? attachment.state.previewUrl : undefined;
+  const downloadUrl =
+    attachment.state.kind === "failed" ? attachment.state.downloadUrl : previewUrl;
+  const openPreview = previewUrl
+    ? () => window.open(previewUrl, "_blank", "noopener,noreferrer")
+    : undefined;
+  const downloadAttachment = downloadUrl
+    ? () => downloadMessageAttachment(downloadUrl, attachment.name)
+    : undefined;
+  const key = attachmentKey(attachment);
 
-    if (previewUrl && attachment.mediaType.startsWith("video/")) {
-      return (
-        <MessageVideoPreviewComposition
-          key={`${attachment.name}:${attachment.mediaType}`}
-          name={attachment.name}
-          onDownload={downloadAttachment}
-          src={previewUrl}
-        />
-      );
-    }
-
-    if (previewUrl && attachment.mediaType.startsWith("audio/")) {
-      return (
-        <MessageAudioAttachmentComposition
-          key={`${attachment.name}:${attachment.mediaType}`}
-          meta={attachment.mediaType}
-          name={attachment.name}
-          onDownload={downloadAttachment}
-          onPreview={openPreview}
-        />
-      );
-    }
-
+  if (attachment.state.kind === "processing") {
     return (
-      <MessageGenericAttachmentComposition
-        key={`${attachment.name}:${attachment.mediaType}`}
+      <MessagePendingAttachmentComposition
+        key={key}
         name={attachment.name}
-        meta={attachment.state.kind === "ready" ? attachment.state.size : attachment.state.reason}
-        onPreview={openPreview}
+        label={attachment.state.label}
+      />
+    );
+  }
+
+  if (attachment.state.kind === "failed" && attachment.mediaType.startsWith("video/")) {
+    return (
+      <MessageVideoPreviewFailedComposition
+        key={key}
+        name={attachment.name}
+        reason={attachment.state.reason}
         onDownload={downloadAttachment ?? null}
       />
     );
-  });
+  }
+
+  if (previewUrl && attachment.mediaType.startsWith("image/")) {
+    return (
+      <MessageImageGallerySingleComposition
+        key={key}
+        alt={attachment.name}
+        name={attachment.name}
+        onDownload={downloadAttachment}
+        onPreview={openPreview}
+        src={previewUrl}
+      />
+    );
+  }
+
+  if (previewUrl && attachment.mediaType.startsWith("video/")) {
+    return (
+      <MessageVideoPreviewComposition
+        key={key}
+        name={attachment.name}
+        onDownload={downloadAttachment}
+        src={previewUrl}
+      />
+    );
+  }
+
+  if (previewUrl && attachment.mediaType.startsWith("audio/")) {
+    return (
+      <MessageAudioAttachmentComposition
+        key={key}
+        meta={attachment.mediaType}
+        name={attachment.name}
+        onDownload={downloadAttachment}
+        onPreview={openPreview}
+      />
+    );
+  }
+
+  return (
+    <MessageGenericAttachmentComposition
+      key={key}
+      name={attachment.name}
+      meta={attachment.state.kind === "ready" ? attachment.state.size : attachment.state.reason}
+      onPreview={openPreview}
+      onDownload={downloadAttachment ?? null}
+    />
+  );
 }
 
 export type PlaygroundMessageRowProps = {
