@@ -141,6 +141,19 @@ const avatar = tv({
       size: ["xs", "2xs", "3xs"],
       class: { root: "border" },
     },
+    // Elegant mirrors brutal's border scale with a transparent frame so both
+    // themes render the same visual image diameter per size step; clip the
+    // root fill to the padding box so no ring shows through the frame.
+    {
+      theme: "elegant",
+      size: ["xl", "lg", "md", "sm"],
+      class: { root: "border-2 border-transparent bg-clip-padding" },
+    },
+    {
+      theme: "elegant",
+      size: ["xs", "2xs", "3xs"],
+      class: { root: "border border-transparent bg-clip-padding" },
+    },
     // Identity-keyed placeholder fills (source AvatarSlot parity): cyan agent /
     // lavender human. Only visible when fallback content shows; real images
     // cover the frame edge-to-edge.
