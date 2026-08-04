@@ -39,7 +39,7 @@ const emptyState = tv({
           "dark:bg-layer-inset",
           "dark:shadow-[inset_0_1px_1.5px_oklch(0_0_0_/_0.3),0_0_0_1px_oklch(0_0_0_/_0.4),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
         ],
-        title: "text-sm font-medium text-foreground",
+        title: "text-sm font-medium text-foreground dark:text-foreground-muted",
         description: "text-foreground-muted",
       },
     },

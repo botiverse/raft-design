@@ -148,6 +148,44 @@ export function SearchThreadMessageResult(props: SearchThreadMessageResultProps)
   return <SearchMessageResultBase {...props} nested />;
 }
 
+export type SearchMessageResultHeaderProps = useRender.ComponentProps<"div">;
+export function SearchMessageResultHeader({
+  className,
+  render,
+  ...props
+}: SearchMessageResultHeaderProps) {
+  const theme = useThemeFamily();
+  const { messageHeader } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-message-result-header",
+    className: messageHeader({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type SearchMessageResultBodyProps = useRender.ComponentProps<"div">;
+export function SearchMessageResultBody({
+  className,
+  render,
+  ...props
+}: SearchMessageResultBodyProps) {
+  const theme = useThemeFamily();
+  const { messageBody } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-message-result-body",
+    className: messageBody({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type SearchThreadResultProps = useRender.ComponentProps<"div"> & { selected?: boolean };
 export function SearchThreadResult({
   selected = false,
@@ -199,21 +237,6 @@ export function SearchThreadResultMessages({
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-thread-result-messages",
     className: threadMessages({ className }),
-  };
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
-export type SearchResultsEmptyProps = useRender.ComponentProps<"div">;
-export function SearchResultsEmpty({ className, render, ...props }: SearchResultsEmptyProps) {
-  const theme = useThemeFamily();
-  const { empty } = searchResults({ theme });
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "search-results-empty",
-    className: empty({ className }),
   };
   return useRender({
     defaultTagName: "div",

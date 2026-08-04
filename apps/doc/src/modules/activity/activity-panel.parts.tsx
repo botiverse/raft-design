@@ -1,6 +1,7 @@
 import { Dialog as BaseDialog } from "@base-ui/react/dialog";
 import type { ComponentProps, ComponentRef, Ref } from "react";
 import {
+  ConversationPanelContent,
   DropdownMenuContent,
   Panel,
   PanelHeaderRoot,
@@ -25,7 +26,7 @@ const sourceButtonMotion = [
 
 export const activityShell = tv({
   slots: {
-    root: ["group/activity-inbox flex min-h-0 flex-1 flex-col"],
+    root: ["group/activity-inbox flex h-full min-h-0 flex-1 flex-col"],
     header: ["flex shrink-0 items-center gap-3"],
     headerBack: [
       "inline-flex size-8 shrink-0 items-center justify-center md:hidden [&_svg]:size-3.5",
@@ -56,7 +57,7 @@ export const activityShell = tv({
     ],
     navigationLabel: ["min-w-0 flex-1 truncate"],
     navigationCount: ["shrink-0"],
-    main: ["flex min-w-0 flex-1 flex-col"],
+    main: [],
     controls: ["flex shrink-0 flex-nowrap items-center gap-2 px-3 py-2.5"],
     mobileNavigation: [
       "shrink-0",
@@ -183,97 +184,119 @@ export const activityShell = tv({
           "max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",
         ],
         headerBack: [
-          "rounded-md border border-line-field bg-layer-field text-foreground-muted",
-          "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "rounded-md border border-line-field bg-layer-panel text-foreground-muted",
+          "transition-colors hover:bg-fill-muted hover:text-foreground-strong",
+          "dark:border-transparent dark:bg-layer-card",
+          "dark:shadow-raft-xs",
+          "dark:hover:bg-fill-muted",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
-        headerIcon: ["rounded-md bg-layer-muted text-foreground-icon"],
+        headerIcon: ["rounded-md bg-fill-muted text-foreground-icon", "dark:bg-layer-card"],
         headerTitle: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight",
           "text-foreground-muted",
         ],
         headerSubtitle: ["text-foreground-placeholder"],
-        sidebar: ["w-56"],
+        sidebar: ["w-56", "dark:bg-layer-page"],
         sidebarHeadingLabel: ["font-medium tracking-wider text-foreground-placeholder"],
         sidebarShowAllLink: ["font-medium text-foreground-muted hover:text-foreground-strong"],
         navigationItem: [
           "rounded-md border-transparent text-[13px] font-medium text-foreground-muted",
-          "hover:border-transparent hover:bg-layer-strong/80 hover:text-foreground-strong",
+          "hover:border-transparent hover:bg-fill-strong/80 hover:text-foreground-strong",
+          "dark:hover:bg-ink-6",
           "aria-[current=page]:border-transparent aria-[current=page]:bg-layer-panel aria-[current=page]:text-foreground",
-          "aria-[current=page]:shadow-sm aria-[current=page]:ring-1 aria-[current=page]:ring-line-subtle/45",
+          "aria-[current=page]:shadow-sm aria-[current=page]:ring-1 aria-[current=page]:ring-line-muted/45",
+          "dark:aria-[current=page]:bg-layer-card dark:aria-[current=page]:ring-transparent",
           "aria-pressed:border-transparent aria-pressed:bg-layer-panel aria-pressed:text-foreground",
-          "aria-pressed:shadow-sm aria-pressed:ring-1 aria-pressed:ring-line-subtle/45",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "aria-pressed:shadow-sm aria-pressed:ring-1 aria-pressed:ring-line-muted/45",
+          "dark:aria-pressed:bg-layer-card dark:aria-pressed:ring-transparent",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         navigationCount: ["text-xs tabular-nums text-foreground-icon"],
-        main: [
-          "relative overflow-clip bg-layer-panel",
-          "md:ml-2 md:rounded-tl-[10px] md:shadow-xl",
+        controls: [
+          "border-b border-line-hairline bg-layer-panel",
+          "dark:border-line-hairline dark:bg-transparent",
+          "px-4 max-md:pl-5 max-md:pr-3.5",
         ],
-        controls: ["border-b border-line-subtle bg-layer-panel", "px-4 max-md:pl-5 max-md:pr-3.5"],
         mobileNavigationButton: [
-          "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
-          "shadow-none transition-colors hover:bg-layer-hover",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "rounded-md border border-line-field bg-layer-panel font-medium text-foreground-strong",
+          "shadow-none transition-colors hover:bg-fill-muted",
+          "dark:border-transparent dark:bg-layer-card",
+          "dark:shadow-raft-xs",
+          "dark:hover:bg-fill-muted",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
         switcherBackdrop: ["bg-layer-backdrop backdrop-blur-[2px]"],
         switcherContent: [
-          "rounded-xl border-[0.5px] border-line-subtle bg-layer-popover shadow-xl",
+          "rounded-xl border-[0.5px] border-line-hairline bg-layer-popover shadow-xl",
+          "dark:border-transparent dark:shadow-raft-xl",
         ],
-        switcherHeader: ["border-b border-line-subtle"],
+        switcherHeader: ["border-b border-line-hairline"],
         switcherTitle: ["font-heading text-base font-medium text-foreground-strong"],
         switcherClose: [
           "rounded-md text-foreground-muted",
-          "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "transition-colors hover:bg-fill-muted hover:text-foreground-strong",
+          "dark:hover:bg-ink-6",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         switcherBody: [],
         switcherItem: [
           "rounded-lg font-medium text-foreground",
-          "hover:bg-layer-hover",
-          "aria-[current=page]:bg-layer-active",
-          "aria-pressed:bg-layer-active",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "hover:bg-fill-muted",
+          "dark:hover:bg-ink-6",
+          "aria-[current=page]:bg-fill-muted",
+          "aria-pressed:bg-fill-muted",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         switcherItemCount: ["tabular-nums text-foreground-placeholder"],
-        switcherSeparator: ["border-t border-line-subtle"],
+        switcherSeparator: ["border-t border-line-hairline"],
         searchIcon: ["text-foreground-placeholder"],
         searchInput: [
-          "rounded-md border border-line-field bg-layer-field text-foreground-strong",
+          "rounded-md border border-line-field bg-layer-panel text-foreground-strong",
           "placeholder:text-foreground-placeholder/70",
           "shadow-none transition duration-200 ease-out",
-          "hover:border-line-field-hover hover:shadow-field-hover",
-          "focus:ring-1 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-background",
+          "hover:border-line-field-hover",
+          "dark:border-transparent dark:bg-layer-inset",
+          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.3),inset_0_0_0_1px_oklch(0_0_0_/_0.35),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
+          "dark:hover:border-ink-8 dark:hover:shadow-none dark:focus:bg-layer-card",
+          "focus:ring-1 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-layer-page dark:focus:ring-2 dark:focus:ring-primary-400/60 dark:focus:ring-offset-0",
         ],
         searchClear: [
           "text-foreground-muted transition-colors hover:text-foreground-strong",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
-        selectionToolbar: ["px-4 max-md:pl-5 max-md:pr-3.5"],
+        selectionToolbar: [
+          "border-b border-line-hairline px-4 max-md:pl-5 max-md:pr-3.5",
+          "dark:border-line-hairline",
+        ],
         selectionCount: ["font-medium text-foreground-strong"],
         toolbarButton: [
-          "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
-          "shadow-none transition-colors hover:bg-layer-hover",
+          "rounded-md border border-line-field bg-layer-panel font-medium text-foreground-strong",
+          "shadow-none transition-colors hover:bg-fill-muted",
           "disabled:pointer-events-none disabled:opacity-50",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:border-transparent dark:bg-layer-card",
+          "dark:shadow-raft-xs",
+          "dark:hover:bg-fill-muted",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
         toolbarPrimaryAction: [
-          "rounded-md border border-transparent bg-foreground font-medium text-background",
+          "rounded-md border border-transparent bg-foreground font-medium text-foreground-inverse",
           "transition-colors hover:bg-foreground/90",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:shadow-raft-sm",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
         toolbarLink: [
           "rounded-sm font-medium text-foreground-muted underline decoration-1 underline-offset-2",
           "transition-colors hover:text-foreground-strong",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         sortTrigger: [
           "rounded-sm font-medium text-foreground-muted",
           "transition-colors hover:text-foreground-strong",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         sortContent: ["p-1"],
-        viewport: ["bg-layer-panel", "px-4 max-md:pl-5 max-md:pr-3.5"],
+        viewport: ["bg-layer-panel dark:bg-transparent", "px-4 max-md:pl-5 max-md:pr-3.5"],
         loadingMore: ["font-medium text-foreground-placeholder"],
       },
     },
@@ -478,10 +501,20 @@ export function ActivityPanelNavigationCount({ className, ...props }: ComponentP
   );
 }
 
-export function ActivityPanelMain({ className, ...props }: ComponentProps<"section">) {
+export function ActivityPanelMain({
+  className,
+  ...props
+}: ComponentProps<typeof ConversationPanelContent>) {
   const theme = useThemeFamily();
   const { main } = activityShell({ theme });
-  return <section data-slot="activity-inbox-main" className={main({ className })} {...props} />;
+  return (
+    <ConversationPanelContent
+      render={<section />}
+      data-slot="activity-inbox-main"
+      className={main({ className })}
+      {...props}
+    />
+  );
 }
 
 export function ActivityPanelControls({ className, ...props }: ComponentProps<"div">) {

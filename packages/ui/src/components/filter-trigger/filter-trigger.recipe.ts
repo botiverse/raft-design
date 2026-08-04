@@ -13,7 +13,11 @@ export const filterTrigger = tv({
         "data-[active]:border-black data-[active]:bg-primary data-[active]:text-black data-[active]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
         "data-[active]:hover:bg-primary data-[active]:hover:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)] data-[active]:active:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
       ],
-      elegant: [],
+      elegant: [
+        "font-medium text-foreground-muted",
+        "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:opacity-100",
+        "disabled:[&_svg]:text-foreground-disabled",
+      ],
     },
   },
 });

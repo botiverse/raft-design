@@ -1,12 +1,30 @@
 import type { KeyboardEvent, ReactNode, Ref } from "react";
 import { Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
-import { Kbd, Panel, PanelHeaderRoot, Skeleton, useThemeFamily } from "raft-ui";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  Kbd,
+  Panel,
+  PanelHeaderRoot,
+  Skeleton,
+  useThemeFamily,
+} from "raft-ui";
 import { tv } from "tailwind-variants/lite";
 import {
   SearchEntityResult,
   SearchEntityResultOpen,
   SearchMessageResult,
-  SearchResultsEmpty as SearchResultsEmptyFrame,
+  SearchMessageResultBody,
+  SearchMessageResultHeader,
   SearchResultsError as SearchResultsErrorFrame,
   SearchThreadMessageResult,
   SearchThreadResult,
@@ -29,16 +47,16 @@ export type BrutalSearchSort = "relevance" | "recent";
 
 export const searchShell = tv({
   slots: {
-    frame: ["flex min-h-0 flex-1 flex-col"],
+    frame: ["flex h-full min-h-0 flex-1 flex-col"],
     header: ["flex items-center gap-3"],
     headerBack: ["inline-flex size-7 shrink-0 items-center justify-center leading-none md:hidden"],
     headerIconChip: ["flex size-icon-header shrink-0 items-center justify-center"],
-    inputRow: ["flex min-w-0 flex-1 items-center gap-2 px-3 py-2"],
-    input: ["min-w-0 flex-1 bg-transparent text-sm outline-none"],
+    searchInputGroup: ["flex-1"],
+    input: [],
     inputClear: [],
     inputKbd: ["hidden text-[10px] sm:inline"],
     filtersRow: ["shrink-0 px-4 py-3"],
-    filterTrigger: ["h-8 w-auto px-3 py-0 text-xs font-bold"],
+    filterTrigger: ["h-8 w-auto px-3 py-0 text-xs"],
     filterContent: ["min-w-[220px]"],
     channelActiveChip: ["inline-flex items-center gap-2 px-3 py-1.5 text-xs"],
     channelOptionIcon: [],
@@ -71,13 +89,9 @@ export const searchShell = tv({
     threadTimestamp: ["normal-case"],
     threadTitle: ["text-sm"],
     skeletonCard: ["p-3"],
-    emptyIcon: ["mb-3"],
-    emptyTitle: ["text-sm"],
-    emptyDescription: ["mt-1 text-xs"],
     errorTitle: ["mb-2 text-sm"],
     errorDescription: ["mb-3 text-xs"],
     retryButton: ["px-3 py-1.5 text-xs"],
-    identityAvatar: ["flex shrink-0 items-center justify-center overflow-hidden"],
   },
   variants: {
     theme: {
@@ -90,11 +104,15 @@ export const searchShell = tv({
         ],
         headerBack: ["btn-brutal-sm bg-white font-bold text-black"],
         headerIconChip: ["border-2 border-black bg-soft-signal"],
-        inputRow: ["border-2 border-black bg-white shadow-sm focus-within:shadow-md"],
+        searchInputGroup: [
+          "shadow-sm",
+          "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][data-invalid]]:shadow-md",
+        ],
         input: ["font-display font-medium placeholder:text-black/40"],
         inputClear: ["btn-brutal-sm bg-white p-1"],
         inputKbd: ["font-bold uppercase text-black/50"],
         filtersRow: ["border-b-2 border-black bg-white"],
+        filterTrigger: ["font-bold"],
         channelActiveChip: ["border-2 border-black bg-soft-signal font-bold text-black shadow-sm"],
         channelOptionIcon: ["text-black/50"],
         clearAllButton: ["border border-black bg-white font-bold text-black/60 hover:text-black"],
@@ -124,113 +142,112 @@ export const searchShell = tv({
         threadTimestamp: ["font-mono text-black/50"],
         threadTitle: ["font-bold text-black"],
         skeletonCard: ["border-2 border-black/30 bg-white"],
-        emptyIcon: ["text-black/20"],
-        emptyTitle: ["font-bold text-black/50"],
-        emptyDescription: ["text-black/40"],
         errorTitle: ["font-bold text-black"],
         errorDescription: ["text-black/60"],
         retryButton: ["btn-brutal-sm bg-white"],
-        identityAvatar: ["border-black"],
       },
       elegant: {
-        frame: ["bg-layer-page"],
+        frame: ["bg-layer-page dark:bg-layer-page"],
         header: [
           "min-h-[var(--shell-header-height,56px)]",
-          "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-page",
+          "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-page dark:bg-layer-page",
           "max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",
         ],
         headerBack: [
-          "rounded-md border border-line-field bg-layer-field text-foreground-muted",
-          "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+          "rounded-md border border-line-field bg-layer-panel text-foreground-muted",
+          "transition-colors hover:bg-fill-muted hover:text-foreground-strong",
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:border-transparent dark:bg-layer-card dark:hover:bg-fill-muted",
+          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
-        headerIconChip: ["rounded-md bg-layer-muted text-foreground-icon"],
-        inputRow: [
-          "rounded-md border border-line-field bg-layer-field shadow-none",
-          "transition duration-200 ease-out",
-          "hover:border-line-field-hover hover:shadow-field-hover",
-          "focus-within:ring-1 focus-within:ring-primary-400 focus-within:ring-offset-2 focus-within:ring-offset-background",
-        ],
+        headerIconChip: ["rounded-md bg-fill-muted text-foreground-icon"],
+        searchInputGroup: ["dark:bg-layer-card"],
         input: ["font-sans text-foreground-strong placeholder:text-foreground-placeholder/70"],
         inputClear: [
           "rounded-sm p-1 text-foreground-muted",
-          "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+          "transition-colors hover:bg-fill-muted hover:text-foreground-strong",
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:hover:bg-fill-muted dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         inputKbd: ["text-foreground-muted"],
         filtersRow: [
-          "border-b border-line-subtle bg-layer-panel",
+          "border-b border-line-hairline bg-layer-panel",
           "px-7 max-md:pl-5 max-md:pr-3.5",
+          "dark:border-ink-10 dark:bg-transparent",
         ],
         channelActiveChip: [
-          "rounded-md border border-line-subtle bg-layer-muted font-medium text-foreground-strong",
+          "rounded-md border border-line-hairline bg-fill-muted font-medium text-foreground-strong",
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:border-transparent dark:bg-fill-muted dark:hover:bg-fill-strong",
+          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         channelOptionIcon: ["text-foreground-icon"],
         clearAllButton: [
           "rounded-md border-0 font-medium text-foreground-muted",
-          "transition-colors hover:bg-layer-hover hover:text-foreground-strong",
+          "transition-colors hover:bg-fill-muted hover:text-foreground-strong",
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:hover:bg-fill-muted dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
-        resultsViewport: ["bg-layer-panel"],
-        resultsContent: ["bg-layer-panel", "px-7 max-md:pl-5 max-md:pr-3.5"],
+        resultsViewport: ["bg-layer-panel dark:bg-transparent"],
+        resultsContent: ["bg-layer-panel dark:bg-transparent", "px-7 max-md:pl-5 max-md:pr-3.5"],
         loadMoreButton: [
-          "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
-          "shadow-none transition-colors hover:bg-layer-hover",
+          "rounded-md border border-line-field bg-layer-panel font-medium text-foreground-strong",
+          "shadow-none transition-colors hover:bg-fill-muted",
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:border-transparent dark:bg-layer-card dark:shadow-raft-xs dark:hover:bg-fill-muted",
+          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
-        highlightMark: ["bg-soft-signal/70 text-inherit [font:inherit]"],
+        highlightMark: ["bg-soft-signal/70 text-inherit [font:inherit] dark:bg-primary-soft"],
         metaLabel: ["font-medium text-foreground-muted/70"],
         metaThreadChip: ["font-medium text-foreground-muted/70"],
         metaArchivedChip: [
-          "rounded-sm border-[0.5px] border-line-subtle bg-layer-muted font-medium text-foreground-muted",
+          "rounded-sm border-[0.5px] border-line-hairline bg-fill-muted font-medium text-foreground-muted",
+          "dark:border-transparent dark:bg-fill-muted",
         ],
         metaSender: ["font-medium text-foreground-muted"],
         metaTimestamp: ["font-sans tabular-nums text-foreground-muted/70"],
         resultBody: ["leading-5.25 tracking-[-0.01em] text-foreground-muted"],
-        entityIconChannel: ["rounded-md bg-layer-muted text-foreground-icon"],
-        entityIconComputer: ["rounded-md bg-layer-muted text-foreground-icon"],
-        entityIconArchived: ["rounded-md bg-layer-muted text-foreground-disabled"],
-        activityDot: ["border border-layer-panel bg-brutal-lime"],
+        entityIconChannel: ["rounded-md bg-fill-muted text-foreground-icon"],
+        entityIconComputer: ["rounded-md bg-fill-muted text-foreground-icon"],
+        entityIconArchived: ["rounded-md bg-fill-muted text-foreground-disabled"],
+        activityDot: ["border border-layer-panel bg-brutal-lime dark:bg-success"],
         entityTitle: ["font-medium text-foreground-strong"],
         entityTitleArchived: ["font-medium text-foreground-disabled"],
         typeBadge: [
-          "rounded-sm border-[0.5px] border-line-subtle bg-layer-panel font-medium text-foreground-muted",
+          "rounded-sm border-[0.5px] border-line-hairline bg-layer-panel font-medium text-foreground-muted",
+          "dark:border-transparent dark:bg-fill-muted",
         ],
         archivedBadge: [
-          "rounded-sm border-[0.5px] border-line-subtle bg-layer-muted font-medium text-foreground-muted",
+          "rounded-sm border-[0.5px] border-line-hairline bg-fill-muted font-medium text-foreground-muted",
+          "dark:border-transparent dark:bg-fill-muted",
         ],
         archivedBadgeMuted: [
-          "rounded-sm border-[0.5px] border-line-subtle bg-layer-muted font-medium text-foreground-disabled",
+          "rounded-sm border-[0.5px] border-line-hairline bg-fill-muted font-medium text-foreground-disabled",
+          "dark:border-transparent dark:bg-fill-muted",
         ],
         entitySubtitle: ["text-foreground-muted/70"],
         entitySubtitleArchived: ["text-foreground-disabled"],
         threadHeaderMeta: ["font-medium text-foreground-muted"],
-        threadChip: ["rounded-sm border-[0.5px] border-line-subtle bg-layer-panel"],
+        threadChip: [
+          "rounded-sm border-[0.5px] border-line-hairline bg-layer-panel",
+          "dark:border-transparent dark:bg-fill-muted",
+        ],
         threadTimestamp: ["font-sans tabular-nums text-foreground-muted/70"],
         threadTitle: ["font-medium text-foreground-strong"],
-        skeletonCard: ["rounded-lg border-[0.5px] border-line-subtle bg-layer-panel shadow-xs"],
-        emptyIcon: ["text-foreground-disabled"],
-        emptyTitle: ["font-medium text-foreground-strong"],
-        emptyDescription: ["text-foreground-muted"],
+        skeletonCard: [
+          "rounded-lg border-[0.5px] border-line-hairline bg-[oklch(0.985_0.003_84.559)] shadow-xs",
+          "dark:border-transparent dark:bg-layer-card dark:shadow-raft-xs",
+        ],
         errorTitle: ["font-medium text-foreground-strong"],
         errorDescription: ["text-foreground-muted"],
         retryButton: [
-          "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
-          "shadow-none transition-colors hover:bg-layer-hover",
+          "rounded-md border border-line-field bg-layer-panel font-medium text-foreground-strong",
+          "shadow-none transition-colors hover:bg-fill-muted",
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:border-transparent dark:bg-layer-card dark:shadow-raft-xs dark:hover:bg-fill-muted",
+          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
-        identityAvatar: ["rounded-md border-line-subtle"],
       },
-    },
-    avatarContext: {
-      "surface-list": { identityAvatar: "size-8 border-2" },
-      "compact-list": { identityAvatar: "size-5 border" },
-      "preview-mini": { identityAvatar: "size-[14px] border" },
-    },
-    avatarType: {
-      agent: { identityAvatar: "bg-brutal-cyan" },
-      human: { identityAvatar: "bg-brutal-lavender text-black" },
     },
   },
 });
@@ -325,9 +342,8 @@ export function BrutalSearchHeader({
   onClear: () => void;
 }) {
   const theme = useThemeFamily();
-  const { header, headerBack, headerIconChip, inputRow, input, inputClear, inputKbd } = searchShell(
-    { theme },
-  );
+  const { header, headerBack, headerIconChip, searchInputGroup, input, inputClear, inputKbd } =
+    searchShell({ theme });
   return (
     <PanelHeaderRoot className={header()}>
       <button
@@ -356,8 +372,8 @@ export function BrutalSearchHeader({
           <div className={headerIconChip()}>
             <Search aria-hidden size={18} />
           </div>
-          <div className={inputRow()}>
-            <input
+          <InputGroup className={searchInputGroup()}>
+            <InputGroupInput
               ref={inputRef}
               value={query}
               onChange={(event) => onQueryChange(event.currentTarget.value)}
@@ -367,18 +383,20 @@ export function BrutalSearchHeader({
               aria-label="Search channels, DMs, people, agents, and messages"
               className={input()}
             />
-            {query ? (
-              <button
-                type="button"
-                onClick={onClear}
-                className={inputClear()}
-                aria-label="Clear search"
-              >
-                <X aria-hidden size={12} />
-              </button>
-            ) : null}
-            <Kbd className={inputKbd()}>Esc</Kbd>
-          </div>
+            <InputGroupAddon align="inline-end">
+              {query ? (
+                <button
+                  type="button"
+                  onClick={onClear}
+                  className={inputClear()}
+                  aria-label="Clear search"
+                >
+                  <X aria-hidden size={12} />
+                </button>
+              ) : null}
+              <Kbd className={inputKbd()}>Esc</Kbd>
+            </InputGroupAddon>
+          </InputGroup>
         </div>
       </div>
     </PanelHeaderRoot>
@@ -519,7 +537,7 @@ export function MessageResult({
 
   return (
     <Result ref={buttonRef} onClick={onOpen} selected={selected}>
-      <div className="mb-1 flex flex-wrap items-center gap-2 text-xs">
+      <SearchMessageResultHeader>
         <span className={shell.metaLabel()}>
           {channel?.kind === "dm" ? "@" : "#"}
           {channel?.name ?? "unknown"}
@@ -539,10 +557,10 @@ export function MessageResult({
           <span>{sender?.label ?? "Unknown"}</span>
         </span>
         <span className={shell.metaTimestamp()}>{formatTimestamp(message.createdAt)}</span>
-      </div>
-      <div className={shell.resultBody()}>
+      </SearchMessageResultHeader>
+      <SearchMessageResultBody className={shell.resultBody()}>
         <SearchHighlight text={message.content} query={query} />
-      </div>
+      </SearchMessageResultBody>
     </Result>
   );
 }
@@ -635,27 +653,29 @@ export function SearchSkeleton() {
 }
 
 export function SearchEmpty({ query, filtered = false }: { query?: string; filtered?: boolean }) {
-  const theme = useThemeFamily();
-  const { emptyIcon, emptyTitle, emptyDescription } = searchShell({ theme });
   const hasIntent = Boolean(query || filtered);
   return (
-    <SearchResultsEmptyFrame className={hasIntent ? "py-20" : "h-full"}>
-      <Search aria-hidden size={48} className={emptyIcon()} />
-      <p className={emptyTitle()}>
-        {hasIntent
-          ? query
-            ? `No results for "${query}"`
-            : "No matching messages"
-          : "Search everything"}
-      </p>
-      <p className={emptyDescription()}>
-        {hasIntent
-          ? query
-            ? "Try different keywords or a shorter phrase."
-            : "Try a different filter set."
-          : "Search channels, DMs, people, agents, and message history."}
-      </p>
-    </SearchResultsEmptyFrame>
+    <EmptyState className={hasIntent ? "py-20" : "h-full"}>
+      <EmptyStateContent>
+        <EmptyStateIcon>
+          <Search aria-hidden />
+        </EmptyStateIcon>
+        <EmptyStateTitle>
+          {hasIntent
+            ? query
+              ? `No results for "${query}"`
+              : "No matching messages"
+            : "Search everything"}
+        </EmptyStateTitle>
+        <EmptyStateDescription>
+          {hasIntent
+            ? query
+              ? "Try different keywords or a shorter phrase."
+              : "Try a different filter set."
+            : "Search channels, DMs, people, agents, and message history."}
+        </EmptyStateDescription>
+      </EmptyStateContent>
+    </EmptyState>
   );
 }
 
@@ -702,6 +722,12 @@ function formatEntitySubtitle(subtitle: SearchEntitySubtitle) {
   return subtitle.text;
 }
 
+const AVATAR_SIZE = {
+  "surface-list": "sm",
+  "compact-list": "xs",
+  "preview-mini": "3xs",
+} as const;
+
 export function SourceIdentityAvatar({
   context,
   type,
@@ -711,22 +737,17 @@ export function SourceIdentityAvatar({
   type: "agent" | "human";
   avatar?: SearchIdentityAvatarFixture;
 }) {
-  const theme = useThemeFamily();
-  const { identityAvatar } = searchShell({ theme, avatarContext: context, avatarType: type });
-
   return (
-    <span className={identityAvatar()}>
-      {avatar?.kind === "image" ? (
-        <img src={avatar.src} alt="" className="h-full w-full object-cover" />
-      ) : type === "agent" ? (
-        <PixelIdentityAvatar avatarKey={avatar?.kind === "pixel" ? avatar.key : "robot"} />
-      ) : (
-        <User
-          aria-hidden
-          size={context === "surface-list" ? 16 : context === "compact-list" ? 12 : 10}
-        />
-      )}
-    </span>
+    <Avatar size={AVATAR_SIZE[context]} type={type}>
+      {avatar?.kind === "image" ? <AvatarImage src={avatar.src} alt="" /> : null}
+      <AvatarFallback>
+        {type === "agent" ? (
+          <PixelIdentityAvatar avatarKey={avatar?.kind === "pixel" ? avatar.key : "robot"} />
+        ) : (
+          <User aria-hidden />
+        )}
+      </AvatarFallback>
+    </Avatar>
   );
 }
 

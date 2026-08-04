@@ -48,7 +48,10 @@ const SNIPPETS = {
       {/* caller-owned trailing content */}
     </SearchEntityResult>
 
-    <SearchMessageResult />
+    <SearchMessageResult>
+      <SearchMessageResultHeader />
+      <SearchMessageResultBody />
+    </SearchMessageResult>
 
     <SearchThreadResult>
       <SearchThreadResultHeader />
@@ -60,7 +63,13 @@ const SNIPPETS = {
 </SearchResultsSection>
 
 {/* consumer-chosen result states */}
-<SearchResultsEmpty />
+<EmptyState>
+  <EmptyStateContent>
+    <EmptyStateIcon />
+    <EmptyStateTitle />
+    <EmptyStateDescription />
+  </EmptyStateContent>
+</EmptyState>
 <SearchResultsError />`,
   composition: searchPanelCompositionSource,
   parts: searchPanelPartsSource,
@@ -134,6 +143,22 @@ const SEARCH_MESSAGE_RESULT_PROPS: readonly PropRow[] = [
   },
 ];
 
+const SEARCH_MESSAGE_RESULT_HEADER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description: "Meta row for caller-owned channel, sender, and timestamp content.",
+  },
+];
+
+const SEARCH_MESSAGE_RESULT_BODY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description: "Content region holding the matched message text.",
+  },
+];
+
 const SEARCH_THREAD_MESSAGE_RESULT_PROPS: readonly PropRow[] = [
   {
     name: "selected",
@@ -177,14 +202,6 @@ const SEARCH_THREAD_RESULT_MESSAGES_PROPS: readonly PropRow[] = [
   },
 ];
 
-const SEARCH_RESULTS_EMPTY_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description: "Centered layout for caller-owned no-intent and no-results content.",
-  },
-];
-
 const SEARCH_RESULTS_ERROR_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -210,6 +227,16 @@ const API_SUBSECTIONS = [
   },
   { id: "api-message", title: "SearchMessageResult", rows: SEARCH_MESSAGE_RESULT_PROPS },
   {
+    id: "api-message-header",
+    title: "SearchMessageResultHeader",
+    rows: SEARCH_MESSAGE_RESULT_HEADER_PROPS,
+  },
+  {
+    id: "api-message-body",
+    title: "SearchMessageResultBody",
+    rows: SEARCH_MESSAGE_RESULT_BODY_PROPS,
+  },
+  {
     id: "api-thread-message",
     title: "SearchThreadMessageResult",
     rows: SEARCH_THREAD_MESSAGE_RESULT_PROPS,
@@ -225,7 +252,6 @@ const API_SUBSECTIONS = [
     title: "SearchThreadResultMessages",
     rows: SEARCH_THREAD_RESULT_MESSAGES_PROPS,
   },
-  { id: "api-empty", title: "SearchResultsEmpty", rows: SEARCH_RESULTS_EMPTY_PROPS },
   { id: "api-error", title: "SearchResultsError", rows: SEARCH_RESULTS_ERROR_PROPS },
 ] as const;
 
