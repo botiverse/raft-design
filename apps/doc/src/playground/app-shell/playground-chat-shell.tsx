@@ -170,18 +170,17 @@ function PlaygroundChatLayout({
           {sidebar}
         </AppShellSidebarSlot>
       </ResizablePanel>
-      <ResizableHandle
-        className={
-          theme === "elegant"
-            ? "before:left-[18px] after:left-[18px] after:w-5 after:-translate-x-1/2"
-            : undefined
-        }
-      />
+      <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
       <ResizablePanel id="playground-main" minSize={360} className="relative z-0 !overflow-visible">
         <AppShellMainSlot className="flex h-full min-w-0 flex-1">
           {main}
           {thread && !isLargeDesktop ? (
-            <div className="absolute inset-0 z-20 flex min-h-0 min-w-0 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-muted before:content-['']">
+            <div
+              className={cn(
+                "absolute inset-0 z-20 flex min-h-0 min-w-0",
+                theme === "brutal" && "border-l-2 border-black",
+              )}
+            >
               {thread}
             </div>
           ) : null}
@@ -192,8 +191,8 @@ function PlaygroundChatLayout({
           <ResizableHandle
             className={
               theme === "brutal"
-                ? "z-50 ml-0 w-0 border-l-2 border-black bg-transparent"
-                : "z-50 bg-line-muted before:left-[11px] after:left-[11px] after:w-5 after:-translate-x-1/2 dark:bg-transparent"
+                ? "z-50 ml-0 mr-0 w-0 border-l-2 border-black bg-transparent"
+                : "z-50 translate-x-[7px] bg-transparent"
             }
           />
           <ResizablePanel
@@ -202,11 +201,7 @@ function PlaygroundChatLayout({
             minSize={360}
             maxSize="60vw"
             groupResizeBehavior="preserve-pixel-size"
-            className={cn(
-              "relative z-20 min-w-0 !overflow-visible",
-              theme === "elegant" &&
-                "dark:shadow-[0_0_0_1px_oklch(0_0_0_/_0.6),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
-            )}
+            className="relative z-20 min-w-0 !overflow-visible"
           >
             {thread}
           </ResizablePanel>

@@ -37,10 +37,14 @@ export const threadPanel = tv({
         footer: "border-t-2 border-black bg-white text-black/50",
       },
       elegant: {
-        root: "bg-transparent font-sans text-foreground-strong",
+        root: [
+          "relative bg-transparent font-sans text-foreground-strong",
+          "md:before:pointer-events-none md:before:absolute md:before:inset-y-0 md:before:left-0 md:before:z-20 md:before:w-px md:before:bg-line-muted md:before:content-[''] dark:md:before:bg-transparent",
+          "dark:md:shadow-[0_0_0_1px_oklch(0_0_0_/_0.6),-4px_0_8px_-5px_oklch(0_0_0_/_0.55),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
+        ],
         header: [
           "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
-          "border-b border-line-muted bg-layer-page lg:border-l lg:pl-[19px] dark:lg:border-b-0 dark:lg:border-l-0",
+          "border-b border-line-muted bg-layer-page dark:lg:border-b-0",
           "max-lg:gap-2 max-lg:pl-5 max-lg:pr-3.5 max-md:h-[var(--shell-header-height,56px)]",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
           "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-page),transparent)] max-lg:before:backdrop-blur-sm",
