@@ -21,7 +21,7 @@ const field = tv({
         error: ["text-danger"],
       },
       elegant: {
-        label: ["font-medium text-foreground-strong"],
+        label: ["font-medium text-foreground-strong dark:text-foreground-hint"],
         description: [
           "text-[13px] text-foreground-hint",
           "group-data-[disabled]/field:text-foreground-disabled",

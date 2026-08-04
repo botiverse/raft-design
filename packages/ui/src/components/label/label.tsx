@@ -23,7 +23,7 @@ const label = tv({
         sub: "font-bold tracking-wide text-foreground-strong/40",
       },
       elegant: {
-        root: "font-medium text-foreground-strong",
+        root: "font-medium text-foreground-strong dark:text-foreground-hint",
         sub: "text-foreground-strong/40",
       },
     },
