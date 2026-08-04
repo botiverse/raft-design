@@ -2,7 +2,6 @@
 
 /* Pulls in the raft-ui semantic theme tokens and package source hint. */
 @import "raft-ui/styles.css";
-@import "../../../packages/ui/src/legacy/source.css";
 
 /* Scan raft-ui so Tailwind generates the utility classes its tv() variants emit. */
 @source "../../../packages/ui/src";

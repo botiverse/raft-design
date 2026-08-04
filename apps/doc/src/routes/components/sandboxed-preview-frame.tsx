@@ -5,17 +5,15 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import AppSandboxedPreviewFrame from "../../../../../packages/ui/src/legacy/SandboxedPreviewFrame.tsx";
+import AppSandboxedPreviewFrame from "#/modules/sandboxed-preview-frame/sandboxed-preview-frame.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Skipped: keep as an app-local security utility, not an raft-ui component"] as const;
@@ -37,50 +35,6 @@ const SNIPPETS = {
 
 // Interactive HTML attachment — scripts allowed, never same-origin:
 <SandboxedPreviewFrame title="Preview" src={scopedUrl} sandbox="allow-scripts" />`,
-  sourceHtml: `<SandboxedPreviewFrame
-  title={\`HTML preview: \${filename}\`}
-  src={url}
-  sandbox="allow-scripts"
-  referrerPolicy="no-referrer"
-  className="h-full w-full border-0 bg-white"
-/>`,
-  currentHtml: `<SandboxedPreviewFrame
-  title={\`HTML preview: \${filename}\`}
-  src={url}
-  sandbox="allow-scripts"
-  referrerPolicy="no-referrer"
-  className="h-full w-full border-0 bg-white"
-/>`,
-  sourcePdf: `<SandboxedPreviewFrame
-  title={\`PDF preview: \${filename}\`}
-  src={url ?? ""}
-  sandbox="allow-scripts"
-  referrerPolicy="no-referrer"
-  className="h-full w-full border-0 bg-white"
-/>`,
-  currentPdf: `<SandboxedPreviewFrame
-  title={\`PDF preview: \${filename}\`}
-  src={url ?? ""}
-  sandbox="allow-scripts"
-  referrerPolicy="no-referrer"
-  className="h-full w-full border-0 bg-white"
-/>`,
-  sourceMermaid: `<SandboxedPreviewFrame
-  srcDoc={result.srcDoc}
-  sandbox=""
-  referrerPolicy="no-referrer"
-  title="Mermaid diagram"
-  className="block w-full border-0 bg-transparent"
-  style={{ width: "100%", aspectRatio: \`\${result.w} / \${result.h}\` }}
-/>`,
-  currentMermaid: `<SandboxedPreviewFrame
-  srcDoc={result.srcDoc}
-  sandbox=""
-  referrerPolicy="no-referrer"
-  title="Mermaid diagram"
-  className="block w-full border-0 bg-transparent"
-  style={{ width: "100%", aspectRatio: \`\${result.w} / \${result.h}\` }}
-/>`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -132,24 +86,6 @@ const HTML_ATTACHMENT_DOC = encodeURIComponent(`<!doctype html>
   </body>
 </html>`);
 const HTML_ATTACHMENT_URL = `data:text/html;charset=utf-8,${HTML_ATTACHMENT_DOC}`;
-
-const PDF_ATTACHMENT_DOC = encodeURIComponent(`<!doctype html>
-<html>
-  <body style="margin:0;background:#f6f6f6;font:13px ui-monospace,SFMono-Regular,Menlo,monospace;color:#111">
-    <div style="height:28px;display:flex;align-items:center;gap:8px;border-bottom:2px solid #111;background:#222;color:#fff;padding:0 10px">
-      <strong>PDF preview</strong><span>release-notes.pdf</span><span style="margin-left:auto">1 / 3</span>
-    </div>
-    <main style="display:grid;place-items:center;padding:18px">
-      <article style="width:72%;min-height:170px;border:2px solid #111;background:white;box-shadow:6px 6px 0 #111;padding:20px">
-        <h1 style="margin:0 0 12px;font-size:20px">Release notes</h1>
-        <div style="height:8px;background:#111;margin-bottom:12px"></div>
-        <p style="margin:0 0 10px;line-height:1.45">A mocked native PDF surface for docs comparison.</p>
-        <p style="margin:0;line-height:1.45;color:#666">The source callsite uses the same sandbox contract as HTML preview.</p>
-      </article>
-    </main>
-  </body>
-</html>`);
-const PDF_ATTACHMENT_URL = `data:text/html;charset=utf-8,${PDF_ATTACHMENT_DOC}`;
 
 const MERMAID_SRC_DOC =
   "<svg xmlns='http://www.w3.org/2000/svg' width='240' height='96'><rect width='240' height='96' fill='white'/><rect x='16' y='20' width='84' height='40' fill='#bfe8f2' stroke='black' stroke-width='2'/><rect x='140' y='20' width='84' height='40' fill='#a9d877' stroke='black' stroke-width='2'/><path d='M100 40H140' stroke='black' stroke-width='2'/><text x='28' y='45' font-family='monospace' font-size='12'>render</text><text x='154' y='45' font-family='monospace' font-size='12'>frame</text></svg>";
@@ -224,111 +160,6 @@ function SandboxedPreviewFrameDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          items={[
-            {
-              label: "HTML attachment preview",
-              status: "match",
-              note: "Source pins allow-scripts for interactive HTML while omitting allow-same-origin. Current decision is to keep the same utility app-local, outside raft-ui.",
-              source: (
-                <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
-                  <AppSandboxedPreviewFrame
-                    title="HTML preview: attachment.html"
-                    src={HTML_ATTACHMENT_URL}
-                    sandbox="allow-scripts"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full border-0 bg-white"
-                  />
-                </AttachmentPreviewDemo>
-              ),
-              current: (
-                <AttachmentPreviewDemo filename="interactive-report.html" label="HTML preview">
-                  <AppSandboxedPreviewFrame
-                    title="HTML preview: attachment.html"
-                    src={HTML_ATTACHMENT_URL}
-                    sandbox="allow-scripts"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full border-0 bg-white"
-                  />
-                </AttachmentPreviewDemo>
-              ),
-              sourceCode: code.sourceHtml,
-              currentCode: code.currentHtml,
-              compositionCode: code.currentHtml,
-              compositionPath: "apps/doc/src/routes/components/sandboxed-preview-frame.tsx",
-              compositionSource: SNIPPETS.currentHtml,
-            },
-            {
-              label: "PDF preview",
-              status: "match",
-              note: "Source uses the same opaque-origin allow-scripts setup for native PDF viewers. Current keeps that behavior app-local instead of exporting a design-system primitive.",
-              source: (
-                <AttachmentPreviewDemo filename="release-notes.pdf" label="PDF preview">
-                  <AppSandboxedPreviewFrame
-                    title="PDF preview: release-notes.pdf"
-                    src={PDF_ATTACHMENT_URL}
-                    sandbox="allow-scripts"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full border-0 bg-white"
-                  />
-                </AttachmentPreviewDemo>
-              ),
-              current: (
-                <AttachmentPreviewDemo filename="release-notes.pdf" label="PDF preview">
-                  <AppSandboxedPreviewFrame
-                    title="PDF preview: release-notes.pdf"
-                    src={PDF_ATTACHMENT_URL}
-                    sandbox="allow-scripts"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full border-0 bg-white"
-                  />
-                </AttachmentPreviewDemo>
-              ),
-              sourceCode: code.sourcePdf,
-              currentCode: code.currentPdf,
-              compositionCode: code.currentPdf,
-              compositionPath: "apps/doc/src/routes/components/sandboxed-preview-frame.tsx",
-              compositionSource: SNIPPETS.currentPdf,
-            },
-            {
-              label: "Mermaid diagram",
-              status: "match",
-              note: "Source uses srcDoc plus an empty sandbox for static SVG. Current keeps the zero-script contract near the markdown preview implementation.",
-              source: (
-                <MermaidMessagePreview>
-                  <AppSandboxedPreviewFrame
-                    title="Mermaid diagram"
-                    srcDoc={MERMAID_SRC_DOC}
-                    sandbox=""
-                    referrerPolicy="no-referrer"
-                    className="block w-full border-0 bg-transparent"
-                    style={{ width: "100%", aspectRatio: "240 / 96" }}
-                  />
-                </MermaidMessagePreview>
-              ),
-              current: (
-                <MermaidMessagePreview>
-                  <AppSandboxedPreviewFrame
-                    title="Mermaid diagram"
-                    srcDoc={MERMAID_SRC_DOC}
-                    sandbox=""
-                    referrerPolicy="no-referrer"
-                    className="block w-full border-0 bg-transparent"
-                    style={{ width: "100%", aspectRatio: "240 / 96" }}
-                  />
-                </MermaidMessagePreview>
-              ),
-              sourceCode: code.sourceMermaid,
-              currentCode: code.currentMermaid,
-              compositionCode: code.currentMermaid,
-              compositionPath: "apps/doc/src/routes/components/sandboxed-preview-frame.tsx",
-              compositionSource: SNIPPETS.currentMermaid,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

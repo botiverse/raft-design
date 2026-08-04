@@ -2,7 +2,7 @@ import { Input } from "raft-ui";
 import { Field, FieldError, FieldLabel } from "raft-ui";
 
 // @docs-source-strip-start
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 export function FieldContent() {
@@ -24,9 +24,9 @@ export function FieldContent() {
 // @docs-source-strip-start
 export function FieldErrorComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonPreview className={className}>
+    <CompositionPreview className={className}>
       <FieldContent />
-    </SourceComparisonPreview>
+    </CompositionPreview>
   );
 }
 // @docs-source-strip-end

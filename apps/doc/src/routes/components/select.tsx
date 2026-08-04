@@ -159,55 +159,7 @@ const sortOptions = [
   { value: "comments", label: "Most commented", icon: MessageSquare },
 ] as const;
 
-function SortSelectWithIcons() {
-  const [value, setValue] = useState("relevance");
-
-  return (
-    <Select
-      value={value}
-      onValueChange={(nextValue) => {
-        if (nextValue) {
-          setValue(nextValue);
-        }
-      }}
-      items={sortOptions}
-    >
-      <SelectTrigger>
-        <SelectValue>
-          {(selectedValue) => {
-            const selected = sortOptions.find((option) => option.value === selectedValue);
-            const Icon = selected?.icon;
-
-            return selected && Icon ? (
-              <span className="flex min-w-0 items-center gap-2">
-                <Icon aria-hidden className="size-3.5 shrink-0 stroke-[1.5]" />
-                <span className="truncate">{selected.label}</span>
-              </span>
-            ) : (
-              "Sort"
-            );
-          }}
-        </SelectValue>
-        <SelectIcon />
-      </SelectTrigger>
-      <SelectContent className="w-[220px]">
-        <SelectList>
-          {sortOptions.map((option) => {
-            const Icon = option.icon;
-
-            return (
-              <SelectItem key={option.value} value={option.value}>
-                <Icon aria-hidden className="size-3.5 shrink-0 stroke-[1.5] opacity-80" />
-                <SelectItemText>{option.label}</SelectItemText>
-                <SelectItemIndicator />
-              </SelectItem>
-            );
-          })}
-        </SelectList>
-      </SelectContent>
-    </Select>
-  );
-}`,
+`,
   groups: `const branchOptions = [
   { value: "main", label: "main", group: "Production" },
   { value: "release", label: "release/2026-06", group: "Production" },

@@ -12,7 +12,6 @@ import {
   ContextMenuSubmenu,
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
-  InlineCode,
 } from "raft-ui";
 import { Archive, Bell, ChevronRight, Copy, MoonStar, Pin, Sun, Trash } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
@@ -24,52 +23,15 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
+import { createCompositionSourceMap } from "#/lib/composition-code.ts";
 import contextMenuCompositionSource from "#/modules/context-menu/context-menu.composition.tsx?raw";
-import {
-  CONTEXT_MENU_COMPOSITION_PATH,
-  ContextMenuCompositionPreview,
-  ContextMenuMessageMenuPreview,
-  ContextMenuSelectionMenuPreview,
-  ContextMenuSidebarMenuPreview,
-  ContextMenuSourceMessageMenuPreview,
-  ContextMenuSourcePreview,
-  ContextMenuSourceSelectionMenuPreview,
-  ContextMenuSourceSidebarMenuPreview,
-} from "#/modules/context-menu/context-menu.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Saved, thread, sidebar, and message menus",
-    scenes: [
-      {
-        label: "SavedPanel.tsx:151,157,163,164",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/saved/SavedPanel.tsx:151,157,163,164",
-      },
-      {
-        label: "ThreadsInbox.tsx:466,481",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/thread/ThreadsInbox.tsx:466,481",
-      },
-      {
-        label:
-          "Sidebar.tsx:807,818,1158,2040,2051,2052,2077,2089,2090,2113,2122,2123,2141,2152,2153,2172,2200,2216,2217,2230,2252,2263,2264",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:807,818,1158,2040,2051,2052,2077,2089,2090,2113,2122,2123,2141,2152,2153,2172,2200,2216,2217,2230,2252,2263,2264",
-      },
-      {
-        label: "MessageItem.tsx:2917,2923,2966,2969,2975,3032,3040,3042,3049,3056,3064,3068,3075",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:2917,2923,2966,2969,2975,3032,3040,3042,3049,3056,3064,3068,3075",
-      },
-    ],
-  },
 ] as const;
 
 const CONTEXT_MENU_COMPOSITION_SOURCES = createCompositionSourceMap({
@@ -587,87 +549,6 @@ function ContextMenuDoc() {
             <PropsTable rows={CONTEXT_MENU_SUBMENU_TRIGGER_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              id: "source-comparison-action-menu",
-              label: "Action menu",
-              status: "difference",
-              note: (
-                <>
-                  Source exposed standalone <InlineCode>MenuItem</InlineCode> and{" "}
-                  <InlineCode>ContextMenuDivider</InlineCode> primitives. Current keeps the compact
-                  row and separator structure but moves it into a themed Base UI{" "}
-                  <InlineCode>ContextMenu</InlineCode> composition.
-                </>
-              ),
-              source: <ContextMenuSourcePreview />,
-              brutal: <ContextMenuCompositionPreview />,
-              elegant: <ContextMenuCompositionPreview />,
-              elegantDark: <ContextMenuCompositionPreview />,
-              compositionCode: code.contextMenuComposition,
-              compositionCollapsedCode: code.contextMenuCompositionBody,
-              compositionPath: CONTEXT_MENU_COMPOSITION_PATH,
-              compositionSource: CONTEXT_MENU_COMPOSITION_SOURCES.contextMenuComposition,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-message-menu",
-              label: "Message menu",
-              status: "difference",
-              note: (
-                <>
-                  Source rendered the message context menu from <InlineCode>MessageItem</InlineCode>
-                  with a custom reaction quick row followed by copy, share, thread, save, and task
-                  sections. Current keeps that mixed custom-row plus item-section structure inside
-                  the shared <InlineCode>ContextMenu</InlineCode> visual contract.
-                </>
-              ),
-              source: <ContextMenuSourceMessageMenuPreview />,
-              brutal: <ContextMenuMessageMenuPreview />,
-              elegant: <ContextMenuMessageMenuPreview />,
-              elegantDark: <ContextMenuMessageMenuPreview />,
-            },
-            {
-              id: "source-comparison-selection-menu",
-              label: "Selection menu",
-              status: "difference",
-              note: (
-                <>
-                  Source intentionally kept selected-text actions separate from the full message row
-                  menu: only <InlineCode>Quote</InlineCode> and <InlineCode>Copy</InlineCode>.
-                  Current preserves that scoped two-action surface instead of merging it with
-                  message actions.
-                </>
-              ),
-              source: <ContextMenuSourceSelectionMenuPreview />,
-              brutal: <ContextMenuSelectionMenuPreview />,
-              elegant: <ContextMenuSelectionMenuPreview />,
-              elegantDark: <ContextMenuSelectionMenuPreview />,
-            },
-            {
-              id: "source-comparison-sidebar-menu",
-              label: "Sidebar menu",
-              status: "difference",
-              note: (
-                <>
-                  Source sidebar right-click menus reuse the same action row primitive for unread,
-                  pin, and archive sections across channels, DMs, and agents. Current keeps the
-                  section divider contract while letting the theme own item and surface styling.
-                </>
-              ),
-              source: <ContextMenuSourceSidebarMenuPreview />,
-              brutal: <ContextMenuSidebarMenuPreview />,
-              elegant: <ContextMenuSidebarMenuPreview />,
-              elegantDark: <ContextMenuSidebarMenuPreview />,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

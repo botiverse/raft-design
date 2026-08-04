@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { SearchDisabledSortComposition } from "#/modules/search/compositions/search-disabled-sort.composition.tsx";
 import { SearchErrorComposition } from "#/modules/search/compositions/search-error.composition.tsx";
 import { SearchFilterOnlyEmptyComposition } from "#/modules/search/compositions/search-filter-only-empty.composition.tsx";
@@ -19,8 +20,6 @@ import { SearchSelectedComposition } from "#/modules/search/compositions/search-
 import searchPanelFiltersSource from "#/modules/search/search-panel/search-panel.filters.tsx?raw";
 import searchPanelPartsSource from "#/modules/search/search-panel/search-panel.parts.tsx?raw";
 import searchPanelResultsSource from "#/modules/search/search-panel/search-panel.results.tsx?raw";
-import { SearchComparisonPreviewFrame } from "#/modules/search/source-comparison/search-comparison-preview-frame.tsx";
-import { SearchSourcePreview } from "#/modules/search/source-comparison/search-source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -28,7 +27,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SEARCH_COMPOSITION_PATH =
@@ -279,26 +277,6 @@ const API_SUBSECTIONS = [
   { id: "api-error", title: "SearchResultsError", rows: SEARCH_RESULTS_ERROR_PROPS },
 ] as const;
 
-const SOURCE_SCENES = [
-  {
-    label: "Slock Search",
-    scenes: [
-      {
-        label: "MessageSearchPage.tsx",
-        path: "packages/ui/source/search/MessageSearchPage.tsx",
-      },
-      {
-        label: "searchEntities.ts",
-        path: "packages/ui/source/search/searchEntities.ts",
-      },
-      {
-        label: "searchGrouping.ts",
-        path: "packages/ui/source/search/searchGrouping.ts",
-      },
-    ],
-  },
-] as const;
-
 const STATE_EXAMPLES = [
   { label: "No search intent", preview: <SearchNoIntentComposition /> },
   { label: "Loading", preview: <SearchLoadingComposition /> },
@@ -325,12 +303,12 @@ function SearchPreview({ code }: { code: Record<string, string> }) {
   return (
     <Preview previewInset="flush" previewClassName="h-[42rem] items-stretch overflow-hidden p-0">
       <Preview.Canvas>
-        <SearchComparisonPreviewFrame>
+        <CompositionPreview className="h-full p-0">
           <BrutalSearchPanelComposition
             defaultQuery="preview"
             onBack={() => window.history.back()}
           />
-        </SearchComparisonPreviewFrame>
+        </CompositionPreview>
       </Preview.Canvas>
       <Preview.Code codeBlock={<SearchSourceFiles code={code} collapsible={false} />} />
     </Preview>
@@ -348,7 +326,8 @@ function SearchDoc() {
         <ul className="list-disc space-y-1 pl-4">
           <li>
             maps the source header, filters, result cards, message hits, and thread groups onto
-            canonical raft-ui primitives and the Search result family
+            canonical <InlineCode>raft-ui</InlineCode> primitives and the{" "}
+            <InlineCode>Search</InlineCode> result family
           </li>
           <li>
             keeps URL state, API requests, caches, routing, and workspace drag behavior in the
@@ -372,12 +351,14 @@ function SearchDoc() {
 
       <DocSection id="usage" title="Usage">
         <p>
-          raft-ui owns the Search result family: the summary and section grouping vocabulary, the
-          entity, message, and thread result cards, and the empty and error state frames. The panel
-          shell around them — header, filter row, and results viewport — is assembled in the docs
-          module from the generic Panel container and local panel parts. Production consumers remain
-          responsible for URL search params, server requests, permissions, result navigation, detail
-          panes, caching, pagination policy, and the source app&apos;s shared pinyin/fuzzy ranker.
+          <InlineCode>raft-ui</InlineCode> owns the <InlineCode>Search</InlineCode> result family:
+          the summary and section grouping vocabulary, the entity, message, and thread result cards,
+          and the empty and error state frames. The panel shell around them — header, filter row,
+          and results viewport — is assembled in the docs module from the generic{" "}
+          <InlineCode>Panel</InlineCode> container and local panel parts. Production consumers
+          remain responsible for URL search params, server requests, permissions, result navigation,
+          detail panes, caching, pagination policy, and the source app&apos;s shared pinyin/fuzzy
+          ranker.
         </p>
         <DocSubsection parentId="usage" id="states" title="States">
           <div className="grid gap-8">
@@ -410,48 +391,6 @@ function SearchDoc() {
             </DocSubsection>
           ))}
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          previewSize="tall"
-          items={[
-            {
-              label: "Global Search panel",
-              status: "difference",
-              note: "The independent frozen source renderer and Brutal composition keep the source visual hierarchy while using canonical raft-ui behavior primitives and the current raft-ui fonts. The docs fixture ranker covers exact, prefix, token-prefix, and substring ordering; product pinyin and fuzzy ranking stay in the source app.",
-              sourceScenes: SOURCE_SCENES,
-              source: <SearchSourcePreview />,
-              brutal: (
-                <SearchComparisonPreviewFrame>
-                  <BrutalSearchPanelComposition
-                    defaultQuery="preview"
-                    onBack={() => window.history.back()}
-                  />
-                </SearchComparisonPreviewFrame>
-              ),
-              elegant: (
-                <SearchComparisonPreviewFrame>
-                  <BrutalSearchPanelComposition
-                    defaultQuery="preview"
-                    onBack={() => window.history.back()}
-                  />
-                </SearchComparisonPreviewFrame>
-              ),
-              elegantDark: (
-                <SearchComparisonPreviewFrame>
-                  <BrutalSearchPanelComposition
-                    defaultQuery="preview"
-                    onBack={() => window.history.back()}
-                  />
-                </SearchComparisonPreviewFrame>
-              ),
-              previewClassName: "items-stretch p-0",
-            },
-          ]}
-        />
-        <SearchSourceFiles code={code} />
       </DocSection>
     </DocPage>
   );

@@ -6,41 +6,15 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ThreadPanelComposition } from "#/modules/thread-panel/thread-panel.composition.tsx";
 import threadPanelCompositionSource from "#/modules/thread-panel/thread-panel.composition.tsx?raw";
-import {
-  ThreadPanelComparisonComposition,
-  ThreadPanelSourcePreview,
-} from "#/modules/thread-panel/thread-panel.source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-
-const CHAT_THREAD_PANEL_COMPOSITION_PATH =
-  "apps/doc/src/modules/thread-panel/thread-panel.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock thread panel",
-    scenes: [
-      {
-        label: "ThreadPanel.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ThreadPanel.tsx",
-      },
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-    ],
-  },
 ] as const;
 
 const SNIPPETS = {
@@ -465,33 +439,6 @@ function ThreadPanelDoc() {
             <PropsTable rows={THREAD_PANEL_FOOTER_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          previewSize="tall"
-          items={[
-            {
-              label: "Populated thread with search",
-              status: "review",
-              note: "The Source pane is a static fixture extracted from the real ThreadPanel and MessageItem DOM; the three Current panes execute the canonical panel composition.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="w-full">
-                  <ThreadPanelSourcePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <ThreadPanelComparisonComposition />,
-              elegant: <ThreadPanelComparisonComposition />,
-              elegantDark: <ThreadPanelComparisonComposition />,
-              compositionCode: code.threadPanelComposition,
-              compositionCollapsedCode: code.threadPanelCompositionBody,
-              compositionPath: CHAT_THREAD_PANEL_COMPOSITION_PATH,
-              compositionSource: threadPanelCompositionSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

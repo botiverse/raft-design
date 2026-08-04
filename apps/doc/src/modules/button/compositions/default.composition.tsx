@@ -9,7 +9,7 @@ export function ButtonContent() {
 }
 
 // @docs-source-strip-start
-// Source-comparison display shell only. Use ButtonContent above for real usage.
+// Preview display shell only. Use ButtonContent above for real usage.
 export function ButtonDefaultComposition({ className }: { className?: string }) {
   return (
     <ButtonComparisonPreview className={className}>

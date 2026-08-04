@@ -19,7 +19,7 @@ const conversationPanelEmptyState = tv({
   variants: {
     theme: {
       brutal: {
-        root: "font-display text-lg font-bold text-black/40 uppercase",
+        root: "font-heading text-lg font-bold text-black/40 uppercase",
       },
       elegant: {
         root: "font-heading text-sm font-medium tracking-wide text-foreground-muted",

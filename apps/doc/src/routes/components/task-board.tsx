@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -323,8 +324,9 @@ function TaskBoardDoc() {
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="board-with-dnd" title="Board with drag and drop">
             <p className="mb-4 text-sm text-foreground-strong/70">
-              Wrap columns in <code>TaskDndProvider</code> and mount each column as a{" "}
-              <code>TaskDropZone</code>. Drop policy and move handlers stay in the composition.
+              Wrap columns in <InlineCode>TaskDndProvider</InlineCode> and mount each column as a{" "}
+              <InlineCode>TaskDropZone</InlineCode>. Drop policy and move handlers stay in the
+              composition.
             </p>
             <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
@@ -336,9 +338,10 @@ function TaskBoardDoc() {
 
           <DocSubsection parentId="usage" id="scroll-area" title="Scroll area">
             <p className="mb-4 text-sm text-foreground-strong/70">
-              Keep one <code>ScrollAreaViewport</code> around the whole board. The viewport owns
-              vertical and horizontal scrolling; <code>TaskBoardRoot</code> keeps its natural
-              minimum width, so columns never become independent scroll regions.
+              Keep one <InlineCode>ScrollAreaViewport</InlineCode> around the whole board. The
+              viewport owns vertical and horizontal scrolling;{" "}
+              <InlineCode>TaskBoardRoot</InlineCode> keeps its natural minimum width, so columns
+              never become independent scroll regions.
             </p>
             <Preview previewClassName="h-[28rem] items-stretch p-0">
               <Preview.Canvas>
@@ -351,9 +354,12 @@ function TaskBoardDoc() {
           <DocSubsection parentId="usage" id="column-empty" title="Column empty states">
             <p className="mb-4 text-sm text-foreground-strong/70">
               Sparse tasks leave In Review / Done / Closed empty so{" "}
-              <code>TaskBoardColumnEmptyIdle</code> shows. Drag onto an empty column for Allowed /
-              Blocked copy (Closed is not blocked in this demo — see{" "}
-              <Link to="/components/task-dnd">TaskDnd</Link>).
+              <InlineCode>TaskBoardColumnEmptyIdle</InlineCode> shows. Drag onto an empty column for
+              Allowed / Blocked copy (Closed is not blocked in this demo — see{" "}
+              <Link to="/components/task-dnd">
+                <InlineCode>TaskDnd</InlineCode>
+              </Link>
+              ).
             </p>
             <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
@@ -365,10 +371,10 @@ function TaskBoardDoc() {
 
           <DocSubsection parentId="usage" id="virtualization" title="Virtualization">
             <p className="mb-4 text-sm text-foreground-strong/70">
-              Keep one shared <code>ScrollAreaViewport</code>, and mount a{" "}
-              <code>useVirtualizer</code> stack inside each tall column. Only viewport rows plus
-              overscan stay mounted — watch the counter while scrolling. Virtualization stays
-              consumer-owned; <code>TaskBoard</code> does not provide it.
+              Keep one shared <InlineCode>ScrollAreaViewport</InlineCode>, and mount a{" "}
+              <InlineCode>useVirtualizer</InlineCode> stack inside each tall column. Only viewport
+              rows plus overscan stay mounted — watch the counter while scrolling. Virtualization
+              stays consumer-owned; <InlineCode>TaskBoard</InlineCode> does not provide it.
             </p>
             <Preview previewClassName="h-[28rem] items-stretch p-0">
               <Preview.Canvas>

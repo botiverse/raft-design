@@ -14,7 +14,6 @@ import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as LabRouteImport } from './routes/lab'
-import { Route as MigrationRouteImport } from './routes/migration'
 import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
 import { Route as ComponentsActivityRouteImport } from './routes/components/activity'
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
@@ -98,8 +97,6 @@ import { Route as ComponentsTooltipRouteImport } from './routes/components/toolt
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
 import { Route as IframeSidebarMobilePartsRouteImport } from './routes/iframe/sidebar-mobile-parts'
-import { Route as MigrationIndexRouteImport } from './routes/migration.index'
-import { Route as MigrationSourceFileRouteImport } from './routes/migration/$sourceFile'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
 import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
@@ -148,11 +145,6 @@ const InstallationRoute = InstallationRouteImport.update({
 const LabRoute = LabRouteImport.update({
   id: '/lab',
   path: '/lab',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MigrationRoute = MigrationRouteImport.update({
-  id: '/migration',
-  path: '/migration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
@@ -585,16 +577,6 @@ const IframeSidebarMobilePartsRoute =
     path: '/iframe/sidebar-mobile-parts',
     getParentRoute: () => rootRouteImport,
   } as any)
-const MigrationIndexRoute = MigrationIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => MigrationRoute,
-} as any)
-const MigrationSourceFileRoute = MigrationSourceFileRouteImport.update({
-  id: '/$sourceFile',
-  path: '/$sourceFile',
-  getParentRoute: () => MigrationRoute,
-} as any)
 const PlaygroundIndexRoute = PlaygroundIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -728,7 +710,6 @@ export interface FileRoutesByFullPath {
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/lab': typeof LabRoute
-  '/migration': typeof MigrationRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
   '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
@@ -812,11 +793,9 @@ export interface FileRoutesByFullPath {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
-  '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
-  '/migration/': typeof MigrationIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
@@ -926,11 +905,9 @@ export interface FileRoutesByTo {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
-  '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
-  '/migration': typeof MigrationIndexRoute
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/members': typeof PlaygroundBrowseMembersRoute
   '/playground/activity': typeof PlaygroundPlainActivityRoute
@@ -956,7 +933,6 @@ export interface FileRoutesById {
   '/components': typeof ComponentsRouteWithChildren
   '/installation': typeof InstallationRoute
   '/lab': typeof LabRoute
-  '/migration': typeof MigrationRouteWithChildren
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
@@ -1042,11 +1018,9 @@ export interface FileRoutesById {
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
-  '/migration/$sourceFile': typeof MigrationSourceFileRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
-  '/migration/': typeof MigrationIndexRoute
   '/playground/': typeof PlaygroundIndexRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugRouteRouteWithChildren
   '/playground/_browse/computers': typeof PlaygroundBrowseComputersRoute
@@ -1075,7 +1049,6 @@ export interface FileRouteTypes {
     | '/components'
     | '/installation'
     | '/lab'
-    | '/migration'
     | '/playground/s'
     | '/components/activity'
     | '/components/alert-dialog'
@@ -1159,11 +1132,9 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
-    | '/migration/$sourceFile'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
-    | '/migration/'
     | '/playground/'
     | '/playground/s/$serverSlug'
     | '/playground/computers'
@@ -1273,11 +1244,9 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
-    | '/migration/$sourceFile'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
-    | '/migration'
     | '/playground/computers'
     | '/playground/members'
     | '/playground/activity'
@@ -1302,7 +1271,6 @@ export interface FileRouteTypes {
     | '/components'
     | '/installation'
     | '/lab'
-    | '/migration'
     | '/playground/_browse'
     | '/playground/_plain'
     | '/playground/s'
@@ -1388,11 +1356,9 @@ export interface FileRouteTypes {
     | '/iframe/app-shell-mobile'
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
-    | '/migration/$sourceFile'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
-    | '/migration/'
     | '/playground/'
     | '/playground/s/$serverSlug'
     | '/playground/_browse/computers'
@@ -1420,7 +1386,6 @@ export interface RootRouteChildren {
   ComponentsRoute: typeof ComponentsRouteWithChildren
   InstallationRoute: typeof InstallationRoute
   LabRoute: typeof LabRoute
-  MigrationRoute: typeof MigrationRouteWithChildren
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
   IframeSidebarMobilePartsRoute: typeof IframeSidebarMobilePartsRoute
@@ -1464,13 +1429,6 @@ declare module '@tanstack/react-router' {
       path: '/lab'
       fullPath: '/lab'
       preLoaderRoute: typeof LabRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/migration': {
-      id: '/migration'
-      path: '/migration'
-      fullPath: '/migration'
-      preLoaderRoute: typeof MigrationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/playground': {
@@ -2054,20 +2012,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IframeSidebarMobilePartsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/migration/': {
-      id: '/migration/'
-      path: '/'
-      fullPath: '/migration/'
-      preLoaderRoute: typeof MigrationIndexRouteImport
-      parentRoute: typeof MigrationRoute
-    }
-    '/migration/$sourceFile': {
-      id: '/migration/$sourceFile'
-      path: '/$sourceFile'
-      fullPath: '/migration/$sourceFile'
-      preLoaderRoute: typeof MigrationSourceFileRouteImport
-      parentRoute: typeof MigrationRoute
-    }
     '/playground/': {
       id: '/playground/'
       path: '/'
@@ -2519,20 +2463,6 @@ const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(
   ComponentsRouteChildren,
 )
 
-interface MigrationRouteChildren {
-  MigrationSourceFileRoute: typeof MigrationSourceFileRoute
-  MigrationIndexRoute: typeof MigrationIndexRoute
-}
-
-const MigrationRouteChildren: MigrationRouteChildren = {
-  MigrationSourceFileRoute: MigrationSourceFileRoute,
-  MigrationIndexRoute: MigrationIndexRoute,
-}
-
-const MigrationRouteWithChildren = MigrationRoute._addFileChildren(
-  MigrationRouteChildren,
-)
-
 interface TokensShadowsRouteChildren {
   TokensShadowsBrutalRoute: typeof TokensShadowsBrutalRoute
   TokensShadowsElegantRoute: typeof TokensShadowsElegantRoute
@@ -2567,7 +2497,6 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsRoute: ComponentsRouteWithChildren,
   InstallationRoute: InstallationRoute,
   LabRoute: LabRoute,
-  MigrationRoute: MigrationRouteWithChildren,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeDrawerRoute: IframeDrawerRoute,
   IframeSidebarMobilePartsRoute: IframeSidebarMobilePartsRoute,

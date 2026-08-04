@@ -13,7 +13,6 @@ import {
   DropdownMenuSubmenu,
   DropdownMenuSubmenuTrigger,
   DropdownMenuTrigger,
-  InlineCode,
   Switch,
 } from "raft-ui";
 import {
@@ -37,64 +36,14 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
-import messageSearchTimeFilterCompositionSource from "#/modules/dropdown-menu/compositions/message-search-time-filter.composition.tsx?raw";
-import {
-  MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
-  MessageSearchTimeFilterComposition,
-  MessageSearchTimeFilterSourcePreview,
-} from "#/modules/dropdown-menu/compositions/message-search-time-filter.tsx";
-import serverSwitcherMenuCompositionSource from "#/modules/dropdown-menu/compositions/server-switcher-menu.composition.tsx?raw";
-import {
-  SERVER_SWITCHER_MENU_COMPOSITION_PATH,
-  ServerSwitcherMenuComposition,
-  ServerSwitcherMenuSourcePreview,
-} from "#/modules/dropdown-menu/compositions/server-switcher-menu.tsx";
-import sidebarSortMenuCompositionSource from "#/modules/dropdown-menu/compositions/sidebar-sort-menu.composition.tsx?raw";
-import {
-  SIDEBAR_SORT_MENU_COMPOSITION_PATH,
-  SidebarSortMenuComposition,
-  SidebarSortMenuSourcePreview,
-} from "#/modules/dropdown-menu/compositions/sidebar-sort-menu.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Switcher, filter, sort, and option menus",
-    scenes: [
-      {
-        label: "LeftRail.tsx:110",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LeftRail.tsx:110",
-      },
-      {
-        label: "Sidebar.tsx:751,1242",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:751,1242",
-      },
-      {
-        label: "MessageSearchPage.tsx:863",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:863",
-      },
-      {
-        label: "Select.tsx:80",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/Select.tsx:80",
-      },
-    ],
-  },
-] as const;
-
-const DROPDOWN_MENU_COMPOSITION_SOURCES = createCompositionSourceMap({
-  messageSearchTimeFilterComposition: messageSearchTimeFilterCompositionSource,
-  serverSwitcherComposition: serverSwitcherMenuCompositionSource,
-  sidebarSortMenuComposition: sidebarSortMenuCompositionSource,
-} as const);
 
 const PROFILE_MENU_SNIPPET = `    <DropdownMenuLabel>Account</DropdownMenuLabel>
     <DropdownMenuItem>
@@ -639,7 +588,6 @@ export const Route = createFileRoute("/components/dropdown-menu")({
     highlightSnippets({
       data: {
         ...SNIPPETS,
-        ...DROPDOWN_MENU_COMPOSITION_SOURCES,
       },
     }),
 });
@@ -837,81 +785,6 @@ function DropdownMenuDoc() {
             <PropsTable rows={DROPDOWN_MENU_SUBMENU_TRIGGER_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              id: "source-comparison-server-switcher",
-              label: "Server switcher",
-              status: "difference",
-              note: (
-                <>
-                  Source exposed one business-shaped <InlineCode>ServerSwitcherMenu</InlineCode>.
-                  Current keeps the same row, separator, badge, and action structure but moves the
-                  API to a generic Base UI menu composition.
-                </>
-              ),
-              source: <ServerSwitcherMenuSourcePreview />,
-              brutal: <ServerSwitcherMenuComposition />,
-              elegant: <ServerSwitcherMenuComposition />,
-              elegantDark: <ServerSwitcherMenuComposition />,
-              compositionCode: code.serverSwitcherComposition,
-              compositionCollapsedCode: code.serverSwitcherCompositionBody,
-              compositionPath: SERVER_SWITCHER_MENU_COMPOSITION_PATH,
-              compositionSource: DROPDOWN_MENU_COMPOSITION_SOURCES.serverSwitcherComposition,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-time-filter",
-              label: "Time filter",
-              status: "difference",
-              note: (
-                <>
-                  Search time range filter from <InlineCode>MessageSearchPage.tsx</InlineCode>. The
-                  trigger opens one radio group (<InlineCode>any</InlineCode>,{" "}
-                  <InlineCode>today</InlineCode>, <InlineCode>7d</InlineCode>,{" "}
-                  <InlineCode>30d</InlineCode>) without search or rich content, so a menu maps more
-                  directly to the interaction than a popover shell.
-                </>
-              ),
-              source: <MessageSearchTimeFilterSourcePreview />,
-              brutal: <MessageSearchTimeFilterComposition />,
-              elegant: <MessageSearchTimeFilterComposition />,
-              elegantDark: <MessageSearchTimeFilterComposition />,
-              compositionCode: code.messageSearchTimeFilterComposition,
-              compositionCollapsedCode: code.messageSearchTimeFilterCompositionBody,
-              compositionPath: MESSAGE_SEARCH_TIME_FILTER_COMPOSITION_PATH,
-              compositionSource:
-                DROPDOWN_MENU_COMPOSITION_SOURCES.messageSearchTimeFilterComposition,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-sort-menu",
-              label: "Sort menu",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>Sidebar.tsx</InlineCode>. Compact sort dropdown with{" "}
-                  <InlineCode>showHeader={false}</InlineCode> and a narrower{" "}
-                  <InlineCode>min-w-[136px]</InlineCode> shell aligned to the section icon button.
-                </>
-              ),
-              source: <SidebarSortMenuSourcePreview />,
-              brutal: <SidebarSortMenuComposition />,
-              elegant: <SidebarSortMenuComposition />,
-              elegantDark: <SidebarSortMenuComposition />,
-              compositionCode: code.sidebarSortMenuComposition,
-              compositionCollapsedCode: code.sidebarSortMenuCompositionBody,
-              compositionPath: SIDEBAR_SORT_MENU_COMPOSITION_PATH,
-              compositionSource: DROPDOWN_MENU_COMPOSITION_SOURCES.sidebarSortMenuComposition,
-              compositionShowLineNumbers: false,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

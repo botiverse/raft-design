@@ -16,6 +16,19 @@ import {
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PwaInstallDrawerPanel } from "#/modules/drawer/compositions/pwa-install-drawer-base.tsx";
 
+const brutalButton = [
+  "border-2 border-black font-heading font-bold shadow-raft-md",
+  "transition-all duration-100 hover:-translate-y-px hover:shadow-raft-xl",
+  "active:translate-x-0.5 active:translate-y-0.5 active:shadow-raft-xs",
+  "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+].join(" ");
+const brutalButtonSm = [
+  "border-2 border-black font-heading font-bold shadow-raft-sm",
+  "transition-all duration-100 hover:-translate-y-px hover:shadow-raft-md",
+  "active:translate-x-px active:translate-y-px active:shadow-raft-xs",
+  "disabled:pointer-events-none disabled:opacity-40 disabled:shadow-raft-sm disabled:transform-none",
+].join(" ");
+
 type DrawerPreviewScene = "leave-channel" | "pwa-install" | "pwa-install-other";
 type DrawerPreviewVariant = "current" | "source";
 type DrawerPreviewViewport = "desktop" | "mobile";
@@ -101,17 +114,14 @@ function ViewportFrame({
   const isDesktop = viewport === "desktop";
   const frameClassName = isDesktop ? "h-[24rem] w-[34rem]" : "h-[42rem] w-[375px]";
   const sheetClassName = source
-    ? [
-        "mx-auto max-w-md border-2 border-black bg-white shadow-[var(--source-shadow-lg)]",
-        padded ? "p-4" : null,
-      ]
+    ? ["mx-auto max-w-md border-2 border-black bg-white shadow-raft-xl", padded ? "p-4" : null]
         .filter(Boolean)
         .join(" ")
     : getCurrentSheetClassName(theme, isDesktop, padded);
 
   return (
     <div
-      className={`grid grid-rows-[auto_minmax(0,1fr)] border-2 border-black bg-white shadow-[var(--source-shadow)] ${frameClassName}`}
+      className={`grid grid-rows-[auto_minmax(0,1fr)] border-2 border-black bg-white shadow-raft-sm ${frameClassName}`}
     >
       <div className="flex h-7 items-center justify-between border-b-2 border-black bg-white px-3 font-mono text-[9px] leading-none font-bold text-black/45 uppercase">
         <span>{isDesktop ? "desktop viewport" : "mobile viewport"}</span>
@@ -242,7 +252,7 @@ function PwaInstallSourceContent({ variant }: { variant: "other" | "safari" }) {
         </div>
         <button
           type="button"
-          className="btn-brutal-sm bg-white p-1"
+          className={`${brutalButtonSm} bg-white p-1`}
           aria-label="Close install instructions"
         >
           <X size={16} />
@@ -266,11 +276,11 @@ function PwaInstallSourceContent({ variant }: { variant: "other" | "safari" }) {
 
       <div className="mt-4 flex gap-2">
         {isSafari ? null : (
-          <button type="button" className="btn-brutal bg-brutal-yellow px-3 py-2 text-xs">
+          <button type="button" className={`${brutalButton} bg-brutal-yellow px-3 py-2 text-xs`}>
             Copy Link
           </button>
         )}
-        <button type="button" className="btn-brutal bg-white px-3 py-2 text-xs">
+        <button type="button" className={`${brutalButton} bg-white px-3 py-2 text-xs`}>
           {isSafari ? "Got it" : "Close"}
         </button>
       </div>

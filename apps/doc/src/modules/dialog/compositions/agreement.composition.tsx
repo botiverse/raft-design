@@ -14,7 +14,7 @@ import { X } from "lucide-react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -84,7 +84,7 @@ export function AgreementDialogContent() {
 // @docs-source-strip-start
 export function AgreementDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview
+    <CompositionModalPreview
       className={className}
       contentClassName="max-w-lg data-[theme=brutal]:p-5"
       placementPaddingClassName="px-0 py-6"
@@ -103,7 +103,7 @@ export function AgreementDialogComposition({ className }: { className?: string }
           </DialogContent>
         </Dialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

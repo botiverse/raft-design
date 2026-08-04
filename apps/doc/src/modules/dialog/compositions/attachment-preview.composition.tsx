@@ -12,7 +12,7 @@ import { Download } from "lucide-react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -84,7 +84,7 @@ export function AttachmentPreviewDialogContent() {
 // @docs-source-strip-start
 export function AttachmentPreviewDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview
+    <CompositionModalPreview
       className={className}
       contentClassName="max-w-3xl overflow-hidden p-0"
       minHeightClassName="min-h-96"
@@ -102,7 +102,7 @@ export function AttachmentPreviewDialogComposition({ className }: { className?: 
           </DialogContent>
         </Dialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

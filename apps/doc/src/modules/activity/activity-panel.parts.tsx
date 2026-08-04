@@ -31,9 +31,7 @@ export const activityShell = tv({
     headerBack: [
       "inline-flex size-8 shrink-0 items-center justify-center md:hidden [&_svg]:size-3.5",
     ],
-    headerIcon: [
-      "hidden size-icon-header shrink-0 items-center justify-center md:flex [&_svg]:size-4.5",
-    ],
+    headerIcon: ["hidden size-9 shrink-0 items-center justify-center md:flex [&_svg]:size-4.5"],
     headerContent: ["min-w-0 flex-1"],
     headerHeading: ["flex min-w-0 items-center gap-2"],
     headerTitle: ["truncate"],
@@ -117,8 +115,8 @@ export const activityShell = tv({
       brutal: {
         root: ["bg-white text-black"],
         header: [
-          "h-panel-header px-5",
-          "[@media(max-height:600px)]:!h-panel-header",
+          "h-[62px] px-5",
+          "[@media(max-height:600px)]:!h-[62px]",
           "border-b-2 border-black bg-white",
         ],
         headerBack: ["border-2 border-black bg-white", sourceButtonMotion],

@@ -17,65 +17,16 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
-import inputGroupInvalidStateCompositionSource from "#/modules/input-group/compositions/invalid-state.composition.tsx?raw";
-import inputGroupSearchInputCompositionSource from "#/modules/input-group/compositions/search-input.composition.tsx?raw";
-import inputGroupSlugInputCompositionSource from "#/modules/input-group/compositions/slug-input.composition.tsx?raw";
 import { InputGroupPlaygroundPreview } from "#/modules/input-group/input-group.preview.tsx";
-import {
-  INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION,
-  INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/modules/input-group/input-group.source-comparison.tsx";
 import { Search, Upload } from "lucide-react";
-import LegacySearchInput from "../../../../../packages/ui/src/legacy/SearchInput.tsx";
-import LegacySlugInput from "../../../../../packages/ui/src/legacy/SlugInput.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Search, slug, and prefixed inputs",
-    scenes: [
-      {
-        label: "SearchInput.tsx:15,17",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SearchInput.tsx:15,17",
-      },
-      {
-        label: "SlugInput.tsx:15,23",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SlugInput.tsx:15,23",
-      },
-      {
-        label: "ServerSelector.tsx:75",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ServerSelector.tsx:75",
-      },
-      {
-        label: "CreateJointChannelDialog.tsx:219",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:219",
-      },
-      {
-        label: "SettingsPanel.tsx:2335",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:2335",
-      },
-      {
-        label: "SelectionPopover.tsx:136,146",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SelectionPopover.tsx:136,146",
-      },
-    ],
-  },
-] as const;
-
-const COMPARISON_INPUT_CLASS = "w-80 max-w-full min-w-0";
 
 const SNIPPETS = {
   preview: `<InputGroup>
@@ -185,41 +136,6 @@ const SNIPPETS = {
   </InputGroup>
   <FieldError match>Use a valid email.</FieldError>
 </Field>`,
-  migrationSearch: `import { Search } from "lucide-react";
-
-// Source
-<SearchInput aria-label="Search" placeholder="Search..." />
-
-// Current, preserving the old no-focus-lift shell
-<InputGroup className="has-[[data-slot=input-group-control]:focus]:!shadow-raft-sm">
-  <InputGroupAddon>
-    <Search />
-  </InputGroupAddon>
-  <InputGroupInput aria-label="Search" placeholder="Search..." />
-</InputGroup>`,
-  migrationSlug: `// Source
-<SlugInput aria-label="Server slug" placeholder="my-server" />
-
-// Current
-<InputGroup>
-  <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-  <InputGroupInput aria-label="Server slug" placeholder="my-server" />
-</InputGroup>`,
-  migrationInvalid: `import { Search } from "lucide-react";
-
-// Source
-<SearchInput
-  className="!border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
-  defaultValue="oops"
-/>
-
-// Current
-<InputGroup>
-  <InputGroupAddon>
-    <Search />
-  </InputGroupAddon>
-  <InputGroupInput aria-label="Search" aria-invalid defaultValue="oops" />
-</InputGroup>`,
 } as const;
 
 const GROUP_PROPS: readonly PropRow[] = [
@@ -282,51 +198,18 @@ const INPUT_PROPS: readonly PropRow[] = [
   },
 ];
 
-const InputGroupCurrent = INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION;
-
-const INPUT_GROUP_COMPOSITION_RAW_SOURCES = {
-  InvalidState: inputGroupInvalidStateCompositionSource,
-  SearchInput: inputGroupSearchInputCompositionSource,
-  SlugInput: inputGroupSlugInputCompositionSource,
-} as const;
-
-const INPUT_GROUP_COMPOSITION_SOURCES = createCompositionSourceMap(
-  INPUT_GROUP_COMPOSITION_RAW_SOURCES,
-);
-
-const INPUT_GROUP_COMPOSITION_SNIPPET_IDS = {
-  InvalidState: "inputGroupInvalidStateComposition",
-  SearchInput: "inputGroupSearchInputComposition",
-  SlugInput: "inputGroupSlugInputComposition",
-} as const;
-
-type InputGroupCompositionKey = keyof typeof INPUT_GROUP_COMPOSITION_SOURCES;
-
 export const Route = createFileRoute("/components/input-group")({
   component: InputGroupDoc,
   loader: () =>
     highlightSnippets({
       data: {
         ...SNIPPETS,
-        ...createCompositionSnippetMap(
-          INPUT_GROUP_COMPOSITION_SOURCES,
-          INPUT_GROUP_COMPOSITION_SNIPPET_IDS,
-        ),
       },
     }),
 });
 
 function InputGroupDoc() {
   const code = Route.useLoaderData();
-  const inputGroupComposition = (key: InputGroupCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: INPUT_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: INPUT_GROUP_COMPOSITION_SNIPPET_IDS,
-      sources: INPUT_GROUP_COMPOSITION_SOURCES,
-    });
-
   return (
     <DocPage
       title="InputGroup"
@@ -514,58 +397,6 @@ function InputGroupDoc() {
             <PropsTable rows={INPUT_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              label: "SearchInput",
-              status: "match",
-              source: (
-                <div className={COMPARISON_INPUT_CLASS}>
-                  <LegacySearchInput aria-label="Search" placeholder="Search..." />
-                </div>
-              ),
-              brutal: <InputGroupCurrent.SearchInput />,
-              elegant: <InputGroupCurrent.SearchInput />,
-              elegantDark: <InputGroupCurrent.SearchInput />,
-              ...inputGroupComposition("SearchInput"),
-            },
-            {
-              label: "SlugInput",
-              status: "difference",
-              source: (
-                <div className={COMPARISON_INPUT_CLASS}>
-                  <LegacySlugInput aria-label="Server slug" placeholder="my-server" />
-                </div>
-              ),
-              brutal: <InputGroupCurrent.SlugInput />,
-              elegant: <InputGroupCurrent.SlugInput />,
-              elegantDark: <InputGroupCurrent.SlugInput />,
-              ...inputGroupComposition("SlugInput"),
-            },
-            {
-              label: "Invalid state",
-              status: "match",
-              source: (
-                <div className={COMPARISON_INPUT_CLASS}>
-                  <LegacySearchInput
-                    className="!border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
-                    aria-label="Search"
-                    defaultValue="oops"
-                  />
-                </div>
-              ),
-              brutal: <InputGroupCurrent.InvalidState />,
-              elegant: <InputGroupCurrent.InvalidState />,
-              elegantDark: <InputGroupCurrent.InvalidState />,
-              ...inputGroupComposition("InvalidState"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

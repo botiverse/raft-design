@@ -1,7 +1,7 @@
 import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui/wip";
 
 // @docs-source-strip-start
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 export function ToggleGroupDisabledContent() {
@@ -20,9 +20,9 @@ export function ToggleGroupDisabledContent() {
 // @docs-source-strip-start
 export function ToggleGroupDisabledComposition() {
   return (
-    <SourceComparisonPreview>
+    <CompositionPreview>
       <ToggleGroupDisabledContent />
-    </SourceComparisonPreview>
+    </CompositionPreview>
   );
 }
 // @docs-source-strip-end

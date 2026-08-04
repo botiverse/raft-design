@@ -41,6 +41,13 @@ import type {
   SearchSenderFixture,
 } from "../search.fixtures.ts";
 
+const brutalButtonSm = [
+  "border-2 border-black font-heading font-bold shadow-raft-sm",
+  "transition-all duration-100 hover:-translate-y-px hover:shadow-raft-md",
+  "active:translate-x-px active:translate-y-px active:shadow-raft-xs",
+  "disabled:pointer-events-none disabled:opacity-40 disabled:shadow-raft-sm disabled:transform-none",
+];
+
 export type BrutalSearchScope = "mentioned" | "humans" | "agents";
 export type BrutalSearchTimeRange = "any" | "today" | "7d" | "30d";
 export type BrutalSearchSort = "relevance" | "recent";
@@ -50,7 +57,7 @@ export const searchShell = tv({
     frame: ["flex h-full min-h-0 flex-1 flex-col"],
     header: ["flex items-center gap-3"],
     headerBack: ["inline-flex size-7 shrink-0 items-center justify-center leading-none md:hidden"],
-    headerIconChip: ["flex size-icon-header shrink-0 items-center justify-center"],
+    headerIconChip: ["flex size-9 shrink-0 items-center justify-center"],
     searchInputGroup: ["flex-1"],
     input: [],
     inputClear: [],
@@ -98,18 +105,18 @@ export const searchShell = tv({
       brutal: {
         frame: ["bg-white"],
         header: [
-          "h-panel-header px-5",
+          "h-[62px] px-5",
           "border-b-2 border-black bg-white",
-          "[@media(max-height:600px)]:!h-panel-header",
+          "[@media(max-height:600px)]:!h-[62px]",
         ],
-        headerBack: ["btn-brutal-sm bg-white font-bold text-black"],
+        headerBack: ["bg-white text-black", brutalButtonSm],
         headerIconChip: ["border-2 border-black bg-soft-signal"],
         searchInputGroup: [
           "shadow-sm",
           "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][data-invalid]]:shadow-md",
         ],
-        input: ["font-display font-medium placeholder:text-black/40"],
-        inputClear: ["btn-brutal-sm bg-white p-1"],
+        input: ["font-heading font-medium placeholder:text-black/40"],
+        inputClear: ["bg-white p-1", brutalButtonSm],
         inputKbd: ["font-bold uppercase text-black/50"],
         filtersRow: ["border-b-2 border-black bg-white"],
         filterTrigger: ["font-bold"],
@@ -118,7 +125,7 @@ export const searchShell = tv({
         clearAllButton: ["border border-black bg-white font-bold text-black/60 hover:text-black"],
         resultsViewport: ["bg-white"],
         resultsContent: ["bg-white"],
-        loadMoreButton: ["btn-brutal-sm bg-white"],
+        loadMoreButton: ["bg-white", brutalButtonSm],
         highlightMark: ["bg-soft-signal font-bold text-black"],
         metaLabel: ["font-bold text-black/50"],
         metaThreadChip: ["font-bold text-black/40"],
@@ -144,7 +151,7 @@ export const searchShell = tv({
         skeletonCard: ["border-2 border-black/30 bg-white"],
         errorTitle: ["font-bold text-black"],
         errorDescription: ["text-black/60"],
-        retryButton: ["btn-brutal-sm bg-white"],
+        retryButton: ["bg-white", brutalButtonSm],
       },
       elegant: {
         frame: ["bg-layer-page dark:bg-layer-page"],

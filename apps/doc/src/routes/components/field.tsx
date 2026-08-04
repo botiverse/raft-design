@@ -23,103 +23,18 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
-import { FieldPlaygroundPreview } from "#/modules/field/field.preview.tsx";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
+import { FieldCompactLabelContent } from "#/modules/field/compositions/compact-label.composition.tsx";
 import fieldCompactLabelCompositionSource from "#/modules/field/compositions/compact-label.composition.tsx?raw";
-import fieldErrorCompositionSource from "#/modules/field/compositions/error.composition.tsx?raw";
-import fieldLabelControlHelperCompositionSource from "#/modules/field/compositions/label-control-helper.composition.tsx?raw";
+import { FieldPlaygroundPreview } from "#/modules/field/field.preview.tsx";
 import fieldPreviewCompositionSource from "#/modules/field/compositions/preview.composition.tsx?raw";
-import {
-  FIELD_SOURCE_COMPARISON_COMPOSITION,
-  FIELD_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/modules/field/field.source-comparison.tsx";
-import LegacyFormField from "../../../../../packages/ui/src/legacy/FormField.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Auth and server fields",
-    scenes: [
-      {
-        label: "DeviceLoginPage.tsx:89",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/DeviceLoginPage.tsx:89",
-      },
-      {
-        label: "ServerSelector.tsx:60,74",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ServerSelector.tsx:60,74",
-      },
-      {
-        label: "ResetPasswordPage.tsx:82,95",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ResetPasswordPage.tsx:82,95",
-      },
-      {
-        label: "ForgotPasswordPage.tsx:68",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/ForgotPasswordPage.tsx:68",
-      },
-      {
-        label: "LoginPage.tsx:113,125",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/LoginPage.tsx:113,125",
-      },
-      {
-        label: "RegisterPage.tsx:70,83,95",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/RegisterPage.tsx:70,83,95",
-      },
-    ],
-  },
-  {
-    label: "Channel, agent, and settings forms",
-    scenes: [
-      {
-        label: "AddMachineDialog.tsx:330",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:330",
-      },
-      {
-        label: "CreateJointChannelDialog.tsx:196,208,218,231,245",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:196,208,218,231,245",
-      },
-      {
-        label: "CreateChannelDialog.tsx:260,271,280,291",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:260,271,280,291",
-      },
-      {
-        label: "EditChannelDialog.tsx:143,165",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/EditChannelDialog.tsx:143,165",
-      },
-      {
-        label:
-          "SettingsPanel.tsx:339,344,355,446,455,465,1125,1145,1533,1545,2531,2541,2550,2559,2568,2602,2611,2620,2629,2788,2800",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:339,344,355,446,455,465,1125,1145,1533,1545,2531,2541,2550,2559,2568,2602,2611,2620,2629,2788,2800",
-      },
-      {
-        label: "CreateAgentDialog.tsx:340,387,415",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/CreateAgentDialog.tsx:340,387,415",
-      },
-      {
-        label: "RuntimeConfigFields.tsx:73,172,182,207,221,295,315",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/RuntimeConfigFields.tsx:73,172,182,207,221,295,315",
-      },
-      {
-        label: "ChannelMembers.tsx:262",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:262",
-      },
-      {
-        label: "ReportIssueDialog.tsx:293",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ReportIssueDialog.tsx:293",
-      },
-    ],
-  },
 ] as const;
 
 const PREVIEW_TOP_CLASS = "!items-start !pt-16";
@@ -222,51 +137,6 @@ const SNIPPETS = {
     <Button>Save changes</Button>
   </div>
 </div>`,
-  migrationFormField: `// Source
-<FormField label="Email" htmlFor="email" required hint="Use your work email.">
-  <input id="email" className="input-brutal" />
-</FormField>
-
-// Current
-<Field>
-  <FieldLabel htmlFor="email" required>Email</FieldLabel>
-  <Input id="email" type="email" />
-  <FieldDescription>Use your work email.</FieldDescription>
-</Field>`,
-  migrationError: `// Source
-<FormField label="Email" htmlFor="email" error="Email is required.">
-  <input id="email" className="input-brutal" aria-invalid />
-</FormField>
-
-// Current
-<Field invalid>
-  <FieldLabel htmlFor="email">Email</FieldLabel>
-  <Input id="email" aria-invalid />
-  <FieldError match>Email is required.</FieldError>
-</Field>`,
-  sourceField: `<FormField label="Email" htmlFor="source-email" required hint="Use your work email.">
-  <input id="source-email" className="input-brutal" />
-</FormField>`,
-  currentField: `<Field>
-  <FieldLabel htmlFor="email" required>Email</FieldLabel>
-  <Input id="email" type="email" />
-  <FieldDescription>Use your work email.</FieldDescription>
-</Field>`,
-  sourceError: `<FormField label="Email" htmlFor="source-email-error" error="Email is required.">
-  <input id="source-email-error" className="input-brutal" aria-invalid />
-</FormField>`,
-  currentError: `<Field invalid>
-  <FieldLabel htmlFor="email">Email</FieldLabel>
-  <Input id="email" aria-invalid />
-  <FieldError match>Email is required.</FieldError>
-</Field>`,
-  sourceCompact: `<FormField label="Display name" htmlFor="source-display-name" size="compact">
-  <input id="source-display-name" className="input-brutal" />
-</FormField>`,
-  currentCompact: `<Field>
-  <FieldLabel htmlFor="display-name" size="sm">Display name</FieldLabel>
-  <Input id="display-name" />
-</Field>`,
 } as const;
 
 const FIELD_PROPS: readonly PropRow[] = [
@@ -327,25 +197,17 @@ const FIELD_VALIDITY_PROPS: readonly PropRow[] = [
   },
 ];
 
-const FieldCurrent = FIELD_SOURCE_COMPARISON_COMPOSITION;
-
 const FIELD_COMPOSITION_RAW_SOURCES = {
-  CompactLabel: fieldCompactLabelCompositionSource,
-  Error: fieldErrorCompositionSource,
-  LabelControlHelper: fieldLabelControlHelperCompositionSource,
   Preview: fieldPreviewCompositionSource,
+  CompactLabel: fieldCompactLabelCompositionSource,
 } as const;
 
 const FIELD_COMPOSITION_SOURCES = createCompositionSourceMap(FIELD_COMPOSITION_RAW_SOURCES);
 
 const FIELD_COMPOSITION_SNIPPET_IDS = {
-  CompactLabel: "fieldCompactLabelComposition",
-  Error: "fieldErrorComposition",
-  LabelControlHelper: "fieldLabelControlHelperComposition",
   Preview: "fieldPreviewComposition",
+  CompactLabel: "fieldCompactLabelComposition",
 } as const;
-
-type FieldCompositionKey = keyof typeof FIELD_COMPOSITION_SOURCES;
 
 export const Route = createFileRoute("/components/field")({
   component: FieldDoc,
@@ -360,15 +222,6 @@ export const Route = createFileRoute("/components/field")({
 
 function FieldDoc() {
   const code = Route.useLoaderData();
-  const fieldComposition = (key: FieldCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: FIELD_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: FIELD_COMPOSITION_SNIPPET_IDS,
-      sources: FIELD_COMPOSITION_SOURCES,
-    });
-
   return (
     <DocPage
       title="Field"
@@ -391,9 +244,16 @@ function FieldDoc() {
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="structure" title="Structure">
             <DocNote>
-              Field owns the form copy structure. Keep the control itself narrow: use{" "}
-              <Link to="/components/input">Input</Link>,{" "}
-              <Link to="/components/textarea">Textarea</Link>, or another control inside it.
+              <InlineCode>Field</InlineCode> owns the form copy structure. Keep the control itself
+              narrow: use{" "}
+              <Link to="/components/input">
+                <InlineCode>Input</InlineCode>
+              </Link>
+              ,{" "}
+              <Link to="/components/textarea">
+                <InlineCode>Textarea</InlineCode>
+              </Link>
+              , or another control inside it.
             </DocNote>
             <Preview previewClassName={PREVIEW_TOP_CLASS}>
               <Preview.Canvas>
@@ -414,6 +274,15 @@ function FieldDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.structure} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="compact-label" title="Compact label">
+            <Preview previewClassName={PREVIEW_TOP_CLASS}>
+              <Preview.Canvas>
+                <FieldCompactLabelContent />
+              </Preview.Canvas>
+              <Preview.Code html={code.fieldCompactLabelComposition} />
             </Preview>
           </DocSubsection>
 
@@ -529,75 +398,6 @@ function FieldDoc() {
             <PropsTable rows={FIELD_VALIDITY_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              label: "Label, control, helper",
-              status: "difference",
-              note: "Source FormField bundled label, control, and hint into one prop wrapper. Current keeps Field parts explicit.",
-              source: (
-                <LegacyFormField
-                  label="Email"
-                  htmlFor="source-field-email"
-                  required
-                  hint="Use your work email."
-                >
-                  <input id="source-field-email" aria-label="Email" className="input-brutal w-72" />
-                </LegacyFormField>
-              ),
-              brutal: <FieldCurrent.LabelControlHelper />,
-              elegant: <FieldCurrent.LabelControlHelper />,
-              elegantDark: <FieldCurrent.LabelControlHelper />,
-              ...fieldComposition("LabelControlHelper"),
-            },
-            {
-              label: "Error",
-              status: "difference",
-              note: "Source error prop rendered a fixed message. Current marks the Field invalid and lets FieldError own the inline message.",
-              source: (
-                <LegacyFormField
-                  label="Email"
-                  htmlFor="source-field-error-email"
-                  error="Email is required."
-                >
-                  <input
-                    id="source-field-error-email"
-                    aria-label="Email"
-                    aria-invalid
-                    className="input-brutal w-72 border-brutal-red bg-brutal-red/5 ring-2 ring-brutal-red/60"
-                  />
-                </LegacyFormField>
-              ),
-              brutal: <FieldCurrent.Error />,
-              elegant: <FieldCurrent.Error />,
-              elegantDark: <FieldCurrent.Error />,
-              ...fieldComposition("Error"),
-            },
-            {
-              label: "Compact label",
-              status: "difference",
-              note: 'Source used size="compact". Current keeps the Field wrapper unchanged and moves density to FieldLabel size.',
-              source: (
-                <LegacyFormField label="Display name" htmlFor="source-display-name" size="compact">
-                  <input
-                    id="source-display-name"
-                    aria-label="Display name"
-                    className="input-brutal w-72"
-                  />
-                </LegacyFormField>
-              ),
-              brutal: <FieldCurrent.CompactLabel />,
-              elegant: <FieldCurrent.CompactLabel />,
-              elegantDark: <FieldCurrent.CompactLabel />,
-              ...fieldComposition("CompactLabel"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

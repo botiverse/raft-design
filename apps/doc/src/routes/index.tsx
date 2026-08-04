@@ -1281,7 +1281,7 @@ function NotificationCenterPreview() {
         className={[
           "flex h-56 w-72 flex-col overflow-hidden rounded-md bg-layer-popover",
           "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
-          "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:shadow-[var(--source-shadow-hover,4px_4px_0px_var(--color-black))]",
+          "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:shadow-raft-md",
         ].join(" ")}
       >
         <NotificationCenterHeader>

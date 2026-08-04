@@ -9,7 +9,7 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import referenceAdaptersSource from "#/modules/message-reference/compositions/reference-adapters.composition.tsx?raw";
-import referenceComparisonSource from "#/modules/message-reference/compositions/reference-comparison.composition.tsx?raw";
+import primaryReferencesSource from "#/modules/message-reference/compositions/primary-references.composition.tsx?raw";
 import { MessageReferenceConversationDestinationsComposition } from "#/modules/message-reference/compositions/conversation-destinations.composition.tsx";
 import conversationDestinationsSource from "#/modules/message-reference/compositions/conversation-destinations.composition.tsx?raw";
 import { MessageReferenceExternalReferencesComposition } from "#/modules/message-reference/compositions/external-references.composition.tsx";
@@ -82,8 +82,8 @@ const PARTS: readonly PropRow[] = [
 
 const REFERENCE_SHOWCASE_PATH =
   "apps/doc/src/modules/message-reference/compositions/reference-showcase.composition.tsx";
-const REFERENCE_COMPARISON_PATH =
-  "apps/doc/src/modules/message-reference/compositions/reference-comparison.composition.tsx";
+const PRIMARY_REFERENCES_PATH =
+  "apps/doc/src/modules/message-reference/compositions/primary-references.composition.tsx";
 const REFERENCE_ADAPTERS_PATH =
   "apps/doc/src/modules/message-reference/compositions/reference-adapters.composition.tsx";
 
@@ -118,10 +118,10 @@ function MessageReferenceSourceFiles({ code }: { code: Record<string, string> })
           collapsedHtml: code.referenceShowcaseBody,
         },
         {
-          path: REFERENCE_COMPARISON_PATH,
-          source: referenceComparisonSource,
-          html: code.referenceComparison,
-          collapsedHtml: code.referenceComparisonBody,
+          path: PRIMARY_REFERENCES_PATH,
+          source: primaryReferencesSource,
+          html: code.primaryReferences,
+          collapsedHtml: code.primaryReferencesBody,
         },
         {
           path: REFERENCE_ADAPTERS_PATH,
@@ -139,9 +139,9 @@ export const Route = createFileRoute("/components/message-reference")({
   loader: () =>
     highlightSnippets({
       data: {
-        anatomy: referenceComparisonSource,
+        anatomy: primaryReferencesSource,
         referenceAdapters: referenceAdaptersSource,
-        referenceComparison: referenceComparisonSource,
+        primaryReferences: primaryReferencesSource,
         referenceShowcase: referenceShowcaseSource,
         peopleMentions: peopleMentionsSource,
         readIndicators: readIndicatorsSource,
@@ -184,8 +184,8 @@ function MessageReferenceDoc() {
           <DocSubsection parentId="usage" id="people-mentions" title="People mentions">
             <p className="mb-3 text-sm text-foreground-muted">
               Type <InlineCode>@Atlas</InlineCode> or <InlineCode>@Ada</InlineCode>. The consumer
-              owns member-preview behavior; use the primary variant for the current member and
-              secondary for everyone else.
+              owns member-preview behavior; use the <InlineCode>primary</InlineCode> variant for the
+              current member and <InlineCode>secondary</InlineCode> for everyone else.
             </p>
             <UsagePreview code={code.peopleMentions} collapsedCode={code.peopleMentionsBody}>
               <MessageReferencePeopleMentionsComposition />

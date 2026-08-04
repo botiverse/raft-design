@@ -8,7 +8,7 @@ import {
 import { Inbox } from "lucide-react";
 
 // @docs-source-strip-start
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 export function EmptyStateDefaultContent() {
@@ -28,9 +28,9 @@ export function EmptyStateDefaultContent() {
 // @docs-source-strip-start
 export function EmptyStateDefaultComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonPreview className={className}>
+    <CompositionPreview className={className}>
       <EmptyStateDefaultContent />
-    </SourceComparisonPreview>
+    </CompositionPreview>
   );
 }
 // @docs-source-strip-end

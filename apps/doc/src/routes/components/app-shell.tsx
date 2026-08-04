@@ -1,18 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { AppShellCollapsibleSidebarComposition } from "#/modules/app-shell/compositions/collapsible-sidebar.composition.tsx";
-import { AppShellDesktopComposition } from "#/modules/app-shell/compositions/desktop.composition.tsx";
 import { AppShellPreview } from "#/modules/app-shell/app-shell.preview.tsx";
-import { SourceAppShellPreview } from "#/modules/app-shell/app-shell.source-preview.tsx";
 import appShellCollapsibleSidebarCompositionSource from "#/modules/app-shell/compositions/collapsible-sidebar.composition.tsx?raw";
-import appShellDesktopCompositionSource from "#/modules/app-shell/compositions/desktop.composition.tsx?raw";
 import appShellResponsiveCompositionSource from "#/modules/app-shell/compositions/responsive.composition.tsx?raw";
 
 const APP_SHELL_RESPONSIVE_COMPOSITION_PATH =
@@ -25,32 +21,10 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock desktop shell",
-    scenes: [
-      {
-        label: "MainLayout.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/layout/MainLayout.tsx",
-      },
-      {
-        label: "LeftRail.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/layout/LeftRail.tsx",
-      },
-      {
-        label: "Sidebar.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/layout/Sidebar.tsx",
-      },
-    ],
-  },
 ] as const;
 
 const SNIPPETS = {
   collapsibleSidebarComposition: appShellCollapsibleSidebarCompositionSource,
-  desktopComposition: appShellDesktopCompositionSource,
   responsiveComposition: appShellResponsiveCompositionSource,
   anatomy: `import {
   AppShellMainSlot,
@@ -163,8 +137,10 @@ function AppShellDoc() {
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="responsive" title="Responsive">
             <p>
-              AppShell hides the rail and sidebar and switches to a column below md. Keep the active
-              page in AppShellMainSlot and add mobile navigation with md:hidden.
+              <InlineCode>AppShell</InlineCode> hides the rail and sidebar and switches to a column
+              below <InlineCode>md</InlineCode>. Keep the active page in{" "}
+              <InlineCode>AppShellMainSlot</InlineCode> and add mobile navigation with{" "}
+              <InlineCode>md:hidden</InlineCode>.
             </p>
             <DocsCodeBlock.Panel
               path={APP_SHELL_RESPONSIVE_COMPOSITION_PATH}
@@ -177,8 +153,8 @@ function AppShellDoc() {
 
           <DocSubsection parentId="usage" id="collapsible-sidebar" title="Collapsible sidebar">
             <p>
-              Set <code>sidebarCollapsible</code> on the root and render{" "}
-              <code>AppShellSidebarTrigger</code> in the main panel. The sidebar remains
+              Set <InlineCode>sidebarCollapsible</InlineCode> on the root and render{" "}
+              <InlineCode>AppShellSidebarTrigger</InlineCode> in the main panel. The sidebar remains
               caller-owned; the shell only measures its width and coordinates the collapse
               transition. For a resizable desktop shell, keep the sidebar and main slots in sibling
               relative panels as shown below.
@@ -221,33 +197,6 @@ function AppShellDoc() {
             <PropsTable rows={APP_SHELL_SIDEBAR_TRIGGER_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Desktop shell regions",
-              status: "review",
-              note: "The source fixture preserves the rail, sidebar, and main-region ordering; application state and route wiring remain outside the layout primitive.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="h-[420px] w-full">
-                  <SourceAppShellPreview />
-                </SourceThemeScope>
-              ),
-              brutal: <AppShellDesktopComposition />,
-              elegant: <AppShellDesktopComposition />,
-              elegantDark: <AppShellDesktopComposition />,
-              compositionCode: code.desktopComposition,
-              compositionCollapsedCode: code.desktopCompositionBody,
-              compositionPath:
-                "apps/doc/src/modules/app-shell/compositions/desktop.composition.tsx",
-              compositionSource: appShellDesktopCompositionSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

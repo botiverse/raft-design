@@ -15,23 +15,11 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
 import radioGroupReferralSourceCompositionSource from "#/modules/radio-group/compositions/referral-source.composition.tsx?raw";
-import radioGroupReferralSourceRestoredCompositionSource from "#/modules/radio-group/compositions/referral-source-restored.composition.tsx?raw";
 import radioGroupResetModeCompositionSource from "#/modules/radio-group/compositions/reset-mode.composition.tsx?raw";
 import radioGroupResetModeRestoredCompositionSource from "#/modules/radio-group/compositions/reset-mode-restored.composition.tsx?raw";
-import {
-  RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION,
-  RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
-  RadioGroupReferralSourcePreview,
-  RadioGroupResetModeSourcePreview,
-} from "#/modules/radio-group/radio-group.source-comparison.tsx";
 import { RadioGroupPreview } from "#/modules/radio-group/radio-group.preview.tsx";
 import { RadioGroupReferralSourceComposition } from "#/modules/radio-group/compositions/referral-source.composition.tsx";
 import { RadioGroupResetModeComposition } from "#/modules/radio-group/compositions/reset-mode.composition.tsx";
@@ -42,24 +30,7 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Onboarding and reset choices",
-    scenes: [
-      {
-        label: "OwnerOnboardingModal.tsx:914",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/OwnerOnboardingModal.tsx:914",
-      },
-      {
-        label: "ResetAgentDialog.tsx:83,94,113,117",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ResetAgentDialog.tsx:83,94,113,117",
-      },
-    ],
-  },
-] as const;
-
 const SNIPPETS = {
   anatomy: `import { RadioGroup, RadioGroupItem } from "raft-ui";
 
@@ -195,32 +166,18 @@ const RADIO_GROUP_INDICATOR_PROPS: readonly PropRow[] = [
 const RADIO_GROUP_USAGE_COMPOSITION_RAW_SOURCES = {
   ReferralSource: radioGroupReferralSourceCompositionSource,
   ResetMode: radioGroupResetModeCompositionSource,
-} as const;
-
-const RADIO_GROUP_SOURCE_COMPARISON_RAW_SOURCES = {
-  ReferralSource: radioGroupReferralSourceRestoredCompositionSource,
-  ResetMode: radioGroupResetModeRestoredCompositionSource,
+  ResetModeRestored: radioGroupResetModeRestoredCompositionSource,
 } as const;
 
 const RADIO_GROUP_USAGE_COMPOSITION_SOURCES = createCompositionSourceMap(
   RADIO_GROUP_USAGE_COMPOSITION_RAW_SOURCES,
 );
 
-const RADIO_GROUP_SOURCE_COMPARISON_SOURCES = createCompositionSourceMap(
-  RADIO_GROUP_SOURCE_COMPARISON_RAW_SOURCES,
-);
-
 const RADIO_GROUP_USAGE_COMPOSITION_SNIPPET_IDS = {
   ReferralSource: "radioGroupReferralSourceComposition",
   ResetMode: "radioGroupResetModeComposition",
+  ResetModeRestored: "radioGroupResetModeRestoredComposition",
 } as const;
-
-const RADIO_GROUP_SOURCE_COMPARISON_SNIPPET_IDS = {
-  ReferralSource: "radioGroupReferralSourceRestoredComposition",
-  ResetMode: "radioGroupResetModeRestoredComposition",
-} as const;
-
-type RadioGroupSourceComparisonKey = keyof typeof RADIO_GROUP_SOURCE_COMPARISON_SOURCES;
 
 export const Route = createFileRoute("/components/radio-group")({
   component: RadioGroupDoc,
@@ -232,26 +189,12 @@ export const Route = createFileRoute("/components/radio-group")({
           RADIO_GROUP_USAGE_COMPOSITION_SOURCES,
           RADIO_GROUP_USAGE_COMPOSITION_SNIPPET_IDS,
         ),
-        ...createCompositionSnippetMap(
-          RADIO_GROUP_SOURCE_COMPARISON_SOURCES,
-          RADIO_GROUP_SOURCE_COMPARISON_SNIPPET_IDS,
-        ),
       },
     }),
 });
 
 function RadioGroupDoc() {
   const code = Route.useLoaderData();
-  const radioGroupComposition = (key: RadioGroupSourceComparisonKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: RADIO_GROUP_SOURCE_COMPARISON_SNIPPET_IDS,
-      sources: RADIO_GROUP_SOURCE_COMPARISON_SOURCES,
-    });
-
-  const RadioGroupCurrent = RADIO_GROUP_SOURCE_COMPARISON_COMPOSITION;
   const [referralValue, setReferralValue] = useState("twitter_x");
   const [resetMode, setResetMode] = useState("restart");
 
@@ -386,35 +329,6 @@ function RadioGroupDoc() {
             <PropsTable rows={RADIO_GROUP_INDICATOR_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              label: "Referral source",
-              status: "match",
-              note: "Source onboarding already used radiogroup semantics for a single form answer. The migration keeps RadioGroup semantics while letting the option row own the selected visual.",
-              source: <RadioGroupReferralSourcePreview />,
-              brutal: <RadioGroupCurrent.ReferralSourceRestored />,
-              elegant: <RadioGroupCurrent.ReferralSourceRestored />,
-              elegantDark: <RadioGroupCurrent.ReferralSourceRestored />,
-              ...radioGroupComposition("ReferralSource"),
-            },
-            {
-              label: "Reset mode cards",
-              status: "difference",
-              note: "Source reset dialogs used selected button cards before a confirm action. RadioGroup gives the same deferred choice a real mutually exclusive form control.",
-              source: <RadioGroupResetModeSourcePreview />,
-              brutal: <RadioGroupCurrent.ResetModeRestored />,
-              elegant: <RadioGroupCurrent.ResetModeRestored />,
-              elegantDark: <RadioGroupCurrent.ResetModeRestored />,
-              ...radioGroupComposition("ResetMode"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

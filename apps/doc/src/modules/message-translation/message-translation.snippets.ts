@@ -5,7 +5,6 @@ export const MESSAGE_TRANSLATION_TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 export const MESSAGE_TRANSLATION_PROPS: readonly PropRow[] = [

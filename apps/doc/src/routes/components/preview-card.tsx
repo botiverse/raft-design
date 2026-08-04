@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Avatar,
   AvatarFallback,
+  InlineCode,
   PreviewCard,
   PreviewCardContent,
   PreviewCardDescription,
@@ -273,8 +274,9 @@ function PreviewCardDoc() {
       <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="mention-hover-card" title="Mention hover card">
           <DocNote>
-            Hover or focus the @Atlas link below. delay/closeDelay default to 80ms/40ms so repeated
-            message previews stay responsive.
+            Hover or focus the @Atlas link below. <InlineCode>delay</InlineCode> /{" "}
+            <InlineCode>closeDelay</InlineCode> default to <InlineCode>80ms</InlineCode> /{" "}
+            <InlineCode>40ms</InlineCode> so repeated message previews stay responsive.
           </DocNote>
           <Preview previewClassName="min-h-[18rem] items-start pt-8">
             <Preview.Canvas>

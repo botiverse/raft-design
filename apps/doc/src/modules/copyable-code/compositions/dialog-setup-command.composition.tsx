@@ -1,7 +1,7 @@
 import { CopyableCode, CopyableCodeAction, CopyableCodeRoot } from "raft-ui";
 
 // @docs-source-strip-start
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 const COMMAND =
@@ -19,9 +19,9 @@ export function DialogSetupCommandContent() {
 // @docs-source-strip-start
 export function DialogSetupCommandComposition() {
   return (
-    <SourceComparisonPreview>
+    <CompositionPreview>
       <DialogSetupCommandContent />
-    </SourceComparisonPreview>
+    </CompositionPreview>
   );
 }
 // @docs-source-strip-end

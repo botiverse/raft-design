@@ -12,7 +12,7 @@ import {
 } from "./preview.composition.tsx";
 
 // @docs-source-strip-start
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 export function SystemMessageGroupComposition({
@@ -67,9 +67,9 @@ export function SystemMessageGroupedGenericContent() {
 // @docs-source-strip-start
 export function SystemMessageGroupedGenericComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonPreview className={className}>
+    <CompositionPreview className={className}>
       <SystemMessageGroupedGenericContent />
-    </SourceComparisonPreview>
+    </CompositionPreview>
   );
 }
 // @docs-source-strip-end

@@ -1,19 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { Download, X } from "lucide-react";
-import type { ReactNode } from "react";
-
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import attachmentPreviewShellCompositionSource from "#/modules/lightbox/compositions/attachment-preview-shell.composition.tsx?raw";
 import { AttachmentPreviewShellComposition } from "#/modules/lightbox/compositions/attachment-preview-shell.composition.tsx";
@@ -27,7 +18,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SNIPPETS = {
@@ -69,33 +59,6 @@ const SNIPPETS = {
     </LightboxStage>
   </LightboxContent>
 </Lightbox>`,
-  sourceImageShell: `<Lightbox onClose={close} className="flex flex-col" data-testid="image-lightbox">
-  <div className="safe-top safe-left safe-right pointer-events-auto shrink-0 border-b-2 border-black bg-white">
-    <div className="flex h-14 items-center gap-3 px-4">
-      <div className="min-w-0 flex-1 truncate text-sm font-bold font-sans text-black">
-        {current.filename}
-      </div>
-      <Button shape="icon" title="Download" />
-      <Button shape="icon" title="Close" />
-    </div>
-  </div>
-  <div className="relative flex flex-1 items-center justify-center overflow-hidden">
-    <img src={displaySrc} alt={current.filename} />
-  </div>
-</Lightbox>`,
-  sourceAttachmentShell: `<Lightbox
-  onClose={onClose}
-  backdropClass={browserFindLayout ? "bg-brutal-cream" : undefined}
-  positionClass={browserFindLayout ? "absolute left-0 right-0 top-0 min-h-screen" : undefined}
-  lockBodyScroll={!browserFindLayout}
-  scrollIntoViewOnMount={browserFindLayout}
-  className={browserFindLayout ? "bg-brutal-cream" : "flex flex-col items-center justify-center"}
->
-  <div className="safe-top safe-left pointer-events-auto absolute left-0 right-0 top-0 border-b-2 border-black bg-white">
-    ...
-  </div>
-  {children}
-</Lightbox>`,
 } as const;
 
 const LIGHTBOX_COMPOSITION_RAW_SOURCES = {
@@ -114,53 +77,6 @@ const LIGHTBOX_COMPOSITION_SNIPPETS = createCompositionSnippetMap(
   LIGHTBOX_COMPOSITION_SOURCES,
   LIGHTBOX_COMPOSITION_SNIPPET_IDS,
 );
-
-const LIGHTBOX_COMPOSITION_PATHS = {
-  AttachmentPreviewShell:
-    "apps/doc/src/modules/lightbox/compositions/attachment-preview-shell.composition.tsx",
-  ImageLightboxShell:
-    "apps/doc/src/modules/lightbox/compositions/image-lightbox-shell.composition.tsx",
-} as const;
-
-type LightboxCompositionKey = keyof typeof LIGHTBOX_COMPOSITION_SOURCES;
-
-function compositionPanelProps(
-  code: Record<string, ReactNode | AnyRenderableServerComponent>,
-  key: LightboxCompositionKey,
-) {
-  return createCompositionPanelProps({
-    code,
-    key,
-    paths: LIGHTBOX_COMPOSITION_PATHS,
-    snippetIds: LIGHTBOX_COMPOSITION_SNIPPET_IDS,
-    sources: LIGHTBOX_COMPOSITION_SOURCES,
-  });
-}
-
-const SOURCE_SCENES = [
-  {
-    label: "Primitive and global image shell",
-    scenes: [
-      {
-        label: "Lightbox primitive",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/Lightbox.tsx:39",
-      },
-      {
-        label: "ImageLightbox shell",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ImageLightbox.tsx:116",
-      },
-    ],
-  },
-  {
-    label: "Business lightbox callsites",
-    scenes: [
-      {
-        label: "Attachment preview shell",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:915",
-      },
-    ],
-  },
-] as const;
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
@@ -433,112 +349,6 @@ function LightboxDoc() {
           </DocSubsection>
         </div>
       </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Image lightbox shell",
-              status: "difference",
-              note: "Source mixed the visual shell and image switching into ImageLightbox. Current keeps the same caller-owned navigation boundary while expressing the header, action cluster, stage, and media slots through the Lightbox composition family.",
-              source: <SourceImageLightboxPreview />,
-              brutal: <ImageLightboxShellComposition />,
-              elegant: <ImageLightboxShellComposition />,
-              elegantDark: <ImageLightboxShellComposition />,
-              sourceCode: code.sourceImageShell,
-              ...compositionPanelProps(code, "ImageLightboxShell"),
-            },
-            {
-              label: "Attachment preview shell",
-              status: "difference",
-              note: "Source mixed absolute fill layout, browser-find scroll mode, and comment chrome into AttachmentPreviewShell. Current uses LightboxToolbar (left Meta / right Actions) over a flex-1 Stage; modal=false and product comment/browser-find behavior stay at the composition boundary.",
-              source: <SourceAttachmentPreview />,
-              brutal: <AttachmentPreviewShellComposition />,
-              elegant: <AttachmentPreviewShellComposition />,
-              elegantDark: <AttachmentPreviewShellComposition />,
-              sourceCode: code.sourceAttachmentShell,
-              ...compositionPanelProps(code, "AttachmentPreviewShell"),
-            },
-          ]}
-        />
-      </DocSection>
     </DocPage>
-  );
-}
-
-function SourceImageLightboxPreview() {
-  return (
-    <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-black/75">
-      <SourceLightboxHeader title="product-shot.png" />
-      <SourceLightboxStage />
-    </div>
-  );
-}
-
-function SourceAttachmentPreview() {
-  return (
-    <div className="flex h-44 w-full max-w-sm flex-col overflow-hidden bg-brutal-cream">
-      <SourceLightboxHeader title="diagram-export.html" label="HTML preview" />
-      <div className="flex min-h-0 flex-1 items-center justify-center p-4">
-        <div className="h-full w-3/4 border-2 border-black bg-white shadow-[var(--source-shadow)]" />
-      </div>
-    </div>
-  );
-}
-
-function SourceLightboxHeader({
-  title,
-  label,
-  compact,
-}: {
-  title: string;
-  label?: string;
-  compact?: boolean;
-}) {
-  return (
-    <div className="shrink-0 border-b-2 border-black bg-white">
-      <div className={`${compact ? "h-9" : "h-10"} flex items-center gap-2 px-3`}>
-        <div className="min-w-0 flex-1 truncate font-heading text-xs font-bold text-black">
-          {title}
-        </div>
-        {label ? (
-          <div className="shrink-0 border-2 border-black bg-primary px-1.5 py-0.5 text-[10px] font-display font-bold tracking-wide text-black uppercase">
-            {label}
-          </div>
-        ) : null}
-        <SourceIconGroup />
-      </div>
-    </div>
-  );
-}
-
-function SourceIconGroup() {
-  return (
-    <div className="flex gap-1">
-      <span className="flex size-6 items-center justify-center border-2 border-black bg-white text-black">
-        <Download size={12} aria-hidden />
-      </span>
-      <span className="flex size-6 items-center justify-center border-2 border-black bg-white text-black">
-        <X size={12} aria-hidden />
-      </span>
-    </div>
-  );
-}
-
-function SourceLightboxStage() {
-  return (
-    <div className="flex min-h-0 flex-1 items-center justify-center p-4">
-      <div className="aspect-[4/3] h-full max-h-24 border-2 border-black bg-white shadow-[var(--source-shadow)]">
-        <div className="grid size-full grid-cols-4 grid-rows-3">
-          {Array.from({ length: 12 }, (_, index) => (
-            <div
-              key={index}
-              className={index % 2 === 0 ? "bg-brutal-cyan/35" : "bg-brutal-yellow/45"}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }

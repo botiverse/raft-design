@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -6,10 +7,8 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
+import { createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 import { FilesPanelDefaultComposition } from "#/modules/files/compositions/default.composition.tsx";
 import filesPanelDefaultCompositionSource from "#/modules/files/compositions/default.composition.tsx?raw";
@@ -20,33 +19,12 @@ import filesPanelFileTypesCompositionSource from "#/modules/files/compositions/f
 import filesPanelCompositionSource from "#/modules/files/compositions/files-panel.composition.tsx?raw";
 import { FilesPanelStatesComposition } from "#/modules/files/compositions/states.composition.tsx";
 import filesPanelStatesCompositionSource from "#/modules/files/compositions/states.composition.tsx?raw";
-import {
-  FILES_PANEL_DEFAULT_COMPOSITION_PATH,
-  FilesPanelSourcePreview,
-} from "#/modules/files/files.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "ChannelFilesPanel",
-    scenes: [
-      {
-        label: "Data and interaction ownership: 143–253",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ChannelFilesPanel.tsx:143",
-      },
-      {
-        label: "Panel and row structure: 255–335",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ChannelFilesPanel.tsx:255",
-      },
-    ],
-  },
 ] as const;
 
 const ANATOMY = `import {
@@ -102,7 +80,7 @@ const COMPOSITION_SOURCES = createCompositionSourceMap({
 } as const);
 
 const COMPOSITION_PATHS = {
-  defaultComposition: FILES_PANEL_DEFAULT_COMPOSITION_PATH,
+  defaultComposition: "apps/doc/src/modules/files/compositions/default.composition.tsx",
   filesPanelComposition: "apps/doc/src/modules/files/compositions/files-panel.composition.tsx",
 } as const;
 
@@ -302,7 +280,7 @@ function FilesPanelDoc() {
               The package exposes structure and native event surfaces. The consumer decides how to
               preview, download, jump to the original message, fetch the next cursor, and render
               loading or error states. This advanced example keeps those actions observable without
-              introducing product stores or routing into raft-ui.
+              introducing product stores or routing into <InlineCode>raft-ui</InlineCode>.
             </DocNote>
             <Preview previewClassName="items-stretch p-6">
               <Preview.Canvas>
@@ -371,35 +349,6 @@ function FilesPanelDoc() {
             </div>
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          previewSize="tall"
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              id: "source-comparison-files-panel",
-              label: "Channel files panel",
-              status: "difference",
-              note: "Source owns API data, cursor pagination, signed URLs, lightbox state, and routing in one product component. Current keeps those workflows in the docs/Playground consumer and exposes stable, business-agnostic row parts through raft-ui.",
-              source: (
-                <SourceThemeScope className="w-full">
-                  <FilesPanelSourcePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <FilesPanelDefaultComposition />,
-              elegant: <FilesPanelDefaultComposition />,
-              elegantDark: <FilesPanelDefaultComposition />,
-              compositionCode: code.default,
-              compositionCollapsedCode: code.defaultBody,
-              compositionPath: FILES_PANEL_DEFAULT_COMPOSITION_PATH,
-              compositionSource: COMPOSITION_SOURCES.defaultComposition,
-              compositionShowLineNumbers: false,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

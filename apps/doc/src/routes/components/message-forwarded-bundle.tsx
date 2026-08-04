@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -7,8 +8,6 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { ForwardedBundleCompactComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle-compact.composition.tsx";
 import forwardedBundleCompactSource from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle-compact.composition.tsx?raw";
@@ -23,30 +22,12 @@ import {
   MessageForwardedBundleShowcaseComposition,
 } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import forwardedBundleSource from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx?raw";
-import { MessageForwardedBundleSourcePreview } from "#/modules/message-forwarded-bundle/message-forwarded-bundle.source-preview.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock forwarded-message surface",
-    scenes: [
-      {
-        label: "ForwardedBundleCard.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/ForwardedBundleCard.tsx",
-      },
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-    ],
-  },
 ] as const;
 
 const ANATOMY_SOURCE = `import {
@@ -257,8 +238,8 @@ function MessageForwardedBundleDoc() {
           <DocSubsection parentId="usage" id="collapsed" title="Collapsed bundle">
             <DocNote>
               More than three messages begin collapsed. The consumer owns the expanded state and
-              passes it to MessageForwardedBundleItems; the list then clips and renders its own
-              fade. The footer and its action remain caller-owned.
+              passes it to <InlineCode>MessageForwardedBundleItems</InlineCode>; the list then clips
+              and renders its own fade. The footer and its action remain caller-owned.
             </DocNote>
             <UsagePreview code={code.forwardedBundle} collapsedCode={code.forwardedBundleBody}>
               <ForwardedBundleEmbeddedComposition />
@@ -308,33 +289,6 @@ function MessageForwardedBundleDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Collapsed forwarded bundle",
-              status: "review",
-              note: "The Source pane is a static fixture extracted from the real ForwardedBundleCard and MessageItem DOM; the three Current panes execute the canonical message composition.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="w-full">
-                  <MessageForwardedBundleSourcePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <ForwardedBundleEmbeddedComposition />,
-              elegant: <ForwardedBundleEmbeddedComposition />,
-              elegantDark: <ForwardedBundleEmbeddedComposition />,
-              compositionCode: code.forwardedBundle,
-              compositionCollapsedCode: code.forwardedBundleBody,
-              compositionPath:
-                "apps/doc/src/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx",
-              compositionSource: forwardedBundleSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

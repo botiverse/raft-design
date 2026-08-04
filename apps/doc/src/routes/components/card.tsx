@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -6,10 +7,7 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import denseSettingsCompositionSource from "#/modules/card/compositions/dense-settings.composition.tsx?raw";
 import { CardDenseSettingsComposition } from "#/modules/card/compositions/dense-settings.composition.tsx";
 import appNotificationsCompositionSource from "#/modules/card/compositions/app-notifications.composition.tsx?raw";
@@ -175,8 +173,10 @@ function CardDoc() {
             title="Notification permissions"
           >
             <p>
-              Compose the title text and switch inside CardTitle, keep CardDescription as its
-              sibling in CardHeader, then use CardContent for supporting controls.
+              Compose the title text and switch inside <InlineCode>CardTitle</InlineCode>, keep{" "}
+              <InlineCode>CardDescription</InlineCode> as its sibling in{" "}
+              <InlineCode>CardHeader</InlineCode>, then use <InlineCode>CardContent</InlineCode> for
+              supporting controls.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -191,8 +191,9 @@ function CardDoc() {
 
           <DocSubsection parentId="usage" id="leading-action" title="Leading action">
             <p>
-              Use CardLeading when an enabling control precedes CardTitleText, then reveal its
-              configuration in CardContent.
+              Use <InlineCode>CardLeading</InlineCode> when an enabling control precedes{" "}
+              <InlineCode>CardTitleText</InlineCode>, then reveal its configuration in{" "}
+              <InlineCode>CardContent</InlineCode>.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -207,8 +208,8 @@ function CardDoc() {
 
           <DocSubsection parentId="usage" id="supporting-note" title="Supporting note">
             <p>
-              Use CardFooter for brief guidance that describes the whole setting, optionally paired
-              with a related action or documentation link.
+              Use <InlineCode>CardFooter</InlineCode> for brief guidance that describes the whole
+              setting, optionally paired with a related action or documentation link.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -223,8 +224,8 @@ function CardDoc() {
 
           <DocSubsection parentId="usage" id="workspace-mode" title="Workspace mode">
             <p>
-              Use CardHeader alone for a compact preference, with its title and trailing control
-              composed in CardTitle.
+              Use <InlineCode>CardHeader</InlineCode> alone for a compact preference, with its title
+              and trailing control composed in <InlineCode>CardTitle</InlineCode>.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -238,7 +239,10 @@ function CardDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="session-action" title="Session action">
-            <p>Place a card-level action in CardContent and align it to the lower trailing edge.</p>
+            <p>
+              Place a card-level action in <InlineCode>CardContent</InlineCode> and align it to the
+              lower trailing edge.
+            </p>
             <Preview>
               <Preview.Canvas>
                 <CardSessionActionComposition />
@@ -269,9 +273,9 @@ function CardDoc() {
 
           <DocSubsection parentId="usage" id="dense-settings" title="Dense settings">
             <p>
-              Use inset when a card contains a dense cluster of controls or nested components that
-              need stronger visual separation. Prefer default for isolated cards or lower-density
-              information.
+              Use <InlineCode>inset</InlineCode> when a card contains a dense cluster of controls or
+              nested components that need stronger visual separation. Prefer{" "}
+              <InlineCode>default</InlineCode> for isolated cards or lower-density information.
             </p>
             <Preview>
               <Preview.Canvas>

@@ -30,7 +30,7 @@ const INITIAL_FILES: readonly FileListEntry[] = [
 
 const MORE_FILE: FileListEntry = {
   id: "source-archive",
-  filename: "source-comparison.zip",
+  filename: "project-assets.zip",
   size: "1.7 MB",
   createdAt: "Yesterday, 3:54 PM",
   type: "archive",

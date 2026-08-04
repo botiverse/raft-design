@@ -8,9 +8,8 @@ import {
   PopoverSeparator,
   PopoverTitle,
   PopoverTrigger,
-  Status,
 } from "raft-ui";
-import { AlertTriangle, Info, X } from "lucide-react";
+import { Info, X } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useRef, useState } from "react";
 
@@ -19,12 +18,6 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import popoverMentionCardCompositionSource from "#/modules/popover/compositions/popover-mention-card.composition.tsx?raw";
-import { PopoverMentionCardComposition } from "#/modules/popover/compositions/popover-mention-card.composition.tsx";
-import popoverNotificationCompositionSource from "#/modules/popover/compositions/popover-notification.composition.tsx?raw";
-import { PopoverNotificationComposition } from "#/modules/popover/compositions/popover-notification.composition.tsx";
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -32,49 +25,7 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Notification popovers",
-    scenes: [
-      {
-        label: "NotificationTrigger.tsx:58,126,166",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/NotificationTrigger.tsx:58,126,166",
-      },
-      {
-        label: "LeftRail.tsx:162",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LeftRail.tsx:162",
-      },
-      {
-        label: "Sidebar.tsx:1226",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1226",
-      },
-    ],
-  },
-  {
-    label: "Hover cards and message popovers",
-    scenes: [
-      {
-        label: "MentionLink.tsx:15-33",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionLink.tsx:15-33",
-      },
-      {
-        label: "useProfileHoverCard.tsx:49-83",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/hooks/useProfileHoverCard.tsx:49-83",
-      },
-      {
-        label: "MentionHoverCard.tsx:35,99,102",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:35,99,102",
-      },
-      {
-        label: "MessageItem.tsx:2808,2860,2862,2890",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:2808,2860,2862,2890",
-      },
-    ],
-  },
-] as const;
-
 const PANEL_BODY_SNIPPET = `    <PopoverHeader>
       <PopoverTitle>Usage notes</PopoverTitle>
       <PopoverClose aria-label="Close usage notes" className="[&_svg]:size-3">
@@ -212,19 +163,12 @@ const POPOVER_CLOSE_PROPS: readonly PropRow[] = [
   },
 ];
 
-const POPOVER_NOTIFICATION_COMPOSITION_PATH =
-  "apps/doc/src/modules/popover/compositions/popover-notification.composition.tsx" as const;
-const POPOVER_MENTION_CARD_COMPOSITION_PATH =
-  "apps/doc/src/modules/popover/compositions/popover-mention-card.composition.tsx" as const;
-
 export const Route = createFileRoute("/components/popover")({
   component: PopoverDoc,
   loader: () =>
     highlightSnippets({
       data: {
         ...SNIPPETS,
-        popoverNotificationComposition: popoverNotificationCompositionSource,
-        popoverMentionCardComposition: popoverMentionCardCompositionSource,
       },
     }),
 });
@@ -307,119 +251,6 @@ function SearchGuidePreview({ open }: { open: boolean }) {
         </PopoverContent>
       </Popover>
     </div>
-  );
-}
-
-function SourceNotificationPopoverPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-72 items-start pt-8">
-      <div className="grid w-80 justify-items-start gap-2">
-        <span className="relative inline-flex">
-          <button
-            type="button"
-            aria-label="Notification center (2 active)"
-            className="inline-flex size-9 items-center justify-center border-2 border-black bg-brutal-orange text-black shadow-[2px_2px_0_#141111] transition-shadow duration-100 hover:shadow-[4px_4px_0_#141111]"
-          >
-            <AlertTriangle className="size-[18px]" />
-          </button>
-          <Status
-            aria-hidden
-            size="md"
-            variant="warning"
-            className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2"
-          />
-        </span>
-        <div className="flex h-72 w-full flex-col overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0_#141111]">
-          <div className="flex items-center gap-2 border-b-2 border-black bg-brutal-cream px-3 py-2">
-            <span className="text-[10px] font-bold uppercase tracking-wide text-black/60">
-              Notifications
-            </span>
-            <span className="ml-auto font-mono text-xs text-black/40">2 items</span>
-          </div>
-          <ul className="divide-y-2 divide-black">
-            <SourceNotificationItem
-              title="Sync needs attention"
-              body="Retry source sync before publishing docs."
-              action="Retry"
-            />
-            <SourceNotificationItem
-              title="Thread mentioned you"
-              body="Atlas left a note in #design-system."
-              action="Open"
-            />
-          </ul>
-        </div>
-      </div>
-    </SourceComparisonPreview>
-  );
-}
-
-function SourceNotificationItem({
-  title,
-  body,
-  action,
-}: {
-  title: string;
-  body: string;
-  action: string;
-}) {
-  return (
-    <li className="px-3 py-3">
-      <div className="flex items-start gap-2">
-        <div className="mt-0.5 flex size-6 shrink-0 items-center justify-center border-2 border-black bg-brutal-orange">
-          <AlertTriangle className="size-4 text-black" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="break-words text-sm font-bold text-black">{title}</div>
-          <div className="mt-0.5 break-words text-sm text-black">{body}</div>
-          <div className="mt-2 flex flex-wrap items-center gap-2">
-            <span className="border-2 border-black bg-brutal-pink px-3 py-1.5 text-xs font-bold text-black shadow-[2px_2px_0_#141111]">
-              {action}
-            </span>
-            <span className="border-2 border-black bg-white px-3 py-1.5 text-xs font-bold text-black shadow-[2px_2px_0_#141111]">
-              Dismiss
-            </span>
-          </div>
-        </div>
-      </div>
-    </li>
-  );
-}
-
-function SourceMentionCardPreview() {
-  return (
-    <SourceComparisonPreview className="min-h-72 items-start pt-8">
-      <div className="grid w-[20rem] justify-items-start gap-2">
-        <p className="m-0 max-w-full text-sm leading-6 text-black">
-          <span>Follow up with </span>
-          <span className="cursor-default select-text font-bold text-black underline decoration-black/30 decoration-2 underline-offset-2 hover:text-brutal-pink hover:decoration-brutal-pink">
-            @Atlas
-          </span>
-          <span> about the token migration.</span>
-        </p>
-        <div className="ml-16 w-[17.5rem] overflow-hidden border-2 border-black bg-white shadow-[4px_4px_0_#141111]">
-          <div className="flex items-start gap-3 px-3 pt-3 pb-2">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-black bg-brutal-yellow text-sm font-bold text-black">
-              AT
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5">
-                <span className="truncate text-sm font-bold text-black">Atlas</span>
-                <Status aria-hidden size="sm" variant="success" />
-                <span className="truncate font-mono text-xs text-black/60">Online</span>
-              </div>
-              <div className="truncate font-mono text-xs text-black/60">@atlas</div>
-            </div>
-          </div>
-          <div
-            className="truncate border-t-2 border-black px-3 py-2 text-xs text-black/70"
-            title="Reviewing the token migration in #design-system."
-          >
-            Reviewing the token migration in #design-system.
-          </div>
-        </div>
-      </div>
-    </SourceComparisonPreview>
   );
 }
 
@@ -516,45 +347,6 @@ function PopoverDoc() {
             <PropsTable rows={POPOVER_CLOSE_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison" showThemeSwitcher={false}>
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              id: "source-comparison-notification-popover",
-              label: "Notification popover",
-              status: "difference",
-              note: "Source scenes: NotificationTrigger.tsx:58,126,166; LeftRail.tsx:162; Sidebar.tsx:1226.",
-              source: <SourceNotificationPopoverPreview />,
-              brutal: <PopoverNotificationComposition />,
-              elegant: <PopoverNotificationComposition />,
-              elegantDark: <PopoverNotificationComposition />,
-              compositionCode: code.popoverNotificationComposition,
-              compositionCollapsedCode: code.popoverNotificationCompositionBody,
-              compositionPath: POPOVER_NOTIFICATION_COMPOSITION_PATH,
-              compositionSource: popoverNotificationCompositionSource,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-mention-card",
-              label: "Mention card",
-              status: "difference",
-              note: "Source trigger is the @mention anchor in MentionLink.tsx:15-33; useProfileHoverCard.tsx:49-83 opens the card on hover/focus. This comparison freezes the opened MentionHoverCard.tsx:35,99,102 state because Popover only opens on click/press. See PreviewCard for the hover-native migration of this scene.",
-              source: <SourceMentionCardPreview />,
-              brutal: <PopoverMentionCardComposition />,
-              elegant: <PopoverMentionCardComposition />,
-              elegantDark: <PopoverMentionCardComposition />,
-              compositionCode: code.popoverMentionCardComposition,
-              compositionPath: POPOVER_MENTION_CARD_COMPOSITION_PATH,
-              compositionSource: popoverMentionCardCompositionSource,
-              compositionShowLineNumbers: false,
-            },
-          ]}
-          previewSize="popover"
-        />
       </DocSection>
     </DocPage>
   );

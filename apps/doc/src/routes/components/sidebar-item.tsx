@@ -5,20 +5,7 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
-import { SidebarItemAgentPresenceComposition } from "#/modules/sidebar-item/compositions/agent-presence.composition.tsx";
-import agentPresenceCompositionSource from "#/modules/sidebar-item/compositions/agent-presence.composition.tsx?raw";
-import { SidebarItemMentionAndUnreadComposition } from "#/modules/sidebar-item/compositions/mention-and-unread.composition.tsx";
-import mentionAndUnreadCompositionSource from "#/modules/sidebar-item/compositions/mention-and-unread.composition.tsx?raw";
-import { SidebarItemSelectedChannelComposition } from "#/modules/sidebar-item/compositions/selected-channel.composition.tsx";
-import selectedChannelCompositionSource from "#/modules/sidebar-item/compositions/selected-channel.composition.tsx?raw";
 import { SidebarItemStatesComposition } from "#/modules/sidebar-item/sidebar-item.composition.tsx";
-import {
-  SourceSidebarItemDirectMessagePreview,
-  SourceSidebarItemNotificationPreview,
-  SourceSidebarItemSelectedPreview,
-} from "#/modules/sidebar-item/sidebar-item.source-preview.tsx";
 import sidebarItemCompositionSource from "#/modules/sidebar-item/sidebar-item.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -51,19 +38,6 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock sidebar rows",
-    scenes: [
-      {
-        label: "Sidebar.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/layout/Sidebar.tsx",
-      },
-    ],
-  },
 ] as const;
 
 const SIDEBAR_ITEM_PROPS: readonly PropRow[] = [
@@ -178,9 +152,6 @@ export const Route = createFileRoute("/components/sidebar-item")({
       data: {
         anatomy: ANATOMY_SNIPPET,
         composition: sidebarItemCompositionSource,
-        selectedChannel: selectedChannelCompositionSource,
-        mentionAndUnread: mentionAndUnreadCompositionSource,
-        agentPresence: agentPresenceCompositionSource,
       },
     }),
 });
@@ -258,66 +229,6 @@ function SidebarItemDoc() {
             <PropsTable rows={SIDEBAR_ITEM_META_ICON_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Selected channel",
-              status: "review",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope>
-                  <SourceSidebarItemSelectedPreview />
-                </SourceThemeScope>
-              ),
-              brutal: <SidebarItemSelectedChannelComposition />,
-              elegant: <SidebarItemSelectedChannelComposition />,
-              elegantDark: <SidebarItemSelectedChannelComposition />,
-              compositionCode: code.selectedChannel,
-              compositionCollapsedCode: code.selectedChannelBody,
-              compositionPath:
-                "apps/doc/src/modules/sidebar-item/compositions/selected-channel.composition.tsx",
-              compositionSource: selectedChannelCompositionSource,
-            },
-            {
-              label: "Mention and unread metadata",
-              status: "review",
-              source: (
-                <SourceThemeScope>
-                  <SourceSidebarItemNotificationPreview />
-                </SourceThemeScope>
-              ),
-              brutal: <SidebarItemMentionAndUnreadComposition />,
-              elegant: <SidebarItemMentionAndUnreadComposition />,
-              elegantDark: <SidebarItemMentionAndUnreadComposition />,
-              compositionCode: code.mentionAndUnread,
-              compositionCollapsedCode: code.mentionAndUnreadBody,
-              compositionPath:
-                "apps/doc/src/modules/sidebar-item/compositions/mention-and-unread.composition.tsx",
-              compositionSource: mentionAndUnreadCompositionSource,
-            },
-            {
-              label: "Agent presence",
-              status: "review",
-              source: (
-                <SourceThemeScope>
-                  <SourceSidebarItemDirectMessagePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <SidebarItemAgentPresenceComposition />,
-              elegant: <SidebarItemAgentPresenceComposition />,
-              elegantDark: <SidebarItemAgentPresenceComposition />,
-              compositionCode: code.agentPresence,
-              compositionCollapsedCode: code.agentPresenceBody,
-              compositionPath:
-                "apps/doc/src/modules/sidebar-item/compositions/agent-presence.composition.tsx",
-              compositionSource: agentPresenceCompositionSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

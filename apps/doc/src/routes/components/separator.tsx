@@ -7,50 +7,13 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
-import separatorHorizontalCompositionSource from "#/modules/separator/compositions/horizontal.composition.tsx?raw";
-import separatorVerticalCompositionSource from "#/modules/separator/compositions/vertical.composition.tsx?raw";
-import {
-  SEPARATOR_SOURCE_COMPARISON_COMPOSITION,
-  SEPARATOR_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/modules/separator/separator.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Literal dividers",
-    scenes: [
-      {
-        label: "EditChannelDialog.tsx:397",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/channel/EditChannelDialog.tsx:397",
-      },
-      {
-        label: "ContextMenuDivider.tsx:11",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/ui/ContextMenuDivider.tsx:11",
-      },
-      {
-        label: "MarkdownContent.tsx:103",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/markdown/MarkdownContent.tsx:103",
-      },
-      {
-        label: "SettingsPanel.tsx:438,479",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/settings/SettingsPanel.tsx:438,479",
-      },
-    ],
-  },
 ] as const;
 
 const SNIPPETS = {
@@ -96,46 +59,13 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const SeparatorCurrent = SEPARATOR_SOURCE_COMPARISON_COMPOSITION;
-
-const SEPARATOR_COMPOSITION_RAW_SOURCES = {
-  Horizontal: separatorHorizontalCompositionSource,
-  Vertical: separatorVerticalCompositionSource,
-} as const;
-
-const SEPARATOR_COMPOSITION_SOURCES = createCompositionSourceMap(SEPARATOR_COMPOSITION_RAW_SOURCES);
-
-const SEPARATOR_COMPOSITION_SNIPPET_IDS = {
-  Horizontal: "separatorHorizontalComposition",
-  Vertical: "separatorVerticalComposition",
-} as const;
-
-type SeparatorCompositionKey = keyof typeof SEPARATOR_COMPOSITION_SOURCES;
-
 export const Route = createFileRoute("/components/separator")({
   component: SeparatorDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        ...createCompositionSnippetMap(
-          SEPARATOR_COMPOSITION_SOURCES,
-          SEPARATOR_COMPOSITION_SNIPPET_IDS,
-        ),
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function SeparatorDoc() {
   const code = Route.useLoaderData();
-  const separatorComposition = (key: SeparatorCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: SEPARATOR_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: SEPARATOR_COMPOSITION_SNIPPET_IDS,
-      sources: SEPARATOR_COMPOSITION_SOURCES,
-    });
 
   return (
     <DocPage
@@ -194,35 +124,6 @@ function SeparatorDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Horizontal divider",
-              status: "match",
-              note: "Source used border-t literals. Current centralizes that divider as Separator.",
-              source: <div className="w-56 border-t-2 border-black" />,
-              brutal: <SeparatorCurrent.Horizontal />,
-              elegant: <SeparatorCurrent.Horizontal />,
-              elegantDark: <SeparatorCurrent.Horizontal />,
-              ...separatorComposition("Horizontal"),
-            },
-            {
-              label: "Vertical divider",
-              status: "new",
-              note: "Use orientation when a row needs an accessible vertical divider.",
-              source: <div className="h-14 border-l-2 border-black" />,
-              brutal: <SeparatorCurrent.Vertical />,
-              elegant: <SeparatorCurrent.Vertical />,
-              elegantDark: <SeparatorCurrent.Vertical />,
-              ...separatorComposition("Vertical"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

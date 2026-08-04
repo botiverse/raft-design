@@ -1,13 +1,12 @@
 import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { MessageTranslationBilingualComposition } from "#/modules/message-translation/compositions/bilingual.composition.tsx";
 import bilingualSource from "#/modules/message-translation/compositions/bilingual.composition.tsx?raw";
@@ -20,23 +19,6 @@ import {
   MESSAGE_TRANSLATION_PROPS,
   MESSAGE_TRANSLATION_TOC,
 } from "#/modules/message-translation/message-translation.snippets.ts";
-import { MessageTranslationSourcePreview } from "#/modules/message-translation/message-translation.source-preview.tsx";
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock message translation",
-    scenes: [
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-      {
-        label: "translationStore.ts",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/store/translationStore.ts",
-      },
-    ],
-  },
-] as const;
 
 const TRANSLATED_COMPOSITION_PATH =
   "apps/doc/src/modules/message-translation/compositions/translated.composition.tsx";
@@ -153,8 +135,9 @@ function MessageTranslationDoc() {
 
           <DocSubsection parentId="usage" id="request-states" title="Pending and failure">
             <p className="mb-3 text-sm text-foreground-muted">
-              Use indeterminate Progress while translated content is unavailable. Failure copy and
-              retry behavior remain explicit children of the status row.
+              Use indeterminate <InlineCode>Progress</InlineCode> while translated content is
+              unavailable. Failure copy and retry behavior remain explicit children of the status
+              row.
             </p>
             <UsagePreview code={code.translationStates} collapsedCode={code.translationStatesBody}>
               <MessageTranslationStatesComposition />
@@ -165,32 +148,6 @@ function MessageTranslationDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={MESSAGE_TRANSLATION_PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Translated message",
-              status: "review",
-              note: "The Source pane is a static fixture extracted from the real MessageItem translation DOM. Brutal and Elegant execute the canonical translated-message composition; eligibility and provider state remain product-owned.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="w-full">
-                  <MessageTranslationSourcePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <MessageTranslationTranslatedComposition />,
-              elegant: <MessageTranslationTranslatedComposition />,
-              elegantDark: <MessageTranslationTranslatedComposition />,
-              compositionCode: code.translated,
-              compositionCollapsedCode: code.translatedBody,
-              compositionPath: TRANSLATED_COMPOSITION_PATH,
-              compositionSource: translatedSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

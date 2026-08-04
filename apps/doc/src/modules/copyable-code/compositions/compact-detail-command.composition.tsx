@@ -1,7 +1,7 @@
 import { CopyableCode, CopyableCodeAction, CopyableCodeRoot } from "raft-ui";
 
 // @docs-source-strip-start
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 const COMMAND = "curl https://api.raft.build/v1/setup --machine workstation-2";
@@ -18,9 +18,9 @@ export function CompactDetailCommandContent() {
 // @docs-source-strip-start
 export function CompactDetailCommandComposition() {
   return (
-    <SourceComparisonPreview>
+    <CompositionPreview>
       <CompactDetailCommandContent />
-    </SourceComparisonPreview>
+    </CompositionPreview>
   );
 }
 // @docs-source-strip-end

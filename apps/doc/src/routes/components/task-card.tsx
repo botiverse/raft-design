@@ -5,15 +5,11 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { TaskCardPanelComparisonComposition } from "#/modules/task-card/compositions/task-card-panel-comparison.composition.tsx";
 import taskCardStateMatrixCompositionSource from "#/modules/task-card/compositions/task-card-state-matrix.composition.tsx?raw";
 import taskStatusSelectCompositionSource from "#/modules/task-card/compositions/task-status-select.composition.tsx?raw";
 import taskCardCompositionSource from "#/modules/task-card/compositions/task-card.composition.tsx?raw";
 import { TaskCardStateGallery } from "#/modules/task-card/task-card-state-gallery.tsx";
-import { TaskCardPanelSourceComparisonComposition } from "#/modules/task-card/task-card.source-comparison.tsx";
 import { TaskCardPlaygroundPreview } from "#/modules/task-card/task-card.preview.tsx";
 
 const TASK_CARD_COMPOSITION_PATH =
@@ -57,23 +53,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Task card source",
-    scenes: [
-      {
-        label: "TaskCard.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock-ui/packages/ui/source/tasks/TaskCard.tsx",
-      },
-      {
-        label: "taskStatusUi.ts",
-        path: "/Users/cuvii/Development/zolplay/slock-ui/packages/ui/source/tasks/taskStatusUi.ts",
-      },
-    ],
-  },
 ] as const;
 
 const ROOT_PROPS: readonly PropRow[] = [
@@ -279,40 +258,6 @@ function TaskCardDoc() {
             <PropsTable rows={STATUS_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          previewSize="tall"
-          items={[
-            {
-              label: "Channel task card",
-              status: "review",
-              note: (
-                <>
-                  Source is a static channel-scoped TaskCard DOM fixture. Brutal, Elegant Light, and
-                  Elegant Dark run the canonical composition below with <code>showChannelName</code>{" "}
-                  (hence the <code>#proj-uiux</code> line), wrapped in docs-local{" "}
-                  <code>TaskCardPanel</code> chrome that mirrors the source panel surface.
-                </>
-              ),
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="w-full">
-                  <TaskCardPanelSourceComparisonComposition />
-                </SourceThemeScope>
-              ),
-              brutal: <TaskCardPanelComparisonComposition />,
-              elegant: <TaskCardPanelComparisonComposition />,
-              elegantDark: <TaskCardPanelComparisonComposition />,
-              compositionCode: code.card,
-              compositionCollapsedCode: code.cardBody,
-              compositionPath: TASK_CARD_COMPOSITION_PATH,
-              compositionSource: taskCardCompositionSource,
-              previewClassName: "items-stretch",
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

@@ -4,6 +4,7 @@ import { Check, Copy, Info, Send } from "lucide-react";
 import {
   Button,
   createToastManager,
+  InlineCode,
   toast,
   ToastAction,
   ToastActions,
@@ -681,7 +682,8 @@ function ToastDoc() {
             </Preview>
           </DocSubsection>
           <DocNote>
-            Keep long-running or historical notifications in NotificationCenter; use Toast for
+            Keep long-running or historical notifications in{" "}
+            <InlineCode>NotificationCenter</InlineCode>; use <InlineCode>Toast</InlineCode> for
             immediate feedback that can disappear.
           </DocNote>
           <DocSubsection parentId="usage" id="stacked" title="Stacked">
@@ -694,10 +696,11 @@ function ToastDoc() {
           </DocSubsection>
           <DocSubsection parentId="usage" id="anchored-with-arrow" title="Anchored with arrow">
             <DocNote>
-              Anchored toasts use <code>ToastPositioner</code> with the <code>positionerProps</code>{" "}
-              supplied to <code>toastManager.add</code>. Keep anchored and stacked toasts in
-              separate <code>ToastProvider</code> instances when both patterns appear in the same
-              app.
+              Anchored toasts use <InlineCode>ToastPositioner</InlineCode> with the{" "}
+              <InlineCode>positionerProps</InlineCode> supplied to{" "}
+              <InlineCode>toastManager.add</InlineCode>. Keep anchored and stacked toasts in
+              separate <InlineCode>ToastProvider</InlineCode> instances when both patterns appear in
+              the same app.
             </DocNote>
             <Preview previewClassName="min-h-56" previewInset="flush">
               <Preview.Canvas>

@@ -1,13 +1,12 @@
 import type { ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { MessageAttachmentsShowcaseComposition } from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx";
 import attachmentsShowcaseSource from "#/modules/message-attachment/compositions/message-attachments-showcase.composition.tsx?raw";
@@ -28,9 +27,6 @@ import {
   IMAGE_GALLERY_ANATOMY_SOURCE,
   VIDEO_PREVIEW_ANATOMY_SOURCE,
 } from "#/modules/message-attachment/message-attachment.snippets.ts";
-import { MessageAttachmentComparisonComposition } from "#/modules/message-attachment/message-attachment.source-comparison.tsx";
-import attachmentComparisonSource from "#/modules/message-attachment/message-attachment.source-comparison.tsx?raw";
-import { MessageAttachmentSourcePreview } from "#/modules/message-attachment/message-attachment.source-preview.tsx";
 import { MessageImageGalleryGeometryComposition } from "#/modules/message-media/compositions/image-gallery-geometry.composition.tsx";
 import imageGalleryGeometrySource from "#/modules/message-media/compositions/image-gallery-geometry.composition.tsx?raw";
 import { MessageImageGalleryPairComposition } from "#/modules/message-media/compositions/image-gallery-pair.composition.tsx";
@@ -48,27 +44,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock message attachments",
-    scenes: [
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-      {
-        label: "AttachmentChip.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/AttachmentChip.tsx",
-      },
-      {
-        label: "attachmentPreview.ts",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/attachmentPreview.ts",
-      },
-    ],
-  },
 ] as const;
 
 const SHOWCASE_COMPOSITION_PATH =
@@ -103,7 +78,6 @@ export const Route = createFileRoute("/components/message-attachment")({
         fileCardAnatomy: FILE_CARD_ANATOMY_SOURCE,
         imageGalleryAnatomy: IMAGE_GALLERY_ANATOMY_SOURCE,
         videoPreviewAnatomy: VIDEO_PREVIEW_ANATOMY_SOURCE,
-        attachmentComparison: attachmentComparisonSource,
         attachmentsShowcase: attachmentsShowcaseSource,
         attachmentStatuses: attachmentStatusesSource,
         diffAttachment: diffAttachmentSource,
@@ -192,8 +166,9 @@ function MessageAttachmentDoc() {
 
           <DocSubsection parentId="usage" id="previewable-file" title="Previewable file">
             <p className="mb-3 text-sm text-foreground-muted">
-              Keep preview state in the consumer; replace the Eye with the shared Spinner inside
-              MessageAttachmentMetaEnd while the preview opens.
+              Keep preview state in the consumer; replace the <InlineCode>Eye</InlineCode> with the
+              shared <InlineCode>Spinner</InlineCode> inside{" "}
+              <InlineCode>MessageAttachmentMetaEnd</InlineCode> while the preview opens.
             </p>
             <UsagePreview code={code.previewAttachment} collapsedCode={code.previewAttachmentBody}>
               <MessageAttachmentPreviewUsageComposition />
@@ -234,8 +209,9 @@ function MessageAttachmentDoc() {
 
           <DocSubsection parentId="usage" id="attachment-statuses" title="Comments and pending">
             <p className="mb-3 text-sm text-foreground-muted">
-              Put comment content inside MessageAttachmentSummary. For pending state, place the
-              shared Spinner in MessageAttachmentMetaEnd instead of introducing a card-level
+              Put comment content inside <InlineCode>MessageAttachmentSummary</InlineCode>. For
+              pending state, place the shared <InlineCode>Spinner</InlineCode> in{" "}
+              <InlineCode>MessageAttachmentMetaEnd</InlineCode> instead of introducing a card-level
               variant.
             </p>
             <UsagePreview
@@ -258,8 +234,9 @@ function MessageAttachmentDoc() {
 
           <DocSubsection parentId="usage" id="media-layouts" title="Media layouts">
             <p className="mb-3 text-sm text-foreground-muted">
-              Compose native grid rows in the consumer. MessageImageGalleryItem owns cell chrome;
-              MessageImageGalleryMedia only provides the media container.
+              Compose native grid rows in the consumer.{" "}
+              <InlineCode>MessageImageGalleryItem</InlineCode> owns cell chrome;{" "}
+              <InlineCode>MessageImageGalleryMedia</InlineCode> only provides the media container.
             </p>
             <div className="space-y-8">
               <DocSubsection parentId="media-layouts" id="single-image" title="Single image">
@@ -295,8 +272,8 @@ function MessageAttachmentDoc() {
                 title="Wide and tall geometry"
               >
                 <p className="mb-3 text-sm text-foreground-muted">
-                  Consumer layout classes set cell geometry, while the media child chooses
-                  object-cover or object-contain.
+                  Consumer layout classes set cell geometry, while the media child chooses{" "}
+                  <InlineCode>object-cover</InlineCode> or <InlineCode>object-contain</InlineCode>.
                 </p>
                 <UsagePreview
                   code={code.imageGalleryGeometry}
@@ -318,33 +295,6 @@ function MessageAttachmentDoc() {
             </DocSubsection>
           ))}
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "File attachment in a message row",
-              status: "review",
-              note: "The Source pane is a static structural fixture modeled after the real MessageItem and AttachmentChip DOM; the three Current panes execute the canonical attachment composition in its MessageItem context.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="w-full">
-                  <MessageAttachmentSourcePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <MessageAttachmentComparisonComposition />,
-              elegant: <MessageAttachmentComparisonComposition />,
-              elegantDark: <MessageAttachmentComparisonComposition />,
-              compositionCode: code.attachmentComparison,
-              compositionCollapsedCode: code.attachmentComparisonBody,
-              compositionPath:
-                "apps/doc/src/modules/message-attachment/message-attachment.source-comparison.tsx",
-              compositionSource: attachmentComparisonSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

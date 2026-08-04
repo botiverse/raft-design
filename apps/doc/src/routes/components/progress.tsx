@@ -3,6 +3,7 @@ import {
   Progress,
   ProgressHeader,
   ProgressIndicator,
+  InlineCode,
   ProgressLabel,
   ProgressTrack,
   ProgressValue,
@@ -15,97 +16,23 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
+import { EmbeddedProgressComposition } from "#/modules/progress/compositions/embedded-progress.composition.tsx";
+import embeddedProgressCompositionSource from "#/modules/progress/compositions/embedded-progress.composition.tsx?raw";
 import { ProgressPlaygroundPreview } from "#/modules/progress/progress.preview.tsx";
-import progressAttachmentUploadCompositionSource from "#/modules/progress/compositions/attachment-upload.composition.tsx?raw";
-import progressMachineDownloadCompositionSource from "#/modules/progress/compositions/machine-download.composition.tsx?raw";
 import progressPreviewCompositionSource from "#/modules/progress/compositions/preview.composition.tsx?raw";
-import progressRestartIndeterminateCompositionSource from "#/modules/progress/compositions/restart-indeterminate.composition.tsx?raw";
-import {
-  PROGRESS_SOURCE_COMPARISON_COMPOSITION,
-  PROGRESS_SOURCE_COMPARISON_COMPOSITION_PATHS,
-  PROGRESS_SOURCE_COMPARISON_SOURCE,
-} from "#/modules/progress/progress.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const VARIANTS = ["primary", "information", "accent", "success", "warning", "danger"] as const;
 
 const SIZES = ["sm", "md", "lg"] as const;
-
-const SOURCE_SCENES = {
-  AttachmentUpload: [
-    {
-      label: "Attachment upload",
-      scenes: [
-        {
-          label: "MessageInput.tsx:225",
-          path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:225",
-        },
-        {
-          label: "MessageInput.tsx:1425",
-          path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:1425",
-        },
-      ],
-    },
-  ],
-  MachineDownload: [
-    {
-      label: "ProgressBar primitive",
-      scenes: [
-        {
-          label: "ProgressBar.tsx:44",
-          path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/ui/ProgressBar.tsx:44",
-        },
-      ],
-    },
-    {
-      label: "Machine operation",
-      scenes: [
-        {
-          label: "MachineDetailPanel.tsx:1091",
-          path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/machine/MachineDetailPanel.tsx:1091",
-        },
-      ],
-    },
-  ],
-  RestartIndeterminate: [
-    {
-      label: "ProgressBar primitive",
-      scenes: [
-        {
-          label: "ProgressBar.tsx:71",
-          path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/ui/ProgressBar.tsx:71",
-        },
-        {
-          label: "index.css:249",
-          path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/index.css:249",
-        },
-      ],
-    },
-    {
-      label: "Machine operation",
-      scenes: [
-        {
-          label: "MachineDetailPanel.tsx:1091",
-          path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/machine/MachineDetailPanel.tsx:1091",
-        },
-      ],
-    },
-  ],
-} as const;
 
 const SNIPPETS = {
   anatomy: `import { Progress, ProgressIndicator, ProgressTrack } from "raft-ui";
@@ -171,7 +98,10 @@ const SNIPPETS = {
     <ProgressIndicator />
   </ProgressTrack>
 </Progress>`,
-  indeterminate: `<Progress value={null} aria-label="Generating response">
+  indeterminate: `<Progress value={null}>
+  <ProgressHeader>
+    <ProgressLabel>Generating response</ProgressLabel>
+  </ProgressHeader>
   <ProgressTrack>
     <ProgressIndicator />
   </ProgressTrack>
@@ -179,25 +109,6 @@ const SNIPPETS = {
   composition: `<Progress value={72} variant="information">
   <ProgressHeader>
     <ProgressLabel>Uploading transcript</ProgressLabel>
-    <ProgressValue />
-  </ProgressHeader>
-  <ProgressTrack>
-    <ProgressIndicator />
-  </ProgressTrack>
-</Progress>`,
-  anatomyImport: `import {
-  Progress,
-  ProgressHeader,
-  ProgressIndicator,
-  ProgressLabel,
-  ProgressTrack,
-  ProgressValue,
-} from "raft-ui";
-
-<Progress value={72}>
-  <ProgressHeader>
-    <ProgressLabel>Uploading transcript</ProgressLabel>
-    <ProgressValue />
   </ProgressHeader>
   <ProgressTrack>
     <ProgressIndicator />
@@ -247,26 +158,17 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const ProgressSource = PROGRESS_SOURCE_COMPARISON_SOURCE;
-const ProgressCurrent = PROGRESS_SOURCE_COMPARISON_COMPOSITION;
-
 const PROGRESS_COMPOSITION_RAW_SOURCES = {
-  AttachmentUpload: progressAttachmentUploadCompositionSource,
-  MachineDownload: progressMachineDownloadCompositionSource,
   Preview: progressPreviewCompositionSource,
-  RestartIndeterminate: progressRestartIndeterminateCompositionSource,
+  EmbeddedProgress: embeddedProgressCompositionSource,
 } as const;
 
 const PROGRESS_COMPOSITION_SOURCES = createCompositionSourceMap(PROGRESS_COMPOSITION_RAW_SOURCES);
 
 const PROGRESS_COMPOSITION_SNIPPET_IDS = {
-  AttachmentUpload: "progressAttachmentUploadComposition",
-  MachineDownload: "progressMachineDownloadComposition",
   Preview: "progressPreviewComposition",
-  RestartIndeterminate: "progressRestartIndeterminateComposition",
+  EmbeddedProgress: "embeddedProgressComposition",
 } as const;
-
-type ProgressCompositionKey = keyof typeof PROGRESS_COMPOSITION_SOURCES;
 
 export const Route = createFileRoute("/components/progress")({
   component: ProgressDoc,
@@ -284,14 +186,6 @@ export const Route = createFileRoute("/components/progress")({
 
 function ProgressDoc() {
   const code = Route.useLoaderData();
-  const progressComposition = (key: ProgressCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: PROGRESS_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: PROGRESS_COMPOSITION_SNIPPET_IDS,
-      sources: PROGRESS_COMPOSITION_SOURCES,
-    });
 
   return (
     <DocPage
@@ -366,7 +260,10 @@ function ProgressDoc() {
             <Preview>
               <Preview.Canvas>
                 <div className="w-full max-w-sm">
-                  <Progress value={null} aria-label="Generating response">
+                  <Progress value={null}>
+                    <ProgressHeader>
+                      <ProgressLabel>Generating response</ProgressLabel>
+                    </ProgressHeader>
                     <ProgressTrack>
                       <ProgressIndicator />
                     </ProgressTrack>
@@ -379,13 +276,17 @@ function ProgressDoc() {
 
           <DocSubsection parentId="usage" id="composition" title="Composition">
             <div className="space-y-4">
+              <DocNote>
+                <InlineCode>ProgressValue</InlineCode> is optional. Omit it when a visible
+                percentage would not help the reader; <InlineCode>ProgressLabel</InlineCode> still
+                provides the accessible name.
+              </DocNote>
               <Preview>
                 <Preview.Canvas>
                   <div className="w-full max-w-sm">
                     <Progress value={72} variant="information">
                       <ProgressHeader>
                         <ProgressLabel>Uploading transcript</ProgressLabel>
-                        <ProgressValue />
                       </ProgressHeader>
                       <ProgressTrack>
                         <ProgressIndicator />
@@ -395,59 +296,29 @@ function ProgressDoc() {
                 </Preview.Canvas>
                 <Preview.Code html={code.composition} />
               </Preview>
-              <DocsCodeBlock.Panel
-                path="ProgressNamedParts.tsx"
-                source={SNIPPETS.anatomyImport}
-                html={code.anatomyImport}
-                collapsedHtml={code.anatomyImportBody}
-              />
             </div>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="embedded-progress" title="Embedded progress">
+            <DocNote>
+              Keep file-processing context in consumer UI and use the compact progress parts for
+              status within that layout.
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <EmbeddedProgressComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.embeddedProgressComposition}
+                collapsedHtml={code.embeddedProgressCompositionBody}
+              />
+            </Preview>
           </DocSubsection>
         </div>
       </DocSection>
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          items={[
-            {
-              label: "Machine download",
-              status: "match",
-              note: "Migrates the source ProgressBar determinate mode used by managed Computer upgrade progress.",
-              sourceScenes: SOURCE_SCENES.MachineDownload,
-              source: <ProgressSource.MachineDownload />,
-              brutal: <ProgressCurrent.MachineDownload />,
-              elegant: <ProgressCurrent.MachineDownload />,
-              elegantDark: <ProgressCurrent.MachineDownload />,
-              ...progressComposition("MachineDownload"),
-            },
-            {
-              label: "Machine restart",
-              status: "review",
-              note: "Maps the no-percent ProgressBar path for restart and non-byte phases to Base UI indeterminate progress; sweep timing and the elegant treatment still diverge from the source stripe.",
-              sourceScenes: SOURCE_SCENES.RestartIndeterminate,
-              source: <ProgressSource.RestartIndeterminate />,
-              brutal: <ProgressCurrent.RestartIndeterminate />,
-              elegant: <ProgressCurrent.RestartIndeterminate />,
-              elegantDark: <ProgressCurrent.RestartIndeterminate />,
-              ...progressComposition("RestartIndeterminate"),
-            },
-            {
-              label: "Attachment upload",
-              status: "todo",
-              note: "Maps the source attachment chip overlay to the same Progress parts while preserving the compact bottom-fill behavior.",
-              sourceScenes: SOURCE_SCENES.AttachmentUpload,
-              source: <ProgressSource.AttachmentUpload />,
-              brutal: <ProgressCurrent.AttachmentUpload />,
-              elegant: <ProgressCurrent.AttachmentUpload />,
-              elegantDark: <ProgressCurrent.AttachmentUpload />,
-              ...progressComposition("AttachmentUpload"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

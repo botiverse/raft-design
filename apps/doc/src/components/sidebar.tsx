@@ -9,7 +9,6 @@ const PRIMARY_NAV = [
   { label: "Home", to: "/" },
   { label: "Installation", to: "/installation" },
   { label: "Changelog", to: "/changelog" },
-  { label: "Migration", to: "/migration" },
   { label: "Playground", to: "/playground" },
   { label: "Lab", to: "/lab" },
 ] as const;
