@@ -13,23 +13,23 @@ const sourceButtonMotion = [
 export const activityInbox = tv({
   slots: {
     list: ["flex flex-col gap-2"],
-    item: ["relative flex w-full items-start gap-3 border-2 p-3 text-left", "transition-colors"],
+    item: ["relative flex w-full items-start gap-3 p-3 text-left", "transition-colors"],
     itemOpen: ["absolute inset-0 z-0 outline-none"],
     itemSelection: [
-      "relative z-10 mt-0.5 flex size-5 shrink-0 items-center justify-center border-2",
+      "relative z-10 mt-0.5 flex size-5 shrink-0 items-center justify-center",
       "outline-none",
       "[&_svg]:size-[13px]",
     ],
     itemContent: ["pointer-events-none relative z-10 min-w-0 flex-1 text-left"],
-    itemSubtitle: ["mb-0.5 min-w-0 text-[11px] font-bold leading-3"],
+    itemSubtitle: ["mb-0.5 min-w-0 text-[11px] leading-3"],
     itemHeading: ["mb-0.5 flex min-w-0 items-start gap-2"],
     itemTitle: [
       "line-clamp-2 min-w-0 flex-1 text-sm leading-5",
       "[&>svg]:mr-1.5 [&>svg]:inline-block [&>svg]:size-[13px] [&>svg]:align-[-2px]",
     ],
-    itemTimestamp: ["shrink-0 font-mono text-xs leading-5"],
+    itemTimestamp: ["shrink-0 text-xs leading-5"],
     itemBody: ["line-clamp-2 text-xs leading-4"],
-    itemSender: ["font-bold"],
+    itemSender: [],
     itemMetadata: ["mt-1 flex min-h-5 flex-wrap items-center gap-1.5"],
     itemActions: ["relative z-10 flex shrink-0 items-center gap-1.5"],
     itemAction: [
@@ -47,7 +47,7 @@ export const activityInbox = tv({
     theme: {
       brutal: {
         item: [
-          "border-black/30 bg-white",
+          "border-2 border-black/30 bg-white",
           "hover:border-black hover:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
           "active:border-black active:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
           "aria-disabled:pointer-events-none aria-disabled:hover:border-black/30 aria-disabled:hover:shadow-none",
@@ -55,20 +55,20 @@ export const activityInbox = tv({
           "has-[[data-slot=activity-inbox-item-open]:focus-visible]:border-black has-[[data-slot=activity-inbox-item-open]:focus-visible]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
         ],
         itemSelection: [
-          "border-black bg-white",
+          "border-2 border-black bg-white",
           "aria-checked:bg-soft-signal",
           "focus-visible:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
         ],
-        itemSubtitle: ["text-black/45"],
+        itemSubtitle: ["font-bold text-black/45"],
         itemTitle: [
           "font-semibold text-black/55",
           "group-data-[unread=true]/activity-item:font-bold",
           "group-data-[unread=true]/activity-item:text-black",
           "[&>svg]:text-black/45",
         ],
-        itemTimestamp: ["text-black/40"],
+        itemTimestamp: ["font-mono text-black/40"],
         itemBody: ["text-black/55", "group-data-[unread=true]/activity-item:text-black"],
-        itemSender: ["text-black/70"],
+        itemSender: ["font-bold text-black/70"],
         itemAction: [
           "border-2 border-black bg-white",
           ...sourceButtonMotion,
@@ -106,7 +106,7 @@ export const activityInbox = tv({
           "group-data-[unread=true]/activity-item:text-foreground-strong",
           "[&>svg]:text-foreground-icon",
         ],
-        itemTimestamp: ["font-sans tabular-nums text-foreground-muted/70"],
+        itemTimestamp: ["tabular-nums text-foreground-muted/70"],
         itemBody: [
           "tracking-[-0.01em] text-foreground-muted",
           "group-data-[unread=true]/activity-item:text-foreground",

@@ -2,26 +2,28 @@ import { tv } from "../../lib/tv";
 
 export const searchResults = tv({
   slots: {
-    summary: ["mb-3 block px-1 text-xs font-bold uppercase tracking-widest"],
+    summary: ["mb-3 block px-1 text-xs"],
     section: ["mb-3"],
-    sectionHeading: ["px-1 py-2 text-[10px] font-mono font-bold uppercase tracking-[0.2em]"],
+    sectionHeading: ["px-1 py-2"],
     list: ["flex flex-col gap-2"],
-    entity: ["flex w-full items-stretch border-2 text-left transition-colors"],
+    entity: ["flex w-full items-stretch text-left transition-colors"],
     entityOpen: ["min-w-0 flex-1 p-3 text-left"],
     message: ["w-full text-left transition-colors"],
-    thread: ["overflow-hidden border-2 transition-colors"],
-    threadHeader: ["border-b-2 px-3 py-2"],
+    thread: ["overflow-hidden transition-colors"],
+    threadHeader: ["px-3 py-2"],
     threadMessages: ["flex flex-col [&>*:first-child]:border-t-0"],
     empty: ["flex flex-col items-center justify-center text-center"],
-    error: ["border-2 p-4"],
+    error: ["p-4"],
   },
   variants: {
     theme: {
       brutal: {
-        summary: ["text-black/60"],
-        sectionHeading: ["text-black/50"],
+        summary: ["font-bold uppercase tracking-widest text-black/60"],
+        sectionHeading: [
+          "font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-black/50",
+        ],
         entity: [
-          "border-black/30 bg-white",
+          "border-2 border-black/30 bg-white",
           "hover:border-black hover:shadow-raft-sm active:border-black active:shadow-raft-sm",
           "data-[selected=true]:border-black data-[selected=true]:shadow-raft-sm",
         ],
@@ -35,21 +37,17 @@ export const searchResults = tv({
           "data-[nested=true][data-selected=true]:border-black data-[nested=true][data-selected=true]:bg-[oklch(0.96299649_0.06890535_97.696701)] data-[nested=true][data-selected=true]:shadow-none",
         ],
         thread: [
-          "border-black/30 bg-white",
+          "border-2 border-black/30 bg-white",
           "hover:border-black hover:shadow-raft-sm",
           "data-[selected=true]:border-black data-[selected=true]:shadow-raft-sm",
         ],
-        threadHeader: ["border-black bg-[oklch(0.96625109_0.02494438_333.728876)]"],
+        threadHeader: ["border-b-2 border-black bg-[oklch(0.96625109_0.02494438_333.728876)]"],
         empty: [],
-        error: ["border-black bg-white shadow-raft-sm"],
+        error: ["border-2 border-black bg-white shadow-raft-sm"],
       },
       elegant: {
-        viewport: [],
-        summary: ["font-medium normal-case tracking-normal", "text-foreground-muted"],
-        sectionHeading: [
-          "font-sans text-[11px] font-medium normal-case tracking-normal",
-          "text-foreground-muted",
-        ],
+        summary: ["font-medium", "text-foreground-muted"],
+        sectionHeading: ["text-[11px] font-medium", "text-foreground-muted"],
         entity: [
           "rounded-lg border-[0.5px] border-line-subtle bg-layer-panel shadow-xs",
           "transition-[background-color,box-shadow] duration-150",
