@@ -13,7 +13,7 @@ export function MessageListDateDivider({
   ...props
 }: MessageListDateDividerProps) {
   const theme = useThemeFamily();
-  const { dateDividerRoot, dateDividerRule, dateDividerChipWrap, dateDividerChip } = messageList({
+  const { dateDividerRoot, dateDividerRule, dateDividerChip } = messageList({
     theme,
   });
   const defaultProps: SlotElementProps<"div"> = {
@@ -22,9 +22,8 @@ export function MessageListDateDivider({
     children: (
       <>
         <div aria-hidden className={dateDividerRule()} />
-        <div className={dateDividerChipWrap()}>
-          <span className={dateDividerChip()}>{children}</span>
-        </div>
+        <span className={dateDividerChip()}>{children}</span>
+        <div aria-hidden className={dateDividerRule()} />
       </>
     ),
   };
