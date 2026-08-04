@@ -104,7 +104,7 @@ const SNIPPETS = {
 } from "raft-ui";
 
 <Dialog>
-  <DialogTrigger render={<Button variant="primary" />}>
+  <DialogTrigger render={<Button variant="accent" />}>
     Edit channel
   </DialogTrigger>
   <DialogContent>
@@ -128,7 +128,7 @@ const SNIPPETS = {
     </DialogBody>
     <DialogFooter>
       <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-      <Button variant="primary">Save Changes</Button>
+      <Button variant="accent">Save Changes</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`,
@@ -1100,7 +1100,7 @@ function DialogDoc() {
         <Preview>
           <Preview.Canvas>
             <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger render={<Button variant="primary" />}>Edit channel</DialogTrigger>
+              <DialogTrigger render={<Button variant="accent" />}>Edit channel</DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Edit Channel</DialogTitle>
@@ -1122,7 +1122,7 @@ function DialogDoc() {
                 </DialogBody>
                 <DialogFooter>
                   <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-                  <Button variant="primary">Save Changes</Button>
+                  <Button variant="accent">Save Changes</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>

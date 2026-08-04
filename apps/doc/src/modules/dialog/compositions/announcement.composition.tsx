@@ -94,7 +94,7 @@ function AnnouncementDialogParts() {
             <ChevronLeft data-icon="inline-start" />
             Back
           </Button>
-          <Button variant="primary" size="md" className="gap-1">
+          <Button variant="accent" size="md" className="gap-1">
             Next
             <ChevronRight data-icon="inline-end" />
           </Button>
