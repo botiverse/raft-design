@@ -874,13 +874,13 @@ function ActivityItem({
           )}
           {item.kind === "thread" && item.following === false ? (
             <Badge appearance="outline" variant="muted" uppercase={false}>
-              <BellOff />
+              <BellOff size={10} />
               Unfollowed
             </Badge>
           ) : null}
           {item.hasMention && item.unreadCount > 0 ? (
             <Badge variant="primary" uppercase={false}>
-              <AtSign />
+              <AtSign size={10} />
               Mention
             </Badge>
           ) : null}
@@ -891,7 +891,7 @@ function ActivityItem({
           ) : null}
           {item.draft ? (
             <Badge appearance="outline" variant="muted" uppercase={false} aria-label="Draft">
-              <Pencil />
+              <Pencil size={10} />
             </Badge>
           ) : null}
         </ActivityInboxItemMetadata>

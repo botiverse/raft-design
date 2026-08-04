@@ -242,7 +242,7 @@ export const activityShell = tv({
         switcherSeparator: ["border-t border-line-subtle"],
         searchIcon: ["text-foreground-placeholder"],
         searchInput: [
-          "rounded-md border border-line-field bg-layer-field font-medium text-foreground-strong",
+          "rounded-md border border-line-field bg-layer-field font-normal text-foreground-strong",
           "placeholder:text-foreground-placeholder/70",
           "shadow-none transition duration-200 ease-out",
           "hover:border-line-field-hover hover:shadow-field-hover",
