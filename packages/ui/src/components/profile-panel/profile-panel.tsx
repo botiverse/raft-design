@@ -5,7 +5,15 @@ import {
   type PanelHeaderContentProps,
   type PanelHeaderProps,
 } from "../conversation-panel/conversation-panel";
-import { Panel, PanelSection, type PanelProps, type PanelSectionProps } from "../panel/panel";
+import { conversationPanel } from "../conversation-panel/conversation-panel.recipe";
+import {
+  Panel,
+  PanelBody,
+  PanelSection,
+  type PanelBodyProps,
+  type PanelProps,
+  type PanelSectionProps,
+} from "../panel/panel";
 import { profilePanel } from "./profile-panel.recipe";
 
 export type ProfilePanelProps = PanelProps;
@@ -33,6 +41,17 @@ export function ProfilePanelHeaderContent({ className, ...props }: ProfilePanelH
   const { headerContent } = profilePanel({ theme });
 
   return <PanelHeaderContent {...props} className={headerContent({ className })} />;
+}
+
+export type ProfilePanelBodyProps = PanelBodyProps;
+
+// Shares the conversation panel's raised content chrome so profile detail
+// surfaces read as the same material as the chat panel.
+export function ProfilePanelBody({ className, ...props }: ProfilePanelBodyProps) {
+  const theme = useThemeFamily();
+  const { content } = conversationPanel({ theme });
+
+  return <PanelBody {...props} data-slot="profile-panel-body" className={content({ className })} />;
 }
 
 export type ProfilePanelSectionProps = PanelSectionProps;

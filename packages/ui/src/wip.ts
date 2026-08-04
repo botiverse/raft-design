@@ -3,11 +3,13 @@ export type { PanelActionProps, PanelToggleActionProps } from "./components/pane
 
 export {
   ProfilePanel,
+  ProfilePanelBody,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
   ProfilePanelSection,
 } from "./components/profile-panel/index";
 export type {
+  ProfilePanelBodyProps,
   ProfilePanelHeaderContentProps,
   ProfilePanelHeaderProps,
   ProfilePanelProps,

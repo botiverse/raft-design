@@ -15,7 +15,8 @@ export const profilePanel = tv({
       brutal: {},
       elegant: {
         root: ["relative font-sans text-foreground-strong", "dark:bg-transparent"],
-        header: "border-b border-line-muted max-md:flex max-md:px-6 md:px-6",
+        header:
+          "border-b border-line-muted dark:border-transparent max-md:flex max-md:px-6 md:px-6",
         headerContent: "md:flex-col md:items-stretch md:gap-0",
         section: "border-line-muted px-6 py-5",
       },

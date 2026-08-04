@@ -23,7 +23,6 @@ import {
   PanelHeading,
   PanelMeta,
   PanelTitle,
-  PanelBody,
   PanelScrollContent,
   PanelScrollViewport,
   SidebarItem,
@@ -39,6 +38,7 @@ import { cn } from "raft-ui/cn";
 import {
   PanelAction,
   ProfilePanel,
+  ProfilePanelBody,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
   ProfilePanelSection,
@@ -127,7 +127,7 @@ export function MemberDetailPanel({
         </PanelActions>
       </ProfilePanelHeader>
 
-      <PanelBody>
+      <ProfilePanelBody>
         <PanelScrollViewport>
           <PanelScrollContent>
             <ProfilePanelSection className="flex items-start gap-4 border-t-0 py-5">
@@ -353,7 +353,7 @@ export function MemberDetailPanel({
             ) : null}
           </PanelScrollContent>
         </PanelScrollViewport>
-      </PanelBody>
+      </ProfilePanelBody>
     </ProfilePanel>
   );
 }
