@@ -33,9 +33,8 @@ const appShell = tv({
     theme: {
       brutal: {
         root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black max-md:bg-white"],
-        railSlot:
-          "w-16 md:border-r-2 md:border-black bg-primary text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
-        sidebarSlot: "w-60 border-r-2 border-black bg-brutal-cream",
+        railSlot: "w-16 bg-primary text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
+        sidebarSlot: "w-60 bg-brutal-cream",
         mainSlot: "bg-white",
       },
       elegant: {

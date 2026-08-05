@@ -1,6 +1,5 @@
 import type { KeyboardEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ConversationPanelContent } from "raft-ui";
 import {
   SEARCH_CHANNEL_FIXTURES,
   SEARCH_ENTITY_FIXTURES,
@@ -14,6 +13,7 @@ import {
 
 import { BrutalSearchFilters } from "../search-panel/search-panel.filters.tsx";
 import {
+  BrutalSearchContent,
   BrutalSearchFrame,
   BrutalSearchHeader,
   type BrutalSearchScope,
@@ -388,7 +388,7 @@ function SearchPanel({
         }}
       />
 
-      <ConversationPanelContent data-slot="search-panel-content" className="overflow-visible">
+      <BrutalSearchContent>
         <BrutalSearchFilters
           senders={senders}
           channels={channels}
@@ -442,7 +442,7 @@ function SearchPanel({
           }
           onLoadMore={() => setVisibleLimit((limit) => limit + PAGE_SIZE)}
         />
-      </ConversationPanelContent>
+      </BrutalSearchContent>
     </BrutalSearchFrame>
   );
 }

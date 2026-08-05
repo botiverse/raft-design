@@ -175,7 +175,7 @@ const activityShell = tv({
         loadingMore: ["font-bold text-black/40"],
       },
       elegant: {
-        root: ["bg-layer-panel text-foreground", "dark:bg-transparent"],
+        root: ["bg-layer-page text-foreground"],
         header: [
           "min-h-[var(--shell-header-height,56px)]",
           "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-page",

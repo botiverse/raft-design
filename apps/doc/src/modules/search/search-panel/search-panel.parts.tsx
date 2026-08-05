@@ -1,4 +1,4 @@
-import type { KeyboardEvent, ReactNode, Ref } from "react";
+import type { ComponentProps, KeyboardEvent, ReactNode, Ref } from "react";
 import { Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
 import {
   Avatar,
@@ -56,6 +56,7 @@ const searchShell = tv({
   slots: {
     frame: ["flex h-full min-h-0 flex-1 flex-col"],
     header: ["flex items-center gap-3"],
+    content: ["relative flex min-h-0 min-w-0 flex-1 flex-col overflow-visible"],
     headerBack: ["inline-flex size-7 shrink-0 items-center justify-center leading-none md:hidden"],
     headerIconChip: ["flex size-9 shrink-0 items-center justify-center"],
     searchInputGroup: ["flex-1"],
@@ -111,6 +112,7 @@ const searchShell = tv({
         ],
         headerBack: ["bg-white text-black", brutalButtonSm],
         headerIconChip: ["border-2 border-black bg-soft-signal"],
+        content: ["bg-white"],
         searchInputGroup: [
           "shadow-sm",
           "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][data-invalid]]:shadow-md",
@@ -168,6 +170,7 @@ const searchShell = tv({
           "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
         headerIconChip: ["rounded-md bg-fill-muted text-foreground-icon"],
+        content: ["bg-layer-panel dark:bg-transparent"],
         searchInputGroup: ["dark:bg-layer-card"],
         input: ["font-sans text-foreground-strong placeholder:text-foreground-placeholder/70"],
         inputClear: [
@@ -334,6 +337,12 @@ export function BrutalSearchFrame({
       {children}
     </Panel>
   );
+}
+
+export function BrutalSearchContent({ className, ...props }: ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { content } = searchShell({ theme });
+  return <div data-slot="search-panel-content" className={content({ className })} {...props} />;
 }
 
 export function BrutalSearchHeader({

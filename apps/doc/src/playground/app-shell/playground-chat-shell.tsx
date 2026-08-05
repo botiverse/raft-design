@@ -2,6 +2,7 @@ import { Outlet, useMatch } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {
   AppShellMainSlot,
+  AppShellPanelSlot,
   AppShellRoot,
   AppShellSidebarSlot,
   ResizableGroup,
@@ -170,7 +171,7 @@ function PlaygroundChatLayout({
           {sidebar}
         </AppShellSidebarSlot>
       </ResizablePanel>
-      <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
+      <ResizableHandle />
       <ResizablePanel id="playground-main" minSize={360} className="relative z-0 !overflow-visible">
         <AppShellMainSlot className="flex h-full min-w-0 flex-1">
           {main}
@@ -188,13 +189,7 @@ function PlaygroundChatLayout({
       </ResizablePanel>
       {thread && isLargeDesktop ? (
         <>
-          <ResizableHandle
-            className={
-              theme === "brutal"
-                ? "z-50 ml-0 mr-0 w-0 border-l-2 border-black bg-transparent"
-                : "z-50 translate-x-[7px] bg-transparent"
-            }
-          />
+          <ResizableHandle className="z-50" />
           <ResizablePanel
             id="playground-thread"
             defaultSize={400}
@@ -203,7 +198,7 @@ function PlaygroundChatLayout({
             groupResizeBehavior="preserve-pixel-size"
             className="relative z-20 min-w-0 !overflow-visible"
           >
-            {thread}
+            <AppShellPanelSlot className="flex h-full min-w-0 flex-1">{thread}</AppShellPanelSlot>
           </ResizablePanel>
         </>
       ) : null}

@@ -5,12 +5,13 @@ import { PlaygroundRail } from "../rail/playground-rail.tsx";
 
 export function PlaygroundPlainShell() {
   const pathname = useLocation().pathname;
-  const ownsColumns = pathname === "/playground/activity" || pathname === "/playground/search";
+  const ownsAppShellSlots =
+    pathname === "/playground/activity" || pathname === "/playground/search";
 
   return (
     <AppShellRoot className="h-full max-md:h-dvh max-md:overflow-hidden">
       <PlaygroundRail showBottomNavigation />
-      {ownsColumns ? (
+      {ownsAppShellSlots ? (
         <Outlet />
       ) : (
         <AppShellMainSlot className="flex h-full min-h-0">

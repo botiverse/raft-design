@@ -1,4 +1,13 @@
-import { useMemo, useRef, useEffect } from "react";
+import {
+  AppShellMainSlot,
+  AppShellPanelSlot,
+  AppShellSidebarSlot,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
+  useThemeFamily,
+} from "raft-ui";
+import { useEffect, useMemo, useRef } from "react";
 
 import { type ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
 import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
@@ -11,7 +20,10 @@ import {
   isPlaygroundThreadId,
   type PlaygroundActivity,
 } from "../mock/index.ts";
-import { PlaygroundContentShell } from "../app-shell/playground-content-shell.tsx";
+import {
+  usePlaygroundDesktop,
+  usePlaygroundWideDesktop,
+} from "../app-shell/use-playground-desktop.ts";
 import { PlaygroundChannelPanel } from "../conversation/playground-channel-panel.tsx";
 import { PlaygroundDmPanel } from "../conversation/playground-dm-panel.tsx";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
@@ -23,6 +35,9 @@ const activityConversationPrefix = "activity-conversation:";
 const threadContextPrefix = "thread:";
 
 export function PlaygroundActivityPanel() {
+  const theme = useThemeFamily();
+  const isDesktop = usePlaygroundDesktop();
+  const hasContextColumn = usePlaygroundWideDesktop();
   const { items, setItems } = usePlaygroundActivityState();
   const { contentId, contextId, selectContent, selectContext, selectRailView } =
     usePlaygroundNavigation();
@@ -103,7 +118,7 @@ export function PlaygroundActivityPanel() {
   const master = (
     <ActivityInboxComposition
       items={compositionItems}
-      layout="compact"
+      layout={isDesktop ? "wide" : "compact"}
       openItemId={activeItemId ?? null}
       onItemsChange={commitCompositionItems}
       onBack={() => selectRailView("chat")}
@@ -150,16 +165,65 @@ export function PlaygroundActivityPanel() {
     />
   ) : undefined;
 
+  if (!isDesktop) {
+    return (
+      <AppShellMainSlot className="h-full w-full bg-transparent">
+        {context ?? content ?? master}
+      </AppShellMainSlot>
+    );
+  }
+
+  if (!content) {
+    return <AppShellMainSlot className="flex h-full min-w-0 flex-1">{master}</AppShellMainSlot>;
+  }
+
   return (
-    <PlaygroundContentShell
-      master={master}
-      masterLabel="Activity"
-      masterDefaultSize={440}
-      content={content}
-      contentEmptyDescription="Choose an activity item to open its conversation without leaving Activity."
-      contentEmptyTitle="Select an activity"
-      context={context}
-    />
+    <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
+      <ResizablePanel
+        id="playground-activity-master"
+        defaultSize={560}
+        minSize={480}
+        maxSize={720}
+        groupResizeBehavior="preserve-pixel-size"
+        className="relative min-w-0"
+      >
+        <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1">
+          {master}
+        </AppShellSidebarSlot>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel id="playground-activity-content" minSize={320} className="relative min-w-0">
+        <AppShellMainSlot className="flex h-full min-w-0 flex-1">
+          {content}
+          {context && !hasContextColumn ? (
+            <div
+              className={
+                theme === "brutal"
+                  ? "absolute inset-0 z-20 flex min-h-0 min-w-0 border-l-2 border-black bg-white"
+                  : "absolute inset-0 z-20 flex min-h-0 min-w-0 bg-layer-panel"
+              }
+            >
+              {context}
+            </div>
+          ) : null}
+        </AppShellMainSlot>
+      </ResizablePanel>
+      {context && hasContextColumn ? (
+        <>
+          <ResizableHandle className="z-50" />
+          <ResizablePanel
+            id="playground-activity-context"
+            defaultSize={400}
+            minSize={360}
+            maxSize="60vw"
+            groupResizeBehavior="preserve-pixel-size"
+            className="relative z-20 min-w-0 !overflow-visible"
+          >
+            <AppShellPanelSlot className="flex h-full min-w-0 flex-1">{context}</AppShellPanelSlot>
+          </ResizablePanel>
+        </>
+      ) : null}
+    </ResizableGroup>
   );
 }
 

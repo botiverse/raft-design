@@ -1,6 +1,9 @@
 import { ChevronLeft, Monitor } from "lucide-react";
 import {
   Button,
+  AppShellMainSlot,
+  AppShellPanelSlot,
+  AppShellSidebarSlot,
   ConversationPanelBody,
   ConversationPanelContent,
   ConversationPanelRoot,
@@ -9,6 +12,10 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
+  useThemeFamily,
 } from "raft-ui";
 import { useEffect, useState } from "react";
 
@@ -34,7 +41,10 @@ import {
   type PlaygroundChatMessage,
 } from "../mock/index.ts";
 import { PLAYGROUND_CONVERSATIONS } from "../mock/conversations.ts";
-import { PlaygroundContentShell } from "../app-shell/playground-content-shell.tsx";
+import {
+  usePlaygroundDesktop,
+  usePlaygroundWideDesktop,
+} from "../app-shell/use-playground-desktop.ts";
 import { MemberDetailPanel } from "../browse/member-detail-panel.tsx";
 import { memberDetailId } from "../browse/member-selection.ts";
 import { PlaygroundChannelPanel } from "../conversation/playground-channel-panel.tsx";
@@ -198,6 +208,9 @@ const threadContextPrefix = "thread:";
 type SelectContent = (id?: string, options?: { hash?: string; surface?: string }) => void;
 
 export function PlaygroundSearchPanel() {
+  const theme = useThemeFamily();
+  const isDesktop = usePlaygroundDesktop();
+  const hasContextColumn = usePlaygroundWideDesktop();
   const {
     contentId,
     contextId,
@@ -281,16 +294,65 @@ export function PlaygroundSearchPanel() {
     />
   ) : undefined;
 
+  if (!isDesktop) {
+    return (
+      <AppShellMainSlot className="h-full w-full bg-transparent">
+        {context ?? content ?? master}
+      </AppShellMainSlot>
+    );
+  }
+
+  if (!content) {
+    return <AppShellMainSlot className="flex h-full min-w-0 flex-1">{master}</AppShellMainSlot>;
+  }
+
   return (
-    <PlaygroundContentShell
-      master={master}
-      masterLabel="Search"
-      masterDefaultSize={400}
-      content={content}
-      contentEmptyDescription="Open a result to inspect it here while keeping the result list available."
-      contentEmptyTitle="Select a result"
-      context={context}
-    />
+    <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
+      <ResizablePanel
+        id="playground-search-master"
+        defaultSize={560}
+        minSize={400}
+        maxSize={720}
+        groupResizeBehavior="preserve-pixel-size"
+        className="relative min-w-0"
+      >
+        <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1">
+          {master}
+        </AppShellSidebarSlot>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel id="playground-search-content" minSize={320} className="relative min-w-0">
+        <AppShellMainSlot className="flex h-full min-w-0 flex-1">
+          {content}
+          {context && !hasContextColumn ? (
+            <div
+              className={
+                theme === "brutal"
+                  ? "absolute inset-0 z-20 flex min-h-0 min-w-0 border-l-2 border-black bg-white"
+                  : "absolute inset-0 z-20 flex min-h-0 min-w-0 bg-layer-panel"
+              }
+            >
+              {context}
+            </div>
+          ) : null}
+        </AppShellMainSlot>
+      </ResizablePanel>
+      {context && hasContextColumn ? (
+        <>
+          <ResizableHandle className="z-50" />
+          <ResizablePanel
+            id="playground-search-context"
+            defaultSize={400}
+            minSize={360}
+            maxSize="60vw"
+            groupResizeBehavior="preserve-pixel-size"
+            className="relative z-20 min-w-0 !overflow-visible"
+          >
+            <AppShellPanelSlot className="flex h-full min-w-0 flex-1">{context}</AppShellPanelSlot>
+          </ResizablePanel>
+        </>
+      ) : null}
+    </ResizableGroup>
   );
 }
 
