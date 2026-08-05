@@ -11,12 +11,36 @@ import { TaskBoardComposition } from "#/modules/task-board/compositions/task-boa
 import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 import { TaskBoardVirtualizationComposition } from "#/modules/task-board/compositions/task-board-virtualization.composition.tsx";
 
-const ANATOMY_SNIPPET = `<TaskDndProvider>
+const ANATOMY_SNIPPET = `import {
+  TaskBoardColumn,
+  TaskBoardColumnBadge,
+  TaskBoardColumnChevron,
+  TaskBoardColumnCount,
+  TaskBoardColumnEmpty,
+  TaskBoardColumnEmptyAllowed,
+  TaskBoardColumnEmptyBlocked,
+  TaskBoardColumnEmptyIdle,
+  TaskBoardColumnHeading,
+  TaskBoardColumnItems,
+  TaskBoardColumnPanel,
+  TaskBoardColumnTrigger,
+  TaskBoardRoot,
+  TaskCard,
+  TaskDndProvider,
+  TaskDragOverlay,
+  TaskDraggable,
+  TaskDropPlaceholder,
+  TaskDropZone,
+} from "raft-ui";
+
+<TaskDndProvider isDropAllowed={() => true} onMove={() => {}}>
   <TaskBoardRoot>
-    <TaskBoardColumn render={<TaskDropZone id={status} />}>
+    <TaskBoardColumn
+      render={<TaskDropZone id="task-status:todo" data={{ status: "todo" }} />}
+    >
       <TaskBoardColumnTrigger>
         <TaskBoardColumnHeading>
-          <TaskBoardColumnBadge />
+          <TaskBoardColumnBadge status="todo" />
           <TaskBoardColumnCount />
         </TaskBoardColumnHeading>
         <TaskBoardColumnChevron />
@@ -28,13 +52,22 @@ const ANATOMY_SNIPPET = `<TaskDndProvider>
             <TaskBoardColumnEmptyAllowed />
             <TaskBoardColumnEmptyBlocked />
           </TaskBoardColumnEmpty>
-          <TaskDraggable>
+          <TaskDropPlaceholder id="task-1" placement="before" />
+          <TaskDraggable
+            id="task-1"
+            dropId="task-1"
+            dropData={{ status: "todo", taskId: "task-1" }}
+          >
             <TaskCard />
           </TaskDraggable>
+          <TaskDropPlaceholder id="task-1" placement="after" />
         </TaskBoardColumnItems>
       </TaskBoardColumnPanel>
     </TaskBoardColumn>
   </TaskBoardRoot>
+  <TaskDragOverlay>
+    <TaskCard />
+  </TaskDragOverlay>
 </TaskDndProvider>`;
 
 const DND_SNIPPET = `<TaskDndProvider isDropAllowed={…} onMove={…}>

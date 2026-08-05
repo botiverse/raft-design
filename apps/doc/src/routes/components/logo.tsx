@@ -18,7 +18,9 @@ const TOC = [
 
 const SNIPPETS = {
   composition: logoCompositionSource,
-  anatomy: `<RaftLogo role="img" aria-label="Raft" />
+  anatomy: `import { RaftLogo, RaftLogoLockup, RaftWordmark } from "raft-ui";
+
+<RaftLogo role="img" aria-label="Raft" />
 <RaftWordmark role="img" aria-label="Raft" />
 <RaftLogoLockup role="img" aria-label="Raft" />`,
   accessibility: `<RaftLogo role="img" aria-label="Raft" />

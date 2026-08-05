@@ -97,7 +97,9 @@ const SNIPPETS = {
   preview: `import { Label } from "raft-ui";
 
 <Label htmlFor="email">Email address</Label>`,
-  anatomy: `<Label>
+  anatomy: `import { Label, LabelAsterisk } from "raft-ui";
+
+<Label>
   <LabelAsterisk />
 </Label>`,
   markers: `<Label htmlFor="email">

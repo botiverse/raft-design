@@ -49,7 +49,9 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<CopyableCodeRoot>
+  anatomy: `import { CopyableCode, CopyableCodeAction, CopyableCodeRoot } from "raft-ui";
+
+<CopyableCodeRoot>
   <CopyableCode />
   <CopyableCodeAction />
 </CopyableCodeRoot>`,

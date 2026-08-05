@@ -17,7 +17,17 @@ const TOC = [
 
 const SNIPPETS = {
   panelComposition: panelCompositionSource,
-  anatomy: `<Panel>
+  anatomy: `import {
+  Panel,
+  PanelBody,
+  PanelFooter,
+  PanelHeaderRoot,
+  PanelScrollContent,
+  PanelScrollViewport,
+  PanelSection,
+} from "raft-ui";
+
+<Panel>
   {/* Use PanelHeaderRoot directly for a fully custom fixed header. */}
   <PanelHeaderRoot />
 
@@ -32,7 +42,19 @@ const SNIPPETS = {
   {/* Optional bottom action boundary. */}
   <PanelFooter />
 </Panel>`,
-  composedHeader: `<PanelHeader>
+  composedHeader: `import {
+  PanelActions,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeading,
+  PanelMeta,
+  PanelSectionHeader,
+  PanelStatus,
+  PanelTitle,
+} from "raft-ui";
+
+<PanelHeader>
   <PanelHeaderContent>
     <PanelHeaderIcon />
     <PanelHeading>

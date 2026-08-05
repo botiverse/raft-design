@@ -108,7 +108,9 @@ const SOURCE_SCENES = {
 } as const;
 
 const SNIPPETS = {
-  anatomy: `<Progress>
+  anatomy: `import { Progress, ProgressIndicator, ProgressTrack } from "raft-ui";
+
+<Progress value={64}>
   <ProgressTrack>
     <ProgressIndicator />
   </ProgressTrack>

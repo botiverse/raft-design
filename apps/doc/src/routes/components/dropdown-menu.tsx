@@ -258,7 +258,19 @@ const SNIPPETS = {
 ${PROFILE_MENU_SNIPPET}
   </DropdownMenuContent>
 </DropdownMenu>`,
-  anatomy: `<DropdownMenu>
+  anatomy: `import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSubmenu,
+  DropdownMenuSubmenuTrigger,
+  DropdownMenuTrigger,
+} from "raft-ui";
+
+<DropdownMenu>
   <DropdownMenuTrigger />
   <DropdownMenuContent>
     <DropdownMenuLabel />

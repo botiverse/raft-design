@@ -20,7 +20,9 @@ const SIZES = ["sm", "md"] as const;
 
 const SNIPPETS = {
   preview: `<Switch size="sm" defaultChecked aria-label="Desktop notifications" />`,
-  anatomy: `<Switch />`,
+  anatomy: `import { Switch } from "raft-ui";
+
+<Switch aria-label="Setting" />`,
   sizes: `<Switch size="sm" defaultChecked aria-label="Small switch" />
 <Switch size="md" defaultChecked aria-label="Medium switch" />`,
   states: `<Switch aria-label="Off" />

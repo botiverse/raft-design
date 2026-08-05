@@ -118,10 +118,25 @@ type AnatomyVariantData = {
 };
 
 const SNIPPETS = {
-  anatomy: `<ToastProvider>
+  anatomy: `import {
+  ToastAction,
+  ToastActions,
+  ToastBody,
+  ToastClose,
+  ToastContent,
+  ToastDescription,
+  ToastIcon,
+  ToastPortal,
+  ToastProvider,
+  ToastRoot,
+  ToastTitle,
+  ToastViewport,
+} from "raft-ui";
+
+<ToastProvider renderViewport={false}>
   <ToastPortal>
     <ToastViewport>
-      <ToastRoot>
+      <ToastRoot toast={toast}>
         <ToastContent>
           <ToastIcon />
           <ToastBody>

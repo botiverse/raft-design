@@ -21,32 +21,35 @@ const TASK_CARD_COMPOSITION_PATH =
 const TASK_STATUS_SELECT_COMPOSITION_PATH =
   "apps/doc/src/modules/task-card/compositions/task-status-select.composition.tsx";
 
-const ANATOMY_SNIPPET = `<TaskCard>
-  <TaskCardMeta>
-    <TaskCardChannel />
-    <TaskStatusSelect>
-      <TaskCardStatus status={status}>
-        <TaskStatusIcon status={status} />
-      </TaskCardStatus>
-    </TaskStatusSelect>
-    <TaskCardNumber />
-    <TaskCardLegacy />
-    <TaskStatusSelect>
-      <Button variant="ghost" size="icon-xs">
-        <EllipsisVertical />
-      </Button>
-    </TaskStatusSelect>
-    <TaskStatusSelect>
-      <TaskCardStatus status={status}>
-        <span data-slot="task-card-status-label">
-          <TaskStatusIcon status={status} />
-          {label}
-        </span>
-      </TaskCardStatus>
-    </TaskStatusSelect>
-  </TaskCardMeta>
-  <TaskCardTitle />
-  <TaskCardDescription />
+const ANATOMY_SNIPPET = `import {
+  TaskCard,
+  TaskCardBody,
+  TaskCardChannel,
+  TaskCardDescription,
+  TaskCardLegacy,
+  TaskCardMeta,
+  TaskCardNumber,
+  TaskCardRow,
+  TaskCardStatus,
+  TaskCardTitle,
+  TaskStatusIcon,
+} from "raft-ui";
+
+<TaskCard>
+  <TaskCardRow>
+    <TaskCardBody>
+      <TaskCardMeta>
+        <TaskCardChannel />
+        <TaskCardStatus status="in-progress">
+          <TaskStatusIcon status="in-progress" />
+        </TaskCardStatus>
+        <TaskCardNumber />
+        <TaskCardLegacy />
+      </TaskCardMeta>
+      <TaskCardTitle />
+      <TaskCardDescription />
+    </TaskCardBody>
+  </TaskCardRow>
 </TaskCard>`;
 
 const TOC = [

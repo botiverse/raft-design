@@ -49,7 +49,26 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const ANATOMY_SOURCE = `<MessageForwardedBundle>
+const ANATOMY_SOURCE = `import {
+  MessageForwardedBundle,
+  MessageForwardedBundleAttachment,
+  MessageForwardedBundleAttachmentMeta,
+  MessageForwardedBundleAttachmentName,
+  MessageForwardedBundleAttachments,
+  MessageForwardedBundleFooter,
+  MessageForwardedBundleFooterAction,
+  MessageForwardedBundleHeader,
+  MessageForwardedBundleHeaderContent,
+  MessageForwardedBundleHeaderCount,
+  MessageForwardedBundleHeaderLabel,
+  MessageForwardedBundleItem,
+  MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemMeta,
+  MessageForwardedBundleItems,
+  MessageForwardedBundleSource,
+} from "raft-ui";
+
+<MessageForwardedBundle>
   <MessageForwardedBundleHeader>
     <MessageForwardedBundleHeaderContent>
       <MessageForwardedBundleHeaderLabel />

@@ -23,7 +23,9 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const ANATOMY_SOURCE = `<TaskChip status="in-progress" render={<a href="…" />}>
+const ANATOMY_SOURCE = `import { TaskChip, TaskInProgressIcon, TaskInReviewIcon } from "raft-ui";
+
+<TaskChip status="in-progress" render={<a href="…" />}>
   <TaskInProgressIcon />
   #205
 </TaskChip>

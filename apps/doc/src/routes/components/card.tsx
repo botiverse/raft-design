@@ -35,7 +35,19 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<Card>
+  anatomy: `import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardLeading,
+  CardTitle,
+  CardTitleText,
+  CardTrailing,
+} from "raft-ui";
+
+<Card>
   <CardHeader>
     <CardTitle>
       <CardLeading />

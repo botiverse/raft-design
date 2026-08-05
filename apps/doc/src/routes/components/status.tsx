@@ -154,7 +154,9 @@ function LegacyPulseStatusDot({ className, ...props }: LegacyStatusDotProps) {
 
 const SNIPPETS = {
   preview: `<Status variant="success" size="md" />`,
-  anatomy: `<Status />`,
+  anatomy: `import { Status } from "raft-ui";
+
+<Status />`,
   variants: `<Status />
 <Status variant="primary" />
 <Status variant="information" />

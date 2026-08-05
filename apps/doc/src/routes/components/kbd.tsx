@@ -28,7 +28,9 @@ const SNIPPETS = {
   </KbdGroup>
   <Kbd>Esc</Kbd>
 </div>`,
-  anatomy: `<Kbd />
+  anatomy: `import { Kbd, KbdGroup } from "raft-ui";
+
+<Kbd />
 
 <KbdGroup>
   <Kbd />

@@ -25,7 +25,13 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<FilePreview>
+  anatomy: `import {
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewDocument,
+} from "raft-ui";
+
+<FilePreview>
   <FilePreviewDocument />
   <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
 </FilePreview>`,

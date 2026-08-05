@@ -35,7 +35,9 @@ const SNIPPETS = {
   preview: `import { Status } from "raft-ui";
 
 <Status variant="success" />`,
-  anatomy: `<Status />`,
+  anatomy: `import { Status } from "raft-ui";
+
+<Status />`,
   sourceDefault: `<StatusDot tone="bg-brutal-lime" />`,
   sourcePulse: `<StatusDot tone="bg-brutal-yellow" pulse />`,
 } as const;

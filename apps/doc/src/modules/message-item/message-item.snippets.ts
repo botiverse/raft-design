@@ -7,10 +7,31 @@ export const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-export const ANATOMY_SOURCE = `<>
+export const ANATOMY_SOURCE = `import {
+  Avatar,
+  MessageItem,
+  MessageItemAttachments,
+  MessageItemAvatarSlot,
+  MessageItemBody,
+  MessageItemContent,
+  MessageItemContinuationTime,
+  MessageItemEmbedded,
+  MessageItemFooter,
+  MessageItemGutter,
+  MessageItemHeader,
+  MessageItemInlineStatus,
+  MessageItemMeta,
+  MessageItemSender,
+  MessageItemSenderBadges,
+  MessageItemTime,
+  MessageItemToolbar,
+  MessageItemToolbarButton,
+} from "raft-ui";
+
+<>
   <MessageItem>
     <MessageItemAvatarSlot>
-      <Avatar />
+      <Avatar size="md" type="human" />
     </MessageItemAvatarSlot>
     <MessageItemContent>
       <MessageItemHeader>

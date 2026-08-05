@@ -139,7 +139,26 @@ const ENTRIES: DemoEntry[] = [
 ];
 
 const SNIPPETS = {
-  anatomy: `<NotificationCenter>
+  anatomy: `import {
+  NotificationCenter,
+  NotificationCenterActionButton,
+  NotificationCenterCount,
+  NotificationCenterHeader,
+  NotificationCenterItem,
+  NotificationCenterItemActions,
+  NotificationCenterItemBody,
+  NotificationCenterItemContent,
+  NotificationCenterItemIcon,
+  NotificationCenterItemRow,
+  NotificationCenterItemTitle,
+  NotificationCenterList,
+  NotificationCenterPopup,
+  NotificationCenterScroller,
+  NotificationCenterTitle,
+  NotificationCenterTrigger,
+} from "raft-ui";
+
+<NotificationCenter>
   <NotificationCenterTrigger />
   <NotificationCenterPopup>
     <NotificationCenterHeader>

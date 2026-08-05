@@ -152,7 +152,9 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<Input />`,
+  anatomy: `import { Input } from "raft-ui";
+
+<Input />`,
   types: `<Input
   aria-label="Email"
   type="email"

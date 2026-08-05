@@ -32,7 +32,17 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<DescriptionList>
+  anatomy: `import { ChevronDown, CircleHelp } from "lucide-react";
+import {
+  Badge,
+  Button,
+  DescriptionDetails,
+  DescriptionItem,
+  DescriptionList,
+  DescriptionTerm,
+} from "raft-ui";
+
+<DescriptionList>
   <DescriptionItem>
     <DescriptionTerm>
       Role
@@ -152,7 +162,7 @@ function DescriptionListDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

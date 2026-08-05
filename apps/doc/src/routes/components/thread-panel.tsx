@@ -45,9 +45,43 @@ const SOURCE_SCENES = [
 
 const SNIPPETS = {
   threadPanelComposition: threadPanelCompositionSource,
-  anatomy: `<ThreadPanelRoot>
+  anatomy: `import {
+  Button,
+  Composer,
+  ComposerActions,
+  ComposerInput,
+  ComposerMeta,
+  ComposerRoot,
+  ComposerSubmit,
+  ComposerToolbar,
+  InputGroup,
+  MessageItem,
+  MessageItemBody,
+  MessageItemSearchMatch,
+  MessageList,
+  MessageListDateDivider,
+  MessageListNotice,
+  PanelAction,
+  ThreadPanelActions,
+  ThreadPanelBody,
+  ThreadPanelContent,
+  ThreadPanelFooter,
+  ThreadPanelHeader,
+  ThreadPanelOriginalMessage,
+  ThreadPanelReplyCount,
+  ThreadPanelReplySummary,
+  ThreadPanelRoot,
+  ThreadPanelSearch,
+  ThreadPanelSearchCount,
+  ThreadPanelSearchTrailing,
+  ThreadPanelTitle,
+  ThreadPanelTitleMeta,
+} from "raft-ui";
+import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
+
+<ThreadPanelRoot>
   <ThreadPanelHeader>
-    <Button className="mr-1 lg:hidden" variant="outline" size="icon-sm">
+    <Button className="mr-1 lg:hidden" variant="outline" size="icon-sm" aria-label="Back">
       <ChevronLeft />
     </Button>
     <ThreadPanelTitle>
@@ -55,59 +89,67 @@ const SNIPPETS = {
       <ThreadPanelTitleMeta> — #acme-design</ThreadPanelTitleMeta>
     </ThreadPanelTitle>
     <ThreadPanelActions>
-      <PanelAction>
+      <PanelAction aria-label="Search thread">
         <Search />
       </PanelAction>
-      <PanelAction>
+      <PanelAction aria-label="View in channel">
         <ExternalLink />
         <span className="hidden md:inline">View in channel</span>
       </PanelAction>
-      <PanelAction className="max-lg:hidden">
+      <PanelAction className="max-lg:hidden" aria-label="Close thread">
         <X />
       </PanelAction>
     </ThreadPanelActions>
   </ThreadPanelHeader>
   <ThreadPanelContent>
-  <ThreadPanelSearch>
-    <InputGroup />
-    <ThreadPanelSearchTrailing>
-      <ThreadPanelSearchCount />
-      <ThreadPanelActions>
-        <PanelAction />
-      </ThreadPanelActions>
-    </ThreadPanelSearchTrailing>
-  </ThreadPanelSearch>
-  <ThreadPanelOriginalMessage>
-    <MessageItem />
-  </ThreadPanelOriginalMessage>
-  <ThreadPanelBody>
-    <MessageList>
-      <ThreadPanelReplySummary>
-        <MessageListNotice />
-        <ThreadPanelReplyCount />
-      </ThreadPanelReplySummary>
-      <MessageListDateDivider />
+    <ThreadPanelSearch>
+      <InputGroup />
+      <ThreadPanelSearchTrailing>
+        <ThreadPanelSearchCount />
+        <ThreadPanelActions>
+          <PanelAction aria-label="Previous match">
+            <ChevronUp />
+          </PanelAction>
+          <PanelAction aria-label="Next match">
+            <ChevronDown />
+          </PanelAction>
+          <PanelAction aria-label="Close search">
+            <X />
+          </PanelAction>
+        </ThreadPanelActions>
+      </ThreadPanelSearchTrailing>
+    </ThreadPanelSearch>
+    <ThreadPanelOriginalMessage>
       <MessageItem />
-      <MessageItem>
-        <MessageItemBody>
-          <MessageItemSearchMatch>Matching text</MessageItemSearchMatch>
-        </MessageItemBody>
-      </MessageItem>
-    </MessageList>
-  </ThreadPanelBody>
-  <ThreadPanelFooter>
-    <ComposerRoot>
-      <Composer>
-        <ComposerInput />
-        <ComposerToolbar>
-          <ComposerActions />
-          <ComposerMeta>
-            <ComposerSubmit />
-          </ComposerMeta>
-        </ComposerToolbar>
-      </Composer>
-    </ComposerRoot>
-  </ThreadPanelFooter>
+    </ThreadPanelOriginalMessage>
+    <ThreadPanelBody>
+      <MessageList>
+        <ThreadPanelReplySummary>
+          <MessageListNotice />
+          <ThreadPanelReplyCount />
+        </ThreadPanelReplySummary>
+        <MessageListDateDivider />
+        <MessageItem />
+        <MessageItem>
+          <MessageItemBody>
+            <MessageItemSearchMatch>Matching text</MessageItemSearchMatch>
+          </MessageItemBody>
+        </MessageItem>
+      </MessageList>
+    </ThreadPanelBody>
+    <ThreadPanelFooter>
+      <ComposerRoot>
+        <Composer>
+          <ComposerInput />
+          <ComposerToolbar>
+            <ComposerActions />
+            <ComposerMeta>
+              <ComposerSubmit />
+            </ComposerMeta>
+          </ComposerToolbar>
+        </Composer>
+      </ComposerRoot>
+    </ThreadPanelFooter>
   </ThreadPanelContent>
 </ThreadPanelRoot>`,
 } as const;
@@ -320,7 +362,7 @@ function ThreadPanelDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

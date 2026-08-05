@@ -49,7 +49,32 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<ProfilePanel>
+  anatomy: `import {
+  Avatar,
+  Badge,
+  DescriptionDetails,
+  DescriptionItem,
+  DescriptionList,
+  DescriptionTerm,
+  PanelAction,
+  PanelActions,
+  PanelBody,
+  PanelHeading,
+  PanelMeta,
+  PanelScrollContent,
+  PanelScrollViewport,
+  PanelTitle,
+  SidebarItem,
+  Text,
+} from "raft-ui";
+import {
+  ProfilePanel,
+  ProfilePanelHeader,
+  ProfilePanelHeaderContent,
+  ProfilePanelSection,
+} from "raft-ui/wip";
+
+<ProfilePanel>
   <ProfilePanelHeader>
     <Avatar />
     <ProfilePanelHeaderContent>
@@ -167,7 +192,7 @@ function ProfilePanelDoc() {
         </p>
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

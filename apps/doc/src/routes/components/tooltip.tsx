@@ -45,7 +45,9 @@ import { SmilePlus } from "lucide-react";
     <TooltipContent>Add reaction</TooltipContent>
   </Tooltip>
 </TooltipProvider>`,
-  anatomy: `<TooltipProvider>
+  anatomy: `import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
+
+<TooltipProvider>
   <Tooltip>
     <TooltipTrigger />
     <TooltipContent />

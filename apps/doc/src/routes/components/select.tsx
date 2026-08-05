@@ -114,14 +114,26 @@ const SNIPPETS = {
     </SelectList>
   </SelectContent>
 </Select>`,
-  anatomy: `<Select>
+  anatomy: `import {
+  Select,
+  SelectContent,
+  SelectIcon,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+  SelectValue,
+} from "raft-ui";
+
+<Select defaultValue="option">
   <SelectTrigger>
     <SelectValue />
     <SelectIcon />
   </SelectTrigger>
   <SelectContent>
     <SelectList>
-      <SelectItem>
+      <SelectItem value="option">
         <SelectItemText />
         <SelectItemIndicator />
       </SelectItem>

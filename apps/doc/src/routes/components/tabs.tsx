@@ -51,12 +51,14 @@ const SNIPPETS = {
   <TabsPanel value="billing">Billing content</TabsPanel>
   <TabsPanel value="settings">Settings content</TabsPanel>
 </Tabs>`,
-  anatomy: `<Tabs>
+  anatomy: `import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "raft-ui";
+
+<Tabs defaultValue="overview">
   <TabsList>
     <TabsBackground />
-    <TabsTab />
+    <TabsTab value="overview" />
   </TabsList>
-  <TabsPanel />
+  <TabsPanel value="overview" />
 </Tabs>`,
   variants: `import {
   CreditCard,

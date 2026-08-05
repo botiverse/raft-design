@@ -57,10 +57,29 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const ANATOMY_SOURCE = `<MessageQuotedPreview>
+const ANATOMY_SOURCE = `import {
+  Avatar,
+  MessageQuotedPreview,
+  MessageQuotedPreviewAttachment,
+  MessageQuotedPreviewAttachments,
+  MessageQuotedPreviewAuthor,
+  MessageQuotedPreviewAuthorMeta,
+  MessageQuotedPreviewAuthorName,
+  MessageQuotedPreviewChannel,
+  MessageQuotedPreviewContent,
+  MessageQuotedPreviewHeader,
+  MessageQuotedPreviewLoading,
+  MessageQuotedPreviewText,
+  MessageQuotedPreviewThread,
+  MessageQuotedPreviewTimestamp,
+  MessageQuotedPreviewUnavailable,
+  Skeleton,
+} from "raft-ui";
+
+<MessageQuotedPreview>
   <MessageQuotedPreviewHeader>
     <MessageQuotedPreviewAuthor>
-      <Avatar />
+      <Avatar size="xs" type="human" />
       <MessageQuotedPreviewAuthorName />
       <MessageQuotedPreviewAuthorMeta />
     </MessageQuotedPreviewAuthor>

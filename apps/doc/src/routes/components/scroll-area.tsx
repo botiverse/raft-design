@@ -20,7 +20,15 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<ScrollArea>
+  anatomy: `import {
+  ScrollArea,
+  ScrollAreaContent,
+  ScrollAreaScrollbar,
+  ScrollAreaThumb,
+  ScrollAreaViewport,
+} from "raft-ui";
+
+<ScrollArea>
   <ScrollAreaViewport>
     <ScrollAreaContent />
   </ScrollAreaViewport>

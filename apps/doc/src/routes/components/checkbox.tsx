@@ -83,7 +83,9 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<Checkbox />`,
+  anatomy: `import { Checkbox } from "raft-ui";
+
+<Checkbox />`,
   sizes: `<Checkbox size="sm" defaultChecked />
 <Checkbox size="md" defaultChecked />`,
   variants: `<Checkbox defaultChecked />

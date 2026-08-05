@@ -38,7 +38,31 @@ const SEARCH_FILTERS_PATH = "apps/doc/src/modules/search/search-panel/search-pan
 const SEARCH_RESULTS_PATH = "apps/doc/src/modules/search/search-panel/search-panel.results.tsx";
 
 const SNIPPETS = {
-  anatomy: `<SearchResultsSummary />
+  anatomy: `import {
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
+} from "raft-ui";
+import {
+  SearchEntityResult,
+  SearchEntityResultOpen,
+  SearchMessageResult,
+  SearchMessageResultBody,
+  SearchMessageResultHeader,
+  SearchResultsError,
+  SearchResultsList,
+  SearchResultsSection,
+  SearchResultsSectionHeading,
+  SearchResultsSummary,
+  SearchThreadMessageResult,
+  SearchThreadResult,
+  SearchThreadResultHeader,
+  SearchThreadResultMessages,
+} from "raft-ui/wip";
+
+<SearchResultsSummary />
 
 <SearchResultsSection>
   <SearchResultsSectionHeading />
@@ -341,7 +365,7 @@ function SearchDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

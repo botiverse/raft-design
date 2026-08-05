@@ -22,7 +22,19 @@ import {
 import sidebarItemCompositionSource from "#/modules/sidebar-item/sidebar-item.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const ANATOMY_SNIPPET = `<SidebarItem>
+const ANATOMY_SNIPPET = `import {
+  SidebarItem,
+  SidebarItemAside,
+  SidebarItemChannelIcon,
+  SidebarItemContent,
+  SidebarItemCount,
+  SidebarItemIndicator,
+  SidebarItemMetaIcon,
+  SidebarItemSubtitle,
+  SidebarItemTitle,
+} from "raft-ui";
+
+<SidebarItem>
   <SidebarItemChannelIcon />
   <SidebarItemContent>
     <SidebarItemTitle />

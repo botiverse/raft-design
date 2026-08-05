@@ -23,7 +23,16 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const ANATOMY_SOURCE = `<CodeBlock>
+const ANATOMY_SOURCE = `import {
+  CodeBlock,
+  CodeBlockAction,
+  CodeBlockActions,
+  CodeBlockBody,
+  CodeBlockHeader,
+  CodeBlockTitle,
+} from "raft-ui";
+
+<CodeBlock>
   <CodeBlockHeader>
     <CodeBlockTitle>message.ts</CodeBlockTitle>
     <CodeBlockActions>
@@ -32,7 +41,7 @@ const ANATOMY_SOURCE = `<CodeBlock>
   </CodeBlockHeader>
   <CodeBlockBody>
     <pre>
-      <code>{code}</code>
+      <code>{"const online = true;"}</code>
     </pre>
   </CodeBlockBody>
 </CodeBlock>`;

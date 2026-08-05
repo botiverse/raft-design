@@ -67,7 +67,9 @@ const VARIANTS = ["default", "inverse"] as const;
 
 const SNIPPETS = {
   preview: `<Spinner size="sm" variant="default" />`,
-  anatomy: `<Spinner />`,
+  anatomy: `import { Spinner } from "raft-ui";
+
+<Spinner />`,
   sizes: `<Spinner size="sm" />
 <Spinner size="lg" />`,
   currentColor: `<Spinner className="text-primary-400" />

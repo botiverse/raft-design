@@ -132,7 +132,19 @@ const SNIPPETS = {
     </DialogFooter>
   </DialogContent>
 </Dialog>`,
-  anatomy: `<Dialog>
+  anatomy: `import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "raft-ui";
+
+<Dialog>
   <DialogTrigger />
   <DialogContent>
     <DialogHeader>

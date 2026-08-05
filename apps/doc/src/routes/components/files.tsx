@@ -49,7 +49,26 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const ANATOMY = `<FilesPanel>
+const ANATOMY = `import {
+  FileAction,
+  FileActions,
+  FileContent,
+  FileImage,
+  FileMeta,
+  FileMetaItem,
+  FileName,
+  FilePreview,
+  FilePreviewBadge,
+  FilePreviewMedia,
+  FileRow,
+  FileRowOpen,
+  FilesList,
+  FilesPanel,
+  FilesViewport,
+  FileThumbnail,
+} from "raft-ui";
+
+<FilesPanel aria-label="Files panel">
   <FilesViewport>
     <FilesList>
       <FileRow>
@@ -57,7 +76,7 @@ const ANATOMY = `<FilesPanel>
           <FileThumbnail>
             <FilePreview>
               <FilePreviewMedia>
-                <FileImage />
+                <FileImage src="/file.png" alt="" />
               </FilePreviewMedia>
               <FilePreviewBadge />
             </FilePreview>

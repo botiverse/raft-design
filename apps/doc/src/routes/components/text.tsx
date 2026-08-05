@@ -87,7 +87,9 @@ const SNIPPETS = {
   <Text.Sans size="small" variant="muted">3 unread messages</Text.Sans>
   <Text.Mono size="meta">raft-ui@0.0.1</Text.Mono>
 </div>`,
-  anatomy: `<Text.Heading />
+  anatomy: `import { Text } from "raft-ui";
+
+<Text.Heading />
 <Text.Sans />
 <Text.Mono />`,
   sizes: `<div>

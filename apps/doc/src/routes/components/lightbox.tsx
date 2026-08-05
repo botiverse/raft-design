@@ -31,15 +31,32 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<Lightbox>
+  anatomy: `import {
+  Lightbox,
+  LightboxClose,
+  LightboxContent,
+  LightboxInfoActions,
+  LightboxInfoBar,
+  LightboxInfoDock,
+  LightboxInfoTitle,
+  LightboxMedia,
+  LightboxNavigationButton,
+  LightboxStage,
+  LightboxThumbnail,
+  LightboxThumbnailStrip,
+  LightboxTitle,
+  LightboxTrigger,
+} from "raft-ui";
+
+<Lightbox>
   <LightboxTrigger />
   <LightboxContent>
     <LightboxTitle />
     <LightboxClose />
     <LightboxStage>
-      <LightboxNavigationButton />
+      <LightboxNavigationButton direction="previous" />
+      <LightboxNavigationButton direction="next" />
       <LightboxMedia />
-      <LightboxNavigationButton />
       <LightboxInfoDock>
         <LightboxInfoBar>
           <LightboxInfoTitle />
