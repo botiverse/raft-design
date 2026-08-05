@@ -100,15 +100,6 @@ import {
 </AppShellRailSlot>`,
 } as const;
 
-const SHELL_SLOT_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: 'useRender.ComponentProps<"aside">',
-    description:
-      "Desktop rail column by default. Override with className when composing a mobile bottom-navigation row.",
-  },
-];
-
 const ROOT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -255,9 +246,6 @@ function AppRailDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-shell-slot" title="AppShellRailSlot">
-            <PropsTable rows={SHELL_SLOT_PROPS} />
-          </DocSubsection>
           <DocSubsection parentId="api" id="api-root" title="AppRailRoot">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>

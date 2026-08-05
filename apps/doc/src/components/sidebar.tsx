@@ -10,7 +10,7 @@ const PRIMARY_NAV = [
   { label: "Installation", to: "/installation" },
   { label: "Changelog", to: "/changelog" },
   { label: "Playground", to: "/playground" },
-  { label: "Lab", to: "/lab" },
+  { label: "Lab", to: "/lab", status: "internal" },
 ] as const;
 
 const FOUNDATIONS = {
@@ -41,7 +41,6 @@ const COMPONENT_NAV = [
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "done" },
       { label: "AppRail", to: "/components/app-rail", status: "done" },
-      { label: "MobileNav", to: "/components/mobile-nav", status: "done" },
       { label: "Panel", to: "/components/panel", status: "done" },
       {
         label: "ProfilePanel",
@@ -79,7 +78,10 @@ const COMPONENT_NAV = [
   },
   {
     title: "Navigation",
-    items: [{ label: "Tabs", to: "/components/tabs", status: "done" }],
+    items: [
+      { label: "MobileNav", to: "/components/mobile-nav", status: "done" },
+      { label: "Tabs", to: "/components/tabs", status: "done" },
+    ],
   },
   {
     title: "Overlays",
@@ -110,10 +112,8 @@ const COMPONENT_NAV = [
   {
     title: "Status & Indicators",
     items: [
-      { label: "AttentionDot", to: "/components/attention-dot", status: "done" },
       { label: "Badge", to: "/components/badge", status: "done" },
       { label: "Status", to: "/components/status", status: "done" },
-      { label: "StatusDot", to: "/components/status-dot", status: "done" },
     ],
   },
   {
@@ -129,16 +129,11 @@ const COMPONENT_NAV = [
     title: "Content",
     items: [
       { label: "Text", to: "/components/text", status: "done" },
-      { label: "Markdown", to: "/components/markdown", status: "done" },
+      { label: "Markdown Parts", to: "/components/markdown", status: "done" },
       { label: "InlineCode", to: "/components/inline-code", status: "done" },
       { label: "CodeBlock", to: "/components/code-block", status: "done" },
       { label: "CopyableCode", to: "/components/copyable-code", status: "done" },
       { label: "Kbd", to: "/components/kbd", status: "done" },
-      {
-        label: "SandboxedPreviewFrame",
-        to: "/components/sandboxed-preview-frame",
-        status: "done",
-      },
     ],
   },
   {
@@ -152,22 +147,30 @@ const PATTERN_NAV = [
     title: "Messaging",
     items: [
       { label: "MessageItem", to: "/components/message-item", status: "done" },
-      { label: "Translation", to: "/components/message-translation", status: "done" },
-      { label: "Replies", to: "/components/message-replies", status: "done" },
-      { label: "Reference", to: "/components/message-reference", status: "done" },
+      { label: "MessageTranslation", to: "/components/message-translation", status: "done" },
+      { label: "MessageReplies", to: "/components/message-replies", status: "done" },
+      { label: "MessageReference", to: "/components/message-reference", status: "done" },
       { label: "TaskChip", to: "/components/task-chip", status: "done" },
       {
-        label: "QuotedPreview",
+        label: "MessageQuotedPreview",
         to: "/components/message-quoted-preview",
         status: "done",
       },
       {
-        label: "ForwardedBundle",
+        label: "MessageForwardedBundle",
         to: "/components/message-forwarded-bundle",
         status: "done",
       },
-      { label: "ActionCard", to: "/components/message-action-card", status: "done" },
-      { label: "Attachment", to: "/components/message-attachment", status: "done" },
+      {
+        label: "MessageActionCard",
+        to: "/components/message-action-card",
+        status: "done",
+      },
+      {
+        label: "MessageAttachment",
+        to: "/components/message-attachment",
+        status: "done",
+      },
       { label: "SystemMessage", to: "/components/system-message", status: "done" },
     ],
   },
@@ -501,11 +504,27 @@ function NavGroup({
   );
 }
 
-function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+function MobileNavItem({
+  item,
+  badge,
+  onNavigate,
+}: {
+  item: NavItem;
+  badge?: ReactNode;
+  onNavigate: () => void;
+}) {
   const className = `flex min-h-12 items-center justify-start rounded-md px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted transition-colors hover:bg-fill-muted hover:text-foreground active:bg-fill-strong ${sidebarItemFocusClassName}`;
   const title = item.reason
     ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
     : undefined;
+  const content = badge ? (
+    <>
+      <span className="min-w-0 flex-1 truncate">{item.label}</span>
+      {badge}
+    </>
+  ) : (
+    item.label
+  );
 
   if (item.to) {
     return (
@@ -519,7 +538,7 @@ function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => 
         className={className}
         onClick={onNavigate}
       >
-        {item.label}
+        {content}
       </Link>
     );
   }
@@ -535,7 +554,7 @@ function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => 
         className={className}
         onClick={onNavigate}
       >
-        {item.label}
+        {content}
       </a>
     );
   }
@@ -545,7 +564,7 @@ function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => 
       title={title}
       className="flex min-h-12 items-center justify-start px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted"
     >
-      {item.label}
+      {content}
     </span>
   );
 }
@@ -669,7 +688,12 @@ function MobileSidebar() {
           <div className="mx-auto max-w-xl space-y-9">
             <div className="flex flex-col gap-2">
               {PRIMARY_NAV.map((item) => (
-                <MobileNavItem key={item.label} item={item} onNavigate={close} />
+                <MobileNavItem
+                  key={item.label}
+                  item={item}
+                  badge={"status" in item ? <StatusBadge status={item.status} /> : undefined}
+                  onNavigate={close}
+                />
               ))}
             </div>
 
@@ -703,7 +727,16 @@ export function Sidebar() {
           <ul className="space-y-1">
             {PRIMARY_NAV.map((item) => (
               <li key={item.label}>
-                <NavRow item={item} badge={item.to === "/changelog" ? <VersionBadge /> : null} />
+                <NavRow
+                  item={item}
+                  badge={
+                    item.to === "/changelog" ? (
+                      <VersionBadge />
+                    ) : "status" in item ? (
+                      <StatusBadge status={item.status} />
+                    ) : null
+                  }
+                />
               </li>
             ))}
           </ul>
