@@ -6,80 +6,21 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { SIZES, VARIANTS } from "#/modules/checkbox/checkbox.constants.ts";
 import { CheckboxPlaygroundPreview } from "#/modules/checkbox/checkbox.preview.tsx";
-import checkboxCheckedCompositionSource from "#/modules/checkbox/compositions/checked.composition.tsx?raw";
-import checkboxDefaultCheckedCompositionSource from "#/modules/checkbox/compositions/default-checked.composition.tsx?raw";
-import checkboxDisabledCompositionSource from "#/modules/checkbox/compositions/disabled.composition.tsx?raw";
-import checkboxIndeterminateCompositionSource from "#/modules/checkbox/compositions/indeterminate.composition.tsx?raw";
 import checkboxPreviewCompositionSource from "#/modules/checkbox/compositions/preview.composition.tsx?raw";
-import checkboxPreviewOnHoverMarkerCompositionSource from "#/modules/checkbox/compositions/preview-on-hover-marker.composition.tsx?raw";
-import checkboxPrimaryCheckedCompositionSource from "#/modules/checkbox/compositions/primary-checked.composition.tsx?raw";
 import { CheckboxSettingsGroupContent } from "#/modules/checkbox/compositions/settings-group.composition.tsx";
-import checkboxSettingsGroupCompositionSource from "#/modules/checkbox/compositions/settings-group.composition.tsx?raw";
-import checkboxSizesCompositionSource from "#/modules/checkbox/compositions/sizes.composition.tsx?raw";
-import checkboxUncheckedCompositionSource from "#/modules/checkbox/compositions/unchecked.composition.tsx?raw";
-import {
-  CHECKBOX_SOURCE_COMPARISON_COMPOSITION,
-  CHECKBOX_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/modules/checkbox/checkbox.source-comparison.tsx";
-import LegacyCheckMarker from "../../../../../packages/ui/src/legacy/CheckMarker.tsx";
-import LegacyCheckbox from "../../../../../packages/ui/src/legacy/Checkbox.tsx";
+import { CheckboxStateControlContent } from "#/modules/checkbox/compositions/state-control.composition.tsx";
+import checkboxStateControlCompositionSource from "#/modules/checkbox/compositions/state-control.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Settings and scoped options",
-    scenes: [
-      {
-        label: "SettingsPanel.tsx:1011,1831,1920,2768",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/SettingsPanel.tsx:1011,1831,1920,2768",
-      },
-      {
-        label: "AgentScopesPanel.tsx:149",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentScopesPanel.tsx:149",
-      },
-      {
-        label: "RuntimeConfigFields.tsx:317",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/RuntimeConfigFields.tsx:317",
-      },
-    ],
-  },
-  {
-    label: "Dialogs and acceptance flows",
-    scenes: [
-      {
-        label: "MessageInput.tsx:1138",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:1138",
-      },
-      {
-        label: "ReportIssueDialog.tsx:308,316,324,340",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ReportIssueDialog.tsx:308,316,324,340",
-      },
-      {
-        label: "OwnerOnboardingModal.tsx:1120",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/OwnerOnboardingModal.tsx:1120",
-      },
-      {
-        label: "LegalAcceptanceCheckbox.tsx:16",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/auth/LegalAcceptanceCheckbox.tsx:16",
-      },
-    ],
-  },
 ] as const;
 
 const SNIPPETS = {
@@ -109,7 +50,7 @@ const SNIPPETS = {
   Accept terms
 </Label>`,
   selection: `<div className="grid gap-2">
-  <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--source-shadow)]">
+  <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-raft-sm">
     <Checkbox defaultChecked aria-label="Select conversation" />
     <span className="text-sm font-bold">Customer handoff</span>
   </label>
@@ -136,33 +77,6 @@ const SNIPPETS = {
     <span>Trajectory log</span>
   </label>
 </div>`,
-  migrationMarker: `// Source
-<CheckMarker checked />
-
-// Current
-<Checkbox checked readOnly aria-label="Selected" />`,
-  migrationRowSelection: `// Source
-<CheckMarker checked={false} previewOnHover />
-
-// Current
-<Checkbox aria-label="Select row" />`,
-  sourceUnchecked: `<Checkbox />`,
-  currentUnchecked: `<Checkbox />`,
-  sourceChecked: `<Checkbox checked readOnly />`,
-  currentChecked: `<Checkbox checked readOnly />`,
-  sourceSizes: `<Checkbox size="sm" checked readOnly />
-<Checkbox size="md" checked readOnly />`,
-  currentSizes: `<Checkbox size="sm" checked readOnly />
-<Checkbox size="md" checked readOnly />`,
-  sourceDisabled: `<Checkbox checked disabled readOnly />`,
-  currentDisabled: `<Checkbox checked disabled readOnly />`,
-  sourceDefaultChecked: `<Checkbox defaultChecked />`,
-  currentDefaultChecked: `<Checkbox defaultChecked />`,
-  currentIndeterminate: `<Checkbox indeterminate />`,
-  sourceMarker: `<CheckMarker checked />`,
-  currentMarker: `<Checkbox checked readOnly aria-label="Selected" />`,
-  sourceHoverMarker: `<CheckMarker checked={false} previewOnHover />`,
-  currentRowSelection: `<Checkbox aria-label="Select row" />`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -219,45 +133,17 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-function MissingSource() {
-  return (
-    <span className="font-mono text-[10px] font-medium text-foreground-placeholder uppercase">
-      Missing
-    </span>
-  );
-}
-
-const CheckboxCurrent = CHECKBOX_SOURCE_COMPARISON_COMPOSITION;
-
 const CHECKBOX_COMPOSITION_RAW_SOURCES = {
-  Checked: checkboxCheckedCompositionSource,
-  DefaultChecked: checkboxDefaultCheckedCompositionSource,
-  Disabled: checkboxDisabledCompositionSource,
-  Indeterminate: checkboxIndeterminateCompositionSource,
   Preview: checkboxPreviewCompositionSource,
-  PreviewOnHoverMarker: checkboxPreviewOnHoverMarkerCompositionSource,
-  PrimaryChecked: checkboxPrimaryCheckedCompositionSource,
-  SettingsGroup: checkboxSettingsGroupCompositionSource,
-  Sizes: checkboxSizesCompositionSource,
-  Unchecked: checkboxUncheckedCompositionSource,
+  StateControl: checkboxStateControlCompositionSource,
 } as const;
 
 const CHECKBOX_COMPOSITION_SOURCES = createCompositionSourceMap(CHECKBOX_COMPOSITION_RAW_SOURCES);
 
 const CHECKBOX_COMPOSITION_SNIPPET_IDS = {
-  Checked: "checkboxCheckedComposition",
-  DefaultChecked: "checkboxDefaultCheckedComposition",
-  Disabled: "checkboxDisabledComposition",
-  Indeterminate: "checkboxIndeterminateComposition",
   Preview: "checkboxPreviewComposition",
-  PreviewOnHoverMarker: "checkboxPreviewOnHoverMarkerComposition",
-  PrimaryChecked: "checkboxPrimaryCheckedComposition",
-  SettingsGroup: "checkboxSettingsGroupComposition",
-  Sizes: "checkboxSizesComposition",
-  Unchecked: "checkboxUncheckedComposition",
+  StateControl: "checkboxStateControlComposition",
 } as const;
-
-type CheckboxCompositionKey = keyof typeof CHECKBOX_COMPOSITION_SOURCES;
 
 export const Route = createFileRoute("/components/checkbox")({
   component: CheckboxDoc,
@@ -275,15 +161,6 @@ export const Route = createFileRoute("/components/checkbox")({
 
 function CheckboxDoc() {
   const code = Route.useLoaderData();
-  const checkboxComposition = (key: CheckboxCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: CHECKBOX_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: CHECKBOX_COMPOSITION_SNIPPET_IDS,
-      sources: CHECKBOX_COMPOSITION_SOURCES,
-    });
-
   return (
     <DocPage
       title="Checkbox"
@@ -304,6 +181,18 @@ function CheckboxDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
+          <DocSubsection parentId="usage" id="state-control" title="Controlled and uncontrolled">
+            <Preview>
+              <Preview.Canvas>
+                <CheckboxStateControlContent />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.checkboxStateControlComposition}
+                collapsedHtml={code.checkboxStateControlCompositionBody}
+              />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="variants" title="Variants">
             <Preview>
               <Preview.Canvas>
@@ -373,7 +262,7 @@ function CheckboxDoc() {
             <Preview>
               <Preview.Canvas>
                 <div className="grid min-w-64 gap-2">
-                  <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-[var(--source-shadow)]">
+                  <label className="flex items-center gap-3 border-2 border-black bg-brutal-cream p-3 shadow-raft-sm">
                     <Checkbox defaultChecked aria-label="Select conversation" />
                     <span className="text-sm font-bold">Customer handoff</span>
                   </label>
@@ -406,116 +295,6 @@ function CheckboxDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Unchecked",
-              status: "match",
-              source: <LegacyCheckbox />,
-              brutal: <CheckboxCurrent.Unchecked />,
-              elegant: <CheckboxCurrent.Unchecked />,
-              elegantDark: <CheckboxCurrent.Unchecked />,
-              ...checkboxComposition("Unchecked"),
-            },
-            {
-              label: "Checked",
-              status: "match",
-              source: <LegacyCheckbox checked readOnly />,
-              brutal: <CheckboxCurrent.Checked />,
-              elegant: <CheckboxCurrent.Checked />,
-              elegantDark: <CheckboxCurrent.Checked />,
-              ...checkboxComposition("Checked"),
-            },
-            {
-              label: "Disabled",
-              status: "match",
-              source: <LegacyCheckbox checked disabled readOnly />,
-              brutal: <CheckboxCurrent.Disabled />,
-              elegant: <CheckboxCurrent.Disabled />,
-              elegantDark: <CheckboxCurrent.Disabled />,
-              ...checkboxComposition("Disabled"),
-            },
-            {
-              label: "Default checked",
-              status: "difference",
-              source: <LegacyCheckbox defaultChecked />,
-              brutal: <CheckboxCurrent.DefaultChecked />,
-              elegant: <CheckboxCurrent.DefaultChecked />,
-              elegantDark: <CheckboxCurrent.DefaultChecked />,
-              ...checkboxComposition("DefaultChecked"),
-            },
-            {
-              label: "Sizes",
-              status: "match",
-              source: (
-                <>
-                  <LegacyCheckbox size="sm" checked readOnly />
-                  <LegacyCheckbox size="md" checked readOnly />
-                </>
-              ),
-              brutal: <CheckboxCurrent.Sizes />,
-              elegant: <CheckboxCurrent.Sizes />,
-              elegantDark: <CheckboxCurrent.Sizes />,
-              ...checkboxComposition("Sizes"),
-            },
-            {
-              label: "Primary checked",
-              status: "new",
-              source: <MissingSource />,
-              brutal: <CheckboxCurrent.PrimaryChecked />,
-              elegant: <CheckboxCurrent.PrimaryChecked />,
-              elegantDark: <CheckboxCurrent.PrimaryChecked />,
-              ...checkboxComposition("PrimaryChecked"),
-            },
-            {
-              label: "Indeterminate",
-              status: "new",
-              source: <MissingSource />,
-              brutal: <CheckboxCurrent.Indeterminate />,
-              elegant: <CheckboxCurrent.Indeterminate />,
-              elegantDark: <CheckboxCurrent.Indeterminate />,
-              ...checkboxComposition("Indeterminate"),
-            },
-            {
-              label: "Preview-on-hover marker",
-              status: "difference",
-              source: <LegacyCheckMarker checked={false} previewOnHover />,
-              brutal: <CheckboxCurrent.PreviewOnHoverMarker />,
-              elegant: <CheckboxCurrent.PreviewOnHoverMarker />,
-              elegantDark: <CheckboxCurrent.PreviewOnHoverMarker />,
-              ...checkboxComposition("PreviewOnHoverMarker"),
-            },
-            {
-              label: "Settings group",
-              status: "match",
-              note: "Used by report bundles, permissions, and settings rows. Checkbox remains independent per row and covers multi-select inclusion, not a mutually exclusive choice.",
-              source: (
-                <div className="grid min-w-60 gap-2 text-sm">
-                  <label className="flex items-center gap-3">
-                    <LegacyCheckbox checked readOnly aria-label="Include recent messages" />
-                    <span>Recent messages</span>
-                  </label>
-                  <label className="flex items-center gap-3">
-                    <LegacyCheckbox checked readOnly aria-label="Include activity log" />
-                    <span>Activity log</span>
-                  </label>
-                  <label className="flex items-center gap-3">
-                    <LegacyCheckbox aria-label="Include trajectory log" />
-                    <span>Trajectory log</span>
-                  </label>
-                </div>
-              ),
-              brutal: <CheckboxCurrent.SettingsGroup />,
-              elegant: <CheckboxCurrent.SettingsGroup />,
-              elegantDark: <CheckboxCurrent.SettingsGroup />,
-              ...checkboxComposition("SettingsGroup"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

@@ -7,7 +7,7 @@ These rules apply to the docs application and extend the repository-level compon
 `apps/doc/src/modules/<component>` is the canonical executable usage layer for `raft-ui` components.
 Each component is a module holding its `compositions/` (one example per file, `<name>.composition.tsx`;
 flat `<component>.composition.tsx` for a single example), its interactive `<component>.preview.tsx`,
-and its source comparison. The top-level `compositions/` bucket no longer exists.
+and supporting constants and fixtures. The top-level `compositions/` bucket no longer exists.
 
 Compositions may contain:
 
@@ -15,7 +15,7 @@ Compositions may contain:
 - Explicit combinations of UI compound parts.
 - Deterministic local state and mock callbacks needed to demonstrate interaction.
 - Ready, loading, pending, failed, unavailable, disabled, selected, and other consumer-chosen structures.
-- Local portal containers needed to isolate SourceComparison or theme preview panes.
+- Local portal containers needed to isolate theme preview panes.
 - Thin reusable example helpers when they represent a meaningful composition rather than a renamed primitive.
 
 Compositions must not contain:
@@ -30,10 +30,9 @@ Use `className` only for example layout and constraints such as preview width, g
 
 ## One Current Source of Truth
 
-- Docs routes, SourceComparison, and Playground should reuse the canonical composition instead of reproducing its Current JSX.
+- Docs routes and Playground should reuse the canonical composition instead of reproducing its Current JSX.
 - Prefer importing the canonical composition file with `?raw` when displaying consumer code.
 - Do not maintain route-local Current fixtures or hand-written JSX snippet strings that duplicate executable compositions.
-- Source-reference fixtures may remain separate when they intentionally preserve upstream/source DOM for comparison.
 
 ## Displayed Code
 
@@ -90,9 +89,8 @@ refactor silently drops them, which is exactly how they were lost before.
 
 - Titles, descriptions, differences, and migration notes.
 - Props and anatomy tables.
-- SourceComparison configuration.
 - Importing and arranging its `modules/<component>/` compositions and preview.
-- Rendering highlighted `?raw` canonical source.
+- Rendering Preview and Usage code blocks from highlighted `?raw` canonical source.
 
 Routes must not implement another version of the component or business composition. Sandboxed
 iframe-only preview routes live under `routes/iframe` and delegate to the module's `<component>.preview.tsx`.
@@ -119,6 +117,7 @@ Otherwise render it disabled or use a non-interactive element. Static examples m
 
 - Is there exactly one executable Current composition?
 - Do routes import it from the module instead of copying it?
+- Do routes present the canonical composition through Preview and Usage code blocks rather than route-local examples?
 - Does displayed code come from canonical `?raw` source where possible?
 - Does every code block show real `raft-ui` API rather than a docs-local wrapper?
 - Does every `?raw` block with more than one import line pass a collapsed variant, and does

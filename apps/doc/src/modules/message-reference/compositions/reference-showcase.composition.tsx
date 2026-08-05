@@ -37,13 +37,13 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui";
-import { MessageReferenceComparisonComposition } from "./reference-comparison.composition.tsx";
+import { MessagePrimaryReferencesComposition } from "./primary-references.composition.tsx";
 import { MessageMentionReferenceComposition } from "./reference-adapters.composition.tsx";
 
 export function MessageReferenceShowcaseComposition() {
   return (
     <div className="flex w-full max-w-3xl flex-col gap-3">
-      <MessageReferenceComparisonComposition />
+      <MessagePrimaryReferencesComposition />
       <MessageItem>
         <MessageItemAvatarSlot>
           <Avatar size="md" type="agent">

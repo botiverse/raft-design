@@ -12,7 +12,7 @@ import {
 import { Field, FieldLabel, InlineCode, Input } from "raft-ui";
 
 // @docs-source-strip-start
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -62,7 +62,7 @@ export function TypedDeleteAlertDialogContent() {
 // @docs-source-strip-start
 export function TypedDeleteAlertDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className}>
+    <CompositionModalPreview className={className}>
       {({ portalProps, contentClassName }) => (
         <AlertDialog open modal={false}>
           <AlertDialogContent
@@ -76,7 +76,7 @@ export function TypedDeleteAlertDialogComposition({ className }: { className?: s
           </AlertDialogContent>
         </AlertDialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

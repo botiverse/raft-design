@@ -34,16 +34,8 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { StatusBadge } from "#/components/status-badge.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { createCompositionSourceMap } from "#/lib/source-comparison-code.ts";
-import notificationCenterCompositionSource from "#/modules/notification-center/notification-center.composition.tsx?raw";
-import {
-  NOTIFICATION_CENTER_COMPOSITION_PATH,
-  NotificationCenterComposition,
-  NotificationCenterSourcePreview,
-} from "#/modules/notification-center/notification-center.source-comparison.tsx";
 import { DocNote } from "#/components/doc-note.tsx";
 
 const TOC = [
@@ -51,36 +43,7 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Notification trigger wrappers",
-    scenes: [
-      {
-        label: "NotificationTrigger.tsx:125,165",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/NotificationTrigger.tsx:125,165",
-      },
-      {
-        label: "LeftRail.tsx:162",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LeftRail.tsx:162",
-      },
-      {
-        label: "Sidebar.tsx:1226",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1226",
-      },
-      {
-        label: "layout/NotificationCenter.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/NotificationCenter.tsx",
-      },
-    ],
-  },
-] as const;
-
-const NOTIFICATION_CENTER_COMPOSITION_SOURCES = createCompositionSourceMap({
-  notificationCenterComposition: notificationCenterCompositionSource,
-} as const);
-
 type DemoStatus = "error" | "warning" | "info" | "success";
 
 type DemoAction = {
@@ -284,112 +247,6 @@ const SNIPPETS = {
     </NotificationCenterScroller>
   </NotificationCenterPopup>
 </NotificationCenter>`,
-  sourceApi: `<NotificationCenter
-  viewport="desktop"
-  entries={entries}
-  emptyState={<NotificationCenterEmptyState />}
-/>`,
-  sourceOverlay: `const [open, setOpen] = useState(false);
-const triggerRef = useRef<HTMLButtonElement | null>(null);
-const popoverRef = useRef<HTMLDivElement | null>(null);
-
-useEffect(() => {
-  if (!open) return;
-  const onDown = (event: MouseEvent) => {
-    const target = event.target as Node;
-    if (popoverRef.current?.contains(target)) return;
-    if (triggerRef.current?.contains(target)) return;
-    setOpen(false);
-  };
-  document.addEventListener("mousedown", onDown);
-  return () => document.removeEventListener("mousedown", onDown);
-}, [open]);
-
-<button
-  ref={triggerRef}
-  aria-haspopup="dialog"
-  aria-expanded={open}
-  onClick={() => setOpen((value) => !value)}
-/>
-{open ? (
-  <NotificationCenter
-    ref={popoverRef}
-    notifications={notifications}
-    onClose={() => setOpen(false)}
-    style={popoverStyle}
-  />
-) : null}`,
-  currentOverlay: `<NotificationCenter modal={false}>
-  <NotificationCenterTrigger render={<button type="button" />}>
-    Notifications
-  </NotificationCenterTrigger>
-  <NotificationCenterPopup viewport="desktop" side="bottom" align="center">
-    ...
-  </NotificationCenterPopup>
-</NotificationCenter>`,
-  currentApi: `<NotificationCenter modal={false}>
-  <NotificationCenterTrigger render={<button type="button" />}>Notifications</NotificationCenterTrigger>
-  <NotificationCenterPopup viewport="desktop" side="bottom" align="center">
-    <NotificationCenterHeader>...</NotificationCenterHeader>
-    <NotificationCenterScroller>
-      <NotificationCenterList>
-        {entries.map((entry) => (
-          <NotificationCenterItem key={entry.id} read={entry.read}>
-            ...
-          </NotificationCenterItem>
-        ))}
-      </NotificationCenterList>
-    </NotificationCenterScroller>
-  </NotificationCenterPopup>
-</NotificationCenter>`,
-  sourceItem: `function NotificationCenterItem({ entry }) {
-  return (
-    <li className={\`px-3 py-3 \${entry.read ? "opacity-70" : ""}\`}>
-      <div className="flex items-start gap-2">
-        <div className={\`... \${KIND_DOT_BG[entry.kind]}\`}>
-          {entry.icon ?? DEFAULT_KIND_ICON[entry.kind]}
-        </div>
-        <div>{entry.title}{entry.body}{entry.actions}</div>
-      </div>
-    </li>
-  );
-}`,
-  currentItem: `<NotificationCenterItem read={entry.read}>
-  <NotificationCenterItemRow>
-    <NotificationCenterItemIcon status={entry.status} />
-    <NotificationCenterItemContent>
-      <NotificationCenterItemTitle>{entry.title}</NotificationCenterItemTitle>
-      <NotificationCenterItemBody>{entry.body}</NotificationCenterItemBody>
-      <NotificationCenterItemActions>...</NotificationCenterItemActions>
-    </NotificationCenterItemContent>
-  </NotificationCenterItemRow>
-</NotificationCenterItem>`,
-  sourceAction: `<button
-  type="button"
-  className={\`btn-brutal px-3 py-1.5 text-xs \${isPrimary ? "bg-brutal-pink" : "bg-white"}\`}
->
-  {action.label}
-</button>`,
-  currentAction: `<NotificationCenterActionButton variant="primary">
-  View
-</NotificationCenterActionButton>`,
-  sourceEmpty: `function NotificationCenterEmptyState({
-  title = "No notifications right now",
-  body = "You'll see things here that need your attention.",
-}) {
-  return <EmptyState icon={<CheckCircle2 size={36} />} title={title} description={body} />;
-}`,
-  currentEmpty: `<NotificationCenterEmptyState>
-  <EmptyStateContent>
-    <EmptyStateIcon>
-      <CheckCircle2 />
-    </EmptyStateIcon>
-    <EmptyStateTitle>No notifications right now</EmptyStateTitle>
-    <EmptyStateDescription>
-      You'll see things here that need your attention.
-    </EmptyStateDescription>
-  </EmptyStateContent>
-</NotificationCenterEmptyState>`,
 } as const;
 
 const ROOT_PROPS: readonly PropRow[] = [
@@ -601,7 +458,6 @@ export const Route = createFileRoute("/components/notification-center")({
     highlightSnippets({
       data: {
         ...SNIPPETS,
-        ...NOTIFICATION_CENTER_COMPOSITION_SOURCES,
       },
     }),
 });
@@ -631,9 +487,12 @@ function NotificationCenterDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <div className="grid gap-4">
           <DocNote>
-            NotificationCenterPopup is the surface. Header, scroller, list, and item parts are
-            content slots and should live inside the popup unless you intentionally provide your own
-            shell.
+            <InlineCode>NotificationCenterPopup</InlineCode> is the surface.{" "}
+            <InlineCode>NotificationCenterHeader</InlineCode>,{" "}
+            <InlineCode>NotificationCenterScroller</InlineCode>,{" "}
+            <InlineCode>NotificationCenterList</InlineCode>, and{" "}
+            <InlineCode>NotificationCenterItem</InlineCode> are content slots and should live inside
+            the popup unless you intentionally provide your own shell.
           </DocNote>
           <DocsCodeBlock>
             <DocsCodeBlock.Body>
@@ -717,40 +576,6 @@ function NotificationCenterDoc() {
             <PropsTable rows={EMPTY_STATE_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          previewSize="popover"
-          items={[
-            {
-              id: "source-comparison-notification-trigger",
-              label: "Notification trigger",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>NotificationTrigger.tsx</InlineCode> +{" "}
-                  <InlineCode>NotificationCenter.tsx</InlineCode>. Source keeps trigger, viewport
-                  clamp, data mapping, and primitive UI split across product files. Current keeps
-                  the real trigger/popup interaction on Base UI Popover and composes the
-                  notification body from NotificationCenter slots.
-                </>
-              ),
-              source: <NotificationCenterSourcePreview />,
-              brutal: <NotificationCenterComposition />,
-              elegant: <NotificationCenterComposition />,
-              elegantDark: <NotificationCenterComposition />,
-              compositionCode: code.notificationCenterComposition,
-              compositionCollapsedCode: code.notificationCenterCompositionBody,
-              compositionPath: NOTIFICATION_CENTER_COMPOSITION_PATH,
-              compositionSource:
-                NOTIFICATION_CENTER_COMPOSITION_SOURCES.notificationCenterComposition,
-              compositionShowLineNumbers: false,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

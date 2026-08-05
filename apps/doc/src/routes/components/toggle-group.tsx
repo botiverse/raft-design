@@ -7,25 +7,14 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { TodoList } from "#/components/todo-list.tsx";
-import {
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import defaultCompositionSource from "#/modules/toggle-group/compositions/default.composition.tsx?raw";
-import { ToggleGroupDefaultComposition } from "#/modules/toggle-group/compositions/default.composition.tsx";
-import disabledCompositionSource from "#/modules/toggle-group/compositions/disabled.composition.tsx?raw";
-import { ToggleGroupDisabledComposition } from "#/modules/toggle-group/compositions/disabled.composition.tsx";
-import LegacySegmentedControl from "../../../../../packages/ui/src/legacy/SegmentedControl.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const TODOS = ["Add elegant family styling"] as const;
@@ -63,40 +52,6 @@ const SNIPPETS = {
     <ToggleGroupLabel>Unread</ToggleGroupLabel>
   </ToggleGroupItem>
 </ToggleGroup>`,
-  sourceDefault: `<SegmentedControl
-  ariaLabel="Filter"
-  value="all"
-  onChange={setValue}
-  options={[
-    { value: "all", label: "All", count: 12 },
-    { value: "unread", label: "Unread", count: 3 },
-    { value: "mentions", label: "Mentions" },
-  ]}
-/>`,
-  sourceDisabled: `<SegmentedControl
-  disabled
-  value="all"
-  onChange={() => {}}
-  options={[
-    { value: "all", label: "All" },
-    { value: "unread", label: "Unread" },
-  ]}
-/>`,
-} as const;
-
-const COMPOSITION_SOURCES = createCompositionSourceMap({
-  Default: defaultCompositionSource,
-  Disabled: disabledCompositionSource,
-});
-
-const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
-  Default: "toggleGroupDefaultComposition",
-  Disabled: "toggleGroupDisabledComposition",
-});
-
-const COMPOSITION_PATHS = {
-  Default: "apps/doc/src/modules/toggle-group/compositions/default.composition.tsx",
-  Disabled: "apps/doc/src/modules/toggle-group/compositions/disabled.composition.tsx",
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -118,7 +73,7 @@ const PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/toggle-group")({
   component: ToggleGroupDoc,
-  loader: () => highlightSnippets({ data: { ...SNIPPETS, ...COMPOSITION_SNIPPETS } }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 const OPTIONS = [
@@ -130,7 +85,6 @@ const OPTIONS = [
 function ToggleGroupDoc() {
   const code = Route.useLoaderData();
   const [value, setValue] = useState<string>("all");
-  const [sourceComparisonValue, setSourceComparisonValue] = useState<string>("all");
 
   return (
     <DocPage
@@ -187,55 +141,6 @@ function ToggleGroupDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          items={[
-            {
-              label: "Default",
-              status: "match",
-              note: "Source uses the original SegmentedControl value/options/onChange API. Current uses ToggleGroup composition over Base UI ToggleGroup while preserving the same active yellow segment, shadow, counts, and hover visual.",
-              source: (
-                <LegacySegmentedControl
-                  ariaLabel="Filter"
-                  value={sourceComparisonValue}
-                  onChange={setSourceComparisonValue}
-                  options={OPTIONS.map((o) => ({ ...o }))}
-                />
-              ),
-              current: <ToggleGroupDefaultComposition />,
-              sourceCode: code.sourceDefault,
-              currentCode: code.toggleGroupDefaultComposition,
-              compositionCode: code.toggleGroupDefaultComposition,
-              compositionCollapsedCode: code.toggleGroupDefaultCompositionBody,
-              compositionPath: COMPOSITION_PATHS.Default,
-              compositionSource: COMPOSITION_SOURCES.Default,
-            },
-            {
-              label: "Disabled",
-              status: "match",
-              note: "Disabled keeps the source opacity and cursor behavior while Base UI disables the composed ToggleGroup.",
-              source: (
-                <LegacySegmentedControl
-                  disabled
-                  value="all"
-                  onChange={() => {}}
-                  options={[
-                    { value: "all", label: "All" },
-                    { value: "unread", label: "Unread" },
-                  ]}
-                />
-              ),
-              current: <ToggleGroupDisabledComposition />,
-              sourceCode: code.sourceDisabled,
-              currentCode: code.toggleGroupDisabledComposition,
-              compositionCode: code.toggleGroupDisabledComposition,
-              compositionPath: COMPOSITION_PATHS.Disabled,
-              compositionSource: COMPOSITION_SOURCES.Disabled,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

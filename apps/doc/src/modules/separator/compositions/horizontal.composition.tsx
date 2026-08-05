@@ -1,7 +1,7 @@
 import { Separator, Text } from "raft-ui";
 
 // @docs-source-strip-start
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 export function SeparatorHorizontalContent() {
@@ -17,9 +17,9 @@ export function SeparatorHorizontalContent() {
 // @docs-source-strip-start
 export function SeparatorHorizontalComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonPreview className={className}>
+    <CompositionPreview className={className}>
       <SeparatorHorizontalContent />
-    </SourceComparisonPreview>
+    </CompositionPreview>
   );
 }
 // @docs-source-strip-end

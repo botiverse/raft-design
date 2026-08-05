@@ -14,7 +14,7 @@ import { cn } from "raft-ui/cn";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -51,14 +51,15 @@ function AnnouncementDialogParts() {
           isBrutal ? "py-5" : "py-[38px]",
         )}
       >
-        <h3 className="m-0 text-base font-bold uppercase text-foreground">New migration queue</h3>
+        <h3 className="m-0 text-base font-bold uppercase text-foreground">
+          New workspace controls
+        </h3>
         <p className="m-0 text-foreground-muted">
-          Review newly ready components and compare them against their source scenes before
-          migration.
+          Review the latest controls for managing access and activity across your workspace.
         </p>
         <ul className="m-0 list-disc pl-5 text-foreground-muted">
-          <li>Dialog scenes now have a dedicated comparison page.</li>
-          <li>Composition code is shown under each case.</li>
+          <li>Member access can now be updated in one place.</li>
+          <li>Activity alerts include clearer next steps.</li>
         </ul>
       </DialogBody>
       <DialogFooter
@@ -115,7 +116,7 @@ export function AnnouncementDialogContent() {
 // @docs-source-strip-start
 export function AnnouncementDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview
+    <CompositionModalPreview
       className={cn("px-0 py-0", className)}
       contentClassName="w-full max-w-xl p-0"
       portalClassName="p-0"
@@ -134,7 +135,7 @@ export function AnnouncementDialogComposition({ className }: { className?: strin
           </DialogContent>
         </Dialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

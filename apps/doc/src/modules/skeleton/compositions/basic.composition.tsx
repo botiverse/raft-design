@@ -1,7 +1,7 @@
 import { Skeleton } from "raft-ui";
 
 // @docs-source-strip-start
-import { SourceComparisonPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 export function SkeletonBasicContent() {
@@ -20,9 +20,9 @@ export function SkeletonBasicContent() {
 // @docs-source-strip-start
 export function SkeletonBasicComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonPreview className={className}>
+    <CompositionPreview className={className}>
       <SkeletonBasicContent />
-    </SourceComparisonPreview>
+    </CompositionPreview>
   );
 }
 // @docs-source-strip-end

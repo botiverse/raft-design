@@ -7,6 +7,7 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
+  InlineCode,
   Status,
 } from "raft-ui";
 import { Check } from "lucide-react";
@@ -17,24 +18,11 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { SIZES, SIZE_OPTIONS } from "#/modules/avatar/avatar.constants.ts";
 import { AvatarPlaygroundPreview } from "#/modules/avatar/avatar.preview.tsx";
-import avatarIdentityResolutionCompositionSource from "#/modules/avatar/compositions/identity-resolution.composition.tsx?raw";
-import avatarPanelHeaderCompositionSource from "#/modules/avatar/compositions/panel-header.composition.tsx?raw";
 import avatarPreviewCompositionSource from "#/modules/avatar/compositions/preview.composition.tsx?raw";
-import avatarScaleCompositionSource from "#/modules/avatar/compositions/scale.composition.tsx?raw";
-import {
-  AVATAR_SOURCE_COMPARISON_COMPOSITION,
-  AVATAR_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/modules/avatar/avatar.source-comparison.tsx";
-import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -42,100 +30,6 @@ const TOC = [
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
   { id: "source-differences", title: "Source differences" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Avatar identity surfaces",
-    scenes: [
-      {
-        label: "PaletteAuditPage.tsx:297,303,394,415,421",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/pages/PaletteAuditPage.tsx:297,303,394,415,421",
-      },
-      {
-        label: "HumanDetailPanel.tsx:199,258,264,520",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:199,258,264,520",
-      },
-      {
-        label: "MessageItem.tsx:1302,1328",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1302,1328",
-      },
-      {
-        label: "AgentDetailPanel.tsx:980,987,1189,1297,1767,1773",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:980,987,1189,1297,1767,1773",
-      },
-      {
-        label: "Sidebar.tsx:1072,1106,1145,1644,1646,1857",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1072,1106,1145,1644,1646,1857",
-      },
-      {
-        label: "MessageInput.tsx:245,255",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:245,255",
-      },
-      {
-        label: "MentionHoverCard.tsx:50,76",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:50,76",
-      },
-      {
-        label: "ChannelMembers.tsx:291,315",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:291,315",
-      },
-      {
-        label: "ChatPanel.tsx:663,676",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:663,676",
-      },
-      {
-        label: "SavedPanel.tsx:120,122",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/saved/SavedPanel.tsx:120,122",
-      },
-      {
-        label: "LiveAgentActivityBar.tsx:50",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LiveAgentActivityBar.tsx:50",
-      },
-      {
-        label: "QuotedMessageCard.tsx:51,54",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/cards/QuotedMessageCard.tsx:51,54",
-      },
-      {
-        label: "ConversationPreviewCard.tsx:99,101",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/cards/ConversationPreviewCard.tsx:99,101",
-      },
-      {
-        label: "MemberGraphSection.tsx:110,119,174,181",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/settings/MemberGraphSection.tsx:110,119,174,181",
-      },
-      {
-        label: "CreateChannelDialog.tsx:323,349",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateChannelDialog.tsx:323,349",
-      },
-      {
-        label: "TasksPanel.tsx:409",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:409",
-      },
-      "SearchPage.tsx:669,671,757,958,964,970,979",
-      {
-        label: "ChannelMemberList.tsx:60",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/ChannelMemberList.tsx:60",
-      },
-      {
-        label: "CreateJointChannelDialog.tsx:276,301",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/channel/CreateJointChannelDialog.tsx:276,301",
-      },
-    ],
-  },
-  {
-    label: "Gravatar wrapper",
-    scenes: [
-      {
-        label: "AvatarSlot.tsx:239",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/AvatarSlot.tsx:239",
-      },
-      {
-        label: "GravatarAvatar.tsx:33",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/GravatarAvatar.tsx:33",
-      },
-    ],
-  },
 ] as const;
 
 const SAMPLE_AGENT_PIXEL =
@@ -149,62 +43,6 @@ const AVATAR_PHOTOS = [
 
 // Representative steps for the badge auto-scale demo (badges below sm render as dots).
 const BADGE_SCALE_SIZES = ["xl", "lg", "md", "sm"] as const;
-
-const LEGACY_CONTEXTS = [
-  "profile-tile",
-  "account-tile",
-  "mention-card",
-  "panel-header",
-  "surface-list",
-  "members-row",
-  "creator-link",
-  "compact-list",
-  "sidebar-list",
-  "preview-mini",
-] as const;
-
-const LEGACY_CONTEXT_MARKERS = {
-  "profile-tile": {
-    label: "kept",
-    className: "border-success/40 bg-success/10 text-success-strong",
-  },
-  "account-tile": {
-    label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-strong",
-  },
-  "mention-card": {
-    label: "kept",
-    className: "border-success/40 bg-success/10 text-success-strong",
-  },
-  "panel-header": {
-    label: "kept",
-    className: "border-success/40 bg-success/10 text-success-strong",
-  },
-  "surface-list": {
-    label: "kept",
-    className: "border-success/40 bg-success/10 text-success-strong",
-  },
-  "members-row": {
-    label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-strong",
-  },
-  "creator-link": {
-    label: "dropped",
-    className: "border-warning/40 bg-warning/10 text-warning-strong",
-  },
-  "compact-list": {
-    label: "kept",
-    className: "border-success/40 bg-success/10 text-success-strong",
-  },
-  "sidebar-list": {
-    label: "kept",
-    className: "border-success/40 bg-success/10 text-success-strong",
-  },
-  "preview-mini": {
-    label: "kept",
-    className: "border-success/40 bg-success/10 text-success-strong",
-  },
-} as const;
 
 const SOURCE_SIZE_ROWS = [
   {
@@ -414,33 +252,6 @@ import { Check } from "lucide-react";
     </span>
   </div>
 ))}`,
-  migrationSizes: `// Source contexts collapsed into public sizes:
-<Avatar size="xl" type="agent" />  // profile-tile
-<Avatar size="lg" type="agent" />  // mention-card
-<Avatar size="md" type="agent" />  // panel-header
-<Avatar size="sm" type="agent" />  // surface-list
-<Avatar size="xs" type="agent" />  // compact-list
-<Avatar size="2xs" type="agent" /> // sidebar-list
-<Avatar size="3xs" type="agent" /> // preview-mini`,
-  sourceContexts: `const SPEC = {
-  "profile-tile": { size: "size-16", border: "border-2", agentPixel: 60, gravatarSize: 60, placeholderIcon: 32 },
-  "account-tile": { size: "size-14", border: "border-2", agentPixel: 52, gravatarSize: 52, placeholderIcon: 24 },
-  "mention-card": { size: "size-12", border: "border-2", agentPixel: 44, gravatarSize: 44, placeholderIcon: 24 },
-  "panel-header": { size: "size-9", border: "border-2", agentPixel: 32, gravatarSize: 32, placeholderIcon: 18 },
-  "surface-list": { size: "size-8", border: "border-2", agentPixel: 28, gravatarSize: 28, placeholderIcon: 16 },
-  "members-row": { size: "size-7", border: "border", agentPixel: 26, gravatarSize: 24, placeholderIcon: 14 },
-  "creator-link": { size: "size-[22px]", border: "border", agentPixel: 20, gravatarSize: 20, placeholderIcon: 12 },
-  "compact-list": { size: "size-5", border: "border", agentPixel: 18, gravatarSize: 18, placeholderIcon: 12 },
-  "sidebar-list": { size: "size-[18px]", border: "border", agentPixel: 16, gravatarSize: 16, placeholderIcon: 10 },
-  "preview-mini": { size: "size-[14px]", border: "border", agentPixel: 14, gravatarSize: 14, placeholderIcon: 10 },
-}`,
-  sourceIdentity: `// Source owned identity resolution inside AvatarSlot:
-// agentAvatarUrl -> AgentAvatar
-// humanPlaceholder -> static User icon
-// humanAvatarUrl -> uploaded human image
-// gravatarHash/email -> GravatarAvatar
-<AvatarSlot context="surface-list" type="agent" agentAvatarUrl={agent.avatarUrl} />
-<AvatarSlot context="surface-list" type="human" humanAvatarUrl={human.avatarUrl} gravatarHash={human.gravatarHash} />`,
 } as const;
 
 const AVATAR_PROPS: readonly PropRow[] = [
@@ -516,25 +327,15 @@ const AVATAR_GROUP_COUNT_PROPS: readonly PropRow[] = [
   },
 ];
 
-const AvatarCurrent = AVATAR_SOURCE_COMPARISON_COMPOSITION;
-
 const AVATAR_COMPOSITION_RAW_SOURCES = {
-  IdentityResolution: avatarIdentityResolutionCompositionSource,
-  PanelHeader: avatarPanelHeaderCompositionSource,
   Preview: avatarPreviewCompositionSource,
-  Scale: avatarScaleCompositionSource,
 } as const;
 
 const AVATAR_COMPOSITION_SOURCES = createCompositionSourceMap(AVATAR_COMPOSITION_RAW_SOURCES);
 
 const AVATAR_COMPOSITION_SNIPPET_IDS = {
-  IdentityResolution: "avatarIdentityResolutionComposition",
-  PanelHeader: "avatarPanelHeaderComposition",
   Preview: "avatarPreviewComposition",
-  Scale: "avatarScaleComposition",
 } as const;
-
-type AvatarCompositionKey = keyof typeof AVATAR_COMPOSITION_SOURCES;
 
 export const Route = createFileRoute("/components/avatar")({
   component: AvatarDoc,
@@ -549,15 +350,6 @@ export const Route = createFileRoute("/components/avatar")({
 
 function AvatarDoc() {
   const code = Route.useLoaderData();
-  const avatarComposition = (key: AvatarCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: AVATAR_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: AVATAR_COMPOSITION_SNIPPET_IDS,
-      sources: AVATAR_COMPOSITION_SOURCES,
-    });
-
   return (
     <DocPage
       title="Avatar"
@@ -580,10 +372,11 @@ function AvatarDoc() {
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="image" title="Avatar image">
             <DocNote>
-              Source <code>AvatarSlot</code> parsed <code>pixel:*</code>, uploaded human avatars,
-              and Gravatar inside the component. Current <code>Avatar</code> keeps that app-domain
-              resolution outside: callers pass a resolved image to <code>AvatarImage</code>, or
-              leave <code>AvatarFallback</code> visible for placeholders and load failures.
+              Source <InlineCode>AvatarSlot</InlineCode> parsed <InlineCode>pixel:*</InlineCode>,
+              uploaded human avatars, and Gravatar inside the component. Current{" "}
+              <InlineCode>Avatar</InlineCode> keeps that app-domain resolution outside: callers pass
+              a resolved image to <InlineCode>AvatarImage</InlineCode>, or leave{" "}
+              <InlineCode>AvatarFallback</InlineCode> visible for placeholders and load failures.
             </DocNote>
             <Preview>
               <Preview.Canvas>
@@ -620,8 +413,10 @@ function AvatarDoc() {
           <DocSubsection parentId="usage" id="badge" title="Badge">
             <DocNote>
               The default dot and custom indicator both auto-scale with the avatar&apos;s{" "}
-              <code>size</code>. Pass <code>{`render={<Status />}`}</code> when the indicator needs
-              Status variants or pulse — Status only owns its color and behavior.
+              <InlineCode>size</InlineCode>. Pass <InlineCode>{`render={<Status />}`}</InlineCode>{" "}
+              when the indicator needs
+              <InlineCode>Status</InlineCode> variants or pulse — <InlineCode>Status</InlineCode>{" "}
+              only owns its color and behavior.
             </DocNote>
             <Preview previewClassName="!min-h-56 flex-col gap-8">
               <Preview.Canvas>
@@ -728,61 +523,18 @@ function AvatarDoc() {
       <DocSection id="source-differences" title="Source differences" showThemeSwitcher={false}>
         <div className="space-y-8">
           <DocNote>
-            Source <code>AvatarSlot</code> was a product-specific identity slot. Current{" "}
-            <code>Avatar</code> is the reusable UI primitive: it keeps the frame, theme, image,
-            fallback, badge, and group behavior, while app-domain lookup stays outside. Dropped
-            exact sizes are handled by parent compositions, not by leaking every source callsite
-            density into the public avatar API.
+            Source <InlineCode>AvatarSlot</InlineCode> was a product-specific identity slot. Current{" "}
+            <InlineCode>Avatar</InlineCode> is the reusable UI primitive: it keeps the frame, theme,
+            image, fallback, badge, and group behavior, while app-domain lookup stays outside.
+            Dropped exact sizes are handled by parent compositions, not by leaking every source
+            callsite density into the public avatar API.
           </DocNote>
           <SourceDifferenceTable />
           <SourceSizeTable />
         </div>
       </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          items={[
-            {
-              label: "API shape",
-              status: "difference",
-              note: "Source AvatarSlot combined frame, context sizing, and app-domain identity lookup props. Current keeps only the frame primitive and exposes image/fallback as compound parts.",
-              source: <LegacyAvatarPanelHeaderPreview />,
-              brutal: <AvatarCurrent.PanelHeader />,
-              elegant: <AvatarCurrent.PanelHeader />,
-              elegantDark: <AvatarCurrent.PanelHeader />,
-              ...avatarComposition("PanelHeader"),
-            },
-            {
-              label: "Context scale",
-              status: "difference",
-              note: <ContextScaleNote />,
-              source: <LegacyAvatarScalePreview />,
-              brutal: <AvatarCurrent.Scale />,
-              elegant: <AvatarCurrent.Scale />,
-              elegantDark: <AvatarCurrent.Scale />,
-              ...avatarComposition("Scale"),
-            },
-            {
-              label: "Identity resolution",
-              status: "difference",
-              note: "Source routed AgentAvatar and GravatarAvatar inside AvatarSlot. Current delegates URL resolution to callers, then uses Base UI AvatarImage/Fallback for loading and error states.",
-              source: <LegacyAvatarIdentityPreview />,
-              brutal: <AvatarCurrent.IdentityResolution />,
-              elegant: <AvatarCurrent.IdentityResolution />,
-              elegantDark: <AvatarCurrent.IdentityResolution />,
-              ...avatarComposition("IdentityResolution"),
-            },
-          ]}
-        />
-      </DocSection>
     </DocPage>
   );
-}
-
-function LegacyAvatarPanelHeaderPreview() {
-  return <LegacyAvatarSlot context="panel-header" type="human" humanAvatarUrl={AVATAR_PHOTOS[1]} />;
 }
 
 function IdentityAvatarExample({ label, children }: { label: string; children: ReactNode }) {
@@ -790,43 +542,6 @@ function IdentityAvatarExample({ label, children }: { label: string; children: R
     <div className="flex flex-col items-center gap-1.5">
       {children}
       <span className="font-mono text-[10px] text-black/50">{label}</span>
-    </div>
-  );
-}
-
-function LegacyAvatarScalePreview() {
-  return (
-    <div className="flex flex-wrap items-end gap-4">
-      {LEGACY_CONTEXTS.map((context) => {
-        const marker = LEGACY_CONTEXT_MARKERS[context];
-
-        return (
-          <div key={context} className="flex flex-col items-center gap-1.5">
-            <LegacyAvatarSlot context={context} type="agent" />
-            <span className="max-w-20 text-center font-mono text-[10px] leading-tight text-black/70">
-              {context}
-            </span>
-            <span
-              className={[
-                "rounded-sm border px-1 py-0.5 font-mono text-[8px] leading-none uppercase",
-                marker.className,
-              ].join(" ")}
-            >
-              {marker.label}
-            </span>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function LegacyAvatarIdentityPreview() {
-  return (
-    <div className="flex items-center gap-4">
-      <LegacyAvatarSlot context="surface-list" type="agent" />
-      <LegacyAvatarSlot context="surface-list" type="human" humanPlaceholder />
-      <LegacyAvatarSlot context="surface-list" type="human" humanAvatarUrl={AVATAR_PHOTOS[1]} />
     </div>
   );
 }
@@ -853,20 +568,6 @@ function SourceDifferenceTable() {
         </tbody>
       </table>
     </div>
-  );
-}
-
-function ContextScaleNote() {
-  return (
-    <>
-      Source has ten context sizes. Current keeps seven public sizes. Kept:{" "}
-      <code>profile-tile 64px</code>, <code>mention-card 48px</code>, <code>panel-header 36px</code>
-      , <code>surface-list 32px</code>, <code>compact-list 20px</code>, and{" "}
-      <code>sidebar-list 18px</code>, and <code>preview-mini 14px</code>. Dropped exact sizes:{" "}
-      <code>account-tile 56px</code> maps to <code>lg/xl</code>, <code>members-row 28px</code> maps
-      to <code>sm/xs</code>, and <code>creator-link 22px</code> maps to <code>xs</code>. Parent
-      row/card compositions own the remaining spacing.
-    </>
   );
 }
 

@@ -1,20 +1,18 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
-import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import {
   ConversationPanelComposition,
   type ConversationPanelCompositionProps,
 } from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx";
 import conversationPanelCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx?raw";
 import conversationPanelHeaderCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx?raw";
-import { SourceConversationPanelPreview } from "#/modules/conversation-panel/conversation-panel.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CONVERSATIONS = ["channel", "dm"] as const;
@@ -24,7 +22,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const CONVERSATION_PANEL_COMPOSITION_PATH =
@@ -285,13 +282,19 @@ function ConversationPanelDoc() {
 
       <DocSection id="usage" title="Usage">
         <p>
-          ConversationPanel owns the active-conversation layout: tabs, the message scroll boundary,
-          and an optional composer footer. Compose its identity and action row with PanelHeader and
-          its parts; that shared API is documented on the <Link to="/components/panel">Panel</Link>
+          <InlineCode>ConversationPanel</InlineCode> owns the active-conversation layout: tabs, the
+          message scroll boundary, and an optional composer footer. Compose its identity and action
+          row with <InlineCode>PanelHeader</InlineCode> and its parts; that shared API is documented
+          on the{" "}
+          <Link to="/components/panel">
+            <InlineCode>Panel</InlineCode>
+          </Link>{" "}
           page. Member and agent details use the separate{" "}
-          <Link to="/components/profile-panel">ProfilePanel</Link> specialization. This page
-          documents the conversation-specific parts and keeps the complete message-list and composer
-          assembly in the executable composition above.
+          <Link to="/components/profile-panel">
+            <InlineCode>ProfilePanel</InlineCode>
+          </Link>{" "}
+          specialization. This page documents the conversation-specific parts and keeps the complete
+          message-list and composer assembly in the executable composition above.
         </p>
       </DocSection>
 
@@ -361,32 +364,6 @@ function ConversationPanelDoc() {
           </DocSubsection>
         </div>
       </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <PreviewGrid>
-          <PreviewPane label="Source">
-            <SourceThemeScope className="h-full">
-              <SourceConversationPanelPreview />
-            </SourceThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <CurrentConversationPanelPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <CurrentConversationPanelPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant dark">
-            <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
-              <CurrentConversationPanelPreview />
-            </PreviewThemeScope>
-          </PreviewPane>
-        </PreviewGrid>
-        <ConversationPanelSourceFiles code={code} />
-      </DocSection>
     </DocPage>
   );
 }
@@ -418,30 +395,5 @@ function ConversationPanelSourceFiles({
         },
       ]}
     />
-  );
-}
-
-function PreviewGrid({ children }: { children: ReactNode }) {
-  return <div className="flex flex-col gap-4">{children}</div>;
-}
-
-function PreviewPane({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="min-w-0 overflow-hidden rounded-none border border-line bg-layer-panel">
-      <div className="border-b border-line bg-fill-muted px-3 py-2 text-xs font-medium text-foreground-muted">
-        {label}
-      </div>
-      <div className="flex h-[420px] overflow-x-auto bg-white p-2">
-        <div className="flex h-full min-w-full justify-center">{children}</div>
-      </div>
-    </div>
-  );
-}
-
-function CurrentConversationPanelPreview(props: ConversationPanelCompositionProps) {
-  return (
-    <div className="h-full w-[560px] shrink-0 overflow-hidden bg-layer-panel [[data-theme=elegant]_&]:bg-layer-page">
-      <ConversationPanelComposition {...props} />
-    </div>
   );
 }

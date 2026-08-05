@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -230,9 +231,11 @@ function TaskDndDoc() {
       <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="allowed-blocked" title="Allowed and blocked drops">
           <p className="mb-4 text-sm text-foreground-strong/70">
-            The demo composition passes <code>blockedDropStatus=&quot;closed&quot;</code>, which the
-            board turns into an <code>isDropAllowed</code> policy. Drag a card onto Closed to see
-            blocked empty-state copy; other columns accept the drop and call <code>onMove</code>.
+            The demo composition passes{" "}
+            <InlineCode>blockedDropStatus=&quot;closed&quot;</InlineCode>, which the board turns
+            into an <InlineCode>isDropAllowed</InlineCode> policy. Drag a card onto Closed to see
+            blocked empty-state copy; other columns accept the drop and call{" "}
+            <InlineCode>onMove</InlineCode>.
           </p>
           <Preview previewClassName="h-[42rem] items-stretch p-0">
             <Preview.Canvas>

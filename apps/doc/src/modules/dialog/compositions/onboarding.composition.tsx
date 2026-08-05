@@ -16,7 +16,7 @@ import { Monitor } from "lucide-react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -109,7 +109,7 @@ export function OnboardingDialogContent() {
 // @docs-source-strip-start
 export function OnboardingDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview
+    <CompositionModalPreview
       className={className}
       contentClassName="max-w-lg"
       portalClassName="px-0"
@@ -128,7 +128,7 @@ export function OnboardingDialogComposition({ className }: { className?: string 
           </DialogContent>
         </Dialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

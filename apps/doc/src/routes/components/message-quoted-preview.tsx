@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -6,8 +7,6 @@ import { DocNote } from "#/components/doc-note.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { QuotedPreviewMessageComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
 import quotedPreviewMessageSource from "#/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx?raw";
@@ -24,7 +23,6 @@ import quotedPreviewLoadingSource from "#/modules/message-quoted-preview/composi
 import { MessageQuotedPreviewShowcaseComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview.composition.tsx";
 import { QuotedPreviewUnavailableComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-unavailable.composition.tsx";
 import quotedPreviewUnavailableSource from "#/modules/message-quoted-preview/compositions/quoted-preview-unavailable.composition.tsx?raw";
-import { MessageQuotedPreviewSourcePreview } from "#/modules/message-quoted-preview/message-quoted-preview.source-preview.tsx";
 
 const QUOTED_PREVIEW_MESSAGE_PATH =
   "apps/doc/src/modules/message-quoted-preview/compositions/quoted-preview-message.composition.tsx";
@@ -38,23 +36,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock quoted-message surface",
-    scenes: [
-      {
-        label: "QuotedMessagePermalinkPreview.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/QuotedMessagePermalinkPreview.tsx",
-      },
-      {
-        label: "MessageItem.tsx",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageItem.tsx",
-      },
-    ],
-  },
 ] as const;
 
 const ANATOMY_SOURCE = `import {
@@ -250,8 +231,8 @@ function MessageQuotedPreviewDoc() {
           <DocSubsection parentId="usage" id="channel-thread" title="Channel thread and attachment">
             <DocNote>
               Use a hash-prefixed channel label for channel permalinks. Render
-              <code>MessageQuotedPreviewThread</code> only when the permalink includes a thread
-              parent; attachment chips remain in the content region.
+              <InlineCode>MessageQuotedPreviewThread</InlineCode> only when the permalink includes a
+              thread parent; attachment chips remain in the content region.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -270,11 +251,12 @@ function MessageQuotedPreviewDoc() {
             title="Direct message and optional metadata"
           >
             <DocNote>
-              Render the channel part as an <code>@</code> label for DMs and omit the hash icon.
-              Thread, author meta, and attachments are optional; render those parts only when the
-              quoted target has that data. Use <code>MessageQuotedPreviewLoading</code> while
-              resolving the target and <code>MessageQuotedPreviewUnavailable</code> when it is
-              missing or inaccessible.
+              Render the channel part as an <InlineCode>@</InlineCode> label for DMs and omit the
+              hash icon. Thread, author meta, and attachments are optional; render those parts only
+              when the quoted target has that data. Use{" "}
+              <InlineCode>MessageQuotedPreviewLoading</InlineCode> while resolving the target and{" "}
+              <InlineCode>MessageQuotedPreviewUnavailable</InlineCode> when it is missing or
+              inaccessible.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -289,8 +271,8 @@ function MessageQuotedPreviewDoc() {
 
           <DocSubsection parentId="usage" id="direct-message-thread" title="Direct-message thread">
             <DocNote>
-              DM permalinks use an <code>@</code> recipient label. A DM can also target a thread
-              reply, in which case render the same thread marker beside that label.
+              DM permalinks use an <InlineCode>@</InlineCode> recipient label. A DM can also target
+              a thread reply, in which case render the same thread marker beside that label.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -306,8 +288,8 @@ function MessageQuotedPreviewDoc() {
           <DocSubsection parentId="usage" id="long-content" title="Long excerpt and attachments">
             <DocNote>
               Quoted text clamps to two lines. Wrap attachment chips in
-              <code>MessageQuotedPreviewAttachments</code> after{" "}
-              <code>MessageQuotedPreviewText</code>
+              <InlineCode>MessageQuotedPreviewAttachments</InlineCode> after{" "}
+              <InlineCode>MessageQuotedPreviewText</InlineCode>
               so files remain visible with a long excerpt.
             </DocNote>
             <Preview previewClassName="items-stretch">
@@ -324,7 +306,7 @@ function MessageQuotedPreviewDoc() {
           <DocSubsection parentId="usage" id="archived-channel" title="Archived channel">
             <DocNote>
               Archive policy stays caller-owned. Compose the channel&apos;s archived label from an
-              existing <code>Badge</code> alongside the channel and timestamp.
+              existing <InlineCode>Badge</InlineCode> alongside the channel and timestamp.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -339,8 +321,8 @@ function MessageQuotedPreviewDoc() {
 
           <DocSubsection parentId="usage" id="loading" title="Loading">
             <DocNote>
-              Use <code>MessageQuotedPreviewLoading</code> while resolving the target. Its skeleton
-              structure remains caller-owned.
+              Use <InlineCode>MessageQuotedPreviewLoading</InlineCode> while resolving the target.
+              Its skeleton structure remains caller-owned.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -355,8 +337,8 @@ function MessageQuotedPreviewDoc() {
 
           <DocSubsection parentId="usage" id="unavailable" title="Unavailable">
             <DocNote>
-              Use <code>MessageQuotedPreviewUnavailable</code> when the target is missing or
-              inaccessible. Failure copy stays caller-owned.
+              Use <InlineCode>MessageQuotedPreviewUnavailable</InlineCode> when the target is
+              missing or inaccessible. Failure copy stays caller-owned.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -373,32 +355,6 @@ function MessageQuotedPreviewDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          items={[
-            {
-              label: "Loaded quoted message",
-              status: "review",
-              note: "The Source pane is a static fixture extracted from the real QuotedMessagePermalinkPreview and MessageItem DOM; the three Current panes execute the canonical message composition.",
-              sourceScenes: SOURCE_SCENES,
-              source: (
-                <SourceThemeScope className="w-full">
-                  <MessageQuotedPreviewSourcePreview />
-                </SourceThemeScope>
-              ),
-              brutal: <QuotedPreviewMessageComposition />,
-              elegant: <QuotedPreviewMessageComposition />,
-              elegantDark: <QuotedPreviewMessageComposition />,
-              compositionCode: code.quotedPreviewMessage,
-              compositionCollapsedCode: code.quotedPreviewMessageBody,
-              compositionPath: QUOTED_PREVIEW_MESSAGE_PATH,
-              compositionSource: quotedPreviewMessageSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

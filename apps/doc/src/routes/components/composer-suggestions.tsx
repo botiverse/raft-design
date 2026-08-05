@@ -6,13 +6,10 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { ComposerSuggestionComposition } from "#/modules/composer-suggestions/composer-suggestions.composition.tsx";
 import composerSuggestionCompositionSource from "#/modules/composer-suggestions/composer-suggestions.composition.tsx?raw";
 import composerSuggestionResultsSource from "#/modules/composer-suggestions/composer-suggestion-results.tsx?raw";
 import composerSuggestionsDataSource from "#/modules/composer-suggestions/composer-suggestions.data.ts?raw";
-import { ComposerSuggestionsSourceComparison } from "#/modules/composer-suggestions/composer-suggestions.source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -20,23 +17,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock MessageInput autocomplete",
-    scenes: [
-      {
-        label: "Mention candidates",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:1562",
-      },
-      {
-        label: "Channel candidates",
-        path: "/Users/cuvii/Development/zolplay/slock/packages/web/src/components/message/MessageInput.tsx:1625",
-      },
-    ],
-  },
 ] as const;
 
 const ANATOMY_SNIPPET = `import {
@@ -417,45 +397,6 @@ function ComposerSuggestionsDoc() {
             <PropsTable rows={SUGGESTION_ASIDE_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          previewSize="popover"
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Message composer autocomplete",
-              status: "difference",
-              note: "Source keeps popup positioning and rendering inside MessageInput. The current implementation retains that inline anchor while exposing behavior and visuals as composable parts.",
-              source: (
-                <SourceThemeScope className="w-full">
-                  <ComposerSuggestionsSourceComparison />
-                </SourceThemeScope>
-              ),
-              brutal: (
-                <div className="h-[21rem] w-full max-w-[560px]">
-                  <ComposerSuggestionComposition initialValue="@" />
-                </div>
-              ),
-              elegant: (
-                <div className="h-[21rem] w-full max-w-[560px]">
-                  <ComposerSuggestionComposition initialValue="@" />
-                </div>
-              ),
-              elegantDark: (
-                <div className="h-[21rem] w-full max-w-[560px]">
-                  <ComposerSuggestionComposition initialValue="@" />
-                </div>
-              ),
-              compositionCode: code.composition,
-              compositionCollapsedCode: code.compositionBody,
-              compositionPath: COMPOSITION_PATH,
-              compositionSource: composerSuggestionCompositionSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

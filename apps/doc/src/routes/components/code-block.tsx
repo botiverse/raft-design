@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -107,9 +108,10 @@ function CodeBlockDoc() {
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
-            Shiki stays outside raft-ui. Let the external renderer produce the complete pre and code
-            structure, then pass that result to the body. CodeBlock owns the frame, the header bar,
-            and the action shell.
+            <InlineCode>Shiki</InlineCode> stays outside <InlineCode>raft-ui</InlineCode>. Let the
+            external renderer produce the complete <InlineCode>pre</InlineCode> and{" "}
+            <InlineCode>code</InlineCode> structure, then pass that result to the body.{" "}
+            <InlineCode>CodeBlock</InlineCode> owns the frame, the header bar, and the action shell.
           </DocNote>
           <Preview>
             <Preview.Canvas>
@@ -134,8 +136,9 @@ function CodeBlockDoc() {
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="plain-content" title="Plain content">
             <DocNote>
-              Compose a plain pre and code when syntax highlighting is not needed. The surface stays
-              identical; only the body content changes.
+              Compose a plain <InlineCode>pre</InlineCode> and <InlineCode>code</InlineCode> when
+              syntax highlighting is not needed. The surface stays identical; only the body content
+              changes.
             </DocNote>
             <Preview>
               <Preview.Canvas>
@@ -164,9 +167,9 @@ function CodeBlockDoc() {
 
           <DocSubsection parentId="usage" id="animated-copy" title="Animated copy">
             <DocNote>
-              raft-ui ships the action shell only, so the consumer owns the feedback. This example
-              reuses the docs icon-swap transition at a shorter duration, so the check lands almost
-              immediately after the click.
+              <InlineCode>raft-ui</InlineCode> ships the action shell only, so the consumer owns the
+              feedback. This example reuses the docs icon-swap transition at a shorter duration, so
+              the check lands almost immediately after the click.
             </DocNote>
             <Preview>
               <Preview.Canvas>

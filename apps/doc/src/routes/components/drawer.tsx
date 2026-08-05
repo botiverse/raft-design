@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { DrawerProps } from "raft-ui";
+import { InlineCode, type DrawerProps } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { DrawerNestedCloseCallbackComposition } from "#/modules/drawer/compositions/nested-close-callback.composition.tsx";
 import nestedCloseCallbackCompositionSource from "#/modules/drawer/compositions/nested-close-callback.composition.tsx?raw";
 import pwaInstallDrawerSource from "#/modules/drawer/compositions/pwa-install-drawer-base.tsx?raw";
@@ -25,7 +24,6 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const DIRECTION_PREVIEWS = [
@@ -139,35 +137,6 @@ const USAGE_SIDE_FULL_WIDTH = `import {
   </DrawerContent>
 </Drawer>`;
 
-const SOURCE_DRAWER = `<div className="fixed inset-x-0 bottom-0 p-3 pb-[max(12px,env(safe-area-inset-bottom))]">
-  <div className="mx-auto max-w-md border-2 border-black bg-white shadow-raft-xl">
-    ...
-  </div>
-</div>`;
-
-const SOURCE_ADAPTIVE = `<BottomSheet className="md:hidden" sheetClassName="p-4">
-  <div className="mb-3 flex items-start justify-between gap-3">
-    <div>
-      <div className="text-lg font-black leading-tight text-black">
-        Add Raft to your Home Screen
-      </div>
-      <div className="mt-1 text-sm text-black/60">
-        Open Raft as a fullscreen app — faster, more focused.
-      </div>
-    </div>
-    <button type="button" aria-label="Close install instructions">...</button>
-  </div>
-  <div className="border-2 border-black bg-brutal-cream p-2">...</div>
-</BottomSheet>`;
-
-const SOURCE_ADAPTIVE_OTHER = `<BottomSheet className="md:hidden" sheetClassName="p-4">
-  <div className="mb-3 flex items-start justify-between gap-3">...</div>
-  <div className="border-2 border-black bg-brutal-cream p-3 text-sm text-black">
-    Open this page in Safari, then use Share → Add to Home Screen.
-  </div>
-  <div className="mt-4 flex gap-2">...</div>
-</BottomSheet>`;
-
 const SNIPPETS = {
   anatomy: ANATOMY,
   leaveChannel: LEAVE_CHANNEL,
@@ -176,9 +145,6 @@ const SNIPPETS = {
   listenNestedCloseRemoveMember: removeMemberDrawerSource,
   listenNestedCloseWorkspaceSettings: workspaceSettingsDrawerSource,
   pwaInstall: pwaInstallDrawerSource,
-  sourceAdaptive: SOURCE_ADAPTIVE,
-  sourceAdaptiveOther: SOURCE_ADAPTIVE_OTHER,
-  sourceDrawer: SOURCE_DRAWER,
   usageResponsivePlacement: responsivePlacementCompositionSource,
   usageSideFullWidth: USAGE_SIDE_FULL_WIDTH,
   usageSnapPoints: snapPointsCompositionSource,
@@ -263,39 +229,6 @@ const ACTIONS_PROPS: readonly PropRow[] = [
     description: "Width-aware action cluster for one or more actions.",
   },
 ];
-type DrawerScene = "leave-channel" | "pwa-install" | "pwa-install-other";
-type DrawerViewport = "desktop" | "mobile";
-
-function DrawerComparisonIframe({
-  mode = "light",
-  scene,
-  theme = "brutal",
-  variant,
-  viewport = "mobile",
-}: {
-  mode?: "dark" | "light";
-  scene: DrawerScene;
-  theme?: "brutal" | "elegant";
-  variant: "current" | "source";
-  viewport?: DrawerViewport;
-}) {
-  const instance = [scene, variant, viewport, theme, mode].join("-");
-  const params = new URLSearchParams({ instance, mode, scene, theme, variant, viewport });
-  const height = viewport === "desktop" ? "h-[27rem]" : "h-[45rem]";
-
-  return (
-    <iframe
-      key={instance}
-      data-drawer-comparison-frame={`${scene}-${variant}-${theme}-${mode}-${viewport}`}
-      title={`${scene} ${variant} ${theme} ${mode} ${viewport}`}
-      src={`/iframe/drawer?${params.toString()}`}
-      loading="lazy"
-      sandbox="allow-scripts allow-same-origin"
-      className={`block w-full border-0 bg-transparent ${height}`}
-    />
-  );
-}
-
 export const Route = createFileRoute("/components/drawer")({
   component: DrawerDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -401,8 +334,8 @@ function DrawerDoc() {
             title="Full-width side drawer"
           >
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-              Override <code className="font-mono text-[0.8125rem]">DrawerContent</code> on small
-              screens to span the floating inset.
+              Override <InlineCode>DrawerContent</InlineCode> on small screens to span the floating
+              inset.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -419,8 +352,8 @@ function DrawerDoc() {
 
           <DocSubsection parentId="usage" id="responsive-placement" title="Responsive placement">
             <p className="max-w-2xl text-sm leading-6 text-foreground-muted">
-              Switch <code className="font-mono text-[0.8125rem]">swipeDirection</code> at md:
-              bottom on mobile, right on desktop.
+              Switch <InlineCode>swipeDirection</InlineCode> at <InlineCode>md</InlineCode>: bottom
+              on mobile, right on desktop.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -452,121 +385,6 @@ function DrawerDoc() {
             <PropsTable rows={ACTIONS_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          items={[
-            {
-              label: "Leave channel mobile",
-              status: "difference",
-              note: "Current keeps the established mobile frame while Base UI owns focus, dismissal, and swipe behavior.",
-              source: <DrawerComparisonIframe scene="leave-channel" variant="source" />,
-              brutal: <DrawerComparisonIframe scene="leave-channel" variant="current" />,
-              elegant: (
-                <DrawerComparisonIframe scene="leave-channel" variant="current" theme="elegant" />
-              ),
-              elegantDark: (
-                <DrawerComparisonIframe
-                  scene="leave-channel"
-                  variant="current"
-                  theme="elegant"
-                  mode="dark"
-                />
-              ),
-              sourceCode: code.sourceDrawer,
-              currentCode: code.leaveChannel,
-            },
-            {
-              label: "Leave channel desktop",
-              status: "difference",
-              note: "Desktop retains the narrow centered panel and themed frame.",
-              source: (
-                <DrawerComparisonIframe scene="leave-channel" variant="source" viewport="desktop" />
-              ),
-              brutal: (
-                <DrawerComparisonIframe
-                  scene="leave-channel"
-                  variant="current"
-                  viewport="desktop"
-                />
-              ),
-              elegant: (
-                <DrawerComparisonIframe
-                  scene="leave-channel"
-                  variant="current"
-                  viewport="desktop"
-                  theme="elegant"
-                />
-              ),
-              elegantDark: (
-                <DrawerComparisonIframe
-                  scene="leave-channel"
-                  variant="current"
-                  viewport="desktop"
-                  theme="elegant"
-                  mode="dark"
-                />
-              ),
-              sourceCode: code.sourceDrawer,
-              currentCode: code.leaveChannel,
-            },
-            {
-              label: "PWA install mobile",
-              status: "difference",
-              note: "The executable composition owns the mobile media query and unmounts the Drawer when the viewport leaves mobile, preventing an invisible modal lock.",
-              source: <DrawerComparisonIframe scene="pwa-install" variant="source" />,
-              brutal: <DrawerComparisonIframe scene="pwa-install" variant="current" />,
-              elegant: (
-                <DrawerComparisonIframe scene="pwa-install" variant="current" theme="elegant" />
-              ),
-              elegantDark: (
-                <DrawerComparisonIframe
-                  scene="pwa-install"
-                  variant="current"
-                  theme="elegant"
-                  mode="dark"
-                />
-              ),
-              sourceCode: code.sourceAdaptive,
-              currentCode: code.pwaInstall,
-              compositionCode: code.pwaInstall,
-              compositionCollapsedCode: code.pwaInstallBody,
-              compositionPath:
-                "apps/doc/src/modules/drawer/compositions/pwa-install-drawer-base.tsx",
-              compositionSource: pwaInstallDrawerSource,
-            },
-            {
-              label: "PWA install non-Safari mobile",
-              status: "difference",
-              note: "The alternate branch reuses the same executable Drawer behavior and only changes caller-owned content and actions.",
-              source: <DrawerComparisonIframe scene="pwa-install-other" variant="source" />,
-              brutal: <DrawerComparisonIframe scene="pwa-install-other" variant="current" />,
-              elegant: (
-                <DrawerComparisonIframe
-                  scene="pwa-install-other"
-                  variant="current"
-                  theme="elegant"
-                />
-              ),
-              elegantDark: (
-                <DrawerComparisonIframe
-                  scene="pwa-install-other"
-                  variant="current"
-                  theme="elegant"
-                  mode="dark"
-                />
-              ),
-              sourceCode: code.sourceAdaptiveOther,
-              currentCode: code.pwaInstall,
-              compositionCode: code.pwaInstall,
-              compositionCollapsedCode: code.pwaInstallBody,
-              compositionPath:
-                "apps/doc/src/modules/drawer/compositions/pwa-install-drawer-base.tsx",
-              compositionSource: pwaInstallDrawerSource,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

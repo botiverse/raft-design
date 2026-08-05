@@ -7,83 +7,16 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
 import { ICON_SIZES, SIZES, VARIANTS } from "#/modules/button/button.constants.ts";
 import { ButtonPlaygroundPreview, ButtonPreview } from "#/modules/button/button.preview.tsx";
-import buttonAccentCompositionSource from "#/modules/button/compositions/accent.composition.tsx?raw";
-import buttonDangerCompositionSource from "#/modules/button/compositions/danger.composition.tsx?raw";
-import buttonDangerOutlineCompositionSource from "#/modules/button/compositions/danger-outline.composition.tsx?raw";
-import buttonDangerSecondaryCompositionSource from "#/modules/button/compositions/danger-secondary.composition.tsx?raw";
-import buttonDefaultCompositionSource from "#/modules/button/compositions/default.composition.tsx?raw";
-import buttonGhostCompositionSource from "#/modules/button/compositions/ghost.composition.tsx?raw";
-import buttonIconOnlyCompositionSource from "#/modules/button/compositions/icon-only.composition.tsx?raw";
-import buttonInformationCompositionSource from "#/modules/button/compositions/information.composition.tsx?raw";
-import buttonInlineIconCompositionSource from "#/modules/button/compositions/inline-icon.composition.tsx?raw";
-import buttonLinkCompositionSource from "#/modules/button/compositions/link.composition.tsx?raw";
-import buttonMutedCompositionSource from "#/modules/button/compositions/muted.composition.tsx?raw";
-import buttonOutlineCompositionSource from "#/modules/button/compositions/outline.composition.tsx?raw";
 import buttonPreviewCompositionSource from "#/modules/button/compositions/preview.composition.tsx?raw";
-import buttonPrimaryCompositionSource from "#/modules/button/compositions/primary.composition.tsx?raw";
-import buttonSizesCompositionSource from "#/modules/button/compositions/sizes.composition.tsx?raw";
-import buttonWarningCompositionSource from "#/modules/button/compositions/warning.composition.tsx?raw";
-import {
-  BUTTON_SOURCE_COMPARISON_COMPOSITION,
-  BUTTON_SOURCE_COMPARISON_COMPOSITION_PATHS,
-  BUTTON_SOURCE_COMPARISON_SOURCE,
-} from "#/modules/button/button.source-comparison.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Icon and lightbox actions",
-    scenes: [
-      {
-        label: "ImageLightbox.tsx:136,144",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ImageLightbox.tsx:136,144",
-      },
-      {
-        label: "MobileComputersPanel.tsx:49",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MobileComputersPanel.tsx:49",
-      },
-      {
-        label: "ChannelMembers.tsx:107",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/ChannelMembers.tsx:107",
-      },
-      {
-        label: "SelectShareLightbox.tsx:37",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/SelectShareLightbox.tsx:37",
-      },
-      {
-        label: "PanelHeader.tsx:141",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/PanelHeader.tsx:141",
-      },
-    ],
-  },
-  {
-    label: "Chat and message actions",
-    scenes: [
-      {
-        label: "LegacyTaskPanel.tsx:94",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/LegacyTaskPanel.tsx:94",
-      },
-      {
-        label: "ChatPanel.tsx:695,705,715",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:695,705,715",
-      },
-      {
-        label: "MessageItem.tsx:953,956",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:953,956",
-      },
-    ],
-  },
 ] as const;
 
 const SNIPPETS = {
@@ -194,70 +127,13 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const ButtonSource = BUTTON_SOURCE_COMPARISON_SOURCE;
-const ButtonCurrent = BUTTON_SOURCE_COMPARISON_COMPOSITION;
-const ButtonCompositionPaths = BUTTON_SOURCE_COMPARISON_COMPOSITION_PATHS;
-
-const BUTTON_COMPOSITION_SOURCES = {
-  Accent: stripSourceCodeBlocks(buttonAccentCompositionSource),
-  Danger: stripSourceCodeBlocks(buttonDangerCompositionSource),
-  DangerOutline: stripSourceCodeBlocks(buttonDangerOutlineCompositionSource),
-  DangerSecondary: stripSourceCodeBlocks(buttonDangerSecondaryCompositionSource),
-  Default: stripSourceCodeBlocks(buttonDefaultCompositionSource),
-  Ghost: stripSourceCodeBlocks(buttonGhostCompositionSource),
-  IconOnly: stripSourceCodeBlocks(buttonIconOnlyCompositionSource),
-  Information: stripSourceCodeBlocks(buttonInformationCompositionSource),
-  InlineIcon: stripSourceCodeBlocks(buttonInlineIconCompositionSource),
-  Link: stripSourceCodeBlocks(buttonLinkCompositionSource),
-  Muted: stripSourceCodeBlocks(buttonMutedCompositionSource),
-  Outline: stripSourceCodeBlocks(buttonOutlineCompositionSource),
-  Primary: stripSourceCodeBlocks(buttonPrimaryCompositionSource),
-  Sizes: stripSourceCodeBlocks(buttonSizesCompositionSource),
-  Warning: stripSourceCodeBlocks(buttonWarningCompositionSource),
-} as const;
-
-const BUTTON_COMPOSITION_SNIPPET_IDS = {
-  Accent: "buttonAccentComposition",
-  Danger: "buttonDangerComposition",
-  DangerOutline: "buttonDangerOutlineComposition",
-  DangerSecondary: "buttonDangerSecondaryComposition",
-  Default: "buttonDefaultComposition",
-  Ghost: "buttonGhostComposition",
-  IconOnly: "buttonIconOnlyComposition",
-  Information: "buttonInformationComposition",
-  InlineIcon: "buttonInlineIconComposition",
-  Link: "buttonLinkComposition",
-  Muted: "buttonMutedComposition",
-  Outline: "buttonOutlineComposition",
-  Primary: "buttonPrimaryComposition",
-  Sizes: "buttonSizesComposition",
-  Warning: "buttonWarningComposition",
-} as const;
-
-type ButtonCompositionKey = keyof typeof BUTTON_COMPOSITION_SOURCES;
-
 export const Route = createFileRoute("/components/button")({
   component: ButtonDoc,
   loader: () =>
     highlightSnippets({
       data: {
         ...SNIPPETS,
-        buttonAccentComposition: BUTTON_COMPOSITION_SOURCES.Accent,
-        buttonDangerComposition: BUTTON_COMPOSITION_SOURCES.Danger,
-        buttonDangerOutlineComposition: BUTTON_COMPOSITION_SOURCES.DangerOutline,
-        buttonDangerSecondaryComposition: BUTTON_COMPOSITION_SOURCES.DangerSecondary,
-        buttonDefaultComposition: BUTTON_COMPOSITION_SOURCES.Default,
-        buttonGhostComposition: BUTTON_COMPOSITION_SOURCES.Ghost,
-        buttonIconOnlyComposition: BUTTON_COMPOSITION_SOURCES.IconOnly,
-        buttonInformationComposition: BUTTON_COMPOSITION_SOURCES.Information,
-        buttonInlineIconComposition: BUTTON_COMPOSITION_SOURCES.InlineIcon,
-        buttonLinkComposition: BUTTON_COMPOSITION_SOURCES.Link,
-        buttonMutedComposition: BUTTON_COMPOSITION_SOURCES.Muted,
-        buttonOutlineComposition: BUTTON_COMPOSITION_SOURCES.Outline,
         buttonPreviewComposition: buttonPreviewCompositionSource,
-        buttonPrimaryComposition: BUTTON_COMPOSITION_SOURCES.Primary,
-        buttonSizesComposition: BUTTON_COMPOSITION_SOURCES.Sizes,
-        buttonWarningComposition: BUTTON_COMPOSITION_SOURCES.Warning,
       },
     }),
 });
@@ -394,168 +270,6 @@ function ButtonDoc() {
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
       </DocSection>
-
-      <ButtonSourceComparisonSection />
     </DocPage>
-  );
-}
-
-function ButtonSourceComparisonSection() {
-  const code = Route.useLoaderData();
-  const buttonComposition = (key: ButtonCompositionKey) => {
-    const snippetId = BUTTON_COMPOSITION_SNIPPET_IDS[key];
-
-    return {
-      compositionCode: code[snippetId],
-      compositionCollapsedCode: code[`${snippetId}Body`],
-      compositionPath: ButtonCompositionPaths[key],
-      compositionSource: BUTTON_COMPOSITION_SOURCES[key],
-      compositionShowLineNumbers: false,
-    };
-  };
-
-  return (
-    <DocSection id="source-comparison" title="Source comparison">
-      <SourceComparison
-        sourceScenes={SOURCE_SCENES}
-        items={[
-          {
-            label: "Default",
-            status: "match",
-            source: <ButtonSource.Default />,
-            brutal: <ButtonCurrent.Default />,
-            elegant: <ButtonCurrent.Default />,
-            elegantDark: <ButtonCurrent.Default />,
-            ...buttonComposition("Default"),
-          },
-          {
-            label: "Primary",
-            status: "match",
-            source: <ButtonSource.Primary />,
-            brutal: <ButtonCurrent.Primary />,
-            elegant: <ButtonCurrent.Primary />,
-            elegantDark: <ButtonCurrent.Primary />,
-            ...buttonComposition("Primary"),
-          },
-          {
-            label: "Outline",
-            status: "match",
-            source: <ButtonSource.Outline />,
-            brutal: <ButtonCurrent.Outline />,
-            elegant: <ButtonCurrent.Outline />,
-            elegantDark: <ButtonCurrent.Outline />,
-            ...buttonComposition("Outline"),
-          },
-          {
-            label: "Information",
-            status: "match",
-            source: <ButtonSource.Information />,
-            brutal: <ButtonCurrent.Information />,
-            elegant: <ButtonCurrent.Information />,
-            elegantDark: <ButtonCurrent.Information />,
-            ...buttonComposition("Information"),
-          },
-          {
-            label: "Muted",
-            status: "match",
-            source: <ButtonSource.Muted />,
-            brutal: <ButtonCurrent.Muted />,
-            elegant: <ButtonCurrent.Muted />,
-            elegantDark: <ButtonCurrent.Muted />,
-            ...buttonComposition("Muted"),
-          },
-          {
-            label: "Accent",
-            status: "match",
-            source: <ButtonSource.Accent />,
-            brutal: <ButtonCurrent.Accent />,
-            elegant: <ButtonCurrent.Accent />,
-            elegantDark: <ButtonCurrent.Accent />,
-            ...buttonComposition("Accent"),
-          },
-          {
-            label: "Warning",
-            status: "match",
-            source: <ButtonSource.Warning />,
-            brutal: <ButtonCurrent.Warning />,
-            elegant: <ButtonCurrent.Warning />,
-            elegantDark: <ButtonCurrent.Warning />,
-            ...buttonComposition("Warning"),
-          },
-          {
-            label: "Danger",
-            status: "match",
-            source: <ButtonSource.Danger />,
-            brutal: <ButtonCurrent.Danger />,
-            elegant: <ButtonCurrent.Danger />,
-            elegantDark: <ButtonCurrent.Danger />,
-            ...buttonComposition("Danger"),
-          },
-          {
-            label: "Danger secondary",
-            status: "new",
-            source: <ButtonSource.Missing />,
-            brutal: <ButtonCurrent.DangerSecondary />,
-            elegant: <ButtonCurrent.DangerSecondary />,
-            elegantDark: <ButtonCurrent.DangerSecondary />,
-            ...buttonComposition("DangerSecondary"),
-          },
-          {
-            label: "Danger outline",
-            status: "new",
-            source: <ButtonSource.Missing />,
-            brutal: <ButtonCurrent.DangerOutline />,
-            elegant: <ButtonCurrent.DangerOutline />,
-            elegantDark: <ButtonCurrent.DangerOutline />,
-            ...buttonComposition("DangerOutline"),
-          },
-          {
-            label: "Ghost",
-            status: "new",
-            source: <ButtonSource.Missing />,
-            brutal: <ButtonCurrent.Ghost />,
-            elegant: <ButtonCurrent.Ghost />,
-            elegantDark: <ButtonCurrent.Ghost />,
-            ...buttonComposition("Ghost"),
-          },
-          {
-            label: "Link",
-            status: "new",
-            source: <ButtonSource.Missing />,
-            brutal: <ButtonCurrent.Link />,
-            elegant: <ButtonCurrent.Link />,
-            elegantDark: <ButtonCurrent.Link />,
-            ...buttonComposition("Link"),
-          },
-          {
-            label: "Sizes",
-            status: "match",
-            source: <ButtonSource.Sizes />,
-            brutal: <ButtonCurrent.Sizes />,
-            elegant: <ButtonCurrent.Sizes />,
-            elegantDark: <ButtonCurrent.Sizes />,
-            ...buttonComposition("Sizes"),
-          },
-          {
-            label: "Icon only",
-            status: "match",
-            source: <ButtonSource.IconOnly />,
-            brutal: <ButtonCurrent.IconOnly />,
-            elegant: <ButtonCurrent.IconOnly />,
-            elegantDark: <ButtonCurrent.IconOnly />,
-            ...buttonComposition("IconOnly"),
-          },
-          {
-            label: "Inline icon",
-            status: "match",
-            source: <ButtonSource.InlineIcon />,
-            brutal: <ButtonCurrent.InlineIcon />,
-            elegant: <ButtonCurrent.InlineIcon />,
-            elegantDark: <ButtonCurrent.InlineIcon />,
-            ...buttonComposition("InlineIcon"),
-          },
-        ]}
-      />
-    </DocSection>
   );
 }

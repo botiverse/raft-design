@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { InlineCode } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -181,7 +182,8 @@ function SegmentedControlDoc() {
         <div className="grid gap-10">
           <DocNote>
             Segment items own icon sizing, label truncation, and count line-height. Compose plain
-            icons, SegmentedControlLabel, and SegmentedControlCount unless a specific custom size is
+            icons, <InlineCode>SegmentedControlLabel</InlineCode>, and{" "}
+            <InlineCode>SegmentedControlCount</InlineCode> unless a specific custom size is
             intentional.
           </DocNote>
           <DocSubsection parentId="usage" id="filters-with-counts" title="Filters with counts">

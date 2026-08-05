@@ -19,7 +19,7 @@ import { useState, type ReactNode } from "react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -208,7 +208,7 @@ export function ResetAgentDialogContent() {
 // @docs-source-strip-start
 export function ResetAgentDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview
+    <CompositionModalPreview
       className={className}
       contentClassName="max-w-md"
       portalClassName="px-0"
@@ -226,7 +226,7 @@ export function ResetAgentDialogComposition({ className }: { className?: string 
           </DialogContent>
         </Dialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

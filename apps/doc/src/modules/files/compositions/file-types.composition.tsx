@@ -137,7 +137,7 @@ export function FilesPanelFileTypesComposition() {
                   </FilePreview>
                 </FileThumbnail>
                 <FileContent>
-                  <FileName>source-comparison.zip</FileName>
+                  <FileName>project-assets.zip</FileName>
                   <FileMeta>
                     <FileMetaItem>1.7 MB</FileMetaItem>
                     <FileMetaItem>

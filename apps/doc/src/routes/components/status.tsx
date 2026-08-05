@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Bell } from "lucide-react";
 import { useState, type CSSProperties } from "react";
-import { Status, type StatusProps } from "raft-ui";
+import { InlineCode, Status, type StatusProps } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -9,108 +9,14 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import {
-  createCompositionPanelProps,
-  createCompositionSnippetMap,
-  createCompositionSourceMap,
-} from "#/lib/source-comparison-code.ts";
-import statusActivityThinkingCompositionSource from "#/modules/status/compositions/activity-thinking.composition.tsx?raw";
-import statusAttentionCompactCompositionSource from "#/modules/status/compositions/attention-compact.composition.tsx?raw";
-import statusAttentionDefaultCompositionSource from "#/modules/status/compositions/attention-default.composition.tsx?raw";
-import statusDefaultCompositionSource from "#/modules/status/compositions/default.composition.tsx?raw";
-import statusPrimaryPulseCompositionSource from "#/modules/status/compositions/primary-pulse.composition.tsx?raw";
-import statusPulseSizesCompositionSource from "#/modules/status/compositions/pulse-sizes.composition.tsx?raw";
-import statusSuccessCompositionSource from "#/modules/status/compositions/success.composition.tsx?raw";
-import statusWarningCompositionSource from "#/modules/status/compositions/warning.composition.tsx?raw";
-import {
-  STATUS_SOURCE_COMPARISON_COMPOSITION,
-  STATUS_SOURCE_COMPARISON_COMPOSITION_PATHS,
-} from "#/modules/status/status.source-comparison.tsx";
-import LegacyAttentionDot from "../../../../../packages/ui/src/legacy/AttentionDot.tsx";
-import LegacyStatusDot from "../../../../../packages/ui/src/legacy/StatusDot.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
-const SOURCE_SCENES = [
-  {
-    label: "StatusDot scenes",
-    scenes: [
-      {
-        label: "AnnouncementModal.tsx:170",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/AnnouncementModal.tsx:170",
-      },
-      {
-        label: "AddMachineDialog.tsx:287",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/AddMachineDialog.tsx:287",
-      },
-      {
-        label: "MachineDetailPanel.tsx:426,699",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MachineDetailPanel.tsx:426,699",
-      },
-      {
-        label: "MobileComputersPanel.tsx:86",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/machine/MobileComputersPanel.tsx:86",
-      },
-      {
-        label: "AgentActivityDot.tsx:24",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentActivityDot.tsx:24",
-      },
-      {
-        label: "MentionHoverCard.tsx:54",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MentionHoverCard.tsx:54",
-      },
-      {
-        label: "AgentDetailPanel.tsx:951,1206,1233,1708",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentDetailPanel.tsx:951,1206,1233,1708",
-      },
-      {
-        label: "AgentActivityLog.tsx:63,96,116,152,188,228,249",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/agent/AgentActivityLog.tsx:63,96,116,152,188,228,249",
-      },
-      {
-        label: "ChatPanel.tsx:60",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/ChatPanel.tsx:60",
-      },
-      {
-        label: "HumanDetailPanel.tsx:523",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/member/HumanDetailPanel.tsx:523",
-      },
-      {
-        label: "MessageItem.tsx:1218",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageItem.tsx:1218",
-      },
-      {
-        label: "LiveAgentActivityBar.tsx:56",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LiveAgentActivityBar.tsx:56",
-      },
-      {
-        label: "Sidebar.tsx:1080,1152,1364,1673",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1080,1152,1364,1673",
-      },
-    ],
-  },
-  {
-    label: "AttentionDot scenes",
-    scenes: [
-      {
-        label: "LeftRail.tsx:101,222",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/LeftRail.tsx:101,222",
-      },
-      {
-        label: "Sidebar.tsx:1212,1481,1532,1575,1705",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/layout/Sidebar.tsx:1212,1481,1532,1575,1705",
-      },
-    ],
-  },
-] as const;
-
 const VARIANTS = [
   "default",
   "primary",
@@ -139,18 +45,6 @@ const ATTENTION_GLOW_COLOR: Record<(typeof VARIANTS)[number], string> = {
   warning: "var(--color-warning)",
   danger: "var(--color-danger)",
 };
-
-type LegacyStatusDotProps = Parameters<typeof LegacyStatusDot>[0];
-
-function LegacyPulseStatusDot({ className, ...props }: LegacyStatusDotProps) {
-  return (
-    <LegacyStatusDot
-      {...props}
-      pulse
-      className={`animate-pulse [animation-duration:1.1s] ${className ?? ""}`}
-    />
-  );
-}
 
 const SNIPPETS = {
   preview: `<Status variant="success" size="md" />`,
@@ -224,40 +118,6 @@ import { Status } from "raft-ui";
 <Status className="[--status-color:oklch(0.72_0.14_200)]" />
 <Status attention className="[--status-color:oklch(0.72_0.14_200)]" />
 <Status size="lg" attention pulse className="[--status-color:oklch(0.78_0.12_145)]" />`,
-  migrationActivity: `// Source
-<StatusDot activity="online" />
-<StatusDot activity="thinking" />
-<StatusDot activity="working" />
-<StatusDot activity="error" />
-<StatusDot activity="offline" />
-
-// Current
-<Status variant="success" />
-<Status variant="primary" pulse />
-<Status variant="primary" pulse />
-<Status variant="warning" />
-<Status />`,
-  migrationToneToVariant: `// Source
-<StatusDot tone="bg-brutal-lime" />
-<StatusDot tone="bg-brutal-yellow" pulse />
-<AttentionDot tone="bg-brutal-orange" />
-
-// Current
-<Status variant="success" />
-<Status variant="primary" pulse />
-<Status variant="warning" />`,
-  migrationAttention: `// Source
-<AttentionDot />
-<AttentionDot size="sm" />
-
-// Current
-<Status variant="accent" />
-<Status variant="accent" size="xs" />`,
-  migrationCustomTone: `// Source
-<StatusDot tone="bg-brutal-lavender" />
-
-// Current
-<Status className="[--status-color:var(--color-brutal-purple-300)]" />`,
 } as const;
 
 const PROPS: readonly PropRow[] = [
@@ -298,43 +158,9 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
-const StatusCurrent = STATUS_SOURCE_COMPARISON_COMPOSITION;
-
-const STATUS_COMPOSITION_RAW_SOURCES = {
-  ActivityThinking: statusActivityThinkingCompositionSource,
-  AttentionCompact: statusAttentionCompactCompositionSource,
-  AttentionDefault: statusAttentionDefaultCompositionSource,
-  Default: statusDefaultCompositionSource,
-  PrimaryPulse: statusPrimaryPulseCompositionSource,
-  PulseSizes: statusPulseSizesCompositionSource,
-  Success: statusSuccessCompositionSource,
-  Warning: statusWarningCompositionSource,
-} as const;
-
-const STATUS_COMPOSITION_SOURCES = createCompositionSourceMap(STATUS_COMPOSITION_RAW_SOURCES);
-
-const STATUS_COMPOSITION_SNIPPET_IDS = {
-  ActivityThinking: "statusActivityThinkingComposition",
-  AttentionCompact: "statusAttentionCompactComposition",
-  AttentionDefault: "statusAttentionDefaultComposition",
-  Default: "statusDefaultComposition",
-  PrimaryPulse: "statusPrimaryPulseComposition",
-  PulseSizes: "statusPulseSizesComposition",
-  Success: "statusSuccessComposition",
-  Warning: "statusWarningComposition",
-} as const;
-
-type StatusCompositionKey = keyof typeof STATUS_COMPOSITION_SOURCES;
-
 export const Route = createFileRoute("/components/status")({
   component: StatusDoc,
-  loader: () =>
-    highlightSnippets({
-      data: {
-        ...SNIPPETS,
-        ...createCompositionSnippetMap(STATUS_COMPOSITION_SOURCES, STATUS_COMPOSITION_SNIPPET_IDS),
-      },
-    }),
+  loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
 function StatusPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
@@ -424,14 +250,6 @@ function StatusPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>[
 
 function StatusDoc() {
   const code = Route.useLoaderData();
-  const statusComposition = (key: StatusCompositionKey) =>
-    createCompositionPanelProps({
-      code,
-      key,
-      paths: STATUS_SOURCE_COMPARISON_COMPOSITION_PATHS,
-      snippetIds: STATUS_COMPOSITION_SNIPPET_IDS,
-      sources: STATUS_COMPOSITION_SOURCES,
-    });
 
   return (
     <DocPage
@@ -502,9 +320,9 @@ function StatusDoc() {
 
           <DocSubsection parentId="usage" id="content-glow" title="Content glow">
             <DocNote>
-              <code>attention</code> only styles the dot. Soft wash on the icon comes from a tinted
-              duplicate of the underlying content, masked toward the marker. Same stack as elegant{" "}
-              <code>NotificationCenterTrigger</code>.
+              <InlineCode>attention</InlineCode> only styles the dot. Soft wash on the icon comes
+              from a tinted duplicate of the underlying content, masked toward the marker. Same
+              stack as elegant <InlineCode>NotificationCenterTrigger</InlineCode>.
             </DocNote>
             <Preview>
               <Preview.Canvas>
@@ -569,92 +387,6 @@ function StatusDoc() {
 
       <DocSection id="api" title="API">
         <PropsTable rows={PROPS} />
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          items={[
-            {
-              label: "Default",
-              status: "match",
-              source: <LegacyStatusDot />,
-              brutal: <StatusCurrent.Default />,
-              elegant: <StatusCurrent.Default />,
-              elegantDark: <StatusCurrent.Default />,
-              ...statusComposition("Default"),
-            },
-            {
-              label: "Success",
-              status: "match",
-              source: <LegacyStatusDot tone="bg-brutal-lime" />,
-              brutal: <StatusCurrent.Success />,
-              elegant: <StatusCurrent.Success />,
-              elegantDark: <StatusCurrent.Success />,
-              ...statusComposition("Success"),
-            },
-            {
-              label: "Primary pulse",
-              status: "match",
-              source: <LegacyPulseStatusDot tone="bg-brutal-yellow" />,
-              brutal: <StatusCurrent.PrimaryPulse />,
-              elegant: <StatusCurrent.PrimaryPulse />,
-              elegantDark: <StatusCurrent.PrimaryPulse />,
-              ...statusComposition("PrimaryPulse"),
-            },
-            {
-              label: "Pulse sizes",
-              status: "match",
-              source: (
-                <>
-                  <LegacyPulseStatusDot size="sm" tone="bg-brutal-yellow" />
-                  <LegacyPulseStatusDot size="md" tone="bg-brutal-yellow" />
-                  <LegacyPulseStatusDot size="lg" tone="bg-brutal-yellow" />
-                </>
-              ),
-              brutal: <StatusCurrent.PulseSizes />,
-              elegant: <StatusCurrent.PulseSizes />,
-              elegantDark: <StatusCurrent.PulseSizes />,
-              ...statusComposition("PulseSizes"),
-            },
-            {
-              label: "Activity thinking",
-              status: "match",
-              source: <LegacyPulseStatusDot activity="thinking" />,
-              brutal: <StatusCurrent.ActivityThinking />,
-              elegant: <StatusCurrent.ActivityThinking />,
-              elegantDark: <StatusCurrent.ActivityThinking />,
-              ...statusComposition("ActivityThinking"),
-            },
-            {
-              label: "Attention default",
-              status: "match",
-              source: <LegacyAttentionDot />,
-              brutal: <StatusCurrent.AttentionDefault />,
-              elegant: <StatusCurrent.AttentionDefault />,
-              elegantDark: <StatusCurrent.AttentionDefault />,
-              ...statusComposition("AttentionDefault"),
-            },
-            {
-              label: "Attention compact",
-              status: "match",
-              source: <LegacyAttentionDot size="sm" />,
-              brutal: <StatusCurrent.AttentionCompact />,
-              elegant: <StatusCurrent.AttentionCompact />,
-              elegantDark: <StatusCurrent.AttentionCompact />,
-              ...statusComposition("AttentionCompact"),
-            },
-            {
-              label: "Warning",
-              status: "match",
-              source: <LegacyAttentionDot tone="bg-brutal-orange" />,
-              brutal: <StatusCurrent.Warning />,
-              elegant: <StatusCurrent.Warning />,
-              elegantDark: <StatusCurrent.Warning />,
-              ...statusComposition("Warning"),
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

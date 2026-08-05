@@ -37,9 +37,9 @@ apps/doc/src/routes
 ```
 
 - `packages/ui` owns business-agnostic primitives, reusable headless behavior, component recipes, tokens, and public UI contracts.
-- `apps/doc/src/modules/<component>` owns everything non-route for a component: the canonical executable compositions (`compositions/*.composition.tsx`, or a flat `<component>.composition.tsx` for a single example), the interactive preview (`<component>.preview.tsx`), source comparison, constants, and fixtures. This is the canonical executable usage layer.
-- `apps/doc/src/routes` owns routing only. `routes/components/<component>.tsx` is a thin page-assembly route (title, prose, props/anatomy tables, SourceComparison config) that imports and arranges its module's compositions and `?raw` source. Sandboxed iframe-only preview routes live under `routes/iframe` and stay thin, delegating to `modules/<component>/<component>.preview.tsx`. Routes must not maintain another Current implementation.
-- `apps/doc/src/components` owns shared documentation chrome (DocPage, Sidebar, SourceComparison, source-comparison-preview, ...) reused across modules.
+- `apps/doc/src/modules/<component>` owns everything non-route for a component: the canonical executable compositions (`compositions/*.composition.tsx`, or a flat `<component>.composition.tsx` for a single example), the interactive preview (`<component>.preview.tsx`), constants, and fixtures. This is the canonical executable usage layer.
+- `apps/doc/src/routes` owns routing only. `routes/components/<component>.tsx` is a thin page-assembly route (title, prose, props/anatomy tables, and Preview/Usage code blocks) that imports and arranges its module's compositions and `?raw` source. Sandboxed iframe-only preview routes live under `routes/iframe` and stay thin, delegating to `modules/<component>/<component>.preview.tsx`. Routes must not maintain another Current implementation.
+- `apps/doc/src/components` owns shared documentation chrome (DocPage, Sidebar, code blocks, preview panels, ...) reused across modules.
 - `apps/doc/src/playground` owns the coherent mock product domain, router coordination, and business-shaped demo state. It consumes UI primitives and canonical docs compositions; it is not a second component library.
 - Dependencies must not point upward. `packages/ui` never imports `apps/doc`; docs modules never import Playground.
 
@@ -62,13 +62,12 @@ apps/doc/src/routes
 Use this sequence when adding or migrating a component:
 
 1. Inventory real source callsites and classify the candidate as a UI primitive, reusable behavior component, docs composition, or Playground business wrapper. Do not infer the boundary from a demo fixture alone.
-2. If source parity matters, preserve the source implementation under `packages/ui/source` as reference only. Runtime code must not depend on it.
-3. Implement the business-agnostic API in `packages/ui`: Base UI owns headless behavior, `tv()` recipes own reusable styling, and children/parts expose visible structure. Export unstable work through `wip.ts` while refining.
-4. Add canonical executable examples under `apps/doc/src/modules/<component>/compositions` (one example per file, `<name>.composition.tsx`; keep it flat as `<component>.composition.tsx` when there is a single example). Cover the normal structure, meaningful visual states, disabled/error/loading behavior, and relevant overlays.
-5. Build the thin docs route in `routes/components` by consuming those compositions and their `?raw` source, and extract any interactive preview into `modules/<component>/<component>.preview.tsx`. Do not copy Current JSX into route-local fixtures or snippet strings. Then verify the route against the Displayed Code invariants in `apps/doc/AGENTS.md` — real API in every block, imports collapsed, strip markers balanced with nothing dangling, code matching its canvas. No tooling checks these.
-6. Add the component to Playground only when it participates in a real shell/product scenario or needs cross-component verification. Reuse the canonical composition and add only the thin mock business wrapper or coordinated state Playground needs.
-7. Audit all three layers for business leakage, duplicated implementations, theme-controlled business DOM, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
-8. Run `vp check --fix`, `git diff --check`, and React Doctor for the changed React packages. For cross-layer architecture changes, repeat an independent strict review until no P1/P2 findings remain.
+2. Implement the business-agnostic API in `packages/ui`: Base UI owns headless behavior, `tv()` recipes own reusable styling, and children/parts expose visible structure. Export unstable work through `wip.ts` while refining.
+3. Add canonical executable examples under `apps/doc/src/modules/<component>/compositions` (one example per file, `<name>.composition.tsx`; keep it flat as `<component>.composition.tsx` when there is a single example). Cover the normal structure, meaningful visual states, disabled/error/loading behavior, and relevant overlays.
+4. Build the thin docs route in `routes/components` by consuming those compositions and their `?raw` source, and extract any interactive preview into `modules/<component>/<component>.preview.tsx`. Do not copy Current JSX into route-local fixtures or snippet strings. Then verify the route against the Displayed Code invariants in `apps/doc/AGENTS.md` — real API in every block, imports collapsed, strip markers balanced with nothing dangling, code matching its canvas. No tooling checks these.
+5. Add the component to Playground only when it participates in a real shell/product scenario or needs cross-component verification. Reuse the canonical composition and add only the thin mock business wrapper or coordinated state Playground needs.
+6. Audit all three layers for business leakage, duplicated implementations, theme-controlled business DOM, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
+7. Run `vp check --fix`, `git diff --check`, and React Doctor for the changed React packages. For cross-layer architecture changes, repeat an independent strict review until no P1/P2 findings remain.
 
 Browser, build, prerender, and test commands remain governed by the validation boundaries in this file; the SOP does not grant extra validation permission.
 

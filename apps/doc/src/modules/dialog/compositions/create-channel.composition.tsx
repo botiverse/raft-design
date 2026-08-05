@@ -30,7 +30,7 @@ import { Hash, Lock, Search } from "lucide-react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -153,7 +153,7 @@ export function CreateChannelDialogContent() {
 // @docs-source-strip-start
 export function CreateChannelDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className} contentClassName="max-w-md">
+    <CompositionModalPreview className={className} contentClassName="max-w-md">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent
@@ -167,7 +167,7 @@ export function CreateChannelDialogComposition({ className }: { className?: stri
           </DialogContent>
         </Dialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

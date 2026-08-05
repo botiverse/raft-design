@@ -1,15 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import activityPanelPartsSource from "#/modules/activity/activity-panel.parts.tsx?raw";
-import { ActivityV2SourcePreview } from "#/modules/activity/activity.source-preview.tsx";
 import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
 import activityInboxCompositionSource from "#/modules/activity/compositions/activity-inbox.composition.tsx?raw";
 import { CompactActivityComposition } from "#/modules/activity/compositions/compact-activity.composition.tsx";
@@ -24,26 +23,9 @@ const TOC = [
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const LAYOUTS = ["wide", "compact"] as const;
-
-const SOURCE_SCENES = [
-  {
-    label: "Slock Activity",
-    scenes: [
-      {
-        label: "ThreadsInbox.tsx",
-        path: "packages/ui/source/activity/ActivityV2SourcePreview.tsx",
-      },
-      {
-        label: "source commit 6cd65a094",
-        path: "packages/ui/source/activity/README.md",
-      },
-    ],
-  },
-] as const;
 
 const ACTIVITY_COMPOSITION_PATH =
   "apps/doc/src/modules/activity/compositions/activity-inbox.composition.tsx";
@@ -348,13 +330,18 @@ function ActivityDoc() {
       overview={
         <ul className="list-disc space-y-1 pl-4">
           <li>
-            raft-ui owns the activity row structure: frame, open target, selection slot, text
-            column, metadata slot, and action group
+            <InlineCode>raft-ui</InlineCode> owns the activity row structure: frame, open target,
+            selection slot, text column, metadata slot, and action group
           </li>
-          <li>Checkbox, PanelAction, PanelToggleAction, and ContextMenu own their behavior</li>
+          <li>
+            <InlineCode>Checkbox</InlineCode>, <InlineCode>PanelAction</InlineCode>,{" "}
+            <InlineCode>PanelToggleAction</InlineCode>, and <InlineCode>ContextMenu</InlineCode> own
+            their behavior
+          </li>
           <li>
             the inbox shell (header, sidebar, controls, toolbar, viewport) is composed in the docs
-            module from Panel, PanelHeaderRoot, and local panel parts
+            module from <InlineCode>Panel</InlineCode>, <InlineCode>PanelHeaderRoot</InlineCode>,
+            and local panel parts
           </li>
           <li>
             stores, transport, routing, analytics, feature flags, and product workflow state stay in
@@ -383,13 +370,15 @@ function ActivityDoc() {
 
       <DocSection id="usage" title="Usage">
         <p>
-          ActivityInbox owns the row card layout and its full-card open target. Structural slots
-          position caller-owned Checkbox, Badge, PanelAction, PanelToggleAction, and ContextMenu
-          parts, so Activity does not duplicate their interaction behavior. The inbox shell around
-          it — header, view sidebar, filter controls, selection toolbar, and scroll viewport — is
-          assembled from the generic Panel container and local panel parts. Production consumers own
-          item unions, read/save/done policy, server synchronization, search and sort persistence,
-          navigation, and master/detail coordination.
+          <InlineCode>ActivityInbox</InlineCode> owns the row card layout and its full-card open
+          target. Structural slots position caller-owned <InlineCode>Checkbox</InlineCode>,{" "}
+          <InlineCode>Badge</InlineCode>, <InlineCode>PanelAction</InlineCode>,{" "}
+          <InlineCode>PanelToggleAction</InlineCode>, and <InlineCode>ContextMenu</InlineCode>{" "}
+          parts, so <InlineCode>Activity</InlineCode> does not duplicate their interaction behavior.
+          The inbox shell around it — header, view sidebar, filter controls, selection toolbar, and
+          scroll viewport — is assembled from the generic <InlineCode>Panel</InlineCode> container
+          and local panel parts. Production consumers own item unions, read/save/done policy, server
+          synchronization, search and sort persistence, navigation, and master/detail coordination.
         </p>
         <DocSubsection parentId="usage" id="states" title="States">
           <div className="grid gap-8">
@@ -426,31 +415,6 @@ function ActivityDoc() {
             </DocSubsection>
           ))}
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          layout="grid"
-          previewSize="tall"
-          items={[
-            {
-              label: "Activity v2 inbox",
-              status: "difference",
-              note: "Brutal preserves the source row structure while composing selection, actions, menus, badges, and filtering from shared raft-ui primitives. The composition replaces source stores and API calls with deterministic local state. Elegant re-expresses the row frame through semantic tokens.",
-              sourceScenes: SOURCE_SCENES,
-              source: <ActivityV2SourcePreview />,
-              brutal: <ActivityInboxComposition layout="wide" />,
-              elegant: <ActivityInboxComposition layout="wide" />,
-              elegantDark: <ActivityInboxComposition layout="wide" />,
-              compositionCode: code.composition,
-              compositionCollapsedCode: code.compositionBody,
-              compositionPath: ACTIVITY_COMPOSITION_PATH,
-              compositionSource: activityInboxCompositionSource,
-              previewClassName: "items-stretch overflow-hidden p-0",
-            },
-          ]}
-        />
-        <ActivitySourceFiles code={code} />
       </DocSection>
     </DocPage>
   );

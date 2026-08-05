@@ -26,13 +26,12 @@ import {
   CircleAlert,
   Folder,
   GitBranch,
-  Hash,
   Loader,
   Megaphone,
   MessagesSquare,
   Sparkles,
 } from "lucide-react";
-import type { ReactNode, RefObject } from "react";
+import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -41,7 +40,6 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceComparison } from "#/components/source-comparison.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
   mockMutationOptions,
@@ -51,72 +49,12 @@ import {
 } from "#/lib/mock-query.ts";
 import { models, type Model } from "#/modules/combobox/combobox.constants.ts";
 import { PreviewCombobox } from "#/modules/combobox/combobox.preview.tsx";
-import composerMentionComboboxCompositionSource from "#/modules/combobox/compositions/composer-mention-combobox.composition.tsx?raw";
-import { ComposerMentionComboboxComposition } from "#/modules/combobox/compositions/composer-mention-combobox.composition.tsx";
-import messageSearchChannelFilterCompositionSource from "#/modules/combobox/compositions/message-search-channel-filter.composition.tsx?raw";
-import { MessageSearchChannelFilterComposition } from "#/modules/combobox/compositions/message-search-channel-filter.composition.tsx";
-import messageSearchSenderFilterCompositionSource from "#/modules/combobox/compositions/message-search-sender-filter.composition.tsx?raw";
-import { MessageSearchSenderFilterComposition } from "#/modules/combobox/compositions/message-search-sender-filter.composition.tsx";
-import selectionPopoverComboboxCompositionSource from "#/modules/combobox/compositions/selection-popover-combobox.composition.tsx?raw";
-import { SelectionPopoverComboboxComposition } from "#/modules/combobox/compositions/selection-popover-combobox.composition.tsx";
-import tasksChannelFilterCompositionSource from "#/modules/combobox/compositions/tasks-channel-filter.composition.tsx?raw";
-import { TasksChannelFilterComposition } from "#/modules/combobox/compositions/tasks-channel-filter.composition.tsx";
-import tasksIdentityFiltersCompositionSource from "#/modules/tasks/compositions/tasks-identity-filters.composition.tsx?raw";
-import { TasksIdentityFiltersComposition } from "#/modules/tasks/compositions/tasks-identity-filters.composition.tsx";
-import LegacyAvatarSlot from "../../../../../packages/ui/src/legacy/AvatarSlot.tsx";
-import { SelectionPopover as LegacySelectionPopover } from "../../../../../packages/ui/src/legacy/selection-popover.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
-] as const;
-const SOURCE_SCENES = [
-  {
-    label: "Message search filters",
-    scenes: [
-      {
-        label: "MessageSearchPage.tsx:742",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:742",
-      },
-      {
-        label: "MessageSearchPage.tsx:816",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/search/MessageSearchPage.tsx:816",
-      },
-    ],
-  },
-  {
-    label: "Task filters",
-    scenes: [
-      {
-        label: "TasksPanel.tsx:442",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:442",
-      },
-      {
-        label: "TasksPanel.tsx:865",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/task/TasksPanel.tsx:865",
-      },
-    ],
-  },
-  {
-    label: "Composer and selection popovers",
-    scenes: [
-      {
-        label: "MessageInput.tsx:928",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/message/MessageInput.tsx:928",
-      },
-      {
-        label: "InlineBadgeEditor.tsx:209",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/InlineBadgeEditor.tsx:209",
-      },
-      {
-        label: "SelectionPopover.tsx:105,157",
-        path: "/Users/cuvii/Development/zolplay/slock-ui-backup/packages/web/src/components/ui/SelectionPopover.tsx:105,157",
-      },
-    ],
-  },
 ] as const;
 
 const channels = [
@@ -530,6 +468,7 @@ function AsyncModelSearch() {
       inputValue={inputValue}
       value={value}
       items={items}
+      filter={null}
       itemToStringLabel={(model) => model.label}
       onInputValueChange={(nextQuery, eventDetails) => {
         if (eventDetails.reason !== "item-press") {
@@ -799,248 +738,15 @@ const COMBOBOX_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
   },
 ];
 
-const HASH_LEADING = <Hash className="text-black/50" />;
-
-const MESSAGE_SEARCH_CHANNEL_FILTER_COMPOSITION_PATH =
-  "apps/doc/src/modules/combobox/compositions/message-search-channel-filter.composition.tsx" as const;
-const MESSAGE_SEARCH_SENDER_FILTER_COMPOSITION_PATH =
-  "apps/doc/src/modules/combobox/compositions/message-search-sender-filter.composition.tsx" as const;
-const COMPOSER_MENTION_COMBOBOX_COMPOSITION_PATH =
-  "apps/doc/src/modules/combobox/compositions/composer-mention-combobox.composition.tsx" as const;
-const SELECTION_POPOVER_COMBOBOX_COMPOSITION_PATH =
-  "apps/doc/src/modules/combobox/compositions/selection-popover-combobox.composition.tsx" as const;
-const TASKS_CHANNEL_FILTER_COMPOSITION_PATH =
-  "apps/doc/src/modules/combobox/compositions/tasks-channel-filter.composition.tsx" as const;
-const TASKS_IDENTITY_FILTERS_COMPOSITION_PATH =
-  "apps/doc/src/modules/tasks/compositions/tasks-identity-filters.composition.tsx" as const;
-
-const COMPACT_LIST_AVATAR = (
-  <LegacyAvatarSlot
-    context="compact-list"
-    type="human"
-    humanAvatarUrl={null}
-    gravatarHash={null}
-    email={null}
-  />
-);
-
 export const Route = createFileRoute("/components/combobox")({
   component: ComboboxDoc,
   loader: () =>
     highlightSnippets({
       data: {
         ...SNIPPETS,
-        composerMentionComboboxComposition: composerMentionComboboxCompositionSource,
-        messageSearchChannelFilterComposition: messageSearchChannelFilterCompositionSource,
-        messageSearchSenderFilterComposition: messageSearchSenderFilterCompositionSource,
-        selectionPopoverComboboxComposition: selectionPopoverComboboxCompositionSource,
-        tasksChannelFilterComposition: tasksChannelFilterCompositionSource,
-        tasksIdentityFiltersComposition: tasksIdentityFiltersCompositionSource,
       },
     }),
 });
-
-const noop = () => undefined;
-
-function SourcePanelMount({
-  contentClassName = "w-[220px]",
-  children,
-}: {
-  contentClassName?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex h-full min-h-56 w-full items-center justify-center">
-      <div
-        className={["relative shrink-0 [--shadow-hover:4px_4px_0px_oklch(0_0_0)]", contentClassName]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function SourceMessageSearchChannelComparison() {
-  return (
-    <SourcePanelMount>
-      <LegacySelectionPopover
-        title="Channels"
-        searchable
-        search=""
-        onSearchChange={noop}
-        options={[
-          {
-            key: "unread",
-            checked: false,
-            label: "#unread",
-            leading: HASH_LEADING,
-            onClick: noop,
-          },
-          {
-            key: "general",
-            checked: false,
-            label: "#general",
-            leading: HASH_LEADING,
-            onClick: noop,
-          },
-        ]}
-      />
-    </SourcePanelMount>
-  );
-}
-
-function SourceMessageSearchSenderComparison() {
-  return (
-    <SourcePanelMount>
-      <LegacySelectionPopover
-        title="From"
-        searchable
-        search=""
-        onSearchChange={noop}
-        showClear
-        onClear={noop}
-        options={[
-          {
-            key: "me",
-            checked: true,
-            label: "Me",
-            reserveLeadingSlot: true,
-            avatar: COMPACT_LIST_AVATAR,
-            onClick: noop,
-          },
-          {
-            key: "atlas",
-            checked: false,
-            label: "Atlas",
-            reserveLeadingSlot: true,
-            avatar: COMPACT_LIST_AVATAR,
-            onClick: noop,
-          },
-        ]}
-      />
-    </SourcePanelMount>
-  );
-}
-
-function SourceComposerMentionComparison() {
-  return (
-    <SourcePanelMount contentClassName="w-[18rem]">
-      <LegacySelectionPopover
-        title="Mentions"
-        searchable
-        search="at"
-        onSearchChange={noop}
-        options={[
-          {
-            key: "atlas",
-            checked: true,
-            label: "Atlas",
-            reserveLeadingSlot: true,
-            avatar: COMPACT_LIST_AVATAR,
-            onClick: noop,
-          },
-          {
-            key: "avery",
-            checked: false,
-            label: "Avery",
-            reserveLeadingSlot: true,
-            avatar: COMPACT_LIST_AVATAR,
-            onClick: noop,
-          },
-          {
-            key: "design-notes",
-            checked: false,
-            label: "Design notes",
-            reserveLeadingSlot: true,
-            onClick: noop,
-          },
-        ]}
-      />
-    </SourcePanelMount>
-  );
-}
-
-function SourceSelectionPopoverComparison() {
-  return (
-    <SourcePanelMount contentClassName="w-[18rem]">
-      <LegacySelectionPopover
-        title="Labels"
-        searchable
-        search=""
-        onSearchChange={noop}
-        showClear
-        onClear={noop}
-        options={[
-          { key: "design", checked: true, label: "Design", leading: HASH_LEADING, onClick: noop },
-          { key: "bug", checked: false, label: "Bug", leading: HASH_LEADING, onClick: noop },
-          { key: "review", checked: false, label: "Review", leading: HASH_LEADING, onClick: noop },
-        ]}
-      />
-    </SourcePanelMount>
-  );
-}
-
-function SourceTasksChannelFilterComparison() {
-  return (
-    <SourcePanelMount>
-      <LegacySelectionPopover
-        title="Channels"
-        searchable
-        search=""
-        onSearchChange={noop}
-        showClear
-        onClear={noop}
-        options={[
-          { key: "design", checked: true, label: "#design", leading: HASH_LEADING, onClick: noop },
-          { key: "dev", checked: false, label: "#dev", leading: HASH_LEADING, onClick: noop },
-        ]}
-      />
-    </SourcePanelMount>
-  );
-}
-
-function SourceTasksIdentityFilterComparison() {
-  return (
-    <SourcePanelMount>
-      <LegacySelectionPopover
-        title="Assignee"
-        searchable
-        search=""
-        onSearchChange={noop}
-        showClear
-        onClear={noop}
-        options={[
-          {
-            key: "me",
-            checked: false,
-            label: "Assigned to me",
-            italic: true,
-            reserveLeadingSlot: true,
-            onClick: noop,
-          },
-          {
-            key: "unassigned",
-            checked: false,
-            label: "Unassigned",
-            italic: true,
-            reserveLeadingSlot: true,
-            onClick: noop,
-          },
-          {
-            key: "atlas",
-            checked: true,
-            label: "Atlas",
-            reserveLeadingSlot: true,
-            avatar: COMPACT_LIST_AVATAR,
-            onClick: noop,
-          },
-        ]}
-      />
-    </SourcePanelMount>
-  );
-}
 
 function ComboboxBody() {
   return (
@@ -1253,6 +959,7 @@ function AsyncSearchCombobox() {
         inputValue={inputValue}
         value={value}
         items={items}
+        filter={null}
         itemToStringLabel={(model) => model.label}
         onInputValueChange={(nextQuery, eventDetails) => {
           if (eventDetails.reason !== "item-press") {
@@ -1443,9 +1150,11 @@ function ComboboxDoc() {
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="async-search" title="Async search">
             <DocNote>
-              ComboboxControl owns the searchable field surface. Compose leading icons, input,
-              clear, and trigger indicator as children; icons without an explicit size class are
-              normalized by the component.
+              For async or server-provided results, use <InlineCode>filter={"{null}"}</InlineCode>{" "}
+              to avoid re-filtering them while keeping <InlineCode>inputValue</InlineCode>{" "}
+              controlled. <InlineCode>ComboboxControl</InlineCode>
+              owns the searchable field surface; compose its icons, input, clear, and trigger
+              indicator as children.
             </DocNote>
             <Preview previewClassName="min-h-[22rem] items-start pt-24">
               <Preview.Canvas>
@@ -1527,137 +1236,6 @@ function ComboboxDoc() {
             <PropsTable rows={COMBOBOX_ITEM_INDICATOR_PROPS} />
           </DocSubsection>
         </div>
-      </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <SourceComparison
-          sourceScenes={SOURCE_SCENES}
-          layout="grid"
-          previewSize="popover"
-          items={[
-            {
-              id: "source-comparison-message-channel",
-              label: "Message search — channel filter",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>MessageSearchPage.tsx</InlineCode>. Searchable channel picker. Hash
-                  rows. Enter selects the first match.
-                </>
-              ),
-              source: <SourceMessageSearchChannelComparison />,
-              brutal: <MessageSearchChannelFilterComposition />,
-              elegant: <MessageSearchChannelFilterComposition />,
-              elegantDark: <MessageSearchChannelFilterComposition />,
-              compositionCode: code.messageSearchChannelFilterComposition,
-              compositionCollapsedCode: code.messageSearchChannelFilterCompositionBody,
-              compositionPath: MESSAGE_SEARCH_CHANNEL_FILTER_COMPOSITION_PATH,
-              compositionSource: messageSearchChannelFilterCompositionSource,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-message-sender",
-              label: "Message search — sender filter",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>MessageSearchPage.tsx</InlineCode>. Searchable sender picker. Avatar
-                  rows. Clear resets the value.
-                </>
-              ),
-              source: <SourceMessageSearchSenderComparison />,
-              brutal: <MessageSearchSenderFilterComposition />,
-              elegant: <MessageSearchSenderFilterComposition />,
-              elegantDark: <MessageSearchSenderFilterComposition />,
-              compositionCode: code.messageSearchSenderFilterComposition,
-              compositionCollapsedCode: code.messageSearchSenderFilterCompositionBody,
-              compositionPath: MESSAGE_SEARCH_SENDER_FILTER_COMPOSITION_PATH,
-              compositionSource: messageSearchSenderFilterCompositionSource,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-composer-mention",
-              label: "Composer — mention autocomplete",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>MessageInput.tsx</InlineCode>. Mention suggestions need search text,
-                  active row, and selected value ownership.
-                </>
-              ),
-              source: <SourceComposerMentionComparison />,
-              brutal: <ComposerMentionComboboxComposition />,
-              elegant: <ComposerMentionComboboxComposition />,
-              elegantDark: <ComposerMentionComboboxComposition />,
-              compositionCode: code.composerMentionComboboxComposition,
-              compositionCollapsedCode: code.composerMentionComboboxCompositionBody,
-              compositionPath: COMPOSER_MENTION_COMBOBOX_COMPOSITION_PATH,
-              compositionSource: composerMentionComboboxCompositionSource,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-selection-popover",
-              label: "Selection popover",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>SelectionPopover.tsx</InlineCode> /{" "}
-                  <InlineCode>InlineBadgeEditor.tsx</InlineCode>. Searchable option lists map to
-                  Combobox, not Popover.
-                </>
-              ),
-              source: <SourceSelectionPopoverComparison />,
-              brutal: <SelectionPopoverComboboxComposition />,
-              elegant: <SelectionPopoverComboboxComposition />,
-              elegantDark: <SelectionPopoverComboboxComposition />,
-              compositionCode: code.selectionPopoverComboboxComposition,
-              compositionCollapsedCode: code.selectionPopoverComboboxCompositionBody,
-              compositionPath: SELECTION_POPOVER_COMBOBOX_COMPOSITION_PATH,
-              compositionSource: selectionPopoverComboboxCompositionSource,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-tasks-channel",
-              label: "Tasks — channel filter",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>TasksPanel.tsx</InlineCode>. Searchable multi-select channel picker.
-                  Selected rows stay visible.
-                </>
-              ),
-              source: <SourceTasksChannelFilterComparison />,
-              brutal: <TasksChannelFilterComposition />,
-              elegant: <TasksChannelFilterComposition />,
-              elegantDark: <TasksChannelFilterComposition />,
-              compositionCode: code.tasksChannelFilterComposition,
-              compositionCollapsedCode: code.tasksChannelFilterCompositionBody,
-              compositionPath: TASKS_CHANNEL_FILTER_COMPOSITION_PATH,
-              compositionSource: tasksChannelFilterCompositionSource,
-              compositionShowLineNumbers: false,
-            },
-            {
-              id: "source-comparison-tasks-identity",
-              label: "Tasks — identity filters",
-              status: "difference",
-              note: (
-                <>
-                  <InlineCode>TasksPanel.tsx</InlineCode>. Searchable creator and assignee pickers.
-                  Sentinel and avatar rows share one list.
-                </>
-              ),
-              source: <SourceTasksIdentityFilterComparison />,
-              brutal: <TasksIdentityFiltersComposition initialOpen="assignee" />,
-              elegant: <TasksIdentityFiltersComposition initialOpen="assignee" />,
-              elegantDark: <TasksIdentityFiltersComposition initialOpen="assignee" />,
-              compositionCode: code.tasksIdentityFiltersComposition,
-              compositionCollapsedCode: code.tasksIdentityFiltersCompositionBody,
-              compositionPath: TASKS_IDENTITY_FILTERS_COMPOSITION_PATH,
-              compositionSource: tasksIdentityFiltersCompositionSource,
-              compositionShowLineNumbers: false,
-            },
-          ]}
-        />
       </DocSection>
     </DocPage>
   );

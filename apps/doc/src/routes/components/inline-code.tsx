@@ -64,8 +64,8 @@ function InlineCodeDoc() {
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <div className="space-y-4">
           <DocNote>
-            Use InlineCode inside explanatory prose when naming props, attributes, classes, or
-            component parts.
+            Use <InlineCode>InlineCode</InlineCode> inside explanatory prose when naming props,
+            attributes, classes, or component parts.
           </DocNote>
           <Preview>
             <Preview.Canvas>
@@ -89,8 +89,9 @@ function InlineCodeDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-4">
           <DocNote>
-            Keep InlineCode for short inline identifiers. Use CodeBlock for snippets, multi-token
-            examples, or anything that needs syntax highlighting.
+            Keep <InlineCode>InlineCode</InlineCode> for short inline identifiers. Use{" "}
+            <InlineCode>CodeBlock</InlineCode> for snippets, multi-token examples, or anything that
+            needs syntax highlighting.
           </DocNote>
           <Preview>
             <Preview.Canvas>

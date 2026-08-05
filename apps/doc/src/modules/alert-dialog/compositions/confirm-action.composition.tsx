@@ -11,7 +11,7 @@ import {
 } from "raft-ui";
 
 // @docs-source-strip-start
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -50,7 +50,7 @@ export function ConfirmActionAlertDialogContent() {
 // @docs-source-strip-start
 export function ConfirmActionAlertDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className}>
+    <CompositionModalPreview className={className}>
       {({ portalProps, contentClassName }) => (
         <AlertDialog open modal={false}>
           <AlertDialogContent
@@ -64,7 +64,7 @@ export function ConfirmActionAlertDialogComposition({ className }: { className?:
           </AlertDialogContent>
         </AlertDialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

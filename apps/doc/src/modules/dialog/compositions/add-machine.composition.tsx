@@ -17,7 +17,7 @@ import { Terminal } from "lucide-react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";
-import { SourceComparisonModalPreview } from "#/components/source-comparison-preview.tsx";
+import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
@@ -66,7 +66,7 @@ export function AddMachineDialogContent() {
 // @docs-source-strip-start
 export function AddMachineDialogComposition({ className }: { className?: string }) {
   return (
-    <SourceComparisonModalPreview className={className} contentClassName="max-w-lg">
+    <CompositionModalPreview className={className} contentClassName="max-w-lg">
       {({ portalProps, contentClassName }) => (
         <Dialog open modal={false}>
           <DialogContent
@@ -80,7 +80,7 @@ export function AddMachineDialogComposition({ className }: { className?: string 
           </DialogContent>
         </Dialog>
       )}
-    </SourceComparisonModalPreview>
+    </CompositionModalPreview>
   );
 }
 // @docs-source-strip-end

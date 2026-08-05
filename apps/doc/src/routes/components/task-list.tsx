@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -229,9 +230,10 @@ function TaskListDoc() {
 
           <DocSubsection parentId="usage" id="scroll-area" title="Scroll area">
             <p className="mb-4 text-sm text-foreground-strong/70">
-              Use one <code>ScrollAreaViewport</code> around all status sections. The list remains a
-              single vertical scroll surface, while <code>TaskListRoot</code> and sections only own
-              their layout and collapse state.
+              Use one <InlineCode>ScrollAreaViewport</InlineCode> around all status sections. The
+              list remains a single vertical scroll surface, while{" "}
+              <InlineCode>TaskListRoot</InlineCode> and sections only own their layout and collapse
+              state.
             </p>
             <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
@@ -243,8 +245,9 @@ function TaskListDoc() {
 
           <DocSubsection parentId="usage" id="section-empty" title="Section empty states">
             <p className="mb-4 text-sm text-foreground-strong/70">
-              Sparse tasks leave In Review / Done / Closed empty so <code>TaskSectionEmpty</code>{" "}
-              shows. List has a single empty host (no DnD idle/allowed/blocked triad).
+              Sparse tasks leave In Review / Done / Closed empty so{" "}
+              <InlineCode>TaskSectionEmpty</InlineCode> shows. List has a single empty host (no DnD
+              idle/allowed/blocked triad).
             </p>
             <Preview previewClassName="h-[42rem] items-stretch p-0">
               <Preview.Canvas>
@@ -276,9 +279,9 @@ function TaskListDoc() {
 
           <DocSubsection parentId="usage" id="virtualization" title="Virtualization">
             <p className="mb-4 text-sm text-foreground-strong/70">
-              Keep one shared <code>ScrollAreaViewport</code>, and mount a{" "}
-              <code>useVirtualizer</code> stack inside each tall section. Virtualization stays
-              consumer-owned; <code>TaskList</code> does not provide it.
+              Keep one shared <InlineCode>ScrollAreaViewport</InlineCode>, and mount a{" "}
+              <InlineCode>useVirtualizer</InlineCode> stack inside each tall section. Virtualization
+              stays consumer-owned; <InlineCode>TaskList</InlineCode> does not provide it.
             </p>
             <DocsCodeBlock>
               <DocsCodeBlock.Body>

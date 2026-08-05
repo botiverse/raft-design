@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import type {} from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -7,11 +7,9 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { SourceThemeScope } from "#/components/source-theme-scope.tsx";
 import { AppRailComposition } from "#/modules/app-rail/app-rail.composition.tsx";
 import appRailCompositionSource from "#/modules/app-rail/app-rail.composition.tsx?raw";
 import appRailServerButtonSource from "#/modules/app-rail/app-rail-server-button.tsx?raw";
-import { SourceAppRailPreview } from "#/modules/app-rail/app-rail.source-preview.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/modules/app-rail/app-rail.composition.tsx";
@@ -21,7 +19,6 @@ const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
-  { id: "source-comparison", title: "Source comparison" },
 ] as const;
 
 const SNIPPETS = {
@@ -300,32 +297,6 @@ function AppRailDoc() {
           </DocSubsection>
         </div>
       </DocSection>
-
-      <DocSection id="source-comparison" title="Source comparison">
-        <PreviewGrid>
-          <PreviewPane label="Source">
-            <SourceThemeScope className="h-full">
-              <SourceAppRailPreview />
-            </SourceThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Brutal">
-            <PreviewThemeScope family="brutal" className="h-full">
-              <AppRailComposition />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant">
-            <PreviewThemeScope family="elegant" mode="light" className="h-full">
-              <AppRailComposition />
-            </PreviewThemeScope>
-          </PreviewPane>
-          <PreviewPane label="Elegant dark">
-            <PreviewThemeScope family="elegant" mode="dark" className="h-full dark">
-              <AppRailComposition />
-            </PreviewThemeScope>
-          </PreviewPane>
-        </PreviewGrid>
-        <AppRailSourceFiles code={code} />
-      </DocSection>
     </DocPage>
   );
 }
@@ -357,22 +328,5 @@ function AppRailSourceFiles({
         },
       ]}
     />
-  );
-}
-
-function PreviewGrid({ children }: { children: ReactNode }) {
-  return <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">{children}</div>;
-}
-
-function PreviewPane({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="min-w-0 overflow-hidden rounded-none border border-line bg-layer-panel">
-      <div className="border-b border-line bg-fill-muted px-3 py-2 text-xs font-medium text-foreground-muted">
-        {label}
-      </div>
-      <div className="flex h-[586px] items-stretch justify-start overflow-hidden bg-white p-2">
-        {children}
-      </div>
-    </div>
   );
 }

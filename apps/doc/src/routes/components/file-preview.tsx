@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -140,9 +141,10 @@ function FilePreviewDoc() {
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="formats" title="Format labels">
             <DocNote>
-              Prefer <code>type</code> for semantic kinds (<code>pdf</code>, <code>zip</code>, …).
-              It maps onto badge color. Use <code>color</code> only when you need a one-off that is
-              not in the type map — the two props are mutually exclusive.
+              Prefer <InlineCode>type</InlineCode> for semantic kinds (<InlineCode>pdf</InlineCode>,{" "}
+              <InlineCode>zip</InlineCode>, …). It maps onto badge color. Use{" "}
+              <InlineCode>color</InlineCode> only when you need a one-off that is not in the type
+              map — the two props are mutually exclusive.
             </DocNote>
             <Preview>
               <Preview.Canvas>
@@ -164,8 +166,8 @@ function FilePreviewDoc() {
           <DocSubsection parentId="usage" id="customization" title="Customization">
             <div className="grid gap-3">
               <p className="text-sm text-foreground-strong">
-                FilePreviewMedia owns the frame, crop, and rounding. Supply an image, video, SVG, or
-                other preview through children.
+                <InlineCode>FilePreviewMedia</InlineCode> owns the frame, crop, and rounding. Supply
+                an image, video, SVG, or other preview through <InlineCode>children</InlineCode>.
               </p>
               <Preview>
                 <Preview.Canvas>

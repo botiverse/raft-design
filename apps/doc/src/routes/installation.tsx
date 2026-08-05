@@ -233,7 +233,7 @@ function InstallationDoc() {
               <span className="block font-medium text-foreground">Import the stylesheet.</span>
               <p>
                 Load the package source hint, <InlineCode>raft-ui/styles.css</InlineCode>, and
-                Tailwind once from your global stylesheet.
+                <InlineCode>Tailwind</InlineCode> once from your global stylesheet.
               </p>
               <CodeSnippet
                 path="src/styles.css"
@@ -256,27 +256,31 @@ function InstallationDoc() {
               <span className="block font-medium text-foreground">Wrap the app.</span>
               <p>
                 <InlineCode>ThemeProvider</InlineCode> syncs theme attributes to the document root.
-                Add <InlineCode>TooltipProvider</InlineCode> when the app uses Tooltip. Add{" "}
-                <InlineCode>ToastProvider</InlineCode> once when the app uses toast feedback.
+                Add <InlineCode>TooltipProvider</InlineCode> when the app uses{" "}
+                <InlineCode>Tooltip</InlineCode>. Add <InlineCode>ToastProvider</InlineCode> once
+                when the app uses toast feedback.
               </p>
               <p>
                 Dark mode is class-driven: the provider resolves the system preference and stamps
                 the <InlineCode>.light</InlineCode> or <InlineCode>.dark</InlineCode> class on the
                 root. Server-rendered apps that persist a mode should replay it with a small inline
-                script before first paint (the next-themes pattern) so system-dark visitors do not
-                flash light.
+                script before first paint (the <InlineCode>next-themes</InlineCode> pattern) so
+                system-dark visitors do not flash light.
               </p>
               <CodeSnippet path="src/App.tsx" source={SNIPPETS.appShell} html={code.appShell} />
             </li>
             <li className="space-y-3">
               <span className="block font-medium text-foreground">Isolate the layout root.</span>
               <p>
-                Base UI portals render floating surfaces such as Dialog, Popover, Select,
-                DropdownMenu, and Tooltip at the document body. Add Tailwind's{" "}
-                <InlineCode>isolate</InlineCode> class to the application root so portaled surfaces
-                stack above page content instead of competing with app-level{" "}
-                <InlineCode>z-index</InlineCode> values. Keep the default body portal behavior
-                unless the app renders inside an iframe, preview frame, or embedded shell.
+                <InlineCode>Base UI</InlineCode> portals render floating surfaces such as{" "}
+                <InlineCode>Dialog</InlineCode>, <InlineCode>Popover</InlineCode>,{" "}
+                <InlineCode>Select</InlineCode>, <InlineCode>DropdownMenu</InlineCode>, and{" "}
+                <InlineCode>Tooltip</InlineCode> at the document body. Add{" "}
+                <InlineCode>Tailwind</InlineCode>&apos;s <InlineCode>isolate</InlineCode> class to
+                the application root so portaled surfaces stack above page content instead of
+                competing with app-level <InlineCode>z-index</InlineCode> values. Keep the default
+                body portal behavior unless the app renders inside an{" "}
+                <InlineCode>iframe</InlineCode>, preview frame, or embedded shell.
               </p>
               <div className="grid gap-3 lg:grid-cols-2">
                 <CodeSnippet
@@ -291,8 +295,8 @@ function InstallationDoc() {
                 />
               </div>
               <p>
-                If the host layout does not use Tailwind, apply the same CSS with{" "}
-                <InlineCode>isolation: isolate</InlineCode>.
+                If the host layout does not use <InlineCode>Tailwind</InlineCode>, apply the same
+                CSS with <InlineCode>isolation: isolate</InlineCode>.
               </p>
             </li>
           </StepList>
@@ -370,8 +374,9 @@ function InstallationDoc() {
           <div className="space-y-3">
             <h3 className="font-heading text-lg font-medium text-foreground">Switch themes</h3>
             <Lead>
-              Use <InlineCode>setTheme</InlineCode>. Pass a mode only for elegant light, dark, or
-              system.
+              Use <InlineCode>setTheme</InlineCode>. Pass a mode only when the family is{" "}
+              <InlineCode>elegant</InlineCode>: <InlineCode>light</InlineCode>,{" "}
+              <InlineCode>dark</InlineCode>, or <InlineCode>system</InlineCode>.
             </Lead>
             <CodeSnippet
               path="src/ThemeSwitcher.tsx"
@@ -413,8 +418,8 @@ function InstallationDoc() {
       <DocSection id="requirements" title="Requirements">
         <ul className="space-y-3 text-sm leading-relaxed text-foreground-muted">
           <li>
-            <span className="font-medium text-foreground">React:</span> RUI expects React 19 and
-            React DOM 19.
+            <span className="font-medium text-foreground">React:</span> RUI expects{" "}
+            <InlineCode>React 19</InlineCode> and <InlineCode>React DOM 19</InlineCode>.
           </li>
           <li>
             <span className="font-medium text-foreground">CSS:</span> import{" "}
@@ -427,8 +432,8 @@ function InstallationDoc() {
             font families your app wants.
           </li>
           <li>
-            <span className="font-medium text-foreground">Build:</span> use a Tailwind v4-capable
-            build pipeline.
+            <span className="font-medium text-foreground">Build:</span> use a{" "}
+            <InlineCode>Tailwind v4</InlineCode>-capable build pipeline.
           </li>
         </ul>
       </DocSection>

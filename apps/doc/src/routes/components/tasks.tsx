@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -246,10 +247,17 @@ function TasksDoc() {
 
           <DocSubsection parentId="usage" id="panel-empty" title="Panel empty states">
             <p className="mb-4 text-sm text-foreground-strong/70">
-              <code>TasksPanelEmpty</code> hosts consumer <code>EmptyState</code> for unfiltered and
-              filtered-empty. Column/section empties live on{" "}
-              <Link to="/components/task-board">TaskBoard</Link> and{" "}
-              <Link to="/components/task-list">TaskList</Link>.
+              <InlineCode>TasksPanelEmpty</InlineCode> hosts consumer{" "}
+              <InlineCode>EmptyState</InlineCode> for unfiltered and filtered-empty. Column/section
+              empties live on{" "}
+              <Link to="/components/task-board">
+                <InlineCode>TaskBoard</InlineCode>
+              </Link>{" "}
+              and{" "}
+              <Link to="/components/task-list">
+                <InlineCode>TaskList</InlineCode>
+              </Link>
+              .
             </p>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>
@@ -271,12 +279,15 @@ function TasksDoc() {
           <DocSubsection parentId="usage" id="legacy-task-panel" title="Legacy task panel">
             <p className="mb-4 text-sm text-foreground-strong/70">
               Legacy tasks do not map to a message thread. Open them in the same right-hand slot as{" "}
-              <Link to="/components/thread-panel">ThreadPanel</Link>, composing{" "}
-              <code>LegacyTaskPanel</code> (<code>Root</code> / <code>Header</code> /{" "}
-              <code>Title</code> / <code>Actions</code> / <code>Body</code>) with a consumer
-              metadata body — no <code>OriginalMessage</code>, replies, search, or composer.
-              Mutually exclusive with a real thread: if <code>task.isLegacy</code>, close the thread
-              and show this panel instead.
+              <Link to="/components/thread-panel">
+                <InlineCode>ThreadPanel</InlineCode>
+              </Link>
+              , composing <InlineCode>LegacyTaskPanel</InlineCode> (<InlineCode>Root</InlineCode> /{" "}
+              <InlineCode>Header</InlineCode> / <InlineCode>Title</InlineCode> /{" "}
+              <InlineCode>Actions</InlineCode> / <InlineCode>Body</InlineCode>) with a consumer
+              metadata body — no <InlineCode>OriginalMessage</InlineCode>, replies, search, or
+              composer. Mutually exclusive with a real thread: if{" "}
+              <InlineCode>task.isLegacy</InlineCode>, close the thread and show this panel instead.
             </p>
             <Preview previewClassName="h-[36rem] items-stretch justify-center bg-brutal-cream p-6 [[data-theme=elegant]_&]:bg-layer-page">
               <Preview.Canvas>

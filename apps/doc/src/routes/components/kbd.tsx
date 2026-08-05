@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { InputGroup, InputGroupAddon, InputGroupInput, Kbd, KbdGroup } from "raft-ui";
+import { InlineCode, InputGroup, InputGroupAddon, InputGroupInput, Kbd, KbdGroup } from "raft-ui";
 import { Search } from "lucide-react";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -132,8 +132,9 @@ function KbdDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-6">
           <DocNote>
-            Keep Kbd as supporting metadata, not the primary action label. In menus it sits at the
-            trailing edge; in fields it names a shortcut without becoming a clickable control.
+            Keep <InlineCode>Kbd</InlineCode> as supporting metadata, not the primary action label.
+            In menus it sits at the trailing edge; in fields it names a shortcut without becoming a
+            clickable control.
           </DocNote>
           <DocSubsection parentId="usage" id="menu-row" title="Menu row">
             <Preview>
