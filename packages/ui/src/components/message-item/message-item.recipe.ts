@@ -77,7 +77,11 @@ export const messageItem = tv({
           "has-[[data-slot=message-item-search-match]]:ring-info/50",
         ],
         gutter: "max-md:w-8",
-        avatarSlot: ["max-md:w-8", "max-md:[&_[data-slot=avatar][data-size=md]]:size-7"],
+        avatarSlot: [
+          "[&_[data-slot=avatar][data-size=md]]:ml-0.5 [&_[data-slot=avatar][data-size=md]]:size-8 [&_[data-slot=avatar][data-size=md]]:border-0",
+          "[&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-right-px [&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-bottom-px",
+          "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
+        ],
         continuationTime: [
           "top-0 pt-1.5",
           "font-sans text-xs leading-none",
