@@ -22,6 +22,7 @@ const raftUiStylesPath = fileURLToPath(
 const config = defineConfig({
   server: {
     host: "127.0.0.1",
+    allowedHosts: [".e2b.app", ".onamp.dev"],
     strictPort: false,
   },
   resolve: {

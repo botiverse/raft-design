@@ -5,156 +5,68 @@ import { Globe2, Menu, X } from "lucide-react";
 
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
-const SKILLS = {
-  title: "Skills",
-  items: [{ label: "new-component.md", to: "/skills/new-component" }],
-} as const;
-
-const TOKENS = [
-  {
-    title: "Colors",
-    to: "/tokens/colors",
-    items: [] as const,
-  },
-  {
-    title: "Typography",
-    items: [
-      { label: "Brutal", to: "/tokens/typography/brutal" },
-      { label: "Elegant", to: "/tokens/typography/elegant" },
-    ],
-  },
-  {
-    title: "Shadows",
-    items: [
-      { label: "Brutal", to: "/tokens/shadows/brutal" },
-      { label: "Elegant", to: "/tokens/shadows/elegant" },
-    ],
-  },
+const PRIMARY_NAV = [
+  { label: "Home", to: "/" },
+  { label: "Installation", to: "/installation" },
+  { label: "Changelog", to: "/changelog" },
+  { label: "Migration", to: "/migration" },
+  { label: "Playground", to: "/playground" },
+  { label: "Lab", to: "/lab" },
 ] as const;
 
-const NAV = [
+const FOUNDATIONS = {
+  title: "Foundations",
+  items: [
+    { label: "Colors", to: "/tokens/colors" },
+    {
+      label: "Typography",
+      items: [
+        { label: "Brutal", to: "/tokens/typography/brutal" },
+        { label: "Elegant", to: "/tokens/typography/elegant" },
+      ],
+    },
+    {
+      label: "Shadows",
+      items: [
+        { label: "Brutal", to: "/tokens/shadows/brutal" },
+        { label: "Elegant", to: "/tokens/shadows/elegant" },
+      ],
+    },
+    { label: "Icons", to: "/components/icons", status: "wip" },
+  ],
+} as const;
+
+const COMPONENT_NAV = [
   {
-    title: "Foundations",
-    items: [{ label: "Icons", to: "/components/icons", status: "wip" }],
-  },
-  {
-    title: "Shell",
+    title: "Layout",
     items: [
       { label: "AppShell", to: "/components/app-shell", status: "done" },
       { label: "AppRail", to: "/components/app-rail", status: "done" },
       { label: "MobileNav", to: "/components/mobile-nav", status: "done" },
-      { label: "Separator", to: "/components/separator", status: "done" },
-      {
-        label: "Collapsible",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/collapsible",
-        reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
-      },
-      {
-        label: "Accordion",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/accordion",
-        reason: "Grouped disclosure pattern; build after Collapsible settles.",
-      },
-      {
-        label: "ScrollArea",
-        to: "/components/scroll-area",
-        status: "done",
-      },
-      {
-        label: "Panel",
-        to: "/components/panel",
-        status: "done",
-      },
+      { label: "Panel", to: "/components/panel", status: "done" },
       {
         label: "ProfilePanel",
         to: "/components/profile-panel",
-        status: "wip",
-        reason: "Profile-specific API and theme treatment are still being refined.",
+        status: "done",
       },
+      { label: "ScrollArea", to: "/components/scroll-area", status: "done" },
+      { label: "Separator", to: "/components/separator", status: "done" },
       { label: "Sidebar", to: "/components/sidebar", status: "done" },
       { label: "SidebarItem", to: "/components/sidebar-item", status: "done" },
-    ],
-  },
-  {
-    title: "Message",
-    items: [
-      { label: "MessageItem", to: "/components/message-item", status: "done" },
-      { label: "Translation", to: "/components/message-translation", status: "done" },
-      { label: "Replies", to: "/components/message-replies", status: "done" },
-      { label: "Reference", to: "/components/message-reference", status: "done" },
-      { label: "TaskChip", to: "/components/task-chip", status: "done" },
-      {
-        label: "QuotedPreview",
-        to: "/components/message-quoted-preview",
-        status: "done",
-      },
-      {
-        label: "ForwardedBundle",
-        to: "/components/message-forwarded-bundle",
-        status: "done",
-      },
-      { label: "ActionCard", to: "/components/message-action-card", status: "done" },
-      { label: "Attachment", to: "/components/message-attachment", status: "done" },
-      { label: "System message", to: "/components/system-message", status: "done" },
-    ],
-  },
-  {
-    title: "Chat",
-    items: [
-      {
-        label: "LiveAgentActivityBar",
-        to: "/components/live-agent-activity-bar",
-        status: "done",
-      },
-      {
-        label: "ConversationPanel",
-        to: "/components/conversation-panel",
-        status: "done",
-      },
-      { label: "Search", to: "/components/search", status: "todo" },
-      { label: "ActivityInbox", to: "/components/activity", status: "wip" },
-      { label: "FilesPanel", to: "/components/files", status: "done" },
-      { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
-      {
-        label: "Composer",
-        to: "/components/chat-composer",
-        status: "done",
-      },
-      {
-        label: "ComposerSuggestions",
-        to: "/components/composer-suggestions",
-        status: "done",
-      },
-    ],
-  },
-  {
-    title: "Tasks",
-    items: [
-      { label: "TasksPanel", to: "/components/tasks", status: "todo" },
-      { label: "TaskBoard", to: "/components/task-board", status: "todo" },
-      { label: "TaskList", to: "/components/task-list", status: "todo" },
-      { label: "TaskDnd", to: "/components/task-dnd", status: "todo" },
-      { label: "TaskCard", to: "/components/task-card", status: "todo" },
     ],
   },
   {
     title: "Actions",
     items: [
       { label: "Button", to: "/components/button", status: "done" },
-      {
-        label: "ButtonGroup",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/button",
-        reason: "Add after grouped action semantics and spacing rules are defined.",
-      },
+      { label: "ToggleGroup", to: "/components/toggle-group", status: "done" },
     ],
   },
   {
-    title: "Inputs",
+    title: "Forms",
     items: [
-      { label: "Label", to: "/components/label", status: "done" },
       { label: "Field", to: "/components/field", status: "done" },
+      { label: "Label", to: "/components/label", status: "done" },
       { label: "Input", to: "/components/input", status: "done" },
       { label: "InputGroup", to: "/components/input-group", status: "done" },
       { label: "Textarea", to: "/components/textarea", status: "done" },
@@ -164,61 +76,11 @@ const NAV = [
       { label: "Select", to: "/components/select", status: "done" },
       { label: "Combobox", to: "/components/combobox", status: "done" },
       { label: "SegmentedControl", to: "/components/segmented-control", status: "done" },
-      {
-        label: "NumberField",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/number-field",
-        reason: "Wait for real numeric settings with stepper behavior.",
-      },
-      {
-        label: "Slider",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/slider",
-        reason: "Wait for range controls such as volume, threshold, or tuning parameters.",
-      },
-      {
-        label: "Calendar / DatePicker",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Wait for a concrete date-picking workflow.",
-      },
     ],
   },
   {
     title: "Navigation",
-    items: [
-      { label: "Tabs", to: "/components/tabs", status: "done" },
-      {
-        label: "Menubar",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components/menubar",
-        reason: "Desktop menu-bar pattern is not part of the current product surface.",
-      },
-      {
-        label: "NavigationMenu",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components/navigation-menu",
-        reason: "Marketing/header navigation primitive; not useful for the current doc shell.",
-      },
-      {
-        label: "Breadcrumb",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Wait for deeper routed information architecture.",
-      },
-      {
-        label: "Pagination",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Wait for paged data surfaces.",
-      },
-      {
-        label: "Command",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components/autocomplete",
-        reason: "Command palette behavior is product-specific and should be designed separately.",
-      },
-    ],
+    items: [{ label: "Tabs", to: "/components/tabs", status: "done" }],
   },
   {
     title: "Overlays",
@@ -247,16 +109,20 @@ const NAV = [
     ],
   },
   {
-    title: "Status",
+    title: "Status & Indicators",
     items: [
+      { label: "AttentionDot", to: "/components/attention-dot", status: "done" },
       { label: "Badge", to: "/components/badge", status: "done" },
       { label: "Status", to: "/components/status", status: "done" },
-      {
-        label: "Meter",
-        status: "later",
-        docsHref: "https://base-ui.com/react/components/meter",
-        reason: "Wait for bounded metric displays distinct from Progress.",
-      },
+      { label: "StatusDot", to: "/components/status-dot", status: "done" },
+    ],
+  },
+  {
+    title: "Data Display",
+    items: [
+      { label: "Avatar", to: "/components/avatar", status: "done" },
+      { label: "DescriptionList", to: "/components/description-list", status: "done" },
+      { label: "FilePreview", to: "/components/file-preview", status: "done" },
     ],
   },
   {
@@ -266,35 +132,181 @@ const NAV = [
       { label: "Markdown", to: "/components/markdown", status: "done" },
       { label: "InlineCode", to: "/components/inline-code", status: "done" },
       { label: "CodeBlock", to: "/components/code-block", status: "done" },
-      { label: "Kbd", to: "/components/kbd", status: "done" },
       { label: "CopyableCode", to: "/components/copyable-code", status: "done" },
+      { label: "Kbd", to: "/components/kbd", status: "done" },
+      {
+        label: "SandboxedPreviewFrame",
+        to: "/components/sandboxed-preview-frame",
+        status: "done",
+      },
     ],
   },
   {
     title: "Brand",
     items: [{ label: "Logo", to: "/components/logo", status: "done" }],
   },
+] as const;
+
+const PATTERN_NAV = [
   {
-    title: "Data Display",
+    title: "Messaging",
     items: [
-      { label: "Avatar", to: "/components/avatar", status: "done" },
-      { label: "FilePreview", to: "/components/file-preview", status: "done" },
-      { label: "DescriptionList", to: "/components/description-list", status: "done" },
+      { label: "MessageItem", to: "/components/message-item", status: "done" },
+      { label: "Translation", to: "/components/message-translation", status: "done" },
+      { label: "Replies", to: "/components/message-replies", status: "done" },
+      { label: "Reference", to: "/components/message-reference", status: "done" },
+      { label: "TaskChip", to: "/components/task-chip", status: "done" },
       {
-        label: "Table / DataGrid",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Likely app-specific; design from a real dense-data use case.",
+        label: "QuotedPreview",
+        to: "/components/message-quoted-preview",
+        status: "done",
       },
       {
-        label: "Carousel",
-        status: "parked",
-        docsHref: "https://base-ui.com/react/components",
-        reason: "Not relevant to the current product interface.",
+        label: "ForwardedBundle",
+        to: "/components/message-forwarded-bundle",
+        status: "done",
       },
+      { label: "ActionCard", to: "/components/message-action-card", status: "done" },
+      { label: "Attachment", to: "/components/message-attachment", status: "done" },
+      { label: "SystemMessage", to: "/components/system-message", status: "done" },
+    ],
+  },
+  {
+    title: "Chat",
+    items: [
+      {
+        label: "ConversationPanel",
+        to: "/components/conversation-panel",
+        status: "done",
+      },
+      { label: "Composer", to: "/components/chat-composer", status: "done" },
+      {
+        label: "ComposerSuggestions",
+        to: "/components/composer-suggestions",
+        status: "done",
+      },
+      {
+        label: "LiveAgentActivityBar",
+        to: "/components/live-agent-activity-bar",
+        status: "done",
+      },
+      { label: "Search", to: "/components/search", status: "todo" },
+      { label: "ActivityInbox", to: "/components/activity", status: "wip" },
+      { label: "FilesPanel", to: "/components/files", status: "done" },
+      { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
+    ],
+  },
+  {
+    title: "Tasks",
+    items: [
+      { label: "TasksPanel", to: "/components/tasks", status: "done" },
+      { label: "TaskBoard", to: "/components/task-board", status: "done" },
+      { label: "TaskList", to: "/components/task-list", status: "done" },
+      { label: "TaskDnd", to: "/components/task-dnd", status: "done" },
+      { label: "TaskCard", to: "/components/task-card", status: "done" },
     ],
   },
 ] as const;
+
+const ROADMAP = {
+  title: "Roadmap",
+  items: [
+    {
+      label: "Next",
+      items: [
+        {
+          label: "Collapsible",
+          status: "later",
+          docsHref: "https://base-ui.com/react/components/collapsible",
+          reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
+        },
+        {
+          label: "Accordion",
+          status: "later",
+          docsHref: "https://base-ui.com/react/components/accordion",
+          reason: "Grouped disclosure pattern; build after Collapsible settles.",
+        },
+        {
+          label: "ButtonGroup",
+          status: "later",
+          docsHref: "https://base-ui.com/react/components/button",
+          reason: "Add after grouped action semantics and spacing rules are defined.",
+        },
+        {
+          label: "NumberField",
+          status: "later",
+          docsHref: "https://base-ui.com/react/components/number-field",
+          reason: "Wait for real numeric settings with stepper behavior.",
+        },
+        {
+          label: "Slider",
+          status: "later",
+          docsHref: "https://base-ui.com/react/components/slider",
+          reason: "Wait for range controls such as volume, threshold, or tuning parameters.",
+        },
+        {
+          label: "Meter",
+          status: "later",
+          docsHref: "https://base-ui.com/react/components/meter",
+          reason: "Wait for bounded metric displays distinct from Progress.",
+        },
+      ],
+    },
+    {
+      label: "Parked",
+      items: [
+        {
+          label: "Breadcrumb",
+          status: "parked",
+          docsHref: "https://base-ui.com/react/components",
+          reason: "Wait for deeper routed information architecture.",
+        },
+        {
+          label: "Pagination",
+          status: "parked",
+          docsHref: "https://base-ui.com/react/components",
+          reason: "Wait for paged data surfaces.",
+        },
+        {
+          label: "Table / DataGrid",
+          status: "parked",
+          docsHref: "https://base-ui.com/react/components",
+          reason: "Likely app-specific; design from a real dense-data use case.",
+        },
+        {
+          label: "Calendar / DatePicker",
+          status: "parked",
+          docsHref: "https://base-ui.com/react/components",
+          reason: "Wait for a concrete date-picking workflow.",
+        },
+        {
+          label: "Command",
+          status: "parked",
+          docsHref: "https://base-ui.com/react/components/autocomplete",
+          reason: "Command palette behavior is product-specific and should be designed separately.",
+        },
+        {
+          label: "NavigationMenu",
+          status: "parked",
+          docsHref: "https://base-ui.com/react/components/navigation-menu",
+          reason: "Marketing/header navigation primitive; not useful for the current doc shell.",
+        },
+        {
+          label: "Menubar",
+          status: "parked",
+          docsHref: "https://base-ui.com/react/components/menubar",
+          reason: "Desktop menu-bar pattern is not part of the current product surface.",
+        },
+        {
+          label: "Carousel",
+          status: "parked",
+          docsHref: "https://base-ui.com/react/components",
+          reason: "Not relevant to the current product interface.",
+        },
+      ],
+    },
+  ],
+} as const;
 
 type NavStatus = "done" | "wip" | "todo" | "later" | "parked" | "internal" | "skipped";
 
@@ -305,6 +317,7 @@ type NavItem = {
   hash?: string;
   status?: NavStatus;
   reason?: string;
+  items?: readonly NavItem[];
 };
 
 type BadgeVariant =
@@ -458,11 +471,30 @@ function NavGroup({
       ) : null}
       {items.length > 0 ? (
         <ul className="space-y-1">
-          {items.map((item) => (
-            <li key={item.label}>
-              <NavRow item={item} badge={<StatusBadge status={item.status} />} />
-            </li>
-          ))}
+          {items.map((item) => {
+            if (item.items) {
+              return (
+                <li key={item.label} className="pt-1">
+                  <p className="px-2 py-1 text-xs font-medium text-foreground-muted">
+                    {item.label}
+                  </p>
+                  <ul className="ml-2 space-y-1">
+                    {item.items.map((child) => (
+                      <li key={child.label}>
+                        <NavRow item={child} badge={<StatusBadge status={child.status} />} />
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              );
+            }
+
+            return (
+              <li key={item.label}>
+                <NavRow item={item} badge={<StatusBadge status={item.status} />} />
+              </li>
+            );
+          })}
         </ul>
       ) : null}
     </div>
@@ -551,9 +583,22 @@ function MobileNavGroup({
         )}
       </h2>
       <div className="flex flex-col gap-2">
-        {items.map((item) => (
-          <MobileNavItem key={item.label} item={item} onNavigate={onNavigate} />
-        ))}
+        {items.map((item) => {
+          if (item.items) {
+            return (
+              <div key={item.label}>
+                <p className="px-3 py-2 text-sm font-medium text-foreground-muted">{item.label}</p>
+                <div className="ml-3 flex flex-col gap-2">
+                  {item.items.map((child) => (
+                    <MobileNavItem key={child.label} item={child} onNavigate={onNavigate} />
+                  ))}
+                </div>
+              </div>
+            );
+          }
+
+          return <MobileNavItem key={item.label} item={item} onNavigate={onNavigate} />;
+        })}
       </div>
     </section>
   );
@@ -585,14 +630,6 @@ function MobileSidebar() {
   }, [open]);
 
   const close = () => setOpen(false);
-  const primaryItems: readonly NavItem[] = [
-    { label: "Home", to: "/" },
-    { label: "Installation", to: "/installation" },
-    { label: "Changelog", to: "/changelog" },
-    { label: "Playground", to: "/playground" },
-    { label: "Lab", to: "/lab" },
-    { label: "Migration", to: "/migration" },
-  ];
 
   return (
     <div
@@ -631,20 +668,22 @@ function MobileSidebar() {
         >
           <div className="mx-auto max-w-xl space-y-9">
             <div className="flex flex-col gap-2">
-              {primaryItems.map((item) => (
+              {PRIMARY_NAV.map((item) => (
                 <MobileNavItem key={item.label} item={item} onNavigate={close} />
               ))}
             </div>
 
-            <MobileNavGroup title={SKILLS.title} items={SKILLS.items} onNavigate={close} />
+            <MobileNavGroup {...FOUNDATIONS} onNavigate={close} />
 
-            {TOKENS.map((group) => (
+            {COMPONENT_NAV.map((group) => (
               <MobileNavGroup key={group.title} {...group} onNavigate={close} />
             ))}
 
-            {NAV.map((group) => (
+            {PATTERN_NAV.map((group) => (
               <MobileNavGroup key={group.title} {...group} onNavigate={close} />
             ))}
+
+            <MobileNavGroup {...ROADMAP} onNavigate={close} />
           </div>
         </nav>
       ) : null}
@@ -662,37 +701,28 @@ export function Sidebar() {
         </Link>
         <nav className="mt-8 space-y-8">
           <ul className="space-y-1">
-            <li>
-              <NavRow item={{ label: "Home", to: "/" }} />
-            </li>
-            <li>
-              <NavRow item={{ label: "Installation", to: "/installation" }} />
-            </li>
-            <li>
-              <NavRow item={{ label: "Changelog", to: "/changelog" }} badge={<VersionBadge />} />
-            </li>
-            <li>
-              <NavRow item={{ label: "Playground", to: "/playground" }} />
-            </li>
-            <li>
-              <NavRow item={{ label: "Lab", to: "/lab" }} />
-            </li>
-            <li>
-              <NavRow item={{ label: "Migration", to: "/migration" }} />
-            </li>
+            {PRIMARY_NAV.map((item) => (
+              <li key={item.label}>
+                <NavRow item={item} badge={item.to === "/changelog" ? <VersionBadge /> : null} />
+              </li>
+            ))}
           </ul>
 
-          <NavGroup title={SKILLS.title} items={SKILLS.items} />
+          <NavGroup {...FOUNDATIONS} />
 
-          {TOKENS.map((group) => (
+          <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+
+          {COMPONENT_NAV.map((group) => (
             <NavGroup key={group.title} {...group} />
           ))}
 
           <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
 
-          {NAV.map((group) => (
+          {PATTERN_NAV.map((group) => (
             <NavGroup key={group.title} {...group} />
           ))}
+
+          <NavGroup {...ROADMAP} />
         </nav>
       </aside>
     </>
