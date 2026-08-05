@@ -91,7 +91,7 @@ const toastStyles = tv({
           "col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end gap-1",
         ],
         close: [
-          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground-strong/70 shadow-raft-xs",
+          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground-strong shadow-raft-xs",
           "hover:bg-layer-panel hover:text-foreground-strong hover:-translate-y-px hover:shadow-raft-sm",
           "active:translate-x-px active:translate-y-px active:shadow-none",
         ],

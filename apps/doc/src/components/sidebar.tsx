@@ -5,13 +5,13 @@ import { Globe2, Menu, X } from "lucide-react";
 
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
-const PRIMARY_NAV = [
+const PRIMARY_NAV: readonly NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Installation", to: "/installation" },
   { label: "Changelog", to: "/changelog" },
   { label: "Playground", to: "/playground" },
-  { label: "Lab", to: "/lab", status: "internal" },
-] as const;
+  { label: "Lab", to: "/lab" },
+];
 
 const FOUNDATIONS = {
   title: "Foundations",
