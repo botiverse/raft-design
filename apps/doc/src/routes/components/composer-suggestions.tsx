@@ -271,7 +271,7 @@ function ComposerSuggestionsDoc() {
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview previewClassName="items-stretch">
+        <Preview previewClassName="items-stretch bg-layer-inset">
           <Preview.Canvas>
             <div className="relative h-[460px] w-full overflow-hidden">
               <p className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-xs text-foreground-muted">
@@ -297,7 +297,7 @@ function ComposerSuggestionsDoc() {
       <DocSection id="usage" title="Usage">
         <div className="grid gap-8">
           <DocSubsection parentId="usage" id="people" title="People">
-            <Preview previewClassName="min-h-[26rem] items-stretch">
+            <Preview previewClassName="min-h-[26rem] items-stretch bg-layer-inset">
               <Preview.Canvas>
                 <div className="h-[26rem] w-full max-w-[560px]">
                   <ComposerSuggestionComposition initialValue="@" />
@@ -316,7 +316,7 @@ function ComposerSuggestionsDoc() {
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="channels" title="Channels">
-            <Preview previewClassName="min-h-[26rem] items-stretch">
+            <Preview previewClassName="min-h-[26rem] items-stretch bg-layer-inset">
               <Preview.Canvas>
                 <div className="h-[26rem] w-full max-w-[560px]">
                   <ComposerSuggestionComposition initialValue="#" />
@@ -335,7 +335,7 @@ function ComposerSuggestionsDoc() {
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="filtered-people" title="Filtered people">
-            <Preview previewClassName="min-h-[26rem] items-stretch">
+            <Preview previewClassName="min-h-[26rem] items-stretch bg-layer-inset">
               <Preview.Canvas>
                 <div className="h-[26rem] w-full max-w-[560px]">
                   <ComposerSuggestionComposition initialValue="@av" />

@@ -39,8 +39,7 @@ function OnboardingDialogParts() {
             className={cn(
               "flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground",
               isBrutal && "size-7 border-2 border-black bg-[oklch(0.883_0.162_91.89)] text-black",
-              isElegant &&
-                "rounded-md border-transparent bg-[oklch(0.97_0.07_91.89)] text-[oklch(0.56_0.12_83)]",
+              isElegant && "rounded-md border-transparent bg-primary-soft text-primary-strong",
             )}
           >
             <Monitor className={cn("size-4", isBrutal && "size-[17px]")} />
@@ -56,7 +55,11 @@ function OnboardingDialogParts() {
           </DialogTitle>
         </div>
         <div className="grid gap-2">
-          <Text.Sans size="body" variant="placeholder" className="text-pretty text-black">
+          <Text.Sans
+            size="body"
+            variant="placeholder"
+            className={cn("text-pretty text-foreground", isBrutal && "text-black")}
+          >
             Your agents need somewhere to run. Connect a computer and they&apos;ll come online
             there.
           </Text.Sans>

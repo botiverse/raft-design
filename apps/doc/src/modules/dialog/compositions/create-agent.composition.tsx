@@ -77,7 +77,7 @@ function CreateAgentDialogParts() {
         </Field>
         <div
           className={cn(
-            "grid gap-2 rounded-md border border-[oklch(0.94_0_0)] bg-layer-panel p-3 shadow-none",
+            "grid gap-2 rounded-md border border-line-muted bg-layer-panel p-3 shadow-none",
             "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-line-strong [[data-theme=brutal]_&]:bg-layer-panel [[data-theme=brutal]_&]:shadow-raft-sm",
           )}
         >
