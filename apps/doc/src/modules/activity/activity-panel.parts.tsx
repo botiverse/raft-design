@@ -24,7 +24,7 @@ const sourceButtonMotion = [
   "active:shadow-[1px_1px_0px_oklch(0.1812926_0.0049716_17.6198)]",
 ];
 
-export const activityShell = tv({
+const activityShell = tv({
   slots: {
     root: ["group/activity-inbox flex h-full min-h-0 flex-1 flex-col"],
     header: ["flex shrink-0 items-center gap-3"],
@@ -175,7 +175,7 @@ export const activityShell = tv({
         loadingMore: ["font-bold text-black/40"],
       },
       elegant: {
-        root: ["bg-layer-page text-foreground"],
+        root: ["bg-layer-panel text-foreground", "dark:bg-transparent"],
         header: [
           "min-h-[var(--shell-header-height,56px)]",
           "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-page",
@@ -214,7 +214,7 @@ export const activityShell = tv({
         controls: [
           "border-b border-line-hairline bg-layer-panel",
           "dark:border-line-hairline dark:bg-transparent",
-          "px-4 max-md:pl-5 max-md:pr-3.5",
+          "px-7 max-md:pl-5 max-md:pr-3.5",
         ],
         mobileNavigationButton: [
           "rounded-md border border-line-field bg-layer-panel font-medium text-foreground-strong",
@@ -264,7 +264,7 @@ export const activityShell = tv({
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         selectionToolbar: [
-          "border-b border-line-hairline px-4 max-md:pl-5 max-md:pr-3.5",
+          "border-b border-line-hairline px-7 max-md:pl-5 max-md:pr-3.5",
           "dark:border-line-hairline",
         ],
         selectionCount: ["font-medium text-foreground-strong"],
@@ -294,7 +294,7 @@ export const activityShell = tv({
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         sortContent: ["p-1"],
-        viewport: ["bg-layer-panel dark:bg-transparent", "px-4 max-md:pl-5 max-md:pr-3.5"],
+        viewport: ["bg-layer-panel dark:bg-transparent", "px-7 max-md:pl-5 max-md:pr-3.5"],
         loadingMore: ["font-medium text-foreground-placeholder"],
       },
     },
@@ -457,6 +457,19 @@ export function ActivityPanelSidebarHeadingLabel({ className, ...props }: Compon
     <span
       data-slot="activity-inbox-sidebar-heading-label"
       className={sidebarHeadingLabel({ className })}
+      {...props}
+    />
+  );
+}
+
+export function ActivityPanelSidebarShowAllLink({ className, ...props }: ComponentProps<"button">) {
+  const theme = useThemeFamily();
+  const { sidebarShowAllLink, toolbarLink } = activityShell({ theme });
+  return (
+    <button
+      type="button"
+      data-slot="activity-inbox-sidebar-show-all-link"
+      className={toolbarLink({ className: sidebarShowAllLink({ className }) })}
       {...props}
     />
   );
@@ -825,4 +838,16 @@ export function ActivityPanelViewport({ className, ...props }: ComponentProps<"d
   const theme = useThemeFamily();
   const { viewport } = activityShell({ theme });
   return <div data-slot="activity-inbox-viewport" className={viewport({ className })} {...props} />;
+}
+
+export function ActivityPanelLoadingMore({ className, ...props }: ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { loadingMore } = activityShell({ theme });
+  return (
+    <div
+      data-slot="activity-inbox-loading-more"
+      className={loadingMore({ className })}
+      {...props}
+    />
+  );
 }

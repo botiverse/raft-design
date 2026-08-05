@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useThemeFamily } from "raft-ui";
 import {
   SearchResultsList,
   SearchResultsSection,
@@ -18,9 +17,9 @@ import {
   MessageResult,
   SearchEmpty,
   SearchError,
-  searchShell,
   SearchSkeleton,
   ThreadResult,
+  useSearchShell,
 } from "./search-panel.parts.tsx";
 
 type MessageGroup =
@@ -89,8 +88,7 @@ export function BrutalSearchResults({
   onOpenMessage: (message: SearchMessageFixture) => void;
   onLoadMore: () => void;
 }) {
-  const theme = useThemeFamily();
-  const shell = searchShell({ theme });
+  const shell = useSearchShell();
   const [recovered, setRecovered] = useState(false);
   const groups = groupMessages(messages);
   const totalResults = entities.length + messageCount;
@@ -107,10 +105,10 @@ export function BrutalSearchResults({
           </SearchResultsSummary>
 
           {view === "loading" ? (
-            <>
+            <SearchResultsSection>
               <SearchResultsSectionHeading>Messages</SearchResultsSectionHeading>
               <SearchSkeleton />
-            </>
+            </SearchResultsSection>
           ) : showError ? (
             <SearchError onRetry={() => setRecovered(true)} />
           ) : totalResults === 0 ? (

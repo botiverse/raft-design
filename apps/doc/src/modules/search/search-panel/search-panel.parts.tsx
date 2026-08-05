@@ -52,7 +52,7 @@ export type BrutalSearchScope = "mentioned" | "humans" | "agents";
 export type BrutalSearchTimeRange = "any" | "today" | "7d" | "30d";
 export type BrutalSearchSort = "relevance" | "recent";
 
-export const searchShell = tv({
+const searchShell = tv({
   slots: {
     frame: ["flex h-full min-h-0 flex-1 flex-col"],
     header: ["flex items-center gap-3"],
@@ -178,9 +178,9 @@ export const searchShell = tv({
         ],
         inputKbd: ["text-foreground-muted"],
         filtersRow: [
-          "border-b border-line-hairline bg-layer-panel",
+          "border-b border-line-muted bg-layer-panel",
           "px-7 max-md:pl-5 max-md:pr-3.5",
-          "dark:border-ink-10 dark:bg-transparent",
+          "dark:bg-transparent",
         ],
         channelActiveChip: [
           "rounded-md border border-line-hairline bg-fill-muted font-medium text-foreground-strong",
@@ -258,6 +258,11 @@ export const searchShell = tv({
     },
   },
 });
+
+export function useSearchShell() {
+  const theme = useThemeFamily();
+  return searchShell({ theme });
+}
 
 const SEARCH_RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 

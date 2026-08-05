@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useThemeFamily } from "raft-ui";
+import { ResizableGroup, ResizableHandle, ResizablePanel, useThemeFamily } from "raft-ui";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { type ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
@@ -15,6 +15,7 @@ import {
 } from "../mock/index.ts";
 import { PlaygroundChannelPanel } from "../conversation/playground-channel-panel.tsx";
 import { PlaygroundDmPanel } from "../conversation/playground-dm-panel.tsx";
+import { usePlaygroundLargeDesktop } from "../app-shell/use-playground-desktop.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
 import { usePlaygroundActivityState } from "./activity-state.tsx";
@@ -22,6 +23,7 @@ import { usePlaygroundActivityState } from "./activity-state.tsx";
 export function PlaygroundActivityPanel() {
   const theme = useThemeFamily();
   const navigate = useNavigate();
+  const isLargeDesktop = usePlaygroundLargeDesktop();
   const { items, setItems } = usePlaygroundActivityState();
   const { selectRailView } = usePlaygroundNavigation();
   const [activeItemId, setActiveItemId] = useState<string>();
@@ -95,7 +97,7 @@ export function PlaygroundActivityPanel() {
       activationTimerRef.current = null;
     }
 
-    if (activation.compact || activation.detail >= 2) {
+    if (!isLargeDesktop || activation.compact || activation.detail >= 2) {
       markRead(item.id);
       navigateToItem(item);
       return;
@@ -108,42 +110,72 @@ export function PlaygroundActivityPanel() {
     }, 220);
   }
 
+  const activityPanel = (
+    <ActivityInboxComposition
+      items={compositionItems}
+      onItemsChange={commitCompositionItems}
+      onBack={() => selectRailView("chat")}
+      onOpenItem={activateItem}
+    />
+  );
+
+  if (!activeChannel || !isLargeDesktop) {
+    return <div className="flex min-w-0 flex-1">{activityPanel}</div>;
+  }
+
+  const detailPanel = activeThread ? (
+    <PlaygroundThreadPanel
+      key={activeThread.parent.id}
+      channel={activeChannel}
+      thread={activeThread}
+    />
+  ) : activeChannel.kind === "dm" ? (
+    <PlaygroundDmPanel key={activeChannel.id} dm={activeChannel} />
+  ) : (
+    <PlaygroundChannelPanel key={activeChannel.id} channel={activeChannel} />
+  );
+
   return (
-    <div className="flex min-w-0 flex-1">
-      <div
+    <ResizableGroup orientation="horizontal" className="min-w-0 flex-1">
+      <ResizablePanel id="playground-activity-list" minSize={520} className="relative min-w-0">
+        <div className="flex h-full min-w-0">{activityPanel}</div>
+      </ResizablePanel>
+      <ResizableHandle
         className={
-          activeChannel
-            ? theme === "brutal"
-              ? "flex min-w-0 flex-[0_1_48rem] border-r-2 border-black"
-              : "flex min-w-0 flex-[0_1_48rem]"
-            : "flex min-w-0 flex-1"
+          theme === "brutal" ? "z-50 ml-0 mr-0 w-0 border-l-2 border-black bg-transparent" : "z-50"
         }
+      />
+      <ResizablePanel
+        id="playground-activity-detail"
+        defaultSize={520}
+        minSize={380}
+        maxSize="65vw"
+        groupResizeBehavior="preserve-pixel-size"
+        className="relative z-10 min-w-0 !overflow-visible"
       >
-        <ActivityInboxComposition
-          items={compositionItems}
-          onItemsChange={commitCompositionItems}
-          onBack={() => selectRailView("chat")}
-          onOpenItem={activateItem}
-        />
-      </div>
-      {activeChannel ? (
         <div
           className={
             theme === "brutal"
-              ? "hidden min-w-0 flex-1 md:flex"
-              : "relative hidden min-w-0 flex-1 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-subtle before:content-[''] md:flex"
+              ? "flex h-full min-h-0 min-w-0 bg-white"
+              : activeThread
+                ? "flex h-full min-h-0 min-w-0 bg-layer-page pl-2"
+                : "flex h-full min-h-0 min-w-0 bg-layer-panel"
           }
         >
-          {activeThread ? (
-            <PlaygroundThreadPanel channel={activeChannel} thread={activeThread} />
-          ) : activeChannel.kind === "dm" ? (
-            <PlaygroundDmPanel dm={activeChannel} />
-          ) : (
-            <PlaygroundChannelPanel channel={activeChannel} />
-          )}
+          <div
+            className={
+              theme === "brutal"
+                ? "flex min-h-0 min-w-0 flex-1"
+                : activeThread
+                  ? "flex min-h-0 min-w-0 flex-1 overflow-hidden rounded-l-[10px] bg-layer-panel shadow-raft-xl"
+                  : "flex min-h-0 min-w-0 flex-1"
+            }
+          >
+            {detailPanel}
+          </div>
         </div>
-      ) : null}
-    </div>
+      </ResizablePanel>
+    </ResizableGroup>
   );
 }
 

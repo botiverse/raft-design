@@ -79,6 +79,7 @@ import {
   ActivityPanelHeaderSubtitle,
   ActivityPanelHeaderTitle,
   ActivityPanelLayout,
+  ActivityPanelLoadingMore,
   ActivityPanelMain,
   ActivityPanelMobileNavigation,
   ActivityPanelMobileNavigationButton,
@@ -96,6 +97,7 @@ import {
   ActivityPanelSidebar,
   ActivityPanelSidebarHeading,
   ActivityPanelSidebarHeadingLabel,
+  ActivityPanelSidebarShowAllLink,
   ActivityPanelSidebarSection,
   ActivityPanelSortTrigger,
   ActivityPanelSortContent,
@@ -114,7 +116,6 @@ import {
   ActivityPanelToolbarLink,
   ActivityPanelToolbarPrimaryAction,
   ActivityPanelViewport,
-  activityShell,
 } from "../activity-panel.parts.tsx";
 import {
   useEffect,
@@ -199,8 +200,6 @@ export function ActivityInboxComposition({
   loading = false,
   loadingMore = false,
 }: ActivityInboxCompositionProps = {}) {
-  const theme = useThemeFamily();
-  const shell = activityShell({ theme });
   const [localItems, setLocalItems] = useState<readonly ActivityCompositionItem[]>(defaultItems);
   const items = controlledItems ?? localItems;
   const [view, setView] = useState<ActivityView>(defaultView);
@@ -398,12 +397,9 @@ export function ActivityInboxComposition({
           <ActivityPanelSidebarHeading>
             <ActivityPanelSidebarHeadingLabel>DM &amp; Channels</ActivityPanelSidebarHeadingLabel>
             {channelFilterId ? (
-              <ActivityPanelToolbarLink
-                className={shell.sidebarShowAllLink()}
-                onClick={() => setChannelFilterId(undefined)}
-              >
+              <ActivityPanelSidebarShowAllLink onClick={() => setChannelFilterId(undefined)}>
                 Show all
-              </ActivityPanelToolbarLink>
+              </ActivityPanelSidebarShowAllLink>
             ) : null}
           </ActivityPanelSidebarHeading>
           <ActivityPanelSidebarSection className="gap-0">
@@ -694,7 +690,9 @@ export function ActivityInboxComposition({
                     }
                   />
                 ))}
-                {loadingMore ? <div className={shell.loadingMore()}>Loading more…</div> : null}
+                {loadingMore ? (
+                  <ActivityPanelLoadingMore>Loading more…</ActivityPanelLoadingMore>
+                ) : null}
               </ActivityInboxList>
             )}
           </ActivityPanelViewport>
