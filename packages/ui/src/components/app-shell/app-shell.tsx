@@ -27,6 +27,7 @@ const appShell = tv({
     railSlot: ["hidden h-full shrink-0 flex-col md:flex"],
     sidebarSlot: ["hidden min-h-0 shrink-0 flex-col md:flex"],
     mainSlot: ["flex min-h-0 min-w-0 flex-1 flex-col"],
+    panelSlot: ["hidden min-h-0 min-w-0 flex-col md:flex"],
   },
   variants: {
     theme: {
@@ -198,6 +199,24 @@ export function AppShellSidebarSlot({ className, render, ...props }: AppShellSid
       ),
     }),
     ref: setElementRef,
+  };
+
+  return useRender({
+    defaultTagName: "aside",
+    render,
+    props: mergeProps<"aside">(defaultProps, props),
+  });
+}
+
+export type AppShellPanelSlotProps = useRender.ComponentProps<"aside">;
+
+export function AppShellPanelSlot({ className, render, ...props }: AppShellPanelSlotProps) {
+  const theme = useThemeFamily();
+  const { panelSlot } = appShell({ theme });
+
+  const defaultProps: SlotElementProps<"aside"> = {
+    "data-slot": "app-shell-panel-slot",
+    className: panelSlot({ className }),
   };
 
   return useRender({

@@ -8,7 +8,11 @@ import {
 } from "../mock/index.ts";
 
 export type PlaygroundSearch = {
+  content?: string;
+  context?: string;
   detail?: string;
+  query?: string;
+  surface?: string;
 };
 
 export type PlaygroundChannelSearch = {
@@ -21,9 +25,21 @@ export type PlaygroundChannelSearch = {
 };
 
 export function validatePlaygroundSearch(search: Record<string, unknown>): PlaygroundSearch {
-  return typeof search.detail === "string" && search.detail.length > 0
-    ? { detail: search.detail }
-    : {};
+  return {
+    ...(typeof search.content === "string" && search.content.length > 0
+      ? { content: search.content }
+      : {}),
+    ...(typeof search.context === "string" && search.context.length > 0
+      ? { context: search.context }
+      : {}),
+    ...(typeof search.detail === "string" && search.detail.length > 0
+      ? { detail: search.detail }
+      : {}),
+    ...(typeof search.query === "string" && search.query.length > 0 ? { query: search.query } : {}),
+    ...(typeof search.surface === "string" && search.surface.length > 0
+      ? { surface: search.surface }
+      : {}),
+  };
 }
 
 export function validatePlaygroundChannelSearch(

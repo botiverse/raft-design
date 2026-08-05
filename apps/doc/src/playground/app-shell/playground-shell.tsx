@@ -42,10 +42,16 @@ export function PlaygroundShell() {
       className={lockMobileHeight ? "h-full" : "h-full max-md:h-auto max-md:min-h-dvh"}
     >
       <PlaygroundNavigationProvider
+        contentId={route.contentId}
+        contextId={route.contextId}
+        searchQuery={route.searchQuery}
         railView={route.railView}
         railDetailId={route.railDetailId}
         onRailViewChange={route.selectRailView}
         onRailDetailChange={route.selectRailDetail}
+        onContentChange={route.selectContent}
+        onContextChange={route.selectContext}
+        onSearchQueryChange={route.setSearchQuery}
       >
         <PlaygroundShellStateProvider>
           <PlaygroundActivityStateProvider>

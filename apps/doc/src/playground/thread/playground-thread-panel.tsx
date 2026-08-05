@@ -40,11 +40,15 @@ import { TaskStatusBadge } from "../tasks/task-status-badge.tsx";
 export function PlaygroundThreadPanel({
   backToTasks,
   channel,
+  onClose,
+  onViewConversation,
   task,
   thread,
 }: {
   backToTasks?: boolean;
   channel: PlaygroundChannelRecord;
+  onClose?: () => void;
+  onViewConversation?: () => void;
   task?: PlaygroundTask;
   thread: PlaygroundThread;
 }) {
@@ -108,15 +112,16 @@ export function PlaygroundThreadPanel({
           className="mr-1 lg:hidden"
           variant="outline"
           size="icon-sm"
-          nativeButton={false}
+          nativeButton={onClose ? undefined : false}
           aria-label={backToTasks ? "Back to Tasks" : `Back to ${conversationLabel}`}
           render={
-            backToTasks ? (
+            onClose ? undefined : backToTasks ? (
               <Link to="/playground/tasks" search={{}} />
             ) : (
               <PlaygroundConversationLink conversation={channel} />
             )
           }
+          onClick={onClose}
         >
           <ChevronLeft aria-hidden />
         </Button>
@@ -129,9 +134,12 @@ export function PlaygroundThreadPanel({
             <Search />
           </PanelAction>
           <PanelAction
-            nativeButton={false}
+            nativeButton={onViewConversation ? undefined : false}
             aria-label={`View in ${conversationLabel}`}
-            render={<PlaygroundConversationLink conversation={channel} />}
+            render={
+              onViewConversation ? undefined : <PlaygroundConversationLink conversation={channel} />
+            }
+            onClick={onViewConversation}
           >
             <ExternalLink />
 
@@ -141,9 +149,10 @@ export function PlaygroundThreadPanel({
           </PanelAction>
           <PanelAction
             className="max-lg:hidden"
-            nativeButton={false}
+            nativeButton={onClose ? undefined : false}
             aria-label="Close thread"
-            render={<PlaygroundConversationLink conversation={channel} />}
+            render={onClose ? undefined : <PlaygroundConversationLink conversation={channel} />}
+            onClick={onClose}
           >
             <X />
           </PanelAction>

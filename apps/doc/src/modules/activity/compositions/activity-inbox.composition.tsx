@@ -182,6 +182,7 @@ export type ActivityInboxCompositionProps = {
     item: ActivityCompositionItem,
     activation: { compact: boolean; detail: number },
   ) => void;
+  openItemId?: string | null;
   onBack?: () => void;
   layout?: ActivityLayout;
   defaultView?: ActivityView;
@@ -194,6 +195,7 @@ export function ActivityInboxComposition({
   defaultItems = ACTIVITY_COMPOSITION_ITEMS,
   onItemsChange,
   onOpenItem,
+  openItemId: controlledOpenItemId,
   onBack,
   layout = "auto",
   defaultView = "active",
@@ -209,7 +211,9 @@ export function ActivityInboxComposition({
   const [query, setQuery] = useState("");
   const [sortDirection, setSortDirection] = useState<ActivitySortDirection>("desc");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
-  const [openItemId, setOpenItemId] = useState<string>();
+  const [localOpenItemId, setLocalOpenItemId] = useState<string>();
+  const openItemId =
+    controlledOpenItemId === undefined ? localOpenItemId : (controlledOpenItemId ?? undefined);
   const [mobileSwitcherOpen, setMobileSwitcherOpen] = useState(false);
   const [measuredLayout, setMeasuredLayout] = useState<Exclude<ActivityLayout, "auto">>("wide");
   const rootRef = useRef<HTMLDivElement>(null);
@@ -650,7 +654,7 @@ export function ActivityInboxComposition({
                     view={view}
                     portalContainer={rootRef}
                     onOpen={(detail) => {
-                      setOpenItemId(item.id);
+                      setLocalOpenItemId(item.id);
                       onOpenItem?.(item, {
                         compact: resolvedLayout === "compact",
                         detail,

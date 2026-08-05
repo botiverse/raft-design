@@ -1392,6 +1392,7 @@ export type { SeparatorProps } from "./components/separator/index";
 
 export {
   AppShellMainSlot,
+  AppShellPanelSlot,
   AppShellRailSlot,
   AppShellRoot,
   AppShellSidebarSlot,
@@ -1399,6 +1400,7 @@ export {
 } from "./components/app-shell/index";
 export type {
   AppShellMainSlotProps,
+  AppShellPanelSlotProps,
   AppShellRailSlotProps,
   AppShellRootProps,
   AppShellSidebarSlotProps,

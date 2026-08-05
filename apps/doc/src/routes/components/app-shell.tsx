@@ -28,6 +28,7 @@ const SNIPPETS = {
   responsiveComposition: appShellResponsiveCompositionSource,
   anatomy: `import {
   AppShellMainSlot,
+  AppShellPanelSlot,
   AppShellRailSlot,
   AppShellRoot,
   AppShellSidebarSlot,
@@ -37,6 +38,7 @@ const SNIPPETS = {
   <AppShellRailSlot>...</AppShellRailSlot>
   <AppShellSidebarSlot>...</AppShellSidebarSlot>
   <AppShellMainSlot>...</AppShellMainSlot>
+  <AppShellPanelSlot>...</AppShellPanelSlot>
 </AppShellRoot>`,
 } as const;
 
@@ -94,6 +96,15 @@ const APP_SHELL_MAIN_SLOT_PROPS: readonly PropRow[] = [
   },
 ];
 
+const APP_SHELL_PANEL_SLOT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"aside">',
+    description:
+      "Optional secondary column. Place it in a caller-owned ResizablePanel when the user can adjust the split; the caller owns its width and surface.",
+  },
+];
+
 const APP_SHELL_SIDEBAR_TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -114,7 +125,7 @@ function AppShellDoc() {
   return (
     <DocPage
       title="AppShell"
-      description="Layout-only foundations for rail, sidebar, and main content."
+      description="Layout-only foundations for rail, sidebar, main content, and optional panels."
       toc={TOC}
       articleClassName="max-w-none"
     >
@@ -188,6 +199,9 @@ function AppShellDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-app-shell-main-slot" title="AppShellMainSlot">
             <PropsTable rows={APP_SHELL_MAIN_SLOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-app-shell-panel-slot" title="AppShellPanelSlot">
+            <PropsTable rows={APP_SHELL_PANEL_SLOT_PROPS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"
