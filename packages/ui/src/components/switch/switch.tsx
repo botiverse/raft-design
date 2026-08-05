@@ -6,12 +6,14 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const switchRecipe = tv({
   slots: {
     root: [
-      "group/switch relative inline-flex shrink-0 touch-manipulation items-center outline-none",
+      "relative inline-flex shrink-0 touch-manipulation items-center outline-none",
       "transition-[background-color,box-shadow,transform] duration-180 ease-out",
       "motion-reduce:transition-none",
       "not-data-[disabled]:cursor-pointer",
-      "data-[disabled]:cursor-not-allowed data-[disabled]:active:scale-100",
+      "data-[disabled]:cursor-not-allowed",
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
+      "data-[checked]:bg-primary-400",
+      "focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
     ],
     thumb: [
       "pointer-events-none block",
@@ -23,13 +25,12 @@ const switchRecipe = tv({
     theme: {
       brutal: {
         root: [
-          "rounded-none border-2 border-line-strong bg-layer-panel",
-          "hover:bg-primary-400/30 data-[checked]:bg-primary-400 data-[checked]:hover:bg-primary-400",
-          "data-[disabled]:border-line-hairline data-[disabled]:bg-fill-muted data-[disabled]:hover:bg-fill-muted",
-          "data-[checked]:data-[disabled]:bg-fill-muted data-[checked]:data-[disabled]:hover:bg-fill-muted",
-          "focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
+          "border-2 border-line-strong bg-layer-panel",
+          "not-data-[disabled]:hover:bg-primary-400/30 data-[checked]:not-data-[disabled]:hover:bg-primary-400",
+          "data-[disabled]:border-line-hairline data-[disabled]:bg-fill-muted",
+          "data-[checked]:data-[disabled]:bg-fill-muted",
         ],
-        thumb: ["rounded-none bg-line-strong shadow-none", "data-[disabled]:bg-line"],
+        thumb: ["bg-line-strong", "data-[disabled]:bg-line"],
       },
       elegant: {
         root: [
@@ -37,23 +38,21 @@ const switchRecipe = tv({
           "dark:not-data-[checked]:not-data-[disabled]:bg-layer-inset",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.08)]",
           "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.35),inset_0_0_0_1px_oklch(0_0_0_/_0.4),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
-          "hover:bg-foreground-strong/[0.16]",
+          "not-data-[disabled]:hover:bg-foreground-strong/[0.16]",
           "dark:not-data-[checked]:not-data-[disabled]:hover:bg-layer-card",
-          "data-[checked]:bg-primary-400 data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_1px_1.5px_-1px_oklch(0_0_0_/_0.12)]",
+          "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_1px_1.5px_-1px_oklch(0_0_0_/_0.12)]",
           "dark:data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_1px_1.5px_-1px_oklch(0_0_0_/_0.4)]",
-          "data-[checked]:hover:bg-primary-hover",
+          "data-[checked]:not-data-[disabled]:hover:bg-primary-hover",
           "data-[disabled]:bg-layer-panel data-[disabled]:shadow-[inset_0_0_0_1px_var(--line-muted)]",
           "data-[checked]:data-[disabled]:bg-layer-panel data-[checked]:data-[disabled]:shadow-[inset_0_0_0_1px_var(--line-muted)]",
-          "focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
-          "active:scale-[0.96] motion-reduce:active:scale-100",
+          "not-data-[disabled]:active:scale-[0.96] motion-reduce:active:scale-100",
         ],
         thumb: [
-          "rounded-full bg-layer-popover data-[checked]:bg-primary-950",
+          "rounded-full bg-layer-popover",
           "dark:bg-ink dark:data-[checked]:bg-[oklch(0.205_0.004_106.42)]",
           "shadow-[0_1px_1.5px_-0.5px_oklch(0_0_0_/_0.18),0_0_0_1px_oklch(0_0_0_/_0.04)]",
           "data-[disabled]:bg-[oklch(0.88_0.004_106.42)] data-[disabled]:shadow-none",
           "dark:data-[disabled]:bg-[oklch(0.37_0.005_106.42)]",
-          "data-[checked]:data-[disabled]:bg-[oklch(0.88_0.004_106.42)]",
           "dark:data-[checked]:data-[disabled]:bg-[oklch(0.37_0.005_106.42)]",
         ],
       },
@@ -75,7 +74,7 @@ const switchRecipe = tv({
       size: "sm",
       class: {
         root: "p-px",
-        thumb: "size-2.5 data-[checked]:translate-x-3",
+        thumb: "size-2.5",
       },
     },
     {
@@ -83,7 +82,7 @@ const switchRecipe = tv({
       size: "md",
       class: {
         root: "p-px",
-        thumb: "size-3.5 data-[checked]:translate-x-4",
+        thumb: "size-3.5",
       },
     },
   ],
