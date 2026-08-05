@@ -2,7 +2,7 @@ import { MessageReferenceIndicator, MessageReferenceText, Status } from "raft-ui
 
 export function MessageReferenceReadIndicatorsComposition() {
   return (
-    <p>
+    <p className="text-sm text-foreground-strong">
       Ask{" "}
       <MessageReferenceText>
         @Atlas

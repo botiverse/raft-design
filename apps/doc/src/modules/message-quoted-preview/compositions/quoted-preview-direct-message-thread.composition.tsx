@@ -1,4 +1,4 @@
-import { Link, MessageSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -15,6 +15,7 @@ import {
   MessageReferenceChip,
   MessageReferenceLabel,
 } from "raft-ui";
+import { DirectMessageIcon } from "#/modules/icons/conversation-icons.tsx";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -55,8 +56,8 @@ export function QuotedPreviewDirectMessageThreadComposition() {
               />
             }
           >
-            <Link />
-            <MessageReferenceLabel>@Atlas</MessageReferenceLabel>
+            <DirectMessageIcon />
+            <MessageReferenceLabel>Atlas</MessageReferenceLabel>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>

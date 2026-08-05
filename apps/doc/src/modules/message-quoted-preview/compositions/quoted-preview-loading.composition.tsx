@@ -21,7 +21,7 @@ import {
   MessageItemSender,
   MessageItemTime,
 } from "raft-ui";
-import { Link } from "lucide-react";
+import { Hash } from "lucide-react";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 import { QUOTED_PREVIEW_AVATAR_SRC } from "../message-quoted-preview.fixtures.ts";
@@ -108,8 +108,8 @@ export function QuotedPreviewLoadingComposition() {
               />
             }
           >
-            <Link />
-            <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>
+            <Hash />
+            <MessageReferenceLabel>raft-ui-migration</MessageReferenceLabel>
           </MessageReferenceChip>
         </MessageItemBody>
         <QuotedPreviewLoadingEmbeddedComposition />

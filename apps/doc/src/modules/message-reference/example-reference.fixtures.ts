@@ -21,9 +21,10 @@ export const EXAMPLE_REFERENCE_CHANNELS = [
     treatment: "chip",
   },
   {
-    href: MESSAGE_PLAYGROUND_URLS.apiDocsMessage,
+    href: MESSAGE_PLAYGROUND_URLS.allChannel,
     name: "all",
-    treatment: "target",
+    threadHref: MESSAGE_PLAYGROUND_URLS.stateModelThread,
+    treatment: "chip",
   },
   {
     href: MESSAGE_PLAYGROUND_URLS.northstarJointChannel,

@@ -22,7 +22,7 @@ import {
 
 import {
   MessageMentionReferenceComposition,
-  MessageTargetReferenceComposition,
+  MessagePermalinkReferenceComposition,
 } from "./reference-adapters.composition.tsx";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
@@ -33,7 +33,7 @@ export function MessagePrimaryReferencesComposition() {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
 
   return (
-    <div className="w-full max-w-xl">
+    <div className="w-full">
       <div ref={setPortalContainer}>
         <MessageItem>
           <MessageItemAvatarSlot>
@@ -69,9 +69,9 @@ export function MessagePrimaryReferencesComposition() {
                   Ada
                 </MessageMentionReferenceComposition>{" "}
                 to review the linked message in{" "}
-                <MessageTargetReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
-                  all
-                </MessageTargetReferenceComposition>{" "}
+                <MessagePermalinkReferenceComposition href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage}>
+                  #raft-ui-migration
+                </MessagePermalinkReferenceComposition>{" "}
                 before posting the rollout in{" "}
                 <MessageReferenceChip
                   variant="accent"

@@ -54,8 +54,8 @@ function tokenStyle(token: ThemedToken) {
     .join(";");
 }
 
-function codeToHtml(lines: Array<Array<ThemedToken>>) {
-  let html = "<pre><code>";
+function codeToHtml(lines: Array<Array<ThemedToken>>, anatomy: boolean) {
+  let html = anatomy ? '<pre data-doc-snippet="anatomy"><code>' : "<pre><code>";
 
   for (const [lineIndex, line] of lines.entries()) {
     html += "<span>";
@@ -82,10 +82,11 @@ function codeToHtml(lines: Array<Array<ThemedToken>>) {
  */
 export async function highlightSnippets({ data }: { data: Record<string, string> }) {
   const core = await highlighter;
-  const highlight = (code: string) =>
+  const highlight = (id: string, code: string) =>
     codeToHtml(
       core.codeToTokens(code, { lang: "tsx", themes: HIGHLIGHT_THEMES, defaultColor: false })
         .tokens,
+      id.toLowerCase().includes("anatomy"),
     );
 
   const entries: Array<[string, string]> = [];
@@ -94,10 +95,10 @@ export async function highlightSnippets({ data }: { data: Record<string, string>
     const displayCode = stripSourceCodeBlocks(code);
     const bodyCode = stripTopLevelImports(displayCode);
 
-    entries.push([id, highlight(displayCode)]);
+    entries.push([id, highlight(id, displayCode)]);
 
     if (bodyCode !== displayCode && !id.endsWith("Body")) {
-      entries.push([`${id}Body`, highlight(bodyCode)]);
+      entries.push([`${id}Body`, highlight(id, bodyCode)]);
     }
   }
 
