@@ -43,7 +43,13 @@ export const card = tv({
         titleText: ["font-sans text-base leading-[22px] font-medium"],
         description: [
           "font-sans text-xs leading-4 tracking-[0.01em] text-pretty",
-          "text-[color-mix(in_oklch,var(--foreground-muted)_75%,var(--foreground))]",
+          "text-foreground-muted",
+        ],
+        footer: [
+          "flex-nowrap items-center",
+          "font-sans text-xs leading-4 text-foreground-hint",
+          "[&>svg]:size-3.5 [&>svg]:shrink-0",
+          "[&>:not(svg)]:min-w-0",
         ],
       },
     },

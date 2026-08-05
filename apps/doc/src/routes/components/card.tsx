@@ -22,6 +22,8 @@ import sessionActionCompositionSource from "#/modules/card/compositions/session-
 import { CardSessionActionComposition } from "#/modules/card/compositions/session-action.composition.tsx";
 import settingsSectionCompositionSource from "#/modules/card/compositions/settings-section.composition.tsx?raw";
 import { CardSettingsSectionComposition } from "#/modules/card/compositions/settings-section.composition.tsx";
+import supportingNoteCompositionSource from "#/modules/card/compositions/supporting-note.composition.tsx?raw";
+import { CardSupportingNoteComposition } from "#/modules/card/compositions/supporting-note.composition.tsx";
 import workspaceModeCompositionSource from "#/modules/card/compositions/workspace-mode.composition.tsx?raw";
 import { CardWorkspaceModeComposition } from "#/modules/card/compositions/workspace-mode.composition.tsx";
 
@@ -54,6 +56,7 @@ const COMPOSITION_SOURCES = createCompositionSourceMap({
   Preview: projectSummaryCompositionSource,
   SessionAction: sessionActionCompositionSource,
   SettingsSection: settingsSectionCompositionSource,
+  SupportingNote: supportingNoteCompositionSource,
   WorkspaceMode: workspaceModeCompositionSource,
 });
 
@@ -64,6 +67,7 @@ const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
   Preview: "cardProjectSummaryComposition",
   SessionAction: "cardSessionActionComposition",
   SettingsSection: "cardSettingsSectionComposition",
+  SupportingNote: "cardSupportingNoteComposition",
   WorkspaceMode: "cardWorkspaceModeComposition",
 });
 
@@ -115,7 +119,7 @@ const CARD_PARTS: readonly PropRow[] = [
   {
     name: "CardFooter",
     type: 'useRender.ComponentProps<"div">',
-    description: "Bottom region for metadata or functional card-level actions.",
+    description: "Bottom region for supporting notes, metadata, or card-level actions.",
   },
 ];
 
@@ -185,6 +189,22 @@ function CardDoc() {
               <Preview.Code
                 html={code.cardAppNotificationsComposition}
                 collapsedHtml={code.cardAppNotificationsCompositionBody}
+              />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="supporting-note" title="Supporting note">
+            <p>
+              Use CardFooter for brief guidance that describes the whole setting, optionally paired
+              with a related action or documentation link.
+            </p>
+            <Preview>
+              <Preview.Canvas>
+                <CardSupportingNoteComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.cardSupportingNoteComposition}
+                collapsedHtml={code.cardSupportingNoteCompositionBody}
               />
             </Preview>
           </DocSubsection>
