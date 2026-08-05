@@ -1,6 +1,6 @@
 ---
 name: composition
-description: "Compound-part composition: render vs asChild, theme resolution, structure rules, wrapping raft-ui components, and what never to hand-roll."
+description: "Compound-part composition: render vs asChild, theme resolution, overlay container and business-action ownership, state sinking, structure rules, and transparent wrappers."
 ---
 
 # Composition
@@ -12,9 +12,10 @@ description: "Compound-part composition: render vs asChild, theme resolution, st
 - `theme` is never passed by hand
 - Variant names are not consistent across components
 - Dialog / AlertDialog / Drawer structure
-- Form controls always go through Field
-- Use the component instead of hand-rolled markup
-- Product state stays outside the component
+- Keep popup content focused and triggers external
+- Use Field for shared field semantics
+- Do not re-create a library contract with ad hoc markup
+- Product state stays outside reusable primitives
 - Wrapping raft-ui components
 
 ---
@@ -97,7 +98,7 @@ export type ButtonProps = StyledProps<BaseButton.Props> &
 </ThemeProvider>
 ```
 
-Read the active family with `useThemeFamily()`. Render family-specific content with `<BrutalOnly>` / `<ElegantOnly>` rather than branching on a prop.
+Most application composition should not need to read the active family. Use `useThemeFamily()` only when a verified implementation detail cannot be expressed through tokens or recipes. Limit `<BrutalOnly>` / `<ElegantOnly>` to non-semantic decoration or equivalent implementations that preserve content, reading order, actions, and state.
 
 ---
 
@@ -129,65 +130,95 @@ A dialog always needs a `Title`. If the design has no visible title, it still ne
 
 ---
 
-## Form controls always go through Field
+## Keep popup content focused and triggers external
 
-`Field` wires label, control, description, and error together.
+Apply these rules independently to `Dialog`, `Popover`, `DropdownMenu`, and `ContextMenu` compositions.
 
-**Incorrect:**
+### 1. Let the caller own the trigger
 
-```tsx
-<label>Display name</label>
-<Input />
-<span className="text-danger-base">Required</span>
-```
+The caller usually knows whether the trigger is an icon button, row action, right-click target, keyboard command, or controlled route state. Keep that choice outside the business popup.
 
-**Correct:**
+Prefer a content composition:
 
 ```tsx
-const emailError = getEmailError(email);
-
-<Field invalid={Boolean(emailError)}>
-  <FieldLabel htmlFor="work-email">Email</FieldLabel>
-  <Input
-    id="work-email"
-    type="email"
-    aria-invalid={Boolean(emailError)}
-    value={email}
-    onChange={(event) => setEmail(event.currentTarget.value)}
-  />
-  <FieldDescription>Use your work email.</FieldDescription>
-  <FieldError match={Boolean(emailError)}>{emailError}</FieldError>
-</Field>;
+<DropdownMenu>
+  <DropdownMenuTrigger render={<Button size="icon-sm" aria-label="Channel actions" />} />
+  <ChannelActionsMenuContent channelId={channelId} />
+</DropdownMenu>
 ```
 
-For externally controlled validation, bind `Field invalid`, the control's `aria-invalid`, and `FieldError match` to the same error condition. A bare `match` means “always show”; use it only for a deliberately static invalid-state example. Without `match`, `FieldError` follows native, custom `validate`, or enclosing `Form` errors. Do not hand-roll an error paragraph. Use `FieldItem` for horizontal label/control rows and `FieldValidity` when you need raw validity state.
+`ChannelActionsMenuContent` renders `DropdownMenuContent` and its business items only. Use the same shape for `…DialogContent` and `…PopoverContent` when the caller owns the root or trigger.
+
+When repeated root wiring genuinely needs a convenience wrapper, accept the complete trigger part as `children` and render it unchanged. Do not hardcode the trigger button inside the menu:
+
+```tsx
+<ChannelActionsMenu channelId={channelId}>
+  <DropdownMenuTrigger render={<Button size="icon-sm" />}>Actions</DropdownMenuTrigger>
+</ChannelActionsMenu>
+```
+
+### 2. Keep the content component structural
+
+The content component owns popup layout: content, groups, labels, separators, and the explicit order of business items. It should read like an outline, not a controller with a large `handleAction` switch or parent-level maps such as `pendingByItem` and `copiedById`.
+
+Keep the JSX explicit. Do not replace visible menu structure with a generic `items` configuration array.
+
+### 3. Sink action state into business items
+
+Name module-local components after the operation, such as `MuteChannelMenuItem`, `CopyInviteLinkMenuItem`, or `DeleteWorkspaceDialog`.
+
+- A menu item owns its mutation, pending state, item-specific permission, and local feedback.
+- A business dialog owns its form draft, validation, submit mutation, and recoverable error state.
+- A popover section or row owns state used only by that section or row.
+- The primitive continues to own generic focus, highlight, keyboard navigation, and uncontrolled open/selection behavior.
+
+Keep these business components in the owning application module, not in `packages/ui`.
+
+### 4. Lift only coordination state
+
+Lift state only when another part must observe it or it must outlive the popup content. A destructive dialog opened from a menu is the common case: keep the dialog's `open` handoff in a stable parent, but keep deletion pending/error state inside `DeleteChannelDialog`.
+
+Keep an atomic form transaction at its dialog/form owner. Shared entity or permission data may come from one query/cache owner and be passed down narrowly; state sinking does not require duplicate fetching.
+
+### 5. Share behavior, not the wrong primitive
+
+Dropdown and Context menu actions may share a behavior hook or mutation contract. Render `DropdownMenuItem` and `ContextMenuItem` explicitly in their respective compositions instead of creating one adapter that guesses which menu primitive surrounds it.
 
 ---
 
-## Use the component instead of hand-rolled markup
+## Use Field for shared field semantics
 
-| Do not write                              | Use                                                            |
-| ----------------------------------------- | -------------------------------------------------------------- |
-| `<hr>` or a `border-t` div                | `Separator`                                                    |
-| a styled `<span>` for a count or tag      | `Badge`                                                        |
-| a colored dot div                         | `Status`                                                       |
-| a bare `<p>` / `<span>` with text classes | `Text.Sans`, `Text.Mono`, `Text.Heading`, or the named exports |
-| `<code>`                                  | `InlineCode`, or `CopyableCode` when it should be copyable     |
-| a `<kbd>`                                 | `Kbd` / `KbdGroup`                                             |
-| a custom "no results" block               | `EmptyState`                                                   |
-| a pulsing gray div                        | `Skeleton`                                                     |
-| a custom callout box                      | `Banner`                                                       |
-| a hand-built avatar circle with initials  | `Avatar` + `AvatarImage` + `AvatarFallback`                    |
+Use `Field` when a control has raft-ui label, description, required, or validation treatment. It wires those parts together and keeps their state aligned. A simple native label/control pair may remain native when it does not need this shared layout or validation contract; keep the association explicit and accessible.
+For exact validation wiring and the complete example, read [forms.md](./forms.md#use-field-when-the-field-contract-applies). Do not hand-roll a visually attached but semantically disconnected error paragraph.
+
+---
+
+## Do not re-create a library contract with ad hoc markup
+
+| When you need this raft-ui treatment     | Use                                                            |
+| ---------------------------------------- | -------------------------------------------------------------- |
+| a themed divider                         | `Separator`                                                    |
+| a styled `<span>` for a count or tag     | `Badge`                                                        |
+| a colored dot div                        | `Status`                                                       |
+| raft-ui typography                       | `Text.Sans`, `Text.Mono`, `Text.Heading`, or the named exports |
+| `<code>`                                 | `InlineCode`, or `CopyableCode` when it should be copyable     |
+| a `<kbd>`                                | `Kbd` / `KbdGroup`                                             |
+| a custom "no results" block              | `EmptyState`                                                   |
+| a pulsing gray div                       | `Skeleton`                                                     |
+| a custom callout box                     | `Banner`                                                       |
+| a hand-built avatar circle with initials | `Avatar` + `AvatarImage` + `AvatarFallback`                    |
+
+Native elements remain appropriate when their semantics and inherited styling are intentional. The rule is to avoid recreating the library's visual or behavioral contract incompletely, not to wrap every HTML element.
 
 When `Avatar` contains `AvatarImage`, pair it with `AvatarFallback` so a failed image still has an accessible fallback. A childless `Avatar` uses its built-in fallback.
 
 ---
 
-## Product state stays outside the component
+## Product state stays outside reusable primitives
 
-Generic interaction state (open, focus, selection, keyboard navigation, controlled value) belongs to the component. Product state does not.
+Generic interaction state (open, focus, selection, keyboard navigation, controlled value) belongs to the reusable primitive. Product state does not.
 
-Upload lifecycle, notification policy, saved/followed flags, permissions, and workflow status live in your app. Pass the result down by choosing which parts to render, not by adding a status prop to a primitive.
+Upload lifecycle, notification policy, saved/followed flags, permissions, and workflow status live in your app. That does not mean putting all product state in a page or overlay container: sink it into the smallest module-local business component that owns the interaction. Pass visible structure through explicit parts instead of adding a product `state` prop to a primitive.
 
 ---
 

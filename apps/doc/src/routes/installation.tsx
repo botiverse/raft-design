@@ -62,9 +62,9 @@ export function App() {
   portalRootCss: `.root {
   isolation: isolate;
 }`,
-  globalCss: `@source "../node_modules/raft-ui/dist/**/*.{js,mjs}";
+  globalCss: `@import "tailwindcss";
 @import "raft-ui/styles.css";
-@import "tailwindcss";`,
+@source "../node_modules/raft-ui/dist/**/*.{js,mjs}";`,
   fontCss: `import "raft-ui/fonts.css";
 import "./styles.css";`,
   appShell: `import { ThemeProvider, ToastProvider, TooltipProvider } from "raft-ui";

@@ -13,7 +13,7 @@ description: "Choosing and composing form controls: Select vs DropdownMenu, Swit
 - Combobox vs Select
 - SegmentedControl vs RadioGroup vs Tabs vs ToggleGroup
 - Input vs InputGroup vs Textarea
-- Field is not optional
+- Use Field when the field contract applies
 - Per-component norms
 
 ---
@@ -181,9 +181,9 @@ All four render a row of choices. They differ in what the choice does.
 
 ---
 
-## Field is not optional
+## Use Field when the field contract applies
 
-Every labelled control goes through `Field`. It wires the label, control, description, and validation together.
+Default to `Field` when a raft-ui control has a visible label, description, required marker, or validation message. It wires those parts together. A simple native label/control pair may remain native when it needs none of that shared treatment; icon-only or compact toolbar controls may instead use an explicit accessible name. Do not add `Field` only to satisfy a wrapper rule.
 
 ```tsx
 const emailError = getEmailError(email);

@@ -147,7 +147,7 @@ Inside menus, use `DropdownMenuShortcut` / `ContextMenuShortcut` instead of `Kbd
 
 ## Icons
 
-Use `lucide-react` when it is installed in the consuming app. Raft-ui's internal recipes and canonical compositions are tuned to Lucide SVGs; do not rely on raft-ui to re-export icons.
+Raft-ui's internal recipes and canonical compositions are tuned to Lucide SVGs, but raft-ui does not re-export icons. When application code imports Lucide icons, declare `lucide-react` as a direct application dependency rather than relying on raft-ui's transitive dependency. A consumer may provide another SVG icon set when it preserves the component's expected sizing and stroke treatment.
 
 Let raft-ui components own their icons' default treatment. Buttons, menu items, sidebar items, toasts, and tabs apply recipe-specific sizing and sometimes theme-specific stroke widths. Override those values only when the component's API or a deliberate one-off treatment requires it.
 
@@ -173,7 +173,7 @@ In your own markup — outside any icon-owning component — size icons explicit
 
 ## Per-component norms
 
-**`Separator`** — the only divider. Never `<hr>`, never a `border-t` div. It takes an orientation.
+**`Separator`** — use it when a divider needs raft-ui's themed visual contract or orientation behavior. Native `<hr>` remains valid when its semantics and inherited styling are intentional; avoid imitating `Separator` with an ad hoc border div.
 
 **`ScrollArea`** — use when you need styled scrollbars or a scroll region inside a panel. Compose `ScrollAreaViewport` + `ScrollAreaContent` + `ScrollAreaScrollbar` + `ScrollAreaThumb`, and `ScrollAreaCorner` when both axes scroll. Plain `overflow-auto` is fine for full-page scroll; `ScrollArea` is for bounded regions.
 

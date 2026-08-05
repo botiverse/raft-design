@@ -7,6 +7,14 @@ description: "Build UIs with raft-ui, the React component library for Raft using
 
 React component library for Raft. Built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards.
 
+## Working sequence
+
+1. For a first install or an unstyled render, read [rules/setup.md](./rules/setup.md) and get the first Button rendering before composing a page.
+2. Read only the domain rule needed for the current surface; do not load every rule file by default.
+3. Verify unrecognized props, parts, variants, and tokens with [rules/lookup.md](./rules/lookup.md).
+4. Implement the smallest composition that preserves native semantics and uses raft-ui where its behavior or visual contract is needed.
+5. Apply the review checklist after implementation, not as a reason to add wrappers before they are needed.
+
 ## Override your priors first
 
 raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
@@ -22,7 +30,7 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 | Add a `kind`/`state`/`emphasis` prop for a structural difference | Use the dedicated part or component instead                                                                                                                      |
 | `<Button loading>` doesn't exist, roll a spinner                 | `loading` and `loadingLabel` are real props on `Button`                                                                                                          |
 
-**Never guess a prop or variant name.** This skill carries no signatures on purpose. Look them up in `node_modules/raft-ui/dist/index.d.mts` — see [rules/lookup.md](./rules/lookup.md). Guessed props are the most common failure mode with this library, and they fail silently.
+**Never guess a prop or variant name.** The tables below are orientation, not an exhaustive API reference. Verify exact names against the installed version in `node_modules/raft-ui/dist/index.d.mts` — see [rules/lookup.md](./rules/lookup.md). Guessed props are the most common failure mode with this library, and they fail silently.
 
 ## Principles
 
@@ -42,10 +50,10 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 | Buttons or links inside a `Tooltip`                | `Popover` — tooltip content is unreachable                                                                  |
 | Destructive confirm as a styled `Dialog`           | `AlertDialog` with `AlertDialogAction` / `AlertDialogCancel`                                                |
 | Variant value copied from another component        | Look it up — negative is `danger` / `destructive` / `error` depending on the component                      |
-| Hand-rolled error text under an input              | `Field` + `FieldError`                                                                                      |
+| Validation copy disconnected from its control      | `Field` + `FieldError`                                                                                      |
 | `PanelHeader` where you meant the bare frame       | `PanelHeaderRoot` — `PanelHeader` is the composed identity chrome, see [rules/layout.md](./rules/layout.md) |
 | Spinner hand-placed inside a `Button`              | `loading` / `loadingLabel` props                                                                            |
-| `<hr>`, styled `<span>` badge, bare styled `<p>`   | `Separator`, `Badge`, `Text.Sans`                                                                           |
+| Re-created raft-ui divider, badge, or type styling | `Separator`, `Badge`, or `Text`; keep native semantics when intentional                                     |
 
 ## Which control? Which feedback channel?
 
@@ -73,47 +81,47 @@ Intent names are **not** consistent across components — negative is `danger` o
 
 ## Quick component map
 
-| Need                            | Use                                              |
-| ------------------------------- | ------------------------------------------------ |
-| Callout / inline status message | `Banner`                                         |
-| Transient notification          | `toast.info()` etc. + `ToastProvider`            |
-| Confirm a destructive action    | `AlertDialog`                                    |
-| Generic modal                   | `Dialog`                                         |
-| Edge-anchored panel             | `Drawer`                                         |
-| Rich hover preview              | `PreviewCard`                                    |
-| Plain hover hint                | `Tooltip`                                        |
-| Right-click menu                | `ContextMenu`                                    |
-| Button-triggered menu           | `DropdownMenu`                                   |
-| Single choice, few options      | `RadioGroup` or `SegmentedControl`               |
-| Single choice, many options     | `Select`                                         |
-| Searchable / multi choice       | `Combobox`                                       |
-| Any labelled form control       | `Field` + `FieldLabel` + `FieldError`            |
-| Divider                         | `Separator` — never a raw `<hr>` or a border div |
-| Loading placeholder             | `Skeleton`                                       |
-| Inline busy indicator           | `Spinner`                                        |
-| Determinate progress            | `Progress`                                       |
-| Small count / tag               | `Badge`                                          |
-| Presence or state dot           | `Status`                                         |
-| Nothing-here state              | `EmptyState`                                     |
-| Keyboard shortcut               | `Kbd` / `KbdGroup`                               |
-| Styled text                     | `Text.Sans` / `Text.Heading` / `Text.Mono`       |
+| Need                                             | Use                                                                        |
+| ------------------------------------------------ | -------------------------------------------------------------------------- |
+| Callout / inline status message                  | `Banner`                                                                   |
+| Transient notification                           | `toast.info()` etc. + `ToastProvider`                                      |
+| Confirm a destructive action                     | `AlertDialog`                                                              |
+| Generic modal                                    | `Dialog`                                                                   |
+| Edge-anchored panel                              | `Drawer`                                                                   |
+| Rich hover preview                               | `PreviewCard`                                                              |
+| Plain hover hint                                 | `Tooltip`                                                                  |
+| Right-click menu                                 | `ContextMenu`                                                              |
+| Button-triggered menu                            | `DropdownMenu`                                                             |
+| Single choice, few options                       | `RadioGroup` or `SegmentedControl`                                         |
+| Single choice, many options                      | `Select`                                                                   |
+| Searchable / multi choice                        | `Combobox`                                                                 |
+| Label, help, or validation around a form control | `Field` + the applicable field parts                                       |
+| Design-system divider                            | `Separator`; keep native semantics when styling is intentionally inherited |
+| Loading placeholder                              | `Skeleton`                                                                 |
+| Inline busy indicator                            | `Spinner`                                                                  |
+| Determinate progress                             | `Progress`                                                                 |
+| Small count / tag                                | `Badge`                                                                    |
+| Presence or state dot                            | `Status`                                                                   |
+| Nothing-here state                               | `EmptyState`                                                               |
+| Keyboard shortcut                                | `Kbd` / `KbdGroup`                                                         |
+| raft-ui typography treatment                     | `Text.Sans` / `Text.Heading` / `Text.Mono`                                 |
 
 Each domain file below opens with its own scenario table for the components it covers.
 
 ## Read these when relevant
 
-| File                                             | Read it when                                                            |
-| ------------------------------------------------ | ----------------------------------------------------------------------- |
-| [rules/lookup.md](./rules/lookup.md)             | You need a prop, variant value, or token — read this before guessing    |
-| [rules/composition.md](./rules/composition.md)   | Assembling compound parts, or tempted to hand-roll markup               |
-| [rules/forms.md](./rules/forms.md)               | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu` |
-| [rules/overlays.md](./rules/overlays.md)         | Dialogs, drawers, popovers, menus, tooltips                             |
-| [rules/feedback.md](./rules/feedback.md)         | Banners, toasts, loading, empty states, badges                          |
-| [rules/display.md](./rules/display.md)           | Typography, code, avatars, files, keyboard hints                        |
-| [rules/layout.md](./rules/layout.md)             | Shell, panels, navigation, resizing, task surfaces                      |
-| [rules/conversation.md](./rules/conversation.md) | Chat sidebar, conversation panel, thread, composer                      |
-| [rules/styling.md](./rules/styling.md)           | Writing any `className`, color, shadow, or `tv()` recipe                |
-| [rules/setup.md](./rules/setup.md)               | First-time install, Tailwind v4 wiring, fonts, theme provider           |
+| File                                             | Read it when                                                                 |
+| ------------------------------------------------ | ---------------------------------------------------------------------------- |
+| [rules/lookup.md](./rules/lookup.md)             | You need a prop, variant value, or token — read this before guessing         |
+| [rules/composition.md](./rules/composition.md)   | Assembling compound parts, overlay containers, business actions, or wrappers |
+| [rules/forms.md](./rules/forms.md)               | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu`      |
+| [rules/overlays.md](./rules/overlays.md)         | Dialogs, drawers, popovers, menus, tooltips                                  |
+| [rules/feedback.md](./rules/feedback.md)         | Banners, toasts, loading, empty states, badges                               |
+| [rules/display.md](./rules/display.md)           | Typography, code, avatars, files, keyboard hints                             |
+| [rules/layout.md](./rules/layout.md)             | Shell, panels, navigation, resizing, task surfaces                           |
+| [rules/conversation.md](./rules/conversation.md) | Chat sidebar, conversation panel, thread, composer                           |
+| [rules/styling.md](./rules/styling.md)           | Writing any `className`, color, shadow, or `tv()` recipe                     |
+| [rules/setup.md](./rules/setup.md)               | First-time install, Tailwind v4 wiring, fonts, theme provider                |
 
 ## Review checklist
 
@@ -121,10 +129,10 @@ When reviewing or editing code that uses raft-ui, check:
 
 - [ ] No `theme` prop passed to any component — family comes from `ThemeProvider`
 - [ ] No variant value carried across components — verify against the declarations
-- [ ] Every labelled control is wrapped in `Field`; errors go through `FieldError`
+- [ ] Controls with raft-ui label, description, or validation treatment use `Field`; simpler native associations remain explicit and accessible
 - [ ] No Tailwind default palette (`gray-*`, `slate-*`, …), hex, `rgb()`, or `hsl()` — semantic oklch tokens only
 - [ ] No `asChild` — element substitution uses `render`
-- [ ] No hand-rolled markup where a component exists: `<hr>` → `Separator`, styled `<span>` → `Badge`, styled copy → `Text.Sans`, pulsing div → `Skeleton`
+- [ ] Do not recreate a raft-ui component's visual or behavioral contract with ad hoc markup; native semantic elements remain valid when no library contract is needed
 - [ ] Every `Avatar` with an `AvatarImage` also has an `AvatarFallback`; every blocking overlay has a `Title`
 - [ ] Menu rows are `…Item` parts, not raw `<button>`s — raw buttons drop out of keyboard navigation
 - [ ] Product state (upload, permissions, read/unread) lives in the app; the component renders parts, not a `state` prop
