@@ -12,7 +12,7 @@ description: "Compound-part composition: render vs asChild, theme resolution, ov
 - `theme` is never passed by hand
 - Variant names are not consistent across components
 - Dialog / AlertDialog / Drawer structure
-- Keep overlay containers structural and business actions local
+- Keep popup content focused and triggers external
 - Use Field for shared field semantics
 - Do not re-create a library contract with ad hoc markup
 - Product state stays outside reusable primitives
@@ -130,75 +130,59 @@ A dialog always needs a `Title`. If the design has no visible title, it still ne
 
 ---
 
-## Keep overlay containers structural and business actions local
+## Keep popup content focused and triggers external
 
-Treat `Dialog`, `Popover`, `DropdownMenu`, and `ContextMenu` compositions as two layers:
+Apply these rules independently to `Dialog`, `Popover`, `DropdownMenu`, and `ContextMenu` compositions.
 
-| Layer                   | Owns                                                                                                                                     |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Overlay container       | Root, trigger, content, portal placement, grouping, separators, and only the open/selection state needed to coordinate the whole surface |
-| Business item or action | Product copy and icon, entity identity, permission, mutation, pending/confirming/error feedback, and the action's event logic            |
+### 1. Let the caller own the trigger
 
-Keep the container readable as an outline of the surface. Do not turn it into a controller that stores every row's `pending`, `copied`, `confirming`, or error state and dispatches actions through a large switch.
+The caller usually knows whether the trigger is an icon button, row action, right-click target, keyboard command, or controlled route state. Keep that choice outside the business popup.
+
+Prefer a content composition:
 
 ```tsx
-function ChannelActions({ channelId }: { channelId: string }) {
-  const [deleteOpen, setDeleteOpen] = useState(false);
-
-  return (
-    <>
-      <ChannelActionsMenu channelId={channelId} onRequestDelete={() => setDeleteOpen(true)} />
-      <DeleteChannelDialog channelId={channelId} open={deleteOpen} onOpenChange={setDeleteOpen} />
-    </>
-  );
-}
-
-function ChannelActionsMenu({
-  channelId,
-  onRequestDelete,
-}: {
-  channelId: string;
-  onRequestDelete: () => void;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger render={<Button size="icon-sm" aria-label="Channel actions" />} />
-      <DropdownMenuContent>
-        <MuteChannelMenuItem channelId={channelId} />
-        <ArchiveChannelMenuItem channelId={channelId} />
-        <DropdownMenuSeparator />
-        <RequestDeleteChannelMenuItem onRequestDelete={onRequestDelete} />
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
-
-function MuteChannelMenuItem({ channelId }: { channelId: string }) {
-  const mute = useMuteChannelMutation(channelId);
-
-  return (
-    <DropdownMenuItem closeOnClick={false} disabled={mute.isPending} onClick={() => mute.mutate()}>
-      <BellOff />
-      <DropdownMenuItemLabel>{mute.isPending ? "Muting…" : "Mute channel"}</DropdownMenuItemLabel>
-    </DropdownMenuItem>
-  );
-}
+<DropdownMenu>
+  <DropdownMenuTrigger render={<Button size="icon-sm" aria-label="Channel actions" />} />
+  <ChannelActionsMenuContent channelId={channelId} />
+</DropdownMenu>
 ```
 
-Name business components after the action, such as `MuteChannelMenuItem`, `CopyInviteLinkMenuItem`, or `DeleteWorkspaceDialog`. Keep them in the owning application module. Do not add them to `packages/ui`, and do not hide explicit menu structure behind an `items` configuration array.
+`ChannelActionsMenuContent` renders `DropdownMenuContent` and its business items only. Use the same shape for `…DialogContent` and `…PopoverContent` when the caller owns the root or trigger.
 
-Sink state to the smallest stable interaction owner:
+When repeated root wiring genuinely needs a convenience wrapper, accept the complete trigger part as `children` and render it unchanged. Do not hardcode the trigger button inside the menu:
+
+```tsx
+<ChannelActionsMenu channelId={channelId}>
+  <DropdownMenuTrigger render={<Button size="icon-sm" />}>Actions</DropdownMenuTrigger>
+</ChannelActionsMenu>
+```
+
+### 2. Keep the content component structural
+
+The content component owns popup layout: content, groups, labels, separators, and the explicit order of business items. It should read like an outline, not a controller with a large `handleAction` switch or parent-level maps such as `pendingByItem` and `copiedById`.
+
+Keep the JSX explicit. Do not replace visible menu structure with a generic `items` configuration array.
+
+### 3. Sink action state into business items
+
+Name module-local components after the operation, such as `MuteChannelMenuItem`, `CopyInviteLinkMenuItem`, or `DeleteWorkspaceDialog`.
 
 - A menu item owns its mutation, pending state, item-specific permission, and local feedback.
 - A business dialog owns its form draft, validation, submit mutation, and recoverable error state.
 - A popover section or row owns state used only by that section or row.
 - The primitive continues to own generic focus, highlight, keyboard navigation, and uncontrolled open/selection behavior.
 
-State sinking does not mean duplicating shared entity reads or expensive work in every item. Several items may read the same query cache or receive a narrow shared permission/entity result from the container; keep each action's transient state machine local.
+Keep these business components in the owning application module, not in `packages/ui`.
 
-Lift only the narrow coordination state another part truly needs. For example, a destructive dialog opened from a menu must outlive the menu content after it closes: keep the dialog's `open` handoff in a stable parent, but keep deletion pending/error state inside `DeleteChannelDialog`. Likewise, keep a single form transaction at the dialog/form owner instead of scattering one atomic submit across field components.
+### 4. Lift only coordination state
 
-Use the same boundary for `ContextMenu`; only the trigger primitive changes. If Dropdown and Context menu items need the same product operation, share the behavior hook or mutation contract, then render the correct `DropdownMenuItem` or `ContextMenuItem` wrapper explicitly. Do not create one adapter that guesses which menu primitive it lives inside.
+Lift state only when another part must observe it or it must outlive the popup content. A destructive dialog opened from a menu is the common case: keep the dialog's `open` handoff in a stable parent, but keep deletion pending/error state inside `DeleteChannelDialog`.
+
+Keep an atomic form transaction at its dialog/form owner. Shared entity or permission data may come from one query/cache owner and be passed down narrowly; state sinking does not require duplicate fetching.
+
+### 5. Share behavior, not the wrong primitive
+
+Dropdown and Context menu actions may share a behavior hook or mutation contract. Render `DropdownMenuItem` and `ContextMenuItem` explicitly in their respective compositions instead of creating one adapter that guesses which menu primitive surrounds it.
 
 ---
 
