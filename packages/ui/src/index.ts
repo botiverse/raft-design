@@ -1011,7 +1011,7 @@ export {
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
   MessageForwardedBundleSourceLabel,
-  MessageForwardedBundleToggle,
+  MessageForwardedBundleFooterAction,
 } from "./components/message-forwarded-bundle/index";
 export type {
   MessageForwardedBundleAttachmentMetaProps,
@@ -1030,7 +1030,7 @@ export type {
   MessageForwardedBundleProps,
   MessageForwardedBundleSourceLabelProps,
   MessageForwardedBundleSourceProps,
-  MessageForwardedBundleToggleProps,
+  MessageForwardedBundleFooterActionProps,
 } from "./components/message-forwarded-bundle/index";
 
 export {

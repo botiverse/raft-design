@@ -71,7 +71,7 @@ const ANATOMY_SOURCE = `<MessageForwardedBundle>
     </MessageForwardedBundleItem>
   </MessageForwardedBundleItems>
   <MessageForwardedBundleFooter>
-    <MessageForwardedBundleToggle />
+    <MessageForwardedBundleFooterAction />
   </MessageForwardedBundleFooter>
 </MessageForwardedBundle>`;
 
@@ -156,12 +156,12 @@ const PROPS: readonly PropRow[] = [
   {
     name: "MessageForwardedBundleFooter",
     type: 'useRender.ComponentProps<"div">',
-    description: "Footer container for an expand/collapse control.",
+    description: "Footer container for caller-owned actions.",
   },
   {
-    name: "MessageForwardedBundleToggle",
+    name: "MessageForwardedBundleFooterAction",
     type: 'useRender.ComponentProps<"button">',
-    description: "Consumer-controlled expand/collapse action.",
+    description: "Styled action slot for the forwarded bundle footer.",
   },
 ];
 
@@ -239,7 +239,7 @@ function MessageForwardedBundleDoc() {
             <DocNote>
               More than three messages begin collapsed. The consumer owns the expanded state and
               passes it to MessageForwardedBundleItems; the list then clips and renders its own
-              fade. The footer and toggle remain caller-owned.
+              fade. The footer and its action remain caller-owned.
             </DocNote>
             <UsagePreview code={code.forwardedBundle} collapsedCode={code.forwardedBundleBody}>
               <ForwardedBundleEmbeddedComposition />

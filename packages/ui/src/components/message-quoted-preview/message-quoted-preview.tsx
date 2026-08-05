@@ -6,28 +6,49 @@ import { messageQuotedPreview } from "./message-quoted-preview.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
 type SpanProps = useRender.ComponentProps<"span">;
-export function MessageQuotedPreview({ className, render, ...props }: DivProps) {
+
+export type MessageQuotedPreviewProps = DivProps;
+
+export function MessageQuotedPreview({ className, render, ...props }: MessageQuotedPreviewProps) {
   const theme = useThemeFamily();
   const { root } = messageQuotedPreview({ theme });
 
   return <MessageEmbed className={root({ className })} render={render} {...props} />;
 }
 
-export function MessageQuotedPreviewContent({ className, render, ...props }: DivProps) {
+export type MessageQuotedPreviewContentProps = DivProps;
+
+export function MessageQuotedPreviewContent({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewContentProps) {
   const theme = useThemeFamily();
   const { content } = messageQuotedPreview({ theme });
 
   return <MessageEmbedContent className={content({ className })} render={render} {...props} />;
 }
 
-export function MessageQuotedPreviewHeader({ className, render, ...props }: DivProps) {
+export type MessageQuotedPreviewHeaderProps = DivProps;
+
+export function MessageQuotedPreviewHeader({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewHeaderProps) {
   const theme = useThemeFamily();
   const { header } = messageQuotedPreview({ theme });
 
   return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
 }
 
-export function MessageQuotedPreviewChannel({ className, render, ...props }: SpanProps) {
+export type MessageQuotedPreviewChannelProps = SpanProps;
+
+export function MessageQuotedPreviewChannel({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewChannelProps) {
   const theme = useThemeFamily();
   const { channel } = messageQuotedPreview({ theme });
 
@@ -39,7 +60,13 @@ export function MessageQuotedPreviewChannel({ className, render, ...props }: Spa
   });
 }
 
-export function MessageQuotedPreviewThread({ className, render, ...props }: SpanProps) {
+export type MessageQuotedPreviewThreadProps = SpanProps;
+
+export function MessageQuotedPreviewThread({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewThreadProps) {
   const theme = useThemeFamily();
   const { thread } = messageQuotedPreview({ theme });
 
@@ -51,7 +78,13 @@ export function MessageQuotedPreviewThread({ className, render, ...props }: Span
   });
 }
 
-export function MessageQuotedPreviewAuthor({ className, render, ...props }: SpanProps) {
+export type MessageQuotedPreviewAuthorProps = SpanProps;
+
+export function MessageQuotedPreviewAuthor({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewAuthorProps) {
   const theme = useThemeFamily();
   const { author } = messageQuotedPreview({ theme });
 
@@ -63,7 +96,13 @@ export function MessageQuotedPreviewAuthor({ className, render, ...props }: Span
   });
 }
 
-export function MessageQuotedPreviewAuthorName({ className, render, ...props }: SpanProps) {
+export type MessageQuotedPreviewAuthorNameProps = SpanProps;
+
+export function MessageQuotedPreviewAuthorName({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewAuthorNameProps) {
   const theme = useThemeFamily();
   const { authorName } = messageQuotedPreview({ theme });
 
@@ -75,7 +114,13 @@ export function MessageQuotedPreviewAuthorName({ className, render, ...props }: 
   });
 }
 
-export function MessageQuotedPreviewAuthorMeta({ className, render, ...props }: SpanProps) {
+export type MessageQuotedPreviewAuthorMetaProps = SpanProps;
+
+export function MessageQuotedPreviewAuthorMeta({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewAuthorMetaProps) {
   const theme = useThemeFamily();
   const { authorMeta } = messageQuotedPreview({ theme });
 
@@ -87,7 +132,13 @@ export function MessageQuotedPreviewAuthorMeta({ className, render, ...props }: 
   });
 }
 
-export function MessageQuotedPreviewTimestamp({ className, render, ...props }: SpanProps) {
+export type MessageQuotedPreviewTimestampProps = SpanProps;
+
+export function MessageQuotedPreviewTimestamp({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewTimestampProps) {
   const theme = useThemeFamily();
   const { timestamp } = messageQuotedPreview({ theme });
 
@@ -99,7 +150,13 @@ export function MessageQuotedPreviewTimestamp({ className, render, ...props }: S
   });
 }
 
-export function MessageQuotedPreviewText({ className, render, ...props }: DivProps) {
+export type MessageQuotedPreviewTextProps = DivProps;
+
+export function MessageQuotedPreviewText({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewTextProps) {
   const theme = useThemeFamily();
   const { text } = messageQuotedPreview({ theme });
 
@@ -111,7 +168,13 @@ export function MessageQuotedPreviewText({ className, render, ...props }: DivPro
   });
 }
 
-export function MessageQuotedPreviewAttachments({ className, render, ...props }: DivProps) {
+export type MessageQuotedPreviewAttachmentsProps = DivProps;
+
+export function MessageQuotedPreviewAttachments({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewAttachmentsProps) {
   const theme = useThemeFamily();
   const { attachments } = messageQuotedPreview({ theme });
 
@@ -123,7 +186,13 @@ export function MessageQuotedPreviewAttachments({ className, render, ...props }:
   });
 }
 
-export function MessageQuotedPreviewAttachment({ className, render, ...props }: SpanProps) {
+export type MessageQuotedPreviewAttachmentProps = SpanProps;
+
+export function MessageQuotedPreviewAttachment({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewAttachmentProps) {
   const theme = useThemeFamily();
   const { attachment } = messageQuotedPreview({ theme });
 
@@ -135,13 +204,26 @@ export function MessageQuotedPreviewAttachment({ className, render, ...props }: 
   });
 }
 
-export function MessageQuotedPreviewLoading({ className, render, ...props }: DivProps) {
+export type MessageQuotedPreviewLoadingProps = DivProps;
+
+export function MessageQuotedPreviewLoading({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewLoadingProps) {
   const theme = useThemeFamily();
   const { loading } = messageQuotedPreview({ theme });
 
   return <MessageEmbed className={loading({ className })} render={render} {...props} />;
 }
-export function MessageQuotedPreviewUnavailable({ className, render, ...props }: DivProps) {
+
+export type MessageQuotedPreviewUnavailableProps = DivProps;
+
+export function MessageQuotedPreviewUnavailable({
+  className,
+  render,
+  ...props
+}: MessageQuotedPreviewUnavailableProps) {
   const theme = useThemeFamily();
   const { unavailable } = messageQuotedPreview({ theme });
 
@@ -152,18 +234,3 @@ export function MessageQuotedPreviewUnavailable({ className, render, ...props }:
     state: { slot: "message-quoted-preview-unavailable" },
   });
 }
-
-export type MessageQuotedPreviewProps = DivProps;
-export type MessageQuotedPreviewContentProps = DivProps;
-export type MessageQuotedPreviewHeaderProps = DivProps;
-export type MessageQuotedPreviewChannelProps = SpanProps;
-export type MessageQuotedPreviewThreadProps = SpanProps;
-export type MessageQuotedPreviewAuthorProps = SpanProps;
-export type MessageQuotedPreviewAuthorNameProps = SpanProps;
-export type MessageQuotedPreviewAuthorMetaProps = SpanProps;
-export type MessageQuotedPreviewTimestampProps = SpanProps;
-export type MessageQuotedPreviewTextProps = DivProps;
-export type MessageQuotedPreviewAttachmentsProps = DivProps;
-export type MessageQuotedPreviewAttachmentProps = SpanProps;
-export type MessageQuotedPreviewLoadingProps = DivProps;
-export type MessageQuotedPreviewUnavailableProps = DivProps;

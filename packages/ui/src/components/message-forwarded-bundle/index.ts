@@ -15,7 +15,7 @@ export {
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
   MessageForwardedBundleSourceLabel,
-  MessageForwardedBundleToggle,
+  MessageForwardedBundleFooterAction,
 } from "./message-forwarded-bundle";
 export type {
   MessageForwardedBundleAttachmentMetaProps,
@@ -34,5 +34,5 @@ export type {
   MessageForwardedBundleProps,
   MessageForwardedBundleSourceLabelProps,
   MessageForwardedBundleSourceProps,
-  MessageForwardedBundleToggleProps,
+  MessageForwardedBundleFooterActionProps,
 } from "./message-forwarded-bundle";

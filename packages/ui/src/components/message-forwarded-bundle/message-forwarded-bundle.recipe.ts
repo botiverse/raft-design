@@ -10,7 +10,7 @@ export const messageForwardedBundle = tv({
     source: ["min-w-0 truncate"],
     sourceLabel: ["min-w-0 truncate"],
     items: ["relative"],
-    toggle: [],
+    footerAction: [],
   },
   variants: {
     theme: {
@@ -23,7 +23,7 @@ export const messageForwardedBundle = tv({
           "inline-flex items-center gap-1 text-[11px] font-bold underline-offset-2 transition-colors text-black/50 hover:text-black hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
         sourceLabel: "inline-flex items-center gap-1 text-[11px] font-bold text-black/45",
         items: "divide-y divide-black/10",
-        toggle:
+        footerAction:
           "inline-flex items-center gap-1 text-[11px] font-black underline underline-offset-2 text-black/60 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
       },
       elegant: {
@@ -36,7 +36,7 @@ export const messageForwardedBundle = tv({
         sourceLabel:
           "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder",
         items: "divide-y-[0.5px] divide-line-muted/75",
-        toggle:
+        footerAction:
           "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder hover:text-foreground-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
       },
     },

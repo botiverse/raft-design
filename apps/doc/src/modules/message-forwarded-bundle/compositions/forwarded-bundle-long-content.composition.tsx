@@ -15,7 +15,7 @@ import {
   MessageForwardedBundleItemAuthor,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
-  MessageForwardedBundleToggle,
+  MessageForwardedBundleFooterAction,
 } from "raft-ui";
 
 import { Markdown } from "#/lib/markdown/markdown.tsx";
@@ -98,10 +98,12 @@ export function ForwardedBundleLongContentComposition() {
               <LongForwardedItem />
             </MessageForwardedBundleItems>
             <MessageForwardedBundleFooter>
-              <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
+              <MessageForwardedBundleFooterAction
+                onClick={() => setExpanded((current) => !current)}
+              >
                 {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                 {expanded ? "Collapse" : "Show all 1 message"}
-              </MessageForwardedBundleToggle>
+              </MessageForwardedBundleFooterAction>
             </MessageForwardedBundleFooter>
           </MessageForwardedBundle>
         </MessageItemEmbedded>

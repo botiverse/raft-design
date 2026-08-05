@@ -36,7 +36,7 @@ import {
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
-  MessageForwardedBundleToggle,
+  MessageForwardedBundleFooterAction,
 } from "raft-ui";
 
 export type ForwardedBundleCompositionItem = {
@@ -158,10 +158,10 @@ export function ForwardedBundleEmbeddedComposition({
         </MessageForwardedBundleItems>
         {collapsible ? (
           <MessageForwardedBundleFooter>
-            <MessageForwardedBundleToggle onClick={() => setExpanded((current) => !current)}>
+            <MessageForwardedBundleFooterAction onClick={() => setExpanded((current) => !current)}>
               {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
               {expanded ? "Collapse" : `Show all ${items.length} messages`}
-            </MessageForwardedBundleToggle>
+            </MessageForwardedBundleFooterAction>
           </MessageForwardedBundleFooter>
         ) : null}
       </MessageForwardedBundle>
