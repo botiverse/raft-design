@@ -5,7 +5,7 @@ description: "Where to find props, variant values, and tokens for the installed 
 
 # Looking things up
 
-This skill deliberately carries no prop signatures — they would go stale. Look them up instead. **Never guess a prop or variant name.**
+This skill contains a small orientation snapshot, not authoritative prop signatures. Exact names can change with the installed package version. Look them up instead of guessing.
 
 ## Order to try
 
@@ -49,7 +49,7 @@ Adapt the pattern to how the declarations actually read — check the surroundin
 rg -n "^(declare |export )" node_modules/raft-ui/dist/index.d.mts | head -100
 ```
 
-If a name is absent from `index.d.mts`, check `wip.d.mts` before concluding it does not exist — it may be unstable rather than missing.
+If a name is absent from `index.d.mts`, treat it as unavailable on the stable surface. Check `wip.d.mts` only when the user explicitly asks to consider unstable APIs.
 
 ## Finding a variant's allowed values
 

@@ -12,8 +12,8 @@ description: "Compound-part composition: render vs asChild, theme resolution, st
 - `theme` is never passed by hand
 - Variant names are not consistent across components
 - Dialog / AlertDialog / Drawer structure
-- Form controls always go through Field
-- Use the component instead of hand-rolled markup
+- Use Field for shared field semantics
+- Do not re-create a library contract with ad hoc markup
 - Product state stays outside the component
 - Wrapping raft-ui components
 
@@ -97,7 +97,7 @@ export type ButtonProps = StyledProps<BaseButton.Props> &
 </ThemeProvider>
 ```
 
-Read the active family with `useThemeFamily()`. Render family-specific content with `<BrutalOnly>` / `<ElegantOnly>` rather than branching on a prop.
+Most application composition should not need to read the active family. Use `useThemeFamily()` only when a verified implementation detail cannot be expressed through tokens or recipes. Limit `<BrutalOnly>` / `<ElegantOnly>` to non-semantic decoration or equivalent implementations that preserve content, reading order, actions, and state.
 
 ---
 
@@ -129,55 +129,29 @@ A dialog always needs a `Title`. If the design has no visible title, it still ne
 
 ---
 
-## Form controls always go through Field
+## Use Field for shared field semantics
 
-`Field` wires label, control, description, and error together.
-
-**Incorrect:**
-
-```tsx
-<label>Display name</label>
-<Input />
-<span className="text-danger-base">Required</span>
-```
-
-**Correct:**
-
-```tsx
-const emailError = getEmailError(email);
-
-<Field invalid={Boolean(emailError)}>
-  <FieldLabel htmlFor="work-email">Email</FieldLabel>
-  <Input
-    id="work-email"
-    type="email"
-    aria-invalid={Boolean(emailError)}
-    value={email}
-    onChange={(event) => setEmail(event.currentTarget.value)}
-  />
-  <FieldDescription>Use your work email.</FieldDescription>
-  <FieldError match={Boolean(emailError)}>{emailError}</FieldError>
-</Field>;
-```
-
-For externally controlled validation, bind `Field invalid`, the control's `aria-invalid`, and `FieldError match` to the same error condition. A bare `match` means “always show”; use it only for a deliberately static invalid-state example. Without `match`, `FieldError` follows native, custom `validate`, or enclosing `Form` errors. Do not hand-roll an error paragraph. Use `FieldItem` for horizontal label/control rows and `FieldValidity` when you need raw validity state.
+Use `Field` when a control has raft-ui label, description, required, or validation treatment. It wires those parts together and keeps their state aligned. A simple native label/control pair may remain native when it does not need this shared layout or validation contract; keep the association explicit and accessible.
+For exact validation wiring and the complete example, read [forms.md](./forms.md#use-field-when-the-field-contract-applies). Do not hand-roll a visually attached but semantically disconnected error paragraph.
 
 ---
 
-## Use the component instead of hand-rolled markup
+## Do not re-create a library contract with ad hoc markup
 
-| Do not write                              | Use                                                            |
-| ----------------------------------------- | -------------------------------------------------------------- |
-| `<hr>` or a `border-t` div                | `Separator`                                                    |
-| a styled `<span>` for a count or tag      | `Badge`                                                        |
-| a colored dot div                         | `Status`                                                       |
-| a bare `<p>` / `<span>` with text classes | `Text.Sans`, `Text.Mono`, `Text.Heading`, or the named exports |
-| `<code>`                                  | `InlineCode`, or `CopyableCode` when it should be copyable     |
-| a `<kbd>`                                 | `Kbd` / `KbdGroup`                                             |
-| a custom "no results" block               | `EmptyState`                                                   |
-| a pulsing gray div                        | `Skeleton`                                                     |
-| a custom callout box                      | `Banner`                                                       |
-| a hand-built avatar circle with initials  | `Avatar` + `AvatarImage` + `AvatarFallback`                    |
+| When you need this raft-ui treatment     | Use                                                            |
+| ---------------------------------------- | -------------------------------------------------------------- |
+| a themed divider                         | `Separator`                                                    |
+| a styled `<span>` for a count or tag     | `Badge`                                                        |
+| a colored dot div                        | `Status`                                                       |
+| raft-ui typography                       | `Text.Sans`, `Text.Mono`, `Text.Heading`, or the named exports |
+| `<code>`                                 | `InlineCode`, or `CopyableCode` when it should be copyable     |
+| a `<kbd>`                                | `Kbd` / `KbdGroup`                                             |
+| a custom "no results" block              | `EmptyState`                                                   |
+| a pulsing gray div                       | `Skeleton`                                                     |
+| a custom callout box                     | `Banner`                                                       |
+| a hand-built avatar circle with initials | `Avatar` + `AvatarImage` + `AvatarFallback`                    |
+
+Native elements remain appropriate when their semantics and inherited styling are intentional. The rule is to avoid recreating the library's visual or behavioral contract incompletely, not to wrap every HTML element.
 
 When `Avatar` contains `AvatarImage`, pair it with `AvatarFallback` so a failed image still has an accessible fallback. A childless `Avatar` uses its built-in fallback.
 
