@@ -7,21 +7,21 @@ description: "Typography and display: the Text family, InlineCode vs CopyableCod
 
 ## Contents
 
-- Never write bare text
-- Text vs TextHeading vs TextMono vs TextSans
+- Use typography primitives for styled text
+- Text.Sans vs Text.Heading vs Text.Mono
 - InlineCode vs CopyableCode vs CodeBlock
 - Markdown and DescriptionList
 - Avatar
-- FilePreview vs Files
+- FilePreview vs file-list parts
 - Kbd
 - Icons
 - Per-component norms
 
 ---
 
-## Never write bare text
+## Use typography primitives for styled text
 
-Typography is owned by the recipes. A styled `<p>` or `<span>` will not track the theme families.
+Use the `Text` namespace when standalone copy needs raft-ui typography. Keep native text elements when their semantics and inherited styles are intentional.
 
 **Incorrect:**
 
@@ -32,33 +32,34 @@ Typography is owned by the recipes. A styled `<p>` or `<span>` will not track th
 **Correct:**
 
 ```tsx
-<Text size="small">Last synced 2 minutes ago</Text>
+<Text.Sans size="small">Last synced 2 minutes ago</Text.Sans>
 ```
 
 ---
 
-## Text vs TextHeading vs TextMono vs TextSans
+## Text.Sans vs Text.Heading vs Text.Mono
 
-| Component     | For                                                                       |
-| ------------- | ------------------------------------------------------------------------- |
-| `Text`        | body copy, labels, descriptions — the default                             |
-| `TextHeading` | section and page headings, `level` `1`–`6`                                |
-| `TextMono`    | values the user reads character by character                              |
-| `TextSans`    | copy that must stay in the sans family where the surrounding scope is not |
+| Component      | For                                                   |
+| -------------- | ----------------------------------------------------- |
+| `Text.Sans`    | body copy, labels, and descriptions                   |
+| `Text.Heading` | section and page headings; `level` is `1` through `6` |
+| `Text.Mono`    | code-like values, metadata, and tabular numbers       |
 
-**`Text` sizes** — `large` `body` `small` `caption`.
+Prefer the namespace used by the canonical compositions. The equivalent named exports `TextSans`, `TextHeading`, and `TextMono` also exist.
 
-**`TextMono` sizes** — `code` `meta` `eyebrow` `tabular`.
+**`Text.Sans` sizes** — `large` `body` `small` `caption`.
 
-Use `TextMono size="tabular"` for **any number that updates in place** — counts, timers, file sizes, percentages. Proportional digits change width as they change value, so the surrounding layout jitters on every tick.
+**`Text.Mono` sizes** — `code` `meta` `eyebrow` `tabular`.
+
+Use `Text.Mono size="tabular"` for numbers that update in place — counts, timers, file sizes, and percentages. Proportional digits can change width and make the surrounding layout jitter.
 
 ```tsx
-<TextMono size="tabular">{unreadCount}</TextMono>
+<Text.Mono size="tabular">{unreadCount}</Text.Mono>
 ```
 
 Use `size="meta"` for timestamps and IDs, `size="eyebrow"` for the small label above a section.
 
-`TextHeading` `level` sets the semantic heading level. Pick it from document structure, not from how big you want the text — size comes from the recipe.
+`Text.Heading` `level` selects both the heading element and its recipe size. Pick it from document structure. Use `render` only when the surrounding document requires a different element.
 
 ---
 
@@ -79,17 +80,17 @@ If the user's next move is to select the text, it should have been `CopyableCode
 </CopyableCodeRoot>
 ```
 
-`CopyableCode` sizes are `sm` and `md`. Use `truncate` for long single-line commands, and always give `CopyableCodeAction` an `ariaLabel` that says what is being copied.
+`CopyableCodeRoot` sizes are `sm` and `md`. Use `truncate` on `CopyableCode` for long single-line commands, and give `CopyableCodeAction` an `ariaLabel` that says what is being copied.
 
-`CodeBlock` composes `CodeBlockHeader` + `CodeBlockTitle` + `CodeBlockActions` + `CodeBlockAction` above a `CodeBlockBody`. Never render a `<pre>`/`<code>` block with a hand-built header or copy button.
+Compose a titled block with `CodeBlockHeader`, `CodeBlockTitle`, `CodeBlockActions`, and `CodeBlockAction` above `CodeBlockBody`. In a block without a header, place `CodeBlockActions` inside `CodeBlockBody`. Render the complete `<pre><code>…</code></pre>` as body content.
 
 ---
 
 ## Markdown and DescriptionList
 
-Rendered markdown (message bodies, agent output) is styled by the `Markdown*` part set — `MarkdownParagraph`, `MarkdownHeading`, `MarkdownList` / `MarkdownOrderedList` / `MarkdownListItem`, `MarkdownInlineCode`, `MarkdownLink`, `MarkdownBlockquote`, `MarkdownTable` (with `MarkdownTableScroll`), `MarkdownImage`, `MarkdownCheckbox`, `MarkdownRule`, `MarkdownMark`. Map your markdown renderer's nodes to these parts instead of styling tags by hand.
+Rendered markdown is styled by the `Markdown*` part set. Map paragraphs, headings, lists, links, blockquotes, code, tables, images, task checkboxes, rules, and marks to the matching exported parts. Wrap wide tables in `MarkdownTableScroll`, and compose `MarkdownTable`, `MarkdownTableRow`, `MarkdownHeaderCell`, and `MarkdownCell`.
 
-`DescriptionList` renders term/value pairs: `DescriptionItem` wraps `DescriptionTerm` + `DescriptionDetails`, in `horizontal` or `vertical` layout. Use it for metadata blocks and detail panes instead of a hand-built two-column grid.
+`DescriptionList` renders term/value pairs. Wrap `DescriptionTerm` and `DescriptionDetails` in `DescriptionItem`, and set `direction="horizontal"` or `direction="vertical"`.
 
 ---
 
@@ -102,15 +103,15 @@ Rendered markdown (message bodies, agent output) is styled by the `Markdown*` pa
 </Avatar>
 ```
 
-- **`type` is `agent` or `human`.** This is a product-meaningful distinction in Raft and changes the treatment. Set it deliberately; do not leave it to the default when you know which it is.
+- Pass the required `type` and `size` props. **`type` is `agent` or `human`** and changes the treatment.
 - Sizes are `3xs` `2xs` `xs` `sm` `md` `lg` `xl`.
-- **`AvatarFallback` is required.** Images fail, and an avatar with a broken image and no fallback renders as a hole.
-- `AvatarGroup` + `AvatarGroupCount` for stacks — do not hand-build overlap with negative margins.
+- Include `AvatarFallback` whenever you include `AvatarImage`. When `Avatar` has no children, it renders its built-in fallback automatically.
+- Use `AvatarGroup` and `AvatarGroupCount` for stacks. Pass the required avatar `size` to `AvatarGroupCount`.
 - `AvatarBadge` for a presence dot attached to the avatar. For a standalone state dot elsewhere, use `Status`.
 
 ---
 
-## FilePreview vs Files
+## FilePreview vs file-list parts
 
 `FilePreview` renders **one** file as a tile. It has dedicated shapes rather than a type prop:
 
@@ -123,22 +124,22 @@ Rendered markdown (message bodies, agent output) is styled by the `Markdown*` pa
 
 Pick the shape by what the file is. `FilePreviewBadge` labels the format.
 
-`Files` renders a **list** surface: `FilesPanel`, `FilesViewport`, `FilesList`, and per-row `FileRow`, `FileThumbnail`, `FileContent`, `FileName`, `FileMeta`, `FileMetaItem`, `FileActions`, `FileAction`, `FileRowOpen`, `FileImage`.
+The file-list parts render a **list** surface: `FilesPanel`, `FilesViewport`, `FilesList`, and per-row `FileRow`, `FileThumbnail`, `FileContent`, `FileName`, `FileMeta`, `FileMetaItem`, `FileActions`, `FileAction`, `FileRowOpen`, `FileImage`. There is no `Files` root component.
 
-Use `FilePreview` for attachments inside a composer or message; use `Files` for a browsable file list.
+Use `FilePreview` for attachments inside a composer or message; compose the file-list parts for a browsable list.
 
 ---
 
 ## Kbd
 
 ```tsx
-<KbdGroup>
+<KbdGroup aria-label="Command K">
   <Kbd>⌘</Kbd>
   <Kbd>K</Kbd>
 </KbdGroup>
 ```
 
-One key per `Kbd`. `KbdGroup` wraps a combination. Do not write `<Kbd>⌘K</Kbd>` — the group handles the spacing and separators.
+Render one key per `Kbd`. Use `KbdGroup` to apply spacing to a key combination. Add any visible separator as explicit content when the shortcut notation requires one.
 
 Inside menus, use `DropdownMenuShortcut` / `ContextMenuShortcut` instead of `Kbd`; they handle the right alignment within the row.
 
@@ -146,9 +147,9 @@ Inside menus, use `DropdownMenuShortcut` / `ContextMenuShortcut` instead of `Kbd
 
 ## Icons
 
-`lucide-react` is the icon library — it is a raft-ui dependency, and the recipes are tuned to it.
+Use `lucide-react` when it is installed in the consuming app. Raft-ui's internal recipes and canonical compositions are tuned to Lucide SVGs; do not rely on raft-ui to re-export icons.
 
-**Inside raft-ui components, do not size or restyle icons.** Components that render icons (`Button`, menu items, sidebar items, toasts, tabs, …) own icon treatment in their recipe: automatic sizing (`[&_svg]:size-4` or `[data-icon]:size-[1em]`) and stroke normalization to `1.5`.
+Let raft-ui components own their icons' default treatment. Buttons, menu items, sidebar items, toasts, and tabs apply recipe-specific sizing and sometimes theme-specific stroke widths. Override those values only when the component's API or a deliberate one-off treatment requires it.
 
 **Incorrect:**
 
@@ -167,8 +168,6 @@ Inside menus, use `DropdownMenuShortcut` / `ContextMenuShortcut` instead of `Kbd
 ```
 
 In your own markup — outside any icon-owning component — size icons explicitly (`className="size-4"`).
-
-When a component accepts an icon as a prop, pass the component object, not a string key into a lookup map: `icon={CheckIcon}`.
 
 ---
 

@@ -20,7 +20,7 @@ description: "Styling contract: oklch semantic token families, banned palettes, 
 
 ## Tailwind's default palette is banned
 
-Every color in raft-ui is authored in oklch and exposed as a token. Tailwind's built-in palette is not part of the contract and will not track the theme.
+Raft-ui's theme contract is authored in oklch and exposed through semantic tokens. Tailwind's built-in palette is not part of that contract and will not track the theme.
 
 **Incorrect:**
 
@@ -31,7 +31,7 @@ Every color in raft-ui is authored in oklch and exposed as a token. Tailwind's b
 **Correct:**
 
 ```tsx
-<div className="bg-layer-muted text-foreground-muted border-line-subtle" />
+<div className="border border-line-muted bg-fill-muted text-foreground-muted" />
 ```
 
 Never write `hex`, `rgb()`, or `hsl()` either.
@@ -42,13 +42,15 @@ Never write `hex`, `rgb()`, or `hsl()` either.
 
 Reach for these first. The token contract lives in `raft-ui/styles.css`.
 
-| Family         | Purpose                                | Members                                                                                      |
-| -------------- | -------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `layer-*`      | surfaces                               | `page` `panel` `popover` `field` `muted` `hover` `active` `strong` `backdrop`                |
-| `line-*`       | borders                                | `line` `line-subtle` `line-muted` `line-strong` `line-field` `line-field-hover` `line-focus` |
-| `foreground-*` | text and icons                         | `foreground` `strong` `muted` `placeholder` `disabled` `icon` `inverse`                      |
-| `ink-*`        | neutral washes on transparent surfaces | `ink` `ink-2` `ink-4` `ink-6` `ink-8` `ink-10` `ink-16` `ink-20` `ink-30` `ink-40`           |
-| state          | intent color                           | `primary-*` `accent-*` `danger-*` `warning-*` `success-*`                                    |
+| Family         | Purpose                                | Registered suffixes                                                                                        |
+| -------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `layer-*`      | elevation surfaces                     | `page` `panel` `popover` `backdrop` `inset` `card` `hud` `hud-foreground`                                  |
+| `fill-*`       | opaque neutral fills                   | `muted` `strong`                                                                                           |
+| `line-*`       | borders                                | bare `line`, then `strong` `muted` `hairline` `field` `field-hover`                                        |
+| `foreground-*` | text and icons                         | bare `foreground`, then `strong` `muted` `hint` `icon` `placeholder` `disabled` `inverse` `active` `hover` |
+| `ink-*`        | neutral washes on transparent surfaces | bare `ink`, then `2` `4` `6` `8` `10` `16` `20` `30` `40`                                                  |
+
+State families do not share one uniform suffix set. `primary` and `accent` expose numeric ramps plus `strong`, `soft`, `hover`, and `active`; `info` exposes `strong`, `muted`, `soft`, `hover`, and `active`; `success` exposes `foreground`, `strong`, `muted`, and `soft`; `warning` and `danger` expose `foreground`, `strong`, `muted`, `soft`, `hover`, and `active`. Check `styles.css` before naming a utility.
 
 The `ink` ramp step is the alpha percentage — `ink-8` is 8% ink. Use it for hairlines, hover fills, and pressed states on transparent backgrounds.
 
@@ -68,7 +70,7 @@ Opaque tokens and alpha washes composite differently on non-white backdrops. Nev
 Hover and active states on solid fills are derived tokens, not opacity hacks.
 
 ```tsx
-<button className="bg-primary-base hover:bg-primary-hover active:bg-primary-active" />
+<button className="bg-primary hover:bg-primary-hover active:bg-primary-active" />
 ```
 
 Not every state family ships the full set — check `styles.css` before assuming `success-hover` exists. Adding a family to the interaction contract means defining its complete hover/active pair in the token layer, not patching one callsite.
@@ -92,10 +94,14 @@ Tokenize on the rule of three: once the same value appears in a third component,
 ```tsx
 // Incorrect — tailwind-merge misreads this as a shadow-color and conflict
 // resolution silently breaks.
-<div className="shadow-[var(--shadow-field-hover),0_1px_2px_black]" />
+<div className="shadow-[var(--theme-shadow-sm),0_1px_2px_oklch(0_0_0_/_0.18)]" />
 ```
 
-Use a named `@theme inline` shadow utility (`shadow-field-hover`) or keep the shadow fully literal.
+Use a registered named shadow utility such as `shadow-raft-sm`, or keep the shadow fully literal:
+
+```tsx
+<div className="shadow-[0_1px_2px_oklch(0_0_0_/_0.18)]" />
+```
 
 ---
 
@@ -118,7 +124,7 @@ const button = tv({
   ],
   variants: {
     variant: {
-      primary: ["bg-primary-base hover:bg-primary-hover", "text-foreground-inverse"],
+      primary: ["bg-primary hover:bg-primary-hover active:bg-primary-active", "text-primary-950"],
     },
   },
 });
@@ -139,7 +145,7 @@ Use static recipe entries (a `size` variant with literal classes) instead.
 
 ## Styling by `data-slot`
 
-Every raft-ui part stamps a stable `data-slot` attribute (`data-slot="dialog-content"`, `data-slot="banner-action"`, …). This is the DOM styling protocol — the recipes themselves use it for structural relationships (`has-[[data-slot=…]]`).
+Raft-ui's DOM-rendering parts stamp stable `data-slot` attributes (`data-slot="dialog-content"`, `data-slot="banner-action"`, …). Behavior-only roots and providers that render no element have no slot. Recipes use this DOM protocol for structural relationships (`has-[[data-slot=…]]`).
 
 When your styling depends on a part's presence or identity, target `data-slot`, never the part's class names:
 
@@ -164,8 +170,8 @@ Conditional classes go through `cn`, not template-literal ternaries:
 
 ```tsx
 // Incorrect
-<div className={`px-3 ${active ? "bg-layer-active" : ""}`} />
+<div className={`px-3 ${active ? "bg-fill-muted" : ""}`} />
 
 // Correct
-<div className={cn("px-3", active && "bg-layer-active")} />
+<div className={cn("px-3", active && "bg-fill-muted")} />
 ```

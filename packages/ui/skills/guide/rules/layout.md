@@ -28,6 +28,11 @@ The application frame is `AppShellRoot` with named slots. Fill the slots.
 </AppShellRoot>
 ```
 
+Treat the slots as ownership markers, not required direct children. On desktop, put
+`AppShellSidebarSlot` and `AppShellMainSlot` inside adjacent `ResizablePanel`s when the split is
+user-adjustable. On mobile, one `AppShellMainSlot` can switch between the sidebar, main content,
+and thread from app-owned route state.
+
 **Incorrect** — reassembling the frame:
 
 ```tsx
@@ -55,7 +60,7 @@ Three different jobs, often confused.
 `Resizable` is only for user-adjustable splits. If the widths are fixed by design, use the shell slots or plain layout — do not wrap everything in a resizable group "just in case".
 
 ```tsx
-<ResizableGroup direction="horizontal">
+<ResizableGroup orientation="horizontal">
   <ResizablePanel>…</ResizablePanel>
   <ResizableHandle />
   <ResizablePanel>…</ResizablePanel>
@@ -68,15 +73,15 @@ Every adjacent pair of `ResizablePanel`s needs a `ResizableHandle` between them.
 
 ## AppRail vs Sidebar vs MobileNav
 
-|             | For                                           |
-| ----------- | --------------------------------------------- |
-| `AppRail`   | the narrow icon rail — top-level destinations |
-| `Sidebar`   | the wide list — channels, DMs, sections       |
-| `MobileNav` | bottom navigation on small screens            |
+|                 | For                                           |
+| --------------- | --------------------------------------------- |
+| `AppRailRoot`   | the narrow icon rail — top-level destinations |
+| `SidebarRoot`   | the wide list — channels, DMs, sections       |
+| `MobileNavRoot` | bottom navigation on small screens            |
 
 `AppRail` composes `AppRailRoot`, `AppRailHeader`, `AppRailNav`, `AppRailFooter`, and items built from `AppRailItem` + `AppRailItemIcon` + `AppRailItemLabel`. Unread and attention signals have dedicated parts — `AppRailItemBadge`, `AppRailItemIndicator`, `AppRailItemAttention`, `AppRailItemAttentionMask`. Do not position a dot yourself.
 
-`MobileNav` is `MobileNavRoot` + `MobileNavItem` + `MobileNavLabel`. It replaces the rail on small screens; it is not a second navigation to keep in sync by hand.
+`MobileNavRoot` composes `MobileNavItem` + `MobileNavLabel` for small screens. Render its items separately from the rail, but drive selection and navigation from the same app-owned route or view state. Mobile may expose only a subset of destinations; keep shared destinations aligned.
 
 ---
 
@@ -107,11 +112,16 @@ Reach for `Panel` before writing `rounded-lg border border-line bg-layer-panel`.
 ## ScrollArea vs overflow
 
 - Page-level scrolling → let the browser do it.
-- A bounded region inside the layout → `ScrollArea`.
+- A component with a specialized viewport → use that viewport: `PanelScrollViewport`,
+  `TasksPanelViewport`, `MessageList`, or `SidebarContent`.
+- A bounded custom region with no existing scroll owner → compose `ScrollArea`.
 
-`ScrollArea` gives consistent scrollbar treatment across the theme families and platforms. Native `overflow-auto` inside a panel will look different on every OS.
+Use `ScrollArea` when the region itself owns scrolling and needs the library's scrollbar treatment.
+Do not replace a specialized viewport just to get a custom scrollbar; the higher-level component
+already owns the layout and overflow contract.
 
-Do not nest scroll regions. If two things scroll inside each other, the layout is usually wrong.
+Keep one scroll owner per axis. Do not put `ScrollArea` inside `PanelScrollViewport` or
+`TasksPanelViewport`, and do not make task columns or list sections independently scroll.
 
 ---
 
@@ -129,8 +139,12 @@ Do not nest scroll regions. If two things scroll inside each other, the layout i
 | `TaskListRoot`  | grouped list sections      |
 | `TaskCard`      | one task in either surface |
 
+`TasksPanelViewport` is the shared scroll owner for the complete panel. Put `TaskBoardRoot` or
+`TaskListRoot` directly under it. A standalone Board or List demo may provide its own `ScrollArea`;
+do not carry that wrapper into `TasksPanelViewport`.
+
 `TaskBoardColumn` and `TaskSection` mirror each other — both have `Heading`, `Count`, `Badge`, `Trigger`, `Chevron`, `Panel`, `Items`, `Empty`. The board additionally distinguishes empty states by drop eligibility: `TaskBoardColumnEmptyIdle`, `TaskBoardColumnEmptyAllowed`, `TaskBoardColumnEmptyBlocked`.
 
 Drag and drop is `TaskDndProvider` + `TaskDraggable` + `TaskDropZone` + `TaskDropPlaceholder` + `TaskDragOverlay`. Do not wire `@dnd-kit` directly.
 
-`TaskCardLegacy` and `LegacyTaskPanel` exist for old callsites — never use them in new code.
+`TaskCardLegacy` and the `LegacyTaskPanel*` family exist for old callsites — never use them in new code.

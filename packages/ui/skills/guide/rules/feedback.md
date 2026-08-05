@@ -20,15 +20,15 @@ description: "Feedback and status surfaces: Banner vs toast vs NotificationCente
 
 The same intent has different spellings across components. This is the most reliable way to get a runtime-silent styling bug, because an unknown variant value simply falls back to the default.
 
-| Component            | negative               | informational           |
-| -------------------- | ---------------------- | ----------------------- |
-| `Button`             | `variant="danger"`     | `variant="information"` |
-| `Badge`              | `variant="danger"`     | `variant="information"` |
-| `Status`             | `variant="danger"`     | `variant="information"` |
-| `Progress`           | `variant="danger"`     | `variant="information"` |
-| `Banner`             | `status="destructive"` | `status="info"`         |
-| `Toast`              | `tone="error"`         | `tone="info"`           |
-| `NotificationCenter` | `status="error"`       | `status="info"`         |
+| Component                    | negative                           | informational                    |
+| ---------------------------- | ---------------------------------- | -------------------------------- |
+| `Button`                     | `variant="danger"`                 | `variant="information"`          |
+| `Badge`                      | `variant="danger"`                 | `variant="information"`          |
+| `Status`                     | `variant="danger"`                 | `variant="information"`          |
+| `Progress`                   | `variant="danger"`                 | `variant="information"`          |
+| `Banner`                     | `status="destructive"`             | `status="info"`                  |
+| toast command / object       | `toast.error()` or `type: "error"` | `toast.info()` or `type: "info"` |
+| `NotificationCenterItemIcon` | `status="error"`                   | `status="info"`                  |
 
 Three different words for the same intent: `danger`, `destructive`, `error`. Two for informational: `information`, `info`.
 
@@ -53,13 +53,13 @@ All three deliver a message. They differ in lifetime and ownership.
 **Decision rule:** if missing the message would leave the user confused, it must not be a toast.
 
 - Quota exceeded, connection lost, read-only mode, unsaved changes → `Banner`. The condition is still true, so the message must still be visible.
-- Saved, copied, message sent, invite revoked → `toast()`. The user just did it and already knows the context.
+- Saved, copied, message sent, invite revoked → `toast.info()`, `toast.success()`, `toast.warning()`, or `toast.error()`. The user just did it and already knows the context.
 - Someone mentioned you, a task was assigned, a build finished → `NotificationCenter`. It happened out of band and needs to persist.
 
 **Incorrect** — a persistent condition announced once:
 
 ```tsx
-if (isReadOnly) toast({ title: "This channel is read-only" });
+if (isReadOnly) toast.info("This channel is read-only");
 ```
 
 The user scrolls away, the toast expires, and the disabled composer now has no explanation.
@@ -78,7 +78,11 @@ The user scrolls away, the toast expires, and the disabled composer now has no e
 
 **`Banner`** — `status` is `default` `destructive` `warning` `info` `success`; `size` is `sm` `md` `lg`. Compose `BannerTitle`, `BannerDescription`, `BannerAction`. Use a `BannerAction` when there is a way out of the condition.
 
-**`Toast`** — `tone` is `info` `success` `warning` `error`. `placement` is `bottom-center` `bottom-right` `top-center` `top-right` `none`; `layout` is `stacked` or `inline`; `strategy` is `fixed` or `absolute`. Set these once on `ToastProvider` / `ToastViewport`, not per toast. Fire toasts with `toast()`; use `useToastManager()` when you need to update or dismiss one you created, and `createToastManager()` for a scoped manager.
+**`Toast`** — wrap the application in `ToastProvider`, then fire the default manager with `toast.info()`, `toast.success()`, `toast.warning()`, `toast.error()`, or `toast.add()`. Dismiss with `toast.dismiss()`.
+
+Configure the provider's default viewport with `viewportPlacement` (`bottom-center`, `bottom-right`, `top-center`, or `top-right`) and `viewportStrategy` (`fixed` or `absolute`). For custom anatomy, set `renderViewport={false}`, compose `ToastPortal` and `ToastViewport`, and put `layout="stacked"` or `layout="inline"` on `ToastRoot`. `placement="none"` is available only on `ToastViewport` for anchored/custom positioning.
+
+Call `useToastManager()` inside a provider when custom anatomy needs the provider's manager. Create a scoped manager with `createToastManager()`, pass it to `ToastProvider`, and add or close scoped toasts through that manager instead of the default `toast` commands.
 
 Never put a destructive confirmation in a toast. Confirmation is `AlertDialog`.
 
@@ -108,13 +112,13 @@ Do not put a `Spinner` in a `Button` by hand — `Button` has `loading` and `loa
 
 Both are small. They say different things.
 
-|          | `Badge`                                           | `Status`                                                |
-| -------- | ------------------------------------------------- | ------------------------------------------------------- |
-| Shape    | a pill with text                                  | a dot                                                   |
-| Says     | what something _is_ — a label, count, or category | what state something is _in_ — online, healthy, failing |
-| Has text | yes                                               | optional                                                |
+|          | `Badge`                                           | `Status`                                                 |
+| -------- | ------------------------------------------------- | -------------------------------------------------------- |
+| Shape    | a pill with text                                  | a dot                                                    |
+| Says     | what something _is_ — a label, count, or category | what state something is _in_ — online, healthy, failing  |
+| Has text | yes                                               | no; add an `aria-label` or pair it with text when needed |
 
-Use `Status` for presence, health, and liveness. Its `pulse` boolean marks live activity and `attention` adds an emphasis ring — do not animate a dot yourself.
+Use `Status` for presence, health, and liveness. Its `pulse` boolean enables the theme's live-activity treatment; `attention` adds extra emphasis in the elegant theme. Do not animate a dot yourself.
 
 Use `Badge` for counts, tags, roles, and environment labels. `appearance` is `solid` `soft` `outline`:
 
@@ -128,7 +132,7 @@ Use `Badge` for counts, tags, roles, and environment labels. `appearance` is `so
 
 ## EmptyState
 
-For a surface with nothing to show. Compose `EmptyStateIcon`, `EmptyStateTitle`, `EmptyStateDescription`, `EmptyStateContent`, `EmptyStateActions`.
+For a surface with nothing to show. Inside `EmptyState`, group `EmptyStateIcon`, `EmptyStateTitle`, and `EmptyStateDescription` in `EmptyStateContent`; place `EmptyStateActions` after that content group.
 
 An empty state should say why it is empty and what to do next. Include `EmptyStateActions` whenever the user can act.
 
@@ -144,7 +148,7 @@ Distinguish three cases and do not use the same copy for them:
 
 ## Per-component norms
 
-**`NotificationCenter`** — `viewport` is `desktop` or `mobile`; `size` is `sm` `md` `lg`; items take a `read` boolean and a `status` of `error` `warning` `info` `success`; `actionVariant` is `primary` or `secondary`. Compose the item from `NotificationCenterItemIcon`, `NotificationCenterItemContent`, `NotificationCenterItemTitle`, `NotificationCenterItemBody`, `NotificationCenterItemActions`. Read/unread is product state you own — pass it in, do not expect the component to track it.
+**`NotificationCenter`** — set `viewport="desktop" | "mobile"` and `size="sm" | "md" | "lg"` on `NotificationCenterPopup`. Pass `read` to `NotificationCenterItem`, `status="error" | "warning" | "info" | "success"` to `NotificationCenterItemIcon`, and `variant="primary" | "secondary"` to `NotificationCenterActionButton`. Compose item structure from `NotificationCenterItemRow`, `NotificationCenterItemIcon`, `NotificationCenterItemContent`, `NotificationCenterItemTitle`, `NotificationCenterItemBody`, and `NotificationCenterItemActions`. Own read state in the application.
 
 **`Status`** — variants are `default` `primary` `information` `muted` `accent` `success` `warning` `danger`; sizes `xs` `sm` `md` `lg`.
 

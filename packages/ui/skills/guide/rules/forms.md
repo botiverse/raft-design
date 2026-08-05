@@ -27,18 +27,29 @@ These look alike and are not interchangeable. The rule is about **what happens o
 | Purpose                 | Pick a **value**                   | Run an **action**                  |
 | After choosing          | The trigger shows the chosen value | The menu closes, something happens |
 | Has a persistent value  | Yes                                | No                                 |
-| Belongs in a form       | Yes                                | No                                 |
-| Submitted with the form | Yes                                | Never                              |
+| Can represent form data | Yes, when given a `name`           | No                                 |
+| Submitted with the form | When named                         | Never                              |
 
 **Incorrect** — an actions menu built out of `Select`:
 
 ```tsx
 <Select>
-  <SelectTrigger>Actions</SelectTrigger>
-  <SelectPopup>
-    <SelectItem value="rename">Rename</SelectItem>
-    <SelectItem value="delete">Delete</SelectItem>
-  </SelectPopup>
+  <SelectTrigger>
+    <SelectValue placeholder="Actions" />
+    <SelectIcon />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectList>
+      <SelectItem value="rename">
+        <SelectItemText>Rename</SelectItemText>
+        <SelectItemIndicator />
+      </SelectItem>
+      <SelectItem value="delete">
+        <SelectItemText>Delete</SelectItemText>
+        <SelectItemIndicator />
+      </SelectItem>
+    </SelectList>
+  </SelectContent>
 </Select>
 ```
 
@@ -46,7 +57,9 @@ These look alike and are not interchangeable. The rule is about **what happens o
 
 ```tsx
 <DropdownMenu>
-  <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" />}>…</DropdownMenuTrigger>
+  <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" aria-label="Actions" />}>
+    …
+  </DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuItem onClick={rename}>Rename</DropdownMenuItem>
     <DropdownMenuSeparator />
@@ -143,8 +156,8 @@ All four render a row of choices. They differ in what the choice does.
 ## Input vs InputGroup vs Textarea
 
 - `Input` — a bare single-line control.
-- `InputGroup` — when the control needs an attached prefix, suffix, icon, or button. Compose `InputGroupAddon` + `InputGroupInput`. `align` is `inline-start` or `inline-end`; `variant` is `default` or `container`.
-- `Textarea` — multi-line. Pair with `TextareaGroup` and `TextareaCounter` when there is a character limit; the recipe exposes an `overLimit` state so the counter can turn negative-styled without you branching.
+- `InputGroup` — when the control needs an attached prefix, suffix, icon, or button. Compose `InputGroupAddon` + `InputGroupInput`. On `InputGroupAddon`, `align` is `inline-start` or `inline-end`; `variant` is `default` or `container`.
+- `Textarea` — multi-line. Pair with `TextareaGroup` and `TextareaCounter` when there is a character limit. Give the counter `value` (or `count`) and `limit`; it computes and styles the over-limit state itself.
 
 **Incorrect** — faking an addon with absolute positioning:
 
@@ -173,19 +186,28 @@ All four render a row of choices. They differ in what the choice does.
 Every labelled control goes through `Field`. It wires the label, control, description, and validation together.
 
 ```tsx
-<Field>
-  <FieldLabel htmlFor="display-name">Display name</FieldLabel>
-  <Input id="display-name" placeholder="you@example.com" />
+const emailError = getEmailError(email);
+
+<Field invalid={Boolean(emailError)}>
+  <FieldLabel htmlFor="work-email">Email</FieldLabel>
+  <Input
+    id="work-email"
+    type="email"
+    aria-invalid={Boolean(emailError)}
+    value={email}
+    onChange={(event) => setEmail(event.currentTarget.value)}
+  />
   <FieldDescription>Use your work email.</FieldDescription>
-  <FieldError />
-</Field>
+  <FieldError match={Boolean(emailError)}>{emailError}</FieldError>
+</Field>;
 ```
 
-- `FieldError` renders validation state itself. Do not hand-roll an error paragraph with `text-danger-base`.
+- For externally controlled validation, bind `Field invalid`, the control's `aria-invalid`, and `FieldError match` to the same error condition. A bare `match` means “always show”; use it only for a deliberately static invalid-state example. Without `match`, `FieldError` follows native, custom `validate`, or enclosing `Form` errors.
+- Do not hand-roll an error paragraph; `FieldError` owns the error semantics and styling.
 - `FieldItem` is for horizontal label/control rows (settings lists).
 - `FieldValidity` exposes raw validity when you need to drive something custom.
-- `FieldControl` is for wrapping a control that is not one of the built-ins.
-- `Field` and `Label` both take `size` of `sm` or `md`. Keep them consistent within a form.
+- `FieldControl` is the Base UI input part. Use it when you need that primitive directly; `Input`, `Checkbox`, `Select`, and other Base UI controls already integrate with `Field` and do not need a `FieldControl` wrapper.
+- `FieldLabel` and standalone `Label` take `size` of `sm` or `md`; `Field` itself has no `size` prop. Keep label sizes consistent within a form.
 
 Standalone `Label` exists for cases outside a field (a section caption above a group). It composes `LabelAsterisk` for required, `LabelOptional` for optional, and `LabelSub` for secondary text — do not type "(optional)" into the label string.
 
@@ -193,9 +215,9 @@ Standalone `Label` exists for cases outside a field (a section caption above a g
 
 ## Per-component norms
 
-**`Select`** — `SelectTrigger` needs `SelectValue`; add `SelectIcon` for the chevron. Items take `SelectItemText`, and `SelectItemIndicator` for the checkmark. `SelectItemLeading` holds an icon.
+**`Select`** — compose `SelectValue` and `SelectIcon` inside `SelectTrigger`. Put `SelectList` and its items inside `SelectContent`; `SelectContent` owns portal and positioning. Items take `SelectItemText` and, when selected state should be visible, `SelectItemIndicator`. `SelectItemLeading` holds an icon.
 
-**`Combobox`** — `ComboboxInput` lives inside `ComboboxInputGroup` or `ComboboxControl` depending on the `inputOwner` shape. Provide `ComboboxClear` when a value can be cleared. `ComboboxRow` is for grid-style option layouts.
+**`Combobox`** — put `ComboboxInput` in `ComboboxControl` when the searchable field is the anchor control. Use `ComboboxInputGroup` for a search row inside `ComboboxContent`, such as a trigger-led filter popup. Provide `ComboboxClear` when a value can be cleared. `ComboboxRow` is for grid-style option layouts.
 
 **`RadioGroup`** — each `RadioGroupItem` needs a `RadioGroupIndicator`.
 

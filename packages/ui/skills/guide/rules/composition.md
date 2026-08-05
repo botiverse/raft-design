@@ -105,13 +105,13 @@ Read the active family with `useThemeFamily()`. Render family-specific content w
 
 Do not carry a variant name from one component to another. Verify per component.
 
-| Component | Negative variant       |
-| --------- | ---------------------- |
-| `Button`  | `variant="danger"`     |
-| `Banner`  | `status="destructive"` |
+| Component | Destructive variants                                            |
+| --------- | --------------------------------------------------------------- |
+| `Button`  | `danger`, `danger-secondary`, or `danger-outline` via `variant` |
+| `Banner`  | `destructive` via `status`                                      |
 
 `Banner` statuses are `default` `destructive` `warning` `info` `success`.
-`Button` variants are `primary` `default` `information` `muted` `accent` `warning` `outline` `ghost` `link` `danger`.
+`Button` variants are `primary` `default` `information` `muted` `accent` `warning` `outline` `ghost` `link` `danger-secondary` `danger` `danger-outline`.
 
 Note `Button` uses `information` while `Banner` uses `info`. When in doubt, look it up — see [lookup.md](./lookup.md).
 
@@ -122,7 +122,7 @@ Note `Button` uses `information` while `Banner` uses `info`. When in doubt, look
 All three share the same part vocabulary: `Header` / `Body` / `Footer` inside `Content`, with `Title` inside `Header`.
 
 - `Dialog` — generic modal.
-- `AlertDialog` — destructive confirmation. Adds `AlertDialogAction` and `AlertDialogCancel`; use these instead of raw buttons so the confirm/cancel roles are correct.
+- `AlertDialog` — destructive confirmation. `AlertDialogCancel` closes automatically; `AlertDialogAction` is a named button slot and must run the confirm action and close controlled state explicitly.
 - `Drawer` — edge-anchored panel. Adds `DrawerActions`.
 
 A dialog always needs a `Title`. If the design has no visible title, it still needs one for accessibility.
@@ -144,34 +144,42 @@ A dialog always needs a `Title`. If the design has no visible title, it still ne
 **Correct:**
 
 ```tsx
-<Field>
-  <FieldLabel htmlFor="display-name">Display name</FieldLabel>
-  <Input id="display-name" placeholder="you@example.com" />
+const emailError = getEmailError(email);
+
+<Field invalid={Boolean(emailError)}>
+  <FieldLabel htmlFor="work-email">Email</FieldLabel>
+  <Input
+    id="work-email"
+    type="email"
+    aria-invalid={Boolean(emailError)}
+    value={email}
+    onChange={(event) => setEmail(event.currentTarget.value)}
+  />
   <FieldDescription>Use your work email.</FieldDescription>
-  <FieldError />
-</Field>
+  <FieldError match={Boolean(emailError)}>{emailError}</FieldError>
+</Field>;
 ```
 
-`FieldError` renders validation state on its own — do not hand-roll an error paragraph. Use `FieldItem` for horizontal label/control rows and `FieldValidity` when you need raw validity state.
+For externally controlled validation, bind `Field invalid`, the control's `aria-invalid`, and `FieldError match` to the same error condition. A bare `match` means “always show”; use it only for a deliberately static invalid-state example. Without `match`, `FieldError` follows native, custom `validate`, or enclosing `Form` errors. Do not hand-roll an error paragraph. Use `FieldItem` for horizontal label/control rows and `FieldValidity` when you need raw validity state.
 
 ---
 
 ## Use the component instead of hand-rolled markup
 
-| Do not write                              | Use                                                        |
-| ----------------------------------------- | ---------------------------------------------------------- |
-| `<hr>` or a `border-t` div                | `Separator`                                                |
-| a styled `<span>` for a count or tag      | `Badge`                                                    |
-| a colored dot div                         | `Status`                                                   |
-| a bare `<p>` / `<span>` with text classes | `Text` (or `TextHeading` / `TextMono` / `TextSans`)        |
-| `<code>`                                  | `InlineCode`, or `CopyableCode` when it should be copyable |
-| a `<kbd>`                                 | `Kbd` / `KbdGroup`                                         |
-| a custom "no results" block               | `EmptyState`                                               |
-| a pulsing gray div                        | `Skeleton`                                                 |
-| a custom callout box                      | `Banner`                                                   |
-| a hand-built avatar circle with initials  | `Avatar` + `AvatarImage` + `AvatarFallback`                |
+| Do not write                              | Use                                                            |
+| ----------------------------------------- | -------------------------------------------------------------- |
+| `<hr>` or a `border-t` div                | `Separator`                                                    |
+| a styled `<span>` for a count or tag      | `Badge`                                                        |
+| a colored dot div                         | `Status`                                                       |
+| a bare `<p>` / `<span>` with text classes | `Text.Sans`, `Text.Mono`, `Text.Heading`, or the named exports |
+| `<code>`                                  | `InlineCode`, or `CopyableCode` when it should be copyable     |
+| a `<kbd>`                                 | `Kbd` / `KbdGroup`                                             |
+| a custom "no results" block               | `EmptyState`                                                   |
+| a pulsing gray div                        | `Skeleton`                                                     |
+| a custom callout box                      | `Banner`                                                       |
+| a hand-built avatar circle with initials  | `Avatar` + `AvatarImage` + `AvatarFallback`                    |
 
-`Avatar` always needs `AvatarFallback` — images fail.
+When `Avatar` contains `AvatarImage`, pair it with `AvatarFallback` so a failed image still has an accessible fallback. A childless `Avatar` uses its built-in fallback.
 
 ---
 
@@ -191,8 +199,8 @@ When you build your own component on top of a raft-ui one, the wrapper must stay
 import { Button, type ButtonProps } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
-export function DangerZoneButton({ className, ...props }: ButtonProps) {
-  return <Button variant="danger-outline" className={cn("w-full", className)} {...props} />;
+export function DangerZoneButton({ className, ...props }: Omit<ButtonProps, "variant">) {
+  return <Button {...props} variant="danger-outline" className={cn("w-full", className)} />;
 }
 ```
 

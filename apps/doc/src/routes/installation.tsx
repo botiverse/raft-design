@@ -1,5 +1,6 @@
-import { InlineCode } from "raft-ui";
+import { InlineCode, Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "raft-ui";
 import { createFileRoute } from "@tanstack/react-router";
+import { Bot, UserRound } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -18,37 +19,28 @@ const TOC = [
   { id: "requirements", title: "Requirements" },
 ] as const;
 
-const INSTALLATION_PROMPT = `Add raft-ui to this React app.
+const INSTALLATION_PROMPT = `Install and initialize raft-ui in this repository.
 
-Tasks:
-1. Run: pnpm add raft-ui
-2. Import tailwindcss and raft-ui/styles.css once from the global CSS file.
-3. Decide how to load fonts. You can load raft-ui/fonts.css as a separate stylesheet or provide your own font files.
-4. Put the app inside an isolated layout root so body portals stack above app content.
-5. Wrap the app root with ThemeProvider.
-6. Add TooltipProvider when the app uses Tooltip.
-7. Add ToastProvider once when the app uses toast.info, toast.success, toast.warning, or toast.error.
-8. Keep default body portals. Configure portal containers only for iframes, previews, or embedded shells.
+1. Inspect the repository and use its existing package manager. Do not change package managers or lockfile format.
+   - Single-package repository: install the latest stable raft-ui as a dependency and skills-npm as a dev dependency in that package.
+   - Monorepo: install raft-ui in the target app workspace, then install skills-npm as a dev dependency at the workspace root.
+2. Run the installed skills-npm setup command where skills-npm was installed. For a monorepo, run it at the workspace root with --recursive. Let setup detect the active coding agent, add its prepare hook and gitignore entry, and perform the first sync.
+3. Do not copy the skill manually. Confirm that skills-npm discovered node_modules/raft-ui/skills/guide and created the npm-raft-ui-guide symlink for the active agent. For Codex, this should resolve under .agents/skills/npm-raft-ui-guide.
+4. Read the installed raft-ui skill's SKILL.md completely. Read rules/setup.md now, then load only the other rule files relevant to the UI being built. If the agent cannot discover local skills, read node_modules/raft-ui/skills/guide/SKILL.md directly and follow it for this task.
+5. Follow the skill to initialize raft-ui: wire Tailwind CSS v4, import raft-ui/styles.css once, decide whether to load raft-ui/fonts.css separately, add ThemeProvider, and add TooltipProvider or ToastProvider only when the app needs them.
+6. Put the application inside an isolated layout root so body portals stack above app content. Keep default body portals unless this is an iframe, preview, or embedded shell.
+7. Before writing raft-ui UI, explicitly invoke $raft-ui-skill when the agent supports skill mentions. Inspect node_modules/raft-ui/dist/index.d.mts before using any prop, part, or variant you have not verified. Do not guess APIs or import from raft-ui/wip unless asked.
+8. Validate the changed files with the repository's existing checks.
 
-Minimal setup:
-import { ThemeProvider, ToastProvider, TooltipProvider } from "raft-ui";
-
-export function App() {
-  return (
-    <div className="isolate">
-      <ThemeProvider>
-        <ToastProvider>
-          <TooltipProvider>
-            <YourApp />
-          </TooltipProvider>
-        </ToastProvider>
-      </ThemeProvider>
-    </div>
-  );
-}`;
+When finished, summarize the files changed, the installed skill path, the providers added, and the validation results.`;
 
 const SNIPPETS = {
-  install: "pnpm add raft-ui",
+  install: `pnpm add raft-ui
+pnpm add -D skills-npm
+pnpm exec skills-npm setup`,
+  installMonorepo: `pnpm --filter your-app add raft-ui
+pnpm add -Dw skills-npm
+pnpm exec skills-npm setup --recursive`,
   installTailwind: "pnpm add -D tailwindcss @tailwindcss/vite",
   vite: `import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
@@ -183,13 +175,53 @@ function InstallationDoc() {
       title="Installation"
       description="Install the package, load the stylesheet, and wire the app shell."
       toc={TOC}
-      headerAction={<InstallationCopyPrompt prompt={INSTALLATION_PROMPT} />}
     >
       <DocSection id="install" title="Install">
-        <div className="space-y-4">
-          <Lead>Add the package. React and React DOM come from your app.</Lead>
-          <CodeSnippet path="Shell" source={SNIPPETS.install} html={code.install} />
-        </div>
+        <Tabs defaultValue="ai">
+          <TabsList aria-label="Installation method">
+            <TabsBackground />
+            <TabsTab value="ai">
+              <Bot aria-hidden />
+              <TabsLabel>For AI</TabsLabel>
+            </TabsTab>
+            <TabsTab value="human">
+              <UserRound aria-hidden />
+              <TabsLabel>For human</TabsLabel>
+            </TabsTab>
+          </TabsList>
+          <TabsPanel value="ai" className="pt-4">
+            <div className="space-y-4">
+              <Lead>
+                Copy this prompt into Codex or another coding agent. It installs the package,
+                initializes the bundled skill, and uses that skill to configure your app.
+              </Lead>
+              <InstallationCopyPrompt prompt={INSTALLATION_PROMPT} />
+            </div>
+          </TabsPanel>
+          <TabsPanel value="human" className="pt-4">
+            <div className="space-y-6">
+              <Lead>
+                Add the package and initialize its bundled skill. The setup command detects your
+                coding agents and keeps their skill symlinks in sync after installs.
+              </Lead>
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-foreground">Single-package app</h3>
+                <CodeSnippet path="Shell" source={SNIPPETS.install} html={code.install} />
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-foreground">pnpm workspace</h3>
+                <Lead>
+                  Replace <InlineCode>your-app</InlineCode> with the target workspace package name.
+                </Lead>
+                <CodeSnippet
+                  path="Shell"
+                  source={SNIPPETS.installMonorepo}
+                  html={code.installMonorepo}
+                />
+              </div>
+            </div>
+          </TabsPanel>
+        </Tabs>
       </DocSection>
 
       <DocSection id="app-shell" title="App shell">

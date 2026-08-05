@@ -23,13 +23,13 @@ These encode the Raft product shape. Reach for them before assembling anything c
 
 | Scenario                            | Component                     |
 | ----------------------------------- | ----------------------------- |
-| Channel and DM list                 | `Sidebar`                     |
-| The main conversation column        | `ConversationPanel`           |
-| A thread beside the conversation    | `ThreadPanel`                 |
+| Channel and DM list                 | `SidebarRoot`                 |
+| The main conversation column        | `ConversationPanelRoot`       |
+| A thread beside the conversation    | `ThreadPanelRoot`             |
 | The scrolling list of messages      | `MessageList` + `MessageItem` |
 | One human or agent message          | `MessageItem`                 |
 | Join/leave/rename event in the flow | `SystemMessage`               |
-| Message input                       | `Composer`                    |
+| Message input                       | `ComposerRoot` + `Composer`   |
 | Notification inbox                  | `NotificationCenter`          |
 | Live agent activity strip           | `LiveAgentActivityBar`        |
 
@@ -59,7 +59,7 @@ Use `ConversationPanelEmptyState` rather than the generic `EmptyState` inside a 
 
 `Textarea` is a form control. `Composer` is a message-sending surface.
 
-Use `Composer` whenever the input sends a message — it already handles attachments, drag-and-drop, mentions, the toolbar, and the submit affordance. Rebuilding those around a `Textarea` reimplements a large amount of behavior badly.
+Use the `ComposerRoot` / `Composer` family whenever the input sends a message. It provides the attachment, drop-overlay, toolbar, submit, and suggestion parts; `SortableComposerAttachments` and `useComposerSuggestions` own the reusable behavior they name. Your app still owns selected files, upload lifecycle, send state, and submit policy.
 
 Use `Textarea` for a description field in a form.
 
@@ -117,15 +117,17 @@ For message text content, the `Markdown*` renderer parts (see [display.md](./dis
 
 ```
 ComposerRoot
-  ComposerAttachments → ComposerAttachment → AttachmentImage | AttachmentFile,
-                        AttachmentBody, AttachmentTitle, AttachmentMeta, AttachmentRemove,
-                        AttachmentUploadingOverlay, AttachmentUploadProgressBar,
-                        AttachmentFailedOverlay
+  ComposerAttachments → ComposerAttachment → ComposerAttachmentImage | ComposerAttachmentFile,
+                        ComposerAttachmentBody, ComposerAttachmentTitle,
+                        ComposerAttachmentMeta, ComposerAttachmentRemove,
+                        ComposerAttachmentUploadingOverlay,
+                        ComposerAttachmentUploadProgressBar,
+                        ComposerAttachmentFailedOverlay
   ComposerInput
   ComposerToolbar → ComposerToolbarLabel, ComposerIconButton
   ComposerActions → ComposerSubmit
   ComposerMeta
-  ComposerDropOverlay → DropOverlayLabel, DropOverlayPrompt
+  ComposerDropOverlay → ComposerDropOverlayLabel, ComposerDropOverlayPrompt
 ```
 
 - `ComposerSubmit` is a `Button` locked to `variant="accent"` — the core-action color. Its props omit `variant`; do not try to restyle it into a yellow or default button.
@@ -133,7 +135,7 @@ ComposerRoot
 - Reorderable attachments use `SortableComposerAttachments` / `SortableComposerAttachment` / `SortableComposerAttachmentsScroll`.
 - Mentions and slash commands use the `useComposerSuggestions` hook with `ComposerSuggestionList`, `ComposerSuggestionGroup`, `ComposerSuggestionOption`, `ComposerSuggestionIcon`, `ComposerSuggestionTitle`, `ComposerSuggestionMeta`, `ComposerSuggestionAside`.
 
-The suggestion list recipe exposes `iconVariant` of `avatar` `framed` `auxiliary` and `metaVariant` of `text` `code` — pick `avatar` for people, `framed` for channels and commands, and `code` meta for anything the user types literally.
+Set `ComposerSuggestionIcon variant` to `avatar`, `framed`, or `auxiliary`, and set `ComposerSuggestionMeta variant` to `text` or `code`. Pick `avatar` for people, `framed` for channels and commands, and `code` for anything the user types literally.
 
 The suggestion parts are **styling slots**, not a combobox state machine. `useComposerSuggestions` owns matching and keyboard behavior; the parts render it.
 

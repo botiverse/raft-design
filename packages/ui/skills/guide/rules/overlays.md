@@ -46,21 +46,57 @@ Two questions decide almost every case.
 Use `AlertDialog` when the user could lose work or cause something irreversible: delete, discard, reset, revoke, disconnect.
 
 ```tsx
-<AlertDialog>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>Delete channel</AlertDialogTitle>
-    </AlertDialogHeader>
-    <AlertDialogBody>This cannot be undone.</AlertDialogBody>
-    <AlertDialogFooter>
-      <AlertDialogCancel>Keep</AlertDialogCancel>
-      <AlertDialogAction render={<Button variant="danger" />}>Delete</AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
+import { useState } from "react";
+
+function DeleteChannelAlertDialog() {
+  const [open, setOpen] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleDelete() {
+    setPending(true);
+    setError("");
+    try {
+      await deleteChannel();
+      setOpen(false);
+    } catch {
+      setError("Could not delete the channel. Try again.");
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <AlertDialog
+      open={open}
+      onOpenChange={(nextOpen) => {
+        if (!pending) setOpen(nextOpen);
+      }}
+    >
+      <AlertDialogTrigger render={<Button variant="danger-outline" />} onClick={() => setError("")}>
+        Delete channel
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete channel</AlertDialogTitle>
+        </AlertDialogHeader>
+        <AlertDialogBody>
+          <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
+          {error ? <AlertDialogDescription role="alert">{error}</AlertDialogDescription> : null}
+        </AlertDialogBody>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={pending}>Keep</AlertDialogCancel>
+          <AlertDialogAction variant="danger" loading={pending} onClick={handleDelete}>
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
 ```
 
-Use `AlertDialogAction` and `AlertDialogCancel` — not bare `Button`s. They carry the confirm/cancel roles and the correct dismissal behavior.
+`AlertDialogCancel` is a dialog close part and dismisses automatically. `AlertDialogAction` is a named `Button` slot; it does **not** close the dialog. Wire the confirm behavior yourself. For async work, control `open`, show `loading`, close only after success, and leave the dialog open with an error on failure. Disable or block dismissal while pending only when the operation cannot safely be abandoned.
 
 Everything else — a form, a settings pane, a multi-step flow — is `Dialog`.
 
@@ -88,10 +124,10 @@ The dividing line is **interactivity**, then **trigger**.
 
 |                              | `Tooltip`     | `PreviewCard`     | `Popover`                 |
 | ---------------------------- | ------------- | ----------------- | ------------------------- |
-| Opens on                     | hover / focus | hover             | click                     |
+| Opens on                     | hover / focus | hover / focus     | click                     |
 | Content                      | one phrase    | read-only summary | anything, including forms |
 | Can contain links or buttons | No            | Links only        | Yes                       |
-| Dismissable by the user      | No            | No                | Yes, `PopoverClose`       |
+| Explicit close control       | No            | No                | Yes, `PopoverClose`       |
 
 **Incorrect** — interactive content in a tooltip:
 
@@ -108,14 +144,23 @@ A tooltip disappears when the pointer leaves, so the user can never reach that b
 **Correct use of each:**
 
 ```tsx
-<Tooltip><TooltipTrigger render={<Button size="icon-sm" />} /><TooltipContent>Archive</TooltipContent></Tooltip>
+<Tooltip>
+  <TooltipTrigger render={<Button size="icon-sm" aria-label="Archive" />} />
+  <TooltipContent>Archive</TooltipContent>
+</Tooltip>
 
-<PreviewCard><PreviewCardTrigger render={<a />} /><PreviewCardContent>…user card…</PreviewCardContent></PreviewCard>
+<PreviewCard>
+  <PreviewCardTrigger render={<a href="/people/atlas" />}>@Atlas</PreviewCardTrigger>
+  <PreviewCardContent>…user card…</PreviewCardContent>
+</PreviewCard>
 
-<Popover><PopoverTrigger render={<Button />} /><PopoverContent>…filter form…</PopoverContent></Popover>
+<Popover>
+  <PopoverTrigger render={<Button />}>Filters</PopoverTrigger>
+  <PopoverContent>…filter form…</PopoverContent>
+</Popover>
 ```
 
-`Tooltip` requires a `TooltipProvider` above it. It has a `hasLeadingIcon` state for tooltips that show an icon alongside the label — do not hand-pad an icon in.
+Wrap related tooltips in `TooltipProvider` to share delay and instant-open behavior. `TooltipContent` detects a leading icon and lays it out beside the label automatically — do not add manual icon padding.
 
 Never put a tooltip on something that has no other affordance. If the only way to learn what a button does is to hover, the button needs a label.
 
@@ -143,7 +188,7 @@ Rules that apply to both:
 
 ## Lightbox vs Dialog
 
-`Lightbox` is for viewing media at full size — images, video, and their navigation. It provides `LightboxStage`, `LightboxMedia`, `LightboxThumbnailStrip`, `LightboxThumbnail`, `LightboxNavigationButton`, `LightboxToolbar`, and an info dock (`LightboxInfoBar`, `LightboxInfoTitle`, `LightboxInfoActions`).
+`Lightbox` is for viewing media at full size — images, video, and their navigation. It provides `LightboxStage`, `LightboxMedia`, `LightboxThumbnailStrip`, `LightboxThumbnail`, `LightboxNavigationButton`, `LightboxToolbar`, and `LightboxInfoDock` with `LightboxInfoBar`, `LightboxInfoTitle`, and `LightboxInfoActions`.
 
 Do not build a media viewer out of `Dialog`. Do not use `Lightbox` for non-media content.
 
@@ -162,7 +207,7 @@ Do not add a `…Portal` or `…Popup` wrapper around `Content` — that double-
 
 Do not introduce your own portal provider — the primitive's container API already solves placement ownership.
 
-Do not fight overlay stacking with `z-index`. Portaled content escapes your local stacking context by construction; a `z-index: 9999` on app chrome that must sit above or below an overlay is a sign the element is in the wrong place, not that the number is too small.
+Portaled content escapes the trigger's local stacking context, but it still participates in the portal container's stacking order. Before adding an arbitrary high `z-index`, inspect the selected portal container and the competing top-level layer; use `portalProps.container` when the overlay belongs to a different layer owner.
 
 Every blocking overlay needs a `Title`, even when the design shows no visible heading — it is what screen readers announce. When the design hides it, keep the part and add `className="sr-only"`.
 
@@ -176,4 +221,4 @@ Every blocking overlay needs a `Title`, even when the design shows no visible he
 
 **`Tooltip`** — keep to a phrase. No punctuation-heavy sentences, no line breaks.
 
-**`NotificationCenter`** — an inbox surface, not an overlay primitive. It has its own trigger, popup, list, and empty state, plus `viewport` of `desktop` or `mobile`. See [feedback.md](./feedback.md).
+**`NotificationCenter`** — an inbox surface, not a generic overlay primitive. It has its own trigger, popup, list, and empty state. `NotificationCenterPopup` takes `viewport="desktop"` or `viewport="mobile"`. See [feedback.md](./feedback.md).
