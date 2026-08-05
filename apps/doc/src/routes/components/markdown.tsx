@@ -156,7 +156,7 @@ const PROPS: readonly PropRow[] = [
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "usage", title: "Usage" },
+  { id: "usage", title: "Docs-local renderer" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -177,8 +177,8 @@ function MarkdownDoc() {
 
   return (
     <DocPage
-      title="Markdown"
-      description="Styled parts for rendered Markdown — headings, lists, tables, quotes, and inline code."
+      title="Markdown Parts"
+      description="Stable MarkdownHeading, MarkdownParagraph, and related parts from raft-ui. The complete Markdown renderer shown here is a docs-local composition, not a raft-ui export."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -212,7 +212,7 @@ function MarkdownDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Usage">
+      <DocSection id="usage" title="Docs-local renderer">
         <DocsCodeBlock.Files
           files={[
             {

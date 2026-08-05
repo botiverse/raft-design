@@ -109,15 +109,6 @@ const CONVERSATION_PANEL_ROOT_PROPS: readonly PropRow[] = [
   },
 ];
 
-const PANEL_ACTION_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "button props",
-    description:
-      "Panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
-  },
-];
-
 const PANEL_TOGGLE_ACTION_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -306,9 +297,6 @@ function ConversationPanelDoc() {
             title="ConversationPanelRoot"
           >
             <PropsTable rows={CONVERSATION_PANEL_ROOT_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-panel-action" title="PanelAction">
-            <PropsTable rows={PANEL_ACTION_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-toggle-action" title="PanelToggleAction">
             <PropsTable rows={PANEL_TOGGLE_ACTION_PROPS} />

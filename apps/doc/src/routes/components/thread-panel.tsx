@@ -169,15 +169,6 @@ const THREAD_PANEL_ACTIONS_PROPS: readonly PropRow[] = [
   },
 ];
 
-const PANEL_ACTION_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "button props",
-    description:
-      "Panel action root for direct icon, text, and count children. It owns icon sizing and tabular number alignment.",
-  },
-];
-
 const THREAD_PANEL_CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -370,9 +361,6 @@ function ThreadPanelDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-thread-panel-actions" title="ThreadPanelActions">
             <PropsTable rows={THREAD_PANEL_ACTIONS_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-panel-action" title="PanelAction">
-            <PropsTable rows={PANEL_ACTION_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-thread-panel-content" title="ThreadPanelContent">
             <PropsTable rows={THREAD_PANEL_CONTENT_PROPS} />

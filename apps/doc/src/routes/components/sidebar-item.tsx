@@ -59,7 +59,7 @@ const SIDEBAR_ITEM_PROPS: readonly PropRow[] = [
 const SIDEBAR_ITEM_ICON_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "span props",
+    type: 'useRender.ComponentProps<"span">',
     description: "Leading avatar or general icon slot for a row.",
   },
 ];
@@ -67,24 +67,29 @@ const SIDEBAR_ITEM_ICON_PROPS: readonly PropRow[] = [
 const SIDEBAR_ITEM_CHANNEL_ICON_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "span props",
+    type: 'useRender.ComponentProps<"span">',
     description: "Leading icon container. Pass the concrete icon as its child.",
   },
 ];
 
 const SIDEBAR_ITEM_CONTENT_PROPS: readonly PropRow[] = [
   {
+    name: "stacked",
+    type: "boolean",
+    default: "false",
+    description: "Stacks title and subtitle vertically when the row needs secondary activity copy.",
+  },
+  {
     name: "...props",
-    type: "span props",
-    description:
-      "Groups title and subtitle content. Its layout adapts automatically when those parts are present.",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Groups title and subtitle content.",
   },
 ];
 
 const SIDEBAR_ITEM_TITLE_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "span props",
+    type: 'useRender.ComponentProps<"span">',
     description: "Truncating primary destination label.",
   },
 ];
@@ -92,7 +97,7 @@ const SIDEBAR_ITEM_TITLE_PROPS: readonly PropRow[] = [
 const SIDEBAR_ITEM_SUBTITLE_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "span props",
+    type: 'useRender.ComponentProps<"span">',
     description: "Truncating secondary activity copy.",
   },
 ];
@@ -100,7 +105,7 @@ const SIDEBAR_ITEM_SUBTITLE_PROPS: readonly PropRow[] = [
 const SIDEBAR_ITEM_META_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "span props",
+    type: 'useRender.ComponentProps<"span">',
     description: "Low-emphasis inline metadata beside row content.",
   },
 ];
@@ -108,7 +113,7 @@ const SIDEBAR_ITEM_META_PROPS: readonly PropRow[] = [
 const SIDEBAR_ITEM_ASIDE_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "span props",
+    type: 'useRender.ComponentProps<"span">',
     description: "Trailing layout slot for consumer-chosen metadata parts.",
   },
 ];
@@ -116,7 +121,7 @@ const SIDEBAR_ITEM_ASIDE_PROPS: readonly PropRow[] = [
 const SIDEBAR_ITEM_STATUS_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "span props",
+    type: 'useRender.ComponentProps<"span">',
     description: "Availability-status slot. Consumers provide the Status content.",
   },
 ];
@@ -140,7 +145,7 @@ const SIDEBAR_ITEM_COUNT_PROPS: readonly PropRow[] = [
 const SIDEBAR_ITEM_META_ICON_PROPS: readonly PropRow[] = [
   {
     name: "...props",
-    type: "span props",
+    type: 'useRender.ComponentProps<"span">',
     description: "Draft, muted, or other low-emphasis metadata icon.",
   },
 ];

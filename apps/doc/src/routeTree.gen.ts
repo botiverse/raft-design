@@ -19,7 +19,6 @@ import { Route as ComponentsActivityRouteImport } from './routes/components/acti
 import { Route as ComponentsAlertDialogRouteImport } from './routes/components/alert-dialog'
 import { Route as ComponentsAppRailRouteImport } from './routes/components/app-rail'
 import { Route as ComponentsAppShellRouteImport } from './routes/components/app-shell'
-import { Route as ComponentsAttentionDotRouteImport } from './routes/components/attention-dot'
 import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar'
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
@@ -67,7 +66,6 @@ import { Route as ComponentsPreviewCardRouteImport } from './routes/components/p
 import { Route as ComponentsProfilePanelRouteImport } from './routes/components/profile-panel'
 import { Route as ComponentsProgressRouteImport } from './routes/components/progress'
 import { Route as ComponentsRadioGroupRouteImport } from './routes/components/radio-group'
-import { Route as ComponentsSandboxedPreviewFrameRouteImport } from './routes/components/sandboxed-preview-frame'
 import { Route as ComponentsScrollAreaRouteImport } from './routes/components/scroll-area'
 import { Route as ComponentsSearchRouteImport } from './routes/components/search'
 import { Route as ComponentsSegmentedControlRouteImport } from './routes/components/segmented-control'
@@ -78,7 +76,6 @@ import { Route as ComponentsSidebarItemRouteImport } from './routes/components/s
 import { Route as ComponentsSkeletonRouteImport } from './routes/components/skeleton'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
-import { Route as ComponentsStatusDotRouteImport } from './routes/components/status-dot'
 import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsSystemMessageRouteImport } from './routes/components/system-message'
 import { Route as ComponentsTabsRouteImport } from './routes/components/tabs'
@@ -170,11 +167,6 @@ const ComponentsAppRailRoute = ComponentsAppRailRouteImport.update({
 const ComponentsAppShellRoute = ComponentsAppShellRouteImport.update({
   id: '/app-shell',
   path: '/app-shell',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsAttentionDotRoute = ComponentsAttentionDotRouteImport.update({
-  id: '/attention-dot',
-  path: '/attention-dot',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsAvatarRoute = ComponentsAvatarRouteImport.update({
@@ -424,12 +416,6 @@ const ComponentsRadioGroupRoute = ComponentsRadioGroupRouteImport.update({
   path: '/radio-group',
   getParentRoute: () => ComponentsRoute,
 } as any)
-const ComponentsSandboxedPreviewFrameRoute =
-  ComponentsSandboxedPreviewFrameRouteImport.update({
-    id: '/sandboxed-preview-frame',
-    path: '/sandboxed-preview-frame',
-    getParentRoute: () => ComponentsRoute,
-  } as any)
 const ComponentsScrollAreaRoute = ComponentsScrollAreaRouteImport.update({
   id: '/scroll-area',
   path: '/scroll-area',
@@ -479,11 +465,6 @@ const ComponentsSpinnerRoute = ComponentsSpinnerRouteImport.update({
 const ComponentsStatusRoute = ComponentsStatusRouteImport.update({
   id: '/status',
   path: '/status',
-  getParentRoute: () => ComponentsRoute,
-} as any)
-const ComponentsStatusDotRoute = ComponentsStatusDotRouteImport.update({
-  id: '/status-dot',
-  path: '/status-dot',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsSwitchRoute = ComponentsSwitchRouteImport.update({
@@ -715,7 +696,6 @@ export interface FileRoutesByFullPath {
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
-  '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
@@ -763,7 +743,6 @@ export interface FileRoutesByFullPath {
   '/components/profile-panel': typeof ComponentsProfilePanelRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
   '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
@@ -774,7 +753,6 @@ export interface FileRoutesByFullPath {
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
-  '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -827,7 +805,6 @@ export interface FileRoutesByTo {
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
-  '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
@@ -875,7 +852,6 @@ export interface FileRoutesByTo {
   '/components/profile-panel': typeof ComponentsProfilePanelRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
   '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
@@ -886,7 +862,6 @@ export interface FileRoutesByTo {
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
-  '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -940,7 +915,6 @@ export interface FileRoutesById {
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
   '/components/app-shell': typeof ComponentsAppShellRoute
-  '/components/attention-dot': typeof ComponentsAttentionDotRoute
   '/components/avatar': typeof ComponentsAvatarRoute
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
@@ -988,7 +962,6 @@ export interface FileRoutesById {
   '/components/profile-panel': typeof ComponentsProfilePanelRoute
   '/components/progress': typeof ComponentsProgressRoute
   '/components/radio-group': typeof ComponentsRadioGroupRoute
-  '/components/sandboxed-preview-frame': typeof ComponentsSandboxedPreviewFrameRoute
   '/components/scroll-area': typeof ComponentsScrollAreaRoute
   '/components/search': typeof ComponentsSearchRoute
   '/components/segmented-control': typeof ComponentsSegmentedControlRoute
@@ -999,7 +972,6 @@ export interface FileRoutesById {
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
-  '/components/status-dot': typeof ComponentsStatusDotRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/tabs': typeof ComponentsTabsRoute
@@ -1054,7 +1026,6 @@ export interface FileRouteTypes {
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
-    | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
     | '/components/banner'
@@ -1102,7 +1073,6 @@ export interface FileRouteTypes {
     | '/components/profile-panel'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
     | '/components/search'
     | '/components/segmented-control'
@@ -1113,7 +1083,6 @@ export interface FileRouteTypes {
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
-    | '/components/status-dot'
     | '/components/switch'
     | '/components/system-message'
     | '/components/tabs'
@@ -1166,7 +1135,6 @@ export interface FileRouteTypes {
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
-    | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
     | '/components/banner'
@@ -1214,7 +1182,6 @@ export interface FileRouteTypes {
     | '/components/profile-panel'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
     | '/components/search'
     | '/components/segmented-control'
@@ -1225,7 +1192,6 @@ export interface FileRouteTypes {
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
-    | '/components/status-dot'
     | '/components/switch'
     | '/components/system-message'
     | '/components/tabs'
@@ -1278,7 +1244,6 @@ export interface FileRouteTypes {
     | '/components/alert-dialog'
     | '/components/app-rail'
     | '/components/app-shell'
-    | '/components/attention-dot'
     | '/components/avatar'
     | '/components/badge'
     | '/components/banner'
@@ -1326,7 +1291,6 @@ export interface FileRouteTypes {
     | '/components/profile-panel'
     | '/components/progress'
     | '/components/radio-group'
-    | '/components/sandboxed-preview-frame'
     | '/components/scroll-area'
     | '/components/search'
     | '/components/segmented-control'
@@ -1337,7 +1301,6 @@ export interface FileRouteTypes {
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
-    | '/components/status-dot'
     | '/components/switch'
     | '/components/system-message'
     | '/components/tabs'
@@ -1464,13 +1427,6 @@ declare module '@tanstack/react-router' {
       path: '/app-shell'
       fullPath: '/components/app-shell'
       preLoaderRoute: typeof ComponentsAppShellRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/attention-dot': {
-      id: '/components/attention-dot'
-      path: '/attention-dot'
-      fullPath: '/components/attention-dot'
-      preLoaderRoute: typeof ComponentsAttentionDotRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/avatar': {
@@ -1802,13 +1758,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsRadioGroupRouteImport
       parentRoute: typeof ComponentsRoute
     }
-    '/components/sandboxed-preview-frame': {
-      id: '/components/sandboxed-preview-frame'
-      path: '/sandboxed-preview-frame'
-      fullPath: '/components/sandboxed-preview-frame'
-      preLoaderRoute: typeof ComponentsSandboxedPreviewFrameRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
     '/components/scroll-area': {
       id: '/components/scroll-area'
       path: '/scroll-area'
@@ -1877,13 +1826,6 @@ declare module '@tanstack/react-router' {
       path: '/status'
       fullPath: '/components/status'
       preLoaderRoute: typeof ComponentsStatusRouteImport
-      parentRoute: typeof ComponentsRoute
-    }
-    '/components/status-dot': {
-      id: '/components/status-dot'
-      path: '/status-dot'
-      fullPath: '/components/status-dot'
-      preLoaderRoute: typeof ComponentsStatusDotRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/switch': {
@@ -2300,7 +2242,6 @@ interface ComponentsRouteChildren {
   ComponentsAlertDialogRoute: typeof ComponentsAlertDialogRoute
   ComponentsAppRailRoute: typeof ComponentsAppRailRoute
   ComponentsAppShellRoute: typeof ComponentsAppShellRoute
-  ComponentsAttentionDotRoute: typeof ComponentsAttentionDotRoute
   ComponentsAvatarRoute: typeof ComponentsAvatarRoute
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsBannerRoute: typeof ComponentsBannerRoute
@@ -2348,7 +2289,6 @@ interface ComponentsRouteChildren {
   ComponentsProfilePanelRoute: typeof ComponentsProfilePanelRoute
   ComponentsProgressRoute: typeof ComponentsProgressRoute
   ComponentsRadioGroupRoute: typeof ComponentsRadioGroupRoute
-  ComponentsSandboxedPreviewFrameRoute: typeof ComponentsSandboxedPreviewFrameRoute
   ComponentsScrollAreaRoute: typeof ComponentsScrollAreaRoute
   ComponentsSearchRoute: typeof ComponentsSearchRoute
   ComponentsSegmentedControlRoute: typeof ComponentsSegmentedControlRoute
@@ -2359,7 +2299,6 @@ interface ComponentsRouteChildren {
   ComponentsSkeletonRoute: typeof ComponentsSkeletonRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
-  ComponentsStatusDotRoute: typeof ComponentsStatusDotRoute
   ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsSystemMessageRoute: typeof ComponentsSystemMessageRoute
   ComponentsTabsRoute: typeof ComponentsTabsRoute
@@ -2382,7 +2321,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsAlertDialogRoute: ComponentsAlertDialogRoute,
   ComponentsAppRailRoute: ComponentsAppRailRoute,
   ComponentsAppShellRoute: ComponentsAppShellRoute,
-  ComponentsAttentionDotRoute: ComponentsAttentionDotRoute,
   ComponentsAvatarRoute: ComponentsAvatarRoute,
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsBannerRoute: ComponentsBannerRoute,
@@ -2430,7 +2368,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsProfilePanelRoute: ComponentsProfilePanelRoute,
   ComponentsProgressRoute: ComponentsProgressRoute,
   ComponentsRadioGroupRoute: ComponentsRadioGroupRoute,
-  ComponentsSandboxedPreviewFrameRoute: ComponentsSandboxedPreviewFrameRoute,
   ComponentsScrollAreaRoute: ComponentsScrollAreaRoute,
   ComponentsSearchRoute: ComponentsSearchRoute,
   ComponentsSegmentedControlRoute: ComponentsSegmentedControlRoute,
@@ -2441,7 +2378,6 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSkeletonRoute: ComponentsSkeletonRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
-  ComponentsStatusDotRoute: ComponentsStatusDotRoute,
   ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsSystemMessageRoute: ComponentsSystemMessageRoute,
   ComponentsTabsRoute: ComponentsTabsRoute,

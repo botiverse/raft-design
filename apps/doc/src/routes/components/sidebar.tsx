@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -78,14 +78,6 @@ const SNIPPETS = {
   </SidebarLiveActivity>
 </SidebarRoot>`,
 } as const;
-
-const APP_SHELL_SIDEBAR_SLOT_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "aside props",
-    description: "Sidebar column host. Resizable compositions size it through explicit classes.",
-  },
-];
 
 const RESIZABLE_GROUP_PROPS: readonly PropRow[] = [
   {
@@ -304,108 +296,6 @@ const SIDEBAR_GROUP_LABEL_PROPS: readonly PropRow[] = [
   },
 ];
 
-const SIDEBAR_ITEM_PROPS: readonly PropRow[] = [
-  {
-    name: "active",
-    type: "boolean",
-    default: "false",
-    description: "Marks the row as active. Sets data-active for visual state.",
-  },
-  {
-    name: "...props",
-    type: 'useRender.ComponentProps<"button">',
-    description: "Interactive sidebar conversation or channel row.",
-  },
-];
-
-const SIDEBAR_ITEM_ICON_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Leading icon or avatar slot for a row.",
-  },
-];
-
-const SIDEBAR_ITEM_CHANNEL_ICON_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Leading channel icon slot for a row.",
-  },
-];
-
-const SIDEBAR_ITEM_CONTENT_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description: "Main text content region for a row.",
-  },
-];
-
-const SIDEBAR_ITEM_TITLE_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Primary row label.",
-  },
-];
-
-const SIDEBAR_ITEM_SUBTITLE_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Secondary row detail.",
-  },
-];
-
-const SIDEBAR_ITEM_META_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Inline metadata slot beside a row title.",
-  },
-];
-
-const SIDEBAR_ITEM_META_ICON_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Inline metadata icon beside a row title.",
-  },
-];
-
-const SIDEBAR_ITEM_ASIDE_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Trailing metadata region for a row.",
-  },
-];
-
-const SIDEBAR_ITEM_COUNT_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Unread count in a row's trailing area.",
-  },
-];
-
-const SIDEBAR_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Mention or attention indicator in a row.",
-  },
-];
-
-const SIDEBAR_ITEM_STATUS_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "span props",
-    description: "Presence or workflow status slot for a row.",
-  },
-];
-
 const SIDEBAR_CONTROL_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -443,9 +333,12 @@ function SidebarDoc() {
 
       <DocSection id="api" title="API">
         <div className="space-y-6">
-          <DocSubsection parentId="api" id="api-app-shell-sidebar-slot" title="AppShellSidebarSlot">
-            <PropsTable rows={APP_SHELL_SIDEBAR_SLOT_PROPS} />
-          </DocSubsection>
+          <p>
+            SidebarItem and its row parts have a separate, complete API reference on the{" "}
+            <Link to="/components/sidebar-item">SidebarItem</Link> page. AppShellSidebarSlot is
+            documented with the other shell regions on the{" "}
+            <Link to="/components/app-shell">AppShell</Link> page.
+          </p>
           <DocSubsection parentId="api" id="api-resizable-group" title="ResizableGroup">
             <PropsTable rows={RESIZABLE_GROUP_PROPS} />
           </DocSubsection>
@@ -554,50 +447,6 @@ function SidebarDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-sidebar-group-label" title="SidebarGroupLabel">
             <PropsTable rows={SIDEBAR_GROUP_LABEL_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item" title="SidebarItem">
-            <PropsTable rows={SIDEBAR_ITEM_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-icon" title="SidebarItemIcon">
-            <PropsTable rows={SIDEBAR_ITEM_ICON_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-sidebar-item-channel-icon"
-            title="SidebarItemChannelIcon"
-          >
-            <PropsTable rows={SIDEBAR_ITEM_CHANNEL_ICON_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-content" title="SidebarItemContent">
-            <PropsTable rows={SIDEBAR_ITEM_CONTENT_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-title" title="SidebarItemTitle">
-            <PropsTable rows={SIDEBAR_ITEM_TITLE_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-subtitle" title="SidebarItemSubtitle">
-            <PropsTable rows={SIDEBAR_ITEM_SUBTITLE_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-meta" title="SidebarItemMeta">
-            <PropsTable rows={SIDEBAR_ITEM_META_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-meta-icon" title="SidebarItemMetaIcon">
-            <PropsTable rows={SIDEBAR_ITEM_META_ICON_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-aside" title="SidebarItemAside">
-            <PropsTable rows={SIDEBAR_ITEM_ASIDE_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-count" title="SidebarItemCount">
-            <PropsTable rows={SIDEBAR_ITEM_COUNT_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-sidebar-item-indicator"
-            title="SidebarItemIndicator"
-          >
-            <PropsTable rows={SIDEBAR_ITEM_INDICATOR_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-sidebar-item-status" title="SidebarItemStatus">
-            <PropsTable rows={SIDEBAR_ITEM_STATUS_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-sidebar-control" title="SidebarControl">
             <PropsTable rows={SIDEBAR_CONTROL_PROPS} />

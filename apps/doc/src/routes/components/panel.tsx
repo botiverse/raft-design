@@ -43,6 +43,7 @@ const SNIPPETS = {
   <PanelFooter />
 </Panel>`,
   composedHeader: `import {
+  PanelAction,
   PanelActions,
   PanelHeader,
   PanelHeaderContent,
@@ -63,7 +64,9 @@ const SNIPPETS = {
     </PanelHeading>
     <PanelMeta />
   </PanelHeaderContent>
-  <PanelActions />
+  <PanelActions>
+    <PanelAction aria-label="Panel action">...</PanelAction>
+  </PanelActions>
 </PanelHeader>
 
 {/* Use as an alternative fixed header for a section-level view. */}
@@ -179,6 +182,15 @@ const PANEL_ACTIONS_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Trailing region for caller-owned actions.",
+  },
+];
+
+const PANEL_ACTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'Omit<StyledProps<BaseButton.Props>, "type">',
+    description:
+      'Base UI Button props with className narrowed to string. The component always renders type="button", supports render/nativeButton for element substitution, and owns panel-action icon sizing and tabular number alignment.',
   },
 ];
 
@@ -303,6 +315,9 @@ function PanelDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-actions" title="PanelActions">
             <PropsTable rows={PANEL_ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel-action" title="PanelAction">
+            <PropsTable rows={PANEL_ACTION_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-body" title="PanelBody">
             <PropsTable rows={PANEL_BODY_PROPS} />
