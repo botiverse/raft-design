@@ -7,7 +7,6 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 import { filterTrigger } from "../filter-trigger/filter-trigger.recipe";
-import { input } from "../input/input.recipe";
 
 const combobox = tv({
   slots: {
@@ -36,6 +35,7 @@ const combobox = tv({
       "[&_[data-slot='combobox-trigger-indicator']>svg]:size-3.5 [&_[data-slot='combobox-trigger-indicator']>svg]:shrink-0",
     ],
     inputGroup: ["flex items-center gap-2 border-b px-2 py-2"],
+    input: ["w-full outline-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
       "h-auto max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-layer-panel",
@@ -182,21 +182,12 @@ const combobox = tv({
         chipRemove: ["text-foreground-muted hover:text-foreground"],
       },
     },
-  },
-});
-
-const comboboxInput = tv({
-  extend: input,
-  variants: {
     inputOwner: {
       group: {},
       control: {
-        root: [
+        input: [
           "min-w-0 flex-1 rounded-none border-0 bg-transparent p-0 shadow-none",
           "outline-none ring-0 focus:border-transparent focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
-          "dark:bg-transparent dark:shadow-none dark:hover:border-transparent dark:focus:bg-transparent",
-          "disabled:border-transparent disabled:bg-transparent disabled:shadow-none disabled:hover:border-transparent",
-          "dark:disabled:border-transparent dark:disabled:bg-transparent",
         ],
       },
     },
@@ -206,14 +197,17 @@ const comboboxInput = tv({
       theme: "brutal",
       inputOwner: "group",
       class: {
-        root: ["px-2 py-1 font-mono text-xs"],
+        input: [
+          "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
+          "shadow-raft-sm focus:shadow-raft-md",
+        ],
       },
     },
     {
       theme: "brutal",
       inputOwner: "control",
       class: {
-        root: [
+        input: [
           "font-sans text-sm font-semibold text-foreground-strong",
           "placeholder:text-foreground-strong/40",
         ],
@@ -223,14 +217,19 @@ const comboboxInput = tv({
       theme: "elegant",
       inputOwner: "group",
       class: {
-        root: ["rounded-sm px-2 py-1 text-sm"],
+        input: [
+          "rounded-sm border border-line-muted bg-layer-panel px-2 py-1 text-sm",
+          "text-foreground-strong outline-none transition duration-150",
+          "placeholder:text-foreground-placeholder/70",
+          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
+        ],
       },
     },
     {
       theme: "elegant",
       inputOwner: "control",
       class: {
-        root: [
+        input: [
           "text-sm font-normal text-foreground-strong",
           "placeholder:text-foreground-placeholder/70",
         ],
@@ -442,11 +441,11 @@ export function ComboboxInput({
 }: ComboboxInputProps) {
   const theme = useThemeFamily();
   const inputOwner = use(ComboboxInputOwnerContext);
-  const { root } = comboboxInput({ theme, inputOwner });
+  const { input } = combobox({ theme, inputOwner });
   return (
     <BaseCombobox.Input
       data-slot="combobox-input"
-      className={root({
+      className={input({
         className: [suppressPasswordManager && "keeper-ignore", className],
       })}
       data-1p-ignore={suppressPasswordManager ? "true" : undefined}
