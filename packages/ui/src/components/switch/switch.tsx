@@ -35,11 +35,11 @@ const switchRecipe = tv({
       elegant: {
         root: [
           "rounded-full bg-foreground-strong/[0.12]",
-          "dark:not-data-[checked]:not-data-[disabled]:bg-layer-inset",
+          "dark:not-data-[checked]:not-data-[disabled]:bg-layer-card",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.08)]",
           "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.35),inset_0_0_0_1px_oklch(0_0_0_/_0.4),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
           "not-data-[disabled]:hover:bg-foreground-strong/[0.16]",
-          "dark:not-data-[checked]:not-data-[disabled]:hover:bg-layer-card",
+          "dark:not-data-[checked]:not-data-[disabled]:hover:bg-layer-panel",
           "data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_1px_1.5px_-1px_oklch(0_0_0_/_0.12)]",
           "dark:data-[checked]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_1px_1.5px_-1px_oklch(0_0_0_/_0.4)]",
           "data-[checked]:not-data-[disabled]:hover:bg-primary-hover",
