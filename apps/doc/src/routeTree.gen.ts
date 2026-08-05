@@ -104,8 +104,6 @@ import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
 import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
 import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
-import { Route as SkillsMigrationRouteImport } from './routes/skills/migration'
-import { Route as SkillsNewComponentRouteImport } from './routes/skills/new-component'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
@@ -615,16 +613,6 @@ const PlaygroundSRouteRoute = PlaygroundSRouteRouteImport.update({
   path: '/s',
   getParentRoute: () => PlaygroundRouteRoute,
 } as any)
-const SkillsMigrationRoute = SkillsMigrationRouteImport.update({
-  id: '/skills/migration',
-  path: '/skills/migration',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SkillsNewComponentRoute = SkillsNewComponentRouteImport.update({
-  id: '/skills/new-component',
-  path: '/skills/new-component',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TokensColorsRoute = TokensColorsRouteImport.update({
   id: '/tokens/colors',
   path: '/tokens/colors',
@@ -825,8 +813,6 @@ export interface FileRoutesByFullPath {
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
-  '/skills/migration': typeof SkillsMigrationRoute
-  '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
@@ -941,8 +927,6 @@ export interface FileRoutesByTo {
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
-  '/skills/migration': typeof SkillsMigrationRoute
-  '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
@@ -1059,8 +1043,6 @@ export interface FileRoutesById {
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/migration/$sourceFile': typeof MigrationSourceFileRoute
-  '/skills/migration': typeof SkillsMigrationRoute
-  '/skills/new-component': typeof SkillsNewComponentRoute
   '/tokens/colors': typeof TokensColorsRoute
   '/tokens/shadows': typeof TokensShadowsRouteWithChildren
   '/tokens/typography': typeof TokensTypographyRouteWithChildren
@@ -1178,8 +1160,6 @@ export interface FileRouteTypes {
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/migration/$sourceFile'
-    | '/skills/migration'
-    | '/skills/new-component'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
@@ -1294,8 +1274,6 @@ export interface FileRouteTypes {
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/migration/$sourceFile'
-    | '/skills/migration'
-    | '/skills/new-component'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
@@ -1411,8 +1389,6 @@ export interface FileRouteTypes {
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/migration/$sourceFile'
-    | '/skills/migration'
-    | '/skills/new-component'
     | '/tokens/colors'
     | '/tokens/shadows'
     | '/tokens/typography'
@@ -1448,8 +1424,6 @@ export interface RootRouteChildren {
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
   IframeSidebarMobilePartsRoute: typeof IframeSidebarMobilePartsRoute
-  SkillsMigrationRoute: typeof SkillsMigrationRoute
-  SkillsNewComponentRoute: typeof SkillsNewComponentRoute
   TokensColorsRoute: typeof TokensColorsRoute
   TokensShadowsRoute: typeof TokensShadowsRouteWithChildren
   TokensTypographyRoute: typeof TokensTypographyRouteWithChildren
@@ -2122,20 +2096,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundSRouteRouteImport
       parentRoute: typeof PlaygroundRouteRoute
     }
-    '/skills/migration': {
-      id: '/skills/migration'
-      path: '/skills/migration'
-      fullPath: '/skills/migration'
-      preLoaderRoute: typeof SkillsMigrationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/skills/new-component': {
-      id: '/skills/new-component'
-      path: '/skills/new-component'
-      fullPath: '/skills/new-component'
-      preLoaderRoute: typeof SkillsNewComponentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/tokens/colors': {
       id: '/tokens/colors'
       path: '/tokens/colors'
@@ -2611,8 +2571,6 @@ const rootRouteChildren: RootRouteChildren = {
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeDrawerRoute: IframeDrawerRoute,
   IframeSidebarMobilePartsRoute: IframeSidebarMobilePartsRoute,
-  SkillsMigrationRoute: SkillsMigrationRoute,
-  SkillsNewComponentRoute: SkillsNewComponentRoute,
   TokensColorsRoute: TokensColorsRoute,
   TokensShadowsRoute: TokensShadowsRouteWithChildren,
   TokensTypographyRoute: TokensTypographyRouteWithChildren,
