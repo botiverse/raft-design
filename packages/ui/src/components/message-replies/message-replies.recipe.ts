@@ -1,8 +1,8 @@
 import { tv, type VariantProps } from "../../lib/tv";
-import { messageMat } from "../message-embed/message-embed.recipe";
+import { messageBlock } from "../message-embed/message-embed.recipe";
 
 export const messageReplies = tv({
-  extend: messageMat,
+  extend: messageBlock,
   slots: {
     root: [
       "group/message-replies mt-1.5 flex min-w-0 w-full flex-col gap-1 px-2.5 py-2 text-left",
