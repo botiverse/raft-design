@@ -25,6 +25,7 @@ import { Route as ComponentsAvatarRouteImport } from './routes/components/avatar
 import { Route as ComponentsBadgeRouteImport } from './routes/components/badge'
 import { Route as ComponentsBannerRouteImport } from './routes/components/banner'
 import { Route as ComponentsButtonRouteImport } from './routes/components/button'
+import { Route as ComponentsCardRouteImport } from './routes/components/card'
 import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCodeBlockRouteImport } from './routes/components/code-block'
@@ -204,6 +205,11 @@ const ComponentsBannerRoute = ComponentsBannerRouteImport.update({
 const ComponentsButtonRoute = ComponentsButtonRouteImport.update({
   id: '/button',
   path: '/button',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsCardRoute = ComponentsCardRouteImport.update({
+  id: '/card',
+  path: '/card',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsChatComposerRoute = ComponentsChatComposerRouteImport.update({
@@ -745,6 +751,7 @@ export interface FileRoutesByFullPath {
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/card': typeof ComponentsCardRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
@@ -860,6 +867,7 @@ export interface FileRoutesByTo {
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/card': typeof ComponentsCardRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
@@ -977,6 +985,7 @@ export interface FileRoutesById {
   '/components/badge': typeof ComponentsBadgeRoute
   '/components/banner': typeof ComponentsBannerRoute
   '/components/button': typeof ComponentsButtonRoute
+  '/components/card': typeof ComponentsCardRoute
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
@@ -1095,6 +1104,7 @@ export interface FileRouteTypes {
     | '/components/badge'
     | '/components/banner'
     | '/components/button'
+    | '/components/card'
     | '/components/chat-composer'
     | '/components/checkbox'
     | '/components/code-block'
@@ -1210,6 +1220,7 @@ export interface FileRouteTypes {
     | '/components/badge'
     | '/components/banner'
     | '/components/button'
+    | '/components/card'
     | '/components/chat-composer'
     | '/components/checkbox'
     | '/components/code-block'
@@ -1326,6 +1337,7 @@ export interface FileRouteTypes {
     | '/components/badge'
     | '/components/banner'
     | '/components/button'
+    | '/components/card'
     | '/components/chat-composer'
     | '/components/checkbox'
     | '/components/code-block'
@@ -1555,6 +1567,13 @@ declare module '@tanstack/react-router' {
       path: '/button'
       fullPath: '/components/button'
       preLoaderRoute: typeof ComponentsButtonRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/card': {
+      id: '/components/card'
+      path: '/card'
+      fullPath: '/components/card'
+      preLoaderRoute: typeof ComponentsCardRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/chat-composer': {
@@ -2382,6 +2401,7 @@ interface ComponentsRouteChildren {
   ComponentsBadgeRoute: typeof ComponentsBadgeRoute
   ComponentsBannerRoute: typeof ComponentsBannerRoute
   ComponentsButtonRoute: typeof ComponentsButtonRoute
+  ComponentsCardRoute: typeof ComponentsCardRoute
   ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsCodeBlockRoute: typeof ComponentsCodeBlockRoute
@@ -2463,6 +2483,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsBadgeRoute: ComponentsBadgeRoute,
   ComponentsBannerRoute: ComponentsBannerRoute,
   ComponentsButtonRoute: ComponentsButtonRoute,
+  ComponentsCardRoute: ComponentsCardRoute,
   ComponentsChatComposerRoute: ComponentsChatComposerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsCodeBlockRoute: ComponentsCodeBlockRoute,
