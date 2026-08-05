@@ -15,15 +15,13 @@ import {
   PanelScrollViewport,
   PanelActivity,
   PanelTitle,
-  Status,
-  Text,
-} from "raft-ui";
-import {
   ProfilePanel,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
   ProfilePanelSection,
-} from "raft-ui/wip";
+  Status,
+  Text,
+} from "raft-ui";
 
 export function AgentProfileComposition() {
   return (

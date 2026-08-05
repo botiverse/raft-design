@@ -1,7 +1,6 @@
-import type { Button as BaseButton } from "@base-ui/react/button";
 import type { ReactElement } from "react";
 
-export function defaultNativeButton(render: BaseButton.Props["render"]): boolean | undefined {
+export function defaultNativeButton(render: unknown): boolean | undefined {
   if (!render || typeof render !== "object" || !("type" in render)) {
     return undefined;
   }

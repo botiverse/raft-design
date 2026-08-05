@@ -1,10 +1,13 @@
-import { PanelBody, PanelScrollContent, PanelScrollViewport, Skeleton } from "raft-ui";
 import {
+  PanelBody,
+  PanelScrollContent,
+  PanelScrollViewport,
   ProfilePanel,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
   ProfilePanelSection,
-} from "raft-ui/wip";
+  Skeleton,
+} from "raft-ui";
 
 export function ProfilePanelSkeletonComposition() {
   return (

@@ -140,12 +140,12 @@ Reach for `Combobox` when any of these is true:
 
 All four render a row of choices. They differ in what the choice does.
 
-| Component          | The choice…                                                          |
-| ------------------ | -------------------------------------------------------------------- |
-| `RadioGroup`       | is an answer to a question, submitted with the form                  |
-| `SegmentedControl` | changes a view, filter, or mode, in place                            |
-| `Tabs`             | swaps which panel of content is visible                              |
-| `ToggleGroup`      | toggles one or more independent options (unstable, in `raft-ui/wip`) |
+| Component          | The choice…                                         |
+| ------------------ | --------------------------------------------------- |
+| `RadioGroup`       | is an answer to a question, submitted with the form |
+| `SegmentedControl` | changes a view, filter, or mode, in place           |
+| `Tabs`             | swaps which panel of content is visible             |
+| `ToggleGroup`      | toggles one or more independent options             |
 
 `Tabs` implies panels. If there are no panels — you are only filtering a list that stays in place — use `SegmentedControl`.
 

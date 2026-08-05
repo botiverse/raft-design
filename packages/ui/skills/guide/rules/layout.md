@@ -105,7 +105,7 @@ When the body scrolls, use `PanelScrollViewport` + `PanelScrollContent` instead 
 
 Reach for `Panel` before writing `rounded-lg border border-line bg-layer-panel`.
 
-`ProfilePanel` (a profile detail pane built on these parts) is in `raft-ui/wip` and may break.
+Use `ProfilePanel` from `raft-ui` for a profile detail pane built on these parts.
 
 ---
 
