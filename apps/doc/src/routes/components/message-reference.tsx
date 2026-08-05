@@ -36,6 +36,31 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
+const ANATOMY_SOURCE = `import {
+  MessageReferenceBadge,
+  MessageReferenceChip,
+  MessageReferenceIndicator,
+  MessageReferenceLabel,
+  MessageReferencePending,
+  MessageReferenceText,
+  MessageReferenceUnavailable,
+} from "raft-ui";
+
+<>
+  <MessageReferenceText>
+    <MessageReferenceIndicator />
+  </MessageReferenceText>
+
+  <MessageReferenceChip>
+    <MessageReferenceBadge />
+    {/* Caller-owned icon */}
+    <MessageReferenceLabel />
+  </MessageReferenceChip>
+
+  <MessageReferencePending />
+  <MessageReferenceUnavailable />
+</>`;
+
 const SURFACES: readonly PropRow[] = [
   {
     name: "MessageReferenceText",
@@ -142,7 +167,7 @@ export const Route = createFileRoute("/components/message-reference")({
   loader: () =>
     highlightSnippets({
       data: {
-        anatomy: primaryReferencesSource,
+        anatomy: ANATOMY_SOURCE,
         attachmentComment: attachmentCommentSource,
         referenceAdapters: referenceAdaptersSource,
         primaryReferences: primaryReferencesSource,
@@ -179,7 +204,7 @@ function MessageReferenceDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
+            <DocsCodeBlock.Content html={code.anatomy} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>
