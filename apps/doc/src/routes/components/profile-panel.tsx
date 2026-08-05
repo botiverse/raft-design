@@ -1,5 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { InlineCode } from "raft-ui";
+import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -162,16 +161,6 @@ function ProfilePanelDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <p>
-          <InlineCode>ProfilePanel</InlineCode> owns only profile-specific framing. It reuses the
-          body and contained-scroll parts documented by{" "}
-          <Link to="/components/panel">
-            <InlineCode>Panel</InlineCode>
-          </Link>
-          , while the caller composes entity data with <InlineCode>Avatar</InlineCode>,{" "}
-          <InlineCode>DescriptionList</InlineCode>, <InlineCode>Badge</InlineCode>,{" "}
-          <InlineCode>SidebarItem</InlineCode>, and other UI components.
-        </p>
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
             <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
