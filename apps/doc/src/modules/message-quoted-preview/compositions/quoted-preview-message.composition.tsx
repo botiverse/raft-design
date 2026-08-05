@@ -1,4 +1,4 @@
-import { Hash, Link, MessageSquare } from "lucide-react";
+import { Hash, MessageSquare } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -144,8 +144,8 @@ export function QuotedPreviewMessageComposition() {
               />
             }
           >
-            <Link />
-            <MessageReferenceLabel>#raft-ui-migration</MessageReferenceLabel>
+            <Hash />
+            <MessageReferenceLabel>raft-ui-migration</MessageReferenceLabel>
           </MessageReferenceChip>
         </MessageItemBody>
         <QuotedPreviewEmbeddedComposition />

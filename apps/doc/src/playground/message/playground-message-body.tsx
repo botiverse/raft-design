@@ -1,6 +1,6 @@
 import type { Components } from "react-markdown";
 import { Children, useMemo, type ReactNode } from "react";
-import { Hash, MessagesSquare } from "lucide-react";
+import { Hash } from "lucide-react";
 import {
   MarkdownInlineCode,
   MarkdownLink,
@@ -184,7 +184,7 @@ function createPlaygroundMarkdownComponents(
             }
           >
             <MessageReferenceBadge>thread</MessageReferenceBadge>
-            <MessagesSquare />
+            <Hash />
             <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
           </MessageReferenceChip>
         );

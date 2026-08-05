@@ -1,4 +1,4 @@
-import { Hash, Link } from "lucide-react";
+import { Hash } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -56,8 +56,8 @@ export function QuotedPreviewLongContentComposition() {
               />
             }
           >
-            <Link />
-            <MessageReferenceLabel>#platform-migration</MessageReferenceLabel>
+            <Hash />
+            <MessageReferenceLabel>platform-migration</MessageReferenceLabel>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>

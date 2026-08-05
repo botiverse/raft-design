@@ -83,28 +83,40 @@ export const messageReference = tv({
         root: [
           "inline-flex max-w-full cursor-default items-center gap-1 align-bottom border border-black px-1",
           "[font-size:inherit] font-medium leading-tight text-black",
+          "has-[>svg]:relative has-[>svg]:isolate has-[>svg]:h-[19px] has-[>svg]:py-0 has-[>svg]:pr-1 has-[>svg]:pl-0",
+          "has-[>svg]:before:pointer-events-none has-[>svg]:before:absolute has-[>svg]:before:inset-y-0 has-[>svg]:before:left-0 has-[>svg]:before:z-0",
+          "has-[>svg]:before:w-[18px] has-[>svg]:before:border-r has-[>svg]:before:border-black has-[>svg]:before:bg-[var(--reference-icon)] has-[>svg]:before:content-['']",
+          "has-[>svg]:[&>svg]:relative has-[>svg]:[&>svg]:z-10 has-[>svg]:[&>svg]:mx-[3px] has-[>svg]:[&>svg]:text-black",
         ],
       },
     },
     {
       theme: "brutal",
       variant: "accent",
-      class: { root: "bg-brutal-pink/30 hover:bg-brutal-pink/60" },
+      class: {
+        root: "[--reference-icon:var(--color-brutal-pink)] bg-brutal-pink/30 hover:bg-brutal-pink/60",
+      },
     },
     {
       theme: "brutal",
       variant: "muted",
-      class: { root: "bg-brutal-stone/25 hover:bg-brutal-stone/40" },
+      class: {
+        root: "[--reference-icon:var(--color-brutal-stone)] bg-brutal-stone/25 hover:bg-brutal-stone/40",
+      },
     },
     {
       theme: "brutal",
       variant: "info",
-      class: { root: "bg-brutal-cyan/30 hover:bg-brutal-cyan/60" },
+      class: {
+        root: "[--reference-icon:var(--color-brutal-cyan)] bg-brutal-cyan/30 hover:bg-brutal-cyan/60",
+      },
     },
     {
       theme: "brutal",
       variant: "link",
-      class: { root: "bg-brutal-cyan/30 text-black hover:bg-brutal-cyan/60" },
+      class: {
+        root: "[--reference-icon:var(--color-brutal-cyan)] bg-brutal-cyan/30 text-black hover:bg-brutal-cyan/60",
+      },
     },
     {
       theme: "brutal",

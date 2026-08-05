@@ -1,4 +1,4 @@
-import { Hash, Link } from "lucide-react";
+import { Hash } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -55,8 +55,8 @@ export function QuotedPreviewArchivedChannelComposition() {
               />
             }
           >
-            <Link />
-            <MessageReferenceLabel>#legacy-migration</MessageReferenceLabel>
+            <Hash />
+            <MessageReferenceLabel>legacy-migration</MessageReferenceLabel>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>

@@ -1,18 +1,15 @@
-import { MessageReferencePending, MessageReferenceUnavailable, Spinner } from "raft-ui";
-import { CircleOff } from "lucide-react";
+import { MessageReferencePending, Spinner } from "raft-ui";
 
 export function MessageReferenceResolutionStatesComposition() {
   return (
     <p className="text-sm text-foreground-strong">
+      Opening{" "}
       <MessageReferencePending>
         <Spinner size="xs" />
-        release-notes
+        #state-model:29a90e07
       </MessageReferencePending>{" "}
-      <MessageReferenceUnavailable>
-        <CircleOff size={12} />
-        release-notes
-      </MessageReferenceUnavailable>{" "}
-      missing
+      may take a moment. If the thread cannot be opened, keep #state-model:29a90e07 in the message;
+      #missing-channel also remains plain text.
     </p>
   );
 }

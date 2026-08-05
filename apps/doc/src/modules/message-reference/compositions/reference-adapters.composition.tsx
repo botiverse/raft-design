@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
-import { MessageSquareText } from "lucide-react";
+import { Link } from "lucide-react";
 import {
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceText,
@@ -63,24 +62,23 @@ export function MessageMentionReferenceComposition({
   );
 }
 
-export function MessageTargetReferenceComposition({
+export function MessagePermalinkReferenceComposition({
   children,
   href,
 }: MessageReferenceCompositionProps) {
-  const label = typeof children === "string" ? children.replace(/^#/, "") : children;
+  const label = children;
 
   return (
     <MessageReferenceChip
-      variant="accent"
+      variant="link"
       render={
         <a
           href={href}
-          aria-label={typeof label === "string" ? `Open message in #${label}` : "Open message"}
+          aria-label={typeof label === "string" ? `Open message in ${label}` : "Open message"}
         />
       }
     >
-      <MessageReferenceBadge>message</MessageReferenceBadge>
-      <MessageSquareText />
+      <Link />
       <MessageReferenceLabel>{label}</MessageReferenceLabel>
     </MessageReferenceChip>
   );

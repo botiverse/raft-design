@@ -1,5 +1,5 @@
 import type { Components } from "react-markdown";
-import { GitBranch, Hash, MessagesSquare } from "lucide-react";
+import { GitBranch, Hash } from "lucide-react";
 import {
   MarkdownLink,
   MessageReferenceBadge,
@@ -11,10 +11,7 @@ import {
   TaskStatusIcon,
 } from "raft-ui";
 import { parseMarkdownReference } from "#/lib/markdown/parse-markdown-reference.ts";
-import {
-  MessageMentionReferenceComposition,
-  MessageTargetReferenceComposition,
-} from "./compositions/reference-adapters.composition.tsx";
+import { MessageMentionReferenceComposition } from "./compositions/reference-adapters.composition.tsx";
 import {
   EXAMPLE_REFERENCE_ACTORS,
   EXAMPLE_REFERENCE_CHANNELS,
@@ -96,14 +93,6 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
       const channel = findChannel(reference.name);
       if (!channel) return <>{children}</>;
 
-      if (channel.treatment === "target") {
-        return (
-          <MessageTargetReferenceComposition href={channel.href}>
-            {channel.name}
-          </MessageTargetReferenceComposition>
-        );
-      }
-
       if (channel.treatment === "joint") {
         return (
           <MessageReferenceChip
@@ -124,7 +113,7 @@ export function createExampleReferenceComponents(portalContainer?: HTMLElement |
             render={<a href={channel.threadHref} aria-label={`Open thread in #${channel.name}`} />}
           >
             <MessageReferenceBadge>thread</MessageReferenceBadge>
-            <MessagesSquare />
+            <Hash />
             <MessageReferenceLabel>{channel.name}</MessageReferenceLabel>
           </MessageReferenceChip>
         );

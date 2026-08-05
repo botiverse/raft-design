@@ -1,4 +1,3 @@
-import { Link } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -14,6 +13,7 @@ import {
   MessageReferenceChip,
   MessageReferenceLabel,
 } from "raft-ui";
+import { DirectMessageIcon } from "#/modules/icons/conversation-icons.tsx";
 import {
   MessageItem,
   MessageItemAvatarSlot,
@@ -51,8 +51,8 @@ export function QuotedPreviewDirectMessageComposition() {
               <a href={MESSAGE_PLAYGROUND_URLS.noahDm} aria-label="Open Atlas direct message" />
             }
           >
-            <Link />
-            <MessageReferenceLabel>@Atlas</MessageReferenceLabel>
+            <DirectMessageIcon />
+            <MessageReferenceLabel>Atlas</MessageReferenceLabel>
           </MessageReferenceChip>
         </MessageItemBody>
         <MessageItemEmbedded>

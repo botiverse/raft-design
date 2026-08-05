@@ -251,9 +251,9 @@ function MessageQuotedPreviewDoc() {
             title="Direct message and optional metadata"
           >
             <DocNote>
-              Render the channel part as an <InlineCode>@</InlineCode> label for DMs and omit the
-              hash icon. Thread, author meta, and attachments are optional; render those parts only
-              when the quoted target has that data. Use{" "}
+              Pair the recipient name with <InlineCode>DirectMessageIcon</InlineCode> for DMs
+              instead of the channel hash. Thread, author meta, and attachments are optional; render
+              those parts only when the quoted target has that data. Use{" "}
               <InlineCode>MessageQuotedPreviewLoading</InlineCode> while resolving the target and{" "}
               <InlineCode>MessageQuotedPreviewUnavailable</InlineCode> when it is missing or
               inaccessible.
@@ -271,8 +271,9 @@ function MessageQuotedPreviewDoc() {
 
           <DocSubsection parentId="usage" id="direct-message-thread" title="Direct-message thread">
             <DocNote>
-              DM permalinks use an <InlineCode>@</InlineCode> recipient label. A DM can also target
-              a thread reply, in which case render the same thread marker beside that label.
+              DM permalinks pair <InlineCode>DirectMessageIcon</InlineCode> with the recipient name.
+              A DM can also target a thread reply, in which case render the same thread marker
+              beside that label.
             </DocNote>
             <Preview previewClassName="items-stretch">
               <Preview.Canvas>

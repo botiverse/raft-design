@@ -60,16 +60,12 @@ export function DirectMessageIcon(props: ConversationIconProps) {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth={1}
+      strokeWidth={1.5}
       {...props}
     >
       <path d="M16.25 5V4.25C16.25 3.15 15.35 2.25 14.25 2.25H3.75C2.65 2.25 1.75 3.15 1.75 4.25V11.25C1.75 12.35 2.65 13.25 3.75 13.25H5.75V16.25L7.5 14.85" />
-      <circle cx={14.25} cy={8} r={1.9} fill="currentColor" stroke="none" />
-      <path
-        d="M14.25 11C12.37 11 10.78 13.03 10.32 15.68C10.24 16.13 10.53 16.62 10.98 16.68C11.93 16.82 12.93 16.9 14.25 16.9C15.57 16.9 16.57 16.82 17.52 16.68C17.97 16.62 18 16.13 17.93 15.68C17.55 13.03 16.13 11 14.25 11Z"
-        fill="currentColor"
-        stroke="none"
-      />
+      <circle cx={14.25} cy={8} r={1.75} />
+      <path d="M11 16.25C11.3 13.65 12.5 12 14.25 12S17.2 13.65 17.5 16.25" />
     </svg>
   );
 }

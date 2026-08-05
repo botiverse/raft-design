@@ -22,10 +22,9 @@ import {
   CircleOff,
   GitBranch,
   Link as LinkIcon,
-  MessageCircle,
-  MessagesSquare,
+  MessageSquareMore,
   MessageSquareQuote,
-  MessageSquareText,
+  MessagesSquare,
 } from "lucide-react";
 
 import {
@@ -94,25 +93,25 @@ export function MessageReferenceShowcaseComposition() {
                 <GitBranch />
                 <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
               </MessageReferenceChip>
-              {" and continuing the rollout in "}
+              {" and continuing the rollout in the "}
               <MessageReferenceChip
                 variant="accent"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
+                render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelThread} />}
               >
                 <MessageReferenceBadge>thread</MessageReferenceBadge>
                 <MessagesSquare />
-                <MessageReferenceLabel>release-notes</MessageReferenceLabel>
+                <MessageReferenceLabel>state-model</MessageReferenceLabel>
               </MessageReferenceChip>
-              {" or sending it to "}
+              {" thread or sending "}
               <MessageReferenceChip
                 variant="accent"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}
               >
                 <MessageReferenceBadge>dm</MessageReferenceBadge>
-                <MessageCircle />
-                <MessageReferenceLabel>Noah</MessageReferenceLabel>
+                <MessageSquareMore />
+                <MessageReferenceLabel>Noah Bennett</MessageReferenceLabel>
               </MessageReferenceChip>
-              .
+              {" a DM."}
             </MarkdownParagraph>
           </MessageItemBody>
         </MessageItemContent>
@@ -151,16 +150,7 @@ export function MessageReferenceShowcaseComposition() {
           </MarkdownBlockquote>
           <MessageItemBody>
             <MarkdownParagraph>
-              Track the rollout in{" "}
-              <MessageReferenceChip
-                variant="link"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.apiDocsMessage} />}
-              >
-                <MessageReferenceBadge>message</MessageReferenceBadge>
-                <MessageSquareText />
-                <MessageReferenceLabel>all</MessageReferenceLabel>
-              </MessageReferenceChip>
-              {" and review "}
+              Review{" "}
               <MessageReferenceChip
                 variant="link"
                 render={
@@ -175,16 +165,7 @@ export function MessageReferenceShowcaseComposition() {
                 <LinkIcon />
                 <MessageReferenceLabel>rui#125 Compose message surfaces</MessageReferenceLabel>
               </MessageReferenceChip>
-              {" before posting the final migration note in "}
-              <MessageReferenceChip
-                variant="info"
-                render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesThread} />}
-              >
-                <MessageReferenceBadge>thread</MessageReferenceBadge>
-                <MessagesSquare />
-                <MessageReferenceLabel>release-notes</MessageReferenceLabel>
-              </MessageReferenceChip>
-              .
+              {" before posting the final migration note."}
             </MarkdownParagraph>
           </MessageItemBody>
         </MessageItemContent>
@@ -206,14 +187,15 @@ export function MessageReferenceShowcaseComposition() {
               I&apos;m still resolving{" "}
               <MessageReferencePending>
                 <Spinner size="xs" />
-                release-notes
+                migration-notes
               </MessageReferencePending>
               . The earlier{" "}
               <MessageReferenceUnavailable>
                 <CircleOff size={12} />
-                release-notes
+                legacy-brief
               </MessageReferenceUnavailable>{" "}
-              thread was removed, so keep missing in the draft until its target is confirmed.
+              reference was removed, so leave the original token in the draft until a replacement is
+              confirmed.
             </MarkdownParagraph>
           </MessageItemBody>
         </MessageItemContent>
