@@ -191,7 +191,7 @@ export function PlaygroundActivityPanel() {
           {master}
         </AppShellSidebarSlot>
       </ResizablePanel>
-      <ResizableHandle />
+      <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
       <ResizablePanel id="playground-activity-content" minSize={320} className="relative min-w-0">
         <AppShellMainSlot className="flex h-full min-w-0 flex-1">
           {content}
@@ -210,7 +210,7 @@ export function PlaygroundActivityPanel() {
       </ResizablePanel>
       {context && hasContextColumn ? (
         <>
-          <ResizableHandle className="z-50" />
+          <ResizableHandle className={theme === "elegant" ? "z-50 translate-x-[7px]" : "z-50"} />
           <ResizablePanel
             id="playground-activity-context"
             defaultSize={400}

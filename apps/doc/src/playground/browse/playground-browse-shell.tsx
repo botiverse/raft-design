@@ -83,7 +83,13 @@ export function PlaygroundBrowseShell() {
                 {sidebar}
               </AppShellSidebarSlot>
             </ResizablePanel>
-            {showMain ? <ResizableHandle className="hidden md:flex" /> : null}
+            {showMain ? (
+              <ResizableHandle
+                className={
+                  theme === "elegant" ? "hidden translate-x-[14px] md:flex" : "hidden md:flex"
+                }
+              />
+            ) : null}
           </>
         ) : null}
         {showMain ? (

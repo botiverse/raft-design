@@ -171,7 +171,7 @@ function PlaygroundChatLayout({
           {sidebar}
         </AppShellSidebarSlot>
       </ResizablePanel>
-      <ResizableHandle />
+      <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
       <ResizablePanel id="playground-main" minSize={360} className="relative z-0 !overflow-visible">
         <AppShellMainSlot className="flex h-full min-w-0 flex-1">
           {main}
@@ -189,7 +189,7 @@ function PlaygroundChatLayout({
       </ResizablePanel>
       {thread && isLargeDesktop ? (
         <>
-          <ResizableHandle className="z-50" />
+          <ResizableHandle className={theme === "elegant" ? "z-50 translate-x-[7px]" : "z-50"} />
           <ResizablePanel
             id="playground-thread"
             defaultSize={400}
