@@ -9,10 +9,10 @@ export const buttonVariants = tv({
   slots: {
     root: [
       "relative inline-flex shrink-0 items-center justify-center",
-      "font-heading leading-none whitespace-nowrap select-none",
-      "border-line rounded-none",
+      "font-heading whitespace-nowrap select-none",
+      "rounded-none",
       "shadow-raft-sm transition-all duration-100",
-      "outline outline-[1px] outline-offset-2 outline-transparent",
+      "outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-transparent",
       "data-[loading=true]:cursor-wait",
       "disabled:pointer-events-none disabled:opacity-40 data-[loading=true]:opacity-100",
       "disabled:transform-none",
@@ -25,12 +25,11 @@ export const buttonVariants = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border-2 font-bold focus-visible:outline-transparent"],
+        root: ["border-2 font-bold"],
       },
       elegant: {
         root: [
           "overflow-clip border-0 font-sans font-medium antialiased",
-          "focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-layer-page",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
@@ -49,10 +48,7 @@ export const buttonVariants = tv({
         root: ["border-line-strong bg-info text-foreground-inverse", "hover:bg-info"],
       },
       muted: {
-        root: [
-          "border-line-strong bg-secondary-400 text-secondary-950",
-          "hover:border-line-strong hover:bg-secondary-400",
-        ],
+        root: ["border-line-strong bg-secondary-400 text-secondary-950", "hover:bg-secondary-400"],
       },
       accent: {
         root: ["border-line-strong bg-accent-400 text-accent-950", "hover:bg-accent-500"],
@@ -99,7 +95,7 @@ export const buttonVariants = tv({
     size: {
       xs: {
         root: [
-          "gap-1 px-2 py-[5px] text-[11px]",
+          "h-6 gap-1 px-2 py-0 text-[11px]",
           "has-data-[icon=inline-start]:pl-1.5 has-data-[icon=inline-end]:pr-1.5",
           "[&_[data-icon]]:size-[1em]",
           "[&_svg:not([class*='size-'])]:size-3",
@@ -107,7 +103,7 @@ export const buttonVariants = tv({
       },
       sm: {
         root: [
-          "gap-[5px] px-2.5 py-1.5 text-xs",
+          "h-7 gap-[5px] px-2.5 py-0 text-xs",
           "has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2",
           "[&_[data-icon]]:size-[1em]",
           "[&_svg:not([class*='size-'])]:size-3.5",
@@ -115,23 +111,22 @@ export const buttonVariants = tv({
       },
       md: {
         root: [
-          "gap-[5.5px] px-3 py-[7px] text-sm",
+          "h-8 gap-[5.5px] px-3 py-0 text-sm",
           "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
           "[&_[data-icon]]:size-[1em]",
         ],
       },
       lg: {
         root: [
-          "gap-1.5 px-3.5 py-2 text-base",
+          "gap-1.5 px-3.5 py-0 text-base",
           "has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3",
           "[&_[data-icon]]:size-[1em]",
-          "[&_svg:not([class*='size-'])]:size-4",
         ],
       },
-      "icon-xs": { root: ["p-[5px] text-[11px]", "[&_svg:not([class*='size-'])]:size-3"] },
-      "icon-sm": { root: ["p-1.5 text-xs", "[&_svg:not([class*='size-'])]:size-3.5"] },
-      "icon-md": { root: ["p-2 text-sm", "[&_svg:not([class*='size-'])]:size-4"] },
-      "icon-lg": { root: ["p-3 text-sm", "[&_svg:not([class*='size-'])]:size-4"] },
+      "icon-xs": { root: ["size-6 p-0 text-[11px]", "[&_svg:not([class*='size-'])]:size-3"] },
+      "icon-sm": { root: ["size-7 p-0 text-xs", "[&_svg:not([class*='size-'])]:size-3.5"] },
+      "icon-md": { root: "size-8 p-0 text-sm" },
+      "icon-lg": { root: "p-0 text-sm" },
     },
   },
   defaultVariants: {
@@ -142,52 +137,73 @@ export const buttonVariants = tv({
     {
       theme: "elegant",
       size: "xs",
-      class: { root: "h-6 rounded-sm py-0" },
+      class: { root: "rounded-sm" },
     },
     {
       theme: "elegant",
       size: "icon-xs",
-      class: { root: "size-6 rounded-sm p-0" },
+      class: { root: "rounded-sm" },
     },
     {
       theme: "elegant",
       size: "sm",
-      class: { root: "h-7 rounded py-0" },
+      class: { root: "rounded" },
     },
     {
       theme: "elegant",
       size: "icon-sm",
-      class: { root: "size-7 rounded p-0" },
+      class: { root: "rounded" },
     },
     {
       theme: "elegant",
       size: "md",
-      class: { root: "h-8 rounded-md py-0" },
+      class: { root: "rounded-md" },
     },
     {
       theme: "elegant",
       size: "icon-md",
-      class: { root: "size-8 rounded-md p-0" },
+      class: { root: "rounded-md" },
     },
     {
       theme: "elegant",
       size: "lg",
-      class: { root: "h-9 rounded-md py-0" },
+      class: { root: "h-9 rounded-md" },
     },
     {
       theme: "elegant",
       size: "icon-lg",
-      class: { root: "size-9 rounded-md p-0" },
+      class: { root: "size-9 rounded-md" },
     },
     {
       theme: "elegant",
-      variant: ["outline", "muted"],
+      variant: [
+        "default",
+        "primary",
+        "outline",
+        "information",
+        "muted",
+        "accent",
+        "warning",
+        "danger",
+        "danger-secondary",
+        "danger-outline",
+      ],
       class: { root: "dark:shadow-raft-xs" },
     },
     {
       theme: "elegant",
-      variant: ["primary", "information", "accent", "warning", "danger"],
-      class: { root: "dark:shadow-raft-sm" },
+      variant: ["default", "outline"],
+      class: { root: "[--button-focus-ring:var(--foreground)]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["ghost", "link", "muted"],
+      class: { root: "[--button-focus-ring:var(--line-hairline)]" },
+    },
+    {
+      theme: "elegant",
+      variant: ["danger-secondary", "danger", "danger-outline"],
+      class: { root: "[--button-focus-ring:var(--danger)]" },
     },
     {
       theme: "brutal",
@@ -222,7 +238,16 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       variant: "danger",
-      class: { root: "bg-brutal-red text-foreground-strong hover:bg-brutal-red" },
+      class: {
+        root: "bg-brutal-red text-foreground-strong hover:border-line-strong hover:bg-brutal-red",
+      },
+    },
+    {
+      theme: "brutal",
+      variant: "danger-secondary",
+      class: {
+        root: "text-[color-mix(in_oklab,var(--danger)_72%,transparent)] hover:border-line-strong",
+      },
     },
     {
       theme: "brutal",
@@ -233,63 +258,18 @@ export const buttonVariants = tv({
     },
     {
       theme: "brutal",
-      size: "xs",
-      class: {
-        root: [
-          "h-6 px-2 py-0 text-[11px]",
-          "has-data-[icon=inline-start]:pl-1.5 has-data-[icon=inline-end]:pr-1.5",
-        ],
-      },
-    },
-    {
-      theme: "brutal",
-      size: "sm",
-      class: {
-        root: [
-          "h-7 px-2.5 py-0 text-xs",
-          "has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2",
-        ],
-      },
-    },
-    {
-      theme: "brutal",
-      size: "md",
-      class: {
-        root: [
-          "h-8 px-3 py-0 text-sm",
-          "has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5",
-        ],
-      },
-    },
-    {
-      theme: "brutal",
       size: "lg",
       class: {
         root: [
-          "h-10 px-4 py-0 text-sm",
+          "h-10 px-4 text-sm",
           "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
         ],
       },
     },
     {
       theme: "brutal",
-      size: "icon-xs",
-      class: { root: "size-6 p-0 text-[11px]" },
-    },
-    {
-      theme: "brutal",
-      size: "icon-sm",
-      class: { root: "size-7 p-0 text-xs" },
-    },
-    {
-      theme: "brutal",
-      size: "icon-md",
-      class: { root: "size-8 p-0 text-sm" },
-    },
-    {
-      theme: "brutal",
       size: "icon-lg",
-      class: { root: "size-10 p-0 text-sm" },
+      class: { root: "size-10" },
     },
     {
       theme: "elegant",
@@ -298,9 +278,7 @@ export const buttonVariants = tv({
         root: [
           "bg-foreground text-foreground-inverse",
           "dark:bg-ink",
-          "[--button-focus-outline:var(--foreground)]",
-          "[--button-focus-ring:var(--foreground)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground)] dark:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.5),0_0_0_1px_oklch(0_0_0_/_0.45),0_6px_6px_-2px_oklch(0_0_0_/_0.15),0_2px_4px_oklch(0_0_0_/_0.25)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--foreground)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-[oklch(0.31_0.006_106.42)] dark:hover:bg-foreground-strong",
         ],
@@ -312,7 +290,6 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-primary-400 text-primary-950",
-          "[--button-focus-outline:var(--primary-400)]",
           "[--button-focus-ring:var(--primary-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.15),0_0_0_1px_var(--primary-edge)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_11%)_0%,oklab(100%_0_0_/_0%)_0%,oklab(0%_0_0_/_0%)_100%)]",
@@ -327,8 +304,6 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-layer-panel text-foreground dark:text-foreground-muted",
-          "[--button-focus-outline:var(--layer-panel)]",
-          "[--button-focus-ring:var(--foreground)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0_/_0%)_30%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-fill-muted",
@@ -340,12 +315,7 @@ export const buttonVariants = tv({
       theme: "elegant",
       variant: "ghost",
       class: {
-        root: [
-          "bg-transparent text-foreground-muted shadow-none",
-          "[--button-focus-outline:var(--line-hairline)]",
-          "[--button-focus-ring:var(--line-hairline)]",
-          "before:bg-transparent hover:bg-ink-4",
-        ],
+        root: ["bg-transparent text-foreground-muted shadow-none", "hover:bg-ink-4"],
       },
     },
     {
@@ -355,10 +325,7 @@ export const buttonVariants = tv({
         root: [
           "bg-danger-soft text-danger",
           "dark:bg-[oklch(0.37_0.06_27)] dark:text-[oklch(0.8_0.17_22)]",
-          "[--button-focus-outline:var(--danger-soft)]",
-          "[--button-focus-ring:var(--danger)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.08),0_0_0_1px_var(--danger-muted)]",
-          "dark:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.025),inset_0_0_0_1px_oklch(0.985_0.004_106.42_/_0.015),0_0_0_1px_oklch(0_0_0_/_0.45),0_6px_6px_-2px_oklch(0_0_0_/_0.15),0_2px_4px_oklch(0_0_0_/_0.25)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_4%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-danger-muted",
           "dark:hover:bg-[oklch(0.4_0.07_27)]",
@@ -372,40 +339,10 @@ export const buttonVariants = tv({
         root: [
           "bg-danger text-danger-foreground",
           "dark:bg-[oklch(0.58_0.21_27)] dark:text-[oklch(0.985_0.004_106.42)]",
-          "[--button-focus-outline:var(--danger)]",
-          "[--button-focus-ring:var(--danger)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--danger)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
           "hover:bg-danger-hover",
           "dark:hover:bg-[oklch(0.61_0.21_27)]",
-        ],
-      },
-    },
-    {
-      theme: "brutal",
-      variant: "danger",
-      class: {
-        root: [
-          "border-line-strong bg-brutal-red text-foreground-strong",
-          "shadow-raft-sm",
-          "hover:border-line-strong hover:bg-brutal-red",
-          "hover:-translate-y-px hover:shadow-raft-md",
-          "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
-          "active:shadow-raft-xs",
-        ],
-      },
-    },
-    {
-      theme: "brutal",
-      variant: "danger-secondary",
-      class: {
-        root: [
-          "border-line-strong bg-danger-soft text-[color-mix(in_oklab,var(--danger)_72%,transparent)]",
-          "shadow-raft-sm",
-          "hover:border-line-strong hover:bg-danger-soft",
-          "hover:-translate-y-px hover:shadow-raft-md",
-          "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
-          "active:shadow-raft-xs",
         ],
       },
     },
@@ -416,11 +353,7 @@ export const buttonVariants = tv({
         root: [
           "bg-layer-panel text-danger",
           "dark:bg-fill-muted dark:text-[oklch(0.78_0.19_25)]",
-          "[--button-focus-outline:var(--layer-panel)]",
-          "[--button-focus-ring:var(--danger)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.025),0_0_0_1px_var(--danger-muted)]",
-          "dark:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.025),0_0_0_1px_oklch(0_0_0_/_0.4),0_1px_3px_oklch(0_0_0_/_0.22)]",
-          "before:bg-transparent",
           "hover:bg-danger-soft",
           "dark:hover:bg-fill-strong",
         ],
@@ -432,8 +365,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-accent-400 text-accent-950",
-          "dark:bg-accent-400 dark:text-foreground-inverse",
-          "[--button-focus-outline:var(--accent-400)]",
+          "dark:text-foreground-inverse",
           "[--button-focus-ring:var(--accent-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--accent-400)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
@@ -448,7 +380,6 @@ export const buttonVariants = tv({
         root: [
           "bg-warning text-[oklch(0.25_0.05_50)]",
           "dark:bg-[oklch(0.66_0.17_46)]",
-          "[--button-focus-outline:var(--warning)]",
           "[--button-focus-ring:var(--warning)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.14),0_0_0_1px_var(--warning)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_10%)_0%,oklab(0%_0_0_/_0%)_100%)]",
@@ -461,12 +392,7 @@ export const buttonVariants = tv({
       theme: "elegant",
       variant: "link",
       class: {
-        root: [
-          "bg-transparent text-foreground-muted shadow-none",
-          "[--button-focus-outline:transparent]",
-          "[--button-focus-ring:var(--line-hairline)]",
-          "before:bg-transparent hover:bg-transparent hover:text-foreground-muted",
-        ],
+        root: "bg-transparent text-foreground-muted shadow-none",
       },
     },
     {
@@ -475,8 +401,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-info text-foreground-inverse",
-          "dark:bg-info-strong dark:text-foreground-inverse",
-          "[--button-focus-outline:var(--info)]",
+          "dark:bg-info-strong",
           "[--button-focus-ring:var(--info)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.12),0_0_0_1px_var(--info)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_8%)_0%,oklab(0%_0_0_/_0%)_100%)]",
@@ -491,8 +416,6 @@ export const buttonVariants = tv({
       class: {
         root: [
           "bg-fill-muted text-foreground-muted dark:text-foreground-placeholder",
-          "[--button-focus-outline:var(--fill-muted)]",
-          "[--button-focus-ring:var(--line-hairline)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0_/_5%)_0%,oklab(0%_0_0_/_1%)_100%)]",
           "hover:bg-fill-strong",
@@ -503,7 +426,17 @@ export const buttonVariants = tv({
     },
     {
       theme: "brutal",
-      variant: ["primary", "default", "information", "muted", "accent", "warning", "outline"],
+      variant: [
+        "primary",
+        "default",
+        "information",
+        "muted",
+        "accent",
+        "warning",
+        "outline",
+        "danger-secondary",
+        "danger",
+      ],
       class: {
         root: [
           "hover:-translate-y-px hover:shadow-raft-md",
