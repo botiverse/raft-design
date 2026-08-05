@@ -102,7 +102,17 @@ const SNIPPETS = {
     </ContextMenuItem>
   </ContextMenuContent>
 </ContextMenu>`,
-  anatomy: `<ContextMenu>
+  anatomy: `import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from "raft-ui";
+
+<ContextMenu>
   <ContextMenuTrigger />
   <ContextMenuContent>
     <ContextMenuLabel />

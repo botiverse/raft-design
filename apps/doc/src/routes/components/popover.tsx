@@ -100,7 +100,17 @@ const SNIPPETS = {
 ${PANEL_BODY_SNIPPET}
   </PopoverContent>
 </Popover>`,
-  anatomy: `<Popover>
+  anatomy: `import {
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverHeader,
+  PopoverSeparator,
+  PopoverTitle,
+  PopoverTrigger,
+} from "raft-ui";
+
+<Popover>
   <PopoverTrigger />
   <PopoverContent>
     <PopoverHeader>

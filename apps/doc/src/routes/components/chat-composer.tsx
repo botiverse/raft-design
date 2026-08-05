@@ -68,11 +68,39 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const ANATOMY_SNIPPET = `<div className="relative">
+const ANATOMY_SNIPPET = `import {
+  Checkbox,
+  Composer,
+  ComposerActions,
+  ComposerAttachment,
+  ComposerAttachmentBody,
+  ComposerAttachmentFile,
+  ComposerAttachmentImage,
+  ComposerAttachmentMeta,
+  ComposerAttachmentRemove,
+  ComposerAttachments,
+  ComposerAttachmentTitle,
+  ComposerAttachmentUploadingOverlay,
+  ComposerAttachmentUploadProgressBar,
+  ComposerDropOverlay,
+  ComposerDropOverlayPrompt,
+  ComposerIconButton,
+  ComposerInput,
+  ComposerMeta,
+  ComposerRoot,
+  ComposerSubmit,
+  ComposerToolbar,
+  ComposerToolbarLabel,
+  SortableComposerAttachment,
+  SortableComposerAttachmentsScroll,
+  Spinner,
+} from "raft-ui";
+
+<div className="relative">
   <ComposerRoot>
     <ComposerAttachments>
       {/* wrap: SortableComposerAttachments — scroll: SortableComposerAttachmentsScroll */}
-      <SortableComposerAttachmentsScroll items={ids} onReorder={onReorder}>
+      <SortableComposerAttachmentsScroll items={["shot", "notes"]} onReorder={() => {}}>
         <SortableComposerAttachment id="shot" label="screenshot.png">
           <ComposerAttachment>
             <ComposerAttachmentImage />

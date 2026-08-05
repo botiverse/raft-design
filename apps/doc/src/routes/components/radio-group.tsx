@@ -61,8 +61,10 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<RadioGroup>
-  <RadioGroupItem />
+  anatomy: `import { RadioGroup, RadioGroupItem } from "raft-ui";
+
+<RadioGroup defaultValue="option" ariaLabel="Options">
+  <RadioGroupItem value="option" />
 </RadioGroup>`,
   field: `<Field className="gap-2.5">
   <FieldLabel>Restart mode</FieldLabel>

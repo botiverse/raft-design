@@ -1,6 +1,22 @@
 import type { PropRow } from "#/components/props-table.tsx";
 
-export const FILE_CARD_ANATOMY_SOURCE = `<MessageItemAttachments>
+export const FILE_CARD_ANATOMY_SOURCE = `import {
+  MessageAttachmentAction,
+  MessageAttachmentCard,
+  MessageAttachmentCommentSummary,
+  MessageAttachmentDiffAddition,
+  MessageAttachmentDiffDeletion,
+  MessageAttachmentDiffSummary,
+  MessageAttachmentGroup,
+  MessageAttachmentMeta,
+  MessageAttachmentMetaEnd,
+  MessageAttachmentMetaStart,
+  MessageAttachmentSummary,
+  MessageAttachmentTitle,
+  MessageItemAttachments,
+} from "raft-ui";
+
+<MessageItemAttachments>
   <MessageAttachmentGroup>
     <MessageAttachmentCard>
       <MessageAttachmentTitle />
@@ -20,11 +36,20 @@ export const FILE_CARD_ANATOMY_SOURCE = `<MessageItemAttachments>
   <MessageAttachmentDiffDeletion />
 </MessageAttachmentSummary>`;
 
-export const IMAGE_GALLERY_ANATOMY_SOURCE = `<MessageImageGallery>
+export const IMAGE_GALLERY_ANATOMY_SOURCE = `import {
+  MessageImageGallery,
+  MessageImageGalleryAction,
+  MessageImageGalleryItem,
+  MessageImageGalleryMedia,
+  MessageImageGalleryOverlay,
+  MessageImageGalleryPreview,
+} from "raft-ui";
+
+<MessageImageGallery>
   <div className="grid grid-cols-2 gap-2">
     <MessageImageGalleryItem>
       <MessageImageGalleryMedia>
-        <img className="h-full w-full object-cover" alt="" />
+        <img src="/image.jpg" className="h-full w-full object-cover" alt="" />
       </MessageImageGalleryMedia>
       <MessageImageGalleryPreview />
       <MessageImageGalleryAction />
@@ -36,14 +61,26 @@ export const IMAGE_GALLERY_ANATOMY_SOURCE = `<MessageImageGallery>
   <div className="grid grid-cols-1 gap-2">
     <MessageImageGalleryItem aria-busy>
       <MessageImageGalleryMedia>
-        <img className="h-full w-full object-contain" alt="" />
+        <img src="/image.jpg" className="h-full w-full object-contain" alt="" />
       </MessageImageGalleryMedia>
       <MessageImageGalleryOverlay />
     </MessageImageGalleryItem>
   </div>
 </MessageImageGallery>`;
 
-export const VIDEO_PREVIEW_ANATOMY_SOURCE = `<MessageVideoPreview>
+export const VIDEO_PREVIEW_ANATOMY_SOURCE = `import {
+  MessageVideoPreview,
+  MessageVideoPreviewAction,
+  MessageVideoPreviewFailureAction,
+  MessageVideoPreviewFailureContent,
+  MessageVideoPreviewFailureIcon,
+  MessageVideoPreviewFailureTitle,
+  MessageVideoPreviewFallback,
+  MessageVideoPreviewMedia,
+  Spinner,
+} from "raft-ui";
+
+<MessageVideoPreview>
   <MessageVideoPreviewMedia />
   <MessageVideoPreviewAction />
 </MessageVideoPreview>
@@ -52,7 +89,6 @@ export const VIDEO_PREVIEW_ANATOMY_SOURCE = `<MessageVideoPreview>
   <MessageVideoPreviewFallback>
     <Spinner />
   </MessageVideoPreviewFallback>
-  <MessageVideoPreviewAction />
 </MessageVideoPreview>
 
 <MessageVideoPreview>

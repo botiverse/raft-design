@@ -52,7 +52,14 @@ const SNIPPETS = {
   collapsibleSidebarComposition: appShellCollapsibleSidebarCompositionSource,
   desktopComposition: appShellDesktopCompositionSource,
   responsiveComposition: appShellResponsiveCompositionSource,
-  anatomy: `<AppShellRoot>
+  anatomy: `import {
+  AppShellMainSlot,
+  AppShellRailSlot,
+  AppShellRoot,
+  AppShellSidebarSlot,
+} from "raft-ui";
+
+<AppShellRoot>
   <AppShellRailSlot>...</AppShellRailSlot>
   <AppShellSidebarSlot>...</AppShellSidebarSlot>
   <AppShellMainSlot>...</AppShellMainSlot>

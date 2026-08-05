@@ -106,7 +106,14 @@ const SNIPPETS = {
     </EmptyStateDescription>
   </EmptyStateContent>
 </EmptyState>`,
-  anatomy: `<EmptyState>
+  anatomy: `import {
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateIcon,
+  EmptyStateTitle,
+} from "raft-ui";
+
+<EmptyState>
   <EmptyStateContent>
     <EmptyStateIcon />
     <EmptyStateTitle />

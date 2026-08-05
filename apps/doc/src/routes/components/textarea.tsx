@@ -105,7 +105,9 @@ const SNIPPETS = {
   rows={4}
   placeholder="Type your message here."
 />`,
-  anatomy: `<Textarea />`,
+  anatomy: `import { Textarea } from "raft-ui";
+
+<Textarea />`,
   states: `<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
 <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
 <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />

@@ -50,7 +50,29 @@ const ACTIVITY_COMPOSITION_PATH =
 const ACTIVITY_PARTS_PATH = "apps/doc/src/modules/activity/activity-panel.parts.tsx";
 
 const SNIPPETS = {
-  anatomy: `<ActivityInboxList>
+  anatomy: `import {
+  Checkbox,
+  PanelAction,
+  PanelToggleAction,
+} from "raft-ui";
+import {
+  ActivityInboxItem,
+  ActivityInboxItemActions,
+  ActivityInboxItemBody,
+  ActivityInboxItemContent,
+  ActivityInboxItemHeading,
+  ActivityInboxItemMetadata,
+  ActivityInboxItemOpen,
+  ActivityInboxItemSelection,
+  ActivityInboxItemSender,
+  ActivityInboxItemSubtitle,
+  ActivityInboxItemTimestamp,
+  ActivityInboxItemTitle,
+  ActivityInboxItemTrailing,
+  ActivityInboxList,
+} from "raft-ui/wip";
+
+<ActivityInboxList>
   <ActivityInboxItem>
     {/* full-card open target layered behind the content */}
     <ActivityInboxItemOpen />
@@ -79,8 +101,16 @@ const SNIPPETS = {
     </ActivityInboxItemTrailing>
   </ActivityInboxItem>
 </ActivityInboxList>`,
-  menuAnatomy: `<ContextMenu>
-  <ContextMenuTrigger render={row} />
+  menuAnatomy: `import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuItemLabel,
+  ContextMenuTrigger,
+} from "raft-ui";
+
+<ContextMenu>
+  <ContextMenuTrigger render={<button type="button">Activity item</button>} />
   <ContextMenuContent>
     <ContextMenuItem>
       <ContextMenuItemLabel />
@@ -341,7 +371,7 @@ function ActivityDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
         <DocsCodeBlock>

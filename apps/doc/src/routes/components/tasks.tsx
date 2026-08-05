@@ -21,7 +21,22 @@ import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.
 import tasksPanelCompositionSource from "#/modules/tasks/compositions/tasks-panel.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
-const ANATOMY_SNIPPET = `<TasksPanelRoot>
+const ANATOMY_SNIPPET = `import {
+  Button,
+  Skeleton,
+  TaskLoadingList,
+  TaskLoadingRow,
+  TasksPanelEmpty,
+  TasksPanelRoot,
+  TasksPanelToolbar,
+  TasksPanelToolbarFilters,
+  TasksPanelToolbarLabel,
+  TasksPanelToolbarNewTask,
+  TasksPanelToolbarView,
+  TasksPanelViewport,
+} from "raft-ui";
+
+<TasksPanelRoot>
   <TasksPanelToolbar>
     <TasksPanelToolbarNewTask>
       <Button variant="accent" size="sm">New Task</Button>

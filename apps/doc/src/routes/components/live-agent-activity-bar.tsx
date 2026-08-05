@@ -31,7 +31,17 @@ const SNIPPETS = {
     </LiveAgentActivityBarContent>
   </LiveAgentActivityBarRow>
 </LiveAgentActivityBar>`,
-  anatomy: `<LiveAgentActivityBar>
+  anatomy: `import {
+  AvatarImage,
+  LiveAgentActivityBar,
+  LiveAgentActivityBarAvatar,
+  LiveAgentActivityBarContent,
+  LiveAgentActivityBarRow,
+  LiveAgentActivityBarStatus,
+  LiveAgentActivityBarText,
+} from "raft-ui";
+
+<LiveAgentActivityBar>
   <LiveAgentActivityBarRow>
     <LiveAgentActivityBarAvatar>
       <AvatarImage />

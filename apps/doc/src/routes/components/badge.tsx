@@ -32,7 +32,9 @@ const APPEARANCES = ["solid", "soft", "outline"] as const;
 
 const SNIPPETS = {
   preview: `<Badge appearance="solid" variant="primary">In Progress</Badge>`,
-  anatomy: `<Badge />`,
+  anatomy: `import { Badge } from "raft-ui";
+
+<Badge />`,
   variants: `<Badge appearance="outline" uppercase>Default</Badge>
 <Badge variant="primary" uppercase>Pending</Badge>
 <Badge variant="information">Open</Badge>

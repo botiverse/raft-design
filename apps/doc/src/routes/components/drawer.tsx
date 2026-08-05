@@ -38,7 +38,20 @@ const DIRECTION_PREVIEWS = [
   swipeDirection: NonNullable<DrawerProps["swipeDirection"]>;
 }>;
 
-const ANATOMY = `<Drawer>
+const ANATOMY = `import {
+  Drawer,
+  DrawerActions,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "raft-ui";
+
+<Drawer>
   <DrawerTrigger />
   <DrawerContent>
     <DrawerHeader>

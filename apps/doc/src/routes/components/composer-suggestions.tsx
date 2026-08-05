@@ -39,7 +39,27 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const ANATOMY_SNIPPET = `<ComposerRoot>
+const ANATOMY_SNIPPET = `import {
+  Composer,
+  ComposerActions,
+  ComposerInput,
+  ComposerMeta,
+  ComposerRoot,
+  ComposerSubmit,
+  ComposerSuggestionAside,
+  ComposerSuggestionContent,
+  ComposerSuggestionGroup,
+  ComposerSuggestionGroupLabel,
+  ComposerSuggestionIcon,
+  ComposerSuggestionList,
+  ComposerSuggestionMeta,
+  ComposerSuggestionOption,
+  ComposerSuggestionTitle,
+  ComposerToolbar,
+  ComposerToolbarLabel,
+} from "raft-ui";
+
+<ComposerRoot>
   <ComposerSuggestionList>
     <ComposerSuggestionGroup>
       <ComposerSuggestionGroupLabel />

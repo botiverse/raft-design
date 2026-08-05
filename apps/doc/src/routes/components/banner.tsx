@@ -204,7 +204,15 @@ const BANNER_COMPOSITION_SNIPPET_IDS = {
 type BannerCompositionKey = keyof typeof BANNER_COMPOSITION_SOURCES;
 
 const SNIPPETS = {
-  anatomy: `<Banner>
+  anatomy: `import {
+  Banner,
+  BannerAction,
+  BannerDescription,
+  BannerTitle,
+  Button,
+} from "raft-ui";
+
+<Banner status="info">
   <BannerTitle />
   <BannerDescription />
   <BannerAction>

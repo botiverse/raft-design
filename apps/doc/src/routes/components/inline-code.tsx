@@ -22,7 +22,9 @@ const SNIPPETS = {
 <p>
   Set <InlineCode>aria-invalid</InlineCode> on the control.
 </p>`,
-  anatomy: `<InlineCode />`,
+  anatomy: `import { InlineCode } from "raft-ui";
+
+<InlineCode />`,
   usage: `<p>
   Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on the control.
 </p>

@@ -39,7 +39,9 @@ const SNIPPETS = {
   preview: `import { Status } from "raft-ui";
 
 <Status variant="accent" />`,
-  anatomy: `<Status />`,
+  anatomy: `import { Status } from "raft-ui";
+
+<Status />`,
   sourceDefault: `<AttentionDot />`,
   sourceCompact: `<AttentionDot size="sm" />`,
   sourceTone: `<AttentionDot tone="bg-brutal-orange" />`,

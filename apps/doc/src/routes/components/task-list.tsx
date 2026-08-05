@@ -16,11 +16,25 @@ const TASK_LIST_COMPOSITION_PATH =
 const TASK_LIST_EMPTY_SECTIONS_COMPOSITION_PATH =
   "apps/doc/src/modules/task-list/compositions/task-list-empty-sections.composition.tsx";
 
-const ANATOMY_SNIPPET = `<TaskListRoot>
+const ANATOMY_SNIPPET = `import {
+  TaskCard,
+  TaskListRoot,
+  TaskSection,
+  TaskSectionBadge,
+  TaskSectionChevron,
+  TaskSectionCount,
+  TaskSectionEmpty,
+  TaskSectionHeading,
+  TaskSectionItems,
+  TaskSectionPanel,
+  TaskSectionTrigger,
+} from "raft-ui";
+
+<TaskListRoot>
   <TaskSection>
     <TaskSectionTrigger>
       <TaskSectionHeading>
-        <TaskSectionBadge />
+        <TaskSectionBadge status="todo" />
         <TaskSectionCount />
       </TaskSectionHeading>
       <TaskSectionChevron />

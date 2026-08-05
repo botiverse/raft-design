@@ -15,15 +15,34 @@ const TASK_BOARD_COMPOSITION_PATH =
 const TASK_DND_COMPOSITION_PATH =
   "apps/doc/src/modules/task-dnd/compositions/task-dnd.composition.tsx";
 
-const ANATOMY_SNIPPET = `<TaskDndProvider isDropAllowed={…} onMove={…}>
-  <TaskBoardColumn render={<TaskDropZone id={columnDropId} data={{ status }} />}>
-    <TaskDropPlaceholder id={cardDropId} placement="before" />
-    <TaskDraggable id={taskId} dropId={cardDropId} dropData={{ status, taskId }}>
-      <TaskCard />
-    </TaskDraggable>
-    <TaskDropPlaceholder id={cardDropId} placement="after" />
-  </TaskBoardColumn>
-  <TaskDragOverlay>{activeTask && <TaskCard />}</TaskDragOverlay>
+const ANATOMY_SNIPPET = `import {
+  TaskBoardColumn,
+  TaskBoardRoot,
+  TaskCard,
+  TaskDndProvider,
+  TaskDragOverlay,
+  TaskDraggable,
+  TaskDropPlaceholder,
+  TaskDropZone,
+} from "raft-ui";
+
+<TaskDndProvider isDropAllowed={() => true} onMove={() => {}}>
+  <TaskBoardRoot>
+    <TaskBoardColumn render={<TaskDropZone id="task-status:todo" data={{ status: "todo" }} />}>
+      <TaskDropPlaceholder id="task-1" placement="before" />
+      <TaskDraggable
+        id="task-1"
+        dropId="task-1"
+        dropData={{ status: "todo", taskId: "task-1" }}
+      >
+        <TaskCard />
+      </TaskDraggable>
+      <TaskDropPlaceholder id="task-1" placement="after" />
+    </TaskBoardColumn>
+  </TaskBoardRoot>
+  <TaskDragOverlay>
+    <TaskCard />
+  </TaskDragOverlay>
 </TaskDndProvider>`;
 
 const TOC = [

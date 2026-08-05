@@ -43,7 +43,28 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const ANATOMY_SOURCE = `<MessageActionCard>
+const ANATOMY_SOURCE = `import {
+  Banner,
+  BannerDescription,
+  MessageActionCard,
+  MessageActionCardActions,
+  MessageActionCardCompletion,
+  MessageActionCardContent,
+  MessageActionCardHeader,
+  MessageActionCardHeaderStatus,
+  MessageActionCardHint,
+  MessageActionCardProperties,
+  MessageActionCardProperty,
+  MessageActionCardPropertyLabel,
+  MessageActionCardPropertyValue,
+  MessageActionCardScope,
+  MessageActionCardScopeDescription,
+  MessageActionCardScopeList,
+  MessageActionCardScopeListLabel,
+  MessageActionCardScopeName,
+} from "raft-ui";
+
+<MessageActionCard>
   <MessageActionCardHeader>
     <MessageActionCardHeaderStatus />
   </MessageActionCardHeader>

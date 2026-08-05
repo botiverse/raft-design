@@ -31,8 +31,10 @@ const TOC = [
 const TODOS = ["Add elegant family styling"] as const;
 
 const SNIPPETS = {
-  anatomy: `<ToggleGroup>
-  <ToggleGroupItem>
+  anatomy: `import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui/wip";
+
+<ToggleGroup value="all" onValueChange={() => {}} ariaLabel="Filter">
+  <ToggleGroupItem value="all">
     <ToggleGroupLabel />
   </ToggleGroupItem>
 </ToggleGroup>`,

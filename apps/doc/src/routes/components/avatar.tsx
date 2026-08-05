@@ -330,8 +330,10 @@ const SOURCE_DIFFERENCE_ROWS = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<Avatar>
-  <AvatarImage />
+  anatomy: `import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "raft-ui";
+
+<Avatar size="md" type="human">
+  <AvatarImage src="/avatar.png" alt="" />
   <AvatarFallback />
   <AvatarBadge />
 </Avatar>`,

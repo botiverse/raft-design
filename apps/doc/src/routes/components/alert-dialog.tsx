@@ -83,7 +83,21 @@ const SNIPPETS = {
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`,
-  anatomy: `<AlertDialog>
+  anatomy: `import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogBody,
+  AlertDialogCancel,
+  AlertDialogClose,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "raft-ui";
+
+<AlertDialog>
   <AlertDialogTrigger />
   <AlertDialogContent>
     <AlertDialogHeader>

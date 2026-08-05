@@ -49,7 +49,9 @@ const SOURCE_SCENES = {
 } as const;
 
 const SNIPPETS = {
-  anatomy: `<Skeleton />`,
+  anatomy: `import { Skeleton } from "raft-ui";
+
+<Skeleton />`,
   variants: `<Skeleton variant="line" className="w-40" />
 <Skeleton variant="block" className="size-12" />
 <Skeleton variant="circle" className="size-10" />`,

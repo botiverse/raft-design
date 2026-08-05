@@ -29,7 +29,9 @@ const SNIPPETS = {
   sandbox="allow-scripts"
   className="h-full w-full border-0 bg-white"
 />`,
-  anatomy: `<SandboxedPreviewFrame />`,
+  anatomy: `import SandboxedPreviewFrame from "../ui/SandboxedPreviewFrame";
+
+<SandboxedPreviewFrame title="Attachment preview" src={scopedUrl} />`,
   usage: `// Static SVG (Mermaid) — maximally locked, zero scripts:
 <SandboxedPreviewFrame title="Diagram" srcDoc={svgDoc} />
 

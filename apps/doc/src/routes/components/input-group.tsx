@@ -83,7 +83,9 @@ const SNIPPETS = {
   <InputGroupInput placeholder="Default" />
   <InputGroupAddon.Text align="inline-end" variant="container">.com</InputGroupAddon.Text>
 </InputGroup>`,
-  anatomy: `<InputGroup>
+  anatomy: `import { InputGroup, InputGroupInput } from "raft-ui";
+
+<InputGroup>
   <InputGroupInput />
 </InputGroup>`,
   addons: `import { Search } from "lucide-react";

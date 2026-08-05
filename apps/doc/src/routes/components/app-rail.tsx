@@ -27,7 +27,28 @@ const TOC = [
 const SNIPPETS = {
   appRailComposition: appRailCompositionSource,
   appRailServerButton: appRailServerButtonSource,
-  anatomy: `<AppShellRailSlot>
+  anatomy: `import { Link } from "@tanstack/react-router";
+import { Activity, MessageSquare, Settings } from "lucide-react";
+import {
+  AppRailFooter,
+  AppRailHeader,
+  AppRailItem,
+  AppRailItemAttention,
+  AppRailItemBadge,
+  AppRailItemIcon,
+  AppRailItemLabel,
+  AppRailNav,
+  AppRailRoot,
+  AppShellRailSlot,
+  NotificationCenter,
+  NotificationCenterTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "raft-ui";
+
+<AppShellRailSlot>
   <AppRailRoot>
     <AppRailHeader>
       {/* App-owned server switcher */}
@@ -58,7 +79,7 @@ const SNIPPETS = {
       </AppRailNav>
       <AppRailFooter>
         <NotificationCenter>
-          <NotificationCenterTrigger />
+          <NotificationCenterTrigger type="button" aria-label="Notification center" />
         </NotificationCenter>
         <Tooltip>
           <TooltipTrigger
@@ -230,7 +251,7 @@ function AppRailDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

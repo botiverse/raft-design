@@ -33,7 +33,23 @@ const CONVERSATION_PANEL_HEADER_COMPOSITION_PATH =
   "apps/doc/src/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx";
 
 const SNIPPETS = {
-  anatomy: `<ConversationPanelRoot>
+  anatomy: `import {
+  ConversationPanelBody,
+  ConversationPanelContent,
+  ConversationPanelFooter,
+  ConversationPanelRoot,
+  ConversationPanelTabs,
+  PanelActions,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelHeaderIcon,
+  PanelHeading,
+  PanelMeta,
+  PanelStatus,
+  PanelTitle,
+} from "raft-ui";
+
+<ConversationPanelRoot>
   <PanelHeader>
     {/* Sticks to the top on mobile by default. */}
     <PanelHeaderContent>
@@ -68,7 +84,14 @@ const SNIPPETS = {
     </ConversationPanelFooter>
   </ConversationPanelContent>
 </ConversationPanelRoot>`,
-  emptyStateAnatomy: `<ConversationPanelRoot>
+  emptyStateAnatomy: `import {
+  ConversationPanelEmptyState,
+  ConversationPanelEmptyStateBrand,
+  ConversationPanelEmptyStateBrandMark,
+  ConversationPanelRoot,
+} from "raft-ui";
+
+<ConversationPanelRoot>
   <ConversationPanelEmptyState>
     <ConversationPanelEmptyStateBrand>
       <ConversationPanelEmptyStateBrandMark />

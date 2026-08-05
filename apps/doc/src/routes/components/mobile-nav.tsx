@@ -38,7 +38,10 @@ const SOURCE_SCENES = [
 
 const SNIPPETS = {
   mobileNavComposition: mobileNavCompositionSource,
-  anatomy: `<MobileNavRoot>
+  anatomy: `import { Home } from "lucide-react";
+import { MobileNavItem, MobileNavLabel, MobileNavRoot } from "raft-ui";
+
+<MobileNavRoot>
   <MobileNavItem selected aria-label="Home">
     <Home />
     <MobileNavLabel>Home</MobileNavLabel>
@@ -115,7 +118,7 @@ function MobileNavDoc() {
       <DocSection id="anatomy" title="Anatomy">
         <DocsCodeBlock>
           <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} />
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
           </DocsCodeBlock.Body>
         </DocsCodeBlock>
       </DocSection>

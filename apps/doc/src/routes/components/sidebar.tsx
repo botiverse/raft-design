@@ -28,7 +28,30 @@ const TOC = [
 const SNIPPETS = {
   sidebarComposition: sidebarCompositionSource,
   sidebarSectionHeaderMenuComposition: sidebarSectionHeaderMenuCompositionSource,
-  anatomy: `<SidebarRoot>
+  anatomy: `import {
+  LiveAgentActivityBar,
+  SidebarBody,
+  SidebarContent,
+  SidebarControl,
+  SidebarHeader,
+  SidebarHeaderTitle,
+  SidebarItem,
+  SidebarList,
+  SidebarLiveActivity,
+  SidebarRoot,
+  SidebarSection,
+  SidebarSectionAttention,
+  SidebarSectionChevron,
+  SidebarSectionControls,
+  SidebarSectionCount,
+  SidebarSectionDisclosure,
+  SidebarSectionEmpty,
+  SidebarSectionHeader,
+  SidebarSectionTitle,
+  SidebarSectionTrailing,
+} from "raft-ui";
+
+<SidebarRoot>
   <SidebarHeader>
     <SidebarHeaderTitle />
     <SidebarControl />
@@ -44,7 +67,7 @@ const SNIPPETS = {
           </SidebarSectionDisclosure>
           <SidebarSectionTrailing>
             <SidebarSectionAttention />
-          <SidebarSectionControls>
+            <SidebarSectionControls>
               <SidebarControl />
             </SidebarSectionControls>
           </SidebarSectionTrailing>

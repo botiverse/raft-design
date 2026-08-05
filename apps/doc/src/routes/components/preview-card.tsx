@@ -63,7 +63,16 @@ const SNIPPETS = {
 ${MENTION_CARD_BODY_SNIPPET}
   </PreviewCardContent>
 </PreviewCard>`,
-  anatomy: `<PreviewCard>
+  anatomy: `import {
+  PreviewCard,
+  PreviewCardContent,
+  PreviewCardDescription,
+  PreviewCardHeader,
+  PreviewCardTitle,
+  PreviewCardTrigger,
+} from "raft-ui";
+
+<PreviewCard>
   <PreviewCardTrigger />
   <PreviewCardContent>
     <PreviewCardHeader>

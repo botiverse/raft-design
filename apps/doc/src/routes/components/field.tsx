@@ -125,7 +125,9 @@ const SOURCE_SCENES = [
 const PREVIEW_TOP_CLASS = "!items-start !pt-16";
 
 const SNIPPETS = {
-  anatomy: `<Field>
+  anatomy: `import { Field, FieldDescription, FieldLabel, Input } from "raft-ui";
+
+<Field>
   <FieldLabel />
   <Input />
   <FieldDescription />

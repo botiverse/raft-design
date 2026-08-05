@@ -22,8 +22,15 @@ const TOC = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<SegmentedControl>
-  <SegmentedControlItem>
+  anatomy: `import {
+  SegmentedControl,
+  SegmentedControlCount,
+  SegmentedControlItem,
+  SegmentedControlLabel,
+} from "raft-ui";
+
+<SegmentedControl defaultValue="all" ariaLabel="Filter">
+  <SegmentedControlItem value="all">
     <SegmentedControlLabel />
     <SegmentedControlCount />
   </SegmentedControlItem>

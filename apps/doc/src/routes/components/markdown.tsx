@@ -18,7 +18,27 @@ const MARKDOWN_RENDERER_PATH = "apps/doc/src/lib/markdown/markdown.tsx";
 const MARKDOWN_INPUT_PATH = "apps/doc/src/modules/markdown/markdown-input.md";
 const MARKDOWN_INPUT_HTML = plainSnippet(markdownInputSource);
 
-const ANATOMY_SOURCE = `<MarkdownHeading level={2} />
+const ANATOMY_SOURCE = `import {
+  MarkdownBlockquote,
+  MarkdownCell,
+  MarkdownCheckbox,
+  MarkdownHeaderCell,
+  MarkdownHeading,
+  MarkdownImage,
+  MarkdownInlineCode,
+  MarkdownLink,
+  MarkdownList,
+  MarkdownListItem,
+  MarkdownMark,
+  MarkdownOrderedList,
+  MarkdownParagraph,
+  MarkdownRule,
+  MarkdownTable,
+  MarkdownTableRow,
+  MarkdownTableScroll,
+} from "raft-ui";
+
+<MarkdownHeading level={2} />
 <MarkdownParagraph>
   <MarkdownLink />
   <MarkdownInlineCode />

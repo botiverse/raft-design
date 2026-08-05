@@ -62,7 +62,9 @@ const SNIPPETS = {
   <Separator>Actions</Separator>
   <span>Visibility actions</span>
 </div>`,
-  anatomy: `<Separator />`,
+  anatomy: `import { Separator } from "raft-ui";
+
+<Separator />`,
   orientation: `import { Separator } from "raft-ui";
 
 <Separator />

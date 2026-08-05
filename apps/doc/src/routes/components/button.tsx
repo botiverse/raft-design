@@ -87,7 +87,9 @@ const SOURCE_SCENES = [
 ] as const;
 
 const SNIPPETS = {
-  anatomy: `<Button />`,
+  anatomy: `import { Button } from "raft-ui";
+
+<Button />`,
   variants: `<Button variant="default">Default</Button>
 <Button variant="primary">Primary</Button>
 <Button variant="outline">Outline</Button>

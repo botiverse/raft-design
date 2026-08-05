@@ -257,7 +257,22 @@ function ModelCombobox() {
     </Combobox>
   );
 }`,
-  anatomy: `<Combobox>
+  anatomy: `import {
+  Combobox,
+  ComboboxClear,
+  ComboboxContent,
+  ComboboxControl,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxList,
+  ComboboxTriggerIndicator,
+  Field,
+  FieldLabel,
+} from "raft-ui";
+
+<Combobox>
   <Field>
     <FieldLabel />
     <ComboboxControl>
@@ -268,7 +283,7 @@ function ModelCombobox() {
   </Field>
   <ComboboxContent>
     <ComboboxList>
-      <ComboboxItem>
+      <ComboboxItem value="option">
         <ComboboxItemIndicator />
       </ComboboxItem>
     </ComboboxList>

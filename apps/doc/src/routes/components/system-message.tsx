@@ -64,7 +64,19 @@ const SOURCE_SCENES = [
   },
 ] as const;
 
-const ANATOMY_SOURCE = `<SystemMessage>
+const ANATOMY_SOURCE = `import {
+  SystemMessage,
+  SystemMessageContent,
+  SystemMessageGroup,
+  SystemMessageGroupChevron,
+  SystemMessageGroupDisclosure,
+  SystemMessageGroupHeader,
+  SystemMessageGroupPanel,
+  SystemMessageGroupSummary,
+  SystemMessageTime,
+} from "raft-ui";
+
+<SystemMessage>
   <SystemMessageTime />
   <SystemMessageContent>{message.content}</SystemMessageContent>
 </SystemMessage>
