@@ -1,31 +1,45 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { createContext, use } from "react";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import type { VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { card } from "./card.recipe";
 
-export type CardProps = useRender.ComponentProps<"div">;
+type CardVariant = NonNullable<VariantProps<typeof card>["variant"]>;
 
-export function Card({ className, render, ...props }: CardProps) {
+const CardVariantContext = createContext<CardVariant>("default");
+
+function useCardRecipe() {
   const theme = useThemeFamily();
-  const { root } = card({ theme });
+  const variant = use(CardVariantContext);
+  return card({ theme, variant });
+}
+
+export type CardProps = useRender.ComponentProps<"div"> & Omit<VariantProps<typeof card>, "theme">;
+
+export function Card({ className, render, variant = "default", ...props }: CardProps) {
+  const theme = useThemeFamily();
+  const { root } = card({ theme, variant });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "card",
+    "data-variant": variant,
     className: root({ className }),
   };
 
-  return useRender({
+  const element = useRender({
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
   });
+
+  return <CardVariantContext value={variant}>{element}</CardVariantContext>;
 }
 
 export type CardHeaderProps = useRender.ComponentProps<"div">;
 
 export function CardHeader({ className, render, ...props }: CardHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = card({ theme });
+  const { header } = useCardRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "card-header",
     className: header({ className }),
@@ -41,8 +55,7 @@ export function CardHeader({ className, render, ...props }: CardHeaderProps) {
 export type CardTitleProps = useRender.ComponentProps<"div">;
 
 export function CardTitle({ className, render, ...props }: CardTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = card({ theme });
+  const { title } = useCardRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "card-title",
     className: title({ className }),
@@ -55,11 +68,42 @@ export function CardTitle({ className, render, ...props }: CardTitleProps) {
   });
 }
 
+export type CardLeadingProps = useRender.ComponentProps<"div">;
+
+export function CardLeading({ className, render, ...props }: CardLeadingProps) {
+  const { leading } = useCardRecipe();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "card-leading",
+    className: leading({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type CardTitleTextProps = useRender.ComponentProps<"div">;
+
+export function CardTitleText({ className, render, ...props }: CardTitleTextProps) {
+  const { titleText } = useCardRecipe();
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "card-title-text",
+    className: titleText({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type CardDescriptionProps = useRender.ComponentProps<"div">;
 
 export function CardDescription({ className, render, ...props }: CardDescriptionProps) {
-  const theme = useThemeFamily();
-  const { description } = card({ theme });
+  const { description } = useCardRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "card-description",
     className: description({ className }),
@@ -72,14 +116,13 @@ export function CardDescription({ className, render, ...props }: CardDescription
   });
 }
 
-export type CardActionProps = useRender.ComponentProps<"div">;
+export type CardTrailingProps = useRender.ComponentProps<"div">;
 
-export function CardAction({ className, render, ...props }: CardActionProps) {
-  const theme = useThemeFamily();
-  const { action } = card({ theme });
+export function CardTrailing({ className, render, ...props }: CardTrailingProps) {
+  const { trailing } = useCardRecipe();
   const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "card-action",
-    className: action({ className }),
+    "data-slot": "card-trailing",
+    className: trailing({ className }),
   };
 
   return useRender({
@@ -92,8 +135,7 @@ export function CardAction({ className, render, ...props }: CardActionProps) {
 export type CardContentProps = useRender.ComponentProps<"div">;
 
 export function CardContent({ className, render, ...props }: CardContentProps) {
-  const theme = useThemeFamily();
-  const { content } = card({ theme });
+  const { content } = useCardRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "card-content",
     className: content({ className }),
@@ -109,8 +151,7 @@ export function CardContent({ className, render, ...props }: CardContentProps) {
 export type CardFooterProps = useRender.ComponentProps<"div">;
 
 export function CardFooter({ className, render, ...props }: CardFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = card({ theme });
+  const { footer } = useCardRecipe();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "card-footer",
     className: footer({ className }),

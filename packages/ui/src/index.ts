@@ -90,21 +90,25 @@ export type { ButtonProps } from "./components/button/index";
 
 export {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
+  CardLeading,
   CardTitle,
+  CardTitleText,
+  CardTrailing,
 } from "./components/card/index";
 export type {
-  CardActionProps,
   CardContentProps,
   CardDescriptionProps,
   CardFooterProps,
   CardHeaderProps,
+  CardLeadingProps,
   CardProps,
   CardTitleProps,
+  CardTitleTextProps,
+  CardTrailingProps,
 } from "./components/card/index";
 
 export {

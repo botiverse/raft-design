@@ -1,13 +1,14 @@
 import { useState } from "react";
 import {
-  Badge,
   Button,
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  CardTitleText,
+  CardTrailing,
+  Switch,
   Text,
 } from "raft-ui";
 
@@ -16,35 +17,37 @@ export function CardNotificationPermissionsComposition() {
   const [message, setMessage] = useState("");
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-lg">
       <CardHeader>
-        <CardTitle render={<h3 />}>DMs, direct mentions, and followed thread replies</CardTitle>
+        <CardTitle>
+          <CardTitleText render={<h3 />}>
+            DMs, direct mentions, and followed thread replies
+          </CardTitleText>
+          <CardTrailing>
+            <Switch
+              aria-label="Push notifications"
+              checked={enabled}
+              onCheckedChange={(checked) => {
+                setEnabled(checked);
+                setMessage("");
+              }}
+            />
+          </CardTrailing>
+        </CardTitle>
         <CardDescription>
           Uses web push so notifications can still arrive when the tab is in the background.
         </CardDescription>
-        <CardAction>
-          <Badge variant={enabled ? "success" : "muted"}>{enabled ? "Enabled" : "Disabled"}</Badge>
-        </CardAction>
       </CardHeader>
       <CardContent className="grid gap-3">
-        <div className="flex flex-wrap gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              setEnabled((current) => !current);
-              setMessage("");
-            }}
-          >
-            {enabled ? "Disable Push Notifications" : "Enable Push Notifications"}
-          </Button>
-          {enabled ? (
-            <Button type="button" size="sm" onClick={() => setMessage("Test push sent.")}>
-              Send Test Push
-            </Button>
-          ) : null}
-        </div>
+        <Button
+          type="button"
+          size="sm"
+          className="justify-self-start"
+          disabled={!enabled}
+          onClick={() => setMessage("Test push sent.")}
+        >
+          Send Test Push
+        </Button>
         {message ? (
           <Text.Sans size="caption" aria-live="polite">
             {message}

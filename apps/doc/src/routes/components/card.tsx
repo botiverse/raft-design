@@ -10,10 +10,14 @@ import {
   createCompositionSnippetMap,
   createCompositionSourceMap,
 } from "#/lib/source-comparison-code.ts";
+import denseSettingsCompositionSource from "#/modules/card/compositions/dense-settings.composition.tsx?raw";
+import { CardDenseSettingsComposition } from "#/modules/card/compositions/dense-settings.composition.tsx";
+import appNotificationsCompositionSource from "#/modules/card/compositions/app-notifications.composition.tsx?raw";
+import { CardAppNotificationsComposition } from "#/modules/card/compositions/app-notifications.composition.tsx";
 import notificationPermissionsCompositionSource from "#/modules/card/compositions/notification-permissions.composition.tsx?raw";
 import { CardNotificationPermissionsComposition } from "#/modules/card/compositions/notification-permissions.composition.tsx";
 import projectSummaryCompositionSource from "#/modules/card/compositions/project-summary.composition.tsx?raw";
-import { CardProjectSummaryComposition } from "#/modules/card/compositions/project-summary.composition.tsx";
+import { CardPreview } from "#/modules/card/card.preview.tsx";
 import sessionActionCompositionSource from "#/modules/card/compositions/session-action.composition.tsx?raw";
 import { CardSessionActionComposition } from "#/modules/card/compositions/session-action.composition.tsx";
 import settingsSectionCompositionSource from "#/modules/card/compositions/settings-section.composition.tsx?raw";
@@ -31,9 +35,12 @@ const TOC = [
 const SNIPPETS = {
   anatomy: `<Card>
   <CardHeader>
-    <CardTitle />
+    <CardTitle>
+      <CardLeading />
+      <CardTitleText />
+      <CardTrailing />
+    </CardTitle>
     <CardDescription />
-    <CardAction />
   </CardHeader>
   <CardContent />
   <CardFooter />
@@ -41,6 +48,8 @@ const SNIPPETS = {
 } as const;
 
 const COMPOSITION_SOURCES = createCompositionSourceMap({
+  DenseSettings: denseSettingsCompositionSource,
+  AppNotifications: appNotificationsCompositionSource,
   NotificationPermissions: notificationPermissionsCompositionSource,
   Preview: projectSummaryCompositionSource,
   SessionAction: sessionActionCompositionSource,
@@ -49,6 +58,8 @@ const COMPOSITION_SOURCES = createCompositionSourceMap({
 });
 
 const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
+  DenseSettings: "cardDenseSettingsComposition",
+  AppNotifications: "cardAppNotificationsComposition",
   NotificationPermissions: "cardNotificationPermissionsComposition",
   Preview: "cardProjectSummaryComposition",
   SessionAction: "cardSessionActionComposition",
@@ -59,17 +70,28 @@ const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
 const CARD_PARTS: readonly PropRow[] = [
   {
     name: "Card",
-    type: 'useRender.ComponentProps<"div">',
+    type: 'useRender.ComponentProps<"div"> & { variant?: "default" | "inset" }',
     description:
-      "Visual surface root for caller-owned content. Keep semantic boundaries such as forms as children.",
+      "Visual surface root for caller-owned content. Use inset for a nested content well; default keeps a single surface.",
   },
   {
     name: "CardHeader",
     type: 'useRender.ComponentProps<"div">',
-    description: "Top region for identity, title, description, and an optional CardAction.",
+    description: "Top region that contains CardTitle and an optional CardDescription.",
   },
   {
     name: "CardTitle",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Title row that composes CardLeading, CardTitleText, and CardTrailing.",
+  },
+  {
+    name: "CardLeading",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Leading region inside CardTitle for a caller-owned icon, avatar, switch, or action.",
+  },
+  {
+    name: "CardTitleText",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Primary card heading. Use render to choose the heading level for the page context.",
@@ -77,12 +99,12 @@ const CARD_PARTS: readonly PropRow[] = [
   {
     name: "CardDescription",
     type: 'useRender.ComponentProps<"div">',
-    description: "Supporting copy associated with CardTitle, typically inside CardHeader.",
+    description: "Supporting copy placed after CardTitle inside CardHeader.",
   },
   {
-    name: "CardAction",
+    name: "CardTrailing",
     type: 'useRender.ComponentProps<"div">',
-    description: "Trailing header region for a caller-owned status or functional action.",
+    description: "Trailing region inside CardTitle for a caller-owned status, switch, or action.",
   },
   {
     name: "CardContent",
@@ -111,19 +133,14 @@ function CardDoc() {
   return (
     <DocPage
       title="Card"
-      description="A composable surface with optional header, content, action, and footer regions."
+      description="A composable surface with optional header, content, footer, and title actions."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview>
-          <Preview.Canvas>
-            <CardProjectSummaryComposition />
-          </Preview.Canvas>
-          <Preview.Code
-            html={code.cardProjectSummaryComposition}
-            collapsedHtml={code.cardProjectSummaryCompositionBody}
-          />
-        </Preview>
+        <CardPreview
+          code={code.cardProjectSummaryComposition}
+          collapsedCode={code.cardProjectSummaryCompositionBody}
+        />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -141,7 +158,10 @@ function CardDoc() {
             id="notification-permissions"
             title="Notification permissions"
           >
-            <p>Place the current status in CardAction and permission controls in CardContent.</p>
+            <p>
+              Compose the title text and switch inside CardTitle, keep CardDescription as its
+              sibling in CardHeader, then use CardContent for supporting controls.
+            </p>
             <Preview>
               <Preview.Canvas>
                 <CardNotificationPermissionsComposition />
@@ -153,9 +173,26 @@ function CardDoc() {
             </Preview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="leading-action" title="Leading action">
+            <p>
+              Use CardLeading when an enabling control precedes CardTitleText, then reveal its
+              configuration in CardContent.
+            </p>
+            <Preview>
+              <Preview.Canvas>
+                <CardAppNotificationsComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.cardAppNotificationsComposition}
+                collapsedHtml={code.cardAppNotificationsCompositionBody}
+              />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection parentId="usage" id="workspace-mode" title="Workspace mode">
             <p>
-              Use CardContent alone for a compact preference whose label supplies its hierarchy.
+              Use CardHeader alone for a compact preference, with its title and trailing control
+              composed in CardTitle.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -169,7 +206,7 @@ function CardDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="session-action" title="Session action">
-            <p>Separate explanatory content from a consequential action in CardFooter.</p>
+            <p>Place a card-level action in CardContent and align it to the lower trailing edge.</p>
             <Preview>
               <Preview.Canvas>
                 <CardSessionActionComposition />
@@ -184,8 +221,8 @@ function CardDoc() {
           <DocSubsection parentId="usage" id="settings-section" title="Account settings">
             <p>
               Keep the section label outside the surface, then compose identity, forms, related
-              settings, and actions through the card parts. The form remains a semantic child of
-              CardContent.
+              settings, and actions through the card parts. The default variant keeps an isolated
+              settings section on a single surface.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -194,6 +231,23 @@ function CardDoc() {
               <Preview.Code
                 html={code.cardSettingsSectionComposition}
                 collapsedHtml={code.cardSettingsSectionCompositionBody}
+              />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="dense-settings" title="Dense settings">
+            <p>
+              Use inset when a card contains a dense cluster of controls or nested components that
+              need stronger visual separation. Prefer default for isolated cards or lower-density
+              information.
+            </p>
+            <Preview>
+              <Preview.Canvas>
+                <CardDenseSettingsComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.cardDenseSettingsComposition}
+                collapsedHtml={code.cardDenseSettingsCompositionBody}
               />
             </Preview>
           </DocSubsection>

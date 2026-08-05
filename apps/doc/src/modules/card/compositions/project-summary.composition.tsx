@@ -1,24 +1,39 @@
+import { Blocks } from "lucide-react";
 import {
   Badge,
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
+  CardLeading,
   CardTitle,
+  CardTitleText,
+  CardTrailing,
+  type CardProps,
   Text,
 } from "raft-ui";
 
-export function CardProjectSummaryComposition() {
+type CardProjectSummaryCompositionProps = {
+  variant?: CardProps["variant"];
+};
+
+export function CardProjectSummaryComposition({
+  variant = "default",
+}: CardProjectSummaryCompositionProps = {}) {
   return (
-    <Card className="w-full max-w-md">
+    <Card variant={variant} className="w-full max-w-md">
       <CardHeader>
-        <CardTitle render={<h3 />}>Design system review</CardTitle>
+        <CardTitle>
+          <CardLeading>
+            <Blocks aria-hidden />
+          </CardLeading>
+          <CardTitleText render={<h3 />}>Design system review</CardTitleText>
+          <CardTrailing>
+            <Badge variant="success">On track</Badge>
+          </CardTrailing>
+        </CardTitle>
         <CardDescription>Five members are reviewing the next release.</CardDescription>
-        <CardAction>
-          <Badge variant="success">On track</Badge>
-        </CardAction>
       </CardHeader>
       <CardContent>
         <Text.Sans size="small">

@@ -8,7 +8,9 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
+  CardLeading,
   CardTitle,
+  CardTitleText,
   Field,
   FieldLabel,
   Input,
@@ -20,8 +22,8 @@ import {
 } from "raft-ui";
 
 export function CardSettingsSectionComposition() {
-  const [displayName, setDisplayName] = useState("Will Xiang");
-  const [savedDisplayName, setSavedDisplayName] = useState("Will Xiang");
+  const [displayName, setDisplayName] = useState("Example User");
+  const [savedDisplayName, setSavedDisplayName] = useState("Example User");
   const [googleConnected, setGoogleConnected] = useState(false);
   const [appleConnected, setAppleConnected] = useState(false);
   const profileDirty = displayName !== savedDisplayName;
@@ -34,15 +36,15 @@ export function CardSettingsSectionComposition() {
 
       <Card>
         <CardHeader>
-          <div className="flex min-w-0 items-center gap-3">
-            <Avatar size="lg" type="human">
-              <AvatarFallback>WX</AvatarFallback>
-            </Avatar>
-            <div className="min-w-0">
-              <CardTitle render={<h3 />}>{savedDisplayName || "Unnamed account"}</CardTitle>
-              <CardDescription>@willxiang</CardDescription>
-            </div>
-          </div>
+          <CardTitle>
+            <CardLeading>
+              <Avatar size="lg" type="human">
+                <AvatarFallback>EU</AvatarFallback>
+              </Avatar>
+            </CardLeading>
+            <CardTitleText render={<h3 />}>{savedDisplayName || "Unnamed account"}</CardTitleText>
+          </CardTitle>
+          <CardDescription>@example-user</CardDescription>
         </CardHeader>
 
         <CardContent className="grid gap-6">
@@ -68,7 +70,7 @@ export function CardSettingsSectionComposition() {
                 <InputGroupInput
                   id="account-username"
                   name="username"
-                  value="willxiang"
+                  value="example-user"
                   readOnly
                   aria-readonly="true"
                   tabIndex={-1}
@@ -79,7 +81,7 @@ export function CardSettingsSectionComposition() {
             <Field>
               <FieldLabel>Email</FieldLabel>
               <div className="flex flex-wrap items-center gap-2">
-                <Text.Mono size="meta">will@example.com</Text.Mono>
+                <Text.Mono size="meta">user@example.com</Text.Mono>
                 <Badge variant="success">Verified</Badge>
               </div>
             </Field>
@@ -94,14 +96,18 @@ export function CardSettingsSectionComposition() {
           <Separator />
 
           <section className="grid gap-4" aria-labelledby="connected-accounts-title">
-            <CardTitle render={<h3 id="connected-accounts-title" />}>Connected accounts</CardTitle>
+            <CardTitle>
+              <CardTitleText render={<h3 id="connected-accounts-title" />}>
+                Connected accounts
+              </CardTitleText>
+            </CardTitle>
 
             <div className="grid gap-3">
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
                   <Text.Sans size="small">Google</Text.Sans>
                   <Text.Sans size="caption">
-                    {googleConnected ? "Connected as will@example.com" : "Not connected"}
+                    {googleConnected ? "Connected as user@example.com" : "Not connected"}
                   </Text.Sans>
                 </div>
                 {!googleConnected ? (
@@ -121,7 +127,7 @@ export function CardSettingsSectionComposition() {
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
                   <Text.Sans size="small">GitHub</Text.Sans>
-                  <Text.Sans size="caption">Connected as will@example.com</Text.Sans>
+                  <Text.Sans size="caption">Connected as user@example.com</Text.Sans>
                 </div>
               </div>
 
@@ -131,7 +137,7 @@ export function CardSettingsSectionComposition() {
                 <div className="min-w-0">
                   <Text.Sans size="small">Apple</Text.Sans>
                   <Text.Sans size="caption">
-                    {appleConnected ? "Connected as will@example.com" : "Not connected"}
+                    {appleConnected ? "Connected as user@example.com" : "Not connected"}
                   </Text.Sans>
                 </div>
                 {!appleConnected ? (
