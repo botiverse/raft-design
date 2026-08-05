@@ -89,6 +89,29 @@ export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";
 
 export {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardLeading,
+  CardTitle,
+  CardTitleText,
+  CardTrailing,
+} from "./components/card/index";
+export type {
+  CardContentProps,
+  CardDescriptionProps,
+  CardFooterProps,
+  CardHeaderProps,
+  CardLeadingProps,
+  CardProps,
+  CardTitleProps,
+  CardTitleTextProps,
+  CardTrailingProps,
+} from "./components/card/index";
+
+export {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,

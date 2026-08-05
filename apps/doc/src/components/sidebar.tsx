@@ -120,6 +120,7 @@ const COMPONENT_NAV = [
   {
     title: "Data Display",
     items: [
+      { label: "Card", to: "/components/card", status: "done" },
       { label: "Avatar", to: "/components/avatar", status: "done" },
       { label: "DescriptionList", to: "/components/description-list", status: "done" },
       { label: "FilePreview", to: "/components/file-preview", status: "done" },

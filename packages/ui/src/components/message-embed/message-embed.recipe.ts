@@ -1,9 +1,8 @@
 import { tv } from "../../lib/tv";
 
-// Shared elegant "mat" surface for message-level cards: layer-card fill, seam
-// shadow, and the hover lift. Extended by message-embed and message-replies
-// so the formula has one definition point.
-export const messageMat = tv({
+// Shared elegant treatment for standalone blocks inside messages: layer-card
+// fill, shadow, and hover lift. Extended by message-embed and message-replies.
+export const messageBlock = tv({
   slots: { root: "" },
   variants: {
     theme: {
@@ -20,7 +19,7 @@ export const messageMat = tv({
 });
 
 export const messageEmbed = tv({
-  extend: messageMat,
+  extend: messageBlock,
   slots: {
     root: ["group block min-w-0 text-left"],
     header: ["min-w-0"],
