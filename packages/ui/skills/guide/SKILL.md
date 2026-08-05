@@ -110,18 +110,18 @@ Each domain file below opens with its own scenario table for the components it c
 
 ## Read these when relevant
 
-| File                                             | Read it when                                                            |
-| ------------------------------------------------ | ----------------------------------------------------------------------- |
-| [rules/lookup.md](./rules/lookup.md)             | You need a prop, variant value, or token — read this before guessing    |
-| [rules/composition.md](./rules/composition.md)   | Assembling compound parts, or tempted to hand-roll markup               |
-| [rules/forms.md](./rules/forms.md)               | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu` |
-| [rules/overlays.md](./rules/overlays.md)         | Dialogs, drawers, popovers, menus, tooltips                             |
-| [rules/feedback.md](./rules/feedback.md)         | Banners, toasts, loading, empty states, badges                          |
-| [rules/display.md](./rules/display.md)           | Typography, code, avatars, files, keyboard hints                        |
-| [rules/layout.md](./rules/layout.md)             | Shell, panels, navigation, resizing, task surfaces                      |
-| [rules/conversation.md](./rules/conversation.md) | Chat sidebar, conversation panel, thread, composer                      |
-| [rules/styling.md](./rules/styling.md)           | Writing any `className`, color, shadow, or `tv()` recipe                |
-| [rules/setup.md](./rules/setup.md)               | First-time install, Tailwind v4 wiring, fonts, theme provider           |
+| File                                             | Read it when                                                                 |
+| ------------------------------------------------ | ---------------------------------------------------------------------------- |
+| [rules/lookup.md](./rules/lookup.md)             | You need a prop, variant value, or token — read this before guessing         |
+| [rules/composition.md](./rules/composition.md)   | Assembling compound parts, overlay containers, business actions, or wrappers |
+| [rules/forms.md](./rules/forms.md)               | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu`      |
+| [rules/overlays.md](./rules/overlays.md)         | Dialogs, drawers, popovers, menus, tooltips                                  |
+| [rules/feedback.md](./rules/feedback.md)         | Banners, toasts, loading, empty states, badges                               |
+| [rules/display.md](./rules/display.md)           | Typography, code, avatars, files, keyboard hints                             |
+| [rules/layout.md](./rules/layout.md)             | Shell, panels, navigation, resizing, task surfaces                           |
+| [rules/conversation.md](./rules/conversation.md) | Chat sidebar, conversation panel, thread, composer                           |
+| [rules/styling.md](./rules/styling.md)           | Writing any `className`, color, shadow, or `tv()` recipe                     |
+| [rules/setup.md](./rules/setup.md)               | First-time install, Tailwind v4 wiring, fonts, theme provider                |
 
 ## Review checklist
 

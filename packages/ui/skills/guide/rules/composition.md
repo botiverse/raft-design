@@ -1,6 +1,6 @@
 ---
 name: composition
-description: "Compound-part composition: render vs asChild, theme resolution, structure rules, wrapping raft-ui components, and what never to hand-roll."
+description: "Compound-part composition: render vs asChild, theme resolution, overlay container and business-action ownership, state sinking, structure rules, and transparent wrappers."
 ---
 
 # Composition
@@ -12,9 +12,10 @@ description: "Compound-part composition: render vs asChild, theme resolution, st
 - `theme` is never passed by hand
 - Variant names are not consistent across components
 - Dialog / AlertDialog / Drawer structure
+- Keep overlay containers structural and business actions local
 - Use Field for shared field semantics
 - Do not re-create a library contract with ad hoc markup
-- Product state stays outside the component
+- Product state stays outside reusable primitives
 - Wrapping raft-ui components
 
 ---
@@ -129,6 +130,78 @@ A dialog always needs a `Title`. If the design has no visible title, it still ne
 
 ---
 
+## Keep overlay containers structural and business actions local
+
+Treat `Dialog`, `Popover`, `DropdownMenu`, and `ContextMenu` compositions as two layers:
+
+| Layer                   | Owns                                                                                                                                     |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Overlay container       | Root, trigger, content, portal placement, grouping, separators, and only the open/selection state needed to coordinate the whole surface |
+| Business item or action | Product copy and icon, entity identity, permission, mutation, pending/confirming/error feedback, and the action's event logic            |
+
+Keep the container readable as an outline of the surface. Do not turn it into a controller that stores every row's `pending`, `copied`, `confirming`, or error state and dispatches actions through a large switch.
+
+```tsx
+function ChannelActions({ channelId }: { channelId: string }) {
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  return (
+    <>
+      <ChannelActionsMenu channelId={channelId} onRequestDelete={() => setDeleteOpen(true)} />
+      <DeleteChannelDialog channelId={channelId} open={deleteOpen} onOpenChange={setDeleteOpen} />
+    </>
+  );
+}
+
+function ChannelActionsMenu({
+  channelId,
+  onRequestDelete,
+}: {
+  channelId: string;
+  onRequestDelete: () => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button size="icon-sm" aria-label="Channel actions" />} />
+      <DropdownMenuContent>
+        <MuteChannelMenuItem channelId={channelId} />
+        <ArchiveChannelMenuItem channelId={channelId} />
+        <DropdownMenuSeparator />
+        <RequestDeleteChannelMenuItem onRequestDelete={onRequestDelete} />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function MuteChannelMenuItem({ channelId }: { channelId: string }) {
+  const mute = useMuteChannelMutation(channelId);
+
+  return (
+    <DropdownMenuItem closeOnClick={false} disabled={mute.isPending} onClick={() => mute.mutate()}>
+      <BellOff />
+      <DropdownMenuItemLabel>{mute.isPending ? "Muting…" : "Mute channel"}</DropdownMenuItemLabel>
+    </DropdownMenuItem>
+  );
+}
+```
+
+Name business components after the action, such as `MuteChannelMenuItem`, `CopyInviteLinkMenuItem`, or `DeleteWorkspaceDialog`. Keep them in the owning application module. Do not add them to `packages/ui`, and do not hide explicit menu structure behind an `items` configuration array.
+
+Sink state to the smallest stable interaction owner:
+
+- A menu item owns its mutation, pending state, item-specific permission, and local feedback.
+- A business dialog owns its form draft, validation, submit mutation, and recoverable error state.
+- A popover section or row owns state used only by that section or row.
+- The primitive continues to own generic focus, highlight, keyboard navigation, and uncontrolled open/selection behavior.
+
+State sinking does not mean duplicating shared entity reads or expensive work in every item. Several items may read the same query cache or receive a narrow shared permission/entity result from the container; keep each action's transient state machine local.
+
+Lift only the narrow coordination state another part truly needs. For example, a destructive dialog opened from a menu must outlive the menu content after it closes: keep the dialog's `open` handoff in a stable parent, but keep deletion pending/error state inside `DeleteChannelDialog`. Likewise, keep a single form transaction at the dialog/form owner instead of scattering one atomic submit across field components.
+
+Use the same boundary for `ContextMenu`; only the trigger primitive changes. If Dropdown and Context menu items need the same product operation, share the behavior hook or mutation contract, then render the correct `DropdownMenuItem` or `ContextMenuItem` wrapper explicitly. Do not create one adapter that guesses which menu primitive it lives inside.
+
+---
+
 ## Use Field for shared field semantics
 
 Use `Field` when a control has raft-ui label, description, required, or validation treatment. It wires those parts together and keeps their state aligned. A simple native label/control pair may remain native when it does not need this shared layout or validation contract; keep the association explicit and accessible.
@@ -157,11 +230,11 @@ When `Avatar` contains `AvatarImage`, pair it with `AvatarFallback` so a failed 
 
 ---
 
-## Product state stays outside the component
+## Product state stays outside reusable primitives
 
-Generic interaction state (open, focus, selection, keyboard navigation, controlled value) belongs to the component. Product state does not.
+Generic interaction state (open, focus, selection, keyboard navigation, controlled value) belongs to the reusable primitive. Product state does not.
 
-Upload lifecycle, notification policy, saved/followed flags, permissions, and workflow status live in your app. Pass the result down by choosing which parts to render, not by adding a status prop to a primitive.
+Upload lifecycle, notification policy, saved/followed flags, permissions, and workflow status live in your app. That does not mean putting all product state in a page or overlay container: sink it into the smallest module-local business component that owns the interaction. Pass visible structure through explicit parts instead of adding a product `state` prop to a primitive.
 
 ---
 

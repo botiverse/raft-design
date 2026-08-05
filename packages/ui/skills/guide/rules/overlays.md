@@ -182,6 +182,8 @@ Rules that apply to both:
 - Group related rows with `…Separator`, not with margin.
 - Right-click is invisible — actions that live only in a `ContextMenu` are hard to discover, so prefer also exposing them somewhere visible.
 
+Keep menu roots and content structural; put entity-specific mutations and transient feedback in module-local business item components. Read [composition.md](./composition.md#keep-overlay-containers-structural-and-business-actions-local) for the state ownership pattern and the cases where a dialog handoff must remain in a stable parent.
+
 `DropdownMenuItemCount` exists for rows carrying a number.
 
 ---
