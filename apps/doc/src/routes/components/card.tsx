@@ -240,9 +240,9 @@ function CardDoc() {
 
           <DocSubsection parentId="usage" id="settings-section" title="Account settings">
             <p>
-              Keep the section label outside the surface, then compose identity, forms, related
-              settings, and actions through the card parts. The default variant keeps an isolated
-              settings section on a single surface.
+              Keep the icon-led section label outside a full-width settings surface, then compose
+              identity, profile fields, connected accounts, and related actions through the card
+              parts.
             </p>
             <Preview>
               <Preview.Canvas>

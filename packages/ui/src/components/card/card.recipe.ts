@@ -37,6 +37,12 @@ export const card = tv({
         leading: ["min-h-5"],
         titleText: ["font-heading text-lg leading-5 font-bold"],
         description: ["font-sans text-sm leading-5 text-foreground-strong/60"],
+        footer: [
+          "flex-nowrap items-center",
+          "font-sans text-xs leading-4 text-foreground-muted",
+          "[&>svg]:size-3.5 [&>svg]:shrink-0",
+          "[&>:not(svg)]:min-w-0",
+        ],
       },
       elegant: {
         leading: ["min-h-[22px]"],
@@ -76,9 +82,9 @@ export const card = tv({
       theme: "brutal",
       variant: "inset",
       class: {
-        root: ["border-2 border-line-strong bg-layer-inset p-1", "shadow-raft-md"],
+        root: ["border-2 border-line-strong bg-layer-panel px-2", "shadow-raft-md"],
         header: "px-4 py-3",
-        content: "border-2 border-line-strong bg-layer-panel p-4",
+        content: "-mx-2 border-y-2 border-line-strong bg-layer-panel px-6 py-4",
         footer: "px-4 py-3",
       },
     },
