@@ -1,4 +1,3 @@
-import { useRef, type RefObject } from "react";
 import {
   Select,
   SelectContent,
@@ -14,11 +13,10 @@ import {
 import type { PreviewSelectProps } from "./preview.types.ts";
 
 export function PreviewSelect({ id, label, options, value, onValueChange }: PreviewSelectProps) {
-  const portalRef = useRef<HTMLDivElement>(null);
   const items = options.map((option) => ({ value: option, label: option }));
 
   return (
-    <div ref={portalRef} className="relative min-w-0">
+    <div className="min-w-0">
       <Select
         value={value}
         onValueChange={(nextValue) => {
@@ -33,11 +31,7 @@ export function PreviewSelect({ id, label, options, value, onValueChange }: Prev
           <SelectValue />
           <SelectIcon />
         </SelectTrigger>
-        <SelectContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-full min-w-[var(--anchor-width)]"
-        >
+        <SelectContent className="w-full min-w-[var(--anchor-width)]">
           <SelectList>
             {options.map((option) => (
               <SelectItem key={option} value={option}>
