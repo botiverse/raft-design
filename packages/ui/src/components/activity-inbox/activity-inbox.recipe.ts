@@ -7,13 +7,16 @@ export const activityInbox = tv({
     itemOpen: ["absolute inset-0 z-0 outline-none"],
     itemSelection: ["relative z-10 mt-0.5 flex size-4 shrink-0 items-center justify-center"],
     itemContent: ["pointer-events-none relative z-10 min-w-0 flex-1 text-left"],
-    itemSubtitle: ["mb-0.5 min-w-0 text-[11px] leading-3"],
-    itemHeading: ["mb-0.5 flex min-w-0 items-start gap-2"],
+    itemSubtitle: ["mb-0.5 min-w-0 py-0.5 pr-36 text-[11px] leading-3"],
+    itemHeading: ["mb-0.5 flex min-w-0 items-start gap-2 pr-36"],
     itemTitle: [
-      "line-clamp-2 min-w-0 flex-1 text-sm leading-5",
-      "[&>svg]:mr-1.5 [&>svg]:inline-block [&>svg]:size-[13px] [&>svg]:align-[-2px]",
+      "relative line-clamp-2 min-w-0 flex-1 pl-[18px] text-sm leading-5",
+      "[&>svg]:absolute [&>svg]:top-[3px] [&>svg]:left-0 [&>svg]:size-3.5",
     ],
-    itemTrailing: ["pointer-events-none relative z-10 flex shrink-0 items-center gap-3"],
+    itemTrailing: [
+      "pointer-events-none absolute top-1.5 right-3 z-10",
+      "flex shrink-0 items-center gap-3",
+    ],
     itemTimestamp: ["shrink-0 whitespace-nowrap text-right text-xs leading-5 tabular-nums"],
     itemBody: ["line-clamp-2 text-xs leading-4"],
     itemSender: [],
@@ -39,6 +42,7 @@ export const activityInbox = tv({
           "[&>svg]:text-black/45",
         ],
         itemTimestamp: ["font-mono text-black/40"],
+        itemTrailing: ["top-2"],
         itemBody: ["text-black/55", "group-data-[unread=true]/activity-item:text-black"],
         itemSender: ["font-bold text-black/70"],
         itemActions: [
@@ -66,7 +70,7 @@ export const activityInbox = tv({
           "dark:has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-2 dark:has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-primary-400/60",
         ],
         itemSubtitle: ["mb-1", "font-medium text-foreground-placeholder"],
-        itemHeading: ["mb-1 items-baseline"],
+        itemHeading: ["mb-1"],
         itemTitle: [
           "font-normal tracking-[-0.01em] text-foreground",
           "group-data-[unread=true]/activity-item:font-medium",

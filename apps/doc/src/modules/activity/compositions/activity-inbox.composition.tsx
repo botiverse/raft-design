@@ -856,15 +856,15 @@ function ActivityItem({
         />
       </ActivityInboxItemSelection>
       <ActivityInboxItemContent>
-        {item.kind === "thread" ? (
-          <ActivityInboxItemSubtitle>{item.channelLabel}</ActivityInboxItemSubtitle>
-        ) : null}
         <ActivityInboxItemHeading>
           <ActivityInboxItemTitle>
             <Icon aria-hidden />
             {item.title}
           </ActivityInboxItemTitle>
         </ActivityInboxItemHeading>
+        {item.kind === "thread" ? (
+          <ActivityInboxItemSubtitle>Thread in {item.channelLabel}</ActivityInboxItemSubtitle>
+        ) : null}
         <ActivityInboxItemBody>
           <ActivityInboxItemSender>{item.sender}: </ActivityInboxItemSender>
           {item.preview}

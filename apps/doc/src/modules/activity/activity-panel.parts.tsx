@@ -55,7 +55,7 @@ const activityShell = tv({
     ],
     navigationLabel: ["min-w-0 flex-1 truncate"],
     navigationCount: ["shrink-0"],
-    main: [],
+    main: ["group-data-[layout=wide]/activity-inbox:min-w-[30rem]"],
     controls: ["flex shrink-0 flex-nowrap items-center gap-2 px-3 py-2.5"],
     mobileNavigation: [
       "shrink-0",
@@ -263,10 +263,7 @@ const activityShell = tv({
           "text-foreground-muted transition-colors hover:text-foreground-strong",
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
-        selectionToolbar: [
-          "border-b border-line-hairline px-7 max-md:pl-5 max-md:pr-3.5",
-          "dark:border-line-hairline",
-        ],
+        selectionToolbar: ["px-7 max-md:pl-5 max-md:pr-3.5"],
         selectionCount: ["font-medium text-foreground-strong"],
         toolbarButton: [
           "rounded-md border border-line-field bg-layer-panel font-medium text-foreground-strong",
@@ -294,7 +291,7 @@ const activityShell = tv({
           "outline-none focus-visible:ring-1 focus-visible:ring-primary-400 dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
         ],
         sortContent: ["p-1"],
-        viewport: ["bg-layer-panel dark:bg-transparent", "px-7 max-md:pl-5 max-md:pr-3.5"],
+        viewport: ["bg-layer-panel pt-1.5 dark:bg-transparent", "px-7 max-md:pl-5 max-md:pr-3.5"],
         loadingMore: ["font-medium text-foreground-placeholder"],
       },
     },

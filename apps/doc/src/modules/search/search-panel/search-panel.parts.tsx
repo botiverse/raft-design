@@ -4,6 +4,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  ConversationPanelContent,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -56,7 +57,7 @@ const searchShell = tv({
   slots: {
     frame: ["flex h-full min-h-0 flex-1 flex-col"],
     header: ["flex items-center gap-3"],
-    content: ["relative flex min-h-0 min-w-0 flex-1 flex-col overflow-visible"],
+    content: ["relative flex min-h-0 min-w-0 flex-1 flex-col"],
     headerBack: ["inline-flex size-7 shrink-0 items-center justify-center leading-none md:hidden"],
     headerIconChip: ["flex size-9 shrink-0 items-center justify-center"],
     searchInputGroup: ["flex-1"],
@@ -170,7 +171,7 @@ const searchShell = tv({
           "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
         headerIconChip: ["rounded-md bg-fill-muted text-foreground-icon"],
-        content: ["bg-layer-panel dark:bg-transparent"],
+        content: [],
         searchInputGroup: ["dark:bg-layer-card"],
         input: ["font-sans text-foreground-strong placeholder:text-foreground-placeholder/70"],
         inputClear: [
@@ -339,10 +340,19 @@ export function BrutalSearchFrame({
   );
 }
 
-export function BrutalSearchContent({ className, ...props }: ComponentProps<"div">) {
+export function BrutalSearchContent({
+  className,
+  ...props
+}: ComponentProps<typeof ConversationPanelContent>) {
   const theme = useThemeFamily();
   const { content } = searchShell({ theme });
-  return <div data-slot="search-panel-content" className={content({ className })} {...props} />;
+  return (
+    <ConversationPanelContent
+      data-slot="search-panel-content"
+      className={content({ className })}
+      {...props}
+    />
+  );
 }
 
 export function BrutalSearchHeader({

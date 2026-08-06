@@ -7,6 +7,7 @@ import {
   ResizablePanel,
   useThemeFamily,
 } from "raft-ui";
+import { cn } from "raft-ui/cn";
 import { useEffect, useMemo, useRef } from "react";
 
 import { type ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
@@ -191,9 +192,19 @@ export function PlaygroundActivityPanel() {
           {master}
         </AppShellSidebarSlot>
       </ResizablePanel>
-      <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
+      <ResizableHandle className={theme === "elegant" ? "translate-x-[10px]" : undefined} />
       <ResizablePanel id="playground-activity-content" minSize={320} className="relative min-w-0">
-        <AppShellMainSlot className="flex h-full min-w-0 flex-1">
+        <AppShellMainSlot
+          className={cn(
+            "flex h-full min-w-0 flex-1",
+            theme === "brutal" && "border-l-2 border-black",
+            theme === "elegant" && [
+              "md:[&>[data-slot=conversation-panel-root]>[data-slot=conversation-panel-content]]:ml-0",
+              "md:[&>[data-slot=conversation-panel-root]>[data-slot=conversation-panel-content]]:rounded-tl-none",
+              "md:[&>[data-slot=conversation-panel-root]>[data-slot=conversation-panel-content]]:border-l-[0.5px] md:[&>[data-slot=conversation-panel-root]>[data-slot=conversation-panel-content]]:border-line-hairline",
+            ],
+          )}
+        >
           {content}
           {context && !hasContextColumn ? (
             <div
