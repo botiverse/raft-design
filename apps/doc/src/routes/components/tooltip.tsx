@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "raft-ui";
 import { Bell, Bookmark, Info, MessageSquare, SmilePlus } from "lucide-react";
-import { useId, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useId, useState, type ReactNode } from "react";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -320,18 +320,9 @@ export const Route = createFileRoute("/components/tooltip")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function TooltipFrame({
-  children,
-  className,
-}: {
-  children: (portalRef: RefObject<HTMLDivElement | null>) => ReactNode;
-  className?: string;
-}) {
-  const portalRef = useRef<HTMLDivElement>(null);
-
+function TooltipFrame({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <div
-      ref={portalRef}
       className={[
         "relative flex min-h-36 w-full items-center justify-center overflow-hidden px-4 py-10",
         className,
@@ -339,7 +330,7 @@ function TooltipFrame({
         .filter(Boolean)
         .join(" ")}
     >
-      {children(portalRef)}
+      {children}
     </div>
   );
 }
@@ -359,19 +350,12 @@ function TooltipExample({
 
   return (
     <TooltipFrame className={frameClassName}>
-      {(portalRef) => (
-        <TooltipProvider>
-          <Tooltip {...(open ? { open: true, triggerId } : {})}>
-            {children(triggerId)}
-            <TooltipContent
-              positionMethod="absolute"
-              portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-            >
-              {content}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      )}
+      <TooltipProvider>
+        <Tooltip {...(open ? { open: true, triggerId } : {})}>
+          {children(triggerId)}
+          <TooltipContent>{content}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </TooltipFrame>
   );
 }
@@ -437,56 +421,42 @@ function TooltipPreview({
 function ActionClusterExample() {
   return (
     <TooltipFrame>
-      {(portalRef) => {
-        const portalProps = { container: portalRef as RefObject<HTMLElement | null> };
-
-        return (
-          <TooltipProvider>
-            <div className="flex items-center gap-2">
-              <Tooltip>
-                <TooltipTrigger
-                  render={<Button variant="ghost" size="icon-sm" aria-label="Reply in thread" />}
-                >
-                  <MessageSquare />
-                </TooltipTrigger>
-                <TooltipContent positionMethod="absolute" portalProps={portalProps}>
-                  Reply in thread
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger
-                  render={<Button variant="ghost" size="icon-sm" aria-label="Add reaction" />}
-                >
-                  <SmilePlus />
-                </TooltipTrigger>
-                <TooltipContent positionMethod="absolute" portalProps={portalProps}>
-                  Add reaction
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger
-                  render={<Button variant="ghost" size="icon-sm" aria-label="Save message" />}
-                >
-                  <Bookmark />
-                </TooltipTrigger>
-                <TooltipContent positionMethod="absolute" portalProps={portalProps}>
-                  Save message
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger
-                  render={<Button variant="ghost" size="icon-sm" aria-label="Mute thread" />}
-                >
-                  <Bell />
-                </TooltipTrigger>
-                <TooltipContent positionMethod="absolute" portalProps={portalProps}>
-                  Mute thread
-                </TooltipContent>
-              </Tooltip>
-            </div>
-          </TooltipProvider>
-        );
-      }}
+      <TooltipProvider>
+        <div className="flex items-center gap-2">
+          <Tooltip>
+            <TooltipTrigger
+              render={<Button variant="ghost" size="icon-sm" aria-label="Reply in thread" />}
+            >
+              <MessageSquare />
+            </TooltipTrigger>
+            <TooltipContent>Reply in thread</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={<Button variant="ghost" size="icon-sm" aria-label="Add reaction" />}
+            >
+              <SmilePlus />
+            </TooltipTrigger>
+            <TooltipContent>Add reaction</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={<Button variant="ghost" size="icon-sm" aria-label="Save message" />}
+            >
+              <Bookmark />
+            </TooltipTrigger>
+            <TooltipContent>Save message</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={<Button variant="ghost" size="icon-sm" aria-label="Mute thread" />}
+            >
+              <Bell />
+            </TooltipTrigger>
+            <TooltipContent>Mute thread</TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
     </TooltipFrame>
   );
 }
@@ -499,69 +469,55 @@ function ArrowPlacementExample() {
 
   return (
     <TooltipFrame className="min-h-64 px-10 py-16">
-      {(portalRef) => {
-        const portalProps = { container: portalRef as RefObject<HTMLElement | null> };
-
-        return (
-          <TooltipProvider>
-            <div className="grid grid-cols-2 gap-x-28 gap-y-20">
-              <Tooltip open triggerId={topId}>
-                <TooltipTrigger
-                  id={topId}
-                  render={<Button variant="ghost" size="icon-sm" aria-label="Add reaction" />}
-                >
-                  <SmilePlus />
-                </TooltipTrigger>
-                <TooltipContent side="top" positionMethod="absolute" portalProps={portalProps}>
-                  Top
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip open triggerId={rightId}>
-                <TooltipTrigger id={rightId} render={<Button variant="outline" size="sm" />}>
-                  Permission
-                </TooltipTrigger>
-                <TooltipContent side="right" positionMethod="absolute" portalProps={portalProps}>
-                  Right
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip open triggerId={leftId}>
-                <TooltipTrigger
-                  id={leftId}
-                  render={
-                    <span
-                      tabIndex={0}
-                      className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-line-strong"
-                    />
-                  }
-                >
-                  <Status variant="primary" pulse aria-hidden />
-                  Thinking
-                </TooltipTrigger>
-                <TooltipContent side="left" positionMethod="absolute" portalProps={portalProps}>
-                  Left
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip open triggerId={bottomId}>
-                <TooltipTrigger
-                  id={bottomId}
-                  render={
-                    <time
-                      dateTime="2026-06-23T09:30:00+08:00"
-                      tabIndex={0}
-                      className="rounded-sm px-1 py-0.5 font-mono text-xs text-foreground-muted outline-none focus-visible:ring-2 focus-visible:ring-line-strong"
-                    />
-                  }
-                >
-                  09:30
-                </TooltipTrigger>
-                <TooltipContent side="bottom" positionMethod="absolute" portalProps={portalProps}>
-                  Bottom
-                </TooltipContent>
-              </Tooltip>
-            </div>
-          </TooltipProvider>
-        );
-      }}
+      <TooltipProvider>
+        <div className="grid grid-cols-2 gap-x-28 gap-y-20">
+          <Tooltip open triggerId={topId}>
+            <TooltipTrigger
+              id={topId}
+              render={<Button variant="ghost" size="icon-sm" aria-label="Add reaction" />}
+            >
+              <SmilePlus />
+            </TooltipTrigger>
+            <TooltipContent side="top">Top</TooltipContent>
+          </Tooltip>
+          <Tooltip open triggerId={rightId}>
+            <TooltipTrigger id={rightId} render={<Button variant="outline" size="sm" />}>
+              Permission
+            </TooltipTrigger>
+            <TooltipContent side="right">Right</TooltipContent>
+          </Tooltip>
+          <Tooltip open triggerId={leftId}>
+            <TooltipTrigger
+              id={leftId}
+              render={
+                <span
+                  tabIndex={0}
+                  className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-line-strong"
+                />
+              }
+            >
+              <Status variant="primary" pulse aria-hidden />
+              Thinking
+            </TooltipTrigger>
+            <TooltipContent side="left">Left</TooltipContent>
+          </Tooltip>
+          <Tooltip open triggerId={bottomId}>
+            <TooltipTrigger
+              id={bottomId}
+              render={
+                <time
+                  dateTime="2026-06-23T09:30:00+08:00"
+                  tabIndex={0}
+                  className="rounded-sm px-1 py-0.5 font-mono text-xs text-foreground-muted outline-none focus-visible:ring-2 focus-visible:ring-line-strong"
+                />
+              }
+            >
+              09:30
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Bottom</TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
     </TooltipFrame>
   );
 }

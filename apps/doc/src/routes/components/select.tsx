@@ -1,4 +1,4 @@
-import { useRef, useState, type RefObject } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Clock, MessageSquare, Search } from "lucide-react";
 import {
@@ -407,10 +407,8 @@ export const Route = createFileRoute("/components/select")({
 });
 
 function SortSelect({ disabled = false, open }: { disabled?: boolean; open?: boolean }) {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="flex justify-center">
       <Select
         disabled={disabled}
         modal={false}
@@ -436,11 +434,7 @@ function SortSelect({ disabled = false, open }: { disabled?: boolean; open?: boo
           </SelectValue>
           <SelectIcon />
         </SelectTrigger>
-        <SelectContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[220px]"
-        >
+        <SelectContent className="w-[220px]">
           <SelectList>
             {SORT_ICON_OPTIONS.map((option) => {
               const Icon = option.icon;
@@ -462,10 +456,9 @@ function SortSelect({ disabled = false, open }: { disabled?: boolean; open?: boo
 
 function IconSelect() {
   const [value, setValue] = useState<SortIconValue>("relevance");
-  const portalRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="flex justify-center">
       <Select
         value={value}
         onValueChange={(nextValue) => {
@@ -494,11 +487,7 @@ function IconSelect() {
           </SelectValue>
           <SelectIcon />
         </SelectTrigger>
-        <SelectContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[220px]"
-        >
+        <SelectContent className="w-[220px]">
           <SelectList>
             {SORT_ICON_OPTIONS.map((option) => {
               const Icon = option.icon;
@@ -519,20 +508,14 @@ function IconSelect() {
 }
 
 function BranchSelect() {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="flex justify-center">
       <Select defaultValue="main" items={BRANCH_OPTIONS} modal={false}>
         <SelectTrigger>
           <SelectValue placeholder="Branch" />
           <SelectIcon />
         </SelectTrigger>
-        <SelectContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[240px]"
-        >
+        <SelectContent className="w-[240px]">
           <SelectList>
             <SelectGroup>
               <SelectGroupLabel>Production</SelectGroupLabel>
@@ -575,20 +558,14 @@ function StateSelects() {
 }
 
 function RegionSelect() {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="flex justify-center">
       <Select defaultValue="us-east" items={REGION_OPTIONS} modal={false}>
         <SelectTrigger>
           <SelectValue placeholder="Region" />
           <SelectIcon />
         </SelectTrigger>
-        <SelectContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[220px]"
-        >
+        <SelectContent className="w-[220px]">
           <SelectList className="max-h-44">
             {REGION_OPTIONS.map((option) => (
               <SelectItem key={option.value} value={option.value}>
@@ -604,10 +581,8 @@ function RegionSelect() {
 }
 
 function FieldSelect() {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative">
+    <div>
       <Field className="w-[220px] max-w-full">
         <FieldLabel>Default sort</FieldLabel>
         <Select name="sort" defaultValue="relevance" items={SORT_OPTIONS} modal={false}>
@@ -615,11 +590,7 @@ function FieldSelect() {
             <SelectValue placeholder="Choose sort" />
             <SelectIcon />
           </SelectTrigger>
-          <SelectContent
-            positionMethod="absolute"
-            portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-            className="w-[220px]"
-          >
+          <SelectContent className="w-[220px]">
             <SelectList>
               {FIELD_SORT_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>

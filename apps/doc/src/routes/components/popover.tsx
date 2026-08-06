@@ -10,8 +10,8 @@ import {
   PopoverTrigger,
 } from "raft-ui";
 import { Info, X } from "lucide-react";
-import type { ReactNode, RefObject } from "react";
-import { useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { useState } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -184,21 +184,13 @@ function OpenPopoverExample({
   children: ReactNode;
   contentClassName?: string;
 }) {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <Popover open modal={false} triggerId={triggerId}>
         <PopoverTrigger id={triggerId} render={<Button variant="outline" size="md" />}>
           {label}
         </PopoverTrigger>
-        <PopoverContent
-          initialFocus={false}
-          finalFocus={false}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className={contentClassName}
-        >
+        <PopoverContent initialFocus={false} finalFocus={false} className={contentClassName}>
           {children}
         </PopoverContent>
       </Popover>
@@ -228,10 +220,8 @@ function PopoverPanelBody() {
 }
 
 function SearchGuidePreview({ open }: { open: boolean }) {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <Popover open={open} modal={false} triggerId="preview-popover-trigger">
         <PopoverTrigger
           id="preview-popover-trigger"
@@ -240,13 +230,7 @@ function SearchGuidePreview({ open }: { open: boolean }) {
           <Info size={18} />
           Usage notes
         </PopoverTrigger>
-        <PopoverContent
-          initialFocus={false}
-          finalFocus={false}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="min-w-[240px]"
-        >
+        <PopoverContent initialFocus={false} finalFocus={false} className="min-w-[240px]">
           <PopoverPanelBody />
         </PopoverContent>
       </Popover>

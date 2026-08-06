@@ -12,7 +12,6 @@ import {
   PreviewCardTrigger,
   Status,
 } from "raft-ui";
-import { useRef, type RefObject } from "react";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -217,10 +216,8 @@ function MentionCardBody() {
 }
 
 function DefaultOpenPreviewCard() {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <PreviewCard defaultOpen defaultTriggerId="preview-card-preview-trigger">
         <PreviewCardTrigger
           id="preview-card-preview-trigger"
@@ -233,11 +230,7 @@ function DefaultOpenPreviewCard() {
         >
           @Atlas
         </PreviewCardTrigger>
-        <PreviewCardContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[17.5rem]"
-        >
+        <PreviewCardContent className="w-[17.5rem]">
           <MentionCardBody />
         </PreviewCardContent>
       </PreviewCard>

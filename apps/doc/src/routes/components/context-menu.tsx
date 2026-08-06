@@ -380,7 +380,6 @@ function OpenContextMenuExample({
         </div>
         <ContextMenuContent
           anchor={hasCursorAnchor ? undefined : anchor}
-          positionMethod="absolute"
           collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className={contentClassName}

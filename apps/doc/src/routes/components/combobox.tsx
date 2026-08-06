@@ -31,7 +31,6 @@ import {
   MessagesSquare,
   Sparkles,
 } from "lucide-react";
-import type { RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -794,12 +793,11 @@ function ComboboxChannelList() {
 }
 
 function ButtonTriggerCombobox() {
-  const portalRef = useRef<HTMLDivElement>(null);
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(channels[0]);
   const SelectedChannelIcon = selectedChannel?.Icon ?? MessagesSquare;
 
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <Combobox<Channel>
         open
         items={channels}
@@ -815,13 +813,7 @@ function ButtonTriggerCombobox() {
             <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
-        <ComboboxContent
-          initialFocus={false}
-          finalFocus={false}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[220px]"
-        >
+        <ComboboxContent initialFocus={false} finalFocus={false} className="w-[220px]">
           <ComboboxBody />
         </ComboboxContent>
       </Combobox>
@@ -830,7 +822,6 @@ function ButtonTriggerCombobox() {
 }
 
 function AsyncOptionsCombobox() {
-  const portalRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(true);
   const [value, setValue] = useState<Repository | null>(null);
   const { data: items = [], isLoading } = useMockQuery({
@@ -871,7 +862,7 @@ function AsyncOptionsCombobox() {
   }
 
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <Combobox<Repository>
         open={open}
         value={value}
@@ -890,13 +881,7 @@ function AsyncOptionsCombobox() {
             <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
-        <ComboboxContent
-          initialFocus={false}
-          finalFocus={false}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[220px]"
-        >
+        <ComboboxContent initialFocus={false} finalFocus={false} className="w-[220px]">
           <ComboboxHeader>
             <ComboboxLabel>Repository</ComboboxLabel>
           </ComboboxHeader>
@@ -916,7 +901,6 @@ function AsyncOptionsCombobox() {
 }
 
 function AsyncSearchCombobox() {
-  const portalRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [value, setValue] = useState<Model | null>(null);
@@ -953,7 +937,7 @@ function AsyncSearchCombobox() {
   }
 
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <Combobox<Model>
         open
         inputValue={inputValue}
@@ -996,8 +980,6 @@ function AsyncSearchCombobox() {
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="w-[var(--anchor-width)]"
         >
           {renderModelItems()}
@@ -1008,7 +990,6 @@ function AsyncSearchCombobox() {
 }
 
 function AsyncSelectCombobox() {
-  const portalRef = useRef<HTMLDivElement>(null);
   const lockCloseRef = useRef(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [open, setOpen] = useState(true);
@@ -1049,7 +1030,7 @@ function AsyncSelectCombobox() {
   }
 
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <Combobox<Branch>
         open={open}
         value={value}
@@ -1072,13 +1053,7 @@ function AsyncSelectCombobox() {
             <ChevronDown aria-hidden />
           </ComboboxTriggerIndicator>
         </ComboboxTrigger>
-        <ComboboxContent
-          initialFocus={false}
-          finalFocus={false}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[220px]"
-        >
+        <ComboboxContent initialFocus={false} finalFocus={false} className="w-[220px]">
           <ComboboxHeader>
             <ComboboxLabel>Branch</ComboboxLabel>
           </ComboboxHeader>

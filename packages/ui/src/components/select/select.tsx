@@ -7,7 +7,6 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
-import { filterTrigger } from "../filter-trigger/filter-trigger.recipe";
 
 const select = tv({
   slots: {
@@ -58,7 +57,7 @@ const select = tv({
     theme: {
       brutal: {
         trigger: [
-          "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-panel p-2 text-sm text-foreground-strong shadow-raft-sm focus:outline-none",
+          "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-panel p-2 font-sans text-sm font-semibold text-foreground-strong shadow-raft-sm focus:outline-none",
           "hover:bg-layer-panel hover:shadow-raft-sm",
           "disabled:cursor-not-allowed disabled:bg-fill-muted disabled:text-foreground-strong/50 disabled:opacity-100",
           "[&_[data-slot='select-value']_svg:not([class*='stroke-'])]:stroke-2",
@@ -154,15 +153,12 @@ export function Select<Value, Multiple extends boolean | undefined = false>(
   return <BaseSelect.Root data-slot="select" {...props} />;
 }
 
-export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props> & {
-  variant?: "default" | "filter";
-};
+export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props>;
 
 export function SelectTrigger({
   className,
   children,
   render,
-  variant = "default",
   "aria-invalid": ariaInvalid,
   ...props
 }: SelectTriggerProps) {
@@ -175,9 +171,7 @@ export function SelectTrigger({
     <BaseSelect.Trigger
       data-slot="select-trigger"
       {...(renderProp ? { render: renderProp } : {})}
-      className={trigger({
-        className: [variant === "filter" && filterTrigger({ theme }), className],
-      })}
+      className={trigger({ className })}
       {...props}
       aria-invalid={ariaInvalid}
       {...(isAriaTrue(ariaInvalid) ? { "data-invalid": dataPresence(true) } : {})}

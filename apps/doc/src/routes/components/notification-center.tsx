@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useId, useRef, type ReactNode, type RefObject } from "react";
+import { useId, type ReactNode } from "react";
 import { AlertTriangle, CheckCircle2, CircleGauge } from "lucide-react";
 import {
   Button,
@@ -591,11 +591,9 @@ function NotificationCenterExample({
   framed?: boolean;
 }) {
   const triggerId = useId();
-  const portalRef = useRef<HTMLDivElement>(null);
 
   return (
     <div
-      ref={portalRef}
       className={
         framed
           ? "relative flex min-h-72 w-full items-start justify-center pt-8"
@@ -607,13 +605,11 @@ function NotificationCenterExample({
         <NotificationCenterPopup
           viewport="desktop"
           size={size}
-          positionMethod="absolute"
           side="bottom"
           align="center"
           collisionAvoidance={{ side: "none", align: "none" }}
           initialFocus={false}
           finalFocus={false}
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
         >
           <NotificationCenterHeader>
             <NotificationCenterTitle>Notifications</NotificationCenterTitle>
