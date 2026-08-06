@@ -40,15 +40,13 @@ const SNIPPETS = {
   PanelScrollContent,
   PanelScrollViewport,
   PanelTitle,
-  SidebarItem,
-  Text,
-} from "raft-ui";
-import {
   ProfilePanel,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
   ProfilePanelSection,
-} from "raft-ui/wip";
+  SidebarItem,
+  Text,
+} from "raft-ui";
 
 <ProfilePanel>
   <ProfilePanelHeader>

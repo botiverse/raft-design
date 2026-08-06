@@ -1,28 +1,21 @@
-import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui/wip";
+import { Bold, Italic, Underline } from "lucide-react";
+import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui";
 
-// @docs-source-strip-start
-import { CompositionPreview } from "#/components/composition-preview.tsx";
-// @docs-source-strip-end
-
-export function ToggleGroupDisabledContent() {
+export function ToggleGroupDisabledComposition() {
   return (
-    <ToggleGroup disabled ariaLabel="Filter" value="all" onValueChange={() => {}}>
-      <ToggleGroupItem value="all">
-        <ToggleGroupLabel>All</ToggleGroupLabel>
+    <ToggleGroup multiple disabled defaultValue={["bold"]} aria-label="Text formatting">
+      <ToggleGroupItem value="bold">
+        <Bold aria-hidden />
+        <ToggleGroupLabel>Bold</ToggleGroupLabel>
       </ToggleGroupItem>
-      <ToggleGroupItem value="unread">
-        <ToggleGroupLabel>Unread</ToggleGroupLabel>
+      <ToggleGroupItem value="italic">
+        <Italic aria-hidden />
+        <ToggleGroupLabel>Italic</ToggleGroupLabel>
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline">
+        <Underline aria-hidden />
+        <ToggleGroupLabel>Underline</ToggleGroupLabel>
       </ToggleGroupItem>
     </ToggleGroup>
   );
 }
-
-// @docs-source-strip-start
-export function ToggleGroupDisabledComposition() {
-  return (
-    <CompositionPreview>
-      <ToggleGroupDisabledContent />
-    </CompositionPreview>
-  );
-}
-// @docs-source-strip-end

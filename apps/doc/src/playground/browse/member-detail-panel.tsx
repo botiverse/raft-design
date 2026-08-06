@@ -26,6 +26,11 @@ import {
   PanelTitle,
   PanelScrollContent,
   PanelScrollViewport,
+  ProfilePanel,
+  ProfilePanelBody,
+  ProfilePanelHeader,
+  ProfilePanelHeaderContent,
+  ProfilePanelSection,
   SidebarItem,
   SidebarItemAside,
   SidebarItemContent,
@@ -36,13 +41,6 @@ import {
   Text,
 } from "raft-ui";
 import { cn } from "raft-ui/cn";
-import {
-  ProfilePanel,
-  ProfilePanelBody,
-  ProfilePanelHeader,
-  ProfilePanelHeaderContent,
-  ProfilePanelSection,
-} from "raft-ui/wip";
 
 import {
   PLAYGROUND_DIRECT_MESSAGES,

@@ -1,5 +1,4 @@
-import { PanelBody, Text } from "raft-ui";
-import { ProfilePanel, ProfilePanelHeader } from "raft-ui/wip";
+import { PanelBody, ProfilePanel, ProfilePanelHeader, Text } from "raft-ui";
 
 export function ProfilePanelLoadingComposition() {
   return (

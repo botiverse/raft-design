@@ -14,14 +14,12 @@ import {
   PanelScrollContent,
   PanelScrollViewport,
   PanelTitle,
-  Text,
-} from "raft-ui";
-import {
   ProfilePanel,
   ProfilePanelHeader,
   ProfilePanelHeaderContent,
   ProfilePanelSection,
-} from "raft-ui/wip";
+  Text,
+} from "raft-ui";
 
 export function RemoteHumanComposition() {
   return (

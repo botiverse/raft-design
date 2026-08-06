@@ -623,6 +623,13 @@ export type {
   SegmentedControlProps,
 } from "./components/segmented-control/index";
 
+export { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "./components/toggle-group/index";
+export type {
+  ToggleGroupItemProps,
+  ToggleGroupLabelProps,
+  ToggleGroupProps,
+} from "./components/toggle-group/index";
+
 export { Textarea, TextareaCounter, TextareaGroup } from "./components/textarea/index";
 export type {
   TextareaCounterProps,
@@ -1447,6 +1454,21 @@ export type {
   PanelTitleProps,
   PanelToggleActionProps,
 } from "./components/panel/index";
+
+export {
+  ProfilePanel,
+  ProfilePanelBody,
+  ProfilePanelHeader,
+  ProfilePanelHeaderContent,
+  ProfilePanelSection,
+} from "./components/profile-panel/index";
+export type {
+  ProfilePanelBodyProps,
+  ProfilePanelHeaderContentProps,
+  ProfilePanelHeaderProps,
+  ProfilePanelProps,
+  ProfilePanelSectionProps,
+} from "./components/profile-panel/index";
 
 export {
   ThreadPanelActions,

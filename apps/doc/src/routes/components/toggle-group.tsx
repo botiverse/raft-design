@@ -1,14 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ToggleGroup, ToggleGroupCount, ToggleGroupItem, ToggleGroupLabel } from "raft-ui/wip";
-import { useState } from "react";
 
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import { TodoList } from "#/components/todo-list.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { stripSourceCodeBlocks } from "#/lib/source-code.ts";
+import { ToggleGroupAlignmentComposition } from "#/modules/toggle-group/compositions/alignment.composition.tsx";
+import toggleGroupAlignmentCompositionSource from "#/modules/toggle-group/compositions/alignment.composition.tsx?raw";
+import { ToggleGroupDisabledComposition } from "#/modules/toggle-group/compositions/disabled.composition.tsx";
+import toggleGroupDisabledCompositionSource from "#/modules/toggle-group/compositions/disabled.composition.tsx?raw";
+import toggleGroupFormattingCompositionSource from "#/modules/toggle-group/compositions/formatting.composition.tsx?raw";
+import { ToggleGroupItemDisabledComposition } from "#/modules/toggle-group/compositions/item-disabled.composition.tsx";
+import toggleGroupItemDisabledCompositionSource from "#/modules/toggle-group/compositions/item-disabled.composition.tsx?raw";
+import { ToggleGroupPreview } from "#/modules/toggle-group/toggle-group.preview.tsx";
+import { ToggleGroupVerticalComposition } from "#/modules/toggle-group/compositions/vertical.composition.tsx";
+import toggleGroupVerticalCompositionSource from "#/modules/toggle-group/compositions/vertical.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -17,58 +26,99 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const TODOS = ["Add elegant family styling"] as const;
-
 const SNIPPETS = {
-  anatomy: `import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui/wip";
+  anatomy: `import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui";
 
-<ToggleGroup value="all" onValueChange={() => {}} ariaLabel="Filter">
-  <ToggleGroupItem value="all">
-    <ToggleGroupLabel />
+<ToggleGroup multiple defaultValue={["bold"]} aria-label="Text formatting">
+  <ToggleGroupItem value="bold">
+    <ToggleGroupLabel>Bold</ToggleGroupLabel>
   </ToggleGroupItem>
 </ToggleGroup>`,
-  counts: `<ToggleGroup
-  ariaLabel="Filter"
-  value={value}
-  onValueChange={setValue}
->
-  <ToggleGroupItem value="all">
-    <ToggleGroupLabel>All</ToggleGroupLabel>
-    <ToggleGroupCount>12</ToggleGroupCount>
-  </ToggleGroupItem>
-  <ToggleGroupItem value="unread">
-    <ToggleGroupLabel>Unread</ToggleGroupLabel>
-    <ToggleGroupCount>3</ToggleGroupCount>
-  </ToggleGroupItem>
-  <ToggleGroupItem value="mentions">
-    <ToggleGroupLabel>Mentions</ToggleGroupLabel>
-  </ToggleGroupItem>
-</ToggleGroup>`,
-  disabled: `<ToggleGroup disabled ariaLabel="Filter" value="all" onValueChange={() => {}}>
-  <ToggleGroupItem value="all">
-    <ToggleGroupLabel>All</ToggleGroupLabel>
-  </ToggleGroupItem>
-  <ToggleGroupItem value="unread">
-    <ToggleGroupLabel>Unread</ToggleGroupLabel>
-  </ToggleGroupItem>
-</ToggleGroup>`,
+  formatting: stripSourceCodeBlocks(toggleGroupFormattingCompositionSource),
+  alignment: stripSourceCodeBlocks(toggleGroupAlignmentCompositionSource),
+  vertical: stripSourceCodeBlocks(toggleGroupVerticalCompositionSource),
+  itemDisabled: stripSourceCodeBlocks(toggleGroupItemDisabledCompositionSource),
+  disabled: stripSourceCodeBlocks(toggleGroupDisabledCompositionSource),
 } as const;
 
-const PROPS: readonly PropRow[] = [
-  { name: "value", type: "T", description: "The currently selected option value." },
+const TOGGLE_GROUP_PROPS: readonly PropRow[] = [
+  {
+    name: "value",
+    type: "readonly T[]",
+    description: "Pressed item values for controlled use.",
+  },
+  {
+    name: "defaultValue",
+    type: "readonly T[]",
+    description: "Initially pressed item values for uncontrolled use.",
+  },
   {
     name: "onValueChange",
-    type: "(value: T) => void",
-    description: "Called with the picked value.",
+    type: "(value: T[], eventDetails: ToggleGroup.ChangeEventDetails) => void",
+    description: "Called when the pressed item collection changes.",
   },
-  { name: "ariaLabel", type: "string", description: "Accessible label for the toggle group." },
+  {
+    name: "multiple",
+    type: "boolean",
+    default: "false",
+    description: "Allows more than one item to stay pressed.",
+  },
+  {
+    name: "orientation",
+    type: '"horizontal" | "vertical"',
+    default: '"horizontal"',
+    description: "Controls visual layout and arrow-key navigation.",
+  },
+  {
+    name: "loopFocus",
+    type: "boolean",
+    default: "true",
+    description: "Wraps roving keyboard focus at either end of the group.",
+  },
   {
     name: "disabled",
     type: "boolean",
     default: "false",
-    description: "Dims and disables all segments.",
+    description: "Disables every item in the group.",
   },
-  { name: "className", type: "string", description: "Additional classes on the wrapper." },
+  {
+    name: "...props",
+    type: "Base UI ToggleGroup.Props<T>",
+    description: "Native div attributes, render substitution, styling, and ARIA labeling.",
+  },
+];
+
+const TOGGLE_GROUP_ITEM_PROPS: readonly PropRow[] = [
+  {
+    name: "value",
+    type: "T",
+    description: "Required unique value tracked in the parent group's pressed collection.",
+  },
+  {
+    name: "disabled",
+    type: "boolean",
+    default: "false",
+    description: "Disables this item without disabling its siblings.",
+  },
+  {
+    name: "onPressedChange",
+    type: "(pressed: boolean, eventDetails: Toggle.ChangeEventDetails) => void",
+    description: "Observes or cancels this item's pending pressed-state change.",
+  },
+  {
+    name: "...props",
+    type: "ToggleGroupItemProps<T>",
+    description:
+      "Base UI Toggle props without standalone pressed/defaultPressed state, plus a required value.",
+  },
+];
+
+const TOGGLE_GROUP_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"span">',
+    description: "Visible item label with truncation and native span attributes.",
+  },
 ];
 
 export const Route = createFileRoute("/components/toggle-group")({
@@ -76,39 +126,17 @@ export const Route = createFileRoute("/components/toggle-group")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-const OPTIONS = [
-  { value: "all", label: "All", count: 12 },
-  { value: "unread", label: "Unread", count: 3 },
-  { value: "mentions", label: "Mentions" },
-] as const;
-
 function ToggleGroupDoc() {
   const code = Route.useLoaderData();
-  const [value, setValue] = useState<string>("all");
 
   return (
     <DocPage
       title="ToggleGroup"
-      description="A controlled single-select toggle group rendered as a row of bordered segments."
-      overview={<TodoList items={TODOS} />}
+      description="A compact group of toggle buttons for independent or optional pressed states."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
-        <Preview>
-          <Preview.Canvas>
-            <ToggleGroup ariaLabel="Filter" value={value} onValueChange={setValue}>
-              {OPTIONS.map((option) => (
-                <ToggleGroupItem key={option.value} value={option.value}>
-                  <ToggleGroupLabel>{option.label}</ToggleGroupLabel>
-                  {"count" in option && option.count > 0 ? (
-                    <ToggleGroupCount>{option.count}</ToggleGroupCount>
-                  ) : null}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          </Preview.Canvas>
-          <Preview.Code html={code.counts} />
-        </Preview>
+        <ToggleGroupPreview code={code.formatting} collapsedCode={code.formattingBody} />
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
@@ -120,27 +148,62 @@ function ToggleGroupDoc() {
       </DocSection>
 
       <DocSection id="usage" title="Usage">
-        <div className="space-y-10">
-          <DocSubsection parentId="usage" id="disabled" title="Disabled">
+        <div className="grid gap-10">
+          <DocNote>
+            Use ToggleGroup when an item may be toggled off. Use SegmentedControl for a persistent
+            one-of-many value that changes a view, filter, or mode.
+          </DocNote>
+
+          <DocSubsection parentId="usage" id="one-or-none" title="One or none">
             <Preview>
               <Preview.Canvas>
-                <ToggleGroup disabled ariaLabel="Filter" value="all" onValueChange={() => {}}>
-                  <ToggleGroupItem value="all">
-                    <ToggleGroupLabel>All</ToggleGroupLabel>
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="unread">
-                    <ToggleGroupLabel>Unread</ToggleGroupLabel>
-                  </ToggleGroupItem>
-                </ToggleGroup>
+                <ToggleGroupAlignmentComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.disabled} />
+              <Preview.Code html={code.alignment} collapsedHtml={code.alignmentBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="vertical-orientation" title="Vertical orientation">
+            <Preview>
+              <Preview.Canvas>
+                <ToggleGroupVerticalComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.vertical} collapsedHtml={code.verticalBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="disabled-item" title="Disabled item">
+            <Preview>
+              <Preview.Canvas>
+                <ToggleGroupItemDisabledComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.itemDisabled} collapsedHtml={code.itemDisabledBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="disabled-group" title="Disabled group">
+            <Preview>
+              <Preview.Canvas>
+                <ToggleGroupDisabledComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.disabled} collapsedHtml={code.disabledBody} />
             </Preview>
           </DocSubsection>
         </div>
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-toggle-group" title="ToggleGroup">
+            <PropsTable rows={TOGGLE_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-toggle-group-item" title="ToggleGroupItem">
+            <PropsTable rows={TOGGLE_GROUP_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-toggle-group-label" title="ToggleGroupLabel">
+            <PropsTable rows={TOGGLE_GROUP_LABEL_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

@@ -1,98 +1,91 @@
 import type { ComponentPropsWithRef } from "react";
 import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { ToggleGroup as BaseToggleGroup } from "@base-ui/react/toggle-group";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import { defaultNativeButton } from "../../lib/default-native-button";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const toggleGroup = tv({
   slots: {
-    root: ["inline-flex max-w-full flex-wrap items-center gap-1"],
+    root: [
+      "inline-flex max-w-full items-center",
+      "data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:flex-wrap",
+      "data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
+    ],
     item: [
-      "flex h-7 min-w-0 shrink-0 items-center gap-1 px-2",
-      "text-xs font-bold transition-colors",
+      "inline-flex h-8 min-w-0 shrink-0 items-center justify-center gap-1.5 px-2.5",
+      "text-xs leading-4 font-medium whitespace-nowrap",
+      "bg-layer-panel text-foreground",
+      "outline-2 outline-offset-2 outline-transparent transition-[background-color,color,box-shadow,transform] duration-100",
+      "disabled:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-40",
+      "data-[pressed]:bg-primary-400 data-[pressed]:text-primary-950",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5",
     ],
     label: ["truncate"],
-    count: ["font-mono text-[10px] leading-none"],
   },
   variants: {
     theme: {
       brutal: {
+        root: "gap-1",
         item: [
-          "border-2 border-line-strong bg-layer-panel text-foreground",
-          "hover:bg-primary-400/30 data-[pressed]:bg-primary-400 data-[pressed]:text-foreground",
-          "data-[pressed]:shadow-raft-sm data-[disabled]:cursor-not-allowed",
-        ],
-        count: [
-          "text-foreground-strong/40",
-          "group-data-[pressed]/toggle-group-item:text-foreground-strong/60",
+          "border-2 border-line-strong font-bold",
+          "hover:bg-primary-400/30",
+          "focus-visible:outline-line-strong",
+          "active:translate-x-px active:translate-y-px data-[pressed]:shadow-raft-sm",
         ],
       },
-      // Elegant styling is deferred; see the component TODO.
-      elegant: {},
-    },
-    disabled: {
-      true: {
-        root: "opacity-50",
+      elegant: {
+        root: "gap-1.5",
+        item: [
+          "rounded-sm antialiased",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-muted)]",
+          "dark:not-data-[pressed]:bg-fill-muted dark:not-data-[pressed]:shadow-raft-sm",
+          "not-data-[pressed]:hover:bg-[color-mix(in_oklch,var(--fill-muted)_55%,var(--layer-panel))]",
+          "dark:not-data-[pressed]:hover:bg-fill-strong",
+          "data-[pressed]:hover:bg-primary-hover",
+          "data-[pressed]:shadow-[0_1px_1.5px_-1px_color-mix(in_srgb,var(--primary-glow)_8%,transparent),0_0_0_1px_var(--primary-edge)]",
+          "dark:data-[pressed]:shadow-raft-sm dark:data-[pressed]:hover:bg-primary-500",
+          "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary-400)_85%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-layer-page",
+          "active:scale-[0.985]",
+        ],
       },
-      false: {
-        root: "",
-      },
     },
-  },
-  defaultVariants: {
-    disabled: false,
   },
 });
 
-export type ToggleGroupProps<T extends string = string> = StyledProps<
-  Omit<BaseToggleGroup.Props<T>, "defaultValue" | "multiple" | "onValueChange" | "value">
-> &
-  Omit<VariantProps<typeof toggleGroup>, "theme"> & {
-    value: T;
-    onValueChange: (value: T, eventDetails: BaseToggleGroup.ChangeEventDetails) => void;
-    ariaLabel?: string;
-  };
+export type ToggleGroupProps<T extends string = string> = StyledProps<BaseToggleGroup.Props<T>>;
 
 export function ToggleGroup<T extends string = string>({
-  value,
-  onValueChange,
-  ariaLabel,
-  disabled = false,
   className,
   ...props
 }: ToggleGroupProps<T>) {
-  const { root } = toggleGroup({ disabled });
-  return (
-    <BaseToggleGroup
-      value={[value]}
-      onValueChange={(nextValue, eventDetails) => {
-        const selectedValue = nextValue[0];
-        if (selectedValue) onValueChange(selectedValue, eventDetails);
-      }}
-      aria-label={ariaLabel}
-      disabled={disabled}
-      data-slot="toggle-group"
-      className={root({ className })}
-      {...props}
-    />
-  );
+  const theme = useThemeFamily();
+  const { root } = toggleGroup({ theme });
+  return <BaseToggleGroup data-slot="toggle-group" className={root({ className })} {...props} />;
 }
 
-export type ToggleGroupItemProps<T extends string = string> = StyledProps<BaseToggle.Props<T>>;
+export type ToggleGroupItemProps<T extends string = string> = StyledProps<
+  Omit<BaseToggle.Props<T>, "defaultPressed" | "pressed">
+> & {
+  value: T;
+};
 
 export function ToggleGroupItem<T extends string = string>({
   className,
+  nativeButton,
+  render,
   ...props
 }: ToggleGroupItemProps<T>) {
   const theme = useThemeFamily();
   const { item } = toggleGroup({ theme });
   return (
     <BaseToggle
+      render={render}
+      nativeButton={nativeButton ?? defaultNativeButton(render)}
       type="button"
       data-slot="toggle-group-item"
-      className={item({ className: `group/toggle-group-item ${className ?? ""}`.trim() })}
+      className={item({ className })}
       {...props}
     />
   );
@@ -103,12 +96,4 @@ export type ToggleGroupLabelProps = ComponentPropsWithRef<"span">;
 export function ToggleGroupLabel({ className, ...props }: ToggleGroupLabelProps) {
   const { label } = toggleGroup();
   return <span data-slot="toggle-group-label" className={label({ className })} {...props} />;
-}
-
-export type ToggleGroupCountProps = ComponentPropsWithRef<"span">;
-
-export function ToggleGroupCount({ className, ...props }: ToggleGroupCountProps) {
-  const theme = useThemeFamily();
-  const { count } = toggleGroup({ theme });
-  return <span data-slot="toggle-group-count" className={count({ className })} {...props} />;
 }

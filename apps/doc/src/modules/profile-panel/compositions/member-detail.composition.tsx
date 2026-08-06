@@ -17,6 +17,10 @@ import {
   PanelBody,
   PanelScrollContent,
   PanelScrollViewport,
+  ProfilePanel,
+  ProfilePanelHeader,
+  ProfilePanelHeaderContent,
+  ProfilePanelSection,
   SidebarItem,
   SidebarItemAside,
   SidebarItemContent,
@@ -26,12 +30,6 @@ import {
   Status,
   Text,
 } from "raft-ui";
-import {
-  ProfilePanel,
-  ProfilePanelHeader,
-  ProfilePanelHeaderContent,
-  ProfilePanelSection,
-} from "raft-ui/wip";
 
 export function MemberDetailComposition() {
   return (
