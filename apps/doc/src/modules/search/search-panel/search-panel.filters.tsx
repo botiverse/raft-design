@@ -94,6 +94,10 @@ const SEARCH_TIME_RANGE_ITEMS = SEARCH_TIME_RANGES.map((value) => ({
   label: timeLabel(value),
   value,
 }));
+const SEARCH_SCOPE_ITEMS = SEARCH_SCOPES.map((value) => ({
+  label: scopeLabel(value),
+  value,
+}));
 const SEARCH_SORT_ITEMS = SEARCH_SORTS.map((value) => ({
   label: value === "relevance" ? "Relevant" : "Recent",
   value,
@@ -155,7 +159,6 @@ export function BrutalSearchFilters({
             finalFocus={false}
             initialFocus={false}
             portalProps={{ container: portalRef }}
-            positionMethod="absolute"
           >
             <ComboboxHeader>
               <ComboboxLabel>From</ComboboxLabel>
@@ -167,6 +170,7 @@ export function BrutalSearchFilters({
                 aria-label="Search senders"
                 placeholder="Search…"
                 suppressPasswordManager
+                className={shell.filterInput()}
               />
             </ComboboxInputGroup>
             <ComboboxList>
@@ -190,14 +194,18 @@ export function BrutalSearchFilters({
           </ComboboxContent>
         </Combobox>
 
-        <Combobox<BrutalSearchScope, true>
+        <Select<BrutalSearchScope, true>
           multiple
-          autoHighlight
-          items={SEARCH_SCOPES}
+          items={SEARCH_SCOPE_ITEMS}
           value={[...scopes]}
           onValueChange={(nextValue) => onScopesChange(nextValue)}
         >
-          <ComboboxTrigger aria-label="Scope" className={shell.filterTrigger()} variant="filter">
+          <SelectTrigger
+            aria-label="Scope"
+            className={shell.filterTrigger()}
+            data-active={scopes.length > 0 ? "" : undefined}
+            variant="filter"
+          >
             <AtSign aria-hidden size={14} />
             <span>
               {scopes.length === 0
@@ -206,33 +214,29 @@ export function BrutalSearchFilters({
                   ? scopeLabel(scopes[0])
                   : `${scopes.length} filters`}
             </span>
-            <ComboboxTriggerIndicator>
+            <SelectIcon>
               <ChevronDown aria-hidden />
-            </ComboboxTriggerIndicator>
-          </ComboboxTrigger>
-          <ComboboxContent
+            </SelectIcon>
+          </SelectTrigger>
+          <SelectContent
             align="start"
             className={shell.filterContent()}
-            finalFocus={false}
-            initialFocus={false}
             portalProps={{ container: portalRef }}
-            positionMethod="absolute"
           >
-            <ComboboxHeader>
-              <ComboboxLabel>Scope</ComboboxLabel>
-              <ComboboxClear>Clear</ComboboxClear>
-            </ComboboxHeader>
-            <ComboboxSeparator />
-            <ComboboxList>
-              {SEARCH_SCOPES.map((scope) => (
-                <ComboboxItem key={scope} value={scope}>
-                  <span>{scopeLabel(scope)}</span>
-                  <ComboboxItemIndicator />
-                </ComboboxItem>
-              ))}
-            </ComboboxList>
-          </ComboboxContent>
-        </Combobox>
+            <SelectList>
+              <SelectGroup>
+                <SelectGroupLabel>Scope</SelectGroupLabel>
+                <SelectSeparator />
+                {SEARCH_SCOPES.map((scope) => (
+                  <SelectItem key={scope} value={scope}>
+                    <SelectItemText>{scopeLabel(scope)}</SelectItemText>
+                    <SelectItemIndicator />
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectList>
+          </SelectContent>
+        </Select>
 
         {channel ? (
           <button
@@ -274,7 +278,6 @@ export function BrutalSearchFilters({
               finalFocus={false}
               initialFocus={false}
               portalProps={{ container: portalRef }}
-              positionMethod="absolute"
             >
               <ComboboxHeader>
                 <ComboboxLabel>Channels</ComboboxLabel>
@@ -285,6 +288,7 @@ export function BrutalSearchFilters({
                   aria-label="Search channels"
                   placeholder="Search…"
                   suppressPasswordManager
+                  className={shell.filterInput()}
                 />
               </ComboboxInputGroup>
               <ComboboxList>
@@ -326,7 +330,6 @@ export function BrutalSearchFilters({
             align="start"
             className={shell.filterContent()}
             portalProps={{ container: portalRef }}
-            positionMethod="absolute"
           >
             <SelectList>
               <SelectGroup>
@@ -367,7 +370,6 @@ export function BrutalSearchFilters({
             align="start"
             className={shell.filterContent()}
             portalProps={{ container: portalRef }}
-            positionMethod="absolute"
           >
             <SelectList>
               <SelectGroup>

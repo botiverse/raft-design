@@ -14,7 +14,6 @@ const select = tv({
     trigger: [
       "inline-flex select-none items-center justify-between gap-2",
       "outline-none transition-colors",
-      "data-[placeholder]:text-foreground-placeholder",
       "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-2 data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--danger)_60%,transparent)] data-invalid:focus-visible:ring-offset-1 data-invalid:focus-visible:ring-offset-layer-page",
       "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",

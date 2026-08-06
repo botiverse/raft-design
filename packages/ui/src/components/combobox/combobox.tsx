@@ -90,7 +90,7 @@ const combobox = tv({
           "text-foreground-strong [&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
         ],
         label: [
-          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground-strong",
+          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground-strong/60",
         ],
         clear: [
           "font-sans text-[10px] font-bold uppercase tracking-wide text-foreground-strong hover:text-foreground-strong",
@@ -147,7 +147,7 @@ const combobox = tv({
         itemIndicator: [
           "text-foreground [&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
         ],
-        label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground"],
+        label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong/45"],
         clear: [
           "text-[11px] font-medium tracking-[-0.005em] text-foreground-muted hover:text-foreground",
           "[&>svg]:[stroke-width:1.5] [&>svg_*]:[stroke-width:1.5]",
