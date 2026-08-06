@@ -1,5 +1,7 @@
 export {
   AppShellMainSlot,
+  AppShellOverlaySlot,
+  AppShellPanelSlot,
   AppShellRailSlot,
   AppShellRoot,
   AppShellSidebarSlot,
@@ -7,6 +9,8 @@ export {
 } from "./app-shell";
 export type {
   AppShellMainSlotProps,
+  AppShellOverlaySlotProps,
+  AppShellPanelSlotProps,
   AppShellRailSlotProps,
   AppShellRootProps,
   AppShellSidebarSlotProps,

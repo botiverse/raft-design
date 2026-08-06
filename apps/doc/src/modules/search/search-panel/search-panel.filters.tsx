@@ -34,16 +34,15 @@ import {
   SelectList,
   SelectSeparator,
   SelectTrigger,
-  useThemeFamily,
 } from "raft-ui";
 
 import type { SearchChannelFixture, SearchSenderFixture } from "../search.fixtures.ts";
 import {
-  searchShell,
   SourceIdentityAvatar,
   type BrutalSearchScope,
   type BrutalSearchSort,
   type BrutalSearchTimeRange,
+  useSearchShell,
 } from "./search-panel.parts.tsx";
 
 type SearchFiltersProps = {
@@ -116,8 +115,7 @@ export function BrutalSearchFilters({
   onTimeRangeChange,
   onSortChange,
 }: SearchFiltersProps) {
-  const theme = useThemeFamily();
-  const shell = searchShell({ theme });
+  const shell = useSearchShell();
   const portalRef = useRef<HTMLDivElement>(null);
   const [senderQuery, setSenderQuery] = useState(showEmptySenderPopup ? "Nobody" : "");
   const [channelQuery, setChannelQuery] = useState("");

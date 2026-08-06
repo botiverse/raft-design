@@ -14,7 +14,13 @@ import { getPlaygroundDmActor, type PlaygroundDirectMessage } from "../mock/inde
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";
 import { PLAYGROUND_PRESENCE_STATUS } from "../message/playground-presence.ts";
 
-export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage }) {
+export function PlaygroundDmPanelHeader({
+  dm,
+  onBack,
+}: {
+  dm: PlaygroundDirectMessage;
+  onBack?: () => void;
+}) {
   const actor = getPlaygroundDmActor(dm);
   const isAgent = actor.type === "agent";
   const presence = actor.presence
@@ -23,7 +29,7 @@ export function PlaygroundDmPanelHeader({ dm }: { dm: PlaygroundDirectMessage })
 
   return (
     <PanelHeader>
-      <PlaygroundConversationBackButton />
+      <PlaygroundConversationBackButton onBack={onBack} />
       <PanelHeaderContent>
         <Avatar data-slot="panel-header-icon" size={isAgent ? "sm" : "md"} type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}

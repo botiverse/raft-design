@@ -32,13 +32,19 @@ import {
 import type { PlaygroundRoomChannel } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";
 
-export function PlaygroundChannelPanelHeader({ channel }: { channel: PlaygroundRoomChannel }) {
+export function PlaygroundChannelPanelHeader({
+  channel,
+  onBack,
+}: {
+  channel: PlaygroundRoomChannel;
+  onBack?: () => void;
+}) {
   const Icon = channel.kind === "joint" ? GitBranch : channel.kind === "private" ? Lock : Hash;
   const [isMuted, setIsMuted] = useState(channel.navigation.muted);
 
   return (
     <PanelHeader>
-      <PlaygroundConversationBackButton />
+      <PlaygroundConversationBackButton onBack={onBack} />
       <PanelHeaderContent>
         <PanelHeaderIcon>
           <Icon />

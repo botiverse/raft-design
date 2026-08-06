@@ -79,6 +79,7 @@ import {
   ActivityPanelHeaderSubtitle,
   ActivityPanelHeaderTitle,
   ActivityPanelLayout,
+  ActivityPanelLoadingMore,
   ActivityPanelMain,
   ActivityPanelMobileNavigation,
   ActivityPanelMobileNavigationButton,
@@ -96,6 +97,7 @@ import {
   ActivityPanelSidebar,
   ActivityPanelSidebarHeading,
   ActivityPanelSidebarHeadingLabel,
+  ActivityPanelSidebarShowAllLink,
   ActivityPanelSidebarSection,
   ActivityPanelSortTrigger,
   ActivityPanelSortContent,
@@ -114,7 +116,6 @@ import {
   ActivityPanelToolbarLink,
   ActivityPanelToolbarPrimaryAction,
   ActivityPanelViewport,
-  activityShell,
 } from "../activity-panel.parts.tsx";
 import {
   useEffect,
@@ -181,6 +182,7 @@ export type ActivityInboxCompositionProps = {
     item: ActivityCompositionItem,
     activation: { compact: boolean; detail: number },
   ) => void;
+  openItemId?: string | null;
   onBack?: () => void;
   layout?: ActivityLayout;
   defaultView?: ActivityView;
@@ -193,14 +195,13 @@ export function ActivityInboxComposition({
   defaultItems = ACTIVITY_COMPOSITION_ITEMS,
   onItemsChange,
   onOpenItem,
+  openItemId: controlledOpenItemId,
   onBack,
   layout = "auto",
   defaultView = "active",
   loading = false,
   loadingMore = false,
 }: ActivityInboxCompositionProps = {}) {
-  const theme = useThemeFamily();
-  const shell = activityShell({ theme });
   const [localItems, setLocalItems] = useState<readonly ActivityCompositionItem[]>(defaultItems);
   const items = controlledItems ?? localItems;
   const [view, setView] = useState<ActivityView>(defaultView);
@@ -210,7 +211,9 @@ export function ActivityInboxComposition({
   const [query, setQuery] = useState("");
   const [sortDirection, setSortDirection] = useState<ActivitySortDirection>("desc");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
-  const [openItemId, setOpenItemId] = useState<string>();
+  const [localOpenItemId, setLocalOpenItemId] = useState<string>();
+  const openItemId =
+    controlledOpenItemId === undefined ? localOpenItemId : (controlledOpenItemId ?? undefined);
   const [mobileSwitcherOpen, setMobileSwitcherOpen] = useState(false);
   const [measuredLayout, setMeasuredLayout] = useState<Exclude<ActivityLayout, "auto">>("wide");
   const rootRef = useRef<HTMLDivElement>(null);
@@ -398,12 +401,9 @@ export function ActivityInboxComposition({
           <ActivityPanelSidebarHeading>
             <ActivityPanelSidebarHeadingLabel>DM &amp; Channels</ActivityPanelSidebarHeadingLabel>
             {channelFilterId ? (
-              <ActivityPanelToolbarLink
-                className={shell.sidebarShowAllLink()}
-                onClick={() => setChannelFilterId(undefined)}
-              >
+              <ActivityPanelSidebarShowAllLink onClick={() => setChannelFilterId(undefined)}>
                 Show all
-              </ActivityPanelToolbarLink>
+              </ActivityPanelSidebarShowAllLink>
             ) : null}
           </ActivityPanelSidebarHeading>
           <ActivityPanelSidebarSection className="gap-0">
@@ -654,7 +654,7 @@ export function ActivityInboxComposition({
                     view={view}
                     portalContainer={rootRef}
                     onOpen={(detail) => {
-                      setOpenItemId(item.id);
+                      setLocalOpenItemId(item.id);
                       onOpenItem?.(item, {
                         compact: resolvedLayout === "compact",
                         detail,
@@ -694,7 +694,9 @@ export function ActivityInboxComposition({
                     }
                   />
                 ))}
-                {loadingMore ? <div className={shell.loadingMore()}>Loading more…</div> : null}
+                {loadingMore ? (
+                  <ActivityPanelLoadingMore>Loading more…</ActivityPanelLoadingMore>
+                ) : null}
               </ActivityInboxList>
             )}
           </ActivityPanelViewport>
@@ -854,15 +856,15 @@ function ActivityItem({
         />
       </ActivityInboxItemSelection>
       <ActivityInboxItemContent>
-        {item.kind === "thread" ? (
-          <ActivityInboxItemSubtitle>{item.channelLabel}</ActivityInboxItemSubtitle>
-        ) : null}
         <ActivityInboxItemHeading>
           <ActivityInboxItemTitle>
             <Icon aria-hidden />
             {item.title}
           </ActivityInboxItemTitle>
         </ActivityInboxItemHeading>
+        {item.kind === "thread" ? (
+          <ActivityInboxItemSubtitle>Thread in {item.channelLabel}</ActivityInboxItemSubtitle>
+        ) : null}
         <ActivityInboxItemBody>
           <ActivityInboxItemSender>{item.sender}: </ActivityInboxItemSender>
           {item.preview}

@@ -1,38 +1,68 @@
-import { useNavigate } from "@tanstack/react-router";
-import { useThemeFamily } from "raft-ui";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  AppShellMainSlot,
+  AppShellOverlaySlot,
+  AppShellPanelSlot,
+  AppShellSidebarSlot,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
+  useThemeFamily,
+} from "raft-ui";
+import { useEffect, useMemo, useRef } from "react";
 
 import { type ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
 import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
 
 import {
-  PLAYGROUND_SERVER_SLUG,
   getPlaygroundActor,
   getPlaygroundChannel,
   getPlaygroundThread,
   isPlaygroundDmId,
+  isPlaygroundThreadId,
   type PlaygroundActivity,
 } from "../mock/index.ts";
+import {
+  usePlaygroundDesktop,
+  usePlaygroundWideDesktop,
+} from "../app-shell/use-playground-desktop.ts";
 import { PlaygroundChannelPanel } from "../conversation/playground-channel-panel.tsx";
 import { PlaygroundDmPanel } from "../conversation/playground-dm-panel.tsx";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
 import { usePlaygroundActivityState } from "./activity-state.tsx";
 
+const activityContentPrefix = "activity:";
+const activityConversationPrefix = "activity-conversation:";
+const threadContextPrefix = "thread:";
+
 export function PlaygroundActivityPanel() {
   const theme = useThemeFamily();
-  const navigate = useNavigate();
+  const isDesktop = usePlaygroundDesktop();
+  const hasContextColumn = usePlaygroundWideDesktop();
   const { items, setItems } = usePlaygroundActivityState();
-  const { selectRailView } = usePlaygroundNavigation();
-  const [activeItemId, setActiveItemId] = useState<string>();
+  const { contentId, contextId, selectContent, selectContext, selectRailView } =
+    usePlaygroundNavigation();
   const activationTimerRef = useRef<number | null>(null);
   const compositionItems = useMemo(() => items.map(toCompositionItem), [items]);
+  const activeItemId = contentId?.startsWith(activityConversationPrefix)
+    ? contentId.slice(activityConversationPrefix.length)
+    : contentId?.startsWith(activityContentPrefix)
+      ? contentId.slice(activityContentPrefix.length)
+      : undefined;
+  const showConversation = contentId?.startsWith(activityConversationPrefix) ?? false;
   const activeItem = items.find((item) => item.id === activeItemId);
   const activeChannel = activeItem ? getPlaygroundChannel(activeItem.channelId) : undefined;
   const activeCompositionItem = compositionItems.find((item) => item.id === activeItemId);
-  const activeThread =
-    activeItem && activeCompositionItem?.kind === "thread"
-      ? getPlaygroundThread(activeItem.messageId)?.thread
+  const activeThreadContext =
+    activeItem && activeCompositionItem?.kind === "thread" && !showConversation
+      ? getPlaygroundThread(activeItem.messageId)
+      : undefined;
+  const contextualThreadId = contextId?.startsWith(threadContextPrefix)
+    ? contextId.slice(threadContextPrefix.length)
+    : undefined;
+  const contextualThread =
+    contextualThreadId && isPlaygroundThreadId(contextualThreadId)
+      ? getPlaygroundThread(contextualThreadId)
       : undefined;
 
   useEffect(
@@ -68,82 +98,125 @@ export function PlaygroundActivityPanel() {
     );
   }
 
-  function navigateToItem(item: ActivityCompositionItem) {
+  function activateItem(item: ActivityCompositionItem) {
     const source = items.find((activity) => activity.id === item.id);
-    const search = item.kind === "thread" && source ? { thread: source.messageId } : {};
-    if (isPlaygroundDmId(item.channelId)) {
-      void navigate({
-        to: "/playground/s/$serverSlug/dm/$dmId",
-        params: { dmId: item.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
-        search,
-      });
-      return;
-    }
-    void navigate({
-      to: "/playground/s/$serverSlug/channel/$channelId",
-      params: { channelId: item.channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
-      search,
-    });
-  }
-
-  function activateItem(
-    item: ActivityCompositionItem,
-    activation: { compact: boolean; detail: number },
-  ) {
     if (activationTimerRef.current !== null) {
       window.clearTimeout(activationTimerRef.current);
-      activationTimerRef.current = null;
-    }
-
-    if (activation.compact || activation.detail >= 2) {
-      markRead(item.id);
-      navigateToItem(item);
-      return;
     }
 
     activationTimerRef.current = window.setTimeout(() => {
       activationTimerRef.current = null;
       markRead(item.id);
-      setActiveItemId(item.id);
-    }, 220);
+      selectContent(`${activityContentPrefix}${item.id}`, {
+        surface:
+          item.kind === "thread" && source
+            ? `thread:${source.messageId}`
+            : `conversation:${item.channelId}`,
+      });
+    }, 160);
+  }
+
+  const master = (
+    <ActivityInboxComposition
+      items={compositionItems}
+      layout={isDesktop ? "wide" : "compact"}
+      openItemId={activeItemId ?? null}
+      onItemsChange={commitCompositionItems}
+      onBack={() => selectRailView("chat")}
+      onOpenItem={activateItem}
+    />
+  );
+
+  const openContextThread = (threadId: string) =>
+    selectContext(`${threadContextPrefix}${threadId}`);
+  const content = activeThreadContext ? (
+    <PlaygroundThreadPanel
+      key={activeThreadContext.thread.parent.id}
+      channel={activeThreadContext.channel}
+      thread={activeThreadContext.thread}
+      onClose={() => selectContent(undefined)}
+      onViewConversation={() =>
+        selectContent(`${activityConversationPrefix}${activeItemId}`, {
+          surface: `conversation:${activeChannel?.id}`,
+        })
+      }
+    />
+  ) : activeChannel?.kind === "dm" ? (
+    <PlaygroundDmPanel
+      key={activeChannel.id}
+      dm={activeChannel}
+      onBack={() => selectContent(undefined)}
+      onOpenThread={openContextThread}
+    />
+  ) : activeChannel ? (
+    <PlaygroundChannelPanel
+      key={activeChannel.id}
+      channel={activeChannel}
+      onBack={() => selectContent(undefined)}
+      onOpenThread={openContextThread}
+    />
+  ) : undefined;
+  const context = contextualThread ? (
+    <PlaygroundThreadPanel
+      key={contextualThread.thread.parent.id}
+      channel={contextualThread.channel}
+      thread={contextualThread.thread}
+      onClose={() => selectContext(undefined)}
+      onViewConversation={() => selectContext(undefined)}
+    />
+  ) : undefined;
+
+  if (!isDesktop) {
+    return (
+      <AppShellMainSlot className="h-full w-full bg-transparent">
+        {context ?? content ?? master}
+      </AppShellMainSlot>
+    );
+  }
+
+  if (!content) {
+    return <AppShellMainSlot className="flex h-full min-w-0 flex-1">{master}</AppShellMainSlot>;
   }
 
   return (
-    <div className="flex min-w-0 flex-1">
-      <div
-        className={
-          activeChannel
-            ? theme === "brutal"
-              ? "flex min-w-0 flex-[0_1_48rem] border-r-2 border-black"
-              : "flex min-w-0 flex-[0_1_48rem]"
-            : "flex min-w-0 flex-1"
-        }
+    <ResizableGroup orientation="horizontal" className="h-auto min-w-0 flex-1 md:h-full">
+      <ResizablePanel
+        id="playground-activity-master"
+        defaultSize={560}
+        minSize={480}
+        maxSize={720}
+        groupResizeBehavior="preserve-pixel-size"
+        className="relative min-w-0 !overflow-visible"
       >
-        <ActivityInboxComposition
-          items={compositionItems}
-          onItemsChange={commitCompositionItems}
-          onBack={() => selectRailView("chat")}
-          onOpenItem={activateItem}
-        />
-      </div>
-      {activeChannel ? (
-        <div
-          className={
-            theme === "brutal"
-              ? "hidden min-w-0 flex-1 md:flex"
-              : "relative hidden min-w-0 flex-1 before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:z-30 before:w-px before:bg-line-subtle before:content-[''] md:flex"
-          }
-        >
-          {activeThread ? (
-            <PlaygroundThreadPanel channel={activeChannel} thread={activeThread} />
-          ) : activeChannel.kind === "dm" ? (
-            <PlaygroundDmPanel dm={activeChannel} />
-          ) : (
-            <PlaygroundChannelPanel channel={activeChannel} />
-          )}
-        </div>
+        <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1">
+          {master}
+        </AppShellSidebarSlot>
+      </ResizablePanel>
+      <ResizableHandle className={theme === "elegant" ? "translate-x-[10px]" : undefined} />
+      <ResizablePanel id="playground-activity-content" minSize={320} className="relative min-w-0">
+        <AppShellMainSlot contentEdge="attached" overlay className="flex h-full min-w-0 flex-1">
+          {content}
+          {context && !hasContextColumn ? (
+            <AppShellOverlaySlot>{context}</AppShellOverlaySlot>
+          ) : null}
+        </AppShellMainSlot>
+      </ResizablePanel>
+      {context && hasContextColumn ? (
+        <>
+          <ResizableHandle className={theme === "elegant" ? "z-50 translate-x-[7px]" : "z-50"} />
+          <ResizablePanel
+            id="playground-activity-context"
+            defaultSize={400}
+            minSize={360}
+            maxSize="60vw"
+            groupResizeBehavior="preserve-pixel-size"
+            className="relative z-20 min-w-0 !overflow-visible"
+          >
+            <AppShellPanelSlot className="flex h-full min-w-0 flex-1">{context}</AppShellPanelSlot>
+          </ResizablePanel>
+        </>
       ) : null}
-    </div>
+    </ResizableGroup>
   );
 }
 

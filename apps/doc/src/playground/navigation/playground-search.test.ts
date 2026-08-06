@@ -2,8 +2,30 @@ import { describe, expect, it } from "vitest";
 
 import {
   getPlaygroundSidePanelOwner,
+  validatePlaygroundSearch,
   validatePlaygroundChannelSearch,
 } from "./playground-search.ts";
+
+describe("validatePlaygroundSearch", () => {
+  it("keeps route-owned content slots and drops empty values", () => {
+    expect(
+      validatePlaygroundSearch({
+        content: "channel:all",
+        context: "thread:all:launch",
+        detail: "member:cindy",
+        query: "sidebar state",
+        surface: "conversation:design",
+      }),
+    ).toEqual({
+      content: "channel:all",
+      context: "thread:all:launch",
+      detail: "member:cindy",
+      query: "sidebar state",
+      surface: "conversation:design",
+    });
+    expect(validatePlaygroundSearch({ content: "", context: null })).toEqual({});
+  });
+});
 
 describe("validatePlaygroundChannelSearch", () => {
   it("keeps registered synthetic task threads and rejects unknown task-shaped IDs", () => {

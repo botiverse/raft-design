@@ -1,9 +1,10 @@
-import type { KeyboardEvent, ReactNode, Ref } from "react";
+import type { ComponentProps, KeyboardEvent, ReactNode, Ref } from "react";
 import { Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  ConversationPanelContent,
   EmptyState,
   EmptyStateContent,
   EmptyStateDescription,
@@ -52,10 +53,11 @@ export type BrutalSearchScope = "mentioned" | "humans" | "agents";
 export type BrutalSearchTimeRange = "any" | "today" | "7d" | "30d";
 export type BrutalSearchSort = "relevance" | "recent";
 
-export const searchShell = tv({
+const searchShell = tv({
   slots: {
     frame: ["flex h-full min-h-0 flex-1 flex-col"],
     header: ["flex items-center gap-3"],
+    content: ["relative flex min-h-0 min-w-0 flex-1 flex-col"],
     headerBack: ["inline-flex size-7 shrink-0 items-center justify-center leading-none md:hidden"],
     headerIconChip: ["flex size-9 shrink-0 items-center justify-center"],
     searchInputGroup: ["flex-1"],
@@ -111,6 +113,7 @@ export const searchShell = tv({
         ],
         headerBack: ["bg-white text-black", brutalButtonSm],
         headerIconChip: ["border-2 border-black bg-soft-signal"],
+        content: ["bg-white"],
         searchInputGroup: [
           "shadow-sm",
           "has-[[data-slot=input-group-control]:focus]:not-has-[[data-slot=input-group-control][data-invalid]]:shadow-md",
@@ -168,6 +171,7 @@ export const searchShell = tv({
           "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
         ],
         headerIconChip: ["rounded-md bg-fill-muted text-foreground-icon"],
+        content: [],
         searchInputGroup: ["dark:bg-layer-card"],
         input: ["font-sans text-foreground-strong placeholder:text-foreground-placeholder/70"],
         inputClear: [
@@ -178,9 +182,9 @@ export const searchShell = tv({
         ],
         inputKbd: ["text-foreground-muted"],
         filtersRow: [
-          "border-b border-line-hairline bg-layer-panel",
+          "border-b border-line-muted bg-layer-panel",
           "px-7 max-md:pl-5 max-md:pr-3.5",
-          "dark:border-ink-10 dark:bg-transparent",
+          "dark:bg-transparent",
         ],
         channelActiveChip: [
           "rounded-md border border-line-hairline bg-fill-muted font-medium text-foreground-strong",
@@ -259,6 +263,11 @@ export const searchShell = tv({
   },
 });
 
+export function useSearchShell() {
+  const theme = useThemeFamily();
+  return searchShell({ theme });
+}
+
 const SEARCH_RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
 const PIXEL_PALETTE = {
@@ -328,6 +337,21 @@ export function BrutalSearchFrame({
     <Panel render={<div />} className={frame()} onKeyDown={onKeyDown}>
       {children}
     </Panel>
+  );
+}
+
+export function BrutalSearchContent({
+  className,
+  ...props
+}: ComponentProps<typeof ConversationPanelContent>) {
+  const theme = useThemeFamily();
+  const { content } = searchShell({ theme });
+  return (
+    <ConversationPanelContent
+      data-slot="search-panel-content"
+      className={content({ className })}
+      {...props}
+    />
   );
 }
 

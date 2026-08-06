@@ -1,6 +1,5 @@
 import type { KeyboardEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ConversationPanelContent } from "raft-ui";
 import {
   SEARCH_CHANNEL_FIXTURES,
   SEARCH_ENTITY_FIXTURES,
@@ -14,6 +13,7 @@ import {
 
 import { BrutalSearchFilters } from "../search-panel/search-panel.filters.tsx";
 import {
+  BrutalSearchContent,
   BrutalSearchFrame,
   BrutalSearchHeader,
   type BrutalSearchScope,
@@ -32,6 +32,9 @@ export type BrutalSearchPanelCompositionProps = {
   defaultOpenEmptySenderPopup?: boolean;
   view?: "ready" | "loading" | "error";
   focusRequestKey?: number;
+  query?: string;
+  selectedKey?: string | null;
+  onQueryChange?: (query: string) => void;
   onBack: () => void;
   onOpenEntity?: (entity: SearchEntityFixture) => void;
   onOpenMessage?: (message: SearchMessageFixture) => void;
@@ -201,6 +204,9 @@ function SearchPanel({
   defaultOpenEmptySenderPopup = false,
   view = "ready",
   focusRequestKey,
+  query: controlledQuery,
+  selectedKey: controlledSelectedKey,
+  onQueryChange,
   onBack,
   onOpenEntity,
   onOpenMessage,
@@ -208,7 +214,7 @@ function SearchPanel({
   const inputRef = useRef<HTMLInputElement>(null);
   const resultRefs = useRef<Map<string, HTMLButtonElement>>(undefined);
   const composing = useRef(false);
-  const [query, setQuery] = useState(defaultQuery);
+  const [uncontrolledQuery, setUncontrolledQuery] = useState(defaultQuery);
   const [sender, setSender] = useState<SearchSenderFixture | null>(
     () => senders.find((item) => item.id === defaultSenderId) ?? null,
   );
@@ -217,13 +223,23 @@ function SearchPanel({
   const [timeRange, setTimeRange] = useState<BrutalSearchTimeRange>("any");
   const [sort, setSort] = useState<BrutalSearchSort>("relevance");
   const [visibleLimit, setVisibleLimit] = useState(PAGE_SIZE);
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  const [selectedKey, setSelectedKey] = useState<string | null>(controlledSelectedKey ?? null);
+  const query = controlledQuery ?? uncontrolledQuery;
+
+  function setQuery(nextQuery: string) {
+    if (controlledQuery === undefined) setUncontrolledQuery(nextQuery);
+    onQueryChange?.(nextQuery);
+  }
 
   useEffect(() => {
     if (focusRequestKey === undefined) return;
     inputRef.current?.focus({ preventScroll: true });
     inputRef.current?.select();
   }, [focusRequestKey]);
+
+  useEffect(() => {
+    if (controlledSelectedKey !== undefined) setSelectedKey(controlledSelectedKey);
+  }, [controlledSelectedKey]);
 
   const tokens = useMemo(() => queryTokens(query), [query]);
   const currentUserId = senders.find((item) => item.isCurrentUser)?.id;
@@ -372,7 +388,7 @@ function SearchPanel({
         }}
       />
 
-      <ConversationPanelContent data-slot="search-panel-content" className="overflow-visible">
+      <BrutalSearchContent>
         <BrutalSearchFilters
           senders={senders}
           channels={channels}
@@ -426,7 +442,7 @@ function SearchPanel({
           }
           onLoadMore={() => setVisibleLimit((limit) => limit + PAGE_SIZE)}
         />
-      </ConversationPanelContent>
+      </BrutalSearchContent>
     </BrutalSearchFrame>
   );
 }

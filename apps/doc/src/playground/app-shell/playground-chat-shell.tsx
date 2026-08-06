@@ -2,6 +2,8 @@ import { Outlet, useMatch } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {
   AppShellMainSlot,
+  AppShellOverlaySlot,
+  AppShellPanelSlot,
   AppShellRoot,
   AppShellSidebarSlot,
   ResizableGroup,
@@ -172,29 +174,14 @@ function PlaygroundChatLayout({
       </ResizablePanel>
       <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
       <ResizablePanel id="playground-main" minSize={360} className="relative z-0 !overflow-visible">
-        <AppShellMainSlot className="flex h-full min-w-0 flex-1">
+        <AppShellMainSlot overlay className="flex h-full min-w-0 flex-1">
           {main}
-          {thread && !isLargeDesktop ? (
-            <div
-              className={cn(
-                "absolute inset-0 z-20 flex min-h-0 min-w-0",
-                theme === "brutal" && "border-l-2 border-black",
-              )}
-            >
-              {thread}
-            </div>
-          ) : null}
+          {thread && !isLargeDesktop ? <AppShellOverlaySlot>{thread}</AppShellOverlaySlot> : null}
         </AppShellMainSlot>
       </ResizablePanel>
       {thread && isLargeDesktop ? (
         <>
-          <ResizableHandle
-            className={
-              theme === "brutal"
-                ? "z-50 ml-0 mr-0 w-0 border-l-2 border-black bg-transparent"
-                : "z-50 translate-x-[7px] bg-transparent"
-            }
-          />
+          <ResizableHandle className={theme === "elegant" ? "z-50 translate-x-[7px]" : "z-50"} />
           <ResizablePanel
             id="playground-thread"
             defaultSize={400}
@@ -203,7 +190,7 @@ function PlaygroundChatLayout({
             groupResizeBehavior="preserve-pixel-size"
             className="relative z-20 min-w-0 !overflow-visible"
           >
-            {thread}
+            <AppShellPanelSlot className="flex h-full min-w-0 flex-1">{thread}</AppShellPanelSlot>
           </ResizablePanel>
         </>
       ) : null}

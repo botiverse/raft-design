@@ -268,6 +268,7 @@ export type PlaygroundMessageRowProps = {
   selectionMode?: boolean;
   selected?: boolean;
   onEnterSelectionMode?: () => void;
+  onOpenThread?: (threadId: PlaygroundThreadId) => void;
   onSelectedChange?: (selected: boolean) => void;
 };
 
@@ -276,11 +277,13 @@ function PlaygroundInlineReplies({
   threadId,
   unreadCount,
   hasDraft,
+  onOpenThread,
 }: {
   hasDraft: boolean;
   replies: readonly PlaygroundChatMessage[];
   threadId: PlaygroundThreadId;
   unreadCount?: number;
+  onOpenThread?: (threadId: PlaygroundThreadId) => void;
 }) {
   const { channel } = requirePlaygroundThread(threadId);
   const previews = replies.slice(-3);
@@ -295,6 +298,14 @@ function PlaygroundInlineReplies({
           conversation={channel}
           hash={firstUnreadReply ? `thread-message-${firstUnreadReply.id}` : undefined}
           search={{ thread: threadId }}
+          onClick={
+            onOpenThread
+              ? (event) => {
+                  event.preventDefault();
+                  onOpenThread(threadId);
+                }
+              : undefined
+          }
         />
       }
     >
@@ -364,6 +375,7 @@ function PlaygroundChatMessageRow({
   selectionMode = false,
   selected = false,
   onEnterSelectionMode,
+  onOpenThread,
   onSelectedChange,
 }: PlaygroundMessageRowProps & { message: PlaygroundChatMessage }) {
   const {
@@ -477,6 +489,10 @@ function PlaygroundChatMessageRow({
   const openThread =
     surface === "conversation" && threadId && threadContext
       ? () => {
+          if (onOpenThread) {
+            onOpenThread(threadId);
+            return;
+          }
           if (threadContext.channel.kind === "dm") {
             void navigate({
               to: "/playground/s/$serverSlug/dm/$dmId",
@@ -498,7 +514,7 @@ function PlaygroundChatMessageRow({
       id={messageAnchor}
       compact={compact}
       className={className}
-      tabIndex={surface === "thread" && focusTarget ? -1 : undefined}
+      tabIndex={focusTarget ? -1 : undefined}
     >
       {selectionMode ? (
         <MessageMultiSelectCheckbox
@@ -696,6 +712,7 @@ function PlaygroundChatMessageRow({
             hasDraft={hasThreadDraft}
             threadId={threadId}
             unreadCount={threadContext?.thread.unreadCount}
+            onOpenThread={onOpenThread}
           />
         ) : null}
       </MessageItemContent>

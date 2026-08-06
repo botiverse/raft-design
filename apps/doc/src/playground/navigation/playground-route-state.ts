@@ -23,7 +23,7 @@ const playgroundDisabledRailViews = new Set<PlaygroundRailView>(["computers", "s
 export function usePlaygroundRouteState() {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const { detail } = playgroundRoute.useSearch();
+  const { content, context, detail, query } = playgroundRoute.useSearch();
   const railView = getPlaygroundRailView(pathname);
 
   const selectRailView = useCallback(
@@ -57,12 +57,62 @@ export function usePlaygroundRouteState() {
     },
     [navigate],
   );
+  const selectContent = useCallback(
+    (id?: string, options?: { hash?: string; surface?: string }) => {
+      void navigate({
+        to: ".",
+        search: (current) => ({
+          ...current,
+          content: id,
+          context:
+            current.content === id ||
+            (options?.surface !== undefined && current.surface === options.surface)
+              ? current.context
+              : undefined,
+          surface: id ? options?.surface : undefined,
+        }),
+        hash: options?.hash,
+      });
+    },
+    [navigate],
+  );
+  const selectContext = useCallback(
+    (id?: string) => {
+      void navigate({
+        to: ".",
+        search: (current) => ({
+          ...current,
+          context: id,
+        }),
+      });
+    },
+    [navigate],
+  );
+  const setSearchQuery = useCallback(
+    (nextQuery: string) => {
+      void navigate({
+        to: ".",
+        replace: true,
+        search: (current) => ({
+          ...current,
+          query: nextQuery || undefined,
+        }),
+      });
+    },
+    [navigate],
+  );
 
   return {
+    contentId: content,
+    contextId: context,
     railDetailId: detail,
     railView,
+    searchQuery: query ?? "",
+    selectContent,
+    selectContext,
     selectRailDetail,
     selectRailView,
+    setSearchQuery,
   };
 }
 

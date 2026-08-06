@@ -33,6 +33,12 @@ Treat the slots as ownership markers, not required direct children. On desktop, 
 user-adjustable. On mobile, one `AppShellMainSlot` can switch between the sidebar, main content,
 and thread from app-owned route state.
 
+When the main region shares an edge with the preceding resizable region, use
+`contentEdge="attached"` on `AppShellMainSlot`. The shell then owns the structural divider and
+the matching `ConversationPanelContent` edge treatment. Set `overlay` and render an
+`AppShellOverlaySlot` when a contextual panel temporarily covers the main region without adding
+another persistent column.
+
 **Incorrect** — reassembling the frame:
 
 ```tsx

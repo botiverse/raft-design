@@ -40,6 +40,7 @@ export const threadPanel = tv({
         root: [
           "relative bg-transparent font-sans text-foreground-strong",
           "md:before:pointer-events-none md:before:absolute md:before:inset-y-0 md:before:left-0 md:before:z-20 md:before:w-px md:before:bg-line-muted md:before:content-[''] dark:md:before:bg-transparent",
+          "group-data-[content-edge=attached]/app-shell-main-slot:md:before:hidden",
           "dark:md:shadow-[0_0_0_1px_oklch(0_0_0_/_0.6),-4px_0_8px_-5px_oklch(0_0_0_/_0.55),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
         ],
         header: [

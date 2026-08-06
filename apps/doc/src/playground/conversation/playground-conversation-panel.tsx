@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { useLocation } from "@tanstack/react-router";
 import { ListTodo, MessageSquare, Paperclip } from "lucide-react";
 import {
   EmptyState,
@@ -52,10 +53,12 @@ export function PlaygroundConversationPanel({
   channel,
   composerLabel,
   header,
+  onOpenThread,
 }: {
   channel: PlaygroundChannelRecord;
   composerLabel: string;
   header: ReactNode;
+  onOpenThread?: (threadId: string) => void;
 }) {
   const { panelTab, selectPanelTab } = usePlaygroundNavigation();
   const [tabOrder, setTabOrder] = useState<PlaygroundPanelTab[]>(["chat", "tasks", "files"]);
@@ -79,7 +82,7 @@ export function PlaygroundConversationPanel({
           <PlaygroundSingleComposerMentionProvider>
             <MessageMultiSelect>
               <MessageTextSelectionComposition>
-                <ChannelBody channel={channel} />
+                <ChannelBody channel={channel} onOpenThread={onOpenThread} />
               </MessageTextSelectionComposition>
               <PlaygroundMainComposer
                 key={channel.id}
@@ -138,11 +141,17 @@ function PlaygroundMessageMultiSelectToolbar({
   );
 }
 
-function ChannelBody({ channel }: { channel: PlaygroundChannelRecord }) {
+function ChannelBody({
+  channel,
+  onOpenThread,
+}: {
+  channel: PlaygroundChannelRecord;
+  onOpenThread?: (threadId: string) => void;
+}) {
   const messages = getPlaygroundConversationMessages(channel.id);
   const selection = usePlaygroundMessageMultiSelect();
   return messages.length ? (
-    <ConversationBody messages={messages} selection={selection} />
+    <ConversationBody messages={messages} onOpenThread={onOpenThread} selection={selection} />
   ) : (
     <NewChannelBody channel={channel} />
   );
@@ -150,12 +159,17 @@ function ChannelBody({ channel }: { channel: PlaygroundChannelRecord }) {
 
 function ConversationBody({
   messages,
+  onOpenThread,
   selection,
 }: {
   messages: readonly PlaygroundMessage[];
+  onOpenThread?: (threadId: string) => void;
   selection: ReturnType<typeof usePlaygroundMessageMultiSelect>;
 }) {
+  const location = useLocation();
   const { tasks } = usePlaygroundTaskState();
+  const hashTargetId = location.hash.replace(/^#/, "");
+  const focusTargetId = hashTargetId.startsWith("message-") ? hashTargetId : undefined;
   const unreadCount = messages.filter((message) => message.unread).length;
   const groupedRows = messages.map((message, index) => {
     const previous = messages[index - 1];
@@ -167,6 +181,17 @@ function ConversationBody({
     );
     return { message, compact };
   });
+
+  useEffect(() => {
+    if (!focusTargetId) return;
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(focusTargetId);
+      if (!(target instanceof HTMLElement)) return;
+      target.scrollIntoView({ block: "center" });
+      target.focus({ preventScroll: true });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [focusTargetId, messages]);
 
   return (
     <>
@@ -203,6 +228,8 @@ function ConversationBody({
                 task={linkedTask}
                 compact={compact}
                 threadId={message.id}
+                focusTarget={focusTargetId === `message-${message.id}`}
+                onOpenThread={onOpenThread}
                 footer={taskBadge}
                 selectionMode={selection.active}
                 selected={selection.selected.has(message.id)}
