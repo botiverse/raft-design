@@ -25,12 +25,12 @@ const SNIPPETS = {
 <Spinner />`,
   sizes: `<Spinner size="sm" />
 <Spinner size="lg" />`,
-  currentColor: `<Spinner className="text-primary-400" />
-<div className="rounded bg-primary-50 p-3">
-  <Spinner className="text-primary-500" />
+  currentColor: `<Spinner className="text-accent-600 dark:text-accent-400" />
+<div className="rounded bg-info-soft p-3">
+  <Spinner className="text-info-strong" />
 </div>
-<div className="rounded bg-primary-950 p-3">
-  <Spinner className="text-primary-400" />
+<div className="rounded bg-layer-hud p-3">
+  <Spinner className="text-accent-300" variant="inverse" />
 </div>`,
   inline: `<Button>
   <Spinner data-icon="inline-start" />
@@ -161,12 +161,12 @@ function SpinnerDoc() {
             <Preview>
               <Preview.Canvas>
                 <div className="flex items-center gap-3">
-                  <Spinner className="text-primary-400" />
-                  <div className="rounded bg-primary-50 p-3">
-                    <Spinner className="text-primary-500" />
+                  <Spinner className="text-accent-600 dark:text-accent-400" />
+                  <div className="rounded bg-info-soft p-3">
+                    <Spinner className="text-info-strong" />
                   </div>
-                  <div className="rounded bg-primary-950 p-3">
-                    <Spinner className="text-primary-400" />
+                  <div className="rounded bg-layer-hud p-3">
+                    <Spinner className="text-accent-300" variant="inverse" />
                   </div>
                 </div>
               </Preview.Canvas>
