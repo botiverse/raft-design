@@ -1,4 +1,5 @@
 export * from "./components/activity-inbox/index";
+export * from "./components/search-shell/index";
 
 export {
   SearchEntityResult,

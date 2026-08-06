@@ -2,41 +2,19 @@ import {
   Activity,
   ArrowLeft,
   AtSign,
-  Ban,
-  Bell,
-  BellOff,
   Bookmark,
-  Check,
-  CheckCircle,
   CheckCircle2,
   ChevronDown,
-  Circle,
-  Eye,
-  Hash,
   Inbox,
-  Mail,
-  MailOpen,
-  MessageSquare,
-  Pencil,
-  Play,
-  RotateCcw,
   Search,
   X,
-  type LucideIcon,
 } from "lucide-react";
 import {
-  Badge,
-  Avatar,
-  Checkbox,
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuItemLabel,
-  ContextMenuTrigger,
   ConversationPanelContent,
   Dialog,
   DialogTrigger,
   DropdownMenu,
+  DropdownMenuContent,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
@@ -45,31 +23,14 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-  PanelAction,
   PanelHeading,
-  PanelToggleAction,
-  Skeleton,
   Tabs,
   TabsBackground,
   TabsLabel,
   TabsList,
   TabsTab,
-  useThemeFamily,
 } from "raft-ui";
 import {
-  ActivityInboxItem,
-  ActivityInboxItemActions,
-  ActivityInboxItemBody,
-  ActivityInboxItemContent,
-  ActivityInboxItemHeading,
-  ActivityInboxItemMetadata,
-  ActivityInboxItemOpen,
-  ActivityInboxItemSelection,
-  ActivityInboxItemSender,
-  ActivityInboxItemSubtitle,
-  ActivityInboxItemTimestamp,
-  ActivityInboxItemTitle,
-  ActivityInboxItemTrailing,
   ActivityInboxList,
   ActivityInboxControls,
   ActivityInboxHeader,
@@ -81,92 +42,40 @@ import {
   ActivityInboxLoadingMore,
   ActivityInboxMobileNavigationButton,
   ActivityInboxMobileNavigationLabel,
-  ActivityInboxNavigationCount,
-  ActivityInboxNavigationItem,
-  ActivityInboxNavigationLabel,
   ActivityInboxPanel,
   ActivityInboxSelectionCount,
   ActivityInboxSelectionToolbar,
-  ActivityInboxSearch,
-  ActivityInboxSearchClear,
-  ActivityInboxSearchIcon,
-  ActivityInboxSearchInput,
   ActivityInboxSidebar,
   ActivityInboxSidebarHeading,
   ActivityInboxSidebarHeadingAction,
   ActivityInboxSidebarHeadingLabel,
-  ActivityInboxSortTrigger,
-  ActivityInboxSortContent,
   ActivityInboxSwitcherBody,
   ActivityInboxSwitcherClose,
   ActivityInboxSwitcherContent,
   ActivityInboxSwitcherHeader,
-  ActivityInboxSwitcherItem,
-  ActivityInboxSwitcherItemCount,
-  ActivityInboxSwitcherItemLabel,
-  ActivityInboxSwitcherSeparator,
   ActivityInboxSwitcherTitle,
-  ActivityInboxToolbarButton,
-  ActivityInboxToolbarLink,
-  ActivityInboxToolbarPrimaryAction,
   ActivityInboxViewport,
+  useActivityInboxShellStyles,
 } from "raft-ui/wip";
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ComponentProps,
-  type ReactNode,
-  type RefObject,
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   ACTIVITY_COMPOSITION_ITEMS,
   type ActivityCompositionItem,
   type ActivityCompositionChannelKind,
-  type ActivityTaskStatus,
 } from "../activity.fixtures.ts";
+import {
+  ActivityGroupIcon,
+  ActivityItem,
+  ActivityLoadingList,
+  ActivityNavigationItem,
+  ActivitySwitcherItem,
+  type ActivityView,
+} from "../activity-inbox.helpers.tsx";
 
-type ActivityView = "active" | "saved" | "done";
 type ActivityReadFilter = "all" | "unread";
 type ActivitySortDirection = "desc" | "asc";
 type ActivityLayout = "auto" | "compact" | "wide";
-
-const activityTaskStatus = {
-  todo: {
-    background: "var(--color-brutal-orange)",
-    icon: Circle,
-    variant: "warning",
-  },
-  in_progress: {
-    background: "var(--color-brutal-cyan)",
-    icon: Play,
-    variant: "information",
-  },
-  in_review: {
-    background: "var(--color-brutal-lavender)",
-    icon: Eye,
-    variant: "accent",
-  },
-  done: {
-    background: "var(--color-brutal-lime)",
-    icon: CheckCircle,
-    variant: "success",
-  },
-  closed: {
-    background: "var(--color-brutal-stone)",
-    icon: Ban,
-    variant: "muted",
-  },
-} as const satisfies Record<
-  ActivityTaskStatus,
-  {
-    background: string;
-    icon: LucideIcon;
-    variant: "warning" | "information" | "accent" | "success" | "muted";
-  }
->;
 
 export type ActivityInboxCompositionProps = {
   items?: readonly ActivityCompositionItem[];
@@ -211,6 +120,7 @@ export function ActivityInboxComposition({
   const [mobileSwitcherOpen, setMobileSwitcherOpen] = useState(false);
   const [measuredLayout, setMeasuredLayout] = useState<Exclude<ActivityLayout, "auto">>("wide");
   const rootRef = useRef<HTMLDivElement>(null);
+  const activityStyles = useActivityInboxShellStyles();
 
   useEffect(() => {
     if (layout !== "auto") return;
@@ -480,7 +390,10 @@ export function ActivityInboxComposition({
                         setMobileSwitcherOpen(false);
                       }}
                     />
-                    <ActivityInboxSwitcherSeparator />
+                    <div
+                      data-slot="activity-inbox-switcher-separator"
+                      className={activityStyles.switcherSeparator()}
+                    />
                     <ActivitySwitcherItem
                       pressed={view === "active" && mentionsOnly}
                       icon={<AtSign />}
@@ -491,7 +404,10 @@ export function ActivityInboxComposition({
                         setMobileSwitcherOpen(false);
                       }}
                     />
-                    <ActivityInboxSwitcherSeparator />
+                    <div
+                      data-slot="activity-inbox-switcher-separator"
+                      className={activityStyles.switcherSeparator()}
+                    />
                     {groups.map((group) => (
                       <ActivitySwitcherItem
                         key={group.id}
@@ -531,40 +447,60 @@ export function ActivityInboxComposition({
               </Tabs>
             ) : null}
 
-            <ActivityInboxSearch>
-              <ActivityInboxSearchIcon>
+            <div data-slot="activity-inbox-search" className={activityStyles.search()}>
+              <span data-slot="activity-inbox-search-icon" className={activityStyles.searchIcon()}>
                 <Search />
-              </ActivityInboxSearchIcon>
-              <ActivityInboxSearchInput
+              </span>
+              <input
+                data-slot="activity-inbox-search-input"
+                className={activityStyles.searchInput()}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search activity"
                 aria-label="Search activity"
               />
               {query ? (
-                <ActivityInboxSearchClear onClick={() => setQuery("")} aria-label="Clear search">
+                <button
+                  type="button"
+                  data-slot="activity-inbox-search-clear"
+                  className={activityStyles.searchClear()}
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                >
                   <X />
-                </ActivityInboxSearchClear>
+                </button>
               ) : null}
-            </ActivityInboxSearch>
+            </div>
           </ActivityInboxControls>
 
           <ActivityInboxSelectionToolbar>
             {selectedItems.length === 0 ? (
               <>
-                <ActivityInboxToolbarButton
+                <button
+                  type="button"
+                  data-slot="activity-inbox-toolbar-button"
+                  className={activityStyles.toolbarButton()}
                   onClick={toggleAllVisible}
                   disabled={visibleItems.length === 0}
                   aria-pressed={allVisibleSelected}
                 >
                   Select all
-                </ActivityInboxToolbarButton>
+                </button>
                 <DropdownMenu>
-                  <DropdownMenuTrigger render={<ActivityInboxSortTrigger />}>
+                  <DropdownMenuTrigger
+                    render={
+                      <button
+                        type="button"
+                        data-slot="activity-inbox-sort-trigger"
+                        className={activityStyles.sortTrigger()}
+                      />
+                    }
+                  >
                     {sortDirection === "desc" ? "Newest to oldest" : "Oldest to newest"}
                     <ChevronDown />
                   </DropdownMenuTrigger>
-                  <ActivityInboxSortContent
+                  <DropdownMenuContent
+                    className={activityStyles.sortContent()}
                     align="end"
                     side="bottom"
                     sideOffset={8}
@@ -580,7 +516,7 @@ export function ActivityInboxComposition({
                         </DropdownMenuRadioItem>
                       ))}
                     </DropdownMenuRadioGroup>
-                  </ActivityInboxSortContent>
+                  </DropdownMenuContent>
                 </DropdownMenu>
               </>
             ) : (
@@ -588,26 +524,51 @@ export function ActivityInboxComposition({
                 <ActivityInboxSelectionCount>
                   {selectedItems.length} selected
                 </ActivityInboxSelectionCount>
-                <ActivityInboxToolbarLink onClick={() => setSelectedIds(new Set())}>
+                <button
+                  type="button"
+                  data-slot="activity-inbox-toolbar-link"
+                  className={activityStyles.toolbarLink()}
+                  onClick={() => setSelectedIds(new Set())}
+                >
                   Clear
-                </ActivityInboxToolbarLink>
+                </button>
                 {view === "active" ? (
                   <>
-                    <ActivityInboxToolbarButton onClick={() => runBulkAction("read")}>
+                    <button
+                      type="button"
+                      data-slot="activity-inbox-toolbar-button"
+                      className={activityStyles.toolbarButton()}
+                      onClick={() => runBulkAction("read")}
+                    >
                       Mark read
-                    </ActivityInboxToolbarButton>
-                    <ActivityInboxToolbarPrimaryAction onClick={() => runBulkAction("done")}>
+                    </button>
+                    <button
+                      type="button"
+                      data-slot="activity-inbox-toolbar-primary-action"
+                      className={activityStyles.toolbarPrimaryAction()}
+                      onClick={() => runBulkAction("done")}
+                    >
                       Mark done
-                    </ActivityInboxToolbarPrimaryAction>
+                    </button>
                   </>
                 ) : view === "done" ? (
-                  <ActivityInboxToolbarPrimaryAction onClick={() => runBulkAction("restore")}>
+                  <button
+                    type="button"
+                    data-slot="activity-inbox-toolbar-primary-action"
+                    className={activityStyles.toolbarPrimaryAction()}
+                    onClick={() => runBulkAction("restore")}
+                  >
                     Restore
-                  </ActivityInboxToolbarPrimaryAction>
+                  </button>
                 ) : (
-                  <ActivityInboxToolbarPrimaryAction onClick={() => runBulkAction("unsave")}>
+                  <button
+                    type="button"
+                    data-slot="activity-inbox-toolbar-primary-action"
+                    className={activityStyles.toolbarPrimaryAction()}
+                    onClick={() => runBulkAction("unsave")}
+                  >
                     Remove from Saved
-                  </ActivityInboxToolbarPrimaryAction>
+                  </button>
                 )}
               </>
             )}
@@ -704,256 +665,5 @@ export function ActivityInboxComposition({
         </ConversationPanelContent>
       </div>
     </ActivityInboxPanel>
-  );
-}
-
-function ActivityLoadingList() {
-  return (
-    <ActivityInboxList>
-      {Array.from({ length: 6 }, (_, index) => (
-        <ActivityInboxItem key={index} aria-hidden disabled>
-          <ActivityInboxItemContent className="flex flex-col gap-2">
-            <div className="flex items-center gap-2.5">
-              <Skeleton variant="line" className="w-20" />
-              <Skeleton variant="line" className="w-16" />
-              <Skeleton variant="line" className="w-10" />
-            </div>
-            <Skeleton variant="line" className="w-full" />
-            <Skeleton variant="line" className="w-3/5" />
-          </ActivityInboxItemContent>
-        </ActivityInboxItem>
-      ))}
-    </ActivityInboxList>
-  );
-}
-
-function ActivityTaskBadge({ task }: { task: NonNullable<ActivityCompositionItem["task"]> }) {
-  const theme = useThemeFamily();
-  const config = activityTaskStatus[task.status];
-  const Icon = config.icon;
-  return (
-    <Badge
-      variant={config.variant}
-      uppercase={false}
-      style={theme === "brutal" ? { backgroundColor: config.background } : undefined}
-    >
-      <Icon size={10} className="shrink-0" />#{task.number}
-      {task.claimedBy ? ` @${task.claimedBy}` : null}
-    </Badge>
-  );
-}
-
-function ActivityNavigationItem({
-  active,
-  pressed,
-  icon,
-  label,
-  count,
-  ...props
-}: {
-  active?: boolean;
-  pressed?: boolean;
-  icon: ReactNode;
-  label: string;
-  count?: number;
-} & ComponentProps<typeof ActivityInboxNavigationItem>) {
-  return (
-    <ActivityInboxNavigationItem
-      active={active || pressed}
-      aria-current={active ? "page" : undefined}
-      aria-pressed={pressed || undefined}
-      {...props}
-    >
-      {icon}
-      <ActivityInboxNavigationLabel>{label}</ActivityInboxNavigationLabel>
-      {count === undefined ? null : (
-        <ActivityInboxNavigationCount>{count}</ActivityInboxNavigationCount>
-      )}
-    </ActivityInboxNavigationItem>
-  );
-}
-
-function ActivityGroupIcon({
-  group,
-  mobile = false,
-}: {
-  group: { channelKind: ActivityCompositionChannelKind };
-  mobile?: boolean;
-}) {
-  if (group.channelKind !== "dm") return <Hash size={mobile ? 18 : 14} />;
-  return <Avatar size={mobile ? "xs" : "2xs"} type="human" />;
-}
-
-function ActivitySwitcherItem({
-  active,
-  pressed,
-  icon,
-  label,
-  count,
-  ...props
-}: {
-  active?: boolean;
-  pressed?: boolean;
-  icon: ReactNode;
-  label: string;
-  count?: number;
-} & ComponentProps<typeof ActivityInboxSwitcherItem>) {
-  return (
-    <ActivityInboxSwitcherItem
-      active={active || pressed}
-      aria-current={active ? "page" : undefined}
-      aria-pressed={pressed || undefined}
-      {...props}
-    >
-      {icon}
-      <ActivityInboxSwitcherItemLabel>{label}</ActivityInboxSwitcherItemLabel>
-      {count === undefined ? null : (
-        <ActivityInboxSwitcherItemCount>{count}</ActivityInboxSwitcherItemCount>
-      )}
-    </ActivityInboxSwitcherItem>
-  );
-}
-
-function ActivityItem({
-  item,
-  active,
-  selected,
-  view,
-  portalContainer,
-  onOpen,
-  onSelect,
-  onToggleSaved,
-  onToggleDone,
-  onToggleRead,
-  onToggleFollowing,
-}: {
-  item: ActivityCompositionItem;
-  active: boolean;
-  selected: boolean;
-  view: ActivityView;
-  portalContainer: RefObject<HTMLDivElement | null>;
-  onOpen: (detail: number) => void;
-  onSelect: () => void;
-  onToggleSaved: () => void;
-  onToggleDone: () => void;
-  onToggleRead: () => void;
-  onToggleFollowing: () => void;
-}) {
-  const Icon = item.kind === "thread" ? MessageSquare : item.channelKind === "dm" ? AtSign : Hash;
-  const row = (
-    <ActivityInboxItem active={active} data-unread={item.unreadCount > 0 || undefined}>
-      <ActivityInboxItemOpen
-        aria-current={active || undefined}
-        aria-label={`Open ${item.title}`}
-        onClick={(event) => onOpen(event.detail)}
-      />
-      <ActivityInboxItemSelection>
-        <Checkbox
-          checked={selected}
-          onCheckedChange={onSelect}
-          onClick={(event) => event.stopPropagation()}
-          aria-label={selected ? "Remove activity item from selection" : "Select activity item"}
-        />
-      </ActivityInboxItemSelection>
-      <ActivityInboxItemContent>
-        <ActivityInboxItemHeading>
-          <ActivityInboxItemTitle>
-            <Icon aria-hidden />
-            {item.title}
-          </ActivityInboxItemTitle>
-        </ActivityInboxItemHeading>
-        {item.kind === "thread" ? (
-          <ActivityInboxItemSubtitle>Thread in {item.channelLabel}</ActivityInboxItemSubtitle>
-        ) : null}
-        <ActivityInboxItemBody>
-          <ActivityInboxItemSender>{item.sender}: </ActivityInboxItemSender>
-          {item.preview}
-        </ActivityInboxItemBody>
-        <ActivityInboxItemMetadata>
-          {item.task ? <ActivityTaskBadge task={item.task} /> : null}
-          {item.replyCount === undefined ? null : (
-            <Badge appearance="outline" variant="muted" uppercase={false}>
-              {item.replyCount} replies
-            </Badge>
-          )}
-          {item.kind === "thread" && item.following === false ? (
-            <Badge appearance="outline" variant="muted" uppercase={false}>
-              <BellOff size={10} />
-              Unfollowed
-            </Badge>
-          ) : null}
-          {item.hasMention && item.unreadCount > 0 ? (
-            <Badge variant="primary" uppercase={false}>
-              <AtSign size={10} />
-              Mention
-            </Badge>
-          ) : null}
-          {item.unreadCount > 0 ? (
-            <Badge variant="accent" uppercase={false}>
-              {item.unreadCount} new
-            </Badge>
-          ) : null}
-          {item.draft ? (
-            <Badge appearance="outline" variant="muted" uppercase={false} aria-label="Draft">
-              <Pencil size={10} />
-            </Badge>
-          ) : null}
-        </ActivityInboxItemMetadata>
-      </ActivityInboxItemContent>
-      <ActivityInboxItemTrailing>
-        <ActivityInboxItemTimestamp>{item.timestamp}</ActivityInboxItemTimestamp>
-        <ActivityInboxItemActions>
-          <PanelToggleAction
-            pressed={item.saved}
-            onPressedChange={onToggleSaved}
-            aria-label={item.saved ? "Remove from Saved" : "Save activity item"}
-            title={item.saved ? "Remove from Saved" : "Save activity item"}
-          >
-            <Bookmark fill={item.saved ? "currentColor" : "none"} />
-          </PanelToggleAction>
-          {view === "saved" ? null : (
-            <PanelAction
-              onClick={onToggleDone}
-              aria-label={view === "done" ? "Restore to Active" : "Mark as done"}
-              title={view === "done" ? "Restore to Active" : "Mark as done"}
-            >
-              {view === "done" ? <RotateCcw /> : <Check />}
-            </PanelAction>
-          )}
-        </ActivityInboxItemActions>
-      </ActivityInboxItemTrailing>
-    </ActivityInboxItem>
-  );
-
-  if (view !== "active") return row;
-
-  return (
-    <ContextMenu>
-      <ContextMenuTrigger render={row} />
-      <ContextMenuContent portalProps={{ container: portalContainer }}>
-        {item.kind !== "thread" || item.following !== false ? (
-          <>
-            <ContextMenuItem onClick={onToggleRead}>
-              {item.unreadCount > 0 ? <MailOpen /> : <Mail />}
-              <ContextMenuItemLabel>
-                {item.unreadCount > 0 ? "Mark as read" : "Mark as unread"}
-              </ContextMenuItemLabel>
-            </ContextMenuItem>
-            <ContextMenuItem onClick={onToggleDone}>
-              <Check />
-              <ContextMenuItemLabel>Mark as done</ContextMenuItemLabel>
-            </ContextMenuItem>
-          </>
-        ) : null}
-        {item.kind === "thread" ? (
-          <ContextMenuItem onClick={onToggleFollowing}>
-            {item.following === false ? <Bell /> : <BellOff />}
-            <ContextMenuItemLabel>
-              {item.following === false ? "Follow thread" : "Unfollow thread"}
-            </ContextMenuItemLabel>
-          </ContextMenuItem>
-        ) : null}
-      </ContextMenuContent>
-    </ContextMenu>
   );
 }

@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { InlineCode } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -8,14 +7,16 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
-import activityInboxCompositionSource from "#/modules/activity/compositions/activity-inbox.composition.tsx?raw";
+import { ActivityPreviewComposition } from "#/modules/activity/compositions/activity-preview.composition.tsx";
+import activityPreviewCompositionSource from "#/modules/activity/compositions/activity-preview.composition.tsx?raw";
 import { CompactActivityComposition } from "#/modules/activity/compositions/compact-activity.composition.tsx";
-import { DoneActivityComposition } from "#/modules/activity/compositions/done-activity.composition.tsx";
+import compactActivityCompositionSource from "#/modules/activity/compositions/compact-activity.composition.tsx?raw";
 import { EmptyActivityComposition } from "#/modules/activity/compositions/empty-activity.composition.tsx";
+import emptyActivityCompositionSource from "#/modules/activity/compositions/empty-activity.composition.tsx?raw";
 import { LoadingActivityComposition } from "#/modules/activity/compositions/loading-activity.composition.tsx";
+import loadingActivityCompositionSource from "#/modules/activity/compositions/loading-activity.composition.tsx?raw";
 import { LoadingMoreActivityComposition } from "#/modules/activity/compositions/loading-more-activity.composition.tsx";
-import { SavedActivityComposition } from "#/modules/activity/compositions/saved-activity.composition.tsx";
+import loadingMoreActivityCompositionSource from "#/modules/activity/compositions/loading-more-activity.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -27,9 +28,43 @@ const TOC = [
 const LAYOUTS = ["wide", "compact"] as const;
 
 const ACTIVITY_COMPOSITION_PATH =
-  "apps/doc/src/modules/activity/compositions/activity-inbox.composition.tsx";
+  "apps/doc/src/modules/activity/compositions/activity-preview.composition.tsx";
 
 const SNIPPETS = {
+  shellAnatomy: `import {
+  Button,
+  ConversationPanelContent,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "raft-ui";
+import {
+  ActivityInboxControls,
+  ActivityInboxHeader,
+  ActivityInboxPanel,
+  ActivityInboxSelectionToolbar,
+  ActivityInboxSidebar,
+  ActivityInboxViewport,
+} from "raft-ui/wip";
+
+<ActivityInboxPanel data-layout="wide">
+  <ActivityInboxHeader />
+  <div className="flex min-h-0 flex-1">
+    <ActivityInboxSidebar />
+    <ConversationPanelContent render={<section />}>
+      <ActivityInboxControls>
+        <InputGroup>
+          <InputGroupAddon />
+          <InputGroupInput aria-label="Search activity" />
+        </InputGroup>
+      </ActivityInboxControls>
+      <ActivityInboxSelectionToolbar>
+        <Button size="xs">Select all</Button>
+      </ActivityInboxSelectionToolbar>
+      <ActivityInboxViewport />
+    </ConversationPanelContent>
+  </div>
+</ActivityInboxPanel>`,
   anatomy: `import {
   Checkbox,
   PanelAction,
@@ -97,7 +132,11 @@ import {
     </ContextMenuItem>
   </ContextMenuContent>
 </ContextMenu>`,
-  composition: activityInboxCompositionSource,
+  composition: activityPreviewCompositionSource,
+  compact: compactActivityCompositionSource,
+  empty: emptyActivityCompositionSource,
+  loading: loadingActivityCompositionSource,
+  loadingMore: loadingMoreActivityCompositionSource,
 } as const;
 
 const ACTIVITY_INBOX_LIST_PROPS: readonly PropRow[] = [
@@ -378,56 +417,6 @@ const ACTIVITY_INBOX_SHELL_API = [
     title: "ActivityInboxSwitcherItemCount",
     description: "The switcher item count.",
   },
-  {
-    id: "api-switcher-separator",
-    title: "ActivityInboxSwitcherSeparator",
-    description: "The switcher item-group separator.",
-  },
-  {
-    id: "api-search",
-    title: "ActivityInboxSearch",
-    description: "The 36px Activity search field container.",
-  },
-  {
-    id: "api-search-icon",
-    title: "ActivityInboxSearchIcon",
-    description: "The non-interactive search icon.",
-  },
-  {
-    id: "api-search-input",
-    title: "ActivityInboxSearchInput",
-    description: "The Activity search input.",
-  },
-  {
-    id: "api-search-clear",
-    title: "ActivityInboxSearchClear",
-    description: "The search clear action.",
-  },
-  {
-    id: "api-toolbar-button",
-    title: "ActivityInboxToolbarButton",
-    description: "A secondary bulk-action button.",
-  },
-  {
-    id: "api-toolbar-primary-action",
-    title: "ActivityInboxToolbarPrimaryAction",
-    description: "A primary bulk-action button.",
-  },
-  {
-    id: "api-toolbar-link",
-    title: "ActivityInboxToolbarLink",
-    description: "A toolbar text action.",
-  },
-  {
-    id: "api-sort-trigger",
-    title: "ActivityInboxSortTrigger",
-    description: "The sort-menu trigger.",
-  },
-  {
-    id: "api-sort-content",
-    title: "ActivityInboxSortContent",
-    description: "The themed sort-menu content.",
-  },
 ] as const;
 
 const API_SUBSECTIONS = [
@@ -484,21 +473,8 @@ const API_SUBSECTIONS = [
   ...ACTIVITY_INBOX_SHELL_API.map(({ id, title, description }) => ({
     id,
     title,
-    rows: [{ name: "...props", type: "element props", description }],
+    rows: [{ name: "...props", type: `${title}Props`, description }],
   })),
-] as const;
-
-const STATE_EXAMPLES = [
-  { label: "Saved", preview: <SavedActivityComposition />, compact: false },
-  { label: "Done", preview: <DoneActivityComposition />, compact: false },
-  { label: "Compact", preview: <CompactActivityComposition />, compact: true },
-  { label: "Empty", preview: <EmptyActivityComposition />, compact: false },
-  { label: "Initial loading", preview: <LoadingActivityComposition />, compact: false },
-  {
-    label: "Loading more",
-    preview: <LoadingMoreActivityComposition />,
-    compact: false,
-  },
 ] as const;
 
 export const Route = createFileRoute("/components/activity")({
@@ -519,7 +495,7 @@ function ActivityPreview({ code }: { code: Record<string, string> }) {
       }
     >
       <Preview.Canvas>
-        <ActivityInboxComposition layout={layout} />
+        <ActivityPreviewComposition layout={layout} />
       </Preview.Canvas>
       <Preview.Controls>
         <Preview.Control label="Layout" htmlFor="activity-preview-layout">
@@ -543,29 +519,7 @@ function ActivityDoc() {
   return (
     <DocPage
       title="ActivityInbox"
-      description="Activity row card family; the surrounding inbox shell is composed from the generic Panel container."
-      overview={
-        <ul className="list-disc space-y-1 pl-4">
-          <li>
-            <InlineCode>raft-ui</InlineCode> owns the activity row structure: frame, open target,
-            selection slot, text column, metadata slot, and action group
-          </li>
-          <li>
-            <InlineCode>Checkbox</InlineCode>, <InlineCode>PanelAction</InlineCode>,{" "}
-            <InlineCode>PanelToggleAction</InlineCode>, and <InlineCode>ContextMenu</InlineCode> own
-            their behavior
-          </li>
-          <li>
-            the inbox shell owns reusable panel, sidebar, navigation, controls, toolbar, and
-            viewport styling through <InlineCode>ActivityInbox</InlineCode> shell parts and shared
-            primitives
-          </li>
-          <li>
-            stores, transport, routing, analytics, feature flags, and product workflow state stay in
-            the consumer
-          </li>
-        </ul>
-      }
+      description="Business-agnostic inbox shell and item parts for composing activity workflows."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -573,68 +527,129 @@ function ActivityDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
-        <DocsCodeBlock>
-          <DocsCodeBlock.Body>
-            <DocsCodeBlock.Content html={code.menuAnatomy} />
-          </DocsCodeBlock.Body>
-        </DocsCodeBlock>
+        <DocSubsection parentId="anatomy" id="shell-anatomy" title="Shell">
+          <DocsCodeBlock>
+            <DocsCodeBlock.Body>
+              <DocsCodeBlock.Content
+                html={code.shellAnatomy}
+                collapsedHtml={code.shellAnatomyBody}
+              />
+            </DocsCodeBlock.Body>
+          </DocsCodeBlock>
+        </DocSubsection>
+        <DocSubsection parentId="anatomy" id="item-anatomy" title="Item">
+          <DocsCodeBlock>
+            <DocsCodeBlock.Body>
+              <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
+            </DocsCodeBlock.Body>
+          </DocsCodeBlock>
+        </DocSubsection>
+        <DocSubsection parentId="anatomy" id="item-menu-anatomy" title="Item menu">
+          <DocsCodeBlock>
+            <DocsCodeBlock.Body>
+              <DocsCodeBlock.Content html={code.menuAnatomy} />
+            </DocsCodeBlock.Body>
+          </DocsCodeBlock>
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="usage" title="Usage">
-        <p>
-          <InlineCode>ActivityInbox</InlineCode> owns the row card layout and its full-card open
-          target. Structural slots position caller-owned <InlineCode>Checkbox</InlineCode>,{" "}
-          <InlineCode>Badge</InlineCode>, <InlineCode>PanelAction</InlineCode>,{" "}
-          <InlineCode>PanelToggleAction</InlineCode>, and <InlineCode>ContextMenu</InlineCode>{" "}
-          parts, so <InlineCode>Activity</InlineCode> does not duplicate their interaction behavior.
-          The inbox shell around it — header, view sidebar, filter controls, selection toolbar, and
-          scroll viewport — is assembled from <InlineCode>ActivityInbox</InlineCode> shell parts and
-          shared panel primitives. Production consumers own item unions, read/save/done policy,
-          server synchronization, search and sort persistence, navigation, and master/detail
-          coordination.
-        </p>
-        <DocSubsection parentId="usage" id="states" title="States">
-          <div className="grid gap-8">
-            {STATE_EXAMPLES.map((example) => (
-              <div key={example.label} className="grid gap-3">
-                <h3 className="text-sm font-medium text-foreground-strong">{example.label}</h3>
-                <Preview
-                  previewClassName={
-                    example.compact
-                      ? "h-[42rem] max-w-md items-stretch overflow-hidden p-0"
-                      : "h-[42rem] items-stretch overflow-hidden p-0"
-                  }
-                  previewInset="flush"
-                  previewTheme="brutal"
-                >
-                  <Preview.Canvas>{example.preview}</Preview.Canvas>
-                </Preview>
-              </div>
+        <div className="grid gap-10">
+          <ActivityUsage
+            title="Compact"
+            id="compact"
+            compact
+            preview={<CompactActivityComposition />}
+            html={code.compact}
+            collapsedHtml={code.compactBody}
+          />
+          <ActivityUsage
+            title="Empty"
+            id="empty"
+            preview={<EmptyActivityComposition />}
+            html={code.empty}
+            collapsedHtml={code.emptyBody}
+          />
+          <ActivityUsage
+            title="Initial loading"
+            id="loading"
+            preview={<LoadingActivityComposition />}
+            html={code.loading}
+            collapsedHtml={code.loadingBody}
+          />
+          <ActivityUsage
+            title="Loading more"
+            id="loading-more"
+            preview={<LoadingMoreActivityComposition />}
+            html={code.loadingMore}
+            collapsedHtml={code.loadingMoreBody}
+          />
+        </div>
+      </DocSection>
+
+      <DocSection id="api" title="API">
+        <DocSubsection parentId="api" id="api-shell" title="Shell">
+          <div className="space-y-6">
+            {API_SUBSECTIONS.slice(14).map((subsection) => (
+              <DocSubsection
+                key={subsection.id}
+                parentId="api-shell"
+                id={subsection.id}
+                title={subsection.title}
+              >
+                <PropsTable rows={subsection.rows} />
+              </DocSubsection>
+            ))}
+          </div>
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-item-parts" title="Item">
+          <div className="space-y-6">
+            {API_SUBSECTIONS.slice(0, 14).map((subsection) => (
+              <DocSubsection
+                key={subsection.id}
+                parentId="api"
+                id={subsection.id}
+                title={subsection.title}
+              >
+                <PropsTable rows={subsection.rows} />
+              </DocSubsection>
             ))}
           </div>
         </DocSubsection>
       </DocSection>
-
-      <DocSection id="api" title="API">
-        <div className="space-y-6">
-          {API_SUBSECTIONS.map((subsection) => (
-            <DocSubsection
-              key={subsection.id}
-              parentId="api"
-              id={subsection.id}
-              title={subsection.title}
-            >
-              <PropsTable rows={subsection.rows} />
-            </DocSubsection>
-          ))}
-        </div>
-      </DocSection>
     </DocPage>
+  );
+}
+
+function ActivityUsage({
+  title,
+  id,
+  preview,
+  html,
+  collapsedHtml,
+  compact = false,
+}: {
+  title: string;
+  id: string;
+  preview: React.ReactNode;
+  html: string;
+  collapsedHtml: string;
+  compact?: boolean;
+}) {
+  return (
+    <DocSubsection parentId="usage" id={id} title={title}>
+      <Preview
+        previewClassName={
+          compact
+            ? "h-[42rem] max-w-md items-stretch overflow-hidden p-0"
+            : "h-[42rem] items-stretch overflow-hidden p-0"
+        }
+        previewInset="flush"
+      >
+        <Preview.Canvas>{preview}</Preview.Canvas>
+        <Preview.Code html={html} collapsedHtml={collapsedHtml} />
+      </Preview>
+    </DocSubsection>
   );
 }
 
@@ -653,7 +668,7 @@ function ActivitySourceFiles({
       files={[
         {
           path: ACTIVITY_COMPOSITION_PATH,
-          source: activityInboxCompositionSource,
+          source: activityPreviewCompositionSource,
           html: code.composition,
           collapsedHtml: code.compositionBody,
         },

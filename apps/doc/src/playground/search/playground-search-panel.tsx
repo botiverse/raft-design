@@ -20,7 +20,7 @@ import {
 } from "raft-ui";
 import { useEffect, useState } from "react";
 
-import { BrutalSearchPanelComposition } from "#/modules/search/compositions/brutal-search-panel.composition.tsx";
+import { SearchPanelComposition } from "#/modules/search/compositions/search-panel.composition.tsx";
 import type {
   SearchChannelFixture,
   SearchEntityFixture,
@@ -250,7 +250,7 @@ export function PlaygroundSearchPanel() {
   }, []);
 
   const master = (
-    <BrutalSearchPanelComposition
+    <SearchPanelComposition
       entities={PLAYGROUND_SEARCH_ENTITIES}
       messages={PLAYGROUND_SEARCH_MESSAGES}
       senders={PLAYGROUND_SEARCH_SENDERS}

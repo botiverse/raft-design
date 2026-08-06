@@ -3,13 +3,18 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/dropdown-menu";
 import { Panel, PanelHeaderRoot } from "../panel/panel";
 import { SidebarBody, SidebarContent, SidebarRoot } from "../sidebar/sidebar";
 import { SidebarItemRoot } from "../sidebar/sidebar-item";
 import { activityInboxShell } from "./activity-inbox-shell.recipe";
 
 type StyledProps<Props> = Omit<Props, "className"> & { className?: string };
+
+/** @internal Styling bridge for canonical compositions while the shell is on the WIP surface. */
+export function useActivityInboxShellStyles() {
+  const theme = useThemeFamily();
+  return activityInboxShell({ theme });
+}
 
 export type ActivityInboxPanelProps = ComponentPropsWithRef<typeof Panel>;
 
@@ -428,70 +433,6 @@ export function ActivityInboxSwitcherItemCount({
   );
 }
 
-export type ActivityInboxSwitcherSeparatorProps = ComponentPropsWithRef<"div">;
-
-export function ActivityInboxSwitcherSeparator({
-  className,
-  ...props
-}: ActivityInboxSwitcherSeparatorProps) {
-  const theme = useThemeFamily();
-  const { switcherSeparator } = activityInboxShell({ theme });
-  return (
-    <div
-      data-slot="activity-inbox-switcher-separator"
-      className={switcherSeparator({ className })}
-      {...props}
-    />
-  );
-}
-
-export type ActivityInboxSearchProps = ComponentPropsWithRef<"div">;
-
-export function ActivityInboxSearch({ className, ...props }: ActivityInboxSearchProps) {
-  const theme = useThemeFamily();
-  const { search } = activityInboxShell({ theme });
-  return <div data-slot="activity-inbox-search" className={search({ className })} {...props} />;
-}
-
-export type ActivityInboxSearchIconProps = ComponentPropsWithRef<"span">;
-
-export function ActivityInboxSearchIcon({ className, ...props }: ActivityInboxSearchIconProps) {
-  const theme = useThemeFamily();
-  const { searchIcon } = activityInboxShell({ theme });
-  return (
-    <span data-slot="activity-inbox-search-icon" className={searchIcon({ className })} {...props} />
-  );
-}
-
-export type ActivityInboxSearchInputProps = ComponentPropsWithRef<"input">;
-
-export function ActivityInboxSearchInput({ className, ...props }: ActivityInboxSearchInputProps) {
-  const theme = useThemeFamily();
-  const { searchInput } = activityInboxShell({ theme });
-  return (
-    <input
-      data-slot="activity-inbox-search-input"
-      className={searchInput({ className })}
-      {...props}
-    />
-  );
-}
-
-export type ActivityInboxSearchClearProps = ComponentPropsWithRef<"button">;
-
-export function ActivityInboxSearchClear({ className, ...props }: ActivityInboxSearchClearProps) {
-  const theme = useThemeFamily();
-  const { searchClear } = activityInboxShell({ theme });
-  return (
-    <button
-      type="button"
-      data-slot="activity-inbox-search-clear"
-      className={searchClear({ className })}
-      {...props}
-    />
-  );
-}
-
 export type ActivityInboxSelectionToolbarProps = ComponentPropsWithRef<"div">;
 
 export function ActivityInboxSelectionToolbar({
@@ -524,80 +465,6 @@ export function ActivityInboxSelectionCount({
       {...props}
     />
   );
-}
-
-export type ActivityInboxToolbarButtonProps = ComponentPropsWithRef<"button">;
-
-export function ActivityInboxToolbarButton({
-  className,
-  ...props
-}: ActivityInboxToolbarButtonProps) {
-  const theme = useThemeFamily();
-  const { toolbarButton } = activityInboxShell({ theme });
-  return (
-    <button
-      type="button"
-      data-slot="activity-inbox-toolbar-button"
-      className={toolbarButton({ className })}
-      {...props}
-    />
-  );
-}
-
-export type ActivityInboxToolbarPrimaryActionProps = ComponentPropsWithRef<"button">;
-
-export function ActivityInboxToolbarPrimaryAction({
-  className,
-  ...props
-}: ActivityInboxToolbarPrimaryActionProps) {
-  const theme = useThemeFamily();
-  const { toolbarPrimaryAction } = activityInboxShell({ theme });
-  return (
-    <button
-      type="button"
-      data-slot="activity-inbox-toolbar-primary-action"
-      className={toolbarPrimaryAction({ className })}
-      {...props}
-    />
-  );
-}
-
-export type ActivityInboxToolbarLinkProps = ComponentPropsWithRef<"button">;
-
-export function ActivityInboxToolbarLink({ className, ...props }: ActivityInboxToolbarLinkProps) {
-  const theme = useThemeFamily();
-  const { toolbarLink } = activityInboxShell({ theme });
-  return (
-    <button
-      type="button"
-      data-slot="activity-inbox-toolbar-link"
-      className={toolbarLink({ className })}
-      {...props}
-    />
-  );
-}
-
-export type ActivityInboxSortTriggerProps = ComponentPropsWithRef<"button">;
-
-export function ActivityInboxSortTrigger({ className, ...props }: ActivityInboxSortTriggerProps) {
-  const theme = useThemeFamily();
-  const { sortTrigger } = activityInboxShell({ theme });
-  return (
-    <button
-      type="button"
-      data-slot="activity-inbox-sort-trigger"
-      className={sortTrigger({ className })}
-      {...props}
-    />
-  );
-}
-
-export type ActivityInboxSortContentProps = DropdownMenuContentProps;
-
-export function ActivityInboxSortContent({ className, ...props }: ActivityInboxSortContentProps) {
-  const theme = useThemeFamily();
-  const { sortContent } = activityInboxShell({ theme });
-  return <DropdownMenuContent className={sortContent({ className })} {...props} />;
 }
 
 export type ActivityInboxViewportProps = ComponentPropsWithRef<"div">;

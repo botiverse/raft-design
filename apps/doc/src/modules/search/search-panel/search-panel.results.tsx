@@ -4,6 +4,9 @@ import {
   SearchResultsSection,
   SearchResultsSectionHeading,
   SearchResultsSummary,
+  SearchShellLoadMore,
+  SearchShellResults,
+  SearchShellResultsContent,
 } from "raft-ui/wip";
 
 import type {
@@ -19,7 +22,6 @@ import {
   SearchError,
   SearchSkeleton,
   ThreadResult,
-  useSearchShell,
 } from "./search-panel.parts.tsx";
 
 type MessageGroup =
@@ -57,7 +59,7 @@ function truncateThreadTitle(value: string) {
   return compact.length > 80 ? `${compact.slice(0, 77)}...` : compact;
 }
 
-export function BrutalSearchResults({
+export function SearchResults({
   entities,
   messages,
   messageCount,
@@ -88,18 +90,17 @@ export function BrutalSearchResults({
   onOpenMessage: (message: SearchMessageFixture) => void;
   onLoadMore: () => void;
 }) {
-  const shell = useSearchShell();
   const [recovered, setRecovered] = useState(false);
   const groups = groupMessages(messages);
   const totalResults = entities.length + messageCount;
   const showError = view === "error" && !recovered;
 
   return (
-    <div data-slot="search-results-viewport" className={shell.resultsViewport()}>
+    <SearchShellResults>
       {!hasIntent ? (
         <SearchEmpty />
       ) : (
-        <div data-slot="search-results-content" className={shell.resultsContent()}>
+        <SearchShellResultsContent>
           <SearchResultsSummary>
             {view === "loading" ? "Searching…" : `${totalResults} results`}
           </SearchResultsSummary>
@@ -173,15 +174,15 @@ export function BrutalSearchResults({
 
               {messages.length < messageCount ? (
                 <div className="flex justify-center py-4">
-                  <button type="button" onClick={onLoadMore} className={shell.loadMoreButton()}>
+                  <SearchShellLoadMore type="button" onClick={onLoadMore}>
                     Load More
-                  </button>
+                  </SearchShellLoadMore>
                 </div>
               ) : null}
             </>
           )}
-        </div>
+        </SearchShellResultsContent>
       )}
-    </div>
+    </SearchShellResults>
   );
 }

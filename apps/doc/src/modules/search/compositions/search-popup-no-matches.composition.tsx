@@ -1,8 +1,8 @@
-import { BrutalSearchPanelComposition } from "./brutal-search-panel.composition.tsx";
+import { SearchPanelComposition } from "./search-panel.composition.tsx";
 
 export function SearchPopupNoMatchesComposition() {
   return (
-    <BrutalSearchPanelComposition
+    <SearchPanelComposition
       defaultOpenEmptySenderPopup
       defaultQuery=""
       onBack={() => window.history.back()}
