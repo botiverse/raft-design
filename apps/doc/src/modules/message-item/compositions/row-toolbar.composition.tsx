@@ -77,6 +77,7 @@ export function MessageRowToolbar({
         contentOnMouseLeave={scheduleClose}
       />
       <MessageItemToolbarButton
+        active={saved}
         aria-label={saved ? "Remove from Saved" : "Save message"}
         aria-pressed={saved}
         onClick={() => onSavedChange(!saved)}

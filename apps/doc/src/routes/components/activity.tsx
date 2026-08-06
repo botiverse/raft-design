@@ -110,10 +110,23 @@ const ACTIVITY_INBOX_LIST_PROPS: readonly PropRow[] = [
 
 const ACTIVITY_INBOX_ITEM_PROPS: readonly PropRow[] = [
   {
+    name: "active",
+    type: "boolean",
+    default: "false",
+    description: "Marks the opened row and emits data-active for visual styling.",
+  },
+  {
+    name: "disabled",
+    type: "boolean",
+    default: "false",
+    description:
+      "Disables row interaction styling through data-disabled and mirrors the state to aria-disabled.",
+  },
+  {
     name: "...props",
     type: "div props",
     description:
-      "Activity row card frame. data-unread drives the unread emphasis and data-active drives the opened treatment.",
+      "Activity row card frame. data-unread remains available for caller-owned unread emphasis.",
   },
 ];
 
@@ -232,7 +245,7 @@ const ACTIVITY_INBOX_SHELL_API = [
     id: "api-navigation-item",
     title: "ActivityInboxNavigationItem",
     description:
-      "A selectable Activity view or filter item; aria-current and aria-pressed drive its visual state.",
+      "A SidebarItem-based Activity view or filter item. active drives data-active styling; aria-current and aria-pressed remain caller-owned semantics.",
   },
   {
     id: "api-navigation-label",

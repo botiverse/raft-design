@@ -3,9 +3,10 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu";
-import { Panel, PanelHeaderRoot } from "../panel";
-import { SidebarBody, SidebarContent, SidebarRoot } from "../sidebar";
+import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/dropdown-menu";
+import { Panel, PanelHeaderRoot } from "../panel/panel";
+import { SidebarBody, SidebarContent, SidebarRoot } from "../sidebar/sidebar";
+import { SidebarItemRoot } from "../sidebar/sidebar-item";
 import { activityInboxShell } from "./activity-inbox-shell.recipe";
 
 type StyledProps<Props> = Omit<Props, "className"> & { className?: string };
@@ -183,17 +184,18 @@ export function ActivityInboxSidebarHeadingAction({
   );
 }
 
-export type ActivityInboxNavigationItemProps = ComponentPropsWithRef<"button">;
+export type ActivityInboxNavigationItemProps = ComponentPropsWithRef<typeof SidebarItemRoot>;
 
 export function ActivityInboxNavigationItem({
+  active,
   className,
   ...props
 }: ActivityInboxNavigationItemProps) {
   const theme = useThemeFamily();
   const { navigationItem } = activityInboxShell({ theme });
   return (
-    <button
-      type="button"
+    <SidebarItemRoot
+      active={active}
       data-slot="activity-inbox-navigation-item"
       className={navigationItem({ className })}
       {...props}
@@ -370,14 +372,21 @@ export function ActivityInboxSwitcherBody({ className, ...props }: ActivityInbox
   );
 }
 
-export type ActivityInboxSwitcherItemProps = ComponentPropsWithRef<"button">;
+export type ActivityInboxSwitcherItemProps = ComponentPropsWithRef<"button"> & {
+  active?: boolean;
+};
 
-export function ActivityInboxSwitcherItem({ className, ...props }: ActivityInboxSwitcherItemProps) {
+export function ActivityInboxSwitcherItem({
+  active = false,
+  className,
+  ...props
+}: ActivityInboxSwitcherItemProps) {
   const theme = useThemeFamily();
   const { switcherItem } = activityInboxShell({ theme });
   return (
     <button
       type="button"
+      data-active={active ? "true" : undefined}
       data-slot="activity-inbox-switcher-item"
       className={switcherItem({ className })}
       {...props}

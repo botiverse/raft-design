@@ -209,9 +209,9 @@ export const ACTION_PROPS: readonly PropRow[] = [
   },
   {
     name: "MessageItemToolbarButton",
-    type: 'useRender.ComponentProps<"button">',
+    type: 'useRender.ComponentProps<"button"> & { active?: boolean }',
     description:
-      "Toolbar action button. Popup triggers receive Base UI state attributes through render composition.",
+      "Toolbar action button. active drives data-active styling; popup triggers receive Base UI state attributes through render composition.",
   },
   {
     name: "MessageItemSavedIndicator",

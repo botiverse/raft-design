@@ -711,7 +711,7 @@ function ActivityLoadingList() {
   return (
     <ActivityInboxList>
       {Array.from({ length: 6 }, (_, index) => (
-        <ActivityInboxItem key={index} aria-hidden aria-disabled>
+        <ActivityInboxItem key={index} aria-hidden disabled>
           <ActivityInboxItemContent className="flex flex-col gap-2">
             <div className="flex items-center gap-2.5">
               <Skeleton variant="line" className="w-20" />
@@ -759,6 +759,7 @@ function ActivityNavigationItem({
 } & ComponentProps<typeof ActivityInboxNavigationItem>) {
   return (
     <ActivityInboxNavigationItem
+      active={active || pressed}
       aria-current={active ? "page" : undefined}
       aria-pressed={pressed || undefined}
       {...props}
@@ -799,6 +800,7 @@ function ActivitySwitcherItem({
 } & ComponentProps<typeof ActivityInboxSwitcherItem>) {
   return (
     <ActivityInboxSwitcherItem
+      active={active || pressed}
       aria-current={active ? "page" : undefined}
       aria-pressed={pressed || undefined}
       {...props}
@@ -839,10 +841,7 @@ function ActivityItem({
 }) {
   const Icon = item.kind === "thread" ? MessageSquare : item.channelKind === "dm" ? AtSign : Hash;
   const row = (
-    <ActivityInboxItem
-      data-unread={item.unreadCount > 0 || undefined}
-      data-active={active || undefined}
-    >
+    <ActivityInboxItem active={active} data-unread={item.unreadCount > 0 || undefined}>
       <ActivityInboxItemOpen
         aria-current={active || undefined}
         aria-label={`Open ${item.title}`}
