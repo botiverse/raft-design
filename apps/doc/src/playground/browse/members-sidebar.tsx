@@ -186,10 +186,10 @@ function MemberSidebarItem({
       </SidebarItemContent>
       {actor.type === "agent" && presence ? (
         <SidebarItemAside>
-          <SidebarItemStatus className="right-[calc(100%+4px)]">
+          <SidebarItemStatus>
             <Status
               aria-label={presence.label}
-              size="sm"
+              size="xs"
               variant={presence.variant}
               pulse={presence.pulse}
             />

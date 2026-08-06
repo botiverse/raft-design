@@ -45,6 +45,7 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
+  type PanelEdge,
 } from "raft-ui";
 import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
 import {
@@ -56,6 +57,7 @@ import { ConversationPanelHeaderComposition } from "./conversation-panel-header.
 
 export type ConversationPanelCompositionProps = {
   conversation?: "channel" | "dm";
+  edge?: PanelEdge;
   muted?: boolean;
   notificationError?: string | null;
   newMessageCount?: number;
@@ -63,6 +65,7 @@ export type ConversationPanelCompositionProps = {
 
 export function ConversationPanelComposition({
   conversation = "channel",
+  edge = "inset",
   muted: mutedProp = false,
   notificationError = null,
   newMessageCount = 0,
@@ -83,7 +86,7 @@ export function ConversationPanelComposition({
   };
 
   return (
-    <ConversationPanelRoot>
+    <ConversationPanelRoot edge={edge}>
       <ConversationPanelHeaderComposition
         conversation={conversation}
         muted={muted}

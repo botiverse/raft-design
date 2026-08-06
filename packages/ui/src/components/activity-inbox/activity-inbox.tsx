@@ -20,11 +20,23 @@ export function ActivityInboxList({ className, render, ...props }: ActivityInbox
   });
 }
 
-export type ActivityInboxItemProps = useRender.ComponentProps<"div">;
-export function ActivityInboxItem({ className, render, ...props }: ActivityInboxItemProps) {
+export type ActivityInboxItemProps = useRender.ComponentProps<"div"> & {
+  active?: boolean;
+  disabled?: boolean;
+};
+export function ActivityInboxItem({
+  active = false,
+  className,
+  disabled = false,
+  render,
+  ...props
+}: ActivityInboxItemProps) {
   const theme = useThemeFamily();
   const { item } = activityInbox({ theme });
   const defaultProps: SlotElementProps<"div"> = {
+    "aria-disabled": disabled || undefined,
+    "data-active": active ? "true" : undefined,
+    "data-disabled": disabled ? "true" : undefined,
     "data-slot": "activity-inbox-item",
     className: item({ className: `group/activity-item ${className ?? ""}`.trim() }),
   };

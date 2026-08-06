@@ -102,6 +102,12 @@ export function PlaygroundActivityPanel() {
     const source = items.find((activity) => activity.id === item.id);
     if (activationTimerRef.current !== null) {
       window.clearTimeout(activationTimerRef.current);
+      activationTimerRef.current = null;
+    }
+
+    if (activeItemId === item.id) {
+      selectContent(undefined);
+      return;
     }
 
     activationTimerRef.current = window.setTimeout(() => {
@@ -145,6 +151,7 @@ export function PlaygroundActivityPanel() {
     <PlaygroundDmPanel
       key={activeChannel.id}
       dm={activeChannel}
+      edge="attached"
       onBack={() => selectContent(undefined)}
       onOpenThread={openContextThread}
     />
@@ -152,6 +159,7 @@ export function PlaygroundActivityPanel() {
     <PlaygroundChannelPanel
       key={activeChannel.id}
       channel={activeChannel}
+      edge="attached"
       onBack={() => selectContent(undefined)}
       onOpenThread={openContextThread}
     />
@@ -168,9 +176,7 @@ export function PlaygroundActivityPanel() {
 
   if (!isDesktop) {
     return (
-      <AppShellMainSlot className="h-full w-full bg-transparent">
-        {context ?? content ?? master}
-      </AppShellMainSlot>
+      <AppShellMainSlot className="h-full w-full">{context ?? content ?? master}</AppShellMainSlot>
     );
   }
 
@@ -186,7 +192,7 @@ export function PlaygroundActivityPanel() {
         minSize={480}
         maxSize={720}
         groupResizeBehavior="preserve-pixel-size"
-        className="relative min-w-0 !overflow-visible"
+        className="relative min-w-0"
       >
         <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1">
           {master}
@@ -194,7 +200,7 @@ export function PlaygroundActivityPanel() {
       </ResizablePanel>
       <ResizableHandle className={theme === "elegant" ? "translate-x-[10px]" : undefined} />
       <ResizablePanel id="playground-activity-content" minSize={320} className="relative min-w-0">
-        <AppShellMainSlot contentEdge="attached" overlay className="flex h-full min-w-0 flex-1">
+        <AppShellMainSlot overlay className="flex h-full min-w-0 flex-1">
           {content}
           {context && !hasContextColumn ? (
             <AppShellOverlaySlot>{context}</AppShellOverlaySlot>

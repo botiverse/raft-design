@@ -4,12 +4,17 @@ import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { panel } from "./panel.recipe";
 
-export type PanelProps = useRender.ComponentProps<"section">;
+export type PanelEdge = "attached" | "inset";
 
-export function Panel({ className, render, ...props }: PanelProps) {
+export type PanelProps = useRender.ComponentProps<"section"> & {
+  edge?: PanelEdge;
+};
+
+export function Panel({ className, edge, render, ...props }: PanelProps) {
   const theme = useThemeFamily();
-  const { root } = panel({ theme });
+  const { root } = panel({ edge, theme });
   const defaultProps: SlotElementProps<"section"> = {
+    "data-edge": edge,
     "data-slot": "panel",
     className: root({ className }),
   };

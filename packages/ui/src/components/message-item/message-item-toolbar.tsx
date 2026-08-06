@@ -23,9 +23,12 @@ export function MessageItemToolbar({ className, render, ...props }: MessageItemT
   });
 }
 
-export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button">;
+export type MessageItemToolbarButtonProps = useRender.ComponentProps<"button"> & {
+  active?: boolean;
+};
 
 export function MessageItemToolbarButton({
+  active = false,
   className,
   render,
   ...props
@@ -34,6 +37,7 @@ export function MessageItemToolbarButton({
   const { toolbarButton } = messageItem({ theme });
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
+    "data-active": active ? "true" : undefined,
     className: toolbarButton({ className }),
   };
 

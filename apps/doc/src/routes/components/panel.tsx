@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import type { PanelEdge } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -27,7 +29,7 @@ const SNIPPETS = {
   PanelSection,
 } from "raft-ui";
 
-<Panel>
+<Panel edge="inset">
   {/* Use PanelHeaderRoot directly for a fully custom fixed header. */}
   <PanelHeaderRoot />
 
@@ -75,10 +77,16 @@ const SNIPPETS = {
 
 const PANEL_PROPS: readonly PropRow[] = [
   {
+    name: "edge",
+    type: '"inset" | "attached"',
+    description:
+      "Lets the panel own how its header and content meet adjacent regions. AppShell slots remain layout-only.",
+  },
+  {
     name: "...props",
     type: 'useRender.ComponentProps<"section">',
     description:
-      "Layout-neutral panel root. The caller chooses sizing, placement, surface treatment, and header composition.",
+      "Panel root. The caller chooses sizing, placement, surface treatment, and header composition.",
   },
   {
     name: "--panel-footer-clearance",
@@ -88,6 +96,8 @@ const PANEL_PROPS: readonly PropRow[] = [
       "Elegant desktop space reserved below scroll content for an overlaid PanelFooter. Set to 0rem when the panel has no footer.",
   },
 ];
+
+const PANEL_EDGES = ["inset", "attached"] as const;
 
 const PANEL_HEADER_ROOT_PROPS: readonly PropRow[] = [
   {
@@ -245,6 +255,7 @@ export const Route = createFileRoute("/components/panel")({
 
 function PanelDoc() {
   const code = Route.useLoaderData();
+  const [edge, setEdge] = useState<PanelEdge>("inset");
 
   return (
     <DocPage
@@ -256,9 +267,20 @@ function PanelDoc() {
         <Preview>
           <Preview.Canvas>
             <div className="h-[24rem] w-full max-w-[32rem] overflow-hidden border border-line bg-layer-panel">
-              <PanelComposition />
+              <PanelComposition edge={edge} />
             </div>
           </Preview.Canvas>
+          <Preview.Controls>
+            <Preview.Control label="Edge" htmlFor="panel-preview-edge">
+              <Preview.Select
+                id="panel-preview-edge"
+                label="Edge"
+                options={PANEL_EDGES}
+                value={edge}
+                onValueChange={(value) => setEdge(value as PanelEdge)}
+              />
+            </Preview.Control>
+          </Preview.Controls>
           <Preview.Code html={code.panelComposition} collapsedHtml={code.panelCompositionBody} />
         </Preview>
       </DocSection>

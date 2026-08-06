@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { InlineCode } from "raft-ui";
+import { InlineCode, type PanelEdge } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -16,6 +16,7 @@ import conversationPanelHeaderCompositionSource from "#/modules/conversation-pan
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const CONVERSATIONS = ["channel", "dm"] as const;
+const PANEL_EDGES = ["inset", "attached"] as const;
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -46,7 +47,7 @@ const SNIPPETS = {
   PanelTitle,
 } from "raft-ui";
 
-<ConversationPanelRoot>
+<ConversationPanelRoot edge="inset">
   <PanelHeader>
     {/* Sticks to the top on mobile by default. */}
     <PanelHeaderContent>
@@ -101,6 +102,13 @@ const SNIPPETS = {
 } as const;
 
 const CONVERSATION_PANEL_ROOT_PROPS: readonly PropRow[] = [
+  {
+    name: "edge",
+    type: '"inset" | "attached"',
+    default: '"inset"',
+    description:
+      "Controls the conversation panel's own edge treatment without relying on its AppShell slot.",
+  },
   {
     name: "...props",
     type: "section props",
@@ -184,6 +192,7 @@ function ConversationPanelPreview({ code }: { code: Record<string, string> }) {
   const [conversation, setConversation] =
     useState<NonNullable<ConversationPanelCompositionProps["conversation"]>>("channel");
   const [muted, setMuted] = useState(false);
+  const [edge, setEdge] = useState<PanelEdge>("inset");
   const [banner, setBanner] = useState(false);
   const [jumpToLatest, setJumpToLatest] = useState(false);
 
@@ -193,6 +202,7 @@ function ConversationPanelPreview({ code }: { code: Record<string, string> }) {
         <div className="h-[32rem] w-full min-w-0 overflow-hidden">
           <ConversationPanelComposition
             conversation={conversation}
+            edge={edge}
             muted={muted}
             notificationError={
               banner ? "Couldn’t update Activity mute for this conversation." : null
@@ -202,6 +212,15 @@ function ConversationPanelPreview({ code }: { code: Record<string, string> }) {
         </div>
       </Preview.Canvas>
       <Preview.Controls>
+        <Preview.Control label="Edge" htmlFor="conversation-panel-preview-edge">
+          <Preview.Select
+            id="conversation-panel-preview-edge"
+            label="Edge"
+            options={PANEL_EDGES}
+            value={edge}
+            onValueChange={(value) => setEdge(value as PanelEdge)}
+          />
+        </Preview.Control>
         <Preview.Control label="Conversation" htmlFor="conversation-panel-preview-conversation">
           <Preview.Select
             id="conversation-panel-preview-conversation"

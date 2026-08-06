@@ -4,6 +4,7 @@ export const filterTrigger = tv({
   variants: {
     theme: {
       brutal: [
+        "h-8 w-auto px-3 py-0 text-xs font-bold",
         "border-black/30 bg-layer-panel text-black/70 shadow-none",
         "hover:border-black hover:bg-layer-panel hover:shadow-none",
         "disabled:cursor-not-allowed disabled:bg-layer-panel disabled:text-black/70 disabled:opacity-50",
@@ -14,7 +15,7 @@ export const filterTrigger = tv({
         "data-[active]:hover:bg-primary data-[active]:hover:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)] data-[active]:active:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
       ],
       elegant: [
-        "font-medium text-foreground-muted",
+        "h-8 w-auto px-3 py-0 text-xs font-medium text-foreground-muted",
         "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:opacity-100",
         "disabled:[&_svg]:text-foreground-disabled",
       ],

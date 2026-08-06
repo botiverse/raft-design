@@ -31,3 +31,5 @@ export type {
   ActivityInboxItemTrailingProps,
   ActivityInboxListProps,
 } from "./activity-inbox";
+
+export * from "./activity-inbox-shell";

@@ -21,6 +21,7 @@ import {
   DescriptionTerm,
   PanelAction,
   PanelActions,
+  type PanelEdge,
   PanelHeading,
   PanelMeta,
   PanelTitle,
@@ -57,11 +58,13 @@ const roleOrder: readonly PlaygroundMemberRole[] = ["owner", "admin", "member"];
 
 export function MemberDetailPanel({
   actor,
+  edge = "inset",
   onBack,
   onClose,
   onSelectActor,
 }: {
   actor: PlaygroundActor;
+  edge?: PanelEdge;
   onBack: () => void;
   onClose: () => void;
   onSelectActor: (actor: PlaygroundActor) => void;
@@ -81,7 +84,7 @@ export function MemberDetailPanel({
   const canChangeRole = !actor.isSelf && !removed;
 
   return (
-    <ProfilePanel>
+    <ProfilePanel edge={edge}>
       <ProfilePanelHeader>
         <Button
           variant="outline"

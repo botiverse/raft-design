@@ -34,25 +34,10 @@ const appShell = tv({
     theme: {
       brutal: {
         root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black max-md:bg-white"],
-        railSlot: "w-16 bg-primary text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
-        sidebarSlot: "w-60 bg-brutal-cream",
-        mainSlot: "bg-white",
-        overlaySlot: [
-          "border-l-2 border-black bg-white",
-          "group-data-[content-edge=attached]/app-shell-main-slot:border-l-0",
-        ],
       },
       elegant: {
         root: ["[--shell-header-height:56px]", "bg-layer-page"],
-        railSlot: "w-14",
-        sidebarSlot: "w-[252px]",
-        mainSlot: "bg-layer-page",
-        overlaySlot: "bg-layer-panel",
       },
-    },
-    contentEdge: {
-      inset: {},
-      attached: {},
     },
     overlay: {
       false: {},
@@ -62,25 +47,8 @@ const appShell = tv({
     },
   },
   defaultVariants: {
-    contentEdge: "inset",
     overlay: false,
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      contentEdge: "attached",
-      class: {
-        mainSlot: "border-l-2 border-black",
-      },
-    },
-    {
-      theme: "elegant",
-      contentEdge: "attached",
-      class: {
-        mainSlot: "border-l-[0.5px] border-line-hairline",
-      },
-    },
-  ],
 });
 
 type AppShellSidebarContextValue = {
@@ -176,8 +144,7 @@ export function AppShellRoot({
 export type AppShellRailSlotProps = useRender.ComponentProps<"aside">;
 
 export function AppShellRailSlot({ className, render, ...props }: AppShellRailSlotProps) {
-  const theme = useThemeFamily();
-  const { railSlot } = appShell({ theme });
+  const { railSlot } = appShell();
 
   const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-rail-slot",
@@ -194,8 +161,7 @@ export function AppShellRailSlot({ className, render, ...props }: AppShellRailSl
 export type AppShellSidebarSlotProps = useRender.ComponentProps<"aside">;
 
 export function AppShellSidebarSlot({ className, render, ...props }: AppShellSidebarSlotProps) {
-  const theme = useThemeFamily();
-  const { sidebarSlot } = appShell({ theme });
+  const { sidebarSlot } = appShell();
   const sidebar = useOptionalAppShellSidebar();
   const elementRef = useRef<HTMLElement | null>(null);
   const isCollapsible = sidebar?.collapsible ?? false;
@@ -246,8 +212,7 @@ export function AppShellSidebarSlot({ className, render, ...props }: AppShellSid
 export type AppShellPanelSlotProps = useRender.ComponentProps<"aside">;
 
 export function AppShellPanelSlot({ className, render, ...props }: AppShellPanelSlotProps) {
-  const theme = useThemeFamily();
-  const { panelSlot } = appShell({ theme });
+  const { panelSlot } = appShell();
 
   const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-panel-slot",
@@ -264,8 +229,7 @@ export function AppShellPanelSlot({ className, render, ...props }: AppShellPanel
 export type AppShellOverlaySlotProps = useRender.ComponentProps<"div">;
 
 export function AppShellOverlaySlot({ className, render, ...props }: AppShellOverlaySlotProps) {
-  const theme = useThemeFamily();
-  const { overlaySlot } = appShell({ theme });
+  const { overlaySlot } = appShell();
 
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-shell-overlay-slot",
@@ -280,28 +244,22 @@ export function AppShellOverlaySlot({ className, render, ...props }: AppShellOve
 }
 
 export type AppShellMainSlotProps = useRender.ComponentProps<"main"> & {
-  contentEdge?: "attached" | "inset";
   overlay?: boolean;
 };
 
 export function AppShellMainSlot({
   className,
-  contentEdge,
   overlay = false,
   render,
   ...props
 }: AppShellMainSlotProps) {
-  const theme = useThemeFamily();
-  const { mainSlot } = appShell({ contentEdge, overlay, theme });
+  const { mainSlot } = appShell({ overlay });
   const sidebar = useOptionalAppShellSidebar();
-  const attached = contentEdge === "attached";
 
   const defaultProps: SlotElementProps<"main"> = {
-    "data-content-edge": attached ? contentEdge : undefined,
     "data-slot": "app-shell-main-slot",
     className: mainSlot({
       className: cn(
-        attached && "group/app-shell-main-slot",
         className,
         sidebar?.collapsible && [
           "absolute inset-y-0 right-0 left-0 z-45",

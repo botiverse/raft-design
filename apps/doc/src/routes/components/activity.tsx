@@ -8,7 +8,6 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import activityPanelPartsSource from "#/modules/activity/activity-panel.parts.tsx?raw";
 import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
 import activityInboxCompositionSource from "#/modules/activity/compositions/activity-inbox.composition.tsx?raw";
 import { CompactActivityComposition } from "#/modules/activity/compositions/compact-activity.composition.tsx";
@@ -29,7 +28,6 @@ const LAYOUTS = ["wide", "compact"] as const;
 
 const ACTIVITY_COMPOSITION_PATH =
   "apps/doc/src/modules/activity/compositions/activity-inbox.composition.tsx";
-const ACTIVITY_PARTS_PATH = "apps/doc/src/modules/activity/activity-panel.parts.tsx";
 
 const SNIPPETS = {
   anatomy: `import {
@@ -100,7 +98,6 @@ import {
   </ContextMenuContent>
 </ContextMenu>`,
   composition: activityInboxCompositionSource,
-  parts: activityPanelPartsSource,
 } as const;
 
 const ACTIVITY_INBOX_LIST_PROPS: readonly PropRow[] = [
@@ -113,10 +110,23 @@ const ACTIVITY_INBOX_LIST_PROPS: readonly PropRow[] = [
 
 const ACTIVITY_INBOX_ITEM_PROPS: readonly PropRow[] = [
   {
+    name: "active",
+    type: "boolean",
+    default: "false",
+    description: "Marks the opened row and emits data-active for visual styling.",
+  },
+  {
+    name: "disabled",
+    type: "boolean",
+    default: "false",
+    description:
+      "Disables row interaction styling through data-disabled and mirrors the state to aria-disabled.",
+  },
+  {
     name: "...props",
     type: "div props",
     description:
-      "Activity row card frame. data-unread drives the unread emphasis and data-active drives the opened treatment.",
+      "Activity row card frame. data-unread remains available for caller-owned unread emphasis.",
   },
 ];
 
@@ -218,6 +228,208 @@ const ACTIVITY_INBOX_ITEM_ACTIONS_PROPS: readonly PropRow[] = [
   },
 ];
 
+const ACTIVITY_INBOX_SHELL_API = [
+  {
+    id: "api-panel",
+    title: "ActivityInboxPanel",
+    description:
+      "The themed full-height inbox shell; data-layout selects the compact or wide composition.",
+  },
+  {
+    id: "api-sidebar",
+    title: "ActivityInboxSidebar",
+    description:
+      "The scrollable inbox navigation rail composed from the shared Sidebar primitives.",
+  },
+  {
+    id: "api-navigation-item",
+    title: "ActivityInboxNavigationItem",
+    description:
+      "A SidebarItem-based Activity view or filter item. active drives data-active styling; aria-current and aria-pressed remain caller-owned semantics.",
+  },
+  {
+    id: "api-navigation-label",
+    title: "ActivityInboxNavigationLabel",
+    description: "The truncating text region within an Activity navigation item.",
+  },
+  {
+    id: "api-navigation-count",
+    title: "ActivityInboxNavigationCount",
+    description: "The trailing count region within an Activity navigation item.",
+  },
+  {
+    id: "api-controls",
+    title: "ActivityInboxControls",
+    description: "The responsive controls row for caller-composed filters, navigation, and search.",
+  },
+  {
+    id: "api-selection-toolbar",
+    title: "ActivityInboxSelectionToolbar",
+    description:
+      "The responsive bulk-selection action row; the caller owns its selection policy and actions.",
+  },
+  {
+    id: "api-selection-count",
+    title: "ActivityInboxSelectionCount",
+    description: "The selected-item count treatment used within ActivityInboxSelectionToolbar.",
+  },
+  {
+    id: "api-viewport",
+    title: "ActivityInboxViewport",
+    description: "The scroll viewport with Activity surface, inset, and safe-area treatment.",
+  },
+  {
+    id: "api-loading-more",
+    title: "ActivityInboxLoadingMore",
+    description: "The loading-more text treatment; the caller decides whether it renders.",
+  },
+  {
+    id: "api-header",
+    title: "ActivityInboxHeader",
+    description: "The themed Activity header row.",
+  },
+  {
+    id: "api-header-back",
+    title: "ActivityInboxHeaderBack",
+    description: "The compact-layout back action.",
+  },
+  {
+    id: "api-header-icon",
+    title: "ActivityInboxHeaderIcon",
+    description: "The desktop header icon chip.",
+  },
+  {
+    id: "api-header-content",
+    title: "ActivityInboxHeaderContent",
+    description: "The title and subtitle container.",
+  },
+  {
+    id: "api-header-title",
+    title: "ActivityInboxHeaderTitle",
+    description: "The truncating Activity heading.",
+  },
+  {
+    id: "api-header-subtitle",
+    title: "ActivityInboxHeaderSubtitle",
+    description: "The contextual header subtitle.",
+  },
+  {
+    id: "api-sidebar-heading",
+    title: "ActivityInboxSidebarHeading",
+    description: "A sidebar section heading row.",
+  },
+  {
+    id: "api-sidebar-heading-label",
+    title: "ActivityInboxSidebarHeadingLabel",
+    description: "The sidebar heading label.",
+  },
+  {
+    id: "api-sidebar-heading-action",
+    title: "ActivityInboxSidebarHeadingAction",
+    description: "The optional sidebar heading action.",
+  },
+  {
+    id: "api-mobile-navigation-button",
+    title: "ActivityInboxMobileNavigationButton",
+    description: "The compact Activity switcher trigger.",
+  },
+  {
+    id: "api-mobile-navigation-label",
+    title: "ActivityInboxMobileNavigationLabel",
+    description: "The current view label in the switcher trigger.",
+  },
+  {
+    id: "api-switcher-content",
+    title: "ActivityInboxSwitcherContent",
+    description: "The themed Dialog portal, backdrop, and popup content.",
+  },
+  {
+    id: "api-switcher-header",
+    title: "ActivityInboxSwitcherHeader",
+    description: "The switcher title and close-action row.",
+  },
+  {
+    id: "api-switcher-title",
+    title: "ActivityInboxSwitcherTitle",
+    description: "The Dialog title in the switcher.",
+  },
+  {
+    id: "api-switcher-close",
+    title: "ActivityInboxSwitcherClose",
+    description: "The switcher close action.",
+  },
+  {
+    id: "api-switcher-body",
+    title: "ActivityInboxSwitcherBody",
+    description: "The switcher item container.",
+  },
+  {
+    id: "api-switcher-item",
+    title: "ActivityInboxSwitcherItem",
+    description: "A selectable Activity view or filter in the switcher.",
+  },
+  {
+    id: "api-switcher-item-label",
+    title: "ActivityInboxSwitcherItemLabel",
+    description: "The switcher item label.",
+  },
+  {
+    id: "api-switcher-item-count",
+    title: "ActivityInboxSwitcherItemCount",
+    description: "The switcher item count.",
+  },
+  {
+    id: "api-switcher-separator",
+    title: "ActivityInboxSwitcherSeparator",
+    description: "The switcher item-group separator.",
+  },
+  {
+    id: "api-search",
+    title: "ActivityInboxSearch",
+    description: "The 36px Activity search field container.",
+  },
+  {
+    id: "api-search-icon",
+    title: "ActivityInboxSearchIcon",
+    description: "The non-interactive search icon.",
+  },
+  {
+    id: "api-search-input",
+    title: "ActivityInboxSearchInput",
+    description: "The Activity search input.",
+  },
+  {
+    id: "api-search-clear",
+    title: "ActivityInboxSearchClear",
+    description: "The search clear action.",
+  },
+  {
+    id: "api-toolbar-button",
+    title: "ActivityInboxToolbarButton",
+    description: "A secondary bulk-action button.",
+  },
+  {
+    id: "api-toolbar-primary-action",
+    title: "ActivityInboxToolbarPrimaryAction",
+    description: "A primary bulk-action button.",
+  },
+  {
+    id: "api-toolbar-link",
+    title: "ActivityInboxToolbarLink",
+    description: "A toolbar text action.",
+  },
+  {
+    id: "api-sort-trigger",
+    title: "ActivityInboxSortTrigger",
+    description: "The sort-menu trigger.",
+  },
+  {
+    id: "api-sort-content",
+    title: "ActivityInboxSortContent",
+    description: "The themed sort-menu content.",
+  },
+] as const;
+
 const API_SUBSECTIONS = [
   { id: "api-list", title: "ActivityInboxList", rows: ACTIVITY_INBOX_LIST_PROPS },
   { id: "api-item", title: "ActivityInboxItem", rows: ACTIVITY_INBOX_ITEM_PROPS },
@@ -269,6 +481,11 @@ const API_SUBSECTIONS = [
     title: "ActivityInboxItemActions",
     rows: ACTIVITY_INBOX_ITEM_ACTIONS_PROPS,
   },
+  ...ACTIVITY_INBOX_SHELL_API.map(({ id, title, description }) => ({
+    id,
+    title,
+    rows: [{ name: "...props", type: "element props", description }],
+  })),
 ] as const;
 
 const STATE_EXAMPLES = [
@@ -339,9 +556,9 @@ function ActivityDoc() {
             their behavior
           </li>
           <li>
-            the inbox shell (header, sidebar, controls, toolbar, viewport) is composed in the docs
-            module from <InlineCode>Panel</InlineCode>, <InlineCode>PanelHeaderRoot</InlineCode>,
-            and local panel parts
+            the inbox shell owns reusable panel, sidebar, navigation, controls, toolbar, and
+            viewport styling through <InlineCode>ActivityInbox</InlineCode> shell parts and shared
+            primitives
           </li>
           <li>
             stores, transport, routing, analytics, feature flags, and product workflow state stay in
@@ -376,9 +593,10 @@ function ActivityDoc() {
           <InlineCode>PanelToggleAction</InlineCode>, and <InlineCode>ContextMenu</InlineCode>{" "}
           parts, so <InlineCode>Activity</InlineCode> does not duplicate their interaction behavior.
           The inbox shell around it — header, view sidebar, filter controls, selection toolbar, and
-          scroll viewport — is assembled from the generic <InlineCode>Panel</InlineCode> container
-          and local panel parts. Production consumers own item unions, read/save/done policy, server
-          synchronization, search and sort persistence, navigation, and master/detail coordination.
+          scroll viewport — is assembled from <InlineCode>ActivityInbox</InlineCode> shell parts and
+          shared panel primitives. Production consumers own item unions, read/save/done policy,
+          server synchronization, search and sort persistence, navigation, and master/detail
+          coordination.
         </p>
         <DocSubsection parentId="usage" id="states" title="States">
           <div className="grid gap-8">
@@ -420,7 +638,7 @@ function ActivityDoc() {
   );
 }
 
-/** Canonical composition plus the Panel-based shell parts it renders. */
+/** Canonical composition for the ActivityInbox package parts. */
 function ActivitySourceFiles({
   code,
   collapsible = true,
@@ -438,12 +656,6 @@ function ActivitySourceFiles({
           source: activityInboxCompositionSource,
           html: code.composition,
           collapsedHtml: code.compositionBody,
-        },
-        {
-          path: ACTIVITY_PARTS_PATH,
-          source: activityPanelPartsSource,
-          html: code.parts,
-          collapsedHtml: code.partsBody,
         },
       ]}
     />

@@ -47,8 +47,10 @@ export const sidebarRecipe = tv({
   variants: {
     theme: {
       brutal: {
-        sidebarRoot:
+        sidebarRoot: [
+          "bg-brutal-cream",
           "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:52px]",
+        ],
         sidebarHeader: [
           "h-[var(--shell-header-height,62px)] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
           "max-md:bg-primary-400 max-md:px-4",
@@ -59,7 +61,7 @@ export const sidebarRecipe = tv({
       },
       elegant: {
         sidebarRoot: [
-          "relative [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",
+          "relative bg-layer-page [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",
           "md:[--sidebar-inset-end:18px]",
           "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:68px]",
         ],

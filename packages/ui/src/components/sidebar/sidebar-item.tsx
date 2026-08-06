@@ -6,18 +6,21 @@ import { Badge, type BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { sidebarItemRecipe } from "./sidebar-item.recipe";
 
-export type SidebarItemProps = useRender.ComponentProps<"button"> & {
+export type SidebarItemRootProps = useRender.ComponentProps<"button"> & {
   active?: boolean;
 };
 
-function SidebarItemRoot({ active = false, className, render, ...props }: SidebarItemProps) {
-  const theme = useThemeFamily();
-  const { sidebarItem } = sidebarItemRecipe({ theme });
+export function SidebarItemRoot({
+  active = false,
+  className,
+  render,
+  ...props
+}: SidebarItemRootProps) {
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "sidebar-item",
     "data-active": active ? "true" : undefined,
-    className: sidebarItem({ className }),
+    className,
   };
 
   return useRender({
@@ -26,8 +29,12 @@ function SidebarItemRoot({ active = false, className, render, ...props }: Sideba
   });
 }
 
-export function SidebarItem(props: SidebarItemProps) {
-  return <SidebarItemRoot {...props} />;
+export type SidebarItemProps = SidebarItemRootProps;
+
+export function SidebarItem({ className, ...props }: SidebarItemProps) {
+  const theme = useThemeFamily();
+  const { sidebarItem } = sidebarItemRecipe({ theme });
+  return <SidebarItemRoot className={sidebarItem({ className })} {...props} />;
 }
 
 export type SidebarItemIconProps = useRender.ComponentProps<"span">;

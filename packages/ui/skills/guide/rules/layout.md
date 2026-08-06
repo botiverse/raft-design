@@ -33,11 +33,13 @@ Treat the slots as ownership markers, not required direct children. On desktop, 
 user-adjustable. On mobile, one `AppShellMainSlot` can switch between the sidebar, main content,
 and thread from app-owned route state.
 
-When the main region shares an edge with the preceding resizable region, use
-`contentEdge="attached"` on `AppShellMainSlot`. The shell then owns the structural divider and
-the matching `ConversationPanelContent` edge treatment. Set `overlay` and render an
-`AppShellOverlaySlot` when a contextual panel temporarily covers the main region without adding
-another persistent column.
+AppShell slots own placement only. They do not add a divider, surface, width, inset, shadow, or
+resize-handle offset. Put those details on the component rendered inside the slot. For a bounded
+region, use `edge="attached"` on `Panel` (or a panel component that exposes the same prop) when it
+meets the preceding region directly, and `edge="inset"` when it should read as an elevated inner
+surface. The panel then owns its divider, header continuation, radius, and shadow. Set `overlay`
+and render an `AppShellOverlaySlot` only to choose overlay placement; the overlay child still owns
+its surface and edges.
 
 **Incorrect** — reassembling the frame:
 
@@ -57,11 +59,11 @@ That loses the responsive behavior, the sidebar collapse protocol, and the theme
 
 Three different jobs, often confused.
 
-|                  | For                                                          |
-| ---------------- | ------------------------------------------------------------ |
-| `AppShellRoot`   | the outermost frame of the application — rail, sidebar, main |
-| `Panel`          | one bounded region with a header, body, and footer           |
-| `ResizableGroup` | regions whose split the **user** can drag                    |
+|                  | For                                                |
+| ---------------- | -------------------------------------------------- |
+| `AppShellRoot`   | the outermost slot layout — rail, sidebar, main    |
+| `Panel`          | one bounded region with a header, body, and footer |
+| `ResizableGroup` | regions whose split the **user** can drag          |
 
 `Resizable` is only for user-adjustable splits. If the widths are fixed by design, use the shell slots or plain layout — do not wrap everything in a resizable group "just in case".
 

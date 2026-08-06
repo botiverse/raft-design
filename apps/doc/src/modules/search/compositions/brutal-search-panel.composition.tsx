@@ -1,5 +1,6 @@
 import type { KeyboardEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ConversationPanelContent, Panel } from "raft-ui";
 import {
   SEARCH_CHANNEL_FIXTURES,
   SEARCH_ENTITY_FIXTURES,
@@ -13,12 +14,11 @@ import {
 
 import { BrutalSearchFilters } from "../search-panel/search-panel.filters.tsx";
 import {
-  BrutalSearchContent,
-  BrutalSearchFrame,
   BrutalSearchHeader,
   type BrutalSearchScope,
   type BrutalSearchSort,
   type BrutalSearchTimeRange,
+  useSearchShell,
 } from "../search-panel/search-panel.parts.tsx";
 import { BrutalSearchResults } from "../search-panel/search-panel.results.tsx";
 
@@ -211,6 +211,7 @@ function SearchPanel({
   onOpenEntity,
   onOpenMessage,
 }: BrutalSearchPanelCompositionProps) {
+  const shell = useSearchShell();
   const inputRef = useRef<HTMLInputElement>(null);
   const resultRefs = useRef<Map<string, HTMLButtonElement>>(undefined);
   const composing = useRef(false);
@@ -302,7 +303,8 @@ function SearchPanel({
       : [];
   const resolvedSelectedKey = selectableResults.some((item) => item.key === selectedKey)
     ? selectedKey
-    : (selectableResults[0]?.key ?? null);
+    : null;
+  const keyboardSelectedKey = resolvedSelectedKey ?? selectableResults[0]?.key ?? null;
 
   function setResultRef(key: string, element: HTMLButtonElement | null) {
     const refs = (resultRefs.current ??= new Map());
@@ -318,10 +320,8 @@ function SearchPanel({
 
   function moveSelection(offset: number) {
     if (selectableResults.length === 0) return;
-    const current = Math.max(
-      0,
-      selectableResults.findIndex((item) => item.key === resolvedSelectedKey),
-    );
+    const currentIndex = selectableResults.findIndex((item) => item.key === resolvedSelectedKey);
+    const current = currentIndex >= 0 ? currentIndex : offset > 0 ? -1 : selectableResults.length;
     const next = Math.max(0, Math.min(selectableResults.length - 1, current + offset));
     const result = selectableResults[next];
     if (!result) return;
@@ -356,7 +356,7 @@ function SearchPanel({
       event.preventDefault();
       moveSelection(-1);
     } else if (event.key === "Enter" && event.target === inputRef.current) {
-      const result = selectableResults.find((item) => item.key === resolvedSelectedKey);
+      const result = selectableResults.find((item) => item.key === keyboardSelectedKey);
       if (result) {
         event.preventDefault();
         activate(result);
@@ -365,7 +365,7 @@ function SearchPanel({
   }
 
   return (
-    <BrutalSearchFrame onKeyDown={handleKeyDown}>
+    <Panel render={<div />} edge="inset" className={shell.frame()} onKeyDown={handleKeyDown}>
       <BrutalSearchHeader
         inputRef={inputRef}
         query={query}
@@ -388,7 +388,11 @@ function SearchPanel({
         }}
       />
 
-      <BrutalSearchContent>
+      <ConversationPanelContent
+        render={<section />}
+        data-slot="search-panel-content"
+        className={shell.content()}
+      >
         <BrutalSearchFilters
           senders={senders}
           channels={channels}
@@ -442,7 +446,7 @@ function SearchPanel({
           }
           onLoadMore={() => setVisibleLimit((limit) => limit + PAGE_SIZE)}
         />
-      </BrutalSearchContent>
-    </BrutalSearchFrame>
+      </ConversationPanelContent>
+    </Panel>
   );
 }

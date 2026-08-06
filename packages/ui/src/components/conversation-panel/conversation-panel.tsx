@@ -4,10 +4,18 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Panel, PanelBody, PanelFooter } from "../panel/panel";
 import { conversationPanel } from "./conversation-panel.recipe";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import type { PanelEdge } from "../panel/panel";
 
-export type ConversationPanelRootProps = useRender.ComponentProps<"section">;
+export type ConversationPanelRootProps = useRender.ComponentProps<"section"> & {
+  edge?: PanelEdge;
+};
 
-export function ConversationPanelRoot({ className, render, ...props }: ConversationPanelRootProps) {
+export function ConversationPanelRoot({
+  className,
+  edge = "inset",
+  render,
+  ...props
+}: ConversationPanelRootProps) {
   const theme = useThemeFamily();
   const { root } = conversationPanel({ theme });
 
@@ -15,6 +23,7 @@ export function ConversationPanelRoot({ className, render, ...props }: Conversat
     <Panel
       {...props}
       render={render}
+      edge={edge}
       data-slot="conversation-panel-root"
       className={root({ className })}
     />

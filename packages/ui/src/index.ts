@@ -1442,6 +1442,7 @@ export type {
   PanelActionsProps,
   PanelActivityProps,
   PanelBodyProps,
+  PanelEdge,
   PanelFooterProps,
   PanelHeaderContentProps,
   PanelHeaderIconProps,

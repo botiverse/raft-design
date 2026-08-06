@@ -38,7 +38,7 @@ const SNIPPETS = {
 <AppShellRoot>
   <AppShellRailSlot>...</AppShellRailSlot>
   <AppShellSidebarSlot>...</AppShellSidebarSlot>
-  <AppShellMainSlot contentEdge="attached" overlay>
+  <AppShellMainSlot overlay>
     ...
     <AppShellOverlaySlot>...</AppShellOverlaySlot>
   </AppShellMainSlot>
@@ -93,13 +93,6 @@ const APP_SHELL_SIDEBAR_SLOT_PROPS: readonly PropRow[] = [
 
 const APP_SHELL_MAIN_SLOT_PROPS: readonly PropRow[] = [
   {
-    name: "contentEdge",
-    type: '"inset" | "attached"',
-    default: '"inset"',
-    description:
-      "Controls how primary content meets the preceding region. Attached owns the structural divider and removes the Elegant ConversationPanel inset at the shared edge.",
-  },
-  {
     name: "overlay",
     type: "boolean",
     default: "false",
@@ -119,7 +112,7 @@ const APP_SHELL_OVERLAY_SLOT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Theme-aware overlay region for temporarily covering the primary content without changing the column layout.",
+      "Layout-only overlay region for temporarily covering the primary content without changing the column layout. Its child owns the surface and edges.",
   },
 ];
 
