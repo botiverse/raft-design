@@ -5,28 +5,27 @@ export const card = tv({
     root: ["flex min-w-0 flex-col overflow-hidden", "text-foreground"],
     header: [
       "group/card-header grid min-w-0 auto-rows-min grid-cols-1 items-start gap-x-4 gap-y-1",
-      "has-[>[data-slot=card-title]>[data-slot=card-leading]]:grid-cols-[auto_minmax(0,1fr)]",
-      "has-[>[data-slot=card-title]>[data-slot=card-trailing]]:grid-cols-[minmax(0,1fr)_auto]",
-      "has-[>[data-slot=card-title]>[data-slot=card-leading]]:has-[>[data-slot=card-title]>[data-slot=card-trailing]]:grid-cols-[auto_minmax(0,1fr)_auto]",
+      "has-[>[data-slot=card-leading]]:grid-cols-[auto_minmax(0,1fr)]",
+      "has-[>[data-slot=card-trailing]]:grid-cols-[minmax(0,1fr)_auto]",
+      "has-[>[data-slot=card-leading]]:has-[>[data-slot=card-trailing]]:grid-cols-[auto_minmax(0,1fr)_auto]",
     ],
-    title: ["group/card-title contents"],
+    title: [
+      "col-start-1 row-start-1 min-w-0",
+      "group-has-[>[data-slot=card-leading]]/card-header:col-start-2",
+    ],
     leading: [
       "col-start-1 row-span-2 row-start-1",
       "flex shrink-0 items-center self-start",
       "[&>svg]:size-4 [&>svg]:shrink-0",
     ],
-    titleText: [
-      "col-start-1 row-start-1 min-w-0",
-      "group-has-[>[data-slot=card-leading]]/card-title:col-start-2",
-    ],
     description: [
       "col-start-1 row-start-2 min-w-0",
-      "group-has-[>[data-slot=card-title]>[data-slot=card-leading]]/card-header:col-start-2",
+      "group-has-[>[data-slot=card-leading]]/card-header:col-start-2",
     ],
     trailing: [
       "col-start-2 row-start-1",
       "flex shrink-0 items-center self-center justify-self-end",
-      "group-has-[>[data-slot=card-leading]]/card-title:col-start-3",
+      "group-has-[>[data-slot=card-leading]]/card-header:col-start-3",
     ],
     content: ["min-w-0"],
     footer: ["flex min-w-0 flex-wrap items-center gap-2"],
@@ -35,7 +34,7 @@ export const card = tv({
     theme: {
       brutal: {
         leading: ["min-h-5"],
-        titleText: ["font-heading text-lg leading-5 font-bold"],
+        title: ["font-heading text-lg leading-5 font-bold"],
         description: ["font-sans text-sm leading-5 text-foreground-strong/60"],
         footer: [
           "flex-nowrap items-center",
@@ -46,7 +45,7 @@ export const card = tv({
       },
       elegant: {
         leading: ["min-h-[22px]"],
-        titleText: ["font-sans text-base leading-[22px] font-medium"],
+        title: ["font-sans text-base leading-[22px] font-medium"],
         description: [
           "font-sans text-xs leading-4 tracking-[0.01em] text-pretty",
           "text-foreground-muted",
@@ -73,7 +72,7 @@ export const card = tv({
       variant: "default",
       class: {
         root: ["border-2 border-line-strong bg-layer-panel", "shadow-raft-md"],
-        header: "p-4 has-[+[data-slot=card-content]]:pb-0",
+        header: "border-b-2 border-line-strong p-4",
         content: "p-4",
         footer: "border-t-2 border-line-strong bg-layer-inset px-4 py-3",
       },

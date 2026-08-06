@@ -6,7 +6,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardTitleText,
   CardTrailing,
   Switch,
   Text,
@@ -19,21 +18,17 @@ export function CardNotificationPermissionsComposition() {
   return (
     <Card className="w-full max-w-lg">
       <CardHeader>
-        <CardTitle>
-          <CardTitleText render={<h3 />}>
-            DMs, direct mentions, and followed thread replies
-          </CardTitleText>
-          <CardTrailing>
-            <Switch
-              aria-label="Push notifications"
-              checked={enabled}
-              onCheckedChange={(checked) => {
-                setEnabled(checked);
-                setMessage("");
-              }}
-            />
-          </CardTrailing>
-        </CardTitle>
+        <CardTitle render={<h3 />}>DMs, direct mentions, and followed thread replies</CardTitle>
+        <CardTrailing>
+          <Switch
+            aria-label="Push notifications"
+            checked={enabled}
+            onCheckedChange={(checked) => {
+              setEnabled(checked);
+              setMessage("");
+            }}
+          />
+        </CardTrailing>
         <CardDescription>
           Uses web push so notifications can still arrive when the tab is in the background.
         </CardDescription>

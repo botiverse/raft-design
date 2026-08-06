@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardTitleText,
-} from "raft-ui";
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "raft-ui";
 
 export function CardSessionActionComposition() {
   const [loggedOut, setLoggedOut] = useState(false);
@@ -15,9 +7,7 @@ export function CardSessionActionComposition() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>
-          <CardTitleText render={<h3 />}>Log out</CardTitleText>
-        </CardTitle>
+        <CardTitle render={<h3 />}>Log out</CardTitle>
         <CardDescription aria-live="polite">
           {loggedOut
             ? "Logged out of this browser."

@@ -41,17 +41,14 @@ const SNIPPETS = {
   CardHeader,
   CardLeading,
   CardTitle,
-  CardTitleText,
   CardTrailing,
 } from "raft-ui";
 
 <Card>
   <CardHeader>
-    <CardTitle>
-      <CardLeading />
-      <CardTitleText />
-      <CardTrailing />
-    </CardTitle>
+    <CardLeading />
+    <CardTitle />
+    <CardTrailing />
     <CardDescription />
   </CardHeader>
   <CardContent />
@@ -91,24 +88,19 @@ const CARD_PARTS: readonly PropRow[] = [
   {
     name: "CardHeader",
     type: 'useRender.ComponentProps<"div">',
-    description: "Top region that contains CardTitle and an optional CardDescription.",
+    description:
+      "Top region that arranges an optional CardLeading, CardTitle, CardTrailing, and CardDescription.",
   },
   {
     name: "CardTitle",
     type: 'useRender.ComponentProps<"div">',
-    description: "Title row that composes CardLeading, CardTitleText, and CardTrailing.",
+    description:
+      "Primary card heading. Use render to choose the heading level for the page context.",
   },
   {
     name: "CardLeading",
     type: 'useRender.ComponentProps<"div">',
-    description:
-      "Leading region inside CardTitle for a caller-owned icon, avatar, switch, or action.",
-  },
-  {
-    name: "CardTitleText",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Primary card heading. Use render to choose the heading level for the page context.",
+    description: "Leading header region for a caller-owned icon, avatar, switch, or action.",
   },
   {
     name: "CardDescription",
@@ -118,7 +110,7 @@ const CARD_PARTS: readonly PropRow[] = [
   {
     name: "CardTrailing",
     type: 'useRender.ComponentProps<"div">',
-    description: "Trailing region inside CardTitle for a caller-owned status, switch, or action.",
+    description: "Trailing header region for a caller-owned status, switch, or action.",
   },
   {
     name: "CardContent",
@@ -173,10 +165,9 @@ function CardDoc() {
             title="Notification permissions"
           >
             <p>
-              Compose the title text and switch inside <InlineCode>CardTitle</InlineCode>, keep{" "}
-              <InlineCode>CardDescription</InlineCode> as its sibling in{" "}
-              <InlineCode>CardHeader</InlineCode>, then use <InlineCode>CardContent</InlineCode> for
-              supporting controls.
+              Compose <InlineCode>CardTitle</InlineCode> and <InlineCode>CardTrailing</InlineCode>{" "}
+              as siblings inside <InlineCode>CardHeader</InlineCode>, then use{" "}
+              <InlineCode>CardContent</InlineCode> for supporting controls.
             </p>
             <Preview>
               <Preview.Canvas>
@@ -192,7 +183,7 @@ function CardDoc() {
           <DocSubsection parentId="usage" id="leading-action" title="Leading action">
             <p>
               Use <InlineCode>CardLeading</InlineCode> when an enabling control precedes{" "}
-              <InlineCode>CardTitleText</InlineCode>, then reveal its configuration in{" "}
+              <InlineCode>CardTitle</InlineCode>, then reveal its configuration in{" "}
               <InlineCode>CardContent</InlineCode>.
             </p>
             <Preview>
@@ -224,8 +215,9 @@ function CardDoc() {
 
           <DocSubsection parentId="usage" id="workspace-mode" title="Workspace mode">
             <p>
-              Use <InlineCode>CardHeader</InlineCode> alone for a compact preference, with its title
-              and trailing control composed in <InlineCode>CardTitle</InlineCode>.
+              Use <InlineCode>CardHeader</InlineCode> alone for a compact preference, with{" "}
+              <InlineCode>CardTitle</InlineCode> and <InlineCode>CardTrailing</InlineCode> composed
+              as direct children.
             </p>
             <Preview>
               <Preview.Canvas>

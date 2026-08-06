@@ -96,7 +96,6 @@ export {
   CardHeader,
   CardLeading,
   CardTitle,
-  CardTitleText,
   CardTrailing,
 } from "./components/card/index";
 export type {
@@ -107,7 +106,6 @@ export type {
   CardLeadingProps,
   CardProps,
   CardTitleProps,
-  CardTitleTextProps,
   CardTrailingProps,
 } from "./components/card/index";
 

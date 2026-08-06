@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardLeading,
   CardTitle,
-  CardTitleText,
   Field,
   FieldLabel,
   Input,
@@ -22,19 +21,15 @@ export function CardAppNotificationsComposition() {
   return (
     <Card variant="inset" className="w-full max-w-xl">
       <CardHeader>
-        <CardTitle>
-          <CardLeading>
-            <Switch
-              aria-labelledby="app-notifications-title"
-              aria-describedby="app-notifications-description"
-              checked={enabled}
-              onCheckedChange={setEnabled}
-            />
-          </CardLeading>
-          <CardTitleText render={<h3 id="app-notifications-title" />}>
-            Enable app notifications
-          </CardTitleText>
-        </CardTitle>
+        <CardLeading>
+          <Switch
+            aria-labelledby="app-notifications-title"
+            aria-describedby="app-notifications-description"
+            checked={enabled}
+            onCheckedChange={setEnabled}
+          />
+        </CardLeading>
+        <CardTitle render={<h3 id="app-notifications-title" />}>Enable app notifications</CardTitle>
         <CardDescription id="app-notifications-description">
           Receive selected Raft events at a signed HTTPS webhook.
         </CardDescription>
