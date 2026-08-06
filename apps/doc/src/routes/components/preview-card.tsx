@@ -49,12 +49,16 @@ const MENTION_CARD_BODY_SNIPPET = `    <PreviewCardHeader>
     </PreviewCardDescription>`;
 
 const SNIPPETS = {
-  preview: `<PreviewCard defaultOpen>
+  preview: `<PreviewCard
+  defaultOpen
+  defaultTriggerId="preview-card-preview-trigger"
+>
   <PreviewCardTrigger
+    id="preview-card-preview-trigger"
     render={
       <a
         href="/components/avatar"
-        className="font-bold underline decoration-foreground-strong/30 decoration-2 underline-offset-2"
+        className="font-sans font-bold underline decoration-foreground-strong/30 decoration-2 underline-offset-2"
       />
     }
   >
@@ -217,13 +221,13 @@ function DefaultOpenPreviewCard() {
 
   return (
     <div ref={portalRef} className="relative flex justify-center">
-      <PreviewCard defaultOpen triggerId="preview-card-preview-trigger">
+      <PreviewCard defaultOpen defaultTriggerId="preview-card-preview-trigger">
         <PreviewCardTrigger
           id="preview-card-preview-trigger"
           render={
             <Link
               to="/components/avatar"
-              className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30"
+              className="cursor-default select-text font-sans font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30"
             />
           }
         >

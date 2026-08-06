@@ -104,12 +104,18 @@ const spinner = tv({
     {
       theme: "brutal",
       variant: "default",
-      class: { ring: "animate-spin rounded-full border-2 border-black/20 border-t-black" },
+      class: {
+        root: "text-black",
+        ring: "animate-spin rounded-full border-2 border-current/20 border-t-current",
+      },
     },
     {
       theme: "brutal",
       variant: "inverse",
-      class: { ring: "animate-spin rounded-full border-2 border-white/40 border-t-white" },
+      class: {
+        root: "text-white",
+        ring: "animate-spin rounded-full border-2 border-current/40 border-t-current",
+      },
     },
     {
       theme: "elegant",
