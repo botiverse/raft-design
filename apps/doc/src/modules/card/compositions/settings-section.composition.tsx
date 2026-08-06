@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardLeading,
   CardTitle,
-  CardTitleText,
   ElegantOnly,
   Field,
   FieldLabel,
@@ -56,14 +55,12 @@ export function CardSettingsSectionComposition() {
 
       <Card>
         <CardHeader>
-          <CardTitle>
-            <CardLeading>
-              <Avatar size="xl" type="human">
-                <AvatarFallback>EU</AvatarFallback>
-              </Avatar>
-            </CardLeading>
-            <CardTitleText render={<h3 />}>{savedDisplayName || "Unnamed account"}</CardTitleText>
-          </CardTitle>
+          <CardLeading>
+            <Avatar size="xl" type="human">
+              <AvatarFallback>EU</AvatarFallback>
+            </Avatar>
+          </CardLeading>
+          <CardTitle render={<h3 />}>{savedDisplayName || "Unnamed account"}</CardTitle>
           <CardDescription>@example-user</CardDescription>
         </CardHeader>
 

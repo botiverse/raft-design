@@ -5,7 +5,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardTitleText,
   Separator,
   Switch,
   Text,
@@ -19,9 +18,7 @@ export function CardDenseSettingsComposition() {
   return (
     <Card variant="inset" className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>
-          <CardTitleText render={<h3 />}>Workspace safeguards</CardTitleText>
-        </CardTitle>
+        <CardTitle render={<h3 />}>Workspace safeguards</CardTitle>
         <CardDescription>
           Apply shared defaults to links, downloads, and inactive sessions.
         </CardDescription>

@@ -1,4 +1,4 @@
-import { Blocks } from "lucide-react";
+import { Rocket } from "lucide-react";
 import {
   Badge,
   Card,
@@ -8,8 +8,9 @@ import {
   CardHeader,
   CardLeading,
   CardTitle,
-  CardTitleText,
   CardTrailing,
+  Separator,
+  Status,
   type CardProps,
   Text,
 } from "raft-ui";
@@ -24,24 +25,58 @@ export function CardProjectSummaryComposition({
   return (
     <Card variant={variant} className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>
-          <CardLeading>
-            <Blocks aria-hidden />
-          </CardLeading>
-          <CardTitleText render={<h3 />}>Design system review</CardTitleText>
-          <CardTrailing>
-            <Badge variant="success">On track</Badge>
-          </CardTrailing>
-        </CardTitle>
-        <CardDescription>Five members are reviewing the next release.</CardDescription>
+        <CardLeading>
+          <Rocket aria-hidden />
+        </CardLeading>
+        <CardTitle render={<h3 />}>Release readiness</CardTitle>
+        <CardTrailing>
+          <Badge variant="warning">1 blocker</Badge>
+        </CardTrailing>
+        <CardDescription>Public beta · Thursday at 10:00</CardDescription>
       </CardHeader>
-      <CardContent>
-        <Text.Sans size="small">
-          Tokens, components, and migration notes are ready for final approval.
-        </Text.Sans>
+      <CardContent className="grid gap-3.5">
+        <div className="flex min-w-0 items-start gap-3">
+          <Status aria-hidden className="mt-1" size="sm" variant="success" />
+          <div className="min-w-0 flex-1">
+            <Text.Sans size="small">Component freeze</Text.Sans>
+            <Text.Sans size="caption">48 components approved for release.</Text.Sans>
+          </div>
+          <Text.Mono className="mt-0.5 shrink-0" size="meta">
+            Ready
+          </Text.Mono>
+        </div>
+
+        <Separator className="data-[orientation=horizontal]:border-line-muted" />
+
+        <div className="flex min-w-0 items-start gap-3">
+          <Status aria-hidden className="mt-1" size="sm" variant="success" />
+          <div className="min-w-0 flex-1">
+            <Text.Sans size="small">Accessibility audit</Text.Sans>
+            <Text.Sans size="caption">Keyboard and contrast checks passed.</Text.Sans>
+          </div>
+          <Text.Mono className="mt-0.5 shrink-0" size="meta">
+            Ready
+          </Text.Mono>
+        </div>
+
+        <Separator className="data-[orientation=horizontal]:border-line-muted" />
+
+        <div className="flex min-w-0 items-start gap-3">
+          <Status aria-hidden className="mt-1" size="sm" variant="warning" />
+          <div className="min-w-0 flex-1">
+            <Text.Sans size="small">Migration guide</Text.Sans>
+            <Text.Sans size="caption">Waiting for platform review.</Text.Sans>
+          </div>
+          <Text.Mono className="mt-0.5 shrink-0" size="meta">
+            Review
+          </Text.Mono>
+        </div>
       </CardContent>
       <CardFooter>
-        <Text.Mono size="meta">Updated 4 minutes ago</Text.Mono>
+        <Text.Mono size="meta">Owner · Mira Chen</Text.Mono>
+        <Text.Mono className="ml-auto" size="meta">
+          Updated 4 min ago
+        </Text.Mono>
       </CardFooter>
     </Card>
   );

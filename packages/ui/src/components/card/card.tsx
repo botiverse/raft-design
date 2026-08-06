@@ -84,22 +84,6 @@ export function CardLeading({ className, render, ...props }: CardLeadingProps) {
   });
 }
 
-export type CardTitleTextProps = useRender.ComponentProps<"div">;
-
-export function CardTitleText({ className, render, ...props }: CardTitleTextProps) {
-  const { titleText } = useCardRecipe();
-  const defaultProps: SlotElementProps<"div"> = {
-    "data-slot": "card-title-text",
-    className: titleText({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">(defaultProps, props),
-  });
-}
-
 export type CardDescriptionProps = useRender.ComponentProps<"div">;
 
 export function CardDescription({ className, render, ...props }: CardDescriptionProps) {

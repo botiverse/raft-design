@@ -8,7 +8,6 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  CardTitleText,
   CardTrailing,
   Separator,
   Switch,
@@ -24,16 +23,14 @@ export function CardSupportingNoteComposition() {
   return (
     <Card variant="inset" className="w-full max-w-lg">
       <CardHeader>
-        <CardTitle>
-          <CardTitleText render={<h3 id="security-alerts-title" />}>Security alerts</CardTitleText>
-          <CardTrailing>
-            <Switch
-              aria-labelledby="security-alerts-title"
-              checked={enabled}
-              onCheckedChange={setEnabled}
-            />
-          </CardTrailing>
-        </CardTitle>
+        <CardTitle render={<h3 id="security-alerts-title" />}>Security alerts</CardTitle>
+        <CardTrailing>
+          <Switch
+            aria-labelledby="security-alerts-title"
+            checked={enabled}
+            onCheckedChange={setEnabled}
+          />
+        </CardTrailing>
         <CardDescription>Notify workspace owners about important account activity.</CardDescription>
       </CardHeader>
 
