@@ -261,17 +261,25 @@ export function PlaygroundSearchPanel() {
       onQueryChange={setSearchQuery}
       focusRequestKey={focusRequestKey}
       onBack={() => selectRailView("chat")}
-      onOpenEntity={(entity) =>
+      onOpenEntity={(entity) => {
+        if (activeEntityKey === entity.key) {
+          selectContent(undefined);
+          return;
+        }
         selectContent(`${searchEntityPrefix}${entity.key}`, {
           surface: getSearchEntitySurface(entity),
-        })
-      }
-      onOpenMessage={(message) =>
+        });
+      }}
+      onOpenMessage={(message) => {
+        if (activeMessageId === message.id) {
+          selectContent(undefined);
+          return;
+        }
         selectContent(`${searchMessagePrefix}${message.id}`, {
           hash: message.threadId ? `thread-message-${message.id}` : `message-${message.id}`,
           surface: getSearchMessageSurface(message),
-        })
-      }
+        });
+      }}
     />
   );
 
@@ -297,9 +305,7 @@ export function PlaygroundSearchPanel() {
 
   if (!isDesktop) {
     return (
-      <AppShellMainSlot className="h-full w-full bg-transparent">
-        {context ?? content ?? master}
-      </AppShellMainSlot>
+      <AppShellMainSlot className="h-full w-full">{context ?? content ?? master}</AppShellMainSlot>
     );
   }
 
@@ -323,7 +329,7 @@ export function PlaygroundSearchPanel() {
       </ResizablePanel>
       <ResizableHandle className={theme === "elegant" ? "translate-x-[10px]" : undefined} />
       <ResizablePanel id="playground-search-content" minSize={320} className="relative min-w-0">
-        <AppShellMainSlot contentEdge="attached" overlay className="flex h-full min-w-0 flex-1">
+        <AppShellMainSlot overlay className="flex h-full min-w-0 flex-1">
           {content}
           {context && !hasContextColumn ? (
             <AppShellOverlaySlot>{context}</AppShellOverlaySlot>
@@ -365,6 +371,7 @@ function renderEntityContent(
       <MemberDetailPanel
         key={actor.id}
         actor={getPlaygroundActor(actor.id)}
+        edge="attached"
         onBack={() => selectContent(undefined)}
         onClose={() => selectContent(undefined)}
         onSelectActor={(nextActor) =>
@@ -395,6 +402,7 @@ function renderConversationContent(
     <PlaygroundDmPanel
       key={channel.id}
       dm={channel}
+      edge="attached"
       onBack={() => selectContent(undefined)}
       onOpenThread={onOpenThread}
     />
@@ -402,6 +410,7 @@ function renderConversationContent(
     <PlaygroundChannelPanel
       key={channel.id}
       channel={channel}
+      edge="attached"
       onBack={() => selectContent(undefined)}
       onOpenThread={onOpenThread}
     />
@@ -449,7 +458,7 @@ function getSearchMessageSurface(message: SearchMessageFixture) {
 
 function SearchMachineContent({ onBack, title }: { onBack: () => void; title: string }) {
   return (
-    <ConversationPanelRoot>
+    <ConversationPanelRoot edge="attached">
       <ConversationPanelContent>
         <ConversationPanelBody>
           <div className="relative flex h-full items-center justify-center p-6">

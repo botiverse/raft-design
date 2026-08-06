@@ -15,6 +15,7 @@ export function ThreadPanelRoot({ className, render, ...props }: ThreadPanelRoot
     <Panel
       {...props}
       render={render}
+      edge="attached"
       data-slot="thread-panel-root"
       className={root({ className })}
     />
@@ -31,6 +32,7 @@ export function ThreadPanelHeader({ className, render, ...props }: ThreadPanelHe
     <PanelHeaderRoot
       {...props}
       render={render}
+      data-panel-frame-header=""
       data-slot="thread-panel-header"
       className={header({ className })}
     />

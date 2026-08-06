@@ -146,7 +146,7 @@ export function BrutalSearchFilters({
             onSenderChange(senders.find((item) => item.id === nextValue) ?? null);
           }}
         >
-          <ComboboxTrigger aria-label="From" className={shell.filterTrigger()} variant="filter">
+          <ComboboxTrigger aria-label="From" variant="filter">
             <UserCircle2 aria-hidden size={14} />
             <span>{sender ? `From: ${sender.isCurrentUser ? "Me" : sender.label}` : "From"}</span>
             <ComboboxTriggerIndicator>
@@ -155,7 +155,6 @@ export function BrutalSearchFilters({
           </ComboboxTrigger>
           <ComboboxContent
             align="start"
-            className={shell.filterContent()}
             finalFocus={false}
             initialFocus={false}
             portalProps={{ container: portalRef }}
@@ -202,7 +201,6 @@ export function BrutalSearchFilters({
         >
           <SelectTrigger
             aria-label="Scope"
-            className={shell.filterTrigger()}
             data-active={scopes.length > 0 ? "" : undefined}
             variant="filter"
           >
@@ -218,11 +216,7 @@ export function BrutalSearchFilters({
               <ChevronDown aria-hidden />
             </SelectIcon>
           </SelectTrigger>
-          <SelectContent
-            align="start"
-            className={shell.filterContent()}
-            portalProps={{ container: portalRef }}
-          >
+          <SelectContent align="start" portalProps={{ container: portalRef }}>
             <SelectList>
               <SelectGroup>
                 <SelectGroupLabel>Scope</SelectGroupLabel>
@@ -261,11 +255,7 @@ export function BrutalSearchFilters({
               onChannelChange(channels.find((item) => item.id === nextValue) ?? null);
             }}
           >
-            <ComboboxTrigger
-              aria-label="Channel"
-              className={shell.filterTrigger()}
-              variant="filter"
-            >
+            <ComboboxTrigger aria-label="Channel" variant="filter">
               <Hash aria-hidden size={14} />
               <span>Channel</span>
               <ComboboxTriggerIndicator>
@@ -274,7 +264,6 @@ export function BrutalSearchFilters({
             </ComboboxTrigger>
             <ComboboxContent
               align="start"
-              className={shell.filterContent()}
               finalFocus={false}
               initialFocus={false}
               portalProps={{ container: portalRef }}
@@ -316,7 +305,6 @@ export function BrutalSearchFilters({
         >
           <SelectTrigger
             aria-label="Time range"
-            className={shell.filterTrigger()}
             data-active={timeRange !== "any" ? "" : undefined}
             variant="filter"
           >
@@ -326,11 +314,7 @@ export function BrutalSearchFilters({
               <ChevronDown aria-hidden />
             </SelectIcon>
           </SelectTrigger>
-          <SelectContent
-            align="start"
-            className={shell.filterContent()}
-            portalProps={{ container: portalRef }}
-          >
+          <SelectContent align="start" portalProps={{ container: portalRef }}>
             <SelectList>
               <SelectGroup>
                 <SelectGroupLabel>Time</SelectGroupLabel>
@@ -356,7 +340,6 @@ export function BrutalSearchFilters({
         >
           <SelectTrigger
             aria-label="Sort"
-            className={shell.filterTrigger()}
             data-active={sort !== "relevance" ? "" : undefined}
             variant="filter"
           >
@@ -366,11 +349,7 @@ export function BrutalSearchFilters({
               <ChevronDown aria-hidden />
             </SelectIcon>
           </SelectTrigger>
-          <SelectContent
-            align="start"
-            className={shell.filterContent()}
-            portalProps={{ container: portalRef }}
-          >
+          <SelectContent align="start" portalProps={{ container: portalRef }}>
             <SelectList>
               <SelectGroup>
                 <SelectGroupLabel>Sort</SelectGroupLabel>

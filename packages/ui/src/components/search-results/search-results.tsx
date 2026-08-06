@@ -110,6 +110,111 @@ export function SearchEntityResultOpen({
   });
 }
 
+export type SearchEntityResultLeadingProps = useRender.ComponentProps<"div">;
+export function SearchEntityResultLeading({
+  className,
+  render,
+  ...props
+}: SearchEntityResultLeadingProps) {
+  const theme = useThemeFamily();
+  const { entityLeading } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-entity-result-leading",
+    className: entityLeading({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+type SearchEntityResultTextProps = useRender.ComponentProps<"span"> & { muted?: boolean };
+
+export type SearchEntityResultTitleProps = SearchEntityResultTextProps;
+export function SearchEntityResultTitle({
+  muted = false,
+  className,
+  render,
+  ...props
+}: SearchEntityResultTitleProps) {
+  const theme = useThemeFamily();
+  const { entityTitle } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-entity-result-title",
+    "data-muted": muted ? "" : undefined,
+    className: entityTitle({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchEntityResultDescriptionProps = SearchEntityResultTextProps;
+export function SearchEntityResultDescription({
+  muted = false,
+  className,
+  render,
+  ...props
+}: SearchEntityResultDescriptionProps) {
+  const theme = useThemeFamily();
+  const { entityDescription } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-entity-result-description",
+    "data-muted": muted ? "" : undefined,
+    className: entityDescription({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchEntityResultBadgeProps = useRender.ComponentProps<"span"> & {
+  muted?: boolean;
+};
+export function SearchEntityResultBadge({
+  muted = false,
+  className,
+  render,
+  ...props
+}: SearchEntityResultBadgeProps) {
+  const theme = useThemeFamily();
+  const { entityBadge } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-entity-result-badge",
+    "data-muted": muted ? "" : undefined,
+    className: entityBadge({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchEntityResultAttentionBadgeProps = useRender.ComponentProps<"span">;
+export function SearchEntityResultAttentionBadge({
+  className,
+  render,
+  ...props
+}: SearchEntityResultAttentionBadgeProps) {
+  const theme = useThemeFamily();
+  const { entityAttentionBadge } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-entity-result-attention-badge",
+    className: entityAttentionBadge({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
 type SearchMessageResultBaseProps = useRender.ComponentProps<"button"> & {
   selected?: boolean;
   nested?: boolean;
@@ -186,6 +291,120 @@ export function SearchMessageResultBody({
   });
 }
 
+export type SearchMessageResultMetaProps = useRender.ComponentProps<"span">;
+export function SearchMessageResultMeta({
+  className,
+  render,
+  ...props
+}: SearchMessageResultMetaProps) {
+  const theme = useThemeFamily();
+  const { messageMeta } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-message-result-meta",
+    className: messageMeta({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchMessageResultThreadMetaProps = useRender.ComponentProps<"span">;
+export function SearchMessageResultThreadMeta({
+  className,
+  render,
+  ...props
+}: SearchMessageResultThreadMetaProps) {
+  const theme = useThemeFamily();
+  const { messageThreadMeta } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-message-result-thread-meta",
+    className: messageThreadMeta({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchMessageResultSenderProps = useRender.ComponentProps<"span">;
+export function SearchMessageResultSender({
+  className,
+  render,
+  ...props
+}: SearchMessageResultSenderProps) {
+  const theme = useThemeFamily();
+  const { messageSender } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-message-result-sender",
+    className: messageSender({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchMessageResultBadgeProps = useRender.ComponentProps<"span">;
+export function SearchMessageResultBadge({
+  className,
+  render,
+  ...props
+}: SearchMessageResultBadgeProps) {
+  const theme = useThemeFamily();
+  const { messageBadge } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-message-result-badge",
+    className: messageBadge({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchMessageResultTimestampProps = useRender.ComponentProps<"span">;
+export function SearchMessageResultTimestamp({
+  className,
+  render,
+  ...props
+}: SearchMessageResultTimestampProps) {
+  const theme = useThemeFamily();
+  const { messageTimestamp } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-message-result-timestamp",
+    className: messageTimestamp({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchMessageResultMatchProps = useRender.ComponentProps<"mark">;
+export function SearchMessageResultMatch({
+  className,
+  render,
+  ...props
+}: SearchMessageResultMatchProps) {
+  const theme = useThemeFamily();
+  const { messageMatch } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"mark"> = {
+    "data-slot": "search-message-result-match",
+    className: messageMatch({ className }),
+  };
+  return useRender({
+    defaultTagName: "mark",
+    render,
+    props: mergeProps<"mark">(defaultProps, props),
+  });
+}
+
 export type SearchThreadResultProps = useRender.ComponentProps<"div"> & { selected?: boolean };
 export function SearchThreadResult({
   selected = false,
@@ -226,6 +445,82 @@ export function SearchThreadResultHeader({
   });
 }
 
+export type SearchThreadResultMetaProps = useRender.ComponentProps<"div">;
+export function SearchThreadResultMeta({
+  className,
+  render,
+  ...props
+}: SearchThreadResultMetaProps) {
+  const theme = useThemeFamily();
+  const { threadMeta } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-thread-result-meta",
+    className: threadMeta({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type SearchThreadResultBadgeProps = useRender.ComponentProps<"span">;
+export function SearchThreadResultBadge({
+  className,
+  render,
+  ...props
+}: SearchThreadResultBadgeProps) {
+  const theme = useThemeFamily();
+  const { threadBadge } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-thread-result-badge",
+    className: threadBadge({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchThreadResultTimestampProps = useRender.ComponentProps<"span">;
+export function SearchThreadResultTimestamp({
+  className,
+  render,
+  ...props
+}: SearchThreadResultTimestampProps) {
+  const theme = useThemeFamily();
+  const { threadTimestamp } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "search-thread-result-timestamp",
+    className: threadTimestamp({ className }),
+  };
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SearchThreadResultTitleProps = useRender.ComponentProps<"div">;
+export function SearchThreadResultTitle({
+  className,
+  render,
+  ...props
+}: SearchThreadResultTitleProps) {
+  const theme = useThemeFamily();
+  const { threadTitle } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-thread-result-title",
+    className: threadTitle({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
 export type SearchThreadResultMessagesProps = useRender.ComponentProps<"div">;
 export function SearchThreadResultMessages({
   className,
@@ -257,5 +552,63 @@ export function SearchResultsError({ className, render, ...props }: SearchResult
     defaultTagName: "div",
     render,
     props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type SearchResultsErrorTitleProps = useRender.ComponentProps<"div">;
+export function SearchResultsErrorTitle({
+  className,
+  render,
+  ...props
+}: SearchResultsErrorTitleProps) {
+  const theme = useThemeFamily();
+  const { errorTitle } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-results-error-title",
+    className: errorTitle({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type SearchResultsErrorDescriptionProps = useRender.ComponentProps<"div">;
+export function SearchResultsErrorDescription({
+  className,
+  render,
+  ...props
+}: SearchResultsErrorDescriptionProps) {
+  const theme = useThemeFamily();
+  const { errorDescription } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-results-error-description",
+    className: errorDescription({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type SearchResultsErrorActionProps = useRender.ComponentProps<"button">;
+export function SearchResultsErrorAction({
+  className,
+  render,
+  ...props
+}: SearchResultsErrorActionProps) {
+  const theme = useThemeFamily();
+  const { errorAction } = searchResults({ theme });
+  const defaultProps: SlotElementProps<"button"> = {
+    "data-slot": "search-results-error-action",
+    className: errorAction({ className }),
+    type: "button",
+  };
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: mergeProps<"button">(defaultProps, props),
   });
 }

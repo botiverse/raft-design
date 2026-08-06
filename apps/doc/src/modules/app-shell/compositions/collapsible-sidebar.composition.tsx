@@ -39,7 +39,9 @@ export function AppShellCollapsibleSidebarComposition() {
     <div className="w-full overflow-x-auto">
       <AppShellRoot sidebarCollapsible className="h-[420px] min-w-[860px]">
         <AppShellRailSlot className="flex md:flex">
-          <ShellRegion className="bg-primary-300 text-primary-950">Rail</ShellRegion>
+          <ShellRegion className="w-16 bg-primary-300 text-primary-950 [[data-theme=elegant]_&]:w-14">
+            Rail
+          </ShellRegion>
         </AppShellRailSlot>
 
         <ResizableGroup orientation="horizontal" className="h-full min-w-0 flex-1">

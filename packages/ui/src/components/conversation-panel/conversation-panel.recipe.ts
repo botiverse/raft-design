@@ -26,12 +26,11 @@ export const conversationPanel = tv({
         root: "relative bg-layer-page font-sans text-foreground-strong",
         content: [
           "relative overflow-clip",
-          "bg-layer-panel md:shadow-raft-xl",
+          "bg-layer-panel",
           "dark:bg-[oklch(0.2_0.004_106.42)]",
-          "dark:md:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.07),inset_0_0_0_1px_oklch(0.985_0.004_106.42_/_0.03),0_0_0_1px_oklch(0_0_0_/_0.6),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
-          "md:ml-2 md:rounded-tl-[10px]",
-          "group-data-[content-edge=attached]/app-shell-main-slot:md:ml-0",
-          "group-data-[content-edge=attached]/app-shell-main-slot:md:rounded-tl-none",
+          "group-data-[edge=inset]/panel-frame:md:ml-2 group-data-[edge=inset]/panel-frame:md:rounded-tl-[10px]",
+          "group-data-[edge=inset]/panel-frame:md:shadow-raft-xl",
+          "dark:group-data-[edge=inset]/panel-frame:md:shadow-[0_0_0_1px_var(--line-muted),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
         ],
         tabs: [
           "border-b-0 bg-layer-panel max-md:bg-layer-page",

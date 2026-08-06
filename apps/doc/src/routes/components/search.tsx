@@ -45,19 +45,37 @@ const SNIPPETS = {
 } from "raft-ui";
 import {
   SearchEntityResult,
+  SearchEntityResultAttentionBadge,
+  SearchEntityResultBadge,
+  SearchEntityResultDescription,
+  SearchEntityResultLeading,
   SearchEntityResultOpen,
+  SearchEntityResultTitle,
   SearchMessageResult,
+  SearchMessageResultBadge,
   SearchMessageResultBody,
   SearchMessageResultHeader,
+  SearchMessageResultMatch,
+  SearchMessageResultMeta,
+  SearchMessageResultSender,
+  SearchMessageResultThreadMeta,
+  SearchMessageResultTimestamp,
   SearchResultsError,
+  SearchResultsErrorAction,
+  SearchResultsErrorDescription,
+  SearchResultsErrorTitle,
   SearchResultsList,
   SearchResultsSection,
   SearchResultsSectionHeading,
   SearchResultsSummary,
   SearchThreadMessageResult,
   SearchThreadResult,
+  SearchThreadResultBadge,
   SearchThreadResultHeader,
+  SearchThreadResultMeta,
   SearchThreadResultMessages,
+  SearchThreadResultTimestamp,
+  SearchThreadResultTitle,
 } from "raft-ui/wip";
 
 <SearchResultsSummary />
@@ -66,17 +84,36 @@ import {
   <SearchResultsSectionHeading />
   <SearchResultsList>
     <SearchEntityResult>
-      <SearchEntityResultOpen />
-      {/* caller-owned trailing content */}
+      <SearchEntityResultOpen>
+        <SearchEntityResultLeading>{/* caller-owned identity */}</SearchEntityResultLeading>
+        <SearchEntityResultTitle>Project Orbit</SearchEntityResultTitle>
+        <SearchEntityResultBadge>Channel</SearchEntityResultBadge>
+        <SearchEntityResultAttentionBadge>Archived</SearchEntityResultAttentionBadge>
+        <SearchEntityResultDescription>Archived channel</SearchEntityResultDescription>
+      </SearchEntityResultOpen>
     </SearchEntityResult>
 
     <SearchMessageResult>
-      <SearchMessageResultHeader />
-      <SearchMessageResultBody />
+      <SearchMessageResultHeader>
+        <SearchMessageResultMeta>#design</SearchMessageResultMeta>
+        <SearchMessageResultThreadMeta>thread</SearchMessageResultThreadMeta>
+        <SearchMessageResultBadge>Archived</SearchMessageResultBadge>
+        <SearchMessageResultSender>Ari</SearchMessageResultSender>
+        <SearchMessageResultTimestamp>yesterday</SearchMessageResultTimestamp>
+      </SearchMessageResultHeader>
+      <SearchMessageResultBody>
+        Matched <SearchMessageResultMatch>message</SearchMessageResultMatch>
+      </SearchMessageResultBody>
     </SearchMessageResult>
 
     <SearchThreadResult>
-      <SearchThreadResultHeader />
+      <SearchThreadResultHeader>
+        <SearchThreadResultMeta>
+          <SearchThreadResultBadge>Thread</SearchThreadResultBadge>
+          <SearchThreadResultTimestamp>yesterday</SearchThreadResultTimestamp>
+        </SearchThreadResultMeta>
+        <SearchThreadResultTitle>Planning discussion</SearchThreadResultTitle>
+      </SearchThreadResultHeader>
       <SearchThreadResultMessages>
         <SearchThreadMessageResult />
       </SearchThreadResultMessages>
@@ -92,7 +129,11 @@ import {
     <EmptyStateDescription />
   </EmptyStateContent>
 </EmptyState>
-<SearchResultsError />`,
+<SearchResultsError>
+  <SearchResultsErrorTitle>Search failed</SearchResultsErrorTitle>
+  <SearchResultsErrorDescription>Try again shortly.</SearchResultsErrorDescription>
+  <SearchResultsErrorAction>Retry</SearchResultsErrorAction>
+</SearchResultsError>`,
   composition: searchPanelCompositionSource,
   parts: searchPanelPartsSource,
   filters: searchPanelFiltersSource,
@@ -149,6 +190,33 @@ const SEARCH_ENTITY_RESULT_OPEN_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "button props",
     description: "Interactive button surface inside an entity result frame.",
+  },
+];
+
+const SEARCH_ENTITY_RESULT_TEXT_PROPS: readonly PropRow[] = [
+  {
+    name: "muted",
+    type: "boolean",
+    description:
+      "Uses the muted visual treatment while the caller keeps the text and state choice.",
+  },
+  { name: "...props", type: "span props", description: "Caller-owned entity text content." },
+];
+
+const SEARCH_ENTITY_RESULT_BADGE_PROPS: readonly PropRow[] = [
+  {
+    name: "muted",
+    type: "boolean",
+    description: "Uses the muted visual treatment for an otherwise caller-owned badge.",
+  },
+  { name: "...props", type: "span props", description: "Caller-owned badge content." },
+];
+
+const SEARCH_SLOT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "native element props",
+    description: "Caller-owned content and native props.",
   },
 ];
 
@@ -247,17 +315,60 @@ const API_SUBSECTIONS = [
     title: "SearchEntityResultOpen",
     rows: SEARCH_ENTITY_RESULT_OPEN_PROPS,
   },
+  { id: "api-entity-leading", title: "SearchEntityResultLeading", rows: SEARCH_SLOT_PROPS },
+  {
+    id: "api-entity-title",
+    title: "SearchEntityResultTitle",
+    rows: SEARCH_ENTITY_RESULT_TEXT_PROPS,
+  },
+  {
+    id: "api-entity-description",
+    title: "SearchEntityResultDescription",
+    rows: SEARCH_ENTITY_RESULT_TEXT_PROPS,
+  },
+  {
+    id: "api-entity-badge",
+    title: "SearchEntityResultBadge",
+    rows: SEARCH_ENTITY_RESULT_BADGE_PROPS,
+  },
+  {
+    id: "api-entity-attention-badge",
+    title: "SearchEntityResultAttentionBadge",
+    rows: SEARCH_SLOT_PROPS,
+  },
   { id: "api-message", title: "SearchMessageResult", rows: SEARCH_MESSAGE_RESULT_PROPS },
   {
     id: "api-message-header",
     title: "SearchMessageResultHeader",
     rows: SEARCH_MESSAGE_RESULT_HEADER_PROPS,
   },
+  { id: "api-message-meta", title: "SearchMessageResultMeta", rows: SEARCH_SLOT_PROPS },
+  {
+    id: "api-message-thread-meta",
+    title: "SearchMessageResultThreadMeta",
+    rows: SEARCH_SLOT_PROPS,
+  },
+  { id: "api-message-sender", title: "SearchMessageResultSender", rows: SEARCH_SLOT_PROPS },
+  { id: "api-message-badge", title: "SearchMessageResultBadge", rows: SEARCH_SLOT_PROPS },
+  {
+    id: "api-message-timestamp",
+    title: "SearchMessageResultTimestamp",
+    rows: SEARCH_SLOT_PROPS,
+  },
+  { id: "api-message-match", title: "SearchMessageResultMatch", rows: SEARCH_SLOT_PROPS },
   {
     id: "api-message-body",
     title: "SearchMessageResultBody",
     rows: SEARCH_MESSAGE_RESULT_BODY_PROPS,
   },
+  { id: "api-thread-meta", title: "SearchThreadResultMeta", rows: SEARCH_SLOT_PROPS },
+  { id: "api-thread-badge", title: "SearchThreadResultBadge", rows: SEARCH_SLOT_PROPS },
+  {
+    id: "api-thread-timestamp",
+    title: "SearchThreadResultTimestamp",
+    rows: SEARCH_SLOT_PROPS,
+  },
+  { id: "api-thread-title", title: "SearchThreadResultTitle", rows: SEARCH_SLOT_PROPS },
   {
     id: "api-thread-message",
     title: "SearchThreadMessageResult",
@@ -275,6 +386,13 @@ const API_SUBSECTIONS = [
     rows: SEARCH_THREAD_RESULT_MESSAGES_PROPS,
   },
   { id: "api-error", title: "SearchResultsError", rows: SEARCH_RESULTS_ERROR_PROPS },
+  { id: "api-error-title", title: "SearchResultsErrorTitle", rows: SEARCH_SLOT_PROPS },
+  {
+    id: "api-error-description",
+    title: "SearchResultsErrorDescription",
+    rows: SEARCH_SLOT_PROPS,
+  },
+  { id: "api-error-action", title: "SearchResultsErrorAction", rows: SEARCH_SLOT_PROPS },
 ] as const;
 
 const STATE_EXAMPLES = [

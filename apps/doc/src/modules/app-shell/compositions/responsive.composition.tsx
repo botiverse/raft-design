@@ -12,11 +12,13 @@ export function AppShellResponsiveComposition() {
   return (
     <AppShellRoot className="min-h-dvh">
       <AppShellRailSlot>
-        <nav aria-label="Workspace navigation">Rail</nav>
+        <nav className="w-16 [[data-theme=elegant]_&]:w-14" aria-label="Workspace navigation">
+          Rail
+        </nav>
       </AppShellRailSlot>
 
       <AppShellSidebarSlot>
-        <div>Conversation list</div>
+        <div className="w-60 [[data-theme=elegant]_&]:w-[252px]">Conversation list</div>
       </AppShellSidebarSlot>
 
       <AppShellMainSlot>

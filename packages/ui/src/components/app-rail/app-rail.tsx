@@ -10,7 +10,8 @@ import { appRail } from "./app-rail.recipe";
 export type AppRailRootProps = useRender.ComponentProps<"div">;
 
 export function AppRailRoot({ className, render, ...props }: AppRailRootProps) {
-  const { root } = appRail();
+  const theme = useThemeFamily();
+  const { root } = appRail({ theme });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-rail-root",
     className: root({ className }),

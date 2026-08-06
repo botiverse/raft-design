@@ -151,7 +151,7 @@ function PlaygroundChatLayout({
 
   if (!isDesktop) {
     return (
-      <AppShellMainSlot className="h-full w-full bg-transparent">
+      <AppShellMainSlot className="h-full w-full">
         <div className={mobileListPanel ? "flex h-full w-full" : "hidden"}>{sidebar}</div>
         <div className={mobileListPanel ? "hidden" : "flex h-full w-full"}>{thread ?? main}</div>
       </AppShellMainSlot>

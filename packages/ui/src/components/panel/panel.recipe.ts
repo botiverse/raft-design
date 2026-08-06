@@ -36,5 +36,35 @@ export const panel = tv({
         ],
       },
     },
+    edge: {
+      inset: {
+        root: "group/panel-frame",
+      },
+      attached: {
+        root: "group/panel-frame",
+      },
+    },
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      edge: "attached",
+      class: {
+        root: [
+          "border-l-2 border-black",
+          "[&>[data-panel-frame-header]]:border-b-2 [&>[data-panel-frame-header]]:border-black",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      edge: "attached",
+      class: {
+        root: [
+          "border-l border-line-muted",
+          "[&>[data-panel-frame-header]]:border-b [&>[data-panel-frame-header]]:border-line-muted",
+        ],
+      },
+    },
+  ],
 });

@@ -18,11 +18,11 @@ import { profilePanel } from "./profile-panel.recipe";
 
 export type ProfilePanelProps = PanelProps;
 
-export function ProfilePanel({ className, ...props }: ProfilePanelProps) {
+export function ProfilePanel({ className, edge = "inset", ...props }: ProfilePanelProps) {
   const theme = useThemeFamily();
   const { root } = profilePanel({ theme });
 
-  return <Panel {...props} data-slot="profile-panel" className={root({ className })} />;
+  return <Panel {...props} edge={edge} data-slot="profile-panel" className={root({ className })} />;
 }
 
 export type ProfilePanelHeaderProps = PanelHeaderProps;

@@ -27,6 +27,7 @@ export const appRail = tv({
   variants: {
     theme: {
       brutal: {
+        root: "w-16 bg-primary text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
         header:
           "h-[var(--shell-header-height,62px)] border-b-2 border-black [@media(max-height:600px)]:h-12",
         footer: "h-auto pb-2 [@media(max-height:600px)]:pb-1",
@@ -42,6 +43,7 @@ export const appRail = tv({
         itemAttentionMask: "hidden",
       },
       elegant: {
+        root: "w-14 bg-layer-page",
         header: "h-[var(--shell-header-height,56px)] border-b-0",
         nav: ["px-2 pt-4 pb-2"],
         footer: ["h-auto gap-1.5 px-2 pb-2", "[&>[data-slot=app-rail-item]]:text-foreground-muted"],

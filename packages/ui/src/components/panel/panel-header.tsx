@@ -14,6 +14,7 @@ export function PanelHeader({ children, className, render, ...props }: PanelHead
     <PanelHeaderRoot
       {...props}
       render={render}
+      data-panel-frame-header=""
       data-slot="panel-header"
       className={header({ className })}
     >

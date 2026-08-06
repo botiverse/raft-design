@@ -15,6 +15,7 @@ export type {
   PanelScrollContentProps,
   PanelScrollViewportProps,
   PanelSectionProps,
+  PanelEdge,
 } from "./panel";
 export {
   PanelActions,

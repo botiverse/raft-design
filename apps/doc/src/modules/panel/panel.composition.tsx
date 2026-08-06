@@ -1,5 +1,6 @@
 import {
   Panel,
+  type PanelEdge,
   PanelBody,
   PanelHeader,
   PanelHeaderContent,
@@ -12,9 +13,13 @@ import {
   Text,
 } from "raft-ui";
 
-export function PanelComposition() {
+export type PanelCompositionProps = {
+  edge?: PanelEdge;
+};
+
+export function PanelComposition({ edge = "inset" }: PanelCompositionProps = {}) {
   return (
-    <Panel className="flex h-full min-h-0 w-full flex-col bg-layer-panel">
+    <Panel edge={edge} className="flex h-full min-h-0 w-full flex-col bg-layer-panel">
       <PanelHeader className="border-b border-line">
         <PanelHeaderContent>
           <PanelHeading>

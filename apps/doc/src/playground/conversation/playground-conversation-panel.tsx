@@ -17,6 +17,7 @@ import {
   TabsIndicator,
   TabsLabel,
   MessageMultiSelect,
+  type PanelEdge,
 } from "raft-ui";
 import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
 
@@ -52,11 +53,13 @@ const TAB_META: Record<PlaygroundPanelTab, { icon: ReactNode; label: string }> =
 export function PlaygroundConversationPanel({
   channel,
   composerLabel,
+  edge = "inset",
   header,
   onOpenThread,
 }: {
   channel: PlaygroundChannelRecord;
   composerLabel: string;
+  edge?: PanelEdge;
   header: ReactNode;
   onOpenThread?: (threadId: string) => void;
 }) {
@@ -64,7 +67,7 @@ export function PlaygroundConversationPanel({
   const [tabOrder, setTabOrder] = useState<PlaygroundPanelTab[]>(["chat", "tasks", "files"]);
 
   return (
-    <ConversationPanelRoot>
+    <ConversationPanelRoot edge={edge}>
       {header}
       <ConversationPanelContent>
         <ConversationPanelTabs render={<Tabs value={panelTab} onValueChange={selectPanelTab} />}>
