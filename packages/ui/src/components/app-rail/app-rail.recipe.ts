@@ -51,9 +51,10 @@ export const appRail = tv({
           "hover:bg-fill-strong/80 hover:text-foreground-strong",
           "active:bg-fill-strong/80 active:text-foreground-strong",
           "dark:hover:bg-ink-6 dark:active:bg-ink-6",
-          "data-[selected=true]:border-transparent data-[selected=true]:bg-layer-panel",
+          "data-[selected=true]:border-transparent data-[selected=true]:bg-fill-strong",
           "dark:data-[selected=true]:bg-layer-card",
-          "data-[selected=true]:text-foreground-strong data-[selected=true]:shadow-raft-sm",
+          "data-[selected=true]:text-foreground-muted data-[selected=true]:shadow-none",
+          "dark:data-[selected=true]:text-foreground-strong dark:data-[selected=true]:shadow-raft-sm",
           "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         ],
         itemBadge: [
@@ -66,6 +67,8 @@ export const appRail = tv({
           "[mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
           "[-webkit-mask-image:radial-gradient(circle_at_96%_12%,black_0%,black_24%,oklch(0_0_0/0.82)_38%,oklch(0_0_0/0.38)_58%,transparent_74%)]",
         ],
+        itemIndicator:
+          "data-[variant=primary]:[background-color:color-mix(in_srgb-linear,var(--color-primary-400)_86%,var(--ink))]",
       },
     },
   },
