@@ -146,7 +146,7 @@ export function BrutalSearchFilters({
             onSenderChange(senders.find((item) => item.id === nextValue) ?? null);
           }}
         >
-          <ComboboxTrigger aria-label="From" variant="filter">
+          <ComboboxTrigger aria-label="From">
             <UserCircle2 aria-hidden size={14} />
             <span>{sender ? `From: ${sender.isCurrentUser ? "Me" : sender.label}` : "From"}</span>
             <ComboboxTriggerIndicator>
@@ -199,11 +199,7 @@ export function BrutalSearchFilters({
           value={[...scopes]}
           onValueChange={(nextValue) => onScopesChange(nextValue)}
         >
-          <SelectTrigger
-            aria-label="Scope"
-            data-active={scopes.length > 0 ? "" : undefined}
-            variant="filter"
-          >
+          <SelectTrigger aria-label="Scope" className="w-auto">
             <AtSign aria-hidden size={14} />
             <span>
               {scopes.length === 0
@@ -255,7 +251,7 @@ export function BrutalSearchFilters({
               onChannelChange(channels.find((item) => item.id === nextValue) ?? null);
             }}
           >
-            <ComboboxTrigger aria-label="Channel" variant="filter">
+            <ComboboxTrigger aria-label="Channel">
               <Hash aria-hidden size={14} />
               <span>Channel</span>
               <ComboboxTriggerIndicator>
@@ -303,11 +299,7 @@ export function BrutalSearchFilters({
             if (nextValue) onTimeRangeChange(nextValue);
           }}
         >
-          <SelectTrigger
-            aria-label="Time range"
-            data-active={timeRange !== "any" ? "" : undefined}
-            variant="filter"
-          >
+          <SelectTrigger aria-label="Time range" className="w-auto">
             <CalendarRange aria-hidden size={14} />
             <span>{timeLabel(timeRange)}</span>
             <SelectIcon>
@@ -338,11 +330,7 @@ export function BrutalSearchFilters({
             if (nextValue) onSortChange(nextValue);
           }}
         >
-          <SelectTrigger
-            aria-label="Sort"
-            data-active={sort !== "relevance" ? "" : undefined}
-            variant="filter"
-          >
+          <SelectTrigger aria-label="Sort" className="w-auto">
             <ArrowDownUp aria-hidden size={14} />
             <span>{sort === "recent" ? "Recent" : "Relevant"}</span>
             <SelectIcon>
