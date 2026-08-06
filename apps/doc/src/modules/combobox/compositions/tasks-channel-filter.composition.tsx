@@ -1,5 +1,4 @@
-import type { RefObject } from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ChevronDown, Hash } from "lucide-react";
 import {
   Combobox,
@@ -29,14 +28,10 @@ const channels: readonly Channel[] = [
 ];
 
 export function TasksChannelFilterComposition() {
-  const portalRef = useRef<HTMLDivElement>(null);
   const [selectedChannels, setSelectedChannels] = useState<Channel[]>([channels[0]]);
 
   return (
-    <div
-      ref={portalRef}
-      className="relative flex h-full min-h-56 w-full items-start justify-center pt-8"
-    >
+    <div className="relative flex h-full min-h-56 w-full items-start justify-center pt-8">
       <Combobox<Channel, true>
         open
         multiple
@@ -61,9 +56,7 @@ export function TasksChannelFilterComposition() {
           initialFocus={false}
           finalFocus={false}
           collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
-          positionMethod="absolute"
           side="bottom"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="w-[220px]"
         >
           <ComboboxHeader>

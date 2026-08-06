@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ChevronDown, Hash } from "lucide-react";
 import {
   Combobox,
@@ -42,7 +42,6 @@ export function TasksChannelFilterComposition({
   defaultOpen,
   onOpenChange,
 }: TasksChannelFilterCompositionProps) {
-  const portalRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [localValue, setLocalValue] = useState(defaultValue);
   const selectedIds = value ?? localValue;
@@ -55,7 +54,7 @@ export function TasksChannelFilterComposition({
     channels.find((channel) => channel.id === id)?.label ?? id;
 
   return (
-    <div ref={portalRef} className="relative inline-flex">
+    <div className="relative inline-flex">
       <Combobox<string, true>
         multiple
         autoHighlight
@@ -90,10 +89,8 @@ export function TasksChannelFilterComposition({
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
-          positionMethod="absolute"
           side="bottom"
           align="center"
-          portalProps={{ container: portalRef }}
           className="min-w-[220px]"
         >
           <ComboboxHeader>

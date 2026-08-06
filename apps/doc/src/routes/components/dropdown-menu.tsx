@@ -28,8 +28,7 @@ import {
   Trash,
   User,
 } from "lucide-react";
-import type { ReactNode, RefObject } from "react";
-import { useRef } from "react";
+import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -414,39 +413,25 @@ function OpenMenuExample({
   children: ReactNode;
   contentClassName?: string;
 }) {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <DropdownMenu open modal={false} triggerId={triggerId}>
         <DropdownMenuTrigger id={triggerId}>{label}</DropdownMenuTrigger>
-        <DropdownMenuContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className={contentClassName}
-        >
-          {children}
-        </DropdownMenuContent>
+        <DropdownMenuContent className={contentClassName}>{children}</DropdownMenuContent>
       </DropdownMenu>
     </div>
   );
 }
 
 function ProfilePreviewMenu() {
-  const portalRef = useRef<HTMLDivElement>(null);
-
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <DropdownMenu defaultOpen modal={false} triggerId="preview-profile-trigger">
         <DropdownMenuTrigger id="preview-profile-trigger">
           <ChartNoAxesCombined />
           Profile
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="flex w-64 flex-col"
-        >
+        <DropdownMenuContent className="flex w-64 flex-col">
           <ProfileMenuRows />
         </DropdownMenuContent>
       </DropdownMenu>

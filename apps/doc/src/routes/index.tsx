@@ -862,7 +862,6 @@ function ComboboxPreview() {
           </ComboboxControl>
         </Field>
         <ComboboxContent
-          positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           initialFocus={false}
           finalFocus={false}
@@ -910,7 +909,6 @@ function SelectPreview() {
           <SelectIcon />
         </SelectTrigger>
         <SelectContent
-          positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="w-[220px]"
         >
@@ -979,7 +977,6 @@ function DropdownMenuPreview() {
           Account
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="flex w-64 flex-col"
         >
@@ -1064,7 +1061,6 @@ function PopoverPreview() {
           finalFocus={false}
           align="center"
           collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
-          positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="w-[248px]"
         >
@@ -1115,7 +1111,6 @@ function PreviewCardPreview() {
         <PreviewCardContent
           align="center"
           collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
-          positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="w-[17.5rem] max-w-[calc(100vw-2rem)]"
         >
@@ -1244,10 +1239,7 @@ function TooltipPreview() {
         >
           <SmilePlus />
         </TooltipTrigger>
-        <TooltipContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-        >
+        <TooltipContent portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}>
           Add reaction
           <Kbd>R</Kbd>
         </TooltipContent>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ChevronDown, UserCircle2 } from "lucide-react";
 import {
   Avatar,
@@ -42,7 +42,6 @@ export function TasksCreatorFilterComposition({
   defaultOpen,
   onOpenChange,
 }: TasksCreatorFilterCompositionProps) {
-  const portalRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [localValue, setLocalValue] = useState(defaultValue);
   const selectedIds = value ?? localValue;
@@ -56,7 +55,7 @@ export function TasksCreatorFilterComposition({
       : (identities.find((identity) => identity.id === id)?.label ?? id);
 
   return (
-    <div ref={portalRef} className="relative inline-flex">
+    <div className="relative inline-flex">
       <Combobox<string, true>
         multiple
         autoHighlight
@@ -91,10 +90,8 @@ export function TasksCreatorFilterComposition({
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
-          positionMethod="absolute"
           side="bottom"
           align="center"
-          portalProps={{ container: portalRef }}
           className="min-w-[280px]"
         >
           <ComboboxHeader>

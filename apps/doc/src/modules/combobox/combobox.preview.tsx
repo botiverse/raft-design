@@ -13,8 +13,7 @@ import {
   Field,
   FieldLabel,
 } from "raft-ui";
-import type { RefObject } from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { models, type Model } from "./combobox.constants.ts";
 
@@ -35,11 +34,10 @@ function ComboboxModelList() {
 }
 
 export function PreviewCombobox() {
-  const portalRef = useRef<HTMLDivElement>(null);
   const [selectedModel, setSelectedModel] = useState<Model | null>(models[0]);
 
   return (
-    <div ref={portalRef} className="relative flex justify-center">
+    <div className="relative flex justify-center">
       <Combobox<Model>
         items={models}
         value={selectedModel}
@@ -68,8 +66,6 @@ export function PreviewCombobox() {
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="w-[var(--anchor-width)]"
         >
           <ComboboxModelList />
