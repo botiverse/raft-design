@@ -30,6 +30,8 @@ export const conversationPanel = tv({
           "dark:bg-[oklch(0.2_0.004_106.42)]",
           "dark:md:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.07),inset_0_0_0_1px_oklch(0.985_0.004_106.42_/_0.03),0_0_0_1px_oklch(0_0_0_/_0.6),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
           "md:ml-2 md:rounded-tl-[10px]",
+          "group-data-[content-edge=attached]/app-shell-main-slot:md:ml-0",
+          "group-data-[content-edge=attached]/app-shell-main-slot:md:rounded-tl-none",
         ],
         tabs: [
           "border-b-0 bg-layer-panel max-md:bg-layer-page",

@@ -1,5 +1,6 @@
 import {
   AppShellMainSlot,
+  AppShellOverlaySlot,
   AppShellPanelSlot,
   AppShellSidebarSlot,
   ResizableGroup,
@@ -7,7 +8,6 @@ import {
   ResizablePanel,
   useThemeFamily,
 } from "raft-ui";
-import { cn } from "raft-ui/cn";
 import { useEffect, useMemo, useRef } from "react";
 
 import { type ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
@@ -186,7 +186,7 @@ export function PlaygroundActivityPanel() {
         minSize={480}
         maxSize={720}
         groupResizeBehavior="preserve-pixel-size"
-        className="relative min-w-0"
+        className="relative min-w-0 !overflow-visible"
       >
         <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1">
           {master}
@@ -194,28 +194,10 @@ export function PlaygroundActivityPanel() {
       </ResizablePanel>
       <ResizableHandle className={theme === "elegant" ? "translate-x-[10px]" : undefined} />
       <ResizablePanel id="playground-activity-content" minSize={320} className="relative min-w-0">
-        <AppShellMainSlot
-          className={cn(
-            "flex h-full min-w-0 flex-1",
-            theme === "brutal" && "border-l-2 border-black",
-            theme === "elegant" && [
-              "md:[&>[data-slot=conversation-panel-root]>[data-slot=conversation-panel-content]]:ml-0",
-              "md:[&>[data-slot=conversation-panel-root]>[data-slot=conversation-panel-content]]:rounded-tl-none",
-              "md:[&>[data-slot=conversation-panel-root]>[data-slot=conversation-panel-content]]:border-l-[0.5px] md:[&>[data-slot=conversation-panel-root]>[data-slot=conversation-panel-content]]:border-line-hairline",
-            ],
-          )}
-        >
+        <AppShellMainSlot contentEdge="attached" overlay className="flex h-full min-w-0 flex-1">
           {content}
           {context && !hasContextColumn ? (
-            <div
-              className={
-                theme === "brutal"
-                  ? "absolute inset-0 z-20 flex min-h-0 min-w-0 border-l-2 border-black bg-white"
-                  : "absolute inset-0 z-20 flex min-h-0 min-w-0 bg-layer-panel"
-              }
-            >
-              {context}
-            </div>
+            <AppShellOverlaySlot>{context}</AppShellOverlaySlot>
           ) : null}
         </AppShellMainSlot>
       </ResizablePanel>

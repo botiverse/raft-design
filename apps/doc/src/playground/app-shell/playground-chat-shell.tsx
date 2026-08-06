@@ -2,6 +2,7 @@ import { Outlet, useMatch } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {
   AppShellMainSlot,
+  AppShellOverlaySlot,
   AppShellPanelSlot,
   AppShellRoot,
   AppShellSidebarSlot,
@@ -173,18 +174,9 @@ function PlaygroundChatLayout({
       </ResizablePanel>
       <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
       <ResizablePanel id="playground-main" minSize={360} className="relative z-0 !overflow-visible">
-        <AppShellMainSlot className="flex h-full min-w-0 flex-1">
+        <AppShellMainSlot overlay className="flex h-full min-w-0 flex-1">
           {main}
-          {thread && !isLargeDesktop ? (
-            <div
-              className={cn(
-                "absolute inset-0 z-20 flex min-h-0 min-w-0",
-                theme === "brutal" && "border-l-2 border-black",
-              )}
-            >
-              {thread}
-            </div>
-          ) : null}
+          {thread && !isLargeDesktop ? <AppShellOverlaySlot>{thread}</AppShellOverlaySlot> : null}
         </AppShellMainSlot>
       </ResizablePanel>
       {thread && isLargeDesktop ? (

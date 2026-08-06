@@ -28,6 +28,7 @@ const SNIPPETS = {
   responsiveComposition: appShellResponsiveCompositionSource,
   anatomy: `import {
   AppShellMainSlot,
+  AppShellOverlaySlot,
   AppShellPanelSlot,
   AppShellRailSlot,
   AppShellRoot,
@@ -37,7 +38,10 @@ const SNIPPETS = {
 <AppShellRoot>
   <AppShellRailSlot>...</AppShellRailSlot>
   <AppShellSidebarSlot>...</AppShellSidebarSlot>
-  <AppShellMainSlot>...</AppShellMainSlot>
+  <AppShellMainSlot contentEdge="attached" overlay>
+    ...
+    <AppShellOverlaySlot>...</AppShellOverlaySlot>
+  </AppShellMainSlot>
   <AppShellPanelSlot>...</AppShellPanelSlot>
 </AppShellRoot>`,
 } as const;
@@ -89,10 +93,33 @@ const APP_SHELL_SIDEBAR_SLOT_PROPS: readonly PropRow[] = [
 
 const APP_SHELL_MAIN_SLOT_PROPS: readonly PropRow[] = [
   {
+    name: "contentEdge",
+    type: '"inset" | "attached"',
+    default: '"inset"',
+    description:
+      "Controls how primary content meets the preceding region. Attached owns the structural divider and removes the Elegant ConversationPanel inset at the shared edge.",
+  },
+  {
+    name: "overlay",
+    type: "boolean",
+    default: "false",
+    description:
+      "Provides the positioning context for an AppShellOverlaySlot rendered inside the main region.",
+  },
+  {
     name: "...props",
     type: 'useRender.ComponentProps<"main">',
     description:
       "Flexible primary content region. In a collapsible desktop layout, mount it inside a relative main panel so it can expand over the sidebar.",
+  },
+];
+
+const APP_SHELL_OVERLAY_SLOT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Theme-aware overlay region for temporarily covering the primary content without changing the column layout.",
   },
 ];
 
@@ -199,6 +226,9 @@ function AppShellDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-app-shell-main-slot" title="AppShellMainSlot">
             <PropsTable rows={APP_SHELL_MAIN_SLOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-app-shell-overlay-slot" title="AppShellOverlaySlot">
+            <PropsTable rows={APP_SHELL_OVERLAY_SLOT_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-app-shell-panel-slot" title="AppShellPanelSlot">
             <PropsTable rows={APP_SHELL_PANEL_SLOT_PROPS} />
