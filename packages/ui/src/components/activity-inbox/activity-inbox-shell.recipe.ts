@@ -92,11 +92,7 @@ export const activityInboxShell = tv({
     theme: {
       brutal: {
         panel: ["bg-white text-black"],
-        header: [
-          "h-panel-header px-5",
-          "[@media(max-height:600px)]:!h-panel-header",
-          "border-b-2 border-black bg-white",
-        ],
+        header: ["h-panel-header px-5", "border-b-2 border-black bg-white"],
         headerBack: ["border-2 border-black bg-white", sourceButtonMotion],
         headerIcon: ["border-2 border-black bg-primary-400 text-black"],
         headerTitle: ["text-base font-bold leading-tight text-black"],

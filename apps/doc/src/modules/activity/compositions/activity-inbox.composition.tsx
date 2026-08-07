@@ -249,7 +249,7 @@ export function ActivityInboxComposition({
           </ActivityInboxHeaderBack>
         ) : null}
         <ActivityInboxHeaderIcon>
-          <Activity />
+          <Activity size={18} />
         </ActivityInboxHeaderIcon>
         <ActivityInboxHeaderContent>
           <PanelHeading>

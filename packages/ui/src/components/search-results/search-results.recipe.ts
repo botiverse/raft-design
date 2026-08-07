@@ -88,7 +88,13 @@ export const searchResults = tv({
         error: ["border-2 border-black bg-white shadow-raft-sm"],
         errorTitle: ["font-bold text-black"],
         errorDescription: ["text-black/60"],
-        errorAction: ["btn-brutal-sm bg-white"],
+        errorAction: [
+          "border-2 border-black bg-white font-bold shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
+          "transition-all duration-100",
+          "hover:-translate-y-px hover:shadow-[4px_4px_0px_oklch(0.1812926_0.0049716_17.6198)]",
+          "active:translate-x-px active:translate-y-px",
+          "active:shadow-[1px_1px_0px_oklch(0.1812926_0.0049716_17.6198)]",
+        ],
       },
       elegant: {
         summary: ["font-medium", "text-foreground-muted"],
