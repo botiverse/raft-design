@@ -1,7 +1,7 @@
 /* ─── Token grammar ──────────────────────────────────────────────────────────
    Neutrals:  {role}(-{purpose})(-{intensity})
      role      = foreground | layer | line | fill
-     purpose   = icon, placeholder, disabled, inverse, page, panel, popover, ...
+     purpose   = icon, placeholder, disabled, inverse, canvas, panel, popover, ...
                  (unordered axis — names say where the token is used)
      intensity = strong > (bare default) > muted
                  (strictly ordered axis; "subtle" is banned)
@@ -89,7 +89,8 @@
   --color-foreground-active: var(--foreground-active);
   --color-foreground-hover: var(--foreground-hover);
 
-  --color-layer-page: var(--layer-page);
+  --color-layer-canvas: var(--layer-canvas);
+  --color-layer-canvas-muted: var(--layer-canvas-muted);
   --color-layer-panel: var(--layer-panel);
   --color-layer-popover: var(--layer-popover);
   --color-layer-backdrop: var(--layer-backdrop);
@@ -336,7 +337,8 @@
   --foreground-active: oklch(0.38 0.006 106.42);
   --foreground-hover: oklch(0.42 0.006 106.42);
 
-  --layer-page: oklch(1 0 0);
+  --layer-canvas: oklch(1 0 0);
+  --layer-canvas-muted: oklch(1 0 0);
   --layer-panel: oklch(1 0 0);
   --layer-popover: oklch(1 0 0);
   --layer-backdrop: oklch(0 0 0 / 0.65);
@@ -478,7 +480,8 @@
   --foreground-active: oklch(0.38 0.006 106.42);
   --foreground-hover: oklch(0.42 0.006 106.42);
 
-  --layer-page: oklch(0.97885053 0.00132105 106.423534);
+  --layer-canvas: oklch(1 0 0);
+  --layer-canvas-muted: oklch(0.97885053 0.00132105 106.423534);
   --layer-panel: oklch(1 0 0);
   --layer-popover: oklch(1 0 0);
   --layer-backdrop: oklch(0 0 0 / 0.15);
@@ -575,11 +578,12 @@
   --foreground-active: oklch(0.88 0.004 106.42);
   --foreground-hover: oklch(0.85 0.004 106.42);
 
-  /* Place ladder: page < inset < card < panel < popover; the fill pair sits
+  /* Place ladder: canvas-muted < inset < canvas < card < panel < popover; the fill pair sits
      just above popover. Dark elevation is surface lightness first; shadows are
      a secondary cue. Dark shares the light theme's warm stone hue (106.42) so
      both modes read as the same material. */
-  --layer-page: oklch(0.16 0.005 106.42);
+  --layer-canvas: oklch(0.19 0.005 106.42);
+  --layer-canvas-muted: oklch(0.16 0.005 106.42);
   --layer-panel: oklch(0.26 0.004 106.42);
   --layer-popover: oklch(0.24 0.004 106.42);
   --layer-backdrop: oklch(0 0 0 / 0.6);
@@ -677,7 +681,8 @@
     --foreground-active: oklch(0.88 0.004 106.42);
     --foreground-hover: oklch(0.85 0.004 106.42);
 
-    --layer-page: oklch(0.16 0.005 106.42);
+    --layer-canvas: oklch(0.19 0.005 106.42);
+    --layer-canvas-muted: oklch(0.16 0.005 106.42);
     --layer-panel: oklch(0.26 0.004 106.42);
     --layer-popover: oklch(0.24 0.004 106.42);
     --layer-backdrop: oklch(0 0 0 / 0.6);

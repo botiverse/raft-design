@@ -23,7 +23,7 @@ export const conversationPanel = tv({
         footer: "border-t-2 border-black bg-white",
       },
       elegant: {
-        root: "relative bg-layer-page font-sans text-foreground-strong",
+        root: "relative bg-layer-canvas-muted font-sans text-foreground-strong",
         content: [
           "relative overflow-clip",
           "bg-layer-panel",
@@ -33,8 +33,8 @@ export const conversationPanel = tv({
           "dark:group-data-[edge=inset]/panel-frame:md:shadow-[0_0_0_1px_var(--line-muted),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
         ],
         tabs: [
-          "border-b-0 bg-layer-panel max-md:bg-layer-page",
-          "dark:bg-transparent dark:max-md:bg-layer-page",
+          "border-b-0 bg-layer-panel max-md:bg-layer-canvas-muted",
+          "dark:bg-transparent dark:max-md:bg-layer-canvas-muted",
           "max-md:border-b max-md:border-line-muted",
           "[&>[data-slot=tabs-list]]:border-b-0",
           "[&>[data-slot=tabs-list]]:max-md:h-10",

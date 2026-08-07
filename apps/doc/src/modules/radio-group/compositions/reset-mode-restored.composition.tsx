@@ -30,7 +30,7 @@ const resetModeOption = tv({
   slots: {
     card: [
       "flex w-full cursor-pointer items-start text-left",
-      "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-page",
+      "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-canvas-muted",
       "has-[[data-slot=radio-group-item][data-disabled]]:cursor-not-allowed",
     ],
     label: "text-foreground",

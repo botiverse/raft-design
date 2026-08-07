@@ -7,7 +7,7 @@ import { Preview } from "#/components/preview.tsx";
 import { SIZES, VARIANTS } from "./button.constants.ts";
 
 const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
-  "outline-transparent ring-2 ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] ring-offset-1 ring-offset-layer-page";
+  "outline-transparent ring-2 ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] ring-offset-1 ring-offset-layer-canvas-muted";
 
 type ButtonPreviewProps = ButtonProps & {
   focusVisible?: boolean;

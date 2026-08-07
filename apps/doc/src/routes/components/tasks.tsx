@@ -289,7 +289,7 @@ function TasksDoc() {
               composer. Mutually exclusive with a real thread: if{" "}
               <InlineCode>task.isLegacy</InlineCode>, close the thread and show this panel instead.
             </p>
-            <Preview previewClassName="h-[36rem] items-stretch justify-center bg-brutal-cream p-6 [[data-theme=elegant]_&]:bg-layer-page">
+            <Preview previewClassName="h-[36rem] items-stretch justify-center bg-brutal-cream p-6 [[data-theme=elegant]_&]:bg-layer-canvas-muted">
               <Preview.Canvas>
                 <TasksLegacyTaskPanelComposition
                   framed

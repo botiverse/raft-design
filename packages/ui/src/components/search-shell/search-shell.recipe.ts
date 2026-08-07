@@ -70,10 +70,10 @@ export const searchShell = tv({
         skeletonCard: "border-2 border-black/30 bg-white",
       },
       elegant: {
-        frame: "bg-layer-page dark:bg-layer-page",
+        frame: "bg-layer-canvas-muted dark:bg-layer-canvas-muted",
         header: [
           "min-h-[var(--shell-header-height,56px)]",
-          "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-page dark:bg-layer-page",
+          "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-canvas-muted dark:bg-layer-canvas-muted",
           "max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",
         ],
         headerBack: [
