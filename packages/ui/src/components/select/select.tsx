@@ -1,7 +1,7 @@
 import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
-import { dataPresence, isAriaTrue } from "../../lib/data-attributes";
+import type { DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -153,13 +153,13 @@ export function Select<Value, Multiple extends boolean | undefined = false>(
   return <BaseSelect.Root data-slot="select" {...props} />;
 }
 
-export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props>;
+export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props> & DataAttributes;
 
 export function SelectTrigger({
   className,
   children,
   render,
-  "aria-invalid": ariaInvalid,
+  "data-invalid": dataInvalid,
   ...props
 }: SelectTriggerProps) {
   const theme = useThemeFamily();
@@ -170,11 +170,11 @@ export function SelectTrigger({
   return (
     <BaseSelect.Trigger
       data-slot="select-trigger"
+      data-haspopup=""
       {...(renderProp ? { render: renderProp } : {})}
       className={trigger({ className })}
       {...props}
-      aria-invalid={ariaInvalid}
-      {...(isAriaTrue(ariaInvalid) ? { "data-invalid": dataPresence(true) } : {})}
+      {...(dataInvalid != null ? { "data-invalid": dataInvalid, "aria-invalid": "true" } : {})}
     >
       <span data-slot="select-trigger-content" className="flex min-w-0 flex-1 items-center gap-1.5">
         {children}

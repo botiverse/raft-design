@@ -1,19 +1,14 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 
+import type { DataAttributes } from "../../lib/data-attributes";
 import { defaultNativeButton } from "../../lib/default-native-button";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { panelAction } from "./panel-action.recipe";
 
-export type PanelActionProps = Omit<StyledProps<BaseButton.Props>, "type">;
+export type PanelActionProps = Omit<StyledProps<BaseButton.Props>, "type"> & DataAttributes;
 
-export function PanelAction({
-  className,
-  render,
-  nativeButton,
-  "aria-haspopup": ariaHasPopup,
-  ...props
-}: PanelActionProps) {
+export function PanelAction({ className, render, nativeButton, ...props }: PanelActionProps) {
   const theme = useThemeFamily();
 
   return (
@@ -23,8 +18,6 @@ export function PanelAction({
       nativeButton={nativeButton ?? defaultNativeButton(render)}
       type="button"
       data-slot="panel-action"
-      aria-haspopup={ariaHasPopup}
-      {...(ariaHasPopup != null && ariaHasPopup !== false ? { "data-has-popup": "" as const } : {})}
       className={panelAction({ theme, className })}
     />
   );

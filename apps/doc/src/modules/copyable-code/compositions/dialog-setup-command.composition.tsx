@@ -11,7 +11,7 @@ export function DialogSetupCommandContent() {
   return (
     <CopyableCodeRoot>
       <CopyableCode>{COMMAND}</CopyableCode>
-      <CopyableCodeAction ariaLabel="Copy daemon command" />
+      <CopyableCodeAction aria-label="Copy daemon command" />
     </CopyableCodeRoot>
   );
 }

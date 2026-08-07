@@ -24,7 +24,7 @@ export function TextareaPreview({ code }: TextareaPreviewProps) {
           rows={4}
           placeholder={placeholder}
           disabled={disabled}
-          aria-invalid={invalid || undefined}
+          data-invalid={invalid || undefined}
         />
       </Preview.Canvas>
       <Preview.Controls>

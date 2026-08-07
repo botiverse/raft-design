@@ -11,7 +11,7 @@ export function TextareaWithFieldContent() {
 
       <Field invalid>
         <FieldLabel htmlFor="textarea-invalid-message">Message</FieldLabel>
-        <Textarea id="textarea-invalid-message" rows={4} aria-invalid defaultValue="" />
+        <Textarea id="textarea-invalid-message" rows={4} data-invalid defaultValue="" />
         <FieldError match>Message is required.</FieldError>
       </Field>
     </div>

@@ -23,7 +23,7 @@ export function InputPlaygroundPreview({ code }: InputPlaygroundPreviewProps) {
           className="w-80"
           placeholder={placeholder}
           disabled={disabled}
-          aria-invalid={invalid || undefined}
+          data-invalid={invalid || undefined}
           suppressPasswordManager={suppressPasswordManager}
         />
       </Preview.Canvas>

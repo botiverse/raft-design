@@ -86,17 +86,11 @@ const COPYABLE_CODE_CODE_PROPS: readonly PropRow[] = [
 
 const COPYABLE_CODE_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "ariaLabel",
+    name: "aria-label",
     type: "string",
     default: '"Copy code"',
     description:
-      "Idle accessible name for the icon-only action. It is not rendered as visible text.",
-  },
-  {
-    name: "copiedAriaLabel",
-    type: "string",
-    default: '"Copied code"',
-    description: "Accessible name announced after a successful copy.",
+      'Accessible name for the icon-only action. When omitted, the label swaps to "Copied code" while the copy state is active. It is not rendered as visible text.',
   },
   {
     name: "children",

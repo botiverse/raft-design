@@ -38,7 +38,7 @@ function AddMachineDialogParts() {
         </div>
         <CopyableCodeRoot className="mb-7">
           <CopyableCode truncate>{CONNECT_COMMAND}</CopyableCode>
-          <CopyableCodeAction ariaLabel="Copy daemon command" />
+          <CopyableCodeAction aria-label="Copy daemon command" />
         </CopyableCodeRoot>
         <Banner status="warning" size="md" className="mb-5">
           <Status variant="warning" size="sm" pulse />

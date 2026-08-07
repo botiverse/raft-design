@@ -34,12 +34,12 @@ const TOC = [
 const SNIPPETS = {
   anatomy: `import { RadioGroup, RadioGroupItem } from "raft-ui";
 
-<RadioGroup defaultValue="option" ariaLabel="Options">
+<RadioGroup defaultValue="option" aria-label="Options">
   <RadioGroupItem value="option" />
 </RadioGroup>`,
   field: `<Field className="gap-2.5">
   <FieldLabel>Restart mode</FieldLabel>
-  <RadioGroup defaultValue="restart" ariaLabel="Restart mode">
+  <RadioGroup defaultValue="restart" aria-label="Restart mode">
     <label>
       <RadioGroupItem value="restart" />
       Restart
@@ -51,7 +51,7 @@ const SNIPPETS = {
   </RadioGroup>
   <FieldDescription>Choose one mode before confirming.</FieldDescription>
 </Field>`,
-  customIndicator: `<RadioGroup defaultValue="approved" ariaLabel="Approval state">
+  customIndicator: `<RadioGroup defaultValue="approved" aria-label="Approval state">
   <label>
     <RadioGroupItem value="approved">
       <RadioGroupIndicator>
@@ -82,7 +82,7 @@ const SNIPPETS = {
 <RadioGroup
   disabled
   defaultValue="twitter_x"
-  ariaLabel="Where did you hear about us?"
+  aria-label="Where did you hear about us?"
   className="w-64"
 >
   {referralOptions.map((option) => (
@@ -111,9 +111,10 @@ const RADIO_GROUP_ROOT_PROPS: readonly PropRow[] = [
     description: "Called when a different item is selected.",
   },
   {
-    name: "ariaLabel",
+    name: "aria-label",
     type: "string",
-    description: "Accessible label for groups without an external visible label.",
+    description:
+      "Native ARIA attribute naming the group for assistive tech. Set it when the group has no visible label.",
   },
   {
     name: "name",
@@ -264,7 +265,7 @@ function RadioGroupDoc() {
           <DocSubsection parentId="usage" id="custom-indicator" title="Custom indicator">
             <Preview>
               <Preview.Canvas>
-                <RadioGroup defaultValue="approved" ariaLabel="Approval state" className="w-48">
+                <RadioGroup defaultValue="approved" aria-label="Approval state" className="w-48">
                   <label className="flex cursor-pointer items-center gap-2 text-sm">
                     <RadioGroupItem value="approved">
                       <RadioGroupIndicator>
@@ -307,7 +308,7 @@ function RadioGroupDoc() {
               <Preview.Canvas>
                 <Field className="w-64 gap-2.5">
                   <FieldLabel>Restart mode</FieldLabel>
-                  <RadioGroup defaultValue="restart" ariaLabel="Restart mode">
+                  <RadioGroup defaultValue="restart" aria-label="Restart mode">
                     <label className="flex items-center gap-3 text-sm">
                       <RadioGroupItem value="restart" />
                       Restart

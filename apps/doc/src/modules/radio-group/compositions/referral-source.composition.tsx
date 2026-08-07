@@ -25,7 +25,7 @@ export function RadioGroupReferralSourceContent({
 }) {
   return (
     <RadioGroup
-      ariaLabel="Where did you hear about us?"
+      aria-label="Where did you hear about us?"
       value={value}
       onValueChange={onValueChange}
       disabled={disabled}

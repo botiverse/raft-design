@@ -20,13 +20,13 @@ const SNIPPETS = {
   preview: `import { InlineCode } from "raft-ui";
 
 <p>
-  Set <InlineCode>aria-invalid</InlineCode> on the control.
+  Set <InlineCode>data-invalid</InlineCode> on the control.
 </p>`,
   anatomy: `import { InlineCode } from "raft-ui";
 
 <InlineCode />`,
   usage: `<p>
-  Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on the control.
+  Put <InlineCode>data-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on the control.
 </p>
 
 <p>
@@ -70,7 +70,7 @@ function InlineCodeDoc() {
           <Preview>
             <Preview.Canvas>
               <p className="max-w-2xl text-sm leading-6 text-foreground-strong">
-                Set <InlineCode>aria-invalid</InlineCode> on the control.
+                Set <InlineCode>data-invalid</InlineCode> on the control.
               </p>
             </Preview.Canvas>
             <Preview.Code html={code.preview} />
@@ -97,7 +97,7 @@ function InlineCodeDoc() {
             <Preview.Canvas>
               <div className="grid max-w-2xl gap-4 text-sm leading-6 text-foreground-strong">
                 <p>
-                  Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on
+                  Put <InlineCode>data-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on
                   the control.
                 </p>
                 <p>

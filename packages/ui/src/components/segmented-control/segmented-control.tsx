@@ -69,14 +69,11 @@ const segmentedControl = tv({
 });
 
 export type SegmentedControlProps<T extends string = string> = StyledProps<
-  Omit<BaseRadioGroup.Props<T>, "aria-label">
+  BaseRadioGroup.Props<T>
 > &
-  Omit<VariantProps<typeof segmentedControl>, "theme"> & {
-    ariaLabel?: string;
-  };
+  Omit<VariantProps<typeof segmentedControl>, "theme">;
 
 export function SegmentedControl<T extends string = string>({
-  ariaLabel,
   disabled = false,
   className,
   ...props
@@ -85,7 +82,6 @@ export function SegmentedControl<T extends string = string>({
   const { root } = segmentedControl({ disabled, theme });
   return (
     <BaseRadioGroup
-      aria-label={ariaLabel}
       disabled={disabled}
       data-slot="segmented-control"
       className={root({ className })}

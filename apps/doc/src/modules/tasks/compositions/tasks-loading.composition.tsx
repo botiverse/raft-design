@@ -53,7 +53,7 @@ export function TasksLoadingComposition() {
                 setView(nextView);
                 setNotice(`${nextView} view selected while loading`);
               }}
-              ariaLabel="Task view"
+              aria-label="Task view"
             >
               <SegmentedControlItem value="board" aria-label="Board" className="max-md:px-2.5">
                 <Columns3 aria-hidden />

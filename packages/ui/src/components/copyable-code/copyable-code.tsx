@@ -183,19 +183,15 @@ export function CopyableCode({ children, className, truncate, ...props }: Copyab
 }
 
 export type CopyableCodeActionProps = Omit<ButtonProps, "children" | "className"> & {
-  ariaLabel?: string;
   buttonClassName?: string;
   className?: string;
-  copiedAriaLabel?: string;
   children?: ReactNode | ((state: { copied: boolean }) => ReactNode);
 };
 
 export function CopyableCodeAction({
-  ariaLabel = "Copy code",
   children,
   buttonClassName,
   className,
-  copiedAriaLabel = "Copied code",
   onClick,
   size,
   variant,
@@ -204,7 +200,7 @@ export function CopyableCodeAction({
   const { copied, copyValue } = useCopyableCode("CopyableCodeAction");
   const theme = useThemeFamily();
   const { action } = copyableCode({ theme });
-  const accessibleLabel = copied ? copiedAriaLabel : ariaLabel;
+  const accessibleLabel = copied ? "Copied code" : "Copy code";
   const buttonSize = size ?? (theme === "elegant" ? "icon-xs" : "icon-sm");
   const buttonVariant = variant ?? (theme === "elegant" ? "ghost" : "outline");
 
@@ -221,7 +217,7 @@ export function CopyableCodeAction({
         type="button"
         variant={buttonVariant}
         size={buttonSize}
-        aria-label={accessibleLabel}
+        aria-label={props["aria-label"] ?? accessibleLabel}
         aria-live="polite"
         onClick={handleClick}
         className={buttonClassName}

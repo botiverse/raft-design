@@ -81,7 +81,7 @@ export function RadioGroupResetModeRestoredComposition({
 
   return (
     <RadioGroup
-      ariaLabel="Restart mode"
+      aria-label="Restart mode"
       value={currentValue}
       onValueChange={handleValueChange}
       disabled={disabled}

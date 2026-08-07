@@ -193,7 +193,7 @@ const emailError = getEmailError(email);
   <Input
     id="work-email"
     type="email"
-    aria-invalid={Boolean(emailError)}
+    data-invalid={Boolean(emailError)}
     value={email}
     onChange={(event) => setEmail(event.currentTarget.value)}
   />
@@ -202,7 +202,7 @@ const emailError = getEmailError(email);
 </Field>;
 ```
 
-- For externally controlled validation, bind `Field invalid`, the control's `aria-invalid`, and `FieldError match` to the same error condition. A bare `match` means “always show”; use it only for a deliberately static invalid-state example. Without `match`, `FieldError` follows native, custom `validate`, or enclosing `Form` errors.
+- For externally controlled validation, bind `Field invalid`, the control's `data-invalid` (mirrored to `aria-invalid`), and `FieldError match` to the same error condition. A bare `match` means “always show”; use it only for a deliberately static invalid-state example. Without `match`, `FieldError` follows native, custom `validate`, or enclosing `Form` errors.
 - Do not hand-roll an error paragraph; `FieldError` owns the error semantics and styling.
 - `FieldItem` is for horizontal label/control rows (settings lists).
 - `FieldValidity` exposes raw validity when you need to drive something custom.

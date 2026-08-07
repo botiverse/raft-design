@@ -76,11 +76,11 @@ If the user's next move is to select the text, it should have been `CopyableCode
 ```tsx
 <CopyableCodeRoot>
   <CopyableCode truncate>{command}</CopyableCode>
-  <CopyableCodeAction ariaLabel="Copy install command" />
+  <CopyableCodeAction aria-label="Copy install command" />
 </CopyableCodeRoot>
 ```
 
-`CopyableCodeRoot` sizes are `sm` and `md`. Use `truncate` on `CopyableCode` for long single-line commands, and give `CopyableCodeAction` an `ariaLabel` that says what is being copied.
+`CopyableCodeRoot` sizes are `sm` and `md`. Use `truncate` on `CopyableCode` for long single-line commands, and give `CopyableCodeAction` an `aria-label` that says what is being copied. When you omit it, the label swaps between `Copy code` and `Copied code`.
 
 Compose a titled block with `CodeBlockHeader`, `CodeBlockTitle`, `CodeBlockActions`, and `CodeBlockAction` above `CodeBlockBody`. In a block without a header, place `CodeBlockActions` inside `CodeBlockBody`. Render the complete `<pre><code>…</code></pre>` as body content.
 

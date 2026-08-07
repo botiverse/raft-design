@@ -114,7 +114,7 @@ const SNIPPETS = {
   <InputGroupAddon>
     <Search />
   </InputGroupAddon>
-  <InputGroupInput aria-label="Search" aria-invalid defaultValue="???" />
+  <InputGroupInput aria-label="Search" data-invalid defaultValue="???" />
 </InputGroup>
 
 <InputGroup>
@@ -125,7 +125,7 @@ const SNIPPETS = {
 
 <InputGroup>
   <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-  <InputGroupInput aria-label="Server slug" aria-invalid defaultValue="Bad Slug" />
+  <InputGroupInput aria-label="Server slug" data-invalid defaultValue="Bad Slug" />
 </InputGroup>`,
   field: `import { Field, FieldError, FieldLabel, InputGroup, InputGroupInput } from "raft-ui";
 
@@ -326,7 +326,7 @@ function InputGroupDoc() {
           <DocSubsection parentId="usage" id="states" title="States">
             <div className="space-y-4">
               <DocNote>
-                Put <InlineCode>aria-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on{" "}
+                Put <InlineCode>data-invalid</InlineCode> and <InlineCode>disabled</InlineCode> on{" "}
                 <InlineCode>InputGroupInput</InlineCode>. The wrapper owns the visible state through{" "}
                 <InlineCode>has-*</InlineCode>.
               </DocNote>
@@ -343,7 +343,7 @@ function InputGroupDoc() {
                       <InputGroupAddon>
                         <Search />
                       </InputGroupAddon>
-                      <InputGroupInput aria-label="Search" aria-invalid defaultValue="???" />
+                      <InputGroupInput aria-label="Search" data-invalid defaultValue="???" />
                     </InputGroup>
                     <InputGroup>
                       <InputGroupAddon.Text>$</InputGroupAddon.Text>
@@ -354,7 +354,7 @@ function InputGroupDoc() {
                       <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
                       <InputGroupInput
                         aria-label="Server slug"
-                        aria-invalid
+                        data-invalid
                         defaultValue="Bad Slug"
                       />
                     </InputGroup>

@@ -35,7 +35,7 @@ export const panelAction = tv({
   variants: {
     theme: {
       brutal: [
-        "active:not-data-[has-popup]:scale-100 active:translate-x-px active:translate-y-px active:shadow-raft-xs",
+        "active:not-data-[haspopup]:scale-100 active:translate-x-px active:translate-y-px active:shadow-raft-xs",
         "disabled:shadow-raft-sm",
       ],
       elegant: [

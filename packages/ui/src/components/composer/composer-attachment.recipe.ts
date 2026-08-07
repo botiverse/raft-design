@@ -66,7 +66,7 @@ export const composerAttachment = tv({
         attachmentsNav: [
           "shadow-raft-sm",
           "hover:-translate-y-1/2 hover:shadow-raft-sm",
-          "active:not-data-[has-popup]:translate-x-0 active:not-data-[has-popup]:-translate-y-1/2 active:shadow-raft-sm",
+          "active:not-data-[haspopup]:translate-x-0 active:not-data-[haspopup]:-translate-y-1/2 active:shadow-raft-sm",
         ],
         attachment: [
           "has-[[data-slot=composer-attachment-image]]:size-16",

@@ -36,7 +36,7 @@ function ResetModeOptions({
     <RadioGroup<ResetModeTone>
       value={value}
       onValueChange={onValueChange}
-      ariaLabel="Restart mode"
+      aria-label="Restart mode"
       className="grid gap-3"
     >
       <ResetModeOption value="restart" tone="restart">

@@ -65,7 +65,7 @@ const SNIPPETS = {
 
 <Field invalid>
   <FieldLabel htmlFor="invalid-email">Email</FieldLabel>
-  <Input id="invalid-email" aria-invalid defaultValue="oops" />
+  <Input id="invalid-email" data-invalid defaultValue="oops" />
   <FieldError match>Email is required.</FieldError>
 </Field>
 
@@ -102,7 +102,7 @@ const SNIPPETS = {
     <FieldLabel htmlFor="project-slug">Slug</FieldLabel>
     <InputGroup>
       <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
-      <InputGroupInput id="project-slug" aria-invalid defaultValue="Draft Space" />
+      <InputGroupInput id="project-slug" data-invalid defaultValue="Draft Space" />
     </InputGroup>
     <FieldError match>Use lowercase letters, numbers, and hyphens.</FieldError>
   </Field>
@@ -297,7 +297,7 @@ function FieldDoc() {
                   </Field>
                   <Field invalid>
                     <FieldLabel htmlFor="field-state-invalid-email">Email</FieldLabel>
-                    <Input id="field-state-invalid-email" aria-invalid defaultValue="oops" />
+                    <Input id="field-state-invalid-email" data-invalid defaultValue="oops" />
                     <FieldError match>Email is required.</FieldError>
                   </Field>
                   <Field disabled>
@@ -332,7 +332,7 @@ function FieldDoc() {
                       <InputGroupAddon.Text variant="container">/</InputGroupAddon.Text>
                       <InputGroupInput
                         id="field-project-slug"
-                        aria-invalid
+                        data-invalid
                         defaultValue="Draft Space"
                       />
                     </InputGroup>

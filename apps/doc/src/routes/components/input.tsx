@@ -40,9 +40,9 @@ const SNIPPETS = {
 />`,
   states: `<Input aria-label="Email" placeholder="you@example.com" />
 <Input aria-label="Email" defaultValue="alex@example.com" />
-<Input aria-label="Email" aria-invalid defaultValue="oops" />
+<Input aria-label="Email" data-invalid defaultValue="oops" />
 <Input aria-label="Email" disabled placeholder="Disabled" />
-<Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />`,
+<Input aria-label="Email" data-invalid disabled defaultValue="Locked error" />`,
   field: `import { Field, FieldError, FieldLabel, Input } from "raft-ui";
 
 <Field invalid>
@@ -59,10 +59,10 @@ const SNIPPETS = {
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "aria-invalid",
+    name: "data-invalid",
     type: "boolean",
     description:
-      "Standalone invalid styling. Inside Field, prefer Field invalid; Base UI passes invalid state to the control.",
+      "Standalone invalid styling; the control mirrors it to aria-invalid. Inside Field, prefer Field invalid; Base UI passes invalid state to the control.",
   },
   {
     name: "onValueChange",
@@ -162,7 +162,7 @@ function InputDoc() {
 
           <DocSubsection parentId="usage" id="states" title="States">
             <DocNote>
-              <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
+              <InlineCode>disabled</InlineCode> wins over <InlineCode>data-invalid</InlineCode>. A
               disabled invalid input keeps the disabled border and removes the invalid ring because
               the user cannot edit it.
             </DocNote>
@@ -171,9 +171,9 @@ function InputDoc() {
                 <div className="grid w-full max-w-96 gap-3">
                   <Input aria-label="Email" placeholder="you@example.com" />
                   <Input aria-label="Email" defaultValue="alex@example.com" />
-                  <Input aria-label="Email" aria-invalid defaultValue="oops" />
+                  <Input aria-label="Email" data-invalid defaultValue="oops" />
                   <Input aria-label="Email" disabled placeholder="Disabled" />
-                  <Input aria-label="Email" aria-invalid disabled defaultValue="Locked error" />
+                  <Input aria-label="Email" data-invalid disabled defaultValue="Locked error" />
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.states} />

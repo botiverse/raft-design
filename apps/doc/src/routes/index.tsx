@@ -425,7 +425,7 @@ const COMPONENT_GRID = [
         </Field>
         <Field invalid>
           <FieldLabel htmlFor="home-field-email">Email</FieldLabel>
-          <Input id="home-field-email" aria-invalid defaultValue="oops" />
+          <Input id="home-field-email" data-invalid defaultValue="oops" />
           <FieldError match>Email is required.</FieldError>
         </Field>
       </div>
@@ -438,7 +438,7 @@ const COMPONENT_GRID = [
       <div className="grid w-64 gap-2">
         <Input aria-label="Email" placeholder="you@example.com" />
         <Input aria-label="Workspace" defaultValue="raft-design" />
-        <Input aria-label="Invalid email" aria-invalid defaultValue="oops" />
+        <Input aria-label="Invalid email" data-invalid defaultValue="oops" />
       </div>
     ),
   },
@@ -477,7 +477,7 @@ const COMPONENT_GRID = [
     label: "RadioGroup",
     to: "/components/radio-group",
     preview: (
-      <RadioGroup defaultValue="restart" ariaLabel="Restart mode" className="w-fit">
+      <RadioGroup defaultValue="restart" aria-label="Restart mode" className="w-fit">
         <label className="flex items-center gap-3 text-sm">
           <RadioGroupItem value="restart" />
           Restart
@@ -576,7 +576,7 @@ const COMPONENT_GRID = [
     preview: (
       <div className="flex max-w-72 flex-wrap items-center justify-center gap-2 text-sm leading-6 text-foreground-muted">
         <span>Set</span>
-        <InlineCode>aria-invalid</InlineCode>
+        <InlineCode>data-invalid</InlineCode>
         <span>with</span>
         <InlineCode>disabled</InlineCode>
         <span>state.</span>
@@ -592,7 +592,7 @@ const COMPONENT_GRID = [
           <CopyableCode truncate>
             npx @botiverse/raft-daemon@latest --server-url https://api.raft.build
           </CopyableCode>
-          <CopyableCodeAction ariaLabel="Copy daemon command" />
+          <CopyableCodeAction aria-label="Copy daemon command" />
         </CopyableCodeRoot>
       </div>
     ),
@@ -937,7 +937,7 @@ function SegmentedControlPreview() {
 
   return (
     <div className="grid justify-items-center gap-4">
-      <SegmentedControl ariaLabel="Task view" value={value} onValueChange={setValue}>
+      <SegmentedControl aria-label="Task view" value={value} onValueChange={setValue}>
         <SegmentedControlItem value="board">
           <Columns3 />
           <SegmentedControlLabel>Board</SegmentedControlLabel>
@@ -947,7 +947,7 @@ function SegmentedControlPreview() {
           <SegmentedControlLabel>List</SegmentedControlLabel>
         </SegmentedControlItem>
       </SegmentedControl>
-      <SegmentedControl ariaLabel="Filter messages" value={filter} onValueChange={setFilter}>
+      <SegmentedControl aria-label="Filter messages" value={filter} onValueChange={setFilter}>
         <SegmentedControlItem value="all">
           <Inbox />
           <SegmentedControlLabel>All</SegmentedControlLabel>

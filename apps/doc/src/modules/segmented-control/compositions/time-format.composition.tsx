@@ -10,7 +10,7 @@ export function SegmentedControlTimeFormatComposition({
   onValueChange = () => {},
 }: SegmentedControlTimeFormatCompositionProps) {
   return (
-    <SegmentedControl ariaLabel="Time format" value={value} onValueChange={onValueChange}>
+    <SegmentedControl aria-label="Time format" value={value} onValueChange={onValueChange}>
       <SegmentedControlItem value="12h">
         <SegmentedControlLabel>12h</SegmentedControlLabel>
       </SegmentedControlItem>

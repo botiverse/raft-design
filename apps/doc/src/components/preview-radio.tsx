@@ -5,7 +5,7 @@ import type { PreviewRadioProps } from "./preview.types.ts";
 export function PreviewRadio({ label, options, value, onValueChange }: PreviewRadioProps) {
   return (
     <RadioGroup
-      ariaLabel={label}
+      aria-label={label}
       value={value}
       onValueChange={(nextValue) => {
         if (nextValue) {

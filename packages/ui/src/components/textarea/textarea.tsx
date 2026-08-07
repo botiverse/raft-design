@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef } from "react";
-import { dataPresence, isAriaTrue } from "../../lib/data-attributes";
+import { type DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { WithoutChildren } from "../../lib/without-children";
@@ -95,7 +95,7 @@ const textareaCounter = tv({
   },
 });
 
-export type TextareaProps = WithoutChildren<ComponentPropsWithRef<"textarea">>;
+export type TextareaProps = WithoutChildren<ComponentPropsWithRef<"textarea">> & DataAttributes;
 
 export type TextareaGroupProps = ComponentPropsWithRef<"div">;
 
@@ -106,7 +106,7 @@ export function TextareaGroup({ className, ...props }: TextareaGroupProps) {
   return <div data-slot="textarea-group" className={root({ className })} {...props} />;
 }
 
-export function Textarea({ className, "aria-invalid": ariaInvalid, ...props }: TextareaProps) {
+export function Textarea({ className, "data-invalid": dataInvalid, ...props }: TextareaProps) {
   const theme = useThemeFamily();
   const { root } = textarea({ theme });
 
@@ -115,8 +115,7 @@ export function Textarea({ className, "aria-invalid": ariaInvalid, ...props }: T
       data-slot="textarea"
       className={root({ className })}
       {...props}
-      aria-invalid={ariaInvalid}
-      {...(isAriaTrue(ariaInvalid) ? { "data-invalid": dataPresence(true) } : {})}
+      {...(dataInvalid != null ? { "data-invalid": dataInvalid, "aria-invalid": "true" } : {})}
     />
   );
 }

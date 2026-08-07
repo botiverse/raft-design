@@ -32,9 +32,9 @@ const SNIPPETS = {
 <Textarea />`,
   states: `<Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
 <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
-<Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
+<Textarea aria-label="Message" rows={4} data-invalid defaultValue="oops" />
 <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
-<Textarea aria-label="Message" rows={4} aria-invalid disabled defaultValue="Locked error" />`,
+<Textarea aria-label="Message" rows={4} data-invalid disabled defaultValue="Locked error" />`,
   counter: `import { Textarea, TextareaCounter, TextareaGroup } from "raft-ui";
 
 <TextareaGroup>
@@ -60,10 +60,10 @@ const TEXTAREA_COMPOSITION_SOURCES = createCompositionSourceMap({
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "aria-invalid",
+    name: "data-invalid",
     type: "boolean",
     description:
-      "Standalone invalid styling. Inside Field, set Field invalid and keep aria-invalid on the control when native textarea state should match.",
+      "Standalone invalid styling; the control mirrors it to aria-invalid. Inside Field, set Field invalid instead.",
   },
   {
     name: "ref",
@@ -159,7 +159,7 @@ function TextareaDoc() {
         <div className="space-y-10">
           <DocSubsection parentId="usage" id="states" title="States">
             <DocNote>
-              <InlineCode>disabled</InlineCode> wins over <InlineCode>aria-invalid</InlineCode>. A
+              <InlineCode>disabled</InlineCode> wins over <InlineCode>data-invalid</InlineCode>. A
               disabled invalid textarea keeps the disabled border and removes the invalid ring
               because the user cannot edit it.
             </DocNote>
@@ -168,12 +168,12 @@ function TextareaDoc() {
                 <div className="grid w-full max-w-96 gap-3">
                   <Textarea aria-label="Message" rows={4} placeholder="Type your message here." />
                   <Textarea aria-label="Message" rows={4} defaultValue="Hello world." />
-                  <Textarea aria-label="Message" rows={4} aria-invalid defaultValue="oops" />
+                  <Textarea aria-label="Message" rows={4} data-invalid defaultValue="oops" />
                   <Textarea aria-label="Message" rows={4} disabled placeholder="Disabled" />
                   <Textarea
                     aria-label="Message"
                     rows={4}
-                    aria-invalid
+                    data-invalid
                     disabled
                     defaultValue="Locked error"
                   />

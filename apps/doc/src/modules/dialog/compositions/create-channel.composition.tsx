@@ -86,7 +86,7 @@ function CreateChannelDialogParts() {
         </Field>
         <Field>
           <FieldLabel>Visibility</FieldLabel>
-          <SegmentedControl defaultValue="public" ariaLabel="Channel visibility">
+          <SegmentedControl defaultValue="public" aria-label="Channel visibility">
             <SegmentedControlItem value="public">
               <Hash />
               <SegmentedControlLabel>Public</SegmentedControlLabel>

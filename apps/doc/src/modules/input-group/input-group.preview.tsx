@@ -26,7 +26,7 @@ export function InputGroupPlaygroundPreview({ code }: InputGroupPlaygroundPrevie
           <InputGroupInput
             placeholder={placeholder}
             disabled={disabled}
-            aria-invalid={invalid || undefined}
+            data-invalid={invalid || undefined}
           />
           <InputGroupAddon.Text align="inline-end" variant={addonVariant}>
             .com

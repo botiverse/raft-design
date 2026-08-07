@@ -54,28 +54,13 @@ const radioGroup = tv({
   },
 });
 
-export type RadioGroupProps<T extends string = string> = StyledProps<
-  Omit<BaseRadioGroup.Props<T>, "aria-label">
-> & {
-  ariaLabel?: string;
-};
+export type RadioGroupProps<T extends string = string> = StyledProps<BaseRadioGroup.Props<T>>;
 
-export function RadioGroup<T extends string = string>({
-  ariaLabel,
-  className,
-  ...props
-}: RadioGroupProps<T>) {
+export function RadioGroup<T extends string = string>({ className, ...props }: RadioGroupProps<T>) {
   const theme = useThemeFamily();
   const { root } = radioGroup({ theme });
 
-  return (
-    <BaseRadioGroup
-      aria-label={ariaLabel}
-      data-slot="radio-group"
-      className={root({ className })}
-      {...props}
-    />
-  );
+  return <BaseRadioGroup data-slot="radio-group" className={root({ className })} {...props} />;
 }
 
 export type RadioGroupIndicatorProps = StyledProps<BaseRadio.Indicator.Props>;

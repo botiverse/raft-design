@@ -16,7 +16,7 @@ export function SegmentedControlFiltersComposition({
   onValueChange = () => {},
 }: SegmentedControlFiltersCompositionProps) {
   return (
-    <SegmentedControl ariaLabel="Filter messages" value={value} onValueChange={onValueChange}>
+    <SegmentedControl aria-label="Filter messages" value={value} onValueChange={onValueChange}>
       <SegmentedControlItem value="all">
         <Inbox />
         <SegmentedControlLabel>All</SegmentedControlLabel>

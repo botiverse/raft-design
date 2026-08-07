@@ -10,7 +10,7 @@ export function CompactDetailCommandContent() {
   return (
     <CopyableCodeRoot size="sm">
       <CopyableCode truncate>{COMMAND}</CopyableCode>
-      <CopyableCodeAction ariaLabel="Copy computer setup command" />
+      <CopyableCodeAction aria-label="Copy computer setup command" />
     </CopyableCodeRoot>
   );
 }

@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef } from "react";
 import { Input as BaseInput } from "@base-ui/react/input";
-import { dataPresence, isAriaTrue } from "../../lib/data-attributes";
+import type { DataAttributes } from "../../lib/data-attributes";
 import { tv, type VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -198,12 +198,13 @@ export const InputGroupAddon = Object.assign(InputGroupAddonRoot, {
 
 // The bare control inside an InputGroup — the group owns the border/shadow/invalid look.
 export type InputGroupInputProps = WithoutChildren<StyledProps<BaseInput.Props>> &
-  InputBehaviorProps;
+  InputBehaviorProps &
+  DataAttributes;
 
 export function InputGroupInput({
   className,
   suppressPasswordManager,
-  "aria-invalid": ariaInvalid,
+  "data-invalid": dataInvalid,
   ...props
 }: InputGroupInputProps) {
   const theme = useThemeFamily();
@@ -218,8 +219,7 @@ export function InputGroupInput({
       data-form-type={suppressPasswordManager ? "other" : undefined}
       data-lpignore={suppressPasswordManager ? "true" : undefined}
       {...props}
-      aria-invalid={ariaInvalid}
-      {...(isAriaTrue(ariaInvalid) ? { "data-invalid": dataPresence(true) } : {})}
+      {...(dataInvalid != null ? { "data-invalid": dataInvalid, "aria-invalid": "true" } : {})}
     />
   );
 }

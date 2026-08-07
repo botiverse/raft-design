@@ -33,7 +33,7 @@ export function FieldPlaygroundPreview({ code }: FieldPlaygroundPreviewProps) {
           <Input
             id="field-preview-email"
             type="email"
-            aria-invalid={invalid || undefined}
+            data-invalid={invalid || undefined}
             defaultValue={invalid ? "oops" : undefined}
             placeholder="you@example.com"
           />

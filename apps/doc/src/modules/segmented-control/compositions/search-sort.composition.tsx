@@ -10,7 +10,7 @@ export function SegmentedControlSearchSortComposition({
   onValueChange = () => {},
 }: SegmentedControlSearchSortCompositionProps) {
   return (
-    <SegmentedControl ariaLabel="Sort search results" value={value} onValueChange={onValueChange}>
+    <SegmentedControl aria-label="Sort search results" value={value} onValueChange={onValueChange}>
       <SegmentedControlItem value="relevance">
         <SegmentedControlLabel>Relevant</SegmentedControlLabel>
       </SegmentedControlItem>

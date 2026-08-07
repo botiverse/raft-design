@@ -30,7 +30,7 @@ const SNIPPETS = {
   SegmentedControlLabel,
 } from "raft-ui";
 
-<SegmentedControl defaultValue="all" ariaLabel="Filter">
+<SegmentedControl defaultValue="all" aria-label="Filter">
   <SegmentedControlItem value="all">
     <SegmentedControlLabel />
     <SegmentedControlCount />
@@ -48,7 +48,7 @@ import {
 const [filter, setFilter] = useState("all");
 
 <SegmentedControl
-  ariaLabel="Filter messages"
+  aria-label="Filter messages"
   value={filter}
   onValueChange={setFilter}
 >
@@ -67,7 +67,7 @@ const [filter, setFilter] = useState("all");
   </SegmentedControlItem>
 </SegmentedControl>`,
   viewMode: `<SegmentedControl
-  ariaLabel="Task view"
+  aria-label="Task view"
   value={view}
   onValueChange={setView}
 >
@@ -81,7 +81,7 @@ const [filter, setFilter] = useState("all");
   </SegmentedControlItem>
 </SegmentedControl>`,
   searchSort: `<SegmentedControl
-  ariaLabel="Sort search results"
+  aria-label="Sort search results"
   value={searchSort}
   onValueChange={setSearchSort}
 >
@@ -93,7 +93,7 @@ const [filter, setFilter] = useState("all");
   </SegmentedControlItem>
 </SegmentedControl>`,
   preferences: `<SegmentedControl
-  ariaLabel="Time format"
+  aria-label="Time format"
   value={timeFormat}
   onValueChange={setTimeFormat}
 >
@@ -106,7 +106,7 @@ const [filter, setFilter] = useState("all");
 </SegmentedControl>`,
   disabled: `<SegmentedControl
   disabled
-  ariaLabel="Translation mode"
+  aria-label="Translation mode"
   value="translated"
   onValueChange={() => {}}
 >
@@ -132,7 +132,12 @@ const PROPS: readonly PropRow[] = [
     type: "(value: T) => void",
     description: "Called when a segment is selected.",
   },
-  { name: "ariaLabel", type: "string", description: "Accessible label for the radiogroup." },
+  {
+    name: "aria-label",
+    type: "string",
+    description:
+      "Native ARIA attribute naming the group for assistive tech. Set it when the group has no visible label.",
+  },
   {
     name: "disabled",
     type: "boolean",

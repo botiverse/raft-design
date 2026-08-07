@@ -33,7 +33,7 @@ export function RadioGroupResetModeContent({
 }) {
   return (
     <RadioGroup
-      ariaLabel="Restart mode"
+      aria-label="Restart mode"
       value={value}
       onValueChange={onValueChange}
       disabled={disabled}

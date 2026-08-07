@@ -247,7 +247,6 @@ export function NotificationCenterPopup({
   size = "md",
   className,
   initialFocus = false,
-  "aria-label": ariaLabel = "Notification center",
   align = "center",
   alignOffset = 0,
   anchor,
@@ -284,7 +283,7 @@ export function NotificationCenterPopup({
         className="isolate z-50 outline-none"
       >
         <BasePopover.Popup
-          aria-label={ariaLabel}
+          aria-label={props["aria-label"] ?? "Notification center"}
           data-slot="notification-center-popup"
           data-size={size}
           data-viewport={viewport}
@@ -393,13 +392,12 @@ export type NotificationCenterListProps = useRender.ComponentProps<"ul">;
 export function NotificationCenterList({
   render,
   className,
-  "aria-label": ariaLabel = "Notifications",
   ...props
 }: NotificationCenterListProps) {
   const theme = useThemeFamily();
   const { list } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"ul"> = {
-    "aria-label": ariaLabel,
+    "aria-label": "Notifications",
     className: list({ className }),
   };
 
@@ -487,13 +485,12 @@ export function NotificationCenterItemIcon({
   render,
   className,
   children,
-  "aria-label": ariaLabel = STATUS_LABEL[status],
   ...props
 }: NotificationCenterItemIconProps) {
   const theme = useThemeFamily();
   const { itemIcon } = notificationCenter({ theme, status });
   const defaultProps: useRender.ElementProps<"div"> = {
-    "aria-label": ariaLabel,
+    "aria-label": STATUS_LABEL[status],
     className: itemIcon({ className }),
     children: children ?? DEFAULT_STATUS_ICON[status],
   };

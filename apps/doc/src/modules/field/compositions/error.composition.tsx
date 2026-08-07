@@ -12,7 +12,7 @@ export function FieldContent() {
       <Input
         id="field-error-email"
         type="email"
-        aria-invalid
+        data-invalid
         defaultValue="oops"
         placeholder="you@example.com"
       />

@@ -219,7 +219,7 @@ raft-ui uses a hybrid elevation system. Brutal depth is structural: hard offset 
 
 - **Style:** Brutal inputs are white rectangular fields with 2px borders and hard resting shadows. Elegant inputs are 6px-radius fields with a hairline border and restrained hover shadow.
 - **Focus:** Brutal focus increases hard shadow. Elegant focus uses border/ring refinement without loud glow.
-- **Error / Disabled:** Invalid states are driven by `aria-invalid`. Disabled states must mute foreground, placeholder, border, and hover shadow together.
+- **Error / Disabled:** Invalid states are driven by `data-invalid` (mirrored to `aria-invalid`). Disabled states must mute foreground, placeholder, border, and hover shadow together.
 
 ### Separators
 
@@ -238,7 +238,7 @@ raft-ui uses a hybrid elevation system. Brutal depth is structural: hard offset 
 - **Do** build every component as composed parts and slots so callers can assemble real product structures without forking internals.
 - **Do** route colors, borders, shadows, typography, disabled states, and feedback states through theme tokens whenever possible.
 - **Do** design public APIs for Elegant's cleaner product direction while keeping Brutal faithful to slock semantics.
-- **Do** preserve visible focus states, keyboard behavior, accessible names, loading/disabled semantics, and `aria-invalid`-driven error styling.
+- **Do** preserve visible focus states, keyboard behavior, accessible names, loading/disabled semantics, and `data-invalid`-driven error styling.
 - **Do** keep unfinished or source-specific surfaces behind `raft-ui/wip` until their contracts are ready.
 
 ### Don't:

@@ -11,7 +11,7 @@ export function SegmentedControlViewModeComposition({
   onValueChange = () => {},
 }: SegmentedControlViewModeCompositionProps) {
   return (
-    <SegmentedControl ariaLabel="Task view" value={value} onValueChange={onValueChange}>
+    <SegmentedControl aria-label="Task view" value={value} onValueChange={onValueChange}>
       <SegmentedControlItem value="board">
         <Columns3 />
         <SegmentedControlLabel>Board</SegmentedControlLabel>

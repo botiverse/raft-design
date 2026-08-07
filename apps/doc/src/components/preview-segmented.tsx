@@ -5,7 +5,7 @@ import type { PreviewSegmentedProps } from "./preview.types.ts";
 export function PreviewSegmented({ label, options, value, onValueChange }: PreviewSegmentedProps) {
   return (
     <SegmentedControl
-      ariaLabel={label}
+      aria-label={label}
       value={value}
       onValueChange={(nextValue) => {
         if (nextValue) {

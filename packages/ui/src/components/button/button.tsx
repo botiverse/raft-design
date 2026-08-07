@@ -1,4 +1,5 @@
 import { Button as BaseButton } from "@base-ui/react/button";
+import type { DataAttributes } from "../../lib/data-attributes";
 import { tv, type VariantProps } from "../../lib/tv";
 import { defaultNativeButton } from "../../lib/default-native-button";
 import type { StyledProps } from "../../lib/styled-props";
@@ -33,7 +34,7 @@ export const buttonVariants = tv({
           "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-layer-canvas-muted",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
-          "active:not-data-[has-popup]:scale-[0.985]",
+          "active:not-data-[haspopup]:scale-[0.985]",
         ],
       },
     },
@@ -440,7 +441,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "hover:-translate-y-px hover:shadow-raft-md",
-          "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
+          "active:not-data-[haspopup]:translate-x-px active:not-data-[haspopup]:translate-y-px",
           "active:shadow-raft-xs",
         ],
       },
@@ -451,7 +452,7 @@ export const buttonVariants = tv({
       class: {
         root: [
           "hover:-translate-y-px",
-          "active:not-data-[has-popup]:translate-x-px active:not-data-[has-popup]:translate-y-px",
+          "active:not-data-[haspopup]:translate-x-px active:not-data-[haspopup]:translate-y-px",
         ],
       },
     },
@@ -459,7 +460,8 @@ export const buttonVariants = tv({
 });
 
 export type ButtonProps = StyledProps<BaseButton.Props> &
-  Omit<VariantProps<typeof buttonVariants>, "theme"> & {
+  Omit<VariantProps<typeof buttonVariants>, "theme"> &
+  DataAttributes & {
     loading?: boolean;
     loadingLabel?: string;
   };
@@ -474,7 +476,6 @@ export function Button({
   children,
   render,
   nativeButton,
-  "aria-haspopup": ariaHasPopup,
   ...props
 }: ButtonProps) {
   const theme = useThemeFamily();
@@ -492,8 +493,6 @@ export function Button({
       data-slot="button"
       className={root({ className })}
       data-loading={loading ? "true" : undefined}
-      aria-haspopup={ariaHasPopup}
-      {...(ariaHasPopup != null && ariaHasPopup !== false ? { "data-has-popup": "" as const } : {})}
       disabled={disabled || loading}
       aria-disabled={loading || undefined}
     >

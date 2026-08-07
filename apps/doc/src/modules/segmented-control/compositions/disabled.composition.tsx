@@ -5,7 +5,7 @@ export function SegmentedControlDisabledComposition() {
   return (
     <SegmentedControl
       disabled
-      ariaLabel="Translation mode"
+      aria-label="Translation mode"
       value="translated"
       onValueChange={() => {}}
     >
