@@ -1,6 +1,6 @@
 import { useLocation } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Text } from "raft-ui";
+import { Button, Text } from "raft-ui";
 import { Toc, type TocItem } from "./toc.tsx";
 
 function GithubMark({ size = 14 }: { size?: number }) {
@@ -109,15 +109,14 @@ export function DocPage({
                 {resolvedSourceHref || headerAction ? (
                   <div className="flex shrink-0 items-center gap-2 pt-1">
                     {resolvedSourceHref ? (
-                      <a
-                        href={resolvedSourceHref}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-md border border-line-muted px-2.5 py-1.5 text-xs font-medium text-foreground-muted transition-colors hover:border-line-strong hover:bg-fill-muted hover:text-foreground"
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        render={<a href={resolvedSourceHref} target="_blank" rel="noreferrer" />}
                       >
                         <GithubMark />
                         GitHub
-                      </a>
+                      </Button>
                     ) : null}
                     {headerAction ? <div className="shrink-0">{headerAction}</div> : null}
                   </div>
