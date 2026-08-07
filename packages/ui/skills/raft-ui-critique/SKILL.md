@@ -1,5 +1,5 @@
 ---
-name: critique
+name: raft-ui-critique
 description: "Critique raft-ui components and product surfaces from screenshots, live renders, or code evidence across Brutal, Elegant, and Elegant Dark. Use when reviewing, auditing, polishing, comparing, or validating visual hierarchy, theme fidelity, interaction feedback, accessibility, consistency, and user experience in packages/ui, docs compositions, or Playground."
 ---
 

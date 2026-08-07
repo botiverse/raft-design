@@ -21,26 +21,33 @@ const TOC = [
 const INSTALLATION_PROMPT = `Install and initialize raft-ui in this repository.
 
 1. Inspect the repository and use its existing package manager. Do not change package managers or lockfile format.
-   - Single-package repository: install the latest stable raft-ui as a dependency and skills-npm as a dev dependency in that package.
-   - Monorepo: install raft-ui in the target app workspace, then install skills-npm as a dev dependency at the workspace root.
-2. Run the installed skills-npm setup command where skills-npm was installed. For a monorepo, run it at the workspace root with --recursive. Let setup detect the active coding agent, add its prepare hook and gitignore entry, and perform the first sync.
-3. Do not copy the skill manually. Confirm that skills-npm discovered node_modules/raft-ui/skills/guide and created the npm-raft-ui-guide symlink for the active agent. For Codex, this should resolve under .agents/skills/npm-raft-ui-guide.
-4. Read the installed raft-ui skill's SKILL.md completely. Read rules/setup.md now, then load only the other rule files relevant to the UI being built. If the agent cannot discover local skills, read node_modules/raft-ui/skills/guide/SKILL.md directly and follow it for this task.
+   - Single-package repository: install the latest stable raft-ui as a dependency.
+   - Monorepo: install raft-ui in the target app workspace.
+2. At the project or workspace root, add raft-ui to package.json under intent.skills without removing existing entries, then run the package-manager equivalent of @tanstack/intent@latest install --map.
+3. Load raft-ui#raft-ui-guide and follow it for this task. Run intent load raft-ui#raft-ui-guide --path before opening rules/setup.md or another linked rule, then resolve that file relative to the returned SKILL.md directory.
+4. The package also ships raft-ui#raft-ui-critique for visual and experience reviews; do not load it unless the task includes a critique.
 5. Follow the skill to initialize raft-ui: wire Tailwind CSS v4, import raft-ui/styles.css once, decide whether to load raft-ui/fonts.css separately, add ThemeProvider, and add TooltipProvider or ToastProvider only when the app needs them.
 6. Put the application inside an isolated layout root so body portals stack above app content. Keep default body portals unless this is an iframe, preview, or embedded shell.
-7. Before writing raft-ui UI, explicitly invoke $raft-ui-skill when the agent supports skill mentions. Inspect node_modules/raft-ui/dist/index.d.mts before using any prop, part, or variant you have not verified. Do not guess APIs or import from raft-ui/wip unless asked.
+7. Inspect node_modules/raft-ui/dist/index.d.mts before using any prop, part, or variant you have not verified. Do not guess APIs or import from raft-ui/wip unless asked.
 8. Validate the changed files with the repository's existing checks.
 
-When finished, summarize the files changed, the installed skill path, the providers added, and the validation results.`;
+When finished, summarize the files changed, the Intent skill loaded, the providers added, and the validation results.`;
 
 const SNIPPETS = {
   installationPrompt: INSTALLATION_PROMPT,
-  install: `pnpm add raft-ui
-pnpm add -D skills-npm
+  install: "pnpm add raft-ui",
+  installMonorepo: "pnpm --filter your-app add raft-ui",
+  intentConfig: `{
+  "intent": {
+    "skills": ["raft-ui"]
+  }
+}`,
+  intentInstall: `pnpm dlx @tanstack/intent@latest install --map
+pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-guide`,
+  intentSkills: `pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-guide
+pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-critique`,
+  skillsNpm: `pnpm add -D skills-npm
 pnpm exec skills-npm setup`,
-  installMonorepo: `pnpm --filter your-app add raft-ui
-pnpm add -Dw skills-npm
-pnpm exec skills-npm setup --recursive`,
   installTailwind: "pnpm add -D tailwindcss @tailwindcss/vite",
   vite: `import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
@@ -205,8 +212,8 @@ function InstallationDoc() {
           <TabsPanel value="human" className="pt-4">
             <div className="space-y-6">
               <Lead>
-                Add the package and initialize its bundled skill. The setup command detects your
-                coding agents and keeps their skill symlinks in sync after installs.
+                Add the package to the app that uses it. Agent guidance is optional and remains
+                versioned with the installed raft-ui package.
               </Lead>
               <div className="space-y-3">
                 <h3 className="text-sm font-medium text-foreground">Single-package app</h3>
@@ -222,6 +229,40 @@ function InstallationDoc() {
                   source={SNIPPETS.installMonorepo}
                   html={code.installMonorepo}
                 />
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-foreground">Agent Skills</h3>
+                <Lead>
+                  raft-ui ships <InlineCode>raft-ui-guide</InlineCode> for implementation and{" "}
+                  <InlineCode>raft-ui-critique</InlineCode> for interface review. TanStack Intent
+                  discovers both from the installed package, including dependencies of pnpm
+                  workspace packages.
+                </Lead>
+                <CodeSnippet
+                  path="package.json"
+                  source={SNIPPETS.intentConfig}
+                  html={code.intentConfig}
+                />
+                <CodeSnippet
+                  path="Shell"
+                  source={SNIPPETS.intentInstall}
+                  html={code.intentInstall}
+                />
+                <CodeSnippet
+                  path="Available skills"
+                  source={SNIPPETS.intentSkills}
+                  html={code.intentSkills}
+                />
+              </div>
+              <div className="space-y-3 border-l-2 border-line-muted pl-4">
+                <h3 className="text-sm font-medium text-foreground">Using skills-npm</h3>
+                <Lead>
+                  The same package remains compatible with skills-npm and other standard Agent Skill
+                  installers. skills-npm 1.2.0 has a known limitation when recursively aggregating
+                  multiple skills from one package in a monorepo, so prefer Intent for that layout
+                  or run skills-npm non-recursively where raft-ui is a direct dependency.
+                </Lead>
+                <CodeSnippet path="Shell" source={SNIPPETS.skillsNpm} html={code.skillsNpm} />
               </div>
             </div>
           </TabsPanel>

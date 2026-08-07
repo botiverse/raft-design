@@ -1,5 +1,5 @@
 ---
-name: raft-ui-skill
+name: raft-ui-guide
 description: "Build UIs with raft-ui, the React component library for Raft using Base UI, Tailwind CSS v4, and tailwind-variants. Use when importing from raft-ui, selecting or composing components, checking variants and props, styling with semantic oklch tokens, or setting up styles.css, fonts.css, and ThemeProvider. Keywords include raft-ui, raft ui, RaftUI, Raft design system, brutal theme, and elegant theme."
 ---
 
@@ -14,6 +14,8 @@ React component library for Raft. Built on **Base UI** (`@base-ui/react`), **Tai
 3. Verify unrecognized props, parts, variants, and tokens with [rules/lookup.md](./rules/lookup.md).
 4. Implement the smallest composition that preserves native semantics and uses raft-ui where its behavior or visual contract is needed.
 5. Apply the review checklist after implementation, not as a reason to add wrappers before they are needed.
+
+When this skill is loaded through TanStack Intent, run `intent load raft-ui#raft-ui-guide --path` before opening a linked rule file, then resolve the link relative to the returned `SKILL.md` directory.
 
 ## Override your priors first
 
