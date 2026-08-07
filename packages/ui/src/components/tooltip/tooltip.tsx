@@ -56,12 +56,17 @@ const tooltip = tv({
       },
       elegant: {
         content: [
-          "rounded-md bg-layer-hud text-layer-hud-foreground",
+          "rounded-md bg-layer-hud text-layer-hud-foreground dark:bg-layer-popover dark:text-foreground",
           "font-sans text-[13px] font-medium tracking-[-0.005em]",
           "shadow-raft-lg",
-          "[&_[data-slot=kbd]]:bg-white/[0.08] [&_[data-slot=kbd]]:text-white/72 [&_[data-slot=kbd]]:ring-0",
+          "[&_[data-slot=kbd]]:bg-white/[0.08] [&_[data-slot=kbd]]:text-white/72 [&_[data-slot=kbd]]:ring-0 dark:[&_[data-slot=kbd]]:bg-ink-4 dark:[&_[data-slot=kbd]]:text-foreground-muted",
         ],
-        arrow: [],
+        // Dark shadow-raft-lg draws a 1px black/0.55 ring around the popup; the
+        // apex-directed silhouette shadow repaints that ring under the arrow's
+        // base corners and continues it along the slanted edges, so the arrow
+        // reads as one surface with the popup. Filters apply before the side
+        // rotation transforms, so the offset stays apex-directed on every side.
+        arrow: ["dark:drop-shadow-[0_1px_0_oklch(0_0_0_/_0.55)]"],
       },
     },
   },
@@ -121,7 +126,10 @@ function TooltipArrowSvg({
 
   return (
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
-      <path d="M1 0H11L6 5.25Z" className={isElegant ? "fill-layer-hud" : "fill-layer-popover"} />
+      <path
+        d="M1 0H11L6 5.25Z"
+        className={isElegant ? "fill-layer-hud dark:fill-layer-popover" : "fill-layer-popover"}
+      />
     </svg>
   );
 }
