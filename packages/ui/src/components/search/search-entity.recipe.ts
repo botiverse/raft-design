@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const searchEntity = tv({
   slots: {
-    entity: ["flex min-w-0 w-full p-3 text-left transition-colors"],
+    entity: ["flex min-w-0 w-full items-center p-3 text-left transition-colors"],
     entityLeading: ["relative flex shrink-0"],
     entityIcon: ["flex size-8 items-center justify-center overflow-hidden"],
     entityActivity: ["absolute -right-0.5 -bottom-0.5 inline-block size-2.5 shrink-0 rounded-full"],
