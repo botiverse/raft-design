@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const threadPanel = tv({
   slots: {
-    root: ["isolate flex h-full min-h-0 w-full flex-col", "dark:bg-[oklch(0.2_0.004_106.42)]"],
+    root: ["isolate flex h-full min-h-0 w-full flex-col", "dark:bg-layer-card"],
     header: ["flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-3 px-5"],
     content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     title: ["m-0 min-w-0 flex-1 truncate", "text-base font-bold"],

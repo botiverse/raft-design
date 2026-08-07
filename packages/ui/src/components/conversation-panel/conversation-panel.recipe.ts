@@ -27,7 +27,7 @@ export const conversationPanel = tv({
         content: [
           "relative overflow-clip",
           "bg-layer-panel",
-          "dark:bg-[oklch(0.2_0.004_106.42)]",
+          "dark:bg-layer-card",
           "group-data-[edge=inset]/panel-frame:md:ml-2 group-data-[edge=inset]/panel-frame:md:rounded-tl-[10px]",
           "group-data-[edge=inset]/panel-frame:md:shadow-raft-xl",
           "dark:group-data-[edge=inset]/panel-frame:md:shadow-[0_0_0_1px_var(--line-muted),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
