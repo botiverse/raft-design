@@ -1,0 +1,70 @@
+import { tv } from "../../lib/tv";
+
+export const searchMessage = tv({
+  slots: {
+    message: ["w-full text-left transition-colors"],
+    messageHeader: ["flex flex-wrap items-center gap-2 text-xs"],
+    messageBody: ["min-w-0 line-clamp-2 text-sm"],
+    messageMeta: [],
+    messageThreadMeta: ["inline-flex items-center gap-1"],
+    messageSender: ["inline-flex items-center gap-1"],
+    messageTimestamp: [],
+    messageMatch: ["px-0.5"],
+  },
+  variants: {
+    theme: {
+      brutal: {
+        message: [
+          "border-2 border-black/30 bg-white p-3",
+          "hover:border-black hover:shadow-raft-sm active:border-black active:shadow-raft-sm",
+          "data-[selected=true]:border-primary-400 data-[selected=true]:hover:border-primary-400",
+          "data-[nested=true]:border-x-0 data-[nested=true]:border-b-0 data-[nested=true]:border-t-2 data-[nested=true]:px-3 data-[nested=true]:py-3",
+          "data-[nested=true]:border-black/10 data-[nested=true]:hover:border-black/10 data-[nested=true]:hover:bg-black/3 data-[nested=true]:hover:shadow-none",
+          "data-[nested=true][data-selected=true]:border-black data-[nested=true][data-selected=true]:bg-[oklch(0.96299649_0.06890535_97.696701)] data-[nested=true][data-selected=true]:shadow-none data-[nested=true][data-selected=true]:ring-0",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
+        ],
+        messageHeader: ["mb-1"],
+        messageMeta: ["font-bold text-black/50"],
+        messageThreadMeta: ["font-bold text-black/40"],
+        messageSender: ["font-bold text-black"],
+        messageTimestamp: ["font-mono text-black/40"],
+        messageMatch: ["bg-primary-400 font-bold text-black"],
+        messageBody: ["leading-relaxed text-black/70"],
+      },
+      elegant: {
+        message: [
+          "group/search-message rounded-lg border-[0.5px] border-line-muted bg-layer-panel p-0 shadow-raft-xs",
+          "transition-[background-color,border-color] duration-150",
+          "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
+          "data-[selected=true]:border-transparent data-[selected=true]:ring-2 data-[selected=true]:ring-primary-400 data-[selected=true]:ring-offset-2 data-[selected=true]:ring-offset-layer-canvas-muted",
+          "data-[nested=true]:rounded-none data-[nested=true]:border-0 data-[nested=true]:border-t-[0.5px] data-[nested=true]:border-line-hairline data-[nested=true]:bg-transparent data-[nested=true]:p-3 data-[nested=true]:shadow-none",
+          "data-[nested=true]:hover:bg-ink-2 data-[nested=true]:hover:shadow-none",
+          "data-[nested=true][data-selected=true]:border-line-hairline data-[nested=true][data-selected=true]:bg-fill-muted data-[nested=true][data-selected=true]:shadow-none data-[nested=true][data-selected=true]:ring-0",
+          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:border-transparent",
+          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
+          "dark:data-[nested=true]:border-ink-10 dark:data-[nested=true]:bg-transparent dark:data-[nested=true]:shadow-none",
+          "dark:data-[nested=true]:hover:bg-[color-mix(in_oklch,var(--layer-canvas-muted)_20%,var(--layer-inset))] dark:data-[nested=true]:hover:shadow-none",
+          "dark:data-[nested=true][data-selected=true]:border-ink-10 dark:data-[nested=true][data-selected=true]:bg-fill-muted dark:data-[nested=true][data-selected=true]:shadow-none dark:data-[nested=true][data-selected=true]:ring-0",
+          "dark:data-[nested=true][data-selected=true]:hover:bg-fill-strong",
+        ],
+        messageHeader: [
+          "px-3 pt-2.5 pb-1",
+          "group-data-[nested=true]/search-message:mb-1 group-data-[nested=true]/search-message:p-0",
+        ],
+        messageBody: [
+          "border-0 bg-transparent px-3 pt-0 pb-2.5",
+          "transition-colors duration-150",
+          "group-data-[nested=true]/search-message:rounded-none group-data-[nested=true]/search-message:border-0 group-data-[nested=true]/search-message:bg-transparent group-data-[nested=true]/search-message:p-0",
+          "group-data-[nested=true]/search-message:group-hover/search-message:bg-transparent",
+          "leading-5.25 tracking-[-0.01em] text-foreground-muted",
+        ],
+        messageMeta: ["font-medium text-foreground-muted/70"],
+        messageThreadMeta: ["font-medium text-foreground-muted/70"],
+        messageSender: ["font-medium text-foreground-muted"],
+        messageTimestamp: ["font-sans tabular-nums text-foreground-muted/70"],
+        messageMatch: ["bg-primary-400/70 text-primary-950 [font:inherit]"],
+      },
+    },
+  },
+});

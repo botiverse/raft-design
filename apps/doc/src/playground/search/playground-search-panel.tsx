@@ -305,7 +305,7 @@ export function PlaygroundSearchPanel() {
 
   if (!isDesktop) {
     return (
-      <AppShellMainSlot className="h-full w-full">{context ?? content ?? master}</AppShellMainSlot>
+      <AppShellMainSlot className="size-full ">{context ?? content ?? master}</AppShellMainSlot>
     );
   }
 
@@ -345,7 +345,7 @@ export function PlaygroundSearchPanel() {
             minSize={360}
             maxSize="60vw"
             groupResizeBehavior="preserve-pixel-size"
-            className="relative z-20 min-w-0 !overflow-visible"
+            className="relative z-20 min-w-0 overflow-visible!"
           >
             <AppShellPanelSlot className="flex h-full min-w-0 flex-1">{context}</AppShellPanelSlot>
           </ResizablePanel>

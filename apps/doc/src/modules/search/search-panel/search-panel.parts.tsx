@@ -4,7 +4,10 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  Badge,
+  Button,
   EmptyState,
+  EmptyStateActions,
   EmptyStateContent,
   EmptyStateDescription,
   EmptyStateIcon,
@@ -13,19 +16,16 @@ import {
   InputGroupAddon,
   InputGroupInput,
   Kbd,
-  PanelHeaderRoot,
   Skeleton,
 } from "raft-ui";
 import {
   SearchEntityResult,
-  SearchEntityResultAttentionBadge,
-  SearchEntityResultBadge,
+  SearchEntityResultActivity,
   SearchEntityResultDescription,
+  SearchEntityResultIcon,
   SearchEntityResultLeading,
-  SearchEntityResultOpen,
   SearchEntityResultTitle,
   SearchMessageResult,
-  SearchMessageResultBadge,
   SearchMessageResultBody,
   SearchMessageResultHeader,
   SearchMessageResultMatch,
@@ -33,19 +33,15 @@ import {
   SearchMessageResultSender,
   SearchMessageResultThreadMeta,
   SearchMessageResultTimestamp,
-  SearchResultsError as SearchResultsErrorFrame,
-  SearchResultsErrorAction,
-  SearchResultsErrorDescription,
-  SearchResultsErrorTitle,
+  SearchShellHeader,
+  SearchShellHeaderIcon,
   SearchThreadMessageResult,
   SearchThreadResult,
-  SearchThreadResultBadge,
   SearchThreadResultHeader,
   SearchThreadResultMeta,
   SearchThreadResultMessages,
   SearchThreadResultTimestamp,
   SearchThreadResultTitle,
-  useSearchShellStyles,
 } from "raft-ui/wip";
 
 import type {
@@ -134,16 +130,16 @@ export function SearchHeader({
   onCompositionEnd: (value: string) => void;
   onClear: () => void;
 }) {
-  const { header, headerBack, headerIconChip, searchInputGroup, input, inputClear, inputKbd } =
-    useSearchShellStyles();
   return (
-    <PanelHeaderRoot data-panel-frame-header="" className={header()}>
-      <button
+    <SearchShellHeader>
+      <Button
         type="button"
+        variant="outline"
+        size="icon-sm"
         onClick={onBack}
         title="Back"
         aria-label="Back"
-        className={headerBack()}
+        className="md:hidden"
       >
         <svg
           aria-hidden
@@ -158,13 +154,13 @@ export function SearchHeader({
           <path d="m12 19-7-7 7-7" />
           <path d="M19 12H5" />
         </svg>
-      </button>
+      </Button>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-3">
-          <div className={headerIconChip()}>
+          <SearchShellHeaderIcon>
             <Search aria-hidden size={18} />
-          </div>
-          <InputGroup className={searchInputGroup()}>
+          </SearchShellHeaderIcon>
+          <InputGroup>
             <InputGroupInput
               ref={inputRef}
               value={query}
@@ -173,25 +169,25 @@ export function SearchHeader({
               onCompositionEnd={(event) => onCompositionEnd(event.currentTarget.value)}
               placeholder="Search channels, DMs, messages…   ⌘K"
               aria-label="Search channels, DMs, people, agents, and messages"
-              className={input()}
             />
             <InputGroupAddon align="inline-end">
               {query ? (
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
+                  size="icon-xs"
                   onClick={onClear}
-                  className={inputClear()}
                   aria-label="Clear search"
                 >
                   <X aria-hidden size={12} />
-                </button>
+                </Button>
               ) : null}
-              <Kbd className={inputKbd()}>Esc</Kbd>
+              <Kbd>Esc</Kbd>
             </InputGroupAddon>
           </InputGroup>
         </div>
       </div>
-    </PanelHeaderRoot>
+    </SearchShellHeader>
   );
 }
 
@@ -206,7 +202,6 @@ export function EntityResult({
   buttonRef?: (element: HTMLButtonElement | null) => void;
   onOpen: () => void;
 }) {
-  const shell = useSearchShellStyles();
   const isArchivedChannel = entity.type === "channel" && Boolean(entity.archivedAt);
   const Icon = entity.type === "channel" ? Hash : Monitor;
   const identityType = entity.type === "agentDm" ? "agent" : "human";
@@ -220,55 +215,53 @@ export function EntityResult({
           : "Human";
 
   return (
-    <SearchEntityResult selected={selected}>
-      <SearchEntityResultOpen ref={buttonRef} onClick={onOpen}>
-        <div className="flex items-center gap-3">
-          <SearchEntityResultLeading>
-            {entity.type === "channel" || entity.type === "computer" ? (
-              <div
-                className={
-                  isArchivedChannel
-                    ? shell.entityIconArchived()
-                    : entity.type === "channel"
-                      ? shell.entityIconChannel()
-                      : shell.entityIconComputer()
-                }
-              >
-                <Icon aria-hidden size={14} />
-              </div>
-            ) : (
-              <SourceIdentityAvatar
-                context="surface-list"
-                type={identityType}
-                avatar={entity.avatar}
-              />
-            )}
-            {entity.type === "agentDm" && entity.activity === "active" ? (
-              <span aria-label="Active" className={shell.activityDot()} />
+    <SearchEntityResult selected={selected} ref={buttonRef} onClick={onOpen}>
+      <div className="flex items-center gap-3">
+        <SearchEntityResultLeading>
+          {entity.type === "channel" || entity.type === "computer" ? (
+            <SearchEntityResultIcon>
+              <Icon aria-hidden size={14} />
+            </SearchEntityResultIcon>
+          ) : (
+            <SourceIdentityAvatar
+              context="surface-list"
+              type={identityType}
+              avatar={entity.avatar}
+            />
+          )}
+          {entity.type === "agentDm" && entity.activity === "active" ? (
+            <SearchEntityResultActivity aria-label="Active" />
+          ) : null}
+        </SearchEntityResultLeading>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <SearchEntityResultTitle muted={isArchivedChannel}>
+              {entity.title}
+            </SearchEntityResultTitle>
+            <Badge
+              appearance={isArchivedChannel ? "soft" : "solid"}
+              variant={isArchivedChannel ? "muted" : "default"}
+              uppercase
+            >
+              {typeLabel}
+            </Badge>
+            {entity.archivedAt ? (
+              isArchivedChannel ? (
+                <Badge appearance="soft" variant="muted" uppercase>
+                  Archived
+                </Badge>
+              ) : (
+                <Badge appearance="soft" variant="warning" uppercase>
+                  Archived
+                </Badge>
+              )
             ) : null}
-          </SearchEntityResultLeading>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-              <SearchEntityResultTitle muted={isArchivedChannel}>
-                {entity.title}
-              </SearchEntityResultTitle>
-              <SearchEntityResultBadge muted={isArchivedChannel}>
-                {typeLabel}
-              </SearchEntityResultBadge>
-              {entity.archivedAt ? (
-                isArchivedChannel ? (
-                  <SearchEntityResultBadge muted>Archived</SearchEntityResultBadge>
-                ) : (
-                  <SearchEntityResultAttentionBadge>Archived</SearchEntityResultAttentionBadge>
-                )
-              ) : null}
-            </div>
-            <SearchEntityResultDescription muted={isArchivedChannel}>
-              {formatEntitySubtitle(entity.subtitle)}
-            </SearchEntityResultDescription>
           </div>
+          <SearchEntityResultDescription muted={isArchivedChannel}>
+            {formatEntitySubtitle(entity.subtitle)}
+          </SearchEntityResultDescription>
         </div>
-      </SearchEntityResultOpen>
+      </div>
     </SearchEntityResult>
   );
 }
@@ -350,7 +343,11 @@ export function MessageResult({
             <MessageSquare aria-hidden size={10} /> thread
           </SearchMessageResultThreadMeta>
         ) : null}
-        {channel?.archivedAt ? <SearchMessageResultBadge>Archived</SearchMessageResultBadge> : null}
+        {channel?.archivedAt ? (
+          <Badge appearance="soft" variant="warning" uppercase>
+            Archived
+          </Badge>
+        ) : null}
         <SearchMessageResultSender>
           <SourceIdentityAvatar
             context="preview-mini"
@@ -400,9 +397,9 @@ export function ThreadResult({
     <SearchThreadResult selected={hasSelected}>
       <SearchThreadResultHeader>
         <SearchThreadResultMeta>
-          <SearchThreadResultBadge>
+          <Badge appearance="solid" variant="default">
             <MessageSquare aria-hidden size={11} /> Thread
-          </SearchThreadResultBadge>
+          </Badge>
           <span className="normal-case">
             {channel?.kind === "dm" ? "@" : "#"}
             {channel?.name ?? "unknown"}
@@ -434,11 +431,10 @@ export function ThreadResult({
 }
 
 export function SearchSkeleton() {
-  const { skeletonCard } = useSearchShellStyles();
   return (
     <div className="flex flex-col gap-2" aria-busy="true">
       {Array.from({ length: 5 }, (_, index) => (
-        <div key={index} className={skeletonCard()}>
+        <div key={index}>
           <div className="mb-2 flex gap-2">
             <Skeleton variant="line" className="w-24" />
             <Skeleton variant="line" className="w-20" />
@@ -483,14 +479,20 @@ export function SearchEmpty({ query, filtered = false }: { query?: string; filte
 
 export function SearchError({ onRetry }: { onRetry: () => void }) {
   return (
-    <SearchResultsErrorFrame>
-      <SearchResultsErrorTitle>Search failed</SearchResultsErrorTitle>
-      <SearchResultsErrorDescription>
-        The last search request failed. Existing results are preserved when possible, but this query
-        needs a retry.
-      </SearchResultsErrorDescription>
-      <SearchResultsErrorAction onClick={onRetry}>Retry</SearchResultsErrorAction>
-    </SearchResultsErrorFrame>
+    <EmptyState>
+      <EmptyStateContent>
+        <EmptyStateTitle>Search failed</EmptyStateTitle>
+        <EmptyStateDescription>
+          The last search request failed. Existing results are preserved when possible, but this
+          query needs a retry.
+        </EmptyStateDescription>
+      </EmptyStateContent>
+      <EmptyStateActions>
+        <Button type="button" variant="danger-outline" size="sm" onClick={onRetry}>
+          Retry
+        </Button>
+      </EmptyStateActions>
+    </EmptyState>
   );
 }
 

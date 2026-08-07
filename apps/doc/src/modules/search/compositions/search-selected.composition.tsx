@@ -1,34 +1,28 @@
 import {
   SearchEntityResult,
   SearchEntityResultDescription,
-  SearchEntityResultOpen,
   SearchEntityResultTitle,
   SearchResultsList,
   SearchResultsSection,
   SearchResultsSectionHeading,
-  SearchShellResults,
-  SearchShellResultsContent,
   SearchShellRoot,
+  SearchShellViewport,
 } from "raft-ui/wip";
 
 export function SearchSelectedComposition() {
   return (
     <SearchShellRoot>
-      <SearchShellResults>
-        <SearchShellResultsContent>
-          <SearchResultsSection>
-            <SearchResultsSectionHeading>Channels</SearchResultsSectionHeading>
-            <SearchResultsList>
-              <SearchEntityResult selected>
-                <SearchEntityResultOpen disabled>
-                  <SearchEntityResultTitle>Design systems</SearchEntityResultTitle>
-                  <SearchEntityResultDescription>Selected result</SearchEntityResultDescription>
-                </SearchEntityResultOpen>
-              </SearchEntityResult>
-            </SearchResultsList>
-          </SearchResultsSection>
-        </SearchShellResultsContent>
-      </SearchShellResults>
+      <SearchShellViewport>
+        <SearchResultsSection>
+          <SearchResultsSectionHeading>Channels</SearchResultsSectionHeading>
+          <SearchResultsList>
+            <SearchEntityResult selected disabled>
+              <SearchEntityResultTitle>Design systems</SearchEntityResultTitle>
+              <SearchEntityResultDescription>Selected result</SearchEntityResultDescription>
+            </SearchEntityResult>
+          </SearchResultsList>
+        </SearchResultsSection>
+      </SearchShellViewport>
     </SearchShellRoot>
   );
 }

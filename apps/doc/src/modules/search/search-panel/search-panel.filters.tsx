@@ -9,9 +9,10 @@ import {
   X,
 } from "lucide-react";
 import {
+  Button,
   Combobox,
-  ComboboxContent,
   ComboboxClear,
+  ComboboxContent,
   ComboboxEmpty,
   ComboboxHeader,
   ComboboxInput,
@@ -43,12 +44,7 @@ import {
   type SearchSort,
   type SearchTimeRange,
 } from "./search-panel.parts.tsx";
-import {
-  SearchShellActiveFilter,
-  SearchShellClearFilters,
-  SearchShellFilters,
-  useSearchShellStyles,
-} from "raft-ui/wip";
+import { SearchShellFilters } from "raft-ui/wip";
 
 type SearchFiltersProps = {
   senders: readonly SearchSenderFixture[];
@@ -124,7 +120,6 @@ export function SearchFilters({
   onTimeRangeChange,
   onSortChange,
 }: SearchFiltersProps) {
-  const shell = useSearchShellStyles();
   const portalRef = useRef<HTMLDivElement>(null);
   const [senderQuery, setSenderQuery] = useState(showEmptySenderPopup ? "Nobody" : "");
   const [channelQuery, setChannelQuery] = useState("");
@@ -174,7 +169,6 @@ export function SearchFilters({
                 aria-label="Search senders"
                 placeholder="Search…"
                 suppressPasswordManager
-                className={shell.filterInput()}
               />
             </ComboboxInputGroup>
             <ComboboxList>
@@ -234,10 +228,10 @@ export function SearchFilters({
         </Select>
 
         {channel ? (
-          <SearchShellActiveFilter type="button" onClick={() => onChannelChange(null)}>
+          <Button type="button" variant="outline" size="sm" onClick={() => onChannelChange(null)}>
             <Hash aria-hidden size={12} />#{channel.name}
             <X aria-hidden size={10} />
-          </SearchShellActiveFilter>
+          </Button>
         ) : (
           <Combobox<string>
             autoHighlight
@@ -274,14 +268,13 @@ export function SearchFilters({
                   aria-label="Search channels"
                   placeholder="Search…"
                   suppressPasswordManager
-                  className={shell.filterInput()}
                 />
               </ComboboxInputGroup>
               <ComboboxList>
                 {filteredChannels.map((item) => (
                   <ComboboxItem key={item.id} value={item.id}>
                     <span className="flex size-5 shrink-0 items-center justify-center">
-                      <Hash aria-hidden size={12} className={shell.channelOptionIcon()} />
+                      <Hash aria-hidden size={12} />
                     </span>
                     <span>#{item.name}</span>
                     <ComboboxItemIndicator />
@@ -355,8 +348,10 @@ export function SearchFilters({
         </Select>
 
         {hasActiveFilters ? (
-          <SearchShellClearFilters
+          <Button
             type="button"
+            variant="ghost"
+            size="xs"
             onClick={() => {
               onSenderChange(null);
               onChannelChange(null);
@@ -365,7 +360,7 @@ export function SearchFilters({
             }}
           >
             Clear All
-          </SearchShellClearFilters>
+          </Button>
         ) : null}
       </div>
     </SearchShellFilters>

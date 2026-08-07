@@ -1,96 +1,81 @@
-import { Input, Skeleton } from "raft-ui";
+import { Badge, Button, InputGroup, InputGroupInput, Skeleton } from "raft-ui";
 import {
   SearchEntityResult,
-  SearchEntityResultBadge,
+  SearchEntityResultActivity,
   SearchEntityResultDescription,
+  SearchEntityResultIcon,
   SearchEntityResultLeading,
-  SearchEntityResultOpen,
   SearchEntityResultTitle,
   SearchResultsList,
   SearchResultsSection,
   SearchResultsSectionHeading,
   SearchResultsSummary,
-  SearchShellActiveFilter,
-  SearchShellActivity,
-  SearchShellArchivedIcon,
-  SearchShellClearFilters,
-  SearchShellComputerIcon,
   SearchShellContent,
-  SearchShellEntityIcon,
   SearchShellFilters,
   SearchShellHeader,
-  SearchShellHeaderBack,
   SearchShellHeaderIcon,
-  SearchShellInputGroup,
-  SearchShellLoadMore,
-  SearchShellResults,
-  SearchShellResultsContent,
   SearchShellRoot,
-  SearchShellSkeletonCard,
+  SearchShellViewport,
 } from "raft-ui/wip";
 
 export function SearchPreviewComposition() {
   return (
     <SearchShellRoot>
       <SearchShellHeader>
-        <SearchShellHeaderBack aria-label="Back" disabled>
+        <Button type="button" variant="outline" size="icon-sm" aria-label="Back" disabled>
           ←
-        </SearchShellHeaderBack>
+        </Button>
         <SearchShellHeaderIcon aria-hidden>⌕</SearchShellHeaderIcon>
-        <SearchShellInputGroup>
-          <Input aria-label="Search" defaultValue="design" disabled />
-        </SearchShellInputGroup>
+        <InputGroup className="min-w-0 flex-1">
+          <InputGroupInput aria-label="Search" defaultValue="design" disabled />
+        </InputGroup>
       </SearchShellHeader>
       <SearchShellContent>
         <SearchShellFilters>
-          <SearchShellActiveFilter disabled>Channels: Design</SearchShellActiveFilter>{" "}
-          <SearchShellClearFilters disabled>Clear filters</SearchShellClearFilters>
+          <Button type="button" variant="outline" size="sm" disabled>
+            Channels: Design
+          </Button>{" "}
+          <Button type="button" variant="ghost" size="xs" disabled>
+            Clear filters
+          </Button>
         </SearchShellFilters>
-        <SearchShellResults>
-          <SearchShellResultsContent>
-            <SearchResultsSummary>3 results for “design”</SearchResultsSummary>
-            <SearchResultsSection>
-              <SearchResultsSectionHeading>Channels</SearchResultsSectionHeading>
-              <SearchResultsList>
-                <SearchEntityResult selected>
-                  <SearchEntityResultOpen disabled>
-                    <SearchEntityResultLeading>
-                      <SearchShellEntityIcon>#</SearchShellEntityIcon>
-                      <SearchShellActivity />
-                    </SearchEntityResultLeading>
-                    <SearchEntityResultTitle>Design systems</SearchEntityResultTitle>
-                    <SearchEntityResultBadge>Channel</SearchEntityResultBadge>
-                    <SearchEntityResultDescription>
-                      Shared UI decisions
-                    </SearchEntityResultDescription>
-                  </SearchEntityResultOpen>
-                </SearchEntityResult>
-                <SearchEntityResult>
-                  <SearchEntityResultOpen disabled>
-                    <SearchEntityResultLeading>
-                      <SearchShellComputerIcon>⌘</SearchShellComputerIcon>
-                    </SearchEntityResultLeading>
-                    <SearchEntityResultTitle>Design automation</SearchEntityResultTitle>
-                    <SearchEntityResultDescription>Agent workspace</SearchEntityResultDescription>
-                  </SearchEntityResultOpen>
-                </SearchEntityResult>
-                <SearchEntityResult>
-                  <SearchEntityResultOpen disabled>
-                    <SearchEntityResultLeading>
-                      <SearchShellArchivedIcon>#</SearchShellArchivedIcon>
-                    </SearchEntityResultLeading>
-                    <SearchEntityResultTitle muted>Old design notes</SearchEntityResultTitle>
-                    <SearchEntityResultDescription muted>Archived</SearchEntityResultDescription>
-                  </SearchEntityResultOpen>
-                </SearchEntityResult>
-              </SearchResultsList>
-            </SearchResultsSection>
-            <SearchShellLoadMore disabled>All results loaded</SearchShellLoadMore>
-            <SearchShellSkeletonCard hidden>
-              <Skeleton className="h-10" />
-            </SearchShellSkeletonCard>
-          </SearchShellResultsContent>
-        </SearchShellResults>
+        <SearchShellViewport>
+          <SearchResultsSummary>3 results for “design”</SearchResultsSummary>
+          <SearchResultsSection>
+            <SearchResultsSectionHeading>Channels</SearchResultsSectionHeading>
+            <SearchResultsList>
+              <SearchEntityResult selected disabled>
+                <SearchEntityResultLeading>
+                  <SearchEntityResultIcon>#</SearchEntityResultIcon>
+                  <SearchEntityResultActivity />
+                </SearchEntityResultLeading>
+                <SearchEntityResultTitle>Design systems</SearchEntityResultTitle>
+                <Badge appearance="solid" variant="default" uppercase>
+                  Channel
+                </Badge>
+                <SearchEntityResultDescription>Shared UI decisions</SearchEntityResultDescription>
+              </SearchEntityResult>
+              <SearchEntityResult disabled>
+                <SearchEntityResultLeading>
+                  <SearchEntityResultIcon>⌘</SearchEntityResultIcon>
+                </SearchEntityResultLeading>
+                <SearchEntityResultTitle>Design automation</SearchEntityResultTitle>
+                <SearchEntityResultDescription>Agent workspace</SearchEntityResultDescription>
+              </SearchEntityResult>
+              <SearchEntityResult disabled>
+                <SearchEntityResultLeading>
+                  <SearchEntityResultIcon>#</SearchEntityResultIcon>
+                </SearchEntityResultLeading>
+                <SearchEntityResultTitle muted>Old design notes</SearchEntityResultTitle>
+                <SearchEntityResultDescription muted>Archived</SearchEntityResultDescription>
+              </SearchEntityResult>
+            </SearchResultsList>
+          </SearchResultsSection>
+          <Button type="button" variant="outline" size="xs" disabled>
+            All results loaded
+          </Button>
+          <Skeleton hidden className="h-10" />
+        </SearchShellViewport>
       </SearchShellContent>
     </SearchShellRoot>
   );

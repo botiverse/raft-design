@@ -1,12 +1,11 @@
 import { useState } from "react";
+import { Button } from "raft-ui";
 import {
   SearchResultsList,
   SearchResultsSection,
   SearchResultsSectionHeading,
   SearchResultsSummary,
-  SearchShellLoadMore,
-  SearchShellResults,
-  SearchShellResultsContent,
+  SearchShellViewport,
 } from "raft-ui/wip";
 
 import type {
@@ -96,11 +95,11 @@ export function SearchResults({
   const showError = view === "error" && !recovered;
 
   return (
-    <SearchShellResults>
+    <SearchShellViewport>
       {!hasIntent ? (
         <SearchEmpty />
       ) : (
-        <SearchShellResultsContent>
+        <>
           <SearchResultsSummary>
             {view === "loading" ? "Searching…" : `${totalResults} results`}
           </SearchResultsSummary>
@@ -174,15 +173,15 @@ export function SearchResults({
 
               {messages.length < messageCount ? (
                 <div className="flex justify-center py-4">
-                  <SearchShellLoadMore type="button" onClick={onLoadMore}>
+                  <Button type="button" variant="outline" size="xs" onClick={onLoadMore}>
                     Load More
-                  </SearchShellLoadMore>
+                  </Button>
                 </div>
               ) : null}
             </>
           )}
-        </SearchShellResultsContent>
+        </>
       )}
-    </SearchShellResults>
+    </SearchShellViewport>
   );
 }
