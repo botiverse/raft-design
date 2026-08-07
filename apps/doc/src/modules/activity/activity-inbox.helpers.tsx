@@ -20,6 +20,7 @@ import type { ComponentProps, ReactNode, RefObject } from "react";
 import {
   Avatar,
   Badge,
+  Button,
   Checkbox,
   ContextMenu,
   ContextMenuContent,
@@ -49,9 +50,6 @@ import {
   ActivityInboxNavigationCount,
   ActivityInboxNavigationItem,
   ActivityInboxNavigationLabel,
-  ActivityInboxSwitcherItem,
-  ActivityInboxSwitcherItemCount,
-  ActivityInboxSwitcherItemLabel,
 } from "raft-ui/wip";
 import type {
   ActivityCompositionChannelKind,
@@ -132,33 +130,37 @@ export function ActivityGroupIcon({
   );
 }
 
-export function ActivitySwitcherItem({
+export function ActivitySwitcherRow({
   active,
   pressed,
   icon,
   label,
   count,
-  ...props
+  onClick,
 }: {
   active?: boolean;
   pressed?: boolean;
   icon: ReactNode;
   label: string;
   count?: number;
-} & ComponentProps<typeof ActivityInboxSwitcherItem>) {
+  onClick?: () => void;
+}) {
   return (
-    <ActivityInboxSwitcherItem
-      active={active || pressed}
+    <Button
+      type="button"
+      variant={active ? "outline" : "ghost"}
+      size="md"
+      onClick={onClick}
       aria-current={active ? "page" : undefined}
       aria-pressed={pressed || undefined}
-      {...props}
+      className="w-full justify-start gap-2"
     >
       {icon}
-      <ActivityInboxSwitcherItemLabel>{label}</ActivityInboxSwitcherItemLabel>
+      <span className="min-w-0 flex-1 truncate text-left">{label}</span>
       {count === undefined ? null : (
-        <ActivityInboxSwitcherItemCount>{count}</ActivityInboxSwitcherItemCount>
+        <span className="shrink-0 tabular-nums text-foreground-placeholder">{count}</span>
       )}
-    </ActivityInboxSwitcherItem>
+    </Button>
   );
 }
 

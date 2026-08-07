@@ -33,12 +33,12 @@ export const activityInbox = tv({
       brutal: {
         item: [
           "border-2 border-black/30 bg-white",
-          "hover:border-black hover:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
-          "active:border-black active:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
-          "data-[disabled]:pointer-events-none data-[disabled]:hover:border-black/30 data-[disabled]:hover:shadow-none",
-          "data-[active=true]:border-black data-[active=true]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
-          "data-[active=true]:hover:border-black data-[active=true]:hover:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
-          "has-[[data-slot=activity-inbox-item-open]:focus-visible]:border-black has-[[data-slot=activity-inbox-item-open]:focus-visible]:shadow-[2px_2px_0px_oklch(0.1812926_0.0049716_17.6198)]",
+          "hover:border-black hover:shadow-raft-sm",
+          "active:border-black active:shadow-raft-sm",
+          "data-disabled:pointer-events-none data-disabled:hover:border-black/30 data-disabled:hover:shadow-none",
+          "data-[active=true]:border-black data-[active=true]:shadow-raft-sm",
+          "data-[active=true]:hover:border-black data-[active=true]:hover:shadow-raft-sm",
+          "has-[[data-slot=activity-inbox-item-open]:focus-visible]:border-black has-[[data-slot=activity-inbox-item-open]:focus-visible]:shadow-raft-sm",
         ],
         itemSubtitle: ["font-bold text-black/45"],
         itemTitle: [
@@ -69,7 +69,7 @@ export const activityInbox = tv({
           "transition-[background-color,border-color] duration-150",
           "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
           "dark:border-transparent",
-          "data-[disabled]:pointer-events-none",
+          "data-disabled:pointer-events-none",
           "data-[active=true]:border-transparent data-[active=true]:ring-2 data-[active=true]:ring-primary-400 data-[active=true]:ring-offset-2 data-[active=true]:ring-offset-layer-canvas-muted",
           "has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-1 has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-primary-400",
           "dark:has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-2 dark:has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-primary-400/60",
