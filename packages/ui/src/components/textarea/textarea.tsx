@@ -21,8 +21,8 @@ const textarea = tv({
       elegant: {
         root: [
           "rounded-md border border-line-field bg-layer-panel shadow-none",
-          "dark:bg-layer-inset dark:not-data-invalid:border-transparent",
-          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.3),inset_0_0_0_1px_oklch(0_0_0_/_0.35),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
+          "dark:bg-layer-card dark:not-data-invalid:border-transparent",
+          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
           "dark:hover:not-data-invalid:border-ink-8",
           "text-sm text-foreground transition duration-200 ease-out dark:text-foreground-strong",
           "placeholder:text-foreground-placeholder/70",
@@ -54,8 +54,8 @@ const textareaGroup = tv({
           "relative",
           "has-[>[data-slot=textarea-counter]]:[&>[data-slot=textarea]]:scroll-pb-6",
           "has-[>[data-slot=textarea-counter]]:[&>[data-slot=textarea]]:pr-16",
-          "[&>[data-slot=textarea-counter]]:pointer-events-none [&>[data-slot=textarea-counter]]:absolute",
-          "[&>[data-slot=textarea-counter]]:right-3 [&>[data-slot=textarea-counter]]:bottom-2.5 [&>[data-slot=textarea-counter]]:z-10",
+          "*:data-[slot=textarea-counter]:pointer-events-none *:data-[slot=textarea-counter]:absolute",
+          "[&>[data-slot=textarea-counter]]:right-3 [&>[data-slot=textarea-counter]]:bottom-2.5 *:data-[slot=textarea-counter]:z-10",
         ],
       },
     },
@@ -71,13 +71,13 @@ const textareaCounter = tv({
       brutal: {
         root: [
           "text-foreground-strong/50",
-          "group-data-[invalid]/field:font-bold group-data-[invalid]/field:text-danger",
+          "group-data-[invalid]/field:font-bold group-data-invalid/field:text-danger",
         ],
       },
       elegant: {
         root: [
           "text-[11px] leading-none text-foreground-placeholder/80 transition duration-200 ease-out",
-          "group-data-[invalid]/field:font-medium group-data-[invalid]/field:text-danger",
+          "group-data-[invalid]/field:font-medium group-data-invalid/field:text-danger",
         ],
       },
     },

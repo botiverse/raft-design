@@ -48,7 +48,7 @@ export const tasksPanel = tv({
         ],
         toolbarLabel: [
           "gap-1.5 rounded-sm border border-transparent bg-transparent px-2.5 py-[7px]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_0_0_1px_var(--line-muted)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_0_0_1px_var(--line-muted)]",
           "font-sans font-medium text-foreground-muted",
         ],
         toolbarView: ["[&_[data-slot=tabs-list]]:gap-2"],

@@ -32,29 +32,29 @@ export const messageReaction = tv({
     theme: {
       brutal: {
         chip: [
-          "h-5 gap-1 rounded px-1.5 text-xs font-bold leading-none",
-          "bg-black/[0.03] text-black",
-          "hover:bg-black/[0.08]",
-          "data-[pressed]:bg-brutal-pink/20 data-[pressed]:hover:bg-brutal-pink/30",
-          "has-[[data-slot=message-reaction-error-indicator]]:bg-brutal-orange/30 has-[[data-slot=message-reaction-error-indicator]]:hover:bg-brutal-orange/30",
+          "h-5 gap-1 rounded-sm px-1.5 text-xs font-bold leading-none",
+          "bg-black/3 text-black",
+          "hover:bg-black/8",
+          "data-pressed:bg-brutal-pink/20 data-pressed:hover:bg-brutal-pink/30",
+          "has-data-[slot=message-reaction-error-indicator]:bg-brutal-orange/30 has-data-[slot=message-reaction-error-indicator]:hover:bg-brutal-orange/30",
         ],
         addButton: [
-          "h-5 rounded px-1.5 [&_svg]:size-[13px]",
-          "bg-black/[0.03] text-black hover:bg-black/[0.08] active:bg-black/[0.08]",
+          "h-5 rounded-sm px-1.5 [&_svg]:size-[13px]",
+          "bg-black/3 text-black hover:bg-black/8 active:bg-black/8",
         ],
         quickRow: ["h-9 gap-1 bg-white px-2", "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0"],
-        quickButton: "size-7 rounded p-0 hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
+        quickButton: "size-7 rounded-sm p-0 hover:bg-brutal-pink/20 active:bg-brutal-pink/20",
         pickerContent: [
           "gap-0.5 px-1.5 py-1",
           "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
           "rounded-none border-2 border-black bg-white",
           // Live `shadow-faint-popover`: 0 4px 12px rgba(0,0,0,0.08)
-          "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
+          "shadow-[0_4px_12px_oklch(0_0_0/0.08)]",
         ],
         pickerStatic: [
           "gap-0.5 px-1.5 py-1",
           "rounded-none border-2 border-black bg-white",
-          "shadow-[0_4px_12px_oklch(0_0_0_/_0.08)]",
+          "shadow-[0_4px_12px_oklch(0_0_0/0.08)]",
         ],
         tooltip: "border-2 border-line-strong bg-white px-2 py-1.5 text-xs font-bold text-black",
       },
@@ -64,9 +64,9 @@ export const messageReaction = tv({
           "bg-fill-strong text-foreground-muted",
           "hover:bg-ink-10",
           "dark:bg-fill-muted dark:hover:bg-fill-strong",
-          "data-[pressed]:bg-accent-200/50 data-[pressed]:text-accent-700 data-[pressed]:hover:bg-accent-200/70",
-          "dark:data-[pressed]:bg-accent-soft dark:data-[pressed]:text-accent-strong dark:data-[pressed]:hover:bg-accent-soft",
-          "has-[[data-slot=message-reaction-error-indicator]]:bg-danger-soft has-[[data-slot=message-reaction-error-indicator]]:text-danger",
+          "data-pressed:bg-accent-200/50 data-pressed:text-accent-700 data-pressed:hover:bg-accent-200/70",
+          "dark:data-pressed:bg-accent-soft dark:data-pressed:text-accent-strong dark:data-pressed:hover:bg-accent-soft",
+          "has-data-[slot=message-reaction-error-indicator]:bg-danger-soft has-data-[slot=message-reaction-error-indicator]:text-danger",
         ],
         addButton: [
           "h-5 rounded-full px-1.5 bg-fill-muted text-foreground-icon [&_svg]:size-[13px]",
@@ -77,7 +77,7 @@ export const messageReaction = tv({
           "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",
         ],
         quickButton:
-          "size-7 rounded p-0 hover:bg-ink-10 data-[highlighted]:bg-ink-10 active:bg-ink-16",
+          "size-7 rounded-sm p-0 hover:bg-ink-10 data-highlighted:bg-ink-10 active:bg-ink-16",
         pickerContent: [
           "min-w-0 flex-row gap-0.5 px-1.5 py-1",
           "[&>[role=menuitem]]:size-7 [&>[role=menuitem]]:p-0",

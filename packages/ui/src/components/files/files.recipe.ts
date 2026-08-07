@@ -17,10 +17,10 @@ export const files = tv({
       "flex size-14 shrink-0 items-center justify-center overflow-hidden border-2",
       "[&_svg]:size-4.5 [&_svg]:shrink-0",
       "has-[[data-slot=file-preview]]:size-10",
-      "has-[[data-slot=file-preview]]:overflow-visible has-[[data-slot=file-preview]]:border-0 has-[[data-slot=file-preview]]:bg-transparent",
+      "has-data-[slot=file-preview]:overflow-visible has-data-[slot=file-preview]:border-0 has-data-[slot=file-preview]:bg-transparent",
     ],
     image: [
-      "block h-full w-full bg-white",
+      "block size-full  bg-white",
       "data-[fit=contain]:object-contain data-[fit=cover]:object-cover",
     ],
     content: ["flex min-w-0 flex-1 flex-col"],

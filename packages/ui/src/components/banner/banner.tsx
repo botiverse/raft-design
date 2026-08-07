@@ -8,7 +8,7 @@ const banner = tv({
     root: [
       "group/banner grid gap-y-0",
       "[&>svg]:col-start-1 [&>svg]:shrink-0",
-      "[&>[data-slot=status]]:col-start-1 [&>[data-slot=status]]:row-start-1 [&>[data-slot=status]]:self-center",
+      "*:data-[slot=status]:col-start-1 *:data-[slot=status]:row-start-1 *:data-[slot=status]:self-center",
     ],
     title: ["min-w-0 text-foreground"],
     description: ["min-w-0 font-normal"],
@@ -29,8 +29,8 @@ const banner = tv({
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:row-span-2",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:mt-0.5",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:self-start",
-          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>[data-slot=status]]:row-span-2",
-          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>[data-slot=banner-action]]:row-span-2",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:*:data-[slot=status]:row-span-2",
+          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:*:data-[slot=banner-action]:row-span-2",
         ],
         title: [
           "col-start-2 row-start-1 mb-0.5 text-sm font-bold",
@@ -150,7 +150,7 @@ const banner = tv({
       theme: "elegant",
       status: "success",
       class: {
-        root: "bg-[oklch(0.94_0.035_153.079)] dark:bg-[oklch(0.5_0.12_153_/_0.18)] [&>svg]:text-success",
+        root: "bg-[oklch(0.94_0.035_153.079)] dark:bg-[oklch(0.5_0.12_153/0.18)] [&>svg]:text-success",
       },
     },
     /* Tuned warm-hue warning optics (hue 61.9), intentionally warmer than the warning family. */
@@ -158,7 +158,7 @@ const banner = tv({
       theme: "elegant",
       status: "warning",
       class: {
-        root: "bg-[oklch(0.973_0.071_103.193)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)] dark:bg-[oklch(0.52_0.09_103.193_/_0.18)] dark:text-[oklch(0.82_0.12_61.907)] dark:[&>svg]:text-[oklch(0.82_0.12_61.907)]",
+        root: "bg-[oklch(0.973_0.071_103.193)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)] dark:bg-[oklch(0.52_0.09_103.193/0.18)] dark:text-[oklch(0.82_0.12_61.907)] dark:[&>svg]:text-[oklch(0.82_0.12_61.907)]",
       },
     },
     {

@@ -155,7 +155,7 @@ const combobox = tv({
         ],
         control: [
           "rounded-md border border-line-muted bg-layer-panel px-2.5 py-1.5",
-          "dark:border-transparent dark:bg-layer-inset",
+          "dark:border-transparent dark:bg-layer-card",
           "text-sm font-normal text-foreground-strong shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)]",
           "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
           "dark:hover:border-ink-8",
@@ -169,7 +169,7 @@ const combobox = tv({
         ],
         chips: [
           "rounded-md border border-line-muted bg-layer-panel px-2 py-1",
-          "dark:border-transparent dark:bg-layer-inset",
+          "dark:border-transparent dark:bg-layer-card",
           "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
           "dark:hover:border-ink-8",
           "focus-within:ring-1 focus-within:ring-primary-400",

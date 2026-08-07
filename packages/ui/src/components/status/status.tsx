@@ -34,7 +34,7 @@ const STATUS_STYLE = `
 
 const dot = tv({
   slots: {
-    root: ["relative inline-block shrink-0 rounded-full", "[background-color:var(--status-color)]"],
+    root: ["relative inline-block shrink-0 rounded-full", "bg-(--status-color)"],
   },
   variants: {
     theme: {
@@ -151,7 +151,7 @@ const status = tv({
       pulse: true,
       attention: false,
       class: {
-        root: "[animation:raft-status-pulse-background_1.4s_ease-out_infinite] motion-reduce:animate-none",
+        root: "animate-[raft-status-pulse-background_1.4s_ease-out_infinite] motion-reduce:animate-none",
       },
     },
   ],

@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const legacyTaskPanel = tv({
   slots: {
-    frame: ["h-full min-h-[512px] w-full max-w-md overflow-hidden"],
+    frame: ["size-full min-h-[512px]  max-w-md overflow-hidden"],
     icon: ["flex size-9 shrink-0 items-center justify-center"],
     title: ["flex flex-col items-start gap-0.5 overflow-visible whitespace-normal"],
     body: ["space-y-4 overflow-y-auto px-5 py-4"],
@@ -10,8 +10,8 @@ export const legacyTaskPanel = tv({
     section: ["p-4"],
     field: [],
     fieldLabel: ["mb-1 font-mono text-xs"],
-    fieldTitle: ["m-0 text-lg break-words"],
-    fieldText: ["m-0 text-sm whitespace-pre-wrap break-words"],
+    fieldTitle: ["m-0 text-lg wrap-break-word"],
+    fieldText: ["m-0 text-sm whitespace-pre-wrap wrap-break-word"],
     meta: ["space-y-2 p-4 text-sm"],
     metaRow: ["flex items-start justify-between gap-3"],
     metaLabel: ["font-mono"],

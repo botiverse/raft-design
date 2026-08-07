@@ -38,13 +38,13 @@ export const messageEmbed = tv({
         root: [
           "rounded-lg border-[0.5px] border-line-muted p-[2px]",
           "dark:border-transparent",
-          "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] focus-visible:outline-[oklch(0.507_0.185_257.731)]",
+          "focus-visible:outline focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-[oklch(0.507_0.185_257.731)]",
         ],
         header: "px-3 py-1.5 sm:px-3.5",
         content: [
           "overflow-clip rounded-[5.5px] border-[0.5px] border-line-muted bg-layer-panel",
           "transition-colors duration-150 group-hover:bg-[color-mix(in_oklch,var(--ink)_2%,var(--layer-panel))]",
-          "dark:border-transparent dark:shadow-[inset_0_1px_0_oklch(1_0_0_/_0.04),0_0_0_1px_oklch(0_0_0_/_0.35)]",
+          "dark:border-transparent dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.04),0_0_0_1px_oklch(0_0_0/0.35)]",
         ],
         footer: "px-3 py-1.5 sm:px-3.5",
       },

@@ -114,7 +114,7 @@ export const card = tv({
         header: "px-5 py-3.5",
         content: [
           "overflow-clip rounded-[5.5px] border-[0.5px] border-line-hairline bg-layer-panel p-5",
-          "dark:border-transparent dark:shadow-[inset_0_1px_0_oklch(1_0_0_/_0.04),0_0_0_1px_oklch(0_0_0_/_0.35)]",
+          "dark:border-transparent dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.04),0_0_0_1px_oklch(0_0_0/0.35)]",
         ],
         footer: "px-5 py-3",
       },

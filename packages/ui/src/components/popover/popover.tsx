@@ -10,7 +10,7 @@ const popover = tv({
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-layer-panel",
+      "max-h-(--available-height) min-w-[220px] overflow-hidden bg-layer-panel",
       "outline-none",
     ],
     header: ["flex items-center justify-between px-3 py-2"],

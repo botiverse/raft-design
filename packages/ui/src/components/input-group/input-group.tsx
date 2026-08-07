@@ -39,8 +39,8 @@ const inputGroup = tv({
       elegant: {
         root: [
           "overflow-hidden rounded-md border border-line-field bg-layer-panel shadow-none",
-          "dark:bg-layer-inset dark:not-has-[[data-slot=input-group-control][data-invalid]]:border-transparent",
-          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.3),inset_0_0_0_1px_oklch(0_0_0_/_0.35),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
+          "dark:bg-layer-card dark:not-has-[[data-slot=input-group-control][data-invalid]]:border-transparent",
+          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
           "dark:hover:not-has-[[data-slot=input-group-control][data-invalid]]:border-ink-8",
           "text-foreground transition duration-200 ease-out dark:text-foreground-strong",
           "hover:border-line-field-hover",

@@ -27,7 +27,7 @@ export const messageList = tv({
           "px-2 font-mono text-[11px] font-normal uppercase tracking-widest text-foreground-muted",
         notice: "pb-2 font-sans text-xs",
         historyLimited:
-          "rounded border border-line-muted bg-layer-panel/70 px-2 py-1 [&_svg]:size-3",
+          "rounded-sm border border-line-muted bg-layer-panel/70 px-2 py-1 [&_svg]:size-3",
       },
     },
     tone: {

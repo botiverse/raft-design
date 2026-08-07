@@ -9,12 +9,12 @@ const radioGroup = tv({
   slots: {
     root: [
       "grid w-full gap-2",
-      "data-[disabled]:[&>label]:cursor-not-allowed data-[disabled]:[&>label]:text-foreground-disabled",
-      "data-[disabled]:[&>label_*]:text-foreground-disabled",
+      "data-disabled:[&>label]:cursor-not-allowed data-disabled:[&>label]:text-foreground-disabled",
+      "data-disabled:[&>label_*]:text-foreground-disabled",
     ],
     item: [
       "relative inline-flex shrink-0 touch-manipulation items-center justify-center rounded-full outline-none",
-      "data-[disabled]:cursor-not-allowed",
+      "data-disabled:cursor-not-allowed",
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
     ],
     indicator: ["pointer-events-none flex size-full items-center justify-center"],
@@ -26,9 +26,9 @@ const radioGroup = tv({
         root: ["font-sans [&>label]:font-medium"],
         item: [
           "size-4 border-2 border-line-strong bg-layer-panel text-foreground",
-          "hover:bg-primary-400/30 data-[checked]:bg-primary-400",
-          "data-[disabled]:border-line-hairline data-[disabled]:bg-fill-muted data-[disabled]:text-line data-[disabled]:hover:bg-fill-muted",
-          "data-[checked]:data-[disabled]:bg-fill-muted",
+          "hover:bg-primary-400/30 data-checked:bg-primary-400",
+          "data-disabled:border-line-hairline data-disabled:bg-fill-muted data-disabled:text-line data-disabled:hover:bg-fill-muted",
+          "data-checked:data-disabled:bg-fill-muted",
           "focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-2 focus-visible:ring-offset-layer-canvas-muted",
         ],
         dot: "size-1.5",
@@ -37,15 +37,15 @@ const radioGroup = tv({
         root: "gap-2.5",
         item: [
           "size-3.5 bg-layer-panel text-foreground-inverse",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_1px_2.5px_-0.5px_oklch(0_0_0_/_0.12),0_0_0_1px_var(--line-muted)]",
-          "dark:not-data-[checked]:not-data-[disabled]:bg-layer-inset",
-          "dark:not-data-[checked]:not-data-[disabled]:shadow-[inset_0_1px_1.5px_oklch(0_0_0_/_0.3),0_0_0_1px_oklch(0_0_0_/_0.4),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
-          "hover:bg-ink-4 data-[checked]:bg-[color-mix(in_srgb-linear,var(--primary-400)_94%,var(--ink))] data-[checked]:text-white dark:data-[checked]:bg-primary-400 dark:data-[checked]:text-foreground-inverse",
-          "data-[checked]:shadow-[0_1px_1.5px_-1px_oklch(0_0_0_/_0.06),0_0_0_0.5px_color-mix(in_srgb,var(--primary-400)_20%,transparent)]",
-          "dark:data-[checked]:shadow-[0_1px_1.5px_-1px_oklch(0_0_0_/_0.4),0_0_0_0.5px_color-mix(in_srgb,var(--primary-500)_35%,transparent)]",
-          "data-[disabled]:bg-fill-muted data-[disabled]:text-line data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-muted)] data-[disabled]:hover:bg-fill-muted",
-          "data-[checked]:data-[disabled]:bg-fill-muted data-[checked]:data-[disabled]:text-line data-[checked]:data-[disabled]:shadow-[0_1px_1px_-1px_oklch(0_0_0_/_0.02),0_0_0_1px_var(--line-muted)]",
-          "active:scale-[0.96] data-[disabled]:active:scale-100 motion-reduce:active:scale-100",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.035),0_1px_2.5px_-0.5px_oklch(0_0_0/0.12),0_0_0_1px_var(--line-muted)]",
+          "dark:not-data-checked:not-data-disabled:bg-layer-inset",
+          "dark:not-data-checked:not-data-disabled:shadow-[inset_0_1px_1.5px_oklch(0_0_0/0.3),0_0_0_1px_oklch(0_0_0/0.4),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
+          "hover:bg-ink-4 data-checked:bg-[color-mix(in_srgb-linear,var(--primary-400)_94%,var(--ink))] data-checked:text-white dark:data-checked:bg-primary-400 dark:data-checked:text-foreground-inverse",
+          "data-checked:shadow-[0_1px_1.5px_-1px_oklch(0_0_0/0.06),0_0_0_0.5px_color-mix(in_srgb,var(--primary-400)_20%,transparent)]",
+          "dark:data-checked:shadow-[0_1px_1.5px_-1px_oklch(0_0_0/0.4),0_0_0_0.5px_color-mix(in_srgb,var(--primary-500)_35%,transparent)]",
+          "data-disabled:bg-fill-muted data-disabled:text-line data-disabled:shadow-[0_1px_1px_-1px_oklch(0_0_0/0.02),0_0_0_1px_var(--line-muted)] data-disabled:hover:bg-fill-muted",
+          "data-checked:data-disabled:bg-fill-muted data-checked:data-disabled:text-line data-checked:data-disabled:shadow-[0_1px_1px_-1px_oklch(0_0_0/0.02),0_0_0_1px_var(--line-muted)]",
+          "active:scale-[0.96] data-disabled:active:scale-100 motion-reduce:active:scale-100",
           "focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-2 focus-visible:ring-offset-layer-canvas-muted",
         ],
         dot: "size-1.5",
@@ -96,7 +96,7 @@ export function RadioGroupItem<T extends string = string>({
   const { item } = radioGroup({ theme });
   const itemClassName =
     appearance === "none"
-      ? cn("sr-only", "data-[disabled]:cursor-not-allowed", className)
+      ? cn("sr-only", "data-disabled:cursor-not-allowed", className)
       : item({ className });
 
   return (

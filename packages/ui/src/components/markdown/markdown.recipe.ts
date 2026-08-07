@@ -75,7 +75,7 @@ export const markdown = tv({
         ],
         cell: ["px-3 py-1.5", "border-0 border-b border-ink-6 not-last:border-r"],
         image: ["my-2 rounded-md border border-line-muted"],
-        inlineCode: ["inline leading-[inherit] [overflow-wrap:anywhere]"],
+        inlineCode: ["inline leading-[inherit] wrap-anywhere"],
       },
     },
   },

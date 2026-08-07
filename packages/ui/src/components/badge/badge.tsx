@@ -260,7 +260,7 @@ export const badge = tv({
       appearance: "solid",
       variant: "danger",
       class: {
-        root: "bg-[oklch(0.672_0.215_26.69)] text-[oklch(1_0_0)] dark:text-foreground-inverse",
+        root: "bg-[oklch(0.672_0.215_26.69)] text-white dark:text-foreground-inverse",
       },
     },
     {

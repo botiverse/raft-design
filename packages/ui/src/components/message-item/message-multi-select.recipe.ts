@@ -5,8 +5,8 @@ export const messageMultiSelect = tv({
     root: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     checkbox: [
       "mt-1.5 self-start rounded-full",
-      "data-[checked]:shadow-none data-[indeterminate]:shadow-none",
-      "hover:data-[checked]:shadow-none hover:data-[indeterminate]:shadow-none",
+      "data-checked:shadow-none data-indeterminate:shadow-none",
+      "hover:data-checked:shadow-none hover:data-indeterminate:shadow-none",
     ],
     toolbar: ["flex items-center gap-1.5"],
   },

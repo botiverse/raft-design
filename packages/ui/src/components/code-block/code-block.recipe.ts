@@ -3,7 +3,7 @@ import { tv } from "../../lib/tv";
 export const codeBlock = tv({
   slots: {
     root: ["group/code-block relative my-2 min-w-0 px-1 pb-1"],
-    header: ["flex h-[var(--code-block-header-height)] items-center gap-3"],
+    header: ["flex h-(--code-block-header-height) items-center gap-3"],
     title: ["min-w-0 flex-1 truncate font-mono"],
     actions: [
       "ml-auto flex items-center gap-2",
@@ -26,7 +26,7 @@ export const codeBlock = tv({
     theme: {
       brutal: {
         root: [
-          "[--code-block-header-height:calc(var(--spacing)*9)]",
+          "[--code-block-header-height:--spacing(9)]",
           "px-0 pb-0",
           "border-2 border-line-strong bg-black shadow-raft-sm",
         ],
@@ -46,12 +46,12 @@ export const codeBlock = tv({
         body: [
           "bg-black text-[oklch(0.88_0.18_132)]",
           "outline-1 -outline-offset-1 outline-[oklch(0.32_0_0)]",
-          "[&_pre_span]:text-[var(--shiki-dark,currentColor)]",
+          "[&_pre_span]:text-(--shiki-dark,currentColor)",
         ],
       },
       elegant: {
         root: [
-          "[--code-block-header-height:calc(var(--spacing)*8)]",
+          "[--code-block-header-height:--spacing(8)]",
           "overflow-clip rounded-none px-3 pb-0",
           "bg-layer-inset ring-[0.5px] ring-ink-20 dark:ring-ink-10",
         ],
@@ -68,8 +68,8 @@ export const codeBlock = tv({
           "bg-layer-panel text-foreground",
           "dark:bg-[oklch(0.15_0.004_106.42)]",
           "border-x border-dashed border-ink-10 dark:border-ink-16",
-          "[&_pre_span]:text-[var(--shiki-light,currentColor)]",
-          "dark:[&_pre_span]:text-[var(--shiki-dark,currentColor)]",
+          "[&_pre_span]:text-(--shiki-light,currentColor)",
+          "dark:[&_pre_span]:text-(--shiki-dark,currentColor)",
         ],
       },
     },

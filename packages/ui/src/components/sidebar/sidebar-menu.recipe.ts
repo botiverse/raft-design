@@ -18,24 +18,21 @@ export const sidebarMenuRecipe = tv({
         sidebarMenu: [
           "h-6 gap-1 text-xs font-bold tracking-widest uppercase",
           "text-black transition-colors hover:text-black/70",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-[black]",
         ],
-        sidebarMenuIcon: ["[&_svg]:[stroke-width:1.5px]", "[&_svg_*]:[stroke-width:1.5px]"],
+        sidebarMenuIcon: ["[&_svg]:stroke-[1.5px]", "[&_svg_*]:stroke-[1.5px]"],
         sidebarMenuCount: ["font-mono normal-case tracking-normal text-black/40"],
       },
       elegant: {
         sidebarMenu: [
-          "h-8 w-full justify-between gap-1.5 rounded-md px-[var(--sidebar-row-inset-x,6px)]",
+          "h-8 w-full justify-between gap-1.5 rounded-md px-(--sidebar-row-inset-x,6px)",
           "text-xs leading-none font-normal normal-case tracking-normal",
           "text-foreground-muted",
           "hover:bg-fill-strong/80 hover:text-foreground",
           "dark:hover:bg-ink-6",
           "active:text-foreground",
         ],
-        sidebarMenuIcon: [
-          "text-foreground-icon",
-          "[&_svg]:[stroke-width:1px] [&_svg_*]:[stroke-width:1px]",
-        ],
+        sidebarMenuIcon: ["text-foreground-icon", "[&_svg]:stroke-[1px] [&_svg_*]:stroke-[1px]"],
         sidebarMenuAside: "ml-auto",
         sidebarMenuCount:
           "shrink-0 font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",

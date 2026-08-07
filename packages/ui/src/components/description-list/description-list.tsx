@@ -7,7 +7,7 @@ const descriptionList = tv({
   slots: {
     root: ["m-0"],
     item: [""],
-    term: ["mb-1 flex items-center gap-2 text-xs", "[&>[data-slot=button]]:-ml-[5px]"],
+    term: ["mb-1 flex items-center gap-2 text-xs", "*:data-[slot=button]:ml-[-5px]"],
     details: ["m-0 text-sm"],
   },
   variants: {
@@ -17,13 +17,13 @@ const descriptionList = tv({
         root: [
           "grid grid-cols-[max-content_minmax(0,1fr)] items-baseline",
           "max-sm:grid-cols-1 max-sm:gap-y-0.5",
-          "[&>[data-slot=description-item]]:contents",
+          "*:data-[slot=description-item]:contents",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:mb-0",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:max-w-40",
           "[&>[data-slot=description-item]>[data-slot=description-term]]:min-w-0",
-          "[&>[data-slot=description-item]>[data-slot=description-term]]:break-words",
+          "[&>[data-slot=description-item]>[data-slot=description-term]]:wrap-break-word",
           "[&>[data-slot=description-item]>[data-slot=description-details]]:min-w-0",
-          "[&>[data-slot=description-item]>[data-slot=description-details]]:break-words",
+          "[&>[data-slot=description-item]>[data-slot=description-details]]:wrap-break-word",
         ],
       },
     },

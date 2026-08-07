@@ -13,13 +13,13 @@ import { Button, type ButtonProps } from "../button/button";
 
 const lightbox = tv({
   slots: {
-    backdrop: ["fixed inset-0 z-70 bg-layer-backdrop data-[closed]:hidden"],
+    backdrop: ["fixed inset-0 z-70 bg-layer-backdrop data-closed:hidden"],
     content: [
-      "pointer-events-none fixed inset-0 z-71 flex flex-col data-[closed]:hidden",
+      "pointer-events-none fixed inset-0 z-71 flex flex-col data-closed:hidden",
       // Image shell: Close as a direct Content child pins top-right.
       // Use data-lightbox-close — Button overwrites data-slot to "button".
-      "[&>[data-lightbox-close]]:pointer-events-auto [&>[data-lightbox-close]]:absolute [&>[data-lightbox-close]]:z-20",
-      "[&>[data-lightbox-close]]:top-[calc(16px+env(safe-area-inset-top,0px))] [&>[data-lightbox-close]]:right-[calc(16px+env(safe-area-inset-right,0px))]",
+      "*:data-lightbox-close:pointer-events-auto *:data-lightbox-close:absolute *:data-lightbox-close:z-20",
+      "*:data-lightbox-close:top-[calc(16px+env(safe-area-inset-top,0px))] *:data-lightbox-close:right-[calc(16px+env(safe-area-inset-right,0px))]",
     ],
     // In-flow chrome (e.g. playground): title + actions row.
     header: [
@@ -34,8 +34,8 @@ const lightbox = tv({
       "pointer-events-auto shrink-0 flex items-center gap-3",
       "h-[calc(56px+env(safe-area-inset-top,0px))] pt-[env(safe-area-inset-top,0px)]",
       "pl-[calc(16px+env(safe-area-inset-left,0px))] pr-[calc(16px+env(safe-area-inset-right,0px))]",
-      "[&_[data-lightbox-close]]:static [&_[data-lightbox-close]]:inset-auto",
-      "[&_[data-lightbox-close]]:top-auto [&_[data-lightbox-close]]:right-auto",
+      "**:data-lightbox-close:static **:data-lightbox-close:inset-auto",
+      "**:data-lightbox-close:top-auto **:data-lightbox-close:right-auto",
     ],
     headerMeta: ["flex min-w-0 flex-1 items-center gap-1.5"],
     headerLabel: [
@@ -61,7 +61,7 @@ const lightbox = tv({
     infoBar: [
       "pointer-events-auto flex min-w-0 items-center",
       "bg-layer-panel text-foreground",
-      "shadow-[0_12px_32px_-18px_oklch(0_0_0_/_0.55)]",
+      "shadow-[0_12px_32px_-18px_oklch(0_0_0/0.55)]",
     ],
     infoTitle: ["min-w-0 flex-1 truncate font-heading text-sm font-bold"],
     infoActions: ["flex shrink-0 items-center gap-1.5"],
@@ -98,17 +98,17 @@ const lightbox = tv({
         thumbnail: [
           "border-2 border-white/70 opacity-70 shadow-[2px_2px_0_0_black]",
           "hover:border-white hover:opacity-100 hover:shadow-[3px_3px_0_0_black]",
-          "data-[active]:border-[3px] data-[active]:border-white data-[active]:opacity-100",
-          "data-[active]:shadow-[4px_4px_0_0_black]",
+          "data-active:border-[3px] data-active:border-white data-active:opacity-100",
+          "data-active:shadow-[4px_4px_0_0_black]",
         ],
         thumbnailOverlay: ["hidden"],
         close: ["[&_svg]:size-4"],
       },
       elegant: {
-        backdrop: ["bg-[oklch(0_0_0_/_0.72)] backdrop-blur-[2px]"],
+        backdrop: ["bg-[oklch(0_0_0/0.72)] backdrop-blur-[2px]"],
         // Image-shell Close chrome only (direct child of Content).
         content: [
-          "[&>[data-lightbox-close]]:rounded-full [&>[data-lightbox-close]]:p-1.5",
+          "*:data-lightbox-close:rounded-full [&>[data-lightbox-close]]:p-1.5",
           "[&>[data-lightbox-close]]:[&_svg]:size-3.5",
         ],
         header: ["bg-transparent shadow-none"],
@@ -121,25 +121,25 @@ const lightbox = tv({
         navigationButton: [
           "size-8 rounded-full border-0",
           "bg-white/75 backdrop-blur-md",
-          "dark:bg-[oklch(0.45_0.006_106.42_/_0.85)] dark:shadow-[0_0_0_1px_oklch(1_0_0_/_0.16)]",
+          "dark:bg-[oklch(0.45_0.006_106.42/0.85)] dark:shadow-[0_0_0_1px_oklch(1_0_0/0.16)]",
           "text-foreground-muted dark:text-[oklch(0.92_0.003_106.42)]",
           "shadow-none",
           "hover:bg-white/85 hover:text-foreground",
-          "dark:hover:bg-[oklch(0.52_0.006_106.42_/_0.9)] dark:hover:text-[oklch(0.985_0.004_106.42)]",
+          "dark:hover:bg-[oklch(0.52_0.006_106.42/0.9)] dark:hover:text-[oklch(0.985_0.004_106.42)]",
           "active:scale-[0.97]",
           "data-[disabled=true]:bg-white/35 data-[disabled=true]:text-foreground-strong/30 data-[disabled=true]:shadow-none",
-          "dark:data-[disabled=true]:bg-[oklch(0.45_0.006_106.42_/_0.35)] dark:data-[disabled=true]:text-[oklch(0.92_0.003_106.42_/_0.35)]",
+          "dark:data-[disabled=true]:bg-[oklch(0.45_0.006_106.42/0.35)] dark:data-[disabled=true]:text-[oklch(0.92_0.003_106.42/0.35)]",
           "data-[disabled=true]:hover:bg-white/35 data-[disabled=true]:active:scale-100",
-          "dark:data-[disabled=true]:hover:bg-[oklch(0.45_0.006_106.42_/_0.35)]",
+          "dark:data-[disabled=true]:hover:bg-[oklch(0.45_0.006_106.42/0.35)]",
           "[&_svg]:size-5",
         ],
         infoBar: [
           "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
-          "gap-2 rounded py-0.5 pr-0.5 pl-2.5",
-          "bg-[oklch(0.9702_0_0_/_0.8)] text-foreground shadow-none backdrop-blur-[10px]",
-          "dark:bg-[oklch(0.24_0.005_106.42_/_0.85)] dark:shadow-[0_0_0_1px_oklch(1_0_0_/_0.08)]",
-          "[&_[data-slot=button]]:text-[oklch(0.439_0_0)] [&_[data-slot=button]]:hover:bg-ink-10 [&_[data-slot=button]]:hover:text-[oklch(0.269_0_0)]",
-          "dark:[&_[data-slot=button]]:text-[oklch(0.76_0.005_106.42)] dark:[&_[data-slot=button]]:hover:text-[oklch(0.92_0.003_106.42)]",
+          "gap-2 rounded-sm py-0.5 pr-0.5 pl-2.5",
+          "bg-[oklch(0.9702_0_0/0.8)] text-foreground shadow-none backdrop-blur-[10px]",
+          "dark:bg-[oklch(0.24_0.005_106.42/0.85)] dark:shadow-[0_0_0_1px_oklch(1_0_0/0.08)]",
+          "**:data-[slot=button]:text-[oklch(0.439_0_0)] **:data-[slot=button]:hover:bg-ink-10 **:data-[slot=button]:hover:text-[oklch(0.269_0_0)]",
+          "dark:**:data-[slot=button]:text-[oklch(0.76_0.005_106.42)] dark:**:data-[slot=button]:hover:text-[oklch(0.92_0.003_106.42)]",
         ],
         infoTitle: [
           "font-sans text-xs font-medium text-[oklch(0.269_0_0)] dark:text-[oklch(0.92_0.003_106.42)]",
@@ -148,11 +148,11 @@ const lightbox = tv({
         thumbnail: [
           "rounded-sm border opacity-100 shadow-none",
           "border-white/25 hover:border-white/60",
-          "data-[active]:border-white/90",
+          "data-active:border-white/90",
         ],
         thumbnailOverlay: [
           "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
-          "group-data-[active]/lightbox-thumb:bg-transparent",
+          "group-data-active/lightbox-thumb:bg-transparent",
         ],
       },
     },

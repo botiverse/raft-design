@@ -11,10 +11,10 @@ const label = tv({
       "group/label inline-flex w-fit items-center gap-1",
       "cursor-pointer select-none",
       "text-sm leading-none",
-      "data-[disabled]:cursor-not-allowed data-[disabled]:text-foreground-disabled",
+      "data-disabled:cursor-not-allowed data-disabled:text-foreground-disabled",
     ],
-    asterisk: ["text-accent-400", "group-data-[disabled]/label:text-foreground-disabled"],
-    sub: ["font-normal normal-case", "group-data-[disabled]/label:text-foreground-disabled"],
+    asterisk: ["text-accent-400", "group-data-disabled/label:text-foreground-disabled"],
+    sub: ["font-normal normal-case", "group-data-disabled/label:text-foreground-disabled"],
   },
   variants: {
     theme: {

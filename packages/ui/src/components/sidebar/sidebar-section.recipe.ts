@@ -8,15 +8,15 @@ export const sidebarSectionRecipe = tv({
     sidebarSectionHeader: ["flex items-center justify-between", "group/section-header"],
     sidebarSectionDisclosure: [
       "flex min-w-0 flex-1 items-center",
-      "[&_[data-slot=sidebar-section-chevron]]:transition-transform",
+      "**:data-[slot=sidebar-section-chevron]:transition-transform",
       "[&[data-panel-open]_[data-slot=sidebar-section-chevron]]:rotate-90",
     ],
     sidebarSectionTitle: ["min-w-0 truncate"],
     sidebarSectionCount: [],
     sidebarSectionAttention: [
       "inline-flex min-w-4.5 shrink-0 items-center justify-center",
-      "group-has-[[data-panel-open]]/section-header:hidden",
-      "group-has-[[data-popup-open]]/section-header:hidden",
+      "group-has-data-panel-open/section-header:hidden",
+      "group-has-data-popup-open/section-header:hidden",
       "group-hover/section-header:hidden",
     ],
     sidebarSectionTrailing: ["relative flex min-w-4.5 shrink-0 items-center justify-end"],
@@ -42,7 +42,7 @@ export const sidebarSectionRecipe = tv({
         sidebarSectionDisclosure: [
           "h-6 gap-1.5 border-2 border-transparent text-xs font-bold tracking-widest uppercase",
           "text-black transition-colors hover:text-black/70",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:[outline-color:black]",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-[black]",
         ],
         sidebarSectionCount: [
           "font-mono text-xs font-medium normal-case tracking-normal text-black/70",
@@ -57,25 +57,25 @@ export const sidebarSectionRecipe = tv({
       elegant: {
         sidebarSection: "px-0",
         sidebarSectionEmpty: [
-          "px-[var(--sidebar-row-inset-x,6px)]",
+          "px-(--sidebar-row-inset-x,6px)",
           "text-xs leading-snug",
           "text-foreground-icon",
         ],
         sidebarSectionHeader: [
-          "relative -mx-[var(--sidebar-row-inset-x,6px)] mt-4 mb-0 h-8 w-[calc(100%+12px)] rounded-md px-0",
+          "relative -mx-(--sidebar-row-inset-x,6px) mt-4 mb-0 h-8 w-[calc(100%+12px)] rounded-md px-0",
           "hover:bg-fill-strong/80",
           "dark:hover:bg-ink-6",
         ],
         sidebarSectionDisclosure: [
-          "h-8 w-full justify-start gap-1.5 rounded-md border border-transparent px-[var(--sidebar-row-inset-x,6px)] text-xs font-medium leading-none normal-case tracking-normal",
+          "h-8 w-full justify-start gap-1.5 rounded-md border border-transparent px-(--sidebar-row-inset-x,6px) text-xs font-medium leading-none normal-case tracking-normal",
           "text-foreground-icon",
           "hover:text-foreground-strong",
-          "[&_[data-slot=sidebar-section-chevron]]:opacity-55",
+          "**:data-[slot=sidebar-section-chevron]:opacity-55",
         ],
         sidebarSectionCount:
           "shrink-0 font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",
-        sidebarSectionTrailing: "pr-[var(--sidebar-row-inset-x,6px)]",
-        sidebarSectionControls: "right-[var(--sidebar-row-inset-x,6px)]",
+        sidebarSectionTrailing: "pr-(--sidebar-row-inset-x,6px)",
+        sidebarSectionControls: "right-(--sidebar-row-inset-x,6px)",
         sidebarSectionControl: ["shrink-0", "text-foreground-icon hover:text-foreground-strong"],
       },
     },

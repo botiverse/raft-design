@@ -13,10 +13,10 @@ export const taskBoardColumn = tv({
     chevron: [
       "inline-flex shrink-0 -rotate-90 items-center transition-transform",
       "[&_svg]:size-3.5",
-      "group-data-[panel-open]:rotate-0",
+      "group-data-panel-open:rotate-0",
       "motion-reduce:transition-none",
     ],
-    panel: ["data-[ending-style]:hidden"],
+    panel: ["data-ending-style:hidden"],
     items: ["flex flex-col gap-2.5"],
     empty: ["px-3 py-5", "group-data-[drop-state=allowed]:hidden"],
     emptyIdle: ["group-data-[drop-state=allowed]:hidden group-data-[drop-state=blocked]:hidden"],
@@ -62,7 +62,7 @@ export const taskBoardColumn = tv({
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-transparent",
           "focus-visible:ring-2 focus-visible:ring-primary-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-panel",
           "dark:focus-visible:ring-offset-layer-card",
-          "[@media(forced-colors:active)]:focus-visible:[outline-color:CanvasText]",
+          "forced-colors:focus-visible:outline-[CanvasText]",
         ],
         badge: [
           "inline-flex items-center gap-1.5 px-0 py-0",

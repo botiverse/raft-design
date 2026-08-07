@@ -28,13 +28,13 @@ const checkboxIndicator = tv({
     },
     size: {
       sm: {
-        root: ["size-3.5", "[&_svg:not([class*='size-'])]:size-2.5 [&_svg]:[stroke-width:4]"],
+        root: ["size-3.5", "[&_svg:not([class*='size-'])]:size-2.5 [&_svg]:stroke-4"],
       },
       md: {
-        root: ["size-4", "[&_svg:not([class*='size-'])]:size-3 [&_svg]:[stroke-width:4]"],
+        root: ["size-4", "[&_svg:not([class*='size-'])]:size-3 [&_svg]:stroke-4"],
       },
       lg: {
-        root: ["size-5", "[&_svg:not([class*='size-'])]:size-[13px] [&_svg]:[stroke-width:3]"],
+        root: ["size-5", "[&_svg:not([class*='size-'])]:size-[13px] [&_svg]:stroke-3"],
       },
     },
     fill: {

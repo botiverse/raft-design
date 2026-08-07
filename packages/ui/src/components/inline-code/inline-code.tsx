@@ -11,7 +11,7 @@ const inlineCode = tv({
       brutal: {
         root: [
           "border border-line-strong bg-brutal-yellow/50 px-1.5",
-          "font-mono text-sm font-medium text-foreground-strong [overflow-wrap:anywhere]",
+          "font-mono text-sm font-medium text-foreground-strong wrap-anywhere",
         ],
       },
       elegant: {

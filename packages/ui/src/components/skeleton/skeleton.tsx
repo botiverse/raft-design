@@ -13,8 +13,8 @@ const skeleton = tv({
       },
       elegant: {
         root: [
-          "data-[variant=line]:rounded-full data-[variant=line]:bg-foreground-strong/[0.08]",
-          "data-[variant=block]:rounded-md data-[variant=block]:bg-foreground-strong/[0.08]",
+          "data-[variant=line]:rounded-full data-[variant=line]:bg-foreground-strong/8",
+          "data-[variant=block]:rounded-md data-[variant=block]:bg-foreground-strong/8",
         ],
       },
     },
@@ -42,7 +42,7 @@ const skeleton = tv({
       theme: "elegant",
       variant: "circle",
       class: {
-        root: "bg-foreground-strong/[0.08]",
+        root: "bg-foreground-strong/8",
       },
     },
   ],

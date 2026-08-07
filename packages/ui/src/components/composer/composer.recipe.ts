@@ -20,7 +20,7 @@ export const composer = tv({
         iconButton: [
           "size-[26px] p-1 border-black bg-white text-black shadow-raft-sm",
           "hover:-translate-y-px hover:border-black hover:bg-white hover:shadow-raft-md",
-          "active:translate-x-px active:translate-y-px active:shadow-raft-xs",
+          "active:translate-px  active:shadow-raft-xs",
         ],
       },
       elegant: {

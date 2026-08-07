@@ -53,7 +53,7 @@ export const messageQuotedPreview = tv({
           "dark:border-transparent",
           "text-[13px] leading-5 text-foreground-muted transition-[background-color,box-shadow] duration-150",
           "hover:bg-[color-mix(in_oklch,var(--ink)_2%,var(--layer-card))] hover:shadow-raft-sm",
-          "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] focus-visible:outline-[oklch(0.507_0.185_257.731)]",
+          "focus-visible:outline focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-[oklch(0.507_0.185_257.731)]",
         ],
       },
     },

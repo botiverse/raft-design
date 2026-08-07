@@ -18,10 +18,10 @@ const kbd = tv({
       },
       elegant: {
         root: [
-          "min-w-5 rounded bg-layer-panel px-1.5 py-1 text-[10px]",
+          "min-w-5 rounded-sm bg-layer-panel px-1.5 py-1 text-[10px]",
           "font-medium text-foreground-muted ring-1 ring-inset ring-line-hairline",
           "dark:bg-fill-muted dark:ring-transparent",
-          "dark:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.07),0_0_0_1px_oklch(0_0_0_/_0.45),0_1.5px_0_oklch(0_0_0_/_0.5)]",
+          "dark:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42/0.07),0_0_0_1px_oklch(0_0_0/0.45),0_1.5px_0_oklch(0_0_0/0.5)]",
         ],
       },
     },

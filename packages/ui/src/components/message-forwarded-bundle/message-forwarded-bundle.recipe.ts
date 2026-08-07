@@ -44,7 +44,7 @@ export const messageForwardedBundle = tv({
       true: {
         items: [
           "max-h-36 overflow-hidden sm:max-h-45",
-          "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-gradient-to-t",
+          "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-linear-to-t",
         ],
       },
     },

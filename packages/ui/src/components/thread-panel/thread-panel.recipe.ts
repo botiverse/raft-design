@@ -2,15 +2,15 @@ import { tv } from "../../lib/tv";
 
 export const threadPanel = tv({
   slots: {
-    root: ["isolate flex h-full min-h-0 w-full flex-col", "dark:bg-layer-card"],
-    header: ["flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-3 px-5"],
+    root: ["isolate flex size-full min-h-0  flex-col", "dark:bg-layer-card"],
+    header: ["flex h-(--shell-header-height,62px) shrink-0 items-center gap-3 px-5"],
     content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
     title: ["m-0 min-w-0 flex-1 truncate", "text-base font-bold"],
     titleMeta: ["font-normal"],
     actions: ["flex shrink-0 items-center gap-1.5"],
     search: [
       "relative z-20 flex shrink-0 items-center gap-1.5 px-5 py-2",
-      "[&>[data-slot=input-group]]:min-w-0 [&>[data-slot=input-group]]:flex-1",
+      "[&>[data-slot=input-group]]:min-w-0 *:data-[slot=input-group]:flex-1",
     ],
     searchTrailing: ["ml-auto flex shrink-0 items-center gap-1.5"],
     searchCount: ["shrink-0 whitespace-nowrap font-mono text-xs tabular-nums"],
@@ -31,7 +31,7 @@ export const threadPanel = tv({
         searchCount: "text-black/50",
         originalMessage: [
           "bg-white px-2.5 border-b-2 border-black",
-          "[&_[data-message-item]]:bg-white",
+          "**:data-message-item:bg-white",
         ],
         replyCount: "border-black/10 text-black/40",
         footer: "border-t-2 border-black bg-white text-black/50",
@@ -42,7 +42,7 @@ export const threadPanel = tv({
           "dark:md:shadow-[-4px_0_8px_-5px_oklch(0_0_0_/_0.55),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
         ],
         header: [
-          "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-lg:z-10 [@media(max-height:600px)]:h-auto",
+          "relative isolate h-auto min-h-(--shell-header-height,56px) max-lg:z-10 [@media(max-height:600px)]:h-auto",
           "bg-layer-canvas-muted",
           "max-lg:gap-2 max-lg:pl-5 max-lg:pr-3.5 max-md:h-[var(--shell-header-height,56px)]",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
@@ -54,7 +54,7 @@ export const threadPanel = tv({
           "relative overflow-clip",
           "bg-layer-panel",
           "dark:bg-transparent dark:lg:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.07),inset_0_0_0_1px_oklch(0.985_0.004_106.42_/_0.03)]",
-          "[&_[data-message-item]]:px-[18px] [&_[data-message-item]]:max-lg:px-3",
+          "**:data-message-item:px-[18px] [&_[data-message-item]]:max-lg:px-3",
         ],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
@@ -71,7 +71,7 @@ export const threadPanel = tv({
         originalMessage: [
           "bg-transparent",
           "border-b border-line-muted",
-          "[&_[data-message-item]]:bg-transparent",
+          "**:data-message-item:bg-transparent",
         ],
         replySummary: "px-5 max-lg:px-3.5",
         replyCount: "border-line-hairline text-foreground-muted",

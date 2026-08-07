@@ -11,19 +11,19 @@ const tooltip = tv({
     positioner: ["isolate z-50 outline-none"],
     content: [
       "relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
-      "origin-[var(--transform-origin)] outline-none",
+      "origin-(--transform-origin) outline-none",
       "transition-[opacity,transform] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]",
-      "data-[starting-style]:scale-[0.97] data-[starting-style]:opacity-0",
-      "data-[ending-style]:scale-[0.99] data-[ending-style]:opacity-0",
-      "data-[instant]:transition-none",
+      "data-starting-style:scale-[0.97] data-starting-style:opacity-0",
+      "data-ending-style:scale-[0.99] data-ending-style:opacity-0",
+      "data-instant:transition-none",
       "motion-reduce:transition-none",
       "has-[[data-slot=kbd]]:py-1.5 has-[[data-slot=kbd]]:pr-1.5",
     ],
     body: [
-      "block min-w-0 text-[13px] leading-4.5 whitespace-normal break-words",
-      "[&_[data-slot=kbd]]:relative [&_[data-slot=kbd]]:z-10 [&_[data-slot=kbd]]:ml-1.5",
+      "block min-w-0 text-[13px] leading-4.5 whitespace-normal wrap-break-word",
+      "**:data-[slot=kbd]:relative **:data-[slot=kbd]:z-10 [&_[data-slot=kbd]]:ml-1.5",
       "[&_[data-slot=kbd]]:h-4 [&_[data-slot=kbd]]:min-w-4 [&_[data-slot=kbd]]:px-1 [&_[data-slot=kbd]]:py-0",
-      "[&_[data-slot=kbd]]:text-[10px] [&_[data-slot=kbd]]:font-semibold [&_[data-slot=kbd]]:leading-none",
+      "**:data-[slot=kbd]:text-[10px] [&_[data-slot=kbd]]:font-semibold **:data-[slot=kbd]:leading-none",
     ],
     bodyIcon: ["shrink-0 [&>svg]:block [&>svg]:size-3.5 [&>svg]:shrink-0"],
     bodyText: ["min-w-0 flex-1"],
@@ -50,7 +50,7 @@ const tooltip = tv({
           "border-2 border-line-strong bg-primary",
           "font-sans font-bold text-foreground-strong",
           "shadow-raft-sm",
-          "[&_[data-slot=kbd]]:border-line-strong/70 [&_[data-slot=kbd]]:bg-layer-panel [&_[data-slot=kbd]]:text-foreground-strong/70 [&_[data-slot=kbd]]:ring-0",
+          "**:data-[slot=kbd]:border-line-strong/70 **:data-[slot=kbd]:bg-layer-panel **:data-[slot=kbd]:text-foreground-strong/70 **:data-[slot=kbd]:ring-0",
         ],
         arrow: ["hidden"],
       },
@@ -59,14 +59,14 @@ const tooltip = tv({
           "rounded-md bg-layer-hud text-layer-hud-foreground dark:bg-layer-popover dark:text-foreground",
           "font-sans text-[13px] font-medium tracking-[-0.005em]",
           "shadow-raft-lg",
-          "[&_[data-slot=kbd]]:bg-white/[0.08] [&_[data-slot=kbd]]:text-white/72 [&_[data-slot=kbd]]:ring-0 dark:[&_[data-slot=kbd]]:bg-ink-4 dark:[&_[data-slot=kbd]]:text-foreground-muted",
+          "**:data-[slot=kbd]:bg-white/8 **:data-[slot=kbd]:text-white/72 **:data-[slot=kbd]:ring-0 dark:**:data-[slot=kbd]:bg-ink-4 dark:**:data-[slot=kbd]:text-foreground-muted",
         ],
         // Dark shadow-raft-lg draws a 1px black/0.55 ring around the popup; the
         // apex-directed silhouette shadow repaints that ring under the arrow's
         // base corners and continues it along the slanted edges, so the arrow
         // reads as one surface with the popup. Filters apply before the side
         // rotation transforms, so the offset stays apex-directed on every side.
-        arrow: ["dark:drop-shadow-[0_1px_0_oklch(0_0_0_/_0.55)]"],
+        arrow: ["dark:drop-shadow-[0_1px_0_oklch(0_0_0/0.55)]"],
       },
     },
   },

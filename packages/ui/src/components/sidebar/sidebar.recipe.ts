@@ -19,7 +19,7 @@ const liveActivityFadeOverlay = [
 export const sidebarRecipe = tv({
   slots: {
     sidebarRoot: [
-      "relative flex h-full min-h-0 w-full select-none flex-col",
+      "relative flex size-full min-h-0  select-none flex-col",
       "has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
     ],
     sidebarHeader: ["flex shrink-0 items-center gap-3"],
@@ -32,10 +32,10 @@ export const sidebarRecipe = tv({
     ],
     sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
     sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
-    sidebarViewport: ["h-full min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto"],
+    sidebarViewport: ["size-full min-h-0  flex-1 overflow-x-hidden overflow-y-auto"],
     sidebarContentInner: [
       "min-h-full min-w-0 w-full px-2 pt-3",
-      "pb-[var(--sidebar-content-bottom,12px)]",
+      "pb-(--sidebar-content-bottom,12px)",
     ],
     sidebarScrollbar: [
       "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
@@ -52,7 +52,7 @@ export const sidebarRecipe = tv({
           "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:52px]",
         ],
         sidebarHeader: [
-          "h-[var(--shell-header-height,62px)] shrink-0 border-b-2 border-black bg-brutal-cream px-5",
+          "h-(--shell-header-height,62px) shrink-0 border-b-2 border-black bg-brutal-cream px-5",
           "max-md:bg-primary-400 max-md:px-4",
           "[@media(max-height:600px)]:h-12",
         ],
@@ -67,8 +67,8 @@ export const sidebarRecipe = tv({
         ],
         sidebarHeader: [
           "absolute inset-x-0 top-0 z-20 isolate",
-          "h-[var(--shell-header-height,56px)] border-b-0 bg-transparent",
-          "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
+          "h-(--shell-header-height,56px) border-b-0 bg-transparent",
+          "px-(--sidebar-inset-x,26px) md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
           "[&_[data-slot=notification-center-trigger]]:-mr-2",
         ],
         sidebarHeaderMask: ["block h-[calc(100%+12px)]"],
@@ -76,15 +76,15 @@ export const sidebarRecipe = tv({
         sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
         sidebarBody: "bg-layer-canvas-muted",
         sidebarContentInner: [
-          "px-[var(--sidebar-inset-x,26px)] md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
-          "pt-[var(--shell-header-height,56px)]",
+          "px-(--sidebar-inset-x,26px) md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
+          "pt-(--shell-header-height,56px)",
         ],
         sidebarScrollbar: "justify-end",
         sidebarLiveActivity: [
           "bottom-3 z-10",
           "pl-[26px] pr-4",
           ...liveActivityFadeOverlay,
-          "[&>*]:relative [&>*]:z-10",
+          "*:relative *:z-10",
         ],
       },
     },

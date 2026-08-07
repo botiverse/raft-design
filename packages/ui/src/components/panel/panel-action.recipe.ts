@@ -35,7 +35,7 @@ export const panelAction = tv({
   variants: {
     theme: {
       brutal: [
-        "active:not-data-[haspopup]:scale-100 active:translate-x-px active:translate-y-px active:shadow-raft-xs",
+        "active:not-data-haspopup:scale-100 active:translate-px  active:shadow-raft-xs",
         "disabled:shadow-raft-sm",
       ],
       elegant: [
@@ -48,22 +48,20 @@ export const panelAction = tv({
 
 export const panelToggleAction = tv({
   extend: panelActionBase,
-  base: [
-    "data-[disabled]:pointer-events-none data-[disabled]:opacity-40 data-[disabled]:transform-none",
-  ],
+  base: ["data-disabled:pointer-events-none data-disabled:opacity-40 data-disabled:transform-none"],
   variants: {
     theme: {
       brutal: [
-        "active:translate-x-px active:translate-y-px active:shadow-raft-xs",
-        "data-[pressed]:bg-brutal-orange data-[pressed]:text-black",
-        "data-[pressed]:hover:bg-brutal-orange",
-        "data-[disabled]:shadow-raft-sm",
+        "active:translate-px  active:shadow-raft-xs",
+        "data-pressed:bg-brutal-orange data-pressed:text-black",
+        "data-pressed:hover:bg-brutal-orange",
+        "data-disabled:shadow-raft-sm",
       ],
       elegant: [
         "text-foreground-icon shadow-none",
         "active:bg-fill-strong/80 active:text-foreground-strong",
-        "data-[pressed]:bg-fill-strong data-[pressed]:text-foreground-strong",
-        "data-[pressed]:hover:bg-fill-strong",
+        "data-pressed:bg-fill-strong data-pressed:text-foreground-strong",
+        "data-pressed:hover:bg-fill-strong",
       ],
     },
   },

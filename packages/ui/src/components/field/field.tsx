@@ -7,10 +7,10 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const field = tv({
   slots: {
     root: ["group/field flex flex-col gap-1.5"],
-    item: ["group/field-item flex items-start gap-2", "[&>[data-slot=checkbox]]:mt-px"],
-    label: ["block leading-none", "group-data-[disabled]/field:text-foreground-disabled"],
-    description: ["text-xs leading-5", "group-data-[disabled]/field:text-foreground-disabled"],
-    error: ["text-xs leading-5", "group-data-[disabled]/field:text-foreground-disabled"],
+    item: ["group/field-item flex items-start gap-2", "*:data-[slot=checkbox]:mt-px"],
+    label: ["block leading-none", "group-data-disabled/field:text-foreground-disabled"],
+    description: ["text-xs leading-5", "group-data-disabled/field:text-foreground-disabled"],
+    error: ["text-xs leading-5", "group-data-disabled/field:text-foreground-disabled"],
   },
   variants: {
     theme: {
@@ -24,7 +24,7 @@ const field = tv({
         label: ["font-medium text-foreground-strong dark:text-foreground-hint"],
         description: [
           "text-[13px] text-foreground-hint",
-          "group-data-[disabled]/field:text-foreground-disabled",
+          "group-data-disabled/field:text-foreground-disabled",
         ],
         error: ["text-[13px] text-danger"],
       },
