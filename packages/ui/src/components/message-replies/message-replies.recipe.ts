@@ -9,30 +9,35 @@ export const messageReplies = tv({
       "transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-line-strong",
     ],
     summary: [
-      "mb-1.5 flex shrink-0 flex-wrap items-center gap-1 text-xs font-medium transition-colors",
+      "flex shrink-0 flex-wrap items-center gap-1 text-xs font-medium transition-colors",
       "[&_strong]:font-semibold",
     ],
     summaryItem: ["inline-flex items-center gap-0.5 align-middle", "[&_svg]:size-2.5"],
     reply: ["flex min-w-0 items-center gap-1.5 text-xs leading-tight"],
-    sender: ["shrink-0 font-semibold"],
+    sender: ["min-w-0 shrink truncate font-semibold"],
     content: ["min-w-0 flex-1 truncate"],
-    time: ["ml-auto shrink-0 font-mono text-[10px]"],
+    time: ["ml-auto shrink-0"],
   },
   variants: {
     theme: {
       brutal: {
-        root: "bg-white hover:bg-ink-2",
-        summary: "text-secondary-700 group-hover/message-replies:text-foreground-strong",
-        sender: "text-secondary-800",
-        content: "text-secondary-700",
-        time: "text-secondary-500",
+        // border-0 cancels the embed frame the component composes (brutal
+        // message-embed adds a 1px black border); the reply surface is a bare
+        // wash, matching the source InlineThreadReplies.
+        root: "border-0 bg-black/3 hover:bg-black/8",
+        summary:
+          "text-[12.5px] font-bold text-black/55 group-hover/message-replies:text-black [&_strong]:font-bold",
+        reply: "text-[12.5px]",
+        sender: "text-black/70",
+        content: "text-black/60",
+        time: "font-sans text-[11.5px] tabular-nums text-black/40",
       },
       elegant: {
         root: ["rounded-md"],
-        summary: "text-foreground-muted",
+        summary: "mb-1.5 text-foreground-muted",
         sender: "text-foreground-muted",
         content: "text-foreground-muted/80",
-        time: "text-foreground-placeholder",
+        time: "font-mono text-[10px] text-foreground-placeholder",
       },
     },
   },
