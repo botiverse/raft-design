@@ -171,7 +171,7 @@ export function SelectTrigger({
     <BaseSelect.Trigger
       data-slot="select-trigger"
       data-haspopup=""
-      {...(renderProp ? { render: renderProp } : {})}
+      render={renderProp}
       className={trigger({ className })}
       {...props}
       data-invalid={dataInvalid || undefined}
