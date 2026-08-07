@@ -445,25 +445,13 @@ function OpenContextMenuExample({
 }
 
 function ContextMenuPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
-  const [label, setLabel] = useState("Right click thread");
-
   return (
     <Preview previewClassName="min-h-[26rem] items-start pt-16">
       <Preview.Canvas>
-        <OpenContextMenuExample triggerId="preview-context-menu-trigger" label={label}>
+        <OpenContextMenuExample triggerId="preview-context-menu-trigger" label="Right click thread">
           <ActionMenuRows />
         </OpenContextMenuExample>
       </Preview.Canvas>
-      <Preview.Controls>
-        <Preview.Control label="Label" htmlFor="context-menu-preview-label">
-          <Preview.Text
-            id="context-menu-preview-label"
-            label="Label"
-            value={label}
-            onValueChange={setLabel}
-          />
-        </Preview.Control>
-      </Preview.Controls>
       <Preview.Code html={code} />
     </Preview>
   );
