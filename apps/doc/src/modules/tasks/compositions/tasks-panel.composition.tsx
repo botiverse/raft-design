@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { useRef, useState } from "react";
 import {
-  Button,
   Tabs,
   TabsBackground,
   TabsLabel,
@@ -10,11 +9,10 @@ import {
   TasksPanelRoot,
   TasksPanelToolbar,
   TasksPanelToolbarFilters,
-  TasksPanelToolbarNewTask,
   TasksPanelToolbarView,
   TasksPanelViewport,
 } from "raft-ui";
-import { ListTodo, Plus, SquareKanban } from "lucide-react";
+import { ListTodo, SquareKanban } from "lucide-react";
 
 import {
   getTaskStatusLabel,
@@ -26,7 +24,6 @@ import {
 import { TasksPanelBoardView } from "../tasks-panel-board-view.tsx";
 import { TasksPanelEmptyState } from "../tasks-panel-empty-state.tsx";
 import { TasksPanelListView } from "../tasks-panel-list-view.tsx";
-import { CreateTaskDialogComposition } from "./create-task-dialog.composition.tsx";
 import { TasksIdentityFiltersComposition } from "./tasks-identity-filters.composition.tsx";
 
 type TaskView = "board" | "list";
@@ -40,15 +37,10 @@ export type TasksPanelCompositionProps = {
   onViewChange?: (view: TaskView) => void;
   onTasksChange?: (tasks: readonly TaskFixture[]) => void;
   onOpenTask?: (task: TaskFixture) => void;
-  onCreateTasks?: (titles: readonly string[]) => void | Promise<void>;
   blockedDropStatus?: TaskStatus;
   showChannelName?: boolean;
-  /** When false, hide the toolbar New Task control (e.g. mobile page header owns it). */
-  showToolbarNewTask?: boolean;
   /** When false, hide the toolbar Board/List control (e.g. mobile page header owns it). */
   showToolbarView?: boolean;
-  createOpen?: boolean;
-  onCreateOpenChange?: (open: boolean) => void;
 };
 
 export function TasksPanelComposition({
@@ -60,13 +52,9 @@ export function TasksPanelComposition({
   onViewChange,
   onTasksChange,
   onOpenTask,
-  onCreateTasks,
   blockedDropStatus,
   showChannelName = false,
-  showToolbarNewTask = true,
   showToolbarView = true,
-  createOpen,
-  onCreateOpenChange,
 }: TasksPanelCompositionProps) {
   const portalRef = useRef<HTMLDivElement>(null);
   const [localTasks, setLocalTasks] = useState<readonly TaskFixture[]>(TASK_FIXTURES);
@@ -78,17 +66,11 @@ export function TasksPanelComposition({
     done: true,
     closed: true,
   });
-  const [localCreateOpen, setLocalCreateOpen] = useState(false);
   const [announcement, setAnnouncement] = useState("Ready");
 
   const tasks = controlledTasks ?? localTasks;
   const visibleTasks = filterTask ? tasks.filter(filterTask) : tasks;
   const view = controlledView ?? localView;
-  const dialogOpen = createOpen ?? localCreateOpen;
-  const setDialogOpen = (open: boolean) => {
-    if (createOpen === undefined) setLocalCreateOpen(open);
-    onCreateOpenChange?.(open);
-  };
   const updateTasks = (nextTasks: readonly TaskFixture[]) => {
     if (controlledTasks === undefined) setLocalTasks(nextTasks);
     onTasksChange?.(nextTasks);
@@ -123,14 +105,6 @@ export function TasksPanelComposition({
     <div ref={portalRef} className="relative flex h-full min-h-0 w-full min-w-0">
       <TasksPanelRoot aria-label="Tasks panel">
         <TasksPanelToolbar>
-          {showToolbarNewTask ? (
-            <TasksPanelToolbarNewTask>
-              <Button variant="accent" size="sm" onClick={() => setDialogOpen(true)}>
-                <Plus aria-hidden />
-                New Task
-              </Button>
-            </TasksPanelToolbarNewTask>
-          ) : null}
           <TasksPanelToolbarFilters>
             {toolbarFilters ?? <TasksIdentityFiltersComposition />}
           </TasksPanelToolbarFilters>
@@ -191,26 +165,6 @@ export function TasksPanelComposition({
       <span className="sr-only" aria-live="polite">
         {announcement}
       </span>
-      <CreateTaskDialogComposition
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        portalRef={portalRef}
-        onCreate={async (titles) => {
-          await onCreateTasks?.(titles);
-          const nextNumber = Math.max(0, ...tasks.map((task) => task.taskNumber)) + 1;
-          const created = titles.map<TaskFixture>((title, index) => ({
-            id: `created-${nextNumber + index}`,
-            taskNumber: nextNumber + index,
-            channelName: "proj-uiux",
-            title,
-            status: "todo",
-            creatorId: "me",
-            assigneeId: "unassigned",
-          }));
-          updateTasks([...created, ...tasks]);
-          setAnnouncement(`${created.length} ${created.length === 1 ? "task" : "tasks"} created`);
-        }}
-      />
     </div>
   );
 }

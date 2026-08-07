@@ -1,8 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
-import { CheckSquare, ListTodo, Plus, SquareKanban } from "lucide-react";
+import { CheckSquare, ListTodo, SquareKanban } from "lucide-react";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import {
-  Button,
   PanelActions,
   ConversationPanelContent,
   PanelHeaderContent,
@@ -95,7 +94,6 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
   const [channelFilter, setChannelFilter] = useState<string[]>([]);
   const [creatorFilter, setCreatorFilter] = useState<string[]>([]);
   const [assigneeFilter, setAssigneeFilter] = useState<string[]>([]);
-  const [createOpen, setCreateOpen] = useState(false);
   const view = viewOverride ?? initialView;
   const showToolbarChrome = Boolean(channel) || isDesktop;
   const { tasks, setTasks } = usePlaygroundTaskState();
@@ -154,10 +152,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
     <TasksPanelComposition
       tasks={compositionTasks}
       showChannelName={!channel}
-      showToolbarNewTask={showToolbarChrome}
       showToolbarView={showToolbarChrome}
-      createOpen={createOpen}
-      onCreateOpenChange={setCreateOpen}
       toolbarFilters={
         <TasksIdentityFiltersComposition
           identities={TASK_FILTER_IDENTITIES}
@@ -259,10 +254,6 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
               </TabsTab>
             </TabsList>
           </Tabs>
-          <Button variant="accent" size="sm" onClick={() => setCreateOpen(true)}>
-            <Plus aria-hidden />
-            New Task
-          </Button>
         </PanelActions>
       </PanelSectionHeader>
       <ConversationPanelContent className="max-md:[&_[data-slot=tasks-panel-viewport]]:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]">
