@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -24,8 +23,6 @@ const TOC = [
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
-
-const LAYOUTS = ["wide", "compact"] as const;
 
 const ACTIVITY_COMPOSITION_PATH =
   "apps/doc/src/modules/activity/compositions/activity-preview.composition.tsx";
@@ -431,31 +428,11 @@ export const Route = createFileRoute("/components/activity")({
 });
 
 function ActivityPreview({ code }: { code: Record<string, string> }) {
-  const [layout, setLayout] = useState<(typeof LAYOUTS)[number]>("wide");
-
   return (
-    <Preview
-      previewInset="flush"
-      previewClassName={
-        layout === "compact"
-          ? "h-[42rem] max-w-md items-stretch overflow-hidden p-0"
-          : "h-[42rem] items-stretch overflow-hidden p-0"
-      }
-    >
+    <Preview previewInset="flush" previewClassName="h-[42rem] items-stretch overflow-hidden p-0">
       <Preview.Canvas>
         <ActivityPreviewComposition />
       </Preview.Canvas>
-      <Preview.Controls>
-        <Preview.Control label="Layout" htmlFor="activity-preview-layout">
-          <Preview.Select
-            id="activity-preview-layout"
-            label="Layout"
-            options={LAYOUTS}
-            value={layout}
-            onValueChange={(value) => setLayout(value as (typeof LAYOUTS)[number])}
-          />
-        </Preview.Control>
-      </Preview.Controls>
       <Preview.Code codeBlock={<ActivitySourceFiles code={code} collapsible={false} />} />
     </Preview>
   );
