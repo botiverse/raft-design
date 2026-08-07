@@ -4,7 +4,7 @@ import { ActivityInboxPanel, ActivityInboxViewport } from "raft-ui/wip";
 
 export function EmptyActivityComposition() {
   return (
-    <ActivityInboxPanel data-layout="wide">
+    <ActivityInboxPanel>
       <ActivityInboxViewport>
         <EmptyState className="h-full">
           <EmptyStateContent>

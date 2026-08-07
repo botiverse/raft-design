@@ -11,7 +11,7 @@ import {
 
 export function LoadingMoreActivityComposition() {
   return (
-    <ActivityInboxPanel data-layout="wide" aria-busy="true">
+    <ActivityInboxPanel aria-busy="true">
       <ActivityInboxViewport>
         <ActivityInboxList>
           <ActivityInboxItem>

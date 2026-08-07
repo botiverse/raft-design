@@ -9,7 +9,7 @@ import {
 
 export function LoadingActivityComposition() {
   return (
-    <ActivityInboxPanel data-layout="wide" aria-busy="true">
+    <ActivityInboxPanel aria-busy="true">
       <ActivityInboxViewport>
         <ActivityInboxList>
           {Array.from({ length: 6 }, (_, index) => (

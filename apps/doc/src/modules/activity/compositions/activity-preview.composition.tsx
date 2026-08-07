@@ -1,10 +1,14 @@
-import { Button, ConversationPanelContent, Input } from "raft-ui";
+import {
+  Button,
+  ConversationPanelContent,
+  Input,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelMeta,
+  PanelTitle,
+} from "raft-ui";
 import {
   ActivityInboxControls,
-  ActivityInboxHeader,
-  ActivityInboxHeaderContent,
-  ActivityInboxHeaderSubtitle,
-  ActivityInboxHeaderTitle,
   ActivityInboxItem,
   ActivityInboxItemBody,
   ActivityInboxItemContent,
@@ -24,15 +28,15 @@ import {
   ActivityInboxViewport,
 } from "raft-ui/wip";
 
-export function ActivityPreviewComposition({ layout = "wide" }: { layout?: "wide" | "compact" }) {
+export function ActivityPreviewComposition() {
   return (
-    <ActivityInboxPanel data-layout={layout}>
-      <ActivityInboxHeader>
-        <ActivityInboxHeaderContent>
-          <ActivityInboxHeaderTitle>Activity</ActivityInboxHeaderTitle>
-          <ActivityInboxHeaderSubtitle>Triage what needs attention</ActivityInboxHeaderSubtitle>
-        </ActivityInboxHeaderContent>
-      </ActivityInboxHeader>
+    <ActivityInboxPanel>
+      <PanelHeader>
+        <PanelHeaderContent>
+          <PanelTitle render={<h2 />}>Activity</PanelTitle>
+          <PanelMeta render={<p />}>Triage what needs attention</PanelMeta>
+        </PanelHeaderContent>
+      </PanelHeader>
       <div data-slot="activity-inbox-layout" className="flex min-h-0 flex-1">
         <ActivityInboxSidebar>
           <ActivityInboxNavigationItem active disabled>

@@ -7,5 +7,5 @@ const savedItems = ACTIVITY_COMPOSITION_ITEMS.map((item, index) => ({
 }));
 
 export function SavedActivityComposition() {
-  return <ActivityInboxComposition defaultView="saved" defaultItems={savedItems} layout="wide" />;
+  return <ActivityInboxComposition defaultView="saved" defaultItems={savedItems} />;
 }

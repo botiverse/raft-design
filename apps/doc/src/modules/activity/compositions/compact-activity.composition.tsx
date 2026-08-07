@@ -10,7 +10,7 @@ import {
 
 export function CompactActivityComposition() {
   return (
-    <ActivityInboxPanel data-layout="compact">
+    <ActivityInboxPanel>
       <ActivityInboxViewport>
         <ActivityInboxList>
           <ActivityInboxItem data-unread>

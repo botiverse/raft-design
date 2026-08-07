@@ -35,31 +35,52 @@ const SNIPPETS = {
   Button,
   ConversationPanelContent,
   InputGroup,
-  InputGroupAddon,
   InputGroupInput,
+  PanelHeader,
+  PanelHeaderContent,
+  PanelMeta,
+  PanelTitle,
 } from "raft-ui";
 import {
   ActivityInboxControls,
-  ActivityInboxHeader,
+  ActivityInboxNavigationCount,
+  ActivityInboxNavigationItem,
+  ActivityInboxNavigationLabel,
   ActivityInboxPanel,
   ActivityInboxSelectionToolbar,
   ActivityInboxSidebar,
+  ActivityInboxSidebarHeading,
+  ActivityInboxSidebarHeadingLabel,
+  ActivityInboxToolbarAction,
   ActivityInboxViewport,
 } from "raft-ui/wip";
 
-<ActivityInboxPanel data-layout="wide">
-  <ActivityInboxHeader />
+<ActivityInboxPanel>
+  <PanelHeader>
+    <PanelHeaderContent>
+      <PanelTitle render={<h2 />} />
+      <PanelMeta render={<p />} />
+    </PanelHeaderContent>
+  </PanelHeader>
   <div className="flex min-h-0 flex-1">
-    <ActivityInboxSidebar />
+    <ActivityInboxSidebar>
+      <ActivityInboxSidebarHeading>
+        <ActivityInboxSidebarHeadingLabel />
+      </ActivityInboxSidebarHeading>
+      <ActivityInboxNavigationItem>
+        <ActivityInboxNavigationLabel />
+        <ActivityInboxNavigationCount />
+      </ActivityInboxNavigationItem>
+    </ActivityInboxSidebar>
     <ConversationPanelContent render={<section />}>
       <ActivityInboxControls>
         <InputGroup>
-          <InputGroupAddon />
           <InputGroupInput aria-label="Search activity" />
         </InputGroup>
       </ActivityInboxControls>
       <ActivityInboxSelectionToolbar>
-        <Button size="xs">Select all</Button>
+        <ActivityInboxToolbarAction variant="secondary">Select all</ActivityInboxToolbarAction>
+        <Button size="xs">Deselect</Button>
       </ActivityInboxSelectionToolbar>
       <ActivityInboxViewport />
     </ConversationPanelContent>
@@ -272,7 +293,7 @@ const ACTIVITY_INBOX_SHELL_API = [
     id: "api-panel",
     title: "ActivityInboxPanel",
     description:
-      "The themed full-height inbox shell; data-layout selects the compact or wide composition.",
+      "The themed full-height inbox shell; the sidebar and toolbar respond to the viewport at the md breakpoint.",
   },
   {
     id: "api-sidebar",
@@ -313,6 +334,12 @@ const ACTIVITY_INBOX_SHELL_API = [
     description: "The selected-item count treatment used within ActivityInboxSelectionToolbar.",
   },
   {
+    id: "api-toolbar-action",
+    title: "ActivityInboxToolbarAction",
+    description:
+      "Bulk-selection toolbar action built on Button; variant selects secondary, primary, link, or ghost treatments.",
+  },
+  {
     id: "api-viewport",
     title: "ActivityInboxViewport",
     description: "The scroll viewport with Activity surface, inset, and safe-area treatment.",
@@ -323,34 +350,10 @@ const ACTIVITY_INBOX_SHELL_API = [
     description: "The loading-more text treatment; the caller decides whether it renders.",
   },
   {
-    id: "api-header",
-    title: "ActivityInboxHeader",
-    description: "The themed Activity header row.",
-  },
-  {
-    id: "api-header-back",
-    title: "ActivityInboxHeaderBack",
-    description: "The compact-layout back action.",
-  },
-  {
     id: "api-header-icon",
     title: "ActivityInboxHeaderIcon",
-    description: "The desktop header icon chip.",
-  },
-  {
-    id: "api-header-content",
-    title: "ActivityInboxHeaderContent",
-    description: "The title and subtitle container.",
-  },
-  {
-    id: "api-header-title",
-    title: "ActivityInboxHeaderTitle",
-    description: "The truncating Activity heading.",
-  },
-  {
-    id: "api-header-subtitle",
-    title: "ActivityInboxHeaderSubtitle",
-    description: "The contextual header subtitle.",
+    description:
+      "The scene-specific identity chip in the header; delegates to PanelHeaderIcon. The bar, content region, title, and subtitle are the shared PanelHeader parts.",
   },
   {
     id: "api-sidebar-heading",
@@ -361,61 +364,6 @@ const ACTIVITY_INBOX_SHELL_API = [
     id: "api-sidebar-heading-label",
     title: "ActivityInboxSidebarHeadingLabel",
     description: "The sidebar heading label.",
-  },
-  {
-    id: "api-sidebar-heading-action",
-    title: "ActivityInboxSidebarHeadingAction",
-    description: "The optional sidebar heading action.",
-  },
-  {
-    id: "api-mobile-navigation-button",
-    title: "ActivityInboxMobileNavigationButton",
-    description: "The compact Activity switcher trigger.",
-  },
-  {
-    id: "api-mobile-navigation-label",
-    title: "ActivityInboxMobileNavigationLabel",
-    description: "The current view label in the switcher trigger.",
-  },
-  {
-    id: "api-switcher-content",
-    title: "ActivityInboxSwitcherContent",
-    description: "The themed Dialog portal, backdrop, and popup content.",
-  },
-  {
-    id: "api-switcher-header",
-    title: "ActivityInboxSwitcherHeader",
-    description: "The switcher title and close-action row.",
-  },
-  {
-    id: "api-switcher-title",
-    title: "ActivityInboxSwitcherTitle",
-    description: "The Dialog title in the switcher.",
-  },
-  {
-    id: "api-switcher-close",
-    title: "ActivityInboxSwitcherClose",
-    description: "The switcher close action.",
-  },
-  {
-    id: "api-switcher-body",
-    title: "ActivityInboxSwitcherBody",
-    description: "The switcher item container.",
-  },
-  {
-    id: "api-switcher-item",
-    title: "ActivityInboxSwitcherItem",
-    description: "A selectable Activity view or filter in the switcher.",
-  },
-  {
-    id: "api-switcher-item-label",
-    title: "ActivityInboxSwitcherItemLabel",
-    description: "The switcher item label.",
-  },
-  {
-    id: "api-switcher-item-count",
-    title: "ActivityInboxSwitcherItemCount",
-    description: "The switcher item count.",
   },
 ] as const;
 
@@ -495,7 +443,7 @@ function ActivityPreview({ code }: { code: Record<string, string> }) {
       }
     >
       <Preview.Canvas>
-        <ActivityPreviewComposition layout={layout} />
+        <ActivityPreviewComposition />
       </Preview.Canvas>
       <Preview.Controls>
         <Preview.Control label="Layout" htmlFor="activity-preview-layout">

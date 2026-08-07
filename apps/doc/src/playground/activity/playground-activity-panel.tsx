@@ -98,7 +98,7 @@ export function PlaygroundActivityPanel() {
     );
   }
 
-  function activateItem(item: ActivityCompositionItem) {
+  function activateItem(item: ActivityCompositionItem, _detail: number) {
     const source = items.find((activity) => activity.id === item.id);
     if (activationTimerRef.current !== null) {
       window.clearTimeout(activationTimerRef.current);
@@ -125,7 +125,6 @@ export function PlaygroundActivityPanel() {
   const master = (
     <ActivityInboxComposition
       items={compositionItems}
-      layout={isDesktop ? "wide" : "compact"}
       openItemId={activeItemId ?? null}
       onItemsChange={commitCompositionItems}
       onBack={() => selectRailView("chat")}
@@ -176,7 +175,7 @@ export function PlaygroundActivityPanel() {
 
   if (!isDesktop) {
     return (
-      <AppShellMainSlot className="h-full w-full">{context ?? content ?? master}</AppShellMainSlot>
+      <AppShellMainSlot className="size-full ">{context ?? content ?? master}</AppShellMainSlot>
     );
   }
 
@@ -216,7 +215,7 @@ export function PlaygroundActivityPanel() {
             minSize={360}
             maxSize="60vw"
             groupResizeBehavior="preserve-pixel-size"
-            className="relative z-20 min-w-0 !overflow-visible"
+            className="relative z-20 min-w-0 overflow-visible!"
           >
             <AppShellPanelSlot className="flex h-full min-w-0 flex-1">{context}</AppShellPanelSlot>
           </ResizablePanel>

@@ -7,5 +7,5 @@ const doneItems = ACTIVITY_COMPOSITION_ITEMS.map((item, index) => ({
 }));
 
 export function DoneActivityComposition() {
-  return <ActivityInboxComposition defaultView="done" defaultItems={doneItems} layout="wide" />;
+  return <ActivityInboxComposition defaultView="done" defaultItems={doneItems} />;
 }
