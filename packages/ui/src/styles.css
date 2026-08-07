@@ -786,22 +786,3 @@ body {
     -8px 0;
   background-size: 16px 16px;
 }
-
-/* Panel header utility — canonical 62px column-top, shrinks to 48px on
-   short viewports. All panel headers use this so column tops stay aligned.
-   Mirrors the source web app's `h-panel-header` contract. */
-@utility h-panel-header {
-  height: 62px;
-  @media (max-height: 600px) {
-    height: 48px;
-  }
-}
-
-/* Header icon-container utility — 36px square for the icon slot inside a
-   panel header. Deliberately does not shrink on short viewports: the header
-   rectangle gets shorter (48px) but the inner icon stays 36x36 so it keeps
-   its visual weight. Mirrors the source web app's `size-icon-header`. */
-@utility size-icon-header {
-  width: 36px;
-  height: 36px;
-}

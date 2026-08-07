@@ -10,7 +10,7 @@ export function PlaygroundPlainShell() {
 
   return (
     <AppShellRoot className="h-full max-md:h-dvh max-md:overflow-hidden">
-      <PlaygroundRail showBottomNavigation />
+      <PlaygroundRail showBottomNavigation={!ownsAppShellSlots} />
       {ownsAppShellSlots ? (
         <Outlet />
       ) : (

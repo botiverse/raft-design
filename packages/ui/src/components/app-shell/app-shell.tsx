@@ -34,9 +34,13 @@ const appShell = tv({
     theme: {
       brutal: {
         root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black max-md:bg-white"],
+        railSlot: "border-r-2 border-black",
+        sidebarSlot: "border-r-2 border-black",
       },
       elegant: {
         root: ["[--shell-header-height:56px]", "bg-layer-canvas-muted"],
+        railSlot: "border-r-[0.5px] border-line-hairline",
+        sidebarSlot: "border-r-[0.5px] border-line-hairline",
       },
     },
     overlay: {
@@ -144,7 +148,8 @@ export function AppShellRoot({
 export type AppShellRailSlotProps = useRender.ComponentProps<"aside">;
 
 export function AppShellRailSlot({ className, render, ...props }: AppShellRailSlotProps) {
-  const { railSlot } = appShell();
+  const theme = useThemeFamily();
+  const { railSlot } = appShell({ theme });
 
   const defaultProps: SlotElementProps<"aside"> = {
     "data-slot": "app-shell-rail-slot",
@@ -161,7 +166,8 @@ export function AppShellRailSlot({ className, render, ...props }: AppShellRailSl
 export type AppShellSidebarSlotProps = useRender.ComponentProps<"aside">;
 
 export function AppShellSidebarSlot({ className, render, ...props }: AppShellSidebarSlotProps) {
-  const { sidebarSlot } = appShell();
+  const theme = useThemeFamily();
+  const { sidebarSlot } = appShell({ theme });
   const sidebar = useOptionalAppShellSidebar();
   const elementRef = useRef<HTMLElement | null>(null);
   const isCollapsible = sidebar?.collapsible ?? false;
@@ -265,7 +271,7 @@ export function AppShellMainSlot({
           "absolute inset-y-0 right-0 left-0 z-45",
           "transition-[left] duration-220 ease-slide",
           "motion-reduce:transition-none",
-          "group-data-[state=collapsed]/app-shell:left-[calc(var(--app-shell-sidebar-width)*-1)]",
+          "group-data-[state=collapsed]/app-shell:-left-(--app-shell-sidebar-width)",
         ],
       ),
     }),

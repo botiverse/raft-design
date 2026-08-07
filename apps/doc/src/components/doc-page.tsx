@@ -24,7 +24,7 @@ const COMPONENT_DIRECTORIES: Record<string, string | null> = {
   "chat-composer": "composer",
   "composer-suggestions": "composer",
   "message-reference": "message-embed",
-  search: "search-results",
+  search: "search",
   "sidebar-item": "sidebar",
   "task-chip": "task-card",
   icons: null,
