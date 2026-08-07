@@ -13,7 +13,7 @@ const select = tv({
     trigger: [
       "inline-flex select-none items-center justify-between gap-2",
       "outline-none transition-colors",
-      "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-2 data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--danger)_60%,transparent)] data-invalid:focus-visible:ring-offset-1 data-invalid:focus-visible:ring-offset-layer-canvas-muted",
+      "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-2 data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--danger)_60%,transparent)]",
       "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
       "[&_[data-slot='select-trigger-content']_svg]:shrink-0",
@@ -104,7 +104,7 @@ const select = tv({
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
           "hover:bg-ink-2",
-          "focus-visible:ring-1 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-layer-canvas-muted",
+          "focus-visible:ring-1 focus-visible:ring-primary-400",
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
         ],
         content: ["rounded-md bg-layer-popover", "shadow-raft-lg"],
