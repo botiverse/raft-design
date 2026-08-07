@@ -6,7 +6,6 @@ import type { ReactNode } from "react";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
-import { InstallationCopyPrompt } from "#/components/installation-copy-prompt.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
@@ -35,6 +34,7 @@ const INSTALLATION_PROMPT = `Install and initialize raft-ui in this repository.
 When finished, summarize the files changed, the installed skill path, the providers added, and the validation results.`;
 
 const SNIPPETS = {
+  installationPrompt: INSTALLATION_PROMPT,
   install: `pnpm add raft-ui
 pnpm add -D skills-npm
 pnpm exec skills-npm setup`,
@@ -195,7 +195,11 @@ function InstallationDoc() {
                 Copy this prompt into Codex or another coding agent. It installs the package,
                 initializes the bundled skill, and uses that skill to configure your app.
               </Lead>
-              <InstallationCopyPrompt prompt={INSTALLATION_PROMPT} />
+              <CodeSnippet
+                path="Prompt"
+                source={INSTALLATION_PROMPT}
+                html={code.installationPrompt}
+              />
             </div>
           </TabsPanel>
           <TabsPanel value="human" className="pt-4">
