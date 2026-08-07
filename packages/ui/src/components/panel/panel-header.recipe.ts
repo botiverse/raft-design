@@ -12,11 +12,7 @@ export const panelHeader = tv({
   slots: {
     header: [],
     sectionHeader: [],
-    headerIcon: [
-      "flex size-9 shrink-0 items-center justify-center",
-      "border-2",
-      "[&_svg]:size-4.5 [&_svg]:shrink-0",
-    ],
+    headerIcon: ["flex size-9 shrink-0 items-center justify-center", "border-2"],
     headerContent: ["min-w-0 flex-1"],
     heading: ["flex min-w-0 items-center gap-2"],
     title: ["truncate text-base font-bold leading-tight"],
@@ -41,10 +37,10 @@ export const panelHeader = tv({
           "flex flex-col",
           "has-[>[data-slot=panel-header-icon]]:grid has-[>[data-slot=panel-header-icon]]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=panel-header-icon]]:items-center has-[>[data-slot=panel-header-icon]]:gap-x-3",
-          "has-[>[data-slot=panel-meta]]:[&>[data-slot=panel-header-icon]]:row-span-2",
-          "has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-heading]]:col-start-2",
-          "has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-title]]:col-start-2",
-          "has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-meta]]:col-start-2",
+          "has-[>[data-slot=panel-meta]]:*:data-[slot=panel-header-icon]:row-span-2",
+          "has-[>[data-slot=panel-header-icon]]:*:data-[slot=panel-heading]:col-start-2",
+          "has-[>[data-slot=panel-header-icon]]:*:data-[slot=panel-title]:col-start-2",
+          "has-[>[data-slot=panel-header-icon]]:*:data-[slot=panel-meta]:col-start-2",
         ],
         title: "text-black",
         meta: "text-black/50",
@@ -60,7 +56,6 @@ export const panelHeader = tv({
         headerIcon: [
           "size-auto rounded-none border-0 bg-transparent",
           "text-foreground-muted",
-          "[&_svg]:size-3.5 [&_svg]:stroke-[2.5]",
           "max-md:col-start-2 max-md:row-start-1 max-md:self-center",
         ],
         headerContent: [
@@ -101,7 +96,7 @@ export const panelHeader = tv({
     { slots: ["header", "sectionHeader"], class: "max-md:sticky max-md:top-0 max-md:z-30" },
     {
       slots: ["header", "sectionHeader"],
-      class: "flex h-[var(--shell-header-height,62px)] shrink-0 items-center gap-2",
+      class: "flex h-(--shell-header-height,62px) shrink-0 items-center gap-2",
     },
     {
       slots: ["header", "sectionHeader"],
@@ -112,7 +107,7 @@ export const panelHeader = tv({
       slots: ["header", "sectionHeader"],
       theme: "elegant",
       class: [
-        "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
+        "relative isolate h-auto min-h-(--shell-header-height,56px) max-md:z-10 [@media(max-height:600px)]:h-auto",
         "border-b-0 bg-transparent max-md:bg-layer-canvas-muted",
         "max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
         "max-md:h-[var(--shell-header-height,56px)] max-md:items-center",
@@ -127,7 +122,7 @@ export const panelHeader = tv({
       class: [
         "max-md:before:hidden",
         "max-md:bg-primary-400",
-        "[@media(max-height:600px)]:h-[var(--shell-header-height,62px)]",
+        "[@media(max-height:600px)]:h-(--shell-header-height,62px)",
         "max-md:[&>[data-slot=panel-header-icon]]:hidden",
         "md:[&>[data-slot=panel-header-icon]]:size-10",
         "md:[&>[data-slot=panel-header-icon]]:bg-primary-400",

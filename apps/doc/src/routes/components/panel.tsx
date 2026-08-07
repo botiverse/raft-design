@@ -129,7 +129,8 @@ const PANEL_HEADER_ICON_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description: "Optional identity icon inside PanelHeaderContent.",
+    description:
+      "Optional identity region inside PanelHeaderContent. The slot provides fixed-size layout in brutal and an auto-size container in elegant; the consumer owns the content's size and appearance (e.g. Avatar size or icon size classes).",
   },
 ];
 
