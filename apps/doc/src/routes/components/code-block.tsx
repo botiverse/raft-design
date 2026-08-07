@@ -47,35 +47,50 @@ const ANATOMY_SOURCE = `import {
   </CodeBlockBody>
 </CodeBlock>`;
 
-const PROPS: readonly PropRow[] = [
+const CODE_BLOCK_PROPS: readonly PropRow[] = [
   {
-    name: "CodeBlock",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Framed code surface. Holds the header and the body panel.",
   },
+];
+
+const CODE_BLOCK_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "CodeBlockHeader",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Optional header bar above the code panel.",
   },
+];
+
+const CODE_BLOCK_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "CodeBlockTitle",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Header label such as a filename or language.",
   },
+];
+
+const CODE_BLOCK_ACTIONS_PROPS: readonly PropRow[] = [
   {
-    name: "CodeBlockActions",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Trailing header region for code-block actions.",
   },
+];
+
+const CODE_BLOCK_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "CodeBlockAction",
+    name: "...props",
     type: 'useRender.ComponentProps<"button">',
     description:
       "Styled action shell. raft-ui owns only the appearance; the consumer supplies the icon and the behavior.",
   },
+];
+
+const CODE_BLOCK_BODY_PROPS: readonly PropRow[] = [
   {
-    name: "CodeBlockBody",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Inner code panel. Pass the complete pre and code, from plain markup or an external highlighter.",
@@ -184,7 +199,26 @@ function CodeBlockDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} nameColumnLabel="Part" />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-code-block" title="CodeBlock">
+            <PropsTable rows={CODE_BLOCK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-code-block-header" title="CodeBlockHeader">
+            <PropsTable rows={CODE_BLOCK_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-code-block-title" title="CodeBlockTitle">
+            <PropsTable rows={CODE_BLOCK_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-code-block-actions" title="CodeBlockActions">
+            <PropsTable rows={CODE_BLOCK_ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-code-block-action" title="CodeBlockAction">
+            <PropsTable rows={CODE_BLOCK_ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-code-block-body" title="CodeBlockBody">
+            <PropsTable rows={CODE_BLOCK_BODY_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

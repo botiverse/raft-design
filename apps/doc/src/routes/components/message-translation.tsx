@@ -16,7 +16,13 @@ import translationStatesSource from "#/modules/message-translation/compositions/
 import { MessageTranslationTranslatedComposition } from "#/modules/message-translation/compositions/translated.composition.tsx";
 import translatedSource from "#/modules/message-translation/compositions/translated.composition.tsx?raw";
 import {
-  MESSAGE_TRANSLATION_PROPS,
+  MESSAGE_ITEM_TRANSLATION_ACTION_PROPS,
+  MESSAGE_ITEM_TRANSLATION_FAILED_STATUS_PROPS,
+  MESSAGE_ITEM_TRANSLATION_ORIGINAL_LABEL_PROPS,
+  MESSAGE_ITEM_TRANSLATION_ORIGINAL_PROPS,
+  MESSAGE_ITEM_TRANSLATION_PROGRESS_TRACK_PROPS,
+  MESSAGE_ITEM_TRANSLATION_RETRY_ACTION_PROPS,
+  MESSAGE_ITEM_TRANSLATION_STATUS_PROPS,
   MESSAGE_TRANSLATION_TOC,
 } from "#/modules/message-translation/message-translation.snippets.ts";
 
@@ -147,7 +153,57 @@ function MessageTranslationDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={MESSAGE_TRANSLATION_PROPS} />
+        <div className="space-y-6">
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-translation-original"
+            title="MessageItemTranslationOriginal"
+          >
+            <PropsTable rows={MESSAGE_ITEM_TRANSLATION_ORIGINAL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-translation-original-label"
+            title="MessageItemTranslationOriginalLabel"
+          >
+            <PropsTable rows={MESSAGE_ITEM_TRANSLATION_ORIGINAL_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-translation-status"
+            title="MessageItemTranslationStatus"
+          >
+            <PropsTable rows={MESSAGE_ITEM_TRANSLATION_STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-translation-progress-track"
+            title="MessageItemTranslationProgressTrack"
+          >
+            <PropsTable rows={MESSAGE_ITEM_TRANSLATION_PROGRESS_TRACK_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-translation-failed-status"
+            title="MessageItemTranslationFailedStatus"
+          >
+            <PropsTable rows={MESSAGE_ITEM_TRANSLATION_FAILED_STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-translation-action"
+            title="MessageItemTranslationAction"
+          >
+            <PropsTable rows={MESSAGE_ITEM_TRANSLATION_ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-translation-retry-action"
+            title="MessageItemTranslationRetryAction"
+          >
+            <PropsTable rows={MESSAGE_ITEM_TRANSLATION_RETRY_ACTION_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

@@ -51,50 +51,94 @@ const ANATOMY_SOURCE = `import {
   </SystemMessageGroupPanel>
 </SystemMessageGroup>`;
 
-const PROPS: readonly PropRow[] = [
+const SYSTEM_MESSAGE_PROPS: readonly PropRow[] = [
   {
-    name: "SystemMessage",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Centered system row for product-authored system events.",
   },
+];
+
+const SYSTEM_MESSAGE_TIME_PROPS: readonly PropRow[] = [
   {
-    name: "SystemMessageTime",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Inline timestamp shown before the system copy.",
   },
+];
+
+const SYSTEM_MESSAGE_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "SystemMessageContent",
+    name: "title",
+    type: "string",
+    description: "Tooltip title. Defaults to the string children when present.",
+  },
+  {
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "System event content slot. Product parsing and copy stay consumer-owned.",
   },
+];
+
+const SYSTEM_MESSAGE_GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "SystemMessageGroup",
-    type: "Collapsible.Root props",
-    description: "Base UI Collapsible root for an adjacent-run system-message group.",
+    name: "open",
+    type: "boolean",
+    description: "Controlled open state for the group.",
   },
   {
-    name: "SystemMessageGroupHeader",
+    name: "defaultOpen",
+    type: "boolean",
+    description: "Default open state for the uncontrolled group.",
+  },
+  {
+    name: "onOpenChange",
+    type: "Collapsible.Root.Props['onOpenChange']",
+    description: "Callback fired when the group open state changes.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Collapsible.Root.Props",
+    description: "Base UI Collapsible root for an adjacent-run system-message group.",
+  },
+];
+
+const SYSTEM_MESSAGE_GROUP_HEADER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Centered wrap around the group disclosure trigger.",
   },
+];
+
+const SYSTEM_MESSAGE_GROUP_DISCLOSURE_PROPS: readonly PropRow[] = [
   {
-    name: "SystemMessageGroupDisclosure",
+    name: "...props",
     type: 'useRender.ComponentProps<"button"> (Collapsible.Trigger)',
     description: "Collapsible trigger for the group summary row.",
   },
+];
+
+const SYSTEM_MESSAGE_GROUP_SUMMARY_PROPS: readonly PropRow[] = [
   {
-    name: "SystemMessageGroupSummary",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Truncated summary copy inside the disclosure.",
   },
+];
+
+const SYSTEM_MESSAGE_GROUP_CHEVRON_PROPS: readonly PropRow[] = [
   {
-    name: "SystemMessageGroupChevron",
+    name: "...props",
     type: 'useRender.ComponentProps<"svg">',
     description: "Chevron indicator; rotates via data-panel-open on the disclosure.",
   },
+];
+
+const SYSTEM_MESSAGE_GROUP_PANEL_PROPS: readonly PropRow[] = [
   {
-    name: "SystemMessageGroupPanel",
-    type: "Collapsible.Panel props",
+    name: "...props",
+    type: "Base UI Collapsible.Panel.Props",
     description: "Expanded details slot that hosts the grouped SystemMessage rows.",
   },
 ];
@@ -180,9 +224,59 @@ function SystemMessageDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <DocSubsection parentId="api" id="api-parts" title="Parts">
-          <PropsTable rows={PROPS} />
-        </DocSubsection>
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-system-message" title="SystemMessage">
+            <PropsTable rows={SYSTEM_MESSAGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-system-message-time" title="SystemMessageTime">
+            <PropsTable rows={SYSTEM_MESSAGE_TIME_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-system-message-content"
+            title="SystemMessageContent"
+          >
+            <PropsTable rows={SYSTEM_MESSAGE_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-system-message-group" title="SystemMessageGroup">
+            <PropsTable rows={SYSTEM_MESSAGE_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-system-message-group-header"
+            title="SystemMessageGroupHeader"
+          >
+            <PropsTable rows={SYSTEM_MESSAGE_GROUP_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-system-message-group-disclosure"
+            title="SystemMessageGroupDisclosure"
+          >
+            <PropsTable rows={SYSTEM_MESSAGE_GROUP_DISCLOSURE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-system-message-group-summary"
+            title="SystemMessageGroupSummary"
+          >
+            <PropsTable rows={SYSTEM_MESSAGE_GROUP_SUMMARY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-system-message-group-chevron"
+            title="SystemMessageGroupChevron"
+          >
+            <PropsTable rows={SYSTEM_MESSAGE_GROUP_CHEVRON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-system-message-group-panel"
+            title="SystemMessageGroupPanel"
+          >
+            <PropsTable rows={SYSTEM_MESSAGE_GROUP_PANEL_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

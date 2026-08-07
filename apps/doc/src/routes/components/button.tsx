@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Trash2 } from "lucide-react";
-import { Button } from "raft-ui";
+import { Button, InlineCode } from "raft-ui";
 
+import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -110,12 +111,6 @@ const PROPS: readonly PropRow[] = [
     description: "Accessible label for the loading indicator.",
   },
   {
-    name: "data-icon (on a child icon)",
-    type: '"inline-start" | "inline-end"',
-    description:
-      "Mark an icon sitting beside text so its side padding tightens automatically. Not a prop on Button itself.",
-  },
-  {
     name: "render",
     type: "ReactElement | (props, state) => ReactElement",
     description: "Replace the rendered element or compose with another component (Base UI).",
@@ -215,6 +210,12 @@ function ButtonDoc() {
           </DocSubsection>
 
           <DocSubsection parentId="usage" id="icons" title="Icons">
+            <DocNote>
+              Place <InlineCode>data-icon="inline-start"</InlineCode> or{" "}
+              <InlineCode>data-icon="inline-end"</InlineCode> on an icon beside text so its side
+              padding tightens automatically. It is a child-icon attribute, not a{" "}
+              <InlineCode>Button</InlineCode> prop.
+            </DocNote>
             <Preview>
               <Preview.Canvas>
                 {ICON_SIZES.map((size) => (

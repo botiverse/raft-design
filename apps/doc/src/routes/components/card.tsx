@@ -78,48 +78,75 @@ const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
   WorkspaceMode: "cardWorkspaceModeComposition",
 });
 
-const CARD_PARTS: readonly PropRow[] = [
+const CARD_PROPS: readonly PropRow[] = [
   {
-    name: "Card",
-    type: 'useRender.ComponentProps<"div"> & { variant?: "default" | "inset" }',
+    name: "variant",
+    type: '"default" | "inset"',
+    description:
+      "Visual surface variant; inset renders a nested content well, default a single surface.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
     description:
       "Visual surface root for caller-owned content. Use inset for a nested content well; default keeps a single surface.",
   },
+];
+
+const CARD_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "CardHeader",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Top region that arranges an optional CardLeading, CardTitle, CardTrailing, and CardDescription.",
   },
+];
+
+const CARD_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "CardTitle",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Primary card heading. Use render to choose the heading level for the page context.",
   },
+];
+
+const CARD_LEADING_PROPS: readonly PropRow[] = [
   {
-    name: "CardLeading",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Leading header region for a caller-owned icon, avatar, switch, or action.",
   },
+];
+
+const CARD_DESCRIPTION_PROPS: readonly PropRow[] = [
   {
-    name: "CardDescription",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Supporting copy placed after CardTitle inside CardHeader.",
   },
+];
+
+const CARD_TRAILING_PROPS: readonly PropRow[] = [
   {
-    name: "CardTrailing",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Trailing header region for a caller-owned status, switch, or action.",
   },
+];
+
+const CARD_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "CardContent",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Main content region. Forms, lists, and product sections remain explicit children.",
   },
+];
+
+const CARD_FOOTER_PROPS: readonly PropRow[] = [
   {
-    name: "CardFooter",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Bottom region for supporting notes, metadata, or card-level actions.",
   },
@@ -283,9 +310,32 @@ function CardDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <DocSubsection parentId="api" id="api-parts" title="Parts">
-          <PropsTable rows={CARD_PARTS} nameColumnLabel="Part" />
-        </DocSubsection>
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-card" title="Card">
+            <PropsTable rows={CARD_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-card-header" title="CardHeader">
+            <PropsTable rows={CARD_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-card-title" title="CardTitle">
+            <PropsTable rows={CARD_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-card-leading" title="CardLeading">
+            <PropsTable rows={CARD_LEADING_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-card-description" title="CardDescription">
+            <PropsTable rows={CARD_DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-card-trailing" title="CardTrailing">
+            <PropsTable rows={CARD_TRAILING_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-card-content" title="CardContent">
+            <PropsTable rows={CARD_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-card-footer" title="CardFooter">
+            <PropsTable rows={CARD_FOOTER_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

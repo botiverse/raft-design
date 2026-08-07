@@ -101,162 +101,217 @@ export const VIDEO_PREVIEW_ANATOMY_SOURCE = `import {
   </MessageVideoPreviewFallback>
 </MessageVideoPreview>`;
 
-export const CARD_STRUCTURE_PROPS: readonly PropRow[] = [
+export const MESSAGE_ATTACHMENT_GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentGroup",
+    name: "...props",
     type: "MessageAttachmentGroupProps",
     description: "Horizontal group of attachment cards inside MessageItemAttachments.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_CARD_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentCard",
+    name: "...props",
     type: "MessageAttachmentCardProps",
     description: "Attachment card root.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentTitle",
+    name: "...props",
     type: "MessageAttachmentTitleProps",
     description: "Filename slot at the start of MessageAttachmentCard.",
   },
 ];
 
-export const CARD_SUMMARY_PROPS: readonly PropRow[] = [
+export const MESSAGE_ATTACHMENT_SUMMARY_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentSummary",
+    name: "...props",
     type: "MessageAttachmentSummaryProps",
     description:
       "Shared summary row. Owns layout, icon sizing, placement, and typography; compose a semantic summary through render.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_COMMENT_SUMMARY_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentCommentSummary",
+    name: "...props",
     type: "MessageAttachmentCommentSummaryProps",
     description:
       "Comment-summary semantics composed onto MessageAttachmentSummary. Owns only its compact gap and muted color.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_DIFF_SUMMARY_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentDiffSummary",
+    name: "...props",
     type: "MessageAttachmentDiffSummaryProps",
     description:
       "Diff-summary semantics composed onto MessageAttachmentSummary. Owns only its internal gap.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_DIFF_ADDITION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentDiffAddition",
+    name: "...props",
     type: "MessageAttachmentDiffAdditionProps",
     description: "Semantic positive-diff value inside MessageAttachmentDiffSummary.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_DIFF_DELETION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentDiffDeletion",
+    name: "...props",
     type: "MessageAttachmentDiffDeletionProps",
     description: "Semantic negative-diff value inside MessageAttachmentDiffSummary.",
   },
 ];
 
-export const CARD_META_PROPS: readonly PropRow[] = [
+export const MESSAGE_ATTACHMENT_META_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentMeta",
+    name: "...props",
     type: "MessageAttachmentMetaProps",
     description: "Two-sided metadata row inside MessageAttachmentCard.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_META_START_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentMetaStart",
+    name: "...props",
     type: "MessageAttachmentMetaStartProps",
     description: "Start-side metadata region, typically file size.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_META_END_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentMetaEnd",
+    name: "...props",
     type: "MessageAttachmentMetaEndProps",
     description: "End-side metadata region for actions or a pending spinner.",
   },
+];
+
+export const MESSAGE_ATTACHMENT_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageAttachmentAction",
+    name: "...props",
     type: "MessageAttachmentActionProps",
     description: "Caller-owned preview or download action inside MessageAttachmentMetaEnd.",
   },
 ];
 
-export const IMAGE_GALLERY_PROPS: readonly PropRow[] = [
+export const MESSAGE_IMAGE_GALLERY_PROPS: readonly PropRow[] = [
   {
-    name: "MessageImageGallery",
+    name: "...props",
     type: "MessageImageGalleryProps",
     description:
       "Image-gallery root. Consumers compose each attachment row as a native grid child.",
   },
+];
+
+export const MESSAGE_IMAGE_GALLERY_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "MessageImageGalleryItem",
+    name: "...props",
     type: "MessageImageGalleryItemProps",
     description: "Image cell with consumer-owned geometry and layout classes.",
   },
+];
+
+export const MESSAGE_IMAGE_GALLERY_MEDIA_PROPS: readonly PropRow[] = [
   {
-    name: "MessageImageGalleryMedia",
+    name: "...props",
     type: "MessageImageGalleryMediaProps",
     description:
       "Media container. Render the source element as children and let it choose cover or contain.",
   },
+];
+
+export const MESSAGE_IMAGE_GALLERY_PREVIEW_PROPS: readonly PropRow[] = [
   {
-    name: "MessageImageGalleryPreview",
+    name: "...props",
     type: "MessageImageGalleryPreviewProps",
     description: "Preview hit area; Lightbox behavior remains caller-owned.",
   },
+];
+
+export const MESSAGE_IMAGE_GALLERY_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageImageGalleryAction",
+    name: "...props",
     type: "MessageImageGalleryActionProps",
     description: "Secondary image action, such as caller-owned download.",
   },
+];
+
+export const MESSAGE_IMAGE_GALLERY_OVERLAY_PROPS: readonly PropRow[] = [
   {
-    name: "MessageImageGalleryOverlay",
+    name: "...props",
     type: "MessageImageGalleryOverlayProps",
     description: "Overlay region for consumer-owned pending content such as Spinner.",
   },
 ];
 
-export const VIDEO_PREVIEW_PROPS: readonly PropRow[] = [
+export const MESSAGE_VIDEO_PREVIEW_PROPS: readonly PropRow[] = [
   {
-    name: "MessageVideoPreview",
+    name: "...props",
     type: "MessageVideoPreviewProps",
     description: "Inline video attachment root.",
   },
+];
+
+export const MESSAGE_VIDEO_PREVIEW_MEDIA_PROPS: readonly PropRow[] = [
   {
-    name: "MessageVideoPreviewMedia",
+    name: "...props",
     type: "MessageVideoPreviewMediaProps",
     description: "Native video media element for a resolved URL.",
   },
+];
+
+export const MESSAGE_VIDEO_PREVIEW_FALLBACK_PROPS: readonly PropRow[] = [
   {
-    name: "MessageVideoPreviewFallback",
+    name: "...props",
     type: "MessageVideoPreviewFallbackProps",
     description:
       "Fallback region for consumer-owned URL loading or unavailable-media content. Render instead of MessageVideoPreviewMedia.",
   },
+];
+
+export const MESSAGE_VIDEO_PREVIEW_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageVideoPreviewAction",
+    name: "...props",
     type: "MessageVideoPreviewActionProps",
     description: "Top-right caller-owned preview action inside MessageVideoPreview.",
   },
+];
+
+export const MESSAGE_VIDEO_PREVIEW_FAILURE_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageVideoPreviewFailureContent",
+    name: "...props",
     type: "MessageVideoPreviewFailureContentProps",
     description: "Structured unavailable-codec fallback content.",
   },
+];
+
+export const MESSAGE_VIDEO_PREVIEW_FAILURE_ICON_PROPS: readonly PropRow[] = [
   {
-    name: "MessageVideoPreviewFailureIcon",
+    name: "...props",
     type: "MessageVideoPreviewFailureIconProps",
     description: "Warning-icon slot inside failure content.",
   },
+];
+
+export const MESSAGE_VIDEO_PREVIEW_FAILURE_TITLE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageVideoPreviewFailureTitle",
+    name: "...props",
     type: "MessageVideoPreviewFailureTitleProps",
     description: "Failure copy slot inside failure content.",
   },
+];
+
+export const MESSAGE_VIDEO_PREVIEW_FAILURE_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageVideoPreviewFailureAction",
+    name: "...props",
     type: "MessageVideoPreviewFailureActionProps",
     description:
       "Download button inside failure content; callers provide its icon, copy, and workflow.",
   },
 ];
-
-export const API_GROUPS = [
-  { id: "api-card-structure", title: "Card structure", rows: CARD_STRUCTURE_PROPS },
-  { id: "api-card-summary", title: "Card summaries", rows: CARD_SUMMARY_PROPS },
-  { id: "api-card-meta", title: "Card metadata", rows: CARD_META_PROPS },
-  { id: "api-image-gallery", title: "Image gallery", rows: IMAGE_GALLERY_PROPS },
-  { id: "api-video-preview", title: "Video preview", rows: VIDEO_PREVIEW_PROPS },
-] as const satisfies readonly { id: string; title: string; rows: readonly PropRow[] }[];

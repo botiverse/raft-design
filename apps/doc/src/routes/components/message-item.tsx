@@ -37,7 +37,61 @@ import taskBadgeSource from "#/modules/message-item/compositions/task-badge.comp
 import { MessageTextSelectionShowcaseComposition } from "#/modules/message-item/compositions/text-selection.composition.tsx";
 import textSelectionSource from "#/modules/message-item/compositions/text-selection.composition.tsx?raw";
 import { MessageItemPlaygroundPreview } from "#/modules/message-item/message-item.preview.tsx";
-import { ANATOMY_SOURCE, API_GROUPS, TOC } from "#/modules/message-item/message-item.snippets.ts";
+import {
+  ANATOMY_SOURCE,
+  MESSAGE_ITEM_ATTACHMENTS_PROPS,
+  MESSAGE_ITEM_AVATAR_SLOT_PROPS,
+  MESSAGE_ITEM_BADGE_PROPS,
+  MESSAGE_ITEM_BADGE_SEPARATOR_PROPS,
+  MESSAGE_ITEM_BODY_PROPS,
+  MESSAGE_ITEM_CONTENT_PROPS,
+  MESSAGE_ITEM_CONTINUATION_TIME_PROPS,
+  MESSAGE_ITEM_EMBEDDED_PROPS,
+  MESSAGE_ITEM_FOOTER_PROPS,
+  MESSAGE_ITEM_GUTTER_PROPS,
+  MESSAGE_ITEM_HEADER_PROPS,
+  MESSAGE_ITEM_INLINE_STATUS_PROPS,
+  MESSAGE_ITEM_META_PROPS,
+  MESSAGE_ITEM_PROPS,
+  MESSAGE_ITEM_READ_RECEIPT_PROPS,
+  MESSAGE_ITEM_SAVED_INDICATOR_PROPS,
+  MESSAGE_ITEM_SEARCH_MATCH_PROPS,
+  MESSAGE_ITEM_SENDER_BADGES_PROPS,
+  MESSAGE_ITEM_SENDER_BUTTON_PROPS,
+  MESSAGE_ITEM_SENDER_PROPS,
+  MESSAGE_ITEM_TIME_PROPS,
+  MESSAGE_ITEM_TOOLBAR_BUTTON_PROPS,
+  MESSAGE_ITEM_TOOLBAR_PROPS,
+  MESSAGE_MULTI_SELECT_CHECKBOX_PROPS,
+  MESSAGE_MULTI_SELECT_PROPS,
+  MESSAGE_MULTI_SELECT_TOOLBAR_PROPS,
+  MESSAGE_REACTION_ADD_BUTTON_PROPS,
+  MESSAGE_REACTION_CHIP_PROPS,
+  MESSAGE_REACTION_COUNT_PROPS,
+  MESSAGE_REACTION_ERROR_INDICATOR_PROPS,
+  MESSAGE_REACTION_GLYPH_PROPS,
+  MESSAGE_REACTION_PICKER_CONTENT_PROPS,
+  MESSAGE_REACTION_PICKER_STATIC_PROPS,
+  MESSAGE_REACTION_QUICK_BUTTON_PROPS,
+  MESSAGE_REACTION_QUICK_ROW_PROPS,
+  MESSAGE_REACTION_TOOLTIP_CONTENT_PROPS,
+  MESSAGE_REACTION_TOOLTIP_META_PROPS,
+  MESSAGE_REACTION_TOOLTIP_NAME_PROPS,
+  MESSAGE_REACTION_TOOLTIP_NAMES_PROPS,
+  MESSAGE_REACTION_TOOLTIP_NAME_TEXT_PROPS,
+  MESSAGE_REACTION_TOOLTIP_SEPARATOR_PROPS,
+  MESSAGE_REFERENCE_BADGE_PROPS,
+  MESSAGE_REFERENCE_CHIP_PROPS,
+  MESSAGE_REFERENCE_INDICATOR_PROPS,
+  MESSAGE_REFERENCE_LABEL_PROPS,
+  MESSAGE_REFERENCE_PENDING_PROPS,
+  MESSAGE_REFERENCE_TEXT_PROPS,
+  MESSAGE_REFERENCE_UNAVAILABLE_PROPS,
+  MESSAGE_TEXT_SELECTION_TOOLBAR_BUTTON_PROPS,
+  MESSAGE_TEXT_SELECTION_TOOLBAR_PROPS,
+  MESSAGE_TEXT_SELECTION_TOOLBAR_SEPARATOR_PROPS,
+  TOC,
+} from "#/modules/message-item/message-item.snippets.ts";
 
 const CONTEXT_MENU_SHOWCASE_PATH =
   "apps/doc/src/modules/message-item/compositions/context-menu-showcase.composition.tsx";
@@ -253,12 +307,308 @@ function MessageItemDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <div className="grid gap-8">
-          {API_GROUPS.map((group) => (
-            <DocSubsection key={group.id} parentId="api" id={group.id} title={group.title}>
-              <PropsTable rows={group.rows} nameColumnLabel="Part" />
-            </DocSubsection>
-          ))}
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-message-item" title="MessageItem">
+            <PropsTable rows={MESSAGE_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-search-match"
+            title="MessageItemSearchMatch"
+          >
+            <PropsTable rows={MESSAGE_ITEM_SEARCH_MATCH_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-avatar-slot"
+            title="MessageItemAvatarSlot"
+          >
+            <PropsTable rows={MESSAGE_ITEM_AVATAR_SLOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-gutter" title="MessageItemGutter">
+            <PropsTable rows={MESSAGE_ITEM_GUTTER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-continuation-time"
+            title="MessageItemContinuationTime"
+          >
+            <PropsTable rows={MESSAGE_ITEM_CONTINUATION_TIME_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-content" title="MessageItemContent">
+            <PropsTable rows={MESSAGE_ITEM_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-header" title="MessageItemHeader">
+            <PropsTable rows={MESSAGE_ITEM_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-sender" title="MessageItemSender">
+            <PropsTable rows={MESSAGE_ITEM_SENDER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-sender-button"
+            title="MessageItemSenderButton"
+          >
+            <PropsTable rows={MESSAGE_ITEM_SENDER_BUTTON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-sender-badges"
+            title="MessageItemSenderBadges"
+          >
+            <PropsTable rows={MESSAGE_ITEM_SENDER_BADGES_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-meta" title="MessageItemMeta">
+            <PropsTable rows={MESSAGE_ITEM_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-time" title="MessageItemTime">
+            <PropsTable rows={MESSAGE_ITEM_TIME_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-inline-status"
+            title="MessageItemInlineStatus"
+          >
+            <PropsTable rows={MESSAGE_ITEM_INLINE_STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-body" title="MessageItemBody">
+            <PropsTable rows={MESSAGE_ITEM_BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-attachments"
+            title="MessageItemAttachments"
+          >
+            <PropsTable rows={MESSAGE_ITEM_ATTACHMENTS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-embedded" title="MessageItemEmbedded">
+            <PropsTable rows={MESSAGE_ITEM_EMBEDDED_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-footer" title="MessageItemFooter">
+            <PropsTable rows={MESSAGE_ITEM_FOOTER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-toolbar" title="MessageItemToolbar">
+            <PropsTable rows={MESSAGE_ITEM_TOOLBAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-toolbar-button"
+            title="MessageItemToolbarButton"
+          >
+            <PropsTable rows={MESSAGE_ITEM_TOOLBAR_BUTTON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-saved-indicator"
+            title="MessageItemSavedIndicator"
+          >
+            <PropsTable rows={MESSAGE_ITEM_SAVED_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-read-receipt"
+            title="MessageItemReadReceipt"
+          >
+            <PropsTable rows={MESSAGE_ITEM_READ_RECEIPT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-item-badge" title="MessageItemBadge">
+            <PropsTable rows={MESSAGE_ITEM_BADGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-item-badge-separator"
+            title="MessageItemBadgeSeparator"
+          >
+            <PropsTable rows={MESSAGE_ITEM_BADGE_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-text"
+            title="MessageReferenceText"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_TEXT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-chip"
+            title="MessageReferenceChip"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_CHIP_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-pending"
+            title="MessageReferencePending"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_PENDING_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-unavailable"
+            title="MessageReferenceUnavailable"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_UNAVAILABLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-badge"
+            title="MessageReferenceBadge"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_BADGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-label"
+            title="MessageReferenceLabel"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-indicator"
+            title="MessageReferenceIndicator"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-reaction-chip" title="MessageReactionChip">
+            <PropsTable rows={MESSAGE_REACTION_CHIP_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-error-indicator"
+            title="MessageReactionErrorIndicator"
+          >
+            <PropsTable rows={MESSAGE_REACTION_ERROR_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-glyph"
+            title="MessageReactionGlyph"
+          >
+            <PropsTable rows={MESSAGE_REACTION_GLYPH_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-count"
+            title="MessageReactionCount"
+          >
+            <PropsTable rows={MESSAGE_REACTION_COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-add-button"
+            title="MessageReactionAddButton"
+          >
+            <PropsTable rows={MESSAGE_REACTION_ADD_BUTTON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-quick-row"
+            title="MessageReactionQuickRow"
+          >
+            <PropsTable rows={MESSAGE_REACTION_QUICK_ROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-quick-button"
+            title="MessageReactionQuickButton"
+          >
+            <PropsTable rows={MESSAGE_REACTION_QUICK_BUTTON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-picker-static"
+            title="MessageReactionPickerStatic"
+          >
+            <PropsTable rows={MESSAGE_REACTION_PICKER_STATIC_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-picker-content"
+            title="MessageReactionPickerContent"
+          >
+            <PropsTable rows={MESSAGE_REACTION_PICKER_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-tooltip-content"
+            title="MessageReactionTooltipContent"
+          >
+            <PropsTable rows={MESSAGE_REACTION_TOOLTIP_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-tooltip-names"
+            title="MessageReactionTooltipNames"
+          >
+            <PropsTable rows={MESSAGE_REACTION_TOOLTIP_NAMES_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-tooltip-name"
+            title="MessageReactionTooltipName"
+          >
+            <PropsTable rows={MESSAGE_REACTION_TOOLTIP_NAME_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-tooltip-name-text"
+            title="MessageReactionTooltipNameText"
+          >
+            <PropsTable rows={MESSAGE_REACTION_TOOLTIP_NAME_TEXT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-tooltip-separator"
+            title="MessageReactionTooltipSeparator"
+          >
+            <PropsTable rows={MESSAGE_REACTION_TOOLTIP_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reaction-tooltip-meta"
+            title="MessageReactionTooltipMeta"
+          >
+            <PropsTable rows={MESSAGE_REACTION_TOOLTIP_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-multi-select" title="MessageMultiSelect">
+            <PropsTable rows={MESSAGE_MULTI_SELECT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-multi-select-toolbar"
+            title="MessageMultiSelectToolbar"
+          >
+            <PropsTable rows={MESSAGE_MULTI_SELECT_TOOLBAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-multi-select-checkbox"
+            title="MessageMultiSelectCheckbox"
+          >
+            <PropsTable rows={MESSAGE_MULTI_SELECT_CHECKBOX_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-text-selection-toolbar"
+            title="MessageTextSelectionToolbar"
+          >
+            <PropsTable rows={MESSAGE_TEXT_SELECTION_TOOLBAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-text-selection-toolbar-button"
+            title="MessageTextSelectionToolbarButton"
+          >
+            <PropsTable rows={MESSAGE_TEXT_SELECTION_TOOLBAR_BUTTON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-text-selection-toolbar-separator"
+            title="MessageTextSelectionToolbarSeparator"
+          >
+            <PropsTable rows={MESSAGE_TEXT_SELECTION_TOOLBAR_SEPARATOR_PROPS} />
+          </DocSubsection>
         </div>
       </DocSection>
     </DocPage>

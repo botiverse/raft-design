@@ -103,7 +103,8 @@ const TOGGLE_GROUP_ITEM_PROPS: readonly PropRow[] = [
   {
     name: "onPressedChange",
     type: "(pressed: boolean, eventDetails: Toggle.ChangeEventDetails) => void",
-    description: "Observes or cancels this item's pending pressed-state change.",
+    description:
+      "Per-item callback fired when this item's pressed state changes, before the group's onValueChange. Use eventDetails.cancel() to reject a single item's press.",
   },
   {
     name: "...props",

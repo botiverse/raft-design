@@ -61,47 +61,72 @@ const ANATOMY_SOURCE = `import {
   <MessageReferenceUnavailable />
 </>`;
 
-const SURFACES: readonly PropRow[] = [
+const MESSAGE_REFERENCE_TEXT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReferenceText",
-    type: 'useRender.ComponentProps<"span"> & { variant?: "primary" | "secondary" }',
+    name: "variant",
+    type: '"primary" | "secondary"',
+    description: "Surface tone for the mention. Use primary for the viewer's self-mention.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
     description:
       "Inline mention surface. Use primary for the viewer's self-mention; secondary is the default for everyone else. The caller owns entity resolution, navigation, and preview behavior.",
   },
+];
+
+const MESSAGE_REFERENCE_CHIP_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReferenceChip",
-    type: 'useRender.ComponentProps<"span"> & { variant?: "accent" | "muted" | "info" | "link" }',
+    name: "variant",
+    type: '"accent" | "muted" | "info" | "link"',
+    description: "Visual tone for the chip. Visual only; navigation stays consumer-owned.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
     description:
       "Inline chip reference. Variant is visual only; use render={<a href=… />} when the consumer owns navigation.",
   },
+];
+
+const MESSAGE_REFERENCE_PENDING_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReferencePending",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
       "Explicit resolving surface. Loading indicators and resolution copy remain consumer-owned.",
   },
+];
+
+const MESSAGE_REFERENCE_UNAVAILABLE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReferenceUnavailable",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
       "Opt-in unavailable surface for consumers that know a target cannot open. Source keeps unresolved tokens as plain text instead of selecting this state automatically.",
   },
 ];
 
-const PARTS: readonly PropRow[] = [
+const MESSAGE_REFERENCE_BADGE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReferenceBadge",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
       "Optional caption naming the reference type. Elegant reveals it to the left of the chip icon on hover or focus; Brutal keeps it hidden.",
   },
+];
+
+const MESSAGE_REFERENCE_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReferenceLabel",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Optional primary-label part that truncates safely inside a structured chip.",
   },
+];
+
+const MESSAGE_REFERENCE_INDICATOR_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReferenceIndicator",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
       "Optional child part that positions caller-owned status content on an inline reference. The consumer decides whether to render it.",
@@ -330,16 +355,55 @@ function MessageReferenceDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <div className="space-y-8">
-          <DocSubsection parentId="api" id="api-surfaces" title="Surfaces">
-            <PropsTable rows={SURFACES} />
+        <div className="space-y-6">
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-text"
+            title="MessageReferenceText"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_TEXT_PROPS} />
           </DocSubsection>
-
-          <DocSubsection parentId="api" id="api-parts" title="Parts">
-            <p className="mb-3 text-sm text-foreground-muted">
-              Use these parts only when a chip needs structured text beside its icon.
-            </p>
-            <PropsTable rows={PARTS} nameColumnLabel="Part" />
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-chip"
+            title="MessageReferenceChip"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_CHIP_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-pending"
+            title="MessageReferencePending"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_PENDING_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-unavailable"
+            title="MessageReferenceUnavailable"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_UNAVAILABLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-badge"
+            title="MessageReferenceBadge"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_BADGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-label"
+            title="MessageReferenceLabel"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-reference-indicator"
+            title="MessageReferenceIndicator"
+          >
+            <PropsTable rows={MESSAGE_REFERENCE_INDICATOR_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

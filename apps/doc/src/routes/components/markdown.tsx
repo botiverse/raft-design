@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
-import { DocSection } from "#/components/doc-section.tsx";
+import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
@@ -64,92 +64,145 @@ const ANATOMY_SOURCE = `import {
   </MarkdownTable>
 </MarkdownTableScroll>`;
 
-const PROPS: readonly PropRow[] = [
+const MARKDOWN_HEADING_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownHeading",
-    type: 'ComponentPropsWithRef<"h1"> & { level: 1 | 2 | 3 | 4 | 5 | 6 }',
-    description: "Heading. The level selects both the element and its scale.",
+    name: "level",
+    type: "1 | 2 | 3 | 4 | 5 | 6",
+    description: "Heading level; selects both the element and its scale.",
   },
   {
-    name: "MarkdownParagraph",
+    name: "...props",
+    type: 'ComponentPropsWithRef<"h1">',
+    description: "Heading. The level selects both the element and its scale.",
+  },
+];
+
+const MARKDOWN_PARAGRAPH_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: 'ComponentPropsWithRef<"p">',
     description: "Paragraph. Drops its bottom margin when it is the last child.",
   },
+];
+
+const MARKDOWN_LINK_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownLink",
+    name: "...props",
     type: 'ComponentPropsWithRef<"a">',
     description:
       "Link. Only the anchors a renderer maps here are styled, so reference chips passed as node overrides keep their own treatment.",
   },
+];
+
+const MARKDOWN_MARK_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownList",
-    type: 'ComponentPropsWithRef<"ul">',
-    description: "Bulleted list.",
-  },
-  {
-    name: "MarkdownOrderedList",
-    type: 'ComponentPropsWithRef<"ol">',
-    description: "Numbered list. Shares the list slot and only switches the marker.",
-  },
-  {
-    name: "MarkdownListItem",
-    type: 'ComponentPropsWithRef<"li">',
-    description: "List item.",
-  },
-  {
-    name: "MarkdownCheckbox",
-    type: "CheckboxProps",
-    description: "Task-list checkbox. Read-only by default, since task items are display-only.",
-  },
-  {
-    name: "MarkdownBlockquote",
-    type: 'ComponentPropsWithRef<"blockquote">',
-    description: "Quote block.",
-  },
-  {
-    name: "MarkdownRule",
-    type: 'ComponentPropsWithRef<"hr">',
-    description: "Thematic break.",
-  },
-  {
-    name: "MarkdownInlineCode",
-    type: "InlineCodeProps",
-    description: "Inline code, sized for body density.",
-  },
-  {
-    name: "MarkdownMark",
+    name: "...props",
     type: 'ComponentPropsWithRef<"mark">',
     description: "Highlighted run, for search matches and emphasis.",
   },
+];
+
+const MARKDOWN_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownImage",
-    type: 'ComponentPropsWithRef<"img">',
-    description: "Embedded image on a transparency checkerboard.",
+    name: "...props",
+    type: 'ComponentPropsWithRef<"ul">',
+    description: "Bulleted list.",
   },
+];
+
+const MARKDOWN_ORDERED_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownTableScroll",
+    name: "...props",
+    type: 'ComponentPropsWithRef<"ol">',
+    description: "Numbered list. Shares the list slot and only switches the marker.",
+  },
+];
+
+const MARKDOWN_LIST_ITEM_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"li">',
+    description: "List item.",
+  },
+];
+
+const MARKDOWN_BLOCKQUOTE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"blockquote">',
+    description: "Quote block.",
+  },
+];
+
+const MARKDOWN_RULE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"hr">',
+    description: "Thematic break.",
+  },
+];
+
+const MARKDOWN_TABLE_SCROLL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: 'ComponentPropsWithRef<"div">',
     description: "Horizontal scroll container. Wrap the table in it so wide tables never overflow.",
   },
+];
+
+const MARKDOWN_TABLE_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownTable",
+    name: "...props",
     type: 'ComponentPropsWithRef<"table">',
     description: "Table. Borders live on the cells, not here.",
   },
+];
+
+const MARKDOWN_TABLE_ROW_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownTableRow",
+    name: "...props",
     type: 'ComponentPropsWithRef<"tr">',
     description: "Table row. The last one drops its cells' bottom border.",
   },
+];
+
+const MARKDOWN_HEADER_CELL_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownHeaderCell",
+    name: "...props",
     type: 'ComponentPropsWithRef<"th">',
     description: "Header cell. Carries the header surface and the column divider.",
   },
+];
+
+const MARKDOWN_CELL_PROPS: readonly PropRow[] = [
   {
-    name: "MarkdownCell",
+    name: "...props",
     type: 'ComponentPropsWithRef<"td">',
     description: "Body cell. Carries the row and column dividers.",
+  },
+];
+
+const MARKDOWN_IMAGE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"img">',
+    description: "Embedded image on a transparency checkerboard.",
+  },
+];
+
+const MARKDOWN_INLINE_CODE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "InlineCodeProps",
+    description: "Inline code, sized for body density.",
+  },
+];
+
+const MARKDOWN_CHECKBOX_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "CheckboxProps",
+    description: "Task-list checkbox. Read-only by default, since task items are display-only.",
   },
 ];
 
@@ -232,7 +285,59 @@ function MarkdownDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-markdown-heading" title="MarkdownHeading">
+            <PropsTable rows={MARKDOWN_HEADING_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-paragraph" title="MarkdownParagraph">
+            <PropsTable rows={MARKDOWN_PARAGRAPH_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-link" title="MarkdownLink">
+            <PropsTable rows={MARKDOWN_LINK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-mark" title="MarkdownMark">
+            <PropsTable rows={MARKDOWN_MARK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-list" title="MarkdownList">
+            <PropsTable rows={MARKDOWN_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-ordered-list" title="MarkdownOrderedList">
+            <PropsTable rows={MARKDOWN_ORDERED_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-list-item" title="MarkdownListItem">
+            <PropsTable rows={MARKDOWN_LIST_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-blockquote" title="MarkdownBlockquote">
+            <PropsTable rows={MARKDOWN_BLOCKQUOTE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-rule" title="MarkdownRule">
+            <PropsTable rows={MARKDOWN_RULE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-table-scroll" title="MarkdownTableScroll">
+            <PropsTable rows={MARKDOWN_TABLE_SCROLL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-table" title="MarkdownTable">
+            <PropsTable rows={MARKDOWN_TABLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-table-row" title="MarkdownTableRow">
+            <PropsTable rows={MARKDOWN_TABLE_ROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-header-cell" title="MarkdownHeaderCell">
+            <PropsTable rows={MARKDOWN_HEADER_CELL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-cell" title="MarkdownCell">
+            <PropsTable rows={MARKDOWN_CELL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-image" title="MarkdownImage">
+            <PropsTable rows={MARKDOWN_IMAGE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-inline-code" title="MarkdownInlineCode">
+            <PropsTable rows={MARKDOWN_INLINE_CODE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-markdown-checkbox" title="MarkdownCheckbox">
+            <PropsTable rows={MARKDOWN_CHECKBOX_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

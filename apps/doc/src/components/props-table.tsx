@@ -27,7 +27,13 @@ export function PropsTable({
 }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border-collapse text-left text-sm">
+      <table className="w-full table-fixed border-collapse text-left text-sm">
+        <colgroup>
+          <col className="w-[13rem]" />
+          <col className="w-[17rem]" />
+          <col className="w-[8rem]" />
+          <col />
+        </colgroup>
         <thead>
           <tr className="border-b border-line-muted text-foreground-muted">
             <th className="py-2 pr-6 font-medium whitespace-nowrap align-top">{nameColumnLabel}</th>
@@ -40,11 +46,9 @@ export function PropsTable({
           {rows.map((row) => (
             <tr key={row.name} className="border-b border-line-muted align-top">
               <td className="py-3 pr-6 align-top">
-                <InlineCode className="whitespace-nowrap [overflow-wrap:normal]">
-                  {row.name}
-                </InlineCode>
+                <InlineCode className="[overflow-wrap:anywhere]">{row.name}</InlineCode>
               </td>
-              <td className="py-3 pr-6 font-mono text-xs break-words text-info-strong align-top">
+              <td className="py-3 pr-6 font-mono text-xs text-info-strong align-top [overflow-wrap:anywhere]">
                 {row.type}
               </td>
               <td className="py-3 pr-6 font-mono text-xs whitespace-nowrap text-foreground-muted align-top">

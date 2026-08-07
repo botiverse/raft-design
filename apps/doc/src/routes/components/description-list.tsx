@@ -61,33 +61,6 @@ const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
   MemberInfo: "descriptionListMemberInfoComposition",
 });
 
-const DESCRIPTION_LIST_PARTS: readonly PropRow[] = [
-  {
-    name: "DescriptionList",
-    type: 'useRender.ComponentProps<"dl"> & { direction?: "vertical" | "horizontal" }',
-    description:
-      "Semantic definition-list root. Owns the vertical or horizontal layout shared by its direct items.",
-  },
-  {
-    name: "DescriptionItem",
-    type: 'useRender.ComponentProps<"div">',
-    description:
-      "Groups one term/details pair. Horizontal lists expand direct items into the root grid.",
-  },
-  {
-    name: "DescriptionTerm",
-    type: 'useRender.ComponentProps<"dt">',
-    description:
-      "Theme-styled metadata label. Compose optional controls directly alongside the label.",
-  },
-  {
-    name: "DescriptionDetails",
-    type: 'useRender.ComponentProps<"dd">',
-    description:
-      "Metadata value with the native dd margin reset. Values may contain text, badges, links, or controls.",
-  },
-];
-
 const DESCRIPTION_LIST_PROPS: readonly PropRow[] = [
   {
     name: "direction",
@@ -95,6 +68,39 @@ const DESCRIPTION_LIST_PROPS: readonly PropRow[] = [
     default: '"vertical"',
     description:
       "Vertical preserves the normal item flow. Horizontal aligns direct term/details pairs in a shared grid and returns to one column below sm.",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"dl"> & { direction?: "vertical" | "horizontal" }',
+    description:
+      "Semantic definition-list root. Owns the vertical or horizontal layout shared by its direct items.",
+  },
+];
+
+const DESCRIPTION_ITEM_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Groups one term/details pair. Horizontal lists expand direct items into the root grid.",
+  },
+];
+
+const DESCRIPTION_TERM_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"dt">',
+    description:
+      "Theme-styled metadata label. Compose optional controls directly alongside the label.",
+  },
+];
+
+const DESCRIPTION_DETAILS_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"dd">',
+    description:
+      "Metadata value with the native dd margin reset. Values may contain text, badges, links, or controls.",
   },
 ];
 
@@ -147,16 +153,18 @@ function DescriptionListDoc() {
         </DocSubsection>
       </DocSection>
       <DocSection id="api" title="API">
-        <div className="space-y-8">
-          <DocSubsection parentId="api" id="api-parts" title="Parts">
-            <PropsTable rows={DESCRIPTION_LIST_PARTS} nameColumnLabel="Part" />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-description-list-props"
-            title="DescriptionList props"
-          >
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-description-list" title="DescriptionList">
             <PropsTable rows={DESCRIPTION_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description-item" title="DescriptionItem">
+            <PropsTable rows={DESCRIPTION_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description-term" title="DescriptionTerm">
+            <PropsTable rows={DESCRIPTION_TERM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description-details" title="DescriptionDetails">
+            <PropsTable rows={DESCRIPTION_DETAILS_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

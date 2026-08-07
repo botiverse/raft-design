@@ -71,87 +71,132 @@ const ANATOMY_SOURCE = `import {
   </MessageActionCardContent>
 </MessageActionCard>`;
 
-const PROPS: readonly PropRow[] = [
+const MESSAGE_ACTION_CARD_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCard",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Suggested-action card root. Compose inside MessageItemBody; execution state stays consumer-owned.",
   },
+];
+
+const MESSAGE_ACTION_CARD_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardHeader",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Outer title row. Compose the action title and any trailing status here.",
   },
+];
+
+const MESSAGE_ACTION_CARD_HEADER_STATUS_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardHeaderStatus",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
       "Trailing header region. Use render to apply its alignment to a caller-owned badge or status.",
   },
+];
+
+const MESSAGE_ACTION_CARD_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardContent",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "White inner content stack for details, hint, actions, and completion.",
   },
+];
+
+const MESSAGE_ACTION_CARD_PROPERTIES_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardProperties",
+    name: "...props",
     type: 'useRender.ComponentProps<"dl">',
     description: "Optional aligned definition list for compact action properties.",
   },
+];
+
+const MESSAGE_ACTION_CARD_PROPERTY_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardProperty",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Semantic label/value pair in the shared Properties grid; it does not create its own surface.",
   },
+];
+
+const MESSAGE_ACTION_CARD_PROPERTY_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardPropertyLabel",
+    name: "...props",
     type: 'useRender.ComponentProps<"dt">',
     description: "Muted metadata label with a shared column width.",
   },
+];
+
+const MESSAGE_ACTION_CARD_PROPERTY_VALUE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardPropertyValue",
+    name: "...props",
     type: 'useRender.ComponentProps<"dd">',
     description: "Metadata value that wraps without widening the card.",
   },
+];
+
+const MESSAGE_ACTION_CARD_SCOPE_LIST_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardScopeList",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Optional named scope section rendered directly in the content stack.",
   },
+];
+
+const MESSAGE_ACTION_CARD_SCOPE_LIST_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardScopeListLabel",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Theme-aware heading for a scope list.",
   },
+];
+
+const MESSAGE_ACTION_CARD_SCOPE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardScope",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "One bordered scope explanation block.",
   },
+];
+
+const MESSAGE_ACTION_CARD_SCOPE_NAME_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardScopeName",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Scope identifier.",
   },
+];
+
+const MESSAGE_ACTION_CARD_SCOPE_DESCRIPTION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardScopeDescription",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Scope capability explanation.",
   },
+];
+
+const MESSAGE_ACTION_CARD_HINT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardHint",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Optional agent-provided rationale or guidance.",
   },
+];
+
+const MESSAGE_ACTION_CARD_ACTIONS_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardActions",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Pre-commit action area. Buttons and dialog state stay consumer-owned.",
   },
+];
+
+const MESSAGE_ACTION_CARD_COMPLETION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageActionCardCompletion",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Post-commit result and actor summary supplied by the consumer.",
   },
@@ -274,7 +319,116 @@ function MessageActionCardDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-message-action-card" title="MessageActionCard">
+            <PropsTable rows={MESSAGE_ACTION_CARD_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-header"
+            title="MessageActionCardHeader"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-header-status"
+            title="MessageActionCardHeaderStatus"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_HEADER_STATUS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-content"
+            title="MessageActionCardContent"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-properties"
+            title="MessageActionCardProperties"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_PROPERTIES_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-property"
+            title="MessageActionCardProperty"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_PROPERTY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-property-label"
+            title="MessageActionCardPropertyLabel"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_PROPERTY_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-property-value"
+            title="MessageActionCardPropertyValue"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_PROPERTY_VALUE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-scope-list"
+            title="MessageActionCardScopeList"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_SCOPE_LIST_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-scope-list-label"
+            title="MessageActionCardScopeListLabel"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_SCOPE_LIST_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-scope"
+            title="MessageActionCardScope"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_SCOPE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-scope-name"
+            title="MessageActionCardScopeName"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_SCOPE_NAME_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-scope-description"
+            title="MessageActionCardScopeDescription"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_SCOPE_DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-hint"
+            title="MessageActionCardHint"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_HINT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-actions"
+            title="MessageActionCardActions"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-completion"
+            title="MessageActionCardCompletion"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_COMPLETION_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

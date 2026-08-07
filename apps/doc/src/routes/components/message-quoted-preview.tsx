@@ -82,76 +82,115 @@ const ANATOMY_SOURCE = `import {
 
 <MessageQuotedPreviewUnavailable />`;
 
-const PROPS: readonly PropRow[] = [
+const MESSAGE_QUOTED_PREVIEW_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreview",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Quoted message card root. Compose inside MessageItemEmbedded; use render for button/link shells.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewContent",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Quoted excerpt region for text and optional attachment chips.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewHeader",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Header row for author identity, channel, optional thread, and trailing timestamp.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_CHANNEL_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewChannel",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Header channel or direct-message label. The caller owns icon and label content.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_THREAD_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewThread",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Optional header thread marker. The caller owns its icon and label content.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_AUTHOR_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewAuthor",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Inline header identity region, usually composed with Avatar and author fields.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_AUTHOR_NAME_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewAuthorName",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Truncated author display name.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_AUTHOR_META_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewAuthorMeta",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Optional muted author metadata, such as a role or agent description.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_TIMESTAMP_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewTimestamp",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Header timestamp aligned to the trailing edge.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_TEXT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewText",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Quoted text excerpt, visually clamped to two lines.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_ATTACHMENT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewAttachment",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "One quoted attachment chip. The caller owns its filename or media label.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_ATTACHMENTS_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewAttachments",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Wrapping attachment-chip region within the quoted content.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_LOADING_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewLoading",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Loading-state container; compose it with Skeleton parts for the target context.",
   },
+];
+
+const MESSAGE_QUOTED_PREVIEW_UNAVAILABLE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageQuotedPreviewUnavailable",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Unavailable/deleted quoted target shell. Failure copy stays consumer-owned.",
   },
@@ -355,7 +394,106 @@ function MessageQuotedPreviewDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview"
+            title="MessageQuotedPreview"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-content"
+            title="MessageQuotedPreviewContent"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-header"
+            title="MessageQuotedPreviewHeader"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-channel"
+            title="MessageQuotedPreviewChannel"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_CHANNEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-thread"
+            title="MessageQuotedPreviewThread"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_THREAD_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-author"
+            title="MessageQuotedPreviewAuthor"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_AUTHOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-author-name"
+            title="MessageQuotedPreviewAuthorName"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_AUTHOR_NAME_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-author-meta"
+            title="MessageQuotedPreviewAuthorMeta"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_AUTHOR_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-timestamp"
+            title="MessageQuotedPreviewTimestamp"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_TIMESTAMP_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-text"
+            title="MessageQuotedPreviewText"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_TEXT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-attachment"
+            title="MessageQuotedPreviewAttachment"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_ATTACHMENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-attachments"
+            title="MessageQuotedPreviewAttachments"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_ATTACHMENTS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-loading"
+            title="MessageQuotedPreviewLoading"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_LOADING_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-quoted-preview-unavailable"
+            title="MessageQuotedPreviewUnavailable"
+          >
+            <PropsTable rows={MESSAGE_QUOTED_PREVIEW_UNAVAILABLE_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

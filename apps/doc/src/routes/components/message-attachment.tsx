@@ -22,9 +22,34 @@ import previewAttachmentSource from "#/modules/message-attachment/compositions/p
 import { MessageAttachmentTitleIconUsageComposition } from "#/modules/message-attachment/compositions/title-icon.composition.tsx";
 import titleIconSource from "#/modules/message-attachment/compositions/title-icon.composition.tsx?raw";
 import {
-  API_GROUPS,
   FILE_CARD_ANATOMY_SOURCE,
   IMAGE_GALLERY_ANATOMY_SOURCE,
+  MESSAGE_ATTACHMENT_ACTION_PROPS,
+  MESSAGE_ATTACHMENT_CARD_PROPS,
+  MESSAGE_ATTACHMENT_COMMENT_SUMMARY_PROPS,
+  MESSAGE_ATTACHMENT_DIFF_ADDITION_PROPS,
+  MESSAGE_ATTACHMENT_DIFF_DELETION_PROPS,
+  MESSAGE_ATTACHMENT_DIFF_SUMMARY_PROPS,
+  MESSAGE_ATTACHMENT_GROUP_PROPS,
+  MESSAGE_ATTACHMENT_META_END_PROPS,
+  MESSAGE_ATTACHMENT_META_PROPS,
+  MESSAGE_ATTACHMENT_META_START_PROPS,
+  MESSAGE_ATTACHMENT_SUMMARY_PROPS,
+  MESSAGE_ATTACHMENT_TITLE_PROPS,
+  MESSAGE_IMAGE_GALLERY_ACTION_PROPS,
+  MESSAGE_IMAGE_GALLERY_ITEM_PROPS,
+  MESSAGE_IMAGE_GALLERY_MEDIA_PROPS,
+  MESSAGE_IMAGE_GALLERY_OVERLAY_PROPS,
+  MESSAGE_IMAGE_GALLERY_PREVIEW_PROPS,
+  MESSAGE_IMAGE_GALLERY_PROPS,
+  MESSAGE_VIDEO_PREVIEW_ACTION_PROPS,
+  MESSAGE_VIDEO_PREVIEW_FAILURE_ACTION_PROPS,
+  MESSAGE_VIDEO_PREVIEW_FAILURE_CONTENT_PROPS,
+  MESSAGE_VIDEO_PREVIEW_FAILURE_ICON_PROPS,
+  MESSAGE_VIDEO_PREVIEW_FAILURE_TITLE_PROPS,
+  MESSAGE_VIDEO_PREVIEW_FALLBACK_PROPS,
+  MESSAGE_VIDEO_PREVIEW_MEDIA_PROPS,
+  MESSAGE_VIDEO_PREVIEW_PROPS,
   VIDEO_PREVIEW_ANATOMY_SOURCE,
 } from "#/modules/message-attachment/message-attachment.snippets.ts";
 import { MessageImageGalleryGeometryComposition } from "#/modules/message-media/compositions/image-gallery-geometry.composition.tsx";
@@ -288,12 +313,181 @@ function MessageAttachmentDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <div className="grid gap-8">
-          {API_GROUPS.map((group) => (
-            <DocSubsection key={group.id} parentId="api" id={group.id} title={group.title}>
-              <PropsTable rows={group.rows} />
-            </DocSubsection>
-          ))}
+        <div className="space-y-6">
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-group"
+            title="MessageAttachmentGroup"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-card"
+            title="MessageAttachmentCard"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_CARD_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-title"
+            title="MessageAttachmentTitle"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-summary"
+            title="MessageAttachmentSummary"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_SUMMARY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-comment-summary"
+            title="MessageAttachmentCommentSummary"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_COMMENT_SUMMARY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-diff-summary"
+            title="MessageAttachmentDiffSummary"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_DIFF_SUMMARY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-diff-addition"
+            title="MessageAttachmentDiffAddition"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_DIFF_ADDITION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-diff-deletion"
+            title="MessageAttachmentDiffDeletion"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_DIFF_DELETION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-meta"
+            title="MessageAttachmentMeta"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-meta-start"
+            title="MessageAttachmentMetaStart"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_META_START_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-meta-end"
+            title="MessageAttachmentMetaEnd"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_META_END_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-attachment-action"
+            title="MessageAttachmentAction"
+          >
+            <PropsTable rows={MESSAGE_ATTACHMENT_ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-image-gallery" title="MessageImageGallery">
+            <PropsTable rows={MESSAGE_IMAGE_GALLERY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-image-gallery-item"
+            title="MessageImageGalleryItem"
+          >
+            <PropsTable rows={MESSAGE_IMAGE_GALLERY_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-image-gallery-media"
+            title="MessageImageGalleryMedia"
+          >
+            <PropsTable rows={MESSAGE_IMAGE_GALLERY_MEDIA_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-image-gallery-preview"
+            title="MessageImageGalleryPreview"
+          >
+            <PropsTable rows={MESSAGE_IMAGE_GALLERY_PREVIEW_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-image-gallery-action"
+            title="MessageImageGalleryAction"
+          >
+            <PropsTable rows={MESSAGE_IMAGE_GALLERY_ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-image-gallery-overlay"
+            title="MessageImageGalleryOverlay"
+          >
+            <PropsTable rows={MESSAGE_IMAGE_GALLERY_OVERLAY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-video-preview" title="MessageVideoPreview">
+            <PropsTable rows={MESSAGE_VIDEO_PREVIEW_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-video-preview-media"
+            title="MessageVideoPreviewMedia"
+          >
+            <PropsTable rows={MESSAGE_VIDEO_PREVIEW_MEDIA_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-video-preview-fallback"
+            title="MessageVideoPreviewFallback"
+          >
+            <PropsTable rows={MESSAGE_VIDEO_PREVIEW_FALLBACK_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-video-preview-action"
+            title="MessageVideoPreviewAction"
+          >
+            <PropsTable rows={MESSAGE_VIDEO_PREVIEW_ACTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-video-preview-failure-content"
+            title="MessageVideoPreviewFailureContent"
+          >
+            <PropsTable rows={MESSAGE_VIDEO_PREVIEW_FAILURE_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-video-preview-failure-icon"
+            title="MessageVideoPreviewFailureIcon"
+          >
+            <PropsTable rows={MESSAGE_VIDEO_PREVIEW_FAILURE_ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-video-preview-failure-title"
+            title="MessageVideoPreviewFailureTitle"
+          >
+            <PropsTable rows={MESSAGE_VIDEO_PREVIEW_FAILURE_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-video-preview-failure-action"
+            title="MessageVideoPreviewFailureAction"
+          >
+            <PropsTable rows={MESSAGE_VIDEO_PREVIEW_FAILURE_ACTION_PROPS} />
+          </DocSubsection>
         </div>
       </DocSection>
     </DocPage>

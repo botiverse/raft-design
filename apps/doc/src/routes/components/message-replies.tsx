@@ -21,44 +21,59 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const SURFACE_PARTS: readonly PropRow[] = [
+const MESSAGE_REPLIES_PROPS: readonly PropRow[] = [
   {
-    name: "MessageReplies",
+    name: "...props",
     type: 'useRender.ComponentProps<"button">',
     description:
       "Single interactive thread-preview surface. Use render to replace the default button with the consumer's link.",
   },
+];
+
+const MESSAGE_REPLIES_SUMMARY_PROPS: readonly PropRow[] = [
   {
-    name: "MessageRepliesSummary",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Flex container that spaces its direct summary fragments by 4px.",
   },
+];
+
+const MESSAGE_REPLIES_SUMMARY_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "MessageRepliesSummaryItem",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
       "Inline summary fragment with an optional icon. It centers children and standardizes nested SVG icon size; use render for semantic emphasis.",
   },
 ];
 
-const ITEM_PARTS: readonly PropRow[] = [
+const MESSAGE_REPLIES_ITEM_PROPS: readonly PropRow[] = [
   {
-    name: "MessageRepliesItem",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "One compact reply-preview row. Compose the avatar and fields as children.",
   },
+];
+
+const MESSAGE_REPLIES_ITEM_SENDER_PROPS: readonly PropRow[] = [
   {
-    name: "MessageRepliesItemSender",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Non-shrinking sender display name.",
   },
+];
+
+const MESSAGE_REPLIES_ITEM_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageRepliesItemContent",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Flexible, single-line truncated reply excerpt.",
   },
+];
+
+const MESSAGE_REPLIES_ITEM_TIME_PROPS: readonly PropRow[] = [
   {
-    name: "MessageRepliesItemTime",
+    name: "...props",
     type: 'useRender.ComponentProps<"time">',
     description: "Semantic timestamp aligned to the trailing edge.",
   },
@@ -138,13 +153,47 @@ function MessageRepliesDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <div className="space-y-8">
-          <DocSubsection parentId="api" id="api-surface" title="Surface">
-            <PropsTable rows={SURFACE_PARTS} nameColumnLabel="Part" />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-message-replies" title="MessageReplies">
+            <PropsTable rows={MESSAGE_REPLIES_PROPS} />
           </DocSubsection>
-
-          <DocSubsection parentId="api" id="api-item-parts" title="Item parts">
-            <PropsTable rows={ITEM_PARTS} nameColumnLabel="Part" />
+          <DocSubsection
+            parentId="api"
+            id="api-message-replies-summary"
+            title="MessageRepliesSummary"
+          >
+            <PropsTable rows={MESSAGE_REPLIES_SUMMARY_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-replies-summary-item"
+            title="MessageRepliesSummaryItem"
+          >
+            <PropsTable rows={MESSAGE_REPLIES_SUMMARY_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-replies-item" title="MessageRepliesItem">
+            <PropsTable rows={MESSAGE_REPLIES_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-replies-item-sender"
+            title="MessageRepliesItemSender"
+          >
+            <PropsTable rows={MESSAGE_REPLIES_ITEM_SENDER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-replies-item-content"
+            title="MessageRepliesItemContent"
+          >
+            <PropsTable rows={MESSAGE_REPLIES_ITEM_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-replies-item-time"
+            title="MessageRepliesItemTime"
+          >
+            <PropsTable rows={MESSAGE_REPLIES_ITEM_TIME_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

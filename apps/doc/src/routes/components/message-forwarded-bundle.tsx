@@ -75,91 +75,145 @@ const ANATOMY_SOURCE = `import {
   </MessageForwardedBundleFooter>
 </MessageForwardedBundle>`;
 
-const PROPS: readonly PropRow[] = [
+const MESSAGE_FORWARDED_BUNDLE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundle",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
       "Forwarded messages card root. Compose inside MessageItemEmbedded; expand/collapse state stays consumer-owned.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_HEADER_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleHeader",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Bundle header row.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_HEADER_CONTENT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleHeaderContent",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Leading header region for the forwarded label and count.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_HEADER_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleHeaderLabel",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Forwarded label.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_HEADER_COUNT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleHeaderCount",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Forwarded message count label.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_SOURCE_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleSource",
+    name: "...props",
     type: 'useRender.ComponentProps<"button">',
     description:
       "Interactive public source link; render as an anchor when navigation is available.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_SOURCE_LABEL_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleSourceLabel",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Static public source label when the original message cannot be opened.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_ITEMS_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleItems",
-    type: 'useRender.ComponentProps<"div"> & { collapsed?: boolean }',
-    description: "Item list. Set collapsed to constrain height and show its bottom fade.",
+    name: "collapsed",
+    type: "boolean",
+    default: "false",
+    description: "Constrain the item-list height and show its bottom fade.",
   },
   {
-    name: "MessageForwardedBundleItem",
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Item list. Set collapsed to constrain height and show its bottom fade.",
+  },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_ITEM_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
     type: 'useRender.ComponentProps<"article">',
     description: "One forwarded message snapshot.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_ITEM_META_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleItemMeta",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Author and timestamp row for an item.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_ITEM_AUTHOR_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleItemAuthor",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Forwarded item author label.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_ATTACHMENTS_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleAttachments",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Attachment-chip region for an item.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_ATTACHMENT_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleAttachment",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "One forwarded attachment chip.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_ATTACHMENT_NAME_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleAttachmentName",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Truncated attachment filename.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_ATTACHMENT_META_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleAttachmentMeta",
+    name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description: "Attachment type or other compact metadata.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_FOOTER_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleFooter",
+    name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description: "Footer container for caller-owned actions.",
   },
+];
+
+const MESSAGE_FORWARDED_BUNDLE_FOOTER_ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "MessageForwardedBundleFooterAction",
+    name: "...props",
     type: 'useRender.ComponentProps<"button">',
     description: "Styled action slot for the forwarded bundle footer.",
   },
@@ -288,7 +342,127 @@ function MessageForwardedBundleDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle"
+            title="MessageForwardedBundle"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-header"
+            title="MessageForwardedBundleHeader"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-header-content"
+            title="MessageForwardedBundleHeaderContent"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_HEADER_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-header-label"
+            title="MessageForwardedBundleHeaderLabel"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_HEADER_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-header-count"
+            title="MessageForwardedBundleHeaderCount"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_HEADER_COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-source"
+            title="MessageForwardedBundleSource"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_SOURCE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-source-label"
+            title="MessageForwardedBundleSourceLabel"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_SOURCE_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-items"
+            title="MessageForwardedBundleItems"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_ITEMS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-item"
+            title="MessageForwardedBundleItem"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-item-meta"
+            title="MessageForwardedBundleItemMeta"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_ITEM_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-item-author"
+            title="MessageForwardedBundleItemAuthor"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_ITEM_AUTHOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-attachments"
+            title="MessageForwardedBundleAttachments"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_ATTACHMENTS_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-attachment"
+            title="MessageForwardedBundleAttachment"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_ATTACHMENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-attachment-name"
+            title="MessageForwardedBundleAttachmentName"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_ATTACHMENT_NAME_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-attachment-meta"
+            title="MessageForwardedBundleAttachmentMeta"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_ATTACHMENT_META_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-footer"
+            title="MessageForwardedBundleFooter"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_FOOTER_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-forwarded-bundle-footer-action"
+            title="MessageForwardedBundleFooterAction"
+          >
+            <PropsTable rows={MESSAGE_FORWARDED_BUNDLE_FOOTER_ACTION_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );
