@@ -228,7 +228,10 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
         <PanelHeaderContent>
           {isDesktop ? (
             <PanelHeaderIcon>
-              <CheckSquare aria-hidden />
+              <CheckSquare
+                aria-hidden
+                className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
+              />
             </PanelHeaderIcon>
           ) : null}
           <PanelHeading>

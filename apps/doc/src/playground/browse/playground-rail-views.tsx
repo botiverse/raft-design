@@ -291,7 +291,7 @@ export function PlaygroundRailViewPanel({
         ) : null}
         <PanelHeaderContent>
           <PanelHeaderIcon>
-            <ViewIcon />
+            <ViewIcon className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
           </PanelHeaderIcon>
           <PanelHeading>
             <PanelTitle>{viewMeta[view].title}</PanelTitle>

@@ -47,7 +47,7 @@ export function PlaygroundChannelPanelHeader({
       <PlaygroundConversationBackButton onBack={onBack} />
       <PanelHeaderContent>
         <PanelHeaderIcon>
-          <Icon />
+          <Icon className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
         </PanelHeaderIcon>
         <PanelHeading>
           <PanelTitle>{channel.name}</PanelTitle>

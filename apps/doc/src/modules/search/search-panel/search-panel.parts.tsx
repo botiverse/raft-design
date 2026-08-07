@@ -158,7 +158,10 @@ export function SearchHeader({
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-3">
           <SearchShellHeaderIcon>
-            <Search aria-hidden size={18} />
+            <Search
+              aria-hidden
+              className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
+            />
           </SearchShellHeaderIcon>
           <InputGroup>
             <InputGroupInput

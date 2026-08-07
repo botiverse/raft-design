@@ -60,7 +60,7 @@ export function ConversationPanelHeaderComposition({
     <PanelHeader>
       <PanelHeaderContent>
         <PanelHeaderIcon>
-          <Hash />
+          <Hash className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
         </PanelHeaderIcon>
         <PanelHeading>
           <PanelTitle>proj-uiux</PanelTitle>

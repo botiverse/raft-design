@@ -239,7 +239,10 @@ export function ActivityInboxComposition({
           </Button>
         ) : null}
         <ActivityInboxHeaderIcon>
-          <Activity size={18} />
+          <Activity
+            aria-hidden
+            className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
+          />
         </ActivityInboxHeaderIcon>
         <PanelHeaderContent>
           <PanelHeading>
