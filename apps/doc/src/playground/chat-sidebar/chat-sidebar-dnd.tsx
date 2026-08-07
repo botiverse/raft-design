@@ -339,8 +339,8 @@ function ChatSidebarDragPreview({
       aria-hidden
       className={
         active
-          ? "pointer-events-none w-full bg-layer-panel shadow-raft-lg [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:shadow-raft-sm"
-          : "pointer-events-none w-full bg-layer-panel shadow-raft-lg [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:shadow-raft-sm"
+          ? "pointer-events-none w-full bg-layer-panel shadow-raft-lg in-data-[theme=brutal]:border-black in-data-[theme=brutal]:shadow-raft-sm"
+          : "pointer-events-none w-full bg-layer-panel shadow-raft-lg in-data-[theme=brutal]:border-black in-data-[theme=brutal]:bg-white in-data-[theme=brutal]:shadow-raft-sm"
       }
       render={<div />}
       style={{ width }}

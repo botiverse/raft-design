@@ -188,7 +188,7 @@ export function MemberDetailPanel({
                           type="button"
                           variant="ghost"
                           size="icon-xs"
-                          className="text-foreground-icon [[data-theme=brutal]_&]:text-black/35"
+                          className="text-foreground-icon in-data-[theme=brutal]:text-black/35"
                           aria-label="Explain member roles"
                           aria-pressed={roleHelpVisible}
                           onClick={() => setRoleHelpVisible((visible) => !visible)}
@@ -279,7 +279,7 @@ export function MemberDetailPanel({
                       return (
                         <SidebarItem
                           key={createdAgent.id}
-                          className="[[data-theme=brutal]_&]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
+                          className="in-data-[theme=brutal]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
                           onClick={() => onSelectActor(createdAgent)}
                         >
                           <SidebarItemIcon className="size-8">
@@ -309,7 +309,7 @@ export function MemberDetailPanel({
                     })}
                   </div>
                 ) : (
-                  <p className="text-sm italic text-foreground-placeholder [[data-theme=brutal]_&]:text-black/40">
+                  <p className="text-sm italic text-foreground-placeholder in-data-[theme=brutal]:text-black/40">
                     No created agents
                   </p>
                 )}
@@ -377,7 +377,7 @@ function MemberDetailSection({
           <h2>
             {title}
             {count === undefined ? null : (
-              <span className="font-mono text-foreground-placeholder [[data-theme=brutal]_&]:text-black/40">
+              <span className="font-mono text-foreground-placeholder in-data-[theme=brutal]:text-black/40">
                 {count}
               </span>
             )}
@@ -386,7 +386,7 @@ function MemberDetailSection({
         size="eyebrow"
         className={cn(
           "flex items-baseline gap-2",
-          "[[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-widest [[data-theme=brutal]_&]:text-black/60",
+          "[[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-widest in-data-[theme=brutal]:text-black/60",
           compactTitle ? "mb-1" : "mb-3",
         )}
       />

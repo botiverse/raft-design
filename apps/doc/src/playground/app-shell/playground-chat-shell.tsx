@@ -151,9 +151,9 @@ function PlaygroundChatLayout({
 
   if (!isDesktop) {
     return (
-      <AppShellMainSlot className="h-full w-full">
-        <div className={mobileListPanel ? "flex h-full w-full" : "hidden"}>{sidebar}</div>
-        <div className={mobileListPanel ? "hidden" : "flex h-full w-full"}>{thread ?? main}</div>
+      <AppShellMainSlot className="size-full ">
+        <div className={mobileListPanel ? "flex size-full " : "hidden"}>{sidebar}</div>
+        <div className={mobileListPanel ? "hidden" : "flex size-full "}>{thread ?? main}</div>
       </AppShellMainSlot>
     );
   }
@@ -173,7 +173,7 @@ function PlaygroundChatLayout({
         </AppShellSidebarSlot>
       </ResizablePanel>
       <ResizableHandle className={theme === "elegant" ? "translate-x-[14px]" : undefined} />
-      <ResizablePanel id="playground-main" minSize={360} className="relative z-0 !overflow-visible">
+      <ResizablePanel id="playground-main" minSize={360} className="relative z-0 overflow-visible!">
         <AppShellMainSlot overlay className="flex h-full min-w-0 flex-1">
           {main}
           {thread && !isLargeDesktop ? <AppShellOverlaySlot>{thread}</AppShellOverlaySlot> : null}
@@ -188,7 +188,7 @@ function PlaygroundChatLayout({
             minSize={360}
             maxSize="60vw"
             groupResizeBehavior="preserve-pixel-size"
-            className="relative z-20 min-w-0 !overflow-visible"
+            className="relative z-20 min-w-0 overflow-visible!"
           >
             <AppShellPanelSlot className="flex h-full min-w-0 flex-1">{thread}</AppShellPanelSlot>
           </ResizablePanel>

@@ -41,14 +41,14 @@ export function PlaygroundBrowseShell() {
         <PlaygroundRail showBottomNavigation={showBottomNavigation} />
         <AppShellMainSlot
           className={cn(
-            "h-full w-full bg-transparent",
+            "size-full  bg-transparent",
             showBottomNavigation && "max-md:h-auto max-md:min-h-0",
           )}
         >
           {showSidebar ? (
             <div
               className={cn(
-                "relative flex h-full min-h-0 w-full flex-1",
+                "relative flex size-full min-h-0  flex-1",
                 theme === "elegant" &&
                   showBottomNavigation &&
                   "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
@@ -96,7 +96,7 @@ export function PlaygroundBrowseShell() {
           <ResizablePanel
             id="playground-main"
             minSize={isDesktop ? 360 : 0}
-            className="relative !overflow-visible"
+            className="relative overflow-visible!"
           >
             <AppShellMainSlot className="flex h-full min-w-0 flex-1">
               <Outlet />

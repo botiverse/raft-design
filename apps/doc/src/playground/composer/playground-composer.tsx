@@ -280,7 +280,7 @@ function PlaygroundSeededComposerAttachments({
                       <FilePreviewDocument
                         className={
                           attachment.state.kind === "uploading"
-                            ? "h-[46px] !shadow-none !ring-0"
+                            ? "h-[46px] shadow-none! ring-0!"
                             : "h-[46px]"
                         }
                       />
