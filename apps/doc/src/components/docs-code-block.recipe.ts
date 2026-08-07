@@ -15,7 +15,7 @@ export const docsCodeBlock = tv({
     section: "flex min-w-0 items-stretch",
     gutter: [
       "flex w-6 shrink-0 justify-end self-stretch",
-      "bg-[oklch(0.988_0.002_106.42)] dark:bg-[oklch(0.2_0.004_106.42)]",
+      "bg-[oklch(0.988_0.002_106.42)] dark:bg-layer-card",
     ],
     sectionInner: "flex min-h-0 min-w-0 flex-1 flex-col",
     headerBar: "flex min-w-0 flex-1 items-center gap-3 bg-white py-1.5 dark:bg-transparent",
