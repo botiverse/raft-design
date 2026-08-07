@@ -103,6 +103,7 @@ const toastStyles = tv({
           "shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.54)]",
           "data-[expanded]:bg-layer-hud/54 data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.54)]",
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
+          "dark:after:ring-white/10 dark:after:mix-blend-normal",
           "dark:shadow-[0_18px_42px_-18px_oklch(0_0_0_/_0.68)] dark:data-[expanded]:shadow-[0_18px_40px_-18px_oklch(0_0_0_/_0.68)]",
         ],
         content: [
