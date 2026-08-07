@@ -60,7 +60,7 @@ function AttachmentPreviewDialogParts() {
         >
           <div
             className={cn(
-              "grid h-full min-h-56 w-full place-items-center border border-line-muted bg-layer-panel text-sm text-foreground-muted",
+              "grid size-full min-h-56  place-items-center border border-line-muted bg-layer-panel text-sm text-foreground-muted",
               isBrutal &&
                 "border-2 border-line-strong bg-white font-mono text-xs text-black/50 shadow-raft-sm",
             )}

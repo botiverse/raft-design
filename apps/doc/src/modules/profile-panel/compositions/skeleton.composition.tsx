@@ -13,7 +13,7 @@ export function ProfilePanelSkeletonComposition() {
   return (
     <ProfilePanel aria-busy="true" aria-label="Loading profile">
       <ProfilePanelHeader>
-        <Skeleton variant="circle" className="size-9 [[data-theme=brutal]_&]:rounded-none" />
+        <Skeleton variant="circle" className="size-9 in-data-[theme=brutal]:rounded-none" />
         <ProfilePanelHeaderContent className="gap-1 md:gap-1">
           <Skeleton variant="line" className="w-24" />
           <Skeleton variant="line" className="h-2.5 w-32" />
@@ -24,7 +24,7 @@ export function ProfilePanelSkeletonComposition() {
         <PanelScrollViewport>
           <PanelScrollContent>
             <ProfilePanelSection className="flex items-start gap-4 border-t-0 py-5">
-              <Skeleton variant="circle" className="size-16 [[data-theme=brutal]_&]:rounded-none" />
+              <Skeleton variant="circle" className="size-16 in-data-[theme=brutal]:rounded-none" />
               <div className="grid min-w-0 flex-1 gap-2 pt-1">
                 <Skeleton variant="line" className="w-32" />
                 <Skeleton variant="line" className="h-2.5 w-24" />

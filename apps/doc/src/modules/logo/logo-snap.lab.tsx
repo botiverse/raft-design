@@ -247,12 +247,12 @@ export function LogoSnapLab() {
           role="img"
           aria-label="Raft"
           data-playing={playing || undefined}
-          className="group/logo-snap relative aspect-[422/132] w-[min(72%,10rem)]"
+          className="group/logo-snap relative aspect-422/132 w-[min(72%,10rem)]"
         >
-          <div className="absolute top-1/2 left-0 z-10 aspect-[113/104] h-[78.8%] -translate-y-1/2">
+          <div className="absolute top-1/2 left-0 z-10 aspect-113/104 h-[78.8%] -translate-y-1/2">
             <div
               ref={markRef}
-              className="relative h-full w-full origin-center group-data-[playing]/logo-snap:will-change-transform"
+              className="relative size-full  origin-center group-data-playing/logo-snap:will-change-transform"
             >
               <SnapMarkArtwork topRef={topRef} bottomRef={bottomRef} />
 
@@ -265,7 +265,7 @@ export function LogoSnapLab() {
               <div
                 ref={sparksRef}
                 aria-hidden
-                className="pointer-events-none absolute inset-0 origin-center group-data-[playing]/logo-snap:will-change-transform"
+                className="pointer-events-none absolute inset-0 origin-center group-data-playing/logo-snap:will-change-transform"
               >
                 <ImpactBurst />
               </div>
@@ -275,10 +275,10 @@ export function LogoSnapLab() {
           <div className="absolute top-1/2 left-[24%] z-0 h-[78.8%] w-[76%] -translate-y-1/2 overflow-hidden">
             <div
               ref={wordmarkRef}
-              className="absolute top-0 left-[8.3%] h-full w-[91.7%] opacity-0 group-data-[playing]/logo-snap:will-change-transform"
+              className="absolute top-0 left-[8.3%] h-full w-[91.7%] opacity-0 group-data-playing/logo-snap:will-change-transform"
               style={{ transform: "translateX(-108%)" }}
             >
-              <RaftWordmark aria-hidden className="h-full w-full" />
+              <RaftWordmark aria-hidden className="size-full " />
             </div>
           </div>
         </div>
@@ -303,7 +303,7 @@ function SnapMarkArtwork({
   const bottomClipId = `${clipId}-bottom`;
 
   return (
-    <svg viewBox="0 0 113 104" fill="none" className="h-full w-full overflow-visible">
+    <svg viewBox="0 0 113 104" fill="none" className="size-full  overflow-visible">
       <defs>
         <clipPath id={topClipId} clipPathUnits="userSpaceOnUse">
           <path d="M-10-10H123V43L79 46 67.5 33 38.4 64.8 28 52-10 59Z" />
@@ -316,7 +316,7 @@ function SnapMarkArtwork({
       <g
         ref={topRef}
         clipPath={`url(#${topClipId})`}
-        className="group-data-[playing]/logo-snap:will-change-transform"
+        className="group-data-playing/logo-snap:will-change-transform"
         style={{
           transform: "translate(-10%, -62%) rotate(-3.5deg)",
           transformBox: "fill-box",
@@ -328,7 +328,7 @@ function SnapMarkArtwork({
       <g
         ref={bottomRef}
         clipPath={`url(#${bottomClipId})`}
-        className="group-data-[playing]/logo-snap:will-change-transform"
+        className="group-data-playing/logo-snap:will-change-transform"
         style={{
           transform: "translate(10%, 62%) rotate(3.5deg)",
           transformBox: "fill-box",
@@ -362,11 +362,7 @@ function MarkArtwork() {
 
 function ImpactBurst() {
   return (
-    <svg
-      viewBox="0 0 113 104"
-      fill="none"
-      className="absolute inset-0 h-full w-full overflow-visible"
-    >
+    <svg viewBox="0 0 113 104" fill="none" className="absolute inset-0 size-full  overflow-visible">
       <ImpactTriangle points="112,24 127,4 134,11" />
       <ImpactTriangle points="100,0 106,-14 114,-10" />
       <ImpactTriangle points="113,45 133,38 135,46" />
@@ -381,7 +377,7 @@ function ImpactTriangle({ points }: { points: string }) {
     <g
       data-impact-shard
       opacity={0}
-      className="group-data-[playing]/logo-snap:will-change-transform"
+      className="group-data-playing/logo-snap:will-change-transform"
       style={{
         transform: "scale(0.7)",
         transformBox: "fill-box",

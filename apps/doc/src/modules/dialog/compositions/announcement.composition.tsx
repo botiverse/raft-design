@@ -35,7 +35,7 @@ function AnnouncementDialogParts() {
             aria-hidden="true"
             className={cn(
               "inline-flex size-6 shrink-0 items-center justify-center text-black",
-              isBrutal ? "border-2 border-line-strong" : "rounded",
+              isBrutal ? "border-2 border-line-strong" : "rounded-sm",
               isBrutal ? "bg-layer-panel" : "bg-primary-200",
             )}
           >

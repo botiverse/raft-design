@@ -241,11 +241,11 @@ function AttachmentTile({
       <ComposerAttachmentFile>
         <FilePreview className="h-[46px]">
           <FilePreviewDocument
-            className={state === "uploading" ? "h-[46px] !shadow-none !ring-0" : "h-[46px]"}
+            className={state === "uploading" ? "h-[46px] shadow-none! ring-0!" : "h-[46px]"}
           />
           <FilePreviewBadge
             type="pdf"
-            className={state === "uploading" ? "!shadow-none" : undefined}
+            className={state === "uploading" ? "shadow-none!" : undefined}
           >
             PDF
           </FilePreviewBadge>

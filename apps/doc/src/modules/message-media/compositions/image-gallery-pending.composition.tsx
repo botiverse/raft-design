@@ -20,7 +20,7 @@ export function MessageImageGalleryPendingComposition() {
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
               alt="attachment preview uploading"
-              className="block h-full w-full object-contain"
+              className="block size-full  object-contain"
             />
           </MessageImageGalleryMedia>
           <MessageImageGalleryOverlay>

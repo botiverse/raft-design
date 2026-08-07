@@ -13,7 +13,7 @@ export function TaskCardStateGallery() {
       </div>
       <div
         ref={portalRef}
-        className="pointer-events-none absolute inset-0 z-50 [&>*]:pointer-events-auto"
+        className="pointer-events-none absolute inset-0 z-50 *:pointer-events-auto"
       />
     </div>
   );

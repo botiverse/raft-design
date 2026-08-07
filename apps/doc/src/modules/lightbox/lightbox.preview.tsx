@@ -113,7 +113,7 @@ export function LightboxPreview() {
           >
             <ChevronRight />
           </LightboxNavigationButton>
-          <LightboxMedia className="flex aspect-[4/3] w-[min(76vw,720px)] items-center justify-center">
+          <LightboxMedia className="flex aspect-4/3 w-[min(76vw,720px)] items-center justify-center">
             <img
               src={currentImage.src}
               alt={currentImage.filename}

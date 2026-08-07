@@ -85,7 +85,7 @@ export function MemberDetailComposition() {
                   <DescriptionTerm>
                     Role
                     <CircleHelp
-                      className="size-3 shrink-0 text-foreground-icon [[data-theme=brutal]_&]:text-black/35"
+                      className="size-3 shrink-0 text-foreground-icon in-data-[theme=brutal]:text-black/35"
                       aria-hidden
                     />
                   </DescriptionTerm>
@@ -112,7 +112,7 @@ export function MemberDetailComposition() {
             <MemberDetailSection title="Created agents" count={1}>
               <SidebarItem
                 disabled
-                className="[[data-theme=brutal]_&]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
+                className="in-data-[theme=brutal]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
               >
                 <SidebarItemIcon className="size-8">
                   <Avatar size="sm" type="agent">
@@ -166,7 +166,7 @@ function MemberDetailSection({
           <h3>
             {title}
             {count === undefined ? null : (
-              <span className="font-mono text-foreground-placeholder [[data-theme=brutal]_&]:text-black/40">
+              <span className="font-mono text-foreground-placeholder in-data-[theme=brutal]:text-black/40">
                 {count}
               </span>
             )}

@@ -111,7 +111,7 @@ export function TaskBoardComposition({
     activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
 
   return (
-    <ScrollArea ref={portalRef} className="relative h-full min-h-0 w-full min-w-0">
+    <ScrollArea ref={portalRef} className="relative size-full min-h-0  min-w-0">
       <ScrollAreaViewport className="p-4">
         <ScrollAreaContent className="min-w-max">
           <TaskDndProvider

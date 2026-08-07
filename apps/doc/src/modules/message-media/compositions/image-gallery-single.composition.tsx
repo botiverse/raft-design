@@ -34,7 +34,7 @@ export function MessageImageGallerySingleComposition({
           style={{ width: "min(288px, 100%)", aspectRatio: "4 / 3" }}
         >
           <MessageImageGalleryMedia>
-            <img src={src} alt={alt} className="block h-full w-full object-contain" />
+            <img src={src} alt={alt} className="block size-full  object-contain" />
           </MessageImageGalleryMedia>
           {onPreview ? (
             <MessageImageGalleryPreview

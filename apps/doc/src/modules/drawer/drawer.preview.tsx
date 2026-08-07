@@ -40,13 +40,13 @@ export function DrawerPreview({ swipeDirection, triggerLabel }: DrawerPreviewPro
             <div className="min-w-0">
               <Text.Sans
                 size="small"
-                className="font-medium text-foreground [[data-theme=brutal]_&]:text-black"
+                className="font-medium text-foreground in-data-[theme=brutal]:text-black"
               >
                 #design-system
               </Text.Sans>
               <Text.Sans
                 size="caption"
-                className="mt-0.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+                className="mt-0.5 text-foreground-muted in-data-[theme=brutal]:text-black/60"
               >
                 Joined June 12, 2026
               </Text.Sans>

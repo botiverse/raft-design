@@ -123,14 +123,14 @@ export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineL
           role="img"
           aria-label="Raft"
           data-playing={playing || undefined}
-          className="group/logo-shine relative aspect-[422/104] w-[min(72%,10rem)]"
+          className="group/logo-shine relative aspect-422/104 w-[min(72%,10rem)]"
           style={shineStyle}
         >
           <div
             ref={logoRef}
-            className="h-full w-full group-data-[playing]/logo-shine:will-change-[filter]"
+            className="size-full  group-data-playing/logo-shine:will-change-[filter]"
           >
-            <RaftLogoLockup aria-hidden className="h-full w-full" />
+            <RaftLogoLockup aria-hidden className="size-full " />
           </div>
 
           <div
@@ -149,11 +149,11 @@ export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineL
           >
             <div
               ref={sweepRef}
-              className="absolute inset-0 opacity-0 group-data-[playing]/logo-shine:will-change-transform"
+              className="absolute inset-0 opacity-0 group-data-playing/logo-shine:will-change-transform"
               style={{ transform: "translateX(-80%)" }}
             >
               <div
-                className="absolute top-[-55%] left-[10%] h-[210%] w-[80%] rotate-[12deg]"
+                className="absolute top-[-55%] left-[10%] h-[210%] w-[80%] rotate-12"
                 style={{
                   background:
                     "linear-gradient(90deg, transparent 27%, oklch(1 0 0 / 0.04) 36%, oklch(1 0 0 / 0.16) 43%, oklch(1 0 0 / 0.62) 49%, oklch(1 0 0 / 0.72) 50%, oklch(1 0 0 / 0.46) 52%, oklch(1 0 0 / 0.12) 58%, transparent 70%), linear-gradient(90deg in oklch, color-mix(in oklch, var(--logo-shine-primary) 0%, transparent) 0%, color-mix(in oklch, var(--logo-shine-primary) 8%, transparent) 12%, color-mix(in oklch, var(--logo-shine-primary) 26%, transparent) 26%, color-mix(in oklch, var(--logo-shine-primary) 48%, transparent) 40%, color-mix(in oklch, var(--logo-shine-primary) 68%, transparent) 50%, color-mix(in oklch, var(--logo-shine-primary) 48%, transparent) 60%, color-mix(in oklch, var(--logo-shine-primary) 26%, transparent) 74%, color-mix(in oklch, var(--logo-shine-primary) 8%, transparent) 88%, color-mix(in oklch, var(--logo-shine-primary) 0%, transparent) 100%)",

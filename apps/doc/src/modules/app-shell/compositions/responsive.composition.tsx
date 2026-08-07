@@ -18,7 +18,7 @@ export function AppShellResponsiveComposition() {
       </AppShellRailSlot>
 
       <AppShellSidebarSlot className="in-data-[theme=brutal]:border-r-2 in-data-[theme=brutal]:border-black">
-        <div className="w-60 [[data-theme=elegant]_&]:w-[252px]">Conversation list</div>
+        <div className="w-60 in-data-[theme=elegant]:w-[252px]">Conversation list</div>
       </AppShellSidebarSlot>
 
       <AppShellMainSlot>

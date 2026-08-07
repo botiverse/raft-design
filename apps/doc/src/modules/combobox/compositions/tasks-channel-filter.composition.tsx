@@ -31,7 +31,7 @@ export function TasksChannelFilterComposition() {
   const [selectedChannels, setSelectedChannels] = useState<Channel[]>([channels[0]]);
 
   return (
-    <div className="relative flex h-full min-h-56 w-full items-start justify-center pt-8">
+    <div className="relative flex size-full min-h-56  items-start justify-center pt-8">
       <Combobox<Channel, true>
         open
         multiple
@@ -76,7 +76,7 @@ export function TasksChannelFilterComposition() {
               <ComboboxItem key={channel.id} value={channel}>
                 <span className="flex min-w-0 items-center gap-1.5">
                   <span className="flex size-4 shrink-0 items-center justify-center">
-                    <Hash className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                    <Hash className="text-foreground-muted in-data-[theme=brutal]:text-black/50" />
                   </span>
                   <span className="truncate leading-6">{channel.label}</span>
                 </span>

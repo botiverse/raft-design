@@ -38,7 +38,7 @@ export function MemberInfoComposition({ direction = "vertical" }: MemberInfoComp
             type="button"
             variant="ghost"
             size="icon-xs"
-            className="text-foreground-icon [[data-theme=brutal]_&]:text-black/35"
+            className="text-foreground-icon in-data-[theme=brutal]:text-black/35"
             aria-label="Explain member roles"
             aria-pressed={showRoleHelp}
             onClick={() => setShowRoleHelp((visible) => !visible)}
@@ -70,13 +70,13 @@ export function MemberInfoComposition({ direction = "vertical" }: MemberInfoComp
       </DescriptionItem>
       <DescriptionItem>
         <DescriptionTerm>Email</DescriptionTerm>
-        <DescriptionDetails className="break-all font-mono [[data-theme=elegant]_&]:font-sans">
+        <DescriptionDetails className="break-all font-mono in-data-[theme=elegant]:font-sans">
           cali@zolplay.com
         </DescriptionDetails>
       </DescriptionItem>
       <DescriptionItem>
         <DescriptionTerm>Joined</DescriptionTerm>
-        <DescriptionDetails className="font-mono [[data-theme=elegant]_&]:font-sans">
+        <DescriptionDetails className="font-mono in-data-[theme=elegant]:font-sans">
           May 27, 2026
         </DescriptionDetails>
       </DescriptionItem>

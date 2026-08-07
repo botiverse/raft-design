@@ -50,10 +50,10 @@ const resetModeOption = tv({
       elegant: {
         card: [
           "gap-2.5 rounded-md bg-layer-panel p-3.5",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-muted)]",
-          "hover:bg-foreground-strong/[0.04]",
-          "has-[[data-slot=radio-group-item][data-checked]]:bg-foreground-strong/[0.04]",
-          "has-[[data-slot=radio-group-item][data-checked]]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.05),0_0_0_1px_oklch(0_0_0_/_0.14)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.035),0_0_0_1px_var(--line-muted)]",
+          "hover:bg-foreground-strong/4",
+          "has-[[data-slot=radio-group-item][data-checked]]:bg-foreground-strong/4",
+          "has-[[data-slot=radio-group-item][data-checked]]:shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.05),0_0_0_1px_oklch(0_0_0/0.14)]",
           "has-[[data-slot=radio-group-item][data-disabled]]:bg-fill-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-[0_0_0_1px_var(--line-muted)]",
         ],
         label: "text-[13px] font-medium tracking-[-0.005em]",

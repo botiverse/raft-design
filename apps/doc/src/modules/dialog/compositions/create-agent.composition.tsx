@@ -78,7 +78,7 @@ function CreateAgentDialogParts() {
         <div
           className={cn(
             "grid gap-2 rounded-md border border-line-muted bg-layer-panel p-3 shadow-none",
-            "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-line-strong [[data-theme=brutal]_&]:bg-layer-panel [[data-theme=brutal]_&]:shadow-raft-sm",
+            "in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-line-strong in-data-[theme=brutal]:bg-layer-panel in-data-[theme=brutal]:shadow-raft-sm",
           )}
         >
           <div className="flex items-center justify-between gap-3">
@@ -87,7 +87,7 @@ function CreateAgentDialogParts() {
             </span>
             <span className="font-mono text-xs text-foreground-muted">codex</span>
           </div>
-          <div className="flex items-center justify-between gap-3 border-t border-line-muted pt-2 [[data-theme=brutal]_&]:border-black/15">
+          <div className="flex items-center justify-between gap-3 border-t border-line-muted pt-2 in-data-[theme=brutal]:border-black/15">
             <span className="text-sm font-medium text-foreground [[data-theme=brutal]_&]:font-bold">
               Model
             </span>
@@ -97,7 +97,7 @@ function CreateAgentDialogParts() {
             type="button"
             variant="link"
             size="sm"
-            className="mt-1 justify-self-start px-0 text-xs underline underline-offset-2 [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-foreground"
+            className="mt-1 justify-self-start px-0 text-xs underline underline-offset-2 [[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:text-foreground"
           >
             Advanced environment
           </Button>

@@ -15,7 +15,7 @@ const appRailServerButton = tv({
     "disabled:pointer-events-none disabled:opacity-45",
     "[@media(max-height:600px)]:size-9",
     "[&_img]:size-full [&_img]:min-h-0 [&_img]:min-w-0 [&_img]:object-cover",
-    "[&_[data-slot=app-rail-item-indicator]]:z-10",
+    "**:data-[slot=app-rail-item-indicator]:z-10",
   ],
   variants: {
     theme: {

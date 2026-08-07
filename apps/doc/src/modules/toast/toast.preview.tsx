@@ -57,7 +57,7 @@ export function ToastPlaygroundPreview({ code }: ToastPlaygroundPreviewProps) {
           key={`${mode}-${side}-${align}`}
           controls
           demoOptions={demoOptions}
-          className="h-full min-h-84 w-full"
+          className="size-full min-h-84 "
         />
       </Preview.Canvas>
       <Preview.Controls>

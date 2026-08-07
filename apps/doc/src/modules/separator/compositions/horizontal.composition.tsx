@@ -6,7 +6,7 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 
 export function SeparatorHorizontalContent() {
   return (
-    <div className="grid w-56 gap-3 [[data-theme=elegant]_&]:text-foreground-muted">
+    <div className="grid w-56 gap-3 in-data-[theme=elegant]:text-foreground-muted">
       <Text.Sans size="small">Channel settings</Text.Sans>
       <Separator />
       <Text.Sans size="small">Visibility actions</Text.Sans>

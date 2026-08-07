@@ -49,7 +49,7 @@ export function RemoteHumanComposition() {
             <ProfilePanelSection className="border-t-0 py-3">
               <DescriptionList>
                 <DescriptionItem>
-                  <DescriptionTerm className="[[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:uppercase [[data-theme=brutal]_&]:tracking-widest">
+                  <DescriptionTerm className="[[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:uppercase [[data-theme=brutal]_&]:tracking-widest">
                     From
                   </DescriptionTerm>
                   <DescriptionDetails className="font-medium [[data-theme=brutal]_&]:font-bold">
@@ -82,7 +82,7 @@ export function RemoteHumanComposition() {
             <ProfilePanelSection>
               <DescriptionList>
                 <DescriptionItem>
-                  <DescriptionTerm className="[[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:uppercase [[data-theme=brutal]_&]:tracking-widest">
+                  <DescriptionTerm className="[[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:uppercase [[data-theme=brutal]_&]:tracking-widest">
                     Description
                   </DescriptionTerm>
                   <DescriptionDetails className="italic text-foreground-placeholder">

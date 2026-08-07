@@ -16,7 +16,7 @@ function ShellRegion({ children, className }: { children: ReactNode; className: 
   return (
     <div
       className={cn(
-        "flex h-full min-h-0 w-full min-w-0 items-center justify-center px-2 text-center font-mono text-xs font-semibold uppercase tracking-wide",
+        "flex size-full min-h-0  min-w-0 items-center justify-center px-2 text-center font-mono text-xs font-semibold uppercase tracking-wide",
         className,
       )}
     >
@@ -63,10 +63,10 @@ export function AppShellCollapsibleSidebarComposition() {
           <ResizablePanel
             id="app-shell-collapsible-main"
             minSize={360}
-            className="relative !overflow-visible"
+            className="relative overflow-visible!"
           >
             <AppShellMainSlot className="flex h-full min-w-0 flex-1">
-              <div className="flex h-full w-full flex-col bg-primary-100 text-primary-950">
+              <div className="flex size-full  flex-col bg-primary-100 text-primary-950">
                 <header className="flex h-12 shrink-0 items-center gap-3 border-b border-line-strong px-3">
                   <SidebarTrigger />
                   <span className="font-mono text-xs font-semibold uppercase tracking-wide">

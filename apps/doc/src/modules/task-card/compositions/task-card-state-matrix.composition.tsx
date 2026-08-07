@@ -62,7 +62,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled={false}
                   aria-label="Edit status for task #142"
-                  className="ml-auto [[data-theme=brutal]_&]:hidden"
+                  className="ml-auto in-data-[theme=brutal]:hidden"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -125,7 +125,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled={false}
                   aria-label="Edit status for task #139"
-                  className="ml-auto [[data-theme=brutal]_&]:hidden"
+                  className="ml-auto in-data-[theme=brutal]:hidden"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -193,7 +193,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled={false}
                   aria-label="Edit status for task #126"
-                  className="ml-auto [[data-theme=brutal]_&]:hidden"
+                  className="ml-auto in-data-[theme=brutal]:hidden"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -243,7 +243,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled
                   aria-label="Edit status for task #142"
-                  className="ml-auto [[data-theme=brutal]_&]:hidden"
+                  className="ml-auto in-data-[theme=brutal]:hidden"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -291,7 +291,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled
                   aria-label="Edit status for task #137"
-                  className="ml-auto [[data-theme=brutal]_&]:hidden"
+                  className="ml-auto in-data-[theme=brutal]:hidden"
                 >
                   <EllipsisVertical />
                 </Button>
@@ -348,7 +348,7 @@ export function TaskCardStateMatrixComposition({
                   size="icon-xs"
                   disabled={false}
                   aria-label="Edit status for task #121"
-                  className="ml-auto [[data-theme=brutal]_&]:hidden"
+                  className="ml-auto in-data-[theme=brutal]:hidden"
                 >
                   <EllipsisVertical />
                 </Button>

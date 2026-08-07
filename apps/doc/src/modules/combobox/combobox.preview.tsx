@@ -50,7 +50,7 @@ export function PreviewCombobox() {
           <ComboboxControl>
             <Sparkles
               aria-hidden
-              className="text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+              className="text-foreground-muted in-data-[theme=brutal]:text-black/60"
             />
             <ComboboxInput
               aria-label="Search models"
@@ -63,11 +63,7 @@ export function PreviewCombobox() {
             </ComboboxTriggerIndicator>
           </ComboboxControl>
         </Field>
-        <ComboboxContent
-          initialFocus={false}
-          finalFocus={false}
-          className="w-[var(--anchor-width)]"
-        >
+        <ComboboxContent initialFocus={false} finalFocus={false} className="w-(--anchor-width)">
           <ComboboxModelList />
         </ComboboxContent>
       </Combobox>

@@ -9,7 +9,7 @@ export function MessageImageGalleryGeometryComposition() {
             <img
               src="/raft-logo.svg"
               alt="Wide Raft logo fixture"
-              className="block h-full w-full object-contain"
+              className="block size-full  object-contain"
             />
           </MessageImageGalleryMedia>
         </MessageImageGalleryItem>
@@ -20,7 +20,7 @@ export function MessageImageGalleryGeometryComposition() {
             <img
               src="/message-fixtures/tall-diagram.svg"
               alt="Tall diagram fixture"
-              className="block h-full w-full object-contain"
+              className="block size-full  object-contain"
             />
           </MessageImageGalleryMedia>
         </MessageImageGalleryItem>

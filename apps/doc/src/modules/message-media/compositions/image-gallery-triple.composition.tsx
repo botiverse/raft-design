@@ -10,7 +10,7 @@ export function MessageImageGalleryTripleComposition() {
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
               alt="release poster first crop"
-              className="block h-full w-full object-cover"
+              className="block size-full  object-cover"
             />
           </MessageImageGalleryMedia>
         </MessageImageGalleryItem>
@@ -19,7 +19,7 @@ export function MessageImageGalleryTripleComposition() {
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
               alt="release poster second crop"
-              className="block h-full w-full object-cover"
+              className="block size-full  object-cover"
             />
           </MessageImageGalleryMedia>
         </MessageImageGalleryItem>
@@ -28,7 +28,7 @@ export function MessageImageGalleryTripleComposition() {
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
               alt="release poster third crop"
-              className="block h-full w-full object-cover"
+              className="block size-full  object-cover"
             />
           </MessageImageGalleryMedia>
         </MessageImageGalleryItem>

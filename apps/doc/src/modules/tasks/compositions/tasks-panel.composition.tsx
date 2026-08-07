@@ -102,7 +102,7 @@ export function TasksPanelComposition({
   };
 
   return (
-    <div ref={portalRef} className="relative flex h-full min-h-0 w-full min-w-0">
+    <div ref={portalRef} className="relative flex size-full min-h-0  min-w-0">
       <TasksPanelRoot aria-label="Tasks panel">
         <TasksPanelToolbar>
           <TasksPanelToolbarFilters>

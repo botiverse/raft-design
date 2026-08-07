@@ -55,7 +55,7 @@ export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
             : "Open this page in Safari first, then add it to your Home Screen."}
         </DrawerDescription>
         {isSafari ? (
-          <div className="mt-6 rounded-md bg-layer-panel p-2 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream">
+          <div className="mt-6 rounded-md bg-layer-panel p-2 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black in-data-[theme=brutal]:bg-brutal-cream">
             <img
               src="/pwa/ios-add-to-home-screen-3step.svg"
               alt="Three steps: tap Safari Share, choose Add to Home Screen, then tap Add."
@@ -75,7 +75,7 @@ export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
         <DrawerActions
           className={
             isSafari
-              ? "w-full max-w-64 grid-cols-1 [&_[data-slot=button]]:w-full"
+              ? "w-full max-w-64 grid-cols-1 **:data-[slot=button]:w-full"
               : "w-full max-w-[24rem]"
           }
         >

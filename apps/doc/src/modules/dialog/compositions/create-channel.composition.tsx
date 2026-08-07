@@ -108,14 +108,14 @@ function CreateChannelDialogParts() {
             itemToStringLabel={(member) => member.name}
           >
             <ComboboxControl className="w-full">
-              <Search className="text-foreground-muted [[data-theme=brutal]_&]:!stroke-2 [[data-theme=brutal]_&_*]:!stroke-2" />
+              <Search className="text-foreground-muted in-data-[theme=brutal]:stroke-2! [[data-theme=brutal]_&_*]:stroke-2!" />
               <ComboboxInput
                 aria-label="Search members"
                 placeholder="Search members by name"
                 suppressPasswordManager
               />
             </ComboboxControl>
-            <ComboboxContent className="w-[var(--anchor-width)]">
+            <ComboboxContent className="w-(--anchor-width)">
               <ComboboxList className="max-h-none">
                 {(member: DialogMember) => (
                   <ComboboxItem key={member.id} value={member}>

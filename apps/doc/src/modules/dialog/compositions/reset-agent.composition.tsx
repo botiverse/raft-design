@@ -81,16 +81,16 @@ function ResetModeOption({
         isBrutal
           ? [
               "block border-2 border-line-muted bg-layer-panel p-4",
-              "has-[[data-checked]]:border-line-strong",
-              "has-[[data-checked]]:shadow-raft-sm",
+              "has-data-checked:border-line-strong",
+              "has-data-checked:shadow-raft-sm",
               resetModeSelectedClassName(tone),
             ]
           : [
               "group/reset-option flex w-full items-start gap-2.5 rounded-md bg-layer-panel p-3.5 text-left",
-              "shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.035),0_0_0_1px_var(--line-muted)]",
-              "hover:bg-foreground-strong/[0.04]",
-              "has-[[data-checked]]:bg-foreground-strong/[0.04]",
-              "has-[[data-checked]]:shadow-[inset_0_1px_0.5px_oklch(1_0_0_/_0.05),0_1px_1.5px_-1px_oklch(0_0_0_/_0.05),0_0_0_1px_var(--line-field-hover)]",
+              "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.035),0_0_0_1px_var(--line-muted)]",
+              "hover:bg-foreground-strong/4",
+              "has-data-checked:bg-foreground-strong/4",
+              "has-data-checked:shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.05),0_0_0_1px_var(--line-field-hover)]",
             ],
       )}
     >

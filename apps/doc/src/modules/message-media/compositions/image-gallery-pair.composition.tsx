@@ -21,7 +21,7 @@ export function MessageImageGalleryPairComposition() {
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
               alt="release poster"
-              className="block h-full w-full object-cover"
+              className="block size-full  object-cover"
             />
           </MessageImageGalleryMedia>
           <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
@@ -37,7 +37,7 @@ export function MessageImageGalleryPairComposition() {
             <img
               src={MESSAGE_FIXTURE_IMAGE_SRC}
               alt="release poster detail"
-              className="block h-full w-full object-cover"
+              className="block size-full  object-cover"
             />
           </MessageImageGalleryMedia>
           <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />

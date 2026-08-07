@@ -52,7 +52,7 @@ function AgreementDialogParts() {
             isElegant && "max-h-none overflow-visible border-0 bg-transparent p-0",
           )}
         >
-          <ul className="m-0 list-disc space-y-1 pl-5 whitespace-pre-wrap break-words">
+          <ul className="m-0 list-disc space-y-1 pl-5 whitespace-pre-wrap wrap-break-word">
             <li>Keep sensitive customer data out of public channels.</li>
             <li>Use design-system components for shared product surfaces.</li>
             <li>Report unsafe automation or missing audit context immediately.</li>

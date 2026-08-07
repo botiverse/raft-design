@@ -88,7 +88,7 @@ export const TaskCardComposition = memo(function TaskCardComposition({
                   size="icon-xs"
                   disabled={disabled || busy || !onStatusChange}
                   aria-label={`Edit status for task #${task.taskNumber}`}
-                  className="ml-auto [[data-theme=brutal]_&]:hidden"
+                  className="ml-auto in-data-[theme=brutal]:hidden"
                 >
                   <EllipsisVertical />
                 </Button>
