@@ -38,7 +38,7 @@ export function AppShellCollapsibleSidebarComposition() {
   return (
     <div className="w-full overflow-x-auto">
       <AppShellRoot sidebarCollapsible className="h-[420px] min-w-[860px]">
-        <AppShellRailSlot className="flex md:flex">
+        <AppShellRailSlot className="flex md:flex in-data-[theme=brutal]:border-r-2 in-data-[theme=brutal]:border-black">
           <ShellRegion className="w-16 bg-primary-300 text-primary-950 [[data-theme=elegant]_&]:w-14">
             Rail
           </ShellRegion>
@@ -53,7 +53,7 @@ export function AppShellCollapsibleSidebarComposition() {
             groupResizeBehavior="preserve-pixel-size"
             className="relative min-w-0"
           >
-            <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1">
+            <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1 in-data-[theme=brutal]:border-r-2 in-data-[theme=brutal]:border-black">
               <ShellRegion className="bg-accent-200 text-accent-950">Sidebar</ShellRegion>
             </AppShellSidebarSlot>
           </ResizablePanel>

@@ -79,7 +79,7 @@ export function PlaygroundBrowseShell() {
               groupResizeBehavior="preserve-pixel-size"
               className="relative min-w-0"
             >
-              <AppShellSidebarSlot className="relative flex h-full min-w-0 w-auto flex-1">
+              <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1 in-data-[theme=brutal]:border-r-2 in-data-[theme=brutal]:border-black">
                 {sidebar}
               </AppShellSidebarSlot>
             </ResizablePanel>

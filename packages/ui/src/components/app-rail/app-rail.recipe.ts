@@ -27,7 +27,7 @@ export const appRail = tv({
   variants: {
     theme: {
       brutal: {
-        root: "w-16 bg-primary text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
+        root: "w-16 border-r-2 border-black bg-primary text-foreground-strong md:[@media(max-height:600px)]:w-[50px]",
         header:
           "h-[var(--shell-header-height,62px)] border-b-2 border-black [@media(max-height:600px)]:h-12",
         footer: "h-auto pb-2 [@media(max-height:600px)]:pb-1",

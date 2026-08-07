@@ -34,13 +34,9 @@ const appShell = tv({
     theme: {
       brutal: {
         root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black max-md:bg-white"],
-        railSlot: "border-r-2 border-black",
-        sidebarSlot: "border-r-2 border-black",
       },
       elegant: {
         root: ["[--shell-header-height:56px]", "bg-layer-canvas-muted"],
-        railSlot: "border-r-[0.5px] border-line-hairline",
-        sidebarSlot: "border-r-[0.5px] border-line-hairline",
       },
     },
     overlay: {
