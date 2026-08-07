@@ -135,7 +135,7 @@ function ViewportFrame({
         ) : (
           <>
             <div
-              className="absolute inset-0 z-[5] [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
+              className="absolute inset-0 z-5 in-data-[theme=elegant]:backdrop-blur-[1.5px]"
               style={{ backgroundColor: "var(--layer-backdrop)" }}
             />
             <div className={sheetClassName}>{children}</div>
@@ -185,7 +185,7 @@ function LeaveChannelContent() {
       <div className="flex flex-1 flex-col items-center px-6 pt-4 pb-6 text-center">
         <Text.Sans
           size="small"
-          className="max-w-sm text-pretty text-center text-foreground-strong/60 [[data-theme=brutal]_&]:text-black/60"
+          className="max-w-sm text-pretty text-center text-foreground-strong/60 in-data-[theme=brutal]:text-black/60"
         >
           You can rejoin anytime from the directory.
         </Text.Sans>
@@ -196,13 +196,13 @@ function LeaveChannelContent() {
           <div className="min-w-0">
             <Text.Sans
               size="small"
-              className="font-medium text-foreground [[data-theme=brutal]_&]:text-black"
+              className="font-medium text-foreground in-data-[theme=brutal]:text-black"
             >
               #design-system
             </Text.Sans>
             <Text.Sans
               size="caption"
-              className="mt-0.5 text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+              className="mt-0.5 text-foreground-muted in-data-[theme=brutal]:text-black/60"
             >
               Joined June 12, 2026
             </Text.Sans>

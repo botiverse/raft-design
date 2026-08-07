@@ -94,7 +94,7 @@ function SpinnerPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>
   return (
     <Preview>
       <Preview.Canvas>
-        <div className={`rounded px-4 py-3 ${variantClassName}`}>
+        <div className={`rounded-sm px-4 py-3 ${variantClassName}`}>
           <Spinner size={size} variant={variant} />
         </div>
       </Preview.Canvas>
@@ -162,10 +162,10 @@ function SpinnerDoc() {
               <Preview.Canvas>
                 <div className="flex items-center gap-3">
                   <Spinner className="text-accent-600 dark:text-accent-400" />
-                  <div className="rounded bg-info-soft p-3">
+                  <div className="rounded-sm bg-info-soft p-3">
                     <Spinner className="text-info-strong" />
                   </div>
-                  <div className="rounded bg-layer-hud p-3">
+                  <div className="rounded-sm bg-layer-hud p-3">
                     <Spinner className="text-accent-300" variant="inverse" />
                   </div>
                 </div>

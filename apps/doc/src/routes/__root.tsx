@@ -144,11 +144,11 @@ function RootDocument({ children }: { children: ReactNode }) {
                 className={
                   isStandalonePage
                     ? cn(
-                        "h-full pl-[var(--sidebar-w)]",
+                        "h-full pl-(--sidebar-w)",
                         usesPlaygroundDocumentScroll &&
                           "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
                       )
-                    : "min-h-screen pl-[var(--sidebar-w)]"
+                    : "min-h-screen pl-(--sidebar-w)"
                 }
               >
                 {children}

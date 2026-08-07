@@ -81,7 +81,7 @@ export function Toc({ items }: { items: readonly TocItem[] }) {
   }, [items]);
 
   return (
-    <aside className="pointer-events-none fixed inset-y-0 right-0 z-30 hidden h-screen w-[var(--toc-w)] px-5 py-6 xl:block">
+    <aside className="pointer-events-none fixed inset-y-0 right-0 z-30 hidden h-screen w-(--toc-w) px-5 py-6 xl:block">
       <nav className="pointer-events-auto max-h-full overflow-y-auto">
         <p className="mb-4 text-[13px] font-medium text-foreground">On this page</p>
         <TocEntries items={resolvedItems} />

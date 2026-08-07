@@ -649,9 +649,7 @@ function TypographySpecRow({ spec }: { spec: TypographySpec }) {
         </p>
         {metaItems.length > 0 ? <TypographySpecMeta items={metaItems} /> : null}
       </div>
-      <div className="mt-[60px] min-w-0 overflow-x-auto text-[var(--foreground)]">
-        {spec.preview}
-      </div>
+      <div className="mt-[60px] min-w-0 overflow-x-auto text-foreground">{spec.preview}</div>
     </div>
   );
 }
@@ -665,8 +663,8 @@ function SpecimenCard({ family }: { family: (typeof FAMILIES)[number] }) {
           className="grid min-w-0 items-end gap-x-10 gap-y-6 pt-7 pb-3.5 md:grid-cols-[9rem_minmax(0,1fr)_9rem]"
         >
           <div className="grid min-w-0 content-end gap-1 pb-1">
-            <p className="text-sm font-medium text-[var(--foreground)]">{sample.title}</p>
-            <p className="text-xs text-[var(--foreground-muted)]">{sample.family}</p>
+            <p className="text-sm font-medium text-foreground">{sample.title}</p>
+            <p className="text-xs text-foreground-muted">{sample.family}</p>
           </div>
           <div className="min-w-0 overflow-x-auto pb-1">
             <p className={`${sample.className} whitespace-nowrap`}>{SAMPLE_TEXT}</p>

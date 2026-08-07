@@ -27,7 +27,7 @@ export function CompositionPreview({
   return (
     <div
       className={cn(
-        "flex h-full min-h-28 w-full min-w-0 items-center justify-center px-3 py-4",
+        "flex size-full min-h-28  min-w-0 items-center justify-center px-3 py-4",
         className,
       )}
     >
@@ -78,7 +78,7 @@ export function CompositionModalPreview({
       >
         {backdrop ? (
           <div
-            className="absolute inset-0 z-0 [[data-theme=elegant]_&]:backdrop-blur-[1.5px]"
+            className="absolute inset-0 z-0 in-data-[theme=elegant]:backdrop-blur-[1.5px]"
             style={{ backgroundColor: "var(--layer-backdrop)" }}
           />
         ) : null}

@@ -193,7 +193,7 @@ function ThemeScaleCard({ theme }: { theme: (typeof THEME_PREVIEWS)[number] }) {
           <div key={shadow.sourceToken} className="flex h-28 items-center justify-center">
             <div
               className={`flex h-16 w-24 items-center justify-center text-xs font-normal ${
-                isBrutal ? "rounded-none" : "rounded"
+                isBrutal ? "rounded-none" : "rounded-sm"
               }`}
               style={{
                 background: isBrutal ? "var(--layer-panel)" : "var(--fill-muted)",
@@ -217,7 +217,7 @@ function ShadowValue({ value, label }: { value: string; label?: string }) {
       {label ? (
         <p className="mb-0.5 font-mono text-[11px] text-foreground-placeholder">{label}</p>
       ) : null}
-      <p className="break-words font-mono text-xs leading-relaxed text-gray-600">{value}</p>
+      <p className="wrap-break-word font-mono text-xs leading-relaxed text-gray-600">{value}</p>
     </div>
   );
 }

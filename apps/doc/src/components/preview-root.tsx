@@ -51,7 +51,7 @@ export function PreviewRoot({
       className={
         isDesktop
           ? "h-full bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8 dark:bg-layer-card"
-          : "border-t border-[oklch(0_0_0_/_0.10)] bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8 dark:border-ink-10 dark:bg-layer-card"
+          : "border-t border-[oklch(0_0_0/0.10)] bg-[oklch(0.988_0.002_106.42)] px-8 pt-6 pb-8 dark:border-ink-10 dark:bg-layer-card"
       }
     >
       {controls}
@@ -71,7 +71,7 @@ export function PreviewRoot({
               >
                 {canvasNode}
               </ResizablePanel>
-              <ResizableHandle className="ml-0 mr-0 w-0 border-l border-[oklch(0_0_0_/_0.10)] bg-transparent before:opacity-0 hover:bg-transparent focus-visible:before:opacity-100 focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-ink-10" />
+              <ResizableHandle className="ml-0 mr-0 w-0 border-l border-[oklch(0_0_0/0.10)] bg-transparent before:opacity-0 hover:bg-transparent focus-visible:before:opacity-100 focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-ink-10" />
               <ResizablePanel
                 id="preview-controls"
                 defaultSize={PREVIEW_CONTROLS_DEFAULT_SIZE}
@@ -93,7 +93,7 @@ export function PreviewRoot({
           canvasNode
         )}
         {code ? (
-          <div className="border-t border-[oklch(0_0_0_/_0.10)] bg-white dark:border-transparent dark:bg-transparent">
+          <div className="border-t border-[oklch(0_0_0/0.10)] bg-white dark:border-transparent dark:bg-transparent">
             {code}
           </div>
         ) : null}

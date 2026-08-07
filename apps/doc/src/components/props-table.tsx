@@ -46,9 +46,9 @@ export function PropsTable({
           {rows.map((row) => (
             <tr key={row.name} className="border-b border-line-muted align-top">
               <td className="py-3 pr-6 align-top">
-                <InlineCode className="[overflow-wrap:anywhere]">{row.name}</InlineCode>
+                <InlineCode className="wrap-anywhere">{row.name}</InlineCode>
               </td>
-              <td className="py-3 pr-6 font-mono text-xs text-info-strong align-top [overflow-wrap:anywhere]">
+              <td className="py-3 pr-6 font-mono text-xs text-info-strong align-top wrap-anywhere">
                 {row.type}
               </td>
               <td className="py-3 pr-6 font-mono text-xs whitespace-nowrap text-foreground-muted align-top">

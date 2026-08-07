@@ -719,7 +719,7 @@ export function Sidebar() {
   return (
     <>
       <MobileSidebar />
-      <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-[var(--sidebar-w)] overflow-y-auto px-5 py-6 [scrollbar-width:none] lg:block [&::-webkit-scrollbar]:hidden">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) overflow-y-auto px-5 py-6 scrollbar-none lg:block [&::-webkit-scrollbar]:hidden">
         <Link to="/" className="flex items-center gap-2 text-foreground">
           <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
         </Link>

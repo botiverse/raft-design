@@ -851,7 +851,7 @@ function ComboboxPreview() {
           <ComboboxControl>
             <Sparkles
               aria-hidden
-              className="text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+              className="text-foreground-muted in-data-[theme=brutal]:text-black/60"
             />
             <ComboboxInput
               aria-label="Search models"
@@ -1073,7 +1073,7 @@ function PopoverPreview() {
             <PopoverDescription>
               Mix channels, people, and quoted phrases to narrow message history.
             </PopoverDescription>
-            <div className="grid gap-1 rounded-sm bg-foreground-strong/[0.04] px-2 py-2 font-mono text-xs text-foreground-strong/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
+            <div className="grid gap-1 rounded-sm bg-foreground-strong/4 px-2 py-2 font-mono text-xs text-foreground-strong/60 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border in-data-[theme=brutal]:border-black/10 in-data-[theme=brutal]:bg-brutal-yellow/20 in-data-[theme=brutal]:text-black/70">
               <span className="truncate">#design "token audit"</span>
               <span className="truncate">@atlas migration notes</span>
             </div>
@@ -1101,7 +1101,7 @@ function PreviewCardPreview() {
             render={
               <Link
                 to="/components/avatar"
-                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 [[data-theme=brutal]_&]:text-black [[data-theme=brutal]_&]:decoration-black/30 [[data-theme=brutal]_&]:hover:text-brutal-pink [[data-theme=brutal]_&]:hover:decoration-brutal-pink"
+                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 in-data-[theme=brutal]:text-black in-data-[theme=brutal]:decoration-black/30 in-data-[theme=brutal]:hover:text-brutal-pink in-data-[theme=brutal]:hover:decoration-brutal-pink"
               />
             }
           >
@@ -1123,11 +1123,11 @@ function PreviewCardPreview() {
               <div className="flex min-w-0 items-center gap-1.5">
                 <PreviewCardTitle>Atlas</PreviewCardTitle>
                 <Status aria-hidden size="sm" variant="success" />
-                <span className="truncate font-mono text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/60">
+                <span className="truncate font-mono text-xs text-foreground-muted in-data-[theme=brutal]:text-black/60">
                   Online
                 </span>
               </div>
-              <div className="truncate font-mono text-xs text-foreground-muted [[data-theme=brutal]_&]:text-black/60">
+              <div className="truncate font-mono text-xs text-foreground-muted in-data-[theme=brutal]:text-black/60">
                 @atlas
               </div>
             </div>
@@ -1163,7 +1163,7 @@ function AlertDialogPreview() {
           </AlertDialogHeader>
           <AlertDialogBody className="grid gap-2">
             <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
-            <p className="m-0 text-sm leading-5 break-words text-foreground-strong/60 [[data-theme=brutal]_&]:text-black/70">
+            <p className="m-0 text-sm leading-5 wrap-break-word text-foreground-strong/60 in-data-[theme=brutal]:text-black/70">
               Delete task <strong className="font-bold text-foreground-strong">#42</strong>{" "}
               <strong className="font-bold text-foreground-strong">
                 "Review dialog migration"
@@ -1357,11 +1357,11 @@ function HomeToastList() {
 
   return (
     <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-panel p-4">
-      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-canvas-muted/80 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cyan/20" />
+      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-canvas-muted/80 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black in-data-[theme=brutal]:bg-brutal-cyan/20" />
       <div className="absolute inset-x-5 top-24 grid grid-cols-3 gap-2">
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black/30 in-data-[theme=brutal]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black/30 in-data-[theme=brutal]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black/30 in-data-[theme=brutal]:bg-brutal-yellow/20" />
       </div>
       <div className="relative z-10">
         {toasts.map((toastObject) => (

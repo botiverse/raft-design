@@ -4,13 +4,13 @@ export const docsCodeBlock = tv({
   slots: {
     frame: [
       "flex h-full min-h-0 min-w-0 flex-col overflow-clip rounded-none bg-white",
-      "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
-      "dark:bg-layer-card dark:shadow-[inset_0_1px_0_oklch(1_0_0_/_0.04),0_0_0_1px_oklch(0_0_0_/_0.35)]",
+      "shadow-[0_0_0_0.5px_oklch(0_0_0/0.22)]",
+      "dark:bg-layer-card dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.04),0_0_0_1px_oklch(0_0_0/0.35)]",
     ],
     inner: "relative flex min-h-0 min-w-0 flex-1 flex-col",
     rail: [
       "pointer-events-none absolute inset-y-0 w-0",
-      "border-[oklch(0_0_0_/_0.12)] dark:border-ink-10",
+      "border-[oklch(0_0_0/0.12)] dark:border-ink-10",
     ],
     section: "flex min-w-0 items-stretch",
     gutter: [
@@ -43,7 +43,7 @@ export const docsCodeBlock = tv({
       right: { rail: "right-6 border-r border-dashed" },
     },
     sectionKind: {
-      header: { section: "shrink-0 border-b border-[oklch(0_0_0_/_0.06)] dark:border-ink-8" },
+      header: { section: "shrink-0 border-b border-[oklch(0_0_0/0.06)] dark:border-ink-8" },
       body: { section: "min-h-0 flex-1" },
     },
     showLineNumbers: {

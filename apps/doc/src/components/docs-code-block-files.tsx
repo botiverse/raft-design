@@ -17,15 +17,15 @@ const docsCodeBlockFiles = tv({
     root: "min-w-0 flex-1",
     list: [
       "flex min-w-0 overflow-x-auto overscroll-contain",
-      "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+      "scrollbar-none [&::-webkit-scrollbar]:hidden",
     ],
     tab: [
       "relative shrink-0 px-2 py-1 font-mono text-xs leading-snug outline-none",
       "text-foreground-placeholder transition-colors duration-150",
-      "hover:text-foreground-muted data-[active]:text-foreground",
+      "hover:text-foreground-muted data-active:text-foreground",
       "focus-visible:outline-1 focus-visible:outline-line-strong",
-      "[&+&]:before:absolute [&+&]:before:top-[-0.375rem] [&+&]:before:bottom-[-0.375rem] [&+&]:before:left-0",
-      "[&+&]:before:w-px [&+&]:before:bg-[oklch(0_0_0_/_0.12)] [&+&]:before:content-[''] dark:[&+&]:before:bg-ink-10",
+      "[&+&]:before:absolute [&+&]:before:inset-y-[-0.375rem]  [&+&]:before:left-0",
+      "[&+&]:before:w-px [&+&]:before:bg-[oklch(0_0_0/0.12)] [&+&]:before:content-[''] dark:[&+&]:before:bg-ink-10",
     ],
   },
 });

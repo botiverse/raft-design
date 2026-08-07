@@ -31,7 +31,7 @@ export function PreviewSelect({ id, label, options, value, onValueChange }: Prev
           <SelectValue />
           <SelectIcon />
         </SelectTrigger>
-        <SelectContent className="w-full min-w-[var(--anchor-width)]">
+        <SelectContent className="w-full min-w-(--anchor-width)">
           <SelectList>
             {options.map((option) => (
               <SelectItem key={option} value={option}>
