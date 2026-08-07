@@ -115,7 +115,8 @@ export function Textarea({ className, "data-invalid": dataInvalid, ...props }: T
       data-slot="textarea"
       className={root({ className })}
       {...props}
-      {...(dataInvalid != null ? { "data-invalid": dataInvalid, "aria-invalid": "true" } : {})}
+      data-invalid={dataInvalid || undefined}
+      aria-invalid={dataInvalid ? "true" : undefined}
     />
   );
 }

@@ -174,7 +174,8 @@ export function SelectTrigger({
       {...(renderProp ? { render: renderProp } : {})}
       className={trigger({ className })}
       {...props}
-      {...(dataInvalid != null ? { "data-invalid": dataInvalid, "aria-invalid": "true" } : {})}
+      data-invalid={dataInvalid || undefined}
+      aria-invalid={dataInvalid ? "true" : undefined}
     >
       <span data-slot="select-trigger-content" className="flex min-w-0 flex-1 items-center gap-1.5">
         {children}

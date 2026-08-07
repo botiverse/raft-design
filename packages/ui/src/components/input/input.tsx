@@ -38,7 +38,8 @@ export function Input({
       data-form-type={suppressPasswordManager ? "other" : undefined}
       data-lpignore={suppressPasswordManager ? "true" : undefined}
       {...props}
-      {...(dataInvalid != null ? { "data-invalid": dataInvalid, "aria-invalid": "true" } : {})}
+      data-invalid={dataInvalid || undefined}
+      aria-invalid={dataInvalid ? "true" : undefined}
     />
   );
 }
