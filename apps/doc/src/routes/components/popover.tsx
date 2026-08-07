@@ -11,7 +11,6 @@ import {
 } from "raft-ui";
 import { Info, X } from "lucide-react";
 import type { ReactNode } from "react";
-import { useState } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -42,12 +41,12 @@ const PANEL_BODY_SNIPPET = `    <PopoverHeader>
     </div>`;
 
 const SNIPPETS = {
-  preview: `<Popover open modal={false}>
+  preview: `<Popover modal={false}>
   <PopoverTrigger render={<Button variant="outline" size="md" />}>
     <Info size={18} />
     Usage notes
   </PopoverTrigger>
-  <PopoverContent className="min-w-[240px]">
+  <PopoverContent className="min-w-[240px]" align="center">
 ${PANEL_BODY_SNIPPET}
   </PopoverContent>
 </Popover>`,
@@ -71,11 +70,11 @@ ${PANEL_BODY_SNIPPET}
     <PopoverSeparator />
   </PopoverContent>
 </Popover>`,
-  details: `<Popover open modal={false} triggerId="details-popover-trigger">
+  details: `<Popover modal={false} triggerId="details-popover-trigger">
   <PopoverTrigger id="details-popover-trigger" render={<Button variant="outline" size="md" />}>
     Usage notes
   </PopoverTrigger>
-  <PopoverContent className="min-w-[240px]">
+  <PopoverContent className="min-w-[240px]" align="center">
 ${PANEL_BODY_SNIPPET}
   </PopoverContent>
 </Popover>`,
@@ -215,11 +214,16 @@ function OpenPopoverExample({
 }) {
   return (
     <div className="relative flex justify-center">
-      <Popover open modal={false} triggerId={triggerId}>
+      <Popover modal={false} triggerId={triggerId}>
         <PopoverTrigger id={triggerId} render={<Button variant="outline" size="md" />}>
           {label}
         </PopoverTrigger>
-        <PopoverContent initialFocus={false} finalFocus={false} className={contentClassName}>
+        <PopoverContent
+          initialFocus={false}
+          finalFocus={false}
+          align="center"
+          className={contentClassName}
+        >
           {children}
         </PopoverContent>
       </Popover>
@@ -237,9 +241,9 @@ function PopoverPanelBody() {
         </PopoverClose>
       </PopoverHeader>
       <PopoverSeparator />
-      <div className="grid gap-2 px-3 py-3 text-sm leading-6 text-foreground-muted [[data-theme=brutal]_&]:text-black">
+      <div className="grid gap-2 px-3 py-3 text-sm leading-6 text-foreground-muted in-data-[theme=brutal]:text-black">
         <p>Use channel names, people, and exact phrases to narrow message history.</p>
-        <div className="grid gap-1 rounded-sm bg-foreground-strong/[0.04] px-2 py-2 font-mono text-xs text-foreground-strong/60 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border [[data-theme=brutal]_&]:border-black/10 [[data-theme=brutal]_&]:bg-brutal-yellow/20 [[data-theme=brutal]_&]:text-black/70">
+        <div className="grid gap-1 rounded-sm bg-foreground-strong/4 px-2 py-2 font-mono text-xs text-foreground-strong/60 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border in-data-[theme=brutal]:border-black/10 in-data-[theme=brutal]:bg-brutal-yellow/20 in-data-[theme=brutal]:text-black/70">
           <span>#design "token audit"</span>
           <span>@atlas migration notes</span>
         </div>
@@ -248,10 +252,10 @@ function PopoverPanelBody() {
   );
 }
 
-function SearchGuidePreview({ open }: { open: boolean }) {
+function SearchGuidePreview() {
   return (
     <div className="relative flex justify-center">
-      <Popover open={open} modal={false} triggerId="preview-popover-trigger">
+      <Popover modal={false} triggerId="preview-popover-trigger">
         <PopoverTrigger
           id="preview-popover-trigger"
           render={<Button variant="outline" size="md" />}
@@ -259,7 +263,12 @@ function SearchGuidePreview({ open }: { open: boolean }) {
           <Info size={18} />
           Usage notes
         </PopoverTrigger>
-        <PopoverContent initialFocus={false} finalFocus={false} className="min-w-[240px]">
+        <PopoverContent
+          align="center"
+          initialFocus={false}
+          finalFocus={false}
+          className="min-w-[240px]"
+        >
           <PopoverPanelBody />
         </PopoverContent>
       </Popover>
@@ -268,23 +277,11 @@ function SearchGuidePreview({ open }: { open: boolean }) {
 }
 
 function PopoverPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
-  const [open, setOpen] = useState(true);
-
   return (
     <Preview previewClassName="min-h-[24rem] items-start pt-24">
       <Preview.Canvas>
-        <SearchGuidePreview open={open} />
+        <SearchGuidePreview />
       </Preview.Canvas>
-      <Preview.Controls>
-        <Preview.Control label="Open" htmlFor="popover-preview-open">
-          <Preview.Checkbox
-            id="popover-preview-open"
-            label="Open"
-            checked={open}
-            onCheckedChange={setOpen}
-          />
-        </Preview.Control>
-      </Preview.Controls>
       <Preview.Code html={code} />
     </Preview>
   );
