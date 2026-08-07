@@ -16,6 +16,18 @@ export default defineConfig({
   lint: {
     ignorePatterns,
     options: { typeAware: true, typeCheck: true },
+    jsPlugins: ["eslint-plugin-better-tailwindcss"],
+    settings: {
+      "better-tailwindcss": {
+        cwd: "./packages/ui",
+        entryPoint: "./src/styles.css",
+      },
+    },
+    rules: {
+      "better-tailwindcss/enforce-canonical-classes": "warn",
+      "better-tailwindcss/no-deprecated-classes": "warn",
+      "better-tailwindcss/no-duplicate-classes": "warn",
+    },
   },
   run: {
     cache: true,

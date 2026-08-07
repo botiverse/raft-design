@@ -49,6 +49,7 @@ catalog:
   tailwindcss: ^4.3.3
   torph: ^0.0.9
   "@typescript/native-preview": 7.0.0-dev.20260707.2
+  eslint-plugin-better-tailwindcss: ^4.7.0
 overrides:
   vite: "catalog:"
   vitest: "catalog:"
