@@ -10,12 +10,12 @@ import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
   { id: "install", title: "Install" },
+  { id: "import-styles", title: "Import styles" },
   { id: "app-shell", title: "App shell" },
-  { id: "toast", title: "Toast" },
-  { id: "tailwind", title: "Tailwind" },
   { id: "usage", title: "Usage" },
   { id: "theme", title: "Theme" },
-  { id: "requirements", title: "Requirements" },
+  { id: "toast", title: "Toast" },
+  { id: "agent-skills", title: "Agent Skills" },
 ] as const;
 
 const INSTALLATION_PROMPT = `Install and initialize raft-ui in this repository.
@@ -48,14 +48,6 @@ pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-guide`,
 pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-critique`,
   skillsNpm: `pnpm add -D skills-npm
 pnpm exec skills-npm setup`,
-  installTailwind: "pnpm add -D tailwindcss @tailwindcss/vite",
-  vite: `import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
-
-export default defineConfig({
-  plugins: [tailwindcss(), react()],
-});`,
   app: `import { Button } from "raft-ui";
 
 export function App() {
@@ -180,7 +172,7 @@ function InstallationDoc() {
   return (
     <DocPage
       title="Installation"
-      description="Install the package, load the stylesheet, and wire the app shell."
+      description="Install the package, import the stylesheet, and wire the app shell."
       toc={TOC}
     >
       <DocSection id="install" title="Install">
@@ -212,8 +204,9 @@ function InstallationDoc() {
           <TabsPanel value="human" className="pt-4">
             <div className="space-y-6">
               <Lead>
-                Add the package to the app that uses it. Agent guidance is optional and remains
-                versioned with the installed raft-ui package.
+                Add the package to the app that uses it. raft-ui expects{" "}
+                <InlineCode>React 19</InlineCode> and a <InlineCode>Tailwind v4</InlineCode>-
+                capable build.
               </Lead>
               <div className="space-y-3">
                 <h3 className="text-sm font-medium text-foreground">Single-package app</h3>
@@ -230,61 +223,42 @@ function InstallationDoc() {
                   html={code.installMonorepo}
                 />
               </div>
-              <div className="space-y-3">
-                <h3 className="text-sm font-medium text-foreground">Agent Skills</h3>
-                <Lead>
-                  raft-ui ships <InlineCode>raft-ui-guide</InlineCode> for implementation and{" "}
-                  <InlineCode>raft-ui-critique</InlineCode> for interface review. TanStack Intent
-                  discovers both from the installed package, including dependencies of pnpm
-                  workspace packages.
-                </Lead>
-                <CodeSnippet
-                  path="package.json"
-                  source={SNIPPETS.intentConfig}
-                  html={code.intentConfig}
-                />
-                <CodeSnippet
-                  path="Shell"
-                  source={SNIPPETS.intentInstall}
-                  html={code.intentInstall}
-                />
-                <CodeSnippet
-                  path="Available skills"
-                  source={SNIPPETS.intentSkills}
-                  html={code.intentSkills}
-                />
-              </div>
-              <div className="space-y-3 border-l-2 border-line-muted pl-4">
-                <h3 className="text-sm font-medium text-foreground">Using skills-npm</h3>
-                <Lead>
-                  The same package remains compatible with skills-npm and other standard Agent Skill
-                  installers. skills-npm 1.2.0 has a known limitation when recursively aggregating
-                  multiple skills from one package in a monorepo, so prefer Intent for that layout
-                  or run skills-npm non-recursively where raft-ui is a direct dependency.
-                </Lead>
-                <CodeSnippet path="Shell" source={SNIPPETS.skillsNpm} html={code.skillsNpm} />
-              </div>
             </div>
           </TabsPanel>
         </Tabs>
       </DocSection>
 
-      <DocSection id="app-shell" title="App shell">
+      <DocSection id="import-styles" title="Import styles">
         <div className="space-y-6">
-          <Lead>Set up styles and providers once near the root.</Lead>
+          <Lead>
+            Load the package source hint and <InlineCode>raft-ui/styles.css</InlineCode> once from
+            your global stylesheet, in that order before{" "}
+            <InlineCode>@import "tailwindcss"</InlineCode>. This step assumes you already have{" "}
+            <InlineCode>Tailwind v4</InlineCode> wired into your build.
+          </Lead>
 
           <StepList>
             <li className="space-y-3">
-              <span className="block font-medium text-foreground">Import the stylesheet.</span>
-              <p>
-                Load the package source hint, <InlineCode>raft-ui/styles.css</InlineCode>, and
-                <InlineCode>Tailwind</InlineCode> once from your global stylesheet.
-              </p>
+              <span className="block font-medium text-foreground">Add the global stylesheet.</span>
               <CodeSnippet
                 path="src/styles.css"
                 source={SNIPPETS.globalCss}
                 html={code.globalCss}
               />
+              <p>
+                <InlineCode>@source</InlineCode> is relative to this CSS file, and{" "}
+                <InlineCode>Tailwind v4</InlineCode> does not scan{" "}
+                <InlineCode>node_modules</InlineCode> by default. Adjust the path when your global
+                stylesheet lives deeper in the app.
+              </p>
+              <CodeSnippet
+                path="src/styles.css"
+                source={SNIPPETS.manualSource}
+                html={code.manualSource}
+              />
+            </li>
+            <li className="space-y-3">
+              <span className="block font-medium text-foreground">Load fonts (optional).</span>
               <p>
                 Font loading and default family assignments are intentionally separate from{" "}
                 <InlineCode>raft-ui/styles.css</InlineCode>. Load{" "}
@@ -297,6 +271,15 @@ function InstallationDoc() {
               </p>
               <CodeSnippet path="src/main.tsx" source={SNIPPETS.fontCss} html={code.fontCss} />
             </li>
+          </StepList>
+        </div>
+      </DocSection>
+
+      <DocSection id="app-shell" title="App shell">
+        <div className="space-y-6">
+          <Lead>Set up providers once near the root.</Lead>
+
+          <StepList>
             <li className="space-y-3">
               <span className="block font-medium text-foreground">Wrap the app.</span>
               <p>
@@ -348,65 +331,6 @@ function InstallationDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="toast" title="Toast">
-        <div className="space-y-6">
-          <Lead>
-            Add <InlineCode>ToastProvider</InlineCode> near the app root, then call{" "}
-            <InlineCode>toast.info</InlineCode>, <InlineCode>toast.success</InlineCode>,{" "}
-            <InlineCode>toast.warning</InlineCode>, or <InlineCode>toast.error</InlineCode> from
-            event handlers.
-          </Lead>
-
-          <div className="grid gap-3 lg:grid-cols-2">
-            <CodeSnippet
-              path="src/App.tsx"
-              source={SNIPPETS.toastProvider}
-              html={code.toastProvider}
-            />
-            <CodeSnippet
-              path="src/CopyLinkButton.tsx"
-              source={SNIPPETS.toastUsage}
-              html={code.toastUsage}
-            />
-          </div>
-        </div>
-      </DocSection>
-
-      <DocSection id="tailwind" title="Tailwind">
-        <div className="space-y-6">
-          <Lead>If your app already uses Tailwind v4, skip this section.</Lead>
-
-          <StepList>
-            <li className="space-y-3">
-              <span className="block font-medium text-foreground">Install Tailwind v4.</span>
-              <CodeSnippet
-                path="Shell"
-                source={SNIPPETS.installTailwind}
-                html={code.installTailwind}
-              />
-            </li>
-            <li className="space-y-3">
-              <span className="block font-medium text-foreground">Register the Vite plugin.</span>
-              <CodeSnippet path="vite.config.ts" source={SNIPPETS.vite} html={code.vite} />
-            </li>
-          </StepList>
-
-          <div className="space-y-3 border-l-2 border-line-muted pl-4">
-            <p className="text-sm leading-relaxed text-foreground-muted">
-              <InlineCode>@source</InlineCode> is relative to this CSS file.
-            </p>
-            <p className="text-sm leading-relaxed text-foreground-muted">
-              Adjust the path when your global stylesheet lives deeper in the app.
-            </p>
-            <CodeSnippet
-              path="src/styles.css"
-              source={SNIPPETS.manualSource}
-              html={code.manualSource}
-            />
-          </div>
-        </div>
-      </DocSection>
-
       <DocSection id="usage" title="Usage">
         <div className="space-y-4">
           <Lead>Import components from the package.</Lead>
@@ -416,6 +340,8 @@ function InstallationDoc() {
 
       <DocSection id="theme" title="Theme">
         <div className="space-y-6">
+          <Lead>Optional: theme switching, reading, and customization after the core setup.</Lead>
+
           <div className="space-y-3">
             <h3 className="font-heading text-lg font-medium text-foreground">Switch themes</h3>
             <Lead>
@@ -460,27 +386,60 @@ function InstallationDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="requirements" title="Requirements">
-        <ul className="space-y-3 text-sm leading-relaxed text-foreground-muted">
-          <li>
-            <span className="font-medium text-foreground">React:</span> RUI expects{" "}
-            <InlineCode>React 19</InlineCode> and <InlineCode>React DOM 19</InlineCode>.
-          </li>
-          <li>
-            <span className="font-medium text-foreground">CSS:</span> import{" "}
-            <InlineCode>raft-ui/styles.css</InlineCode> once.
-          </li>
-          <li>
-            <span className="font-medium text-foreground">Fonts:</span>{" "}
-            <InlineCode>raft-ui/fonts.css</InlineCode> is optional. It loads the package default
-            fonts and assigns the default font-family tokens. Use it, replace it, or self-host the
-            font families your app wants.
-          </li>
-          <li>
-            <span className="font-medium text-foreground">Build:</span> use a{" "}
-            <InlineCode>Tailwind v4</InlineCode>-capable build pipeline.
-          </li>
-        </ul>
+      <DocSection id="toast" title="Toast">
+        <div className="space-y-6">
+          <Lead>
+            Optional: add <InlineCode>ToastProvider</InlineCode> near the app root, then call{" "}
+            <InlineCode>toast.info</InlineCode>, <InlineCode>toast.success</InlineCode>,{" "}
+            <InlineCode>toast.warning</InlineCode>, or <InlineCode>toast.error</InlineCode> from
+            event handlers.
+          </Lead>
+
+          <div className="grid gap-3 lg:grid-cols-2">
+            <CodeSnippet
+              path="src/App.tsx"
+              source={SNIPPETS.toastProvider}
+              html={code.toastProvider}
+            />
+            <CodeSnippet
+              path="src/CopyLinkButton.tsx"
+              source={SNIPPETS.toastUsage}
+              html={code.toastUsage}
+            />
+          </div>
+        </div>
+      </DocSection>
+
+      <DocSection id="agent-skills" title="Agent Skills">
+        <div className="space-y-6">
+          <Lead>
+            raft-ui ships <InlineCode>raft-ui-guide</InlineCode> for implementation and{" "}
+            <InlineCode>raft-ui-critique</InlineCode> for interface review. TanStack Intent
+            discovers both from the installed package, including dependencies of pnpm workspace
+            packages.
+          </Lead>
+          <CodeSnippet
+            path="package.json"
+            source={SNIPPETS.intentConfig}
+            html={code.intentConfig}
+          />
+          <CodeSnippet path="Shell" source={SNIPPETS.intentInstall} html={code.intentInstall} />
+          <CodeSnippet
+            path="Available skills"
+            source={SNIPPETS.intentSkills}
+            html={code.intentSkills}
+          />
+          <div className="space-y-3 border-l-2 border-line-muted pl-4">
+            <h3 className="text-sm font-medium text-foreground">Using skills-npm</h3>
+            <Lead>
+              The same package remains compatible with skills-npm and other standard Agent Skill
+              installers. skills-npm 1.2.0 has a known limitation when recursively aggregating
+              multiple skills from one package in a monorepo, so prefer Intent for that layout or
+              run skills-npm non-recursively where raft-ui is a direct dependency.
+            </Lead>
+            <CodeSnippet path="Shell" source={SNIPPETS.skillsNpm} html={code.skillsNpm} />
+          </div>
+        </div>
       </DocSection>
     </DocPage>
   );
