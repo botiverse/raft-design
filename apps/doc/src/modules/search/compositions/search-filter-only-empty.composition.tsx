@@ -1,8 +1,8 @@
-import { BrutalSearchPanelComposition } from "./brutal-search-panel.composition.tsx";
+import { SearchPanelComposition } from "./search-panel.composition.tsx";
 
 export function SearchFilterOnlyEmptyComposition() {
   return (
-    <BrutalSearchPanelComposition
+    <SearchPanelComposition
       defaultQuery=""
       defaultSenderId="agent-atlas"
       entities={[]}

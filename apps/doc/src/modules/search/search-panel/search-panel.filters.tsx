@@ -39,11 +39,16 @@ import {
 import type { SearchChannelFixture, SearchSenderFixture } from "../search.fixtures.ts";
 import {
   SourceIdentityAvatar,
-  type BrutalSearchScope,
-  type BrutalSearchSort,
-  type BrutalSearchTimeRange,
-  useSearchShell,
+  type SearchScope,
+  type SearchSort,
+  type SearchTimeRange,
 } from "./search-panel.parts.tsx";
+import {
+  SearchShellActiveFilter,
+  SearchShellClearFilters,
+  SearchShellFilters,
+  useSearchShellStyles,
+} from "raft-ui/wip";
 
 type SearchFiltersProps = {
   senders: readonly SearchSenderFixture[];
@@ -51,15 +56,15 @@ type SearchFiltersProps = {
   query: string;
   sender: SearchSenderFixture | null;
   channel: SearchChannelFixture | null;
-  scopes: readonly BrutalSearchScope[];
-  timeRange: BrutalSearchTimeRange;
-  sort: BrutalSearchSort;
+  scopes: readonly SearchScope[];
+  timeRange: SearchTimeRange;
+  sort: SearchSort;
   showEmptySenderPopup?: boolean;
   onSenderChange: (sender: SearchSenderFixture | null) => void;
   onChannelChange: (channel: SearchChannelFixture | null) => void;
-  onScopesChange: (scopes: BrutalSearchScope[]) => void;
-  onTimeRangeChange: (range: BrutalSearchTimeRange) => void;
-  onSortChange: (sort: BrutalSearchSort) => void;
+  onScopesChange: (scopes: SearchScope[]) => void;
+  onTimeRangeChange: (range: SearchTimeRange) => void;
+  onSortChange: (sort: SearchSort) => void;
 };
 
 const SEARCH_SCOPES = ["mentioned", "humans", "agents"] as const;
@@ -77,14 +82,14 @@ function matches(value: string, query: string) {
     .every((token) => normalize(value).includes(token));
 }
 
-function timeLabel(value: BrutalSearchTimeRange) {
+function timeLabel(value: SearchTimeRange) {
   if (value === "today") return "Today";
   if (value === "7d") return "Last 7 Days";
   if (value === "30d") return "Last 30 Days";
   return "Any Time";
 }
 
-function scopeLabel(value: BrutalSearchScope) {
+function scopeLabel(value: SearchScope) {
   if (value === "mentioned") return "@ Me";
   if (value === "humans") return "Humans";
   return "Agents";
@@ -103,7 +108,7 @@ const SEARCH_SORT_ITEMS = SEARCH_SORTS.map((value) => ({
   value,
 }));
 
-export function BrutalSearchFilters({
+export function SearchFilters({
   senders,
   channels,
   query,
@@ -119,7 +124,7 @@ export function BrutalSearchFilters({
   onTimeRangeChange,
   onSortChange,
 }: SearchFiltersProps) {
-  const shell = useSearchShell();
+  const shell = useSearchShellStyles();
   const portalRef = useRef<HTMLDivElement>(null);
   const [senderQuery, setSenderQuery] = useState(showEmptySenderPopup ? "Nobody" : "");
   const [channelQuery, setChannelQuery] = useState("");
@@ -130,7 +135,7 @@ export function BrutalSearchFilters({
   const hasActiveFilters = Boolean(sender || channel || scopes.length || timeRange !== "any");
 
   return (
-    <div ref={portalRef} className={shell.filtersRow()}>
+    <SearchShellFilters ref={portalRef}>
       <div className="flex flex-wrap items-center gap-2">
         <Combobox<string>
           autoHighlight
@@ -193,7 +198,7 @@ export function BrutalSearchFilters({
           </ComboboxContent>
         </Combobox>
 
-        <Select<BrutalSearchScope, true>
+        <Select<SearchScope, true>
           multiple
           items={SEARCH_SCOPE_ITEMS}
           value={[...scopes]}
@@ -229,14 +234,10 @@ export function BrutalSearchFilters({
         </Select>
 
         {channel ? (
-          <button
-            type="button"
-            onClick={() => onChannelChange(null)}
-            className={shell.channelActiveChip()}
-          >
+          <SearchShellActiveFilter type="button" onClick={() => onChannelChange(null)}>
             <Hash aria-hidden size={12} />#{channel.name}
             <X aria-hidden size={10} />
-          </button>
+          </SearchShellActiveFilter>
         ) : (
           <Combobox<string>
             autoHighlight
@@ -292,7 +293,7 @@ export function BrutalSearchFilters({
           </Combobox>
         )}
 
-        <Select<BrutalSearchTimeRange>
+        <Select<SearchTimeRange>
           items={SEARCH_TIME_RANGE_ITEMS}
           value={timeRange}
           onValueChange={(nextValue) => {
@@ -322,7 +323,7 @@ export function BrutalSearchFilters({
           </SelectContent>
         </Select>
 
-        <Select<BrutalSearchSort>
+        <Select<SearchSort>
           disabled={!query.trim()}
           items={SEARCH_SORT_ITEMS}
           value={sort}
@@ -354,7 +355,7 @@ export function BrutalSearchFilters({
         </Select>
 
         {hasActiveFilters ? (
-          <button
+          <SearchShellClearFilters
             type="button"
             onClick={() => {
               onSenderChange(null);
@@ -362,12 +363,11 @@ export function BrutalSearchFilters({
               onScopesChange([]);
               onTimeRangeChange("any");
             }}
-            className={shell.clearAllButton()}
           >
             Clear All
-          </button>
+          </SearchShellClearFilters>
         ) : null}
       </div>
-    </div>
+    </SearchShellFilters>
   );
 }

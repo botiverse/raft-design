@@ -1,13 +1,27 @@
-import { BrutalSearchPanelComposition } from "./brutal-search-panel.composition.tsx";
+import {
+  SearchResultsError,
+  SearchResultsErrorAction,
+  SearchResultsErrorDescription,
+  SearchResultsErrorTitle,
+  SearchShellResults,
+  SearchShellResultsContent,
+  SearchShellRoot,
+} from "raft-ui/wip";
 
 export function SearchErrorComposition() {
   return (
-    <BrutalSearchPanelComposition
-      defaultQuery="preview"
-      entities={[]}
-      messages={[]}
-      onBack={() => window.history.back()}
-      view="error"
-    />
+    <SearchShellRoot>
+      <SearchShellResults>
+        <SearchShellResultsContent>
+          <SearchResultsError>
+            <SearchResultsErrorTitle>Search failed</SearchResultsErrorTitle>
+            <SearchResultsErrorDescription>
+              We could not load results.
+            </SearchResultsErrorDescription>
+            <SearchResultsErrorAction disabled>Retrying…</SearchResultsErrorAction>
+          </SearchResultsError>
+        </SearchShellResultsContent>
+      </SearchShellResults>
+    </SearchShellRoot>
   );
 }

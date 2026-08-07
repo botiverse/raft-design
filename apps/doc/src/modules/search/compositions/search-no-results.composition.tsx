@@ -1,10 +1,21 @@
-import { BrutalSearchPanelComposition } from "./brutal-search-panel.composition.tsx";
+import { EmptyState, EmptyStateContent, EmptyStateDescription, EmptyStateTitle } from "raft-ui";
+import { SearchShellResults, SearchShellResultsContent, SearchShellRoot } from "raft-ui/wip";
 
 export function SearchNoResultsComposition() {
   return (
-    <BrutalSearchPanelComposition
-      defaultQuery="no-such-result"
-      onBack={() => window.history.back()}
-    />
+    <SearchShellRoot>
+      <SearchShellResults>
+        <SearchShellResultsContent>
+          <EmptyState>
+            <EmptyStateContent>
+              <EmptyStateTitle>No results</EmptyStateTitle>
+              <EmptyStateDescription>
+                Try a different query or remove a filter.
+              </EmptyStateDescription>
+            </EmptyStateContent>
+          </EmptyState>
+        </SearchShellResultsContent>
+      </SearchShellResults>
+    </SearchShellRoot>
   );
 }
