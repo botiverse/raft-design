@@ -82,7 +82,7 @@ const PROFILE_MENU_SNIPPET = `    <DropdownMenuLabel>Account</DropdownMenuLabel>
       <span className="min-w-0 flex-1 truncate">Delete account</span>
     </DropdownMenuItem>`;
 
-const SWITCH_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="switch-menu-trigger">
+const SWITCH_MENU_SNIPPET = `<DropdownMenu modal={false} triggerId="switch-menu-trigger">
   <DropdownMenuTrigger id="switch-menu-trigger">
     Switch
   </DropdownMenuTrigger>
@@ -98,7 +98,7 @@ const SWITCH_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="switch-
   </DropdownMenuContent>
 </DropdownMenu>`;
 
-const CHECKBOXES_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="checkboxes-menu-trigger">
+const CHECKBOXES_MENU_SNIPPET = `<DropdownMenu modal={false} triggerId="checkboxes-menu-trigger">
   <DropdownMenuTrigger id="checkboxes-menu-trigger">
     Checkboxes
   </DropdownMenuTrigger>
@@ -114,7 +114,7 @@ const CHECKBOXES_MENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="che
 
 const RADIO_GROUP_MENU_SNIPPET = `import { Monitor, Sun } from "lucide-react";
 
-<DropdownMenu open modal={false} triggerId="radio-group-menu-trigger">
+<DropdownMenu modal={false} triggerId="radio-group-menu-trigger">
   <DropdownMenuTrigger id="radio-group-menu-trigger">
     Radio group
   </DropdownMenuTrigger>
@@ -132,7 +132,7 @@ const RADIO_GROUP_MENU_SNIPPET = `import { Monitor, Sun } from "lucide-react";
   </DropdownMenuContent>
 </DropdownMenu>`;
 
-const PLAIN_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="plain-picker-trigger">
+const PLAIN_PICKER_SNIPPET = `<DropdownMenu modal={false} triggerId="plain-picker-trigger">
   <DropdownMenuTrigger id="plain-picker-trigger">
     Time
   </DropdownMenuTrigger>
@@ -146,7 +146,7 @@ const PLAIN_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="plain-
   </DropdownMenuContent>
 </DropdownMenu>`;
 
-const HEADERLESS_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="headerless-picker-trigger">
+const HEADERLESS_PICKER_SNIPPET = `<DropdownMenu modal={false} triggerId="headerless-picker-trigger">
   <DropdownMenuTrigger id="headerless-picker-trigger">
     Sort
   </DropdownMenuTrigger>
@@ -159,7 +159,7 @@ const HEADERLESS_PICKER_SNIPPET = `<DropdownMenu open modal={false} triggerId="h
   </DropdownMenuContent>
 </DropdownMenu>`;
 
-const SUBMENU_SNIPPET = `<DropdownMenu open modal={false} triggerId="submenu-trigger">
+const SUBMENU_SNIPPET = `<DropdownMenu modal={false} triggerId="submenu-trigger">
   <DropdownMenuTrigger id="submenu-trigger">
     Submenu
   </DropdownMenuTrigger>
@@ -197,7 +197,7 @@ const SNIPPETS = {
   DropdownMenuTrigger,
 } from "raft-ui";
 
-<DropdownMenu defaultOpen modal={false} triggerId="preview-profile-trigger">
+<DropdownMenu modal={false} triggerId="preview-profile-trigger">
   <DropdownMenuTrigger id="preview-profile-trigger">
     <ChartNoAxesCombined />
     Profile
@@ -298,7 +298,7 @@ function ProfileMenuRows() {
         <span className="min-w-0 flex-1 truncate">Sign out</span>
         <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
       </DropdownMenuItem>
-      <DropdownMenuItem className="text-danger hover:bg-danger-soft hover:text-danger data-[highlighted]:bg-danger-soft data-[highlighted]:text-danger [&>svg]:text-danger hover:[&>svg]:text-danger data-[highlighted]:[&>svg]:text-danger">
+      <DropdownMenuItem className="text-danger hover:bg-danger-soft hover:text-danger data-highlighted:bg-danger-soft data-highlighted:text-danger [&>svg]:text-danger hover:[&>svg]:text-danger data-highlighted:[&>svg]:text-danger">
         <Trash />
         <span className="min-w-0 flex-1 truncate">Delete account</span>
       </DropdownMenuItem>
@@ -415,7 +415,7 @@ function OpenMenuExample({
 }) {
   return (
     <div className="relative flex justify-center">
-      <DropdownMenu open modal={false} triggerId={triggerId}>
+      <DropdownMenu modal={false} triggerId={triggerId}>
         <DropdownMenuTrigger id={triggerId}>{label}</DropdownMenuTrigger>
         <DropdownMenuContent className={contentClassName}>{children}</DropdownMenuContent>
       </DropdownMenu>
@@ -426,7 +426,7 @@ function OpenMenuExample({
 function ProfilePreviewMenu() {
   return (
     <div className="relative flex justify-center">
-      <DropdownMenu defaultOpen modal={false} triggerId="preview-profile-trigger">
+      <DropdownMenu modal={false} triggerId="preview-profile-trigger">
         <DropdownMenuTrigger id="preview-profile-trigger">
           <ChartNoAxesCombined />
           Profile

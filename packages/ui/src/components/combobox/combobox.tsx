@@ -12,7 +12,7 @@ const combobox = tv({
     trigger: [
       "inline-flex select-none items-center justify-between gap-2",
       "outline-none transition-colors",
-      "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
+      "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='combobox-trigger-content']]:min-w-0 [&>span[data-slot='combobox-trigger-content']]:flex-1",
       "[&>span[data-slot='combobox-trigger-content']>svg]:shrink-0",
     ],
@@ -29,7 +29,7 @@ const combobox = tv({
       "outline-none transition-colors",
       "[&>svg]:pointer-events-none [&>svg]:shrink-0",
       "[&>svg:not([class*='size-'])]:size-3.5",
-      "[&_[data-slot='combobox-clear']]:size-5 [&_[data-slot='combobox-clear']]:min-w-5 [&_[data-slot='combobox-clear']]:shrink-0",
+      "[&_[data-slot='combobox-clear']]:size-5 [&_[data-slot='combobox-clear']]:min-w-5 **:data-[slot='combobox-clear']:shrink-0",
       "[&_[data-slot='combobox-trigger-indicator']]:size-4",
       "[&_[data-slot='combobox-trigger-indicator']>svg]:size-3.5 [&_[data-slot='combobox-trigger-indicator']>svg]:shrink-0",
     ],
@@ -37,7 +37,7 @@ const combobox = tv({
     input: ["w-full outline-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "h-auto max-h-[var(--available-height)] min-w-[220px] overflow-hidden bg-layer-panel",
+      "h-auto max-h-(--available-height) min-w-[220px] overflow-hidden bg-layer-panel",
       "outline-none",
     ],
     header: ["flex items-center justify-between px-3 py-2"],
@@ -52,7 +52,7 @@ const combobox = tv({
     clear: [
       "inline-flex h-5 min-w-8 items-center justify-center",
       "pointer-events-none opacity-0 outline-none transition-colors",
-      "data-[visible]:pointer-events-auto data-[visible]:opacity-100",
+      "data-visible:pointer-events-auto data-visible:opacity-100",
     ],
     empty: ["px-3 py-4 text-center text-sm"],
     groupLabel: ["px-3 py-2"],
@@ -64,12 +64,10 @@ const combobox = tv({
     theme: {
       brutal: {
         trigger: [
-          "font-sans text-sm font-semibold text-foreground-strong",
-          "shadow-none",
-          "hover:translate-x-0 hover:translate-y-0 hover:shadow-none",
-          "active:translate-x-0 active:translate-y-0 active:shadow-none",
-          "data-[has-value]:bg-primary data-[has-value]:text-foreground-strong data-[has-value]:shadow-raft-sm",
-          "data-[has-value]:hover:bg-primary data-[has-value]:hover:shadow-raft-sm data-[has-value]:active:shadow-raft-sm",
+          "data-popup-open:-translate-y-px data-popup-open:shadow-raft-md",
+          "active:translate-x-0 active:-translate-y-px active:shadow-raft-md",
+          "data-has-value:bg-primary data-has-value:text-foreground-strong data-has-value:shadow-raft-sm",
+          "data-has-value:hover:bg-primary data-has-value:hover:shadow-raft-sm data-has-value:active:shadow-raft-sm",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-4",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-2",
         ],
@@ -79,8 +77,8 @@ const combobox = tv({
         separator: ["bg-line-strong"],
         item: [
           "border-b border-ink-10 bg-layer-popover font-sans text-sm font-semibold leading-6 text-foreground-strong last:border-b-0",
-          "hover:bg-brutal-yellow/30 data-[highlighted]:bg-brutal-yellow/30",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-strong/30",
+          "hover:bg-brutal-yellow/30 data-highlighted:bg-brutal-yellow/30",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0",
           "[&_svg:not([class*='size-'])]:size-3",
           "[&_svg:not([class*='stroke-'])]:stroke-2",
@@ -93,7 +91,7 @@ const combobox = tv({
         ],
         clear: [
           "font-sans text-[10px] font-bold uppercase tracking-wide text-foreground-strong hover:text-foreground-strong",
-          "[&>svg]:[stroke-width:2] [&>svg_*]:[stroke-width:2]",
+          "[&>svg]:stroke-2 [&>svg_*]:stroke-2",
         ],
         triggerIndicator: [
           "text-foreground-strong opacity-100",
@@ -105,7 +103,7 @@ const combobox = tv({
           "focus-within:shadow-raft-md",
           "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
           "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
-          "[&_[data-slot='combobox-trigger-indicator']>svg]:[stroke-width:1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:[stroke-width:1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:fill-none",
+          "[&_[data-slot='combobox-trigger-indicator']>svg]:stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:fill-none",
         ],
         empty: ["font-sans text-sm font-semibold text-foreground-strong/50"],
         groupLabel: [
@@ -120,7 +118,7 @@ const combobox = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
-          "hover:bg-ink-2",
+          "hover:bg-ink-2 active:scale-100",
           "focus-visible:ring-1 focus-visible:ring-primary-400",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-3",
           "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-[1.5]",
@@ -137,8 +135,8 @@ const combobox = tv({
           "rounded-sm bg-transparent px-2 text-sm font-normal tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground",
-          "data-[highlighted]:bg-ink-4 data-[highlighted]:text-foreground",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
+          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0",
           "[&_svg:not([class*='size-'])]:size-3.5",
           "[&_svg:not([class*='stroke-'])]:stroke-[1.5]",
@@ -149,7 +147,7 @@ const combobox = tv({
         label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong/45"],
         clear: [
           "text-[11px] font-medium tracking-[-0.005em] text-foreground-muted hover:text-foreground",
-          "[&>svg]:[stroke-width:1.5] [&>svg_*]:[stroke-width:1.5]",
+          "[&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
         ],
         triggerIndicator: [
           "text-foreground-muted opacity-100",
@@ -159,7 +157,7 @@ const combobox = tv({
           "rounded-md border border-line-muted bg-layer-panel px-2.5 py-1.5",
           "dark:border-transparent dark:bg-layer-inset",
           "text-sm font-normal text-foreground-strong shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)]",
-          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.3),inset_0_0_0_1px_oklch(0_0_0_/_0.35),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
+          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
           "dark:hover:border-ink-8",
           "focus-within:ring-1 focus-within:ring-primary-400",
           "dark:focus-within:ring-2 dark:focus-within:ring-primary-400/60",
@@ -172,7 +170,7 @@ const combobox = tv({
         chips: [
           "rounded-md border border-line-muted bg-layer-panel px-2 py-1",
           "dark:border-transparent dark:bg-layer-inset",
-          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.3),inset_0_0_0_1px_oklch(0_0_0_/_0.35),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
+          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
           "dark:hover:border-ink-8",
           "focus-within:ring-1 focus-within:ring-primary-400",
           "dark:focus-within:ring-2 dark:focus-within:ring-primary-400/60",
@@ -340,12 +338,7 @@ export function ComboboxValue(props: ComboboxValueProps) {
 
 export type ComboboxTriggerProps = StyledProps<BaseCombobox.Trigger.Props>;
 
-export function ComboboxTrigger({
-  className,
-  children,
-  render = <Button variant="outline" size="md" />,
-  ...props
-}: ComboboxTriggerProps) {
+export function ComboboxTrigger({ className, children, render, ...props }: ComboboxTriggerProps) {
   const theme = useThemeFamily();
   const { hasValue } = use(ComboboxContext);
   const { trigger } = combobox({ theme });
@@ -353,8 +346,7 @@ export function ComboboxTrigger({
     <BaseCombobox.Trigger
       data-slot="combobox-trigger"
       data-has-value={hasValue ? "" : undefined}
-      render={render}
-      className={trigger({ className })}
+      render={render ?? <Button variant="outline" size="md" className={trigger({ className })} />}
       {...props}
     >
       <span

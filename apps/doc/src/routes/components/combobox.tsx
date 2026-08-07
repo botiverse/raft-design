@@ -26,6 +26,7 @@ import {
   CircleAlert,
   Folder,
   GitBranch,
+  Hash,
   Loader,
   Megaphone,
   MessagesSquare,
@@ -313,7 +314,7 @@ const repositoryQuery = mockQueryOptions({
 });
 
 function RepositoryPicker() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState<Repository | null>(null);
   const { data: items = [], isLoading } = useMockQuery({
     query: repositoryQuery,
@@ -463,7 +464,6 @@ function AsyncModelSearch() {
 
   return (
     <Combobox
-      open
       inputValue={inputValue}
       value={value}
       items={items}
@@ -535,7 +535,7 @@ function requestBranchChange() {
 }
 
 function AsyncBranchSelect() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState<typeof branches[number] | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [confirmedId, setConfirmedId] = useState<string | null>(null);
@@ -633,6 +633,55 @@ function AsyncBranchSelect() {
     </Combobox>
   );
 }`,
+  customTrigger: `import { Hash, ChevronDown } from "lucide-react";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxHeader,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxSeparator,
+  ComboboxTrigger,
+} from "raft-ui";
+
+const channels = [
+  { id: "design", label: "#design" },
+  { id: "eng", label: "#eng" },
+] as const;
+
+<Combobox items={channels} itemToStringLabel={(channel) => channel.label}>
+  <ComboboxTrigger
+    render={(props) => (
+      <button
+        {...props}
+        type="button"
+        className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold text-black/70 transition-colors hover:border-black"
+      >
+        <Hash aria-hidden className="size-3.5" />
+        {props.children}
+        <ChevronDown aria-hidden className="size-3" />
+      </button>
+    )}
+  >
+    <span>Channel</span>
+  </ComboboxTrigger>
+  <ComboboxContent className="w-[180px]">
+    <ComboboxHeader>
+      <ComboboxLabel>Channel</ComboboxLabel>
+    </ComboboxHeader>
+    <ComboboxSeparator />
+    <ComboboxList>
+      {(channel) => (
+        <ComboboxItem key={channel.id} value={channel}>
+          <span className="truncate">{channel.label}</span>
+          <ComboboxItemIndicator />
+        </ComboboxItem>
+      )}
+    </ComboboxList>
+  </ComboboxContent>
+</Combobox>`,
 } as const;
 
 const COMBOBOX_PROPS: readonly PropRow[] = [
@@ -655,10 +704,16 @@ const COMBOBOX_CONTROL_PROPS: readonly PropRow[] = [
 
 const COMBOBOX_TRIGGER_PROPS: readonly PropRow[] = [
   {
+    name: "render",
+    type: "ReactElement | (props, state) => ReactElement",
+    description:
+      "Replaces the trigger element entirely. When provided, the default Button and its recipe styles are skipped; pass event and aria props to your own element.",
+  },
+  {
     name: "...props",
     type: "Base UI Combobox.Trigger.Props",
     description:
-      "Button trigger for picker-style filters where the search input lives inside the popup.",
+      "Default trigger renders an outline md Button for picker-style filters where the search input lives inside the popup.",
   },
 ];
 
@@ -895,7 +950,7 @@ function ComboboxChannelList() {
             <ComboboxItem key={channel.id} value={channel}>
               <span className="flex min-w-0 items-center gap-1.5">
                 <span className="flex size-4 shrink-0 items-center justify-center">
-                  <ChannelIcon className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                  <ChannelIcon className="text-foreground-muted in-data-[theme=brutal]:text-black/50" />
                 </span>
                 <span className="truncate leading-6">{channel.label}</span>
               </span>
@@ -916,7 +971,6 @@ function ButtonTriggerCombobox() {
   return (
     <div className="relative flex justify-center">
       <Combobox<Channel>
-        open
         items={channels}
         value={selectedChannel}
         itemToStringLabel={(channel) => channel.label}
@@ -939,7 +993,7 @@ function ButtonTriggerCombobox() {
 }
 
 function AsyncOptionsCombobox() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState<Repository | null>(null);
   const { data: items = [], isLoading } = useMockQuery({
     query: repositoryQuery,
@@ -950,7 +1004,7 @@ function AsyncOptionsCombobox() {
   function renderRepositoryItems() {
     if (isLoading) {
       return (
-        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:text-black/60">
           <Loader aria-hidden className="size-3.5 animate-spin" />
           Loading
         </div>
@@ -967,7 +1021,7 @@ function AsyncOptionsCombobox() {
           <ComboboxItem key={repository.id} value={repository}>
             <span className="flex min-w-0 items-center gap-1.5">
               <span className="flex size-4 shrink-0 items-center justify-center">
-                <Folder className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                <Folder className="text-foreground-muted in-data-[theme=brutal]:text-black/50" />
               </span>
               <span className="truncate leading-6">{repository.label}</span>
             </span>
@@ -1030,7 +1084,7 @@ function AsyncSearchCombobox() {
   function renderModelItems() {
     if (isLoading) {
       return (
-        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:text-black/60">
           <Loader aria-hidden className="size-3.5 animate-spin" />
           Searching
         </div>
@@ -1056,7 +1110,6 @@ function AsyncSearchCombobox() {
   return (
     <div className="relative flex justify-center">
       <Combobox<Model>
-        open
         inputValue={inputValue}
         value={value}
         items={items}
@@ -1081,7 +1134,7 @@ function AsyncSearchCombobox() {
           <ComboboxControl>
             <Sparkles
               aria-hidden
-              className="text-foreground-muted [[data-theme=brutal]_&]:text-black/60"
+              className="text-foreground-muted in-data-[theme=brutal]:text-black/60"
             />
             <ComboboxInput
               aria-label="Search models"
@@ -1094,11 +1147,7 @@ function AsyncSearchCombobox() {
             </ComboboxTriggerIndicator>
           </ComboboxControl>
         </Field>
-        <ComboboxContent
-          initialFocus={false}
-          finalFocus={false}
-          className="w-[var(--anchor-width)]"
-        >
+        <ComboboxContent initialFocus={false} finalFocus={false} className="w-(--anchor-width)">
           {renderModelItems()}
         </ComboboxContent>
       </Combobox>
@@ -1109,7 +1158,7 @@ function AsyncSearchCombobox() {
 function AsyncSelectCombobox() {
   const lockCloseRef = useRef(false);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState<Branch | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [confirmedId, setConfirmedId] = useState<string | null>(null);
@@ -1191,7 +1240,7 @@ function AsyncSelectCombobox() {
               >
                 <span className="flex min-w-0 items-center gap-1.5">
                   <span className="flex size-4 shrink-0 items-center justify-center">
-                    <GitBranch className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                    <GitBranch className="text-foreground-muted in-data-[theme=brutal]:text-black/50" />
                   </span>
                   <span className="truncate leading-6">{branch.label}</span>
                 </span>
@@ -1206,6 +1255,56 @@ function AsyncSelectCombobox() {
             )}
           </ComboboxList>
           <ComboboxEmpty>No branches found</ComboboxEmpty>
+        </ComboboxContent>
+      </Combobox>
+    </div>
+  );
+}
+
+function CustomTriggerCombobox() {
+  const [channel, setChannel] = useState<Channel | null>(channels[0]);
+
+  return (
+    <div className="relative flex justify-center">
+      <Combobox<Channel>
+        items={channels}
+        value={channel}
+        itemToStringLabel={(item) => item.label}
+        onValueChange={setChannel}
+        autoHighlight
+      >
+        <ComboboxTrigger
+          render={(props) => (
+            <button
+              {...props}
+              type="button"
+              className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold text-black/70 transition-colors hover:border-black"
+            >
+              <Hash aria-hidden className="size-3.5" />
+              {props.children}
+              <ChevronDown aria-hidden className="size-3" />
+            </button>
+          )}
+        >
+          <span>{channel?.label ?? "Channel"}</span>
+        </ComboboxTrigger>
+        <ComboboxContent initialFocus={false} finalFocus={false} className="w-[180px]">
+          <ComboboxHeader>
+            <ComboboxLabel>Channel</ComboboxLabel>
+          </ComboboxHeader>
+          <ComboboxSeparator />
+          <ComboboxInputGroup>
+            <ComboboxInput aria-label="Search channels" placeholder="Search..." />
+          </ComboboxInputGroup>
+          <ComboboxList>
+            {(item: (typeof channels)[number]) => (
+              <ComboboxItem key={item.id} value={item}>
+                <span className="truncate">{item.label}</span>
+                <ComboboxItemIndicator />
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+          <ComboboxEmpty>No channels found</ComboboxEmpty>
         </ComboboxContent>
       </Combobox>
     </div>
@@ -1280,6 +1379,14 @@ function ComboboxDoc() {
                 <AsyncSelectCombobox />
               </Preview.Canvas>
               <Preview.Code html={code.asyncSelect} collapsedHtml={code.asyncSelectBody} />
+            </Preview>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="custom-trigger" title="Custom trigger">
+            <Preview previewClassName="min-h-[24rem] items-start pt-24">
+              <Preview.Canvas>
+                <CustomTriggerCombobox />
+              </Preview.Canvas>
+              <Preview.Code html={code.customTrigger} />
             </Preview>
           </DocSubsection>
         </div>

@@ -14,7 +14,7 @@ const select = tv({
       "inline-flex select-none items-center justify-between gap-2",
       "outline-none transition-colors",
       "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-2 data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--danger)_60%,transparent)]",
-      "[&_[data-slot='button-content']]:w-full [&_[data-slot='button-content']]:justify-between",
+      "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
       "[&_[data-slot='select-trigger-content']_svg]:shrink-0",
       "[&_[data-slot='select-trigger-content']_svg:not([class*='size-'])]:size-3.5",
@@ -27,7 +27,7 @@ const select = tv({
     value: ["flex min-w-0 flex-1 truncate text-left"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "relative max-h-[var(--available-height)] min-w-[max(var(--anchor-width),220px)] overflow-hidden bg-layer-panel",
+      "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden bg-layer-panel",
       "outline-none",
     ],
     list: ["max-h-64 overflow-y-auto overscroll-contain scroll-py-6"],
@@ -57,23 +57,21 @@ const select = tv({
     theme: {
       brutal: {
         trigger: [
-          "flex w-full items-center justify-between gap-2 border-2 border-line-strong bg-layer-panel p-2 font-sans text-sm font-semibold text-foreground-strong shadow-raft-sm focus:outline-none",
-          "hover:bg-layer-panel hover:shadow-raft-sm",
-          "disabled:cursor-not-allowed disabled:bg-fill-muted disabled:text-foreground-strong/50 disabled:opacity-100",
+          "w-full",
+          "data-popup-open:-translate-y-px data-popup-open:shadow-raft-md",
+          "active:translate-x-0 active:-translate-y-px active:shadow-raft-md",
           "[&_[data-slot='select-value']_svg:not([class*='stroke-'])]:stroke-2",
-          "data-[popup-open]:translate-x-0 data-[popup-open]:translate-y-0",
-          "data-[popup-open]:hover:translate-x-0 data-[popup-open]:hover:translate-y-0",
           "[&[data-popup-open]_[data-slot='select-icon']]:rotate-180",
         ],
         content: [
-          "w-[var(--anchor-width)] min-w-[var(--anchor-width)] border-2 border-line-strong bg-layer-popover shadow-raft-md",
+          "w-(--anchor-width) min-w-(--anchor-width) border-2 border-line-strong bg-layer-popover shadow-raft-md",
         ],
         item: [
           "border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground-strong last:border-b-0",
           "[&_[data-slot='select-item-text']]:font-bold",
-          "hover:bg-primary/30 data-[highlighted]:bg-primary/30",
-          "data-[selected]:bg-layer-popover data-[selected]:hover:bg-primary/30 data-[selected][data-highlighted]:bg-primary/30",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-strong/30",
+          "hover:bg-primary/30 data-highlighted:bg-primary/30",
+          "data-selected:bg-layer-popover data-selected:hover:bg-primary/30 data-[selected][data-highlighted]:bg-primary/30",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
           "[&>svg]:pointer-events-none [&>svg]:shrink-0",
           "[&>svg:not([class*='size-'])]:size-3",
           "[&>svg:not([class*='stroke-'])]:stroke-2",
@@ -103,7 +101,7 @@ const select = tv({
       elegant: {
         trigger: [
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
-          "hover:bg-ink-2",
+          "hover:bg-ink-2 active:scale-100",
           "focus-visible:ring-1 focus-visible:ring-primary-400",
           "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
         ],
@@ -113,9 +111,9 @@ const select = tv({
           "rounded-sm bg-transparent px-2 py-1.5 text-[13px] font-normal leading-5 tracking-[-0.005em] text-foreground-muted",
           "transition-[background-color,color] duration-150",
           "hover:bg-ink-4 hover:text-foreground",
-          "data-[highlighted]:bg-ink-4 data-[highlighted]:text-foreground",
-          "data-[selected]:bg-ink-4 data-[selected]:text-foreground",
-          "data-[disabled]:pointer-events-none data-[disabled]:text-foreground-disabled",
+          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
+          "data-selected:bg-ink-4 data-selected:text-foreground",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
           "[&>svg]:pointer-events-none [&>svg]:shrink-0",
           "[&>svg:not([class*='size-'])]:size-3.5",
           "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
@@ -164,15 +162,11 @@ export function SelectTrigger({
 }: SelectTriggerProps) {
   const theme = useThemeFamily();
   const { trigger } = select({ theme });
-  const defaultRender = theme === "brutal" ? undefined : <Button variant="outline" size="md" />;
-  const renderProp = render ?? defaultRender;
 
   return (
     <BaseSelect.Trigger
       data-slot="select-trigger"
-      data-haspopup=""
-      render={renderProp}
-      className={trigger({ className })}
+      render={render ?? <Button variant="outline" size="md" className={trigger({ className })} />}
       {...props}
       data-invalid={dataInvalid || undefined}
       aria-invalid={dataInvalid ? "true" : undefined}

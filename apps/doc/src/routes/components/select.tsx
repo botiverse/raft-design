@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Clock, MessageSquare, Search } from "lucide-react";
+import { ArrowDownUp, ChevronDown, Clock, MessageSquare, Search } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -313,6 +313,49 @@ function RegionSelect() {
   </Select>
   <FieldDescription>Submitted through the hidden input named sort.</FieldDescription>
 </Field>`,
+  customTrigger: `import { ArrowDownUp, ChevronDown } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemText,
+  SelectList,
+  SelectTrigger,
+  SelectValue,
+} from "raft-ui";
+
+const sortOptions = [
+  { value: "relevance", label: "Relevant" },
+  { value: "recent", label: "Recent" },
+] as const;
+
+<Select defaultValue="relevance" items={sortOptions}>
+  <SelectTrigger
+    render={(props) => (
+      <button
+        {...props}
+        type="button"
+        className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold text-black/70 transition-colors hover:border-black"
+      >
+        <ArrowDownUp aria-hidden className="size-3.5" />
+        {props.children}
+        <ChevronDown aria-hidden className="size-3" />
+      </button>
+    )}
+  >
+    <SelectValue />
+  </SelectTrigger>
+  <SelectContent className="w-[180px]">
+    <SelectList>
+      {sortOptions.map((option) => (
+        <SelectItem key={option.value} value={option.value}>
+          <SelectItemText>{option.label}</SelectItemText>
+          <SelectItemIndicator />
+        </SelectItem>
+      ))}
+    </SelectList>
+  </SelectContent>
+</Select>`,
 } as const;
 
 const ROOT_PROPS: readonly PropRow[] = [
@@ -326,10 +369,16 @@ const ROOT_PROPS: readonly PropRow[] = [
 
 const TRIGGER_PROPS: readonly PropRow[] = [
   {
+    name: "render",
+    type: "ReactElement | (props, state) => ReactElement",
+    description:
+      "Replaces the trigger element entirely. When provided, the default Button and its recipe styles are skipped; pass event and aria props to your own element.",
+  },
+  {
     name: "...props",
     type: "Base UI Select.Trigger.Props",
     description:
-      "Button trigger rendered through Button by default. Compose SelectValue, icons, or custom inline content as children.",
+      "Default trigger renders an outline md Button. Compose SelectValue, icons, or custom inline content as children.",
   },
 ];
 
@@ -483,16 +532,10 @@ export const Route = createFileRoute("/components/select")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function SortSelect({ disabled = false, open }: { disabled?: boolean; open?: boolean }) {
+function SortSelect({ disabled = false }: { disabled?: boolean }) {
   return (
     <div className="flex justify-center">
-      <Select
-        disabled={disabled}
-        modal={false}
-        open={open}
-        defaultValue="relevance"
-        items={SORT_ICON_OPTIONS}
-      >
+      <Select disabled={disabled} modal={false} defaultValue="relevance" items={SORT_ICON_OPTIONS}>
         <SelectTrigger>
           <SelectValue placeholder="Sort">
             {(selectedValue) => {
@@ -684,6 +727,40 @@ function FieldSelect() {
   );
 }
 
+function CustomTriggerSelect() {
+  return (
+    <div className="flex justify-center">
+      <Select defaultValue="relevance" items={SORT_OPTIONS} modal={false}>
+        <SelectTrigger
+          render={(props) => (
+            <button
+              {...props}
+              type="button"
+              className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold text-black/70 transition-colors hover:border-black"
+            >
+              <ArrowDownUp aria-hidden className="size-3.5" />
+              {props.children}
+              <ChevronDown aria-hidden className="size-3" />
+            </button>
+          )}
+        >
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent className="w-[180px]">
+          <SelectList>
+            {SORT_OPTIONS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                <SelectItemText>{option.label}</SelectItemText>
+                <SelectItemIndicator />
+              </SelectItem>
+            ))}
+          </SelectList>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
 function SelectPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [disabled, setDisabled] = useState(false);
 
@@ -768,6 +845,14 @@ function SelectDoc() {
                 <FieldSelect />
               </Preview.Canvas>
               <Preview.Code html={code.field} />
+            </Preview>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="custom-trigger" title="Custom trigger">
+            <Preview previewClassName="min-h-[18rem] items-start pt-24">
+              <Preview.Canvas>
+                <CustomTriggerSelect />
+              </Preview.Canvas>
+              <Preview.Code html={code.customTrigger} />
             </Preview>
           </DocSubsection>
         </div>
