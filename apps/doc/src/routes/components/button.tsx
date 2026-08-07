@@ -93,7 +93,7 @@ const PROPS: readonly PropRow[] = [
   {
     name: "size",
     type: SIZES.map((size) => `"${size}"`).join(" | "),
-    default: '"sm"',
+    default: '"md"',
     description:
       "Text sizes scale height and padding; icon-* sizes render a square icon-only button.",
   },

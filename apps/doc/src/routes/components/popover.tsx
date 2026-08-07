@@ -114,6 +114,35 @@ const POPOVER_POPUP_PROPS: readonly PropRow[] = [
   },
 ];
 
+const POPOVER_PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Popover.Portal.Props",
+    description: "Portals the popup to the body or a custom container.",
+  },
+];
+
+const POPOVER_ARROW_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Popover.Arrow.Props",
+    description: "Optional arrow pointing at the trigger. Compose inside PopoverContent.",
+  },
+];
+
+const POPOVER_BACKDROP_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Popover.Backdrop.Props",
+    description: "Modal backdrop shown while a modal popover is open.",
+  },
+];
+
 const POPOVER_VIEWPORT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -309,8 +338,17 @@ function PopoverDoc() {
           <DocSubsection parentId="api" id="api-popover-content" title="PopoverContent">
             <PropsTable rows={POPOVER_CONTENT_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-portal" title="PopoverPortal">
+            <PropsTable rows={POPOVER_PORTAL_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-popover-popup" title="PopoverPopup">
             <PropsTable rows={POPOVER_POPUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-arrow" title="PopoverArrow">
+            <PropsTable rows={POPOVER_ARROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popover-backdrop" title="PopoverBackdrop">
+            <PropsTable rows={POPOVER_BACKDROP_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-popover-viewport" title="PopoverViewport">
             <PropsTable rows={POPOVER_VIEWPORT_PROPS} />

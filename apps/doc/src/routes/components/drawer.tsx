@@ -152,11 +152,15 @@ const SNIPPETS = {
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "open / defaultOpen",
+    name: "open",
     type: "boolean",
-    default: "— / false",
-    description:
-      "Controlled open state, or uncontrolled initial open state. Pair open with onOpenChange.",
+    description: "Controlled open state. Pair with onOpenChange.",
+  },
+  {
+    name: "defaultOpen",
+    type: "boolean",
+    default: "false",
+    description: "Initial open state for uncontrolled usage.",
   },
   {
     name: "onOpenChange",
@@ -194,9 +198,14 @@ const ROOT_PROPS: readonly PropRow[] = [
     description: "Initial snap point for an uncontrolled drawer.",
   },
   {
-    name: "snapPoint / onSnapPointChange",
-    type: "number | string | null / (snapPoint) => void",
-    description: "Controlled snap-point state and its change callback.",
+    name: "snapPoint",
+    type: "number | string | null",
+    description: "The currently active snap point. Use with onSnapPointChange to control it.",
+  },
+  {
+    name: "onSnapPointChange",
+    type: "(snapPoint: number | string | null, eventDetails) => void",
+    description: "Called when the active snap point changes.",
   },
 ];
 
@@ -229,6 +238,86 @@ const ACTIONS_PROPS: readonly PropRow[] = [
     description: "Width-aware action cluster for one or more actions.",
   },
 ];
+
+const TRIGGER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Drawer.Trigger.Props",
+    description: "Opens the drawer. Compose Button through render for visible triggers.",
+  },
+];
+
+const PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Drawer.Portal.Props",
+    description: "Portals the drawer to the body or a custom container.",
+  },
+];
+
+const OVERLAY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Drawer.Backdrop.Props",
+    description: "Backdrop behind the drawer while it is open.",
+  },
+];
+
+const HEADER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Top region for the drawer title and close action.",
+  },
+];
+
+const TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Drawer.Title.Props",
+    description: "Accessible drawer heading.",
+  },
+];
+
+const DESCRIPTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Drawer.Description.Props",
+    description: "Accessible supporting copy for the drawer.",
+  },
+];
+
+const FOOTER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Bottom region for actions or metadata.",
+  },
+];
+
+const CLOSE_PROPS: readonly PropRow[] = [
+  {
+    name: "variant",
+    type: "Button variant",
+    description: "Button styling for the default close control.",
+  },
+  {
+    name: "size",
+    type: "Button size",
+    description: "Button size for the default close control.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Drawer.Close.Props",
+    description: "Closes the drawer. Compose your own visual affordance with render/className.",
+  },
+];
+
 export const Route = createFileRoute("/components/drawer")({
   component: DrawerDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -375,14 +464,38 @@ function DrawerDoc() {
           <DocSubsection parentId="api" id="api-root" title="Drawer">
             <PropsTable rows={ROOT_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-trigger" title="DrawerTrigger">
+            <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-portal" title="DrawerPortal">
+            <PropsTable rows={PORTAL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-overlay" title="DrawerOverlay">
+            <PropsTable rows={OVERLAY_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-content" title="DrawerContent">
             <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-header" title="DrawerHeader">
+            <PropsTable rows={HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-title" title="DrawerTitle">
+            <PropsTable rows={TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description" title="DrawerDescription">
+            <PropsTable rows={DESCRIPTION_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-body" title="DrawerBody">
             <PropsTable rows={BODY_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-footer" title="DrawerFooter">
+            <PropsTable rows={FOOTER_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-actions" title="DrawerActions">
             <PropsTable rows={ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-close" title="DrawerClose">
+            <PropsTable rows={CLOSE_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

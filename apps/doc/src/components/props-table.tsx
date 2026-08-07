@@ -13,6 +13,11 @@ function hasDefaultValue(value: string | undefined): value is string {
   return value != null && !EMPTY_DEFAULTS.has(value.trim());
 }
 
+/**
+ * API reference table in the same shape as shadcn / Base UI / Kumo docs:
+ * one row per prop, fixed Prop | Type | Default | Description columns so every
+ * part subsection on a page lines up, and the Default column always present.
+ */
 export function PropsTable({
   rows,
   nameColumnLabel = "Prop",
@@ -20,34 +25,32 @@ export function PropsTable({
   rows: readonly PropRow[];
   nameColumnLabel?: string;
 }) {
-  const showDefault = rows.some((row) => hasDefaultValue(row.default));
-
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
           <tr className="border-b border-line-muted text-foreground-muted">
-            <th className="py-2 pr-6 font-medium">{nameColumnLabel}</th>
-            <th className="py-2 pr-6 font-medium">Type</th>
-            {showDefault ? <th className="py-2 pr-6 font-medium">Default</th> : null}
-            <th className="py-2 font-medium">Description</th>
+            <th className="py-2 pr-6 font-medium whitespace-nowrap align-top">{nameColumnLabel}</th>
+            <th className="py-2 pr-6 font-medium whitespace-nowrap align-top">Type</th>
+            <th className="py-2 pr-6 font-medium whitespace-nowrap align-top">Default</th>
+            <th className="py-2 font-medium align-top">Description</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
             <tr key={row.name} className="border-b border-line-muted align-top">
-              <td className="py-3 pr-6 whitespace-nowrap">
+              <td className="py-3 pr-6 align-top">
                 <InlineCode className="whitespace-nowrap [overflow-wrap:normal]">
                   {row.name}
                 </InlineCode>
               </td>
-              <td className="py-3 pr-6 font-mono text-xs text-info-strong">{row.type}</td>
-              {showDefault ? (
-                <td className="py-3 pr-6 font-mono text-xs text-foreground-muted">
-                  {hasDefaultValue(row.default) ? row.default : "—"}
-                </td>
-              ) : null}
-              <td className="py-3 text-foreground-muted">{row.description}</td>
+              <td className="py-3 pr-6 font-mono text-xs break-words text-info-strong align-top">
+                {row.type}
+              </td>
+              <td className="py-3 pr-6 font-mono text-xs whitespace-nowrap text-foreground-muted align-top">
+                {hasDefaultValue(row.default) ? row.default : "—"}
+              </td>
+              <td className="py-3 text-foreground-muted align-top">{row.description}</td>
             </tr>
           ))}
         </tbody>

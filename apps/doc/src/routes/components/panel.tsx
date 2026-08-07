@@ -195,6 +195,15 @@ const PANEL_ACTIONS_PROPS: readonly PropRow[] = [
   },
 ];
 
+const PANEL_TOGGLE_ACTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'Omit<StyledProps<BaseToggle.Props>, "type">',
+    description:
+      "Base UI Toggle props for a pressed-state action (for example panel collapse). See the conversation-panel page for its header usage.",
+  },
+];
+
 const PANEL_ACTION_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -337,6 +346,9 @@ function PanelDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-actions" title="PanelActions">
             <PropsTable rows={PANEL_ACTIONS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-panel-toggle-action" title="PanelToggleAction">
+            <PropsTable rows={PANEL_TOGGLE_ACTION_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-panel-action" title="PanelAction">
             <PropsTable rows={PANEL_ACTION_PROPS} />

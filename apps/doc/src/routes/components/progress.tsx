@@ -158,6 +158,46 @@ const PROPS: readonly PropRow[] = [
   },
 ];
 
+const HEADER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Label and value row rendered above the track.",
+  },
+];
+
+const LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Progress.Label.Props",
+    description: "Accessible component label shown inside the header row.",
+  },
+];
+
+const VALUE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Progress.Value.Props",
+    description: "Formatted current value shown inside the header row.",
+  },
+];
+
+const TRACK_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Progress.Track.Props",
+    description: "Full-width track behind the indicator.",
+  },
+];
+
+const INDICATOR_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Progress.Indicator.Props",
+    description: "Filled portion of the track.",
+  },
+];
+
 const PROGRESS_COMPOSITION_RAW_SOURCES = {
   Preview: progressPreviewCompositionSource,
   EmbeddedProgress: embeddedProgressCompositionSource,
@@ -318,7 +358,26 @@ function ProgressDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-progress" title="Progress">
+            <PropsTable rows={PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-progress-header" title="ProgressHeader">
+            <PropsTable rows={HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-progress-label" title="ProgressLabel">
+            <PropsTable rows={LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-progress-value" title="ProgressValue">
+            <PropsTable rows={VALUE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-progress-track" title="ProgressTrack">
+            <PropsTable rows={TRACK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-progress-indicator" title="ProgressIndicator">
+            <PropsTable rows={INDICATOR_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

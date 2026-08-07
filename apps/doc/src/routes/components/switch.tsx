@@ -64,9 +64,22 @@ const SWITCH_ROOT_PROPS: readonly PropRow[] = [
     description: "Called when the switch is toggled.",
   },
   {
-    name: "disabled / readOnly / required",
+    name: "disabled",
     type: "boolean",
-    description: "Interaction and form-validation state from Base UI Switch.",
+    default: "false",
+    description: "Disables the switch.",
+  },
+  {
+    name: "readOnly",
+    type: "boolean",
+    default: "false",
+    description: "Keeps the switch focusable but prevents toggling.",
+  },
+  {
+    name: "required",
+    type: "boolean",
+    default: "false",
+    description: "Marks the hidden native input required for form validation.",
   },
   {
     name: "...props",

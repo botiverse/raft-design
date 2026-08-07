@@ -151,6 +151,59 @@ const CONTEXT_MENU_TRIGGER_PROPS: readonly PropRow[] = [
   },
 ];
 
+const CONTEXT_MENU_PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI ContextMenu.Portal.Props",
+    description: "Portals the menu to the body or a custom container.",
+  },
+];
+
+const CONTEXT_MENU_POPUP_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Static panel shell for docs previews and non-portaled comparison panes.",
+  },
+];
+
+const CONTEXT_MENU_ITEM_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'StyledProps<ComponentPropsWithRef<"span">>',
+    description: "Small muted label above grouped items or inside an item.",
+  },
+];
+
+const CONTEXT_MENU_FOOTER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'StyledProps<ComponentPropsWithRef<"div">>',
+    description: "Footer region with a top hairline for auxiliary controls.",
+  },
+];
+
+const CONTEXT_MENU_CHECKBOX_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI ContextMenu.CheckboxItemIndicator.Props",
+    description: "Check indicator shown inside a checked ContextMenuCheckboxItem.",
+  },
+];
+
+const CONTEXT_MENU_RADIO_ITEM_INDICATOR_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI ContextMenu.RadioItemIndicator.Props",
+    description: "Radio dot shown inside a selected ContextMenuRadioItem.",
+  },
+];
+
 const CONTEXT_MENU_CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -497,11 +550,24 @@ function ContextMenuDoc() {
           <DocSubsection parentId="api" id="api-context-menu-trigger" title="ContextMenuTrigger">
             <PropsTable rows={CONTEXT_MENU_TRIGGER_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-context-menu-portal" title="ContextMenuPortal">
+            <PropsTable rows={CONTEXT_MENU_PORTAL_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-context-menu-content" title="ContextMenuContent">
             <PropsTable rows={CONTEXT_MENU_CONTENT_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-context-menu-popup" title="ContextMenuPopup">
+            <PropsTable rows={CONTEXT_MENU_POPUP_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-context-menu-item" title="ContextMenuItem">
             <PropsTable rows={CONTEXT_MENU_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-context-menu-item-label"
+            title="ContextMenuItemLabel"
+          >
+            <PropsTable rows={CONTEXT_MENU_ITEM_LABEL_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-context-menu-label" title="ContextMenuLabel">
             <PropsTable rows={CONTEXT_MENU_LABEL_PROPS} />
@@ -515,6 +581,9 @@ function ContextMenuDoc() {
             title="ContextMenuSeparator"
           >
             <PropsTable rows={CONTEXT_MENU_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-context-menu-footer" title="ContextMenuFooter">
+            <PropsTable rows={CONTEXT_MENU_FOOTER_PROPS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"
@@ -532,10 +601,24 @@ function ContextMenuDoc() {
           </DocSubsection>
           <DocSubsection
             parentId="api"
+            id="api-context-menu-radio-item-indicator"
+            title="ContextMenuRadioItemIndicator"
+          >
+            <PropsTable rows={CONTEXT_MENU_RADIO_ITEM_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
             id="api-context-menu-checkbox-item"
             title="ContextMenuCheckboxItem"
           >
             <PropsTable rows={CONTEXT_MENU_CHECKBOX_ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-context-menu-checkbox-item-indicator"
+            title="ContextMenuCheckboxItemIndicator"
+          >
+            <PropsTable rows={CONTEXT_MENU_CHECKBOX_ITEM_INDICATOR_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-context-menu-submenu" title="ContextMenuSubmenu">
             <PropsTable rows={CONTEXT_MENU_SUBMENU_PROPS} />

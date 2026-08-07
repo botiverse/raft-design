@@ -145,12 +145,98 @@ const ACTION_PROPS: readonly PropRow[] = [
   },
 ];
 
+const PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Dialog.Portal.Props",
+    description: "Portals the alert dialog to the body or a custom container.",
+  },
+];
+
+const OVERLAY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Dialog.Backdrop.Props",
+    description: "Backdrop behind the alert dialog while it is open.",
+  },
+];
+
+const HEADER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Top region for the alert title and description.",
+  },
+];
+
+const BODY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Main content area between header and actions.",
+  },
+];
+
+const FOOTER_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Bottom region for cancel and confirm actions.",
+  },
+];
+
+const TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Dialog.Title.Props",
+    description: "Accessible alert heading.",
+  },
+];
+
+const DESCRIPTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Dialog.Description.Props",
+    description: "Accessible supporting copy for the alert.",
+  },
+];
+
+const CLOSE_PROPS: readonly PropRow[] = [
+  {
+    name: "variant",
+    type: "Button variant",
+    description: "Button styling for the close control.",
+  },
+  {
+    name: "size",
+    type: "Button size",
+    description: "Button size for the close control.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Dialog.Close.Props",
+    description:
+      "Closes the alert dialog. Compose your own visual affordance with render/className.",
+  },
+];
+
 const CANCEL_PROPS: readonly PropRow[] = [
   {
-    name: "variant / size",
-    type: "Button variant / size",
-    default: "outline / sm",
+    name: "variant",
+    type: "Button variant",
+    default: "outline",
     description: "Button styling for the cancelling close action.",
+  },
+  {
+    name: "size",
+    type: "Button size",
+    default: "sm",
+    description: "Button size for the cancelling close action.",
   },
   {
     name: "...props",
@@ -281,8 +367,32 @@ function AlertDialogDoc() {
           <DocSubsection parentId="api" id="api-trigger" title="AlertDialogTrigger">
             <PropsTable rows={TRIGGER_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-portal" title="AlertDialogPortal">
+            <PropsTable rows={PORTAL_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-content" title="AlertDialogContent">
             <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-overlay" title="AlertDialogOverlay">
+            <PropsTable rows={OVERLAY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-header" title="AlertDialogHeader">
+            <PropsTable rows={HEADER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-body" title="AlertDialogBody">
+            <PropsTable rows={BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-footer" title="AlertDialogFooter">
+            <PropsTable rows={FOOTER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-title" title="AlertDialogTitle">
+            <PropsTable rows={TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-description" title="AlertDialogDescription">
+            <PropsTable rows={DESCRIPTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-close" title="AlertDialogClose">
+            <PropsTable rows={CLOSE_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-action" title="AlertDialogAction">
             <PropsTable rows={ACTION_PROPS} />

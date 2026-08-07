@@ -115,6 +115,19 @@ const PREVIEW_CARD_PROPS: readonly PropRow[] = [
   },
 ];
 
+const PREVIEW_CARD_PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI PreviewCard.Portal.Props",
+    description: "Portals the preview card to the body or a custom container.",
+  },
+];
+
 const PREVIEW_CARD_TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -288,6 +301,9 @@ function PreviewCardDoc() {
         <div className="space-y-6">
           <DocSubsection parentId="api" id="api-preview-card" title="PreviewCard">
             <PropsTable rows={PREVIEW_CARD_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-preview-card-portal" title="PreviewCardPortal">
+            <PropsTable rows={PREVIEW_CARD_PORTAL_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-preview-card-trigger" title="PreviewCardTrigger">
             <PropsTable rows={PREVIEW_CARD_TRIGGER_PROPS} />

@@ -176,9 +176,15 @@ const BOARD_ROOT_PROPS: readonly PropRow[] = [
 
 const BOARD_COLUMN_PROPS: readonly PropRow[] = [
   {
-    name: "open / defaultOpen",
+    name: "open",
     type: "boolean",
-    description: "Controlled or uncontrolled collapsed state for the column.",
+    description: "Controlled collapsed state for the column.",
+  },
+  {
+    name: "defaultOpen",
+    type: "boolean",
+    default: "false",
+    description: "Initial collapsed state for the column.",
   },
   {
     name: "...props",

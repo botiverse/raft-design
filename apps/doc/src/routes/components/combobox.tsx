@@ -703,6 +703,123 @@ const COMBOBOX_SEPARATOR_PROPS: readonly PropRow[] = [
   },
 ];
 
+const COMBOBOX_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.Label.Props",
+    description: "Accessible label for the combobox.",
+  },
+];
+
+const COMBOBOX_VALUE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.Value.Props",
+    description: "Displayed value slot inside the trigger.",
+  },
+];
+
+const COMBOBOX_TRIGGER_COUNT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'StyledProps<ComponentPropsWithRef<"span">>',
+    description: "Count badge shown next to the trigger value.",
+  },
+];
+
+const COMBOBOX_TRIGGER_INDICATOR_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'StyledProps<ComponentPropsWithRef<"span">>',
+    description: "Chevron or custom indicator inside the trigger.",
+  },
+];
+
+const COMBOBOX_INPUT_GROUP_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.InputGroup.Props",
+    description: "Layout wrapper grouping the input with trigger actions.",
+  },
+];
+
+const COMBOBOX_PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Combobox.Portal.Props",
+    description: "Portals the popup to the body or a custom container.",
+  },
+];
+
+const COMBOBOX_EMPTY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.Empty.Props",
+    description: "Empty-state message shown when no options match.",
+  },
+];
+
+const COMBOBOX_GROUP_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.Group.Props",
+    description: "Group container for related options.",
+  },
+];
+
+const COMBOBOX_GROUP_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.GroupLabel.Props",
+    description: "Group heading inside ComboboxGroup.",
+  },
+];
+
+const COMBOBOX_ROW_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.Row.Props",
+    description: "Row layout for composite options.",
+  },
+];
+
+const COMBOBOX_COLLECTION_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.Collection.Props",
+    description: "Collects items for keyboard navigation and filtering.",
+  },
+];
+
+const COMBOBOX_CHIPS_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.Chips.Props",
+    description: "Wrap container for selected-value chips.",
+  },
+];
+
+const COMBOBOX_CHIP_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.Chip.Props",
+    description: "Single selected-value chip.",
+  },
+];
+
+const COMBOBOX_CHIP_REMOVE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Combobox.ChipRemove.Props",
+    description: "Dismiss control inside a selected-value chip.",
+  },
+];
+
 const COMBOBOX_POPUP_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -1173,20 +1290,46 @@ function ComboboxDoc() {
           <DocSubsection parentId="api" id="api-combobox" title="Combobox">
             <PropsTable rows={COMBOBOX_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-label" title="ComboboxLabel">
+            <PropsTable rows={COMBOBOX_LABEL_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-combobox-control" title="ComboboxControl">
             <PropsTable rows={COMBOBOX_CONTROL_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-combobox-trigger" title="ComboboxTrigger">
             <PropsTable rows={COMBOBOX_TRIGGER_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-value" title="ComboboxValue">
+            <PropsTable rows={COMBOBOX_VALUE_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-combobox-trigger-count"
+            title="ComboboxTriggerCount"
+          >
+            <PropsTable rows={COMBOBOX_TRIGGER_COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-combobox-trigger-indicator"
+            title="ComboboxTriggerIndicator"
+          >
+            <PropsTable rows={COMBOBOX_TRIGGER_INDICATOR_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-combobox-input" title="ComboboxInput">
             <PropsTable rows={COMBOBOX_INPUT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-input-group" title="ComboboxInputGroup">
+            <PropsTable rows={COMBOBOX_INPUT_GROUP_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-combobox-clear" title="ComboboxClear">
             <PropsTable rows={COMBOBOX_CLEAR_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-combobox-content" title="ComboboxContent">
             <PropsTable rows={COMBOBOX_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-portal" title="ComboboxPortal">
+            <PropsTable rows={COMBOBOX_PORTAL_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-combobox-header" title="ComboboxHeader">
             <PropsTable rows={COMBOBOX_HEADER_PROPS} />
@@ -1200,6 +1343,18 @@ function ComboboxDoc() {
           <DocSubsection parentId="api" id="api-combobox-list" title="ComboboxList">
             <PropsTable rows={COMBOBOX_LIST_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-empty" title="ComboboxEmpty">
+            <PropsTable rows={COMBOBOX_EMPTY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-group" title="ComboboxGroup">
+            <PropsTable rows={COMBOBOX_GROUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-group-label" title="ComboboxGroupLabel">
+            <PropsTable rows={COMBOBOX_GROUP_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-row" title="ComboboxRow">
+            <PropsTable rows={COMBOBOX_ROW_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-combobox-item" title="ComboboxItem">
             <PropsTable rows={COMBOBOX_ITEM_PROPS} />
           </DocSubsection>
@@ -1209,6 +1364,18 @@ function ComboboxDoc() {
             title="ComboboxItemIndicator"
           >
             <PropsTable rows={COMBOBOX_ITEM_INDICATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-collection" title="ComboboxCollection">
+            <PropsTable rows={COMBOBOX_COLLECTION_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-chips" title="ComboboxChips">
+            <PropsTable rows={COMBOBOX_CHIPS_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-chip" title="ComboboxChip">
+            <PropsTable rows={COMBOBOX_CHIP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-combobox-chip-remove" title="ComboboxChipRemove">
+            <PropsTable rows={COMBOBOX_CHIP_REMOVE_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

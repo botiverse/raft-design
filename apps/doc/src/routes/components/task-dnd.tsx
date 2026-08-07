@@ -76,9 +76,24 @@ const DND_PROVIDER_PROPS: readonly PropRow[] = [
     description: "Called when onMove rejects.",
   },
   {
-    name: "onDragStart / onDragOver / onDragCancel / onDragEnd",
-    type: "dnd-kit drag event handlers",
-    description: "Optional low-level drag lifecycle hooks.",
+    name: "onDragStart",
+    type: "(event: DragStartEvent) => void",
+    description: "Optional hook fired when a drag starts.",
+  },
+  {
+    name: "onDragOver",
+    type: "(event: DragOverEvent) => void",
+    description: "Optional hook fired when a draggable moves over another droppable.",
+  },
+  {
+    name: "onDragCancel",
+    type: "(event: DragCancelEvent) => void",
+    description: "Optional hook fired when a drag is cancelled.",
+  },
+  {
+    name: "onDragEnd",
+    type: "(event: DragEndEvent) => void",
+    description: "Optional hook fired when a drag ends.",
   },
   {
     name: "children",

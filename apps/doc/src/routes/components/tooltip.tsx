@@ -232,9 +232,15 @@ const TOOLTIP_PROVIDER_PROPS: readonly PropRow[] = [
 
 const TOOLTIP_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "open / defaultOpen",
+    name: "open",
     type: "boolean",
-    description: "Controlled or initial open state.",
+    description: "Controlled open state. Pair with onOpenChange.",
+  },
+  {
+    name: "defaultOpen",
+    type: "boolean",
+    default: "false",
+    description: "Initial open state for uncontrolled usage.",
   },
   {
     name: "onOpenChange",
@@ -268,9 +274,14 @@ const TOOLTIP_TRIGGER_PROPS: readonly PropRow[] = [
     description: "Compose the trigger with Button, time, span, or another focusable element.",
   },
   {
-    name: "delay / closeDelay",
+    name: "delay",
     type: "number",
-    description: "Per-trigger timing overrides.",
+    description: "Per-trigger open delay override in milliseconds.",
+  },
+  {
+    name: "closeDelay",
+    type: "number",
+    description: "Per-trigger close delay override in milliseconds.",
   },
   {
     name: "payload",
@@ -281,6 +292,19 @@ const TOOLTIP_TRIGGER_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "Base UI Tooltip.Trigger.Props",
     description: "Native button props plus Base UI trigger behavior.",
+  },
+];
+
+const TOOLTIP_PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Tooltip.Portal.Props",
+    description: "Portals the tooltip to the body or a custom container.",
   },
 ];
 
@@ -298,10 +322,16 @@ const TOOLTIP_CONTENT_PROPS: readonly PropRow[] = [
     description: "Alignment against the trigger.",
   },
   {
-    name: "sideOffset / alignOffset",
+    name: "sideOffset",
     type: "number",
-    default: "8 elegant, 6 brutal / 0",
-    description: "Offsets passed to Base UI Positioner.",
+    default: "8 elegant, 6 brutal",
+    description: "Distance from the trigger edge, passed to Base UI Positioner.",
+  },
+  {
+    name: "alignOffset",
+    type: "number",
+    default: "0",
+    description: "Distance along the aligned axis, passed to Base UI Positioner.",
   },
   {
     name: "portalProps",
@@ -714,6 +744,9 @@ function TooltipDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-trigger" title="TooltipTrigger">
             <PropsTable rows={TOOLTIP_TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-portal" title="TooltipPortal">
+            <PropsTable rows={TOOLTIP_PORTAL_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-content" title="TooltipContent">
             <PropsTable rows={TOOLTIP_CONTENT_PROPS} />

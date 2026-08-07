@@ -143,6 +143,27 @@ const ROOT_PROPS: readonly PropRow[] = [
   },
 ];
 
+const PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Dialog.Portal.Props",
+    description: "Portals the dialog to the body or a custom container.",
+  },
+];
+
+const OVERLAY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Dialog.Backdrop.Props",
+    description: "Backdrop behind the dialog panel while it is open.",
+  },
+];
+
 const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -206,9 +227,14 @@ const DESCRIPTION_PROPS: readonly PropRow[] = [
 
 const CLOSE_PROPS: readonly PropRow[] = [
   {
-    name: "variant / size",
-    type: "Button variant / size",
+    name: "variant",
+    type: "Button variant",
     description: "Button styling when using the default themed icon button.",
+  },
+  {
+    name: "size",
+    type: "Button size",
+    description: "Button size when using the default themed icon button.",
   },
   {
     name: "...props",
@@ -410,6 +436,12 @@ function DialogDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-trigger" title="DialogTrigger">
             <PropsTable rows={TRIGGER_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-portal" title="DialogPortal">
+            <PropsTable rows={PORTAL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-overlay" title="DialogOverlay">
+            <PropsTable rows={OVERLAY_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-content" title="DialogContent">
             <PropsTable rows={CONTENT_PROPS} />

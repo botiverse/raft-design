@@ -360,6 +360,83 @@ const ITEM_PROPS: readonly PropRow[] = [
   },
 ];
 
+const ICON_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Select.Icon.Props",
+    description: "Chevron or custom indicator inside the trigger.",
+  },
+];
+
+const PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Select.Portal.Props",
+    description: "Portals the select list to the body or a custom container.",
+  },
+];
+
+const POPUP_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"div">',
+    description: "Static panel shell for docs previews and non-portaled comparison panes.",
+  },
+];
+
+const LIST_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Select.List.Props",
+    description: "Scrollable list container inside the popup.",
+  },
+];
+
+const ITEM_TEXT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Select.ItemText.Props",
+    description: "Text span inside SelectItem.",
+  },
+];
+
+const SEPARATOR_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'StyledProps<ComponentPropsWithRef<"div">>',
+    description: "Horizontal divider between option groups.",
+  },
+];
+
+const SCROLL_UP_ARROW_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Select.ScrollUpArrow.Props",
+    description: "Scroll hint shown at the top when the list overflows.",
+  },
+];
+
+const SCROLL_DOWN_ARROW_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Select.ScrollDownArrow.Props",
+    description: "Scroll hint shown at the bottom when the list overflows.",
+  },
+];
+
+const ARROW_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "Base UI Select.Arrow.Props",
+    description: "Optional arrow pointing at the trigger.",
+  },
+];
+
 const ITEM_LEADING_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -707,14 +784,29 @@ function SelectDoc() {
           <DocSubsection parentId="api" id="api-value" title="SelectValue">
             <PropsTable rows={VALUE_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-icon" title="SelectIcon">
+            <PropsTable rows={ICON_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-content" title="SelectContent">
             <PropsTable rows={CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-portal" title="SelectPortal">
+            <PropsTable rows={PORTAL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-popup" title="SelectPopup">
+            <PropsTable rows={POPUP_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-list" title="SelectList">
+            <PropsTable rows={LIST_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-item" title="SelectItem">
             <PropsTable rows={ITEM_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-item-leading" title="SelectItemLeading">
             <PropsTable rows={ITEM_LEADING_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item-text" title="SelectItemText">
+            <PropsTable rows={ITEM_TEXT_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-item-indicator" title="SelectItemIndicator">
             <PropsTable rows={ITEM_INDICATOR_PROPS} />
@@ -727,6 +819,18 @@ function SelectDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-group-label" title="SelectGroupLabel">
             <PropsTable rows={GROUP_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-separator" title="SelectSeparator">
+            <PropsTable rows={SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-scroll-up-arrow" title="SelectScrollUpArrow">
+            <PropsTable rows={SCROLL_UP_ARROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-scroll-down-arrow" title="SelectScrollDownArrow">
+            <PropsTable rows={SCROLL_DOWN_ARROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-arrow" title="SelectArrow">
+            <PropsTable rows={ARROW_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

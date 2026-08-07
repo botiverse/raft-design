@@ -147,6 +147,41 @@ const PROPS: readonly PropRow[] = [
   { name: "className", type: "string", description: "Additional classes on the group." },
 ];
 
+const ITEM_PROPS: readonly PropRow[] = [
+  {
+    name: "value",
+    type: "T",
+    description: "The value this segment selects.",
+  },
+  {
+    name: "disabled",
+    type: "boolean",
+    default: "false",
+    description: "Disables this segment only.",
+  },
+  {
+    name: "...props",
+    type: "Base UI Radio.Root.Props<T>",
+    description: "Native radio attributes plus Base UI radio behavior.",
+  },
+];
+
+const LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"span">',
+    description: "Segment label text.",
+  },
+];
+
+const COUNT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'ComponentPropsWithRef<"span">',
+    description: "Optional numeric badge or count shown after the label.",
+  },
+];
+
 export const Route = createFileRoute("/components/segmented-control")({
   component: SegmentedControlDoc,
   loader: () => highlightSnippets({ data: SNIPPETS }),
@@ -234,7 +269,20 @@ function SegmentedControlDoc() {
       </DocSection>
 
       <DocSection id="api" title="API">
-        <PropsTable rows={PROPS} />
+        <div className="space-y-6">
+          <DocSubsection parentId="api" id="api-segmented-control" title="SegmentedControl">
+            <PropsTable rows={PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-item" title="SegmentedControlItem">
+            <PropsTable rows={ITEM_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-label" title="SegmentedControlLabel">
+            <PropsTable rows={LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-count" title="SegmentedControlCount">
+            <PropsTable rows={COUNT_PROPS} />
+          </DocSubsection>
+        </div>
       </DocSection>
     </DocPage>
   );

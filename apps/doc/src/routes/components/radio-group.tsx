@@ -96,9 +96,14 @@ const SNIPPETS = {
 
 const RADIO_GROUP_ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "value / defaultValue",
+    name: "value",
     type: "T",
-    description: "Controlled or uncontrolled selected value.",
+    description: "Controlled selected value.",
+  },
+  {
+    name: "defaultValue",
+    type: "T",
+    description: "Initial selected value for uncontrolled usage.",
   },
   {
     name: "onValueChange",
@@ -116,9 +121,22 @@ const RADIO_GROUP_ROOT_PROPS: readonly PropRow[] = [
     description: "Native form field name passed to the hidden radio inputs.",
   },
   {
-    name: "disabled / readOnly / required",
+    name: "disabled",
     type: "boolean",
-    description: "Group-level interaction and form-validation state.",
+    default: "false",
+    description: "Disables selection across the whole group.",
+  },
+  {
+    name: "readOnly",
+    type: "boolean",
+    default: "false",
+    description: "Keeps the group focusable but prevents changing the selection.",
+  },
+  {
+    name: "required",
+    type: "boolean",
+    default: "false",
+    description: "Marks the hidden native inputs required for form validation.",
   },
   {
     name: "...props",

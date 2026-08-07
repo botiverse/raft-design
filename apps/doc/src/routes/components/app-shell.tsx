@@ -55,11 +55,15 @@ const APP_SHELL_ROOT_PROPS: readonly PropRow[] = [
       "When true, coordinates sidebar visibility and measures sidebar width for the main-panel transition.",
   },
   {
-    name: "sidebarOpen / defaultSidebarOpen",
+    name: "sidebarOpen",
     type: "boolean",
-    default: "defaultSidebarOpen: true",
-    description:
-      "Controlled or uncontrolled sidebar visibility when sidebarCollapsible is enabled.",
+    description: "Controlled sidebar visibility when sidebarCollapsible is enabled.",
+  },
+  {
+    name: "defaultSidebarOpen",
+    type: "boolean",
+    default: "true",
+    description: "Initial sidebar visibility for uncontrolled usage.",
   },
   {
     name: "onSidebarOpenChange",

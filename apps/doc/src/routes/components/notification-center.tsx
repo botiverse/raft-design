@@ -251,9 +251,15 @@ const SNIPPETS = {
 
 const ROOT_PROPS: readonly PropRow[] = [
   {
-    name: "open / defaultOpen",
+    name: "open",
     type: "boolean",
-    description: "Popover open state owned by Base UI Popover.Root.",
+    description: "Controlled open state owned by Base UI Popover.Root.",
+  },
+  {
+    name: "defaultOpen",
+    type: "boolean",
+    default: "false",
+    description: "Initial open state for uncontrolled usage.",
   },
   {
     name: "modal",
@@ -296,16 +302,35 @@ const POPUP_PROPS: readonly PropRow[] = [
     description: "Frame height token. Desktop uses fixed heights; mobile uses max-height tokens.",
   },
   {
-    name: "side / align",
-    type: '"top" | "bottom" | "left" | "right" / "start" | "center" | "end"',
-    default: '"bottom" / "center"',
+    name: "side",
+    type: '"top" | "bottom" | "left" | "right" | "inline-start" | "inline-end"',
+    default: '"bottom"',
     description:
       "Anchored placement relative to the trigger, forwarded to Base UI Popover.Positioner.",
   },
   {
-    name: "positionMethod / sideOffset / collisionAvoidance",
-    type: '"fixed" | "absolute" / number / CollisionAvoidance',
-    description: "Positioner tuning. The popup bundles Portal, Positioner, and Popup internally.",
+    name: "align",
+    type: '"start" | "center" | "end"',
+    default: '"center"',
+    description: "Alignment along the anchored side, forwarded to Base UI Popover.Positioner.",
+  },
+  {
+    name: "positionMethod",
+    type: '"fixed" | "absolute"',
+    default: '"fixed"',
+    description:
+      "Positioning strategy for the popup. The popup bundles Portal, Positioner, and Popup internally.",
+  },
+  {
+    name: "sideOffset",
+    type: "number",
+    default: "4",
+    description: "Gap between the trigger and the popup edge.",
+  },
+  {
+    name: "collisionAvoidance",
+    type: "CollisionAvoidance",
+    description: "How the popup avoids viewport edges when space runs out.",
   },
   {
     name: "portalProps",

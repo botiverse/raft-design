@@ -437,9 +437,24 @@ const PROVIDER_PROPS: readonly PropRow[] = [
 
 const TOAST_CHANNEL_PROPS: readonly PropRow[] = [
   {
-    name: "info / success / warning / error",
+    name: "info",
     type: "(title: string, options?) => string",
-    description: "Default imperative toast channel for app code.",
+    description: "Imperative info toast. Returns the toast id.",
+  },
+  {
+    name: "success",
+    type: "(title: string, options?) => string",
+    description: "Imperative success toast. Returns the toast id.",
+  },
+  {
+    name: "warning",
+    type: "(title: string, options?) => string",
+    description: "Imperative warning toast. Returns the toast id.",
+  },
+  {
+    name: "error",
+    type: "(title: string, options?) => string",
+    description: "Imperative error toast. Returns the toast id.",
   },
   {
     name: "add",
@@ -531,6 +546,22 @@ const ROOT_PROPS: readonly PropRow[] = [
   },
 ];
 
+const ICON_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "React.HTMLAttributes<HTMLDivElement>",
+    description: "Leading icon slot. Compose a caller-owned status or product icon.",
+  },
+];
+
+const BODY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "React.HTMLAttributes<HTMLDivElement>",
+    description: "Vertical stack for ToastTitle and ToastDescription.",
+  },
+];
+
 const CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -566,9 +597,16 @@ const DESCRIPTION_PROPS: readonly PropRow[] = [
 
 const ACTION_PROPS: readonly PropRow[] = [
   {
-    name: "loading / loadingLabel",
-    type: "boolean / string",
+    name: "loading",
+    type: "boolean",
+    default: "false",
     description: "Shows a loading affordance on the action when the toast is busy.",
+  },
+  {
+    name: "loadingLabel",
+    type: "string",
+    default: '"Loading"',
+    description: "Accessible label for the loading spinner.",
   },
   {
     name: "...props",
@@ -740,6 +778,12 @@ function ToastDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-root" title="ToastRoot">
             <PropsTable rows={ROOT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-icon" title="ToastIcon">
+            <PropsTable rows={ICON_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-body" title="ToastBody">
+            <PropsTable rows={BODY_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-content" title="ToastContent">
             <PropsTable rows={CONTENT_PROPS} />

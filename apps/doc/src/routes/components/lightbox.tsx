@@ -87,6 +87,19 @@ const ROOT_PROPS: readonly PropRow[] = [
   },
 ];
 
+const PORTAL_PROPS: readonly PropRow[] = [
+  {
+    name: "container",
+    type: "HTMLElement | RefObject | null",
+    description: "Custom portal container for framed previews or contained overlays.",
+  },
+  {
+    name: "...props",
+    type: "Dialog.Portal.Props",
+    description: "Portals the lightbox to the body or a custom container.",
+  },
+];
+
 const TRIGGER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -203,6 +216,22 @@ const INFO_BAR_PROPS: readonly PropRow[] = [
   },
 ];
 
+const INFO_TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Truncating title used inside LightboxInfoDock.",
+  },
+];
+
+const INFO_ACTIONS_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Action row inside LightboxInfoDock for caller-owned actions.",
+  },
+];
+
 const THUMBNAIL_STRIP_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -302,6 +331,9 @@ function LightboxDoc() {
           <DocSubsection parentId="api" id="api-trigger" title="LightboxTrigger">
             <PropsTable rows={TRIGGER_PROPS} />
           </DocSubsection>
+          <DocSubsection parentId="api" id="api-portal" title="LightboxPortal">
+            <PropsTable rows={PORTAL_PROPS} />
+          </DocSubsection>
           <DocSubsection parentId="api" id="api-content" title="LightboxContent">
             <PropsTable rows={CONTENT_PROPS} />
           </DocSubsection>
@@ -337,6 +369,12 @@ function LightboxDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-info-bar" title="LightboxInfoBar">
             <PropsTable rows={INFO_BAR_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-info-title" title="LightboxInfoTitle">
+            <PropsTable rows={INFO_TITLE_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-info-actions" title="LightboxInfoActions">
+            <PropsTable rows={INFO_ACTIONS_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-thumbnail-strip" title="LightboxThumbnailStrip">
             <PropsTable rows={THUMBNAIL_STRIP_PROPS} />

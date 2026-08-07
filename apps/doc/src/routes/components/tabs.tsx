@@ -260,9 +260,14 @@ const underlineTabs = useOrderedTabs(TABS, underlineOrder);
 
 const TABS_PROPS: readonly PropRow[] = [
   {
-    name: "value / defaultValue",
+    name: "value",
     type: "T",
-    description: "Controlled active tab value, or initial value for uncontrolled use.",
+    description: "Controlled active tab value.",
+  },
+  {
+    name: "defaultValue",
+    type: "T",
+    description: "Initial active tab value for uncontrolled use.",
   },
   {
     name: "onValueChange",

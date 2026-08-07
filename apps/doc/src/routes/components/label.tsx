@@ -90,13 +90,39 @@ const LABEL_PROPS: readonly PropRow[] = [
   },
 ];
 
-const MARKER_PROPS: readonly PropRow[] = [
+const ASTERISK_PROPS: readonly PropRow[] = [
   {
     name: "children",
     type: "ReactNode",
-    default: '"*" for LabelAsterisk',
-    description:
-      "Marker content. LabelOptional defaults to (optional). LabelSub accepts custom secondary text.",
+    default: '"*"',
+    description: "Marker content for required fields.",
+  },
+  {
+    name: "...props",
+    type: 'ComponentProps<"span">',
+    description: "Native span attributes for rare custom markers or tests.",
+  },
+];
+
+const OPTIONAL_PROPS: readonly PropRow[] = [
+  {
+    name: "children",
+    type: "ReactNode",
+    default: '"(optional)"',
+    description: "Marker content shown after the label.",
+  },
+  {
+    name: "...props",
+    type: 'ComponentProps<"span">',
+    description: "Native span attributes for rare custom markers or tests.",
+  },
+];
+
+const SUB_PROPS: readonly PropRow[] = [
+  {
+    name: "children",
+    type: "ReactNode",
+    description: "Custom secondary copy shown after the label.",
   },
   {
     name: "...props",
@@ -203,12 +229,14 @@ function LabelDoc() {
           <DocSubsection parentId="api" id="api-root" title="Label">
             <PropsTable rows={LABEL_PROPS} />
           </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-markers"
-            title="LabelAsterisk / LabelOptional / LabelSub"
-          >
-            <PropsTable rows={MARKER_PROPS} />
+          <DocSubsection parentId="api" id="api-asterisk" title="LabelAsterisk">
+            <PropsTable rows={ASTERISK_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-optional" title="LabelOptional">
+            <PropsTable rows={OPTIONAL_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-sub" title="LabelSub">
+            <PropsTable rows={SUB_PROPS} />
           </DocSubsection>
         </div>
       </DocSection>

@@ -120,6 +120,14 @@ const PROFILE_PANEL_HEADER_CONTENT_PROPS: readonly PropRow[] = [
   },
 ];
 
+const PROFILE_PANEL_BODY_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "PanelBodyProps",
+    description: "Scrollable body region for profile sections.",
+  },
+];
+
 const PROFILE_PANEL_SECTION_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -240,6 +248,9 @@ function ProfilePanelDoc() {
             title="ProfilePanelHeaderContent"
           >
             <PropsTable rows={PROFILE_PANEL_HEADER_CONTENT_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-profile-panel-body" title="ProfilePanelBody">
+            <PropsTable rows={PROFILE_PANEL_BODY_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-profile-panel-section" title="ProfilePanelSection">
             <PropsTable rows={PROFILE_PANEL_SECTION_PROPS} />
