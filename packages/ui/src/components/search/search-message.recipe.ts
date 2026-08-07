@@ -17,7 +17,7 @@ export const searchMessage = tv({
         message: [
           "border-2 border-black/30 bg-white p-3",
           "hover:border-black hover:shadow-raft-sm active:border-black active:shadow-raft-sm",
-          "data-[selected=true]:border-primary-400 data-[selected=true]:hover:border-primary-400",
+          "data-[selected=true]:border-black data-[selected=true]:shadow-raft-sm",
           "data-[nested=true]:border-x-0 data-[nested=true]:border-b-0 data-[nested=true]:border-t-2 data-[nested=true]:px-3 data-[nested=true]:py-3",
           "data-[nested=true]:border-black/10 data-[nested=true]:hover:border-black/10 data-[nested=true]:hover:bg-black/3 data-[nested=true]:hover:shadow-none",
           "data-[nested=true][data-selected=true]:border-black data-[nested=true][data-selected=true]:bg-[oklch(0.96299649_0.06890535_97.696701)] data-[nested=true][data-selected=true]:shadow-none data-[nested=true][data-selected=true]:ring-0",

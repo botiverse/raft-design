@@ -15,7 +15,7 @@ export const searchThread = tv({
         thread: [
           "border-2 border-black/30 bg-white",
           "hover:border-black hover:shadow-raft-sm",
-          "data-[selected=true]:border-primary-400 data-[selected=true]:hover:border-primary-400",
+          "data-[selected=true]:border-black data-[selected=true]:shadow-raft-sm",
         ],
         threadHeader: ["border-b-2 border-black bg-[oklch(0.96625109_0.02494438_333.728876)]"],
         threadMeta: ["font-bold uppercase tracking-wide text-black/70"],

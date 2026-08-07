@@ -15,7 +15,7 @@ export const searchEntity = tv({
         entity: [
           "border-2 border-black/30 bg-white",
           "hover:border-black hover:shadow-raft-sm active:border-black active:shadow-raft-sm",
-          "data-[selected=true]:border-primary-400 data-[selected=true]:hover:border-primary-400",
+          "data-[selected=true]:border-black data-[selected=true]:shadow-raft-sm",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
         ],
         entityIcon: ["border-2 border-black bg-white text-black"],
