@@ -12,7 +12,7 @@ export const Route = createFileRoute("/lab")({
 
 function LabPage() {
   return (
-    <div className="h-full overflow-y-auto bg-layer-page text-foreground-strong">
+    <div className="h-full overflow-y-auto bg-layer-canvas-muted text-foreground-strong">
       <main className="w-full pb-24">
         <LabSection
           id="pixel-loader"

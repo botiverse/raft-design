@@ -36,7 +36,7 @@ const appShell = tv({
         root: ["[--shell-header-height:62px]", "bg-brutal-cream text-black max-md:bg-white"],
       },
       elegant: {
-        root: ["[--shell-header-height:56px]", "bg-layer-page"],
+        root: ["[--shell-header-height:56px]", "bg-layer-canvas-muted"],
       },
     },
     overlay: {

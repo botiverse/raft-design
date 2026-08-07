@@ -84,7 +84,8 @@ const LAYER_GROUPS: readonly TokenGroup[] = [
   {
     label: "Surface",
     tokens: [
-      ["page", "--layer-page"],
+      ["canvas", "--layer-canvas"],
+      ["canvas-muted", "--layer-canvas-muted"],
       ["panel", "--layer-panel"],
       ["popover", "--layer-popover"],
       ["inset", "--layer-inset"],
@@ -414,7 +415,7 @@ function ThemeContextScales({
     <section
       ref={themeContextRef}
       data-theme={context.theme}
-      className={`${context.mode === "dark" ? "dark -mx-3 bg-layer-page px-3" : "light"} min-w-0 py-6 text-foreground-strong`}
+      className={`${context.mode === "dark" ? "dark -mx-3 bg-layer-canvas-muted px-3" : "light"} min-w-0 py-6 text-foreground-strong`}
     >
       <div className="mb-8">
         <h3 className="text-xl font-semibold tracking-tight text-foreground">{context.label}</h3>

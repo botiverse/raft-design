@@ -43,7 +43,7 @@ export const appRail = tv({
         itemAttentionMask: "hidden",
       },
       elegant: {
-        root: "w-14 bg-layer-page",
+        root: "w-14 bg-layer-canvas-muted",
         header: "h-[var(--shell-header-height,56px)] border-b-0",
         nav: ["px-2 pt-4 pb-2"],
         footer: ["h-auto gap-1.5 px-2 pb-2", "[&>[data-slot=app-rail-item]]:text-foreground-muted"],
@@ -62,7 +62,7 @@ export const appRail = tv({
         itemBadge: [
           "rounded-full border-0 bg-primary-400 text-primary-950",
           "px-1 font-mono text-[10px] font-[450] leading-none tabular-nums normal-case tracking-normal",
-          "ring-2 ring-layer-page",
+          "ring-2 ring-layer-canvas-muted",
         ],
         itemAttentionMask: [
           "text-[oklch(73.4%_0.149_89.2)] drop-shadow-[0_0_1px_oklch(88.3%_0.162_91.9/0.82)]",

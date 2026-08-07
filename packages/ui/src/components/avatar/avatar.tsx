@@ -111,10 +111,10 @@ const avatar = tv({
         dot: ["bg-success text-success-foreground outline-layer-panel"],
         group: [
           "-space-x-2",
-          "*:data-[slot=avatar]:border-layer-page",
-          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-layer-page",
-          "*:data-[slot=avatar-group-count]:border-layer-page",
-          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-layer-page",
+          "*:data-[slot=avatar]:border-layer-canvas-muted",
+          "*:data-[slot=avatar]:outline *:data-[slot=avatar]:outline-2 *:data-[slot=avatar]:outline-layer-canvas-muted",
+          "*:data-[slot=avatar-group-count]:border-layer-canvas-muted",
+          "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-layer-canvas-muted",
         ],
       },
     },
@@ -406,7 +406,7 @@ export type AvatarGroupProps = ComponentPropsWithRef<"div">;
 // Overlapping stack of avatars (and an optional trailing AvatarGroupCount). The
 // ring color follows the active theme's surface assumptions. The standalone
 // frame is a transparent border, so in the stack each avatar's frame is painted
-// with the ring surface (layer-page) to stay opaque and never show the avatar
+// with the ring surface (layer-canvas-muted) to stay opaque and never show the avatar
 // neighbor beneath the overlap.
 export function AvatarGroup({ className, ...props }: AvatarGroupProps) {
   const theme = useThemeFamily();

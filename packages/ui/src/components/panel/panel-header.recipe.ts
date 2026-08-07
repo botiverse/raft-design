@@ -113,7 +113,7 @@ export const panelHeader = tv({
       theme: "elegant",
       class: [
         "relative isolate h-auto min-h-[var(--shell-header-height,56px)] max-md:z-10 [@media(max-height:600px)]:h-auto",
-        "border-b-0 bg-transparent max-md:bg-layer-page",
+        "border-b-0 bg-transparent max-md:bg-layer-canvas-muted",
         "max-md:grid max-md:grid-cols-[auto_auto_minmax(0,1fr)_auto]",
         "max-md:h-[var(--shell-header-height,56px)] max-md:items-center",
         "px-0 max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",

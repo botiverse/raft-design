@@ -69,7 +69,7 @@ export const activityInbox = tv({
           "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
           "dark:border-transparent",
           "data-[disabled]:pointer-events-none",
-          "data-[active=true]:border-transparent data-[active=true]:ring-2 data-[active=true]:ring-primary-400 data-[active=true]:ring-offset-2 data-[active=true]:ring-offset-layer-page",
+          "data-[active=true]:border-transparent data-[active=true]:ring-2 data-[active=true]:ring-primary-400 data-[active=true]:ring-offset-2 data-[active=true]:ring-offset-layer-canvas-muted",
           "has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-1 has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-primary-400",
           "dark:has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-2 dark:has-[[data-slot=activity-inbox-item-open]:focus-visible]:ring-primary-400/60",
         ],
