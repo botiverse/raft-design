@@ -118,23 +118,6 @@ const SNIPPETS = {
 
 const PROPS: readonly PropRow[] = [
   {
-    name: "value",
-    type: "number | null",
-    description: "Current progress value. Use null for indeterminate progress.",
-  },
-  {
-    name: "min",
-    type: "number",
-    default: "0",
-    description: "Minimum value passed to Base UI Progress.Root.",
-  },
-  {
-    name: "max",
-    type: "number",
-    default: "100",
-    description: "Maximum value passed to Base UI Progress.Root.",
-  },
-  {
     name: "variant",
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"primary"',
@@ -147,14 +130,10 @@ const PROPS: readonly PropRow[] = [
     description: "Track height. Brutal maps each size slightly taller than Elegant.",
   },
   {
-    name: "getAriaValueText",
-    type: "(formattedValue, value) => string",
-    description: "Optional screen reader text for the current value.",
-  },
-  {
-    name: "render",
-    type: "ReactElement | (props, state) => ReactElement",
-    description: "Base UI render hook for changing the rendered element.",
+    name: "...props",
+    type: "Base UI Progress.Root.Props",
+    description:
+      "All native div attributes plus the remaining Base UI Progress.Root props (value, min, max, render, format, locale, aria-valuetext, ...).",
   },
 ];
 

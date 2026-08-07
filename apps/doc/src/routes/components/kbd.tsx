@@ -66,28 +66,19 @@ import { Search } from "lucide-react";
 
 const KBD_PROPS: readonly PropRow[] = [
   {
-    name: "className",
-    type: "string",
-    description: "Optional positioning or rare visual override classes.",
-  },
-  {
     name: "...props",
     type: "ComponentPropsWithRef<'kbd'>",
-    description: "Native kbd attributes. The root always renders a semantic kbd element.",
+    description:
+      "Native kbd attributes (className for positioning or rare visual overrides). The root always renders a semantic kbd element.",
   },
 ];
 
 const KBD_GROUP_PROPS: readonly PropRow[] = [
   {
-    name: "className",
-    type: "string",
-    description: "Optional spacing or rare layout override classes.",
-  },
-  {
     name: "...props",
     type: "ComponentPropsWithRef<'span'>",
     description:
-      "Native span attributes for a shortcut sequence. Add aria-label when the visual keys are symbolic.",
+      "Native span attributes (className for spacing or rare layout overrides) for a shortcut sequence. Add aria-label when the visual keys are symbolic.",
   },
 ];
 

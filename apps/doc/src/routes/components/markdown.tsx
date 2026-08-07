@@ -209,7 +209,7 @@ const MARKDOWN_CHECKBOX_PROPS: readonly PropRow[] = [
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
-  { id: "usage", title: "Docs-local renderer" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
 
@@ -265,23 +265,25 @@ function MarkdownDoc() {
         </DocsCodeBlock>
       </DocSection>
 
-      <DocSection id="usage" title="Docs-local renderer">
-        <DocsCodeBlock.Files
-          files={[
-            {
-              path: MARKDOWN_COMPONENTS_PATH,
-              source: markdownComponentsSource,
-              html: code.markdownComponents,
-              collapsedHtml: code.markdownComponentsBody,
-            },
-            {
-              path: MARKDOWN_RENDERER_PATH,
-              source: markdownRendererSource,
-              html: code.markdownRenderer,
-              collapsedHtml: code.markdownRendererBody,
-            },
-          ]}
-        />
+      <DocSection id="usage" title="Usage">
+        <DocSubsection parentId="usage" id="docs-local-renderer" title="Docs-local renderer">
+          <DocsCodeBlock.Files
+            files={[
+              {
+                path: MARKDOWN_COMPONENTS_PATH,
+                source: markdownComponentsSource,
+                html: code.markdownComponents,
+                collapsedHtml: code.markdownComponentsBody,
+              },
+              {
+                path: MARKDOWN_RENDERER_PATH,
+                source: markdownRendererSource,
+                html: code.markdownRenderer,
+                collapsedHtml: code.markdownRendererBody,
+              },
+            ]}
+          />
+        </DocSubsection>
       </DocSection>
 
       <DocSection id="api" title="API">

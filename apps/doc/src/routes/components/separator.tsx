@@ -48,14 +48,9 @@ const PROPS: readonly PropRow[] = [
       "Optional centered content for horizontal separators, such as text, icons, or compact metadata.",
   },
   {
-    name: "className",
-    type: "string",
-    description: "Optional spacing or rare visual override classes.",
-  },
-  {
     name: "...props",
     type: "Base UI Separator.Props",
-    description: "Base UI separator attributes.",
+    description: "Base UI separator attributes (className for spacing or rare visual overrides).",
   },
 ];
 
