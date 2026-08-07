@@ -13,7 +13,7 @@ const switchRecipe = tv({
       "data-[disabled]:cursor-not-allowed",
       "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
       "data-[checked]:bg-primary-400",
-      "focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-2 focus-visible:ring-offset-layer-page",
+      "focus-visible:ring-2 focus-visible:ring-line-strong focus-visible:ring-offset-2 focus-visible:ring-offset-layer-canvas-muted",
     ],
     thumb: [
       "pointer-events-none block",

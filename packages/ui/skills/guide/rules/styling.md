@@ -44,7 +44,7 @@ Reach for these first. The token contract lives in `raft-ui/styles.css`.
 
 | Family         | Purpose                                | Registered suffixes                                                                                        |
 | -------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `layer-*`      | elevation surfaces                     | `page` `panel` `popover` `backdrop` `inset` `card` `hud` `hud-foreground`                                  |
+| `layer-*`      | elevation surfaces                     | `canvas` `canvas-muted` `panel` `popover` `backdrop` `inset` `card` `hud` `hud-foreground`                 |
 | `fill-*`       | opaque neutral fills                   | `muted` `strong`                                                                                           |
 | `line-*`       | borders                                | bare `line`, then `strong` `muted` `hairline` `field` `field-hover`                                        |
 | `foreground-*` | text and icons                         | bare `foreground`, then `strong` `muted` `hint` `icon` `placeholder` `disabled` `inverse` `active` `hover` |

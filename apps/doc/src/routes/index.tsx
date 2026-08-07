@@ -1357,11 +1357,11 @@ function HomeToastList() {
 
   return (
     <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-panel p-4">
-      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-page/80 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cyan/20" />
+      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-canvas-muted/80 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cyan/20" />
       <div className="absolute inset-x-5 top-24 grid grid-cols-3 gap-2">
-        <div className="h-10 rounded-md bg-layer-page/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
-        <div className="h-10 rounded-md bg-layer-page/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
-        <div className="h-10 rounded-md bg-layer-page/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65 [[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black/30 [[data-theme=brutal]_&]:bg-brutal-yellow/20" />
       </div>
       <div className="relative z-10">
         {toasts.map((toastObject) => (

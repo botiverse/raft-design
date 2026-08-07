@@ -13,7 +13,7 @@ export const profilePanel = tv({
         root: "bg-layer-panel",
       },
       elegant: {
-        root: "relative bg-layer-page font-sans text-foreground-strong",
+        root: "relative bg-layer-canvas-muted font-sans text-foreground-strong",
         header: "max-md:flex max-md:px-6 md:px-6",
         headerContent: "md:flex-col md:items-stretch md:gap-0",
         section: "border-line-muted px-6 py-5",

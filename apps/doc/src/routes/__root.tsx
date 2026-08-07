@@ -107,7 +107,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       className={cn(
         isDarkDocument ? "dark" : "light",
         usesPlaygroundDocumentScroll &&
-          "max-md:!h-auto max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
+          "max-md:!h-auto max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-canvas-muted",
       )}
     >
       <head>
@@ -119,11 +119,11 @@ function RootDocument({ children }: { children: ReactNode }) {
         className={
           isStandalonePage
             ? cn(
-                "h-dvh overflow-hidden overscroll-none bg-layer-page text-foreground-strong antialiased",
+                "h-dvh overflow-hidden overscroll-none bg-layer-canvas-muted text-foreground-strong antialiased",
                 usesPlaygroundDocumentScroll &&
-                  "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-page",
+                  "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-canvas-muted",
               )
-            : "bg-layer-panel text-foreground-strong antialiased dark:bg-layer-page"
+            : "bg-layer-panel text-foreground-strong antialiased dark:bg-layer-canvas-muted"
         }
       >
         <PreviewThemeProvider initial={storedPreviewTheme}>

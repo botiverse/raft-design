@@ -151,10 +151,10 @@ export const activityInboxShell = tv({
         loadingMore: ["font-bold text-black/40"],
       },
       elegant: {
-        panel: ["bg-layer-page text-foreground"],
+        panel: ["bg-layer-canvas-muted text-foreground"],
         header: [
           "min-h-[var(--shell-header-height,56px)]",
-          "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-page",
+          "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-canvas-muted",
           "max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",
         ],
         headerBack: [
@@ -171,7 +171,7 @@ export const activityInboxShell = tv({
           "text-foreground-muted",
         ],
         headerSubtitle: ["text-foreground-placeholder"],
-        sidebar: ["w-56", "dark:bg-layer-page"],
+        sidebar: ["w-56", "dark:bg-layer-canvas-muted"],
         sidebarHeadingLabel: ["font-medium tracking-wider text-foreground-placeholder"],
         sidebarHeadingAction: ["font-medium text-foreground-muted hover:text-foreground-strong"],
         navigationItem: [
@@ -229,7 +229,7 @@ export const activityInboxShell = tv({
           "dark:border-transparent dark:bg-layer-inset",
           "dark:shadow-[inset_0_1px_2px_oklch(0_0_0_/_0.3),inset_0_0_0_1px_oklch(0_0_0_/_0.35),0_1px_0_oklch(0.985_0.004_106.42_/_0.04)]",
           "dark:hover:border-ink-8 dark:hover:shadow-none dark:focus:bg-layer-card",
-          "focus:ring-1 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-layer-page dark:focus:ring-2 dark:focus:ring-primary-400/60 dark:focus:ring-offset-0",
+          "focus:ring-1 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-layer-canvas-muted dark:focus:ring-2 dark:focus:ring-primary-400/60 dark:focus:ring-offset-0",
         ],
         searchClear: [
           "text-foreground-muted transition-colors hover:text-foreground-strong",
