@@ -2,7 +2,6 @@ export type PlaygroundRailView =
   | "search"
   | "chat"
   | "activity"
-  | "saved"
   | "tasks"
   | "members"
   | "computers"
@@ -14,7 +13,6 @@ const playgroundRailViews = new Set<PlaygroundRailView>([
   "search",
   "chat",
   "activity",
-  "saved",
   "tasks",
   "members",
   "computers",

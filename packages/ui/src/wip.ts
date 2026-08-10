@@ -1,4 +1,3 @@
-export * from "./components/activity-inbox/index";
 export * from "./components/search/index";
 
 export {

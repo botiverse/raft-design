@@ -194,7 +194,7 @@ const PATTERN_NAV = [
         status: "done",
       },
       { label: "Search", to: "/components/search", status: "wip" },
-      { label: "ActivityInbox", to: "/components/activity", status: "wip" },
+      { label: "ActivityInbox", to: "/components/activity", status: "done" },
       { label: "FilesPanel", to: "/components/files", status: "done" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
     ],

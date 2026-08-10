@@ -10,6 +10,12 @@ import {
   X,
 } from "lucide-react";
 import {
+  ActivityInboxControls,
+  ActivityInboxPanel,
+  ActivityInboxSelectionCount,
+  ActivityInboxSelectionToolbar,
+  ActivityInboxSidebar,
+  ActivityInboxViewport,
   Button,
   ConversationPanelContent,
   Dialog,
@@ -32,32 +38,22 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
+  PanelActions,
   PanelHeader,
   PanelHeaderContent,
+  PanelHeaderIcon,
   PanelHeading,
   PanelMeta,
   PanelTitle,
   Separator,
+  SidebarGroupLabel,
+  SidebarSectionTrailing,
   Tabs,
   TabsBackground,
   TabsLabel,
   TabsList,
   TabsTab,
 } from "raft-ui";
-import {
-  ActivityInboxControls,
-  ActivityInboxHeaderIcon,
-  ActivityInboxList,
-  ActivityInboxLoadingMore,
-  ActivityInboxPanel,
-  ActivityInboxSelectionCount,
-  ActivityInboxSelectionToolbar,
-  ActivityInboxSidebar,
-  ActivityInboxSidebarHeading,
-  ActivityInboxSidebarHeadingLabel,
-  ActivityInboxToolbarAction,
-  ActivityInboxViewport,
-} from "raft-ui/wip";
 import { useMemo, useRef, useState } from "react";
 
 import {
@@ -68,8 +64,8 @@ import {
 import {
   ActivityGroupIcon,
   ActivityItem,
-  ActivityLoadingList,
   ActivityNavigationItem,
+  ActivitySelectionCheckbox,
   ActivitySwitcherRow,
   type ActivityView,
 } from "../activity-inbox.helpers.tsx";
@@ -85,8 +81,6 @@ export type ActivityInboxCompositionProps = {
   openItemId?: string | null;
   onBack?: () => void;
   defaultView?: ActivityView;
-  loading?: boolean;
-  loadingMore?: boolean;
 };
 
 export function ActivityInboxComposition({
@@ -97,8 +91,6 @@ export function ActivityInboxComposition({
   openItemId: controlledOpenItemId,
   onBack,
   defaultView = "active",
-  loading = false,
-  loadingMore = false,
 }: ActivityInboxCompositionProps = {}) {
   const [localItems, setLocalItems] = useState<readonly ActivityCompositionItem[]>(defaultItems);
   const items = controlledItems ?? localItems;
@@ -160,6 +152,7 @@ export function ActivityInboxComposition({
   const selectedItems = visibleItems.filter((item) => selectedIds.has(item.id));
   const allVisibleSelected =
     visibleItems.length > 0 && selectedItems.length === visibleItems.length;
+  const someVisibleSelected = selectedItems.length > 0 && !allVisibleSelected;
 
   function commitItems(next: readonly ActivityCompositionItem[]) {
     if (!controlledItems) setLocalItems(next);
@@ -238,23 +231,108 @@ export function ActivityInboxComposition({
             <ArrowLeft size={14} />
           </Button>
         ) : null}
-        <ActivityInboxHeaderIcon>
+        <PanelHeaderIcon className="max-md:hidden in-data-[theme=elegant]:dark:bg-layer-card">
           <Activity
             aria-hidden
             className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
           />
-        </ActivityInboxHeaderIcon>
-        <PanelHeaderContent>
+        </PanelHeaderIcon>
+        <PanelHeaderContent
+          className={onBack ? "max-md:col-start-2 max-md:col-span-2" : "max-md:col-span-3"}
+        >
           <PanelHeading>
             <PanelTitle render={<h2 />}>Activity</PanelTitle>
           </PanelHeading>
           <PanelMeta render={<p />}>Triage what needs your attention</PanelMeta>
         </PanelHeaderContent>
+        <PanelActions className="md:hidden">
+          <Dialog open={mobileSwitcherOpen} onOpenChange={setMobileSwitcherOpen}>
+            <DialogTrigger
+              render={
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  aria-label="Switch Activity"
+                  className="min-w-0 max-w-28"
+                >
+                  {view === "active" ? (
+                    <Inbox />
+                  ) : view === "saved" ? (
+                    <Bookmark />
+                  ) : (
+                    <CheckCircle2 />
+                  )}
+                  <span className="min-w-0 flex-1 truncate text-left">
+                    {view === "active" ? "Active" : view === "saved" ? "Saved" : "Done"}
+                  </span>
+                  <ChevronDown />
+                </Button>
+              }
+            />
+            <DialogContent portalProps={{ container: rootRef }}>
+              <DialogHeader>
+                <DialogTitle>Switch Activity</DialogTitle>
+                <DialogClose aria-label="Close" />
+              </DialogHeader>
+              <DialogBody className="flex flex-col gap-1">
+                <ActivitySwitcherRow
+                  active={view === "active"}
+                  icon={<Inbox />}
+                  label="Active"
+                  count={totalActive}
+                  onClick={() => switchInMobileDialog("active")}
+                />
+                <ActivitySwitcherRow
+                  active={view === "saved"}
+                  icon={<Bookmark />}
+                  label="Saved"
+                  count={savedTotal || undefined}
+                  onClick={() => switchInMobileDialog("saved")}
+                />
+                <ActivitySwitcherRow
+                  active={view === "done"}
+                  icon={<CheckCircle2 />}
+                  label="Done"
+                  onClick={() => switchInMobileDialog("done")}
+                />
+                <Separator className="mx-3 my-3" />
+                <ActivitySwitcherRow
+                  pressed={view === "active" && mentionsOnly}
+                  icon={<AtSign />}
+                  label="Mentions"
+                  onClick={() => {
+                    setActivityView("active");
+                    setMentionsOnly((current) => !current);
+                    setMobileSwitcherOpen(false);
+                  }}
+                />
+                <Separator className="mx-3 my-3" />
+                {groups.map((group) => (
+                  <ActivitySwitcherRow
+                    key={group.id}
+                    active={view === "active" && channelFilterId === group.id}
+                    icon={<ActivityGroupIcon group={group} mobile />}
+                    label={group.label}
+                    count={group.count}
+                    onClick={() => {
+                      setActivityView("active");
+                      setChannelFilterId((current) =>
+                        current === group.id ? undefined : group.id,
+                      );
+                      setMobileSwitcherOpen(false);
+                    }}
+                  />
+                ))}
+              </DialogBody>
+            </DialogContent>
+          </Dialog>
+        </PanelActions>
       </PanelHeader>
 
-      <div data-slot="activity-inbox-layout" className="flex min-h-0 flex-1">
+      <div className="flex min-h-0 flex-1">
         <ActivityInboxSidebar>
-          <div data-slot="activity-inbox-sidebar-section" className="flex flex-col gap-1">
+          <div className="flex flex-col gap-0">
             <ActivityNavigationItem
               active={view === "active"}
               icon={<Inbox size={15} />}
@@ -277,10 +355,8 @@ export function ActivityInboxComposition({
             />
           </div>
 
-          <ActivityInboxSidebarHeading>
-            <ActivityInboxSidebarHeadingLabel>Filters</ActivityInboxSidebarHeadingLabel>
-          </ActivityInboxSidebarHeading>
-          <div data-slot="activity-inbox-sidebar-section" className="flex flex-col gap-1">
+          <SidebarGroupLabel>Filters</SidebarGroupLabel>
+          <div className="flex flex-col gap-0">
             <ActivityNavigationItem
               pressed={view === "active" && mentionsOnly}
               disabled={view !== "active"}
@@ -293,20 +369,21 @@ export function ActivityInboxComposition({
             />
           </div>
 
-          <ActivityInboxSidebarHeading>
-            <ActivityInboxSidebarHeadingLabel>DM &amp; Channels</ActivityInboxSidebarHeadingLabel>
+          <SidebarGroupLabel>
+            <span className="min-w-0 flex-1 truncate whitespace-nowrap">DM &amp; Channels</span>
             {channelFilterId ? (
-              <Button
-                type="button"
-                variant="link"
-                size="xs"
-                onClick={() => setChannelFilterId(undefined)}
-              >
-                Show all
-              </Button>
+              <SidebarSectionTrailing className="min-w-0 pr-0">
+                <button
+                  type="button"
+                  data-activity-inbox-show-all=""
+                  onClick={() => setChannelFilterId(undefined)}
+                >
+                  Show all
+                </button>
+              </SidebarSectionTrailing>
             ) : null}
-          </ActivityInboxSidebarHeading>
-          <div data-slot="activity-inbox-sidebar-section" className="flex flex-col gap-0">
+          </SidebarGroupLabel>
+          <div className="flex flex-col gap-0">
             {groups.map((group) => (
               <ActivityNavigationItem
                 key={group.id}
@@ -329,93 +406,6 @@ export function ActivityInboxComposition({
           className="md:min-w-[30rem]"
         >
           <ActivityInboxControls>
-            <div
-              data-slot="activity-inbox-mobile-navigation"
-              className="shrink-0 max-md:block md:hidden"
-            >
-              <Dialog open={mobileSwitcherOpen} onOpenChange={setMobileSwitcherOpen}>
-                <DialogTrigger
-                  render={
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      aria-label="Switch Activity"
-                      className="min-w-28 max-w-40 justify-start"
-                    >
-                      {view === "active" ? (
-                        <Inbox />
-                      ) : view === "saved" ? (
-                        <Bookmark />
-                      ) : (
-                        <CheckCircle2 />
-                      )}
-                      <span className="min-w-0 flex-1 truncate text-left">
-                        {view === "active" ? "Active" : view === "saved" ? "Saved" : "Done"}
-                      </span>
-                      <ChevronDown />
-                    </Button>
-                  }
-                />
-                <DialogContent portalProps={{ container: rootRef }}>
-                  <DialogHeader>
-                    <DialogTitle>Switch Activity</DialogTitle>
-                    <DialogClose aria-label="Close" />
-                  </DialogHeader>
-                  <DialogBody className="flex flex-col gap-1">
-                    <ActivitySwitcherRow
-                      active={view === "active"}
-                      icon={<Inbox />}
-                      label="Active"
-                      count={totalActive}
-                      onClick={() => switchInMobileDialog("active")}
-                    />
-                    <ActivitySwitcherRow
-                      active={view === "saved"}
-                      icon={<Bookmark />}
-                      label="Saved"
-                      count={savedTotal || undefined}
-                      onClick={() => switchInMobileDialog("saved")}
-                    />
-                    <ActivitySwitcherRow
-                      active={view === "done"}
-                      icon={<CheckCircle2 />}
-                      label="Done"
-                      onClick={() => switchInMobileDialog("done")}
-                    />
-                    <Separator className="mx-3 my-3" />
-                    <ActivitySwitcherRow
-                      pressed={view === "active" && mentionsOnly}
-                      icon={<AtSign />}
-                      label="Mentions"
-                      onClick={() => {
-                        setActivityView("active");
-                        setMentionsOnly((current) => !current);
-                        setMobileSwitcherOpen(false);
-                      }}
-                    />
-                    <Separator className="mx-3 my-3" />
-                    {groups.map((group) => (
-                      <ActivitySwitcherRow
-                        key={group.id}
-                        active={view === "active" && channelFilterId === group.id}
-                        icon={<ActivityGroupIcon group={group} mobile />}
-                        label={group.label}
-                        count={group.count}
-                        onClick={() => {
-                          setActivityView("active");
-                          setChannelFilterId((current) =>
-                            current === group.id ? undefined : group.id,
-                          );
-                          setMobileSwitcherOpen(false);
-                        }}
-                      />
-                    ))}
-                  </DialogBody>
-                </DialogContent>
-              </Dialog>
-            </div>
-
             {view === "active" ? (
               <Tabs<ActivityReadFilter>
                 className="w-auto shrink-0"
@@ -439,6 +429,7 @@ export function ActivityInboxComposition({
                 <Search aria-hidden size={15} />
               </InputGroupAddon>
               <InputGroupInput
+                className="in-data-[theme=brutal]:py-1"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search activity"
@@ -461,87 +452,98 @@ export function ActivityInboxComposition({
           </ActivityInboxControls>
 
           <ActivityInboxSelectionToolbar>
+            <ActivitySelectionCheckbox
+              checked={allVisibleSelected}
+              indeterminate={someVisibleSelected}
+              disabled={visibleItems.length === 0}
+              onCheckedChange={toggleAllVisible}
+              aria-label="Select all visible activity"
+            />
             {selectedItems.length === 0 ? (
-              <>
-                <ActivityInboxToolbarAction
-                  onClick={toggleAllVisible}
-                  disabled={visibleItems.length === 0}
-                  aria-pressed={allVisibleSelected}
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <Button
+                      type="button"
+                      size="xs"
+                      variant="ghost"
+                      data-activity-inbox-action="sort"
+                      className="ml-auto"
+                    />
+                  }
                 >
-                  Select all
-                </ActivityInboxToolbarAction>
-                <DropdownMenu>
-                  <DropdownMenuTrigger
-                    render={<ActivityInboxToolbarAction variant="ghost" className="ml-auto" />}
+                  {sortDirection === "desc" ? "Newest to oldest" : "Oldest to newest"}
+                  <ChevronDown />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  side="bottom"
+                  sideOffset={8}
+                  portalProps={{ container: rootRef }}
+                >
+                  <DropdownMenuRadioGroup
+                    value={sortDirection}
+                    onValueChange={(value) => setSortDirection(value as ActivitySortDirection)}
                   >
-                    {sortDirection === "desc" ? "Newest to oldest" : "Oldest to newest"}
-                    <ChevronDown />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    side="bottom"
-                    sideOffset={8}
-                    portalProps={{ container: rootRef }}
-                  >
-                    <DropdownMenuRadioGroup
-                      value={sortDirection}
-                      onValueChange={(value) => setSortDirection(value as ActivitySortDirection)}
-                    >
-                      {(["desc", "asc"] as const).map((direction) => (
-                        <DropdownMenuRadioItem key={direction} value={direction}>
-                          {direction === "desc" ? "Newest to oldest" : "Oldest to newest"}
-                        </DropdownMenuRadioItem>
-                      ))}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
+                    {(["desc", "asc"] as const).map((direction) => (
+                      <DropdownMenuRadioItem key={direction} value={direction}>
+                        {direction === "desc" ? "Newest to oldest" : "Oldest to newest"}
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <>
                 <ActivityInboxSelectionCount>
                   {selectedItems.length} selected
                 </ActivityInboxSelectionCount>
-                <ActivityInboxToolbarAction
-                  variant="link"
-                  onClick={() => setSelectedIds(new Set())}
-                >
-                  Clear
-                </ActivityInboxToolbarAction>
                 {view === "active" ? (
                   <>
-                    <ActivityInboxToolbarAction onClick={() => runBulkAction("read")}>
+                    <Button
+                      type="button"
+                      size="xs"
+                      variant="outline"
+                      onClick={() => runBulkAction("read")}
+                    >
                       Mark read
-                    </ActivityInboxToolbarAction>
-                    <ActivityInboxToolbarAction
+                    </Button>
+                    <Button
+                      type="button"
+                      size="xs"
                       variant="primary"
                       onClick={() => runBulkAction("done")}
                     >
                       Mark done
-                    </ActivityInboxToolbarAction>
+                    </Button>
                   </>
                 ) : view === "done" ? (
-                  <ActivityInboxToolbarAction
+                  <Button
+                    type="button"
+                    size="xs"
                     variant="primary"
+                    data-activity-inbox-action="primary"
                     onClick={() => runBulkAction("restore")}
                   >
                     Restore
-                  </ActivityInboxToolbarAction>
+                  </Button>
                 ) : (
-                  <ActivityInboxToolbarAction
+                  <Button
+                    type="button"
+                    size="xs"
                     variant="primary"
+                    data-activity-inbox-action="primary"
                     onClick={() => runBulkAction("unsave")}
                   >
                     Remove from Saved
-                  </ActivityInboxToolbarAction>
+                  </Button>
                 )}
               </>
             )}
           </ActivityInboxSelectionToolbar>
 
-          <ActivityInboxViewport aria-busy={loading || loadingMore || undefined}>
-            {loading && visibleItems.length === 0 ? (
-              <ActivityLoadingList />
-            ) : visibleItems.length === 0 ? (
+          <ActivityInboxViewport>
+            {visibleItems.length === 0 ? (
               <EmptyState className="h-full">
                 <EmptyStateContent>
                   <EmptyStateIcon>
@@ -570,7 +572,7 @@ export function ActivityInboxComposition({
                 </EmptyStateContent>
               </EmptyState>
             ) : (
-              <ActivityInboxList>
+              <div className="flex flex-col gap-2 in-data-[theme=elegant]:gap-2.5 in-data-[theme=elegant]:rounded-[10px] in-data-[theme=elegant]:bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] in-data-[theme=elegant]:p-3 in-data-[theme=elegant]:shadow-raft-xs in-data-[theme=elegant]:dark:bg-layer-card">
                 {visibleItems.map((item) => (
                   <ActivityItem
                     key={item.id}
@@ -617,10 +619,7 @@ export function ActivityInboxComposition({
                     }
                   />
                 ))}
-                {loadingMore ? (
-                  <ActivityInboxLoadingMore>Loading more…</ActivityInboxLoadingMore>
-                ) : null}
-              </ActivityInboxList>
+              </div>
             )}
           </ActivityInboxViewport>
         </ConversationPanelContent>

@@ -27,30 +27,27 @@ import {
   ContextMenuItem,
   ContextMenuItemLabel,
   ContextMenuTrigger,
+  InboxItem,
+  InboxItemActions,
+  InboxItemBody,
+  InboxItemContent,
+  InboxItemHeading,
+  InboxItemMetadata,
+  InboxItemSelection,
+  InboxItemSender,
+  InboxItemSubtitle,
+  InboxItemTimestamp,
+  InboxItemTitle,
+  InboxItemTrailing,
+  InboxItemTrigger,
   PanelAction,
   PanelToggleAction,
-  Skeleton,
+  SidebarItem,
+  SidebarItemIcon,
+  SidebarItemMeta,
+  SidebarItemTitle,
   useThemeFamily,
 } from "raft-ui";
-import {
-  ActivityInboxItem,
-  ActivityInboxItemActions,
-  ActivityInboxItemBody,
-  ActivityInboxItemContent,
-  ActivityInboxItemHeading,
-  ActivityInboxItemMetadata,
-  ActivityInboxItemOpen,
-  ActivityInboxItemSelection,
-  ActivityInboxItemSender,
-  ActivityInboxItemSubtitle,
-  ActivityInboxItemTimestamp,
-  ActivityInboxItemTitle,
-  ActivityInboxItemTrailing,
-  ActivityInboxList,
-  ActivityInboxNavigationCount,
-  ActivityInboxNavigationItem,
-  ActivityInboxNavigationLabel,
-} from "raft-ui/wip";
 import type {
   ActivityCompositionChannelKind,
   ActivityCompositionItem,
@@ -66,24 +63,14 @@ const taskStatuses = {
   closed: ["var(--color-brutal-stone)", "muted", Ban],
 } as const;
 
-export function ActivityLoadingList() {
-  return (
-    <ActivityInboxList>
-      {Array.from({ length: 6 }, (_, index) => (
-        <ActivityInboxItem key={index} aria-hidden disabled>
-          <ActivityInboxItemContent className="flex flex-col gap-2">
-            <div className="flex items-center gap-2.5">
-              <Skeleton variant="line" className="w-20" />
-              <Skeleton variant="line" className="w-16" />
-              <Skeleton variant="line" className="w-10" />
-            </div>
-            <Skeleton variant="line" className="w-full" />
-            <Skeleton variant="line" className="w-3/5" />
-          </ActivityInboxItemContent>
-        </ActivityInboxItem>
-      ))}
-    </ActivityInboxList>
-  );
+export type ActivitySelectionCheckboxProps = Omit<
+  ComponentProps<typeof Checkbox>,
+  "size" | "variant"
+>;
+
+export function ActivitySelectionCheckbox(props: ActivitySelectionCheckboxProps) {
+  const theme = useThemeFamily();
+  return <Checkbox {...props} variant="primary" size={theme === "brutal" ? "md" : "sm"} />;
 }
 
 export function ActivityNavigationItem({
@@ -99,20 +86,19 @@ export function ActivityNavigationItem({
   icon: ReactNode;
   label: string;
   count?: number;
-} & ComponentProps<typeof ActivityInboxNavigationItem>) {
+} & Omit<ComponentProps<typeof SidebarItem>, "variant">) {
   return (
-    <ActivityInboxNavigationItem
+    <SidebarItem
+      variant="primary"
       active={active || pressed}
       aria-current={active ? "page" : undefined}
       aria-pressed={pressed || undefined}
       {...props}
     >
-      {icon}
-      <ActivityInboxNavigationLabel>{label}</ActivityInboxNavigationLabel>
-      {count === undefined ? null : (
-        <ActivityInboxNavigationCount>{count}</ActivityInboxNavigationCount>
-      )}
-    </ActivityInboxNavigationItem>
+      <SidebarItemIcon aria-hidden>{icon}</SidebarItemIcon>
+      <SidebarItemTitle>{label}</SidebarItemTitle>
+      {count === undefined ? null : <SidebarItemMeta>{count}</SidebarItemMeta>}
+    </SidebarItem>
   );
 }
 
@@ -206,35 +192,35 @@ export function ActivityItem({
 }) {
   const Icon = item.kind === "thread" ? MessageSquare : item.channelKind === "dm" ? AtSign : Hash;
   const row = (
-    <ActivityInboxItem active={active} data-unread={item.unreadCount > 0 || undefined}>
-      <ActivityInboxItemOpen
+    <InboxItem active={active} data-unread={item.unreadCount > 0 || undefined}>
+      <InboxItemTrigger
         aria-current={active || undefined}
         aria-label={`Open ${item.title}`}
         onClick={(event) => onOpen(event.detail)}
       />
-      <ActivityInboxItemSelection>
-        <Checkbox
+      <InboxItemSelection>
+        <ActivitySelectionCheckbox
           checked={selected}
           onCheckedChange={onSelect}
           onClick={(event) => event.stopPropagation()}
           aria-label={selected ? "Remove activity item from selection" : "Select activity item"}
         />
-      </ActivityInboxItemSelection>
-      <ActivityInboxItemContent>
-        <ActivityInboxItemHeading>
-          <ActivityInboxItemTitle>
+      </InboxItemSelection>
+      <InboxItemContent>
+        <InboxItemHeading>
+          <InboxItemTitle>
             <Icon aria-hidden />
             {item.title}
-          </ActivityInboxItemTitle>
-        </ActivityInboxItemHeading>
+          </InboxItemTitle>
+        </InboxItemHeading>
         {item.kind === "thread" ? (
-          <ActivityInboxItemSubtitle>Thread in {item.channelLabel}</ActivityInboxItemSubtitle>
+          <InboxItemSubtitle>Thread in {item.channelLabel}</InboxItemSubtitle>
         ) : null}
-        <ActivityInboxItemBody>
-          <ActivityInboxItemSender>{item.sender}: </ActivityInboxItemSender>
+        <InboxItemBody>
+          <InboxItemSender>{item.sender}: </InboxItemSender>
           {item.preview}
-        </ActivityInboxItemBody>
-        <ActivityInboxItemMetadata>
+        </InboxItemBody>
+        <InboxItemMetadata>
           {item.task ? <ActivityTaskBadge task={item.task} /> : null}
           {item.replyCount === undefined ? null : (
             <Badge appearance="outline" variant="muted" uppercase={false}>
@@ -263,11 +249,11 @@ export function ActivityItem({
               <Pencil size={10} />
             </Badge>
           ) : null}
-        </ActivityInboxItemMetadata>
-      </ActivityInboxItemContent>
-      <ActivityInboxItemTrailing>
-        <ActivityInboxItemTimestamp>{item.timestamp}</ActivityInboxItemTimestamp>
-        <ActivityInboxItemActions>
+        </InboxItemMetadata>
+      </InboxItemContent>
+      <InboxItemTrailing>
+        <InboxItemTimestamp className="max-md:translate-y-0.5">{item.timestamp}</InboxItemTimestamp>
+        <InboxItemActions>
           <PanelToggleAction
             pressed={item.saved}
             onPressedChange={onToggleSaved}
@@ -285,9 +271,9 @@ export function ActivityItem({
               {view === "done" ? <RotateCcw /> : <Check />}
             </PanelAction>
           )}
-        </ActivityInboxItemActions>
-      </ActivityInboxItemTrailing>
-    </ActivityInboxItem>
+        </InboxItemActions>
+      </InboxItemTrailing>
+    </InboxItem>
   );
   if (view !== "active") return row;
   return (

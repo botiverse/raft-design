@@ -1,79 +1,156 @@
 import {
-  Button,
-  ConversationPanelContent,
-  Input,
-  PanelHeader,
-  PanelHeaderContent,
-  PanelMeta,
-  PanelTitle,
-} from "raft-ui";
+  AtSign,
+  BellOff,
+  Bookmark,
+  Check,
+  Circle,
+  Hash,
+  MessageSquare,
+  Pencil,
+  RotateCcw,
+} from "lucide-react";
 import {
-  ActivityInboxControls,
-  ActivityInboxItem,
-  ActivityInboxItemBody,
-  ActivityInboxItemContent,
-  ActivityInboxItemHeading,
-  ActivityInboxItemOpen,
-  ActivityInboxItemSender,
-  ActivityInboxItemTimestamp,
-  ActivityInboxItemTitle,
-  ActivityInboxItemTrailing,
-  ActivityInboxList,
-  ActivityInboxNavigationCount,
-  ActivityInboxNavigationItem,
-  ActivityInboxNavigationLabel,
-  ActivityInboxPanel,
-  ActivityInboxSelectionToolbar,
-  ActivityInboxSidebar,
-  ActivityInboxViewport,
-} from "raft-ui/wip";
+  Badge,
+  InboxItem,
+  InboxItemActions,
+  InboxItemBody,
+  InboxItemContent,
+  InboxItemHeading,
+  InboxItemMetadata,
+  InboxItemSelection,
+  InboxItemSender,
+  InboxItemSubtitle,
+  InboxItemTimestamp,
+  InboxItemTitle,
+  InboxItemTrailing,
+  PanelAction,
+  PanelToggleAction,
+  useThemeFamily,
+} from "raft-ui";
+import { useState } from "react";
 
+import { ACTIVITY_COMPOSITION_ITEMS, type ActivityCompositionItem } from "../activity.fixtures.ts";
+import { ActivitySelectionCheckbox } from "../activity-inbox.helpers.tsx";
+
+const ACTIVE_ITEM_ID = "dm:samira";
+const CHECKED_ITEM_ID = "mention:general";
+const ACTIVITY_ITEM_STATES: readonly ActivityCompositionItem[] = ACTIVITY_COMPOSITION_ITEMS;
+
+/** Static gallery of Activity inbox item structures and visual states. */
 export function ActivityPreviewComposition() {
+  const theme = useThemeFamily();
+
   return (
-    <ActivityInboxPanel>
-      <PanelHeader>
-        <PanelHeaderContent>
-          <PanelTitle render={<h2 />}>Activity</PanelTitle>
-          <PanelMeta render={<p />}>Triage what needs attention</PanelMeta>
-        </PanelHeaderContent>
-      </PanelHeader>
-      <div data-slot="activity-inbox-layout" className="flex min-h-0 flex-1">
-        <ActivityInboxSidebar>
-          <ActivityInboxNavigationItem active disabled>
-            <ActivityInboxNavigationLabel>Active</ActivityInboxNavigationLabel>
-            <ActivityInboxNavigationCount>2</ActivityInboxNavigationCount>
-          </ActivityInboxNavigationItem>
-        </ActivityInboxSidebar>
-        <ConversationPanelContent render={<section />} data-slot="activity-inbox-main">
-          <ActivityInboxControls>
-            <Input aria-label="Search activity" placeholder="Search activity" disabled />
-          </ActivityInboxControls>
-          <ActivityInboxSelectionToolbar>
-            <Button size="xs" disabled>
-              Select all
-            </Button>
-          </ActivityInboxSelectionToolbar>
-          <ActivityInboxViewport>
-            <ActivityInboxList>
-              <ActivityInboxItem data-unread="">
-                <ActivityInboxItemOpen aria-label="Open activity" disabled />
-                <ActivityInboxItemContent>
-                  <ActivityInboxItemHeading>
-                    <ActivityInboxItemTitle>Review the search proposal</ActivityInboxItemTitle>
-                  </ActivityInboxItemHeading>
-                  <ActivityInboxItemBody>
-                    <ActivityInboxItemSender>Mina</ActivityInboxItemSender> mentioned you in
-                    #design.
-                  </ActivityInboxItemBody>
-                </ActivityInboxItemContent>
-                <ActivityInboxItemTrailing>
-                  <ActivityInboxItemTimestamp>5m</ActivityInboxItemTimestamp>
-                </ActivityInboxItemTrailing>
-              </ActivityInboxItem>
-            </ActivityInboxList>
-          </ActivityInboxViewport>
-        </ConversationPanelContent>
-      </div>
-    </ActivityInboxPanel>
+    <div className="flex w-full max-w-5xl flex-col gap-2">
+      {ACTIVITY_ITEM_STATES.map((item) => {
+        const Icon =
+          item.kind === "thread" ? MessageSquare : item.channelKind === "dm" ? AtSign : Hash;
+        const active = item.id === ACTIVE_ITEM_ID;
+        const checked = item.id === CHECKED_ITEM_ID;
+
+        return (
+          <InboxItem key={item.id} active={active} data-unread={item.unreadCount > 0 || undefined}>
+            <InboxItemSelection>
+              <ActivitySelectionCheckbox
+                defaultChecked={checked}
+                aria-label="Toggle activity item selection"
+              />
+            </InboxItemSelection>
+
+            <InboxItemContent>
+              <InboxItemHeading>
+                <InboxItemTitle>
+                  <Icon aria-hidden />
+                  {item.title}
+                </InboxItemTitle>
+              </InboxItemHeading>
+              {item.kind === "thread" ? (
+                <InboxItemSubtitle>Thread in {item.channelLabel}</InboxItemSubtitle>
+              ) : null}
+              <InboxItemBody>
+                <InboxItemSender>{item.sender}: </InboxItemSender>
+                {item.preview}
+              </InboxItemBody>
+              <InboxItemMetadata>
+                {item.task ? (
+                  <Badge
+                    variant="warning"
+                    uppercase={false}
+                    style={
+                      theme === "brutal"
+                        ? { backgroundColor: "var(--color-brutal-orange)" }
+                        : undefined
+                    }
+                  >
+                    <Circle aria-hidden size={10} />#{item.task.number}
+                    {item.task.claimedBy ? ` @${item.task.claimedBy}` : null}
+                  </Badge>
+                ) : null}
+                {item.replyCount === undefined ? null : (
+                  <Badge appearance="outline" variant="muted" uppercase={false}>
+                    {item.replyCount} replies
+                  </Badge>
+                )}
+                {item.kind === "thread" && item.following === false ? (
+                  <Badge appearance="outline" variant="muted" uppercase={false}>
+                    <BellOff aria-hidden size={10} /> Unfollowed
+                  </Badge>
+                ) : null}
+                {item.hasMention && item.unreadCount > 0 ? (
+                  <Badge variant="primary" uppercase={false}>
+                    <AtSign aria-hidden size={10} /> Mention
+                  </Badge>
+                ) : null}
+                {item.unreadCount > 0 ? (
+                  <Badge variant="accent" uppercase={false}>
+                    {item.unreadCount} new
+                  </Badge>
+                ) : null}
+                {item.draft ? (
+                  <Badge appearance="outline" variant="muted" uppercase={false}>
+                    <Pencil aria-hidden size={10} /> Draft
+                  </Badge>
+                ) : null}
+              </InboxItemMetadata>
+            </InboxItemContent>
+
+            <InboxItemTrailing>
+              <InboxItemTimestamp>{item.timestamp}</InboxItemTimestamp>
+              <InboxItemActions>
+                <ActivitySavedAction defaultSaved={Boolean(item.saved)} />
+                <ActivityCompletionAction defaultDone={Boolean(item.done)} />
+              </InboxItemActions>
+            </InboxItemTrailing>
+          </InboxItem>
+        );
+      })}
+    </div>
+  );
+}
+
+function ActivitySavedAction({ defaultSaved }: { defaultSaved: boolean }) {
+  const [saved, setSaved] = useState(defaultSaved);
+
+  return (
+    <PanelToggleAction
+      pressed={saved}
+      onPressedChange={setSaved}
+      aria-label={saved ? "Remove from Saved" : "Save activity item"}
+    >
+      <Bookmark aria-hidden fill={saved ? "currentColor" : "none"} />
+    </PanelToggleAction>
+  );
+}
+
+function ActivityCompletionAction({ defaultDone }: { defaultDone: boolean }) {
+  const [done, setDone] = useState(defaultDone);
+
+  return (
+    <PanelAction
+      onClick={() => setDone((current) => !current)}
+      aria-label={done ? "Restore to Active" : "Mark as done"}
+    >
+      {done ? <RotateCcw aria-hidden /> : <Check aria-hidden />}
+    </PanelAction>
   );
 }

@@ -33,6 +33,10 @@ import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
 import { usePlaygroundDesktop, usePlaygroundLargeDesktop } from "./use-playground-desktop.ts";
 
 export function PlaygroundChatShell() {
+  const savedMatch = useMatch({
+    from: "/playground/s/$serverSlug/saved",
+    shouldThrow: false,
+  });
   const channelMatch = useMatch({
     from: "/playground/s/$serverSlug/channel/$channelId",
     shouldThrow: false,
@@ -78,7 +82,7 @@ export function PlaygroundChatShell() {
         ? getPlaygroundTaskThread(task)
         : undefined;
   const sidePanel = Boolean(activeLegacyTask || activeThread);
-  const mobileListPanel = channel === null || (panel === "list" && !sidePanel);
+  const mobileListPanel = !savedMatch && (channel === null || (panel === "list" && !sidePanel));
   const liveAgentActor = getPlaygroundActor(PLAYGROUND_LIVE_AGENT_ACTIVITY.actorId);
 
   return (
