@@ -227,6 +227,7 @@ export type {
   SidebarItemMetaIconProps,
   SidebarItemStatusProps,
   SidebarItemProps,
+  SidebarItemVariant,
   SidebarItemSubtitleProps,
   SidebarItemTitleProps,
   SidebarListProps,

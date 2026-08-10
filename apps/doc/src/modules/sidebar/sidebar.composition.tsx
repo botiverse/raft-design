@@ -159,7 +159,7 @@ export function SidebarComposition({
                     </SidebarItemContent>
                     <SidebarItemAside>
                       <SidebarItemStatus>
-                        <Status aria-hidden variant="success" size="md" />
+                        <Status aria-hidden variant="success" />
                       </SidebarItemStatus>
                     </SidebarItemAside>
                   </SidebarItem>
@@ -324,7 +324,7 @@ export function SidebarComposition({
                     </SidebarItemContent>
                     <SidebarItemAside>
                       <SidebarItemStatus>
-                        <Status aria-hidden variant="success" size="md" />
+                        <Status aria-hidden variant="success" />
                       </SidebarItemStatus>
                       <SidebarItemCount>4</SidebarItemCount>
                     </SidebarItemAside>

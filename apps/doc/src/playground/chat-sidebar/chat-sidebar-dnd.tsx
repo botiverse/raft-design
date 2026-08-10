@@ -336,6 +336,7 @@ function ChatSidebarDragPreview({
   return (
     <SidebarItem
       active={active}
+      variant="accent"
       aria-hidden
       className={
         active

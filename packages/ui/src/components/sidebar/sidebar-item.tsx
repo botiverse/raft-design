@@ -4,6 +4,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge, type BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import type { VariantProps } from "../../lib/tv";
 import { sidebarItemRecipe } from "./sidebar-item.recipe";
 
 export type SidebarItemRootProps = useRender.ComponentProps<"button"> & {
@@ -29,12 +30,17 @@ export function SidebarItemRoot({
   });
 }
 
-export type SidebarItemProps = SidebarItemRootProps;
+export type SidebarItemVariant = NonNullable<VariantProps<typeof sidebarItemRecipe>["variant"]>;
 
-export function SidebarItem({ className, ...props }: SidebarItemProps) {
+export type SidebarItemProps = SidebarItemRootProps &
+  Pick<VariantProps<typeof sidebarItemRecipe>, "variant">;
+
+export function SidebarItem({ className, variant = "default", ...props }: SidebarItemProps) {
   const theme = useThemeFamily();
-  const { sidebarItem } = sidebarItemRecipe({ theme });
-  return <SidebarItemRoot className={sidebarItem({ className })} {...props} />;
+  const { sidebarItem } = sidebarItemRecipe({ theme, variant });
+  return (
+    <SidebarItemRoot data-variant={variant} className={sidebarItem({ className })} {...props} />
+  );
 }
 
 export type SidebarItemIconProps = useRender.ComponentProps<"span">;

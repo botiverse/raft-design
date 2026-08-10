@@ -43,7 +43,7 @@ export const sidebarItemRecipe = tv({
           "border-transparent text-black",
           "hover:border-black hover:bg-white hover:shadow-raft-sm",
           "active:border-black active:bg-white active:shadow-raft-sm",
-          "data-active:border-black data-active:bg-brutal-pink",
+          "data-active:border-black",
           "data-active:shadow-raft-sm",
           "data-popup-open:border-black data-popup-open:bg-white data-popup-open:shadow-raft-sm",
           "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-[black]",
@@ -51,14 +51,19 @@ export const sidebarItemRecipe = tv({
         sidebarItemTitle: "font-medium text-black",
         sidebarItemChannelIcon: "[&_svg]:size-3",
         sidebarItemSubtitle: "text-black/40",
-        sidebarItemMeta: "text-xs font-medium text-black/70",
+        sidebarItemMeta: [
+          "inline-flex h-4 items-center justify-center border border-transparent px-1.5",
+          "font-sans text-xs font-bold leading-none tabular-nums text-black/70",
+        ],
+        sidebarItemStatus: ["[&>[data-slot=status]]:size-2"],
         sidebarItemIndicator: [
           "rounded-sm border border-black bg-primary",
           "text-[10px] font-bold leading-none text-black",
         ],
         sidebarItemMetaIcon: "text-black/70",
         sidebarItemCount: [
-          "h-4 gap-0 rounded-sm border border-black bg-brutal-pink px-1.5 py-0.5 text-[10px] font-bold leading-none text-white",
+          "h-4 gap-0 rounded-sm border border-black bg-brutal-pink px-1.5 py-0.5",
+          "font-sans text-[10px] font-bold leading-none tabular-nums text-white",
         ],
       },
       elegant: {
@@ -83,10 +88,13 @@ export const sidebarItemRecipe = tv({
         sidebarItemIcon: "size-4.5 text-foreground-icon [&_svg]:stroke-[1.5]",
         sidebarItemChannelIcon: "size-3 text-foreground-icon [&_svg]:size-3.5",
         sidebarItemSubtitle: "text-ink-30",
-        sidebarItemMeta:
-          "font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",
+        sidebarItemMeta: [
+          "inline-flex h-4 min-w-4 items-center justify-center",
+          "font-sans text-[10px] font-medium leading-none tabular-nums text-foreground-icon",
+        ],
         sidebarItemStatus: [
           "pointer-events-none absolute top-1/2 right-[calc(100%+2px)] -translate-y-1/2",
+          "[&>[data-slot=status]]:size-1",
         ],
         sidebarItemIndicator: [
           "rounded-sm border-0",
@@ -99,12 +107,35 @@ export const sidebarItemRecipe = tv({
         ],
       },
     },
+    variant: {
+      default: {},
+      primary: {},
+      accent: {},
+    },
     stacked: {
       false: { sidebarItemContent: ["min-w-0 flex flex-1 items-baseline gap-1 text-left"] },
       true: { sidebarItemContent: ["min-w-0 flex-1 text-left"] },
     },
   },
   defaultVariants: {
+    variant: "default",
     stacked: false,
   },
+  compoundVariants: [
+    {
+      theme: "brutal",
+      variant: "default",
+      class: { sidebarItem: "data-active:bg-white" },
+    },
+    {
+      theme: "brutal",
+      variant: "primary",
+      class: { sidebarItem: "data-active:bg-brutal-yellow" },
+    },
+    {
+      theme: "brutal",
+      variant: "accent",
+      class: { sidebarItem: "data-active:bg-brutal-pink" },
+    },
+  ],
 });

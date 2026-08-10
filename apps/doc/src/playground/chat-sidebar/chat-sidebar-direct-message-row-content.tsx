@@ -26,7 +26,7 @@ import {
 
 function DirectMessageStatus({ status }: { status: PlaygroundPresence }) {
   const config = PLAYGROUND_PRESENCE_STATUS[status];
-  return <Status aria-hidden variant={config.variant} size="xs" pulse={config.pulse} />;
+  return <Status aria-hidden variant={config.variant} pulse={config.pulse} />;
 }
 
 export function ChatSidebarDirectMessageRowContent({
