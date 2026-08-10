@@ -79,7 +79,7 @@ export function PlaygroundSavedPanel() {
       </PanelHeader>
 
       <ConversationPanelContent>
-        <div className="safe-bottom flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))]">
           {savedMessages.length ? (
             <div className="flex flex-col gap-2 in-data-[theme=elegant]:gap-2.5 in-data-[theme=elegant]:rounded-[10px] in-data-[theme=elegant]:bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] in-data-[theme=elegant]:p-3 in-data-[theme=elegant]:shadow-raft-xs in-data-[theme=elegant]:dark:bg-layer-card">
               {savedMessages.map((savedMessage) => (
