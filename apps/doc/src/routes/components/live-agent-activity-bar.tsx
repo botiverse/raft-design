@@ -8,15 +8,27 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { LiveAgentActivityBarWithoutBeamComposition } from "#/modules/live-agent-activity-bar/compositions/without-beam.composition.tsx";
+import withoutBeamCompositionSource from "#/modules/live-agent-activity-bar/compositions/without-beam.composition.tsx?raw";
 import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
 import { LIVE_AGENT_ACTIVITY_PREVIEW } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.fixtures.ts";
 
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
 ] as const;
+
+const COMPOSITION_SOURCES = createCompositionSourceMap({
+  WithoutBeam: withoutBeamCompositionSource,
+});
+
+const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
+  WithoutBeam: "withoutBeamComposition",
+});
 
 const SNIPPETS = {
   preview: `<LiveAgentActivityBar>
@@ -52,6 +64,13 @@ const SNIPPETS = {
 } as const;
 
 const LIVE_AGENT_ACTIVITY_BAR_PROPS: readonly PropRow[] = [
+  {
+    name: "beam",
+    type: "boolean",
+    default: "true",
+    description:
+      "Controls the Elegant beam decoration without changing the bar structure or its enter and exit transition. Brutal has no beam decoration.",
+  },
   {
     name: "...props",
     type: "div props",
@@ -102,7 +121,13 @@ const LIVE_AGENT_ACTIVITY_BAR_TEXT_PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/live-agent-activity-bar")({
   component: LiveAgentActivityBarDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...COMPOSITION_SNIPPETS,
+      },
+    }),
 });
 
 function LiveAgentActivityBarPreview({
@@ -111,12 +136,16 @@ function LiveAgentActivityBarPreview({
   code: ReturnType<typeof Route.useLoaderData>["preview"];
 }) {
   const [active, setActive] = useState(true);
+  const [beam, setBeam] = useState(true);
 
   return (
     <Preview previewClassName="overflow-visible">
       <Preview.Canvas>
         <div className="w-72 self-center overflow-visible">
-          <LiveAgentActivityBarComposition latest={active ? LIVE_AGENT_ACTIVITY_PREVIEW : null} />
+          <LiveAgentActivityBarComposition
+            beam={beam}
+            latest={active ? LIVE_AGENT_ACTIVITY_PREVIEW : null}
+          />
         </div>
       </Preview.Canvas>
       <Preview.Controls>
@@ -126,6 +155,14 @@ function LiveAgentActivityBarPreview({
             label="Activity"
             checked={active}
             onCheckedChange={setActive}
+          />
+        </Preview.Control>
+        <Preview.Control label="Elegant beam" htmlFor="live-agent-activity-bar-preview-beam">
+          <Preview.Checkbox
+            id="live-agent-activity-bar-preview-beam"
+            label="Elegant beam"
+            checked={beam}
+            onCheckedChange={setBeam}
           />
         </Preview.Control>
       </Preview.Controls>
@@ -155,12 +192,29 @@ function LiveAgentActivityBarDoc() {
         </DocsCodeBlock>
       </DocSection>
 
+      <DocSection id="usage" title="Usage">
+        <DocSubsection parentId="usage" id="without-beam" title="Without beam">
+          <Preview previewClassName="overflow-visible">
+            <Preview.Canvas>
+              <div className="w-72 self-center overflow-visible">
+                <LiveAgentActivityBarWithoutBeamComposition />
+              </div>
+            </Preview.Canvas>
+            <Preview.Code
+              html={code.withoutBeamComposition}
+              collapsedHtml={code.withoutBeamCompositionBody}
+            />
+          </Preview>
+        </DocSubsection>
+      </DocSection>
+
       <DocSection id="api" title="API">
         <DocNote>
           Pass <InlineCode>null</InlineCode> when activity ends. The consumer owns selection,
           expiry, terminal-state removal, and avatar resolution; Elegant retains the prior content
-          briefly for its exit transition. The component owns its default{" "}
-          <InlineCode>Avatar</InlineCode> fallback. Brutal uses the white surface below the{" "}
+          briefly for its exit transition. Set <InlineCode>beam={"{false}"}</InlineCode> to remove
+          only Elegant's beam decoration while keeping that transition. The component owns its
+          default <InlineCode>Avatar</InlineCode> fallback. Brutal uses the white surface below the{" "}
           <InlineCode>md</InlineCode> breakpoint and the cream sidebar surface at{" "}
           <InlineCode>md</InlineCode> and above.
         </DocNote>
