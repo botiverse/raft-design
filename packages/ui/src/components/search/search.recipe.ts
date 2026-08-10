@@ -3,9 +3,6 @@ import { tv } from "../../lib/tv";
 export const search = tv({
   slots: {
     frame: "flex h-full min-h-0 flex-1 flex-col",
-    header: "flex items-center gap-3",
-    content: "relative flex min-h-0 min-w-0 flex-1 flex-col",
-    headerIconChip: "flex size-9 shrink-0 items-center justify-center",
     filtersRow: "shrink-0 px-4 py-3",
     viewport: ["min-h-0 flex-1 overflow-y-auto p-4"],
     summary: ["mb-3 block px-1 text-xs"],
@@ -17,11 +14,6 @@ export const search = tv({
     theme: {
       brutal: {
         frame: "bg-white",
-        header: [
-          "h-[62px] px-5 border-b-2 border-black bg-white",
-          "[@media(max-height:600px)]:h-[62px]!",
-        ],
-        headerIconChip: "border-2 border-black bg-soft-signal",
         filtersRow: "border-b-2 border-black bg-white",
         viewport: "bg-white",
         summary: ["font-bold uppercase tracking-widest text-black/60"],
@@ -31,12 +23,6 @@ export const search = tv({
       },
       elegant: {
         frame: "bg-layer-canvas-muted dark:bg-layer-canvas-muted",
-        header: [
-          "min-h-(--shell-header-height,56px)",
-          "max-md:h-[var(--shell-header-height,56px)] max-md:bg-layer-canvas-muted dark:bg-layer-canvas-muted",
-          "max-md:pl-5 max-md:pr-3.5 md:pl-9 md:pr-5",
-        ],
-        headerIconChip: "rounded-md bg-fill-muted text-foreground-icon",
         filtersRow: [
           "border-b border-line-muted bg-layer-panel",
           "px-7 max-md:pl-5 max-md:pr-3.5",

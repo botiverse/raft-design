@@ -1,5 +1,6 @@
 import type { KeyboardEvent } from "react";
 import { useEffect, useRef, useState } from "react";
+import { ConversationPanelContent, SearchShellRoot } from "raft-ui";
 import {
   SEARCH_CHANNEL_FIXTURES,
   SEARCH_ENTITY_FIXTURES,
@@ -26,7 +27,6 @@ import {
   rankSearchEntities,
   SEARCH_PAGE_SIZE,
 } from "../search-panel.logic.ts";
-import { SearchShellContent, SearchShellRoot } from "raft-ui/wip";
 
 export type SearchPanelCompositionProps = {
   entities?: readonly SearchEntityFixture[];
@@ -166,9 +166,7 @@ function SearchPanel({
     const isSearchNavigationTarget =
       target === inputRef.current ||
       (target instanceof HTMLElement &&
-        target.closest(
-          "[data-slot='search-entity-result-open'], [data-slot='search-message-result']",
-        ));
+        target.closest("[data-slot='search-entity-result'], [data-slot='search-message-result']"));
     if (!isSearchNavigationTarget) return;
     if (event.key === "Escape") {
       if (query) {
@@ -219,7 +217,7 @@ function SearchPanel({
         }}
       />
 
-      <SearchShellContent>
+      <ConversationPanelContent render={<section />}>
         <SearchFilters
           senders={senders}
           channels={channels}
@@ -273,7 +271,7 @@ function SearchPanel({
           }
           onLoadMore={() => setVisibleLimit((limit) => limit + SEARCH_PAGE_SIZE)}
         />
-      </SearchShellContent>
+      </ConversationPanelContent>
     </SearchShellRoot>
   );
 }

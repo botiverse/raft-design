@@ -24,10 +24,11 @@ export const searchThread = tv({
       },
       elegant: {
         thread: [
-          "group/thread rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
+          "rounded-lg border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
           "transition-[background-color,border-color] duration-150",
           "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
-          "data-[selected=true]:border-transparent data-[selected=true]:ring-2 data-[selected=true]:ring-primary-400 data-[selected=true]:ring-offset-2 data-[selected=true]:ring-offset-layer-canvas-muted",
+          "data-[selected=true]:border-transparent data-[selected=true]:ring-1 data-[selected=true]:ring-primary-400 data-[selected=true]:ring-offset-2 data-[selected=true]:ring-offset-layer-canvas-muted",
+          "dark:data-[selected=true]:ring-2",
           "dark:border-transparent",
         ],
         threadHeader: ["px-3 pt-2.5 pb-2"],

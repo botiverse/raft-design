@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Button } from "raft-ui";
 import {
+  Button,
   SearchResultsList,
   SearchResultsSection,
   SearchResultsSectionHeading,
   SearchResultsSummary,
   SearchShellViewport,
-} from "raft-ui/wip";
+} from "raft-ui";
 
 import type {
   SearchChannelFixture,

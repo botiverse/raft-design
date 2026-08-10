@@ -4,8 +4,7 @@ import type { ComponentPropsWithRef } from "react";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { ConversationPanelContent } from "../conversation-panel/conversation-panel";
-import { Panel, PanelHeaderRoot } from "../panel/panel";
+import { Panel } from "../panel/panel";
 import { search } from "./search.recipe";
 
 export type SearchShellRootProps = useRender.ComponentProps<"div"> & {
@@ -24,37 +23,6 @@ export function SearchShellRoot({
   );
 }
 
-export type SearchShellHeaderProps = ComponentPropsWithRef<typeof PanelHeaderRoot>;
-export function SearchShellHeader({ className, ...props }: SearchShellHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = search({ theme });
-  return (
-    <PanelHeaderRoot
-      data-panel-frame-header=""
-      data-slot="search-shell-header"
-      className={header({ className })}
-      {...props}
-    />
-  );
-}
-
-export type SearchShellContentProps = useRender.ComponentProps<"section">;
-export function SearchShellContent({ className, render, ...props }: SearchShellContentProps) {
-  const theme = useThemeFamily();
-  const { content } = search({ theme });
-  const conversationContentProps = props as unknown as ComponentPropsWithRef<
-    typeof ConversationPanelContent
-  >;
-  return (
-    <ConversationPanelContent
-      {...conversationContentProps}
-      render={render ?? <section />}
-      data-slot="search-shell-content"
-      className={content({ className })}
-    />
-  );
-}
-
 export type SearchShellFiltersProps = ComponentPropsWithRef<"div">;
 
 export function SearchShellFilters({ className, ...props }: SearchShellFiltersProps) {
@@ -69,19 +37,6 @@ export function SearchShellViewport({ className, ...props }: SearchShellViewport
   const theme = useThemeFamily();
   const { viewport } = search({ theme });
   return <div data-slot="search-shell-viewport" className={viewport({ className })} {...props} />;
-}
-
-export type SearchShellHeaderIconProps = ComponentPropsWithRef<"div">;
-export function SearchShellHeaderIcon({ className, ...props }: SearchShellHeaderIconProps) {
-  const theme = useThemeFamily();
-  const { headerIconChip } = search({ theme });
-  return (
-    <div
-      data-slot="search-shell-header-icon"
-      className={headerIconChip({ className })}
-      {...props}
-    />
-  );
 }
 
 export type SearchResultsSummaryProps = useRender.ComponentProps<"span">;

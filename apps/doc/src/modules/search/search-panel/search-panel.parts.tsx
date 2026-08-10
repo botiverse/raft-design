@@ -16,12 +16,13 @@ import {
   InputGroupAddon,
   InputGroupInput,
   Kbd,
-  Skeleton,
-} from "raft-ui";
-import {
+  PanelHeader,
+  PanelHeaderIcon,
   SearchEntityResult,
   SearchEntityResultActivity,
+  SearchEntityResultContent,
   SearchEntityResultDescription,
+  SearchEntityResultHeader,
   SearchEntityResultIcon,
   SearchEntityResultLeading,
   SearchEntityResultTitle,
@@ -33,8 +34,6 @@ import {
   SearchMessageResultSender,
   SearchMessageResultThreadMeta,
   SearchMessageResultTimestamp,
-  SearchShellHeader,
-  SearchShellHeaderIcon,
   SearchThreadMessageResult,
   SearchThreadResult,
   SearchThreadResultHeader,
@@ -42,7 +41,8 @@ import {
   SearchThreadResultMessages,
   SearchThreadResultTimestamp,
   SearchThreadResultTitle,
-} from "raft-ui/wip";
+  Skeleton,
+} from "raft-ui";
 
 import type {
   SearchChannelFixture,
@@ -131,11 +131,11 @@ export function SearchHeader({
   onClear: () => void;
 }) {
   return (
-    <SearchShellHeader>
+    <PanelHeader className="gap-3 [@media(max-height:600px)]:h-[62px]!">
       <Button
         type="button"
         variant="outline"
-        size="icon-sm"
+        size="icon-lg"
         onClick={onBack}
         title="Back"
         aria-label="Back"
@@ -155,42 +155,39 @@ export function SearchHeader({
           <path d="M19 12H5" />
         </svg>
       </Button>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-3">
-          <SearchShellHeaderIcon>
-            <Search
-              aria-hidden
-              className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
-            />
-          </SearchShellHeaderIcon>
-          <InputGroup>
-            <InputGroupInput
-              ref={inputRef}
-              value={query}
-              onChange={(event) => onQueryChange(event.currentTarget.value)}
-              onCompositionStart={onCompositionStart}
-              onCompositionEnd={(event) => onCompositionEnd(event.currentTarget.value)}
-              placeholder="Search channels, DMs, messages…   ⌘K"
-              aria-label="Search channels, DMs, people, agents, and messages"
-            />
-            <InputGroupAddon align="inline-end">
-              {query ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon-xs"
-                  onClick={onClear}
-                  aria-label="Clear search"
-                >
-                  <X aria-hidden size={12} />
-                </Button>
-              ) : null}
-              <Kbd>Esc</Kbd>
-            </InputGroupAddon>
-          </InputGroup>
-        </div>
-      </div>
-    </SearchShellHeader>
+      <PanelHeaderIcon className="max-md:in-data-[theme=brutal]:size-10 in-data-[theme=brutal]:bg-soft-signal">
+        <Search
+          aria-hidden
+          className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
+        />
+      </PanelHeaderIcon>
+      <InputGroup className="min-w-0 flex-1 max-md:col-start-3 max-md:row-start-1 max-md:in-data-[theme=elegant]:h-9">
+        <InputGroupInput
+          ref={inputRef}
+          value={query}
+          onChange={(event) => onQueryChange(event.currentTarget.value)}
+          onCompositionStart={onCompositionStart}
+          onCompositionEnd={(event) => onCompositionEnd(event.currentTarget.value)}
+          placeholder="Search channels, DMs, messages…   ⌘K"
+          aria-label="Search channels, DMs, people, agents, and messages"
+          className="max-md:in-data-[theme=elegant]:self-stretch max-md:in-data-[theme=elegant]:py-0"
+        />
+        <InputGroupAddon align="inline-end">
+          {query ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-xs"
+              onClick={onClear}
+              aria-label="Clear search"
+            >
+              <X aria-hidden size={12} />
+            </Button>
+          ) : null}
+          <Kbd className="max-md:hidden">Esc</Kbd>
+        </InputGroupAddon>
+      </InputGroup>
+    </PanelHeader>
   );
 }
 
@@ -203,7 +200,7 @@ export function EntityResult({
   entity: SearchEntityFixture;
   selected: boolean;
   buttonRef?: (element: HTMLButtonElement | null) => void;
-  onOpen: () => void;
+  onOpen?: () => void;
 }) {
   const isArchivedChannel = entity.type === "channel" && Boolean(entity.archivedAt);
   const Icon = entity.type === "channel" ? Hash : Monitor;
@@ -218,53 +215,47 @@ export function EntityResult({
           : "Human";
 
   return (
-    <SearchEntityResult selected={selected} ref={buttonRef} onClick={onOpen}>
-      <div className="flex items-center gap-3">
-        <SearchEntityResultLeading>
-          {entity.type === "channel" || entity.type === "computer" ? (
-            <SearchEntityResultIcon>
-              <Icon aria-hidden size={14} />
-            </SearchEntityResultIcon>
-          ) : (
-            <SourceIdentityAvatar
-              context="surface-list"
-              type={identityType}
-              avatar={entity.avatar}
-            />
-          )}
-          {entity.type === "agentDm" && entity.activity === "active" ? (
-            <SearchEntityResultActivity aria-label="Active" />
+    <SearchEntityResult selected={selected} ref={buttonRef} onClick={onOpen} disabled={!onOpen}>
+      <SearchEntityResultLeading>
+        {entity.type === "channel" || entity.type === "computer" ? (
+          <SearchEntityResultIcon>
+            <Icon aria-hidden size={14} />
+          </SearchEntityResultIcon>
+        ) : (
+          <SourceIdentityAvatar context="surface-list" type={identityType} avatar={entity.avatar} />
+        )}
+        {entity.type === "agentDm" && entity.activity === "active" ? (
+          <SearchEntityResultActivity role="img" aria-label="Active" />
+        ) : null}
+      </SearchEntityResultLeading>
+      <SearchEntityResultContent>
+        <SearchEntityResultHeader>
+          <SearchEntityResultTitle muted={isArchivedChannel}>
+            {entity.title}
+          </SearchEntityResultTitle>
+          <Badge
+            appearance={isArchivedChannel ? "soft" : "solid"}
+            variant={isArchivedChannel ? "muted" : "default"}
+            uppercase
+          >
+            {typeLabel}
+          </Badge>
+          {entity.archivedAt ? (
+            isArchivedChannel ? (
+              <Badge appearance="soft" variant="muted" uppercase>
+                Archived
+              </Badge>
+            ) : (
+              <Badge appearance="soft" variant="warning" uppercase>
+                Archived
+              </Badge>
+            )
           ) : null}
-        </SearchEntityResultLeading>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <SearchEntityResultTitle muted={isArchivedChannel}>
-              {entity.title}
-            </SearchEntityResultTitle>
-            <Badge
-              appearance={isArchivedChannel ? "soft" : "solid"}
-              variant={isArchivedChannel ? "muted" : "default"}
-              uppercase
-            >
-              {typeLabel}
-            </Badge>
-            {entity.archivedAt ? (
-              isArchivedChannel ? (
-                <Badge appearance="soft" variant="muted" uppercase>
-                  Archived
-                </Badge>
-              ) : (
-                <Badge appearance="soft" variant="warning" uppercase>
-                  Archived
-                </Badge>
-              )
-            ) : null}
-          </div>
-          <SearchEntityResultDescription muted={isArchivedChannel}>
-            {formatEntitySubtitle(entity.subtitle)}
-          </SearchEntityResultDescription>
-        </div>
-      </div>
+        </SearchEntityResultHeader>
+        <SearchEntityResultDescription muted={isArchivedChannel}>
+          {formatEntitySubtitle(entity.subtitle)}
+        </SearchEntityResultDescription>
+      </SearchEntityResultContent>
     </SearchEntityResult>
   );
 }
@@ -330,12 +321,12 @@ export function MessageResult({
   nested?: boolean;
   selected: boolean;
   buttonRef?: (element: HTMLButtonElement | null) => void;
-  onOpen: () => void;
+  onOpen?: () => void;
 }) {
   const Result = nested ? SearchThreadMessageResult : SearchMessageResult;
 
   return (
-    <Result ref={buttonRef} onClick={onOpen} selected={selected}>
+    <Result ref={buttonRef} onClick={onOpen} selected={selected} disabled={!onOpen}>
       <SearchMessageResultHeader>
         <SearchMessageResultMeta>
           {channel?.kind === "dm" ? "@" : "#"}
@@ -386,8 +377,8 @@ export function ThreadResult({
   selectedKey: string | null;
   getSender: (id: string) => SearchSenderFixture | undefined;
   getChannel: (id: string) => SearchChannelFixture | undefined;
-  setResultRef: (key: string, element: HTMLButtonElement | null) => void;
-  onOpenMessage: (message: SearchMessageFixture) => void;
+  setResultRef?: (key: string, element: HTMLButtonElement | null) => void;
+  onOpenMessage?: (message: SearchMessageFixture) => void;
 }) {
   const first = messages[0];
   const latest = messages.reduce<SearchMessageFixture | undefined>((current, message) => {
@@ -424,8 +415,10 @@ export function ThreadResult({
             query={query}
             nested
             selected={selectedKey === `message:${message.id}`}
-            buttonRef={(element) => setResultRef(`message:${message.id}`, element)}
-            onOpen={() => onOpenMessage(message)}
+            buttonRef={
+              setResultRef ? (element) => setResultRef(`message:${message.id}`, element) : undefined
+            }
+            onOpen={onOpenMessage ? () => onOpenMessage(message) : undefined}
           />
         ))}
       </SearchThreadResultMessages>
