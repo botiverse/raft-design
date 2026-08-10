@@ -231,7 +231,7 @@ export function ActivityInboxComposition({
             <ArrowLeft size={14} />
           </Button>
         ) : null}
-        <PanelHeaderIcon className="max-md:hidden in-data-[theme=elegant]:dark:bg-layer-card">
+        <PanelHeaderIcon className="max-md:hidden">
           <Activity
             aria-hidden
             className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
