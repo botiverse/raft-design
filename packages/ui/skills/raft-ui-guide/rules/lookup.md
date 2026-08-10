@@ -34,7 +34,7 @@ node_modules/raft-ui/
 │   ├── <chunks>.mjs    internal runtime; names may change
 │   ├── styles.css      the full oklch token contract
 │   └── fonts.css
-└── skills/             this skill
+└── skills/             bundled raft-ui agent skills
 ```
 
 ## Finding a prop type

@@ -1,11 +1,11 @@
 ---
 name: raft-ui-guide
-description: "Build UIs with raft-ui, the React component library for Raft using Base UI, Tailwind CSS v4, and tailwind-variants. Use when importing from raft-ui, selecting or composing components, checking variants and props, styling with semantic oklch tokens, or setting up styles.css, fonts.css, and ThemeProvider. Keywords include raft-ui, raft ui, RaftUI, Raft design system, brutal theme, and elegant theme."
+description: "Build UIs with raft-ui, the React component library for Raft using Base UI, Tailwind CSS v4, and tailwind-variants. Use when importing from raft-ui, selecting or composing components, checking variants and props, styling with semantic oklch tokens, or setting up styles.css, fonts.css, and ThemeProvider. Keywords include raft-ui, raft ui, RaftUI, Raft design system, activity inbox, workspace search, brutal theme, and elegant theme."
 ---
 
 # raft-ui
 
-React component library for Raft. Built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards.
+React component library for Raft. Built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards, activity inboxes, and search.
 
 ## Working sequence
 
@@ -97,6 +97,8 @@ Intent names are **not** consistent across components — negative is `danger` o
 | Single choice, few options                       | `RadioGroup` or `SegmentedControl`                                         |
 | Single choice, many options                      | `Select`                                                                   |
 | Searchable / multi choice                        | `Combobox`                                                                 |
+| Workspace search and grouped results             | `SearchShellRoot` + the applicable `Search*Result` parts                   |
+| Activity or saved-item inbox                     | `ActivityInboxPanel` + `InboxItem`                                         |
 | Label, help, or validation around a form control | `Field` + the applicable field parts                                       |
 | Design-system divider                            | `Separator`; keep native semantics when styling is intentionally inherited |
 | Loading placeholder                              | `Skeleton`                                                                 |
@@ -121,7 +123,7 @@ Each domain file below opens with its own scenario table for the components it c
 | [rules/feedback.md](./rules/feedback.md)         | Banners, toasts, loading, empty states, badges                               |
 | [rules/display.md](./rules/display.md)           | Typography, code, avatars, files, keyboard hints                             |
 | [rules/layout.md](./rules/layout.md)             | Shell, panels, navigation, resizing, task surfaces                           |
-| [rules/conversation.md](./rules/conversation.md) | Chat sidebar, conversation panel, thread, composer                           |
+| [rules/conversation.md](./rules/conversation.md) | Chat, sidebar, activity inbox, workspace search, composer                    |
 | [rules/styling.md](./rules/styling.md)           | Writing any `className`, color, shadow, or `tv()` recipe                     |
 | [rules/setup.md](./rules/setup.md)               | First-time install, Tailwind v4 wiring, fonts, theme provider                |
 

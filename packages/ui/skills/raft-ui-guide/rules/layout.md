@@ -107,6 +107,10 @@ Every adjacent pair of `ResizablePanel`s needs a `ResizableHandle` between them.
 
 **Two headers, pick by need:** `PanelHeaderRoot` is the bare frame — use it when you lay the header out yourself. `PanelHeader` is the composed identity chrome built on top of it, with `PanelHeaderContent` / `PanelHeaderIcon` / `PanelHeading` / `PanelTitle` / `PanelMeta` / `PanelActions` (`PanelAction`, `PanelToggleAction`) — use it when the surface has an identity row, as `ConversationPanel` does. Both type-check inside a `Panel`, so the wrong pick fails silently.
 
+`PanelHeaderIcon` owns the header icon container: Elegant renders it as a 36px rounded muted
+surface, while Brutal applies its own framed treatment. Size the child icon explicitly; do not wrap
+the part in another chip or expect the container to size its SVG.
+
 **`PanelStatus` vs `PanelActivity`:** `PanelStatus` is a standalone attribute badge in the header; `PanelActivity` is a live status readout wrapping a `Status`. Do not use one for the other.
 
 When the body scrolls, use `PanelScrollViewport` + `PanelScrollContent` instead of putting `overflow-auto` on `PanelBody` — the scroll parts keep the header and footer pinned correctly. `PanelSection` divides the body into sections; `PanelSectionHeader` labels one.
@@ -121,7 +125,8 @@ Use `ProfilePanel` from `raft-ui` for a profile detail pane built on these parts
 
 - Page-level scrolling → let the browser do it.
 - A component with a specialized viewport → use that viewport: `PanelScrollViewport`,
-  `TasksPanelViewport`, `MessageList`, or `SidebarContent`.
+  `TasksPanelViewport`, `ActivityInboxViewport`, `SearchShellViewport`, `MessageList`, or
+  `SidebarContent`.
 - A bounded custom region with no existing scroll owner → compose `ScrollArea`.
 
 Use `ScrollArea` when the region itself owns scrolling and needs the library's scrollbar treatment.

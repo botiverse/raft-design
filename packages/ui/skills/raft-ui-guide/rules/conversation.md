@@ -11,6 +11,7 @@ These encode the Raft product shape. Reach for them before assembling anything c
 
 - Which surface
 - ConversationPanel vs ThreadPanel
+- Activity inbox and workspace search
 - Composer vs Textarea
 - Sidebar structure
 - Message surfaces
@@ -31,6 +32,8 @@ These encode the Raft product shape. Reach for them before assembling anything c
 | Join/leave/rename event in the flow | `SystemMessage`               |
 | Message input                       | `ComposerRoot` + `Composer`   |
 | Notification inbox                  | `NotificationCenter`          |
+| Activity or saved-item inbox        | `ActivityInboxPanel`          |
+| Workspace search results            | `SearchShellRoot`             |
 | Live agent activity strip           | `LiveAgentActivityBar`        |
 
 The sidebar family is named `Sidebar*`, not `ChatSidebar*` — it was generalized to shared navigation primitives. If you find `ChatSidebar` anywhere, it is pre-0.2 code.
@@ -52,6 +55,32 @@ They are not the same component with a different width.
 `ConversationPanel` keeps its own root, body, tabs, and empty state (`ConversationPanelRoot`, `ConversationPanelBody`, `ConversationPanelContent`, `ConversationPanelFooter`, `ConversationPanelTabs`, `ConversationPanelEmptyState` with `…Brand` / `…BrandMark`), but its **header chrome is the shared `Panel*` set owned by the `Panel` component**: `PanelHeader` with `PanelHeaderContent` / `PanelHeaderIcon` / `PanelHeading` / `PanelTitle` / `PanelMeta` / `PanelActions`, plus `PanelStatus` and `PanelActivity` — see the header guidance in [layout.md](./layout.md).
 
 Use `ConversationPanelEmptyState` rather than the generic `EmptyState` inside a conversation.
+
+---
+
+## Activity inbox and workspace search
+
+These are product-shaped presentation surfaces, not state managers.
+
+| Surface            | Compose                                                                                      | Keep in the app                                              |
+| ------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Activity inbox     | `ActivityInboxPanel`, sidebar, controls, selection-toolbar, viewport, and loading-more parts | filters, selection, bulk actions, pagination, loading policy |
+| Reusable inbox row | `InboxItem` + `InboxItemTrigger`, content, metadata, trailing, and action parts              | entity data, read/unread state, navigation, permissions      |
+| Workspace search   | `SearchShellRoot`, filters, viewport, result sections and lists                              | query, filters, fetching, ranking, result selection          |
+| Search result      | `SearchEntityResult*`, `SearchMessageResult*`, or `SearchThreadResult*`                      | result data, destination, domain-specific copy               |
+
+Use `NotificationCenter` for delivered notifications that persist until handled. Use
+`ActivityInboxPanel` for a navigable activity or saved-item workflow. Use `SearchShellRoot` for
+cross-entity search results; do not substitute `Combobox`, which is a value picker with collection
+behavior.
+
+`InboxItemTrigger` is the row's primary action and inherits the root's disabled state. Compose
+secondary controls inside `InboxItemActions`; do not put navigation policy or bulk-selection state
+into the component.
+
+Search result parts own presentation and selected styling, not search semantics. Pick the result
+family that matches the rendered entity rather than switching one result component with a `kind`
+prop.
 
 ---
 
@@ -82,6 +111,11 @@ Naming is regular at three levels — guess by pattern, then confirm against the
 - Presence goes in `SidebarItemStatus`, not a hand-placed dot.
 - `SidebarGroupLabel` labels a group of sections; `SidebarSectionTitle` labels one section.
 - `SidebarLiveActivity` is the slot in the sidebar frame; the standalone strip is `LiveAgentActivityBar` (stable) with `…Row` / `…Avatar` / `…Status` / `…Text` parts.
+- `SidebarItem`'s `variant` selects the active treatment. In Brutal, `default` is neutral white,
+  `primary` is yellow, and `accent` is pink; Elegant keeps one theme-owned active surface. Use
+  `variant="accent"` when migrating a row that relied on the pre-0.4.1 pink active default.
+- `LiveAgentActivityBar` keeps its enter and exit lifecycle when `beam={false}`; that option only
+  removes the Elegant animated border and glow. Brutal does not render the beam.
 
 ---
 
