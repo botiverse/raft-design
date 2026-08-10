@@ -6,6 +6,7 @@ import {
   AvatarImage,
   SidebarBody,
   SidebarContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarHeaderTitle,
   SidebarItem,
@@ -102,11 +103,11 @@ export function MembersSidebar({
             <SidebarList>
               {agentGroups.map((group) => (
                 <div key={group.machineId}>
-                  <div
+                  <SidebarGroupLabel
                     className={[
-                      "mt-1.5 mb-0.5 flex w-full items-center gap-1.5",
+                      "mt-1.5 mb-0.5 flex w-full items-center gap-1.5 py-0",
                       "border-2 border-transparent px-2",
-                      "text-[10px] font-mono lowercase text-foreground-icon select-none",
+                      "text-[10px] font-mono font-normal tracking-normal lowercase text-foreground-icon select-none",
                       "[[data-theme=elegant]_&]:-mx-[var(--sidebar-row-inset-x,6px)]",
                       "[[data-theme=elegant]_&]:w-[calc(100%+12px)]",
                       "[[data-theme=elegant]_&]:border",
@@ -117,7 +118,7 @@ export function MembersSidebar({
                       <Monitor />
                     </SidebarItemIcon>
                     <span className="truncate">{group.machineName}</span>
-                  </div>
+                  </SidebarGroupLabel>
                   {group.agents.map((agent) => (
                     <MemberSidebarItem
                       key={agent.id}
@@ -187,12 +188,7 @@ function MemberSidebarItem({
       {actor.type === "agent" && presence ? (
         <SidebarItemAside>
           <SidebarItemStatus>
-            <Status
-              aria-label={presence.label}
-              size="xs"
-              variant={presence.variant}
-              pulse={presence.pulse}
-            />
+            <Status aria-label={presence.label} variant={presence.variant} pulse={presence.pulse} />
           </SidebarItemStatus>
         </SidebarItemAside>
       ) : null}

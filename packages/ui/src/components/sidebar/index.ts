@@ -57,6 +57,7 @@ export type {
   SidebarItemMetaIconProps,
   SidebarItemStatusProps,
   SidebarItemProps,
+  SidebarItemVariant,
   SidebarItemSubtitleProps,
   SidebarItemTitleProps,
 } from "./sidebar-item";

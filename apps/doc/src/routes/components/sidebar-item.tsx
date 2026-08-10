@@ -5,6 +5,12 @@ import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { SidebarItemChannelComposition } from "#/modules/sidebar-item/compositions/channel-item.composition.tsx";
+import channelItemCompositionSource from "#/modules/sidebar-item/compositions/channel-item.composition.tsx?raw";
+import { SidebarItemDirectMessageComposition } from "#/modules/sidebar-item/compositions/direct-message-item.composition.tsx";
+import directMessageItemCompositionSource from "#/modules/sidebar-item/compositions/direct-message-item.composition.tsx?raw";
+import { SidebarItemNavigationComposition } from "#/modules/sidebar-item/compositions/navigation-item.composition.tsx";
+import navigationItemCompositionSource from "#/modules/sidebar-item/compositions/navigation-item.composition.tsx?raw";
 import { SidebarItemStatesComposition } from "#/modules/sidebar-item/sidebar-item.composition.tsx";
 import sidebarItemCompositionSource from "#/modules/sidebar-item/sidebar-item.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -21,7 +27,7 @@ const ANATOMY_SNIPPET = `import {
   SidebarItemTitle,
 } from "raft-ui";
 
-<SidebarItem>
+<SidebarItem active variant="default">
   <SidebarItemChannelIcon />
   <SidebarItemContent>
     <SidebarItemTitle />
@@ -36,6 +42,7 @@ const ANATOMY_SNIPPET = `import {
 
 const TOC = [
   { id: "preview", title: "Preview" },
+  { id: "compositions", title: "Compositions" },
   { id: "anatomy", title: "Anatomy" },
   { id: "api", title: "API" },
 ] as const;
@@ -47,6 +54,13 @@ const SIDEBAR_ITEM_PROPS: readonly PropRow[] = [
     default: "false",
     description:
       "Marks the row as active. Sets data-active for visual state; route consumers provide aria-current for the current destination.",
+  },
+  {
+    name: "variant",
+    type: '"default" | "primary" | "accent"',
+    default: '"default"',
+    description:
+      "Selects the active treatment. Brutal maps default, primary, and accent to white, yellow, and pink; Elegant keeps its theme-owned active surface.",
   },
   {
     name: "...props",
@@ -122,7 +136,8 @@ const SIDEBAR_ITEM_STATUS_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
-    description: "Availability-status slot. Consumers provide the Status content.",
+    description:
+      "Availability-status slot. A direct Status child uses the Sidebar theme size (sm in Brutal, xs in Elegant); consumers provide its label, state variant, and pulse behavior.",
   },
 ];
 
@@ -157,6 +172,9 @@ export const Route = createFileRoute("/components/sidebar-item")({
       data: {
         anatomy: ANATOMY_SNIPPET,
         composition: sidebarItemCompositionSource,
+        navigationItem: navigationItemCompositionSource,
+        channelItem: channelItemCompositionSource,
+        directMessageItem: directMessageItemCompositionSource,
       },
     }),
 });
@@ -177,6 +195,54 @@ function SidebarItemDoc() {
           </Preview.Canvas>
           <Preview.Code html={code.composition} collapsedHtml={code.compositionBody} />
         </Preview>
+      </DocSection>
+
+      <DocSection id="compositions" title="Compositions">
+        <div className="space-y-8">
+          <DocSubsection
+            parentId="compositions"
+            id="composition-navigation"
+            title="Navigation and active variants"
+          >
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <div className="w-full max-w-72">
+                  <SidebarItemNavigationComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.navigationItem} collapsedHtml={code.navigationItemBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="compositions" id="composition-channel" title="Channel item">
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <div className="w-full max-w-72">
+                  <SidebarItemChannelComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.channelItem} collapsedHtml={code.channelItemBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="compositions"
+            id="composition-direct-message"
+            title="Direct-message item"
+          >
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <div className="w-full max-w-72">
+                  <SidebarItemDirectMessageComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.directMessageItem}
+                collapsedHtml={code.directMessageItemBody}
+              />
+            </Preview>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
