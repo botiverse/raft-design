@@ -8,8 +8,6 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { ActivityPreviewComposition } from "#/modules/activity/compositions/activity-preview.composition.tsx";
 import activityPreviewCompositionSource from "#/modules/activity/compositions/activity-preview.composition.tsx?raw";
-import { CompactActivityComposition } from "#/modules/activity/compositions/compact-activity.composition.tsx";
-import compactActivityCompositionSource from "#/modules/activity/compositions/compact-activity.composition.tsx?raw";
 import { EmptyActivityComposition } from "#/modules/activity/compositions/empty-activity.composition.tsx";
 import emptyActivityCompositionSource from "#/modules/activity/compositions/empty-activity.composition.tsx?raw";
 import { LoadingActivityComposition } from "#/modules/activity/compositions/loading-activity.composition.tsx";
@@ -28,144 +26,55 @@ const ACTIVITY_COMPOSITION_PATH =
   "apps/doc/src/modules/activity/compositions/activity-preview.composition.tsx";
 
 const SNIPPETS = {
-  shellAnatomy: `import {
-  Button,
-  ConversationPanelContent,
-  InputGroup,
-  InputGroupInput,
-  PanelHeader,
-  PanelHeaderContent,
-  PanelMeta,
-  PanelTitle,
-} from "raft-ui";
-import {
-  ActivityInboxControls,
-  ActivityInboxNavigationCount,
-  ActivityInboxNavigationItem,
-  ActivityInboxNavigationLabel,
-  ActivityInboxPanel,
-  ActivityInboxSelectionToolbar,
-  ActivityInboxSidebar,
-  ActivityInboxSidebarHeading,
-  ActivityInboxSidebarHeadingLabel,
-  ActivityInboxToolbarAction,
-  ActivityInboxViewport,
-} from "raft-ui/wip";
-
-<ActivityInboxPanel>
-  <PanelHeader>
-    <PanelHeaderContent>
-      <PanelTitle render={<h2 />} />
-      <PanelMeta render={<p />} />
-    </PanelHeaderContent>
-  </PanelHeader>
-  <div className="flex min-h-0 flex-1">
-    <ActivityInboxSidebar>
-      <ActivityInboxSidebarHeading>
-        <ActivityInboxSidebarHeadingLabel />
-      </ActivityInboxSidebarHeading>
-      <ActivityInboxNavigationItem>
-        <ActivityInboxNavigationLabel />
-        <ActivityInboxNavigationCount />
-      </ActivityInboxNavigationItem>
-    </ActivityInboxSidebar>
-    <ConversationPanelContent render={<section />}>
-      <ActivityInboxControls>
-        <InputGroup>
-          <InputGroupInput aria-label="Search activity" />
-        </InputGroup>
-      </ActivityInboxControls>
-      <ActivityInboxSelectionToolbar>
-        <ActivityInboxToolbarAction variant="secondary">Select all</ActivityInboxToolbarAction>
-        <Button size="xs">Deselect</Button>
-      </ActivityInboxSelectionToolbar>
-      <ActivityInboxViewport />
-    </ConversationPanelContent>
-  </div>
-</ActivityInboxPanel>`,
   anatomy: `import {
   Checkbox,
+  InboxItem,
+  InboxItemActions,
+  InboxItemBody,
+  InboxItemContent,
+  InboxItemHeading,
+  InboxItemMetadata,
+  InboxItemSelection,
+  InboxItemSender,
+  InboxItemSubtitle,
+  InboxItemTimestamp,
+  InboxItemTitle,
+  InboxItemTrailing,
+  InboxItemTrigger,
   PanelAction,
   PanelToggleAction,
 } from "raft-ui";
-import {
-  ActivityInboxItem,
-  ActivityInboxItemActions,
-  ActivityInboxItemBody,
-  ActivityInboxItemContent,
-  ActivityInboxItemHeading,
-  ActivityInboxItemMetadata,
-  ActivityInboxItemOpen,
-  ActivityInboxItemSelection,
-  ActivityInboxItemSender,
-  ActivityInboxItemSubtitle,
-  ActivityInboxItemTimestamp,
-  ActivityInboxItemTitle,
-  ActivityInboxItemTrailing,
-  ActivityInboxList,
-} from "raft-ui/wip";
 
-<ActivityInboxList>
-  <ActivityInboxItem>
-    {/* full-card open target layered behind the content */}
-    <ActivityInboxItemOpen />
-    <ActivityInboxItemSelection>
-      <Checkbox />
-    </ActivityInboxItemSelection>
-    <ActivityInboxItemContent>
-      {/* thread rows only */}
-      <ActivityInboxItemSubtitle />
-      <ActivityInboxItemHeading>
-        {/* an inline leading svg is styled by the title */}
-        <ActivityInboxItemTitle />
-      </ActivityInboxItemHeading>
-      <ActivityInboxItemBody>
-        <ActivityInboxItemSender />
-      </ActivityInboxItemBody>
-      {/* caller-owned badges */}
-      <ActivityInboxItemMetadata />
-    </ActivityInboxItemContent>
-    <ActivityInboxItemTrailing>
-      <ActivityInboxItemTimestamp />
-      <ActivityInboxItemActions>
-        <PanelToggleAction />
-        <PanelAction />
-      </ActivityInboxItemActions>
-    </ActivityInboxItemTrailing>
-  </ActivityInboxItem>
-</ActivityInboxList>`,
-  menuAnatomy: `import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuItemLabel,
-  ContextMenuTrigger,
-} from "raft-ui";
-
-<ContextMenu>
-  <ContextMenuTrigger render={<button type="button">Activity item</button>} />
-  <ContextMenuContent>
-    <ContextMenuItem>
-      <ContextMenuItemLabel />
-    </ContextMenuItem>
-  </ContextMenuContent>
-</ContextMenu>`,
+<InboxItem>
+  <InboxItemTrigger />
+  <InboxItemSelection>
+    <Checkbox variant="primary" />
+  </InboxItemSelection>
+  <InboxItemContent>
+    <InboxItemHeading>
+      <InboxItemTitle />
+    </InboxItemHeading>
+    <InboxItemSubtitle />
+    <InboxItemBody>
+      <InboxItemSender />
+    </InboxItemBody>
+    <InboxItemMetadata />
+  </InboxItemContent>
+  <InboxItemTrailing>
+    <InboxItemTimestamp />
+    <InboxItemActions>
+      <PanelToggleAction />
+      <PanelAction />
+    </InboxItemActions>
+  </InboxItemTrailing>
+</InboxItem>`,
   composition: activityPreviewCompositionSource,
-  compact: compactActivityCompositionSource,
   empty: emptyActivityCompositionSource,
   loading: loadingActivityCompositionSource,
   loadingMore: loadingMoreActivityCompositionSource,
 } as const;
 
-const ACTIVITY_INBOX_LIST_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description: "Vertical stack layout for activity row cards.",
-  },
-];
-
-const ACTIVITY_INBOX_ITEM_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_PROPS: readonly PropRow[] = [
   {
     name: "active",
     type: "boolean",
@@ -177,26 +86,17 @@ const ACTIVITY_INBOX_ITEM_PROPS: readonly PropRow[] = [
     type: "boolean",
     default: "false",
     description:
-      "Disables row interaction styling through data-disabled and mirrors the state to aria-disabled.",
+      "Disables row interaction styling and propagates the disabled state to InboxItemTrigger.",
   },
   {
     name: "...props",
     type: "div props",
     description:
-      "Activity row card frame. data-unread remains available for caller-owned unread emphasis.",
+      "Generic inbox card frame. data-unread remains available for caller-owned unread emphasis.",
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_OPEN_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "button props",
-    description:
-      "Full-card open target layered behind the content so selection and actions stay independently interactive.",
-  },
-];
-
-const ACTIVITY_INBOX_ITEM_SELECTION_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_SELECTION_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
@@ -204,40 +104,62 @@ const ACTIVITY_INBOX_ITEM_SELECTION_PROPS: readonly PropRow[] = [
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_CONTENT_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_TRIGGER_PROPS: readonly PropRow[] = [
+  {
+    name: "render",
+    type: "ReactElement",
+    description: "Optionally replaces the native button with a routing link or another trigger.",
+  },
   {
     name: "...props",
-    type: "div props",
-    description: "Text column between the selection control and the action cluster.",
+    type: "button props",
+    description: "The full-card interaction target layered behind item content and actions.",
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_SUBTITLE_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
-    description: "Channel line rendered above the title on thread rows.",
+    description: "The primary content column between optional leading and trailing regions.",
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_HEADING_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: "div props",
-    description: "Heading row containing the clamped activity title.",
-  },
-];
-
-const ACTIVITY_INBOX_ITEM_TITLE_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_CONTEXT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
     description:
-      "Two-line clamped title; a leading inline svg child is sized and tinted by the title, and unread emphasis comes from the card's data-unread state.",
+      "Message-oriented context row for caller-owned channel, thread, and sender identity content.",
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_TIMESTAMP_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_SUBTITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description: "Optional supporting text rendered above or below the item heading.",
+  },
+];
+
+const INBOX_ITEM_HEADING_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description: "Heading row containing the clamped item title.",
+  },
+];
+
+const INBOX_ITEM_TITLE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "div props",
+    description:
+      "Two-line clamped title; a leading inline svg is styled by the slot, and unread emphasis comes from the card's data-unread state.",
+  },
+];
+
+const INBOX_ITEM_TIMESTAMP_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "span props",
@@ -245,7 +167,7 @@ const ACTIVITY_INBOX_ITEM_TIMESTAMP_PROPS: readonly PropRow[] = [
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_TRAILING_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_TRAILING_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
@@ -253,7 +175,7 @@ const ACTIVITY_INBOX_ITEM_TRAILING_PROPS: readonly PropRow[] = [
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_BODY_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_BODY_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "p props",
@@ -261,7 +183,16 @@ const ACTIVITY_INBOX_ITEM_BODY_PROPS: readonly PropRow[] = [
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_SENDER_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_MESSAGE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: "p props",
+    description:
+      "Message-oriented content preview with typography and clamping owned by the InboxItem recipe.",
+  },
+];
+
+const INBOX_ITEM_SENDER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "span props",
@@ -269,15 +200,15 @@ const ACTIVITY_INBOX_ITEM_SENDER_PROPS: readonly PropRow[] = [
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_METADATA_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_METADATA_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
-    description: "Badge row under the body for replies, mentions, unread counts, and drafts.",
+    description: "Flexible metadata row for caller-owned badges and secondary information.",
   },
 ];
 
-const ACTIVITY_INBOX_ITEM_ACTIONS_PROPS: readonly PropRow[] = [
+const INBOX_ITEM_ACTIONS_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
@@ -299,22 +230,6 @@ const ACTIVITY_INBOX_SHELL_API = [
       "The scrollable inbox navigation rail composed from the shared Sidebar primitives.",
   },
   {
-    id: "api-navigation-item",
-    title: "ActivityInboxNavigationItem",
-    description:
-      "A SidebarItem-based Activity view or filter item. active drives data-active styling; aria-current and aria-pressed remain caller-owned semantics.",
-  },
-  {
-    id: "api-navigation-label",
-    title: "ActivityInboxNavigationLabel",
-    description: "The truncating text region within an Activity navigation item.",
-  },
-  {
-    id: "api-navigation-count",
-    title: "ActivityInboxNavigationCount",
-    description: "The trailing count region within an Activity navigation item.",
-  },
-  {
     id: "api-controls",
     title: "ActivityInboxControls",
     description: "The responsive controls row for caller-composed filters, navigation, and search.",
@@ -331,12 +246,6 @@ const ACTIVITY_INBOX_SHELL_API = [
     description: "The selected-item count treatment used within ActivityInboxSelectionToolbar.",
   },
   {
-    id: "api-toolbar-action",
-    title: "ActivityInboxToolbarAction",
-    description:
-      "Bulk-selection toolbar action built on Button; variant selects secondary, primary, link, or ghost treatments.",
-  },
-  {
     id: "api-viewport",
     title: "ActivityInboxViewport",
     description: "The scroll viewport with Activity surface, inset, and safe-area treatment.",
@@ -346,81 +255,77 @@ const ACTIVITY_INBOX_SHELL_API = [
     title: "ActivityInboxLoadingMore",
     description: "The loading-more text treatment; the caller decides whether it renders.",
   },
-  {
-    id: "api-header-icon",
-    title: "ActivityInboxHeaderIcon",
-    description:
-      "The scene-specific identity chip in the header; delegates to PanelHeaderIcon. The bar, content region, title, and subtitle are the shared PanelHeader parts.",
-  },
-  {
-    id: "api-sidebar-heading",
-    title: "ActivityInboxSidebarHeading",
-    description: "A sidebar section heading row.",
-  },
-  {
-    id: "api-sidebar-heading-label",
-    title: "ActivityInboxSidebarHeadingLabel",
-    description: "The sidebar heading label.",
-  },
 ] as const;
 
-const API_SUBSECTIONS = [
-  { id: "api-list", title: "ActivityInboxList", rows: ACTIVITY_INBOX_LIST_PROPS },
-  { id: "api-item", title: "ActivityInboxItem", rows: ACTIVITY_INBOX_ITEM_PROPS },
-  { id: "api-item-open", title: "ActivityInboxItemOpen", rows: ACTIVITY_INBOX_ITEM_OPEN_PROPS },
+const INBOX_ITEM_API_SUBSECTIONS = [
+  { id: "api-item", title: "InboxItem", rows: INBOX_ITEM_PROPS },
+  { id: "api-item-trigger", title: "InboxItemTrigger", rows: INBOX_ITEM_TRIGGER_PROPS },
   {
     id: "api-item-selection",
-    title: "ActivityInboxItemSelection",
-    rows: ACTIVITY_INBOX_ITEM_SELECTION_PROPS,
+    title: "InboxItemSelection",
+    rows: INBOX_ITEM_SELECTION_PROPS,
   },
   {
     id: "api-item-content",
-    title: "ActivityInboxItemContent",
-    rows: ACTIVITY_INBOX_ITEM_CONTENT_PROPS,
+    title: "InboxItemContent",
+    rows: INBOX_ITEM_CONTENT_PROPS,
+  },
+  {
+    id: "api-item-context",
+    title: "InboxItemContext",
+    rows: INBOX_ITEM_CONTEXT_PROPS,
   },
   {
     id: "api-item-subtitle",
-    title: "ActivityInboxItemSubtitle",
-    rows: ACTIVITY_INBOX_ITEM_SUBTITLE_PROPS,
+    title: "InboxItemSubtitle",
+    rows: INBOX_ITEM_SUBTITLE_PROPS,
   },
   {
     id: "api-item-heading",
-    title: "ActivityInboxItemHeading",
-    rows: ACTIVITY_INBOX_ITEM_HEADING_PROPS,
+    title: "InboxItemHeading",
+    rows: INBOX_ITEM_HEADING_PROPS,
   },
-  { id: "api-item-title", title: "ActivityInboxItemTitle", rows: ACTIVITY_INBOX_ITEM_TITLE_PROPS },
+  { id: "api-item-title", title: "InboxItemTitle", rows: INBOX_ITEM_TITLE_PROPS },
   {
     id: "api-item-timestamp",
-    title: "ActivityInboxItemTimestamp",
-    rows: ACTIVITY_INBOX_ITEM_TIMESTAMP_PROPS,
+    title: "InboxItemTimestamp",
+    rows: INBOX_ITEM_TIMESTAMP_PROPS,
   },
   {
     id: "api-item-trailing",
-    title: "ActivityInboxItemTrailing",
-    rows: ACTIVITY_INBOX_ITEM_TRAILING_PROPS,
+    title: "InboxItemTrailing",
+    rows: INBOX_ITEM_TRAILING_PROPS,
   },
-  { id: "api-item-body", title: "ActivityInboxItemBody", rows: ACTIVITY_INBOX_ITEM_BODY_PROPS },
+  { id: "api-item-body", title: "InboxItemBody", rows: INBOX_ITEM_BODY_PROPS },
+  {
+    id: "api-item-message",
+    title: "InboxItemMessage",
+    rows: INBOX_ITEM_MESSAGE_PROPS,
+  },
   {
     id: "api-item-sender",
-    title: "ActivityInboxItemSender",
-    rows: ACTIVITY_INBOX_ITEM_SENDER_PROPS,
+    title: "InboxItemSender",
+    rows: INBOX_ITEM_SENDER_PROPS,
   },
   {
     id: "api-item-metadata",
-    title: "ActivityInboxItemMetadata",
-    rows: ACTIVITY_INBOX_ITEM_METADATA_PROPS,
+    title: "InboxItemMetadata",
+    rows: INBOX_ITEM_METADATA_PROPS,
   },
   {
     id: "api-item-actions",
-    title: "ActivityInboxItemActions",
-    rows: ACTIVITY_INBOX_ITEM_ACTIONS_PROPS,
+    title: "InboxItemActions",
+    rows: INBOX_ITEM_ACTIONS_PROPS,
   },
-  ...ACTIVITY_INBOX_SHELL_API.map(({ id, title, description }) => ({
+];
+
+const ACTIVITY_INBOX_API_SUBSECTIONS = ACTIVITY_INBOX_SHELL_API.map(
+  ({ id, title, description }) => ({
     id,
     title,
     rows: [{ name: "...props", type: `${title}Props`, description }],
-  })),
-] as const;
+  }),
+);
 
 export const Route = createFileRoute("/components/activity")({
   component: ActivityDoc,
@@ -429,7 +334,7 @@ export const Route = createFileRoute("/components/activity")({
 
 function ActivityPreview({ code }: { code: Record<string, string> }) {
   return (
-    <Preview previewInset="flush" previewClassName="h-[42rem] items-stretch overflow-hidden p-0">
+    <Preview>
       <Preview.Canvas>
         <ActivityPreviewComposition />
       </Preview.Canvas>
@@ -444,7 +349,7 @@ function ActivityDoc() {
   return (
     <DocPage
       title="ActivityInbox"
-      description="Business-agnostic inbox shell and item parts for composing activity workflows."
+      description="Activity-specific inbox shell composed with the reusable InboxItem family."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -452,42 +357,15 @@ function ActivityDoc() {
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
-        <DocSubsection parentId="anatomy" id="shell-anatomy" title="Shell">
-          <DocsCodeBlock>
-            <DocsCodeBlock.Body>
-              <DocsCodeBlock.Content
-                html={code.shellAnatomy}
-                collapsedHtml={code.shellAnatomyBody}
-              />
-            </DocsCodeBlock.Body>
-          </DocsCodeBlock>
-        </DocSubsection>
-        <DocSubsection parentId="anatomy" id="item-anatomy" title="Item">
-          <DocsCodeBlock>
-            <DocsCodeBlock.Body>
-              <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
-            </DocsCodeBlock.Body>
-          </DocsCodeBlock>
-        </DocSubsection>
-        <DocSubsection parentId="anatomy" id="item-menu-anatomy" title="Item menu">
-          <DocsCodeBlock>
-            <DocsCodeBlock.Body>
-              <DocsCodeBlock.Content html={code.menuAnatomy} />
-            </DocsCodeBlock.Body>
-          </DocsCodeBlock>
-        </DocSubsection>
+        <DocsCodeBlock>
+          <DocsCodeBlock.Body>
+            <DocsCodeBlock.Content html={code.anatomy} collapsedHtml={code.anatomyBody} />
+          </DocsCodeBlock.Body>
+        </DocsCodeBlock>
       </DocSection>
 
       <DocSection id="usage" title="Usage">
         <div className="grid gap-10">
-          <ActivityUsage
-            title="Compact"
-            id="compact"
-            compact
-            preview={<CompactActivityComposition />}
-            html={code.compact}
-            collapsedHtml={code.compactBody}
-          />
           <ActivityUsage
             title="Empty"
             id="empty"
@@ -496,7 +374,7 @@ function ActivityDoc() {
             collapsedHtml={code.emptyBody}
           />
           <ActivityUsage
-            title="Initial loading"
+            title="Loading"
             id="loading"
             preview={<LoadingActivityComposition />}
             html={code.loading}
@@ -515,7 +393,7 @@ function ActivityDoc() {
       <DocSection id="api" title="API">
         <DocSubsection parentId="api" id="api-shell" title="Shell">
           <div className="space-y-6">
-            {API_SUBSECTIONS.slice(14).map((subsection) => (
+            {ACTIVITY_INBOX_API_SUBSECTIONS.map((subsection) => (
               <DocSubsection
                 key={subsection.id}
                 parentId="api-shell"
@@ -529,7 +407,7 @@ function ActivityDoc() {
         </DocSubsection>
         <DocSubsection parentId="api" id="api-item-parts" title="Item">
           <div className="space-y-6">
-            {API_SUBSECTIONS.slice(0, 14).map((subsection) => (
+            {INBOX_ITEM_API_SUBSECTIONS.map((subsection) => (
               <DocSubsection
                 key={subsection.id}
                 parentId="api"
@@ -552,25 +430,16 @@ function ActivityUsage({
   preview,
   html,
   collapsedHtml,
-  compact = false,
 }: {
   title: string;
   id: string;
   preview: React.ReactNode;
   html: string;
   collapsedHtml: string;
-  compact?: boolean;
 }) {
   return (
     <DocSubsection parentId="usage" id={id} title={title}>
-      <Preview
-        previewClassName={
-          compact
-            ? "h-[42rem] max-w-md items-stretch overflow-hidden p-0"
-            : "h-[42rem] items-stretch overflow-hidden p-0"
-        }
-        previewInset="flush"
-      >
+      <Preview previewClassName="h-80 items-stretch overflow-hidden p-0" previewInset="flush">
         <Preview.Canvas>{preview}</Preview.Canvas>
         <Preview.Code html={html} collapsedHtml={collapsedHtml} />
       </Preview>
@@ -578,7 +447,7 @@ function ActivityUsage({
   );
 }
 
-/** Canonical composition for the ActivityInbox package parts. */
+/** Canonical composition for the ActivityInbox shell and InboxItem parts. */
 function ActivitySourceFiles({
   code,
   collapsible = true,

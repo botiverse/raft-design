@@ -1,6 +1,13 @@
 import { Activity } from "lucide-react";
-import { EmptyState, EmptyStateContent, EmptyStateIcon, EmptyStateTitle } from "raft-ui";
-import { ActivityInboxPanel, ActivityInboxViewport } from "raft-ui/wip";
+import {
+  ActivityInboxPanel,
+  ActivityInboxViewport,
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
+} from "raft-ui";
 
 export function EmptyActivityComposition() {
   return (
@@ -9,9 +16,12 @@ export function EmptyActivityComposition() {
         <EmptyState className="h-full">
           <EmptyStateContent>
             <EmptyStateIcon>
-              <Activity />
+              <Activity aria-hidden />
             </EmptyStateIcon>
-            <EmptyStateTitle>Activity is empty</EmptyStateTitle>
+            <EmptyStateTitle>You&apos;re all caught up</EmptyStateTitle>
+            <EmptyStateDescription>
+              New mentions, replies, and reactions will appear here.
+            </EmptyStateDescription>
           </EmptyStateContent>
         </EmptyState>
       </ActivityInboxViewport>

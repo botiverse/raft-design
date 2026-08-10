@@ -9,81 +9,35 @@ export const activityInboxToolbar = tv({
       "md:h-11 md:flex-nowrap md:py-0",
     ],
     selectionCount: ["mr-1 text-xs"],
-    toolbarAction: [],
   },
   variants: {
     theme: {
       brutal: {
         controls: ["border-b-2 border-black bg-white"],
-        selectionToolbar: ["border-b-2 border-black bg-black/3"],
+        selectionToolbar: [
+          "border-b-2 border-black bg-black/3",
+          "pl-[26px]",
+          "**:data-[activity-inbox-action=primary]:bg-brutal-cyan **:data-[activity-inbox-action=primary]:text-foreground-strong [&_[data-activity-inbox-action=primary]:hover]:bg-brutal-cyan",
+          "**:data-[activity-inbox-action=sort]:font-mono [&_[data-activity-inbox-action=sort]]:font-bold **:data-[activity-inbox-action=sort]:text-black/60",
+          "[&_[data-activity-inbox-action=sort]:hover]:border-transparent [&_[data-activity-inbox-action=sort]:hover]:bg-transparent [&_[data-activity-inbox-action=sort]:hover]:text-black",
+        ],
         selectionCount: ["font-black text-black"],
       },
       elegant: {
         controls: [
           "border-b border-line-hairline bg-layer-panel",
           "dark:border-line-hairline dark:bg-transparent",
-          "px-7 max-md:pl-5 max-md:pr-3.5",
+          "px-7 max-md:pl-5 max-md:pr-3.5 md:py-3",
+          "md:[&_[data-slot=tabs-list]]:h-[34px] md:[&_[data-slot=tabs-tab]]:h-8 md:[&_[data-slot=tabs-tab]]:py-1.5",
+          "md:[&_[data-slot=input-group]]:h-[34px] md:[&_[data-slot=input-group-control]]:py-1.5",
         ],
-        selectionToolbar: ["px-7 max-md:pl-5 max-md:pr-3.5"],
+        selectionToolbar: [
+          "pr-7 pl-[52.5px] max-md:pr-3.5 max-md:pl-[44.5px]",
+          "[&_[data-activity-inbox-action=sort]]:font-medium",
+          "[&_[data-activity-inbox-action=sort]:hover]:bg-transparent [&_[data-activity-inbox-action=sort]:hover]:text-foreground-strong",
+        ],
         selectionCount: ["font-medium text-foreground-strong"],
       },
     },
-    toolbarActionVariant: {
-      secondary: {
-        toolbarAction: [],
-      },
-      primary: {
-        toolbarAction: [],
-      },
-      link: {
-        toolbarAction: [],
-      },
-      ghost: {
-        toolbarAction: [],
-      },
-    },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      toolbarActionVariant: "primary",
-      class: {
-        toolbarAction: ["bg-brutal-cyan text-foreground-strong", "hover:bg-brutal-cyan"],
-      },
-    },
-    {
-      theme: "brutal",
-      toolbarActionVariant: "link",
-      class: {
-        toolbarAction: ["text-xs underline font-bold decoration-2 text-black"],
-      },
-    },
-    {
-      theme: "brutal",
-      toolbarActionVariant: "ghost",
-      class: {
-        toolbarAction: [
-          "font-mono font-bold text-black/60",
-          "hover:border-transparent hover:bg-transparent hover:text-black",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      toolbarActionVariant: "link",
-      class: {
-        toolbarAction: [
-          "text-xs underline font-medium text-foreground-muted",
-          "hover:text-foreground-strong",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      toolbarActionVariant: "ghost",
-      class: {
-        toolbarAction: ["font-medium hover:bg-transparent hover:text-foreground-strong"],
-      },
-    },
-  ],
 });

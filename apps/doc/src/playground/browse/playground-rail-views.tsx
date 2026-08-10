@@ -2,7 +2,6 @@ import {
   Activity,
   AtSign,
   Bell,
-  Bookmark,
   Building2,
   ChevronLeft,
   CircleUserRound,
@@ -28,7 +27,6 @@ import {
   EmptyStateDescription,
   EmptyStateIcon,
   EmptyStateTitle,
-  MessageList,
   SidebarBody,
   SidebarContent,
   SidebarGroupLabel,
@@ -50,12 +48,8 @@ import {
   PanelTitle,
 } from "raft-ui";
 
-import { findPlaygroundTaskForMessage } from "../mock/index.ts";
-import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
-import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
 import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
-import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 import { MemberDetailPanel } from "./member-detail-panel.tsx";
 import { getSelectedMember, memberDetailId } from "./member-selection.ts";
 import { MembersDetailView, MembersSidebar } from "./members-sidebar.tsx";
@@ -181,7 +175,6 @@ const viewMeta: Record<PlaygroundRailView, { title: string; icon: LucideIcon }> 
   search: { title: "Search", icon: Search },
   chat: { title: "Chat", icon: AtSign },
   activity: { title: "Activity", icon: Activity },
-  saved: { title: "Saved", icon: Bookmark },
   tasks: { title: "Tasks", icon: Activity },
   members: { title: "Members", icon: Users },
   computers: { title: "Computers", icon: Monitor },
@@ -247,12 +240,12 @@ export function PlaygroundRailViewPanel({
   }
 
   const ViewIcon = viewMeta[view].icon;
-  const { railDetailId, selectRailDetail, selectRailView } = usePlaygroundNavigation();
+  const { railDetailId, selectRailDetail } = usePlaygroundNavigation();
   const selectedMember = view === "members" ? getSelectedMember(railDetailId) : undefined;
   const auxiliaryDetail =
     (view === "members" || view === "computers" || view === "settings") &&
     railDetailId !== undefined;
-  const mobileBack = view === "saved" || auxiliaryDetail;
+  const mobileBack = auxiliaryDetail;
 
   if (selectedMember) {
     return (
@@ -280,19 +273,20 @@ export function PlaygroundRailViewPanel({
             variant="outline"
             size="icon-sm"
             className="md:hidden"
-            aria-label={auxiliaryDetail ? `Back to ${viewMeta[view].title}` : "Back to Home"}
+            aria-label={`Back to ${viewMeta[view].title}`}
             onClick={() => {
-              if (auxiliaryDetail) selectRailDetail(undefined);
-              else selectRailView("chat");
+              selectRailDetail(undefined);
             }}
           >
             <ChevronLeft aria-hidden />
           </Button>
         ) : null}
-        <PanelHeaderContent>
-          <PanelHeaderIcon>
-            <ViewIcon className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
-          </PanelHeaderIcon>
+        <PanelHeaderIcon className="max-md:hidden">
+          <ViewIcon className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
+        </PanelHeaderIcon>
+        <PanelHeaderContent
+          className={mobileBack ? "max-md:col-start-2 max-md:col-span-2" : "max-md:col-span-3"}
+        >
           <PanelHeading>
             <PanelTitle>{viewMeta[view].title}</PanelTitle>
           </PanelHeading>
@@ -300,58 +294,9 @@ export function PlaygroundRailViewPanel({
         </PanelHeaderContent>
       </PanelHeader>
       <ConversationPanelContent>
-        {view === "saved" ? <PlaygroundSavedView /> : <PlaygroundDetailView view={view} />}
+        <PlaygroundDetailView view={view} />
       </ConversationPanelContent>
     </ConversationPanelRoot>
-  );
-}
-
-function PlaygroundSavedView() {
-  const { savedMessagesById } = usePlaygroundSavedMessages();
-  const { tasks } = usePlaygroundTaskState();
-  const savedMessages = [...savedMessagesById.values()].sort(
-    (left, right) => Date.parse(right.savedAtDateTime) - Date.parse(left.savedAtDateTime),
-  );
-
-  if (savedMessages.length) {
-    return (
-      <ConversationPanelBody>
-        <MessageList>
-          <div className="px-3 py-2 text-xs text-foreground-muted">
-            {savedMessages.length === 1
-              ? "1 saved message"
-              : `${savedMessages.length} saved messages`}
-          </div>
-          {savedMessages.map(({ message, savedAt, surface, threadId }) => (
-            <PlaygroundMessageRow
-              key={message.id}
-              message={message}
-              task={findPlaygroundTaskForMessage(tasks, message.id)}
-              threadId={threadId ?? message.id}
-              surface={surface}
-              footer={<span className="text-xs text-foreground-muted">Saved {savedAt}</span>}
-            />
-          ))}
-          <div className="pb-3" aria-hidden />
-        </MessageList>
-      </ConversationPanelBody>
-    );
-  }
-
-  return (
-    <ConversationPanelBody>
-      <EmptyState className="min-h-full">
-        <EmptyStateContent>
-          <EmptyStateIcon>
-            <Bookmark />
-          </EmptyStateIcon>
-          <EmptyStateTitle>Saved messages</EmptyStateTitle>
-          <EmptyStateDescription>
-            Messages saved in this Playground will appear here.
-          </EmptyStateDescription>
-        </EmptyStateContent>
-      </EmptyState>
-    </ConversationPanelBody>
   );
 }
 

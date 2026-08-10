@@ -104,7 +104,6 @@ import { Route as TokensTypographyRouteImport } from './routes/tokens/typography
 import { Route as PlaygroundBrowseComputersRouteImport } from './routes/playground/_browse/computers'
 import { Route as PlaygroundBrowseMembersRouteImport } from './routes/playground/_browse/members'
 import { Route as PlaygroundPlainActivityRouteImport } from './routes/playground/_plain/activity'
-import { Route as PlaygroundPlainSavedRouteImport } from './routes/playground/_plain/saved'
 import { Route as PlaygroundPlainSearchRouteImport } from './routes/playground/_plain/search'
 import { Route as PlaygroundPlainSettingsRouteImport } from './routes/playground/_plain/settings'
 import { Route as PlaygroundPlainTasksRouteImport } from './routes/playground/_plain/tasks'
@@ -116,6 +115,7 @@ import { Route as TokensTypographyElegantRouteImport } from './routes/tokens/typ
 import { Route as PlaygroundSServerSlugIndexRouteImport } from './routes/playground/s/$serverSlug/index'
 import { Route as PlaygroundSServerSlugChannelRouteRouteImport } from './routes/playground/s/$serverSlug/channel/route'
 import { Route as PlaygroundSServerSlugDmRouteRouteImport } from './routes/playground/s/$serverSlug/dm/route'
+import { Route as PlaygroundSServerSlugSavedRouteImport } from './routes/playground/s/$serverSlug/saved'
 import { Route as PlaygroundSServerSlugChannelChannelIdRouteImport } from './routes/playground/s/$serverSlug/channel/$channelId'
 import { Route as PlaygroundSServerSlugDmDmIdRouteImport } from './routes/playground/s/$serverSlug/dm/$dmId'
 
@@ -607,11 +607,6 @@ const PlaygroundPlainActivityRoute = PlaygroundPlainActivityRouteImport.update({
   path: '/activity',
   getParentRoute: () => PlaygroundPlainRouteRoute,
 } as any)
-const PlaygroundPlainSavedRoute = PlaygroundPlainSavedRouteImport.update({
-  id: '/saved',
-  path: '/saved',
-  getParentRoute: () => PlaygroundPlainRouteRoute,
-} as any)
 const PlaygroundPlainSearchRoute = PlaygroundPlainSearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -669,6 +664,12 @@ const PlaygroundSServerSlugDmRouteRoute =
   PlaygroundSServerSlugDmRouteRouteImport.update({
     id: '/dm',
     path: '/dm',
+    getParentRoute: () => PlaygroundSServerSlugRouteRoute,
+  } as any)
+const PlaygroundSServerSlugSavedRoute =
+  PlaygroundSServerSlugSavedRouteImport.update({
+    id: '/saved',
+    path: '/saved',
     getParentRoute: () => PlaygroundSServerSlugRouteRoute,
   } as any)
 const PlaygroundSServerSlugChannelChannelIdRoute =
@@ -779,7 +780,6 @@ export interface FileRoutesByFullPath {
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/members': typeof PlaygroundBrowseMembersRoute
   '/playground/activity': typeof PlaygroundPlainActivityRoute
-  '/playground/saved': typeof PlaygroundPlainSavedRoute
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
@@ -789,6 +789,7 @@ export interface FileRoutesByFullPath {
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
+  '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
   '/playground/s/$serverSlug/': typeof PlaygroundSServerSlugIndexRoute
   '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
   '/playground/s/$serverSlug/dm/$dmId': typeof PlaygroundSServerSlugDmDmIdRoute
@@ -886,7 +887,6 @@ export interface FileRoutesByTo {
   '/playground/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/members': typeof PlaygroundBrowseMembersRoute
   '/playground/activity': typeof PlaygroundPlainActivityRoute
-  '/playground/saved': typeof PlaygroundPlainSavedRoute
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
@@ -896,6 +896,7 @@ export interface FileRoutesByTo {
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
+  '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
   '/playground/s/$serverSlug': typeof PlaygroundSServerSlugIndexRoute
   '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
   '/playground/s/$serverSlug/dm/$dmId': typeof PlaygroundSServerSlugDmDmIdRoute
@@ -998,7 +999,6 @@ export interface FileRoutesById {
   '/playground/_browse/computers': typeof PlaygroundBrowseComputersRoute
   '/playground/_browse/members': typeof PlaygroundBrowseMembersRoute
   '/playground/_plain/activity': typeof PlaygroundPlainActivityRoute
-  '/playground/_plain/saved': typeof PlaygroundPlainSavedRoute
   '/playground/_plain/search': typeof PlaygroundPlainSearchRoute
   '/playground/_plain/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/_plain/tasks': typeof PlaygroundPlainTasksRoute
@@ -1008,6 +1008,7 @@ export interface FileRoutesById {
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
+  '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
   '/playground/s/$serverSlug/': typeof PlaygroundSServerSlugIndexRoute
   '/playground/s/$serverSlug/channel/$channelId': typeof PlaygroundSServerSlugChannelChannelIdRoute
   '/playground/s/$serverSlug/dm/$dmId': typeof PlaygroundSServerSlugDmDmIdRoute
@@ -1109,7 +1110,6 @@ export interface FileRouteTypes {
     | '/playground/computers'
     | '/playground/members'
     | '/playground/activity'
-    | '/playground/saved'
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
@@ -1119,6 +1119,7 @@ export interface FileRouteTypes {
     | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
+    | '/playground/s/$serverSlug/saved'
     | '/playground/s/$serverSlug/'
     | '/playground/s/$serverSlug/channel/$channelId'
     | '/playground/s/$serverSlug/dm/$dmId'
@@ -1216,7 +1217,6 @@ export interface FileRouteTypes {
     | '/playground/computers'
     | '/playground/members'
     | '/playground/activity'
-    | '/playground/saved'
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
@@ -1226,6 +1226,7 @@ export interface FileRouteTypes {
     | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
+    | '/playground/s/$serverSlug/saved'
     | '/playground/s/$serverSlug'
     | '/playground/s/$serverSlug/channel/$channelId'
     | '/playground/s/$serverSlug/dm/$dmId'
@@ -1327,7 +1328,6 @@ export interface FileRouteTypes {
     | '/playground/_browse/computers'
     | '/playground/_browse/members'
     | '/playground/_plain/activity'
-    | '/playground/_plain/saved'
     | '/playground/_plain/search'
     | '/playground/_plain/settings'
     | '/playground/_plain/tasks'
@@ -1337,6 +1337,7 @@ export interface FileRouteTypes {
     | '/tokens/typography/elegant'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
+    | '/playground/s/$serverSlug/saved'
     | '/playground/s/$serverSlug/'
     | '/playground/s/$serverSlug/channel/$channelId'
     | '/playground/s/$serverSlug/dm/$dmId'
@@ -2024,13 +2025,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundPlainActivityRouteImport
       parentRoute: typeof PlaygroundPlainRouteRoute
     }
-    '/playground/_plain/saved': {
-      id: '/playground/_plain/saved'
-      path: '/saved'
-      fullPath: '/playground/saved'
-      preLoaderRoute: typeof PlaygroundPlainSavedRouteImport
-      parentRoute: typeof PlaygroundPlainRouteRoute
-    }
     '/playground/_plain/search': {
       id: '/playground/_plain/search'
       path: '/search'
@@ -2108,6 +2102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlaygroundSServerSlugDmRouteRouteImport
       parentRoute: typeof PlaygroundSServerSlugRouteRoute
     }
+    '/playground/s/$serverSlug/saved': {
+      id: '/playground/s/$serverSlug/saved'
+      path: '/saved'
+      fullPath: '/playground/s/$serverSlug/saved'
+      preLoaderRoute: typeof PlaygroundSServerSlugSavedRouteImport
+      parentRoute: typeof PlaygroundSServerSlugRouteRoute
+    }
     '/playground/s/$serverSlug/channel/$channelId': {
       id: '/playground/s/$serverSlug/channel/$channelId'
       path: '/$channelId'
@@ -2142,7 +2143,6 @@ const PlaygroundBrowseRouteRouteWithChildren =
 
 interface PlaygroundPlainRouteRouteChildren {
   PlaygroundPlainActivityRoute: typeof PlaygroundPlainActivityRoute
-  PlaygroundPlainSavedRoute: typeof PlaygroundPlainSavedRoute
   PlaygroundPlainSearchRoute: typeof PlaygroundPlainSearchRoute
   PlaygroundPlainSettingsRoute: typeof PlaygroundPlainSettingsRoute
   PlaygroundPlainTasksRoute: typeof PlaygroundPlainTasksRoute
@@ -2150,7 +2150,6 @@ interface PlaygroundPlainRouteRouteChildren {
 
 const PlaygroundPlainRouteRouteChildren: PlaygroundPlainRouteRouteChildren = {
   PlaygroundPlainActivityRoute: PlaygroundPlainActivityRoute,
-  PlaygroundPlainSavedRoute: PlaygroundPlainSavedRoute,
   PlaygroundPlainSearchRoute: PlaygroundPlainSearchRoute,
   PlaygroundPlainSettingsRoute: PlaygroundPlainSettingsRoute,
   PlaygroundPlainTasksRoute: PlaygroundPlainTasksRoute,
@@ -2191,6 +2190,7 @@ const PlaygroundSServerSlugDmRouteRouteWithChildren =
 interface PlaygroundSServerSlugRouteRouteChildren {
   PlaygroundSServerSlugChannelRouteRoute: typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   PlaygroundSServerSlugDmRouteRoute: typeof PlaygroundSServerSlugDmRouteRouteWithChildren
+  PlaygroundSServerSlugSavedRoute: typeof PlaygroundSServerSlugSavedRoute
   PlaygroundSServerSlugIndexRoute: typeof PlaygroundSServerSlugIndexRoute
 }
 
@@ -2200,6 +2200,7 @@ const PlaygroundSServerSlugRouteRouteChildren: PlaygroundSServerSlugRouteRouteCh
       PlaygroundSServerSlugChannelRouteRouteWithChildren,
     PlaygroundSServerSlugDmRouteRoute:
       PlaygroundSServerSlugDmRouteRouteWithChildren,
+    PlaygroundSServerSlugSavedRoute: PlaygroundSServerSlugSavedRoute,
     PlaygroundSServerSlugIndexRoute: PlaygroundSServerSlugIndexRoute,
   }
 

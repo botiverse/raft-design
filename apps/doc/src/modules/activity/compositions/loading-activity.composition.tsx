@@ -1,27 +1,40 @@
-import { Skeleton } from "raft-ui";
 import {
-  ActivityInboxItem,
-  ActivityInboxItemContent,
-  ActivityInboxList,
   ActivityInboxPanel,
   ActivityInboxViewport,
-} from "raft-ui/wip";
+  InboxItem,
+  InboxItemContent,
+  InboxItemSelection,
+  InboxItemTrailing,
+  Skeleton,
+} from "raft-ui";
 
 export function LoadingActivityComposition() {
   return (
     <ActivityInboxPanel aria-busy="true">
       <ActivityInboxViewport>
-        <ActivityInboxList>
-          {Array.from({ length: 6 }, (_, index) => (
-            <ActivityInboxItem key={index} aria-hidden disabled>
-              <ActivityInboxItemContent className="flex flex-col gap-2">
-                <Skeleton variant="line" className="w-2/5" />
-                <Skeleton variant="line" className="w-full" />
-              </ActivityInboxItemContent>
-            </ActivityInboxItem>
-          ))}
-        </ActivityInboxList>
+        <div className="flex flex-col gap-2 in-data-[theme=elegant]:py-3">
+          <ActivityLoadingItem titleWidth="w-2/5" bodyWidth="w-4/5" />
+          <ActivityLoadingItem titleWidth="w-1/3" bodyWidth="w-3/5" />
+          <ActivityLoadingItem titleWidth="w-1/2" bodyWidth="w-3/4" />
+        </div>
       </ActivityInboxViewport>
     </ActivityInboxPanel>
+  );
+}
+
+function ActivityLoadingItem({ titleWidth, bodyWidth }: { titleWidth: string; bodyWidth: string }) {
+  return (
+    <InboxItem aria-hidden disabled>
+      <InboxItemSelection>
+        <Skeleton className="size-4" />
+      </InboxItemSelection>
+      <InboxItemContent className="flex flex-col gap-2 py-0.5">
+        <Skeleton variant="line" className={titleWidth} />
+        <Skeleton variant="line" className={bodyWidth} />
+      </InboxItemContent>
+      <InboxItemTrailing>
+        <Skeleton variant="line" className="w-14" />
+      </InboxItemTrailing>
+    </InboxItem>
   );
 }

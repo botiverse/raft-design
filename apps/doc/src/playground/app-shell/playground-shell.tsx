@@ -12,7 +12,6 @@ import { PlaygroundActivityStateProvider } from "../activity/activity-state.tsx"
 
 const playgroundPlainPaths = new Set([
   "/playground/tasks",
-  "/playground/saved",
   "/playground/activity",
   "/playground/search",
   "/playground/settings",

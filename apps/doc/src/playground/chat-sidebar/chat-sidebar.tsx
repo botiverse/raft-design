@@ -1,3 +1,4 @@
+import { Link, useMatch } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
 import { Activity, Bookmark, Search } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -24,10 +25,12 @@ import {
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
+  PLAYGROUND_SERVER_SLUG,
   type PlaygroundChannelId,
   type PlaygroundDirectMessageRecord,
 } from "../mock/index.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
+import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
 import {
   PlaygroundNotificationCenter,
   PlaygroundSidebarServerSwitcher,
@@ -64,9 +67,15 @@ function PlaygroundSidebarContent({
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
   const { railView, selectRailView } = usePlaygroundNavigation();
+  const { savedMessagesById } = usePlaygroundSavedMessages();
+  const savedMatch = useMatch({
+    from: "/playground/s/$serverSlug/saved",
+    shouldThrow: false,
+  });
   const { activeServer } = usePlaygroundShellState();
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const selectedChannelId = isDesktop ? activeChannelId : null;
+  const savedActive = Boolean(savedMatch);
   const mobileNavigationContentPad = mobileBottomNavigation
     ? "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]"
     : undefined;
@@ -105,6 +114,7 @@ function PlaygroundSidebarContent({
               <SidebarItem
                 className="md:hidden"
                 active={railView === "search"}
+                variant="accent"
                 onClick={() => selectRailView("search")}
               >
                 <SidebarItemIcon aria-hidden>
@@ -116,6 +126,7 @@ function PlaygroundSidebarContent({
               <SidebarItem
                 className="md:hidden"
                 active={railView === "activity"}
+                variant="accent"
                 onClick={() => selectRailView("activity")}
               >
                 <SidebarItemIcon aria-hidden>
@@ -124,12 +135,24 @@ function PlaygroundSidebarContent({
                 <SidebarItemTitle>Activity</SidebarItemTitle>
               </SidebarItem>
 
-              <SidebarItem active={railView === "saved"} onClick={() => selectRailView("saved")}>
+              <SidebarItem
+                active={savedActive}
+                variant="accent"
+                aria-current={savedActive ? "page" : undefined}
+                render={
+                  <Link
+                    to="/playground/s/$serverSlug/saved"
+                    params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
+                  />
+                }
+              >
                 <SidebarItemIcon aria-hidden>
                   <Bookmark />
                 </SidebarItemIcon>
                 <SidebarItemTitle>Saved</SidebarItemTitle>
-                <SidebarItemMeta>33</SidebarItemMeta>
+                {savedMessagesById.size ? (
+                  <SidebarItemMeta>{savedMessagesById.size}</SidebarItemMeta>
+                ) : null}
               </SidebarItem>
 
               <ChatSidebarPinnedSection

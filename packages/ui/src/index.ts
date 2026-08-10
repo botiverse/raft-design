@@ -1546,3 +1546,6 @@ export type {
   ThemeMode,
   ThemeState,
 } from "./lib/theme/theme-context";
+
+export * from "./components/activity-inbox/index";
+export * from "./components/inbox-item/index";

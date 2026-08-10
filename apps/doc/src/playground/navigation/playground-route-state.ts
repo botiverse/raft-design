@@ -11,7 +11,6 @@ const playgroundRailPaths = {
   search: "/playground/search",
   chat: "/playground/s/$serverSlug",
   activity: "/playground/activity",
-  saved: "/playground/saved",
   tasks: "/playground/tasks",
   members: "/playground/members",
   computers: "/playground/computers",
