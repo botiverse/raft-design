@@ -171,7 +171,11 @@ export function SelectTrigger({
       data-invalid={dataInvalid || undefined}
       aria-invalid={dataInvalid ? "true" : undefined}
     >
-      <span data-slot="select-trigger-content" className="flex min-w-0 flex-1 items-center gap-1.5">
+      <span
+        data-slot="select-trigger-content"
+        data-picker-trigger-content="select"
+        className="flex min-w-0 flex-1 items-center gap-1.5"
+      >
         {children}
       </span>
     </BaseSelect.Trigger>
@@ -192,7 +196,12 @@ export function SelectIcon({ className, children, ...props }: SelectIconProps) {
   const theme = useThemeFamily();
   const { icon } = select({ theme });
   return (
-    <BaseSelect.Icon data-slot="select-icon" className={icon({ className })} {...props}>
+    <BaseSelect.Icon
+      data-slot="select-icon"
+      data-picker-trigger-indicator=""
+      className={icon({ className })}
+      {...props}
+    >
       {children ?? <ChevronDown aria-hidden className="size-3.5 shrink-0" />}
     </BaseSelect.Icon>
   );

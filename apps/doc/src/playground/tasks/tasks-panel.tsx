@@ -4,12 +4,12 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import {
   PanelActions,
   ConversationPanelContent,
+  PanelHeader,
   PanelHeaderContent,
   PanelHeaderIcon,
   PanelHeading,
   PanelMeta,
   ConversationPanelRoot,
-  PanelSectionHeader,
   PanelTitle,
   Tabs,
   TabsBackground,
@@ -224,16 +224,14 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
 
   return (
     <ConversationPanelRoot>
-      <PanelSectionHeader>
+      <PanelHeader className="in-data-[theme=brutal]:max-md:bg-primary-400">
+        <PanelHeaderIcon className="max-md:hidden">
+          <CheckSquare
+            aria-hidden
+            className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
+          />
+        </PanelHeaderIcon>
         <PanelHeaderContent>
-          {isDesktop ? (
-            <PanelHeaderIcon>
-              <CheckSquare
-                aria-hidden
-                className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
-              />
-            </PanelHeaderIcon>
-          ) : null}
           <PanelHeading>
             <PanelTitle render={<h2 aria-label="Tasks" />}>Tasks</PanelTitle>
           </PanelHeading>
@@ -258,7 +256,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
             </TabsList>
           </Tabs>
         </PanelActions>
-      </PanelSectionHeader>
+      </PanelHeader>
       <ConversationPanelContent className="max-md:[&_[data-slot=tasks-panel-viewport]]:pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))]">
         {panel}
       </ConversationPanelContent>

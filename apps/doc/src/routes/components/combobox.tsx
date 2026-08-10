@@ -33,6 +33,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { PickerTriggerButton } from "raft-ui/wip";
 
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
@@ -644,7 +645,9 @@ import {
   ComboboxList,
   ComboboxSeparator,
   ComboboxTrigger,
+  ComboboxTriggerIndicator,
 } from "raft-ui";
+import { PickerTriggerButton } from "raft-ui/wip";
 
 const channels = [
   { id: "design", label: "#design" },
@@ -652,20 +655,12 @@ const channels = [
 ] as const;
 
 <Combobox items={channels} itemToStringLabel={(channel) => channel.label}>
-  <ComboboxTrigger
-    render={(props) => (
-      <button
-        {...props}
-        type="button"
-        className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold text-black/70 transition-colors hover:border-black"
-      >
-        <Hash aria-hidden className="size-3.5" />
-        {props.children}
-        <ChevronDown aria-hidden className="size-3" />
-      </button>
-    )}
-  >
+  <ComboboxTrigger render={<PickerTriggerButton />}>
+    <Hash aria-hidden className="size-3.5" />
     <span>Channel</span>
+    <ComboboxTriggerIndicator>
+      <ChevronDown aria-hidden className="size-3" />
+    </ComboboxTriggerIndicator>
   </ComboboxTrigger>
   <ComboboxContent className="w-[180px]">
     <ComboboxHeader>
@@ -1273,20 +1268,12 @@ function CustomTriggerCombobox() {
         onValueChange={setChannel}
         autoHighlight
       >
-        <ComboboxTrigger
-          render={(props) => (
-            <button
-              {...props}
-              type="button"
-              className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold text-black/70 transition-colors hover:border-black"
-            >
-              <Hash aria-hidden className="size-3.5" />
-              {props.children}
-              <ChevronDown aria-hidden className="size-3" />
-            </button>
-          )}
-        >
+        <ComboboxTrigger render={<PickerTriggerButton />}>
+          <Hash aria-hidden className="size-3.5" />
           <span>{channel?.label ?? "Channel"}</span>
+          <ComboboxTriggerIndicator>
+            <ChevronDown aria-hidden className="size-3" />
+          </ComboboxTriggerIndicator>
         </ComboboxTrigger>
         <ComboboxContent initialFocus={false} finalFocus={false} className="w-[180px]">
           <ComboboxHeader>

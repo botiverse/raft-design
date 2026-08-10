@@ -50,9 +50,9 @@ const SNIPPETS = {
 <ConversationPanelRoot edge="inset">
   <PanelHeader>
     {/* Sticks to the top on mobile by default. */}
+    {/* optional caller-owned identity */}
+    <PanelHeaderIcon />
     <PanelHeaderContent>
-      {/* optional caller-owned identity; it shares the title row on mobile */}
-      <PanelHeaderIcon />
       {/* use Heading when Title and Status form one group */}
       <PanelHeading>
         <PanelTitle />

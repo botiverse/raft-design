@@ -17,6 +17,7 @@ import {
   ComboboxTriggerCount,
   ComboboxTriggerIndicator,
 } from "raft-ui";
+import { PickerTriggerButton } from "raft-ui/wip";
 
 export type TasksChannelFilterOption = {
   id: string;
@@ -76,7 +77,7 @@ export function TasksChannelFilterComposition({
           onValueChange?.(nextValue);
         }}
       >
-        <ComboboxTrigger aria-label="Channel" className="h-8 py-0 max-md:text-[12px]">
+        <ComboboxTrigger aria-label="Channel" render={<PickerTriggerButton />}>
           <Hash aria-hidden className="size-3.5" />
           <span className="min-w-0 truncate text-left max-md:hidden">Channel</span>
           {selectedIds.length > 0 && (

@@ -54,8 +54,8 @@ export const panelHeader = tv({
           "[&_[data-slot=tabs-list]]:gap-2",
         ],
         headerIcon: [
-          "size-auto rounded-none border-0 bg-transparent",
-          "text-foreground-muted",
+          "size-9 rounded-md border-0 bg-fill-muted",
+          "text-foreground-icon",
           "max-md:col-start-2 max-md:row-start-1 max-md:self-center",
         ],
         headerContent: [
