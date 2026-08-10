@@ -113,7 +113,7 @@ Naming is regular at three levels — guess by pattern, then confirm against the
 - `SidebarLiveActivity` is the slot in the sidebar frame; the standalone strip is `LiveAgentActivityBar` (stable) with `…Row` / `…Avatar` / `…Status` / `…Text` parts.
 - `SidebarItem`'s `variant` selects the active treatment. In Brutal, `default` is neutral white,
   `primary` is yellow, and `accent` is pink; Elegant keeps one theme-owned active surface. Use
-  `variant="accent"` when migrating a row that relied on the pre-0.4.1 pink active default.
+  `variant="accent"` when migrating a row that relied on the previous pink active default.
 - `LiveAgentActivityBar` keeps its enter and exit lifecycle when `beam={false}`; that option only
   removes the Elegant animated border and glow. Brutal does not render the beam.
 
