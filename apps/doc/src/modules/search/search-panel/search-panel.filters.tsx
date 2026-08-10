@@ -24,6 +24,7 @@ import {
   ComboboxSeparator,
   ComboboxTrigger,
   ComboboxTriggerIndicator,
+  PickerTriggerButton,
   Select,
   SelectContent,
   SelectGroup,
@@ -37,7 +38,6 @@ import {
   SelectTrigger,
   SearchShellFilters,
 } from "raft-ui";
-import { PickerTriggerButton } from "raft-ui/wip";
 
 import type { SearchChannelFixture, SearchSenderFixture } from "../search.fixtures.ts";
 import {

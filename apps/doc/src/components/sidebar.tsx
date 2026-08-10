@@ -72,6 +72,11 @@ const COMPONENT_NAV = [
       { label: "RadioGroup", to: "/components/radio-group", status: "done" },
       { label: "Switch", to: "/components/switch", status: "done" },
       { label: "Select", to: "/components/select", status: "done" },
+      {
+        label: "PickerTriggerButton",
+        to: "/components/picker-trigger-button",
+        status: "done",
+      },
       { label: "Combobox", to: "/components/combobox", status: "done" },
       { label: "SegmentedControl", to: "/components/segmented-control", status: "done" },
     ],

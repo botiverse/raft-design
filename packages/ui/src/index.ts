@@ -556,6 +556,9 @@ export type {
   ComboboxValueProps,
 } from "./components/combobox/index";
 
+export { PickerTriggerButton } from "./components/picker-trigger-button/index";
+export type { PickerTriggerButtonProps } from "./components/picker-trigger-button/index";
+
 export {
   Select,
   SelectArrow,

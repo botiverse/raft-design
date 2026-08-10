@@ -16,8 +16,8 @@ import {
   ComboboxTrigger,
   ComboboxTriggerCount,
   ComboboxTriggerIndicator,
+  PickerTriggerButton,
 } from "raft-ui";
-import { PickerTriggerButton } from "raft-ui/wip";
 
 export type TasksChannelFilterOption = {
   id: string;

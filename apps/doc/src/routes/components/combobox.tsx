@@ -26,15 +26,12 @@ import {
   CircleAlert,
   Folder,
   GitBranch,
-  Hash,
   Loader,
   Megaphone,
   MessagesSquare,
   Sparkles,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { PickerTriggerButton } from "raft-ui/wip";
-
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -50,6 +47,8 @@ import {
 } from "#/lib/mock-query.ts";
 import { models, type Model } from "#/modules/combobox/combobox.constants.ts";
 import { PreviewCombobox } from "#/modules/combobox/combobox.preview.tsx";
+import { PickerTriggerButtonComboboxFilterComposition } from "#/modules/picker-trigger-button/compositions/combobox-filter.composition.tsx";
+import pickerTriggerButtonComboboxFilterSource from "#/modules/picker-trigger-button/compositions/combobox-filter.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -634,49 +633,6 @@ function AsyncBranchSelect() {
     </Combobox>
   );
 }`,
-  customTrigger: `import { Hash, ChevronDown } from "lucide-react";
-import {
-  Combobox,
-  ComboboxContent,
-  ComboboxHeader,
-  ComboboxItem,
-  ComboboxItemIndicator,
-  ComboboxLabel,
-  ComboboxList,
-  ComboboxSeparator,
-  ComboboxTrigger,
-  ComboboxTriggerIndicator,
-} from "raft-ui";
-import { PickerTriggerButton } from "raft-ui/wip";
-
-const channels = [
-  { id: "design", label: "#design" },
-  { id: "eng", label: "#eng" },
-] as const;
-
-<Combobox items={channels} itemToStringLabel={(channel) => channel.label}>
-  <ComboboxTrigger render={<PickerTriggerButton />}>
-    <Hash aria-hidden className="size-3.5" />
-    <span>Channel</span>
-    <ComboboxTriggerIndicator>
-      <ChevronDown aria-hidden className="size-3" />
-    </ComboboxTriggerIndicator>
-  </ComboboxTrigger>
-  <ComboboxContent className="w-[180px]">
-    <ComboboxHeader>
-      <ComboboxLabel>Channel</ComboboxLabel>
-    </ComboboxHeader>
-    <ComboboxSeparator />
-    <ComboboxList>
-      {(channel) => (
-        <ComboboxItem key={channel.id} value={channel}>
-          <span className="truncate">{channel.label}</span>
-          <ComboboxItemIndicator />
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`,
 } as const;
 
 const COMBOBOX_PROPS: readonly PropRow[] = [
@@ -910,6 +866,7 @@ export const Route = createFileRoute("/components/combobox")({
     highlightSnippets({
       data: {
         ...SNIPPETS,
+        pickerTriggerButton: pickerTriggerButtonComboboxFilterSource,
       },
     }),
 });
@@ -1256,48 +1213,6 @@ function AsyncSelectCombobox() {
   );
 }
 
-function CustomTriggerCombobox() {
-  const [channel, setChannel] = useState<Channel | null>(channels[0]);
-
-  return (
-    <div className="relative flex justify-center">
-      <Combobox<Channel>
-        items={channels}
-        value={channel}
-        itemToStringLabel={(item) => item.label}
-        onValueChange={setChannel}
-        autoHighlight
-      >
-        <ComboboxTrigger render={<PickerTriggerButton />}>
-          <Hash aria-hidden className="size-3.5" />
-          <span>{channel?.label ?? "Channel"}</span>
-          <ComboboxTriggerIndicator>
-            <ChevronDown aria-hidden className="size-3" />
-          </ComboboxTriggerIndicator>
-        </ComboboxTrigger>
-        <ComboboxContent initialFocus={false} finalFocus={false} className="w-[180px]">
-          <ComboboxHeader>
-            <ComboboxLabel>Channel</ComboboxLabel>
-          </ComboboxHeader>
-          <ComboboxSeparator />
-          <ComboboxInputGroup>
-            <ComboboxInput aria-label="Search channels" placeholder="Search..." />
-          </ComboboxInputGroup>
-          <ComboboxList>
-            {(item: (typeof channels)[number]) => (
-              <ComboboxItem key={item.id} value={item}>
-                <span className="truncate">{item.label}</span>
-                <ComboboxItemIndicator />
-              </ComboboxItem>
-            )}
-          </ComboboxList>
-          <ComboboxEmpty>No channels found</ComboboxEmpty>
-        </ComboboxContent>
-      </Combobox>
-    </div>
-  );
-}
-
 function ComboboxDoc() {
   const code = Route.useLoaderData();
 
@@ -1371,9 +1286,12 @@ function ComboboxDoc() {
           <DocSubsection parentId="usage" id="custom-trigger" title="Custom trigger">
             <Preview previewClassName="min-h-[24rem] items-start pt-24">
               <Preview.Canvas>
-                <CustomTriggerCombobox />
+                <PickerTriggerButtonComboboxFilterComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.customTrigger} />
+              <Preview.Code
+                html={code.pickerTriggerButton}
+                collapsedHtml={code.pickerTriggerButtonBody}
+              />
             </Preview>
           </DocSubsection>
         </div>

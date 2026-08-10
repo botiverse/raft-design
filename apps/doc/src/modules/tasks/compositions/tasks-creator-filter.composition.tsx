@@ -19,8 +19,8 @@ import {
   ComboboxTrigger,
   ComboboxTriggerCount,
   ComboboxTriggerIndicator,
+  PickerTriggerButton,
 } from "raft-ui";
-import { PickerTriggerButton } from "raft-ui/wip";
 
 import { TASKS_IDENTITY_FIXTURES, type TasksIdentity } from "../tasks-identity-filter.fixtures.ts";
 

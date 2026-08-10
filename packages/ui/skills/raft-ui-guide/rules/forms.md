@@ -134,6 +134,17 @@ Reach for `Combobox` when any of these is true:
 
 `Select` provides `SelectGroup` + `SelectGroupLabel` for grouping, and `SelectScrollUpArrow` / `SelectScrollDownArrow` for long lists.
 
+Use `PickerTriggerButton` as the `render` target for compact filter-bar `SelectTrigger` or
+`ComboboxTrigger` controls that need the shared picker treatment. Keep the normal trigger content
+parts inside it; use the standard trigger rendering for full-width form fields.
+
+```tsx
+<SelectTrigger render={<PickerTriggerButton />}>
+  <SelectValue />
+  <SelectIcon />
+</SelectTrigger>
+```
+
 ---
 
 ## SegmentedControl vs RadioGroup vs Tabs vs ToggleGroup
@@ -215,9 +226,9 @@ Standalone `Label` exists for cases outside a field (a section caption above a g
 
 ## Per-component norms
 
-**`Select`** — compose `SelectValue` and `SelectIcon` inside `SelectTrigger`. Put `SelectList` and its items inside `SelectContent`; `SelectContent` owns portal and positioning. Items take `SelectItemText` and, when selected state should be visible, `SelectItemIndicator`. `SelectItemLeading` holds an icon.
+**`Select`** — compose `SelectValue` and `SelectIcon` inside `SelectTrigger`. Use `PickerTriggerButton` through `render` for compact picker controls. Put `SelectList` and its items inside `SelectContent`; `SelectContent` owns portal and positioning. Items take `SelectItemText` and, when selected state should be visible, `SelectItemIndicator`. `SelectItemLeading` holds an icon.
 
-**`Combobox`** — put `ComboboxInput` in `ComboboxControl` when the searchable field is the anchor control. Use `ComboboxInputGroup` for a search row inside `ComboboxContent`, such as a trigger-led filter popup. Provide `ComboboxClear` when a value can be cleared. `ComboboxRow` is for grid-style option layouts.
+**`Combobox`** — put `ComboboxInput` in `ComboboxControl` when the searchable field is the anchor control. Use `ComboboxInputGroup` for a search row inside `ComboboxContent`, such as a trigger-led filter popup, and `PickerTriggerButton` through `render` when that popup is opened from a compact filter control. Provide `ComboboxClear` when a value can be cleared. `ComboboxRow` is for grid-style option layouts.
 
 **`RadioGroup`** — each `RadioGroupItem` needs a `RadioGroupIndicator`.
 

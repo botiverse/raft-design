@@ -61,6 +61,7 @@ import { Route as ComponentsMessageTranslationRouteImport } from './routes/compo
 import { Route as ComponentsMobileNavRouteImport } from './routes/components/mobile-nav'
 import { Route as ComponentsNotificationCenterRouteImport } from './routes/components/notification-center'
 import { Route as ComponentsPanelRouteImport } from './routes/components/panel'
+import { Route as ComponentsPickerTriggerButtonRouteImport } from './routes/components/picker-trigger-button'
 import { Route as ComponentsPopoverRouteImport } from './routes/components/popover'
 import { Route as ComponentsPreviewCardRouteImport } from './routes/components/preview-card'
 import { Route as ComponentsProfilePanelRouteImport } from './routes/components/profile-panel'
@@ -391,6 +392,12 @@ const ComponentsPanelRoute = ComponentsPanelRouteImport.update({
   path: '/panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsPickerTriggerButtonRoute =
+  ComponentsPickerTriggerButtonRouteImport.update({
+    id: '/picker-trigger-button',
+    path: '/picker-trigger-button',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsPopoverRoute = ComponentsPopoverRouteImport.update({
   id: '/popover',
   path: '/popover',
@@ -739,6 +746,7 @@ export interface FileRoutesByFullPath {
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel': typeof ComponentsPanelRoute
+  '/components/picker-trigger-button': typeof ComponentsPickerTriggerButtonRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/profile-panel': typeof ComponentsProfilePanelRoute
@@ -848,6 +856,7 @@ export interface FileRoutesByTo {
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel': typeof ComponentsPanelRoute
+  '/components/picker-trigger-button': typeof ComponentsPickerTriggerButtonRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/profile-panel': typeof ComponentsProfilePanelRoute
@@ -958,6 +967,7 @@ export interface FileRoutesById {
   '/components/mobile-nav': typeof ComponentsMobileNavRoute
   '/components/notification-center': typeof ComponentsNotificationCenterRoute
   '/components/panel': typeof ComponentsPanelRoute
+  '/components/picker-trigger-button': typeof ComponentsPickerTriggerButtonRoute
   '/components/popover': typeof ComponentsPopoverRoute
   '/components/preview-card': typeof ComponentsPreviewCardRoute
   '/components/profile-panel': typeof ComponentsProfilePanelRoute
@@ -1069,6 +1079,7 @@ export interface FileRouteTypes {
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/panel'
+    | '/components/picker-trigger-button'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/profile-panel'
@@ -1178,6 +1189,7 @@ export interface FileRouteTypes {
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/panel'
+    | '/components/picker-trigger-button'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/profile-panel'
@@ -1287,6 +1299,7 @@ export interface FileRouteTypes {
     | '/components/mobile-nav'
     | '/components/notification-center'
     | '/components/panel'
+    | '/components/picker-trigger-button'
     | '/components/popover'
     | '/components/preview-card'
     | '/components/profile-panel'
@@ -1722,6 +1735,13 @@ declare module '@tanstack/react-router' {
       path: '/panel'
       fullPath: '/components/panel'
       preLoaderRoute: typeof ComponentsPanelRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/picker-trigger-button': {
+      id: '/components/picker-trigger-button'
+      path: '/picker-trigger-button'
+      fullPath: '/components/picker-trigger-button'
+      preLoaderRoute: typeof ComponentsPickerTriggerButtonRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/popover': {
@@ -2285,6 +2305,7 @@ interface ComponentsRouteChildren {
   ComponentsMobileNavRoute: typeof ComponentsMobileNavRoute
   ComponentsNotificationCenterRoute: typeof ComponentsNotificationCenterRoute
   ComponentsPanelRoute: typeof ComponentsPanelRoute
+  ComponentsPickerTriggerButtonRoute: typeof ComponentsPickerTriggerButtonRoute
   ComponentsPopoverRoute: typeof ComponentsPopoverRoute
   ComponentsPreviewCardRoute: typeof ComponentsPreviewCardRoute
   ComponentsProfilePanelRoute: typeof ComponentsProfilePanelRoute
@@ -2364,6 +2385,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsMobileNavRoute: ComponentsMobileNavRoute,
   ComponentsNotificationCenterRoute: ComponentsNotificationCenterRoute,
   ComponentsPanelRoute: ComponentsPanelRoute,
+  ComponentsPickerTriggerButtonRoute: ComponentsPickerTriggerButtonRoute,
   ComponentsPopoverRoute: ComponentsPopoverRoute,
   ComponentsPreviewCardRoute: ComponentsPreviewCardRoute,
   ComponentsProfilePanelRoute: ComponentsProfilePanelRoute,

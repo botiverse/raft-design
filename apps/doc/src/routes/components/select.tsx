@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDownUp, ChevronDown, Clock, MessageSquare, Search } from "lucide-react";
+import { Clock, MessageSquare, Search } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,6 @@ import {
   FieldDescription,
   FieldLabel,
 } from "raft-ui";
-import { PickerTriggerButton } from "raft-ui/wip";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -26,6 +25,8 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import { PickerTriggerButtonSelectFilterComposition } from "#/modules/picker-trigger-button/compositions/select-filter.composition.tsx";
+import pickerTriggerButtonSelectFilterSource from "#/modules/picker-trigger-button/compositions/select-filter.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -314,44 +315,6 @@ function RegionSelect() {
   </Select>
   <FieldDescription>Submitted through the hidden input named sort.</FieldDescription>
 </Field>`,
-  customTrigger: `import { ArrowDownUp, ChevronDown } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectIcon,
-  SelectItem,
-  SelectItemIndicator,
-  SelectItemText,
-  SelectList,
-  SelectTrigger,
-  SelectValue,
-} from "raft-ui";
-import { PickerTriggerButton } from "raft-ui/wip";
-
-const sortOptions = [
-  { value: "relevance", label: "Relevant" },
-  { value: "recent", label: "Recent" },
-] as const;
-
-<Select defaultValue="relevance" items={sortOptions}>
-  <SelectTrigger render={<PickerTriggerButton />}>
-    <ArrowDownUp aria-hidden className="size-3.5" />
-    <SelectValue />
-    <SelectIcon>
-      <ChevronDown aria-hidden className="size-3" />
-    </SelectIcon>
-  </SelectTrigger>
-  <SelectContent className="w-[180px]">
-    <SelectList>
-      {sortOptions.map((option) => (
-        <SelectItem key={option.value} value={option.value}>
-          <SelectItemText>{option.label}</SelectItemText>
-          <SelectItemIndicator />
-        </SelectItem>
-      ))}
-    </SelectList>
-  </SelectContent>
-</Select>`,
 } as const;
 
 const ROOT_PROPS: readonly PropRow[] = [
@@ -525,7 +488,13 @@ const GROUP_LABEL_PROPS: readonly PropRow[] = [
 ];
 export const Route = createFileRoute("/components/select")({
   component: SelectDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        pickerTriggerButton: pickerTriggerButtonSelectFilterSource,
+      },
+    }),
 });
 
 function SortSelect({ disabled = false }: { disabled?: boolean }) {
@@ -723,32 +692,6 @@ function FieldSelect() {
   );
 }
 
-function CustomTriggerSelect() {
-  return (
-    <div className="flex justify-center">
-      <Select defaultValue="relevance" items={SORT_OPTIONS} modal={false}>
-        <SelectTrigger render={<PickerTriggerButton />}>
-          <ArrowDownUp aria-hidden className="size-3.5" />
-          <SelectValue />
-          <SelectIcon>
-            <ChevronDown aria-hidden className="size-3" />
-          </SelectIcon>
-        </SelectTrigger>
-        <SelectContent className="w-[180px]">
-          <SelectList>
-            {SORT_OPTIONS.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                <SelectItemText>{option.label}</SelectItemText>
-                <SelectItemIndicator />
-              </SelectItem>
-            ))}
-          </SelectList>
-        </SelectContent>
-      </Select>
-    </div>
-  );
-}
-
 function SelectPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [disabled, setDisabled] = useState(false);
 
@@ -838,9 +781,12 @@ function SelectDoc() {
           <DocSubsection parentId="usage" id="custom-trigger" title="Custom trigger">
             <Preview previewClassName="min-h-[18rem] items-start pt-24">
               <Preview.Canvas>
-                <CustomTriggerSelect />
+                <PickerTriggerButtonSelectFilterComposition />
               </Preview.Canvas>
-              <Preview.Code html={code.customTrigger} />
+              <Preview.Code
+                html={code.pickerTriggerButton}
+                collapsedHtml={code.pickerTriggerButtonBody}
+              />
             </Preview>
           </DocSubsection>
         </div>
