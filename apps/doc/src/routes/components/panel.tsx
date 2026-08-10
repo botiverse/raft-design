@@ -58,8 +58,8 @@ const SNIPPETS = {
 } from "raft-ui";
 
 <PanelHeader>
+  <PanelHeaderIcon />
   <PanelHeaderContent>
-    <PanelHeaderIcon />
     <PanelHeading>
       <PanelTitle />
       <PanelStatus />
@@ -130,7 +130,7 @@ const PANEL_HEADER_ICON_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Optional identity region inside PanelHeaderContent. The slot provides fixed-size layout in brutal and an auto-size container in elegant; the consumer owns the content's size and appearance (e.g. Avatar size or icon size classes).",
+      "Optional identity region alongside PanelHeaderContent. It uses the theme-native contained icon treatment; the consumer owns the content's size, such as Avatar size or icon size classes.",
   },
 ];
 

@@ -20,6 +20,7 @@ import {
   ComboboxTriggerCount,
   ComboboxTriggerIndicator,
 } from "raft-ui";
+import { PickerTriggerButton } from "raft-ui/wip";
 
 import { TASKS_IDENTITY_FIXTURES, type TasksIdentity } from "../tasks-identity-filter.fixtures.ts";
 
@@ -77,7 +78,7 @@ export function TasksCreatorFilterComposition({
           onValueChange?.(nextValue);
         }}
       >
-        <ComboboxTrigger aria-label="Creator" className="h-8 py-0 max-md:text-[12px]">
+        <ComboboxTrigger aria-label="Creator" render={<PickerTriggerButton />}>
           <UserCircle2 aria-hidden className="size-3.5" />
           <span className="min-w-0 truncate text-left max-md:hidden">Creator</span>
           {selectedIds.length > 0 && (

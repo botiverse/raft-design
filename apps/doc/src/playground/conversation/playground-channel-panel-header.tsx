@@ -45,10 +45,12 @@ export function PlaygroundChannelPanelHeader({
   return (
     <PanelHeader>
       <PlaygroundConversationBackButton onBack={onBack} />
-      <PanelHeaderContent>
-        <PanelHeaderIcon>
-          <Icon className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
-        </PanelHeaderIcon>
+      <PanelHeaderIcon className={onBack ? undefined : "max-md:col-start-1"}>
+        <Icon className="size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
+      </PanelHeaderIcon>
+      <PanelHeaderContent
+        className={onBack ? "max-md:col-start-3" : "max-md:col-start-2 max-md:col-span-2"}
+      >
         <PanelHeading>
           <PanelTitle>{channel.name}</PanelTitle>
           {isMuted ? (

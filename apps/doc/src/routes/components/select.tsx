@@ -18,6 +18,7 @@ import {
   FieldDescription,
   FieldLabel,
 } from "raft-ui";
+import { PickerTriggerButton } from "raft-ui/wip";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -317,12 +318,15 @@ function RegionSelect() {
 import {
   Select,
   SelectContent,
+  SelectIcon,
   SelectItem,
+  SelectItemIndicator,
   SelectItemText,
   SelectList,
   SelectTrigger,
   SelectValue,
 } from "raft-ui";
+import { PickerTriggerButton } from "raft-ui/wip";
 
 const sortOptions = [
   { value: "relevance", label: "Relevant" },
@@ -330,20 +334,12 @@ const sortOptions = [
 ] as const;
 
 <Select defaultValue="relevance" items={sortOptions}>
-  <SelectTrigger
-    render={(props) => (
-      <button
-        {...props}
-        type="button"
-        className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold text-black/70 transition-colors hover:border-black"
-      >
-        <ArrowDownUp aria-hidden className="size-3.5" />
-        {props.children}
-        <ChevronDown aria-hidden className="size-3" />
-      </button>
-    )}
-  >
+  <SelectTrigger render={<PickerTriggerButton />}>
+    <ArrowDownUp aria-hidden className="size-3.5" />
     <SelectValue />
+    <SelectIcon>
+      <ChevronDown aria-hidden className="size-3" />
+    </SelectIcon>
   </SelectTrigger>
   <SelectContent className="w-[180px]">
     <SelectList>
@@ -731,20 +727,12 @@ function CustomTriggerSelect() {
   return (
     <div className="flex justify-center">
       <Select defaultValue="relevance" items={SORT_OPTIONS} modal={false}>
-        <SelectTrigger
-          render={(props) => (
-            <button
-              {...props}
-              type="button"
-              className="inline-flex items-center gap-2 border-2 border-black/30 bg-white px-3 py-1.5 text-xs font-bold text-black/70 transition-colors hover:border-black"
-            >
-              <ArrowDownUp aria-hidden className="size-3.5" />
-              {props.children}
-              <ChevronDown aria-hidden className="size-3" />
-            </button>
-          )}
-        >
+        <SelectTrigger render={<PickerTriggerButton />}>
+          <ArrowDownUp aria-hidden className="size-3.5" />
           <SelectValue />
+          <SelectIcon>
+            <ChevronDown aria-hidden className="size-3" />
+          </SelectIcon>
         </SelectTrigger>
         <SelectContent className="w-[180px]">
           <SelectList>

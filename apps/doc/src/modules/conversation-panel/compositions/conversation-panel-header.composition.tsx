@@ -58,10 +58,10 @@ export function ConversationPanelHeaderComposition({
 
   return (
     <PanelHeader>
-      <PanelHeaderContent>
-        <PanelHeaderIcon>
-          <Hash className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
-        </PanelHeaderIcon>
+      <PanelHeaderIcon className="max-md:col-start-1">
+        <Hash className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
+      </PanelHeaderIcon>
+      <PanelHeaderContent className="max-md:col-start-2 max-md:col-span-2">
         <PanelHeading>
           <PanelTitle>proj-uiux</PanelTitle>
           {muted ? (

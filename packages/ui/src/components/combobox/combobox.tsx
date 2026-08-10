@@ -351,6 +351,7 @@ export function ComboboxTrigger({ className, children, render, ...props }: Combo
     >
       <span
         data-slot="combobox-trigger-content"
+        data-picker-trigger-content="combobox"
         className="flex min-w-0 flex-1 items-center gap-1.5"
       >
         {children}
@@ -377,6 +378,7 @@ export function ComboboxTriggerIndicator({ className, ...props }: ComboboxTrigge
   return (
     <span
       data-slot="combobox-trigger-indicator"
+      data-picker-trigger-indicator=""
       className={triggerIndicator({ className })}
       {...props}
     />

@@ -55,3 +55,5 @@ export type {
   SearchThreadResultTimestampProps,
   SearchThreadResultTitleProps,
 } from "./components/search/index";
+
+export * from "./components/picker-trigger-button/index";
