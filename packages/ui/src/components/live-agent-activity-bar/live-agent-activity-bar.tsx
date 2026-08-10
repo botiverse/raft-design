@@ -38,7 +38,11 @@ type LiveAgentActivityBarDataAttributes = {
   "data-testid"?: string;
 };
 
-export type LiveAgentActivityBarProps = useRender.ComponentProps<"div">;
+export type LiveAgentActivityBarProps = useRender.ComponentProps<"div"> & {
+  beam?: boolean;
+};
+
+type LiveAgentActivityBarRootProps = Omit<LiveAgentActivityBarProps, "beam">;
 
 const EXIT_DURATION = 220;
 
@@ -47,7 +51,7 @@ function LiveAgentActivityBarRoot({
   className,
   render,
   ...props
-}: LiveAgentActivityBarProps) {
+}: LiveAgentActivityBarRootProps) {
   const theme = useThemeFamily();
   const { root } = liveAgentActivityBar({ theme });
   const defaultProps: useRender.ElementProps<"div"> & LiveAgentActivityBarDataAttributes = {
@@ -66,6 +70,7 @@ function LiveAgentActivityBarRoot({
 }
 
 function ElegantLiveAgentActivityMotion({
+  beam = true,
   children,
   ...activityBarProps
 }: LiveAgentActivityBarProps) {
@@ -113,7 +118,7 @@ function ElegantLiveAgentActivityMotion({
   if (transition.children == null) return null;
 
   return (
-    <LiveAgentActivityBeam motion={transition.motion}>
+    <LiveAgentActivityBeam enabled={beam} motion={transition.motion}>
       <LiveAgentActivityBarRoot {...activityBarProps}>
         {transition.children}
       </LiveAgentActivityBarRoot>
@@ -122,6 +127,7 @@ function ElegantLiveAgentActivityMotion({
 }
 
 export function LiveAgentActivityBar({
+  beam = true,
   children,
   className,
   render,
@@ -131,7 +137,7 @@ export function LiveAgentActivityBar({
 
   if (theme === "elegant") {
     return (
-      <ElegantLiveAgentActivityMotion className={className} render={render} {...props}>
+      <ElegantLiveAgentActivityMotion beam={beam} className={className} render={render} {...props}>
         {children}
       </ElegantLiveAgentActivityMotion>
     );

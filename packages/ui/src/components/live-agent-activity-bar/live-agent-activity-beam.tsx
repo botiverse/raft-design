@@ -311,9 +311,11 @@ function beamStyles(id: string, borderRadius: number) {
 
 export function LiveAgentActivityBeam({
   children,
+  enabled = true,
   motion,
 }: {
   children: ReactNode;
+  enabled?: boolean;
   motion: LiveAgentActivityMotion;
 }) {
   const id = useId().replace(/:/g, "-");
@@ -323,6 +325,7 @@ export function LiveAgentActivityBeam({
   const [glowScale, setGlowScale] = useState({ x: 1, y: 1 });
 
   useEffect(() => {
+    if (!enabled) return;
     const root = rootRef.current;
     if (!root) return;
     const child = root.firstElementChild as HTMLElement | null;
@@ -345,9 +348,10 @@ export function LiveAgentActivityBeam({
     const resizeObserver = new ResizeObserver(measure);
     resizeObserver.observe(child);
     return () => resizeObserver.disconnect();
-  }, [children]);
+  }, [children, enabled]);
 
   useEffect(() => {
+    if (!enabled) return;
     const root = rootRef.current;
     if (!root || typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(
@@ -358,13 +362,14 @@ export function LiveAgentActivityBeam({
     );
     observer.observe(root);
     return () => observer.disconnect();
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
+    if (!enabled) return;
     const root = rootRef.current;
     if (!root || !visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     return registerPulseInstance(root, pulseDriverConfig(id));
-  }, [id, visible]);
+  }, [enabled, id, visible]);
 
   const styles = useMemo(() => beamStyles(id, borderRadius), [borderRadius, id]);
   const style = {
@@ -375,16 +380,16 @@ export function LiveAgentActivityBeam({
 
   return (
     <>
-      <style>{styles}</style>
+      {enabled ? <style>{styles}</style> : null}
       <div
         ref={rootRef}
-        data-beam={id}
+        data-beam={enabled ? id : undefined}
         data-motion={motion}
         className={activityMotionClass}
-        style={style}
+        style={enabled ? style : undefined}
       >
         {children}
-        <div aria-hidden data-beam-bloom="" />
+        {enabled ? <div aria-hidden data-beam-bloom="" /> : null}
       </div>
     </>
   );
