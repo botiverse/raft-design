@@ -18,13 +18,13 @@ function SearchMessageResultBase({
   ...props
 }: SearchMessageResultBaseProps) {
   const theme = useThemeFamily();
-  const { message } = searchMessage({ theme });
+  const { message } = searchMessage({ nested, selected, theme });
   const defaultProps: SlotElementProps<"button"> = {
     "data-slot": "search-message-result",
     "data-nested": nested ? "true" : undefined,
     "data-selected": selected ? "true" : undefined,
     className: message({ className }),
-    type: "button",
+    type: render ? undefined : "button",
   };
   return useRender({
     defaultTagName: "button",

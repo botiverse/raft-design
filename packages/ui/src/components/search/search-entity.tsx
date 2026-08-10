@@ -20,12 +20,50 @@ export function SearchEntityResult({
     "data-slot": "search-entity-result",
     "data-selected": selected ? "true" : undefined,
     className: entity({ className }),
-    type: "button",
+    type: render ? undefined : "button",
   };
   return useRender({
     defaultTagName: "button",
     render,
     props: mergeProps<"button">(defaultProps, props),
+  });
+}
+
+export type SearchEntityResultContentProps = useRender.ComponentProps<"div">;
+export function SearchEntityResultContent({
+  className,
+  render,
+  ...props
+}: SearchEntityResultContentProps) {
+  const theme = useThemeFamily();
+  const { entityContent } = searchEntity({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-entity-result-content",
+    className: entityContent({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+  });
+}
+
+export type SearchEntityResultHeaderProps = useRender.ComponentProps<"div">;
+export function SearchEntityResultHeader({
+  className,
+  render,
+  ...props
+}: SearchEntityResultHeaderProps) {
+  const theme = useThemeFamily();
+  const { entityHeader } = searchEntity({ theme });
+  const defaultProps: SlotElementProps<"div"> = {
+    "data-slot": "search-entity-result-header",
+    className: entityHeader({ className }),
+  };
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
   });
 }
 

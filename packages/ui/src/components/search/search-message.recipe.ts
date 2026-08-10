@@ -36,17 +36,16 @@ export const searchMessage = tv({
           "group/search-message rounded-lg border-[0.5px] border-line-muted bg-layer-panel p-0 shadow-raft-xs",
           "transition-[background-color,border-color] duration-150",
           "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
-          "data-[selected=true]:border-transparent data-[selected=true]:ring-2 data-[selected=true]:ring-primary-400 data-[selected=true]:ring-offset-2 data-[selected=true]:ring-offset-layer-canvas-muted",
+          "data-[selected=true]:border-transparent",
           "data-[nested=true]:rounded-none data-[nested=true]:border-0 data-[nested=true]:border-t-[0.5px] data-[nested=true]:border-line-hairline data-[nested=true]:bg-transparent data-[nested=true]:p-3 data-[nested=true]:shadow-none",
           "data-[nested=true]:hover:bg-ink-2 data-[nested=true]:hover:shadow-none",
-          "data-[nested=true][data-selected=true]:border-line-hairline data-[nested=true][data-selected=true]:bg-fill-muted data-[nested=true][data-selected=true]:shadow-none data-[nested=true][data-selected=true]:ring-0",
-          "outline-none focus-visible:ring-1 focus-visible:ring-primary-400",
+          "data-[nested=true][data-selected=true]:border-line-hairline data-[nested=true][data-selected=true]:bg-fill-muted",
+          "outline-none",
           "dark:border-transparent",
-          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
-          "dark:data-[nested=true]:border-ink-10 dark:data-[nested=true]:bg-transparent dark:data-[nested=true]:shadow-none",
+          "dark:data-[nested=true]:border-ink-10 dark:data-[nested=true]:bg-transparent",
           "dark:data-[nested=true]:hover:bg-[color-mix(in_oklch,var(--layer-canvas-muted)_20%,var(--layer-inset))] dark:data-[nested=true]:hover:shadow-none",
-          "dark:data-[nested=true][data-selected=true]:border-ink-10 dark:data-[nested=true][data-selected=true]:bg-fill-muted dark:data-[nested=true][data-selected=true]:shadow-none dark:data-[nested=true][data-selected=true]:ring-0",
-          "dark:data-[nested=true][data-selected=true]:hover:bg-fill-strong",
+          "dark:data-[nested=true][data-selected=true]:border-ink-10 dark:data-[nested=true][data-selected=true]:bg-fill-muted",
+          "dark:data-[nested=true][data-selected=true]:hover:bg-fill-muted",
         ],
         messageHeader: [
           "px-3 pt-2.5 pb-1",
@@ -63,8 +62,53 @@ export const searchMessage = tv({
         messageThreadMeta: ["font-medium text-foreground-muted/70"],
         messageSender: ["font-medium text-foreground-muted"],
         messageTimestamp: ["font-sans tabular-nums text-foreground-muted/70"],
-        messageMatch: ["bg-primary-400/70 text-primary-950 [font:inherit]"],
+        messageMatch: ["bg-primary-400/70 text-primary-950 [font:inherit]", "dark:bg-primary-400"],
       },
     },
+    nested: {
+      false: {},
+      true: {},
+    },
+    selected: {
+      false: {},
+      true: {},
+    },
   },
+  defaultVariants: {
+    nested: false,
+    selected: false,
+  },
+  compoundVariants: [
+    {
+      theme: "elegant",
+      nested: false,
+      class: {
+        message: [
+          "focus-visible:ring-1 focus-visible:ring-primary-400",
+          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      nested: true,
+      class: {
+        message: [
+          "focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-primary-400",
+          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      nested: false,
+      selected: true,
+      class: {
+        message: [
+          "ring-1 ring-primary-400 ring-offset-2 ring-offset-layer-canvas-muted",
+          "dark:ring-2",
+        ],
+      },
+    },
+  ],
 });

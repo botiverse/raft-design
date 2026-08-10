@@ -1,14 +1,25 @@
-import { Skeleton } from "raft-ui";
-import { SearchResultsSummary, SearchShellRoot, SearchShellViewport } from "raft-ui/wip";
+import {
+  SearchResultsList,
+  SearchResultsSection,
+  SearchResultsSectionHeading,
+  SearchResultsSummary,
+  SearchShellRoot,
+  SearchShellViewport,
+  Skeleton,
+} from "raft-ui";
 
 export function SearchLoadingComposition() {
   return (
     <SearchShellRoot aria-busy="true">
       <SearchShellViewport>
-        <SearchResultsSummary>Searching…</SearchResultsSummary>
-        {[1, 2, 3].map((item) => (
-          <Skeleton key={item} className="h-14" />
-        ))}
+        <SearchResultsSummary>Searching for “design system”…</SearchResultsSummary>
+        <SearchResultsSection className="mb-0">
+          <SearchResultsSectionHeading>Messages</SearchResultsSectionHeading>
+          <SearchResultsList>
+            <Skeleton className="h-20" />
+            <Skeleton className="h-20" />
+          </SearchResultsList>
+        </SearchResultsSection>
       </SearchShellViewport>
     </SearchShellRoot>
   );

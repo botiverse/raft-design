@@ -1,25 +1,44 @@
+import { TriangleAlert } from "lucide-react";
 import {
   Button,
   EmptyState,
   EmptyStateActions,
   EmptyStateContent,
   EmptyStateDescription,
+  EmptyStateIcon,
   EmptyStateTitle,
+  SearchShellRoot,
+  SearchShellViewport,
 } from "raft-ui";
-import { SearchShellRoot, SearchShellViewport } from "raft-ui/wip";
+import { useState } from "react";
 
 export function SearchErrorComposition() {
+  const [retrying, setRetrying] = useState(false);
+
   return (
     <SearchShellRoot>
       <SearchShellViewport>
-        <EmptyState>
+        <EmptyState className="h-full" aria-live="polite">
           <EmptyStateContent>
-            <EmptyStateTitle>Search failed</EmptyStateTitle>
-            <EmptyStateDescription>We could not load results.</EmptyStateDescription>
+            <EmptyStateIcon>
+              <TriangleAlert aria-hidden />
+            </EmptyStateIcon>
+            <EmptyStateTitle>{retrying ? "Retrying search" : "Search failed"}</EmptyStateTitle>
+            <EmptyStateDescription>
+              {retrying
+                ? "Trying to reconnect and load your results."
+                : "Check your connection, then try again."}
+            </EmptyStateDescription>
           </EmptyStateContent>
           <EmptyStateActions>
-            <Button type="button" variant="danger-outline" size="sm" disabled>
-              Retrying…
+            <Button
+              type="button"
+              variant="danger-outline"
+              size="sm"
+              disabled={retrying}
+              onClick={() => setRetrying(true)}
+            >
+              {retrying ? "Retrying…" : "Retry"}
             </Button>
           </EmptyStateActions>
         </EmptyState>

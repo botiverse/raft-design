@@ -193,7 +193,7 @@ const PATTERN_NAV = [
         to: "/components/live-agent-activity-bar",
         status: "done",
       },
-      { label: "Search", to: "/components/search", status: "wip" },
+      { label: "Search", to: "/components/search", status: "done" },
       { label: "ActivityInbox", to: "/components/activity", status: "done" },
       { label: "FilesPanel", to: "/components/files", status: "done" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },

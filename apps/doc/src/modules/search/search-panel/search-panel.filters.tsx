@@ -35,7 +35,9 @@ import {
   SelectList,
   SelectSeparator,
   SelectTrigger,
+  SearchShellFilters,
 } from "raft-ui";
+import { PickerTriggerButton } from "raft-ui/wip";
 
 import type { SearchChannelFixture, SearchSenderFixture } from "../search.fixtures.ts";
 import {
@@ -44,8 +46,6 @@ import {
   type SearchSort,
   type SearchTimeRange,
 } from "./search-panel.parts.tsx";
-import { SearchShellFilters } from "raft-ui/wip";
-
 type SearchFiltersProps = {
   senders: readonly SearchSenderFixture[];
   channels: readonly SearchChannelFixture[];
@@ -146,7 +146,7 @@ export function SearchFilters({
             onSenderChange(senders.find((item) => item.id === nextValue) ?? null);
           }}
         >
-          <ComboboxTrigger aria-label="From">
+          <ComboboxTrigger aria-label="From" render={<PickerTriggerButton />}>
             <UserCircle2 aria-hidden size={14} />
             <span>{sender ? `From: ${sender.isCurrentUser ? "Me" : sender.label}` : "From"}</span>
             <ComboboxTriggerIndicator>
@@ -198,7 +198,7 @@ export function SearchFilters({
           value={[...scopes]}
           onValueChange={(nextValue) => onScopesChange(nextValue)}
         >
-          <SelectTrigger aria-label="Scope" className="w-auto">
+          <SelectTrigger aria-label="Scope" render={<PickerTriggerButton />}>
             <AtSign aria-hidden size={14} />
             <span>
               {scopes.length === 0
@@ -246,7 +246,7 @@ export function SearchFilters({
               onChannelChange(channels.find((item) => item.id === nextValue) ?? null);
             }}
           >
-            <ComboboxTrigger aria-label="Channel">
+            <ComboboxTrigger aria-label="Channel" render={<PickerTriggerButton />}>
               <Hash aria-hidden size={14} />
               <span>Channel</span>
               <ComboboxTriggerIndicator>
@@ -293,7 +293,7 @@ export function SearchFilters({
             if (nextValue) onTimeRangeChange(nextValue);
           }}
         >
-          <SelectTrigger aria-label="Time range" className="w-auto">
+          <SelectTrigger aria-label="Time range" render={<PickerTriggerButton />}>
             <CalendarRange aria-hidden size={14} />
             <span>{timeLabel(timeRange)}</span>
             <SelectIcon>
@@ -324,7 +324,7 @@ export function SearchFilters({
             if (nextValue) onSortChange(nextValue);
           }}
         >
-          <SelectTrigger aria-label="Sort" className="w-auto">
+          <SelectTrigger aria-label="Sort" render={<PickerTriggerButton />}>
             <ArrowDownUp aria-hidden size={14} />
             <span>{sort === "recent" ? "Recent" : "Relevant"}</span>
             <SelectIcon>

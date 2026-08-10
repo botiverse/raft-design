@@ -1531,6 +1531,10 @@ export * from "./components/task-list/index";
 export * from "./components/tasks/index";
 export * from "./components/legacy-task-panel/index";
 
+export * from "./components/activity-inbox/index";
+export * from "./components/inbox-item/index";
+export * from "./components/search/index";
+
 export { BrutalOnly, ElegantOnly } from "./components/theme-only/index";
 export type { ThemeOnlyProps } from "./components/theme-only/index";
 
@@ -1546,6 +1550,3 @@ export type {
   ThemeMode,
   ThemeState,
 } from "./lib/theme/theme-context";
-
-export * from "./components/activity-inbox/index";
-export * from "./components/inbox-item/index";

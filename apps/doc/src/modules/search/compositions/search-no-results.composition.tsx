@@ -1,14 +1,27 @@
-import { EmptyState, EmptyStateContent, EmptyStateDescription, EmptyStateTitle } from "raft-ui";
-import { SearchShellRoot, SearchShellViewport } from "raft-ui/wip";
+import { SearchX } from "lucide-react";
+import {
+  EmptyState,
+  EmptyStateContent,
+  EmptyStateDescription,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  SearchShellRoot,
+  SearchShellViewport,
+} from "raft-ui";
 
 export function SearchNoResultsComposition() {
   return (
     <SearchShellRoot>
       <SearchShellViewport>
-        <EmptyState>
+        <EmptyState className="h-full">
           <EmptyStateContent>
-            <EmptyStateTitle>No results</EmptyStateTitle>
-            <EmptyStateDescription>Try a different query or remove a filter.</EmptyStateDescription>
+            <EmptyStateIcon>
+              <SearchX aria-hidden />
+            </EmptyStateIcon>
+            <EmptyStateTitle>No results for “design system”</EmptyStateTitle>
+            <EmptyStateDescription>
+              Try another query or remove one of the active filters.
+            </EmptyStateDescription>
           </EmptyStateContent>
         </EmptyState>
       </SearchShellViewport>
