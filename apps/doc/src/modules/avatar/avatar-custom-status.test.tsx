@@ -15,8 +15,8 @@ function renderAvatarBadge(badge: ReactNode, theme: (typeof THEMES)[number]) {
   );
 }
 
-describe("AvatarBadge custom Status sizing", () => {
-  it("preserves the custom Status size while still applying corner placement", () => {
+describe("AvatarBadge render prop ownership", () => {
+  it("keeps a rendered Status authoritative over visual size", () => {
     for (const theme of THEMES) {
       const markup = renderAvatarBadge(
         <AvatarBadge render={<Status aria-hidden size="lg" variant="success" />} />,
@@ -29,10 +29,29 @@ describe("AvatarBadge custom Status sizing", () => {
     }
   });
 
-  it("keeps the parent-responsive size map for the default badge dot", () => {
+  it("lets a render callback compose placement without inheriting dot size", () => {
     for (const theme of THEMES) {
-      const markup = renderAvatarBadge(<AvatarBadge />, theme);
+      const markup = renderAvatarBadge(
+        <AvatarBadge
+          render={(badgeProps) => (
+            <Status {...badgeProps} aria-hidden size="lg" variant="success" />
+          )}
+        />,
+        theme,
+      );
 
+      expect(markup).toContain("size-[11px]");
+      expect(markup).toContain("absolute z-10");
+      expect(markup).not.toContain("group-data-[size=sm]/avatar:size-2");
+    }
+  });
+
+  it("keeps AvatarBadge props above the built-in dot and then falls back to Avatar size", () => {
+    for (const theme of THEMES) {
+      const markup = renderAvatarBadge(<AvatarBadge className="bg-info" />, theme);
+
+      expect(markup).toContain("bg-info");
+      expect(markup).not.toContain("bg-success");
       expect(markup).toContain("group-data-[size=sm]/avatar:size-2");
       expect(markup).toContain("rounded-full");
     }

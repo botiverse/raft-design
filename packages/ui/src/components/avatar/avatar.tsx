@@ -27,29 +27,9 @@ import type { StyledProps } from "../../lib/styled-props";
 // Brutal border weight follows size: >=32px frames use `border-2`, smaller ones
 // `AvatarFallback` and the default `AvatarBadge` dot auto-scale to the parent
 // via its `data-size` + `group/avatar` hook; keep their per-step selectors in
-// sync with the `size` scale. `AvatarBadge` is a useRender shell — pass
-// `render={<Status />}` for activity chrome whose own `size` remains authoritative.
-const BRUTAL_BADGE_PLACEMENT = [
-  "right-0 bottom-0 translate-1/4 ",
-  "group-data-[size=xl]/avatar:translate-[5px] ",
-  "group-data-[size=lg]/avatar:translate-[calc(25%+2px)] ",
-  "group-data-[size=md]/avatar:translate-[4.75px] ",
-  "group-data-[size=sm]/avatar:translate-x-1 group-data-[size=sm]/avatar:translate-y-1",
-  "group-data-[size=xs]/avatar:translate-[2.75px] ",
-  "group-data-[size=2xs]/avatar:translate-[2.875px] ",
-  "group-data-[size=3xs]/avatar:translate-[3.125px] ",
-] as const;
-
-const ELEGANT_BADGE_PLACEMENT = [
-  "outline-2 outline-layer-panel",
-  "group-data-[size=xl]/avatar:right-[3.667px] group-data-[size=xl]/avatar:bottom-[3.667px]",
-  "group-data-[size=lg]/avatar:right-0.5 group-data-[size=lg]/avatar:bottom-0.5",
-  "group-data-[size=md]/avatar:right-px group-data-[size=md]/avatar:bottom-px",
-  "group-data-[size=sm]/avatar:right-[1.333px] group-data-[size=sm]/avatar:bottom-[1.333px]",
-  "group-data-[size=xs]/avatar:right-[0.333px] group-data-[size=xs]/avatar:bottom-[0.333px]",
-  "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
-  "group-data-[size=3xs]/avatar:right-[-0.667px] group-data-[size=3xs]/avatar:bottom-[-0.667px]",
-] as const;
+// sync with the `size` scale. `AvatarBadge` is a useRender shell: its `badge`
+// slot owns only placement, while the default `dot` owns inherited sizing.
+// This keeps a custom rendered indicator's props authoritative.
 
 const avatar = tv({
   slots: {
@@ -66,9 +46,13 @@ const avatar = tv({
       "group-data-[size=2xs]/avatar:[&>svg]:size-2.5",
       "group-data-[size=3xs]/avatar:[&>svg]:size-2.5",
     ],
-    // The default dot inherits the parent avatar's scale.
-    badge: [
-      "absolute z-10 size-2 select-none",
+    // Placement props are safe to compose into either the default tag or a
+    // custom render. Visual size belongs to the rendered content.
+    badge: ["absolute z-10 select-none"],
+    // The built-in dot falls back to the parent avatar's scale. These classes
+    // must not be merged into a custom rendered indicator.
+    dot: [
+      "inline-flex size-2 items-center justify-center rounded-full outline-2 outline-white",
       "group-data-[size=xl]/avatar:size-3.5",
       "group-data-[size=lg]/avatar:size-3",
       "group-data-[size=md]/avatar:size-2.5",
@@ -76,12 +60,6 @@ const avatar = tv({
       "group-data-[size=xs]/avatar:size-1.5",
       "group-data-[size=2xs]/avatar:size-1.5",
       "group-data-[size=3xs]/avatar:size-1.5",
-    ],
-    // A custom render owns its visual size; AvatarBadge contributes placement
-    // without merging the default dot's parent-responsive size map.
-    customBadge: ["absolute z-10 select-none"],
-    dot: [
-      "inline-flex items-center justify-center rounded-full outline-2 outline-white",
       "[&>svg]:hidden",
       "group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
       "group-data-[size=lg]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:[&>svg]:block",
@@ -95,8 +73,16 @@ const avatar = tv({
       brutal: {
         root: "border-black text-black",
         fallback: "text-black",
-        badge: BRUTAL_BADGE_PLACEMENT,
-        customBadge: BRUTAL_BADGE_PLACEMENT,
+        badge: [
+          "right-0 bottom-0 translate-1/4 ",
+          "group-data-[size=xl]/avatar:translate-[5px] ",
+          "group-data-[size=lg]/avatar:translate-[calc(25%+2px)] ",
+          "group-data-[size=md]/avatar:translate-[4.75px] ",
+          "group-data-[size=sm]/avatar:translate-x-1 group-data-[size=sm]/avatar:translate-y-1",
+          "group-data-[size=xs]/avatar:translate-[2.75px] ",
+          "group-data-[size=2xs]/avatar:translate-[2.875px] ",
+          "group-data-[size=3xs]/avatar:translate-[3.125px] ",
+        ],
         dot: ["bg-success text-foreground"],
         group: [
           "-space-x-1.5",
@@ -114,8 +100,16 @@ const avatar = tv({
           "group-data-[size=2xs]/avatar:text-[10px]",
           "group-data-[size=3xs]/avatar:text-[10px]",
         ],
-        badge: ELEGANT_BADGE_PLACEMENT,
-        customBadge: ELEGANT_BADGE_PLACEMENT,
+        badge: [
+          "outline-2 outline-layer-panel",
+          "group-data-[size=xl]/avatar:right-[3.667px] group-data-[size=xl]/avatar:bottom-[3.667px]",
+          "group-data-[size=lg]/avatar:right-0.5 group-data-[size=lg]/avatar:bottom-0.5",
+          "group-data-[size=md]/avatar:right-px group-data-[size=md]/avatar:bottom-px",
+          "group-data-[size=sm]/avatar:right-[1.333px] group-data-[size=sm]/avatar:bottom-[1.333px]",
+          "group-data-[size=xs]/avatar:right-[0.333px] group-data-[size=xs]/avatar:bottom-[0.333px]",
+          "group-data-[size=2xs]/avatar:right-0 group-data-[size=2xs]/avatar:bottom-0",
+          "group-data-[size=3xs]/avatar:right-[-0.667px] group-data-[size=3xs]/avatar:bottom-[-0.667px]",
+        ],
         dot: ["bg-success text-success-foreground outline-layer-panel"],
         group: [
           "-space-x-2",
@@ -394,13 +388,11 @@ export type AvatarBadgeProps = useRender.ComponentProps<"span">;
 // responsive size; a custom render keeps its own visual size.
 export function AvatarBadge({ className, render, ...props }: AvatarBadgeProps) {
   const theme = useThemeFamily();
-  const { badge, customBadge, dot } = avatar({ theme });
+  const { badge, dot } = avatar({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
-    className: render
-      ? customBadge({ className })
-      : badge({
-          className: dot({ className }),
-        }),
+    className: badge({
+      className: render ? className : dot({ className }),
+    }),
   };
 
   return useRender({
