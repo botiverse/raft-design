@@ -12,3 +12,5 @@ export const SIZES = [
 export const SIZE_OPTIONS = SIZES.map((s) => s.size);
 
 export const TYPES = ["agent", "human"] as const;
+
+export const STATUS_SIZE_OPTIONS = ["xs", "sm", "md", "lg"] as const;
