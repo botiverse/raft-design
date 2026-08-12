@@ -175,6 +175,8 @@ import {
   User,
 } from "lucide-react";
 
+import { usePreviewTheme } from "#/components/preview-theme.tsx";
+
 export const Route = createFileRoute("/")({
   component: Home,
 });
@@ -1387,7 +1389,11 @@ function HomeToastList() {
 }
 
 function Home() {
-  const [themePreset, setThemePreset] = useState<ThemePreset>(THEME_PRESETS[1]);
+  const previewTheme = usePreviewTheme();
+  const themePreset =
+    THEME_PRESETS.find(
+      (preset) => preset.family === previewTheme.theme && preset.mode === previewTheme.mode,
+    ) ?? THEME_PRESETS[1];
 
   useEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration;
@@ -1463,7 +1469,11 @@ function Home() {
                   "focus-visible:relative focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
                   isActive ? "bg-fill-muted text-foreground" : "text-foreground-placeholder",
                 ].join(" ")}
-                onClick={() => setThemePreset(preset)}
+                onClick={() =>
+                  previewTheme.setTheme(preset.family, {
+                    mode: preset.mode,
+                  })
+                }
               >
                 {preset.label}
               </button>
