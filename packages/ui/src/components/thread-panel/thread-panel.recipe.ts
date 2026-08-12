@@ -53,7 +53,7 @@ export const threadPanel = tv({
         content: [
           "relative overflow-clip",
           "bg-layer-panel",
-          "dark:bg-transparent dark:lg:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42_/_0.07),inset_0_0_0_1px_oklch(0.985_0.004_106.42_/_0.03)]",
+          "dark:bg-transparent",
           "**:data-message-item:px-[18px] [&_[data-message-item]]:max-lg:px-3",
         ],
         title: [
