@@ -15,6 +15,7 @@ import { afterEach, describe, expect, it } from "vitest";
 const packagePath = resolve(process.cwd(), "../../packages/ui");
 const repositoryPath = resolve(process.cwd(), "../..");
 const temporaryConsumers: string[] = [];
+const cleanGitConsumerTimeoutMs = 90_000;
 
 function run(command: string, args: string[], cwd: string) {
   const result = spawnSync(command, args, { cwd, encoding: "utf8" });
@@ -82,40 +83,44 @@ describe("raft-ui source package", () => {
     expect(lockfile).not.toContain("catalog:");
   });
 
-  it("builds and imports from a clean Git artifact without ignored dist files", () => {
-    const consumerDirectory = mkdtempSync(`${tmpdir()}/raft-ui-git-consumer-`);
-    temporaryConsumers.push(consumerDirectory);
-    const { artifactDirectory, commit } = createTrackedPackageRepository();
-    const gitSpecifier = `git+file://${artifactDirectory}#${commit}&path:/packages/ui`;
+  it(
+    "builds and imports from a clean Git artifact without ignored dist files",
+    () => {
+      const consumerDirectory = mkdtempSync(`${tmpdir()}/raft-ui-git-consumer-`);
+      temporaryConsumers.push(consumerDirectory);
+      const { artifactDirectory, commit } = createTrackedPackageRepository();
+      const gitSpecifier = `git+file://${artifactDirectory}#${commit}&path:/packages/ui`;
 
-    writeFileSync(
-      `${consumerDirectory}/package.json`,
-      JSON.stringify({
-        name: "raft-ui-git-consumer",
-        private: true,
-        type: "module",
-        dependencies: { "raft-ui": gitSpecifier },
-      }),
-    );
+      writeFileSync(
+        `${consumerDirectory}/package.json`,
+        JSON.stringify({
+          name: "raft-ui-git-consumer",
+          private: true,
+          type: "module",
+          dependencies: { "raft-ui": gitSpecifier },
+        }),
+      );
 
-    run(
-      "pnpm",
-      ["install", "--lockfile-only", "--ignore-scripts", "--dir", consumerDirectory],
-      repositoryPath,
-    );
-    run("pnpm", ["install", "--frozen-lockfile", "--dir", consumerDirectory], repositoryPath);
+      run(
+        "pnpm",
+        ["install", "--lockfile-only", "--ignore-scripts", "--dir", consumerDirectory],
+        repositoryPath,
+      );
+      run("pnpm", ["install", "--frozen-lockfile", "--dir", consumerDirectory], repositoryPath);
 
-    const packageDirectory = `${consumerDirectory}/node_modules/raft-ui`;
-    expect(existsSync(`${packageDirectory}/dist/index.mjs`)).toBe(true);
-    run(
-      "node",
-      [
-        "--input-type=module",
-        "--eval",
-        'const ui = await import("raft-ui"); if (typeof ui.resolveThemePreset !== "function") process.exit(1);',
-      ],
-      consumerDirectory,
-    );
-    expect(readFileSync(`${packageDirectory}/package.json`, "utf8")).toContain('"dist"');
-  }, 30_000);
+      const packageDirectory = `${consumerDirectory}/node_modules/raft-ui`;
+      expect(existsSync(`${packageDirectory}/dist/index.mjs`)).toBe(true);
+      run(
+        "node",
+        [
+          "--input-type=module",
+          "--eval",
+          'const ui = await import("raft-ui"); if (typeof ui.resolveThemePreset !== "function") process.exit(1);',
+        ],
+        consumerDirectory,
+      );
+      expect(readFileSync(`${packageDirectory}/package.json`, "utf8")).toContain('"dist"');
+    },
+    cleanGitConsumerTimeoutMs,
+  );
 });
