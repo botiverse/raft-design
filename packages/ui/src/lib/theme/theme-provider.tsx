@@ -18,6 +18,7 @@ import {
   type ThemeState,
   type ThemeMode,
 } from "./theme-context";
+import { getMediaQueryMatches, subscribeMediaQuery } from "../media-query";
 
 export interface ThemeProviderProps {
   /**
@@ -71,21 +72,11 @@ function writeStorage(key: string | undefined, value: string) {
 }
 
 function subscribeSystemMode(onStoreChange: () => void) {
-  if (typeof window === "undefined") {
-    return () => undefined;
-  }
-
-  const media = window.matchMedia("(prefers-color-scheme: dark)");
-  media.addEventListener("change", onStoreChange);
-  return () => media.removeEventListener("change", onStoreChange);
+  return subscribeMediaQuery("(prefers-color-scheme: dark)", onStoreChange);
 }
 
 function getSystemMode(): ResolvedThemeMode {
-  if (typeof window === "undefined") {
-    return "light";
-  }
-
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return getMediaQueryMatches("(prefers-color-scheme: dark)") ? "dark" : "light";
 }
 
 export function ThemeProvider({

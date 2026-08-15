@@ -12,12 +12,15 @@ import {
 import { messageList } from "./message-list.recipe";
 
 export type MessageListProps = useRender.ComponentProps<"div"> & {
+  /** Force the single native viewport used by the responsive mobile path. */
+  nativeViewport?: boolean;
   rootClassName?: string;
 };
 
 export function MessageList({
   children,
   className,
+  nativeViewport = false,
   render,
   rootClassName,
   ...props
@@ -26,7 +29,7 @@ export function MessageList({
   const isMobile = useMobileViewport();
   const { content, root, viewport } = messageList({ theme });
 
-  if (isMobile) {
+  if (isMobile || nativeViewport) {
     return (
       <div data-slot="message-list" className={root({ className: rootClassName })}>
         <PanelScrollViewport

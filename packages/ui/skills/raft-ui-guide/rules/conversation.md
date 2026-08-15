@@ -139,6 +139,12 @@ The message family is large and satellite-structured: `MessageItem` is the ancho
 | `MessageMultiSelect*`          | multi-select checkboxes and toolbar                                                                                                      |
 | `MessageTextSelectionToolbar*` | the toolbar that appears over selected text                                                                                              |
 
+`MessageList` uses the themed Base UI `ScrollArea` on desktop and a native viewport on mobile by
+default. Set `nativeViewport` when the application already owns scroll anchoring, pagination,
+observers, or virtualization and needs the viewport props, handlers, and ref to land on one native
+scroll element at every width. That option changes the scroll carrier, not those application
+behaviors.
+
 `SystemMessage` is separate from `MessageItem` — join/leave/rename events use `SystemMessage` + `SystemMessageTime`, and consecutive events collapse with the `SystemMessageGroup*` disclosure parts.
 
 Product-state parts follow the library-wide pattern: the consumer decides which state part to render (`MessageReferencePending`, `MessageQuotedPreviewUnavailable`, `MessageItemTranslationFailedStatus`), the root never takes a `state` prop.
