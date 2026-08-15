@@ -103,7 +103,47 @@ The isolated layout root keeps the app's stacking contexts below Base UI surface
 
 For a nested theme preview, control `theme` and `mode`, set `syncDom={false}`, and put the matching `data-theme` plus `light`/`dark` class on its layout root. Keep that preview's portals inside its container when they must remain within the embedded stacking or clipping boundary. Pass the container through the overlay content's verified `portalProps.container` API; check the installed declarations because the exact content part differs by overlay.
 
-In server-rendered apps, replay a persisted mode before first paint or use the framework's established theme bootstrap so the initial HTML does not flash the wrong mode. Keep document access inside the client boundary.
+### Persisted theme before first paint
+
+If an application persists the theme, apply it synchronously in `<head>` before
+app JavaScript and styles paint. Use the package preset contract so the
+pre-React root state and controlled `ThemeProvider` mapping cannot drift:
+
+```ts
+import { createThemeBootstrapScript, resolveThemePreset, type ThemePreset } from "raft-ui";
+
+const preset: ThemePreset = "elegant-dark";
+const { theme, mode } = resolveThemePreset(preset);
+
+const script = createThemeBootstrapScript({
+  storageKey: "app-effective-theme",
+  defaultPreset: "brutal",
+});
+```
+
+The public presets are `brutal`, `elegant-light`, `elegant-dark`, and
+`elegant-system`. Render the returned classic inline script in `<head>` using
+the framework's safe inline-script mechanism. For an account-scoped SPA, use
+the generic JWT-subject cache namespace without hard-coding an app token name
+into raft-ui:
+
+```ts
+createThemeBootstrapScript({
+  storageKeyPrefix: "app:theme-preset:v1:",
+  account: { kind: "jwt-sub", tokenStorageKey: "app_access_token" },
+  defaultPreset: "brutal",
+});
+```
+
+The application still owns feature-gate policy, account preference writes, and
+the effective cached preset. Only a JWT payload with `type: "access"` and a
+non-empty `sub` selects an account cache namespace; the subject is never used
+as authorization. Missing, invalid, or inaccessible storage falls back to the
+configured default.
+
+The app-level `ThemeProvider` synchronizes controlled family and mode changes
+onto the document root before paint. Nested previews with `syncDom={false}`
+never write the root.
 
 ## Reading the theme
 
