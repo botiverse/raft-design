@@ -52,10 +52,21 @@ const cls = (testid: string) => screen.getByTestId(testid).className;
 
 afterEach(cleanup);
 
-test("field chrome: both ends consume the field token", () => {
+// Split per end on purpose. A single "both ends consume it" test is tripped by
+// any of the three ways this can break, so a failure would not say which end
+// stopped consuming — and nothing would isolate the trigger from the popup.
+// Verified by mutation: with one combined test, severing the context, dropping
+// the trigger classes and dropping the item classes all killed exactly the same
+// pair, which reads as three checks while behaving as one.
+
+test("field chrome: the trigger consumes the field token", () => {
   renderSelect({ chrome: "field" });
   expect(cls("trigger")).toContain("text-field");
   expect(cls("trigger")).toContain("font-field");
+});
+
+test("field chrome: the popup option consumes the field token", () => {
+  renderSelect({ chrome: "field" });
   expect(cls("item")).toContain("text-field");
   expect(cls("item")).toContain("font-field");
 });
