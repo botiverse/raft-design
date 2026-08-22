@@ -210,6 +210,24 @@
   --font-heading: var(--heading-font, system-ui, sans-serif);
   --font-sans: var(--sans-font, system-ui, sans-serif);
   --font-mono: var(--mono-font, ui-monospace, monospace);
+  /* ─── Field metric axis ─────────────────────────────────────────────────────
+     The first non-colour token axis in this file. It exists because a form
+     field had no declared metrics at all: `Input` got its height from `py-2`
+     plus inherited line-height, `SelectTrigger` borrowed the Button size scale
+     because it is built on Button, and a Select popup declared nothing and
+     inherited from wherever its portal happened to mount. Three components,
+     three different sizes for the same value.
+
+     Consumers: `Input`, the field variant of `SelectTrigger`, and Select popup
+     options. Options share font-size/weight/line-height with the trigger so a
+     value does not change size when the list opens; their height and padding
+     stay independent, because a list row is not a control and must not be
+     stretched to the field's height.
+
+     Raft's Select contract, not an industry rule — both conventions exist. */
+  --text-field: var(--field-font-size);
+  --text-field--line-height: var(--field-line-height);
+  --font-weight-field: var(--field-font-weight);
 }
 
 /* Raw brutal ramps — variables only, no utility registration. Consumed by the
@@ -468,6 +486,10 @@
   --theme-shadow-md: 4px 4px 0px var(--line-strong);
   --theme-shadow-lg: 4px 4px 0px var(--color-black);
   --theme-shadow-xl: 6px 6px 0px var(--line-strong);
+  /* Field metrics — see the Field metric axis note in @theme inline. */
+  --field-font-size: 16px;
+  --field-font-weight: 400;
+  --field-line-height: 24px;
 }
 
 [data-theme="elegant"] {
@@ -556,6 +578,10 @@
     oklch(0.145 0.002 106.42 / 0.031) 0px 18px 24px -12px,
     oklch(0.145 0.002 106.42 / 0.039) 0px 12px 12px -6px,
     oklch(0.145 0.002 106.42 / 0.039) 0px 4px 6px -3px;
+  /* Field metrics — see the Field metric axis note in @theme inline. */
+  --field-font-size: 14px;
+  --field-font-weight: 400;
+  --field-line-height: 20px;
 }
 
 /* Native controls, scrollbars, and portaled scopes follow the stamped class even
