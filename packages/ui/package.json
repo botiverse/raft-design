@@ -40,9 +40,10 @@
   },
   "scripts": {
     "build": "vp pack",
-    "dev": "vp pack --watch",
     "check": "vp check",
-    "prepublishOnly": "vp run build"
+    "dev": "vp pack --watch",
+    "prepublishOnly": "vp run build",
+    "test": "vp test"
   },
   "dependencies": {
     "@base-ui/react": "catalog:",

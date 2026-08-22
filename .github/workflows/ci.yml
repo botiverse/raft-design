@@ -29,5 +29,8 @@ jobs:
       - name: Check workspace
         run: vp check
 
+      - name: Run tests
+        run: vp run -r test
+
       - name: Pack package
         run: vp pm pack --filter raft-ui --pack-destination "$RUNNER_TEMP/raft-ui-pack"

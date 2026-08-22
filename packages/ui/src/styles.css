@@ -214,9 +214,10 @@
      The first non-colour token axis in this file. It exists because a form
      field had no declared metrics at all: `Input` got its height from `py-2`
      plus inherited line-height, `SelectTrigger` borrowed the Button size scale
-     because it is built on Button, and a Select popup declared nothing and
-     inherited from wherever its portal happened to mount. Three components,
-     three different sizes for the same value.
+     because it is built on Button, and a Select popup declared its own per-theme
+     typography (brutal 12/700/24, elegant 13/400/20) with no relation to the
+     field it belongs to. Three components, three different sizes for the same
+     value.
 
      Consumers: `Input`, the field variant of `SelectTrigger`, and Select popup
      options. Options share font-size/weight/line-height with the trigger so a
