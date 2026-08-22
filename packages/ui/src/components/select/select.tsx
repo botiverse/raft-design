@@ -1,3 +1,4 @@
+import { createContext, useContext } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
@@ -54,6 +55,18 @@ const select = tv({
     empty: ["px-3 py-4 text-center text-sm"],
   },
   variants: {
+    // `field` makes a Select carry the declared field metric axis instead of the
+    // Button size scale it is built on. Trigger and options share font-size,
+    // weight and line-height so a value does not change size when the list
+    // opens; their height and padding stay separate, because a list row is not
+    // a control and must not be stretched to the field's height.
+    chrome: {
+      default: {},
+      field: {
+        trigger: ["h-auto px-3 py-2 text-field font-field"],
+        item: ["text-field font-field"],
+      },
+    },
     theme: {
       brutal: {
         trigger: [
@@ -138,17 +151,53 @@ const select = tv({
       },
     },
   },
+  defaultVariants: {
+    chrome: "default",
+  },
 });
+
+export type SelectChrome = "default" | "field";
+
+/**
+ * Declared once on the root and read by both the trigger and the popup.
+ *
+ * The popup renders through a portal, so it has no DOM ancestor in common with
+ * its trigger. React context follows the component tree rather than the DOM,
+ * so both ends read one source instead of each resolving its own — which is
+ * what lets a Select keep the same typography whether its content mounts at the
+ * document root or into a `portalProps.container`.
+ *
+ * Deliberately NOT a prop on the trigger and another on the content: that shape
+ * asks every callsite to restate the decision, which is exactly the duplication
+ * this variant exists to remove.
+ */
+const SelectChromeContext = createContext<SelectChrome>("default");
+
+export function useSelectChrome(): SelectChrome {
+  return useContext(SelectChromeContext);
+}
 
 export type SelectProps<
   Value,
   Multiple extends boolean | undefined = false,
-> = BaseSelect.Root.Props<Value, Multiple>;
+> = BaseSelect.Root.Props<Value, Multiple> & {
+  /**
+   * `field` opts this Select into the field metric axis, so it reads as a form
+   * field rather than a button. Defaults to `default`, leaving every existing
+   * Select untouched.
+   */
+  chrome?: SelectChrome;
+};
 
-export function Select<Value, Multiple extends boolean | undefined = false>(
-  props: SelectProps<Value, Multiple>,
-) {
-  return <BaseSelect.Root data-slot="select" {...props} />;
+export function Select<Value, Multiple extends boolean | undefined = false>({
+  chrome = "default",
+  ...props
+}: SelectProps<Value, Multiple>) {
+  return (
+    <SelectChromeContext value={chrome}>
+      <BaseSelect.Root data-slot="select" data-chrome={chrome} {...props} />
+    </SelectChromeContext>
+  );
 }
 
 export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props> & DataAttributes;
@@ -161,7 +210,8 @@ export function SelectTrigger({
   ...props
 }: SelectTriggerProps) {
   const theme = useThemeFamily();
-  const { trigger } = select({ theme });
+  const chrome = useSelectChrome();
+  const { trigger } = select({ theme, chrome });
 
   return (
     <BaseSelect.Trigger
@@ -297,7 +347,8 @@ export type SelectItemProps = StyledProps<BaseSelect.Item.Props>;
 
 export function SelectItem({ className, ...props }: SelectItemProps) {
   const theme = useThemeFamily();
-  const { item } = select({ theme });
+  const chrome = useSelectChrome();
+  const { item } = select({ theme, chrome });
   return <BaseSelect.Item data-slot="select-item" className={item({ className })} {...props} />;
 }
 
