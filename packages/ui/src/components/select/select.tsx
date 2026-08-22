@@ -55,18 +55,6 @@ const select = tv({
     empty: ["px-3 py-4 text-center text-sm"],
   },
   variants: {
-    // `field` makes a Select carry the declared field metric axis instead of the
-    // Button size scale it is built on. Trigger and options share font-size,
-    // weight and line-height so a value does not change size when the list
-    // opens; their height and padding stay separate, because a list row is not
-    // a control and must not be stretched to the field's height.
-    chrome: {
-      default: {},
-      field: {
-        trigger: ["h-auto px-3 py-2 text-field font-field"],
-        item: ["text-field font-field"],
-      },
-    },
     theme: {
       brutal: {
         trigger: [
@@ -148,6 +136,18 @@ const select = tv({
         separator: ["hidden bg-line-hairline"],
         scrollArrow: ["bg-layer-popover text-foreground-placeholder hover:text-foreground-muted"],
         empty: ["text-foreground-muted"],
+      },
+    },
+    // `field` makes a Select carry the declared field metric axis instead of the
+    // Button size scale it is built on. Trigger and options share font-size,
+    // weight and line-height so a value does not change size when the list
+    // opens; their height and padding stay separate, because a list row is not
+    // a control and must not be stretched to the field's height.
+    chrome: {
+      default: {},
+      field: {
+        trigger: ["h-auto px-3 py-2 text-field font-field"],
+        item: ["text-field font-field"],
       },
     },
   },
