@@ -124,6 +124,17 @@ export const buttonVariants = tv({
           "**:data-icon:size-[1em]",
         ],
       },
+      // An inline action lives inside a line of text, so it takes that text's
+      // font-size and line-height rather than a box from this scale, and sits
+      // on the baseline so it cannot change the line's height. Every other
+      // entry here sets a fixed height; that is right for a button and wrong
+      // for something that is semantically a word in a sentence.
+      inline: {
+        root: [
+          "h-auto gap-1 p-0 align-baseline leading-[inherit] whitespace-normal",
+          "**:data-icon:size-[1em]",
+        ],
+      },
       "icon-xs": { root: ["size-6 p-0 text-[11px]", "[&_svg:not([class*='size-'])]:size-3"] },
       "icon-sm": { root: ["size-7 p-0 text-xs", "[&_svg:not([class*='size-'])]:size-3.5"] },
       "icon-md": { root: "size-8 p-0 text-sm" },
