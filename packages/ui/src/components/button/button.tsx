@@ -131,7 +131,11 @@ export const buttonVariants = tv({
       // for something that is semantically a word in a sentence.
       inline: {
         root: [
-          "h-auto gap-1 p-0 align-baseline leading-[inherit] whitespace-normal",
+          // `border-0` is not cosmetic: with `h-auto` the box is content plus
+          // border, so a theme's `border-2` alone still yields 24px line-height
+          // + 4px = the 28px button box this size exists to remove. Dropping the
+          // height class is not sufficient.
+          "h-auto gap-1 border-0 p-0 align-baseline leading-[inherit] whitespace-normal",
           "**:data-icon:size-[1em]",
         ],
       },
