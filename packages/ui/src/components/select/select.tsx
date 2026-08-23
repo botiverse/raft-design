@@ -146,8 +146,17 @@ const select = tv({
     chrome: {
       default: {},
       field: {
-        trigger: ["h-auto px-3 py-2 text-field font-field"],
-        item: ["text-field font-field"],
+        // The theme layers do not keep typography on the trigger/item element
+        // alone: elegant pushes weight down onto `button-content` /
+        // `select-value`, and brutal pushes it onto `select-item-text`. Those
+        // are descendant selectors, so they outrank a plain `font-field` on the
+        // ancestor no matter how tailwind-merge resolves. The axis therefore has
+        // to restate itself at the same targets to win.
+        trigger: [
+          "h-auto px-3 py-2 text-field font-field",
+          "**:data-[slot='button-content']:font-field **:data-[slot='select-value']:font-field",
+        ],
+        item: ["text-field font-field", "**:data-[slot='select-item-text']:font-field"],
       },
     },
   },
