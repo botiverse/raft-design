@@ -95,13 +95,21 @@ test("D1 elegant: the option keeps the field size and drops the theme's", () => 
   expect(cls("item")).not.toContain("text-[13px]");
 });
 
-test("D2 elegant: the axis reaches the descendant that actually carries the text", () => {
+test("D2 elegant: the axis reaches BOTH descendants that carry trigger text", () => {
   renderFieldSelect("elegant");
-  // The theme declares weight on select-value, not on the trigger. An
-  // ancestor-level `font-field` loses to it on specificity no matter how the
-  // merge resolves, so the override must exist at the same target.
+  // The theme declares weight on select-value AND button-content, not on the
+  // trigger. An ancestor-level `font-field` loses to either on specificity no
+  // matter how the merge resolves, so the override must exist at both targets.
+  //
+  // Both are asserted because the implementation overrides both: pinning only
+  // one lets the other silently regress. Verified by mutation — deleting just
+  // the button-content override left this suite green when it only checked
+  // select-value (@Dozy, review of 89f72133), which is the same shape of gap
+  // these tests exist to catch.
   expect(cls("trigger")).toContain("**:data-[slot='select-value']:font-field");
   expect(cls("trigger")).not.toContain("**:data-[slot='select-value']:font-medium");
+  expect(cls("trigger")).toContain("**:data-[slot='button-content']:font-field");
+  expect(cls("trigger")).not.toContain("**:data-[slot='button-content']:font-medium");
 });
 
 test("D2 brutal: the axis reaches the option's text element", () => {
@@ -134,4 +142,33 @@ test("default chrome is untouched: it keeps the theme's own declarations", () =>
   expect(cls("trigger")).toContain("text-sm");
   expect(cls("item")).toContain("text-xs");
   expect(cls("item")).not.toContain("text-field");
+  // D2's competitor must also still be here. Without this, deleting the theme's
+  // own descendant declarations would leave every D2 absence assertion green —
+  // they would be passing because the competitor no longer exists, not because
+  // the axis beat it.
+  expect(cls("item")).toContain("**:data-[slot='select-item-text']:font-bold");
+});
+
+test("default chrome elegant: the theme's trigger descendants keep their weight", () => {
+  // Same counterweight, elegant side. The D2 elegant absences above are only
+  // meaningful while these two declarations exist to be overridden.
+  render(
+    <ThemeProvider theme="elegant">
+      <Select defaultOpen>
+        <SelectTrigger data-testid="trigger">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectList>
+            <SelectItem value="a" data-testid="item">
+              Option A
+            </SelectItem>
+          </SelectList>
+        </SelectContent>
+      </Select>
+    </ThemeProvider>,
+  );
+  expect(cls("trigger")).toContain("**:data-[slot='select-value']:font-medium");
+  expect(cls("trigger")).toContain("**:data-[slot='button-content']:font-medium");
+  expect(cls("trigger")).not.toContain("text-field");
 });
