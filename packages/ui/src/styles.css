@@ -219,11 +219,13 @@
      field it belongs to. Three components, three different sizes for the same
      value.
 
-     Consumers: `Input`, the field variant of `SelectTrigger`, and Select popup
-     options. Options share font-size/weight/line-height with the trigger so a
-     value does not change size when the list opens; their height and padding
-     stay independent, because a list row is not a control and must not be
-     stretched to the field's height.
+     Consumers: `Input`, `Textarea`, the field variant of `SelectTrigger`, and
+     Select popup options. Textarea shares the Input typography contract while
+     retaining its independent min-height and resize behavior. Options share
+     font-size/weight/line-height with the trigger so a value does not change
+     size when the list opens; their height and padding stay independent,
+     because a list row is not a control and must not be stretched to the
+     field's height.
 
      Raft's Select contract, not an industry rule — both conventions exist. */
   --text-field: var(--field-font-size);
