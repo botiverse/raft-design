@@ -69,7 +69,7 @@ const select = tv({
         ],
         item: [
           "border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground-strong last:border-b-0",
-          "[&_[data-slot='select-item-text']]:font-bold",
+          "**:data-[slot='select-item-text']:font-bold",
           "hover:bg-primary/30 data-highlighted:bg-primary/30",
           "data-selected:bg-layer-popover data-selected:hover:bg-primary/30 data-[selected][data-highlighted]:bg-primary/30",
           "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
@@ -104,7 +104,7 @@ const select = tv({
           "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
           "hover:bg-ink-2 active:scale-100",
           "focus-visible:ring-1 focus-visible:ring-primary-400",
-          "[&_[data-slot='button-content']]:font-medium [&_[data-slot='select-value']]:font-medium",
+          "**:data-[slot='button-content']:font-medium **:data-[slot='select-value']:font-medium",
         ],
         content: ["rounded-md bg-layer-popover", "shadow-raft-lg"],
         list: ["flex flex-col gap-0.5 px-1 py-1"],
@@ -146,8 +146,17 @@ const select = tv({
     chrome: {
       default: {},
       field: {
-        trigger: ["h-auto px-3 py-2 text-field font-field"],
-        item: ["text-field font-field"],
+        // The theme layers do not keep typography on the trigger/item element
+        // alone: elegant pushes weight down onto `button-content` /
+        // `select-value`, and brutal pushes it onto `select-item-text`. Those
+        // are descendant selectors, so they outrank a plain `font-field` on the
+        // ancestor no matter how tailwind-merge resolves. The axis therefore has
+        // to restate itself at the same targets to win.
+        trigger: [
+          "h-auto px-3 py-2 text-field font-field",
+          "**:data-[slot='button-content']:font-field **:data-[slot='select-value']:font-field",
+        ],
+        item: ["text-field font-field", "**:data-[slot='select-item-text']:font-field"],
       },
     },
   },
