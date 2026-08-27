@@ -87,7 +87,7 @@ export const badge = tv({
     {
       theme: "brutal",
       uppercase: true,
-      class: { root: "uppercase tracking-wide" },
+      class: { root: "uppercase tracking-wide pt-px" },
     },
     {
       theme: "brutal",
