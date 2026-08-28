@@ -33,8 +33,8 @@ export const card = tv({
   variants: {
     theme: {
       brutal: {
-        leading: ["min-h-5"],
-        title: ["font-heading text-lg leading-5 font-bold"],
+        leading: ["min-h-(--card-title-line-height)"],
+        title: ["font-heading text-card-title font-card-title"],
         description: ["font-sans text-sm leading-5 text-foreground-strong/60"],
         footer: [
           "flex-nowrap items-center",
@@ -44,8 +44,8 @@ export const card = tv({
         ],
       },
       elegant: {
-        leading: ["min-h-[22px]"],
-        title: ["font-sans text-base leading-[22px] font-medium"],
+        leading: ["min-h-(--card-title-line-height)"],
+        title: ["font-sans text-card-title font-card-title"],
         description: [
           "font-sans text-xs leading-4 tracking-[0.01em] text-pretty",
           "text-foreground-muted",
