@@ -17,7 +17,7 @@ if (typeof window.matchMedia !== "function") {
   })) as unknown as typeof window.matchMedia;
 }
 
-function renderBanner(theme: "brutal" | "elegant", status: "warning" | "pending" | "info") {
+function renderBanner(theme: "brutal" | "elegant", status: "warning" | "info") {
   return render(
     <ThemeProvider theme={theme}>
       <Banner status={status} data-testid="banner">
@@ -38,40 +38,25 @@ test("brutal warning uses orange, not yellow", () => {
   expect(c).not.toContain("yellow");
 });
 
-test("brutal pending uses yellow, not orange", () => {
-  renderBanner("brutal", "pending");
+test("brutal info uses yellow, not orange or cyan", () => {
+  renderBanner("brutal", "info");
   const c = cls();
   expect(c).toContain("yellow");
   expect(c).not.toContain("orange");
+  expect(c).not.toContain("info-soft");
 });
 
-test("elegant warning bg hue is ~50 (orange), not ~103 (yellow-green)", () => {
+test("elegant warning bg hue is ~50 (orange), not ~103 or ~220", () => {
   renderBanner("elegant", "warning");
   const c = cls();
   expect(c).toMatch(/oklch\([^)]*_50[)/]/);
   expect(c).not.toMatch(/oklch\([^)]*103/);
 });
 
-test("elegant pending bg hue is ~103 (yellow-green)", () => {
-  renderBanner("elegant", "pending");
-  const c = cls();
-  expect(c).toMatch(/oklch\([^)]*103/);
-  expect(c).not.toMatch(/oklch\([^)]*_50[)/]/);
-});
-
-test("brutal info uses info-soft, not orange or yellow", () => {
-  renderBanner("brutal", "info");
-  const c = cls();
-  expect(c).toContain("info-soft");
-  expect(c).not.toContain("orange");
-  expect(c).not.toContain("yellow");
-});
-
-test("elegant info uses info-soft and hue 220, not hue 50 or 103", () => {
+test("elegant info uses info-soft and hue 220, not hue 50", () => {
   renderBanner("elegant", "info");
   const c = cls();
   expect(c).toContain("info-soft");
   expect(c).toMatch(/oklch\([^)]*220/);
   expect(c).not.toMatch(/oklch\([^)]*_50[)/]/);
-  expect(c).not.toMatch(/oklch\([^)]*103/);
 });

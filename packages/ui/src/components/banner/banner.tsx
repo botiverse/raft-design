@@ -100,7 +100,6 @@ const banner = tv({
       default: {},
       destructive: {},
       warning: {},
-      pending: {},
       info: {},
       success: {},
     },
@@ -117,8 +116,7 @@ const banner = tv({
     { theme: "brutal", status: "default", class: { root: "bg-layer-panel" } },
     { theme: "brutal", status: "destructive", class: { root: "bg-danger-soft" } },
     { theme: "brutal", status: "warning", class: { root: "bg-(--color-brutal-orange-100)" } },
-    { theme: "brutal", status: "pending", class: { root: "bg-(--color-brutal-yellow-100)" } },
-    { theme: "brutal", status: "info", class: { root: "bg-info-soft" } },
+    { theme: "brutal", status: "info", class: { root: "bg-(--color-brutal-yellow-100)" } },
     { theme: "brutal", status: "success", class: { root: "bg-(--color-brutal-lime-100)" } },
     {
       theme: "brutal",
@@ -160,13 +158,6 @@ const banner = tv({
       status: "warning",
       class: {
         root: "bg-[oklch(0.955_0.035_50)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)] dark:bg-[oklch(0.5_0.08_50/0.18)] dark:text-[oklch(0.82_0.12_61.907)] dark:[&>svg]:text-[oklch(0.82_0.12_61.907)]",
-      },
-    },
-    {
-      theme: "elegant",
-      status: "pending",
-      class: {
-        root: "bg-[oklch(0.973_0.071_103.193)] dark:bg-[oklch(0.52_0.09_103.193/0.18)]",
       },
     },
     {
