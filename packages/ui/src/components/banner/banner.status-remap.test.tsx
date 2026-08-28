@@ -17,7 +17,7 @@ if (typeof window.matchMedia !== "function") {
   })) as unknown as typeof window.matchMedia;
 }
 
-function renderBanner(theme: "brutal" | "elegant", status: "warning" | "pending") {
+function renderBanner(theme: "brutal" | "elegant", status: "warning" | "pending" | "info") {
   return render(
     <ThemeProvider theme={theme}>
       <Banner status={status} data-testid="banner">
@@ -57,4 +57,21 @@ test("elegant pending bg hue is ~103 (yellow-green)", () => {
   const c = cls();
   expect(c).toMatch(/oklch\([^)]*103/);
   expect(c).not.toMatch(/oklch\([^)]*_50[)/]/);
+});
+
+test("brutal info uses info-soft, not orange or yellow", () => {
+  renderBanner("brutal", "info");
+  const c = cls();
+  expect(c).toContain("info-soft");
+  expect(c).not.toContain("orange");
+  expect(c).not.toContain("yellow");
+});
+
+test("elegant info uses info-soft and hue 220, not hue 50 or 103", () => {
+  renderBanner("elegant", "info");
+  const c = cls();
+  expect(c).toContain("info-soft");
+  expect(c).toMatch(/oklch\([^)]*220/);
+  expect(c).not.toMatch(/oklch\([^)]*_50[)/]/);
+  expect(c).not.toMatch(/oklch\([^)]*103/);
 });
