@@ -18,8 +18,8 @@ const banner = tv({
     theme: {
       brutal: {
         root: [
-          "grid-cols-[0_minmax(0,1fr)] items-center border-2 border-line-strong",
-          "has-[>[data-slot=banner-action]]:grid-cols-[0_minmax(0,1fr)_auto]",
+          "grid-cols-[minmax(0,1fr)] items-center border-2 border-line-strong",
+          "has-[>[data-slot=banner-action]]:grid-cols-[minmax(0,1fr)_auto]",
           "has-[>svg]:grid-cols-[18px_minmax(0,1fr)]",
           "has-[>[data-slot=status]]:grid-cols-[auto_minmax(0,1fr)]",
           "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
@@ -33,15 +33,23 @@ const banner = tv({
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:*:data-[slot=banner-action]:row-span-2",
         ],
         title: [
-          "col-start-2 row-start-1 mb-0.5 text-sm font-bold",
+          "col-start-1 row-start-1 mb-0.5 text-sm font-bold",
+          "group-has-[>svg]/banner:col-start-2",
+          "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-data-[size=sm]/banner:text-xs",
         ],
         description: [
-          "col-start-2 row-start-1 text-sm leading-5 text-foreground",
+          "col-start-1 row-start-1 text-sm leading-5 text-foreground",
+          "group-has-[>svg]/banner:col-start-2",
+          "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
         ],
-        action: ["col-start-3 row-start-1 flex items-center"],
+        action: [
+          "col-start-2 row-start-1 flex items-center",
+          "group-has-[>svg]/banner:col-start-3",
+          "group-has-[>[data-slot=status]]/banner:col-start-3",
+        ],
       },
       elegant: {
         root: [
@@ -157,7 +165,7 @@ const banner = tv({
       theme: "elegant",
       status: "warning",
       class: {
-        root: "bg-[oklch(0.955_0.035_50)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)] dark:bg-[oklch(0.5_0.08_50/0.18)] dark:text-[oklch(0.82_0.12_61.907)] dark:[&>svg]:text-[oklch(0.82_0.12_61.907)]",
+        root: "bg-[oklch(0.955_0.035_50)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)] [&_button]:text-current dark:bg-[oklch(0.5_0.08_50/0.18)] dark:text-[oklch(0.82_0.12_61.907)] dark:[&>svg]:text-[oklch(0.82_0.12_61.907)]",
       },
     },
     {
@@ -263,6 +271,7 @@ export function BannerDescription({ render, className, ...props }: BannerDescrip
   });
 }
 
+// Text actions use Button size="inline" inside BannerDescription, not here.
 export type BannerActionProps = Omit<useRender.ComponentProps<"div">, "align">;
 
 export function BannerAction({ render, className, ...props }: BannerActionProps) {
