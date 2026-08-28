@@ -7,7 +7,7 @@ import {
   Button,
   type BannerProps,
 } from "raft-ui";
-import { CircleAlert, CircleCheck, CircleX, Info, X } from "lucide-react";
+import { CircleAlert, CircleCheck, CircleX, Clock, Info, X } from "lucide-react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
@@ -19,6 +19,7 @@ const STATUS_ICON = {
   default: Info,
   destructive: CircleX,
   warning: CircleAlert,
+  pending: Clock,
   info: Info,
   success: CircleCheck,
 } as const;

@@ -100,6 +100,7 @@ const banner = tv({
       default: {},
       destructive: {},
       warning: {},
+      pending: {},
       info: {},
       success: {},
     },
@@ -115,7 +116,8 @@ const banner = tv({
   compoundVariants: [
     { theme: "brutal", status: "default", class: { root: "bg-layer-panel" } },
     { theme: "brutal", status: "destructive", class: { root: "bg-danger-soft" } },
-    { theme: "brutal", status: "warning", class: { root: "bg-(--color-brutal-yellow-100)" } },
+    { theme: "brutal", status: "warning", class: { root: "bg-(--color-brutal-orange-100)" } },
+    { theme: "brutal", status: "pending", class: { root: "bg-(--color-brutal-yellow-100)" } },
     { theme: "brutal", status: "info", class: { root: "bg-info-soft" } },
     { theme: "brutal", status: "success", class: { root: "bg-(--color-brutal-lime-100)" } },
     {
@@ -153,12 +155,18 @@ const banner = tv({
         root: "bg-[oklch(0.94_0.035_153.079)] dark:bg-[oklch(0.5_0.12_153/0.18)] [&>svg]:text-success",
       },
     },
-    /* Tuned warm-hue warning optics (hue 61.9), intentionally warmer than the warning family. */
     {
       theme: "elegant",
       status: "warning",
       class: {
-        root: "bg-[oklch(0.973_0.071_103.193)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)] dark:bg-[oklch(0.52_0.09_103.193/0.18)] dark:text-[oklch(0.82_0.12_61.907)] dark:[&>svg]:text-[oklch(0.82_0.12_61.907)]",
+        root: "bg-[oklch(0.955_0.035_50)] text-[oklch(0.476_0.114_61.907)] [&>svg]:text-[oklch(0.476_0.114_61.907)] dark:bg-[oklch(0.5_0.08_50/0.18)] dark:text-[oklch(0.82_0.12_61.907)] dark:[&>svg]:text-[oklch(0.82_0.12_61.907)]",
+      },
+    },
+    {
+      theme: "elegant",
+      status: "pending",
+      class: {
+        root: "bg-[oklch(0.973_0.071_103.193)] dark:bg-[oklch(0.52_0.09_103.193/0.18)]",
       },
     },
     {
