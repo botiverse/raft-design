@@ -4,7 +4,7 @@
 import { afterEach, expect, test } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import { Banner, BannerDescription } from "./banner";
+import { Banner, BannerDescription, type BannerStatus } from "./banner";
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({
@@ -30,6 +30,11 @@ function renderBanner(theme: "brutal" | "elegant", status: "warning" | "info") {
 const cls = () => screen.getByTestId("banner").className;
 
 afterEach(cleanup);
+
+test("pending is not a valid BannerStatus", () => {
+  const _check: "pending" extends BannerStatus ? never : true = true;
+  expect(_check).toBe(true);
+});
 
 test("brutal warning uses orange, not yellow", () => {
   renderBanner("brutal", "warning");
