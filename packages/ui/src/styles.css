@@ -231,6 +231,17 @@
   --text-field: var(--field-font-size);
   --text-field--line-height: var(--field-line-height);
   --font-weight-field: var(--field-font-weight);
+  /* ─── Card-title metric axis ────────────────────────────────────────────────
+     Same pattern as the field axis, for CardTitle. Consumers that vertically
+     align a control (radio, checkbox) with a card title need the title's
+     line-height to size the alignment container — without it, the value must
+     be hard-coded per theme and drifts when the title recipe changes.
+
+     Consumers: `CardTitle`, plus any composition that lays a control beside a
+     card title (radio-card, checkbox-card patterns in Slock — 6 callsites). */
+  --text-card-title: var(--card-title-font-size);
+  --text-card-title--line-height: var(--card-title-line-height);
+  --font-weight-card-title: var(--card-title-font-weight);
 }
 
 /* Raw brutal ramps — variables only, no utility registration. Consumed by the
@@ -493,6 +504,10 @@
   --field-font-size: 16px;
   --field-font-weight: 400;
   --field-line-height: 24px;
+  /* Card-title metrics — see the Card-title metric axis note in @theme inline. */
+  --card-title-font-size: 18px;
+  --card-title-font-weight: 700;
+  --card-title-line-height: 20px;
 }
 
 [data-theme="elegant"] {
@@ -585,6 +600,10 @@
   --field-font-size: 14px;
   --field-font-weight: 400;
   --field-line-height: 20px;
+  /* Card-title metrics — see the Card-title metric axis note in @theme inline. */
+  --card-title-font-size: 16px;
+  --card-title-font-weight: 500;
+  --card-title-line-height: 22px;
 }
 
 /* Native controls, scrollbars, and portaled scopes follow the stamped class even
