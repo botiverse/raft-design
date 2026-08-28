@@ -1,9 +1,9 @@
 import { useState, type ReactNode } from "react";
-import { Avatar, AvatarBadge, Status, type AvatarProps } from "raft-ui";
+import { Avatar, AvatarBadge, Status, type AvatarProps, type StatusProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
-import { SIZE_OPTIONS, TYPES } from "./avatar.constants.ts";
+import { SIZE_OPTIONS, STATUS_SIZE_OPTIONS, TYPES } from "./avatar.constants.ts";
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
@@ -18,6 +18,7 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
   const [size, setSize] = useState<NonNullable<AvatarProps["size"]>>("lg");
   const [type, setType] = useState<NonNullable<AvatarProps["type"]>>("agent");
   const [badge, setBadge] = useState<BadgeOption>("status");
+  const [statusSize, setStatusSize] = useState<NonNullable<StatusProps["size"]>>("lg");
   const [pulse, setPulse] = useState(false);
 
   return (
@@ -26,7 +27,9 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
         <Avatar size={size} type={type}>
           {badge === "dot" ? <AvatarBadge /> : null}
           {badge === "status" ? (
-            <AvatarBadge render={<Status aria-hidden variant="success" pulse={pulse} />} />
+            <AvatarBadge
+              render={<Status aria-hidden variant="success" size={statusSize} pulse={pulse} />}
+            />
           ) : null}
         </Avatar>
       </Preview.Canvas>
@@ -56,6 +59,15 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
             options={BADGE_OPTIONS}
             value={badge}
             onValueChange={(value) => setBadge(value as BadgeOption)}
+          />
+        </Preview.Control>
+        <Preview.Control label="Status size" htmlFor="avatar-preview-status-size">
+          <Preview.Select
+            id="avatar-preview-status-size"
+            label="Status size"
+            options={STATUS_SIZE_OPTIONS}
+            value={statusSize}
+            onValueChange={(value) => setStatusSize(value as NonNullable<StatusProps["size"]>)}
           />
         </Preview.Control>
         <Preview.Control label="Pulse" htmlFor="avatar-preview-pulse">

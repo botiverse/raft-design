@@ -41,7 +41,7 @@ const AVATAR_PHOTOS = [
   "https://unsplash.com/photos/8CEKQlmnf50/download?force=true&w=160&h=160&fit=crop&crop=faces",
 ] as const;
 
-// Representative steps for the badge auto-scale demo (badges below sm render as dots).
+// Representative steps for the default badge auto-scale demo (badges below sm render as dots).
 const BADGE_SCALE_SIZES = ["xl", "lg", "md", "sm"] as const;
 
 const SOURCE_SIZE_ROWS = [
@@ -152,7 +152,8 @@ const SOURCE_DIFFERENCE_ROWS = [
   {
     area: "Inner sizing",
     source: "Each context carries separate agent pixel, gravatar, and placeholder icon numbers.",
-    current: "Fallback, icon, badge, and border scale from the parent size.",
+    current:
+      "Fallback, icon, default badge, and border scale from the parent; custom indicators own their size.",
   },
   {
     area: "Theme surface",
@@ -216,7 +217,7 @@ import { Check } from "lucide-react";
   <Avatar size="xl" type="agent">
     <AvatarImage src={avatarPhotoUrls[0]} alt="Nova" />
     <AvatarFallback />
-    <AvatarBadge render={<Status aria-hidden variant="success" pulse />} />
+    <AvatarBadge render={<Status aria-hidden variant="success" size="lg" pulse />} />
   </Avatar>
 </div>
 
@@ -301,13 +302,13 @@ const AVATAR_BADGE_PROPS: readonly PropRow[] = [
     name: "render",
     type: "useRender render prop",
     description:
-      "Optional element override. Default is the solid dot; pass render={<Status … />} for activity/presence chrome.",
+      'Optional element override. Default is the solid dot; pass render={<Status size="…" … />} for a custom-sized activity/presence indicator.',
   },
   {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
     description:
-      "Corner shell on the avatar. The default dot and custom renders auto-scale from the parent size.",
+      "Corner placement on the avatar. The default dot auto-scales from the parent; a custom render owns its visual size.",
   },
 ];
 
@@ -412,11 +413,10 @@ function AvatarDoc() {
 
           <DocSubsection parentId="usage" id="badge" title="Badge">
             <DocNote>
-              The default dot and custom indicator both auto-scale with the avatar&apos;s{" "}
-              <InlineCode>size</InlineCode>. Pass <InlineCode>{`render={<Status />}`}</InlineCode>{" "}
-              when the indicator needs
-              <InlineCode>Status</InlineCode> variants or pulse — <InlineCode>Status</InlineCode>{" "}
-              only owns its color and behavior.
+              The default dot auto-scales with the avatar&apos;s <InlineCode>size</InlineCode>. A
+              custom indicator keeps its own visual size; pass
+              <InlineCode>{`render={<Status size="lg" />}`}</InlineCode> when the indicator needs an
+              explicit <InlineCode>Status</InlineCode> size, variant, or pulse.
             </DocNote>
             <Preview previewClassName="!min-h-56 flex-col gap-8">
               <Preview.Canvas>
@@ -438,7 +438,7 @@ function AvatarDoc() {
                     <AvatarFallback />
                     <AvatarBadge
                       title="Working"
-                      render={<Status aria-hidden variant="success" pulse />}
+                      render={<Status aria-hidden variant="success" size="lg" pulse />}
                     />
                   </Avatar>
                 </div>

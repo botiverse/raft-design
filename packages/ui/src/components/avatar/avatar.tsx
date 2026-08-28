@@ -25,10 +25,12 @@ import type { StyledProps } from "../../lib/styled-props";
 // (18), and 3xs inline preview chips (14). One-off source contexts such as
 // account-tile, members-row, and creator-link no longer get public size names.
 // Brutal border weight follows size: >=32px frames use `border-2`, smaller ones
-// `AvatarFallback` / `AvatarBadge` auto-scale to the parent via its `data-size` +
-// `group/avatar` hook when using the default dot; keep their per-step selectors
-// in sync with the `size` scale. `AvatarBadge` is a useRender shell — pass
-// `render={<Status />}` for activity chrome without the default dot styles.
+// `AvatarFallback` and the default `AvatarBadge` dot auto-scale to the parent
+// via its `data-size` + `group/avatar` hook; keep their per-step selectors in
+// sync with the `size` scale. `AvatarBadge` is a useRender shell: its `badge`
+// slot owns only placement, while the default `dot` owns inherited sizing.
+// This keeps a custom rendered indicator's props authoritative.
+
 const avatar = tv({
   slots: {
     root: ["group/avatar relative flex shrink-0 items-center justify-center select-none"],
@@ -44,10 +46,13 @@ const avatar = tv({
       "group-data-[size=2xs]/avatar:[&>svg]:size-2.5",
       "group-data-[size=3xs]/avatar:[&>svg]:size-2.5",
     ],
-    // The corner shell owns placement and scale. The default dot only adds
-    // its visual chrome; custom indicators inherit this same size mapping.
-    badge: [
-      "absolute z-10 size-2 select-none",
+    // Placement props are safe to compose into either the default tag or a
+    // custom render. Visual size belongs to the rendered content.
+    badge: ["absolute z-10 select-none"],
+    // The built-in dot falls back to the parent avatar's scale. These classes
+    // must not be merged into a custom rendered indicator.
+    dot: [
+      "inline-flex size-2 items-center justify-center rounded-full outline-2 outline-white",
       "group-data-[size=xl]/avatar:size-3.5",
       "group-data-[size=lg]/avatar:size-3",
       "group-data-[size=md]/avatar:size-2.5",
@@ -55,9 +60,6 @@ const avatar = tv({
       "group-data-[size=xs]/avatar:size-1.5",
       "group-data-[size=2xs]/avatar:size-1.5",
       "group-data-[size=3xs]/avatar:size-1.5",
-    ],
-    dot: [
-      "inline-flex items-center justify-center rounded-full outline-2 outline-white",
       "[&>svg]:hidden",
       "group-data-[size=xl]/avatar:[&>svg]:size-2 group-data-[size=xl]/avatar:[&>svg]:block",
       "group-data-[size=lg]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:[&>svg]:block",
@@ -382,8 +384,8 @@ export function AvatarFallback({ className, children, ...props }: AvatarFallback
 
 export type AvatarBadgeProps = useRender.ComponentProps<"span">;
 
-// Corner presence shell. The parent avatar owns placement and size; the default
-// dot or a custom render only supplies the visual state.
+// Corner presence shell. The parent avatar owns placement and the default dot's
+// responsive size; a custom render keeps its own visual size.
 export function AvatarBadge({ className, render, ...props }: AvatarBadgeProps) {
   const theme = useThemeFamily();
   const { badge, dot } = avatar({ theme });
