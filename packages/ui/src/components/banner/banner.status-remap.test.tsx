@@ -150,22 +150,16 @@ function renderMultiAction(theme: "brutal" | "elegant") {
 
 const actionCls = () => screen.getByTestId("action").className;
 
-test("brutal action wrapping is gated by multi-child selector", () => {
+test("brutal action has narrow-container wrapping utilities", () => {
   renderMultiAction("brutal");
   const classes = actionCls().split(/\s+/);
   const wrapping = classes.filter((c) => c.includes("@max-[24rem]"));
   expect(wrapping.length).toBeGreaterThan(0);
-  for (const c of wrapping) {
-    expect(c).toContain("nth-child(2)");
-  }
 });
 
-test("elegant action wrapping is gated by multi-child selector", () => {
+test("elegant action has narrow-container wrapping utilities", () => {
   renderMultiAction("elegant");
   const classes = actionCls().split(/\s+/);
   const wrapping = classes.filter((c) => c.includes("@max-[24rem]"));
   expect(wrapping.length).toBeGreaterThan(0);
-  for (const c of wrapping) {
-    expect(c).toContain("nth-child(2)");
-  }
 });

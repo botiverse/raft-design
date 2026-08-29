@@ -11,8 +11,14 @@ import { PropsTable, type PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { BannerPlaygroundPreview } from "#/modules/banner/banner.preview.tsx";
+import {
+  BannerDismissOnlyContent,
+  BannerDualActionContent,
+  BannerSingleActionContent,
+} from "#/modules/banner/compositions/action-variants.composition.tsx";
 import bannerPreviewCompositionSource from "#/modules/banner/compositions/preview.composition.tsx?raw";
 import bannerActionCompositionSource from "#/modules/banner/compositions/action.composition.tsx?raw";
+import bannerActionVariantsCompositionSource from "#/modules/banner/compositions/action-variants.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -28,6 +34,7 @@ const SIZES = ["sm", "md", "lg"] as const;
 const BANNER_COMPOSITION_RAW_SOURCES = {
   Preview: bannerPreviewCompositionSource,
   Action: bannerActionCompositionSource,
+  ActionVariants: bannerActionVariantsCompositionSource,
 } as const;
 
 const BANNER_COMPOSITION_SOURCES = createCompositionSourceMap(BANNER_COMPOSITION_RAW_SOURCES);
@@ -35,6 +42,7 @@ const BANNER_COMPOSITION_SOURCES = createCompositionSourceMap(BANNER_COMPOSITION
 const BANNER_COMPOSITION_SNIPPET_IDS = {
   Preview: "bannerPreviewComposition",
   Action: "bannerActionComposition",
+  ActionVariants: "bannerActionVariantsComposition",
 } as const;
 
 const SNIPPETS = {
@@ -326,37 +334,63 @@ function BannerDoc() {
       </DocSection>
 
       <DocSection id="actions" title="Actions" showThemeSwitcher>
-        <DocNote>
-          Text actions inside a banner use <code>Button size=&quot;inline&quot;</code> inside{" "}
-          <code>BannerDescription</code>. The inline button inherits the description&apos;s font
-          size and sits on the baseline. Other button sizes inside banner content are not supported
-          and will be addressed in raft-ui.
-        </DocNote>
-        <Preview>
-          <Preview.Canvas>
-            <div className="w-[28rem]">
-              <Banner status="warning">
-                <CircleAlert />
-                <BannerTitle>Plan limit reached</BannerTitle>
-                <BannerDescription>
-                  Remove an inactive machine before adding another.{" "}
-                  <Button variant="link" size="inline">
-                    Manage machines
-                  </Button>
-                </BannerDescription>
-                <BannerAction>
-                  <Button variant="ghost" size="icon-xs" aria-label="Dismiss">
-                    <X />
-                  </Button>
-                </BannerAction>
-              </Banner>
-            </div>
-          </Preview.Canvas>
-          <Preview.Code
-            html={code.bannerActionComposition}
-            collapsedHtml={code.bannerActionCompositionBody}
-          />
-        </Preview>
+        <div className="space-y-10">
+          <DocSubsection parentId="actions" id="action-variants" title="Button variants">
+            <DocNote>
+              A banner is never the primary action on screen, so its buttons never use{" "}
+              <code>accent</code>. Use <code>variant=&quot;default&quot;</code> for a single action
+              button. When two buttons share the slot, pair <code>variant=&quot;ghost&quot;</code>{" "}
+              (secondary) with <code>variant=&quot;default&quot;</code> (primary). A dismiss-only
+              icon button uses <code>variant=&quot;ghost&quot; size=&quot;icon-xs&quot;</code>.
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <div className="flex w-[28rem] flex-col gap-3">
+                  <BannerSingleActionContent />
+                  <BannerDualActionContent />
+                  <BannerDismissOnlyContent />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.bannerActionVariantsComposition}
+                collapsedHtml={code.bannerActionVariantsCompositionBody}
+              />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="actions" id="inline-text-actions" title="Inline text actions">
+            <DocNote>
+              Text actions inside a banner use <code>Button size=&quot;inline&quot;</code> inside{" "}
+              <code>BannerDescription</code>. The inline button inherits the description&apos;s font
+              size and sits on the baseline.
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <div className="w-[28rem]">
+                  <Banner status="warning">
+                    <CircleAlert />
+                    <BannerTitle>Plan limit reached</BannerTitle>
+                    <BannerDescription>
+                      Remove an inactive machine before adding another.{" "}
+                      <Button variant="link" size="inline">
+                        Manage machines
+                      </Button>
+                    </BannerDescription>
+                    <BannerAction>
+                      <Button variant="ghost" size="icon-xs" aria-label="Dismiss">
+                        <X />
+                      </Button>
+                    </BannerAction>
+                  </Banner>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.bannerActionComposition}
+                collapsedHtml={code.bannerActionCompositionBody}
+              />
+            </Preview>
+          </DocSubsection>
+        </div>
       </DocSection>
 
       <DocSection id="api" title="API">

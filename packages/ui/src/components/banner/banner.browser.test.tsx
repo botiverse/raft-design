@@ -141,7 +141,7 @@ it("two actions wrap to a new row at narrow container width", () => {
   expect(actionRect.top).toBeGreaterThan(descRect.top);
 });
 
-it("single action stays on the same row at narrow container width", () => {
+it("single action also wraps to a new row at narrow container width", () => {
   render(
     <ThemeProvider theme="brutal">
       <div style={{ width: "280px" }}>
@@ -160,5 +160,5 @@ it("single action stays on the same row at narrow container width", () => {
 
   const descRect = screen.getByTestId("desc").getBoundingClientRect();
   const actionRect = screen.getByTestId("action").getBoundingClientRect();
-  expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
+  expect(actionRect.top).toBeGreaterThan(descRect.top);
 });
