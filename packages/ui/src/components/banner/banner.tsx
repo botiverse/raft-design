@@ -6,7 +6,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const banner = tv({
   slots: {
     root: [
-      "group/banner grid gap-y-0",
+      "group/banner @container grid gap-y-0",
       "[&>svg]:col-start-1 [&>svg]:shrink-0",
       "*:data-[slot=status]:col-start-1 *:data-[slot=status]:row-start-1 *:data-[slot=status]:self-center",
     ],
@@ -49,6 +49,11 @@ const banner = tv({
           "col-start-2 row-start-1 flex items-center",
           "group-has-[>svg]/banner:col-start-3",
           "group-has-[>[data-slot=status]]/banner:col-start-3",
+          "has-[>:nth-child(2)]:@max-[24rem]:col-start-1 has-[>:nth-child(2)]:@max-[24rem]:-col-end-1",
+          "has-[>:nth-child(2)]:@max-[24rem]:row-start-auto has-[>:nth-child(2)]:@max-[24rem]:justify-self-end",
+          "has-[>:nth-child(2)]:@max-[24rem]:mt-2",
+          "group-has-[>svg]/banner:has-[>:nth-child(2)]:@max-[24rem]:col-start-1",
+          "group-has-[>[data-slot=status]]/banner:has-[>:nth-child(2)]:@max-[24rem]:col-start-1",
         ],
       },
       elegant: {
@@ -87,6 +92,11 @@ const banner = tv({
           "group-has-[>svg]/banner:col-start-3",
           "group-has-[>[data-slot=status]]/banner:col-start-3",
           "group-has-[>[data-slot=banner-title]+[data-slot=banner-description]]/banner:row-span-2",
+          "has-[>:nth-child(2)]:@max-[24rem]:col-start-1 has-[>:nth-child(2)]:@max-[24rem]:-col-end-1",
+          "has-[>:nth-child(2)]:@max-[24rem]:row-start-auto has-[>:nth-child(2)]:@max-[24rem]:row-span-1",
+          "has-[>:nth-child(2)]:@max-[24rem]:justify-self-end has-[>:nth-child(2)]:@max-[24rem]:mt-1",
+          "group-has-[>svg]/banner:has-[>:nth-child(2)]:@max-[24rem]:col-start-1",
+          "group-has-[>[data-slot=status]]/banner:has-[>:nth-child(2)]:@max-[24rem]:col-start-1",
           "[&>button:has(svg):last-child]:size-5 [&>button:has(svg):last-child]:min-h-5 [&>button:has(svg):last-child]:min-w-5",
           "[&>button:has(svg):last-child]:rounded-sm",
           "[&>button:has(svg):last-child]:border-transparent [&>button:has(svg):last-child]:bg-transparent [&>button:has(svg):last-child]:shadow-none",
