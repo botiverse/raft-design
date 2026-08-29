@@ -162,3 +162,52 @@ it("single action also wraps to a new row at narrow container width", () => {
   const actionRect = screen.getByTestId("action").getBoundingClientRect();
   expect(actionRect.top).toBeGreaterThan(descRect.top);
 });
+
+// --- wide container: actions stay on the description row ---
+
+it("single action stays on the description row at wide container width", () => {
+  render(
+    <ThemeProvider theme="brutal">
+      <div style={{ width: "600px" }}>
+        <Banner status="warning" data-testid="banner">
+          <BannerTitle>Title</BannerTitle>
+          <BannerDescription data-testid="desc">Description text</BannerDescription>
+          <BannerAction data-testid="action">
+            <Button variant="ghost" size="icon-xs">
+              X
+            </Button>
+          </BannerAction>
+        </Banner>
+      </div>
+    </ThemeProvider>,
+  );
+
+  const descRect = screen.getByTestId("desc").getBoundingClientRect();
+  const actionRect = screen.getByTestId("action").getBoundingClientRect();
+  expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
+});
+
+it("two actions stay on the description row at wide container width", () => {
+  render(
+    <ThemeProvider theme="brutal">
+      <div style={{ width: "600px" }}>
+        <Banner status="warning" data-testid="banner">
+          <BannerTitle>Title</BannerTitle>
+          <BannerDescription data-testid="desc">Description text</BannerDescription>
+          <BannerAction data-testid="action">
+            <Button variant="outline" size="xs">
+              A
+            </Button>
+            <Button variant="outline" size="xs">
+              B
+            </Button>
+          </BannerAction>
+        </Banner>
+      </div>
+    </ThemeProvider>,
+  );
+
+  const descRect = screen.getByTestId("desc").getBoundingClientRect();
+  const actionRect = screen.getByTestId("action").getBoundingClientRect();
+  expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
+});
