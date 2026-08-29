@@ -33,6 +33,6 @@ export default defineConfig({
     cache: true,
   },
   test: {
-    exclude: [...configDefaults.exclude, "**/.claude/worktrees/**", "**/*.browser.test.*"],
+    exclude: [...configDefaults.exclude, "**/.claude/worktrees/**"],
   },
 });

@@ -6,6 +6,8 @@ import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Banner, BannerAction, BannerDescription, BannerTitle } from "./banner";
 import { Button } from "../button/button";
 
+const it = test.skipIf(typeof window === "undefined");
+
 afterEach(cleanup);
 
 function color(el: Element): string {
@@ -14,7 +16,7 @@ function color(el: Element): string {
 
 // --- ghost indent: description left edge is consistent with/without BannerAction ---
 
-test("brutal description left edge is the same with and without BannerAction", () => {
+it("brutal description left edge is the same with and without BannerAction", () => {
   const { unmount } = render(
     <ThemeProvider theme="brutal">
       <div style={{ width: "400px" }}>
@@ -51,7 +53,7 @@ test("brutal description left edge is the same with and without BannerAction", (
 
 // --- inline button color: elegant warning description buttons inherit semantic orange ---
 
-test("elegant warning inline button inherits description color, not default foreground", () => {
+it("elegant warning inline button inherits description color, not default foreground", () => {
   render(
     <ThemeProvider theme="elegant">
       <Banner status="warning" data-testid="banner">
@@ -70,7 +72,7 @@ test("elegant warning inline button inherits description color, not default fore
   expect(btnColor).toBe(descColor);
 });
 
-test("elegant warning BannerAction button does NOT inherit description color", () => {
+it("elegant warning BannerAction button does NOT inherit description color", () => {
   render(
     <ThemeProvider theme="elegant">
       <Banner status="warning" data-testid="banner">
@@ -89,7 +91,7 @@ test("elegant warning BannerAction button does NOT inherit description color", (
   expect(actionBtnColor).not.toBe(descColor);
 });
 
-test("elegant warning description is a different color from brutal warning description", () => {
+it("elegant warning description is a different color from brutal warning description", () => {
   const { unmount } = render(
     <ThemeProvider theme="elegant">
       <Banner status="warning" data-testid="banner">
@@ -114,7 +116,7 @@ test("elegant warning description is a different color from brutal warning descr
 
 // --- narrow multi-action wrapping: 2+ actions wrap below at narrow widths ---
 
-test("two actions wrap to a new row at narrow container width", () => {
+it("two actions wrap to a new row at narrow container width", () => {
   render(
     <ThemeProvider theme="brutal">
       <div style={{ width: "280px" }}>
@@ -139,7 +141,7 @@ test("two actions wrap to a new row at narrow container width", () => {
   expect(actionRect.top).toBeGreaterThan(descRect.top);
 });
 
-test("single action stays on the same row at narrow container width", () => {
+it("single action stays on the same row at narrow container width", () => {
   render(
     <ThemeProvider theme="brutal">
       <div style={{ width: "280px" }}>
