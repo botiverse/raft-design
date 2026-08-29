@@ -87,6 +87,16 @@ test("brutal root base grid has no zero-width phantom column", () => {
   expect(c).not.toMatch(/grid-cols-\[0[_ ]/);
 });
 
+test("brutal description col-start-2 is conditional on icon or status-slot presence", () => {
+  renderWithAction("brutal", "warning");
+  const classes = screen.getByTestId("desc").className.split(/\s+/);
+  const colStart2 = classes.filter((c) => c.includes("col-start-2"));
+  expect(colStart2.length).toBeGreaterThan(0);
+  for (const c of colStart2) {
+    expect(c).toMatch(/group-has/);
+  }
+});
+
 // --- inline button color (elegant warning description) ---
 
 function renderWithInlineButton(theme: "brutal" | "elegant") {
@@ -113,6 +123,15 @@ test("brutal warning description does NOT carry button color override", () => {
   expect(descCls()).not.toContain("text-current");
 });
 
+test("elegant warning root does NOT blanket-override all button colors", () => {
+  renderWithInlineButton("elegant");
+  const rootClasses = cls().split(/\s+/);
+  const blanketButtonColor = rootClasses.filter(
+    (c) => c.includes("button") && c.includes("text-current"),
+  );
+  expect(blanketButtonColor).toHaveLength(0);
+});
+
 // --- narrow multi-action wrapping ---
 
 function renderMultiAction(theme: "brutal" | "elegant") {
@@ -131,16 +150,22 @@ function renderMultiAction(theme: "brutal" | "elegant") {
 
 const actionCls = () => screen.getByTestId("action").className;
 
-test("brutal action slot carries container-query wrapping for multi-child", () => {
+test("brutal action wrapping is gated by multi-child selector", () => {
   renderMultiAction("brutal");
-  const c = actionCls();
-  expect(c).toContain("@max-[24rem]");
-  expect(c).toContain("nth-child(2)");
+  const classes = actionCls().split(/\s+/);
+  const wrapping = classes.filter((c) => c.includes("@max-[24rem]"));
+  expect(wrapping.length).toBeGreaterThan(0);
+  for (const c of wrapping) {
+    expect(c).toContain("nth-child(2)");
+  }
 });
 
-test("elegant action slot carries container-query wrapping for multi-child", () => {
+test("elegant action wrapping is gated by multi-child selector", () => {
   renderMultiAction("elegant");
-  const c = actionCls();
-  expect(c).toContain("@max-[24rem]");
-  expect(c).toContain("nth-child(2)");
+  const classes = actionCls().split(/\s+/);
+  const wrapping = classes.filter((c) => c.includes("@max-[24rem]"));
+  expect(wrapping.length).toBeGreaterThan(0);
+  for (const c of wrapping) {
+    expect(c).toContain("nth-child(2)");
+  }
 });
