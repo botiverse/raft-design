@@ -68,7 +68,7 @@
     "@typescript/native-preview": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@vitest/browser": "4.1.10",
-    "@vitest/browser-playwright": "^4.1.10",
+    "@vitest/browser-playwright": "4.1.10",
     "jsdom": "catalog:",
     "playwright": "^1.62.1",
     "react": "catalog:",
