@@ -6,7 +6,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const banner = tv({
   slots: {
     root: [
-      "group/banner grid gap-y-0",
+      "group/banner @container grid gap-y-0",
       "[&>svg]:col-start-1 [&>svg]:shrink-0",
       "*:data-[slot=status]:col-start-1 *:data-[slot=status]:row-start-1 *:data-[slot=status]:self-center",
     ],
@@ -18,8 +18,8 @@ const banner = tv({
     theme: {
       brutal: {
         root: [
-          "grid-cols-[0_minmax(0,1fr)] items-center border-2 border-line-strong",
-          "has-[>[data-slot=banner-action]]:grid-cols-[0_minmax(0,1fr)_auto]",
+          "grid-cols-[minmax(0,1fr)] items-center border-2 border-line-strong",
+          "has-[>[data-slot=banner-action]]:grid-cols-[minmax(0,1fr)_auto]",
           "has-[>svg]:grid-cols-[18px_minmax(0,1fr)]",
           "has-[>[data-slot=status]]:grid-cols-[auto_minmax(0,1fr)]",
           "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
@@ -33,15 +33,28 @@ const banner = tv({
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:*:data-[slot=banner-action]:row-span-2",
         ],
         title: [
-          "col-start-2 row-start-1 mb-0.5 text-sm font-bold",
+          "col-start-1 row-start-1 mb-0.5 text-sm font-bold",
+          "group-has-[>svg]/banner:col-start-2",
+          "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-data-[size=sm]/banner:text-xs",
         ],
         description: [
-          "col-start-2 row-start-1 text-sm leading-5 text-foreground",
+          "col-start-1 row-start-1 text-sm leading-5 text-foreground",
+          "group-has-[>svg]/banner:col-start-2",
+          "group-has-[>[data-slot=status]]/banner:col-start-2",
           "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
         ],
-        action: ["col-start-3 row-start-1 flex items-center"],
+        action: [
+          "col-start-2 row-start-1 flex items-center",
+          "group-has-[>svg]/banner:col-start-3",
+          "group-has-[>[data-slot=status]]/banner:col-start-3",
+          "has-[>:nth-child(2)]:@max-[24rem]:col-start-1 has-[>:nth-child(2)]:@max-[24rem]:-col-end-1",
+          "has-[>:nth-child(2)]:@max-[24rem]:row-start-auto has-[>:nth-child(2)]:@max-[24rem]:justify-self-end",
+          "has-[>:nth-child(2)]:@max-[24rem]:mt-2",
+          "group-has-[>svg]/banner:has-[>:nth-child(2)]:@max-[24rem]:col-start-1",
+          "group-has-[>[data-slot=status]]/banner:has-[>:nth-child(2)]:@max-[24rem]:col-start-1",
+        ],
       },
       elegant: {
         root: [
@@ -73,12 +86,18 @@ const banner = tv({
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
           "group-data-[size=lg]/banner:text-sm group-data-[size=lg]/banner:leading-5",
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)] dark:group-data-[status=warning]/banner:text-[oklch(0.82_0.12_61.907)]",
+          "group-data-[status=warning]/banner:[&_button]:text-current",
         ],
         action: [
           "col-start-2 row-start-1 flex min-h-5 items-center gap-2",
           "group-has-[>svg]/banner:col-start-3",
           "group-has-[>[data-slot=status]]/banner:col-start-3",
           "group-has-[>[data-slot=banner-title]+[data-slot=banner-description]]/banner:row-span-2",
+          "has-[>:nth-child(2)]:@max-[24rem]:col-start-1 has-[>:nth-child(2)]:@max-[24rem]:-col-end-1",
+          "has-[>:nth-child(2)]:@max-[24rem]:row-start-auto has-[>:nth-child(2)]:@max-[24rem]:row-span-1",
+          "has-[>:nth-child(2)]:@max-[24rem]:justify-self-end has-[>:nth-child(2)]:@max-[24rem]:mt-1",
+          "group-has-[>svg]/banner:has-[>:nth-child(2)]:@max-[24rem]:col-start-1",
+          "group-has-[>[data-slot=status]]/banner:has-[>:nth-child(2)]:@max-[24rem]:col-start-1",
           "[&>button:has(svg):last-child]:size-5 [&>button:has(svg):last-child]:min-h-5 [&>button:has(svg):last-child]:min-w-5",
           "[&>button:has(svg):last-child]:rounded-sm",
           "[&>button:has(svg):last-child]:border-transparent [&>button:has(svg):last-child]:bg-transparent [&>button:has(svg):last-child]:shadow-none",
@@ -263,6 +282,7 @@ export function BannerDescription({ render, className, ...props }: BannerDescrip
   });
 }
 
+// Text actions use Button size="inline" inside BannerDescription, not here.
 export type BannerActionProps = Omit<useRender.ComponentProps<"div">, "align">;
 
 export function BannerAction({ render, className, ...props }: BannerActionProps) {

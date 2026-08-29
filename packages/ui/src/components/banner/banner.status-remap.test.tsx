@@ -4,7 +4,7 @@
 import { afterEach, expect, test } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import { Banner, BannerDescription, type BannerStatus } from "./banner";
+import { Banner, BannerAction, BannerDescription, type BannerStatus } from "./banner";
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({
@@ -64,4 +64,108 @@ test("elegant info uses info-soft and hue 220, not hue 50", () => {
   expect(c).toContain("info-soft");
   expect(c).toMatch(/oklch\([^)]*220/);
   expect(c).not.toMatch(/oklch\([^)]*_50[)/]/);
+});
+
+// --- ghost indent fix (brutal grid) ---
+
+function renderWithAction(theme: "brutal" | "elegant", status: "warning" | "info") {
+  return render(
+    <ThemeProvider theme={theme}>
+      <Banner status={status} data-testid="banner">
+        <BannerDescription data-testid="desc">Test</BannerDescription>
+        <BannerAction data-testid="action">
+          <button type="button">X</button>
+        </BannerAction>
+      </Banner>
+    </ThemeProvider>,
+  );
+}
+
+test("brutal root base grid has no zero-width phantom column", () => {
+  renderWithAction("brutal", "warning");
+  const c = cls();
+  expect(c).not.toMatch(/grid-cols-\[0[_ ]/);
+});
+
+test("brutal description col-start-2 is conditional on icon or status-slot presence", () => {
+  renderWithAction("brutal", "warning");
+  const classes = screen.getByTestId("desc").className.split(/\s+/);
+  const colStart2 = classes.filter((c) => c.includes("col-start-2"));
+  expect(colStart2.length).toBeGreaterThan(0);
+  for (const c of colStart2) {
+    expect(c).toMatch(/group-has/);
+  }
+});
+
+// --- inline button color (elegant warning description) ---
+
+function renderWithInlineButton(theme: "brutal" | "elegant") {
+  return render(
+    <ThemeProvider theme={theme}>
+      <Banner status="warning" data-testid="banner">
+        <BannerDescription data-testid="desc">
+          Text <button type="button">Link</button>
+        </BannerDescription>
+      </Banner>
+    </ThemeProvider>,
+  );
+}
+
+const descCls = () => screen.getByTestId("desc").className;
+
+test("elegant warning description carries button color override", () => {
+  renderWithInlineButton("elegant");
+  expect(descCls()).toContain("text-current");
+});
+
+test("brutal warning description does NOT carry button color override", () => {
+  renderWithInlineButton("brutal");
+  expect(descCls()).not.toContain("text-current");
+});
+
+test("elegant warning root does NOT blanket-override all button colors", () => {
+  renderWithInlineButton("elegant");
+  const rootClasses = cls().split(/\s+/);
+  const blanketButtonColor = rootClasses.filter(
+    (c) => c.includes("button") && c.includes("text-current"),
+  );
+  expect(blanketButtonColor).toHaveLength(0);
+});
+
+// --- narrow multi-action wrapping ---
+
+function renderMultiAction(theme: "brutal" | "elegant") {
+  return render(
+    <ThemeProvider theme={theme}>
+      <Banner status="warning" data-testid="banner">
+        <BannerDescription>Test</BannerDescription>
+        <BannerAction data-testid="action">
+          <button type="button">A</button>
+          <button type="button">B</button>
+        </BannerAction>
+      </Banner>
+    </ThemeProvider>,
+  );
+}
+
+const actionCls = () => screen.getByTestId("action").className;
+
+test("brutal action wrapping is gated by multi-child selector", () => {
+  renderMultiAction("brutal");
+  const classes = actionCls().split(/\s+/);
+  const wrapping = classes.filter((c) => c.includes("@max-[24rem]"));
+  expect(wrapping.length).toBeGreaterThan(0);
+  for (const c of wrapping) {
+    expect(c).toContain("nth-child(2)");
+  }
+});
+
+test("elegant action wrapping is gated by multi-child selector", () => {
+  renderMultiAction("elegant");
+  const classes = actionCls().split(/\s+/);
+  const wrapping = classes.filter((c) => c.includes("@max-[24rem]"));
+  expect(wrapping.length).toBeGreaterThan(0);
+  for (const c of wrapping) {
+    expect(c).toContain("nth-child(2)");
+  }
 });

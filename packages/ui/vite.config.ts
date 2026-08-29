@@ -1,6 +1,15 @@
+import tailwindcss from "@tailwindcss/vite";
+import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
+  plugins: [tailwindcss()],
+  test: {
+    browser: {
+      provider: playwright(),
+      instances: [{ browser: "chromium" }],
+    },
+  },
   pack: {
     entry: {
       index: "src/index.ts",
