@@ -336,6 +336,7 @@ type ToastCommandOptions<Data extends object = ToastData> = Omit<
     label: ReactNode;
     onClick?: ComponentPropsWithRef<"button">["onClick"];
   };
+  contentClassName?: string;
   dismissible?: boolean;
   icon?: boolean;
 };
@@ -347,7 +348,7 @@ function addDefaultToast(
   title: string,
   options: ToastCommandOptions<ToastData> = {},
 ) {
-  const { action, dismissible, icon, priority, ...toastOptions } = options;
+  const { action, contentClassName, dismissible, icon, priority, ...toastOptions } = options;
 
   return defaultToastManager.add({
     ...toastOptions,
@@ -362,6 +363,7 @@ function addDefaultToast(
     priority: priority ?? (intent === "error" ? "high" : undefined),
     data: {
       intent,
+      contentClassName,
       hasClose: dismissible,
       hasIcon: icon,
     },
