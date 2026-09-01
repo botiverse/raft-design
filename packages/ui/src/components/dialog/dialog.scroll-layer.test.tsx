@@ -1,0 +1,133 @@
+// @ts-expect-error — CSS side-effect import for browser test only
+import "./dialog.test.css";
+import { afterEach, expect, test } from "vitest";
+import { cleanup, render, screen, act } from "@testing-library/react";
+import { ThemeProvider } from "../../lib/theme/theme-provider";
+import {
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./dialog";
+import { Button } from "../button/button";
+
+const it = test.skipIf(typeof window === "undefined");
+
+afterEach(cleanup);
+
+it("tall content stays within viewport bounds", async () => {
+  render(
+    <ThemeProvider theme="elegant">
+      <Dialog open modal={false}>
+        <DialogContent data-testid="content">
+          <DialogHeader data-testid="header">
+            <DialogTitle>Title</DialogTitle>
+            <DialogClose />
+          </DialogHeader>
+          <DialogBody data-testid="body">
+            <div style={{ height: "3000px" }}>Tall content</div>
+          </DialogBody>
+          <DialogFooter data-testid="footer">
+            <Button>OK</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+
+  await new Promise((r) => setTimeout(r, 100));
+
+  const content = screen.getByTestId("content");
+  const rect = content.getBoundingClientRect();
+
+  expect(rect.top).toBeGreaterThanOrEqual(0);
+  expect(rect.bottom).toBeLessThanOrEqual(window.innerHeight);
+});
+
+it("body is scrollable when content overflows", async () => {
+  render(
+    <ThemeProvider theme="elegant">
+      <Dialog open modal={false}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Title</DialogTitle>
+          </DialogHeader>
+          <DialogBody data-testid="body">
+            <div style={{ height: "3000px" }}>Tall content</div>
+          </DialogBody>
+          <DialogFooter>
+            <Button>OK</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+
+  await new Promise((r) => setTimeout(r, 100));
+
+  const body = screen.getByTestId("body");
+  expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+});
+
+it("header stays fixed when body is scrolled", async () => {
+  render(
+    <ThemeProvider theme="elegant">
+      <Dialog open modal={false}>
+        <DialogContent>
+          <DialogHeader data-testid="header">
+            <DialogTitle>Title</DialogTitle>
+          </DialogHeader>
+          <DialogBody data-testid="body">
+            <div style={{ height: "3000px" }}>Tall content</div>
+          </DialogBody>
+          <DialogFooter>
+            <Button>OK</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+
+  await new Promise((r) => setTimeout(r, 100));
+
+  const header = screen.getByTestId("header");
+  const body = screen.getByTestId("body");
+
+  const headerTopBefore = header.getBoundingClientRect().top;
+  act(() => {
+    body.scrollTop = 500;
+  });
+  const headerTopAfter = header.getBoundingClientRect().top;
+
+  expect(headerTopAfter).toBe(headerTopBefore);
+});
+
+it("layer=1 has higher z-index than layer=0", async () => {
+  render(
+    <ThemeProvider theme="elegant">
+      <Dialog open modal={false}>
+        <DialogContent layer={0} data-testid="outer">
+          <DialogBody>Outer</DialogBody>
+        </DialogContent>
+      </Dialog>
+      <Dialog open modal={false}>
+        <DialogContent layer={1} data-testid="inner">
+          <DialogBody>Inner</DialogBody>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+
+  await new Promise((r) => setTimeout(r, 100));
+
+  const outer = screen.getByTestId("outer");
+  const inner = screen.getByTestId("inner");
+
+  const outerZ = Number(getComputedStyle(outer).zIndex);
+  const innerZ = Number(getComputedStyle(inner).zIndex);
+
+  expect(innerZ).toBeGreaterThan(outerZ);
+});
