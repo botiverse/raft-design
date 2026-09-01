@@ -8,14 +8,20 @@ import { expect, test } from "vitest";
  * It was `oklch(0 0 0 / 0.15)`. Over the elegant light canvas — pure white —
  * that composites to roughly greyscale 217 against a 255 dialog surface: a
  * 38-level separation, which is not enough for a surface whose whole job is to
- * say "you cannot touch what is behind me". Its own dark counterpart was already
- * 0.6, so light was the outlier rather than the rule (@cindyz, 2026-09-01).
+ * say "you cannot touch what is behind me" (@cindyz, 2026-09-01).
  *
- * This is asserted against the stylesheet source rather than a rendered pixel
- * because the browser-mode tests in this package do not execute under the CI
- * command (`vp run -r test` runs the node pool, where every
- * `skipIf(typeof window === "undefined")` file skips). A computed-style version
- * of this test would look stronger and check nothing.
+ * Do NOT read the dark value as the reference this was brought into line with.
+ * Alphas are not comparable across themes, because what matters is the gap left
+ * between the dimmed canvas and the panel on top of it. Elegant dark carries a
+ * much higher 0.6, but over a canvas that is already dark (L 0.19) with a
+ * popover at 0.24 it clears roughly 0.16 — about what light had at 0.15. Dark
+ * has the same weakness wearing a bigger number, and deepening its scrim cannot
+ * fix it: even a fully opaque backdrop caps at the popover's own lightness. That
+ * is a separate change against `--layer-popover`, deliberately not bundled here.
+ *
+ * This is asserted against the stylesheet source rather than a rendered pixel so
+ * it runs on the node side with the rest of CI. A token value is a source fact,
+ * and checking it where it is written keeps the guard next to the decision.
  *
  * Scope note: `--layer-backdrop` is shared. In elegant light it also backs
  * AlertDialog, Drawer, Popover's backdrop, Lightbox and the composer drop

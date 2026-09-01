@@ -33,14 +33,13 @@ afterEach(cleanup);
 /**
  * jsdom, not the browser instance, on purpose.
  *
- * The sibling `dialog.scroll-layer.test.tsx` and `banner.browser.test.tsx` guard
- * themselves with `skipIf(typeof window === "undefined")`, which means they run
- * only under `vp test --browser`. CI runs plain `vp run -r test`, so those files
- * currently skip there — 24 tests, verified locally. Anything asserted only in
- * that style would not actually be protecting these changes. So the facts below
- * are pinned as emitted classes and attributes, which execute everywhere; the
- * resolved-pixel versions belong in the browser file and are only as good as the
- * runner that executes it.
+ * This package splits its tests deliberately: `dialog.scroll-layer.test.tsx` and
+ * `banner.browser.test.tsx` are browser-mode files, guarded by
+ * `skipIf(typeof window === "undefined")` so they run under `vp test --browser`,
+ * while CI runs the node pool via `vp run -r test`. Everything asserted below is
+ * an emitted class or attribute rather than a resolved pixel, so it belongs on
+ * the node side and runs in CI. Resolved-geometry facts belong in the browser
+ * files instead.
  */
 
 function open(theme: "brutal" | "elegant", closeProps: Record<string, unknown> = {}) {
