@@ -49,16 +49,10 @@ const dialog = tv({
       elegant: {
         overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
         content: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl"],
-        header: [
-          "border-b border-line-muted/75 bg-layer-inset px-6 py-3",
-          "dark:border-transparent dark:bg-transparent",
-        ],
+        header: ["px-6 py-3"],
         body: ["px-6 py-5 dark:pt-2.5"],
-        footer: [
-          "border-t border-line-muted/75 bg-layer-inset px-6 py-3",
-          "dark:border-transparent dark:bg-transparent",
-        ],
-        title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
+        footer: ["px-6 py-3"],
+        title: ["font-sans text-base leading-6 font-bold uppercase tracking-[0.025em]"],
         description: ["font-sans text-sm leading-5 text-foreground-hint"],
       },
     },
@@ -141,6 +135,7 @@ export function DialogClose({
   size,
   children,
   render,
+  "aria-label": ariaLabel,
   ...props
 }: DialogCloseProps) {
   const theme = useThemeFamily();
@@ -148,7 +143,7 @@ export function DialogClose({
 
   if (render) {
     return (
-      <BaseDialog.Close data-slot="dialog-close" render={render} {...props}>
+      <BaseDialog.Close data-slot="dialog-close" render={render} aria-label={ariaLabel} {...props}>
         {children}
       </BaseDialog.Close>
     );
@@ -161,7 +156,7 @@ export function DialogClose({
         <Button
           variant={variant ?? (isBrutal ? "outline" : "ghost")}
           size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
-          aria-label="Close"
+          aria-label={ariaLabel ?? "Close"}
           className={
             isBrutal
               ? className
