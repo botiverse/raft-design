@@ -526,7 +526,7 @@
   --layer-canvas-muted: oklch(0.97885053 0.00132105 106.423534);
   --layer-panel: oklch(1 0 0);
   --layer-popover: oklch(1 0 0);
-  --layer-backdrop: oklch(0 0 0 / 0.15);
+  --layer-backdrop: oklch(0 0 0 / 0.35);
   --layer-inset: oklch(0.99 0.001 106.42);
   --layer-card: oklch(0.985 0.003 84.559);
   --layer-hud: oklch(0.263 0.009 294.9);

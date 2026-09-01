@@ -134,6 +134,7 @@ export function DrawerClose({
   size,
   children,
   render,
+  "aria-label": ariaLabel,
   ...props
 }: DrawerCloseProps) {
   const theme = useThemeFamily();
@@ -146,6 +147,7 @@ export function DrawerClose({
         data-slot="drawer-close"
         className={className}
         render={render}
+        aria-label={ariaLabel}
         {...props}
       >
         {children}
@@ -160,7 +162,7 @@ export function DrawerClose({
         <Button
           variant={variant ?? (isBrutal ? "outline" : "ghost")}
           size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
-          aria-label="Close"
+          aria-label={ariaLabel ?? "Close"}
         />
       }
       className={close({ className })}

@@ -84,6 +84,7 @@ export function AlertDialogClose({
   variant,
   size,
   children,
+  "aria-label": ariaLabel,
   ...props
 }: AlertDialogCloseProps) {
   const theme = useThemeFamily();
@@ -96,7 +97,7 @@ export function AlertDialogClose({
         <Button
           variant={variant ?? (isBrutal ? "outline" : "ghost")}
           size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
-          aria-label="Close"
+          aria-label={ariaLabel ?? "Close"}
           className={
             isBrutal
               ? className
