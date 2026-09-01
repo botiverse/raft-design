@@ -1,10 +1,13 @@
 import {
   cloneElement,
+  createContext,
   isValidElement,
   type ComponentProps,
   type ComponentPropsWithRef,
+  type CSSProperties,
   type ReactElement,
   type ReactNode,
+  useContext,
 } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
 import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
@@ -48,9 +51,15 @@ const toastStyles = tv({
     ],
     icon: ["flex size-5 shrink-0 items-center justify-center", "[&_svg]:size-3.5 [&_svg]:shrink-0"],
     body: ["min-w-0"],
-    title: ["m-0 truncate text-sm leading-5"],
-    description: ["m-0 text-sm leading-5"],
+    title: ["m-0 truncate text-sm/5"],
+    description: ["m-0 text-sm/5"],
     actions: ["flex items-center justify-end gap-1.5"],
+    progress: [
+      "pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left",
+      "animate-[raft-toast-timeout-progress_var(--toast-progress-duration)_linear_forwards]",
+      "group-hover/toast:[animation-play-state:paused] group-focus-within/toast:[animation-play-state:paused]",
+      "motion-reduce:animate-none motion-reduce:scale-x-100",
+    ],
     close: [
       "absolute top-1.5 right-1.5 inline-flex size-7 shrink-0 items-center justify-center",
       "outline outline-1 outline-offset-2 outline-transparent",
@@ -90,6 +99,7 @@ const toastStyles = tv({
         actions: [
           "col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end gap-1",
         ],
+        progress: ["bg-foreground-strong/70"],
         close: [
           "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground-strong shadow-raft-xs",
           "hover:bg-layer-panel hover:text-foreground-strong hover:-translate-y-px hover:shadow-raft-sm",
@@ -110,10 +120,10 @@ const toastStyles = tv({
           "gap-x-3.5 font-sans",
           "has-data-[slot=toast-icon]:grid-cols-[auto_minmax(0,1fr)]",
           "has-data-[slot=toast-actions]:min-w-[18rem]",
-          "[&:has([data-slot=toast-actions])]:min-h-14",
-          "[&:has([data-slot=toast-actions])]:py-3",
-          "[&:has([data-slot=toast-actions])]:pl-3.5",
-          "[&:has([data-slot=toast-actions])]:pr-3",
+          "has-data-[slot=toast-actions]:min-h-14",
+          "has-data-[slot=toast-actions]:py-3",
+          "has-data-[slot=toast-actions]:pl-3.5",
+          "has-data-[slot=toast-actions]:pr-3",
           "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:min-h-14",
           "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:min-w-[18rem]",
           "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:py-3",
@@ -126,23 +136,21 @@ const toastStyles = tv({
           "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:min-w-[18rem]",
           "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:py-3",
           "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:pl-3.5",
-          "[&:has([data-slot=toast-close])]:pr-3",
+          "has-data-[slot=toast-close]:pr-3",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-0",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-10",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:pl-3.5",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-2",
           "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:pr-3.5",
           "has-data-[slot=toast-actions]:grid-cols-[minmax(0,1fr)]",
-          "[&:has([data-slot=toast-actions])]:gap-y-2",
+          "has-data-[slot=toast-actions]:gap-y-2",
           "[&:has([data-slot=toast-icon]):has([data-slot=toast-actions])]:grid-cols-[auto_minmax(0,1fr)]",
         ],
-        icon: [
-          "text-white/85 dark:text-foreground-muted",
-          "[&_svg]:size-[1.125rem] [&_svg]:stroke-[1.5]",
-        ],
+        icon: ["text-white/85 dark:text-foreground-muted", "[&_svg]:size-4.5 [&_svg]:stroke-[1.5]"],
         title: ["font-medium text-[oklch(0.985_0.001_286)] dark:text-foreground"],
         description: ["text-white/62 dark:text-foreground-muted"],
         actions: ["col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end"],
+        progress: ["rounded-b-xl bg-primary-400/80 dark:bg-primary-400"],
         close: [
           "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap rounded-full border-0 bg-transparent px-2 text-xs font-medium text-white/52 shadow-none",
           "dark:text-foreground-muted",
@@ -179,7 +187,7 @@ const toastStyles = tv({
     layout: {
       stacked: {
         root: [
-          "absolute right-0 bottom-0 left-0 mx-auto h-(--toast-stack-height) w-full origin-bottom",
+          "absolute inset-x-0 bottom-0 mx-auto h-(--toast-stack-height) w-full origin-bottom",
           "z-[calc(70-var(--toast-index))]",
           "before:pointer-events-auto before:absolute before:inset-x-0 before:top-full before:h-[calc(var(--toast-gap)+3px)] before:content-['']",
           "[--toast-peek-dir:-1]",
@@ -193,8 +201,8 @@ const toastStyles = tv({
           "data-ending-style:data-[swipe-direction=down]:transform-[translateY(calc(var(--toast-swipe-movement-y)+120%))]",
           "data-ending-style:data-[swipe-direction=up]:transform-[translateY(calc(var(--toast-swipe-movement-y)-120%))]",
           "[&_[data-slot=toast-content][data-behind]]:opacity-0 [&_[data-slot=toast-content][data-expanded]]:opacity-100",
-          "in-data-[toast-placement$=right]:left-auto [[data-toast-placement$=right]_&]:mx-0",
-          "[[data-toast-placement^=top]_&]:top-0 in-data-[toast-placement^=top]:bottom-auto in-data-[toast-placement^=top]:origin-top",
+          "in-data-[toast-placement$=right]:left-auto in-data-[toast-placement$=right]:mx-0",
+          "in-data-[toast-placement^=top]:top-0 in-data-[toast-placement^=top]:bottom-auto in-data-[toast-placement^=top]:origin-top",
           "in-data-[toast-placement^=top]:before:top-auto in-data-[toast-placement^=top]:before:bottom-full",
           "in-data-[toast-placement^=top]:[--toast-y:calc(var(--toast-offset-y)+(var(--toast-index)*var(--toast-gap))+var(--toast-swipe-movement-y))]",
           "in-data-[toast-placement^=top]:[--toast-peek-dir:1]",
@@ -270,13 +278,39 @@ const toastStyles = tv({
   ],
 });
 
+const TOAST_PROGRESS_STYLE = `
+@keyframes raft-toast-timeout-progress {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="toast-progress"] {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+`;
+
+const toastProgressStyle = (
+  <style href="raft-ui-toast-progress" precedence="default">
+    {TOAST_PROGRESS_STYLE}
+  </style>
+);
+
 type ToastPlacement = NonNullable<VariantProps<typeof toastStyles>["placement"]>;
+const DEFAULT_TOAST_TIMEOUT_MS = 5000;
+const ToastProviderConfigContext = createContext({ timeout: DEFAULT_TOAST_TIMEOUT_MS });
 
 const toastAction = tv({
   extend: buttonVariants,
   slots: {
     root: [
-      "inline-flex min-h-7 shrink-0 items-center justify-center whitespace-nowrap px-2 text-xs leading-none",
+      "inline-flex min-h-7 shrink-0 items-center justify-center whitespace-nowrap px-2 text-xs/[1]",
       "font-sans shadow-none",
       "outline outline-1 outline-offset-2 outline-transparent",
       "transition-[background-color,color,border-color,box-shadow,transform] duration-150",
@@ -324,6 +358,7 @@ export type ToastData = {
   intent?: ToastIntent;
   hasClose?: boolean;
   hasIcon?: boolean;
+  hasProgress?: boolean;
   contentClassName?: string;
 };
 export type ToastObject<Data extends object = object> = BaseToast.Root.ToastObject<Data>;
@@ -339,6 +374,7 @@ type ToastCommandOptions<Data extends object = ToastData> = Omit<
   contentClassName?: string;
   dismissible?: boolean;
   icon?: boolean;
+  progress?: boolean;
 };
 
 const defaultToastManager = createToastManager<ToastData>();
@@ -348,7 +384,8 @@ function addDefaultToast(
   title: string,
   options: ToastCommandOptions<ToastData> = {},
 ) {
-  const { action, contentClassName, dismissible, icon, priority, ...toastOptions } = options;
+  const { action, contentClassName, dismissible, icon, priority, progress, ...toastOptions } =
+    options;
 
   return defaultToastManager.add({
     ...toastOptions,
@@ -366,6 +403,7 @@ function addDefaultToast(
       contentClassName,
       hasClose: dismissible,
       hasIcon: icon,
+      hasProgress: progress,
     },
   });
 }
@@ -414,23 +452,26 @@ export function ToastProvider({
   portalContainer,
   renderViewport = true,
   toastManager = defaultToastManager,
+  timeout = DEFAULT_TOAST_TIMEOUT_MS,
   viewportClassName,
   viewportPlacement = "bottom-center",
   viewportStrategy = "fixed",
   ...props
 }: ToastProviderProps) {
   return (
-    <BaseToast.Provider toastManager={toastManager} {...props}>
-      {children}
-      {renderViewport ? (
-        <DefaultToastLayer
-          placement={viewportPlacement}
-          portalContainer={portalContainer}
-          strategy={viewportStrategy}
-          viewportClassName={viewportClassName}
-        />
-      ) : null}
-    </BaseToast.Provider>
+    <ToastProviderConfigContext.Provider value={{ timeout }}>
+      <BaseToast.Provider toastManager={toastManager} timeout={timeout} {...props}>
+        {children}
+        {renderViewport ? (
+          <DefaultToastLayer
+            placement={viewportPlacement}
+            portalContainer={portalContainer}
+            strategy={viewportStrategy}
+            viewportClassName={viewportClassName}
+          />
+        ) : null}
+      </BaseToast.Provider>
+    </ToastProviderConfigContext.Provider>
   );
 }
 
@@ -539,6 +580,36 @@ export function ToastActions({ className, ...props }: ToastActionsProps) {
   const { actions } = toastStyles({ theme });
 
   return <div data-slot="toast-actions" className={actions({ className })} {...props} />;
+}
+
+export type ToastProgressProps = ComponentPropsWithRef<"div"> & {
+  duration?: number;
+};
+
+export function ToastProgress({
+  className,
+  duration = DEFAULT_TOAST_TIMEOUT_MS,
+  style,
+  ...props
+}: ToastProgressProps) {
+  const theme = useThemeFamily();
+  const { progress } = toastStyles({ theme });
+  const progressStyle = {
+    ...style,
+    "--toast-progress-duration": `${duration}ms`,
+  } as CSSProperties;
+
+  return (
+    <div
+      aria-hidden
+      data-slot="toast-progress"
+      className={progress({ className })}
+      style={progressStyle}
+      {...props}
+    >
+      {toastProgressStyle}
+    </div>
+  );
 }
 
 export type ToastTitleProps = StyledProps<BaseToast.Title.Props>;
@@ -716,10 +787,16 @@ function DefaultToastItem({
   placement: ToastPlacement;
   toast: ToastObject<ToastData>;
 }) {
+  const { timeout } = useContext(ToastProviderConfigContext);
   const showDescription = Boolean(toastObject.description);
   const showAction = Boolean(toastObject.actionProps?.children);
   const showClose = toastObject.data?.hasClose !== false;
   const showIcon = toastObject.data?.hasIcon !== false;
+  const progressDuration = toastObject.timeout ?? timeout;
+  const showProgress =
+    toastObject.data?.hasProgress === true &&
+    toastObject.type !== "loading" &&
+    progressDuration > 0;
 
   return (
     <ToastRoot
@@ -738,6 +815,7 @@ function DefaultToastItem({
             {showAction ? <ToastAction /> : null}
           </ToastActions>
         ) : null}
+        {showProgress ? <ToastProgress duration={progressDuration} /> : null}
       </ToastContent>
     </ToastRoot>
   );
