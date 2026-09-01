@@ -114,51 +114,100 @@ it("elegant warning description is a different color from brutal warning descrip
   expect(elegantColor).not.toBe(brutalColor);
 });
 
-// --- narrow multi-action wrapping: 2+ actions wrap below at narrow widths ---
+// --- action wrapping: narrow wraps, wide stays inline (both themes) ---
 
-it("two actions wrap to a new row at narrow container width", () => {
-  render(
-    <ThemeProvider theme="brutal">
-      <div style={{ width: "280px" }}>
-        <Banner status="warning" data-testid="banner">
-          <BannerTitle>Title</BannerTitle>
-          <BannerDescription data-testid="desc">Description text</BannerDescription>
-          <BannerAction data-testid="action">
-            <Button variant="outline" size="xs">
-              A
-            </Button>
-            <Button variant="outline" size="xs">
-              B
-            </Button>
-          </BannerAction>
-        </Banner>
-      </div>
-    </ThemeProvider>,
-  );
+for (const theme of ["brutal", "elegant"] as const) {
+  it(`${theme}: two actions wrap to a new row at narrow container width`, () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <div style={{ width: "280px" }}>
+          <Banner status="warning" data-testid="banner">
+            <BannerTitle>Title</BannerTitle>
+            <BannerDescription data-testid="desc">Description text</BannerDescription>
+            <BannerAction data-testid="action">
+              <Button variant="outline" size="xs">
+                A
+              </Button>
+              <Button variant="outline" size="xs">
+                B
+              </Button>
+            </BannerAction>
+          </Banner>
+        </div>
+      </ThemeProvider>,
+    );
 
-  const descRect = screen.getByTestId("desc").getBoundingClientRect();
-  const actionRect = screen.getByTestId("action").getBoundingClientRect();
-  expect(actionRect.top).toBeGreaterThan(descRect.top);
-});
+    const descRect = screen.getByTestId("desc").getBoundingClientRect();
+    const actionRect = screen.getByTestId("action").getBoundingClientRect();
+    expect(actionRect.top).toBeGreaterThan(descRect.top);
+  });
 
-it("single action stays on the same row at narrow container width", () => {
-  render(
-    <ThemeProvider theme="brutal">
-      <div style={{ width: "280px" }}>
-        <Banner status="warning" data-testid="banner">
-          <BannerTitle>Title</BannerTitle>
-          <BannerDescription data-testid="desc">Description text</BannerDescription>
-          <BannerAction data-testid="action">
-            <Button variant="ghost" size="icon-xs">
-              X
-            </Button>
-          </BannerAction>
-        </Banner>
-      </div>
-    </ThemeProvider>,
-  );
+  it(`${theme}: single action wraps to a new row at narrow container width`, () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <div style={{ width: "280px" }}>
+          <Banner status="warning" data-testid="banner">
+            <BannerTitle>Title</BannerTitle>
+            <BannerDescription data-testid="desc">Description text</BannerDescription>
+            <BannerAction data-testid="action">
+              <Button variant="ghost" size="icon-xs">
+                X
+              </Button>
+            </BannerAction>
+          </Banner>
+        </div>
+      </ThemeProvider>,
+    );
 
-  const descRect = screen.getByTestId("desc").getBoundingClientRect();
-  const actionRect = screen.getByTestId("action").getBoundingClientRect();
-  expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
-});
+    const descRect = screen.getByTestId("desc").getBoundingClientRect();
+    const actionRect = screen.getByTestId("action").getBoundingClientRect();
+    expect(actionRect.top).toBeGreaterThan(descRect.top);
+  });
+
+  it(`${theme}: single action stays on the description row at wide container width`, () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <div style={{ width: "600px" }}>
+          <Banner status="warning" data-testid="banner">
+            <BannerTitle>Title</BannerTitle>
+            <BannerDescription data-testid="desc">Description text</BannerDescription>
+            <BannerAction data-testid="action">
+              <Button variant="ghost" size="icon-xs">
+                X
+              </Button>
+            </BannerAction>
+          </Banner>
+        </div>
+      </ThemeProvider>,
+    );
+
+    const descRect = screen.getByTestId("desc").getBoundingClientRect();
+    const actionRect = screen.getByTestId("action").getBoundingClientRect();
+    expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
+  });
+
+  it(`${theme}: two actions stay on the description row at wide container width`, () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <div style={{ width: "600px" }}>
+          <Banner status="warning" data-testid="banner">
+            <BannerTitle>Title</BannerTitle>
+            <BannerDescription data-testid="desc">Description text</BannerDescription>
+            <BannerAction data-testid="action">
+              <Button variant="outline" size="xs">
+                A
+              </Button>
+              <Button variant="outline" size="xs">
+                B
+              </Button>
+            </BannerAction>
+          </Banner>
+        </div>
+      </ThemeProvider>,
+    );
+
+    const descRect = screen.getByTestId("desc").getBoundingClientRect();
+    const actionRect = screen.getByTestId("action").getBoundingClientRect();
+    expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
+  });
+}
