@@ -16,6 +16,7 @@ import {
   ToastIcon,
   ToastPortal,
   ToastPositioner,
+  ToastProgress,
   ToastProvider,
   ToastRoot,
   ToastTitle,
@@ -85,6 +86,15 @@ const ANATOMY_VARIANTS = [
     hasClose: false,
   },
   {
+    id: "variant-progress",
+    title: "With progress",
+    description: "Shows remaining time before the toast disappears.",
+    icon: true,
+    hasAction: true,
+    hasClose: false,
+    hasProgress: true,
+  },
+  {
     id: "variant-loading-action",
     title: "Loading action",
     description: "Keeps the action width stable while the retry is pending.",
@@ -115,6 +125,7 @@ type AnatomyVariantData = {
   icon: boolean;
   hasAction: boolean;
   hasClose: boolean;
+  hasProgress?: boolean;
   actionLoading?: boolean;
 };
 
@@ -129,6 +140,7 @@ const SNIPPETS = {
   ToastIcon,
   ToastPortal,
   ToastProvider,
+  ToastProgress,
   ToastRoot,
   ToastTitle,
   ToastViewport,
@@ -148,6 +160,7 @@ const SNIPPETS = {
             <ToastClose />
             <ToastAction />
           </ToastActions>
+          <ToastProgress duration={5000} />
         </ToastContent>
       </ToastRoot>
     </ToastViewport>
@@ -212,6 +225,19 @@ const SNIPPETS = {
     <ToastActions>
       <ToastAction />
     </ToastActions>
+  </ToastContent>
+</ToastRoot>`,
+  variantProgress: `<ToastRoot toast={toast} layout="inline">
+  <ToastContent>
+    <ToastIcon />
+    <ToastBody>
+      <ToastTitle />
+      <ToastDescription />
+    </ToastBody>
+    <ToastActions>
+      <ToastAction />
+    </ToastActions>
+    <ToastProgress duration={5000} />
   </ToastContent>
 </ToastRoot>`,
   variantLoadingAction: `<ToastRoot toast={toast} layout="inline">
@@ -296,6 +322,8 @@ function MessageActions() {
       onClick={() =>
         toast.info("Forwarded to #design-system", {
           description: "The selected messages were sent.",
+          timeout: 5000,
+          progress: true,
           action: { label: "View" },
         })}
     >
@@ -462,6 +490,12 @@ const TOAST_CHANNEL_PROPS: readonly PropRow[] = [
     description: "Add a toast with an explicit type. Defaults to info.",
   },
   {
+    name: "options.progress",
+    type: "boolean",
+    default: "false",
+    description: "Shows a bottom-edge timeout progress line for auto-dismiss toasts.",
+  },
+  {
     name: "dismiss",
     type: "(id?: string) => void",
     description: "Close one toast by id, or the active toast when omitted.",
@@ -528,6 +562,20 @@ const ARROW_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "Base UI Toast.Arrow.Props",
     description: "Optional arrow rendered inside an anchored toast positioned by ToastPositioner.",
+  },
+];
+
+const PROGRESS_PROPS: readonly PropRow[] = [
+  {
+    name: "duration",
+    type: "number",
+    default: "5000",
+    description: "Progress animation duration in milliseconds.",
+  },
+  {
+    name: "...props",
+    type: "React.HTMLAttributes<HTMLDivElement>",
+    description: "Bottom-edge timeout progress slot. Render inside ToastContent.",
   },
 ];
 
@@ -695,10 +743,18 @@ function ToastDoc() {
               <Preview.Code html={code.variantNoDismiss} />
             </Preview>
           </DocSubsection>
-          <DocSubsection parentId="usage" id="loading-action" title="Loading action">
+          <DocSubsection parentId="usage" id="progress" title="Progress">
             <Preview previewClassName="min-h-32" previewInset="flush">
               <Preview.Canvas>
                 <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[5]} />
+              </Preview.Canvas>
+              <Preview.Code html={code.variantProgress} />
+            </Preview>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="loading-action" title="Loading action">
+            <Preview previewClassName="min-h-32" previewInset="flush">
+              <Preview.Canvas>
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
               </Preview.Canvas>
               <Preview.Code html={code.variantLoadingAction} />
             </Preview>
@@ -706,7 +762,7 @@ function ToastDoc() {
           <DocSubsection parentId="usage" id="icon-title" title="Icon + title">
             <Preview previewClassName="min-h-32" previewInset="flush">
               <Preview.Canvas>
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[6]} />
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[7]} />
               </Preview.Canvas>
               <Preview.Code html={code.variantIconTitle} />
             </Preview>
@@ -714,7 +770,7 @@ function ToastDoc() {
           <DocSubsection parentId="usage" id="minimal" title="Minimal">
             <Preview previewClassName="min-h-32" previewInset="flush">
               <Preview.Canvas>
-                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[7]} />
+                <ToastAnatomyVariantPreview variant={ANATOMY_VARIANTS[8]} />
               </Preview.Canvas>
               <Preview.Code html={code.variantMinimal} />
             </Preview>
@@ -775,6 +831,9 @@ function ToastDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-arrow" title="ToastArrow">
             <PropsTable rows={ARROW_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-progress" title="ToastProgress">
+            <PropsTable rows={PROGRESS_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-root" title="ToastRoot">
             <PropsTable rows={ROOT_PROPS} />
@@ -842,6 +901,8 @@ function InlineUsageControls() {
         onClick={() =>
           toast.success("Link copied.", {
             description: "The message link is ready to paste.",
+            timeout: 5000,
+            progress: true,
             action: {
               label: "Copy again",
               onClick: () => toast.dismiss(),
@@ -1026,6 +1087,7 @@ function ToastAnatomyVariantSeed({ variant }: { variant: (typeof ANATOMY_VARIANT
         icon: variant.icon,
         hasAction: variant.hasAction,
         hasClose: variant.hasClose,
+        hasProgress: "hasProgress" in variant ? variant.hasProgress : undefined,
         actionLoading: "actionLoading" in variant ? variant.actionLoading : undefined,
       },
       actionProps: variant.hasAction ? { children: "Retry" } : undefined,
@@ -1045,6 +1107,7 @@ function ToastAnatomyVariantItem() {
   const showDescription = Boolean(toast.description);
   const showAction = Boolean(toast.data?.hasAction);
   const showClose = Boolean(toast.data?.hasClose);
+  const showProgress = Boolean(toast.data?.hasProgress);
 
   return (
     <ToastRoot toast={toast} layout="inline">
@@ -1066,6 +1129,7 @@ function ToastAnatomyVariantItem() {
             ) : null}
           </ToastActions>
         ) : null}
+        {showProgress ? <ToastProgress duration={5000} /> : null}
       </ToastContent>
     </ToastRoot>
   );
