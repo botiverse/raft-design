@@ -93,6 +93,7 @@ import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
+import { Route as IframeDialogScrollLayerRouteImport } from './routes/iframe/dialog-scroll-layer'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
 import { Route as IframeSidebarMobilePartsRouteImport } from './routes/iframe/sidebar-mobile-parts'
 import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
@@ -554,6 +555,11 @@ const IframeAppShellMobileRoute = IframeAppShellMobileRouteImport.update({
   path: '/iframe/app-shell-mobile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IframeDialogScrollLayerRoute = IframeDialogScrollLayerRouteImport.update({
+  id: '/iframe/dialog-scroll-layer',
+  path: '/iframe/dialog-scroll-layer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IframeDrawerRoute = IframeDrawerRouteImport.update({
   id: '/iframe/drawer',
   path: '/iframe/drawer',
@@ -778,6 +784,7 @@ export interface FileRoutesByFullPath {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -888,6 +895,7 @@ export interface FileRoutesByTo {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -999,6 +1007,7 @@ export interface FileRoutesById {
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
+  '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
   '/iframe/drawer': typeof IframeDrawerRoute
   '/iframe/sidebar-mobile-parts': typeof IframeSidebarMobilePartsRoute
   '/tokens/colors': typeof TokensColorsRoute
@@ -1111,6 +1120,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/iframe/app-shell-mobile'
+    | '/iframe/dialog-scroll-layer'
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
@@ -1221,6 +1231,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/iframe/app-shell-mobile'
+    | '/iframe/dialog-scroll-layer'
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
@@ -1331,6 +1342,7 @@ export interface FileRouteTypes {
     | '/components/toggle-group'
     | '/components/tooltip'
     | '/iframe/app-shell-mobile'
+    | '/iframe/dialog-scroll-layer'
     | '/iframe/drawer'
     | '/iframe/sidebar-mobile-parts'
     | '/tokens/colors'
@@ -1364,6 +1376,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   LabRoute: typeof LabRoute
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
+  IframeDialogScrollLayerRoute: typeof IframeDialogScrollLayerRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
   IframeSidebarMobilePartsRoute: typeof IframeSidebarMobilePartsRoute
   TokensColorsRoute: typeof TokensColorsRoute
@@ -1961,6 +1974,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IframeAppShellMobileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/iframe/dialog-scroll-layer': {
+      id: '/iframe/dialog-scroll-layer'
+      path: '/iframe/dialog-scroll-layer'
+      fullPath: '/iframe/dialog-scroll-layer'
+      preLoaderRoute: typeof IframeDialogScrollLayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/iframe/drawer': {
       id: '/iframe/drawer'
       path: '/iframe/drawer'
@@ -2457,6 +2477,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   LabRoute: LabRoute,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
+  IframeDialogScrollLayerRoute: IframeDialogScrollLayerRoute,
   IframeDrawerRoute: IframeDrawerRoute,
   IframeSidebarMobilePartsRoute: IframeSidebarMobilePartsRoute,
   TokensColorsRoute: TokensColorsRoute,

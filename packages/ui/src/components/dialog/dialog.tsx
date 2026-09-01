@@ -16,18 +16,28 @@ const dialog = tv({
       "data-starting-style:opacity-0 data-ending-style:opacity-0",
     ],
     content: [
-      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-md -translate-1/2 ",
+      "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
+      "max-h-[calc(100dvh-2rem)]",
       "origin-center transform-gpu outline-none transition-[opacity,transform] duration-150 ease-out",
       "data-starting-style:scale-[.98] data-starting-style:opacity-0",
       "data-ending-style:opacity-0",
     ],
-    header: ["grid grid-cols-[minmax(0,1fr)_max-content] items-center gap-3 min-w-0"],
-    body: ["min-w-0"],
-    footer: ["flex items-center justify-end gap-3"],
+    header: ["grid shrink-0 grid-cols-[minmax(0,1fr)_max-content] items-center gap-3 min-w-0"],
+    body: ["min-w-0 flex-1 overflow-y-auto"],
+    footer: ["flex shrink-0 items-center justify-end gap-3"],
     title: ["m-0 min-w-0 text-foreground"],
     description: ["m-0 text-foreground-muted"],
   },
   variants: {
+    size: {
+      sm: { content: ["max-w-sm"] },
+      md: { content: ["max-w-md"] },
+      lg: { content: ["max-w-lg"] },
+    },
+    layer: {
+      0: { overlay: [], content: [] },
+      1: { overlay: ["z-60"], content: ["z-60"] },
+    },
     theme: {
       brutal: {
         overlay: ["bg-layer-backdrop"],
@@ -53,6 +63,9 @@ const dialog = tv({
       },
     },
   },
+  defaultVariants: {
+    size: "md",
+  },
 });
 
 export type DialogProps = BaseDialog.Root.Props;
@@ -73,11 +86,13 @@ export function DialogPortal(props: DialogPortalProps) {
   return <BaseDialog.Portal data-slot="dialog-portal" {...useThemeScopeProps(props)} />;
 }
 
-export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props>;
+export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props> & {
+  layer?: 0 | 1;
+};
 
-export function DialogOverlay({ className, ...props }: DialogOverlayProps) {
+export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps) {
   const theme = useThemeFamily();
-  const { overlay } = dialog({ theme });
+  const { overlay } = dialog({ theme, layer });
   return (
     <BaseDialog.Backdrop data-slot="dialog-overlay" className={overlay({ className })} {...props} />
   );
@@ -86,6 +101,8 @@ export function DialogOverlay({ className, ...props }: DialogOverlayProps) {
 export type DialogContentProps = StyledProps<BaseDialog.Popup.Props> & {
   portalProps?: DialogPortalProps;
   overlay?: false | DialogOverlayProps;
+  size?: "sm" | "md" | "lg";
+  layer?: 0 | 1;
 };
 
 export function DialogContent({
@@ -93,14 +110,18 @@ export function DialogContent({
   children,
   portalProps,
   overlay,
+  size,
+  layer,
   ...props
 }: DialogContentProps) {
   const theme = useThemeFamily();
-  const { content } = dialog({ theme });
+  const { content } = dialog({ theme, size, layer });
+
+  const overlayProps = typeof overlay === "object" ? overlay : {};
 
   return (
     <DialogPortal {...portalProps}>
-      {overlay === false ? null : <DialogOverlay {...overlay} />}
+      {overlay === false ? null : <DialogOverlay layer={layer} {...overlayProps} />}
       <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
         {children}
       </BaseDialog.Popup>
