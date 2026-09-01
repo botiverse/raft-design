@@ -60,3 +60,53 @@ test("brutal backdrop is untouched", () => {
   // Brutal must stay pixel-identical through token work (repo styling contract).
   expect(backdropAlphaFor('[data-theme="brutal"]')).toBe(0.65);
 });
+
+/**
+ * Elegant dark: floating surfaces must sit ABOVE the panel, not below it.
+ *
+ * The scrim cannot carry separation in dark — dimming an already-dark canvas
+ * (L 0.19) has little room to work, and even a fully opaque backdrop caps at the
+ * popover's own lightness. So the lever is the panel. `--layer-popover` was 0.24
+ * against `--layer-panel` 0.26: a floating surface rendered DARKER than the panel
+ * beneath it, which inverts elevation. 0.28 puts it above.
+ *
+ * @cindyz chose 0.28 from a rendered five-step preview (0.24/0.28/0.33/0.38/0.43,
+ * 2026-09-01). The arithmetic alternative — matching elegant light's 0.35
+ * separation — needed 0.43, and on screen that read as a grey card rather than a
+ * dark surface. This is the case for previewing rather than solving for a number.
+ *
+ * Scope: every consumer of this token in elegant dark is a floating surface —
+ * dialog, alert-dialog, drawer, popover, combobox, select, dropdown/context menu,
+ * tooltip, toast, preview-card, notification-center, composer suggestions, and
+ * the reaction quick row and picker. The switch thumb also names the token but
+ * carries its own `dark:` override, so it does not move.
+ */
+function lightnessFor(selector: string, token: string): number {
+  const start = CSS.indexOf(`${selector} {`);
+  expect(start, `selector ${selector} must exist`).toBeGreaterThan(-1);
+  const block = CSS.slice(start, CSS.indexOf("\n}", start));
+  const match = block.match(new RegExp(`--${token}:\\s*oklch\\(([0-9.]+)`));
+  expect(match, `${selector} must declare --${token}`).not.toBeNull();
+  return Number(match![1]);
+}
+
+test("elegant dark: popover sits above panel, which sits above canvas", () => {
+  const sel = '[data-theme="elegant"].dark';
+  const canvas = lightnessFor(sel, "layer-canvas");
+  const panel = lightnessFor(sel, "layer-panel");
+  const popover = lightnessFor(sel, "layer-popover");
+  expect(panel, "panel must be lighter than the canvas it sits on").toBeGreaterThan(canvas);
+  expect(
+    popover,
+    `popover ${popover} vs panel ${panel}: a floating surface darker than the panel inverts elevation`,
+  ).toBeGreaterThan(panel);
+});
+
+test("elegant dark: the auto-dark block tracks the explicit dark block", () => {
+  // Two selectors carry the dark palette. A value changed in one and missed in
+  // the other splits the theme by how the reader's OS is set rather than by
+  // design, and nothing else in the suite would notice.
+  const explicit = lightnessFor('[data-theme="elegant"].dark', "layer-popover");
+  const auto = lightnessFor('[data-theme="elegant"]:not(.light):not(.dark)', "layer-popover");
+  expect(auto).toBe(explicit);
+});
