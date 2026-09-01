@@ -314,7 +314,7 @@ function CustomLayoutDialog() {
   return (
     <Dialog>
       <DialogTrigger render={<Button variant="outline" size="sm" />}>Open</DialogTrigger>
-      <DialogContent className="max-w-lg">
+      <DialogContent size="lg">
         <DialogBody className={cn("grid gap-4", isBrutal && "pt-3 pb-4", isElegant && "py-7")}>
           <Text.Mono
             size="meta"
@@ -385,7 +385,7 @@ function NestedDialog() {
           ))}
           <Dialog>
             <DialogTrigger render={<Button variant="accent" />}>Open inner (layer 1)</DialogTrigger>
-            <DialogContent layer={1} className="max-w-sm">
+            <DialogContent layer={1} size="sm">
               <DialogHeader>
                 <DialogTitle>Inner Dialog (Layer 1)</DialogTitle>
                 <DialogClose />
@@ -458,7 +458,7 @@ function WorstCaseCombo() {
             <DialogTrigger render={<Button variant="accent" />}>
               Open onboarding gate (layer 1)
             </DialogTrigger>
-            <DialogContent layer={1} className="max-w-lg">
+            <DialogContent layer={1} size="lg">
               <DialogBody
                 className={cn("grid gap-4", isBrutal && "pt-3 pb-4", isElegant && "py-7")}
               >

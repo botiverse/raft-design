@@ -133,3 +133,30 @@ it("layer=1 has higher z-index than layer=0", async () => {
 
   expect(innerZ).toBeGreaterThan(outerZ);
 });
+
+it("size variant controls max-width", async () => {
+  render(
+    <ThemeProvider theme="elegant">
+      <Dialog open modal={false}>
+        <DialogContent size="sm" data-testid="sm">
+          <DialogBody>Small</DialogBody>
+        </DialogContent>
+      </Dialog>
+      <Dialog open modal={false}>
+        <DialogContent size="lg" data-testid="lg">
+          <DialogBody>Large</DialogBody>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+
+  await new Promise((r) => setTimeout(r, 100));
+
+  const sm = screen.getByTestId("sm");
+  const lg = screen.getByTestId("lg");
+
+  const smMaxW = Number.parseFloat(getComputedStyle(sm).maxWidth);
+  const lgMaxW = Number.parseFloat(getComputedStyle(lg).maxWidth);
+
+  expect(lgMaxW).toBeGreaterThan(smMaxW);
+});

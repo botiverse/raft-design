@@ -16,7 +16,7 @@ const dialog = tv({
       "data-starting-style:opacity-0 data-ending-style:opacity-0",
     ],
     content: [
-      "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-md -translate-1/2 flex-col",
+      "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
       "max-h-[calc(100dvh-2rem)]",
       "origin-center transform-gpu outline-none transition-[opacity,transform] duration-150 ease-out",
       "data-starting-style:scale-[.98] data-starting-style:opacity-0",
@@ -29,6 +29,11 @@ const dialog = tv({
     description: ["m-0 text-foreground-muted"],
   },
   variants: {
+    size: {
+      sm: { content: ["max-w-sm"] },
+      md: { content: ["max-w-md"] },
+      lg: { content: ["max-w-lg"] },
+    },
     layer: {
       0: { overlay: [], content: [] },
       1: { overlay: ["z-60"], content: ["z-60"] },
@@ -57,6 +62,9 @@ const dialog = tv({
         description: ["font-sans text-sm leading-5 text-foreground-hint"],
       },
     },
+  },
+  defaultVariants: {
+    size: "md",
   },
 });
 
@@ -93,6 +101,7 @@ export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps
 export type DialogContentProps = StyledProps<BaseDialog.Popup.Props> & {
   portalProps?: DialogPortalProps;
   overlay?: false | DialogOverlayProps;
+  size?: "sm" | "md" | "lg";
   layer?: 0 | 1;
 };
 
@@ -101,11 +110,12 @@ export function DialogContent({
   children,
   portalProps,
   overlay,
+  size,
   layer,
   ...props
 }: DialogContentProps) {
   const theme = useThemeFamily();
-  const { content } = dialog({ theme, layer });
+  const { content } = dialog({ theme, size, layer });
 
   const overlayProps = typeof overlay === "object" ? overlay : {};
 
