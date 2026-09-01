@@ -72,7 +72,9 @@ it("body is scrollable when content overflows", async () => {
   expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
 });
 
-it("header stays fixed when body is scrolled", async () => {
+// header is a flex sibling outside the scroll container — this verifies
+// the structural invariant, not shrink-0 (which is defensive/unobservable)
+it("header is outside the scroll container and unaffected by body scroll", async () => {
   render(
     <ThemeProvider theme="elegant">
       <Dialog open modal={false}>
