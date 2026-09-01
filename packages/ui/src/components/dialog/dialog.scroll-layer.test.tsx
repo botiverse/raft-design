@@ -134,6 +134,26 @@ it("layer=1 has higher z-index than layer=0", async () => {
   expect(innerZ).toBeGreaterThan(outerZ);
 });
 
+it("default size has a finite max-width", async () => {
+  render(
+    <ThemeProvider theme="elegant">
+      <Dialog open modal={false}>
+        <DialogContent data-testid="default">
+          <DialogBody>Default</DialogBody>
+        </DialogContent>
+      </Dialog>
+    </ThemeProvider>,
+  );
+
+  await new Promise((r) => setTimeout(r, 100));
+
+  const el = screen.getByTestId("default");
+  const maxW = getComputedStyle(el).maxWidth;
+
+  expect(maxW).not.toBe("none");
+  expect(Number.parseFloat(maxW)).toBeGreaterThan(0);
+});
+
 it("size variant controls max-width", async () => {
   render(
     <ThemeProvider theme="elegant">
