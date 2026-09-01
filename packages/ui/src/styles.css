@@ -635,7 +635,7 @@
   --layer-canvas: oklch(0.19 0.005 106.42);
   --layer-canvas-muted: oklch(0.16 0.005 106.42);
   --layer-panel: oklch(0.26 0.004 106.42);
-  --layer-popover: oklch(0.24 0.004 106.42);
+  --layer-popover: oklch(0.28 0.004 106.42);
   --layer-backdrop: oklch(0 0 0 / 0.6);
   --layer-inset: oklch(0.185 0.003 106.42);
   --layer-card: oklch(0.22 0.004 106.42);
@@ -734,7 +734,7 @@
     --layer-canvas: oklch(0.19 0.005 106.42);
     --layer-canvas-muted: oklch(0.16 0.005 106.42);
     --layer-panel: oklch(0.26 0.004 106.42);
-    --layer-popover: oklch(0.24 0.004 106.42);
+    --layer-popover: oklch(0.28 0.004 106.42);
     --layer-backdrop: oklch(0 0 0 / 0.6);
     --layer-inset: oklch(0.185 0.003 106.42);
     --layer-card: oklch(0.22 0.004 106.42);
