@@ -2,6 +2,8 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Badge,
+  Button,
+  cn,
   Combobox,
   ComboboxClear,
   ComboboxContent,
@@ -10,9 +12,16 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
+  Dialog,
+  DialogBody,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   Separator,
 } from "raft-ui";
-import { Globe2, Menu, Search, X } from "lucide-react";
+import { Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
@@ -400,20 +409,31 @@ const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
 const sidebarPathActiveOptions = { exact: true, includeSearch: false };
 const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
 
-function ComponentSearch({ onNavigate }: { onNavigate?: () => void }) {
+function ComponentSearch({
+  onNavigate,
+  autoFocus,
+}: {
+  onNavigate?: () => void;
+  autoFocus?: boolean;
+}) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const filteredItems = filterComponentSearchItems(query);
+  const [open, setOpen] = useState(false);
+  const filteredItems = query.trim() ? filterComponentSearchItems(query) : [];
 
   return (
     <Combobox<ComponentSearchItem>
       items={filteredItems}
       value={null}
+      open={open}
       inputValue={query}
       itemToStringLabel={(item) => item.label}
       autoHighlight
+      onOpenChange={(nextOpen) => setOpen(nextOpen && Boolean(query.trim()))}
       onInputValueChange={(nextQuery, eventDetails) => {
-        setQuery(eventDetails.reason === "item-press" ? "" : nextQuery);
+        const nextValue = eventDetails.reason === "item-press" ? "" : nextQuery;
+        setQuery(nextValue);
+        setOpen(Boolean(nextValue.trim()));
       }}
       onValueChange={(item) => {
         if (!item) {
@@ -421,6 +441,7 @@ function ComponentSearch({ onNavigate }: { onNavigate?: () => void }) {
         }
 
         setQuery("");
+        setOpen(false);
         onNavigate?.();
         void navigate({ to: item.to });
       }}
@@ -428,6 +449,7 @@ function ComponentSearch({ onNavigate }: { onNavigate?: () => void }) {
       <ComboboxControl className="w-full">
         <Search aria-hidden />
         <ComboboxInput
+          autoFocus={autoFocus}
           aria-label="Search components"
           placeholder="Search components..."
           suppressPasswordManager
@@ -452,6 +474,53 @@ function ComponentSearch({ onNavigate }: { onNavigate?: () => void }) {
         <ComboboxEmpty>No components found</ComboboxEmpty>
       </ComboboxContent>
     </Combobox>
+  );
+}
+
+function ComponentSearchDialog({
+  iconOnly = false,
+  onNavigate,
+}: {
+  iconOnly?: boolean;
+  onNavigate?: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger
+        render={
+          <Button
+            variant="outline"
+            size={iconOnly ? "icon-md" : "md"}
+            aria-label="Search components"
+            title="Search components"
+            className={cn(
+              "font-normal",
+              iconOnly ? "size-8 p-0" : "w-full justify-start text-foreground-muted",
+            )}
+          />
+        }
+      >
+        <Search aria-hidden />
+        {iconOnly ? null : <span>Search components</span>}
+      </DialogTrigger>
+      <DialogContent size="md" className="gap-0 p-0">
+        <DialogHeader className="px-4 py-3">
+          <DialogTitle className="sr-only">Search components</DialogTitle>
+          <DialogClose aria-label="Close component search" />
+        </DialogHeader>
+        <DialogBody className="px-4 pb-4">
+          <ComponentSearch
+            autoFocus
+            onNavigate={() => {
+              setOpen(false);
+              onNavigate?.();
+            }}
+          />
+        </DialogBody>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -789,7 +858,7 @@ function MobileSidebar() {
           className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-4 pt-3 pb-[max(2rem,env(safe-area-inset-bottom))]"
         >
           <div className="mx-auto max-w-xl space-y-9">
-            <ComponentSearch onNavigate={close} />
+            <ComponentSearchDialog onNavigate={close} />
 
             <div className="flex flex-col gap-2">
               {PRIMARY_NAV.map((item) => (
@@ -820,16 +889,52 @@ function MobileSidebar() {
   );
 }
 
-export function Sidebar() {
+export type SidebarProps = {
+  collapsed?: boolean;
+  onCollapsedChange?: (collapsed: boolean) => void;
+};
+
+export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) {
+  const toggleCollapsed = () => onCollapsedChange?.(!collapsed);
+
   return (
     <>
       <MobileSidebar />
-      <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) overflow-y-auto px-5 py-6 scrollbar-none lg:block [&::-webkit-scrollbar]:hidden">
-        <Link to="/" className="flex items-center gap-2 text-foreground">
-          <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
-        </Link>
+      {collapsed ? (
+        <div className="fixed left-4 top-4 z-40 hidden items-center gap-0.5 rounded-xl border border-line-muted bg-layer-panel p-1 shadow-raft-md lg:flex">
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label="Expand sidebar"
+            title="Expand sidebar"
+            className="size-8 p-0"
+            onClick={toggleCollapsed}
+          >
+            <PanelLeftOpen aria-hidden />
+          </Button>
+          <ComponentSearchDialog iconOnly />
+        </div>
+      ) : null}
+      <aside
+        className={`fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) overflow-y-auto px-5 py-6 scrollbar-none lg:block [&::-webkit-scrollbar]:hidden${collapsed ? " lg:hidden" : ""}`}
+      >
+        <div className="flex items-center justify-between gap-2">
+          <Link to="/" className="flex items-center gap-2 text-foreground">
+            <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
+          </Link>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label="Collapse sidebar"
+            title="Collapse sidebar"
+            className="size-8 shrink-0 p-0"
+            onClick={toggleCollapsed}
+          >
+            <PanelLeftClose aria-hidden />
+          </Button>
+        </div>
         <div className="mt-6">
-          <ComponentSearch />
+          <ComponentSearchDialog />
         </div>
         <nav className="mt-8 space-y-8">
           <ul className="space-y-1">
