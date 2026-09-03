@@ -3,7 +3,6 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Badge,
   Button,
-  cn,
   Combobox,
   ComboboxClear,
   ComboboxContent,
@@ -12,16 +11,7 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-  Dialog,
-  DialogBody,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  Kbd,
   Separator,
-  type ComboboxPortalProps,
 } from "raft-ui";
 import { Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
@@ -414,16 +404,26 @@ const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch
 function ComponentSearch({
   onNavigate,
   autoFocus,
-  portalProps,
+  focusSignal = 0,
 }: {
   onNavigate?: () => void;
   autoFocus?: boolean;
-  portalProps?: ComboboxPortalProps;
+  focusSignal?: number;
 }) {
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const filteredItems = query.trim() ? filterComponentSearchItems(query) : [];
+
+  useEffect(() => {
+    if (focusSignal === 0) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => inputRef.current?.focus());
+    return () => cancelAnimationFrame(frame);
+  }, [focusSignal]);
 
   return (
     <Combobox<ComponentSearchItem>
@@ -465,7 +465,6 @@ function ComponentSearch({
         align="start"
         initialFocus={false}
         finalFocus={false}
-        portalProps={portalProps}
         className="w-(--anchor-width)"
       >
         <ComboboxList>
@@ -481,75 +480,6 @@ function ComponentSearch({
         <ComboboxEmpty>No components found</ComboboxEmpty>
       </ComboboxContent>
     </Combobox>
-  );
-}
-
-function ComponentSearchDialog({
-  iconOnly = false,
-  onNavigate,
-}: {
-  iconOnly?: boolean;
-  onNavigate?: () => void;
-}) {
-  const [open, setOpen] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        setOpen(true);
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        render={
-          <Button
-            variant="outline"
-            size={iconOnly ? "icon-md" : "md"}
-            aria-label="Search components"
-            title="Search components"
-            className={cn(
-              "font-normal",
-              iconOnly ? "size-8 p-0" : "w-full justify-start text-foreground-muted",
-            )}
-          />
-        }
-      >
-        <Search aria-hidden />
-        {iconOnly ? null : (
-          <>
-            <span>Search components</span>
-            <Kbd className="ml-auto">⌘ K</Kbd>
-          </>
-        )}
-      </DialogTrigger>
-      <DialogContent ref={dialogContentRef} size="md" className="gap-0 overflow-visible p-0">
-        <DialogHeader className="px-4 py-3">
-          <DialogTitle className="sr-only">Search components</DialogTitle>
-          <DialogClose
-            aria-label="Close component search"
-            className="col-start-2 justify-self-end"
-          />
-        </DialogHeader>
-        <DialogBody className="px-4 pb-4">
-          <ComponentSearch
-            autoFocus
-            portalProps={{ container: dialogContentRef }}
-            onNavigate={() => {
-              setOpen(false);
-              onNavigate?.();
-            }}
-          />
-        </DialogBody>
-      </DialogContent>
-    </Dialog>
   );
 }
 
@@ -887,7 +817,7 @@ function MobileSidebar() {
           className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-4 pt-3 pb-[max(2rem,env(safe-area-inset-bottom))]"
         >
           <div className="mx-auto max-w-xl space-y-9">
-            <ComponentSearchDialog onNavigate={close} />
+            <ComponentSearch onNavigate={close} />
 
             <div className="flex flex-col gap-2">
               {PRIMARY_NAV.map((item) => (
@@ -924,7 +854,21 @@ export type SidebarProps = {
 };
 
 export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) {
+  const [focusSearchSignal, setFocusSearchSignal] = useState(0);
   const toggleCollapsed = () => onCollapsedChange?.(!collapsed);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        onCollapsedChange?.(false);
+        setFocusSearchSignal((signal) => signal + 1);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onCollapsedChange]);
 
   return (
     <>
@@ -941,65 +885,77 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
           >
             <PanelLeftOpen aria-hidden />
           </Button>
-          <ComponentSearchDialog iconOnly />
-        </div>
-      ) : null}
-      <aside
-        className={`fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) overflow-y-auto px-5 py-6 scrollbar-none lg:block [&::-webkit-scrollbar]:hidden${collapsed ? " lg:hidden" : ""}`}
-      >
-        <div className="flex items-center justify-between gap-2">
-          <Link to="/" className="flex items-center gap-2 text-foreground">
-            <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
-          </Link>
           <Button
             variant="ghost"
             size="sm"
-            aria-label="Collapse sidebar"
-            title="Collapse sidebar"
-            className="size-8 shrink-0 p-0"
-            onClick={toggleCollapsed}
+            aria-label="Search components"
+            title="Search components"
+            className="size-8 p-0"
+            onClick={() => {
+              onCollapsedChange?.(false);
+              setFocusSearchSignal((signal) => signal + 1);
+            }}
           >
-            <PanelLeftClose aria-hidden />
+            <Search aria-hidden />
           </Button>
         </div>
-        <div className="mt-6">
-          <ComponentSearchDialog />
-        </div>
-        <nav className="mt-8 space-y-8">
-          <ul className="space-y-1">
-            {PRIMARY_NAV.map((item) => (
-              <li key={item.label}>
-                <NavRow
-                  item={item}
-                  badge={
-                    item.to === "/changelog" ? (
-                      <VersionBadge />
-                    ) : "status" in item ? (
-                      <StatusBadge status={item.status} />
-                    ) : null
-                  }
-                />
-              </li>
+      ) : null}
+      {!collapsed ? (
+        <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) overflow-y-auto px-5 py-6 scrollbar-none lg:block [&::-webkit-scrollbar]:hidden">
+          <div className="flex items-center justify-between gap-2">
+            <Link to="/" className="flex items-center gap-2 text-foreground">
+              <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
+            </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label="Collapse sidebar"
+              title="Collapse sidebar"
+              className="size-8 shrink-0 p-0"
+              onClick={toggleCollapsed}
+            >
+              <PanelLeftClose aria-hidden />
+            </Button>
+          </div>
+          <div className="mt-6">
+            <ComponentSearch autoFocus={focusSearchSignal > 0} focusSignal={focusSearchSignal} />
+          </div>
+          <nav className="mt-8 space-y-8">
+            <ul className="space-y-1">
+              {PRIMARY_NAV.map((item) => (
+                <li key={item.label}>
+                  <NavRow
+                    item={item}
+                    badge={
+                      item.to === "/changelog" ? (
+                        <VersionBadge />
+                      ) : "status" in item ? (
+                        <StatusBadge status={item.status} />
+                      ) : null
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+
+            <NavGroup {...FOUNDATIONS} />
+
+            <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+
+            {COMPONENT_NAV.map((group) => (
+              <NavGroup key={group.title} {...group} />
             ))}
-          </ul>
 
-          <NavGroup {...FOUNDATIONS} />
+            <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
 
-          <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+            {PATTERN_NAV.map((group) => (
+              <NavGroup key={group.title} {...group} />
+            ))}
 
-          {COMPONENT_NAV.map((group) => (
-            <NavGroup key={group.title} {...group} />
-          ))}
-
-          <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
-
-          {PATTERN_NAV.map((group) => (
-            <NavGroup key={group.title} {...group} />
-          ))}
-
-          <NavGroup {...ROADMAP} />
-        </nav>
-      </aside>
+            <NavGroup {...ROADMAP} />
+          </nav>
+        </aside>
+      ) : null}
     </>
   );
 }
