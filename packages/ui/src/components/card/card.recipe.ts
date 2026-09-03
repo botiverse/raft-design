@@ -60,6 +60,17 @@ export const card = tv({
     },
     variant: {
       default: {},
+      /** A selectable option INSIDE a form, not a panel on top of one.
+       *
+       *  `default` is panel chrome: brutal gives it `shadow-raft-md` (4px) while
+       *  every control in a form — Input, SelectTrigger — sits at
+       *  `shadow-raft-sm` (2px). In brutal the shadow offset IS the elevation,
+       *  so a default Card used as a checkbox row renders one step above the
+       *  fields around it and reads as a floating panel rather than a boxed
+       *  choice. `option` puts it back in the control plane and drops the title
+       *  from the card-title scale to the field scale, so it cannot outrank the
+       *  field label above it. */
+      option: {},
       inset: {},
     },
   },
@@ -85,6 +96,18 @@ export const card = tv({
         header: "px-4 py-3",
         content: "-mx-2 border-y-2 border-line-strong bg-layer-panel px-6 py-4",
         footer: "px-4 py-3",
+      },
+    },
+    {
+      theme: "brutal",
+      variant: "option",
+      class: {
+        // Input's own chrome, so the two read as siblings.
+        root: ["border-2 border-line-strong bg-layer-panel", "shadow-raft-sm"],
+        header: "p-3",
+        content: "px-3 pb-3",
+        title: ["font-heading text-sm leading-5 font-bold"],
+        description: ["font-sans text-xs leading-4"],
       },
     },
     {
@@ -117,6 +140,18 @@ export const card = tv({
           "dark:border-transparent dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.04),0_0_0_1px_oklch(0_0_0/0.35)]",
         ],
         footer: "px-5 py-3",
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "option",
+      class: {
+        // Input's elegant chrome: hairline border, rounded, no lift.
+        root: ["rounded-md border border-line-field bg-layer-panel", "shadow-none"],
+        header: "p-3",
+        content: "px-3 pb-3",
+        title: ["font-sans text-sm leading-5 font-semibold"],
+        description: ["font-sans text-xs leading-4"],
       },
     },
   ],
