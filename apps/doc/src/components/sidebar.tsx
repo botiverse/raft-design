@@ -526,7 +526,10 @@ function ComponentSearchDialog({
       <DialogContent size="md" className="gap-0 p-0">
         <DialogHeader className="px-4 py-3">
           <DialogTitle className="sr-only">Search components</DialogTitle>
-          <DialogClose aria-label="Close component search" />
+          <DialogClose
+            aria-label="Close component search"
+            className="col-start-2 justify-self-end"
+          />
         </DialogHeader>
         <DialogBody className="px-4 pb-4">
           <ComponentSearch
