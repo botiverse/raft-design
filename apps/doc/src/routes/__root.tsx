@@ -105,7 +105,7 @@ function RootDocument({ children }: { children: ReactNode }) {
       )
     : cn(
         "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:13.5rem] xl:[--toc-w:11rem]",
-        sidebarCollapsed && "lg:[--sidebar-w:0rem] xl:[--toc-w:0rem]",
+        sidebarCollapsed && "lg:[--sidebar-w:0rem]",
       );
 
   return (
