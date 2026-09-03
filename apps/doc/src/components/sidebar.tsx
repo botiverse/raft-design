@@ -495,7 +495,7 @@ function ComponentSearch({
             </ComboboxItem>
           )}
         </ComboboxList>
-        {query.trim() ? <ComboboxEmpty>No components found</ComboboxEmpty> : null}
+        <ComboboxEmpty>{query.trim() ? "No components found" : null}</ComboboxEmpty>
       </ComboboxContent>
     </Combobox>
   );
