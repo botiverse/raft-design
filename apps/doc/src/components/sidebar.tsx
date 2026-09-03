@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Badge,
@@ -21,6 +21,7 @@ import {
   DialogTrigger,
   Kbd,
   Separator,
+  type ComboboxPortalProps,
 } from "raft-ui";
 import { Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
@@ -413,9 +414,11 @@ const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch
 function ComponentSearch({
   onNavigate,
   autoFocus,
+  portalProps,
 }: {
   onNavigate?: () => void;
   autoFocus?: boolean;
+  portalProps?: ComboboxPortalProps;
 }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -462,6 +465,7 @@ function ComponentSearch({
         align="start"
         initialFocus={false}
         finalFocus={false}
+        portalProps={portalProps}
         className="w-(--anchor-width)"
       >
         <ComboboxList>
@@ -486,6 +490,7 @@ function ComponentSearchDialog({
   onNavigate?: () => void;
 }) {
   const [open, setOpen] = useState(false);
+  const dialogContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -523,7 +528,7 @@ function ComponentSearchDialog({
           </>
         )}
       </DialogTrigger>
-      <DialogContent size="md" className="gap-0 p-0">
+      <DialogContent ref={dialogContentRef} size="md" className="gap-0 overflow-visible p-0">
         <DialogHeader className="px-4 py-3">
           <DialogTitle className="sr-only">Search components</DialogTitle>
           <DialogClose
@@ -534,6 +539,7 @@ function ComponentSearchDialog({
         <DialogBody className="px-4 pb-4">
           <ComponentSearch
             autoFocus
+            portalProps={{ container: dialogContentRef }}
             onNavigate={() => {
               setOpen(false);
               onNavigate?.();
