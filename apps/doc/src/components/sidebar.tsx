@@ -6,11 +6,13 @@ import {
   Combobox,
   ComboboxClear,
   ComboboxContent,
-  ComboboxControl,
   ComboboxEmpty,
   ComboboxInput,
+  ComboboxInputGroup,
   ComboboxItem,
   ComboboxList,
+  ComboboxTrigger,
+  Kbd,
   Separator,
 } from "raft-ui";
 import { Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
@@ -421,6 +423,7 @@ function ComponentSearch({
       return;
     }
 
+    setOpen(true);
     const frame = requestAnimationFrame(() => inputRef.current?.focus());
     return () => cancelAnimationFrame(frame);
   }, [focusSignal]);
@@ -433,11 +436,11 @@ function ComponentSearch({
       inputValue={query}
       itemToStringLabel={(item) => item.label}
       autoHighlight
-      onOpenChange={(nextOpen) => setOpen(nextOpen && Boolean(query.trim()))}
+      onOpenChange={setOpen}
       onInputValueChange={(nextQuery, eventDetails) => {
         const nextValue = eventDetails.reason === "item-press" ? "" : nextQuery;
         setQuery(nextValue);
-        setOpen(Boolean(nextValue.trim()));
+        setOpen(true);
       }}
       onValueChange={(item) => {
         if (!item) {
@@ -450,23 +453,38 @@ function ComponentSearch({
         void navigate({ to: item.to });
       }}
     >
-      <ComboboxControl className="w-full">
+      <ComboboxTrigger
+        render={
+          <Button
+            variant="outline"
+            size="md"
+            aria-label="Search components"
+            title="Search components"
+            className="w-full justify-start font-normal text-foreground-muted"
+          />
+        }
+      >
         <Search aria-hidden />
-        <ComboboxInput
-          autoFocus={autoFocus}
-          aria-label="Search components"
-          placeholder="Search components..."
-          suppressPasswordManager
-        />
-        <ComboboxClear aria-label="Clear component search" />
-      </ComboboxControl>
+        <span>Search components</span>
+        <Kbd className="ml-auto">⌘ K</Kbd>
+      </ComboboxTrigger>
       <ComboboxContent
         side="bottom"
         align="start"
         initialFocus={false}
         finalFocus={false}
-        className="w-(--anchor-width)"
+        className="w-[min(360px,calc(100vw-2rem))] max-w-[calc(100vw-2rem)]"
       >
+        <ComboboxInputGroup>
+          <ComboboxInput
+            ref={inputRef}
+            autoFocus={autoFocus}
+            aria-label="Search components"
+            placeholder="Search components..."
+            suppressPasswordManager
+          />
+          <ComboboxClear aria-label="Clear component search" />
+        </ComboboxInputGroup>
         <ComboboxList>
           {(item: ComponentSearchItem) => (
             <ComboboxItem key={item.to} value={item}>
@@ -477,7 +495,7 @@ function ComponentSearch({
             </ComboboxItem>
           )}
         </ComboboxList>
-        <ComboboxEmpty>No components found</ComboboxEmpty>
+        {query.trim() ? <ComboboxEmpty>No components found</ComboboxEmpty> : null}
       </ComboboxContent>
     </Combobox>
   );
