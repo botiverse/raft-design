@@ -6,6 +6,7 @@ import {
   Combobox,
   ComboboxClear,
   ComboboxContent,
+  ComboboxControl,
   ComboboxEmpty,
   ComboboxInput,
   ComboboxInputGroup,
@@ -407,10 +408,14 @@ function ComponentSearch({
   onNavigate,
   autoFocus,
   focusSignal = 0,
+  mode = "trigger",
+  onOpenChange,
 }: {
   onNavigate?: () => void;
   autoFocus?: boolean;
   focusSignal?: number;
+  mode?: "trigger" | "control";
+  onOpenChange?: (open: boolean) => void;
 }) {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -437,7 +442,10 @@ function ComponentSearch({
       inputValue={query}
       itemToStringLabel={(item) => item.label}
       autoHighlight
-      onOpenChange={setOpen}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+        onOpenChange?.(nextOpen);
+      }}
       onInputValueChange={(nextQuery, eventDetails) => {
         const nextValue = eventDetails.reason === "item-press" ? "" : nextQuery;
         setQuery(nextValue);
@@ -454,29 +462,25 @@ function ComponentSearch({
         void navigate({ to: item.to });
       }}
     >
-      <ComboboxTrigger
-        render={
-          <Button
-            variant="outline"
-            size="md"
-            aria-label="Search components"
-            title="Search components"
-            className="w-full justify-start font-normal text-foreground-muted"
-          />
-        }
-      >
-        <Search aria-hidden />
-        <span>Search components</span>
-        <Kbd className="ml-auto">⌘ K</Kbd>
-      </ComboboxTrigger>
-      <ComboboxContent
-        side="bottom"
-        align="start"
-        initialFocus={false}
-        finalFocus={false}
-        className="w-[min(360px,calc(100vw-2rem))] max-w-[calc(100vw-2rem)]"
-      >
-        <ComboboxInputGroup>
+      {mode === "trigger" ? (
+        <ComboboxTrigger
+          render={
+            <Button
+              variant="outline"
+              size="md"
+              aria-label="Search components"
+              title="Search components"
+              className="w-full justify-start font-normal text-foreground-muted"
+            />
+          }
+        >
+          <Search aria-hidden />
+          <span>Search components</span>
+          <Kbd className="ml-auto">⌘ K</Kbd>
+        </ComboboxTrigger>
+      ) : (
+        <ComboboxControl className="w-full">
+          <Search aria-hidden />
           <ComboboxInput
             ref={inputRef}
             autoFocus={autoFocus}
@@ -485,7 +489,27 @@ function ComponentSearch({
             suppressPasswordManager
           />
           <ComboboxClear aria-label="Clear component search" />
-        </ComboboxInputGroup>
+        </ComboboxControl>
+      )}
+      <ComboboxContent
+        side="bottom"
+        align="start"
+        initialFocus={false}
+        finalFocus={false}
+        className="w-(--anchor-width) max-w-[calc(100vw-2rem)]"
+      >
+        {mode === "trigger" ? (
+          <ComboboxInputGroup>
+            <ComboboxInput
+              ref={inputRef}
+              autoFocus={autoFocus}
+              aria-label="Search components"
+              placeholder="Search components..."
+              suppressPasswordManager
+            />
+            <ComboboxClear aria-label="Clear component search" />
+          </ComboboxInputGroup>
+        ) : null}
         {query.trim() ? (
           <ComboboxList>
             {(item: ComponentSearchItem) => (
@@ -876,24 +900,59 @@ export type SidebarProps = {
 
 export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) {
   const [focusSearchSignal, setFocusSearchSignal] = useState(0);
+  const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
+  const [globalSearchSignal, setGlobalSearchSignal] = useState(0);
   const toggleCollapsed = () => onCollapsedChange?.(!collapsed);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && globalSearchOpen) {
+        event.preventDefault();
+        setGlobalSearchOpen(false);
+        return;
+      }
+
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        onCollapsedChange?.(false);
-        setFocusSearchSignal((signal) => signal + 1);
+        setGlobalSearchOpen(true);
+        setGlobalSearchSignal((signal) => signal + 1);
       }
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onCollapsedChange]);
+  }, [globalSearchOpen, onCollapsedChange]);
 
   return (
     <>
       <MobileSidebar />
+      {globalSearchOpen ? (
+        <div
+          className="fixed inset-0 z-50 bg-layer-backdrop/70 px-4 pt-[18vh] backdrop-blur-sm"
+          role="presentation"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              setGlobalSearchOpen(false);
+            }
+          }}
+          onPointerDown={(event) => {
+            if (event.currentTarget === event.target) {
+              setGlobalSearchOpen(false);
+            }
+          }}
+        >
+          <div className="mx-auto w-full max-w-lg">
+            <ComponentSearch
+              mode="control"
+              autoFocus
+              focusSignal={globalSearchSignal}
+              onOpenChange={setGlobalSearchOpen}
+              onNavigate={() => setGlobalSearchOpen(false)}
+            />
+          </div>
+        </div>
+      ) : null}
       {collapsed ? (
         <div className="fixed left-4 top-4 z-40 hidden items-center gap-0.5 rounded-xl border border-line-muted bg-layer-panel p-1 shadow-raft-md lg:flex">
           <Button
