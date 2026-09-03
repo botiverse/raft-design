@@ -417,6 +417,7 @@ function ComponentSearch({
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const filteredItems = query.trim() ? filterComponentSearchItems(query) : [];
+  const comboboxItems = query.trim() ? filteredItems : COMPONENT_SEARCH_ITEMS.slice(0, 1);
 
   useEffect(() => {
     if (focusSignal === 0) {
@@ -430,7 +431,7 @@ function ComponentSearch({
 
   return (
     <Combobox<ComponentSearchItem>
-      items={filteredItems}
+      items={comboboxItems}
       value={null}
       open={open}
       inputValue={query}
@@ -485,16 +486,18 @@ function ComponentSearch({
           />
           <ComboboxClear aria-label="Clear component search" />
         </ComboboxInputGroup>
-        <ComboboxList>
-          {(item: ComponentSearchItem) => (
-            <ComboboxItem key={item.to} value={item}>
-              <span className="min-w-0 flex-1 truncate">{item.label}</span>
-              <span className="max-w-[42%] shrink-0 truncate text-xs text-foreground-muted">
-                {item.group}
-              </span>
-            </ComboboxItem>
-          )}
-        </ComboboxList>
+        {query.trim() ? (
+          <ComboboxList>
+            {(item: ComponentSearchItem) => (
+              <ComboboxItem key={item.to} value={item}>
+                <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                <span className="max-w-[42%] shrink-0 truncate text-xs text-foreground-muted">
+                  {item.group}
+                </span>
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        ) : null}
         <ComboboxEmpty>{query.trim() ? "No components found" : null}</ComboboxEmpty>
       </ComboboxContent>
     </Combobox>
