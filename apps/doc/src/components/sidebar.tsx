@@ -19,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Kbd,
   Separator,
 } from "raft-ui";
 import { Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
@@ -486,6 +487,18 @@ function ComponentSearchDialog({
 }) {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
@@ -503,7 +516,12 @@ function ComponentSearchDialog({
         }
       >
         <Search aria-hidden />
-        {iconOnly ? null : <span>Search components</span>}
+        {iconOnly ? null : (
+          <>
+            <span>Search components</span>
+            <Kbd className="ml-auto">⌘ K</Kbd>
+          </>
+        )}
       </DialogTrigger>
       <DialogContent size="md" className="gap-0 p-0">
         <DialogHeader className="px-4 py-3">
