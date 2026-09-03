@@ -1,7 +1,18 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
-import { Badge, Separator } from "raft-ui";
-import { Globe2, Menu, X } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import {
+  Badge,
+  Combobox,
+  ComboboxClear,
+  ComboboxContent,
+  ComboboxControl,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  Separator,
+} from "raft-ui";
+import { Globe2, Menu, Search, X } from "lucide-react";
 
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
@@ -216,6 +227,38 @@ const PATTERN_NAV = [
   },
 ] as const;
 
+export type ComponentSearchItem = {
+  label: string;
+  to: string;
+  group: string;
+};
+
+function createComponentSearchItems(): readonly ComponentSearchItem[] {
+  return [FOUNDATIONS, ...COMPONENT_NAV, ...PATTERN_NAV].flatMap((group) =>
+    group.items.flatMap((item) => {
+      if (!("to" in item)) {
+        return [];
+      }
+
+      return [{ label: item.label, to: item.to, group: group.title }];
+    }),
+  );
+}
+
+export const COMPONENT_SEARCH_ITEMS = createComponentSearchItems();
+
+export function filterComponentSearchItems(query: string): readonly ComponentSearchItem[] {
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+
+  if (!normalizedQuery) {
+    return COMPONENT_SEARCH_ITEMS;
+  }
+
+  return COMPONENT_SEARCH_ITEMS.filter((item) =>
+    `${item.label} ${item.group} ${item.to}`.toLocaleLowerCase().includes(normalizedQuery),
+  );
+}
+
 const ROADMAP = {
   title: "Roadmap",
   items: [
@@ -356,6 +399,61 @@ const sidebarItemActiveProps = { className: sidebarItemActiveClassName };
 const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
 const sidebarPathActiveOptions = { exact: true, includeSearch: false };
 const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
+
+function ComponentSearch({ onNavigate }: { onNavigate?: () => void }) {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const filteredItems = filterComponentSearchItems(query);
+
+  return (
+    <Combobox<ComponentSearchItem>
+      items={filteredItems}
+      value={null}
+      inputValue={query}
+      itemToStringLabel={(item) => item.label}
+      autoHighlight
+      onInputValueChange={(nextQuery, eventDetails) => {
+        setQuery(eventDetails.reason === "item-press" ? "" : nextQuery);
+      }}
+      onValueChange={(item) => {
+        if (!item) {
+          return;
+        }
+
+        setQuery("");
+        onNavigate?.();
+        void navigate({ to: item.to });
+      }}
+    >
+      <ComboboxControl className="w-full">
+        <Search aria-hidden />
+        <ComboboxInput
+          aria-label="Search components"
+          placeholder="Search components..."
+          suppressPasswordManager
+        />
+        <ComboboxClear aria-label="Clear component search" />
+      </ComboboxControl>
+      <ComboboxContent
+        side="bottom"
+        align="start"
+        initialFocus={false}
+        finalFocus={false}
+        className="w-(--anchor-width)"
+      >
+        <ComboboxList>
+          {(item: ComponentSearchItem) => (
+            <ComboboxItem key={item.to} value={item}>
+              <span className="truncate">{item.label}</span>
+              <span className="shrink-0 text-xs text-foreground-muted">{item.group}</span>
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+        <ComboboxEmpty>No components found</ComboboxEmpty>
+      </ComboboxContent>
+    </Combobox>
+  );
+}
 
 function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
   const className = `flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors hover:bg-fill-muted/80 hover:text-foreground ${
@@ -691,6 +789,8 @@ function MobileSidebar() {
           className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-4 pt-3 pb-[max(2rem,env(safe-area-inset-bottom))]"
         >
           <div className="mx-auto max-w-xl space-y-9">
+            <ComponentSearch onNavigate={close} />
+
             <div className="flex flex-col gap-2">
               {PRIMARY_NAV.map((item) => (
                 <MobileNavItem
@@ -728,6 +828,9 @@ export function Sidebar() {
         <Link to="/" className="flex items-center gap-2 text-foreground">
           <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
         </Link>
+        <div className="mt-6">
+          <ComponentSearch />
+        </div>
         <nav className="mt-8 space-y-8">
           <ul className="space-y-1">
             {PRIMARY_NAV.map((item) => (
