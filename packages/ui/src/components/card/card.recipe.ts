@@ -104,7 +104,12 @@ export const card = tv({
       class: {
         // Input's own chrome, so the two read as siblings.
         root: ["border-2 border-line-strong bg-layer-panel", "shadow-raft-sm"],
-        header: "p-3",
+        // gap-x-3.5 (14px), not the base gap-x-4 (16px): the gap between a
+        // leading control and its title should match the card's own left inset
+        // — 2px border + 12px padding — so the option reads as one row on a
+        // single rhythm rather than a control sitting apart from its label
+        // (@cindyz, 2026-09-03).
+        header: "gap-x-3.5 p-3",
         content: "px-3 pb-3",
         title: ["font-heading text-sm leading-5 font-bold"],
         description: ["font-sans text-xs leading-4"],
@@ -148,7 +153,11 @@ export const card = tv({
       class: {
         // Input's elegant chrome: hairline border, rounded, no lift.
         root: ["rounded-md border border-line-field bg-layer-panel", "shadow-none"],
-        header: "p-3",
+        // Same 14px as brutal. Elegant's own inset is 13px (1px border + 12px
+        // padding), so the gap is 1px wider than the inset here rather than
+        // exactly equal — matching the requested 14 rather than drifting the
+        // two themes apart.
+        header: "gap-x-3.5 p-3",
         content: "px-3 pb-3",
         title: ["font-sans text-sm leading-5 font-semibold"],
         description: ["font-sans text-xs leading-4"],

@@ -69,3 +69,43 @@ test("default title keeps the card-title scale", () => {
   renderCard("brutal");
   expect(screen.getByTestId("title").className).toMatch(/text-card-title/);
 });
+
+/**
+ * The leading control's gap to the title must match the card's own inset, so an
+ * option reads as one row rather than a control parked away from its label.
+ * `gap-x-4` (16px) is panel scale; the option uses `gap-x-3.5` (14px), which is
+ * brutal's 2px border + 12px padding (@cindyz, 2026-09-03).
+ */
+test("option header tightens the leading gap to the card's inset", () => {
+  for (const theme of ["brutal", "elegant"] as const) {
+    cleanup();
+    render(
+      <ThemeProvider theme={theme}>
+        <Card variant="option">
+          <CardHeader data-testid="hdr">
+            <CardTitle>Fast mode</CardTitle>
+          </CardHeader>
+        </Card>
+      </ThemeProvider>,
+    );
+    const cls = screen.getByTestId("hdr").className;
+    expect(cls, `${theme}: option header must use the 14px leading gap`).toMatch(/\bgap-x-3\.5\b/);
+    expect(
+      cls,
+      `${theme}: the 16px panel gap must be REPLACED — both surviving leaves the cascade to pick, and the control drifts from its label`,
+    ).not.toMatch(/\bgap-x-4\b/);
+  }
+});
+
+test("default header keeps the panel gap", () => {
+  render(
+    <ThemeProvider theme="brutal">
+      <Card>
+        <CardHeader data-testid="hdr">
+          <CardTitle>Panel</CardTitle>
+        </CardHeader>
+      </Card>
+    </ThemeProvider>,
+  );
+  expect(screen.getByTestId("hdr").className).toMatch(/\bgap-x-4\b/);
+});
