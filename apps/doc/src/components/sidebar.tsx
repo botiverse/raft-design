@@ -471,8 +471,10 @@ function ComponentSearch({
         <ComboboxList>
           {(item: ComponentSearchItem) => (
             <ComboboxItem key={item.to} value={item}>
-              <span className="truncate">{item.label}</span>
-              <span className="shrink-0 text-xs text-foreground-muted">{item.group}</span>
+              <span className="min-w-0 flex-1 truncate">{item.label}</span>
+              <span className="max-w-[42%] shrink-0 truncate text-xs text-foreground-muted">
+                {item.group}
+              </span>
             </ComboboxItem>
           )}
         </ComboboxList>
