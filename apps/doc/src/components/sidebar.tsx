@@ -947,7 +947,6 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
               mode="control"
               autoFocus
               focusSignal={globalSearchSignal}
-              onOpenChange={setGlobalSearchOpen}
               onNavigate={() => setGlobalSearchOpen(false)}
             />
           </div>
