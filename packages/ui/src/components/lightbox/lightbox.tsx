@@ -247,8 +247,8 @@ export type LightboxContentProps = StyledProps<Dialog.Popup.Props>;
 
 export function LightboxContent({
   className,
-  initialFocus = false,
-  finalFocus = false,
+  initialFocus,
+  finalFocus,
   ...props
 }: LightboxContentProps) {
   const theme = useThemeFamily();
