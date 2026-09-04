@@ -151,7 +151,6 @@ function AppShellDoc() {
       title="AppShell"
       description="Layout-only foundations for rail, sidebar, main content, and optional panels."
       toc={TOC}
-      articleClassName="max-w-none"
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <AppShellPreview

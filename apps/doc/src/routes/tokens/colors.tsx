@@ -235,7 +235,6 @@ function ColorsDoc() {
       <DocPage
         title="Colors"
         description="Semantic neutrals, the ink overlay ramp, and the brand and state color families."
-        articleClassName="max-w-none xl:max-w-6xl 2xl:max-w-7xl"
         toc={TOC}
       >
         <DocSection id="grammar" title="Token grammar" showThemeSwitcher={false}>
