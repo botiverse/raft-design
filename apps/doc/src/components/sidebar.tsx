@@ -928,7 +928,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
       <MobileSidebar />
       {globalSearchOpen ? (
         <div
-          className="fixed inset-0 z-50 bg-layer-backdrop/70 px-4 pt-[18vh] backdrop-blur-sm"
+          className="fixed inset-0 z-90 bg-layer-backdrop/70 px-4 pt-[18vh] backdrop-blur-sm"
           role="presentation"
           onKeyDown={(event) => {
             if (event.key === "Escape") {
