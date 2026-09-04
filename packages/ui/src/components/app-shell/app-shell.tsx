@@ -187,6 +187,7 @@ export function AppShellSidebarSlot({ className, render, ...props }: AppShellSid
 
   const defaultProps: SlotElementProps<"aside"> = {
     "aria-hidden": sidebar?.collapsible && !sidebar.open ? true : undefined,
+    inert: sidebar?.collapsible && !sidebar.open ? true : undefined,
     "data-slot": "app-shell-sidebar-slot",
     className: sidebarSlot({
       className: cn(
