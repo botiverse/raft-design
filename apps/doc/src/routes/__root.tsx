@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   HeadContent,
   Scripts,
@@ -88,6 +88,7 @@ export const Route = createRootRoute({
 function RootDocument({ children }: { children: ReactNode }) {
   const location = useLocation();
   const { storedPreviewTheme } = Route.useLoaderData();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isStandalonePage = useMatches({
     select: (matches) => matches.some((match) => match.staticData?.standalone === true),
   });
@@ -97,6 +98,15 @@ function RootDocument({ children }: { children: ReactNode }) {
   const documentTitle = getDocumentTitle(location.pathname);
   const isDarkDocument =
     storedPreviewTheme?.theme === "elegant" && storedPreviewTheme.mode === "dark";
+  const documentShellClassName = isStandalonePage
+    ? cn(
+        "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]",
+        usesPlaygroundDocumentScroll && "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
+      )
+    : cn(
+        "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:16rem] xl:[--toc-w:11rem]",
+        sidebarCollapsed && "lg:[--sidebar-w:0rem]",
+      );
 
   return (
     <html
@@ -128,18 +138,10 @@ function RootDocument({ children }: { children: ReactNode }) {
       >
         <PreviewThemeProvider initial={storedPreviewTheme}>
           <DocumentThemeProvider standalone={isStandalonePage}>
-            <div
-              className={
-                isStandalonePage
-                  ? cn(
-                      "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]",
-                      usesPlaygroundDocumentScroll &&
-                        "max-md:!h-auto max-md:!min-h-dvh max-md:!overflow-visible",
-                    )
-                  : "isolate min-h-screen [--sidebar-w:0rem] [--toc-w:0rem] lg:[--sidebar-w:13.5rem] xl:[--toc-w:11rem]"
-              }
-            >
-              {isStandalonePage ? null : <Sidebar />}
+            <div className={documentShellClassName}>
+              {isStandalonePage ? null : (
+                <Sidebar collapsed={sidebarCollapsed} onCollapsedChange={setSidebarCollapsed} />
+              )}
               <main
                 className={
                   isStandalonePage

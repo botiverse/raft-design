@@ -1,7 +1,22 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
-import { Badge, Separator } from "raft-ui";
-import { Globe2, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import {
+  Badge,
+  Button,
+  Combobox,
+  ComboboxClear,
+  ComboboxContent,
+  ComboboxControl,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxInputGroup,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxTrigger,
+  Kbd,
+  Separator,
+} from "raft-ui";
+import { Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
@@ -216,6 +231,38 @@ const PATTERN_NAV = [
   },
 ] as const;
 
+export type ComponentSearchItem = {
+  label: string;
+  to: string;
+  group: string;
+};
+
+function createComponentSearchItems(): readonly ComponentSearchItem[] {
+  return [FOUNDATIONS, ...COMPONENT_NAV, ...PATTERN_NAV].flatMap((group) =>
+    group.items.flatMap((item) => {
+      if (!("to" in item)) {
+        return [];
+      }
+
+      return [{ label: item.label, to: item.to, group: group.title }];
+    }),
+  );
+}
+
+export const COMPONENT_SEARCH_ITEMS = createComponentSearchItems();
+
+export function filterComponentSearchItems(query: string): readonly ComponentSearchItem[] {
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+
+  if (!normalizedQuery) {
+    return COMPONENT_SEARCH_ITEMS;
+  }
+
+  return COMPONENT_SEARCH_ITEMS.filter((item) =>
+    `${item.label} ${item.group} ${item.to}`.toLocaleLowerCase().includes(normalizedQuery),
+  );
+}
+
 const ROADMAP = {
   title: "Roadmap",
   items: [
@@ -356,6 +403,124 @@ const sidebarItemActiveProps = { className: sidebarItemActiveClassName };
 const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
 const sidebarPathActiveOptions = { exact: true, includeSearch: false };
 const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
+
+function ComponentSearch({
+  onNavigate,
+  autoFocus,
+  mode = "trigger",
+  onOpenChange,
+  onTriggerClick,
+}: {
+  onNavigate?: () => void;
+  autoFocus?: boolean;
+  mode?: "trigger" | "control";
+  onOpenChange?: (open: boolean) => void;
+  onTriggerClick?: () => void;
+}) {
+  const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const filteredItems = query.trim() ? filterComponentSearchItems(query) : [];
+  const comboboxItems = query.trim() ? filteredItems : COMPONENT_SEARCH_ITEMS.slice(0, 1);
+  const trigger = (
+    <Button
+      variant="outline"
+      size="md"
+      aria-label="Search components"
+      title="Search components"
+      className="w-full justify-start font-normal text-foreground-muted"
+      onClick={onTriggerClick}
+    >
+      <Search aria-hidden />
+      <span>Search components</span>
+      <Kbd className="ml-auto">⌘ K</Kbd>
+    </Button>
+  );
+
+  if (mode === "trigger" && onTriggerClick) {
+    return trigger;
+  }
+
+  return (
+    <Combobox<ComponentSearchItem>
+      items={comboboxItems}
+      value={null}
+      open={open}
+      inputValue={query}
+      itemToStringLabel={(item) => item.label}
+      autoHighlight
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+        onOpenChange?.(nextOpen);
+      }}
+      onInputValueChange={(nextQuery, eventDetails) => {
+        const nextValue = eventDetails.reason === "item-press" ? "" : nextQuery;
+        setQuery(nextValue);
+        setOpen(true);
+      }}
+      onValueChange={(item) => {
+        if (!item) {
+          return;
+        }
+
+        setQuery("");
+        setOpen(false);
+        onNavigate?.();
+        void navigate({ to: item.to });
+      }}
+    >
+      {mode === "trigger" ? (
+        <ComboboxTrigger render={trigger} />
+      ) : (
+        <ComboboxControl className="w-full">
+          <Search aria-hidden />
+          <ComboboxInput
+            ref={inputRef}
+            autoFocus={autoFocus}
+            aria-label="Search components"
+            placeholder="Search components..."
+            suppressPasswordManager
+          />
+          <ComboboxClear aria-label="Clear component search" />
+        </ComboboxControl>
+      )}
+      <ComboboxContent
+        side="bottom"
+        align="start"
+        initialFocus={false}
+        finalFocus={false}
+        className="w-(--anchor-width) max-w-[calc(100vw-2rem)]"
+      >
+        {mode === "trigger" ? (
+          <ComboboxInputGroup>
+            <ComboboxInput
+              ref={inputRef}
+              autoFocus={autoFocus}
+              aria-label="Search components"
+              placeholder="Search components..."
+              suppressPasswordManager
+            />
+            <ComboboxClear aria-label="Clear component search" />
+          </ComboboxInputGroup>
+        ) : null}
+        {query.trim() ? (
+          <ComboboxList>
+            {(item: ComponentSearchItem) => (
+              <ComboboxItem key={item.to} value={item}>
+                <span className="min-w-0 flex-1 truncate">{item.label}</span>
+                <span className="max-w-[42%] shrink-0 truncate text-xs text-foreground-muted">
+                  {item.group}
+                </span>
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        ) : null}
+        <ComboboxEmpty>{query.trim() ? "No components found" : null}</ComboboxEmpty>
+      </ComboboxContent>
+    </Combobox>
+  );
+}
 
 function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
   const className = `flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors hover:bg-fill-muted/80 hover:text-foreground ${
@@ -628,7 +793,7 @@ function MobileNavGroup({
   );
 }
 
-function MobileSidebar() {
+function MobileSidebar({ onSearch }: { onSearch: () => void }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -691,6 +856,14 @@ function MobileSidebar() {
           className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-4 pt-3 pb-[max(2rem,env(safe-area-inset-bottom))]"
         >
           <div className="mx-auto max-w-xl space-y-9">
+            <ComponentSearch
+              onNavigate={close}
+              onTriggerClick={() => {
+                close();
+                onSearch();
+              }}
+            />
+
             <div className="flex flex-col gap-2">
               {PRIMARY_NAV.map((item) => (
                 <MobileNavItem
@@ -720,49 +893,143 @@ function MobileSidebar() {
   );
 }
 
-export function Sidebar() {
+export type SidebarProps = {
+  collapsed?: boolean;
+  onCollapsedChange?: (collapsed: boolean) => void;
+};
+
+export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) {
+  const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
+  const toggleCollapsed = () => onCollapsedChange?.(!collapsed);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && globalSearchOpen) {
+        event.preventDefault();
+        setGlobalSearchOpen(false);
+        return;
+      }
+
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setGlobalSearchOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [globalSearchOpen, onCollapsedChange]);
+
   return (
     <>
-      <MobileSidebar />
-      <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) overflow-y-auto px-5 py-6 scrollbar-none lg:block [&::-webkit-scrollbar]:hidden">
-        <Link to="/" className="flex items-center gap-2 text-foreground">
-          <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
-        </Link>
-        <nav className="mt-8 space-y-8">
-          <ul className="space-y-1">
-            {PRIMARY_NAV.map((item) => (
-              <li key={item.label}>
-                <NavRow
-                  item={item}
-                  badge={
-                    item.to === "/changelog" ? (
-                      <VersionBadge />
-                    ) : "status" in item ? (
-                      <StatusBadge status={item.status} />
-                    ) : null
-                  }
-                />
-              </li>
+      <MobileSidebar onSearch={() => setGlobalSearchOpen(true)} />
+      {globalSearchOpen ? (
+        <div
+          className="fixed inset-0 z-90 bg-layer-backdrop/70 px-4 pt-[18vh] backdrop-blur-sm"
+          role="presentation"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+              setGlobalSearchOpen(false);
+            }
+          }}
+          onPointerDown={(event) => {
+            if (event.currentTarget === event.target) {
+              setGlobalSearchOpen(false);
+            }
+          }}
+        >
+          <div className="mx-auto w-full max-w-lg">
+            <ComponentSearch
+              mode="control"
+              autoFocus
+              onNavigate={() => setGlobalSearchOpen(false)}
+            />
+          </div>
+        </div>
+      ) : null}
+      {collapsed ? (
+        <div className="fixed left-4 top-4 z-40 hidden items-center gap-0.5 rounded-xl border border-line-muted bg-layer-panel p-1 shadow-raft-md lg:flex">
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label="Expand sidebar"
+            title="Expand sidebar"
+            className="size-8 p-0"
+            onClick={toggleCollapsed}
+          >
+            <PanelLeftOpen aria-hidden />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label="Search components"
+            title="Search components"
+            className="size-8 p-0"
+            onClick={() => {
+              setGlobalSearchOpen(true);
+            }}
+          >
+            <Search aria-hidden />
+          </Button>
+        </div>
+      ) : null}
+      {!collapsed ? (
+        <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) overflow-y-auto px-5 py-6 scrollbar-none lg:block [&::-webkit-scrollbar]:hidden">
+          <div className="flex items-center justify-between gap-2">
+            <Link to="/" className="flex items-center gap-2 text-foreground">
+              <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
+            </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label="Collapse sidebar"
+              title="Collapse sidebar"
+              className="size-8 shrink-0 p-0"
+              onClick={toggleCollapsed}
+            >
+              <PanelLeftClose aria-hidden />
+            </Button>
+          </div>
+          <div className="mt-6">
+            <ComponentSearch onTriggerClick={() => setGlobalSearchOpen(true)} />
+          </div>
+          <nav className="mt-8 space-y-8">
+            <ul className="space-y-1">
+              {PRIMARY_NAV.map((item) => (
+                <li key={item.label}>
+                  <NavRow
+                    item={item}
+                    badge={
+                      item.to === "/changelog" ? (
+                        <VersionBadge />
+                      ) : "status" in item ? (
+                        <StatusBadge status={item.status} />
+                      ) : null
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+
+            <NavGroup {...FOUNDATIONS} />
+
+            <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+
+            {COMPONENT_NAV.map((group) => (
+              <NavGroup key={group.title} {...group} />
             ))}
-          </ul>
 
-          <NavGroup {...FOUNDATIONS} />
+            <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
 
-          <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+            {PATTERN_NAV.map((group) => (
+              <NavGroup key={group.title} {...group} />
+            ))}
 
-          {COMPONENT_NAV.map((group) => (
-            <NavGroup key={group.title} {...group} />
-          ))}
-
-          <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
-
-          {PATTERN_NAV.map((group) => (
-            <NavGroup key={group.title} {...group} />
-          ))}
-
-          <NavGroup {...ROADMAP} />
-        </nav>
-      </aside>
+            <NavGroup {...ROADMAP} />
+          </nav>
+        </aside>
+      ) : null}
     </>
   );
 }
