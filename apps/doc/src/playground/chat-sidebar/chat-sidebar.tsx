@@ -65,6 +65,9 @@ function PlaygroundSidebarContent({
   title = "Chat",
 }: PlaygroundSidebarProps) {
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
+  const [archivedChannelNames, setArchivedChannelNames] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  );
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { savedMessagesById } = usePlaygroundSavedMessages();
@@ -86,12 +89,25 @@ function PlaygroundSidebarContent({
   const visiblePinnedChannels = useMemo(
     () =>
       PLAYGROUND_CHANNELS.filter(
-        (conversation) => conversation.kind !== "dm" || !closedDmIds.has(conversation.id),
+        (conversation) =>
+          (conversation.kind !== "dm" || !closedDmIds.has(conversation.id)) &&
+          !archivedChannelNames.has(conversation.name),
       ),
-    [closedDmIds],
+    [archivedChannelNames, closedDmIds],
+  );
+  const visibleRoomChannels = useMemo(
+    () =>
+      PLAYGROUND_ROOM_CHANNELS.filter(
+        (conversation) => !archivedChannelNames.has(conversation.name),
+      ),
+    [archivedChannelNames],
   );
   const closeDirectMessage = (conversation: PlaygroundDirectMessageRecord) => {
     setClosedDmIds((current) => new Set(current).add(conversation.id));
+  };
+  const archiveChannel = (channelName: string) => {
+    setArchivedChannelNames((current) => new Set(current).add(channelName));
+    setArchiveTarget(null);
   };
 
   return (
@@ -168,7 +184,7 @@ function PlaygroundSidebarContent({
               <ChatSidebarChannelsSection
                 activeChannelId={selectedChannelId}
                 onArchive={(conversation) => setArchiveTarget(conversation.name)}
-                rows={PLAYGROUND_ROOM_CHANNELS}
+                rows={visibleRoomChannels}
               />
               <ChatSidebarDirectMessagesSection
                 activeChannelId={selectedChannelId}
@@ -185,6 +201,7 @@ function PlaygroundSidebarContent({
 
       <ChatSidebarArchiveDialog
         channelName={archiveTarget}
+        onArchive={archiveChannel}
         onOpenChange={(open) => {
           if (!open) setArchiveTarget(null);
         }}

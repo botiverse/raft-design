@@ -15,9 +15,11 @@ import { CircleAlert } from "lucide-react";
 
 export function ChatSidebarArchiveDialog({
   channelName,
+  onArchive,
   onOpenChange,
 }: {
   channelName: string | null;
+  onArchive: (channelName: string) => void;
   onOpenChange: (open: boolean) => void;
 }) {
   return (
@@ -38,7 +40,13 @@ export function ChatSidebarArchiveDialog({
         </AlertDialogBody>
         <AlertDialogFooter>
           <AlertDialogCancel size="md">Cancel</AlertDialogCancel>
-          <AlertDialogAction variant="warning" size="md">
+          <AlertDialogAction
+            variant="warning"
+            size="md"
+            onClick={() => {
+              if (channelName !== null) onArchive(channelName);
+            }}
+          >
             Archive Channel
           </AlertDialogAction>
         </AlertDialogFooter>
