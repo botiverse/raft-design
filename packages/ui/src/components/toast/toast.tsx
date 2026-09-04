@@ -725,7 +725,7 @@ export function ToastClose({ className, children, ...props }: ToastCloseProps) {
 
   return (
     <BaseToast.Close
-      aria-label={usesDefaultText ? undefined : "Dismiss toast"}
+      aria-label={usesDefaultText ? "Dismiss toast" : undefined}
       data-slot="toast-close"
       className={close({ className })}
       {...props}
