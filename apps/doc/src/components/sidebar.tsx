@@ -409,11 +409,13 @@ function ComponentSearch({
   autoFocus,
   mode = "trigger",
   onOpenChange,
+  onTriggerClick,
 }: {
   onNavigate?: () => void;
   autoFocus?: boolean;
   mode?: "trigger" | "control";
   onOpenChange?: (open: boolean) => void;
+  onTriggerClick?: () => void;
 }) {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -421,6 +423,24 @@ function ComponentSearch({
   const [open, setOpen] = useState(false);
   const filteredItems = query.trim() ? filterComponentSearchItems(query) : [];
   const comboboxItems = query.trim() ? filteredItems : COMPONENT_SEARCH_ITEMS.slice(0, 1);
+  const trigger = (
+    <Button
+      variant="outline"
+      size="md"
+      aria-label="Search components"
+      title="Search components"
+      className="w-full justify-start font-normal text-foreground-muted"
+      onClick={onTriggerClick}
+    >
+      <Search aria-hidden />
+      <span>Search components</span>
+      <Kbd className="ml-auto">⌘ K</Kbd>
+    </Button>
+  );
+
+  if (mode === "trigger" && onTriggerClick) {
+    return trigger;
+  }
 
   return (
     <Combobox<ComponentSearchItem>
@@ -451,21 +471,7 @@ function ComponentSearch({
       }}
     >
       {mode === "trigger" ? (
-        <ComboboxTrigger
-          render={
-            <Button
-              variant="outline"
-              size="md"
-              aria-label="Search components"
-              title="Search components"
-              className="w-full justify-start font-normal text-foreground-muted"
-            />
-          }
-        >
-          <Search aria-hidden />
-          <span>Search components</span>
-          <Kbd className="ml-auto">⌘ K</Kbd>
-        </ComboboxTrigger>
+        <ComboboxTrigger render={trigger} />
       ) : (
         <ComboboxControl className="w-full">
           <Search aria-hidden />
@@ -787,7 +793,7 @@ function MobileNavGroup({
   );
 }
 
-function MobileSidebar() {
+function MobileSidebar({ onSearch }: { onSearch: () => void }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -850,7 +856,13 @@ function MobileSidebar() {
           className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-4 pt-3 pb-[max(2rem,env(safe-area-inset-bottom))]"
         >
           <div className="mx-auto max-w-xl space-y-9">
-            <ComponentSearch onNavigate={close} />
+            <ComponentSearch
+              onNavigate={close}
+              onTriggerClick={() => {
+                close();
+                onSearch();
+              }}
+            />
 
             <div className="flex flex-col gap-2">
               {PRIMARY_NAV.map((item) => (
@@ -910,7 +922,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
 
   return (
     <>
-      <MobileSidebar />
+      <MobileSidebar onSearch={() => setGlobalSearchOpen(true)} />
       {globalSearchOpen ? (
         <div
           className="fixed inset-0 z-90 bg-layer-backdrop/70 px-4 pt-[18vh] backdrop-blur-sm"
@@ -980,7 +992,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             </Button>
           </div>
           <div className="mt-6">
-            <ComponentSearch />
+            <ComponentSearch onTriggerClick={() => setGlobalSearchOpen(true)} />
           </div>
           <nav className="mt-8 space-y-8">
             <ul className="space-y-1">
