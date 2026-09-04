@@ -7,6 +7,7 @@ import {
   useState,
   type ComponentPropsWithRef,
   type CSSProperties,
+  type Ref,
 } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import {
@@ -355,6 +356,7 @@ function TabsTabButton<T extends string = string>({
   sortableRef,
   className,
   children,
+  ref: consumerRef,
   ...props
 }: TabsTabProps<T> & {
   sortableRef?: (node: HTMLElement | null) => void;
@@ -362,12 +364,17 @@ function TabsTabButton<T extends string = string>({
   const theme = useThemeFamily();
   const variant = use(TabsListVariantContext);
   const { content, tab } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
+  const mergedRef = useCallback(
+    (node: HTMLElement | null) => {
+      sortableRef?.(node);
+      assignRef(consumerRef, node);
+    },
+    [consumerRef, sortableRef],
+  );
 
   return (
     <BaseTabs.Tab
-      ref={(node) => {
-        sortableRef?.(node);
-      }}
+      ref={mergedRef}
       value={value}
       data-slot="tabs-tab"
       className={tab({ className })}
@@ -378,6 +385,11 @@ function TabsTabButton<T extends string = string>({
       </span>
     </BaseTabs.Tab>
   );
+}
+
+function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
+  if (typeof ref === "function") ref(value);
+  else if (ref) ref.current = value;
 }
 
 export type TabsLabelProps = ComponentPropsWithRef<"span">;

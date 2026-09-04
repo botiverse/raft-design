@@ -229,7 +229,7 @@ export function Banner({ status, size = "md", className, render, ...props }: Ban
   const { root } = banner({ theme, status, size });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
-    role: "alert",
+    role: status === "destructive" ? "alert" : "status",
   };
 
   return useRender({
