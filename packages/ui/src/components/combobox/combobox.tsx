@@ -603,6 +603,7 @@ export function ComboboxClear({
       data-slot="combobox-clear"
       data-visible={visible ? "" : undefined}
       aria-hidden={visible ? props["aria-hidden"] : true}
+      tabIndex={visible ? undefined : -1}
       keepMounted={keepMounted}
       className={clear({ className })}
       {...props}
