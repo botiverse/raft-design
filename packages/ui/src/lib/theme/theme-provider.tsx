@@ -3,6 +3,7 @@
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
   useSyncExternalStore,
@@ -18,6 +19,9 @@ import {
   type ThemeState,
   type ThemeMode,
 } from "./theme-context";
+import { applyThemeToRoot } from "./theme-preset";
+
+const useIsomorphicLayoutEffect = typeof document === "undefined" ? useEffect : useLayoutEffect;
 
 export interface ThemeProviderProps {
   /**
@@ -161,16 +165,13 @@ export function ThemeProvider({
     [activeMode, activeTheme, resolvedMode, setTheme],
   );
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!syncDom) {
       return;
     }
 
     const root = document.documentElement;
-    root.dataset.theme = activeTheme;
-    root.classList.toggle("light", activeTheme === "elegant" && resolvedMode === "light");
-    root.classList.toggle("dark", activeTheme === "elegant" && resolvedMode === "dark");
-    root.style.colorScheme = activeTheme === "elegant" ? resolvedMode : "light";
+    applyThemeToRoot(root, { theme: activeTheme, resolvedMode });
   }, [activeMode, activeTheme, resolvedMode, syncDom]);
 
   return (

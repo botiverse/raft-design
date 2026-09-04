@@ -46,17 +46,17 @@
     "test": "vp test"
   },
   "dependencies": {
-    "@base-ui/react": "catalog:",
-    "@dnd-kit/core": "catalog:",
-    "@dnd-kit/sortable": "catalog:",
-    "@dnd-kit/utilities": "catalog:",
-    "@tanstack/react-hotkeys": "catalog:",
-    "cnfast": "catalog:",
-    "foxact": "catalog:",
-    "lucide-react": "catalog:",
-    "react-resizable-panels": "catalog:",
-    "tailwind-merge": "catalog:",
-    "tailwind-variants": "catalog:"
+    "@base-ui/react": "^1.7.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@tanstack/react-hotkeys": "^0.10.0",
+    "cnfast": "^0.1.0",
+    "foxact": "^0.3.8",
+    "lucide-react": "^1.27.0",
+    "react-resizable-panels": "^4.12.2",
+    "tailwind-merge": "^3.6.0",
+    "tailwind-variants": "^3.3.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

@@ -1547,6 +1547,20 @@ export { cn } from "./lib/cn";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
 export { useTheme, useThemeFamily } from "./lib/theme/use-theme";
+export {
+  applyThemePresetToRoot,
+  applyThemeToRoot,
+  createThemeBootstrapScript,
+  isThemePreset,
+  resolveThemePreset,
+  THEME_PRESETS,
+} from "./lib/theme/theme-preset";
+export type {
+  ResolvedThemePreset,
+  ThemeBootstrapScriptOptions,
+  ThemePreset,
+  ThemeRoot,
+} from "./lib/theme/theme-preset";
 export type {
   ResolvedThemeMode,
   SetTheme,
