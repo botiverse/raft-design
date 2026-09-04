@@ -407,13 +407,11 @@ const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch
 function ComponentSearch({
   onNavigate,
   autoFocus,
-  focusSignal = 0,
   mode = "trigger",
   onOpenChange,
 }: {
   onNavigate?: () => void;
   autoFocus?: boolean;
-  focusSignal?: number;
   mode?: "trigger" | "control";
   onOpenChange?: (open: boolean) => void;
 }) {
@@ -423,16 +421,6 @@ function ComponentSearch({
   const [open, setOpen] = useState(false);
   const filteredItems = query.trim() ? filterComponentSearchItems(query) : [];
   const comboboxItems = query.trim() ? filteredItems : COMPONENT_SEARCH_ITEMS.slice(0, 1);
-
-  useEffect(() => {
-    if (focusSignal === 0) {
-      return;
-    }
-
-    setOpen(true);
-    const frame = requestAnimationFrame(() => inputRef.current?.focus());
-    return () => cancelAnimationFrame(frame);
-  }, [focusSignal]);
 
   return (
     <Combobox<ComponentSearchItem>
@@ -899,9 +887,7 @@ export type SidebarProps = {
 };
 
 export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) {
-  const [focusSearchSignal, setFocusSearchSignal] = useState(0);
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
-  const [globalSearchSignal, setGlobalSearchSignal] = useState(0);
   const toggleCollapsed = () => onCollapsedChange?.(!collapsed);
 
   useEffect(() => {
@@ -915,7 +901,6 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         setGlobalSearchOpen(true);
-        setGlobalSearchSignal((signal) => signal + 1);
       }
     };
 
@@ -946,7 +931,6 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             <ComponentSearch
               mode="control"
               autoFocus
-              focusSignal={globalSearchSignal}
               onNavigate={() => setGlobalSearchOpen(false)}
             />
           </div>
@@ -971,8 +955,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             title="Search components"
             className="size-8 p-0"
             onClick={() => {
-              onCollapsedChange?.(false);
-              setFocusSearchSignal((signal) => signal + 1);
+              setGlobalSearchOpen(true);
             }}
           >
             <Search aria-hidden />
@@ -997,7 +980,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             </Button>
           </div>
           <div className="mt-6">
-            <ComponentSearch autoFocus={focusSearchSignal > 0} focusSignal={focusSearchSignal} />
+            <ComponentSearch />
           </div>
           <nav className="mt-8 space-y-8">
             <ul className="space-y-1">
