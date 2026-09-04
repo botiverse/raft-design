@@ -7,6 +7,14 @@ import { DocSection } from "#/components/doc-section.tsx";
 
 const SPEC_DIVIDER = "border-[color-mix(in_oklch,var(--foreground)_5%,transparent)]";
 
+const TOC = [
+  { id: "specimens", title: "Theme specimens" },
+  { id: "headings", title: "Headings" },
+  { id: "sans", title: "Sans" },
+  { id: "mono", title: "Mono" },
+  { id: "color-variants", title: "Color variants" },
+] as const;
+
 export type TypographyTheme = "brutal" | "elegant";
 
 const THEME_LABELS = {
@@ -471,9 +479,8 @@ export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
       <DocPage
         title={title}
         description="The font contract."
-        articleClassName="mx-auto max-w-[92rem]"
-        showToc={false}
-        toc={[]}
+        articleClassName="mx-auto max-w-5xl 2xl:max-w-6xl"
+        toc={TOC}
       >
         <DocSection id="specimens" title="Theme specimens">
           <ThemeTypographyScope theme={theme}>

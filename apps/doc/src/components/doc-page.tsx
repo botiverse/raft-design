@@ -92,7 +92,7 @@ export function DocPage({
   return (
     <>
       <div className={contentInset}>
-        <article className={`w-full min-w-0 px-8 py-12 ${articleWidth} ${articleClassName ?? ""}`}>
+        <article className={`w-full min-w-0 px-8 py-12 ${articleClassName ?? articleWidth}`}>
           {showHeader ? (
             <header className="mb-10">
               <div className="flex items-start justify-between gap-6">

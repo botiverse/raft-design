@@ -14,6 +14,7 @@ function IconsDoc() {
       description="Conversation and task-status icons."
       toc={[]}
       showToc={false}
+      articleClassName="mx-auto max-w-5xl 2xl:max-w-6xl"
     >
       <IconsComposition />
     </DocPage>

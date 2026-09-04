@@ -150,7 +150,6 @@ function ProfilePanelDoc() {
       title="ProfilePanel"
       description="Profile-detail layout for members, people, and agents, built from the shared Panel foundation."
       toc={TOC}
-      articleClassName="max-w-none"
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
         <Preview>
