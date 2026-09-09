@@ -96,8 +96,12 @@ function RootDocument({ children }: { children: ReactNode }) {
   const isPlaygroundChatPage = isPlaygroundPage && location.pathname.startsWith("/playground/s/");
   const usesPlaygroundDocumentScroll = isPlaygroundPage && !isPlaygroundChatPage;
   const documentTitle = getDocumentTitle(location.pathname);
-  const isDarkDocument =
-    storedPreviewTheme?.theme === "elegant" && storedPreviewTheme.mode === "dark";
+  // The document theme follows the stored selection, defaulting to brutal like
+  // `ThemeProvider` does. It used to be hardcoded `data-theme="elegant"`, so the
+  // chrome could never leave elegant no matter what was picked — which is what
+  // made a switch look like it "reverted" after a refresh (@xxchan).
+  const documentTheme = storedPreviewTheme?.theme ?? "brutal";
+  const isDarkDocument = documentTheme === "elegant" && storedPreviewTheme?.mode === "dark";
   const documentShellClassName = isStandalonePage
     ? cn(
         "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]",
@@ -112,7 +116,7 @@ function RootDocument({ children }: { children: ReactNode }) {
     <html
       lang="en"
       data-standalone={isStandalonePage || undefined}
-      data-theme="elegant"
+      data-theme={documentTheme}
       style={{ colorScheme: isDarkDocument ? "dark" : "light" }}
       className={cn(
         isDarkDocument ? "dark" : "light",
