@@ -81,7 +81,10 @@ export function DashboardApp() {
   );
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-[1200px] flex-col gap-4 p-4 md:p-6">
+    // No min-h-screen / max-width / page padding: this renders inside the docs
+    // article, which already owns the page frame. Standalone sizing here would
+    // fight it and reintroduce a second scroll context.
+    <div className="flex w-full flex-col gap-4">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <Text.Heading level={1}>Agent usage</Text.Heading>
