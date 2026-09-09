@@ -10,7 +10,11 @@ import {
 } from "react";
 import { ThemeProvider, useTheme, type Theme, type ThemeMode } from "raft-ui";
 
-import { writePreviewThemeCookie, type StoredPreviewTheme } from "#/lib/preview-theme-storage.ts";
+import {
+  readPreviewThemeCookieFromDocument,
+  writePreviewThemeCookie,
+  type StoredPreviewTheme,
+} from "#/lib/preview-theme-storage.ts";
 
 export type PreviewMode = ThemeMode;
 
@@ -61,6 +65,25 @@ export function PreviewThemeProvider({
    * Mirrors `ThemeProvider`'s own syncDom block; the preview scopes deliberately
    * pass `syncDom={false}`, so nothing else writes these.
    */
+  /*
+   * Read the cookie on the client, once.
+   *
+   * `initial` comes from the root loader, but doc routes are prerendered AND
+   * served from cache — the shipped payload is literally
+   * `storedPreviewTheme: null` and responses come back `cf-cache-status: HIT`,
+   * so the server never sees the visitor's cookie. Without this, `selected`
+   * always falls back to the default and a stored choice cannot survive a
+   * reload; #259 corrected the default but left persistence broken in the
+   * other direction.
+   */
+  useEffect(() => {
+    const stored = readPreviewThemeCookieFromDocument();
+    if (!stored) return;
+    setSelected((current) =>
+      current.theme === stored.theme && current.mode === stored.mode ? current : stored,
+    );
+  }, []);
+
   useEffect(() => {
     const root = document.documentElement;
     root.dataset.theme = selected.theme;
