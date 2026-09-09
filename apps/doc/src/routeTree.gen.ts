@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as ComponentsRouteImport } from './routes/components'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
@@ -134,6 +135,11 @@ const ChangelogRoute = ChangelogRouteImport.update({
 const ComponentsRoute = ComponentsRouteImport.update({
   id: '/components',
   path: '/components',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstallationRoute = InstallationRouteImport.update({
@@ -703,6 +709,7 @@ export interface FileRoutesByFullPath {
   '/playground': typeof PlaygroundRouteRouteWithChildren
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
+  '/dashboard': typeof DashboardRoute
   '/installation': typeof InstallationRoute
   '/lab': typeof LabRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
@@ -813,6 +820,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
+  '/dashboard': typeof DashboardRoute
   '/installation': typeof InstallationRoute
   '/lab': typeof LabRoute
   '/playground': typeof PlaygroundIndexRoute
@@ -924,6 +932,7 @@ export interface FileRoutesById {
   '/playground': typeof PlaygroundRouteRouteWithChildren
   '/changelog': typeof ChangelogRoute
   '/components': typeof ComponentsRouteWithChildren
+  '/dashboard': typeof DashboardRoute
   '/installation': typeof InstallationRoute
   '/lab': typeof LabRoute
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
@@ -1039,6 +1048,7 @@ export interface FileRouteTypes {
     | '/playground'
     | '/changelog'
     | '/components'
+    | '/dashboard'
     | '/installation'
     | '/lab'
     | '/playground/s'
@@ -1149,6 +1159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/changelog'
     | '/components'
+    | '/dashboard'
     | '/installation'
     | '/lab'
     | '/playground'
@@ -1259,6 +1270,7 @@ export interface FileRouteTypes {
     | '/playground'
     | '/changelog'
     | '/components'
+    | '/dashboard'
     | '/installation'
     | '/lab'
     | '/playground/_browse'
@@ -1373,6 +1385,7 @@ export interface RootRouteChildren {
   PlaygroundRouteRoute: typeof PlaygroundRouteRouteWithChildren
   ChangelogRoute: typeof ChangelogRoute
   ComponentsRoute: typeof ComponentsRouteWithChildren
+  DashboardRoute: typeof DashboardRoute
   InstallationRoute: typeof InstallationRoute
   LabRoute: typeof LabRoute
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
@@ -1405,6 +1418,13 @@ declare module '@tanstack/react-router' {
       path: '/components'
       fullPath: '/components'
       preLoaderRoute: typeof ComponentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/installation': {
@@ -2474,6 +2494,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlaygroundRouteRoute: PlaygroundRouteRouteWithChildren,
   ChangelogRoute: ChangelogRoute,
   ComponentsRoute: ComponentsRouteWithChildren,
+  DashboardRoute: DashboardRoute,
   InstallationRoute: InstallationRoute,
   LabRoute: LabRoute,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
