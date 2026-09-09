@@ -2,6 +2,7 @@ import {
   useCallback,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type HTMLAttributes,
@@ -21,8 +22,11 @@ type PreviewThemeValue = {
 
 const PreviewThemeContext = createContext<PreviewThemeValue | null>(null);
 
+// Brutal, matching `ThemeProvider`'s own `defaultTheme`. The docs site used to
+// hardcode elegant here and in the initial state below, so it contradicted the
+// library it documents (@xxchan measured it; call made 2026-09-09).
 const DEFAULT_PREVIEW_THEME_VALUE: PreviewThemeValue = {
-  theme: "elegant",
+  theme: "brutal",
   mode: "light",
   setTheme: () => undefined,
 };
@@ -35,7 +39,7 @@ export function PreviewThemeProvider({
   initial?: StoredPreviewTheme | null;
 }) {
   const [selected, setSelected] = useState<StoredPreviewTheme>(
-    () => initial ?? { theme: "elegant", mode: "light" },
+    () => initial ?? { theme: "brutal", mode: "light" },
   );
   const setTheme = useCallback<PreviewThemeValue["setTheme"]>((theme, options) => {
     const mode = options?.mode ?? "light";
@@ -44,6 +48,27 @@ export function PreviewThemeProvider({
       current.theme === theme && current.mode === mode ? current : { theme, mode },
     );
   }, []);
+  /*
+   * Sync the document to the SELECTED theme.
+   *
+   * `__root` renders `data-theme` from loader data, but doc routes are
+   * PRERENDERED — at build time there is no cookie, so the baked HTML always
+   * carries the default. Without this effect the chrome would show that default
+   * forever and ignore what the visitor actually picked, which is the same
+   * class of bug as the old hardcoded `data-theme="elegant"`, just stuck on a
+   * different value.
+   *
+   * Mirrors `ThemeProvider`'s own syncDom block; the preview scopes deliberately
+   * pass `syncDom={false}`, so nothing else writes these.
+   */
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.theme = selected.theme;
+    root.classList.toggle("light", selected.theme === "elegant" && selected.mode === "light");
+    root.classList.toggle("dark", selected.theme === "elegant" && selected.mode === "dark");
+    root.style.colorScheme = selected.theme === "elegant" ? selected.mode : "light";
+  }, [selected]);
+
   const value = useMemo<PreviewThemeValue>(
     () => ({
       ...selected,
