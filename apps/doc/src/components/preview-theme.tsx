@@ -10,7 +10,11 @@ import {
 } from "react";
 import { ThemeProvider, useTheme, type Theme, type ThemeMode } from "raft-ui";
 
-import { writePreviewThemeCookie, type StoredPreviewTheme } from "#/lib/preview-theme-storage.ts";
+import {
+  readPreviewThemeCookieFromDocument,
+  writePreviewThemeCookie,
+  type StoredPreviewTheme,
+} from "#/lib/preview-theme-storage.ts";
 
 export type PreviewMode = ThemeMode;
 
@@ -49,25 +53,25 @@ export function PreviewThemeProvider({
     );
   }, []);
   /*
-   * Sync the document to the SELECTED theme.
+   * Read the cookie on the client, once.
    *
-   * `__root` renders `data-theme` from loader data, but doc routes are
-   * PRERENDERED — at build time there is no cookie, so the baked HTML always
-   * carries the default. Without this effect the chrome would show that default
-   * forever and ignore what the visitor actually picked, which is the same
-   * class of bug as the old hardcoded `data-theme="elegant"`, just stuck on a
-   * different value.
+   * `initial` comes from the root loader, but doc routes are prerendered AND
+   * served from cache — the shipped payload is literally
+   * `storedPreviewTheme: null` and responses come back `cf-cache-status: HIT`,
+   * so the server never sees the visitor's cookie. Without this, `selected`
+   * always falls back to the default and a stored choice cannot survive a
+   * reload.
    *
-   * Mirrors `ThemeProvider`'s own syncDom block; the preview scopes deliberately
-   * pass `syncDom={false}`, so nothing else writes these.
+   * An effect rather than a lazy useState initializer, so SSR never touches
+   * `document` and there is no hydration mismatch.
    */
   useEffect(() => {
-    const root = document.documentElement;
-    root.dataset.theme = selected.theme;
-    root.classList.toggle("light", selected.theme === "elegant" && selected.mode === "light");
-    root.classList.toggle("dark", selected.theme === "elegant" && selected.mode === "dark");
-    root.style.colorScheme = selected.theme === "elegant" ? selected.mode : "light";
-  }, [selected]);
+    const stored = readPreviewThemeCookieFromDocument();
+    if (!stored) return;
+    setSelected((current) =>
+      current.theme === stored.theme && current.mode === stored.mode ? current : stored,
+    );
+  }, []);
 
   const value = useMemo<PreviewThemeValue>(
     () => ({

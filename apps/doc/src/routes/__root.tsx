@@ -141,7 +141,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         }
       >
         <PreviewThemeProvider initial={storedPreviewTheme}>
-          <DocumentThemeProvider standalone={isStandalonePage}>
+          <DocumentThemeProvider>
             <div className={documentShellClassName}>
               {isStandalonePage ? null : (
                 <Sidebar collapsed={sidebarCollapsed} onCollapsedChange={setSidebarCollapsed} />
@@ -168,25 +168,18 @@ function RootDocument({ children }: { children: ReactNode }) {
   );
 }
 
-function DocumentThemeProvider({
-  children,
-  standalone,
-}: {
-  children: ReactNode;
-  standalone: boolean;
-}) {
+function DocumentThemeProvider({ children }: { children: ReactNode }) {
   const previewTheme = usePreviewTheme();
   return (
-    <ThemeProvider
-      theme={standalone ? previewTheme.theme : "elegant"}
-      mode={
-        previewTheme.theme === "elegant"
-          ? previewTheme.mode
-          : standalone
-            ? previewTheme.mode
-            : "light"
-      }
-    >
+    // The whole site follows the picked theme, chrome included (@xxchan,
+    // 2026-09-09). Non-standalone pages used to be pinned to "elegant" here
+    // while `data-theme` followed the selection, so switching restyled the
+    // background but left the nav and sidebar elegant.
+    //
+    // syncDom is left ON: this provider owns `data-theme` on <html>. Nothing
+    // else may write it, or the two writers fight over one attribute — which is
+    // exactly what produced the half-themed chrome.
+    <ThemeProvider theme={previewTheme.theme} mode={previewTheme.mode}>
       {children}
     </ThemeProvider>
   );
