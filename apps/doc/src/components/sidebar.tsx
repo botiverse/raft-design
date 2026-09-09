@@ -25,6 +25,7 @@ const PRIMARY_NAV: readonly NavItem[] = [
   { label: "Installation", to: "/installation" },
   { label: "Changelog", to: "/changelog" },
   { label: "Playground", to: "/playground" },
+  { label: "Dashboard", to: "/dashboard" },
   { label: "Lab", to: "/lab" },
 ];
 
