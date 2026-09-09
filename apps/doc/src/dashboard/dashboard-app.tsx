@@ -86,12 +86,11 @@ export function DashboardApp() {
     // fight it and reintroduce a second scroll context.
     <div className="flex w-full flex-col gap-4">
       <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <Text.Heading level={1}>Agent usage</Text.Heading>
-          <Text.Sans size="small">
-            Runs, latency, and spend across every agent on this server.
-          </Text.Sans>
-        </div>
+        {/* No title here: the DocSection wrapper already renders "Agent usage"
+            as the section heading. Keeping both printed it twice. */}
+        <Text.Sans size="small">
+          Runs, latency, and spend across every agent on this server.
+        </Text.Sans>
         <div className="flex flex-wrap items-center gap-2">
           <SegmentedControl value={range} onValueChange={(v) => v && setRange(v as Range)}>
             {RANGES.map((r) => (

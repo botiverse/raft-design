@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
+import { DocSection } from "#/components/doc-section.tsx";
 import { DashboardApp } from "#/dashboard/dashboard-app.tsx";
 
 /**
@@ -25,10 +26,16 @@ function DashboardRoute() {
     <DocPage
       title="Dashboard"
       description="A data-dense example app: KPI summary, filters, a table with numeric columns and status, and row drill-down. Switch themes from the header to compare brutal and elegant at density."
-      toc={[]}
-      showToc={false}
+      toc={[{ id: "dashboard", title: "Agent usage" }]}
     >
-      <DashboardApp />
+      {/* DocSection, not a bare DocPage child: the theme switcher is a
+          DocSection affordance (`showThemeSwitcher`), and being able to compare
+          brutal against elegant on a data-dense surface is the whole reason
+          this example exists. Wrapping in DocPage alone gave the nav back but
+          silently left the switcher out (@xxchan asked for both). */}
+      <DocSection id="dashboard" title="Agent usage" showThemeSwitcher>
+        <DashboardApp />
+      </DocSection>
     </DocPage>
   );
 }
