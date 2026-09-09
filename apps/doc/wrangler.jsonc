@@ -1,6 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "raft-design-system",
+  // Must match the Cloudflare service this deploys to. The service is "rui"
+  // (rui.botiverse.build); "raft-design-system" is the superseded worker, whose
+  // old *.workers.dev URL still serves a stale build. Wrangler validates this
+  // against the connected service, and the dashboard flags the mismatch.
+  "name": "rui",
   "compatibility_date": "2026-06-05",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@tanstack/react-start/server-entry",
