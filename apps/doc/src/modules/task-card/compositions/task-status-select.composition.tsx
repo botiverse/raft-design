@@ -1,4 +1,3 @@
-import { Select as BaseSelect } from "@base-ui/react/select";
 import type { ReactElement, RefObject } from "react";
 import {
   Select,
@@ -9,6 +8,7 @@ import {
   SelectItemIndicator,
   SelectItemText,
   SelectList,
+  SelectTrigger,
   TaskStatusIcon,
 } from "raft-ui";
 
@@ -44,7 +44,7 @@ export function TaskStatusSelect({
         if (nextValue) onValueChange?.(nextValue);
       }}
     >
-      <BaseSelect.Trigger render={children} onClick={(event) => event.stopPropagation()} />
+      <SelectTrigger render={children} onClick={(event) => event.stopPropagation()} />
       <SelectContent
         align="start"
         className="w-[220px] min-w-[220px]"

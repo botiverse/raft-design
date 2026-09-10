@@ -1471,40 +1471,22 @@ function Home() {
           ))}
         </div>
 
-        <fieldset
+        <SegmentedControl
           aria-label="Preview theme"
-          className={[
-            "fixed bottom-6 left-[calc(50vw+var(--sidebar-w)/2)] z-[80] -translate-x-1/2",
-            "grid grid-cols-3 overflow-hidden rounded-none bg-layer-panel text-foreground-strong backdrop-blur",
-            "shadow-[0_0_0_0.5px_oklch(0_0_0_/_0.22)]",
-          ].join(" ")}
+          value={themePreset.id}
+          onValueChange={(value) => {
+            const preset = THEME_PRESETS.find((candidate) => candidate.id === value);
+            if (!preset) return;
+            previewTheme.setTheme(preset.family, { mode: preset.mode });
+          }}
+          className="fixed bottom-6 left-[calc(50vw+var(--sidebar-w)/2)] z-80 -translate-x-1/2"
         >
-          {THEME_PRESETS.map((preset) => {
-            const isActive = themePreset.id === preset.id;
-
-            return (
-              <button
-                key={preset.id}
-                type="button"
-                aria-pressed={isActive}
-                className={[
-                  "h-9 min-w-20 px-4 text-xs font-medium outline-none transition-colors",
-                  "border-l border-line-muted first:border-l-0",
-                  "hover:bg-fill-muted hover:text-foreground",
-                  "focus-visible:relative focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-                  isActive ? "bg-fill-muted text-foreground" : "text-foreground-placeholder",
-                ].join(" ")}
-                onClick={() =>
-                  previewTheme.setTheme(preset.family, {
-                    mode: preset.mode,
-                  })
-                }
-              >
-                {preset.label}
-              </button>
-            );
-          })}
-        </fieldset>
+          {THEME_PRESETS.map((preset) => (
+            <SegmentedControlItem key={preset.id} value={preset.id}>
+              <SegmentedControlLabel>{preset.label}</SegmentedControlLabel>
+            </SegmentedControlItem>
+          ))}
+        </SegmentedControl>
       </div>
     </ThemeProvider>
   );

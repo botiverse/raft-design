@@ -16,19 +16,6 @@ import {
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PwaInstallDrawerPanel } from "#/modules/drawer/compositions/pwa-install-drawer-base.tsx";
 
-const brutalButton = [
-  "border-2 border-black font-heading font-bold shadow-raft-md",
-  "transition-all duration-100 hover:-translate-y-px hover:shadow-raft-xl",
-  "active:translate-x-0.5 active:translate-y-0.5 active:shadow-raft-xs",
-  "disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-].join(" ");
-const brutalButtonSm = [
-  "border-2 border-black font-heading font-bold shadow-raft-sm",
-  "transition-all duration-100 hover:-translate-y-px hover:shadow-raft-md",
-  "active:translate-x-px active:translate-y-px active:shadow-raft-xs",
-  "disabled:pointer-events-none disabled:opacity-40 disabled:shadow-raft-sm disabled:transform-none",
-].join(" ");
-
 type DrawerPreviewScene = "leave-channel" | "pwa-install" | "pwa-install-other";
 type DrawerPreviewVariant = "current" | "source";
 type DrawerPreviewViewport = "desktop" | "mobile";
@@ -250,13 +237,9 @@ function PwaInstallSourceContent({ variant }: { variant: "other" | "safari" }) {
               : "Open this page in Safari first, then add it to your Home Screen."}
           </div>
         </div>
-        <button
-          type="button"
-          className={`${brutalButtonSm} bg-white p-1`}
-          aria-label="Close install instructions"
-        >
+        <Button variant="default" size="icon-sm" aria-label="Close install instructions">
           <X size={16} />
-        </button>
+        </Button>
       </div>
 
       {isSafari ? (
@@ -276,13 +259,13 @@ function PwaInstallSourceContent({ variant }: { variant: "other" | "safari" }) {
 
       <div className="mt-4 flex gap-2">
         {isSafari ? null : (
-          <button type="button" className={`${brutalButton} bg-brutal-yellow px-3 py-2 text-xs`}>
+          <Button variant="primary" size="sm">
             Copy Link
-          </button>
+          </Button>
         )}
-        <button type="button" className={`${brutalButton} bg-white px-3 py-2 text-xs`}>
+        <Button variant="default" size="sm">
           {isSafari ? "Got it" : "Close"}
-        </button>
+        </Button>
       </div>
     </>
   );

@@ -1,4 +1,5 @@
 import {
+  Button,
   ContextMenu,
   ContextMenuItem,
   ContextMenuPopup,
@@ -79,18 +80,9 @@ function ReactionRow() {
       )}
     >
       {["👍", "❤️", "😂", "🎉", "👀"].map((emoji) => (
-        <button
-          key={emoji}
-          type="button"
-          className={cn(
-            "flex size-7 items-center justify-center rounded-sm bg-transparent text-base leading-none transition-colors",
-            "hover:bg-foreground-strong/4 active:bg-foreground-strong/6",
-            "in-data-[theme=brutal]:hover:bg-brutal-pink/20 in-data-[theme=brutal]:active:bg-brutal-pink/20",
-          )}
-          aria-label={`React with ${emoji}`}
-        >
+        <Button key={emoji} variant="ghost" size="icon-sm" aria-label={`React with ${emoji}`}>
           {emoji}
-        </button>
+        </Button>
       ))}
     </div>
   );

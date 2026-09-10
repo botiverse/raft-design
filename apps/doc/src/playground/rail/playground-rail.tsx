@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { Select as BaseSelect } from "@base-ui/react/select";
 import {
   AppShellRailSlot,
   AppRailItem,
@@ -30,6 +29,7 @@ import {
   MobileNavItem,
   MobileNavLabel,
   MobileNavRoot,
+  SelectTrigger,
   Status,
   Tooltip,
   TooltipContent,
@@ -244,7 +244,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                 <Tooltip>
                   <TooltipTrigger
                     render={
-                      <BaseSelect.Trigger
+                      <SelectTrigger
                         render={<AppRailItem />}
                         aria-label="Select Playground theme"
                       />
@@ -301,10 +301,10 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             <MobileNavLabel>Members</MobileNavLabel>
           </MobileNavItem>
           <PlaygroundThemeSelect side="top">
-            <BaseSelect.Trigger render={<MobileNavItem aria-label="Select Playground theme" />}>
+            <SelectTrigger render={<MobileNavItem aria-label="Select Playground theme" />}>
               <Settings />
               <MobileNavLabel>Settings</MobileNavLabel>
-            </BaseSelect.Trigger>
+            </SelectTrigger>
           </PlaygroundThemeSelect>
         </MobileNavRoot>
       ) : null}

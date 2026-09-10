@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "raft-ui";
 
 import { CodeBlock } from "./code-block.tsx";
 import type { DocsCodeBlockContentProps } from "./docs-code-block.types.ts";
@@ -13,14 +14,15 @@ export function DocsCodeBlockContent({ html, collapsedHtml }: DocsCodeBlockConte
   if (collapsedHtml && !expanded) {
     return (
       <div>
-        <button
-          type="button"
+        <Button
+          variant="link"
+          size="sm"
           aria-expanded={expanded}
           onClick={() => setExpanded(true)}
-          className="mb-[1.625em] block w-full cursor-pointer text-left font-mono text-sm leading-relaxed text-[oklch(0.50_0.02_106.42)] hover:text-foreground-muted"
+          className="mb-[1.625em] flex w-full justify-start font-mono"
         >
           {"<-- imports collapsed, click to expand -->"}
-        </button>
+        </Button>
         <CodeBlock html={collapsedHtml} variant="docs" />
       </div>
     );

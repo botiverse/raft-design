@@ -12,6 +12,7 @@ import {
   MessageItemTime,
   MessageMultiSelect,
   MessageMultiSelectCheckbox,
+  Button,
 } from "raft-ui";
 
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
@@ -23,16 +24,16 @@ export function MessageSelectionShowcaseComposition() {
 
   if (!active) {
     return (
-      <button
-        type="button"
-        className="text-xs font-bold underline underline-offset-2"
+      <Button
+        variant="link"
+        size="sm"
         onClick={() => {
           setActive(true);
           setSelected(new Set(["selected-row"]));
         }}
       >
         Re-enter multi-select mode
-      </button>
+      </Button>
     );
   }
 

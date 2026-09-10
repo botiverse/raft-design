@@ -471,7 +471,7 @@ function ComponentSearch({
       size="md"
       aria-label="Search components"
       title="Search components"
-      className="w-full justify-start font-normal text-foreground-muted"
+      className="w-full justify-start font-normal text-foreground-muted **:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-start"
       onClick={onTriggerClick}
     >
       <Search aria-hidden />
@@ -882,16 +882,16 @@ function MobileSidebar({ onSearch }: { onSearch: () => void }) {
         >
           <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
         </Link>
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon-lg"
           aria-expanded={open}
           aria-controls="mobile-docs-navigation"
           aria-label={open ? "Close navigation" : "Open navigation"}
-          className={`flex size-11 items-center justify-center rounded-md text-foreground transition-colors hover:bg-fill-muted active:bg-fill-strong ${sidebarItemFocusClassName}`}
           onClick={() => setOpen((current) => !current)}
         >
           {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
-        </button>
+        </Button>
       </header>
 
       {open ? (
