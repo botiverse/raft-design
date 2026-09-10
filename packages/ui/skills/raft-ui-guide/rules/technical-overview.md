@@ -16,13 +16,13 @@ description: "rUI's technical foundations, package contents, and integration con
 
 ## Package contents
 
-| Entry                | Contents                                      |
-| -------------------- | --------------------------------------------- |
-| `raft-ui`            | Stable components, providers, and hooks       |
-| `raft-ui/cn`         | Class merger                                  |
-| `raft-ui/wip`        | Experimental exports; use only when requested |
-| `raft-ui/styles.css` | Component tokens and theme scopes             |
-| `raft-ui/fonts.css`  | Optional web fonts                            |
+| Entry                | Contents                                |
+| -------------------- | --------------------------------------- |
+| `raft-ui`            | Stable components, providers, and hooks |
+| `raft-ui/cn`         | Class merger                            |
+| `raft-ui/wip`        | Experimental exports                    |
+| `raft-ui/styles.css` | Component tokens and theme scopes       |
+| `raft-ui/fonts.css`  | Optional web fonts                      |
 
 Component declarations live in `dist/index.d.mts`. Version-matched Markdown guides and optional `raft-ui-guide` / `raft-ui-critique` skills ship in `skills/`.
 

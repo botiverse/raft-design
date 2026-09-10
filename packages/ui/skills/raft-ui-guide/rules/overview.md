@@ -18,7 +18,7 @@ Use rUI (raft-ui) for this project: expressive visuals and playful interactions,
 
 Read https://rui.botiverse.build/guides/overview and follow the guides relevant to the task. Match the existing project setup. For version-specific APIs, use node_modules/raft-ui/dist/index.d.mts; matching guides are in node_modules/raft-ui/skills/raft-ui-guide/rules/.
 
-Skills are optional. Only install them or use raft-ui/wip when requested.
+Skills are optional. Only install them when requested.
 ```
 
 ## Guides

@@ -142,12 +142,11 @@ When reviewing or editing code that uses raft-ui, check:
 - [ ] Every `Avatar` with an `AvatarImage` also has an `AvatarFallback`; every blocking overlay has a `Title`
 - [ ] Menu rows are `…Item` parts, not raw `<button>`s — raw buttons drop out of keyboard navigation
 - [ ] Product state (upload, permissions, read/unread) lives in the app; the component renders parts, not a `state` prop
-- [ ] Nothing imported from `raft-ui/wip` unless explicitly requested
 - [ ] No shadow written as `shadow-[var(--…)]` — named utility or fully literal
 
 ## Stability
 
-`raft-ui` is the stable surface. `raft-ui/wip` is unstable and may break in any release — do not reach for it unless the user explicitly asks.
+`raft-ui` is the stable surface. `raft-ui/wip` contains experimental exports.
 
 ```tsx
 import { Button, Dialog, Field } from "raft-ui";
