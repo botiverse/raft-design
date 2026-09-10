@@ -91,6 +91,16 @@ Tokenize on the rule of three: once the same value appears in a third component,
 
 ---
 
+## A theme is a set, not a menu
+
+`--theme-shadow-*` changes meaning per family: Brutal is a hard offset with no
+blur, Elegant is layered and soft. The corner, border, and weight conventions each
+family assumes are chosen to go with its shadow.
+
+Taking one family's shadow and another's corners produces a result where every
+individual value is a valid token and the surface still looks wrong. Decide the
+family at the surface, not per element.
+
 ## Never write a var-first shadow
 
 ```tsx

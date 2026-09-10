@@ -25,6 +25,7 @@ Skills are optional. Only install them when requested.
 
 | Task                                 | Guide                                                                 |
 | ------------------------------------ | --------------------------------------------------------------------- |
+| Adopting rUI in an existing project  | [Adoption](./adoption.md)                                             |
 | Technical foundations                | [Technical overview](./technical-overview.md)                         |
 | Compose or adapt UI                  | [Composition](./composition.md), [Styling](./styling.md)              |
 | Chat and collaboration               | [Conversation](./conversation.md)                                     |

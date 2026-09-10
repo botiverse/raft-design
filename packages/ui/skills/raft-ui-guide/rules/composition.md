@@ -114,6 +114,26 @@ Do not carry a variant name from one component to another. Verify per component.
 `Banner` statuses are `default` `destructive` `warning` `info` `success`.
 `Button` variants are `primary` `default` `information` `muted` `accent` `warning` `outline` `ghost` `link` `danger-secondary` `danger` `danger-outline`.
 
+### Choosing among them: one group, one primary
+
+The list above says which variants exist, not how many of each belong together.
+A row of actions is a hierarchy, not a set of independent choices:
+
+| Role in the group     | Variant                                               | How many    |
+| --------------------- | ----------------------------------------------------- | ----------- |
+| The action you expect | `primary` (or `accent` where that is the core action) | exactly one |
+| Alternatives          | `outline`                                             | any         |
+| Low-weight / escape   | `ghost` or `link`                                     | at most one |
+| Destructive           | `danger*`                                             | separate it |
+
+Give each action its own variant and the row stops reading as a hierarchy: every
+control is individually legal and the group no longer says which one you meant.
+Pick the primary first, then let everything else be `outline` unless it has a
+reason not to be.
+
+Keep a destructive action out of the run of ordinary ones — spacing, a divider, or
+the opposite end. Do not rely on red alone to separate it.
+
 Note `Button` uses `information` while `Banner` uses `info`. When in doubt, look it up — see [lookup.md](./lookup.md).
 
 ---
