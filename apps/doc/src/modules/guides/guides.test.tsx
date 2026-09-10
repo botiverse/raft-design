@@ -25,4 +25,15 @@ test("published guides share the packaged source and resolve their links and sec
       expect(link.target).toBe("");
     }
   }
+  const reachable = new Set<string>();
+  const pending = ["overview"];
+  while (pending.length) {
+    const slug = pending.pop()!;
+    if (reachable.has(slug)) continue;
+    reachable.add(slug);
+    for (const link of pages[slug].querySelectorAll('a[href^="/guides/"]')) {
+      pending.push(link.getAttribute("href")!.split("#")[0].split("/").at(-1)!);
+    }
+  }
+  expect([...reachable].sort()).toEqual(Object.keys(guides).sort());
 });

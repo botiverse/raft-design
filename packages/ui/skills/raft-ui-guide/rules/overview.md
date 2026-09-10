@@ -30,6 +30,8 @@ Raft is a source of real product experience, not a prerequisite for using rUI. Y
 | Create a new composition       | [Composition](./composition.md), [Styling](./styling.md), and [API lookup](./lookup.md) | Reuse parts and semantic tokens. Preserve rUI's visual language while adapting content and structure.                                       |
 | Work with an agent             | This overview, then the guides for the task                                             | Give the agent your goal and constraints. It can read these pages directly; installing a skill or changing agent configuration is optional. |
 
+For focused work on dialogs, menus, popovers, and tooltips, read [Overlays](./overlays.md). For typography, avatars, code, and file presentation, read [Display](./display.md).
+
 ## Use the documentation for your installed version
 
 The website follows the current documentation. For an existing installation, verify props and exports in `node_modules/raft-ui/dist/index.d.mts`. The package also includes version-matched guides under `node_modules/raft-ui/skills/raft-ui-guide/rules/`; these are ordinary Markdown files and can be read without a skill loader.
