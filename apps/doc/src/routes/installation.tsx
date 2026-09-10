@@ -15,23 +15,28 @@ const TOC = [
   { id: "usage", title: "Usage" },
   { id: "theme", title: "Theme" },
   { id: "toast", title: "Toast" },
-  { id: "agent-skills", title: "Agent Skills" },
+  { id: "agent-skills", title: "Optional agent skills" },
 ] as const;
 
-const INSTALLATION_PROMPT = `Install and initialize raft-ui in this repository.
+const INSTALLATION_PROMPT = `Help me use rUI in this project.
 
-1. Inspect the repository and use its existing package manager. Do not change package managers or lockfile format.
-   - Single-package repository: install the latest stable raft-ui as a dependency.
-   - Monorepo: install raft-ui in the target app workspace.
-2. At the project or workspace root, add raft-ui to package.json under intent.skills without removing existing entries, then run the package-manager equivalent of @tanstack/intent@latest install --map.
-3. Load raft-ui#raft-ui-guide and follow it for this task. Run intent load raft-ui#raft-ui-guide --path before opening rules/setup.md or another linked rule, then resolve that file relative to the returned SKILL.md directory.
-4. The package also ships raft-ui#raft-ui-critique for visual and experience reviews; do not load it unless the task includes a critique.
-5. Follow the skill to initialize raft-ui: wire Tailwind CSS v4, import raft-ui/styles.css once, decide whether to load raft-ui/fonts.css separately, add ThemeProvider, and add TooltipProvider or ToastProvider only when the app needs them.
-6. Put the application inside an isolated layout root so body portals stack above app content. Keep default body portals unless this is an iframe, preview, or embedded shell.
-7. Inspect node_modules/raft-ui/dist/index.d.mts before using any prop, part, or variant you have not verified. Do not guess APIs or import from raft-ui/wip unless asked.
-8. Validate the changed files with the repository's existing checks.
+rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for whatever we build next. Its React package, raft-ui, includes components and compound parts, Brutal and Elegant themes, design tokens, typography, and interaction behavior. Use it to build a product with rUI's style while keeping product data, permissions, and workflows in the app.
 
-When finished, summarize the files changed, the Intent skill loaded, the providers added, and the validation results.`;
+Start with https://rui.botiverse.build/guides/overview to understand the system and choose a path for the task. Inspect this repository's framework, package manager, existing UI, and installed raft-ui version before making changes.
+
+Read only the relevant guides:
+- New app or first integration: https://rui.botiverse.build/guides/setup
+- Existing app: setup plus https://rui.botiverse.build/guides/styling; scope changes to the requested surface and check global styles, theme ownership, and portals.
+- Chat or collaboration: https://rui.botiverse.build/guides/conversation
+- Dashboard or workspace: https://rui.botiverse.build/guides/layout, https://rui.botiverse.build/guides/forms, and https://rui.botiverse.build/guides/feedback.
+- Custom composition: https://rui.botiverse.build/guides/composition and https://rui.botiverse.build/guides/styling.
+- Exact APIs: https://rui.botiverse.build/guides/lookup and the relevant component pages linked from those guides or the component catalog at https://rui.botiverse.build/components.
+
+For a fresh setup, install raft-ui in the target app using the existing package manager, configure its styles and typography, choose a theme, and render a first component. Add providers only when needed. For an existing integration, reuse its setup and implement the requested UI. Preserve rUI's design language through its components and semantic tokens.
+
+Verify APIs against node_modules/raft-ui/dist/index.d.mts rather than guessing. If the website differs from the installed version or is unavailable, read the version-matched Markdown files in node_modules/raft-ui/skills/raft-ui-guide/rules/. No skill loader is required. Skill installation and agent configuration changes are optional; do not make them unless requested. Use raft-ui/wip only when explicitly requested.
+
+Validate with the project's existing checks. Summarize the result, setup or UI changes, and any verification gaps.`;
 
 const SNIPPETS = {
   installationPrompt: INSTALLATION_PROMPT,
@@ -191,8 +196,9 @@ function InstallationDoc() {
           <TabsPanel value="ai" className="pt-4">
             <div className="space-y-4">
               <Lead>
-                Copy this prompt into Codex or another coding agent. It installs the package,
-                initializes the bundled skill, and uses that skill to configure your app.
+                Give this prompt to your coding agent along with the UI you want to build. It
+                introduces rUI and points to the guides for your task. No skill installation is
+                required.
               </Lead>
               <CodeSnippet
                 path="Prompt"
@@ -410,11 +416,12 @@ function InstallationDoc() {
         </div>
       </DocSection>
 
-      <DocSection id="agent-skills" title="Agent Skills">
+      <DocSection id="agent-skills" title="Optional agent skills">
         <div className="space-y-6">
           <Lead>
-            raft-ui ships <InlineCode>raft-ui-guide</InlineCode> for implementation and{" "}
-            <InlineCode>raft-ui-critique</InlineCode> for interface review. TanStack Intent
+            You can read the guides directly without installing skills. For agents with skill
+            discovery, raft-ui also ships <InlineCode>raft-ui-guide</InlineCode> for implementation
+            and <InlineCode>raft-ui-critique</InlineCode> for interface review. TanStack Intent
             discovers both from the installed package, including dependencies of pnpm workspace
             packages.
           </Lead>

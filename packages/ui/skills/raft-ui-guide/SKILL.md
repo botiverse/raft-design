@@ -5,7 +5,9 @@ description: "Build UIs with raft-ui, the React component library for Raft using
 
 # raft-ui
 
-React component library for Raft. Built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards, activity inboxes, and search.
+rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for products beyond it. The React package is `raft-ui`. Built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards, activity inboxes, and search.
+
+The focused guides are also published at https://rui.botiverse.build/guides/overview. This skill is an optional navigation entry, not a prerequisite. Read [Overview](./rules/overview.md) for the positioning, capabilities, and scenario-based reading paths; then read only the guides needed for the task. Do not register or install skills in a consumer project unless requested.
 
 ## Working sequence
 

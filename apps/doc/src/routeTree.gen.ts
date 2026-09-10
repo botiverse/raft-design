@@ -93,6 +93,7 @@ import { Route as ComponentsThreadPanelRouteImport } from './routes/components/t
 import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
+import { Route as GuidesGuideRouteImport } from './routes/guides/$guide'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
 import { Route as IframeDialogScrollLayerRouteImport } from './routes/iframe/dialog-scroll-layer'
 import { Route as IframeDrawerRouteImport } from './routes/iframe/drawer'
@@ -556,6 +557,11 @@ const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
   path: '/tooltip',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const GuidesGuideRoute = GuidesGuideRouteImport.update({
+  id: '/guides/$guide',
+  path: '/guides/$guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IframeAppShellMobileRoute = IframeAppShellMobileRouteImport.update({
   id: '/iframe/app-shell-mobile',
   path: '/iframe/app-shell-mobile',
@@ -790,6 +796,7 @@ export interface FileRoutesByFullPath {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
   '/iframe/drawer': typeof IframeDrawerRoute
@@ -902,6 +909,7 @@ export interface FileRoutesByTo {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
   '/iframe/drawer': typeof IframeDrawerRoute
@@ -1015,6 +1023,7 @@ export interface FileRoutesById {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
   '/iframe/drawer': typeof IframeDrawerRoute
@@ -1129,6 +1138,7 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
     | '/iframe/drawer'
@@ -1241,6 +1251,7 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
     | '/iframe/drawer'
@@ -1353,6 +1364,7 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
     | '/iframe/drawer'
@@ -1388,6 +1400,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   InstallationRoute: typeof InstallationRoute
   LabRoute: typeof LabRoute
+  GuidesGuideRoute: typeof GuidesGuideRoute
   IframeAppShellMobileRoute: typeof IframeAppShellMobileRoute
   IframeDialogScrollLayerRoute: typeof IframeDialogScrollLayerRoute
   IframeDrawerRoute: typeof IframeDrawerRoute
@@ -1987,6 +2000,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsTooltipRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/guides/$guide': {
+      id: '/guides/$guide'
+      path: '/guides/$guide'
+      fullPath: '/guides/$guide'
+      preLoaderRoute: typeof GuidesGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/iframe/app-shell-mobile': {
       id: '/iframe/app-shell-mobile'
       path: '/iframe/app-shell-mobile'
@@ -2497,6 +2517,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   InstallationRoute: InstallationRoute,
   LabRoute: LabRoute,
+  GuidesGuideRoute: GuidesGuideRoute,
   IframeAppShellMobileRoute: IframeAppShellMobileRoute,
   IframeDialogScrollLayerRoute: IframeDialogScrollLayerRoute,
   IframeDrawerRoute: IframeDrawerRoute,
