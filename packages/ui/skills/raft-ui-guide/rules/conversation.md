@@ -143,6 +143,8 @@ The message family is large and satellite-structured: `MessageItem` is the ancho
 
 Product-state parts follow the library-wide pattern: the consumer decides which state part to render (`MessageReferencePending`, `MessageQuotedPreviewUnavailable`, `MessageItemTranslationFailedStatus`), the root never takes a `state` prop.
 
+Pass a number as `MessageReactionCount` children to get its built-in 180ms bump on value changes. It skips the initial render and respects reduced motion. Keep the part mounted with a stable key; do not add an application-side animation or key it by the count. Non-numeric children remain supported as static content.
+
 For message text content, the `Markdown*` renderer parts (see [display.md](./display.md)) style each markdown node.
 
 ---

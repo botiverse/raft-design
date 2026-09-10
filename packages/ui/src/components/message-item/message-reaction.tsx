@@ -1,11 +1,16 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { useRender } from "@base-ui/react/use-render";
+import { useEffect, useRef } from "react";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
 import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
-import { messageReaction } from "./message-reaction.recipe";
+import {
+  messageReaction,
+  reactionCountKeyframes,
+  reactionCountTiming,
+} from "./message-reaction.recipe";
 
 export type MessageReactionChipProps = Omit<StyledProps<BaseToggle.Props>, "type">;
 
@@ -66,10 +71,41 @@ export function MessageReactionGlyph({ className, render, ...props }: MessageRea
 
 export type MessageReactionCountProps = useRender.ComponentProps<"span">;
 
-export function MessageReactionCount({ className, render, ...props }: MessageReactionCountProps) {
+export function MessageReactionCount({
+  children,
+  className,
+  render,
+  ...props
+}: MessageReactionCountProps) {
+  const elementRef = useRef<HTMLElement | null>(null);
+  const value = typeof children === "number" && Number.isFinite(children) ? children : null;
+  const previousValue = useRef(value);
+
+  useEffect(() => {
+    const previous = previousValue.current;
+    previousValue.current = value;
+    if (value === null || previous === null || value === previous) return;
+
+    const element = elementRef.current;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!element?.animate || reducedMotion.matches) return;
+
+    const animation = element.animate(reactionCountKeyframes, reactionCountTiming);
+    const handleMotionChange = () => {
+      if (reducedMotion.matches) animation.cancel();
+    };
+    reducedMotion.addEventListener("change", handleMotionChange);
+    return () => {
+      animation.cancel();
+      reducedMotion.removeEventListener("change", handleMotionChange);
+    };
+  }, [value]);
+
   const { count } = messageReaction();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: count({ className }),
+    children,
+    ref: elementRef,
   };
 
   return useRender({
