@@ -1,5 +1,16 @@
 import { tv } from "../../lib/tv";
 
+export const reactionCountKeyframes: Keyframe[] = [
+  { opacity: 0.7, transform: "translateY(1px) scale(0.92)", offset: 0 },
+  { opacity: 1, transform: "translateY(-1px) scale(1.16)", offset: 0.45 },
+  { opacity: 1, transform: "translateY(0) scale(1)", offset: 1 },
+];
+
+export const reactionCountTiming: KeyframeAnimationOptions = {
+  duration: 180,
+  easing: "cubic-bezier(0.2, 0, 0.2, 1)",
+};
+
 export const messageReaction = tv({
   slots: {
     chip: [
@@ -11,7 +22,7 @@ export const messageReaction = tv({
       "inline-flex items-center justify-center leading-none",
       "[&>svg]:size-[13px] [&>svg]:shrink-0",
     ],
-    count: ["font-mono tabular-nums"],
+    count: ["inline-block origin-center font-mono tabular-nums"],
     addButton: [
       "inline-flex min-w-0 items-center justify-center",
       "transition-colors",

@@ -370,7 +370,8 @@ export const MESSAGE_REACTION_COUNT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
-    description: "Numeric reaction-count slot.",
+    description:
+      "Numeric children bump for 180ms when their value changes, never on mount. Respects reduced motion. Non-numeric children remain static; native props, refs, and render substitution are preserved.",
   },
 ];
 
