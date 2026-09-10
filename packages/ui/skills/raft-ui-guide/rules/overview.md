@@ -25,7 +25,6 @@ Skills are optional. Only install them when requested.
 
 | Task                                 | Guide                                                                 |
 | ------------------------------------ | --------------------------------------------------------------------- |
-| Standalone HTML                      | [Technical overview: plain HTML](./technical-overview.md#plain-html)  |
 | Technical foundations                | [Technical overview](./technical-overview.md)                         |
 | Compose or adapt UI                  | [Composition](./composition.md), [Styling](./styling.md)              |
 | Chat and collaboration               | [Conversation](./conversation.md)                                     |
