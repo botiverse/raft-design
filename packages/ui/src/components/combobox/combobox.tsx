@@ -2,6 +2,7 @@ import { createContext, use, useMemo, useState } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
+import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -338,12 +339,42 @@ export function ComboboxValue(props: ComboboxValueProps) {
   return <BaseCombobox.Value data-slot="combobox-value" {...props} />;
 }
 
-export type ComboboxTriggerProps = StyledProps<BaseCombobox.Trigger.Props>;
+export type ComboboxTriggerProps = StyledProps<BaseCombobox.Trigger.Props> & {
+  /**
+   * Whether to wrap children in `<span data-slot="combobox-trigger-content">`.
+   * Defaults to `true`. Set to `false` when the custom trigger element
+   * manages child layout directly.
+   */
+  wrapContent?: boolean;
+  /**
+   * Optional className applied to the content wrapper span when `wrapContent` is `true`.
+   */
+  contentClassName?: string;
+};
 
-export function ComboboxTrigger({ className, children, render, ...props }: ComboboxTriggerProps) {
+export function ComboboxTrigger({
+  className,
+  children,
+  render,
+  wrapContent = true,
+  contentClassName,
+  ...props
+}: ComboboxTriggerProps) {
   const theme = useThemeFamily();
   const { hasValue } = use(ComboboxContext);
   const { trigger } = combobox({ theme });
+  const content = wrapContent ? (
+    <span
+      data-slot="combobox-trigger-content"
+      data-picker-trigger-content="combobox"
+      className={cn("flex min-w-0 flex-1 items-center gap-1.5", contentClassName)}
+    >
+      {children}
+    </span>
+  ) : (
+    children
+  );
+
   return (
     <BaseCombobox.Trigger
       data-slot="combobox-trigger"
@@ -351,13 +382,7 @@ export function ComboboxTrigger({ className, children, render, ...props }: Combo
       render={render ?? <Button variant="outline" size="md" className={trigger({ className })} />}
       {...props}
     >
-      <span
-        data-slot="combobox-trigger-content"
-        data-picker-trigger-content="combobox"
-        className="flex min-w-0 flex-1 items-center gap-1.5"
-      >
-        {children}
-      </span>
+      {content}
     </BaseCombobox.Trigger>
   );
 }
