@@ -16,7 +16,7 @@ import {
   Kbd,
   Separator,
 } from "raft-ui";
-import { Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
+import { ExternalLink, Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
@@ -24,7 +24,7 @@ const PRIMARY_NAV: readonly NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Overview", to: "/guides/overview" },
   { label: "Changelog", to: "/changelog" },
-  { label: "Playground", to: "/playground" },
+  { label: "Playground", to: "/playground", external: true },
   { label: "Dashboard", to: "/dashboard" },
   { label: "Lab", to: "/lab" },
 ];
@@ -374,6 +374,7 @@ type NavItem = {
   status?: NavStatus;
   reason?: string;
   items?: readonly NavItem[];
+  external?: boolean;
 };
 
 type BadgeVariant =
@@ -580,6 +581,7 @@ function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
         <span className="min-w-0 truncate">{item.label}</span>
         {item.docsHref ? <Globe2 className="size-3 shrink-0 opacity-50" aria-hidden /> : null}
       </span>
+      {item.external ? <ExternalLink className="size-3.5 shrink-0 opacity-60" aria-hidden /> : null}
       {badge}
     </>
   );
@@ -591,6 +593,8 @@ function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
         hash={item.hash}
         title={title}
         aria-label={title}
+        target={item.external ? "_blank" : undefined}
+        rel={item.external ? "noreferrer" : undefined}
         activeOptions={item.hash ? sidebarHashActiveOptions : sidebarPathActiveOptions}
         activeProps={sidebarItemActiveProps}
         inactiveProps={sidebarItemInactiveProps}
@@ -732,13 +736,12 @@ function MobileNavItem({
   const title = item.reason
     ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
     : undefined;
-  const content = badge ? (
+  const content = (
     <>
       <span className="min-w-0 flex-1 truncate">{item.label}</span>
+      {item.external ? <ExternalLink className="size-4 shrink-0 opacity-60" aria-hidden /> : null}
       {badge}
     </>
-  ) : (
-    item.label
   );
 
   if (item.to) {
@@ -748,6 +751,8 @@ function MobileNavItem({
         hash={item.hash}
         title={title}
         aria-label={title}
+        target={item.external ? "_blank" : undefined}
+        rel={item.external ? "noreferrer" : undefined}
         activeOptions={item.hash ? sidebarHashActiveOptions : sidebarPathActiveOptions}
         activeProps={sidebarItemActiveProps}
         className={className}
