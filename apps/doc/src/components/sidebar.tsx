@@ -16,6 +16,9 @@ import {
   ComboboxTrigger,
   Kbd,
   Separator,
+  SidebarItem,
+  SidebarItemContent,
+  SidebarItemTitle,
 } from "raft-ui";
 import { ExternalLink, Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
@@ -400,10 +403,11 @@ const statusMeta = {
 const sectionTitleClassName = "mb-2.5 pl-[8px] text-[13px] font-medium text-foreground";
 const sidebarItemFocusClassName =
   "outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500";
-const sidebarItemActiveClassName = "bg-fill-muted text-foreground";
-const sidebarItemInactiveClassName = "text-foreground-muted";
-const sidebarItemActiveProps = { className: sidebarItemActiveClassName };
-const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
+const sidebarSectionActiveClassName = "bg-fill-muted text-foreground";
+const sidebarSectionActiveProps = { className: sidebarSectionActiveClassName };
+// rui `SidebarItem` styles its active state from `data-active` (the recipe classes
+// are always in the class string) — the router only has to set the attribute.
+const sidebarNavItemActiveProps = { "data-active": "true" };
 const sidebarPathActiveOptions = { exact: true, includeSearch: false };
 const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
 
@@ -569,19 +573,17 @@ function ComponentSearch({
   );
 }
 
-function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
-  const className = `flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors hover:bg-fill-muted/80 hover:text-foreground ${
-    item.to || item.docsHref ? sidebarItemFocusClassName : "cursor-default"
-  } ${item.to || item.docsHref ? "" : "text-foreground-muted"}`;
+export function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
+  const className = `mb-0 ${item.to || item.docsHref ? sidebarItemFocusClassName : "cursor-default"}`;
   const title = item.reason
     ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
     : undefined;
   const content = (
     <>
-      <span className="flex min-w-0 flex-1 items-center gap-1">
-        <span className="min-w-0 truncate">{item.label}</span>
+      <SidebarItemContent>
+        <SidebarItemTitle>{item.label}</SidebarItemTitle>
         {item.docsHref ? <Globe2 className="size-3 shrink-0 opacity-50" aria-hidden /> : null}
-      </span>
+      </SidebarItemContent>
       {item.external ? <ExternalLink className="size-3.5 shrink-0 opacity-60" aria-hidden /> : null}
       {badge}
     </>
@@ -589,42 +591,49 @@ function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
 
   if (item.to) {
     return (
-      <Link
-        to={item.to}
-        hash={item.hash}
-        title={title}
-        aria-label={title}
-        target={item.external ? "_blank" : undefined}
-        rel={item.external ? "noreferrer" : undefined}
-        activeOptions={item.hash ? sidebarHashActiveOptions : sidebarPathActiveOptions}
-        activeProps={sidebarItemActiveProps}
-        inactiveProps={sidebarItemInactiveProps}
+      <SidebarItem
         className={className}
+        render={
+          <Link
+            to={item.to}
+            hash={item.hash}
+            title={title}
+            aria-label={title}
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noreferrer" : undefined}
+            activeOptions={item.hash ? sidebarHashActiveOptions : sidebarPathActiveOptions}
+            activeProps={sidebarNavItemActiveProps}
+          />
+        }
       >
         {content}
-      </Link>
+      </SidebarItem>
     );
   }
 
   if (item.docsHref) {
     return (
-      <a
-        href={item.docsHref}
-        target="_blank"
-        rel="noreferrer"
-        title={title}
-        aria-label={title ? `${title} Open Base UI docs.` : `${item.label}. Open Base UI docs.`}
-        className={`${className} text-foreground-muted`}
+      <SidebarItem
+        className={className}
+        render={
+          <a
+            href={item.docsHref}
+            target="_blank"
+            rel="noreferrer"
+            title={title}
+            aria-label={title ? `${title} Open Base UI docs.` : `${item.label}. Open Base UI docs.`}
+          />
+        }
       >
         {content}
-      </a>
+      </SidebarItem>
     );
   }
 
   return (
-    <span title={title} aria-label={title} className={className}>
+    <SidebarItem className={className} render={<span title={title} aria-label={title} />}>
       {content}
-    </span>
+    </SidebarItem>
   );
 }
 
@@ -682,7 +691,7 @@ function NavGroup({
           <Link
             to={to}
             activeOptions={sidebarPathActiveOptions}
-            activeProps={sidebarItemActiveProps}
+            activeProps={sidebarSectionActiveProps}
             inactiveProps={{ className: "text-foreground" }}
             className={`${sectionTitleClassName} ${sidebarItemFocusClassName}`}
           >
@@ -733,13 +742,15 @@ function MobileNavItem({
   badge?: ReactNode;
   onNavigate: () => void;
 }) {
-  const className = `flex min-h-12 items-center justify-start rounded-md px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted transition-colors hover:bg-fill-muted hover:text-foreground active:bg-fill-strong ${sidebarItemFocusClassName}`;
+  const className = `mb-0 min-h-12 px-3 py-2.5 text-base leading-5 ${sidebarItemFocusClassName}`;
   const title = item.reason
     ? `${item.label}: ${item.status ? statusMeta[item.status].label : "Note"}. ${item.reason}`
     : undefined;
   const content = (
     <>
-      <span className="min-w-0 flex-1 truncate">{item.label}</span>
+      <SidebarItemContent>
+        <SidebarItemTitle className="font-semibold">{item.label}</SidebarItemTitle>
+      </SidebarItemContent>
       {item.external ? <ExternalLink className="size-4 shrink-0 opacity-60" aria-hidden /> : null}
       {badge}
     </>
@@ -747,46 +758,51 @@ function MobileNavItem({
 
   if (item.to) {
     return (
-      <Link
-        to={item.to}
-        hash={item.hash}
-        title={title}
-        aria-label={title}
-        target={item.external ? "_blank" : undefined}
-        rel={item.external ? "noreferrer" : undefined}
-        activeOptions={item.hash ? sidebarHashActiveOptions : sidebarPathActiveOptions}
-        activeProps={sidebarItemActiveProps}
+      <SidebarItem
         className={className}
-        onClick={onNavigate}
+        render={
+          <Link
+            to={item.to}
+            hash={item.hash}
+            title={title}
+            aria-label={title}
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noreferrer" : undefined}
+            activeOptions={item.hash ? sidebarHashActiveOptions : sidebarPathActiveOptions}
+            activeProps={sidebarNavItemActiveProps}
+            onClick={onNavigate}
+          />
+        }
       >
         {content}
-      </Link>
+      </SidebarItem>
     );
   }
 
   if (item.docsHref) {
     return (
-      <a
-        href={item.docsHref}
-        target="_blank"
-        rel="noreferrer"
-        title={title}
-        aria-label={title ? `${title} Open Base UI docs.` : `${item.label}. Open Base UI docs.`}
+      <SidebarItem
         className={className}
-        onClick={onNavigate}
+        render={
+          <a
+            href={item.docsHref}
+            target="_blank"
+            rel="noreferrer"
+            title={title}
+            aria-label={title ? `${title} Open Base UI docs.` : `${item.label}. Open Base UI docs.`}
+            onClick={onNavigate}
+          />
+        }
       >
         {content}
-      </a>
+      </SidebarItem>
     );
   }
 
   return (
-    <span
-      title={title}
-      className="flex min-h-12 items-center justify-start px-3 py-2.5 text-left text-base leading-5 font-semibold text-foreground-muted"
-    >
+    <SidebarItem className={className} render={<span title={title} aria-label={title} />}>
       {content}
-    </span>
+    </SidebarItem>
   );
 }
 
@@ -812,7 +828,7 @@ function MobileNavGroup({
           <Link
             to={to}
             activeOptions={sidebarPathActiveOptions}
-            activeProps={sidebarItemActiveProps}
+            activeProps={sidebarSectionActiveProps}
             className={`flex min-h-12 items-center justify-start rounded-md px-3 ${sidebarItemFocusClassName}`}
             onClick={onNavigate}
           >
