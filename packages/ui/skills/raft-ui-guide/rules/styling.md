@@ -5,6 +5,8 @@ description: "Styling contract: oklch semantic token families, banned palettes, 
 
 # Styling
 
+Use theme variables directly in plain CSS. The utility and recipe examples below apply to Tailwind consumers.
+
 ## Contents
 
 - Tailwind's default palette is banned

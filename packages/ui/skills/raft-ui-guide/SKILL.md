@@ -1,6 +1,6 @@
 ---
 name: raft-ui-guide
-description: "Build UIs with raft-ui, the React component library for Raft using Base UI, Tailwind CSS v4, and tailwind-variants. Use when importing from raft-ui, selecting or composing components, checking variants and props, styling with semantic oklch tokens, or setting up styles.css, fonts.css, and ThemeProvider. Keywords include raft-ui, raft ui, RaftUI, Raft design system, activity inbox, workspace search, brutal theme, and elegant theme."
+description: "Build with rUI: native CSS foundations for plain HTML and React components using Base UI and Tailwind CSS v4. Use for theme tokens, styling, component selection, composition, and API lookup."
 ---
 
 # raft-ui
