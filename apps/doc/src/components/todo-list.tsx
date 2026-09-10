@@ -1,4 +1,5 @@
-import { Badge, type BadgeProps } from "raft-ui";
+import { Badge } from "raft-ui";
+import type { BadgeProps } from "raft-ui";
 
 type TodoStatus = "done" | "todo" | "deferred";
 

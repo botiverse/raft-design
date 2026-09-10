@@ -10,7 +10,8 @@ import {
   Status,
 } from "raft-ui";
 
-import { getPlaygroundDmActor, type PlaygroundDirectMessage } from "../mock/index.ts";
+import { getPlaygroundDmActor } from "../mock/index.ts";
+import type { PlaygroundDirectMessage } from "../mock/index.ts";
 import { PlaygroundConversationBackButton } from "../navigation/conversation-back-button.tsx";
 import { PLAYGROUND_PRESENCE_STATUS } from "../message/playground-presence.ts";
 

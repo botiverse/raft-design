@@ -7,7 +7,8 @@ import { cn } from "../../lib/cn";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Button, type ButtonProps } from "../button/index";
+import { Button } from "../button/index";
+import type { ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
 
 type DrawerConfig = {

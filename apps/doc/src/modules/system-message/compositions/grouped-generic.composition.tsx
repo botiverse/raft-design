@@ -6,10 +6,8 @@ import {
   SystemMessageGroupPanel,
   SystemMessageGroupSummary,
 } from "raft-ui";
-import {
-  SystemMessageRowComposition,
-  type SystemMessageRowCompositionProps,
-} from "./preview.composition.tsx";
+import { SystemMessageRowComposition } from "./preview.composition.tsx";
+import type { SystemMessageRowCompositionProps } from "./preview.composition.tsx";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

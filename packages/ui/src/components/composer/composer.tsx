@@ -2,7 +2,8 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Button, type ButtonProps } from "../button/button";
+import { Button } from "../button/button";
+import type { ButtonProps } from "../button/button";
 import { composer as composerRecipe } from "./composer.recipe";
 
 export type ComposerProps = useRender.ComponentProps<"div">;

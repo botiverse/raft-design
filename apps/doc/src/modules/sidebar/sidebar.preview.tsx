@@ -1,11 +1,9 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 
 import { Preview } from "#/components/preview.tsx";
-import {
-  SidebarComposition,
-  type SidebarContentState,
-  type SidebarLiveActivityState,
-} from "./sidebar.composition.tsx";
+import { SidebarComposition } from "./sidebar.composition.tsx";
+import type { SidebarContentState, SidebarLiveActivityState } from "./sidebar.composition.tsx";
 
 const CONTENT_STATES = ["Populated", "Empty"] as const;
 type PreviewContentState = (typeof CONTENT_STATES)[number];

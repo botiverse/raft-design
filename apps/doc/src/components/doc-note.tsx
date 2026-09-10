@@ -1,4 +1,5 @@
-import { Text, type TextSansProps } from "raft-ui";
+import { Text } from "raft-ui";
+import type { TextSansProps } from "raft-ui";
 
 type DocNoteProps = TextSansProps;
 

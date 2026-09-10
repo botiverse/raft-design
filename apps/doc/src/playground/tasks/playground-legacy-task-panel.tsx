@@ -4,11 +4,8 @@ import { Button, PanelAction } from "raft-ui";
 
 import { TasksLegacyTaskPanelComposition } from "#/modules/tasks/compositions/tasks-legacy-task-panel.composition.tsx";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
-import {
-  getPlaygroundActor,
-  type PlaygroundChannelRecord,
-  type PlaygroundTask,
-} from "../mock/index.ts";
+import { getPlaygroundActor } from "../mock/index.ts";
+import type { PlaygroundChannelRecord, PlaygroundTask } from "../mock/index.ts";
 
 export function PlaygroundLegacyTaskPanel({
   backToTasks,

@@ -1,5 +1,6 @@
 import { useRender } from "@base-ui/react/use-render";
-import { Button, type ButtonProps } from "../button/button";
+import { Button } from "../button/button";
+import type { ButtonProps } from "../button/button";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { files } from "./files.recipe";
 

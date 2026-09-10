@@ -1,4 +1,5 @@
-import { TASK_FIXTURES, type TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";
+import { TASK_FIXTURES } from "#/modules/task-card/task-card.fixtures.ts";
+import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";
 
 const BOARD_DEMO_EXTRA_TASKS: readonly TaskFixture[] = [
   {

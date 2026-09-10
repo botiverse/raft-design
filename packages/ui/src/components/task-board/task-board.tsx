@@ -5,7 +5,8 @@ import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { taskStatus, type TaskStatusId } from "../tasks/task-status.recipe";
+import { taskStatus } from "../tasks/task-status.recipe";
+import type { TaskStatusId } from "../tasks/task-status.recipe";
 import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskBoardColumn } from "./task-board-column.recipe";
 

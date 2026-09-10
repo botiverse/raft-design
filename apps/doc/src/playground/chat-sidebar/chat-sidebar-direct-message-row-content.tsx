@@ -12,11 +12,8 @@ import {
   SidebarItemTitle,
 } from "raft-ui";
 
-import {
-  getPlaygroundDmActor,
-  type PlaygroundDirectMessage,
-  type PlaygroundPresence,
-} from "../mock/index.ts";
+import { getPlaygroundDmActor } from "../mock/index.ts";
+import type { PlaygroundDirectMessage, PlaygroundPresence } from "../mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "../message/playground-presence.ts";
 import {
   PlaygroundDraftIndicator,

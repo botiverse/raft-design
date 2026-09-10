@@ -1,19 +1,9 @@
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { conversationPanel } from "../conversation-panel/conversation-panel.recipe";
-import {
-  Panel,
-  PanelBody,
-  PanelSection,
-  type PanelBodyProps,
-  type PanelProps,
-  type PanelSectionProps,
-} from "../panel/panel";
-import {
-  PanelHeader,
-  PanelHeaderContent,
-  type PanelHeaderContentProps,
-  type PanelHeaderProps,
-} from "../panel/panel-header";
+import { Panel, PanelBody, PanelSection } from "../panel/panel";
+import type { PanelBodyProps, PanelProps, PanelSectionProps } from "../panel/panel";
+import { PanelHeader, PanelHeaderContent } from "../panel/panel-header";
+import type { PanelHeaderContentProps, PanelHeaderProps } from "../panel/panel-header";
 import { profilePanel } from "./profile-panel.recipe";
 
 export type ProfilePanelProps = PanelProps;

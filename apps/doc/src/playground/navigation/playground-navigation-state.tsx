@@ -1,9 +1,8 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 
-import {
-  PlaygroundNavigationContext,
-  type PlaygroundNavigationState,
-} from "./playground-navigation-context.ts";
+import { PlaygroundNavigationContext } from "./playground-navigation-context.ts";
+import type { PlaygroundNavigationState } from "./playground-navigation-context.ts";
 import type { PlaygroundPanelTab, PlaygroundRailView } from "./playground-navigation.ts";
 
 export function PlaygroundNavigationProvider({

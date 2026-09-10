@@ -1,22 +1,15 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useSyncExternalStore,
-  type ReactNode,
-} from "react";
-import {
-  ThemeContext,
-  ThemeStateContext,
-  type ResolvedThemeMode,
-  type SetTheme,
-  type SetThemeOptions,
-  type Theme,
-  type ThemeState,
-  type ThemeMode,
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import type { ReactNode } from "react";
+import { ThemeContext, ThemeStateContext } from "./theme-context";
+import type {
+  ResolvedThemeMode,
+  SetTheme,
+  SetThemeOptions,
+  Theme,
+  ThemeState,
+  ThemeMode,
 } from "./theme-context";
 
 export interface ThemeProviderProps {

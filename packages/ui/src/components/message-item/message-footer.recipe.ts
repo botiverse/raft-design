@@ -1,4 +1,5 @@
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 
 export const messageFooter = tv({
   slots: {

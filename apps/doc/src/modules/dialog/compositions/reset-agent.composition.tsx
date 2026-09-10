@@ -15,7 +15,8 @@ import {
 } from "raft-ui";
 import { cn } from "raft-ui/cn";
 import { AlertTriangle, RotateCcw } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 
 // @docs-source-strip-start
 import { Dialog } from "raft-ui";

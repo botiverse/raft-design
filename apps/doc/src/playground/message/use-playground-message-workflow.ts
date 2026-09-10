@@ -8,8 +8,8 @@ import type {
 import {
   DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW,
   PlaygroundMessageWorkflowContext,
-  type PlaygroundMessageWorkflow,
 } from "./playground-message-workflow-context.ts";
+import type { PlaygroundMessageWorkflow } from "./playground-message-workflow-context.ts";
 
 function usePlaygroundMessageWorkflowState() {
   const state = use(PlaygroundMessageWorkflowContext);

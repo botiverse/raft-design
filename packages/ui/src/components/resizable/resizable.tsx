@@ -3,9 +3,11 @@ import {
   Group as ResizableGroupPrimitive,
   Panel as ResizablePanelPrimitive,
   Separator as ResizableHandlePrimitive,
-  type GroupProps as ResizableGroupPrimitiveProps,
-  type PanelProps as ResizablePanelPrimitiveProps,
-  type SeparatorProps as ResizableHandlePrimitiveProps,
+} from "react-resizable-panels";
+import type {
+  GroupProps as ResizableGroupPrimitiveProps,
+  PanelProps as ResizablePanelPrimitiveProps,
+  SeparatorProps as ResizableHandlePrimitiveProps,
 } from "react-resizable-panels";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { resizable } from "./resizable.recipe";

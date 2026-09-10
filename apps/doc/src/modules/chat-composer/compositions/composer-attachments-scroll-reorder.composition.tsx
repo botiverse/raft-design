@@ -16,8 +16,8 @@ import {
   ReorderAttachmentTile,
   SCROLL_REORDER_ATTACHMENTS,
   reorderAttachmentsByIds,
-  type ReorderAttachment,
 } from "./composer-attachments-reorder-shared.tsx";
+import type { ReorderAttachment } from "./composer-attachments-reorder-shared.tsx";
 
 export function ComposerAttachmentsScrollReorderComposition() {
   const [attachments, setAttachments] = useState<ReorderAttachment[]>([

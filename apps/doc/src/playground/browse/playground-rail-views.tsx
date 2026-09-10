@@ -17,8 +17,8 @@ import {
   Settings,
   Shield,
   Users,
-  type LucideIcon,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Fragment } from "react";
 import {
   Button,

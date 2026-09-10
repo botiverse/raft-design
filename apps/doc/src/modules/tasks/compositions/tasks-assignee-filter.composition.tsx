@@ -22,7 +22,8 @@ import {
   PickerTriggerButton,
 } from "raft-ui";
 
-import { TASKS_IDENTITY_FIXTURES, type TasksIdentity } from "../tasks-identity-filter.fixtures.ts";
+import { TASKS_IDENTITY_FIXTURES } from "../tasks-identity-filter.fixtures.ts";
+import type { TasksIdentity } from "../tasks-identity-filter.fixtures.ts";
 
 export type TasksAssigneeFilterCompositionProps = {
   identities?: readonly TasksIdentity[];

@@ -1,8 +1,5 @@
-import {
-  PLAYGROUND_CONVERSATIONS,
-  type PlaygroundChannelId,
-  type PlaygroundMessageId,
-} from "./conversations.ts";
+import { PLAYGROUND_CONVERSATIONS } from "./conversations.ts";
+import type { PlaygroundChannelId, PlaygroundMessageId } from "./conversations.ts";
 
 export type PlaygroundSavedMessage = {
   messageId: PlaygroundMessageId;

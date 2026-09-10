@@ -37,7 +37,8 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
-import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { PropsTable } from "#/components/props-table.tsx";
+import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import {
   mockMutationOptions,
@@ -45,7 +46,8 @@ import {
   runMockMutation,
   useMockQuery,
 } from "#/lib/mock-query.ts";
-import { models, type Model } from "#/modules/combobox/combobox.constants.ts";
+import { models } from "#/modules/combobox/combobox.constants.ts";
+import type { Model } from "#/modules/combobox/combobox.constants.ts";
 import { PreviewCombobox } from "#/modules/combobox/combobox.preview.tsx";
 import { PickerTriggerButtonComboboxFilterComposition } from "#/modules/picker-trigger-button/compositions/combobox-filter.composition.tsx";
 import pickerTriggerButtonComboboxFilterSource from "#/modules/picker-trigger-button/compositions/combobox-filter.composition.tsx?raw";

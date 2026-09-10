@@ -29,7 +29,8 @@ import {
 } from "raft-ui";
 import { useState } from "react";
 
-import { ACTIVITY_COMPOSITION_ITEMS, type ActivityCompositionItem } from "../activity.fixtures.ts";
+import { ACTIVITY_COMPOSITION_ITEMS } from "../activity.fixtures.ts";
+import type { ActivityCompositionItem } from "../activity.fixtures.ts";
 import { ActivitySelectionCheckbox } from "../activity-inbox.helpers.tsx";
 
 const ACTIVE_ITEM_ID = "dm:samira";

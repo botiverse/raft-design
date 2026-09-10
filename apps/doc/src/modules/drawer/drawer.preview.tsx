@@ -13,8 +13,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
   Text,
-  type DrawerProps,
 } from "raft-ui";
+import type { DrawerProps } from "raft-ui";
 
 export type DrawerPreviewProps = Pick<DrawerProps, "swipeDirection"> & {
   triggerLabel: string;

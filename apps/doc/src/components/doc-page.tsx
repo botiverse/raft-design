@@ -1,7 +1,8 @@
 import { useLocation } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Button, Text } from "raft-ui";
-import { Toc, type TocItem } from "./toc.tsx";
+import { Toc } from "./toc.tsx";
+import type { TocItem } from "./toc.tsx";
 
 function GithubMark({ size = 14 }: { size?: number }) {
   return (

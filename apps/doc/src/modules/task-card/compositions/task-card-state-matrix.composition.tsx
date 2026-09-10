@@ -1,4 +1,5 @@
-import { useState, type RefObject } from "react";
+import { useState } from "react";
+import type { RefObject } from "react";
 import { EllipsisVertical } from "lucide-react";
 import {
   Button,
@@ -15,7 +16,8 @@ import {
   useThemeFamily,
 } from "raft-ui";
 
-import { getTaskStatusLabel, type TaskStatus } from "../task-card.fixtures";
+import { getTaskStatusLabel } from "../task-card.fixtures";
+import type { TaskStatus } from "../task-card.fixtures";
 import { TaskStatusSelect } from "./task-status-select.composition";
 
 export function TaskCardStateMatrixComposition({

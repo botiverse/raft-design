@@ -1,5 +1,6 @@
 import type { Options } from "react-markdown";
-import { defaultSchema, type Options as RehypeSanitizeOptions } from "rehype-sanitize";
+import { defaultSchema } from "rehype-sanitize";
+import type { Options as RehypeSanitizeOptions } from "rehype-sanitize";
 import rehypeSanitize from "rehype-sanitize";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";

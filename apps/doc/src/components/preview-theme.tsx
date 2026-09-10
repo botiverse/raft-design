@@ -1,20 +1,13 @@
-import {
-  useCallback,
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type HTMLAttributes,
-  type ReactNode,
-} from "react";
-import { ThemeProvider, useTheme, type Theme, type ThemeMode } from "raft-ui";
+import { useCallback, createContext, useContext, useEffect, useMemo, useState } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
+import { ThemeProvider, useTheme } from "raft-ui";
+import type { Theme, ThemeMode } from "raft-ui";
 
 import {
   readPreviewThemeCookieFromDocument,
   writePreviewThemeCookie,
-  type StoredPreviewTheme,
 } from "#/lib/preview-theme-storage.ts";
+import type { StoredPreviewTheme } from "#/lib/preview-theme-storage.ts";
 
 export type PreviewMode = ThemeMode;
 

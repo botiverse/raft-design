@@ -8,11 +8,8 @@ import {
   pointerWithin,
   useSensor,
   useSensors,
-  type CollisionDetection,
-  type DragOverEvent,
-  type DragStartEvent,
-  type Modifier,
 } from "@dnd-kit/core";
+import type { CollisionDetection, DragOverEvent, DragStartEvent, Modifier } from "@dnd-kit/core";
 import {
   arrayMove,
   defaultAnimateLayoutChanges,
@@ -20,21 +17,11 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
-  type SortingStrategy,
 } from "@dnd-kit/sortable";
+import type { SortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  Children,
-  isValidElement,
-  useCallback,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactElement,
-  type ReactNode,
-} from "react";
+import { Children, isValidElement, useCallback, useId, useMemo, useRef, useState } from "react";
+import type { CSSProperties, ReactElement, ReactNode } from "react";
 import { ComposerAttachmentsScrollArea } from "./composer-attachments-scroll-area";
 
 export type SortableComposerAttachmentsProps = {

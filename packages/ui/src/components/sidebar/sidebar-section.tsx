@@ -6,9 +6,11 @@ import { ChevronRight } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Button, type ButtonProps } from "../button";
+import { Button } from "../button";
+import type { ButtonProps } from "../button";
 import { Spinner } from "../spinner";
-import { Status, type StatusProps } from "../status";
+import { Status } from "../status";
+import type { StatusProps } from "../status";
 import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes";
 import { sidebarSectionRecipe } from "./sidebar-section.recipe";
 

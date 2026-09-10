@@ -1,9 +1,10 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Status, type StatusProps } from "../status/status";
+import { Status } from "../status/status";
+import type { StatusProps } from "../status/status";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { appRail } from "./app-rail.recipe";
 

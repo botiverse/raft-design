@@ -15,8 +15,8 @@ import {
   SidebarSectionAddButton,
   SidebarSectionChannelsMenu,
   SidebarSectionHeaderMenu,
-  type SidebarSortValue,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
+import type { SidebarSortValue } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
 import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
 import { ChatSidebarChannelItem } from "./chat-sidebar-channel-item.tsx";
 import { ChatSidebarProjectionPreview } from "./chat-sidebar-dnd.tsx";

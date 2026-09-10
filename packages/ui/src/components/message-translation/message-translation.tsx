@@ -1,7 +1,9 @@
 import type { ComponentProps } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { MarkdownBlockquote, type MarkdownBlockquoteProps } from "../markdown/markdown-parts";
-import { ProgressTrack, type ProgressTrackProps } from "../progress";
+import { MarkdownBlockquote } from "../markdown/markdown-parts";
+import type { MarkdownBlockquoteProps } from "../markdown/markdown-parts";
+import { ProgressTrack } from "../progress";
+import type { ProgressTrackProps } from "../progress";
 import { messageTranslation } from "./message-translation.recipe";
 
 export type MessageItemTranslationOriginalProps = MarkdownBlockquoteProps;

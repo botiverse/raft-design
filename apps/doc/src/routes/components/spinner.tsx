@@ -1,12 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Badge, Button, Spinner, type SpinnerProps } from "raft-ui";
+import { Badge, Button, Spinner } from "raft-ui";
+import type { SpinnerProps } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
-import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { PropsTable } from "#/components/props-table.tsx";
+import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [

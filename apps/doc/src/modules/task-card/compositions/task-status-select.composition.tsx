@@ -12,7 +12,8 @@ import {
   TaskStatusIcon,
 } from "raft-ui";
 
-import { TASK_STATUSES, type TaskStatus } from "../task-card.fixtures";
+import { TASK_STATUSES } from "../task-card.fixtures";
+import type { TaskStatus } from "../task-card.fixtures";
 
 const TASK_STATUS_SELECT_ITEMS = TASK_STATUSES.map(({ id, label }) => ({ value: id, label }));
 

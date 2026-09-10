@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { RefObject } from "react";
 import { Check, Copy, Info, Send } from "lucide-react";
 import {
   Button,
@@ -30,7 +31,8 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
-import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { PropsTable } from "#/components/props-table.tsx";
+import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import { ToastPreviewScene } from "#/modules/toast/toast.composition.tsx";
 import { ToastPlaygroundPreview } from "#/modules/toast/toast.preview.tsx";

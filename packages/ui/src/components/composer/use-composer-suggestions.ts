@@ -1,16 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
-import {
-  useEffect,
-  useId,
-  useRef,
-  useState,
-  type ComponentPropsWithoutRef,
-  type CompositionEventHandler,
-  type FocusEventHandler,
-  type FormEventHandler,
-  type KeyboardEventHandler,
-  type PointerEvent,
-  type RefObject,
+import { useEffect, useId, useRef, useState } from "react";
+import type {
+  ComponentPropsWithoutRef,
+  CompositionEventHandler,
+  FocusEventHandler,
+  FormEventHandler,
+  KeyboardEventHandler,
+  PointerEvent,
+  RefObject,
 } from "react";
 
 export interface ComposerSuggestionTriggerMatch {

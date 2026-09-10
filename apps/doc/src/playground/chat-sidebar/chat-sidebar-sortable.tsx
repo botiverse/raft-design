@@ -1,8 +1,9 @@
 import { useDraggable, useDroppable } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
-import { SidebarList, type SidebarListProps } from "raft-ui";
+import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import { SidebarList } from "raft-ui";
+import type { SidebarListProps } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
 import type { PlaygroundChannelId } from "../mock/index.ts";

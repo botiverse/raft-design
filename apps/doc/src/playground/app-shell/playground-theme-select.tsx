@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
 import {
-  type Theme,
-  type ThemeMode,
   Select,
   SelectContent,
   SelectItem,
@@ -9,6 +7,7 @@ import {
   SelectItemText,
   SelectList,
 } from "raft-ui";
+import type { Theme, ThemeMode } from "raft-ui";
 
 import { usePreviewTheme } from "#/components/preview-theme.tsx";
 

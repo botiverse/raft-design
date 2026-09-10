@@ -18,9 +18,8 @@ import {
   getTaskStatusLabel,
   moveTaskFixture,
   TASK_FIXTURES,
-  type TaskFixture,
-  type TaskStatus,
 } from "#/modules/task-card/task-card.fixtures.ts";
+import type { TaskFixture, TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 import { TasksPanelBoardView } from "../tasks-panel-board-view.tsx";
 import { TasksPanelEmptyState } from "../tasks-panel-empty-state.tsx";
 import { TasksPanelListView } from "../tasks-panel-list-view.tsx";

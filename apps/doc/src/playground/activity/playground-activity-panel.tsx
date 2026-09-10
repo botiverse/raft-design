@@ -10,7 +10,7 @@ import {
 } from "raft-ui";
 import { useEffect, useMemo, useRef } from "react";
 
-import { type ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
+import type { ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
 import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
 
 import {
@@ -19,8 +19,8 @@ import {
   getPlaygroundThread,
   isPlaygroundDmId,
   isPlaygroundThreadId,
-  type PlaygroundActivity,
 } from "../mock/index.ts";
+import type { PlaygroundActivity } from "../mock/index.ts";
 import {
   usePlaygroundDesktop,
   usePlaygroundWideDesktop,

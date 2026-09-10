@@ -4,7 +4,8 @@ import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { taskStatus, type TaskStatusId } from "./task-status.recipe";
+import { taskStatus } from "./task-status.recipe";
+import type { TaskStatusId } from "./task-status.recipe";
 
 export type TaskChipVariant = "default" | "inline";
 

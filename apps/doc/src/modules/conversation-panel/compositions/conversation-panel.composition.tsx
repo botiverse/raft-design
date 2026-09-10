@@ -45,8 +45,8 @@ import {
   MessageItemTime,
   MessageItemToolbar,
   MessageItemToolbarButton,
-  type PanelEdge,
 } from "raft-ui";
+import type { PanelEdge } from "raft-ui";
 import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
 import {
   Composer,

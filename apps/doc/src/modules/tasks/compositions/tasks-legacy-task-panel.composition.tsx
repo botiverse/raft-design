@@ -28,7 +28,8 @@ import {
   TaskStatusIcon,
 } from "raft-ui";
 
-import { getTaskStatusLabel, type TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
+import { getTaskStatusLabel } from "#/modules/task-card/task-card.fixtures.ts";
+import type { TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 
 export type TasksLegacyTaskPanelCompositionProps = {
   channelName: string;

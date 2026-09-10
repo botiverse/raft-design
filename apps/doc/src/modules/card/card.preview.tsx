@@ -1,5 +1,6 @@
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import type { CardProps } from "raft-ui";
 
 import { Preview } from "#/components/preview.tsx";

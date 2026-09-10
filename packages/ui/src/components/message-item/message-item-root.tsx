@@ -1,8 +1,9 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { type SlotElementProps } from "../../lib/data-attributes";
-import { messageItem, type MessageItemVariantProps } from "./message-item.recipe";
+import type { SlotElementProps } from "../../lib/data-attributes";
+import { messageItem } from "./message-item.recipe";
+import type { MessageItemVariantProps } from "./message-item.recipe";
 
 export type MessageItemProps = useRender.ComponentProps<"div"> &
   Pick<MessageItemVariantProps, "compact">;

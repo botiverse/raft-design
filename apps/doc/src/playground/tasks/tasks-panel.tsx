@@ -17,10 +17,8 @@ import {
   TabsTab,
 } from "raft-ui";
 
-import {
-  TasksPanelComposition,
-  type TasksPanelCompositionProps,
-} from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
+import { TasksPanelComposition } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
+import type { TasksPanelCompositionProps } from "#/modules/tasks/compositions/tasks-panel.composition.tsx";
 import { TasksIdentityFiltersComposition } from "#/modules/tasks/compositions/tasks-identity-filters.composition.tsx";
 import type { TasksIdentity } from "#/modules/tasks/tasks-identity-filter.fixtures.ts";
 import type { TaskFixture } from "#/modules/task-card/task-card.fixtures.ts";
@@ -31,10 +29,8 @@ import {
   PLAYGROUND_ROOM_CHANNELS,
   PLAYGROUND_SERVER_SLUG,
   getPlaygroundChannel,
-  type PlaygroundActor,
-  type PlaygroundChannelRecord,
-  type PlaygroundTask,
 } from "../mock/index.ts";
+import type { PlaygroundActor, PlaygroundChannelRecord, PlaygroundTask } from "../mock/index.ts";
 import { usePlaygroundTaskState } from "./use-playground-task-state.ts";
 
 type Tasks = NonNullable<TasksPanelCompositionProps["tasks"]>;

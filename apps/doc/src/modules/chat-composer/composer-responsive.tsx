@@ -5,10 +5,12 @@ import {
   ComposerInput as ComposerInputPrimitive,
   ComposerSuggestionList as ComposerSuggestionListPrimitive,
   ComposerToolbar as ComposerToolbarPrimitive,
-  type ComposerInputProps,
-  type ComposerProps,
-  type ComposerSuggestionListProps,
-  type ComposerToolbarProps,
+} from "raft-ui";
+import type {
+  ComposerInputProps,
+  ComposerProps,
+  ComposerSuggestionListProps,
+  ComposerToolbarProps,
 } from "raft-ui";
 
 /** Consumer-owned viewport tweaks kept out of the Composer primitive. */

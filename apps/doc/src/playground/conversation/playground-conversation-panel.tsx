@@ -1,4 +1,5 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import { useLocation } from "@tanstack/react-router";
 import { ListTodo, MessageSquare, Paperclip } from "lucide-react";
 import {
@@ -17,8 +18,8 @@ import {
   TabsIndicator,
   TabsLabel,
   MessageMultiSelect,
-  type PanelEdge,
 } from "raft-ui";
+import type { PanelEdge } from "raft-ui";
 import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
 
 import { MessageMultiSelectToolbarComposition } from "#/modules/message-item/compositions/selection.compositions.tsx";
@@ -37,9 +38,11 @@ import {
   getPlaygroundMessageText,
   isPlaygroundChatMessage,
   getPlaygroundConversationMessages,
-  type PlaygroundChannel,
-  type PlaygroundChannelRecord,
-  type PlaygroundMessage,
+} from "../mock/index.ts";
+import type {
+  PlaygroundChannel,
+  PlaygroundChannelRecord,
+  PlaygroundMessage,
 } from "../mock/index.ts";
 import { TaskStatusBadge } from "../tasks/task-status-badge.tsx";
 import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";

@@ -10,12 +10,27 @@ const ignorePatterns = [
 
 export default defineConfig({
   staged: {
+    // Staged-file scope by choice: fast on every commit. Cross-file fallout is
+    // still covered — the PR `check` workflow runs the full workspace check.
+    // (Full-repo pre-commit was measured at ~22s per commit and rejected.)
+    // Known edge: a whitespace-only staged change gets formatted away, leaving
+    // nothing to commit, and lint-staged aborts with "prevented an empty git
+    // commit" — that message means "the change is already clean", not a broken
+    // hook.
     "*": "vp check --fix",
   },
   fmt: { ignorePatterns },
   lint: {
     ignorePatterns,
     options: { typeAware: true, typeCheck: true },
+    // Oxlint's `plugins` array OVERWRITES its default plugin set, so the sets
+    // we want have to be restated: typescript, unicorn, oxc (defaults) plus
+    // import (off by default). Dropping a default silently disables its rules —
+    // with only `["import"]`, `typescript/consistent-type-imports` stopped
+    // reporting without complaining. ESLint-core rules are deliberately NOT
+    // listed: they are oxlint's always-on base set (measured — `plugins: []`
+    // still runs 60 rules), not a plugin this array switches.
+    plugins: ["oxc", "unicorn", "typescript", "import"],
     jsPlugins: ["eslint-plugin-better-tailwindcss"],
     settings: {
       "better-tailwindcss": {
@@ -24,6 +39,15 @@ export default defineConfig({
       },
     },
     rules: {
+      // Type-only imports must be their own `import type { ... }` statement
+      // (Artea): `consistent-type-imports` catches unmarked type-only usage,
+      // `consistent-type-specifier-style` (default: prefer-top-level) moves
+      // inline `{ type X }` specifiers out. Both are auto-fixable.
+      "typescript/consistent-type-imports": "error",
+      "import/consistent-type-specifier-style": "error",
+      // False positives on Vite `?raw` imports (the plugin cannot see the
+      // build-tool default export), so it stays off.
+      "import/default": "off",
       "better-tailwindcss/enforce-canonical-classes": "warn",
       "better-tailwindcss/no-deprecated-classes": "warn",
       "better-tailwindcss/no-duplicate-classes": "warn",

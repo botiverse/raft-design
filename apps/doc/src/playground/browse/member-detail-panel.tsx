@@ -1,5 +1,6 @@
 import { ChevronDown, ChevronLeft, CircleHelp, MessageSquare, Trash2, X } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -21,7 +22,6 @@ import {
   DescriptionTerm,
   PanelAction,
   PanelActions,
-  type PanelEdge,
   PanelHeading,
   PanelMeta,
   PanelTitle,
@@ -41,6 +41,7 @@ import {
   Status,
   Text,
 } from "raft-ui";
+import type { PanelEdge } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
 import {
@@ -48,9 +49,8 @@ import {
   getPlaygroundActor,
   getPlaygroundHumanProfile,
   getPlaygroundMachine,
-  type PlaygroundActor,
-  type PlaygroundMemberRole,
 } from "../mock/index.ts";
+import type { PlaygroundActor, PlaygroundMemberRole } from "../mock/index.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { PLAYGROUND_PRESENCE_STATUS } from "../message/playground-presence.ts";
 

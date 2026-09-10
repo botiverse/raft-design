@@ -1,5 +1,6 @@
 import { Field as BaseField } from "@base-ui/react/field";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import { LabelAsterisk, LabelOptional } from "../label/label";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";

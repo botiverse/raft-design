@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { FormEvent, KeyboardEvent } from "react";
 import { useDropzone } from "react-dropzone";
 import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "lucide-react";
 import {
@@ -43,8 +44,8 @@ import {
   FilePreviewMedia,
   SortableComposerAttachment,
   SortableComposerAttachmentsScroll,
-  type FilePreviewBadgeType,
 } from "raft-ui";
+import type { FilePreviewBadgeType } from "raft-ui";
 import {
   Composer,
   ComposerInput,
@@ -67,10 +68,8 @@ import {
   usePlaygroundThreadDraft,
   usePlaygroundThreadReplies,
 } from "../message/use-playground-message-workflow.ts";
-import {
-  usePlaygroundComposerAutocomplete,
-  type ComposerSuggestion,
-} from "./use-playground-composer-autocomplete.ts";
+import { usePlaygroundComposerAutocomplete } from "./use-playground-composer-autocomplete.ts";
+import type { ComposerSuggestion } from "./use-playground-composer-autocomplete.ts";
 
 type AutocompleteApi = ReturnType<typeof usePlaygroundComposerAutocomplete>;
 type OptionProps = ReturnType<AutocompleteApi["getOptionProps"]>;

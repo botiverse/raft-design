@@ -1,4 +1,5 @@
-import { clsx, type ClassValue } from "cnfast";
+import { clsx } from "cnfast";
+import type { ClassValue } from "cnfast";
 import { extendTailwindMerge } from "tailwind-merge";
 
 // `shadow-raft-*` are custom shadow *geometry* utilities; without this they

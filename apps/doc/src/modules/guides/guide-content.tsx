@@ -1,6 +1,8 @@
-import { Children, isValidElement, type ReactNode } from "react";
+import { Children, isValidElement } from "react";
+import type { ReactNode } from "react";
 import { MarkdownHeading, MarkdownLink } from "raft-ui";
-import { Markdown, type MarkdownProps } from "#/lib/markdown/markdown.tsx";
+import { Markdown } from "#/lib/markdown/markdown.tsx";
+import type { MarkdownProps } from "#/lib/markdown/markdown.tsx";
 
 function headingId(children: ReactNode): string {
   const text = Children.toArray(children)

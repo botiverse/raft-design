@@ -56,10 +56,10 @@ import {
 } from "raft-ui";
 import { useMemo, useRef, useState } from "react";
 
-import {
-  ACTIVITY_COMPOSITION_ITEMS,
-  type ActivityCompositionItem,
-  type ActivityCompositionChannelKind,
+import { ACTIVITY_COMPOSITION_ITEMS } from "../activity.fixtures.ts";
+import type {
+  ActivityCompositionItem,
+  ActivityCompositionChannelKind,
 } from "../activity.fixtures.ts";
 import {
   ActivityGroupIcon,
@@ -67,8 +67,8 @@ import {
   ActivityNavigationItem,
   ActivitySelectionCheckbox,
   ActivitySwitcherRow,
-  type ActivityView,
 } from "../activity-inbox.helpers.tsx";
+import type { ActivityView } from "../activity-inbox.helpers.tsx";
 
 type ActivityReadFilter = "all" | "unread";
 type ActivitySortDirection = "desc" | "asc";

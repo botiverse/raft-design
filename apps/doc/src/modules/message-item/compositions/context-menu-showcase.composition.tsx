@@ -21,10 +21,8 @@ import {
   MessageItemTime,
 } from "raft-ui";
 
-import {
-  MessageContextMenuComposition,
-  type MessageTaskState,
-} from "./context-menu.composition.tsx";
+import { MessageContextMenuComposition } from "./context-menu.composition.tsx";
+import type { MessageTaskState } from "./context-menu.composition.tsx";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import { MessageRowToolbarFixture } from "./row-toolbar.composition.tsx";
 

@@ -12,13 +12,14 @@ import {
   PreviewCardTrigger,
   Status,
   cn,
-  type StatusProps,
   MessageItemAvatarSlot,
 } from "raft-ui";
+import type { StatusProps } from "raft-ui";
 import { User } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { getPlaygroundActor, type PlaygroundActorId } from "../mock/index.ts";
+import { getPlaygroundActor } from "../mock/index.ts";
+import type { PlaygroundActorId } from "../mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
 export type PlaygroundAvatarVariant = "member" | "agent";

@@ -1,13 +1,5 @@
-import {
-  createContext,
-  use,
-  useCallback,
-  useId,
-  useMemo,
-  useState,
-  type ComponentPropsWithRef,
-  type CSSProperties,
-} from "react";
+import { createContext, use, useCallback, useId, useMemo, useState } from "react";
+import type { ComponentPropsWithRef, CSSProperties } from "react";
 import { Tabs as BaseTabs } from "@base-ui/react/tabs";
 import {
   closestCenter,
@@ -16,16 +8,16 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
-  type DragEndEvent,
-  type DragStartEvent,
 } from "@dnd-kit/core";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import {
   arrayMove,
   horizontalListSortingStrategy,
   SortableContext,
   useSortable,
 } from "@dnd-kit/sortable";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 

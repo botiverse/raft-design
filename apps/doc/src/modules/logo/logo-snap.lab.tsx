@@ -1,5 +1,7 @@
-import { useEffect, useId, useRef, useState, type RefObject } from "react";
-import { animate, stagger, type AnimationPlaybackControlsWithThen } from "motion/react";
+import { useEffect, useId, useRef, useState } from "react";
+import type { RefObject } from "react";
+import { animate, stagger } from "motion/react";
+import type { AnimationPlaybackControlsWithThen } from "motion/react";
 import { Button, RaftWordmark } from "raft-ui";
 
 const SNAP_EASE = [0.55, 0, 1, 0.45] as const;

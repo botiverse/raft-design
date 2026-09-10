@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import { Archive, Bell, BellOff, Mail, MailOpen, Pin, PinOff } from "lucide-react";
 import {
   ContextMenu,
@@ -9,11 +10,8 @@ import {
   SidebarItem as SidebarItemRoot,
 } from "raft-ui";
 
-import {
-  DEFAULT_CHANNEL_ID,
-  type PlaygroundChannelId,
-  type PlaygroundRoomChannelRecord,
-} from "../mock/index.ts";
+import { DEFAULT_CHANNEL_ID } from "../mock/index.ts";
+import type { PlaygroundChannelId, PlaygroundRoomChannelRecord } from "../mock/index.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 import { ChatSidebarChannelRowContent } from "./chat-sidebar-channel-row-content.tsx";
 import { useChatSidebarDnd } from "./use-chat-sidebar-dnd.ts";

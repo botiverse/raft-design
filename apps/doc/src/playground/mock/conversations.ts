@@ -1,4 +1,5 @@
-import { getPlaygroundActor, type PlaygroundActor } from "./actors.ts";
+import { getPlaygroundActor } from "./actors.ts";
+import type { PlaygroundActor } from "./actors.ts";
 import type {
   PlaygroundChannel,
   PlaygroundDirectMessage,
@@ -79,10 +80,7 @@ export function isPlaygroundServerSlug(value: string): value is typeof PLAYGROUN
 
 const channelsById = new Map<PlaygroundChannelId, PlaygroundChannelRecord>();
 const directMessagesById = new Map<PlaygroundDmId, PlaygroundDirectMessageRecord>();
-const messagesByConversationId = new Map<
-  PlaygroundChannelId,
-  readonly import("./conversation-model.ts").PlaygroundMessage[]
->();
+const messagesByConversationId = new Map<PlaygroundChannelId, readonly PlaygroundMessage[]>();
 const channelIds = new Set<string>();
 const directMessageIds = new Set<string>();
 const channelNames = new Set<string>();
@@ -331,7 +329,7 @@ export function getPlaygroundChannel(id: PlaygroundChannelId): PlaygroundChannel
 
 export function getPlaygroundConversationMessages(
   id: PlaygroundChannelId,
-): readonly import("./conversation-model.ts").PlaygroundMessage[] {
+): readonly PlaygroundMessage[] {
   const messages = messagesByConversationId.get(id);
   if (!messages) throw new Error(`Unknown playground conversation: ${id}`);
   return messages;

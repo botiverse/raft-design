@@ -1,4 +1,5 @@
-import { useState, type ComponentProps, type ReactNode } from "react";
+import { useState } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import {
   AppShellRailSlot,
   AppRailFooter,

@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import { ArrowDownToLine, Eye, MessageSquare } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {

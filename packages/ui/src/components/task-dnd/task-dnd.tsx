@@ -10,12 +10,14 @@ import {
   useDroppable,
   useSensor,
   useSensors,
-  type DragCancelEvent,
-  type DragEndEvent,
-  type DragMoveEvent,
-  type DragOverEvent,
-  type DragStartEvent,
-  type UniqueIdentifier,
+} from "@dnd-kit/core";
+import type {
+  DragCancelEvent,
+  DragEndEvent,
+  DragMoveEvent,
+  DragOverEvent,
+  DragStartEvent,
+  UniqueIdentifier,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -30,11 +32,8 @@ import {
   useRef,
   useState,
   useSyncExternalStore,
-  type ComponentPropsWithRef,
-  type CSSProperties,
-  type Ref,
-  type ReactNode,
 } from "react";
+import type { ComponentPropsWithRef, CSSProperties, Ref, ReactNode } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { taskDnd } from "./task-dnd.recipe";
 

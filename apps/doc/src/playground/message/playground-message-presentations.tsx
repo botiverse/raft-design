@@ -8,11 +8,13 @@ import {
   getPlaygroundChannel,
   isPlaygroundChannelId,
   PLAYGROUND_SERVER_SLUG,
-  type PlaygroundActionCardPresentation,
-  type PlaygroundActionCardResolution,
-  type PlaygroundForwardedBundlePresentation,
-  type PlaygroundMessagePresentation,
-  type PlaygroundQuotedPreviewPresentation,
+} from "../mock/index.ts";
+import type {
+  PlaygroundActionCardPresentation,
+  PlaygroundActionCardResolution,
+  PlaygroundForwardedBundlePresentation,
+  PlaygroundMessagePresentation,
+  PlaygroundQuotedPreviewPresentation,
 } from "../mock/index.ts";
 
 function conversationHref(

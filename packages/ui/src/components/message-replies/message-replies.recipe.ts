@@ -1,4 +1,5 @@
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import { messageBlock } from "../message-embed/message-embed.recipe";
 
 export const messageReplies = tv({

@@ -22,9 +22,8 @@ import {
   getTaskStatusLabel,
   TASK_FIXTURES,
   TASK_STATUSES,
-  type TaskFixture,
-  type TaskStatus,
 } from "#/modules/task-card/task-card.fixtures.ts";
+import type { TaskFixture, TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 
 const DEFAULT_COLLAPSED: Record<TaskStatus, boolean> = {

@@ -3,9 +3,8 @@ import {
   getPlaygroundThread,
   isPlaygroundTaskId,
   isPlaygroundThreadId,
-  type PlaygroundTaskId,
-  type PlaygroundThreadId,
 } from "../mock/index.ts";
+import type { PlaygroundTaskId, PlaygroundThreadId } from "../mock/index.ts";
 
 export type PlaygroundSearch = {
   content?: string;

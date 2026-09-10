@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import type { ComponentProps } from "react";
 
-import { PLAYGROUND_SERVER_SLUG, type PlaygroundChannelRecord } from "../mock/index.ts";
+import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
+import type { PlaygroundChannelRecord } from "../mock/index.ts";
 import type { PlaygroundChannelSearch } from "./playground-search.ts";
 
 type PlaygroundConversationLinkProps = Omit<ComponentProps<"a">, "href"> & {

@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import {
   Progress,
   ProgressHeader,
@@ -6,8 +7,8 @@ import {
   ProgressLabel,
   ProgressTrack,
   ProgressValue,
-  type ProgressProps,
 } from "raft-ui";
+import type { ProgressProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";

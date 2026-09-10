@@ -1,12 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import {
-  messageReference,
-  type MessageReferenceChipVariant,
-  type MessageReferenceTextVariant,
+import { messageReference } from "./message-reference.recipe";
+import type {
+  MessageReferenceChipVariant,
+  MessageReferenceTextVariant,
 } from "./message-reference.recipe";
-import { type SlotElementProps } from "../../lib/data-attributes";
+import type { SlotElementProps } from "../../lib/data-attributes";
 
 export type { MessageReferenceChipVariant, MessageReferenceTextVariant };
 

@@ -29,12 +29,8 @@ import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx"
 import { PlaygroundMessageRow } from "../message/playground-message-row.tsx";
 import { usePlaygroundMessageMultiSelect } from "../message/use-playground-message-multi-select.ts";
 import { usePlaygroundThreadReplies } from "../message/use-playground-message-workflow.ts";
-import {
-  getPlaygroundActor,
-  type PlaygroundChannelRecord,
-  type PlaygroundTask,
-  type PlaygroundThread,
-} from "../mock/index.ts";
+import { getPlaygroundActor } from "../mock/index.ts";
+import type { PlaygroundChannelRecord, PlaygroundTask, PlaygroundThread } from "../mock/index.ts";
 import { TaskStatusBadge } from "../tasks/task-status-badge.tsx";
 
 export function PlaygroundThreadPanel({

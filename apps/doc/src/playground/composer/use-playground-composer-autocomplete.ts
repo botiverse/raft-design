@@ -1,13 +1,13 @@
-import { useComposerSuggestions, type ComposerSuggestionTriggerMatch } from "raft-ui";
+import { useComposerSuggestions } from "raft-ui";
+import type { ComposerSuggestionTriggerMatch } from "raft-ui";
 
 import {
   PLAYGROUND_ACTORS,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
   getPlaygroundMembers,
-  type PlaygroundChannel,
-  type PlaygroundChannelId,
 } from "../mock/index.ts";
+import type { PlaygroundChannel, PlaygroundChannelId } from "../mock/index.ts";
 
 export type MentionSuggestion = {
   disabled: boolean;

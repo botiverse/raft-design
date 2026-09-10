@@ -16,19 +16,16 @@ import {
 } from "raft-ui";
 
 import { SidebarCreateMenu } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
-import {
-  LiveAgentActivityBarComposition,
-  type LiveAgentActivityBarItem,
-} from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
+import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
+import type { LiveAgentActivityBarItem } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
 import {
   PLAYGROUND_CHANNELS,
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
   PLAYGROUND_SERVER_SLUG,
-  type PlaygroundChannelId,
-  type PlaygroundDirectMessageRecord,
 } from "../mock/index.ts";
+import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
 import {

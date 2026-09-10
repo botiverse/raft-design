@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
   AlertTriangle,
@@ -85,13 +86,15 @@ import {
   isPlaygroundDmId,
   PLAYGROUND_SERVER_SLUG,
   requirePlaygroundThread,
-  type PlaygroundActorId,
-  type PlaygroundChatMessage,
-  type PlaygroundFile,
-  type PlaygroundMessage,
-  type PlaygroundMessageAttachment,
-  type PlaygroundTask,
-  type PlaygroundThreadId,
+} from "../mock/index.ts";
+import type {
+  PlaygroundActorId,
+  PlaygroundChatMessage,
+  PlaygroundFile,
+  PlaygroundMessage,
+  PlaygroundMessageAttachment,
+  PlaygroundTask,
+  PlaygroundThreadId,
 } from "../mock/index.ts";
 import { PlaygroundMessagePresentation } from "./playground-message-presentations.tsx";
 import { PlaygroundSystemMessageRow } from "./playground-system-message-row.tsx";

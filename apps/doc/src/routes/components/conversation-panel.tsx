@@ -1,16 +1,16 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { InlineCode, type PanelEdge } from "raft-ui";
+import { InlineCode } from "raft-ui";
+import type { PanelEdge } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
-import { PropsTable, type PropRow } from "#/components/props-table.tsx";
-import {
-  ConversationPanelComposition,
-  type ConversationPanelCompositionProps,
-} from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx";
+import { PropsTable } from "#/components/props-table.tsx";
+import type { PropRow } from "#/components/props-table.tsx";
+import { ConversationPanelComposition } from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx";
+import type { ConversationPanelCompositionProps } from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx";
 import conversationPanelCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx?raw";
 import conversationPanelHeaderCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";

@@ -1,18 +1,14 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  type ComponentPropsWithRef,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useMemo } from "react";
+import type { ComponentPropsWithRef, ReactNode } from "react";
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Button, type ButtonProps } from "../button/index";
+import { Button } from "../button/index";
+import type { ButtonProps } from "../button/index";
 
 const copyableCode = tv({
   slots: {

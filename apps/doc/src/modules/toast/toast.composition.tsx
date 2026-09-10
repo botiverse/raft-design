@@ -19,8 +19,8 @@ import {
   ToastViewport,
   useToastManager,
   useThemeFamily,
-  type ToastObject,
 } from "raft-ui";
+import type { ToastObject } from "raft-ui";
 
 type ToastDemoData = {
   icon?: "check" | "info" | "send" | "alert" | "copy";
