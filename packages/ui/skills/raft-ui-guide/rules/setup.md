@@ -116,6 +116,72 @@ const family = useThemeFamily();
 
 Use `BrutalOnly` and `ElegantOnly` only for non-semantic decoration or a rare family-specific implementation that preserves the same content, reading order, actions, and state. Prefer tokens and component recipes for ordinary visual adaptation. Do not use theme guards to create different workflows or business DOM.
 
+## Switching themes
+
+Use `setTheme` to switch families, and pass a mode for Elegant:
+
+```tsx
+const { theme, mode, resolvedMode, setTheme } = useTheme();
+
+setTheme("brutal");
+setTheme("elegant", { mode: "light" });
+setTheme("elegant", { mode: "dark" });
+setTheme("elegant", { mode: "system" });
+```
+
+Prefer semantic tokens for customization. See [Styling](./styling.md) for theme scopes and component styling.
+
+## Toasts
+
+Add one `ToastProvider` near the app root. Set `timeout` and `limit` when the app needs different defaults:
+
+```tsx
+<ToastProvider timeout={3600} limit={3}>
+  <App />
+</ToastProvider>
+```
+
+Call `toast.info`, `toast.success`, `toast.warning`, or `toast.error` from event handlers:
+
+```tsx
+import { toast } from "raft-ui";
+
+toast.success("Changes saved.");
+```
+
+See [Feedback](./feedback.md) for choosing notifications, scoped managers, and custom toast anatomy.
+
+## Optional agent skills
+
+The guides work without a skill loader. For agents with skill discovery, `raft-ui` also ships `raft-ui-guide` for implementation and `raft-ui-critique` for interface review. Install skills or change agent configuration only when requested.
+
+TanStack Intent discovers both from the installed package, including dependencies of pnpm workspace packages. Add this to `package.json`:
+
+```json
+{
+  "intent": {
+    "skills": ["raft-ui"]
+  }
+}
+```
+
+Then install the mapping and load the relevant skill:
+
+```bash
+pnpm dlx @tanstack/intent@latest install --map
+pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-guide
+pnpm dlx @tanstack/intent@latest load raft-ui#raft-ui-critique
+```
+
+The package also works with skills-npm and other standard Agent Skill installers:
+
+```bash
+pnpm add -D skills-npm
+pnpm exec skills-npm setup
+```
+
+skills-npm 1.2.0 has a known limitation when recursively aggregating multiple skills from one package in a monorepo. Prefer Intent for that layout or run skills-npm non-recursively where `raft-ui` is a direct dependency.
+
 ## Entry points
 
 | Import               | Contents                                             |

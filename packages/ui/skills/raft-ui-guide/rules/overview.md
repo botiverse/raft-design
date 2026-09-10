@@ -11,13 +11,31 @@ rUI is a UI system with expressive visuals and playful interactions, shaped by R
 
 Raft is a source of real product experience, not a prerequisite for using rUI. You bring the content, structure, and product logic; rUI provides the components and design language. The React package is named `raft-ui`.
 
-## What's included
+## Start with your agent
 
-- **Components and compound parts:** controls, forms, overlays, feedback, navigation, and product surfaces such as conversations, composers, tasks, and search.
-- **Themes:** Brutal and Elegant share component APIs. Elegant also supports dark mode. Choose a family through `ThemeProvider`; components resolve their appearance together.
-- **Design foundations:** semantic colors, typography, spacing, and shadows keep new compositions consistent with existing ones.
-- **Interaction behavior:** focus, keyboard navigation, overlays, and component feedback, with Base UI providing the underlying behavior where applicable.
-- **Executable examples and focused guides:** learn a component's real API and compose it into your product. Optional agent skills package these same guides for tools that support skill discovery.
+Give this prompt to your coding agent along with the UI you want to build. It introduces rUI and points to the guides for your task. No skill installation is required.
+
+```text
+Help me use rUI in this project.
+
+rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for whatever we build next. Its React package, raft-ui, includes components and compound parts, Brutal and Elegant themes, design tokens, typography, and interaction behavior. Use it to build a product with rUI's style while keeping product data, permissions, and workflows in the app.
+
+Start with https://rui.botiverse.build/guides/overview to understand the system and choose a path for the task. Inspect this repository's framework, package manager, existing UI, and installed raft-ui version before making changes.
+
+Read only the relevant guides:
+- New app or first integration: https://rui.botiverse.build/guides/setup
+- Existing app: setup plus https://rui.botiverse.build/guides/styling; scope changes to the requested surface and check global styles, theme ownership, and portals.
+- Chat or collaboration: https://rui.botiverse.build/guides/conversation
+- Dashboard or workspace: https://rui.botiverse.build/guides/layout, https://rui.botiverse.build/guides/forms, and https://rui.botiverse.build/guides/feedback.
+- Custom composition: https://rui.botiverse.build/guides/composition and https://rui.botiverse.build/guides/styling.
+- Exact APIs: https://rui.botiverse.build/guides/lookup and the relevant component pages linked from those guides or the component catalog at https://rui.botiverse.build/components.
+
+For a fresh setup, install raft-ui in the target app using the existing package manager, configure its styles and typography, choose a theme, and render a first component. Add providers only when needed. For an existing integration, reuse its setup and implement the requested UI. Preserve rUI's design language through its components and semantic tokens.
+
+Verify APIs against node_modules/raft-ui/dist/index.d.mts rather than guessing. If the website differs from the installed version or is unavailable, read the version-matched Markdown files in node_modules/raft-ui/skills/raft-ui-guide/rules/. No skill loader is required. Skill installation and agent configuration changes are optional; do not make them unless requested. Use raft-ui/wip only when explicitly requested.
+
+Validate with the project's existing checks. Summarize the result, setup or UI changes, and any verification gaps.
+```
 
 ## Start with your task
 
