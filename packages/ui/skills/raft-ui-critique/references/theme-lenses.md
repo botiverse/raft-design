@@ -1,6 +1,6 @@
 # Theme Lenses
 
-These lenses extend Interface Craft's evidence-first critique sequence with raft-ui's preset, token, and ownership contracts. Use all four lenses for a full review: the cross-theme lens plus one independent pass for each presentation preset. Before making token- or typography-specific claims, verify current implementation details from source `packages/ui/src/styles.css` and `packages/ui/src/fonts.css`, or from published `node_modules/raft-ui/dist/styles.css` and `node_modules/raft-ui/dist/fonts.css`. Do not require repository-only files when the skill is installed from npm.
+These lenses extend Interface Craft's evidence-first critique sequence with raft-ui's preset, token, and ownership contracts. Use all four lenses for a full review: the cross-theme lens plus one independent pass for each presentation preset. Before making token- or typography-specific claims, verify current implementation details from source `packages/ui/src/foundation.css` and `packages/ui/src/fonts.css`, or from published `node_modules/raft-ui/dist/foundation.css` and `node_modules/raft-ui/dist/fonts.css`. Do not require repository-only files when the skill is installed from npm.
 
 ## Cross-theme lens
 

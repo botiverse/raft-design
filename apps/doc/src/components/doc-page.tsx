@@ -31,7 +31,6 @@ const COMPONENT_DIRECTORIES: Record<string, string | null> = {
 };
 
 const DOC_SOURCE_FILES: Record<string, string> = {
-  "/installation": "routes/installation.tsx",
   "/changelog": "routes/changelog.tsx",
   "/tokens/colors": "routes/tokens/colors.tsx",
   "/tokens/typography": "routes/tokens/typography.tsx",

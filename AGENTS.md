@@ -109,7 +109,7 @@ const button = tv({
 
 ## Color tokens
 
-Token contract lives in `packages/ui/src/styles.css`; the docs render it at `/tokens/colors`.
+Token values and theme scopes live in `packages/ui/src/foundation.css`; `styles.css` imports them and defines Tailwind mappings. The docs render the tokens at `/tokens/colors`.
 
 - All colors are authored in oklch. Never use hex/rgb/hsl or Tailwind default palette classes (`gray-*`, `neutral-*`, ...).
 - Reach for semantic tokens first: `layer-*` (surfaces), `line-*` (borders), `foreground-*` (text), state families, and the ink overlay ramp (`ink-2`...`ink-40`, step = alpha %) for neutral washes, hairlines, and hover/pressed fills on transparent surfaces.

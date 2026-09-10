@@ -5,6 +5,8 @@ description: "Styling contract: oklch semantic token families, banned palettes, 
 
 # Styling
 
+Use theme variables directly in plain CSS. The utility and recipe examples below apply to Tailwind consumers.
+
 ## Contents
 
 - Tailwind's default palette is banned
@@ -40,7 +42,7 @@ Never write `hex`, `rgb()`, or `hsl()` either.
 
 ## Semantic token families
 
-Reach for these first. The token contract lives in `raft-ui/styles.css`.
+Reach for these first. The token contract lives in `raft-ui/foundation.css`; `raft-ui/styles.css` maps it to Tailwind utilities.
 
 | Family         | Purpose                                | Registered suffixes                                                                                        |
 | -------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
@@ -50,7 +52,7 @@ Reach for these first. The token contract lives in `raft-ui/styles.css`.
 | `foreground-*` | text and icons                         | bare `foreground`, then `strong` `muted` `hint` `icon` `placeholder` `disabled` `inverse` `active` `hover` |
 | `ink-*`        | neutral washes on transparent surfaces | bare `ink`, then `2` `4` `6` `8` `10` `16` `20` `30` `40`                                                  |
 
-State families do not share one uniform suffix set. `primary` and `accent` expose numeric ramps plus `strong`, `soft`, `hover`, and `active`; `info` exposes `strong`, `muted`, `soft`, `hover`, and `active`; `success` exposes `foreground`, `strong`, `muted`, and `soft`; `warning` and `danger` expose `foreground`, `strong`, `muted`, `soft`, `hover`, and `active`. Check `styles.css` before naming a utility.
+State families do not share one uniform suffix set. `primary` and `accent` expose numeric ramps plus `strong`, `soft`, `hover`, and `active`; `info` exposes `strong`, `muted`, `soft`, `hover`, and `active`; `success` exposes `foreground`, `strong`, `muted`, and `soft`; `warning` and `danger` expose `foreground`, `strong`, `muted`, `soft`, `hover`, and `active`. Check `foundation.css` for values and `styles.css` for utility names.
 
 The `ink` ramp step is the alpha percentage — `ink-8` is 8% ink. Use it for hairlines, hover fills, and pressed states on transparent backgrounds.
 
@@ -73,7 +75,7 @@ Hover and active states on solid fills are derived tokens, not opacity hacks.
 <button className="bg-primary hover:bg-primary-hover active:bg-primary-active" />
 ```
 
-Not every state family ships the full set — check `styles.css` before assuming `success-hover` exists. Adding a family to the interaction contract means defining its complete hover/active pair in the token layer, not patching one callsite.
+Not every state family ships the full set — check `foundation.css` before assuming `success-hover` exists. Adding a family to the interaction contract means defining its complete hover/active pair in the token layer, not patching one callsite.
 
 ---
 

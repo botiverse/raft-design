@@ -22,7 +22,7 @@ import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
 const PRIMARY_NAV: readonly NavItem[] = [
   { label: "Home", to: "/" },
-  { label: "Installation", to: "/installation" },
+  { label: "Overview", to: "/guides/overview" },
   { label: "Changelog", to: "/changelog" },
   { label: "Playground", to: "/playground" },
   { label: "Dashboard", to: "/dashboard" },

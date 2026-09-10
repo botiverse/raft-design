@@ -17,6 +17,7 @@ export default defineConfig({
       wip: "src/wip.ts",
     },
     copy: [
+      { from: "src/foundation.css", to: "dist", rename: "foundation.css" },
       { from: "src/styles.css", to: "dist", rename: "styles.css" },
       { from: "src/fonts.css", to: "dist", rename: "fonts.css" },
     ],

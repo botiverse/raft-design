@@ -1,15 +1,17 @@
 ---
 name: raft-ui-guide
-description: "Build UIs with raft-ui, the React component library for Raft using Base UI, Tailwind CSS v4, and tailwind-variants. Use when importing from raft-ui, selecting or composing components, checking variants and props, styling with semantic oklch tokens, or setting up styles.css, fonts.css, and ThemeProvider. Keywords include raft-ui, raft ui, RaftUI, Raft design system, activity inbox, workspace search, brutal theme, and elegant theme."
+description: "Build with rUI: native CSS foundations for plain HTML and React components using Base UI and Tailwind CSS v4. Use for theme tokens, styling, component selection, composition, and API lookup."
 ---
 
 # raft-ui
 
-React component library for Raft. Built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards, activity inboxes, and search.
+rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for products beyond it. The package is `raft-ui`. Plain HTML can use `foundation.css` directly; the component guidance below applies to React. The React components are built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards, activity inboxes, and search.
+
+The focused guides are also published at https://rui.botiverse.build/guides/overview. This skill is an optional navigation entry, not a prerequisite. Read [Overview](./rules/overview.md) for the positioning, capabilities, and scenario-based reading paths; then read only the guides needed for the task. Do not register or install skills in a consumer project unless requested.
 
 ## Working sequence
 
-1. For a first install or an unstyled render, read [rules/setup.md](./rules/setup.md) and get the first Button rendering before composing a page.
+1. For technical foundations and integration contracts, read [rules/technical-overview.md](./rules/technical-overview.md).
 2. Read only the domain rule needed for the current surface; do not load every rule file by default.
 3. Verify unrecognized props, parts, variants, and tokens with [rules/lookup.md](./rules/lookup.md).
 4. Implement the smallest composition that preserves native semantics and uses raft-ui where its behavior or visual contract is needed.
@@ -114,18 +116,18 @@ Each domain file below opens with its own scenario table for the components it c
 
 ## Read these when relevant
 
-| File                                             | Read it when                                                                 |
-| ------------------------------------------------ | ---------------------------------------------------------------------------- |
-| [rules/lookup.md](./rules/lookup.md)             | You need a prop, variant value, or token — read this before guessing         |
-| [rules/composition.md](./rules/composition.md)   | Assembling compound parts, overlay containers, business actions, or wrappers |
-| [rules/forms.md](./rules/forms.md)               | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu`      |
-| [rules/overlays.md](./rules/overlays.md)         | Dialogs, drawers, popovers, menus, tooltips                                  |
-| [rules/feedback.md](./rules/feedback.md)         | Banners, toasts, loading, empty states, badges                               |
-| [rules/display.md](./rules/display.md)           | Typography, code, avatars, files, keyboard hints                             |
-| [rules/layout.md](./rules/layout.md)             | Shell, panels, navigation, resizing, task surfaces                           |
-| [rules/conversation.md](./rules/conversation.md) | Chat, sidebar, activity inbox, workspace search, composer                    |
-| [rules/styling.md](./rules/styling.md)           | Writing any `className`, color, shadow, or `tv()` recipe                     |
-| [rules/setup.md](./rules/setup.md)               | First-time install, Tailwind v4 wiring, fonts, theme provider                |
+| File                                                         | Read it when                                                                 |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| [rules/lookup.md](./rules/lookup.md)                         | You need a prop, variant value, or token — read this before guessing         |
+| [rules/composition.md](./rules/composition.md)               | Assembling compound parts, overlay containers, business actions, or wrappers |
+| [rules/forms.md](./rules/forms.md)                           | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu`      |
+| [rules/overlays.md](./rules/overlays.md)                     | Dialogs, drawers, popovers, menus, tooltips                                  |
+| [rules/feedback.md](./rules/feedback.md)                     | Banners, toasts, loading, empty states, badges                               |
+| [rules/display.md](./rules/display.md)                       | Typography, code, avatars, files, keyboard hints                             |
+| [rules/layout.md](./rules/layout.md)                         | Shell, panels, navigation, resizing, task surfaces                           |
+| [rules/conversation.md](./rules/conversation.md)             | Chat, sidebar, activity inbox, workspace search, composer                    |
+| [rules/styling.md](./rules/styling.md)                       | Writing any `className`, color, shadow, or `tv()` recipe                     |
+| [rules/technical-overview.md](./rules/technical-overview.md) | Technical foundations, package contents, styles, and providers               |
 
 ## Review checklist
 
@@ -140,12 +142,11 @@ When reviewing or editing code that uses raft-ui, check:
 - [ ] Every `Avatar` with an `AvatarImage` also has an `AvatarFallback`; every blocking overlay has a `Title`
 - [ ] Menu rows are `…Item` parts, not raw `<button>`s — raw buttons drop out of keyboard navigation
 - [ ] Product state (upload, permissions, read/unread) lives in the app; the component renders parts, not a `state` prop
-- [ ] Nothing imported from `raft-ui/wip` unless explicitly requested
 - [ ] No shadow written as `shadow-[var(--…)]` — named utility or fully literal
 
 ## Stability
 
-`raft-ui` is the stable surface. `raft-ui/wip` is unstable and may break in any release — do not reach for it unless the user explicitly asks.
+`raft-ui` is the stable surface. `raft-ui/wip` contains experimental exports.
 
 ```tsx
 import { Button, Dialog, Field } from "raft-ui";

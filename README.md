@@ -1,6 +1,11 @@
 # raft-ui
 
-React UI component library for Raft, built with Base UI and Tailwind. This monorepo also ships the component docs and playground.
+rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for whatever you build next.
+
+- **Plain HTML:** shared theme variables in `raft-ui/foundation.css`, with no React or Tailwind build.
+- **React:** composable components built with Base UI and Tailwind CSS v4.
+
+See [package usage](./packages/ui/README.md) and the [technical overview](./packages/ui/skills/raft-ui-guide/rules/technical-overview.md).
 
 ## Preview
 

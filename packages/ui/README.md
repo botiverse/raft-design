@@ -1,8 +1,8 @@
 # raft-ui
 
-React UI components for rui, styled with Tailwind CSS v4.
+rUI design foundations for plain HTML, plus React components built with Base UI and Tailwind CSS v4.
 
-## Usage
+## React
 
 ```tsx
 import { Button } from "raft-ui";
@@ -12,6 +12,28 @@ import { Button } from "raft-ui";
 @import "tailwindcss";
 @import "raft-ui/styles.css";
 ```
+
+## Plain HTML
+
+Link `dist/foundation.css` directly, or copy it beside your HTML. It exposes the same theme variables used by the components, without React, Tailwind, or a CSS reset.
+
+```html
+<link rel="stylesheet" href="./foundation.css" />
+<style>
+  body {
+    background: var(--layer-canvas);
+    color: var(--foreground);
+  }
+  article {
+    background: var(--layer-panel);
+    box-shadow: var(--theme-shadow-md);
+  }
+</style>
+```
+
+Brutal is the default. Use `data-theme="elegant"` and `class="light"` or `class="dark"` on the root for Elegant; omit the class to follow system mode. Optional `fonts.css` loads web fonts and defines `--heading-font`, `--sans-font`, and `--mono-font`.
+
+`styles.css` remains the Tailwind integration entry and imports this foundation automatically.
 
 ## Agent Skills
 

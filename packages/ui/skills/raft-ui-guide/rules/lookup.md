@@ -11,7 +11,7 @@ This skill contains a small orientation snapshot, not authoritative prop signatu
 
 1. **Editor types** — if you are editing TypeScript in a typed project, hover or autocomplete on the component. Fastest and always matches the installed version.
 2. **The bundled declarations** — `node_modules/raft-ui/dist/index.d.mts`. Authoritative for the version actually installed.
-3. **The token stylesheet** — `node_modules/raft-ui/dist/styles.css` for every color, shadow, and theme scope.
+3. **The token stylesheet** — `node_modules/raft-ui/dist/foundation.css` for colors, shadows, and theme scopes; `styles.css` for Tailwind mappings.
 4. **The recipe source** — only available when working inside the raft-ui monorepo, see below.
 
 ## What ships in the package
@@ -32,7 +32,8 @@ node_modules/raft-ui/
 │   ├── wip.mjs
 │   ├── <chunks>.d.mts  internal declarations; names may change
 │   ├── <chunks>.mjs    internal runtime; names may change
-│   ├── styles.css      the full oklch token contract
+│   ├── foundation.css  native CSS token contract
+│   ├── styles.css      Tailwind mappings
 │   └── fonts.css
 └── skills/             bundled raft-ui agent skills
 ```
