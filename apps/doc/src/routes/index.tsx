@@ -230,10 +230,16 @@ type ThemePreset = {
   mode: "light" | "dark";
 };
 
+// Title Case, matching the other two theme switchers (theme-switcher.tsx and
+// playground-theme-select.tsx). These were lower case while the home switcher
+// was hand-rolled buttons and looked nothing like the others, so the casing
+// difference read as a different control. rui#271 put all three on the same
+// SegmentedControl, and with identical geometry the only remaining difference
+// was the copy — same control, same three options, two spellings (@Artea).
 const THEME_PRESETS = [
-  { id: "brutal", label: "brutal", family: "brutal", mode: "light" },
-  { id: "elegant", label: "elegant", family: "elegant", mode: "light" },
-  { id: "elegant-dark", label: "elegant dark", family: "elegant", mode: "dark" },
+  { id: "brutal", label: "Brutal", family: "brutal", mode: "light" },
+  { id: "elegant", label: "Elegant", family: "elegant", mode: "light" },
+  { id: "elegant-dark", label: "Elegant dark", family: "elegant", mode: "dark" },
 ] as const satisfies readonly ThemePreset[];
 
 const avatarSvg = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
