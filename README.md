@@ -4,6 +4,6 @@ React UI component library for Raft, built with Base UI and Tailwind. This monor
 
 ## Preview
 
-- Online docs and playground: https://raft-design-system.cuvii.workers.dev/
+- Online docs and playground: https://rui.botiverse.build
 - Repository: https://github.com/botiverse/rui
 - Local dev server: `pnpm dev` or `pnpm --filter doc dev`
