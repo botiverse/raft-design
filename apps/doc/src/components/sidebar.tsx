@@ -405,14 +405,40 @@ const sidebarItemInactiveProps = { className: sidebarItemInactiveClassName };
 const sidebarPathActiveOptions = { exact: true, includeSearch: false };
 const sidebarHashActiveOptions = { exact: true, includeHash: true, includeSearch: false };
 
+const SEARCH_STORAGE_KEY = "rui:doc-search-query";
+
+function getStoredSearchQuery(): string {
+  if (typeof window === "undefined") {
+    return "";
+  }
+  try {
+    return window.sessionStorage.getItem(SEARCH_STORAGE_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+function setStoredSearchQuery(query: string): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  try {
+    window.sessionStorage.setItem(SEARCH_STORAGE_KEY, query);
+  } catch {
+    // Ignore quota or storage availability errors.
+  }
+}
+
 function ComponentSearch({
   onNavigate,
+  onClose,
   autoFocus,
   mode = "trigger",
   onOpenChange,
   onTriggerClick,
 }: {
   onNavigate?: () => void;
+  onClose?: () => void;
   autoFocus?: boolean;
   mode?: "trigger" | "control";
   onOpenChange?: (open: boolean) => void;
@@ -420,10 +446,25 @@ function ComponentSearch({
 }) {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [query, setQuery] = useState("");
-  const [open, setOpen] = useState(false);
-  const filteredItems = query.trim() ? filterComponentSearchItems(query) : [];
-  const comboboxItems = query.trim() ? filteredItems : COMPONENT_SEARCH_ITEMS.slice(0, 1);
+  const [query, setQuery] = useState(() => getStoredSearchQuery());
+  const initialQueryRef = useRef(query);
+  const [open, setOpen] = useState(mode === "control");
+  const comboboxItems = filterComponentSearchItems(query);
+
+  useEffect(() => {
+    if (autoFocus && inputRef.current && initialQueryRef.current) {
+      inputRef.current.select();
+    }
+  }, [autoFocus]);
+
+  const handleEscapeKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      onClose?.();
+    }
+  };
+
   const trigger = (
     <Button
       variant="outline"
@@ -458,6 +499,7 @@ function ComponentSearch({
       onInputValueChange={(nextQuery, eventDetails) => {
         const nextValue = eventDetails.reason === "item-press" ? "" : nextQuery;
         setQuery(nextValue);
+        setStoredSearchQuery(nextValue);
         setOpen(true);
       }}
       onValueChange={(item) => {
@@ -465,7 +507,6 @@ function ComponentSearch({
           return;
         }
 
-        setQuery("");
         setOpen(false);
         onNavigate?.();
         void navigate({ to: item.to });
@@ -482,8 +523,10 @@ function ComponentSearch({
             aria-label="Search components"
             placeholder="Search components..."
             suppressPasswordManager
+            onKeyDown={handleEscapeKeyDown}
           />
           <ComboboxClear aria-label="Clear component search" />
+          <Kbd className="shrink-0 text-foreground-muted">Esc</Kbd>
         </ComboboxControl>
       )}
       <ComboboxContent
@@ -492,6 +535,7 @@ function ComponentSearch({
         initialFocus={false}
         finalFocus={false}
         className="w-(--anchor-width) max-w-[calc(100vw-2rem)]"
+        onKeyDown={handleEscapeKeyDown}
       >
         {mode === "trigger" ? (
           <ComboboxInputGroup>
@@ -501,23 +545,23 @@ function ComponentSearch({
               aria-label="Search components"
               placeholder="Search components..."
               suppressPasswordManager
+              onKeyDown={handleEscapeKeyDown}
             />
             <ComboboxClear aria-label="Clear component search" />
+            <Kbd className="shrink-0 text-foreground-muted">Esc</Kbd>
           </ComboboxInputGroup>
         ) : null}
-        {query.trim() ? (
-          <ComboboxList>
-            {(item: ComponentSearchItem) => (
-              <ComboboxItem key={item.to} value={item}>
-                <span className="min-w-0 flex-1 truncate">{item.label}</span>
-                <span className="max-w-[42%] shrink-0 truncate text-xs text-foreground-muted">
-                  {item.group}
-                </span>
-              </ComboboxItem>
-            )}
-          </ComboboxList>
-        ) : null}
-        <ComboboxEmpty>{query.trim() ? "No components found" : null}</ComboboxEmpty>
+        <ComboboxList>
+          {(item: ComponentSearchItem) => (
+            <ComboboxItem key={item.to} value={item}>
+              <span className="min-w-0 flex-1 truncate">{item.label}</span>
+              <span className="max-w-[42%] shrink-0 truncate text-xs text-foreground-muted">
+                {item.group}
+              </span>
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+        <ComboboxEmpty>No components found</ComboboxEmpty>
       </ComboboxContent>
     </Combobox>
   );
@@ -911,15 +955,18 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
         return;
       }
 
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+      if (
+        (event.metaKey || event.ctrlKey) &&
+        (event.key.toLowerCase() === "k" || event.code === "KeyK")
+      ) {
         event.preventDefault();
-        setGlobalSearchOpen(true);
+        setGlobalSearchOpen((prev) => !prev);
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [globalSearchOpen, onCollapsedChange]);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [globalSearchOpen]);
 
   return (
     <>
@@ -945,6 +992,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
               mode="control"
               autoFocus
               onNavigate={() => setGlobalSearchOpen(false)}
+              onClose={() => setGlobalSearchOpen(false)}
             />
           </div>
         </div>
