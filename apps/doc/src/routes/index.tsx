@@ -1423,25 +1423,13 @@ function Home() {
         <header className="border-b border-line-muted px-6 py-12 sm:px-10 sm:py-16">
           <div className="flex max-w-3xl flex-col gap-5">
             <Text.Heading level={3} render={<h1 />}>
-              Build products with rui.
+              Interfaces with character.
             </Text.Heading>
             <Text.Sans size="large">
               A UI system with a distinct visual and interaction style. Shaped by Raft, rui brings
               that design language to chat, collaboration, dashboards, and the products you build
               next.
             </Text.Sans>
-            <Text.Sans variant="muted">
-              Compose content and structure to fit your product. Components, themes, and thoughtful
-              interactions provide a complete starting point that feels like rui.
-            </Text.Sans>
-            <div className="flex flex-wrap gap-3 pt-1">
-              <Button variant="accent" render={<Link to="/installation" />}>
-                Get started
-              </Button>
-              <Button variant="outline" render={<Link to="/components" />}>
-                Explore components
-              </Button>
-            </div>
           </div>
         </header>
         <div className="grid grid-cols-1 border-l border-line-muted bg-layer-panel md:grid-cols-2 xl:grid-cols-3">
