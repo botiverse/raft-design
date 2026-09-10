@@ -11,7 +11,7 @@ The focused guides are also published at https://rui.botiverse.build/guides/over
 
 ## Working sequence
 
-1. For a first install or an unstyled render, read [rules/setup.md](./rules/setup.md) and get the first Button rendering before composing a page.
+1. For technical foundations and integration contracts, read [rules/technical-overview.md](./rules/technical-overview.md).
 2. Read only the domain rule needed for the current surface; do not load every rule file by default.
 3. Verify unrecognized props, parts, variants, and tokens with [rules/lookup.md](./rules/lookup.md).
 4. Implement the smallest composition that preserves native semantics and uses raft-ui where its behavior or visual contract is needed.
@@ -116,18 +116,18 @@ Each domain file below opens with its own scenario table for the components it c
 
 ## Read these when relevant
 
-| File                                             | Read it when                                                                 |
-| ------------------------------------------------ | ---------------------------------------------------------------------------- |
-| [rules/lookup.md](./rules/lookup.md)             | You need a prop, variant value, or token — read this before guessing         |
-| [rules/composition.md](./rules/composition.md)   | Assembling compound parts, overlay containers, business actions, or wrappers |
-| [rules/forms.md](./rules/forms.md)               | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu`      |
-| [rules/overlays.md](./rules/overlays.md)         | Dialogs, drawers, popovers, menus, tooltips                                  |
-| [rules/feedback.md](./rules/feedback.md)         | Banners, toasts, loading, empty states, badges                               |
-| [rules/display.md](./rules/display.md)           | Typography, code, avatars, files, keyboard hints                             |
-| [rules/layout.md](./rules/layout.md)             | Shell, panels, navigation, resizing, task surfaces                           |
-| [rules/conversation.md](./rules/conversation.md) | Chat, sidebar, activity inbox, workspace search, composer                    |
-| [rules/styling.md](./rules/styling.md)           | Writing any `className`, color, shadow, or `tv()` recipe                     |
-| [rules/setup.md](./rules/setup.md)               | First-time install, Tailwind v4 wiring, fonts, theme provider                |
+| File                                                         | Read it when                                                                 |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| [rules/lookup.md](./rules/lookup.md)                         | You need a prop, variant value, or token — read this before guessing         |
+| [rules/composition.md](./rules/composition.md)               | Assembling compound parts, overlay containers, business actions, or wrappers |
+| [rules/forms.md](./rules/forms.md)                           | Any input, option picker, or tabs — includes `Select` vs `DropdownMenu`      |
+| [rules/overlays.md](./rules/overlays.md)                     | Dialogs, drawers, popovers, menus, tooltips                                  |
+| [rules/feedback.md](./rules/feedback.md)                     | Banners, toasts, loading, empty states, badges                               |
+| [rules/display.md](./rules/display.md)                       | Typography, code, avatars, files, keyboard hints                             |
+| [rules/layout.md](./rules/layout.md)                         | Shell, panels, navigation, resizing, task surfaces                           |
+| [rules/conversation.md](./rules/conversation.md)             | Chat, sidebar, activity inbox, workspace search, composer                    |
+| [rules/styling.md](./rules/styling.md)                       | Writing any `className`, color, shadow, or `tv()` recipe                     |
+| [rules/technical-overview.md](./rules/technical-overview.md) | Technical foundations, package contents, styles, and providers               |
 
 ## Review checklist
 

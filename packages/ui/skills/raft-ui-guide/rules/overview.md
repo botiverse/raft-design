@@ -25,7 +25,7 @@ Skills are optional. Only install them or use raft-ui/wip when requested.
 
 | Task                                 | Guide                                                                 |
 | ------------------------------------ | --------------------------------------------------------------------- |
-| Integrate rUI                        | [Setup](./setup.md)                                                   |
+| Technical foundations                | [Technical overview](./technical-overview.md)                         |
 | Compose or adapt UI                  | [Composition](./composition.md), [Styling](./styling.md)              |
 | Chat and collaboration               | [Conversation](./conversation.md)                                     |
 | Dashboards and workspaces            | [Layout](./layout.md), [Forms](./forms.md), [Feedback](./feedback.md) |
