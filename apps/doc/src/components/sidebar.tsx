@@ -471,7 +471,7 @@ function ComponentSearch({
       size="md"
       aria-label="Search components"
       title="Search components"
-      className="w-full justify-start font-normal text-foreground-muted"
+      className="w-full justify-start font-normal text-foreground-muted **:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-start"
       onClick={onTriggerClick}
     >
       <Search aria-hidden />
