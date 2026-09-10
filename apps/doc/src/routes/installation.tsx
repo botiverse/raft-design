@@ -1,6 +1,5 @@
-import { InlineCode, Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "raft-ui";
+import { InlineCode } from "raft-ui";
 import { createFileRoute } from "@tanstack/react-router";
-import { Bot, UserRound } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -40,8 +39,6 @@ Validate with the project's existing checks. Summarize the result, setup or UI c
 
 const SNIPPETS = {
   installationPrompt: INSTALLATION_PROMPT,
-  install: "pnpm add raft-ui",
-  installMonorepo: "pnpm --filter your-app add raft-ui",
   intentConfig: `{
   "intent": {
     "skills": ["raft-ui"]
@@ -181,57 +178,13 @@ function InstallationDoc() {
       toc={TOC}
     >
       <DocSection id="install" title="Install">
-        <Tabs defaultValue="ai">
-          <TabsList aria-label="Installation method">
-            <TabsBackground />
-            <TabsTab value="ai">
-              <Bot aria-hidden />
-              <TabsLabel>For AI</TabsLabel>
-            </TabsTab>
-            <TabsTab value="human">
-              <UserRound aria-hidden />
-              <TabsLabel>For human</TabsLabel>
-            </TabsTab>
-          </TabsList>
-          <TabsPanel value="ai" className="pt-4">
-            <div className="space-y-4">
-              <Lead>
-                Give this prompt to your coding agent along with the UI you want to build. It
-                introduces rUI and points to the guides for your task. No skill installation is
-                required.
-              </Lead>
-              <CodeSnippet
-                path="Prompt"
-                source={INSTALLATION_PROMPT}
-                html={code.installationPrompt}
-              />
-            </div>
-          </TabsPanel>
-          <TabsPanel value="human" className="pt-4">
-            <div className="space-y-6">
-              <Lead>
-                Add the package to the app that uses it. raft-ui expects{" "}
-                <InlineCode>React 19</InlineCode> and a <InlineCode>Tailwind v4</InlineCode>-
-                capable build.
-              </Lead>
-              <div className="space-y-3">
-                <h3 className="text-sm font-medium text-foreground">Single-package app</h3>
-                <CodeSnippet path="Shell" source={SNIPPETS.install} html={code.install} />
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-sm font-medium text-foreground">pnpm workspace</h3>
-                <Lead>
-                  Replace <InlineCode>your-app</InlineCode> with the target workspace package name.
-                </Lead>
-                <CodeSnippet
-                  path="Shell"
-                  source={SNIPPETS.installMonorepo}
-                  html={code.installMonorepo}
-                />
-              </div>
-            </div>
-          </TabsPanel>
-        </Tabs>
+        <div className="space-y-4">
+          <Lead>
+            Give this prompt to your coding agent along with the UI you want to build. It introduces
+            rUI and points to the guides for your task. No skill installation is required.
+          </Lead>
+          <CodeSnippet path="Prompt" source={INSTALLATION_PROMPT} html={code.installationPrompt} />
+        </div>
       </DocSection>
 
       <DocSection id="import-styles" title="Import styles">
