@@ -1,74 +1,885 @@
 <!doctype html>
-<html lang="en" data-theme="brutal">
+<html lang="zh-CN" data-theme="brutal">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Project update</title>
-    <link rel="stylesheet" href="../src/foundation.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 fill=%22%23ffd440%22/><path d=%22M5 5h22v22H5z%22 fill=%22none%22 stroke=%22%23141111%22 stroke-width=%224%22/></svg>"
+    />
+    <title>Decision &amp; Evidence Report Pilot - Hard refresh performance</title>
     <link rel="stylesheet" href="../src/fonts.css" />
+    <link rel="stylesheet" href="../src/foundation.css" />
     <style>
+      :root {
+        color-scheme: light;
+        --report-border: 3px solid var(--line-strong);
+      }
+
       * {
         box-sizing: border-box;
       }
+      html {
+        scroll-behavior: smooth;
+      }
       body {
         margin: 0;
-        padding: 32px 20px;
-        background: var(--layer-canvas);
+        background:
+          linear-gradient(90deg, var(--ink-4) 1px, transparent 1px),
+          linear-gradient(var(--ink-4) 1px, transparent 1px), var(--color-brutal-cream-200);
+        background-size: 24px 24px;
         color: var(--foreground);
-        font-family: var(--sans-font, system-ui, sans-serif);
-        line-height: 1.5;
+        font: 16px/1.5 var(--sans-font, system-ui, sans-serif);
       }
-      main {
-        max-width: 640px;
-        margin: auto;
+      a {
+        color: inherit;
+        text-underline-offset: 3px;
+      }
+      code {
+        font: 0.88em/1.4 var(--mono-font, ui-monospace, monospace);
+        overflow-wrap: anywhere;
+      }
+      h1,
+      h2,
+      h3,
+      .brand {
+        font-family: var(--heading-font, system-ui, sans-serif);
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
       }
       h1 {
-        font-family: var(--heading-font, system-ui, sans-serif);
-        font-size: clamp(2rem, 6vw, 3rem);
-        line-height: 1.1;
+        max-width: 920px;
+        margin-bottom: 18px;
+        font-size: clamp(2.6rem, 6vw, 5.8rem);
+        line-height: 0.92;
+        letter-spacing: -0.065em;
       }
-      article {
-        padding: 24px;
-        border: 2px solid var(--line);
+      h2 {
+        margin-bottom: 18px;
+        font-size: clamp(1.55rem, 3vw, 2.4rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+      h3 {
+        margin-bottom: 8px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .page {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 28px 0 88px;
+      }
+      .topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 18px;
+        border-bottom: var(--report-border);
+      }
+      .brand {
+        font-weight: 950;
+        letter-spacing: -0.04em;
+        font-size: 1.25rem;
+      }
+      .artifact-id {
+        color: var(--foreground-muted);
+        font: 700 0.75rem/1.4 var(--mono-font, ui-monospace, monospace);
+        text-align: right;
+      }
+      .hero {
+        padding: 56px 0 42px;
+      }
+      .kicker {
+        display: inline-block;
+        margin-bottom: 18px;
+        padding: 7px 10px;
+        border: 2px solid var(--foreground);
+        background: var(--primary-400);
+        font-weight: 900;
+      }
+      .hero-copy {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+        font-weight: 620;
+      }
+
+      .decision-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 7fr) minmax(270px, 5fr);
+        gap: 22px;
+        align-items: stretch;
+      }
+      .block {
+        border: var(--report-border);
         background: var(--layer-panel);
-        box-shadow: var(--theme-shadow-md);
+        box-shadow: var(--theme-shadow-xl);
       }
-      .status {
-        background: var(--primary-soft);
-        color: var(--primary-strong);
-        padding: 4px 8px;
+      .decision {
+        padding: clamp(24px, 4vw, 44px);
+        background: var(--primary-400);
       }
+      .decision .label,
+      .basis .label,
+      .section-label {
+        display: block;
+        margin-bottom: 14px;
+        font: 900 0.72rem/1 var(--mono-font, ui-monospace, monospace);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .decision h2 {
+        max-width: 710px;
+        font-size: clamp(2rem, 4.4vw, 4rem);
+        line-height: 0.95;
+      }
+      .decision p {
+        max-width: 720px;
+        margin-bottom: 0;
+        font-size: 1.08rem;
+        font-weight: 650;
+      }
+      .basis {
+        padding: clamp(22px, 3vw, 34px);
+        background: var(--foreground);
+        color: var(--foreground-inverse);
+      }
+      .basis ol {
+        margin: 0;
+        padding-left: 1.25rem;
+      }
+      .basis li {
+        margin: 0 0 16px;
+        padding-left: 5px;
+      }
+      .basis li:last-child {
+        margin-bottom: 0;
+      }
+      .basis strong {
+        color: var(--info);
+      }
+
+      .band {
+        margin-top: 52px;
+      }
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: end;
+        margin-bottom: 18px;
+      }
+      .section-head p {
+        max-width: 560px;
+        margin-bottom: 0;
+        color: var(--foreground-muted);
+        font-weight: 600;
+      }
+
+      .comparison {
+        border: var(--report-border);
+        background: var(--layer-panel);
+      }
+      .scale {
+        display: grid;
+        grid-template-columns: 130px 1fr 100px;
+        gap: 14px;
+        padding: 12px 18px;
+        border-bottom: 2px solid var(--foreground);
+        color: var(--foreground-muted);
+        font: 700 0.7rem/1 var(--mono-font, ui-monospace, monospace);
+      }
+      .ticks {
+        display: flex;
+        justify-content: space-between;
+      }
+      .measure {
+        display: grid;
+        grid-template-columns: 130px 1fr 100px;
+        gap: 14px;
+        align-items: center;
+        padding: 19px 18px;
+        border-bottom: 2px solid var(--foreground);
+      }
+      .measure:last-child {
+        border-bottom: 0;
+      }
+      .measure-name strong {
+        display: block;
+        font-size: 1.1rem;
+      }
+      .measure-name span {
+        color: var(--foreground-muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .track {
+        position: relative;
+        height: 34px;
+        border: 2px solid var(--foreground);
+        background: repeating-linear-gradient(
+          90deg,
+          transparent 0 calc(25% - 1px),
+          var(--ink-16) calc(25% - 1px) 25%
+        );
+      }
+      .bar {
+        height: 100%;
+        border-right: 2px solid var(--foreground);
+      }
+      .bar.cold {
+        width: 93.12%;
+        background: var(--color-brutal-red-400);
+      }
+      .bar.warm {
+        width: 79.28%;
+        background: var(--info);
+      }
+      .measure-value {
+        font: 950 1.05rem/1 var(--mono-font, ui-monospace, monospace);
+        text-align: right;
+      }
+      .delta {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+        align-items: center;
+        padding: 17px 18px;
+        border-top: var(--report-border);
+        background: var(--success-muted);
+        font-weight: 900;
+      }
+      .delta strong {
+        font: 950 1.35rem/1 var(--mono-font, ui-monospace, monospace);
+      }
+
+      .triad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 18px;
+      }
+      .stat {
+        padding: 20px;
+        border: var(--report-border);
+        background: var(--layer-panel);
+      }
+      .stat:nth-child(2) {
+        background: var(--accent-400);
+      }
+      .stat span {
+        display: block;
+        color: var(--foreground-muted);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+      .stat:nth-child(2) span {
+        color: var(--foreground);
+      }
+      .stat strong {
+        display: block;
+        margin: 7px 0 4px;
+        font: 950 clamp(1.5rem, 3vw, 2.7rem)/1 var(--mono-font, ui-monospace, monospace);
+      }
+      .stat small {
+        font-weight: 700;
+      }
+
+      .coverage-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, 0.85fr);
+        gap: 22px;
+      }
+      .ledger {
+        border: var(--report-border);
+        background: var(--layer-panel);
+      }
+      .ledger-row {
+        display: grid;
+        grid-template-columns: 124px 1fr;
+        gap: 16px;
+        padding: 18px;
+        border-bottom: 2px solid var(--foreground);
+      }
+      .ledger-row:last-child {
+        border-bottom: 0;
+      }
+      .ledger-state {
+        font: 950 0.72rem/1.2 var(--mono-font, ui-monospace, monospace);
+        text-transform: uppercase;
+      }
+      .ledger-row.observed .ledger-state {
+        color: var(--success-strong);
+      }
+      .ledger-row.not-measured {
+        background: var(--warning-soft);
+      }
+      .ledger-row.not-measured .ledger-state {
+        color: var(--warning-strong);
+      }
+      .ledger-row p {
+        margin-bottom: 0;
+        font-weight: 600;
+      }
+      .counter {
+        padding: 24px;
+        background: var(--info);
+      }
+      .counter ul {
+        margin: 0;
+        padding-left: 1.15rem;
+      }
+      .counter li {
+        margin-bottom: 12px;
+        font-weight: 650;
+      }
+      .counter li:last-child {
+        margin-bottom: 0;
+      }
+
+      .evidence-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: var(--report-border);
+        background: var(--layer-panel);
+      }
+      .evidence-table th,
+      .evidence-table td {
+        padding: 15px 16px;
+        border: 2px solid var(--foreground);
+        text-align: right;
+      }
+      .evidence-table th:first-child,
+      .evidence-table td:first-child {
+        text-align: left;
+      }
+      .evidence-table thead th {
+        background: var(--foreground);
+        color: var(--foreground-inverse);
+        font: 850 0.75rem/1.2 var(--mono-font, ui-monospace, monospace);
+        text-transform: uppercase;
+      }
+      .evidence-table tbody th {
+        font-weight: 850;
+      }
+      .evidence-table .focus {
+        background: var(--primary-400);
+      }
+      .evidence-table small {
+        display: block;
+        margin-top: 4px;
+        color: var(--foreground-muted);
+        font-weight: 650;
+      }
+
+      .next {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border: var(--report-border);
+        background: var(--foreground);
+        color: var(--foreground-inverse);
+      }
+      .next > div {
+        padding: 26px;
+      }
+      .next > div + div {
+        border-left: 2px solid var(--layer-panel);
+      }
+      .next .owner {
+        color: var(--primary-400);
+        font: 950 1.5rem/1 var(--mono-font, ui-monospace, monospace);
+      }
+      .next p {
+        margin-bottom: 0;
+      }
+
       details {
-        margin-top: 24px;
-        border-top: 1px solid var(--line);
-        padding-top: 16px;
+        border: var(--report-border);
+        background: var(--layer-panel);
+      }
+      details + details {
+        margin-top: 12px;
       }
       summary {
         cursor: pointer;
+        padding: 18px;
+        font-weight: 900;
+        list-style-position: inside;
+      }
+      details[open] summary {
+        border-bottom: 2px solid var(--foreground);
+        background: var(--accent-400);
+      }
+      .detail-body {
+        padding: 20px;
+      }
+      .detail-body ul,
+      .detail-body ol {
+        margin: 0;
+        padding-left: 1.25rem;
+      }
+      .detail-body li {
+        margin-bottom: 8px;
+      }
+      .receipt {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 10px 18px;
+        margin: 0;
+      }
+      .receipt dt {
+        font-weight: 900;
+      }
+      .receipt dd {
+        margin: 0;
+      }
+
+      .source-strip {
+        margin-top: 52px;
+        padding-top: 18px;
+        border-top: var(--report-border);
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        color: var(--foreground-muted);
+        font-size: 0.78rem;
         font-weight: 700;
       }
+      .source-strip strong {
+        color: var(--foreground);
+      }
+
+      @media (max-width: 959px) {
+        .decision-grid,
+        .coverage-grid {
+          grid-template-columns: 1fr;
+        }
+        .triad {
+          grid-template-columns: 1fr 1fr;
+        }
+        .triad .stat:last-child {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (max-width: 639px) {
+        .page {
+          width: min(100% - 24px, 1180px);
+          padding-top: 18px;
+        }
+        .topline {
+          align-items: flex-start;
+        }
+        .hero {
+          padding: 38px 0 30px;
+        }
+        .decision-grid,
+        .coverage-grid,
+        .triad,
+        .next {
+          display: block;
+        }
+        .basis,
+        .counter,
+        .stat,
+        .next > div {
+          margin-top: 14px;
+        }
+        .section-head {
+          display: block;
+        }
+        .section-head p {
+          margin-top: -6px;
+        }
+        .scale {
+          display: none;
+        }
+        .measure {
+          grid-template-columns: 1fr auto;
+        }
+        .measure .track {
+          grid-column: 1 / -1;
+          grid-row: 2;
+        }
+        .measure-value {
+          grid-column: 2;
+          grid-row: 1;
+        }
+        .delta {
+          grid-template-columns: 1fr;
+        }
+        .ledger-row {
+          grid-template-columns: 1fr;
+          gap: 7px;
+        }
+        .evidence-table,
+        .evidence-table tbody,
+        .evidence-table tr,
+        .evidence-table th,
+        .evidence-table td {
+          display: block;
+          width: 100%;
+        }
+        .evidence-table thead {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+          white-space: nowrap;
+        }
+        .evidence-table tr {
+          border-bottom: var(--report-border);
+          padding: 10px 0;
+        }
+        .evidence-table tr:last-child {
+          border-bottom: 0;
+        }
+        .evidence-table th,
+        .evidence-table td {
+          border: 0;
+          text-align: left !important;
+          padding: 6px 14px;
+        }
+        .evidence-table td::before {
+          display: inline-block;
+          width: 78px;
+          font: 850 0.68rem/1 var(--mono-font, ui-monospace, monospace);
+          text-transform: uppercase;
+          color: var(--foreground-muted);
+        }
+        .evidence-table td:nth-child(2)::before {
+          content: "COLD ";
+        }
+        .evidence-table td:nth-child(3)::before {
+          content: "WARM ";
+        }
+        .next > div + div {
+          border-left: 0;
+          border-top: 2px solid var(--layer-panel);
+        }
+        .receipt {
+          grid-template-columns: 1fr;
+          gap: 3px;
+        }
+        .receipt dd {
+          margin-bottom: 11px;
+        }
+        .source-strip {
+          display: block;
+        }
+        .source-strip span {
+          display: block;
+          margin-top: 7px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
       summary:focus-visible {
-        outline: 2px solid var(--primary-strong);
+        outline: 3px solid var(--primary-strong);
         outline-offset: 4px;
       }
     </style>
   </head>
   <body>
-    <main>
-      <h1>Ready for the next review.</h1>
-      <article>
-        <span class="status">In review</span>
-        <h2>The first draft is complete</h2>
-        <p>The team can now review the proposal and leave feedback before Friday.</p>
+    <main class="page">
+      <header class="topline" aria-label="Artifact identity">
+        <div class="brand">RAFT / REPORT RECIPE 01</div>
+        <div class="artifact-id">
+          SOURCE 59979a1b...eab86cf14938<br />CONTROLLED PROFILE / 2026-07-12
+        </div>
+      </header>
+
+      <section class="hero" aria-labelledby="report-title">
+        <span class="kicker">FOCUS / ENOUGH EVIDENCE FOR THE NEXT TEST</span>
+        <h1 id="report-title">Hard refresh → usable conversation</h1>
+        <p class="hero-copy">
+          同一条消息链在冷缓存与暖缓存下各测 10
+          次。这个版本先回答“下一步查哪里”，再保留完整审计路径。
+        </p>
+      </section>
+
+      <section class="decision-grid" aria-label="Decision and evidence basis">
+        <div class="decision block">
+          <span class="label">Derived recommendation</span>
+          <h2>先查 messages 数据路径，renderer 尾段作为第二条线。</h2>
+          <p>
+            完成条件：新一轮测量能把 messages request 与 MessageTimeline/UI tail
+            分开归因，并在同一网络模型下复现。
+          </p>
+        </div>
+        <aside class="basis block" aria-labelledby="basis-title">
+          <span class="label" id="basis-title">Measured basis</span>
+          <ol>
+            <li>冷缓存首条消息 p50 为 <strong>2048.6 ms</strong>。</li>
+            <li>暖缓存把首条消息提前 <strong>304.4 ms</strong>，但 messages 仍每次 fresh 请求。</li>
+            <li>
+              messages 响应结束后仍有 <strong>171-191 ms</strong> UI tail，不能把 renderer 写成零。
+            </li>
+          </ol>
+        </aside>
+      </section>
+
+      <section class="band" aria-labelledby="comparison-title">
+        <div class="section-head">
+          <div>
+            <span class="section-label">01 / Comparable measures</span>
+            <h2 id="comparison-title">首条消息出现时间</h2>
+          </div>
+          <p>同一 0-2200 ms 尺度。柱长直接表示 p50，不用两张独立 KPI 卡制造不可比较的大小感。</p>
+        </div>
+        <div class="comparison">
+          <div class="scale" aria-hidden="true">
+            <span>MODE / N=10</span>
+            <div class="ticks">
+              <span>0</span><span>550</span><span>1100</span><span>1650</span><span>2200 ms</span>
+            </div>
+            <span>P50</span>
+          </div>
+          <div class="measure">
+            <div class="measure-name">
+              <strong>Cold</strong><span>service workers blocked</span>
+            </div>
+            <div
+              class="track"
+              aria-label="Cold first message p50 2048.6 milliseconds on a 0 to 2200 millisecond scale"
+            >
+              <div class="bar cold"></div>
+            </div>
+            <div class="measure-value">2048.6 ms</div>
+          </div>
+          <div class="measure">
+            <div class="measure-name">
+              <strong>Warm</strong><span>static HTTP cache warmed</span>
+            </div>
+            <div
+              class="track"
+              aria-label="Warm first message p50 1744.2 milliseconds on a 0 to 2200 millisecond scale"
+            >
+              <div class="bar warm"></div>
+            </div>
+            <div class="measure-value">1744.2 ms</div>
+          </div>
+          <div class="delta">
+            <span>Warm reaches the first message earlier at p50</span><strong>-304.4 ms</strong>
+          </div>
+        </div>
+        <div class="triad" aria-label="Supporting headline measures">
+          <div class="stat">
+            <span>COLD P95 / N=10</span><strong>2116.7 ms</strong
+            ><small>Nearest-rank p95 equals the maximum run.</small>
+          </div>
+          <div class="stat">
+            <span>WARM P95 / N=10</span><strong>1840.9 ms</strong
+            ><small>Same percentile policy and test shape.</small>
+          </div>
+          <div class="stat">
+            <span>LONG-TASK P95</span><strong>242 / 182 ms</strong
+            ><small>Cold / warm, each run's maximum observed long task.</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="band" aria-labelledby="coverage-title">
+        <div class="section-head">
+          <div>
+            <span class="section-label">02 / Coverage boundary</span>
+            <h2 id="coverage-title">这份结论覆盖什么</h2>
+          </div>
+          <p>覆盖边界先于细节表。读者在相信结论之前，先看清它不能代表什么。</p>
+        </div>
+        <div class="coverage-grid">
+          <div class="ledger" aria-label="Coverage ledger">
+            <div class="ledger-row observed">
+              <span class="ledger-state">Observed</span>
+              <p>
+                冷 / 暖各 10 次；production Vite build/preview；real repo PGlite seed；Chromium
+                CDP。
+              </p>
+            </div>
+            <div class="ledger-row observed">
+              <span class="ledger-state">Observed</span>
+              <p>150 条 seed 消息；初次加载最新 50 条；100 ms latency / 20 Mbps down。</p>
+            </div>
+            <div class="ledger-row not-measured">
+              <span class="ledger-state">Not measured</span>
+              <p>真实生产数据库、公共 staging 地理位置、不同网络地区或设备分布。</p>
+            </div>
+            <div class="ledger-row not-measured">
+              <span class="ledger-state">Not claimed</span>
+              <p>这些数字不代表当前生产；也不证明 renderer 可以忽略。</p>
+            </div>
+          </div>
+          <aside class="counter block">
+            <h3>Counter-signals</h3>
+            <ul>
+              <li>冷缓存 UI tail 仍有 191.1 ms。</li>
+              <li>冷缓存 max-long-task p95 达 242.0 ms。</li>
+              <li>暖缓存会重置内存状态，但不会消除 fresh API work。</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="band" aria-labelledby="evidence-title">
+        <div class="section-head">
+          <div>
+            <span class="section-label">03 / Evidence decomposition</span>
+            <h2 id="evidence-title">决定性的阶段读数</h2>
+          </div>
+          <p>
+            只把能解释推荐的阶段放在第一层。完整 milestone、request interval 和逐 run 表仍在审计层。
+          </p>
+        </div>
+        <table class="evidence-table">
+          <caption
+            style="
+              position: absolute;
+              width: 1px;
+              height: 1px;
+              overflow: hidden;
+              clip: rect(0 0 0 0);
+            "
+          >
+            Cold and warm p50 stage comparison
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Stage</th>
+              <th scope="col">Cold p50</th>
+              <th scope="col">Warm p50</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Main shell visible<small>DOM milestone</small></th>
+              <td>1115.9 ms</td>
+              <td>911.1 ms</td>
+            </tr>
+            <tr>
+              <th scope="row">Sidebar channel visible<small>DOM milestone</small></th>
+              <td>1394.9 ms</td>
+              <td>1126.0 ms</td>
+            </tr>
+            <tr class="focus">
+              <th scope="row">Messages request<small>network duration</small></th>
+              <td>456.4 ms</td>
+              <td>477.8 ms</td>
+            </tr>
+            <tr>
+              <th scope="row">
+                Messages end -> first visible<small>MessageTimeline / UI tail</small>
+              </th>
+              <td>191.1 ms</td>
+              <td>171.2 ms</td>
+            </tr>
+            <tr>
+              <th scope="row">First message visible<small>navigation-relative milestone</small></th>
+              <td>2048.6 ms</td>
+              <td>1744.2 ms</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="band" aria-labelledby="next-title">
+        <div class="section-head">
+          <div>
+            <span class="section-label">04 / Status + reason + next action</span>
+            <h2 id="next-title">下一步如何闭合</h2>
+          </div>
+        </div>
+        <div class="next">
+          <div>
+            <h3>Owner</h3>
+            <p class="owner">Performance lane</p>
+            <p>
+              把 messages 请求拆成 server work、transfer 与 client parse/commit；保留同一
+              seed、网络模型和 cold/warm 定义。
+            </p>
+          </div>
+          <div>
+            <h3>Lift condition</h3>
+            <p>
+              同一 head 上复现至少 10+10 次，并让新 instrument
+              能分别回答：请求为何慢、响应后为何仍有 171-191 ms。未满足前，状态保持
+              <strong>FOCUS</strong>，不写成已修复。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="band" aria-labelledby="audit-title">
+        <div class="section-head">
+          <div>
+            <span class="section-label">05 / Audit layer</span>
+            <h2 id="audit-title">方法与回单</h2>
+          </div>
+          <p>默认折叠，但不是删掉。摘要必须自足，审计者仍可继续下钻。</p>
+        </div>
         <details>
-          <summary>Review checklist</summary>
-          <ul>
-            <li>Confirm the scope and timeline.</li>
-            <li>Identify missing dependencies.</li>
-            <li>Assign the remaining decisions.</li>
-          </ul>
+          <summary>测量方法与 percentile policy</summary>
+          <div class="detail-body">
+            <ul>
+              <li>
+                链路：loadUser -> loadServers -> ServerResolver/setCurrent -> MainLayout + parallel
+                sidebar bootstrap -> ChannelById -> loadMessages -> first seeded message visible。
+              </li>
+              <li>p50 是中位数；偶数样本取中间两项平均。</li>
+              <li>p95 使用 nearest-rank，因此 n=10 时 p95 是该组最大值。</li>
+              <li>DOM probe 采样 mutations 与 animation frames；常规里程碑精度约一个 frame。</li>
+            </ul>
+          </div>
         </details>
-      </article>
+        <details>
+          <summary>Source identity and preserved facts</summary>
+          <div class="detail-body">
+            <dl class="receipt">
+              <dt>Source revision</dt>
+              <dd><code>59979a1b934b51228a531ea42720eab86cf14938</code></dd>
+              <dt>Baseline artifact</dt>
+              <dd><code>artifacts/task188/task188-refresh-report.html</code></dd>
+              <dt>Sample</dt>
+              <dd>cold n=10 / warm n=10</dd>
+              <dt>Raw-detail boundary</dt>
+              <dd>
+                完整 filmstrip、waterfall、milestones、request intervals 与 20 个逐 run 行保留在
+                baseline。
+              </dd>
+            </dl>
+          </div>
+        </details>
+        <details>
+          <summary>Fact / inference boundary</summary>
+          <div class="detail-body">
+            <p>
+              <strong>Fact:</strong> 时间、样本、环境与原报告结论来自 baseline。<br /><strong
+                >Inference:</strong
+              >
+              “先查 messages 数据路径”与 FOCUS 状态是本 pilot
+              根据事实作出的下一步建议，不是原始测量值。
+            </p>
+          </div>
+        </details>
+      </section>
+
+      <footer class="source-strip">
+        <strong>RECIPE: DECISION &amp; EVIDENCE REPORT / THEME: BRUTAL</strong>
+        <span>Styled with rUI foundations. Standalone HTML.</span>
+      </footer>
     </main>
   </body>
 </html>
