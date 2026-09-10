@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef } from "react";
-import { type DataAttributes } from "../../lib/data-attributes";
+import type { DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { WithoutChildren } from "../../lib/without-children";

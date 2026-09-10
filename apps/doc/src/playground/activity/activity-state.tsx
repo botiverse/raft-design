@@ -1,14 +1,8 @@
-import {
-  createContext,
-  use,
-  useMemo,
-  useState,
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
-} from "react";
+import { createContext, use, useMemo, useState } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 
-import { PLAYGROUND_ACTIVITY, type PlaygroundActivity } from "../mock/index.ts";
+import { PLAYGROUND_ACTIVITY } from "../mock/index.ts";
+import type { PlaygroundActivity } from "../mock/index.ts";
 
 type PlaygroundActivityState = {
   items: readonly PlaygroundActivity[];

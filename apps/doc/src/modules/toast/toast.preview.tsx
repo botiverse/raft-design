@@ -1,8 +1,10 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
-import { ToastComposition, type ToastDemoOptions } from "./toast.composition.tsx";
+import { ToastComposition } from "./toast.composition.tsx";
+import type { ToastDemoOptions } from "./toast.composition.tsx";
 
 const MODE_OPTIONS = ["stacked", "anchored"] as const satisfies readonly ToastDemoOptions["mode"][];
 const PLACEMENT_OPTIONS = [

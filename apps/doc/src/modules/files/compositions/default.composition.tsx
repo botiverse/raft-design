@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { FilesPanelComposition, type FileListEntry } from "./files-panel.composition.tsx";
+import { FilesPanelComposition } from "./files-panel.composition.tsx";
+import type { FileListEntry } from "./files-panel.composition.tsx";
 
 const INITIAL_FILES: readonly FileListEntry[] = [
   {

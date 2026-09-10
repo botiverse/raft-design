@@ -1,5 +1,6 @@
 import type { Components } from "react-markdown";
-import { Children, isValidElement, type ReactNode } from "react";
+import { Children, isValidElement } from "react";
+import type { ReactNode } from "react";
 import {
   CodeBlock,
   CodeBlockActions,

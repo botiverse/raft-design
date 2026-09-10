@@ -40,12 +40,8 @@ import {
 } from "raft-ui";
 
 import type { SearchChannelFixture, SearchSenderFixture } from "../search.fixtures.ts";
-import {
-  SourceIdentityAvatar,
-  type SearchScope,
-  type SearchSort,
-  type SearchTimeRange,
-} from "./search-panel.parts.tsx";
+import { SourceIdentityAvatar } from "./search-panel.parts.tsx";
+import type { SearchScope, SearchSort, SearchTimeRange } from "./search-panel.parts.tsx";
 type SearchFiltersProps = {
   senders: readonly SearchSenderFixture[];
   channels: readonly SearchChannelFixture[];

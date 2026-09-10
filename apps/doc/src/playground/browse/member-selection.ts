@@ -1,4 +1,5 @@
-import { PLAYGROUND_ACTORS, type PlaygroundActor } from "../mock/index.ts";
+import { PLAYGROUND_ACTORS } from "../mock/index.ts";
+import type { PlaygroundActor } from "../mock/index.ts";
 
 export const memberDetailId = {
   agent: (id: string) => `agent:${id}`,

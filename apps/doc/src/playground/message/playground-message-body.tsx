@@ -1,5 +1,6 @@
 import type { Components } from "react-markdown";
-import { Children, useMemo, type ReactNode } from "react";
+import { Children, useMemo } from "react";
+import type { ReactNode } from "react";
 import { Hash } from "lucide-react";
 import {
   MarkdownInlineCode,
@@ -15,7 +16,7 @@ import {
   TaskChip,
   TaskStatusIcon,
 } from "raft-ui";
-import { type MarkdownPluginList } from "#/lib/markdown/markdown-plugins.ts";
+import type { MarkdownPluginList } from "#/lib/markdown/markdown-plugins.ts";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { createRemarkReferences } from "#/lib/markdown/create-remark-references.ts";
 import { markdownReferenceSanitizeSchema } from "#/lib/markdown/markdown-reference-sanitize-schema.ts";
@@ -29,9 +30,8 @@ import {
   PLAYGROUND_CHANNELS,
   PLAYGROUND_SERVER_SLUG,
   PLAYGROUND_TASKS,
-  type PlaygroundActorId,
-  type PlaygroundMentionReadState,
 } from "../mock/index.ts";
+import type { PlaygroundActorId, PlaygroundMentionReadState } from "../mock/index.ts";
 
 const VIEWER_ACTOR_ID = "cuvii";
 

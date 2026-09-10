@@ -1,9 +1,6 @@
 import type { PlaygroundActorId } from "./actors.ts";
-import {
-  getPlaygroundThread,
-  type PlaygroundChannelId,
-  type PlaygroundMessageId,
-} from "./conversations.ts";
+import { getPlaygroundThread } from "./conversations.ts";
+import type { PlaygroundChannelId, PlaygroundMessageId } from "./conversations.ts";
 
 type PlaygroundActivityBase = {
   id: `activity:${string}`;

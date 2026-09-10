@@ -1,12 +1,5 @@
-import {
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactNode,
-} from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 // Adapted from border-beam v1.3.0 (MIT): https://github.com/Jakubantalik/border-beam
 // The pulse-outside geometry and driver are retained; only its color palette uses local tokens.

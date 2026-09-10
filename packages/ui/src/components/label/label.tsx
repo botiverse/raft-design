@@ -1,8 +1,9 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { ComponentPropsWithRef } from "react";
-import { type SlotElementProps } from "../../lib/data-attributes";
-import { tv, type VariantProps } from "../../lib/tv";
+import type { SlotElementProps } from "../../lib/data-attributes";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const label = tv({

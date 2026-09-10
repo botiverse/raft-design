@@ -15,7 +15,8 @@ import {
 } from "raft-ui";
 import { useState } from "react";
 
-import { models, type Model } from "./combobox.constants.ts";
+import { models } from "./combobox.constants.ts";
+import type { Model } from "./combobox.constants.ts";
 
 function ComboboxModelList() {
   return (

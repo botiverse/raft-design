@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import { Mail, MailOpen, Pin, PinOff, X } from "lucide-react";
 import {
   ContextMenu,

@@ -45,10 +45,8 @@ import {
   SidebarSectionHeaderMenu,
   SidebarSectionSortMenu,
 } from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx";
-import {
-  LiveAgentActivityBarComposition,
-  type LiveAgentActivityBarItem,
-} from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
+import { LiveAgentActivityBarComposition } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
+import type { LiveAgentActivityBarItem } from "#/modules/live-agent-activity-bar/live-agent-activity-bar.composition.tsx";
 
 export type SidebarContentState = "populated" | "empty";
 export type SidebarLiveActivityState = "none" | "active";

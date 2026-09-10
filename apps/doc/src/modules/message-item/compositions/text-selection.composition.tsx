@@ -1,13 +1,14 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { Copy, Quote, TextQuote } from "lucide-react";
 import {
   Popover,
   PopoverContent,
-  type PopoverContentProps,
   MessageTextSelectionToolbar,
   MessageTextSelectionToolbarButton,
   MessageTextSelectionToolbarSeparator,
 } from "raft-ui";
+import type { PopoverContentProps } from "raft-ui";
 
 export type MessageTextSelectionCompositionProps = {
   children: ReactNode;

@@ -1,4 +1,5 @@
-import { createContext, use, useMemo, useState, type ComponentPropsWithRef } from "react";
+import { createContext, use, useMemo, useState } from "react";
+import type { ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
 import { tv } from "../../lib/tv";

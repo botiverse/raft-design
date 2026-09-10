@@ -11,9 +11,9 @@ import {
   CardTrailing,
   Separator,
   Status,
-  type CardProps,
   Text,
 } from "raft-ui";
+import type { CardProps } from "raft-ui";
 
 type CardProjectSummaryCompositionProps = {
   variant?: CardProps["variant"];

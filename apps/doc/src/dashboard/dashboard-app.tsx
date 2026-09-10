@@ -29,10 +29,8 @@ import {
   RUNTIME_LABEL,
   STATUS_LABEL,
   summarize,
-  type AgentRow,
-  type Range,
-  type RunStatus,
 } from "#/dashboard/dashboard-data.ts";
+import type { AgentRow, Range, RunStatus } from "#/dashboard/dashboard-data.ts";
 
 /**
  * A data-dense example app, deliberately NOT Raft-shaped.

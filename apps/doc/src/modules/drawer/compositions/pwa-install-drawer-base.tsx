@@ -7,14 +7,13 @@ import {
   DrawerBody,
   DrawerClose,
   DrawerContent,
-  type DrawerContentProps,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  type DrawerProps,
 } from "raft-ui";
+import type { DrawerContentProps, DrawerProps } from "raft-ui";
 import { useState, useSyncExternalStore } from "react";
 
 const MOBILE_QUERY = "(max-width: 767px)";

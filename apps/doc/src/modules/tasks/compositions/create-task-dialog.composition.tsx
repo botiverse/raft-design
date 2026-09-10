@@ -1,4 +1,5 @@
-import { useRef, useState, type RefObject } from "react";
+import { useRef, useState } from "react";
+import type { RefObject } from "react";
 import {
   Banner,
   BannerDescription,
@@ -7,12 +8,12 @@ import {
   DialogBody,
   DialogClose,
   DialogContent,
-  type DialogContentProps,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Input,
 } from "raft-ui";
+import type { DialogContentProps } from "raft-ui";
 import { Plus, Trash2, X } from "lucide-react";
 
 export function CreateTaskDialogComposition({

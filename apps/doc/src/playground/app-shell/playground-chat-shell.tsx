@@ -22,9 +22,8 @@ import {
   getPlaygroundThread,
   isPlaygroundChannelId,
   isPlaygroundDmId,
-  type PlaygroundTask,
-  type PlaygroundThread,
 } from "../mock/index.ts";
+import type { PlaygroundTask, PlaygroundThread } from "../mock/index.ts";
 import { PlaygroundRail } from "../rail/playground-rail.tsx";
 import { PlaygroundSidebar } from "../chat-sidebar/chat-sidebar.tsx";
 import { PlaygroundLegacyTaskPanel } from "../tasks/playground-legacy-task-panel.tsx";

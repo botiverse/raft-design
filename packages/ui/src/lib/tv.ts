@@ -1,5 +1,6 @@
 import { cn } from "./cn";
-import { tv as tvBase, type TVLite } from "tailwind-variants/lite";
+import { tv as tvBase } from "tailwind-variants/lite";
+import type { TVLite } from "tailwind-variants/lite";
 
 export type { VariantProps } from "tailwind-variants/lite";
 

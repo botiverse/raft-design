@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import { CheckboxIndicator } from "./checkbox-indicator";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";

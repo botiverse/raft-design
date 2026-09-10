@@ -1,11 +1,10 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
-import {
-  MessageItemPreview,
-  type MessageItemPreviewChrome,
-} from "./compositions/item-preview.composition.tsx";
+import { MessageItemPreview } from "./compositions/item-preview.composition.tsx";
+import type { MessageItemPreviewChrome } from "./compositions/item-preview.composition.tsx";
 
 const SCENARIO_OPTIONS = ["message", "consecutive"] as const;
 

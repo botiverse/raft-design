@@ -1,4 +1,4 @@
-import { useRender } from "@base-ui/react/use-render";
+import type { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
 import { PanelScrollViewport } from "../panel/panel";

@@ -7,8 +7,8 @@ import {
   DescriptionItem,
   DescriptionList,
   DescriptionTerm,
-  type DescriptionListDirection,
 } from "raft-ui";
+import type { DescriptionListDirection } from "raft-ui";
 
 const roles = ["Owner", "Admin", "Member"] as const;
 const roleVariant = {

@@ -6,35 +6,33 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
-  type DragOverEvent,
-  type DragStartEvent,
-  type DragEndEvent,
 } from "@dnd-kit/core";
+import type { DragOverEvent, DragStartEvent, DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 
 import {
   PLAYGROUND_CHANNELS,
   PLAYGROUND_DIRECT_MESSAGES,
   PLAYGROUND_JOINT_CHANNELS,
   PLAYGROUND_ROOM_CHANNELS,
-  type PlaygroundChannelId,
-  type PlaygroundChannelRecord,
 } from "../mock/index.ts";
+import type { PlaygroundChannelId, PlaygroundChannelRecord } from "../mock/index.ts";
 import { SidebarItem } from "raft-ui";
 import { ChatSidebarChannelRowContent } from "./chat-sidebar-channel-row-content.tsx";
-import {
-  ChatSidebarDndContext,
-  type ChatSidebarDndValue,
-  type ChatSidebarDragProjection as ChatSidebarSectionProjection,
+import { ChatSidebarDndContext } from "./chat-sidebar-dnd-context.ts";
+import type {
+  ChatSidebarDndValue,
+  ChatSidebarDragProjection as ChatSidebarSectionProjection,
 } from "./chat-sidebar-dnd-context.ts";
 import {
   createChatSidebarDragId,
   parseChatSidebarDropTargetId,
   readChatSidebarDragItemData,
   readChatSidebarDropTargetData,
-  type ChatSidebarDragSection,
 } from "./chat-sidebar-dnd-ids.ts";
+import type { ChatSidebarDragSection } from "./chat-sidebar-dnd-ids.ts";
 import { ChatSidebarDirectMessageRowContent } from "./chat-sidebar-direct-message-row-content.tsx";
 import { ChatSidebarProjectionSlot } from "./chat-sidebar-sortable.tsx";
 

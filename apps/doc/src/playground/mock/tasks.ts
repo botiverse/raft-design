@@ -1,10 +1,6 @@
 import type { PlaygroundActorId } from "./actors.ts";
-import {
-  RAFT_UI_MIGRATION_THREAD_IDS,
-  getPlaygroundThread,
-  type PlaygroundChannelId,
-  type PlaygroundMessageId,
-} from "./conversations.ts";
+import { RAFT_UI_MIGRATION_THREAD_IDS, getPlaygroundThread } from "./conversations.ts";
+import type { PlaygroundChannelId, PlaygroundMessageId } from "./conversations.ts";
 
 export const PLAYGROUND_TASK_STATUSES = [
   "todo",

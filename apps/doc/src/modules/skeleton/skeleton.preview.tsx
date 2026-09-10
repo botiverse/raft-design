@@ -1,5 +1,7 @@
-import { useState, type ReactNode } from "react";
-import { Skeleton, type SkeletonProps } from "raft-ui";
+import { useState } from "react";
+import type { ReactNode } from "react";
+import { Skeleton } from "raft-ui";
+import type { SkeletonProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";

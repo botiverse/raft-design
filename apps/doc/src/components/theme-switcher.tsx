@@ -1,5 +1,7 @@
-import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel, type Theme } from "raft-ui";
-import { usePreviewTheme, type PreviewMode } from "#/components/preview-theme.tsx";
+import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "raft-ui";
+import type { Theme } from "raft-ui";
+import { usePreviewTheme } from "#/components/preview-theme.tsx";
+import type { PreviewMode } from "#/components/preview-theme.tsx";
 
 type PreviewThemePreset = {
   key: string;

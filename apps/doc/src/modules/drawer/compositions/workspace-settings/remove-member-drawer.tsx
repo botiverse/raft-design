@@ -11,8 +11,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  type DrawerProps,
 } from "raft-ui";
+import type { DrawerProps } from "raft-ui";
 
 type RemoveMemberDrawerProps = Pick<
   DrawerProps,

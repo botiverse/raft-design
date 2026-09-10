@@ -4,8 +4,10 @@ import { useRender } from "@base-ui/react/use-render";
 import { useEffect, useRef } from "react";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { DropdownMenuContent, type DropdownMenuContentProps } from "../dropdown-menu/index";
-import { TooltipContent, type TooltipContentProps } from "../tooltip/index";
+import { DropdownMenuContent } from "../dropdown-menu/index";
+import type { DropdownMenuContentProps } from "../dropdown-menu/index";
+import { TooltipContent } from "../tooltip/index";
+import type { TooltipContentProps } from "../tooltip/index";
 import {
   messageReaction,
   reactionCountKeyframes,

@@ -1,6 +1,7 @@
 import type { Components } from "react-markdown";
 import type { Options as RehypeSanitizeOptions } from "rehype-sanitize";
-import { memo, useMemo, type ComponentPropsWithRef } from "react";
+import { memo, useMemo } from "react";
+import type { ComponentPropsWithRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { MarkdownCodeFence } from "./markdown-code-fence.tsx";
 import { MARKDOWN_COMPONENTS } from "./markdown-components.tsx";
@@ -8,8 +9,8 @@ import {
   createMarkdownRehypePlugins,
   markdownSanitizeSchema,
   MARKDOWN_REMARK_PLUGINS,
-  type MarkdownPluginList,
 } from "./markdown-plugins.ts";
+import type { MarkdownPluginList } from "./markdown-plugins.ts";
 
 export type MarkdownProps = Omit<ComponentPropsWithRef<"div">, "children"> & {
   /** Extra remark transforms appended to the GFM defaults. */

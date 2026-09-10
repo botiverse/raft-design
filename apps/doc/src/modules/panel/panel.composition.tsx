@@ -1,6 +1,5 @@
 import {
   Panel,
-  type PanelEdge,
   PanelBody,
   PanelHeader,
   PanelHeaderContent,
@@ -12,6 +11,7 @@ import {
   PanelTitle,
   Text,
 } from "raft-ui";
+import type { PanelEdge } from "raft-ui";
 
 export type PanelCompositionProps = {
   edge?: PanelEdge;

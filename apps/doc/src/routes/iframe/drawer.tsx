@@ -8,10 +8,9 @@ import {
   Drawer,
   DrawerActions,
   Text,
-  type Theme,
-  type ThemeMode,
   useThemeFamily,
 } from "raft-ui";
+import type { Theme, ThemeMode } from "raft-ui";
 
 import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 import { PwaInstallDrawerPanel } from "#/modules/drawer/compositions/pwa-install-drawer-base.tsx";

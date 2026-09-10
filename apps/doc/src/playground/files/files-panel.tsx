@@ -1,16 +1,13 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  FilesPanelComposition,
-  type FileListEntry,
-} from "#/modules/files/compositions/files-panel.composition.tsx";
+import { FilesPanelComposition } from "#/modules/files/compositions/files-panel.composition.tsx";
+import type { FileListEntry } from "#/modules/files/compositions/files-panel.composition.tsx";
 import {
   getPlaygroundFiles,
   PLAYGROUND_SERVER_SLUG,
   requirePlaygroundFile,
-  type PlaygroundChannelRecord,
-  type PlaygroundFile,
 } from "../mock/index.ts";
+import type { PlaygroundChannelRecord, PlaygroundFile } from "../mock/index.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
 /** Matches source ChannelFilesPanel `FILES_PAGE_SIZE`. */

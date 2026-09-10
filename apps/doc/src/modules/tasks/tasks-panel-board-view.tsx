@@ -21,7 +21,8 @@ import {
 } from "raft-ui";
 import { ChevronDown } from "lucide-react";
 
-import { TASK_STATUSES, type TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
+import { TASK_STATUSES } from "#/modules/task-card/task-card.fixtures.ts";
+import type { TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 import { isTaskDropTarget } from "./is-task-drop-target.ts";
 import type { TasksPanelViewProps } from "./tasks-panel-view.types.ts";

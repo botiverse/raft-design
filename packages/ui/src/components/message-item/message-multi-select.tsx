@@ -1,7 +1,8 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Checkbox, type CheckboxProps } from "../checkbox/index";
+import { Checkbox } from "../checkbox/index";
+import type { CheckboxProps } from "../checkbox/index";
 import { messageMultiSelect } from "./message-multi-select.recipe";
 
 export type MessageMultiSelectProps = useRender.ComponentProps<"div">;

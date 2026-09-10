@@ -17,9 +17,8 @@ import {
   Text,
   Textarea,
   useThemeFamily,
-  type Theme,
-  type ThemeMode,
 } from "raft-ui";
+import type { Theme, ThemeMode } from "raft-ui";
 import { cn } from "raft-ui/cn";
 import { Monitor } from "lucide-react";
 

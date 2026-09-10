@@ -7,8 +7,8 @@ import {
   PreviewCard,
   PreviewCardContent,
   PreviewCardTrigger,
-  type MessageReferenceTextVariant,
 } from "raft-ui";
+import type { MessageReferenceTextVariant } from "raft-ui";
 
 type MessageReferenceCompositionProps = {
   children: ReactNode;

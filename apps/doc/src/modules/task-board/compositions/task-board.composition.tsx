@@ -31,9 +31,8 @@ import {
   getTaskStatusLabel,
   moveTaskFixture,
   TASK_STATUSES,
-  type TaskFixture,
-  type TaskStatus,
 } from "#/modules/task-card/task-card.fixtures.ts";
+import type { TaskFixture, TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 import { BOARD_DEMO_TASKS } from "#/modules/task-board/task-board.fixtures.ts";
 

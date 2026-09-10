@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { ReactElement } from "react";
 import { useMediaQuery } from "foxact/use-media-query";
 import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
 import { MessageItemToolbar, MessageItemToolbarButton } from "raft-ui";

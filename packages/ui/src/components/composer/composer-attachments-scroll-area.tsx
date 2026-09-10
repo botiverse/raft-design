@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/button";
 import { composerAttachment as composerAttachmentRecipe } from "./composer-attachment.recipe";

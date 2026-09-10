@@ -1,11 +1,12 @@
 import type { ComponentPropsWithRef } from "react";
 import { Input as BaseInput } from "@base-ui/react/input";
 import type { DataAttributes } from "../../lib/data-attributes";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { WithoutChildren } from "../../lib/without-children";
-import { type InputBehaviorProps } from "../input/input";
+import type { InputBehaviorProps } from "../input/input";
 
 // InputGroup moves the input shell onto the wrapper so addons can live inside the
 // bordered box. State styling is driven by the inner control via `has-*`.

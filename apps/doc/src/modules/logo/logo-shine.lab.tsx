@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { animate, type AnimationPlaybackControlsWithThen } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
+import { animate } from "motion/react";
+import type { AnimationPlaybackControlsWithThen } from "motion/react";
 import { Button, RaftLogoLockup } from "raft-ui";
 
 const SWEEP_EASE = [0.76, 0, 0.24, 1] as const;

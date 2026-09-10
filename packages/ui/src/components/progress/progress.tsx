@@ -1,6 +1,7 @@
 import { Progress as BaseProgress } from "@base-ui/react/progress";
 import type { ComponentPropsWithRef } from "react";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 

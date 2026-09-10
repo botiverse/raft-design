@@ -1,6 +1,8 @@
 import { Tooltip as BaseTooltip } from "@base-ui/react/tooltip";
-import { Children, Fragment, isValidElement, type ComponentProps, type ReactNode } from "react";
-import { tv, type VariantProps } from "../../lib/tv";
+import { Children, Fragment, isValidElement } from "react";
+import type { ComponentProps, ReactNode } from "react";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";

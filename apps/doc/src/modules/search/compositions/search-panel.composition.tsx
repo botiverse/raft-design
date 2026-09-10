@@ -6,18 +6,20 @@ import {
   SEARCH_ENTITY_FIXTURES,
   SEARCH_MESSAGE_FIXTURES,
   SEARCH_SENDER_FIXTURES,
-  type SearchChannelFixture,
-  type SearchEntityFixture,
-  type SearchMessageFixture,
-  type SearchSenderFixture,
+} from "../search.fixtures.ts";
+import type {
+  SearchChannelFixture,
+  SearchEntityFixture,
+  SearchMessageFixture,
+  SearchSenderFixture,
 } from "../search.fixtures.ts";
 
 import { SearchFilters } from "../search-panel/search-panel.filters.tsx";
-import {
-  SearchHeader,
-  type SearchScope,
-  type SearchSort,
-  type SearchTimeRange,
+import { SearchHeader } from "../search-panel/search-panel.parts.tsx";
+import type {
+  SearchScope,
+  SearchSort,
+  SearchTimeRange,
 } from "../search-panel/search-panel.parts.tsx";
 import { SearchResults } from "../search-panel/search-panel.results.tsx";
 import {

@@ -1,9 +1,11 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { Menu as BaseMenu } from "@base-ui/react/menu";
 import { tv } from "../../lib/tv";
-import { Badge, type BadgeProps } from "../badge/index";
+import { Badge } from "../badge/index";
+import type { BadgeProps } from "../badge/index";
 import { Button } from "../button/index";
-import { Kbd, type KbdProps } from "../kbd/index";
+import { Kbd } from "../kbd/index";
+import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";

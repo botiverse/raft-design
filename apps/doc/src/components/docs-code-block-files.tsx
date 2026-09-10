@@ -2,7 +2,8 @@
 
 import { Collapsible } from "@base-ui/react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
+import type { ReactNode } from "react";
 import { Tabs, TabsList, TabsTab } from "raft-ui";
 import { tv } from "tailwind-variants/lite";
 

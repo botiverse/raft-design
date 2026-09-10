@@ -1,4 +1,5 @@
 import { Hash, UserX } from "lucide-react";
+import type { useComposerSuggestions } from "raft-ui";
 import {
   Avatar,
   AvatarFallback,
@@ -13,7 +14,6 @@ import {
   ComposerSuggestionMeta,
   ComposerSuggestionOption,
   ComposerSuggestionTitle,
-  useComposerSuggestions,
 } from "raft-ui";
 import { ComposerSuggestionList } from "#/modules/chat-composer/composer-responsive.tsx";
 

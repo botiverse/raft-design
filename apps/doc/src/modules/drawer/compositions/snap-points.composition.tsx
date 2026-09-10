@@ -10,8 +10,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-  type DrawerProps,
 } from "raft-ui";
+import type { DrawerProps } from "raft-ui";
 
 const EXPANDED_HEIGHT = "24rem";
 const SNAP_POINTS = ["8rem", EXPANDED_HEIGHT] satisfies NonNullable<DrawerProps["snapPoints"]>;

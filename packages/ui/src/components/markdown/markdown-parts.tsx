@@ -1,6 +1,8 @@
 import type { ComponentPropsWithRef } from "react";
-import { Checkbox, type CheckboxProps } from "../checkbox/index";
-import { InlineCode, type InlineCodeProps } from "../inline-code/index";
+import { Checkbox } from "../checkbox/index";
+import type { CheckboxProps } from "../checkbox/index";
+import { InlineCode } from "../inline-code/index";
+import type { InlineCodeProps } from "../inline-code/index";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { markdown } from "./markdown.recipe";
 

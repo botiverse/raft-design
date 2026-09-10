@@ -33,12 +33,8 @@ import {
   Status,
 } from "raft-ui";
 
-import {
-  PLAYGROUND_ACTORS,
-  PLAYGROUND_MACHINES,
-  getPlaygroundMachine,
-  type PlaygroundActor,
-} from "../mock/index.ts";
+import { PLAYGROUND_ACTORS, PLAYGROUND_MACHINES, getPlaygroundMachine } from "../mock/index.ts";
+import type { PlaygroundActor } from "../mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "../message/playground-presence.ts";
 import { getSelectedMember, memberDetailId } from "./member-selection.ts";
 

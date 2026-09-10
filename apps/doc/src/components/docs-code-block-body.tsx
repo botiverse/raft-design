@@ -1,4 +1,5 @@
-import { Children, isValidElement, type ReactNode } from "react";
+import { Children, isValidElement } from "react";
+import type { ReactNode } from "react";
 
 import { DocsCodeBlockCopy } from "./docs-code-block-copy.tsx";
 import { DocsCodeBlockHeader } from "./docs-code-block-header.tsx";

@@ -1,5 +1,7 @@
-import { useState, type ReactNode } from "react";
-import { Checkbox, type CheckboxProps } from "raft-ui";
+import { useState } from "react";
+import type { ReactNode } from "react";
+import { Checkbox } from "raft-ui";
+import type { CheckboxProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";

@@ -2,14 +2,16 @@ import { Dialog } from "@base-ui/react/dialog";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useHotkey } from "@tanstack/react-hotkeys";
-import { useCallback, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useCallback, useRef, useState } from "react";
+import type { ReactNode, RefObject } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Button, type ButtonProps } from "../button/button";
+import { Button } from "../button/button";
+import type { ButtonProps } from "../button/button";
 
 const lightbox = tv({
   slots: {

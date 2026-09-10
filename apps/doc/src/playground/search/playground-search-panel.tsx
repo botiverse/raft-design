@@ -39,8 +39,8 @@ import {
   isPlaygroundChatMessage,
   isPlaygroundChannelId,
   isPlaygroundThreadId,
-  type PlaygroundChatMessage,
 } from "../mock/index.ts";
+import type { PlaygroundChatMessage } from "../mock/index.ts";
 import { PLAYGROUND_CONVERSATIONS } from "../mock/conversations.ts";
 import {
   usePlaygroundDesktop,

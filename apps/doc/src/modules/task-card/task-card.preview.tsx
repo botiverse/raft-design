@@ -1,14 +1,11 @@
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, useState } from "react";
+import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
 import { TaskCardComposition } from "./compositions/task-card.composition";
-import {
-  getTaskStatusLabel,
-  TASK_FIXTURES,
-  TASK_STATUSES,
-  type TaskStatus,
-} from "./task-card.fixtures";
+import { getTaskStatusLabel, TASK_FIXTURES, TASK_STATUSES } from "./task-card.fixtures";
+import type { TaskStatus } from "./task-card.fixtures";
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 

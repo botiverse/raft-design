@@ -1,10 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { Avatar, AvatarFallback, type AvatarProps } from "../avatar";
-import { Status, type StatusProps } from "../status";
+import { Avatar, AvatarFallback } from "../avatar";
+import type { AvatarProps } from "../avatar";
+import { Status } from "../status";
+import type { StatusProps } from "../status";
 import { LiveAgentActivityBeam } from "./live-agent-activity-beam";
 
 const liveAgentActivityBar = tv({

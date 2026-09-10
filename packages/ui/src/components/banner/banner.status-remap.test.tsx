@@ -4,7 +4,8 @@
 import { afterEach, expect, test } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import { Banner, BannerAction, BannerDescription, type BannerStatus } from "./banner";
+import { Banner, BannerAction, BannerDescription } from "./banner";
+import type { BannerStatus } from "./banner";
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({

@@ -1,9 +1,5 @@
-import {
-  definePlaygroundMessage,
-  definePlaygroundThread,
-  type PlaygroundMessageId,
-  type PlaygroundThread,
-} from "./conversation-model.ts";
+import { definePlaygroundMessage, definePlaygroundThread } from "./conversation-model.ts";
+import type { PlaygroundMessageId, PlaygroundThread } from "./conversation-model.ts";
 
 export const RAFT_UI_MIGRATION_THREAD_IDS = {
   stateModel: "all:state-model",

@@ -1,5 +1,6 @@
 import { ImagePlus, Paperclip, Send } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
+import type { FormEvent } from "react";
 import {
   Checkbox,
   ComposerActions,
@@ -21,8 +22,8 @@ import {
   getSuggestionText,
   getSuggestions,
   isSuggestionDisabled,
-  type Suggestion,
 } from "./composer-suggestions.data.ts";
+import type { Suggestion } from "./composer-suggestions.data.ts";
 import { ComposerSuggestionResults } from "./composer-suggestion-results.tsx";
 
 export type ComposerSuggestionCompositionProps = {

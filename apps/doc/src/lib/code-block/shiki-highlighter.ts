@@ -1,4 +1,5 @@
-import { createHighlighterCore, type ThemedToken } from "shiki/core";
+import { createHighlighterCore } from "shiki/core";
+import type { ThemedToken } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import bash from "shiki/dist/langs/bash.mjs";
 import css from "shiki/dist/langs/css.mjs";

@@ -1,7 +1,9 @@
 "use client";
 
-import { memo, useEffect, useState, type CSSProperties } from "react";
+import { memo, useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import { supportsCodeLanguage } from "./code-language.ts";
+import type * as ShikiHighlighter from "./shiki-highlighter.ts";
 import type { CodeTokenLine } from "./shiki-highlighter.ts";
 
 type HighlightedCode = {
@@ -9,7 +11,7 @@ type HighlightedCode = {
   lines: CodeTokenLine[];
 };
 
-type ShikiHighlighterModule = typeof import("./shiki-highlighter.ts");
+type ShikiHighlighterModule = typeof ShikiHighlighter;
 
 const MAX_HIGHLIGHT_CHARS = 50 * 1024;
 const MAX_HIGHLIGHT_LINES = 500;

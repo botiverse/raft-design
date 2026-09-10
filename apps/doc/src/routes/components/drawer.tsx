@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { InlineCode, type DrawerProps } from "raft-ui";
+import { InlineCode } from "raft-ui";
+import type { DrawerProps } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
-import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { PropsTable } from "#/components/props-table.tsx";
+import type { PropRow } from "#/components/props-table.tsx";
 import { DrawerNestedCloseCallbackComposition } from "#/modules/drawer/compositions/nested-close-callback.composition.tsx";
 import nestedCloseCallbackCompositionSource from "#/modules/drawer/compositions/nested-close-callback.composition.tsx?raw";
 import pwaInstallDrawerSource from "#/modules/drawer/compositions/pwa-install-drawer-base.tsx?raw";

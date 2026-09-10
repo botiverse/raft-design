@@ -1,4 +1,5 @@
-import { getPlaygroundActor, type PlaygroundActorId } from "./actors.ts";
+import { getPlaygroundActor } from "./actors.ts";
+import type { PlaygroundActorId } from "./actors.ts";
 
 export type PlaygroundRoomKind = "channel" | "joint" | "private";
 export type PlaygroundChannelKind = PlaygroundRoomKind | "dm";

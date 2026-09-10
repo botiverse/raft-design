@@ -1,9 +1,10 @@
-import { useRef, type ReactNode } from "react";
+import { useRef } from "react";
+import type { ReactNode } from "react";
 
-import {
-  PlaygroundSingleComposerMentionContext,
-  type MentionInserter,
-  type PlaygroundSingleComposerMentionTarget,
+import { PlaygroundSingleComposerMentionContext } from "./playground-composer-mention-context.ts";
+import type {
+  MentionInserter,
+  PlaygroundSingleComposerMentionTarget,
 } from "./playground-composer-mention-context.ts";
 
 /**

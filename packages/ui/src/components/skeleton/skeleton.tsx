@@ -1,5 +1,6 @@
 import type { HTMLAttributes } from "react";
-import { tv, type VariantProps } from "../../lib/tv";
+import { tv } from "../../lib/tv";
+import type { VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const skeleton = tv({

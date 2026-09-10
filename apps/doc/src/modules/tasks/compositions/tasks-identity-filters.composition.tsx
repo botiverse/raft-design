@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Button } from "raft-ui";
 
-import {
-  TasksChannelFilterComposition,
-  type TasksChannelFilterOption,
-} from "./tasks-channel-filter.composition.tsx";
+import { TasksChannelFilterComposition } from "./tasks-channel-filter.composition.tsx";
+import type { TasksChannelFilterOption } from "./tasks-channel-filter.composition.tsx";
 import { TasksAssigneeFilterComposition } from "./tasks-assignee-filter.composition.tsx";
 import { TasksCreatorFilterComposition } from "./tasks-creator-filter.composition.tsx";
-import { TASKS_IDENTITY_FIXTURES, type TasksIdentity } from "../tasks-identity-filter.fixtures.ts";
+import { TASKS_IDENTITY_FIXTURES } from "../tasks-identity-filter.fixtures.ts";
+import type { TasksIdentity } from "../tasks-identity-filter.fixtures.ts";
 
 type FilterKind = "channel" | "creator" | "assignee";
 

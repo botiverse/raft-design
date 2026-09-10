@@ -9,16 +9,18 @@ import {
   TabsPanel,
   TabsTab,
   useOrderedTabs,
-  type OrderedTabItem,
 } from "raft-ui";
+import type { OrderedTabItem } from "raft-ui";
 import { Bell, CreditCard, Files, Settings, MessageSquare, Users } from "lucide-react";
-import { useState, type ComponentType } from "react";
+import { useState } from "react";
+import type { ComponentType } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
-import { PropsTable, type PropRow } from "#/components/props-table.tsx";
+import { PropsTable } from "#/components/props-table.tsx";
+import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [

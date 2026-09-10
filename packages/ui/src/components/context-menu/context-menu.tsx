@@ -1,7 +1,8 @@
 import { ContextMenu as BaseContextMenu } from "@base-ui/react";
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv";
-import { Kbd, type KbdProps } from "../kbd/index";
+import { Kbd } from "../kbd/index";
+import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
