@@ -1,7 +1,8 @@
-import type { Theme } from "raft-ui";
+import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel, type Theme } from "raft-ui";
 import { usePreviewTheme, type PreviewMode } from "#/components/preview-theme.tsx";
 
 type PreviewThemePreset = {
+  key: string;
   label: string;
   family: Theme;
   mode: PreviewMode;
@@ -10,18 +11,21 @@ type PreviewThemePreset = {
 
 const PRESETS: readonly PreviewThemePreset[] = [
   {
+    key: "brutal-light",
     label: "Brutal",
     family: "brutal",
     mode: "light",
     select: (theme) => theme.setTheme("brutal"),
   },
   {
+    key: "elegant-light",
     label: "Elegant",
     family: "elegant",
     mode: "light",
     select: (theme) => theme.setTheme("elegant", { mode: "light" }),
   },
   {
+    key: "elegant-dark",
     label: "Elegant dark",
     family: "elegant",
     mode: "dark",
@@ -29,31 +33,26 @@ const PRESETS: readonly PreviewThemePreset[] = [
   },
 ];
 
-const segment = "h-6 rounded-[3px] px-2 text-[11px] leading-none transition duration-200 ease-out";
-const active = "font-medium text-foreground";
-const idle = "font-medium text-foreground-placeholder hover:text-foreground-muted";
-
 /** Docs control: switches the isolated component preview theme. */
 export function ThemeSwitcher() {
   const theme = usePreviewTheme();
+  const activePreset = PRESETS.find(
+    (preset) => theme.theme === preset.family && theme.mode === preset.mode,
+  );
 
   return (
-    <fieldset aria-label="Preview theme" className="inline-flex items-center gap-0.5">
-      {PRESETS.map((preset) => {
-        const isActive = theme.theme === preset.family && theme.mode === preset.mode;
-
-        return (
-          <button
-            key={`${preset.family}-${preset.mode}`}
-            type="button"
-            aria-pressed={isActive}
-            className={`${segment} ${isActive ? active : idle}`}
-            onClick={() => preset.select(theme)}
-          >
-            {preset.label}
-          </button>
-        );
-      })}
-    </fieldset>
+    <SegmentedControl
+      aria-label="Preview theme"
+      value={activePreset?.key}
+      onValueChange={(value) => {
+        PRESETS.find((preset) => preset.key === value)?.select(theme);
+      }}
+    >
+      {PRESETS.map((preset) => (
+        <SegmentedControlItem key={preset.key} value={preset.key}>
+          <SegmentedControlLabel>{preset.label}</SegmentedControlLabel>
+        </SegmentedControlItem>
+      ))}
+    </SegmentedControl>
   );
 }

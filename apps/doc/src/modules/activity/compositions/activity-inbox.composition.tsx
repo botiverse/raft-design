@@ -373,13 +373,14 @@ export function ActivityInboxComposition({
             <span className="min-w-0 flex-1 truncate whitespace-nowrap">DM &amp; Channels</span>
             {channelFilterId ? (
               <SidebarSectionTrailing className="min-w-0 pr-0">
-                <button
-                  type="button"
+                <Button
+                  variant="link"
+                  size="sm"
                   data-activity-inbox-show-all=""
                   onClick={() => setChannelFilterId(undefined)}
                 >
                   Show all
-                </button>
+                </Button>
               </SidebarSectionTrailing>
             ) : null}
           </SidebarGroupLabel>

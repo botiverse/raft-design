@@ -1,8 +1,9 @@
 "use client";
 
-import { Collapsible, Tabs as BaseTabs } from "@base-ui/react";
+import { Collapsible } from "@base-ui/react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import { useState, type ReactNode } from "react";
+import { Tabs, TabsList, TabsTab } from "raft-ui";
 import { tv } from "tailwind-variants/lite";
 
 import { DocsCodeBlockBody } from "./docs-code-block-body.tsx";
@@ -59,21 +60,21 @@ export function DocsCodeBlockFiles({
 
   const header = (
     <DocsCodeBlockHeader showLineNumbers={showLineNumbers}>
-      <BaseTabs.Root
+      <Tabs
         value={activeFile.path}
         onValueChange={(path) => {
           if (path) setActivePath(String(path));
         }}
         className={styles.root()}
       >
-        <BaseTabs.List aria-label="Source files" className={styles.list()}>
+        <TabsList aria-label="Source files" className={styles.list()}>
           {files.map((file) => (
-            <BaseTabs.Tab key={file.path} value={file.path} className={styles.tab()}>
+            <TabsTab key={file.path} value={file.path} className={styles.tab()}>
               {file.path.split("/").at(-1)}
-            </BaseTabs.Tab>
+            </TabsTab>
           ))}
-        </BaseTabs.List>
-      </BaseTabs.Root>
+        </TabsList>
+      </Tabs>
       {collapsible ? <DocsCodeBlockCollapse open={bodyOpen} /> : null}
       <DocsCodeBlockCopy key={activeFile.path} source={activeFile.source} />
     </DocsCodeBlockHeader>
