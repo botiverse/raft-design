@@ -7,7 +7,7 @@ description: "rUI's technical foundations, package contents, and integration con
 
 ## Foundations
 
-`raft-ui` is a React 19 component library requiring Tailwind CSS v4.
+`raft-ui` provides shared CSS foundations and a React 19 component library. The components use Tailwind CSS v4; the foundation works with plain HTML and CSS.
 
 - **Base UI** provides headless interaction behavior where applicable: focus, keyboard navigation, and overlays.
 - **Tailwind variants** defines component recipes; semantic CSS tokens supply colors, typography, spacing, and shadows.
@@ -16,17 +16,38 @@ description: "rUI's technical foundations, package contents, and integration con
 
 ## Package contents
 
-| Entry                | Contents                                |
-| -------------------- | --------------------------------------- |
-| `raft-ui`            | Stable components, providers, and hooks |
-| `raft-ui/cn`         | Class merger                            |
-| `raft-ui/wip`        | Experimental exports                    |
-| `raft-ui/styles.css` | Component tokens and theme scopes       |
-| `raft-ui/fonts.css`  | Optional web fonts                      |
+| Entry                    | Contents                                |
+| ------------------------ | --------------------------------------- |
+| `raft-ui`                | Stable components, providers, and hooks |
+| `raft-ui/cn`             | Class merger                            |
+| `raft-ui/wip`            | Experimental exports                    |
+| `raft-ui/foundation.css` | Native CSS theme variables              |
+| `raft-ui/styles.css`     | Tailwind integration                    |
+| `raft-ui/fonts.css`      | Optional web fonts                      |
 
 Component declarations live in `dist/index.d.mts`. Version-matched Markdown guides and optional `raft-ui-guide` / `raft-ui-critique` skills ship in `skills/`.
 
-## Stylesheet contract
+## Plain HTML
+
+Link or inline `dist/foundation.css`; no build is required. Optional `fonts.css` supplies web fonts.
+
+```html
+<link rel="stylesheet" href="./foundation.css" />
+<style>
+  body {
+    background: var(--layer-canvas);
+    color: var(--foreground);
+  }
+  article {
+    border: 2px solid var(--line);
+    box-shadow: var(--theme-shadow-md);
+  }
+</style>
+```
+
+Brutal is the default. `data-theme="elegant"` selects Elegant; `.light` / `.dark` set its mode, otherwise it follows the system. The foundation defines variables, not component markup or interactions.
+
+## React stylesheet contract
 
 ```css
 @import "tailwindcss";

@@ -29,12 +29,12 @@ import { expect, test } from "vitest";
  * are all blocking surfaces, but it is not a dialog-local change.
  */
 
-const CSS = readFileSync(fileURLToPath(new URL("./styles.css", import.meta.url)), "utf8");
+const CSS = readFileSync(fileURLToPath(new URL("./foundation.css", import.meta.url)), "utf8");
 
 /** The `--layer-backdrop` declared under a given selector block. */
 function backdropAlphaFor(selector: string): number {
   const start = CSS.indexOf(`${selector} {`);
-  expect(start, `selector ${selector} must exist in styles.css`).toBeGreaterThan(-1);
+  expect(start, `selector ${selector} must exist in foundation.css`).toBeGreaterThan(-1);
   const end = CSS.indexOf("\n}", start);
   const block = CSS.slice(start, end);
   const match = block.match(/--layer-backdrop:\s*oklch\(0 0 0 \/ ([0-9.]+)\)/);

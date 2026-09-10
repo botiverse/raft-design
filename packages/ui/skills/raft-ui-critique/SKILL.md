@@ -43,8 +43,8 @@ When evidence is incomplete:
 
 Use the first available evidence source; do not require a source checkout:
 
-1. In the raft-ui repository, inspect `packages/ui/src/styles.css`, `packages/ui/src/fonts.css`, the component recipe, and its real consumers.
-2. In an installed application, inspect `node_modules/raft-ui/dist/styles.css`, `node_modules/raft-ui/dist/fonts.css`, `node_modules/raft-ui/dist/index.d.mts`, and the application's component usage.
+1. In the raft-ui repository, inspect `packages/ui/src/foundation.css`, `packages/ui/src/fonts.css`, the component recipe, and its real consumers.
+2. In an installed application, inspect `node_modules/raft-ui/dist/foundation.css`, `node_modules/raft-ui/dist/fonts.css`, `node_modules/raft-ui/dist/index.d.mts`, and the application's component usage.
 3. If neither code surface is available, rely on supplied screenshots or renders and state that implementation ownership is unverified.
 
 Treat declarations as API evidence and compiled CSS as token/theme evidence. Neither proves the rendered result.
@@ -127,7 +127,7 @@ When code is available, connect each visual issue to the most likely owner witho
 - Reusable appearance or interaction styling: `packages/ui` component recipe or semantic tokens.
 - Canonical example structure: docs module composition.
 - Product state or workflow coordination: Playground or application consumer.
-- Global theme material: source `packages/ui/src/styles.css` or published `node_modules/raft-ui/dist/styles.css`, plus the corresponding font/theme infrastructure.
+- Global theme material: source `packages/ui/src/foundation.css` or published `node_modules/raft-ui/dist/foundation.css`, plus the corresponding font/theme infrastructure.
 
 State whether the cause is observed, code-verified, or inferred. Do not prescribe a new token for a one-off correction, and do not patch a consumer to compensate for a broken reusable component contract.
 

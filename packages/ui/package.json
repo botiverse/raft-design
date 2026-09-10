@@ -33,7 +33,8 @@
     },
     "./fonts.css": "./dist/fonts.css",
     "./styles.css": "./dist/styles.css",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./foundation.css": "./dist/foundation.css"
   },
   "publishConfig": {
     "access": "public"

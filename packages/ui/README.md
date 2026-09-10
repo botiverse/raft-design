@@ -13,6 +13,28 @@ import { Button } from "raft-ui";
 @import "raft-ui/styles.css";
 ```
 
+## Plain HTML
+
+Link `dist/foundation.css` directly, or copy it beside your HTML. It exposes the same theme variables used by the components, without React, Tailwind, or a CSS reset.
+
+```html
+<link rel="stylesheet" href="./foundation.css" />
+<style>
+  body {
+    background: var(--layer-canvas);
+    color: var(--foreground);
+  }
+  article {
+    background: var(--layer-panel);
+    box-shadow: var(--theme-shadow-md);
+  }
+</style>
+```
+
+Brutal is the default. Use `data-theme="elegant"` and `class="light"` or `class="dark"` on the root for Elegant; omit the class to follow system mode. Optional `fonts.css` loads web fonts and defines `--heading-font`, `--sans-font`, and `--mono-font`.
+
+See [the plain HTML example](./examples/plain-html.html). `styles.css` remains the Tailwind integration entry and imports this foundation automatically.
+
 ## Agent Skills
 
 raft-ui ships two version-matched Agent Skills in the npm package:

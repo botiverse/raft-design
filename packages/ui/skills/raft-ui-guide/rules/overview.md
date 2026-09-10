@@ -7,14 +7,14 @@ description: "What rUI is and where to start."
 
 ## Build something bold with rUI
 
-rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for whatever you build next. The React package `raft-ui` includes composable components, Brutal and Elegant themes, and shared design tokens.
+rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for whatever you build next. The `raft-ui` package includes CSS foundations, composable React components, and Brutal and Elegant themes.
 
 ## Start with your agent
 
 Copy this prompt and add your task:
 
 ```text
-Use rUI (raft-ui) for this project: expressive visuals and playful interactions, shaped by Raft and made for whatever we build next. Preserve its design language through its components and semantic tokens.
+Use rUI (raft-ui) for this project: expressive visuals and playful interactions, shaped by Raft and made for whatever we build next. Use its shared tokens and components where they fit the project.
 
 Read https://rui.botiverse.build/guides/overview and follow the guides relevant to the task. Match the existing project setup. For version-specific APIs, use node_modules/raft-ui/dist/index.d.mts; matching guides are in node_modules/raft-ui/skills/raft-ui-guide/rules/.
 
