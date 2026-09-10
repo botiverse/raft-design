@@ -864,6 +864,7 @@ function ComboboxPreview() {
           </ComboboxControl>
         </Field>
         <ComboboxContent
+          positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           initialFocus={false}
           finalFocus={false}
@@ -911,6 +912,7 @@ function SelectPreview() {
           <SelectIcon />
         </SelectTrigger>
         <SelectContent
+          positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="w-[220px]"
         >
@@ -979,6 +981,7 @@ function DropdownMenuPreview() {
           Account
         </DropdownMenuTrigger>
         <DropdownMenuContent
+          positionMethod="absolute"
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
           className="flex w-64 flex-col"
         >
@@ -1059,6 +1062,7 @@ function PopoverPreview() {
           Usage notes
         </PopoverTrigger>
         <PopoverContent
+          positionMethod="absolute"
           initialFocus={false}
           finalFocus={false}
           align="center"
@@ -1111,6 +1115,7 @@ function PreviewCardPreview() {
           </PreviewCardTrigger>
         </p>
         <PreviewCardContent
+          positionMethod="absolute"
           align="center"
           collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
           portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
@@ -1241,7 +1246,10 @@ function TooltipPreview() {
         >
           <SmilePlus />
         </TooltipTrigger>
-        <TooltipContent portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}>
+        <TooltipContent
+          positionMethod="absolute"
+          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+        >
           Add reaction
           <Kbd>R</Kbd>
         </TooltipContent>
