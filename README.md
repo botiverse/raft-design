@@ -9,6 +9,6 @@ See [package usage](./packages/ui/README.md) and the [technical overview](./pack
 
 ## Preview
 
-- Online docs and playground: https://rui.botiverse.build/
+- Online docs and playground: https://rui.botiverse.build
 - Repository: https://github.com/botiverse/rui
 - Local dev server: `pnpm dev` or `pnpm --filter doc dev`
