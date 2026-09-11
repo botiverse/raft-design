@@ -750,7 +750,7 @@ function NavGroup({
 
   const list =
     items.length > 0 ? (
-      <ul className="space-y-1 pl-2">
+      <ul className="space-y-1 pl-4">
         {items.map((item) => {
           if (item.items) {
             return (
