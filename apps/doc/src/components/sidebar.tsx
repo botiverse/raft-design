@@ -750,7 +750,7 @@ function NavGroup({
 
   const list =
     items.length > 0 ? (
-      <ul className="space-y-1">
+      <ul className="space-y-1 pl-2">
         {items.map((item) => {
           if (item.items) {
             return (
@@ -1192,7 +1192,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
               </SidebarContent>
             </SidebarBody>
             <div className="shrink-0">
-              <Separator className="mx-5" />
+              <Separator className="mx-5 w-[calc(100%-2.5rem)]" />
               <div className="flex items-center justify-between px-5 py-4">
                 <Button
                   variant="ghost"
