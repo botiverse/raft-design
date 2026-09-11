@@ -31,7 +31,7 @@ import {
 } from "raft-ui";
 import { ExternalLink, Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
-import { ModeSwitcher } from "./theme-switcher.tsx";
+import { SettingsDialog } from "./settings-dialog.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
 const PRIMARY_NAV: readonly NavItem[] = [
@@ -1191,7 +1191,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
               </SidebarContent>
             </SidebarBody>
             <div className="shrink-0 border-t border-dashed border-line-hairline px-5 py-4">
-              <ModeSwitcher />
+              <SettingsDialog />
             </div>
           </SidebarRoot>
         </aside>

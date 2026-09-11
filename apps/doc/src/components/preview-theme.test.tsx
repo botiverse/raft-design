@@ -1,8 +1,10 @@
-import { cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { PreviewThemeProvider, useResolvedPreviewMode } from "./preview-theme.tsx";
-import { ModeSwitcher, ThemeSwitcher } from "./theme-switcher.tsx";
+import type { StoredPreviewTheme } from "#/lib/preview-theme-storage.ts";
+import { SettingsDialog } from "./settings-dialog.tsx";
+import { ThemeSwitcher } from "./theme-switcher.tsx";
 
 /**
  * The preset controls (landing footer, doc sections, playground picker) match
@@ -10,7 +12,8 @@ import { ModeSwitcher, ThemeSwitcher } from "./theme-switcher.tsx";
  * the default mode, matching the raw value against those presets left the
  * landing switcher on its fallback — a brand-new visitor saw a brutal page with
  * "Elegant" highlighted, and clicking it did nothing. These tests pin the
- * resolved selection each control must use.
+ * resolved selection each control must use, and the settings dialog that now
+ * owns the mode and the per-mode families.
  */
 function stubSystemPreference(prefers: "light" | "dark") {
   vi.stubGlobal("matchMedia", (query: string) => ({
@@ -26,6 +29,14 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+// rui's ThemeProvider reads matchMedia unguarded, and jsdom does not implement
+// it; a light baseline keeps every render working unless a test overrides it.
+beforeEach(() => {
+  stubSystemPreference("light");
+});
+
+const DEFAULT_STATE: StoredPreviewTheme = { mode: "system", light: "brutal", dark: "elegant" };
+
 function Probe() {
   return <span data-testid="mode">{useResolvedPreviewMode()}</span>;
 }
@@ -33,7 +44,7 @@ function Probe() {
 describe("resolved preview mode", () => {
   it("resolves a system selection against the OS preference", () => {
     const light = render(
-      <PreviewThemeProvider initial={{ theme: "elegant", mode: "system" }}>
+      <PreviewThemeProvider initial={{ ...DEFAULT_STATE, light: "elegant", dark: "elegant" }}>
         <Probe />
       </PreviewThemeProvider>,
     );
@@ -42,7 +53,7 @@ describe("resolved preview mode", () => {
 
     stubSystemPreference("dark");
     const dark = render(
-      <PreviewThemeProvider initial={{ theme: "elegant", mode: "system" }}>
+      <PreviewThemeProvider initial={{ ...DEFAULT_STATE, light: "elegant", dark: "elegant" }}>
         <Probe />
       </PreviewThemeProvider>,
     );
@@ -52,7 +63,7 @@ describe("resolved preview mode", () => {
 
   it("passes explicit modes through", () => {
     const view = render(
-      <PreviewThemeProvider initial={{ theme: "elegant", mode: "dark" }}>
+      <PreviewThemeProvider initial={{ ...DEFAULT_STATE, mode: "dark" }}>
         <Probe />
       </PreviewThemeProvider>,
     );
@@ -73,10 +84,10 @@ describe("preview preset switcher", () => {
     );
   });
 
-  it("highlights Elegant dark for a stored elegant system selection on a dark machine", () => {
+  it("highlights Elegant dark for an all-elegant system selection on a dark machine", () => {
     stubSystemPreference("dark");
     render(
-      <PreviewThemeProvider initial={{ theme: "elegant", mode: "system" }}>
+      <PreviewThemeProvider initial={{ mode: "system", light: "elegant", dark: "elegant" }}>
         <ThemeSwitcher />
       </PreviewThemeProvider>,
     );
@@ -86,28 +97,55 @@ describe("preview preset switcher", () => {
   });
 });
 
-describe("mode switcher", () => {
-  it("keeps dark and system disabled while the family is brutal", () => {
+describe("settings dialog", () => {
+  function openSettings(initial: StoredPreviewTheme = DEFAULT_STATE) {
     render(
-      <PreviewThemeProvider>
-        <ModeSwitcher />
+      <PreviewThemeProvider initial={initial}>
+        <SettingsDialog />
       </PreviewThemeProvider>,
     );
-    expect(screen.getByRole("radio", { name: "Light" }).getAttribute("aria-checked")).toBe("true");
-    expect((screen.getByRole("radio", { name: "Dark" }) as HTMLButtonElement).disabled).toBe(true);
-    expect((screen.getByRole("radio", { name: "System" }) as HTMLButtonElement).disabled).toBe(
-      true,
+    fireEvent.click(screen.getByRole("button", { name: "Settings" }));
+  }
+
+  it("opens from the sidebar button with the appearance options", () => {
+    openSettings();
+    expect(screen.getByRole("dialog")).toBeTruthy();
+    expect(screen.getByRole("radiogroup", { name: "Color mode" })).toBeTruthy();
+    expect(screen.getByRole("radio", { name: "System" }).getAttribute("aria-checked")).toBe("true");
+    expect(screen.getByRole("radio", { name: "Light" }).getAttribute("aria-checked")).toBe("false");
+  });
+
+  it("switches the color mode", () => {
+    openSettings();
+    fireEvent.click(screen.getByRole("radio", { name: "Dark" }));
+    expect(screen.getByRole("radio", { name: "Dark" }).getAttribute("aria-checked")).toBe("true");
+    expect(screen.getByRole("radio", { name: "System" }).getAttribute("aria-checked")).toBe(
+      "false",
     );
   });
 
-  it("enables all three choices on elegant", () => {
-    stubSystemPreference("dark");
-    render(
-      <PreviewThemeProvider initial={{ theme: "elegant", mode: "system" }}>
-        <ModeSwitcher />
-      </PreviewThemeProvider>,
-    );
-    expect(screen.getByRole("radio", { name: "System" }).getAttribute("aria-checked")).toBe("true");
-    expect((screen.getByRole("radio", { name: "Dark" }) as HTMLButtonElement).disabled).toBe(false);
+  it("offers both families for light and only elegant for dark", () => {
+    openSettings();
+    const lightGroup = screen.getByRole("radiogroup", { name: "Light appearance" });
+    const darkGroup = screen.getByRole("radiogroup", { name: "Dark appearance" });
+    expect(within(lightGroup).getByRole("radio", { name: "Brutal" })).toBeTruthy();
+    expect(within(lightGroup).getByRole("radio", { name: "Elegant" })).toBeTruthy();
+    expect(within(darkGroup).queryByRole("radio", { name: "Brutal" })).toBeNull();
+    expect(within(darkGroup).getByRole("radio", { name: "Elegant" })).toBeTruthy();
+  });
+
+  it("selects a light family without touching the dark one", () => {
+    openSettings();
+    const lightGroup = screen.getByRole("radiogroup", { name: "Light appearance" });
+    const elegantLight = within(lightGroup).getByRole("radio", { name: "Elegant" });
+    fireEvent.click(elegantLight);
+    expect(elegantLight.getAttribute("aria-checked")).toBe("true");
+    expect(
+      within(lightGroup).getByRole("radio", { name: "Brutal" }).getAttribute("aria-checked"),
+    ).toBe("false");
+    const darkGroup = screen.getByRole("radiogroup", { name: "Dark appearance" });
+    expect(
+      within(darkGroup).getByRole("radio", { name: "Elegant" }).getAttribute("aria-checked"),
+    ).toBe("true");
   });
 });

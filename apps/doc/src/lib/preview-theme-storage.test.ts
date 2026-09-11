@@ -13,7 +13,9 @@ import type { StoredPreviewTheme } from "./preview-theme-storage.ts";
  * The pre-paint script is shipped as a string, so it cannot be type-checked or
  * imported. These tests execute the exact string against a stub document and
  * hold it to the same mapping as `documentThemeAttributes` — the single source
- * the SSR markup and `DocumentThemeProvider`'s effect also follow.
+ * the SSR markup and `DocumentThemeProvider`'s effect also follow. Since the
+ * default family now depends on the resolved mode (a dark machine defaults to
+ * elegant dark), even "no choice" is a write, not a no-op.
  */
 type SystemPreference = "light" | "dark";
 
@@ -53,55 +55,83 @@ function cookieFor(value: unknown) {
   return `${PREVIEW_THEME_COOKIE}=${encodeURIComponent(JSON.stringify(value))}`;
 }
 
+function raw(value: unknown) {
+  return encodeURIComponent(JSON.stringify(value));
+}
+
 const WRITTEN_CASES: ReadonlyArray<{
   name: string;
   cookie: string;
-  stored: StoredPreviewTheme;
+  stored: StoredPreviewTheme | null;
   systemPrefers?: SystemPreference;
 }> = [
   {
-    name: "brutal",
-    cookie: cookieFor({ theme: "brutal", mode: "light" }),
-    stored: { theme: "brutal", mode: "light" },
+    name: "explicit light",
+    cookie: cookieFor({ mode: "light", light: "brutal", dark: "elegant" }),
+    stored: { mode: "light", light: "brutal", dark: "elegant" },
   },
   {
-    name: "elegant light",
-    cookie: cookieFor({ theme: "elegant", mode: "light" }),
-    stored: { theme: "elegant", mode: "light" },
+    name: "explicit dark",
+    cookie: cookieFor({ mode: "dark", light: "brutal", dark: "elegant" }),
+    stored: { mode: "dark", light: "brutal", dark: "elegant" },
   },
   {
-    name: "elegant dark",
-    cookie: cookieFor({ theme: "elegant", mode: "dark" }),
-    stored: { theme: "elegant", mode: "dark" },
-  },
-  {
-    name: "elegant system on a light machine",
-    cookie: cookieFor({ theme: "elegant", mode: "system" }),
-    stored: { theme: "elegant", mode: "system" },
+    name: "system on a light machine",
+    cookie: cookieFor({ mode: "system", light: "elegant", dark: "elegant" }),
+    stored: { mode: "system", light: "elegant", dark: "elegant" },
     systemPrefers: "light",
   },
   {
-    name: "elegant system on a dark machine",
-    cookie: cookieFor({ theme: "elegant", mode: "system" }),
-    stored: { theme: "elegant", mode: "system" },
+    name: "system on a dark machine picks the dark family",
+    cookie: cookieFor({ mode: "system", light: "brutal", dark: "elegant" }),
+    stored: { mode: "system", light: "brutal", dark: "elegant" },
     systemPrefers: "dark",
   },
   {
+    name: "legacy single-family cookie",
+    cookie: cookieFor({ theme: "elegant", mode: "dark" }),
+    stored: { mode: "dark", light: "elegant", dark: "elegant" },
+  },
+  {
+    name: "legacy brutal cookie on a dark machine",
+    cookie: cookieFor({ theme: "brutal", mode: "system" }),
+    stored: { mode: "system", light: "brutal", dark: "elegant" },
+    systemPrefers: "dark",
+  },
+  {
+    name: "no choice at all",
+    cookie: "",
+    stored: null,
+    systemPrefers: "dark",
+  },
+  {
+    name: "malformed cookie falls back to the defaults",
+    cookie: `${PREVIEW_THEME_COOKIE}=%7Bnope`,
+    stored: null,
+    systemPrefers: "dark",
+  },
+  {
+    name: "unknown mode falls back to the defaults",
+    cookie: cookieFor({ theme: "elegant", mode: "sepia" }),
+    stored: null,
+    systemPrefers: "light",
+  },
+  {
     name: "cookie alongside others",
-    cookie: `foo=1; ${cookieFor({ theme: "elegant", mode: "dark" })}; bar=2`,
-    stored: { theme: "elegant", mode: "dark" },
+    cookie: `foo=1; ${cookieFor({ mode: "dark", light: "brutal", dark: "elegant" })}; bar=2`,
+    stored: { mode: "dark", light: "brutal", dark: "elegant" },
   },
 ];
 
 describe("pre-paint theme script", () => {
   for (const { name, cookie, stored, systemPrefers } of WRITTEN_CASES) {
     it(`writes exactly documentThemeAttributes(${name})`, () => {
-      const matchMediaSpy = systemPrefers
+      const stubbed = systemPrefers
         ? vi.stubGlobal("matchMedia", matchMediaFor(systemPrefers))
         : null;
       try {
         const expected = documentThemeAttributes(stored);
-        const actual = runPrePaintScript(cookie, systemPrefers);
+        const actual = runPrePaintScript(cookie, systemPrefers ?? "light");
 
         expect(actual).toEqual({
           theme: expected.theme,
@@ -110,33 +140,43 @@ describe("pre-paint theme script", () => {
           dark: expected.dark,
         });
       } finally {
-        if (matchMediaSpy) vi.unstubAllGlobals();
+        if (stubbed) vi.unstubAllGlobals();
       }
     });
   }
 
-  it("leaves the document untouched when there is nothing valid to apply", () => {
-    // No cookie, malformed JSON, or values outside the accepted set: the
-    // prerendered default markup is left as-is rather than rewritten.
-    const untouched = { theme: undefined, colorScheme: undefined, light: false, dark: false };
-    expect(runPrePaintScript("")).toEqual(untouched);
-    expect(runPrePaintScript(`${PREVIEW_THEME_COOKIE}=%7Bnope`)).toEqual(untouched);
-    expect(runPrePaintScript(cookieFor({ theme: "solar", mode: "light" }))).toEqual(untouched);
-    expect(runPrePaintScript(cookieFor({ theme: "elegant", mode: "sepia" }))).toEqual(untouched);
+  it("reads a legacy single-family cookie as both modes", () => {
+    expect(parseStoredPreviewTheme(raw({ theme: "brutal", mode: "light" }))).toEqual({
+      mode: "light",
+      light: "brutal",
+      dark: "elegant",
+    });
   });
 
-  it("accepts a stored system mode", () => {
-    const raw = encodeURIComponent(JSON.stringify({ theme: "elegant", mode: "system" }));
-    expect(parseStoredPreviewTheme(raw)).toEqual({ theme: "elegant", mode: "system" });
+  it("never lets brutal into the dark slot", () => {
+    expect(
+      parseStoredPreviewTheme(raw({ mode: "system", light: "brutal", dark: "brutal" })),
+    ).toEqual({ mode: "system", light: "brutal", dark: "elegant" });
   });
 
-  it("matches the document defaults the resolver reports for a missing choice", () => {
-    // What the untouched pre-paint document already means: the SSR markup.
+  it("resolves the default family per mode", () => {
     expect(documentThemeAttributes(null)).toEqual({
       theme: "brutal",
       colorScheme: "light",
       light: false,
       dark: false,
     });
+
+    vi.stubGlobal("matchMedia", matchMediaFor("dark"));
+    try {
+      expect(documentThemeAttributes(null)).toEqual({
+        theme: "elegant",
+        colorScheme: "dark",
+        light: false,
+        dark: true,
+      });
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 });
