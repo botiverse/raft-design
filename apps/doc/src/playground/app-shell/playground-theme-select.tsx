@@ -24,7 +24,7 @@ const THEME_PRESETS = [
 
 type PlaygroundThemeValue = (typeof THEME_PRESETS)[number]["value"];
 
-function getThemeValue(theme: Theme, mode: "light" | "dark"): PlaygroundThemeValue {
+export function getThemeValue(theme: Theme, mode: "light" | "dark"): PlaygroundThemeValue {
   if (theme === "brutal") return "brutal";
   return mode === "dark" ? "elegant-dark" : "elegant-light";
 }
