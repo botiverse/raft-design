@@ -750,7 +750,7 @@ function NavGroup({
 
   const list =
     items.length > 0 ? (
-      <ul className="space-y-1 pl-4">
+      <ul className="space-y-1 pl-2">
         {items.map((item) => {
           if (item.items) {
             return (
@@ -807,7 +807,7 @@ function NavGroup({
         writeStoredSectionOpen(sectionId, nextOpen);
       }}
     >
-      <SidebarSectionHeader>
+      <SidebarSectionHeader className="pl-1">
         <SidebarSectionDisclosure>
           <SidebarSectionTitle>{title}</SidebarSectionTitle>
           <SidebarSectionChevron />
