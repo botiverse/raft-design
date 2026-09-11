@@ -1155,7 +1155,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             </div>
             <SidebarBody>
               <SidebarContent className="px-5 pt-8 pb-8">
-                <nav className="space-y-8">
+                <nav className="space-y-3">
                   <ul className="space-y-1">
                     {PRIMARY_NAV.map((item) => (
                       <li key={item.label}>
