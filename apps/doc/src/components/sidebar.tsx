@@ -146,14 +146,14 @@ const COMPONENT_NAV = [
     ],
   },
   {
-    title: "Status & Indicators",
+    title: "Status",
     items: [
       { label: "Badge", to: "/components/badge", status: "done" },
       { label: "Status", to: "/components/status", status: "done" },
     ],
   },
   {
-    title: "Data Display",
+    title: "Display",
     items: [
       { label: "Card", to: "/components/card", status: "done" },
       { label: "Avatar", to: "/components/avatar", status: "done" },
@@ -1133,7 +1133,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
       {!collapsed ? (
         <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) lg:block">
           <SidebarRoot className="select-text">
-            <div className="shrink-0 px-5 pt-6">
+            <div className="shrink-0 px-5 pt-6 pb-2">
               <div className="flex items-center justify-between gap-2">
                 <Link to="/" className="flex items-center gap-2 text-foreground">
                   <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
