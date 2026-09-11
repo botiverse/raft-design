@@ -31,6 +31,7 @@ import {
 } from "raft-ui";
 import { ExternalLink, Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
+import { GithubMark } from "./doc-page.tsx";
 import { SettingsDialog } from "./settings-dialog.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
@@ -1190,7 +1191,19 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
                 </nav>
               </SidebarContent>
             </SidebarBody>
-            <div className="shrink-0 border-t border-dashed border-line-hairline px-5 py-4">
+            <div className="flex shrink-0 items-center justify-between border-t border-dashed border-line-hairline px-5 py-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                aria-label="GitHub repository"
+                title="GitHub repository"
+                className="size-8 p-0"
+                render={
+                  <a href="https://github.com/botiverse/rui" target="_blank" rel="noreferrer" />
+                }
+              >
+                <GithubMark size={16} />
+              </Button>
               <SettingsDialog />
             </div>
           </SidebarRoot>

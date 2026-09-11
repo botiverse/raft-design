@@ -1,6 +1,7 @@
 import { Check, Monitor, Moon, Palette, Settings, Sun } from "lucide-react";
 import {
   Badge,
+  Button,
   Card,
   Dialog,
   DialogBody,
@@ -144,14 +145,17 @@ export function SettingsDialog(props: ComponentProps<typeof Dialog>) {
     <Dialog {...props}>
       <DialogTrigger
         render={
-          <SidebarItem className="w-full">
-            <SidebarItemIcon aria-hidden>
-              <Settings />
-            </SidebarItemIcon>
-            <SidebarItemTitle>Settings</SidebarItemTitle>
-          </SidebarItem>
+          <Button
+            variant="ghost"
+            size="sm"
+            aria-label="Settings"
+            title="Settings"
+            className="size-8 p-0"
+          />
         }
-      />
+      >
+        <Settings aria-hidden />
+      </DialogTrigger>
       <DialogContent size="lg" className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Settings</DialogTitle>
