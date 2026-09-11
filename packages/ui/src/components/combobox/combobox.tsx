@@ -99,7 +99,7 @@ const combobox = tv({
           "[&>svg]:stroke-2 [&>svg_*]:stroke-2",
         ],
         control: [
-          "border-2 border-line-strong bg-layer-panel px-2 py-1",
+          "border-2 border-line-strong bg-layer-panel px-2 py-1.5",
           "font-sans text-sm font-semibold text-foreground-strong shadow-raft-sm",
           "focus-within:shadow-raft-md",
           "data-popup-open:translate-x-0 data-popup-open:translate-y-0",
