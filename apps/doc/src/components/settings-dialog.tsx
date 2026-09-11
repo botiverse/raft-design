@@ -1,5 +1,6 @@
 import { Check, Monitor, Moon, Palette, Settings, Sun } from "lucide-react";
 import {
+  Badge,
   Card,
   Dialog,
   DialogBody,
@@ -11,13 +12,12 @@ import {
   SidebarItem,
   SidebarItemIcon,
   SidebarItemTitle,
-  ThemeProvider,
 } from "raft-ui";
 import type { LucideIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import type { Theme } from "raft-ui";
 
-import { usePreviewTheme } from "./preview-theme.tsx";
+import { PreviewThemeScope, usePreviewTheme } from "./preview-theme.tsx";
 import type { PreviewFamilyScope, PreviewMode } from "./preview-theme.tsx";
 
 /** Same focus idiom as the sidebar rows. */
@@ -47,39 +47,27 @@ const DARK_FAMILIES = [
   { value: "elegant", label: "Elegant", swatchRadius: "rounded-lg", swatchBorder: "border" },
 ] as const satisfies readonly FamilyOption[];
 
-function FamilySwatch({
-  family,
-  mode,
-  className,
-}: {
-  family: Theme;
-  mode: "light" | "dark";
-  className: string;
-}) {
+function FamilySwatch({ family, className }: { family: Theme; className: string }) {
   return (
-    // Nested provider: the swatch paints with that family's own tokens, so the
-    // card shows the real thing rather than a hand-coloured imitation.
-    <ThemeProvider theme={family} mode={mode} syncDom={false}>
-      <div
-        aria-hidden
-        className={`flex h-14 w-full items-stretch gap-1.5 border-line-strong bg-layer-panel p-2 ${className}`}
-      >
+    <div
+      aria-hidden
+      className={`flex h-14 w-full items-stretch gap-1.5 border-line-strong bg-layer-panel p-2 ${className}`}
+    >
+      <span
+        className={`w-1/4 bg-fill-muted ${family === "brutal" ? "rounded-none" : "rounded-sm"}`}
+      />
+      <span className="flex flex-1 flex-col justify-center gap-1.5">
         <span
-          className={`w-1/4 bg-fill-muted ${family === "brutal" ? "rounded-none" : "rounded-sm"}`}
+          className={`h-1.5 w-3/4 bg-fill-strong ${family === "brutal" ? "rounded-none" : "rounded-full"}`}
         />
-        <span className="flex flex-1 flex-col justify-center gap-1.5">
-          <span
-            className={`h-1.5 w-3/4 bg-fill-strong ${family === "brutal" ? "rounded-none" : "rounded-full"}`}
-          />
-          <span
-            className={`h-1.5 w-1/2 bg-fill-muted ${family === "brutal" ? "rounded-none" : "rounded-full"}`}
-          />
-        </span>
         <span
-          className={`size-2 shrink-0 self-center bg-primary-400 ${family === "brutal" ? "rounded-none" : "rounded-full"}`}
+          className={`h-1.5 w-1/2 bg-fill-muted ${family === "brutal" ? "rounded-none" : "rounded-full"}`}
         />
-      </div>
-    </ThemeProvider>
+      </span>
+      <span
+        className={`size-2 shrink-0 self-center bg-primary-400 ${family === "brutal" ? "rounded-none" : "rounded-full"}`}
+      />
+    </div>
   );
 }
 
@@ -119,34 +107,39 @@ function FamilyCard({
   const current = preview[scope] === option.value;
 
   return (
-    <Card
-      variant="option"
-      render={
-        <button
-          type="button"
-          role="radio"
-          aria-checked={current}
-          onClick={() => preview.setFamily(scope, option.value)}
-        />
-      }
-      className={`flex flex-col gap-3 p-2 ${current ? "border-primary-400" : ""} ${focusClassName}`}
-    >
-      <FamilySwatch
-        family={option.value}
-        mode={mode}
-        className={`${option.swatchRadius} ${option.swatchBorder}`}
-      />
-      <span className="flex w-full items-center justify-between gap-2 px-1">
-        <span className="text-sm text-foreground">{option.label}</span>
-        {current ? (
-          <Check
-            aria-hidden
-            data-slot="settings-dialog-current"
-            className="size-3.5 text-primary-400"
+    // The whole card follows the theme it offers rather than the site's: the
+    // scope below provides the family's context AND carries `data-theme` plus
+    // the mode class on a real element, so the tokens resolve inside — the
+    // dialog is portaled, so nothing may rely on inheriting from its root.
+    <PreviewThemeScope family={option.value} mode={mode} className="flex min-w-0">
+      <Card
+        variant="option"
+        render={
+          <button
+            type="button"
+            role="radio"
+            aria-checked={current}
+            onClick={() => preview.setFamily(scope, option.value)}
           />
-        ) : null}
-      </span>
-    </Card>
+        }
+        className={`flex min-w-0 flex-1 flex-col gap-3 p-2 ${current ? "border-primary-400" : ""} ${focusClassName}`}
+      >
+        <FamilySwatch
+          family={option.value}
+          className={`${option.swatchRadius} ${option.swatchBorder}`}
+        />
+        <span className="flex w-full items-center justify-between gap-2 px-1">
+          <span className="text-sm text-foreground">{option.label}</span>
+          {current ? (
+            <Check
+              aria-hidden
+              data-slot="settings-dialog-current"
+              className="size-3.5 text-primary-400"
+            />
+          ) : null}
+        </span>
+      </Card>
+    </PreviewThemeScope>
   );
 }
 
@@ -158,6 +151,8 @@ function FamilyCard({
  * is why the dark side lists elegant alone rather than a dead control).
  */
 export function SettingsDialog(props: ComponentProps<typeof Dialog>) {
+  const preview = usePreviewTheme();
+
   return (
     <Dialog {...props}>
       <DialogTrigger
@@ -204,7 +199,14 @@ export function SettingsDialog(props: ComponentProps<typeof Dialog>) {
               </section>
 
               <section className="space-y-2">
-                <h3 className="text-sm font-medium text-foreground">Light appearance</h3>
+                <h3 className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  Light appearance
+                  {preview.resolvedMode === "light" ? (
+                    <Badge appearance="soft" variant="primary">
+                      Current
+                    </Badge>
+                  ) : null}
+                </h3>
                 <div
                   role="radiogroup"
                   aria-label="Light appearance"
@@ -217,7 +219,14 @@ export function SettingsDialog(props: ComponentProps<typeof Dialog>) {
               </section>
 
               <section className="space-y-2">
-                <h3 className="text-sm font-medium text-foreground">Dark appearance</h3>
+                <h3 className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  Dark appearance
+                  {preview.resolvedMode === "dark" ? (
+                    <Badge appearance="soft" variant="primary">
+                      Current
+                    </Badge>
+                  ) : null}
+                </h3>
                 <div
                   role="radiogroup"
                   aria-label="Dark appearance"

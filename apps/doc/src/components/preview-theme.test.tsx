@@ -134,6 +134,45 @@ describe("settings dialog", () => {
     expect(within(darkGroup).getByRole("radio", { name: "Elegant" })).toBeTruthy();
   });
 
+  it("draws each family card in its own theme, not the site's", () => {
+    // The brutal box is square with a 2px edge while the elegant box is a rounded
+    // hairline, and each carries its own `data-theme` scope so the tokens resolve
+    // inside it — the dialog is portaled, so nothing may inherit from its root.
+    openSettings();
+    const lightGroup = screen.getByRole("radiogroup", { name: "Light appearance" });
+    const darkGroup = screen.getByRole("radiogroup", { name: "Dark appearance" });
+    const brutalCard = within(lightGroup).getByRole("radio", { name: "Brutal" });
+    const elegantCard = within(lightGroup).getByRole("radio", { name: "Elegant" });
+    const elegantDarkCard = within(darkGroup).getByRole("radio", { name: "Elegant" });
+
+    expect(brutalCard.className).toContain("border-2");
+    expect(brutalCard.className).not.toContain("rounded-md");
+    expect(elegantCard.className).toContain("rounded-md");
+    expect(elegantCard.className).not.toContain("border-2");
+
+    const brutalScope = brutalCard.closest('[data-theme="brutal"]');
+    const elegantLightScope = elegantCard.closest('[data-theme="elegant"]');
+    const elegantDarkScope = elegantDarkCard.closest('[data-theme="elegant"]');
+    expect(brutalScope).not.toBeNull();
+    expect(elegantLightScope?.classList.contains("light")).toBe(true);
+    expect(elegantDarkScope?.classList.contains("dark")).toBe(true);
+  });
+
+  it("keeps the frames independent of the site's theme", () => {
+    // Site on elegant: the brutal box must still be the brutal box.
+    openSettings({ mode: "light", light: "elegant", dark: "elegant" });
+    const lightGroup = screen.getByRole("radiogroup", { name: "Light appearance" });
+    const brutalCard = within(lightGroup).getByRole("radio", { name: "Brutal" });
+    expect(brutalCard.className).toContain("border-2");
+    expect(brutalCard.closest('[data-theme="brutal"]')).not.toBeNull();
+    expect(screen.getAllByText("Current")).toHaveLength(1);
+  });
+
+  it("marks the appearance that applies right now", () => {
+    openSettings();
+    expect(screen.getAllByText("Current")).toHaveLength(1);
+  });
+
   it("selects a light family without touching the dark one", () => {
     openSettings();
     const lightGroup = screen.getByRole("radiogroup", { name: "Light appearance" });
