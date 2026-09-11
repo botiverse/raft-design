@@ -756,7 +756,7 @@ function NavGroup({
             return (
               <li key={item.label} className="pt-1">
                 <p className="px-2 py-1 text-xs font-medium text-foreground-muted">{item.label}</p>
-                <ul className="ml-2 space-y-1">
+                <ul className="space-y-1">
                   {item.items.map((child) => (
                     <li key={child.label}>
                       <NavRow item={child} badge={<StatusBadge status={child.status} />} />
@@ -1192,7 +1192,12 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
               </SidebarContent>
             </SidebarBody>
             <div className="shrink-0">
-              <Separator className="mx-5 w-[calc(100%-2.5rem)]" />
+              {/* Same padded wrapper as the in-nav rules: the Separator's width is a
+                  data-variant class (`data-[orientation=horizontal]:w-full`), so a plain
+                  width override loses to it and margins push the rule past the sidebar. */}
+              <div className="px-5">
+                <Separator />
+              </div>
               <div className="flex items-center justify-between px-5 py-4">
                 <Button
                   variant="ghost"
