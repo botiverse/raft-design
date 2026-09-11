@@ -11,7 +11,10 @@ export function parseStoredPreviewTheme(raw: string | null | undefined): StoredP
     const parsed: unknown = JSON.parse(decodeURIComponent(raw));
     if (typeof parsed !== "object" || parsed === null) return null;
     const { theme, mode } = parsed as { theme?: unknown; mode?: unknown };
-    if ((theme === "brutal" || theme === "elegant") && (mode === "light" || mode === "dark")) {
+    if (
+      (theme === "brutal" || theme === "elegant") &&
+      (mode === "light" || mode === "dark" || mode === "system")
+    ) {
       return { theme, mode };
     }
     return null;
@@ -39,6 +42,19 @@ export type DocumentThemeAttributes = {
 };
 
 /**
+ * `system` resolves against the OS preference where a document exists (the
+ * client); a server render has no `window` and falls back to light, which the
+ * pre-paint script then corrects on the client.
+ */
+export function resolveThemeMode(mode: ThemeMode): "light" | "dark" {
+  if (mode === "light" || mode === "dark") return mode;
+  if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  return "light";
+}
+
+/**
  * The document-level writes a stored choice implies. One mapping, three
  * writers: the SSR `<html>` markup, the pre-paint inline script below, and
  * `DocumentThemeProvider`'s `syncDom` effect (which writes these same three
@@ -48,9 +64,7 @@ export function documentThemeAttributes(
   stored: StoredPreviewTheme | null,
 ): DocumentThemeAttributes {
   const theme = stored?.theme ?? "brutal";
-  // The cookie parser only ever accepts light/dark; a runtime "system" mode
-  // cannot arrive here (the provider resolves that on the client).
-  const mode: "light" | "dark" = stored?.mode === "dark" ? "dark" : "light";
+  const mode = resolveThemeMode(stored?.mode ?? "system");
   return {
     theme,
     colorScheme: theme === "elegant" ? mode : "light",
@@ -72,7 +86,7 @@ export function documentThemeAttributes(
  * executes this exact string against a stub document and asserts it produces
  * the same writes for the same cookies.
  */
-export const PREVIEW_THEME_INLINE_SCRIPT = `(function(){try{var m=document.cookie.match(/(?:^|;\\s*)${PREVIEW_THEME_COOKIE}=([^;]+)/);if(!m)return;var parsed=JSON.parse(decodeURIComponent(m[1]));var theme=parsed&&parsed.theme,mode=parsed&&parsed.mode;if((theme!=="brutal"&&theme!=="elegant")||(mode!=="light"&&mode!=="dark"))return;var root=document.documentElement;root.dataset.theme=theme;root.classList.toggle("light",theme==="elegant"&&mode==="light");root.classList.toggle("dark",theme==="elegant"&&mode==="dark");root.style.colorScheme=theme==="elegant"?mode:"light"}catch(error){}})();`;
+export const PREVIEW_THEME_INLINE_SCRIPT = `(function(){try{var m=document.cookie.match(/(?:^|;\\s*)${PREVIEW_THEME_COOKIE}=([^;]+)/);if(!m)return;var parsed=JSON.parse(decodeURIComponent(m[1]));var theme=parsed&&parsed.theme,mode=parsed&&parsed.mode;if((theme!=="brutal"&&theme!=="elegant")||(mode!=="light"&&mode!=="dark"&&mode!=="system"))return;if(mode==="system"){mode=typeof window!=="undefined"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}var root=document.documentElement;root.dataset.theme=theme;root.classList.toggle("light",theme==="elegant"&&mode==="light");root.classList.toggle("dark",theme==="elegant"&&mode==="dark");root.style.colorScheme=theme==="elegant"?mode:"light"}catch(error){}})();`;
 
 export const getStoredPreviewTheme = createServerFn({ method: "GET" }).handler(async () => {
   const { getCookie } = await import("@tanstack/react-start/server");

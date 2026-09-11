@@ -1,8 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import vm from "node:vm";
 
 import {
   documentThemeAttributes,
+  parseStoredPreviewTheme,
   PREVIEW_THEME_COOKIE,
   PREVIEW_THEME_INLINE_SCRIPT,
 } from "./preview-theme-storage.ts";
@@ -14,7 +15,15 @@ import type { StoredPreviewTheme } from "./preview-theme-storage.ts";
  * hold it to the same mapping as `documentThemeAttributes` — the single source
  * the SSR markup and `DocumentThemeProvider`'s effect also follow.
  */
-function runPrePaintScript(cookie: string) {
+type SystemPreference = "light" | "dark";
+
+function matchMediaFor(prefers: SystemPreference) {
+  return (query: string) => ({
+    matches: prefers === "dark" && query === "(prefers-color-scheme: dark)",
+  });
+}
+
+function runPrePaintScript(cookie: string, systemPrefers: SystemPreference = "light") {
   const classes = new Set<string>();
   const documentElement = {
     dataset: {} as { theme?: string },
@@ -27,7 +36,10 @@ function runPrePaintScript(cookie: string) {
     style: {} as { colorScheme?: string },
   };
 
-  vm.runInNewContext(PREVIEW_THEME_INLINE_SCRIPT, { document: { cookie, documentElement } });
+  vm.runInNewContext(PREVIEW_THEME_INLINE_SCRIPT, {
+    document: { cookie, documentElement },
+    window: { matchMedia: matchMediaFor(systemPrefers) },
+  });
 
   return {
     theme: documentElement.dataset.theme,
@@ -41,7 +53,12 @@ function cookieFor(value: unknown) {
   return `${PREVIEW_THEME_COOKIE}=${encodeURIComponent(JSON.stringify(value))}`;
 }
 
-const WRITTEN_CASES: ReadonlyArray<{ name: string; cookie: string; stored: StoredPreviewTheme }> = [
+const WRITTEN_CASES: ReadonlyArray<{
+  name: string;
+  cookie: string;
+  stored: StoredPreviewTheme;
+  systemPrefers?: SystemPreference;
+}> = [
   {
     name: "brutal",
     cookie: cookieFor({ theme: "brutal", mode: "light" }),
@@ -58,6 +75,18 @@ const WRITTEN_CASES: ReadonlyArray<{ name: string; cookie: string; stored: Store
     stored: { theme: "elegant", mode: "dark" },
   },
   {
+    name: "elegant system on a light machine",
+    cookie: cookieFor({ theme: "elegant", mode: "system" }),
+    stored: { theme: "elegant", mode: "system" },
+    systemPrefers: "light",
+  },
+  {
+    name: "elegant system on a dark machine",
+    cookie: cookieFor({ theme: "elegant", mode: "system" }),
+    stored: { theme: "elegant", mode: "system" },
+    systemPrefers: "dark",
+  },
+  {
     name: "cookie alongside others",
     cookie: `foo=1; ${cookieFor({ theme: "elegant", mode: "dark" })}; bar=2`,
     stored: { theme: "elegant", mode: "dark" },
@@ -65,17 +94,24 @@ const WRITTEN_CASES: ReadonlyArray<{ name: string; cookie: string; stored: Store
 ];
 
 describe("pre-paint theme script", () => {
-  for (const { name, cookie, stored } of WRITTEN_CASES) {
+  for (const { name, cookie, stored, systemPrefers } of WRITTEN_CASES) {
     it(`writes exactly documentThemeAttributes(${name})`, () => {
-      const expected = documentThemeAttributes(stored);
-      const actual = runPrePaintScript(cookie);
+      const matchMediaSpy = systemPrefers
+        ? vi.stubGlobal("matchMedia", matchMediaFor(systemPrefers))
+        : null;
+      try {
+        const expected = documentThemeAttributes(stored);
+        const actual = runPrePaintScript(cookie, systemPrefers);
 
-      expect(actual).toEqual({
-        theme: expected.theme,
-        colorScheme: expected.colorScheme,
-        light: expected.light,
-        dark: expected.dark,
-      });
+        expect(actual).toEqual({
+          theme: expected.theme,
+          colorScheme: expected.colorScheme,
+          light: expected.light,
+          dark: expected.dark,
+        });
+      } finally {
+        if (matchMediaSpy) vi.unstubAllGlobals();
+      }
     });
   }
 
@@ -86,7 +122,12 @@ describe("pre-paint theme script", () => {
     expect(runPrePaintScript("")).toEqual(untouched);
     expect(runPrePaintScript(`${PREVIEW_THEME_COOKIE}=%7Bnope`)).toEqual(untouched);
     expect(runPrePaintScript(cookieFor({ theme: "solar", mode: "light" }))).toEqual(untouched);
-    expect(runPrePaintScript(cookieFor({ theme: "elegant", mode: "system" }))).toEqual(untouched);
+    expect(runPrePaintScript(cookieFor({ theme: "elegant", mode: "sepia" }))).toEqual(untouched);
+  });
+
+  it("accepts a stored system mode", () => {
+    const raw = encodeURIComponent(JSON.stringify({ theme: "elegant", mode: "system" }));
+    expect(parseStoredPreviewTheme(raw)).toEqual({ theme: "elegant", mode: "system" });
   });
 
   it("matches the document defaults the resolver reports for a missing choice", () => {

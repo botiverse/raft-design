@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Badge,
   Button,
@@ -16,12 +16,22 @@ import {
   ComboboxTrigger,
   Kbd,
   Separator,
+  SidebarBody,
+  SidebarContent,
   SidebarItem,
   SidebarItemContent,
   SidebarItemTitle,
+  SidebarList,
+  SidebarRoot,
+  SidebarSection,
+  SidebarSectionChevron,
+  SidebarSectionDisclosure,
+  SidebarSectionHeader,
+  SidebarSectionTitle,
 } from "raft-ui";
 import { ExternalLink, Globe2, Menu, PanelLeftClose, PanelLeftOpen, Search, X } from "lucide-react";
 
+import { ModeSwitcher } from "./theme-switcher.tsx";
 import { raftUiVersion } from "#/data/raft-ui-release.ts";
 
 const PRIMARY_NAV: readonly NavItem[] = [
@@ -671,6 +681,42 @@ function VersionBadge() {
   );
 }
 
+const SIDEBAR_SECTIONS_STORAGE_KEY = "rui:doc-sidebar-sections";
+
+function readStoredSectionOpen(sectionId: string): boolean | null {
+  try {
+    const raw = window.localStorage.getItem(SIDEBAR_SECTIONS_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    if (typeof parsed !== "object" || parsed === null) return null;
+    const value = (parsed as Record<string, unknown>)[sectionId];
+    return typeof value === "boolean" ? value : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStoredSectionOpen(sectionId: string, open: boolean) {
+  try {
+    const raw = window.localStorage.getItem(SIDEBAR_SECTIONS_STORAGE_KEY);
+    const parsed: unknown = raw ? JSON.parse(raw) : {};
+    // Persistence is a convenience: blocked or corrupt storage must not break
+    // the navigation.
+    const next: Record<string, unknown> =
+      typeof parsed === "object" && parsed !== null ? { ...parsed } : {};
+    next[sectionId] = open;
+    window.localStorage.setItem(SIDEBAR_SECTIONS_STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // Ignore: the section still collapses for this session.
+  }
+}
+
+/** Whether a row (or one of its children) is the page being viewed. */
+function itemContainsPath(item: NavItem, pathname: string): boolean {
+  if (item.to === pathname) return true;
+  return item.items?.some((child) => itemContainsPath(child, pathname)) ?? false;
+}
+
 function NavGroup({
   title,
   to,
@@ -680,56 +726,94 @@ function NavGroup({
   to?: string;
   items: readonly NavItem[];
 }) {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const sectionId = title ?? "";
+  const [open, setOpen] = useState(true);
+
+  // Read the stored toggle after mount: the sidebar is prerendered, so
+  // touching storage during render would hydrate differently from the markup.
+  useEffect(() => {
+    const stored = readStoredSectionOpen(sectionId);
+    if (stored !== null) setOpen(stored);
+  }, [sectionId]);
+
+  // The section holding the current page opens; an explicit toggle still wins
+  // until the visitor navigates back into the section.
+  useEffect(() => {
+    if (items.some((item) => itemContainsPath(item, pathname))) setOpen(true);
+  }, [items, pathname]);
+
   if (title && to && items.length === 0) {
     return <NavRow item={{ label: title, to }} />;
   }
 
-  return (
-    <div>
-      {title ? (
-        to ? (
-          <Link
-            to={to}
-            activeOptions={sidebarPathActiveOptions}
-            activeProps={sidebarSectionActiveProps}
-            inactiveProps={{ className: "text-foreground" }}
-            className={`${sectionTitleClassName} ${sidebarItemFocusClassName}`}
-          >
-            {title}
-          </Link>
-        ) : (
-          <p className={sectionTitleClassName}>{title}</p>
-        )
-      ) : null}
-      {items.length > 0 ? (
-        <ul className="space-y-1">
-          {items.map((item) => {
-            if (item.items) {
-              return (
-                <li key={item.label} className="pt-1">
-                  <p className="px-2 py-1 text-xs font-medium text-foreground-muted">
-                    {item.label}
-                  </p>
-                  <ul className="ml-2 space-y-1">
-                    {item.items.map((child) => (
-                      <li key={child.label}>
-                        <NavRow item={child} badge={<StatusBadge status={child.status} />} />
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              );
-            }
-
+  const list =
+    items.length > 0 ? (
+      <ul className="space-y-1">
+        {items.map((item) => {
+          if (item.items) {
             return (
-              <li key={item.label}>
-                <NavRow item={item} badge={<StatusBadge status={item.status} />} />
+              <li key={item.label} className="pt-1">
+                <p className="px-2 py-1 text-xs font-medium text-foreground-muted">{item.label}</p>
+                <ul className="ml-2 space-y-1">
+                  {item.items.map((child) => (
+                    <li key={child.label}>
+                      <NavRow item={child} badge={<StatusBadge status={child.status} />} />
+                    </li>
+                  ))}
+                </ul>
               </li>
             );
-          })}
-        </ul>
-      ) : null}
-    </div>
+          }
+
+          return (
+            <li key={item.label}>
+              <NavRow item={item} badge={<StatusBadge status={item.status} />} />
+            </li>
+          );
+        })}
+      </ul>
+    ) : null;
+
+  // `to` is not used by the current nav data; when set, the title stays a link
+  // header (as before) and the section is not collapsible.
+  if (to && title) {
+    return (
+      <div>
+        <Link
+          to={to}
+          activeOptions={sidebarPathActiveOptions}
+          activeProps={sidebarSectionActiveProps}
+          inactiveProps={{ className: "text-foreground" }}
+          className={`${sectionTitleClassName} ${sidebarItemFocusClassName}`}
+        >
+          {title}
+        </Link>
+        {list}
+      </div>
+    );
+  }
+
+  if (!title) {
+    return list;
+  }
+
+  return (
+    <SidebarSection
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+        writeStoredSectionOpen(sectionId, nextOpen);
+      }}
+    >
+      <SidebarSectionHeader>
+        <SidebarSectionDisclosure>
+          <SidebarSectionTitle>{title}</SidebarSectionTitle>
+          <SidebarSectionChevron />
+        </SidebarSectionDisclosure>
+      </SidebarSectionHeader>
+      <SidebarList>{list}</SidebarList>
+    </SidebarSection>
   );
 }
 
@@ -1046,59 +1130,70 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
         </div>
       ) : null}
       {!collapsed ? (
-        <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) overflow-y-auto px-5 py-6 scrollbar-none lg:block [&::-webkit-scrollbar]:hidden">
-          <div className="flex items-center justify-between gap-2">
-            <Link to="/" className="flex items-center gap-2 text-foreground">
-              <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
-            </Link>
-            <Button
-              variant="ghost"
-              size="sm"
-              aria-label="Collapse sidebar"
-              title="Collapse sidebar"
-              className="size-8 shrink-0 p-0"
-              onClick={toggleCollapsed}
-            >
-              <PanelLeftClose aria-hidden />
-            </Button>
-          </div>
-          <div className="mt-6">
-            <ComponentSearch onTriggerClick={() => setGlobalSearchOpen(true)} />
-          </div>
-          <nav className="mt-8 space-y-8">
-            <ul className="space-y-1">
-              {PRIMARY_NAV.map((item) => (
-                <li key={item.label}>
-                  <NavRow
-                    item={item}
-                    badge={
-                      item.to === "/changelog" ? (
-                        <VersionBadge />
-                      ) : "status" in item ? (
-                        <StatusBadge status={item.status} />
-                      ) : null
-                    }
-                  />
-                </li>
-              ))}
-            </ul>
+        <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) lg:block">
+          <SidebarRoot className="select-text">
+            <div className="shrink-0 px-5 pt-6">
+              <div className="flex items-center justify-between gap-2">
+                <Link to="/" className="flex items-center gap-2 text-foreground">
+                  <img src="/raft-logo.svg" alt="" className="h-5 w-auto shrink-0" />
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Collapse sidebar"
+                  title="Collapse sidebar"
+                  className="size-8 shrink-0 p-0"
+                  onClick={toggleCollapsed}
+                >
+                  <PanelLeftClose aria-hidden />
+                </Button>
+              </div>
+              <div className="mt-6">
+                <ComponentSearch onTriggerClick={() => setGlobalSearchOpen(true)} />
+              </div>
+            </div>
+            <SidebarBody>
+              <SidebarContent className="px-5 pt-8 pb-8">
+                <nav className="space-y-8">
+                  <ul className="space-y-1">
+                    {PRIMARY_NAV.map((item) => (
+                      <li key={item.label}>
+                        <NavRow
+                          item={item}
+                          badge={
+                            item.to === "/changelog" ? (
+                              <VersionBadge />
+                            ) : "status" in item ? (
+                              <StatusBadge status={item.status} />
+                            ) : null
+                          }
+                        />
+                      </li>
+                    ))}
+                  </ul>
 
-            <NavGroup {...FOUNDATIONS} />
+                  <NavGroup {...FOUNDATIONS} />
 
-            <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+                  <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
 
-            {COMPONENT_NAV.map((group) => (
-              <NavGroup key={group.title} {...group} />
-            ))}
+                  {COMPONENT_NAV.map((group) => (
+                    <NavGroup key={group.title} {...group} />
+                  ))}
 
-            <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+                  <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
 
-            {PATTERN_NAV.map((group) => (
-              <NavGroup key={group.title} {...group} />
-            ))}
+                  {PATTERN_NAV.map((group) => (
+                    <NavGroup key={group.title} {...group} />
+                  ))}
 
-            <NavGroup {...ROADMAP} />
-          </nav>
+                  <NavGroup {...ROADMAP} />
+                </nav>
+              </SidebarContent>
+            </SidebarBody>
+            <div className="shrink-0 border-t border-dashed border-line-hairline px-5 py-4">
+              <ModeSwitcher />
+            </div>
+          </SidebarRoot>
         </aside>
       ) : null}
     </>

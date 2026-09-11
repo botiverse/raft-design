@@ -21,10 +21,12 @@ const PreviewThemeContext = createContext<PreviewThemeValue | null>(null);
 
 // Brutal, matching `ThemeProvider`'s own `defaultTheme`. The docs site used to
 // hardcode elegant here and in the initial state below, so it contradicted the
-// library it documents (@xxchan measured it; call made 2026-09-09).
+// library it documents (@xxchan measured it; call made 2026-09-09). The default
+// MODE is `system`: the site respects the local preference until a visitor
+// chooses explicitly (brutal only has a light form, so it resolves to light).
 const DEFAULT_PREVIEW_THEME_VALUE: PreviewThemeValue = {
   theme: "brutal",
-  mode: "light",
+  mode: "system",
   setTheme: () => undefined,
 };
 
@@ -36,10 +38,12 @@ export function PreviewThemeProvider({
   initial?: StoredPreviewTheme | null;
 }) {
   const [selected, setSelected] = useState<StoredPreviewTheme>(
-    () => initial ?? { theme: "brutal", mode: "light" },
+    () => initial ?? { theme: "brutal", mode: "system" },
   );
   const setTheme = useCallback<PreviewThemeValue["setTheme"]>((theme, options) => {
-    const mode = options?.mode ?? "light";
+    // Mirrors `ThemeProvider.setTheme`: brutal only has its light form, so a
+    // dark/system choice is meaningless there and is stored as light.
+    const mode = theme === "brutal" ? "light" : (options?.mode ?? "light");
     writePreviewThemeCookie({ theme, mode });
     setSelected((current) =>
       current.theme === theme && current.mode === mode ? current : { theme, mode },
