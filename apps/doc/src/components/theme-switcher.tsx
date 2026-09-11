@@ -1,6 +1,6 @@
 import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "raft-ui";
 import type { Theme } from "raft-ui";
-import { usePreviewTheme } from "#/components/preview-theme.tsx";
+import { usePreviewTheme, useResolvedPreviewMode } from "#/components/preview-theme.tsx";
 import type { PreviewMode } from "#/components/preview-theme.tsx";
 
 type PreviewThemePreset = {
@@ -38,8 +38,9 @@ const PRESETS: readonly PreviewThemePreset[] = [
 /** Docs control: switches the isolated component preview theme. */
 export function ThemeSwitcher() {
   const theme = usePreviewTheme();
+  const resolvedMode = useResolvedPreviewMode();
   const activePreset = PRESETS.find(
-    (preset) => theme.theme === preset.family && theme.mode === preset.mode,
+    (preset) => theme.theme === preset.family && resolvedMode === preset.mode,
   );
 
   return (

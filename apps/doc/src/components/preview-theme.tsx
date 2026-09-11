@@ -1,4 +1,12 @@
-import { useCallback, createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import type { HTMLAttributes, ReactNode } from "react";
 import { ThemeProvider, useTheme } from "raft-ui";
 import type { Theme, ThemeMode } from "raft-ui";
@@ -10,6 +18,42 @@ import {
 import type { StoredPreviewTheme } from "#/lib/preview-theme-storage.ts";
 
 export type PreviewMode = ThemeMode;
+
+function subscribeToSystemMode(onChange: () => void) {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") return () => {};
+  const query = window.matchMedia("(prefers-color-scheme: dark)");
+  query.addEventListener("change", onChange);
+  return () => {
+    query.removeEventListener("change", onChange);
+  };
+}
+
+function getSystemMode(): "light" | "dark" {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") return "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+/**
+ * The mode actually applied to the page: a `system` selection resolves against
+ * the OS preference. A store rather than a direct `matchMedia` read so the
+ * server snapshot and hydration agree (the prerendered markup cannot know the
+ * visitor's preference), mirroring rui's own theme provider.
+ *
+ * Anything that matches the current state against the fixed light/dark presets
+ * (the landing switcher, the doc-section switcher, the playground picker) must
+ * go through this: matching the raw `system` value against those presets was
+ * exactly the bug @Josh reported on the first visit (brutal page, "Elegant"
+ * highlighted).
+ */
+export function useResolvedPreviewMode(): "light" | "dark" {
+  const { mode } = usePreviewTheme();
+  const systemMode = useSyncExternalStore(
+    subscribeToSystemMode,
+    getSystemMode,
+    () => "light" as const,
+  );
+  return mode === "system" ? systemMode : mode;
+}
 
 type PreviewThemeValue = {
   theme: Theme;
