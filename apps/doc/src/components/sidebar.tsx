@@ -1175,13 +1175,13 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
 
                   <NavGroup {...FOUNDATIONS} />
 
-                  <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+                  <Separator />
 
                   {COMPONENT_NAV.map((group) => (
                     <NavGroup key={group.title} {...group} />
                   ))}
 
-                  <Separator className="h-0 bg-transparent border-t border-dashed border-line-hairline data-[orientation=horizontal]:w-[65%]" />
+                  <Separator />
 
                   {PATTERN_NAV.map((group) => (
                     <NavGroup key={group.title} {...group} />
@@ -1191,20 +1191,23 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
                 </nav>
               </SidebarContent>
             </SidebarBody>
-            <div className="flex shrink-0 items-center justify-between border-t border-dashed border-line-hairline px-5 py-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                aria-label="GitHub repository"
-                title="GitHub repository"
-                className="size-8 p-0"
-                render={
-                  <a href="https://github.com/botiverse/rui" target="_blank" rel="noreferrer" />
-                }
-              >
-                <GithubMark size={16} />
-              </Button>
-              <SettingsDialog />
+            <div className="shrink-0">
+              <Separator className="mx-5" />
+              <div className="flex items-center justify-between px-5 py-4">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label="GitHub repository"
+                  title="GitHub repository"
+                  className="size-8 p-0"
+                  render={
+                    <a href="https://github.com/botiverse/rui" target="_blank" rel="noreferrer" />
+                  }
+                >
+                  <GithubMark size={16} />
+                </Button>
+                <SettingsDialog />
+              </div>
             </div>
           </SidebarRoot>
         </aside>
