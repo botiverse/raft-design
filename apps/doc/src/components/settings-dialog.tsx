@@ -9,15 +9,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  SegmentedControl,
+  SegmentedControlItem,
+  SegmentedControlLabel,
   SidebarItem,
   SidebarItemIcon,
   SidebarItemTitle,
+  ThemeProvider,
 } from "raft-ui";
 import type { LucideIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import type { Theme } from "raft-ui";
 
-import { PreviewThemeScope, usePreviewTheme } from "./preview-theme.tsx";
+import { usePreviewTheme } from "./preview-theme.tsx";
 import type { PreviewFamilyScope, PreviewMode } from "./preview-theme.tsx";
 
 /** Same focus idiom as the sidebar rows. */
@@ -71,29 +75,6 @@ function FamilySwatch({ family, className }: { family: Theme; className: string 
   );
 }
 
-function ModeCard({ option }: { option: { value: PreviewMode; label: string; Icon: LucideIcon } }) {
-  const preview = usePreviewTheme();
-  const current = preview.mode === option.value;
-
-  return (
-    <Card
-      variant="option"
-      render={
-        <button
-          type="button"
-          role="radio"
-          aria-checked={current}
-          onClick={() => preview.setMode(option.value)}
-        />
-      }
-      className={`flex flex-col items-center gap-2 px-3 py-4 ${current ? "border-primary-400" : ""} ${focusClassName}`}
-    >
-      <option.Icon aria-hidden className="size-4 text-foreground-icon" />
-      <span className="text-sm text-foreground">{option.label}</span>
-    </Card>
-  );
-}
-
 function FamilyCard({
   scope,
   option,
@@ -107,11 +88,14 @@ function FamilyCard({
   const current = preview[scope] === option.value;
 
   return (
-    // The whole card follows the theme it offers rather than the site's: the
-    // scope below provides the family's context AND carries `data-theme` plus
-    // the mode class on a real element, so the tokens resolve inside — the
-    // dialog is portaled, so nothing may rely on inheriting from its root.
-    <PreviewThemeScope family={option.value} mode={mode} className="flex min-w-0">
+    // The whole card — including its selected ring — follows the theme it
+    // offers rather than the site's. The provider supplies the family context
+    // (which recipe classes to use) and the card element itself carries
+    // `data-theme` + the mode class, so the tokens for its own border, colours
+    // and swatch resolve from the card outward. @Josh measured the earlier
+    // shape: with the theme layer inside a wrapper, the ring lived outside the
+    // scope and every card drew the site's highlight.
+    <ThemeProvider theme={option.value} mode={mode} syncDom={false}>
       <Card
         variant="option"
         render={
@@ -119,10 +103,13 @@ function FamilyCard({
             type="button"
             role="radio"
             aria-checked={current}
+            data-theme={option.value}
+            className={mode === "light" ? "light" : "dark"}
+            style={{ colorScheme: mode }}
             onClick={() => preview.setFamily(scope, option.value)}
           />
         }
-        className={`flex min-w-0 flex-1 flex-col gap-3 p-2 ${current ? "border-primary-400" : ""} ${focusClassName}`}
+        className={`flex min-w-0 flex-col gap-3 p-2 ${current ? "border-primary-400" : ""} ${focusClassName}`}
       >
         <FamilySwatch
           family={option.value}
@@ -139,7 +126,7 @@ function FamilyCard({
           ) : null}
         </span>
       </Card>
-    </PreviewThemeScope>
+    </ThemeProvider>
   );
 }
 
@@ -187,15 +174,21 @@ export function SettingsDialog(props: ComponentProps<typeof Dialog>) {
                 <p className="text-xs text-foreground-muted">
                   System follows your device while keeping separate Light and Dark theme choices.
                 </p>
-                <div
-                  role="radiogroup"
+                <SegmentedControl
                   aria-label="Color mode"
-                  className="grid grid-cols-3 gap-3 pt-1"
+                  value={preview.mode}
+                  onValueChange={(value) => {
+                    preview.setMode(value);
+                  }}
+                  className="w-fit pt-1"
                 >
                   {MODE_OPTIONS.map((option) => (
-                    <ModeCard key={option.value} option={option} />
+                    <SegmentedControlItem key={option.value} value={option.value}>
+                      <option.Icon aria-hidden />
+                      <SegmentedControlLabel>{option.label}</SegmentedControlLabel>
+                    </SegmentedControlItem>
                   ))}
-                </div>
+                </SegmentedControl>
               </section>
 
               <section className="space-y-2">

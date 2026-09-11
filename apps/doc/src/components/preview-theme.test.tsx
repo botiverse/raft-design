@@ -150,12 +150,16 @@ describe("settings dialog", () => {
     expect(elegantCard.className).toContain("rounded-md");
     expect(elegantCard.className).not.toContain("border-2");
 
-    const brutalScope = brutalCard.closest('[data-theme="brutal"]');
-    const elegantLightScope = elegantCard.closest('[data-theme="elegant"]');
-    const elegantDarkScope = elegantDarkCard.closest('[data-theme="elegant"]');
-    expect(brutalScope).not.toBeNull();
-    expect(elegantLightScope?.classList.contains("light")).toBe(true);
-    expect(elegantDarkScope?.classList.contains("dark")).toBe(true);
+    // The themed element must BE the card that draws the ring — with the theme
+    // only on a wrapper, the highlight sits outside its own scope and every
+    // card paints the site's version (@Josh's measurement).
+    expect(brutalCard.getAttribute("data-theme")).toBe("brutal");
+    expect(elegantCard.getAttribute("data-theme")).toBe("elegant");
+    expect(elegantCard.classList.contains("light")).toBe(true);
+    expect(elegantDarkCard.getAttribute("data-theme")).toBe("elegant");
+    expect(elegantDarkCard.classList.contains("dark")).toBe(true);
+    // And the ring itself lives on that same element.
+    expect(brutalCard.className).toContain("border-primary-400");
   });
 
   it("keeps the frames independent of the site's theme", () => {
@@ -164,7 +168,7 @@ describe("settings dialog", () => {
     const lightGroup = screen.getByRole("radiogroup", { name: "Light appearance" });
     const brutalCard = within(lightGroup).getByRole("radio", { name: "Brutal" });
     expect(brutalCard.className).toContain("border-2");
-    expect(brutalCard.closest('[data-theme="brutal"]')).not.toBeNull();
+    expect(brutalCard.getAttribute("data-theme")).toBe("brutal");
     expect(screen.getAllByText("Current")).toHaveLength(1);
   });
 
