@@ -9,7 +9,7 @@ import {
 } from "raft-ui";
 import type { Theme, ThemeMode } from "raft-ui";
 
-import { usePreviewTheme } from "#/components/preview-theme.tsx";
+import { usePreviewTheme, useResolvedPreviewMode } from "#/components/preview-theme.tsx";
 
 const THEME_PRESETS = [
   { value: "brutal", label: "Brutal", theme: "brutal", mode: "light" },
@@ -24,7 +24,7 @@ const THEME_PRESETS = [
 
 type PlaygroundThemeValue = (typeof THEME_PRESETS)[number]["value"];
 
-function getThemeValue(theme: Theme, mode: ThemeMode): PlaygroundThemeValue {
+export function getThemeValue(theme: Theme, mode: "light" | "dark"): PlaygroundThemeValue {
   if (theme === "brutal") return "brutal";
   return mode === "dark" ? "elegant-dark" : "elegant-light";
 }
@@ -36,8 +36,9 @@ export function PlaygroundThemeSelect({
   children: ReactNode;
   side: "right" | "top";
 }) {
-  const { theme, mode, setTheme } = usePreviewTheme();
-  const value = getThemeValue(theme, mode);
+  const { theme, setTheme } = usePreviewTheme();
+  const resolvedMode = useResolvedPreviewMode();
+  const value = getThemeValue(theme, resolvedMode);
 
   return (
     <Select<PlaygroundThemeValue>

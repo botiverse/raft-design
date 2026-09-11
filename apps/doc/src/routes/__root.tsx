@@ -13,7 +13,9 @@ import { cn } from "raft-ui/cn";
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { Sidebar } from "#/components/sidebar.tsx";
 import {
+  documentThemeAttributes,
   getStoredPreviewTheme,
+  PREVIEW_THEME_INLINE_SCRIPT,
   readPreviewThemeCookieFromDocument,
 } from "#/lib/preview-theme-storage.ts";
 import fontsCss from "raft-ui/fonts.css?url";
@@ -101,8 +103,9 @@ function RootDocument({ children }: { children: ReactNode }) {
   // `ThemeProvider` does. It used to be hardcoded `data-theme="elegant"`, so the
   // chrome could never leave elegant no matter what was picked — which is what
   // made a switch look like it "reverted" after a refresh (@xxchan).
-  const documentTheme = storedPreviewTheme?.theme ?? "brutal";
-  const isDarkDocument = documentTheme === "elegant" && storedPreviewTheme?.mode === "dark";
+  // One mapping shared by the SSR markup, the pre-paint script in <head>, and
+  // `DocumentThemeProvider`'s effect.
+  const documentTheme = documentThemeAttributes(storedPreviewTheme);
   const documentShellClassName = isStandalonePage
     ? cn(
         "isolate h-full [--sidebar-w:0rem] [--toc-w:0rem]",
@@ -117,15 +120,21 @@ function RootDocument({ children }: { children: ReactNode }) {
     <html
       lang="en"
       data-standalone={isStandalonePage || undefined}
-      data-theme={documentTheme}
-      style={{ colorScheme: isDarkDocument ? "dark" : "light" }}
+      data-theme={documentTheme.theme}
+      style={{ colorScheme: documentTheme.colorScheme }}
       className={cn(
-        isDarkDocument ? "dark" : "light",
+        documentTheme.dark ? "dark" : "light",
         usesPlaygroundDocumentScroll &&
           "max-md:!h-auto max-md:!overflow-visible max-md:!overscroll-auto max-md:!bg-layer-canvas-muted",
       )}
     >
       <head>
+        {/* Pre-paint: apply a stored non-brutal choice before the first frame.
+            Prerendered + cache-served markup always ships the brutal default,
+            and waiting for hydration flashes it for ~125ms (measured). This
+            mirrors `documentThemeAttributes`, the SSR attributes above, and
+            `DocumentThemeProvider`'s effect. */}
+        <script dangerouslySetInnerHTML={{ __html: PREVIEW_THEME_INLINE_SCRIPT }} />
         <title>{documentTitle}</title>
         <HeadContent />
       </head>

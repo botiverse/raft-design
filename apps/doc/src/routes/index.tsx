@@ -176,7 +176,7 @@ import {
   User,
 } from "lucide-react";
 
-import { usePreviewTheme } from "#/components/preview-theme.tsx";
+import { usePreviewTheme, useResolvedPreviewMode } from "#/components/preview-theme.tsx";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -1405,10 +1405,11 @@ function HomeToastList() {
 
 function Home() {
   const previewTheme = usePreviewTheme();
+  const resolvedMode = useResolvedPreviewMode();
   const themePreset =
     THEME_PRESETS.find(
-      (preset) => preset.family === previewTheme.theme && preset.mode === previewTheme.mode,
-    ) ?? THEME_PRESETS[1];
+      (preset) => preset.family === previewTheme.theme && preset.mode === resolvedMode,
+    ) ?? THEME_PRESETS[0];
 
   useEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration;
