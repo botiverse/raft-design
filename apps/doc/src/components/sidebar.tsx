@@ -603,6 +603,7 @@ export function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
   if (item.to) {
     return (
       <SidebarItem
+        variant="accent"
         className={className}
         render={
           <Link
@@ -625,6 +626,7 @@ export function NavRow({ item, badge }: { item: NavItem; badge?: ReactNode }) {
   if (item.docsHref) {
     return (
       <SidebarItem
+        variant="accent"
         className={className}
         render={
           <a
@@ -844,6 +846,7 @@ function MobileNavItem({
   if (item.to) {
     return (
       <SidebarItem
+        variant="accent"
         className={className}
         render={
           <Link
@@ -867,6 +870,7 @@ function MobileNavItem({
   if (item.docsHref) {
     return (
       <SidebarItem
+        variant="accent"
         className={className}
         render={
           <a
