@@ -88,6 +88,7 @@ const COMPONENT_NAV = [
     title: "Actions",
     items: [
       { label: "Button", to: "/components/button", status: "done" },
+      { label: "FloatButton", to: "/components/float-button", status: "done" },
       { label: "ToggleGroup", to: "/components/toggle-group", status: "done" },
     ],
   },

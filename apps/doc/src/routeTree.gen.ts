@@ -40,6 +40,7 @@ import { Route as ComponentsEmptyStateRouteImport } from './routes/components/em
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsFilePreviewRouteImport } from './routes/components/file-preview'
 import { Route as ComponentsFilesRouteImport } from './routes/components/files'
+import { Route as ComponentsFloatButtonRouteImport } from './routes/components/float-button'
 import { Route as ComponentsIconsRouteImport } from './routes/components/icons'
 import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
 import { Route as ComponentsInputRouteImport } from './routes/components/input'
@@ -278,6 +279,11 @@ const ComponentsFilePreviewRoute = ComponentsFilePreviewRouteImport.update({
 const ComponentsFilesRoute = ComponentsFilesRouteImport.update({
   id: '/files',
   path: '/files',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsFloatButtonRoute = ComponentsFloatButtonRouteImport.update({
+  id: '/float-button',
+  path: '/float-button',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsIconsRoute = ComponentsIconsRouteImport.update({
@@ -737,6 +743,7 @@ export interface FileRoutesByFullPath {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/float-button': typeof ComponentsFloatButtonRoute
   '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
@@ -849,6 +856,7 @@ export interface FileRoutesByTo {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/float-button': typeof ComponentsFloatButtonRoute
   '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
@@ -962,6 +970,7 @@ export interface FileRoutesById {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/float-button': typeof ComponentsFloatButtonRoute
   '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
   '/components/input': typeof ComponentsInputRoute
@@ -1076,6 +1085,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/float-button'
     | '/components/icons'
     | '/components/inline-code'
     | '/components/input'
@@ -1188,6 +1198,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/float-button'
     | '/components/icons'
     | '/components/inline-code'
     | '/components/input'
@@ -1300,6 +1311,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/float-button'
     | '/components/icons'
     | '/components/inline-code'
     | '/components/input'
@@ -1614,6 +1626,13 @@ declare module '@tanstack/react-router' {
       path: '/files'
       fullPath: '/components/files'
       preLoaderRoute: typeof ComponentsFilesRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/float-button': {
+      id: '/components/float-button'
+      path: '/float-button'
+      fullPath: '/components/float-button'
+      preLoaderRoute: typeof ComponentsFloatButtonRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/icons': {
@@ -2324,6 +2343,7 @@ interface ComponentsRouteChildren {
   ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsFilePreviewRoute: typeof ComponentsFilePreviewRoute
   ComponentsFilesRoute: typeof ComponentsFilesRoute
+  ComponentsFloatButtonRoute: typeof ComponentsFloatButtonRoute
   ComponentsIconsRoute: typeof ComponentsIconsRoute
   ComponentsInlineCodeRoute: typeof ComponentsInlineCodeRoute
   ComponentsInputRoute: typeof ComponentsInputRoute
@@ -2404,6 +2424,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsFilePreviewRoute: ComponentsFilePreviewRoute,
   ComponentsFilesRoute: ComponentsFilesRoute,
+  ComponentsFloatButtonRoute: ComponentsFloatButtonRoute,
   ComponentsIconsRoute: ComponentsIconsRoute,
   ComponentsInlineCodeRoute: ComponentsInlineCodeRoute,
   ComponentsInputRoute: ComponentsInputRoute,
