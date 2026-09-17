@@ -69,6 +69,10 @@ export const floatButton = tv({
       },
     },
     size: {
+      xs: {
+        root: "size-8 p-0 text-xs [&_svg:not([class*='size-'])]:size-3.5",
+        description: "text-[9px]",
+      },
       sm: {
         root: "size-9 p-0 text-xs [&_svg:not([class*='size-'])]:size-4",
         description: "text-[10px]",
@@ -84,6 +88,12 @@ export const floatButton = tv({
     },
   },
   compoundVariants: [
+    {
+      theme: "elegant",
+      shape: "square",
+      size: "xs",
+      class: { root: "rounded-sm" },
+    },
     {
       theme: "elegant",
       shape: "square",
