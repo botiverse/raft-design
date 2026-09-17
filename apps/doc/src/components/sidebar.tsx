@@ -14,6 +14,8 @@ import {
   ComboboxItem,
   ComboboxList,
   ComboboxTrigger,
+  FloatButton,
+  FloatButtonGroup,
   Kbd,
   Separator,
   SidebarBody,
@@ -88,6 +90,7 @@ const COMPONENT_NAV = [
     title: "Actions",
     items: [
       { label: "Button", to: "/components/button", status: "done" },
+      { label: "FloatButton", to: "/components/float-button", status: "done" },
       { label: "ToggleGroup", to: "/components/toggle-group", status: "done" },
     ],
   },
@@ -1109,30 +1112,32 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
         </div>
       ) : null}
       {collapsed ? (
-        <div className="fixed left-4 top-4 z-40 hidden items-center gap-0.5 rounded-xl border border-line-muted bg-layer-panel p-1 shadow-raft-md lg:flex">
-          <Button
-            variant="ghost"
-            size="sm"
+        <FloatButtonGroup
+          attached
+          shape="square"
+          direction="horizontal"
+          position="fixed"
+          side="top-left"
+          offset={16}
+          className="z-40 hidden lg:flex"
+        >
+          <FloatButton
+            size="md"
+            shape="square"
+            icon={<PanelLeftOpen aria-hidden />}
             aria-label="Expand sidebar"
-            title="Expand sidebar"
-            className="size-8 p-0"
             onClick={toggleCollapsed}
-          >
-            <PanelLeftOpen aria-hidden />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
+          />
+          <FloatButton
+            size="md"
+            shape="square"
+            icon={<Search aria-hidden />}
             aria-label="Search components"
-            title="Search components"
-            className="size-8 p-0"
             onClick={() => {
               setGlobalSearchOpen(true);
             }}
-          >
-            <Search aria-hidden />
-          </Button>
-        </div>
+          />
+        </FloatButtonGroup>
       ) : null}
       {!collapsed ? (
         <aside className="fixed inset-y-0 left-0 z-30 hidden h-screen w-(--sidebar-w) lg:block">

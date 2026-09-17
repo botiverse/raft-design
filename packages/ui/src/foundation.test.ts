@@ -59,12 +59,22 @@ test("the standalone foundation parses as native CSS with self-contained theme v
 test("the Tailwind entry includes the shared foundation and still generates semantic utilities", async () => {
   const compiler = await compile(`${styles}\n@tailwind utilities;`, {
     loadStylesheet: async (id) => {
-      expect(id).toBe("./foundation.css");
-      return {
-        content: foundation,
-        path: foundationPath,
-        base: sourceDirectory,
-      };
+      if (id === "./foundation.css") {
+        return {
+          content: foundation,
+          path: foundationPath,
+          base: sourceDirectory,
+        };
+      }
+      if (id === "./components/float-button/float-button.css") {
+        const floatButtonPath = join(sourceDirectory, "components/float-button/float-button.css");
+        return {
+          content: readFileSync(floatButtonPath, "utf8"),
+          path: floatButtonPath,
+          base: sourceDirectory,
+        };
+      }
+      throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });
   const css = compiler.build(["bg-layer-panel", "text-foreground", "shadow-raft-md"]);
@@ -74,4 +84,5 @@ test("the Tailwind entry includes the shared foundation and still generates sema
   expect(css).toContain('[data-theme="elegant"].dark');
   expect(css).toContain("--color-brutal-yellow-400:");
   expect(css).not.toContain('@import "./foundation.css"');
+  expect(css).not.toContain('@import "./components/float-button/float-button.css"');
 });

@@ -88,6 +88,19 @@ export type {
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";
 
+export { FloatButton, FloatButtonGroup } from "./components/float-button/index";
+export type {
+  FloatButtonProps,
+  FloatButtonGroupProps,
+  FloatButtonPosition,
+  FloatButtonSide,
+  FloatButtonOffset,
+  FloatButtonVariant,
+  FloatButtonShape,
+  FloatButtonSize,
+  FloatButtonGroupDirection,
+} from "./components/float-button/index";
+
 export {
   Card,
   CardContent,
