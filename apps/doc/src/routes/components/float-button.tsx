@@ -289,21 +289,21 @@ function FloatButtonDoc() {
                     shape="circle"
                     size="sm"
                     icon={<ArrowUp />}
-                    aria-label="Top sm"
+                    aria-label="Circle sm"
                   />
                   <FloatButton
                     position="relative"
                     shape="circle"
                     size="md"
                     icon={<ArrowUp />}
-                    aria-label="Top md"
+                    aria-label="Circle md"
                   />
                   <FloatButton
                     position="relative"
                     shape="circle"
                     size="lg"
                     icon={<ArrowUp />}
-                    aria-label="Top lg"
+                    aria-label="Circle lg"
                   />
                   <FloatButton
                     position="relative"
