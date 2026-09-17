@@ -61,7 +61,7 @@ describe("FloatButton", () => {
     render(<FloatButton size="xs">XS</FloatButton>);
     const button = screen.getByRole("button");
     expect(button.getAttribute("data-size")).toBe("xs");
-    expect(button.className).toContain("size-8");
+    expect(button.className).toContain("size-6");
   });
 
   test("renders native button attributes and respects disabled state", () => {

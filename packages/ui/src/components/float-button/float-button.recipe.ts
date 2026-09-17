@@ -70,20 +70,20 @@ export const floatButton = tv({
     },
     size: {
       xs: {
-        root: "size-8 p-0 text-xs [&_svg:not([class*='size-'])]:size-3.5",
-        description: "text-[9px]",
+        root: "size-6 p-0 text-[11px] [&_svg:not([class*='size-'])]:size-3",
+        description: "text-[8px]",
       },
       sm: {
-        root: "size-9 p-0 text-xs [&_svg:not([class*='size-'])]:size-4",
-        description: "text-[10px]",
+        root: "size-7 p-0 text-xs [&_svg:not([class*='size-'])]:size-3.5",
+        description: "text-[9px]",
       },
       md: {
-        root: "size-10 p-0 text-sm [&_svg:not([class*='size-'])]:size-4.5",
-        description: "text-[11px]",
+        root: "size-8 p-0 text-xs [&_svg:not([class*='size-'])]:size-4",
+        description: "text-[10px]",
       },
       lg: {
-        root: "size-12 p-0 text-base [&_svg:not([class*='size-'])]:size-5",
-        description: "text-xs",
+        root: "size-9 p-0 text-sm [&_svg:not([class*='size-'])]:size-4.5",
+        description: "text-[11px]",
       },
     },
   },

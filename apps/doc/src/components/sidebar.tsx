@@ -1122,7 +1122,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
           className="z-40 hidden lg:flex"
         >
           <FloatButton
-            size="xs"
+            size="md"
             shape="square"
             icon={<PanelLeftOpen aria-hidden />}
             tooltip="Expand sidebar"
@@ -1130,7 +1130,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             onClick={toggleCollapsed}
           />
           <FloatButton
-            size="xs"
+            size="md"
             shape="square"
             icon={<Search aria-hidden />}
             tooltip="Search components"

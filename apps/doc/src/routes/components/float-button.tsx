@@ -47,9 +47,11 @@ import { FloatButton } from "raft-ui";
   shapesAndSizes: `import { ArrowUp } from "lucide-react";
 import { FloatButton } from "raft-ui";
 
-<FloatButton position="relative" shape="circle" size="sm" icon={<ArrowUp />} aria-label="Top sm" />
-<FloatButton position="relative" shape="circle" size="md" icon={<ArrowUp />} aria-label="Top md" />
-<FloatButton position="relative" shape="circle" size="lg" icon={<ArrowUp />} aria-label="Top lg" />
+<FloatButton position="relative" shape="circle" size="xs" icon={<ArrowUp />} aria-label="Circle xs" />
+<FloatButton position="relative" shape="circle" size="sm" icon={<ArrowUp />} aria-label="Circle sm" />
+<FloatButton position="relative" shape="circle" size="md" icon={<ArrowUp />} aria-label="Circle md" />
+<FloatButton position="relative" shape="circle" size="lg" icon={<ArrowUp />} aria-label="Circle lg" />
+<FloatButton position="relative" shape="square" size="xs" icon={<ArrowUp />} aria-label="Square xs" />
 <FloatButton position="relative" shape="square" size="sm" icon={<ArrowUp />} aria-label="Square sm" />
 <FloatButton position="relative" shape="square" size="md" icon={<ArrowUp />} aria-label="Square md" />
 <FloatButton position="relative" shape="square" size="lg" icon={<ArrowUp />} aria-label="Square lg" />`,
@@ -137,7 +139,7 @@ const FLOAT_BUTTON_PROPS: readonly PropRow[] = [
     name: "size",
     type: FLOAT_BUTTON_SIZES.map((s) => `"${s}"`).join(" | "),
     default: '"md"',
-    description: "Size dimensions (sm = 36px, md = 40px, lg = 48px).",
+    description: "Size dimensions (xs = 24px, sm = 28px, md = 32px, lg = 36px).",
   },
   {
     name: "icon",
@@ -278,6 +280,13 @@ function FloatButtonDoc() {
                   <FloatButton
                     position="relative"
                     shape="circle"
+                    size="xs"
+                    icon={<ArrowUp />}
+                    aria-label="Circle xs"
+                  />
+                  <FloatButton
+                    position="relative"
+                    shape="circle"
                     size="sm"
                     icon={<ArrowUp />}
                     aria-label="Top sm"
@@ -295,6 +304,13 @@ function FloatButtonDoc() {
                     size="lg"
                     icon={<ArrowUp />}
                     aria-label="Top lg"
+                  />
+                  <FloatButton
+                    position="relative"
+                    shape="square"
+                    size="xs"
+                    icon={<ArrowUp />}
+                    aria-label="Square xs"
                   />
                   <FloatButton
                     position="relative"
