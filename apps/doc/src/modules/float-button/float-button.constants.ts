@@ -8,7 +8,7 @@ export const FLOAT_BUTTON_VARIANTS = [
   "danger",
 ] as const;
 
-export const FLOAT_BUTTON_SHAPES = ["circle", "square"] as const;
+export const FLOAT_BUTTON_SHAPES = ["circle", "square", "pill"] as const;
 
 export const FLOAT_BUTTON_SIZES = ["xs", "sm", "md", "lg"] as const;
 

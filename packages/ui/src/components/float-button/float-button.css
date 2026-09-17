@@ -12,6 +12,8 @@
 .r-float-button {
   /* Default local variables (Brutal theme defaults) */
   --r-float-button-size: 32px;
+  --r-float-button-width: var(--r-float-button-size);
+  --r-float-button-padding-x: 0px;
   --r-float-button-border-radius: 9999px;
   --r-float-button-border-width: 2px;
   --r-float-button-border-style: solid;
@@ -40,29 +42,44 @@
     --r-float-button-icon-size: 12px;
     --r-float-button-font-size: 11px;
     --r-float-button-desc-font-size: 8px;
+    --r-float-button-padding-x: 8px;
   }
   &.r-float-button--sm {
     --r-float-button-size: 28px;
     --r-float-button-icon-size: 14px;
     --r-float-button-font-size: 12px;
     --r-float-button-desc-font-size: 9px;
+    --r-float-button-padding-x: 10px;
   }
   &.r-float-button--md {
     --r-float-button-size: 32px;
     --r-float-button-icon-size: 16px;
     --r-float-button-font-size: 12px;
     --r-float-button-desc-font-size: 10px;
+    --r-float-button-padding-x: 12px;
   }
   &.r-float-button--lg {
     --r-float-button-size: 36px;
     --r-float-button-icon-size: 18px;
     --r-float-button-font-size: 14px;
     --r-float-button-desc-font-size: 11px;
+    --r-float-button-padding-x: 14px;
+  }
+
+  /* Extended with text (adaptive width & horizontal padding) */
+  &.r-float-button--with-text {
+    --r-float-button-width: auto;
   }
 
   /* Shapes */
   &.r-float-button--circle {
     --r-float-button-border-radius: 9999px;
+  }
+  &.r-float-button--pill {
+    --r-float-button-border-radius: 9999px;
+    --r-float-button-width: auto;
+    padding-left: var(--r-float-button-padding-x);
+    padding-right: var(--r-float-button-padding-x);
   }
   &.r-float-button--square {
     --r-float-button-border-radius: 0px;
@@ -215,7 +232,8 @@
   cursor: pointer;
   box-sizing: border-box;
   padding: 0;
-  width: var(--r-float-button-size);
+  width: var(--r-float-button-width, var(--r-float-button-size));
+  min-width: var(--r-float-button-size);
   height: var(--r-float-button-size);
   border-radius: var(--r-float-button-border-radius);
   border-width: var(--r-float-button-border-width);
@@ -236,6 +254,12 @@
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+  }
+
+  &.r-float-button--with-text,
+  &.r-float-button--pill {
+    padding-left: var(--r-float-button-padding-x);
+    padding-right: var(--r-float-button-padding-x);
   }
 
   &:hover:not(:disabled) {
@@ -274,11 +298,24 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
+    white-space: nowrap;
 
     &.r-float-button__content--with-desc {
       flex-direction: column;
       gap: 2px;
     }
+  }
+
+  &.r-float-button--square.r-float-button--with-desc {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  & .r-float-button__text {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    white-space: nowrap;
   }
 
   & .r-float-button__desc {

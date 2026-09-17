@@ -75,6 +75,36 @@ describe("FloatButton", () => {
     expect(button.disabled).toBe(true);
   });
 
+  test("renders text content with wrapper slot and data-with-text", () => {
+    render(<FloatButton>189 new messages</FloatButton>);
+    const button = screen.getByRole("button");
+    expect(button.getAttribute("data-with-text")).toBe("true");
+    expect(button.className).toContain("r-float-button--with-text");
+    const textSpan = screen.getByText("189 new messages");
+    expect(textSpan.getAttribute("data-slot")).toBe("float-button-text");
+    expect(textSpan.className).toContain("r-float-button__text");
+  });
+
+  test("supports pill shape", () => {
+    render(<FloatButton shape="pill">Back to bottom</FloatButton>);
+    const button = screen.getByRole("button");
+    expect(button.getAttribute("data-shape")).toBe("pill");
+    expect(button.className).toContain("r-float-button--pill");
+  });
+
+  test("renders icon alongside text seamlessly", () => {
+    render(
+      <FloatButton icon={<span data-testid="down-arrow">↓</span>} shape="pill" variant="primary">
+        99+
+      </FloatButton>,
+    );
+    const button = screen.getByRole("button");
+    expect(screen.getByTestId("down-arrow")).toBeDefined();
+    expect(screen.getByText("99+")).toBeDefined();
+    expect(button.getAttribute("data-shape")).toBe("pill");
+    expect(button.getAttribute("data-with-text")).toBe("true");
+  });
+
   for (const theme of ["brutal", "elegant"] as const) {
     test(`${theme}: renders classes correctly`, () => {
       render(

@@ -25,7 +25,7 @@ export type FloatButtonVariant =
   | "warning"
   | "danger";
 
-export type FloatButtonShape = "circle" | "square";
+export type FloatButtonShape = "circle" | "square" | "pill";
 
 export type FloatButtonSize = "xs" | "sm" | "md" | "lg";
 
@@ -70,6 +70,7 @@ export function FloatButton({
   ...props
 }: FloatButtonProps) {
   const groupContext = useContext(FloatButtonGroupContext);
+  const hasText = Boolean(children);
   const shape = shapeProp ?? groupContext?.shape ?? "circle";
   const size = sizeProp ?? groupContext?.size ?? "md";
 
@@ -90,6 +91,8 @@ export function FloatButton({
     `r-float-button--${size}`,
     `r-float-button--${shape}`,
     `r-float-button--${variant}`,
+    hasText && "r-float-button--with-text",
+    description && "r-float-button--with-desc",
     resolvedTheme === "elegant" && "r-float-button--elegant",
     className,
   ]
@@ -109,6 +112,7 @@ export function FloatButton({
     "data-shape": shape,
     "data-size": size,
     "data-variant": variant,
+    "data-with-text": hasText ? "true" : undefined,
     className: rootClasses,
     style: positionStyles,
   };
@@ -117,7 +121,11 @@ export function FloatButton({
     <BaseButton {...mergeProps<"button">(defaultProps, props)} render={render}>
       <span data-slot="float-button-content" className={contentClasses}>
         {icon}
-        {children}
+        {children ? (
+          <span data-slot="float-button-text" className="r-float-button__text">
+            {children}
+          </span>
+        ) : null}
         {description ? (
           <span data-slot="float-button-description" className="r-float-button__desc">
             {description}
