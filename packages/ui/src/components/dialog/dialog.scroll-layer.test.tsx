@@ -1,4 +1,3 @@
-// @ts-expect-error — CSS side-effect import for browser test only
 import "./dialog.test.css";
 import { afterEach, expect, test } from "vitest";
 import { cleanup, render, screen, act } from "@testing-library/react";
