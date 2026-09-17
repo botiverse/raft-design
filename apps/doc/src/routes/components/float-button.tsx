@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ArrowUp, MessageSquare, PanelLeft, Plus, Settings } from "lucide-react";
+import { ArrowUp, MessageSquare, PanelLeft, Plus, Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -65,38 +65,9 @@ import { FloatButton } from "raft-ui";
   description="TOP"
   aria-label="Back to top"
 />`,
-  withText: `import { ArrowDown, MessageSquare } from "lucide-react";
+  withText: `import { MessageSquare } from "lucide-react";
 import { FloatButton } from "raft-ui";
 
-{/* Multi-size Count Badges (e.g. Slock new messages pill) */}
-<FloatButton position="relative" shape="pill" size="xs" variant="primary" icon={<ArrowDown />}>
-  189 new messages
-</FloatButton>
-<FloatButton position="relative" shape="pill" size="sm" variant="primary" icon={<ArrowDown />}>
-  189 new messages
-</FloatButton>
-<FloatButton position="relative" shape="pill" size="md" variant="primary" icon={<ArrowDown />}>
-  189 new messages
-</FloatButton>
-<FloatButton position="relative" shape="pill" size="lg" variant="primary" icon={<ArrowDown />}>
-  189 new messages
-</FloatButton>
-
-{/* Plain Text Pill (Back to bottom) */}
-<FloatButton position="relative" shape="pill" size="xs">
-  Back to bottom
-</FloatButton>
-<FloatButton position="relative" shape="pill" size="sm">
-  Back to bottom
-</FloatButton>
-<FloatButton position="relative" shape="pill" size="md">
-  Back to bottom
-</FloatButton>
-<FloatButton position="relative" shape="pill" size="lg">
-  Back to bottom
-</FloatButton>
-
-{/* Square with Text */}
 <FloatButton position="relative" shape="square" size="md" icon={<MessageSquare />}>
   Feedback
 </FloatButton>`,
@@ -392,84 +363,9 @@ function FloatButtonDoc() {
           <DocSubsection parentId="usage" id="withText" title="With Text">
             <Preview>
               <Preview.Canvas>
-                <div className="flex flex-col items-center justify-center gap-6">
-                  {/* Multi-size Count Badges (e.g. Slock new messages pill) */}
-                  <div className="flex flex-wrap items-center justify-center gap-4">
-                    <FloatButton
-                      position="relative"
-                      shape="pill"
-                      size="xs"
-                      variant="primary"
-                      icon={<ArrowDown />}
-                    >
-                      189 new messages
-                    </FloatButton>
-                    <FloatButton
-                      position="relative"
-                      shape="pill"
-                      size="sm"
-                      variant="primary"
-                      icon={<ArrowDown />}
-                    >
-                      189 new messages
-                    </FloatButton>
-                    <FloatButton
-                      position="relative"
-                      shape="pill"
-                      size="md"
-                      variant="primary"
-                      icon={<ArrowDown />}
-                    >
-                      189 new messages
-                    </FloatButton>
-                    <FloatButton
-                      position="relative"
-                      shape="pill"
-                      size="lg"
-                      variant="primary"
-                      icon={<ArrowDown />}
-                    >
-                      189 new messages
-                    </FloatButton>
-                  </div>
-
-                  {/* Plain Text Pill (Back to bottom) */}
-                  <div className="flex flex-wrap items-center justify-center gap-4">
-                    <FloatButton position="relative" shape="pill" size="xs">
-                      Back to bottom
-                    </FloatButton>
-                    <FloatButton position="relative" shape="pill" size="sm">
-                      Back to bottom
-                    </FloatButton>
-                    <FloatButton position="relative" shape="pill" size="md">
-                      Back to bottom
-                    </FloatButton>
-                    <FloatButton position="relative" shape="pill" size="lg">
-                      Back to bottom
-                    </FloatButton>
-                  </div>
-
-                  {/* Square with Text */}
-                  <div className="flex flex-wrap items-center justify-center gap-4">
-                    <FloatButton
-                      position="relative"
-                      shape="square"
-                      size="md"
-                      icon={<MessageSquare />}
-                    >
-                      Feedback
-                    </FloatButton>
-                    <FloatButton
-                      position="relative"
-                      shape="square"
-                      size="md"
-                      variant="accent"
-                      icon={<ArrowDown />}
-                    >
-                      Jump to latest
-                    </FloatButton>
-                  </div>
-                </div>
+                <FloatButton position="relative" shape="square" size="md" icon={<MessageSquare />}>
+                  Feedback
+                </FloatButton>
               </Preview.Canvas>
               <Preview.Code html={code.withText} />
             </Preview>
