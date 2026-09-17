@@ -74,6 +74,14 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
+      if (id === "./components/collapsible/collapsible.css") {
+        const collapsiblePath = join(sourceDirectory, "components/collapsible/collapsible.css");
+        return {
+          content: readFileSync(collapsiblePath, "utf8"),
+          path: collapsiblePath,
+          base: sourceDirectory,
+        };
+      }
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });
@@ -85,4 +93,5 @@ test("the Tailwind entry includes the shared foundation and still generates sema
   expect(css).toContain("--color-brutal-yellow-400:");
   expect(css).not.toContain('@import "./foundation.css"');
   expect(css).not.toContain('@import "./components/float-button/float-button.css"');
+  expect(css).not.toContain('@import "./components/collapsible/collapsible.css"');
 });

@@ -29,6 +29,13 @@ export type {
   AlertDialogTriggerProps,
 } from "./components/alert-dialog/index";
 
+export { Collapsible, CollapsibleTrigger, CollapsiblePanel } from "./components/collapsible/index";
+export type {
+  CollapsibleProps,
+  CollapsibleTriggerProps,
+  CollapsiblePanelProps,
+} from "./components/collapsible/index";
+
 export {
   Dialog,
   DialogBody,

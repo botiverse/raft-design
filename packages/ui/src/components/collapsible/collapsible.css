@@ -1,0 +1,41 @@
+/* Collapsible pure CSS styling
+   - Local CSS variables (--r-collapsible-*) declared on component root / panel
+   - Supports smooth height transition using Base UI CSS variable --collapsible-panel-height
+   - Built-in prefers-reduced-motion degradation
+   - Works across Brutal and Elegant themes
+   ───────────────────────────────────────────────────────────────────────── */
+
+.r-collapsible {
+  --r-collapsible-transition-duration: 200ms;
+  --r-collapsible-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  display: block;
+  width: 100%;
+}
+
+.r-collapsible-trigger {
+  cursor: pointer;
+  user-select: none;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.r-collapsible-panel {
+  overflow: hidden;
+  height: var(--collapsible-panel-height, auto);
+  transition: height var(--r-collapsible-transition-duration) var(--r-collapsible-transition-timing);
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r-collapsible-panel {
+    transition: none !important;
+  }
+}
