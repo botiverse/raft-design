@@ -1,6 +1,12 @@
 export { FloatButton, FloatButtonGroup } from "./float-button";
-export type { FloatButtonProps, FloatButtonGroupProps } from "./float-button";
-export { floatButton, floatButtonGroup } from "./float-button.recipe";
+export type {
+  FloatButtonProps,
+  FloatButtonGroupProps,
+  FloatButtonVariant,
+  FloatButtonShape,
+  FloatButtonSize,
+  FloatButtonGroupDirection,
+} from "./float-button";
 export type {
   FloatButtonPosition,
   FloatButtonSide,

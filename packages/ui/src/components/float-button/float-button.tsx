@@ -1,12 +1,12 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { createContext, useContext, useMemo } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { defaultNativeButton } from "../../lib/default-native-button";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import type { VariantProps } from "../../lib/tv";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 import type {
   FloatButtonOffset,
@@ -14,25 +14,52 @@ import type {
   FloatButtonSide,
 } from "./float-button.position";
 import { resolvePositionStyles } from "./float-button.position";
-import { floatButton, floatButtonGroup } from "./float-button.recipe";
+// @ts-expect-error — CSS side-effect import for component styling
+import "./float-button.css";
 
-export type FloatButtonProps = StyledProps<BaseButton.Props> &
-  VariantProps<typeof floatButton> & {
-    icon?: ReactNode;
-    description?: ReactNode;
-    tooltip?: ReactNode;
-    position?: FloatButtonPosition;
-    side?: FloatButtonSide;
-    offset?: FloatButtonOffset;
-  };
+export type FloatButtonVariant =
+  | "default"
+  | "primary"
+  | "accent"
+  | "outline"
+  | "ghost"
+  | "warning"
+  | "danger";
+
+export type FloatButtonShape = "circle" | "square";
+
+export type FloatButtonSize = "xs" | "sm" | "md" | "lg";
+
+export type FloatButtonGroupDirection = "vertical" | "horizontal";
+
+interface FloatButtonGroupContextValue {
+  shape?: FloatButtonShape;
+  size?: FloatButtonSize;
+}
+
+const FloatButtonGroupContext = createContext<FloatButtonGroupContextValue | null>(null);
+
+export interface FloatButtonProps extends StyledProps<BaseButton.Props> {
+  variant?: FloatButtonVariant;
+  shape?: FloatButtonShape;
+  size?: FloatButtonSize;
+  theme?: "brutal" | "elegant";
+  icon?: ReactNode;
+  description?: ReactNode;
+  tooltip?: ReactNode;
+  position?: FloatButtonPosition;
+  side?: FloatButtonSide;
+  offset?: FloatButtonOffset;
+}
 
 export function FloatButton({
   icon,
   description,
   tooltip,
   variant = "default",
-  shape = "circle",
-  size = "md",
+  shape: shapeProp,
+  size: sizeProp,
+  theme: themeProp,
   position,
   side,
   offset,
@@ -43,17 +70,12 @@ export function FloatButton({
   render,
   ...props
 }: FloatButtonProps) {
-  const theme = useThemeFamily();
-  const {
-    root,
-    content,
-    description: descSlot,
-  } = floatButton({
-    theme,
-    variant,
-    shape,
-    size,
-  });
+  const groupContext = useContext(FloatButtonGroupContext);
+  const shape = shapeProp ?? groupContext?.shape ?? "circle";
+  const size = sizeProp ?? groupContext?.size ?? "md";
+
+  const currentTheme = useThemeFamily();
+  const resolvedTheme = themeProp ?? currentTheme;
 
   const positionStyles = resolvePositionStyles({
     position,
@@ -64,28 +86,41 @@ export function FloatButton({
 
   const nativeButton = nativeButtonProp ?? defaultNativeButton(render) ?? true;
 
+  const rootClasses = [
+    "ds-float-button",
+    `ds-float-button--${size}`,
+    `ds-float-button--${shape}`,
+    `ds-float-button--${variant}`,
+    resolvedTheme === "elegant" && "ds-float-button--elegant",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const contentClasses = [
+    "ds-float-button__content",
+    description && "ds-float-button__content--with-desc",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   const defaultProps: SlotElementProps<"button"> = {
     type: nativeButton ? "button" : undefined,
     "data-slot": "float-button",
     "data-shape": shape,
     "data-size": size,
     "data-variant": variant,
-    className: root({ className }),
+    className: rootClasses,
     style: positionStyles,
   };
 
   const renderedButton = (
     <BaseButton {...mergeProps<"button">(defaultProps, props)} render={render}>
-      <span
-        data-slot="float-button-content"
-        className={content({
-          className: description ? "flex-col gap-0.5" : undefined,
-        })}
-      >
+      <span data-slot="float-button-content" className={contentClasses}>
         {icon}
         {children}
         {description ? (
-          <span data-slot="float-button-description" className={descSlot()}>
+          <span data-slot="float-button-description" className="ds-float-button__desc">
             {description}
           </span>
         ) : null}
@@ -105,18 +140,24 @@ export function FloatButton({
   return renderedButton;
 }
 
-export type FloatButtonGroupProps = useRender.ComponentProps<"div"> &
-  VariantProps<typeof floatButtonGroup> & {
-    position?: FloatButtonPosition;
-    side?: FloatButtonSide;
-    offset?: FloatButtonOffset;
-    gap?: number | string;
-  };
+export type FloatButtonGroupProps = useRender.ComponentProps<"div"> & {
+  direction?: FloatButtonGroupDirection;
+  attached?: boolean;
+  shape?: FloatButtonShape;
+  size?: FloatButtonSize;
+  theme?: "brutal" | "elegant";
+  position?: FloatButtonPosition;
+  side?: FloatButtonSide;
+  offset?: FloatButtonOffset;
+  gap?: number | string;
+};
 
 export function FloatButtonGroup({
   direction = "vertical",
   attached = false,
   shape = "circle",
+  size,
+  theme: themeProp,
   position,
   side,
   offset,
@@ -124,15 +165,11 @@ export function FloatButtonGroup({
   className,
   style,
   render,
+  children,
   ...props
 }: FloatButtonGroupProps) {
-  const theme = useThemeFamily();
-  const { root } = floatButtonGroup({
-    theme,
-    direction,
-    attached,
-    shape,
-  });
+  const currentTheme = useThemeFamily();
+  const resolvedTheme = themeProp ?? currentTheme;
 
   const positionStyles = resolvePositionStyles({
     position,
@@ -143,8 +180,25 @@ export function FloatButtonGroup({
 
   const combinedStyle: CSSProperties = {
     ...positionStyles,
-    gap: !attached && gap !== undefined ? (typeof gap === "number" ? `${gap}px` : gap) : undefined,
+    ...(gap !== undefined && !attached
+      ? {
+          "--dsl-float-button-group-gap": typeof gap === "number" ? `${gap}px` : gap,
+          gap: typeof gap === "number" ? `${gap}px` : gap,
+        }
+      : {}),
+    ...style,
   };
+
+  const rootClasses = [
+    "ds-float-button-group",
+    `ds-float-button-group--${direction}`,
+    attached && "ds-float-button-group--attached",
+    `ds-float-button-group--${shape}`,
+    resolvedTheme === "elegant" && "ds-float-button-group--elegant",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const defaultProps: SlotElementProps<"div"> = {
     role: "group",
@@ -152,17 +206,21 @@ export function FloatButtonGroup({
     "data-direction": direction,
     "data-attached": attached ? "true" : undefined,
     "data-shape": shape,
-    className: root({
-      className: [!attached && gap === undefined ? "gap-2.5" : "", className]
-        .filter(Boolean)
-        .join(" "),
-    }),
+    className: rootClasses,
     style: combinedStyle,
   };
+
+  const contextValue = useMemo(() => ({ shape, size }), [shape, size]);
+
+  const groupContent = (
+    <FloatButtonGroupContext.Provider value={contextValue}>
+      {children}
+    </FloatButtonGroupContext.Provider>
+  );
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">(defaultProps, props),
+    props: mergeProps<"div">(defaultProps, { ...props, children: groupContent }),
   });
 }
