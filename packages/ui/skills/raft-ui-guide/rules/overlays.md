@@ -211,6 +211,24 @@ Do not introduce your own portal provider — the primitive's container API alre
 
 Portaled content escapes the trigger's local stacking context, but it still participates in the portal container's stacking order. Before adding an arbitrary high `z-index`, inspect the selected portal container and the competing top-level layer; use `portalProps.container` when the overlay belongs to a different layer owner.
 
+### Elevation & Stacking Order (Z-Index Ladder)
+
+`rui` provides a standardized static elevation ladder via CSS variables (`--r-z-*`), Tailwind classes (`z-*`), and dynamic nested context (`ZIndexScope` / `useZIndex`). **Never hardcode arbitrary z-index numbers on overlays or popups.**
+
+| Tier     | Token            | Utility      | Default | Purpose & Components                                                                              |
+| -------- | ---------------- | ------------ | ------- | ------------------------------------------------------------------------------------------------- |
+| Base     | `--r-z-base`     | `z-base`     | `0`     | Normal document flow content                                                                      |
+| Sticky   | `--r-z-sticky`   | `z-sticky`   | `100`   | Sticky headers, footers, rails, navigation bars                                                   |
+| Float    | `--r-z-float`    | `z-float`    | `200`   | In-page floating widgets (`FloatButton`, timeline pills)                                          |
+| Dropdown | `--r-z-dropdown` | `z-dropdown` | `1000`  | Anchored popups (`Select`, `Combobox`, `DropdownMenu`, `@` suggestions, `ContextMenu`, `Popover`) |
+| Modal    | `--r-z-modal`    | `z-modal`    | `2000`  | Blocking dialogs & sheets (`Dialog`, `AlertDialog`, `Drawer`)                                     |
+| Toast    | `--r-z-toast`    | `z-toast`    | `3000`  | Global notifications (`Toast`)                                                                    |
+| Lightbox | `--r-z-lightbox` | `z-lightbox` | `5000`  | Fullscreen media viewers (`Lightbox`)                                                             |
+| Tooltip  | `--r-z-tooltip`  | `z-tooltip`  | `6000`  | Micro-copy hover tags (guaranteed atop all viewers and toasts)                                    |
+
+- **Floating vs Dropdowns**: In-page floating widgets (e.g. timeline "new messages" button) use `--r-z-float` (200), ensuring they stay below input `@` mention suggestion popups (`--r-z-dropdown`: 1000) without manual coordinate hacks.
+- **Dynamic Stacking**: When nesting overlays within the same tier (such as nested Dialogs or a sub-popover), wrap with `<ZIndexScope tier="...">` or consume `useZIndex({ tier: "..." })`. Root tiers output pure CSS `var(--r-z-*)` for zero runtime overhead and SSR cleanliness.
+
 Every blocking overlay needs a `Title`, even when the design shows no visible heading — it is what screen readers announce. When the design hides it, keep the part and add `className="sr-only"`.
 
 ---

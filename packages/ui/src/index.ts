@@ -1568,3 +1568,5 @@ export type {
   ThemeMode,
   ThemeState,
 } from "./lib/theme/theme-context";
+
+export * from "./lib/z-index/index";

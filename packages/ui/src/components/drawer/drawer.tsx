@@ -10,6 +10,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 import { drawer } from "./drawer.recipe";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 type DrawerConfig = {
   hasSnapPoints: boolean;
@@ -72,15 +73,17 @@ export function DrawerPortal(props: DrawerPortalProps) {
 
 export type DrawerOverlayProps = StyledProps<DrawerPrimitive.Backdrop.Props>;
 
-export function DrawerOverlay({ className, ...props }: DrawerOverlayProps) {
+export function DrawerOverlay({ className, style, ...props }: DrawerOverlayProps) {
   const { hasSnapPoints } = useDrawerConfig();
   const theme = useThemeFamily();
   const { overlay } = drawer({ theme, snapPoints: hasSnapPoints });
+  const { style: zIndexStyle } = useZIndex({ tier: "modal" });
 
   return (
     <DrawerPrimitive.Backdrop
       data-slot="drawer-overlay"
       className={overlay({ className })}
+      style={{ ...zIndexStyle, ...style }}
       {...props}
     />
   );
@@ -98,7 +101,13 @@ export type DrawerContentProps = StyledProps<DrawerPrimitive.Popup.Props> & {
   portalProps?: DrawerPortalProps;
 };
 
-export function DrawerContent({ className, children, portalProps, ...props }: DrawerContentProps) {
+export function DrawerContent({
+  className,
+  children,
+  portalProps,
+  style,
+  ...props
+}: DrawerContentProps) {
   const { hasSnapPoints, modal, swipeAxis, swipeDirection } = useDrawerConfig();
   const theme = useThemeFamily();
   const { content, popup, viewport } = drawer({
@@ -107,21 +116,30 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
     axis: swipeAxis,
     snapPoints: hasSnapPoints,
   });
+  const { style: zIndexStyle } = useZIndex({ tier: "modal" });
 
   return (
     <DrawerPortal {...portalProps}>
-      {modal === true ? <DrawerOverlay /> : null}
-      <DrawerPrimitive.Viewport
-        data-slot="drawer-viewport"
-        className={cn(viewport(), modal === true && "pointer-events-auto")}
-      >
-        <DrawerPrimitive.Popup data-slot="drawer-popup" className={popup({ className })} {...props}>
-          {hasSnapPoints ? <DrawerSwipeHandle /> : null}
-          <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
-            {children}
-          </DrawerPrimitive.Content>
-        </DrawerPrimitive.Popup>
-      </DrawerPrimitive.Viewport>
+      {modal === true ? <DrawerOverlay style={zIndexStyle} /> : null}
+      <ZIndexScope tier="modal">
+        <DrawerPrimitive.Viewport
+          data-slot="drawer-viewport"
+          className={cn(viewport(), modal === true && "pointer-events-auto")}
+          style={zIndexStyle}
+        >
+          <DrawerPrimitive.Popup
+            data-slot="drawer-popup"
+            className={popup({ className })}
+            style={{ ...zIndexStyle, ...style }}
+            {...props}
+          >
+            {hasSnapPoints ? <DrawerSwipeHandle /> : null}
+            <DrawerPrimitive.Content data-slot="drawer-content" className={content()}>
+              {children}
+            </DrawerPrimitive.Content>
+          </DrawerPrimitive.Popup>
+        </DrawerPrimitive.Viewport>
+      </ZIndexScope>
     </DrawerPortal>
   );
 }

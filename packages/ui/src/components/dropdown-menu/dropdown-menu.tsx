@@ -9,11 +9,12 @@ import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 const dropdownMenu = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-dropdown outline-none"],
     content: ["max-h-(--available-height) min-w-48 overflow-hidden bg-layer-panel", "outline-none"],
     item: [
       "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
@@ -216,11 +217,14 @@ export function DropdownMenuContent({
   sticky,
   portalProps,
   className,
+  style,
+  children,
   ...props
 }: DropdownMenuContentProps) {
   const theme = useThemeFamily();
   const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 6 : 4);
   const { positioner, content } = dropdownMenu({ theme });
+  const { style: zIndexStyle } = useZIndex({ tier: "dropdown" });
   return (
     <DropdownMenuPortal {...portalProps}>
       <BaseMenu.Positioner
@@ -237,12 +241,18 @@ export function DropdownMenuContent({
         sideOffset={resolvedSideOffset}
         sticky={sticky}
         className={positioner()}
+        style={zIndexStyle}
       >
-        <BaseMenu.Popup
-          data-slot="dropdown-menu-content"
-          className={content({ className })}
-          {...props}
-        />
+        <ZIndexScope tier="dropdown">
+          <BaseMenu.Popup
+            data-slot="dropdown-menu-content"
+            className={content({ className })}
+            style={style}
+            {...props}
+          >
+            {children}
+          </BaseMenu.Popup>
+        </ZIndexScope>
       </BaseMenu.Positioner>
     </DropdownMenuPortal>
   );

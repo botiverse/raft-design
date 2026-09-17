@@ -6,11 +6,12 @@ import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 const tooltip = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-tooltip outline-none"],
     content: [
       "relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
       "origin-(--transform-origin) outline-none",
@@ -241,6 +242,7 @@ export function TooltipContent({
   container,
   portalProps,
   className,
+  style,
   children,
   ...props
 }: TooltipContentProps) {
@@ -248,6 +250,7 @@ export function TooltipContent({
   const { positioner, content } = tooltip({ theme });
   const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 8 : 6);
   const portalContainer = container !== undefined ? container : portalProps?.container;
+  const { style: zIndexStyle } = useZIndex({ tier: "tooltip" });
 
   return (
     <TooltipPortal {...portalProps} container={portalContainer}>
@@ -265,15 +268,19 @@ export function TooltipContent({
         sideOffset={resolvedSideOffset}
         sticky={sticky}
         className={positioner()}
+        style={zIndexStyle}
       >
-        <BaseTooltip.Popup
-          data-slot="tooltip-content"
-          className={content({ className })}
-          {...props}
-        >
-          <TooltipBodyContent>{children}</TooltipBodyContent>
-          <TooltipArrow />
-        </BaseTooltip.Popup>
+        <ZIndexScope tier="tooltip">
+          <BaseTooltip.Popup
+            data-slot="tooltip-content"
+            className={content({ className })}
+            style={style}
+            {...props}
+          >
+            <TooltipBodyContent>{children}</TooltipBodyContent>
+            <TooltipArrow />
+          </BaseTooltip.Popup>
+        </ZIndexScope>
       </BaseTooltip.Positioner>
     </TooltipPortal>
   );
