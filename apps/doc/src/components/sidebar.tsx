@@ -1125,7 +1125,6 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             size="md"
             shape="square"
             icon={<PanelLeftOpen aria-hidden />}
-            tooltip="Expand sidebar"
             aria-label="Expand sidebar"
             onClick={toggleCollapsed}
           />
@@ -1133,7 +1132,6 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             size="md"
             shape="square"
             icon={<Search aria-hidden />}
-            tooltip="Search components"
             aria-label="Search components"
             onClick={() => {
               setGlobalSearchOpen(true);
