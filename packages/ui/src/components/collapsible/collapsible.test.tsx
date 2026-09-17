@@ -138,4 +138,34 @@ describe("Collapsible", () => {
     expect(panel.getAttribute("id")).toBe("custom-panel");
     expect(panel.getAttribute("aria-labelledby")).toBe("custom-trigger");
   });
+
+  test("retains .r-collapsible-trigger class when custom render prop is provided", () => {
+    render(
+      <Collapsible defaultOpen>
+        <CollapsibleTrigger render={<button type="button" data-custom="test" />}>
+          Custom Trigger
+        </CollapsibleTrigger>
+        <CollapsiblePanel>Content</CollapsiblePanel>
+      </Collapsible>,
+    );
+
+    const trigger = screen.getByRole("button", { name: "Custom Trigger" });
+    expect(trigger.getAttribute("data-custom")).toBe("test");
+    expect(trigger.className).toContain("r-collapsible-trigger");
+  });
+
+  test("preserves DOM node when keepMounted is enabled on panel", () => {
+    render(
+      <Collapsible defaultOpen={false}>
+        <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+        <CollapsiblePanel keepMounted>Preserved Content</CollapsiblePanel>
+      </Collapsible>,
+    );
+
+    // Panel is present in DOM even though closed
+    const panel = screen.getByRole("region", { hidden: true });
+    expect(panel).toBeDefined();
+    expect(panel.hasAttribute("hidden")).toBe(true);
+    expect(panel.textContent).toBe("Preserved Content");
+  });
 });
