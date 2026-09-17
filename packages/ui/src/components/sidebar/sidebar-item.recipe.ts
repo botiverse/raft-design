@@ -68,7 +68,7 @@ export const sidebarItemRecipe = tv({
       },
       elegant: {
         sidebarItem: [
-          "relative isolate mb-0.5 -mx-(--sidebar-row-inset-x,6px) w-[calc(100%+12px)] rounded-md border border-transparent px-(--sidebar-row-inset-x,6px) py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
+          "relative isolate mb-0.5 -mx-(--sidebar-row-inset-x,6px) w-[calc(100%+var(--sidebar-row-inset-x,6px)*2)] rounded-md border border-transparent px-(--sidebar-row-inset-x,6px) py-1.5 md:py-1.5 [@media(max-height:600px)]:py-1",
           "*:z-10",
           "text-[13px] font-medium text-foreground-muted",
           "hover:border-transparent hover:bg-fill-strong/80 hover:text-foreground",

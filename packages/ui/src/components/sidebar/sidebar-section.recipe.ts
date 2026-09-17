@@ -62,7 +62,7 @@ export const sidebarSectionRecipe = tv({
           "text-foreground-icon",
         ],
         sidebarSectionHeader: [
-          "relative -mx-(--sidebar-row-inset-x,6px) mt-4 mb-0 h-8 w-[calc(100%+12px)] rounded-md px-0",
+          "relative -mx-(--sidebar-row-inset-x,6px) mt-4 mb-0 h-8 w-[calc(100%+var(--sidebar-row-inset-x,6px)*2)] rounded-md px-0",
           "hover:bg-fill-strong/80",
           "dark:hover:bg-ink-6",
         ],
