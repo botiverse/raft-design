@@ -65,6 +65,12 @@ import { FloatButton } from "raft-ui";
   description="TOP"
   aria-label="Back to top"
 />`,
+  withText: `import { MessageSquare } from "lucide-react";
+import { FloatButton } from "raft-ui";
+
+<FloatButton position="relative" shape="square" size="md" icon={<MessageSquare />}>
+  Feedback
+</FloatButton>`,
   tooltip: `import { PanelLeft } from "lucide-react";
 import { FloatButton } from "raft-ui";
 
@@ -132,8 +138,8 @@ const FLOAT_BUTTON_PROPS: readonly PropRow[] = [
   {
     name: "shape",
     type: FLOAT_BUTTON_SHAPES.map((s) => `"${s}"`).join(" | "),
-    default: '"circle"',
-    description: "Shape of the button. Adapts radius according to theme recipe.",
+    default: '"circle" (or "pill" when text children provided)',
+    description: "Shape of the button. Circle (icon), square (icon/desc), or pill (with text).",
   },
   {
     name: "size",
@@ -351,6 +357,17 @@ function FloatButtonDoc() {
                 />
               </Preview.Canvas>
               <Preview.Code html={code.description} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="withText" title="With Text">
+            <Preview>
+              <Preview.Canvas>
+                <FloatButton position="relative" shape="square" size="md" icon={<MessageSquare />}>
+                  Feedback
+                </FloatButton>
+              </Preview.Canvas>
+              <Preview.Code html={code.withText} />
             </Preview>
           </DocSubsection>
 
