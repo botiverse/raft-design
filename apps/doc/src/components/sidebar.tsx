@@ -1115,6 +1115,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
         <FloatButtonGroup
           attached
           shape="square"
+          direction="horizontal"
           position="fixed"
           side="top-left"
           offset={16}
