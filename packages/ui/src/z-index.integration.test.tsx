@@ -9,6 +9,7 @@ import { AlertDialog, AlertDialogContent } from "./components/alert-dialog/alert
 import { Drawer, DrawerContent } from "./components/drawer/drawer";
 import { Popover, PopoverContent, PopoverTrigger } from "./components/popover/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./components/tooltip/tooltip";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "./components/select/select";
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({
@@ -99,5 +100,36 @@ describe("z-index token integration in overlay components", () => {
     const tooltip = screen.getByTestId("tooltip");
     const positioner = tooltip.parentElement;
     expect(positioner?.className).toContain("z-tooltip");
+  });
+
+  it("nested Select within DialogContent elevates above dialog layer via ZIndexScope", () => {
+    function DialogSelectDemo() {
+      return (
+        <Dialog open modal={false}>
+          <DialogContent data-testid="dialog-container">
+            Dialog
+            <Select open defaultValue="apple">
+              <SelectTrigger data-testid="select-trigger">Pick</SelectTrigger>
+              <SelectContent data-testid="select-content">
+                <SelectItem value="apple">Apple</SelectItem>
+              </SelectContent>
+            </Select>
+          </DialogContent>
+        </Dialog>
+      );
+    }
+
+    render(
+      <ThemeProvider theme="elegant">
+        <DialogSelectDemo />
+      </ThemeProvider>,
+    );
+
+    const dialogContent = screen.getByTestId("dialog-container");
+    const selectContent = screen.getByTestId("select-content");
+    const selectPositioner = selectContent.parentElement;
+
+    expect(dialogContent.style.zIndex).toBe("var(--r-z-modal)");
+    expect(selectPositioner?.style.zIndex).toBe("calc(var(--r-z-modal) + 100)");
   });
 });

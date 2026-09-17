@@ -8,6 +8,7 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 const alertDialog = tv({
   slots: {
@@ -118,14 +119,16 @@ export function AlertDialogClose({
 
 export type AlertDialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props>;
 
-export function AlertDialogOverlay({ className, ...props }: AlertDialogOverlayProps) {
+export function AlertDialogOverlay({ className, style, ...props }: AlertDialogOverlayProps) {
   const theme = useThemeFamily();
   const { overlay } = alertDialog({ theme });
+  const { style: zIndexStyle } = useZIndex({ tier: "modal" });
 
   return (
     <BaseDialog.Backdrop
       data-slot="alert-dialog-overlay"
       className={overlay({ className })}
+      style={{ ...zIndexStyle, ...style }}
       {...props}
     />
   );
@@ -141,22 +144,27 @@ export function AlertDialogContent({
   children,
   portalProps,
   overlay,
+  style,
   ...props
 }: AlertDialogContentProps) {
   const theme = useThemeFamily();
   const { content } = alertDialog({ theme });
+  const { style: zIndexStyle } = useZIndex({ tier: "modal" });
 
   return (
     <AlertDialogPortal {...portalProps}>
-      {overlay === false ? null : <AlertDialogOverlay {...overlay} />}
-      <BaseDialog.Popup
-        data-slot="alert-dialog-content"
-        className={content({ className })}
-        {...props}
-        role="alertdialog"
-      >
-        {children}
-      </BaseDialog.Popup>
+      {overlay === false ? null : <AlertDialogOverlay style={zIndexStyle} {...overlay} />}
+      <ZIndexScope tier="modal">
+        <BaseDialog.Popup
+          data-slot="alert-dialog-content"
+          className={content({ className })}
+          style={{ ...zIndexStyle, ...style }}
+          {...props}
+          role="alertdialog"
+        >
+          {children}
+        </BaseDialog.Popup>
+      </ZIndexScope>
     </AlertDialogPortal>
   );
 }

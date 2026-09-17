@@ -6,6 +6,7 @@ import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 const contextMenu = tv({
   slots: {
@@ -188,10 +189,13 @@ export function ContextMenuContent({
   sticky,
   portalProps,
   className,
+  style,
+  children,
   ...props
 }: ContextMenuContentProps) {
   const theme = useThemeFamily();
   const { positioner, content } = contextMenu({ theme });
+  const { style: zIndexStyle } = useZIndex({ tier: "dropdown" });
   return (
     <ContextMenuPortal {...portalProps}>
       <BaseContextMenu.Positioner
@@ -208,12 +212,18 @@ export function ContextMenuContent({
         sideOffset={sideOffset}
         sticky={sticky}
         className={positioner()}
+        style={zIndexStyle}
       >
-        <BaseContextMenu.Popup
-          data-slot="context-menu-content"
-          className={content({ className })}
-          {...props}
-        />
+        <ZIndexScope tier="dropdown">
+          <BaseContextMenu.Popup
+            data-slot="context-menu-content"
+            className={content({ className })}
+            style={style}
+            {...props}
+          >
+            {children}
+          </BaseContextMenu.Popup>
+        </ZIndexScope>
       </BaseContextMenu.Positioner>
     </ContextMenuPortal>
   );

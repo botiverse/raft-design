@@ -90,23 +90,34 @@ describe("useZIndex and ZIndexScope", () => {
     warnSpy.mockRestore();
   });
 
-  it("resets level when nested inside a different tier", () => {
-    function SubScope() {
+  it("elevates dropdown when nested inside modal, and resets when inner tier is higher", () => {
+    function NestedDropdown() {
       const dropdownZ = useZIndex({ tier: "dropdown" });
-      return <div data-testid="dropdown" style={dropdownZ.style} />;
+      return <div data-testid="nested-dropdown" style={dropdownZ.style} />;
+    }
+
+    function NestedTooltip() {
+      const tooltipZ = useZIndex({ tier: "tooltip" });
+      return <div data-testid="nested-tooltip" style={tooltipZ.style} />;
     }
 
     render(
       <ZIndexScope tier="modal">
-        <ZIndexScope tier="modal">
-          <ZIndexScope tier="dropdown">
-            <SubScope />
-          </ZIndexScope>
+        <ZIndexScope tier="dropdown">
+          <NestedDropdown />
+        </ZIndexScope>
+        <ZIndexScope tier="tooltip">
+          <NestedTooltip />
         </ZIndexScope>
       </ZIndexScope>,
     );
 
-    const dropdown = screen.getByTestId("dropdown");
-    expect(dropdown.style.zIndex).toBe("var(--r-z-dropdown)");
+    const dropdown = screen.getByTestId("nested-dropdown");
+    const tooltip = screen.getByTestId("nested-tooltip");
+
+    // Dropdown nested in modal (2000) inherits modal base and steps up +100
+    expect(dropdown.style.zIndex).toBe("calc(var(--r-z-modal) + 100)");
+    // Tooltip tier is higher than modal (6000 > 2000), so it stays at tooltip tier
+    expect(tooltip.style.zIndex).toBe("var(--r-z-tooltip)");
   });
 });

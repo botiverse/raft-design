@@ -4,6 +4,7 @@ import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 const popover = tv({
   slots: {
@@ -125,11 +126,14 @@ export function PopoverContent({
   container,
   portalProps,
   className,
+  style,
+  children,
   ...props
 }: PopoverContentProps) {
   const theme = useThemeFamily();
   const { positioner, content } = popover({ theme });
   const portalContainer = container !== undefined ? container : portalProps?.container;
+  const { style: zIndexStyle } = useZIndex({ tier: "dropdown" });
   return (
     <PopoverPortal {...portalProps} container={portalContainer}>
       <BasePopover.Positioner
@@ -146,12 +150,18 @@ export function PopoverContent({
         sideOffset={sideOffset}
         sticky={sticky}
         className={positioner()}
+        style={zIndexStyle}
       >
-        <BasePopover.Popup
-          data-slot="popover-content"
-          className={content({ className })}
-          {...props}
-        />
+        <ZIndexScope tier="dropdown">
+          <BasePopover.Popup
+            data-slot="popover-content"
+            className={content({ className })}
+            style={style}
+            {...props}
+          >
+            {children}
+          </BasePopover.Popup>
+        </ZIndexScope>
       </BasePopover.Positioner>
     </PopoverPortal>
   );

@@ -234,6 +234,56 @@
   --z-tooltip: var(--r-z-tooltip);
 }
 
+@utility z-base {
+  z-index: var(--r-z-base);
+}
+@utility z-sticky {
+  z-index: var(--r-z-sticky);
+}
+@utility z-float {
+  z-index: var(--r-z-float);
+}
+@utility z-dropdown {
+  z-index: var(--r-z-dropdown);
+}
+@utility z-modal {
+  z-index: var(--r-z-modal);
+}
+@utility z-toast {
+  z-index: var(--r-z-toast);
+}
+@utility z-lightbox {
+  z-index: var(--r-z-lightbox);
+}
+@utility z-tooltip {
+  z-index: var(--r-z-tooltip);
+}
+
+.z-base {
+  z-index: var(--r-z-base);
+}
+.z-sticky {
+  z-index: var(--r-z-sticky);
+}
+.z-float {
+  z-index: var(--r-z-float);
+}
+.z-dropdown {
+  z-index: var(--r-z-dropdown);
+}
+.z-modal {
+  z-index: var(--r-z-modal);
+}
+.z-toast {
+  z-index: var(--r-z-toast);
+}
+.z-lightbox {
+  z-index: var(--r-z-lightbox);
+}
+.z-tooltip {
+  z-index: var(--r-z-tooltip);
+}
+
 *,
 ::before,
 ::after {

@@ -4,6 +4,7 @@ import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { resolveThemeScopeProps, useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 const previewCard = tv({
   slots: {
@@ -129,10 +130,13 @@ export function PreviewCardContent({
   sticky,
   portalProps,
   className,
+  style,
+  children,
   ...props
 }: PreviewCardContentProps) {
   const theme = useThemeFamily();
   const { positioner, popup } = previewCard({ theme });
+  const { style: zIndexStyle } = useZIndex({ tier: "dropdown" });
   return (
     <PreviewCardPortal {...portalProps}>
       <BasePreviewCard.Positioner
@@ -149,12 +153,18 @@ export function PreviewCardContent({
         sideOffset={sideOffset}
         sticky={sticky}
         className={positioner()}
+        style={zIndexStyle}
       >
-        <BasePreviewCard.Popup
-          data-slot="preview-card-content"
-          className={popup({ className })}
-          {...props}
-        />
+        <ZIndexScope tier="dropdown">
+          <BasePreviewCard.Popup
+            data-slot="preview-card-content"
+            className={popup({ className })}
+            style={style}
+            {...props}
+          >
+            {children}
+          </BasePreviewCard.Popup>
+        </ZIndexScope>
       </BasePreviewCard.Positioner>
     </PreviewCardPortal>
   );

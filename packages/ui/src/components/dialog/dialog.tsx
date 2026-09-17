@@ -8,6 +8,7 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 const dialog = tv({
   slots: {
@@ -88,11 +89,20 @@ export type DialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props> & {
   layer?: 0 | 1;
 };
 
-export function DialogOverlay({ className, layer, ...props }: DialogOverlayProps) {
+export function DialogOverlay({ className, layer, style, ...props }: DialogOverlayProps) {
   const theme = useThemeFamily();
   const { overlay } = dialog({ theme, layer });
+  const { style: zIndexStyle } = useZIndex({
+    tier: "modal",
+    offset: layer === 1 ? 100 : 0,
+  });
   return (
-    <BaseDialog.Backdrop data-slot="dialog-overlay" className={overlay({ className })} {...props} />
+    <BaseDialog.Backdrop
+      data-slot="dialog-overlay"
+      className={overlay({ className })}
+      style={{ ...zIndexStyle, ...style }}
+      {...props}
+    />
   );
 }
 
@@ -110,19 +120,33 @@ export function DialogContent({
   overlay,
   size,
   layer,
+  style,
   ...props
 }: DialogContentProps) {
   const theme = useThemeFamily();
   const { content } = dialog({ theme, size, layer });
+  const { style: zIndexStyle } = useZIndex({
+    tier: "modal",
+    offset: layer === 1 ? 100 : 0,
+  });
 
   const overlayProps = typeof overlay === "object" ? overlay : {};
 
   return (
     <DialogPortal {...portalProps}>
-      {overlay === false ? null : <DialogOverlay layer={layer} {...overlayProps} />}
-      <BaseDialog.Popup data-slot="dialog-content" className={content({ className })} {...props}>
-        {children}
-      </BaseDialog.Popup>
+      {overlay === false ? null : (
+        <DialogOverlay layer={layer} style={zIndexStyle} {...overlayProps} />
+      )}
+      <ZIndexScope tier="modal" offset={layer === 1 ? 100 : 0}>
+        <BaseDialog.Popup
+          data-slot="dialog-content"
+          className={content({ className })}
+          style={{ ...zIndexStyle, ...style }}
+          {...props}
+        >
+          {children}
+        </BaseDialog.Popup>
+      </ZIndexScope>
     </DialogPortal>
   );
 }

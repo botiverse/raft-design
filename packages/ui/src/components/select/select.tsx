@@ -8,6 +8,7 @@ import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 
 const select = tv({
   slots: {
@@ -316,10 +317,13 @@ export function SelectContent({
   sticky,
   portalProps,
   className,
+  style,
+  children,
   ...props
 }: SelectContentProps) {
   const theme = useThemeFamily();
   const { positioner, content } = select({ theme });
+  const { style: zIndexStyle } = useZIndex({ tier: "dropdown" });
   const positionerNode = (
     <BaseSelect.Positioner
       align={align}
@@ -336,8 +340,18 @@ export function SelectContent({
       sideOffset={sideOffset}
       sticky={sticky}
       className={positioner()}
+      style={zIndexStyle}
     >
-      <BaseSelect.Popup data-slot="select-content" className={content({ className })} {...props} />
+      <ZIndexScope tier="dropdown">
+        <BaseSelect.Popup
+          data-slot="select-content"
+          className={content({ className })}
+          style={style}
+          {...props}
+        >
+          {children}
+        </BaseSelect.Popup>
+      </ZIndexScope>
     </BaseSelect.Positioner>
   );
 

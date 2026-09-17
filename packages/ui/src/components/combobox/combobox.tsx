@@ -6,6 +6,7 @@ import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { useZIndex, ZIndexScope } from "../../lib/z-index/z-index";
 import { Button } from "../button/index";
 
 const combobox = tv({
@@ -518,12 +519,15 @@ export function ComboboxContent({
   sticky,
   portalProps,
   className,
+  style,
   initialFocus = false,
   finalFocus = false,
+  children,
   ...props
 }: ComboboxContentProps) {
   const theme = useThemeFamily();
   const { positioner, content } = combobox({ theme });
+  const { style: zIndexStyle } = useZIndex({ tier: "dropdown" });
   return (
     <ComboboxPortal {...portalProps}>
       <BaseCombobox.Positioner
@@ -540,14 +544,20 @@ export function ComboboxContent({
         sideOffset={sideOffset}
         sticky={sticky}
         className={positioner()}
+        style={zIndexStyle}
       >
-        <BaseCombobox.Popup
-          data-slot="combobox-content"
-          className={content({ className })}
-          initialFocus={initialFocus}
-          finalFocus={finalFocus}
-          {...props}
-        />
+        <ZIndexScope tier="dropdown">
+          <BaseCombobox.Popup
+            data-slot="combobox-content"
+            className={content({ className })}
+            style={style}
+            initialFocus={initialFocus}
+            finalFocus={finalFocus}
+            {...props}
+          >
+            {children}
+          </BaseCombobox.Popup>
+        </ZIndexScope>
       </BaseCombobox.Positioner>
     </ComboboxPortal>
   );
