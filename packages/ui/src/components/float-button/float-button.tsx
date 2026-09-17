@@ -14,7 +14,6 @@ import type {
   FloatButtonSide,
 } from "./float-button.position";
 import { resolvePositionStyles } from "./float-button.position";
-// @ts-expect-error — CSS side-effect import for component styling
 import "./float-button.css";
 
 export type FloatButtonVariant =
@@ -87,19 +86,19 @@ export function FloatButton({
   const nativeButton = nativeButtonProp ?? defaultNativeButton(render) ?? true;
 
   const rootClasses = [
-    "ds-float-button",
-    `ds-float-button--${size}`,
-    `ds-float-button--${shape}`,
-    `ds-float-button--${variant}`,
-    resolvedTheme === "elegant" && "ds-float-button--elegant",
+    "r-float-button",
+    `r-float-button--${size}`,
+    `r-float-button--${shape}`,
+    `r-float-button--${variant}`,
+    resolvedTheme === "elegant" && "r-float-button--elegant",
     className,
   ]
     .filter(Boolean)
     .join(" ");
 
   const contentClasses = [
-    "ds-float-button__content",
-    description && "ds-float-button__content--with-desc",
+    "r-float-button__content",
+    description && "r-float-button__content--with-desc",
   ]
     .filter(Boolean)
     .join(" ");
@@ -120,7 +119,7 @@ export function FloatButton({
         {icon}
         {children}
         {description ? (
-          <span data-slot="float-button-description" className="ds-float-button__desc">
+          <span data-slot="float-button-description" className="r-float-button__desc">
             {description}
           </span>
         ) : null}
@@ -190,11 +189,11 @@ export function FloatButtonGroup({
   };
 
   const rootClasses = [
-    "ds-float-button-group",
-    `ds-float-button-group--${direction}`,
-    attached && "ds-float-button-group--attached",
-    `ds-float-button-group--${shape}`,
-    resolvedTheme === "elegant" && "ds-float-button-group--elegant",
+    "r-float-button-group",
+    `r-float-button-group--${direction}`,
+    attached && "r-float-button-group--attached",
+    `r-float-button-group--${shape}`,
+    resolvedTheme === "elegant" && "r-float-button-group--elegant",
     className,
   ]
     .filter(Boolean)

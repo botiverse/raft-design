@@ -20,6 +20,11 @@ export default defineConfig({
       { from: "src/foundation.css", to: "dist", rename: "foundation.css" },
       { from: "src/styles.css", to: "dist", rename: "styles.css" },
       { from: "src/fonts.css", to: "dist", rename: "fonts.css" },
+      {
+        from: "src/components/float-button/float-button.css",
+        to: "dist/components/float-button",
+        rename: "float-button.css",
+      },
     ],
     dts: {
       tsgo: true,

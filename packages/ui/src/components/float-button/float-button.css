@@ -1,5 +1,5 @@
 /* FloatButton pure CSS styling following pattern/Button.css architecture
-   - Local CSS variables (--dsl-float-button-*) declared on component root
+   - Local CSS variables (--r-float-button-*) declared on component root
    - Modifier classes rebind local variables
    - Component styles strictly consume local variables
    - Dual theme support (Brutal / Elegant) via CSS variable overrides
@@ -9,195 +9,195 @@
    1. Local Variable Definitions & Modifier Overrides
    ───────────────────────────────────────────────────────────────────────── */
 
-.ds-float-button {
+.r-float-button {
   /* Default local variables (Brutal theme defaults) */
-  --dsl-float-button-size: 32px;
-  --dsl-float-button-border-radius: 9999px;
-  --dsl-float-button-border-width: 2px;
-  --dsl-float-button-border-style: solid;
-  --dsl-float-button-border-color: var(--line-strong);
-  --dsl-float-button-bg: var(--layer-panel);
-  --dsl-float-button-bg-hover: var(--layer-panel);
-  --dsl-float-button-text-color: var(--foreground-strong);
-  --dsl-float-button-text-hover-color: var(--dsl-float-button-text-color);
-  --dsl-float-button-text-disabled-color: var(--dsl-float-button-text-color);
-  --dsl-float-button-box-shadow: var(--theme-shadow-md);
-  --dsl-float-button-shadow-hover: var(--theme-shadow-lg);
-  --dsl-float-button-shadow-active: var(--theme-shadow-sm);
-  --dsl-float-button-transform-hover: translate(-1px, -1px);
-  --dsl-float-button-transform-active: translate(0, 0);
-  --dsl-float-button-outline: 2px solid var(--line-strong);
-  --dsl-float-button-outline-offset: 2px;
-  --dsl-float-button-font-size: 12px;
-  --dsl-float-button-font-weight: 700;
-  --dsl-float-button-desc-font-size: 10px;
-  --dsl-float-button-icon-size: 16px;
-  --dsl-float-button-opacity-disabled: 0.4;
+  --r-float-button-size: 32px;
+  --r-float-button-border-radius: 9999px;
+  --r-float-button-border-width: 2px;
+  --r-float-button-border-style: solid;
+  --r-float-button-border-color: var(--line-strong);
+  --r-float-button-bg: var(--layer-panel);
+  --r-float-button-bg-hover: var(--layer-panel);
+  --r-float-button-text-color: var(--foreground-strong);
+  --r-float-button-text-hover-color: var(--r-float-button-text-color);
+  --r-float-button-text-disabled-color: var(--r-float-button-text-color);
+  --r-float-button-box-shadow: var(--theme-shadow-md);
+  --r-float-button-shadow-hover: var(--theme-shadow-lg);
+  --r-float-button-shadow-active: var(--theme-shadow-sm);
+  --r-float-button-transform-hover: translate(-1px, -1px);
+  --r-float-button-transform-active: translate(0, 0);
+  --r-float-button-outline: 2px solid var(--line-strong);
+  --r-float-button-outline-offset: 2px;
+  --r-float-button-font-size: 12px;
+  --r-float-button-font-weight: 700;
+  --r-float-button-desc-font-size: 10px;
+  --r-float-button-icon-size: 16px;
+  --r-float-button-opacity-disabled: 0.4;
 
   /* Sizes: xs (24px), sm (28px), md (32px), lg (36px) */
-  &.ds-float-button--xs {
-    --dsl-float-button-size: 24px;
-    --dsl-float-button-icon-size: 12px;
-    --dsl-float-button-font-size: 11px;
-    --dsl-float-button-desc-font-size: 8px;
+  &.r-float-button--xs {
+    --r-float-button-size: 24px;
+    --r-float-button-icon-size: 12px;
+    --r-float-button-font-size: 11px;
+    --r-float-button-desc-font-size: 8px;
   }
-  &.ds-float-button--sm {
-    --dsl-float-button-size: 28px;
-    --dsl-float-button-icon-size: 14px;
-    --dsl-float-button-font-size: 12px;
-    --dsl-float-button-desc-font-size: 9px;
+  &.r-float-button--sm {
+    --r-float-button-size: 28px;
+    --r-float-button-icon-size: 14px;
+    --r-float-button-font-size: 12px;
+    --r-float-button-desc-font-size: 9px;
   }
-  &.ds-float-button--md {
-    --dsl-float-button-size: 32px;
-    --dsl-float-button-icon-size: 16px;
-    --dsl-float-button-font-size: 12px;
-    --dsl-float-button-desc-font-size: 10px;
+  &.r-float-button--md {
+    --r-float-button-size: 32px;
+    --r-float-button-icon-size: 16px;
+    --r-float-button-font-size: 12px;
+    --r-float-button-desc-font-size: 10px;
   }
-  &.ds-float-button--lg {
-    --dsl-float-button-size: 36px;
-    --dsl-float-button-icon-size: 18px;
-    --dsl-float-button-font-size: 14px;
-    --dsl-float-button-desc-font-size: 11px;
+  &.r-float-button--lg {
+    --r-float-button-size: 36px;
+    --r-float-button-icon-size: 18px;
+    --r-float-button-font-size: 14px;
+    --r-float-button-desc-font-size: 11px;
   }
 
   /* Shapes */
-  &.ds-float-button--circle {
-    --dsl-float-button-border-radius: 9999px;
+  &.r-float-button--circle {
+    --r-float-button-border-radius: 9999px;
   }
-  &.ds-float-button--square {
-    --dsl-float-button-border-radius: 0px;
+  &.r-float-button--square {
+    --r-float-button-border-radius: 0px;
   }
 
   /* Variants (Brutal default) */
-  &.ds-float-button--default {
-    --dsl-float-button-border-color: var(--line-strong);
-    --dsl-float-button-bg: var(--layer-panel);
-    --dsl-float-button-bg-hover: var(--layer-panel);
-    --dsl-float-button-text-color: var(--foreground-strong);
+  &.r-float-button--default {
+    --r-float-button-border-color: var(--line-strong);
+    --r-float-button-bg: var(--layer-panel);
+    --r-float-button-bg-hover: var(--layer-panel);
+    --r-float-button-text-color: var(--foreground-strong);
   }
-  &.ds-float-button--primary {
-    --dsl-float-button-border-color: var(--line-strong);
-    --dsl-float-button-bg: var(--color-brutal-yellow, var(--primary-400));
-    --dsl-float-button-bg-hover: var(--color-brutal-yellow, var(--primary-400));
-    --dsl-float-button-text-color: var(--foreground-strong);
+  &.r-float-button--primary {
+    --r-float-button-border-color: var(--line-strong);
+    --r-float-button-bg: var(--color-brutal-yellow, var(--primary-400));
+    --r-float-button-bg-hover: var(--color-brutal-yellow, var(--primary-400));
+    --r-float-button-text-color: var(--foreground-strong);
   }
-  &.ds-float-button--accent {
-    --dsl-float-button-border-color: var(--line-strong);
-    --dsl-float-button-bg: var(--color-brutal-pink, var(--accent-400));
-    --dsl-float-button-bg-hover: var(--color-brutal-pink, var(--accent-400));
-    --dsl-float-button-text-color: var(--foreground-strong);
+  &.r-float-button--accent {
+    --r-float-button-border-color: var(--line-strong);
+    --r-float-button-bg: var(--color-brutal-pink, var(--accent-400));
+    --r-float-button-bg-hover: var(--color-brutal-pink, var(--accent-400));
+    --r-float-button-text-color: var(--foreground-strong);
   }
-  &.ds-float-button--outline {
-    --dsl-float-button-border-color: var(--line-strong);
-    --dsl-float-button-bg: var(--layer-panel);
-    --dsl-float-button-bg-hover: var(--layer-panel);
-    --dsl-float-button-text-color: var(--foreground-strong);
+  &.r-float-button--outline {
+    --r-float-button-border-color: var(--line-strong);
+    --r-float-button-bg: var(--layer-panel);
+    --r-float-button-bg-hover: var(--layer-panel);
+    --r-float-button-text-color: var(--foreground-strong);
   }
-  &.ds-float-button--ghost {
-    --dsl-float-button-border-color: transparent;
-    --dsl-float-button-bg: transparent;
-    --dsl-float-button-text-color: var(--foreground-strong);
-    --dsl-float-button-box-shadow: none;
-    --dsl-float-button-bg-hover: var(--fill-muted);
-    --dsl-float-button-shadow-hover: var(--theme-shadow-sm);
+  &.r-float-button--ghost {
+    --r-float-button-border-color: transparent;
+    --r-float-button-bg: transparent;
+    --r-float-button-text-color: var(--foreground-strong);
+    --r-float-button-box-shadow: none;
+    --r-float-button-bg-hover: var(--fill-muted);
+    --r-float-button-shadow-hover: var(--theme-shadow-sm);
   }
-  &.ds-float-button--warning {
-    --dsl-float-button-border-color: var(--line-strong);
-    --dsl-float-button-bg: var(--color-brutal-orange, var(--warning));
-    --dsl-float-button-bg-hover: var(--color-brutal-orange, var(--warning));
-    --dsl-float-button-text-color: var(--foreground-strong);
+  &.r-float-button--warning {
+    --r-float-button-border-color: var(--line-strong);
+    --r-float-button-bg: var(--color-brutal-orange, var(--warning));
+    --r-float-button-bg-hover: var(--color-brutal-orange, var(--warning));
+    --r-float-button-text-color: var(--foreground-strong);
   }
-  &.ds-float-button--danger {
-    --dsl-float-button-border-color: var(--line-strong);
-    --dsl-float-button-bg: var(--color-brutal-red, var(--danger));
-    --dsl-float-button-bg-hover: var(--color-brutal-red, var(--danger));
-    --dsl-float-button-text-color: var(--foreground-strong);
+  &.r-float-button--danger {
+    --r-float-button-border-color: var(--line-strong);
+    --r-float-button-bg: var(--color-brutal-red, var(--danger));
+    --r-float-button-bg-hover: var(--color-brutal-red, var(--danger));
+    --r-float-button-text-color: var(--foreground-strong);
   }
 
   /* Theme: Elegant overrides */
-  &.ds-float-button--elegant,
+  &.r-float-button--elegant,
   :where([data-theme="elegant"]) & {
-    --dsl-float-button-border-width: 1px;
-    --dsl-float-button-font-weight: 500;
-    --dsl-float-button-border-color: var(--line-muted);
-    --dsl-float-button-bg: var(--layer-panel);
-    --dsl-float-button-bg-hover: var(--fill-muted);
-    --dsl-float-button-text-color: var(--foreground);
-    --dsl-float-button-text-hover-color: var(--foreground);
-    --dsl-float-button-box-shadow: var(--theme-shadow-md);
-    --dsl-float-button-transform-hover: none;
-    --dsl-float-button-transform-active: scale(0.97);
-    --dsl-float-button-shadow-hover: var(--theme-shadow-md);
-    --dsl-float-button-shadow-active: var(--theme-shadow-md);
-    --dsl-float-button-outline: 2px solid color-mix(in oklch, var(--primary-400) 80%, transparent);
-    --dsl-float-button-outline-offset: 2px;
+    --r-float-button-border-width: 1px;
+    --r-float-button-font-weight: 500;
+    --r-float-button-border-color: var(--line-muted);
+    --r-float-button-bg: var(--layer-panel);
+    --r-float-button-bg-hover: var(--fill-muted);
+    --r-float-button-text-color: var(--foreground);
+    --r-float-button-text-hover-color: var(--foreground);
+    --r-float-button-box-shadow: var(--theme-shadow-md);
+    --r-float-button-transform-hover: none;
+    --r-float-button-transform-active: scale(0.97);
+    --r-float-button-shadow-hover: var(--theme-shadow-md);
+    --r-float-button-shadow-active: var(--theme-shadow-md);
+    --r-float-button-outline: 2px solid color-mix(in oklch, var(--primary-400) 80%, transparent);
+    --r-float-button-outline-offset: 2px;
   }
-  &.ds-float-button--elegant.ds-float-button--square.ds-float-button--xs,
-  :where([data-theme="elegant"]) &.ds-float-button--square.ds-float-button--xs {
-    --dsl-float-button-border-radius: 4px;
+  &.r-float-button--elegant.r-float-button--square.r-float-button--xs,
+  :where([data-theme="elegant"]) &.r-float-button--square.r-float-button--xs {
+    --r-float-button-border-radius: 4px;
   }
-  &.ds-float-button--elegant.ds-float-button--square.ds-float-button--sm,
-  :where([data-theme="elegant"]) &.ds-float-button--square.ds-float-button--sm {
-    --dsl-float-button-border-radius: 4px;
+  &.r-float-button--elegant.r-float-button--square.r-float-button--sm,
+  :where([data-theme="elegant"]) &.r-float-button--square.r-float-button--sm {
+    --r-float-button-border-radius: 4px;
   }
-  &.ds-float-button--elegant.ds-float-button--square.ds-float-button--md,
-  :where([data-theme="elegant"]) &.ds-float-button--square.ds-float-button--md {
-    --dsl-float-button-border-radius: 6px;
+  &.r-float-button--elegant.r-float-button--square.r-float-button--md,
+  :where([data-theme="elegant"]) &.r-float-button--square.r-float-button--md {
+    --r-float-button-border-radius: 6px;
   }
-  &.ds-float-button--elegant.ds-float-button--square.ds-float-button--lg,
-  :where([data-theme="elegant"]) &.ds-float-button--square.ds-float-button--lg {
-    --dsl-float-button-border-radius: 8px;
+  &.r-float-button--elegant.r-float-button--square.r-float-button--lg,
+  :where([data-theme="elegant"]) &.r-float-button--square.r-float-button--lg {
+    --r-float-button-border-radius: 8px;
   }
-  &.ds-float-button--elegant.ds-float-button--default,
-  :where([data-theme="elegant"]) &.ds-float-button--default {
-    --dsl-float-button-border-color: var(--line-muted);
-    --dsl-float-button-bg: var(--layer-panel);
-    --dsl-float-button-bg-hover: var(--fill-muted);
-    --dsl-float-button-text-color: var(--foreground);
+  &.r-float-button--elegant.r-float-button--default,
+  :where([data-theme="elegant"]) &.r-float-button--default {
+    --r-float-button-border-color: var(--line-muted);
+    --r-float-button-bg: var(--layer-panel);
+    --r-float-button-bg-hover: var(--fill-muted);
+    --r-float-button-text-color: var(--foreground);
   }
-  &.ds-float-button--elegant.ds-float-button--primary,
-  :where([data-theme="elegant"]) &.ds-float-button--primary {
-    --dsl-float-button-border-color: transparent;
-    --dsl-float-button-bg: var(--primary-400);
-    --dsl-float-button-bg-hover: var(--primary-500);
-    --dsl-float-button-text-color: var(--primary-950);
+  &.r-float-button--elegant.r-float-button--primary,
+  :where([data-theme="elegant"]) &.r-float-button--primary {
+    --r-float-button-border-color: transparent;
+    --r-float-button-bg: var(--primary-400);
+    --r-float-button-bg-hover: var(--primary-500);
+    --r-float-button-text-color: var(--primary-950);
   }
-  &.ds-float-button--elegant.ds-float-button--accent,
-  :where([data-theme="elegant"]) &.ds-float-button--accent {
-    --dsl-float-button-border-color: transparent;
-    --dsl-float-button-bg: var(--accent-400);
-    --dsl-float-button-bg-hover: var(--accent-500);
-    --dsl-float-button-text-color: var(--accent-950);
+  &.r-float-button--elegant.r-float-button--accent,
+  :where([data-theme="elegant"]) &.r-float-button--accent {
+    --r-float-button-border-color: transparent;
+    --r-float-button-bg: var(--accent-400);
+    --r-float-button-bg-hover: var(--accent-500);
+    --r-float-button-text-color: var(--accent-950);
   }
-  &.ds-float-button--elegant.ds-float-button--outline,
-  :where([data-theme="elegant"]) &.ds-float-button--outline {
-    --dsl-float-button-border-color: var(--line-strong);
-    --dsl-float-button-bg: var(--layer-panel);
-    --dsl-float-button-bg-hover: var(--fill-muted);
-    --dsl-float-button-text-color: var(--foreground);
+  &.r-float-button--elegant.r-float-button--outline,
+  :where([data-theme="elegant"]) &.r-float-button--outline {
+    --r-float-button-border-color: var(--line-strong);
+    --r-float-button-bg: var(--layer-panel);
+    --r-float-button-bg-hover: var(--fill-muted);
+    --r-float-button-text-color: var(--foreground);
   }
-  &.ds-float-button--elegant.ds-float-button--ghost,
-  :where([data-theme="elegant"]) &.ds-float-button--ghost {
-    --dsl-float-button-border-color: transparent;
-    --dsl-float-button-bg: transparent;
-    --dsl-float-button-bg-hover: var(--fill-muted);
-    --dsl-float-button-text-color: var(--foreground);
-    --dsl-float-button-box-shadow: none;
-    --dsl-float-button-shadow-hover: var(--theme-shadow-sm);
+  &.r-float-button--elegant.r-float-button--ghost,
+  :where([data-theme="elegant"]) &.r-float-button--ghost {
+    --r-float-button-border-color: transparent;
+    --r-float-button-bg: transparent;
+    --r-float-button-bg-hover: var(--fill-muted);
+    --r-float-button-text-color: var(--foreground);
+    --r-float-button-box-shadow: none;
+    --r-float-button-shadow-hover: var(--theme-shadow-sm);
   }
-  &.ds-float-button--elegant.ds-float-button--warning,
-  :where([data-theme="elegant"]) &.ds-float-button--warning {
-    --dsl-float-button-border-color: transparent;
-    --dsl-float-button-bg: var(--warning);
-    --dsl-float-button-bg-hover: var(--warning);
-    --dsl-float-button-text-color: var(--warning-foreground);
+  &.r-float-button--elegant.r-float-button--warning,
+  :where([data-theme="elegant"]) &.r-float-button--warning {
+    --r-float-button-border-color: transparent;
+    --r-float-button-bg: var(--warning);
+    --r-float-button-bg-hover: var(--warning);
+    --r-float-button-text-color: var(--warning-foreground);
   }
-  &.ds-float-button--elegant.ds-float-button--danger,
-  :where([data-theme="elegant"]) &.ds-float-button--danger {
-    --dsl-float-button-border-color: transparent;
-    --dsl-float-button-bg: var(--danger);
-    --dsl-float-button-bg-hover: var(--danger-hover);
-    --dsl-float-button-text-color: var(--danger-foreground);
+  &.r-float-button--elegant.r-float-button--danger,
+  :where([data-theme="elegant"]) &.r-float-button--danger {
+    --r-float-button-border-color: transparent;
+    --r-float-button-bg: var(--danger);
+    --r-float-button-bg-hover: var(--danger-hover);
+    --r-float-button-text-color: var(--danger-foreground);
   }
 }
 
@@ -205,7 +205,7 @@
    2. Base Element Rules Consuming Local Variables
    ───────────────────────────────────────────────────────────────────────── */
 
-.ds-float-button {
+.r-float-button {
   position: relative;
   display: inline-flex;
   flex-shrink: 0;
@@ -215,17 +215,17 @@
   cursor: pointer;
   box-sizing: border-box;
   padding: 0;
-  width: var(--dsl-float-button-size);
-  height: var(--dsl-float-button-size);
-  border-radius: var(--dsl-float-button-border-radius);
-  border-width: var(--dsl-float-button-border-width);
-  border-style: var(--dsl-float-button-border-style);
-  border-color: var(--dsl-float-button-border-color);
-  background-color: var(--dsl-float-button-bg);
-  color: var(--dsl-float-button-text-color);
-  box-shadow: var(--dsl-float-button-box-shadow);
-  font-size: var(--dsl-float-button-font-size);
-  font-weight: var(--dsl-float-button-font-weight);
+  width: var(--r-float-button-size);
+  height: var(--r-float-button-size);
+  border-radius: var(--r-float-button-border-radius);
+  border-width: var(--r-float-button-border-width);
+  border-style: var(--r-float-button-border-style);
+  border-color: var(--r-float-button-border-color);
+  background-color: var(--r-float-button-bg);
+  color: var(--r-float-button-text-color);
+  box-shadow: var(--r-float-button-box-shadow);
+  font-size: var(--r-float-button-font-size);
+  font-weight: var(--r-float-button-font-weight);
   outline: none;
   transition:
     transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
@@ -239,50 +239,50 @@
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--dsl-float-button-bg-hover);
-    color: var(--dsl-float-button-text-hover-color);
-    box-shadow: var(--dsl-float-button-shadow-hover);
-    transform: var(--dsl-float-button-transform-hover);
+    background-color: var(--r-float-button-bg-hover);
+    color: var(--r-float-button-text-hover-color);
+    box-shadow: var(--r-float-button-shadow-hover);
+    transform: var(--r-float-button-transform-hover);
   }
 
   &:active:not(:disabled) {
-    box-shadow: var(--dsl-float-button-shadow-active);
-    transform: var(--dsl-float-button-transform-active);
+    box-shadow: var(--r-float-button-shadow-active);
+    transform: var(--r-float-button-transform-active);
   }
 
   &:focus-visible {
-    outline: var(--dsl-float-button-outline);
-    outline-offset: var(--dsl-float-button-outline-offset);
+    outline: var(--r-float-button-outline);
+    outline-offset: var(--r-float-button-outline-offset);
   }
 
   &:disabled {
     pointer-events: none;
-    opacity: var(--dsl-float-button-opacity-disabled);
+    opacity: var(--r-float-button-opacity-disabled);
     cursor: not-allowed;
-    color: var(--dsl-float-button-text-disabled-color);
+    color: var(--r-float-button-text-disabled-color);
   }
 
   & svg {
     pointer-events: none;
     flex-shrink: 0;
-    width: var(--dsl-float-button-icon-size);
-    height: var(--dsl-float-button-icon-size);
+    width: var(--r-float-button-icon-size);
+    height: var(--r-float-button-icon-size);
   }
 
-  & > .ds-float-button__content {
+  & > .r-float-button__content {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
 
-    &.ds-float-button__content--with-desc {
+    &.r-float-button__content--with-desc {
       flex-direction: column;
       gap: 2px;
     }
   }
 
-  & .ds-float-button__desc {
-    font-size: var(--dsl-float-button-desc-font-size);
+  & .r-float-button__desc {
+    font-size: var(--r-float-button-desc-font-size);
     text-align: center;
     line-height: 1.25;
     overflow: hidden;
@@ -295,60 +295,60 @@
    3. FloatButtonGroup
    ───────────────────────────────────────────────────────────────────────── */
 
-.ds-float-button-group {
-  --dsl-float-button-group-gap: 10px;
+.r-float-button-group {
+  --r-float-button-group-gap: 10px;
 
   display: inline-flex;
   align-items: center;
   user-select: none;
   box-sizing: border-box;
-  gap: var(--dsl-float-button-group-gap);
+  gap: var(--r-float-button-group-gap);
 
-  &.ds-float-button-group--vertical {
+  &.r-float-button-group--vertical {
     flex-direction: column;
   }
 
-  &.ds-float-button-group--horizontal {
+  &.r-float-button-group--horizontal {
     flex-direction: row;
   }
 
-  &.ds-float-button-group--attached {
-    --dsl-float-button-group-gap: 0px;
+  &.r-float-button-group--attached {
+    --r-float-button-group-gap: 0px;
     gap: 0;
   }
 
   /* Attached: seamless borders */
-  &.ds-float-button-group--attached.ds-float-button-group--vertical
-    > .ds-float-button:not(:last-child) {
+  &.r-float-button-group--attached.r-float-button-group--vertical
+    > .r-float-button:not(:last-child) {
     border-bottom-width: 0;
   }
 
-  &.ds-float-button-group--attached.ds-float-button-group--vertical
-    > .ds-float-button:not(:first-child):not(:last-child) {
+  &.r-float-button-group--attached.r-float-button-group--vertical
+    > .r-float-button:not(:first-child):not(:last-child) {
     border-radius: 0;
   }
 
-  &.ds-float-button-group--attached.ds-float-button-group--horizontal
-    > .ds-float-button:not(:last-child) {
+  &.r-float-button-group--attached.r-float-button-group--horizontal
+    > .r-float-button:not(:last-child) {
     border-right-width: 0;
   }
 
-  &.ds-float-button-group--attached.ds-float-button-group--horizontal
-    > .ds-float-button:not(:first-child):not(:last-child) {
+  &.r-float-button-group--attached.r-float-button-group--horizontal
+    > .r-float-button:not(:first-child):not(:last-child) {
     border-radius: 0;
   }
 
   /* Attached: vertical circle radii */
-  &.ds-float-button-group--attached.ds-float-button-group--vertical.ds-float-button-group--circle
-    > .ds-float-button:first-child:not(:last-child) {
+  &.r-float-button-group--attached.r-float-button-group--vertical.r-float-button-group--circle
+    > .r-float-button:first-child:not(:last-child) {
     border-top-left-radius: 9999px;
     border-top-right-radius: 9999px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  &.ds-float-button-group--attached.ds-float-button-group--vertical.ds-float-button-group--circle
-    > .ds-float-button:last-child:not(:first-child) {
+  &.r-float-button-group--attached.r-float-button-group--vertical.r-float-button-group--circle
+    > .r-float-button:last-child:not(:first-child) {
     border-bottom-left-radius: 9999px;
     border-bottom-right-radius: 9999px;
     border-top-left-radius: 0;
@@ -356,16 +356,16 @@
   }
 
   /* Attached: horizontal circle radii */
-  &.ds-float-button-group--attached.ds-float-button-group--horizontal.ds-float-button-group--circle
-    > .ds-float-button:first-child:not(:last-child) {
+  &.r-float-button-group--attached.r-float-button-group--horizontal.r-float-button-group--circle
+    > .r-float-button:first-child:not(:last-child) {
     border-top-left-radius: 9999px;
     border-bottom-left-radius: 9999px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  &.ds-float-button-group--attached.ds-float-button-group--horizontal.ds-float-button-group--circle
-    > .ds-float-button:last-child:not(:first-child) {
+  &.r-float-button-group--attached.r-float-button-group--horizontal.r-float-button-group--circle
+    > .r-float-button:last-child:not(:first-child) {
     border-top-right-radius: 9999px;
     border-bottom-right-radius: 9999px;
     border-top-left-radius: 0;
@@ -373,52 +373,52 @@
   }
 
   /* Attached square: brutal has 0 radius everywhere */
-  &.ds-float-button-group--attached.ds-float-button-group--square:not(
-      .ds-float-button-group--elegant
+  &.r-float-button-group--attached.r-float-button-group--square:not(
+      .r-float-button-group--elegant
     ):not([data-theme="elegant"] *)
-    > .ds-float-button {
+    > .r-float-button {
     border-radius: 0;
   }
 
   /* Attached square: elegant has rounded outer corners */
-  &.ds-float-button-group--attached.ds-float-button-group--vertical.ds-float-button-group--square.ds-float-button-group--elegant
-    > .ds-float-button:first-child:not(:last-child),
+  &.r-float-button-group--attached.r-float-button-group--vertical.r-float-button-group--square.r-float-button-group--elegant
+    > .r-float-button:first-child:not(:last-child),
   :where([data-theme="elegant"])
-    &.ds-float-button-group--attached.ds-float-button-group--vertical.ds-float-button-group--square
-    > .ds-float-button:first-child:not(:last-child) {
+    &.r-float-button-group--attached.r-float-button-group--vertical.r-float-button-group--square
+    > .r-float-button:first-child:not(:last-child) {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  &.ds-float-button-group--attached.ds-float-button-group--vertical.ds-float-button-group--square.ds-float-button-group--elegant
-    > .ds-float-button:last-child:not(:first-child),
+  &.r-float-button-group--attached.r-float-button-group--vertical.r-float-button-group--square.r-float-button-group--elegant
+    > .r-float-button:last-child:not(:first-child),
   :where([data-theme="elegant"])
-    &.ds-float-button-group--attached.ds-float-button-group--vertical.ds-float-button-group--square
-    > .ds-float-button:last-child:not(:first-child) {
+    &.r-float-button-group--attached.r-float-button-group--vertical.r-float-button-group--square
+    > .r-float-button:last-child:not(:first-child) {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
 
-  &.ds-float-button-group--attached.ds-float-button-group--horizontal.ds-float-button-group--square.ds-float-button-group--elegant
-    > .ds-float-button:first-child:not(:last-child),
+  &.r-float-button-group--attached.r-float-button-group--horizontal.r-float-button-group--square.r-float-button-group--elegant
+    > .r-float-button:first-child:not(:last-child),
   :where([data-theme="elegant"])
-    &.ds-float-button-group--attached.ds-float-button-group--horizontal.ds-float-button-group--square
-    > .ds-float-button:first-child:not(:last-child) {
+    &.r-float-button-group--attached.r-float-button-group--horizontal.r-float-button-group--square
+    > .r-float-button:first-child:not(:last-child) {
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  &.ds-float-button-group--attached.ds-float-button-group--horizontal.ds-float-button-group--square.ds-float-button-group--elegant
-    > .ds-float-button:last-child:not(:first-child),
+  &.r-float-button-group--attached.r-float-button-group--horizontal.r-float-button-group--square.r-float-button-group--elegant
+    > .r-float-button:last-child:not(:first-child),
   :where([data-theme="elegant"])
-    &.ds-float-button-group--attached.ds-float-button-group--horizontal.ds-float-button-group--square
-    > .ds-float-button:last-child:not(:first-child) {
+    &.r-float-button-group--attached.r-float-button-group--horizontal.r-float-button-group--square
+    > .r-float-button:last-child:not(:first-child) {
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top-left-radius: 0;

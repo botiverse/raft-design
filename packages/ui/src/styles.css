@@ -1,4 +1,5 @@
 @import "./foundation.css";
+@import "./components/float-button/float-button.css";
 
 /* `dark:` tracks the elegant theme's explicit dark context and its pre-hydration
    system-dark fallback. Explicit .light/.dark classes always win.

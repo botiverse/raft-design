@@ -30,10 +30,10 @@ describe("FloatButton", () => {
     expect(button.getAttribute("data-shape")).toBe("circle");
     expect(button.getAttribute("data-size")).toBe("md");
     expect(button.getAttribute("data-variant")).toBe("default");
-    expect(button.className).toContain("ds-float-button");
-    expect(button.className).toContain("ds-float-button--circle");
-    expect(button.className).toContain("ds-float-button--md");
-    expect(button.className).toContain("ds-float-button--default");
+    expect(button.className).toContain("r-float-button");
+    expect(button.className).toContain("r-float-button--circle");
+    expect(button.className).toContain("r-float-button--md");
+    expect(button.className).toContain("r-float-button--default");
   });
 
   test("renders with icon and description", () => {
@@ -41,7 +41,7 @@ describe("FloatButton", () => {
     expect(screen.getByTestId("test-icon")).toBeDefined();
     const desc = screen.getByText("Top");
     expect(desc.getAttribute("data-slot")).toBe("float-button-description");
-    expect(desc.className).toContain("ds-float-button__desc");
+    expect(desc.className).toContain("r-float-button__desc");
   });
 
   test("calculates fixed position and side offsets correctly", () => {
@@ -66,7 +66,7 @@ describe("FloatButton", () => {
     render(<FloatButton size="xs">XS</FloatButton>);
     const button = screen.getByRole("button");
     expect(button.getAttribute("data-size")).toBe("xs");
-    expect(button.className).toContain("ds-float-button--xs");
+    expect(button.className).toContain("r-float-button--xs");
   });
 
   test("renders native button attributes and respects disabled state", () => {
@@ -85,14 +85,14 @@ describe("FloatButton", () => {
         </ThemeProvider>,
       );
       const button = screen.getByRole("button");
-      expect(button.className).toContain("ds-float-button");
-      expect(button.className).toContain("ds-float-button--square");
-      expect(button.className).toContain("ds-float-button--lg");
-      expect(button.className).toContain("ds-float-button--primary");
+      expect(button.className).toContain("r-float-button");
+      expect(button.className).toContain("r-float-button--square");
+      expect(button.className).toContain("r-float-button--lg");
+      expect(button.className).toContain("r-float-button--primary");
       if (theme === "elegant") {
-        expect(button.className).toContain("ds-float-button--elegant");
+        expect(button.className).toContain("r-float-button--elegant");
       } else {
-        expect(button.className).not.toContain("ds-float-button--elegant");
+        expect(button.className).not.toContain("r-float-button--elegant");
       }
     });
   }
@@ -108,8 +108,8 @@ describe("FloatButtonGroup", () => {
     );
     const group = screen.getByRole("group");
     expect(group.getAttribute("data-slot")).toBe("float-button-group");
-    expect(group.className).toContain("ds-float-button-group");
-    expect(group.className).toContain("ds-float-button-group--vertical");
+    expect(group.className).toContain("r-float-button-group");
+    expect(group.className).toContain("r-float-button-group--vertical");
     expect(group.style.position).toBe("fixed");
     expect(group.style.top).toBe("20px");
     expect(group.style.left).toBe("20px");
@@ -126,9 +126,9 @@ describe("FloatButtonGroup", () => {
     const group = screen.getByRole("group");
     expect(group.getAttribute("data-direction")).toBe("horizontal");
     expect(group.getAttribute("data-attached")).toBe("true");
-    expect(group.className).toContain("ds-float-button-group--horizontal");
-    expect(group.className).toContain("ds-float-button-group--attached");
-    expect(group.className).toContain("ds-float-button-group--square");
+    expect(group.className).toContain("r-float-button-group--horizontal");
+    expect(group.className).toContain("r-float-button-group--attached");
+    expect(group.className).toContain("r-float-button-group--square");
   });
 
   test("provides context shape and size to child buttons", () => {
@@ -138,7 +138,7 @@ describe("FloatButtonGroup", () => {
       </FloatButtonGroup>,
     );
     const button = screen.getByRole("button");
-    expect(button.className).toContain("ds-float-button--square");
-    expect(button.className).toContain("ds-float-button--sm");
+    expect(button.className).toContain("r-float-button--square");
+    expect(button.className).toContain("r-float-button--sm");
   });
 });
