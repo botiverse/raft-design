@@ -90,13 +90,13 @@ export const drawer = tv({
   extend: drawerMotion,
   slots: {
     overlay: [
-      "fixed inset-0 z-50 min-h-dvh select-none",
+      "fixed inset-0 z-modal min-h-dvh select-none",
       "bg-layer-backdrop",
       "supports-[-webkit-touch-callout:none]:absolute",
     ],
-    viewport: ["pointer-events-none fixed inset-0 z-50 select-none"],
+    viewport: ["pointer-events-none fixed inset-0 z-modal select-none"],
     popup: [
-      "group/drawer-popup pointer-events-auto fixed z-50 flex h-(--drawer-content-height) flex-col outline-none",
+      "group/drawer-popup pointer-events-auto fixed z-modal flex h-(--drawer-content-height) flex-col outline-none",
       "text-foreground-strong",
       "[--drawer-inset:12px] [--drawer-content-height:var(--drawer-height,auto)]",
       "data-nested-drawer-open:overflow-hidden",

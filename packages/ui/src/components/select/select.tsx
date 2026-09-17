@@ -26,7 +26,7 @@ const select = tv({
       "[&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
     ],
     value: ["flex min-w-0 flex-1 truncate text-left"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-dropdown outline-none"],
     content: [
       "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden bg-layer-panel",
       "outline-none",

@@ -10,7 +10,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const tooltip = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-tooltip outline-none"],
     content: [
       "relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
       "origin-(--transform-origin) outline-none",

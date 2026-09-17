@@ -12,12 +12,12 @@ import type { ButtonProps } from "../button/index";
 const alertDialog = tv({
   slots: {
     overlay: [
-      "fixed inset-0 z-50",
+      "fixed inset-0 z-modal",
       "transition-opacity duration-150 ease-out",
       "data-starting-style:opacity-0 data-ending-style:opacity-0",
     ],
     content: [
-      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-[408px] -translate-1/2 ",
+      "fixed top-1/2 left-1/2 z-modal grid w-[calc(100%-2rem)] max-w-[408px] -translate-1/2 ",
       "origin-center transform-gpu outline-none transition-[opacity,transform] duration-150 ease-out",
       "data-starting-style:scale-[.98] data-starting-style:opacity-0",
       "data-ending-style:opacity-0",

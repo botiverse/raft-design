@@ -10,7 +10,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const contextMenu = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-dropdown outline-none"],
     content: [
       "flex flex-col max-h-(--available-height) min-w-48 overflow-hidden bg-layer-panel",
       "outline-none",

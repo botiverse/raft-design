@@ -8,7 +8,7 @@ import { useTheme, useThemeFamily } from "../../lib/theme/use-theme";
 const previewCard = tv({
   slots: {
     trigger: [],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-dropdown outline-none"],
     popup: [
       "max-h-(--available-height) min-w-[220px] overflow-hidden",
       "outline-none",

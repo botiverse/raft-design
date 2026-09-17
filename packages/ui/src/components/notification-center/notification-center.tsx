@@ -283,7 +283,7 @@ export function NotificationCenterPopup({
         side={side}
         sideOffset={sideOffset}
         sticky={sticky}
-        className="isolate z-50 outline-none"
+        className="isolate z-dropdown outline-none"
       >
         <BasePopover.Popup
           aria-label={props["aria-label"] ?? "Notification center"}

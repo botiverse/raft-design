@@ -12,12 +12,12 @@ import type { ButtonProps } from "../button/index";
 const dialog = tv({
   slots: {
     overlay: [
-      "fixed inset-0 z-50",
+      "fixed inset-0 z-modal",
       "transition-opacity duration-150 ease-out",
       "data-starting-style:opacity-0 data-ending-style:opacity-0",
     ],
     content: [
-      "fixed top-1/2 left-1/2 z-50 flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
+      "fixed top-1/2 left-1/2 z-modal flex w-[calc(100%-2rem)] -translate-1/2 flex-col",
       "max-h-[calc(100dvh-2rem)]",
       "origin-center transform-gpu outline-none transition-[opacity,transform] duration-150 ease-out",
       "data-starting-style:scale-[.98] data-starting-style:opacity-0",
@@ -37,7 +37,10 @@ const dialog = tv({
     },
     layer: {
       0: { overlay: [], content: [] },
-      1: { overlay: ["z-60"], content: ["z-60"] },
+      1: {
+        overlay: ["z-[calc(var(--r-z-modal)+100)]"],
+        content: ["z-[calc(var(--r-z-modal)+100)]"],
+      },
     },
     theme: {
       brutal: {

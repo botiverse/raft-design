@@ -19,8 +19,11 @@ import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
   slots: {
-    viewport: ["pointer-events-none isolate z-70 w-[min(24rem,calc(100vw-2rem))]", "outline-none"],
-    positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
+    viewport: [
+      "pointer-events-none isolate z-toast w-[min(24rem,calc(100vw-2rem))]",
+      "outline-none",
+    ],
+    positioner: ["isolate z-[calc(var(--r-z-toast)+70-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
       "select-text text-foreground",
@@ -186,7 +189,7 @@ const toastStyles = tv({
       stacked: {
         root: [
           "absolute inset-x-0 bottom-0 mx-auto h-(--toast-stack-height) w-full origin-bottom",
-          "z-[calc(70-var(--toast-index))]",
+          "z-[calc(var(--r-z-toast)+70-var(--toast-index))]",
           "before:pointer-events-auto before:absolute before:inset-x-0 before:top-full before:h-[calc(var(--toast-gap)+3px)] before:content-['']",
           "[--toast-peek-dir:-1]",
           "transform-[translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)+(var(--toast-index)*var(--toast-peek)*var(--toast-peek-dir))))_scale(var(--toast-scale))]",

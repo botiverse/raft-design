@@ -36,7 +36,7 @@ const combobox = tv({
     ],
     inputGroup: ["flex items-center gap-2 border-b px-2 py-2"],
     input: ["w-full outline-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-dropdown outline-none"],
     content: [
       "h-auto max-h-(--available-height) min-w-[220px] overflow-hidden bg-layer-panel",
       "outline-none",

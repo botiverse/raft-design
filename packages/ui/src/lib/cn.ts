@@ -17,6 +17,7 @@ const twMerge = extendTailwindMerge({
       shadow: [{ shadow: [{ raft: ["xs", "sm", "md", "lg", "xl"] }] }],
       "font-size": [{ text: ["field", "card-title"] }],
       "font-weight": [{ font: ["field", "card-title"] }],
+      z: [{ z: ["base", "sticky", "float", "dropdown", "modal", "toast", "lightbox", "tooltip"] }],
     },
   },
 });

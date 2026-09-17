@@ -8,7 +8,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const popover = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-dropdown outline-none"],
     content: [
       "max-h-(--available-height) min-w-[220px] overflow-hidden bg-layer-panel",
       "outline-none",

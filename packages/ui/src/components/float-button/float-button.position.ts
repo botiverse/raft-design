@@ -30,6 +30,7 @@ export function resolvePositionStyles(options: {
 
   const posStyles: CSSProperties = {
     position: resolvedPosition,
+    zIndex: "var(--r-z-float)",
   };
 
   if (resolvedSide === "bottom-right") {

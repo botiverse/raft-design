@@ -26,6 +26,18 @@
 /* Raw brutal ramps — variables only, no utility registration. Consumed by the
    Tailwind aliases in styles.css, the brand ramps, and state families below. */
 :where(:root) {
+  /* Global elevation ladder (z-index tokens)
+     Shared across all themes. Floating components and consumers consume these tokens
+     rather than hardcoded numbers to avoid stacking collisions. */
+  --r-z-base: 0;
+  --r-z-sticky: 100;
+  --r-z-float: 200;
+  --r-z-dropdown: 1000;
+  --r-z-modal: 2000;
+  --r-z-toast: 3000;
+  --r-z-lightbox: 5000;
+  --r-z-tooltip: 6000;
+
   --color-brutal-yellow-50: oklch(0.984 0.017 84.56);
   --color-brutal-yellow-100: oklch(0.975 0.027 85.64);
   --color-brutal-yellow-200: oklch(0.94 0.066 86.23);

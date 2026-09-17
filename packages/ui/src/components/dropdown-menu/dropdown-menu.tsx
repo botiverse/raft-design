@@ -13,7 +13,7 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const dropdownMenu = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-dropdown outline-none"],
     content: ["max-h-(--available-height) min-w-48 overflow-hidden bg-layer-panel", "outline-none"],
     item: [
       "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",

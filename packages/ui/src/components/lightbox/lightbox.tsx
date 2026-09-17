@@ -15,9 +15,9 @@ import type { ButtonProps } from "../button/button";
 
 const lightbox = tv({
   slots: {
-    backdrop: ["fixed inset-0 z-70 bg-layer-backdrop data-closed:hidden"],
+    backdrop: ["fixed inset-0 z-lightbox bg-layer-backdrop data-closed:hidden"],
     content: [
-      "pointer-events-none fixed inset-0 z-71 flex flex-col data-closed:hidden",
+      "pointer-events-none fixed inset-0 z-[calc(var(--r-z-lightbox)+1)] flex flex-col data-closed:hidden",
       // Image shell: Close as a direct Content child pins top-right.
       // Use data-lightbox-close — Button overwrites data-slot to "button".
       "*:data-lightbox-close:pointer-events-auto *:data-lightbox-close:absolute *:data-lightbox-close:z-20",
