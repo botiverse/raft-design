@@ -131,6 +131,12 @@ const PROPS: readonly PropRow[] = [
     description: "Track height. Brutal maps each size slightly taller than Elegant.",
   },
   {
+    name: "label",
+    type: "string",
+    description:
+      "Accessible name for the progressbar when no visible ProgressLabel is rendered. Caller-localized; a visible ProgressLabel's aria-labelledby association takes precedence.",
+  },
+  {
     name: "...props",
     type: "Base UI Progress.Root.Props",
     description:
