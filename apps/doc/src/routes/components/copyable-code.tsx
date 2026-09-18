@@ -67,7 +67,13 @@ const COPYABLE_CODE_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "onCopy",
     type: "(value: string) => void | Promise<void>",
-    description: "Optional callback after Action sends the Code text to the clipboard.",
+    description: "Called with the copied text after a write that actually landed.",
+  },
+  {
+    name: "onError",
+    type: "(error: Error) => void",
+    description:
+      "Called when every copy strategy failed, so the consumer can tell the user instead of claiming success.",
   },
   {
     name: "...props",
