@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo } from "react";
+import { createContext, useCallback, useContext, useMemo, useRef } from "react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";
@@ -106,23 +106,42 @@ export type CopyableCodeRootProps = Omit<ComponentPropsWithRef<"div">, "onCopy">
   Pick<VariantProps<typeof copyableCode>, "size"> & {
     copied?: boolean;
     onCopy?: (value: string) => void | Promise<void>;
+    /**
+     * Called when the copy attempt failed, after every fallback the clipboard hook
+     * tries. Without it a failure is invisible to the consumer: `copy()` never
+     * rejects, so the app cannot warn the user or offer a manual fallback.
+     * `onCopy` does NOT fire for a failed attempt.
+     */
+    onCopyError?: (error: Error) => void;
   };
 
 export function CopyableCodeRoot({
   copied,
   onCopy,
+  onCopyError,
   size = "md",
   className,
   ...props
 }: CopyableCodeRootProps) {
   const theme = useThemeFamily();
   const { root } = copyableCode({ theme, size });
-  const { copied: clipboardCopied, copy } = useClipboard({ timeout: 1400 });
+  // The clipboard hook reports failure through this callback rather than by
+  // rejecting, so the flag is what tells `copyValue` whether the attempt worked.
+  const failedRef = useRef(false);
+  const { copied: clipboardCopied, copy } = useClipboard({
+    timeout: 1400,
+    onCopyError: (error) => {
+      failedRef.current = true;
+      onCopyError?.(error);
+    },
+  });
   const effectiveCopied = copied ?? clipboardCopied;
 
   const copyValue = useCallback(
     async (value: string) => {
+      failedRef.current = false;
       await copy(value);
+      if (failedRef.current) return;
       await onCopy?.(value);
     },
     [copy, onCopy],
