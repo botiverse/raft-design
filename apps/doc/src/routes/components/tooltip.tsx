@@ -4,6 +4,7 @@ import {
   InlineCode,
   Kbd,
   Status,
+  Switch,
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -208,6 +209,95 @@ import { SmilePlus } from "lucide-react";
       </TooltipTrigger>
       <TooltipContent side="bottom">Bottom</TooltipContent>
     </Tooltip>
+  </div>
+</TooltipProvider>`,
+  usageCollision: `import { Button, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "raft-ui";
+
+<TooltipProvider>
+  {/* Tooltip defaults to collisionAvoidance={{ side: "flip", align: "shift" }}.
+      When an edge prevents rendering on the requested side, it automatically
+      flips to the opposite side and shifts along the alignment axis to stay visible. */}
+  <div className="relative flex h-80 w-full flex-col justify-between rounded-lg border border-dashed border-line p-4">
+    {/* Top edge: requested side="top" flips to bottom */}
+    <div className="flex items-start justify-between">
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Top Left
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          side="top" → flips to bottom, shifts right
+        </TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Top Edge
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          side="top" → flips to bottom
+        </TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Top Right
+        </TooltipTrigger>
+        <TooltipContent side="top">
+          side="top" → flips to bottom, shifts left
+        </TooltipContent>
+      </Tooltip>
+    </div>
+
+    {/* Side edges: left flips to right, right flips to left */}
+    <div className="flex items-center justify-between">
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Left Edge
+        </TooltipTrigger>
+        <TooltipContent side="left">
+          side="left" → flips to right
+        </TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Right Edge
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          side="right" → flips to left
+        </TooltipContent>
+      </Tooltip>
+    </div>
+
+    {/* Bottom edge: requested side="bottom" flips to top */}
+    <div className="flex items-end justify-between">
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Bottom Left
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          side="bottom" → flips to top, shifts right
+        </TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Bottom Edge
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          side="bottom" → flips to top
+        </TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Bottom Right
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          side="bottom" → flips to top, shifts left
+        </TooltipContent>
+      </Tooltip>
+    </div>
   </div>
 </TooltipProvider>`,
 } as const;
@@ -554,6 +644,124 @@ function ArrowPlacementExample() {
   );
 }
 
+function EdgeCollisionExample() {
+  const [boundary, setBoundary] = useState<HTMLDivElement | null>(null);
+  const [openAll, setOpenAll] = useState(false);
+
+  return (
+    <div className="flex w-full flex-col gap-3">
+      <div className="flex items-center justify-between px-1">
+        <span className="text-xs text-foreground-muted">
+          Boundary: Dashed box below (tooltips flip &amp; shift at edges)
+        </span>
+        <label className="flex items-center gap-2 text-xs font-medium text-foreground-muted cursor-pointer select-none">
+          <span>Show all</span>
+          <Switch
+            checked={openAll}
+            onCheckedChange={setOpenAll}
+            size="sm"
+            aria-label="Show all tooltips"
+          />
+        </label>
+      </div>
+
+      <TooltipProvider>
+        <div
+          ref={setBoundary}
+          className="relative flex h-80 w-full flex-col justify-between rounded-lg border border-dashed border-line-strong/60 bg-surface-muted/20 p-3"
+        >
+          {/* Top Row: Left corner, Center, Right corner */}
+          <div className="flex items-start justify-between">
+            <Tooltip open={openAll ? true : undefined}>
+              <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+                Top Left
+              </TooltipTrigger>
+              <TooltipContent side="top" collisionBoundary={boundary ?? undefined}>
+                side=&quot;top&quot; → flips to bottom, shifts right
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip open={openAll ? true : undefined}>
+              <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+                Top Edge
+              </TooltipTrigger>
+              <TooltipContent side="top" collisionBoundary={boundary ?? undefined}>
+                side=&quot;top&quot; → flips to bottom
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip open={openAll ? true : undefined}>
+              <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+                Top Right
+              </TooltipTrigger>
+              <TooltipContent side="top" collisionBoundary={boundary ?? undefined}>
+                side=&quot;top&quot; → flips to bottom, shifts left
+              </TooltipContent>
+            </Tooltip>
+          </div>
+
+          {/* Middle Row: Left Edge, Center info badge, Right Edge */}
+          <div className="flex items-center justify-between">
+            <Tooltip open={openAll ? true : undefined}>
+              <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+                Left Edge
+              </TooltipTrigger>
+              <TooltipContent side="left" collisionBoundary={boundary ?? undefined}>
+                side=&quot;left&quot; → flips to right
+              </TooltipContent>
+            </Tooltip>
+
+            <div className="pointer-events-none select-none text-center">
+              <span className="rounded-sm bg-surface-elevated px-2 py-1 text-xs font-mono text-foreground-muted border border-line">
+                collisionAvoidance: flip + shift
+              </span>
+            </div>
+
+            <Tooltip open={openAll ? true : undefined}>
+              <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+                Right Edge
+              </TooltipTrigger>
+              <TooltipContent side="right" collisionBoundary={boundary ?? undefined}>
+                side=&quot;right&quot; → flips to left
+              </TooltipContent>
+            </Tooltip>
+          </div>
+
+          {/* Bottom Row: Left corner, Center, Right corner */}
+          <div className="flex items-end justify-between">
+            <Tooltip open={openAll ? true : undefined}>
+              <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+                Bottom Left
+              </TooltipTrigger>
+              <TooltipContent side="bottom" collisionBoundary={boundary ?? undefined}>
+                side=&quot;bottom&quot; → flips to top, shifts right
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip open={openAll ? true : undefined}>
+              <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+                Bottom Edge
+              </TooltipTrigger>
+              <TooltipContent side="bottom" collisionBoundary={boundary ?? undefined}>
+                side=&quot;bottom&quot; → flips to top
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip open={openAll ? true : undefined}>
+              <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+                Bottom Right
+              </TooltipTrigger>
+              <TooltipContent side="bottom" collisionBoundary={boundary ?? undefined}>
+                side=&quot;bottom&quot; → flips to top, shifts left
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </div>
+      </TooltipProvider>
+    </div>
+  );
+}
+
 function TooltipDoc() {
   const code = Route.useLoaderData();
 
@@ -731,6 +939,23 @@ function TooltipDoc() {
                 <ArrowPlacementExample />
               </Preview.Canvas>
               <Preview.Code html={code.usagePlacement} />
+            </Preview>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="edge-collision" title="Edge collision avoidance">
+            <DocNote>
+              Tooltips default to{" "}
+              <InlineCode>
+                collisionAvoidance=&#123;&#123; side: &quot;flip&quot;, align: &quot;shift&quot;
+                &#125;&#125;
+              </InlineCode>
+              . When a trigger touches an edge boundary, the floating layer automatically flips to
+              the opposite side and shifts along the perpendicular axis to prevent truncation.
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <EdgeCollisionExample />
+              </Preview.Canvas>
+              <Preview.Code html={code.usageCollision} />
             </Preview>
           </DocSubsection>
         </div>
