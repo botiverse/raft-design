@@ -1,15 +1,39 @@
 /**
  * @vitest-environment jsdom
  */
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
+import type * as BaseUiTooltip from "@base-ui/react/tooltip";
 import { Tooltip, TooltipTrigger, TooltipContent } from "./tooltip";
 
+/**
+ * Captures every props object our TooltipContent hands to the Base UI
+ * Positioner. The default collision avoidance lives in our wrapper's default
+ * parameter, so the only honest tooth is what actually crosses the boundary —
+ * asserting "the popup rendered" would pass with any default (or none).
+ */
+const positionerCalls: Array<Record<string, unknown>> = [];
+
+vi.mock("@base-ui/react/tooltip", async (importOriginal) => {
+  const actual = await importOriginal<typeof BaseUiTooltip>();
+  const PositionerSpy = (props: Record<string, unknown>) => {
+    positionerCalls.push(props);
+    return <actual.Tooltip.Positioner {...props} />;
+  };
+  return {
+    ...actual,
+    Tooltip: { ...actual.Tooltip, Positioner: PositionerSpy },
+  };
+});
+
 afterEach(cleanup);
+beforeEach(() => {
+  positionerCalls.length = 0;
+});
 
 describe("Tooltip defaults and behaviors", () => {
   describe("① collisionAvoidance default", () => {
-    it("renders popup correctly with default flip and shift collision avoidance", () => {
+    it("passes flip/shift defaults to the Positioner when unset", () => {
       render(
         <Tooltip open>
           <TooltipTrigger>Trigger</TooltipTrigger>
@@ -17,9 +41,24 @@ describe("Tooltip defaults and behaviors", () => {
         </Tooltip>,
       );
 
-      const content = document.querySelector('[data-slot="tooltip-content"]');
-      expect(content).not.toBeNull();
-      expect(content?.textContent).toContain("Tooltip text");
+      expect(positionerCalls).not.toHaveLength(0);
+      expect(positionerCalls.at(-1)?.collisionAvoidance).toEqual({
+        side: "flip",
+        align: "shift",
+        fallbackAxisSide: "none",
+      });
+    });
+
+    it("forwards a caller's collisionAvoidance to the Positioner unchanged", () => {
+      const custom = { side: "shift", align: "none", fallbackAxisSide: "start" } as const;
+      render(
+        <Tooltip open>
+          <TooltipTrigger>Trigger</TooltipTrigger>
+          <TooltipContent collisionAvoidance={custom}>Tooltip text</TooltipContent>
+        </Tooltip>,
+      );
+
+      expect(positionerCalls.at(-1)?.collisionAvoidance).toBe(custom);
     });
   });
 
