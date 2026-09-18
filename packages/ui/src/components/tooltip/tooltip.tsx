@@ -10,9 +10,9 @@ import { useThemeFamily } from "../../lib/theme/use-theme";
 const tooltip = tv({
   slots: {
     trigger: ["select-none"],
-    positioner: ["isolate z-50 outline-none"],
+    positioner: ["isolate z-50 pointer-events-none outline-none"],
     content: [
-      "relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
+      "pointer-events-none relative inline-block max-w-[min(20rem,var(--available-width,20rem))] min-w-0 px-2.5 py-1",
       "origin-(--transform-origin) outline-none",
       "transition-[opacity,transform] duration-150 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "data-starting-style:scale-[0.97] data-starting-style:opacity-0",
@@ -93,13 +93,12 @@ export type TooltipTriggerProps = StyledProps<BaseTooltip.Trigger.Props>;
 export function TooltipTrigger({ className, ...props }: TooltipTriggerProps) {
   const theme = useThemeFamily();
   const { trigger } = tooltip({ theme });
-  return (
-    <BaseTooltip.Trigger
-      data-slot="tooltip-trigger"
-      className={trigger({ className })}
-      {...props}
-    />
-  );
+  const childSlot = isValidElement<{ "data-slot"?: string }>(props.render)
+    ? props.render.props["data-slot"]
+    : undefined;
+  const slot = (props as { "data-slot"?: string })["data-slot"] ?? childSlot ?? "tooltip-trigger";
+
+  return <BaseTooltip.Trigger data-slot={slot} className={trigger({ className })} {...props} />;
 }
 
 export type TooltipPortalProps = BaseTooltip.Portal.Props;
@@ -230,7 +229,7 @@ export function TooltipContent({
   alignOffset = 0,
   anchor,
   arrowPadding,
-  collisionAvoidance = { side: "shift", align: "shift", fallbackAxisSide: "none" },
+  collisionAvoidance = { side: "flip", align: "shift", fallbackAxisSide: "none" },
   collisionBoundary,
   collisionPadding,
   disableAnchorTracking = false,
