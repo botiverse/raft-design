@@ -12,6 +12,8 @@ import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/c
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import compactDetailCommandCompositionSource from "#/modules/copyable-code/compositions/compact-detail-command.composition.tsx?raw";
 import { CompactDetailCommandComposition } from "#/modules/copyable-code/compositions/compact-detail-command.composition.tsx";
+import copyFailureCompositionSource from "#/modules/copyable-code/compositions/copy-failure.composition.tsx?raw";
+import { CopyFailureComposition } from "#/modules/copyable-code/compositions/copy-failure.composition.tsx";
 import dialogSetupCommandCompositionSource from "#/modules/copyable-code/compositions/dialog-setup-command.composition.tsx?raw";
 import { DialogSetupCommandComposition } from "#/modules/copyable-code/compositions/dialog-setup-command.composition.tsx";
 
@@ -32,17 +34,20 @@ const SNIPPETS = {
 
 const COMPOSITION_SOURCES = createCompositionSourceMap({
   CompactDetailCommand: compactDetailCommandCompositionSource,
+  CopyFailure: copyFailureCompositionSource,
   DialogSetupCommand: dialogSetupCommandCompositionSource,
 });
 
 const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
   CompactDetailCommand: "copyableCodeCompactDetailCommandComposition",
+  CopyFailure: "copyableCodeCopyFailureComposition",
   DialogSetupCommand: "copyableCodeDialogSetupCommandComposition",
 });
 
 const COMPOSITION_PATHS = {
   CompactDetailCommand:
     "apps/doc/src/modules/copyable-code/compositions/compact-detail-command.composition.tsx",
+  CopyFailure: "apps/doc/src/modules/copyable-code/compositions/copy-failure.composition.tsx",
   DialogSetupCommand:
     "apps/doc/src/modules/copyable-code/compositions/dialog-setup-command.composition.tsx",
 } as const;
@@ -132,6 +137,7 @@ function CopyableCodeDoc() {
               <div className="grid w-full max-w-lg gap-4">
                 <DialogSetupCommandComposition />
                 <CompactDetailCommandComposition />
+                <CopyFailureComposition />
               </div>
             </Preview.Canvas>
             <Preview.Code
@@ -148,6 +154,11 @@ function CopyableCodeDoc() {
                       path: COMPOSITION_PATHS.CompactDetailCommand,
                       source: COMPOSITION_SOURCES.CompactDetailCommand,
                       html: code.copyableCodeCompactDetailCommandComposition,
+                    },
+                    {
+                      path: COMPOSITION_PATHS.CopyFailure,
+                      source: COMPOSITION_SOURCES.CopyFailure,
+                      html: code.copyableCodeCopyFailureComposition,
                     },
                   ]}
                 />

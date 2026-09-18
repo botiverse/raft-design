@@ -2,8 +2,8 @@
 
 import { createContext, useCallback, useContext, useMemo } from "react";
 import type { ComponentPropsWithRef, ReactNode } from "react";
-import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";
+import { useCopyToClipboard } from "../../lib/use-copy-to-clipboard";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -102,30 +102,42 @@ function useCopyableCode(part: string) {
   return context;
 }
 
-export type CopyableCodeRootProps = Omit<ComponentPropsWithRef<"div">, "onCopy"> &
+// `onCopy`/`onError` are the copy lifecycle here, not the DOM handlers of the
+// same name, so both are removed from the inherited div props before declaring
+// our own signatures.
+export type CopyableCodeRootProps = Omit<ComponentPropsWithRef<"div">, "onCopy" | "onError"> &
   Pick<VariantProps<typeof copyableCode>, "size"> & {
     copied?: boolean;
+    /** Called with the copied text only after a write that actually landed. */
     onCopy?: (value: string) => void | Promise<void>;
+    /** Called when every copy strategy failed, so the consumer can tell the user. */
+    onError?: (error: Error) => void;
   };
 
 export function CopyableCodeRoot({
   copied,
   onCopy,
+  onError,
   size = "md",
   className,
   ...props
 }: CopyableCodeRootProps) {
   const theme = useThemeFamily();
   const { root } = copyableCode({ theme, size });
-  const { copied: clipboardCopied, copy } = useClipboard({ timeout: 1400 });
+  const { copied: clipboardCopied, copyText } = useCopyToClipboard({ timeout: 1400 });
   const effectiveCopied = copied ?? clipboardCopied;
 
   const copyValue = useCallback(
     async (value: string) => {
-      await copy(value);
+      try {
+        await copyText(value);
+      } catch (error) {
+        onError?.(error instanceof Error ? error : new Error(String(error)));
+        return;
+      }
       await onCopy?.(value);
     },
-    [copy, onCopy],
+    [copyText, onCopy, onError],
   );
 
   const context = useMemo<CopyableCodeContextValue>(
