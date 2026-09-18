@@ -131,10 +131,10 @@ const PROPS: readonly PropRow[] = [
     description: "Track height. Brutal maps each size slightly taller than Elegant.",
   },
   {
-    name: "label",
+    name: "aria-label",
     type: "string",
     description:
-      "Accessible name for the progressbar when no visible ProgressLabel is rendered. Caller-localized; a visible ProgressLabel's aria-labelledby association takes precedence.",
+      "Native ARIA attribute naming the progressbar for assistive tech. Set it when there is no visible ProgressLabel; a visible ProgressLabel's aria-labelledby association (wired by Base UI) takes precedence. Caller-localized — raft-ui does not do i18n.",
   },
   {
     name: "...props",

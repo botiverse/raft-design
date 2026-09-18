@@ -155,23 +155,9 @@ const progressStyle = (
 );
 
 export type ProgressProps = StyledProps<BaseProgress.Root.Props> &
-  Omit<VariantProps<typeof progress>, "theme"> & {
-    /**
-     * Accessible name for the progressbar when no visible `ProgressLabel` is
-     * rendered. The text stays with the caller (raft-ui does not do i18n).
-     * When a `ProgressLabel` child is present, Base UI's `aria-labelledby`
-     * association takes precedence over this attribute.
-     */
-    label?: string;
-  };
+  Omit<VariantProps<typeof progress>, "theme">;
 
-export function Progress({
-  size = "md",
-  variant = "primary",
-  className,
-  label,
-  ...props
-}: ProgressProps) {
+export function Progress({ size = "md", variant = "primary", className, ...props }: ProgressProps) {
   const theme = useThemeFamily();
   const { root } = progress({ theme, size, variant });
 
@@ -180,7 +166,6 @@ export function Progress({
       data-slot="progress"
       data-size={size}
       data-variant={variant}
-      aria-label={label}
       className={root({ className })}
       {...props}
     />
