@@ -12,6 +12,10 @@ import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/c
 import { highlightSnippets } from "#/lib/highlight.tsx";
 import compactDetailCommandCompositionSource from "#/modules/copyable-code/compositions/compact-detail-command.composition.tsx?raw";
 import { CompactDetailCommandComposition } from "#/modules/copyable-code/compositions/compact-detail-command.composition.tsx";
+import copyErrorToastCompositionSource from "#/modules/copyable-code/compositions/copy-error-toast.composition.tsx?raw";
+import { CopyErrorToastComposition } from "#/modules/copyable-code/compositions/copy-error-toast.composition.tsx";
+import copyFailureCompositionSource from "#/modules/copyable-code/compositions/copy-failure.composition.tsx?raw";
+import { CopyFailureComposition } from "#/modules/copyable-code/compositions/copy-failure.composition.tsx";
 import dialogSetupCommandCompositionSource from "#/modules/copyable-code/compositions/dialog-setup-command.composition.tsx?raw";
 import { DialogSetupCommandComposition } from "#/modules/copyable-code/compositions/dialog-setup-command.composition.tsx";
 
@@ -32,17 +36,24 @@ const SNIPPETS = {
 
 const COMPOSITION_SOURCES = createCompositionSourceMap({
   CompactDetailCommand: compactDetailCommandCompositionSource,
+  CopyErrorToast: copyErrorToastCompositionSource,
+  CopyFailure: copyFailureCompositionSource,
   DialogSetupCommand: dialogSetupCommandCompositionSource,
 });
 
 const COMPOSITION_SNIPPETS = createCompositionSnippetMap(COMPOSITION_SOURCES, {
   CompactDetailCommand: "copyableCodeCompactDetailCommandComposition",
+  CopyErrorToast: "copyableCodeCopyErrorToastComposition",
+  CopyFailure: "copyableCodeCopyFailureComposition",
   DialogSetupCommand: "copyableCodeDialogSetupCommandComposition",
 });
 
 const COMPOSITION_PATHS = {
   CompactDetailCommand:
     "apps/doc/src/modules/copyable-code/compositions/compact-detail-command.composition.tsx",
+  CopyErrorToast:
+    "apps/doc/src/modules/copyable-code/compositions/copy-error-toast.composition.tsx",
+  CopyFailure: "apps/doc/src/modules/copyable-code/compositions/copy-failure.composition.tsx",
   DialogSetupCommand:
     "apps/doc/src/modules/copyable-code/compositions/dialog-setup-command.composition.tsx",
 } as const;
@@ -62,7 +73,13 @@ const COPYABLE_CODE_ROOT_PROPS: readonly PropRow[] = [
   {
     name: "onCopy",
     type: "(value: string) => void | Promise<void>",
-    description: "Optional callback after Action sends the Code text to the clipboard.",
+    description: "Called with the copied text after a write that actually landed.",
+  },
+  {
+    name: "onError",
+    type: "(error: Error) => void",
+    description:
+      "Called when every copy strategy failed, so the consumer can tell the user instead of claiming success.",
   },
   {
     name: "...props",
@@ -132,6 +149,8 @@ function CopyableCodeDoc() {
               <div className="grid w-full max-w-lg gap-4">
                 <DialogSetupCommandComposition />
                 <CompactDetailCommandComposition />
+                <CopyFailureComposition />
+                <CopyErrorToastComposition />
               </div>
             </Preview.Canvas>
             <Preview.Code
@@ -149,11 +168,30 @@ function CopyableCodeDoc() {
                       source: COMPOSITION_SOURCES.CompactDetailCommand,
                       html: code.copyableCodeCompactDetailCommandComposition,
                     },
+                    {
+                      path: COMPOSITION_PATHS.CopyFailure,
+                      source: COMPOSITION_SOURCES.CopyFailure,
+                      html: code.copyableCodeCopyFailureComposition,
+                    },
+                    {
+                      path: COMPOSITION_PATHS.CopyErrorToast,
+                      source: COMPOSITION_SOURCES.CopyErrorToast,
+                      html: code.copyableCodeCopyErrorToastComposition,
+                    },
                   ]}
                 />
               }
             />
           </Preview>
+          <DocNote>
+            A copy can fail — the browser may deny the write, or expose no clipboard API at all. The
+            action only reports success for a write that actually landed:{" "}
+            <InlineCode>onCopy</InlineCode> fires with the text on success, while{" "}
+            <InlineCode>onError</InlineCode> receives an <InlineCode>Error</InlineCode> once every
+            strategy failed. Handle it by telling the user and offering the manual fallback instead
+            of leaving them with a silent no-op (the third composition above renders exactly that
+            message).
+          </DocNote>
         </div>
       </DocSection>
 
