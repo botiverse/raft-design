@@ -171,6 +171,15 @@ function CopyableCodeDoc() {
               }
             />
           </Preview>
+          <DocNote>
+            A copy can fail — the browser may deny the write, or expose no clipboard API at all. The
+            action only reports success for a write that actually landed:{" "}
+            <InlineCode>onCopy</InlineCode> fires with the text on success, while{" "}
+            <InlineCode>onError</InlineCode> receives an <InlineCode>Error</InlineCode> once every
+            strategy failed. Handle it by telling the user and offering the manual fallback instead
+            of leaving them with a silent no-op (the third composition above renders exactly that
+            message).
+          </DocNote>
         </div>
       </DocSection>
 
