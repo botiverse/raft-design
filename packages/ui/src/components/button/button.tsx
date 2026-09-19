@@ -16,8 +16,12 @@ export const buttonVariants = tv({
       "shadow-raft-sm transition-all duration-100",
       "outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-transparent",
       "data-[loading=true]:cursor-wait",
-      "disabled:pointer-events-none disabled:opacity-40 data-[loading=true]:opacity-100",
-      "disabled:transform-none",
+      // Native-disabled buttons swallow pointer events by design. The
+      // focusableWhenDisabled (aria-disabled) path keeps them so a wrapping
+      // Tooltip can explain why the action is unavailable; appearance stays
+      // identical across both paths via the aria-disabled: mirrors.
+      "disabled:pointer-events-none disabled:opacity-40 aria-disabled:opacity-40 data-[loading=true]:opacity-100",
+      "disabled:transform-none aria-disabled:transform-none",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     ],
     content:
@@ -517,7 +521,10 @@ export function Button({
       className={root({ className })}
       data-loading={loading ? "true" : undefined}
       disabled={disabled || loading}
-      aria-disabled={loading || undefined}
+      // Only set aria-disabled when loading: an explicit `undefined` here
+      // would override Base UI's computed aria-disabled on the
+      // focusableWhenDisabled path (task #77).
+      {...(loading ? { "aria-disabled": true } : {})}
     >
       {loading ? (
         <span data-slot="button-loading-indicator" className={loadingIndicator()}>
