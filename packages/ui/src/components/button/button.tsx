@@ -41,7 +41,10 @@ export const buttonVariants = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["border-2 font-bold"],
+        root: [
+          "border-2 font-bold",
+          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
+        ],
       },
       elegant: {
         root: [
