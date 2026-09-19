@@ -27,6 +27,7 @@ import { Route as ComponentsCardRouteImport } from './routes/components/card'
 import { Route as ComponentsChatComposerRouteImport } from './routes/components/chat-composer'
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCodeBlockRouteImport } from './routes/components/code-block'
+import { Route as ComponentsCollapsibleRouteImport } from './routes/components/collapsible'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
 import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
@@ -211,6 +212,11 @@ const ComponentsCheckboxRoute = ComponentsCheckboxRouteImport.update({
 const ComponentsCodeBlockRoute = ComponentsCodeBlockRouteImport.update({
   id: '/code-block',
   path: '/code-block',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsCollapsibleRoute = ComponentsCollapsibleRouteImport.update({
+  id: '/collapsible',
+  path: '/collapsible',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
@@ -730,6 +736,7 @@ export interface FileRoutesByFullPath {
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
+  '/components/collapsible': typeof ComponentsCollapsibleRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -843,6 +850,7 @@ export interface FileRoutesByTo {
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
+  '/components/collapsible': typeof ComponentsCollapsibleRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -957,6 +965,7 @@ export interface FileRoutesById {
   '/components/chat-composer': typeof ComponentsChatComposerRoute
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
+  '/components/collapsible': typeof ComponentsCollapsibleRoute
   '/components/combobox': typeof ComponentsComboboxRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
@@ -1072,6 +1081,7 @@ export interface FileRouteTypes {
     | '/components/chat-composer'
     | '/components/checkbox'
     | '/components/code-block'
+    | '/components/collapsible'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
@@ -1185,6 +1195,7 @@ export interface FileRouteTypes {
     | '/components/chat-composer'
     | '/components/checkbox'
     | '/components/code-block'
+    | '/components/collapsible'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
@@ -1298,6 +1309,7 @@ export interface FileRouteTypes {
     | '/components/chat-composer'
     | '/components/checkbox'
     | '/components/code-block'
+    | '/components/collapsible'
     | '/components/combobox'
     | '/components/composer-suggestions'
     | '/components/context-menu'
@@ -1535,6 +1547,13 @@ declare module '@tanstack/react-router' {
       path: '/code-block'
       fullPath: '/components/code-block'
       preLoaderRoute: typeof ComponentsCodeBlockRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/collapsible': {
+      id: '/components/collapsible'
+      path: '/collapsible'
+      fullPath: '/components/collapsible'
+      preLoaderRoute: typeof ComponentsCollapsibleRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/combobox': {
@@ -2330,6 +2349,7 @@ interface ComponentsRouteChildren {
   ComponentsChatComposerRoute: typeof ComponentsChatComposerRoute
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsCodeBlockRoute: typeof ComponentsCodeBlockRoute
+  ComponentsCollapsibleRoute: typeof ComponentsCollapsibleRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
   ComponentsComposerSuggestionsRoute: typeof ComponentsComposerSuggestionsRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
@@ -2411,6 +2431,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsChatComposerRoute: ComponentsChatComposerRoute,
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsCodeBlockRoute: ComponentsCodeBlockRoute,
+  ComponentsCollapsibleRoute: ComponentsCollapsibleRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
   ComponentsComposerSuggestionsRoute: ComponentsComposerSuggestionsRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,

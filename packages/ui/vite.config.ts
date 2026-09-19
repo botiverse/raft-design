@@ -25,6 +25,11 @@ export default defineConfig({
         to: "dist/components/float-button",
         rename: "float-button.css",
       },
+      {
+        from: "src/components/collapsible/collapsible.css",
+        to: "dist/components/collapsible",
+        rename: "collapsible.css",
+      },
     ],
     dts: {
       tsgo: true,

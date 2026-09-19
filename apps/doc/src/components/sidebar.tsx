@@ -75,11 +75,8 @@ const COMPONENT_NAV = [
       { label: "AppShell", to: "/components/app-shell", status: "done" },
       { label: "AppRail", to: "/components/app-rail", status: "done" },
       { label: "Panel", to: "/components/panel", status: "done" },
-      {
-        label: "ProfilePanel",
-        to: "/components/profile-panel",
-        status: "done",
-      },
+      { label: "ProfilePanel", to: "/components/profile-panel", status: "done" },
+      { label: "Collapsible", to: "/components/collapsible", status: "done" },
       { label: "ScrollArea", to: "/components/scroll-area", status: "done" },
       { label: "Separator", to: "/components/separator", status: "done" },
       { label: "Sidebar", to: "/components/sidebar", status: "done" },
@@ -288,12 +285,6 @@ const ROADMAP = {
     {
       label: "Next",
       items: [
-        {
-          label: "Collapsible",
-          status: "later",
-          docsHref: "https://base-ui.com/react/components/collapsible",
-          reason: "Low-level expand/collapse primitive for settings and dense docs sections.",
-        },
         {
           label: "Accordion",
           status: "later",
