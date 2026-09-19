@@ -6,6 +6,7 @@ export const VARIANTS = [
   "muted",
   "accent",
   "warning",
+  "success",
   "danger",
   "danger-secondary",
   "danger-outline",

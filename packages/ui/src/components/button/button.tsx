@@ -58,6 +58,9 @@ export const buttonVariants = tv({
       warning: {
         root: ["border-line-strong bg-warning text-warning-foreground", "hover:bg-warning"],
       },
+      success: {
+        root: ["border-line-strong bg-success text-success-foreground", "hover:bg-success"],
+      },
       outline: {
         root: [
           "border-line-strong bg-transparent text-foreground",
@@ -271,6 +274,13 @@ export const buttonVariants = tv({
       variant: "warning",
       class: {
         root: "bg-brutal-orange text-foreground-strong hover:bg-brutal-orange",
+      },
+    },
+    {
+      theme: "brutal",
+      variant: "success",
+      class: {
+        root: "bg-brutal-lime text-foreground-strong hover:bg-brutal-lime",
       },
     },
     {
