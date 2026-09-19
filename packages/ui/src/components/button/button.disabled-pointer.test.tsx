@@ -81,8 +81,35 @@ describe("disabled pointer semantics", () => {
       </ThemeProvider>,
     );
     const cls = screen.getByRole("button", { name: "Save" }).className;
+    // Class-string check only: this pins that the recipe emits the
+    // aria-disabled: mirrors (so the aria path keeps the disabled look). It
+    // does not prove computed style — jsdom has no layout/stylesheet pass.
     expect(cls).toContain("aria-disabled:opacity-40");
     expect(cls).toContain("aria-disabled:transform-none");
+    expect(cls).toContain("aria-disabled:cursor-not-allowed");
+  });
+
+  test("aria path: every hover/active utility is gated with not-aria-disabled:", () => {
+    // The blocker from review: ungated hover:/active: fire on the
+    // pointer-events-enabled aria path (hover bg/border changes, active scale).
+    // Elegant is the theme that carries `active:scale-[…]`; brutal carries the
+    // motion hovers — check both so no theme's interactive utility slips by.
+    for (const theme of ["elegant", "brutal"] as const) {
+      const { unmount } = render(
+        <ThemeProvider theme={theme}>
+          <Button disabled focusableWhenDisabled variant="accent">
+            Save
+          </Button>
+        </ThemeProvider>,
+      );
+      const tokens = screen.getByRole("button", { name: "Save" }).className.split(/\s+/);
+      const interactive = tokens.filter((t) => /(^|:)(hover|active):/.test(t));
+      expect(interactive.length).toBeGreaterThan(0);
+      for (const token of interactive) {
+        expect(token).toContain("not-aria-disabled:");
+      }
+      unmount();
+    }
   });
 
   test("CONTROL: aria-disabled mirrors are not applied to an enabled button", () => {

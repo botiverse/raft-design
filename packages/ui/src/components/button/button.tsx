@@ -20,7 +20,7 @@ export const buttonVariants = tv({
       // focusableWhenDisabled (aria-disabled) path keeps them so a wrapping
       // Tooltip can explain why the action is unavailable; appearance stays
       // identical across both paths via the aria-disabled: mirrors.
-      "disabled:pointer-events-none disabled:opacity-40 aria-disabled:opacity-40 data-[loading=true]:opacity-100",
+      "disabled:pointer-events-none disabled:opacity-40 aria-disabled:opacity-40 aria-disabled:cursor-not-allowed data-[loading=true]:opacity-100",
       "disabled:transform-none aria-disabled:transform-none",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     ],
@@ -39,64 +39,88 @@ export const buttonVariants = tv({
           "focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] focus-visible:ring-offset-1 focus-visible:ring-offset-layer-canvas-muted",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_0_0_1px_var(--line-muted)]",
           "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit]",
-          "active:scale-[0.985]",
+          "not-aria-disabled:active:scale-[0.985]",
         ],
       },
     },
     variant: {
       primary: {
-        root: ["border-line-strong bg-primary-400 text-primary-950", "hover:bg-primary-500"],
+        root: [
+          "border-line-strong bg-primary-400 text-primary-950",
+          "not-aria-disabled:hover:bg-primary-500",
+        ],
       },
       default: {
-        root: ["border-line-strong bg-layer-panel text-foreground", "hover:bg-layer-panel"],
+        root: [
+          "border-line-strong bg-layer-panel text-foreground",
+          "not-aria-disabled:hover:bg-layer-panel",
+        ],
       },
       information: {
-        root: ["border-line-strong bg-info text-foreground-inverse", "hover:bg-info"],
+        root: [
+          "border-line-strong bg-info text-foreground-inverse",
+          "not-aria-disabled:hover:bg-info",
+        ],
       },
       muted: {
-        root: ["border-line-strong bg-secondary-400 text-secondary-950", "hover:bg-secondary-400"],
+        root: [
+          "border-line-strong bg-secondary-400 text-secondary-950",
+          "not-aria-disabled:hover:bg-secondary-400",
+        ],
       },
       accent: {
-        root: ["border-line-strong bg-accent-400 text-accent-950", "hover:bg-accent-500"],
+        root: [
+          "border-line-strong bg-accent-400 text-accent-950",
+          "not-aria-disabled:hover:bg-accent-500",
+        ],
       },
       warning: {
-        root: ["border-line-strong bg-warning text-warning-foreground", "hover:bg-warning"],
+        root: [
+          "border-line-strong bg-warning text-warning-foreground",
+          "not-aria-disabled:hover:bg-warning",
+        ],
       },
       success: {
-        root: ["border-line-strong bg-success text-success-foreground", "hover:bg-success"],
+        root: [
+          "border-line-strong bg-success text-success-foreground",
+          "not-aria-disabled:hover:bg-success",
+        ],
       },
       outline: {
         root: [
           "border-line-strong bg-transparent text-foreground",
-          "hover:bg-fill-muted",
+          "not-aria-disabled:hover:bg-fill-muted",
           "shadow-none",
         ],
       },
       ghost: {
         root: [
           "border-transparent bg-transparent text-foreground-strong shadow-none",
-          "hover:border-line-strong hover:bg-fill-muted",
+          "not-aria-disabled:hover:border-line-strong not-aria-disabled:hover:bg-fill-muted",
         ],
       },
       link: {
         root: [
           "border-transparent bg-transparent text-foreground shadow-none underline-offset-4",
-          "hover:underline",
+          "not-aria-disabled:hover:underline",
         ],
       },
       "danger-secondary": {
-        root: ["border-line-strong bg-danger-soft text-danger", "hover:bg-danger-soft"],
+        root: [
+          "border-line-strong bg-danger-soft text-danger",
+          "not-aria-disabled:hover:bg-danger-soft",
+        ],
       },
       danger: {
         root: [
           "border-line-strong bg-danger text-danger-foreground",
-          "hover:border-danger-hover hover:bg-danger-hover",
+          "not-aria-disabled:hover:border-danger-hover not-aria-disabled:hover:bg-danger-hover",
         ],
       },
       "danger-outline": {
         root: [
           "border-line-strong bg-transparent text-danger",
-          "hover:bg-fill-muted",
+          "not-aria-disabled:hover:bg-fill-muted",
           "shadow-none",
         ],
       },
@@ -232,59 +256,71 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       variant: "primary",
-      class: { root: "bg-brutal-yellow text-foreground-strong hover:bg-brutal-yellow" },
+      class: {
+        root: "bg-brutal-yellow text-foreground-strong not-aria-disabled:hover:bg-brutal-yellow",
+      },
     },
     {
       theme: "brutal",
       variant: "default",
-      class: { root: "bg-layer-panel text-foreground-strong hover:bg-layer-panel" },
+      class: {
+        root: "bg-layer-panel text-foreground-strong not-aria-disabled:hover:bg-layer-panel",
+      },
     },
     {
       theme: "brutal",
       variant: "outline",
-      class: { root: "bg-layer-panel text-foreground-strong shadow-raft-sm hover:bg-layer-panel" },
+      class: {
+        root: "bg-layer-panel text-foreground-strong shadow-raft-sm not-aria-disabled:hover:bg-layer-panel",
+      },
     },
     {
       theme: "brutal",
       variant: "information",
-      class: { root: "bg-brutal-cyan text-foreground-strong hover:bg-brutal-cyan" },
+      class: {
+        root: "bg-brutal-cyan text-foreground-strong not-aria-disabled:hover:bg-brutal-cyan",
+      },
     },
     {
       theme: "brutal",
       variant: "muted",
-      class: { root: "bg-brutal-stone text-foreground-strong hover:bg-brutal-stone" },
+      class: {
+        root: "bg-brutal-stone text-foreground-strong not-aria-disabled:hover:bg-brutal-stone",
+      },
     },
     {
       theme: "brutal",
       variant: "accent",
-      class: { root: "bg-brutal-pink text-foreground-strong hover:bg-brutal-pink" },
+      class: {
+        root: "bg-brutal-pink text-foreground-strong not-aria-disabled:hover:bg-brutal-pink",
+      },
     },
     {
       theme: "brutal",
       variant: "danger",
       class: {
-        root: "bg-brutal-red text-foreground-strong hover:border-line-strong hover:bg-brutal-red",
+        root: "bg-brutal-red text-foreground-strong not-aria-disabled:hover:border-line-strong not-aria-disabled:hover:bg-brutal-red",
       },
     },
     {
       theme: "brutal",
       variant: "danger-secondary",
       class: {
-        root: "text-[color-mix(in_oklab,var(--danger)_72%,transparent)] hover:border-line-strong",
+        root: "text-[color-mix(in_oklab,var(--danger)_72%,transparent)] not-aria-disabled:hover:border-line-strong",
       },
     },
     {
       theme: "brutal",
       variant: "warning",
       class: {
-        root: "bg-brutal-orange text-foreground-strong hover:bg-brutal-orange",
+        root: "bg-brutal-orange text-foreground-strong not-aria-disabled:hover:bg-brutal-orange",
       },
     },
     {
       theme: "brutal",
       variant: "success",
       class: {
-        root: "bg-brutal-lime text-foreground-strong hover:bg-brutal-lime",
+        root: "bg-brutal-lime text-foreground-strong not-aria-disabled:hover:bg-brutal-lime",
       },
     },
     {
@@ -311,7 +347,7 @@ export const buttonVariants = tv({
           "dark:bg-ink",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--foreground)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/8%)_0%,oklab(0%_0_0/0%)_100%)]",
-          "hover:bg-[oklch(0.31_0.006_106.42)] dark:hover:bg-foreground-strong",
+          "not-aria-disabled:hover:bg-[oklch(0.31_0.006_106.42)] dark:not-aria-disabled:hover:bg-foreground-strong",
         ],
       },
     },
@@ -324,8 +360,8 @@ export const buttonVariants = tv({
           "[--button-focus-ring:var(--primary-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.15),0_0_0_1px_var(--primary-edge)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/11%)_0%,oklab(100%_0_0/0%)_0%,oklab(0%_0_0/0%)_100%)]",
-          "hover:bg-primary-hover",
-          "dark:hover:bg-primary-500",
+          "not-aria-disabled:hover:bg-primary-hover",
+          "dark:not-aria-disabled:hover:bg-primary-500",
         ],
       },
     },
@@ -337,8 +373,8 @@ export const buttonVariants = tv({
           "bg-layer-panel text-foreground dark:text-foreground-muted",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_0_0_1px_var(--line-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0/0%)_30%,oklab(0%_0_0/1%)_100%)]",
-          "hover:bg-fill-muted",
-          "dark:bg-fill-muted dark:hover:bg-fill-strong",
+          "not-aria-disabled:hover:bg-fill-muted",
+          "dark:bg-fill-muted dark:not-aria-disabled:hover:bg-fill-strong",
         ],
       },
     },
@@ -346,7 +382,10 @@ export const buttonVariants = tv({
       theme: "elegant",
       variant: "ghost",
       class: {
-        root: ["bg-transparent text-foreground-muted shadow-none", "hover:bg-ink-4"],
+        root: [
+          "bg-transparent text-foreground-muted shadow-none",
+          "not-aria-disabled:hover:bg-ink-4",
+        ],
       },
     },
     {
@@ -358,8 +397,8 @@ export const buttonVariants = tv({
           "dark:bg-[oklch(0.37_0.06_27)] dark:text-[oklch(0.8_0.17_22)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.08),0_0_0_1px_var(--danger-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/4%)_0%,oklab(0%_0_0/0%)_100%)]",
-          "hover:bg-danger-muted",
-          "dark:hover:bg-[oklch(0.4_0.07_27)]",
+          "not-aria-disabled:hover:bg-danger-muted",
+          "dark:not-aria-disabled:hover:bg-[oklch(0.4_0.07_27)]",
         ],
       },
     },
@@ -372,8 +411,8 @@ export const buttonVariants = tv({
           "dark:bg-[oklch(0.58_0.21_27)] dark:text-[oklch(0.985_0.004_106.42)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--danger)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/10%)_0%,oklab(0%_0_0/0%)_100%)]",
-          "hover:bg-danger-hover",
-          "dark:hover:bg-[oklch(0.61_0.21_27)]",
+          "not-aria-disabled:hover:bg-danger-hover",
+          "dark:not-aria-disabled:hover:bg-[oklch(0.61_0.21_27)]",
         ],
       },
     },
@@ -385,8 +424,8 @@ export const buttonVariants = tv({
           "bg-layer-panel text-danger",
           "dark:bg-fill-muted dark:text-[oklch(0.78_0.19_25)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.025),0_0_0_1px_var(--danger-muted)]",
-          "hover:bg-danger-soft",
-          "dark:hover:bg-fill-strong",
+          "not-aria-disabled:hover:bg-danger-soft",
+          "dark:not-aria-disabled:hover:bg-fill-strong",
         ],
       },
     },
@@ -400,7 +439,7 @@ export const buttonVariants = tv({
           "[--button-focus-ring:var(--accent-400)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--accent-400)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/8%)_0%,oklab(0%_0_0/0%)_100%)]",
-          "hover:bg-accent-hover",
+          "not-aria-disabled:hover:bg-accent-hover",
         ],
       },
     },
@@ -414,8 +453,8 @@ export const buttonVariants = tv({
           "[--button-focus-ring:var(--warning)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.14),0_0_0_1px_var(--warning)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/10%)_0%,oklab(0%_0_0/0%)_100%)]",
-          "hover:bg-warning-hover",
-          "dark:hover:bg-[oklch(0.69_0.17_46)]",
+          "not-aria-disabled:hover:bg-warning-hover",
+          "dark:not-aria-disabled:hover:bg-[oklch(0.69_0.17_46)]",
         ],
       },
     },
@@ -436,8 +475,8 @@ export const buttonVariants = tv({
           "[--button-focus-ring:var(--info)]",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--info)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/8%)_0%,oklab(0%_0_0/0%)_100%)]",
-          "hover:bg-info-hover",
-          "dark:hover:bg-info",
+          "not-aria-disabled:hover:bg-info-hover",
+          "dark:not-aria-disabled:hover:bg-info",
         ],
       },
     },
@@ -449,9 +488,9 @@ export const buttonVariants = tv({
           "bg-fill-muted text-foreground-muted dark:text-foreground-placeholder",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_0_0_1px_var(--line-muted)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/5%)_0%,oklab(0%_0_0/1%)_100%)]",
-          "hover:bg-fill-strong",
+          "not-aria-disabled:hover:bg-fill-strong",
           "dark:bg-layer-panel",
-          "dark:hover:bg-fill-muted",
+          "dark:not-aria-disabled:hover:bg-fill-muted",
         ],
       },
     },
@@ -470,9 +509,9 @@ export const buttonVariants = tv({
       ],
       class: {
         root: [
-          "hover:-translate-y-px hover:shadow-raft-md",
-          "active:translate-px",
-          "active:shadow-raft-xs",
+          "not-aria-disabled:hover:-translate-y-px not-aria-disabled:hover:shadow-raft-md",
+          "not-aria-disabled:active:translate-px",
+          "not-aria-disabled:active:shadow-raft-xs",
         ],
       },
     },
@@ -480,7 +519,7 @@ export const buttonVariants = tv({
       theme: "brutal",
       variant: "danger-outline",
       class: {
-        root: ["hover:-translate-y-px", "active:translate-px"],
+        root: ["not-aria-disabled:hover:-translate-y-px", "not-aria-disabled:active:translate-px"],
       },
     },
   ],
