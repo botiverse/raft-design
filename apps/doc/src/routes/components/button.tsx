@@ -32,6 +32,7 @@ const SNIPPETS = {
 <Button variant="muted">Muted</Button>
 <Button variant="accent">Accent</Button>
 <Button variant="warning">Warning</Button>
+<Button variant="success">Success</Button>
 <Button variant="danger">Danger</Button>
 <Button variant="danger-secondary">Delete</Button>
 <Button variant="danger-outline">Remove</Button>
@@ -168,6 +169,7 @@ function ButtonDoc() {
                   <Button variant="muted">Muted</Button>
                   <Button variant="accent">Accent</Button>
                   <Button variant="warning">Warning</Button>
+                  <Button variant="success">Success</Button>
                   <Button variant="danger">Danger</Button>
                   <Button variant="danger-secondary">Delete</Button>
                   <Button variant="danger-outline">Remove</Button>
