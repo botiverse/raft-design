@@ -29,27 +29,80 @@ const THEMES: ReadonlyArray<{
   { family: "elegant", label: "elegant" },
   { family: "elegant", mode: "dark", label: "elegant-dark" },
 ];
-const VARIANTS = ["primary", "ghost", "danger"] as const;
+
+const VARIANTS = [
+  "default",
+  "primary",
+  "outline",
+  "ghost",
+  "danger-secondary",
+  "danger",
+  "danger-outline",
+  "accent",
+  "warning",
+  "information",
+  "muted",
+  "link",
+  "success",
+] as const;
 
 function snap(el: Element) {
   const cs = getComputedStyle(el);
   return {
-    bg: cs.backgroundColor,
-    borderColor: cs.borderColor,
+    bg: transparent(cs.backgroundColor),
+    borderColor: transparent(cs.borderColor),
     scale: cs.scale,
     translate: cs.translate,
-    boxShadow: cs.boxShadow,
+    boxShadow: transparentShadows(cs.boxShadow),
+    textDecorationLine: cs.textDecorationLine,
   };
 }
 
+/** Fully-transparent colors serialize differently across rules (rgba vs
+ * oklab); they are visually identical, so normalize them for comparison. */
+const FULLY_TRANSPARENT = new Set([
+  "rgba(0, 0, 0, 0)",
+  "oklab(0 0 0 / 0)",
+  "oklch(0 0 0 / 0)",
+  "oklch(1 0 0 / 0)",
+]);
+
+function transparent(value: string): string {
+  return FULLY_TRANSPARENT.has(value) ? "transparent" : value;
+}
+
+function transparentShadows(value: string): string {
+  return value
+    .split(/,(?![^(]*\))/)
+    .map((layer) => transparent(layer.trim()))
+    .join(", ");
+}
+
+/**
+ * The vitest-browser dev server generates Tailwind rules on demand and injects
+ * them asynchronously: reading computed style immediately after a real CDP
+ * hover can race the new rule (measured: recipe hover color only appeared after
+ * a wait). Poll until the value is stable across two reads (or ~2.5s).
+ */
+async function settledBg(el: Element): Promise<string> {
+  let prev = "";
+  let next = getComputedStyle(el).backgroundColor;
+  for (let i = 0; i < 50 && next !== prev; i += 1) {
+    prev = next;
+    await new Promise((r) => setTimeout(r, 50));
+    next = getComputedStyle(el).backgroundColor;
+  }
+  return next;
+}
+
 for (const { family, mode, label } of THEMES) {
-  it(`${label}: hovered aria-disabled buttons do not react (bg/border/scale/translate/shadow unchanged)`, async () => {
+  it(`${label}: hovered aria-disabled buttons do not react (bg/border/scale/translate/shadow/underline unchanged)`, async () => {
     render(
       <ThemeProvider theme={family} {...(mode ? { mode } : {})}>
         <div
           data-testid="stage"
           className="bg-layer-page text-foreground"
-          style={{ display: "inline-flex", gap: 12, padding: 16 }}
+          style={{ display: "inline-flex", flexWrap: "wrap", gap: 12, padding: 16 }}
         >
           {VARIANTS.map((variant) => (
             <Button key={variant} variant={variant} disabled focusableWhenDisabled>
@@ -66,6 +119,7 @@ for (const { family, mode, label } of THEMES) {
       const el = button.query() as unknown as Element;
       const resting = snap(el);
       await button.hover();
+      await settledBg(el);
       const hovered = snap(el);
       expect(hovered, `${label}/${variant} must not change on hover`).toEqual(resting);
     }
@@ -77,3 +131,29 @@ for (const { family, mode, label } of THEMES) {
       .screenshot({ path: `task-77-aria-disabled-hover-${label}.png` });
   });
 }
+
+it("enabled button keeps consumer hover overrides (review round-2 regression)", async () => {
+  // Gating recipe hovers with not-aria-disabled: broke this: the recipe's
+  // rule out-ranked the consumer's plain hover:. With the resets approach the
+  // original stacks are restored, so the consumer's hover must win again.
+  // (The override class must exist in the parsed sheet: an arbitrary-value
+  // class only present in this test file lands in a stylesheet chunk the
+  // browser had not parsed yet in this env — measured. bg-brutal-pink is
+  // used by the recipe itself, so it is always parsed.)
+  render(
+    <ThemeProvider theme="elegant">
+      <Button variant="primary" className="hover:bg-brutal-pink">
+        Save
+      </Button>
+    </ThemeProvider>,
+  );
+  const { page } = await import("@vitest/browser/context");
+  const button = page.getByRole("button", { name: "Save" });
+  const el = button.query() as unknown as Element;
+  const resting = snap(el);
+  await button.hover();
+  const settled = await settledBg(el);
+  // brutal-pink-400 = oklch(0.749 0.162 0.71)
+  expect(settled).toContain("0.749");
+  expect(settled).not.toBe(resting.bg);
+});

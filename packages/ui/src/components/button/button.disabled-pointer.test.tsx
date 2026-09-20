@@ -89,27 +89,26 @@ describe("disabled pointer semantics", () => {
     expect(cls).toContain("aria-disabled:cursor-not-allowed");
   });
 
-  test("aria path: every hover/active utility is gated with not-aria-disabled:", () => {
-    // The blocker from review: ungated hover:/active: fire on the
-    // pointer-events-enabled aria path (hover bg/border changes, active scale).
-    // Elegant is the theme that carries `active:scale-[…]`; brutal carries the
-    // motion hovers — check both so no theme's interactive utility slips by.
-    for (const theme of ["elegant", "brutal"] as const) {
-      const { unmount } = render(
-        <ThemeProvider theme={theme}>
-          <Button disabled focusableWhenDisabled variant="accent">
-            Save
-          </Button>
-        </ThemeProvider>,
-      );
-      const tokens = screen.getByRole("button", { name: "Save" }).className.split(/\s+/);
-      const interactive = tokens.filter((t) => /(^|:)(hover|active):/.test(t));
-      expect(interactive.length).toBeGreaterThan(0);
-      for (const token of interactive) {
-        expect(token).toContain("not-aria-disabled:");
-      }
-      unmount();
-    }
+  test("aria path: interactive effects are neutralized by resets, not by gating", () => {
+    // Review round 2: gating hovers with not-aria-disabled: broke consumer
+    // overrides (dedup + cascade). The recipe now keeps hover:/active: on
+    // their original stacks and adds aria-disabled: resets that fire only on
+    // the aria path. This pins both halves.
+    render(
+      <ThemeProvider theme="elegant">
+        <Button disabled focusableWhenDisabled variant="primary">
+          Save
+        </Button>
+      </ThemeProvider>,
+    );
+    const cls = screen.getByRole("button", { name: "Save" }).className;
+    // No gating prefix survived — consumer hover: overrides dedupe as before.
+    expect(cls).not.toContain("not-aria-disabled:");
+    // Resets for this variant and for the generic motion classes are present
+    // (class-string check; computed non-reaction is covered by the browser test).
+    expect(cls).toContain("aria-disabled:hover:bg-primary-400");
+    expect(cls).toContain("aria-disabled:hover:translate-none");
+    expect(cls).toContain("aria-disabled:active:scale-none");
   });
 
   test("CONTROL: aria-disabled mirrors are not applied to an enabled button", () => {
