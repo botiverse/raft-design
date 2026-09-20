@@ -96,7 +96,7 @@ async function settledBg(el: Element): Promise<string> {
 }
 
 for (const { family, mode, label } of THEMES) {
-  it(`${label}: hovered aria-disabled buttons do not react (bg/border/scale/translate/shadow/underline unchanged)`, async () => {
+  it(`${label}: hovered/pressed aria-disabled buttons do not react (bg/border/scale/translate/shadow/underline unchanged)`, async () => {
     render(
       <ThemeProvider theme={family} {...(mode ? { mode } : {})}>
         <div
@@ -109,19 +109,75 @@ for (const { family, mode, label } of THEMES) {
               {variant}
             </Button>
           ))}
+          {/* Positive control (review round 3): proves this run's hover rules
+              have actually landed before the disabled set is measured —
+              without it, "no change" could just mean "not yet injected". */}
+          <Button variant="primary" data-testid="control">
+            control
+          </Button>
         </div>
       </ThemeProvider>,
     );
 
     const { page } = await import("@vitest/browser/context");
+
+    // Positive control first: hover the ENABLED button and require a real
+    // change. Brutal color hovers are same-color, so watch motion too.
+    let canTestActive = false;
+    {
+      const control = page.getByTestId("control");
+      const el = control.query() as unknown as Element;
+      const resting = snap(el);
+      await control.hover();
+      const changed = await (async () => {
+        for (let i = 0; i < 60; i += 1) {
+          await new Promise((r) => setTimeout(r, 50));
+          const now = snap(el);
+          if (
+            now.bg !== resting.bg ||
+            now.translate !== resting.translate ||
+            now.boxShadow !== resting.boxShadow
+          ) {
+            return true;
+          }
+        }
+        return false;
+      })();
+      expect(changed, `${label}: enabled control must react on hover (proves rules landed)`).toBe(
+        true,
+      );
+
+      // Active-state probe (review round 3): this env may not surface :active
+      // at all (measured: matches(:active) stays false through a trusted click
+      // with a 1.5s delay). Only run press assertions when the probe proves
+      // :active is observable; otherwise the active: resets stay covered by
+      // the class-string assertions and the (0,3,0) > (0,2,0) cascade argument.
+      const click = control.click({ delay: 1500 });
+      await new Promise((r) => setTimeout(r, 750));
+      canTestActive = el.matches(":active");
+      await click.catch(() => {});
+      if (!canTestActive) {
+        console.warn(
+          `[${label}] env cannot produce :active (probe on enabled control) — ` +
+            "press assertions skipped for this run",
+        );
+      }
+    }
+
     for (const variant of VARIANTS) {
       const button = page.getByRole("button", { name: variant, exact: true });
       const el = button.query() as unknown as Element;
       const resting = snap(el);
       await button.hover();
       await settledBg(el);
-      const hovered = snap(el);
-      expect(hovered, `${label}/${variant} must not change on hover`).toEqual(resting);
+      expect(snap(el), `${label}/${variant} must not change on hover`).toEqual(resting);
+
+      if (canTestActive) {
+        const click = button.click({ delay: 1500 });
+        await new Promise((r) => setTimeout(r, 750));
+        expect(snap(el), `${label}/${variant} must not change on press`).toEqual(resting);
+        await click.catch(() => {});
+      }
     }
 
     // One screenshot per theme with the danger button hovered (reviewer ask).
