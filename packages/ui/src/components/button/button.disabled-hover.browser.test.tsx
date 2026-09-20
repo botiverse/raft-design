@@ -147,10 +147,11 @@ for (const { family, mode, label } of THEMES) {
         true,
       );
 
-      // Active-state probe (review round 3 + 4): press-and-hold via raw CDP
-      // input events. The click({delay}) path never surfaces :active in this
-      // environment (measured); cdp().send("Input.dispatchMouseEvent",
-      // mousePressed) holds the press until mouseReleased.
+      // Active-state probe: press-and-hold via raw CDP input events, then poll
+      // a few frames — the CDP command returning does NOT guarantee the
+      // renderer has processed the input and recomputed styles, so a single
+      // synchronous read can false-negative. click({delay}) was tried earlier
+      // and also never surfaced :active in this environment.
       {
         const { cdp } = await import("@vitest/browser/context");
         const r = el.getBoundingClientRect();
@@ -161,17 +162,22 @@ for (const { family, mode, label } of THEMES) {
           clickCount: 1,
         };
         await cdp().send("Input.dispatchMouseEvent", { type: "mousePressed", ...point });
-        canTestActive = el.matches(":active");
+        for (let frame = 0; frame < 10 && !canTestActive; frame += 1) {
+          await new Promise((resolve) => requestAnimationFrame(resolve));
+          canTestActive = el.matches(":active");
+        }
         await cdp().send("Input.dispatchMouseEvent", { type: "mouseReleased", ...point });
       }
       if (!canTestActive) {
-        // If even raw CDP input cannot produce :active, that is an environment
-        // limitation — do NOT retry this in future edits; the active: resets
-        // are then covered by the class-string assertions and the (0,3,0) >
-        // (0,2,0) cascade argument (3 active: utilities, each with a matching
-        // aria-disabled:active reset, verified in review).
+        // Measured in this environment: after mousePressed (raw CDP) plus 10
+        // rAF polls, and after click({delay: 1500}) earlier, :active was never
+        // observed in any theme. Press assertions then stay covered by the
+        // class-string assertions and the (0,3,0) > (0,2,0) cascade argument
+        // (3 active: utilities, each with a matching aria-disabled:active
+        // reset, scope verified in review). Any environment where the probe
+        // turns true runs the full press assertions.
         console.warn(
-          `[${label}] env cannot produce :active even via cdp() raw input — ` +
+          `[${label}] :active not observed (cdp mousePressed + 10 rAF polls) — ` +
             "press assertions skipped for this run",
         );
       }
