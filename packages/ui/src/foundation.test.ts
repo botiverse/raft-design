@@ -74,6 +74,17 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
+      if (id === "./components/combobox-select/combobox-select.css") {
+        const comboboxSelectPath = join(
+          sourceDirectory,
+          "components/combobox-select/combobox-select.css",
+        );
+        return {
+          content: readFileSync(comboboxSelectPath, "utf8"),
+          path: comboboxSelectPath,
+          base: sourceDirectory,
+        };
+      }
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });

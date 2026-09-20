@@ -25,6 +25,11 @@ export default defineConfig({
         to: "dist/components/float-button",
         rename: "float-button.css",
       },
+      {
+        from: "src/components/combobox-select/combobox-select.css",
+        to: "dist/components/combobox-select",
+        rename: "combobox-select.css",
+      },
     ],
     dts: {
       tsgo: true,

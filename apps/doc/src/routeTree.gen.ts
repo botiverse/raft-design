@@ -28,6 +28,7 @@ import { Route as ComponentsChatComposerRouteImport } from './routes/components/
 import { Route as ComponentsCheckboxRouteImport } from './routes/components/checkbox'
 import { Route as ComponentsCodeBlockRouteImport } from './routes/components/code-block'
 import { Route as ComponentsComboboxRouteImport } from './routes/components/combobox'
+import { Route as ComponentsComboboxSelectRouteImport } from './routes/components/combobox-select'
 import { Route as ComponentsComposerSuggestionsRouteImport } from './routes/components/composer-suggestions'
 import { Route as ComponentsContextMenuRouteImport } from './routes/components/context-menu'
 import { Route as ComponentsConversationPanelRouteImport } from './routes/components/conversation-panel'
@@ -218,6 +219,12 @@ const ComponentsComboboxRoute = ComponentsComboboxRouteImport.update({
   path: '/combobox',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsComboboxSelectRoute =
+  ComponentsComboboxSelectRouteImport.update({
+    id: '/combobox-select',
+    path: '/combobox-select',
+    getParentRoute: () => ComponentsRoute,
+  } as any)
 const ComponentsComposerSuggestionsRoute =
   ComponentsComposerSuggestionsRouteImport.update({
     id: '/composer-suggestions',
@@ -731,6 +738,7 @@ export interface FileRoutesByFullPath {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/combobox-select': typeof ComponentsComboboxSelectRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-panel': typeof ComponentsConversationPanelRoute
@@ -844,6 +852,7 @@ export interface FileRoutesByTo {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/combobox-select': typeof ComponentsComboboxSelectRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-panel': typeof ComponentsConversationPanelRoute
@@ -958,6 +967,7 @@ export interface FileRoutesById {
   '/components/checkbox': typeof ComponentsCheckboxRoute
   '/components/code-block': typeof ComponentsCodeBlockRoute
   '/components/combobox': typeof ComponentsComboboxRoute
+  '/components/combobox-select': typeof ComponentsComboboxSelectRoute
   '/components/composer-suggestions': typeof ComponentsComposerSuggestionsRoute
   '/components/context-menu': typeof ComponentsContextMenuRoute
   '/components/conversation-panel': typeof ComponentsConversationPanelRoute
@@ -1073,6 +1083,7 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/code-block'
     | '/components/combobox'
+    | '/components/combobox-select'
     | '/components/composer-suggestions'
     | '/components/context-menu'
     | '/components/conversation-panel'
@@ -1186,6 +1197,7 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/code-block'
     | '/components/combobox'
+    | '/components/combobox-select'
     | '/components/composer-suggestions'
     | '/components/context-menu'
     | '/components/conversation-panel'
@@ -1299,6 +1311,7 @@ export interface FileRouteTypes {
     | '/components/checkbox'
     | '/components/code-block'
     | '/components/combobox'
+    | '/components/combobox-select'
     | '/components/composer-suggestions'
     | '/components/context-menu'
     | '/components/conversation-panel'
@@ -1542,6 +1555,13 @@ declare module '@tanstack/react-router' {
       path: '/combobox'
       fullPath: '/components/combobox'
       preLoaderRoute: typeof ComponentsComboboxRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/combobox-select': {
+      id: '/components/combobox-select'
+      path: '/combobox-select'
+      fullPath: '/components/combobox-select'
+      preLoaderRoute: typeof ComponentsComboboxSelectRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/composer-suggestions': {
@@ -2331,6 +2351,7 @@ interface ComponentsRouteChildren {
   ComponentsCheckboxRoute: typeof ComponentsCheckboxRoute
   ComponentsCodeBlockRoute: typeof ComponentsCodeBlockRoute
   ComponentsComboboxRoute: typeof ComponentsComboboxRoute
+  ComponentsComboboxSelectRoute: typeof ComponentsComboboxSelectRoute
   ComponentsComposerSuggestionsRoute: typeof ComponentsComposerSuggestionsRoute
   ComponentsContextMenuRoute: typeof ComponentsContextMenuRoute
   ComponentsConversationPanelRoute: typeof ComponentsConversationPanelRoute
@@ -2412,6 +2433,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsCheckboxRoute: ComponentsCheckboxRoute,
   ComponentsCodeBlockRoute: ComponentsCodeBlockRoute,
   ComponentsComboboxRoute: ComponentsComboboxRoute,
+  ComponentsComboboxSelectRoute: ComponentsComboboxSelectRoute,
   ComponentsComposerSuggestionsRoute: ComponentsComposerSuggestionsRoute,
   ComponentsContextMenuRoute: ComponentsContextMenuRoute,
   ComponentsConversationPanelRoute: ComponentsConversationPanelRoute,

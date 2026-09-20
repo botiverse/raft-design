@@ -112,6 +112,7 @@ const COMPONENT_NAV = [
         status: "done",
       },
       { label: "Combobox", to: "/components/combobox", status: "done" },
+      { label: "ComboboxSelect", to: "/components/combobox-select", status: "done" },
       { label: "SegmentedControl", to: "/components/segmented-control", status: "done" },
     ],
   },

@@ -176,6 +176,8 @@ import {
   User,
 } from "lucide-react";
 
+import { ComboboxPreviewComposition } from "#/modules/combobox-select/compositions/preview.composition.tsx";
+
 import { usePreviewTheme, useResolvedPreviewMode } from "#/components/preview-theme.tsx";
 
 export const Route = createFileRoute("/")({
@@ -186,6 +188,7 @@ type ComponentRoute =
   | "/components/button"
   | "/components/checkbox"
   | "/components/combobox"
+  | "/components/combobox-select"
   | "/components/context-menu"
   | "/components/copyable-code"
   | "/components/dropdown-menu"
@@ -476,6 +479,11 @@ const COMPONENT_GRID = [
     label: "Combobox",
     to: "/components/combobox",
     preview: <ComboboxPreview />,
+  },
+  {
+    label: "ComboboxSelect",
+    to: "/components/combobox-select",
+    preview: <ComboboxSelectPreview />,
   },
   {
     label: "Select",
@@ -888,6 +896,14 @@ function ComboboxPreview() {
           <ComboboxEmpty>No models found</ComboboxEmpty>
         </ComboboxContent>
       </Combobox>
+    </div>
+  );
+}
+
+function ComboboxSelectPreview() {
+  return (
+    <div className="flex h-56 w-72 items-start justify-center pt-14">
+      <ComboboxPreviewComposition className="w-[240px]" />
     </div>
   );
 }
