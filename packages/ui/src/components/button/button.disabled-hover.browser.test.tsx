@@ -147,18 +147,31 @@ for (const { family, mode, label } of THEMES) {
         true,
       );
 
-      // Active-state probe (review round 3): this env may not surface :active
-      // at all (measured: matches(:active) stays false through a trusted click
-      // with a 1.5s delay). Only run press assertions when the probe proves
-      // :active is observable; otherwise the active: resets stay covered by
-      // the class-string assertions and the (0,3,0) > (0,2,0) cascade argument.
-      const click = control.click({ delay: 1500 });
-      await new Promise((r) => setTimeout(r, 750));
-      canTestActive = el.matches(":active");
-      await click.catch(() => {});
+      // Active-state probe (review round 3 + 4): press-and-hold via raw CDP
+      // input events. The click({delay}) path never surfaces :active in this
+      // environment (measured); cdp().send("Input.dispatchMouseEvent",
+      // mousePressed) holds the press until mouseReleased.
+      {
+        const { cdp } = await import("@vitest/browser/context");
+        const r = el.getBoundingClientRect();
+        const point = {
+          x: r.x + r.width / 2,
+          y: r.y + r.height / 2,
+          button: "left" as const,
+          clickCount: 1,
+        };
+        await cdp().send("Input.dispatchMouseEvent", { type: "mousePressed", ...point });
+        canTestActive = el.matches(":active");
+        await cdp().send("Input.dispatchMouseEvent", { type: "mouseReleased", ...point });
+      }
       if (!canTestActive) {
+        // If even raw CDP input cannot produce :active, that is an environment
+        // limitation — do NOT retry this in future edits; the active: resets
+        // are then covered by the class-string assertions and the (0,3,0) >
+        // (0,2,0) cascade argument (3 active: utilities, each with a matching
+        // aria-disabled:active reset, verified in review).
         console.warn(
-          `[${label}] env cannot produce :active (probe on enabled control) — ` +
+          `[${label}] env cannot produce :active even via cdp() raw input — ` +
             "press assertions skipped for this run",
         );
       }
@@ -173,10 +186,17 @@ for (const { family, mode, label } of THEMES) {
       expect(snap(el), `${label}/${variant} must not change on hover`).toEqual(resting);
 
       if (canTestActive) {
-        const click = button.click({ delay: 1500 });
-        await new Promise((r) => setTimeout(r, 750));
+        const { cdp } = await import("@vitest/browser/context");
+        const r = (el as HTMLElement).getBoundingClientRect();
+        const point = {
+          x: r.x + r.width / 2,
+          y: r.y + r.height / 2,
+          button: "left" as const,
+          clickCount: 1,
+        };
+        await cdp().send("Input.dispatchMouseEvent", { type: "mousePressed", ...point });
         expect(snap(el), `${label}/${variant} must not change on press`).toEqual(resting);
-        await click.catch(() => {});
+        await cdp().send("Input.dispatchMouseEvent", { type: "mouseReleased", ...point });
       }
     }
 
