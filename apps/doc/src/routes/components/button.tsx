@@ -118,6 +118,13 @@ const PROPS: readonly PropRow[] = [
     description: "Replace the rendered element or compose with another component (Base UI).",
   },
   {
+    name: "focusableWhenDisabled",
+    type: "boolean",
+    default: "false",
+    description:
+      "Base UI. Uses aria-disabled instead of the native attribute so the button keeps pointer events and focus — use it when a wrapping Tooltip must explain why the action is unavailable. Appearance is identical to the native-disabled path.",
+  },
+  {
     name: "...props",
     type: "Base UI Button.Props",
     description: "All native button attributes (onClick, disabled, type, etc.) plus Base UI props.",

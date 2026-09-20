@@ -16,8 +16,22 @@ export const buttonVariants = tv({
       "shadow-raft-sm transition-all duration-100",
       "outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-transparent",
       "data-[loading=true]:cursor-wait",
-      "disabled:pointer-events-none disabled:opacity-40 data-[loading=true]:opacity-100",
-      "disabled:transform-none",
+      // Native-disabled buttons swallow pointer events by design. The
+      // focusableWhenDisabled (aria-disabled) path keeps them so a wrapping
+      // Tooltip can explain why the action is unavailable; appearance stays
+      // identical across both paths via the aria-disabled: mirrors.
+      "disabled:pointer-events-none disabled:opacity-40 aria-disabled:opacity-40 aria-disabled:cursor-not-allowed data-[loading=true]:opacity-100",
+      "disabled:transform-none aria-disabled:transform-none",
+      // The aria-disabled path keeps pointer events so a wrapping Tooltip can
+      // explain why the action is unavailable — but then hover/active must not
+      // change anything either. These resets fire only on that path; the
+      // recipe's hover:/active: stay on their original stacks, so consumer
+      // overrides keep deduping exactly as before (task #77 review round 2:
+      // gating with not-aria-disabled: both broke tailwind-merge dedup across
+      // variant prefixes AND lost the cascade at equal specificity, because
+      // custom-variant rules emit after built-in hover rules — measured).
+      "aria-disabled:hover:translate-none",
+      "aria-disabled:active:translate-none aria-disabled:active:scale-none",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     ],
     content:
@@ -65,6 +79,7 @@ export const buttonVariants = tv({
         root: [
           "border-line-strong bg-transparent text-foreground",
           "hover:bg-fill-muted",
+          "aria-disabled:hover:bg-layer-panel",
           "shadow-none",
         ],
       },
@@ -72,12 +87,14 @@ export const buttonVariants = tv({
         root: [
           "border-transparent bg-transparent text-foreground-strong shadow-none",
           "hover:border-line-strong hover:bg-fill-muted",
+          "aria-disabled:hover:border-transparent aria-disabled:hover:bg-transparent",
         ],
       },
       link: {
         root: [
           "border-transparent bg-transparent text-foreground shadow-none underline-offset-4",
           "hover:underline",
+          "aria-disabled:hover:no-underline",
         ],
       },
       "danger-secondary": {
@@ -93,6 +110,7 @@ export const buttonVariants = tv({
         root: [
           "border-line-strong bg-transparent text-danger",
           "hover:bg-fill-muted",
+          "aria-disabled:hover:bg-transparent",
           "shadow-none",
         ],
       },
@@ -228,32 +246,44 @@ export const buttonVariants = tv({
     {
       theme: "brutal",
       variant: "primary",
-      class: { root: "bg-brutal-yellow text-foreground-strong hover:bg-brutal-yellow" },
+      class: {
+        root: "bg-brutal-yellow text-foreground-strong hover:bg-brutal-yellow",
+      },
     },
     {
       theme: "brutal",
       variant: "default",
-      class: { root: "bg-layer-panel text-foreground-strong hover:bg-layer-panel" },
+      class: {
+        root: "bg-layer-panel text-foreground-strong hover:bg-layer-panel",
+      },
     },
     {
       theme: "brutal",
       variant: "outline",
-      class: { root: "bg-layer-panel text-foreground-strong shadow-raft-sm hover:bg-layer-panel" },
+      class: {
+        root: "bg-layer-panel text-foreground-strong shadow-raft-sm hover:bg-layer-panel",
+      },
     },
     {
       theme: "brutal",
       variant: "information",
-      class: { root: "bg-brutal-cyan text-foreground-strong hover:bg-brutal-cyan" },
+      class: {
+        root: "bg-brutal-cyan text-foreground-strong hover:bg-brutal-cyan",
+      },
     },
     {
       theme: "brutal",
       variant: "muted",
-      class: { root: "bg-brutal-stone text-foreground-strong hover:bg-brutal-stone" },
+      class: {
+        root: "bg-brutal-stone text-foreground-strong hover:bg-brutal-stone",
+      },
     },
     {
       theme: "brutal",
       variant: "accent",
-      class: { root: "bg-brutal-pink text-foreground-strong hover:bg-brutal-pink" },
+      class: {
+        root: "bg-brutal-pink text-foreground-strong hover:bg-brutal-pink",
+      },
     },
     {
       theme: "brutal",
@@ -308,6 +338,7 @@ export const buttonVariants = tv({
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--foreground)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/8%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-[oklch(0.31_0.006_106.42)] dark:hover:bg-foreground-strong",
+          "aria-disabled:hover:bg-foreground aria-disabled:dark:hover:bg-ink",
         ],
       },
     },
@@ -322,6 +353,7 @@ export const buttonVariants = tv({
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/11%)_0%,oklab(100%_0_0/0%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-primary-hover",
           "dark:hover:bg-primary-500",
+          "aria-disabled:hover:bg-primary-400 aria-disabled:dark:hover:bg-primary-400",
         ],
       },
     },
@@ -335,6 +367,7 @@ export const buttonVariants = tv({
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(0%_0_0/0%)_30%,oklab(0%_0_0/1%)_100%)]",
           "hover:bg-fill-muted",
           "dark:bg-fill-muted dark:hover:bg-fill-strong",
+          "aria-disabled:hover:bg-layer-panel aria-disabled:dark:hover:bg-fill-muted",
         ],
       },
     },
@@ -342,7 +375,11 @@ export const buttonVariants = tv({
       theme: "elegant",
       variant: "ghost",
       class: {
-        root: ["bg-transparent text-foreground-muted shadow-none", "hover:bg-ink-4"],
+        root: [
+          "bg-transparent text-foreground-muted shadow-none",
+          "hover:bg-ink-4",
+          "aria-disabled:hover:border-transparent aria-disabled:hover:bg-transparent",
+        ],
       },
     },
     {
@@ -356,6 +393,7 @@ export const buttonVariants = tv({
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/4%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-danger-muted",
           "dark:hover:bg-[oklch(0.4_0.07_27)]",
+          "aria-disabled:hover:bg-danger-soft aria-disabled:dark:hover:bg-[oklch(0.37_0.06_27)]",
         ],
       },
     },
@@ -370,6 +408,7 @@ export const buttonVariants = tv({
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/10%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-danger-hover",
           "dark:hover:bg-[oklch(0.61_0.21_27)]",
+          "aria-disabled:hover:border-line-strong aria-disabled:hover:bg-danger aria-disabled:dark:hover:bg-[oklch(0.58_0.21_27)]",
         ],
       },
     },
@@ -383,6 +422,7 @@ export const buttonVariants = tv({
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.025),0_0_0_1px_var(--danger-muted)]",
           "hover:bg-danger-soft",
           "dark:hover:bg-fill-strong",
+          "aria-disabled:hover:bg-layer-panel aria-disabled:dark:hover:bg-fill-muted",
         ],
       },
     },
@@ -397,6 +437,7 @@ export const buttonVariants = tv({
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--accent-400)]",
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/8%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-accent-hover",
+          "aria-disabled:hover:bg-accent-400",
         ],
       },
     },
@@ -412,6 +453,7 @@ export const buttonVariants = tv({
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/10%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-warning-hover",
           "dark:hover:bg-[oklch(0.69_0.17_46)]",
+          "aria-disabled:hover:bg-warning aria-disabled:dark:hover:bg-[oklch(0.66_0.17_46)]",
         ],
       },
     },
@@ -434,6 +476,7 @@ export const buttonVariants = tv({
           "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/8%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-info-hover",
           "dark:hover:bg-info",
+          "aria-disabled:hover:bg-info aria-disabled:dark:hover:bg-info-strong",
         ],
       },
     },
@@ -448,6 +491,7 @@ export const buttonVariants = tv({
           "hover:bg-fill-strong",
           "dark:bg-layer-panel",
           "dark:hover:bg-fill-muted",
+          "aria-disabled:hover:bg-fill-muted aria-disabled:dark:hover:bg-layer-panel",
         ],
       },
     },
@@ -469,6 +513,7 @@ export const buttonVariants = tv({
           "hover:-translate-y-px hover:shadow-raft-md",
           "active:translate-px",
           "active:shadow-raft-xs",
+          "aria-disabled:hover:shadow-raft-sm aria-disabled:active:shadow-raft-sm",
         ],
       },
     },
@@ -517,7 +562,10 @@ export function Button({
       className={root({ className })}
       data-loading={loading ? "true" : undefined}
       disabled={disabled || loading}
-      aria-disabled={loading || undefined}
+      // Only set aria-disabled when loading: an explicit `undefined` here
+      // would override Base UI's computed aria-disabled on the
+      // focusableWhenDisabled path (task #77).
+      {...(loading ? { "aria-disabled": true } : {})}
     >
       {loading ? (
         <span data-slot="button-loading-indicator" className={loadingIndicator()}>
