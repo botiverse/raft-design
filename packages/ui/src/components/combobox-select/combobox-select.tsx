@@ -1,0 +1,529 @@
+import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
+import { Check, ChevronDown, LoaderCircle, Plus, X } from "lucide-react";
+import { useEffect, useId, useMemo, useState } from "react";
+import type { ReactNode } from "react";
+import { useTheme } from "../../lib/theme/use-theme";
+import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { isOptionGroup, normalizeOption, optionKey } from "./combobox-select.options";
+import type { OptionRecord } from "./combobox-select.options";
+import type {
+  ComboboxSelectMessages,
+  ComboboxSelectOption,
+  ComboboxSelectProps,
+  ComboboxSelectSelection,
+  ComboboxSelectValue,
+} from "./combobox-select.types";
+import "./combobox-select.css";
+
+const defaultMessages: ComboboxSelectMessages = {
+  clear: "Clear selection",
+  toggle: "Toggle options",
+  selected: "Selected options",
+  chipDescription: "Press Backspace or Delete to remove",
+  inputDescription: "From the start of the input, press Left Arrow to focus selected options",
+  remove: (label) => `Remove ${label}`,
+};
+
+const defaultRenderCreateLabel = (query: string) => `Create “${query}”`;
+
+type ComboboxSelectGroupRecord<Option> = {
+  key: string;
+  label?: ReactNode;
+  items: OptionRecord<Option>[];
+};
+
+function recordLabel<Option>(
+  record: OptionRecord<Option>,
+  renderLabel?: (option: Option) => ReactNode,
+) {
+  return record.option === undefined
+    ? record.label
+    : (renderLabel?.(record.option) ?? record.label);
+}
+
+function renderOptionContent<Option>({
+  record,
+  selected,
+  renderLabel,
+  renderOption,
+  renderCreateLabel,
+}: {
+  record: OptionRecord<Option>;
+  selected: boolean;
+  renderLabel?: (option: Option) => ReactNode;
+  renderOption?: (option: Option, info: { selected: boolean }) => ReactNode;
+  renderCreateLabel: (query: string) => ReactNode;
+}) {
+  if (record.createQuery !== undefined) {
+    return (
+      <>
+        <Plus aria-hidden />
+        <span className="r-combobox-select__text">{renderCreateLabel(record.label)}</span>
+      </>
+    );
+  }
+
+  const content =
+    record.option === undefined
+      ? record.label
+      : (renderOption?.(record.option, { selected }) ?? recordLabel(record, renderLabel));
+
+  return (
+    <>
+      <span className="r-combobox-select__text">{content}</span>
+      <BaseCombobox.ItemIndicator className="r-combobox-select__indicator">
+        <Check aria-hidden />
+      </BaseCombobox.ItemIndicator>
+    </>
+  );
+}
+
+function renderSelectedChip<Option>({
+  record,
+  index,
+  tagLimit,
+  strings,
+  renderLabel,
+  renderTag,
+}: {
+  record: OptionRecord<Option>;
+  index: number;
+  tagLimit: number;
+  strings: ComboboxSelectMessages;
+  renderLabel?: (option: Option) => ReactNode;
+  renderTag?: (option: Option) => ReactNode;
+}) {
+  const label = recordLabel(record, renderLabel);
+  const content =
+    record.option === undefined ? record.label : (renderTag?.(record.option) ?? label);
+  const overflow = index >= tagLimit;
+
+  return (
+    <BaseCombobox.Chip
+      key={optionKey(record.value)}
+      className="r-combobox-select__chip"
+      data-overflow={overflow || undefined}
+      aria-label={record.label}
+      aria-description={strings.chipDescription}
+    >
+      <span className="r-combobox-select__text">{content}</span>
+      <BaseCombobox.ChipRemove
+        className="r-combobox-select__remove"
+        aria-label={strings.remove(record.label)}
+      >
+        <X aria-hidden />
+      </BaseCombobox.ChipRemove>
+    </BaseCombobox.Chip>
+  );
+}
+
+/** Options-driven composition. The stable compound Combobox API stays unchanged. */
+export function ComboboxSelect<
+  Option = ComboboxSelectOption,
+  Multiple extends boolean | undefined = false,
+>({
+  options,
+  multiple,
+  value,
+  defaultValue,
+  onValueChange,
+  labelField = "label" as keyof Option,
+  valueField = "value" as keyof Option,
+  disabledField = "disabled" as keyof Option,
+  fallbackOption,
+  filterable = true,
+  filter,
+  remote = false,
+  onSearch,
+  loading = false,
+  create = false,
+  creatable,
+  onCreate,
+  clearable = false,
+  showArrow = true,
+  clearFilterAfterSelect = true,
+  onClear,
+  maxTagCount,
+  size = "md",
+  status,
+  placeholder = "Select an option",
+  renderLabel,
+  renderOption,
+  renderTag,
+  renderCreateLabel = defaultRenderCreateLabel,
+  emptyContent = "No options found",
+  loadingContent = "Loading…",
+  messages,
+  inputProps,
+  portalProps,
+  positionerProps,
+  popupProps,
+  className,
+  style,
+  id: idProp,
+  ref,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
+  inputValue,
+  defaultInputValue,
+  onInputValueChange,
+  disabled,
+  readOnly,
+  autoHighlight = true,
+  ...rootProps
+}: ComboboxSelectProps<Option, Multiple>) {
+  const generatedId = useId();
+  const id = idProp ?? generatedId;
+  const { theme, resolvedMode } = useTheme();
+  const scopedPortalProps = useThemeScopeProps(portalProps ?? {});
+  const strings = { ...defaultMessages, ...messages };
+  const [uncontrolledValue, setUncontrolledValue] = useState<
+    ComboboxSelectValue | ComboboxSelectValue[] | null
+  >(defaultValue ?? (multiple ? [] : null));
+  const selectedValue = value === undefined ? uncontrolledValue : value;
+  const selectedKeys = (
+    Array.isArray(selectedValue) ? selectedValue : selectedValue == null ? [] : [selectedValue]
+  ) as ComboboxSelectValue[];
+  const [query, setQuery] = useState(String(defaultInputValue ?? ""));
+  const [createdOptions, setCreatedOptions] = useState<Option[]>([]);
+  const collator = useMemo(
+    () => new Intl.Collator(undefined, { sensitivity: "base", usage: "search" }),
+    [],
+  );
+  const normalized = useMemo(() => {
+    const normalize = (option: Option) =>
+      normalizeOption(option, labelField, valueField, disabledField);
+    const groups: ComboboxSelectGroupRecord<Option>[] = [];
+    options.forEach((option, index) => {
+      if (isOptionGroup(option)) {
+        groups.push({
+          key: `group:${optionKey(option.key)}`,
+          label: option.label,
+          items: option.children.map(normalize),
+        });
+      } else {
+        groups.push({ key: `option:${index}`, items: [normalize(option)] });
+      }
+    });
+    const records = new Map(
+      groups.flatMap((group) => group.items.map((record) => [record.value, record] as const)),
+    );
+    const created = createdOptions.map(normalize).filter((record) => !records.has(record.value));
+    created.forEach((record) => records.set(record.value, record));
+    if (created.length) groups.push({ key: "created", items: created });
+    return { groups, records };
+  }, [options, createdOptions, labelField, valueField, disabledField]);
+
+  // Keep only selected records between result windows. This also handles controlled
+  // initial values and externally changed options without retaining every search result.
+  const [retained, setRetained] = useState<Map<ComboboxSelectValue, OptionRecord<Option>>>(
+    () => new Map(),
+  );
+  const selected = useMemo((): OptionRecord<Option>[] => {
+    return selectedKeys.map(
+      (key) =>
+        normalized.records.get(key) ??
+        retained.get(key) ??
+        (fallbackOption
+          ? normalizeOption(fallbackOption(key), labelField, valueField, disabledField)
+          : { value: key, label: String(key), disabled: false }),
+    );
+  }, [selectedKeys, normalized, retained, fallbackOption, labelField, valueField, disabledField]);
+  useEffect(() => {
+    setRetained((previous) => {
+      if (
+        previous.size === selected.length &&
+        selected.every((record) => previous.get(record.value) === record)
+      )
+        return previous;
+      return new Map(selected.map((record) => [record.value, record]));
+    });
+  }, [selected]);
+
+  const search = String(inputValue ?? query).trim();
+  const canCreate =
+    (create || creatable) &&
+    filterable &&
+    !loading &&
+    search !== "" &&
+    ![...normalized.records.values(), ...selected].some(
+      (record) => record.label.trim().toLocaleLowerCase() === search.toLocaleLowerCase(),
+    );
+  const candidate: OptionRecord<Option> = {
+    value: search,
+    label: search,
+    disabled: false,
+    createQuery: search,
+  };
+  const items = canCreate
+    ? [...normalized.groups, { key: "create", items: [candidate] }]
+    : normalized.groups;
+  const css = `r-combobox-select r-combobox-select--${theme} r-combobox-select--${size}${resolvedMode === "dark" ? " r-combobox-select--dark" : ""}`;
+  const tagLimit = maxTagCount === undefined ? Infinity : Math.max(0, Math.floor(maxTagCount));
+  const inputClassName = [
+    "r-combobox-select__input",
+    typeof inputProps?.className === "string" ? inputProps.className : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const controlClassName = [css, "r-combobox-select__control", className].filter(Boolean).join(" ");
+  const positionerClassName = [
+    "r-combobox-select__positioner",
+    typeof positionerProps?.className === "string" ? positionerProps.className : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const popupClassName = [
+    css,
+    "r-combobox-select__popup",
+    typeof popupProps?.className === "string" ? popupProps.className : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const inputRef = ref ?? inputProps?.ref;
+  const inputLabel = ariaLabel ?? inputProps?.["aria-label"];
+  const inputLabelledBy = ariaLabelledBy ?? inputProps?.["aria-labelledby"];
+  const inputDescribedBy = ariaDescribedBy ?? inputProps?.["aria-describedby"];
+  const inputInvalid = ariaInvalid ?? (status === "error" ? true : inputProps?.["aria-invalid"]);
+  const inputDescription =
+    multiple && selected.length ? strings.inputDescription : inputProps?.["aria-description"];
+  const inputPlaceholder = multiple && selected.length ? "" : placeholder;
+  const inputReadOnly = readOnly || !filterable;
+  const controlValue = multiple ? selected : (selected[0] ?? null);
+
+  function handleValueChange(
+    next: OptionRecord<Option> | OptionRecord<Option>[] | null,
+    details: BaseCombobox.Root.ChangeEventDetails,
+  ) {
+    const nextRecords = next === null ? [] : Array.isArray(next) ? next : [next];
+    const createRecord = nextRecords.find((record) => record.createQuery !== undefined);
+    let newOption: Option | undefined;
+    let resolved = nextRecords;
+    if (createRecord) {
+      const created = onCreate
+        ? onCreate(createRecord.label)
+        : ({ [labelField]: createRecord.label, [valueField]: createRecord.label } as Option);
+      if (created === null) {
+        details.cancel();
+        return;
+      }
+      const record = normalizeOption(created, labelField, valueField, disabledField);
+      if (record.disabled) {
+        details.cancel();
+        return;
+      }
+      newOption = created;
+      const existing = normalized.records.get(record.value) ?? retained.get(record.value);
+      resolved = nextRecords.map((item) => (item === createRecord ? (existing ?? record) : item));
+      resolved = [...new Map(resolved.map((item) => [item.value, item])).values()];
+    }
+    const nextValue = multiple
+      ? resolved.map((record) => record.value)
+      : (resolved[0]?.value ?? null);
+    const nextOptions = multiple
+      ? resolved.map((record) => record.option)
+      : (resolved[0]?.option ?? null);
+    onValueChange?.(
+      nextValue as ComboboxSelectSelection<Multiple>,
+      nextOptions as Multiple extends true ? (Option | undefined)[] : Option | undefined | null,
+      details,
+    );
+    if (details.isCanceled) return;
+    if (newOption !== undefined) setCreatedOptions((previous) => [...previous, newOption]);
+    setRetained(new Map(resolved.map((record) => [record.value, record])));
+    if (value === undefined) setUncontrolledValue(nextValue);
+    if (details.reason === "clear-press") onClear?.();
+  }
+
+  function handleInputValueChange(next: string, details: BaseCombobox.Root.ChangeEventDetails) {
+    onInputValueChange?.(next, details);
+    if (details.isCanceled) return;
+    const shouldKeepQuery =
+      details.reason === "input-change" ||
+      (details.reason === "item-press" && !clearFilterAfterSelect);
+    setQuery(shouldKeepQuery ? next : "");
+    if (details.reason === "input-change" || details.reason === "clear-press") onSearch?.(next);
+  }
+
+  function filterOptions(record: OptionRecord<Option>, pattern: string) {
+    if (record.createQuery !== undefined) return true;
+    if (remote || !filterable || filter === false) return true;
+    return record.option !== undefined && typeof filter === "function"
+      ? filter(pattern, record.option)
+      : collator.compare(record.label.slice(0, pattern.length), pattern) === 0 ||
+          record.label.toLocaleLowerCase().includes(pattern.toLocaleLowerCase());
+  }
+
+  function isItemEqualToValue(a: OptionRecord<Option>, b: OptionRecord<Option>) {
+    return a.createQuery === b.createQuery && a.value === b.value;
+  }
+
+  function itemToStringLabel(record: OptionRecord<Option>) {
+    return record.label;
+  }
+
+  function itemToStringValue(record: OptionRecord<Option>) {
+    return String(record.value);
+  }
+
+  const selectedChips = selected.map((record, index) =>
+    renderSelectedChip({ record, index, tagLimit, strings, renderLabel, renderTag }),
+  );
+  const overflowCount = selected.length > tagLimit ? selected.length - tagLimit : 0;
+  const overflowTitle = selected
+    .slice(tagLimit)
+    .map((record) => record.label)
+    .join(", ");
+  const overflow = overflowCount ? (
+    <span className="r-combobox-select__overflow" title={overflowTitle}>
+      +{overflowCount}
+    </span>
+  ) : null;
+
+  function renderRecord(record: OptionRecord<Option>) {
+    const itemKey = record.createQuery !== undefined ? "create" : optionKey(record.value);
+    const isSelected = selected.some((item) => item.value === record.value);
+    const content = renderOptionContent({
+      record,
+      selected: isSelected,
+      renderLabel,
+      renderOption,
+      renderCreateLabel,
+    });
+
+    return (
+      <BaseCombobox.Item
+        key={itemKey}
+        value={record}
+        disabled={record.disabled || loading}
+        className="r-combobox-select__option"
+      >
+        {content}
+      </BaseCombobox.Item>
+    );
+  }
+
+  function renderGroup(group: ComboboxSelectGroupRecord<Option>) {
+    const groupLabel =
+      group.label == null ? null : (
+        <BaseCombobox.GroupLabel className="r-combobox-select__group-label">
+          {group.label}
+        </BaseCombobox.GroupLabel>
+      );
+
+    return (
+      <BaseCombobox.Group key={group.key} items={group.items}>
+        {groupLabel}
+        <BaseCombobox.Collection>{renderRecord}</BaseCombobox.Collection>
+      </BaseCombobox.Group>
+    );
+  }
+
+  const input = (
+    <BaseCombobox.Input
+      {...inputProps}
+      ref={inputRef}
+      id={id}
+      data-slot="combobox-select-input"
+      className={inputClassName}
+      aria-label={inputLabel}
+      aria-labelledby={inputLabelledBy}
+      aria-describedby={inputDescribedBy}
+      aria-invalid={inputInvalid}
+      aria-description={inputDescription}
+      placeholder={inputPlaceholder}
+      readOnly={inputReadOnly}
+    />
+  );
+  const controlContent = multiple ? (
+    <BaseCombobox.Chips className="r-combobox-select__chips" aria-label={strings.selected}>
+      {selectedChips}
+      {overflow}
+      {input}
+    </BaseCombobox.Chips>
+  ) : (
+    input
+  );
+  const loadingMessage = loading ? (
+    <div className="r-combobox-select__message">{loadingContent}</div>
+  ) : null;
+  const emptyMessage = !loading ? (
+    <div className="r-combobox-select__message">{emptyContent}</div>
+  ) : null;
+  const loadingIndicator = loading ? (
+    <LoaderCircle className="r-combobox-select__spinner" aria-hidden />
+  ) : null;
+  const clearAction = clearable ? (
+    <BaseCombobox.Clear className="r-combobox-select__action" aria-label={strings.clear}>
+      <X aria-hidden />
+    </BaseCombobox.Clear>
+  ) : null;
+  const triggerAction = showArrow ? (
+    <BaseCombobox.Trigger className="r-combobox-select__action" aria-label={strings.toggle}>
+      <ChevronDown aria-hidden />
+    </BaseCombobox.Trigger>
+  ) : null;
+  const actions = (
+    <span className="r-combobox-select__actions">
+      {loadingIndicator}
+      {clearAction}
+      {triggerAction}
+    </span>
+  );
+  const valueChange = handleValueChange as never;
+
+  return (
+    <BaseCombobox.Root<OptionRecord<Option>, Multiple>
+      {...rootProps}
+      id={id}
+      multiple={multiple}
+      disabled={disabled}
+      readOnly={readOnly}
+      items={items as never}
+      value={controlValue as never}
+      onValueChange={valueChange}
+      inputValue={inputValue}
+      defaultInputValue={defaultInputValue}
+      onInputValueChange={handleInputValueChange}
+      filter={filterOptions}
+      itemToStringLabel={itemToStringLabel}
+      itemToStringValue={itemToStringValue}
+      isItemEqualToValue={isItemEqualToValue}
+      autoHighlight={autoHighlight}
+    >
+      <BaseCombobox.InputGroup
+        data-slot="combobox-select"
+        data-status={status}
+        className={controlClassName}
+        style={style}
+      >
+        {controlContent}
+        {actions}
+      </BaseCombobox.InputGroup>
+      <BaseCombobox.Portal {...scopedPortalProps}>
+        <BaseCombobox.Positioner
+          sideOffset={4}
+          align="start"
+          {...positionerProps}
+          className={positionerClassName}
+        >
+          <BaseCombobox.Popup
+            initialFocus={false}
+            finalFocus={false}
+            {...popupProps}
+            data-slot="combobox-select-popup"
+            className={popupClassName}
+          >
+            <BaseCombobox.Status>{loadingMessage}</BaseCombobox.Status>
+            <BaseCombobox.List className="r-combobox-select__list" aria-busy={loading}>
+              {renderGroup}
+            </BaseCombobox.List>
+            <BaseCombobox.Empty>{emptyMessage}</BaseCombobox.Empty>
+          </BaseCombobox.Popup>
+        </BaseCombobox.Positioner>
+      </BaseCombobox.Portal>
+    </BaseCombobox.Root>
+  );
+}

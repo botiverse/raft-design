@@ -23,6 +23,7 @@ const combobox = tv({
     ],
     triggerIndicator: [
       "ml-auto flex shrink-0 items-center justify-center opacity-60",
+      "transition-[background-color,color] duration-100 hover:bg-ink-4 hover:text-foreground",
       "[&>svg]:size-3 [&>svg]:shrink-0",
     ],
     control: [
@@ -52,8 +53,9 @@ const combobox = tv({
     label: ["m-0 font-medium"],
     clear: [
       "inline-flex h-5 min-w-8 items-center justify-center",
-      "pointer-events-none opacity-0 outline-none transition-colors",
+      "pointer-events-none opacity-0 outline-none transition-[background-color,color] duration-100",
       "data-visible:pointer-events-auto data-visible:opacity-100",
+      "hover:bg-ink-4 hover:text-foreground",
     ],
     empty: ["px-3 py-4 text-center text-sm"],
     groupLabel: ["px-3 py-2"],
@@ -91,11 +93,13 @@ const combobox = tv({
           "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground-strong/60",
         ],
         clear: [
-          "font-sans text-[10px] font-bold uppercase tracking-wide text-foreground-strong hover:text-foreground-strong",
+          "font-sans text-[10px] font-bold uppercase tracking-wide text-foreground-strong",
+          "hover:bg-brutal-yellow/30 hover:text-foreground-strong active:bg-brutal-yellow/50",
           "[&>svg]:stroke-2 [&>svg_*]:stroke-2",
         ],
         triggerIndicator: [
           "text-foreground-strong opacity-100",
+          "hover:bg-brutal-yellow/30 hover:text-foreground-strong active:bg-brutal-yellow/50",
           "[&>svg]:stroke-2 [&>svg_*]:stroke-2",
         ],
         control: [
@@ -148,11 +152,13 @@ const combobox = tv({
         ],
         label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong/45"],
         clear: [
-          "text-[11px] font-medium tracking-[-0.005em] text-foreground-muted hover:text-foreground",
+          "rounded-sm text-[11px] font-medium tracking-[-0.005em] text-foreground-muted",
+          "hover:bg-ink-4 hover:text-foreground",
           "[&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
         ],
         triggerIndicator: [
-          "text-foreground-muted opacity-100",
+          "rounded-sm text-foreground-muted opacity-100",
+          "hover:bg-ink-4 hover:text-foreground",
           "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
         ],
         control: [
