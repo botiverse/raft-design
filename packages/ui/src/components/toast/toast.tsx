@@ -88,10 +88,7 @@ const toastStyles = tv({
           "gap-y-1.5",
           "has-data-[slot=toast-icon]:grid-cols-[auto_minmax(0,1fr)]",
         ],
-        icon: [
-          "size-7 border-2 border-line-strong bg-layer-panel p-1.5 text-foreground-strong shadow-[2px_2px_0_0_black]",
-          "[&_svg]:size-4 [&_svg]:stroke-[2.5]",
-        ],
+        icon: ["text-foreground-strong", "[&_svg]:size-4 [&_svg]:stroke-[2.5]"],
         title: ["font-bold text-foreground-strong"],
         description: ["font-semibold text-foreground-strong/75"],
         actions: [
