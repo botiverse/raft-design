@@ -59,6 +59,7 @@ const tabs = tv({
     variant: {
       default: {},
       underline: {},
+      primary: {},
     },
   },
   defaultVariants: {
@@ -101,7 +102,7 @@ const tabs = tv({
     },
     {
       theme: "elegant",
-      variant: "default",
+      variant: ["default", "primary"],
       class: {
         list: [
           "group/tabs-list relative isolate flex h-auto w-max max-w-full items-center gap-1",
@@ -149,6 +150,17 @@ const tabs = tv({
         ],
       },
     },
+    {
+      theme: "elegant",
+      variant: "primary",
+      class: {
+        tab: [
+          "data-active:text-primary-950 data-active:hover:text-primary-950",
+          "data-active:[&_svg]:text-primary-950",
+        ],
+        indicator: ["bg-primary-400 dark:bg-primary-400", "ring-0 shadow-none"],
+      },
+    },
   ],
 });
 
@@ -159,7 +171,7 @@ type TabsReorderContextValue = {
 
 const TabsReorderContext = createContext<TabsReorderContextValue>({ enabled: false });
 const TabsValueContext = createContext<string | undefined>(undefined);
-type TabsListVariant = "default" | "underline";
+type TabsListVariant = "default" | "underline" | "primary";
 
 const TabsListVariantContext = createContext<TabsListVariant>("default");
 

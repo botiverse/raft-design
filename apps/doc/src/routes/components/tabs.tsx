@@ -30,7 +30,7 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const VARIANTS = ["default", "underline"] as const;
+const VARIANTS = ["default", "underline", "primary"] as const;
 
 const SNIPPETS = {
   preview: `<Tabs defaultValue="overview">
@@ -286,9 +286,10 @@ const TABS_PROPS: readonly PropRow[] = [
 const TABS_LIST_PROPS: readonly PropRow[] = [
   {
     name: "variant",
-    type: '"default" | "underline"',
+    type: '"default" | "underline" | "primary"',
     default: '"default"',
-    description: "Visual treatment for the tab list. Defaults to the chip-style default variant.",
+    description:
+      "Visual treatment for the tab list. Defaults to the chip-style default variant; `primary` keeps the chip layout but fills the active tab with primary (elegant; brutal already does).",
   },
   {
     name: "...props",
@@ -353,7 +354,7 @@ const SORTABLE_TABS_LIST_PROPS: readonly PropRow[] = [
   },
   {
     name: "variant",
-    type: '"default" | "underline"',
+    type: '"default" | "underline" | "primary"',
     default: '"default"',
     description: "Visual treatment inherited by the underlying TabsList.",
   },
