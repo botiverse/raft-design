@@ -8,7 +8,22 @@ export type MessageReferenceTextVariant = "primary" | "secondary";
 
 export const messageReference = tv({
   slots: {
+    // The first three entries carry the inline-chip layout contract that
+    // replaces slock's local MSG_REF_CHIP constant (slock #proj-message
+    // task #28): inline layout with icon/text/trailing gap, zero vertical
+    // padding with baseline alignment, and em-based sizing so the chip
+    // scales with the message font-size preference and matches the
+    // inline-code background-box height. `truncate` stays: it pins the
+    // nowrap contract so refs never split across lines in screenshot export.
     root: [
+      "inline-flex items-center gap-1",
+      "py-0 align-bottom",
+      // Keep the arbitrary-property form: the canonical `text-[0.875em]`
+      // shorthand lives in a different tailwind-merge conflict group, so it
+      // would survive next to a compound's `[font-size:inherit]` and the
+      // override order would no longer be deterministic.
+      // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
+      "[font-size:0.875em] leading-[1.3em]",
       "max-w-full truncate   select-text no-underline",
       "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
       "[&_svg]:size-3 [&_svg]:shrink-0",
