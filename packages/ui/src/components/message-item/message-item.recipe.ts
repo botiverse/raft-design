@@ -5,7 +5,7 @@ export const messageItem = tv({
   slots: {
     root: ["group/message relative flex h-fit min-h-[3rem] gap-3"],
     gutter: ["relative w-9 shrink-0 self-stretch"],
-    avatarSlot: ["relative mt-0.5 w-9 shrink-0 self-start"],
+    avatarSlot: ["relative w-9 shrink-0 self-start"],
     continuationTime: ["absolute right-0 top-1 select-none tabular-nums"],
     content: ["min-w-0 flex-1"],
     header: ["flex min-w-0 overflow-hidden pr-24"],
