@@ -66,7 +66,7 @@ export const messageItem = tv({
       },
       elegant: {
         root: [
-          "border border-transparent max-md:gap-2 px-7 pt-2 pb-1.5 max-md:px-4 max-md:pt-1.5 max-md:pb-1",
+          "border border-transparent max-md:gap-2 px-7 pt-3.5 pb-3 max-md:px-4 max-md:pt-2 max-md:pb-1.5",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-ink-2 data-popup-open:bg-ink-2 has-data-popup-open:bg-ink-2",
           "has-data-[slot=message-item-search-match]:border-transparent",
@@ -79,7 +79,7 @@ export const messageItem = tv({
         ],
         gutter: "max-md:w-8",
         avatarSlot: [
-          "[&_[data-slot=avatar][data-size=md]]:ml-0.5 [&_[data-slot=avatar][data-size=md]]:size-8 [&_[data-slot=avatar][data-size=md]]:border-0",
+          "[&_[data-slot=avatar][data-size=md]]:size-9 [&_[data-slot=avatar][data-size=md]]:border-0",
           "[&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-right-px [&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-bottom-px",
           "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
         ],

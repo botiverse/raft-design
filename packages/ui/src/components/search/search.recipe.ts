@@ -28,7 +28,7 @@ export const search = tv({
           "px-3 py-2 max-md:pl-5 max-md:pr-3.5",
           "dark:bg-transparent",
         ],
-        viewport: ["bg-layer-panel dark:bg-transparent", "px-4 py-3 max-md:pl-5 max-md:pr-3.5"],
+        viewport: ["bg-layer-panel dark:bg-transparent", "px-3 py-3 max-md:pl-5 max-md:pr-3.5"],
         summary: ["font-medium", "text-foreground-muted"],
         section: [
           "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] p-3 shadow-raft-xs",
