@@ -1,12 +1,13 @@
 import { Preview } from "#/components/preview.tsx";
+import type { HighlightedSnippet } from "#/lib/highlight.tsx";
 import { ToggleGroupFormattingComposition } from "./compositions/formatting.composition.tsx";
 
 export function ToggleGroupPreview({
   code,
   collapsedCode,
 }: {
-  code: string;
-  collapsedCode: string;
+  code: HighlightedSnippet;
+  collapsedCode: HighlightedSnippet;
 }) {
   return (
     <Preview>

@@ -9,6 +9,7 @@ import { SidebarPreview } from "#/modules/sidebar/sidebar.preview.tsx";
 import sidebarCompositionSource from "#/modules/sidebar/sidebar.composition.tsx?raw";
 import sidebarSectionHeaderMenuCompositionSource from "#/modules/dropdown-menu/compositions/sidebar-section-header-menu.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippets } from "#/lib/highlight.tsx";
 
 const SIDEBAR_COMPOSITION_PATH = "apps/doc/src/modules/sidebar/sidebar.composition.tsx";
 const SIDEBAR_SECTION_HEADER_MENU_COMPOSITION_PATH =
@@ -463,7 +464,7 @@ function SidebarSourceFiles({
   code,
   collapsible = true,
 }: {
-  code: Record<string, string>;
+  code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
   return (

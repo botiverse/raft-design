@@ -7,6 +7,7 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippet, HighlightedSnippets } from "#/lib/highlight.tsx";
 import { ActivityPreviewComposition } from "#/modules/activity/compositions/activity-preview.composition.tsx";
 import activityPreviewCompositionSource from "#/modules/activity/compositions/activity-preview.composition.tsx?raw";
 import { EmptyActivityComposition } from "#/modules/activity/compositions/empty-activity.composition.tsx";
@@ -333,7 +334,7 @@ export const Route = createFileRoute("/components/activity")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function ActivityPreview({ code }: { code: Record<string, string> }) {
+function ActivityPreview({ code }: { code: HighlightedSnippets }) {
   return (
     <Preview>
       <Preview.Canvas>
@@ -435,8 +436,8 @@ function ActivityUsage({
   title: string;
   id: string;
   preview: React.ReactNode;
-  html: string;
-  collapsedHtml: string;
+  html: HighlightedSnippet;
+  collapsedHtml: HighlightedSnippet;
 }) {
   return (
     <DocSubsection parentId="usage" id={id} title={title}>
@@ -453,7 +454,7 @@ function ActivitySourceFiles({
   code,
   collapsible = true,
 }: {
-  code: Record<string, string>;
+  code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
   return (

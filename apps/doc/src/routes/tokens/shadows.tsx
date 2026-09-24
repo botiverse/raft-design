@@ -5,6 +5,8 @@ import { CodeBlock } from "#/components/code-block.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippets } from "#/lib/highlight.tsx";
+import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 
 const TOC = [
   { id: "scale", title: "Theme scale" },
@@ -107,9 +109,37 @@ function TokenOutlet() {
   return <Outlet />;
 }
 
-export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: Record<string, string> }) {
+export function ShadowsDoc({ theme, code }: { theme: ShadowTheme; code: HighlightedSnippets }) {
   const previews = THEME_PREVIEWS.filter((preview) => preview.theme === theme);
   const title = `${THEME_LABELS[theme]} shadows`;
+
+  // The scale cards are visual only; Markdown keeps the values and usage.
+  if (isMarkdownMode()) {
+    return (
+      <DocPage title={title} description="The theme shadow contract." toc={TOC}>
+        <DocSection id="values" title="Values">
+          <ul>
+            {SHADOW_TOKENS.map((shadow) => (
+              <li key={shadow.sourceToken}>
+                <code>{shadow.name}</code> (<code>{shadow.sourceToken}</code>):{" "}
+                {theme === "elegant" ? (
+                  <>
+                    light <code>{shadow.elegant}</code>, dark{" "}
+                    <code>{ELEGANT_DARK_SHADOWS[shadow.name]}</code>
+                  </>
+                ) : (
+                  <code>{shadow.brutal}</code>
+                )}
+              </li>
+            ))}
+          </ul>
+        </DocSection>
+        <DocSection id="usage" title="Usage">
+          <CodeBlock html={code.usage} />
+        </DocSection>
+      </DocPage>
+    );
+  }
 
   return (
     <TokenThemeScope theme={theme}>

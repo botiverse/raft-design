@@ -12,6 +12,7 @@ import { AppRailComposition } from "#/modules/app-rail/app-rail.composition.tsx"
 import appRailCompositionSource from "#/modules/app-rail/app-rail.composition.tsx?raw";
 import appRailServerButtonSource from "#/modules/app-rail/app-rail-server-button.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippets } from "#/lib/highlight.tsx";
 
 const APP_RAIL_COMPOSITION_PATH = "apps/doc/src/modules/app-rail/app-rail.composition.tsx";
 const APP_RAIL_SERVER_BUTTON_PATH = "apps/doc/src/modules/app-rail/app-rail-server-button.tsx";
@@ -295,7 +296,7 @@ function AppRailSourceFiles({
   code,
   collapsible = true,
 }: {
-  code: Record<string, string>;
+  code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
   return (

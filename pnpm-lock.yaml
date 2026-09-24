@@ -96,6 +96,12 @@ catalogs:
     react-markdown:
       specifier: ^10.1.0
       version: 10.1.0
+    react-reconciler:
+      specifier: ^0.34.0
+      version: 0.34.0
+    react-render-to-markdown:
+      specifier: ^19.1.0
+      version: 19.1.0
     react-resizable-panels:
       specifier: ^4.12.2
       version: 4.12.2
@@ -136,6 +142,9 @@ catalogs:
 overrides:
   vite: npm:@voidzero-dev/vite-plus-core@0.2.6
   vitest: 4.1.10
+
+patchedDependencies:
+  react-render-to-markdown@19.1.0: c71249b1257fbea9376d9204d92baa15cd8b47e28c53d2c99cfc95bf72600d33
 
 importers:
 
@@ -265,6 +274,12 @@ importers:
       jsdom:
         specifier: 'catalog:'
         version: 30.0.1
+      react-reconciler:
+        specifier: 'catalog:'
+        version: 0.34.0(react@19.2.8)
+      react-render-to-markdown:
+        specifier: 'catalog:'
+        version: 19.1.0(patch_hash=c71249b1257fbea9376d9204d92baa15cd8b47e28c53d2c99cfc95bf72600d33)(react@19.2.8)
       typescript:
         specifier: 'catalog:'
         version: 7.0.2
@@ -3122,6 +3137,23 @@ packages:
       '@types/react': '>=18'
       react: '>=18'
 
+  react-reconciler@0.33.0:
+    resolution: {integrity: sha512-KetWRytFv1epdpJc3J4G75I4WrplZE5jOL7Yq0p34+OVOKF4Se7WrdIdVC45XsSSmUTlht2FM/fM1FZb1mfQeA==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      react: ^19.2.0
+
+  react-reconciler@0.34.0:
+    resolution: {integrity: sha512-eVibvB1fc9j5Qf1KRkiM3GzRPBdjg2P6G6QV2f3P6Eb3OGMxRBhdg2rrUwjbV5JrQaJj8nOa8uajmmJA5tJWjQ==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      react: ^19.3.0
+
+  react-render-to-markdown@19.1.0:
+    resolution: {integrity: sha512-dF9b3tO41ezqdmHP8X92kbHbMexJ6iC7iHw4ykC8fwiO7DgpFc9PhMoKlI+BcPzRxGcWgQSdrixVB9RykhjJpQ==}
+    peerDependencies:
+      react: '>=19'
+
   react-resizable-panels@4.12.2:
     resolution: {integrity: sha512-NwY5LCo4WrxVvDh0xoMML6EMLPONP/8ckKcIdpnojxexoatZdjLiRqLJQjQK5CPkd4SYiB/2M5BVrjZBQtOO7Q==}
     peerDependencies:
@@ -3184,6 +3216,9 @@ packages:
 
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
+
+  scheduler@0.28.0:
+    resolution: {integrity: sha512-juorfCmIkIw8tT+p5BXSm6PJjQF/ycEYmKyzURCIt/RaZIhL+PulbQ9Yu2z1HdOJDdqDTlxA1+xKBmHXJsczAw==}
 
   semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
@@ -6215,6 +6250,21 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  react-reconciler@0.33.0(react@19.2.8):
+    dependencies:
+      react: 19.2.8
+      scheduler: 0.27.0
+
+  react-reconciler@0.34.0(react@19.2.8):
+    dependencies:
+      react: 19.2.8
+      scheduler: 0.28.0
+
+  react-render-to-markdown@19.1.0(patch_hash=c71249b1257fbea9376d9204d92baa15cd8b47e28c53d2c99cfc95bf72600d33)(react@19.2.8):
+    dependencies:
+      react: 19.2.8
+      react-reconciler: 0.33.0(react@19.2.8)
+
   react-resizable-panels@4.12.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       react: 19.2.8
@@ -6312,6 +6362,8 @@ snapshots:
       xmlchars: 2.2.0
 
   scheduler@0.27.0: {}
+
+  scheduler@0.28.0: {}
 
   semver@6.3.1: {}
 

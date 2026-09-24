@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactElement } from "react";
 import { createHighlighterCore } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import tsx from "shiki/dist/langs/tsx.mjs";
@@ -7,6 +7,7 @@ import vitesseLight from "shiki/dist/themes/vitesse-light.mjs";
 import type { ThemedToken } from "shiki";
 
 import { stripSourceCodeBlocks, stripTopLevelImports } from "./source-code.ts";
+import { isMarkdownMode } from "./markdown-mode.ts";
 
 // Tokens carry both palettes as --shiki-light/--shiki-dark CSS vars; the code
 // surface (CodeBlock / DocsCodeBlock) picks one per mode.
@@ -24,7 +25,8 @@ const highlighter = createHighlighterCore({
   engine: createJavaScriptRegexEngine(),
 });
 
-type HighlightedSnippets = Record<string, string>;
+export type HighlightedSnippet = string | ReactElement;
+export type HighlightedSnippets = Record<string, HighlightedSnippet>;
 
 function escapeHtml(value: string) {
   return value
@@ -89,16 +91,30 @@ export async function highlightSnippets({ data }: { data: Record<string, string>
       id.toLowerCase().includes("anatomy"),
     );
 
-  const entries: Array<[string, string]> = [];
+  const entries: Array<[string, HighlightedSnippet]> = [];
+
+  // The Markdown pass wants the source, not Shiki's markup: `CodeBlock` already
+  // renders a non-string `html` as children, and a real `<pre>` element is what
+  // the Markdown renderer turns into a fenced block. Highlighting here would
+  // produce an HTML string injected via dangerouslySetInnerHTML, which a
+  // non-DOM renderer cannot see at all.
+  const emit = (id: string, code: string): HighlightedSnippet =>
+    isMarkdownMode() ? (
+      <pre data-lang="tsx">
+        <code>{code}</code>
+      </pre>
+    ) : (
+      highlight(id, code)
+    );
 
   for (const [id, code] of Object.entries(data)) {
     const displayCode = stripSourceCodeBlocks(code);
     const bodyCode = stripTopLevelImports(displayCode);
 
-    entries.push([id, highlight(id, displayCode)]);
+    entries.push([id, emit(id, displayCode)]);
 
     if (bodyCode !== displayCode && !id.endsWith("Body")) {
-      entries.push([`${id}Body`, highlight(id, bodyCode)]);
+      entries.push([`${id}Body`, emit(id, bodyCode)]);
     }
   }
 

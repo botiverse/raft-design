@@ -8,6 +8,7 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippets } from "#/lib/highlight.tsx";
 import { MessageTranslationBilingualComposition } from "#/modules/message-translation/compositions/bilingual.composition.tsx";
 import bilingualSource from "#/modules/message-translation/compositions/bilingual.composition.tsx?raw";
 import { MessageTranslationShowcaseComposition } from "#/modules/message-translation/compositions/translation-showcase.composition.tsx";
@@ -50,7 +51,7 @@ function UsagePreview({
   );
 }
 
-function MessageTranslationShowcaseFiles({ code }: { code: Record<string, string> }) {
+function MessageTranslationShowcaseFiles({ code }: { code: HighlightedSnippets }) {
   return (
     <DocsCodeBlock.Files
       collapsible={false}

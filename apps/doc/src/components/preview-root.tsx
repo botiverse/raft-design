@@ -7,6 +7,7 @@ import { PreviewCode } from "./preview-code.tsx";
 import { PreviewControls } from "./preview-controls.tsx";
 import { PreviewThemeScope } from "./preview-theme.tsx";
 import type { PreviewProps } from "./preview.types.ts";
+import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 
 /** Matches the previous fixed `20rem` controls column. */
 const PREVIEW_CONTROLS_DEFAULT_SIZE = 320;
@@ -57,6 +58,10 @@ export function PreviewRoot({
       {controls}
     </div>
   ) : null;
+
+  // Markdown keeps only the code: a rendered canvas serialises to a run of
+  // unlabelled words, and the theme switcher to "BrutalElegantElegant dark".
+  if (isMarkdownMode()) return code ?? null;
 
   return (
     <div data-component-demo-frame className="relative min-w-0">

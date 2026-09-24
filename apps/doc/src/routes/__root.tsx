@@ -12,6 +12,7 @@ import { cn } from "raft-ui/cn";
 
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { Sidebar } from "#/components/sidebar.tsx";
+import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 import {
   documentThemeAttributes,
   getStoredPreviewTheme,
@@ -135,8 +136,8 @@ function RootDocument({ children }: { children: ReactNode }) {
             mirrors `documentThemeAttributes`, the SSR attributes above, and
             `DocumentThemeProvider`'s effect. */}
         <script dangerouslySetInnerHTML={{ __html: PREVIEW_THEME_INLINE_SCRIPT }} />
-        <title>{documentTitle}</title>
-        <HeadContent />
+        {isMarkdownMode() ? null : <title>{documentTitle}</title>}
+        {isMarkdownMode() ? null : <HeadContent />}
       </head>
       <body
         data-standalone={isStandalonePage || undefined}
@@ -153,7 +154,7 @@ function RootDocument({ children }: { children: ReactNode }) {
         <PreviewThemeProvider initial={storedPreviewTheme}>
           <DocumentThemeProvider>
             <div className={documentShellClassName}>
-              {isStandalonePage ? null : (
+              {isStandalonePage || isMarkdownMode() ? null : (
                 <Sidebar collapsed={sidebarCollapsed} onCollapsedChange={setSidebarCollapsed} />
               )}
               <main

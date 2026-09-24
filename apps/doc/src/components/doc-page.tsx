@@ -2,6 +2,7 @@ import { useLocation } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Button, Text } from "raft-ui";
 import { Toc } from "./toc.tsx";
+import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 import type { TocItem } from "./toc.tsx";
 
 export function GithubMark({ size = 14 }: { size?: number }) {
@@ -84,6 +85,7 @@ export function DocPage({
 }: DocPageProps) {
   const { pathname } = useLocation();
   const resolvedSourceHref = sourceHref !== undefined ? sourceHref : resolveSourceHref(pathname);
+  const showChrome = !isMarkdownMode();
   const contentInset = showToc ? "xl:pr-[var(--toc-w)]" : "";
   // Below xl the TOC is hidden — don't keep the old narrow max-w-160 gutters.
   // xl+ already reserves toc padding via contentInset; 2xl opens up further.
@@ -106,7 +108,7 @@ export function DocPage({
                     </Text.Sans>
                   ) : null}
                 </div>
-                {resolvedSourceHref || headerAction ? (
+                {showChrome && (resolvedSourceHref || headerAction) ? (
                   <div className="flex shrink-0 items-center gap-2 pt-1">
                     {resolvedSourceHref ? (
                       <Button
@@ -132,7 +134,7 @@ export function DocPage({
           {children}
         </article>
       </div>
-      {showToc ? <Toc items={toc} /> : null}
+      {showToc && !isMarkdownMode() ? <Toc items={toc} /> : null}
     </>
   );
 }

@@ -8,6 +8,7 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippets } from "#/lib/highlight.tsx";
 import { TaskChipInFooterComposition } from "#/modules/task-chip/compositions/task-chip-in-footer.composition.tsx";
 import taskChipInFooterSource from "#/modules/task-chip/compositions/task-chip-in-footer.composition.tsx?raw";
 import { TaskChipInMarkdownComposition } from "#/modules/task-chip/compositions/task-chip-in-markdown.composition.tsx";
@@ -79,7 +80,7 @@ const TASK_CHIP_IN_FOOTER_PATH =
   "apps/doc/src/modules/task-chip/compositions/task-chip-in-footer.composition.tsx";
 
 /** The chip inside message markdown, and the same chip as a footer badge. */
-function TaskChipPreviewFiles({ code }: { code: Record<string, string> }) {
+function TaskChipPreviewFiles({ code }: { code: HighlightedSnippets }) {
   return (
     <DocsCodeBlock.Files
       collapsible={false}
