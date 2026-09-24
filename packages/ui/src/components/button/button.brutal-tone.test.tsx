@@ -6,7 +6,7 @@
  * its exact brutal compound class. Changing a mapping (or dropping the
  * compound) turns the matching assertion red.
  */
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Button } from "./button";

@@ -7,7 +7,7 @@
  * `iconOnly` explicitly selects the square icon-button treatment that used
  * to be driven by the `data-icon-only` attribute.
  */
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { MessageItemSavedIndicator } from "./message-footer";

@@ -4,7 +4,7 @@
  * Per-file directive for the same reason as select.field-chrome.test.tsx: no
  * config-level environment is honoured by the current runner.
  */
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import {

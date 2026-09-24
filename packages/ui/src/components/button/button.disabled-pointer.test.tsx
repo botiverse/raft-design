@@ -9,7 +9,7 @@
  * aria path used to lose its disabled appearance. These assertions pin both
  * the semantics and the appearance parity.
  */
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Button } from "./button";

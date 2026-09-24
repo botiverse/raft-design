@@ -13,7 +13,7 @@ import "./dropdown-menu.test.css";
  * and keep a positive control that must visibly react, otherwise "colours
  * match" could just mean "no hover rule landed yet for either element".
  */
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Button } from "../button/button";
@@ -105,7 +105,7 @@ for (const { family, mode, label } of THEMES) {
       </ThemeProvider>,
     );
 
-    const { page } = await import("@vitest/browser/context");
+    const { page } = await import("vite-plus/test/browser/context");
 
     // Warm-up, not decoration: the first hover on a freshly rendered page was
     // observed to be measured before it took effect, which read as "the plain

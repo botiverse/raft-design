@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { expect, test } from "vitest";
+import { expect, test } from "vite-plus/test";
 import { guides } from "./guides.ts";
 import { GuideContent } from "./guide-content.tsx";
 

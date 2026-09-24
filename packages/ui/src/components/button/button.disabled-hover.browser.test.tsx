@@ -7,11 +7,11 @@ import "./button.test.css";
  * Run: `vp test --browser.enabled=true src/components/button/button.disabled-hover.browser.test.tsx`
  * (chromium via playwright; real CDP hover so :hover actually applies).
  *
- * NOTE: `@vitest/browser/context` throws when imported in the node pool, so
+ * NOTE: `vite-plus/test/browser/context` throws when imported in the node pool, so
  * `page` is imported lazily inside the test (the file itself must stay
  * importable in the regular pool, where it skips).
  */
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Button } from "./button";
@@ -119,7 +119,7 @@ for (const { family, mode, label } of THEMES) {
       </ThemeProvider>,
     );
 
-    const { page } = await import("@vitest/browser/context");
+    const { page } = await import("vite-plus/test/browser/context");
 
     // Positive control first: hover the ENABLED button and require a real
     // change. Brutal color hovers are same-color, so watch motion too.
@@ -153,7 +153,7 @@ for (const { family, mode, label } of THEMES) {
       // synchronous read can false-negative. click({delay}) was tried earlier
       // and also never surfaced :active in this environment.
       {
-        const { cdp } = await import("@vitest/browser/context");
+        const { cdp } = await import("vite-plus/test/browser/context");
         const r = el.getBoundingClientRect();
         const point = {
           x: r.x + r.width / 2,
@@ -192,7 +192,7 @@ for (const { family, mode, label } of THEMES) {
       expect(snap(el), `${label}/${variant} must not change on hover`).toEqual(resting);
 
       if (canTestActive) {
-        const { cdp } = await import("@vitest/browser/context");
+        const { cdp } = await import("vite-plus/test/browser/context");
         const r = (el as HTMLElement).getBoundingClientRect();
         const point = {
           x: r.x + r.width / 2,
@@ -229,7 +229,7 @@ it("enabled button keeps consumer hover overrides (review round-2 regression)", 
       </Button>
     </ThemeProvider>,
   );
-  const { page } = await import("@vitest/browser/context");
+  const { page } = await import("vite-plus/test/browser/context");
   const button = page.getByRole("button", { name: "Save" });
   const el = button.query() as unknown as Element;
   const resting = snap(el);

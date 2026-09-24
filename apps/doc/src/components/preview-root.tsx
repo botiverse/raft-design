@@ -19,7 +19,16 @@ const frameClass =
   "min-w-0 overflow-clip rounded-lg bg-white shadow-[0_1px_1px_-0.5px_oklch(0_0_0_/_0.03),0_2px_5px_-2px_oklch(0_0_0_/_0.04),0_8px_18px_-10px_oklch(0_0_0_/_0.06),0_0_0_0.5px_oklch(0_0_0_/_0.20)] dark:bg-layer-panel dark:shadow-[0_0_0_1px_oklch(1_0_0_/_0.08),0_12px_28px_-10px_oklch(0_0_0_/_0.5),0_2px_6px_-2px_oklch(0_0_0_/_0.3)]";
 
 /** Compound docs preview: canvas, optional controls, and code via composition parts. */
-export function PreviewRoot({
+export function PreviewRoot(props: PreviewProps) {
+  // Markdown keeps only the code: a rendered canvas serialises to a run of
+  // unlabelled words, and the theme switcher to "BrutalElegantElegant dark".
+  // Returning before the interactive root also keeps its media-query
+  // subscription out of the Markdown renderer, which has no `window`.
+  if (isMarkdownMode()) return getPreviewPart(props.children, PreviewCode) ?? null;
+  return <InteractivePreviewRoot {...props} />;
+}
+
+function InteractivePreviewRoot({
   children,
   previewClassName = "",
   previewInset = "default",
@@ -58,10 +67,6 @@ export function PreviewRoot({
       {controls}
     </div>
   ) : null;
-
-  // Markdown keeps only the code: a rendered canvas serialises to a run of
-  // unlabelled words, and the theme switcher to "BrutalElegantElegant dark".
-  if (isMarkdownMode()) return code ?? null;
 
   return (
     <div data-component-demo-frame className="relative min-w-0">

@@ -22,7 +22,7 @@ import "./dropdown-menu.test.css";
  * leg resolves to — which is exactly why the removed class governed the click
  * appearance too.
  */
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Button } from "../button/button";
@@ -68,7 +68,7 @@ for (const { family, mode, label } of THEMES) {
       </ThemeProvider>,
     );
 
-    const { page } = await import("@vitest/browser/context");
+    const { page } = await import("vite-plus/test/browser/context");
     const trigger = page.getByTestId("trigger");
     const plain = page.getByTestId("plain");
     const plainEl = plain.query() as unknown as Element;

@@ -6,55 +6,59 @@ packages:
 catalogMode: prefer
 
 catalog:
-  "@types/node": ^26.1.2
+  "@types/node": ^26.6.2
   typescript: ^7.0.2
-  vite: npm:@voidzero-dev/vite-plus-core@0.2.6
-  vitest: 4.1.10
-  vite-plus: 0.2.6
-  tailwind-variants: ^3.3.0
-  "@base-ui/react": ^1.7.0
-  "@base-ui/utils": ^0.3.1
+  vite: npm:@voidzero-dev/vite-plus-core@1.0.0-rc.0
+  vitest: 5.0.1
+  vite-plus: 1.0.0-rc.0
+  tailwind-variants: ^3.3.1
+  "@base-ui/react": ^1.8.0
+  "@base-ui/utils": ^0.4.0
   "@dnd-kit/core": ^6.3.1
   "@dnd-kit/sortable": ^10.0.0
   "@dnd-kit/utilities": ^3.2.2
-  lucide-react: ^1.27.0
-  cnfast: ^0.1.0
-  tailwind-merge: ^3.6.0
-  wrangler: ^4.115.0
-  shiki: ^4.3.1
-  "@tanstack/react-hotkeys": ^0.10.0
-  "@vitejs/plugin-rsc": ^0.5.32
-  "@cloudflare/vite-plugin": ^1.48.0
-  react-resizable-panels: ^4.12.2
+  lucide-react: ^1.48.0
+  cnfast: ^0.2.0
+  tailwind-merge: ^3.7.0
+  wrangler: ^4.136.3
+  shiki: ^4.4.3
+  "@tanstack/react-hotkeys": ^0.11.0
+  "@vitejs/plugin-rsc": ^0.5.35
+  "@cloudflare/vite-plugin": ^1.57.3
+  react-resizable-panels: ^4.13.2
   react-markdown: ^10.1.0
   rehype-sanitize: ^6.0.0
   remark-breaks: ^4.0.0
   remark-gfm: ^4.0.1
-  react-dropzone: ^19.1.1
-  motion: ^12.43.0
-  "@tanstack/react-virtual": ^3.14.9
+  react-dropzone: ^20.1.2
+  motion: ^13.4.3
+  "@tanstack/react-virtual": ^3.14.13
   "@tailwindcss/typography": ^0.5.20
-  "@testing-library/dom": ^10.4.1
-  "@testing-library/react": ^16.3.2
-  "@types/react": ^19.2.17
-  "@types/react-dom": ^19.2.3
-  "@vitejs/plugin-react": ^6.0.4
-  jsdom: ^30.0.1
+  "@testing-library/dom": ^10.4.2
+  "@testing-library/react": ^16.3.3
+  "@types/react": ^19.3.0
+  "@types/react-dom": ^19.3.0
+  "@vitejs/plugin-react": ^6.1.1
+  jsdom: ^30.1.1
   "@tailwindcss/vite": ^4.3.3
-  "@tanstack/react-router": 1.170.18
-  "@tanstack/react-start": 1.168.32
-  foxact: ^0.3.8
-  react: ^19.2.8
-  react-dom: ^19.2.8
+  "@tanstack/react-router": 1.170.38
+  "@tanstack/react-start": 1.168.57
+  foxact: ^0.3.12
+  react: ^19.3.0
+  react-dom: ^19.3.0
   tailwindcss: ^4.3.3
-  torph: ^0.0.9
+  torph: ^0.1.3
   "@typescript/native-preview": 7.0.0-dev.20260707.2
   eslint-plugin-better-tailwindcss: ^4.7.0
   react-render-to-markdown: ^19.1.0
   react-reconciler: ^0.34.0
+  "@vitest/browser-playwright": 5.0.1
 overrides:
-  vite: "catalog:"
-  vitest: "catalog:"
+  # react-render-to-markdown pins the reconciler for React 19.2; the reconciler
+  # must match the installed React minor or effects leak into the Markdown pass.
+  react-render-to-markdown>react-reconciler: "catalog:"
+  vite@*: "catalog:"
+  vitest@*: "catalog:"
 peerDependencyRules:
   allowAny:
     - vite
@@ -68,14 +72,7 @@ allowBuilds:
   sharp: false
   workerd: true
 minimumReleaseAgeExclude:
-  - "@cloudflare/vite-plugin@1.48.0"
-  - "@vitejs/plugin-rsc@0.5.32"
-  - "@tanstack/react-virtual@3.14.9"
-  - jsdom@30.0.1
-  - motion@12.43.0
-  - miniflare@4.20260603.0 || 4.20260722.1
-  - wrangler@4.115.0
-  - cnfast@0.0.7
+  - motion@13.4.3
   - "@typescript/typescript-aix-ppc64@7.0.2"
   - "@typescript/typescript-darwin-arm64@7.0.2"
   - "@typescript/typescript-darwin-x64@7.0.2"
@@ -97,10 +94,8 @@ minimumReleaseAgeExclude:
   - "@typescript/typescript-win32-arm64@7.0.2"
   - "@typescript/typescript-win32-x64@7.0.2"
   - typescript@7.0.2
-  - "@tanstack/virtual-core@3.17.7"
-  - framer-motion@12.43.0
-  - motion-dom@12.43.0
-  - "@base-ui/react@1.7.0"
-  - "@base-ui/utils@0.3.2"
+  - framer-motion@13.4.3
+  - motion-dom@13.4.2
+  - lucide-react@1.48.0
 patchedDependencies:
   react-render-to-markdown@19.1.0: patches/react-render-to-markdown@19.1.0.patch

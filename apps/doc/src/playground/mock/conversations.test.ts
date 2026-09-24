@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 
 import { getPlaygroundActor } from "./actors.ts";
 import { PLAYGROUND_CONVERSATIONS, isPlaygroundThreadId } from "./conversations.ts";

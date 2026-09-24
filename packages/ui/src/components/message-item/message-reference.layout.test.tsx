@@ -8,7 +8,7 @@
  * screenshot export. Also pins that themed compound variants still override
  * the base contract through the class merge (brutal stays pixel-identical).
  */
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { MessageReferenceChip, MessageReferenceText } from "./message-reference";
