@@ -1,7 +1,7 @@
 import { RouterProvider, createMemoryHistory } from "@tanstack/react-router";
 import { renderToMarkdownString } from "react-render-to-markdown";
 
-import { setMarkdownMode } from "#/lib/markdown-mode.ts";
+import { beginMarkdownPage, setMarkdownMode } from "#/lib/markdown-mode.ts";
 import { guides } from "#/modules/guides/guides.ts";
 import { getRouter } from "#/router.tsx";
 
@@ -48,6 +48,7 @@ export async function renderMarkdownPages(): Promise<MarkdownPage[]> {
   setMarkdownMode(true);
   try {
     for (const path of listDocPaths()) {
+      beginMarkdownPage();
       const markdown = (await renderRoute(path)).trim();
       // Layout routes such as `/tokens/shadows` only redirect to a child.
       if (!markdown) continue;

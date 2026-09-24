@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { Tabs, TabsList, TabsTab } from "raft-ui";
 import { tv } from "tailwind-variants/lite";
 
+import { claimMarkdownFile, isMarkdownMode } from "#/lib/markdown-mode.ts";
 import { DocsCodeBlockBody } from "./docs-code-block-body.tsx";
 import { DocsCodeBlockCollapse } from "./docs-code-block-collapse.tsx";
 import { DocsCodeBlockContent } from "./docs-code-block-content.tsx";
@@ -58,6 +59,22 @@ export function DocsCodeBlockFiles({
   const styles = docsCodeBlockFiles();
 
   if (!activeFile) return null;
+
+  // Markdown has no tabs to switch: list every file under its path.
+  if (isMarkdownMode()) {
+    return files.map((file) => {
+      const firstTime = claimMarkdownFile(file.path);
+      return (
+        <section key={file.path}>
+          <p>
+            <code>{file.path}</code>
+            {firstTime ? null : " (shown above)"}
+          </p>
+          {firstTime ? <DocsCodeBlockContent html={file.html} /> : null}
+        </section>
+      );
+    });
+  }
 
   const header = (
     <DocsCodeBlockHeader showLineNumbers={showLineNumbers}>

@@ -16,3 +16,20 @@ export function setMarkdownMode(enabled: boolean) {
 export function isMarkdownMode() {
   return markdownMode;
 }
+
+const emittedFiles = new Set<string>();
+
+/**
+ * Pages that repeat one multi-file example per usage variant would otherwise
+ * repeat every file in full. Returns true the first time a path is seen on
+ * the current page; the renderer calls `beginMarkdownPage` between pages.
+ */
+export function claimMarkdownFile(path: string) {
+  if (emittedFiles.has(path)) return false;
+  emittedFiles.add(path);
+  return true;
+}
+
+export function beginMarkdownPage() {
+  emittedFiles.clear();
+}
