@@ -1,7 +1,7 @@
 import { getRouteApi, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useCallback } from "react";
 
-import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
+import { DEFAULT_TOPIC_CHANNEL_ID, PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
 import { requestPlaygroundSearchFocus } from "../search/playground-search-focus.ts";
 import type { PlaygroundRailView } from "./playground-navigation.ts";
 
@@ -10,6 +10,7 @@ const playgroundRoute = getRouteApi("/playground");
 const playgroundRailPaths = {
   search: "/playground/search",
   chat: "/playground/s/$serverSlug",
+  topics: "/playground/topics",
   activity: "/playground/activity",
   tasks: "/playground/tasks",
   members: "/playground/members",
@@ -36,6 +37,14 @@ export function usePlaygroundRouteState() {
         void navigate({
           to: "/playground/s/$serverSlug",
           params: { serverSlug: PLAYGROUND_SERVER_SLUG },
+          search: {},
+        });
+        return;
+      }
+      if (view === "topics") {
+        void navigate({
+          to: "/playground/topics/$channelId",
+          params: { channelId: DEFAULT_TOPIC_CHANNEL_ID },
           search: {},
         });
         return;

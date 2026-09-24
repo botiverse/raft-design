@@ -41,6 +41,7 @@ import { Route as ComponentsEmptyStateRouteImport } from './routes/components/em
 import { Route as ComponentsFieldRouteImport } from './routes/components/field'
 import { Route as ComponentsFilePreviewRouteImport } from './routes/components/file-preview'
 import { Route as ComponentsFilesRouteImport } from './routes/components/files'
+import { Route as ComponentsFilterChipRouteImport } from './routes/components/filter-chip'
 import { Route as ComponentsFloatButtonRouteImport } from './routes/components/float-button'
 import { Route as ComponentsIconsRouteImport } from './routes/components/icons'
 import { Route as ComponentsInlineCodeRouteImport } from './routes/components/inline-code'
@@ -94,6 +95,7 @@ import { Route as ComponentsThreadPanelRouteImport } from './routes/components/t
 import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
+import { Route as ComponentsTopicListRouteImport } from './routes/components/topic-list'
 import { Route as GuidesGuideRouteImport } from './routes/guides/$guide'
 import { Route as IframeAppShellMobileRouteImport } from './routes/iframe/app-shell-mobile'
 import { Route as IframeDialogScrollLayerRouteImport } from './routes/iframe/dialog-scroll-layer'
@@ -103,6 +105,7 @@ import { Route as PlaygroundIndexRouteImport } from './routes/playground/index'
 import { Route as PlaygroundBrowseRouteRouteImport } from './routes/playground/_browse/route'
 import { Route as PlaygroundPlainRouteRouteImport } from './routes/playground/_plain/route'
 import { Route as PlaygroundSRouteRouteImport } from './routes/playground/s/route'
+import { Route as PlaygroundTopicsRouteRouteImport } from './routes/playground/topics/route'
 import { Route as TokensColorsRouteImport } from './routes/tokens/colors'
 import { Route as TokensShadowsRouteImport } from './routes/tokens/shadows'
 import { Route as TokensTypographyRouteImport } from './routes/tokens/typography'
@@ -113,6 +116,8 @@ import { Route as PlaygroundPlainSearchRouteImport } from './routes/playground/_
 import { Route as PlaygroundPlainSettingsRouteImport } from './routes/playground/_plain/settings'
 import { Route as PlaygroundPlainTasksRouteImport } from './routes/playground/_plain/tasks'
 import { Route as PlaygroundSServerSlugRouteRouteImport } from './routes/playground/s/$serverSlug/route'
+import { Route as PlaygroundTopicsIndexRouteImport } from './routes/playground/topics/index'
+import { Route as PlaygroundTopicsChannelIdRouteImport } from './routes/playground/topics/$channelId'
 import { Route as TokensShadowsBrutalRouteImport } from './routes/tokens/shadows/brutal'
 import { Route as TokensShadowsElegantRouteImport } from './routes/tokens/shadows/elegant'
 import { Route as TokensTypographyBrutalRouteImport } from './routes/tokens/typography/brutal'
@@ -286,6 +291,11 @@ const ComponentsFilePreviewRoute = ComponentsFilePreviewRouteImport.update({
 const ComponentsFilesRoute = ComponentsFilesRouteImport.update({
   id: '/files',
   path: '/files',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsFilterChipRoute = ComponentsFilterChipRouteImport.update({
+  id: '/filter-chip',
+  path: '/filter-chip',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsFloatButtonRoute = ComponentsFloatButtonRouteImport.update({
@@ -564,6 +574,11 @@ const ComponentsTooltipRoute = ComponentsTooltipRouteImport.update({
   path: '/tooltip',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsTopicListRoute = ComponentsTopicListRouteImport.update({
+  id: '/topic-list',
+  path: '/topic-list',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const GuidesGuideRoute = GuidesGuideRouteImport.update({
   id: '/guides/$guide',
   path: '/guides/$guide',
@@ -606,6 +621,11 @@ const PlaygroundPlainRouteRoute = PlaygroundPlainRouteRouteImport.update({
 const PlaygroundSRouteRoute = PlaygroundSRouteRouteImport.update({
   id: '/s',
   path: '/s',
+  getParentRoute: () => PlaygroundRouteRoute,
+} as any)
+const PlaygroundTopicsRouteRoute = PlaygroundTopicsRouteRouteImport.update({
+  id: '/topics',
+  path: '/topics',
   getParentRoute: () => PlaygroundRouteRoute,
 } as any)
 const TokensColorsRoute = TokensColorsRouteImport.update({
@@ -659,6 +679,17 @@ const PlaygroundSServerSlugRouteRoute =
     id: '/$serverSlug',
     path: '/$serverSlug',
     getParentRoute: () => PlaygroundSRouteRoute,
+  } as any)
+const PlaygroundTopicsIndexRoute = PlaygroundTopicsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PlaygroundTopicsRouteRoute,
+} as any)
+const PlaygroundTopicsChannelIdRoute =
+  PlaygroundTopicsChannelIdRouteImport.update({
+    id: '/$channelId',
+    path: '/$channelId',
+    getParentRoute: () => PlaygroundTopicsRouteRoute,
   } as any)
 const TokensShadowsBrutalRoute = TokensShadowsBrutalRouteImport.update({
   id: '/brutal',
@@ -725,6 +756,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/lab': typeof LabRoute
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
+  '/playground/topics': typeof PlaygroundTopicsRouteRouteWithChildren
   '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
@@ -751,6 +783,7 @@ export interface FileRoutesByFullPath {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/filter-chip': typeof ComponentsFilterChipRoute
   '/components/float-button': typeof ComponentsFloatButtonRoute
   '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
@@ -804,6 +837,7 @@ export interface FileRoutesByFullPath {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/components/topic-list': typeof ComponentsTopicListRoute
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
@@ -820,10 +854,12 @@ export interface FileRoutesByFullPath {
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
+  '/playground/topics/$channelId': typeof PlaygroundTopicsChannelIdRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
+  '/playground/topics/': typeof PlaygroundTopicsIndexRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -865,6 +901,7 @@ export interface FileRoutesByTo {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/filter-chip': typeof ComponentsFilterChipRoute
   '/components/float-button': typeof ComponentsFloatButtonRoute
   '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
@@ -918,6 +955,7 @@ export interface FileRoutesByTo {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/components/topic-list': typeof ComponentsTopicListRoute
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
@@ -932,10 +970,12 @@ export interface FileRoutesByTo {
   '/playground/search': typeof PlaygroundPlainSearchRoute
   '/playground/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/tasks': typeof PlaygroundPlainTasksRoute
+  '/playground/topics/$channelId': typeof PlaygroundTopicsChannelIdRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
+  '/playground/topics': typeof PlaygroundTopicsIndexRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -954,6 +994,7 @@ export interface FileRoutesById {
   '/playground/_browse': typeof PlaygroundBrowseRouteRouteWithChildren
   '/playground/_plain': typeof PlaygroundPlainRouteRouteWithChildren
   '/playground/s': typeof PlaygroundSRouteRouteWithChildren
+  '/playground/topics': typeof PlaygroundTopicsRouteRouteWithChildren
   '/components/activity': typeof ComponentsActivityRoute
   '/components/alert-dialog': typeof ComponentsAlertDialogRoute
   '/components/app-rail': typeof ComponentsAppRailRoute
@@ -980,6 +1021,7 @@ export interface FileRoutesById {
   '/components/field': typeof ComponentsFieldRoute
   '/components/file-preview': typeof ComponentsFilePreviewRoute
   '/components/files': typeof ComponentsFilesRoute
+  '/components/filter-chip': typeof ComponentsFilterChipRoute
   '/components/float-button': typeof ComponentsFloatButtonRoute
   '/components/icons': typeof ComponentsIconsRoute
   '/components/inline-code': typeof ComponentsInlineCodeRoute
@@ -1033,6 +1075,7 @@ export interface FileRoutesById {
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
+  '/components/topic-list': typeof ComponentsTopicListRoute
   '/guides/$guide': typeof GuidesGuideRoute
   '/iframe/app-shell-mobile': typeof IframeAppShellMobileRoute
   '/iframe/dialog-scroll-layer': typeof IframeDialogScrollLayerRoute
@@ -1049,10 +1092,12 @@ export interface FileRoutesById {
   '/playground/_plain/search': typeof PlaygroundPlainSearchRoute
   '/playground/_plain/settings': typeof PlaygroundPlainSettingsRoute
   '/playground/_plain/tasks': typeof PlaygroundPlainTasksRoute
+  '/playground/topics/$channelId': typeof PlaygroundTopicsChannelIdRoute
   '/tokens/shadows/brutal': typeof TokensShadowsBrutalRoute
   '/tokens/shadows/elegant': typeof TokensShadowsElegantRoute
   '/tokens/typography/brutal': typeof TokensTypographyBrutalRoute
   '/tokens/typography/elegant': typeof TokensTypographyElegantRoute
+  '/playground/topics/': typeof PlaygroundTopicsIndexRoute
   '/playground/s/$serverSlug/channel': typeof PlaygroundSServerSlugChannelRouteRouteWithChildren
   '/playground/s/$serverSlug/dm': typeof PlaygroundSServerSlugDmRouteRouteWithChildren
   '/playground/s/$serverSlug/saved': typeof PlaygroundSServerSlugSavedRoute
@@ -1070,6 +1115,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/lab'
     | '/playground/s'
+    | '/playground/topics'
     | '/components/activity'
     | '/components/alert-dialog'
     | '/components/app-rail'
@@ -1096,6 +1142,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/filter-chip'
     | '/components/float-button'
     | '/components/icons'
     | '/components/inline-code'
@@ -1149,6 +1196,7 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/components/topic-list'
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
@@ -1165,10 +1213,12 @@ export interface FileRouteTypes {
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
+    | '/playground/topics/$channelId'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
+    | '/playground/topics/'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1210,6 +1260,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/filter-chip'
     | '/components/float-button'
     | '/components/icons'
     | '/components/inline-code'
@@ -1263,6 +1314,7 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/components/topic-list'
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
@@ -1277,10 +1329,12 @@ export interface FileRouteTypes {
     | '/playground/search'
     | '/playground/settings'
     | '/playground/tasks'
+    | '/playground/topics/$channelId'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
+    | '/playground/topics'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1298,6 +1352,7 @@ export interface FileRouteTypes {
     | '/playground/_browse'
     | '/playground/_plain'
     | '/playground/s'
+    | '/playground/topics'
     | '/components/activity'
     | '/components/alert-dialog'
     | '/components/app-rail'
@@ -1324,6 +1379,7 @@ export interface FileRouteTypes {
     | '/components/field'
     | '/components/file-preview'
     | '/components/files'
+    | '/components/filter-chip'
     | '/components/float-button'
     | '/components/icons'
     | '/components/inline-code'
@@ -1377,6 +1433,7 @@ export interface FileRouteTypes {
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
+    | '/components/topic-list'
     | '/guides/$guide'
     | '/iframe/app-shell-mobile'
     | '/iframe/dialog-scroll-layer'
@@ -1393,10 +1450,12 @@ export interface FileRouteTypes {
     | '/playground/_plain/search'
     | '/playground/_plain/settings'
     | '/playground/_plain/tasks'
+    | '/playground/topics/$channelId'
     | '/tokens/shadows/brutal'
     | '/tokens/shadows/elegant'
     | '/tokens/typography/brutal'
     | '/tokens/typography/elegant'
+    | '/playground/topics/'
     | '/playground/s/$serverSlug/channel'
     | '/playground/s/$serverSlug/dm'
     | '/playground/s/$serverSlug/saved'
@@ -1646,6 +1705,13 @@ declare module '@tanstack/react-router' {
       path: '/files'
       fullPath: '/components/files'
       preLoaderRoute: typeof ComponentsFilesRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/filter-chip': {
+      id: '/components/filter-chip'
+      path: '/filter-chip'
+      fullPath: '/components/filter-chip'
+      preLoaderRoute: typeof ComponentsFilterChipRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/float-button': {
@@ -2019,6 +2085,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsTooltipRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/topic-list': {
+      id: '/components/topic-list'
+      path: '/topic-list'
+      fullPath: '/components/topic-list'
+      preLoaderRoute: typeof ComponentsTopicListRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/guides/$guide': {
       id: '/guides/$guide'
       path: '/guides/$guide'
@@ -2080,6 +2153,13 @@ declare module '@tanstack/react-router' {
       path: '/s'
       fullPath: '/playground/s'
       preLoaderRoute: typeof PlaygroundSRouteRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
+    }
+    '/playground/topics': {
+      id: '/playground/topics'
+      path: '/topics'
+      fullPath: '/playground/topics'
+      preLoaderRoute: typeof PlaygroundTopicsRouteRouteImport
       parentRoute: typeof PlaygroundRouteRoute
     }
     '/tokens/colors': {
@@ -2151,6 +2231,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/playground/s/$serverSlug'
       preLoaderRoute: typeof PlaygroundSServerSlugRouteRouteImport
       parentRoute: typeof PlaygroundSRouteRoute
+    }
+    '/playground/topics/': {
+      id: '/playground/topics/'
+      path: '/'
+      fullPath: '/playground/topics/'
+      preLoaderRoute: typeof PlaygroundTopicsIndexRouteImport
+      parentRoute: typeof PlaygroundTopicsRouteRoute
+    }
+    '/playground/topics/$channelId': {
+      id: '/playground/topics/$channelId'
+      path: '/$channelId'
+      fullPath: '/playground/topics/$channelId'
+      preLoaderRoute: typeof PlaygroundTopicsChannelIdRouteImport
+      parentRoute: typeof PlaygroundTopicsRouteRoute
     }
     '/tokens/shadows/brutal': {
       id: '/tokens/shadows/brutal'
@@ -2319,10 +2413,26 @@ const PlaygroundSRouteRouteChildren: PlaygroundSRouteRouteChildren = {
 const PlaygroundSRouteRouteWithChildren =
   PlaygroundSRouteRoute._addFileChildren(PlaygroundSRouteRouteChildren)
 
+interface PlaygroundTopicsRouteRouteChildren {
+  PlaygroundTopicsChannelIdRoute: typeof PlaygroundTopicsChannelIdRoute
+  PlaygroundTopicsIndexRoute: typeof PlaygroundTopicsIndexRoute
+}
+
+const PlaygroundTopicsRouteRouteChildren: PlaygroundTopicsRouteRouteChildren = {
+  PlaygroundTopicsChannelIdRoute: PlaygroundTopicsChannelIdRoute,
+  PlaygroundTopicsIndexRoute: PlaygroundTopicsIndexRoute,
+}
+
+const PlaygroundTopicsRouteRouteWithChildren =
+  PlaygroundTopicsRouteRoute._addFileChildren(
+    PlaygroundTopicsRouteRouteChildren,
+  )
+
 interface PlaygroundRouteRouteChildren {
   PlaygroundBrowseRouteRoute: typeof PlaygroundBrowseRouteRouteWithChildren
   PlaygroundPlainRouteRoute: typeof PlaygroundPlainRouteRouteWithChildren
   PlaygroundSRouteRoute: typeof PlaygroundSRouteRouteWithChildren
+  PlaygroundTopicsRouteRoute: typeof PlaygroundTopicsRouteRouteWithChildren
   PlaygroundIndexRoute: typeof PlaygroundIndexRoute
 }
 
@@ -2330,6 +2440,7 @@ const PlaygroundRouteRouteChildren: PlaygroundRouteRouteChildren = {
   PlaygroundBrowseRouteRoute: PlaygroundBrowseRouteRouteWithChildren,
   PlaygroundPlainRouteRoute: PlaygroundPlainRouteRouteWithChildren,
   PlaygroundSRouteRoute: PlaygroundSRouteRouteWithChildren,
+  PlaygroundTopicsRouteRoute: PlaygroundTopicsRouteRouteWithChildren,
   PlaygroundIndexRoute: PlaygroundIndexRoute,
 }
 
@@ -2364,6 +2475,7 @@ interface ComponentsRouteChildren {
   ComponentsFieldRoute: typeof ComponentsFieldRoute
   ComponentsFilePreviewRoute: typeof ComponentsFilePreviewRoute
   ComponentsFilesRoute: typeof ComponentsFilesRoute
+  ComponentsFilterChipRoute: typeof ComponentsFilterChipRoute
   ComponentsFloatButtonRoute: typeof ComponentsFloatButtonRoute
   ComponentsIconsRoute: typeof ComponentsIconsRoute
   ComponentsInlineCodeRoute: typeof ComponentsInlineCodeRoute
@@ -2417,6 +2529,7 @@ interface ComponentsRouteChildren {
   ComponentsToastRoute: typeof ComponentsToastRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
+  ComponentsTopicListRoute: typeof ComponentsTopicListRoute
 }
 
 const ComponentsRouteChildren: ComponentsRouteChildren = {
@@ -2446,6 +2559,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsFieldRoute: ComponentsFieldRoute,
   ComponentsFilePreviewRoute: ComponentsFilePreviewRoute,
   ComponentsFilesRoute: ComponentsFilesRoute,
+  ComponentsFilterChipRoute: ComponentsFilterChipRoute,
   ComponentsFloatButtonRoute: ComponentsFloatButtonRoute,
   ComponentsIconsRoute: ComponentsIconsRoute,
   ComponentsInlineCodeRoute: ComponentsInlineCodeRoute,
@@ -2499,6 +2613,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsToastRoute: ComponentsToastRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,
+  ComponentsTopicListRoute: ComponentsTopicListRoute,
 }
 
 const ComponentsRouteWithChildren = ComponentsRoute._addFileChildren(

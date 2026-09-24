@@ -42,6 +42,7 @@ import {
   ChevronDown,
   Home,
   MessageSquare,
+  MessagesSquare,
   Monitor,
   Search,
   Settings,
@@ -61,7 +62,7 @@ import {
 import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
 import { PlaygroundThemeSelect } from "../app-shell/playground-theme-select.tsx";
 import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
-import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
+import { DEFAULT_TOPIC_CHANNEL_ID, PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
 import { isPlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
@@ -198,6 +199,19 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   }
                 />
                 <AppRailNavItem
+                  selected={railView === "topics"}
+                  nativeButton={false}
+                  render={
+                    <Link
+                      to="/playground/topics/$channelId"
+                      params={{ channelId: DEFAULT_TOPIC_CHANNEL_ID }}
+                      search={{}}
+                    />
+                  }
+                  label="Topics"
+                  icon={<MessagesSquare />}
+                />
+                <AppRailNavItem
                   selected={railView === "activity"}
                   render={<button type="button" onClick={() => selectView("activity")} />}
                   label="Activity"
@@ -283,6 +297,15 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           >
             <Home />
             <MobileNavLabel>Home</MobileNavLabel>
+          </MobileNavItem>
+          <MobileNavItem
+            selected={railView === "topics"}
+            nativeButton={false}
+            render={<Link to="/playground/topics" search={{}} />}
+            aria-label="Topics"
+          >
+            <MessagesSquare />
+            <MobileNavLabel>Topics</MobileNavLabel>
           </MobileNavItem>
           <MobileNavItem
             selected={railView === "tasks"}

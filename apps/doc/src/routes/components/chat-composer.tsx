@@ -32,6 +32,8 @@ import composerCompositionSource from "#/modules/chat-composer/compositions/comp
 import composerDropOverlaySource from "#/modules/chat-composer/compositions/composer-drop-overlay.composition.tsx?raw";
 import composerFooterAddSource from "#/modules/chat-composer/compositions/composer-footer-add.composition.tsx?raw";
 import composerFooterNoticeSource from "#/modules/chat-composer/compositions/composer-footer-notice.composition.tsx?raw";
+import { ComposerSubjectComposition } from "#/modules/chat-composer/compositions/composer-subject.composition.tsx";
+import composerSubjectSource from "#/modules/chat-composer/compositions/composer-subject.composition.tsx?raw";
 import composerWithLightboxSource from "#/modules/chat-composer/compositions/composer-with-lightbox.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
 
@@ -147,6 +149,7 @@ const SNIPPETS = {
   dropOverlay: composerDropOverlaySource,
   footerAdd: composerFooterAddSource,
   footerNotice: composerFooterNoticeSource,
+  subject: composerSubjectSource,
   withLightbox: composerWithLightboxSource,
   attachmentsReorderShared: composerAttachmentsReorderSharedSource,
   composerShared: composerSharedSource,
@@ -174,6 +177,15 @@ const COMPOSER_INPUT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "textarea props",
     description: "Auto-growing message textarea.",
+  },
+];
+
+const COMPOSER_SUBJECT_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"input">',
+    description:
+      "Single-line title placed before ComposerInput. Exported from raft-ui/wip while the API settles.",
   },
 ];
 
@@ -436,6 +448,21 @@ function ChatComposerDoc() {
             </Preview>
           </DocSubsection>
 
+          <DocSubsection parentId="usage" id="subject" title="Subject line">
+            <DocNote>
+              <InlineCode>ComposerSubject</InlineCode> (wip) adds a single-line title above the
+              message for composers that start a titled item, such as a new topic.
+            </DocNote>
+            <Preview previewClassName="min-h-[16rem] items-stretch">
+              <Preview.Canvas>
+                <div className="flex h-[16rem] w-full min-w-0 flex-col justify-end">
+                  <ComposerSubjectComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code html={code.subject} collapsedHtml={code.subjectBody} />
+            </Preview>
+          </DocSubsection>
+
           <DocSubsection
             parentId="usage"
             id="attachment-states"
@@ -664,6 +691,9 @@ function ChatComposerApiSection() {
         </DocSubsection>
         <DocSubsection parentId="api" id="api-composer-input" title="ComposerInput">
           <PropsTable rows={COMPOSER_INPUT_PROPS} />
+        </DocSubsection>
+        <DocSubsection parentId="api" id="api-composer-subject" title="ComposerSubject">
+          <PropsTable rows={COMPOSER_SUBJECT_PROPS} />
         </DocSubsection>
         <DocSubsection parentId="api" id="api-composer-toolbar" title="ComposerToolbar">
           <PropsTable rows={COMPOSER_TOOLBAR_PROPS} />

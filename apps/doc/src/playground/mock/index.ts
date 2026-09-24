@@ -110,3 +110,24 @@ export {
   type PlaygroundFile,
   type PlaygroundFileId,
 } from "./files.ts";
+
+export {
+  DEFAULT_TOPIC_CHANNEL_ID,
+  PLAYGROUND_TOPIC_CHANNEL_GROUPS,
+  PLAYGROUND_TOPIC_CHANNELS,
+  PLAYGROUND_TOPIC_NOW,
+  PLAYGROUND_TOPICS,
+  formatPlaygroundTopicAge,
+  formatPlaygroundTopicMessageTime,
+  getPlaygroundTopicChannel,
+  getPlaygroundTopicDateBucket,
+  getPlaygroundTopicExcerpt,
+  getPlaygroundTopicChannelId,
+  isPlaygroundTopicChannelId,
+  type PlaygroundTopicChannel,
+  type PlaygroundTopicChannelGroupId,
+  type PlaygroundTopicChannelId,
+  type PlaygroundTopicChannelRecord,
+  type PlaygroundTopicDateBucket,
+  type PlaygroundTopic,
+} from "./topics.ts";

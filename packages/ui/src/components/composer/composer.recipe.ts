@@ -6,6 +6,7 @@ export const composer = tv({
     input: [
       "min-h-5 max-h-32 w-full resize-none bg-transparent text-base leading-5 outline-none md:text-sm",
     ],
+    subject: ["w-full min-w-0 bg-transparent text-base leading-6 font-semibold outline-none"],
     toolbar: ["flex items-center justify-between gap-3"],
     actions: ["flex items-center gap-2"],
     meta: ["flex items-center gap-4"],
@@ -16,6 +17,7 @@ export const composer = tv({
       brutal: {
         root: "border-black bg-white shadow-raft-sm focus-within:shadow-raft-md",
         input: "font-sans text-black placeholder:text-black/35",
+        subject: "font-heading text-black placeholder:text-black/35",
         meta: "gap-3",
         iconButton: [
           "size-[26px] p-1 border-black bg-white text-black shadow-raft-sm",
@@ -34,6 +36,11 @@ export const composer = tv({
           "min-h-16 px-3 pt-3",
           "font-sans text-foreground-strong",
           "placeholder:text-foreground-placeholder",
+        ],
+        subject: [
+          "px-3 pt-3 font-sans tracking-[-0.01em] text-foreground-strong",
+          "placeholder:text-foreground-placeholder",
+          "[&+[data-slot=composer-input]]:pt-1",
         ],
         toolbar: "translate-y-1 gap-2 px-2.5 pt-1 pb-2.5",
         actions: "gap-1.5",

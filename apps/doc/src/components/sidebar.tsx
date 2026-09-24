@@ -114,6 +114,7 @@ const COMPONENT_NAV = [
       { label: "Combobox", to: "/components/combobox", status: "done" },
       { label: "ComboboxSelect", to: "/components/combobox-select", status: "done" },
       { label: "SegmentedControl", to: "/components/segmented-control", status: "done" },
+      { label: "FilterChip", to: "/components/filter-chip", status: "wip" },
     ],
   },
   {
@@ -237,6 +238,7 @@ const PATTERN_NAV = [
       { label: "ActivityInbox", to: "/components/activity", status: "done" },
       { label: "FilesPanel", to: "/components/files", status: "done" },
       { label: "ThreadPanel", to: "/components/thread-panel", status: "done" },
+      { label: "TopicList", to: "/components/topic-list", status: "wip" },
     ],
   },
   {
