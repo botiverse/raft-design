@@ -55,28 +55,24 @@ function detectTrigger(textBeforeCaret: string): ComposerSuggestionTriggerMatch 
 
 function getMentionSuggestions(channel: PlaygroundChannel): readonly MentionSuggestion[] {
   const memberIds = new Set(channel.memberIds);
-  const inChannel = getPlaygroundMembers(channel).map(
-    (actor): MentionSuggestion => ({
-      disabled: false,
-      group: "in-channel",
+  const inChannel = getPlaygroundMembers(channel).map((actor): MentionSuggestion => ({
+    disabled: false,
+    group: "in-channel",
+    handle: actor.id,
+    kind: "mention",
+    name: actor.name,
+    type: actor.type,
+  }));
+  const outsideChannel = Object.values(PLAYGROUND_ACTORS)
+    .filter((actor) => !memberIds.has(actor.id))
+    .map((actor): MentionSuggestion => ({
+      disabled: true,
+      group: "outside-channel",
       handle: actor.id,
       kind: "mention",
       name: actor.name,
       type: actor.type,
-    }),
-  );
-  const outsideChannel = Object.values(PLAYGROUND_ACTORS)
-    .filter((actor) => !memberIds.has(actor.id))
-    .map(
-      (actor): MentionSuggestion => ({
-        disabled: true,
-        group: "outside-channel",
-        handle: actor.id,
-        kind: "mention",
-        name: actor.name,
-        type: actor.type,
-      }),
-    );
+    }));
   return [...inChannel, ...outsideChannel];
 }
 

@@ -32,7 +32,7 @@ export default defineConfig({
       },
     ],
     dts: {
-      tsgo: true,
+      generator: "tsgo",
     },
   },
   lint: {
