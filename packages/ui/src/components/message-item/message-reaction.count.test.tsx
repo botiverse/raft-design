@@ -1,6 +1,6 @@
 /** @vitest-environment jsdom */
 import { StrictMode, createRef } from "react";
-import { afterEach, beforeEach, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, expect, test, vi } from "vite-plus/test";
 import { cleanup, render } from "@testing-library/react";
 import { MessageReactionCount } from "./message-reaction";
 

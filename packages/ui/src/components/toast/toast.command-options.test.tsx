@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { readFileSync } from "node:fs";
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { toast, ToastProvider, ToastProgress } from "./toast";

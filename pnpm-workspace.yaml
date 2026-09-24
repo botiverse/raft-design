@@ -52,12 +52,13 @@ catalog:
   eslint-plugin-better-tailwindcss: ^4.7.0
   react-render-to-markdown: ^19.1.0
   react-reconciler: ^0.34.0
+  "@vitest/browser-playwright": 5.0.1
 overrides:
-  vite: "catalog:"
-  vitest: "catalog:"
   # react-render-to-markdown pins the reconciler for React 19.2; the reconciler
   # must match the installed React minor or effects leak into the Markdown pass.
   react-render-to-markdown>react-reconciler: "catalog:"
+  vite@*: "catalog:"
+  vitest@*: "catalog:"
 peerDependencyRules:
   allowAny:
     - vite

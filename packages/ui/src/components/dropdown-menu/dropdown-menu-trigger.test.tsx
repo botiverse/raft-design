@@ -7,7 +7,7 @@
  * trigger turned near-white under the pointer, i.e. every time it was clicked
  * (Artea, slock #proj-frontend:52311f41, thread "…" menu).
  */
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Button } from "../button/button";

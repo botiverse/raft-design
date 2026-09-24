@@ -7,7 +7,7 @@
  * fail with `document is not defined`. A config that is not honoured would be
  * worse than none: it reads as though the environment is set.
  */
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import {
   Select,

@@ -4,7 +4,7 @@
  * Per file rather than by config: neither a `vitest.config.ts` in this package
  * nor a `test` key in its vite-plus config is picked up by the current runner.
  */
-import { afterEach, expect, test } from "vitest";
+import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Button } from "./button";
