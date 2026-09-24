@@ -30,9 +30,13 @@ if (typeof window.matchMedia !== "function") {
 afterEach(cleanup);
 
 describe("message-reference root layout contract (slock MSG_REF_CHIP replacement)", () => {
-  // The secondary text ref has no compound sizing/alignment of its own, so
-  // the base contract must be what survives on the rendered node.
-  test("base root carries the chip layout contract on an unopinionated variant", () => {
+  // The base slot's sizing (`[font-size:0.875em] leading-[1.3em] align-bottom`)
+  // is the CHIP contract. It used to reach `secondary` too, because that was the
+  // one variant with no sizing of its own — which is how a plain-text mention
+  // ended up smaller than the body copy around it and sitting below its
+  // baseline. `secondary` now opts out; these assertions cover the base layout
+  // bits that still survive the merge on it.
+  test("base root layout survives on the text variant", () => {
     render(
       <ThemeProvider theme="brutal">
         <MessageReferenceText>task #16</MessageReferenceText>
@@ -42,9 +46,6 @@ describe("message-reference root layout contract (slock MSG_REF_CHIP replacement
     expect(cls).toContain("items-center");
     expect(cls).toContain("gap-1");
     expect(cls).toContain("py-0");
-    expect(cls).toContain("align-bottom");
-    expect(cls).toContain("[font-size:0.875em]");
-    expect(cls).toContain("leading-[1.3em]");
     // truncate pins the nowrap contract: refs never split across lines in
     // screenshot export.
     expect(cls).toContain("truncate");
@@ -54,6 +55,25 @@ describe("message-reference root layout contract (slock MSG_REF_CHIP replacement
     expect(cls).toContain("inline");
     expect(cls).not.toContain("inline-flex");
   });
+
+  // The defect this file now guards: a plain-text reference is body copy, so it
+  // must render at the surrounding size and on the surrounding baseline. If the
+  // chip sizing reaches it again, `@name` renders ~12.5% small and bottom-aligned
+  // in a taller line box, which reads as a misaligned mention.
+  for (const theme of ["brutal", "elegant"] as const) {
+    test(`${theme} text variant is body-sized and baseline-aligned, never chip-sized`, () => {
+      render(
+        <ThemeProvider theme={theme}>
+          <MessageReferenceText>@Josh</MessageReferenceText>
+        </ThemeProvider>,
+      );
+      const cls = screen.getByText("@Josh").className;
+      expect(cls).toContain("[font-size:inherit]");
+      expect(cls).toContain("align-baseline");
+      expect(cls).not.toContain("[font-size:0.875em]");
+      expect(cls).not.toContain("align-bottom");
+    });
+  }
 
   test("brutal chip compound keeps its own sizing (base contract does not leak)", () => {
     render(

@@ -87,6 +87,14 @@ export const messageReference = tv({
       class: {
         root: [
           "inline cursor-default font-bold text-black underline decoration-black/30 decoration-2 underline-offset-2",
+          // A plain-text reference is body copy, not a chip: it must sit on the
+          // surrounding baseline at the surrounding size. The slot default
+          // (`[font-size:0.875em] leading-[1.3em] align-bottom`) is sized for the
+          // bordered chip variants; inherited here it produced a shorter inline
+          // box bottom-aligned in a taller line box, i.e. a baseline that sits
+          // below the text either side of it.
+          // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
+          "[font-size:inherit] leading-[inherit] align-baseline",
           "hover:text-brutal-pink hover:decoration-brutal-pink",
         ],
       },
@@ -170,7 +178,12 @@ export const messageReference = tv({
       theme: "elegant",
       variant: "secondary",
       class: {
-        root: "inline cursor-pointer font-medium underline underline-offset-2",
+        root: [
+          "inline cursor-pointer font-medium underline underline-offset-2",
+          // See the brutal `secondary` note: same reason, same fix.
+          // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
+          "[font-size:inherit] leading-[inherit] align-baseline",
+        ],
       },
     },
     {
