@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 
 const TOC = [
   { id: "grammar", title: "Token grammar" },
@@ -248,11 +249,19 @@ function ColorsDoc() {
             title={section.title}
             showThemeSwitcher={false}
           >
-            <div className="space-y-10">
-              {THEME_CONTEXTS.map((context) => (
-                <ThemeContextScales key={context.label} context={context} groups={section.groups} />
-              ))}
-            </div>
+            {isMarkdownMode() ? (
+              <TokenNameList groups={section.groups} />
+            ) : (
+              <div className="space-y-10">
+                {THEME_CONTEXTS.map((context) => (
+                  <ThemeContextScales
+                    key={context.label}
+                    context={context}
+                    groups={section.groups}
+                  />
+                ))}
+              </div>
+            )}
           </DocSection>
         ))}
       </DocPage>
@@ -318,6 +327,25 @@ function TokenThemeScope({ children }: { children: ReactNode }) {
       {children}
     </div>
   );
+}
+
+/**
+ * Markdown lists token names once. Swatch values are resolved from computed
+ * styles in the browser, so per-theme rows would only repeat the same names.
+ */
+function TokenNameList({ groups }: { groups: readonly TokenGroup[] }) {
+  return groups.map((group) => (
+    <section key={group.label}>
+      <h3>{group.label}</h3>
+      <ul>
+        {group.tokens.map(([label, token]) => (
+          <li key={token}>
+            <code>{token}</code> — {label}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ));
 }
 
 function ColorScale({

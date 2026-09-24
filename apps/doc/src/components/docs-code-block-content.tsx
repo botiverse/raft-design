@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "raft-ui";
 
+import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 import { CodeBlock } from "./code-block.tsx";
 import type { DocsCodeBlockContentProps } from "./docs-code-block.types.ts";
 
@@ -11,7 +12,8 @@ export function DocsCodeBlockContent({ html, collapsedHtml }: DocsCodeBlockConte
   // from the prop so a later `collapsedHtml` change is never observed stale.
   const [expanded, setExpanded] = useState(false);
 
-  if (collapsedHtml && !expanded) {
+  // Markdown has no expand action: collapsing would hide the imports for good.
+  if (collapsedHtml && !expanded && !isMarkdownMode()) {
     return (
       <div>
         <Button

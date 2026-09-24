@@ -9,6 +9,7 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippets } from "#/lib/highlight.tsx";
 import referenceAdaptersSource from "#/modules/message-reference/compositions/reference-adapters.composition.tsx?raw";
 import primaryReferencesSource from "#/modules/message-reference/compositions/primary-references.composition.tsx?raw";
 import { MessageReferenceAttachmentCommentComposition } from "#/modules/message-reference/compositions/attachment-comment.composition.tsx";
@@ -159,7 +160,7 @@ function UsagePreview({
 }
 
 /** Showcase composition plus the message row and the mention/permalink adapters it renders. */
-function MessageReferenceSourceFiles({ code }: { code: Record<string, string> }) {
+function MessageReferenceSourceFiles({ code }: { code: HighlightedSnippets }) {
   return (
     <DocsCodeBlock.Files
       collapsible={false}

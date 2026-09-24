@@ -50,6 +50,8 @@ catalog:
   torph: ^0.0.9
   "@typescript/native-preview": 7.0.0-dev.20260707.2
   eslint-plugin-better-tailwindcss: ^4.7.0
+  react-render-to-markdown: ^19.1.0
+  react-reconciler: ^0.34.0
 overrides:
   vite: "catalog:"
   vitest: "catalog:"
@@ -100,3 +102,5 @@ minimumReleaseAgeExclude:
   - motion-dom@12.43.0
   - "@base-ui/react@1.7.0"
   - "@base-ui/utils@0.3.2"
+patchedDependencies:
+  react-render-to-markdown@19.1.0: patches/react-render-to-markdown@19.1.0.patch

@@ -8,6 +8,7 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippets } from "#/lib/highlight.tsx";
 import taskBoardCompositionSource from "#/modules/task-board/compositions/task-board.composition.tsx?raw";
 import { TaskDndComposition } from "#/modules/task-dnd/compositions/task-dnd.composition.tsx";
 import taskDndCompositionSource from "#/modules/task-dnd/compositions/task-dnd.composition.tsx?raw";
@@ -196,7 +197,7 @@ export const Route = createFileRoute("/components/task-dnd")({
 });
 
 /** Board wiring plus the demo composition that sets the blocked-drop policy and fixtures. */
-function TaskDndSourceFiles({ code }: { code: Record<string, string> }) {
+function TaskDndSourceFiles({ code }: { code: HighlightedSnippets }) {
   return (
     <DocsCodeBlock.Files
       collapsible={false}

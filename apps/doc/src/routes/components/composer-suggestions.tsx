@@ -12,6 +12,7 @@ import composerSuggestionCompositionSource from "#/modules/composer-suggestions/
 import composerSuggestionResultsSource from "#/modules/composer-suggestions/composer-suggestion-results.tsx?raw";
 import composerSuggestionsDataSource from "#/modules/composer-suggestions/composer-suggestions.data.ts?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippet, HighlightedSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -414,10 +415,10 @@ function ComposerSuggestionsSourceFiles({
   defaultPath,
   usageHtml,
 }: {
-  code: Record<string, string>;
+  code: HighlightedSnippets;
   collapsible?: boolean;
   defaultPath?: string;
-  usageHtml?: string;
+  usageHtml?: HighlightedSnippet;
 }) {
   return (
     <>

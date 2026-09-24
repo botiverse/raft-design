@@ -4,3 +4,12 @@
 # keep the revalidating default so a deploy is picked up immediately.
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# The Markdown twin of each docs page and the llms.txt files
+# (`scripts/build-llms.mjs`). Explicit charset: the pages contain non-ASCII.
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8

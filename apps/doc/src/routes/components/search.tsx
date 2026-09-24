@@ -17,6 +17,7 @@ import searchNoResultsCompositionSource from "#/modules/search/compositions/sear
 import { SearchPreviewComposition } from "#/modules/search/compositions/search-preview.composition.tsx";
 import searchPreviewCompositionSource from "#/modules/search/compositions/search-preview.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippet, HighlightedSnippets } from "#/lib/highlight.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -349,7 +350,7 @@ export const Route = createFileRoute("/components/search")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function SearchPreview({ code }: { code: Record<string, string> }) {
+function SearchPreview({ code }: { code: HighlightedSnippets }) {
   return (
     <Preview>
       <Preview.Canvas>
@@ -468,8 +469,8 @@ function SearchUsage({
   preview: React.ReactNode;
   previewClassName?: string;
   previewInset?: "default" | "flush";
-  html: string;
-  collapsedHtml: string;
+  html: HighlightedSnippet;
+  collapsedHtml: HighlightedSnippet;
 }) {
   return (
     <DocSubsection parentId="usage" id={id} title={title}>
@@ -486,7 +487,7 @@ function SearchSourceFiles({
   code,
   collapsible = true,
 }: {
-  code: Record<string, string>;
+  code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
   return (

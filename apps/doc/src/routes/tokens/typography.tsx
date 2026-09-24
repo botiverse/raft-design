@@ -4,6 +4,7 @@ import { Text } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
+import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 
 const SPEC_DIVIDER = "border-[color-mix(in_oklch,var(--foreground)_5%,transparent)]";
 
@@ -647,6 +648,29 @@ function TypographySpecRow({ spec }: { spec: TypographySpec }) {
     { label: "Line height", value: lineHeight },
     { label: "Letter spacing", value: formatTracking(spec.tracking) },
   ].filter((item) => item.value);
+
+  // The preview is a rendered sample; in Markdown a `<h1>` sample would become a
+  // stray top-level heading. List the spec instead.
+  if (isMarkdownMode()) {
+    return (
+      <section>
+        <h3>{spec.category ? `${spec.category} / ${spec.name}` : spec.name}</h3>
+        <ul>
+          {spec.family ? <li>Family: {spec.family}</li> : null}
+          {spec.utility ? (
+            <li>
+              Usage: <code>{spec.utility}</code>
+            </li>
+          ) : null}
+          {metaItems.map((item) => (
+            <li key={item.label}>
+              {item.label}: {item.value}
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
 
   return (
     <div className="py-11">

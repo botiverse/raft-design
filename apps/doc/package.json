@@ -7,10 +7,10 @@
   },
   "scripts": {
     "dev": "vp dev",
-    "build": "vp build && node scripts/build-sitemap.mjs",
+    "build": "vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs",
     "preview": "vp preview",
     "test": "node ./node_modules/vitest/vitest.mjs run --config vitest.config.ts",
-    "deploy": "vp run raft-ui#build && vp build && node scripts/build-sitemap.mjs && wrangler deploy",
+    "deploy": "vp run raft-ui#build && vp build && node scripts/build-llms.mjs && node scripts/build-sitemap.mjs && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
@@ -53,6 +53,8 @@
     "@vitejs/plugin-react": "catalog:",
     "@vitejs/plugin-rsc": "catalog:",
     "jsdom": "catalog:",
+    "react-reconciler": "catalog:",
+    "react-render-to-markdown": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",

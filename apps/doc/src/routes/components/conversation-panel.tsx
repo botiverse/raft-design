@@ -14,6 +14,7 @@ import type { ConversationPanelCompositionProps } from "#/modules/conversation-p
 import conversationPanelCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel.composition.tsx?raw";
 import conversationPanelHeaderCompositionSource from "#/modules/conversation-panel/compositions/conversation-panel-header.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import type { HighlightedSnippets } from "#/lib/highlight.tsx";
 
 const CONVERSATIONS = ["channel", "dm"] as const;
 const PANEL_EDGES = ["inset", "attached"] as const;
@@ -188,7 +189,7 @@ export const Route = createFileRoute("/components/conversation-panel")({
   loader: () => highlightSnippets({ data: SNIPPETS }),
 });
 
-function ConversationPanelPreview({ code }: { code: Record<string, string> }) {
+function ConversationPanelPreview({ code }: { code: HighlightedSnippets }) {
   const [conversation, setConversation] =
     useState<NonNullable<ConversationPanelCompositionProps["conversation"]>>("channel");
   const [muted, setMuted] = useState(false);
@@ -380,7 +381,7 @@ function ConversationPanelSourceFiles({
   code,
   collapsible = true,
 }: {
-  code: Record<string, string>;
+  code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
   return (

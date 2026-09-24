@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { StatusBadge } from "./status-badge.tsx";
 import { ThemeSwitcher } from "./theme-switcher.tsx";
+import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 
 type DocSectionProps = {
   id: string;
@@ -37,6 +38,15 @@ export function DocSection({
       badge
     );
 
+  if (isMarkdownMode()) {
+    return (
+      <section id={id}>
+        <h2>{title}</h2>
+        {children}
+      </section>
+    );
+  }
+
   return (
     <section id={id} className="scroll-mt-8 py-10 first:pt-0">
       <div className="flex items-center justify-between gap-4">
@@ -69,6 +79,15 @@ export function DocSubsection({
   const showSwitcher = showThemeSwitcher ?? parentId === "usage";
 
   const includeInToc = parentId !== "api";
+
+  if (isMarkdownMode()) {
+    return (
+      <section id={id}>
+        <h3>{title}</h3>
+        {children}
+      </section>
+    );
+  }
 
   return (
     <section
