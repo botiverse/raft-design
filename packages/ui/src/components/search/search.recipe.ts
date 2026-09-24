@@ -25,7 +25,7 @@ export const search = tv({
         frame: "bg-layer-canvas-muted dark:bg-layer-canvas-muted",
         filtersRow: [
           "relative z-10 border-b border-line-muted bg-layer-panel",
-          "px-4 py-2 max-md:pl-5 max-md:pr-3.5",
+          "px-3 py-2 max-md:pl-5 max-md:pr-3.5",
           "dark:bg-transparent",
         ],
         viewport: ["bg-layer-panel dark:bg-transparent", "px-4 py-3 max-md:pl-5 max-md:pr-3.5"],
