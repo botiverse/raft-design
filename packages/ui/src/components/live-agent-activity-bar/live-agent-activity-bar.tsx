@@ -14,7 +14,7 @@ const liveAgentActivityBar = tv({
   slots: {
     root: ["shrink-0 px-3 py-2"],
     row: ["flex min-h-8 items-center gap-2"],
-    avatar: ["overflow-hidden"],
+    avatar: ["size-9 shrink-0 overflow-hidden"],
     content: ["flex min-w-0 flex-1 items-center gap-1.5"],
     status: [],
     text: ["min-w-0 truncate text-sm"],

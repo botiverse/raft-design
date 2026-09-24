@@ -55,7 +55,7 @@ export const messageItem = tv({
         inlineStatus: "text-[10px] font-bold text-black/40",
         // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
         body: "text-sm text-black",
-        toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-raft-sm"],
+        toolbar: ["-top-3.5 right-3.5", "border-2 border-line-strong bg-white shadow-raft-sm"],
         toolbarButton: [
           "size-6",
           "text-black/50 hover:bg-primary/30 hover:text-black",
@@ -66,7 +66,7 @@ export const messageItem = tv({
       },
       elegant: {
         root: [
-          "border border-transparent max-md:gap-2 px-7 pt-3.5 pb-3 max-md:px-4 max-md:pt-2 max-md:pb-1.5",
+          "border border-transparent max-md:gap-2 px-7 pt-2 pb-1.5 max-md:px-4 max-md:pt-1.5 max-md:pb-1",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-ink-2 data-popup-open:bg-ink-2 has-data-popup-open:bg-ink-2",
           "has-data-[slot=message-item-search-match]:border-transparent",
@@ -104,7 +104,7 @@ export const messageItem = tv({
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
         toolbar: [
-          "top-1 right-[26px]",
+          "top-1 right-3.5",
           "gap-0.5 rounded-lg px-1 py-0.5",
           "border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
           "dark:border-transparent",
