@@ -149,7 +149,7 @@ const toastStyles = tv({
         close: [
           "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap rounded-full border-0 bg-transparent px-2 text-xs font-medium text-white/70 shadow-none",
           "dark:text-foreground-muted",
-          "hover:bg-white/5 hover:text-white/72 dark:hover:bg-ink-4 dark:hover:text-foreground active:scale-[0.985]",
+          "hover:bg-white/5 hover:text-white/90 dark:hover:bg-ink-4 dark:hover:text-foreground active:scale-[0.985]",
         ],
         arrow: [],
       },
