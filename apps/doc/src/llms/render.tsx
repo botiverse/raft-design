@@ -2,6 +2,7 @@ import { RouterProvider, createMemoryHistory } from "@tanstack/react-router";
 import { renderToMarkdownString } from "react-render-to-markdown";
 
 import { beginMarkdownPage, setMarkdownMode } from "#/lib/markdown-mode.ts";
+import { markdownPathFor } from "#/lib/markdown-pages.ts";
 import { guides } from "#/modules/guides/guides.ts";
 import { getRouter } from "#/router.tsx";
 
@@ -12,15 +13,15 @@ export type MarkdownPage = {
   markdown: string;
 };
 
-/** Route prefixes that are documentation. Playground, lab and iframe fixtures are app demos. */
-const DOC_PREFIXES = ["/components/", "/tokens/"];
-
 function listDocPaths() {
   const router = getRouter();
-  return Object.keys(router.routesByPath)
-    .filter((path) => DOC_PREFIXES.some((prefix) => path.startsWith(prefix)))
-    .filter((path) => !path.includes("$"))
-    .sort();
+  return (
+    Object.keys(router.routesByPath)
+      // Playground, lab and iframe fixtures are app demos, not documentation.
+      // `/guides/$guide` is dynamic; guides are emitted from source below.
+      .filter((path) => !path.includes("$") && markdownPathFor(path) !== null)
+      .sort()
+  );
 }
 
 async function renderRoute(path: string) {
