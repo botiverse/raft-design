@@ -8,6 +8,7 @@ import type {
 } from "../mock/index.ts";
 import {
   PLAYGROUND_SAVED_MESSAGES,
+  PLAYGROUND_SAVED_TOPIC_MESSAGES,
   getPlaygroundMessageContext,
   isPlaygroundChatMessage,
 } from "../mock/index.ts";
@@ -28,24 +29,42 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
   const [savedMessagesById, setSavedMessagesById] = useState<
     ReadonlyMap<PlaygroundMessageId, PlaygroundSavedMessageState>
   >(() => {
-    const entries = PLAYGROUND_SAVED_MESSAGES.flatMap(({ messageId, savedAt, savedAtDateTime }) => {
-      const context = getPlaygroundMessageContext(messageId);
-      return context && isPlaygroundChatMessage(context.message)
-        ? ([
-            [
-              messageId,
-              {
-                message: context.message,
-                savedAt,
-                savedAtDateTime,
-                surface: context.threadId ? "thread" : "conversation",
-                threadId: context.threadId,
-              },
-            ],
-          ] as const)
-        : [];
-    });
-    return new Map(entries);
+    const entries = PLAYGROUND_SAVED_MESSAGES.flatMap(
+      ({
+        messageId,
+        savedAt,
+        savedAtDateTime,
+      }): [PlaygroundMessageId, PlaygroundSavedMessageState][] => {
+        const context = getPlaygroundMessageContext(messageId);
+        return context && isPlaygroundChatMessage(context.message)
+          ? [
+              [
+                messageId,
+                {
+                  source: "chat",
+                  message: context.message,
+                  savedAt,
+                  savedAtDateTime,
+                  surface: context.threadId ? "thread" : "conversation",
+                  threadId: context.threadId,
+                },
+              ],
+            ]
+          : [];
+      },
+    );
+    const topicEntries = PLAYGROUND_SAVED_TOPIC_MESSAGES.map(
+      ({
+        message,
+        savedAt,
+        savedAtDateTime,
+        topicId,
+      }): [PlaygroundMessageId, PlaygroundSavedMessageState] => [
+        message.id,
+        { source: "topic", message, savedAt, savedAtDateTime, topicId },
+      ],
+    );
+    return new Map([...entries, ...topicEntries]);
   });
   const [threadFollowById, setThreadFollowById] = useState<
     ReadonlyMap<PlaygroundThreadId, boolean>
@@ -135,14 +154,36 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
         const next = new Map(current);
         if (saved) {
           next.set(messageId, {
+            source: "chat",
             message,
             savedAt: currentSavedMessage?.savedAt ?? "Just now",
             savedAtDateTime: currentSavedMessage?.savedAtDateTime ?? new Date().toISOString(),
             surface,
-            threadId: currentSavedMessage?.threadId ?? threadId,
+            threadId:
+              currentSavedMessage?.source === "chat" ? currentSavedMessage.threadId : threadId,
           });
         } else {
           next.delete(messageId);
+        }
+        return next;
+      });
+    },
+    [],
+  );
+  const setTopicMessageSaved = useCallback(
+    (message: PlaygroundChatMessage, topicId: string, saved: boolean) => {
+      setSavedMessagesById((current) => {
+        const next = new Map(current);
+        if (saved) {
+          next.set(message.id, {
+            source: "topic",
+            message,
+            savedAt: current.get(message.id)?.savedAt ?? "Just now",
+            savedAtDateTime: current.get(message.id)?.savedAtDateTime ?? new Date().toISOString(),
+            topicId,
+          });
+        } else {
+          next.delete(message.id);
         }
         return next;
       });
@@ -171,6 +212,7 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
       setMessageSaved,
       setThreadFollowed,
       setThreadDraft,
+      setTopicMessageSaved,
       update,
     }),
     [
@@ -183,6 +225,7 @@ export function PlaygroundMessageWorkflowProvider({ children }: { children: Reac
       setMessageSaved,
       setThreadFollowed,
       setThreadDraft,
+      setTopicMessageSaved,
       update,
     ],
   );

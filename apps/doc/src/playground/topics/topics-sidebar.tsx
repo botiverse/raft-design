@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
+import { Bookmark } from "lucide-react";
 import {
   SidebarBody,
   SidebarContent,
@@ -11,6 +12,7 @@ import {
   SidebarItemContent,
   SidebarItemCount,
   SidebarItemIcon,
+  SidebarItemMeta,
   SidebarItemTitle,
   SidebarList,
   SidebarRoot,
@@ -24,7 +26,12 @@ import {
 } from "raft-ui";
 
 import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
-import { PLAYGROUND_TOPIC_CHANNEL_GROUPS, PLAYGROUND_TOPIC_CHANNELS } from "../mock/index.ts";
+import {
+  PLAYGROUND_SERVER_SLUG,
+  PLAYGROUND_TOPIC_CHANNEL_GROUPS,
+  PLAYGROUND_TOPIC_CHANNELS,
+} from "../mock/index.ts";
+import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
 import type { PlaygroundTopicChannelId } from "../mock/index.ts";
 import {
   PlaygroundNotificationCenter,
@@ -43,6 +50,7 @@ export function PlaygroundTopicsSidebar({
 }) {
   const { activeServer } = usePlaygroundShellState();
   const { topics } = usePlaygroundTopicState();
+  const { savedMessagesById } = usePlaygroundSavedMessages();
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const selectedChannelId = isDesktop ? activeChannelId : null;
   const unreadCountByChannel = new Map<string, number>();
@@ -75,6 +83,23 @@ export function PlaygroundTopicsSidebar({
               : undefined
           }
         >
+          <SidebarItem
+            variant="accent"
+            render={
+              <Link
+                to="/playground/s/$serverSlug/saved"
+                params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
+              />
+            }
+          >
+            <SidebarItemIcon aria-hidden>
+              <Bookmark />
+            </SidebarItemIcon>
+            <SidebarItemTitle>Saved</SidebarItemTitle>
+            {savedMessagesById.size ? (
+              <SidebarItemMeta>{savedMessagesById.size}</SidebarItemMeta>
+            ) : null}
+          </SidebarItem>
           {PLAYGROUND_TOPIC_CHANNEL_GROUPS.map((group) => {
             const channels = PLAYGROUND_TOPIC_CHANNELS.filter(
               (channel) => channel.groupId === group.id,

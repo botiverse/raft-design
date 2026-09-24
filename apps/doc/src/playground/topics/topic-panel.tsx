@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { CheckCircle2, ChevronLeft, ExternalLink, Send, X } from "lucide-react";
+import { Bookmark, CheckCircle2, ChevronLeft, ExternalLink, Send, X } from "lucide-react";
 import { Fragment, useState } from "react";
 import {
   Button,
@@ -9,9 +9,13 @@ import {
   MessageItem,
   MessageItemBody,
   MessageItemContent,
+  MessageItemFooter,
   MessageItemHeader,
+  MessageItemSavedIndicator,
   MessageItemSender,
   MessageItemTime,
+  MessageItemToolbar,
+  MessageItemToolbarButton,
   MessageList,
   MessageListDateDivider,
   MessageListNotice,
@@ -37,6 +41,7 @@ import {
 } from "#/modules/chat-composer/composer-responsive.tsx";
 import { Markdown } from "#/lib/markdown/markdown.tsx";
 import { PlaygroundMessageAvatar } from "../message/playground-message-avatar.tsx";
+import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
 import { getPlaygroundActor } from "../mock/index.ts";
 import type {
   PlaygroundChatMessage,
@@ -127,7 +132,7 @@ export function PlaygroundTopicPanel({
       </ThreadPanelHeader>
       <ThreadPanelContent>
         <ThreadPanelOriginalMessage>
-          <PlaygroundTopicMessage message={topic.opening} />
+          <PlaygroundTopicMessage message={topic.opening} topicId={topic.id} />
         </ThreadPanelOriginalMessage>
         <ThreadPanelBody>
           <MessageList>
@@ -144,7 +149,7 @@ export function PlaygroundTopicPanel({
                 {index === firstUnreadReplyIndex ? (
                   <MessageListDateDivider>New replies</MessageListDateDivider>
                 ) : null}
-                <PlaygroundTopicMessage message={reply} />
+                <PlaygroundTopicMessage message={reply} topicId={topic.id} />
               </Fragment>
             ))}
             <div className="h-6" aria-hidden />
@@ -190,8 +195,16 @@ export function PlaygroundTopicPanel({
   );
 }
 
-function PlaygroundTopicMessage({ message }: { message: PlaygroundChatMessage }) {
+function PlaygroundTopicMessage({
+  message,
+  topicId,
+}: {
+  message: PlaygroundChatMessage;
+  topicId: string;
+}) {
   const sender = getPlaygroundActor(message.senderId);
+  const { savedMessagesById, setTopicMessageSaved } = usePlaygroundSavedMessages();
+  const saved = savedMessagesById.has(message.id);
 
   return (
     <MessageItem>
@@ -210,7 +223,33 @@ function PlaygroundTopicMessage({ message }: { message: PlaygroundChatMessage })
         <MessageItemBody>
           <Markdown>{message.content}</Markdown>
         </MessageItemBody>
+        {saved ? (
+          <MessageItemFooter>
+            <MessageItemSavedIndicator
+              aria-label="Remove from Saved"
+              render={
+                <button
+                  type="button"
+                  onClick={() => setTopicMessageSaved(message, topicId, false)}
+                />
+              }
+            >
+              <Bookmark fill="currentColor" />
+              <span>Saved</span>
+            </MessageItemSavedIndicator>
+          </MessageItemFooter>
+        ) : null}
       </MessageItemContent>
+      <MessageItemToolbar>
+        <MessageItemToolbarButton
+          active={saved}
+          aria-label={saved ? "Remove from Saved" : "Save message"}
+          aria-pressed={saved}
+          onClick={() => setTopicMessageSaved(message, topicId, !saved)}
+        >
+          <Bookmark fill={saved ? "currentColor" : "none"} />
+        </MessageItemToolbarButton>
+      </MessageItemToolbar>
     </MessageItem>
   );
 }

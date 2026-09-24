@@ -103,8 +103,10 @@ export {
 
 export {
   PLAYGROUND_SAVED_MESSAGES,
+  PLAYGROUND_SAVED_TOPIC_MESSAGES,
   getPlaygroundSavedMessages,
   type PlaygroundSavedMessage,
+  type PlaygroundSavedTopicMessage,
 } from "./saved-messages.ts";
 
 export {
