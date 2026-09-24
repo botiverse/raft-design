@@ -506,8 +506,13 @@ const releases = [
         "09-23 10:30",
         "Translation entry: only if the error state actually ships, see #engineering-help.",
       ],
+      [
+        "releaseScribe",
+        "09-23 11:25",
+        "@Cuvii two owners left: Mateo and Avery. Can you nudge them before Friday?",
+      ],
     ],
-    unread: 1,
+    unread: 2,
   }),
   defineTopic({
     id: "v2-4-rc-rollout",

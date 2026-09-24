@@ -93,7 +93,13 @@ export {
   type PlaygroundLiveAgentActivity,
 } from "./live-agent-activity.ts";
 
-export { PLAYGROUND_ACTIVITY, getPlaygroundActivity, type PlaygroundActivity } from "./activity.ts";
+export {
+  PLAYGROUND_ACTIVITY,
+  getPlaygroundActivity,
+  type PlaygroundActivity,
+  type PlaygroundChatActivity,
+  type PlaygroundTopicActivity,
+} from "./activity.ts";
 
 export {
   PLAYGROUND_SAVED_MESSAGES,

@@ -101,6 +101,18 @@ export function PlaygroundTopicStateProvider({ children }: { children: ReactNode
     );
   }, []);
 
+  const markUnread = useCallback<PlaygroundTopicState["markUnread"]>(
+    (topicId, replyId) => {
+      updateTopic(topicId, (topic) => {
+        if (topic.replies.length === 0) return { ...topic, unread: true };
+        const index = replyId ? topic.replies.findIndex((reply) => reply.id === replyId) : -1;
+        const count = index >= 0 ? topic.replies.length - index : 1;
+        return { ...topic, unreadReplyCount: Math.max(topic.unreadReplyCount, count) };
+      });
+    },
+    [updateTopic],
+  );
+
   const markChannelRead = useCallback<PlaygroundTopicState["markChannelRead"]>((channelId) => {
     setTopics((current) =>
       current.map((topic) =>
@@ -137,6 +149,7 @@ export function PlaygroundTopicStateProvider({ children }: { children: ReactNode
       createTopic,
       addReply,
       markRead,
+      markUnread,
       markChannelRead,
       setResolved,
       hiddenGuidelines,
@@ -147,6 +160,7 @@ export function PlaygroundTopicStateProvider({ children }: { children: ReactNode
       createTopic,
       addReply,
       markRead,
+      markUnread,
       markChannelRead,
       setResolved,
       hiddenGuidelines,

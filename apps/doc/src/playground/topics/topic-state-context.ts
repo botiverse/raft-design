@@ -11,6 +11,8 @@ export type PlaygroundTopicState = {
   }) => PlaygroundTopic;
   addReply: (topicId: string, content: string) => void;
   markRead: (topicId: string) => void;
+  /** Marks the topic unread from `replyId` on, or its newest reply when omitted. */
+  markUnread: (topicId: string, replyId?: string) => void;
   markChannelRead: (channelId: PlaygroundTopicChannelId) => void;
   setResolved: (topicId: string, resolved: boolean) => void;
   /** Channels whose guidelines card the viewer has dismissed this session. */

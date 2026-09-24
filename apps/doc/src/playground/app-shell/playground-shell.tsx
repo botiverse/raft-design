@@ -56,13 +56,13 @@ export function PlaygroundShell() {
         onSearchQueryChange={route.setSearchQuery}
       >
         <PlaygroundShellStateProvider>
-          <PlaygroundActivityStateProvider>
-            <PlaygroundTaskStateProvider>
-              <PlaygroundTopicStateProvider>
+          <PlaygroundTopicStateProvider>
+            <PlaygroundActivityStateProvider>
+              <PlaygroundTaskStateProvider>
                 <Outlet />
-              </PlaygroundTopicStateProvider>
-            </PlaygroundTaskStateProvider>
-          </PlaygroundActivityStateProvider>
+              </PlaygroundTaskStateProvider>
+            </PlaygroundActivityStateProvider>
+          </PlaygroundTopicStateProvider>
         </PlaygroundShellStateProvider>
       </PlaygroundNavigationProvider>
     </PreviewThemeScope>

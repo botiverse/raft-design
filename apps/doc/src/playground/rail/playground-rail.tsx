@@ -49,6 +49,8 @@ import {
   Users,
 } from "lucide-react";
 import { usePlaygroundActivityState } from "../activity/activity-state.tsx";
+import { isTopicUnread } from "../topics/topic-queries.ts";
+import { usePlaygroundTopicState } from "../topics/use-playground-topic-state.ts";
 
 import { AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
@@ -157,6 +159,8 @@ export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
 export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation: boolean }) {
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { unreadCount: activityUnreadCount } = usePlaygroundActivityState();
+  const { topics } = usePlaygroundTopicState();
+  const unreadTopicCount = topics.filter(isTopicUnread).length;
 
   function selectView(view: string) {
     if (isPlaygroundRailView(view)) selectRailView(view);
@@ -210,6 +214,13 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   }
                   label="Topics"
                   icon={<MessagesSquare />}
+                  attention={
+                    railView !== "topics" && unreadTopicCount > 0 ? (
+                      <AppRailItemAttention title={`${unreadTopicCount} unread topics`}>
+                        <MessagesSquare />
+                      </AppRailItemAttention>
+                    ) : undefined
+                  }
                 />
                 <AppRailNavItem
                   selected={railView === "activity"}

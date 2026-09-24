@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { CheckCircle2, ChevronLeft, Send, X } from "lucide-react";
+import { CheckCircle2, ChevronLeft, ExternalLink, Send, X } from "lucide-react";
 import { Fragment, useState } from "react";
 import {
   Button,
@@ -47,9 +47,12 @@ import { usePlaygroundTopicState } from "./use-playground-topic-state.ts";
 
 export function PlaygroundTopicPanel({
   channel,
+  onClose,
   topic,
 }: {
   channel: PlaygroundTopicChannelRecord;
+  /** Set when the panel is hosted outside Topics, e.g. in Activity. */
+  onClose?: () => void;
   topic: PlaygroundTopic;
 }) {
   const { addReply, setResolved } = usePlaygroundTopicState();
@@ -71,9 +74,10 @@ export function PlaygroundTopicPanel({
           className="mr-1 lg:hidden"
           variant="outline"
           size="icon-sm"
-          nativeButton={false}
-          aria-label={`Back to #${channel.name}`}
-          render={channelLink}
+          nativeButton={onClose ? undefined : false}
+          aria-label={onClose ? "Back" : `Back to #${channel.name}`}
+          render={onClose ? undefined : channelLink}
+          onClick={onClose}
         >
           <ChevronLeft aria-hidden />
         </Button>
@@ -92,11 +96,30 @@ export function PlaygroundTopicPanel({
               Resolved
             </span>
           </PanelToggleAction>
+          {onClose ? (
+            <PanelAction
+              nativeButton={false}
+              aria-label="View in Topics"
+              render={
+                <Link
+                  to="/playground/topics/$channelId"
+                  params={{ channelId: channel.id }}
+                  search={{ topic: topic.id }}
+                />
+              }
+            >
+              <ExternalLink />
+              <span className="hidden whitespace-nowrap font-medium leading-none md:inline">
+                View in Topics
+              </span>
+            </PanelAction>
+          ) : null}
           <PanelAction
             className="max-lg:hidden"
-            nativeButton={false}
+            nativeButton={onClose ? undefined : false}
             aria-label="Close topic"
-            render={channelLink}
+            render={onClose ? undefined : channelLink}
+            onClick={onClose}
           >
             <X />
           </PanelAction>
