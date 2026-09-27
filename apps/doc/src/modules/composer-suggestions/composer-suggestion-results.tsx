@@ -106,6 +106,11 @@ function PersonSuggestion({ suggestion, optionProps }: PersonSuggestionProps) {
       {suggestion.outOfChannel ? <UserX aria-hidden className="-ml-1 size-3 shrink-0" /> : null}
       <ComposerSuggestionContent>
         <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
+        {suggestion.roleLabel ? (
+          <Badge appearance="soft" variant="muted" className="shrink-0">
+            {suggestion.roleLabel}
+          </Badge>
+        ) : null}
         {suggestion.type === "agent" ? (
           <Status aria-label="Online" size="sm" variant="success" />
         ) : null}

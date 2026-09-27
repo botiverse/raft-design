@@ -11,12 +11,12 @@ const composerSuggestionList = tv({
     group: [],
     groupLabel: ["px-3 py-1.5"],
     item: ["flex w-full items-center gap-2 px-3 py-2 text-left"],
-    content: [
-      "flex min-w-0 flex-1 items-center gap-1.5 text-left",
-      "[&>[data-slot=composer-suggestion-title]]:min-w-0",
-    ],
+    // The name always shows in full: the title never shrinks and wraps only when
+    // it alone is wider than the row. Descriptions take whatever space is left and
+    // truncate; the row wraps instead of pushing badges or the aside out of view.
+    content: ["flex min-w-0 flex-1 flex-wrap items-center gap-x-1.5 gap-y-0.5 text-left"],
     icon: ["shrink-0"],
-    title: ["truncate"],
+    title: ["max-w-full shrink-0 wrap-anywhere"],
     aside: ["ml-auto flex shrink-0 items-center"],
     meta: [],
   },
@@ -64,7 +64,7 @@ const composerSuggestionList = tv({
       auxiliary: { icon: "-ml-1 size-3" },
     },
     metaVariant: {
-      text: { meta: "truncate" },
+      text: { meta: "min-w-16 flex-1 basis-0 truncate" },
       code: { meta: "shrink-0 font-mono" },
     },
   },

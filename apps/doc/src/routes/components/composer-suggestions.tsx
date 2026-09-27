@@ -79,6 +79,7 @@ const SNIPPETS = {
   suggestionsData: composerSuggestionsDataSource,
   peopleUsage: `<ComposerSuggestionComposition initialValue="@" />`,
   channelsUsage: `<ComposerSuggestionComposition initialValue="#" />`,
+  longContentUsage: `<ComposerSuggestionComposition dataset="long-content" initialValue="@" />`,
   filteredPeopleUsage: `<ComposerSuggestionComposition initialValue="@av" />`,
 } as const;
 
@@ -331,6 +332,38 @@ function ComposerSuggestionsDoc() {
                     collapsible={false}
                     defaultPath={RESULTS_PATH}
                     usageHtml={code.channelsUsage}
+                  />
+                }
+              />
+            </Preview>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="long-content" title="Long names and descriptions">
+            <p className="text-sm text-foreground-muted">
+              Names always show in full and wrap only when a name alone is wider than the row.
+              Descriptions take the space that is left and truncate. The narrow canvas shows the
+              wrapping.
+            </p>
+            <Preview previewClassName="min-h-[26rem] items-stretch bg-layer-inset">
+              <Preview.Canvas>
+                <div className="flex h-[26rem] w-full flex-wrap gap-4">
+                  <div
+                    className="h-full min-w-0 flex-[1_1_560px] max-w-[560px]"
+                    data-demo-width="wide"
+                  >
+                    <ComposerSuggestionComposition dataset="long-content" initialValue="@" />
+                  </div>
+                  <div className="h-full w-[320px] shrink-0" data-demo-width="narrow">
+                    <ComposerSuggestionComposition dataset="long-content" initialValue="@" />
+                  </div>
+                </div>
+              </Preview.Canvas>
+              <Preview.Code
+                codeBlock={
+                  <ComposerSuggestionsSourceFiles
+                    code={code}
+                    collapsible={false}
+                    defaultPath={DATA_PATH}
+                    usageHtml={code.longContentUsage}
                   />
                 }
               />

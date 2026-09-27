@@ -23,14 +23,16 @@ import {
   getSuggestions,
   isSuggestionDisabled,
 } from "./composer-suggestions.data.ts";
-import type { Suggestion } from "./composer-suggestions.data.ts";
+import type { Suggestion, SuggestionDataset } from "./composer-suggestions.data.ts";
 import { ComposerSuggestionResults } from "./composer-suggestion-results.tsx";
 
 export type ComposerSuggestionCompositionProps = {
+  dataset?: SuggestionDataset;
   initialValue?: string;
 };
 
 export function ComposerSuggestionComposition({
+  dataset = "default",
   initialValue = "@",
 }: ComposerSuggestionCompositionProps) {
   const [value, setValue] = useState(initialValue);
@@ -40,7 +42,7 @@ export function ComposerSuggestionComposition({
     value,
     onValueChange: setValue,
     detectTrigger: detectSuggestion,
-    getItems: getSuggestions,
+    getItems: (match) => getSuggestions(match, dataset),
     getItemText: getSuggestionText,
     isItemDisabled: isSuggestionDisabled,
   });

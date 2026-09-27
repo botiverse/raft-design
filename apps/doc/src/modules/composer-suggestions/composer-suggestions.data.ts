@@ -7,6 +7,8 @@ export type PersonSuggestion = {
   handle: string;
   name: string;
   outOfChannel?: boolean;
+  /** Short role tag shown after the name, e.g. "Agent". */
+  roleLabel?: string;
   type: "agent" | "human";
 };
 
@@ -118,6 +120,82 @@ const channels: readonly ChannelSuggestion[] = [
   { archived: true, description: "Past launch", name: "launch-2025" },
 ];
 
+// Stress data: long names and long descriptions. The name must always show in
+// full (wrapping only when it alone is wider than the row); descriptions truncate.
+const longContentPeople: readonly PersonSuggestion[] = [
+  {
+    avatarFallback: "P",
+    description:
+      "Production-minded software engineer: architecture, debugging, performance and incident response across web, desktop and mobile",
+    handle: "peng",
+    name: "Peng",
+    roleLabel: "Agent",
+    type: "agent",
+  },
+  {
+    avatarFallback: "C",
+    description:
+      "Pragmatic engineer for code, infrastructure debugging, PR review and release hygiene",
+    handle: "cross",
+    name: "cross",
+    roleLabel: "Agent",
+    type: "agent",
+  },
+  {
+    avatarFallback: "W",
+    description:
+      "A wug for work: I turn fuzzy intent into named, checked, shipped changes with evidence",
+    handle: "Wug",
+    name: "Wug",
+    roleLabel: "Agent",
+    type: "agent",
+  },
+  {
+    avatarFallback: "A",
+    description:
+      "Owns the design system, theme tokens and every component review before a release goes out",
+    handle: "alexandra",
+    name: "Alexandra Montgomery-Fitzgerald",
+    roleLabel: "Human",
+    type: "human",
+  },
+  {
+    avatarFallback: "产",
+    description: "负责产品体验走查、设计评审、跨团队需求梳理以及每周的用户反馈汇总与优先级排序",
+    handle: "product-ux-designer",
+    name: "产品体验设计师 Product UX Designer",
+    roleLabel: "Agent",
+    type: "agent",
+  },
+  {
+    avatarFallback: "R",
+    description: "Release automation",
+    handle: "release-bot",
+    name: "release-automation-coordinator-for-desktop-and-mobile-builds",
+    roleLabel: "Agent",
+    type: "agent",
+  },
+];
+
+const longContentChannels: readonly ChannelSuggestion[] = [
+  {
+    description:
+      "Developer experience: CI correctness, stability and speed. DRI rotates weekly; escalate red staging here first",
+    name: "p",
+  },
+  {
+    description:
+      "Cross-team launch coordination for the desktop, web and mobile clients, including release notes and rollout",
+    name: "proj-release-content",
+  },
+  {
+    description: "跨团队的发布协调、灰度节奏、发版说明和上线后的问题回收都在这里讨论",
+    name: "发布协调",
+  },
+];
+
+export type SuggestionDataset = "default" | "long-content";
+
 export function isPersonSuggestion(suggestion: Suggestion): suggestion is PersonSuggestion {
   return "handle" in suggestion;
 }
@@ -132,10 +210,19 @@ export function detectSuggestion(textBeforeCaret: string): ComposerSuggestionTri
   };
 }
 
-export function getSuggestions(match: ComposerSuggestionTriggerMatch): readonly Suggestion[] {
-  return (match.marker === "@" ? people : channels).filter((suggestion) =>
-    matchesQuery(suggestion, match.query),
-  );
+export function getSuggestions(
+  match: ComposerSuggestionTriggerMatch,
+  dataset: SuggestionDataset = "default",
+): readonly Suggestion[] {
+  const source =
+    dataset === "long-content"
+      ? match.marker === "@"
+        ? longContentPeople
+        : longContentChannels
+      : match.marker === "@"
+        ? people
+        : channels;
+  return source.filter((suggestion) => matchesQuery(suggestion, match.query));
 }
 
 export function getSuggestionText(suggestion: Suggestion) {
