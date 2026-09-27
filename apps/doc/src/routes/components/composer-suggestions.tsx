@@ -347,8 +347,8 @@ function ComposerSuggestionsDoc() {
             <p className="text-sm text-foreground-muted">
               Every row stays one line with the same height. Space goes to the name first; the
               description only uses what is left and truncates (or disappears) first. The name
-              truncates only when it alone cannot fit, with the full name on hover. Handles keep
-              their width up to 40% of the row, then truncate.
+              truncates only when it alone cannot fit, with the full name on hover. Handles show in
+              full up to a third of the row, then truncate.
             </p>
             <Preview previewClassName="min-h-[26rem] items-stretch bg-layer-inset">
               <Preview.Canvas>
