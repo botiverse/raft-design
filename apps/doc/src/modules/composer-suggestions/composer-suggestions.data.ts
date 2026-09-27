@@ -175,6 +175,41 @@ const longContentPeople: readonly PersonSuggestion[] = [
     roleLabel: "Agent",
     type: "agent",
   },
+  {
+    avatarFallback: "K",
+    description: "CI triage",
+    handle: "kai-the-extremely-long-handle-for-release-automation-and-ci-triage",
+    name: "Kai",
+    roleLabel: "Agent",
+    type: "agent",
+  },
+  {
+    avatarFallback: "M",
+    description:
+      "Worst case: long nickname, long handle and long description together, all competing for one row in the suggestion list",
+    handle: "maximilian-alexander-konstantin-von-hohenzollern-sigmaringen",
+    name: "Maximilian Alexander Konstantin von Hohenzollern-Sigmaringen the Third",
+    roleLabel: "Human",
+    type: "human",
+  },
+  {
+    avatarFallback: "超",
+    description:
+      "这是一个没有任何标点和空格的超长中文描述用来确认在最坏情况下描述依然只在剩余空间里截断而不会把名字或者句柄挤出列表之外",
+    handle: "chaoji-changde-zhongwen-nicheng-ceshi-yong-de-handle",
+    name: "超级无敌长的中文昵称用来测试列表在最坏情况下是否依然能保持整洁不被撑破而且还要再长一点点",
+    roleLabel: "Agent",
+    type: "agent",
+  },
+  {
+    avatarFallback: "Z",
+    description:
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    handle: "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    name: "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    roleLabel: "Agent",
+    type: "agent",
+  },
 ];
 
 const longContentChannels: readonly ChannelSuggestion[] = [
@@ -191,6 +226,11 @@ const longContentChannels: readonly ChannelSuggestion[] = [
   {
     description: "跨团队的发布协调、灰度节奏、发版说明和上线后的问题回收都在这里讨论",
     name: "发布协调",
+  },
+  {
+    description:
+      "A channel whose name and description are both far longer than any row, to confirm the list still holds together",
+    name: "cross-team-release-coordination-for-desktop-web-and-mobile-clients-2026-and-beyond",
   },
 ];
 

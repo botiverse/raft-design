@@ -2,6 +2,7 @@ import { Hash, UserX } from "lucide-react";
 import type { useComposerSuggestions } from "raft-ui";
 import {
   Avatar,
+  AvatarBadge,
   AvatarFallback,
   AvatarImage,
   Badge,
@@ -101,18 +102,18 @@ function PersonSuggestion({ suggestion, optionProps }: PersonSuggestionProps) {
         <Avatar size="xs" type={suggestion.type}>
           {suggestion.avatarSrc ? <AvatarImage src={suggestion.avatarSrc} alt="" /> : null}
           <AvatarFallback>{suggestion.avatarFallback}</AvatarFallback>
+          {suggestion.type === "agent" ? (
+            <AvatarBadge title="Online" render={<Status aria-hidden variant="success" />} />
+          ) : null}
         </Avatar>
       </ComposerSuggestionIcon>
       {suggestion.outOfChannel ? <UserX aria-hidden className="-ml-1 size-3 shrink-0" /> : null}
       <ComposerSuggestionContent>
-        <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
+        <ComposerSuggestionTitle title={suggestion.name}>{suggestion.name}</ComposerSuggestionTitle>
         {suggestion.roleLabel ? (
           <Badge appearance="soft" variant="muted" className="shrink-0">
             {suggestion.roleLabel}
           </Badge>
-        ) : null}
-        {suggestion.type === "agent" ? (
-          <Status aria-label="Online" size="sm" variant="success" />
         ) : null}
         {suggestion.description ? (
           <ComposerSuggestionMeta>{suggestion.description}</ComposerSuggestionMeta>
@@ -137,7 +138,7 @@ function ChannelSuggestion({ suggestion, optionProps }: ChannelSuggestionProps) 
         <Hash />
       </ComposerSuggestionIcon>
       <ComposerSuggestionContent>
-        <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
+        <ComposerSuggestionTitle title={suggestion.name}>{suggestion.name}</ComposerSuggestionTitle>
         <ComposerSuggestionMeta
           className={suggestion.archived ? "text-foreground-disabled/70" : undefined}
         >

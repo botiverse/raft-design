@@ -11,13 +11,16 @@ const composerSuggestionList = tv({
     group: [],
     groupLabel: ["px-3 py-1.5"],
     item: ["flex w-full items-center gap-2 px-3 py-2 text-left"],
-    // The name always shows in full: the title never shrinks and wraps only when
-    // it alone is wider than the row. Descriptions take whatever space is left and
-    // truncate; the row wraps instead of pushing badges or the aside out of view.
-    content: ["flex min-w-0 flex-1 flex-wrap items-center gap-x-1.5 gap-y-0.5 text-left"],
+    // Every row is one line with the same height. Space goes to the name first:
+    // text metadata (descriptions) starts from zero width and only takes what the
+    // name leaves, so it truncates (or disappears) before the name does. The name
+    // truncates only when it alone cannot fit (pass `title` for the full name).
+    content: ["flex min-w-0 flex-1 items-center gap-1.5 text-left"],
     icon: ["shrink-0"],
-    title: ["max-w-full shrink-0 wrap-anywhere"],
-    aside: ["ml-auto flex shrink-0 items-center"],
+    title: ["min-w-0 truncate"],
+    // Priority: name, then handle, then description. The handle shows in full up
+    // to a third of the row and truncates beyond that; the name gets the rest.
+    aside: ["ml-auto flex max-w-[33%] min-w-0 shrink-0 items-center justify-end"],
     meta: [],
   },
   variants: {
@@ -64,8 +67,8 @@ const composerSuggestionList = tv({
       auxiliary: { icon: "-ml-1 size-3" },
     },
     metaVariant: {
-      text: { meta: "min-w-16 flex-1 basis-0 truncate" },
-      code: { meta: "shrink-0 font-mono" },
+      text: { meta: "min-w-0 flex-1 basis-0 truncate" },
+      code: { meta: "min-w-0 truncate font-mono" },
     },
   },
   compoundVariants: [

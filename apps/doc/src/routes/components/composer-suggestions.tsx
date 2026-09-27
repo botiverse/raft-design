@@ -67,6 +67,12 @@ const ANATOMY_SNIPPET = `import {
   </Composer>
 </ComposerRoot>`;
 
+const LONG_CONTENT_CANVASES = [
+  { id: "wide", label: "Wide", width: undefined },
+  { id: "thread", label: "336px · composer in a 360px thread panel", width: 336 },
+  { id: "phone", label: "288px · narrow phone", width: 288 },
+] as const;
+
 const COMPOSITION_PATH =
   "apps/doc/src/modules/composer-suggestions/composer-suggestions.composition.tsx";
 const RESULTS_PATH = "apps/doc/src/modules/composer-suggestions/composer-suggestion-results.tsx";
@@ -339,22 +345,27 @@ function ComposerSuggestionsDoc() {
           </DocSubsection>
           <DocSubsection parentId="usage" id="long-content" title="Long names and descriptions">
             <p className="text-sm text-foreground-muted">
-              Names always show in full and wrap only when a name alone is wider than the row.
-              Descriptions take the space that is left and truncate. The narrow canvas shows the
-              wrapping.
+              Every row stays one line with the same height. Space goes to the name first; the
+              description only uses what is left and truncates (or disappears) first. The name
+              truncates only when it alone cannot fit, with the full name on hover. Handles keep
+              their width up to 40% of the row, then truncate.
             </p>
             <Preview previewClassName="min-h-[26rem] items-stretch bg-layer-inset">
               <Preview.Canvas>
-                <div className="flex h-[26rem] w-full flex-wrap gap-4">
-                  <div
-                    className="h-full min-w-0 flex-[1_1_560px] max-w-[560px]"
-                    data-demo-width="wide"
-                  >
-                    <ComposerSuggestionComposition dataset="long-content" initialValue="@" />
-                  </div>
-                  <div className="h-full w-[320px] shrink-0" data-demo-width="narrow">
-                    <ComposerSuggestionComposition dataset="long-content" initialValue="@" />
-                  </div>
+                <div className="flex w-full flex-wrap items-end gap-4">
+                  {LONG_CONTENT_CANVASES.map((canvas) => (
+                    <div
+                      key={canvas.id}
+                      className="flex h-[26rem] min-w-0 flex-col gap-1"
+                      style={canvas.width ? { width: canvas.width } : { flex: "1 1 360px" }}
+                      data-demo-width={canvas.id}
+                    >
+                      <span className="text-xs text-foreground-muted">{canvas.label}</span>
+                      <div className="min-h-0 flex-1">
+                        <ComposerSuggestionComposition dataset="long-content" initialValue="@" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </Preview.Canvas>
               <Preview.Code
