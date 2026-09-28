@@ -15,11 +15,7 @@ export const sidebarItemRecipe = tv({
       "flex shrink-0 items-center justify-center",
       "[&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
     ],
-    sidebarItemContent: [
-      "has-[>[data-slot=sidebar-item-subtitle]]:*:data-[slot=sidebar-item-title]:max-w-[70%]",
-      "has-[>[data-slot=sidebar-item-subtitle]]:*:data-[slot=sidebar-item-title]:shrink-0",
-      "has-[>[data-slot=sidebar-item-meta-icon]]:items-center",
-    ],
+    sidebarItemContent: ["has-[>[data-slot=sidebar-item-meta-icon]]:items-center"],
     sidebarItemTitle: ["block min-w-0 truncate"],
     sidebarItemSubtitle: ["block min-w-0 flex-1 truncate text-xs font-normal"],
     sidebarItemMeta: ["ml-auto shrink-0 font-mono text-[10px]"],
@@ -113,7 +109,13 @@ export const sidebarItemRecipe = tv({
       accent: {},
     },
     stacked: {
-      false: { sidebarItemContent: ["min-w-0 flex flex-1 items-baseline gap-1 text-left"] },
+      false: {
+        sidebarItemContent: [
+          "min-w-0 flex flex-1 items-baseline gap-1 text-left",
+          "has-[>[data-slot=sidebar-item-subtitle]]:*:data-[slot=sidebar-item-title]:max-w-[70%]",
+          "has-[>[data-slot=sidebar-item-subtitle]]:*:data-[slot=sidebar-item-title]:shrink-0",
+        ],
+      },
       true: { sidebarItemContent: ["min-w-0 flex-1 text-left"] },
     },
   },
