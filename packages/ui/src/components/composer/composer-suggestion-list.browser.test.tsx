@@ -2,10 +2,10 @@ import "./composer-suggestion-list.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import { Badge } from "../badge/badge";
 import {
   ComposerSuggestionAside,
   ComposerSuggestionContent,
+  ComposerSuggestionIcon,
   ComposerSuggestionMeta,
   ComposerSuggestionTitle,
 } from "./composer-suggestion-list";
@@ -35,9 +35,9 @@ function renderList(theme: "brutal" | "elegant", width: number) {
           <div key={row.handle} style={{ display: "flex" }} data-testid="row">
             <ComposerSuggestionContent>
               <ComposerSuggestionTitle>{row.name}</ComposerSuggestionTitle>
-              <Badge appearance="soft" variant="muted" className="shrink-0">
-                Agent
-              </Badge>
+              <ComposerSuggestionIcon variant="inline">
+                <svg role="img" aria-label="Agent" viewBox="0 0 24 24" />
+              </ComposerSuggestionIcon>
               <ComposerSuggestionMeta>{LONG_DESCRIPTION}</ComposerSuggestionMeta>
               <ComposerSuggestionAside>
                 <ComposerSuggestionMeta variant="code">@{row.handle}</ComposerSuggestionMeta>
@@ -66,11 +66,14 @@ for (const theme of ["brutal", "elegant"] as const) {
         const content = slot(row, "content");
         const title = slot(row, "title");
         const aside = slot(row, "aside");
+        const kind = slot(row, "icon");
         const description = [
           ...row.querySelectorAll('[data-slot="composer-suggestion-meta"]'),
         ].find((m) => !m.closest('[data-slot="composer-suggestion-aside"]')) as HTMLElement;
 
-        for (const part of [title, aside, description]) {
+        // The human/agent glyph keeps its full size however long the rest is.
+        expect(Math.round(kind.getBoundingClientRect().width)).toBe(14);
+        for (const part of [title, kind, aside, description]) {
           const p = part.getBoundingClientRect();
           expect(p.left).toBeGreaterThanOrEqual(r.left - 0.5);
           expect(p.right).toBeLessThanOrEqual(r.right + 0.5);

@@ -8,7 +8,6 @@ export type PersonSuggestion = {
   name: string;
   outOfChannel?: boolean;
   /** Short role tag shown after the name, e.g. "Agent". */
-  roleLabel?: string;
   type: "agent" | "human";
 };
 
@@ -129,7 +128,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
       "Production-minded software engineer: architecture, debugging, performance and incident response across web, desktop and mobile",
     handle: "peng",
     name: "Peng",
-    roleLabel: "Agent",
     type: "agent",
   },
   {
@@ -138,7 +136,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
       "Pragmatic engineer for code, infrastructure debugging, PR review and release hygiene",
     handle: "cross",
     name: "cross",
-    roleLabel: "Agent",
     type: "agent",
   },
   {
@@ -147,7 +144,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
       "A wug for work: I turn fuzzy intent into named, checked, shipped changes with evidence",
     handle: "Wug",
     name: "Wug",
-    roleLabel: "Agent",
     type: "agent",
   },
   {
@@ -156,7 +152,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
       "Owns the design system, theme tokens and every component review before a release goes out",
     handle: "alexandra",
     name: "Alexandra Montgomery-Fitzgerald",
-    roleLabel: "Human",
     type: "human",
   },
   {
@@ -164,7 +159,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
     description: "负责产品体验走查、设计评审、跨团队需求梳理以及每周的用户反馈汇总与优先级排序",
     handle: "product-ux-designer",
     name: "产品体验设计师 Product UX Designer",
-    roleLabel: "Agent",
     type: "agent",
   },
   {
@@ -172,7 +166,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
     description: "Release automation",
     handle: "release-bot",
     name: "release-automation-coordinator-for-desktop-and-mobile-builds",
-    roleLabel: "Agent",
     type: "agent",
   },
   {
@@ -180,7 +173,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
     description: "CI triage",
     handle: "kai-the-extremely-long-handle-for-release-automation-and-ci-triage",
     name: "Kai",
-    roleLabel: "Agent",
     type: "agent",
   },
   {
@@ -189,7 +181,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
       "Worst case: long nickname, long handle and long description together, all competing for one row in the suggestion list",
     handle: "maximilian-alexander-konstantin-von-hohenzollern-sigmaringen",
     name: "Maximilian Alexander Konstantin von Hohenzollern-Sigmaringen the Third",
-    roleLabel: "Human",
     type: "human",
   },
   {
@@ -198,7 +189,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
       "这是一个没有任何标点和空格的超长中文描述用来确认在最坏情况下描述依然只在剩余空间里截断而不会把名字或者句柄挤出列表之外",
     handle: "chaoji-changde-zhongwen-nicheng-ceshi-yong-de-handle",
     name: "超级无敌长的中文昵称用来测试列表在最坏情况下是否依然能保持整洁不被撑破而且还要再长一点点",
-    roleLabel: "Agent",
     type: "agent",
   },
   {
@@ -207,7 +197,6 @@ const longContentPeople: readonly PersonSuggestion[] = [
       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     handle: "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
     name: "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-    roleLabel: "Agent",
     type: "agent",
   },
 ];

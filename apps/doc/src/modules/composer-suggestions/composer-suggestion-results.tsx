@@ -1,4 +1,4 @@
-import { Hash, UserX } from "lucide-react";
+import { Bot, Hash, User, UserX } from "lucide-react";
 import type { useComposerSuggestions } from "raft-ui";
 import {
   Avatar,
@@ -110,11 +110,16 @@ function PersonSuggestion({ suggestion, optionProps }: PersonSuggestionProps) {
       {suggestion.outOfChannel ? <UserX aria-hidden className="-ml-1 size-3 shrink-0" /> : null}
       <ComposerSuggestionContent>
         <ComposerSuggestionTitle title={suggestion.name}>{suggestion.name}</ComposerSuggestionTitle>
-        {suggestion.roleLabel ? (
-          <Badge appearance="soft" variant="muted" className="shrink-0">
-            {suggestion.roleLabel}
-          </Badge>
-        ) : null}
+        <ComposerSuggestionIcon
+          variant="inline"
+          title={suggestion.type === "agent" ? "Agent" : "Human"}
+        >
+          {suggestion.type === "agent" ? (
+            <Bot role="img" aria-label="Agent" />
+          ) : (
+            <User role="img" aria-label="Human" />
+          )}
+        </ComposerSuggestionIcon>
         {suggestion.description ? (
           <ComposerSuggestionMeta>{suggestion.description}</ComposerSuggestionMeta>
         ) : null}

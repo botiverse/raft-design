@@ -65,6 +65,9 @@ const composerSuggestionList = tv({
       avatar: {},
       framed: {},
       auxiliary: { icon: "-ml-1 size-3" },
+      // A small glyph inside the row content (e.g. human vs agent), sized to the
+      // text and never shrunk away. Pass an accessible label on the svg.
+      inline: { icon: "flex size-3.5 items-center justify-center [&_svg]:size-3.5" },
     },
     metaVariant: {
       text: { meta: "min-w-0 flex-1 basis-0 truncate" },
@@ -106,6 +109,16 @@ const composerSuggestionList = tv({
     {
       theme: "elegant",
       iconVariant: "auxiliary",
+      class: { icon: "text-foreground-placeholder" },
+    },
+    {
+      theme: "brutal",
+      iconVariant: "inline",
+      class: { icon: "text-black/50" },
+    },
+    {
+      theme: "elegant",
+      iconVariant: "inline",
       class: { icon: "text-foreground-placeholder" },
     },
   ],
