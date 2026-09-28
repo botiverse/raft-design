@@ -67,6 +67,12 @@ const ANATOMY_SNIPPET = `import {
   </Composer>
 </ComposerRoot>`;
 
+const LONG_CONTENT_CANVASES = [
+  { id: "wide", label: "Wide", width: undefined },
+  { id: "thread", label: "336px · composer in a 360px thread panel", width: 336 },
+  { id: "phone", label: "288px · narrow phone", width: 288 },
+] as const;
+
 const COMPOSITION_PATH =
   "apps/doc/src/modules/composer-suggestions/composer-suggestions.composition.tsx";
 const RESULTS_PATH = "apps/doc/src/modules/composer-suggestions/composer-suggestion-results.tsx";
@@ -79,6 +85,7 @@ const SNIPPETS = {
   suggestionsData: composerSuggestionsDataSource,
   peopleUsage: `<ComposerSuggestionComposition initialValue="@" />`,
   channelsUsage: `<ComposerSuggestionComposition initialValue="#" />`,
+  longContentUsage: `<ComposerSuggestionComposition dataset="long-content" initialValue="@" />`,
   filteredPeopleUsage: `<ComposerSuggestionComposition initialValue="@av" />`,
 } as const;
 
@@ -217,9 +224,10 @@ const SUGGESTION_CONTENT_PROPS: readonly PropRow[] = [
 const SUGGESTION_ICON_PROPS: readonly PropRow[] = [
   {
     name: "variant",
-    type: '"avatar" | "framed" | "auxiliary"',
+    type: '"avatar" | "framed" | "auxiliary" | "inline"',
     default: '"avatar"',
-    description: "Leading icon treatment for avatar, framed glyph, or auxiliary affordance.",
+    description:
+      "Leading icon treatment for avatar, framed glyph, or auxiliary affordance; inline is a text-sized glyph inside the row (e.g. human vs agent) that never shrinks.",
   },
   {
     name: "...props",
@@ -331,6 +339,43 @@ function ComposerSuggestionsDoc() {
                     collapsible={false}
                     defaultPath={RESULTS_PATH}
                     usageHtml={code.channelsUsage}
+                  />
+                }
+              />
+            </Preview>
+          </DocSubsection>
+          <DocSubsection parentId="usage" id="long-content" title="Long names and descriptions">
+            <p className="text-sm text-foreground-muted">
+              Every row stays one line with the same height. Space goes to the name first; the
+              description only uses what is left and truncates (or disappears) first. The name
+              truncates only when it alone cannot fit, with the full name on hover. Handles show in
+              full up to a third of the row, then truncate.
+            </p>
+            <Preview previewClassName="min-h-[26rem] items-stretch bg-layer-inset">
+              <Preview.Canvas>
+                <div className="flex w-full flex-wrap items-end gap-4">
+                  {LONG_CONTENT_CANVASES.map((canvas) => (
+                    <div
+                      key={canvas.id}
+                      className="flex h-[26rem] min-w-0 flex-col gap-1"
+                      style={canvas.width ? { width: canvas.width } : { flex: "1 1 360px" }}
+                      data-demo-width={canvas.id}
+                    >
+                      <span className="text-xs text-foreground-muted">{canvas.label}</span>
+                      <div className="min-h-0 flex-1">
+                        <ComposerSuggestionComposition dataset="long-content" initialValue="@" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Preview.Canvas>
+              <Preview.Code
+                codeBlock={
+                  <ComposerSuggestionsSourceFiles
+                    code={code}
+                    collapsible={false}
+                    defaultPath={DATA_PATH}
+                    usageHtml={code.longContentUsage}
                   />
                 }
               />

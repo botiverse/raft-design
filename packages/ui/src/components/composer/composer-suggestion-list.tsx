@@ -11,13 +11,16 @@ const composerSuggestionList = tv({
     group: [],
     groupLabel: ["px-3 py-1.5"],
     item: ["flex w-full items-center gap-2 px-3 py-2 text-left"],
-    content: [
-      "flex min-w-0 flex-1 items-center gap-1.5 text-left",
-      "[&>[data-slot=composer-suggestion-title]]:min-w-0",
-    ],
+    // Every row is one line with the same height. Space goes to the name first:
+    // text metadata (descriptions) starts from zero width and only takes what the
+    // name leaves, so it truncates (or disappears) before the name does. The name
+    // truncates only when it alone cannot fit (pass `title` for the full name).
+    content: ["flex min-w-0 flex-1 items-center gap-1.5 text-left"],
     icon: ["shrink-0"],
-    title: ["truncate"],
-    aside: ["ml-auto flex shrink-0 items-center"],
+    title: ["min-w-0 truncate"],
+    // Priority: name, then handle, then description. The handle shows in full up
+    // to a third of the row and truncates beyond that; the name gets the rest.
+    aside: ["ml-auto flex max-w-[33%] min-w-0 shrink-0 items-center justify-end"],
     meta: [],
   },
   variants: {
@@ -62,10 +65,13 @@ const composerSuggestionList = tv({
       avatar: {},
       framed: {},
       auxiliary: { icon: "-ml-1 size-3" },
+      // A small glyph inside the row content (e.g. human vs agent), sized to the
+      // text and never shrunk away. Pass an accessible label on the svg.
+      inline: { icon: "flex size-3.5 items-center justify-center [&_svg]:size-3.5" },
     },
     metaVariant: {
-      text: { meta: "truncate" },
-      code: { meta: "shrink-0 font-mono" },
+      text: { meta: "min-w-0 flex-1 basis-0 truncate" },
+      code: { meta: "min-w-0 truncate font-mono" },
     },
   },
   compoundVariants: [
@@ -103,6 +109,16 @@ const composerSuggestionList = tv({
     {
       theme: "elegant",
       iconVariant: "auxiliary",
+      class: { icon: "text-foreground-placeholder" },
+    },
+    {
+      theme: "brutal",
+      iconVariant: "inline",
+      class: { icon: "text-black/50" },
+    },
+    {
+      theme: "elegant",
+      iconVariant: "inline",
       class: { icon: "text-foreground-placeholder" },
     },
   ],

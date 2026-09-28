@@ -1,7 +1,8 @@
-import { Hash, UserX } from "lucide-react";
+import { Bot, Hash, User, UserX } from "lucide-react";
 import type { useComposerSuggestions } from "raft-ui";
 import {
   Avatar,
+  AvatarBadge,
   AvatarFallback,
   AvatarImage,
   Badge,
@@ -101,14 +102,24 @@ function PersonSuggestion({ suggestion, optionProps }: PersonSuggestionProps) {
         <Avatar size="xs" type={suggestion.type}>
           {suggestion.avatarSrc ? <AvatarImage src={suggestion.avatarSrc} alt="" /> : null}
           <AvatarFallback>{suggestion.avatarFallback}</AvatarFallback>
+          {suggestion.type === "agent" ? (
+            <AvatarBadge title="Online" render={<Status aria-hidden variant="success" />} />
+          ) : null}
         </Avatar>
       </ComposerSuggestionIcon>
       {suggestion.outOfChannel ? <UserX aria-hidden className="-ml-1 size-3 shrink-0" /> : null}
       <ComposerSuggestionContent>
-        <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
-        {suggestion.type === "agent" ? (
-          <Status aria-label="Online" size="sm" variant="success" />
-        ) : null}
+        <ComposerSuggestionTitle title={suggestion.name}>{suggestion.name}</ComposerSuggestionTitle>
+        <ComposerSuggestionIcon
+          variant="inline"
+          title={suggestion.type === "agent" ? "Agent" : "Human"}
+        >
+          {suggestion.type === "agent" ? (
+            <Bot role="img" aria-label="Agent" />
+          ) : (
+            <User role="img" aria-label="Human" />
+          )}
+        </ComposerSuggestionIcon>
         {suggestion.description ? (
           <ComposerSuggestionMeta>{suggestion.description}</ComposerSuggestionMeta>
         ) : null}
@@ -132,7 +143,7 @@ function ChannelSuggestion({ suggestion, optionProps }: ChannelSuggestionProps) 
         <Hash />
       </ComposerSuggestionIcon>
       <ComposerSuggestionContent>
-        <ComposerSuggestionTitle>{suggestion.name}</ComposerSuggestionTitle>
+        <ComposerSuggestionTitle title={suggestion.name}>{suggestion.name}</ComposerSuggestionTitle>
         <ComposerSuggestionMeta
           className={suggestion.archived ? "text-foreground-disabled/70" : undefined}
         >
