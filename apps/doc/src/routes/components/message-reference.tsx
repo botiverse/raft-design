@@ -28,11 +28,13 @@ import { MessageReferenceShowcaseComposition } from "#/modules/message-reference
 import referenceShowcaseSource from "#/modules/message-reference/compositions/reference-showcase.composition.tsx?raw";
 import { MessageReferenceTaskReferencesComposition } from "#/modules/message-reference/compositions/task-references.composition.tsx";
 import taskReferencesSource from "#/modules/message-reference/compositions/task-references.composition.tsx?raw";
+import { MessageReferenceMixedLongMessageComposition } from "#/modules/message-reference/compositions/mixed-long-message.composition.tsx";
 import { MessageReferenceThreadReferencesComposition } from "#/modules/message-reference/compositions/thread-references.composition.tsx";
 import threadReferencesSource from "#/modules/message-reference/compositions/thread-references.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
+  { id: "mixed", title: "Mixed in one long message" },
   { id: "anatomy", title: "Anatomy" },
   { id: "usage", title: "Usage" },
   { id: "api", title: "API" },
@@ -226,6 +228,26 @@ function MessageReferenceDoc() {
           </Preview.Canvas>
           <Preview.Code codeBlock={<MessageReferenceSourceFiles code={code} />} />
         </Preview>
+      </DocSection>
+
+      <DocSection id="mixed" title="Mixed in one long message" showThemeSwitcher>
+        <p className="mb-4 text-sm text-foreground-muted">
+          Every inline kind in one message. Chips are the body text&apos;s size and sit on its
+          baseline, and their letters stay centred in the coloured box; inline code is 0.875em, has
+          no border in messages, and breaks inside tokens too long for the line. Shown at a desktop
+          width and at a 358px phone width.
+        </p>
+        <div className="flex flex-wrap items-start gap-6" data-demo="mixed-long-message">
+          <div
+            className="w-full max-w-[720px] border border-line bg-layer-panel p-3"
+            data-demo-width="desktop"
+          >
+            <MessageReferenceMixedLongMessageComposition />
+          </div>
+          <div className="w-[358px] border border-line bg-layer-panel p-3" data-demo-width="phone">
+            <MessageReferenceMixedLongMessageComposition />
+          </div>
+        </div>
       </DocSection>
 
       <DocSection id="anatomy" title="Anatomy">
