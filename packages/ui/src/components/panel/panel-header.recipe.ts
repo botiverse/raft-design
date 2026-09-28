@@ -78,7 +78,15 @@ export const panelHeader = tv({
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
         ],
-        meta: "font-sans leading-none text-foreground-placeholder max-md:leading-tight",
+        // Desktop puts the name and the description on one row. The name is
+        // what identifies the panel, so it keeps its full width (up to the
+        // row) and the description only takes what is left, truncating or
+        // collapsing to nothing first.
+        heading: "md:max-w-full md:shrink-0",
+        meta: [
+          "font-sans leading-none text-foreground-placeholder max-md:leading-tight",
+          "md:flex-1 md:basis-0",
+        ],
         status: [
           "border-0 bg-transparent p-0",
           "text-foreground-placeholder",
