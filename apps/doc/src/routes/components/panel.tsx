@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { PanelHeader, PanelHeaderContent, PanelHeading, PanelMeta, PanelTitle } from "raft-ui";
 import type { PanelEdge } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -15,7 +16,21 @@ import panelCompositionSource from "#/modules/panel/panel.composition.tsx?raw";
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
+  { id: "long-header", title: "Long names and descriptions" },
   { id: "api", title: "API" },
+] as const;
+
+const LONG_HEADER_DESCRIPTION =
+  "Raft web frontend. DRI: someone with a long name, plus the deploy checklist and the on-call rota";
+const LONG_HEADER_CASES = [
+  { label: "Wide", width: "100%", name: "proj-frontend" },
+  { label: "480px", width: "480px", name: "proj-frontend" },
+  { label: "320px", width: "320px", name: "proj-frontend" },
+  {
+    label: "320px · name longer than the row",
+    width: "320px",
+    name: "a-very-long-channel-name-that-cannot-fit-in-this-header",
+  },
 ] as const;
 
 const SNIPPETS = {
@@ -308,6 +323,34 @@ function PanelDoc() {
               <DocsCodeBlock.Content html={code.composedHeader} />
             </DocsCodeBlock.Body>
           </DocsCodeBlock>
+        </div>
+      </DocSection>
+
+      <DocSection id="long-header" title="Long names and descriptions" showThemeSwitcher>
+        <p className="mb-4 text-sm text-foreground-muted">
+          On desktop the name and the description share one row. The name keeps its full width; the
+          description only uses what is left and truncates, or disappears, first. The name itself
+          truncates only when it alone is wider than the row.
+        </p>
+        <div className="space-y-4" data-demo="long-header">
+          {LONG_HEADER_CASES.map((c) => (
+            <div key={c.label}>
+              <div className="mb-1 text-xs text-foreground-placeholder">{c.label}</div>
+              <div
+                className="overflow-hidden border border-line bg-layer-panel"
+                style={{ width: c.width }}
+              >
+                <PanelHeader>
+                  <PanelHeaderContent>
+                    <PanelHeading>
+                      <PanelTitle title={c.name}>{c.name}</PanelTitle>
+                    </PanelHeading>
+                    <PanelMeta>{LONG_HEADER_DESCRIPTION}</PanelMeta>
+                  </PanelHeaderContent>
+                </PanelHeader>
+              </div>
+            </div>
+          ))}
         </div>
       </DocSection>
 
