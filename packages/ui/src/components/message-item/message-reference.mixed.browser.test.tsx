@@ -1,12 +1,13 @@
 import "./message-reference.test.css";
 import { afterEach, beforeAll, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
-import { Hash, Link2, ListTodo, MessageSquare } from "lucide-react";
+import { GitBranch, Hash, Link2, ListTodo, MessageSquare } from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { InlineCode } from "../inline-code/inline-code";
 import { TaskChip } from "../tasks/task-chip";
 import { MessageItemContent } from "./message-item-content";
 import {
+  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceText,
@@ -46,7 +47,13 @@ function MixedMessage({ width }: { width: number }) {
           <TaskChip variant="inline" status="in-progress" data-kind="task-inline">
             #206
           </TaskChip>
-          ) in{" "}
+          ) in the joint channel{" "}
+          <MessageReferenceChip variant="accent" data-kind="joint">
+            <MessageReferenceBadge>joint</MessageReferenceBadge>
+            <GitBranch />
+            <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
+          </MessageReferenceChip>{" "}
+          and in{" "}
           <MessageReferenceChip variant="accent" data-kind="channel">
             #general
           </MessageReferenceChip>{" "}
@@ -98,7 +105,14 @@ function measure(): Measure[] {
     const r = el.getClientRects()[0];
     const textNode = [...el.querySelectorAll("*"), el]
       .flatMap((n) => [...n.childNodes])
-      .find((n) => n.nodeType === 3 && n.textContent!.trim()) as Text;
+      // The hover badge ("joint", "thread") is an overlay outside the chip's
+      // flow; the chip's own text is what must line up.
+      .find(
+        (n) =>
+          n.nodeType === 3 &&
+          n.textContent!.trim() &&
+          !n.parentElement!.closest("[data-message-reference-badge]"),
+      ) as Text;
     // A zero-width probe beside the text reads its baseline. A probe is itself
     // a break opportunity, so take the one that lands inside the element's box.
     const chipBaseline =
@@ -144,7 +158,17 @@ for (const { theme, mode } of CASES) {
       );
       const rows = measure();
       expect(rows.map((r) => r.kind).sort()).toEqual(
-        ["channel", "code", "link", "other", "self", "task", "task-inline", "thread"].sort(),
+        [
+          "channel",
+          "code",
+          "joint",
+          "link",
+          "other",
+          "self",
+          "task",
+          "task-inline",
+          "thread",
+        ].sort(),
       );
       for (const row of rows) {
         expect(Math.abs(row.baseline), `${row.kind} baseline`).toBeLessThanOrEqual(0.5);
