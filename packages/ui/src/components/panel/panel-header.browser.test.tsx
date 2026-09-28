@@ -1,6 +1,5 @@
 import "./panel-header.test.css";
 import { afterEach, beforeAll, expect, test } from "vite-plus/test";
-import { page } from "vite-plus/test/browser/context";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import {
@@ -20,7 +19,11 @@ import {
 const it = test.skipIf(typeof window === "undefined");
 
 beforeAll(async () => {
+  if (typeof window === "undefined") return;
   // `md:` is a viewport breakpoint; the one-row layout only exists at >= 768px.
+  // Imported lazily: CI also loads this file in the node pool, where the
+  // browser context module refuses to import and every test is skipped anyway.
+  const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(1280, 800);
 });
 
