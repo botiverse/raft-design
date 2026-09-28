@@ -42,7 +42,6 @@ export interface FloatButtonProps extends StyledProps<BaseButton.Props> {
   variant?: FloatButtonVariant;
   shape?: FloatButtonShape;
   size?: FloatButtonSize;
-  theme?: "brutal" | "elegant";
   icon?: ReactNode;
   description?: ReactNode;
   tooltip?: ReactNode;
@@ -58,7 +57,6 @@ export function FloatButton({
   variant = "default",
   shape: shapeProp,
   size: sizeProp,
-  theme: themeProp,
   position,
   side,
   offset,
@@ -74,8 +72,7 @@ export function FloatButton({
   const shape = shapeProp ?? groupContext?.shape ?? "circle";
   const size = sizeProp ?? groupContext?.size ?? "md";
 
-  const currentTheme = useThemeFamily();
-  const resolvedTheme = themeProp ?? currentTheme;
+  const theme = useThemeFamily();
 
   const positionStyles = resolvePositionStyles({
     position,
@@ -93,7 +90,7 @@ export function FloatButton({
     `r-float-button--${variant}`,
     hasText && "r-float-button--with-text",
     description && "r-float-button--with-desc",
-    resolvedTheme === "elegant" && "r-float-button--elegant",
+    theme === "elegant" && "r-float-button--elegant",
     className,
   ]
     .filter(Boolean)
@@ -152,7 +149,6 @@ export type FloatButtonGroupProps = useRender.ComponentProps<"div"> & {
   attached?: boolean;
   shape?: FloatButtonShape;
   size?: FloatButtonSize;
-  theme?: "brutal" | "elegant";
   position?: FloatButtonPosition;
   side?: FloatButtonSide;
   offset?: FloatButtonOffset;
@@ -164,7 +160,6 @@ export function FloatButtonGroup({
   attached = false,
   shape = "circle",
   size,
-  theme: themeProp,
   position,
   side,
   offset,
@@ -175,8 +170,7 @@ export function FloatButtonGroup({
   children,
   ...props
 }: FloatButtonGroupProps) {
-  const currentTheme = useThemeFamily();
-  const resolvedTheme = themeProp ?? currentTheme;
+  const theme = useThemeFamily();
 
   const positionStyles = resolvePositionStyles({
     position,
@@ -201,7 +195,7 @@ export function FloatButtonGroup({
     `r-float-button-group--${direction}`,
     attached && "r-float-button-group--attached",
     `r-float-button-group--${shape}`,
-    resolvedTheme === "elegant" && "r-float-button-group--elegant",
+    theme === "elegant" && "r-float-button-group--elegant",
     className,
   ]
     .filter(Boolean)
