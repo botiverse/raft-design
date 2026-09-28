@@ -104,9 +104,9 @@ const toastStyles = tv({
       },
       elegant: {
         root: [
-          "relative rounded-xl bg-layer-hud/50 text-layer-hud-foreground backdrop-blur-2xl saturate-150",
+          "relative rounded-xl bg-layer-hud/85 text-layer-hud-foreground backdrop-blur-2xl saturate-150",
           "shadow-[0_18px_42px_-18px_oklch(0_0_0/0.54)]",
-          "data-expanded:bg-layer-hud/54 data-expanded:shadow-[0_18px_40px_-18px_oklch(0_0_0/0.54)]",
+          "data-expanded:bg-layer-hud/85 data-expanded:shadow-[0_18px_40px_-18px_oklch(0_0_0/0.54)]",
           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
           "dark:bg-layer-popover dark:text-foreground dark:backdrop-blur-none dark:saturate-100 dark:shadow-raft-xl dark:after:hidden",
           "dark:data-expanded:bg-layer-popover dark:data-expanded:shadow-raft-xl",
@@ -141,15 +141,15 @@ const toastStyles = tv({
           "has-data-[slot=toast-actions]:gap-y-2",
           "[&:has([data-slot=toast-icon]):has([data-slot=toast-actions])]:grid-cols-[auto_minmax(0,1fr)]",
         ],
-        icon: ["text-white/85 dark:text-foreground-muted", "[&_svg]:size-4.5 [&_svg]:stroke-[1.5]"],
+        icon: ["dark:text-foreground-muted", "[&_svg]:size-4.5 [&_svg]:stroke-[1.5]"],
         title: ["font-medium text-[oklch(0.985_0.001_286)] dark:text-foreground"],
         description: ["text-white/62 dark:text-foreground-muted"],
         actions: ["col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end"],
         progress: ["rounded-b-xl bg-primary-400/80 dark:bg-primary-400"],
         close: [
-          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap rounded-full border-0 bg-transparent px-2 text-xs font-medium text-white/52 shadow-none",
+          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap rounded-full border-0 bg-transparent px-2 text-xs font-medium text-white/70 shadow-none",
           "dark:text-foreground-muted",
-          "hover:bg-white/5 hover:text-white/72 dark:hover:bg-ink-4 dark:hover:text-foreground active:scale-[0.985]",
+          "hover:bg-white/5 hover:text-white/90 dark:hover:bg-ink-4 dark:hover:text-foreground active:scale-[0.985]",
         ],
         arrow: [],
       },
@@ -267,7 +267,35 @@ const toastStyles = tv({
       theme: "elegant",
       layout: "inline",
       class: {
-        root: "bg-layer-hud/62 after:hidden dark:bg-layer-popover",
+        root: "bg-layer-hud/85 after:hidden dark:bg-layer-popover",
+      },
+    },
+    {
+      theme: "elegant",
+      tone: "info",
+      class: {
+        root: "**:data-[slot=toast-icon]:text-info dark:**:data-[slot=toast-icon]:text-foreground-muted",
+      },
+    },
+    {
+      theme: "elegant",
+      tone: "success",
+      class: {
+        root: "**:data-[slot=toast-icon]:text-success dark:**:data-[slot=toast-icon]:text-foreground-muted",
+      },
+    },
+    {
+      theme: "elegant",
+      tone: "warning",
+      class: {
+        root: "**:data-[slot=toast-icon]:text-warning dark:**:data-[slot=toast-icon]:text-foreground-muted",
+      },
+    },
+    {
+      theme: "elegant",
+      tone: "error",
+      class: {
+        root: "**:data-[slot=toast-icon]:text-brutal-red dark:**:data-[slot=toast-icon]:text-foreground-muted",
       },
     },
   ],
