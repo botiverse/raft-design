@@ -5,6 +5,7 @@ export const composer = tv({
     root: ["flex w-full flex-col gap-2 border-2 p-2"],
     input: [
       "min-h-5 max-h-32 w-full resize-none bg-transparent text-base leading-5 outline-none md:text-sm",
+      "field-sizing-content overflow-y-auto",
     ],
     toolbar: ["flex items-center justify-between gap-3"],
     actions: ["flex items-center gap-2"],
