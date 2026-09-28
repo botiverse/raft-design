@@ -7,6 +7,14 @@ const inlineCode = tv({
     root: [],
   },
   variants: {
+    // `message` is the in-message treatment: no border, 0.875em so a run of
+    // code does not crowd the sentence, sitting on the text baseline, and
+    // allowed to break inside long unbroken tokens (paths, hashes) instead of
+    // overflowing the message.
+    appearance: {
+      default: {},
+      message: {},
+    },
     theme: {
       brutal: {
         root: [
@@ -24,13 +32,38 @@ const inlineCode = tv({
       },
     },
   },
+  compoundVariants: [
+    {
+      appearance: "message",
+      class: {
+        root: [
+          "inline rounded-none border-0 px-1 py-0 align-baseline",
+          // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
+          "[font-size:0.875em] leading-[1.3em] font-normal",
+          "wrap-anywhere",
+        ],
+      },
+    },
+    { theme: "brutal", appearance: "message", class: { root: "bg-black/5 text-black" } },
+    {
+      theme: "elegant",
+      appearance: "message",
+      class: { root: "bg-fill-muted text-foreground-strong dark:shadow-none" },
+    },
+  ],
+  defaultVariants: {
+    appearance: "default",
+  },
 });
 
-export type InlineCodeProps = ComponentPropsWithRef<"code">;
+export type InlineCodeProps = ComponentPropsWithRef<"code"> & {
+  /** `message` renders the borderless, baseline-aligned in-message treatment. */
+  appearance?: "default" | "message";
+};
 
-export function InlineCode({ className, ...props }: InlineCodeProps) {
+export function InlineCode({ className, appearance, ...props }: InlineCodeProps) {
   const theme = useThemeFamily();
-  const { root } = inlineCode({ theme });
+  const { root } = inlineCode({ theme, appearance });
 
   return <code data-slot="inline-code" className={root({ className })} {...props} />;
 }
