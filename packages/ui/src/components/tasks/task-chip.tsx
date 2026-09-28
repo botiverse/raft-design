@@ -39,6 +39,7 @@ const taskChip = tv({
   compoundVariants: [
     {
       theme: "brutal",
+      variant: "default",
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: "gap-1 align-bottom rounded-none border-black px-1 py-0 text-[13px] font-medium leading-tight text-black hover:brightness-90",
@@ -81,6 +82,7 @@ const taskChip = tv({
     },
     {
       theme: "elegant",
+      variant: "default",
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: ["h-[19px] align-middle -mt-px gap-1.5 text-[13px] font-normal leading-none"],
@@ -92,13 +94,18 @@ const taskChip = tv({
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: { root: "border-[0.5px]" },
     },
+    // Inline (in a message) follows the message-reference rule (#proj-rui
+    // task #84): body text size on the body baseline, the box made of the
+    // text's own line box plus symmetric padding — no fixed height or nudge.
     {
       variant: "inline",
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
-          "h-[19px] align-middle -mt-px gap-1.5 rounded-full border-0 bg-fill-muted py-0 pr-2 pl-1",
-          "text-[12px] font-[450] leading-none text-foreground-muted hover:brightness-100 [&>svg]:size-3",
+          "items-baseline gap-1.5 rounded-full border border-transparent bg-fill-muted py-0 pr-2 pl-1 align-baseline",
+          // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
+          "[font-size:inherit] leading-[1.2em] font-[450] text-foreground-muted hover:brightness-100",
+          "[&>svg]:size-[0.857em] [&>svg]:self-center",
         ],
       },
     },
@@ -108,8 +115,8 @@ const taskChip = tv({
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
-          "gap-1 align-bottom rounded-none border border-black px-1 py-0",
-          "text-[13px] font-medium leading-tight text-black hover:brightness-90 [&>svg]:size-3",
+          "gap-1 rounded-none border border-black px-1",
+          "font-medium text-black hover:brightness-90",
         ],
       },
     },

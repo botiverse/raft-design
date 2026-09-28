@@ -4,6 +4,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { Hash, Link2, ListTodo, MessageSquare } from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { InlineCode } from "../inline-code/inline-code";
+import { TaskChip } from "../tasks/task-chip";
 import { MessageItemContent } from "./message-item-content";
 import {
   MessageReferenceChip,
@@ -41,7 +42,11 @@ function MixedMessage({ width }: { width: number }) {
             <ListTodo />
             <MessageReferenceLabel>#15</MessageReferenceLabel>
           </MessageReferenceChip>{" "}
-          in{" "}
+          (also{" "}
+          <TaskChip variant="inline" status="in-progress" data-kind="task-inline">
+            #206
+          </TaskChip>
+          ) in{" "}
           <MessageReferenceChip variant="accent" data-kind="channel">
             #general
           </MessageReferenceChip>{" "}
@@ -139,7 +144,7 @@ for (const { theme, mode } of CASES) {
       );
       const rows = measure();
       expect(rows.map((r) => r.kind).sort()).toEqual(
-        ["channel", "code", "link", "other", "self", "task", "thread"].sort(),
+        ["channel", "code", "link", "other", "self", "task", "task-inline", "thread"].sort(),
       );
       for (const row of rows) {
         expect(Math.abs(row.baseline), `${row.kind} baseline`).toBeLessThanOrEqual(0.5);
