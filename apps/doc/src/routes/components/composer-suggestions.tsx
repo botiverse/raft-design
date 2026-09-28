@@ -224,9 +224,10 @@ const SUGGESTION_CONTENT_PROPS: readonly PropRow[] = [
 const SUGGESTION_ICON_PROPS: readonly PropRow[] = [
   {
     name: "variant",
-    type: '"avatar" | "framed" | "auxiliary"',
+    type: '"avatar" | "framed" | "auxiliary" | "inline"',
     default: '"avatar"',
-    description: "Leading icon treatment for avatar, framed glyph, or auxiliary affordance.",
+    description:
+      "Leading icon treatment for avatar, framed glyph, or auxiliary affordance; inline is a text-sized glyph inside the row (e.g. human vs agent) that never shrinks.",
   },
   {
     name: "...props",
