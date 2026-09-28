@@ -1,10 +1,11 @@
 /**
  * @vitest-environment jsdom
  */
-import { afterEach, describe, expect, test } from "vite-plus/test";
+import { afterEach, describe, expect, expectTypeOf, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { FloatButton, FloatButtonGroup } from "./float-button";
+import type { FloatButtonGroupProps, FloatButtonProps } from "./float-button";
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({
@@ -171,4 +172,35 @@ describe("FloatButtonGroup", () => {
     expect(button.className).toContain("r-float-button--square");
     expect(button.className).toContain("r-float-button--sm");
   });
+
+  for (const theme of ["brutal", "elegant"] as const) {
+    test(`${theme}: resolves its theme class from ThemeProvider`, () => {
+      render(
+        <ThemeProvider theme={theme}>
+          <FloatButtonGroup>
+            <FloatButton>Child</FloatButton>
+          </FloatButtonGroup>
+        </ThemeProvider>,
+      );
+      const group = screen.getByRole("group");
+      if (theme === "elegant") {
+        expect(group.className).toContain("r-float-button-group--elegant");
+      } else {
+        expect(group.className).not.toContain("r-float-button-group--elegant");
+      }
+    });
+  }
+});
+
+/**
+ * The theme family is owned by ThemeProvider, not by individual components:
+ * every other component omits `theme` from its props and reads
+ * useThemeFamily(). FloatButton and FloatButtonGroup accepted a public `theme`
+ * that overrode the provider, so one button could render in a different family
+ * from the surface around it. expectTypeOf is compile-time only: `vp check`
+ * type-checks this file and fails if either props type regains `theme`.
+ */
+test("theme is not a public prop on FloatButton or FloatButtonGroup", () => {
+  expectTypeOf<FloatButtonProps>().not.toHaveProperty("theme");
+  expectTypeOf<FloatButtonGroupProps>().not.toHaveProperty("theme");
 });
