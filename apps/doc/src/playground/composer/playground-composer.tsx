@@ -452,10 +452,12 @@ function PlaygroundComposer({
   const addUploadingAttachments = (
     attachments: readonly Omit<PlaygroundComposerAttachment, "state">[],
   ) => {
-    const pendingAttachments = attachments.map((attachment): PlaygroundComposerAttachment => ({
-      ...attachment,
-      state: { kind: "uploading", progress: 64 },
-    }));
+    const pendingAttachments = attachments.map(
+      (attachment): PlaygroundComposerAttachment => ({
+        ...attachment,
+        state: { kind: "uploading", progress: 64 },
+      }),
+    );
     setAttachmentState((state) => {
       const currentAttachments = state.kind === "seeded" ? state.attachments : [];
       const incomingNames = new Set(pendingAttachments.map((attachment) => attachment.name));
