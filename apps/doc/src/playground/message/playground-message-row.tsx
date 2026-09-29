@@ -176,13 +176,22 @@ function attachmentKey(attachment: PlaygroundMessageAttachment) {
   return `${attachment.name}:${attachment.mediaType}`;
 }
 
+// Blob URLs inherit this origin: window.open on an HTML or SVG upload would
+// execute its scripts as this site. Direct-open preview stays limited to
+// types browsers render without running content; everything else is
+// download-only. (<img>/<video> embeds never execute, so thumbnails are
+// unaffected.)
+const DIRECT_PREVIEW_MEDIA_TYPE =
+  /^(?:audio|video)\/|^image\/(?!svg\+xml)|^text\/plain$|^application\/pdf$/;
+
 function renderPlaygroundSentAttachment(attachment: PlaygroundMessageAttachment) {
   const previewUrl = attachment.state.kind === "ready" ? attachment.state.previewUrl : undefined;
   const downloadUrl =
     attachment.state.kind === "failed" ? attachment.state.downloadUrl : previewUrl;
-  const openPreview = previewUrl
-    ? () => window.open(previewUrl, "_blank", "noopener,noreferrer")
-    : undefined;
+  const openPreview =
+    previewUrl && DIRECT_PREVIEW_MEDIA_TYPE.test(attachment.mediaType)
+      ? () => window.open(previewUrl, "_blank", "noopener,noreferrer")
+      : undefined;
   const downloadAttachment = downloadUrl
     ? () => downloadMessageAttachment(downloadUrl, attachment.name)
     : undefined;
