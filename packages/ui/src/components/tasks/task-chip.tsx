@@ -104,7 +104,7 @@ const taskChip = tv({
         root: [
           "items-baseline gap-1.5 rounded-full border border-transparent bg-fill-muted py-0 pr-2 pl-1 align-baseline",
           // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
-          "[font-size:inherit] leading-[1.2em] font-[450] text-foreground-muted hover:brightness-100",
+          "[font-size:inherit] leading-[1.2em] font-[450] hover:brightness-100",
           "[&>svg]:size-[0.857em] [&>svg]:self-center",
         ],
       },
