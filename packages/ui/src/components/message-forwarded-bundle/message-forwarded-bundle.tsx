@@ -9,6 +9,7 @@ import {
 } from "../message-embed";
 import {
   messageForwardedBundle,
+  messageForwardedBundleGallery,
   messageForwardedBundleItem,
 } from "./message-forwarded-bundle.recipe";
 
@@ -17,15 +18,16 @@ type SpanProps = useRender.ComponentProps<"span">;
 type ButtonProps = useRender.ComponentProps<"button">;
 type ArticleProps = useRender.ComponentProps<"article">;
 
-export type MessageForwardedBundleProps = DivProps;
+export type MessageForwardedBundleProps = DivProps & { fullWidth?: boolean };
 
 export function MessageForwardedBundle({
   className,
+  fullWidth = false,
   render,
   ...props
 }: MessageForwardedBundleProps) {
   const theme = useThemeFamily();
-  const { root } = messageForwardedBundle({ theme });
+  const { root } = messageForwardedBundle({ theme, fullWidth });
 
   return <MessageEmbed className={root({ className })} render={render} {...props} />;
 }
@@ -188,21 +190,115 @@ export function MessageForwardedBundleAttachments({
   });
 }
 
-export type MessageForwardedBundleAttachmentProps = SpanProps;
+export type MessageForwardedBundleAttachmentProps = SpanProps & {
+  /**
+   * Marks the attachment as actionable (the consumer wires the open action on
+   * `render`). Adds the pointer/hover/focus affordance to the chip.
+   */
+  interactive?: boolean;
+};
 
 export function MessageForwardedBundleAttachment({
   className,
+  interactive = false,
   render,
   ...props
 }: MessageForwardedBundleAttachmentProps) {
   const theme = useThemeFamily();
-  const { attachment } = messageForwardedBundleItem({ theme });
+  const { attachment } = messageForwardedBundleItem({
+    theme,
+    action: interactive ? "interactive" : "static",
+  });
 
   return useRender({
     defaultTagName: "span",
     render,
     props: mergeProps<"span">({ className: attachment({ className }) }, props),
     state: { slot: "message-forwarded-bundle-attachment" },
+  });
+}
+
+export type MessageForwardedBundleGalleryProps = DivProps;
+
+/**
+ * Horizontal image strip for forwarded attachments: the component owns the
+ * three-up snap layout and edge cues; the consumer slots in the media and
+ * wires the open action.
+ */
+export function MessageForwardedBundleGallery({
+  className,
+  render,
+  ...props
+}: MessageForwardedBundleGalleryProps) {
+  const theme = useThemeFamily();
+  const { gallery } = messageForwardedBundleGallery({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: gallery({ className }) }, props),
+    state: { slot: "message-forwarded-bundle-gallery" },
+  });
+}
+
+export type MessageForwardedBundleGalleryViewportProps = DivProps;
+
+/** The snap scroller itself — children are the tiles (or any media). */
+export function MessageForwardedBundleGalleryViewport({
+  className,
+  render,
+  ...props
+}: MessageForwardedBundleGalleryViewportProps) {
+  const theme = useThemeFamily();
+  const { viewport } = messageForwardedBundleGallery({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: viewport({ className }) }, props),
+    state: { slot: "message-forwarded-bundle-gallery-viewport" },
+  });
+}
+
+export type MessageForwardedBundleGalleryTileProps = DivProps;
+
+/** A square media cell. Slot the `<img>`/`<video>` in; media fills the cell. */
+export function MessageForwardedBundleGalleryTile({
+  className,
+  render,
+  ...props
+}: MessageForwardedBundleGalleryTileProps) {
+  const theme = useThemeFamily();
+  const { tile } = messageForwardedBundleGallery({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: tile({ className }) }, props),
+    state: { slot: "message-forwarded-bundle-gallery-tile" },
+  });
+}
+
+export type MessageForwardedBundleGalleryCueProps = DivProps & {
+  /** Which edge the overflow cue hints at. */
+  side?: "left" | "right";
+};
+
+/** Edge hint for a scrollable gallery; themed, never a hardcoded white. */
+export function MessageForwardedBundleGalleryCue({
+  className,
+  side,
+  render,
+  ...props
+}: MessageForwardedBundleGalleryCueProps) {
+  const theme = useThemeFamily();
+  const { cue } = messageForwardedBundleGallery({ theme, side });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: cue({ className }) }, props),
+    state: { slot: "message-forwarded-bundle-gallery-cue" },
   });
 }
 
