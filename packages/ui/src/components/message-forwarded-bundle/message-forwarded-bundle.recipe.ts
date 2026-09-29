@@ -134,7 +134,7 @@ export const messageForwardedBundleItem = tv({
  */
 export const messageForwardedBundleGallery = tv({
   slots: {
-    gallery: ["relative min-w-0"],
+    gallery: ["group/gallery relative min-w-0"],
     viewport: [
       "scrollbar-none grid grid-flow-col auto-cols-[calc((100%-1rem)/3)] snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain",
     ],
@@ -142,7 +142,7 @@ export const messageForwardedBundleGallery = tv({
       "group/media relative aspect-square w-full min-w-0 overflow-hidden",
       "[&_img]:block [&_img]:size-full  [&_img]:object-cover",
     ],
-    cue: ["pointer-events-none absolute inset-y-0 z-10 w-5"],
+    cue: ["pointer-events-none absolute inset-y-0 z-10 w-5 opacity-0 transition-opacity"],
   },
   variants: {
     theme: {
@@ -162,22 +162,30 @@ export const messageForwardedBundleGallery = tv({
     {
       theme: "brutal",
       side: "left",
-      class: { cue: "left-0 bg-linear-to-r from-white to-transparent" },
+      class: {
+        cue: "left-0 bg-linear-to-r from-white to-transparent group-data-[overflow-left=true]/gallery:opacity-100",
+      },
     },
     {
       theme: "brutal",
       side: "right",
-      class: { cue: "right-0 bg-linear-to-l from-white to-transparent" },
+      class: {
+        cue: "right-0 bg-linear-to-l from-white to-transparent group-data-[overflow-right=true]/gallery:opacity-100",
+      },
     },
     {
       theme: "elegant",
       side: "left",
-      class: { cue: "left-0 bg-linear-to-r from-layer-panel to-transparent" },
+      class: {
+        cue: "left-0 bg-linear-to-r from-layer-panel to-transparent group-data-[overflow-left=true]/gallery:opacity-100",
+      },
     },
     {
       theme: "elegant",
       side: "right",
-      class: { cue: "right-0 bg-linear-to-l from-layer-panel to-transparent" },
+      class: {
+        cue: "right-0 bg-linear-to-l from-layer-panel to-transparent ",
+      },
     },
   ],
 });

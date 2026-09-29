@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
@@ -218,90 +219,6 @@ export function MessageForwardedBundleAttachment({
   });
 }
 
-export type MessageForwardedBundleGalleryProps = DivProps;
-
-/**
- * Horizontal image strip for forwarded attachments: the component owns the
- * three-up snap layout and edge cues; the consumer slots in the media and
- * wires the open action.
- */
-export function MessageForwardedBundleGallery({
-  className,
-  render,
-  ...props
-}: MessageForwardedBundleGalleryProps) {
-  const theme = useThemeFamily();
-  const { gallery } = messageForwardedBundleGallery({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: gallery({ className }) }, props),
-    state: { slot: "message-forwarded-bundle-gallery" },
-  });
-}
-
-export type MessageForwardedBundleGalleryViewportProps = DivProps;
-
-/** The snap scroller itself — children are the tiles (or any media). */
-export function MessageForwardedBundleGalleryViewport({
-  className,
-  render,
-  ...props
-}: MessageForwardedBundleGalleryViewportProps) {
-  const theme = useThemeFamily();
-  const { viewport } = messageForwardedBundleGallery({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: viewport({ className }) }, props),
-    state: { slot: "message-forwarded-bundle-gallery-viewport" },
-  });
-}
-
-export type MessageForwardedBundleGalleryTileProps = DivProps;
-
-/** A square media cell. Slot the `<img>`/`<video>` in; media fills the cell. */
-export function MessageForwardedBundleGalleryTile({
-  className,
-  render,
-  ...props
-}: MessageForwardedBundleGalleryTileProps) {
-  const theme = useThemeFamily();
-  const { tile } = messageForwardedBundleGallery({ theme });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: tile({ className }) }, props),
-    state: { slot: "message-forwarded-bundle-gallery-tile" },
-  });
-}
-
-export type MessageForwardedBundleGalleryCueProps = DivProps & {
-  /** Which edge the overflow cue hints at. */
-  side?: "left" | "right";
-};
-
-/** Edge hint for a scrollable gallery; themed, never a hardcoded white. */
-export function MessageForwardedBundleGalleryCue({
-  className,
-  side,
-  render,
-  ...props
-}: MessageForwardedBundleGalleryCueProps) {
-  const theme = useThemeFamily();
-  const { cue } = messageForwardedBundleGallery({ theme, side });
-
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: cue({ className }) }, props),
-    state: { slot: "message-forwarded-bundle-gallery-cue" },
-  });
-}
-
 export type MessageForwardedBundleAttachmentNameProps = SpanProps;
 
 export function MessageForwardedBundleAttachmentName({
@@ -397,5 +314,82 @@ export function MessageForwardedBundleFooterAction({
     render,
     props: mergeProps<"button">({ type: "button", className: footerAction({ className }) }, props),
     state: { slot: "message-forwarded-bundle-footer-action" },
+  });
+}
+
+export type MessageForwardedBundleGalleryProps = DivProps;
+
+/**
+ * Horizontal image strip for forwarded attachments. The gallery owns the
+ * layout (three-up snap scroller) and the edge cues: it watches the scroller
+ * and marks `data-overflow-left` / `data-overflow-right` on the root, so a
+ * cue only shows while that side still has content to reveal. Consumers only
+ * place the media (`MessageForwardedBundleGalleryTile`).
+ */
+export function MessageForwardedBundleGallery({
+  className,
+  children,
+  ...props
+}: MessageForwardedBundleGalleryProps) {
+  const theme = useThemeFamily();
+  const { gallery, viewport, cue } = messageForwardedBundleGallery({ theme });
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const [overflow, setOverflow] = useState({ left: false, right: false });
+
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const update = () => {
+      const max = Math.max(0, el.scrollWidth - el.clientWidth);
+      const next = { left: el.scrollLeft > 2, right: el.scrollLeft < max - 2 };
+      setOverflow((current) =>
+        current.left === next.left && current.right === next.right ? current : next,
+      );
+    };
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+    observer?.observe(el);
+    return () => {
+      el.removeEventListener("scroll", update);
+      observer?.disconnect();
+    };
+  }, []);
+
+  return (
+    <div
+      {...mergeProps<"div">({ className: gallery({ className }) }, props)}
+      data-overflow-left={overflow.left ? "true" : undefined}
+      data-overflow-right={overflow.right ? "true" : undefined}
+    >
+      <div
+        ref={viewportRef}
+        className={viewport()}
+        data-slot="message-forwarded-bundle-gallery-viewport"
+      >
+        {children}
+      </div>
+      <div aria-hidden className={cue({ side: "left" })} data-side="left" />
+      <div aria-hidden className={cue({ side: "right" })} data-side="right" />
+    </div>
+  );
+}
+
+export type MessageForwardedBundleGalleryTileProps = DivProps;
+
+/** A square media cell. Slot the `<img>`/`<video>` in; media fills the cell. */
+export function MessageForwardedBundleGalleryTile({
+  className,
+  render,
+  ...props
+}: MessageForwardedBundleGalleryTileProps) {
+  const theme = useThemeFamily();
+  const { tile } = messageForwardedBundleGallery({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: tile({ className }) }, props),
+    state: { slot: "message-forwarded-bundle-gallery-tile" },
   });
 }

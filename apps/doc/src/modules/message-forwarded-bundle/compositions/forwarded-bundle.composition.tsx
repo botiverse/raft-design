@@ -28,9 +28,7 @@ import {
   MessageForwardedBundleAttachments,
   MessageForwardedBundleFooter,
   MessageForwardedBundleGallery,
-  MessageForwardedBundleGalleryCue,
   MessageForwardedBundleGalleryTile,
-  MessageForwardedBundleGalleryViewport,
   MessageForwardedBundleHeader,
   MessageForwardedBundleHeaderContent,
   MessageForwardedBundleHeaderCount,
@@ -57,6 +55,7 @@ const FORWARDED_FIXTURE_IMAGES = [
   "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20width='96'%20height='96'%20fill='%23dbeafe'/%3E%3Ccircle%20cx='48'%20cy='46'%20r='20'%20fill='%2360a5fa'/%3E%3C/svg%3E",
   "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20width='96'%20height='96'%20fill='%23dcfce7'/%3E%3Crect%20x='26'%20y='26'%20width='44'%20height='44'%20fill='%234ade80'/%3E%3C/svg%3E",
   "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20width='96'%20height='96'%20fill='%23fef3c7'/%3E%3Cpath%20d='M48%2028l20%2036H28z'%20fill='%23f59e0b'/%3E%3C/svg%3E",
+  "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20width='96'%20height='96'%20fill='%23fce7f3'/%3E%3Ccircle%20cx='36'%20cy='40'%20r='14'%20fill='%23ec4899'/%3E%3Ccircle%20cx='62'%20cy='58'%20r='14'%20fill='%23f9a8d4'/%3E%3C/svg%3E",
 ];
 
 export type ForwardedBundleEmbeddedCompositionProps = {
@@ -120,15 +119,11 @@ function ForwardedBundleItemsContent({
             <MessageForwardedBundleAttachments>
               {item.images?.length ? (
                 <MessageForwardedBundleGallery>
-                  <MessageForwardedBundleGalleryViewport>
-                    {item.images.map((src, index) => (
-                      <MessageForwardedBundleGalleryTile key={`${item.id}-image-${index}`}>
-                        <img src={src} alt="" />
-                      </MessageForwardedBundleGalleryTile>
-                    ))}
-                  </MessageForwardedBundleGalleryViewport>
-                  <MessageForwardedBundleGalleryCue side="left" />
-                  <MessageForwardedBundleGalleryCue side="right" />
+                  {item.images.map((src, index) => (
+                    <MessageForwardedBundleGalleryTile key={`${item.id}-image-${index}`}>
+                      <img src={src} alt="" />
+                    </MessageForwardedBundleGalleryTile>
+                  ))}
                 </MessageForwardedBundleGallery>
               ) : null}
               {item.attachment ? (

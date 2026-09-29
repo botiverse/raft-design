@@ -17,9 +17,7 @@ export {
   MessageForwardedBundleSourceLabel,
   MessageForwardedBundleFooterAction,
   MessageForwardedBundleGallery,
-  MessageForwardedBundleGalleryCue,
   MessageForwardedBundleGalleryTile,
-  MessageForwardedBundleGalleryViewport,
 } from "./message-forwarded-bundle";
 export type {
   MessageForwardedBundleAttachmentMetaProps,
@@ -39,8 +37,6 @@ export type {
   MessageForwardedBundleSourceLabelProps,
   MessageForwardedBundleSourceProps,
   MessageForwardedBundleFooterActionProps,
-  MessageForwardedBundleGalleryCueProps,
   MessageForwardedBundleGalleryProps,
   MessageForwardedBundleGalleryTileProps,
-  MessageForwardedBundleGalleryViewportProps,
 } from "./message-forwarded-bundle";

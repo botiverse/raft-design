@@ -1025,9 +1025,7 @@ export {
   MessageForwardedBundleAttachments,
   MessageForwardedBundleFooter,
   MessageForwardedBundleGallery,
-  MessageForwardedBundleGalleryCue,
   MessageForwardedBundleGalleryTile,
-  MessageForwardedBundleGalleryViewport,
   MessageForwardedBundleHeader,
   MessageForwardedBundleHeaderContent,
   MessageForwardedBundleHeaderCount,
@@ -1058,10 +1056,8 @@ export type {
   MessageForwardedBundleSourceLabelProps,
   MessageForwardedBundleSourceProps,
   MessageForwardedBundleFooterActionProps,
-  MessageForwardedBundleGalleryCueProps,
   MessageForwardedBundleGalleryProps,
   MessageForwardedBundleGalleryTileProps,
-  MessageForwardedBundleGalleryViewportProps,
 } from "./components/message-forwarded-bundle/index";
 
 export {
