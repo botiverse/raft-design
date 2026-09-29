@@ -184,7 +184,7 @@ export const messageForwardedBundleGallery = tv({
       theme: "elegant",
       side: "right",
       class: {
-        cue: "right-0 bg-linear-to-l from-layer-panel to-transparent ",
+        cue: "right-0 bg-linear-to-l from-layer-panel to-transparent group-data-[overflow-right=true]/gallery:opacity-100",
       },
     },
   ],

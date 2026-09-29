@@ -348,11 +348,18 @@ export function MessageForwardedBundleGallery({
     };
     update();
     el.addEventListener("scroll", update, { passive: true });
-    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
-    observer?.observe(el);
+    const resizeObserver =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+    resizeObserver?.observe(el);
+    // Tiles can arrive after mount (attachment URLs resolve asynchronously);
+    // the content grows without the viewport resizing, so watch the DOM too.
+    const mutationObserver =
+      typeof MutationObserver === "undefined" ? null : new MutationObserver(update);
+    mutationObserver?.observe(el, { childList: true, subtree: true });
     return () => {
       el.removeEventListener("scroll", update);
-      observer?.disconnect();
+      resizeObserver?.disconnect();
+      mutationObserver?.disconnect();
     };
   }, []);
 

@@ -1,7 +1,9 @@
 import "./message-forwarded-bundle.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
+import type { ReactElement } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
 import {
   MessageForwardedBundle,
   MessageForwardedBundleGallery,
@@ -19,8 +21,6 @@ afterEach(cleanup);
 
 const IMAGE =
   "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20width='96'%20height='96'%20fill='%23dbeafe'/%3E%3C/svg%3E";
-
-type Theme = "brutal" | "elegant";
 
 function renderBundle(theme: Theme, options: { fullWidth?: boolean; width?: number } = {}) {
   const { fullWidth = false, width = 560 } = options;
@@ -51,9 +51,14 @@ function renderBundle(theme: Theme, options: { fullWidth?: boolean; width?: numb
   );
 }
 
-function renderGallery(theme: Theme, images: number, width = 560) {
-  return render(
-    <ThemeProvider theme={theme}>
+function galleryJsx(
+  theme: Theme,
+  images: number,
+  options: { width?: number; mode?: ThemeMode } = {},
+): ReactElement {
+  const { width = 560, mode } = options;
+  return (
+    <ThemeProvider theme={theme} mode={mode}>
       <div style={{ width }}>
         <MessageForwardedBundleGallery data-testid="gallery">
           {Array.from({ length: images }, (_, index) => (
@@ -63,8 +68,16 @@ function renderGallery(theme: Theme, images: number, width = 560) {
           ))}
         </MessageForwardedBundleGallery>
       </div>
-    </ThemeProvider>,
+    </ThemeProvider>
   );
+}
+
+function renderGallery(
+  theme: Theme,
+  images: number,
+  options: { width?: number; mode?: ThemeMode } = {},
+) {
+  return render(galleryJsx(theme, images, options));
 }
 
 function viewportOf(testid: string) {
@@ -121,33 +134,55 @@ it("elegant forwarded body reads at message scale with an emphasised author", ()
   ).toBeGreaterThanOrEqual(600);
 });
 
-it("an exactly-fitting strip shows no edge cues", async () => {
-  renderGallery("elegant", 3);
-  const viewport = viewportOf("gallery");
-  await expectCueOpacity("left", "0");
-  await expectCueOpacity("right", "0");
-  // Nothing to reveal on either side.
-  expect(screen.getByTestId("gallery").getAttribute("data-overflow-right")).toBeNull();
-  expect(Math.abs(viewport.scrollWidth - viewport.clientWidth)).toBeLessThanOrEqual(2);
-});
+// The cue hooks live in per-theme recipe entries; a hook missing in one theme
+// (which happened in review) passes every Brutal-only assertion, so the
+// scroll behavior is asserted across all three theme configurations.
+const GALLERY_THEMES: readonly { key: string; theme: Theme; mode?: ThemeMode }[] = [
+  { key: "brutal", theme: "brutal" },
+  { key: "elegant light", theme: "elegant", mode: "light" },
+  { key: "elegant dark", theme: "elegant", mode: "dark" },
+];
 
-it("a scrollable strip reveals only the cue for the side that still has content", async () => {
-  renderGallery("brutal", 4);
-  const viewport = viewportOf("gallery");
-  const max = viewport.scrollWidth - viewport.clientWidth;
-  expect(max).toBeGreaterThan(2);
-  // At the start: content waits on the right only.
-  await expectCueOpacity("left", "0");
-  await expectCueOpacity("right", "1");
-  // Mid-scroll: content waits on both sides.
-  viewport.scrollLeft = Math.round(max / 2);
-  viewport.dispatchEvent(new Event("scroll"));
-  await expectCueOpacity("left", "1");
-  await expectCueOpacity("right", "1");
-  // At the end: the right cue retires.
-  viewport.scrollLeft = max;
-  viewport.dispatchEvent(new Event("scroll"));
+for (const { key, theme, mode } of GALLERY_THEMES) {
+  it(`an exactly-fitting strip shows no edge cues — ${key}`, async () => {
+    renderGallery(theme, 3, { mode });
+    const viewport = viewportOf("gallery");
+    await expectCueOpacity("left", "0");
+    await expectCueOpacity("right", "0");
+    // Nothing to reveal on either side.
+    expect(screen.getByTestId("gallery").getAttribute("data-overflow-right")).toBeNull();
+    expect(Math.abs(viewport.scrollWidth - viewport.clientWidth)).toBeLessThanOrEqual(2);
+  });
+
+  it(`a scrollable strip reveals only the cue for the side that still has content — ${key}`, async () => {
+    renderGallery(theme, 4, { mode });
+    const viewport = viewportOf("gallery");
+    const max = viewport.scrollWidth - viewport.clientWidth;
+    expect(max).toBeGreaterThan(2);
+    // At the start: content waits on the right only.
+    await expectCueOpacity("left", "0");
+    await expectCueOpacity("right", "1");
+    // Mid-scroll: content waits on both sides.
+    viewport.scrollLeft = Math.round(max / 2);
+    viewport.dispatchEvent(new Event("scroll"));
+    await expectCueOpacity("left", "1");
+    await expectCueOpacity("right", "1");
+    // At the end: the right cue retires.
+    viewport.scrollLeft = max;
+    viewport.dispatchEvent(new Event("scroll"));
+    await expectCueOpacity("right", "0");
+  });
+}
+
+it("tiles arriving after mount surface the trailing cue without a scroll", async () => {
+  // Attachment URLs resolve asynchronously in the app: the strip grows while
+  // the viewport stays the same size, so the overflow must be recomputed on
+  // DOM changes, not only on scroll/resize.
+  const view = renderGallery("elegant", 2);
   await expectCueOpacity("right", "0");
+  view.rerender(galleryJsx("elegant", 5));
+  await expectCueOpacity("right", "1");
+  await expectCueOpacity("left", "0");
 });
 
 it("fullWidth releases the 34rem cap", () => {
