@@ -1,6 +1,6 @@
 {
   "name": "raft-ui",
-  "version": "0.5.17",
+  "version": "0.5.18",
   "description": "React UI components for Raft.",
   "keywords": [
     "agent-skills",
