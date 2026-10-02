@@ -13,7 +13,7 @@ import {
 } from "raft-ui";
 import type { OrderedTabItem } from "raft-ui";
 import { Bell, CreditCard, Files, Settings, MessageSquare, Users } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ComponentType } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -456,6 +456,14 @@ function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["p
   const [placement, setPlacement] = useState<(typeof PLACEMENTS)[number]>("top");
   const [background, setBackground] = useState(true);
   const [icons, setIcons] = useState(true);
+  const handlePlacementChange = useCallback(
+    (value: string) => setPlacement(value as (typeof PLACEMENTS)[number]),
+    [],
+  );
+  const handleVariantChange = useCallback(
+    (value: string) => setVariant(value as (typeof VARIANTS)[number]),
+    [],
+  );
 
   return (
     <Preview>
@@ -494,7 +502,7 @@ function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["p
             label="Placement"
             options={PLACEMENTS}
             value={placement}
-            onValueChange={(value) => setPlacement(value as (typeof PLACEMENTS)[number])}
+            onValueChange={handlePlacementChange}
           />
         </Preview.Control>
         <Preview.Control label="Variant" htmlFor="tabs-preview-variant">
@@ -503,7 +511,7 @@ function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["p
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as (typeof VARIANTS)[number])}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Background" htmlFor="tabs-preview-background">

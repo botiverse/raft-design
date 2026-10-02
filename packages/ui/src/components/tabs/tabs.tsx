@@ -298,6 +298,15 @@ export function Tabs<T extends string = string>({
   const [uncontrolledValue, setUncontrolledValue] = useState<T | undefined>(defaultValue);
   const resolvedValue = value ?? uncontrolledValue;
   const { root } = tabs({ placement });
+  const handleValueChange = useCallback<NonNullable<BaseTabs.Root.Props["onValueChange"]>>(
+    (nextValue, eventDetails) => {
+      if (nextValue == null) return;
+      const typedValue = String(nextValue) as T;
+      if (value === undefined) setUncontrolledValue(typedValue);
+      onValueChange?.(typedValue, eventDetails);
+    },
+    [value, onValueChange],
+  );
 
   return (
     <TabsPlacementContext.Provider value={placement}>
@@ -309,12 +318,7 @@ export function Tabs<T extends string = string>({
           }
           value={value}
           defaultValue={defaultValue}
-          onValueChange={(nextValue, eventDetails) => {
-            if (nextValue == null) return;
-            const typedValue = String(nextValue) as T;
-            if (value === undefined) setUncontrolledValue(typedValue);
-            onValueChange?.(typedValue, eventDetails);
-          }}
+          onValueChange={handleValueChange}
           data-slot="tabs"
           data-placement={placement}
           className={root({ className })}
