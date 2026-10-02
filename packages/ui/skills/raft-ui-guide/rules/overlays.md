@@ -82,11 +82,13 @@ function DeleteChannelAlertDialog() {
         </AlertDialogHeader>
         <AlertDialogBody>
           <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
-          {error ? <AlertDialogDescription role="alert">{error}</AlertDialogDescription> : null}
+          {error ? <p role="alert">{error}</p> : null}
         </AlertDialogBody>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={pending}>Keep</AlertDialogCancel>
-          <AlertDialogAction variant="danger" loading={pending} onClick={handleDelete}>
+          <AlertDialogCancel size="md" disabled={pending}>
+            Keep
+          </AlertDialogCancel>
+          <AlertDialogAction variant="danger" size="md" loading={pending} onClick={handleDelete}>
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -96,7 +98,7 @@ function DeleteChannelAlertDialog() {
 }
 ```
 
-`AlertDialogCancel` is a dialog close part and dismisses automatically. `AlertDialogAction` is a named `Button` slot; it does **not** close the dialog. Wire the confirm behavior yourself. For async work, control `open`, show `loading`, close only after success, and leave the dialog open with an error on failure. Disable or block dismissal while pending only when the operation cannot safely be abandoned.
+`AlertDialogCancel` is a dialog close part and dismisses automatically. `AlertDialogAction` is a named `Button` slot; it does **not** close the dialog. Wire the confirm behavior yourself. `AlertDialogCancel` defaults to `size="sm"` and `AlertDialogAction` to `md`; set the same size on both. For async work, control `open`, show `loading`, close only after success, and leave the dialog open with an error on failure. Disable or block dismissal while pending only when the operation cannot safely be abandoned.
 
 Everything else — a form, a settings pane, a multi-step flow — is `Dialog`.
 
@@ -114,7 +116,7 @@ Both block. They differ in where they come from and how long the user stays.
 | Good for       | Short, focused task         | Longer browsing, side detail, mobile sheets |
 | Content length | Fits without much scrolling | Expected to scroll                          |
 
-`Drawer` adds `DrawerActions` for a persistent action row. On small screens prefer `Drawer` over `Dialog` for anything taller than a couple of fields.
+Inside `DrawerFooter`, `DrawerActions` stacks its buttons full width. On small screens prefer `Drawer` over `Dialog` for anything taller than a couple of fields.
 
 ---
 
@@ -162,7 +164,7 @@ A tooltip disappears when the pointer leaves, so the user can never reach that b
 
 Wrap related tooltips in `TooltipProvider` to share delay and instant-open behavior. `TooltipContent` detects a leading icon and lays it out beside the label automatically — do not add manual icon padding.
 
-Never put a tooltip on something that has no other affordance. If the only way to learn what a button does is to hover, the button needs a label.
+A tooltip supplements an accessible name; it never replaces one. Keep it to a phrase, without line breaks.
 
 ---
 
@@ -217,10 +219,8 @@ Every blocking overlay needs a `Title`, even when the design shows no visible he
 
 ## Per-component norms
 
-**`Popover`** — `PopoverViewport` handles scrolling content; `PopoverArrow` is optional and should be omitted when the popover is wide. `PopoverHeader`, `PopoverTitle`, `PopoverDescription`, and `PopoverSeparator` are available for structured content.
+**`Popover`** — `PopoverViewport` animates content changes when one popover is shared by several triggers; `PopoverArrow` is optional and should be omitted when the popover is wide. `PopoverHeader`, `PopoverTitle`, `PopoverDescription`, and `PopoverSeparator` are available for structured content.
 
 **`Dialog` / `AlertDialog` / `Drawer`** — put actions in the `Footer`, not at the end of the `Body`. `DialogClose` in the `Header` renders the corner dismiss; `DialogClose` in the `Footer` with `render={<Button variant="outline" />}` renders the cancel button. The confirm button uses `variant="accent"` — accent is the core-action color — unless the action is destructive, which stays `danger`.
 
-**`Tooltip`** — keep to a phrase. No punctuation-heavy sentences, no line breaks.
-
-**`NotificationCenter`** — an inbox surface, not a generic overlay primitive. It has its own trigger, popup, list, and empty state. `NotificationCenterPopup` takes `viewport="desktop"` or `viewport="mobile"`. See [feedback.md](./feedback.md).
+`NotificationCenter` is an inbox surface, not a generic overlay primitive — see [feedback.md](./feedback.md).

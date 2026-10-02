@@ -1,6 +1,6 @@
 # Theme Lenses
 
-These lenses extend Interface Craft's evidence-first critique sequence with raft-ui's preset, token, and ownership contracts. Use all four lenses for a full review: the cross-theme lens plus one independent pass for each presentation preset. Before making token- or typography-specific claims, verify current implementation details from source `packages/ui/src/foundation.css` and `packages/ui/src/fonts.css`, or from published `node_modules/raft-ui/dist/foundation.css` and `node_modules/raft-ui/dist/fonts.css`. Do not require repository-only files when the skill is installed from npm.
+Use all four lenses for a full review: the cross-theme lens plus one independent pass for each presentation preset. Verify token- or typography-specific claims against `foundation.css` and `fonts.css` (see Package evidence lookup in SKILL.md).
 
 ## Cross-theme lens
 
@@ -9,7 +9,6 @@ Check whether the three presets preserve:
 - The same component identity, content, reading order, and interaction model.
 - Equivalent importance for primary actions, destructive actions, status, metadata, and secondary controls.
 - Usable geometry: no theme-only clipping, wrapping, crowding, overlay collision, or target shrinkage.
-- Complete state language: default, hover, pressed, focus-visible, disabled, selected/open/checked, invalid, loading, and empty states as applicable.
 - Component ownership: themes may restyle structure but must not add, remove, or replace business DOM.
 - Semantic color roles: primary is interactive expression and hints; accent is core or important action; state colors communicate state rather than decoration.
 - Contextual fit: the component still belongs in the surrounding shell instead of looking like a pasted theme demo.
@@ -36,7 +35,6 @@ Judge deliberate boldness, not conformity to Elegant:
 - Rectilinear geometry and typography should feel intentional. Flag isolated rounded corners, mismatched stroke weights, weak alignment, and accidental Elegant residue.
 - Bold type, outlines, and color create high baseline intensity. Require a clear entry point and quieter secondary information so the surface does not shout uniformly.
 - Hover, pressed, selected, and focus states must remain distinguishable from the already-high-contrast resting state.
-- Preserve claimed source parity exactly when parity is in scope. Do not use parity as an excuse for inaccessible or inert new behavior.
 
 Ask: does this feel forceful and legible, or merely loud?
 

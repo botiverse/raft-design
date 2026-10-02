@@ -16,7 +16,6 @@ These encode the Raft product shape. Reach for them before assembling anything c
 - Sidebar structure
 - Message surfaces
 - Composer structure
-- What stays in your app
 
 ---
 
@@ -36,8 +35,6 @@ These encode the Raft product shape. Reach for them before assembling anything c
 | Workspace search results            | `SearchShellRoot`             |
 | Live agent activity strip           | `LiveAgentActivityBar`        |
 
-The sidebar family is named `Sidebar*`, not `ChatSidebar*` — it was generalized to shared navigation primitives. If you find `ChatSidebar` anywhere, it is pre-0.2 code.
-
 ---
 
 ## ConversationPanel vs ThreadPanel
@@ -52,7 +49,7 @@ They are not the same component with a different width.
 
 `ThreadPanel` carries thread-specific parts that have no equivalent in the conversation column: `ThreadPanelOriginalMessage`, `ThreadPanelReplyCount`, `ThreadPanelReplySummary`, and an in-thread search (`ThreadPanelSearch`, `ThreadPanelSearchCount`, `ThreadPanelSearchTrailing`).
 
-`ConversationPanel` keeps its own root, body, tabs, and empty state (`ConversationPanelRoot`, `ConversationPanelBody`, `ConversationPanelContent`, `ConversationPanelFooter`, `ConversationPanelTabs`, `ConversationPanelEmptyState` with `…Brand` / `…BrandMark`), but its **header chrome is the shared `Panel*` set owned by the `Panel` component**: `PanelHeader` with `PanelHeaderContent` / `PanelHeaderIcon` / `PanelHeading` / `PanelTitle` / `PanelMeta` / `PanelActions`, plus `PanelStatus` and `PanelActivity` — see the header guidance in [layout.md](./layout.md).
+`ConversationPanel` keeps its own root, body, tabs, and empty state (`ConversationPanelRoot`, `ConversationPanelBody`, `ConversationPanelContent`, `ConversationPanelFooter`, `ConversationPanelTabs`, `ConversationPanelEmptyState` with `…Brand` / `…BrandMark`), but its **header uses the shared `PanelHeader` chrome** — see [layout.md](./layout.md).
 
 Use `ConversationPanelEmptyState` rather than the generic `EmptyState` inside a conversation.
 
@@ -69,10 +66,7 @@ These are product-shaped presentation surfaces, not state managers.
 | Workspace search   | `SearchShellRoot`, filters, viewport, result sections and lists                              | query, filters, fetching, ranking, result selection          |
 | Search result      | `SearchEntityResult*`, `SearchMessageResult*`, or `SearchThreadResult*`                      | result data, destination, domain-specific copy               |
 
-Use `NotificationCenter` for delivered notifications that persist until handled. Use
-`ActivityInboxPanel` for a navigable activity or saved-item workflow. Use `SearchShellRoot` for
-cross-entity search results; do not substitute `Combobox`, which is a value picker with collection
-behavior.
+Do not substitute `Combobox` for `SearchShellRoot`; it is a value picker.
 
 `InboxItemTrigger` is the row's primary action and inherits the root's disabled state. Compose
 secondary controls inside `InboxItemActions`; do not put navigation policy or bulk-selection state
@@ -88,7 +82,7 @@ prop.
 
 `Textarea` is a form control. `Composer` is a message-sending surface.
 
-Use the `ComposerRoot` / `Composer` family whenever the input sends a message. It provides the attachment, drop-overlay, toolbar, submit, and suggestion parts; `SortableComposerAttachments` and `useComposerSuggestions` own the reusable behavior they name. Your app still owns selected files, upload lifecycle, send state, and submit policy.
+Use the `ComposerRoot` / `Composer` family whenever the input sends a message. It provides the attachment, drop-overlay, toolbar, submit, and suggestion parts.
 
 Use `Textarea` for a description field in a form.
 
@@ -110,10 +104,9 @@ Naming is regular at three levels — guess by pattern, then confirm against the
 - Unread counts go in `SidebarItemCount`, not appended to the title string.
 - Presence goes in `SidebarItemStatus`, not a hand-placed dot.
 - `SidebarGroupLabel` labels a group of sections; `SidebarSectionTitle` labels one section.
-- `SidebarLiveActivity` is the slot in the sidebar frame; the standalone strip is `LiveAgentActivityBar` (stable) with `…Row` / `…Avatar` / `…Status` / `…Text` parts.
+- `SidebarLiveActivity` is the slot in the sidebar frame; the standalone strip is `LiveAgentActivityBar` with `…Row` / `…Avatar` / `…Status` / `…Text` parts.
 - `SidebarItem`'s `variant` selects the active treatment. In Brutal, `default` is neutral white,
-  `primary` is yellow, and `accent` is pink; Elegant keeps one theme-owned active surface. Use
-  `variant="accent"` when migrating a row that relied on the previous pink active default.
+  `primary` is yellow, and `accent` is pink; Elegant keeps one theme-owned active surface.
 - `LiveAgentActivityBar` keeps its enter and exit lifecycle when `beam={false}`; that option only
   removes the Elegant animated border and glow. Brutal does not render the beam.
 
@@ -174,17 +167,3 @@ ComposerRoot
 Set `ComposerSuggestionIcon variant` to `avatar`, `framed`, or `auxiliary`, and set `ComposerSuggestionMeta variant` to `text` or `code`. Pick `avatar` for people, `framed` for channels and commands, and `code` for anything the user types literally.
 
 The suggestion parts are **styling slots**, not a combobox state machine. `useComposerSuggestions` owns matching and keyboard behavior; the parts render it.
-
----
-
-## What stays in your app
-
-The conversation components are business-agnostic shells. These belong to you, not to a prop on the component:
-
-- Upload lifecycle and retry policy
-- Send permissions, read-only channels, rate limits
-- Notification and mute policy
-- Read/unread tracking
-- Which entities exist and what they are called
-
-The pattern throughout is the same: the library exposes the parts, you choose which to render based on your state.

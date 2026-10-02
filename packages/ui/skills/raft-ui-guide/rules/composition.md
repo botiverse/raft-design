@@ -1,6 +1,6 @@
 ---
 name: composition
-description: "Compound-part composition: render vs asChild, theme resolution, overlay container and business-action ownership, state sinking, structure rules, and transparent wrappers."
+description: "Compound-part composition: render vs asChild, theme resolution, action hierarchy, popup and business-action ownership, state sinking, and transparent wrappers."
 ---
 
 # Composition
@@ -10,27 +10,16 @@ description: "Compound-part composition: render vs asChild, theme resolution, ov
 - Compound parts, never flat props
 - Use the `render` prop, not `asChild`
 - `theme` is never passed by hand
-- Variant names are not consistent across components
-- Dialog / AlertDialog / Drawer structure
+- One group, one primary
 - Keep popup content focused and triggers external
-- Use Field for shared field semantics
 - Do not re-create a library contract with ad hoc markup
-- Product state stays outside reusable primitives
 - Wrapping raft-ui components
 
 ---
 
 ## Compound parts, never flat props
 
-Every non-trivial component exposes named parts. Visible structure is chosen by which parts you render, not by a prop.
-
-**Incorrect:**
-
-```tsx
-<Dialog title="Restart Atlas" description="This ends the session." />
-```
-
-**Correct:**
+Every non-trivial component exposes named parts. Visible structure is chosen by which parts you render, not by a prop such as `<Dialog title="…">`:
 
 ```tsx
 <Dialog>
@@ -53,17 +42,7 @@ If you want a structural difference, look for a part or a sibling component. Do 
 
 ## Use the `render` prop, not `asChild`
 
-Base UI, not Radix. To change the element a part renders as, pass an element to `render`.
-
-**Incorrect:**
-
-```tsx
-<DialogClose asChild>
-  <Button variant="outline">Cancel</Button>
-</DialogClose>
-```
-
-**Correct:**
+Base UI, not Radix. To change the element a part renders as, pass an element to `render`:
 
 ```tsx
 <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
@@ -75,22 +54,7 @@ Children stay on the outer part; `render` receives a bare element.
 
 ## `theme` is never passed by hand
 
-`brutal` and `elegant` are theme families resolved from context. Every component's public props explicitly omit `theme`:
-
-```ts
-export type ButtonProps = StyledProps<BaseButton.Props> &
-  Omit<VariantProps<typeof buttonVariants>, "theme"> & { … };
-```
-
-**Incorrect:**
-
-```tsx
-<Button theme="brutal" variant="primary">
-  Save
-</Button>
-```
-
-**Correct:** wrap the app once and let components adapt.
+`brutal` and `elegant` are theme families resolved from context; no component accepts a `theme` prop. Wrap the app once and let components adapt:
 
 ```tsx
 <ThemeProvider>
@@ -102,29 +66,16 @@ Most application composition should not need to read the active family. Use `use
 
 ---
 
-## Variant names are not consistent across components
+## One group, one primary
 
-Do not carry a variant name from one component to another. Verify per component.
+Variant names differ between components (see the intent table in [feedback.md](./feedback.md)). Within one component, the variants say what exists, not how many of each belong together. A row of actions is a hierarchy, not a set of independent choices:
 
-| Component | Destructive variants                                            |
-| --------- | --------------------------------------------------------------- |
-| `Button`  | `danger`, `danger-secondary`, or `danger-outline` via `variant` |
-| `Banner`  | `destructive` via `status`                                      |
-
-`Banner` statuses are `default` `destructive` `warning` `info` `success`.
-`Button` variants are `primary` `default` `information` `muted` `accent` `warning` `outline` `ghost` `link` `danger-secondary` `danger` `danger-outline`.
-
-### Choosing among them: one group, one primary
-
-The list above says which variants exist, not how many of each belong together.
-A row of actions is a hierarchy, not a set of independent choices:
-
-| Role in the group     | Variant                                               | How many    |
-| --------------------- | ----------------------------------------------------- | ----------- |
-| The action you expect | `primary` (or `accent` where that is the core action) | exactly one |
-| Alternatives          | `outline`                                             | any         |
-| Low-weight / escape   | `ghost` or `link`                                     | at most one |
-| Destructive           | `danger*`                                             | separate it |
+| Role in the group     | Variant                                                             | How many    |
+| --------------------- | ------------------------------------------------------------------- | ----------- |
+| The action you expect | `primary`, or `accent` for a core action such as a dialog's confirm | exactly one |
+| Alternatives          | `outline`                                                           | any         |
+| Low-weight / escape   | `ghost` or `link`                                                   | at most one |
+| Destructive           | `danger*`                                                           | separate it |
 
 Give each action its own variant and the row stops reading as a hierarchy: every
 control is individually legal and the group no longer says which one you meant.
@@ -133,20 +84,6 @@ reason not to be.
 
 Keep a destructive action out of the run of ordinary ones — spacing, a divider, or
 the opposite end. Do not rely on red alone to separate it.
-
-Note `Button` uses `information` while `Banner` uses `info`. When in doubt, look it up — see [lookup.md](./lookup.md).
-
----
-
-## Dialog / AlertDialog / Drawer structure
-
-All three share the same part vocabulary: `Header` / `Body` / `Footer` inside `Content`, with `Title` inside `Header`.
-
-- `Dialog` — generic modal.
-- `AlertDialog` — destructive confirmation. `AlertDialogCancel` closes automatically; `AlertDialogAction` is a named button slot and must run the confirm action and close controlled state explicitly.
-- `Drawer` — edge-anchored panel. Adds `DrawerActions`.
-
-A dialog always needs a `Title`. If the design has no visible title, it still needs one for accessibility.
 
 ---
 
@@ -206,39 +143,23 @@ Dropdown and Context menu actions may share a behavior hook or mutation contract
 
 ---
 
-## Use Field for shared field semantics
-
-Use `Field` when a control has raft-ui label, description, required, or validation treatment. It wires those parts together and keeps their state aligned. A simple native label/control pair may remain native when it does not need this shared layout or validation contract; keep the association explicit and accessible.
-For exact validation wiring and the complete example, read [forms.md](./forms.md#use-field-when-the-field-contract-applies). Do not hand-roll a visually attached but semantically disconnected error paragraph.
-
----
-
 ## Do not re-create a library contract with ad hoc markup
 
-| When you need this raft-ui treatment     | Use                                                            |
-| ---------------------------------------- | -------------------------------------------------------------- |
-| a themed divider                         | `Separator`                                                    |
-| a styled `<span>` for a count or tag     | `Badge`                                                        |
-| a colored dot div                        | `Status`                                                       |
-| raft-ui typography                       | `Text.Sans`, `Text.Mono`, `Text.Heading`, or the named exports |
-| `<code>`                                 | `InlineCode`, or `CopyableCode` when it should be copyable     |
-| a `<kbd>`                                | `Kbd` / `KbdGroup`                                             |
-| a custom "no results" block              | `EmptyState`                                                   |
-| a pulsing gray div                       | `Skeleton`                                                     |
-| a custom callout box                     | `Banner`                                                       |
-| a hand-built avatar circle with initials | `Avatar` + `AvatarImage` + `AvatarFallback`                    |
+| When you need this raft-ui treatment          | Use                                                                            |
+| --------------------------------------------- | ------------------------------------------------------------------------------ |
+| a themed divider                              | `Separator`                                                                    |
+| a styled `<span>` for a count or tag          | `Badge`                                                                        |
+| a colored dot div                             | `Status`                                                                       |
+| raft-ui typography                            | `Text.Sans`, `Text.Mono`, `Text.Heading`, or the named exports                 |
+| `<code>`                                      | `InlineCode`, or `CopyableCode` when it should be copyable                     |
+| a `<kbd>`                                     | `Kbd` / `KbdGroup`                                                             |
+| a custom "no results" block                   | `EmptyState`                                                                   |
+| a pulsing gray div                            | `Skeleton`                                                                     |
+| a custom callout box                          | `Banner`                                                                       |
+| a hand-built avatar circle with initials      | `Avatar` + `AvatarImage` + `AvatarFallback`                                    |
+| a label, help text, or error beside a control | `Field` — see [forms.md](./forms.md#use-field-when-the-field-contract-applies) |
 
 Native elements remain appropriate when their semantics and inherited styling are intentional. The rule is to avoid recreating the library's visual or behavioral contract incompletely, not to wrap every HTML element.
-
-When `Avatar` contains `AvatarImage`, pair it with `AvatarFallback` so a failed image still has an accessible fallback. A childless `Avatar` uses its built-in fallback.
-
----
-
-## Product state stays outside reusable primitives
-
-Generic interaction state (open, focus, selection, keyboard navigation, controlled value) belongs to the reusable primitive. Product state does not.
-
-Upload lifecycle, notification policy, saved/followed flags, permissions, and workflow status live in your app. That does not mean putting all product state in a page or overlay container: sink it into the smallest module-local business component that owns the interaction. Pass visible structure through explicit parts instead of adding a product `state` prop to a primitive.
 
 ---
 
