@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ChevronDown, User } from "lucide-react";
 import {
   Avatar,
@@ -50,12 +50,41 @@ export function TasksAssigneeFilterComposition({
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const matchesQuery = (label: string) => label.toLocaleLowerCase().includes(normalizedQuery);
   const availableIdentities = identities.filter((identity) => matchesQuery(identity.label));
-  const items = ["me", "unassigned", ...identities.map((identity) => identity.id)];
-  const itemToStringLabel = (id: string) => {
-    if (id === "me") return "Assigned to me";
-    if (id === "unassigned") return "Unassigned";
-    return identities.find((identity) => identity.id === id)?.label ?? id;
-  };
+  const items = useMemo(
+    () => ["me", "unassigned", ...identities.map((identity) => identity.id)],
+    [identities],
+  );
+  const itemToStringLabel = useCallback(
+    (id: string) => {
+      if (id === "me") return "Assigned to me";
+      if (id === "unassigned") return "Unassigned";
+      return identities.find((identity) => identity.id === id)?.label ?? id;
+    },
+    [identities],
+  );
+
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      if (nextOpen) setQuery("");
+      onOpenChange?.(nextOpen);
+    },
+    [onOpenChange],
+  );
+
+  const handleInputValueChange = useCallback(
+    (nextQuery: string, eventDetails: { reason: string }) => {
+      if (eventDetails.reason !== "item-press") setQuery(nextQuery);
+    },
+    [],
+  );
+
+  const handleValueChange = useCallback(
+    (nextValue: string[]) => {
+      if (value === undefined) setLocalValue(nextValue);
+      onValueChange?.(nextValue);
+    },
+    [onValueChange, value],
+  );
 
   return (
     <div className="relative inline-flex">
@@ -68,17 +97,9 @@ export function TasksAssigneeFilterComposition({
         defaultOpen={defaultOpen}
         inputValue={query}
         itemToStringLabel={itemToStringLabel}
-        onOpenChange={(nextOpen) => {
-          if (nextOpen) setQuery("");
-          onOpenChange?.(nextOpen);
-        }}
-        onInputValueChange={(nextQuery, eventDetails) => {
-          if (eventDetails.reason !== "item-press") setQuery(nextQuery);
-        }}
-        onValueChange={(nextValue) => {
-          if (value === undefined) setLocalValue(nextValue);
-          onValueChange?.(nextValue);
-        }}
+        onOpenChange={handleOpenChange}
+        onInputValueChange={handleInputValueChange}
+        onValueChange={handleValueChange}
       >
         <ComboboxTrigger aria-label="Assignee" render={<PickerTriggerButton />}>
           <User aria-hidden className="size-3.5" />

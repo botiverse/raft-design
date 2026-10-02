@@ -12,6 +12,7 @@ import {
   SmilePlus,
   X,
 } from "lucide-react";
+import type { FormEvent } from "react";
 import {
   Avatar,
   Button,
@@ -56,6 +57,10 @@ import {
   ComposerInput,
   ComposerToolbar,
 } from "#/modules/chat-composer/composer-responsive.tsx";
+
+function preventSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+}
 
 interface ThreadPanelCompositionProps {
   search?: boolean;
@@ -255,7 +260,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
           </MessageList>
         </ThreadPanelBody>
         <ThreadPanelFooter>
-          <ComposerRoot onSubmit={(event) => event.preventDefault()}>
+          <ComposerRoot onSubmit={preventSubmit}>
             <Composer>
               <ComposerInput aria-label="Message thread" placeholder="Message thread" readOnly />
               <ComposerToolbar>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import type { ChangeEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { InlineCode, Textarea, TextareaCounter, TextareaGroup } from "raft-ui";
 
@@ -137,6 +138,10 @@ export const Route = createFileRoute("/components/textarea")({
 function TextareaDoc() {
   const code = Route.useLoaderData();
   const [counterMessage, setCounterMessage] = useState("The quick brown fox.");
+  const handleCounterMessageChange = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement>) => setCounterMessage(event.currentTarget.value),
+    [],
+  );
 
   return (
     <DocPage
@@ -200,7 +205,7 @@ function TextareaDoc() {
                       aria-label="Message"
                       rows={4}
                       value={counterMessage}
-                      onChange={(event) => setCounterMessage(event.currentTarget.value)}
+                      onChange={handleCounterMessageChange}
                       placeholder="Type your message here."
                     />
                     <TextareaCounter value={counterMessage} limit={24} />

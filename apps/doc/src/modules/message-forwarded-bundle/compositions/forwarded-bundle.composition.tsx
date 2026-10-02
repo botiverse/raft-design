@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   MESSAGE_FIXTURE_AVATAR_SRC,
   MESSAGE_PLAYGROUND_URLS,
@@ -132,6 +132,10 @@ export function ForwardedBundleEmbeddedComposition({
 }: ForwardedBundleEmbeddedCompositionProps = {}) {
   const [expanded, setExpanded] = useState(false);
 
+  const handleToggleExpanded = useCallback(() => {
+    setExpanded((current) => !current);
+  }, []);
+
   return (
     <MessageItemEmbedded>
       <MessageForwardedBundle data-testid="forwarded-bundle-card">
@@ -158,7 +162,7 @@ export function ForwardedBundleEmbeddedComposition({
         </MessageForwardedBundleItems>
         {collapsible ? (
           <MessageForwardedBundleFooter>
-            <MessageForwardedBundleFooterAction onClick={() => setExpanded((current) => !current)}>
+            <MessageForwardedBundleFooterAction onClick={handleToggleExpanded}>
               {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
               {expanded ? "Collapse" : `Show all ${items.length} messages`}
             </MessageForwardedBundleFooterAction>

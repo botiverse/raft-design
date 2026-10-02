@@ -1,6 +1,6 @@
 // @docs-source-strip-start
 import { Home, Settings } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   AppShellMainSlot,
   AppShellRoot,
@@ -13,6 +13,13 @@ import {
 export function AppShellMobileRootComposition() {
   // @docs-source-strip-start
   const [value, setValue] = useState("home");
+
+  const handleSelectHome = useCallback(() => {
+    setValue("home");
+  }, []);
+  const handleSelectSettings = useCallback(() => {
+    setValue("settings");
+  }, []);
   // @docs-source-strip-end
 
   return (
@@ -25,11 +32,11 @@ export function AppShellMobileRootComposition() {
       <MobileNavRoot className="order-last md:hidden" aria-label="Primary navigation">
         {/* ... */}
         {/* @docs-source-strip-start */}
-        <MobileNavItem selected={value === "home"} onClick={() => setValue("home")}>
+        <MobileNavItem selected={value === "home"} onClick={handleSelectHome}>
           <Home />
           <MobileNavLabel>Home</MobileNavLabel>
         </MobileNavItem>
-        <MobileNavItem selected={value === "settings"} onClick={() => setValue("settings")}>
+        <MobileNavItem selected={value === "settings"} onClick={handleSelectSettings}>
           <Settings />
           <MobileNavLabel>Settings</MobileNavLabel>
         </MobileNavItem>

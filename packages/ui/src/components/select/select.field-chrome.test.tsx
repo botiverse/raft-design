@@ -30,6 +30,10 @@ import {
 // None of this is reachable from the recipe: a recipe is a class string, so
 // there is no context to sever and no portal container to vary.
 
+function portalPropsFor(container: HTMLElement | undefined) {
+  return container ? { container } : undefined;
+}
+
 function renderSelect(props: { chrome?: "default" | "field"; container?: HTMLElement } = {}) {
   const { chrome, container } = props;
   return render(
@@ -37,7 +41,7 @@ function renderSelect(props: { chrome?: "default" | "field"; container?: HTMLEle
       <SelectTrigger data-testid="trigger">
         <SelectValue />
       </SelectTrigger>
-      <SelectContent portalProps={container ? { container } : undefined}>
+      <SelectContent portalProps={portalPropsFor(container)}>
         <SelectList>
           <SelectItem value="a" data-testid="item">
             Option A

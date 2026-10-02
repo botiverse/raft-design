@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ComboboxSelect } from "raft-ui/wip";
 import type { ComboboxSelectOption, ComboboxSelectValue } from "raft-ui/wip";
 import { mockQueryOptions, useMockQuery } from "#/lib/mock-query.ts";
@@ -34,13 +34,13 @@ export function AsyncSearchComposition() {
     clearOnFetch: true,
   });
 
-  function handleSearch(nextQuery: string) {
+  const handleSearch = useCallback((nextQuery: string) => {
     setQuery(nextQuery);
-  }
+  }, []);
 
-  function handleValueChange(nextValue: ComboboxSelectValue | null) {
+  const handleValueChange = useCallback((nextValue: ComboboxSelectValue | null) => {
     setValue(nextValue);
-  }
+  }, []);
 
   return (
     <ComboboxSelect

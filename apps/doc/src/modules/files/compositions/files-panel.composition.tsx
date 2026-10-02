@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import type { ReactNode, UIEvent } from "react";
 import {
   Button,
@@ -95,13 +96,16 @@ export function FilesPanelComposition({
   onLoadMore,
   onPreview,
 }: FilesPanelCompositionProps) {
-  const handleViewportScroll = (event: UIEvent<HTMLDivElement>) => {
-    if (!hasMore || loading || loadingMore || !onLoadMore) return;
-    const target = event.currentTarget;
-    if (target.scrollHeight - target.scrollTop - target.clientHeight < LOAD_MORE_THRESHOLD_PX) {
-      onLoadMore();
-    }
-  };
+  const handleViewportScroll = useCallback(
+    (event: UIEvent<HTMLDivElement>) => {
+      if (!hasMore || loading || loadingMore || !onLoadMore) return;
+      const target = event.currentTarget;
+      if (target.scrollHeight - target.scrollTop - target.clientHeight < LOAD_MORE_THRESHOLD_PX) {
+        onLoadMore();
+      }
+    },
+    [hasMore, loading, loadingMore, onLoadMore],
+  );
 
   return (
     <FilesPanel aria-label="Files panel">
@@ -221,9 +225,16 @@ function FileListRow({
   onJumpToOriginal?: (file: FileListEntry) => void;
   onPreview?: (file: FileListEntry) => void;
 }) {
+  const handlePreview = useCallback(() => onPreview?.(file), [file, onPreview]);
+  const handleJumpToOriginal = useCallback(
+    () => onJumpToOriginal?.(file),
+    [file, onJumpToOriginal],
+  );
+  const handleDownload = useCallback(() => onDownload?.(file), [file, onDownload]);
+
   return (
     <FileRow>
-      <FileRowOpen disabled={!onPreview} title="Preview file" onClick={() => onPreview?.(file)}>
+      <FileRowOpen disabled={!onPreview} title="Preview file" onClick={handlePreview}>
         <FileThumbnail>
           <FileThumbnailFallback file={file} />
         </FileThumbnail>
@@ -243,7 +254,7 @@ function FileListRow({
           aria-label="Jump to original message"
           title="Jump to original message"
           disabled={!onJumpToOriginal}
-          onClick={() => onJumpToOriginal?.(file)}
+          onClick={handleJumpToOriginal}
         >
           <ExternalLink aria-hidden />
         </FileAction>
@@ -251,7 +262,7 @@ function FileListRow({
           aria-label="Download file"
           title="Download file"
           disabled={!onDownload}
-          onClick={() => onDownload?.(file)}
+          onClick={handleDownload}
         >
           <Download aria-hidden />
         </FileAction>

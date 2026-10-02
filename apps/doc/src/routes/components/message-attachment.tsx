@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -500,30 +501,28 @@ function MessageAttachmentShowcaseFiles({
 }: {
   code: ReturnType<typeof Route.useLoaderData>;
 }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={false}
-      showLineNumbers={false}
-      files={[
-        {
-          path: SHOWCASE_COMPOSITION_PATH,
-          source: attachmentsShowcaseSource,
-          html: code.attachmentsShowcase,
-          collapsedHtml: code.attachmentsShowcaseBody,
-        },
-        {
-          path: FILE_ATTACHMENTS_COMPOSITION_PATH,
-          source: fileAttachmentsSource,
-          html: code.fileAttachments,
-          collapsedHtml: code.fileAttachmentsBody,
-        },
-        {
-          path: IMAGE_GALLERY_PENDING_COMPOSITION_PATH,
-          source: imageGalleryPendingSource,
-          html: code.imageGalleryPending,
-          collapsedHtml: code.imageGalleryPendingBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: SHOWCASE_COMPOSITION_PATH,
+        source: attachmentsShowcaseSource,
+        html: code.attachmentsShowcase,
+        collapsedHtml: code.attachmentsShowcaseBody,
+      },
+      {
+        path: FILE_ATTACHMENTS_COMPOSITION_PATH,
+        source: fileAttachmentsSource,
+        html: code.fileAttachments,
+        collapsedHtml: code.fileAttachmentsBody,
+      },
+      {
+        path: IMAGE_GALLERY_PENDING_COMPOSITION_PATH,
+        source: imageGalleryPendingSource,
+        html: code.imageGalleryPending,
+        collapsedHtml: code.imageGalleryPendingBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={false} showLineNumbers={false} files={files} />;
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { MESSAGE_FIXTURE_AVATAR_SRC } from "../message-item.fixtures.ts";
 import { Check } from "lucide-react";
 import {
@@ -43,6 +43,10 @@ export function MessageTaskStatusBadgeComposition({
   const [status, setStatus] = useState<TaskStatusId>("todo");
   const current =
     TASK_STATUS_OPTIONS.find((option) => option.id === status) ?? TASK_STATUS_OPTIONS[0];
+  const portalProps = useMemo(
+    () => (portalContainer ? { container: portalContainer } : undefined),
+    [portalContainer],
+  );
 
   return (
     <DropdownMenu>
@@ -64,19 +68,37 @@ export function MessageTaskStatusBadgeComposition({
           </TaskChip>
         }
       />
-      <DropdownMenuContent
-        align="start"
-        portalProps={portalContainer ? { container: portalContainer } : undefined}
-      >
+      <DropdownMenuContent align="start" portalProps={portalProps}>
         {TASK_STATUS_OPTIONS.map((option) => (
-          <DropdownMenuItem key={option.id} onClick={() => setStatus(option.id)}>
-            <TaskStatusIcon status={option.id} />
-            <span>{option.label}</span>
-            {option.id === status ? <Check className="ml-auto" size={14} /> : null}
-          </DropdownMenuItem>
+          <TaskStatusMenuItem
+            key={option.id}
+            option={option}
+            selected={option.id === status}
+            onSelect={setStatus}
+          />
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+function TaskStatusMenuItem({
+  option,
+  selected,
+  onSelect,
+}: {
+  option: (typeof TASK_STATUS_OPTIONS)[number];
+  selected: boolean;
+  onSelect: (status: TaskStatusId) => void;
+}) {
+  const handleClick = useCallback(() => onSelect(option.id), [onSelect, option.id]);
+
+  return (
+    <DropdownMenuItem onClick={handleClick}>
+      <TaskStatusIcon status={option.id} />
+      <span>{option.label}</span>
+      {selected ? <Check className="ml-auto" size={14} /> : null}
+    </DropdownMenuItem>
   );
 }
 

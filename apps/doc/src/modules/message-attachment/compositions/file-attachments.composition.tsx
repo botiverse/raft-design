@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { ArrowDownToLine, Eye, MessageSquare } from "lucide-react";
 import { Spinner } from "raft-ui";
@@ -21,8 +21,22 @@ import {
   downloadMessageFixture,
 } from "#/modules/message-item/message-item.fixtures.ts";
 
+function downloadMigrationDiff() {
+  downloadMessageFixture("migration.diff");
+}
+
+function downloadReleaseNotes() {
+  downloadMessageFixture("release-notes.md");
+}
+
+function downloadMetrics() {
+  downloadMessageFixture("metrics.csv");
+}
+
 function MessageHtmlPreviewAttachmentComposition() {
   const [opening, setOpening] = useState(false);
+
+  const handlePreview = useCallback(() => setOpening(true), []);
 
   return (
     <MessageAttachmentCard aria-busy={opening || undefined}>
@@ -36,7 +50,7 @@ function MessageHtmlPreviewAttachmentComposition() {
             <MessageAttachmentAction
               aria-label="Preview screening.html"
               title="Preview screening.html"
-              onClick={() => setOpening(true)}
+              onClick={handlePreview}
             >
               <Eye aria-hidden />
             </MessageAttachmentAction>
@@ -62,7 +76,7 @@ function MessageFileAttachmentComposition() {
           <MessageAttachmentAction
             aria-label="Download migration.diff"
             title="Download migration.diff"
-            onClick={() => downloadMessageFixture("migration.diff")}
+            onClick={downloadMigrationDiff}
           >
             <ArrowDownToLine />
           </MessageAttachmentAction>
@@ -124,7 +138,7 @@ function MessageCommentedMarkdownAttachmentComposition() {
           <MessageAttachmentAction
             aria-label="Download release-notes.md"
             title="Download release-notes.md"
-            onClick={() => downloadMessageFixture("release-notes.md")}
+            onClick={downloadReleaseNotes}
           >
             <ArrowDownToLine />
           </MessageAttachmentAction>
@@ -170,7 +184,7 @@ function MessageCsvAttachmentComposition() {
           <MessageAttachmentAction
             aria-label="Download metrics.csv"
             title="Download metrics.csv"
-            onClick={() => downloadMessageFixture("metrics.csv")}
+            onClick={downloadMetrics}
           >
             <ArrowDownToLine />
           </MessageAttachmentAction>

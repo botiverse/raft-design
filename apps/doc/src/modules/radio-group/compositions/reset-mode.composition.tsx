@@ -1,7 +1,7 @@
 import { RadioGroup, RadioGroupItem } from "raft-ui";
 
 // @docs-source-strip-start
-import { useState } from "react";
+import { useCallback, useState } from "react";
 // @docs-source-strip-end
 
 const RESET_MODE_OPTIONS = [
@@ -66,12 +66,15 @@ export function RadioGroupResetModeComposition({
 }) {
   const [selectedValue, setSelectedValue] = useState(value ?? "restart");
 
-  function handleValueChange(nextValue: string) {
-    if (value === undefined) {
-      setSelectedValue(nextValue);
-    }
-    onValueChange?.(nextValue);
-  }
+  const handleValueChange = useCallback(
+    (nextValue: string) => {
+      if (value === undefined) {
+        setSelectedValue(nextValue);
+      }
+      onValueChange?.(nextValue);
+    },
+    [onValueChange, value],
+  );
 
   return (
     <RadioGroupResetModeContent

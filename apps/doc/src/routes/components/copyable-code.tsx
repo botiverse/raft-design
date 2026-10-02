@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -130,6 +131,31 @@ export const Route = createFileRoute("/components/copyable-code")({
 
 function CopyableCodeDoc() {
   const code = Route.useLoaderData();
+  const compositionFiles = useMemo(
+    () => [
+      {
+        path: COMPOSITION_PATHS.DialogSetupCommand,
+        source: COMPOSITION_SOURCES.DialogSetupCommand,
+        html: code.copyableCodeDialogSetupCommandComposition,
+      },
+      {
+        path: COMPOSITION_PATHS.CompactDetailCommand,
+        source: COMPOSITION_SOURCES.CompactDetailCommand,
+        html: code.copyableCodeCompactDetailCommandComposition,
+      },
+      {
+        path: COMPOSITION_PATHS.CopyFailure,
+        source: COMPOSITION_SOURCES.CopyFailure,
+        html: code.copyableCodeCopyFailureComposition,
+      },
+      {
+        path: COMPOSITION_PATHS.CopyErrorToast,
+        source: COMPOSITION_SOURCES.CopyErrorToast,
+        html: code.copyableCodeCopyErrorToastComposition,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -154,33 +180,7 @@ function CopyableCodeDoc() {
               </div>
             </Preview.Canvas>
             <Preview.Code
-              codeBlock={
-                <DocsCodeBlock.Files
-                  collapsible={false}
-                  files={[
-                    {
-                      path: COMPOSITION_PATHS.DialogSetupCommand,
-                      source: COMPOSITION_SOURCES.DialogSetupCommand,
-                      html: code.copyableCodeDialogSetupCommandComposition,
-                    },
-                    {
-                      path: COMPOSITION_PATHS.CompactDetailCommand,
-                      source: COMPOSITION_SOURCES.CompactDetailCommand,
-                      html: code.copyableCodeCompactDetailCommandComposition,
-                    },
-                    {
-                      path: COMPOSITION_PATHS.CopyFailure,
-                      source: COMPOSITION_SOURCES.CopyFailure,
-                      html: code.copyableCodeCopyFailureComposition,
-                    },
-                    {
-                      path: COMPOSITION_PATHS.CopyErrorToast,
-                      source: COMPOSITION_SOURCES.CopyErrorToast,
-                      html: code.copyableCodeCopyErrorToastComposition,
-                    },
-                  ]}
-                />
-              }
+              codeBlock={<DocsCodeBlock.Files collapsible={false} files={compositionFiles} />}
             />
           </Preview>
           <DocNote>

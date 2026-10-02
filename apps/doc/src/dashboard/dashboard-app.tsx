@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   Badge,
   Button,
@@ -78,6 +78,17 @@ export function DashboardApp() {
     [],
   );
 
+  const handleRangeChange = useCallback((value: string) => {
+    if (value) setRange(value as Range);
+  }, []);
+  const handleRuntimeChange = useCallback((value: string | null) => {
+    if (value != null) setRuntime(value);
+  }, []);
+  const handleSelect = useCallback((id: string) => {
+    setSelectedId((current) => (current === id ? null : id));
+  }, []);
+  const handleClearSelection = useCallback(() => setSelectedId(null), []);
+
   return (
     // No min-h-screen / max-width / page padding: this renders inside the docs
     // article, which already owns the page frame. Standalone sizing here would
@@ -90,7 +101,7 @@ export function DashboardApp() {
           Runs, latency, and spend across every agent on this server.
         </Text.Sans>
         <div className="flex flex-wrap items-center gap-2">
-          <SegmentedControl value={range} onValueChange={(v) => v && setRange(v as Range)}>
+          <SegmentedControl value={range} onValueChange={handleRangeChange}>
             {RANGES.map((r) => (
               <SegmentedControlItem key={r} value={r}>
                 <SegmentedControlLabel>{r}</SegmentedControlLabel>
@@ -100,7 +111,7 @@ export function DashboardApp() {
           <Select
             chrome="field"
             value={runtime}
-            onValueChange={(v) => v != null && setRuntime(String(v))}
+            onValueChange={handleRuntimeChange}
             items={runtimeItems}
           >
             <SelectTrigger className="w-44" aria-label="Runtime">
@@ -177,7 +188,7 @@ export function DashboardApp() {
                     key={row.id}
                     row={row}
                     selected={row.id === selectedId}
-                    onSelect={() => setSelectedId(row.id === selectedId ? null : row.id)}
+                    onSelect={handleSelect}
                   />
                 ))}
               </tbody>
@@ -208,7 +219,7 @@ export function DashboardApp() {
                     {STATUS_LABEL[selected.status]}
                   </Badge>
                 </div>
-                <Button variant="ghost" size="sm" onClick={() => setSelectedId(null)}>
+                <Button variant="ghost" size="sm" onClick={handleClearSelection}>
                   Clear selection
                 </Button>
               </>
@@ -240,11 +251,11 @@ function DashboardRow({
 }: {
   row: AgentRow;
   selected: boolean;
-  onSelect: () => void;
+  onSelect: (id: string) => void;
 }) {
   return (
     <tr
-      onClick={onSelect}
+      onClick={() => onSelect(row.id)}
       aria-selected={selected}
       className={`cursor-pointer border-b border-line-muted last:border-b-0 hover:bg-fill-muted ${selected ? "bg-fill-muted" : ""}`}
     >

@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import type { RefObject } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { ChangeEvent, RefObject } from "react";
 import {
   Banner,
   BannerDescription,
@@ -16,12 +16,62 @@ import {
 import type { DialogContentProps } from "raft-ui";
 import { Plus, Trash2, X } from "lucide-react";
 
+const DEFAULT_INITIAL_TITLES = [""];
+
+type TaskTitleRowValue = {
+  id: string;
+  title: string;
+};
+
+function TaskTitleRow({
+  index,
+  removable,
+  row,
+  onRemove,
+  onTitleChange,
+}: {
+  index: number;
+  removable: boolean;
+  row: TaskTitleRowValue;
+  onRemove: (id: string) => void;
+  onTitleChange: (id: string, title: string) => void;
+}) {
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => onTitleChange(row.id, event.target.value),
+    [onTitleChange, row.id],
+  );
+  const handleRemove = useCallback(() => onRemove(row.id), [onRemove, row.id]);
+
+  return (
+    <div className="mb-1 flex min-w-0 items-center gap-1">
+      <Input
+        aria-label={`Task ${index + 1} title`}
+        value={row.title}
+        placeholder={`Task ${index + 1}`}
+        autoFocus={index === 0}
+        onChange={handleChange}
+      />
+      {removable ? (
+        <Button
+          type="button"
+          variant="outline"
+          size="icon-sm"
+          aria-label={`Remove task ${index + 1}`}
+          onClick={handleRemove}
+        >
+          <Trash2 aria-hidden />
+        </Button>
+      ) : null}
+    </div>
+  );
+}
+
 export function CreateTaskDialogComposition({
   open,
   onOpenChange,
   portalRef,
   onCreate,
-  initialTitles = [""],
+  initialTitles = DEFAULT_INITIAL_TITLES,
   forceError,
   forceSubmitting = false,
   preview = false,
@@ -40,23 +90,41 @@ export function CreateTaskDialogComposition({
   contentClassName?: string;
 }) {
   const nextRowId = useRef(initialTitles.length);
-  const [rows, setRows] = useState(() =>
+  const [rows, setRows] = useState<TaskTitleRowValue[]>(() =>
     initialTitles.map((title, index) => ({ id: `initial-${index}`, title })),
   );
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const isSubmitting = forceSubmitting || submitting;
   const isBatch = rows.length > 1;
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     nextRowId.current = initialTitles.length;
     setRows(initialTitles.map((title, index) => ({ id: `initial-${index}`, title })));
     setError("");
     setSubmitting(false);
-  };
-  const handleOpenChange = (nextOpen: boolean) => {
-    if (!nextOpen) resetForm();
-    onOpenChange(nextOpen);
-  };
+  }, [initialTitles]);
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      if (!nextOpen) resetForm();
+      onOpenChange(nextOpen);
+    },
+    [onOpenChange, resetForm],
+  );
+  const handleTitleChange = useCallback((id: string, title: string) => {
+    setRows((current) => current.map((item) => (item.id === id ? { ...item, title } : item)));
+  }, []);
+  const handleRemoveRow = useCallback((id: string) => {
+    setRows((current) => current.filter((item) => item.id !== id));
+  }, []);
+  const handleAddRow = useCallback(() => {
+    const id = `row-${nextRowId.current}`;
+    nextRowId.current += 1;
+    setRows((current) => [...current, { id, title: "" }]);
+  }, []);
+  const resolvedPortalProps = useMemo(
+    () => portalProps ?? (portalRef ? { container: portalRef } : undefined),
+    [portalProps, portalRef],
+  );
 
   return (
     <Dialog open={open} modal={!preview} disablePointerDismissal onOpenChange={handleOpenChange}>
@@ -65,7 +133,7 @@ export function CreateTaskDialogComposition({
         initialFocus={preview ? false : undefined}
         finalFocus={preview ? false : undefined}
         className={contentClassName ?? "max-w-md"}
-        portalProps={portalProps ?? (portalRef ? { container: portalRef } : undefined)}
+        portalProps={resolvedPortalProps}
       >
         <DialogHeader>
           <DialogTitle>{isBatch ? "Create Tasks" : "Create Task"}</DialogTitle>
@@ -105,45 +173,21 @@ export function CreateTaskDialogComposition({
             ) : null}
             <div>
               {rows.map((row, index) => (
-                <div key={row.id} className="mb-1 flex min-w-0 items-center gap-1">
-                  <Input
-                    aria-label={`Task ${index + 1} title`}
-                    value={row.title}
-                    placeholder={`Task ${index + 1}`}
-                    autoFocus={index === 0}
-                    onChange={(event) =>
-                      setRows((current) =>
-                        current.map((item) =>
-                          item.id === row.id ? { ...item, title: event.target.value } : item,
-                        ),
-                      )
-                    }
-                  />
-                  {rows.length > 1 ? (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon-sm"
-                      aria-label={`Remove task ${index + 1}`}
-                      onClick={() =>
-                        setRows((current) => current.filter((item) => item.id !== row.id))
-                      }
-                    >
-                      <Trash2 aria-hidden />
-                    </Button>
-                  ) : null}
-                </div>
+                <TaskTitleRow
+                  key={row.id}
+                  index={index}
+                  removable={rows.length > 1}
+                  row={row}
+                  onRemove={handleRemoveRow}
+                  onTitleChange={handleTitleChange}
+                />
               ))}
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
                 className="mt-3"
-                onClick={() => {
-                  const id = `row-${nextRowId.current}`;
-                  nextRowId.current += 1;
-                  setRows((current) => [...current, { id, title: "" }]);
-                }}
+                onClick={handleAddRow}
               >
                 <Plus aria-hidden />
                 Add Another

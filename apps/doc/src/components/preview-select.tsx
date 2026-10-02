@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import {
   Select,
   SelectContent,
@@ -13,20 +14,22 @@ import {
 import type { PreviewSelectProps } from "./preview.types.ts";
 
 export function PreviewSelect({ id, label, options, value, onValueChange }: PreviewSelectProps) {
-  const items = options.map((option) => ({ value: option, label: option }));
+  const items = useMemo(
+    () => options.map((option) => ({ value: option, label: option })),
+    [options],
+  );
+  const handleValueChange = useCallback(
+    (nextValue: string | null) => {
+      if (nextValue) {
+        onValueChange(nextValue);
+      }
+    },
+    [onValueChange],
+  );
 
   return (
     <div className="min-w-0">
-      <Select
-        value={value}
-        onValueChange={(nextValue) => {
-          if (nextValue) {
-            onValueChange(nextValue);
-          }
-        }}
-        items={items}
-        modal={false}
-      >
+      <Select value={value} onValueChange={handleValueChange} items={items} modal={false}>
         <SelectTrigger id={id} aria-label={label} className="h-7 w-full px-2 font-mono text-xs">
           <SelectValue />
           <SelectIcon />

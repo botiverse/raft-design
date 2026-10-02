@@ -1,5 +1,5 @@
 import { ChevronDown, CircleHelp } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Badge,
   Button,
@@ -26,6 +26,14 @@ export function MemberInfoComposition({ direction = "vertical" }: MemberInfoComp
   const [showRoleHelp, setShowRoleHelp] = useState(false);
   const role = roles[roleIndex] ?? roles[0];
 
+  const handleToggleRoleHelp = useCallback(() => {
+    setShowRoleHelp((visible) => !visible);
+  }, []);
+
+  const handleCycleRole = useCallback(() => {
+    setRoleIndex((index) => (index + 1) % roles.length);
+  }, []);
+
   return (
     <DescriptionList
       direction={direction}
@@ -41,7 +49,7 @@ export function MemberInfoComposition({ direction = "vertical" }: MemberInfoComp
             className="text-foreground-icon in-data-[theme=brutal]:text-black/35"
             aria-label="Explain member roles"
             aria-pressed={showRoleHelp}
-            onClick={() => setShowRoleHelp((visible) => !visible)}
+            onClick={handleToggleRoleHelp}
           >
             <CircleHelp aria-hidden />
           </Button>
@@ -52,7 +60,7 @@ export function MemberInfoComposition({ direction = "vertical" }: MemberInfoComp
               <button
                 type="button"
                 aria-label={`Change role from ${role}`}
-                onClick={() => setRoleIndex((index) => (index + 1) % roles.length)}
+                onClick={handleCycleRole}
               />
             }
             variant={roleVariant[role]}

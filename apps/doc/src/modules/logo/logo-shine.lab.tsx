@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { animate } from "motion/react";
 import type { AnimationPlaybackControlsWithThen } from "motion/react";
@@ -34,77 +34,80 @@ export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineL
   const runningRef = useRef<AnimationPlaybackControlsWithThen[]>([]);
   const [playing, setPlaying] = useState(false);
 
-  const stopRunning = () => {
+  const stopRunning = useCallback(() => {
     for (const control of runningRef.current) {
       control.stop();
     }
     runningRef.current = [];
-  };
+  }, []);
 
-  const track = (control: AnimationPlaybackControlsWithThen) => {
+  const track = useCallback((control: AnimationPlaybackControlsWithThen) => {
     runningRef.current.push(control);
     return control;
-  };
+  }, []);
 
-  const play = async (duration = 1.4) => {
-    const logo = logoRef.current;
-    const sweep = sweepRef.current;
-    if (!logo || !sweep) {
-      return;
-    }
-
-    const playId = ++playIdRef.current;
-    const stillCurrent = () => playId === playIdRef.current;
-
-    stopRunning();
-    setPlaying(true);
-
-    try {
-      await Promise.all([
-        track(animate(sweep, { x: "-80%", opacity: 0 }, { duration: 0 })),
-        track(animate(logo, { filter: "brightness(1)" }, { duration: 0 })),
-      ]);
-
-      await waitForPaint();
-      if (!stillCurrent() || prefersReducedMotion()) {
+  const play = useCallback(
+    async (duration = 1.4) => {
+      const logo = logoRef.current;
+      const sweep = sweepRef.current;
+      if (!logo || !sweep) {
         return;
       }
 
-      await Promise.all([
-        track(
-          animate(
-            sweep,
-            {
-              x: ["-80%", "80%"],
-              opacity: [0, 1, 1, 0],
-            },
-            {
-              duration,
-              times: [0, 0.08, 0.92, 1],
-              ease: SWEEP_EASE,
-            },
+      const playId = ++playIdRef.current;
+      const stillCurrent = () => playId === playIdRef.current;
+
+      stopRunning();
+      setPlaying(true);
+
+      try {
+        await Promise.all([
+          track(animate(sweep, { x: "-80%", opacity: 0 }, { duration: 0 })),
+          track(animate(logo, { filter: "brightness(1)" }, { duration: 0 })),
+        ]);
+
+        await waitForPaint();
+        if (!stillCurrent() || prefersReducedMotion()) {
+          return;
+        }
+
+        await Promise.all([
+          track(
+            animate(
+              sweep,
+              {
+                x: ["-80%", "80%"],
+                opacity: [0, 1, 1, 0],
+              },
+              {
+                duration,
+                times: [0, 0.08, 0.92, 1],
+                ease: SWEEP_EASE,
+              },
+            ),
           ),
-        ),
-        track(
-          animate(
-            logo,
-            {
-              filter: ["brightness(1)", "brightness(1)", "brightness(1.15)", "brightness(1)"],
-            },
-            {
-              duration,
-              times: [0, 0.36, 0.52, 1],
-              ease: SWEEP_EASE,
-            },
+          track(
+            animate(
+              logo,
+              {
+                filter: ["brightness(1)", "brightness(1)", "brightness(1.15)", "brightness(1)"],
+              },
+              {
+                duration,
+                times: [0, 0.36, 0.52, 1],
+                ease: SWEEP_EASE,
+              },
+            ),
           ),
-        ),
-      ]);
-    } finally {
-      if (stillCurrent()) {
-        setPlaying(false);
+        ]);
+      } finally {
+        if (stillCurrent()) {
+          setPlaying(false);
+        }
       }
-    }
-  };
+    },
+    [stopRunning, track],
+  );
 
   useEffect(() => {
     void play();
@@ -112,7 +115,15 @@ export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineL
       playIdRef.current += 1;
       stopRunning();
     };
-  }, []);
+  }, [play, stopRunning]);
+
+  const handleReplay = useCallback(() => {
+    void play();
+  }, [play]);
+
+  const handleSlowReplay = useCallback(() => {
+    void play(2.4);
+  }, [play]);
 
   const shineStyle: ShineStyle = {
     "--logo-shine-primary": primaryColor,
@@ -168,10 +179,10 @@ export function LogoShineLab({ primaryColor = "var(--primary-400)" }: LogoShineL
       </div>
 
       <div className="flex items-center gap-2">
-        <Button type="button" variant="default" size="sm" onClick={() => void play()}>
+        <Button type="button" variant="default" size="sm" onClick={handleReplay}>
           {playing ? "Playing…" : "Replay"}
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => void play(2.4)}>
+        <Button type="button" variant="outline" size="sm" onClick={handleSlowReplay}>
           Slow replay
         </Button>
       </div>

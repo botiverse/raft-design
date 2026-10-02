@@ -20,7 +20,8 @@ import {
   SortableComposerAttachments,
   SortableComposerAttachmentsScroll,
 } from "raft-ui";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import type { PointerEvent } from "react";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 
@@ -32,6 +33,13 @@ type AttachmentDescriptor = {
   kind: "image" | "file";
   state: AttachmentState;
 };
+
+const DEFAULT_IMAGE_STATES: readonly AttachmentState[] = ["uploading"];
+const DEFAULT_FILE_STATES: readonly AttachmentState[] = ["uploaded", "failed"];
+
+function stopPointerPropagation(event: PointerEvent) {
+  event.stopPropagation();
+}
 
 function buildDescriptors(
   imageStates: readonly AttachmentState[],
@@ -81,8 +89,8 @@ function buildDescriptors(
 }
 
 export function ComposerAttachmentsComposition({
-  imageStates = ["uploading"],
-  fileStates = ["uploaded", "failed"],
+  imageStates = DEFAULT_IMAGE_STATES,
+  fileStates = DEFAULT_FILE_STATES,
   onRemove,
   onRetry,
   layout = "wrap",
@@ -153,10 +161,13 @@ function SortableAttachments({
   variant: "wrap" | "scroll";
 }) {
   const [ids, setIds] = useState(() => descriptors.map((item) => item.id));
+  const [prevDescriptors, setPrevDescriptors] = useState(descriptors);
 
-  useEffect(() => {
+  // Reset the order when the descriptor set changes (adjust state during render).
+  if (descriptors !== prevDescriptors) {
+    setPrevDescriptors(descriptors);
     setIds(descriptors.map((item) => item.id));
-  }, [descriptors]);
+  }
 
   const byId = new Map(descriptors.map((item) => [item.id, item]));
   const ordered = ids.flatMap((id) => {
@@ -196,6 +207,9 @@ function AttachmentTile({
 }) {
   const { name, state } = attachment;
 
+  const handleRetry = useCallback(() => onRetry?.(name), [name, onRetry]);
+  const handleRemove = useCallback(() => onRemove?.(name), [name, onRemove]);
+
   if (attachment.kind === "image") {
     return (
       <ComposerAttachment>
@@ -218,7 +232,7 @@ function AttachmentTile({
         {state === "failed" ? (
           <ComposerAttachmentFailedOverlay
             render={<button type="button" disabled={!onRetry} />}
-            onClick={() => onRetry?.(name)}
+            onClick={handleRetry}
           >
             <span>Upload failed</span>
             <span className="underline underline-offset-2">Retry</span>
@@ -227,8 +241,8 @@ function AttachmentTile({
         <ComposerAttachmentRemove
           aria-label={`Remove ${name}`}
           disabled={!onRemove}
-          onPointerDown={(event) => event.stopPropagation()}
-          onClick={() => onRemove?.(name)}
+          onPointerDown={stopPointerPropagation}
+          onClick={handleRemove}
         >
           <X />
         </ComposerAttachmentRemove>
@@ -267,7 +281,7 @@ function AttachmentTile({
       {state === "failed" ? (
         <ComposerAttachmentFailedOverlay
           render={<button type="button" disabled={!onRetry} />}
-          onClick={() => onRetry?.(name)}
+          onClick={handleRetry}
         >
           <span>Upload failed</span>
           <span className="underline underline-offset-2">Retry</span>
@@ -276,8 +290,8 @@ function AttachmentTile({
       <ComposerAttachmentRemove
         aria-label={`Remove ${name}`}
         disabled={!onRemove}
-        onPointerDown={(event) => event.stopPropagation()}
-        onClick={() => onRemove?.(name)}
+        onPointerDown={stopPointerPropagation}
+        onClick={handleRemove}
       >
         <X />
       </ComposerAttachmentRemove>

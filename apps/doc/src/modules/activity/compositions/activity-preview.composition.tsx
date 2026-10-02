@@ -27,7 +27,7 @@ import {
   PanelToggleAction,
   useThemeFamily,
 } from "raft-ui";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { ACTIVITY_COMPOSITION_ITEMS } from "../activity.fixtures.ts";
 import type { ActivityCompositionItem } from "../activity.fixtures.ts";
@@ -36,6 +36,7 @@ import { ActivitySelectionCheckbox } from "../activity-inbox.helpers.tsx";
 const ACTIVE_ITEM_ID = "dm:samira";
 const CHECKED_ITEM_ID = "mention:general";
 const ACTIVITY_ITEM_STATES: readonly ActivityCompositionItem[] = ACTIVITY_COMPOSITION_ITEMS;
+const BRUTAL_TASK_BADGE_STYLE = { backgroundColor: "var(--color-brutal-orange)" };
 
 /** Static gallery of Activity inbox item structures and visual states. */
 export function ActivityPreviewComposition() {
@@ -77,11 +78,7 @@ export function ActivityPreviewComposition() {
                   <Badge
                     variant="warning"
                     uppercase={false}
-                    style={
-                      theme === "brutal"
-                        ? { backgroundColor: "var(--color-brutal-orange)" }
-                        : undefined
-                    }
+                    style={theme === "brutal" ? BRUTAL_TASK_BADGE_STYLE : undefined}
                   >
                     <Circle aria-hidden size={10} />#{item.task.number}
                     {item.task.claimedBy ? ` @${item.task.claimedBy}` : null}
@@ -146,9 +143,13 @@ function ActivitySavedAction({ defaultSaved }: { defaultSaved: boolean }) {
 function ActivityCompletionAction({ defaultDone }: { defaultDone: boolean }) {
   const [done, setDone] = useState(defaultDone);
 
+  const handleToggleDone = useCallback(() => {
+    setDone((current) => !current);
+  }, []);
+
   return (
     <PanelAction
-      onClick={() => setDone((current) => !current)}
+      onClick={handleToggleDone}
       aria-label={done ? "Restore to Active" : "Mark as done"}
     >
       {done ? <RotateCcw aria-hidden /> : <Check aria-hidden />}

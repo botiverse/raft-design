@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -163,32 +164,30 @@ function UsagePreview({
 
 /** Showcase composition plus the message row and the mention/permalink adapters it renders. */
 function MessageReferenceSourceFiles({ code }: { code: HighlightedSnippets }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={false}
-      showLineNumbers={false}
-      files={[
-        {
-          path: REFERENCE_SHOWCASE_PATH,
-          source: referenceShowcaseSource,
-          html: code.referenceShowcase,
-          collapsedHtml: code.referenceShowcaseBody,
-        },
-        {
-          path: PRIMARY_REFERENCES_PATH,
-          source: primaryReferencesSource,
-          html: code.primaryReferences,
-          collapsedHtml: code.primaryReferencesBody,
-        },
-        {
-          path: REFERENCE_ADAPTERS_PATH,
-          source: referenceAdaptersSource,
-          html: code.referenceAdapters,
-          collapsedHtml: code.referenceAdaptersBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: REFERENCE_SHOWCASE_PATH,
+        source: referenceShowcaseSource,
+        html: code.referenceShowcase,
+        collapsedHtml: code.referenceShowcaseBody,
+      },
+      {
+        path: PRIMARY_REFERENCES_PATH,
+        source: primaryReferencesSource,
+        html: code.primaryReferences,
+        collapsedHtml: code.primaryReferencesBody,
+      },
+      {
+        path: REFERENCE_ADAPTERS_PATH,
+        source: referenceAdaptersSource,
+        html: code.referenceAdapters,
+        collapsedHtml: code.referenceAdaptersBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={false} showLineNumbers={false} files={files} />;
 }
 
 export const Route = createFileRoute("/components/message-reference")({

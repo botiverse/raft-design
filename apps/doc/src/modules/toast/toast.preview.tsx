@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
@@ -41,16 +41,36 @@ export function ToastPlaygroundPreview({ code }: ToastPlaygroundPreviewProps) {
   const [action, setAction] = useState(true);
   const [dismissible, setDismissible] = useState(true);
 
-  const demoOptions: ToastDemoOptions = {
-    mode,
-    placement,
-    side,
-    align,
-    icon,
-    description,
-    action,
-    dismissible,
-  };
+  const demoOptions = useMemo<ToastDemoOptions>(
+    () => ({
+      mode,
+      placement,
+      side,
+      align,
+      icon,
+      description,
+      action,
+      dismissible,
+    }),
+    [mode, placement, side, align, icon, description, action, dismissible],
+  );
+
+  const handleModeChange = useCallback(
+    (value: string) => setMode(value as ToastDemoOptions["mode"]),
+    [],
+  );
+  const handlePlacementChange = useCallback(
+    (value: string) => setPlacement(value as ToastDemoOptions["placement"]),
+    [],
+  );
+  const handleSideChange = useCallback(
+    (value: string) => setSide(value as ToastDemoOptions["side"]),
+    [],
+  );
+  const handleAlignChange = useCallback(
+    (value: string) => setAlign(value as ToastDemoOptions["align"]),
+    [],
+  );
 
   return (
     <Preview previewClassName="min-h-84">
@@ -68,7 +88,7 @@ export function ToastPlaygroundPreview({ code }: ToastPlaygroundPreviewProps) {
             label="Mode"
             options={MODE_OPTIONS}
             value={mode}
-            onValueChange={(value) => setMode(value as ToastDemoOptions["mode"])}
+            onValueChange={handleModeChange}
           />
         </Preview.Control>
         {mode === "stacked" ? (
@@ -77,7 +97,7 @@ export function ToastPlaygroundPreview({ code }: ToastPlaygroundPreviewProps) {
               label="Placement"
               options={PLACEMENT_OPTIONS}
               value={placement}
-              onValueChange={(value) => setPlacement(value as ToastDemoOptions["placement"])}
+              onValueChange={handlePlacementChange}
             />
           </Preview.Control>
         ) : null}
@@ -88,7 +108,7 @@ export function ToastPlaygroundPreview({ code }: ToastPlaygroundPreviewProps) {
                 label="Side"
                 options={SIDE_OPTIONS}
                 value={side}
-                onValueChange={(value) => setSide(value as ToastDemoOptions["side"])}
+                onValueChange={handleSideChange}
               />
             </Preview.Control>
             <Preview.Control label="Align" htmlFor="toast-preview-align">
@@ -96,7 +116,7 @@ export function ToastPlaygroundPreview({ code }: ToastPlaygroundPreviewProps) {
                 label="Align"
                 options={ALIGN_OPTIONS}
                 value={align}
-                onValueChange={(value) => setAlign(value as ToastDemoOptions["align"])}
+                onValueChange={handleAlignChange}
               />
             </Preview.Control>
           </>

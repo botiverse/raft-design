@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import type { ReactNode, RefObject } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
@@ -846,8 +846,28 @@ const HOME_COMBOBOX_OPTIONS = [
 
 type HomeComboboxOption = (typeof HOME_COMBOBOX_OPTIONS)[number];
 
-function ComboboxPreview() {
+const NO_COLLISION_AVOIDANCE = { side: "none", align: "none", fallbackAxisSide: "none" } as const;
+
+function isSameComboboxOption(item: HomeComboboxOption, value: HomeComboboxOption) {
+  return item.id === value.id;
+}
+
+function getComboboxOptionLabel(option: HomeComboboxOption) {
+  return option.label;
+}
+
+function usePreviewPortal() {
   const portalRef = useRef<HTMLDivElement>(null);
+  const portalProps = useMemo(
+    () => ({ container: portalRef as RefObject<HTMLElement | null> }),
+    [],
+  );
+
+  return { portalRef, portalProps };
+}
+
+function ComboboxPreview() {
+  const { portalRef, portalProps } = usePreviewPortal();
   const [selectedModel, setSelectedModel] = useState<HomeComboboxOption | null>(
     HOME_COMBOBOX_OPTIONS[0],
   );
@@ -858,8 +878,8 @@ function ComboboxPreview() {
         autoHighlight
         open
         items={HOME_COMBOBOX_OPTIONS}
-        isItemEqualToValue={(item, value) => item.id === value.id}
-        itemToStringLabel={(model) => model.label}
+        isItemEqualToValue={isSameComboboxOption}
+        itemToStringLabel={getComboboxOptionLabel}
         value={selectedModel}
         onValueChange={setSelectedModel}
       >
@@ -880,7 +900,7 @@ function ComboboxPreview() {
         </Field>
         <ComboboxContent
           positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          portalProps={portalProps}
           initialFocus={false}
           finalFocus={false}
           className="w-[240px]"
@@ -909,7 +929,7 @@ function ComboboxSelectPreview() {
 }
 
 function SelectPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
+  const { portalRef, portalProps } = usePreviewPortal();
 
   return (
     <div ref={portalRef} className="relative flex h-56 w-72 items-start justify-center pt-14">
@@ -934,11 +954,7 @@ function SelectPreview() {
           </SelectValue>
           <SelectIcon />
         </SelectTrigger>
-        <SelectContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-          className="w-[220px]"
-        >
+        <SelectContent positionMethod="absolute" portalProps={portalProps} className="w-[220px]">
           <SelectList>
             {SELECT_PREVIEW_OPTIONS.map((option) => {
               const Icon = option.icon;
@@ -994,7 +1010,7 @@ function SegmentedControlPreview() {
 }
 
 function DropdownMenuPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
+  const { portalRef, portalProps } = usePreviewPortal();
 
   return (
     <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
@@ -1005,7 +1021,7 @@ function DropdownMenuPreview() {
         </DropdownMenuTrigger>
         <DropdownMenuContent
           positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          portalProps={portalProps}
           className="flex w-64 flex-col"
         >
           <DropdownMenuLabel>Account</DropdownMenuLabel>
@@ -1075,7 +1091,7 @@ function ContextMenuPreview() {
 }
 
 function PopoverPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
+  const { portalRef, portalProps } = usePreviewPortal();
 
   return (
     <div ref={portalRef} className="relative flex h-64 w-72 items-start justify-center pt-12">
@@ -1089,8 +1105,8 @@ function PopoverPreview() {
           initialFocus={false}
           finalFocus={false}
           align="center"
-          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          collisionAvoidance={NO_COLLISION_AVOIDANCE}
+          portalProps={portalProps}
           className="w-[248px]"
         >
           <PopoverHeader>
@@ -1114,7 +1130,7 @@ function PopoverPreview() {
 }
 
 function PreviewCardPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
+  const { portalRef, portalProps } = usePreviewPortal();
   const triggerId = useId();
 
   return (
@@ -1140,8 +1156,8 @@ function PreviewCardPreview() {
         <PreviewCardContent
           positionMethod="absolute"
           align="center"
-          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          collisionAvoidance={NO_COLLISION_AVOIDANCE}
+          portalProps={portalProps}
           className="w-[17.5rem] max-w-[calc(100vw-2rem)]"
         >
           <PreviewCardHeader>
@@ -1173,7 +1189,7 @@ function PreviewCardPreview() {
 }
 
 function AlertDialogPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
+  const { portalRef, portalProps } = usePreviewPortal();
 
   return (
     <div
@@ -1185,7 +1201,7 @@ function AlertDialogPreview() {
           overlay={false}
           initialFocus={false}
           finalFocus={false}
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          portalProps={portalProps}
           className="relative top-auto left-auto z-0 w-full max-w-[22rem] translate-x-0 translate-y-0"
         >
           <AlertDialogHeader>
@@ -1216,7 +1232,7 @@ function AlertDialogPreview() {
 }
 
 function DialogPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
+  const { portalRef, portalProps } = usePreviewPortal();
 
   return (
     <div
@@ -1228,7 +1244,7 @@ function DialogPreview() {
           overlay={false}
           initialFocus={false}
           finalFocus={false}
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          portalProps={portalProps}
           className="relative top-auto left-auto z-0 w-full max-w-[22rem] translate-x-0 translate-y-0"
         >
           <DialogHeader>
@@ -1257,7 +1273,7 @@ function DialogPreview() {
 }
 
 function TooltipPreview() {
-  const portalRef = useRef<HTMLDivElement>(null);
+  const { portalRef, portalProps } = usePreviewPortal();
   const triggerId = useId();
 
   return (
@@ -1269,10 +1285,7 @@ function TooltipPreview() {
         >
           <SmilePlus />
         </TooltipTrigger>
-        <TooltipContent
-          positionMethod="absolute"
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
-        >
+        <TooltipContent positionMethod="absolute" portalProps={portalProps}>
           Add reaction
           <Kbd>R</Kbd>
         </TooltipContent>
@@ -1427,6 +1440,15 @@ function Home() {
       (preset) => preset.family === previewTheme.theme && preset.mode === resolvedMode,
     ) ?? THEME_PRESETS[0];
 
+  const handleThemePresetChange = useCallback(
+    (value: string) => {
+      const preset = THEME_PRESETS.find((candidate) => candidate.id === value);
+      if (!preset) return;
+      previewTheme.setTheme(preset.family, { mode: preset.mode });
+    },
+    [previewTheme],
+  );
+
   useEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration;
 
@@ -1492,11 +1514,7 @@ function Home() {
         <SegmentedControl
           aria-label="Preview theme"
           value={themePreset.id}
-          onValueChange={(value) => {
-            const preset = THEME_PRESETS.find((candidate) => candidate.id === value);
-            if (!preset) return;
-            previewTheme.setTheme(preset.family, { mode: preset.mode });
-          }}
+          onValueChange={handleThemePresetChange}
           className="fixed bottom-6 left-[calc(50vw+var(--sidebar-w)/2)] z-80 -translate-x-1/2"
         >
           {THEME_PRESETS.map((preset) => (

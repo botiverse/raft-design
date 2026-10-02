@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import type { ComboboxSelectValue } from "raft-ui/wip";
@@ -20,6 +20,10 @@ const widthClassByValue: Record<SelectWidth, string | undefined> = {
   full: "w-full",
 };
 
+const SIZE_OPTIONS = ["sm", "md", "lg"] as const;
+const STATUS_OPTIONS = ["default", "error", "warning"] as const;
+const WIDTH_OPTIONS = ["auto", "sm", "md", "lg", "full"] as const;
+
 type ComboboxSelectPreviewProps = {
   code: CodeContent;
   collapsedCode?: CodeContent;
@@ -40,15 +44,15 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
   const selectStatus = status === "default" ? undefined : status;
   const widthClassName = widthClassByValue[width];
 
-  function handleSizeChange(nextSize: string) {
+  const handleSizeChange = useCallback((nextSize: string) => {
     setSize(nextSize as SelectSize);
-  }
+  }, []);
 
-  function handleWidthChange(nextWidth: string) {
+  const handleWidthChange = useCallback((nextWidth: string) => {
     setWidth(nextWidth as SelectWidth);
-  }
+  }, []);
 
-  function handleMultipleChange(nextMultiple: boolean) {
+  const handleMultipleChange = useCallback((nextMultiple: boolean) => {
     setMultiple(nextMultiple);
     setValue((previous) => {
       if (nextMultiple) {
@@ -56,31 +60,11 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
       }
       return Array.isArray(previous) ? (previous[0] ?? null) : previous;
     });
-  }
+  }, []);
 
-  function handleStatusChange(nextStatus: string) {
+  const handleStatusChange = useCallback((nextStatus: string) => {
     setStatus(nextStatus as SelectStatus);
-  }
-
-  function handleClearableChange(nextClearable: boolean) {
-    setClearable(nextClearable);
-  }
-
-  function handleFilterableChange(nextFilterable: boolean) {
-    setFilterable(nextFilterable);
-  }
-
-  function handleDisabledChange(nextDisabled: boolean) {
-    setDisabled(nextDisabled);
-  }
-
-  function handleLoadingChange(nextLoading: boolean) {
-    setLoading(nextLoading);
-  }
-
-  function handleShowArrowChange(nextShowArrow: boolean) {
-    setShowArrow(nextShowArrow);
-  }
+  }, []);
 
   return (
     <Preview previewClassName="min-h-[22rem] items-start pt-20">
@@ -107,7 +91,7 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
           <Preview.Select
             id="combobox-select-preview-size"
             label="Size"
-            options={["sm", "md", "lg"]}
+            options={SIZE_OPTIONS}
             value={size}
             onValueChange={handleSizeChange}
           />
@@ -116,7 +100,7 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
           <Preview.Select
             id="combobox-select-preview-status"
             label="Status"
-            options={["default", "error", "warning"]}
+            options={STATUS_OPTIONS}
             value={status}
             onValueChange={handleStatusChange}
           />
@@ -125,7 +109,7 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
           <Preview.Select
             id="combobox-select-preview-width"
             label="Width"
-            options={["auto", "sm", "md", "lg", "full"]}
+            options={WIDTH_OPTIONS}
             value={width}
             onValueChange={handleWidthChange}
           />
@@ -143,7 +127,7 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
             id="combobox-select-preview-clearable"
             label="Clearable"
             checked={clearable}
-            onCheckedChange={handleClearableChange}
+            onCheckedChange={setClearable}
           />
         </Preview.Control>
         <Preview.Control label="Filterable" htmlFor="combobox-select-preview-filterable">
@@ -151,7 +135,7 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
             id="combobox-select-preview-filterable"
             label="Filterable"
             checked={filterable}
-            onCheckedChange={handleFilterableChange}
+            onCheckedChange={setFilterable}
           />
         </Preview.Control>
         <Preview.Control label="Disabled" htmlFor="combobox-select-preview-disabled">
@@ -159,7 +143,7 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
             id="combobox-select-preview-disabled"
             label="Disabled"
             checked={disabled}
-            onCheckedChange={handleDisabledChange}
+            onCheckedChange={setDisabled}
           />
         </Preview.Control>
         <Preview.Control label="Loading" htmlFor="combobox-select-preview-loading">
@@ -167,7 +151,7 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
             id="combobox-select-preview-loading"
             label="Loading"
             checked={loading}
-            onCheckedChange={handleLoadingChange}
+            onCheckedChange={setLoading}
           />
         </Preview.Control>
         <Preview.Control label="Show arrow" htmlFor="combobox-select-preview-arrow">
@@ -175,7 +159,7 @@ export function ComboboxSelectPreview({ code, collapsedCode }: ComboboxSelectPre
             id="combobox-select-preview-arrow"
             label="Show arrow"
             checked={showArrow}
-            onCheckedChange={handleShowArrowChange}
+            onCheckedChange={setShowArrow}
           />
         </Preview.Control>
       </Preview.Controls>

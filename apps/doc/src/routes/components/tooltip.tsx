@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from "raft-ui";
 import { Bell, Bookmark, Info, MessageSquare, SmilePlus } from "lucide-react";
-import { useId, useState } from "react";
+import { useCallback, useId, useState } from "react";
 import type { ReactNode } from "react";
 
 import { DocNote } from "#/components/doc-note.tsx";
@@ -510,6 +510,10 @@ function TooltipPreview({
 }) {
   const [side, setSide] = useState<(typeof PREVIEW_SIDES)[number]>("top");
   const [label, setLabel] = useState("Add reaction");
+  const handleSideChange = useCallback(
+    (value: string) => setSide(value as (typeof PREVIEW_SIDES)[number]),
+    [],
+  );
 
   return (
     <Preview>
@@ -523,7 +527,7 @@ function TooltipPreview({
             label="Side"
             options={PREVIEW_SIDES}
             value={side}
-            onValueChange={(value) => setSide(value as (typeof PREVIEW_SIDES)[number])}
+            onValueChange={handleSideChange}
           />
         </Preview.Control>
         <Preview.Control label="Label" htmlFor="tooltip-preview-label">

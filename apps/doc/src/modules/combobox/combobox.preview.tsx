@@ -18,6 +18,10 @@ import { useState } from "react";
 import { models } from "./combobox.constants.ts";
 import type { Model } from "./combobox.constants.ts";
 
+function getModelLabel(model: Model) {
+  return model.label;
+}
+
 function ComboboxModelList() {
   return (
     <>
@@ -42,7 +46,7 @@ export function PreviewCombobox() {
       <Combobox<Model>
         items={models}
         value={selectedModel}
-        itemToStringLabel={(model) => model.label}
+        itemToStringLabel={getModelLabel}
         onValueChange={setSelectedModel}
         autoHighlight
       >

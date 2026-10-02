@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import type { ReactNode } from "react";
 import { Link } from "lucide-react";
 import {
@@ -36,6 +37,11 @@ export function MessageMentionReferenceComposition({
   preview,
   variant,
 }: MessageMentionReferenceCompositionProps) {
+  const portalProps = useMemo(
+    () => (portalContainer ? { container: portalContainer } : undefined),
+    [portalContainer],
+  );
+
   return (
     <PreviewCard>
       <PreviewCardTrigger
@@ -53,7 +59,7 @@ export function MessageMentionReferenceComposition({
       <PreviewCardContent
         sideOffset={6}
         collisionPadding={6}
-        portalProps={portalContainer ? { container: portalContainer } : undefined}
+        portalProps={portalProps}
         className="w-[17.5rem]"
       >
         {preview}

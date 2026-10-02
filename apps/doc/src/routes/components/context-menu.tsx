@@ -15,7 +15,7 @@ import {
 } from "raft-ui";
 import { Archive, Bell, ChevronRight, Copy, MoonStar, Pin, Sun, Trash } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { cn } from "tailwind-variants";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -400,6 +400,8 @@ function CheckboxRows() {
   );
 }
 
+const COLLISION_AVOIDANCE = { side: "none", align: "none", fallbackAxisSide: "none" } as const;
+
 function OpenContextMenuExample({
   triggerId,
   label,
@@ -414,6 +416,10 @@ function OpenContextMenuExample({
   const portalRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const [hasCursorAnchor, setHasCursorAnchor] = useState(false);
+  const portalProps = useMemo(
+    () => ({ container: portalRef as RefObject<HTMLElement | null> }),
+    [],
+  );
   const anchor = {
     getBoundingClientRect() {
       const rect = triggerRef.current?.getBoundingClientRect();
@@ -434,8 +440,8 @@ function OpenContextMenuExample({
         </div>
         <ContextMenuContent
           anchor={hasCursorAnchor ? undefined : anchor}
-          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
-          portalProps={{ container: portalRef as RefObject<HTMLElement | null> }}
+          collisionAvoidance={COLLISION_AVOIDANCE}
+          portalProps={portalProps}
           className={contentClassName}
         >
           {children}

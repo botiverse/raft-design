@@ -44,6 +44,8 @@ export function MessageRowToolbar({
 
   useEffect(() => () => clearCloseTimer(), [clearCloseTimer]);
 
+  const handleSavedClick = useCallback(() => onSavedChange(!saved), [onSavedChange, saved]);
+
   if (coarsePointer) return null;
 
   return (
@@ -81,13 +83,15 @@ export function MessageRowToolbar({
         active={saved}
         aria-label={saved ? "Remove from Saved" : "Save message"}
         aria-pressed={saved}
-        onClick={() => onSavedChange(!saved)}
+        onClick={handleSavedClick}
       >
         <Bookmark fill={saved ? "currentColor" : "none"} />
       </MessageItemToolbarButton>
     </MessageItemToolbar>
   );
 }
+
+function noop() {}
 
 export function MessageRowToolbarFixture({
   saved = false,
@@ -106,7 +110,7 @@ export function MessageRowToolbarFixture({
         visible={visible}
         portalContainer={null}
         onReact={setSelectedReaction}
-        onReplyInThread={() => undefined}
+        onReplyInThread={noop}
         onSavedChange={setIsSaved}
       />
       {selectedReaction ? (

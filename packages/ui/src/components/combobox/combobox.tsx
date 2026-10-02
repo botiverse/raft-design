@@ -1,4 +1,4 @@
-import { createContext, use, useMemo, useState } from "react";
+import { createContext, use, useCallback, useMemo, useState } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, X } from "lucide-react";
@@ -300,6 +300,32 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
   const visible = hasValue || hasClearableInputValue(resolvedInputValue);
   const contextValue = useMemo(() => ({ hasValue, visible }), [hasValue, visible]);
 
+  const handleInputValueChange = useCallback<
+    NonNullable<ComboboxProps<Value, Multiple>["onInputValueChange"]>
+  >(
+    (nextInputValue, eventDetails) => {
+      if (inputValue === undefined) {
+        setUncontrolledInputValue(nextInputValue);
+      }
+
+      onInputValueChange?.(nextInputValue, eventDetails);
+    },
+    [inputValue, onInputValueChange],
+  );
+
+  const handleValueChange = useCallback<
+    NonNullable<ComboboxProps<Value, Multiple>["onValueChange"]>
+  >(
+    (nextValue, eventDetails) => {
+      if (value === undefined) {
+        setUncontrolledValue(nextValue);
+      }
+
+      onValueChange?.(nextValue, eventDetails);
+    },
+    [value, onValueChange],
+  );
+
   return (
     <ComboboxContext.Provider value={contextValue}>
       <BaseCombobox.Root
@@ -308,20 +334,8 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
         defaultValue={defaultValue}
         inputValue={inputValue}
         value={value}
-        onInputValueChange={(nextInputValue, eventDetails) => {
-          if (inputValue === undefined) {
-            setUncontrolledInputValue(nextInputValue);
-          }
-
-          onInputValueChange?.(nextInputValue, eventDetails);
-        }}
-        onValueChange={(nextValue, eventDetails) => {
-          if (value === undefined) {
-            setUncontrolledValue(nextValue);
-          }
-
-          onValueChange?.(nextValue, eventDetails);
-        }}
+        onInputValueChange={handleInputValueChange}
+        onValueChange={handleValueChange}
         {...props}
       />
     </ComboboxContext.Provider>

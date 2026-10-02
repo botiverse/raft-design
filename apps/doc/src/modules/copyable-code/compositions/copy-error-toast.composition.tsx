@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Checkbox,
   CopyableCode,
@@ -38,6 +38,14 @@ export function CopyErrorToastCompositionContent() {
     };
   }, [copyDenied]);
 
+  const handleCopyError = useCallback(() => {
+    toastManager.add({
+      title: "Couldn't copy the command",
+      description: "Copy the text manually, or check the browser's clipboard permission.",
+      type: "error",
+    });
+  }, [toastManager]);
+
   return (
     <ToastProvider
       toastManager={toastManager}
@@ -46,23 +54,14 @@ export function CopyErrorToastCompositionContent() {
       viewportPlacement="top-center"
     >
       <div className="grid w-full gap-3">
-        <CopyableCodeRoot
-          size="sm"
-          onError={() =>
-            toastManager.add({
-              title: "Couldn't copy the command",
-              description: "Copy the text manually, or check the browser's clipboard permission.",
-              type: "error",
-            })
-          }
-        >
+        <CopyableCodeRoot size="sm" onError={handleCopyError}>
           <CopyableCode truncate>{COMMAND}</CopyableCode>
           <CopyableCodeAction aria-label="Copy login command" />
         </CopyableCodeRoot>
         <label className="flex items-center gap-2 text-xs text-foreground-muted">
           <Checkbox
             checked={copyDenied}
-            onCheckedChange={(checked) => setCopyDenied(checked)}
+            onCheckedChange={setCopyDenied}
             aria-label="Simulate a denied clipboard"
           />
           Simulate a denied clipboard, then press copy — the action fails and the toast reports it

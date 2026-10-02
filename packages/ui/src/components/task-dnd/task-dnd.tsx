@@ -29,7 +29,6 @@ import {
   useCallback,
   useId,
   useMemo,
-  useRef,
   useState,
   useSyncExternalStore,
 } from "react";
@@ -71,6 +70,7 @@ const EMPTY_OVER_SNAPSHOT: TaskDndOverSnapshot = {
 const EMPTY_OVER_STORE = createTaskDndOverStore();
 const TaskDndOverContext = createContext<TaskDndOverStore | null>(null);
 const allowTaskDrop = () => true;
+const NO_SENSORS: ReturnType<typeof useSensors> = [];
 
 export type TaskMoveDetails = {
   activeId: UniqueIdentifier;
@@ -111,9 +111,7 @@ export function TaskDndProvider({
   const id = useId();
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [activeHeight, setActiveHeight] = useState<number | null>(null);
-  const overStoreRef = useRef<TaskDndOverStore | null>(null);
-  if (overStoreRef.current == null) overStoreRef.current = createTaskDndOverStore();
-  const overStore = overStoreRef.current;
+  const [overStore] = useState(createTaskDndOverStore);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
@@ -134,54 +132,79 @@ export function TaskDndProvider({
     overStore.update(EMPTY_OVER_SNAPSHOT);
   }, [overStore]);
 
+  const handleDragStart = useCallback(
+    (event: DragStartEvent) => {
+      overStore.update(EMPTY_OVER_SNAPSHOT);
+      setActiveId(event.active.id);
+      setActiveHeight(event.active.rect.current.initial?.height ?? null);
+      onDragStart?.(event);
+    },
+    [overStore, onDragStart],
+  );
+
+  const handleDragMove = useCallback(
+    (event: DragMoveEvent) => {
+      const current = overStore.getSnapshot();
+      overStore.update({
+        ...current,
+        overPlacement: getDropPlacement(event),
+      });
+      onDragMove?.(event);
+    },
+    [overStore, onDragMove],
+  );
+
+  const handleDragOver = useCallback(
+    (event: DragOverEvent) => {
+      overStore.update({
+        overId: event.over?.id ?? null,
+        overPlacement: getDropPlacement(event),
+        overData: event.over?.data.current as TaskDropData | undefined,
+      });
+      onDragOver?.(event);
+    },
+    [overStore, onDragOver],
+  );
+
+  const handleDragCancel = useCallback(
+    (event: DragCancelEvent) => {
+      reset();
+      onDragCancel?.(event);
+    },
+    [reset, onDragCancel],
+  );
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const nextActiveId = event.active.id;
+      const nextOverId = event.over?.id;
+      const nextOverData = event.over?.data.current as TaskDropData | undefined;
+      if (nextOverId != null && isDropAllowed(nextActiveId, nextOverId, nextOverData)) {
+        const details = {
+          activeId: nextActiveId,
+          overId: nextOverId,
+          overData: nextOverData,
+          placement: getDropPlacement(event),
+        };
+        void Promise.resolve(onMove?.(details)).catch((error: unknown) => {
+          onMoveError?.(error, details);
+        });
+      }
+      reset();
+      onDragEnd?.(event);
+    },
+    [isDropAllowed, onMove, onMoveError, reset, onDragEnd],
+  );
+
   return (
     <DndContext
       id={id}
-      sensors={disabled ? [] : sensors}
-      onDragStart={(event) => {
-        overStore.update(EMPTY_OVER_SNAPSHOT);
-        setActiveId(event.active.id);
-        setActiveHeight(event.active.rect.current.initial?.height ?? null);
-        onDragStart?.(event);
-      }}
-      onDragMove={(event) => {
-        const current = overStore.getSnapshot();
-        overStore.update({
-          ...current,
-          overPlacement: getDropPlacement(event),
-        });
-        onDragMove?.(event);
-      }}
-      onDragOver={(event) => {
-        overStore.update({
-          overId: event.over?.id ?? null,
-          overPlacement: getDropPlacement(event),
-          overData: event.over?.data.current as TaskDropData | undefined,
-        });
-        onDragOver?.(event);
-      }}
-      onDragCancel={(event) => {
-        reset();
-        onDragCancel?.(event);
-      }}
-      onDragEnd={(event) => {
-        const nextActiveId = event.active.id;
-        const nextOverId = event.over?.id;
-        const nextOverData = event.over?.data.current as TaskDropData | undefined;
-        if (nextOverId != null && isDropAllowed(nextActiveId, nextOverId, nextOverData)) {
-          const details = {
-            activeId: nextActiveId,
-            overId: nextOverId,
-            overData: nextOverData,
-            placement: getDropPlacement(event),
-          };
-          void Promise.resolve(onMove?.(details)).catch((error: unknown) => {
-            onMoveError?.(error, details);
-          });
-        }
-        reset();
-        onDragEnd?.(event);
-      }}
+      sensors={disabled ? NO_SENSORS : sensors}
+      onDragStart={handleDragStart}
+      onDragMove={handleDragMove}
+      onDragOver={handleDragOver}
+      onDragCancel={handleDragCancel}
+      onDragEnd={handleDragEnd}
     >
       <TaskDndContext value={context}>
         <TaskDndOverContext value={overStore}>{children}</TaskDndOverContext>

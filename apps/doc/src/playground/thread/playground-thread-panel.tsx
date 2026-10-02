@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { ChangeEvent } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { ChevronDown, ChevronLeft, ChevronUp, ExternalLink, Search, X } from "lucide-react";
 import {
@@ -33,6 +34,8 @@ import { getPlaygroundActor } from "../mock/index.ts";
 import type { PlaygroundChannelRecord, PlaygroundTask, PlaygroundThread } from "../mock/index.ts";
 import { TaskStatusBadge } from "../tasks/task-status-badge.tsx";
 
+const EMPTY_SEARCH = {};
+
 export function PlaygroundThreadPanel({
   backToTasks,
   channel,
@@ -60,8 +63,9 @@ export function PlaygroundThreadPanel({
   const channelLabel = isDm ? `@${channel.name}` : `#${channel.name}`;
   const conversationLabel = isDm ? "DM" : "channel";
   const normalizedQuery = searchQuery.trim().toLocaleLowerCase();
+  const threadMessages = useMemo(() => [thread.parent, ...replies], [replies, thread.parent]);
   const matchingMessages = normalizedQuery
-    ? [thread.parent, ...replies].filter((message) =>
+    ? threadMessages.filter((message) =>
         message.content.toLocaleLowerCase().includes(normalizedQuery),
       )
     : [];
@@ -93,13 +97,24 @@ export function PlaygroundThreadPanel({
     return () => window.cancelAnimationFrame(frame);
   }, [focusTargetId, replies]);
 
-  function moveToMatch(direction: -1 | 1) {
-    setActiveMatchIndex((index) =>
-      matchingMessages.length
-        ? (index + direction + matchingMessages.length) % matchingMessages.length
-        : 0,
-    );
-  }
+  const moveToMatch = useCallback(
+    (direction: -1 | 1) => {
+      setActiveMatchIndex((index) =>
+        matchingMessages.length
+          ? (index + direction + matchingMessages.length) % matchingMessages.length
+          : 0,
+      );
+    },
+    [matchingMessages.length],
+  );
+  const showPreviousMatch = useCallback(() => moveToMatch(-1), [moveToMatch]);
+  const showNextMatch = useCallback(() => moveToMatch(1), [moveToMatch]);
+  const openSearch = useCallback(() => setSearchOpen(true), []);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
+  const handleSearchChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    setActiveMatchIndex(0);
+  }, []);
 
   return (
     <ThreadPanelRoot>
@@ -112,7 +127,7 @@ export function PlaygroundThreadPanel({
           aria-label={backToTasks ? "Back to Tasks" : `Back to ${conversationLabel}`}
           render={
             onClose ? undefined : backToTasks ? (
-              <Link to="/playground/tasks" search={{}} />
+              <Link to="/playground/tasks" search={EMPTY_SEARCH} />
             ) : (
               <PlaygroundConversationLink conversation={channel} />
             )
@@ -126,7 +141,7 @@ export function PlaygroundThreadPanel({
           <ThreadPanelTitleMeta>{` — ${channelLabel}`}</ThreadPanelTitleMeta>
         </ThreadPanelTitle>
         <ThreadPanelActions>
-          <PanelAction aria-label="Search in thread" onClick={() => setSearchOpen(true)}>
+          <PanelAction aria-label="Search in thread" onClick={openSearch}>
             <Search />
           </PanelAction>
           <PanelAction
@@ -166,10 +181,7 @@ export function PlaygroundThreadPanel({
                   aria-label="Search this thread"
                   placeholder="Search this thread"
                   value={searchQuery}
-                  onChange={(event) => {
-                    setSearchQuery(event.target.value);
-                    setActiveMatchIndex(0);
-                  }}
+                  onChange={handleSearchChange}
                 />
               </InputGroup>
               <ThreadPanelSearchTrailing>
@@ -180,21 +192,18 @@ export function PlaygroundThreadPanel({
                   <PanelAction
                     aria-label="Previous match"
                     disabled={!matchingMessages.length}
-                    onClick={() => moveToMatch(-1)}
+                    onClick={showPreviousMatch}
                   >
                     <ChevronUp />
                   </PanelAction>
                   <PanelAction
                     aria-label="Next match"
                     disabled={!matchingMessages.length}
-                    onClick={() => moveToMatch(1)}
+                    onClick={showNextMatch}
                   >
                     <ChevronDown />
                   </PanelAction>
-                  <PanelAction
-                    aria-label="Close thread search"
-                    onClick={() => setSearchOpen(false)}
-                  >
+                  <PanelAction aria-label="Close thread search" onClick={closeSearch}>
                     <X />
                   </PanelAction>
                 </ThreadPanelActions>
@@ -223,8 +232,8 @@ export function PlaygroundThreadPanel({
               threadId={thread.parent.id}
               selectionMode={selection.active}
               selected={selection.selected.has(thread.parent.id)}
-              onEnterSelectionMode={() => selection.enter(thread.parent.id)}
-              onSelectedChange={() => selection.toggle(thread.parent.id)}
+              onEnterSelectionMode={selection.enter}
+              onSelectedChange={selection.toggle}
             />
           </ThreadPanelOriginalMessage>
           <ThreadPanelBody>
@@ -246,17 +255,14 @@ export function PlaygroundThreadPanel({
                   threadId={thread.parent.id}
                   selectionMode={selection.active}
                   selected={selection.selected.has(message.id)}
-                  onEnterSelectionMode={() => selection.enter(message.id)}
-                  onSelectedChange={() => selection.toggle(message.id)}
+                  onEnterSelectionMode={selection.enter}
+                  onSelectedChange={selection.toggle}
                 />
               ))}
               <div className="h-6" aria-hidden />
             </MessageList>
           </ThreadPanelBody>
-          <PlaygroundThreadMultiSelectToolbar
-            messages={[thread.parent, ...replies]}
-            selection={selection}
-          />
+          <PlaygroundThreadMultiSelectToolbar messages={threadMessages} selection={selection} />
           <PlaygroundThreadComposer
             key={thread.parent.id}
             channel={channel}
@@ -277,32 +283,34 @@ function PlaygroundThreadMultiSelectToolbar({
   messages: readonly { id: string; content: string }[];
   selection: ReturnType<typeof usePlaygroundMessageMultiSelect>;
 }) {
-  if (!selection.active) return null;
+  const selectedMessages = useMemo(
+    () => messages.filter((message) => selection.selected.has(message.id)),
+    [messages, selection.selected],
+  );
+  const selectedContent = useMemo(
+    () => selectedMessages.map((message) => message.content).join("\n\n"),
+    [selectedMessages],
+  );
+  const copyLinks = useCallback(() => {
+    const links = selectedMessages.map((message) => {
+      const permalink = new URL(window.location.href);
+      permalink.hash = `thread-message-${message.id}`;
+      return permalink.href;
+    });
+    void navigator.clipboard?.writeText(links.join("\n"));
+  }, [selectedMessages]);
+  const copyMarkdown = useCallback(
+    () => void navigator.clipboard?.writeText(selectedContent),
+    [selectedContent],
+  );
 
-  const selectedContent = messages
-    .filter((message) => selection.selected.has(message.id))
-    .map((message) => message.content)
-    .join("\n\n");
-  const selectedMessages = messages.filter((message) => selection.selected.has(message.id));
+  if (!selection.active) return null;
 
   return (
     <MessageMultiSelectToolbarComposition
       onCancel={selection.cancel}
-      onCopyLink={
-        selectedMessages.length
-          ? () => {
-              const links = selectedMessages.map((message) => {
-                const permalink = new URL(window.location.href);
-                permalink.hash = `thread-message-${message.id}`;
-                return permalink.href;
-              });
-              void navigator.clipboard?.writeText(links.join("\n"));
-            }
-          : undefined
-      }
-      onCopyMarkdown={
-        selectedContent ? () => void navigator.clipboard?.writeText(selectedContent) : undefined
-      }
+      onCopyLink={selectedMessages.length ? copyLinks : undefined}
+      onCopyMarkdown={selectedContent ? copyMarkdown : undefined}
     >
       {selection.selected.size} selected
     </MessageMultiSelectToolbarComposition>

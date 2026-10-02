@@ -34,14 +34,6 @@ export function AsyncOptionsComposition() {
     clearOnFetch: true,
   });
 
-  function handleOpenChange(nextOpen: boolean) {
-    setOpen(nextOpen);
-  }
-
-  function handleValueChange(nextValue: ComboboxSelectValue | null) {
-    setValue(nextValue);
-  }
-
   return (
     <ComboboxSelect
       options={options}
@@ -49,8 +41,8 @@ export function AsyncOptionsComposition() {
       open={open}
       remote
       loading={isLoading}
-      onOpenChange={handleOpenChange}
-      onValueChange={handleValueChange}
+      onOpenChange={setOpen}
+      onValueChange={setValue}
       fallbackOption={repositoryForValue}
       placeholder="Choose repository"
       aria-label="Choose repository"

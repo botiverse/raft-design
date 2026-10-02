@@ -1,7 +1,7 @@
 import { RadioGroup, RadioGroupItem } from "raft-ui";
 
 // @docs-source-strip-start
-import { useState } from "react";
+import { useCallback, useState } from "react";
 // @docs-source-strip-end
 
 const REFERRAL_OPTIONS = [
@@ -55,12 +55,15 @@ export function RadioGroupReferralSourceComposition({
 }) {
   const [selectedValue, setSelectedValue] = useState(value ?? "twitter_x");
 
-  function handleValueChange(nextValue: string) {
-    if (value === undefined) {
-      setSelectedValue(nextValue);
-    }
-    onValueChange?.(nextValue);
-  }
+  const handleValueChange = useCallback(
+    (nextValue: string) => {
+      if (value === undefined) {
+        setSelectedValue(nextValue);
+      }
+      onValueChange?.(nextValue);
+    },
+    [onValueChange, value],
+  );
 
   return (
     <RadioGroupReferralSourceContent

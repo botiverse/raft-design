@@ -51,6 +51,28 @@ const IMAGES = [
   },
 ] as const;
 
+type LightboxPreviewThumbnailProps = {
+  image: (typeof IMAGES)[number];
+  index: number;
+  active: boolean;
+  onSelect: (index: number) => void;
+};
+
+function LightboxPreviewThumbnail({
+  image,
+  index,
+  active,
+  onSelect,
+}: LightboxPreviewThumbnailProps) {
+  const handleClick = useCallback(() => onSelect(index), [index, onSelect]);
+
+  return (
+    <LightboxThumbnail active={active} aria-label={`Show ${image.filename}`} onClick={handleClick}>
+      <img src={image.thumb} alt="" draggable={false} />
+    </LightboxThumbnail>
+  );
+}
+
 export function LightboxPreview() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
@@ -133,14 +155,13 @@ export function LightboxPreview() {
           </LightboxInfoDock>
           <LightboxThumbnailStrip>
             {IMAGES.map((image, index) => (
-              <LightboxThumbnail
+              <LightboxPreviewThumbnail
                 key={image.filename}
+                image={image}
+                index={index}
                 active={index === imageIndex}
-                aria-label={`Show ${image.filename}`}
-                onClick={() => setImageIndex(index)}
-              >
-                <img src={image.thumb} alt="" draggable={false} />
-              </LightboxThumbnail>
+                onSelect={setImageIndex}
+              />
             ))}
           </LightboxThumbnailStrip>
         </LightboxStage>

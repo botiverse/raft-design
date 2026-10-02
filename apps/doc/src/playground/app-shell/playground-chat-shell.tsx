@@ -31,6 +31,11 @@ import { usePlaygroundTaskState } from "../tasks/use-playground-task-state.ts";
 import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
 import { usePlaygroundDesktop, usePlaygroundLargeDesktop } from "./use-playground-desktop.ts";
 
+const LIVE_AGENT_ACTIVITY = {
+  agentAvatarSrc: getPlaygroundActor(PLAYGROUND_LIVE_AGENT_ACTIVITY.actorId).avatarSrc,
+  text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
+};
+
 export function PlaygroundChatShell() {
   const savedMatch = useMatch({
     from: "/playground/s/$serverSlug/saved",
@@ -82,7 +87,6 @@ export function PlaygroundChatShell() {
         : undefined;
   const sidePanel = Boolean(activeLegacyTask || activeThread);
   const mobileListPanel = !savedMatch && (channel === null || (panel === "list" && !sidePanel));
-  const liveAgentActor = getPlaygroundActor(PLAYGROUND_LIVE_AGENT_ACTIVITY.actorId);
 
   return (
     <AppShellRoot
@@ -100,10 +104,7 @@ export function PlaygroundChatShell() {
         sidebar={
           <PlaygroundSidebar
             activeChannelId={channel?.id ?? null}
-            liveAgentActivity={{
-              agentAvatarSrc: liveAgentActor.avatarSrc,
-              text: PLAYGROUND_LIVE_AGENT_ACTIVITY.text,
-            }}
+            liveAgentActivity={LIVE_AGENT_ACTIVITY}
             mobileBottomNavigation={mobileListPanel}
             title="Chat"
           />

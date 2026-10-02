@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Bell } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { CSSProperties } from "react";
 import { InlineCode, Status } from "raft-ui";
 import type { StatusProps } from "raft-ui";
@@ -171,6 +171,14 @@ function StatusPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>[
   const [size, setSize] = useState<NonNullable<StatusProps["size"]>>("md");
   const [pulse, setPulse] = useState(false);
   const [attention, setAttention] = useState(false);
+  const handleVariantChange = useCallback(
+    (value: string) => setVariant(value as NonNullable<StatusProps["variant"]>),
+    [],
+  );
+  const handleSizeChange = useCallback(
+    (value: string) => setSize(value as NonNullable<StatusProps["size"]>),
+    [],
+  );
 
   return (
     <Preview>
@@ -217,7 +225,7 @@ function StatusPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>[
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as NonNullable<StatusProps["variant"]>)}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Size" htmlFor="status-preview-size">
@@ -226,7 +234,7 @@ function StatusPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>[
             label="Size"
             options={SIZES}
             value={size}
-            onValueChange={(value) => setSize(value as NonNullable<StatusProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="Pulse" htmlFor="status-preview-pulse">

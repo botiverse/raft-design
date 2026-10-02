@@ -23,6 +23,10 @@ export function MaterialIconThemePdf(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+function downloadArchitecture() {
+  downloadMessageFixture("architecture.pdf");
+}
+
 export function MessageAttachmentTitleIconUsageComposition() {
   return (
     <MessageAttachmentGroup>
@@ -38,7 +42,7 @@ export function MessageAttachmentTitleIconUsageComposition() {
           <MessageAttachmentMetaEnd>
             <MessageAttachmentAction
               aria-label="Download architecture.pdf"
-              onClick={() => downloadMessageFixture("architecture.pdf")}
+              onClick={downloadArchitecture}
               title="Download architecture.pdf"
             >
               <ArrowDownToLine />

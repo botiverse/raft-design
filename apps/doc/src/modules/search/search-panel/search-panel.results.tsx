@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Button,
   SearchResultsList,
@@ -94,6 +94,13 @@ export function SearchResults({
   const totalResults = entities.length + messageCount;
   const showError = view === "error" && !recovered;
 
+  const handleRetry = useCallback(() => setRecovered(true), []);
+  const getSender = useCallback((id: string) => senders.find((item) => item.id === id), [senders]);
+  const getChannel = useCallback(
+    (id: string) => channels.find((item) => item.id === id),
+    [channels],
+  );
+
   return (
     <SearchShellViewport>
       {!hasIntent ? (
@@ -110,7 +117,7 @@ export function SearchResults({
               <SearchSkeleton />
             </SearchResultsSection>
           ) : showError ? (
-            <SearchError onRetry={() => setRecovered(true)} />
+            <SearchError onRetry={handleRetry} />
           ) : totalResults === 0 ? (
             <SearchEmpty query={query.trim()} filtered={hasActiveFilters} />
           ) : (
@@ -119,18 +126,15 @@ export function SearchResults({
                 <SearchResultsSection>
                   <SearchResultsSectionHeading>Server entities</SearchResultsSectionHeading>
                   <SearchResultsList>
-                    {entities.map((entity) => {
-                      const key = entity.key;
-                      return (
-                        <EntityResult
-                          key={key}
-                          entity={entity}
-                          selected={selectedKey === key}
-                          buttonRef={(element) => setResultRef(key, element)}
-                          onOpen={() => onOpenEntity(entity)}
-                        />
-                      );
-                    })}
+                    {entities.map((entity) => (
+                      <EntityResult
+                        key={entity.key}
+                        entity={entity}
+                        selected={selectedKey === entity.key}
+                        setResultRef={setResultRef}
+                        onOpen={onOpenEntity}
+                      />
+                    ))}
                   </SearchResultsList>
                 </SearchResultsSection>
               ) : null}
@@ -144,14 +148,12 @@ export function SearchResults({
                         <MessageResult
                           key={group.message.id}
                           message={group.message}
-                          sender={senders.find((item) => item.id === group.message.senderId)}
-                          channel={channels.find((item) => item.id === group.message.channelId)}
+                          sender={getSender(group.message.senderId)}
+                          channel={getChannel(group.message.channelId)}
                           query={query}
                           selected={selectedKey === `message:${group.message.id}`}
-                          buttonRef={(element) =>
-                            setResultRef(`message:${group.message.id}`, element)
-                          }
-                          onOpen={() => onOpenMessage(group.message)}
+                          setResultRef={setResultRef}
+                          onOpen={onOpenMessage}
                         />
                       ) : (
                         <ThreadResult
@@ -160,8 +162,8 @@ export function SearchResults({
                           messages={group.messages}
                           query={query}
                           selectedKey={selectedKey}
-                          getSender={(id) => senders.find((item) => item.id === id)}
-                          getChannel={(id) => channels.find((item) => item.id === id)}
+                          getSender={getSender}
+                          getChannel={getChannel}
                           setResultRef={setResultRef}
                           onOpenMessage={onOpenMessage}
                         />

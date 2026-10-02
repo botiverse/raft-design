@@ -1,5 +1,5 @@
-import { useState } from "react";
-import type { ReactNode } from "react";
+import { useCallback, useState } from "react";
+import type { ChangeEvent, ReactNode } from "react";
 import { ImagePlus, Paperclip, Send } from "lucide-react";
 import {
   Checkbox,
@@ -40,6 +40,10 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
   const [dropOverlay, setDropOverlay] = useState(false);
   const [attachmentsScroll, setAttachmentsScroll] = useState(true);
 
+  const handleDraftChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    setDraft(event.currentTarget.value);
+  }, []);
+
   return (
     <Preview previewClassName="items-stretch">
       <Preview.Canvas>
@@ -56,7 +60,7 @@ export function ChatComposerPreview({ code, collapsedCode }: ChatComposerPreview
                   aria-label="Message #proj-uiux"
                   placeholder="Message #proj-uiux"
                   value={draft}
-                  onChange={(event) => setDraft(event.currentTarget.value)}
+                  onChange={handleDraftChange}
                 />
                 <ComposerToolbar>
                   <ComposerActions>

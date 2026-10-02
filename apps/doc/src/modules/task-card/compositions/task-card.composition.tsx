@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import type { RefObject } from "react";
 import { EllipsisVertical } from "lucide-react";
 import {
@@ -43,15 +43,20 @@ export const TaskCardComposition = memo(function TaskCardComposition({
   showChannelName?: boolean;
 }) {
   const theme = useThemeFamily();
+  const handleOpen = useCallback(() => onOpen?.(task), [onOpen, task]);
+  const handleStatusChange = useCallback(
+    (status: TaskStatus) => onStatusChange?.(task.id, status),
+    [onStatusChange, task.id],
+  );
   const statusSelectProps = {
     value: task.status,
     disabled: disabled || busy || !onStatusChange,
-    onValueChange: (status: TaskStatus) => onStatusChange?.(task.id, status),
+    onValueChange: handleStatusChange,
     portalRef: portalRef as RefObject<HTMLElement | null> | undefined,
   };
 
   return (
-    <TaskCard disabled={disabled} onClick={readOnly || !onOpen ? undefined : () => onOpen(task)}>
+    <TaskCard disabled={disabled} onClick={readOnly || !onOpen ? undefined : handleOpen}>
       <TaskCardRow>
         <TaskCardBody>
           <TaskCardMeta>

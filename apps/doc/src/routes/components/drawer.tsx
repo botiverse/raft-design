@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 import type { DrawerProps } from "raft-ui";
@@ -327,6 +328,35 @@ export const Route = createFileRoute("/components/drawer")({
 
 function DrawerDoc() {
   const code = Route.useLoaderData();
+  const nestedCloseFiles = useMemo(
+    () => [
+      {
+        path: "nested-close-callback.composition.tsx",
+        source: nestedCloseCallbackCompositionSource,
+        html: code.listenNestedCloseComposition,
+        collapsedHtml: code.listenNestedCloseCompositionBody,
+      },
+      {
+        path: "workspace-settings/workspace-settings-drawer.tsx",
+        source: workspaceSettingsDrawerSource,
+        html: code.listenNestedCloseWorkspaceSettings,
+        collapsedHtml: code.listenNestedCloseWorkspaceSettingsBody,
+      },
+      {
+        path: "workspace-settings/member-details-drawer.tsx",
+        source: memberDetailsDrawerSource,
+        html: code.listenNestedCloseMemberDetails,
+        collapsedHtml: code.listenNestedCloseMemberDetailsBody,
+      },
+      {
+        path: "workspace-settings/remove-member-drawer.tsx",
+        source: removeMemberDrawerSource,
+        html: code.listenNestedCloseRemoveMember,
+        collapsedHtml: code.listenNestedCloseRemoveMemberBody,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -384,37 +414,7 @@ function DrawerDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code
-                codeBlock={
-                  <DocsCodeBlock.Files
-                    collapsible={false}
-                    files={[
-                      {
-                        path: "nested-close-callback.composition.tsx",
-                        source: nestedCloseCallbackCompositionSource,
-                        html: code.listenNestedCloseComposition,
-                        collapsedHtml: code.listenNestedCloseCompositionBody,
-                      },
-                      {
-                        path: "workspace-settings/workspace-settings-drawer.tsx",
-                        source: workspaceSettingsDrawerSource,
-                        html: code.listenNestedCloseWorkspaceSettings,
-                        collapsedHtml: code.listenNestedCloseWorkspaceSettingsBody,
-                      },
-                      {
-                        path: "workspace-settings/member-details-drawer.tsx",
-                        source: memberDetailsDrawerSource,
-                        html: code.listenNestedCloseMemberDetails,
-                        collapsedHtml: code.listenNestedCloseMemberDetailsBody,
-                      },
-                      {
-                        path: "workspace-settings/remove-member-drawer.tsx",
-                        source: removeMemberDrawerSource,
-                        html: code.listenNestedCloseRemoveMember,
-                        collapsedHtml: code.listenNestedCloseRemoveMemberBody,
-                      },
-                    ]}
-                  />
-                }
+                codeBlock={<DocsCodeBlock.Files collapsible={false} files={nestedCloseFiles} />}
               />
             </Preview>
           </DocSubsection>

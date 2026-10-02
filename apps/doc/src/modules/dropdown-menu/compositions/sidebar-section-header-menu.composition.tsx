@@ -7,6 +7,7 @@ import {
   GripVertical,
   Plus,
 } from "lucide-react";
+import { useCallback } from "react";
 import type { ReactNode } from "react";
 import {
   Button,
@@ -73,11 +74,16 @@ export function SidebarDropdownSortItems({
   defaultValue = "manual",
   onValueChange,
 }: SidebarSortItemsProps = {}) {
+  const handleValueChange = useCallback(
+    (nextValue: string) => handleSidebarSortValueChange(onValueChange, nextValue),
+    [onValueChange],
+  );
+
   return (
     <DropdownMenuRadioGroup
       defaultValue={value === undefined ? defaultValue : undefined}
       value={value}
-      onValueChange={(nextValue) => handleSidebarSortValueChange(onValueChange, nextValue)}
+      onValueChange={handleValueChange}
     >
       {SIDEBAR_SORT_OPTIONS.map((option) => (
         <DropdownMenuRadioItem key={option.value} value={option.value}>
@@ -94,11 +100,16 @@ export function SidebarContextSortItems({
   defaultValue = "manual",
   onValueChange,
 }: SidebarSortItemsProps = {}) {
+  const handleValueChange = useCallback(
+    (nextValue: string) => handleSidebarSortValueChange(onValueChange, nextValue),
+    [onValueChange],
+  );
+
   return (
     <ContextMenuRadioGroup
       defaultValue={value === undefined ? defaultValue : undefined}
       value={value}
-      onValueChange={(nextValue) => handleSidebarSortValueChange(onValueChange, nextValue)}
+      onValueChange={handleValueChange}
     >
       {SIDEBAR_SORT_OPTIONS.map((option) => (
         <ContextMenuRadioItem key={option.value} value={option.value}>

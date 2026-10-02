@@ -25,6 +25,10 @@ const CHANNELS = [
 
 type Channel = (typeof CHANNELS)[number];
 
+function channelLabel(item: Channel) {
+  return item.label;
+}
+
 export function PickerTriggerButtonComboboxFilterComposition() {
   const [channel, setChannel] = useState<Channel | null>(CHANNELS[0]);
 
@@ -32,7 +36,7 @@ export function PickerTriggerButtonComboboxFilterComposition() {
     <Combobox<Channel>
       items={CHANNELS}
       value={channel}
-      itemToStringLabel={(item) => item.label}
+      itemToStringLabel={channelLabel}
       onValueChange={setChannel}
       autoHighlight
     >

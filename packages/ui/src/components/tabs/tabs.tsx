@@ -450,24 +450,30 @@ export function SortableTabsTab<T extends string = string>({
     disabled: !reorder.enabled,
   });
   const isDraggingActive = isDragging && activeValue === String(value);
+  const baseStyle = typeof props.style === "function" ? undefined : props.style;
+  const vertical = placement === "left" || placement === "right";
+  const translate = vertical ? transform?.y : transform?.x;
+  const style = useMemo<CSSProperties>(
+    () => ({
+      ...baseStyle,
+      transform:
+        translate === undefined
+          ? undefined
+          : vertical
+            ? `translate3d(0, ${translate}px, 0)`
+            : `translate3d(${translate}px, 0, 0)`,
+      transition,
+      zIndex: isDragging ? 20 : baseStyle?.zIndex,
+      cursor: isDragging ? "grabbing" : "pointer",
+    }),
+    [baseStyle, vertical, translate, transition, isDragging],
+  );
 
   if (!reorder.enabled) {
     return <TabsTabButton value={value} {...props} />;
   }
 
   const { role: _sortableRole, tabIndex: _sortableTabIndex, ...sortableAttributes } = attributes;
-  const baseStyle = typeof props.style === "function" ? undefined : props.style;
-  const style: CSSProperties = {
-    ...baseStyle,
-    transform: transform
-      ? placement === "left" || placement === "right"
-        ? `translate3d(0, ${transform.y}px, 0)`
-        : `translate3d(${transform.x}px, 0, 0)`
-      : undefined,
-    transition,
-    zIndex: isDragging ? 20 : baseStyle?.zIndex,
-    cursor: isDragging ? "grabbing" : "pointer",
-  };
 
   return (
     <TabsTabButton
@@ -504,9 +510,7 @@ function TabsTabButton<T extends string = string>({
 
   return (
     <BaseTabs.Tab
-      ref={(node) => {
-        sortableRef?.(node);
-      }}
+      ref={sortableRef}
       value={value}
       data-slot="tabs-tab"
       className={tab({ className })}

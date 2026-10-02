@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { InlineCode } from "raft-ui";
 import type { PanelEdge } from "raft-ui";
 
@@ -197,6 +197,13 @@ function ConversationPanelPreview({ code }: { code: HighlightedSnippets }) {
   const [banner, setBanner] = useState(false);
   const [jumpToLatest, setJumpToLatest] = useState(false);
 
+  const handleEdgeChange = useCallback((value: string) => setEdge(value as PanelEdge), []);
+  const handleConversationChange = useCallback(
+    (value: string) =>
+      setConversation(value as NonNullable<ConversationPanelCompositionProps["conversation"]>),
+    [],
+  );
+
   return (
     <Preview previewInset="flush" previewClassName="min-h-[32rem]">
       <Preview.Canvas>
@@ -219,7 +226,7 @@ function ConversationPanelPreview({ code }: { code: HighlightedSnippets }) {
             label="Edge"
             options={PANEL_EDGES}
             value={edge}
-            onValueChange={(value) => setEdge(value as PanelEdge)}
+            onValueChange={handleEdgeChange}
           />
         </Preview.Control>
         <Preview.Control label="Conversation" htmlFor="conversation-panel-preview-conversation">
@@ -228,11 +235,7 @@ function ConversationPanelPreview({ code }: { code: HighlightedSnippets }) {
             label="Conversation"
             options={CONVERSATIONS}
             value={conversation}
-            onValueChange={(value) =>
-              setConversation(
-                value as NonNullable<ConversationPanelCompositionProps["conversation"]>,
-              )
-            }
+            onValueChange={handleConversationChange}
           />
         </Preview.Control>
         <Preview.Control label="Muted" htmlFor="conversation-panel-preview-muted">
@@ -384,24 +387,22 @@ function ConversationPanelSourceFiles({
   code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={collapsible}
-      showLineNumbers={false}
-      files={[
-        {
-          path: CONVERSATION_PANEL_COMPOSITION_PATH,
-          source: conversationPanelCompositionSource,
-          html: code.conversationPanelComposition,
-          collapsedHtml: code.conversationPanelCompositionBody,
-        },
-        {
-          path: CONVERSATION_PANEL_HEADER_COMPOSITION_PATH,
-          source: conversationPanelHeaderCompositionSource,
-          html: code.conversationPanelHeaderComposition,
-          collapsedHtml: code.conversationPanelHeaderCompositionBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: CONVERSATION_PANEL_COMPOSITION_PATH,
+        source: conversationPanelCompositionSource,
+        html: code.conversationPanelComposition,
+        collapsedHtml: code.conversationPanelCompositionBody,
+      },
+      {
+        path: CONVERSATION_PANEL_HEADER_COMPOSITION_PATH,
+        source: conversationPanelHeaderCompositionSource,
+        html: code.conversationPanelHeaderComposition,
+        collapsedHtml: code.conversationPanelHeaderCompositionBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={collapsible} showLineNumbers={false} files={files} />;
 }

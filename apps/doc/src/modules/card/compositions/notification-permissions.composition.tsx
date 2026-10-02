@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Button,
   Card,
@@ -15,6 +15,15 @@ export function CardNotificationPermissionsComposition() {
   const [enabled, setEnabled] = useState(true);
   const [message, setMessage] = useState("");
 
+  const handleEnabledChange = useCallback((checked: boolean) => {
+    setEnabled(checked);
+    setMessage("");
+  }, []);
+
+  const handleSendTestPush = useCallback(() => {
+    setMessage("Test push sent.");
+  }, []);
+
   return (
     <Card className="w-full max-w-lg">
       <CardHeader>
@@ -23,10 +32,7 @@ export function CardNotificationPermissionsComposition() {
           <Switch
             aria-label="Push notifications"
             checked={enabled}
-            onCheckedChange={(checked) => {
-              setEnabled(checked);
-              setMessage("");
-            }}
+            onCheckedChange={handleEnabledChange}
           />
         </CardTrailing>
         <CardDescription>
@@ -39,7 +45,7 @@ export function CardNotificationPermissionsComposition() {
           size="sm"
           className="justify-self-start"
           disabled={!enabled}
-          onClick={() => setMessage("Test push sent.")}
+          onClick={handleSendTestPush}
         >
           Send Test Push
         </Button>

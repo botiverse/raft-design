@@ -7,6 +7,8 @@ import {
 } from "raft-ui";
 import { MESSAGE_FIXTURE_IMAGE_SRC } from "#/modules/message-item/message-item.fixtures.ts";
 
+const PENDING_ITEM_STYLE = { width: "min(288px, 100%)", aspectRatio: "4 / 3" };
+
 export function MessageImageGalleryPendingComposition() {
   return (
     <MessageImageGallery>
@@ -14,7 +16,7 @@ export function MessageImageGalleryPendingComposition() {
         <MessageImageGalleryItem
           aria-busy
           className="inline-block w-fit max-w-[416px] justify-self-start"
-          style={{ width: "min(288px, 100%)", aspectRatio: "4 / 3" }}
+          style={PENDING_ITEM_STYLE}
         >
           <MessageImageGalleryMedia>
             <img

@@ -21,12 +21,14 @@ export const Route = createFileRoute("/dashboard")({
   component: DashboardRoute,
 });
 
+const TOC = [{ id: "dashboard", title: "Agent usage" }];
+
 function DashboardRoute() {
   return (
     <DocPage
       title="Dashboard"
       description="A data-dense example app: KPI summary, filters, a table with numeric columns and status, and row drill-down. Switch themes from the header to compare brutal and elegant at density."
-      toc={[{ id: "dashboard", title: "Agent usage" }]}
+      toc={TOC}
     >
       {/* DocSection, not a bare DocPage child: the theme switcher is a
           DocSection affordance (`showThemeSwitcher`), and being able to compare

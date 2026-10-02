@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "raft-ui";
 import type { Theme } from "raft-ui";
 import { usePreviewTheme, useResolvedPreviewMode } from "#/components/preview-theme.tsx";
@@ -42,14 +43,18 @@ export function ThemeSwitcher() {
   const activePreset = PRESETS.find(
     (preset) => theme.theme === preset.family && resolvedMode === preset.mode,
   );
+  const handleValueChange = useCallback(
+    (value: string) => {
+      PRESETS.find((preset) => preset.key === value)?.select(theme);
+    },
+    [theme],
+  );
 
   return (
     <SegmentedControl
       aria-label="Preview theme"
       value={activePreset?.key}
-      onValueChange={(value) => {
-        PRESETS.find((preset) => preset.key === value)?.select(theme);
-      }}
+      onValueChange={handleValueChange}
     >
       {PRESETS.map((preset) => (
         <SegmentedControlItem key={preset.key} value={preset.key}>

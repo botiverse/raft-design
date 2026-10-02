@@ -14,6 +14,10 @@ import {
 } from "raft-ui";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 
+function downloadMigrationDiff() {
+  downloadMessageFixture("migration.diff");
+}
+
 export function MessageAttachmentDiffUsageComposition() {
   return (
     <MessageAttachmentGroup>
@@ -29,7 +33,7 @@ export function MessageAttachmentDiffUsageComposition() {
           <MessageAttachmentMetaEnd>
             <MessageAttachmentAction
               aria-label="Download migration.diff"
-              onClick={() => downloadMessageFixture("migration.diff")}
+              onClick={downloadMigrationDiff}
               title="Download migration.diff"
             >
               <ArrowDownToLine />

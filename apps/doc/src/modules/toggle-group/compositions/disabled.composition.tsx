@@ -1,9 +1,11 @@
 import { Bold, Italic, Underline } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem, ToggleGroupLabel } from "raft-ui";
 
+const DEFAULT_VALUE = ["bold"];
+
 export function ToggleGroupDisabledComposition() {
   return (
-    <ToggleGroup multiple disabled defaultValue={["bold"]} aria-label="Text formatting">
+    <ToggleGroup multiple disabled defaultValue={DEFAULT_VALUE} aria-label="Text formatting">
       <ToggleGroupItem value="bold">
         <Bold aria-hidden />
         <ToggleGroupLabel>Bold</ToggleGroupLabel>

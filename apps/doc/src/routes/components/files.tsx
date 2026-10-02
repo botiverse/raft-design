@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -224,6 +225,23 @@ export const Route = createFileRoute("/components/files")({
 
 function FilesPanelDoc() {
   const code = Route.useLoaderData();
+  const defaultFiles = useMemo(
+    () => [
+      {
+        path: COMPOSITION_PATHS.defaultComposition,
+        source: COMPOSITION_SOURCES.defaultComposition,
+        html: code.default,
+        collapsedHtml: code.defaultBody,
+      },
+      {
+        path: COMPOSITION_PATHS.filesPanelComposition,
+        source: COMPOSITION_SOURCES.filesPanelComposition,
+        html: code.filesPanelComposition,
+        collapsedHtml: code.filesPanelCompositionBody,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -290,25 +308,7 @@ function FilesPanelDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code
-                codeBlock={
-                  <DocsCodeBlock.Files
-                    collapsible={false}
-                    files={[
-                      {
-                        path: COMPOSITION_PATHS.defaultComposition,
-                        source: COMPOSITION_SOURCES.defaultComposition,
-                        html: code.default,
-                        collapsedHtml: code.defaultBody,
-                      },
-                      {
-                        path: COMPOSITION_PATHS.filesPanelComposition,
-                        source: COMPOSITION_SOURCES.filesPanelComposition,
-                        html: code.filesPanelComposition,
-                        collapsedHtml: code.filesPanelCompositionBody,
-                      },
-                    ]}
-                  />
-                }
+                codeBlock={<DocsCodeBlock.Files collapsible={false} files={defaultFiles} />}
               />
             </Preview>
           </DocSubsection>

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type {} from "react";
+import { useMemo } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -299,24 +299,22 @@ function AppRailSourceFiles({
   code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={collapsible}
-      showLineNumbers={false}
-      files={[
-        {
-          path: APP_RAIL_COMPOSITION_PATH,
-          source: appRailCompositionSource,
-          html: code.appRailComposition,
-          collapsedHtml: code.appRailCompositionBody,
-        },
-        {
-          path: APP_RAIL_SERVER_BUTTON_PATH,
-          source: appRailServerButtonSource,
-          html: code.appRailServerButton,
-          collapsedHtml: code.appRailServerButtonBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: APP_RAIL_COMPOSITION_PATH,
+        source: appRailCompositionSource,
+        html: code.appRailComposition,
+        collapsedHtml: code.appRailCompositionBody,
+      },
+      {
+        path: APP_RAIL_SERVER_BUTTON_PATH,
+        source: appRailServerButtonSource,
+        html: code.appRailServerButton,
+        collapsedHtml: code.appRailServerButtonBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={collapsible} showLineNumbers={false} files={files} />;
 }

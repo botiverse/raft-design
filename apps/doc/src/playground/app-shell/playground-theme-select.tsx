@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import type { ReactNode } from "react";
 import {
   Select,
@@ -39,15 +40,19 @@ export function PlaygroundThemeSelect({
   const { theme, setTheme } = usePreviewTheme();
   const resolvedMode = useResolvedPreviewMode();
   const value = getThemeValue(theme, resolvedMode);
+  const handleValueChange = useCallback(
+    (nextValue: PlaygroundThemeValue | null) => {
+      const preset = THEME_PRESETS.find((candidate) => candidate.value === nextValue);
+      if (preset) setTheme(preset.theme, { mode: preset.mode });
+    },
+    [setTheme],
+  );
 
   return (
     <Select<PlaygroundThemeValue>
       value={value}
       items={THEME_PRESETS}
-      onValueChange={(nextValue) => {
-        const preset = THEME_PRESETS.find((candidate) => candidate.value === nextValue);
-        if (preset) setTheme(preset.theme, { mode: preset.mode });
-      }}
+      onValueChange={handleValueChange}
     >
       {children}
       <SelectContent side={side} align="end" className="min-w-40">

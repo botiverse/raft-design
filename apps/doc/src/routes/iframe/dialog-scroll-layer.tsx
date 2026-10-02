@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Button,
   Dialog,
@@ -26,6 +26,14 @@ import { PreviewThemeScope } from "#/components/preview-theme.tsx";
 
 type CloseBehavior = "esc-only" | "both" | "none";
 
+type ThemeOption = { label: string; theme: Theme; mode: ThemeMode };
+
+const THEME_OPTIONS: readonly ThemeOption[] = [
+  { label: "Elegant", theme: "elegant", mode: "light" },
+  { label: "Brutal", theme: "brutal", mode: "light" },
+  { label: "Elegant dark", theme: "elegant", mode: "dark" },
+];
+
 export const Route = createFileRoute("/iframe/dialog-scroll-layer")({
   staticData: { standalone: true },
   validateSearch: (search) => ({
@@ -39,6 +47,11 @@ function DialogScrollLayerPreview() {
   const search = Route.useSearch();
   const [theme, setTheme] = useState<Theme>(search.theme);
   const [mode, setMode] = useState<ThemeMode>(search.mode);
+
+  const handleThemeSelect = useCallback((option: ThemeOption) => {
+    setTheme(option.theme);
+    setMode(option.mode);
+  }, []);
 
   return (
     <PreviewThemeScope
@@ -57,29 +70,14 @@ function DialogScrollLayerPreview() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {(["elegant", "brutal"] as const).map((t) => (
-            <Button
-              key={t}
-              variant={theme === t && mode === "light" ? "accent" : "outline"}
-              size="sm"
-              onClick={() => {
-                setTheme(t);
-                setMode("light");
-              }}
-            >
-              {t === "elegant" ? "Elegant" : "Brutal"}
-            </Button>
+          {THEME_OPTIONS.map((option) => (
+            <ThemeOptionButton
+              key={option.label}
+              option={option}
+              active={theme === option.theme && mode === option.mode}
+              onSelect={handleThemeSelect}
+            />
           ))}
-          <Button
-            variant={theme === "elegant" && mode === "dark" ? "accent" : "outline"}
-            size="sm"
-            onClick={() => {
-              setTheme("elegant");
-              setMode("dark");
-            }}
-          >
-            Elegant dark
-          </Button>
         </div>
 
         <div className="grid gap-6">
@@ -132,6 +130,24 @@ function DialogScrollLayerPreview() {
   );
 }
 
+function ThemeOptionButton({
+  option,
+  active,
+  onSelect,
+}: {
+  option: ThemeOption;
+  active: boolean;
+  onSelect: (option: ThemeOption) => void;
+}) {
+  const handleClick = useCallback(() => onSelect(option), [onSelect, option]);
+
+  return (
+    <Button variant={active ? "accent" : "outline"} size="sm" onClick={handleClick}>
+      {option.label}
+    </Button>
+  );
+}
+
 function AxisSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col gap-3">
@@ -175,18 +191,21 @@ function Card({
 function CloseBehaviorDialog({ behavior }: { behavior: CloseBehavior }) {
   const [open, setOpen] = useState(false);
 
-  const handleOpenChange = (next: boolean, details: { reason: string }) => {
-    if (
-      behavior === "none" &&
-      (details.reason === "escape-key" || details.reason === "outside-press")
-    ) {
-      return;
-    }
-    if (behavior === "esc-only" && details.reason === "outside-press") {
-      return;
-    }
-    setOpen(next);
-  };
+  const handleOpenChange = useCallback(
+    (next: boolean, details: { reason: string }) => {
+      if (
+        behavior === "none" &&
+        (details.reason === "escape-key" || details.reason === "outside-press")
+      ) {
+        return;
+      }
+      if (behavior === "esc-only" && details.reason === "outside-press") {
+        return;
+      }
+      setOpen(next);
+    },
+    [behavior],
+  );
 
   const label =
     behavior === "esc-only"
@@ -423,6 +442,14 @@ function WorstCaseCombo() {
   const isBrutal = theme === "brutal";
   const isElegant = theme === "elegant";
 
+  const handleInnerOpenChange = useCallback((next: boolean, details: { reason: string }) => {
+    if (!next && (details.reason === "escape-key" || details.reason === "outside-press")) {
+      return;
+    }
+    setInnerOpen(next);
+  }, []);
+  const handleInnerClose = useCallback(() => setInnerOpen(false), []);
+
   return (
     <Dialog open={outerOpen} onOpenChange={setOuterOpen}>
       <DialogTrigger render={<Button variant="outline" size="sm" />}>Open combo</DialogTrigger>
@@ -442,18 +469,7 @@ function WorstCaseCombo() {
               <Input id={`combo-outer-${i}`} placeholder={`Value ${i + 1}`} />
             </Field>
           ))}
-          <Dialog
-            open={innerOpen}
-            onOpenChange={(next, details) => {
-              if (
-                !next &&
-                (details.reason === "escape-key" || details.reason === "outside-press")
-              ) {
-                return;
-              }
-              setInnerOpen(next);
-            }}
-          >
+          <Dialog open={innerOpen} onOpenChange={handleInnerOpenChange}>
             <DialogTrigger render={<Button variant="accent" />}>
               Open onboarding gate (layer 1)
             </DialogTrigger>
@@ -500,10 +516,10 @@ function WorstCaseCombo() {
                   </Field>
                 ))}
                 <div className="flex items-center justify-end gap-3 pt-2">
-                  <Button variant="outline" onClick={() => setInnerOpen(false)}>
+                  <Button variant="outline" onClick={handleInnerClose}>
                     Skip
                   </Button>
-                  <Button variant="accent" onClick={() => setInnerOpen(false)}>
+                  <Button variant="accent" onClick={handleInnerClose}>
                     Complete
                   </Button>
                 </div>

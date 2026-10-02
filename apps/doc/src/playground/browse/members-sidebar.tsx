@@ -1,4 +1,5 @@
 import { GitBranch, Monitor, Users } from "lucide-react";
+import { useCallback } from "react";
 import type { ReactNode } from "react";
 import {
   Avatar,
@@ -74,6 +75,8 @@ export function MembersSidebar({
   selectedId?: string;
   onSelect: (id: string) => void;
 }) {
+  const handleSelectGraph = useCallback(() => onSelect("graph"), [onSelect]);
+
   return (
     <SidebarRoot>
       <SidebarHeader>
@@ -81,7 +84,7 @@ export function MembersSidebar({
       </SidebarHeader>
       <SidebarBody>
         <SidebarContent>
-          <SidebarItem active={selectedId === "graph"} onClick={() => onSelect("graph")}>
+          <SidebarItem active={selectedId === "graph"} onClick={handleSelectGraph}>
             <SidebarItemIcon aria-hidden>
               <GitBranch />
             </SidebarItemIcon>
@@ -119,8 +122,9 @@ export function MembersSidebar({
                     <MemberSidebarItem
                       key={agent.id}
                       actor={agent}
-                      active={selectedId === memberDetailId.agent(agent.id)}
-                      onSelect={() => onSelect(memberDetailId.agent(agent.id))}
+                      detailId={memberDetailId.agent(agent.id)}
+                      selectedId={selectedId}
+                      onSelect={onSelect}
                     />
                   ))}
                 </div>
@@ -141,8 +145,9 @@ export function MembersSidebar({
                 <MemberSidebarItem
                   key={human.id}
                   actor={human}
-                  active={selectedId === memberDetailId.human(human.id)}
-                  onSelect={() => onSelect(memberDetailId.human(human.id))}
+                  detailId={memberDetailId.human(human.id)}
+                  selectedId={selectedId}
+                  onSelect={onSelect}
                 />
               ))}
             </SidebarList>
@@ -155,17 +160,20 @@ export function MembersSidebar({
 
 function MemberSidebarItem({
   actor,
-  active,
+  detailId,
+  selectedId,
   onSelect,
 }: {
   actor: PlaygroundActor;
-  active: boolean;
-  onSelect: () => void;
+  detailId: string;
+  selectedId?: string;
+  onSelect: (id: string) => void;
 }) {
   const presence = actor.presence ? PLAYGROUND_PRESENCE_STATUS[actor.presence] : null;
+  const handleClick = useCallback(() => onSelect(detailId), [detailId, onSelect]);
 
   return (
-    <SidebarItem active={active} onClick={onSelect}>
+    <SidebarItem active={selectedId === detailId} onClick={handleClick}>
       <SidebarItemIcon>
         <Avatar size="2xs" type={actor.type}>
           {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}

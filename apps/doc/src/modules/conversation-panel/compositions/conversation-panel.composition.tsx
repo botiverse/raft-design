@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import type { FormEvent } from "react";
 import {
   ArrowDown,
   Bookmark,
@@ -63,6 +64,14 @@ export type ConversationPanelCompositionProps = {
   newMessageCount?: number;
 };
 
+const tabOrder = ["chat", "tasks", "files"];
+
+function handleTabReorder() {}
+
+function handleComposerSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+}
+
 export function ConversationPanelComposition({
   conversation = "channel",
   edge = "inset",
@@ -79,11 +88,11 @@ export function ConversationPanelComposition({
     setMuted(mutedProp);
   }
 
-  const handleJump = () => {
+  const handleJump = useCallback(() => {
     const el = timelineRef.current;
     if (!el) return;
     el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  };
+  }, []);
 
   return (
     <ConversationPanelRoot edge={edge}>
@@ -103,11 +112,7 @@ export function ConversationPanelComposition({
       ) : null}
       <ConversationPanelContent>
         <ConversationPanelTabs render={<Tabs value="chat" />}>
-          <SortableTabsList
-            value={["chat", "tasks", "files"]}
-            onReorder={() => undefined}
-            variant="underline"
-          >
+          <SortableTabsList value={tabOrder} onReorder={handleTabReorder} variant="underline">
             <SortableTabsTab value="chat">
               <MessageSquare />
               <TabsLabel>Chat</TabsLabel>
@@ -256,7 +261,7 @@ export function ConversationPanelComposition({
           ) : null}
         </ConversationPanelBody>
         <ConversationPanelFooter>
-          <ComposerRoot onSubmit={(event) => event.preventDefault()}>
+          <ComposerRoot onSubmit={handleComposerSubmit}>
             <Composer>
               <ComposerInput
                 aria-label="Message #proj-uiux"

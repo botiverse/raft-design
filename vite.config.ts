@@ -30,7 +30,7 @@ export default defineConfig({
     // reporting without complaining. ESLint-core rules are deliberately NOT
     // listed: they are oxlint's always-on base set (measured — `plugins: []`
     // still runs 60 rules), not a plugin this array switches.
-    plugins: ["oxc", "unicorn", "typescript", "import"],
+    plugins: ["oxc", "unicorn", "typescript", "import", "react", "react-perf"],
     jsPlugins: ["eslint-plugin-better-tailwindcss"],
     settings: {
       "better-tailwindcss": {
@@ -48,6 +48,15 @@ export default defineConfig({
       // False positives on Vite `?raw` imports (the plugin cannot see the
       // build-tool default export), so it stays off.
       "import/default": "off",
+      // No React Compiler here, so a function / object / array created during
+      // render is a new reference every time: it defeats memo() children and
+      // re-runs effects that depend on it. Hoist constants out of the
+      // component, or wrap with useCallback / useMemo (Artea). Native
+      // elements are exempt — a new reference there costs nothing.
+      "react-perf/jsx-no-new-function-as-prop": ["error", { nativeAllowList: "all" }],
+      "react-perf/jsx-no-new-object-as-prop": ["error", { nativeAllowList: "all" }],
+      "react-perf/jsx-no-new-array-as-prop": ["error", { nativeAllowList: "all" }],
+      "react/exhaustive-deps": "error",
       "better-tailwindcss/enforce-canonical-classes": "warn",
       "better-tailwindcss/no-deprecated-classes": "warn",
       "better-tailwindcss/no-duplicate-classes": "warn",

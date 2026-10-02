@@ -22,6 +22,8 @@ import { getPlaygroundActor } from "../mock/index.ts";
 import type { PlaygroundActorId } from "../mock/index.ts";
 import { PLAYGROUND_PRESENCE_STATUS } from "./playground-presence.ts";
 
+const USER_ICON_STYLE = { width: "1rem", height: "1rem" };
+
 export type PlaygroundAvatarVariant = "member" | "agent";
 
 export type PlaygroundAgentStatus =
@@ -196,7 +198,7 @@ export function PlaygroundMessageAvatar({
       className={cn(deactivated && "opacity-60 grayscale")}
     >
       <PlaygroundAvatarContent actorId={actorId}>
-        <User aria-hidden size={16} style={{ width: "1rem", height: "1rem" }} />
+        <User aria-hidden size={16} style={USER_ICON_STYLE} />
       </PlaygroundAvatarContent>
       {isAgent && !deactivated ? (
         <AvatarBadge

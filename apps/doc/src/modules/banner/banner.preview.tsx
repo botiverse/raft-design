@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { Banner, BannerAction, BannerDescription, BannerTitle, Button } from "raft-ui";
 import type { BannerProps } from "raft-ui";
@@ -29,6 +29,13 @@ export function BannerPlaygroundPreview({ code, collapsedCode }: BannerPlaygroun
   const [withIcon, setWithIcon] = useState(true);
   const [withTitle, setWithTitle] = useState(false);
   const [withActions, setWithActions] = useState(false);
+
+  const handleStatusChange = useCallback((value: string) => {
+    setStatus(value as NonNullable<BannerProps["status"]>);
+  }, []);
+  const handleSizeChange = useCallback((value: string) => {
+    setSize(value as NonNullable<BannerProps["size"]>);
+  }, []);
   const Icon = STATUS_ICON[status];
 
   return (
@@ -54,7 +61,7 @@ export function BannerPlaygroundPreview({ code, collapsedCode }: BannerPlaygroun
             label="Status"
             options={STATUSES}
             value={status}
-            onValueChange={(value) => setStatus(value as NonNullable<BannerProps["status"]>)}
+            onValueChange={handleStatusChange}
           />
         </Preview.Control>
         <Preview.Control label="Size" htmlFor="banner-preview-size">
@@ -63,7 +70,7 @@ export function BannerPlaygroundPreview({ code, collapsedCode }: BannerPlaygroun
             label="Size"
             options={SIZES}
             value={size}
-            onValueChange={(value) => setSize(value as NonNullable<BannerProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="With icon" htmlFor="banner-preview-with-icon">

@@ -121,6 +121,8 @@ export function SidebarBody({ className, render, ...props }: SidebarBodyProps) {
 
 export type SidebarContentProps = useRender.ComponentProps<"div">;
 
+const SIDEBAR_CONTENT_INNER_STYLE = { minWidth: 0, width: "100%" };
+
 export function SidebarContent({ children, className, render, ...props }: SidebarContentProps) {
   const isMobile = useMobileViewport();
   const theme = useThemeFamily();
@@ -132,7 +134,7 @@ export function SidebarContent({ children, className, render, ...props }: Sideba
     "data-slot": "sidebar-content",
     className: sidebarViewport(),
     children: (
-      <div className={sidebarContentInner({ className })} style={{ minWidth: 0, width: "100%" }}>
+      <div className={sidebarContentInner({ className })} style={SIDEBAR_CONTENT_INNER_STYLE}>
         {children}
       </div>
     ),
@@ -161,7 +163,7 @@ export function SidebarContent({ children, className, render, ...props }: Sideba
       >
         <ScrollAreaContent
           className={sidebarContentInner({ className })}
-          style={{ minWidth: 0, width: "100%" }}
+          style={SIDEBAR_CONTENT_INNER_STYLE}
         >
           {children}
         </ScrollAreaContent>
