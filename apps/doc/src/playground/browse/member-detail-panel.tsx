@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronLeft, CircleHelp, MessageSquare, Trash2, X } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import {
   AlertDialog,
@@ -82,6 +82,8 @@ export function MemberDetailPanel({
     : [];
   const handle = humanProfile?.handle ?? actor.id;
   const canChangeRole = !actor.isSelf && !removed;
+  const toggleRoleHelp = useCallback(() => setRoleHelpVisible((visible) => !visible), []);
+  const handleRemove = useCallback(() => setRemoved(true), []);
 
   return (
     <ProfilePanel edge={edge}>
@@ -191,7 +193,7 @@ export function MemberDetailPanel({
                           className="text-foreground-icon in-data-[theme=brutal]:text-black/35"
                           aria-label="Explain member roles"
                           aria-pressed={roleHelpVisible}
-                          onClick={() => setRoleHelpVisible((visible) => !visible)}
+                          onClick={toggleRoleHelp}
                         >
                           <CircleHelp aria-hidden />
                         </Button>
@@ -271,42 +273,13 @@ export function MemberDetailPanel({
               <MemberDetailSection title="Created agents" count={createdAgents.length}>
                 {createdAgents.length > 0 ? (
                   <div className="grid gap-2">
-                    {createdAgents.map((createdAgent) => {
-                      const presence = createdAgent.presence
-                        ? PLAYGROUND_PRESENCE_STATUS[createdAgent.presence]
-                        : null;
-
-                      return (
-                        <SidebarItem
-                          key={createdAgent.id}
-                          className="in-data-[theme=brutal]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
-                          onClick={() => onSelectActor(createdAgent)}
-                        >
-                          <SidebarItemIcon className="size-8">
-                            <Avatar size="sm" type="agent">
-                              {createdAgent.avatarSrc ? (
-                                <AvatarImage src={createdAgent.avatarSrc} alt="" />
-                              ) : null}
-                              <AvatarFallback>{createdAgent.fallback}</AvatarFallback>
-                            </Avatar>
-                          </SidebarItemIcon>
-                          <SidebarItemContent>
-                            <SidebarItemTitle>{createdAgent.name}</SidebarItemTitle>
-                            <SidebarItemSubtitle>{createdAgent.meta}</SidebarItemSubtitle>
-                          </SidebarItemContent>
-                          {presence ? (
-                            <SidebarItemAside>
-                              <Status
-                                aria-label={presence.label}
-                                size="md"
-                                variant={presence.variant}
-                                pulse={presence.pulse}
-                              />
-                            </SidebarItemAside>
-                          ) : null}
-                        </SidebarItem>
-                      );
-                    })}
+                    {createdAgents.map((createdAgent) => (
+                      <CreatedAgentItem
+                        key={createdAgent.id}
+                        agent={createdAgent}
+                        onSelectActor={onSelectActor}
+                      />
+                    ))}
                   </div>
                 ) : (
                   <p className="text-sm italic text-foreground-placeholder in-data-[theme=brutal]:text-black/40">
@@ -344,7 +317,7 @@ export function MemberDetailPanel({
                     </AlertDialogBody>
                     <AlertDialogFooter>
                       <AlertDialogCancel size="md">Cancel</AlertDialogCancel>
-                      <AlertDialogClose variant="danger" size="md" onClick={() => setRemoved(true)}>
+                      <AlertDialogClose variant="danger" size="md" onClick={handleRemove}>
                         Remove Member
                       </AlertDialogClose>
                     </AlertDialogFooter>
@@ -392,5 +365,44 @@ function MemberDetailSection({
       />
       {children}
     </ProfilePanelSection>
+  );
+}
+
+function CreatedAgentItem({
+  agent,
+  onSelectActor,
+}: {
+  agent: PlaygroundActor;
+  onSelectActor: (actor: PlaygroundActor) => void;
+}) {
+  const presence = agent.presence ? PLAYGROUND_PRESENCE_STATUS[agent.presence] : null;
+  const handleClick = useCallback(() => onSelectActor(agent), [agent, onSelectActor]);
+
+  return (
+    <SidebarItem
+      className="in-data-[theme=brutal]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
+      onClick={handleClick}
+    >
+      <SidebarItemIcon className="size-8">
+        <Avatar size="sm" type="agent">
+          {agent.avatarSrc ? <AvatarImage src={agent.avatarSrc} alt="" /> : null}
+          <AvatarFallback>{agent.fallback}</AvatarFallback>
+        </Avatar>
+      </SidebarItemIcon>
+      <SidebarItemContent>
+        <SidebarItemTitle>{agent.name}</SidebarItemTitle>
+        <SidebarItemSubtitle>{agent.meta}</SidebarItemSubtitle>
+      </SidebarItemContent>
+      {presence ? (
+        <SidebarItemAside>
+          <Status
+            aria-label={presence.label}
+            size="md"
+            variant={presence.variant}
+            pulse={presence.pulse}
+          />
+        </SidebarItemAside>
+      ) : null}
+    </SidebarItem>
   );
 }

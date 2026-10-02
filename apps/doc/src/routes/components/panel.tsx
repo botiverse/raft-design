@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { PanelHeader, PanelHeaderContent, PanelHeading, PanelMeta, PanelTitle } from "raft-ui";
 import type { PanelEdge } from "raft-ui";
 
@@ -282,6 +282,7 @@ export const Route = createFileRoute("/components/panel")({
 function PanelDoc() {
   const code = Route.useLoaderData();
   const [edge, setEdge] = useState<PanelEdge>("inset");
+  const handleEdgeChange = useCallback((value: string) => setEdge(value as PanelEdge), []);
 
   return (
     <DocPage
@@ -303,7 +304,7 @@ function PanelDoc() {
                 label="Edge"
                 options={PANEL_EDGES}
                 value={edge}
-                onValueChange={(value) => setEdge(value as PanelEdge)}
+                onValueChange={handleEdgeChange}
               />
             </Preview.Control>
           </Preview.Controls>

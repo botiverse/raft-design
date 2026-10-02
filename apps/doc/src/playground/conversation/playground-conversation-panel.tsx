@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { useLocation } from "@tanstack/react-router";
 import { ListTodo, MessageSquare, Paperclip } from "lucide-react";
@@ -115,32 +115,35 @@ function PlaygroundMessageMultiSelectToolbar({
   messages: readonly PlaygroundMessage[];
   selection: ReturnType<typeof usePlaygroundMessageMultiSelect>;
 }) {
-  if (!selection.active) return null;
+  const selectedMessages = useMemo(
+    () => messages.filter((message) => selection.selected.has(message.id)),
+    [messages, selection.selected],
+  );
+  const selectedContent = useMemo(
+    () =>
+      selectedMessages.filter(isPlaygroundChatMessage).map(getPlaygroundMessageText).join("\n\n"),
+    [selectedMessages],
+  );
+  const copyLinks = useCallback(() => {
+    const links = selectedMessages.map((message) => {
+      const permalink = new URL(window.location.href);
+      permalink.hash = `message-${message.id}`;
+      return permalink.href;
+    });
+    void navigator.clipboard?.writeText(links.join("\n"));
+  }, [selectedMessages]);
+  const copyMarkdown = useCallback(
+    () => void navigator.clipboard?.writeText(selectedContent),
+    [selectedContent],
+  );
 
-  const selectedContent = messages
-    .filter((message) => selection.selected.has(message.id) && isPlaygroundChatMessage(message))
-    .map(getPlaygroundMessageText)
-    .join("\n\n");
-  const selectedMessages = messages.filter((message) => selection.selected.has(message.id));
+  if (!selection.active) return null;
 
   return (
     <MessageMultiSelectToolbarComposition
       onCancel={selection.cancel}
-      onCopyLink={
-        selectedMessages.length
-          ? () => {
-              const links = selectedMessages.map((message) => {
-                const permalink = new URL(window.location.href);
-                permalink.hash = `message-${message.id}`;
-                return permalink.href;
-              });
-              void navigator.clipboard?.writeText(links.join("\n"));
-            }
-          : undefined
-      }
-      onCopyMarkdown={
-        selectedContent ? () => void navigator.clipboard?.writeText(selectedContent) : undefined
-      }
+      onCopyLink={selectedMessages.length ? copyLinks : undefined}
+      onCopyMarkdown={selectedContent ? copyMarkdown : undefined}
     >
       {selection.selected.size} selected
     </MessageMultiSelectToolbarComposition>
@@ -239,8 +242,8 @@ function ConversationBody({
                 footer={taskBadge}
                 selectionMode={selection.active}
                 selected={selection.selected.has(message.id)}
-                onEnterSelectionMode={() => selection.enter(message.id)}
-                onSelectedChange={() => selection.toggle(message.id)}
+                onEnterSelectionMode={selection.enter}
+                onSelectedChange={selection.toggle}
               />
             );
           })}

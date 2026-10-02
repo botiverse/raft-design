@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Languages } from "lucide-react";
 import {
   Avatar,
@@ -24,6 +24,8 @@ const TRANSLATED_MESSAGE = "让团队保留这条原始消息。";
 export function MessageTranslationTranslatedComposition() {
   const [showOriginal, setShowOriginal] = useState(false);
 
+  const handleToggleOriginal = useCallback(() => setShowOriginal((current) => !current), []);
+
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
@@ -46,7 +48,7 @@ export function MessageTranslationTranslatedComposition() {
           <MessageItemTranslationAction
             title={showOriginal ? "Original shown. Show translation" : "Translated. Show original"}
             aria-label={showOriginal ? "Show translation" : "Show original"}
-            onClick={() => setShowOriginal((current) => !current)}
+            onClick={handleToggleOriginal}
           >
             {showOriginal ? "Show translation" : "Show original"}
           </MessageItemTranslationAction>

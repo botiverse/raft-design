@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -216,6 +217,29 @@ export const Route = createFileRoute("/components/message-quoted-preview")({
 
 function MessageQuotedPreviewDoc() {
   const code = Route.useLoaderData();
+  const quotedPreviewFiles = useMemo(
+    () => [
+      {
+        path: QUOTED_PREVIEW_MESSAGE_PATH,
+        source: quotedPreviewMessageSource,
+        html: code.quotedPreviewMessage,
+        collapsedHtml: code.quotedPreviewMessageBody,
+      },
+      {
+        path: QUOTED_PREVIEW_LOADING_PATH,
+        source: quotedPreviewLoadingSource,
+        html: code.quotedPreviewLoading,
+        collapsedHtml: code.quotedPreviewLoadingBody,
+      },
+      {
+        path: QUOTED_PREVIEW_UNAVAILABLE_PATH,
+        source: quotedPreviewUnavailableSource,
+        html: code.quotedPreviewUnavailable,
+        collapsedHtml: code.quotedPreviewUnavailableBody,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -229,31 +253,7 @@ function MessageQuotedPreviewDoc() {
             <MessageQuotedPreviewShowcaseComposition />
           </Preview.Canvas>
           <Preview.Code
-            codeBlock={
-              <DocsCodeBlock.Files
-                collapsible={false}
-                files={[
-                  {
-                    path: QUOTED_PREVIEW_MESSAGE_PATH,
-                    source: quotedPreviewMessageSource,
-                    html: code.quotedPreviewMessage,
-                    collapsedHtml: code.quotedPreviewMessageBody,
-                  },
-                  {
-                    path: QUOTED_PREVIEW_LOADING_PATH,
-                    source: quotedPreviewLoadingSource,
-                    html: code.quotedPreviewLoading,
-                    collapsedHtml: code.quotedPreviewLoadingBody,
-                  },
-                  {
-                    path: QUOTED_PREVIEW_UNAVAILABLE_PATH,
-                    source: quotedPreviewUnavailableSource,
-                    html: code.quotedPreviewUnavailable,
-                    collapsedHtml: code.quotedPreviewUnavailableBody,
-                  },
-                ]}
-              />
-            }
+            codeBlock={<DocsCodeBlock.Files collapsible={false} files={quotedPreviewFiles} />}
           />
         </Preview>
       </DocSection>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Clock, MessageSquare, Search } from "lucide-react";
 import {
@@ -542,16 +542,17 @@ function SortSelect({ disabled = false }: { disabled?: boolean }) {
 
 function IconSelect() {
   const [value, setValue] = useState<SortIconValue>("relevance");
+  const handleValueChange = useCallback((nextValue: SortIconValue | null) => {
+    if (nextValue) {
+      setValue(nextValue);
+    }
+  }, []);
 
   return (
     <div className="flex justify-center">
       <Select
         value={value}
-        onValueChange={(nextValue) => {
-          if (nextValue) {
-            setValue(nextValue);
-          }
-        }}
+        onValueChange={handleValueChange}
         items={SORT_ICON_OPTIONS}
         modal={false}
       >

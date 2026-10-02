@@ -54,7 +54,8 @@ import {
   TabsList,
   TabsTab,
 } from "raft-ui";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { ChangeEvent } from "react";
 
 import { ACTIVITY_COMPOSITION_ITEMS } from "../activity.fixtures.ts";
 import type {
@@ -106,12 +107,10 @@ export function ActivityInboxComposition({
     controlledOpenItemId === undefined ? localOpenItemId : (controlledOpenItemId ?? undefined);
   const [mobileSwitcherOpen, setMobileSwitcherOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const portalProps = useMemo(() => ({ container: rootRef }), []);
 
   const groups = useMemo(() => {
-    const counts = new Map<
-      string,
-      { id: string; label: string; count: number; channelKind: ActivityCompositionChannelKind }
-    >();
+    const counts = new Map<string, ActivityGroup>();
     for (const item of items) {
       if (item.done) continue;
       const current = counts.get(item.channelId);
@@ -149,24 +148,30 @@ export function ActivityInboxComposition({
       return sortDirection === "asc" ? comparison : -comparison;
     });
   }, [channelFilterId, items, mentionsOnly, query, readFilter, sortDirection, view]);
-  const selectedItems = visibleItems.filter((item) => selectedIds.has(item.id));
+  const selectedItems = useMemo(
+    () => visibleItems.filter((item) => selectedIds.has(item.id)),
+    [selectedIds, visibleItems],
+  );
   const allVisibleSelected =
     visibleItems.length > 0 && selectedItems.length === visibleItems.length;
   const someVisibleSelected = selectedItems.length > 0 && !allVisibleSelected;
 
-  function commitItems(next: readonly ActivityCompositionItem[]) {
-    if (!controlledItems) setLocalItems(next);
-    onItemsChange?.(next);
-  }
+  const commitItems = useCallback(
+    (next: readonly ActivityCompositionItem[]) => {
+      if (!controlledItems) setLocalItems(next);
+      onItemsChange?.(next);
+    },
+    [controlledItems, onItemsChange],
+  );
 
-  function updateItems(
-    predicate: (item: ActivityCompositionItem) => boolean,
-    update: (item: ActivityCompositionItem) => ActivityCompositionItem,
-  ) {
-    commitItems(items.map((item) => (predicate(item) ? update(item) : item)));
-  }
+  const updateItem = useCallback(
+    (id: string, update: (item: ActivityCompositionItem) => ActivityCompositionItem) => {
+      commitItems(items.map((item) => (item.id === id ? update(item) : item)));
+    },
+    [commitItems, items],
+  );
 
-  function setActivityView(nextView: ActivityView) {
+  const setActivityView = useCallback((nextView: ActivityView) => {
     setView(nextView);
     setSelectedIds(new Set());
     if (nextView !== "active") {
@@ -174,47 +179,170 @@ export function ActivityInboxComposition({
       setMentionsOnly(false);
       setChannelFilterId(undefined);
     }
-  }
+  }, []);
 
-  function toggleItem(item: ActivityCompositionItem) {
-    setSelectedIds((current) => {
-      const next = new Set(current);
-      if (next.has(item.id)) next.delete(item.id);
-      else next.add(item.id);
-      return next;
-    });
-  }
+  const toggleMentionsOnly = useCallback(() => {
+    setActivityView("active");
+    setMentionsOnly((current) => !current);
+  }, [setActivityView]);
 
-  function toggleAllVisible() {
+  const toggleChannelFilter = useCallback(
+    (channelId: string) => {
+      setActivityView("active");
+      setChannelFilterId((current) => (current === channelId ? undefined : channelId));
+    },
+    [setActivityView],
+  );
+
+  const toggleAllVisible = useCallback(() => {
     setSelectedIds((current) => {
       const next = new Set(current);
       if (allVisibleSelected) visibleItems.forEach((item) => next.delete(item.id));
       else visibleItems.forEach((item) => next.add(item.id));
       return next;
     });
-  }
+  }, [allVisibleSelected, visibleItems]);
 
-  function runBulkAction(action: "read" | "done" | "restore" | "unsave") {
-    const ids = new Set(selectedItems.map((item) => item.id));
-    updateItems(
-      (item) => ids.has(item.id),
-      (item) => {
-        if (action === "read") return { ...item, unreadCount: 0, hasMention: false };
-        if (action === "done") return { ...item, done: true };
-        if (action === "restore") return { ...item, done: false };
-        return { ...item, saved: false };
-      },
-    );
-    setSelectedIds(new Set());
-  }
+  const runBulkAction = useCallback(
+    (action: "read" | "done" | "restore" | "unsave") => {
+      const ids = new Set(selectedItems.map((item) => item.id));
+      commitItems(
+        items.map((item) => {
+          if (!ids.has(item.id)) return item;
+          if (action === "read") return { ...item, unreadCount: 0, hasMention: false };
+          if (action === "done") return { ...item, done: true };
+          if (action === "restore") return { ...item, done: false };
+          return { ...item, saved: false };
+        }),
+      );
+      setSelectedIds(new Set());
+    },
+    [commitItems, items, selectedItems],
+  );
 
   const totalActive = items.filter((item) => !item.done).length;
   const savedTotal = items.filter((item) => item.saved).length;
 
-  function switchInMobileDialog(nextView: ActivityView) {
-    setActivityView(nextView);
+  const switchInMobileDialog = useCallback(
+    (nextView: ActivityView) => {
+      setActivityView(nextView);
+      setMobileSwitcherOpen(false);
+    },
+    [setActivityView],
+  );
+
+  const handleMobileSwitchToActive = useCallback(() => {
+    switchInMobileDialog("active");
+  }, [switchInMobileDialog]);
+  const handleMobileSwitchToSaved = useCallback(() => {
+    switchInMobileDialog("saved");
+  }, [switchInMobileDialog]);
+  const handleMobileSwitchToDone = useCallback(() => {
+    switchInMobileDialog("done");
+  }, [switchInMobileDialog]);
+
+  const handleMobileToggleMentions = useCallback(() => {
+    toggleMentionsOnly();
     setMobileSwitcherOpen(false);
-  }
+  }, [toggleMentionsOnly]);
+
+  const handleMobileToggleChannelFilter = useCallback(
+    (channelId: string) => {
+      toggleChannelFilter(channelId);
+      setMobileSwitcherOpen(false);
+    },
+    [toggleChannelFilter],
+  );
+
+  const handleSwitchToActive = useCallback(() => {
+    setActivityView("active");
+  }, [setActivityView]);
+  const handleSwitchToSaved = useCallback(() => {
+    setActivityView("saved");
+  }, [setActivityView]);
+  const handleSwitchToDone = useCallback(() => {
+    setActivityView("done");
+  }, [setActivityView]);
+
+  const handleShowAllChannels = useCallback(() => {
+    setChannelFilterId(undefined);
+  }, []);
+
+  const handleQueryChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  }, []);
+  const handleClearQuery = useCallback(() => {
+    setQuery("");
+  }, []);
+
+  const handleSortDirectionChange = useCallback((value: ActivitySortDirection) => {
+    setSortDirection(value);
+  }, []);
+
+  const handleMarkSelectedRead = useCallback(() => {
+    runBulkAction("read");
+  }, [runBulkAction]);
+  const handleMarkSelectedDone = useCallback(() => {
+    runBulkAction("done");
+  }, [runBulkAction]);
+  const handleRestoreSelected = useCallback(() => {
+    runBulkAction("restore");
+  }, [runBulkAction]);
+  const handleUnsaveSelected = useCallback(() => {
+    runBulkAction("unsave");
+  }, [runBulkAction]);
+
+  const handleOpenItem = useCallback(
+    (item: ActivityCompositionItem, detail: number) => {
+      setLocalOpenItemId(item.id);
+      onOpenItem?.(item, detail);
+    },
+    [onOpenItem],
+  );
+
+  const handleSelectItem = useCallback((item: ActivityCompositionItem) => {
+    setSelectedIds((current) => {
+      const next = new Set(current);
+      if (next.has(item.id)) next.delete(item.id);
+      else next.add(item.id);
+      return next;
+    });
+  }, []);
+
+  const handleToggleItemSaved = useCallback(
+    (item: ActivityCompositionItem) => {
+      updateItem(item.id, (candidate) => ({ ...candidate, saved: !candidate.saved }));
+    },
+    [updateItem],
+  );
+
+  const handleToggleItemDone = useCallback(
+    (item: ActivityCompositionItem) => {
+      updateItem(item.id, (candidate) => ({ ...candidate, done: !candidate.done }));
+    },
+    [updateItem],
+  );
+
+  const handleToggleItemRead = useCallback(
+    (item: ActivityCompositionItem) => {
+      updateItem(item.id, (candidate) => ({
+        ...candidate,
+        hasMention: candidate.unreadCount > 0 ? false : candidate.hasMention,
+        unreadCount: candidate.unreadCount > 0 ? 0 : 1,
+      }));
+    },
+    [updateItem],
+  );
+
+  const handleToggleItemFollowing = useCallback(
+    (item: ActivityCompositionItem) => {
+      updateItem(item.id, (candidate) => ({
+        ...candidate,
+        following: candidate.following === false,
+      }));
+    },
+    [updateItem],
+  );
 
   return (
     <ActivityInboxPanel ref={rootRef}>
@@ -270,7 +398,7 @@ export function ActivityInboxComposition({
                 </Button>
               }
             />
-            <DialogContent portalProps={{ container: rootRef }}>
+            <DialogContent portalProps={portalProps}>
               <DialogHeader>
                 <DialogTitle>Switch Activity</DialogTitle>
                 <DialogClose aria-label="Close" />
@@ -281,47 +409,35 @@ export function ActivityInboxComposition({
                   icon={<Inbox />}
                   label="Active"
                   count={totalActive}
-                  onClick={() => switchInMobileDialog("active")}
+                  onClick={handleMobileSwitchToActive}
                 />
                 <ActivitySwitcherRow
                   active={view === "saved"}
                   icon={<Bookmark />}
                   label="Saved"
                   count={savedTotal || undefined}
-                  onClick={() => switchInMobileDialog("saved")}
+                  onClick={handleMobileSwitchToSaved}
                 />
                 <ActivitySwitcherRow
                   active={view === "done"}
                   icon={<CheckCircle2 />}
                   label="Done"
-                  onClick={() => switchInMobileDialog("done")}
+                  onClick={handleMobileSwitchToDone}
                 />
                 <Separator className="mx-3 my-3" />
                 <ActivitySwitcherRow
                   pressed={view === "active" && mentionsOnly}
                   icon={<AtSign />}
                   label="Mentions"
-                  onClick={() => {
-                    setActivityView("active");
-                    setMentionsOnly((current) => !current);
-                    setMobileSwitcherOpen(false);
-                  }}
+                  onClick={handleMobileToggleMentions}
                 />
                 <Separator className="mx-3 my-3" />
                 {groups.map((group) => (
-                  <ActivitySwitcherRow
+                  <ActivityGroupSwitcherRow
                     key={group.id}
+                    group={group}
                     active={view === "active" && channelFilterId === group.id}
-                    icon={<ActivityGroupIcon group={group} mobile />}
-                    label={group.label}
-                    count={group.count}
-                    onClick={() => {
-                      setActivityView("active");
-                      setChannelFilterId((current) =>
-                        current === group.id ? undefined : group.id,
-                      );
-                      setMobileSwitcherOpen(false);
-                    }}
+                    onToggle={handleMobileToggleChannelFilter}
                   />
                 ))}
               </DialogBody>
@@ -338,20 +454,20 @@ export function ActivityInboxComposition({
               icon={<Inbox size={15} />}
               label="Active"
               count={totalActive}
-              onClick={() => setActivityView("active")}
+              onClick={handleSwitchToActive}
             />
             <ActivityNavigationItem
               active={view === "saved"}
               icon={<Bookmark size={15} />}
               label="Saved"
               count={savedTotal || undefined}
-              onClick={() => setActivityView("saved")}
+              onClick={handleSwitchToSaved}
             />
             <ActivityNavigationItem
               active={view === "done"}
               icon={<CheckCircle2 size={15} />}
               label="Done"
-              onClick={() => setActivityView("done")}
+              onClick={handleSwitchToDone}
             />
           </div>
 
@@ -362,10 +478,7 @@ export function ActivityInboxComposition({
               disabled={view !== "active"}
               icon={<AtSign size={14} />}
               label="Mentions"
-              onClick={() => {
-                setActivityView("active");
-                setMentionsOnly((current) => !current);
-              }}
+              onClick={toggleMentionsOnly}
             />
           </div>
 
@@ -377,7 +490,7 @@ export function ActivityInboxComposition({
                   variant="link"
                   size="sm"
                   data-activity-inbox-show-all=""
-                  onClick={() => setChannelFilterId(undefined)}
+                  onClick={handleShowAllChannels}
                 >
                   Show all
                 </Button>
@@ -386,16 +499,11 @@ export function ActivityInboxComposition({
           </SidebarGroupLabel>
           <div className="flex flex-col gap-0">
             {groups.map((group) => (
-              <ActivityNavigationItem
+              <ActivityGroupNavigationItem
                 key={group.id}
+                group={group}
                 active={view === "active" && channelFilterId === group.id}
-                icon={<ActivityGroupIcon group={group} />}
-                label={group.label}
-                count={group.count}
-                onClick={() => {
-                  setActivityView("active");
-                  setChannelFilterId((current) => (current === group.id ? undefined : group.id));
-                }}
+                onToggle={toggleChannelFilter}
               />
             ))}
           </div>
@@ -411,7 +519,7 @@ export function ActivityInboxComposition({
               <Tabs<ActivityReadFilter>
                 className="w-auto shrink-0"
                 value={readFilter}
-                onValueChange={(value) => setReadFilter(value)}
+                onValueChange={setReadFilter}
               >
                 <TabsList aria-label="Filter activity">
                   <TabsBackground />
@@ -432,7 +540,7 @@ export function ActivityInboxComposition({
               <InputGroupInput
                 className="in-data-[theme=brutal]:py-1"
                 value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={handleQueryChange}
                 placeholder="Search activity"
                 aria-label="Search activity"
               />
@@ -442,7 +550,7 @@ export function ActivityInboxComposition({
                     type="button"
                     variant="ghost"
                     size="icon-xs"
-                    onClick={() => setQuery("")}
+                    onClick={handleClearQuery}
                     aria-label="Clear search"
                   >
                     <X aria-hidden />
@@ -480,11 +588,11 @@ export function ActivityInboxComposition({
                   align="end"
                   side="bottom"
                   sideOffset={8}
-                  portalProps={{ container: rootRef }}
+                  portalProps={portalProps}
                 >
                   <DropdownMenuRadioGroup
                     value={sortDirection}
-                    onValueChange={(value) => setSortDirection(value as ActivitySortDirection)}
+                    onValueChange={handleSortDirectionChange}
                   >
                     {(["desc", "asc"] as const).map((direction) => (
                       <DropdownMenuRadioItem key={direction} value={direction}>
@@ -505,7 +613,7 @@ export function ActivityInboxComposition({
                       type="button"
                       size="xs"
                       variant="outline"
-                      onClick={() => runBulkAction("read")}
+                      onClick={handleMarkSelectedRead}
                     >
                       Mark read
                     </Button>
@@ -513,7 +621,7 @@ export function ActivityInboxComposition({
                       type="button"
                       size="xs"
                       variant="primary"
-                      onClick={() => runBulkAction("done")}
+                      onClick={handleMarkSelectedDone}
                     >
                       Mark done
                     </Button>
@@ -524,7 +632,7 @@ export function ActivityInboxComposition({
                     size="xs"
                     variant="primary"
                     data-activity-inbox-action="primary"
-                    onClick={() => runBulkAction("restore")}
+                    onClick={handleRestoreSelected}
                   >
                     Restore
                   </Button>
@@ -534,7 +642,7 @@ export function ActivityInboxComposition({
                     size="xs"
                     variant="primary"
                     data-activity-inbox-action="primary"
-                    onClick={() => runBulkAction("unsave")}
+                    onClick={handleUnsaveSelected}
                   >
                     Remove from Saved
                   </Button>
@@ -582,42 +690,12 @@ export function ActivityInboxComposition({
                     selected={selectedIds.has(item.id)}
                     view={view}
                     portalContainer={rootRef}
-                    onOpen={(detail) => {
-                      setLocalOpenItemId(item.id);
-                      onOpenItem?.(item, detail);
-                    }}
-                    onSelect={() => toggleItem(item)}
-                    onToggleSaved={() =>
-                      updateItems(
-                        (candidate) => candidate.id === item.id,
-                        (candidate) => ({ ...candidate, saved: !candidate.saved }),
-                      )
-                    }
-                    onToggleDone={() =>
-                      updateItems(
-                        (candidate) => candidate.id === item.id,
-                        (candidate) => ({ ...candidate, done: !candidate.done }),
-                      )
-                    }
-                    onToggleRead={() =>
-                      updateItems(
-                        (candidate) => candidate.id === item.id,
-                        (candidate) => ({
-                          ...candidate,
-                          hasMention: candidate.unreadCount > 0 ? false : candidate.hasMention,
-                          unreadCount: candidate.unreadCount > 0 ? 0 : 1,
-                        }),
-                      )
-                    }
-                    onToggleFollowing={() =>
-                      updateItems(
-                        (candidate) => candidate.id === item.id,
-                        (candidate) => ({
-                          ...candidate,
-                          following: candidate.following === false,
-                        }),
-                      )
-                    }
+                    onOpen={handleOpenItem}
+                    onSelect={handleSelectItem}
+                    onToggleSaved={handleToggleItemSaved}
+                    onToggleDone={handleToggleItemDone}
+                    onToggleRead={handleToggleItemRead}
+                    onToggleFollowing={handleToggleItemFollowing}
                   />
                 ))}
               </div>
@@ -626,5 +704,50 @@ export function ActivityInboxComposition({
         </ConversationPanelContent>
       </div>
     </ActivityInboxPanel>
+  );
+}
+
+type ActivityGroup = {
+  id: string;
+  label: string;
+  count: number;
+  channelKind: ActivityCompositionChannelKind;
+};
+
+type ActivityGroupRowProps = {
+  group: ActivityGroup;
+  active: boolean;
+  onToggle: (channelId: string) => void;
+};
+
+function ActivityGroupSwitcherRow({ group, active, onToggle }: ActivityGroupRowProps) {
+  const handleClick = useCallback(() => {
+    onToggle(group.id);
+  }, [group.id, onToggle]);
+
+  return (
+    <ActivitySwitcherRow
+      active={active}
+      icon={<ActivityGroupIcon group={group} mobile />}
+      label={group.label}
+      count={group.count}
+      onClick={handleClick}
+    />
+  );
+}
+
+function ActivityGroupNavigationItem({ group, active, onToggle }: ActivityGroupRowProps) {
+  const handleClick = useCallback(() => {
+    onToggle(group.id);
+  }, [group.id, onToggle]);
+
+  return (
+    <ActivityNavigationItem
+      active={active}
+      icon={<ActivityGroupIcon group={group} />}
+      label={group.label}
+      count={group.count}
+      onClick={handleClick}
+    />
   );
 }

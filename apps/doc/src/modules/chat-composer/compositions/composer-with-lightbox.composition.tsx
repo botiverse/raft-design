@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, Download, Paperclip, Send, X } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Button,
   Lightbox,
@@ -36,6 +36,8 @@ const READY_IMAGES = [
   { name: "moodboard.png", src: COMPOSER_IMAGE_SRC },
 ] as const;
 
+type ReadyImage = (typeof READY_IMAGES)[number];
+
 export function ComposerWithLightboxComposition() {
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
   const open = previewIndex !== null;
@@ -44,28 +46,31 @@ export function ComposerWithLightboxComposition() {
   const isFirstImage = previewIndex === 0;
   const isLastImage = previewIndex === READY_IMAGES.length - 1;
 
+  const handleOpenChange = useCallback((nextOpen: boolean) => {
+    if (!nextOpen) setPreviewIndex(null);
+  }, []);
+
+  const showPreviousImage = useCallback(() => {
+    setPreviewIndex((index) => (index === null ? index : Math.max(0, index - 1)));
+  }, []);
+
+  const showNextImage = useCallback(() => {
+    setPreviewIndex((index) =>
+      index === null ? index : Math.min(READY_IMAGES.length - 1, index + 1),
+    );
+  }, []);
+
   return (
     <>
       <ComposerRoot>
         <ComposerAttachments>
           {READY_IMAGES.map((image, index) => (
-            <ComposerAttachment key={image.name}>
-              <ComposerAttachmentImage
-                render={<button type="button" />}
-                className="cursor-zoom-in"
-                aria-label={`Preview ${image.name}`}
-                onClick={() => setPreviewIndex(index)}
-              >
-                <FilePreview>
-                  <FilePreviewMedia>
-                    <img alt="" className="size-full object-cover" src={image.src} />
-                  </FilePreviewMedia>
-                </FilePreview>
-              </ComposerAttachmentImage>
-              <ComposerAttachmentRemove aria-label={`Remove ${image.name}`} disabled>
-                <X />
-              </ComposerAttachmentRemove>
-            </ComposerAttachment>
+            <ImageAttachment
+              key={image.name}
+              image={image}
+              index={index}
+              onPreview={setPreviewIndex}
+            />
           ))}
         </ComposerAttachments>
         <Composer>
@@ -88,12 +93,7 @@ export function ComposerWithLightboxComposition() {
           </ComposerToolbar>
         </Composer>
       </ComposerRoot>
-      <Lightbox
-        open={open}
-        onOpenChange={(nextOpen) => {
-          if (!nextOpen) setPreviewIndex(null);
-        }}
-      >
+      <Lightbox open={open} onOpenChange={handleOpenChange}>
         <LightboxContent>
           <LightboxTitle className="sr-only">{currentImage.name}</LightboxTitle>
           <LightboxClose aria-label="Close">
@@ -104,9 +104,7 @@ export function ComposerWithLightboxComposition() {
               direction="previous"
               disabled={isFirstImage}
               aria-label="Previous image"
-              onClick={() =>
-                setPreviewIndex((index) => (index === null ? index : Math.max(0, index - 1)))
-              }
+              onClick={showPreviousImage}
             >
               <ChevronLeft />
             </LightboxNavigationButton>
@@ -114,11 +112,7 @@ export function ComposerWithLightboxComposition() {
               direction="next"
               disabled={isLastImage}
               aria-label="Next image"
-              onClick={() =>
-                setPreviewIndex((index) =>
-                  index === null ? index : Math.min(READY_IMAGES.length - 1, index + 1),
-                )
-              }
+              onClick={showNextImage}
             >
               <ChevronRight />
             </LightboxNavigationButton>
@@ -136,14 +130,13 @@ export function ComposerWithLightboxComposition() {
             {previewIndex !== null ? (
               <LightboxThumbnailStrip>
                 {READY_IMAGES.map((image, index) => (
-                  <LightboxThumbnail
+                  <ImageThumbnail
                     key={image.name}
+                    image={image}
+                    index={index}
                     active={index === previewIndex}
-                    aria-label={`Show ${image.name}`}
-                    onClick={() => setPreviewIndex(index)}
-                  >
-                    <img src={image.src} alt="" draggable={false} />
-                  </LightboxThumbnail>
+                    onSelect={setPreviewIndex}
+                  />
                 ))}
               </LightboxThumbnailStrip>
             ) : null}
@@ -151,5 +144,57 @@ export function ComposerWithLightboxComposition() {
         </LightboxContent>
       </Lightbox>
     </>
+  );
+}
+
+function ImageAttachment({
+  image,
+  index,
+  onPreview,
+}: {
+  image: ReadyImage;
+  index: number;
+  onPreview: (index: number) => void;
+}) {
+  const handleClick = useCallback(() => onPreview(index), [index, onPreview]);
+
+  return (
+    <ComposerAttachment>
+      <ComposerAttachmentImage
+        render={<button type="button" />}
+        className="cursor-zoom-in"
+        aria-label={`Preview ${image.name}`}
+        onClick={handleClick}
+      >
+        <FilePreview>
+          <FilePreviewMedia>
+            <img alt="" className="size-full object-cover" src={image.src} />
+          </FilePreviewMedia>
+        </FilePreview>
+      </ComposerAttachmentImage>
+      <ComposerAttachmentRemove aria-label={`Remove ${image.name}`} disabled>
+        <X />
+      </ComposerAttachmentRemove>
+    </ComposerAttachment>
+  );
+}
+
+function ImageThumbnail({
+  image,
+  index,
+  active,
+  onSelect,
+}: {
+  image: ReadyImage;
+  index: number;
+  active: boolean;
+  onSelect: (index: number) => void;
+}) {
+  const handleClick = useCallback(() => onSelect(index), [index, onSelect]);
+
+  return (
+    <LightboxThumbnail active={active} aria-label={`Show ${image.name}`} onClick={handleClick}>
+      <img src={image.src} alt="" draggable={false} />
+    </LightboxThumbnail>
   );
 }

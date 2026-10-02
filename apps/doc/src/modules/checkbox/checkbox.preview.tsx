@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { Checkbox } from "raft-ui";
 import type { CheckboxProps } from "raft-ui";
@@ -20,6 +20,14 @@ export function CheckboxPlaygroundPreview({ code }: CheckboxPlaygroundPreviewPro
   const [indeterminate, setIndeterminate] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
+  const handleSizeChange = useCallback((value: string) => {
+    setSize(value as NonNullable<CheckboxProps["size"]>);
+  }, []);
+
+  const handleVariantChange = useCallback((value: string) => {
+    setVariant(value as NonNullable<CheckboxProps["variant"]>);
+  }, []);
+
   return (
     <Preview>
       <Preview.Canvas>
@@ -38,7 +46,7 @@ export function CheckboxPlaygroundPreview({ code }: CheckboxPlaygroundPreviewPro
             label="Size"
             options={SIZES}
             value={size}
-            onValueChange={(value) => setSize(value as NonNullable<CheckboxProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="Variant" htmlFor="checkbox-preview-variant">
@@ -47,7 +55,7 @@ export function CheckboxPlaygroundPreview({ code }: CheckboxPlaygroundPreviewPro
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as NonNullable<CheckboxProps["variant"]>)}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Checked" htmlFor="checkbox-preview-checked">

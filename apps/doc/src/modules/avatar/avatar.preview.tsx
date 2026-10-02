@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { Avatar, AvatarBadge, Status } from "raft-ui";
 import type { AvatarProps } from "raft-ui";
@@ -22,6 +22,16 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
   const [badge, setBadge] = useState<BadgeOption>("status");
   const [pulse, setPulse] = useState(false);
 
+  const handleSizeChange = useCallback((value: string) => {
+    setSize(value as NonNullable<AvatarProps["size"]>);
+  }, []);
+  const handleTypeChange = useCallback((value: string) => {
+    setType(value as NonNullable<AvatarProps["type"]>);
+  }, []);
+  const handleBadgeChange = useCallback((value: string) => {
+    setBadge(value as BadgeOption);
+  }, []);
+
   return (
     <Preview>
       <Preview.Canvas>
@@ -39,7 +49,7 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
             label="Size"
             options={SIZE_OPTIONS}
             value={size}
-            onValueChange={(value) => setSize(value as NonNullable<AvatarProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="Type" htmlFor="avatar-preview-type">
@@ -48,7 +58,7 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
             label="Type"
             options={TYPES}
             value={type}
-            onValueChange={(value) => setType(value as NonNullable<AvatarProps["type"]>)}
+            onValueChange={handleTypeChange}
           />
         </Preview.Control>
         <Preview.Control label="Badge" htmlFor="avatar-preview-badge">
@@ -57,7 +67,7 @@ export function AvatarPlaygroundPreview({ code }: AvatarPlaygroundPreviewProps) 
             label="Badge"
             options={BADGE_OPTIONS}
             value={badge}
-            onValueChange={(value) => setBadge(value as BadgeOption)}
+            onValueChange={handleBadgeChange}
           />
         </Preview.Control>
         <Preview.Control label="Pulse" htmlFor="avatar-preview-pulse">

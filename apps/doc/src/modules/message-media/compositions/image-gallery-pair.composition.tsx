@@ -12,6 +12,10 @@ import {
   openMessageFixture,
 } from "#/modules/message-item/message-item.fixtures.ts";
 
+function downloadImage() {
+  downloadMessageFixture("message-image.jpg");
+}
+
 export function MessageImageGalleryPairComposition() {
   return (
     <MessageImageGallery>
@@ -25,10 +29,7 @@ export function MessageImageGalleryPairComposition() {
             />
           </MessageImageGalleryMedia>
           <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
-          <MessageImageGalleryAction
-            aria-label="Download image"
-            onClick={() => downloadMessageFixture("message-image.jpg")}
-          >
+          <MessageImageGalleryAction aria-label="Download image" onClick={downloadImage}>
             <Download />
           </MessageImageGalleryAction>
         </MessageImageGalleryItem>
@@ -41,10 +42,7 @@ export function MessageImageGalleryPairComposition() {
             />
           </MessageImageGalleryMedia>
           <MessageImageGalleryPreview aria-label="Preview image" onClick={openMessageFixture} />
-          <MessageImageGalleryAction
-            aria-label="Download image"
-            onClick={() => downloadMessageFixture("message-image.jpg")}
-          >
+          <MessageImageGalleryAction aria-label="Download image" onClick={downloadImage}>
             <Download />
           </MessageImageGalleryAction>
         </MessageImageGalleryItem>

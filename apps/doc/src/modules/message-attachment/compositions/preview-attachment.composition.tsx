@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Eye } from "lucide-react";
 import { Spinner } from "raft-ui";
 import {
@@ -14,6 +14,8 @@ import {
 export function MessageAttachmentPreviewUsageComposition() {
   const [opening, setOpening] = useState(false);
 
+  const handlePreview = useCallback(() => setOpening(true), []);
+
   return (
     <MessageAttachmentGroup>
       <MessageAttachmentCard aria-busy={opening || undefined}>
@@ -26,7 +28,7 @@ export function MessageAttachmentPreviewUsageComposition() {
             ) : (
               <MessageAttachmentAction
                 aria-label="Preview screening.html"
-                onClick={() => setOpening(true)}
+                onClick={handlePreview}
                 title="Preview screening.html"
               >
                 <Eye />

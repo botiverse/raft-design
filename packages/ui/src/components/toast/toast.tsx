@@ -1,4 +1,11 @@
-import { cloneElement, createContext, isValidElement, useContext } from "react";
+import {
+  cloneElement,
+  createContext,
+  isValidElement,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 import type {
   ComponentProps,
   ComponentPropsWithRef,
@@ -481,8 +488,10 @@ export function ToastProvider({
   viewportStrategy = "fixed",
   ...props
 }: ToastProviderProps) {
+  const config = useMemo(() => ({ timeout }), [timeout]);
+
   return (
-    <ToastProviderConfigContext.Provider value={{ timeout }}>
+    <ToastProviderConfigContext.Provider value={config}>
       <BaseToast.Provider toastManager={toastManager} timeout={timeout} {...props}>
         {children}
         {renderViewport ? (
@@ -678,51 +687,58 @@ export function ToastAction({
   ...props
 }: ToastActionProps) {
   const theme = useThemeFamily();
-  const { root, content, loadingIndicator } = toastAction({ toastTheme: theme });
-
-  const renderActionContent = (actionChildren: ReactNode) => (
-    <>
-      {loading ? (
-        <span data-slot="toast-action-loading-indicator" className={loadingIndicator()}>
-          <Spinner aria-label={loadingLabel} variant={theme === "brutal" ? "inverse" : "default"} />
-        </span>
-      ) : null}
-      <span
-        data-slot="toast-action-content"
-        data-loading={loading ? "true" : undefined}
-        className={content()}
-      >
-        {actionChildren}
-      </span>
-    </>
+  const { root, content, loadingIndicator } = useMemo(
+    () => toastAction({ toastTheme: theme }),
+    [theme],
   );
 
-  const renderAction = (renderProps: ToastActionRenderProps, state: ToastActionRenderState) => {
-    const actionChildren = renderActionContent(renderProps.children);
-    const nextRenderProps = {
-      ...renderProps,
-      children: actionChildren,
-    };
-
-    if (typeof render === "function") {
-      return render(nextRenderProps, state);
-    }
-
-    if (isValidElement(render)) {
-      const renderElement = render as ReactElement<{
-        className?: string;
-        children?: ReactNode;
-      }>;
-
-      return cloneElement(renderElement, {
-        ...nextRenderProps,
-        className: cn(renderProps.className, renderElement.props.className),
+  const renderAction = useCallback(
+    (renderProps: ToastActionRenderProps, state: ToastActionRenderState) => {
+      const actionChildren = (
+        <>
+          {loading ? (
+            <span data-slot="toast-action-loading-indicator" className={loadingIndicator()}>
+              <Spinner
+                aria-label={loadingLabel}
+                variant={theme === "brutal" ? "inverse" : "default"}
+              />
+            </span>
+          ) : null}
+          <span
+            data-slot="toast-action-content"
+            data-loading={loading ? "true" : undefined}
+            className={content()}
+          >
+            {renderProps.children}
+          </span>
+        </>
+      );
+      const nextRenderProps = {
+        ...renderProps,
         children: actionChildren,
-      });
-    }
+      };
 
-    return <button {...nextRenderProps} />;
-  };
+      if (typeof render === "function") {
+        return render(nextRenderProps, state);
+      }
+
+      if (isValidElement(render)) {
+        const renderElement = render as ReactElement<{
+          className?: string;
+          children?: ReactNode;
+        }>;
+
+        return cloneElement(renderElement, {
+          ...nextRenderProps,
+          className: cn(renderProps.className, renderElement.props.className),
+          children: actionChildren,
+        });
+      }
+
+      return <button {...nextRenderProps} />;
+    },
+    [content, loading, loadingIndicator, loadingLabel, render, theme],
+  );
 
   return (
     <BaseToast.Action
@@ -803,6 +819,8 @@ function DefaultToastList({ placement }: { placement: ToastPlacement }) {
   ));
 }
 
+const TOP_SWIPE_DIRECTION: BaseToast.Root.Props["swipeDirection"] = ["up", "right"];
+
 function DefaultToastItem({
   placement,
   toast: toastObject,
@@ -824,7 +842,7 @@ function DefaultToastItem({
   return (
     <ToastRoot
       toast={toastObject}
-      swipeDirection={placement.startsWith("top-") ? ["up", "right"] : undefined}
+      swipeDirection={placement.startsWith("top-") ? TOP_SWIPE_DIRECTION : undefined}
     >
       <ToastContent className={toastObject.data?.contentClassName}>
         {showIcon ? <DefaultToastIcon toast={toastObject} /> : null}

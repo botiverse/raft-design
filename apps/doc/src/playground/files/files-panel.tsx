@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FilesPanelComposition } from "#/modules/files/compositions/files-panel.composition.tsx";
 import type { FileListEntry } from "#/modules/files/compositions/files-panel.composition.tsx";
 import {
@@ -17,11 +17,14 @@ export function PlaygroundFilesPanel({ channel }: { channel: PlaygroundChannelRe
   const navigate = useNavigate();
   const { selectPanelTab } = usePlaygroundNavigation();
   const channelId = channel.id;
-  const files = getPlaygroundFiles(channelId);
+  const files = useMemo(() => getPlaygroundFiles(channelId), [channelId]);
   const loadingMoreRef = useRef(false);
   const [visibleCount, setVisibleCount] = useState(() => Math.min(FILES_PAGE_SIZE, files.length));
   const [loadingMore, setLoadingMore] = useState(false);
-  const visibleFiles = files.slice(0, visibleCount).map(toFileListEntry);
+  const visibleFiles = useMemo(
+    () => files.slice(0, visibleCount).map(toFileListEntry),
+    [files, visibleCount],
+  );
   const hasMore = visibleCount < files.length;
 
   useEffect(() => {
@@ -42,44 +45,53 @@ export function PlaygroundFilesPanel({ channel }: { channel: PlaygroundChannelRe
     }, 120);
   }, [files.length, hasMore]);
 
+  const handleJumpToOriginal = useCallback(
+    (file: FileListEntry) => {
+      const source = requirePlaygroundFile(file.id);
+      selectPanelTab("chat");
+      if (channel.kind === "dm") {
+        void navigate({
+          to: "/playground/s/$serverSlug/dm/$dmId",
+          params: { dmId: channel.id, serverSlug: PLAYGROUND_SERVER_SLUG },
+          search: { thread: source.sourceMessageId },
+        });
+        return;
+      }
+
+      void navigate({
+        to: "/playground/s/$serverSlug/channel/$channelId",
+        params: { channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
+        search: { thread: source.sourceMessageId },
+      });
+    },
+    [channel, channelId, navigate, selectPanelTab],
+  );
+
   return (
     <FilesPanelComposition
       files={visibleFiles}
       hasMore={hasMore}
       loadingMore={loadingMore}
       onLoadMore={loadMore}
-      onPreview={(file) => {
-        const source = requirePlaygroundFile(file.id);
-        window.open(source.previewUrl, "_blank", "noopener,noreferrer");
-      }}
-      onJumpToOriginal={(file) => {
-        const source = requirePlaygroundFile(file.id);
-        selectPanelTab("chat");
-        if (channel.kind === "dm") {
-          void navigate({
-            to: "/playground/s/$serverSlug/dm/$dmId",
-            params: { dmId: channel.id, serverSlug: PLAYGROUND_SERVER_SLUG },
-            search: { thread: source.sourceMessageId },
-          });
-          return;
-        }
-
-        void navigate({
-          to: "/playground/s/$serverSlug/channel/$channelId",
-          params: { channelId, serverSlug: PLAYGROUND_SERVER_SLUG },
-          search: { thread: source.sourceMessageId },
-        });
-      }}
-      onDownload={(file) => {
-        const source = requirePlaygroundFile(file.id);
-        const link = document.createElement("a");
-        link.href = source.previewUrl;
-        link.download = source.filename;
-        link.rel = "noopener";
-        link.click();
-      }}
+      onPreview={previewFile}
+      onJumpToOriginal={handleJumpToOriginal}
+      onDownload={downloadFile}
     />
   );
+}
+
+function previewFile(file: FileListEntry) {
+  const source = requirePlaygroundFile(file.id);
+  window.open(source.previewUrl, "_blank", "noopener,noreferrer");
+}
+
+function downloadFile(file: FileListEntry) {
+  const source = requirePlaygroundFile(file.id);
+  const link = document.createElement("a");
+  link.href = source.previewUrl;
+  link.download = source.filename;
+  link.rel = "noopener";
+  link.click();
 }
 
 function toFileListEntry(file: PlaygroundFile): FileListEntry {

@@ -1,5 +1,5 @@
 import { AlertTriangle, Paperclip, Send, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
   Banner,
   BannerAction,
@@ -45,7 +45,7 @@ export function ComposerAttachmentLimitComposition() {
   // Monotonic suffix so a name is never reused after a tile is removed.
   const nextAttachmentNumber = useRef(INITIAL_ATTACHMENTS.length + 1);
 
-  const addAttachment = () => {
+  const addAttachment = useCallback(() => {
     if (attachments.length >= MAX_ATTACHMENTS) {
       setLimitReached(true);
       return;
@@ -54,12 +54,16 @@ export function ComposerAttachmentLimitComposition() {
     nextAttachmentNumber.current += 1;
     setAttachments((current) => [...current, name]);
     setLimitReached(false);
-  };
+  }, [attachments.length]);
 
-  const removeAttachment = (name: string) => {
+  const removeAttachment = useCallback((name: string) => {
     setAttachments((current) => current.filter((attachment) => attachment !== name));
     setLimitReached(false);
-  };
+  }, []);
+
+  const dismissLimitNotice = useCallback(() => {
+    setLimitReached(false);
+  }, []);
 
   return (
     <div className="flex w-full min-w-0 flex-col gap-2">
@@ -75,7 +79,7 @@ export function ComposerAttachmentLimitComposition() {
               size="icon-xs"
               variant="ghost"
               aria-label="Dismiss attachment limit notice"
-              onClick={() => setLimitReached(false)}
+              onClick={dismissLimitNotice}
             >
               <X />
             </Button>
@@ -85,24 +89,7 @@ export function ComposerAttachmentLimitComposition() {
       <ComposerRoot>
         <ComposerAttachments>
           {attachments.map((name) => (
-            <ComposerAttachment key={name}>
-              <ComposerAttachmentFile>
-                <FilePreview className="h-[46px]">
-                  <FilePreviewDocument className="h-[46px]" />
-                  <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
-                </FilePreview>
-                <ComposerAttachmentBody>
-                  <ComposerAttachmentTitle>{name}</ComposerAttachmentTitle>
-                  <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
-                </ComposerAttachmentBody>
-              </ComposerAttachmentFile>
-              <ComposerAttachmentRemove
-                aria-label={`Remove ${name}`}
-                onClick={() => removeAttachment(name)}
-              >
-                <X />
-              </ComposerAttachmentRemove>
-            </ComposerAttachment>
+            <AttachmentTile key={name} name={name} onRemove={removeAttachment} />
           ))}
         </ComposerAttachments>
         <Composer>
@@ -122,5 +109,27 @@ export function ComposerAttachmentLimitComposition() {
         </Composer>
       </ComposerRoot>
     </div>
+  );
+}
+
+function AttachmentTile({ name, onRemove }: { name: string; onRemove: (name: string) => void }) {
+  const handleRemove = useCallback(() => onRemove(name), [name, onRemove]);
+
+  return (
+    <ComposerAttachment>
+      <ComposerAttachmentFile>
+        <FilePreview className="h-[46px]">
+          <FilePreviewDocument className="h-[46px]" />
+          <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+        </FilePreview>
+        <ComposerAttachmentBody>
+          <ComposerAttachmentTitle>{name}</ComposerAttachmentTitle>
+          <ComposerAttachmentMeta>18 KB</ComposerAttachmentMeta>
+        </ComposerAttachmentBody>
+      </ComposerAttachmentFile>
+      <ComposerAttachmentRemove aria-label={`Remove ${name}`} onClick={handleRemove}>
+        <X />
+      </ComposerAttachmentRemove>
+    </ComposerAttachment>
   );
 }

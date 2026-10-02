@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageForwardedBundle,
@@ -68,6 +68,10 @@ Review the operational checklist with the owners of notifications, search, and t
 export function ForwardedBundleLongContentComposition() {
   const [expanded, setExpanded] = useState(false);
 
+  const handleToggleExpanded = useCallback(() => {
+    setExpanded((current) => !current);
+  }, []);
+
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
@@ -98,9 +102,7 @@ export function ForwardedBundleLongContentComposition() {
               <LongForwardedItem />
             </MessageForwardedBundleItems>
             <MessageForwardedBundleFooter>
-              <MessageForwardedBundleFooterAction
-                onClick={() => setExpanded((current) => !current)}
-              >
+              <MessageForwardedBundleFooterAction onClick={handleToggleExpanded}>
                 {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                 {expanded ? "Collapse" : "Show all 1 message"}
               </MessageForwardedBundleFooterAction>

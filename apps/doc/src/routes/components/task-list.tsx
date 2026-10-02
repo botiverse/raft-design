@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -196,6 +197,23 @@ export const Route = createFileRoute("/components/task-list")({
 
 function TaskListDoc() {
   const code = Route.useLoaderData();
+  const emptySectionsFiles = useMemo(
+    () => [
+      {
+        path: TASK_LIST_EMPTY_SECTIONS_COMPOSITION_PATH,
+        source: taskListEmptySectionsCompositionSource,
+        html: code.emptySections,
+        collapsedHtml: code.emptySectionsBody,
+      },
+      {
+        path: TASK_LIST_COMPOSITION_PATH,
+        source: taskListCompositionSource,
+        html: code.list,
+        collapsedHtml: code.listBody,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -261,25 +279,7 @@ function TaskListDoc() {
                 <TaskListEmptySectionsComposition />
               </Preview.Canvas>
               <Preview.Code
-                codeBlock={
-                  <DocsCodeBlock.Files
-                    collapsible={false}
-                    files={[
-                      {
-                        path: TASK_LIST_EMPTY_SECTIONS_COMPOSITION_PATH,
-                        source: taskListEmptySectionsCompositionSource,
-                        html: code.emptySections,
-                        collapsedHtml: code.emptySectionsBody,
-                      },
-                      {
-                        path: TASK_LIST_COMPOSITION_PATH,
-                        source: taskListCompositionSource,
-                        html: code.list,
-                        collapsedHtml: code.listBody,
-                      },
-                    ]}
-                  />
-                }
+                codeBlock={<DocsCodeBlock.Files collapsible={false} files={emptySectionsFiles} />}
               />
             </Preview>
           </DocSubsection>

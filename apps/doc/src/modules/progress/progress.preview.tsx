@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import {
   Progress,
@@ -27,6 +27,15 @@ export function ProgressPlaygroundPreview({ code, collapsedCode }: ProgressPlayg
   const [size, setSize] = useState<NonNullable<ProgressProps["size"]>>("md");
   const [indeterminate, setIndeterminate] = useState(false);
   const numericValue = Math.max(0, Math.min(100, Number(value) || 0));
+
+  const handleVariantChange = useCallback(
+    (nextValue: string) => setVariant(nextValue as NonNullable<ProgressProps["variant"]>),
+    [],
+  );
+  const handleSizeChange = useCallback(
+    (nextValue: string) => setSize(nextValue as NonNullable<ProgressProps["size"]>),
+    [],
+  );
 
   return (
     <Preview>
@@ -60,9 +69,7 @@ export function ProgressPlaygroundPreview({ code, collapsedCode }: ProgressPlayg
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(nextValue) =>
-              setVariant(nextValue as NonNullable<ProgressProps["variant"]>)
-            }
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Size" htmlFor="progress-preview-size">
@@ -71,7 +78,7 @@ export function ProgressPlaygroundPreview({ code, collapsedCode }: ProgressPlayg
             label="Size"
             options={SIZES}
             value={size}
-            onValueChange={(nextValue) => setSize(nextValue as NonNullable<ProgressProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="Indeterminate" htmlFor="progress-preview-indeterminate">

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -174,6 +175,23 @@ export const Route = createFileRoute("/components/task-card")({
 
 function TaskCardDoc() {
   const code = Route.useLoaderData();
+  const cardFiles = useMemo(
+    () => [
+      {
+        path: TASK_CARD_COMPOSITION_PATH,
+        source: taskCardCompositionSource,
+        html: code.card,
+        collapsedHtml: code.cardBody,
+      },
+      {
+        path: TASK_STATUS_SELECT_COMPOSITION_PATH,
+        source: taskStatusSelectCompositionSource,
+        html: code.statusSelect,
+        collapsedHtml: code.statusSelectBody,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -185,25 +203,7 @@ function TaskCardDoc() {
         <TaskCardPlaygroundPreview
           code={code.card}
           collapsedCode={code.cardBody}
-          codeBlock={
-            <DocsCodeBlock.Files
-              collapsible={false}
-              files={[
-                {
-                  path: TASK_CARD_COMPOSITION_PATH,
-                  source: taskCardCompositionSource,
-                  html: code.card,
-                  collapsedHtml: code.cardBody,
-                },
-                {
-                  path: TASK_STATUS_SELECT_COMPOSITION_PATH,
-                  source: taskStatusSelectCompositionSource,
-                  html: code.statusSelect,
-                  collapsedHtml: code.statusSelectBody,
-                },
-              ]}
-            />
-          }
+          codeBlock={<DocsCodeBlock.Files collapsible={false} files={cardFiles} />}
         />
       </DocSection>
 

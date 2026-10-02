@@ -1,17 +1,23 @@
+import { useCallback } from "react";
 import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "raft-ui";
 
 import type { PreviewSegmentedProps } from "./preview.types.ts";
 
 export function PreviewSegmented({ label, options, value, onValueChange }: PreviewSegmentedProps) {
+  const handleValueChange = useCallback(
+    (nextValue: string) => {
+      if (nextValue) {
+        onValueChange(nextValue);
+      }
+    },
+    [onValueChange],
+  );
+
   return (
     <SegmentedControl
       aria-label={label}
       value={value}
-      onValueChange={(nextValue) => {
-        if (nextValue) {
-          onValueChange(nextValue);
-        }
-      }}
+      onValueChange={handleValueChange}
       className="w-full"
     >
       {options.map((option) => (

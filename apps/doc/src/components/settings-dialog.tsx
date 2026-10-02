@@ -181,9 +181,7 @@ export function SettingsDialog(props: ComponentProps<typeof Dialog>) {
                 <SegmentedControl
                   aria-label="Color mode"
                   value={preview.mode}
-                  onValueChange={(value) => {
-                    preview.setMode(value);
-                  }}
+                  onValueChange={preview.setMode}
                   className="w-fit pt-1"
                 >
                   {MODE_OPTIONS.map((option) => (

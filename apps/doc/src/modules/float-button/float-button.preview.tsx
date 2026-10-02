@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { MessageSquare } from "lucide-react";
 import { FloatButton } from "raft-ui";
@@ -25,6 +25,16 @@ export function FloatButtonPlaygroundPreview({ code }: FloatButtonPlaygroundPrev
   const [description, setDescription] = useState("");
   const [disabled, setDisabled] = useState(false);
 
+  const handleVariantChange = useCallback((value: string) => {
+    setVariant(value as NonNullable<FloatButtonProps["variant"]>);
+  }, []);
+  const handleShapeChange = useCallback((value: string) => {
+    setShape(value as NonNullable<FloatButtonProps["shape"]>);
+  }, []);
+  const handleSizeChange = useCallback((value: string) => {
+    setSize(value as NonNullable<FloatButtonProps["size"]>);
+  }, []);
+
   return (
     <Preview>
       <Preview.Canvas>
@@ -48,7 +58,7 @@ export function FloatButtonPlaygroundPreview({ code }: FloatButtonPlaygroundPrev
             label="Variant"
             options={FLOAT_BUTTON_VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as NonNullable<FloatButtonProps["variant"]>)}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Shape" htmlFor="float-button-preview-shape">
@@ -57,7 +67,7 @@ export function FloatButtonPlaygroundPreview({ code }: FloatButtonPlaygroundPrev
             label="Shape"
             options={FLOAT_BUTTON_SHAPES}
             value={shape}
-            onValueChange={(value) => setShape(value as NonNullable<FloatButtonProps["shape"]>)}
+            onValueChange={handleShapeChange}
           />
         </Preview.Control>
         <Preview.Control label="Size" htmlFor="float-button-preview-size">
@@ -66,7 +76,7 @@ export function FloatButtonPlaygroundPreview({ code }: FloatButtonPlaygroundPrev
             label="Size"
             options={FLOAT_BUTTON_SIZES}
             value={size}
-            onValueChange={(value) => setSize(value as NonNullable<FloatButtonProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="Description" htmlFor="float-button-preview-description">

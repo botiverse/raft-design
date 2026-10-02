@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { RadioGroup, RadioGroupItem, useThemeFamily } from "raft-ui";
 import { tv } from "tailwind-variants/lite";
 
@@ -72,12 +72,15 @@ export function RadioGroupResetModeRestoredComposition({
   const theme = useThemeFamily();
   const styles = resetModeOption({ theme });
 
-  function handleValueChange(nextValue: string) {
-    if (value === undefined) {
-      setSelectedValue(nextValue);
-    }
-    onValueChange?.(nextValue);
-  }
+  const handleValueChange = useCallback(
+    (nextValue: string) => {
+      if (value === undefined) {
+        setSelectedValue(nextValue);
+      }
+      onValueChange?.(nextValue);
+    },
+    [onValueChange, value],
+  );
 
   return (
     <RadioGroup

@@ -1,5 +1,5 @@
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import type { DescriptionListDirection } from "raft-ui";
 
@@ -21,6 +21,10 @@ type DescriptionListPreviewProps = {
 export function DescriptionListPreview({ code, collapsedCode }: DescriptionListPreviewProps) {
   const [direction, setDirection] = useState<DescriptionListDirection>("vertical");
 
+  const handleDirectionChange = useCallback((value: string) => {
+    setDirection(value as DescriptionListDirection);
+  }, []);
+
   return (
     <Preview>
       <Preview.Canvas>
@@ -32,7 +36,7 @@ export function DescriptionListPreview({ code, collapsedCode }: DescriptionListP
             label="Direction"
             options={DIRECTIONS}
             value={direction}
-            onValueChange={(value) => setDirection(value as DescriptionListDirection)}
+            onValueChange={handleDirectionChange}
           />
         </Preview.ControlGroup>
       </Preview.Controls>

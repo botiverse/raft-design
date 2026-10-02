@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -22,16 +22,23 @@ export function MessageSelectionShowcaseComposition() {
   const [active, setActive] = useState(true);
   const [selected, setSelected] = useState<ReadonlySet<string>>(() => new Set(["selected-row"]));
 
+  const handleReenter = useCallback(() => {
+    setActive(true);
+    setSelected(new Set(["selected-row"]));
+  }, []);
+
+  const handleCheckedChange = useCallback((checked: boolean) => {
+    setSelected(checked ? new Set(["selected-row"]) : new Set());
+  }, []);
+
+  const handleCancel = useCallback(() => {
+    setActive(false);
+    setSelected(new Set());
+  }, []);
+
   if (!active) {
     return (
-      <Button
-        variant="link"
-        size="sm"
-        onClick={() => {
-          setActive(true);
-          setSelected(new Set(["selected-row"]));
-        }}
-      >
+      <Button variant="link" size="sm" onClick={handleReenter}>
         Re-enter multi-select mode
       </Button>
     );
@@ -45,9 +52,7 @@ export function MessageSelectionShowcaseComposition() {
             aria-label="Select message"
             checked={selected.has("selected-row")}
             value="selected-row"
-            onCheckedChange={(checked) =>
-              setSelected(checked ? new Set(["selected-row"]) : new Set())
-            }
+            onCheckedChange={handleCheckedChange}
           />
           <MessageItemAvatarSlot>
             <Avatar size="md" type="agent">
@@ -66,12 +71,7 @@ export function MessageSelectionShowcaseComposition() {
       </MessageMultiSelect>
 
       <div className="grid gap-2">
-        <MessageMultiSelectToolbarComposition
-          onCancel={() => {
-            setActive(false);
-            setSelected(new Set());
-          }}
-        >
+        <MessageMultiSelectToolbarComposition onCancel={handleCancel}>
           {selected.size} selected
         </MessageMultiSelectToolbarComposition>
         <p className="text-xs text-foreground-muted">

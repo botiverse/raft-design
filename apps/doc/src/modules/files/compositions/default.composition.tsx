@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { FilesPanelComposition } from "./files-panel.composition.tsx";
 import type { FileListEntry } from "./files-panel.composition.tsx";
@@ -42,22 +42,32 @@ export function FilesPanelDefaultComposition() {
   const [announcement, setAnnouncement] = useState("Ready");
   const hasMore = files.length === INITIAL_FILES.length;
 
-  const describeAction = (action: string, file: FileListEntry) => {
-    setAnnouncement(`${action}: ${file.filename}`);
-  };
+  const handleDownload = useCallback((file: FileListEntry) => {
+    setAnnouncement(`Download: ${file.filename}`);
+  }, []);
+
+  const handleJumpToOriginal = useCallback((file: FileListEntry) => {
+    setAnnouncement(`Jump to original: ${file.filename}`);
+  }, []);
+
+  const handlePreview = useCallback((file: FileListEntry) => {
+    setAnnouncement(`Preview: ${file.filename}`);
+  }, []);
+
+  const handleLoadMore = useCallback(() => {
+    setFiles((current) => [...current, MORE_FILE]);
+    setAnnouncement(`Loaded ${MORE_FILE.filename}`);
+  }, []);
 
   return (
     <div className="flex h-[32rem] w-full max-w-2xl flex-col overflow-hidden border border-line-muted">
       <FilesPanelComposition
         files={files}
         hasMore={hasMore}
-        onDownload={(file) => describeAction("Download", file)}
-        onJumpToOriginal={(file) => describeAction("Jump to original", file)}
-        onLoadMore={() => {
-          setFiles((current) => [...current, MORE_FILE]);
-          setAnnouncement(`Loaded ${MORE_FILE.filename}`);
-        }}
-        onPreview={(file) => describeAction("Preview", file)}
+        onDownload={handleDownload}
+        onJumpToOriginal={handleJumpToOriginal}
+        onLoadMore={handleLoadMore}
+        onPreview={handlePreview}
       />
       <p
         aria-live="polite"

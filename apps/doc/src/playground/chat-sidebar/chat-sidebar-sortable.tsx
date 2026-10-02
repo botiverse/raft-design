@@ -1,6 +1,7 @@
 import { useDraggable, useDroppable } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useMemo } from "react";
 import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
 import { SidebarList } from "raft-ui";
 import type { SidebarListProps } from "raft-ui";
@@ -14,8 +15,10 @@ type SortableChatSidebarListProps = SidebarListProps & {
 };
 
 export function SortableChatSidebarList({ items, ...props }: SortableChatSidebarListProps) {
+  const sortableItems = useMemo(() => [...items], [items]);
+
   return (
-    <SortableContext items={[...items]} strategy={verticalListSortingStrategy}>
+    <SortableContext items={sortableItems} strategy={verticalListSortingStrategy}>
       <SidebarList {...props} />
     </SortableContext>
   );

@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import type { ReactNode } from "react";
 import {
   Bookmark,
@@ -22,6 +23,8 @@ import { MessageReactionGlyphComposition } from "./reaction-glyph.composition.ts
 
 export type MessageTaskState = "none" | "open" | "done";
 
+const COLLISION_AVOIDANCE = { side: "flip", align: "flip" } as const;
+
 export type MessageContextMenuCompositionProps = {
   children?: ReactNode;
   followed?: boolean;
@@ -37,6 +40,31 @@ export type MessageContextMenuCompositionProps = {
   saved?: boolean;
   task: MessageTaskState;
 };
+
+type MessageQuickReactionItemProps = {
+  emoji: string;
+  onQuickReact?: (emoji: string) => void;
+};
+
+function MessageQuickReactionItem({ emoji, onQuickReact }: MessageQuickReactionItemProps) {
+  const handleClick = useCallback(() => onQuickReact?.(emoji), [emoji, onQuickReact]);
+
+  return (
+    <ContextMenuItem
+      nativeButton
+      disabled={!onQuickReact}
+      onClick={handleClick}
+      render={
+        <MessageReactionQuickButton
+          title={`React with ${emoji}`}
+          aria-label={`React with ${emoji}`}
+        />
+      }
+    >
+      <MessageReactionGlyphComposition emoji={emoji} size={18} />
+    </ContextMenuItem>
+  );
+}
 
 export function MessageContextMenuComposition({
   children,
@@ -60,30 +88,32 @@ export function MessageContextMenuComposition({
         ? { icon: <CheckCircle />, label: "Mark as Done" }
         : { icon: <ClipboardCheck />, label: "Convert to Task" };
 
+  const portalProps = useMemo(
+    () => (portalContainer ? { container: portalContainer } : undefined),
+    [portalContainer],
+  );
+
+  const handleSavedToggle = useCallback(() => onSavedChange?.(!saved), [onSavedChange, saved]);
+  const handleFollowToggle = useCallback(
+    () => onFollowChange?.(!followed),
+    [followed, onFollowChange],
+  );
+  const handleTaskToggle = useCallback(
+    () => onTaskChange?.(task === "open" ? "done" : "open"),
+    [onTaskChange, task],
+  );
+
   return (
     <ContextMenuContent
       aria-label="Message context menu"
       className="overflow-x-hidden overflow-y-auto"
-      collisionAvoidance={{ side: "flip", align: "flip" }}
+      collisionAvoidance={COLLISION_AVOIDANCE}
       collisionPadding={8}
-      portalProps={portalContainer ? { container: portalContainer } : undefined}
+      portalProps={portalProps}
     >
       <MessageReactionQuickRow>
         {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-          <ContextMenuItem
-            key={emoji}
-            nativeButton
-            disabled={!onQuickReact}
-            onClick={() => onQuickReact?.(emoji)}
-            render={
-              <MessageReactionQuickButton
-                title={`React with ${emoji}`}
-                aria-label={`React with ${emoji}`}
-              />
-            }
-          >
-            <MessageReactionGlyphComposition emoji={emoji} size={18} />
-          </ContextMenuItem>
+          <MessageQuickReactionItem key={emoji} emoji={emoji} onQuickReact={onQuickReact} />
         ))}
       </MessageReactionQuickRow>
       <ContextMenuSeparator />
@@ -109,21 +139,18 @@ export function MessageContextMenuComposition({
           Open Thread
         </ContextMenuItem>
       ) : null}
-      <ContextMenuItem disabled={!onSavedChange} onClick={() => onSavedChange?.(!saved)}>
+      <ContextMenuItem disabled={!onSavedChange} onClick={handleSavedToggle}>
         {saved ? <BookmarkMinus /> : <Bookmark />}
         {saved ? "Remove from Saved" : "Save Message"}
       </ContextMenuItem>
       {onFollowChange ? (
-        <ContextMenuItem onClick={() => onFollowChange(!followed)}>
+        <ContextMenuItem onClick={handleFollowToggle}>
           <MessageSquare />
           {followed ? "Unfollow Thread" : "Follow Thread"}
         </ContextMenuItem>
       ) : null}
       <ContextMenuSeparator />
-      <ContextMenuItem
-        disabled={!onTaskChange}
-        onClick={() => onTaskChange?.(task === "open" ? "done" : "open")}
-      >
+      <ContextMenuItem disabled={!onTaskChange} onClick={handleTaskToggle}>
         {taskAction.icon}
         {taskAction.label}
       </ContextMenuItem>

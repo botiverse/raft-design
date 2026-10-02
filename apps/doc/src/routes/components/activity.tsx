@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -457,18 +458,16 @@ function ActivitySourceFiles({
   code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={collapsible}
-      showLineNumbers={false}
-      files={[
-        {
-          path: ACTIVITY_COMPOSITION_PATH,
-          source: activityPreviewCompositionSource,
-          html: code.composition,
-          collapsedHtml: code.compositionBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: ACTIVITY_COMPOSITION_PATH,
+        source: activityPreviewCompositionSource,
+        html: code.composition,
+        collapsedHtml: code.compositionBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={collapsible} showLineNumbers={false} files={files} />;
 }

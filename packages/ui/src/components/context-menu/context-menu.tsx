@@ -169,16 +169,18 @@ export type ContextMenuContentProps = StyledProps<BaseContextMenu.Popup.Props> &
     portalProps?: ContextMenuPortalProps;
   };
 
+const CONTENT_COLLISION_AVOIDANCE: BaseContextMenu.Positioner.Props["collisionAvoidance"] = {
+  side: "shift",
+  align: "shift",
+  fallbackAxisSide: "none",
+};
+
 export function ContextMenuContent({
   align = "start",
   alignOffset = 0,
   anchor,
   arrowPadding,
-  collisionAvoidance = {
-    side: "shift",
-    align: "shift",
-    fallbackAxisSide: "none",
-  },
+  collisionAvoidance = CONTENT_COLLISION_AVOIDANCE,
   collisionBoundary,
   collisionPadding = 8,
   disableAnchorTracking = true,

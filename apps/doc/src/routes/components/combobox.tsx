@@ -19,6 +19,7 @@ import {
   FieldLabel,
   InlineCode,
 } from "raft-ui";
+import type { ComboboxProps } from "raft-ui";
 import {
   AtSign,
   Check,
@@ -31,7 +32,7 @@ import {
   MessagesSquare,
   Sparkles,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -918,6 +919,10 @@ function ComboboxChannelList() {
   );
 }
 
+function getItemLabel(item: { label: string }) {
+  return item.label;
+}
+
 function ButtonTriggerCombobox() {
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(channels[0]);
   const SelectedChannelIcon = selectedChannel?.Icon ?? MessagesSquare;
@@ -927,7 +932,7 @@ function ButtonTriggerCombobox() {
       <Combobox<Channel>
         items={channels}
         value={selectedChannel}
-        itemToStringLabel={(channel) => channel.label}
+        itemToStringLabel={getItemLabel}
         onValueChange={setSelectedChannel}
         autoHighlight
       >
@@ -992,7 +997,7 @@ function AsyncOptionsCombobox() {
         open={open}
         value={value}
         items={items}
-        itemToStringLabel={(repository) => repository.label}
+        itemToStringLabel={getItemLabel}
         onOpenChange={setOpen}
         onValueChange={setValue}
         autoHighlight
@@ -1035,6 +1040,22 @@ function AsyncSearchCombobox() {
     clearOnFetch: true,
   });
 
+  const handleInputValueChange = useCallback<
+    NonNullable<ComboboxProps<Model>["onInputValueChange"]>
+  >((nextQuery, eventDetails) => {
+    if (eventDetails.reason !== "item-press") {
+      setInputValue(nextQuery);
+      setSearchQuery(nextQuery);
+    }
+  }, []);
+
+  const handleValueChange = useCallback((nextValue: Model | null) => {
+    setValue(nextValue);
+    if (nextValue) {
+      setInputValue(nextValue.label);
+    }
+  }, []);
+
   function renderModelItems() {
     if (isLoading) {
       return (
@@ -1068,19 +1089,9 @@ function AsyncSearchCombobox() {
         value={value}
         items={items}
         filter={null}
-        itemToStringLabel={(model) => model.label}
-        onInputValueChange={(nextQuery, eventDetails) => {
-          if (eventDetails.reason !== "item-press") {
-            setInputValue(nextQuery);
-            setSearchQuery(nextQuery);
-          }
-        }}
-        onValueChange={(nextValue) => {
-          setValue(nextValue);
-          if (nextValue) {
-            setInputValue(nextValue.label);
-          }
-        }}
+        itemToStringLabel={getItemLabel}
+        onInputValueChange={handleInputValueChange}
+        onValueChange={handleValueChange}
         autoHighlight
       >
         <Field className="w-56 gap-1.5">
@@ -1125,29 +1136,38 @@ function AsyncSelectCombobox() {
     };
   }, []);
 
-  async function handleValueChange(nextValue: Branch | null) {
-    if (!nextValue || pendingId) {
-      return;
-    }
+  const handleValueChange = useCallback(
+    async (nextValue: Branch | null) => {
+      if (!nextValue || pendingId) {
+        return;
+      }
 
-    if (closeTimerRef.current) {
-      clearTimeout(closeTimerRef.current);
-    }
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
 
-    lockCloseRef.current = true;
-    setPendingId(nextValue.id);
-    setConfirmedId(null);
-    await requestBranchChange();
-    setValue(nextValue);
-    setPendingId(null);
-    setConfirmedId(nextValue.id);
-
-    closeTimerRef.current = setTimeout(() => {
-      lockCloseRef.current = false;
-      setOpen(false);
+      lockCloseRef.current = true;
+      setPendingId(nextValue.id);
       setConfirmedId(null);
-    }, 500);
-  }
+      await requestBranchChange();
+      setValue(nextValue);
+      setPendingId(null);
+      setConfirmedId(nextValue.id);
+
+      closeTimerRef.current = setTimeout(() => {
+        lockCloseRef.current = false;
+        setOpen(false);
+        setConfirmedId(null);
+      }, 500);
+    },
+    [pendingId],
+  );
+
+  const handleOpenChange = useCallback((nextOpen: boolean) => {
+    if (!lockCloseRef.current) {
+      setOpen(nextOpen);
+    }
+  }, []);
 
   return (
     <div className="relative flex justify-center">
@@ -1155,12 +1175,8 @@ function AsyncSelectCombobox() {
         open={open}
         value={value}
         items={branches}
-        itemToStringLabel={(branch) => branch.label}
-        onOpenChange={(nextOpen) => {
-          if (!lockCloseRef.current) {
-            setOpen(nextOpen);
-          }
-        }}
+        itemToStringLabel={getItemLabel}
+        onOpenChange={handleOpenChange}
         onValueChange={handleValueChange}
         autoHighlight
       >

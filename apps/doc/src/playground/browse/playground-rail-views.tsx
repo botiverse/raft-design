@@ -19,7 +19,7 @@ import {
   Users,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
 import {
   Button,
   EmptyState,
@@ -48,6 +48,7 @@ import {
   PanelTitle,
 } from "raft-ui";
 
+import type { PlaygroundActor } from "../mock/index.ts";
 import type { PlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { MemberDetailPanel } from "./member-detail-panel.tsx";
@@ -185,7 +186,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
   const { railDetailId, selectRailDetail } = usePlaygroundNavigation();
 
   if (view === "members") {
-    return <MembersSidebar selectedId={railDetailId} onSelect={(id) => selectRailDetail(id)} />;
+    return <MembersSidebar selectedId={railDetailId} onSelect={selectRailDetail} />;
   }
 
   const details = auxiliaryViewDetails[view];
@@ -204,29 +205,46 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
       <SidebarBody>
         <SidebarContent>
           {details.map((detail, index) => {
-            const DetailIcon = detail.icon;
             const previousGroup = details[index - 1]?.group;
             return (
               <Fragment key={detail.id}>
                 {detail.group && detail.group !== previousGroup ? (
                   <SidebarGroupLabel>{detail.group}</SidebarGroupLabel>
                 ) : null}
-                <SidebarItem
+                <RailDetailItem
+                  detail={detail}
                   active={selectedId === detail.id}
-                  onClick={() => selectRailDetail(detail.id)}
-                >
-                  <SidebarItemIcon aria-hidden>
-                    <DetailIcon />
-                  </SidebarItemIcon>
-                  <SidebarItemTitle>{detail.label}</SidebarItemTitle>
-                  {detail.meta ? <SidebarItemMeta>{detail.meta}</SidebarItemMeta> : null}
-                </SidebarItem>
+                  onSelect={selectRailDetail}
+                />
               </Fragment>
             );
           })}
         </SidebarContent>
       </SidebarBody>
     </SidebarRoot>
+  );
+}
+
+function RailDetailItem({
+  detail,
+  active,
+  onSelect,
+}: {
+  detail: RailDetail;
+  active: boolean;
+  onSelect: (id: string) => void;
+}) {
+  const DetailIcon = detail.icon;
+  const handleClick = useCallback(() => onSelect(detail.id), [detail.id, onSelect]);
+
+  return (
+    <SidebarItem active={active} onClick={handleClick}>
+      <SidebarItemIcon aria-hidden>
+        <DetailIcon />
+      </SidebarItemIcon>
+      <SidebarItemTitle>{detail.label}</SidebarItemTitle>
+      {detail.meta ? <SidebarItemMeta>{detail.meta}</SidebarItemMeta> : null}
+    </SidebarItem>
   );
 }
 
@@ -239,6 +257,10 @@ export function PlaygroundRailViewPanel({
     return <PlaygroundActivityPanel />;
   }
 
+  return <AuxiliaryRailViewPanel view={view} />;
+}
+
+function AuxiliaryRailViewPanel({ view }: { view: AuxiliaryRailView }) {
   const ViewIcon = viewMeta[view].icon;
   const { railDetailId, selectRailDetail } = usePlaygroundNavigation();
   const selectedMember = view === "members" ? getSelectedMember(railDetailId) : undefined;
@@ -246,21 +268,23 @@ export function PlaygroundRailViewPanel({
     (view === "members" || view === "computers" || view === "settings") &&
     railDetailId !== undefined;
   const mobileBack = auxiliaryDetail;
+  const clearRailDetail = useCallback(() => selectRailDetail(undefined), [selectRailDetail]);
+  const selectActor = useCallback(
+    (actor: PlaygroundActor) =>
+      selectRailDetail(
+        actor.type === "agent" ? memberDetailId.agent(actor.id) : memberDetailId.human(actor.id),
+      ),
+    [selectRailDetail],
+  );
 
   if (selectedMember) {
     return (
       <MemberDetailPanel
         key={selectedMember.id}
         actor={selectedMember}
-        onBack={() => selectRailDetail(undefined)}
-        onClose={() => selectRailDetail(undefined)}
-        onSelectActor={(actor) =>
-          selectRailDetail(
-            actor.type === "agent"
-              ? memberDetailId.agent(actor.id)
-              : memberDetailId.human(actor.id),
-          )
-        }
+        onBack={clearRailDetail}
+        onClose={clearRailDetail}
+        onSelectActor={selectActor}
       />
     );
   }
@@ -274,9 +298,7 @@ export function PlaygroundRailViewPanel({
             size="icon-sm"
             className="md:hidden"
             aria-label={`Back to ${viewMeta[view].title}`}
-            onClick={() => {
-              selectRailDetail(undefined);
-            }}
+            onClick={clearRailDetail}
           >
             <ChevronLeft aria-hidden />
           </Button>

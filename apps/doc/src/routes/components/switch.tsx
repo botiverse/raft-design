@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Field, FieldDescription, FieldLabel, Switch } from "raft-ui";
 import type { SwitchProps } from "raft-ui";
 
@@ -109,6 +109,10 @@ export const Route = createFileRoute("/components/switch")({
 function SwitchPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [size, setSize] = useState<NonNullable<SwitchProps["size"]>>("sm");
   const [disabled, setDisabled] = useState(false);
+  const handleSizeChange = useCallback(
+    (value: string) => setSize(value as NonNullable<SwitchProps["size"]>),
+    [],
+  );
 
   return (
     <Preview>
@@ -122,7 +126,7 @@ function SwitchPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>[
             label="Size"
             options={SIZES}
             value={size}
-            onValueChange={(value) => setSize(value as NonNullable<SwitchProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="Disabled" htmlFor="switch-preview-disabled">

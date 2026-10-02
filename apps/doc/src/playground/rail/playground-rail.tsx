@@ -68,6 +68,8 @@ import { usePlaygroundNavigation } from "../navigation/use-playground-navigation
 const currentServerName = "Raft 中文社区";
 const currentServerAvatarSrc =
   "https://cdn.slock.ai/avatars/server-46a34a4b-a324-4723-ad1d-4921b58ffe48/3f42727015df244421d70c681ff65093.webp";
+const serverParams = { serverSlug: PLAYGROUND_SERVER_SLUG };
+const emptySearch = {};
 
 export function PlaygroundNotificationCenter({ mobile = false }: { mobile?: boolean }) {
   const { dismissNotification, notificationVisible } = usePlaygroundShellState();
@@ -183,8 +185,8 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   render={
                     <Link
                       to="/playground/s/$serverSlug"
-                      params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
-                      search={{}}
+                      params={serverParams}
+                      search={emptySearch}
                     />
                   }
                   label="Chat"
@@ -273,11 +275,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             selected={railView === "chat"}
             nativeButton={false}
             render={
-              <Link
-                to="/playground/s/$serverSlug"
-                params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
-                search={{}}
-              />
+              <Link to="/playground/s/$serverSlug" params={serverParams} search={emptySearch} />
             }
             aria-label="Home"
           >
@@ -287,7 +285,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           <MobileNavItem
             selected={railView === "tasks"}
             nativeButton={false}
-            render={<Link to="/playground/tasks" search={{}} />}
+            render={<Link to="/playground/tasks" search={emptySearch} />}
             aria-label="Tasks"
           >
             <CheckSquare />
@@ -296,7 +294,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           <MobileNavItem
             selected={railView === "members"}
             nativeButton={false}
-            render={<Link to="/playground/members" search={{}} />}
+            render={<Link to="/playground/members" search={emptySearch} />}
             aria-label="Members"
           >
             <Users />

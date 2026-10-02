@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { AlertTriangle, Languages, RotateCcw } from "lucide-react";
 import {
   Avatar,
@@ -29,6 +29,8 @@ const ORIGINAL_MESSAGE = "Keep this original message available for the team.";
 
 export function MessageTranslationStatesComposition() {
   const [retrying, setRetrying] = useState(false);
+
+  const handleRetry = useCallback(() => setRetrying(true), []);
 
   return (
     <div className="flex flex-col">
@@ -93,7 +95,7 @@ export function MessageTranslationStatesComposition() {
               <MessageItemTranslationRetryAction
                 title="Translation unavailable"
                 aria-label="Retry"
-                onClick={() => setRetrying(true)}
+                onClick={handleRetry}
               >
                 <RotateCcw size={12} aria-hidden />
                 Retry

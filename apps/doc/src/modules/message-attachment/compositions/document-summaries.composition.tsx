@@ -11,6 +11,22 @@ import {
 } from "raft-ui";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 
+function downloadMetrics() {
+  downloadMessageFixture("metrics.csv");
+}
+
+function downloadReleaseNotes() {
+  downloadMessageFixture("release-notes.md");
+}
+
+function downloadScreening() {
+  downloadMessageFixture("screening.html");
+}
+
+function downloadArchitecture() {
+  downloadMessageFixture("architecture.pdf");
+}
+
 export function MessageAttachmentDocumentSummariesComposition() {
   return (
     <MessageAttachmentGroup>
@@ -23,7 +39,7 @@ export function MessageAttachmentDocumentSummariesComposition() {
             <MessageAttachmentAction
               aria-label="Download metrics.csv"
               title="Download metrics.csv"
-              onClick={() => downloadMessageFixture("metrics.csv")}
+              onClick={downloadMetrics}
             >
               <ArrowDownToLine />
             </MessageAttachmentAction>
@@ -39,7 +55,7 @@ export function MessageAttachmentDocumentSummariesComposition() {
             <MessageAttachmentAction
               aria-label="Download release-notes.md"
               title="Download release-notes.md"
-              onClick={() => downloadMessageFixture("release-notes.md")}
+              onClick={downloadReleaseNotes}
             >
               <ArrowDownToLine />
             </MessageAttachmentAction>
@@ -55,7 +71,7 @@ export function MessageAttachmentDocumentSummariesComposition() {
             <MessageAttachmentAction
               aria-label="Download screening.html"
               title="Download screening.html"
-              onClick={() => downloadMessageFixture("screening.html")}
+              onClick={downloadScreening}
             >
               <ArrowDownToLine />
             </MessageAttachmentAction>
@@ -71,7 +87,7 @@ export function MessageAttachmentDocumentSummariesComposition() {
             <MessageAttachmentAction
               aria-label="Download architecture.pdf"
               title="Download architecture.pdf"
-              onClick={() => downloadMessageFixture("architecture.pdf")}
+              onClick={downloadArchitecture}
             >
               <ArrowDownToLine />
             </MessageAttachmentAction>

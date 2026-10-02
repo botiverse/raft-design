@@ -8,6 +8,10 @@ import {
 } from "raft-ui";
 import { RotateCcw } from "lucide-react";
 
+function reloadPage() {
+  window.location.reload();
+}
+
 export function TasksErrorComposition() {
   return (
     <div className="flex min-h-80 w-full">
@@ -17,7 +21,7 @@ export function TasksErrorComposition() {
             <RotateCcw aria-hidden />
             <BannerDescription>Couldn&apos;t load tasks.</BannerDescription>
             <BannerAction>
-              <Button variant="outline" size="sm" onClick={() => window.location.reload()}>
+              <Button variant="outline" size="sm" onClick={reloadPage}>
                 Retry
               </Button>
             </BannerAction>

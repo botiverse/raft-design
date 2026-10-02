@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+import type { ReactNode } from "react";
 import {
   TaskListRoot,
   TaskSection,
@@ -13,8 +15,32 @@ import {
 import { ChevronDown } from "lucide-react";
 
 import { TASK_STATUSES } from "#/modules/task-card/task-card.fixtures.ts";
+import type { TaskStatus } from "#/modules/task-card/task-card.fixtures.ts";
 import { TaskCardComposition } from "#/modules/task-card/compositions/task-card.composition.tsx";
 import type { TasksPanelViewProps } from "./tasks-panel-view.types.ts";
+
+function TasksPanelListSection({
+  children,
+  open,
+  status,
+  onOpenChange,
+}: {
+  children: ReactNode;
+  open: boolean;
+  status: TaskStatus;
+  onOpenChange: (status: TaskStatus, open: boolean) => void;
+}) {
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => onOpenChange(status, nextOpen),
+    [onOpenChange, status],
+  );
+
+  return (
+    <TaskSection open={open} onOpenChange={handleOpenChange}>
+      {children}
+    </TaskSection>
+  );
+}
 
 /** List view of the tasks panel: one collapsible section per status. */
 export function TasksPanelListView(props: TasksPanelViewProps) {
@@ -23,10 +49,11 @@ export function TasksPanelListView(props: TasksPanelViewProps) {
       {TASK_STATUSES.map((status) => {
         const statusTasks = props.tasks.filter((task) => task.status === status.id);
         return (
-          <TaskSection
+          <TasksPanelListSection
             key={status.id}
+            status={status.id}
             open={!props.collapsed[status.id]}
-            onOpenChange={(open) => props.onCollapsedChange(status.id, open)}
+            onOpenChange={props.onCollapsedChange}
           >
             <TaskSectionTrigger>
               <TaskSectionHeading>
@@ -55,7 +82,7 @@ export function TasksPanelListView(props: TasksPanelViewProps) {
                 </TaskSectionItems>
               )}
             </TaskSectionPanel>
-          </TaskSection>
+          </TasksPanelListSection>
         );
       })}
     </TaskListRoot>

@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { RefObject } from "react";
 import { animate, stagger } from "motion/react";
 import type { AnimationPlaybackControlsWithThen } from "motion/react";
@@ -48,19 +48,19 @@ export function LogoSnapLab() {
   const runningRef = useRef<AnimationPlaybackControlsWithThen[]>([]);
   const [playing, setPlaying] = useState(false);
 
-  const stopRunning = () => {
+  const stopRunning = useCallback(() => {
     for (const control of runningRef.current) {
       control.stop();
     }
     runningRef.current = [];
-  };
+  }, []);
 
-  const track = (control: AnimationPlaybackControlsWithThen) => {
+  const track = useCallback((control: AnimationPlaybackControlsWithThen) => {
     runningRef.current.push(control);
     return control;
-  };
+  }, []);
 
-  const resetToStart = async () => {
+  const resetToStart = useCallback(async () => {
     const top = topRef.current;
     const bottom = bottomRef.current;
     const mark = markRef.current;
@@ -102,9 +102,9 @@ export function LogoSnapLab() {
     // Force a painted frame so Replay actually shows the split pose.
     await waitForPaint();
     return true;
-  };
+  }, [stopRunning, track]);
 
-  const play = async () => {
+  const play = useCallback(async () => {
     const top = topRef.current;
     const bottom = bottomRef.current;
     const mark = markRef.current;
@@ -231,7 +231,7 @@ export function LogoSnapLab() {
         setPlaying(false);
       }
     }
-  };
+  }, [resetToStart, track]);
 
   useEffect(() => {
     void play();
@@ -239,8 +239,12 @@ export function LogoSnapLab() {
       playIdRef.current += 1;
       stopRunning();
     };
-    // Lab entrance autoplay once on mount.
-  }, []);
+    // Lab entrance autoplay once on mount (play and stopRunning are stable).
+  }, [play, stopRunning]);
+
+  const handleReplay = useCallback(() => {
+    void play();
+  }, [play]);
 
   return (
     <div className="flex w-full flex-col items-center gap-10">
@@ -286,7 +290,7 @@ export function LogoSnapLab() {
         </div>
       </div>
 
-      <Button type="button" variant="default" size="sm" onClick={() => void play()}>
+      <Button type="button" variant="default" size="sm" onClick={handleReplay}>
         {playing ? "Playing…" : "Replay"}
       </Button>
     </div>

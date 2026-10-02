@@ -16,8 +16,14 @@ export type MessageTextSelectionCompositionProps = {
   onQuote?: (text: string) => void;
 };
 
+const COLLISION_AVOIDANCE = { side: "shift", align: "shift", fallbackAxisSide: "none" } as const;
+
 function selectionBelongsToRoot(range: Range, root: HTMLElement) {
   return root.contains(range.startContainer) && root.contains(range.endContainer);
+}
+
+function preventDefault(event: { preventDefault: () => void }) {
+  event.preventDefault();
 }
 
 export function MessageTextSelectionComposition({
@@ -25,14 +31,13 @@ export function MessageTextSelectionComposition({
   container,
   onQuote,
 }: MessageTextSelectionCompositionProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const portalContainerRef = useRef<HTMLDivElement>(null);
+  const [root, setRoot] = useState<HTMLDivElement | null>(null);
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const restoreFocusRef = useRef<HTMLElement | null>(null);
   const [range, setRange] = useState<Range | null>(null);
 
   const clear = useCallback(() => {
-    const root = rootRef.current;
     const selection = root?.ownerDocument.getSelection();
     if (root && selection?.rangeCount && selectionBelongsToRoot(selection.getRangeAt(0), root)) {
       selection.removeAllRanges();
@@ -42,10 +47,9 @@ export function MessageTextSelectionComposition({
     const restoreFocus = restoreFocusRef.current;
     restoreFocusRef.current = null;
     if (restoreFocus?.isConnected) queueMicrotask(() => restoreFocus.focus());
-  }, []);
+  }, [root]);
 
   useEffect(() => {
-    const root = rootRef.current;
     if (!root) return;
 
     const ownerDocument = root.ownerDocument;
@@ -73,10 +77,9 @@ export function MessageTextSelectionComposition({
 
     ownerDocument.addEventListener("selectionchange", update);
     return () => ownerDocument.removeEventListener("selectionchange", update);
-  }, []);
+  }, [root]);
 
   useEffect(() => {
-    const root = rootRef.current;
     if (!root || !range) return;
 
     const ownerDocument = root.ownerDocument;
@@ -107,39 +110,49 @@ export function MessageTextSelectionComposition({
 
     ownerDocument.addEventListener("keydown", focusToolbar);
     return () => ownerDocument.removeEventListener("keydown", focusToolbar);
-  }, [clear, range]);
+  }, [clear, range, root]);
 
   const anchor = useMemo<PopoverContentProps["anchor"]>(() => {
     if (!range) return null;
-    const root = rootRef.current;
     return {
       contextElement: root ?? undefined,
       getBoundingClientRect: () => range.getBoundingClientRect(),
       getClientRects: () => Array.from(range.getClientRects()),
     };
-  }, [range]);
+  }, [range, root]);
   const text = range?.toString() ?? "";
 
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (open) return;
+      const selection = root?.ownerDocument.getSelection();
+      const preservesCurrentSelection =
+        root &&
+        selection &&
+        !selection.isCollapsed &&
+        selection.rangeCount > 0 &&
+        selectionBelongsToRoot(selection.getRangeAt(0), root);
+      if (!preservesCurrentSelection) clear();
+    },
+    [clear, root],
+  );
+
+  const handleQuote = useCallback(() => {
+    onQuote?.(text);
+    clear();
+  }, [clear, onQuote, text]);
+
+  const handleCopy = useCallback(() => {
+    if (text) void navigator.clipboard.writeText(text);
+    clear();
+  }, [clear, text]);
+
   return (
-    <Popover
-      open={Boolean(anchor)}
-      onOpenChange={(open) => {
-        if (open) return;
-        const root = rootRef.current;
-        const selection = root?.ownerDocument.getSelection();
-        const preservesCurrentSelection =
-          root &&
-          selection &&
-          !selection.isCollapsed &&
-          selection.rangeCount > 0 &&
-          selectionBelongsToRoot(selection.getRangeAt(0), root);
-        if (!preservesCurrentSelection) clear();
-      }}
-    >
-      <div ref={rootRef} className="contents">
+    <Popover open={Boolean(anchor)} onOpenChange={handleOpenChange}>
+      <div ref={setRoot} className="contents">
         {children}
       </div>
-      <div ref={portalContainerRef} className="absolute size-0" />
+      <div ref={setPortalContainer} className="absolute size-0" />
       {anchor ? (
         <MessageTextSelectionToolbar
           ref={toolbarRef}
@@ -150,37 +163,27 @@ export function MessageTextSelectionComposition({
             <PopoverContent
               align="center"
               anchor={anchor}
-              collisionAvoidance={{ side: "shift", align: "shift", fallbackAxisSide: "none" }}
+              collisionAvoidance={COLLISION_AVOIDANCE}
               collisionPadding={8}
-              container={container === undefined ? portalContainerRef.current : container}
+              container={container === undefined ? portalContainer : container}
               finalFocus={false}
               initialFocus={false}
               side="top"
               sideOffset={8}
-              onPointerDown={(event) => event.preventDefault()}
+              onPointerDown={preventDefault}
             />
           }
         >
           {onQuote ? (
             <>
-              <MessageTextSelectionToolbarButton
-                onClick={() => {
-                  onQuote(text);
-                  clear();
-                }}
-              >
+              <MessageTextSelectionToolbarButton onClick={handleQuote}>
                 <TextQuote size={13} />
                 Quote
               </MessageTextSelectionToolbarButton>
               <MessageTextSelectionToolbarSeparator />
             </>
           ) : null}
-          <MessageTextSelectionToolbarButton
-            onClick={() => {
-              if (text) void navigator.clipboard.writeText(text);
-              clear();
-            }}
-          >
+          <MessageTextSelectionToolbarButton onClick={handleCopy}>
             <Copy size={13} />
             Copy
           </MessageTextSelectionToolbarButton>

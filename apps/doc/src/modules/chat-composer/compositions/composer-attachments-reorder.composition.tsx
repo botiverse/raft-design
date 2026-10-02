@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Paperclip, Send } from "lucide-react";
 import {
   ComposerActions,
@@ -23,27 +23,27 @@ export function ComposerAttachmentsReorderComposition() {
   const [attachments, setAttachments] = useState<ReorderAttachment[]>([
     ...WRAP_REORDER_ATTACHMENTS,
   ]);
-  const ids = attachments.map((attachment) => attachment.id);
+  const ids = useMemo(() => attachments.map((attachment) => attachment.id), [attachments]);
+
+  const handleReorder = useCallback((nextIds: string[]) => {
+    setAttachments((items) => reorderAttachmentsByIds(items, nextIds));
+  }, []);
+
+  const handleRemove = useCallback((id: string) => {
+    setAttachments((items) => items.filter((item) => item.id !== id));
+  }, []);
 
   return (
     <ComposerRoot>
       <ComposerAttachments>
-        <SortableComposerAttachments
-          items={ids}
-          onReorder={(nextIds) =>
-            setAttachments((items) => reorderAttachmentsByIds(items, nextIds))
-          }
-        >
+        <SortableComposerAttachments items={ids} onReorder={handleReorder}>
           {attachments.map((attachment) => (
             <SortableComposerAttachment
               key={attachment.id}
               id={attachment.id}
               label={attachment.name}
             >
-              <ReorderAttachmentTile
-                attachment={attachment}
-                onRemove={(id) => setAttachments((items) => items.filter((item) => item.id !== id))}
-              />
+              <ReorderAttachmentTile attachment={attachment} onRemove={handleRemove} />
             </SortableComposerAttachment>
           ))}
         </SortableComposerAttachments>

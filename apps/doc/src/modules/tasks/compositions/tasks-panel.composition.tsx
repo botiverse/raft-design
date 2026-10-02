@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Tabs,
   TabsBackground,
@@ -68,37 +68,58 @@ export function TasksPanelComposition({
   const [announcement, setAnnouncement] = useState("Ready");
 
   const tasks = controlledTasks ?? localTasks;
-  const visibleTasks = filterTask ? tasks.filter(filterTask) : tasks;
+  const visibleTasks = useMemo(
+    () => (filterTask ? tasks.filter(filterTask) : tasks),
+    [filterTask, tasks],
+  );
   const view = controlledView ?? localView;
-  const updateTasks = (nextTasks: readonly TaskFixture[]) => {
-    if (controlledTasks === undefined) setLocalTasks(nextTasks);
-    onTasksChange?.(nextTasks);
-  };
-  const setView = (nextView: TaskView) => {
-    if (controlledView === undefined) setLocalView(nextView);
-    onViewChange?.(nextView);
-    setAnnouncement(`${nextView === "board" ? "Board" : "List"} view selected`);
-  };
+  const updateTasks = useCallback(
+    (nextTasks: readonly TaskFixture[]) => {
+      if (controlledTasks === undefined) setLocalTasks(nextTasks);
+      onTasksChange?.(nextTasks);
+    },
+    [controlledTasks, onTasksChange],
+  );
+  const setView = useCallback(
+    (nextView: TaskView) => {
+      if (controlledView === undefined) setLocalView(nextView);
+      onViewChange?.(nextView);
+      setAnnouncement(`${nextView === "board" ? "Board" : "List"} view selected`);
+    },
+    [controlledView, onViewChange],
+  );
 
-  const updateStatus = (taskId: string, status: TaskStatus) => {
-    const task = tasks.find((item) => item.id === taskId);
-    if (!task || task.status === status) return;
-    updateTasks(moveTaskFixture(tasks, taskId, { status }));
-    setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
-  };
-  const moveTask = (
-    taskId: string,
-    target: { status: TaskStatus; taskId?: string; placement?: "before" | "after" | null },
-  ) => {
-    const task = tasks.find((item) => item.id === taskId);
-    if (!task) return;
-    updateTasks(moveTaskFixture(tasks, taskId, target));
-    setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(target.status)}`);
-  };
-  const openTask = (task: TaskFixture) => {
-    onOpenTask?.(task);
-    setAnnouncement(`Opened task #${task.taskNumber}: ${task.title}`);
-  };
+  const updateStatus = useCallback(
+    (taskId: string, status: TaskStatus) => {
+      const task = tasks.find((item) => item.id === taskId);
+      if (!task || task.status === status) return;
+      updateTasks(moveTaskFixture(tasks, taskId, { status }));
+      setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
+    },
+    [tasks, updateTasks],
+  );
+  const moveTask = useCallback(
+    (
+      taskId: string,
+      target: { status: TaskStatus; taskId?: string; placement?: "before" | "after" | null },
+    ) => {
+      const task = tasks.find((item) => item.id === taskId);
+      if (!task) return;
+      updateTasks(moveTaskFixture(tasks, taskId, target));
+      setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(target.status)}`);
+    },
+    [tasks, updateTasks],
+  );
+  const openTask = useCallback(
+    (task: TaskFixture) => {
+      onOpenTask?.(task);
+      setAnnouncement(`Opened task #${task.taskNumber}: ${task.title}`);
+    },
+    [onOpenTask],
+  );
+  const handleCollapsedChange = useCallback((status: TaskStatus, nextOpen: boolean) => {
+    setCollapsed((current) => ({ ...current, [status]: !nextOpen }));
+  }, []);
 
   return (
     <div ref={portalRef} className="relative flex size-full min-h-0  min-w-0">
@@ -135,9 +156,7 @@ export function TasksPanelComposition({
             <TasksPanelBoardView
               tasks={visibleTasks}
               collapsed={collapsed}
-              onCollapsedChange={(status, nextOpen) =>
-                setCollapsed((current) => ({ ...current, [status]: !nextOpen }))
-              }
+              onCollapsedChange={handleCollapsedChange}
               onOpenTask={openTask}
               onStatusChange={updateStatus}
               onMoveTask={moveTask}
@@ -149,9 +168,7 @@ export function TasksPanelComposition({
             <TasksPanelListView
               tasks={visibleTasks}
               collapsed={collapsed}
-              onCollapsedChange={(status, nextOpen) =>
-                setCollapsed((current) => ({ ...current, [status]: !nextOpen }))
-              }
+              onCollapsedChange={handleCollapsedChange}
               onOpenTask={openTask}
               onStatusChange={updateStatus}
               portalRef={portalRef}

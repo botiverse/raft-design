@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Tooltip,
   TooltipTrigger,
@@ -27,22 +27,50 @@ export type MessageReactionCompositionProps = {
   title?: string;
 };
 
+const TOOLTIP_REACTION_NAMES = [
+  "Atlas",
+  "Ada Lovelace",
+  "Grace Hopper",
+  "Linus Torvalds",
+  "Margaret Hamilton",
+];
+
 export function MessageQuickReactionPickerComposition() {
   const [selectedReaction, setSelectedReaction] = useState<string>();
 
   return (
     <MessageReactionPickerStatic>
       {MESSAGE_QUICK_REACTIONS.map((emoji) => (
-        <MessageReactionQuickButton
+        <QuickReactionButton
           key={emoji}
-          aria-label={`React with ${emoji}`}
-          aria-pressed={selectedReaction === emoji}
-          onClick={() => setSelectedReaction(emoji)}
-        >
-          <MessageReactionGlyphComposition emoji={emoji} size={18} />
-        </MessageReactionQuickButton>
+          emoji={emoji}
+          selected={selectedReaction === emoji}
+          onSelect={setSelectedReaction}
+        />
       ))}
     </MessageReactionPickerStatic>
+  );
+}
+
+function QuickReactionButton({
+  emoji,
+  selected,
+  onSelect,
+}: {
+  emoji: string;
+  selected: boolean;
+  onSelect: (emoji: string) => void;
+}) {
+  const handleClick = useCallback(() => onSelect(emoji), [emoji, onSelect]);
+
+  return (
+    <MessageReactionQuickButton
+      aria-label={`React with ${emoji}`}
+      aria-pressed={selected}
+      onClick={handleClick}
+    >
+      <MessageReactionGlyphComposition emoji={emoji} size={18} />
+    </MessageReactionQuickButton>
   );
 }
 
@@ -59,7 +87,7 @@ export function MessageReactionOverlaysComposition() {
           container={portalContainer}
           count={5}
           emoji="👍"
-          names={["Atlas", "Ada Lovelace", "Grace Hopper", "Linus Torvalds", "Margaret Hamilton"]}
+          names={TOOLTIP_REACTION_NAMES}
           open
         />
       </div>
@@ -90,19 +118,22 @@ export function MessageReactionComposition({
     };
   }, []);
 
-  const handlePressedChange = (pressed: boolean) => {
-    if (!failed) {
-      setReacted(pressed);
-      return;
-    }
+  const handlePressedChange = useCallback(
+    (pressed: boolean) => {
+      if (!failed) {
+        setReacted(pressed);
+        return;
+      }
 
-    if (failureTimerRef.current !== null) window.clearTimeout(failureTimerRef.current);
-    setFailureFlash(true);
-    failureTimerRef.current = window.setTimeout(() => {
-      setFailureFlash(false);
-      failureTimerRef.current = null;
-    }, 400);
-  };
+      if (failureTimerRef.current !== null) window.clearTimeout(failureTimerRef.current);
+      setFailureFlash(true);
+      failureTimerRef.current = window.setTimeout(() => {
+        setFailureFlash(false);
+        failureTimerRef.current = null;
+      }, 400);
+    },
+    [failed],
+  );
 
   if (count <= 0) return null;
 

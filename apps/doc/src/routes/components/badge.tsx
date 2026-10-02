@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Badge, Spinner, Status, Text } from "raft-ui";
 import type { BadgeProps } from "raft-ui";
 import { CircleCheck, Clock, X } from "lucide-react";
@@ -175,6 +175,14 @@ function BadgePreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["
   const [variant, setVariant] = useState<NonNullable<BadgeProps["variant"]>>("primary");
   const [uppercase, setUppercase] = useState(false);
   const [label, setLabel] = useState("In Progress");
+  const handleAppearanceChange = useCallback(
+    (value: string) => setAppearance(value as NonNullable<BadgeProps["appearance"]>),
+    [],
+  );
+  const handleVariantChange = useCallback(
+    (value: string) => setVariant(value as NonNullable<BadgeProps["variant"]>),
+    [],
+  );
 
   return (
     <Preview>
@@ -190,7 +198,7 @@ function BadgePreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["
             label="Appearance"
             options={APPEARANCES}
             value={appearance}
-            onValueChange={(value) => setAppearance(value as NonNullable<BadgeProps["appearance"]>)}
+            onValueChange={handleAppearanceChange}
           />
         </Preview.Control>
         <Preview.Control label="Variant" htmlFor="badge-preview-variant">
@@ -199,7 +207,7 @@ function BadgePreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as NonNullable<BadgeProps["variant"]>)}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Uppercase" htmlFor="badge-preview-uppercase">
@@ -223,6 +231,8 @@ function BadgePreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["
     </Preview>
   );
 }
+
+function noop() {}
 
 function BadgeDoc() {
   const code = Route.useLoaderData();
@@ -342,7 +352,7 @@ function BadgeDoc() {
                     <Badge
                       render={<button type="button" aria-label="Open thread replies" />}
                       variant="information"
-                      onClick={() => undefined}
+                      onClick={noop}
                     >
                       3 replies
                     </Badge>

@@ -10,10 +10,12 @@ import {
   SearchShellRoot,
   SearchShellViewport,
 } from "raft-ui";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export function SearchErrorComposition() {
   const [retrying, setRetrying] = useState(false);
+
+  const handleRetry = useCallback(() => setRetrying(true), []);
 
   return (
     <SearchShellRoot>
@@ -36,7 +38,7 @@ export function SearchErrorComposition() {
               variant="danger-outline"
               size="sm"
               disabled={retrying}
-              onClick={() => setRetrying(true)}
+              onClick={handleRetry}
             >
               {retrying ? "Retrying…" : "Retry"}
             </Button>

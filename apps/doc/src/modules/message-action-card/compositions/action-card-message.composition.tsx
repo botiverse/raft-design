@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Check } from "lucide-react";
 import {
   Avatar,
@@ -108,6 +108,14 @@ export function ActionCardMessageComposition() {
     actionLabel: "Create Channel",
   });
 
+  const handleAction = useCallback(() => {
+    setResolution({
+      kind: "completed",
+      label: "Created",
+      detail: "Created by Ada → #release-review",
+    });
+  }, []);
+
   return (
     <MessageItem className="w-full max-w-4xl">
       <MessageItemAvatarSlot>
@@ -123,16 +131,7 @@ export function ActionCardMessageComposition() {
           <MessageItemTime>2:27 PM</MessageItemTime>
         </MessageItemHeader>
         <MessageItemBody>
-          <ActionCardComposition
-            resolution={resolution}
-            onAction={() =>
-              setResolution({
-                kind: "completed",
-                label: "Created",
-                detail: "Created by Ada → #release-review",
-              })
-            }
-          />
+          <ActionCardComposition resolution={resolution} onAction={handleAction} />
         </MessageItemBody>
       </MessageItemContent>
     </MessageItem>

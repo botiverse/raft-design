@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { ComboboxSelect } from "raft-ui/wip";
 import type { ComboboxSelectOption, ComboboxSelectValue } from "raft-ui/wip";
 import { mockMutationOptions, runMockMutation } from "#/lib/mock-query.ts";
@@ -26,13 +26,13 @@ export function AsyncSelectComposition() {
   const [loading, setLoading] = useState(false);
   const pendingRef = useRef(false);
 
-  function handleOpenChange(nextOpen: boolean) {
+  const handleOpenChange = useCallback((nextOpen: boolean) => {
     if (!pendingRef.current) {
       setOpen(nextOpen);
     }
-  }
+  }, []);
 
-  async function handleValueChange(nextValue: ComboboxSelectValue | null) {
+  const handleValueChange = useCallback(async (nextValue: ComboboxSelectValue | null) => {
     if (nextValue === null || pendingRef.current) {
       return;
     }
@@ -49,7 +49,7 @@ export function AsyncSelectComposition() {
       setLoading(false);
       setOpen(false);
     }
-  }
+  }, []);
 
   return (
     <ComboboxSelect

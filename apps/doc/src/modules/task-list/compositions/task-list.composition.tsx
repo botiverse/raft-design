@@ -1,4 +1,5 @@
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import {
   ScrollArea,
   ScrollAreaContent,
@@ -49,6 +50,29 @@ export type TaskListCompositionProps = {
   expandAll?: boolean;
 };
 
+function TaskListStatusSection({
+  children,
+  collapsed,
+  status,
+  onCollapsedChange,
+}: {
+  children: ReactNode;
+  collapsed: boolean;
+  status: TaskStatus;
+  onCollapsedChange: (status: TaskStatus, collapsed: boolean) => void;
+}) {
+  const handleOpenChange = useCallback(
+    (open: boolean) => onCollapsedChange(status, !open),
+    [onCollapsedChange, status],
+  );
+
+  return (
+    <TaskSection open={!collapsed} onOpenChange={handleOpenChange}>
+      {children}
+    </TaskSection>
+  );
+}
+
 export function TaskListComposition({
   tasks: controlledTasks,
   showChannelName = false,
@@ -67,13 +91,22 @@ export function TaskListComposition({
     [tasks],
   );
 
-  const updateStatus = (taskId: string, status: TaskStatus) => {
-    const task = tasks.find((item) => item.id === taskId);
-    if (!task || task.status === status) return;
-    const next = tasks.map((item) => (item.id === taskId ? { ...item, status } : item));
-    if (controlledTasks === undefined) setLocalTasks(next);
-    setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
-  };
+  const updateStatus = useCallback(
+    (taskId: string, status: TaskStatus) => {
+      const task = tasks.find((item) => item.id === taskId);
+      if (!task || task.status === status) return;
+      const next = tasks.map((item) => (item.id === taskId ? { ...item, status } : item));
+      if (controlledTasks === undefined) setLocalTasks(next);
+      setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(status)}`);
+    },
+    [controlledTasks, tasks],
+  );
+  const openTask = useCallback((task: TaskFixture) => {
+    setAnnouncement(`Opened task #${task.taskNumber}: ${task.title}`);
+  }, []);
+  const handleCollapsedChange = useCallback((status: TaskStatus, nextCollapsed: boolean) => {
+    setCollapsed((current) => ({ ...current, [status]: nextCollapsed }));
+  }, []);
 
   return (
     <ScrollArea ref={portalRef} className="relative size-full min-h-0  min-w-0">
@@ -83,12 +116,11 @@ export function TaskListComposition({
             {TASK_STATUSES.map((status) => {
               const statusTasks = sortedTasks.filter((task) => task.status === status.id);
               return (
-                <TaskSection
+                <TaskListStatusSection
                   key={status.id}
-                  open={!collapsed[status.id]}
-                  onOpenChange={(open) =>
-                    setCollapsed((current) => ({ ...current, [status.id]: !open }))
-                  }
+                  status={status.id}
+                  collapsed={collapsed[status.id]}
+                  onCollapsedChange={handleCollapsedChange}
                 >
                   <TaskSectionTrigger>
                     <TaskSectionHeading>
@@ -108,9 +140,7 @@ export function TaskListComposition({
                           <TaskCardComposition
                             key={task.id}
                             task={task}
-                            onOpen={(item) =>
-                              setAnnouncement(`Opened task #${item.taskNumber}: ${item.title}`)
-                            }
+                            onOpen={openTask}
                             onStatusChange={updateStatus}
                             portalRef={portalRef}
                             showChannelName={showChannelName}
@@ -119,7 +149,7 @@ export function TaskListComposition({
                       </TaskSectionItems>
                     )}
                   </TaskSectionPanel>
-                </TaskSection>
+                </TaskListStatusSection>
               );
             })}
           </TaskListRoot>

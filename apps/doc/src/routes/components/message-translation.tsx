@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -52,31 +53,30 @@ function UsagePreview({
 }
 
 function MessageTranslationShowcaseFiles({ code }: { code: HighlightedSnippets }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={false}
-      files={[
-        {
-          path: TRANSLATED_COMPOSITION_PATH,
-          source: translatedSource,
-          html: code.translated,
-          collapsedHtml: code.translatedBody,
-        },
-        {
-          path: BILINGUAL_COMPOSITION_PATH,
-          source: bilingualSource,
-          html: code.bilingual,
-          collapsedHtml: code.bilingualBody,
-        },
-        {
-          path: TRANSLATION_STATES_COMPOSITION_PATH,
-          source: translationStatesSource,
-          html: code.translationStates,
-          collapsedHtml: code.translationStatesBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: TRANSLATED_COMPOSITION_PATH,
+        source: translatedSource,
+        html: code.translated,
+        collapsedHtml: code.translatedBody,
+      },
+      {
+        path: BILINGUAL_COMPOSITION_PATH,
+        source: bilingualSource,
+        html: code.bilingual,
+        collapsedHtml: code.bilingualBody,
+      },
+      {
+        path: TRANSLATION_STATES_COMPOSITION_PATH,
+        source: translationStatesSource,
+        html: code.translationStates,
+        collapsedHtml: code.translationStatesBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={false} files={files} />;
 }
 
 export const Route = createFileRoute("/components/message-translation")({

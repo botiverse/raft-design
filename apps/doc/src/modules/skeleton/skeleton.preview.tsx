@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { Skeleton } from "raft-ui";
 import type { SkeletonProps } from "raft-ui";
@@ -15,6 +15,11 @@ type SkeletonPlaygroundPreviewProps = {
 
 export function SkeletonPlaygroundPreview({ code }: SkeletonPlaygroundPreviewProps) {
   const [variant, setVariant] = useState<NonNullable<SkeletonProps["variant"]>>("line");
+
+  const handleVariantChange = useCallback(
+    (value: string) => setVariant(value as NonNullable<SkeletonProps["variant"]>),
+    [],
+  );
 
   return (
     <Preview>
@@ -33,7 +38,7 @@ export function SkeletonPlaygroundPreview({ code }: SkeletonPlaygroundPreviewPro
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as NonNullable<SkeletonProps["variant"]>)}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
       </Preview.Controls>

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import {
   SidebarSection,
   SidebarSectionAttention,
@@ -36,6 +36,10 @@ export function ChatSidebarJointChannelsSection({
   const { getDragId, getProjection, orderRows } = useChatSidebarDnd();
   const ordered = orderRows("joint", rows);
   const projection = getProjection("joint");
+  const dragIds = useMemo(
+    () => ordered.map((row) => getDragId("joint", row.id)),
+    [getDragId, ordered],
+  );
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -75,7 +79,7 @@ export function ChatSidebarJointChannelsSection({
         {ordered.length === 0 ? (
           <SidebarSectionEmpty>No joint channels yet</SidebarSectionEmpty>
         ) : (
-          <SortableChatSidebarList items={ordered.map((row) => getDragId("joint", row.id))}>
+          <SortableChatSidebarList items={dragIds}>
             {ordered.map((row) => (
               <Fragment key={row.id}>
                 <ChatSidebarProjectionPreview anchorChannelId={row.id} projection={projection} />

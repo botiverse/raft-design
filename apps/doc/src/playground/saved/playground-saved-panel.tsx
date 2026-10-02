@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Bookmark, ChevronLeft, MessageSquare, User } from "lucide-react";
+import { useCallback, useMemo } from "react";
+import type { MouseEvent } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -39,6 +41,9 @@ import type { PlaygroundSavedMessageState } from "../message/playground-message-
 import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
 
+const SERVER_PARAMS = { serverSlug: PLAYGROUND_SERVER_SLUG };
+const EMPTY_SEARCH = {};
+
 export function PlaygroundSavedPanel() {
   const { savedMessagesById } = usePlaygroundSavedMessages();
   const savedMessages = [...savedMessagesById.values()].sort(
@@ -55,11 +60,7 @@ export function PlaygroundSavedPanel() {
           className="md:hidden"
           aria-label="Back to Chat"
           render={
-            <Link
-              to="/playground/s/$serverSlug"
-              params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
-              search={{}}
-            />
+            <Link to="/playground/s/$serverSlug" params={SERVER_PARAMS} search={EMPTY_SEARCH} />
           }
         >
           <ChevronLeft aria-hidden />
@@ -108,16 +109,16 @@ export function PlaygroundSavedPanel() {
 function PlaygroundSavedItem({ savedMessage }: { savedMessage: PlaygroundSavedMessageState }) {
   const { setMessageSaved } = usePlaygroundSavedMessages();
   const { message, surface, threadId } = savedMessage;
+  const conversationSearch = useMemo(() => (threadId ? { thread: threadId } : {}), [threadId]);
+  const removeSavedMessage = useCallback(() => {
+    setMessageSaved(message, false, surface, threadId);
+  }, [message, setMessageSaved, surface, threadId]);
   const context = getPlaygroundMessageContext(message.id);
   if (!context) return null;
 
   const { channel } = context;
   const actor = getPlaygroundActor(message.senderId);
   const channelLabel = channel.kind === "dm" ? `@${actor.name}` : `#${channel.name}`;
-
-  function removeSavedMessage() {
-    setMessageSaved(message, false, surface, threadId);
-  }
 
   return (
     <InboxItem>
@@ -126,7 +127,7 @@ function PlaygroundSavedItem({ savedMessage }: { savedMessage: PlaygroundSavedMe
         render={
           <PlaygroundConversationLink
             conversation={channel}
-            search={threadId ? { thread: threadId } : {}}
+            search={conversationSearch}
             hash={`${threadId ? "thread-message" : "message"}-${message.id}`}
           />
         }
@@ -166,7 +167,7 @@ function PlaygroundSavedItem({ savedMessage }: { savedMessage: PlaygroundSavedMe
           <PanelToggleAction
             pressed
             onPressedChange={removeSavedMessage}
-            onClick={(event) => event.stopPropagation()}
+            onClick={stopPropagation}
             title="Remove from Saved"
             aria-label="Remove from Saved"
           >
@@ -176,6 +177,10 @@ function PlaygroundSavedItem({ savedMessage }: { savedMessage: PlaygroundSavedMe
       </InboxItemTrailing>
     </InboxItem>
   );
+}
+
+function stopPropagation(event: MouseEvent) {
+  event.stopPropagation();
 }
 
 const SAVED_RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat("en", { numeric: "auto" });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
@@ -18,6 +18,10 @@ export function InputGroupPlaygroundPreview({ code }: InputGroupPlaygroundPrevie
   const [disabled, setDisabled] = useState(false);
   const [invalid, setInvalid] = useState(false);
   const [placeholder, setPlaceholder] = useState("Default");
+
+  const handleAddonVariantChange = useCallback((value: string) => {
+    setAddonVariant(value as (typeof ADDON_VARIANTS)[number]);
+  }, []);
 
   return (
     <Preview>
@@ -41,7 +45,7 @@ export function InputGroupPlaygroundPreview({ code }: InputGroupPlaygroundPrevie
             label="Addon"
             options={ADDON_VARIANTS}
             value={addonVariant}
-            onValueChange={(value) => setAddonVariant(value as (typeof ADDON_VARIANTS)[number])}
+            onValueChange={handleAddonVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Disabled" htmlFor="input-group-preview-disabled">

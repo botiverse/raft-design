@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -207,6 +208,14 @@ const MARKDOWN_CHECKBOX_PROPS: readonly PropRow[] = [
   },
 ];
 
+const MARKDOWN_INPUT_FILES = [
+  {
+    path: MARKDOWN_INPUT_PATH,
+    source: markdownInputSource,
+    html: MARKDOWN_INPUT_HTML,
+  },
+];
+
 const TOC = [
   { id: "preview", title: "Preview" },
   { id: "anatomy", title: "Anatomy" },
@@ -228,6 +237,23 @@ export const Route = createFileRoute("/components/markdown")({
 
 function MarkdownDoc() {
   const code = Route.useLoaderData();
+  const rendererFiles = useMemo(
+    () => [
+      {
+        path: MARKDOWN_COMPONENTS_PATH,
+        source: markdownComponentsSource,
+        html: code.markdownComponents,
+        collapsedHtml: code.markdownComponentsBody,
+      },
+      {
+        path: MARKDOWN_RENDERER_PATH,
+        source: markdownRendererSource,
+        html: code.markdownRenderer,
+        collapsedHtml: code.markdownRendererBody,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -245,13 +271,7 @@ function MarkdownDoc() {
               <DocsCodeBlock.Files
                 collapsible={false}
                 showLineNumbers={false}
-                files={[
-                  {
-                    path: MARKDOWN_INPUT_PATH,
-                    source: markdownInputSource,
-                    html: MARKDOWN_INPUT_HTML,
-                  },
-                ]}
+                files={MARKDOWN_INPUT_FILES}
               />
             }
           />
@@ -268,22 +288,7 @@ function MarkdownDoc() {
 
       <DocSection id="usage" title="Usage">
         <DocSubsection parentId="usage" id="docs-local-renderer" title="Docs-local renderer">
-          <DocsCodeBlock.Files
-            files={[
-              {
-                path: MARKDOWN_COMPONENTS_PATH,
-                source: markdownComponentsSource,
-                html: code.markdownComponents,
-                collapsedHtml: code.markdownComponentsBody,
-              },
-              {
-                path: MARKDOWN_RENDERER_PATH,
-                source: markdownRendererSource,
-                html: code.markdownRenderer,
-                collapsedHtml: code.markdownRendererBody,
-              },
-            ]}
-          />
+          <DocsCodeBlock.Files files={rendererFiles} />
         </DocSubsection>
       </DocSection>
 

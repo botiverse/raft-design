@@ -212,12 +212,15 @@ export function CopyableCodeAction({
   const buttonSize = size ?? (theme === "elegant" ? "icon-xs" : "icon-sm");
   const buttonVariant = variant ?? (theme === "elegant" ? "ghost" : "outline");
 
-  const handleClick: NonNullable<ButtonProps["onClick"]> = async (event) => {
-    const root = (event.currentTarget as HTMLElement).closest('[data-slot="copyable-code-root"]');
-    const value = root?.querySelector('[data-slot="copyable-code"]')?.textContent ?? "";
-    await copyValue(value);
-    onClick?.(event);
-  };
+  const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(
+    async (event) => {
+      const root = (event.currentTarget as HTMLElement).closest('[data-slot="copyable-code-root"]');
+      const value = root?.querySelector('[data-slot="copyable-code"]')?.textContent ?? "";
+      await copyValue(value);
+      onClick?.(event);
+    },
+    [copyValue, onClick],
+  );
 
   return (
     <span data-slot="copyable-code-action" className={action({ className })}>

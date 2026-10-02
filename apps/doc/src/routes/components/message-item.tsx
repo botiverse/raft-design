@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -150,6 +151,52 @@ export const Route = createFileRoute("/components/message-item")({
 
 function MessageItemDoc() {
   const code = Route.useLoaderData();
+  const reactionsFiles = useMemo(
+    () => [
+      {
+        path: REACTIONS_PATH,
+        source: reactionsSource,
+        html: code.reactions,
+        collapsedHtml: code.reactionsBody,
+      },
+      {
+        path: REACTION_PARTS_PATH,
+        source: reactionPartsSource,
+        html: code.reactionParts,
+        collapsedHtml: code.reactionPartsBody,
+      },
+      {
+        path: QUICK_REACTION_PICKER_PATH,
+        source: quickReactionPickerSource,
+        html: code.quickReactionPicker,
+        collapsedHtml: code.quickReactionPickerBody,
+      },
+      {
+        path: REACTION_GLYPH_PATH,
+        source: reactionGlyphSource,
+        html: code.reactionGlyph,
+        collapsedHtml: code.reactionGlyphBody,
+      },
+    ],
+    [code],
+  );
+  const contextMenuFiles = useMemo(
+    () => [
+      {
+        path: CONTEXT_MENU_SHOWCASE_PATH,
+        source: contextMenuShowcaseSource,
+        html: code.contextMenuShowcase,
+        collapsedHtml: code.contextMenuShowcaseBody,
+      },
+      {
+        path: CONTEXT_MENU_PATH,
+        source: contextMenuSource,
+        html: code.contextMenu,
+        collapsedHtml: code.contextMenuBody,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -216,37 +263,7 @@ function MessageItemDoc() {
                 <MessageReactionsShowcaseComposition />
               </Preview.Canvas>
               <Preview.Code
-                codeBlock={
-                  <DocsCodeBlock.Files
-                    collapsible={false}
-                    files={[
-                      {
-                        path: REACTIONS_PATH,
-                        source: reactionsSource,
-                        html: code.reactions,
-                        collapsedHtml: code.reactionsBody,
-                      },
-                      {
-                        path: REACTION_PARTS_PATH,
-                        source: reactionPartsSource,
-                        html: code.reactionParts,
-                        collapsedHtml: code.reactionPartsBody,
-                      },
-                      {
-                        path: QUICK_REACTION_PICKER_PATH,
-                        source: quickReactionPickerSource,
-                        html: code.quickReactionPicker,
-                        collapsedHtml: code.quickReactionPickerBody,
-                      },
-                      {
-                        path: REACTION_GLYPH_PATH,
-                        source: reactionGlyphSource,
-                        html: code.reactionGlyph,
-                        collapsedHtml: code.reactionGlyphBody,
-                      },
-                    ]}
-                  />
-                }
+                codeBlock={<DocsCodeBlock.Files collapsible={false} files={reactionsFiles} />}
               />
             </Preview>
           </DocSubsection>
@@ -257,25 +274,7 @@ function MessageItemDoc() {
                 <MessageContextMenuShowcaseComposition />
               </Preview.Canvas>
               <Preview.Code
-                codeBlock={
-                  <DocsCodeBlock.Files
-                    collapsible={false}
-                    files={[
-                      {
-                        path: CONTEXT_MENU_SHOWCASE_PATH,
-                        source: contextMenuShowcaseSource,
-                        html: code.contextMenuShowcase,
-                        collapsedHtml: code.contextMenuShowcaseBody,
-                      },
-                      {
-                        path: CONTEXT_MENU_PATH,
-                        source: contextMenuSource,
-                        html: code.contextMenu,
-                        collapsedHtml: code.contextMenuBody,
-                      },
-                    ]}
-                  />
-                }
+                codeBlock={<DocsCodeBlock.Files collapsible={false} files={contextMenuFiles} />}
               />
             </Preview>
           </DocSubsection>

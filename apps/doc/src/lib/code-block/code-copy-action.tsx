@@ -3,12 +3,15 @@
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, Copy } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import { useCallback } from "react";
 import { CodeBlockAction } from "raft-ui";
 
 const SWAP_DURATION = 0.14;
 const SWAP_EASE = [0.2, 0.8, 0.2, 1] as const;
 const SWAP_VISIBLE = { opacity: 1, scale: 1, filter: "blur(0px)" };
 const SWAP_HIDDEN = { opacity: 0, scale: 0.25, filter: "blur(2px)" };
+const SWAP_TRANSITION = { duration: SWAP_DURATION, ease: SWAP_EASE };
+const SWAP_TRANSITION_REDUCED = { duration: 0 };
 
 export type CodeCopyActionProps = {
   code: string;
@@ -19,6 +22,7 @@ export function CodeCopyAction({ code }: CodeCopyActionProps) {
   const { copied, copy } = useClipboard({ timeout: 1400 });
   const label = copied ? "Copied code" : "Copy code";
   const Icon = copied ? Check : Copy;
+  const handleClick = useCallback(() => void copy(code), [copy, code]);
 
   return (
     <CodeBlockAction
@@ -26,7 +30,7 @@ export function CodeCopyAction({ code }: CodeCopyActionProps) {
       title={label}
       aria-label={label}
       aria-live="polite"
-      onClick={() => void copy(code)}
+      onClick={handleClick}
     >
       <Icon className="size-3.5" aria-hidden />
     </CodeBlockAction>
@@ -41,7 +45,8 @@ export function AnimatedCodeCopyAction({ code }: CodeCopyActionProps) {
   const { copied, copy } = useClipboard();
   const reduceMotion = useReducedMotion();
   const label = copied ? "Copied code" : "Copy code";
-  const transition = reduceMotion ? { duration: 0 } : { duration: SWAP_DURATION, ease: SWAP_EASE };
+  const handleClick = useCallback(() => void copy(code), [copy, code]);
+  const transition = reduceMotion ? SWAP_TRANSITION_REDUCED : SWAP_TRANSITION;
 
   return (
     <CodeBlockAction
@@ -49,7 +54,7 @@ export function AnimatedCodeCopyAction({ code }: CodeCopyActionProps) {
       title={label}
       aria-label={label}
       aria-live="polite"
-      onClick={() => void copy(code)}
+      onClick={handleClick}
     >
       <span className="relative inline-grid shrink-0" aria-hidden>
         <motion.span

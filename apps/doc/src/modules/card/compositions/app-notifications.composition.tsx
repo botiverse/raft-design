@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import type { ChangeEvent } from "react";
 import {
   Button,
   Card,
@@ -17,6 +18,11 @@ export function CardAppNotificationsComposition() {
   const [enabled, setEnabled] = useState(true);
   const [endpoint, setEndpoint] = useState("");
   const [saved, setSaved] = useState(false);
+
+  const handleEndpointChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setEndpoint(event.target.value);
+    setSaved(false);
+  }, []);
 
   return (
     <Card variant="inset" className="w-full max-w-xl">
@@ -48,10 +54,7 @@ export function CardAppNotificationsComposition() {
                   className="min-w-0 flex-1"
                   value={endpoint}
                   placeholder="https://example.com/raft/events"
-                  onChange={(event) => {
-                    setEndpoint(event.target.value);
-                    setSaved(false);
-                  }}
+                  onChange={handleEndpointChange}
                 />
                 <Button type="submit" size="sm" disabled={!endpoint.trim() || saved}>
                   {saved ? "Saved" : "Save endpoint"}

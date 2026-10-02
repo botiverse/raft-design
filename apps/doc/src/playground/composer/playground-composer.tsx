@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent, KeyboardEvent } from "react";
 import { useDropzone } from "react-dropzone";
 import { GitBranch, Hash, ImagePlus, Lock, Paperclip, Send, UserX, X } from "lucide-react";
@@ -182,12 +182,23 @@ function AutocompleteOptions({
 }
 
 function AutocompleteList({ autocomplete }: { autocomplete: AutocompleteApi }) {
-  const indexedItems = autocomplete.items.map((suggestion, index) => ({ index, suggestion }));
-  const inChannel = indexedItems.filter(
-    ({ suggestion }) => suggestion.kind === "mention" && suggestion.group === "in-channel",
+  const indexedItems = useMemo(
+    () => autocomplete.items.map((suggestion, index) => ({ index, suggestion })),
+    [autocomplete.items],
   );
-  const outsideChannel = indexedItems.filter(
-    ({ suggestion }) => suggestion.kind === "mention" && suggestion.group === "outside-channel",
+  const inChannel = useMemo(
+    () =>
+      indexedItems.filter(
+        ({ suggestion }) => suggestion.kind === "mention" && suggestion.group === "in-channel",
+      ),
+    [indexedItems],
+  );
+  const outsideChannel = useMemo(
+    () =>
+      indexedItems.filter(
+        ({ suggestion }) => suggestion.kind === "mention" && suggestion.group === "outside-channel",
+      ),
+    [indexedItems],
   );
   return (
     <ComposerSuggestionList
@@ -240,102 +251,112 @@ function PlaygroundSeededComposerAttachments({
   onReorder: (attachments: PlaygroundComposerAttachment[]) => void;
   onRetry: (name: string) => void;
 }) {
-  const ids = attachments.map((attachment) => attachment.name);
+  const ids = useMemo(() => attachments.map((attachment) => attachment.name), [attachments]);
+  const handleReorder = useCallback(
+    (nextIds: string[]) => onReorder(reorderAttachmentsByNames(attachments, nextIds)),
+    [attachments, onReorder],
+  );
 
   return (
     <ComposerAttachments>
-      <SortableComposerAttachmentsScroll
-        items={ids}
-        onReorder={(nextIds) => onReorder(reorderAttachmentsByNames(attachments, nextIds))}
-      >
-        {attachments.map((attachment) => {
-          const isImage = attachment.mediaType.startsWith("image/");
-          const badgeType = filePreviewBadgeType(attachment.name);
-          const badgeClassName = attachment.state.kind === "uploading" ? "!shadow-none" : undefined;
-          const badgeLabel = filePreviewLabel(attachment.name);
-
-          return (
-            <SortableComposerAttachment
-              key={attachment.name}
-              id={attachment.name}
-              label={attachment.name}
-            >
-              <ComposerAttachment>
-                {isImage ? (
-                  <ComposerAttachmentImage>
-                    <FilePreview>
-                      <FilePreviewMedia>
-                        <img
-                          alt=""
-                          className="size-full object-cover"
-                          src={attachment.previewUrl ?? COMPOSER_IMAGE_SRC}
-                        />
-                      </FilePreviewMedia>
-                    </FilePreview>
-                  </ComposerAttachmentImage>
-                ) : (
-                  <ComposerAttachmentFile>
-                    <FilePreview className="h-[46px]">
-                      <FilePreviewDocument
-                        className={
-                          attachment.state.kind === "uploading"
-                            ? "h-[46px] shadow-none! ring-0!"
-                            : "h-[46px]"
-                        }
-                      />
-                      {badgeType ? (
-                        <FilePreviewBadge type={badgeType} className={badgeClassName}>
-                          {badgeLabel}
-                        </FilePreviewBadge>
-                      ) : (
-                        <FilePreviewBadge className={badgeClassName}>{badgeLabel}</FilePreviewBadge>
-                      )}
-                    </FilePreview>
-                    <ComposerAttachmentBody>
-                      <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
-                      <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
-                    </ComposerAttachmentBody>
-                    {attachment.state.kind === "uploading" ? (
-                      <>
-                        <ComposerAttachmentUploadingOverlay>
-                          <Spinner size="sm" className="mb-1" />
-                          {Math.round(attachment.state.progress)}%
-                        </ComposerAttachmentUploadingOverlay>
-                        <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
-                      </>
-                    ) : null}
-                  </ComposerAttachmentFile>
-                )}
-                {isImage && attachment.state.kind === "uploading" ? (
-                  <>
-                    <ComposerAttachmentUploadingOverlay>
-                      <Spinner size="sm" className="mb-1" />
-                      {Math.round(attachment.state.progress)}%
-                    </ComposerAttachmentUploadingOverlay>
-                    <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
-                  </>
-                ) : null}
-                {attachment.state.kind === "failed" ? (
-                  <ComposerAttachmentFailedOverlay
-                    render={<button type="button" />}
-                    onClick={() => onRetry(attachment.name)}
-                  >
-                    <span>Upload failed</span>
-                    <span className="underline underline-offset-2">Retry</span>
-                  </ComposerAttachmentFailedOverlay>
-                ) : null}
-                <ComposerAttachmentRemove
-                  aria-label={`Remove ${attachment.name}`}
-                  onClick={() => onRemove(attachment.name)}
-                >
-                  <X />
-                </ComposerAttachmentRemove>
-              </ComposerAttachment>
-            </SortableComposerAttachment>
-          );
-        })}
+      <SortableComposerAttachmentsScroll items={ids} onReorder={handleReorder}>
+        {attachments.map((attachment) => (
+          <PlaygroundSeededComposerAttachment
+            key={attachment.name}
+            attachment={attachment}
+            onRemove={onRemove}
+            onRetry={onRetry}
+          />
+        ))}
       </SortableComposerAttachmentsScroll>
     </ComposerAttachments>
+  );
+}
+
+function PlaygroundSeededComposerAttachment({
+  attachment,
+  onRemove,
+  onRetry,
+}: {
+  attachment: PlaygroundComposerAttachment;
+  onRemove: (name: string) => void;
+  onRetry: (name: string) => void;
+}) {
+  const isImage = attachment.mediaType.startsWith("image/");
+  const badgeType = filePreviewBadgeType(attachment.name);
+  const badgeClassName = attachment.state.kind === "uploading" ? "!shadow-none" : undefined;
+  const badgeLabel = filePreviewLabel(attachment.name);
+  const handleRetry = useCallback(() => onRetry(attachment.name), [attachment.name, onRetry]);
+  const handleRemove = useCallback(() => onRemove(attachment.name), [attachment.name, onRemove]);
+
+  return (
+    <SortableComposerAttachment id={attachment.name} label={attachment.name}>
+      <ComposerAttachment>
+        {isImage ? (
+          <ComposerAttachmentImage>
+            <FilePreview>
+              <FilePreviewMedia>
+                <img
+                  alt=""
+                  className="size-full object-cover"
+                  src={attachment.previewUrl ?? COMPOSER_IMAGE_SRC}
+                />
+              </FilePreviewMedia>
+            </FilePreview>
+          </ComposerAttachmentImage>
+        ) : (
+          <ComposerAttachmentFile>
+            <FilePreview className="h-[46px]">
+              <FilePreviewDocument
+                className={
+                  attachment.state.kind === "uploading"
+                    ? "h-[46px] shadow-none! ring-0!"
+                    : "h-[46px]"
+                }
+              />
+              {badgeType ? (
+                <FilePreviewBadge type={badgeType} className={badgeClassName}>
+                  {badgeLabel}
+                </FilePreviewBadge>
+              ) : (
+                <FilePreviewBadge className={badgeClassName}>{badgeLabel}</FilePreviewBadge>
+              )}
+            </FilePreview>
+            <ComposerAttachmentBody>
+              <ComposerAttachmentTitle>{attachment.name}</ComposerAttachmentTitle>
+              <ComposerAttachmentMeta>{attachment.mediaType}</ComposerAttachmentMeta>
+            </ComposerAttachmentBody>
+            {attachment.state.kind === "uploading" ? (
+              <>
+                <ComposerAttachmentUploadingOverlay>
+                  <Spinner size="sm" className="mb-1" />
+                  {Math.round(attachment.state.progress)}%
+                </ComposerAttachmentUploadingOverlay>
+                <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
+              </>
+            ) : null}
+          </ComposerAttachmentFile>
+        )}
+        {isImage && attachment.state.kind === "uploading" ? (
+          <>
+            <ComposerAttachmentUploadingOverlay>
+              <Spinner size="sm" className="mb-1" />
+              {Math.round(attachment.state.progress)}%
+            </ComposerAttachmentUploadingOverlay>
+            <ComposerAttachmentUploadProgressBar value={attachment.state.progress} />
+          </>
+        ) : null}
+        {attachment.state.kind === "failed" ? (
+          <ComposerAttachmentFailedOverlay render={<button type="button" />} onClick={handleRetry}>
+            <span>Upload failed</span>
+            <span className="underline underline-offset-2">Retry</span>
+          </ComposerAttachmentFailedOverlay>
+        ) : null}
+        <ComposerAttachmentRemove aria-label={`Remove ${attachment.name}`} onClick={handleRemove}>
+          <X />
+        </ComposerAttachmentRemove>
+      </ComposerAttachment>
+    </SortableComposerAttachment>
   );
 }
 
@@ -359,10 +380,13 @@ function PlaygroundComposer({
   onMessageSent?: (content: string, attachments: readonly PlaygroundComposerAttachment[]) => void;
 }) {
   const [draft, setDraft] = useState(initialDraft);
-  const updateDraft = (next: string) => {
-    setDraft(next);
-    onDraftChange?.(next);
-  };
+  const updateDraft = useCallback(
+    (next: string) => {
+      setDraft(next);
+      onDraftChange?.(next);
+    },
+    [onDraftChange],
+  );
   const autocomplete = usePlaygroundComposerAutocomplete(channel, draft, updateDraft);
   const [attachmentState, setAttachmentState] = useState<ComposerAttachmentState>(
     initialComposer
@@ -416,7 +440,7 @@ function PlaygroundComposer({
     [],
   );
 
-  const scheduleAttachmentReady = (name: string) => {
+  const scheduleAttachmentReady = useCallback((name: string) => {
     const currentTimer = attachmentTimersRef.current.get(name);
     if (currentTimer !== undefined) window.clearTimeout(currentTimer);
 
@@ -435,7 +459,7 @@ function PlaygroundComposer({
       setStatusMessage(`${name} uploaded`);
     }, ATTACHMENT_UPLOAD_DELAY_MS);
     attachmentTimersRef.current.set(name, timer);
-  };
+  }, []);
 
   const trackPreviewUrl = (previewUrl: string | undefined) => {
     if (!previewUrl) return previewUrl;
@@ -443,11 +467,11 @@ function PlaygroundComposer({
     return previewUrl;
   };
 
-  const revokePreviewUrl = (previewUrl: string | undefined) => {
+  const revokePreviewUrl = useCallback((previewUrl: string | undefined) => {
     if (!previewUrl) return;
     if (!previewUrlsRef.current.delete(previewUrl)) return;
     URL.revokeObjectURL(previewUrl);
-  };
+  }, []);
 
   const addUploadingAttachments = (
     attachments: readonly Omit<PlaygroundComposerAttachment, "state">[],
@@ -512,7 +536,7 @@ function PlaygroundComposer({
     onDrop: ingestFiles,
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     const text = draft.trim();
     if (sendState.kind === "sending" || hasBlockingAttachments || (!text && !attachmentsVisible)) {
       return;
@@ -551,12 +575,70 @@ function PlaygroundComposer({
         submittedAttachments.kind === "seeded" ? submittedAttachments.attachments : [],
       );
     }, MESSAGE_SEND_DELAY_MS);
-  };
+  }, [
+    attachmentState,
+    attachmentsVisible,
+    autocomplete,
+    draft,
+    hasBlockingAttachments,
+    onMessageSent,
+    sendState.kind,
+    updateDraft,
+  ]);
 
-  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleSubmit();
-  };
+  const handleFormSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      handleSubmit();
+    },
+    [handleSubmit],
+  );
+
+  const removeAttachment = useCallback(
+    (name: string) => {
+      const timer = attachmentTimersRef.current.get(name);
+      if (timer !== undefined) {
+        window.clearTimeout(timer);
+        attachmentTimersRef.current.delete(name);
+      }
+      setAttachmentState((state) => {
+        if (state.kind !== "seeded") return state;
+        const removed = state.attachments.find((attachment) => attachment.name === name);
+        revokePreviewUrl(removed?.previewUrl);
+        const attachments = state.attachments.filter((attachment) => attachment.name !== name);
+        return attachments.length > 0 ? { kind: "seeded", attachments } : { kind: "none" };
+      });
+      setStatusMessage(`${name} removed`);
+    },
+    [revokePreviewUrl],
+  );
+
+  const reorderAttachments = useCallback((attachments: PlaygroundComposerAttachment[]) => {
+    setAttachmentState({ kind: "seeded", attachments });
+  }, []);
+
+  const retryAttachment = useCallback(
+    (name: string) => {
+      setAttachmentState((state) =>
+        state.kind === "seeded"
+          ? {
+              kind: "seeded",
+              attachments: state.attachments.map((attachment) =>
+                attachment.name === name
+                  ? { ...attachment, state: { kind: "uploading", progress: 64 } }
+                  : attachment,
+              ),
+            }
+          : state,
+      );
+      setStatusMessage(`Retrying ${name}`);
+      scheduleAttachmentReady(name);
+    },
+    [scheduleAttachmentReady],
+  );
+
+  const handleAttachImage = useCallback(() => openImagePicker(), [openImagePicker]);
+  const handleAttachFile = useCallback(() => openFilePicker(), [openFilePicker]);
 
   const handleInputKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.defaultPrevented) return;
@@ -586,42 +668,9 @@ function PlaygroundComposer({
         {attachmentState.kind === "seeded" ? (
           <PlaygroundSeededComposerAttachments
             attachments={attachmentState.attachments}
-            onRemove={(name) => {
-              const timer = attachmentTimersRef.current.get(name);
-              if (timer !== undefined) {
-                window.clearTimeout(timer);
-                attachmentTimersRef.current.delete(name);
-              }
-              setAttachmentState((state) => {
-                if (state.kind !== "seeded") return state;
-                const removed = state.attachments.find((attachment) => attachment.name === name);
-                revokePreviewUrl(removed?.previewUrl);
-                const attachments = state.attachments.filter(
-                  (attachment) => attachment.name !== name,
-                );
-                return attachments.length > 0 ? { kind: "seeded", attachments } : { kind: "none" };
-              });
-              setStatusMessage(`${name} removed`);
-            }}
-            onReorder={(attachments) => {
-              setAttachmentState({ kind: "seeded", attachments });
-            }}
-            onRetry={(name) => {
-              setAttachmentState((state) =>
-                state.kind === "seeded"
-                  ? {
-                      kind: "seeded",
-                      attachments: state.attachments.map((attachment) =>
-                        attachment.name === name
-                          ? { ...attachment, state: { kind: "uploading", progress: 64 } }
-                          : attachment,
-                      ),
-                    }
-                  : state,
-              );
-              setStatusMessage(`Retrying ${name}`);
-              scheduleAttachmentReady(name);
-            }}
+            onRemove={removeAttachment}
+            onReorder={reorderAttachments}
+            onRetry={retryAttachment}
           />
         ) : null}
         <Composer>
@@ -637,14 +686,14 @@ function PlaygroundComposer({
               <ComposerIconButton
                 aria-label="Attach image"
                 disabled={sendState.kind === "sending"}
-                onClick={() => openImagePicker()}
+                onClick={handleAttachImage}
               >
                 <ImagePlus />
               </ComposerIconButton>
               <ComposerIconButton
                 aria-label="Attach file"
                 disabled={sendState.kind === "sending"}
-                onClick={() => openFilePicker()}
+                onClick={handleAttachFile}
               >
                 <Paperclip />
               </ComposerIconButton>
@@ -729,6 +778,37 @@ export function PlaygroundThreadComposer({
 }) {
   const { appendReply } = usePlaygroundThreadReplies(threadId, initialReplies);
   const { draft, setDraft } = usePlaygroundThreadDraft(threadId);
+  const handleMessageSent = useCallback(
+    (content: string, attachments: readonly PlaygroundComposerAttachment[]) => {
+      const sentAt = new Date();
+      const createdAt = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+      }).format(sentAt);
+      localThreadReplySequence += 1;
+      appendReply(
+        definePlaygroundMessage(
+          `${threadId}:local-${localThreadReplySequence}` as PlaygroundMessageId,
+          channel.id,
+          "cuvii",
+          createdAt,
+          content ||
+            `Shared ${attachments.length} ${attachments.length === 1 ? "attachment" : "attachments"}`,
+          false,
+          [],
+          undefined,
+          sentAt.toISOString(),
+          undefined,
+          attachments.map((attachment) => ({
+            mediaType: attachment.mediaType,
+            name: attachment.name,
+            state: { kind: "ready", previewUrl: attachment.previewUrl },
+          })),
+        ),
+      );
+    },
+    [appendReply, channel.id, threadId],
+  );
 
   return (
     <PlaygroundComposer
@@ -737,34 +817,7 @@ export function PlaygroundThreadComposer({
       footer="thread"
       initialDraft={draft}
       onDraftChange={setDraft}
-      onMessageSent={(content, attachments) => {
-        const sentAt = new Date();
-        const createdAt = new Intl.DateTimeFormat("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-        }).format(sentAt);
-        localThreadReplySequence += 1;
-        appendReply(
-          definePlaygroundMessage(
-            `${threadId}:local-${localThreadReplySequence}` as PlaygroundMessageId,
-            channel.id,
-            "cuvii",
-            createdAt,
-            content ||
-              `Shared ${attachments.length} ${attachments.length === 1 ? "attachment" : "attachments"}`,
-            false,
-            [],
-            undefined,
-            sentAt.toISOString(),
-            undefined,
-            attachments.map((attachment) => ({
-              mediaType: attachment.mediaType,
-              name: attachment.name,
-              state: { kind: "ready", previewUrl: attachment.previewUrl },
-            })),
-          ),
-        );
-      }}
+      onMessageSent={handleMessageSent}
     />
   );
 }

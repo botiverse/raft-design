@@ -1,11 +1,23 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentPropsWithoutRef } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/button";
 import { composerAttachment as composerAttachmentRecipe } from "./composer-attachment.recipe";
 
 export type ComposerAttachmentsScrollAreaProps = ComponentPropsWithoutRef<"div">;
+
+function scrollByPage(viewport: HTMLDivElement | null, direction: -1 | 1) {
+  if (!viewport) return;
+  const page = viewport.clientWidth;
+  if (page <= 0) return;
+  const target = Math.round(viewport.scrollLeft / page) * page + direction * page;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  viewport.scrollTo({
+    left: target,
+    behavior: prefersReducedMotion ? "auto" : "smooth",
+  });
+}
 
 export function ComposerAttachmentsScrollArea({
   children,
@@ -61,18 +73,8 @@ export function ComposerAttachmentsScrollArea({
     };
   }, []);
 
-  const scrollByPage = (direction: -1 | 1) => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    const page = viewport.clientWidth;
-    if (page <= 0) return;
-    const target = Math.round(viewport.scrollLeft / page) * page + direction * page;
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    viewport.scrollTo({
-      left: target,
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-    });
-  };
+  const handleScrollPrev = useCallback(() => scrollByPage(viewportRef.current, -1), []);
+  const handleScrollNext = useCallback(() => scrollByPage(viewportRef.current, 1), []);
 
   // Affordances only — never show a dead-end / disabled arrow.
   const showPrev = canPrev;
@@ -94,7 +96,7 @@ export function ComposerAttachmentsScrollArea({
           variant={navVariant}
           aria-label="Scroll attachments left"
           className={prevNavClassName}
-          onClick={() => scrollByPage(-1)}
+          onClick={handleScrollPrev}
         >
           <ChevronLeft />
         </Button>
@@ -113,7 +115,7 @@ export function ComposerAttachmentsScrollArea({
           variant={navVariant}
           aria-label="Scroll attachments right"
           className={nextNavClassName}
-          onClick={() => scrollByPage(1)}
+          onClick={handleScrollNext}
         >
           <ChevronRight />
         </Button>

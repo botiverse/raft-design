@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
@@ -18,6 +18,10 @@ type AppShellPreviewProps = {
 export function AppShellPreview({ code, collapsedCode }: AppShellPreviewProps) {
   const [viewport, setViewport] = useState<(typeof VIEWPORTS)[number]>("Desktop");
 
+  const handleViewportChange = useCallback((value: string) => {
+    setViewport(value as (typeof VIEWPORTS)[number]);
+  }, []);
+
   return (
     <Preview previewClassName="!min-h-[28rem] !items-stretch !p-0">
       <Preview.Canvas>
@@ -35,7 +39,7 @@ export function AppShellPreview({ code, collapsedCode }: AppShellPreviewProps) {
             label="Viewport"
             options={VIEWPORTS}
             value={viewport}
-            onValueChange={(value) => setViewport(value as (typeof VIEWPORTS)[number])}
+            onValueChange={handleViewportChange}
           />
         </Preview.Control>
       </Preview.Controls>

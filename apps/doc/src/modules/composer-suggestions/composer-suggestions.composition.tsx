@@ -1,5 +1,5 @@
 import { ImagePlus, Paperclip, Send } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { FormEvent } from "react";
 import {
   Checkbox,
@@ -46,12 +46,21 @@ export function ComposerSuggestionComposition({
     getItemText: getSuggestionText,
     isItemDisabled: isSuggestionDisabled,
   });
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!value.trim()) return;
-    setStatusMessage(`Sent${alsoCreateTask ? " as task" : ""}: ${value.trim()}`);
-    autocomplete.clear();
-  };
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (!value.trim()) return;
+      setStatusMessage(`Sent${alsoCreateTask ? " as task" : ""}: ${value.trim()}`);
+      autocomplete.clear();
+    },
+    [alsoCreateTask, autocomplete, value],
+  );
+  const handleAttachImage = useCallback(() => {
+    setStatusMessage("Image attachment selected");
+  }, []);
+  const handleAttachFile = useCallback(() => {
+    setStatusMessage("File attachment selected");
+  }, []);
   return (
     <div className="flex h-full min-w-0 flex-col justify-end p-3">
       <ComposerRoot onSubmit={handleSubmit}>
@@ -71,16 +80,10 @@ export function ComposerSuggestionComposition({
           />
           <ComposerToolbar>
             <ComposerActions>
-              <ComposerIconButton
-                aria-label="Attach image"
-                onClick={() => setStatusMessage("Image attachment selected")}
-              >
+              <ComposerIconButton aria-label="Attach image" onClick={handleAttachImage}>
                 <ImagePlus />
               </ComposerIconButton>
-              <ComposerIconButton
-                aria-label="Attach file"
-                onClick={() => setStatusMessage("File attachment selected")}
-              >
+              <ComposerIconButton aria-label="Attach file" onClick={handleAttachFile}>
                 <Paperclip />
               </ComposerIconButton>
             </ComposerActions>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { Archive, Bell, BellOff, Mail, MailOpen, Pin, PinOff } from "lucide-react";
 import {
@@ -39,10 +39,23 @@ export function ChatSidebarChannelItem({
   const canArchive =
     onArchive && channel.id !== DEFAULT_CHANNEL_ID && channel.kind !== "joint" && !channel.archived;
 
-  function announce(message: string) {
+  const announce = useCallback((message: string) => {
     setAnnouncement("");
     queueMicrotask(() => setAnnouncement(message));
-  }
+  }, []);
+  const handleToggleUnread = useCallback(() => {
+    setUnread(!unread);
+    announce(`${channel.name} marked as ${unread ? "read" : "unread"}`);
+  }, [announce, channel.name, unread]);
+  const handleTogglePinned = useCallback(() => {
+    togglePinned(channel.id);
+    announce(`${channel.name} ${pinned ? "unpinned" : "pinned"}`);
+  }, [announce, channel.id, channel.name, pinned, togglePinned]);
+  const handleToggleMuted = useCallback(() => {
+    setMuted(!muted);
+    announce(`${channel.name} ${muted ? "unmuted" : "muted"}`);
+  }, [announce, channel.name, muted]);
+  const handleArchive = useCallback(() => onArchive?.(channel), [channel, onArchive]);
 
   return (
     <ContextMenu>
@@ -62,31 +75,16 @@ export function ChatSidebarChannelItem({
         }
       />
       <ContextMenuContent className="w-48">
-        <ContextMenuItem
-          onClick={() => {
-            setUnread(!unread);
-            announce(`${channel.name} marked as ${unread ? "read" : "unread"}`);
-          }}
-        >
+        <ContextMenuItem onClick={handleToggleUnread}>
           {unread ? <MailOpen /> : <Mail />}
           {unread ? "Mark as Read" : "Mark as Unread"}
         </ContextMenuItem>
-        <ContextMenuItem
-          onClick={() => {
-            togglePinned(channel.id);
-            announce(`${channel.name} ${pinned ? "unpinned" : "pinned"}`);
-          }}
-        >
+        <ContextMenuItem onClick={handleTogglePinned}>
           {pinned ? <PinOff /> : <Pin />}
           {pinned ? "Unpin" : "Pin"}
         </ContextMenuItem>
         {canMute ? (
-          <ContextMenuItem
-            onClick={() => {
-              setMuted(!muted);
-              announce(`${channel.name} ${muted ? "unmuted" : "muted"}`);
-            }}
-          >
+          <ContextMenuItem onClick={handleToggleMuted}>
             {muted ? <Bell /> : <BellOff />}
             {muted ? "Unmute" : "Mute"}
           </ContextMenuItem>
@@ -94,7 +92,7 @@ export function ChatSidebarChannelItem({
         {canArchive ? (
           <>
             <ContextMenuSeparator />
-            <ContextMenuItem onClick={() => onArchive(channel)}>
+            <ContextMenuItem onClick={handleArchive}>
               <Archive />
               Archive
             </ContextMenuItem>

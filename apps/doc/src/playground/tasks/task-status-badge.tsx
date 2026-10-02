@@ -1,7 +1,8 @@
+import { useCallback } from "react";
 import { TaskChip, TaskStatusIcon } from "raft-ui";
 
 import { TaskStatusSelect } from "#/modules/task-card/compositions/task-status-select.composition.tsx";
-import type { PlaygroundTaskId } from "../mock/index.ts";
+import type { PlaygroundTaskId, PlaygroundTaskStatus } from "../mock/index.ts";
 import { usePlaygroundTask, usePlaygroundTaskState } from "./use-playground-task-state.ts";
 
 export function TaskStatusBadge({
@@ -17,19 +18,18 @@ export function TaskStatusBadge({
   const { setTasks } = usePlaygroundTaskState();
   const { number: taskNumber, status } = task;
   const fullLabel = assignee ? `task #${taskNumber} @${assignee}` : `task #${taskNumber}`;
+  const handleStatusChange = useCallback(
+    (nextStatus: PlaygroundTaskStatus) =>
+      setTasks((tasks) =>
+        tasks.map((candidate) =>
+          candidate.id === task.id ? { ...candidate, status: nextStatus } : candidate,
+        ),
+      ),
+    [setTasks, task.id],
+  );
 
   return (
-    <TaskStatusSelect
-      value={status}
-      disabled={loading}
-      onValueChange={(nextStatus) =>
-        setTasks((tasks) =>
-          tasks.map((candidate) =>
-            candidate.id === task.id ? { ...candidate, status: nextStatus } : candidate,
-          ),
-        )
-      }
-    >
+    <TaskStatusSelect value={status} disabled={loading} onValueChange={handleStatusChange}>
       <TaskChip
         status={status}
         loading={loading}

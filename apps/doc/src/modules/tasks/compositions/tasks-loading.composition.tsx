@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Button,
   SegmentedControl,
@@ -20,16 +20,19 @@ import { ChevronDown, Columns3, LayoutList, Plus, User, UserCircle2 } from "luci
 export function TasksLoadingComposition() {
   const [view, setView] = useState("board");
   const [notice, setNotice] = useState("Tasks are loading");
+
+  const handleNewTask = useCallback(() => setNotice("New Task pressed while loading"), []);
+  const handleViewChange = useCallback((nextView: string) => {
+    setView(nextView);
+    setNotice(`${nextView} view selected while loading`);
+  }, []);
+
   return (
     <div className="flex min-h-[34rem] w-full min-w-0">
       <TasksPanelRoot aria-label="Loading tasks">
         <TasksPanelToolbar>
           <TasksPanelToolbarNewTask>
-            <Button
-              variant="accent"
-              size="sm"
-              onClick={() => setNotice("New Task pressed while loading")}
-            >
+            <Button variant="accent" size="sm" onClick={handleNewTask}>
               <Plus aria-hidden />
               New Task
             </Button>
@@ -47,14 +50,7 @@ export function TasksLoadingComposition() {
             </TasksPanelToolbarLabel>
           </TasksPanelToolbarFilters>
           <TasksPanelToolbarView>
-            <SegmentedControl
-              value={view}
-              onValueChange={(nextView) => {
-                setView(nextView);
-                setNotice(`${nextView} view selected while loading`);
-              }}
-              aria-label="Task view"
-            >
+            <SegmentedControl value={view} onValueChange={handleViewChange} aria-label="Task view">
               <SegmentedControlItem value="board" aria-label="Board" className="max-md:px-2.5">
                 <Columns3 aria-hidden />
                 <SegmentedControlLabel className="max-md:hidden">Board</SegmentedControlLabel>

@@ -1,4 +1,5 @@
-import type { Ref } from "react";
+import { useCallback } from "react";
+import type { ChangeEvent, CompositionEvent, Ref } from "react";
 import { Hash, MessageSquare, Monitor, Search, User, X } from "lucide-react";
 import {
   Avatar,
@@ -130,6 +131,15 @@ export function SearchHeader({
   onCompositionEnd: (value: string) => void;
   onClear: () => void;
 }) {
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => onQueryChange(event.currentTarget.value),
+    [onQueryChange],
+  );
+  const handleCompositionEnd = useCallback(
+    (event: CompositionEvent<HTMLInputElement>) => onCompositionEnd(event.currentTarget.value),
+    [onCompositionEnd],
+  );
+
   return (
     <PanelHeader className="gap-3 [@media(max-height:600px)]:h-[62px]!">
       <Button
@@ -165,9 +175,9 @@ export function SearchHeader({
         <InputGroupInput
           ref={inputRef}
           value={query}
-          onChange={(event) => onQueryChange(event.currentTarget.value)}
+          onChange={handleChange}
           onCompositionStart={onCompositionStart}
-          onCompositionEnd={(event) => onCompositionEnd(event.currentTarget.value)}
+          onCompositionEnd={handleCompositionEnd}
           placeholder="Search channels, DMs, messages…   ⌘K"
           aria-label="Search channels, DMs, people, agents, and messages"
           className="max-md:in-data-[theme=elegant]:self-stretch max-md:in-data-[theme=elegant]:py-0"
@@ -194,14 +204,19 @@ export function SearchHeader({
 export function EntityResult({
   entity,
   selected,
-  buttonRef,
+  setResultRef,
   onOpen,
 }: {
   entity: SearchEntityFixture;
   selected: boolean;
-  buttonRef?: (element: HTMLButtonElement | null) => void;
-  onOpen?: () => void;
+  setResultRef?: (key: string, element: HTMLButtonElement | null) => void;
+  onOpen?: (entity: SearchEntityFixture) => void;
 }) {
+  const buttonRef = useCallback(
+    (element: HTMLButtonElement | null) => setResultRef?.(entity.key, element),
+    [entity.key, setResultRef],
+  );
+  const handleOpen = useCallback(() => onOpen?.(entity), [entity, onOpen]);
   const isArchivedChannel = entity.type === "channel" && Boolean(entity.archivedAt);
   const Icon = entity.type === "channel" ? Hash : Monitor;
   const identityType = entity.type === "agentDm" ? "agent" : "human";
@@ -215,7 +230,12 @@ export function EntityResult({
           : "Human";
 
   return (
-    <SearchEntityResult selected={selected} ref={buttonRef} onClick={onOpen} disabled={!onOpen}>
+    <SearchEntityResult
+      selected={selected}
+      ref={buttonRef}
+      onClick={onOpen ? handleOpen : undefined}
+      disabled={!onOpen}
+    >
       <SearchEntityResultLeading>
         {entity.type === "channel" || entity.type === "computer" ? (
           <SearchEntityResultIcon>
@@ -311,7 +331,7 @@ export function MessageResult({
   query,
   nested = false,
   selected,
-  buttonRef,
+  setResultRef,
   onOpen,
 }: {
   message: SearchMessageFixture;
@@ -320,13 +340,23 @@ export function MessageResult({
   query: string;
   nested?: boolean;
   selected: boolean;
-  buttonRef?: (element: HTMLButtonElement | null) => void;
-  onOpen?: () => void;
+  setResultRef?: (key: string, element: HTMLButtonElement | null) => void;
+  onOpen?: (message: SearchMessageFixture) => void;
 }) {
   const Result = nested ? SearchThreadMessageResult : SearchMessageResult;
+  const buttonRef = useCallback(
+    (element: HTMLButtonElement | null) => setResultRef?.(`message:${message.id}`, element),
+    [message.id, setResultRef],
+  );
+  const handleOpen = useCallback(() => onOpen?.(message), [message, onOpen]);
 
   return (
-    <Result ref={buttonRef} onClick={onOpen} selected={selected} disabled={!onOpen}>
+    <Result
+      ref={buttonRef}
+      onClick={onOpen ? handleOpen : undefined}
+      selected={selected}
+      disabled={!onOpen}
+    >
       <SearchMessageResultHeader>
         <SearchMessageResultMeta>
           {channel?.kind === "dm" ? "@" : "#"}
@@ -415,10 +445,8 @@ export function ThreadResult({
             query={query}
             nested
             selected={selectedKey === `message:${message.id}`}
-            buttonRef={
-              setResultRef ? (element) => setResultRef(`message:${message.id}`, element) : undefined
-            }
-            onOpen={onOpenMessage ? () => onOpenMessage(message) : undefined}
+            setResultRef={setResultRef}
+            onOpen={onOpenMessage}
           />
         ))}
       </SearchThreadResultMessages>

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Kbd } from "raft-ui";
 
@@ -465,6 +466,28 @@ function ComposerSuggestionsSourceFiles({
   defaultPath?: string;
   usageHtml?: HighlightedSnippet;
 }) {
+  const files = useMemo(
+    () => [
+      {
+        path: COMPOSITION_PATH,
+        source: composerSuggestionCompositionSource,
+        html: code.composition,
+        collapsedHtml: code.compositionBody,
+      },
+      {
+        path: RESULTS_PATH,
+        source: composerSuggestionResultsSource,
+        html: code.suggestionResults,
+        collapsedHtml: code.suggestionResultsBody,
+      },
+      {
+        path: DATA_PATH,
+        source: composerSuggestionsDataSource,
+        html: code.suggestionsData,
+      },
+    ],
+    [code],
+  );
   return (
     <>
       {usageHtml ? (
@@ -478,25 +501,7 @@ function ComposerSuggestionsSourceFiles({
         collapsible={collapsible}
         showLineNumbers={false}
         defaultPath={defaultPath}
-        files={[
-          {
-            path: COMPOSITION_PATH,
-            source: composerSuggestionCompositionSource,
-            html: code.composition,
-            collapsedHtml: code.compositionBody,
-          },
-          {
-            path: RESULTS_PATH,
-            source: composerSuggestionResultsSource,
-            html: code.suggestionResults,
-            collapsedHtml: code.suggestionResultsBody,
-          },
-          {
-            path: DATA_PATH,
-            source: composerSuggestionsDataSource,
-            html: code.suggestionsData,
-          },
-        ]}
+        files={files}
       />
     </>
   );
