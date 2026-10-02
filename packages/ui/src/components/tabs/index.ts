@@ -19,6 +19,7 @@ export type {
   TabsLabelProps,
   TabsListProps,
   TabsPanelProps,
+  TabsPlacement,
   TabsProps,
   TabsTabProps,
 } from "./tabs";

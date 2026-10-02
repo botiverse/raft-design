@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
+  InlineCode,
   SortableTabsList,
   SortableTabsTab,
   Tabs,
@@ -12,7 +13,7 @@ import {
 } from "raft-ui";
 import type { OrderedTabItem } from "raft-ui";
 import { Bell, CreditCard, Files, Settings, MessageSquare, Users } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ComponentType } from "react";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -21,7 +22,10 @@ import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
 import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import type { PropRow } from "#/components/props-table.tsx";
+import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/composition-code.ts";
 import { highlightSnippets } from "#/lib/highlight.tsx";
+import placementCompositionSource from "#/modules/tabs/compositions/placement.composition.tsx?raw";
+import { TabsPlacementComposition } from "#/modules/tabs/compositions/placement.composition.tsx";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -31,6 +35,15 @@ const TOC = [
 ] as const;
 
 const VARIANTS = ["default", "underline"] as const;
+const PLACEMENTS = ["top", "bottom", "left", "right"] as const;
+
+const TABS_COMPOSITION_SOURCES = createCompositionSourceMap({
+  Placement: placementCompositionSource,
+});
+
+const TABS_COMPOSITION_SNIPPET_IDS = {
+  Placement: "tabsPlacementComposition",
+} as const;
 
 const SNIPPETS = {
   preview: `<Tabs defaultValue="overview">
@@ -262,6 +275,13 @@ const underlineTabs = useOrderedTabs(TABS, underlineOrder);
 
 const TABS_PROPS: readonly PropRow[] = [
   {
+    name: "placement",
+    type: '"top" | "bottom" | "left" | "right"',
+    default: '"top"',
+    description:
+      "Side of the panels the tab list sits on. left and right stack the tabs vertically and default orientation to vertical.",
+  },
+  {
     name: "value",
     type: "T",
     description: "Controlled active tab value.",
@@ -393,7 +413,13 @@ const USE_ORDERED_TABS_PROPS: readonly PropRow[] = [
 
 export const Route = createFileRoute("/components/tabs")({
   component: TabsDoc,
-  loader: () => highlightSnippets({ data: SNIPPETS }),
+  loader: () =>
+    highlightSnippets({
+      data: {
+        ...SNIPPETS,
+        ...createCompositionSnippetMap(TABS_COMPOSITION_SOURCES, TABS_COMPOSITION_SNIPPET_IDS),
+      },
+    }),
 });
 
 type TabId = "chat" | "files" | "members" | "alerts";
@@ -427,13 +453,28 @@ const SETTINGS_TABS: readonly (OrderedTabItem<SettingsTabId> & {
 
 function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [variant, setVariant] = useState<(typeof VARIANTS)[number]>("default");
+  const [placement, setPlacement] = useState<(typeof PLACEMENTS)[number]>("top");
   const [background, setBackground] = useState(true);
   const [icons, setIcons] = useState(true);
+  const handlePlacementChange = useCallback(
+    (value: string) => setPlacement(value as (typeof PLACEMENTS)[number]),
+    [],
+  );
+  const handleVariantChange = useCallback(
+    (value: string) => setVariant(value as (typeof VARIANTS)[number]),
+    [],
+  );
 
   return (
     <Preview>
       <Preview.Canvas>
-        <Tabs defaultValue="overview" className="flex flex-col items-center">
+        <Tabs
+          defaultValue="overview"
+          placement={placement}
+          className={
+            placement === "top" ? "flex flex-col items-center" : "items-center justify-center"
+          }
+        >
           <TabsList variant={variant}>
             {background ? <TabsBackground /> : null}
             {SETTINGS_TABS.map((tab) => (
@@ -455,13 +496,22 @@ function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["p
         </Tabs>
       </Preview.Canvas>
       <Preview.Controls>
+        <Preview.Control label="Placement" htmlFor="tabs-preview-placement">
+          <Preview.Select
+            id="tabs-preview-placement"
+            label="Placement"
+            options={PLACEMENTS}
+            value={placement}
+            onValueChange={handlePlacementChange}
+          />
+        </Preview.Control>
         <Preview.Control label="Variant" htmlFor="tabs-preview-variant">
           <Preview.Select
             id="tabs-preview-variant"
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as (typeof VARIANTS)[number])}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Background" htmlFor="tabs-preview-background">
@@ -581,6 +631,24 @@ function TabsDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.variants} collapsedHtml={code.variantsBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="placement" title="Placement">
+            <p className="mb-4 text-sm text-foreground-strong/70">
+              <InlineCode>placement</InlineCode> puts the tab list on any side of the panels.{" "}
+              <InlineCode>left</InlineCode> and <InlineCode>right</InlineCode> stack the tabs
+              vertically and switch keyboard navigation to the up and down arrows; the underline
+              indicator always sits on the side that faces the panels.
+            </p>
+            <Preview>
+              <Preview.Canvas>
+                <TabsPlacementComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.tabsPlacementComposition}
+                collapsedHtml={code.tabsPlacementCompositionBody}
+              />
             </Preview>
           </DocSubsection>
 
