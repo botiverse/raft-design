@@ -4,6 +4,7 @@ export {
   ComposerIconButton,
   ComposerInput,
   ComposerMeta,
+  ComposerSubject,
   ComposerSubmit,
   ComposerToolbar,
 } from "./composer";
@@ -13,6 +14,7 @@ export type {
   ComposerInputProps,
   ComposerMetaProps,
   ComposerProps,
+  ComposerSubjectProps,
   ComposerSubmitProps,
   ComposerToolbarProps,
 } from "./composer";

@@ -10,6 +10,7 @@ import {
   Info,
   Languages,
   Link as LinkIcon,
+  MessagesSquare,
   Monitor,
   Palette,
   Search,
@@ -174,6 +175,7 @@ const auxiliaryViewDetails: Record<Exclude<AuxiliaryRailView, "members">, readon
 const viewMeta: Record<PlaygroundRailView, { title: string; icon: LucideIcon }> = {
   search: { title: "Search", icon: Search },
   chat: { title: "Chat", icon: AtSign },
+  topics: { title: "Topics", icon: MessagesSquare },
   activity: { title: "Activity", icon: Activity },
   tasks: { title: "Tasks", icon: Activity },
   members: { title: "Members", icon: Users },
@@ -233,7 +235,7 @@ export function PlaygroundRailViewSidebar({ view }: { view: AuxiliaryRailView })
 export function PlaygroundRailViewPanel({
   view,
 }: {
-  view: Exclude<PlaygroundRailView, "search" | "chat" | "tasks">;
+  view: Exclude<PlaygroundRailView, "search" | "chat" | "topics" | "tasks">;
 }) {
   if (view === "activity") {
     return <PlaygroundActivityPanel />;

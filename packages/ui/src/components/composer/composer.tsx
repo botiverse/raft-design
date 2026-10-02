@@ -41,6 +41,25 @@ export function ComposerInput({ className, render, ...props }: ComposerInputProp
   });
 }
 
+export type ComposerSubjectProps = useRender.ComponentProps<"input">;
+
+/** Single-line subject above the message, for composers that start a titled item. */
+export function ComposerSubject({ className, render, ...props }: ComposerSubjectProps) {
+  const theme = useThemeFamily();
+  const { subject } = composerRecipe({ theme });
+  const defaultProps: SlotElementProps<"input"> = {
+    type: "text",
+    "data-slot": "composer-subject",
+    className: subject({ className }),
+  };
+
+  return useRender({
+    defaultTagName: "input",
+    render,
+    props: mergeProps<"input">(defaultProps, props),
+  });
+}
+
 export type ComposerToolbarProps = useRender.ComponentProps<"div">;
 
 export function ComposerToolbar({ className, render, ...props }: ComposerToolbarProps) {

@@ -42,12 +42,15 @@ import {
   ChevronDown,
   Home,
   MessageSquare,
+  MessagesSquare,
   Monitor,
   Search,
   Settings,
   Users,
 } from "lucide-react";
 import { usePlaygroundActivityState } from "../activity/activity-state.tsx";
+import { isTopicUnread } from "../topics/topic-queries.ts";
+import { usePlaygroundTopicState } from "../topics/use-playground-topic-state.ts";
 
 import { AppRailNavItem } from "#/modules/app-rail/app-rail.composition.tsx";
 import { AppRailServerButton } from "#/modules/app-rail/app-rail-server-button.tsx";
@@ -61,7 +64,7 @@ import {
 import { PlaygroundSidebarTrigger } from "../app-shell/playground-sidebar-trigger.tsx";
 import { PlaygroundThemeSelect } from "../app-shell/playground-theme-select.tsx";
 import { usePlaygroundShellState } from "../app-shell/use-playground-shell-state.ts";
-import { PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
+import { DEFAULT_TOPIC_CHANNEL_ID, PLAYGROUND_SERVER_SLUG } from "../mock/index.ts";
 import { isPlaygroundRailView } from "../navigation/playground-navigation.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
@@ -156,6 +159,8 @@ export function PlaygroundSidebarServerSwitcher({ name }: { name: string }) {
 export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation: boolean }) {
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { unreadCount: activityUnreadCount } = usePlaygroundActivityState();
+  const { topics } = usePlaygroundTopicState();
+  const unreadTopicCount = topics.filter(isTopicUnread).length;
 
   function selectView(view: string) {
     if (isPlaygroundRailView(view)) selectRailView(view);
@@ -193,6 +198,26 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                     railView !== "chat" ? (
                       <AppRailItemAttention title="Unread messages">
                         <MessageSquare />
+                      </AppRailItemAttention>
+                    ) : undefined
+                  }
+                />
+                <AppRailNavItem
+                  selected={railView === "topics"}
+                  nativeButton={false}
+                  render={
+                    <Link
+                      to="/playground/topics/$channelId"
+                      params={{ channelId: DEFAULT_TOPIC_CHANNEL_ID }}
+                      search={{}}
+                    />
+                  }
+                  label="Topics"
+                  icon={<MessagesSquare />}
+                  attention={
+                    railView !== "topics" && unreadTopicCount > 0 ? (
+                      <AppRailItemAttention title={`${unreadTopicCount} unread topics`}>
+                        <MessagesSquare />
                       </AppRailItemAttention>
                     ) : undefined
                   }
@@ -283,6 +308,15 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
           >
             <Home />
             <MobileNavLabel>Home</MobileNavLabel>
+          </MobileNavItem>
+          <MobileNavItem
+            selected={railView === "topics"}
+            nativeButton={false}
+            render={<Link to="/playground/topics" search={{}} />}
+            aria-label="Topics"
+          >
+            <MessagesSquare />
+            <MobileNavLabel>Topics</MobileNavLabel>
           </MobileNavItem>
           <MobileNavItem
             selected={railView === "tasks"}

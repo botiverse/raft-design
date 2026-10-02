@@ -9,6 +9,7 @@ import { usePlaygroundRouteState } from "../navigation/playground-route-state.ts
 import { PlaygroundTaskStateProvider } from "../tasks/task-state.tsx";
 import { PlaygroundShellStateProvider } from "./playground-shell-state.tsx";
 import { PlaygroundActivityStateProvider } from "../activity/activity-state.tsx";
+import { PlaygroundTopicStateProvider } from "../topics/topic-state.tsx";
 
 const playgroundPlainPaths = new Set([
   "/playground/tasks",
@@ -34,7 +35,9 @@ export function PlaygroundShell() {
     return () => window.removeEventListener("keydown", openSearch);
   }, [route.selectRailView]);
 
-  const isChatRoute = location.pathname.startsWith("/playground/s/");
+  const isChatRoute =
+    location.pathname.startsWith("/playground/s/") ||
+    location.pathname.startsWith("/playground/topics");
   const lockMobileHeight = isChatRoute || playgroundPlainPaths.has(location.pathname);
   const content = (
     <PreviewThemeScope
@@ -53,11 +56,13 @@ export function PlaygroundShell() {
         onSearchQueryChange={route.setSearchQuery}
       >
         <PlaygroundShellStateProvider>
-          <PlaygroundActivityStateProvider>
-            <PlaygroundTaskStateProvider>
-              <Outlet />
-            </PlaygroundTaskStateProvider>
-          </PlaygroundActivityStateProvider>
+          <PlaygroundTopicStateProvider>
+            <PlaygroundActivityStateProvider>
+              <PlaygroundTaskStateProvider>
+                <Outlet />
+              </PlaygroundTaskStateProvider>
+            </PlaygroundActivityStateProvider>
+          </PlaygroundTopicStateProvider>
         </PlaygroundShellStateProvider>
       </PlaygroundNavigationProvider>
     </PreviewThemeScope>

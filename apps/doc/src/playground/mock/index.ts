@@ -93,12 +93,20 @@ export {
   type PlaygroundLiveAgentActivity,
 } from "./live-agent-activity.ts";
 
-export { PLAYGROUND_ACTIVITY, getPlaygroundActivity, type PlaygroundActivity } from "./activity.ts";
+export {
+  PLAYGROUND_ACTIVITY,
+  getPlaygroundActivity,
+  type PlaygroundActivity,
+  type PlaygroundChatActivity,
+  type PlaygroundTopicActivity,
+} from "./activity.ts";
 
 export {
   PLAYGROUND_SAVED_MESSAGES,
+  PLAYGROUND_SAVED_TOPIC_MESSAGES,
   getPlaygroundSavedMessages,
   type PlaygroundSavedMessage,
+  type PlaygroundSavedTopicMessage,
 } from "./saved-messages.ts";
 
 export {
@@ -110,3 +118,24 @@ export {
   type PlaygroundFile,
   type PlaygroundFileId,
 } from "./files.ts";
+
+export {
+  DEFAULT_TOPIC_CHANNEL_ID,
+  PLAYGROUND_TOPIC_CHANNEL_GROUPS,
+  PLAYGROUND_TOPIC_CHANNELS,
+  PLAYGROUND_TOPIC_NOW,
+  PLAYGROUND_TOPICS,
+  formatPlaygroundTopicAge,
+  formatPlaygroundTopicMessageTime,
+  getPlaygroundTopicChannel,
+  getPlaygroundTopicDateBucket,
+  getPlaygroundTopicExcerpt,
+  getPlaygroundTopicChannelId,
+  isPlaygroundTopicChannelId,
+  type PlaygroundTopicChannel,
+  type PlaygroundTopicChannelGroupId,
+  type PlaygroundTopicChannelId,
+  type PlaygroundTopicChannelRecord,
+  type PlaygroundTopicDateBucket,
+  type PlaygroundTopic,
+} from "./topics.ts";

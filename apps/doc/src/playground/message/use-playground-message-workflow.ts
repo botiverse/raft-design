@@ -68,6 +68,7 @@ export function usePlaygroundSavedMessages() {
   return {
     savedMessagesById: state.savedMessagesById,
     setMessageSaved: state.setMessageSaved,
+    setTopicMessageSaved: state.setTopicMessageSaved,
   };
 }
 

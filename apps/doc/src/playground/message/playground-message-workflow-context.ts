@@ -19,13 +19,20 @@ export const DEFAULT_PLAYGROUND_MESSAGE_WORKFLOW: PlaygroundMessageWorkflow = {
   translation: "idle",
 };
 
-export type PlaygroundSavedMessageState = {
+type PlaygroundSavedMessageBase = {
   message: PlaygroundChatMessage;
   savedAt: string;
   savedAtDateTime: string;
-  surface: "conversation" | "thread";
-  threadId?: PlaygroundThreadId;
 };
+
+/** Saved items come from chat conversations or from topics; Saved lists both. */
+export type PlaygroundSavedMessageState =
+  | (PlaygroundSavedMessageBase & {
+      source: "chat";
+      surface: "conversation" | "thread";
+      threadId?: PlaygroundThreadId;
+    })
+  | (PlaygroundSavedMessageBase & { source: "topic"; topicId: string });
 
 export type PlaygroundMessageWorkflowState = {
   get: (
@@ -49,6 +56,7 @@ export type PlaygroundMessageWorkflowState = {
     surface: "conversation" | "thread",
     threadId?: PlaygroundThreadId,
   ) => void;
+  setTopicMessageSaved: (message: PlaygroundChatMessage, topicId: string, saved: boolean) => void;
   setThreadDraft: (threadId: PlaygroundThreadId, draft: string) => void;
   update: (
     messageId: PlaygroundMessageId,

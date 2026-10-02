@@ -18,7 +18,7 @@ import {
   ResizablePanel,
   useThemeFamily,
 } from "raft-ui";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { SearchPanelComposition } from "#/modules/search/compositions/search-panel.composition.tsx";
 import type {
@@ -36,11 +36,13 @@ import {
   getPlaygroundActor,
   getPlaygroundChannel,
   getPlaygroundThread,
+  getPlaygroundTopicChannel,
   isPlaygroundChatMessage,
+  isPlaygroundTopicChannelId,
   isPlaygroundChannelId,
   isPlaygroundThreadId,
 } from "../mock/index.ts";
-import type { PlaygroundChatMessage } from "../mock/index.ts";
+import type { PlaygroundChatMessage, PlaygroundTopic } from "../mock/index.ts";
 import { PLAYGROUND_CONVERSATIONS } from "../mock/conversations.ts";
 import {
   usePlaygroundDesktop,
@@ -52,7 +54,17 @@ import { PlaygroundChannelPanel } from "../conversation/playground-channel-panel
 import { PlaygroundDmPanel } from "../conversation/playground-dm-panel.tsx";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { PlaygroundThreadPanel } from "../thread/playground-thread-panel.tsx";
+import { PlaygroundTopicChannelPanel } from "../topics/topic-channel-panel.tsx";
+import { PlaygroundTopicPanel } from "../topics/topic-panel.tsx";
+import { usePlaygroundTopicState } from "../topics/use-playground-topic-state.ts";
 import { PLAYGROUND_SEARCH_FOCUS_EVENT } from "./playground-search-focus.ts";
+import {
+  TOPIC_SEARCH_CHANNELS,
+  TOPIC_SEARCH_ENTITIES,
+  buildTopicSearchIndex,
+  getTopicChannelIdFromEntity,
+} from "./topic-search.ts";
+import type { TopicSearchIndex } from "./topic-search.ts";
 
 const PLAYGROUND_SEARCH_COMPUTERS: readonly SearchEntityFixture[] = PLAYGROUND_MACHINES.map(
   (machine) => ({
@@ -78,14 +90,17 @@ const PLAYGROUND_SEARCH_SENDERS: readonly SearchSenderFixture[] = PLAYGROUND_ACT
   }),
 );
 
-const PLAYGROUND_SEARCH_CHANNELS: readonly SearchChannelFixture[] = PLAYGROUND_CHANNELS.map(
-  (channel) => ({
-    id: channel.id,
-    kind: channel.kind === "dm" ? "dm" : "channel",
-    name: channel.name,
-    archivedAt: channel.archived ? "2026-05-01T08:00:00.000Z" : undefined,
-  }),
-);
+const PLAYGROUND_SEARCH_CHANNELS: readonly SearchChannelFixture[] = [
+  ...PLAYGROUND_CHANNELS.map(
+    (channel): SearchChannelFixture => ({
+      id: channel.id,
+      kind: channel.kind === "dm" ? "dm" : "channel",
+      name: channel.name,
+      archivedAt: channel.archived ? "2026-05-01T08:00:00.000Z" : undefined,
+    }),
+  ),
+  ...TOPIC_SEARCH_CHANNELS,
+];
 
 const channelEntities: readonly SearchEntityFixture[] = PLAYGROUND_CHANNELS.filter(
   (channel) => channel.kind !== "dm",
@@ -134,6 +149,7 @@ const actorEntities: readonly SearchEntityFixture[] = PLAYGROUND_ACTORS.map((act
 
 const PLAYGROUND_SEARCH_ENTITIES: readonly SearchEntityFixture[] = [
   ...channelEntities,
+  ...TOPIC_SEARCH_ENTITIES,
   ...actorEntities,
   ...PLAYGROUND_SEARCH_COMPUTERS,
 ];
@@ -222,22 +238,18 @@ export function PlaygroundSearchPanel() {
     setSearchQuery,
   } = usePlaygroundNavigation();
   const [focusRequestKey, setFocusRequestKey] = useState(0);
-  const activeEntityKey = contentId?.startsWith(searchEntityPrefix)
-    ? contentId.slice(searchEntityPrefix.length)
-    : undefined;
-  const activeMessageId = contentId?.startsWith(searchMessagePrefix)
-    ? contentId.slice(searchMessagePrefix.length)
-    : undefined;
-  const activeEntity = PLAYGROUND_SEARCH_ENTITIES.find((entity) => entity.key === activeEntityKey);
-  const activeMessage = PLAYGROUND_SEARCH_MESSAGES.find(
-    (message) => message.id === activeMessageId,
+  const { topics } = usePlaygroundTopicState();
+  const topicIndex = useMemo(() => buildTopicSearchIndex(topics), [topics]);
+  const searchMessages = useMemo(
+    () => [...PLAYGROUND_SEARCH_MESSAGES, ...topicIndex.messages],
+    [topicIndex],
   );
-  const activeConversationId = contentId?.startsWith(searchConversationPrefix)
-    ? contentId.slice(searchConversationPrefix.length)
-    : undefined;
-  const contextualThreadId = contextId?.startsWith(threadContextPrefix)
-    ? contextId.slice(threadContextPrefix.length)
-    : undefined;
+  const activeEntityKey = stripPrefix(contentId, searchEntityPrefix);
+  const activeMessageId = stripPrefix(contentId, searchMessagePrefix);
+  const activeEntity = PLAYGROUND_SEARCH_ENTITIES.find((entity) => entity.key === activeEntityKey);
+  const activeMessage = searchMessages.find((message) => message.id === activeMessageId);
+  const activeConversationId = stripPrefix(contentId, searchConversationPrefix);
+  const contextualThreadId = stripPrefix(contextId, threadContextPrefix);
   const contextualThread =
     contextualThreadId && isPlaygroundThreadId(contextualThreadId)
       ? getPlaygroundThread(contextualThreadId)
@@ -252,7 +264,7 @@ export function PlaygroundSearchPanel() {
   const master = (
     <SearchPanelComposition
       entities={PLAYGROUND_SEARCH_ENTITIES}
-      messages={PLAYGROUND_SEARCH_MESSAGES}
+      messages={searchMessages}
       senders={PLAYGROUND_SEARCH_SENDERS}
       channels={PLAYGROUND_SEARCH_CHANNELS}
       defaultQuery=""
@@ -285,14 +297,15 @@ export function PlaygroundSearchPanel() {
 
   const openContextThread = (threadId: string) =>
     selectContext(`${threadContextPrefix}${threadId}`);
-  const content =
-    activeConversationId && isPlaygroundChannelId(activeConversationId)
-      ? renderConversationContent(activeConversationId, selectContent, openContextThread)
-      : activeEntity
-        ? renderEntityContent(activeEntity, selectContent, openContextThread)
-        : activeMessage
-          ? renderMessageContent(activeMessage, selectContent, openContextThread)
-          : undefined;
+  const content = renderSearchContent({
+    conversationId: activeConversationId,
+    entity: activeEntity,
+    message: activeMessage,
+    topicIndex,
+    topics,
+    selectContent,
+    onOpenThread: openContextThread,
+  });
   const context = contextualThread ? (
     <PlaygroundThreadPanel
       key={contextualThread.thread.parent.id}
@@ -355,11 +368,52 @@ export function PlaygroundSearchPanel() {
   );
 }
 
+function stripPrefix(value: string | undefined, prefix: string) {
+  return value?.startsWith(prefix) ? value.slice(prefix.length) : undefined;
+}
+
+function renderSearchContent({
+  conversationId,
+  entity,
+  message,
+  topicIndex,
+  topics,
+  selectContent,
+  onOpenThread,
+}: {
+  conversationId: string | undefined;
+  entity: SearchEntityFixture | undefined;
+  message: SearchMessageFixture | undefined;
+  topicIndex: TopicSearchIndex;
+  topics: readonly PlaygroundTopic[];
+  selectContent: SelectContent;
+  onOpenThread: (threadId: string) => void;
+}) {
+  if (conversationId && isPlaygroundChannelId(conversationId)) {
+    return renderConversationContent(conversationId, selectContent, onOpenThread);
+  }
+  if (entity) return renderEntityContent(entity, selectContent, onOpenThread);
+  if (message) {
+    return renderMessageContent(message, topicIndex, topics, selectContent, onOpenThread);
+  }
+  return undefined;
+}
+
 function renderEntityContent(
   entity: SearchEntityFixture,
   selectContent: SelectContent,
   onOpenThread: (threadId: string) => void,
 ) {
+  const topicChannelId = getTopicChannelIdFromEntity(entity);
+  if (topicChannelId && isPlaygroundTopicChannelId(topicChannelId)) {
+    return (
+      <PlaygroundTopicChannelPanel
+        key={topicChannelId}
+        channel={getPlaygroundTopicChannel(topicChannelId)}
+      />
+    );
+  }
+
   if (entity.channelId && isPlaygroundChannelId(entity.channelId)) {
     return renderConversationContent(entity.channelId, selectContent, onOpenThread);
   }
@@ -419,9 +473,23 @@ function renderConversationContent(
 
 function renderMessageContent(
   message: SearchMessageFixture,
+  topicIndex: TopicSearchIndex,
+  topics: readonly PlaygroundTopic[],
   selectContent: SelectContent,
   onOpenThread: (threadId: string) => void,
 ) {
+  const topicId = topicIndex.topicIdByMessageId.get(message.id);
+  if (topicId) {
+    const topic = topics.find((candidate) => candidate.id === topicId);
+    return topic ? (
+      <PlaygroundTopicPanel
+        key={topic.id}
+        channel={getPlaygroundTopicChannel(topic.channelId)}
+        topic={topic}
+        onClose={() => selectContent(undefined)}
+      />
+    ) : undefined;
+  }
   if (!isPlaygroundChannelId(message.channelId)) return undefined;
   if (message.threadId && isPlaygroundThreadId(message.threadId)) {
     const thread = getPlaygroundThread(message.threadId);

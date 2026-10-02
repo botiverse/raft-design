@@ -1,6 +1,7 @@
 export type PlaygroundRailView =
   | "search"
   | "chat"
+  | "topics"
   | "activity"
   | "tasks"
   | "members"
@@ -12,6 +13,7 @@ export type PlaygroundPanelTab = "chat" | "tasks" | "files";
 const playgroundRailViews = new Set<PlaygroundRailView>([
   "search",
   "chat",
+  "topics",
   "activity",
   "tasks",
   "members",

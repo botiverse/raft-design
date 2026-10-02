@@ -33,11 +33,14 @@ import {
 import {
   getPlaygroundActor,
   getPlaygroundMessageContext,
+  getPlaygroundTopicChannel,
   PLAYGROUND_SERVER_SLUG,
 } from "../mock/index.ts";
 import type { PlaygroundSavedMessageState } from "../message/playground-message-workflow-context.ts";
 import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
+import type { PlaygroundTopic } from "../mock/index.ts";
 import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx";
+import { usePlaygroundTopicState } from "../topics/use-playground-topic-state.ts";
 
 export function PlaygroundSavedPanel() {
   const { savedMessagesById } = usePlaygroundSavedMessages();
@@ -106,40 +109,28 @@ export function PlaygroundSavedPanel() {
 }
 
 function PlaygroundSavedItem({ savedMessage }: { savedMessage: PlaygroundSavedMessageState }) {
-  const { setMessageSaved } = usePlaygroundSavedMessages();
-  const { message, surface, threadId } = savedMessage;
-  const context = getPlaygroundMessageContext(message.id);
-  if (!context) return null;
-
-  const { channel } = context;
+  const { topics } = usePlaygroundTopicState();
+  const { setMessageSaved, setTopicMessageSaved } = usePlaygroundSavedMessages();
+  const { message } = savedMessage;
   const actor = getPlaygroundActor(message.senderId);
-  const channelLabel = channel.kind === "dm" ? `@${actor.name}` : `#${channel.name}`;
+  const source = describeSavedSource(savedMessage, topics, actor.name);
+  if (!source) return null;
 
   function removeSavedMessage() {
-    setMessageSaved(message, false, surface, threadId);
+    if (savedMessage.source === "topic") {
+      setTopicMessageSaved(message, savedMessage.topicId, false);
+    } else {
+      setMessageSaved(message, false, savedMessage.surface, savedMessage.threadId);
+    }
   }
 
   return (
     <InboxItem>
-      <InboxItemTrigger
-        aria-label={`Open saved message from ${actor.name}`}
-        render={
-          <PlaygroundConversationLink
-            conversation={channel}
-            search={threadId ? { thread: threadId } : {}}
-            hash={`${threadId ? "thread-message" : "message"}-${message.id}`}
-          />
-        }
-      />
+      <InboxItemTrigger aria-label={`Open saved message from ${actor.name}`} render={source.link} />
       <InboxItemContent>
         <InboxItemContext>
-          <span className="min-w-0 truncate">{channelLabel}</span>
-          {threadId ? (
-            <span className="inline-flex shrink-0 items-center gap-1">
-              <MessageSquare className="size-2.5" aria-hidden />
-              Thread
-            </span>
-          ) : null}
+          <span className="min-w-0 truncate">{source.channelLabel}</span>
+          {source.thread}
           <InboxItemSender className="inline-flex min-w-0 items-center gap-1">
             <Avatar size="3xs" type={actor.type}>
               {actor.avatarSrc ? <AvatarImage src={actor.avatarSrc} alt="" /> : null}
@@ -176,6 +167,55 @@ function PlaygroundSavedItem({ savedMessage }: { savedMessage: PlaygroundSavedMe
       </InboxItemTrailing>
     </InboxItem>
   );
+}
+
+function describeSavedSource(
+  savedMessage: PlaygroundSavedMessageState,
+  topics: readonly PlaygroundTopic[],
+  actorName: string,
+) {
+  if (savedMessage.source === "topic") {
+    const topic = topics.find((candidate) => candidate.id === savedMessage.topicId);
+    if (!topic) return undefined;
+    const channel = getPlaygroundTopicChannel(topic.channelId);
+    return {
+      channelLabel: `#${channel.name}`,
+      thread: (
+        <span className="inline-flex min-w-0 items-center gap-1">
+          <MessageSquare className="size-2.5 shrink-0" aria-hidden />
+          <span className="truncate">{topic.title}</span>
+        </span>
+      ),
+      link: (
+        <Link
+          to="/playground/topics/$channelId"
+          params={{ channelId: channel.id }}
+          search={{ topic: topic.id }}
+        />
+      ),
+    };
+  }
+
+  const context = getPlaygroundMessageContext(savedMessage.message.id);
+  if (!context) return undefined;
+  const { channel } = context;
+  const { threadId } = savedMessage;
+  return {
+    channelLabel: channel.kind === "dm" ? `@${actorName}` : `#${channel.name}`,
+    thread: threadId ? (
+      <span className="inline-flex shrink-0 items-center gap-1">
+        <MessageSquare className="size-2.5" aria-hidden />
+        Thread
+      </span>
+    ) : null,
+    link: (
+      <PlaygroundConversationLink
+        conversation={channel}
+        search={threadId ? { thread: threadId } : {}}
+        hash={`${threadId ? "thread-message" : "message"}-${savedMessage.message.id}`}
+      />
+    ),
+  };
 }
 
 const SAVED_RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
