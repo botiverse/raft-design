@@ -1,0 +1,230 @@
+/* Timeline pure CSS styling following pattern/Button.css architecture
+   - Local CSS variables (--r-timeline-*) declared on the list; items inherit them
+   - Modifier classes rebind local variables
+   - Component styles strictly consume local variables
+   - Dual theme support (Brutal / Elegant) via CSS variable overrides
+*/
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1. Local Variable Definitions & Modifier Overrides
+   ───────────────────────────────────────────────────────────────────────── */
+
+.r-timeline {
+  /* Default local variables (Brutal theme defaults) */
+  --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 14px);
+  --r-timeline-title-font-size: 14px;
+  --r-timeline-content-font-size: 14px;
+  --r-timeline-time-font-size: 12px;
+  --r-timeline-line-height: 1.5;
+  --r-timeline-title-font-family: var(--font-heading);
+  --r-timeline-title-font-weight: 700;
+  --r-timeline-gap: 12px;
+  --r-timeline-item-gap: 20px;
+  --r-timeline-horizontal-item-gap: 40px;
+  --r-timeline-line-width: 2px;
+  --r-timeline-line-color: var(--line-strong);
+  --r-timeline-marker-border-width: 2px;
+  --r-timeline-marker-radius: 9999px;
+  /* How much of the variant's fill the marker takes, and its outline:
+     Brutal draws a filled dot with an ink outline. */
+  --r-timeline-marker-fill: 100%;
+  --r-timeline-marker-border-color: var(--line-strong);
+  /* How far each marker sits below the item's top, to center on the title's first line. */
+  --r-timeline-axis-offset: calc(
+    (var(--r-timeline-title-font-size) * var(--r-timeline-line-height) - var(--r-timeline-icon-size)) /
+      2
+  );
+
+  &.r-timeline--lg {
+    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 16px);
+    --r-timeline-title-font-size: 16px;
+    --r-timeline-content-font-size: 15px;
+  }
+
+  &.r-timeline--horizontal {
+    --r-timeline-axis-offset: 0px;
+  }
+
+  /* Theme: Elegant overrides — a ring in the variant's text color, a muted line. */
+  &.r-timeline--elegant,
+  :where([data-theme="elegant"]) & {
+    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 12px);
+    --r-timeline-title-font-family: var(--font-sans);
+    --r-timeline-title-font-weight: 500;
+    --r-timeline-line-color: var(--line-muted);
+    --r-timeline-marker-fill: 0%;
+    /* `initial` falls back to the variant's color. */
+    --r-timeline-marker-border-color: initial;
+  }
+  &.r-timeline--elegant.r-timeline--lg,
+  :where([data-theme="elegant"]) &.r-timeline--lg {
+    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 14px);
+  }
+}
+
+.r-timeline-item {
+  /* Variants (Brutal fills, Elegant rings) */
+  --r-timeline-item-color: var(--foreground-hint);
+  --r-timeline-item-fill: var(--layer-panel);
+
+  &.r-timeline-item--information {
+    --r-timeline-item-color: var(--info-strong);
+    --r-timeline-item-fill: var(--info);
+  }
+  &.r-timeline-item--success {
+    --r-timeline-item-color: var(--success-strong);
+    --r-timeline-item-fill: var(--success);
+  }
+  &.r-timeline-item--warning {
+    --r-timeline-item-color: var(--warning-strong);
+    --r-timeline-item-fill: var(--warning);
+  }
+  &.r-timeline-item--danger {
+    --r-timeline-item-color: var(--danger-strong);
+    --r-timeline-item-fill: var(--danger);
+  }
+  &.r-timeline-item--color {
+    --r-timeline-item-color: var(--r-timeline-custom-color);
+    --r-timeline-item-fill: var(--r-timeline-custom-color);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2. Component Styles
+   ───────────────────────────────────────────────────────────────────────── */
+
+.r-timeline {
+  display: flex;
+  flex-direction: column;
+  line-height: var(--r-timeline-line-height);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.r-timeline-item {
+  display: flex;
+  gap: var(--r-timeline-gap);
+  margin: 0;
+  padding: 0;
+}
+
+/* The axis: the marker, centered on the title's first line, then the line down to the next item. */
+.r-timeline-item__axis {
+  align-items: center;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  padding-top: var(--r-timeline-axis-offset);
+  width: var(--r-timeline-icon-size);
+}
+
+.r-timeline-item__marker {
+  background: color-mix(
+    in oklch,
+    var(--r-timeline-item-fill) var(--r-timeline-marker-fill),
+    transparent
+  );
+  border: var(--r-timeline-marker-border-width) solid
+    var(--r-timeline-marker-border-color, var(--r-timeline-item-color));
+  border-radius: var(--r-timeline-marker-radius);
+  box-sizing: border-box;
+  flex: none;
+  height: var(--r-timeline-icon-size);
+  width: var(--r-timeline-icon-size);
+}
+
+.r-timeline-item__icon {
+  align-items: center;
+  color: var(--r-timeline-item-color);
+  display: flex;
+  flex: none;
+  font-size: var(--r-timeline-icon-size);
+  height: var(--r-timeline-icon-size);
+  justify-content: center;
+  width: var(--r-timeline-icon-size);
+
+  & svg {
+    height: 1em;
+    width: 1em;
+  }
+}
+
+.r-timeline-item__line {
+  border-inline-start: var(--r-timeline-line-width) solid var(--r-timeline-line-color);
+  flex: 1;
+  /* Runs on through the next item's offset, so it meets the next marker. */
+  margin-bottom: calc(var(--r-timeline-axis-offset) * -1);
+}
+
+.r-timeline-item--dashed > .r-timeline-item__axis > .r-timeline-item__line {
+  border-style: dashed;
+}
+
+.r-timeline-item:last-child > .r-timeline-item__axis > .r-timeline-item__line {
+  visibility: hidden;
+}
+
+.r-timeline-item__body {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: var(--r-timeline-item-gap);
+}
+
+.r-timeline-item:last-child > .r-timeline-item__body {
+  padding-bottom: 0;
+}
+
+.r-timeline-title {
+  color: var(--foreground-strong);
+  font-family: var(--r-timeline-title-font-family);
+  font-size: var(--r-timeline-title-font-size);
+  font-weight: var(--r-timeline-title-font-weight);
+  margin-bottom: 4px;
+}
+
+.r-timeline-content {
+  color: var(--foreground-muted);
+  font-size: var(--r-timeline-content-font-size);
+}
+
+.r-timeline-time {
+  color: var(--foreground-hint);
+  font-size: var(--r-timeline-time-font-size);
+  margin-top: 4px;
+}
+
+/* Markers on the right: the axis moves to the end and the text aligns to it. */
+.r-timeline--right > .r-timeline-item {
+  flex-direction: row-reverse;
+  text-align: end;
+}
+
+/* Horizontal: items in a row, each marker followed by a line across to the next. */
+.r-timeline--horizontal {
+  flex-direction: row;
+}
+
+.r-timeline--horizontal > .r-timeline-item {
+  flex: none;
+  flex-direction: column;
+
+  & > .r-timeline-item__axis {
+    flex-direction: row;
+    height: var(--r-timeline-icon-size);
+    padding-top: 0;
+    width: auto;
+  }
+  & > .r-timeline-item__axis > .r-timeline-item__line {
+    border-inline-start: 0;
+    border-top: var(--r-timeline-line-width) solid var(--r-timeline-line-color);
+    margin-bottom: 0;
+  }
+  &.r-timeline-item--dashed > .r-timeline-item__axis > .r-timeline-item__line {
+    border-top-style: dashed;
+  }
+  & > .r-timeline-item__body {
+    padding-bottom: 0;
+    padding-inline-end: var(--r-timeline-horizontal-item-gap);
+  }
+}

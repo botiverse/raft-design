@@ -1164,6 +1164,25 @@ export type {
   ProgressValueProps,
 } from "./components/progress/index";
 
+export {
+  Timeline,
+  TimelineContent,
+  TimelineItem,
+  TimelineTime,
+  TimelineTitle,
+} from "./components/timeline/index";
+export type {
+  TimelineContentProps,
+  TimelineItemPlacement,
+  TimelineItemProps,
+  TimelineItemVariant,
+  TimelineLineType,
+  TimelineProps,
+  TimelineSize,
+  TimelineTimeProps,
+  TimelineTitleProps,
+} from "./components/timeline/index";
+
 export { Spinner } from "./components/spinner/index";
 
 export {
