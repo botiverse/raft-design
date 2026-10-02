@@ -15,6 +15,7 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
   useSortable,
+  verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
@@ -39,15 +40,14 @@ const tabs = tv({
     theme: {
       brutal: {
         list: [
-          "flex w-max max-w-full overflow-x-auto border-2 border-line-strong bg-layer-panel",
-          "data-[sorting=true]:overflow-x-hidden",
+          "flex w-max max-w-full border-2 border-line-strong bg-layer-panel",
           "scrollbar-none [&::-webkit-scrollbar]:hidden",
         ],
         background: "hidden",
         tab: [
           "bg-layer-panel px-4 py-1.5 text-xs font-semibold transition-colors",
           "hover:bg-[color-mix(in_oklch,var(--line-strong)_6%,var(--layer-panel))]",
-          "[&+&]:before:absolute [&+&]:before:inset-y-0 [&+&]:before:left-0 [&+&]:before:w-0.5 [&+&]:before:bg-line-strong",
+          "[&+&]:before:absolute [&+&]:before:bg-line-strong",
           "data-[dragging-source=true]:before:hidden",
           "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[2.5] [&_svg_*]:stroke-[2.5] [&_svg:not([class*='size-'])]:size-3.5",
           "data-active:bg-primary-400 data-active:hover:bg-primary-400",
@@ -60,26 +60,47 @@ const tabs = tv({
       default: {},
       underline: {},
     },
+    placement: {
+      top: {},
+      bottom: { root: "flex flex-col", list: "order-last" },
+      left: { root: "flex items-start", panel: "min-w-0 flex-1" },
+      right: { root: "flex items-start", list: "order-last", panel: "min-w-0 flex-1" },
+    },
   },
   defaultVariants: {
     variant: "default",
+    placement: "top",
   },
   compoundVariants: [
+    {
+      theme: "brutal",
+      placement: ["top", "bottom"],
+      class: {
+        list: ["overflow-x-auto", "data-[sorting=true]:overflow-x-hidden"],
+        tab: ["[&+&]:before:inset-y-0 [&+&]:before:left-0 [&+&]:before:w-0.5"],
+      },
+    },
+    {
+      theme: "brutal",
+      placement: ["left", "right"],
+      class: {
+        list: ["flex-col overflow-y-auto", "data-[sorting=true]:overflow-y-hidden"],
+        tab: ["justify-start", "[&+&]:before:inset-x-0 [&+&]:before:top-0 [&+&]:before:h-0.5"],
+      },
+    },
     {
       theme: "elegant",
       variant: "underline",
       class: {
         list: [
-          "group/tabs-list relative flex h-12 w-max max-w-full items-center gap-1 px-4",
-          "overflow-x-auto overflow-y-hidden overscroll-contain whitespace-nowrap",
-          "border-b border-line-hairline",
-          "data-[sorting=true]:overflow-x-hidden",
+          "group/tabs-list relative flex w-max max-w-full gap-1",
+          "overscroll-contain whitespace-nowrap border-line-hairline",
           "data-[sorting=true]:**:data-[slot=tabs-indicator]:opacity-0 data-[sorting=true]:**:data-[slot=tabs-indicator]:transition-none",
           "scrollbar-none [&::-webkit-scrollbar]:hidden",
         ],
-        background: ["pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-line-hairline"],
+        background: ["pointer-events-none absolute z-0 bg-line-hairline"],
         tab: [
-          "group/tabs-tab h-12 justify-center px-3 pb-3 pt-3.5",
+          "group/tabs-tab",
           "text-[13px] font-medium tracking-[-0.005em] text-foreground-placeholder",
           "transition-colors duration-200 ease-out",
           "hover:text-foreground-muted",
@@ -93,21 +114,79 @@ const tabs = tv({
           "data-disabled:pointer-events-none data-disabled:opacity-40",
         ],
         indicator: [
-          "absolute bottom-0 left-(--active-tab-left) z-10 h-0.5",
-          "w-(--active-tab-width) bg-foreground",
-          "transition-[left,width] duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
+          "absolute z-10 bg-foreground",
+          "duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
         ],
       },
+    },
+    {
+      theme: "elegant",
+      variant: "underline",
+      placement: ["top", "bottom"],
+      class: {
+        list: [
+          "h-12 items-center px-4",
+          "overflow-x-auto overflow-y-hidden",
+          "data-[sorting=true]:overflow-x-hidden",
+        ],
+        background: "inset-x-0 h-px",
+        tab: "h-12 justify-center px-3",
+        indicator: [
+          "left-(--active-tab-left) h-0.5 w-(--active-tab-width)",
+          "transition-[left,width]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "underline",
+      placement: ["left", "right"],
+      class: {
+        list: [
+          "flex-col items-stretch py-2",
+          "overflow-y-auto overflow-x-hidden",
+          "data-[sorting=true]:overflow-y-hidden",
+        ],
+        background: "inset-y-0 w-px",
+        tab: "h-9 justify-start px-4",
+        indicator: [
+          "top-(--active-tab-top) h-(--active-tab-height) w-0.5",
+          "transition-[top,height]",
+        ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "underline",
+      placement: "top",
+      class: { list: "border-b", background: "top-0", tab: "pb-3 pt-3.5", indicator: "bottom-0" },
+    },
+    {
+      theme: "elegant",
+      variant: "underline",
+      placement: "bottom",
+      class: { list: "border-t", background: "bottom-0", tab: "pb-3.5 pt-3", indicator: "top-0" },
+    },
+    {
+      theme: "elegant",
+      variant: "underline",
+      placement: "left",
+      class: { list: "border-r", background: "left-0", indicator: "right-0" },
+    },
+    {
+      theme: "elegant",
+      variant: "underline",
+      placement: "right",
+      class: { list: "border-l", background: "right-0", indicator: "left-0" },
     },
     {
       theme: "elegant",
       variant: "default",
       class: {
         list: [
-          "group/tabs-list relative isolate flex h-auto w-max max-w-full items-center gap-1",
-          "overflow-x-auto overflow-y-visible overscroll-contain whitespace-nowrap",
+          "group/tabs-list relative isolate flex h-auto w-max max-w-full gap-1",
+          "overscroll-contain whitespace-nowrap",
           "p-px",
-          "data-[sorting=true]:overflow-x-hidden",
           "data-[sorting=true]:**:data-[slot=tabs-indicator]:opacity-0 data-[sorting=true]:**:data-[slot=tabs-indicator]:transition-none",
           "scrollbar-none [&::-webkit-scrollbar]:hidden",
         ],
@@ -116,7 +195,7 @@ const tabs = tv({
           "dark:bg-layer-inset dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.35),inset_0_0_0_1px_oklch(0_0_0/0.4),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
         ],
         tab: [
-          "group/tabs-tab h-9 justify-center gap-1.5 rounded-md px-3.5 py-2",
+          "group/tabs-tab h-9 gap-1.5 rounded-md px-3.5 py-2",
           "text-[13px] font-medium tracking-[-0.005em] text-foreground-placeholder",
           "transition-[background-color,box-shadow,color] duration-150 ease-out",
           "hover:text-foreground-hover",
@@ -145,12 +224,42 @@ const tabs = tv({
           "dark:bg-fill-muted",
           "group-has-[>[data-slot=tabs-background]]/tabs-list:ring-ink-4",
           "dark:ring-transparent",
-          "transition-[left,width] duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
+          "duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
         ],
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "default",
+      placement: ["top", "bottom"],
+      class: {
+        list: [
+          "items-center overflow-x-auto overflow-y-visible",
+          "data-[sorting=true]:overflow-x-hidden",
+        ],
+        tab: "justify-center",
+        indicator: "transition-[left,width]",
+      },
+    },
+    {
+      theme: "elegant",
+      variant: "default",
+      placement: ["left", "right"],
+      class: {
+        list: [
+          "flex-col items-stretch overflow-y-auto overflow-x-visible",
+          "data-[sorting=true]:overflow-y-hidden",
+        ],
+        tab: "justify-start",
+        indicator: "transition-[top,height]",
       },
     },
   ],
 });
+
+export type TabsPlacement = "top" | "bottom" | "left" | "right";
+
+const TabsPlacementContext = createContext<TabsPlacement>("top");
 
 type TabsReorderContextValue = {
   enabled: boolean;
@@ -166,7 +275,12 @@ const TabsListVariantContext = createContext<TabsListVariant>("default");
 export type TabsProps<T extends string = string> = StyledProps<
   Omit<BaseTabs.Root.Props, "defaultValue" | "onValueChange" | "value">
 > &
-  Omit<VariantProps<typeof tabs>, "theme"> & {
+  Omit<VariantProps<typeof tabs>, "theme" | "placement"> & {
+    /**
+     * Side of the panels the tab list sits on. `left` and `right` also make the
+     * tabs vertical (arrow up / down) unless `orientation` is set.
+     */
+    placement?: TabsPlacement;
     value?: T;
     defaultValue?: T;
     onValueChange?: (value: T, eventDetails: BaseTabs.Root.ChangeEventDetails) => void;
@@ -176,29 +290,38 @@ export function Tabs<T extends string = string>({
   value,
   defaultValue,
   onValueChange,
+  placement = "top",
+  orientation,
   className,
   ...props
 }: TabsProps<T>) {
   const [uncontrolledValue, setUncontrolledValue] = useState<T | undefined>(defaultValue);
   const resolvedValue = value ?? uncontrolledValue;
-  const { root } = tabs();
+  const { root } = tabs({ placement });
 
   return (
-    <TabsValueContext.Provider value={resolvedValue == null ? undefined : String(resolvedValue)}>
-      <BaseTabs.Root
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={(nextValue, eventDetails) => {
-          if (nextValue == null) return;
-          const typedValue = String(nextValue) as T;
-          if (value === undefined) setUncontrolledValue(typedValue);
-          onValueChange?.(typedValue, eventDetails);
-        }}
-        data-slot="tabs"
-        className={root({ className })}
-        {...props}
-      />
-    </TabsValueContext.Provider>
+    <TabsPlacementContext.Provider value={placement}>
+      <TabsValueContext.Provider value={resolvedValue == null ? undefined : String(resolvedValue)}>
+        <BaseTabs.Root
+          orientation={
+            orientation ??
+            (placement === "left" || placement === "right" ? "vertical" : "horizontal")
+          }
+          value={value}
+          defaultValue={defaultValue}
+          onValueChange={(nextValue, eventDetails) => {
+            if (nextValue == null) return;
+            const typedValue = String(nextValue) as T;
+            if (value === undefined) setUncontrolledValue(typedValue);
+            onValueChange?.(typedValue, eventDetails);
+          }}
+          data-slot="tabs"
+          data-placement={placement}
+          className={root({ className })}
+          {...props}
+        />
+      </TabsValueContext.Provider>
+    </TabsPlacementContext.Provider>
   );
 }
 
@@ -208,15 +331,17 @@ export type TabsListProps = StyledProps<BaseTabs.List.Props> & {
 
 export function TabsList({ className, children, variant = "default", ...props }: TabsListProps) {
   const theme = useThemeFamily();
+  const placement = use(TabsPlacementContext);
   const reorder = use(TabsReorderContext);
   const resolvedVariant = theme === "elegant" ? variant : "underline";
-  const { list } = tabs({ theme, variant: resolvedVariant });
+  const { list } = tabs({ theme, variant: resolvedVariant, placement });
 
   return (
     <TabsListVariantContext.Provider value={resolvedVariant}>
       <BaseTabs.List
         data-slot="tabs-list"
         data-variant={resolvedVariant}
+        data-placement={placement}
         className={list({ className })}
         {...props}
       >
@@ -240,6 +365,7 @@ export function SortableTabsList<T extends string = string>({
   ...props
 }: SortableTabsListProps<T>) {
   const [activeId, setActiveId] = useState<string | undefined>(undefined);
+  const placement = use(TabsPlacementContext);
   // Stable id keeps dnd-kit's aria-describedby deterministic across SSR/client
   // (its internal counter-based id otherwise mismatches and breaks hydration).
   const dndContextId = useId();
@@ -280,7 +406,14 @@ export function SortableTabsList<T extends string = string>({
       onDragCancel={handleDragCancel}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={tabIds} strategy={horizontalListSortingStrategy}>
+      <SortableContext
+        items={tabIds}
+        strategy={
+          placement === "left" || placement === "right"
+            ? verticalListSortingStrategy
+            : horizontalListSortingStrategy
+        }
+      >
         <TabsReorderContext.Provider value={reorderContext}>
           <TabsList variant={variant} {...props} data-sorting={activeId ? "true" : undefined}>
             {children}
@@ -307,6 +440,7 @@ export function SortableTabsTab<T extends string = string>({
 }: SortableTabsTabProps<T>) {
   const reorder = use(TabsReorderContext);
   const activeValue = use(TabsValueContext);
+  const placement = use(TabsPlacementContext);
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: value,
     disabled: !reorder.enabled,
@@ -321,7 +455,11 @@ export function SortableTabsTab<T extends string = string>({
   const baseStyle = typeof props.style === "function" ? undefined : props.style;
   const style: CSSProperties = {
     ...baseStyle,
-    transform: transform ? `translate3d(${transform.x}px, 0, 0)` : undefined,
+    transform: transform
+      ? placement === "left" || placement === "right"
+        ? `translate3d(0, ${transform.y}px, 0)`
+        : `translate3d(${transform.x}px, 0, 0)`
+      : undefined,
     transition,
     zIndex: isDragging ? 20 : baseStyle?.zIndex,
     cursor: isDragging ? "grabbing" : "pointer",
@@ -353,7 +491,12 @@ function TabsTabButton<T extends string = string>({
 }) {
   const theme = useThemeFamily();
   const variant = use(TabsListVariantContext);
-  const { content, tab } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
+  const placement = use(TabsPlacementContext);
+  const { content, tab } = tabs({
+    theme,
+    variant: theme === "elegant" ? variant : "underline",
+    placement,
+  });
 
   return (
     <BaseTabs.Tab
@@ -382,7 +525,8 @@ export function TabsLabel({ className, ...props }: TabsLabelProps) {
 export type TabsPanelProps = StyledProps<BaseTabs.Panel.Props>;
 
 export function TabsPanel({ className, ...props }: TabsPanelProps) {
-  const { panel } = tabs();
+  const placement = use(TabsPlacementContext);
+  const { panel } = tabs({ placement });
   return <BaseTabs.Panel data-slot="tabs-panel" className={panel({ className })} {...props} />;
 }
 
@@ -391,7 +535,12 @@ export type TabsBackgroundProps = ComponentPropsWithRef<"span">;
 export function TabsBackground({ className, ...props }: TabsBackgroundProps) {
   const theme = useThemeFamily();
   const variant = use(TabsListVariantContext);
-  const { background } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
+  const placement = use(TabsPlacementContext);
+  const { background } = tabs({
+    theme,
+    variant: theme === "elegant" ? variant : "underline",
+    placement,
+  });
 
   return (
     <span
@@ -408,7 +557,12 @@ export type TabsIndicatorProps = StyledProps<BaseTabs.Indicator.Props>;
 export function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
   const theme = useThemeFamily();
   const variant = use(TabsListVariantContext);
-  const { indicator } = tabs({ theme, variant: theme === "elegant" ? variant : "underline" });
+  const placement = use(TabsPlacementContext);
+  const { indicator } = tabs({
+    theme,
+    variant: theme === "elegant" ? variant : "underline",
+    placement,
+  });
   return (
     <BaseTabs.Indicator
       data-slot="tabs-indicator"

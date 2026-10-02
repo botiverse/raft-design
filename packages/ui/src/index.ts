@@ -1401,6 +1401,7 @@ export type {
   TabsLabelProps,
   TabsListProps,
   TabsPanelProps,
+  TabsPlacement,
   TabsProps,
   TabsTabProps,
 } from "./components/tabs/index";
