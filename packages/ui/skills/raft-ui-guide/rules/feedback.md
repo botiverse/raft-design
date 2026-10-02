@@ -18,7 +18,7 @@ description: "Feedback and status surfaces: Banner vs toast vs NotificationCente
 
 ## Intent names are inconsistent — check every time
 
-The same intent has different spellings across components. This is the most reliable way to get a runtime-silent styling bug, because an unknown variant value simply falls back to the default.
+The same intent has different spellings across components. TypeScript rejects an unknown value; in untyped code it silently applies no variant class at all.
 
 | Component                    | negative                           | informational                    |
 | ---------------------------- | ---------------------------------- | -------------------------------- |
@@ -30,11 +30,9 @@ The same intent has different spellings across components. This is the most reli
 | toast command / object       | `toast.error()` or `type: "error"` | `toast.info()` or `type: "info"` |
 | `NotificationCenterItemIcon` | `status="error"`                   | `status="info"`                  |
 
-Three different words for the same intent: `danger`, `destructive`, `error`. Two for informational: `information`, `info`.
-
 Rule: **never carry a variant value from one component to another.** Confirm it against the component you are actually using.
 
-Note also that `Button` alone has three negative variants — `danger` (solid), `danger-secondary`, and `danger-outline` — matching its `primary` / `default` / `outline` ladder.
+`Button` has three negative variants — `danger` (solid), `danger-secondary`, and `danger-outline`.
 
 ---
 
@@ -53,7 +51,7 @@ All three deliver a message. They differ in lifetime and ownership.
 **Decision rule:** if missing the message would leave the user confused, it must not be a toast.
 
 - Quota exceeded, connection lost, read-only mode, unsaved changes → `Banner`. The condition is still true, so the message must still be visible.
-- Saved, copied, message sent, invite revoked → `toast.info()`, `toast.success()`, `toast.warning()`, or `toast.error()`. The user just did it and already knows the context.
+- Saved, copied, message sent, invite revoked → a toast. The user just did it and already knows the context.
 - Someone mentioned you, a task was assigned, a build finished → `NotificationCenter`. It happened out of band and needs to persist.
 
 **Incorrect** — a persistent condition announced once:
@@ -76,11 +74,11 @@ The user scrolls away, the toast expires, and the disabled composer now has no e
 }
 ```
 
-**`Banner`** — `status` is `default` `destructive` `warning` `info` `success`; `size` is `sm` `md` `lg`. Compose `BannerTitle`, `BannerDescription`, `BannerAction`. Use a `BannerAction` when there is a way out of the condition.
+**`Banner`** — `status` is required: `default` `destructive` `warning` `info` `success`; `size` is `sm` `md` `lg`. Compose `BannerTitle`, `BannerDescription`, `BannerAction`. Use a `BannerAction` when there is a way out of the condition.
 
 **`Toast`** — wrap the application in `ToastProvider`, then fire the default manager with `toast.info()`, `toast.success()`, `toast.warning()`, `toast.error()`, or `toast.add()`. Dismiss with `toast.dismiss()`.
 
-Configure the provider's default viewport with `viewportPlacement` (`bottom-center`, `bottom-right`, `top-center`, or `top-right`) and `viewportStrategy` (`fixed` or `absolute`). For custom anatomy, set `renderViewport={false}`, compose `ToastPortal` and `ToastViewport`, and put `layout="stacked"` or `layout="inline"` on `ToastRoot`. `placement="none"` is available only on `ToastViewport` for anchored/custom positioning.
+Configure the provider's default viewport with `viewportPlacement` (`bottom-center`, `bottom-right`, `top-center`, or `top-right`) and `viewportStrategy` (`fixed` or `absolute`). For custom anatomy, set `renderViewport={false}`, compose `ToastPortal` and `ToastViewport`, and put `layout="stacked"` or `layout="inline"` on `ToastRoot`. Use `placement="none"` on a custom `ToastViewport` for anchored positioning.
 
 Call `useToastManager()` inside a provider when custom anatomy needs the provider's manager. Create a scoped manager with `createToastManager()`, pass it to `ToastProvider`, and add or close scoped toasts through that manager instead of the default `toast` commands.
 
@@ -102,8 +100,6 @@ Prefer `Skeleton` for first paint of a list, card, or panel — it holds the spa
 
 `Spinner` sizes are `xs` `sm` `md` `lg`; `variant` is `default` or `inverse` — use `inverse` on a solid/dark fill.
 
-Do not put a `Spinner` in a `Button` by hand — `Button` has `loading` and `loadingLabel` props.
-
 `Progress` variants are `primary` `information` `accent` `success` `warning` `danger`; sizes `sm` `md` `lg`. Compose `ProgressHeader`, `ProgressLabel`, `ProgressValue`, `ProgressTrack`, `ProgressIndicator`. If you cannot compute a real percentage, use `Spinner` rather than a fake animated bar.
 
 ---
@@ -120,9 +116,9 @@ Both are small. They say different things.
 
 Use `Status` for presence, health, and liveness. Its `pulse` boolean enables the theme's live-activity treatment; `attention` adds extra emphasis in the elegant theme. Do not animate a dot yourself.
 
-Use `Badge` for counts, tags, roles, and environment labels. `appearance` is `solid` `soft` `outline`:
+Use `Badge` for counts, tags, roles, and environment labels. `appearance` is `solid` (the default) `soft` `outline`:
 
-- `soft` — ambient metadata, the common case.
+- `soft` — ambient metadata, the common case; pass it explicitly.
 - `solid` — the badge is the primary signal in its row.
 - `outline` — the surface is already busy or already tinted.
 

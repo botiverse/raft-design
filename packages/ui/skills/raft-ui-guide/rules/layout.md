@@ -38,7 +38,7 @@ resize-handle offset. Put those details on the component rendered inside the slo
 region, use `edge="attached"` on `Panel` (or a panel component that exposes the same prop) when it
 meets the preceding region directly, and `edge="inset"` when it should read as an elevated inner
 surface. The panel then owns its divider, header continuation, radius, and shadow. Set `overlay`
-and render an `AppShellOverlaySlot` only to choose overlay placement; the overlay child still owns
+on `AppShellMainSlot` and render an `AppShellOverlaySlot` only to choose overlay placement; the overlay child still owns
 its surface and edges.
 
 **Incorrect** — reassembling the frame:
@@ -51,7 +51,7 @@ its surface and edges.
 </div>
 ```
 
-That loses the responsive behavior, the sidebar collapse protocol, and the theme-family treatments. `AppShellSidebarTrigger` is the paired control for collapsing the sidebar — wire it rather than tracking your own boolean and toggling a width class.
+That loses the responsive behavior, the sidebar collapse protocol, and the theme-family treatments. `AppShellSidebarTrigger` is the paired control for collapsing the sidebar — wire it rather than tracking your own boolean and toggling a width class. It renders nothing unless `AppShellRoot` sets `sidebarCollapsible` (optionally with `sidebarOpen` / `onSidebarOpenChange`).
 
 ---
 
@@ -117,7 +117,7 @@ When the body scrolls, use `PanelScrollViewport` + `PanelScrollContent` instead 
 
 Reach for `Panel` before writing `rounded-lg border border-line bg-layer-panel`.
 
-Use `ProfilePanel` from `raft-ui` for a profile detail pane built on these parts.
+Use `ProfilePanel` for a profile detail pane built on these parts.
 
 ---
 
@@ -127,7 +127,8 @@ Use `ProfilePanel` from `raft-ui` for a profile detail pane built on these parts
 - A component with a specialized viewport → use that viewport: `PanelScrollViewport`,
   `TasksPanelViewport`, `ActivityInboxViewport`, `SearchShellViewport`, `MessageList`, or
   `SidebarContent`.
-- A bounded custom region with no existing scroll owner → compose `ScrollArea`.
+- A bounded custom region with no existing scroll owner → compose `ScrollArea`: `ScrollAreaViewport` +
+  `ScrollAreaContent` + `ScrollAreaScrollbar` + `ScrollAreaThumb`, and `ScrollAreaCorner` when both axes scroll.
 
 Use `ScrollArea` when the region itself owns scrolling and needs the library's scrollbar treatment.
 Do not replace a specialized viewport just to get a custom scrollbar; the higher-level component
@@ -139,8 +140,6 @@ Keep one scroll owner per axis. Do not put `ScrollArea` inside `PanelScrollViewp
 ---
 
 ## Per-component norms
-
-**`Tabs`** — see [forms.md](./forms.md) for `Tabs` vs `SegmentedControl`. Variants are `default` and `underline`. Use `TabsIndicator` and `TabsBackground` for the moving marker.
 
 **`Separator`** — for dividing content within a region. Structural borders between shell regions come from the shell components themselves; do not add separators between slots.
 
@@ -160,4 +159,4 @@ do not carry that wrapper into `TasksPanelViewport`.
 
 Drag and drop is `TaskDndProvider` + `TaskDraggable` + `TaskDropZone` + `TaskDropPlaceholder` + `TaskDragOverlay`. Do not wire `@dnd-kit` directly.
 
-`TaskCardLegacy` and the `LegacyTaskPanel*` family exist for old callsites — never use them in new code.
+`LegacyTaskPanel*` is the panel for legacy tasks (`task.isLegacy`), which have no message thread: when `task.isLegacy`, show it in the right-hand slot a `ThreadPanel` would use, instead of the thread. `TaskCardLegacy` is the card's LEGACY label.

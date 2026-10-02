@@ -1,6 +1,6 @@
 ---
 name: display
-description: "Typography and display: the Text family, InlineCode vs CopyableCode vs CodeBlock, Markdown parts, DescriptionList, Avatar, FilePreview vs Files, Kbd, icons."
+description: "Typography and display: the Text family, InlineCode vs CopyableCode vs CodeBlock, Markdown parts, DescriptionList, Avatar, FilePreview vs file-list parts, Kbd, icons."
 ---
 
 # Text and display
@@ -15,7 +15,6 @@ description: "Typography and display: the Text family, InlineCode vs CopyableCod
 - FilePreview vs file-list parts
 - Kbd
 - Icons
-- Per-component norms
 
 ---
 
@@ -45,7 +44,7 @@ Use the `Text` namespace when standalone copy needs raft-ui typography. Keep nat
 | `Text.Heading` | section and page headings; `level` is `1` through `6` |
 | `Text.Mono`    | code-like values, metadata, and tabular numbers       |
 
-Prefer the namespace used by the canonical compositions. The equivalent named exports `TextSans`, `TextHeading`, and `TextMono` also exist.
+Prefer the namespace used by the canonical compositions.
 
 **`Text.Sans` sizes** — `large` `body` `small` `caption`.
 
@@ -88,7 +87,7 @@ Compose a titled block with `CodeBlockHeader`, `CodeBlockTitle`, `CodeBlockActio
 
 ## Markdown and DescriptionList
 
-Rendered markdown is styled by the `Markdown*` part set. Map paragraphs, headings, lists, links, blockquotes, code, tables, images, task checkboxes, rules, and marks to the matching exported parts. Wrap wide tables in `MarkdownTableScroll`, and compose `MarkdownTable`, `MarkdownTableRow`, `MarkdownHeaderCell`, and `MarkdownCell`.
+Rendered markdown is styled by the `Markdown*` part set. Map paragraphs, headings, lists, links, blockquotes, inline code (`MarkdownInlineCode`; fenced code is `CodeBlock`), tables, images, task checkboxes, rules, and marks to the matching exported parts. Wrap wide tables in `MarkdownTableScroll`, and compose `MarkdownTable`, `MarkdownTableRow`, `MarkdownHeaderCell`, and `MarkdownCell`.
 
 `DescriptionList` renders term/value pairs. Wrap `DescriptionTerm` and `DescriptionDetails` in `DescriptionItem`, and set `direction="horizontal"` or `direction="vertical"`.
 
@@ -103,7 +102,7 @@ Rendered markdown is styled by the `Markdown*` part set. Map paragraphs, heading
 </Avatar>
 ```
 
-- Pass the required `type` and `size` props. **`type` is `agent` or `human`** and changes the treatment.
+- Pass the required `type` and `size` props. **`type` is `agent` or `human`**; Brutal uses it for the placeholder fill, Elegant renders both the same.
 - Sizes are `3xs` `2xs` `xs` `sm` `md` `lg` `xl`.
 - Include `AvatarFallback` whenever you include `AvatarImage`. When `Avatar` has no children, it renders its built-in fallback automatically.
 - Use `AvatarGroup` and `AvatarGroupCount` for stacks. Pass the required avatar `size` to `AvatarGroupCount`.
@@ -141,13 +140,11 @@ Use `FilePreview` for attachments inside a composer or message; compose the file
 
 Render one key per `Kbd`. Use `KbdGroup` to apply spacing to a key combination. Add any visible separator as explicit content when the shortcut notation requires one.
 
-Inside menus, use `DropdownMenuShortcut` / `ContextMenuShortcut` instead of `Kbd`; they handle the right alignment within the row.
-
 ---
 
 ## Icons
 
-Raft-ui's internal recipes and canonical compositions are tuned to Lucide SVGs, but raft-ui does not re-export icons. When application code imports Lucide icons, declare `lucide-react` as a direct application dependency rather than relying on raft-ui's transitive dependency. A consumer may provide another SVG icon set when it preserves the component's expected sizing and stroke treatment.
+Raft-ui's internal recipes and canonical compositions are tuned to Lucide SVGs, but raft-ui does not re-export Lucide; it exports only the conversation icons `MessageIcon`, `ChatIcon`, `DirectMessageIcon`, and `ThreadIcon`. When application code imports Lucide icons, declare `lucide-react` as a direct application dependency rather than relying on raft-ui's transitive dependency. A consumer may provide another SVG icon set when it preserves the component's expected sizing and stroke treatment.
 
 Let raft-ui components own their icons' default treatment. Buttons, menu items, sidebar items, toasts, and tabs apply recipe-specific sizing and sometimes theme-specific stroke widths. Override those values only when the component's API or a deliberate one-off treatment requires it.
 
@@ -168,13 +165,3 @@ Let raft-ui components own their icons' default treatment. Buttons, menu items, 
 ```
 
 In your own markup — outside any icon-owning component — size icons explicitly (`className="size-4"`).
-
----
-
-## Per-component norms
-
-**`Separator`** — use it when a divider needs raft-ui's themed visual contract or orientation behavior. Native `<hr>` remains valid when its semantics and inherited styling are intentional; avoid imitating `Separator` with an ad hoc border div.
-
-**`ScrollArea`** — use when you need styled scrollbars or a scroll region inside a panel. Compose `ScrollAreaViewport` + `ScrollAreaContent` + `ScrollAreaScrollbar` + `ScrollAreaThumb`, and `ScrollAreaCorner` when both axes scroll. Plain `overflow-auto` is fine for full-page scroll; `ScrollArea` is for bounded regions.
-
-**`Badge`** and **`Status`** — see [feedback.md](./feedback.md).

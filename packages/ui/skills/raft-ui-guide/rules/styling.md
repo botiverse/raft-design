@@ -13,8 +13,9 @@ Use theme variables directly in plain CSS. The utility and recipe examples below
 - Semantic token families
 - Interaction colors come in pairs
 - When a raw oklch literal is allowed
+- A theme is a set, not a menu
 - Never write a var-first shadow
-- Writing a `tv()` recipe
+- Writing your own `tv()` recipe
 - Styling by `data-slot`
 - Merging classes
 
@@ -58,7 +59,7 @@ The `ink` ramp step is the alpha percentage — `ink-8` is 8% ink. Use it for ha
 
 Within the state families, `primary` and `accent` split roles rather than rank:
 
-- **`primary-*` (Source Yellow) — hints and interactive expression.** New-message indicators, attention badges, the active tab, focus rings. This is how the recipes already use it — the tabs active state, the rail's attention badge, and focus rings all draw from the primary family.
+- **`primary-*` (Source Yellow) — hints and interactive expression.** New-message indicators, attention badges, the active tab, focus rings. The tabs active state and focus rings draw from the primary family.
 - **`accent-*` — core and important actions.** A dialog's confirm, the composer's send. `ComposerSubmit` locks `variant="accent"` at the type level.
 
 Do not use yellow for an action button just because it is the brand color, and do not use accent for a passive indicator.
@@ -101,6 +102,8 @@ Taking one family's shadow and another's corners produces a result where every
 individual value is a valid token and the surface still looks wrong. Decide the
 family at the surface, not per element.
 
+---
+
 ## Never write a var-first shadow
 
 ```tsx
@@ -117,30 +120,7 @@ Use a registered named shadow utility such as `shadow-raft-sm`, or keep the shad
 
 ---
 
-## Writing a `tv()` recipe
-
-Long class strings become arrays, one responsibility per entry. Keep a property together with its own state and responsive variants; split unrelated responsibilities apart. No comments — the grouping carries the intent. Group by:
-
-- **layout** — display, grid/flex, gap, min/max size, overflow
-- **typography** — font, size, line-height, weight, wrapping
-- **surface** — background, border, radius, shadow, ring
-- **state** — hover, active, focus-visible, disabled, selected, invalid
-- **child/slot selectors** — icon sizing, `has-*`, `data-*` relationships
-
-```ts
-const button = tv({
-  base: [
-    "inline-flex items-center justify-center",
-    "rounded-md text-sm font-medium",
-    "transition-colors disabled:opacity-50",
-  ],
-  variants: {
-    variant: {
-      primary: ["bg-primary hover:bg-primary-hover active:bg-primary-active", "text-primary-950"],
-    },
-  },
-});
-```
+## Writing your own `tv()` recipe
 
 Add a `theme: { brutal, elegant }` variant when the two families genuinely differ, and resolve it from `useThemeFamily()` inside the component — never from a public prop.
 
@@ -166,7 +146,7 @@ When your styling depends on a part's presence or identity, target `data-slot`, 
 <div className="grid has-[[data-slot=banner-action]]:grid-cols-[1fr_auto]">
 ```
 
-Class names are recipe internals and change between releases; `data-slot` values are the stable contract. This is also how the library's own style tests select elements.
+Class names are recipe internals and change between releases; `data-slot` values are the stable contract.
 
 ---
 

@@ -5,17 +5,16 @@ description: "Build with rUI: native CSS foundations for plain HTML and React co
 
 # raft-ui
 
-rUI is a UI system with expressive visuals and playful interactions, shaped by Raft and made for products beyond it. The package is `raft-ui`. Plain HTML can use `foundation.css` directly; the component guidance below applies to React. The React components are built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards, activity inboxes, and search.
+The package is `raft-ui`. Plain HTML can use `foundation.css` directly; the component guidance below applies to React. The React components are built on **Base UI** (`@base-ui/react`), **Tailwind CSS v4**, and **tailwind-variants**. Chat/workspace product domain: rails, sidebars, conversation panels, composers, task boards, activity inboxes, and search.
 
-The focused guides are also published at https://rui.botiverse.build/guides/overview. This skill is an optional navigation entry, not a prerequisite. Read [Overview](./rules/overview.md) for the positioning, capabilities, and scenario-based reading paths; then read only the guides needed for the task. Do not register or install skills in a consumer project unless requested.
+The rule files are also published at https://rui.botiverse.build/guides/overview. Do not register or install skills in a consumer project unless requested.
 
 ## Working sequence
 
-1. For technical foundations and integration contracts, read [rules/technical-overview.md](./rules/technical-overview.md).
-2. Read only the domain rule needed for the current surface; do not load every rule file by default.
-3. Verify unrecognized props, parts, variants, and tokens with [rules/lookup.md](./rules/lookup.md).
-4. Implement the smallest composition that preserves native semantics and uses raft-ui where its behavior or visual contract is needed.
-5. Apply the review checklist after implementation, not as a reason to add wrappers before they are needed.
+1. Read only the rule files the current surface needs (table below); do not load every rule file by default.
+2. Verify unrecognized props, parts, variants, and tokens with [rules/lookup.md](./rules/lookup.md).
+3. Implement the smallest composition that preserves native semantics and uses raft-ui where its behavior or visual contract is needed.
+4. Apply the review checklist after implementation, not as a reason to add wrappers before they are needed.
 
 When this skill is loaded through TanStack Intent, run `intent load raft-ui#raft-ui-guide --path` before opening a linked rule file, then resolve the link relative to the returned `SKILL.md` directory.
 
@@ -23,18 +22,18 @@ When this skill is loaded through TanStack Intent, run `intent load raft-ui#raft
 
 raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 
-| Your instinct                                                    | Reality in raft-ui                                                                                                                                               |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `<Button variant="destructive">`                                 | `variant="danger"`. Full set: `primary` `default` `information` `muted` `accent` `warning` `outline` `ghost` `link` `danger` `danger-secondary` `danger-outline` |
-| `<Button size="icon">`                                           | `size="icon-xs\|icon-sm\|icon-md\|icon-lg"`. Text sizes are `xs` `sm` `md` `lg`                                                                                  |
-| Pass `theme="brutal"` to style a component                       | **`theme` is not a public prop.** It is stripped from every component's props and resolved from `ThemeProvider` via `useThemeFamily()`                           |
-| `className="text-gray-500 bg-slate-50"`                          | Tailwind's default palette is banned. Use oklch semantic tokens: `text-foreground-muted`, `bg-fill-muted`                                                        |
-| Flat props: `<Dialog title="x" description="y">`                 | Compound parts: `<Dialog><DialogContent><DialogHeader><DialogTitle>…` — `DialogContent` portals itself                                                           |
-| Radix API (`asChild`, `Portal.Root`)                             | Base UI API. Use the `render` prop, not `asChild`                                                                                                                |
-| Add a `kind`/`state`/`emphasis` prop for a structural difference | Use the dedicated part or component instead                                                                                                                      |
-| `<Button loading>` doesn't exist, roll a spinner                 | `loading` and `loadingLabel` are real props on `Button`                                                                                                          |
+| Your instinct                                                    | Reality in raft-ui                                                                                                                                                         |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<Button variant="destructive">`                                 | `variant="danger"`. Full set: `primary` `default` `information` `muted` `accent` `warning` `success` `outline` `ghost` `link` `danger` `danger-secondary` `danger-outline` |
+| `<Button size="icon">`                                           | `size="icon-xs\|icon-sm\|icon-md\|icon-lg"`. Text sizes are `xs` `sm` `md` `lg` `inline`                                                                                   |
+| Pass `theme="brutal"` to style a component                       | **`theme` is not a component prop.** It is omitted from every component's prop types and resolved from `ThemeProvider` via `useThemeFamily()`                              |
+| `className="text-gray-500 bg-slate-50"`                          | Tailwind's default palette is banned. Use oklch semantic tokens: `text-foreground-muted`, `bg-fill-muted`                                                                  |
+| Flat props: `<Dialog title="x" description="y">`                 | Compound parts: `<Dialog><DialogContent><DialogHeader><DialogTitle>…` — `DialogContent` portals itself                                                                     |
+| Radix API (`asChild`)                                            | Base UI API. Use the `render` prop, not `asChild`                                                                                                                          |
+| Add a `kind`/`state`/`emphasis` prop for a structural difference | Use the dedicated part or component instead                                                                                                                                |
+| `<Button loading>` doesn't exist, roll a spinner                 | `loading` and `loadingLabel` are real props on `Button`                                                                                                                    |
 
-**Never guess a prop or variant name.** The tables below are orientation, not an exhaustive API reference. Verify exact names against the installed version in `node_modules/raft-ui/dist/index.d.mts` — see [rules/lookup.md](./rules/lookup.md). Guessed props are the most common failure mode with this library, and they fail silently.
+**Never guess a prop or variant name.** The tables below are orientation, not an API reference — see [rules/lookup.md](./rules/lookup.md).
 
 ## Principles
 
@@ -42,7 +41,7 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 - Prefer semantic tokens over raw color. Use inline `oklch()` only for a one-off precision value, then tokenize repeated values.
 - Base UI owns headless behavior (open state, focus, keyboard, collections). Product state (upload lifecycle, permissions, workflow) belongs in your app, not in a component prop.
 - Two theme families, `brutal` and `elegant`, are switched globally by `ThemeProvider`. Components adapt themselves.
-- Yellow and pink split roles. `primary` (Source Yellow) carries **hints and interactive expression** — new-message indicators, attention badges, the active tab, focus rings. `accent` carries **core and important actions** — a dialog's confirm, the composer's send. Never use yellow as decoration or background wash, and keep ghost/secondary variants semantically quiet.
+- Yellow and pink split roles: `primary` (Source Yellow) is for hints and interactive expression (indicators, the active tab, focus rings); `accent` is for core actions (a dialog's confirm, the composer's send). Never use yellow as decoration or background wash — see [rules/styling.md](./rules/styling.md).
 
 ## Common mistakes
 
@@ -53,10 +52,8 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 | Persistent condition announced with `toast.info()` | `Banner` — toasts expire, conditions don't                                                                  |
 | Buttons or links inside a `Tooltip`                | `Popover` — tooltip content is unreachable                                                                  |
 | Destructive confirm as a styled `Dialog`           | `AlertDialog` with `AlertDialogAction` / `AlertDialogCancel`                                                |
-| Variant value copied from another component        | Look it up — negative is `danger` / `destructive` / `error` depending on the component                      |
 | Validation copy disconnected from its control      | `Field` + `FieldError`                                                                                      |
 | `PanelHeader` where you meant the bare frame       | `PanelHeaderRoot` — `PanelHeader` is the composed identity chrome, see [rules/layout.md](./rules/layout.md) |
-| Spinner hand-placed inside a `Button`              | `loading` / `loadingLabel` props                                                                            |
 | Re-created raft-ui divider, badge, or type styling | `Separator`, `Badge`, or `Text`; keep native semantics when intentional                                     |
 
 ## Which control? Which feedback channel?
@@ -96,9 +93,6 @@ Intent names are **not** consistent across components — negative is `danger` o
 | Plain hover hint                                 | `Tooltip`                                                                  |
 | Right-click menu                                 | `ContextMenu`                                                              |
 | Button-triggered menu                            | `DropdownMenu`                                                             |
-| Single choice, few options                       | `RadioGroup` or `SegmentedControl`                                         |
-| Single choice, many options                      | `Select`                                                                   |
-| Searchable / multi choice                        | `Combobox`                                                                 |
 | Workspace search and grouped results             | `SearchShellRoot` + the applicable `Search*Result` parts                   |
 | Activity or saved-item inbox                     | `ActivityInboxPanel` + `InboxItem`                                         |
 | Label, help, or validation around a form control | `Field` + the applicable field parts                                       |
@@ -111,8 +105,6 @@ Intent names are **not** consistent across components — negative is `danger` o
 | Nothing-here state                               | `EmptyState`                                                               |
 | Keyboard shortcut                                | `Kbd` / `KbdGroup`                                                         |
 | raft-ui typography treatment                     | `Text.Sans` / `Text.Heading` / `Text.Mono`                                 |
-
-Each domain file below opens with its own scenario table for the components it covers.
 
 ## Read these when relevant
 
@@ -133,10 +125,10 @@ Each domain file below opens with its own scenario table for the components it c
 
 When reviewing or editing code that uses raft-ui, check:
 
-- [ ] No `theme` prop passed to any component — family comes from `ThemeProvider`
+- [ ] No `theme` prop on components (only `ThemeProvider` takes one)
 - [ ] No variant value carried across components — verify against the declarations
 - [ ] Controls with raft-ui label, description, or validation treatment use `Field`; simpler native associations remain explicit and accessible
-- [ ] No Tailwind default palette (`gray-*`, `slate-*`, …), hex, `rgb()`, or `hsl()` — semantic oklch tokens only
+- [ ] No Tailwind default palette (`gray-*`, `slate-*`, …), hex, `rgb()`, or `hsl()` — semantic tokens, raw `oklch()` only for one-offs
 - [ ] No `asChild` — element substitution uses `render`
 - [ ] Do not recreate a raft-ui component's visual or behavioral contract with ad hoc markup; native semantic elements remain valid when no library contract is needed
 - [ ] Every `Avatar` with an `AvatarImage` also has an `AvatarFallback`; every blocking overlay has a `Title`
@@ -146,9 +138,4 @@ When reviewing or editing code that uses raft-ui, check:
 
 ## Stability
 
-`raft-ui` is the stable surface. `raft-ui/wip` contains experimental exports.
-
-```tsx
-import { Button, Dialog, Field } from "raft-ui";
-import { cn } from "raft-ui/cn";
-```
+`raft-ui` is the stable surface; `raft-ui/wip` is experimental. Import `cn` from `raft-ui/cn`.
