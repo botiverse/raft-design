@@ -44,7 +44,7 @@ export const threadPanel = tv({
         header: [
           "relative isolate h-auto min-h-(--shell-header-height,56px) max-lg:z-10 [@media(max-height:600px)]:h-auto",
           "bg-layer-canvas-muted",
-          "max-lg:gap-2 max-lg:pl-5 max-lg:pr-3.5 max-md:h-[var(--shell-header-height,56px)]",
+          "max-lg:gap-2 max-md:pl-5 max-md:pr-3.5 md:pl-9 max-lg:pr-3.5 max-md:h-[var(--shell-header-height,56px)]",
           "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
           "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-canvas-muted),transparent)] max-lg:before:backdrop-blur-sm",
           "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
@@ -54,7 +54,7 @@ export const threadPanel = tv({
           "relative overflow-clip",
           "bg-layer-panel",
           "dark:bg-transparent",
-          "**:data-message-item:px-[18px] [&_[data-message-item]]:max-lg:px-3",
+          "[&_[data-message-item]]:max-lg:px-3",
         ],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",

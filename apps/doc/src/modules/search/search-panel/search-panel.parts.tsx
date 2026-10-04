@@ -141,7 +141,7 @@ export function SearchHeader({
   );
 
   return (
-    <PanelHeader className="gap-3 [@media(max-height:600px)]:h-[62px]!">
+    <PanelHeader className="gap-3 md:pl-5 [@media(max-height:600px)]:h-[62px]!">
       <Button
         type="button"
         variant="outline"

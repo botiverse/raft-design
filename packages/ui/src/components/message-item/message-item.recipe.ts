@@ -79,7 +79,7 @@ export const messageItem = tv({
         ],
         gutter: "max-md:w-8",
         avatarSlot: [
-          "[&_[data-slot=avatar][data-size=md]]:ml-0.5 [&_[data-slot=avatar][data-size=md]]:size-8 [&_[data-slot=avatar][data-size=md]]:border-0",
+          "[&_[data-slot=avatar][data-size=md]]:size-9 [&_[data-slot=avatar][data-size=md]]:border-0",
           "[&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-right-px [&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-bottom-px",
           "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
         ],
@@ -104,7 +104,7 @@ export const messageItem = tv({
           "group-data-[compact=true]/message:mt-0 group-data-[compact=true]/message:mb-0",
         ],
         toolbar: [
-          "top-1 right-[26px]",
+          "top-1 right-[29px]",
           "gap-0.5 rounded-lg px-1 py-0.5",
           "border-[0.5px] border-line-muted bg-layer-panel shadow-raft-xs",
           "dark:border-transparent",
