@@ -155,6 +155,7 @@ const COMPONENT_NAV = [
     items: [
       { label: "Badge", to: "/components/badge", status: "done" },
       { label: "Status", to: "/components/status", status: "done" },
+      { label: "Timeline", to: "/components/timeline", status: "done" },
     ],
   },
   {
