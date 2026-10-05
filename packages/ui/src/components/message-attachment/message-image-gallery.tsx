@@ -1,7 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageImageGallery } from "./message-image-gallery.recipe";
+import type {
+  MessageImageGalleryItemLayout,
+  MessageImageGalleryRowData,
+} from "./message-image-gallery-rows";
 
 export type MessageImageGalleryProps = useRender.ComponentProps<"div">;
 
@@ -22,17 +27,70 @@ export function MessageImageGallery({ className, render, ...props }: MessageImag
   });
 }
 
-export type MessageImageGalleryItemProps = useRender.ComponentProps<"div">;
+export type MessageImageGalleryRowProps = useRender.ComponentProps<"div"> & {
+  /** A row from `buildMessageImageGalleryRows`. */
+  row: MessageImageGalleryRowData;
+};
+
+/**
+ * One row of a gallery: the grid and its height come from the row data, so
+ * consumers place the items (`MessageImageGalleryItem` with the row's item
+ * layouts) without touching layout classes.
+ */
+export function MessageImageGalleryRow({
+  className,
+  render,
+  row,
+  ...props
+}: MessageImageGalleryRowProps) {
+  const theme = useThemeFamily();
+  const { row: rowSlot } = messageImageGallery({ theme });
+  const single = row.items.length === 1 && row.items[0].reserved != null;
+  const defaultProps: SlotElementProps<"div"> = {
+    className: rowSlot({
+      className,
+      count: row.items.length as 1 | 2 | 3,
+      single,
+    }),
+    "data-count": String(row.items.length),
+  };
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(defaultProps, props),
+    state: {
+      slot: "message-image-gallery-row",
+    },
+  });
+}
+
+export type MessageImageGalleryItemProps = useRender.ComponentProps<"div"> & {
+  /**
+   * The item's layout from `buildMessageImageGalleryRows`: sets the cell
+   * sizing and how the media fills it, so consumers never restate classes.
+   */
+  layout?: MessageImageGalleryItemLayout;
+};
 
 export function MessageImageGalleryItem({
   className,
   render,
+  layout,
   ...props
 }: MessageImageGalleryItemProps) {
   const theme = useThemeFamily();
   const { item } = messageImageGallery({ theme });
-  const defaultProps: useRender.ElementProps<"div"> = {
-    className: item({ className }),
+  const defaultProps: SlotElementProps<"div"> = {
+    className: item({
+      className,
+      laidOut: layout ? true : undefined,
+      single: layout?.reserved ? true : undefined,
+      fit: layout?.fit,
+    }),
+    ...(layout?.reserved ? { style: layout.reserved } : null),
+    "data-fit": layout?.fit,
+    "data-single": layout?.reserved ? "true" : undefined,
   };
 
   return useRender({

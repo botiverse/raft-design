@@ -1069,6 +1069,7 @@ export {
   MessageImageGalleryMedia,
   MessageImageGalleryOverlay,
   MessageImageGalleryPreview,
+  MessageImageGalleryRow,
   MessageVideoPreview,
   MessageVideoPreviewAction,
   MessageVideoPreviewFallback,
@@ -1078,6 +1079,19 @@ export {
   MessageVideoPreviewFailureTitle,
   MessageVideoPreviewMedia,
 } from "./components/message-attachment/index";
+export {
+  SINGLE_IMAGE_MAX_HEIGHT,
+  SINGLE_IMAGE_MAX_WIDTH,
+  buildMessageImageGalleryRows,
+  classifyMessageImageAspect,
+} from "./components/message-attachment/index";
+export type {
+  MessageImageGalleryAspectKind,
+  MessageImageGalleryFit,
+  MessageImageGalleryImage,
+  MessageImageGalleryItemLayout,
+  MessageImageGalleryRowData,
+} from "./components/message-attachment/index";
 export type {
   MessageImageGalleryItemProps,
   MessageImageGalleryActionProps,
@@ -1085,6 +1099,7 @@ export type {
   MessageImageGalleryOverlayProps,
   MessageImageGalleryPreviewProps,
   MessageImageGalleryProps,
+  MessageImageGalleryRowProps,
   MessageVideoPreviewActionProps,
   MessageVideoPreviewFallbackProps,
   MessageVideoPreviewFailureActionProps,

@@ -55,6 +55,8 @@ import {
 } from "#/modules/message-attachment/message-attachment.snippets.ts";
 import { MessageImageGalleryGeometryComposition } from "#/modules/message-media/compositions/image-gallery-geometry.composition.tsx";
 import imageGalleryGeometrySource from "#/modules/message-media/compositions/image-gallery-geometry.composition.tsx?raw";
+import { MessageImageGalleryRowsComposition } from "#/modules/message-media/compositions/image-gallery-rows.composition.tsx";
+import imageGalleryRowsSource from "#/modules/message-media/compositions/image-gallery-rows.composition.tsx?raw";
 import { MessageImageGalleryPairComposition } from "#/modules/message-media/compositions/image-gallery-pair.composition.tsx";
 import imageGalleryPairSource from "#/modules/message-media/compositions/image-gallery-pair.composition.tsx?raw";
 import imageGalleryPendingSource from "#/modules/message-media/compositions/image-gallery-pending.composition.tsx?raw";
@@ -110,6 +112,7 @@ export const Route = createFileRoute("/components/message-attachment")({
         documentSummaries: documentSummariesSource,
         fileAttachments: fileAttachmentsSource,
         imageGalleryGeometry: imageGalleryGeometrySource,
+        imageGalleryRows: imageGalleryRowsSource,
         imageGalleryPair: imageGalleryPairSource,
         imageGalleryPending: imageGalleryPendingSource,
         imageGallerySingle: imageGallerySingleSource,
@@ -306,6 +309,26 @@ function MessageAttachmentDoc() {
                   collapsedCode={code.imageGalleryGeometryBody}
                 >
                   <MessageImageGalleryGeometryComposition />
+                </UsagePreview>
+              </DocSubsection>
+
+              <DocSubsection
+                parentId="media-layouts"
+                id="image-rows"
+                title="Rows from attachment geometry"
+              >
+                <p className="mb-3 text-sm text-foreground-muted">
+                  <InlineCode>buildMessageImageGalleryRows</InlineCode> turns each attachment's
+                  width/height into rows: wide images take a row of their own, the others fill rows
+                  of three (a lone four splits two-and-two), and every cell carries whether it crops
+                  or stays fully visible. The row and cell components turn that data into styles, so
+                  consumer code carries no layout classes.
+                </p>
+                <UsagePreview
+                  code={code.imageGalleryRows}
+                  collapsedCode={code.imageGalleryRowsBody}
+                >
+                  <MessageImageGalleryRowsComposition />
                 </UsagePreview>
               </DocSubsection>
             </div>
