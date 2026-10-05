@@ -1207,6 +1207,7 @@ export type {
 export {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableColgroup,
   TableColumn,
@@ -1216,6 +1217,7 @@ export {
 } from "./components/table/index";
 export type {
   TableBodyProps,
+  TableCaptionProps,
   TableCellProps,
   TableColgroupProps,
   TableColumnProps,

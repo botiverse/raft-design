@@ -12,6 +12,7 @@ type TableHeadProps = StyledProps<useRender.ComponentProps<"th">>;
 type TableCellProps = StyledProps<useRender.ComponentProps<"td">>;
 type TableColgroupProps = StyledProps<useRender.ComponentProps<"colgroup">>;
 type TableColumnProps = StyledProps<useRender.ComponentProps<"col">>;
+type TableCaptionProps = StyledProps<useRender.ComponentProps<"caption">>;
 
 /**
  * Native `<table>` semantics with the kit's chrome: render real
@@ -86,6 +87,21 @@ export function TableCell({ className, render, ...props }: TableCellProps) {
   });
 }
 
+/**
+ * The table's accessible name. Render it visually or hide it with `sr-only`;
+ * a table without a caption should carry `aria-label` instead.
+ */
+export function TableCaption({ className, render, ...props }: TableCaptionProps) {
+  const theme = useThemeFamily();
+  const { caption } = table({ theme });
+  return useRender({
+    defaultTagName: "caption",
+    render,
+    props: mergeProps<"caption">({ className: caption({ className }) }, props),
+    state: { slot: "table-caption" },
+  });
+}
+
 /** Column-width declarations: pair with `<Table className="table-fixed">`. */
 export function TableColgroup({ className, render, ...props }: TableColgroupProps) {
   const theme = useThemeFamily();
@@ -111,6 +127,7 @@ export function TableColumn({ className, render, ...props }: TableColumnProps) {
 
 export type {
   TableBodyProps,
+  TableCaptionProps,
   TableCellProps,
   TableColgroupProps,
   TableColumnProps,

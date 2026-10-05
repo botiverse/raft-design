@@ -1,6 +1,7 @@
 export {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableColgroup,
   TableColumn,
@@ -10,6 +11,7 @@ export {
 } from "./table";
 export type {
   TableBodyProps,
+  TableCaptionProps,
   TableCellProps,
   TableColgroupProps,
   TableColumnProps,

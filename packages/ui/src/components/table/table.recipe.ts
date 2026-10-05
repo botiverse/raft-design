@@ -13,12 +13,20 @@ export const table = tv({
     header: [],
     body: [],
     // In the collapsed border model `tr` borders are not painted: separators
-    // live on the cells, and the last row drops its cell borders here.
-    row: ["last:[&>td]:border-b-0"],
+    // live on the cells, and the last row drops its cell borders here (both
+    // `td` and `th` — a `th` in the last body row must not keep a half line).
+    // Row headers are not styled in v1: `TableHead` is the column header and
+    // belongs in `TableHeader`; a `TableHead scope="row"` in the body would
+    // inherit the header chrome, which v1 does not support.
+    row: ["last:[&>td]:border-b-0 last:[&>th]:border-b-0"],
     head: ["text-left whitespace-nowrap"],
-    cell: ["align-top wrap-break-word"],
+    // `wrap-anywhere` (not `wrap-break-word`): break-word does not reduce the
+    // min-content width of an auto-layout column, so token-like names with no
+    // spaces would push the table past its container (verified at 390px).
+    cell: ["align-top wrap-anywhere"],
     colgroup: [],
     column: [],
+    caption: ["text-foreground-muted"],
   },
   variants: {
     theme: {

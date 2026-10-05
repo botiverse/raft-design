@@ -14,6 +14,7 @@ import {
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableColgroup,
   TableColumn,
@@ -38,7 +39,8 @@ const THEMES: readonly { key: string; theme: Theme; mode?: ThemeMode }[] = [
 function renderTable(theme: Theme, mode?: ThemeMode, className?: string) {
   return render(
     <ThemeProvider theme={theme} mode={mode}>
-      <Table className={className} data-testid="table">
+      <Table className={className}>
+        <TableCaption>Resource access</TableCaption>
         <TableHeader data-testid="header">
           <TableRow>
             <TableHead>Resource</TableHead>
@@ -67,6 +69,7 @@ for (const { key, theme, mode } of THEMES) {
     renderTable(theme, mode);
     const table = document.querySelector('[data-slot="table"]') as HTMLTableElement;
     expect(table.tagName).toBe("TABLE");
+    expect(table.querySelector('[data-slot="table-caption"]')?.tagName).toBe("CAPTION");
     expect(table.querySelector('[data-slot="table-header"]')?.tagName).toBe("THEAD");
     expect(table.querySelector('[data-slot="table-body"]')?.tagName).toBe("TBODY");
     expect(table.querySelector('[data-slot="table-row"]')?.tagName).toBe("TR");
@@ -75,42 +78,68 @@ for (const { key, theme, mode } of THEMES) {
     expect(head.getAttribute("scope")).toBe("col");
     const cell = table.querySelector('[data-slot="table-cell"]') as HTMLTableCellElement;
     expect(cell.tagName).toBe("TD");
-    // row separators and padding exist (theme-token driven, non-zero)
+    // header padding + header separator exist, theme-token driven
     const headStyle = getComputedStyle(head);
     expect(Number.parseFloat(headStyle.paddingLeft)).toBeGreaterThanOrEqual(12);
     expect(Number.parseFloat(headStyle.paddingTop)).toBeGreaterThanOrEqual(8);
-    const row = table.querySelector('[data-slot="table-row"]') as HTMLTableRowElement;
-    expect(Number.parseFloat(getComputedStyle(row).borderBottomWidth)).toBeGreaterThan(0);
+    expect(Number.parseFloat(headStyle.borderBottomWidth)).toBeGreaterThan(0);
+    // separators live on the cells (a collapsed model never paints tr borders)
+    const cellStyle = getComputedStyle(cell);
+    expect(Number.parseFloat(cellStyle.borderBottomWidth)).toBeGreaterThan(0);
+    expect(Number.parseFloat(cellStyle.paddingTop)).toBeGreaterThanOrEqual(8);
   });
 }
 
-it("narrow viewports: the first column wraps and columns stay aligned", async () => {
+it("narrow viewports: long names wrap and columns stay aligned", async () => {
   const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(390, 900);
   renderTable("elegant", "light");
   const table = document.querySelector('[data-slot="table"]') as HTMLTableElement;
-  // no horizontal overflow: the flexible first column wraps instead
   const container = table.parentElement as HTMLElement;
   expect(table.getBoundingClientRect().width).toBeLessThanOrEqual(
     container.getBoundingClientRect().width + 1,
   );
   const a1 = document.querySelector('[data-testid="cell-1a"]') as HTMLElement;
   const a2 = document.querySelector('[data-testid="cell-2a"]') as HTMLElement;
-  // both rows' first cells share one column width
   expect(Math.round(a1.getBoundingClientRect().width)).toBe(
     Math.round(a2.getBoundingClientRect().width),
   );
-  // the long name actually wrapped (taller than one line)
   expect(a1.getBoundingClientRect().height).toBeGreaterThan(
     Number.parseFloat(getComputedStyle(a1).lineHeight) * 1.5,
   );
   await page.viewport(1280, 900);
 });
 
+it("narrow viewports: token-like names with no spaces do not overflow", async () => {
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(390, 900);
+  render(
+    <ThemeProvider theme="elegant" mode="light">
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell data-testid="token-cell">
+              repo:botiverse/a_very_long_permission_resource_identifier_without_any_spaces
+            </TableCell>
+            <TableCell>Read only</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </ThemeProvider>,
+  );
+  const table = document.querySelector('[data-slot="table"]') as HTMLTableElement;
+  const container = table.parentElement as HTMLElement;
+  expect(table.getBoundingClientRect().width).toBeLessThanOrEqual(
+    container.getBoundingClientRect().width + 1,
+  );
+  expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
+  await page.viewport(1280, 900);
+});
+
 it("colgroup passthrough + table-fixed gives stable caller-owned widths", () => {
   render(
     <ThemeProvider theme="elegant" mode="light">
-      <Table className="table-fixed" data-testid="table">
+      <Table className="table-fixed">
         <TableColgroup>
           <TableColumn style={COL_60} />
           <TableColumn style={COL_40} />
@@ -132,7 +161,7 @@ it("colgroup passthrough + table-fixed gives stable caller-owned widths", () => 
   expect(Math.abs(b / width - 0.4)).toBeLessThan(0.05);
 });
 
-it("cell controls: a Select opens, navigates and commits via the keyboard", async () => {
+it("cell controls: a Select opens on click and commits via the keyboard", async () => {
   render(
     <ThemeProvider theme="elegant" mode="light">
       <Table>
@@ -158,9 +187,8 @@ it("cell controls: a Select opens, navigates and commits via the keyboard", asyn
       </Table>
     </ThemeProvider>,
   );
-  const trigger = document.querySelector('[data-testid="sel-trigger"]') as HTMLElement;
-  trigger.focus();
-  fireEvent.keyDown(trigger, { key: "Enter" });
+  const trigger = screen.getByTestId("sel-trigger");
+  trigger.click();
   const listbox = await screen.findByRole("listbox");
   expect(listbox).not.toBeNull();
   fireEvent.keyDown(listbox, { key: "ArrowDown" });

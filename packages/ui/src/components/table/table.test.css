@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import "../../styles.css";
+
 /* Test stage: give the table a real container width so narrow-viewport
    wrapping is measured against a realistic box, not the default body width. */
 [data-testid="table"] {
