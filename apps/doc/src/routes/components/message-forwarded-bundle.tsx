@@ -82,7 +82,7 @@ const MESSAGE_FORWARDED_BUNDLE_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Forwarded messages card root. Compose inside MessageItemEmbedded; the component owns the eight-line fold by default.",
+      "Forwarded messages card root. Compose inside MessageItemEmbedded. By default the bundle folds when the items' text together renders beyond eight lines; pass collapsed on the items to take full control.",
   },
 ];
 
@@ -140,7 +140,7 @@ const MESSAGE_FORWARDED_BUNDLE_ITEMS_PROPS: readonly PropRow[] = [
     name: "collapsed",
     type: "boolean",
     description:
-      "Consumer-owned fold. Set to constrain the item-list height and show its bottom fade; omit to let the component measure its content and manage the fold itself (folds when the items' text together renders beyond eight lines).",
+      "Omit to keep the default fold: the component measures its item-content slots and folds when the items' text together renders beyond eight lines. Pass true/false to control the fold yourself — the item list constrains to its folded height and shows its bottom fade, and the measurement is skipped (the detail view pins it open).",
   },
   {
     name: "...props",
