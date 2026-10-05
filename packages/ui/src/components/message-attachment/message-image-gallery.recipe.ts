@@ -21,9 +21,12 @@ export const messageImageGallery = tv({
   compoundVariants: [
     // Row heights only exist for multi-image rows; a lone image sizes itself
     // through its own reserved box instead (see the single variant below).
-    { count: 1, single: false, class: { row: "h-32 sm:h-36" } },
-    { count: 2, single: false, class: { row: "h-32 sm:h-36" } },
-    { count: 3, single: false, class: { row: "h-28 sm:h-32" } },
+    // The height goes on the grid rows (not the row box), so a row that wraps
+    // into two columns on narrow viewports keeps per-image heights instead of
+    // squeezing both grid rows into one fixed height.
+    { count: 1, single: false, class: { row: "auto-rows-[8rem] sm:auto-rows-[9rem]" } },
+    { count: 2, single: false, class: { row: "auto-rows-[8rem] sm:auto-rows-[9rem]" } },
+    { count: 3, single: false, class: { row: "auto-rows-[7rem] sm:auto-rows-[8rem]" } },
   ],
   variants: {
     count: {

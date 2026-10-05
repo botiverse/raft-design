@@ -150,9 +150,12 @@ export const messageForwardedBundleGallery = tv({
   },
   variants: {
     count: {
-      1: { row: "h-32 grid-cols-1 sm:h-36" },
-      2: { row: "h-32 grid-cols-2 sm:h-36" },
-      3: { row: "h-28 grid-cols-2 sm:h-32 md:grid-cols-3" },
+      // Heights ride the grid rows (auto-rows), so a row that wraps into two
+      // columns on narrow viewports keeps per-image heights (same fix as the
+      // message gallery rows).
+      1: { row: "grid-cols-1 auto-rows-[8rem] sm:auto-rows-[9rem]" },
+      2: { row: "grid-cols-2 auto-rows-[8rem] sm:auto-rows-[9rem]" },
+      3: { row: "grid-cols-2 auto-rows-[7rem] sm:auto-rows-[8rem] md:grid-cols-3" },
     },
   },
 });

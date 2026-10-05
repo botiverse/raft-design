@@ -130,3 +130,31 @@ it("a single image without dimensions reserves the 4/3 fallback box", () => {
   expect(width(item)).toBe(176);
   expect(height(item)).toBe(132);
 });
+
+it("a three-up row keeps per-image heights when it wraps on narrow viewports", async () => {
+  const { page } = await import("vite-plus/test/browser/context");
+  const images = [
+    { width: 320, height: 240 },
+    { width: 320, height: 240 },
+    { width: 320, height: 240 },
+  ];
+  // Below 768px the three-up rows fold into two grid rows; the height must
+  // ride each grid row (auto-rows), not the row box — otherwise both rows
+  // squeeze into one fixed height (the regression this pins).
+  for (const [viewportWidth, rowHeight] of [
+    [390, 112],
+    [700, 128],
+  ] as const) {
+    await page.viewport(viewportWidth, 900);
+    renderImages("brutal", images);
+    const row = galleryRows()[0];
+    const tiles = [...row.children] as HTMLElement[];
+    expect(tiles.length).toBe(3);
+    for (const tile of tiles) {
+      expect(Math.round(tile.getBoundingClientRect().height)).toBe(rowHeight);
+    }
+    expect(Math.round(row.getBoundingClientRect().height)).toBe(rowHeight * 2 + 8);
+    cleanup();
+  }
+  await page.viewport(1280, 900);
+});
