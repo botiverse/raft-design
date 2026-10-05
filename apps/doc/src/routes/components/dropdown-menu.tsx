@@ -19,7 +19,6 @@ import {
   Bell,
   ChartNoAxesCombined,
   Check,
-  ChevronRight,
   CreditCard,
   LogOut,
   Monitor,
@@ -64,7 +63,6 @@ const PROFILE_MENU_SNIPPET = `    <DropdownMenuLabel>Account</DropdownMenuLabel>
       <DropdownMenuSubmenuTrigger openOnHover>
         <MoonStar />
         <span className="min-w-0 flex-1 truncate">Theme</span>
-        <ChevronRight className="ml-auto" />
       </DropdownMenuSubmenuTrigger>
       <DropdownMenuContent side="right" align="start" sideOffset={10} className="flex w-36 min-w-36 flex-col">
         <DropdownMenuItem>System</DropdownMenuItem>
@@ -173,7 +171,6 @@ const SUBMENU_SNIPPET = `<DropdownMenu modal={false} triggerId="submenu-trigger"
       <DropdownMenuSubmenuTrigger openOnHover>
         <MoonStar />
         <span className="min-w-0 flex-1 truncate">Theme</span>
-        <ChevronRight className="ml-auto" />
       </DropdownMenuSubmenuTrigger>
       <DropdownMenuContent side="right" align="start" sideOffset={10} className="flex w-36 min-w-36 flex-col">
         <DropdownMenuItem>System</DropdownMenuItem>
@@ -265,7 +262,6 @@ function ProfileMenuRows() {
         <DropdownMenuSubmenuTrigger openOnHover>
           <MoonStar />
           <span className="min-w-0 flex-1 truncate">Theme</span>
-          <ChevronRight className="ml-auto" />
         </DropdownMenuSubmenuTrigger>
         <DropdownMenuContent
           side="right"
@@ -386,7 +382,6 @@ function SubmenuRows() {
         <DropdownMenuSubmenuTrigger openOnHover>
           <MoonStar />
           <span className="min-w-0 flex-1 truncate">Theme</span>
-          <ChevronRight className="ml-auto" />
         </DropdownMenuSubmenuTrigger>
         <DropdownMenuContent
           side="right"
