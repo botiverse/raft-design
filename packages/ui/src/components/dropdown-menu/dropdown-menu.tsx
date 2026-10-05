@@ -277,17 +277,27 @@ export function DropdownMenuFooter({ className, ...props }: DropdownMenuFooterPr
 export type DropdownMenuSubmenuTriggerProps = StyledProps<BaseMenu.SubmenuTrigger.Props>;
 
 export function DropdownMenuSubmenuTrigger({
+  children,
   className,
   ...props
 }: DropdownMenuSubmenuTriggerProps) {
   const theme = useThemeFamily();
-  const { submenuTrigger } = dropdownMenu({ theme });
+  const { submenuTrigger, indicator } = dropdownMenu({ theme });
   return (
     <BaseMenu.SubmenuTrigger
       data-slot="dropdown-menu-submenu-trigger"
       className={submenuTrigger({ className })}
       {...props}
-    />
+    >
+      {children}
+      <span
+        className={indicator()}
+        data-slot="dropdown-menu-submenu-trigger-indicator"
+        aria-hidden="true"
+      >
+        <DropdownMenuSubmenuChevronIcon />
+      </span>
+    </BaseMenu.SubmenuTrigger>
   );
 }
 
@@ -328,6 +338,22 @@ export function DropdownMenuSeparator({ className, ...props }: DropdownMenuSepar
       className={separator({ className })}
       {...props}
     />
+  );
+}
+
+function DropdownMenuSubmenuChevronIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden className="size-3 shrink-0">
+      <g
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
+        stroke="currentColor"
+      >
+        <path d="M4.25 2.5L7.75 6l-3.5 3.5" />
+      </g>
+    </svg>
   );
 }
 

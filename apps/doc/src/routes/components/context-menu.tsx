@@ -13,7 +13,7 @@ import {
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
 } from "raft-ui";
-import { Archive, Bell, ChevronRight, Copy, MoonStar, Pin, Sun, Trash } from "lucide-react";
+import { Archive, Bell, Copy, MoonStar, Pin, Sun, Trash } from "lucide-react";
 import type { ReactNode, RefObject } from "react";
 import { useMemo, useRef, useState } from "react";
 import { cn } from "tailwind-variants";
@@ -96,7 +96,6 @@ const SNIPPETS = {
       <ContextMenuSubmenuTrigger openOnHover>
         <MoonStar />
         <span className="min-w-0 flex-1 truncate">Move to</span>
-        <ChevronRight className="ml-auto" />
       </ContextMenuSubmenuTrigger>
       <ContextMenuContent side="right" align="start" sideOffset={10} className="flex w-36 min-w-36 flex-col">
         <ContextMenuItem>Inbox</ContextMenuItem>
@@ -351,7 +350,6 @@ function SubmenuRows() {
         <ContextMenuSubmenuTrigger openOnHover>
           <MoonStar />
           <span className="min-w-0 flex-1 truncate">Move to</span>
-          <ChevronRight className="ml-auto" />
         </ContextMenuSubmenuTrigger>
         <ContextMenuContent
           side="right"

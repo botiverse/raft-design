@@ -261,15 +261,28 @@ export function ContextMenuFooter({ className, ...props }: ContextMenuFooterProp
 
 export type ContextMenuSubmenuTriggerProps = StyledProps<BaseContextMenu.SubmenuTrigger.Props>;
 
-export function ContextMenuSubmenuTrigger({ className, ...props }: ContextMenuSubmenuTriggerProps) {
+export function ContextMenuSubmenuTrigger({
+  children,
+  className,
+  ...props
+}: ContextMenuSubmenuTriggerProps) {
   const theme = useThemeFamily();
-  const { submenuTrigger } = contextMenu({ theme });
+  const { submenuTrigger, indicator } = contextMenu({ theme });
   return (
     <BaseContextMenu.SubmenuTrigger
       data-slot="context-menu-submenu-trigger"
       className={submenuTrigger({ className })}
       {...props}
-    />
+    >
+      {children}
+      <span
+        className={indicator()}
+        data-slot="context-menu-submenu-trigger-indicator"
+        aria-hidden="true"
+      >
+        <ContextMenuSubmenuChevronIcon />
+      </span>
+    </BaseContextMenu.SubmenuTrigger>
   );
 }
 
@@ -300,6 +313,22 @@ export function ContextMenuSeparator({ className, ...props }: ContextMenuSeparat
       className={separator({ className })}
       {...props}
     />
+  );
+}
+
+function ContextMenuSubmenuChevronIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden className="size-3 shrink-0">
+      <g
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
+        stroke="currentColor"
+      >
+        <path d="M4.25 2.5L7.75 6l-3.5 3.5" />
+      </g>
+    </svg>
   );
 }
 
