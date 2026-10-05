@@ -1,0 +1,8 @@
+/* Test stage: give the table a real container width so narrow-viewport
+   wrapping is measured against a realistic box, not the default body width. */
+[data-testid="table"] {
+  max-width: 100%;
+}
+body {
+  margin: 0;
+}
