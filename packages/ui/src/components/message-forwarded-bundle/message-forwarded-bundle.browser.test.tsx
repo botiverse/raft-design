@@ -247,8 +247,10 @@ for (const { key, theme, mode } of GALLERY_THEMES) {
   it(`nine lines of item text fold the bundle and the action toggles it — ${key}`, () => {
     renderFoldableBundle(9, { theme, mode });
     const items = screen.getByTestId("items");
-    // The component measured the content and folded on its own.
+    // The component measured the content and folded on its own, down to its
+    // eight default lines (8 x 20px).
     expect(items.getAttribute("data-collapsed")).toBe("true");
+    expect(getComputedStyle(items).maxHeight).toBe("160px");
     // The footer only exists while the content folds.
     expect(screen.getByTestId("footer")).not.toBeNull();
     // Without a consumer handler the action toggles the component-owned fold.
@@ -296,6 +298,8 @@ it("the fold line limit is configurable per instance", () => {
   // Five lines against a limit of four: over → folds.
   renderFoldableBundle(5, { theme: "elegant", mode: "light", foldLineLimit: 4 });
   expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBe("true");
+  // The folded height folds with the same number: four lines of 20px.
+  expect(getComputedStyle(screen.getByTestId("items")).maxHeight).toBe("80px");
   cleanup();
   // Exactly the limit → stays open.
   renderFoldableBundle(4, { theme: "elegant", mode: "light", foldLineLimit: 4 });

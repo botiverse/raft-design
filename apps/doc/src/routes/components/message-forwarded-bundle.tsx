@@ -310,8 +310,8 @@ function MessageForwardedBundleDoc() {
 
           <DocSubsection parentId="usage" id="collapsed" title="Collapsed bundle">
             <DocNote>
-              A bundle folds when the items' text together renders beyond eight lines (the line
-              count is adjustable via `foldLineLimit`). When{" "}
+              A bundle folds when the items' text together renders beyond eight lines, and folds
+              down to that many lines (both adjustable via `foldLineLimit`). When{" "}
               <InlineCode>MessageForwardedBundleItems</InlineCode> renders without a{" "}
               <InlineCode>collapsed</InlineCode> prop the component measures this itself: the list
               clips with its own fade and the footer appears only while the content actually folds.

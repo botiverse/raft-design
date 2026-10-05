@@ -53,7 +53,10 @@ export const messageForwardedBundle = tv({
     collapsed: {
       true: {
         items: [
-          "max-h-36 overflow-hidden sm:max-h-45",
+          // Fallback fold height (160px ≈ eight 20px lines); the component
+          // overrides it inline with foldLineLimit x line height when it can
+          // measure, and folds the height with the same number as the rule.
+          "max-h-40 overflow-hidden",
           "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-linear-to-t",
         ],
       },

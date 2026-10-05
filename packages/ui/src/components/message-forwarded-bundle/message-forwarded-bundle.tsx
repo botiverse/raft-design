@@ -53,10 +53,13 @@ const FOLD_LINE_LIMIT = 8;
 /** Fallback line height when the computed style reports `normal`. */
 const FOLD_LINE_HEIGHT_FALLBACK = 20;
 
-function exceedsFoldLineLimit(slots: HTMLElement[], lineLimit: number) {
+function measureLineHeight(slot: HTMLElement | undefined) {
+  if (!slot) return FOLD_LINE_HEIGHT_FALLBACK;
+  return Number.parseFloat(getComputedStyle(slot).lineHeight) || FOLD_LINE_HEIGHT_FALLBACK;
+}
+
+function exceedsFoldLineLimit(slots: HTMLElement[], lineHeight: number, lineLimit: number) {
   if (slots.length === 0) return false;
-  const lineHeight =
-    Number.parseFloat(getComputedStyle(slots[0]).lineHeight) || FOLD_LINE_HEIGHT_FALLBACK;
   // Fractional heights on purpose: scrollHeight rounds every slot up, and the
   // rounding would accumulate across items (zoom can make line heights
   // fractional too, so a total of exactly the limit must stay under).
@@ -191,10 +194,10 @@ export type MessageForwardedBundleItemsProps = DivProps & {
 
 /**
  * The items surface. Without a `collapsed` prop the fold is component-owned:
- * the surface measures its item-content slots and collapses itself when the
- * text renders beyond `foldLineLimit` lines in total (eight by default).
- * Passing `collapsed` switches to the controlled mode (the detail view pins
- * everything open) and skips the measurement.
+ * the surface measures its item-content slots and collapses itself to
+ * `foldLineLimit` lines when the text renders beyond that many lines in total
+ * (eight by default). Passing `collapsed` switches to the controlled mode
+ * (the detail view pins everything open) and skips the measurement.
  */
 export function MessageForwardedBundleItems({
   className,
@@ -209,6 +212,9 @@ export function MessageForwardedBundleItems({
   const isCollapsed = controlled ? collapsed : (fold?.collapsed ?? false);
   const { items } = messageForwardedBundle({ theme, collapsed: isCollapsed });
   const containerRef = useRef<HTMLDivElement | null>(null);
+  // The folded height folds with the rule: foldLineLimit x line height. Null
+  // until the component can measure; the recipe's fallback height applies then.
+  const [foldHeight, setFoldHeight] = useState<number | null>(null);
 
   useLayoutEffect(() => {
     if (controlled || !fold) return;
@@ -220,7 +226,9 @@ export function MessageForwardedBundleItems({
       const slots = [
         ...container.querySelectorAll('[data-slot="message-forwarded-bundle-item-content"]'),
       ] as HTMLElement[];
-      fold.reportFold(exceedsFoldLineLimit(slots, foldLineLimit));
+      const lineHeight = measureLineHeight(slots[0]);
+      fold.reportFold(exceedsFoldLineLimit(slots, lineHeight, foldLineLimit));
+      setFoldHeight(slots.length > 0 ? lineHeight * foldLineLimit : null);
     };
     measure();
     // Content arrives after mount (streamed items, markdown, attachment rows)
@@ -238,11 +246,17 @@ export function MessageForwardedBundleItems({
     };
   }, [controlled, fold, foldLineLimit]);
 
+  const clampStyle = useMemo(
+    () => (isCollapsed && foldHeight !== null ? { maxHeight: `${foldHeight}px` } : undefined),
+    [isCollapsed, foldHeight],
+  );
+
   return (
     <MessageEmbedContent
       ref={containerRef}
       className={items({ className })}
       data-collapsed={isCollapsed || undefined}
+      style={clampStyle}
       render={render}
       {...props}
     />
