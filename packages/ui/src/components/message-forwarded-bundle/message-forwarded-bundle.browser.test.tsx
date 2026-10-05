@@ -80,28 +80,12 @@ function renderGallery(
   return render(galleryJsx(theme, images, options));
 }
 
-function viewportOf(testid: string) {
-  const el = screen
-    .getByTestId(testid)
-    .querySelector('[data-slot="message-forwarded-bundle-gallery-viewport"]');
-  if (!el) throw new Error("gallery viewport missing");
-  return el as HTMLElement;
-}
-
-function cueOpacity(side: "left" | "right") {
-  const cue = screen.getByTestId("gallery").querySelector(`[data-side="${side}"]`);
-  if (!cue) throw new Error(`cue ${side} missing`);
-  return getComputedStyle(cue).opacity;
-}
-
-/** The cue fades with `transition-opacity`; poll until the transition settles. */
-async function expectCueOpacity(side: "left" | "right", want: string) {
-  const deadline = Date.now() + 2000;
-  while (Date.now() < deadline) {
-    if (cueOpacity(side) === want) return;
-    await new Promise((resolve) => setTimeout(resolve, 50));
-  }
-  expect(cueOpacity(side)).toBe(want);
+function galleryRows(testid: string) {
+  return [
+    ...screen
+      .getByTestId(testid)
+      .querySelectorAll('[data-slot="message-forwarded-bundle-gallery-row"]'),
+  ];
 }
 
 for (const theme of ["brutal", "elegant"] as const) {
@@ -134,9 +118,10 @@ it("elegant forwarded body reads at message scale with an emphasised author", ()
   ).toBeGreaterThanOrEqual(600);
 });
 
-// The cue hooks live in per-theme recipe entries; a hook missing in one theme
-// (which happened in review) passes every Brutal-only assertion, so the
-// scroll behavior is asserted across all three theme configurations.
+// Forwarded images use the same component family as images in a message:
+// MessageImageGallery surfaces inside message-scale rows. The old three-up
+// scroll strip (and its edge cues) is gone, so the behavior is asserted across
+// all three theme configurations.
 const GALLERY_THEMES: readonly { key: string; theme: Theme; mode?: ThemeMode }[] = [
   { key: "brutal", theme: "brutal" },
   { key: "elegant light", theme: "elegant", mode: "light" },
@@ -144,45 +129,51 @@ const GALLERY_THEMES: readonly { key: string; theme: Theme; mode?: ThemeMode }[]
 ];
 
 for (const { key, theme, mode } of GALLERY_THEMES) {
-  it(`an exactly-fitting strip shows no edge cues — ${key}`, async () => {
-    renderGallery(theme, 3, { mode });
-    const viewport = viewportOf("gallery");
-    await expectCueOpacity("left", "0");
-    await expectCueOpacity("right", "0");
-    // Nothing to reveal on either side.
-    expect(screen.getByTestId("gallery").getAttribute("data-overflow-right")).toBeNull();
-    expect(Math.abs(viewport.scrollWidth - viewport.clientWidth)).toBeLessThanOrEqual(2);
+  it(`forwarded images lay out in message rows with no horizontal scroll — ${key}`, () => {
+    renderGallery(theme, 5, { mode });
+    const gallery = screen.getByTestId("gallery");
+    // The gallery composes the shared message image gallery root.
+    expect(gallery.querySelector('[data-slot="message-image-gallery"]')).not.toBeNull();
+    const rows = galleryRows("gallery");
+    expect(rows.length).toBe(2);
+    expect(rows[0].children.length).toBe(3);
+    expect(rows[1].children.length).toBe(2);
+    // Every cell is a message gallery item: one surface for both.
+    const tiles = gallery.querySelectorAll('[data-testid^="tile-"]');
+    expect(tiles.length).toBe(5);
+    for (const tile of tiles) {
+      expect(tile.getAttribute("data-slot")).toBe("message-image-gallery-item");
+    }
+    // All five cells fit: nothing hides behind a scroll.
+    expect(gallery.scrollWidth - gallery.clientWidth).toBeLessThanOrEqual(2);
+    for (const tile of tiles) {
+      const tileRect = tile.getBoundingClientRect();
+      const galleryRect = gallery.getBoundingClientRect();
+      expect(tileRect.right).toBeLessThanOrEqual(galleryRect.right + 1);
+    }
   });
 
-  it(`a scrollable strip reveals only the cue for the side that still has content — ${key}`, async () => {
-    renderGallery(theme, 4, { mode });
-    const viewport = viewportOf("gallery");
-    const max = viewport.scrollWidth - viewport.clientWidth;
-    expect(max).toBeGreaterThan(2);
-    // At the start: content waits on the right only.
-    await expectCueOpacity("left", "0");
-    await expectCueOpacity("right", "1");
-    // Mid-scroll: content waits on both sides.
-    viewport.scrollLeft = Math.round(max / 2);
-    viewport.dispatchEvent(new Event("scroll"));
-    await expectCueOpacity("left", "1");
-    await expectCueOpacity("right", "1");
-    // At the end: the right cue retires.
-    viewport.scrollLeft = max;
-    viewport.dispatchEvent(new Event("scroll"));
-    await expectCueOpacity("right", "0");
+  it(`forwarded rows follow the message gallery heights — ${key}`, () => {
+    renderGallery(theme, 5, { mode });
+    const rows = galleryRows("gallery");
+    const [threeUp, twoUp] = rows;
+    const height = (el: Element) => el.getBoundingClientRect().height;
+    // Message gallery rows: a row of three is shorter than a row of two
+    // (112/128 vs 128/144 across the sm breakpoint).
+    expect(height(threeUp)).toBeGreaterThan(0);
+    expect(height(threeUp)).toBeLessThan(height(twoUp));
+    // Cells fill their row.
+    expect(Math.abs(height(threeUp.children[0]) - height(threeUp))).toBeLessThanOrEqual(1);
+    expect(Math.abs(height(twoUp.children[0]) - height(twoUp))).toBeLessThanOrEqual(1);
   });
 }
 
-it("tiles arriving after mount surface the trailing cue without a scroll", async () => {
-  // Attachment URLs resolve asynchronously in the app: the strip grows while
-  // the viewport stays the same size, so the overflow must be recomputed on
-  // DOM changes, not only on scroll/resize.
-  const view = renderGallery("elegant", 2);
-  await expectCueOpacity("right", "0");
-  view.rerender(galleryJsx("elegant", 5));
-  await expectCueOpacity("right", "1");
-  await expectCueOpacity("left", "0");
+it("a lone row of four splits into two rows of two", () => {
+  renderGallery("elegant", 4, { mode: "light" });
+  const rows = galleryRows("gallery");
+  expect(rows.length).toBe(2);
+  expect(rows[0].children.length).toBe(2);
+  expect(rows[1].children.length).toBe(2);
 });
 
 it("fullWidth releases the 34rem cap", () => {

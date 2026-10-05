@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { Children } from "react";
+import type { ReactNode } from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { MessageImageGallery, MessageImageGalleryItem } from "../message-attachment";
 import {
   MessageEmbed,
   MessageEmbedContent,
@@ -320,83 +322,54 @@ export function MessageForwardedBundleFooterAction({
 export type MessageForwardedBundleGalleryProps = DivProps;
 
 /**
- * Horizontal image strip for forwarded attachments. The gallery owns the
- * layout (three-up snap scroller) and the edge cues: it watches the scroller
- * and marks `data-overflow-left` / `data-overflow-right` on the root, so a
- * cue only shows while that side still has content to reveal. Consumers only
- * place the media (`MessageForwardedBundleGalleryTile`).
+ * Image rows for forwarded attachments. The gallery owns the layout — rows of
+ * three (a lone row of exactly four splits two-and-two) at the message gallery
+ * row heights — and composes the shared MessageImageGallery surfaces, so
+ * forwarded images are the same component family as images in a message.
+ * Consumers only place the media (`MessageForwardedBundleGalleryTile`).
  */
 export function MessageForwardedBundleGallery({
   className,
   children,
   ...props
 }: MessageForwardedBundleGalleryProps) {
-  const theme = useThemeFamily();
-  const { gallery, viewport, cue } = messageForwardedBundleGallery({ theme });
-  const viewportRef = useRef<HTMLDivElement | null>(null);
-  const [overflow, setOverflow] = useState({ left: false, right: false });
-
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-    const update = () => {
-      const max = Math.max(0, el.scrollWidth - el.clientWidth);
-      const next = { left: el.scrollLeft > 2, right: el.scrollLeft < max - 2 };
-      setOverflow((current) =>
-        current.left === next.left && current.right === next.right ? current : next,
-      );
-    };
-    update();
-    el.addEventListener("scroll", update, { passive: true });
-    const resizeObserver =
-      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
-    resizeObserver?.observe(el);
-    // Tiles can arrive after mount (attachment URLs resolve asynchronously);
-    // the content grows without the viewport resizing, so watch the DOM too.
-    const mutationObserver =
-      typeof MutationObserver === "undefined" ? null : new MutationObserver(update);
-    mutationObserver?.observe(el, { childList: true, subtree: true });
-    return () => {
-      el.removeEventListener("scroll", update);
-      resizeObserver?.disconnect();
-      mutationObserver?.disconnect();
-    };
-  }, []);
+  const { root, row } = messageForwardedBundleGallery();
+  const items = Children.toArray(children);
+  // Mirror the message gallery rowing rule: chunks of three; a lone buffer of
+  // exactly four splits into two-and-two.
+  const chunkSize = items.length === 4 ? 2 : 3;
+  const rows: ReactNode[][] = [];
+  for (let index = 0; index < items.length; index += chunkSize) {
+    rows.push(items.slice(index, index + chunkSize));
+  }
 
   return (
-    <div
-      {...mergeProps<"div">({ className: gallery({ className }) }, props)}
-      data-overflow-left={overflow.left ? "true" : undefined}
-      data-overflow-right={overflow.right ? "true" : undefined}
-    >
-      <div
-        ref={viewportRef}
-        className={viewport()}
-        data-slot="message-forwarded-bundle-gallery-viewport"
-      >
-        {children}
-      </div>
-      <div aria-hidden className={cue({ side: "left" })} data-side="left" />
-      <div aria-hidden className={cue({ side: "right" })} data-side="right" />
-    </div>
+    <MessageImageGallery className={root({ className })} {...props}>
+      {rows.map((rowItems, index) => (
+        <div
+          key={index}
+          className={row({ count: rowItems.length as 1 | 2 | 3 })}
+          data-slot="message-forwarded-bundle-gallery-row"
+        >
+          {rowItems}
+        </div>
+      ))}
+    </MessageImageGallery>
   );
 }
 
 export type MessageForwardedBundleGalleryTileProps = DivProps;
 
-/** A square media cell. Slot the `<img>`/`<video>` in; media fills the cell. */
+/**
+ * A media cell in the forwarded gallery rows: the shared message gallery item
+ * (its themed surface and rounding come from MessageImageGalleryItem).
+ */
 export function MessageForwardedBundleGalleryTile({
   className,
   render,
   ...props
 }: MessageForwardedBundleGalleryTileProps) {
-  const theme = useThemeFamily();
-  const { tile } = messageForwardedBundleGallery({ theme });
+  const { tile } = messageForwardedBundleGallery();
 
-  return useRender({
-    defaultTagName: "div",
-    render,
-    props: mergeProps<"div">({ className: tile({ className }) }, props),
-    state: { slot: "message-forwarded-bundle-gallery-tile" },
-  });
+  return <MessageImageGalleryItem className={tile({ className })} render={render} {...props} />;
 }

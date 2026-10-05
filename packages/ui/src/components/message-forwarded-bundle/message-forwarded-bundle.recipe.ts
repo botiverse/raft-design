@@ -125,67 +125,22 @@ export const messageForwardedBundleItem = tv({
 });
 
 /**
- * Media gallery for forwarded attachments: the component owns the layout of
- * a horizontal image strip (three-up snap scroller and edge cues); the
- * consumer owns the media (slot in `<img>`/`<video>`) and the open action.
- *
- * The cue gradients use the surface tokens instead of a hardcoded white, so
- * dark surfaces keep a themed edge hint.
+ * Image rows for forwarded attachments: message-scale rows that compose the
+ * shared MessageImageGallery surfaces, so forwarded images read the same as
+ * images in a message. The component owns the layout (rows of three; a lone
+ * row of exactly four splits two-and-two) and the consumer owns the media.
  */
 export const messageForwardedBundleGallery = tv({
   slots: {
-    gallery: ["group/gallery relative min-w-0"],
-    viewport: [
-      "scrollbar-none grid grid-flow-col auto-cols-[calc((100%-1rem)/3)] snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain",
-    ],
-    tile: [
-      "group/media relative aspect-square w-full min-w-0 overflow-hidden",
-      "[&_img]:block [&_img]:size-full  [&_img]:object-cover",
-    ],
-    cue: ["pointer-events-none absolute inset-y-0 z-10 w-5 opacity-0 transition-opacity"],
+    root: ["min-w-0"],
+    row: ["grid gap-2"],
+    tile: ["[&_img]:block [&_img]:size-full [&_img]:object-cover"],
   },
   variants: {
-    theme: {
-      brutal: {
-        tile: "border-2 border-black bg-brutal-cream/60",
-      },
-      elegant: {
-        tile: "rounded-md border-[0.5px] border-line-muted bg-layer-inset dark:border-transparent",
-      },
-    },
-    side: {
-      left: {},
-      right: {},
+    count: {
+      1: { row: "h-32 grid-cols-1 sm:h-36" },
+      2: { row: "h-32 grid-cols-2 sm:h-36" },
+      3: { row: "h-28 grid-cols-2 sm:h-32 md:grid-cols-3" },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      side: "left",
-      class: {
-        cue: "left-0 bg-linear-to-r from-white to-transparent group-data-[overflow-left=true]/gallery:opacity-100",
-      },
-    },
-    {
-      theme: "brutal",
-      side: "right",
-      class: {
-        cue: "right-0 bg-linear-to-l from-white to-transparent group-data-[overflow-right=true]/gallery:opacity-100",
-      },
-    },
-    {
-      theme: "elegant",
-      side: "left",
-      class: {
-        cue: "left-0 bg-linear-to-r from-layer-panel to-transparent group-data-[overflow-left=true]/gallery:opacity-100",
-      },
-    },
-    {
-      theme: "elegant",
-      side: "right",
-      class: {
-        cue: "right-0 bg-linear-to-l from-layer-panel to-transparent group-data-[overflow-right=true]/gallery:opacity-100",
-      },
-    },
-  ],
 });
