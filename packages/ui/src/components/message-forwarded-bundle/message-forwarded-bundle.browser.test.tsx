@@ -484,3 +484,27 @@ it("fullWidth releases the 34rem cap", () => {
   expect(capped).toBeLessThan(560);
   expect(released).toBeGreaterThan(800);
 });
+
+it("forwarded rows keep per-image heights when they wrap on narrow viewports", async () => {
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(390, 900);
+  try {
+    renderGallery("elegant", 5, { mode: "light" });
+    const rows = galleryRows("gallery");
+    // 5 images = a three-up row + a two-up row; at 390px the three-up row
+    // folds into two grid rows, each keeping the 112px image height.
+    const threeUp = rows[0];
+    expect(threeUp.children.length).toBe(3);
+    for (const tile of threeUp.children) {
+      expect(Math.round(tile.getBoundingClientRect().height)).toBe(112);
+    }
+    expect(Math.round(threeUp.getBoundingClientRect().height)).toBe(112 * 2 + 8);
+    const twoUp = rows[1];
+    for (const tile of twoUp.children) {
+      expect(Math.round(tile.getBoundingClientRect().height)).toBe(112);
+    }
+    expect(Math.round(twoUp.getBoundingClientRect().height)).toBe(112);
+  } finally {
+    await page.viewport(1280, 900);
+  }
+});
