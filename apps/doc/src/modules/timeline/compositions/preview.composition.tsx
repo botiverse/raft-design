@@ -27,10 +27,15 @@ export function TimelinePreviewContent() {
         <TimelineContent>Deploy to staging failed</TimelineContent>
         <TimelineTime>2026-10-01 16:30</TimelineTime>
       </TimelineItem>
+      <TimelineItem variant="accent">
+        <TimelineTitle>Review</TimelineTitle>
+        <TimelineContent>Waiting on a reviewer</TimelineContent>
+        <TimelineTime>2026-10-02 08:00</TimelineTime>
+      </TimelineItem>
       <TimelineItem variant="information">
         <TimelineTitle>Release</TimelineTitle>
         <TimelineContent>Waiting on the release window</TimelineContent>
-        <TimelineTime>2026-10-02 08:00</TimelineTime>
+        <TimelineTime>2026-10-02 09:30</TimelineTime>
       </TimelineItem>
     </Timeline>
   );
