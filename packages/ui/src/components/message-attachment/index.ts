@@ -33,6 +33,7 @@ export {
   MessageImageGalleryMedia,
   MessageImageGalleryOverlay,
   MessageImageGalleryPreview,
+  MessageImageGalleryRow,
 } from "./message-image-gallery";
 export type {
   MessageImageGalleryActionProps,
@@ -41,7 +42,21 @@ export type {
   MessageImageGalleryOverlayProps,
   MessageImageGalleryPreviewProps,
   MessageImageGalleryProps,
+  MessageImageGalleryRowProps,
 } from "./message-image-gallery";
+export {
+  SINGLE_IMAGE_MAX_HEIGHT,
+  SINGLE_IMAGE_MAX_WIDTH,
+  buildMessageImageGalleryRows,
+  classifyMessageImageAspect,
+} from "./message-image-gallery-rows";
+export type {
+  MessageImageGalleryAspectKind,
+  MessageImageGalleryFit,
+  MessageImageGalleryImage,
+  MessageImageGalleryItemLayout,
+  MessageImageGalleryRowData,
+} from "./message-image-gallery-rows";
 export {
   MessageVideoPreview,
   MessageVideoPreviewAction,
