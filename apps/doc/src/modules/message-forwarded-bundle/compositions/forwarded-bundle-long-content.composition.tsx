@@ -13,6 +13,7 @@ import {
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
   MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemContent,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleFooterAction,
@@ -40,11 +41,13 @@ function LongForwardedItem() {
         <MessageForwardedBundleItemAuthor>@Nia</MessageForwardedBundleItemAuthor>
         <time dateTime="2026-07-15T06:16:00.000Z">Jul 15, 2:16 PM</time>
       </MessageForwardedBundleItemMeta>
-      <Markdown>{`Before we cut over, keep the read model running against both event streams and validate account, workspace, and channel permissions in staging.
+      <MessageForwardedBundleItemContent>
+        <Markdown>{`Before we cut over, keep the read model running against both event streams and validate account, workspace, and channel permissions in staging.
 
 The migration needs an explicit rollback checkpoint after the first production cohort, plus a documented handoff for reconciliation and replay.
 
 Review the operational checklist with the owners of notifications, search, and thread state before scheduling the final rollout window.`}</Markdown>
+      </MessageForwardedBundleItemContent>
       <MessageForwardedBundleAttachments>
         <MessageForwardedBundleAttachment>
           <FileText size={12} />

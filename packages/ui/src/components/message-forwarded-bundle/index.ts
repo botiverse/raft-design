@@ -11,11 +11,14 @@ export {
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
   MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemContent,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
   MessageForwardedBundleSourceLabel,
   MessageForwardedBundleFooterAction,
+  MessageForwardedBundleGallery,
+  MessageForwardedBundleGalleryTile,
 } from "./message-forwarded-bundle";
 export type {
   MessageForwardedBundleAttachmentMetaProps,
@@ -28,6 +31,7 @@ export type {
   MessageForwardedBundleHeaderLabelProps,
   MessageForwardedBundleHeaderProps,
   MessageForwardedBundleItemAuthorProps,
+  MessageForwardedBundleItemContentProps,
   MessageForwardedBundleItemMetaProps,
   MessageForwardedBundleItemProps,
   MessageForwardedBundleItemsProps,
@@ -35,4 +39,6 @@ export type {
   MessageForwardedBundleSourceLabelProps,
   MessageForwardedBundleSourceProps,
   MessageForwardedBundleFooterActionProps,
+  MessageForwardedBundleGalleryProps,
+  MessageForwardedBundleGalleryTileProps,
 } from "./message-forwarded-bundle";

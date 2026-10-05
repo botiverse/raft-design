@@ -1024,12 +1024,15 @@ export {
   MessageForwardedBundleAttachmentName,
   MessageForwardedBundleAttachments,
   MessageForwardedBundleFooter,
+  MessageForwardedBundleGallery,
+  MessageForwardedBundleGalleryTile,
   MessageForwardedBundleHeader,
   MessageForwardedBundleHeaderContent,
   MessageForwardedBundleHeaderCount,
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
   MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemContent,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
@@ -1047,6 +1050,7 @@ export type {
   MessageForwardedBundleHeaderLabelProps,
   MessageForwardedBundleHeaderProps,
   MessageForwardedBundleItemAuthorProps,
+  MessageForwardedBundleItemContentProps,
   MessageForwardedBundleItemMetaProps,
   MessageForwardedBundleItemProps,
   MessageForwardedBundleItemsProps,
@@ -1054,6 +1058,8 @@ export type {
   MessageForwardedBundleSourceLabelProps,
   MessageForwardedBundleSourceProps,
   MessageForwardedBundleFooterActionProps,
+  MessageForwardedBundleGalleryProps,
+  MessageForwardedBundleGalleryTileProps,
 } from "./components/message-forwarded-bundle/index";
 
 export {
