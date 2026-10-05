@@ -1204,6 +1204,29 @@ export type {
   TimelineTitleProps,
 } from "./components/timeline/index";
 
+export {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableColgroup,
+  TableColumn,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./components/table/index";
+export type {
+  TableBodyProps,
+  TableCaptionProps,
+  TableCellProps,
+  TableColgroupProps,
+  TableColumnProps,
+  TableHeadProps,
+  TableHeaderProps,
+  TableProps,
+  TableRowProps,
+} from "./components/table/index";
+
 export { Spinner } from "./components/spinner/index";
 
 export {
