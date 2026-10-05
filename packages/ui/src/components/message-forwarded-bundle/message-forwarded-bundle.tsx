@@ -44,22 +44,24 @@ type MessageForwardedBundleFold = {
 const MessageForwardedBundleFoldContext = createContext<MessageForwardedBundleFold | null>(null);
 
 /**
- * The card folds when an item's text renders beyond this many lines. This is
- * the component's own rule — consumers render the parts and get the fold for
- * free — and it is measured from the rendered content, so wrapping, zoom and
- * language do not need to be modelled anywhere.
+ * The card folds when the items' text renders beyond this many lines in
+ * total. This is the component's own rule — consumers render the parts and get
+ * the fold for free — and it is measured from the rendered content, so
+ * wrapping, zoom and language do not need to be modelled anywhere.
  */
 const FOLD_LINE_LIMIT = 8;
 /** Fallback line height when the computed style reports `normal`. */
 const FOLD_LINE_HEIGHT_FALLBACK = 20;
 
-function exceedsFoldLineLimit(el: HTMLElement) {
+function exceedsFoldLineLimit(slots: HTMLElement[]) {
+  if (slots.length === 0) return false;
   const lineHeight =
-    Number.parseFloat(getComputedStyle(el).lineHeight) || FOLD_LINE_HEIGHT_FALLBACK;
+    Number.parseFloat(getComputedStyle(slots[0]).lineHeight) || FOLD_LINE_HEIGHT_FALLBACK;
+  const renderedHeight = slots.reduce((height, slot) => height + slot.scrollHeight, 0);
   // 1px of slack: scrollHeight is an integer while line heights can be
   // fractional (zoom, custom sizes), so exactly eight lines must not read
   // as "over eight".
-  return el.scrollHeight > lineHeight * FOLD_LINE_LIMIT + 1;
+  return renderedHeight > lineHeight * FOLD_LINE_LIMIT + 1;
 }
 
 export function MessageForwardedBundle({
@@ -179,9 +181,9 @@ export type MessageForwardedBundleItemsProps = DivProps & { collapsed?: boolean 
 /**
  * The items surface. Without a `collapsed` prop the fold is component-owned:
  * the surface measures its item-content slots and collapses itself when the
- * text renders beyond `FOLD_LINE_LIMIT` lines. Passing `collapsed` switches to
- * the controlled mode (the detail view pins everything open) and skips the
- * measurement.
+ * text renders beyond `FOLD_LINE_LIMIT` lines in total. Passing `collapsed`
+ * switches to the controlled mode (the detail view pins everything open) and
+ * skips the measurement.
  */
 export function MessageForwardedBundleItems({
   className,
@@ -203,12 +205,10 @@ export function MessageForwardedBundleItems({
     let cancelled = false;
     const measure = () => {
       if (cancelled) return;
-      const slots = container.querySelectorAll(
-        '[data-slot="message-forwarded-bundle-item-content"]',
-      );
-      const foldable =
-        slots.length > 0 && [...slots].some((slot) => exceedsFoldLineLimit(slot as HTMLElement));
-      fold.reportFold(foldable);
+      const slots = [
+        ...container.querySelectorAll('[data-slot="message-forwarded-bundle-item-content"]'),
+      ] as HTMLElement[];
+      fold.reportFold(exceedsFoldLineLimit(slots));
     };
     measure();
     // Content arrives after mount (streamed items, markdown, attachment rows)
@@ -293,8 +293,8 @@ export function MessageForwardedBundleItemAuthor({
 export type MessageForwardedBundleItemContentProps = DivProps;
 
 /**
- * The item's text body. The component-owned fold measures these slots: an item
- * whose content renders beyond the fold line limit folds the card.
+ * The item's text body. The component-owned fold measures these slots: when
+ * their combined content renders beyond the fold line limit the card folds.
  */
 export function MessageForwardedBundleItemContent({
   className,

@@ -196,9 +196,9 @@ it("a lone row of four splits into two rows of two", () => {
 });
 
 // The component-owned fold: without a `collapsed` prop the items measure their
-// item-content slots and fold when any of them renders beyond eight lines
-// (~8 x 20px line height). Rendered lines are deliberate: each child div is
-// exactly one line, so the count does not depend on wrapping.
+// item-content slots and fold when the text renders beyond eight lines in
+// total (~8 x 20px line height). Rendered lines are deliberate: each child div
+// is exactly one line, so the count does not depend on wrapping.
 function renderFoldableBundle(
   lines: number,
   options: {
@@ -253,6 +253,48 @@ for (const { key, theme, mode } of GALLERY_THEMES) {
     expect(screen.queryByTestId("footer")).toBeNull();
   });
 }
+
+function renderMultiItemBundle(itemLines: number[]) {
+  return render(
+    <ThemeProvider theme="elegant" mode="light">
+      <div style={{ width: 560 }}>
+        <MessageForwardedBundle data-testid="bundle">
+          <MessageForwardedBundleItems data-testid="items">
+            {itemLines.map((lines, itemIndex) => (
+              <MessageForwardedBundleItem key={itemIndex}>
+                <MessageForwardedBundleItemContent>
+                  {Array.from({ length: lines }, (_, index) => (
+                    <div key={index}>
+                      Item {itemIndex + 1} line {index + 1}
+                    </div>
+                  ))}
+                </MessageForwardedBundleItemContent>
+              </MessageForwardedBundleItem>
+            ))}
+          </MessageForwardedBundleItems>
+          <MessageForwardedBundleFooter data-testid="footer">
+            <MessageForwardedBundleFooterAction data-testid="action">
+              Show all {itemLines.length} messages
+            </MessageForwardedBundleFooterAction>
+          </MessageForwardedBundleFooter>
+        </MessageForwardedBundle>
+      </div>
+    </ThemeProvider>,
+  );
+}
+
+it("multiple short items fold when their text adds up beyond eight lines", () => {
+  // Three items of four lines each: no single item is long, the card is.
+  renderMultiItemBundle([4, 4, 4]);
+  expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBe("true");
+  expect(screen.getByTestId("footer")).not.toBeNull();
+});
+
+it("multiple short items stay open while their total stays within eight lines", () => {
+  renderMultiItemBundle([3, 3, 2]);
+  expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBeNull();
+  expect(screen.queryByTestId("footer")).toBeNull();
+});
 
 it("a consumer handler that calls preventDefault suppresses the toggle", () => {
   renderFoldableBundle(9, {

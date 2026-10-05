@@ -140,7 +140,7 @@ const MESSAGE_FORWARDED_BUNDLE_ITEMS_PROPS: readonly PropRow[] = [
     name: "collapsed",
     type: "boolean",
     description:
-      "Consumer-owned fold. Set to constrain the item-list height and show its bottom fade; omit to let the component measure its content and manage the fold itself (folds when an item's text renders beyond eight lines).",
+      "Consumer-owned fold. Set to constrain the item-list height and show its bottom fade; omit to let the component measure its content and manage the fold itself (folds when the items' text together renders beyond eight lines).",
   },
   {
     name: "...props",
@@ -179,7 +179,7 @@ const MESSAGE_FORWARDED_BUNDLE_ITEM_CONTENT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "The item's text body. The component-owned fold measures these slots: an item whose content renders beyond eight lines folds the card.",
+      "The item's text body. The component-owned fold measures these slots: their combined content beyond eight lines folds the card.",
   },
 ];
 
@@ -303,7 +303,7 @@ function MessageForwardedBundleDoc() {
 
           <DocSubsection parentId="usage" id="collapsed" title="Collapsed bundle">
             <DocNote>
-              A bundle folds when any item's text renders beyond eight lines. When{" "}
+              A bundle folds when the items' text together renders beyond eight lines. When{" "}
               <InlineCode>MessageForwardedBundleItems</InlineCode> renders without a{" "}
               <InlineCode>collapsed</InlineCode> prop the component measures this itself: the list
               clips with its own fade and the footer appears only while the content actually folds.
