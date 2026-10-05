@@ -42,9 +42,7 @@
   }
 
   /* Panel density: the compact task-history/feed scale (16px row gap, 12px
-     title/meta, 12px marker — the compact density used by dense panel
-     task histories before the migration
-     the Timeline migration, task #623-era). */
+     title/meta, 12px marker). */
   &.r-timeline--sm {
     --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 12px);
     --r-timeline-title-font-size: 12px;
