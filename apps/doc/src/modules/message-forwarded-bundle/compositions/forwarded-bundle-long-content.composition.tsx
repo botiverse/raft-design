@@ -1,4 +1,3 @@
-import { useCallback, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "raft-ui";
 import {
   MessageForwardedBundle,
@@ -46,7 +45,11 @@ function LongForwardedItem() {
 
 The migration needs an explicit rollback checkpoint after the first production cohort, plus a documented handoff for reconciliation and replay.
 
-Review the operational checklist with the owners of notifications, search, and thread state before scheduling the final rollout window.`}</Markdown>
+Review the operational checklist with the owners of notifications, search, and thread state before scheduling the final rollout window.
+
+Also decide the dual-write window up front: how long both writers stay live, who watches the divergence dashboard, and which metrics gate the next cohort.
+
+Finally, write down what "done" means for the old path — read-only, disconnected, or deleted — and add a dated note to the runbook so the next person on call can find the decision.`}</Markdown>
       </MessageForwardedBundleItemContent>
       <MessageForwardedBundleAttachments>
         <MessageForwardedBundleAttachment>
@@ -69,12 +72,6 @@ Review the operational checklist with the owners of notifications, search, and t
 }
 
 export function ForwardedBundleLongContentComposition() {
-  const [expanded, setExpanded] = useState(false);
-
-  const handleToggleExpanded = useCallback(() => {
-    setExpanded((current) => !current);
-  }, []);
-
   return (
     <MessageItem>
       <MessageItemAvatarSlot>
@@ -101,13 +98,20 @@ export function ForwardedBundleLongContentComposition() {
                 <MessageForwardedBundleHeaderCount>message</MessageForwardedBundleHeaderCount>
               </MessageForwardedBundleHeaderContent>
             </MessageForwardedBundleHeader>
-            <MessageForwardedBundleItems collapsed={!expanded}>
+            <MessageForwardedBundleItems>
               <LongForwardedItem />
             </MessageForwardedBundleItems>
             <MessageForwardedBundleFooter>
-              <MessageForwardedBundleFooterAction onClick={handleToggleExpanded}>
-                {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                {expanded ? "Collapse" : "Show all 1 message"}
+              <MessageForwardedBundleFooterAction
+                expandedContent={
+                  <>
+                    <ChevronUp size={12} />
+                    Collapse
+                  </>
+                }
+              >
+                <ChevronDown size={12} />
+                Show all 1 message
               </MessageForwardedBundleFooterAction>
             </MessageForwardedBundleFooter>
           </MessageForwardedBundle>
