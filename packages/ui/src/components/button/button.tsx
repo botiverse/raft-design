@@ -347,13 +347,15 @@ export const buttonVariants = tv({
       variant: "primary",
       class: {
         root: [
-          "bg-primary-400 text-primary-950",
-          "[--button-focus-ring:var(--primary-400)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.15),0_0_0_1px_var(--primary-edge)]",
-          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/11%)_0%,oklab(100%_0_0/0%)_0%,oklab(0%_0_0/0%)_100%)]",
+          // The elegant theme has no brutal-yellow fill: the primary tone
+          // reads as the soft/strong pair (the same pairing as the badge's
+          // soft appearance), with --primary-hover deepening it per mode.
+          "bg-primary-soft text-primary-strong",
+          "[--button-focus-ring:var(--primary-strong)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.04),0_0_0_1px_var(--primary-edge)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/4%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-primary-hover",
-          "dark:hover:bg-primary-500",
-          "aria-disabled:hover:bg-primary-400 aria-disabled:dark:hover:bg-primary-400",
+          "aria-disabled:hover:bg-primary-soft",
         ],
       },
     },
@@ -431,13 +433,13 @@ export const buttonVariants = tv({
       variant: "accent",
       class: {
         root: [
-          "bg-accent-400 text-accent-950",
-          "dark:text-foreground-inverse",
-          "[--button-focus-ring:var(--accent-400)]",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.12),0_0_0_1px_var(--accent-400)]",
-          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/8%)_0%,oklab(0%_0_0/0%)_100%)]",
+          // Same soft/strong treatment as primary, using the accent pair.
+          "bg-accent-soft text-accent-strong",
+          "[--button-focus-ring:var(--accent-strong)]",
+          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.04),0_0_0_1px_color-mix(in_srgb-linear,var(--accent-strong)_28%,transparent)]",
+          "before:bg-[linear-gradient(in_oklab_180deg,oklab(100%_0_0/4%)_0%,oklab(0%_0_0/0%)_100%)]",
           "hover:bg-accent-hover",
-          "aria-disabled:hover:bg-accent-400",
+          "aria-disabled:hover:bg-accent-soft",
         ],
       },
     },

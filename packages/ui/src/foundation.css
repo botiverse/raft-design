@@ -352,8 +352,10 @@
   --primary-strong: oklch(0.44 0.09 91.39);
   --primary-soft: oklch(0.955 0.067 93.62);
   --primary-edge: oklch(0.83 0.14 91.89 / 0.7);
+  --primary-hover: color-mix(in srgb-linear, var(--primary-soft) 88%, var(--primary-strong));
   --accent-strong: oklch(0.543 0.215 359.77);
   --accent-soft: oklch(0.914 0.048 358.59);
+  --accent-hover: color-mix(in srgb-linear, var(--accent-soft) 88%, var(--accent-strong));
 
   --theme-shadow-xs: oklch(0.145 0.002 106.42 / 0.071) 0px 0.5px 0px;
   --theme-shadow-sm:
@@ -463,8 +465,10 @@
   --primary-strong: oklch(0.88 0.13 92);
   --primary-soft: oklch(0.55 0.1 92 / 0.16);
   --primary-edge: oklch(0.88 0.15 92 / 0.4);
+  --primary-hover: color-mix(in srgb-linear, var(--primary-soft) 78%, var(--primary-strong));
   --accent-strong: oklch(0.84 0.11 0);
   --accent-soft: oklch(0.6 0.18 0 / 0.16);
+  --accent-hover: color-mix(in srgb-linear, var(--accent-soft) 78%, var(--accent-strong));
 
   /* Dark small elevations follow a top-left light model (lab01 btn-primary):
      a dark outer ring cuts the seam against the background, white lives only
@@ -560,8 +564,10 @@
     --primary-strong: oklch(0.88 0.13 92);
     --primary-soft: oklch(0.55 0.1 92 / 0.16);
     --primary-edge: oklch(0.88 0.15 92 / 0.4);
+    --primary-hover: color-mix(in srgb-linear, var(--primary-soft) 78%, var(--primary-strong));
     --accent-strong: oklch(0.84 0.11 0);
     --accent-soft: oklch(0.6 0.18 0 / 0.16);
+    --accent-hover: color-mix(in srgb-linear, var(--accent-soft) 78%, var(--accent-strong));
 
     --theme-shadow-xs:
       inset 0 1px 0 oklch(0.985 0.004 106.42 / 0.045), 0 0 0 1px oklch(0 0 0 / 0.4),
