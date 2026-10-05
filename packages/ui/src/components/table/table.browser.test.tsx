@@ -1,6 +1,6 @@
 import "./table.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
 import {
@@ -187,12 +187,12 @@ it("cell controls: a Select opens on click and commits via the keyboard", async 
       </Table>
     </ThemeProvider>,
   );
+  const { userEvent } = await import("vite-plus/test/browser/context");
   const trigger = screen.getByTestId("sel-trigger");
-  trigger.click();
+  trigger.focus();
+  await userEvent.keyboard("{Enter}");
   const listbox = await screen.findByRole("listbox");
   expect(listbox).not.toBeNull();
-  fireEvent.keyDown(listbox, { key: "ArrowDown" });
-  fireEvent.keyDown(listbox, { key: "ArrowDown" });
-  fireEvent.keyDown(listbox, { key: "Enter" });
+  await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}");
   expect(trigger.textContent).toContain("Writable");
 });
