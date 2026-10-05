@@ -57,10 +57,14 @@ function exceedsFoldLineLimit(slots: HTMLElement[]) {
   if (slots.length === 0) return false;
   const lineHeight =
     Number.parseFloat(getComputedStyle(slots[0]).lineHeight) || FOLD_LINE_HEIGHT_FALLBACK;
-  const renderedHeight = slots.reduce((height, slot) => height + slot.scrollHeight, 0);
-  // 1px of slack: scrollHeight is an integer while line heights can be
-  // fractional (zoom, custom sizes), so exactly eight lines must not read
-  // as "over eight".
+  // Fractional heights on purpose: scrollHeight rounds every slot up, and the
+  // rounding would accumulate across items (zoom can make line heights
+  // fractional too, so a total of exactly eight lines must stay under).
+  const renderedHeight = slots.reduce(
+    (height, slot) => height + slot.getBoundingClientRect().height,
+    0,
+  );
+  // 1px of slack absorbs subpixel noise at the boundary.
   return renderedHeight > lineHeight * FOLD_LINE_LIMIT + 1;
 }
 
