@@ -106,7 +106,7 @@ describe("disabled pointer semantics", () => {
     expect(cls).not.toContain("not-aria-disabled:");
     // Resets for this variant and for the generic motion classes are present
     // (class-string check; computed non-reaction is covered by the browser test).
-    expect(cls).toContain("aria-disabled:hover:bg-primary-400");
+    expect(cls).toContain("aria-disabled:hover:bg-primary-soft");
     expect(cls).toContain("aria-disabled:hover:translate-none");
     expect(cls).toContain("aria-disabled:active:scale-none");
   });

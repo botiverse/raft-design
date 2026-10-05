@@ -79,6 +79,7 @@ describe("brutal tone coverage (slock ui/Button tone table)", () => {
     );
     const cls = screen.getByRole("button", { name: "Action" }).className;
     expect(cls).not.toContain("bg-brutal-pink");
-    expect(cls).toContain("bg-accent-400");
+    // Elegant reads the accent tone through the soft pair (task #623).
+    expect(cls).toContain("bg-accent-soft");
   });
 });

@@ -230,7 +230,9 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "primary",
-      class: { root: "bg-primary-400 text-[oklch(0.431_0.088_86.67)]" },
+      // Elegant has no brutal-yellow fill; the primary tone reads as the
+      // soft/strong pair (the same tokens as the soft appearance).
+      class: { root: "bg-primary-soft text-primary-strong" },
     },
     {
       theme: "elegant",
@@ -242,7 +244,7 @@ export const badge = tv({
       theme: "elegant",
       appearance: "solid",
       variant: "accent",
-      class: { root: "bg-accent-400 text-[oklch(0.281_0.112_3.73)]" },
+      class: { root: "bg-accent-soft text-accent-strong" },
     },
     {
       theme: "elegant",
