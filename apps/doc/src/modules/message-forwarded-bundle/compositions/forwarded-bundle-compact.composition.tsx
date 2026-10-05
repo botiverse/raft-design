@@ -7,6 +7,7 @@ import {
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
   MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemContent,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
 } from "raft-ui";
@@ -59,14 +60,18 @@ export function ForwardedBundleCompactComposition() {
                   <MessageForwardedBundleItemAuthor>@Ada</MessageForwardedBundleItemAuthor>
                   <time dateTime="2026-07-15T06:05:00.000Z">Jul 15, 2:05 PM</time>
                 </MessageForwardedBundleItemMeta>
-                <Markdown>Rollout is clear for the message reference migration.</Markdown>
+                <MessageForwardedBundleItemContent>
+                  <Markdown>Rollout is clear for the message reference migration.</Markdown>
+                </MessageForwardedBundleItemContent>
               </MessageForwardedBundleItem>
               <MessageForwardedBundleItem>
                 <MessageForwardedBundleItemMeta>
                   <MessageForwardedBundleItemAuthor>@Will</MessageForwardedBundleItemAuthor>
                   <time dateTime="2026-07-15T06:09:00.000Z">Jul 15, 2:09 PM</time>
                 </MessageForwardedBundleItemMeta>
-                <Markdown>Keep the source case with its attachment context.</Markdown>
+                <MessageForwardedBundleItemContent>
+                  <Markdown>Keep the source case with its attachment context.</Markdown>
+                </MessageForwardedBundleItemContent>
               </MessageForwardedBundleItem>
             </MessageForwardedBundleItems>
           </MessageForwardedBundle>

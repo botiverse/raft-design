@@ -1,17 +1,20 @@
 import "./message-forwarded-bundle.test.css";
 import { afterEach, beforeAll, expect, test } from "vite-plus/test";
-import { cleanup, render, screen } from "@testing-library/react";
-import type { ReactElement } from "react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import type { MouseEvent, ReactElement } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
 import {
   MessageForwardedBundle,
+  MessageForwardedBundleFooter,
+  MessageForwardedBundleFooterAction,
   MessageForwardedBundleGallery,
   MessageForwardedBundleGalleryTile,
   MessageForwardedBundleHeader,
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
   MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemContent,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
 } from "./message-forwarded-bundle";
@@ -190,6 +193,86 @@ it("a lone row of four splits into two rows of two", () => {
   expect(rows.length).toBe(2);
   expect(rows[0].children.length).toBe(2);
   expect(rows[1].children.length).toBe(2);
+});
+
+// The component-owned fold: without a `collapsed` prop the items measure their
+// item-content slots and fold when any of them renders beyond eight lines
+// (~8 x 20px line height). Rendered lines are deliberate: each child div is
+// exactly one line, so the count does not depend on wrapping.
+function renderFoldableBundle(
+  lines: number,
+  options: {
+    theme?: Theme;
+    mode?: ThemeMode;
+    collapsed?: boolean;
+    onAction?: (event: MouseEvent<HTMLButtonElement>) => void;
+  } = {},
+) {
+  const { theme = "elegant", mode, collapsed, onAction } = options;
+  const lineChildren = Array.from({ length: lines }, (_, index) => (
+    <div key={index}>Line {index + 1}</div>
+  ));
+  return render(
+    <ThemeProvider theme={theme} mode={mode}>
+      <div style={{ width: 560 }}>
+        <MessageForwardedBundle data-testid="bundle">
+          <MessageForwardedBundleItems data-testid="items" collapsed={collapsed}>
+            <MessageForwardedBundleItem>
+              <MessageForwardedBundleItemContent data-testid="content">
+                {lineChildren}
+              </MessageForwardedBundleItemContent>
+            </MessageForwardedBundleItem>
+          </MessageForwardedBundleItems>
+          <MessageForwardedBundleFooter data-testid="footer">
+            <MessageForwardedBundleFooterAction data-testid="action" onClick={onAction}>
+              Show all 1 message
+            </MessageForwardedBundleFooterAction>
+          </MessageForwardedBundleFooter>
+        </MessageForwardedBundle>
+      </div>
+    </ThemeProvider>,
+  );
+}
+
+for (const { key, theme, mode } of GALLERY_THEMES) {
+  it(`nine lines of item text fold the bundle and the action toggles it — ${key}`, () => {
+    renderFoldableBundle(9, { theme, mode });
+    const items = screen.getByTestId("items");
+    // The component measured the content and folded on its own.
+    expect(items.getAttribute("data-collapsed")).toBe("true");
+    // The footer only exists while the content folds.
+    expect(screen.getByTestId("footer")).not.toBeNull();
+    // Without a consumer handler the action toggles the component-owned fold.
+    fireEvent.click(screen.getByTestId("action"));
+    expect(items.getAttribute("data-collapsed")).toBeNull();
+  });
+
+  it(`eight lines of item text stay open with no footer — ${key}`, () => {
+    renderFoldableBundle(8, { theme, mode });
+    expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBeNull();
+    expect(screen.queryByTestId("footer")).toBeNull();
+  });
+}
+
+it("a consumer handler that calls preventDefault suppresses the toggle", () => {
+  renderFoldableBundle(9, {
+    theme: "elegant",
+    mode: "light",
+    onAction: (event) => event.preventDefault(),
+  });
+  const items = screen.getByTestId("items");
+  expect(items.getAttribute("data-collapsed")).toBe("true");
+  fireEvent.click(screen.getByTestId("action"));
+  // The consumer took the click (e.g. opened a detail view): the fold stays.
+  expect(items.getAttribute("data-collapsed")).toBe("true");
+});
+
+it("a controlled collapsed prop skips the measurement", () => {
+  renderFoldableBundle(9, { theme: "elegant", mode: "light", collapsed: false });
+  // Pinned open by the consumer despite the line count; the footer stays
+  // caller-owned instead of auto-hiding.
+  expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBeNull();
+  expect(screen.getByTestId("footer")).not.toBeNull();
 });
 
 it("fullWidth releases the 34rem cap", () => {

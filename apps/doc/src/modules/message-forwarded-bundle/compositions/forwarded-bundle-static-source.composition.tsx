@@ -7,6 +7,7 @@ import {
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
   MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemContent,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSourceLabel,
@@ -63,7 +64,9 @@ export function ForwardedBundleStaticSourceComposition() {
                   <MessageForwardedBundleItemAuthor>@Kai</MessageForwardedBundleItemAuthor>
                   <time dateTime="2026-07-15T06:19:00.000Z">Jul 15, 2:19 PM</time>
                 </MessageForwardedBundleItemMeta>
-                <Markdown>The original message is no longer available to open.</Markdown>
+                <MessageForwardedBundleItemContent>
+                  <Markdown>The original message is no longer available to open.</Markdown>
+                </MessageForwardedBundleItemContent>
               </MessageForwardedBundleItem>
             </MessageForwardedBundleItems>
           </MessageForwardedBundle>

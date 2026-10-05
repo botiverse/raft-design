@@ -7,6 +7,7 @@ import {
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
   MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemContent,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
@@ -73,7 +74,9 @@ export function ForwardedBundleThreadComposition() {
                   <MessageForwardedBundleItemAuthor>@Mia</MessageForwardedBundleItemAuthor>
                   <time dateTime="2026-07-15T06:12:00.000Z">Jul 15, 2:12 PM</time>
                 </MessageForwardedBundleItemMeta>
-                <Markdown>Follow the same message state contract in the thread.</Markdown>
+                <MessageForwardedBundleItemContent>
+                  <Markdown>Follow the same message state contract in the thread.</Markdown>
+                </MessageForwardedBundleItemContent>
               </MessageForwardedBundleItem>
             </MessageForwardedBundleItems>
           </MessageForwardedBundle>

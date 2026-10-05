@@ -35,6 +35,7 @@ import {
   MessageForwardedBundleHeaderLabel,
   MessageForwardedBundleItem,
   MessageForwardedBundleItemAuthor,
+  MessageForwardedBundleItemContent,
   MessageForwardedBundleItemMeta,
   MessageForwardedBundleItems,
   MessageForwardedBundleSource,
@@ -114,7 +115,9 @@ function ForwardedBundleItemsContent({
             <span aria-hidden>·</span>
             <time dateTime={item.createdAtDateTime}>{item.createdAt}</time>
           </MessageForwardedBundleItemMeta>
-          <Markdown>{item.content}</Markdown>
+          <MessageForwardedBundleItemContent>
+            <Markdown>{item.content}</Markdown>
+          </MessageForwardedBundleItemContent>
           {item.images?.length || item.attachment ? (
             <MessageForwardedBundleAttachments>
               {item.images?.length ? (

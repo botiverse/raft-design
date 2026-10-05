@@ -78,6 +78,8 @@ export const messageForwardedBundleItem = tv({
     root: [],
     meta: ["flex min-w-0 flex-wrap items-center"],
     author: [],
+    /** The item's text body — also the fold measurement's reading surface. */
+    itemContent: ["min-w-0 max-w-full wrap-break-word"],
     attachments: ["flex flex-wrap"],
     attachment: ["inline-flex max-w-full items-center"],
     attachmentName: ["min-w-0 truncate"],
