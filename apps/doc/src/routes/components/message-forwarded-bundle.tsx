@@ -232,9 +232,16 @@ const MESSAGE_FORWARDED_BUNDLE_FOOTER_PROPS: readonly PropRow[] = [
 
 const MESSAGE_FORWARDED_BUNDLE_FOOTER_ACTION_PROPS: readonly PropRow[] = [
   {
+    name: "expandedContent",
+    type: "ReactNode",
+    description:
+      "What the action shows while the component-owned fold is expanded (children render while it is folded) — pass the collapsed label as children and the expanded label here; aria-expanded follows the fold. Ignored in the controlled mode, where the consumer labels the fold itself.",
+  },
+  {
     name: "...props",
     type: 'useRender.ComponentProps<"button">',
-    description: "Styled action slot for the forwarded bundle footer.",
+    description:
+      "Styled action slot for the forwarded bundle footer. By default the click toggles the fold; a consumer that takes over the click (opening the detail view, say) calls preventDefault.",
   },
 ];
 
@@ -326,8 +333,9 @@ function MessageForwardedBundleDoc() {
 
           <DocSubsection parentId="usage" id="long-content" title="Long content and attachments">
             <DocNote>
-              A single forwarded item folds under the same eight-line rule. Attachment labels stay
-              caller-owned, including their MIME-derived type text.
+              A single forwarded item folds under the same eight-line rule, and the action labels
+              both states through <InlineCode>expandedContent</InlineCode> (children render while
+              folded). Attachment labels stay caller-owned, including their MIME-derived type text.
             </DocNote>
             <UsagePreview
               code={code.forwardedBundleLongContent}
