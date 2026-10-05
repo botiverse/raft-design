@@ -16,6 +16,7 @@
   --r-timeline-content-font-size: 14px;
   --r-timeline-time-font-size: 12px;
   --r-timeline-line-height: 1.5;
+  --r-timeline-item-inner-gap: 4px;
   --r-timeline-title-font-family: var(--font-heading);
   --r-timeline-title-font-weight: 700;
   --r-timeline-gap: 12px;
@@ -48,6 +49,11 @@
     --r-timeline-title-font-size: 12px;
     --r-timeline-content-font-size: 12px;
     --r-timeline-item-gap: 16px;
+    /* Absolute line-height, so the axis offset below replaces the
+       font-size × ratio formula (a length × length calc is invalid). */
+    --r-timeline-line-height: 16px;
+    --r-timeline-item-inner-gap: 2px;
+    --r-timeline-axis-offset: calc((16px - var(--r-timeline-icon-size)) / 2);
   }
 
   &.r-timeline--horizontal {
@@ -195,7 +201,7 @@
   font-family: var(--r-timeline-title-font-family);
   font-size: var(--r-timeline-title-font-size);
   font-weight: var(--r-timeline-title-font-weight);
-  margin-bottom: 4px;
+  margin-bottom: var(--r-timeline-item-inner-gap);
 }
 
 .r-timeline-content {
@@ -206,7 +212,7 @@
 .r-timeline-time {
   color: var(--foreground-hint);
   font-size: var(--r-timeline-time-font-size);
-  margin-top: 4px;
+  margin-top: var(--r-timeline-item-inner-gap);
 }
 
 /* Markers on the right: the axis moves to the end and the text aligns to it. */

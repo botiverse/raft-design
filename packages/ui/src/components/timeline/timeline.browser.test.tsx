@@ -3,7 +3,7 @@ import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
-import { Timeline, TimelineItem, TimelineTitle } from "./timeline";
+import { Timeline, TimelineContent, TimelineItem, TimelineTime, TimelineTitle } from "./timeline";
 
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
@@ -100,6 +100,62 @@ for (const { key, theme, mode } of THEMES) {
     expect(markerColors("item-accent")).not.toBe(markerColors("item-default"));
   });
 }
+
+it("the panel size reaches the compact record pitch (3 lines = 68px)", () => {
+  render(
+    <ThemeProvider theme="brutal">
+      <Timeline size="sm">
+        <TimelineItem data-testid="first">
+          <TimelineTitle>In progress</TimelineTitle>
+          <TimelineContent>Working on the migration</TimelineContent>
+          <TimelineTime>09:00</TimelineTime>
+        </TimelineItem>
+        <TimelineItem>
+          <TimelineTitle>Done</TimelineTitle>
+        </TimelineItem>
+      </Timeline>
+    </ThemeProvider>,
+  );
+  const title = screen.getByText("In progress");
+  const time = screen.getByText("09:00");
+  // The compact line metrics behind the pitch.
+  expect(getComputedStyle(title).lineHeight).toBe("16px");
+  expect(getComputedStyle(title).marginBottom).toBe("2px");
+  expect(getComputedStyle(time).marginTop).toBe("2px");
+  const body = title.parentElement as HTMLElement;
+  // title + content + time (16×3) + two 2px inner gaps + the 16px item gap.
+  expect(Math.round(body.getBoundingClientRect().height)).toBe(68);
+});
+
+it("the panel size keeps the marker centered on the title line", () => {
+  // The sm block replaces the axis-offset formula, so pin its point: the
+  // marker's center and the title's first line center must coincide.
+  for (const theme of ["brutal", "elegant"] as const) {
+    render(
+      <ThemeProvider theme={theme}>
+        <Timeline size="sm">
+          <TimelineItem data-testid="item">
+            <TimelineTitle>In progress</TimelineTitle>
+            <TimelineTime>09:00</TimelineTime>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineTitle>Done</TimelineTitle>
+          </TimelineItem>
+        </Timeline>
+      </ThemeProvider>,
+    );
+    const marker = screen
+      .getByTestId("item")
+      .querySelector<HTMLElement>(".r-timeline-item__marker") as HTMLElement;
+    const title = screen.getByText("In progress");
+    const markerRect = marker.getBoundingClientRect();
+    const titleRect = title.getBoundingClientRect();
+    const markerCenter = markerRect.top + markerRect.height / 2;
+    const titleCenter = titleRect.top + titleRect.height / 2;
+    expect(Math.abs(markerCenter - titleCenter)).toBeLessThanOrEqual(1);
+    cleanup();
+  }
+});
 
 it("the panel size renders at the compact spec (16px rows, 12px title and marker)", () => {
   render(
