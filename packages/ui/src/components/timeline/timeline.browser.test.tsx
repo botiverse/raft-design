@@ -24,6 +24,65 @@ function markerColors(itemTestId: string) {
   return `${style.borderColor}|${style.backgroundColor}`;
 }
 
+/** oklch → sRGB → WCAG relative luminance, for the contrast guard below. */
+function oklchToSrgb(L: number, C: number, Hdeg: number) {
+  const h = (Hdeg * Math.PI) / 180;
+  const a = C * Math.cos(h);
+  const b = C * Math.sin(h);
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = L - 0.0894841775 * a - 1.291485548 * b;
+  const l = l_ ** 3;
+  const m = m_ ** 3;
+  const s = s_ ** 3;
+  const toSrgb = (x: number) =>
+    x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(Math.max(x, 0), 1 / 2.4) - 0.055;
+  return [
+    toSrgb(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+    toSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+    toSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
+  ].map((x) => Math.min(1, Math.max(0, x)));
+}
+
+function luminance(rgb: number[]) {
+  const f = (c: number) => (c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+  const [r, g, b] = rgb.map(f);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrastRatio(rgb1: number[], rgb2: number[]) {
+  const l1 = luminance(rgb1);
+  const l2 = luminance(rgb2);
+  const [hi, lo] = l1 > l2 ? [l1, l2] : [l2, l1];
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+function parseOklch(value: string): [number, number, number] {
+  const match = /oklch\(([\d.]+)\s+([\d.]+)\s+([\d.]+)/.exec(value);
+  expect(match, `unparsable oklch: ${value}`).not.toBeNull();
+  return [Number(match![1]), Number(match![2]), Number(match![3])];
+}
+
+// Josh's #353 review follow-up: the elegant-light accent pair is what the
+// timeline accent marker reads (strong on soft); keep the ratio at WCAG AA.
+it("elegant light: the accent pair stays at 4.5:1 or better", () => {
+  render(
+    <ThemeProvider theme="elegant" mode="light">
+      <Timeline>
+        <TimelineItem data-testid="item-accent" variant="accent">
+          <TimelineTitle>In review</TimelineTitle>
+        </TimelineItem>
+      </Timeline>
+    </ThemeProvider>,
+  );
+  const item = screen.getByTestId("item-accent");
+  const style = getComputedStyle(item);
+  const strong = parseOklch(style.getPropertyValue("--accent-strong").trim());
+  const soft = parseOklch(style.getPropertyValue("--accent-soft").trim());
+  const ratio = contrastRatio(oklchToSrgb(...strong), oklchToSrgb(...soft));
+  expect(ratio).toBeGreaterThanOrEqual(4.5);
+});
+
 for (const { key, theme, mode } of THEMES) {
   it(`accent and default markers read as distinct colors — ${key}`, () => {
     render(
