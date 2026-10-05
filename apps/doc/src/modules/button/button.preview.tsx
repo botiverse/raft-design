@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { Plus } from "lucide-react";
 import { Button, useTheme } from "raft-ui";
@@ -38,6 +38,13 @@ export function ButtonPlaygroundPreview({ code }: ButtonPlaygroundPreviewProps) 
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const handleVariantChange = useCallback((value: string) => {
+    setVariant(value as NonNullable<ButtonProps["variant"]>);
+  }, []);
+  const handleSizeChange = useCallback((value: string) => {
+    setSize(value as NonNullable<ButtonProps["size"]>);
+  }, []);
+
   return (
     <Preview>
       <Preview.Canvas>
@@ -59,7 +66,7 @@ export function ButtonPlaygroundPreview({ code }: ButtonPlaygroundPreviewProps) 
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as NonNullable<ButtonProps["variant"]>)}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
         <Preview.Control label="Size" htmlFor="button-preview-size">
@@ -68,7 +75,7 @@ export function ButtonPlaygroundPreview({ code }: ButtonPlaygroundPreviewProps) 
             label="Size"
             options={SIZES}
             value={size}
-            onValueChange={(value) => setSize(value as NonNullable<ButtonProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="Label" htmlFor="button-preview-label">

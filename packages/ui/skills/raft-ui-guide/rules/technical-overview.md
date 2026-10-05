@@ -7,12 +7,7 @@ description: "rUI's technical foundations, package contents, and integration con
 
 ## Foundations
 
-`raft-ui` provides shared CSS foundations and a React 19 component library. The components use Tailwind CSS v4; the foundation works with plain HTML and CSS.
-
-- **Base UI** provides headless interaction behavior where applicable: focus, keyboard navigation, and overlays.
-- **Tailwind variants** defines component recipes; semantic CSS tokens supply colors, typography, spacing, and shadows.
-- **Brutal and Elegant** share component APIs. Elegant supports light, dark, and system modes.
-- **Compound components** expose structure for composition. Content, data, and workflows belong to the consuming app.
+`raft-ui` provides shared CSS foundations and a React 19 component library built on Base UI, Tailwind CSS v4, and tailwind-variants; the foundation also works with plain HTML and CSS. Brutal and Elegant share component APIs. Elegant supports light, dark, and system modes.
 
 ## Package contents
 
@@ -25,7 +20,7 @@ description: "rUI's technical foundations, package contents, and integration con
 | `raft-ui/styles.css`     | Tailwind integration                    |
 | `raft-ui/fonts.css`      | Optional web fonts                      |
 
-Component declarations live in `dist/index.d.mts`. Version-matched Markdown guides and optional `raft-ui-guide` / `raft-ui-critique` skills ship in `skills/`.
+Component declarations live in `dist/index.d.mts` (see [API lookup](./lookup.md)). Version-matched Markdown guides and optional `raft-ui-guide` / `raft-ui-critique` skills ship in `skills/`.
 
 ## Plain HTML
 
@@ -75,12 +70,12 @@ Custom fonts use `--heading-font`, `--sans-font`, and `--mono-font`.
 
 `ThemeProvider` defaults to Brutal and light mode. `theme` / `defaultTheme` select the family; `mode` / `defaultMode` select Elegant's mode. `storageKey` persists uncontrolled selections; `modeStorageKey` defaults to `storageKey + "-mode"`.
 
-`useTheme()` exposes `theme`, `mode`, `resolvedMode`, and `setTheme`. For example, `setTheme("elegant", { mode: "dark" })` switches both family and mode.
+`useTheme()` exposes `theme`, `mode`, `resolvedMode`, and `setTheme`. For example, `setTheme("elegant", { mode: "dark" })` switches both family and mode; `setTheme("brutal")` resets the mode to light.
 
 ## Theme and portal boundaries
 
 - `ThemeProvider` synchronizes `document.documentElement` by default. Nested themes need `syncDom={false}` and matching `data-theme` and `light`/`dark` classes on their root.
-- Base UI overlays portal to `document.body`. An app root with `isolation: isolate` keeps its stacking contexts below those surfaces. Embedded previews can use `portalProps.container` to keep overlays inside their scope.
+- Base UI overlays portal to `document.body`. An app root with `isolation: isolate` keeps its stacking contexts below those surfaces. Embedded previews can use `portalProps.container` (toasts: `ToastProvider portalContainer`) to keep overlays inside their scope.
 - SSR apps with persisted mode need to restore it before first paint to avoid a theme flash.
 - Use semantic tokens for theme differences. `BrutalOnly` and `ElegantOnly` are for decoration, not different workflows.
 

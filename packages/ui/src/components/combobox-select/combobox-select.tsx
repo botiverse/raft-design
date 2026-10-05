@@ -1,6 +1,6 @@
 import { Combobox as BaseCombobox } from "@base-ui/react/combobox";
 import { Check, ChevronDown, LoaderCircle, Plus, X } from "lucide-react";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { useTheme } from "../../lib/theme/use-theme";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
@@ -118,6 +118,18 @@ function renderSelectedChip<Option>({
 }
 
 /** Options-driven composition. The stable compound Combobox API stays unchanged. */
+function isItemEqualToValue<Option>(a: OptionRecord<Option>, b: OptionRecord<Option>) {
+  return a.createQuery === b.createQuery && a.value === b.value;
+}
+
+function itemToStringLabel<Option>(record: OptionRecord<Option>) {
+  return record.label;
+}
+
+function itemToStringValue<Option>(record: OptionRecord<Option>) {
+  return String(record.value);
+}
+
 export function ComboboxSelect<
   Option = ComboboxSelectOption,
   Multiple extends boolean | undefined = false,
@@ -183,9 +195,15 @@ export function ComboboxSelect<
     ComboboxSelectValue | ComboboxSelectValue[] | null
   >(defaultValue ?? (multiple ? [] : null));
   const selectedValue = value === undefined ? uncontrolledValue : value;
-  const selectedKeys = (
-    Array.isArray(selectedValue) ? selectedValue : selectedValue == null ? [] : [selectedValue]
-  ) as ComboboxSelectValue[];
+  const selectedKeys = useMemo(
+    () =>
+      (Array.isArray(selectedValue)
+        ? selectedValue
+        : selectedValue == null
+          ? []
+          : [selectedValue]) as ComboboxSelectValue[],
+    [selectedValue],
+  );
   const [query, setQuery] = useState(String(defaultInputValue ?? ""));
   const [createdOptions, setCreatedOptions] = useState<Option[]>([]);
   const collator = useMemo(
@@ -231,16 +249,12 @@ export function ComboboxSelect<
           : { value: key, label: String(key), disabled: false }),
     );
   }, [selectedKeys, normalized, retained, fallbackOption, labelField, valueField, disabledField]);
-  useEffect(() => {
-    setRetained((previous) => {
-      if (
-        previous.size === selected.length &&
-        selected.every((record) => previous.get(record.value) === record)
-      )
-        return previous;
-      return new Map(selected.map((record) => [record.value, record]));
-    });
-  }, [selected]);
+  if (
+    retained.size !== selected.length ||
+    !selected.every((record) => retained.get(record.value) === record)
+  ) {
+    setRetained(new Map(selected.map((record) => [record.value, record])));
+  }
 
   const search = String(inputValue ?? query).trim();
   const canCreate =
@@ -251,15 +265,16 @@ export function ComboboxSelect<
     ![...normalized.records.values(), ...selected].some(
       (record) => record.label.trim().toLocaleLowerCase() === search.toLocaleLowerCase(),
     );
-  const candidate: OptionRecord<Option> = {
-    value: search,
-    label: search,
-    disabled: false,
-    createQuery: search,
-  };
-  const items = canCreate
-    ? [...normalized.groups, { key: "create", items: [candidate] }]
-    : normalized.groups;
+  const items = useMemo(() => {
+    if (!canCreate) return normalized.groups;
+    const candidate: OptionRecord<Option> = {
+      value: search,
+      label: search,
+      disabled: false,
+      createQuery: search,
+    };
+    return [...normalized.groups, { key: "create", items: [candidate] }];
+  }, [canCreate, normalized.groups, search]);
   const css = `r-combobox-select r-combobox-select--${theme} r-combobox-select--${size}${resolvedMode === "dark" ? " r-combobox-select--dark" : ""}`;
   const tagLimit = maxTagCount === undefined ? Infinity : Math.max(0, Math.floor(maxTagCount));
   const inputClassName = [
@@ -293,80 +308,88 @@ export function ComboboxSelect<
   const inputReadOnly = readOnly || !filterable;
   const controlValue = multiple ? selected : (selected[0] ?? null);
 
-  function handleValueChange(
-    next: OptionRecord<Option> | OptionRecord<Option>[] | null,
-    details: BaseCombobox.Root.ChangeEventDetails,
-  ) {
-    const nextRecords = next === null ? [] : Array.isArray(next) ? next : [next];
-    const createRecord = nextRecords.find((record) => record.createQuery !== undefined);
-    let newOption: Option | undefined;
-    let resolved = nextRecords;
-    if (createRecord) {
-      const created = onCreate
-        ? onCreate(createRecord.label)
-        : ({ [labelField]: createRecord.label, [valueField]: createRecord.label } as Option);
-      if (created === null) {
-        details.cancel();
-        return;
+  const handleValueChange = useCallback(
+    (
+      next: OptionRecord<Option> | OptionRecord<Option>[] | null,
+      details: BaseCombobox.Root.ChangeEventDetails,
+    ) => {
+      const nextRecords = next === null ? [] : Array.isArray(next) ? next : [next];
+      const createRecord = nextRecords.find((record) => record.createQuery !== undefined);
+      let newOption: Option | undefined;
+      let resolved = nextRecords;
+      if (createRecord) {
+        const created = onCreate
+          ? onCreate(createRecord.label)
+          : ({ [labelField]: createRecord.label, [valueField]: createRecord.label } as Option);
+        if (created === null) {
+          details.cancel();
+          return;
+        }
+        const record = normalizeOption(created, labelField, valueField, disabledField);
+        if (record.disabled) {
+          details.cancel();
+          return;
+        }
+        newOption = created;
+        const existing = normalized.records.get(record.value) ?? retained.get(record.value);
+        resolved = nextRecords.map((item) => (item === createRecord ? (existing ?? record) : item));
+        resolved = [...new Map(resolved.map((item) => [item.value, item])).values()];
       }
-      const record = normalizeOption(created, labelField, valueField, disabledField);
-      if (record.disabled) {
-        details.cancel();
-        return;
-      }
-      newOption = created;
-      const existing = normalized.records.get(record.value) ?? retained.get(record.value);
-      resolved = nextRecords.map((item) => (item === createRecord ? (existing ?? record) : item));
-      resolved = [...new Map(resolved.map((item) => [item.value, item])).values()];
-    }
-    const nextValue = multiple
-      ? resolved.map((record) => record.value)
-      : (resolved[0]?.value ?? null);
-    const nextOptions = multiple
-      ? resolved.map((record) => record.option)
-      : (resolved[0]?.option ?? null);
-    onValueChange?.(
-      nextValue as ComboboxSelectSelection<Multiple>,
-      nextOptions as Multiple extends true ? (Option | undefined)[] : Option | undefined | null,
-      details,
-    );
-    if (details.isCanceled) return;
-    if (newOption !== undefined) setCreatedOptions((previous) => [...previous, newOption]);
-    setRetained(new Map(resolved.map((record) => [record.value, record])));
-    if (value === undefined) setUncontrolledValue(nextValue);
-    if (details.reason === "clear-press") onClear?.();
-  }
+      const nextValue = multiple
+        ? resolved.map((record) => record.value)
+        : (resolved[0]?.value ?? null);
+      const nextOptions = multiple
+        ? resolved.map((record) => record.option)
+        : (resolved[0]?.option ?? null);
+      onValueChange?.(
+        nextValue as ComboboxSelectSelection<Multiple>,
+        nextOptions as Multiple extends true ? (Option | undefined)[] : Option | undefined | null,
+        details,
+      );
+      if (details.isCanceled) return;
+      if (newOption !== undefined) setCreatedOptions((previous) => [...previous, newOption]);
+      setRetained(new Map(resolved.map((record) => [record.value, record])));
+      if (value === undefined) setUncontrolledValue(nextValue);
+      if (details.reason === "clear-press") onClear?.();
+    },
+    [
+      multiple,
+      onCreate,
+      labelField,
+      valueField,
+      disabledField,
+      normalized.records,
+      retained,
+      onValueChange,
+      value,
+      onClear,
+    ],
+  );
 
-  function handleInputValueChange(next: string, details: BaseCombobox.Root.ChangeEventDetails) {
-    onInputValueChange?.(next, details);
-    if (details.isCanceled) return;
-    const shouldKeepQuery =
-      details.reason === "input-change" ||
-      (details.reason === "item-press" && !clearFilterAfterSelect);
-    setQuery(shouldKeepQuery ? next : "");
-    if (details.reason === "input-change" || details.reason === "clear-press") onSearch?.(next);
-  }
+  const handleInputValueChange = useCallback(
+    (next: string, details: BaseCombobox.Root.ChangeEventDetails) => {
+      onInputValueChange?.(next, details);
+      if (details.isCanceled) return;
+      const shouldKeepQuery =
+        details.reason === "input-change" ||
+        (details.reason === "item-press" && !clearFilterAfterSelect);
+      setQuery(shouldKeepQuery ? next : "");
+      if (details.reason === "input-change" || details.reason === "clear-press") onSearch?.(next);
+    },
+    [onInputValueChange, clearFilterAfterSelect, onSearch],
+  );
 
-  function filterOptions(record: OptionRecord<Option>, pattern: string) {
-    if (record.createQuery !== undefined) return true;
-    if (remote || !filterable || filter === false) return true;
-    return record.option !== undefined && typeof filter === "function"
-      ? filter(pattern, record.option)
-      : collator.compare(record.label.slice(0, pattern.length), pattern) === 0 ||
-          record.label.toLocaleLowerCase().includes(pattern.toLocaleLowerCase());
-  }
-
-  function isItemEqualToValue(a: OptionRecord<Option>, b: OptionRecord<Option>) {
-    return a.createQuery === b.createQuery && a.value === b.value;
-  }
-
-  function itemToStringLabel(record: OptionRecord<Option>) {
-    return record.label;
-  }
-
-  function itemToStringValue(record: OptionRecord<Option>) {
-    return String(record.value);
-  }
+  const filterOptions = useCallback(
+    (record: OptionRecord<Option>, pattern: string) => {
+      if (record.createQuery !== undefined) return true;
+      if (remote || !filterable || filter === false) return true;
+      return record.option !== undefined && typeof filter === "function"
+        ? filter(pattern, record.option)
+        : collator.compare(record.label.slice(0, pattern.length), pattern) === 0 ||
+            record.label.toLocaleLowerCase().includes(pattern.toLocaleLowerCase());
+    },
+    [remote, filterable, filter, collator],
+  );
 
   const selectedChips = selected.map((record, index) =>
     renderSelectedChip({ record, index, tagLimit, strings, renderLabel, renderTag }),

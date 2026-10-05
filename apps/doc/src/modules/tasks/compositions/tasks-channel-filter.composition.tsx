@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ChevronDown, Hash } from "lucide-react";
 import {
   Combobox,
@@ -50,9 +50,34 @@ export function TasksChannelFilterComposition({
   const availableChannels = channels.filter((channel) =>
     channel.label.toLocaleLowerCase().includes(normalizedQuery),
   );
-  const items = channels.map((channel) => channel.id);
-  const itemToStringLabel = (id: string) =>
-    channels.find((channel) => channel.id === id)?.label ?? id;
+  const items = useMemo(() => channels.map((channel) => channel.id), [channels]);
+  const itemToStringLabel = useCallback(
+    (id: string) => channels.find((channel) => channel.id === id)?.label ?? id,
+    [channels],
+  );
+
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      if (nextOpen) setQuery("");
+      onOpenChange?.(nextOpen);
+    },
+    [onOpenChange],
+  );
+
+  const handleInputValueChange = useCallback(
+    (nextQuery: string, eventDetails: { reason: string }) => {
+      if (eventDetails.reason !== "item-press") setQuery(nextQuery);
+    },
+    [],
+  );
+
+  const handleValueChange = useCallback(
+    (nextValue: string[]) => {
+      if (value === undefined) setLocalValue(nextValue);
+      onValueChange?.(nextValue);
+    },
+    [onValueChange, value],
+  );
 
   return (
     <div className="relative inline-flex">
@@ -65,17 +90,9 @@ export function TasksChannelFilterComposition({
         defaultOpen={defaultOpen}
         inputValue={query}
         itemToStringLabel={itemToStringLabel}
-        onOpenChange={(nextOpen) => {
-          if (nextOpen) setQuery("");
-          onOpenChange?.(nextOpen);
-        }}
-        onInputValueChange={(nextQuery, eventDetails) => {
-          if (eventDetails.reason !== "item-press") setQuery(nextQuery);
-        }}
-        onValueChange={(nextValue) => {
-          if (value === undefined) setLocalValue(nextValue);
-          onValueChange?.(nextValue);
-        }}
+        onOpenChange={handleOpenChange}
+        onInputValueChange={handleInputValueChange}
+        onValueChange={handleValueChange}
       >
         <ComboboxTrigger aria-label="Channel" render={<PickerTriggerButton />}>
           <Hash aria-hidden className="size-3.5" />

@@ -8,7 +8,7 @@ import {
   ResizablePanel,
   useThemeFamily,
 } from "raft-ui";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import type { ActivityCompositionItem } from "#/modules/activity/activity.fixtures.ts";
 import { ActivityInboxComposition } from "#/modules/activity/compositions/activity-inbox.composition.tsx";
@@ -74,84 +74,102 @@ export function PlaygroundActivityPanel() {
     [],
   );
 
-  function commitCompositionItems(nextItems: readonly ActivityCompositionItem[]) {
-    const nextById = new Map(nextItems.map((item) => [item.id, item]));
-    setItems((current) =>
-      current.map((item) => {
-        const next = nextById.get(item.id);
-        return next
-          ? {
-              ...item,
-              unread: next.unreadCount > 0,
-              saved: next.saved,
-              done: next.done,
-              following: next.following,
-            }
-          : item;
+  const commitCompositionItems = useCallback(
+    (nextItems: readonly ActivityCompositionItem[]) => {
+      const nextById = new Map(nextItems.map((item) => [item.id, item]));
+      setItems((current) =>
+        current.map((item) => {
+          const next = nextById.get(item.id);
+          return next
+            ? {
+                ...item,
+                unread: next.unreadCount > 0,
+                saved: next.saved,
+                done: next.done,
+                following: next.following,
+              }
+            : item;
+        }),
+      );
+    },
+    [setItems],
+  );
+
+  const markRead = useCallback(
+    (itemId: string) => {
+      setItems((current) =>
+        current.map((item) => (item.id === itemId ? { ...item, unread: false } : item)),
+      );
+    },
+    [setItems],
+  );
+
+  const activateItem = useCallback(
+    (item: ActivityCompositionItem, _detail: number) => {
+      const source = items.find((activity) => activity.id === item.id);
+      if (activationTimerRef.current !== null) {
+        window.clearTimeout(activationTimerRef.current);
+        activationTimerRef.current = null;
+      }
+
+      if (activeItemId === item.id) {
+        selectContent(undefined);
+        return;
+      }
+
+      activationTimerRef.current = window.setTimeout(() => {
+        activationTimerRef.current = null;
+        markRead(item.id);
+        selectContent(`${activityContentPrefix}${item.id}`, {
+          surface:
+            item.kind === "thread" && source
+              ? `thread:${source.messageId}`
+              : `conversation:${item.channelId}`,
+        });
+      }, 160);
+    },
+    [activeItemId, items, markRead, selectContent],
+  );
+
+  const handleBack = useCallback(() => selectRailView("chat"), [selectRailView]);
+  const closeContent = useCallback(() => selectContent(undefined), [selectContent]);
+  const closeContext = useCallback(() => selectContext(undefined), [selectContext]);
+  const openContextThread = useCallback(
+    (threadId: string) => selectContext(`${threadContextPrefix}${threadId}`),
+    [selectContext],
+  );
+  const viewActiveConversation = useCallback(
+    () =>
+      selectContent(`${activityConversationPrefix}${activeItemId}`, {
+        surface: `conversation:${activeChannel?.id}`,
       }),
-    );
-  }
-
-  function markRead(itemId: string) {
-    setItems((current) =>
-      current.map((item) => (item.id === itemId ? { ...item, unread: false } : item)),
-    );
-  }
-
-  function activateItem(item: ActivityCompositionItem, _detail: number) {
-    const source = items.find((activity) => activity.id === item.id);
-    if (activationTimerRef.current !== null) {
-      window.clearTimeout(activationTimerRef.current);
-      activationTimerRef.current = null;
-    }
-
-    if (activeItemId === item.id) {
-      selectContent(undefined);
-      return;
-    }
-
-    activationTimerRef.current = window.setTimeout(() => {
-      activationTimerRef.current = null;
-      markRead(item.id);
-      selectContent(`${activityContentPrefix}${item.id}`, {
-        surface:
-          item.kind === "thread" && source
-            ? `thread:${source.messageId}`
-            : `conversation:${item.channelId}`,
-      });
-    }, 160);
-  }
+    [activeChannel?.id, activeItemId, selectContent],
+  );
 
   const master = (
     <ActivityInboxComposition
       items={compositionItems}
       openItemId={activeItemId ?? null}
       onItemsChange={commitCompositionItems}
-      onBack={() => selectRailView("chat")}
+      onBack={handleBack}
       onOpenItem={activateItem}
     />
   );
 
-  const openContextThread = (threadId: string) =>
-    selectContext(`${threadContextPrefix}${threadId}`);
   const content = activeThreadContext ? (
     <PlaygroundThreadPanel
       key={activeThreadContext.thread.parent.id}
       channel={activeThreadContext.channel}
       thread={activeThreadContext.thread}
-      onClose={() => selectContent(undefined)}
-      onViewConversation={() =>
-        selectContent(`${activityConversationPrefix}${activeItemId}`, {
-          surface: `conversation:${activeChannel?.id}`,
-        })
-      }
+      onClose={closeContent}
+      onViewConversation={viewActiveConversation}
     />
   ) : activeChannel?.kind === "dm" ? (
     <PlaygroundDmPanel
       key={activeChannel.id}
       dm={activeChannel}
       edge="attached"
-      onBack={() => selectContent(undefined)}
+      onBack={closeContent}
       onOpenThread={openContextThread}
     />
   ) : activeChannel ? (
@@ -159,7 +177,7 @@ export function PlaygroundActivityPanel() {
       key={activeChannel.id}
       channel={activeChannel}
       edge="attached"
-      onBack={() => selectContent(undefined)}
+      onBack={closeContent}
       onOpenThread={openContextThread}
     />
   ) : undefined;
@@ -168,8 +186,8 @@ export function PlaygroundActivityPanel() {
       key={contextualThread.thread.parent.id}
       channel={contextualThread.channel}
       thread={contextualThread.thread}
-      onClose={() => selectContext(undefined)}
-      onViewConversation={() => selectContext(undefined)}
+      onClose={closeContext}
+      onViewConversation={closeContext}
     />
   ) : undefined;
 

@@ -1,4 +1,5 @@
-import { Fragment, useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import {
   ScrollArea,
   ScrollAreaContent,
@@ -25,6 +26,7 @@ import {
   TaskDropPlaceholder,
   TaskDropZone,
 } from "raft-ui";
+import type { TaskMoveDetails } from "raft-ui";
 import { ChevronDown } from "lucide-react";
 
 import {
@@ -59,6 +61,68 @@ export type TaskBoardCompositionProps = {
   /** When true, every status column starts expanded (useful for empty-column demos). */
   expandAll?: boolean;
 };
+
+function TaskBoardStatusColumn({
+  children,
+  collapsed,
+  dropDisabled,
+  dropId,
+  status,
+  onCollapsedChange,
+}: {
+  children: ReactNode;
+  collapsed: boolean;
+  dropDisabled: boolean;
+  dropId: string;
+  status: TaskStatus;
+  onCollapsedChange: (status: TaskStatus, collapsed: boolean) => void;
+}) {
+  const dropData = useMemo(() => ({ status }), [status]);
+  const handleOpenChange = useCallback(
+    (open: boolean) => onCollapsedChange(status, !open),
+    [onCollapsedChange, status],
+  );
+
+  return (
+    <TaskBoardColumn
+      render={
+        <TaskDropZone
+          id={dropId}
+          data={dropData}
+          data-drop-collapsed={collapsed ? "true" : undefined}
+          disabled={dropDisabled}
+        />
+      }
+      open={!collapsed}
+      onOpenChange={handleOpenChange}
+    >
+      {children}
+    </TaskBoardColumn>
+  );
+}
+
+function TaskBoardDraggableItem({
+  children,
+  status,
+  task,
+}: {
+  children: ReactNode;
+  status: TaskStatus;
+  task: TaskFixture;
+}) {
+  const dropId = `task-item:${task.id}`;
+  const dropData = useMemo(() => ({ status, taskId: task.id }), [status, task.id]);
+
+  return (
+    <>
+      <TaskDropPlaceholder id={dropId} placement="before" />
+      <TaskDraggable id={task.id} dropId={dropId} dropData={dropData} disabled={task.dragDisabled}>
+        {children}
+      </TaskDraggable>
+      <TaskDropPlaceholder id={dropId} placement="after" />
+    </>
+  );
+}
 
 export function TaskBoardComposition({
   tasks: controlledTasks,
@@ -106,6 +170,28 @@ export function TaskBoardComposition({
   const openTask = useCallback((task: TaskFixture) => {
     setAnnouncement(`Opened task #${task.taskNumber}: ${task.title}`);
   }, []);
+  const handleDragStart = useCallback(({ active }: { active: { id: string | number } }) => {
+    setActiveTaskId(String(active.id));
+  }, []);
+  const clearActiveTask = useCallback(() => setActiveTaskId(null), []);
+  const handleMove = useCallback(
+    ({ activeId, overData, placement }: TaskMoveDetails) => {
+      if (!isTaskDropTarget(overData)) return;
+      const task = tasks.find((item) => item.id === activeId);
+      if (!task) return;
+      const next = moveTaskFixture(tasks, String(activeId), {
+        status: overData.status,
+        taskId: overData.taskId,
+        placement,
+      });
+      if (controlledTasks === undefined) setLocalTasks(next);
+      setAnnouncement(`Task #${task.taskNumber} moved to ${getTaskStatusLabel(overData.status)}`);
+    },
+    [controlledTasks, tasks],
+  );
+  const handleCollapsedChange = useCallback((status: TaskStatus, nextCollapsed: boolean) => {
+    setCollapsed((current) => ({ ...current, [status]: nextCollapsed }));
+  }, []);
   const activeTask =
     activeTaskId == null ? undefined : tasks.find((task) => task.id === activeTaskId);
 
@@ -115,23 +201,10 @@ export function TaskBoardComposition({
         <ScrollAreaContent className="min-w-max">
           <TaskDndProvider
             isDropAllowed={isDropAllowed}
-            onDragStart={({ active }) => setActiveTaskId(String(active.id))}
-            onDragCancel={() => setActiveTaskId(null)}
-            onDragEnd={() => setActiveTaskId(null)}
-            onMove={({ activeId, overData, placement }) => {
-              if (!isTaskDropTarget(overData)) return;
-              const task = tasks.find((item) => item.id === activeId);
-              if (!task) return;
-              const next = moveTaskFixture(tasks, String(activeId), {
-                status: overData.status,
-                taskId: overData.taskId,
-                placement,
-              });
-              if (controlledTasks === undefined) setLocalTasks(next);
-              setAnnouncement(
-                `Task #${task.taskNumber} moved to ${getTaskStatusLabel(overData.status)}`,
-              );
-            }}
+            onDragStart={handleDragStart}
+            onDragCancel={clearActiveTask}
+            onDragEnd={clearActiveTask}
+            onMove={handleMove}
           >
             <TaskBoardRoot>
               {TASK_STATUSES.map((status) => {
@@ -139,20 +212,13 @@ export function TaskBoardComposition({
                 const visibleTasks = statusTasks.filter((task) => task.id !== activeTaskId);
                 const columnDropId = `task-status:${status.id}`;
                 return (
-                  <TaskBoardColumn
+                  <TaskBoardStatusColumn
                     key={status.id}
-                    render={
-                      <TaskDropZone
-                        id={columnDropId}
-                        data={{ status: status.id }}
-                        data-drop-collapsed={collapsed[status.id] ? "true" : undefined}
-                        disabled={!collapsed[status.id] && visibleTasks.length > 0}
-                      />
-                    }
-                    open={!collapsed[status.id]}
-                    onOpenChange={(open) =>
-                      setCollapsed((current) => ({ ...current, [status.id]: !open }))
-                    }
+                    status={status.id}
+                    dropId={columnDropId}
+                    collapsed={collapsed[status.id]}
+                    dropDisabled={!collapsed[status.id] && visibleTasks.length > 0}
+                    onCollapsedChange={handleCollapsedChange}
                   >
                     <TaskBoardColumnTrigger>
                       <TaskBoardColumnHeading>
@@ -184,34 +250,22 @@ export function TaskBoardComposition({
                           </>
                         ) : (
                           <>
-                            {visibleTasks.map((task) => {
-                              const dropId = `task-item:${task.id}`;
-                              return (
-                                <Fragment key={task.id}>
-                                  <TaskDropPlaceholder id={dropId} placement="before" />
-                                  <TaskDraggable
-                                    id={task.id}
-                                    dropId={dropId}
-                                    dropData={{ status: status.id, taskId: task.id }}
-                                    disabled={task.dragDisabled}
-                                  >
-                                    <TaskCardComposition
-                                      task={task}
-                                      onOpen={openTask}
-                                      onStatusChange={updateStatus}
-                                      portalRef={portalRef}
-                                      showChannelName={showChannelName}
-                                    />
-                                  </TaskDraggable>
-                                  <TaskDropPlaceholder id={dropId} placement="after" />
-                                </Fragment>
-                              );
-                            })}
+                            {visibleTasks.map((task) => (
+                              <TaskBoardDraggableItem key={task.id} status={status.id} task={task}>
+                                <TaskCardComposition
+                                  task={task}
+                                  onOpen={openTask}
+                                  onStatusChange={updateStatus}
+                                  portalRef={portalRef}
+                                  showChannelName={showChannelName}
+                                />
+                              </TaskBoardDraggableItem>
+                            ))}
                           </>
                         )}
                       </TaskBoardColumnItems>
                     </TaskBoardColumnPanel>
-                  </TaskBoardColumn>
+                  </TaskBoardStatusColumn>
                 );
               })}
             </TaskBoardRoot>

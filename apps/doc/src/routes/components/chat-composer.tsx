@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -404,6 +405,57 @@ export const Route = createFileRoute("/components/chat-composer")({
 
 function ChatComposerDoc() {
   const code = Route.useLoaderData();
+  const attachmentsScrollFiles = useMemo(
+    () => [
+      {
+        path: COMPOSER_ATTACHMENTS_SCROLL_PATH,
+        source: composerAttachmentsScrollSource,
+        html: code.attachmentsScroll,
+        collapsedHtml: code.attachmentsScrollBody,
+      },
+      {
+        path: COMPOSER_SHARED_PATH,
+        source: composerSharedSource,
+        html: code.composerShared,
+        collapsedHtml: code.composerSharedBody,
+      },
+    ],
+    [code],
+  );
+  const attachmentsReorderFiles = useMemo(
+    () => [
+      {
+        path: COMPOSER_ATTACHMENTS_REORDER_PATH,
+        source: composerAttachmentsReorderSource,
+        html: code.attachmentsReorder,
+        collapsedHtml: code.attachmentsReorderBody,
+      },
+      {
+        path: COMPOSER_ATTACHMENTS_REORDER_SHARED_PATH,
+        source: composerAttachmentsReorderSharedSource,
+        html: code.attachmentsReorderShared,
+        collapsedHtml: code.attachmentsReorderSharedBody,
+      },
+    ],
+    [code],
+  );
+  const attachmentsScrollReorderFiles = useMemo(
+    () => [
+      {
+        path: COMPOSER_ATTACHMENTS_SCROLL_REORDER_PATH,
+        source: composerAttachmentsScrollReorderSource,
+        html: code.attachmentsScrollReorder,
+        collapsedHtml: code.attachmentsScrollReorderBody,
+      },
+      {
+        path: COMPOSER_ATTACHMENTS_REORDER_SHARED_PATH,
+        source: composerAttachmentsReorderSharedSource,
+        html: code.attachmentsReorderShared,
+        collapsedHtml: code.attachmentsReorderSharedBody,
+      },
+    ],
+    [code],
+  );
 
   return (
     <DocPage
@@ -492,20 +544,7 @@ function ChatComposerDoc() {
                   <DocsCodeBlock.Files
                     collapsible={false}
                     showLineNumbers={false}
-                    files={[
-                      {
-                        path: COMPOSER_ATTACHMENTS_SCROLL_PATH,
-                        source: composerAttachmentsScrollSource,
-                        html: code.attachmentsScroll,
-                        collapsedHtml: code.attachmentsScrollBody,
-                      },
-                      {
-                        path: COMPOSER_SHARED_PATH,
-                        source: composerSharedSource,
-                        html: code.composerShared,
-                        collapsedHtml: code.composerSharedBody,
-                      },
-                    ]}
+                    files={attachmentsScrollFiles}
                   />
                 }
               />
@@ -533,20 +572,7 @@ function ChatComposerDoc() {
                   <DocsCodeBlock.Files
                     collapsible={false}
                     showLineNumbers={false}
-                    files={[
-                      {
-                        path: COMPOSER_ATTACHMENTS_REORDER_PATH,
-                        source: composerAttachmentsReorderSource,
-                        html: code.attachmentsReorder,
-                        collapsedHtml: code.attachmentsReorderBody,
-                      },
-                      {
-                        path: COMPOSER_ATTACHMENTS_REORDER_SHARED_PATH,
-                        source: composerAttachmentsReorderSharedSource,
-                        html: code.attachmentsReorderShared,
-                        collapsedHtml: code.attachmentsReorderSharedBody,
-                      },
-                    ]}
+                    files={attachmentsReorderFiles}
                   />
                 }
               />
@@ -575,20 +601,7 @@ function ChatComposerDoc() {
                   <DocsCodeBlock.Files
                     collapsible={false}
                     showLineNumbers={false}
-                    files={[
-                      {
-                        path: COMPOSER_ATTACHMENTS_SCROLL_REORDER_PATH,
-                        source: composerAttachmentsScrollReorderSource,
-                        html: code.attachmentsScrollReorder,
-                        collapsedHtml: code.attachmentsScrollReorderBody,
-                      },
-                      {
-                        path: COMPOSER_ATTACHMENTS_REORDER_SHARED_PATH,
-                        source: composerAttachmentsReorderSharedSource,
-                        html: code.attachmentsReorderShared,
-                        collapsedHtml: code.attachmentsReorderSharedBody,
-                      },
-                    ]}
+                    files={attachmentsScrollReorderFiles}
                   />
                 }
               />

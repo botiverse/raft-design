@@ -18,7 +18,7 @@ import {
   ResizablePanel,
   useThemeFamily,
 } from "raft-ui";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { SearchPanelComposition } from "#/modules/search/compositions/search-panel.composition.tsx";
 import type {
@@ -40,7 +40,11 @@ import {
   isPlaygroundChannelId,
   isPlaygroundThreadId,
 } from "../mock/index.ts";
-import type { PlaygroundChatMessage } from "../mock/index.ts";
+import type {
+  PlaygroundActor,
+  PlaygroundChatMessage,
+  PlaygroundThreadContext,
+} from "../mock/index.ts";
 import { PLAYGROUND_CONVERSATIONS } from "../mock/conversations.ts";
 import {
   usePlaygroundDesktop,
@@ -206,7 +210,12 @@ const searchEntityPrefix = "search-entity:";
 const searchMessagePrefix = "search-message:";
 const searchConversationPrefix = "search-conversation:";
 const threadContextPrefix = "thread:";
-type SelectContent = (id?: string, options?: { hash?: string; surface?: string }) => void;
+type SearchContentActions = {
+  closeContent: () => void;
+  openThread: (threadId: string) => void;
+  selectActor: (actor: PlaygroundActor) => void;
+  viewConversation: (channelId: string) => void;
+};
 
 export function PlaygroundSearchPanel() {
   const theme = useThemeFamily();
@@ -249,6 +258,62 @@ export function PlaygroundSearchPanel() {
     return () => window.removeEventListener(PLAYGROUND_SEARCH_FOCUS_EVENT, requestFocus);
   }, []);
 
+  const handleBack = useCallback(() => selectRailView("chat"), [selectRailView]);
+  const handleOpenEntity = useCallback(
+    (entity: SearchEntityFixture) => {
+      if (activeEntityKey === entity.key) {
+        selectContent(undefined);
+        return;
+      }
+      selectContent(`${searchEntityPrefix}${entity.key}`, {
+        surface: getSearchEntitySurface(entity),
+      });
+    },
+    [activeEntityKey, selectContent],
+  );
+  const handleOpenMessage = useCallback(
+    (message: SearchMessageFixture) => {
+      if (activeMessageId === message.id) {
+        selectContent(undefined);
+        return;
+      }
+      selectContent(`${searchMessagePrefix}${message.id}`, {
+        hash: message.threadId ? `thread-message-${message.id}` : `message-${message.id}`,
+        surface: getSearchMessageSurface(message),
+      });
+    },
+    [activeMessageId, selectContent],
+  );
+  const closeContent = useCallback(() => selectContent(undefined), [selectContent]);
+  const closeContext = useCallback(() => selectContext(undefined), [selectContext]);
+  const openContextThread = useCallback(
+    (threadId: string) => selectContext(`${threadContextPrefix}${threadId}`),
+    [selectContext],
+  );
+  const selectActor = useCallback(
+    (actor: PlaygroundActor) =>
+      selectContent(
+        `${searchEntityPrefix}${
+          actor.type === "agent" ? memberDetailId.agent(actor.id) : memberDetailId.human(actor.id)
+        }`,
+        { surface: `member:${actor.id}` },
+      ),
+    [selectContent],
+  );
+  const viewConversation = useCallback(
+    (channelId: string) =>
+      selectContent(`${searchConversationPrefix}${channelId}`, {
+        surface: `conversation:${channelId}`,
+      }),
+    [selectContent],
+  );
+  const contentActions: SearchContentActions = {
+    closeContent,
+    openThread: openContextThread,
+    selectActor,
+    viewConversation,
+  };
+
   const master = (
     <SearchPanelComposition
       entities={PLAYGROUND_SEARCH_ENTITIES}
@@ -260,46 +325,27 @@ export function PlaygroundSearchPanel() {
       selectedKey={activeEntityKey ?? (activeMessageId ? `message:${activeMessageId}` : null)}
       onQueryChange={setSearchQuery}
       focusRequestKey={focusRequestKey}
-      onBack={() => selectRailView("chat")}
-      onOpenEntity={(entity) => {
-        if (activeEntityKey === entity.key) {
-          selectContent(undefined);
-          return;
-        }
-        selectContent(`${searchEntityPrefix}${entity.key}`, {
-          surface: getSearchEntitySurface(entity),
-        });
-      }}
-      onOpenMessage={(message) => {
-        if (activeMessageId === message.id) {
-          selectContent(undefined);
-          return;
-        }
-        selectContent(`${searchMessagePrefix}${message.id}`, {
-          hash: message.threadId ? `thread-message-${message.id}` : `message-${message.id}`,
-          surface: getSearchMessageSurface(message),
-        });
-      }}
+      onBack={handleBack}
+      onOpenEntity={handleOpenEntity}
+      onOpenMessage={handleOpenMessage}
     />
   );
 
-  const openContextThread = (threadId: string) =>
-    selectContext(`${threadContextPrefix}${threadId}`);
   const content =
     activeConversationId && isPlaygroundChannelId(activeConversationId)
-      ? renderConversationContent(activeConversationId, selectContent, openContextThread)
+      ? renderConversationContent(activeConversationId, contentActions)
       : activeEntity
-        ? renderEntityContent(activeEntity, selectContent, openContextThread)
+        ? renderEntityContent(activeEntity, contentActions)
         : activeMessage
-          ? renderMessageContent(activeMessage, selectContent, openContextThread)
+          ? renderMessageContent(activeMessage, contentActions)
           : undefined;
   const context = contextualThread ? (
     <PlaygroundThreadPanel
       key={contextualThread.thread.parent.id}
       channel={contextualThread.channel}
       thread={contextualThread.thread}
-      onClose={() => selectContext(undefined)}
-      onViewConversation={() => selectContext(undefined)}
+      onClose={closeContext}
+      onViewConversation={closeContext}
     />
   ) : undefined;
 
@@ -355,13 +401,9 @@ export function PlaygroundSearchPanel() {
   );
 }
 
-function renderEntityContent(
-  entity: SearchEntityFixture,
-  selectContent: SelectContent,
-  onOpenThread: (threadId: string) => void,
-) {
+function renderEntityContent(entity: SearchEntityFixture, actions: SearchContentActions) {
   if (entity.channelId && isPlaygroundChannelId(entity.channelId)) {
-    return renderConversationContent(entity.channelId, selectContent, onOpenThread);
+    return renderConversationContent(entity.channelId, actions);
   }
 
   const actorId = entity.agentId ?? entity.userId;
@@ -372,30 +414,17 @@ function renderEntityContent(
         key={actor.id}
         actor={getPlaygroundActor(actor.id)}
         edge="attached"
-        onBack={() => selectContent(undefined)}
-        onClose={() => selectContent(undefined)}
-        onSelectActor={(nextActor) =>
-          selectContent(
-            `${searchEntityPrefix}${
-              nextActor.type === "agent"
-                ? memberDetailId.agent(nextActor.id)
-                : memberDetailId.human(nextActor.id)
-            }`,
-            { surface: `member:${nextActor.id}` },
-          )
-        }
+        onBack={actions.closeContent}
+        onClose={actions.closeContent}
+        onSelectActor={actions.selectActor}
       />
     );
   }
 
-  return <SearchMachineContent title={entity.title} onBack={() => selectContent(undefined)} />;
+  return <SearchMachineContent title={entity.title} onBack={actions.closeContent} />;
 }
 
-function renderConversationContent(
-  channelId: string,
-  selectContent: SelectContent,
-  onOpenThread: (threadId: string) => void,
-) {
+function renderConversationContent(channelId: string, actions: SearchContentActions) {
   if (!isPlaygroundChannelId(channelId)) return undefined;
   const channel = getPlaygroundChannel(channelId);
   return channel.kind === "dm" ? (
@@ -403,46 +432,62 @@ function renderConversationContent(
       key={channel.id}
       dm={channel}
       edge="attached"
-      onBack={() => selectContent(undefined)}
-      onOpenThread={onOpenThread}
+      onBack={actions.closeContent}
+      onOpenThread={actions.openThread}
     />
   ) : (
     <PlaygroundChannelPanel
       key={channel.id}
       channel={channel}
       edge="attached"
-      onBack={() => selectContent(undefined)}
-      onOpenThread={onOpenThread}
+      onBack={actions.closeContent}
+      onOpenThread={actions.openThread}
     />
   );
 }
 
-function renderMessageContent(
-  message: SearchMessageFixture,
-  selectContent: SelectContent,
-  onOpenThread: (threadId: string) => void,
-) {
+function renderMessageContent(message: SearchMessageFixture, actions: SearchContentActions) {
   if (!isPlaygroundChannelId(message.channelId)) return undefined;
   if (message.threadId && isPlaygroundThreadId(message.threadId)) {
     const thread = getPlaygroundThread(message.threadId);
     if (thread) {
       return (
-        <PlaygroundThreadPanel
+        <SearchThreadContent
           key={thread.thread.parent.id}
-          channel={thread.channel}
-          thread={thread.thread}
-          onClose={() => selectContent(undefined)}
-          onViewConversation={() =>
-            selectContent(`${searchConversationPrefix}${thread.channel.id}`, {
-              surface: `conversation:${thread.channel.id}`,
-            })
-          }
+          thread={thread}
+          onClose={actions.closeContent}
+          onViewConversation={actions.viewConversation}
         />
       );
     }
   }
 
-  return renderConversationContent(message.channelId, selectContent, onOpenThread);
+  return renderConversationContent(message.channelId, actions);
+}
+
+function SearchThreadContent({
+  thread,
+  onClose,
+  onViewConversation,
+}: {
+  thread: PlaygroundThreadContext;
+  onClose: () => void;
+  onViewConversation: (channelId: string) => void;
+}) {
+  const channelId = thread.channel.id;
+  const viewConversation = useCallback(
+    () => onViewConversation(channelId),
+    [channelId, onViewConversation],
+  );
+
+  return (
+    <PlaygroundThreadPanel
+      channel={thread.channel}
+      thread={thread.thread}
+      onClose={onClose}
+      onViewConversation={viewConversation}
+    />
+  );
 }
 
 function getSearchEntitySurface(entity: SearchEntityFixture) {

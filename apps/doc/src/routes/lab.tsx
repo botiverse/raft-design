@@ -42,12 +42,14 @@ const SECTIONS = [
   },
 ] as const;
 
+const TOC = SECTIONS.map(({ id, title }) => ({ id, title }));
+
 function LabPage() {
   return (
     <DocPage
       title="Lab"
       description="Motion and animation experiments: loaders and logo treatments, shown at the size they ship at."
-      toc={SECTIONS.map(({ id, title }) => ({ id, title }))}
+      toc={TOC}
     >
       {SECTIONS.map(({ id, title, description, render }, index) => (
         // `showThemeSwitcher` on the first section only — it is a DocSection

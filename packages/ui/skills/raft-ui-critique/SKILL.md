@@ -5,7 +5,7 @@ description: "Critique raft-ui components and product surfaces from screenshots,
 
 # Raft UI Critique
 
-Review the rendered experience, not only implementation compliance. Produce specific, evidence-based findings for each presentation preset and for the relationships between them. The core sequence adapts Interface Craft's context-first, factual-observation critique method; the preset criteria are raft-ui-specific.
+Review the rendered experience, not only implementation compliance. Produce specific, evidence-based findings for each presentation preset and for the relationships between them.
 
 Use [theme-lenses.md](./references/theme-lenses.md) for every three-theme review. Read active repository instructions when they are available, but keep this skill usable from the published `raft-ui` package without requiring sibling skills or repository-only files.
 
@@ -47,7 +47,7 @@ Use the first available evidence source; do not require a source checkout:
 2. In an installed application, inspect `node_modules/raft-ui/dist/foundation.css`, `node_modules/raft-ui/dist/fonts.css`, `node_modules/raft-ui/dist/index.d.mts`, and the application's component usage.
 3. If neither code surface is available, rely on supplied screenshots or renders and state that implementation ownership is unverified.
 
-Treat declarations as API evidence and compiled CSS as token/theme evidence. Neither proves the rendered result.
+Treat declarations as API evidence and compiled CSS as token/theme evidence.
 
 ## Review workflow
 
@@ -64,7 +64,7 @@ Compare like for like:
 - Use the same component, content, state, viewport dimensions, zoom, and motion frame.
 - Keep surrounding context equivalent. A fragment without its normal shell cannot prove page hierarchy.
 - Record which interaction states are shown: default, hover, pressed, focus-visible, disabled, selected, open, checked, invalid, loading, or empty, as applicable.
-- Separate the live primitive, docs composition, Playground wrapper, and source-reference fixture. Never treat one as proof for another.
+- Separate the live primitive, docs composition, and Playground wrapper. Never treat one as proof for another.
 
 Record an evidence manifest with the route or artifact, preset, exact viewport, browser/platform when known, zoom, font-loading status, UI state, and reduced-motion setting when motion is relevant. For a full product-surface review, include a representative wide and narrow viewport when the layout is responsive; a single isolated primitive may need only its relevant size.
 
@@ -110,13 +110,7 @@ Do not grade one preset by another preset's aesthetic. Brutal is not failed Eleg
 
 ### 7. Compare across presets
 
-Check the cross-theme invariants in [theme-lenses.md](./references/theme-lenses.md). In particular, verify that:
-
-- Theme changes do not add, remove, reorder, or replace business DOM.
-- The primary action, status, and reading order remain semantically equivalent.
-- Content wrapping, control geometry, overlays, and focus treatment remain usable.
-- State distinctions survive in all three presets.
-- Token-driven differences feel intentional rather than like isolated local repairs.
+Check the cross-theme invariants in [theme-lenses.md](./references/theme-lenses.md).
 
 A shared defect belongs under `Cross-theme`. A defect visible in only one preset belongs under that preset even when the root cause is shared code.
 
@@ -127,7 +121,7 @@ When code is available, connect each visual issue to the most likely owner witho
 - Reusable appearance or interaction styling: `packages/ui` component recipe or semantic tokens.
 - Canonical example structure: docs module composition.
 - Product state or workflow coordination: Playground or application consumer.
-- Global theme material: source `packages/ui/src/foundation.css` or published `node_modules/raft-ui/dist/foundation.css`, plus the corresponding font/theme infrastructure.
+- Global theme material: `foundation.css` / `fonts.css` (see Package evidence lookup).
 
 State whether the cause is observed, code-verified, or inferred. Do not prescribe a new token for a one-off correction, and do not patch a consumer to compensate for a broken reusable component contract.
 
@@ -171,8 +165,5 @@ Under `Findings`, add `Cross-theme`, `Brutal`, `Elegant`, `Elegant Dark`, or `In
 
 - Keep review-only requests read-only.
 - Do not conflate critique with functional validation, static checks, or test results.
-- Do not claim a rendered result from JSX, recipes, or tokens alone.
-- Do not use source-reference fixtures as the quality target unless source parity is explicitly in scope.
 - Do not recommend making the three presets visually identical; require equivalent usability and semantic hierarchy.
 - Do not let theme-specific polish change component meaning, public API, or business structure.
-- Do not require files outside this skill directory to understand or execute the critique workflow.

@@ -103,6 +103,10 @@ const ENTRIES: DemoEntry[] = [
   },
 ];
 
+const NO_ENTRIES: DemoEntry[] = [];
+
+const COLLISION_AVOIDANCE = { side: "none", align: "none" } as const;
+
 const SNIPPETS = {
   anatomy: `import {
   NotificationCenter,
@@ -538,7 +542,7 @@ function NotificationCenterDoc() {
         >
           <Preview>
             <Preview.Canvas>
-              <NotificationCenterExample entries={[]} size="sm" />
+              <NotificationCenterExample entries={NO_ENTRIES} size="sm" />
             </Preview.Canvas>
             <Preview.Code html={code.empty} />
           </Preview>
@@ -634,7 +638,7 @@ function NotificationCenterExample({
           size={size}
           side="bottom"
           align="center"
-          collisionAvoidance={{ side: "none", align: "none" }}
+          collisionAvoidance={COLLISION_AVOIDANCE}
           initialFocus={false}
           finalFocus={false}
         >

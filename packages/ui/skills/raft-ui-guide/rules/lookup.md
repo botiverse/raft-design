@@ -5,8 +5,6 @@ description: "Where to find props, variant values, and tokens for the installed 
 
 # Looking things up
 
-This skill contains a small orientation snapshot, not authoritative prop signatures. Exact names can change with the installed package version. Look them up instead of guessing.
-
 ## Order to try
 
 1. **Editor types** — if you are editing TypeScript in a typed project, hover or autocomplete on the component. Fastest and always matches the installed version.
@@ -30,8 +28,6 @@ node_modules/raft-ui/
 │   ├── cn.mjs
 │   ├── wip.d.mts       unstable surface
 │   ├── wip.mjs
-│   ├── <chunks>.d.mts  internal declarations; names may change
-│   ├── <chunks>.mjs    internal runtime; names may change
 │   ├── foundation.css  native CSS token contract
 │   ├── styles.css      Tailwind mappings
 │   └── fonts.css
@@ -41,20 +37,20 @@ node_modules/raft-ui/
 ## Finding a prop type
 
 ```bash
-rg -n -A25 "ButtonProps" node_modules/raft-ui/dist/index.d.mts
+rg -n -A6 "^type ButtonProps =" node_modules/raft-ui/dist/index.d.mts
 ```
 
-Adapt the pattern to how the declarations actually read — check the surrounding lines first rather than assuming a shape. To see the whole export surface:
+Adapt the pattern to how the declarations actually read. The last line of `index.d.mts` is one `export { … }` statement that lists the whole stable surface:
 
 ```bash
-rg -n "^(declare |export )" node_modules/raft-ui/dist/index.d.mts | head -100
+tail -n 1 node_modules/raft-ui/dist/index.d.mts | tr ',' '\n'
 ```
 
 If a name is absent from `index.d.mts`, treat it as unavailable on the stable surface. Check `wip.d.mts` only when the user explicitly asks to consider unstable APIs.
 
 ## Finding a variant's allowed values
 
-Variant unions come through `VariantProps<typeof …Variants>`. Read the variant keys in the declared `TVReturnType` above the component props; the bundled declarations preserve those keys.
+Variant unions come through `VariantProps<typeof <recipe>>`. Read the variant keys in the declared `TVReturnType` above the component props; the bundled declarations preserve those keys.
 
 Do not infer a variant value from another component — the names are not consistent. See the intent table in [feedback.md](./feedback.md).
 
@@ -64,14 +60,14 @@ Do not infer a variant value from another component — the names are not consis
 rg -o -- "--color-[a-z0-9-]+" node_modules/raft-ui/dist/styles.css | sort -u
 ```
 
-Use this before writing any color class. If a token is not in that list, it does not exist, and a Tailwind default palette class is not an acceptable substitute — see [styling.md](./styling.md).
+Use this before writing any color class. If a token is not in that list, it does not exist — see [styling.md](./styling.md).
 
 ## Inside the raft-ui monorepo
 
 When `packages/ui/src/` is present you are working on the library itself, not consuming it. There the `tv()` recipe is the source of truth:
 
 ```
-packages/ui/src/components/<component>/<component>.tsx
+packages/ui/src/components/<component>/<component>.recipe.ts   (or <component>.tsx when there is no recipe file)
 ```
 
 Read the `variants` block for the exact option names and the `compoundVariants` block for theme-specific behavior. The docs compositions under `apps/doc/src/modules/<component>/compositions/` show canonical usage.

@@ -13,6 +13,10 @@ import {
 } from "raft-ui";
 import { downloadMessageFixture } from "#/modules/message-item/message-item.fixtures.ts";
 
+function downloadReleaseNotes() {
+  downloadMessageFixture("release-notes.md");
+}
+
 export function MessageAttachmentStatusesUsageComposition() {
   return (
     <MessageAttachmentGroup>
@@ -26,7 +30,7 @@ export function MessageAttachmentStatusesUsageComposition() {
           <MessageAttachmentMetaEnd>
             <MessageAttachmentAction
               aria-label="Download release-notes.md"
-              onClick={() => downloadMessageFixture("release-notes.md")}
+              onClick={downloadReleaseNotes}
               title="Download release-notes.md"
             >
               <ArrowDownToLine />

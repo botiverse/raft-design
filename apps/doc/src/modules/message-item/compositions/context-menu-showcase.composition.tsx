@@ -26,6 +26,15 @@ import type { MessageTaskState } from "./context-menu.composition.tsx";
 import { MessageReactionComposition } from "./reaction.compositions.tsx";
 import { MessageRowToolbarFixture } from "./row-toolbar.composition.tsx";
 
+function copyMessageLink() {
+  const permalink = new URL(MESSAGE_PLAYGROUND_URLS.apiDocsMessage, window.location.origin);
+  void navigator.clipboard?.writeText(permalink.href);
+}
+
+function copyMessageMarkdown() {
+  void navigator.clipboard?.writeText("Right-click opens the shared ContextMenu composition.");
+}
+
 export function MessageContextMenuShowcaseComposition() {
   const [followed, setFollowed] = useState(false);
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
@@ -73,18 +82,8 @@ export function MessageContextMenuShowcaseComposition() {
           </ContextMenuTrigger>
           <MessageContextMenuComposition
             followed={followed}
-            onCopyLink={() => {
-              const permalink = new URL(
-                MESSAGE_PLAYGROUND_URLS.apiDocsMessage,
-                window.location.origin,
-              );
-              void navigator.clipboard?.writeText(permalink.href);
-            }}
-            onCopyMarkdown={() => {
-              void navigator.clipboard?.writeText(
-                "Right-click opens the shared ContextMenu composition.",
-              );
-            }}
+            onCopyLink={copyMessageLink}
+            onCopyMarkdown={copyMessageMarkdown}
             onFollowChange={setFollowed}
             onQuickReact={setReaction}
             onSavedChange={setSaved}

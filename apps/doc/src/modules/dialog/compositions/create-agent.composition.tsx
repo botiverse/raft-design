@@ -28,6 +28,8 @@ import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 
 // @docs-source-strip-end
 
+const machineItems = [{ value: "studio", label: "Studio Mac (atlas.local)" }];
+
 function CreateAgentDialogParts() {
   return (
     <>
@@ -40,10 +42,7 @@ function CreateAgentDialogParts() {
           <FieldLabel htmlFor="dialog-agent-machine" required>
             Computer
           </FieldLabel>
-          <Select
-            defaultValue="studio"
-            items={[{ value: "studio", label: "Studio Mac (atlas.local)" }]}
-          >
+          <Select defaultValue="studio" items={machineItems}>
             <SelectTrigger id="dialog-agent-machine">
               <SelectValue />
               <SelectIcon />

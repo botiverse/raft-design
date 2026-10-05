@@ -1,13 +1,15 @@
 import { SegmentedControl, SegmentedControlItem, SegmentedControlLabel } from "raft-ui";
 import { Languages } from "lucide-react";
 
+function noop() {}
+
 export function SegmentedControlDisabledComposition() {
   return (
     <SegmentedControl
       disabled
       aria-label="Translation mode"
       value="translated"
-      onValueChange={() => {}}
+      onValueChange={noop}
     >
       <SegmentedControlItem value="translated">
         <Languages />

@@ -20,6 +20,8 @@ if (typeof window.matchMedia !== "function") {
   })) as never;
 }
 
+const fixedOffset: [number, number] = [24, 32];
+
 afterEach(cleanup);
 
 describe("FloatButton", () => {
@@ -47,7 +49,7 @@ describe("FloatButton", () => {
 
   test("calculates fixed position and side offsets correctly", () => {
     render(
-      <FloatButton position="fixed" side="bottom-right" offset={[24, 32]}>
+      <FloatButton position="fixed" side="bottom-right" offset={fixedOffset}>
         Pos
       </FloatButton>,
     );

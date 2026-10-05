@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import type { KeyboardEvent as ReactKeyboardEvent, ReactNode } from "react";
+import type { Combobox as BaseCombobox } from "@base-ui/react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Badge,
@@ -154,6 +155,7 @@ const COMPONENT_NAV = [
     items: [
       { label: "Badge", to: "/components/badge", status: "done" },
       { label: "Status", to: "/components/status", status: "done" },
+      { label: "Timeline", to: "/components/timeline", status: "done" },
     ],
   },
   {
@@ -420,6 +422,7 @@ const sidebarItemFocusClassName =
   "outline-none focus-visible:ring-[0.5px] focus-visible:ring-primary-500";
 const sidebarSectionActiveClassName = "bg-fill-muted text-foreground";
 const sidebarSectionActiveProps = { className: sidebarSectionActiveClassName };
+const sidebarSectionInactiveProps = { className: "text-foreground" };
 // rui `SidebarItem` styles its active state from `data-active` (the recipe classes
 // are always in the class string) — the router only has to set the attribute.
 const sidebarNavItemActiveProps = { "data-active": "true" };
@@ -450,6 +453,21 @@ function setStoredSearchQuery(query: string): void {
   }
 }
 
+function componentSearchItemLabel(item: ComponentSearchItem) {
+  return item.label;
+}
+
+function renderComponentSearchItem(item: ComponentSearchItem) {
+  return (
+    <ComboboxItem key={item.to} value={item}>
+      <span className="min-w-0 flex-1 truncate">{item.label}</span>
+      <span className="max-w-[42%] shrink-0 truncate text-xs text-foreground-muted">
+        {item.group}
+      </span>
+    </ComboboxItem>
+  );
+}
+
 function ComponentSearch({
   onNavigate,
   onClose,
@@ -478,13 +496,47 @@ function ComponentSearch({
     }
   }, [autoFocus]);
 
-  const handleEscapeKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      event.stopPropagation();
-      onClose?.();
-    }
-  };
+  const handleEscapeKeyDown = useCallback(
+    (event: ReactKeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        onClose?.();
+      }
+    },
+    [onClose],
+  );
+
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      setOpen(nextOpen);
+      onOpenChange?.(nextOpen);
+    },
+    [onOpenChange],
+  );
+
+  const handleInputValueChange = useCallback(
+    (nextQuery: string, eventDetails: BaseCombobox.Root.ChangeEventDetails) => {
+      const nextValue = eventDetails.reason === "item-press" ? "" : nextQuery;
+      setQuery(nextValue);
+      setStoredSearchQuery(nextValue);
+      setOpen(true);
+    },
+    [],
+  );
+
+  const handleValueChange = useCallback(
+    (item: ComponentSearchItem | null) => {
+      if (!item) {
+        return;
+      }
+
+      setOpen(false);
+      onNavigate?.();
+      void navigate({ to: item.to });
+    },
+    [navigate, onNavigate],
+  );
 
   const trigger = (
     <Button
@@ -511,27 +563,11 @@ function ComponentSearch({
       value={null}
       open={open}
       inputValue={query}
-      itemToStringLabel={(item) => item.label}
+      itemToStringLabel={componentSearchItemLabel}
       autoHighlight
-      onOpenChange={(nextOpen) => {
-        setOpen(nextOpen);
-        onOpenChange?.(nextOpen);
-      }}
-      onInputValueChange={(nextQuery, eventDetails) => {
-        const nextValue = eventDetails.reason === "item-press" ? "" : nextQuery;
-        setQuery(nextValue);
-        setStoredSearchQuery(nextValue);
-        setOpen(true);
-      }}
-      onValueChange={(item) => {
-        if (!item) {
-          return;
-        }
-
-        setOpen(false);
-        onNavigate?.();
-        void navigate({ to: item.to });
-      }}
+      onOpenChange={handleOpenChange}
+      onInputValueChange={handleInputValueChange}
+      onValueChange={handleValueChange}
     >
       {mode === "trigger" ? (
         <ComboboxTrigger render={trigger} />
@@ -572,16 +608,7 @@ function ComponentSearch({
             <Kbd className="shrink-0 text-foreground-muted">Esc</Kbd>
           </ComboboxInputGroup>
         ) : null}
-        <ComboboxList>
-          {(item: ComponentSearchItem) => (
-            <ComboboxItem key={item.to} value={item}>
-              <span className="min-w-0 flex-1 truncate">{item.label}</span>
-              <span className="max-w-[42%] shrink-0 truncate text-xs text-foreground-muted">
-                {item.group}
-              </span>
-            </ComboboxItem>
-          )}
-        </ComboboxList>
+        <ComboboxList>{renderComponentSearchItem}</ComboboxList>
         <ComboboxEmpty>No components found</ComboboxEmpty>
       </ComboboxContent>
     </Combobox>
@@ -718,6 +745,14 @@ function writeStoredSectionOpen(sectionId: string, open: boolean) {
   }
 }
 
+function subscribeToNothing() {
+  return () => {};
+}
+
+function getNoStoredSectionOpen() {
+  return null;
+}
+
 /** Whether a row (or one of its children) is the page being viewed. */
 function itemContainsPath(item: NavItem, pathname: string): boolean {
   if (item.to === pathname) return true;
@@ -735,23 +770,37 @@ function NavGroup({
 }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const sectionId = title ?? "";
-  const [open, setOpen] = useState(true);
-
-  // Read the stored toggle after mount: the sidebar is prerendered, so
-  // touching storage during render would hydrate differently from the markup.
-  useEffect(() => {
-    const stored = readStoredSectionOpen(sectionId);
-    if (stored !== null) setOpen(stored);
-  }, [sectionId]);
+  const containsPage = items.some((item) => itemContainsPath(item, pathname));
+  // The sidebar is prerendered: the server snapshot keeps storage out of the
+  // hydration pass, so the stored toggle only applies once hydrated.
+  const storedOpen = useSyncExternalStore(
+    subscribeToNothing,
+    () => readStoredSectionOpen(sectionId),
+    getNoStoredSectionOpen,
+  );
+  const [toggledOpen, setToggledOpen] = useState<boolean | null>(containsPage ? true : null);
+  const [lastPathname, setLastPathname] = useState(pathname);
+  const linkItem = useMemo<NavItem>(() => ({ label: title ?? "", to }), [title, to]);
 
   // The section holding the current page opens; an explicit toggle still wins
   // until the visitor navigates back into the section.
-  useEffect(() => {
-    if (items.some((item) => itemContainsPath(item, pathname))) setOpen(true);
-  }, [items, pathname]);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
+    if (containsPage) setToggledOpen(true);
+  }
+
+  const open = toggledOpen ?? storedOpen ?? true;
+
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      setToggledOpen(nextOpen);
+      writeStoredSectionOpen(sectionId, nextOpen);
+    },
+    [sectionId],
+  );
 
   if (title && to && items.length === 0) {
-    return <NavRow item={{ label: title, to }} />;
+    return <NavRow item={linkItem} />;
   }
 
   const list =
@@ -791,7 +840,7 @@ function NavGroup({
           to={to}
           activeOptions={sidebarPathActiveOptions}
           activeProps={sidebarSectionActiveProps}
-          inactiveProps={{ className: "text-foreground" }}
+          inactiveProps={sidebarSectionInactiveProps}
           className={`${sectionTitleClassName} ${sidebarItemFocusClassName}`}
         >
           {title}
@@ -806,13 +855,7 @@ function NavGroup({
   }
 
   return (
-    <SidebarSection
-      open={open}
-      onOpenChange={(nextOpen) => {
-        setOpen(nextOpen);
-        writeStoredSectionOpen(sectionId, nextOpen);
-      }}
-    >
+    <SidebarSection open={open} onOpenChange={handleOpenChange}>
       <SidebarSectionHeader className="pl-1">
         <SidebarSectionDisclosure>
           <SidebarSectionTitle>{title}</SidebarSectionTitle>
@@ -910,8 +953,10 @@ function MobileNavGroup({
   items: readonly NavItem[];
   onNavigate: () => void;
 }) {
+  const linkItem = useMemo<NavItem>(() => ({ label: title, to }), [title, to]);
+
   if (to && items.length === 0) {
-    return <MobileNavItem item={{ label: title, to }} onNavigate={onNavigate} />;
+    return <MobileNavItem item={linkItem} onNavigate={onNavigate} />;
   }
 
   return (
@@ -978,7 +1023,12 @@ function MobileSidebar({ onSearch }: { onSearch: () => void }) {
     };
   }, [open]);
 
-  const close = () => setOpen(false);
+  const close = useCallback(() => setOpen(false), []);
+  const handleToggle = useCallback(() => setOpen((current) => !current), []);
+  const handleSearchTriggerClick = useCallback(() => {
+    close();
+    onSearch();
+  }, [close, onSearch]);
 
   return (
     <div
@@ -1003,7 +1053,7 @@ function MobileSidebar({ onSearch }: { onSearch: () => void }) {
           aria-expanded={open}
           aria-controls="mobile-docs-navigation"
           aria-label={open ? "Close navigation" : "Open navigation"}
-          onClick={() => setOpen((current) => !current)}
+          onClick={handleToggle}
         >
           {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
         </Button>
@@ -1016,13 +1066,7 @@ function MobileSidebar({ onSearch }: { onSearch: () => void }) {
           className="h-[calc(100dvh-4rem-env(safe-area-inset-top))] overflow-y-auto overscroll-contain px-4 pt-3 pb-[max(2rem,env(safe-area-inset-bottom))]"
         >
           <div className="mx-auto max-w-xl space-y-9">
-            <ComponentSearch
-              onNavigate={close}
-              onTriggerClick={() => {
-                close();
-                onSearch();
-              }}
-            />
+            <ComponentSearch onNavigate={close} onTriggerClick={handleSearchTriggerClick} />
 
             <div className="flex flex-col gap-2">
               {PRIMARY_NAV.map((item) => (
@@ -1060,7 +1104,12 @@ export type SidebarProps = {
 
 export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) {
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
-  const toggleCollapsed = () => onCollapsedChange?.(!collapsed);
+  const toggleCollapsed = useCallback(
+    () => onCollapsedChange?.(!collapsed),
+    [collapsed, onCollapsedChange],
+  );
+  const openGlobalSearch = useCallback(() => setGlobalSearchOpen(true), []);
+  const closeGlobalSearch = useCallback(() => setGlobalSearchOpen(false), []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -1085,7 +1134,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
 
   return (
     <>
-      <MobileSidebar onSearch={() => setGlobalSearchOpen(true)} />
+      <MobileSidebar onSearch={openGlobalSearch} />
       {globalSearchOpen ? (
         <div
           className="fixed inset-0 z-90 bg-layer-backdrop/70 px-4 pt-[18vh] backdrop-blur-sm"
@@ -1106,8 +1155,8 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             <ComponentSearch
               mode="control"
               autoFocus
-              onNavigate={() => setGlobalSearchOpen(false)}
-              onClose={() => setGlobalSearchOpen(false)}
+              onNavigate={closeGlobalSearch}
+              onClose={closeGlobalSearch}
             />
           </div>
         </div>
@@ -1134,9 +1183,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
             shape="square"
             icon={<Search aria-hidden />}
             aria-label="Search components"
-            onClick={() => {
-              setGlobalSearchOpen(true);
-            }}
+            onClick={openGlobalSearch}
           />
         </FloatButtonGroup>
       ) : null}
@@ -1160,7 +1207,7 @@ export function Sidebar({ collapsed = false, onCollapsedChange }: SidebarProps) 
                 </Button>
               </div>
               <div className="mt-6">
-                <ComponentSearch onTriggerClick={() => setGlobalSearchOpen(true)} />
+                <ComponentSearch onTriggerClick={openGlobalSearch} />
               </div>
             </div>
             <SidebarBody>

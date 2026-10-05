@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from "raft-ui";
 
 export function CardSessionActionComposition() {
   const [loggedOut, setLoggedOut] = useState(false);
+
+  const handleLogOut = useCallback(() => {
+    setLoggedOut(true);
+  }, []);
 
   return (
     <Card className="w-full max-w-md">
@@ -20,7 +24,7 @@ export function CardSessionActionComposition() {
           variant="warning"
           size="sm"
           disabled={loggedOut}
-          onClick={() => setLoggedOut(true)}
+          onClick={handleLogOut}
         >
           {loggedOut ? "Logged out" : "Log out"}
         </Button>

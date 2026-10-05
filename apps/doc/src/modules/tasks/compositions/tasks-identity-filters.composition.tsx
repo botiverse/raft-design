@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "raft-ui";
 
 import { TasksChannelFilterComposition } from "./tasks-channel-filter.composition.tsx";
@@ -52,23 +52,42 @@ export function TasksIdentityFiltersComposition({
     resolvedCreatorValue.length > 0 ||
     resolvedAssigneeValue.length > 0;
 
-  const setChannelValue = (nextValue: string[]) => {
-    if (channelValue === undefined) setLocalChannelValue(nextValue);
-    onChannelValueChange?.(nextValue);
-  };
-  const setCreatorValue = (nextValue: string[]) => {
-    if (creatorValue === undefined) setLocalCreatorValue(nextValue);
-    onCreatorValueChange?.(nextValue);
-  };
-  const setAssigneeValue = (nextValue: string[]) => {
-    if (assigneeValue === undefined) setLocalAssigneeValue(nextValue);
-    onAssigneeValueChange?.(nextValue);
-  };
-  const clearFilters = () => {
+  const setChannelValue = useCallback(
+    (nextValue: string[]) => {
+      if (channelValue === undefined) setLocalChannelValue(nextValue);
+      onChannelValueChange?.(nextValue);
+    },
+    [channelValue, onChannelValueChange],
+  );
+  const setCreatorValue = useCallback(
+    (nextValue: string[]) => {
+      if (creatorValue === undefined) setLocalCreatorValue(nextValue);
+      onCreatorValueChange?.(nextValue);
+    },
+    [creatorValue, onCreatorValueChange],
+  );
+  const setAssigneeValue = useCallback(
+    (nextValue: string[]) => {
+      if (assigneeValue === undefined) setLocalAssigneeValue(nextValue);
+      onAssigneeValueChange?.(nextValue);
+    },
+    [assigneeValue, onAssigneeValueChange],
+  );
+  const clearFilters = useCallback(() => {
     setChannelValue([]);
     setCreatorValue([]);
     setAssigneeValue([]);
-  };
+  }, [setAssigneeValue, setChannelValue, setCreatorValue]);
+
+  const handleChannelOpenChange = useCallback((open: boolean) => {
+    setOpenFilter((current) => (open ? "channel" : current === "channel" ? null : current));
+  }, []);
+  const handleCreatorOpenChange = useCallback((open: boolean) => {
+    setOpenFilter((current) => (open ? "creator" : current === "creator" ? null : current));
+  }, []);
+  const handleAssigneeOpenChange = useCallback((open: boolean) => {
+    setOpenFilter((current) => (open ? "assignee" : current === "assignee" ? null : current));
+  }, []);
 
   return (
     <div className="flex items-center gap-2">
@@ -78,9 +97,7 @@ export function TasksIdentityFiltersComposition({
           value={resolvedChannelValue}
           onValueChange={setChannelValue}
           open={openFilter === "channel"}
-          onOpenChange={(open) =>
-            setOpenFilter((current) => (open ? "channel" : current === "channel" ? null : current))
-          }
+          onOpenChange={handleChannelOpenChange}
         />
       ) : null}
       <TasksCreatorFilterComposition
@@ -88,18 +105,14 @@ export function TasksIdentityFiltersComposition({
         value={resolvedCreatorValue}
         onValueChange={setCreatorValue}
         open={openFilter === "creator"}
-        onOpenChange={(open) =>
-          setOpenFilter((current) => (open ? "creator" : current === "creator" ? null : current))
-        }
+        onOpenChange={handleCreatorOpenChange}
       />
       <TasksAssigneeFilterComposition
         identities={identities}
         value={resolvedAssigneeValue}
         onValueChange={setAssigneeValue}
         open={openFilter === "assignee"}
-        onOpenChange={(open) =>
-          setOpenFilter((current) => (open ? "assignee" : current === "assignee" ? null : current))
-        }
+        onOpenChange={handleAssigneeOpenChange}
       />
       {hasActiveFilters ? (
         <Button variant="ghost" size="sm" onClick={clearFilters}>

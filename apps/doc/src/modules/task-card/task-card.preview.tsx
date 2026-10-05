@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
@@ -26,15 +26,23 @@ export function TaskCardPlaygroundPreview({
   const portalRef = useRef<HTMLDivElement>(null);
   const [task, setTask] = useState(() => TASK_FIXTURES[0]);
 
+  const handleStatusChange = useCallback((taskId: string, status: TaskStatus) => {
+    setTask((current) => (current.id === taskId ? { ...current, status } : current));
+  }, []);
+
+  const handleStatusLabelChange = useCallback((label: string) => {
+    const status = TASK_STATUSES.find((item) => item.label === label)?.id as TaskStatus | undefined;
+    if (!status) return;
+    setTask((current) => ({ ...current, status }));
+  }, []);
+
   return (
     <Preview>
       <Preview.Canvas>
         <div className="relative w-full max-w-sm">
           <TaskCardComposition
             task={task}
-            onStatusChange={(taskId, status) => {
-              setTask((current) => (current.id === taskId ? { ...current, status } : current));
-            }}
+            onStatusChange={handleStatusChange}
             portalRef={portalRef}
           />
           <div
@@ -50,13 +58,7 @@ export function TaskCardPlaygroundPreview({
             label="Status"
             options={STATUS_OPTIONS}
             value={getTaskStatusLabel(task.status)}
-            onValueChange={(label) => {
-              const status = TASK_STATUSES.find((item) => item.label === label)?.id as
-                | TaskStatus
-                | undefined;
-              if (!status) return;
-              setTask((current) => ({ ...current, status }));
-            }}
+            onValueChange={handleStatusLabelChange}
           />
         </Preview.Control>
       </Preview.Controls>

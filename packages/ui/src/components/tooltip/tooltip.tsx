@@ -224,12 +224,18 @@ export type TooltipContentProps = StyledProps<BaseTooltip.Popup.Props> &
     portalProps?: TooltipPortalProps;
   };
 
+const CONTENT_COLLISION_AVOIDANCE: BaseTooltip.Positioner.Props["collisionAvoidance"] = {
+  side: "flip",
+  align: "shift",
+  fallbackAxisSide: "none",
+};
+
 export function TooltipContent({
   align = "center",
   alignOffset = 0,
   anchor,
   arrowPadding,
-  collisionAvoidance = { side: "flip", align: "shift", fallbackAxisSide: "none" },
+  collisionAvoidance = CONTENT_COLLISION_AVOIDANCE,
   collisionBoundary,
   collisionPadding,
   disableAnchorTracking = false,

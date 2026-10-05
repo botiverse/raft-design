@@ -32,6 +32,11 @@ export default defineConfig({
         rename: "float-button.css",
       },
       {
+        from: "src/components/timeline/timeline.css",
+        to: "dist/components/timeline",
+        rename: "timeline.css",
+      },
+      {
         from: "src/components/combobox-select/combobox-select.css",
         to: "dist/components/combobox-select",
         rename: "combobox-select.css",

@@ -1,3 +1,9 @@
+/**
+ * Conversation icons — Message / Chat / DM / Thread.
+ *
+ * Package-owned source of truth: the docs site renders these same exports
+ * (see /components/icons), never a local copy.
+ */
 import type { SVGProps } from "react";
 
 export type ConversationIconProps = SVGProps<SVGSVGElement>;

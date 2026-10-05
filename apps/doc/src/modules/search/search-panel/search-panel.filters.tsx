@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
   ArrowDownUp,
   AtSign,
@@ -119,11 +119,80 @@ export function SearchFilters({
   const portalRef = useRef<HTMLDivElement>(null);
   const [senderQuery, setSenderQuery] = useState(showEmptySenderPopup ? "Nobody" : "");
   const [channelQuery, setChannelQuery] = useState("");
-  const filteredSenders = senders.filter((item) =>
-    matches(`${item.label} ${item.handle}`, senderQuery),
+  const portalProps = useMemo(() => ({ container: portalRef }), []);
+  const filteredSenders = useMemo(
+    () => senders.filter((item) => matches(`${item.label} ${item.handle}`, senderQuery)),
+    [senderQuery, senders],
   );
-  const filteredChannels = channels.filter((item) => matches(item.name, channelQuery));
+  const filteredChannels = useMemo(
+    () => channels.filter((item) => matches(item.name, channelQuery)),
+    [channelQuery, channels],
+  );
+  const senderIds = useMemo(() => filteredSenders.map((item) => item.id), [filteredSenders]);
+  const channelIds = useMemo(() => filteredChannels.map((item) => item.id), [filteredChannels]);
+  const scopeValue = useMemo(() => [...scopes], [scopes]);
   const hasActiveFilters = Boolean(sender || channel || scopes.length || timeRange !== "any");
+
+  const senderLabel = useCallback(
+    (id: string) => senders.find((item) => item.id === id)?.label ?? id,
+    [senders],
+  );
+
+  const handleSenderInputValueChange = useCallback(
+    (nextValue: string, details: { reason: string }) => {
+      if (details.reason !== "item-press") setSenderQuery(nextValue);
+    },
+    [],
+  );
+
+  const handleSenderValueChange = useCallback(
+    (nextValue: string | null) => {
+      onSenderChange(senders.find((item) => item.id === nextValue) ?? null);
+    },
+    [onSenderChange, senders],
+  );
+
+  const handleChannelClear = useCallback(() => onChannelChange(null), [onChannelChange]);
+
+  const channelLabel = useCallback(
+    (id: string) => channels.find((item) => item.id === id)?.name ?? id,
+    [channels],
+  );
+
+  const handleChannelInputValueChange = useCallback(
+    (nextValue: string, details: { reason: string }) => {
+      if (details.reason !== "item-press") setChannelQuery(nextValue);
+    },
+    [],
+  );
+
+  const handleChannelValueChange = useCallback(
+    (nextValue: string | null) => {
+      onChannelChange(channels.find((item) => item.id === nextValue) ?? null);
+    },
+    [channels, onChannelChange],
+  );
+
+  const handleTimeRangeChange = useCallback(
+    (nextValue: SearchTimeRange | null) => {
+      if (nextValue) onTimeRangeChange(nextValue);
+    },
+    [onTimeRangeChange],
+  );
+
+  const handleSortChange = useCallback(
+    (nextValue: SearchSort | null) => {
+      if (nextValue) onSortChange(nextValue);
+    },
+    [onSortChange],
+  );
+
+  const handleClearAll = useCallback(() => {
+    onSenderChange(null);
+    onChannelChange(null);
+    onScopesChange([]);
+    onTimeRangeChange("any");
+  }, [onChannelChange, onScopesChange, onSenderChange, onTimeRangeChange]);
 
   return (
     <SearchShellFilters ref={portalRef}>
@@ -132,15 +201,11 @@ export function SearchFilters({
           autoHighlight
           defaultOpen={showEmptySenderPopup}
           inputValue={senderQuery}
-          items={filteredSenders.map((item) => item.id)}
-          itemToStringLabel={(id) => senders.find((item) => item.id === id)?.label ?? id}
+          items={senderIds}
+          itemToStringLabel={senderLabel}
           value={sender?.id ?? null}
-          onInputValueChange={(nextValue, details) => {
-            if (details.reason !== "item-press") setSenderQuery(nextValue);
-          }}
-          onValueChange={(nextValue) => {
-            onSenderChange(senders.find((item) => item.id === nextValue) ?? null);
-          }}
+          onInputValueChange={handleSenderInputValueChange}
+          onValueChange={handleSenderValueChange}
         >
           <ComboboxTrigger aria-label="From" render={<PickerTriggerButton />}>
             <UserCircle2 aria-hidden size={14} />
@@ -153,7 +218,7 @@ export function SearchFilters({
             align="start"
             finalFocus={false}
             initialFocus={false}
-            portalProps={{ container: portalRef }}
+            portalProps={portalProps}
           >
             <ComboboxHeader>
               <ComboboxLabel>From</ComboboxLabel>
@@ -191,8 +256,8 @@ export function SearchFilters({
         <Select<SearchScope, true>
           multiple
           items={SEARCH_SCOPE_ITEMS}
-          value={[...scopes]}
-          onValueChange={(nextValue) => onScopesChange(nextValue)}
+          value={scopeValue}
+          onValueChange={onScopesChange}
         >
           <SelectTrigger aria-label="Scope" render={<PickerTriggerButton />}>
             <AtSign aria-hidden size={14} />
@@ -207,7 +272,7 @@ export function SearchFilters({
               <ChevronDown aria-hidden />
             </SelectIcon>
           </SelectTrigger>
-          <SelectContent align="start" portalProps={{ container: portalRef }}>
+          <SelectContent align="start" portalProps={portalProps}>
             <SelectList>
               <SelectGroup>
                 <SelectGroupLabel>Scope</SelectGroupLabel>
@@ -224,7 +289,7 @@ export function SearchFilters({
         </Select>
 
         {channel ? (
-          <Button type="button" variant="outline" size="sm" onClick={() => onChannelChange(null)}>
+          <Button type="button" variant="outline" size="sm" onClick={handleChannelClear}>
             <Hash aria-hidden size={12} />#{channel.name}
             <X aria-hidden size={10} />
           </Button>
@@ -232,15 +297,11 @@ export function SearchFilters({
           <Combobox<string>
             autoHighlight
             inputValue={channelQuery}
-            items={filteredChannels.map((item) => item.id)}
-            itemToStringLabel={(id) => channels.find((item) => item.id === id)?.name ?? id}
+            items={channelIds}
+            itemToStringLabel={channelLabel}
             value={null}
-            onInputValueChange={(nextValue, details) => {
-              if (details.reason !== "item-press") setChannelQuery(nextValue);
-            }}
-            onValueChange={(nextValue) => {
-              onChannelChange(channels.find((item) => item.id === nextValue) ?? null);
-            }}
+            onInputValueChange={handleChannelInputValueChange}
+            onValueChange={handleChannelValueChange}
           >
             <ComboboxTrigger aria-label="Channel" render={<PickerTriggerButton />}>
               <Hash aria-hidden size={14} />
@@ -253,7 +314,7 @@ export function SearchFilters({
               align="start"
               finalFocus={false}
               initialFocus={false}
-              portalProps={{ container: portalRef }}
+              portalProps={portalProps}
             >
               <ComboboxHeader>
                 <ComboboxLabel>Channels</ComboboxLabel>
@@ -285,9 +346,7 @@ export function SearchFilters({
         <Select<SearchTimeRange>
           items={SEARCH_TIME_RANGE_ITEMS}
           value={timeRange}
-          onValueChange={(nextValue) => {
-            if (nextValue) onTimeRangeChange(nextValue);
-          }}
+          onValueChange={handleTimeRangeChange}
         >
           <SelectTrigger aria-label="Time range" render={<PickerTriggerButton />}>
             <CalendarRange aria-hidden size={14} />
@@ -296,7 +355,7 @@ export function SearchFilters({
               <ChevronDown aria-hidden />
             </SelectIcon>
           </SelectTrigger>
-          <SelectContent align="start" portalProps={{ container: portalRef }}>
+          <SelectContent align="start" portalProps={portalProps}>
             <SelectList>
               <SelectGroup>
                 <SelectGroupLabel>Time</SelectGroupLabel>
@@ -316,9 +375,7 @@ export function SearchFilters({
           disabled={!query.trim()}
           items={SEARCH_SORT_ITEMS}
           value={sort}
-          onValueChange={(nextValue) => {
-            if (nextValue) onSortChange(nextValue);
-          }}
+          onValueChange={handleSortChange}
         >
           <SelectTrigger aria-label="Sort" render={<PickerTriggerButton />}>
             <ArrowDownUp aria-hidden size={14} />
@@ -327,7 +384,7 @@ export function SearchFilters({
               <ChevronDown aria-hidden />
             </SelectIcon>
           </SelectTrigger>
-          <SelectContent align="start" portalProps={{ container: portalRef }}>
+          <SelectContent align="start" portalProps={portalProps}>
             <SelectList>
               <SelectGroup>
                 <SelectGroupLabel>Sort</SelectGroupLabel>
@@ -344,17 +401,7 @@ export function SearchFilters({
         </Select>
 
         {hasActiveFilters ? (
-          <Button
-            type="button"
-            variant="ghost"
-            size="xs"
-            onClick={() => {
-              onSenderChange(null);
-              onChannelChange(null);
-              onScopesChange([]);
-              onTimeRangeChange("any");
-            }}
-          >
+          <Button type="button" variant="ghost" size="xs" onClick={handleClearAll}>
             Clear All
           </Button>
         ) : null}

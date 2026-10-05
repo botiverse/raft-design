@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 
 import { Preview } from "#/components/preview.tsx";
@@ -24,6 +24,11 @@ export function SidebarPreview({ codeBlock }: SidebarPreviewProps) {
   const [content, setContent] = useState<PreviewContentState>("Populated");
   const [liveActivity, setLiveActivity] = useState(true);
 
+  const handleContentChange = useCallback(
+    (value: string) => setContent(value as PreviewContentState),
+    [],
+  );
+
   return (
     <Preview previewClassName="!h-[560px] !min-h-0 !items-stretch !justify-center !p-2">
       <Preview.Canvas>
@@ -41,7 +46,7 @@ export function SidebarPreview({ codeBlock }: SidebarPreviewProps) {
               label="Lists"
               options={CONTENT_STATES}
               value={content}
-              onValueChange={(value) => setContent(value as PreviewContentState)}
+              onValueChange={handleContentChange}
             />
           </Preview.Control>
         </Preview.ControlGroup>

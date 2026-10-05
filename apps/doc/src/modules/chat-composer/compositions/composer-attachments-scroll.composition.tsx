@@ -10,13 +10,16 @@ import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive
 
 import { ComposerAttachmentsComposition } from "./composer-shared.composition.tsx";
 
+const IMAGE_STATES = ["uploaded"] as const;
+const FILE_STATES = Array.from({ length: 10 }, () => "uploaded" as const);
+
 export function ComposerAttachmentsScrollComposition() {
   return (
     <ComposerRoot>
       <ComposerAttachmentsComposition
         layout="scroll"
-        imageStates={["uploaded"]}
-        fileStates={Array.from({ length: 10 }, () => "uploaded" as const)}
+        imageStates={IMAGE_STATES}
+        fileStates={FILE_STATES}
       />
       <Composer>
         <ComposerInput aria-label="Message #proj-uiux" placeholder="Message #proj-uiux" readOnly />

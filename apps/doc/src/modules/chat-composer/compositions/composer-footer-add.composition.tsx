@@ -1,5 +1,6 @@
 import { Plus, Send } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import {
   ComposerActions,
   ComposerIconButton,
@@ -12,22 +13,28 @@ import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive
 export function ComposerFooterAddComposition() {
   const [draft, setDraft] = useState("");
 
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (!draft.trim()) return;
+      setDraft("");
+    },
+    [draft],
+  );
+
+  const handleDraftChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    setDraft(event.currentTarget.value);
+  }, []);
+
   return (
     <div className="flex justify-center">
-      <ComposerRoot
-        className="max-w-sm"
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (!draft.trim()) return;
-          setDraft("");
-        }}
-      >
+      <ComposerRoot className="max-w-sm" onSubmit={handleSubmit}>
         <Composer>
           <ComposerInput
             aria-label="Message #proj-uiux"
             placeholder="Message #proj-uiux"
             value={draft}
-            onChange={(event) => setDraft(event.currentTarget.value)}
+            onChange={handleDraftChange}
           />
           <ComposerToolbar>
             <ComposerActions>

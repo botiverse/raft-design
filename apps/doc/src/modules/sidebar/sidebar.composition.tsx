@@ -1,5 +1,6 @@
 import { AtSign, BellOff, Bookmark, Hash, Pencil } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import type { ReactNode } from "react";
 import {
   Avatar,
   AvatarFallback,
@@ -61,6 +62,26 @@ const LIVE_ACTIVITY: Record<SidebarLiveActivityState, LiveAgentActivityBarItem |
   active: { text: "Preparing the next release candidate" },
 };
 
+function SidebarDestinationItem({
+  children,
+  destination,
+  selected,
+  onOpen,
+}: {
+  children: ReactNode;
+  destination: string;
+  selected: boolean;
+  onOpen: (destination: string) => void;
+}) {
+  const handleClick = useCallback(() => onOpen(destination), [destination, onOpen]);
+
+  return (
+    <SidebarItem type="button" active={selected} onClick={handleClick}>
+      {children}
+    </SidebarItem>
+  );
+}
+
 export function SidebarComposition({
   contentState = "populated",
   liveActivityState = "active",
@@ -69,14 +90,21 @@ export function SidebarComposition({
   const [announcement, setAnnouncement] = useState({ message: "Opened proj-uiux", sequence: 0 });
   const isEmpty = contentState === "empty";
 
-  function announce(message: string) {
+  const announce = useCallback((message: string) => {
     setAnnouncement((current) => ({ message, sequence: current.sequence + 1 }));
-  }
+  }, []);
 
-  function openDestination(destination: string) {
-    setSelectedItem(destination);
-    announce(`Opened ${destination}`);
-  }
+  const openDestination = useCallback(
+    (destination: string) => {
+      setSelectedItem(destination);
+      announce(`Opened ${destination}`);
+    },
+    [announce],
+  );
+
+  const handleCreateChannel = useCallback(() => announce("Create Channel"), [announce]);
+  const handleCreateJoint = useCallback(() => announce("Create Joint Channel"), [announce]);
+  const handleOpenSaved = useCallback(() => openDestination("Saved"), [openDestination]);
 
   return (
     <SidebarRoot className="overflow-x-clip">
@@ -88,8 +116,8 @@ export function SidebarComposition({
           <span key={announcement.sequence}>{announcement.message}</span>
         </span>
         <SidebarCreateMenu
-          onCreateChannel={() => announce("Create Channel")}
-          onCreateJoint={() => announce("Create Joint Channel")}
+          onCreateChannel={handleCreateChannel}
+          onCreateJoint={handleCreateJoint}
         />
       </SidebarHeader>
       <SidebarBody>
@@ -99,7 +127,7 @@ export function SidebarComposition({
               <SidebarSectionHeader className="mt-0">
                 <SidebarMenu
                   aria-current={selectedItem === "Saved" ? "page" : undefined}
-                  onClick={() => openDestination("Saved")}
+                  onClick={handleOpenSaved}
                 >
                   <SidebarMenuIcon>
                     <Bookmark />
@@ -128,10 +156,10 @@ export function SidebarComposition({
                 <SidebarSectionEmpty>No pinned conversations yet</SidebarSectionEmpty>
               ) : (
                 <SidebarList>
-                  <SidebarItem
-                    type="button"
-                    active={selectedItem === "proj-uiux"}
-                    onClick={() => openDestination("proj-uiux")}
+                  <SidebarDestinationItem
+                    destination="proj-uiux"
+                    selected={selectedItem === "proj-uiux"}
+                    onOpen={openDestination}
                   >
                     <SidebarItemChannelIcon aria-hidden>
                       <Hash />
@@ -140,11 +168,11 @@ export function SidebarComposition({
                       <SidebarItemTitle className="shrink-0">proj-uiux</SidebarItemTitle>
                       <SidebarItemSubtitle>Cindy replied</SidebarItemSubtitle>
                     </SidebarItemContent>
-                  </SidebarItem>
-                  <SidebarItem
-                    type="button"
-                    active={selectedItem === "Atlas planning"}
-                    onClick={() => openDestination("Atlas planning")}
+                  </SidebarDestinationItem>
+                  <SidebarDestinationItem
+                    destination="Atlas planning"
+                    selected={selectedItem === "Atlas planning"}
+                    onOpen={openDestination}
                   >
                     <SidebarItemIcon>
                       <Avatar size="2xs" type="agent">
@@ -160,11 +188,11 @@ export function SidebarComposition({
                         <Status aria-hidden variant="success" />
                       </SidebarItemStatus>
                     </SidebarItemAside>
-                  </SidebarItem>
-                  <SidebarItem
-                    type="button"
-                    active={selectedItem === "proj-theme"}
-                    onClick={() => openDestination("proj-theme")}
+                  </SidebarDestinationItem>
+                  <SidebarDestinationItem
+                    destination="proj-theme"
+                    selected={selectedItem === "proj-theme"}
+                    onOpen={openDestination}
                   >
                     <SidebarItemChannelIcon aria-hidden>
                       <Hash />
@@ -177,7 +205,7 @@ export function SidebarComposition({
                         <Pencil aria-hidden />
                       </SidebarItemMetaIcon>
                     </SidebarItemAside>
-                  </SidebarItem>
+                  </SidebarDestinationItem>
                 </SidebarList>
               )}
             </SidebarSection>
@@ -244,10 +272,10 @@ export function SidebarComposition({
                 <SidebarSectionEmpty>No channels yet</SidebarSectionEmpty>
               ) : (
                 <SidebarList>
-                  <SidebarItem
-                    type="button"
-                    active={selectedItem === "general"}
-                    onClick={() => openDestination("general")}
+                  <SidebarDestinationItem
+                    destination="general"
+                    selected={selectedItem === "general"}
+                    onOpen={openDestination}
                   >
                     <SidebarItemChannelIcon aria-hidden>
                       <Hash />
@@ -261,11 +289,11 @@ export function SidebarComposition({
                       </SidebarItemIndicator>
                       <SidebarItemCount>12</SidebarItemCount>
                     </SidebarItemAside>
-                  </SidebarItem>
-                  <SidebarItem
-                    type="button"
-                    active={selectedItem === "release"}
-                    onClick={() => openDestination("release")}
+                  </SidebarDestinationItem>
+                  <SidebarDestinationItem
+                    destination="release"
+                    selected={selectedItem === "release"}
+                    onOpen={openDestination}
                   >
                     <SidebarItemChannelIcon aria-hidden>
                       <Hash />
@@ -285,7 +313,7 @@ export function SidebarComposition({
                         <Pencil aria-hidden />
                       </SidebarItemMetaIcon>
                     </SidebarItemAside>
-                  </SidebarItem>
+                  </SidebarDestinationItem>
                 </SidebarList>
               )}
             </SidebarSection>
@@ -306,10 +334,10 @@ export function SidebarComposition({
                 <SidebarSectionEmpty>No direct messages yet</SidebarSectionEmpty>
               ) : (
                 <SidebarList>
-                  <SidebarItem
-                    type="button"
-                    active={selectedItem === "Cindy"}
-                    onClick={() => openDestination("Cindy")}
+                  <SidebarDestinationItem
+                    destination="Cindy"
+                    selected={selectedItem === "Cindy"}
+                    onOpen={openDestination}
                   >
                     <SidebarItemIcon>
                       <Avatar size="2xs" type="human">
@@ -326,11 +354,11 @@ export function SidebarComposition({
                       </SidebarItemStatus>
                       <SidebarItemCount>4</SidebarItemCount>
                     </SidebarItemAside>
-                  </SidebarItem>
-                  <SidebarItem
-                    type="button"
-                    active={selectedItem === "Atlas idle"}
-                    onClick={() => openDestination("Atlas idle")}
+                  </SidebarDestinationItem>
+                  <SidebarDestinationItem
+                    destination="Atlas idle"
+                    selected={selectedItem === "Atlas idle"}
+                    onOpen={openDestination}
                   >
                     <SidebarItemIcon>
                       <Avatar size="2xs" type="agent" />
@@ -344,7 +372,7 @@ export function SidebarComposition({
                         <Pencil aria-hidden />
                       </SidebarItemMetaIcon>
                     </SidebarItemAside>
-                  </SidebarItem>
+                  </SidebarDestinationItem>
                 </SidebarList>
               )}
             </SidebarSection>

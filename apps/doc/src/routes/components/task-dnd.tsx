@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -198,25 +199,24 @@ export const Route = createFileRoute("/components/task-dnd")({
 
 /** Board wiring plus the demo composition that sets the blocked-drop policy and fixtures. */
 function TaskDndSourceFiles({ code }: { code: HighlightedSnippets }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={false}
-      files={[
-        {
-          path: TASK_BOARD_COMPOSITION_PATH,
-          source: taskBoardCompositionSource,
-          html: code.dnd,
-          collapsedHtml: code.dndBody,
-        },
-        {
-          path: TASK_DND_COMPOSITION_PATH,
-          source: taskDndCompositionSource,
-          html: code.dndDemo,
-          collapsedHtml: code.dndDemoBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: TASK_BOARD_COMPOSITION_PATH,
+        source: taskBoardCompositionSource,
+        html: code.dnd,
+        collapsedHtml: code.dndBody,
+      },
+      {
+        path: TASK_DND_COMPOSITION_PATH,
+        source: taskDndCompositionSource,
+        html: code.dndDemo,
+        collapsedHtml: code.dndDemoBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={false} files={files} />;
 }
 
 function TaskDndDoc() {

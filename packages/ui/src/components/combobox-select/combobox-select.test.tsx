@@ -8,6 +8,17 @@ const options = [
   { value: "vue", label: "Vue" },
 ];
 
+const groupedOptions = [
+  {
+    type: "group" as const,
+    key: "provider",
+    label: "Provider",
+    children: [options[0]!, { value: "unavailable", label: "Unavailable", disabled: true }],
+  },
+];
+
+const bothValues = ["react", "vue"];
+
 afterEach(cleanup);
 
 test("create mode still selects existing options without calling onCreate", async () => {
@@ -79,14 +90,6 @@ test("returning null from onCreate preserves the current selection", async () =>
 
 test("grouped disabled options cannot change the selection", async () => {
   const onValueChange = vi.fn();
-  const groupedOptions = [
-    {
-      type: "group" as const,
-      key: "provider",
-      label: "Provider",
-      children: [options[0]!, { value: "unavailable", label: "Unavailable", disabled: true }],
-    },
-  ];
   render(<ComboboxSelect options={groupedOptions} defaultOpen onValueChange={onValueChange} />);
 
   expect(await screen.findByRole("group", { name: "Provider" })).toBeTruthy();
@@ -106,7 +109,7 @@ test("multiple selection removes chips and clears to an empty array", async () =
     <ComboboxSelect
       options={options}
       multiple
-      defaultValue={["react", "vue"]}
+      defaultValue={bothValues}
       clearable
       onValueChange={onValueChange}
       onClear={onClear}

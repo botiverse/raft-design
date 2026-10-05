@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import type { useRender } from "@base-ui/react/use-render";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { useMobileViewport } from "../../lib/use-mobile-viewport";
@@ -20,11 +21,13 @@ export function MessageList({
   className,
   render,
   rootClassName,
+  style,
   ...props
 }: MessageListProps) {
   const theme = useThemeFamily();
   const isMobile = useMobileViewport();
   const { content, root, viewport } = messageList({ theme });
+  const viewportStyle = useMemo(() => ({ ...style, overflowX: "hidden" as const }), [style]);
 
   if (isMobile) {
     return (
@@ -34,7 +37,7 @@ export function MessageList({
           render={render}
           data-slot="message-list-viewport"
           className={viewport({ className })}
-          style={{ ...props.style, overflowX: "hidden" }}
+          style={viewportStyle}
         >
           <div className={content()}>{children}</div>
         </PanelScrollViewport>
@@ -49,7 +52,7 @@ export function MessageList({
         render={render}
         data-slot="message-list-viewport"
         className={viewport({ className })}
-        style={{ ...props.style, overflowX: "hidden" }}
+        style={viewportStyle}
       >
         <ScrollAreaContent className={content()}>{children}</ScrollAreaContent>
       </ScrollAreaViewport>

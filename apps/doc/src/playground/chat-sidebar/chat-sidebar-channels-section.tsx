@@ -43,6 +43,10 @@ export function ChatSidebarChannelsSection({
   const manualOrder = orderRows("channels", rows);
   const ordered = useMemo(() => sortChannels(manualOrder, sortMode), [manualOrder, sortMode]);
   const projection = getProjection("channels");
+  const dragIds = useMemo(
+    () => ordered.map((row) => getDragId("channels", row.id)),
+    [getDragId, ordered],
+  );
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -87,7 +91,7 @@ export function ChatSidebarChannelsSection({
         {ordered.length === 0 ? (
           <SidebarSectionEmpty>No channels yet</SidebarSectionEmpty>
         ) : sortMode === "manual" ? (
-          <SortableChatSidebarList items={ordered.map((row) => getDragId("channels", row.id))}>
+          <SortableChatSidebarList items={dragIds}>
             {ordered.map((row) => (
               <Fragment key={row.id}>
                 <ChatSidebarProjectionPreview anchorChannelId={row.id} projection={projection} />

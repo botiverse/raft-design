@@ -1,7 +1,7 @@
 import { Link, useMatch } from "@tanstack/react-router";
 import { useMediaQuery } from "foxact/use-media-query";
 import { Activity, Bookmark, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   SidebarBody,
   SidebarContent,
@@ -25,7 +25,11 @@ import {
   PLAYGROUND_ROOM_CHANNELS,
   PLAYGROUND_SERVER_SLUG,
 } from "../mock/index.ts";
-import type { PlaygroundChannelId, PlaygroundDirectMessageRecord } from "../mock/index.ts";
+import type {
+  PlaygroundChannelId,
+  PlaygroundDirectMessageRecord,
+  PlaygroundRoomChannelRecord,
+} from "../mock/index.ts";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 import { usePlaygroundSavedMessages } from "../message/use-playground-message-workflow.ts";
 import {
@@ -39,6 +43,8 @@ import { ChatSidebarDndProvider } from "./chat-sidebar-dnd.tsx";
 import { ChatSidebarDirectMessagesSection } from "./chat-sidebar-direct-messages-section.tsx";
 import { ChatSidebarJointChannelsSection } from "./chat-sidebar-joint-channels-section.tsx";
 import { ChatSidebarPinnedSection } from "./chat-sidebar-pinned-section.tsx";
+
+const SERVER_PARAMS = { serverSlug: PLAYGROUND_SERVER_SLUG };
 
 type PlaygroundSidebarProps = {
   activeChannelId: PlaygroundChannelId | null;
@@ -87,9 +93,17 @@ function PlaygroundSidebarContent({
       ),
     [closedDmIds],
   );
-  const closeDirectMessage = (conversation: PlaygroundDirectMessageRecord) => {
+  const closeDirectMessage = useCallback((conversation: PlaygroundDirectMessageRecord) => {
     setClosedDmIds((current) => new Set(current).add(conversation.id));
-  };
+  }, []);
+  const handleArchive = useCallback((conversation: PlaygroundRoomChannelRecord) => {
+    setArchiveTarget(conversation.name);
+  }, []);
+  const handleArchiveOpenChange = useCallback((open: boolean) => {
+    if (!open) setArchiveTarget(null);
+  }, []);
+  const handleSelectSearch = useCallback(() => selectRailView("search"), [selectRailView]);
+  const handleSelectActivity = useCallback(() => selectRailView("activity"), [selectRailView]);
 
   return (
     <>
@@ -112,7 +126,7 @@ function PlaygroundSidebarContent({
                 className="md:hidden"
                 active={railView === "search"}
                 variant="accent"
-                onClick={() => selectRailView("search")}
+                onClick={handleSelectSearch}
               >
                 <SidebarItemIcon aria-hidden>
                   <Search />
@@ -124,7 +138,7 @@ function PlaygroundSidebarContent({
                 className="md:hidden"
                 active={railView === "activity"}
                 variant="accent"
-                onClick={() => selectRailView("activity")}
+                onClick={handleSelectActivity}
               >
                 <SidebarItemIcon aria-hidden>
                   <Activity />
@@ -136,12 +150,7 @@ function PlaygroundSidebarContent({
                 active={savedActive}
                 variant="accent"
                 aria-current={savedActive ? "page" : undefined}
-                render={
-                  <Link
-                    to="/playground/s/$serverSlug/saved"
-                    params={{ serverSlug: PLAYGROUND_SERVER_SLUG }}
-                  />
-                }
+                render={<Link to="/playground/s/$serverSlug/saved" params={SERVER_PARAMS} />}
               >
                 <SidebarItemIcon aria-hidden>
                   <Bookmark />
@@ -154,7 +163,7 @@ function PlaygroundSidebarContent({
 
               <ChatSidebarPinnedSection
                 activeChannelId={selectedChannelId}
-                onArchive={(conversation) => setArchiveTarget(conversation.name)}
+                onArchive={handleArchive}
                 onCloseDm={closeDirectMessage}
                 rows={visiblePinnedChannels}
               />
@@ -164,7 +173,7 @@ function PlaygroundSidebarContent({
               />
               <ChatSidebarChannelsSection
                 activeChannelId={selectedChannelId}
-                onArchive={(conversation) => setArchiveTarget(conversation.name)}
+                onArchive={handleArchive}
                 rows={PLAYGROUND_ROOM_CHANNELS}
               />
               <ChatSidebarDirectMessagesSection
@@ -182,9 +191,7 @@ function PlaygroundSidebarContent({
 
       <ChatSidebarArchiveDialog
         channelName={archiveTarget}
-        onOpenChange={(open) => {
-          if (!open) setArchiveTarget(null);
-        }}
+        onOpenChange={handleArchiveOpenChange}
       />
     </>
   );

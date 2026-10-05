@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 import { ActionCardComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
 import { ForwardedBundleEmbeddedComposition } from "#/modules/message-forwarded-bundle/compositions/forwarded-bundle.composition.tsx";
 import { QuotedPreviewLoadingEmbeddedComposition } from "#/modules/message-quoted-preview/compositions/quoted-preview-loading.composition.tsx";
@@ -59,10 +61,9 @@ function PlaygroundForwardedBundle({
   const sourceChannel = isPlaygroundChannelId(presentation.source.channelId)
     ? getPlaygroundChannel(presentation.source.channelId)
     : undefined;
-
-  return (
-    <ForwardedBundleEmbeddedComposition
-      items={presentation.items.map((item) => ({
+  const items = useMemo(
+    () =>
+      presentation.items.map((item) => ({
         id: item.id,
         author: getPlaygroundActor(item.senderId).name,
         createdAt: item.createdAt,
@@ -71,7 +72,13 @@ function PlaygroundForwardedBundle({
         attachment: item.attachment
           ? { name: item.attachment.name, meta: item.attachment.mediaType }
           : undefined,
-      }))}
+      })),
+    [presentation.items],
+  );
+
+  return (
+    <ForwardedBundleEmbeddedComposition
+      items={items}
       sourceLabel={sourceChannel?.name ?? presentation.source.channelId}
       sourceHref={sourceHref ?? null}
       sourceAriaLabel={
@@ -99,6 +106,14 @@ function PlaygroundQuotedPreview({
     return <QuotedPreviewUnavailableEmbeddedComposition reason={presentation.reason} />;
   }
 
+  return <PlaygroundReadyQuotedPreview presentation={presentation} />;
+}
+
+function PlaygroundReadyQuotedPreview({
+  presentation,
+}: {
+  presentation: Extract<PlaygroundQuotedPreviewPresentation, { state: "ready" }>;
+}) {
   const actor = getPlaygroundActor(presentation.senderId);
   const channel = isPlaygroundChannelId(presentation.target.channelId)
     ? getPlaygroundChannel(presentation.target.channelId)
@@ -108,18 +123,22 @@ function PlaygroundQuotedPreview({
     presentation.target.messageId,
     presentation.target.thread,
   );
+  const author = useMemo(
+    () => ({
+      name: actor.name,
+      meta: actor.meta,
+      type: actor.type,
+      avatarSrc: actor.avatarSrc,
+      fallback: actor.fallback ?? actor.name.slice(0, 2),
+    }),
+    [actor],
+  );
 
   return (
     <QuotedPreviewEmbeddedComposition
       href={href}
       ariaLabel={`Open quoted message in ${channel?.name ?? "conversation"}`}
-      author={{
-        name: actor.name,
-        meta: actor.meta,
-        type: actor.type,
-        avatarSrc: actor.avatarSrc,
-        fallback: actor.fallback ?? actor.name.slice(0, 2),
-      }}
+      author={author}
       channel={channel?.name ?? presentation.target.channelId}
       thread={presentation.target.thread}
       timestamp={presentation.createdAt}

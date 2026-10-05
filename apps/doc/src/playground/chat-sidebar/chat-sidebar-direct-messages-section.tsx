@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import {
   SidebarSection,
   SidebarSectionAttention,
@@ -36,6 +36,10 @@ export function ChatSidebarDirectMessagesSection({
   const { getDragId, getProjection, orderRows } = useChatSidebarDnd();
   const ordered = orderRows("dms", rows);
   const projection = getProjection("dms");
+  const dragIds = useMemo(
+    () => ordered.map((row) => getDragId("dms", row.id)),
+    [getDragId, ordered],
+  );
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -59,7 +63,7 @@ export function ChatSidebarDirectMessagesSection({
         section="dms"
         empty={ordered.length === 0}
       >
-        <SortableChatSidebarList items={ordered.map((row) => getDragId("dms", row.id))}>
+        <SortableChatSidebarList items={dragIds}>
           {ordered.map((row) => (
             <Fragment key={row.id}>
               <ChatSidebarProjectionPreview anchorChannelId={row.id} projection={projection} />

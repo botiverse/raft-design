@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Check, Copy, Info, SendHorizontal, TriangleAlert } from "lucide-react";
 import {
   Button,
@@ -20,7 +20,9 @@ import {
   useToastManager,
   useThemeFamily,
 } from "raft-ui";
-import type { ToastObject } from "raft-ui";
+import type { ToastObject, ToastRootProps } from "raft-ui";
+
+const TOP_SWIPE_DIRECTION: ToastRootProps["swipeDirection"] = ["up", "right"];
 
 type ToastDemoData = {
   icon?: "check" | "info" | "send" | "alert" | "copy";
@@ -183,15 +185,87 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
   const forwardButtonRef = useRef<HTMLButtonElement | null>(null);
   const errorButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  const getPositionerProps = (anchor: HTMLButtonElement | null) =>
-    options.mode === "anchored" && anchor
-      ? {
-          anchor,
-          side: options.side,
-          align: options.align,
-          sideOffset: 8,
-        }
-      : undefined;
+  const getPositionerProps = useCallback(
+    (anchor: HTMLButtonElement | null) =>
+      options.mode === "anchored" && anchor
+        ? {
+            anchor,
+            side: options.side,
+            align: options.align,
+            sideOffset: 8,
+          }
+        : undefined,
+    [options.align, options.mode, options.side],
+  );
+
+  const handleCopyClick = useCallback(
+    () =>
+      toastManager.add({
+        type: "info",
+        title: "Link copied.",
+        description: options.description ? "The message link is ready to paste." : undefined,
+        positionerProps: getPositionerProps(copyButtonRef.current),
+        data: {
+          icon: "copy",
+          hasIcon: options.icon,
+          hasClose: options.dismissible,
+        },
+        actionProps: options.action
+          ? {
+              children: "Copy again",
+              onClick: () => toastManager.close(),
+            }
+          : undefined,
+      }),
+    [getPositionerProps, options, toastManager],
+  );
+
+  const handleForwardClick = useCallback(
+    () =>
+      toastManager.add({
+        type: "info",
+        title: "Forwarded to #design-system.",
+        description: options.description ? "The selected messages were sent." : undefined,
+        positionerProps: getPositionerProps(forwardButtonRef.current),
+        data: {
+          icon: "send",
+          hasIcon: options.icon,
+          hasClose: options.dismissible,
+        },
+        actionProps: options.action
+          ? {
+              children: "View",
+              onClick: () => toastManager.close(),
+            }
+          : undefined,
+      }),
+    [getPositionerProps, options, toastManager],
+  );
+
+  const handleErrorClick = useCallback(
+    () =>
+      toastManager.add({
+        type: "error",
+        title: "Clipboard write blocked.",
+        description: options.description
+          ? "Grant clipboard access or copy the links manually."
+          : undefined,
+        positionerProps: getPositionerProps(errorButtonRef.current),
+        priority: "high",
+        data: {
+          icon: "alert",
+          hasIcon: options.icon,
+          hasClose: options.dismissible,
+        },
+        actionProps: options.action
+          ? {
+              children: "Retry",
+              onClick: () => toastManager.close(),
+            }
+          : undefined,
+      }),
+    [getPositionerProps, options, toastManager],
+  );
 
   return (
     <div className="absolute inset-0 z-10 flex flex-wrap items-center justify-center gap-2 px-4">
@@ -200,25 +274,7 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
         type="button"
         size="sm"
         variant="primary"
-        onClick={() =>
-          toastManager.add({
-            type: "info",
-            title: "Link copied.",
-            description: options.description ? "The message link is ready to paste." : undefined,
-            positionerProps: getPositionerProps(copyButtonRef.current),
-            data: {
-              icon: "copy",
-              hasIcon: options.icon,
-              hasClose: options.dismissible,
-            },
-            actionProps: options.action
-              ? {
-                  children: "Copy again",
-                  onClick: () => toastManager.close(),
-                }
-              : undefined,
-          })
-        }
+        onClick={handleCopyClick}
       >
         Copy link
       </Button>
@@ -227,25 +283,7 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
         type="button"
         size="sm"
         variant="outline"
-        onClick={() =>
-          toastManager.add({
-            type: "info",
-            title: "Forwarded to #design-system.",
-            description: options.description ? "The selected messages were sent." : undefined,
-            positionerProps: getPositionerProps(forwardButtonRef.current),
-            data: {
-              icon: "send",
-              hasIcon: options.icon,
-              hasClose: options.dismissible,
-            },
-            actionProps: options.action
-              ? {
-                  children: "View",
-                  onClick: () => toastManager.close(),
-                }
-              : undefined,
-          })
-        }
+        onClick={handleForwardClick}
       >
         Forward
       </Button>
@@ -254,28 +292,7 @@ function ToastDemoControls({ options }: { options: ToastDemoOptions }) {
         type="button"
         size="sm"
         variant="danger-outline"
-        onClick={() =>
-          toastManager.add({
-            type: "error",
-            title: "Clipboard write blocked.",
-            description: options.description
-              ? "Grant clipboard access or copy the links manually."
-              : undefined,
-            positionerProps: getPositionerProps(errorButtonRef.current),
-            priority: "high",
-            data: {
-              icon: "alert",
-              hasIcon: options.icon,
-              hasClose: options.dismissible,
-            },
-            actionProps: options.action
-              ? {
-                  children: "Retry",
-                  onClick: () => toastManager.close(),
-                }
-              : undefined,
-          })
-        }
+        onClick={handleErrorClick}
       >
         Error
       </Button>
@@ -319,7 +336,7 @@ function DemoToast({
       <ToastRoot
         toast={toast}
         layout={layout}
-        swipeDirection={placement.startsWith("top-") ? ["up", "right"] : undefined}
+        swipeDirection={placement.startsWith("top-") ? TOP_SWIPE_DIRECTION : undefined}
       >
         {showArrow ? <ToastArrow /> : null}
         <ToastContent>
@@ -347,7 +364,7 @@ function DemoToast({
     <ToastRoot
       toast={toast}
       layout={layout}
-      swipeDirection={placement.startsWith("top-") ? ["up", "right"] : undefined}
+      swipeDirection={placement.startsWith("top-") ? TOP_SWIPE_DIRECTION : undefined}
     >
       {showArrow ? <ToastArrow /> : null}
       <ToastContent>

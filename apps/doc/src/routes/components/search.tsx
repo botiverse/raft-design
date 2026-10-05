@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -490,18 +491,16 @@ function SearchSourceFiles({
   code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={collapsible}
-      showLineNumbers={false}
-      files={[
-        {
-          path: SEARCH_COMPOSITION_PATH,
-          source: searchPreviewCompositionSource,
-          html: code.composition,
-          collapsedHtml: code.compositionBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: SEARCH_COMPOSITION_PATH,
+        source: searchPreviewCompositionSource,
+        html: code.composition,
+        collapsedHtml: code.compositionBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={collapsible} showLineNumbers={false} files={files} />;
 }

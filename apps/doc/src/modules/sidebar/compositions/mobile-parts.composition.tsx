@@ -1,5 +1,5 @@
 import { ChevronDown, Hash } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Status,
   SidebarBody,
@@ -25,9 +25,14 @@ export function SidebarMobilePartsComposition() {
   const [selected, setSelected] = useState("raft-ui-migration");
   const [announcement, setAnnouncement] = useState({ message: "", sequence: 0 });
 
-  function announce(message: string) {
-    setAnnouncement((current) => ({ message, sequence: current.sequence + 1 }));
-  }
+  const handleServerClick = useCallback(() => {
+    setAnnouncement((current) => ({
+      message: "Switched to Raft Playground",
+      sequence: current.sequence + 1,
+    }));
+  }, []);
+  const handleMigrationClick = useCallback(() => setSelected("raft-ui-migration"), []);
+  const handlePrioritiesClick = useCallback(() => setSelected("weekly-priorities"), []);
 
   return (
     <SidebarRoot className="h-dvh">
@@ -35,7 +40,7 @@ export function SidebarMobilePartsComposition() {
         <SidebarServer
           title="Raft Playground"
           render={<button type="button" />}
-          onClick={() => announce("Switched to Raft Playground")}
+          onClick={handleServerClick}
         >
           <SidebarServerAvatar>
             <img alt="" src="/android-chrome-192x192.png" />
@@ -56,10 +61,7 @@ export function SidebarMobilePartsComposition() {
         <SidebarContent>
           <SidebarGroupLabel>Workspace</SidebarGroupLabel>
           <SidebarList>
-            <SidebarItem
-              active={selected === "raft-ui-migration"}
-              onClick={() => setSelected("raft-ui-migration")}
-            >
+            <SidebarItem active={selected === "raft-ui-migration"} onClick={handleMigrationClick}>
               <SidebarItemChannelIcon aria-hidden>
                 <Hash />
               </SidebarItemChannelIcon>
@@ -67,10 +69,7 @@ export function SidebarMobilePartsComposition() {
                 <SidebarItemTitle>raft-ui-migration</SidebarItemTitle>
               </SidebarItemContent>
             </SidebarItem>
-            <SidebarItem
-              active={selected === "weekly-priorities"}
-              onClick={() => setSelected("weekly-priorities")}
-            >
+            <SidebarItem active={selected === "weekly-priorities"} onClick={handlePrioritiesClick}>
               <SidebarItemChannelIcon aria-hidden>
                 <Hash />
               </SidebarItemChannelIcon>

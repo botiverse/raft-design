@@ -2,7 +2,7 @@
 
 import { Collapsible } from "@base-ui/react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import { Tabs, TabsList, TabsTab } from "raft-ui";
 import { tv } from "tailwind-variants/lite";
@@ -57,6 +57,9 @@ export function DocsCodeBlockFiles({
   const [bodyOpen, setBodyOpen] = useState(true);
   const activeFile = files.find((file) => file.path === activePath) ?? files[0];
   const styles = docsCodeBlockFiles();
+  const handleActivePathChange = useCallback((path: string) => {
+    if (path) setActivePath(path);
+  }, []);
 
   if (!activeFile) return null;
 
@@ -80,9 +83,7 @@ export function DocsCodeBlockFiles({
     <DocsCodeBlockHeader showLineNumbers={showLineNumbers}>
       <Tabs
         value={activeFile.path}
-        onValueChange={(path) => {
-          if (path) setActivePath(String(path));
-        }}
+        onValueChange={handleActivePathChange}
         className={styles.root()}
       >
         <TabsList aria-label="Source files" className={styles.list()}>

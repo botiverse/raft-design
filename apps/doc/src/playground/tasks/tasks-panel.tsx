@@ -1,6 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { CheckSquare, ListTodo, SquareKanban } from "lucide-react";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import {
   PanelActions,
   ConversationPanelContent,
@@ -94,55 +94,126 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
   const showToolbarChrome = Boolean(channel) || isDesktop;
   const { tasks, setTasks } = usePlaygroundTaskState();
   const fallbackChannelId = channel?.id ?? DEFAULT_CHANNEL_ID;
-  const visibleTasks = channel ? tasks.filter((task) => task.channelId === channel.id) : tasks;
-  const compositionTasks = visibleTasks.map((task) =>
-    toTaskFixture(task, getPlaygroundChannel(task.channelId).name),
+  const visibleTasks = useMemo(
+    () => (channel ? tasks.filter((task) => task.channelId === channel.id) : tasks),
+    [channel, tasks],
   );
-  const selectedChannelNames = new Set(
-    channelFilter.flatMap((channelId) => {
-      const name = CHANNEL_NAME_BY_ID.get(channelId);
-      return name ? [name] : [];
-    }),
+  const compositionTasks = useMemo(
+    () =>
+      visibleTasks.map((task) => toTaskFixture(task, getPlaygroundChannel(task.channelId).name)),
+    [visibleTasks],
+  );
+  const selectedChannelNames = useMemo(
+    () =>
+      new Set(
+        channelFilter.flatMap((channelId) => {
+          const name = CHANNEL_NAME_BY_ID.get(channelId);
+          return name ? [name] : [];
+        }),
+      ),
+    [channelFilter],
   );
 
   useEffect(() => {
     if (viewOverride !== undefined) persistTaskView(viewOverride);
   }, [viewOverride]);
 
-  const updateChannelTasks = (nextTasks: Tasks) => {
-    const currentTasks = new Map(visibleTasks.map((task) => [task.id, task]));
-    const nextChannelTasks = nextTasks.map((task) => {
-      const current = currentTasks.get(task.id as PlaygroundTask["id"]);
-      if (current) {
+  const updateChannelTasks = useCallback(
+    (nextTasks: Tasks) => {
+      const currentTasks = new Map(visibleTasks.map((task) => [task.id, task]));
+      const nextChannelTasks = nextTasks.map((task) => {
+        const current = currentTasks.get(task.id as PlaygroundTask["id"]);
+        if (current) {
+          return {
+            ...current,
+            title: task.title,
+            description: task.description,
+            status: task.status,
+            legacy: task.isLegacy,
+            movable: !task.dragDisabled,
+          } satisfies PlaygroundTask;
+        }
+
         return {
-          ...current,
+          id: `task:${fallbackChannelId}:${task.taskNumber}`,
+          channelId: fallbackChannelId,
+          number: task.taskNumber,
           title: task.title,
           description: task.description,
           status: task.status,
+          creatorActorId: "cuvii",
           legacy: task.isLegacy,
           movable: !task.dragDisabled,
         } satisfies PlaygroundTask;
+      });
+
+      setTasks(
+        channel
+          ? [...tasks.filter((task) => task.channelId !== channel.id), ...nextChannelTasks]
+          : nextChannelTasks,
+      );
+    },
+    [channel, fallbackChannelId, setTasks, tasks, visibleTasks],
+  );
+
+  const filterTask = useCallback(
+    (task: TaskFixture) => {
+      const channelMatches =
+        selectedChannelNames.size === 0 || selectedChannelNames.has(task.channelName);
+      const creatorMatches =
+        creatorFilter.length === 0 ||
+        creatorFilter.some((creatorId) =>
+          creatorId === "me" ? task.creatorId === CURRENT_ACTOR_ID : task.creatorId === creatorId,
+        );
+      const assigneeMatches =
+        assigneeFilter.length === 0 ||
+        assigneeFilter.some((assigneeId) =>
+          assigneeId === "me"
+            ? task.assigneeId === CURRENT_ACTOR_ID
+            : (task.assigneeId ?? "unassigned") === assigneeId,
+        );
+      return channelMatches && creatorMatches && assigneeMatches;
+    },
+    [assigneeFilter, creatorFilter, selectedChannelNames],
+  );
+
+  const handleOpenTask = useCallback(
+    (task: TaskFixture) => {
+      const sourceTask = visibleTasks.find((item) => item.id === task.id);
+      if (!sourceTask) return;
+      const conversation = getPlaygroundChannel(sourceTask.channelId);
+      const fromTasks = channel ? undefined : ("tasks" as const);
+      const search = sourceTask.legacy
+        ? {
+            ...(fromTasks ? { from: fromTasks } : {}),
+            legacyTask: sourceTask.id,
+          }
+        : {
+            ...(fromTasks ? { from: fromTasks } : {}),
+            thread: sourceTask.sourceMessageId ?? sourceTask.id,
+          };
+
+      if (conversation.kind === "dm") {
+        void navigate({
+          to: "/playground/s/$serverSlug/dm/$dmId",
+          params: { dmId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG },
+          search,
+        });
+        return;
       }
 
-      return {
-        id: `task:${fallbackChannelId}:${task.taskNumber}`,
-        channelId: fallbackChannelId,
-        number: task.taskNumber,
-        title: task.title,
-        description: task.description,
-        status: task.status,
-        creatorActorId: "cuvii",
-        legacy: task.isLegacy,
-        movable: !task.dragDisabled,
-      } satisfies PlaygroundTask;
-    });
+      void navigate({
+        to: "/playground/s/$serverSlug/channel/$channelId",
+        params: { channelId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG },
+        search,
+      });
+    },
+    [channel, navigate, visibleTasks],
+  );
 
-    setTasks(
-      channel
-        ? [...tasks.filter((task) => task.channelId !== channel.id), ...nextChannelTasks]
-        : nextChannelTasks,
-    );
-  };
+  const handleViewTabChange = useCallback((nextView: string) => {
+    if (nextView === "board" || nextView === "list") setViewOverride(nextView);
+  }, []);
 
   const panel = (
     <TasksPanelComposition
@@ -161,56 +232,11 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
           onAssigneeValueChange={setAssigneeFilter}
         />
       }
-      filterTask={(task) => {
-        const channelMatches =
-          selectedChannelNames.size === 0 || selectedChannelNames.has(task.channelName);
-        const creatorMatches =
-          creatorFilter.length === 0 ||
-          creatorFilter.some((creatorId) =>
-            creatorId === "me" ? task.creatorId === CURRENT_ACTOR_ID : task.creatorId === creatorId,
-          );
-        const assigneeMatches =
-          assigneeFilter.length === 0 ||
-          assigneeFilter.some((assigneeId) =>
-            assigneeId === "me"
-              ? task.assigneeId === CURRENT_ACTOR_ID
-              : (task.assigneeId ?? "unassigned") === assigneeId,
-          );
-        return channelMatches && creatorMatches && assigneeMatches;
-      }}
+      filterTask={filterTask}
       view={view}
       onTasksChange={updateChannelTasks}
       onViewChange={setViewOverride}
-      onOpenTask={(task) => {
-        const sourceTask = visibleTasks.find((item) => item.id === task.id);
-        if (!sourceTask) return;
-        const conversation = getPlaygroundChannel(sourceTask.channelId);
-        const fromTasks = channel ? undefined : ("tasks" as const);
-        const search = sourceTask.legacy
-          ? {
-              ...(fromTasks ? { from: fromTasks } : {}),
-              legacyTask: sourceTask.id,
-            }
-          : {
-              ...(fromTasks ? { from: fromTasks } : {}),
-              thread: sourceTask.sourceMessageId ?? sourceTask.id,
-            };
-
-        if (conversation.kind === "dm") {
-          void navigate({
-            to: "/playground/s/$serverSlug/dm/$dmId",
-            params: { dmId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG },
-            search,
-          });
-          return;
-        }
-
-        void navigate({
-          to: "/playground/s/$serverSlug/channel/$channelId",
-          params: { channelId: conversation.id, serverSlug: PLAYGROUND_SERVER_SLUG },
-          search,
-        });
-      }}
+      onOpenTask={handleOpenTask}
     />
   );
 
@@ -234,13 +260,7 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
           <PanelMeta render={<p />}>{compositionTasks.length} channel tasks</PanelMeta>
         </PanelHeaderContent>
         <PanelActions className="md:hidden">
-          <Tabs
-            value={view}
-            onValueChange={(nextView) => {
-              if (nextView === "board" || nextView === "list") setViewOverride(nextView);
-            }}
-            aria-label="Task view"
-          >
+          <Tabs value={view} onValueChange={handleViewTabChange} aria-label="Task view">
             <TabsList>
               <TabsBackground />
               <TabsTab value="board" aria-label="Board" className="px-2.5">

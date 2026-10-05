@@ -1,5 +1,6 @@
 import { ImagePlus, Paperclip, Send } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import {
   Checkbox,
   ComposerActions,
@@ -15,28 +16,39 @@ export function ComposerDefaultComposition() {
   const [draft, setDraft] = useState("");
   const [hasAttachment, setHasAttachment] = useState(false);
 
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (!draft.trim() && !hasAttachment) return;
+      setDraft("");
+      setHasAttachment(false);
+    },
+    [draft, hasAttachment],
+  );
+
+  const handleDraftChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    setDraft(event.currentTarget.value);
+  }, []);
+
+  const handleAttach = useCallback(() => {
+    setHasAttachment(true);
+  }, []);
+
   return (
-    <ComposerRoot
-      onSubmit={(event) => {
-        event.preventDefault();
-        if (!draft.trim() && !hasAttachment) return;
-        setDraft("");
-        setHasAttachment(false);
-      }}
-    >
+    <ComposerRoot onSubmit={handleSubmit}>
       <Composer>
         <ComposerInput
           aria-label="Message #proj-uiux"
           placeholder="Message #proj-uiux"
           value={draft}
-          onChange={(event) => setDraft(event.currentTarget.value)}
+          onChange={handleDraftChange}
         />
         <ComposerToolbar>
           <ComposerActions>
-            <ComposerIconButton aria-label="Attach image" onClick={() => setHasAttachment(true)}>
+            <ComposerIconButton aria-label="Attach image" onClick={handleAttach}>
               <ImagePlus />
             </ComposerIconButton>
-            <ComposerIconButton aria-label="Attach file" onClick={() => setHasAttachment(true)}>
+            <ComposerIconButton aria-label="Attach file" onClick={handleAttach}>
               <Paperclip />
             </ComposerIconButton>
           </ComposerActions>

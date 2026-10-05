@@ -27,6 +27,20 @@ const channels: readonly Channel[] = [
   { id: "dev", label: "#dev" },
 ];
 
+const CONTENT_COLLISION_AVOIDANCE = {
+  side: "none",
+  align: "none",
+  fallbackAxisSide: "none",
+} as const;
+
+function isSameChannel(item: Channel, value: Channel) {
+  return item.id === value.id;
+}
+
+function getChannelLabel(channel: Channel) {
+  return channel.label;
+}
+
 export function TasksChannelFilterComposition() {
   const [selectedChannels, setSelectedChannels] = useState<Channel[]>([channels[0]]);
 
@@ -37,8 +51,8 @@ export function TasksChannelFilterComposition() {
         multiple
         autoHighlight
         items={channels}
-        isItemEqualToValue={(item, value) => item.id === value.id}
-        itemToStringLabel={(channel) => channel.label}
+        isItemEqualToValue={isSameChannel}
+        itemToStringLabel={getChannelLabel}
         value={selectedChannels}
         onValueChange={setSelectedChannels}
       >
@@ -55,7 +69,7 @@ export function TasksChannelFilterComposition() {
         <ComboboxContent
           initialFocus={false}
           finalFocus={false}
-          collisionAvoidance={{ side: "none", align: "none", fallbackAxisSide: "none" }}
+          collisionAvoidance={CONTENT_COLLISION_AVOIDANCE}
           side="bottom"
           className="w-[220px]"
         >

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { DocPage } from "#/components/doc-page.tsx";
@@ -467,24 +468,22 @@ function SidebarSourceFiles({
   code: HighlightedSnippets;
   collapsible?: boolean;
 }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={collapsible}
-      showLineNumbers={false}
-      files={[
-        {
-          path: SIDEBAR_COMPOSITION_PATH,
-          source: sidebarCompositionSource,
-          html: code.sidebarComposition,
-          collapsedHtml: code.sidebarCompositionBody,
-        },
-        {
-          path: SIDEBAR_SECTION_HEADER_MENU_COMPOSITION_PATH,
-          source: sidebarSectionHeaderMenuCompositionSource,
-          html: code.sidebarSectionHeaderMenuComposition,
-          collapsedHtml: code.sidebarSectionHeaderMenuCompositionBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: SIDEBAR_COMPOSITION_PATH,
+        source: sidebarCompositionSource,
+        html: code.sidebarComposition,
+        collapsedHtml: code.sidebarCompositionBody,
+      },
+      {
+        path: SIDEBAR_SECTION_HEADER_MENU_COMPOSITION_PATH,
+        source: sidebarSectionHeaderMenuCompositionSource,
+        html: code.sidebarSectionHeaderMenuComposition,
+        collapsedHtml: code.sidebarSectionHeaderMenuCompositionBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={collapsible} showLineNumbers={false} files={files} />;
 }

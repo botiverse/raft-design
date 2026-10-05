@@ -1,4 +1,5 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { useMemo } from "react";
 import type { ReactNode } from "react";
 import { Text } from "raft-ui";
 
@@ -424,56 +425,9 @@ function TokenOutlet() {
 
 export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
   const families = FAMILIES.filter((family) => family.themeId === theme);
-  const typography = THEME_TYPOGRAPHY[theme];
   const title = `${THEME_LABELS[theme]} typography`;
 
-  const headingSpecs: TypographySpec[] = typography.headings.map((heading) => ({
-    category: "",
-    name: heading.level,
-    family: families[0]?.heading ?? "font-heading",
-    utility: "font-heading",
-    size: heading.size,
-    px: heading.px,
-    weight: heading.weight,
-    weightValue: heading.weightValue,
-    tracking: heading.tracking,
-    leading: "",
-    leadingPx: heading.leadingPx,
-    className: "",
-    preview: createHeadingPreview(heading.level),
-  }));
-
-  const bodySpecs: TypographySpec[] = typography.body.map((item) => {
-    const { title, ...rest } = item;
-    const size = SANS_SIZE_BY_TITLE[title as keyof typeof SANS_SIZE_BY_TITLE];
-
-    return {
-      category: "Sans",
-      name: title,
-      ...rest,
-      preview: (
-        <Text.Sans size={size} className="whitespace-nowrap">
-          {SAMPLE_TEXT}
-        </Text.Sans>
-      ),
-    };
-  });
-
-  const monoSpecs: TypographySpec[] = typography.mono.map((item) => {
-    const { title, ...rest } = item;
-    const size = MONO_SIZE_BY_TITLE[title as keyof typeof MONO_SIZE_BY_TITLE];
-
-    return {
-      category: "Mono",
-      name: title,
-      ...rest,
-      preview: (
-        <Text.Mono size={size} className="whitespace-nowrap">
-          {SAMPLE_TEXT}
-        </Text.Mono>
-      ),
-    };
-  });
+  const { headingSpecs, bodySpecs, monoSpecs } = TYPOGRAPHY_SPECS[theme];
 
   return (
     <TokenThemeScope theme={theme}>
@@ -517,6 +471,70 @@ export function TypographyDoc({ theme }: { theme: TypographyTheme }) {
       </DocPage>
     </TokenThemeScope>
   );
+}
+
+function getHeadingSpecs(theme: TypographyTheme): TypographySpec[] {
+  const headingFamily = FAMILIES.find((family) => family.themeId === theme)?.heading;
+
+  return THEME_TYPOGRAPHY[theme].headings.map((heading) => ({
+    category: "",
+    name: heading.level,
+    family: headingFamily ?? "font-heading",
+    utility: "font-heading",
+    size: heading.size,
+    px: heading.px,
+    weight: heading.weight,
+    weightValue: heading.weightValue,
+    tracking: heading.tracking,
+    leading: "",
+    leadingPx: heading.leadingPx,
+    className: "",
+    preview: createHeadingPreview(heading.level),
+  }));
+}
+
+function getBodySpecs(theme: TypographyTheme): TypographySpec[] {
+  return THEME_TYPOGRAPHY[theme].body.map((item) => {
+    const { title, ...rest } = item;
+    const size = SANS_SIZE_BY_TITLE[title as keyof typeof SANS_SIZE_BY_TITLE];
+
+    return {
+      category: "Sans",
+      name: title,
+      ...rest,
+      preview: (
+        <Text.Sans size={size} className="whitespace-nowrap">
+          {SAMPLE_TEXT}
+        </Text.Sans>
+      ),
+    };
+  });
+}
+
+function getMonoSpecs(theme: TypographyTheme): TypographySpec[] {
+  return THEME_TYPOGRAPHY[theme].mono.map((item) => {
+    const { title, ...rest } = item;
+    const size = MONO_SIZE_BY_TITLE[title as keyof typeof MONO_SIZE_BY_TITLE];
+
+    return {
+      category: "Mono",
+      name: title,
+      ...rest,
+      preview: (
+        <Text.Mono size={size} className="whitespace-nowrap">
+          {SAMPLE_TEXT}
+        </Text.Mono>
+      ),
+    };
+  });
+}
+
+function getTypographySpecs(theme: TypographyTheme) {
+  return {
+    headingSpecs: getHeadingSpecs(theme),
+    bodySpecs: getBodySpecs(theme),
+    monoSpecs: getMonoSpecs(theme),
+  };
 }
 
 function createHeadingPreview(level: (typeof HEADING_LEVELS)[number]) {
@@ -579,31 +597,35 @@ function TypographySpecList({ specs }: { specs: TypographySpec[] }) {
   );
 }
 
+const TYPOGRAPHY_SPECS: Record<TypographyTheme, ReturnType<typeof getTypographySpecs>> = {
+  brutal: getTypographySpecs("brutal"),
+  elegant: getTypographySpecs("elegant"),
+};
+
+const TEXT_COLOR_VARIANT_SPECS: TypographySpec[] = TEXT_COLOR_VARIANTS.map((variant) => ({
+  category: "Variant",
+  name: variant,
+  family: "Text.Sans",
+  utility: `variant="${variant}"`,
+  size: "",
+  px: "",
+  weight: "",
+  weightValue: "",
+  tracking: "",
+  leading: "",
+  className: "",
+  preview: (
+    <Text.Sans size="small" variant={variant} className="whitespace-nowrap">
+      {SAMPLE_TEXT}
+    </Text.Sans>
+  ),
+}));
+
 function TextColorVariantList() {
   return (
     <>
-      {TEXT_COLOR_VARIANTS.map((variant) => (
-        <TypographySpecRow
-          key={variant}
-          spec={{
-            category: "Variant",
-            name: variant,
-            family: "Text.Sans",
-            utility: `variant="${variant}"`,
-            size: "",
-            px: "",
-            weight: "",
-            weightValue: "",
-            tracking: "",
-            leading: "",
-            className: "",
-            preview: (
-              <Text.Sans size="small" variant={variant} className="whitespace-nowrap">
-                {SAMPLE_TEXT}
-              </Text.Sans>
-            ),
-          }}
-        />
+      {TEXT_COLOR_VARIANT_SPECS.map((spec) => (
+        <TypographySpecRow key={spec.name} spec={spec} />
       ))}
     </>
   );
@@ -642,12 +664,16 @@ function TypographySpecRow({ spec }: { spec: TypographySpec }) {
   const weight = [spec.weight, spec.weightValue].filter(Boolean).join(" / ");
   const lineHeight =
     spec.leadingPx ?? (spec.px && spec.leading ? toLeadingPx(spec.px, spec.leading) : "");
-  const metaItems = [
-    { label: "Weight", value: weight },
-    { label: "Font size", value: spec.px },
-    { label: "Line height", value: lineHeight },
-    { label: "Letter spacing", value: formatTracking(spec.tracking) },
-  ].filter((item) => item.value);
+  const metaItems = useMemo(
+    () =>
+      [
+        { label: "Weight", value: weight },
+        { label: "Font size", value: spec.px },
+        { label: "Line height", value: lineHeight },
+        { label: "Letter spacing", value: formatTracking(spec.tracking) },
+      ].filter((item) => item.value),
+    [weight, spec.px, lineHeight, spec.tracking],
+  );
 
   // The preview is a rendered sample; in Markdown a `<h1>` sample would become a
   // stray top-level heading. List the spec instead.

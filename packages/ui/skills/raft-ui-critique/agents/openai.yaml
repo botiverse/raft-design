@@ -1,4 +1,4 @@
 interface:
   display_name: "Raft UI Critique"
-  short_description: "Review raft-ui across all three visual themes"
+  short_description: "Review raft-ui across Brutal, Elegant, and Elegant Dark"
   default_prompt: "Use $raft-ui-critique to review the supplied interface evidence across Brutal, Elegant, and Elegant Dark. State coverage, exercise interactions only when authorized, and do not infer unseen states."

@@ -52,6 +52,13 @@ const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
   y: 0,
 });
 
+const HORIZONTAL_MODIFIERS = [restrictToHorizontalAxis];
+
+const HORIZONTAL_AUTO_SCROLL = {
+  threshold: { x: 0.15, y: 0 },
+  canScroll: (element: Element) => element.scrollWidth > element.clientWidth + 1,
+};
+
 /**
  * Prefer pointer hits; if the active droppable is still under the pointer /
  * closest center, keep it so layout reflow alone cannot claim a neighbor.
@@ -209,7 +216,7 @@ function SortableComposerAttachmentsRoot({
     clearDrag();
   }, [clearDrag, onReorder]);
 
-  const modifiers = horizontal ? [restrictToHorizontalAxis] : undefined;
+  const modifiers = horizontal ? HORIZONTAL_MODIFIERS : undefined;
 
   return (
     <DndContext
@@ -217,14 +224,7 @@ function SortableComposerAttachmentsRoot({
       sensors={sensors}
       collisionDetection={sortableCollisionDetection}
       modifiers={modifiers}
-      autoScroll={
-        horizontal
-          ? {
-              threshold: { x: 0.15, y: 0 },
-              canScroll: (element) => element.scrollWidth > element.clientWidth + 1,
-            }
-          : false
-      }
+      autoScroll={horizontal ? HORIZONTAL_AUTO_SCROLL : false}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragCancel={handleDragCancel}

@@ -2,6 +2,7 @@
 
 import { useClipboard } from "foxact/use-clipboard";
 import { Check, ChevronDown, Copy, FileText, Link } from "lucide-react";
+import { useCallback } from "react";
 import {
   Button,
   DropdownMenu,
@@ -26,25 +27,42 @@ type DocPageActionsProps = {
  * plain GitHub link.
  */
 export function DocPageActions({ markdownPath, sourceHref }: DocPageActionsProps) {
-  const page = useClipboard();
-  const link = useClipboard();
-
   if (!markdownPath) {
     return sourceHref ? <GithubButton href={sourceHref} /> : null;
   }
 
-  const markdownUrl = () => new URL(markdownPath, window.location.origin).href;
+  return <MarkdownPageActions markdownPath={markdownPath} sourceHref={sourceHref} />;
+}
 
-  const copyPage = async () => {
+function MarkdownPageActions({
+  markdownPath,
+  sourceHref,
+}: DocPageActionsProps & { markdownPath: string }) {
+  const { copied: pageCopied, copy: copyPage } = useClipboard();
+  const { copied: linkCopied, copy: copyLink } = useClipboard();
+
+  const handleCopyPage = useCallback(async () => {
     const response = await fetch(markdownPath);
-    if (response.ok) await page.copy(await response.text());
-  };
+    if (response.ok) await copyPage(await response.text());
+  }, [markdownPath, copyPage]);
+
+  const handleCopyLink = useCallback(() => {
+    void copyLink(new URL(markdownPath, window.location.origin).href);
+  }, [markdownPath, copyLink]);
+
+  const handleViewMarkdown = useCallback(() => {
+    window.open(markdownPath, "_blank", "noopener");
+  }, [markdownPath]);
+
+  const handleOpenSource = useCallback(() => {
+    if (sourceHref) window.open(sourceHref, "_blank", "noopener");
+  }, [sourceHref]);
 
   return (
     <div className="flex items-center gap-1">
-      <Button type="button" variant="outline" size="sm" onClick={() => void copyPage()}>
-        {page.copied ? <Check /> : <Copy />}
-        {page.copied ? "Copied" : "Copy page"}
+      <Button type="button" variant="outline" size="sm" onClick={handleCopyPage}>
+        {pageCopied ? <Check /> : <Copy />}
+        {pageCopied ? "Copied" : "Copy page"}
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger
@@ -55,20 +73,20 @@ export function DocPageActions({ markdownPath, sourceHref }: DocPageActionsProps
           }
         />
         <DropdownMenuContent align="end" className="min-w-[200px]">
-          <DropdownMenuItem closeOnClick={false} onClick={() => void link.copy(markdownUrl())}>
-            {link.copied ? <Check /> : <Link />}
+          <DropdownMenuItem closeOnClick={false} onClick={handleCopyLink}>
+            {linkCopied ? <Check /> : <Link />}
             <DropdownMenuItemLabel>
-              {link.copied ? "Link copied" : "Copy Markdown link"}
+              {linkCopied ? "Link copied" : "Copy Markdown link"}
             </DropdownMenuItemLabel>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => window.open(markdownPath, "_blank", "noopener")}>
+          <DropdownMenuItem onClick={handleViewMarkdown}>
             <FileText />
             <DropdownMenuItemLabel>View as Markdown</DropdownMenuItemLabel>
           </DropdownMenuItem>
           {sourceHref ? (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => window.open(sourceHref, "_blank", "noopener")}>
+              <DropdownMenuItem onClick={handleOpenSource}>
                 <GithubMark />
                 <DropdownMenuItemLabel>Open on GitHub</DropdownMenuItemLabel>
               </DropdownMenuItem>

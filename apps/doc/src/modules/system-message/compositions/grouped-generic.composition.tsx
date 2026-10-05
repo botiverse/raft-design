@@ -13,6 +13,17 @@ import type { SystemMessageRowCompositionProps } from "./preview.composition.tsx
 import { CompositionPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
+const GENERIC_EVENTS: readonly SystemMessageRowCompositionProps[] = [
+  {
+    createdAt: "2:18 PM",
+    content: "📦 Atlas archived this channel",
+  },
+  {
+    createdAt: "2:19 PM",
+    content: "📤 Atlas unarchived this channel",
+  },
+];
+
 export function SystemMessageGroupComposition({
   id,
   summary,
@@ -47,16 +58,7 @@ export function SystemMessageGroupedGenericContent() {
     <div className="w-full max-w-3xl">
       <SystemMessageGroupComposition
         summary="There are 2 system messages"
-        events={[
-          {
-            createdAt: "2:18 PM",
-            content: "📦 Atlas archived this channel",
-          },
-          {
-            createdAt: "2:19 PM",
-            content: "📤 Atlas unarchived this channel",
-          },
-        ]}
+        events={GENERIC_EVENTS}
       />
     </div>
   );

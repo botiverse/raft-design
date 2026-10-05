@@ -1,4 +1,5 @@
-import { useId } from "react";
+import { useCallback, useId, useMemo } from "react";
+import type { ReactElement } from "react";
 import { Checkbox as BaseCheckbox } from "@base-ui/react/checkbox";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
@@ -319,6 +320,11 @@ export type CheckboxProps = StyledProps<BaseCheckbox.Root.Props> &
     shape?: "square" | "circle";
   };
 
+type CheckboxIndicatorRenderFn = Exclude<
+  BaseCheckbox.Indicator.Props["render"],
+  ReactElement | undefined
+>;
+
 export function Checkbox({
   size,
   color = "default",
@@ -329,50 +335,64 @@ export function Checkbox({
 }: CheckboxProps) {
   const theme = useThemeFamily();
   const { root, indicator, graphic, outerRect, overlayRect, mark, checkMark, indeterminateMark } =
-    checkbox({
-      theme,
-      size,
-      color,
-      variant,
-    });
+    useMemo(() => checkbox({ theme, size, color, variant }), [theme, size, color, variant]);
+
+  const elegantClassNames = useMemo(
+    () => ({
+      graphic: graphic(),
+      outerRect: outerRect(),
+      overlayRect: overlayRect(),
+    }),
+    [graphic, outerRect, overlayRect],
+  );
+
+  const renderElegantIndicator = useCallback<CheckboxIndicatorRenderFn>(
+    (indicatorProps, state) => (
+      <span {...indicatorProps} className={indicator({ className: indicatorProps.className })}>
+        <CheckboxCheckIcon
+          className={mark({
+            className: checkMark({
+              className:
+                state.checked && !state.indeterminate ? "rotate-0 scale-100 opacity-100" : "",
+            }),
+          })}
+        />
+        <CheckboxIndeterminateIcon
+          className={mark({
+            className: indeterminateMark({
+              className: state.indeterminate ? "visible scale-x-100 opacity-100" : "",
+            }),
+          })}
+        />
+      </span>
+    ),
+    [indicator, mark, checkMark, indeterminateMark],
+  );
+
+  const renderIndicator = useCallback<CheckboxIndicatorRenderFn>(
+    (indicatorProps, state) => (
+      <CheckboxIndicator
+        {...indicatorProps}
+        checked={state.checked || state.indeterminate}
+        disabled={state.disabled}
+        mark={state.indeterminate ? "minus" : "check"}
+        size={size}
+        shape={shape}
+        fill={variant === "primary" || color === "primary" ? "yellow" : "black"}
+      />
+    ),
+    [size, shape, variant, color],
+  );
 
   if (theme === "elegant") {
     return (
       <BaseCheckbox.Root data-slot="checkbox" className={root({ className })} {...props}>
-        <ElegantCheckboxGraphic
-          shape={shape}
-          classNames={{
-            graphic: graphic(),
-            outerRect: outerRect(),
-            overlayRect: overlayRect(),
-          }}
-        />
+        <ElegantCheckboxGraphic shape={shape} classNames={elegantClassNames} />
         <BaseCheckbox.Indicator
           keepMounted
           data-slot="checkbox-indicator"
           className={indicator()}
-          render={(indicatorProps, state) => (
-            <span
-              {...indicatorProps}
-              className={indicator({ className: indicatorProps.className })}
-            >
-              <CheckboxCheckIcon
-                className={mark({
-                  className: checkMark({
-                    className:
-                      state.checked && !state.indeterminate ? "rotate-0 scale-100 opacity-100" : "",
-                  }),
-                })}
-              />
-              <CheckboxIndeterminateIcon
-                className={mark({
-                  className: indeterminateMark({
-                    className: state.indeterminate ? "visible scale-x-100 opacity-100" : "",
-                  }),
-                })}
-              />
-            </span>
-          )}
+          render={renderElegantIndicator}
         />
       </BaseCheckbox.Root>
     );
@@ -384,17 +404,7 @@ export function Checkbox({
         keepMounted
         data-slot="checkbox-indicator"
         className={indicator()}
-        render={(indicatorProps, state) => (
-          <CheckboxIndicator
-            {...indicatorProps}
-            checked={state.checked || state.indeterminate}
-            disabled={state.disabled}
-            mark={state.indeterminate ? "minus" : "check"}
-            size={size}
-            shape={shape}
-            fill={variant === "primary" || color === "primary" ? "yellow" : "black"}
-          />
-        )}
+        render={renderIndicator}
       />
     </BaseCheckbox.Root>
   );

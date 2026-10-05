@@ -91,6 +91,7 @@ import { Route as ComponentsTasksRouteImport } from './routes/components/tasks'
 import { Route as ComponentsTextRouteImport } from './routes/components/text'
 import { Route as ComponentsTextareaRouteImport } from './routes/components/textarea'
 import { Route as ComponentsThreadPanelRouteImport } from './routes/components/thread-panel'
+import { Route as ComponentsTimelineRouteImport } from './routes/components/timeline'
 import { Route as ComponentsToastRouteImport } from './routes/components/toast'
 import { Route as ComponentsToggleGroupRouteImport } from './routes/components/toggle-group'
 import { Route as ComponentsTooltipRouteImport } from './routes/components/tooltip'
@@ -549,6 +550,11 @@ const ComponentsThreadPanelRoute = ComponentsThreadPanelRouteImport.update({
   path: '/thread-panel',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsTimelineRoute = ComponentsTimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsToastRoute = ComponentsToastRouteImport.update({
   id: '/toast',
   path: '/toast',
@@ -801,6 +807,7 @@ export interface FileRoutesByFullPath {
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/thread-panel': typeof ComponentsThreadPanelRoute
+  '/components/timeline': typeof ComponentsTimelineRoute
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -915,6 +922,7 @@ export interface FileRoutesByTo {
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/thread-panel': typeof ComponentsThreadPanelRoute
+  '/components/timeline': typeof ComponentsTimelineRoute
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -1030,6 +1038,7 @@ export interface FileRoutesById {
   '/components/text': typeof ComponentsTextRoute
   '/components/textarea': typeof ComponentsTextareaRoute
   '/components/thread-panel': typeof ComponentsThreadPanelRoute
+  '/components/timeline': typeof ComponentsTimelineRoute
   '/components/toast': typeof ComponentsToastRoute
   '/components/toggle-group': typeof ComponentsToggleGroupRoute
   '/components/tooltip': typeof ComponentsTooltipRoute
@@ -1146,6 +1155,7 @@ export interface FileRouteTypes {
     | '/components/text'
     | '/components/textarea'
     | '/components/thread-panel'
+    | '/components/timeline'
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -1260,6 +1270,7 @@ export interface FileRouteTypes {
     | '/components/text'
     | '/components/textarea'
     | '/components/thread-panel'
+    | '/components/timeline'
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -1374,6 +1385,7 @@ export interface FileRouteTypes {
     | '/components/text'
     | '/components/textarea'
     | '/components/thread-panel'
+    | '/components/timeline'
     | '/components/toast'
     | '/components/toggle-group'
     | '/components/tooltip'
@@ -1998,6 +2010,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsThreadPanelRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/timeline': {
+      id: '/components/timeline'
+      path: '/timeline'
+      fullPath: '/components/timeline'
+      preLoaderRoute: typeof ComponentsTimelineRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/toast': {
       id: '/components/toast'
       path: '/toast'
@@ -2414,6 +2433,7 @@ interface ComponentsRouteChildren {
   ComponentsTextRoute: typeof ComponentsTextRoute
   ComponentsTextareaRoute: typeof ComponentsTextareaRoute
   ComponentsThreadPanelRoute: typeof ComponentsThreadPanelRoute
+  ComponentsTimelineRoute: typeof ComponentsTimelineRoute
   ComponentsToastRoute: typeof ComponentsToastRoute
   ComponentsToggleGroupRoute: typeof ComponentsToggleGroupRoute
   ComponentsTooltipRoute: typeof ComponentsTooltipRoute
@@ -2496,6 +2516,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsTextRoute: ComponentsTextRoute,
   ComponentsTextareaRoute: ComponentsTextareaRoute,
   ComponentsThreadPanelRoute: ComponentsThreadPanelRoute,
+  ComponentsTimelineRoute: ComponentsTimelineRoute,
   ComponentsToastRoute: ComponentsToastRoute,
   ComponentsToggleGroupRoute: ComponentsToggleGroupRoute,
   ComponentsTooltipRoute: ComponentsTooltipRoute,

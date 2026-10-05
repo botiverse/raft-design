@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   FileAction,
   FileActions,
@@ -21,12 +21,24 @@ import { Clock3, Download, ExternalLink } from "lucide-react";
 export function FilesPanelFileRowComposition() {
   const [lastAction, setLastAction] = useState<string | null>(null);
 
+  const handlePreview = useCallback(() => {
+    setLastAction("Previewed");
+  }, []);
+
+  const handleJumpToOriginal = useCallback(() => {
+    setLastAction("Jumped to message");
+  }, []);
+
+  const handleDownload = useCallback(() => {
+    setLastAction("Downloaded");
+  }, []);
+
   return (
     <FilesPanel aria-label="Files panel" className="w-full max-w-2xl">
       <FilesViewport>
         <FilesList>
           <FileRow>
-            <FileRowOpen title="Preview file" onClick={() => setLastAction("Previewed")}>
+            <FileRowOpen title="Preview file" onClick={handlePreview}>
               <FileThumbnail>
                 <FilePreview>
                   <FilePreviewDocument />
@@ -49,15 +61,11 @@ export function FilesPanelFileRowComposition() {
               <FileAction
                 aria-label="Jump to original message"
                 title="Jump to original message"
-                onClick={() => setLastAction("Jumped to message")}
+                onClick={handleJumpToOriginal}
               >
                 <ExternalLink aria-hidden />
               </FileAction>
-              <FileAction
-                aria-label="Download file"
-                title="Download file"
-                onClick={() => setLastAction("Downloaded")}
-              >
+              <FileAction aria-label="Download file" title="Download file" onClick={handleDownload}>
                 <Download aria-hidden />
               </FileAction>
             </FileActions>

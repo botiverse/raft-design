@@ -8,7 +8,6 @@ description: "Choosing and composing form controls: Select vs DropdownMenu, Swit
 ## Contents
 
 - Select vs DropdownMenu — the mistake to avoid
-- Choosing an option control
 - Checkbox vs Switch
 - Combobox vs Select
 - SegmentedControl vs RadioGroup vs Tabs vs ToggleGroup
@@ -27,8 +26,7 @@ These look alike and are not interchangeable. The rule is about **what happens o
 | Purpose                 | Pick a **value**                   | Run an **action**                  |
 | After choosing          | The trigger shows the chosen value | The menu closes, something happens |
 | Has a persistent value  | Yes                                | No                                 |
-| Can represent form data | Yes, when given a `name`           | No                                 |
-| Submitted with the form | When named                         | Never                              |
+| Submitted with the form | When given a `name`                | Never                              |
 
 **Incorrect** — an actions menu built out of `Select`:
 
@@ -68,27 +66,9 @@ These look alike and are not interchangeable. The rule is about **what happens o
 </DropdownMenu>
 ```
 
-`DropdownMenuContent` handles the portal and popup itself — do not wrap it in `DropdownMenuPortal` or `DropdownMenuPopup`. Those parts exist for granular control only.
-
 Quick test: if the trigger should still read "Actions" after the user picks something, it is a menu. If the trigger should now read "Rename", it is a select.
 
 `DropdownMenu` does carry state for _settings-style_ menus — that is what `DropdownMenuCheckboxItem` and `DropdownMenuRadioGroup` / `DropdownMenuRadioItem` are for (view density, sort order). Those still are not form fields and are never submitted.
-
----
-
-## Choosing an option control
-
-Walk this in order.
-
-1. Is it an action, not a value? → `DropdownMenu` / `ContextMenu`.
-2. Is it a single on/off that applies immediately? → `Switch`.
-3. Is it a single on/off submitted with a form? → `Checkbox`.
-4. Multiple independent on/offs? → several `Checkbox`, or `ToggleGroup` when they are a compact toolbar.
-5. One of 2–5, all worth showing, in a form? → `RadioGroup`.
-6. One of 2–5, switching a view or filter, space is tight? → `SegmentedControl`.
-7. One of many? → `Select`.
-8. Many, and the user will want to type to narrow? → `Combobox`.
-9. Multiple selections from many? → `Combobox` with chips.
 
 ---
 
@@ -151,16 +131,16 @@ parts inside it; use the standard trigger rendering for full-width form fields.
 
 All four render a row of choices. They differ in what the choice does.
 
-| Component          | The choice…                                         |
-| ------------------ | --------------------------------------------------- |
-| `RadioGroup`       | is an answer to a question, submitted with the form |
-| `SegmentedControl` | changes a view, filter, or mode, in place           |
-| `Tabs`             | swaps which panel of content is visible             |
-| `ToggleGroup`      | toggles one or more independent options             |
+| Component          | The choice…                                                                               |
+| ------------------ | ----------------------------------------------------------------------------------------- |
+| `RadioGroup`       | is an answer to a question, submitted with the form                                       |
+| `SegmentedControl` | changes a view, filter, or mode, in place                                                 |
+| `Tabs`             | swaps which panel of content is visible                                                   |
+| `ToggleGroup`      | toggles one or more independent options (a compact toolbar; otherwise several `Checkbox`) |
 
 `Tabs` implies panels. If there are no panels — you are only filtering a list that stays in place — use `SegmentedControl`.
 
-`Tabs` variants are `default` and `underline`. Use `TabsIndicator` and `TabsBackground` for the moving marker rather than animating a border yourself. For reorderable tabs use `SortableTabsList` / `SortableTabsTab` with the `useOrderedTabs` hook.
+`Tabs placement` (`top` `bottom` `left` `right`) puts the list on any side of the panels; `left` / `right` make it vertical. `TabsList` takes `variant` `default` or `underline`; it applies in Elegant only, Brutal always renders `underline`. Use `TabsIndicator` and `TabsBackground` for the moving marker rather than animating a border yourself. For reorderable tabs use `SortableTabsList` / `SortableTabsTab` with the `useOrderedTabs` hook.
 
 ---
 
@@ -219,6 +199,7 @@ const emailError = getEmailError(email);
 - `FieldValidity` exposes raw validity when you need to drive something custom.
 - `FieldControl` is the Base UI input part. Use it when you need that primitive directly; `Input`, `Checkbox`, `Select`, and other Base UI controls already integrate with `Field` and do not need a `FieldControl` wrapper.
 - `FieldLabel` and standalone `Label` take `size` of `sm` or `md`; `Field` itself has no `size` prop. Keep label sizes consistent within a form.
+- Mark required or optional fields with `<FieldLabel required>` / `<FieldLabel optional>`.
 
 Standalone `Label` exists for cases outside a field (a section caption above a group). It composes `LabelAsterisk` for required, `LabelOptional` for optional, and `LabelSub` for secondary text — do not type "(optional)" into the label string.
 
@@ -230,10 +211,6 @@ Standalone `Label` exists for cases outside a field (a section caption above a g
 
 **`Combobox`** — put `ComboboxInput` in `ComboboxControl` when the searchable field is the anchor control. Use `ComboboxInputGroup` for a search row inside `ComboboxContent`, such as a trigger-led filter popup, and `PickerTriggerButton` through `render` when that popup is opened from a compact filter control. Provide `ComboboxClear` when a value can be cleared. `ComboboxRow` is for grid-style option layouts.
 
-**`RadioGroup`** — each `RadioGroupItem` needs a `RadioGroupIndicator`.
-
-**`Checkbox`** — has both `variant` and `color`, each `default` / `primary`.
+**`RadioGroup`** — `RadioGroupItem` renders its own `RadioGroupIndicator`; pass children only to customise it.
 
 **`SegmentedControl`** — compose `SegmentedControlItem` with `SegmentedControlLabel`, and `SegmentedControlCount` when an option carries a number. Do not put a count in the label string.
-
-**`Switch`** — always render `SwitchThumb`.

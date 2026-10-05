@@ -7,6 +7,8 @@ import { PlaygroundConversationLink } from "../navigation/conversation-link.tsx"
 import { getPlaygroundActor } from "../mock/index.ts";
 import type { PlaygroundChannelRecord, PlaygroundTask } from "../mock/index.ts";
 
+const EMPTY_SEARCH = {};
+
 export function PlaygroundLegacyTaskPanel({
   backToTasks,
   channel,
@@ -40,7 +42,7 @@ export function PlaygroundLegacyTaskPanel({
           aria-label={backToTasks ? "Back to Tasks" : `Back to ${conversationLabel}`}
           render={
             backToTasks ? (
-              <Link to="/playground/tasks" search={{}} />
+              <Link to="/playground/tasks" search={EMPTY_SEARCH} />
             ) : (
               <PlaygroundConversationLink conversation={channel} />
             )
@@ -56,7 +58,7 @@ export function PlaygroundLegacyTaskPanel({
           aria-label="Close legacy task"
           render={
             backToTasks ? (
-              <Link to="/playground/tasks" search={{}} />
+              <Link to="/playground/tasks" search={EMPTY_SEARCH} />
             ) : (
               <PlaygroundConversationLink conversation={channel} />
             )

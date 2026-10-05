@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
@@ -81,26 +82,24 @@ const TASK_CHIP_IN_FOOTER_PATH =
 
 /** The chip inside message markdown, and the same chip as a footer badge. */
 function TaskChipPreviewFiles({ code }: { code: HighlightedSnippets }) {
-  return (
-    <DocsCodeBlock.Files
-      collapsible={false}
-      showLineNumbers={false}
-      files={[
-        {
-          path: TASK_CHIP_IN_MARKDOWN_PATH,
-          source: taskChipInMarkdownSource,
-          html: code.taskChipInMarkdown,
-          collapsedHtml: code.taskChipInMarkdownBody,
-        },
-        {
-          path: TASK_CHIP_IN_FOOTER_PATH,
-          source: taskChipInFooterSource,
-          html: code.taskChipInFooter,
-          collapsedHtml: code.taskChipInFooterBody,
-        },
-      ]}
-    />
+  const files = useMemo(
+    () => [
+      {
+        path: TASK_CHIP_IN_MARKDOWN_PATH,
+        source: taskChipInMarkdownSource,
+        html: code.taskChipInMarkdown,
+        collapsedHtml: code.taskChipInMarkdownBody,
+      },
+      {
+        path: TASK_CHIP_IN_FOOTER_PATH,
+        source: taskChipInFooterSource,
+        html: code.taskChipInFooter,
+        collapsedHtml: code.taskChipInFooterBody,
+      },
+    ],
+    [code],
   );
+  return <DocsCodeBlock.Files collapsible={false} showLineNumbers={false} files={files} />;
 }
 
 export const Route = createFileRoute("/components/task-chip")({

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
@@ -42,6 +42,23 @@ export function MessageItemPlaygroundPreview({
   const [reactions, setReactions] = useState(true);
   const [saved, setSaved] = useState(false);
 
+  const handleScenarioChange = useCallback(
+    (value: string) => setScenario(value as PreviewScenario),
+    [],
+  );
+  const handleChromeChange = useCallback(
+    (value: string) => setChrome(value as (typeof CHROME_OPTIONS)[number]),
+    [],
+  );
+  const handleContentChange = useCallback(
+    (value: string) => setContent(value as PreviewContent),
+    [],
+  );
+  const handleAttachmentsChange = useCallback(
+    (value: string) => setAttachments(value as PreviewAttachments),
+    [],
+  );
+
   const isMessage = scenario === "message";
 
   const image = attachments === "image" || attachments === "all";
@@ -70,7 +87,7 @@ export function MessageItemPlaygroundPreview({
             label="Scenario"
             options={SCENARIO_OPTIONS}
             value={scenario}
-            onValueChange={(value) => setScenario(value as PreviewScenario)}
+            onValueChange={handleScenarioChange}
           />
         </Preview.ControlGroup>
 
@@ -83,7 +100,7 @@ export function MessageItemPlaygroundPreview({
                   label="Chrome"
                   options={CHROME_OPTIONS}
                   value={chrome}
-                  onValueChange={(value) => setChrome(value as (typeof CHROME_OPTIONS)[number])}
+                  onValueChange={handleChromeChange}
                 />
               </Preview.Control>
               <Preview.Control label="Content" htmlFor="message-item-preview-content">
@@ -92,7 +109,7 @@ export function MessageItemPlaygroundPreview({
                   label="Content"
                   options={CONTENT_OPTIONS}
                   value={content}
-                  onValueChange={(value) => setContent(value as PreviewContent)}
+                  onValueChange={handleContentChange}
                 />
               </Preview.Control>
               <Preview.Control label="Attachments" htmlFor="message-item-preview-attachments">
@@ -101,7 +118,7 @@ export function MessageItemPlaygroundPreview({
                   label="Attachments"
                   options={ATTACHMENT_OPTIONS}
                   value={attachments}
-                  onValueChange={(value) => setAttachments(value as PreviewAttachments)}
+                  onValueChange={handleAttachmentsChange}
                 />
               </Preview.Control>
             </Preview.ControlGroup>

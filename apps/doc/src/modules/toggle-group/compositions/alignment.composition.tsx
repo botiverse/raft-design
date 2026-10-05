@@ -1,9 +1,11 @@
 import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "raft-ui";
 
+const DEFAULT_VALUE = ["left"];
+
 export function ToggleGroupAlignmentComposition() {
   return (
-    <ToggleGroup defaultValue={["left"]} aria-label="Text alignment">
+    <ToggleGroup defaultValue={DEFAULT_VALUE} aria-label="Text alignment">
       <ToggleGroupItem value="left" aria-label="Align left">
         <AlignLeft aria-hidden />
       </ToggleGroupItem>

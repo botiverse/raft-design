@@ -42,6 +42,16 @@ const members = [
 
 type DialogMember = (typeof members)[number];
 
+const defaultMembers = [members[0], members[2]];
+
+function isSameMember(item: DialogMember, value: DialogMember) {
+  return item.id === value.id;
+}
+
+function getMemberLabel(member: DialogMember) {
+  return member.name;
+}
+
 function CreateChannelDialogParts() {
   const theme = useThemeFamily();
   const archiveActionSize = theme === "brutal" ? "sm" : "xs";
@@ -103,9 +113,9 @@ function CreateChannelDialogParts() {
             multiple
             autoHighlight
             items={members}
-            defaultValue={[members[0], members[2]]}
-            isItemEqualToValue={(item, value) => item.id === value.id}
-            itemToStringLabel={(member) => member.name}
+            defaultValue={defaultMembers}
+            isItemEqualToValue={isSameMember}
+            itemToStringLabel={getMemberLabel}
           >
             <ComboboxControl className="w-full">
               <Search className="text-foreground-muted in-data-[theme=brutal]:stroke-2! [[data-theme=brutal]_&_*]:stroke-2!" />

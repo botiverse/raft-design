@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Badge, Button, Spinner } from "raft-ui";
 import type { SpinnerProps } from "raft-ui";
 
@@ -91,6 +91,14 @@ export const Route = createFileRoute("/components/spinner")({
 function SpinnerPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [size, setSize] = useState<NonNullable<SpinnerProps["size"]>>("sm");
   const [variant, setVariant] = useState<(typeof VARIANTS)[number]>("default");
+  const handleSizeChange = useCallback(
+    (value: string) => setSize(value as NonNullable<SpinnerProps["size"]>),
+    [],
+  );
+  const handleVariantChange = useCallback(
+    (value: string) => setVariant(value as (typeof VARIANTS)[number]),
+    [],
+  );
   const variantClassName = variant === "inverse" ? "bg-gray-950 text-white" : "text-black";
 
   return (
@@ -107,7 +115,7 @@ function SpinnerPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>
             label="Size"
             options={SIZES}
             value={size}
-            onValueChange={(value) => setSize(value as NonNullable<SpinnerProps["size"]>)}
+            onValueChange={handleSizeChange}
           />
         </Preview.Control>
         <Preview.Control label="Variant" htmlFor="spinner-preview-variant">
@@ -116,7 +124,7 @@ function SpinnerPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>
             label="Variant"
             options={VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as (typeof VARIANTS)[number])}
+            onValueChange={handleVariantChange}
           />
         </Preview.Control>
       </Preview.Controls>

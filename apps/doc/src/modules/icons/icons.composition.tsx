@@ -1,12 +1,5 @@
 import type { ReactNode } from "react";
-import { TaskStatusIcon } from "raft-ui";
-
-import {
-  ChatIcon,
-  DirectMessageIcon,
-  MessageIcon,
-  ThreadIcon,
-} from "#/modules/icons/conversation-icons.tsx";
+import { ChatIcon, DirectMessageIcon, MessageIcon, TaskStatusIcon, ThreadIcon } from "raft-ui";
 
 function IconGridItem({ label, children }: { label: string; children: ReactNode }) {
   return (

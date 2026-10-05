@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ComboboxSelect } from "raft-ui/wip";
 import type { ComboboxSelectGroup, ComboboxSelectOption, ComboboxSelectValue } from "raft-ui/wip";
 
@@ -59,13 +59,15 @@ function RemoteSearchExample() {
   const [options, setOptions] = useState<readonly ComboboxSelectOption[]>(remoteDirectory);
   const [value, setValue] = useState<ComboboxSelectValue | null>(null);
 
+  const handleSearch = useCallback((nextQuery: string) => {
+    setQuery(nextQuery);
+    setLoading(nextQuery !== "");
+  }, []);
+
   useEffect(() => {
     if (!query) {
-      setOptions(remoteDirectory);
-      setLoading(false);
       return;
     }
-    setLoading(true);
     const timer = window.setTimeout(() => {
       const normalized = query.toLowerCase();
       setOptions(remoteDirectory.filter((item) => item.label.toLowerCase().includes(normalized)));
@@ -76,11 +78,11 @@ function RemoteSearchExample() {
 
   return (
     <ComboboxSelect
-      options={options}
+      options={query ? options : remoteDirectory}
       value={value}
       remote
       loading={loading}
-      onSearch={setQuery}
+      onSearch={handleSearch}
       onValueChange={setValue}
       placeholder="Search teams"
       aria-label="Search teams"
@@ -97,11 +99,11 @@ export function ComboboxSelectComposition() {
   const [teamValue, setTeamValue] = useState<ComboboxSelectValue | null>(null);
   const [created, setCreated] = useState<ComboboxSelectOption[]>([]);
   const allCreatableOptions = useMemo(() => [...frameworks, ...created], [created]);
-  const handleCreateTeam = (label: string) => {
+  const handleCreateTeam = useCallback((label: string) => {
     const option = { value: label.toLowerCase().replaceAll(" ", "-"), label };
     setCreated((previous) => [...previous, option]);
     return option;
-  };
+  }, []);
 
   return (
     <div className="grid w-full max-w-2xl gap-8 sm:grid-cols-2">

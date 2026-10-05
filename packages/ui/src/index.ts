@@ -1168,6 +1168,25 @@ export type {
   ProgressValueProps,
 } from "./components/progress/index";
 
+export {
+  Timeline,
+  TimelineContent,
+  TimelineItem,
+  TimelineTime,
+  TimelineTitle,
+} from "./components/timeline/index";
+export type {
+  TimelineContentProps,
+  TimelineItemPlacement,
+  TimelineItemProps,
+  TimelineItemVariant,
+  TimelineLineType,
+  TimelineProps,
+  TimelineSize,
+  TimelineTimeProps,
+  TimelineTitleProps,
+} from "./components/timeline/index";
+
 export { Spinner } from "./components/spinner/index";
 
 export {
@@ -1405,6 +1424,7 @@ export type {
   TabsLabelProps,
   TabsListProps,
   TabsPanelProps,
+  TabsPlacement,
   TabsProps,
   TabsTabProps,
 } from "./components/tabs/index";
@@ -1551,6 +1571,7 @@ export * from "./components/task-board/index";
 export * from "./components/task-card/index";
 export * from "./components/task-dnd/index";
 export * from "./components/task-list/index";
+export * from "./components/icons/index";
 export * from "./components/tasks/index";
 export * from "./components/legacy-task-panel/index";
 

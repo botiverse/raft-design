@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import {
   AppShellRailSlot,
@@ -66,6 +66,10 @@ export function AppRailComposition() {
   const [view, setView] = useState("chat");
   const [otherServersUnread, setOtherServersUnread] = useState(true);
 
+  const handleToggleOtherServersUnread = useCallback(() => {
+    setOtherServersUnread((current) => !current);
+  }, []);
+
   return (
     <AppShellRailSlot>
       <AppRailRoot>
@@ -77,7 +81,7 @@ export function AppRailComposition() {
                 ? "Raft 中文社区. Mark other servers read"
                 : "Raft 中文社区. Mark other servers unread"
             }
-            onClick={() => setOtherServersUnread((current) => !current)}
+            onClick={handleToggleOtherServersUnread}
           >
             <img
               alt=""

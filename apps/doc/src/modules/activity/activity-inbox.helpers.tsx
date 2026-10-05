@@ -16,7 +16,8 @@ import {
   Play,
   RotateCcw,
 } from "lucide-react";
-import type { ComponentProps, ReactNode, RefObject } from "react";
+import { useCallback, useMemo } from "react";
+import type { ComponentProps, MouseEvent, ReactNode, RefObject, SyntheticEvent } from "react";
 import {
   Avatar,
   Badge,
@@ -56,12 +57,16 @@ import type {
 export type ActivityView = "active" | "saved" | "done";
 
 const taskStatuses = {
-  todo: ["var(--color-brutal-orange)", "warning", Circle],
-  in_progress: ["var(--color-brutal-cyan)", "information", Play],
-  in_review: ["var(--color-brutal-lavender)", "accent", Eye],
-  done: ["var(--color-brutal-lime)", "success", CheckCircle],
-  closed: ["var(--color-brutal-stone)", "muted", Ban],
+  todo: [{ backgroundColor: "var(--color-brutal-orange)" }, "warning", Circle],
+  in_progress: [{ backgroundColor: "var(--color-brutal-cyan)" }, "information", Play],
+  in_review: [{ backgroundColor: "var(--color-brutal-lavender)" }, "accent", Eye],
+  done: [{ backgroundColor: "var(--color-brutal-lime)" }, "success", CheckCircle],
+  closed: [{ backgroundColor: "var(--color-brutal-stone)" }, "muted", Ban],
 } as const;
+
+function stopPropagation(event: SyntheticEvent) {
+  event.stopPropagation();
+}
 
 export type ActivitySelectionCheckboxProps = Omit<
   ComponentProps<typeof Checkbox>,
@@ -152,13 +157,9 @@ export function ActivitySwitcherRow({
 
 function ActivityTaskBadge({ task }: { task: NonNullable<ActivityCompositionItem["task"]> }) {
   const theme = useThemeFamily();
-  const [background, variant, Icon] = taskStatuses[task.status];
+  const [brutalStyle, variant, Icon] = taskStatuses[task.status];
   return (
-    <Badge
-      variant={variant}
-      uppercase={false}
-      style={theme === "brutal" ? { backgroundColor: background } : undefined}
-    >
+    <Badge variant={variant} uppercase={false} style={theme === "brutal" ? brutalStyle : undefined}>
       <Icon size={10} className="shrink-0" />#{task.number}
       {task.claimedBy ? ` @${task.claimedBy}` : null}
     </Badge>
@@ -183,26 +184,48 @@ export function ActivityItem({
   selected: boolean;
   view: ActivityView;
   portalContainer: RefObject<HTMLDivElement | null>;
-  onOpen: (detail: number) => void;
-  onSelect: () => void;
-  onToggleSaved: () => void;
-  onToggleDone: () => void;
-  onToggleRead: () => void;
-  onToggleFollowing: () => void;
+  onOpen: (item: ActivityCompositionItem, detail: number) => void;
+  onSelect: (item: ActivityCompositionItem) => void;
+  onToggleSaved: (item: ActivityCompositionItem) => void;
+  onToggleDone: (item: ActivityCompositionItem) => void;
+  onToggleRead: (item: ActivityCompositionItem) => void;
+  onToggleFollowing: (item: ActivityCompositionItem) => void;
 }) {
   const Icon = item.kind === "thread" ? MessageSquare : item.channelKind === "dm" ? AtSign : Hash;
+  const handleOpen = useCallback(
+    (event: MouseEvent) => {
+      onOpen(item, event.detail);
+    },
+    [item, onOpen],
+  );
+  const handleSelect = useCallback(() => {
+    onSelect(item);
+  }, [item, onSelect]);
+  const handleToggleSaved = useCallback(() => {
+    onToggleSaved(item);
+  }, [item, onToggleSaved]);
+  const handleToggleDone = useCallback(() => {
+    onToggleDone(item);
+  }, [item, onToggleDone]);
+  const handleToggleRead = useCallback(() => {
+    onToggleRead(item);
+  }, [item, onToggleRead]);
+  const handleToggleFollowing = useCallback(() => {
+    onToggleFollowing(item);
+  }, [item, onToggleFollowing]);
+  const portalProps = useMemo(() => ({ container: portalContainer }), [portalContainer]);
   const row = (
     <InboxItem active={active} data-unread={item.unreadCount > 0 || undefined}>
       <InboxItemTrigger
         aria-current={active || undefined}
         aria-label={`Open ${item.title}`}
-        onClick={(event) => onOpen(event.detail)}
+        onClick={handleOpen}
       />
       <InboxItemSelection>
         <ActivitySelectionCheckbox
           checked={selected}
-          onCheckedChange={onSelect}
-          onClick={(event) => event.stopPropagation()}
+          onCheckedChange={handleSelect}
+          onClick={stopPropagation}
           aria-label={selected ? "Remove activity item from selection" : "Select activity item"}
         />
       </InboxItemSelection>
@@ -256,7 +279,7 @@ export function ActivityItem({
         <InboxItemActions>
           <PanelToggleAction
             pressed={item.saved}
-            onPressedChange={onToggleSaved}
+            onPressedChange={handleToggleSaved}
             aria-label={item.saved ? "Remove from Saved" : "Save activity item"}
             title={item.saved ? "Remove from Saved" : "Save activity item"}
           >
@@ -264,7 +287,7 @@ export function ActivityItem({
           </PanelToggleAction>
           {view === "saved" ? null : (
             <PanelAction
-              onClick={onToggleDone}
+              onClick={handleToggleDone}
               aria-label={view === "done" ? "Restore to Active" : "Mark as done"}
               title={view === "done" ? "Restore to Active" : "Mark as done"}
             >
@@ -279,23 +302,23 @@ export function ActivityItem({
   return (
     <ContextMenu>
       <ContextMenuTrigger render={row} />
-      <ContextMenuContent portalProps={{ container: portalContainer }}>
+      <ContextMenuContent portalProps={portalProps}>
         {item.kind !== "thread" || item.following !== false ? (
           <>
-            <ContextMenuItem onClick={onToggleRead}>
+            <ContextMenuItem onClick={handleToggleRead}>
               {item.unreadCount > 0 ? <MailOpen /> : <Mail />}
               <ContextMenuItemLabel>
                 {item.unreadCount > 0 ? "Mark as read" : "Mark as unread"}
               </ContextMenuItemLabel>
             </ContextMenuItem>
-            <ContextMenuItem onClick={onToggleDone}>
+            <ContextMenuItem onClick={handleToggleDone}>
               <Check />
               <ContextMenuItemLabel>Mark as done</ContextMenuItemLabel>
             </ContextMenuItem>
           </>
         ) : null}
         {item.kind === "thread" ? (
-          <ContextMenuItem onClick={onToggleFollowing}>
+          <ContextMenuItem onClick={handleToggleFollowing}>
             {item.following === false ? <Bell /> : <BellOff />}
             <ContextMenuItemLabel>
               {item.following === false ? "Follow thread" : "Unfollow thread"}

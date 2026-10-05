@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import {
   SidebarSection,
   SidebarSectionAttention,
@@ -44,6 +44,10 @@ export function ChatSidebarPinnedSection({
   const { getDragId, getProjection, orderRows } = useChatSidebarDnd();
   const ordered = orderRows("pinned", rows);
   const projection = getProjection("pinned");
+  const dragIds = useMemo(
+    () => ordered.map((row) => getDragId("pinned", row.id)),
+    [getDragId, ordered],
+  );
   const hasUnread = ordered.some(
     (row) => row.navigation.unread || row.navigation.badge || row.navigation.mention,
   );
@@ -70,7 +74,7 @@ export function ChatSidebarPinnedSection({
         {ordered.length === 0 ? (
           <SidebarSectionEmpty>Drag channels or DMs here to pin</SidebarSectionEmpty>
         ) : (
-          <SortableChatSidebarList items={ordered.map((row) => getDragId("pinned", row.id))}>
+          <SortableChatSidebarList items={dragIds}>
             {ordered.map((row) => (
               <Fragment key={row.id}>
                 <ChatSidebarProjectionPreview anchorChannelId={row.id} projection={projection} />

@@ -2,6 +2,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
+  DirectMessageIcon,
   MessageQuotedPreview,
   MessageQuotedPreviewAuthor,
   MessageQuotedPreviewAuthorName,
@@ -13,7 +14,6 @@ import {
   MessageReferenceChip,
   MessageReferenceLabel,
 } from "raft-ui";
-import { DirectMessageIcon } from "#/modules/icons/conversation-icons.tsx";
 import {
   MessageItem,
   MessageItemAvatarSlot,

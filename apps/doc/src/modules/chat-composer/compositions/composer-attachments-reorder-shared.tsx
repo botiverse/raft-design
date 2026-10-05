@@ -1,4 +1,6 @@
 import { X } from "lucide-react";
+import { useCallback } from "react";
+import type { PointerEvent } from "react";
 import {
   ComposerAttachment,
   ComposerAttachmentBody,
@@ -23,6 +25,10 @@ export {
 } from "./composer-attachments-reorder.constants.ts";
 export { reorderAttachmentsByIds } from "./reorder-attachments-by-ids.ts";
 
+function stopPointerPropagation(event: PointerEvent) {
+  event.stopPropagation();
+}
+
 export function ReorderAttachmentTile({
   attachment,
   onRemove,
@@ -30,6 +36,8 @@ export function ReorderAttachmentTile({
   attachment: ReorderAttachment;
   onRemove?: (id: string) => void;
 }) {
+  const handleRemove = useCallback(() => onRemove?.(attachment.id), [attachment.id, onRemove]);
+
   return (
     <ComposerAttachment>
       {attachment.kind === "image" ? (
@@ -55,8 +63,8 @@ export function ReorderAttachmentTile({
       {onRemove ? (
         <ComposerAttachmentRemove
           aria-label={`Remove ${attachment.name}`}
-          onPointerDown={(event) => event.stopPropagation()}
-          onClick={() => onRemove(attachment.id)}
+          onPointerDown={stopPointerPropagation}
+          onClick={handleRemove}
         >
           <X />
         </ComposerAttachmentRemove>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import type { ChangeEvent } from "react";
 import { Apple, ChevronRight, GitFork, Globe, User } from "lucide-react";
 import {
   Avatar,
@@ -27,6 +28,10 @@ export function CardSettingsSectionComposition() {
   const [displayName, setDisplayName] = useState("Example User");
   const [savedDisplayName, setSavedDisplayName] = useState("Example User");
   const profileDirty = displayName !== savedDisplayName;
+
+  const handleDisplayNameChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setDisplayName(event.target.value);
+  }, []);
 
   return (
     <section className="grid w-full gap-3" aria-labelledby="account-settings-title">
@@ -78,7 +83,7 @@ export function CardSettingsSectionComposition() {
                 id="account-display-name"
                 name="displayName"
                 value={displayName}
-                onChange={(event) => setDisplayName(event.target.value)}
+                onChange={handleDisplayNameChange}
               />
             </Field>
 
@@ -149,6 +154,16 @@ function ConnectedAccounts() {
   const [githubConnected, setGithubConnected] = useState(false);
   const [appleConnected, setAppleConnected] = useState(false);
 
+  const handleConnectGoogle = useCallback(() => {
+    setGoogleConnected(true);
+  }, []);
+  const handleConnectGithub = useCallback(() => {
+    setGithubConnected(true);
+  }, []);
+  const handleConnectApple = useCallback(() => {
+    setAppleConnected(true);
+  }, []);
+
   return (
     <section className="grid gap-4" aria-labelledby="connected-accounts-title">
       <BrutalOnly>
@@ -173,12 +188,7 @@ function ConnectedAccounts() {
               </div>
             </div>
             {!googleConnected ? (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setGoogleConnected(true)}
-              >
+              <Button type="button" variant="outline" size="sm" onClick={handleConnectGoogle}>
                 Connect
               </Button>
             ) : null}
@@ -197,12 +207,7 @@ function ConnectedAccounts() {
               </div>
             </div>
             {!githubConnected ? (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setGithubConnected(true)}
-              >
+              <Button type="button" variant="outline" size="sm" onClick={handleConnectGithub}>
                 Connect
               </Button>
             ) : null}
@@ -221,12 +226,7 @@ function ConnectedAccounts() {
               </div>
             </div>
             {!appleConnected ? (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setAppleConnected(true)}
-              >
+              <Button type="button" variant="outline" size="sm" onClick={handleConnectApple}>
                 Connect
               </Button>
             ) : null}
@@ -261,12 +261,7 @@ function ConnectedAccounts() {
                 </div>
               </div>
               {!googleConnected ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setGoogleConnected(true)}
-                >
+                <Button type="button" variant="outline" size="sm" onClick={handleConnectGoogle}>
                   Connect
                 </Button>
               ) : null}
@@ -289,12 +284,7 @@ function ConnectedAccounts() {
                 </div>
               </div>
               {!githubConnected ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setGithubConnected(true)}
-                >
+                <Button type="button" variant="outline" size="sm" onClick={handleConnectGithub}>
                   Connect
                 </Button>
               ) : null}
@@ -317,12 +307,7 @@ function ConnectedAccounts() {
                 </div>
               </div>
               {!appleConnected ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setAppleConnected(true)}
-                >
+                <Button type="button" variant="outline" size="sm" onClick={handleConnectApple}>
                   Connect
                 </Button>
               ) : null}

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
 import { Check, Copy, Info, Send } from "lucide-react";
 import {
@@ -893,59 +893,50 @@ function InlineUsageToast() {
   );
 }
 
+function showLinkCopiedToast() {
+  toast.success("Link copied.", {
+    description: "The message link is ready to paste.",
+    timeout: 5000,
+    progress: true,
+    action: {
+      label: "Copy again",
+      onClick: () => toast.dismiss(),
+    },
+  });
+}
+
+function showForwardedToast() {
+  toast.info("Forwarded to #design-system.", {
+    description: "The selected messages were sent.",
+    action: {
+      label: "View",
+      onClick: () => toast.dismiss(),
+    },
+  });
+}
+
+function showClipboardBlockedToast() {
+  toast.error("Clipboard write blocked.", {
+    description: "Grant clipboard access or copy the links manually.",
+    action: {
+      label: "Retry",
+      onClick: () => toast.dismiss(),
+    },
+  });
+}
+
 function InlineUsageControls() {
   return (
     <div className="flex w-full items-start justify-center gap-2 pt-2">
-      <Button
-        type="button"
-        size="sm"
-        variant="primary"
-        onClick={() =>
-          toast.success("Link copied.", {
-            description: "The message link is ready to paste.",
-            timeout: 5000,
-            progress: true,
-            action: {
-              label: "Copy again",
-              onClick: () => toast.dismiss(),
-            },
-          })
-        }
-      >
+      <Button type="button" size="sm" variant="primary" onClick={showLinkCopiedToast}>
         <Check aria-hidden />
         Copy link
       </Button>
-      <Button
-        type="button"
-        size="sm"
-        variant="outline"
-        onClick={() =>
-          toast.info("Forwarded to #design-system.", {
-            description: "The selected messages were sent.",
-            action: {
-              label: "View",
-              onClick: () => toast.dismiss(),
-            },
-          })
-        }
-      >
+      <Button type="button" size="sm" variant="outline" onClick={showForwardedToast}>
         <Send aria-hidden />
         Forward
       </Button>
-      <Button
-        type="button"
-        size="sm"
-        variant="outline"
-        onClick={() =>
-          toast.error("Clipboard write blocked.", {
-            description: "Grant clipboard access or copy the links manually.",
-            action: {
-              label: "Retry",
-              onClick: () => toast.dismiss(),
-            },
-          })
-        }
-      >
+      <Button type="button" size="sm" variant="outline" onClick={showClipboardBlockedToast}>
         Error
       </Button>
     </div>
@@ -1003,26 +994,22 @@ function SeedAnchoredUsageToast({ buttonRef }: { buttonRef: RefObject<HTMLButton
 }
 
 function AnchoredUsageButton({ buttonRef }: { buttonRef: RefObject<HTMLButtonElement | null> }) {
+  const handleClick = useCallback(() => {
+    anchoredUsageToastManager.add({
+      id: "copy-link",
+      title: "Copied",
+      timeout: 1500,
+      positionerProps: {
+        anchor: buttonRef.current,
+        side: "top",
+        align: "center",
+        sideOffset: 8,
+      },
+    });
+  }, [buttonRef]);
+
   return (
-    <Button
-      ref={buttonRef}
-      type="button"
-      size="sm"
-      variant="primary"
-      onClick={() =>
-        anchoredUsageToastManager.add({
-          id: "copy-link",
-          title: "Copied",
-          timeout: 1500,
-          positionerProps: {
-            anchor: buttonRef.current,
-            side: "top",
-            align: "center",
-            sideOffset: 8,
-          },
-        })
-      }
-    >
+    <Button ref={buttonRef} type="button" size="sm" variant="primary" onClick={handleClick}>
       <Copy aria-hidden />
       Copy link
     </Button>

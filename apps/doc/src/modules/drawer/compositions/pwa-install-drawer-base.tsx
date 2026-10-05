@@ -14,7 +14,7 @@ import {
   DrawerTrigger,
 } from "raft-ui";
 import type { DrawerContentProps, DrawerProps } from "raft-ui";
-import { useState, useSyncExternalStore } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 
 const MOBILE_QUERY = "(max-width: 767px)";
 
@@ -41,6 +41,10 @@ export type PwaInstallDrawerPanelProps = {
 export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
   const [copied, setCopied] = useState(false);
   const isSafari = variant === "safari";
+
+  const handleCopyLink = useCallback(() => {
+    setCopied(true);
+  }, []);
 
   return (
     <>
@@ -82,7 +86,7 @@ export function PwaInstallDrawerPanel({ variant }: PwaInstallDrawerPanelProps) {
             <DrawerClose render={<Button variant="primary" size="lg" />}>Got it</DrawerClose>
           ) : (
             <>
-              <Button variant="primary" size="lg" onClick={() => setCopied(true)}>
+              <Button variant="primary" size="lg" onClick={handleCopyLink}>
                 {copied ? "Copied" : "Copy Link"}
               </Button>
               <DrawerClose render={<Button variant="outline" size="lg" />}>Close</DrawerClose>

@@ -1,5 +1,5 @@
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ReactNode } from "react";
 import type { CardProps } from "raft-ui";
 
@@ -19,6 +19,10 @@ type CardPreviewProps = {
 export function CardPreview({ code, collapsedCode }: CardPreviewProps) {
   const [variant, setVariant] = useState<CardVariant>("default");
 
+  const handleVariantChange = useCallback((value: string) => {
+    setVariant(value as CardVariant);
+  }, []);
+
   return (
     <Preview>
       <Preview.Canvas>
@@ -30,7 +34,7 @@ export function CardPreview({ code, collapsedCode }: CardPreviewProps) {
             label="Variant"
             options={CARD_VARIANTS}
             value={variant}
-            onValueChange={(value) => setVariant(value as CardVariant)}
+            onValueChange={handleVariantChange}
           />
         </Preview.ControlGroup>
       </Preview.Controls>

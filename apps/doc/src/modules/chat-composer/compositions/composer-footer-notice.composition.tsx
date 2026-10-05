@@ -1,16 +1,16 @@
 import { ArrowUpRight } from "lucide-react";
+import type { FormEvent } from "react";
 import { ComposerActions, ComposerRoot } from "raft-ui";
 import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
+
+function preventSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+}
 
 export function ComposerFooterNoticeComposition() {
   return (
     <div className="flex justify-center">
-      <ComposerRoot
-        className="max-w-sm"
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
-      >
+      <ComposerRoot className="max-w-sm" onSubmit={preventSubmit}>
         <Composer>
           <ComposerInput
             aria-label="Message #proj-uiux"

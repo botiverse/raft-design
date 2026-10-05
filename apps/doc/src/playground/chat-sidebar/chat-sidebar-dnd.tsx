@@ -296,7 +296,7 @@ export function ChatSidebarDndProvider({ children }: { children: ReactNode }) {
       orderRows: (section, rows) => orderChatSidebarRows(section, rows, state),
       togglePinned,
     }),
-    [projection, state, togglePinned],
+    [activeDrag, projection, state, togglePinned],
   );
 
   return (
@@ -331,6 +331,8 @@ function ChatSidebarDragPreview({
   active?: boolean;
   width?: number;
 }) {
+  const style = useMemo(() => ({ width }), [width]);
+
   return (
     <SidebarItem
       active={active}
@@ -342,7 +344,7 @@ function ChatSidebarDragPreview({
           : "pointer-events-none w-full bg-layer-panel shadow-raft-lg in-data-[theme=brutal]:border-black in-data-[theme=brutal]:bg-white in-data-[theme=brutal]:shadow-raft-sm"
       }
       render={<div />}
-      style={{ width }}
+      style={style}
     >
       {channel.kind === "dm" ? (
         <ChatSidebarDirectMessageRowContent row={channel} />
