@@ -53,6 +53,14 @@ describe.each(["elegant", "brutal"] as const)("ContextMenuSubmenuTrigger (%s)", 
       '[data-slot="context-menu-submenu-trigger-indicator"]',
     );
     expect(indicators.length).toBe(1);
-    expect(indicators[0]!.getAttribute("aria-hidden")).toBe("true");
+    const indicator = indicators[0] as HTMLElement;
+    expect(indicator.getAttribute("aria-hidden")).toBe("true");
+    expect(indicator.className).toContain("ml-auto");
+
+    const svg = indicator.querySelector("svg");
+    expect(svg).not.toBeNull();
+    const path = svg!.querySelector("path");
+    expect(path).not.toBeNull();
+    expect(path!.getAttribute("d")).toBe("M4.25 2.5L7.75 6l-3.5 3.5");
   });
 });
