@@ -499,11 +499,13 @@ it("forwarded rows keep per-image heights when they wrap on narrow viewports", a
       expect(Math.round(tile.getBoundingClientRect().height)).toBe(112);
     }
     expect(Math.round(threeUp.getBoundingClientRect().height)).toBe(112 * 2 + 8);
+    // The two-up family keeps 8rem below sm (only the three-up family is 7rem),
+    // matching the pre-migration two-up height.
     const twoUp = rows[1];
     for (const tile of twoUp.children) {
-      expect(Math.round(tile.getBoundingClientRect().height)).toBe(112);
+      expect(Math.round(tile.getBoundingClientRect().height)).toBe(128);
     }
-    expect(Math.round(twoUp.getBoundingClientRect().height)).toBe(112);
+    expect(Math.round(twoUp.getBoundingClientRect().height)).toBe(128);
   } finally {
     await page.viewport(1280, 900);
   }
