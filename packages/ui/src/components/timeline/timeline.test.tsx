@@ -75,6 +75,26 @@ describe("Timeline", () => {
     expect(screen.getByText("Deploy").parentElement?.className).toBe("r-timeline-item__body");
   });
 
+  test("renders the compact panel size", () => {
+    render(
+      <Timeline data-testid="timeline" size="sm">
+        <TimelineItem>One</TimelineItem>
+      </Timeline>,
+    );
+    expect(screen.getByTestId("timeline").className).toBe(
+      "r-timeline r-timeline--sm r-timeline--left",
+    );
+  });
+
+  test("maps the accent variant", () => {
+    render(
+      <Timeline>
+        <TimelineItem variant="accent">One</TimelineItem>
+      </Timeline>,
+    );
+    expect(screen.getByRole("listitem").className).toBe("r-timeline-item r-timeline-item--accent");
+  });
+
   test("maps variant, line type, color and icon", () => {
     render(
       <Timeline>

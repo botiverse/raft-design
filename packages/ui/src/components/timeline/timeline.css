@@ -41,6 +41,16 @@
     --r-timeline-content-font-size: 15px;
   }
 
+  /* Panel density: the compact task-history/feed scale (16px row gap, 12px
+     title/meta, 12px marker — the values the slock task history used before
+     the Timeline migration, task #623-era). */
+  &.r-timeline--sm {
+    --r-timeline-icon-size: var(--r-timeline-custom-icon-size, 12px);
+    --r-timeline-title-font-size: 12px;
+    --r-timeline-content-font-size: 12px;
+    --r-timeline-item-gap: 16px;
+  }
+
   &.r-timeline--horizontal {
     --r-timeline-axis-offset: 0px;
   }
@@ -82,6 +92,11 @@
   &.r-timeline-item--danger {
     --r-timeline-item-color: var(--danger-strong);
     --r-timeline-item-fill: var(--danger);
+  }
+  /* Accent (slock's In Review tone): same token family as Badge/Button accent. */
+  &.r-timeline-item--accent {
+    --r-timeline-item-color: var(--accent-strong);
+    --r-timeline-item-fill: var(--accent-400);
   }
   &.r-timeline-item--color {
     --r-timeline-item-color: var(--r-timeline-custom-color);

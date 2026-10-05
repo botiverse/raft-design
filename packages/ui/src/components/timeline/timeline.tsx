@@ -3,11 +3,17 @@ import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import "./timeline.css";
 
-export type TimelineSize = "md" | "lg";
+export type TimelineSize = "sm" | "md" | "lg";
 
 export type TimelineItemPlacement = "left" | "right";
 
-export type TimelineItemVariant = "default" | "information" | "success" | "warning" | "danger";
+export type TimelineItemVariant =
+  | "default"
+  | "information"
+  | "success"
+  | "warning"
+  | "danger"
+  | "accent";
 
 export type TimelineLineType = "solid" | "dashed";
 
