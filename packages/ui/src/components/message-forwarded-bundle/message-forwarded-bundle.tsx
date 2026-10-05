@@ -479,12 +479,21 @@ export function MessageForwardedBundleSourceLabel({
   });
 }
 
-export type MessageForwardedBundleFooterActionProps = ButtonProps;
+export type MessageForwardedBundleFooterActionProps = ButtonProps & {
+  /**
+   * What the action shows while the component-owned fold is expanded
+   * (`children` render while it is folded). Ignored in the controlled mode,
+   * where the consumer drives and labels the fold itself.
+   */
+  expandedContent?: ReactNode;
+};
 
 export function MessageForwardedBundleFooterAction({
   className,
   render,
   onClick,
+  children,
+  expandedContent,
   ...props
 }: MessageForwardedBundleFooterActionProps) {
   const theme = useThemeFamily();
@@ -499,11 +508,20 @@ export function MessageForwardedBundleFooterAction({
     },
     [fold, onClick],
   );
+  const expanded = fold ? fold.auto && !fold.collapsed : false;
   return useRender({
     defaultTagName: "button",
     render,
     props: mergeProps<"button">(
-      { type: "button", className: footerAction({ className }), onClick: handleClick },
+      {
+        type: "button",
+        className: footerAction({ className }),
+        onClick: handleClick,
+        // The action is a disclosure for the component-owned fold; the a11y
+        // state only exists while that fold is active.
+        "aria-expanded": fold?.auto ? expanded : undefined,
+        children: expanded && expandedContent !== undefined ? expandedContent : children,
+      },
       props,
     ),
     state: { slot: "message-forwarded-bundle-footer-action" },

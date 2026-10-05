@@ -56,7 +56,11 @@ export const messageForwardedBundle = tv({
           // Fallback fold height (160px ≈ eight 20px lines); the component
           // overrides it inline with foldLineLimit x line height when it can
           // measure, and folds the height with the same number as the rule.
-          "max-h-40 overflow-hidden",
+          // overflow-clip, not hidden: a folded card must not become a scroll
+          // container — sticky content inside (the mermaid action bar) would
+          // otherwise anchor to the clipped card instead of the message list
+          // (slock tightened the card to clip for exactly this, ref #5595).
+          "max-h-40 overflow-clip",
           "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-linear-to-t",
           // A fold shorter than the fade would be all gradient; keep one line
           // readable at those sizes.

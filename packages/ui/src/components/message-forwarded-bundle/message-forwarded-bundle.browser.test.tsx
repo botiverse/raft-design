@@ -1,7 +1,7 @@
 import "./message-forwarded-bundle.test.css";
 import { afterEach, beforeAll, expect, test } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import type { MouseEvent, ReactElement } from "react";
+import type { MouseEvent, ReactElement, ReactNode } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
 import {
@@ -206,11 +206,20 @@ type FoldableBundleOptions = {
   collapsed?: boolean;
   foldLineLimit?: number;
   style?: React.CSSProperties;
+  expandedContent?: ReactNode;
   onAction?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 function foldableJsx(lines: number, options: FoldableBundleOptions = {}) {
-  const { theme = "elegant", mode, collapsed, foldLineLimit, style, onAction } = options;
+  const {
+    theme = "elegant",
+    mode,
+    collapsed,
+    foldLineLimit,
+    style,
+    expandedContent,
+    onAction,
+  } = options;
   const lineChildren = Array.from({ length: lines }, (_, index) => (
     <div key={index}>Line {index + 1}</div>
   ));
@@ -231,7 +240,11 @@ function foldableJsx(lines: number, options: FoldableBundleOptions = {}) {
             </MessageForwardedBundleItem>
           </MessageForwardedBundleItems>
           <MessageForwardedBundleFooter data-testid="footer">
-            <MessageForwardedBundleFooterAction data-testid="action" onClick={onAction}>
+            <MessageForwardedBundleFooterAction
+              data-testid="action"
+              onClick={onAction}
+              expandedContent={expandedContent}
+            >
               Show all 1 message
             </MessageForwardedBundleFooterAction>
           </MessageForwardedBundleFooter>
@@ -253,11 +266,19 @@ for (const { key, theme, mode } of GALLERY_THEMES) {
     // eight default lines (8 x 20px).
     expect(items.getAttribute("data-collapsed")).toBe("true");
     expect(getComputedStyle(items).maxHeight).toBe("160px");
+    // overflow-clip, never hidden: a folded card must not become a scroll
+    // container (sticky content inside — the mermaid action bar — would
+    // anchor to the clipped card instead of the message list; slock kept
+    // this constraint, ref slock #5595).
+    expect(getComputedStyle(items).overflow).toBe("clip");
     // The footer only exists while the content folds.
     expect(screen.getByTestId("footer")).not.toBeNull();
+    // The action is the disclosure: aria-expanded reflects the fold.
+    expect(screen.getByTestId("action").getAttribute("aria-expanded")).toBe("false");
     // Without a consumer handler the action toggles the component-owned fold.
     fireEvent.click(screen.getByTestId("action"));
     expect(items.getAttribute("data-collapsed")).toBeNull();
+    expect(screen.getByTestId("action").getAttribute("aria-expanded")).toBe("true");
   });
 
   it(`eight lines of item text stay open with no footer — ${key}`, () => {
@@ -422,6 +443,20 @@ it("a reflow under the limit reopens a manually collapsed bundle", async () => {
   await eventually(() => expect(screen.queryByTestId("footer")).toBeNull());
 });
 
+it("the fold action swaps to expandedContent while the fold is open", () => {
+  renderFoldableBundle(9, {
+    theme: "elegant",
+    mode: "light",
+    expandedContent: <span>Collapse</span>,
+  });
+  const action = screen.getByTestId("action");
+  expect(action.textContent).toBe("Show all 1 message");
+  fireEvent.click(action);
+  expect(action.textContent).toBe("Collapse");
+  fireEvent.click(action);
+  expect(action.textContent).toBe("Show all 1 message");
+});
+
 it("a controlled collapsed prop skips the measurement", () => {
   // A limit of one line would fold immediately in the component-owned mode;
   // the controlled mode must ignore it entirely.
@@ -430,11 +465,14 @@ it("a controlled collapsed prop skips the measurement", () => {
     mode: "light",
     collapsed: false,
     foldLineLimit: 1,
+    expandedContent: <span>Collapse</span>,
   });
   // Pinned open by the consumer despite the line count; the footer stays
   // caller-owned instead of auto-hiding.
   expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBeNull();
   expect(screen.getByTestId("footer")).not.toBeNull();
+  // The controlled mode owns its labels: the action keeps its children.
+  expect(screen.getByTestId("action").textContent).toBe("Show all 1 message");
 });
 
 it("fullWidth releases the 34rem cap", () => {
