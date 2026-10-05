@@ -53,19 +53,19 @@ const FOLD_LINE_LIMIT = 8;
 /** Fallback line height when the computed style reports `normal`. */
 const FOLD_LINE_HEIGHT_FALLBACK = 20;
 
-function exceedsFoldLineLimit(slots: HTMLElement[]) {
+function exceedsFoldLineLimit(slots: HTMLElement[], lineLimit: number) {
   if (slots.length === 0) return false;
   const lineHeight =
     Number.parseFloat(getComputedStyle(slots[0]).lineHeight) || FOLD_LINE_HEIGHT_FALLBACK;
   // Fractional heights on purpose: scrollHeight rounds every slot up, and the
   // rounding would accumulate across items (zoom can make line heights
-  // fractional too, so a total of exactly eight lines must stay under).
+  // fractional too, so a total of exactly the limit must stay under).
   const renderedHeight = slots.reduce(
     (height, slot) => height + slot.getBoundingClientRect().height,
     0,
   );
   // 1px of slack absorbs subpixel noise at the boundary.
-  return renderedHeight > lineHeight * FOLD_LINE_LIMIT + 1;
+  return renderedHeight > lineHeight * lineLimit + 1;
 }
 
 export function MessageForwardedBundle({
@@ -180,18 +180,26 @@ export function MessageForwardedBundleHeaderCount({
   });
 }
 
-export type MessageForwardedBundleItemsProps = DivProps & { collapsed?: boolean };
+export type MessageForwardedBundleItemsProps = DivProps & {
+  collapsed?: boolean;
+  /**
+   * How many rendered text lines the default fold allows before folding.
+   * Only used in the component-owned mode (`collapsed` omitted).
+   */
+  foldLineLimit?: number;
+};
 
 /**
  * The items surface. Without a `collapsed` prop the fold is component-owned:
  * the surface measures its item-content slots and collapses itself when the
- * text renders beyond `FOLD_LINE_LIMIT` lines in total. Passing `collapsed`
- * switches to the controlled mode (the detail view pins everything open) and
- * skips the measurement.
+ * text renders beyond `foldLineLimit` lines in total (eight by default).
+ * Passing `collapsed` switches to the controlled mode (the detail view pins
+ * everything open) and skips the measurement.
  */
 export function MessageForwardedBundleItems({
   className,
   collapsed,
+  foldLineLimit = FOLD_LINE_LIMIT,
   render,
   ...props
 }: MessageForwardedBundleItemsProps) {
@@ -212,7 +220,7 @@ export function MessageForwardedBundleItems({
       const slots = [
         ...container.querySelectorAll('[data-slot="message-forwarded-bundle-item-content"]'),
       ] as HTMLElement[];
-      fold.reportFold(exceedsFoldLineLimit(slots));
+      fold.reportFold(exceedsFoldLineLimit(slots, foldLineLimit));
     };
     measure();
     // Content arrives after mount (streamed items, markdown, attachment rows)
@@ -228,7 +236,7 @@ export function MessageForwardedBundleItems({
       resizeObserver?.disconnect();
       mutationObserver?.disconnect();
     };
-  }, [controlled, fold]);
+  }, [controlled, fold, foldLineLimit]);
 
   return (
     <MessageEmbedContent

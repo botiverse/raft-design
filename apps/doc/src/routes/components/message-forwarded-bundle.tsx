@@ -82,7 +82,7 @@ const MESSAGE_FORWARDED_BUNDLE_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Forwarded messages card root. Compose inside MessageItemEmbedded. By default the bundle folds when the items' text together renders beyond eight lines; pass collapsed on the items to take full control.",
+      "Forwarded messages card root. Compose inside MessageItemEmbedded. By default the bundle folds when the items' text together renders beyond eight lines (adjustable via foldLineLimit); pass collapsed on the items to take full control.",
   },
 ];
 
@@ -140,7 +140,14 @@ const MESSAGE_FORWARDED_BUNDLE_ITEMS_PROPS: readonly PropRow[] = [
     name: "collapsed",
     type: "boolean",
     description:
-      "Omit to keep the default fold: the component measures its item-content slots and folds when the items' text together renders beyond eight lines. Pass true/false to control the fold yourself — the item list constrains to its folded height and shows its bottom fade, and the measurement is skipped (the detail view pins it open).",
+      "Omit to keep the default fold: the component measures its item-content slots and folds when the items' text together renders beyond the fold line limit (eight by default). Pass true/false to control the fold yourself — the item list constrains to its folded height and shows its bottom fade, and the measurement is skipped (the detail view pins it open).",
+  },
+  {
+    name: "foldLineLimit",
+    type: "number",
+    default: "8",
+    description:
+      "How many rendered text lines the default fold allows before folding (only used when collapsed is omitted).",
   },
   {
     name: "...props",
@@ -303,7 +310,8 @@ function MessageForwardedBundleDoc() {
 
           <DocSubsection parentId="usage" id="collapsed" title="Collapsed bundle">
             <DocNote>
-              A bundle folds when the items' text together renders beyond eight lines. When{" "}
+              A bundle folds when the items' text together renders beyond eight lines (the line
+              count is adjustable via `foldLineLimit`). When{" "}
               <InlineCode>MessageForwardedBundleItems</InlineCode> renders without a{" "}
               <InlineCode>collapsed</InlineCode> prop the component measures this itself: the list
               clips with its own fade and the footer appears only while the content actually folds.

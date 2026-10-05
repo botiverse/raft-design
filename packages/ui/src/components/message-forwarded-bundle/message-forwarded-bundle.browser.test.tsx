@@ -200,24 +200,28 @@ it("a lone row of four splits into two rows of two", () => {
 // item-content slots and fold when the text renders beyond eight lines in
 // total (~8 x 20px line height). Rendered lines are deliberate: each child div
 // is exactly one line, so the count does not depend on wrapping.
-function renderFoldableBundle(
-  lines: number,
-  options: {
-    theme?: Theme;
-    mode?: ThemeMode;
-    collapsed?: boolean;
-    onAction?: (event: MouseEvent<HTMLButtonElement>) => void;
-  } = {},
-) {
-  const { theme = "elegant", mode, collapsed, onAction } = options;
+type FoldableBundleOptions = {
+  theme?: Theme;
+  mode?: ThemeMode;
+  collapsed?: boolean;
+  foldLineLimit?: number;
+  onAction?: (event: MouseEvent<HTMLButtonElement>) => void;
+};
+
+function foldableJsx(lines: number, options: FoldableBundleOptions = {}) {
+  const { theme = "elegant", mode, collapsed, foldLineLimit, onAction } = options;
   const lineChildren = Array.from({ length: lines }, (_, index) => (
     <div key={index}>Line {index + 1}</div>
   ));
-  return render(
+  return (
     <ThemeProvider theme={theme} mode={mode}>
       <div style={{ width: 560 }}>
         <MessageForwardedBundle data-testid="bundle">
-          <MessageForwardedBundleItems data-testid="items" collapsed={collapsed}>
+          <MessageForwardedBundleItems
+            data-testid="items"
+            collapsed={collapsed}
+            foldLineLimit={foldLineLimit}
+          >
             <MessageForwardedBundleItem>
               <MessageForwardedBundleItemContent data-testid="content">
                 {lineChildren}
@@ -231,8 +235,12 @@ function renderFoldableBundle(
           </MessageForwardedBundleFooter>
         </MessageForwardedBundle>
       </div>
-    </ThemeProvider>,
+    </ThemeProvider>
   );
+}
+
+function renderFoldableBundle(lines: number, options: FoldableBundleOptions = {}) {
+  return render(foldableJsx(lines, options));
 }
 
 for (const { key, theme, mode } of GALLERY_THEMES) {
@@ -283,6 +291,24 @@ function renderMultiItemBundle(itemLines: number[]) {
     </ThemeProvider>,
   );
 }
+
+it("the fold line limit is configurable per instance", () => {
+  // Five lines against a limit of four: over → folds.
+  renderFoldableBundle(5, { theme: "elegant", mode: "light", foldLineLimit: 4 });
+  expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBe("true");
+  cleanup();
+  // Exactly the limit → stays open.
+  renderFoldableBundle(4, { theme: "elegant", mode: "light", foldLineLimit: 4 });
+  expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBeNull();
+  expect(screen.queryByTestId("footer")).toBeNull();
+});
+
+it("changing the fold line limit re-evaluates the fold", () => {
+  const view = render(foldableJsx(9, { theme: "elegant", mode: "light", foldLineLimit: 20 }));
+  expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBeNull();
+  view.rerender(foldableJsx(9, { theme: "elegant", mode: "light", foldLineLimit: 4 }));
+  expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBe("true");
+});
 
 it("multiple short items fold when their text adds up beyond eight lines", () => {
   // Three items of four lines each: no single item is long, the card is.
@@ -369,7 +395,14 @@ it("a reflow under the limit reopens a manually collapsed bundle", async () => {
 });
 
 it("a controlled collapsed prop skips the measurement", () => {
-  renderFoldableBundle(9, { theme: "elegant", mode: "light", collapsed: false });
+  // A limit of one line would fold immediately in the component-owned mode;
+  // the controlled mode must ignore it entirely.
+  renderFoldableBundle(9, {
+    theme: "elegant",
+    mode: "light",
+    collapsed: false,
+    foldLineLimit: 1,
+  });
   // Pinned open by the consumer despite the line count; the footer stays
   // caller-owned instead of auto-hiding.
   expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBeNull();
