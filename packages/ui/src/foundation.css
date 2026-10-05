@@ -258,7 +258,7 @@
   --primary-soft: oklch(0.955 0.067 93.62);
   --primary-edge: oklch(0.83 0.14 91.89 / 0.7);
   --primary-glow: oklch(0.85 0.162 91.89);
-  --accent-strong: oklch(0.543 0.215 359.77);
+  --accent-strong: oklch(0.52 0.215 359.77);
   --accent-soft: oklch(0.914 0.048 358.59);
 
   /* Interaction axis — resting color ⊕ ink, resolves per-theme at use point.
@@ -353,7 +353,7 @@
   --primary-soft: oklch(0.955 0.067 93.62);
   --primary-edge: oklch(0.83 0.14 91.89 / 0.7);
   --primary-hover: color-mix(in srgb-linear, var(--primary-soft) 88%, var(--primary-strong));
-  --accent-strong: oklch(0.543 0.215 359.77);
+  --accent-strong: oklch(0.52 0.215 359.77);
   --accent-soft: oklch(0.914 0.048 358.59);
   --accent-hover: color-mix(in srgb-linear, var(--accent-soft) 88%, var(--accent-strong));
 
