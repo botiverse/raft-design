@@ -147,7 +147,8 @@ for (const { key, theme, mode } of GALLERY_THEMES) {
     renderGallery(theme, 5, { mode });
     const gallery = screen.getByTestId("gallery");
     // The gallery composes the shared message image gallery root.
-    expect(gallery.querySelector('[data-slot="message-image-gallery"]')).not.toBeNull();
+    // The gallery element itself is the shared message gallery root.
+    expect(gallery.getAttribute("data-slot")).toBe("message-image-gallery");
     const rows = galleryRows("gallery");
     expect(rows.length).toBe(2);
     expect(rows[0].children.length).toBe(3);
