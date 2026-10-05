@@ -267,6 +267,64 @@ it("a consumer handler that calls preventDefault suppresses the toggle", () => {
   expect(items.getAttribute("data-collapsed")).toBe("true");
 });
 
+/** One wrapped paragraph (no explicit line breaks), so the width drives the line count. */
+const REFLOW_TEXT = "Rollout notes ".repeat(28);
+
+function reflowJsx(width: number, text: string) {
+  return (
+    <ThemeProvider theme="elegant" mode="light">
+      <div style={{ width }}>
+        <MessageForwardedBundle data-testid="bundle">
+          <MessageForwardedBundleItems data-testid="items">
+            <MessageForwardedBundleItem>
+              <MessageForwardedBundleItemContent data-testid="content">
+                {text}
+              </MessageForwardedBundleItemContent>
+            </MessageForwardedBundleItem>
+          </MessageForwardedBundleItems>
+          <MessageForwardedBundleFooter data-testid="footer">
+            <MessageForwardedBundleFooterAction data-testid="action">
+              Show all 1 message
+            </MessageForwardedBundleFooterAction>
+          </MessageForwardedBundleFooter>
+        </MessageForwardedBundle>
+      </div>
+    </ThemeProvider>
+  );
+}
+
+/** The observers report asynchronously; poll until the assertion holds. */
+async function eventually(check: () => void) {
+  const deadline = Date.now() + 2000;
+  for (;;) {
+    try {
+      check();
+      return;
+    } catch (error) {
+      if (Date.now() > deadline) throw error;
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+  }
+}
+
+it("a reflow under the limit reopens a manually collapsed bundle", async () => {
+  // Narrow: the paragraph wraps past eight lines and folds.
+  const view = render(reflowJsx(300, REFLOW_TEXT));
+  const items = screen.getByTestId("items");
+  await eventually(() => expect(items.getAttribute("data-collapsed")).toBe("true"));
+  fireEvent.click(screen.getByTestId("action"));
+  expect(items.getAttribute("data-collapsed")).toBeNull();
+  // Manually collapse it again; the reader's choice is in force.
+  fireEvent.click(screen.getByTestId("action"));
+  expect(items.getAttribute("data-collapsed")).toBe("true");
+  // Widen: the text now renders under the limit. The component must reopen
+  // unconditionally — otherwise the list stays clipped at the fold height
+  // with the footer gone and no way back open.
+  view.rerender(reflowJsx(560, REFLOW_TEXT));
+  await eventually(() => expect(items.getAttribute("data-collapsed")).toBeNull());
+  await eventually(() => expect(screen.queryByTestId("footer")).toBeNull());
+});
+
 it("a controlled collapsed prop skips the measurement", () => {
   renderFoldableBundle(9, { theme: "elegant", mode: "light", collapsed: false });
   // Pinned open by the consumer despite the line count; the footer stays

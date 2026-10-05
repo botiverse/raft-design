@@ -56,7 +56,10 @@ const FOLD_LINE_HEIGHT_FALLBACK = 20;
 function exceedsFoldLineLimit(el: HTMLElement) {
   const lineHeight =
     Number.parseFloat(getComputedStyle(el).lineHeight) || FOLD_LINE_HEIGHT_FALLBACK;
-  return el.scrollHeight > lineHeight * FOLD_LINE_LIMIT;
+  // 1px of slack: scrollHeight is an integer while line heights can be
+  // fractional (zoom, custom sizes), so exactly eight lines must not read
+  // as "over eight".
+  return el.scrollHeight > lineHeight * FOLD_LINE_LIMIT + 1;
 }
 
 export function MessageForwardedBundle({
@@ -82,7 +85,14 @@ export function MessageForwardedBundle({
   const reportFold = useCallback((nextFoldable: boolean) => {
     setFoldable(nextFoldable);
     setAuto(true);
-    if (!touchedRef.current) setCollapsed(nextFoldable);
+    if (!nextFoldable) {
+      // Nothing left to fold → open unconditionally, even after a manual
+      // collapse: otherwise a reflow that drops the content under the limit
+      // leaves the list clipped at the fold height with no way back open.
+      setCollapsed(false);
+    } else if (!touchedRef.current) {
+      setCollapsed(true);
+    }
   }, []);
 
   const fold = useMemo(

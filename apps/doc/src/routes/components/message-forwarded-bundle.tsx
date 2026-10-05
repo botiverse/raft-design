@@ -307,7 +307,9 @@ function MessageForwardedBundleDoc() {
               <InlineCode>MessageForwardedBundleItems</InlineCode> renders without a{" "}
               <InlineCode>collapsed</InlineCode> prop the component measures this itself: the list
               clips with its own fade and the footer appears only while the content actually folds.
-              Passing <InlineCode>collapsed</InlineCode> keeps the consumer-owned mode.
+              Passing <InlineCode>collapsed</InlineCode> keeps the consumer-owned mode. The
+              measurement reads the <InlineCode>MessageForwardedBundleItemContent</InlineCode>{" "}
+              slots, so wrap each item's text body in one — unwrapped text is never measured.
             </DocNote>
             <UsagePreview code={code.forwardedBundle} collapsedCode={code.forwardedBundleBody}>
               <ForwardedBundleEmbeddedComposition />
