@@ -204,6 +204,7 @@ export function MessageForwardedBundleItems({
   collapsed,
   foldLineLimit = FOLD_LINE_LIMIT,
   render,
+  style,
   ...props
 }: MessageForwardedBundleItemsProps) {
   const theme = useThemeFamily();
@@ -246,17 +247,27 @@ export function MessageForwardedBundleItems({
     };
   }, [controlled, fold, foldLineLimit]);
 
+  // Merge rather than override: a consumer style must not wipe the computed
+  // fold height (that would bring back "collapsed with nothing hidden").
   const clampStyle = useMemo(
     () => (isCollapsed && foldHeight !== null ? { maxHeight: `${foldHeight}px` } : undefined),
     [isCollapsed, foldHeight],
   );
+  const mergedStyle = useMemo(
+    () => (clampStyle || style ? { ...clampStyle, ...style } : undefined),
+    [clampStyle, style],
+  );
+  // A very short fold would otherwise sit entirely under the 40px bottom
+  // fade; compress the fade to one line so something stays readable.
+  const tightFold = foldHeight !== null && foldHeight < 60;
 
   return (
     <MessageEmbedContent
       ref={containerRef}
       className={items({ className })}
       data-collapsed={isCollapsed || undefined}
-      style={clampStyle}
+      data-tight-fold={tightFold || undefined}
+      style={mergedStyle}
       render={render}
       {...props}
     />

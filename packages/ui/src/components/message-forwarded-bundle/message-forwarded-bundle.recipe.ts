@@ -58,6 +58,9 @@ export const messageForwardedBundle = tv({
           // measure, and folds the height with the same number as the rule.
           "max-h-40 overflow-hidden",
           "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-10 after:bg-linear-to-t",
+          // A fold shorter than the fade would be all gradient; keep one line
+          // readable at those sizes.
+          "data-[tight-fold]:after:h-5",
         ],
       },
     },

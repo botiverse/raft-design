@@ -205,11 +205,12 @@ type FoldableBundleOptions = {
   mode?: ThemeMode;
   collapsed?: boolean;
   foldLineLimit?: number;
+  style?: React.CSSProperties;
   onAction?: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 function foldableJsx(lines: number, options: FoldableBundleOptions = {}) {
-  const { theme = "elegant", mode, collapsed, foldLineLimit, onAction } = options;
+  const { theme = "elegant", mode, collapsed, foldLineLimit, style, onAction } = options;
   const lineChildren = Array.from({ length: lines }, (_, index) => (
     <div key={index}>Line {index + 1}</div>
   ));
@@ -221,6 +222,7 @@ function foldableJsx(lines: number, options: FoldableBundleOptions = {}) {
             data-testid="items"
             collapsed={collapsed}
             foldLineLimit={foldLineLimit}
+            style={style}
           >
             <MessageForwardedBundleItem>
               <MessageForwardedBundleItemContent data-testid="content">
@@ -305,6 +307,28 @@ it("the fold line limit is configurable per instance", () => {
   renderFoldableBundle(4, { theme: "elegant", mode: "light", foldLineLimit: 4 });
   expect(screen.getByTestId("items").getAttribute("data-collapsed")).toBeNull();
   expect(screen.queryByTestId("footer")).toBeNull();
+});
+
+it("a consumer style merges with the computed fold height", () => {
+  render(foldableJsx(9, { theme: "elegant", mode: "light", style: { color: "rgb(1, 2, 3)" } }));
+  const items = screen.getByTestId("items");
+  expect(items.getAttribute("data-collapsed")).toBe("true");
+  const computed = getComputedStyle(items);
+  // The consumer style must not wipe the fold height…
+  expect(computed.maxHeight).toBe("160px");
+  // …while still applying.
+  expect(computed.color).toBe("rgb(1, 2, 3)");
+});
+
+it("a fold shorter than the fade compresses the fade to one line", () => {
+  renderFoldableBundle(3, { theme: "elegant", mode: "light", foldLineLimit: 2 });
+  const items = screen.getByTestId("items");
+  expect(items.getAttribute("data-collapsed")).toBe("true");
+  expect(items.hasAttribute("data-tight-fold")).toBe(true);
+  cleanup();
+  // The default fold keeps the regular fade.
+  renderFoldableBundle(9, { theme: "elegant", mode: "light" });
+  expect(screen.getByTestId("items").hasAttribute("data-tight-fold")).toBe(false);
 });
 
 it("changing the fold line limit re-evaluates the fold", () => {
