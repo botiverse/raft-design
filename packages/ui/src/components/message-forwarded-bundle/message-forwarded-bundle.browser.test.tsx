@@ -1,5 +1,5 @@
 import "./message-forwarded-bundle.test.css";
-import { afterEach, expect, test } from "vite-plus/test";
+import { afterEach, beforeAll, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import type { ReactElement } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
@@ -18,6 +18,17 @@ import {
 
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
+
+// The vitest browser default viewport is 414px wide; the message gallery row
+// layout (md:grid-cols-3, the 448px cap) and the sm+ row heights only exist at
+// >= 768px, so the layout assertions pin a desktop viewport. Imported lazily:
+// CI also loads this file in the node pool, where the browser context module
+// refuses to import and every test is skipped anyway.
+beforeAll(async () => {
+  if (typeof window === "undefined") return;
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(1280, 900);
+});
 
 const IMAGE =
   "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='96'%20height='96'%3E%3Crect%20width='96'%20height='96'%20fill='%23dbeafe'/%3E%3C/svg%3E";
@@ -144,6 +155,8 @@ for (const { key, theme, mode } of GALLERY_THEMES) {
     for (const tile of tiles) {
       expect(tile.getAttribute("data-slot")).toBe("message-image-gallery-item");
     }
+    // The message gallery's md+ width cap — forwarded images inherit it.
+    expect(Math.round(gallery.getBoundingClientRect().width)).toBe(448);
     // All five cells fit: nothing hides behind a scroll.
     expect(gallery.scrollWidth - gallery.clientWidth).toBeLessThanOrEqual(2);
     for (const tile of tiles) {
@@ -158,10 +171,13 @@ for (const { key, theme, mode } of GALLERY_THEMES) {
     const rows = galleryRows("gallery");
     const [threeUp, twoUp] = rows;
     const height = (el: Element) => el.getBoundingClientRect().height;
-    // Message gallery rows: a row of three is shorter than a row of two
-    // (112/128 vs 128/144 across the sm breakpoint).
-    expect(height(threeUp)).toBeGreaterThan(0);
-    expect(height(threeUp)).toBeLessThan(height(twoUp));
+    const width = (el: Element) => el.getBoundingClientRect().width;
+    // Message gallery rows at sm+: three-up 144×128 (h-28 sm:h-32), two-up
+    // 220×144 (h-32 sm:h-36); the forwarded rows carry the same measurements.
+    expect(Math.round(width(threeUp.children[0]))).toBe(144);
+    expect(Math.round(height(threeUp))).toBe(128);
+    expect(Math.round(width(twoUp.children[0]))).toBe(220);
+    expect(Math.round(height(twoUp))).toBe(144);
     // Cells fill their row.
     expect(Math.abs(height(threeUp.children[0]) - height(threeUp))).toBeLessThanOrEqual(1);
     expect(Math.abs(height(twoUp.children[0]) - height(twoUp))).toBeLessThanOrEqual(1);
