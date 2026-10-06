@@ -64,6 +64,7 @@ const SNIPPETS = {
   SelectValue,
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -77,6 +78,7 @@ const accessOptions = [
 ] as const;
 
 <Table>
+  <TableCaption className="sr-only">Application permissions</TableCaption>
   <TableHeader>
     <TableRow>
       <TableHead>Resource</TableHead>
@@ -92,6 +94,54 @@ const accessOptions = [
       <TableCell>
         <Select defaultValue="write" items={accessOptions}>
           <SelectTrigger aria-label="Access for Messages">
+            <SelectValue />
+            <SelectIcon />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectList>
+              {accessOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  <SelectItemText>{option.label}</SelectItemText>
+                  <SelectItemIndicator />
+                </SelectItem>
+              ))}
+            </SelectList>
+          </SelectContent>
+        </Select>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <div>Reminders</div>
+        <div>Read and complete reminder cards.</div>
+      </TableCell>
+      <TableCell>
+        <Select defaultValue="read" items={accessOptions}>
+          <SelectTrigger aria-label="Access for Reminders">
+            <SelectValue />
+            <SelectIcon />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectList>
+              {accessOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  <SelectItemText>{option.label}</SelectItemText>
+                  <SelectItemIndicator />
+                </SelectItem>
+              ))}
+            </SelectList>
+          </SelectContent>
+        </Select>
+      </TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <div>Changelog</div>
+        <div>Private to owners and admins.</div>
+      </TableCell>
+      <TableCell>
+        <Select defaultValue="none" items={accessOptions}>
+          <SelectTrigger aria-label="Access for Changelog">
             <SelectValue />
             <SelectIcon />
           </SelectTrigger>
@@ -131,32 +181,62 @@ const accessOptions = [
     </TableRow>
   </TableBody>
 </Table>`,
-  accessibleName: `import { Table, TableBody, TableCaption, TableCell, TableRow } from "raft-ui";
+  accessibleName: `import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "raft-ui";
 
 <Table>
   <TableCaption>Recent builds</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Build</TableHead>
+      <TableHead className="text-right">Result</TableHead>
+    </TableRow>
+  </TableHeader>
   <TableBody>
     <TableRow>
       <TableCell>2026.10.6</TableCell>
-      <TableCell>Succeeded</TableCell>
+      <TableCell className="text-right">Succeeded</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>2026.10.5</TableCell>
+      <TableCell className="text-right">Succeeded</TableCell>
     </TableRow>
   </TableBody>
 </Table>`,
-  columnWidths: `import { Table, TableBody, TableCell, TableColgroup, TableColumn, TableRow } from "raft-ui";
+  columnWidths: `import { Table, TableBody, TableCaption, TableCell, TableColgroup, TableColumn, TableHead, TableHeader, TableRow } from "raft-ui";
 
 <Table className="table-fixed">
+  <TableCaption className="sr-only">Resource access</TableCaption>
   <TableColgroup>
     <TableColumn className="w-3/5" />
     <TableColumn className="w-2/5" />
   </TableColgroup>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Resource</TableHead>
+      <TableHead>Access</TableHead>
+    </TableRow>
+  </TableHeader>
   <TableBody>
     <TableRow>
       <TableCell>Messages</TableCell>
       <TableCell>Writable</TableCell>
     </TableRow>
+    <TableRow>
+      <TableCell>Audit log</TableCell>
+      <TableCell>No access</TableCell>
+    </TableRow>
   </TableBody>
 </Table>`,
-  longContent: `<Table>
+  longContent: `import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "raft-ui";
+
+<Table>
+  <TableCaption className="sr-only">Resources</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Resource</TableHead>
+      <TableHead>Access</TableHead>
+    </TableRow>
+  </TableHeader>
   <TableBody>
     <TableRow>
       <TableCell>repo:botiverse/raft_ui_identifier_without_spaces</TableCell>
@@ -339,6 +419,12 @@ function TableDoc() {
               <Preview.Canvas>
                 <Table className="w-[480px]">
                   <TableCaption>Recent builds</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Build</TableHead>
+                      <TableHead className="text-right">Result</TableHead>
+                    </TableRow>
+                  </TableHeader>
                   <TableBody>
                     <TableRow>
                       <TableCell>2026.10.6</TableCell>
@@ -366,6 +452,7 @@ function TableDoc() {
             <Preview>
               <Preview.Canvas>
                 <Table className="w-[480px] table-fixed">
+                  <TableCaption className="sr-only">Resource access</TableCaption>
                   <TableColgroup>
                     <TableColumn className="w-3/5" />
                     <TableColumn className="w-2/5" />
@@ -400,6 +487,7 @@ function TableDoc() {
             <Preview>
               <Preview.Canvas>
                 <Table className="w-[320px]">
+                  <TableCaption className="sr-only">Resources</TableCaption>
                   <TableHeader>
                     <TableRow>
                       <TableHead>Resource</TableHead>
