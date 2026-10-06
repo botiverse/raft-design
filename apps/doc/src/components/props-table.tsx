@@ -66,7 +66,7 @@ function PropTable({
  */
 function StackedProps({ rows }: { rows: readonly PropRow[] }) {
   return (
-    <div className="md:hidden">
+    <div className="@min-[768px]:hidden">
       {rows.map((row) => (
         <div key={row.name} className="space-y-1 border-b border-line-muted py-3">
           <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
@@ -89,8 +89,13 @@ function StackedProps({ rows }: { rows: readonly PropRow[] }) {
  * API reference table in the same shape as shadcn / Base UI / Kumo docs:
  * one row per prop, fixed Prop | Type | Default | Description columns so every
  * part subsection on a page lines up, and the Default column always present.
- * Below md the same rows render as stacked blocks (see StackedProps); the
- * display switcher lives on the wrapper, so the table markup itself is shared.
+ *
+ * The stacked/table switch keys off the CONTAINER width, not the viewport: the
+ * docs' article column is non-monotonic (704px at 768/1024, 784px at 1280,
+ * 836px at 900 — sidebars appear and narrow it), so screen width does not say
+ * whether the four fixed columns fit. Below 768px of container the rows stack
+ * (see StackedProps); at 768px+ the table shows with a readable description
+ * column (160px+).
  */
 export function PropsTable({
   rows,
@@ -109,11 +114,11 @@ export function PropsTable({
     );
   }
   return (
-    <>
+    <div className="@container">
       <StackedProps rows={rows} />
-      <div className="hidden overflow-x-auto md:block">
+      <div className="hidden overflow-x-auto @min-[768px]:block">
         <PropTable rows={rows} nameColumnLabel={nameColumnLabel} />
       </div>
-    </>
+    </div>
   );
 }
