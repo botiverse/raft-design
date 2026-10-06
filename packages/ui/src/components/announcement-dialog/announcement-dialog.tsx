@@ -27,13 +27,15 @@ const announcement = tv({
       "mt-5 h-44 w-full overflow-hidden border border-line-muted [&_img]:size-full  [&_img]:object-contain",
     ],
     text: [
-      "mt-3 min-w-0 wrap-break-word text-sm leading-relaxed text-foreground [&_p+p]:mt-3",
+      "mt-3 min-w-0 wrap-break-word text-sm/relaxed  text-foreground [&_p+p]:mt-3",
       "[&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-5 [&_ol]:pl-5 [&_h1]:text-xl [&_h2]:text-lg [&_h3]:text-base [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold [&_pre]:max-w-full [&_pre]:overflow-x-auto",
     ],
     footer: [
       "flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-line-muted px-7 py-4",
     ],
-    action: ["ml-auto min-w-0 max-w-full whitespace-normal text-center font-bold"],
+    action: [
+      "ml-auto h-auto min-h-8 min-w-0 max-w-full py-1 whitespace-normal text-center font-bold",
+    ],
     secondary: ["min-w-0 max-w-full px-0 whitespace-normal underline"],
   },
   variants: {
