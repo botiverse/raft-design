@@ -165,6 +165,7 @@ const COMPONENT_NAV = [
       { label: "Avatar", to: "/components/avatar", status: "done" },
       { label: "DescriptionList", to: "/components/description-list", status: "done" },
       { label: "FilePreview", to: "/components/file-preview", status: "done" },
+      { label: "Table", to: "/components/table", status: "done" },
     ],
   },
   {
@@ -343,12 +344,6 @@ const ROADMAP = {
           status: "parked",
           docsHref: "https://base-ui.com/react/components",
           reason: "Wait for paged data surfaces.",
-        },
-        {
-          label: "Table / DataGrid",
-          status: "parked",
-          docsHref: "https://base-ui.com/react/components",
-          reason: "Likely app-specific; design from a real dense-data use case.",
         },
         {
           label: "Calendar / DatePicker",
