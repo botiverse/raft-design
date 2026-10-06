@@ -7,3 +7,5 @@ export type {
   ComboboxSelectSelection,
   ComboboxSelectMessages,
 } from "./components/combobox-select/index";
+
+export * from "./components/announcement-dialog/index";

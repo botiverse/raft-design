@@ -1,140 +1,97 @@
 import {
-  Button,
-  DialogBody,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  Status,
-  useThemeFamily,
-} from "raft-ui";
-import { ChevronLeft, ChevronRight, Megaphone } from "lucide-react";
+  AnnouncementDialog,
+  AnnouncementDialogAction,
+  AnnouncementDialogBody,
+  AnnouncementDialogClose,
+  AnnouncementDialogContent as AnnouncementDialogContentFrame,
+  AnnouncementDialogFooter,
+  AnnouncementDialogHeader,
+  AnnouncementDialogLabel,
+  AnnouncementDialogPicture,
+  AnnouncementDialogSecondaryAction,
+  AnnouncementDialogText,
+  AnnouncementDialogTitle,
+} from "raft-ui/wip";
+import { useCallback, useState } from "react";
 import { cn } from "raft-ui/cn";
+import { Button } from "raft-ui";
 
 // @docs-source-strip-start
-import { Dialog } from "raft-ui";
 import { CompositionModalPreview } from "#/components/composition-preview.tsx";
-
 // @docs-source-strip-end
 
 function AnnouncementDialogParts() {
-  const theme = useThemeFamily();
-  const isBrutal = theme === "brutal";
-
+  const [result, setResult] = useState<string | null>(null);
+  const acknowledge = useCallback(() => setResult("Update acknowledged"), []);
+  const openForm = useCallback(() => setResult("The caller opens its channel form"), []);
   return (
     <>
-      <DialogHeader
-        className={cn(
-          "bg-primary-400 px-5 py-3",
-          isBrutal ? "border-b-2 border-line-strong" : "border-b border-line-muted",
-        )}
-      >
-        <div className="flex min-w-0 items-center gap-2">
-          <span
-            aria-hidden="true"
-            className={cn(
-              "inline-flex size-6 shrink-0 items-center justify-center text-black",
-              isBrutal ? "border-2 border-line-strong" : "rounded-sm",
-              isBrutal ? "bg-layer-panel" : "bg-primary-200",
-            )}
-          >
-            <Megaphone className="size-3.5" />
-          </span>
-          <DialogTitle className="truncate text-primary-950">Workspace Update</DialogTitle>
-        </div>
-        <DialogClose className={isBrutal ? undefined : "text-primary-950 hover:text-primary-950"} />
-      </DialogHeader>
-      <DialogBody
-        className={cn(
-          "grid max-h-[min(60vh,24rem)] gap-3 overflow-y-auto px-6 text-sm leading-6",
-          isBrutal ? "py-5" : "py-[38px]",
-        )}
-      >
-        <h3 className="m-0 text-base font-bold uppercase text-foreground">
-          New workspace controls
-        </h3>
-        <p className="m-0 text-foreground-muted">
-          Review the latest controls for managing access and activity across your workspace.
-        </p>
-        <ul className="m-0 list-disc pl-5 text-foreground-muted">
-          <li>Member access can now be updated in one place.</li>
-          <li>Activity alerts include clearer next steps.</li>
-        </ul>
-      </DialogBody>
-      <DialogFooter
-        className={cn(
-          "justify-between px-5 py-3",
-          isBrutal ? "border-t-2 border-line-strong" : "border-t border-line-muted",
-        )}
-      >
-        <div className="flex items-center gap-1.5">
-          {Array.from({ length: 3 }).map((_, index) => {
-            const isCurrentPage = index === 1;
-
-            return (
-              <Status
-                key={index}
-                aria-hidden="true"
-                size="sm"
-                variant={isCurrentPage ? "primary" : "default"}
-                className={cn(
-                  isBrutal && {
-                    "[--status-color:var(--foreground)]": isCurrentPage,
-                    "[--status-color:var(--layer-panel)]": !isCurrentPage,
-                  },
-                  !isBrutal && !isCurrentPage && "opacity-40",
-                )}
-              />
-            );
-          })}
-          <span className="ml-2 font-mono text-xs text-foreground-muted">2 / 3</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="md" className="gap-1">
-            <ChevronLeft data-icon="inline-start" />
-            Back
-          </Button>
-          <Button variant="accent" size="md" className="gap-1">
-            Next
-            <ChevronRight data-icon="inline-end" />
-          </Button>
-        </div>
-      </DialogFooter>
+      <AnnouncementDialogBody>
+        <AnnouncementDialogHeader>
+          <AnnouncementDialogLabel>What's new</AnnouncementDialogLabel>
+          <AnnouncementDialogClose aria-label="Close update" />
+        </AnnouncementDialogHeader>
+        <AnnouncementDialogTitle>Work together across workspaces</AnnouncementDialogTitle>
+        <AnnouncementDialogPicture>
+          <svg viewBox="0 0 400 176" role="img" aria-label="Two workspaces joined by a channel">
+            <rect x="45" y="40" width="110" height="96" fill="currentColor" opacity="0.12" />
+            <rect x="245" y="40" width="110" height="96" fill="currentColor" opacity="0.12" />
+            <path d="M155 88H245" stroke="currentColor" strokeWidth="4" />
+          </svg>
+        </AnnouncementDialogPicture>
+        <AnnouncementDialogText>
+          <p>
+            Invite another workspace to a shared channel and keep your conversation in one place.
+          </p>
+          {result && <p role="status">{result}</p>}
+        </AnnouncementDialogText>
+      </AnnouncementDialogBody>
+      <AnnouncementDialogFooter>
+        <AnnouncementDialogSecondaryAction onClick={acknowledge}>
+          Got it
+        </AnnouncementDialogSecondaryAction>
+        <AnnouncementDialogAction onClick={openForm}>Create joint channel</AnnouncementDialogAction>
+      </AnnouncementDialogFooter>
     </>
   );
 }
 
 export function AnnouncementDialogContent() {
   return (
-    <DialogContent className="w-full max-w-xl p-0">
+    <AnnouncementDialogContentFrame>
       <AnnouncementDialogParts />
-    </DialogContent>
+    </AnnouncementDialogContentFrame>
   );
 }
 
 // @docs-source-strip-start
 export function AnnouncementDialogComposition({ className }: { className?: string }) {
+  const [open, setOpen] = useState(true);
+  const reopen = useCallback(() => setOpen(true), []);
   return (
     <CompositionModalPreview
       className={cn("px-0 py-0", className)}
-      contentClassName="w-full max-w-xl p-0"
+      contentClassName="w-full max-w-xl"
       portalClassName="p-0"
       backdrop={false}
     >
-      {({ portalProps, contentClassName }) => (
-        <Dialog open modal={false}>
-          <DialogContent
-            overlay={false}
-            initialFocus={false}
-            finalFocus={false}
-            portalProps={portalProps}
-            className={contentClassName}
-          >
-            <AnnouncementDialogParts />
-          </DialogContent>
-        </Dialog>
-      )}
+      {({ portalProps, contentClassName }) =>
+        open ? (
+          <AnnouncementDialog open={open} onOpenChange={setOpen} modal={false}>
+            <AnnouncementDialogContentFrame
+              overlay={false}
+              initialFocus={false}
+              finalFocus={false}
+              portalProps={portalProps}
+              className={contentClassName}
+            >
+              <AnnouncementDialogParts />
+            </AnnouncementDialogContentFrame>
+          </AnnouncementDialog>
+        ) : (
+          <Button onClick={reopen}>Reopen announcement</Button>
+        )
+      }
     </CompositionModalPreview>
   );
 }
