@@ -14,7 +14,7 @@ export {
 
 const announcement = tv({
   slots: {
-    content: ["max-w-xl gap-0 overflow-clip p-0"],
+    content: ["@container/announcement max-w-xl gap-0 overflow-clip p-0"],
     body: [
       "min-h-0 max-h-[70dvh] overflow-y-auto px-7 pt-6 pb-5",
       "[&_[data-slot=announcement-picture]+[data-slot=announcement-text]]:mt-5",
@@ -31,12 +31,14 @@ const announcement = tv({
       "[&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-5 [&_ol]:pl-5 [&_h1]:text-xl [&_h2]:text-lg [&_h3]:text-base [&_h1]:font-bold [&_h2]:font-bold [&_h3]:font-bold [&_pre]:max-w-full [&_pre]:overflow-x-auto",
     ],
     footer: [
-      "flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-line-muted px-7 py-4",
+      "flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-line-muted px-7 py-4 @max-[28rem]/announcement:flex-col",
     ],
     action: [
-      "ml-auto h-auto min-h-8 min-w-0 max-w-full py-1 whitespace-normal text-center font-bold",
+      "ml-auto h-auto min-h-8 min-w-0 max-w-full py-1 whitespace-normal text-center font-bold @max-[28rem]/announcement:ml-0 @max-[28rem]/announcement:w-full",
     ],
-    secondary: ["min-w-0 max-w-full px-0 whitespace-normal underline"],
+    secondary: [
+      "min-w-0 max-w-full px-0 whitespace-normal underline @max-[28rem]/announcement:w-full",
+    ],
   },
   variants: {
     theme: {
