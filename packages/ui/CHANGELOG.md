@@ -1,3 +1,10 @@
+## [0.5.28](https://github.com/botiverse/rui/compare/v0.5.27...v0.5.28) (2026-10-07)
+
+### Added
+
+- Added the composable `AnnouncementDialog` through `raft-ui/wip`, built on existing Dialog and Button primitives, with a label, picture, scrolling body and fixed footer. Narrow dialogs stack both actions at full width. ([#363](https://github.com/botiverse/rui/pull/363))
+- Updated the canonical announcement example to use the new component. Existing Dialog, Button and theme behavior remain unchanged.
+
 ## [0.5.1](https://github.com/botiverse/rui/compare/v0.5.0...v0.5.1) (2026-08-12)
 
 ### Fixed
