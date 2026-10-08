@@ -1,5 +1,5 @@
 import { Ban, CheckCircle, Circle, Eye, Play } from "lucide-react";
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, CSSProperties, SVGProps } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { TaskStatusId } from "./task-status.recipe";
 
@@ -22,13 +22,15 @@ const TASK_STATUS_ICONS: Record<TaskStatusId, TaskStatusIconComponent> = {
 
 /** Icon ink reads the SAME task-status tokens as the chip/badge/dot, so a
  *  status's icon colour can never drift from its surface colour. Brutal paints
- *  the icon with `currentColor` (it inherits the solid pastel badge text). */
-const TASK_STATUS_ICON_COLORS: Record<TaskStatusId, string> = {
-  todo: "var(--task-status-todo-strong)",
-  "in-progress": "var(--task-status-in-progress-strong)",
-  "in-review": "var(--task-status-in-review-strong)",
-  done: "var(--task-status-done-strong)",
-  closed: "var(--task-status-closed-strong)",
+ *  the icon with `currentColor` (it inherits the solid pastel badge text).
+ *  Hoisted to a module-level table so the style object is stable across renders
+ *  (an inline object literal would be re-created every render). */
+const TASK_STATUS_ICON_STYLE: Record<TaskStatusId, CSSProperties> = {
+  todo: { color: "var(--task-status-todo-strong)" },
+  "in-progress": { color: "var(--task-status-in-progress-strong)" },
+  "in-review": { color: "var(--task-status-in-review-strong)" },
+  done: { color: "var(--task-status-done-strong)" },
+  closed: { color: "var(--task-status-closed-strong)" },
 };
 
 function TaskStatusIconRoot({
@@ -47,7 +49,7 @@ function TaskStatusIconRoot({
       // `currentColor` resolves from the CSS `color`; set it via style (the
       // SVG `color` attribute is not a CSS property and lucide's stroke would
       // fall back to black).
-      style={theme === "brutal" ? undefined : { color: TASK_STATUS_ICON_COLORS[status] }}
+      style={theme === "brutal" ? undefined : TASK_STATUS_ICON_STYLE[status]}
       {...props}
     />
   );
