@@ -41,6 +41,16 @@ import { ChatSidebarArchiveDialog } from "./chat-sidebar-archive-dialog.tsx";
 import { ChatSidebarChannelsSection } from "./chat-sidebar-channels-section.tsx";
 import { ChatSidebarDndProvider } from "./chat-sidebar-dnd.tsx";
 import { ChatSidebarDirectMessagesSection } from "./chat-sidebar-direct-messages-section.tsx";
+import {
+  matchesSidebarQuery,
+  SidebarCreateFromQuery,
+  SidebarHintStrip,
+  SidebarNewMenu,
+  SidebarQuickFind,
+  SidebarTasksRow,
+  SidebarUnreadToggle,
+  useSidebarDirection,
+} from "./chat-sidebar-directions.tsx";
 import { ChatSidebarJointChannelsSection } from "./chat-sidebar-joint-channels-section.tsx";
 import { ChatSidebarPinnedSection } from "./chat-sidebar-pinned-section.tsx";
 
@@ -69,6 +79,12 @@ function PlaygroundSidebarContent({
 }: PlaygroundSidebarProps) {
   const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
   const [closedDmIds, setClosedDmIds] = useState<ReadonlySet<string>>(() => new Set());
+  // Design exploration, opt-in through `?sidebar=a|b|c`; see chat-sidebar-directions.tsx.
+  const direction = useSidebarDirection();
+  const [query, setQuery] = useState("");
+  const [unreadOnly, setUnreadOnly] = useState(false);
+  const [hintDismissed, setHintDismissed] = useState(false);
+  const dismissHint = useCallback(() => setHintDismissed(true), []);
   const { railView, selectRailView } = usePlaygroundNavigation();
   const { savedMessagesById } = usePlaygroundSavedMessages();
   const savedMatch = useMatch({
@@ -82,17 +98,39 @@ function PlaygroundSidebarContent({
   const mobileNavigationContentPad = mobileBottomNavigation
     ? "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]"
     : undefined;
+  const keepRow = useCallback(
+    (conversation: { name: string; navigation: { unread?: unknown } }) =>
+      matchesSidebarQuery(conversation.name, direction ? query : "") &&
+      (!(direction === "c" && unreadOnly) || Boolean(conversation.navigation.unread)),
+    [direction, query, unreadOnly],
+  );
   const visibleDirectMessages = useMemo(
-    () => PLAYGROUND_DIRECT_MESSAGES.filter((conversation) => !closedDmIds.has(conversation.id)),
-    [closedDmIds],
+    () =>
+      PLAYGROUND_DIRECT_MESSAGES.filter(
+        (conversation) => !closedDmIds.has(conversation.id) && keepRow(conversation),
+      ),
+    [closedDmIds, keepRow],
   );
   const visiblePinnedChannels = useMemo(
     () =>
       PLAYGROUND_CHANNELS.filter(
-        (conversation) => conversation.kind !== "dm" || !closedDmIds.has(conversation.id),
+        (conversation) =>
+          (conversation.kind !== "dm" || !closedDmIds.has(conversation.id)) &&
+          keepRow(conversation),
       ),
-    [closedDmIds],
+    [closedDmIds, keepRow],
   );
+  const visibleJointChannels = useMemo(() => PLAYGROUND_JOINT_CHANNELS.filter(keepRow), [keepRow]);
+  const visibleRoomChannels = useMemo(() => PLAYGROUND_ROOM_CHANNELS.filter(keepRow), [keepRow]);
+  const narrowing =
+    Boolean(direction) && (query.trim() !== "" || (direction === "c" && unreadOnly));
+  const nothingMatches =
+    narrowing &&
+    visiblePinnedChannels.length +
+      visibleJointChannels.length +
+      visibleRoomChannels.length +
+      visibleDirectMessages.length ===
+      0;
   const closeDirectMessage = useCallback((conversation: PlaygroundDirectMessageRecord) => {
     setClosedDmIds((current) => new Set(current).add(conversation.id));
   }, []);
@@ -117,11 +155,23 @@ function PlaygroundSidebarContent({
           <div className="min-w-0 flex-1">
             <SidebarHeaderTitle className="leading-tight tabular-nums">{title}</SidebarHeaderTitle>
           </div>
-          <SidebarCreateMenu />
+          {direction ? <SidebarNewMenu /> : <SidebarCreateMenu />}
         </SidebarHeader>
         <SidebarBody>
           <SidebarContent className={mobileNavigationContentPad}>
             <div className="min-h-full">
+              {direction ? (
+                <div className="max-md:hidden">
+                  <SidebarQuickFind
+                    value={query}
+                    onValueChange={setQuery}
+                    placeholder={direction === "a" ? "Filter conversations" : "Find or create…"}
+                  />
+                  {direction === "c" ? (
+                    <SidebarUnreadToggle pressed={unreadOnly} onPressedChange={setUnreadOnly} />
+                  ) : null}
+                </div>
+              ) : null}
               <SidebarItem
                 className="md:hidden"
                 active={railView === "search"}
@@ -161,26 +211,46 @@ function PlaygroundSidebarContent({
                 ) : null}
               </SidebarItem>
 
-              <ChatSidebarPinnedSection
-                activeChannelId={selectedChannelId}
-                onArchive={handleArchive}
-                onCloseDm={closeDirectMessage}
-                rows={visiblePinnedChannels}
-              />
-              <ChatSidebarJointChannelsSection
-                activeChannelId={selectedChannelId}
-                rows={PLAYGROUND_JOINT_CHANNELS}
-              />
-              <ChatSidebarChannelsSection
-                activeChannelId={selectedChannelId}
-                onArchive={handleArchive}
-                rows={PLAYGROUND_ROOM_CHANNELS}
-              />
-              <ChatSidebarDirectMessagesSection
-                activeChannelId={selectedChannelId}
-                onCloseDm={closeDirectMessage}
-                rows={visibleDirectMessages}
-              />
+              {direction === "c" && !narrowing ? <SidebarTasksRow remaining={3} /> : null}
+              {direction === "c" && !narrowing && !hintDismissed ? (
+                <SidebarHintStrip onDismiss={dismissHint} />
+              ) : null}
+
+              {nothingMatches && direction !== "a" && query.trim() !== "" ? (
+                <SidebarCreateFromQuery query={query} />
+              ) : null}
+              {nothingMatches && (direction === "a" || query.trim() === "") ? (
+                <p className="px-3 py-2 text-sm text-foreground-muted">No conversations match.</p>
+              ) : null}
+
+              {!narrowing || visiblePinnedChannels.length > 0 ? (
+                <ChatSidebarPinnedSection
+                  activeChannelId={selectedChannelId}
+                  onArchive={handleArchive}
+                  onCloseDm={closeDirectMessage}
+                  rows={visiblePinnedChannels}
+                />
+              ) : null}
+              {!narrowing || visibleJointChannels.length > 0 ? (
+                <ChatSidebarJointChannelsSection
+                  activeChannelId={selectedChannelId}
+                  rows={visibleJointChannels}
+                />
+              ) : null}
+              {!narrowing || visibleRoomChannels.length > 0 ? (
+                <ChatSidebarChannelsSection
+                  activeChannelId={selectedChannelId}
+                  onArchive={handleArchive}
+                  rows={visibleRoomChannels}
+                />
+              ) : null}
+              {!narrowing || visibleDirectMessages.length > 0 ? (
+                <ChatSidebarDirectMessagesSection
+                  activeChannelId={selectedChannelId}
+                  onCloseDm={closeDirectMessage}
+                  rows={visibleDirectMessages}
+                />
+              ) : null}
             </div>
           </SidebarContent>
         </SidebarBody>
