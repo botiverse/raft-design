@@ -49,35 +49,35 @@ const taskChip = tv({
       theme: "elegant",
       status: "todo",
       class: {
-        root: "border-[color-mix(in_oklch,var(--line-muted)_75%,transparent)] bg-ink-4 text-foreground",
+        root: "border-[color-mix(in_oklch,var(--task-status-todo-strong)_35%,transparent)] bg-task-status-todo-soft text-task-status-todo-strong",
       },
     },
     {
       theme: "elegant",
       status: "in-progress",
       class: {
-        root: "border-primary-500/75 bg-primary-500/10 text-primary-800 dark:text-primary-strong",
+        root: "border-[color-mix(in_oklch,var(--task-status-in-progress-strong)_35%,transparent)] bg-task-status-in-progress-soft text-task-status-in-progress-strong",
       },
     },
     {
       theme: "elegant",
       status: "in-review",
       class: {
-        root: "border-warning/75 bg-warning/10 text-warning-strong",
+        root: "border-[color-mix(in_oklch,var(--task-status-in-review-strong)_35%,transparent)] bg-task-status-in-review-soft text-task-status-in-review-strong",
       },
     },
     {
       theme: "elegant",
       status: "done",
       class: {
-        root: "border-success/75 bg-success/10 text-success-strong",
+        root: "border-[color-mix(in_oklch,var(--task-status-done-strong)_35%,transparent)] bg-task-status-done-soft text-task-status-done-strong",
       },
     },
     {
       theme: "elegant",
       status: "closed",
       class: {
-        root: "border-[color-mix(in_oklch,var(--line-muted)_75%,transparent)] bg-ink-4 text-foreground",
+        root: "border-[color-mix(in_oklch,var(--task-status-closed-strong)_35%,transparent)] bg-task-status-closed-soft text-task-status-closed-strong",
       },
     },
     {
@@ -149,7 +149,10 @@ export function TaskChip({
     "data-loading": loading ? "true" : undefined,
     className: cn(
       root({ className }),
-      theme === "brutal" && taskStatus({ theme, status }),
+      // Brutal fills with the solid pastel; elegant takes the soft wash +
+      // strong ink from its compoundVariants below (both read the same
+      // task-status tokens).
+      theme === "brutal" && taskStatus({ status }),
       loading && "pointer-events-none opacity-60",
     ),
     children,

@@ -1,6 +1,7 @@
 import type { ComponentPropsWithRef, CSSProperties, ReactNode } from "react";
 import { cn } from "../../lib/cn";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import type { TaskStatusId } from "../tasks/task-status.recipe";
 import "./timeline.css";
 
 export type TimelineSize = "sm" | "md" | "lg";
@@ -28,11 +29,24 @@ export interface TimelineProps extends ComponentPropsWithRef<"ol"> {
   iconSize?: number;
 }
 
+/** Maps a task status to the shared `--task-status-*` token the marker should
+ *  paint with — the SAME token the icon/chip/badge read, so a task status can
+ *  never look different on the Timeline than everywhere else. */
+function taskStatusMarkerColor(status: TaskStatusId): string {
+  return `var(--task-status-${status})`;
+}
+
 export interface TimelineItemProps extends ComponentPropsWithRef<"li"> {
   /** Marker color role. */
   variant?: TimelineItemVariant;
   /** A custom marker color; overrides `variant`. */
   color?: string;
+  /**
+   * Render the marker from a task status's colour token instead of a generic
+   * `variant`. Takes precedence over `variant`; `color` still wins when both
+   * are set. Omit it and the item behaves exactly as before.
+   */
+  taskStatus?: TaskStatusId;
   /** Replaces the dot marker; takes the variant's color. */
   icon?: ReactNode;
   /** The line from this item to the next. */
@@ -81,6 +95,7 @@ export function Timeline({
 export function TimelineItem({
   variant = "default",
   color,
+  taskStatus,
   icon,
   lineType = "solid",
   className,
@@ -88,19 +103,23 @@ export function TimelineItem({
   children,
   ...props
 }: TimelineItemProps) {
+  // A task status paints the marker from the shared token; an explicit `color`
+  // still wins, and omitting both keeps the variant behaviour unchanged.
+  const resolvedColor = color ?? (taskStatus ? taskStatusMarkerColor(taskStatus) : undefined);
   const mergedStyle =
-    color === undefined
+    resolvedColor === undefined
       ? style
-      : ({ ...style, "--r-timeline-custom-color": color } as CSSProperties);
+      : ({ ...style, "--r-timeline-custom-color": resolvedColor } as CSSProperties);
 
   return (
     <li
       data-slot="timeline-item"
+      data-task-status={taskStatus}
       className={cn(
         "r-timeline-item",
         `r-timeline-item--${variant}`,
         lineType === "dashed" && "r-timeline-item--dashed",
-        color !== undefined && "r-timeline-item--color",
+        resolvedColor !== undefined && "r-timeline-item--color",
         className,
       )}
       style={mergedStyle}

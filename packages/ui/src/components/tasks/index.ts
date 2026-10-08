@@ -32,4 +32,12 @@ export {
   TaskStatusIcon,
   TaskTodoIcon,
 } from "./task-status-icon";
-export { taskStatus, type TaskStatusId } from "./task-status.recipe";
+export {
+  taskStatus,
+  taskStatusBorder,
+  taskStatusSoft,
+  taskStatusStrong,
+  type TaskStatusId,
+} from "./task-status.recipe";
+export { TaskStatusBadge } from "./task-status-badge";
+export type { TaskStatusBadgeProps } from "./task-status-badge";

@@ -5,12 +5,15 @@ import type { TaskStatusId } from "./task-status.recipe";
 type TaskStatusSvgProps = SVGProps<SVGSVGElement>;
 type TaskStatusIconComponent = (props: TaskStatusSvgProps) => ReactNode;
 
-const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
-  todo: "var(--foreground-placeholder)",
-  "in-progress": "oklch(0.8 0.19 88.97)",
-  "in-review": "oklch(0.72 0.16 58)",
-  done: "var(--success)",
-  closed: "var(--inactive)",
+/** Icon ink reads the SAME task-status tokens as the chip/badge/dot, so a
+ *  status's icon colour can never drift from its surface colour. Brutal paints
+ *  the icon with `currentColor` (it inherits the solid pastel badge text). */
+const TASK_STATUS_ICON_COLORS: Record<TaskStatusId, string> = {
+  todo: "var(--task-status-todo-strong)",
+  "in-progress": "var(--task-status-in-progress-strong)",
+  "in-review": "var(--task-status-in-review-strong)",
+  done: "var(--task-status-done-strong)",
+  closed: "var(--task-status-closed-strong)",
 };
 
 function TodoIcon(props: TaskStatusSvgProps) {
