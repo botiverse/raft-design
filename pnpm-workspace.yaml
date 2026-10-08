@@ -8,9 +8,9 @@ catalogMode: prefer
 catalog:
   "@types/node": ^26.6.2
   typescript: ^7.0.2
-  vite: npm:@voidzero-dev/vite-plus-core@1.0.0-rc.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.0.0
   vitest: 5.0.1
-  vite-plus: 1.0.0-rc.0
+  vite-plus: 1.0.0
   tailwind-variants: ^3.3.1
   "@base-ui/react": ^1.8.0
   "@base-ui/utils": ^0.4.0
