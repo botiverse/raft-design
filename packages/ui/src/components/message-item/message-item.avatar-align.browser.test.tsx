@@ -60,3 +60,44 @@ for (const theme of ["brutal", "elegant"] as const) {
     expect(Math.abs(m.avatarMinusSender)).toBeLessThanOrEqual(1);
   });
 }
+
+function TierRow({ theme }: { theme: "brutal" | "elegant" }) {
+  return (
+    <ThemeProvider theme={theme}>
+      <MessageItem data-testid="tier-row">
+        <MessageItemAvatarSlot data-testid="tier-slot">
+          <div
+            data-slot="avatar"
+            data-size="md"
+            data-testid="tier-avatar"
+            style={{ background: "#eee" }}
+          />
+        </MessageItemAvatarSlot>
+        <MessageItemContent>
+          <MessageItemHeader>
+            <MessageItemSender>Tier</MessageItemSender>
+          </MessageItemHeader>
+        </MessageItemContent>
+      </MessageItem>
+    </ThemeProvider>
+  );
+}
+
+it("both themes shrink the message avatar slot on narrow viewports", async () => {
+  const { page } = await import("vite-plus/test/browser/context");
+  await page.viewport(414, 900);
+  try {
+    for (const theme of ["brutal", "elegant"] as const) {
+      render(<TierRow theme={theme} />);
+      const slot = screen.getByTestId("tier-slot").getBoundingClientRect();
+      const avatar = screen.getByTestId("tier-avatar").getBoundingClientRect();
+      // max-md tier: 32 slot / 24 avatar in BOTH themes (brutal used to stay
+      // at 36 because only the elegant block defined the tier).
+      expect(Math.round(slot.width)).toBe(32);
+      expect(Math.round(avatar.width)).toBe(24);
+      cleanup();
+    }
+  } finally {
+    await page.viewport(1280, 900);
+  }
+});
