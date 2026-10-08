@@ -204,11 +204,18 @@ for (const { key, theme, mode } of THEMES) {
     // Brutal is a hard-edged square tag (same treatment as the brutal TaskChip:
     // square, black keyline); Elegant is a pill. An earlier revision applied
     // `rounded-full` in both themes, turning the brutal tag into a pill.
-    const radius = parseFloat(
-      getComputedStyle(screen.getByTestId("shape-badge")).borderTopLeftRadius,
-    );
+    const style = getComputedStyle(screen.getByTestId("shape-badge"));
+    const radius = parseFloat(style.borderTopLeftRadius);
     if (theme === "brutal") {
       expect(radius, "brutal status badge must be square").toBe(0);
+      // Match slock's existing brutal status badge exactly: bold text and a
+      // 16px line-height, so the badge measures 20px tall (it was medium and
+      // 20.8px before).
+      expect(style.fontWeight, "brutal status badge is bold").toBe("700");
+      expect(
+        screen.getByTestId("shape-badge").getBoundingClientRect().height,
+        "brutal status badge is 20px tall",
+      ).toBe(20);
     } else {
       expect(radius, "elegant status badge stays a pill").toBeGreaterThan(0);
     }
