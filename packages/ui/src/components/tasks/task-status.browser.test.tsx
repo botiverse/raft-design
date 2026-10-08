@@ -191,6 +191,36 @@ it("each status renders its own lucide glyph — a swap cannot pass", () => {
 });
 
 for (const { key, theme, mode } of THEMES) {
+  it(`TaskStatusBadge shape follows the theme — ${key}`, () => {
+    render(
+      <ThemeProvider theme={theme} mode={mode}>
+        <div data-testid="badge-scope">
+          <TaskStatusBadge status="in-progress" data-testid="shape-badge">
+            In Progress
+          </TaskStatusBadge>
+        </div>
+      </ThemeProvider>,
+    );
+    // Brutal is a hard-edged square tag (same treatment as the brutal TaskChip:
+    // square, black keyline); Elegant is a pill. An earlier revision applied
+    // `rounded-full` in both themes, turning the brutal tag into a pill.
+    const style = getComputedStyle(screen.getByTestId("shape-badge"));
+    const radius = parseFloat(style.borderTopLeftRadius);
+    if (theme === "brutal") {
+      expect(radius, "brutal status badge must be square").toBe(0);
+      // Match slock's existing brutal status badge exactly: bold text and a
+      // 16px line-height, so the badge measures 20px tall (it was medium and
+      // 20.8px before).
+      expect(style.fontWeight, "brutal status badge is bold").toBe("700");
+      expect(
+        screen.getByTestId("shape-badge").getBoundingClientRect().height,
+        "brutal status badge is 20px tall",
+      ).toBe(20);
+    } else {
+      expect(radius, "elegant status badge stays a pill").toBeGreaterThan(0);
+    }
+  });
+
   it(`board/list status shows the icon without a solid fill in Elegant — ${key}`, () => {
     render(
       <ThemeProvider theme={theme} mode={mode}>
