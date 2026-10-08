@@ -37,6 +37,7 @@ export {
   taskStatusBorder,
   taskStatusSoft,
   taskStatusStrong,
+  TASK_STATUS_IDS,
   type TaskStatusId,
 } from "./task-status.recipe";
 export { TaskStatusBadge } from "./task-status-badge";

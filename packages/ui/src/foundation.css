@@ -380,7 +380,9 @@
      (success), closed=neutral(inactive). */
   --task-status-todo: var(--warning);
   --task-status-todo-soft: var(--warning-soft);
-  --task-status-todo-strong: var(--warning-strong);
+  --task-status-todo-strong: oklch(
+    0.5 0.2 44
+  ); /* darkened: warning-strong only reached 3.8:1 on warning-soft */
   --task-status-in-progress: var(--info);
   --task-status-in-progress-soft: var(--info-soft);
   --task-status-in-progress-strong: var(--info-strong);
