@@ -137,7 +137,11 @@ const TASK_STATUS_ICONS: Record<TaskStatusId, TaskStatusIconComponent> = {
   closed: ClosedIcon,
 };
 
-function TaskStatusIconRoot({ status, className }: { status: TaskStatusId; className?: string }) {
+function TaskStatusIconRoot({
+  status,
+  className,
+  ...props
+}: { status: TaskStatusId; className?: string } & SVGProps<SVGSVGElement>) {
   const theme = useThemeFamily();
   const Icon = TASK_STATUS_ICONS[status];
   return (
@@ -146,36 +150,35 @@ function TaskStatusIconRoot({ status, className }: { status: TaskStatusId; class
       data-slot="task-status-icon"
       className={className}
       color={theme === "brutal" ? "currentColor" : TASK_STATUS_ICON_COLORS[status]}
+      {...props}
     />
   );
 }
 
-export function TaskTodoIcon(props: { className?: string }) {
+export function TaskTodoIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="todo" {...props} />;
 }
 
-export function TaskInProgressIcon(props: { className?: string }) {
+export function TaskInProgressIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="in-progress" {...props} />;
 }
 
-export function TaskInReviewIcon(props: { className?: string }) {
+export function TaskInReviewIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="in-review" {...props} />;
 }
 
-export function TaskDoneIcon(props: { className?: string }) {
+export function TaskDoneIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="done" {...props} />;
 }
 
-export function TaskClosedIcon(props: { className?: string }) {
+export function TaskClosedIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="closed" {...props} />;
 }
 
 export function TaskStatusIcon({
   status,
   className,
-}: {
-  status: TaskStatusId;
-  className?: string;
-}) {
-  return <TaskStatusIconRoot status={status} className={className} />;
+  ...props
+}: { status: TaskStatusId; className?: string } & SVGProps<SVGSVGElement>) {
+  return <TaskStatusIconRoot status={status} className={className} {...props} />;
 }

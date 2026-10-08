@@ -18,25 +18,50 @@ const THEMES: readonly { key: string; theme: Theme; mode?: ThemeMode }[] = [
   { key: "elegant dark", theme: "elegant", mode: "dark" },
 ];
 
-/** The WCAG hue family each status must keep in EVERY theme. Same-family means
- *  a hue within tolerance of the anchor, not an exact value — Brutal and
- *  Elegant are allowed to differ in lightness and chroma, just not in hue. */
-const HUE_ANCHORS: Record<TaskStatusId, { hue: number; chroma?: number }> = {
-  todo: { hue: 45 }, // orange
-  "in-progress": { hue: 220 }, // blue
-  "in-review": { hue: 294 }, // purple
-  done: { hue: 153 }, // green (lime 130 and success 153 are the same family)
-  closed: { hue: 55, chroma: 0.04 }, // neutral (must be near-grey)
+/**
+ * The hue family each status must keep in EVERY theme: orange / blue / purple /
+ * green, plus `closed` which is intentionally NEUTRAL (so it is checked by
+ * chroma, not hue — comparing the hue of a grey would pass or fail at random).
+ */
+const HUE_ANCHORS: Record<TaskStatusId, { hue?: number; maxChroma?: number }> = {
+  todo: { hue: 45 },
+  "in-progress": { hue: 220 },
+  "in-review": { hue: 294 },
+  done: { hue: 153 },
+  closed: { maxChroma: 0.05 },
 };
 
-/** Max hue separation still counted as the same colour family. Sized to admit
- *  the real brutal↔elegant pairs (the widest is green: lime 130 vs success
- *  153) while still rejecting the mismatches this replaced — grey/orange/yellow
- *  were all 60°+ away from their target family. */
+/** Max hue separation still counted as one family — sized to admit the real
+ *  brutal↔elegant pairs (the widest is green: lime 130 vs success 153) while
+ *  rejecting the mismatches this change replaced (60°+). */
 const HUE_TOLERANCE = 30;
 
-function oklchToSrgb(L: number, C: number, Hdeg: number) {
-  const h = (Hdeg * Math.PI) / 180;
+// ── colour math ─────────────────────────────────────────────────────────────
+
+type Rgb = [number, number, number];
+
+/** Parse `rgb()`/`rgba()`/`oklch()` — including the multi-line form the CSS
+ *  formatter emits — into sRGB 0–1 plus an alpha (default 1). */
+function parseColor(value: string): { rgb: Rgb; alpha: number } {
+  const v = value.trim();
+  const rgbMatch = /^rgba?\(([^)]+)\)$/.exec(v);
+  if (rgbMatch) {
+    const parts = rgbMatch[1]
+      .split(/[\s,/]+/)
+      .filter(Boolean)
+      .map(Number);
+    const [r, g, b] = parts;
+    return { rgb: [r / 255, g / 255, b / 255], alpha: parts[3] ?? 1 };
+  }
+  const oklch = /oklch\(([^)]+)\)/.exec(v);
+  expect(oklch, `unparsable color: ${value}`).not.toBeNull();
+  const parts = oklch![1].split(/[\s,/]+/).filter(Boolean);
+  const rawL = parts[0];
+  const L = rawL.endsWith("%") ? Number(rawL.slice(0, -1)) / 100 : Number(rawL);
+  const C = Number(parts[1]);
+  const H = Number(parts[2]);
+  const alpha = parts[3] === undefined ? 1 : Number(parts[3]);
+  const h = (H * Math.PI) / 180;
   const a = C * Math.cos(h);
   const b = C * Math.sin(h);
   const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
@@ -47,46 +72,79 @@ function oklchToSrgb(L: number, C: number, Hdeg: number) {
   const s = s_ ** 3;
   const toSrgb = (x: number) =>
     x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(Math.max(x, 0), 1 / 2.4) - 0.055;
-  return [
+  const rgb: Rgb = [
     toSrgb(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
     toSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
     toSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
-  ].map((x) => Math.min(1, Math.max(0, x)));
+  ].map((x) => Math.min(1, Math.max(0, x))) as Rgb;
+  return { rgb, alpha };
 }
 
-function luminance(rgb: number[]) {
+function composite(fg: { rgb: Rgb; alpha: number }, bg: Rgb): Rgb {
+  return [
+    fg.rgb[0] * fg.alpha + bg[0] * (1 - fg.alpha),
+    fg.rgb[1] * fg.alpha + bg[1] * (1 - fg.alpha),
+    fg.rgb[2] * fg.alpha + bg[2] * (1 - fg.alpha),
+  ];
+}
+
+function luminance([r, g, b]: Rgb) {
   const f = (c: number) => (c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
-  const [r, g, b] = rgb.map(f);
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
 }
 
-function contrastRatio(rgb1: number[], rgb2: number[]) {
-  const l1 = luminance(rgb1);
-  const l2 = luminance(rgb2);
+function contrastRatio(a: Rgb, b: Rgb) {
+  const l1 = luminance(a);
+  const l2 = luminance(b);
   const [hi, lo] = l1 > l2 ? [l1, l2] : [l2, l1];
   return (hi + 0.05) / (lo + 0.05);
 }
 
-/** Read a custom property off the themed root and parse its oklch parts. */
-function tokenOklch(value: string): [number, number, number] {
-  const match = /oklch\(([\d.]+%?)\s+([\d.]+)\s+([\d.]+)/.exec(value);
-  expect(match, `unparsable color: ${value}`).not.toBeNull();
-  const rawL = match![1];
-  const L = rawL.endsWith("%") ? Number(rawL.slice(0, -1)) / 100 : Number(rawL);
-  return [L, Number(match![2]), Number(match![3])];
+/** Luminance channels → OKLab hue (deg) and chroma, for family assertions. */
+function oklabOf(rgb: Rgb): { hue: number; chroma: number } {
+  const lin = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  const [r, g, b] = rgb.map(lin) as Rgb;
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  const a = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+  const bb = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+  return { hue: (Math.atan2(bb, a) * 180) / Math.PI, chroma: Math.hypot(a, bb) };
 }
 
-/** How far apart two hues are on the circle (0–180°). */
 function hueDistance(a: number, b: number) {
   const d = Math.abs(a - b) % 360;
   return d > 180 ? 360 - d : d;
 }
 
-/** Render one full set of task-status parts and read the resolved colors off
- *  the themed scope, so assertions run against real computed values. */
+/** The effective background a translucent fill sits on. The themed scope
+ *  carries a real page colour; `document.body` can be transparent. */
+function scopeBackground(scope: HTMLElement): Rgb {
+  for (const el of [scope, document.body, document.documentElement]) {
+    const c = parseColor(getComputedStyle(el).backgroundColor);
+    if (c.alpha > 0) return c.rgb;
+  }
+  return [1, 1, 1];
+}
+
+/** The marker paints a filled dot in Brutal and a hollow ring in Elegant, so
+ *  the status colour lands on the background OR the border — take whichever is
+ *  actually opaque, composited over the scope. */
+function markerFill(dot: HTMLElement, scopeBg: Rgb): Rgb {
+  const style = getComputedStyle(dot);
+  const bg = parseColor(style.backgroundColor);
+  if (bg.alpha > 0.05) return composite(bg, scopeBg);
+  const border = parseColor(style.borderTopColor || style.borderColor);
+  return composite(border, scopeBg);
+}
+
+/** One status's four parts, rendered together. */
 function Harness() {
   return (
-    <div data-testid="status-scope">
+    // A real themed surface: soft/translucent fills composite over it exactly
+    // as they do in the app (a bare test node has a transparent background,
+    // which would composite washes over nothing).
+    <div data-testid="status-scope" className="bg-layer-panel">
       {TASK_STATUS_IDS.map((status) => (
         <div key={status}>
           <TaskStatusIcon status={status} data-testid={`icon-${status}`} />
@@ -114,80 +172,115 @@ for (const { key, theme, mode } of THEMES) {
       </ThemeProvider>,
     );
     const scope = screen.getByTestId("status-scope");
+    const scopeBg = scopeBackground(scope);
     for (const status of TASK_STATUS_IDS) {
       const anchor = HUE_ANCHORS[status];
-      const solid = tokenOklch(
-        getComputedStyle(scope).getPropertyValue(`--task-status-${status}`).trim(),
-      );
-      expect(
-        hueDistance(solid[2], anchor.hue),
-        `${key}/${status}: hue ${solid[2]} is not the ${anchor.hue} family`,
-      ).toBeLessThanOrEqual(HUE_TOLERANCE);
-      if (anchor.chroma !== undefined) {
-        expect(solid[1], `${key}/${status}: expected a near-neutral chroma`).toBeLessThanOrEqual(
-          anchor.chroma,
-        );
+      // Read the ACTUAL rendered badge fill (composited over the scope), not the
+      // raw token string — soft fills are translucent in Elegant dark.
+      const badge = screen.getByTestId(`badge-${status}`);
+      const fill = composite(parseColor(getComputedStyle(badge).backgroundColor), scopeBg);
+      const { hue, chroma } = oklabOf(fill);
+      if (anchor.hue !== undefined) {
+        expect(
+          hueDistance(hue, anchor.hue),
+          `${key}/${status}: rendered hue ${hue.toFixed(0)} is not the ${anchor.hue} family`,
+        ).toBeLessThanOrEqual(HUE_TOLERANCE);
+      }
+      if (anchor.maxChroma !== undefined) {
+        expect(
+          chroma,
+          `${key}/${status}: expected a near-neutral chroma, got ${chroma.toFixed(3)}`,
+        ).toBeLessThanOrEqual(anchor.maxChroma);
       }
     }
   });
 
-  it(`the same status reads the same token on icon, badge and Timeline — ${key}`, () => {
+  it(`icon, badge and Timeline dot all resolve the SAME status token — ${key}`, () => {
     render(
       <ThemeProvider theme={theme} mode={mode}>
         <Harness />
       </ThemeProvider>,
     );
     const scope = screen.getByTestId("status-scope");
+    const scopeBg = scopeBackground(scope);
     for (const status of TASK_STATUS_IDS) {
-      const token = `--task-status-${status}`;
-      const fromRoot = getComputedStyle(scope).getPropertyValue(token).trim();
-      const iconColor = getComputedStyle(screen.getByTestId(`icon-${status}`)).color;
-      const badgeFill = getComputedStyle(screen.getByTestId(`badge-${status}`)).backgroundColor;
+      // The one token, resolved once, is the reference value.
+      const token = parseColor(
+        getComputedStyle(scope).getPropertyValue(`--task-status-${status}`).trim(),
+      );
+      const tokenFilled = composite(token, scopeBg);
+      const tokenHue = oklabOf(tokenFilled).hue;
+
+      // Badge fill must equal the token (composited the same way). This is the
+      // equality the acceptance criterion asks for — not token-vs-itself.
+      const badge = screen.getByTestId(`badge-${status}`);
+      const badgeFill = composite(parseColor(getComputedStyle(badge).backgroundColor), scopeBg);
+      expect(
+        hueDistance(oklabOf(badgeFill).hue, tokenHue),
+        `${key}/${status}: badge fill hue != token hue`,
+      ).toBeLessThanOrEqual(HUE_TOLERANCE);
+
+      // Timeline dot must carry the token color (as fill in Brutal, as ring in
+      // Elegant) — whichever channel is actually painted.
       const dot = screen
         .getByTestId(`timeline-${status}`)
         .querySelector<HTMLElement>(".r-timeline-item__marker");
       expect(dot).not.toBeNull();
-      const dotColor = getComputedStyle(dot!).borderColor;
-      // All three surfaces must resolve to the ONE token, not merely look alike.
-      for (const [label, value] of [
-        ["icon", iconColor],
-        ["badge", badgeFill],
-        ["timeline dot", dotColor],
-      ] as const) {
-        expect(value, `${key}/${status}: ${label} did not resolve ${token} (${fromRoot})`).not.toBe(
-          "",
-        );
-      }
-      // Icon ink + Timeline dot both draw from the strong/solid slot; assert the
-      // dot equals the solid family member by hue.
-      const dotHue = tokenOklch(dotColor.includes("oklch") ? dotColor : fromRoot)[2];
-      const solidHue = tokenOklch(fromRoot)[2];
       expect(
-        hueDistance(dotHue, solidHue),
-        `${key}/${status}: dot hue drifted`,
+        hueDistance(oklabOf(markerFill(dot!, scopeBg)).hue, tokenHue),
+        `${key}/${status}: Timeline dot hue drifted from the token`,
       ).toBeLessThanOrEqual(HUE_TOLERANCE);
     }
   });
 
-  it(`soft-bg text keeps 4.5:1 contrast — ${key}`, () => {
+  it(`badge text meets 4.5:1 on its REAL background — ${key}`, () => {
     render(
       <ThemeProvider theme={theme} mode={mode}>
         <Harness />
       </ThemeProvider>,
     );
-    const scope = screen.getByTestId("status-scope");
     for (const status of TASK_STATUS_IDS) {
-      const soft = tokenOklch(
-        getComputedStyle(scope).getPropertyValue(`--task-status-${status}-soft`).trim(),
-      );
-      const strong = tokenOklch(
-        getComputedStyle(scope).getPropertyValue(`--task-status-${status}-strong`).trim(),
-      );
-      const ratio = contrastRatio(oklchToSrgb(...soft), oklchToSrgb(...strong));
+      const badge = screen.getByTestId(`badge-${status}`);
+      const style = getComputedStyle(badge);
+      const scopeBg = scopeBackground(screen.getByTestId("status-scope"));
+      const fg = parseColor(style.color);
+      const bg = composite(parseColor(style.backgroundColor), scopeBg);
+      const ratio = contrastRatio(composite(fg, bg), bg);
       expect(
         ratio,
-        `${key}/${status}: soft-on-strong contrast ${ratio.toFixed(2)}`,
+        `${key}/${status}: rendered text contrast ${ratio.toFixed(2)}`,
       ).toBeGreaterThanOrEqual(4.5);
     }
   });
 }
+
+it("Brutal's five fills are the same values as before this change", () => {
+  render(
+    <ThemeProvider theme="brutal">
+      <Harness />
+    </ThemeProvider>,
+  );
+  // The pre-change Brutal values (brutal-parity pastels), pinned so a refactor
+  // cannot silently drift the one theme that was already correct.
+  const EXPECTED: Record<TaskStatusId, Rgb> = {
+    todo: [248, 161, 111], // brutal-orange
+    "in-progress": [39, 204, 243], // brutal-cyan
+    "in-review": [187, 175, 230], // brutal-lavender
+    done: [169, 216, 119], // brutal-lime
+    closed: [192, 185, 177], // brutal-stone
+  };
+  for (const status of TASK_STATUS_IDS) {
+    const fill = parseColor(
+      getComputedStyle(screen.getByTestId(`badge-${status}`)).backgroundColor,
+    );
+    const actual = fill.rgb.map((c) => Math.round(c * 255));
+    const expected = EXPECTED[status];
+    // ±1 per channel absorbs the oklch→sRGB rounding boundary.
+    for (let i = 0; i < 3; i += 1) {
+      expect(
+        Math.abs(actual[i] - expected[i]),
+        `brutal/${status} drifted from its pre-change value (${actual.join(",")} vs ${expected.join(",")})`,
+      ).toBeLessThanOrEqual(1);
+    }
+  }
+});

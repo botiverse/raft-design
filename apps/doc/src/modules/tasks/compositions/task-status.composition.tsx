@@ -1,4 +1,11 @@
-import { TaskStatusBadge, TaskStatusIcon, Timeline, TimelineItem, TimelineTitle } from "raft-ui";
+import {
+  TaskChip,
+  TaskStatusBadge,
+  TaskStatusIcon,
+  Timeline,
+  TimelineItem,
+  TimelineTitle,
+} from "raft-ui";
 import type { TaskStatusId } from "raft-ui";
 
 /**
@@ -65,10 +72,10 @@ export function TaskStatusComposition() {
               </td>
               <td className="border-r border-b border-line-muted px-4">
                 <Part>
-                  <span className="inline-flex items-center gap-1 rounded-full border border-line-muted bg-layer-panel px-2 py-0.5">
-                    <TaskStatusIcon status={status} className="size-3" />
-                    #42
-                  </span>
+                  <TaskChip status={status}>
+                    <TaskStatusIcon status={status} />
+                    <span>#42</span>
+                  </TaskChip>
                 </Part>
               </td>
               <td className="border-r border-b border-line-muted px-4">
