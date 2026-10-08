@@ -164,6 +164,30 @@ function Harness() {
   );
 }
 
+it("each status renders its own lucide glyph — a swap cannot pass", () => {
+  render(
+    <ThemeProvider theme="brutal">
+      <Harness />
+    </ThemeProvider>,
+  );
+  // The task-status icons are the app's lucide set; lucide stamps a
+  // `lucide-<name>` class on each svg, so pin the specific glyph per status so
+  // an accidental swap (e.g. in-review pointed at the todo icon) fails here.
+  const EXPECTED: Record<TaskStatusId, string> = {
+    todo: "lucide-circle",
+    "in-progress": "lucide-play",
+    "in-review": "lucide-eye",
+    done: "lucide-circle-check-big",
+    closed: "lucide-ban",
+  };
+  for (const status of TASK_STATUS_IDS) {
+    const icon = screen.getByTestId(`icon-${status}`);
+    expect(icon.getAttribute("class"), `${status} is not ${EXPECTED[status]}`).toContain(
+      EXPECTED[status],
+    );
+  }
+});
+
 for (const { key, theme, mode } of THEMES) {
   it(`every status keeps its hue family — ${key}`, () => {
     render(
@@ -230,6 +254,23 @@ for (const { key, theme, mode } of THEMES) {
         hueDistance(oklabOf(markerFill(dot!, scopeBg)).hue, tokenHue),
         `${key}/${status}: Timeline dot hue drifted from the token`,
       ).toBeLessThanOrEqual(HUE_TOLERANCE);
+
+      // The ICON must also be in the same family. Only Elegant colours the icon
+      // by status (its own ink per state, the `-strong` slot); Brutal inherits
+      // the badge's currentColor (ink), so a hue assertion there is meaningless.
+      // Scoping to Elegant is what makes a wrong-status icon assignment fail.
+      if (theme === "elegant") {
+        const strongToken = parseColor(
+          getComputedStyle(scope).getPropertyValue(`--task-status-${status}-strong`).trim(),
+        );
+        const strongHue = oklabOf(composite(strongToken, scopeBg)).hue;
+        const icon = screen.getByTestId(`icon-${status}`);
+        const iconColor = parseColor(getComputedStyle(icon).color).rgb;
+        expect(
+          hueDistance(oklabOf(iconColor).hue, strongHue),
+          `${key}/${status}: icon hue drifted from the status strong token`,
+        ).toBeLessThanOrEqual(HUE_TOLERANCE);
+      }
     }
   });
 
@@ -239,10 +280,13 @@ for (const { key, theme, mode } of THEMES) {
         <Harness />
       </ThemeProvider>,
     );
+    const scopeBg = scopeBackground(screen.getByTestId("status-scope"));
     for (const status of TASK_STATUS_IDS) {
+      // Closed is DISABLED-styled on purpose (Artea/Josh): disabled text is not
+      // expected to clear body contrast, so it is asserted separately below.
+      if (status === "closed") continue;
       const badge = screen.getByTestId(`badge-${status}`);
       const style = getComputedStyle(badge);
-      const scopeBg = scopeBackground(screen.getByTestId("status-scope"));
       const fg = parseColor(style.color);
       const bg = composite(parseColor(style.backgroundColor), scopeBg);
       const ratio = contrastRatio(composite(fg, bg), bg);
@@ -250,6 +294,55 @@ for (const { key, theme, mode } of THEMES) {
         ratio,
         `${key}/${status}: rendered text contrast ${ratio.toFixed(2)}`,
       ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it(`Closed reads as the disabled token — ${key}`, () => {
+    render(
+      <ThemeProvider theme={theme} mode={mode}>
+        <Harness />
+      </ThemeProvider>,
+    );
+    // Closed is deliberately styled like a disabled control and is EXEMPT from
+    // the 4.5:1 body rule (disabled styles do not promise body contrast).
+    // Assert identity with the disabled token, not a ratio.
+    const scope = screen.getByTestId("status-scope");
+    const scopeBg = scopeBackground(scope);
+    const closed = screen.getByTestId("badge-closed");
+    const closedInk = parseColor(getComputedStyle(closed).color).rgb;
+
+    if (theme !== "brutal") {
+      const disabled = parseColor(
+        getComputedStyle(scope).getPropertyValue("--foreground-disabled").trim(),
+      );
+      const expected = composite(disabled, scopeBg);
+      for (let i = 0; i < 3; i += 1) {
+        expect(
+          Math.abs(closedInk[i] - expected[i]),
+          `${key}: closed ink should be the disabled token`,
+        ).toBeLessThanOrEqual(0.02);
+      }
+    }
+
+    // And, in Elegant, it must be the LEAST prominent of the five (lowest text
+    // contrast). Brutal is intentionally left as-is (stone), so it is exempt.
+    if (theme !== "brutal") {
+      const closedRatio = contrastRatio(
+        composite(parseColor(getComputedStyle(closed).color), scopeBg),
+        composite(parseColor(getComputedStyle(closed).backgroundColor), scopeBg),
+      );
+      for (const status of TASK_STATUS_IDS) {
+        if (status === "closed") continue;
+        const badge = screen.getByTestId(`badge-${status}`);
+        const ratio = contrastRatio(
+          composite(parseColor(getComputedStyle(badge).color), scopeBg),
+          composite(parseColor(getComputedStyle(badge).backgroundColor), scopeBg),
+        );
+        expect(
+          closedRatio,
+          `${key}: closed (${closedRatio.toFixed(2)}) must be fainter than ${status} (${ratio.toFixed(2)})`,
+        ).toBeLessThanOrEqual(ratio);
+      }
     }
   });
 }

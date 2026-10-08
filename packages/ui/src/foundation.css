@@ -380,9 +380,9 @@
      (success), closed=neutral(inactive). */
   --task-status-todo: var(--warning);
   --task-status-todo-soft: var(--warning-soft);
-  --task-status-todo-strong: oklch(
-    0.5 0.2 44
-  ); /* darkened: warning-strong only reached 3.8:1 on warning-soft */
+  /* Lightest L that still clears 4.5:1 on the soft wash, so it stays a vivid
+     ORANGE (a deeper L read as error-red). */
+  --task-status-todo-strong: oklch(0.54 0.2 44);
   --task-status-in-progress: var(--info);
   --task-status-in-progress-soft: var(--info-soft);
   --task-status-in-progress-strong: var(--info-strong);
@@ -394,7 +394,9 @@
   --task-status-done-strong: var(--success-strong);
   --task-status-closed: var(--inactive);
   --task-status-closed-soft: var(--fill-muted, var(--ink-8));
-  --task-status-closed-strong: var(--foreground-strong);
+  /* Closed is the LEAST prominent state — muted neutral ink, never the strong
+     near-black foreground. */
+  --task-status-closed-strong: var(--foreground-disabled);
 
   --primary-strong: oklch(0.44 0.09 91.39);
   --primary-soft: oklch(0.955 0.067 93.62);
@@ -519,14 +521,17 @@
   --task-status-in-progress-soft: var(--info-soft);
   --task-status-in-progress-strong: var(--info-strong);
   --task-status-in-review: var(--color-brutal-purple-400);
-  --task-status-in-review-soft: var(--color-brutal-purple-800);
+  /* A translucent purple wash like the other four dark softs (an opaque
+     purple-800 read as one heavy solid block against them). */
+  --task-status-in-review-soft: oklch(0.5 0.12 294 / 0.18);
   --task-status-in-review-strong: var(--color-brutal-purple-200);
   --task-status-done: var(--success);
   --task-status-done-soft: var(--success-soft);
   --task-status-done-strong: var(--success-strong);
   --task-status-closed: var(--inactive);
   --task-status-closed-soft: var(--fill-muted, var(--ink-8));
-  --task-status-closed-strong: var(--foreground-strong);
+  /* Closed is the LEAST prominent state — muted neutral ink. */
+  --task-status-closed-strong: var(--foreground-disabled);
 
   --primary-strong: oklch(0.88 0.13 92);
   --primary-soft: oklch(0.55 0.1 92 / 0.16);
@@ -636,14 +641,14 @@
     --task-status-in-progress-soft: var(--info-soft);
     --task-status-in-progress-strong: var(--info-strong);
     --task-status-in-review: var(--color-brutal-purple-400);
-    --task-status-in-review-soft: var(--color-brutal-purple-800);
+    --task-status-in-review-soft: oklch(0.5 0.12 294 / 0.18);
     --task-status-in-review-strong: var(--color-brutal-purple-200);
     --task-status-done: var(--success);
     --task-status-done-soft: var(--success-soft);
     --task-status-done-strong: var(--success-strong);
     --task-status-closed: var(--inactive);
     --task-status-closed-soft: var(--fill-muted, var(--ink-8));
-    --task-status-closed-strong: var(--foreground-strong);
+    --task-status-closed-strong: var(--foreground-disabled);
 
     --primary-strong: oklch(0.88 0.13 92);
     --primary-soft: oklch(0.55 0.1 92 / 0.16);
