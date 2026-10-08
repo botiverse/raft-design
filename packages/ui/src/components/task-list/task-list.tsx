@@ -92,7 +92,7 @@ export function TaskSectionBadge({
   );
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-section-badge",
-    className: cn(badge(), taskStatus({ status }), className),
+    className: cn(badge(), theme === "brutal" && taskStatus({ status }), className),
   };
   return useRender({
     defaultTagName: "span",

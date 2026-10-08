@@ -96,7 +96,7 @@ export function TaskBoardColumnBadge({
   );
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-badge",
-    className: cn(badge(), taskStatus({ status }), className),
+    className: cn(badge(), theme === "brutal" && taskStatus({ status }), className),
   };
   return useRender({
     defaultTagName: "span",

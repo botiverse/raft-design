@@ -4,6 +4,8 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
 import { Timeline, TimelineItem, TimelineTitle } from "../timeline/timeline";
+import { TaskCardStatus } from "../task-card/task-card";
+import { TaskSectionBadge } from "../task-list/task-list";
 import { TaskStatusBadge } from "./task-status-badge";
 import { TaskStatusIcon } from "./task-status-icon";
 import { TASK_STATUS_IDS } from "./task-status.recipe";
@@ -189,6 +191,36 @@ it("each status renders its own lucide glyph — a swap cannot pass", () => {
 });
 
 for (const { key, theme, mode } of THEMES) {
+  it(`board/list status shows the icon without a solid fill in Elegant — ${key}`, () => {
+    render(
+      <ThemeProvider theme={theme} mode={mode}>
+        <div className="bg-layer-panel" data-testid="board-scope">
+          <TaskCardStatus status="in-progress" data-testid="card-status">
+            In Progress
+          </TaskCardStatus>
+          <TaskSectionBadge status="in-review" data-testid="section-badge">
+            In Review
+          </TaskSectionBadge>
+        </div>
+      </ThemeProvider>,
+    );
+    // Regression guard (Josh, rui#372): the board card / task list status was a
+    // coloured ICON in Elegant. An earlier revision spread the Brutal solid fill
+    // across both themes, turning it into a solid block that hid the icon.
+    // Elegant must keep a transparent surface; only Brutal fills it.
+    for (const id of ["card-status", "section-badge"]) {
+      const el = screen.getByTestId(id);
+      const bg = parseColor(getComputedStyle(el).backgroundColor);
+      if (theme === "brutal") {
+        expect(bg.alpha, `${key}/${id}: Brutal should fill`).toBeGreaterThan(0.5);
+      } else {
+        expect(bg.alpha, `${key}/${id}: Elegant must NOT paint a solid fill`).toBeLessThanOrEqual(
+          0.05,
+        );
+      }
+    }
+  });
+
   it(`every status keeps its hue family — ${key}`, () => {
     render(
       <ThemeProvider theme={theme} mode={mode}>
