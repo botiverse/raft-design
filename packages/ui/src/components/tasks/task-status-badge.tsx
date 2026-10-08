@@ -42,11 +42,14 @@ function TaskStatusBadgeRoot({
     "data-slot": "task-status-badge",
     "data-status": status,
     className: cn(
-      "inline-flex items-center gap-1 rounded-full border px-2 py-0 text-xs font-medium leading-[1.4] whitespace-nowrap",
+      "inline-flex items-center gap-1 border px-2 py-0 text-xs font-medium leading-[1.4] whitespace-nowrap",
       "[&>svg]:shrink-0 [&>svg]:size-3",
+      // Brutal keeps the hard-edged square tag the rest of the brutal UI uses
+      // (matching the brutal TaskChip: square, black keyline); Elegant is a pill.
       theme === "brutal"
-        ? cn("border-line-strong text-black", taskStatus({ status }))
+        ? cn("rounded-none border-2 border-black text-black", taskStatus({ status }))
         : cn(
+            "rounded-full",
             taskStatusSoft({ status }),
             taskStatusStrong({ status }),
             taskStatusBorder({ status }),
