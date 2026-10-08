@@ -55,6 +55,11 @@ export const messageItem = tv({
         inlineStatus: "text-[10px] font-bold text-black/40",
         // Live Slock body is appearance `text-sm` only (Tailwind default leading-5).
         body: "text-sm text-black",
+        // Narrow tier mirrors the elegant block: the row shrinks its avatar
+        // slot with its text (an app whose avatars resize by theme would read
+        // as a bug); the square + black-frame form stays brutal's signature.
+        gutter: "max-md:w-8",
+        avatarSlot: "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
         toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-raft-sm"],
         toolbarButton: [
           "size-6",
