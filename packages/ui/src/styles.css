@@ -181,6 +181,25 @@
   --color-inactive: var(--inactive);
   --color-inactive-foreground: var(--inactive-foreground);
 
+  /* Task-status scale for Tailwind (`bg-task-status-todo`, `text-task-status-*`,
+     …). One slot per state plus its soft wash / strong ink; all four theme
+     scopes in foundation.css define the underlying values. */
+  --color-task-status-todo: var(--task-status-todo);
+  --color-task-status-todo-soft: var(--task-status-todo-soft);
+  --color-task-status-todo-strong: var(--task-status-todo-strong);
+  --color-task-status-in-progress: var(--task-status-in-progress);
+  --color-task-status-in-progress-soft: var(--task-status-in-progress-soft);
+  --color-task-status-in-progress-strong: var(--task-status-in-progress-strong);
+  --color-task-status-in-review: var(--task-status-in-review);
+  --color-task-status-in-review-soft: var(--task-status-in-review-soft);
+  --color-task-status-in-review-strong: var(--task-status-in-review-strong);
+  --color-task-status-done: var(--task-status-done);
+  --color-task-status-done-soft: var(--task-status-done-soft);
+  --color-task-status-done-strong: var(--task-status-done-strong);
+  --color-task-status-closed: var(--task-status-closed);
+  --color-task-status-closed-soft: var(--task-status-closed-soft);
+  --color-task-status-closed-strong: var(--task-status-closed-strong);
+
   --shadow-raft-xs: var(--theme-shadow-xs);
   --shadow-raft-sm: var(--theme-shadow-sm);
   --shadow-raft-md: var(--theme-shadow-md);

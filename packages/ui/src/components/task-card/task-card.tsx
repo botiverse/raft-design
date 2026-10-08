@@ -179,7 +179,7 @@ export function TaskCardStatus({
     "data-slot": "task-card-status",
     "data-busy": busy ? "true" : undefined,
     "aria-busy": busy || undefined,
-    className: cn(styles, theme === "brutal" && taskStatus({ theme, status }), className),
+    className: cn(styles, theme === "brutal" && taskStatus({ status }), className),
   };
   return useRender({
     defaultTagName: "button",

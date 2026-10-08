@@ -253,6 +253,30 @@
   --inactive: oklch(0.573 0 0);
   --inactive-foreground: oklch(0.946 0 0);
 
+  /* Task-status family — ONE source for every task-status surface (icon, chip,
+     badge, Timeline dot). Each state exposes the same three slots: the solid
+     fill (Brutal uses the brutal-parity pastel; Elegant points at the matching
+     semantic family), a soft wash, and a strong ink. Consumers read only these
+     tokens, never a per-theme class — that is what keeps all surfaces on one
+     theme in the SAME hue family (intra-theme consistency) while the five hue
+     families (orange / blue / purple / green / neutral) stay constant across
+     themes. */
+  --task-status-todo: var(--color-brutal-orange-400);
+  --task-status-todo-soft: var(--color-brutal-orange-100);
+  --task-status-todo-strong: var(--color-brutal-orange-800);
+  --task-status-in-progress: var(--color-brutal-cyan-400);
+  --task-status-in-progress-soft: var(--color-brutal-cyan-100);
+  --task-status-in-progress-strong: var(--color-brutal-cyan-800);
+  --task-status-in-review: var(--color-brutal-purple-400);
+  --task-status-in-review-soft: var(--color-brutal-purple-100);
+  --task-status-in-review-strong: var(--color-brutal-purple-800);
+  --task-status-done: var(--color-brutal-lime-400);
+  --task-status-done-soft: var(--color-brutal-lime-100);
+  --task-status-done-strong: var(--color-brutal-lime-800);
+  --task-status-closed: var(--color-brutal-stone-400);
+  --task-status-closed-soft: var(--color-brutal-stone-200);
+  --task-status-closed-strong: var(--color-brutal-stone-800);
+
   /* Brand ladder steps + the shared primary ring edge. */
   --primary-strong: oklch(0.44 0.09 91.39);
   --primary-soft: oklch(0.955 0.067 93.62);
@@ -348,6 +372,31 @@
 
   --inactive: oklch(0.573 0 0);
   --inactive-foreground: oklch(0.946 0 0);
+
+  /* Task-status family (elegant) — same five hue families as Brutal, pointing
+     at the matching semantic family so the two themes read as the SAME colour
+     direction: todo=orange(warning), in-progress=blue(info), in-review=purple
+     (the only NEW family, taken from the brutal purple ladder), done=green
+     (success), closed=neutral(inactive). */
+  --task-status-todo: var(--warning);
+  --task-status-todo-soft: var(--warning-soft);
+  /* Lightest L that still clears 4.5:1 on the soft wash, so it stays a vivid
+     ORANGE (a deeper L read as error-red). */
+  --task-status-todo-strong: oklch(0.54 0.2 44);
+  --task-status-in-progress: var(--info);
+  --task-status-in-progress-soft: var(--info-soft);
+  --task-status-in-progress-strong: var(--info-strong);
+  --task-status-in-review: var(--color-brutal-purple-600);
+  --task-status-in-review-soft: var(--color-brutal-purple-200);
+  --task-status-in-review-strong: var(--color-brutal-purple-800);
+  --task-status-done: var(--success);
+  --task-status-done-soft: var(--success-soft);
+  --task-status-done-strong: var(--success-strong);
+  --task-status-closed: var(--inactive);
+  --task-status-closed-soft: var(--fill-muted, var(--ink-8));
+  /* Closed is the LEAST prominent state — muted neutral ink, never the strong
+     near-black foreground. */
+  --task-status-closed-strong: var(--foreground-disabled);
 
   --primary-strong: oklch(0.44 0.09 91.39);
   --primary-soft: oklch(0.955 0.067 93.62);
@@ -462,6 +511,28 @@
   --inactive: oklch(0.65 0.004 106.42);
   --inactive-foreground: oklch(0.145 0.002 106.42);
 
+  /* Task-status family (elegant dark) — mirror the light block on the dark
+     ladders; in-review stays on the brutal purple ladder so all three scopes
+     agree on the purple family. */
+  --task-status-todo: var(--warning);
+  --task-status-todo-soft: var(--warning-soft);
+  --task-status-todo-strong: var(--warning-strong);
+  --task-status-in-progress: var(--info);
+  --task-status-in-progress-soft: var(--info-soft);
+  --task-status-in-progress-strong: var(--info-strong);
+  --task-status-in-review: var(--color-brutal-purple-500);
+  /* A translucent purple wash like the other four dark softs (an opaque
+     purple-800 read as one heavy solid block against them). */
+  --task-status-in-review-soft: oklch(0.5 0.12 294 / 0.24);
+  --task-status-in-review-strong: var(--color-brutal-purple-300);
+  --task-status-done: var(--success);
+  --task-status-done-soft: var(--success-soft);
+  --task-status-done-strong: var(--success-strong);
+  --task-status-closed: var(--inactive);
+  --task-status-closed-soft: var(--fill-muted, var(--ink-8));
+  /* Closed is the LEAST prominent state — muted neutral ink. */
+  --task-status-closed-strong: var(--foreground-disabled);
+
   --primary-strong: oklch(0.88 0.13 92);
   --primary-soft: oklch(0.55 0.1 92 / 0.16);
   --primary-edge: oklch(0.88 0.15 92 / 0.4);
@@ -560,6 +631,24 @@
 
     --inactive: oklch(0.65 0.004 106.42);
     --inactive-foreground: oklch(0.145 0.002 106.42);
+
+    /* Task-status family (elegant dark, pre-hydration system fallback) — kept
+       mechanically identical to the explicit dark block above. */
+    --task-status-todo: var(--warning);
+    --task-status-todo-soft: var(--warning-soft);
+    --task-status-todo-strong: var(--warning-strong);
+    --task-status-in-progress: var(--info);
+    --task-status-in-progress-soft: var(--info-soft);
+    --task-status-in-progress-strong: var(--info-strong);
+    --task-status-in-review: var(--color-brutal-purple-500);
+    --task-status-in-review-soft: oklch(0.5 0.12 294 / 0.24);
+    --task-status-in-review-strong: var(--color-brutal-purple-300);
+    --task-status-done: var(--success);
+    --task-status-done-soft: var(--success-soft);
+    --task-status-done-strong: var(--success-strong);
+    --task-status-closed: var(--inactive);
+    --task-status-closed-soft: var(--fill-muted, var(--ink-8));
+    --task-status-closed-strong: var(--foreground-disabled);
 
     --primary-strong: oklch(0.88 0.13 92);
     --primary-soft: oklch(0.55 0.1 92 / 0.16);

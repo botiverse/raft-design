@@ -1,178 +1,84 @@
-import type { ReactNode, SVGProps } from "react";
+import { Ban, CheckCircle, Circle, Eye, Play } from "lucide-react";
+import type { ComponentType, CSSProperties, SVGProps } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { TaskStatusId } from "./task-status.recipe";
 
 type TaskStatusSvgProps = SVGProps<SVGSVGElement>;
-type TaskStatusIconComponent = (props: TaskStatusSvgProps) => ReactNode;
+type TaskStatusIconComponent = ComponentType<TaskStatusSvgProps>;
 
-const TASK_STATUS_ICON_COLORS: Partial<Record<TaskStatusId, string>> = {
-  todo: "var(--foreground-placeholder)",
-  "in-progress": "oklch(0.8 0.19 88.97)",
-  "in-review": "oklch(0.72 0.16 58)",
-  done: "var(--success)",
-  closed: "var(--inactive)",
-};
-
-function TodoIcon(props: TaskStatusSvgProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="1.2 1.2 21.6 21.6"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-    </svg>
-  );
-}
-
-function InProgressIcon(props: TaskStatusSvgProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="1.2 1.2 21.6 21.6"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-      <path d="M12 3v18" />
-      <path d="M12 14l7 -7" />
-      <path d="M12 19l8.5 -8.5" />
-      <path d="M12 9l4.5 -4.5" />
-    </svg>
-  );
-}
-
-function InReviewIcon(props: TaskStatusSvgProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="1.2 1.2 21.6 21.6"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-    </svg>
-  );
-}
-
-function DoneIcon(props: TaskStatusSvgProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="1.2 1.2 21.6 21.6"
-      fill="currentColor"
-      {...props}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336z" />
-      <path
-        d="m8.5 12 2.5 2.5 4.5 -5"
-        fill="none"
-        stroke="var(--foreground-inverse)"
-        strokeWidth={2.25}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ClosedIcon(props: TaskStatusSvgProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={24}
-      height={24}
-      viewBox="1.2 1.2 21.6 21.6"
-      fill="currentColor"
-      {...props}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336z" />
-      <path
-        d="m8.5 8.5 7 7m0 -7 -7 7"
-        fill="none"
-        stroke="var(--foreground-inverse)"
-        strokeWidth={2.25}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
+/**
+ * Raft's task-status icons are the app's familiar lucide set (the same glyphs
+ * Slock used before the status colours moved into the token family). Colours
+ * come from the shared `--task-status-*` tokens, never from a per-status SVG, so
+ * the glyph and its surface can't drift apart. Lucide is already a dependency.
+ */
 const TASK_STATUS_ICONS: Record<TaskStatusId, TaskStatusIconComponent> = {
-  todo: TodoIcon,
-  "in-progress": InProgressIcon,
-  "in-review": InReviewIcon,
-  done: DoneIcon,
-  closed: ClosedIcon,
+  todo: Circle,
+  "in-progress": Play,
+  "in-review": Eye,
+  done: CheckCircle,
+  closed: Ban,
 };
 
-function TaskStatusIconRoot({ status, className }: { status: TaskStatusId; className?: string }) {
+/** Icon ink reads the SAME task-status tokens as the chip/badge/dot, so a
+ *  status's icon colour can never drift from its surface colour. Brutal paints
+ *  the icon with `currentColor` (it inherits the solid pastel badge text).
+ *  Hoisted to a module-level table so the style object is stable across renders
+ *  (an inline object literal would be re-created every render). */
+const TASK_STATUS_ICON_STYLE: Record<TaskStatusId, CSSProperties> = {
+  todo: { color: "var(--task-status-todo-strong)" },
+  "in-progress": { color: "var(--task-status-in-progress-strong)" },
+  "in-review": { color: "var(--task-status-in-review-strong)" },
+  done: { color: "var(--task-status-done-strong)" },
+  closed: { color: "var(--task-status-closed-strong)" },
+};
+
+function TaskStatusIconRoot({
+  status,
+  className,
+  ...props
+}: { status: TaskStatusId; className?: string } & SVGProps<SVGSVGElement>) {
   const theme = useThemeFamily();
   const Icon = TASK_STATUS_ICONS[status];
   return (
     <Icon
       aria-hidden
       data-slot="task-status-icon"
+      data-status={status}
       className={className}
-      color={theme === "brutal" ? "currentColor" : TASK_STATUS_ICON_COLORS[status]}
+      // `currentColor` resolves from the CSS `color`; set it via style (the
+      // SVG `color` attribute is not a CSS property and lucide's stroke would
+      // fall back to black).
+      style={theme === "brutal" ? undefined : TASK_STATUS_ICON_STYLE[status]}
+      {...props}
     />
   );
 }
 
-export function TaskTodoIcon(props: { className?: string }) {
+export function TaskTodoIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="todo" {...props} />;
 }
 
-export function TaskInProgressIcon(props: { className?: string }) {
+export function TaskInProgressIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="in-progress" {...props} />;
 }
 
-export function TaskInReviewIcon(props: { className?: string }) {
+export function TaskInReviewIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="in-review" {...props} />;
 }
 
-export function TaskDoneIcon(props: { className?: string }) {
+export function TaskDoneIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="done" {...props} />;
 }
 
-export function TaskClosedIcon(props: { className?: string }) {
+export function TaskClosedIcon(props: SVGProps<SVGSVGElement>) {
   return <TaskStatusIconRoot status="closed" {...props} />;
 }
 
 export function TaskStatusIcon({
   status,
   className,
-}: {
-  status: TaskStatusId;
-  className?: string;
-}) {
-  return <TaskStatusIconRoot status={status} className={className} />;
+  ...props
+}: { status: TaskStatusId; className?: string } & SVGProps<SVGSVGElement>) {
+  return <TaskStatusIconRoot status={status} className={className} {...props} />;
 }
