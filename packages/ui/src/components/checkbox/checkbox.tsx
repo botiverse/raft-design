@@ -42,7 +42,7 @@ const checkbox = tv({
         root: [
           "group/checkbox rounded-[3px] focus:outline-none",
           "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_2px_2px_-1px_oklch(0_0_0/0.04),0_4px_4px_-2px_oklch(0_0_0/0.02),0_0_0_1px_var(--line-muted)]",
-          "dark:not-data-checked:not-data-indeterminate:shadow-[inset_0_1px_1.5px_oklch(0_0_0/0.3),0_0_0_1px_oklch(0_0_0/0.4),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
+          "dark:not-data-checked:not-data-indeterminate:shadow-[inset_0_1px_1.5px_oklch(0_0_0/0.3),0_0_0_1px_var(--line-field),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
           "transition-[box-shadow,transform] duration-100 ease-out motion-reduce:transition-none",
           "active:scale-[0.96] data-disabled:active:scale-100 motion-reduce:active:scale-100",
         ],
