@@ -76,6 +76,41 @@ it("a row centers each title's first line on its marker", async () => {
   });
 });
 
+it("a row's connector follows the title and runs on to the next marker, however wide the description", async () => {
+  await withViewport(1280, () => {
+    for (const width of [640, 1100]) {
+      for (const theme of ["brutal", "elegant"] as const) {
+        render(
+          <div style={{ width }}>
+            <FourSteps theme={theme} />
+          </div>,
+        );
+        for (const [from, to, title] of [
+          ["step-1", "step-2", "Create"],
+          ["step-2", "step-3", "Configure"],
+          ["step-3", "step-4", "Share"],
+        ] as const) {
+          const marker = indicator(from).getBoundingClientRect();
+          const next = indicator(to).getBoundingClientRect();
+          const titleRect = screen.getByText(title).getBoundingClientRect();
+          const connector = screen
+            .getByTestId(from)
+            .querySelector(".r-step__connector")!
+            .getBoundingClientRect();
+          expect(connector.left - titleRect.right).toBeLessThanOrEqual(12.5);
+          expect(next.left - connector.right).toBeLessThanOrEqual(12.5);
+          // Longer than the description's overhang would leave it beside the whole text.
+          expect(connector.width).toBeGreaterThan(48);
+          expect(
+            Math.abs(connector.top + connector.height / 2 - (marker.top + marker.height / 2)),
+          ).toBeLessThanOrEqual(1);
+        }
+        cleanup();
+      }
+    }
+  });
+});
+
 it("a row fits a 375px phone screen without overflowing", async () => {
   await withViewport(375, () => {
     for (const theme of ["brutal", "elegant"] as const) {

@@ -307,21 +307,49 @@
   display: none;
 }
 
-/* A row: steps share the width, each followed by a connector across to the
-   next; the last only takes its own width. */
+/* A row, laid out as naive-ui does: the title sits beside its marker and the
+   connector follows the title on the same line, running on to the next
+   step's marker; the description goes on the line below, under the title
+   and the connector, so a long description never shortens the connector.
+   The steps share the width; the last only takes its own. */
 .r-steps--horizontal > .r-step {
-  align-items: flex-start;
+  align-content: start;
+  display: grid;
   flex: 1 1 0;
+  grid-template-columns: var(--r-steps-indicator-size) auto minmax(
+      var(--r-steps-connector-min-width),
+      1fr
+    );
 
   &:last-child {
     flex: none;
+    grid-template-columns: var(--r-steps-indicator-size) auto;
+  }
+  & > .r-step__main,
+  & > .r-step__main > .r-step__content {
+    display: contents;
+  }
+  & > .r-step__main > .r-step__indicator {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  & > .r-step__main > .r-step__content > .r-step__title {
+    align-self: center;
+    grid-column: 2;
+    grid-row: 1;
+    margin-inline-start: var(--r-steps-gap);
+  }
+  & > .r-step__main > .r-step__content > .r-step__description {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    margin-inline-start: var(--r-steps-gap);
   }
   & > .r-step__connector {
+    align-self: center;
     border-top-width: var(--r-steps-connector-width);
-    flex: 1 1 auto;
+    grid-column: 3;
+    grid-row: 1;
     margin-inline: var(--r-steps-connector-gap);
-    margin-top: calc((var(--r-steps-indicator-size) - var(--r-steps-connector-width)) / 2);
-    min-width: var(--r-steps-connector-min-width);
   }
 }
 
@@ -332,25 +360,22 @@
   .r-steps--horizontal > .r-step {
     --r-steps-connector-gap: 6px;
     --r-steps-connector-min-width: 8px;
-    display: grid;
-    flex: 1 1 0;
     grid-template-columns: var(--r-steps-indicator-size) minmax(0, 1fr);
 
     &:last-child {
       flex: 1 1 0;
-    }
-    & > .r-step__main {
-      display: contents;
-    }
-    & > .r-step__main > .r-step__indicator {
-      grid-column: 1;
-      grid-row: 1;
+      grid-template-columns: var(--r-steps-indicator-size) minmax(0, 1fr);
     }
     & > .r-step__main > .r-step__content {
+      display: block;
       grid-column: 1 / -1;
       grid-row: 2;
       padding-inline-end: var(--r-steps-connector-gap);
       padding-top: 6px;
+    }
+    & > .r-step__main > .r-step__content > .r-step__title,
+    & > .r-step__main > .r-step__content > .r-step__description {
+      margin-inline-start: 0;
     }
     & > .r-step__main > .r-step__content > .r-step__title {
       overflow-wrap: anywhere;
@@ -358,7 +383,6 @@
     }
     & > .r-step__connector {
       grid-column: 2;
-      grid-row: 1;
     }
   }
 }
