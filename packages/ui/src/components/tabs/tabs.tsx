@@ -76,14 +76,7 @@ const tabs = tv({
       theme: "brutal",
       placement: ["top", "bottom"],
       class: {
-        list: [
-          // The first tab carries the 22px inset in both panels — the chat
-          // strip and the agent-details strip — from one source (the
-          // conversation panel used to own this rule alone).
-          "[&>[data-slot=tabs-tab]:first-child]:pl-[22px]",
-          "overflow-x-auto",
-          "data-[sorting=true]:overflow-x-hidden",
-        ],
+        list: ["overflow-x-auto", "data-[sorting=true]:overflow-x-hidden"],
         tab: ["[&+&]:before:inset-y-0 [&+&]:before:left-0 [&+&]:before:w-0.5"],
       },
     },
@@ -121,7 +114,10 @@ const tabs = tv({
           "data-disabled:pointer-events-none data-disabled:opacity-40",
         ],
         indicator: [
-          "absolute z-10 bg-foreground",
+          // The activity colour (cindyz 2026-10-09): yellow on every elegant
+          // underline strip — the chat panel, the agent-details strip and the
+          // docs alike read it from here; panels do not repaint it.
+          "absolute z-10 bg-primary-400",
           "duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
         ],
       },
@@ -170,13 +166,15 @@ const tabs = tv({
       theme: "elegant",
       variant: "underline",
       placement: "top",
-      class: { list: "border-b", background: "top-0", tab: "pb-3 pt-3.5", indicator: "bottom-0" },
+      // No static hairline: the elegant strip reads the bar alone (cindyz
+      // 2026-10-09, "yellow, no line"); panels do not suppress a line anymore.
+      class: { background: "top-0", tab: "pb-3 pt-3.5", indicator: "bottom-0" },
     },
     {
       theme: "elegant",
       variant: "underline",
       placement: "bottom",
-      class: { list: "border-t", background: "bottom-0", tab: "pb-3.5 pt-3", indicator: "top-0" },
+      class: { background: "bottom-0", tab: "pb-3.5 pt-3", indicator: "top-0" },
     },
     {
       theme: "elegant",

@@ -7,11 +7,14 @@ import { MessageReplies, MessageRepliesSummary } from "./message-replies";
 
 /**
  * Rendered-position contract for the replies surface (2026-10-09): its right
- * edge lands on the border-box edge of the message row — the same line as the
- * hover block and the input column. Class-level assertions could not catch the
- * original defect (w-full + a negative right margin is dropped as
- * over-constrained and measured 20 instead of 12 on the real page), so this
- * spec measures the boxes themselves.
+ * edge stays on the message text line — the content edge of the row, 20 from
+ * the panel edge — the same line the hover block's inner content keeps.
+ *
+ * Class-level assertions could not catch the original defect (w-full + a
+ * negative right margin is dropped as over-constrained and measured the text
+ * line, not the block edge), so this spec measures the boxes themselves. It
+ * also pins the decision: cindyz kept the replies on the text line (#4), so
+ * a future "bleed" attempt fails here until the decision changes.
  *
  * Browser-mode only (jsdom has no layout). Run with `vp test --browser.enabled`
  * — the repo's browser suite runs in the Josh/gzj flow, not in node CI.
@@ -25,7 +28,9 @@ function Row({ theme }: { theme: "brutal" | "elegant" }) {
       <div style={{ width: "560px" }}>
         <MessageItem data-testid="row">
           <MessageItemContent>
-            <div style={{ fontSize: "14px", lineHeight: "20px" }}>Message body</div>
+            <div data-testid="body" style={{ fontSize: "14px", lineHeight: "20px" }}>
+              Message body
+            </div>
             <MessageReplies data-testid="replies">
               <MessageRepliesSummary>
                 <strong>2 replies</strong>
@@ -41,10 +46,10 @@ function Row({ theme }: { theme: "brutal" | "elegant" }) {
 }
 
 for (const theme of ["brutal", "elegant"] as const) {
-  it(`the replies surface right edge lands on the row border-box edge — ${theme}`, () => {
+  it(`the replies surface right edge stays on the text line — ${theme}`, () => {
     render(<Row theme={theme} />);
-    const row = screen.getByTestId("row").getBoundingClientRect();
+    const body = screen.getByTestId("body").getBoundingClientRect();
     const replies = screen.getByTestId("replies").getBoundingClientRect();
-    expect(Math.abs(replies.right - row.right)).toBeLessThanOrEqual(1);
+    expect(Math.abs(replies.right - body.right)).toBeLessThanOrEqual(1);
   });
 }
