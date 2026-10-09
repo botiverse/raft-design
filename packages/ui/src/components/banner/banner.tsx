@@ -26,29 +26,35 @@ const banner = tv({
           "[&:has(>svg):has(>[data-slot=banner-action])]:grid-cols-[18px_minmax(0,1fr)_auto]",
           "[&:has(>[data-slot=status]):has(>[data-slot=banner-action])]:grid-cols-[auto_minmax(0,1fr)_auto]",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:items-start",
+          // Lead-part presence drives the text/action columns and the
+          // description row; mirrored into variables the parts read instead of
+          // ancestor :has() rules styling descendants (#133).
+          "has-[>svg]:[--banner-text-col:2] has-[>svg]:[--banner-action-col:3]",
+          "has-[>[data-slot=status]]:[--banner-text-col:2] has-[>[data-slot=status]]:[--banner-action-col:3]",
+          "has-[>[data-slot=banner-title]]:[--banner-desc-row:2]",
           "[&>svg]:size-4.5 [&>svg]:self-center [&>svg]:text-foreground",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:row-span-2",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:mt-0.5",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:self-start",
-          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:*:data-[slot=status]:row-span-2",
+          // Status spans the text rows unconditionally: with a single text row
+          // the spanned implicit row is empty, so the render matches the old
+          // conditional (flagged for the browser diff on the PR).
+          "*:data-[slot=status]:row-span-2",
         ],
         title: [
-          "col-start-1 row-start-1 mb-0.5 text-sm font-bold",
-          "group-has-[>svg]/banner:col-start-2",
-          "group-has-[>[data-slot=status]]/banner:col-start-2",
+          "row-start-1 mb-0.5 text-sm font-bold",
+          "col-start-(--banner-text-col,1)",
           "group-data-[size=sm]/banner:text-xs",
         ],
         description: [
-          "col-start-1 row-start-1 text-sm leading-5 text-foreground",
-          "group-has-[>svg]/banner:col-start-2",
-          "group-has-[>[data-slot=status]]/banner:col-start-2",
-          "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
+          "text-sm leading-5 text-foreground",
+          "col-start-(--banner-text-col,1)",
+          "row-start-(--banner-desc-row,1)",
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
         ],
         action: [
-          "col-start-2 row-start-1 flex items-center",
-          "group-has-[>svg]/banner:col-start-3",
-          "group-has-[>[data-slot=status]]/banner:col-start-3",
+          "row-start-1 flex items-center",
+          "col-start-(--banner-action-col,2)",
           // Row-spans the action across the title/description rows. Sibling
           // selectors from the composed parts replace the old ancestor `:has()`
           // that styled this descendant: Chromium recalculates the whole page
@@ -56,11 +62,9 @@ const banner = tv({
           // for parity with the old orderless condition; the action must be a
           // direct child after the text parts.
           "[[data-slot=banner-title]~[data-slot=banner-description]~&]:row-span-2 [[data-slot=banner-description]~[data-slot=banner-title]~&]:row-span-2",
-          "@max-[24rem]:col-start-1 @max-[24rem]:-col-end-1",
+          "@max-[24rem]:[--banner-action-col:1] @max-[24rem]:-col-end-1",
           "@max-[24rem]:row-start-auto @max-[24rem]:justify-self-end",
           "@max-[24rem]:mt-2",
-          "group-has-[>svg]/banner:@max-[24rem]:col-start-1",
-          "group-has-[>[data-slot=status]]/banner:@max-[24rem]:col-start-1",
         ],
       },
       elegant: {
@@ -76,37 +80,37 @@ const banner = tv({
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:grid-rows-[auto_auto]",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:gap-y-1",
           "[&>svg]:row-start-1 [&>svg]:size-4 [&>svg]:self-center",
+          // See the brutal block above: lead parts drive column/row placement
+          // through variables the parts read (#133).
+          "has-[>svg]:[--banner-text-col:2] has-[>svg]:[--banner-action-col:3]",
+          "has-[>[data-slot=status]]:[--banner-text-col:2] has-[>[data-slot=status]]:[--banner-action-col:3]",
+          "has-[>[data-slot=banner-title]]:[--banner-desc-row:2]",
         ],
         title: [
-          "col-start-1 row-start-1 flex min-h-5 items-center text-[13.5px] font-medium leading-5",
-          "group-has-[>svg]/banner:col-start-2",
-          "group-has-[>[data-slot=status]]/banner:col-start-2",
+          "row-start-1 flex min-h-5 items-center text-[13.5px] font-medium leading-5",
+          "col-start-(--banner-text-col,1)",
           "group-data-[size=sm]/banner:min-h-4 group-data-[size=sm]/banner:text-[13px] group-data-[size=sm]/banner:leading-4",
           "group-data-[size=lg]/banner:min-h-6 group-data-[size=lg]/banner:text-[14.5px] group-data-[size=lg]/banner:leading-6",
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)] dark:group-data-[status=warning]/banner:text-[oklch(0.82_0.12_61.907)]",
         ],
         description: [
-          "col-start-1 row-start-1 leading-4 text-foreground-muted",
-          "group-has-[>svg]/banner:col-start-2",
-          "group-has-[>[data-slot=status]]/banner:col-start-2",
-          "group-has-[>[data-slot=banner-title]]/banner:row-start-2",
+          "leading-4 text-foreground-muted",
+          "col-start-(--banner-text-col,1)",
+          "row-start-(--banner-desc-row,1)",
           "group-data-[size=sm]/banner:text-xs group-data-[size=sm]/banner:leading-4",
           "group-data-[size=lg]/banner:text-sm group-data-[size=lg]/banner:leading-5",
           "group-data-[status=warning]/banner:text-[oklch(0.476_0.114_61.907)] dark:group-data-[status=warning]/banner:text-[oklch(0.82_0.12_61.907)]",
           "group-data-[status=warning]/banner:[&_button]:text-current",
         ],
         action: [
-          "col-start-2 row-start-1 flex min-h-5 items-center gap-2",
-          "group-has-[>svg]/banner:col-start-3",
-          "group-has-[>[data-slot=status]]/banner:col-start-3",
+          "row-start-1 flex min-h-5 items-center gap-2",
+          "col-start-(--banner-action-col,2)",
           // Same row-span condition as the brutal slot's sibling selector, with
           // title/description required to be adjacent (as before).
           "[[data-slot=banner-title]+[data-slot=banner-description]~&]:row-span-2",
-          "@max-[24rem]:col-start-1 @max-[24rem]:-col-end-1",
+          "@max-[24rem]:[--banner-action-col:1] @max-[24rem]:-col-end-1",
           "@max-[24rem]:row-start-auto @max-[24rem]:row-span-1",
           "@max-[24rem]:justify-self-end @max-[24rem]:mt-1",
-          "group-has-[>svg]/banner:@max-[24rem]:col-start-1",
-          "group-has-[>[data-slot=status]]/banner:@max-[24rem]:col-start-1",
           "[&>button:has(svg):last-child]:size-5 [&>button:has(svg):last-child]:min-h-5 [&>button:has(svg):last-child]:min-w-5",
           "[&>button:has(svg):last-child]:rounded-sm",
           "[&>button:has(svg):last-child]:border-transparent [&>button:has(svg):last-child]:bg-transparent [&>button:has(svg):last-child]:shadow-none",
