@@ -47,8 +47,10 @@ const inputGroup = tv({
         root: [
           // Focus/disabled state of the control flows to the addon/text parts
           // as variables the root sets on itself (self-:has), not as ancestor
-          // :has() rules styling descendants (#133).
-          "[--ig-addon-fg:var(--foreground-muted)] [--ig-text-fg:var(--foreground-placeholder)]",
+          // :has() rules styling descendants (#133). Consumption falls back to
+          // per-part defaults, so the container variant below does not need a
+          // second, unprefixed color class (which the class merge would keep
+          // over the variable read — found in review).
           "has-[[data-slot=input-group-control]:focus]:[--ig-addon-fg:var(--foreground-strong)]",
           "has-[[data-slot=input-group-control]:focus]:[--ig-text-fg:var(--foreground-muted)]",
           "has-[[data-slot=input-group-control]:disabled]:[--ig-addon-fg:var(--foreground-disabled)]",
@@ -68,8 +70,12 @@ const inputGroup = tv({
           "has-[[data-slot=input-group-control]:disabled]:hover:border-line-muted/60",
           "has-[[data-slot=input-group-control][data-invalid]:disabled]:border-line-muted/60 has-[[data-slot=input-group-control][data-invalid]:disabled]:ring-0",
         ],
-        addon: ["text-(--ig-addon-fg) transition duration-200 ease-out"],
-        text: ["text-(--ig-text-fg) transition duration-200 ease-out"],
+        addon: [
+          "text-(--ig-addon-fg,var(--ig-addon-fg-default,var(--foreground-muted))) transition duration-200 ease-out",
+        ],
+        text: [
+          "text-(--ig-text-fg,var(--ig-text-fg-default,var(--foreground-placeholder))) transition duration-200 ease-out",
+        ],
         control: [
           "text-foreground placeholder:text-foreground-placeholder/70 dark:text-foreground-strong",
           "transition duration-200 ease-out placeholder:transition placeholder:duration-200 placeholder:ease-out",
@@ -87,12 +93,14 @@ const inputGroup = tv({
         addon: [
           "self-stretch border-line-muted/90 bg-fill-muted/35",
           "dark:border-ink-6 dark:bg-layer-card/60",
-          "text-foreground-placeholder",
+          // A default for the color variable, not a color class: two unprefixed
+          // color classes would merge and drop the variable read (review).
+          "[--ig-addon-fg-default:var(--foreground-placeholder)]",
         ],
         text: [
           "self-stretch border-line-muted/90 bg-fill-muted/35",
           "dark:border-ink-6 dark:bg-layer-card/60",
-          "text-foreground-placeholder",
+          "[--ig-text-fg-default:var(--foreground-placeholder)]",
         ],
       },
     },

@@ -14,6 +14,7 @@ import type {
   CSSProperties,
   ReactElement,
   ReactNode,
+  Ref,
 } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
 import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
@@ -582,7 +583,9 @@ export function ToastRoot({
   );
 }
 
-export type ToastContentProps = StyledProps<BaseToast.Content.Props>;
+export type ToastContentProps = StyledProps<BaseToast.Content.Props> & {
+  ref?: Ref<HTMLDivElement>;
+};
 
 /**
  * The content layout (self-start, title-only sizing, body centering) needs to
@@ -594,15 +597,29 @@ export type ToastContentProps = StyledProps<BaseToast.Content.Props>;
  * The three attributes are not React-managed props: the layout effect toggles
  * them on this element directly (an attribute write on the component's own
  * node, not a structural change, so it stays outside the #133 invalidation
- * pattern).
+ * pattern). The measurement re-runs whenever this component renders; the
+ * default item rebuilds the content on every toast update, and a hand-written
+ * composition that flips a part without re-rendering ToastContent is not
+ * observed.
  */
-export function ToastContent({ children, className, ...props }: ToastContentProps) {
+export function ToastContent({ children, className, ref, ...props }: ToastContentProps) {
   const theme = useThemeFamily();
   const { content } = toastStyles({ theme });
-  const ref = useRef<HTMLDivElement>(null);
+  const internalRef = useRef<HTMLDivElement>(null);
+
+  // Merge the caller's ref with ours; the measurement needs the node, and a
+  // caller ref must not displace it.
+  const setRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      internalRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    },
+    [ref],
+  );
 
   useLayoutEffect(() => {
-    const el = ref.current;
+    const el = internalRef.current;
     if (!el) return;
     const slots: Array<[attribute: string, selector: string]> = [
       ["data-has-icon", '[data-slot="toast-icon"]'],
@@ -619,7 +636,7 @@ export function ToastContent({ children, className, ...props }: ToastContentProp
 
   return (
     <BaseToast.Content
-      ref={ref}
+      ref={setRef}
       data-slot="toast-content"
       className={content({ className })}
       {...props}
