@@ -38,7 +38,11 @@ export const messageItem = tv({
     theme: {
       brutal: {
         root: [
-          "mx-3 mb-1 mt-1.5 border-2 border-transparent px-1.5 py-1",
+          // No horizontal margin: the app shell outside the row supplies the
+          // 12px inset (task #44 keep-12 alignment, 2026-10-09); with the row's
+          // 6px padding + 2px border the avatar and text sit at 20 from the
+          // panel edge in every theme and at every width.
+          "mb-1 mt-1.5 border-2 border-transparent px-1.5 py-1",
           "hover:border-line-strong hover:bg-layer-panel",
           "data-popup-open:border-line-strong data-popup-open:bg-layer-panel",
           "has-data-popup-open:border-line-strong has-data-popup-open:bg-layer-panel",
@@ -79,7 +83,10 @@ export const messageItem = tv({
       },
       elegant: {
         root: [
-          "border border-transparent max-md:gap-2 px-7 pt-3.5 pb-3 max-md:px-4 max-md:pt-2 max-md:pb-1.5",
+          // 7px + the 1px transparent border = the 8px the alignment needs;
+          // with the app shell's 12px inset the avatar and text lines land at
+          // 20 / 68 (keep-12 rule, 2026-10-09).
+          "border border-transparent max-md:gap-2 px-[7px] pt-3.5 pb-3 max-md:pt-2 max-md:pb-1.5",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-ink-2 data-popup-open:bg-ink-2 has-data-popup-open:bg-ink-2",
           "hover:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",

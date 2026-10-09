@@ -125,7 +125,11 @@ const tabs = tv({
       placement: ["top", "bottom"],
       class: {
         list: [
-          "h-12 items-center px-4",
+          // The 20px inset puts the bar (the tab box) on the alignment's box
+          // line and the first icon at 32 (20 + the tab's symmetric 12) —
+          // the elegant tab rule, shared by every underline strip (the
+          // conversation tabs and the agent-details strip alike).
+          "h-12 items-center px-4 md:px-5",
           "overflow-x-auto overflow-y-hidden",
           "data-[sorting=true]:overflow-x-hidden",
         ],
