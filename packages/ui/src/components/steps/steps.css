@@ -94,15 +94,14 @@
     --r-steps-focus-outline: 2px solid color-mix(in oklch, var(--primary-400) 80%, transparent);
     --r-steps-duration: 200ms;
 
-    --r-steps-indicator-color-wait: var(--task-status-closed-soft);
+    /* Waiting, as in naive-ui: no fill, ring, number and title all in the
+       disabled grey (the Closed ink). */
+    --r-steps-indicator-color-wait: transparent;
     --r-steps-indicator-color-process: var(--task-status-in-progress-soft);
     --r-steps-indicator-color-finish: var(--task-status-done-soft);
     --r-steps-indicator-color-error: var(--danger-soft);
-    --r-steps-indicator-border-color-wait: color-mix(
-      in oklch,
-      var(--task-status-closed-strong) 35%,
-      transparent
-    );
+    --r-steps-indicator-border-color-wait: var(--task-status-closed-strong);
+    --r-steps-title-color-wait: var(--task-status-closed-strong);
     --r-steps-indicator-border-color-process: var(--task-status-in-progress-strong);
     --r-steps-indicator-border-color-finish: color-mix(
       in oklch,
