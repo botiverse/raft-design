@@ -41,7 +41,8 @@ export const composerAttachment = tv({
     ],
     attachmentUploadProgressBarIndicator: ["block h-full"],
     attachmentFailedOverlay: [
-      "absolute inset-0 z-10 flex flex-col items-center justify-center border-2 px-1",
+      "absolute inset-0 z-10 flex flex-col items-center justify-center px-1",
+      "[border-width:var(--ca-overlay-border,2px)]",
       "text-center text-[10px] font-bold leading-3",
     ],
     attachmentRemove: [
@@ -72,7 +73,10 @@ export const composerAttachment = tv({
           "has-[[data-slot=composer-attachment-image]]:size-16",
           "has-data-[slot=composer-attachment-image]:border-2",
           "has-data-[slot=composer-attachment-image]:border-black",
-          "has-data-[slot=composer-attachment-image]:**:data-[slot=composer-attachment-failed-overlay]:border-0",
+          // Mirrors “has an image part” into a variable the failed overlay
+          // reads, instead of styling a descendant from an ancestor :has()
+          // (a whole-page recalc trap, #133).
+          "has-data-[slot=composer-attachment-image]:[--ca-overlay-border:0px]",
         ],
         attachmentFile: "items-center border-black bg-white [&_svg]:text-black/70",
         attachmentImage: "size-full image-transparency-bg",
@@ -88,6 +92,7 @@ export const composerAttachment = tv({
         attachments: ["pt-0.5", "has-[[data-slot=composer-attachments-scroll-area]]:-mx-1"],
         attachmentsViewport: "px-1",
         attachmentsNav: "rounded-full shadow-raft-md",
+        attachment: "[--ca-overlay-border:0px]",
         attachmentFile: [
           "items-start gap-3 overflow-hidden rounded-md border-0 bg-layer-panel pt-1.5 pr-2.5 pl-1.5",
           "ring-1 ring-ink-10 [&_svg]:text-foreground-icon",
@@ -101,7 +106,7 @@ export const composerAttachment = tv({
         attachmentUploadingOverlay:
           "rounded-md bg-white/85 text-foreground-strong dark:bg-layer-canvas-muted/80",
         attachmentFailedOverlay:
-          "rounded-md border-0 bg-white/85 text-danger dark:bg-layer-canvas-muted/80 dark:text-danger-strong",
+          "rounded-md bg-white/85 text-danger dark:bg-layer-canvas-muted/80 dark:text-danger-strong",
         attachmentRemove:
           "bg-foreground text-foreground-inverse outline-2 outline-solid outline-layer-panel",
       },

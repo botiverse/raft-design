@@ -7,7 +7,8 @@ import type { WithoutChildren } from "../../lib/without-children";
 const textarea = tv({
   slots: {
     root: [
-      "block w-full min-h-24 resize-y px-3 py-2",
+      "block w-full min-h-24 resize-y py-2 pl-3 pr-(--ta-pr,0.75rem)",
+      "scroll-pb-(--ta-scroll-pb,0)",
       "font-heading text-field font-field outline-none",
     ],
   },
@@ -55,8 +56,11 @@ const textareaGroup = tv({
       elegant: {
         root: [
           "relative",
-          "has-[>[data-slot=textarea-counter]]:[&>[data-slot=textarea]]:scroll-pb-6",
-          "has-[>[data-slot=textarea-counter]]:[&>[data-slot=textarea]]:pr-16",
+          // Mirrors “a counter part is rendered” into variables the textarea
+          // reads, instead of styling a child from an ancestor :has()
+          // (a whole-page recalc trap, #133).
+          "has-[>[data-slot=textarea-counter]]:[--ta-pr:4rem]",
+          "has-[>[data-slot=textarea-counter]]:[--ta-scroll-pb:1.5rem]",
           "*:data-[slot=textarea-counter]:pointer-events-none *:data-[slot=textarea-counter]:absolute",
           "[&>[data-slot=textarea-counter]]:right-3 [&>[data-slot=textarea-counter]]:bottom-2.5 *:data-[slot=textarea-counter]:z-10",
         ],
