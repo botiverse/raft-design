@@ -45,12 +45,18 @@ const toastStyles = tv({
     ],
     content: [
       "relative grid grid-cols-[minmax(0,1fr)] items-center gap-x-3 overflow-hidden",
-      "[&:has([data-slot=toast-description])_[data-slot=toast-body]]:self-start [&:has([data-slot=toast-description])_[data-slot=toast-icon]]:self-start",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-(--toast-title-only-min-h,2.25rem)",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-(--toast-title-only-min-w,7rem)",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:px-(--toast-title-only-px,0.75rem)",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-(--toast-title-only-py,0.5rem)",
-      "[&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:justify-self-center [&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:text-center",
+      // The content layout keys off `data-has-*` attributes that
+      // DefaultToastItem writes at render time, instead of `:has()`: an
+      // ancestor `:has()` that styles descendants makes Chromium recalculate
+      // the whole page on unrelated mutations (measured: ~55ms per text-node
+      // change in a 300-message channel, #133). Manual compositions must set
+      // the same attributes to keep the layout (see ToastContent).
+      "[&[data-has-description]_[data-slot=toast-body]]:self-start [&[data-has-description]_[data-slot=toast-icon]]:self-start",
+      "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:min-h-(--toast-title-only-min-h,2.25rem)",
+      "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:min-w-(--toast-title-only-min-w,7rem)",
+      "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:px-(--toast-title-only-px,0.75rem)",
+      "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:py-(--toast-title-only-py,0.5rem)",
+      "[&:not([data-has-description])>[data-slot=toast-body]:only-child]:justify-self-center [&:not([data-has-description])>[data-slot=toast-body]:only-child]:text-center",
       "transition-opacity duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "motion-reduce:transition-none",
     ],
@@ -576,6 +582,13 @@ export function ToastRoot({
 
 export type ToastContentProps = StyledProps<BaseToast.Content.Props>;
 
+/**
+ * The default toast item writes `data-has-icon` / `data-has-description` /
+ * `data-has-actions` here; the content layout keys off those attributes instead
+ * of an ancestor `:has()` (which made Chromium recalculate the whole page on
+ * unrelated mutations, #133). Manual compositions that want the default content
+ * layout must set the same attributes.
+ */
 export function ToastContent({ children, className, ...props }: ToastContentProps) {
   const theme = useThemeFamily();
   const { content } = toastStyles({ theme });
@@ -844,7 +857,12 @@ function DefaultToastItem({
       toast={toastObject}
       swipeDirection={placement.startsWith("top-") ? TOP_SWIPE_DIRECTION : undefined}
     >
-      <ToastContent className={toastObject.data?.contentClassName}>
+      <ToastContent
+        className={toastObject.data?.contentClassName}
+        data-has-description={showDescription ? "" : undefined}
+        data-has-icon={showIcon ? "" : undefined}
+        data-has-actions={showAction || showClose ? "" : undefined}
+      >
         {showIcon ? <DefaultToastIcon toast={toastObject} /> : null}
         <ToastBody>
           <ToastTitle />
