@@ -14,9 +14,16 @@ export const panelHeader = tv({
     sectionHeader: [],
     headerIcon: ["flex size-9 shrink-0 items-center justify-center", "border-2"],
     headerContent: ["min-w-0 flex-1"],
-    heading: ["flex min-w-0 items-center gap-2"],
-    title: ["truncate text-base font-bold leading-tight"],
-    meta: ["min-w-0 truncate font-mono text-xs"],
+    // The header content mirrors icon/meta presence into variables these parts
+    // read, instead of styling them (descendants) off a self-`:has()`; see the
+    // theme blocks (#133).
+    heading: ["flex min-w-0 items-center gap-2", "col-start-(--ph-text-col,auto)"],
+    title: ["truncate text-base font-bold leading-tight", "col-start-(--ph-text-col,auto)"],
+    meta: [
+      "min-w-0 truncate font-mono text-xs",
+      "col-start-(--ph-meta-col,auto)",
+      "col-end-(--ph-meta-end,auto)",
+    ],
     status: [
       "inline-flex shrink-0 items-center gap-1",
       "px-1.5 py-1 text-[11px] font-bold uppercase leading-none",
@@ -32,15 +39,18 @@ export const panelHeader = tv({
   variants: {
     theme: {
       brutal: {
-        headerIcon: "border-black bg-primary text-black",
+        headerIcon:
+          "border-black bg-primary text-black row-start-(--ph-icon-row-start,auto) row-end-(--ph-icon-row-end,auto)",
         headerContent: [
           "flex flex-col",
           "has-[>[data-slot=panel-header-icon]]:grid has-[>[data-slot=panel-header-icon]]:grid-cols-[auto_minmax(0,1fr)]",
           "has-[>[data-slot=panel-header-icon]]:items-center has-[>[data-slot=panel-header-icon]]:gap-x-3",
-          "has-[>[data-slot=panel-meta]]:*:data-[slot=panel-header-icon]:row-span-2",
-          "has-[>[data-slot=panel-header-icon]]:*:data-[slot=panel-heading]:col-start-2",
-          "has-[>[data-slot=panel-header-icon]]:*:data-[slot=panel-title]:col-start-2",
-          "has-[>[data-slot=panel-header-icon]]:*:data-[slot=panel-meta]:col-start-2",
+          // Child placement is mirrored into variables the parts read; styling
+          // descendants off a self-:has() would be a whole-page recalc trap
+          // (#133).
+          "has-[>[data-slot=panel-meta]]:[--ph-icon-row-start:span_2] has-[>[data-slot=panel-meta]]:[--ph-icon-row-end:span_2]",
+          "has-[>[data-slot=panel-header-icon]]:[--ph-text-col:2]",
+          "has-[>[data-slot=panel-header-icon]]:[--ph-meta-col:2]",
         ],
         title: "text-black",
         meta: "text-black/50",
@@ -56,7 +66,10 @@ export const panelHeader = tv({
         headerIcon: [
           "size-9 rounded-md border-0 bg-fill-muted",
           "text-foreground-icon",
-          "max-md:col-start-2 max-md:row-start-1 max-md:self-center",
+          "max-md:[grid-column-start:var(--ph-icon-col,2)]",
+          "max-md:[grid-row-start:var(--ph-icon-row-start,1)] max-md:[grid-row-end:var(--ph-icon-row-end,auto)]",
+          "max-md:self-center",
+          "md:[align-self:var(--ph-icon-self,auto)]",
         ],
         headerContent: [
           "flex flex-col md:flex-row md:items-center md:gap-2",
@@ -64,15 +77,16 @@ export const panelHeader = tv({
           "max-md:col-start-1 max-md:row-start-1 max-md:min-w-0 max-md:gap-1 max-md:self-center",
           "max-md:has-[>[data-slot=panel-header-icon]]:grid max-md:has-[>[data-slot=panel-header-icon]]:grid-cols-[auto_minmax(0,1fr)]",
           "max-md:has-[>[data-slot=panel-header-icon]]:items-center max-md:has-[>[data-slot=panel-header-icon]]:gap-x-2",
-          "max-md:has-[>[data-slot=panel-meta]]:[&>[data-slot=panel-header-icon]]:row-span-2",
-          "max-md:has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-heading]]:col-start-2",
-          "max-md:has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-title]]:col-start-2",
-          "max-md:has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-meta]]:col-span-2",
-          "max-md:has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-meta]]:col-start-1",
+          // See the brutal block above: child placement is mirrored into
+          // variables the parts read (#133).
+          "max-md:has-[>[data-slot=panel-meta]]:[--ph-icon-row-start:span_2] max-md:has-[>[data-slot=panel-meta]]:[--ph-icon-row-end:span_2]",
+          "max-md:has-[>[data-slot=panel-header-icon]]:[--ph-text-col:2]",
+          "max-md:has-[>[data-slot=panel-header-icon]]:[--ph-meta-col:1]",
+          "max-md:has-[>[data-slot=panel-header-icon]]:[--ph-meta-end:span_2]",
+          "max-md:has-[>[data-slot=panel-header-icon]]:[--ph-icon-col:1]",
           "max-md:has-[>[data-slot=panel-header-icon]]:col-start-2 max-md:has-[>[data-slot=panel-header-icon]]:col-span-2",
           "max-md:has-[>[data-slot=panel-header-icon]]:self-center",
-          "max-md:has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-header-icon]]:col-start-1",
-          "md:has-[>[data-slot=panel-header-icon]]:[&>[data-slot=panel-header-icon]]:self-center",
+          "md:has-[>[data-slot=panel-header-icon]]:[--ph-icon-self:center]",
         ],
         title: [
           "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
