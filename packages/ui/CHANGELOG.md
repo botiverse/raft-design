@@ -1,3 +1,11 @@
+## [0.5.36](https://github.com/botiverse/rui/compare/v0.5.35...v0.5.36) (2026-10-09)
+
+### Changed
+
+- Panel alignment: the elegant `PanelHeader` puts its icon box on the 20px line and the title on the 68px line (36px to 20px at `md`+, gap 8 to 12); `MessageItem` rows in both themes carry the 8px inset (7px padding + 1px border, 6px + 2px in Brutal) that lands the avatar on 20 and the text on 68 next to the 12px the app shell keeps. Brutal also drops the row's `mx-3`, taking the mobile avatar inset from 32 to 20. The thread panel uses the chat panel's figures. ([#388](https://github.com/botiverse/rui/pull/388))
+- Elegant `Tabs` underline: the bar starts on the 20px line at every width (the first icon lands at 32), and the strip has one source now — the indicator defaults to `bg-primary-400` and the placement blocks no longer draw a static hairline, so the conversation panel, the agent-details strip and the docs read the same look. Brutal underline: the conversation panel drops its asymmetric first-tab `pl-[22px]`; the strip sits at 16 and reads centred, as the agent-details strip. ([#389](https://github.com/botiverse/rui/pull/389))
+- `MessageReplies` stays on the message text line: the dead right margin is gone (a 100%-wide block drops an over-constrained `-mr-2`) and a browser spec now pins the rendered right edge, so a class-only assertion can no longer regress it silently. Run it with `vp test --browser.enabled`. ([#389](https://github.com/botiverse/rui/pull/389))
+
 ## [0.5.35](https://github.com/botiverse/rui/compare/v0.5.34...v0.5.35) (2026-10-09)
 
 ### Changed
