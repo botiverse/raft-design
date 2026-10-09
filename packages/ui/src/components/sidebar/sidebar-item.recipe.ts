@@ -16,7 +16,14 @@ export const sidebarItemRecipe = tv({
       "[&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
     ],
     sidebarItemContent: ["has-[>[data-slot=sidebar-item-meta-icon]]:items-center"],
-    sidebarItemTitle: ["block min-w-0 truncate"],
+    sidebarItemTitle: [
+      "block min-w-0 truncate",
+      // The inline row caps/shrinks the title when a subtitle follows; the
+      // content mirrors that into variables instead of styling the title (a
+      // descendant) from an ancestor :has() (#133).
+      "max-w-(--si-title-max-w,none)",
+      "shrink-(--si-title-shrink,1)",
+    ],
     sidebarItemSubtitle: ["block min-w-0 flex-1 truncate text-xs font-normal"],
     sidebarItemMeta: ["ml-auto shrink-0 font-mono text-[10px]"],
     sidebarItemStatus: ["shrink-0"],
@@ -112,8 +119,8 @@ export const sidebarItemRecipe = tv({
       false: {
         sidebarItemContent: [
           "min-w-0 flex flex-1 items-baseline gap-1 text-left",
-          "has-[>[data-slot=sidebar-item-subtitle]]:*:data-[slot=sidebar-item-title]:max-w-[70%]",
-          "has-[>[data-slot=sidebar-item-subtitle]]:*:data-[slot=sidebar-item-title]:shrink-0",
+          "has-[>[data-slot=sidebar-item-subtitle]]:[--si-title-max-w:70%]",
+          "has-[>[data-slot=sidebar-item-subtitle]]:[--si-title-shrink:0]",
         ],
       },
       true: { sidebarItemContent: ["min-w-0 flex-1 text-left"] },
