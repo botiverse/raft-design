@@ -14,9 +14,10 @@
 
 .r-steps {
   /* Default local variables (Brutal theme defaults): square markers in a 2px
-     ink outline joined by a solid ink line. The current step is a flat
-     primary fill casting the hard control shadow; finished steps a primary
-     tint with an ink check; failed steps a flat danger fill. */
+     ink outline joined by a solid ink line. Markers take the task-status
+     colors, as TaskChip does: waiting = Closed (neutral), in progress = In Progress (and
+     casts the hard control shadow), finished = Done; failed steps the red of
+     the same pastel family. Ink text on every fill. */
   --r-steps-indicator-size: 28px;
   --r-steps-indicator-font-size: 14px;
   --r-steps-icon-size: 14px;
@@ -41,19 +42,19 @@
   --r-steps-duration: 160ms;
   --r-steps-easing: ease-out;
 
-  --r-steps-indicator-color-wait: var(--layer-panel);
-  --r-steps-indicator-color-process: var(--primary-400);
-  --r-steps-indicator-color-finish: var(--primary-soft);
-  --r-steps-indicator-color-error: var(--danger);
+  --r-steps-indicator-color-wait: var(--task-status-closed);
+  --r-steps-indicator-color-process: var(--task-status-in-progress);
+  --r-steps-indicator-color-finish: var(--task-status-done);
+  --r-steps-indicator-color-error: var(--color-brutal-red-400);
   --r-steps-indicator-border-color-wait: var(--line-strong);
   --r-steps-indicator-border-color-process: var(--line-strong);
   --r-steps-indicator-border-color-finish: var(--line-strong);
   --r-steps-indicator-border-color-error: var(--line-strong);
   --r-steps-indicator-border-color-hover: var(--line-strong);
-  --r-steps-indicator-text-color-wait: var(--foreground-muted);
-  --r-steps-indicator-text-color-process: var(--primary-950);
+  --r-steps-indicator-text-color-wait: var(--foreground-strong);
+  --r-steps-indicator-text-color-process: var(--foreground-strong);
   --r-steps-indicator-text-color-finish: var(--foreground-strong);
-  --r-steps-indicator-text-color-error: var(--danger-foreground);
+  --r-steps-indicator-text-color-error: var(--foreground-strong);
   --r-steps-indicator-shadow-process: var(--theme-shadow-sm);
   --r-steps-indicator-shadow-hover: var(--theme-shadow-sm);
   --r-steps-title-color-wait: var(--foreground-muted);
@@ -71,8 +72,9 @@
     --r-steps-description-font-size: 13px;
   }
 
-  /* Theme: Elegant overrides — thin rings on a quiet hairline; the current
-     step is a solid primary disc, finished steps a primary ring with a check. */
+  /* Theme: Elegant overrides — round markers on a quiet hairline, colored
+     like the Elegant TaskChip: the status's soft wash, its strong ink and a
+     hairline of that ink at 35%. The current step's ring is the full ink. */
   &.r-steps--elegant,
   :where([data-theme="elegant"]) & {
     --r-steps-indicator-font-family: var(--font-sans);
@@ -83,21 +85,38 @@
     --r-steps-title-font-weight: 500;
     --r-steps-connector-width: 1px;
     --r-steps-connector-color: var(--line-muted);
-    --r-steps-connector-color-finish: var(--primary-edge);
+    --r-steps-connector-color-finish: color-mix(
+      in oklch,
+      var(--task-status-done-strong) 35%,
+      transparent
+    );
     --r-steps-focus-radius: 6px;
     --r-steps-focus-outline: 2px solid color-mix(in oklch, var(--primary-400) 80%, transparent);
     --r-steps-duration: 200ms;
 
+    /* Waiting, as in naive-ui: no fill, ring, number and title all in the
+       disabled grey (the Closed ink). */
     --r-steps-indicator-color-wait: transparent;
-    --r-steps-indicator-color-finish: transparent;
-    --r-steps-indicator-color-error: transparent;
-    --r-steps-indicator-border-color-wait: var(--ink-20);
-    --r-steps-indicator-border-color-process: var(--primary-400);
-    --r-steps-indicator-border-color-finish: var(--primary-strong);
-    --r-steps-indicator-border-color-error: var(--danger-strong);
-    --r-steps-indicator-border-color-hover: var(--primary-strong);
-    --r-steps-indicator-text-color-wait: var(--foreground-hint);
-    --r-steps-indicator-text-color-finish: var(--primary-strong);
+    --r-steps-indicator-color-process: var(--task-status-in-progress-soft);
+    --r-steps-indicator-color-finish: var(--task-status-done-soft);
+    --r-steps-indicator-color-error: var(--danger-soft);
+    --r-steps-indicator-border-color-wait: var(--task-status-closed-strong);
+    --r-steps-title-color-wait: var(--task-status-closed-strong);
+    --r-steps-indicator-border-color-process: var(--task-status-in-progress-strong);
+    --r-steps-indicator-border-color-finish: color-mix(
+      in oklch,
+      var(--task-status-done-strong) 35%,
+      transparent
+    );
+    --r-steps-indicator-border-color-error: color-mix(
+      in oklch,
+      var(--danger-strong) 35%,
+      transparent
+    );
+    --r-steps-indicator-border-color-hover: var(--task-status-closed-strong);
+    --r-steps-indicator-text-color-wait: var(--task-status-closed-strong);
+    --r-steps-indicator-text-color-process: var(--task-status-in-progress-strong);
+    --r-steps-indicator-text-color-finish: var(--task-status-done-strong);
     --r-steps-indicator-text-color-error: var(--danger-strong);
     --r-steps-indicator-shadow-process: none;
     --r-steps-indicator-shadow-hover: none;
