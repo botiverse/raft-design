@@ -3,7 +3,15 @@ import type { VariantProps } from "../../lib/tv";
 
 export const messageItem = tv({
   slots: {
-    root: ["group/message relative flex h-fit min-h-[3rem] gap-3"],
+    root: [
+      "group/message relative flex h-fit min-h-[3rem] gap-3",
+      // The toolbar/continuation-time affordances key off variables the root
+      // sets on itself for hover / focus-within / an open popup; the old
+      // group-has-* variants styled descendants off an ancestor :has() —
+      // a whole-page recalc trap (#133).
+      "hover:[--mi-toolbar-opacity:1] hover:[--mi-toolbar-pe:auto] focus-within:[--mi-toolbar-opacity:1] focus-within:[--mi-toolbar-pe:auto]",
+      "has-data-popup-open:[--mi-toolbar-opacity:1] has-data-popup-open:[--mi-toolbar-pe:auto]",
+    ],
     gutter: ["relative w-9 shrink-0 self-stretch"],
     avatarSlot: ["relative w-9 shrink-0 self-start"],
     continuationTime: ["absolute right-0 top-1 select-none tabular-nums"],
@@ -20,10 +28,9 @@ export const messageItem = tv({
     attachments: ["mt-1 space-y-2"],
     footer: ["mt-1.5 flex flex-wrap items-center gap-1.5"],
     toolbar: [
-      "pointer-events-none absolute z-20 flex items-center overflow-hidden opacity-0",
-      "group-hover/message:pointer-events-auto group-hover/message:opacity-100",
-      "group-focus-within/message:pointer-events-auto group-focus-within/message:opacity-100",
-      "group-has-data-popup-open/message:pointer-events-auto group-has-data-popup-open/message:opacity-100",
+      "absolute z-20 flex items-center overflow-hidden",
+      "opacity-(--mi-toolbar-opacity,0)",
+      "[pointer-events:var(--mi-toolbar-pe,none)]",
     ],
     toolbarButton: ["inline-flex shrink-0 items-center justify-center", "[&_svg]:shrink-0"],
   },
@@ -35,13 +42,14 @@ export const messageItem = tv({
           "hover:border-line-strong hover:bg-layer-panel",
           "data-popup-open:border-line-strong data-popup-open:bg-layer-panel",
           "has-data-popup-open:border-line-strong has-data-popup-open:bg-layer-panel",
+          "hover:[--mi-ct-color:color-mix(in_oklab,var(--color-black)_40%,transparent)]",
+          "has-data-popup-open:[--mi-ct-color:color-mix(in_oklab,var(--color-black)_40%,transparent)]",
           "has-data-[slot=message-item-search-match]:border-line-strong",
           "has-data-[slot=message-item-search-match]:bg-brutal-cyan/25",
           "has-data-[slot=message-item-search-match]:shadow-raft-md",
           "has-data-[slot=message-item-search-match]:hover:bg-brutal-cyan/25",
         ],
-        continuationTime:
-          "font-mono text-[10px] leading-none text-black/0 group-hover/message:text-black/40 group-has-data-popup-open/message:text-black/40",
+        continuationTime: "font-mono text-[10px] leading-none text-(--mi-ct-color,transparent)",
         // Body + pre-body chips (e.g. AttachmentCommentRefChip) inherit from content.
         // Live Slock applies the same appearance size class to the chip and the body.
         content: "text-sm",
@@ -74,6 +82,8 @@ export const messageItem = tv({
           "border border-transparent max-md:gap-2 px-7 pt-3.5 pb-3 max-md:px-4 max-md:pt-2 max-md:pb-1.5",
           "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
           "hover:bg-ink-2 data-popup-open:bg-ink-2 has-data-popup-open:bg-ink-2",
+          "hover:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
+          "has-data-popup-open:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
           "has-data-[slot=message-item-search-match]:border-transparent",
           "has-data-[slot=message-item-search-match]:bg-info/10",
           "has-data-[slot=message-item-search-match]:shadow-none",
@@ -91,7 +101,7 @@ export const messageItem = tv({
         continuationTime: [
           "top-0 pt-1.5",
           "font-sans text-xs leading-none",
-          "text-transparent group-hover/message:text-foreground-muted/60 group-has-data-popup-open/message:text-foreground-muted/60",
+          "text-(--mi-ct-color,transparent)",
         ],
         // Pre-body chips inherit body type size from content (same as brutal).
         content: "text-sm leading-5.25 tracking-[-0.01em]",
