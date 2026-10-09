@@ -13,6 +13,7 @@
  */
 import { expect, test } from "vite-plus/test";
 import { readFileSync } from "node:fs";
+import { conversationPanel } from "./components/conversation-panel/conversation-panel.recipe";
 import { messageItem } from "./components/message-item/message-item.recipe";
 import { messageReplies } from "./components/message-replies/message-replies.recipe";
 import { panelHeader } from "./components/panel/panel-header.recipe";
@@ -58,14 +59,25 @@ test("thread panel uses the chat panel's numbers (no extra indent of its own)", 
 
 test("replies surface reaches the row's border-box right edge", () => {
   const root = tokens(messageReplies({ theme: "elegant" }).root());
-  expect(root.has("-mr-2")).toBe(true);
+  // w-full pins the width at 100% and an over-constrained right margin is
+  // dropped (measured on the real page 2026-10-09), so the width itself
+  // carries the 8px; the rendered-position check lives in the browser spec
+  // (message-replies.right-edge.browser.test.tsx).
+  expect(root.has("w-[calc(100%+8px)]")).toBe(true);
+  expect(root.has("-mr-2")).toBe(false);
+  expect(root.has("w-full")).toBe(false);
 });
 
-test("conversation tabs: the elegant bar starts on the 20 line (tabs-A)", () => {
-  // The tabs recipe is module-private; assert the source token instead — the
-  // elegant underline list is where every such strip (conversation tabs, the
-  // agent-details strip) gets the 20px inset that moves the bar onto the
-  // rule and the first icon to 32.
+test("conversation tabs: the elegant bar starts on the 20 line at every width", () => {
+  // The tabs recipe is module-private; assert source tokens. The elegant
+  // underline list carries the 20px inset at all widths (desktop and the
+  // 390px shots agree), and the brutal first-tab inset now lives on the
+  // variant — one source for the chat strip and the agent-details strip.
   const source = readFileSync(new URL("./components/tabs/tabs.tsx", import.meta.url), "utf8");
-  expect(source).toContain("h-12 items-center px-4 md:px-5");
+  expect(source).toContain("h-12 items-center px-5");
+  expect(source).toContain("[&>[data-slot=tabs-tab]:first-child]:pl-[22px]");
+  const panel = tokens(conversationPanel({ theme: "brutal" }).tabs());
+  expect(panel.has("[&>[data-slot=tabs-list]>[data-slot=tabs-tab]:first-child]:pl-[22px]")).toBe(
+    false,
+  );
 });
