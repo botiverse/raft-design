@@ -31,7 +31,6 @@ const banner = tv({
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:mt-0.5",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:[&>svg]:self-start",
           "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:*:data-[slot=status]:row-span-2",
-          "has-[>[data-slot=banner-title]]:has-[>[data-slot=banner-description]]:*:data-[slot=banner-action]:row-span-2",
         ],
         title: [
           "col-start-1 row-start-1 mb-0.5 text-sm font-bold",
@@ -50,6 +49,13 @@ const banner = tv({
           "col-start-2 row-start-1 flex items-center",
           "group-has-[>svg]/banner:col-start-3",
           "group-has-[>[data-slot=status]]/banner:col-start-3",
+          // Row-spans the action across the title/description rows. Sibling
+          // selectors from the composed parts replace the old ancestor `:has()`
+          // that styled this descendant: Chromium recalculates the whole page
+          // on unrelated mutations for that shape (#133). Both orders are kept
+          // for parity with the old orderless condition; the action must be a
+          // direct child after the text parts.
+          "[[data-slot=banner-title]~[data-slot=banner-description]~&]:row-span-2 [[data-slot=banner-description]~[data-slot=banner-title]~&]:row-span-2",
           "@max-[24rem]:col-start-1 @max-[24rem]:-col-end-1",
           "@max-[24rem]:row-start-auto @max-[24rem]:justify-self-end",
           "@max-[24rem]:mt-2",
@@ -93,7 +99,9 @@ const banner = tv({
           "col-start-2 row-start-1 flex min-h-5 items-center gap-2",
           "group-has-[>svg]/banner:col-start-3",
           "group-has-[>[data-slot=status]]/banner:col-start-3",
-          "group-has-[>[data-slot=banner-title]+[data-slot=banner-description]]/banner:row-span-2",
+          // Same row-span condition as the brutal slot's sibling selector, with
+          // title/description required to be adjacent (as before).
+          "[[data-slot=banner-title]+[data-slot=banner-description]~&]:row-span-2",
           "@max-[24rem]:col-start-1 @max-[24rem]:-col-end-1",
           "@max-[24rem]:row-start-auto @max-[24rem]:row-span-1",
           "@max-[24rem]:justify-self-end @max-[24rem]:mt-1",
