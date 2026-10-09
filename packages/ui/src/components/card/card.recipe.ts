@@ -8,24 +8,22 @@ export const card = tv({
       "has-[>[data-slot=card-leading]]:grid-cols-[auto_minmax(0,1fr)]",
       "has-[>[data-slot=card-trailing]]:grid-cols-[minmax(0,1fr)_auto]",
       "has-[>[data-slot=card-leading]]:has-[>[data-slot=card-trailing]]:grid-cols-[auto_minmax(0,1fr)_auto]",
+      // Column placement of the text/trailing parts depends on the leading part;
+      // the header mirrors that into variables instead of styling descendants
+      // from an ancestor `:has()` (a whole-page recalc trap, #133).
+      "has-[>[data-slot=card-leading]]:[--card-text-col:2]",
+      "has-[>[data-slot=card-leading]]:[--card-trailing-col:3]",
     ],
-    title: [
-      "col-start-1 row-start-1 min-w-0",
-      "group-has-[>[data-slot=card-leading]]/card-header:col-start-2",
-    ],
+    title: ["row-start-1 min-w-0", "col-start-(--card-text-col,1)"],
     leading: [
       "col-start-1 row-span-2 row-start-1",
       "flex shrink-0 items-center self-start",
       "[&>svg]:size-4 [&>svg]:shrink-0",
     ],
-    description: [
-      "col-start-1 row-start-2 min-w-0",
-      "group-has-[>[data-slot=card-leading]]/card-header:col-start-2",
-    ],
+    description: ["row-start-2 min-w-0", "col-start-(--card-text-col,1)"],
     trailing: [
-      "col-start-2 row-start-1",
+      "row-start-1 col-start-(--card-trailing-col,2)",
       "flex shrink-0 items-center self-center justify-self-end",
-      "group-has-[>[data-slot=card-leading]]/card-header:col-start-3",
     ],
     content: ["min-w-0"],
     footer: ["flex min-w-0 flex-wrap items-center gap-2"],

@@ -189,6 +189,10 @@ const tabs = tv({
           "p-px",
           "data-[sorting=true]:**:data-[slot=tabs-indicator]:opacity-0 data-[sorting=true]:**:data-[slot=tabs-indicator]:transition-none",
           "scrollbar-none [&::-webkit-scrollbar]:hidden",
+          // Mirrors “a tabs-background part is rendered” into a variable the
+          // tab/indicator read, instead of styling descendants from an
+          // ancestor :has() (a whole-page recalc trap, #133).
+          "has-[>[data-slot=tabs-background]]:[--tabs-ring:var(--ink-4)]",
         ],
         background: [
           "pointer-events-none absolute inset-0 z-0 rounded-[7px] bg-fill-muted",
@@ -202,7 +206,7 @@ const tabs = tv({
           "data-active:text-foreground-active",
           "data-active:hover:text-foreground-active",
           "data-active:**:data-[slot=tabs-label]:text-[13px]",
-          "ring-ink-10 group-has-[>[data-slot=tabs-background]]/tabs-list:ring-ink-4",
+          "ring-(--tabs-ring,var(--ink-10))",
           "dark:ring-transparent",
           "data-[reorderable=true]:data-active:bg-layer-panel",
           "dark:data-[reorderable=true]:data-active:bg-fill-muted",
@@ -220,9 +224,8 @@ const tabs = tv({
           "absolute z-0 rounded-md bg-layer-panel",
           "left-[calc(var(--active-tab-left)+1px)] top-[calc(var(--active-tab-top)+1.671875px)]",
           "h-[calc(var(--active-tab-height)-3.34375px)] w-[calc(var(--active-tab-width)-2px)]",
-          "shadow-raft-sm ring-1 ring-ink-10",
+          "shadow-raft-sm ring-1 ring-(--tabs-ring,var(--ink-10))",
           "dark:bg-fill-muted",
-          "group-has-[>[data-slot=tabs-background]]/tabs-list:ring-ink-4",
           "dark:ring-transparent",
           "duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
         ],
