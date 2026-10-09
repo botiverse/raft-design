@@ -4,7 +4,9 @@ import {
   isValidElement,
   useCallback,
   useContext,
+  useLayoutEffect,
   useMemo,
+  useRef,
 } from "react";
 import type {
   ComponentProps,
@@ -583,18 +585,45 @@ export function ToastRoot({
 export type ToastContentProps = StyledProps<BaseToast.Content.Props>;
 
 /**
- * The default toast item writes `data-has-icon` / `data-has-description` /
- * `data-has-actions` here; the content layout keys off those attributes instead
- * of an ancestor `:has()` (which made Chromium recalculate the whole page on
- * unrelated mutations, #133). Manual compositions that want the default content
- * layout must set the same attributes.
+ * The content layout (self-start, title-only sizing, body centering) needs to
+ * know which parts actually rendered. That used to be an ancestor `:has()`
+ * styling descendants — a whole-page recalculation trap in Chromium (#133).
+ * It measures the rendered DOM after layout instead, so wrapped parts and
+ * parts that render nothing behave exactly like the old selectors did.
+ *
+ * The three attributes are not React-managed props: the layout effect toggles
+ * them on this element directly (an attribute write on the component's own
+ * node, not a structural change, so it stays outside the #133 invalidation
+ * pattern).
  */
 export function ToastContent({ children, className, ...props }: ToastContentProps) {
   const theme = useThemeFamily();
   const { content } = toastStyles({ theme });
+  const ref = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const slots: Array<[attribute: string, selector: string]> = [
+      ["data-has-icon", '[data-slot="toast-icon"]'],
+      ["data-has-description", '[data-slot="toast-description"]'],
+      ["data-has-actions", '[data-slot="toast-actions"]'],
+    ];
+    for (const [attribute, selector] of slots) {
+      const present = el.querySelector(selector) !== null;
+      if (present !== el.hasAttribute(attribute)) {
+        el.toggleAttribute(attribute, present);
+      }
+    }
+  });
 
   return (
-    <BaseToast.Content data-slot="toast-content" className={content({ className })} {...props}>
+    <BaseToast.Content
+      ref={ref}
+      data-slot="toast-content"
+      className={content({ className })}
+      {...props}
+    >
       {children}
     </BaseToast.Content>
   );
@@ -857,12 +886,7 @@ function DefaultToastItem({
       toast={toastObject}
       swipeDirection={placement.startsWith("top-") ? TOP_SWIPE_DIRECTION : undefined}
     >
-      <ToastContent
-        className={toastObject.data?.contentClassName}
-        data-has-description={showDescription ? "" : undefined}
-        data-has-icon={showIcon ? "" : undefined}
-        data-has-actions={showAction || showClose ? "" : undefined}
-      >
+      <ToastContent className={toastObject.data?.contentClassName}>
         {showIcon ? <DefaultToastIcon toast={toastObject} /> : null}
         <ToastBody>
           <ToastTitle />
