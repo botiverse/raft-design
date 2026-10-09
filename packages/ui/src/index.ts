@@ -1204,6 +1204,9 @@ export type {
   TimelineTitleProps,
 } from "./components/timeline/index";
 
+export { Step, Steps } from "./components/steps/index";
+export type { StepProps, StepsProps, StepsSize, StepStatus } from "./components/steps/index";
+
 export {
   Table,
   TableBody,

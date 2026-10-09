@@ -79,6 +79,7 @@ import { Route as ComponentsSidebarItemRouteImport } from './routes/components/s
 import { Route as ComponentsSkeletonRouteImport } from './routes/components/skeleton'
 import { Route as ComponentsSpinnerRouteImport } from './routes/components/spinner'
 import { Route as ComponentsStatusRouteImport } from './routes/components/status'
+import { Route as ComponentsStepsRouteImport } from './routes/components/steps'
 import { Route as ComponentsSwitchRouteImport } from './routes/components/switch'
 import { Route as ComponentsSystemMessageRouteImport } from './routes/components/system-message'
 import { Route as ComponentsTableRouteImport } from './routes/components/table'
@@ -492,6 +493,11 @@ const ComponentsStatusRoute = ComponentsStatusRouteImport.update({
   path: '/status',
   getParentRoute: () => ComponentsRoute,
 } as any)
+const ComponentsStepsRoute = ComponentsStepsRouteImport.update({
+  id: '/steps',
+  path: '/steps',
+  getParentRoute: () => ComponentsRoute,
+} as any)
 const ComponentsSwitchRoute = ComponentsSwitchRouteImport.update({
   id: '/switch',
   path: '/switch',
@@ -807,6 +813,7 @@ export interface FileRoutesByFullPath {
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
+  '/components/steps': typeof ComponentsStepsRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/table': typeof ComponentsTableRoute
@@ -924,6 +931,7 @@ export interface FileRoutesByTo {
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
+  '/components/steps': typeof ComponentsStepsRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/table': typeof ComponentsTableRoute
@@ -1042,6 +1050,7 @@ export interface FileRoutesById {
   '/components/skeleton': typeof ComponentsSkeletonRoute
   '/components/spinner': typeof ComponentsSpinnerRoute
   '/components/status': typeof ComponentsStatusRoute
+  '/components/steps': typeof ComponentsStepsRoute
   '/components/switch': typeof ComponentsSwitchRoute
   '/components/system-message': typeof ComponentsSystemMessageRoute
   '/components/table': typeof ComponentsTableRoute
@@ -1161,6 +1170,7 @@ export interface FileRouteTypes {
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
+    | '/components/steps'
     | '/components/switch'
     | '/components/system-message'
     | '/components/table'
@@ -1278,6 +1288,7 @@ export interface FileRouteTypes {
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
+    | '/components/steps'
     | '/components/switch'
     | '/components/system-message'
     | '/components/table'
@@ -1395,6 +1406,7 @@ export interface FileRouteTypes {
     | '/components/skeleton'
     | '/components/spinner'
     | '/components/status'
+    | '/components/steps'
     | '/components/switch'
     | '/components/system-message'
     | '/components/table'
@@ -1950,6 +1962,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsStatusRouteImport
       parentRoute: typeof ComponentsRoute
     }
+    '/components/steps': {
+      id: '/components/steps'
+      path: '/steps'
+      fullPath: '/components/steps'
+      preLoaderRoute: typeof ComponentsStepsRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
     '/components/switch': {
       id: '/components/switch'
       path: '/switch'
@@ -2459,6 +2478,7 @@ interface ComponentsRouteChildren {
   ComponentsSkeletonRoute: typeof ComponentsSkeletonRoute
   ComponentsSpinnerRoute: typeof ComponentsSpinnerRoute
   ComponentsStatusRoute: typeof ComponentsStatusRoute
+  ComponentsStepsRoute: typeof ComponentsStepsRoute
   ComponentsSwitchRoute: typeof ComponentsSwitchRoute
   ComponentsSystemMessageRoute: typeof ComponentsSystemMessageRoute
   ComponentsTableRoute: typeof ComponentsTableRoute
@@ -2544,6 +2564,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsSkeletonRoute: ComponentsSkeletonRoute,
   ComponentsSpinnerRoute: ComponentsSpinnerRoute,
   ComponentsStatusRoute: ComponentsStatusRoute,
+  ComponentsStepsRoute: ComponentsStepsRoute,
   ComponentsSwitchRoute: ComponentsSwitchRoute,
   ComponentsSystemMessageRoute: ComponentsSystemMessageRoute,
   ComponentsTableRoute: ComponentsTableRoute,

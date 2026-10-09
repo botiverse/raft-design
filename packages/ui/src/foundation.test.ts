@@ -93,6 +93,14 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
+      if (id === "./components/steps/steps.css") {
+        const stepsPath = join(sourceDirectory, "components/steps/steps.css");
+        return {
+          content: readFileSync(stepsPath, "utf8"),
+          path: stepsPath,
+          base: sourceDirectory,
+        };
+      }
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });
