@@ -12,6 +12,7 @@
  * comparison three releases later.
  */
 import { expect, test } from "vite-plus/test";
+import { conversationPanel } from "./components/conversation-panel/conversation-panel.recipe";
 import { messageItem } from "./components/message-item/message-item.recipe";
 import { messageReplies } from "./components/message-replies/message-replies.recipe";
 import { panelHeader } from "./components/panel/panel-header.recipe";
@@ -58,4 +59,11 @@ test("thread panel uses the chat panel's numbers (no extra indent of its own)", 
 test("replies surface reaches the row's border-box right edge", () => {
   const root = tokens(messageReplies({ theme: "elegant" }).root());
   expect(root.has("-mr-2")).toBe(true);
+});
+
+test("conversation tabs: the elegant bar starts on the 20 line (tabs-A)", () => {
+  const tabs = tokens(conversationPanel({ theme: "elegant" }).tabs());
+  // The list's 20px left padding moves the bar's left edge onto the rule and
+  // puts the first icon at 32 (20 + the tab's symmetric 12).
+  expect(tabs.has("*:data-[slot=tabs-list]:md:px-5")).toBe(true);
 });
