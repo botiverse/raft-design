@@ -4,7 +4,9 @@ import {
   isValidElement,
   useCallback,
   useContext,
+  useLayoutEffect,
   useMemo,
+  useRef,
 } from "react";
 import type {
   ComponentProps,
@@ -12,6 +14,7 @@ import type {
   CSSProperties,
   ReactElement,
   ReactNode,
+  Ref,
 } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
 import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
@@ -45,12 +48,18 @@ const toastStyles = tv({
     ],
     content: [
       "relative grid grid-cols-[minmax(0,1fr)] items-center gap-x-3 overflow-hidden",
-      "[&:has([data-slot=toast-description])_[data-slot=toast-body]]:self-start [&:has([data-slot=toast-description])_[data-slot=toast-icon]]:self-start",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-(--toast-title-only-min-h,2.25rem)",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-(--toast-title-only-min-w,7rem)",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:px-(--toast-title-only-px,0.75rem)",
-      "[&:not(:has([data-slot=toast-icon])):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-(--toast-title-only-py,0.5rem)",
-      "[&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:justify-self-center [&:not(:has([data-slot=toast-description]))>[data-slot=toast-body]:only-child]:text-center",
+      // The content layout keys off `data-has-*` attributes that
+      // DefaultToastItem writes at render time, instead of `:has()`: an
+      // ancestor `:has()` that styles descendants makes Chromium recalculate
+      // the whole page on unrelated mutations (measured: ~55ms per text-node
+      // change in a 300-message channel, #133). Manual compositions must set
+      // the same attributes to keep the layout (see ToastContent).
+      "[&[data-has-description]_[data-slot=toast-body]]:self-start [&[data-has-description]_[data-slot=toast-icon]]:self-start",
+      "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:min-h-(--toast-title-only-min-h,2.25rem)",
+      "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:min-w-(--toast-title-only-min-w,7rem)",
+      "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:px-(--toast-title-only-px,0.75rem)",
+      "[&:not([data-has-icon]):not([data-has-actions]):not([data-has-description])]:py-(--toast-title-only-py,0.5rem)",
+      "[&:not([data-has-description])>[data-slot=toast-body]:only-child]:justify-self-center [&:not([data-has-description])>[data-slot=toast-body]:only-child]:text-center",
       "transition-opacity duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "motion-reduce:transition-none",
     ],
@@ -574,14 +583,64 @@ export function ToastRoot({
   );
 }
 
-export type ToastContentProps = StyledProps<BaseToast.Content.Props>;
+export type ToastContentProps = StyledProps<BaseToast.Content.Props> & {
+  ref?: Ref<HTMLDivElement>;
+};
 
-export function ToastContent({ children, className, ...props }: ToastContentProps) {
+/**
+ * The content layout (self-start, title-only sizing, body centering) needs to
+ * know which parts actually rendered. That used to be an ancestor `:has()`
+ * styling descendants — a whole-page recalculation trap in Chromium (#133).
+ * It measures the rendered DOM after layout instead, so wrapped parts and
+ * parts that render nothing behave exactly like the old selectors did.
+ *
+ * The three attributes are not React-managed props: the layout effect toggles
+ * them on this element directly (an attribute write on the component's own
+ * node, not a structural change, so it stays outside the #133 invalidation
+ * pattern). The measurement re-runs whenever this component renders; the
+ * default item rebuilds the content on every toast update, and a hand-written
+ * composition that flips a part without re-rendering ToastContent is not
+ * observed.
+ */
+export function ToastContent({ children, className, ref, ...props }: ToastContentProps) {
   const theme = useThemeFamily();
   const { content } = toastStyles({ theme });
+  const internalRef = useRef<HTMLDivElement>(null);
+
+  // Merge the caller's ref with ours; the measurement needs the node, and a
+  // caller ref must not displace it.
+  const setRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      internalRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    },
+    [ref],
+  );
+
+  useLayoutEffect(() => {
+    const el = internalRef.current;
+    if (!el) return;
+    const slots: Array<[attribute: string, selector: string]> = [
+      ["data-has-icon", '[data-slot="toast-icon"]'],
+      ["data-has-description", '[data-slot="toast-description"]'],
+      ["data-has-actions", '[data-slot="toast-actions"]'],
+    ];
+    for (const [attribute, selector] of slots) {
+      const present = el.querySelector(selector) !== null;
+      if (present !== el.hasAttribute(attribute)) {
+        el.toggleAttribute(attribute, present);
+      }
+    }
+  });
 
   return (
-    <BaseToast.Content data-slot="toast-content" className={content({ className })} {...props}>
+    <BaseToast.Content
+      ref={setRef}
+      data-slot="toast-content"
+      className={content({ className })}
+      {...props}
+    >
       {children}
     </BaseToast.Content>
   );

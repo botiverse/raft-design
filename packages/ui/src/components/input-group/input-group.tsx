@@ -14,7 +14,10 @@ const inputGroup = tv({
   slots: {
     root: [
       "group/input-group relative flex w-full min-w-0 items-center",
-      "has-[[data-input-group-trim=inline-end]]:[&_[data-slot=input-group-control]]:pr-0",
+      // Mirrors “an inline-end trim is rendered” into a variable the control
+      // reads, instead of styling a descendant from an ancestor :has()
+      // (a whole-page recalc trap, #133).
+      "has-data-[input-group-trim=inline-end]:[--ig-control-pr:0]",
     ],
     addon: [
       "flex shrink-0 items-center justify-center gap-2 px-3",
@@ -23,7 +26,10 @@ const inputGroup = tv({
     ],
     text: ["flex shrink-0 items-center px-3 text-sm", "select-none whitespace-nowrap"],
     // The bare control fills the row; the group owns the border/shadow/invalid.
-    control: ["min-w-0 flex-1 bg-transparent px-3 py-2 text-sm outline-none"],
+    control: [
+      "min-w-0 flex-1 bg-transparent py-2 pl-3 text-sm outline-none",
+      "pr-(--ig-control-pr,0.75rem)",
+    ],
   },
   variants: {
     theme: {
@@ -39,6 +45,16 @@ const inputGroup = tv({
       },
       elegant: {
         root: [
+          // Focus/disabled state of the control flows to the addon/text parts
+          // as variables the root sets on itself (self-:has), not as ancestor
+          // :has() rules styling descendants (#133). Consumption falls back to
+          // per-part defaults, so the container variant below does not need a
+          // second, unprefixed color class (which the class merge would keep
+          // over the variable read — found in review).
+          "has-[[data-slot=input-group-control]:focus]:[--ig-addon-fg:var(--foreground-strong)]",
+          "has-[[data-slot=input-group-control]:focus]:[--ig-text-fg:var(--foreground-muted)]",
+          "has-[[data-slot=input-group-control]:disabled]:[--ig-addon-fg:var(--foreground-disabled)]",
+          "has-[[data-slot=input-group-control]:disabled]:[--ig-text-fg:var(--foreground-disabled)]",
           "overflow-hidden rounded-md border border-line-field bg-layer-panel shadow-none",
           "dark:bg-layer-card dark:not-has-[[data-slot=input-group-control][data-invalid]]:border-transparent",
           "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
@@ -55,14 +71,10 @@ const inputGroup = tv({
           "has-[[data-slot=input-group-control][data-invalid]:disabled]:border-line-muted/60 has-[[data-slot=input-group-control][data-invalid]:disabled]:ring-0",
         ],
         addon: [
-          "text-foreground-muted transition duration-200 ease-out",
-          "group-has-[[data-slot=input-group-control]:focus]/input-group:text-foreground-strong",
-          "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
+          "text-(--ig-addon-fg,var(--ig-addon-fg-default,var(--foreground-muted))) transition duration-200 ease-out",
         ],
         text: [
-          "text-foreground-placeholder transition duration-200 ease-out",
-          "group-has-[[data-slot=input-group-control]:focus]/input-group:text-foreground-muted",
-          "group-has-[[data-slot=input-group-control]:disabled]/input-group:text-foreground-disabled",
+          "text-(--ig-text-fg,var(--ig-text-fg-default,var(--foreground-placeholder))) transition duration-200 ease-out",
         ],
         control: [
           "text-foreground placeholder:text-foreground-placeholder/70 dark:text-foreground-strong",
@@ -81,12 +93,14 @@ const inputGroup = tv({
         addon: [
           "self-stretch border-line-muted/90 bg-fill-muted/35",
           "dark:border-ink-6 dark:bg-layer-card/60",
-          "text-foreground-placeholder",
+          // A default for the color variable, not a color class: two unprefixed
+          // color classes would merge and drop the variable read (review).
+          "[--ig-addon-fg-default:var(--foreground-placeholder)]",
         ],
         text: [
           "self-stretch border-line-muted/90 bg-fill-muted/35",
           "dark:border-ink-6 dark:bg-layer-card/60",
-          "text-foreground-placeholder",
+          "[--ig-text-fg-default:var(--foreground-placeholder)]",
         ],
       },
     },

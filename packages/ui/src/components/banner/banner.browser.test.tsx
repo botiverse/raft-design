@@ -210,3 +210,48 @@ for (const theme of ["brutal", "elegant"] as const) {
     expect(actionRect.top).toBeLessThanOrEqual(descRect.bottom);
   });
 }
+
+// --- action row-span: keyed off the composed parts' sibling order, not ancestor :has() ---
+
+for (const theme of ["brutal", "elegant"] as const) {
+  it(`${theme}: action spans both text rows when title and description are present`, () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <div style={{ width: "600px" }}>
+          <Banner status="info" data-testid="banner">
+            <BannerTitle>Title</BannerTitle>
+            <BannerDescription data-testid="desc">Description text</BannerDescription>
+            <BannerAction data-testid="action">
+              <Button variant="ghost" size="icon-xs">
+                X
+              </Button>
+            </BannerAction>
+          </Banner>
+        </div>
+      </ThemeProvider>,
+    );
+
+    const actionStyle = getComputedStyle(screen.getByTestId("action"));
+    expect(actionStyle.gridRowStart).toBe("span 2");
+  });
+}
+
+it("action keeps its single-row placement when there is no description", () => {
+  render(
+    <ThemeProvider theme="brutal">
+      <div style={{ width: "600px" }}>
+        <Banner status="info" data-testid="banner">
+          <BannerTitle>Title</BannerTitle>
+          <BannerAction data-testid="action">
+            <Button variant="ghost" size="icon-xs">
+              X
+            </Button>
+          </BannerAction>
+        </Banner>
+      </div>
+    </ThemeProvider>,
+  );
+
+  const actionStyle = getComputedStyle(screen.getByTestId("action"));
+  expect(actionStyle.gridRowStart).not.toBe("span 2");
+});

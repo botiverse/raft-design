@@ -24,10 +24,8 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-const TITLE_CAP =
-  "has-[>[data-slot=sidebar-item-subtitle]]:*:data-[slot=sidebar-item-title]:max-w-[70%]";
-const TITLE_NO_SHRINK =
-  "has-[>[data-slot=sidebar-item-subtitle]]:*:data-[slot=sidebar-item-title]:shrink-0";
+const TITLE_CAP = "has-[>[data-slot=sidebar-item-subtitle]]:[--si-title-max-w:70%]";
+const TITLE_NO_SHRINK = "has-[>[data-slot=sidebar-item-subtitle]]:[--si-title-shrink:0]";
 
 function contentClasses(theme: "brutal" | "elegant", stacked?: boolean) {
   render(
@@ -46,7 +44,11 @@ function contentClasses(theme: "brutal" | "elegant", stacked?: boolean) {
 /**
  * The 70% cap exists for the inline row: title and subtitle share one line, so
  * the title must leave the subtitle room. The row's class set is pinned exactly
- * so the stacked fix cannot add or drop a class on the default path.
+ * so the stacked fix cannot add or drop a class on the default path. The cap is
+ * carried as a variable the content sets (the title reads
+ * `[max-width:var(--si-title-max-w,none)]`); the old `has-…:*:title` pair styled
+ * the title (a descendant) off the content's `:has()` — a whole-page recalc
+ * trap, #133.
  */
 for (const theme of ["brutal", "elegant"] as const) {
   test(`${theme}: the inline row keeps its exact classes, 70% title cap included`, () => {

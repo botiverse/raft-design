@@ -7,7 +7,7 @@ import {
   GripVertical,
   Plus,
 } from "lucide-react";
-import { useCallback } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import {
   Button,
@@ -35,6 +35,15 @@ import {
 
 const SORT_MENU_CLASS = "flex w-[160px] min-w-[160px] flex-col";
 const CHANNELS_MENU_CLASS = "flex w-[190px] min-w-[190px] flex-col";
+
+/**
+ * Lets the menus rendered inside a section header mirror their open state onto
+ * the header element as `data-popup-open`. The attention badge hides off that
+ * attribute (`group-data-popup-open/section-header`), because the previous
+ * ancestor `:has()` version made Chromium recalculate the whole page on
+ * unrelated mutations (#133). The provider lives in SidebarSectionHeaderMenu.
+ */
+const SectionPopupOpenContext = createContext<((open: boolean) => void) | null>(null);
 
 const SIDEBAR_SORT_OPTIONS = [
   { value: "manual", label: "Manual", icon: <GripVertical /> },
@@ -286,8 +295,9 @@ export function SidebarSectionSortMenu({
   value?: SidebarSortValue;
   onValueChange?: (value: SidebarSortValue) => void;
 }) {
+  const reportPopupOpen = useContext(SectionPopupOpenContext);
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={reportPopupOpen ?? undefined}>
       <DropdownMenuTrigger
         render={
           <SidebarControl type="button" aria-label={ariaLabel}>
@@ -344,8 +354,9 @@ export function SidebarSectionChannelsMenu({
   sortValue?: SidebarSortValue;
   onSortValueChange?: (value: SidebarSortValue) => void;
 }) {
+  const reportPopupOpen = useContext(SectionPopupOpenContext);
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={reportPopupOpen ?? undefined}>
       <DropdownMenuTrigger
         render={
           <SidebarControl type="button" aria-label={ariaLabel}>
@@ -393,26 +404,35 @@ export function SidebarSectionHeaderMenu({
   sortValue,
   onSortValueChange,
 }: SidebarSectionHeaderMenuProps) {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const handlePopupOpenChange = useCallback((open: boolean) => {
+    setPopupOpen(open);
+  }, []);
+
   return (
-    <ContextMenu>
-      <ContextMenuTrigger className="w-full min-w-0">
-        <SidebarSectionHeader>{children}</SidebarSectionHeader>
-      </ContextMenuTrigger>
-      {menu === "sort" ? (
-        <SidebarSectionSortContextContent value={sortValue} onValueChange={onSortValueChange} />
-      ) : null}
-      {menu === "channels" ? (
-        <SidebarSectionChannelsContextContent
-          count={count}
-          countLabel={countLabel}
-          createLabel={createLabel}
-          createIcon={createIcon}
-          createDisabled={createDisabled}
-          onCreate={onCreate}
-          sortValue={sortValue}
-          onSortValueChange={onSortValueChange}
-        />
-      ) : null}
-    </ContextMenu>
+    <SectionPopupOpenContext.Provider value={handlePopupOpenChange}>
+      <ContextMenu>
+        <ContextMenuTrigger className="w-full min-w-0">
+          <SidebarSectionHeader data-popup-open={popupOpen ? "" : undefined}>
+            {children}
+          </SidebarSectionHeader>
+        </ContextMenuTrigger>
+        {menu === "sort" ? (
+          <SidebarSectionSortContextContent value={sortValue} onValueChange={onSortValueChange} />
+        ) : null}
+        {menu === "channels" ? (
+          <SidebarSectionChannelsContextContent
+            count={count}
+            countLabel={countLabel}
+            createLabel={createLabel}
+            createIcon={createIcon}
+            createDisabled={createDisabled}
+            onCreate={onCreate}
+            sortValue={sortValue}
+            onSortValueChange={onSortValueChange}
+          />
+        ) : null}
+      </ContextMenu>
+    </SectionPopupOpenContext.Provider>
   );
 }

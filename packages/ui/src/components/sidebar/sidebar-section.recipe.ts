@@ -2,7 +2,7 @@ import { tv } from "../../lib/tv";
 
 export const sidebarSectionRecipe = tv({
   slots: {
-    sidebarSection: [],
+    sidebarSection: ["group/section"],
     sidebarList: [],
     sidebarSectionEmpty: [],
     sidebarSectionHeader: ["flex items-center justify-between", "group/section-header"],
@@ -15,8 +15,15 @@ export const sidebarSectionRecipe = tv({
     sidebarSectionCount: [],
     sidebarSectionAttention: [
       "inline-flex min-w-4.5 shrink-0 items-center justify-center",
-      "group-has-data-panel-open/section-header:hidden",
-      "group-has-data-popup-open/section-header:hidden",
+      // Two of these used to style descendants off an ancestor's `:has()`.
+      // That shape makes Chromium fall back to recalculating the whole page on
+      // unrelated mutations (measured on the app: ~55ms per text-node change in
+      // a 300-message channel, see #133). They now key off render-time data
+      // attributes instead: the root carries `data-open` from Base UI
+      // Collapsible, and a header that hosts a popup mirrors `data-popup-open`
+      // onto itself while it is open.
+      "group-data-open/section:hidden",
+      "group-data-popup-open/section-header:hidden",
       "group-hover/section-header:hidden",
     ],
     sidebarSectionTrailing: ["relative flex min-w-4.5 shrink-0 items-center justify-end"],

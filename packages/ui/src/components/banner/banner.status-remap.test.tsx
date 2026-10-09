@@ -88,14 +88,16 @@ test("brutal root base grid has no zero-width phantom column", () => {
   expect(c).not.toMatch(/grid-cols-\[0[_ ]/);
 });
 
-test("brutal description col-start-2 is conditional on icon or status-slot presence", () => {
+test("brutal description column follows the lead parts through the shared variable", () => {
   renderWithAction("brutal", "warning");
-  const classes = screen.getByTestId("desc").className.split(/\s+/);
-  const colStart2 = classes.filter((c) => c.includes("col-start-2"));
-  expect(colStart2.length).toBeGreaterThan(0);
-  for (const c of colStart2) {
-    expect(c).toMatch(/group-has/);
-  }
+  const desc = screen.getByTestId("desc").className.split(/\s+/);
+  // The description reads the variable the root sets when an icon/status slot
+  // is present; it no longer carries an ancestor :has() shape itself (#133).
+  expect(desc).toContain("col-start-(--banner-text-col,1)");
+  expect(desc.some((c) => c.includes("group-has"))).toBe(false);
+  const root = cls().split(/\s+/);
+  expect(root).toContain("has-[>svg]:[--banner-text-col:2]");
+  expect(root).toContain("has-[>[data-slot=status]]:[--banner-text-col:2]");
 });
 
 // --- inline button color (elegant warning description) ---
