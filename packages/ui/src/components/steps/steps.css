@@ -1,0 +1,376 @@
+/* Steps pure CSS styling following pattern/Button.css architecture
+   - Local CSS variables (--r-steps-*) declared on the list; steps inherit them
+   - Each step maps its status to --r-step-* locals
+   - Modifier classes rebind local variables
+   - Component styles strictly consume local variables
+   - Dual theme support (Brutal / Elegant) via CSS variable overrides
+   A step is its marker and text (`__main`) followed by the connector to the
+   next step: across in a row, down in a column.
+*/
+
+/* ─────────────────────────────────────────────────────────────────────────
+   1. Local Variable Definitions & Modifier Overrides
+   ───────────────────────────────────────────────────────────────────────── */
+
+.r-steps {
+  /* Default local variables (Brutal theme defaults): square markers in a 2px
+     ink outline joined by a solid ink line. The current step is a flat
+     primary fill casting the hard control shadow; finished steps a primary
+     tint with an ink check; failed steps a flat danger fill. */
+  --r-steps-indicator-size: 28px;
+  --r-steps-indicator-font-size: 14px;
+  --r-steps-icon-size: 14px;
+  --r-steps-title-font-size: 15px;
+  --r-steps-description-font-size: 14px;
+  --r-steps-line-height: 1.5;
+  --r-steps-gap: 10px;
+  --r-steps-connector-gap: 12px;
+  --r-steps-connector-min-width: 16px;
+  --r-steps-vertical-item-gap: 20px;
+  --r-steps-indicator-font-family: var(--font-heading);
+  --r-steps-indicator-font-weight: 700;
+  --r-steps-indicator-border-width: 2px;
+  --r-steps-indicator-radius: 0px;
+  --r-steps-title-font-family: var(--font-heading);
+  --r-steps-title-font-weight: 700;
+  --r-steps-connector-width: 2px;
+  --r-steps-connector-color: var(--line-strong);
+  --r-steps-connector-color-finish: var(--line-strong);
+  --r-steps-focus-radius: 0px;
+  --r-steps-focus-outline: 2px solid var(--line-strong);
+  --r-steps-duration: 160ms;
+  --r-steps-easing: ease-out;
+
+  --r-steps-indicator-color-wait: var(--layer-panel);
+  --r-steps-indicator-color-process: var(--primary-400);
+  --r-steps-indicator-color-finish: var(--primary-soft);
+  --r-steps-indicator-color-error: var(--danger);
+  --r-steps-indicator-border-color-wait: var(--line-strong);
+  --r-steps-indicator-border-color-process: var(--line-strong);
+  --r-steps-indicator-border-color-finish: var(--line-strong);
+  --r-steps-indicator-border-color-error: var(--line-strong);
+  --r-steps-indicator-border-color-hover: var(--line-strong);
+  --r-steps-indicator-text-color-wait: var(--foreground-muted);
+  --r-steps-indicator-text-color-process: var(--primary-950);
+  --r-steps-indicator-text-color-finish: var(--foreground-strong);
+  --r-steps-indicator-text-color-error: var(--danger-foreground);
+  --r-steps-indicator-shadow-process: var(--theme-shadow-sm);
+  --r-steps-indicator-shadow-hover: var(--theme-shadow-sm);
+  --r-steps-title-color-wait: var(--foreground-muted);
+  --r-steps-title-color-process: var(--foreground-strong);
+  --r-steps-title-color-finish: var(--foreground-strong);
+  --r-steps-title-color-error: var(--danger-strong);
+  --r-steps-title-color-hover: var(--foreground-strong);
+  --r-steps-title-color-disabled: var(--foreground-disabled);
+
+  &.r-steps--sm {
+    --r-steps-indicator-size: 22px;
+    --r-steps-indicator-font-size: 12px;
+    --r-steps-icon-size: 12px;
+    --r-steps-title-font-size: 14px;
+    --r-steps-description-font-size: 13px;
+  }
+
+  /* Theme: Elegant overrides — thin rings on a quiet hairline; the current
+     step is a solid primary disc, finished steps a primary ring with a check. */
+  &.r-steps--elegant,
+  :where([data-theme="elegant"]) & {
+    --r-steps-indicator-font-family: var(--font-sans);
+    --r-steps-indicator-font-weight: 500;
+    --r-steps-indicator-border-width: 1px;
+    --r-steps-indicator-radius: 9999px;
+    --r-steps-title-font-family: var(--font-sans);
+    --r-steps-title-font-weight: 500;
+    --r-steps-connector-width: 1px;
+    --r-steps-connector-color: var(--line-muted);
+    --r-steps-connector-color-finish: var(--primary-edge);
+    --r-steps-focus-radius: 6px;
+    --r-steps-focus-outline: 2px solid color-mix(in oklch, var(--primary-400) 80%, transparent);
+    --r-steps-duration: 200ms;
+
+    --r-steps-indicator-color-wait: transparent;
+    --r-steps-indicator-color-finish: transparent;
+    --r-steps-indicator-color-error: transparent;
+    --r-steps-indicator-border-color-wait: var(--ink-20);
+    --r-steps-indicator-border-color-process: var(--primary-400);
+    --r-steps-indicator-border-color-finish: var(--primary-strong);
+    --r-steps-indicator-border-color-error: var(--danger-strong);
+    --r-steps-indicator-border-color-hover: var(--primary-strong);
+    --r-steps-indicator-text-color-wait: var(--foreground-hint);
+    --r-steps-indicator-text-color-finish: var(--primary-strong);
+    --r-steps-indicator-text-color-error: var(--danger-strong);
+    --r-steps-indicator-shadow-process: none;
+    --r-steps-indicator-shadow-hover: none;
+    --r-steps-title-color-hover: var(--primary-strong);
+  }
+}
+
+.r-step {
+  /* `wait`: ahead of the current step. */
+  --r-step-indicator-color: var(--r-steps-indicator-color-wait);
+  --r-step-indicator-border-color: var(--r-steps-indicator-border-color-wait);
+  --r-step-indicator-text-color: var(--r-steps-indicator-text-color-wait);
+  --r-step-indicator-shadow: none;
+  --r-step-title-color: var(--r-steps-title-color-wait);
+  --r-step-description-color: var(--foreground-hint);
+  --r-step-connector-color: var(--r-steps-connector-color);
+
+  &.r-step--process {
+    --r-step-indicator-color: var(--r-steps-indicator-color-process);
+    --r-step-indicator-border-color: var(--r-steps-indicator-border-color-process);
+    --r-step-indicator-text-color: var(--r-steps-indicator-text-color-process);
+    --r-step-indicator-shadow: var(--r-steps-indicator-shadow-process);
+    --r-step-title-color: var(--r-steps-title-color-process);
+    --r-step-description-color: var(--foreground-muted);
+  }
+  &.r-step--finish {
+    --r-step-indicator-color: var(--r-steps-indicator-color-finish);
+    --r-step-indicator-border-color: var(--r-steps-indicator-border-color-finish);
+    --r-step-indicator-text-color: var(--r-steps-indicator-text-color-finish);
+    --r-step-title-color: var(--r-steps-title-color-finish);
+    --r-step-connector-color: var(--r-steps-connector-color-finish);
+  }
+  &.r-step--error {
+    --r-step-indicator-color: var(--r-steps-indicator-color-error);
+    --r-step-indicator-border-color: var(--r-steps-indicator-border-color-error);
+    --r-step-indicator-text-color: var(--r-steps-indicator-text-color-error);
+    --r-step-title-color: var(--r-steps-title-color-error);
+    --r-step-description-color: var(--foreground-muted);
+  }
+  /* A clickable step under the pointer: the title takes the hover color, a
+     waiting marker its hover border, and a settled marker the hover shadow. */
+  @media (hover: hover) {
+    &.r-step--clickable:hover {
+      --r-step-title-color: var(--r-steps-title-color-hover);
+    }
+    &.r-step--clickable.r-step--wait:hover {
+      --r-step-indicator-border-color: var(--r-steps-indicator-border-color-hover);
+    }
+    &.r-step--clickable:not(.r-step--process):hover {
+      --r-step-indicator-shadow: var(--r-steps-indicator-shadow-hover);
+    }
+  }
+  &.r-step--disabled {
+    --r-step-title-color: var(--r-steps-title-color-disabled);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   2. Component Styles
+   ───────────────────────────────────────────────────────────────────────── */
+
+.r-steps {
+  display: flex;
+  line-height: var(--r-steps-line-height);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.r-step {
+  display: flex;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  position: relative;
+}
+
+/* The marker and the text; the hit area of a clickable step is drawn over it. */
+.r-step__main {
+  display: flex;
+  gap: var(--r-steps-gap);
+  position: relative;
+}
+
+.r-step__indicator {
+  align-items: center;
+  background: var(--r-step-indicator-color);
+  border: var(--r-steps-indicator-border-width) solid var(--r-step-indicator-border-color);
+  border-radius: var(--r-steps-indicator-radius);
+  box-shadow: var(--r-step-indicator-shadow);
+  box-sizing: border-box;
+  color: var(--r-step-indicator-text-color);
+  display: flex;
+  flex: none;
+  font-family: var(--r-steps-indicator-font-family);
+  font-size: var(--r-steps-indicator-font-size);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--r-steps-indicator-font-weight);
+  height: var(--r-steps-indicator-size);
+  justify-content: center;
+  line-height: 1;
+  transition:
+    background-color var(--r-steps-duration) var(--r-steps-easing),
+    border-color var(--r-steps-duration) var(--r-steps-easing),
+    box-shadow var(--r-steps-duration) var(--r-steps-easing),
+    color var(--r-steps-duration) var(--r-steps-easing);
+  width: var(--r-steps-indicator-size);
+
+  & > svg {
+    flex: none;
+    height: var(--r-steps-icon-size);
+    width: var(--r-steps-icon-size);
+  }
+}
+
+/* The title's first line is centered on the marker. */
+.r-step__content {
+  min-width: 0;
+  padding-top: calc(
+    (var(--r-steps-indicator-size) - var(--r-steps-title-font-size) * var(--r-steps-line-height)) /
+      2
+  );
+}
+
+.r-step__title {
+  color: var(--r-step-title-color);
+  display: block;
+  font-family: var(--r-steps-title-font-family);
+  font-size: var(--r-steps-title-font-size);
+  font-weight: var(--r-steps-title-font-weight);
+  transition: color var(--r-steps-duration) var(--r-steps-easing);
+  white-space: nowrap;
+}
+
+.r-step__description {
+  color: var(--r-step-description-color);
+  font-size: var(--r-steps-description-font-size);
+  margin-top: 2px;
+}
+
+/* Read out after the title: the marker's check or cross says it only by look. */
+.r-step__status {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* A clickable step's title is a button whose hit area (`::after`) stretches
+   over the marker and the description; the focus ring is drawn around it. */
+.r-step__button {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+  text-align: start;
+
+  &::after {
+    border-radius: var(--r-steps-focus-radius);
+    content: "";
+    inset: -4px;
+    position: absolute;
+  }
+  &:focus-visible {
+    outline: none;
+  }
+  &:focus-visible::after {
+    outline: var(--r-steps-focus-outline);
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.r-step__connector {
+  border-color: var(--r-step-connector-color);
+  border-style: solid;
+  border-width: 0;
+  transition: border-color var(--r-steps-duration) var(--r-steps-easing);
+}
+
+.r-step:last-child > .r-step__connector {
+  display: none;
+}
+
+/* A row: steps share the width, each followed by a connector across to the
+   next; the last only takes its own width. */
+.r-steps--horizontal > .r-step {
+  align-items: flex-start;
+  flex: 1 1 0;
+
+  &:last-child {
+    flex: none;
+  }
+  & > .r-step__connector {
+    border-top-width: var(--r-steps-connector-width);
+    flex: 1 1 auto;
+    margin-inline: var(--r-steps-connector-gap);
+    margin-top: calc((var(--r-steps-indicator-size) - var(--r-steps-connector-width)) / 2);
+    min-width: var(--r-steps-connector-min-width);
+  }
+}
+
+/* Narrow screens: a row of titles beside their markers overflows a phone, so
+   each step stacks its text under the marker and the titles wrap. The marker
+   and the connector share the top line; the text spans the step below. */
+@media (width < 40rem) {
+  .r-steps--horizontal > .r-step {
+    --r-steps-connector-gap: 6px;
+    --r-steps-connector-min-width: 8px;
+    display: grid;
+    flex: 1 1 0;
+    grid-template-columns: var(--r-steps-indicator-size) minmax(0, 1fr);
+
+    &:last-child {
+      flex: 1 1 0;
+    }
+    & > .r-step__main {
+      display: contents;
+    }
+    & > .r-step__main > .r-step__indicator {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    & > .r-step__main > .r-step__content {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      padding-inline-end: var(--r-steps-connector-gap);
+      padding-top: 6px;
+    }
+    & > .r-step__main > .r-step__content > .r-step__title {
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+    & > .r-step__connector {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+}
+
+/* A column: the connector runs down from under each marker to just above the next. */
+.r-steps--vertical {
+  flex-direction: column;
+}
+
+.r-steps--vertical > .r-step {
+  padding-bottom: var(--r-steps-vertical-item-gap);
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+  & > .r-step__connector {
+    border-inline-start-width: var(--r-steps-connector-width);
+    bottom: 4px;
+    inset-inline-start: calc((var(--r-steps-indicator-size) - var(--r-steps-connector-width)) / 2);
+    position: absolute;
+    top: calc(var(--r-steps-indicator-size) + 4px);
+  }
+  & > .r-step__main > .r-step__content > .r-step__title {
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r-step__indicator,
+  .r-step__title,
+  .r-step__connector {
+    transition: none;
+  }
+}

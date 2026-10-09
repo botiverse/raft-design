@@ -37,6 +37,11 @@ export default defineConfig({
         rename: "timeline.css",
       },
       {
+        from: "src/components/steps/steps.css",
+        to: "dist/components/steps",
+        rename: "steps.css",
+      },
+      {
         from: "src/components/combobox-select/combobox-select.css",
         to: "dist/components/combobox-select",
         rename: "combobox-select.css",

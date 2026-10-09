@@ -121,6 +121,7 @@ const COMPONENT_NAV = [
     title: "Navigation",
     items: [
       { label: "MobileNav", to: "/components/mobile-nav", status: "done" },
+      { label: "Steps", to: "/components/steps", status: "done" },
       { label: "Tabs", to: "/components/tabs", status: "done" },
     ],
   },
