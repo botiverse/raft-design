@@ -50,7 +50,7 @@ export function MessageRowToolbar({
 
   return (
     <MessageItemToolbar
-      className={visible ? "pointer-events-auto opacity-100" : undefined}
+      className={visible ? "opacity-100" : undefined}
       onMouseEnter={clearCloseTimer}
       onMouseLeave={reactionOpen ? scheduleClose : undefined}
     >
