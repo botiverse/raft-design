@@ -6,7 +6,10 @@ export const messageReplies = tv({
   extend: messageBlock,
   slots: {
     root: [
-      "group/message-replies mt-1.5 flex min-w-0 w-full flex-col gap-1 px-2.5 py-2 text-left",
+      // -mr-2 lets the surface reach the row's border-box right edge (its
+      // padding + border add up to 8px): the keep-12 requirement aligns the
+      // replies' right edge with the hover block and the input box.
+      "group/message-replies mt-1.5 -mr-2 flex min-w-0 w-full flex-col gap-1 px-2.5 py-2 text-left",
       "transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-line-strong",
     ],
     summary: [
