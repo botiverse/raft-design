@@ -15,7 +15,7 @@
 .r-steps {
   /* Default local variables (Brutal theme defaults): square markers in a 2px
      ink outline joined by a solid ink line. Markers take the task-status
-     colors, as TaskChip does: waiting = Todo, in progress = In Progress (and
+     colors, as TaskChip does: waiting = Closed (neutral), in progress = In Progress (and
      casts the hard control shadow), finished = Done; failed steps the red of
      the same pastel family. Ink text on every fill. */
   --r-steps-indicator-size: 28px;
@@ -42,7 +42,7 @@
   --r-steps-duration: 160ms;
   --r-steps-easing: ease-out;
 
-  --r-steps-indicator-color-wait: var(--task-status-todo);
+  --r-steps-indicator-color-wait: var(--task-status-closed);
   --r-steps-indicator-color-process: var(--task-status-in-progress);
   --r-steps-indicator-color-finish: var(--task-status-done);
   --r-steps-indicator-color-error: var(--color-brutal-red-400);
@@ -94,13 +94,13 @@
     --r-steps-focus-outline: 2px solid color-mix(in oklch, var(--primary-400) 80%, transparent);
     --r-steps-duration: 200ms;
 
-    --r-steps-indicator-color-wait: var(--task-status-todo-soft);
+    --r-steps-indicator-color-wait: var(--task-status-closed-soft);
     --r-steps-indicator-color-process: var(--task-status-in-progress-soft);
     --r-steps-indicator-color-finish: var(--task-status-done-soft);
     --r-steps-indicator-color-error: var(--danger-soft);
     --r-steps-indicator-border-color-wait: color-mix(
       in oklch,
-      var(--task-status-todo-strong) 35%,
+      var(--task-status-closed-strong) 35%,
       transparent
     );
     --r-steps-indicator-border-color-process: var(--task-status-in-progress-strong);
@@ -114,8 +114,8 @@
       var(--danger-strong) 35%,
       transparent
     );
-    --r-steps-indicator-border-color-hover: var(--task-status-todo-strong);
-    --r-steps-indicator-text-color-wait: var(--task-status-todo-strong);
+    --r-steps-indicator-border-color-hover: var(--task-status-closed-strong);
+    --r-steps-indicator-text-color-wait: var(--task-status-closed-strong);
     --r-steps-indicator-text-color-process: var(--task-status-in-progress-strong);
     --r-steps-indicator-text-color-finish: var(--task-status-done-strong);
     --r-steps-indicator-text-color-error: var(--danger-strong);
