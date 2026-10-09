@@ -37,7 +37,6 @@ export const conversationPanel = tv({
           "dark:bg-transparent dark:max-md:bg-layer-canvas-muted",
           "max-md:border-b max-md:border-line-muted",
           "*:data-[slot=tabs-list]:border-b-0",
-          "*:data-[slot=tabs-list]:md:px-5",
           "[&>[data-slot=tabs-list]]:max-md:h-10",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:max-md:h-10",
           "[&>[data-slot=tabs-list]>[data-slot=tabs-tab]]:max-md:py-2",

@@ -12,7 +12,7 @@
  * comparison three releases later.
  */
 import { expect, test } from "vite-plus/test";
-import { conversationPanel } from "./components/conversation-panel/conversation-panel.recipe";
+import { readFileSync } from "node:fs";
 import { messageItem } from "./components/message-item/message-item.recipe";
 import { messageReplies } from "./components/message-replies/message-replies.recipe";
 import { panelHeader } from "./components/panel/panel-header.recipe";
@@ -62,8 +62,10 @@ test("replies surface reaches the row's border-box right edge", () => {
 });
 
 test("conversation tabs: the elegant bar starts on the 20 line (tabs-A)", () => {
-  const tabs = tokens(conversationPanel({ theme: "elegant" }).tabs());
-  // The list's 20px left padding moves the bar's left edge onto the rule and
-  // puts the first icon at 32 (20 + the tab's symmetric 12).
-  expect(tabs.has("*:data-[slot=tabs-list]:md:px-5")).toBe(true);
+  // The tabs recipe is module-private; assert the source token instead — the
+  // elegant underline list is where every such strip (conversation tabs, the
+  // agent-details strip) gets the 20px inset that moves the bar onto the
+  // rule and the first icon to 32.
+  const source = readFileSync(new URL("./components/tabs/tabs.tsx", import.meta.url), "utf8");
+  expect(source).toContain("h-12 items-center px-4 md:px-5");
 });
