@@ -6,10 +6,12 @@ export const messageReplies = tv({
   extend: messageBlock,
   slots: {
     root: [
-      // -mr-2 lets the surface reach the row's border-box right edge (its
-      // padding + border add up to 8px): the keep-12 requirement aligns the
-      // replies' right edge with the hover block and the input box.
-      "group/message-replies mt-1.5 -mr-2 flex min-w-0 w-full flex-col gap-1 px-2.5 py-2 text-left",
+      // The replies surface is a face aligned with the message text: its
+      // right edge stays on the content edge of the row (20 from the panel
+      // edge). A negative right margin on a 100%-wide block is dropped as
+      // over-constrained (measured on the real page 2026-10-09), so no bleed
+      // is attempted; the rendered position is pinned by the browser spec.
+      "group/message-replies mt-1.5 flex min-w-0 w-full flex-col gap-1 px-2.5 py-2 text-left",
       "transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-line-strong",
     ],
     summary: [

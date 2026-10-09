@@ -114,7 +114,10 @@ const tabs = tv({
           "data-disabled:pointer-events-none data-disabled:opacity-40",
         ],
         indicator: [
-          "absolute z-10 bg-foreground",
+          // The activity colour (cindyz 2026-10-09): yellow on every elegant
+          // underline strip — the chat panel, the agent-details strip and the
+          // docs alike read it from here; panels do not repaint it.
+          "absolute z-10 bg-primary-400",
           "duration-300 ease-[cubic-bezier(0.65,0,0.35,1)]",
         ],
       },
@@ -125,11 +128,11 @@ const tabs = tv({
       placement: ["top", "bottom"],
       class: {
         list: [
-          // The 20px inset puts the bar (the tab box) on the alignment's box
-          // line and the first icon at 32 (20 + the tab's symmetric 12) —
-          // the elegant tab rule, shared by every underline strip (the
-          // conversation tabs and the agent-details strip alike).
-          "h-12 items-center px-4 md:px-5",
+          // The 20px inset puts the bar (the tab box) on the alignment box
+          // line and the first icon at 32 (20 + the symmetric 12 of the tab):
+          // the elegant tab rule at every width, shared by every underline
+          // strip (the conversation tabs and the agent-details strip alike).
+          "h-12 items-center px-5",
           "overflow-x-auto overflow-y-hidden",
           "data-[sorting=true]:overflow-x-hidden",
         ],
@@ -163,13 +166,15 @@ const tabs = tv({
       theme: "elegant",
       variant: "underline",
       placement: "top",
-      class: { list: "border-b", background: "top-0", tab: "pb-3 pt-3.5", indicator: "bottom-0" },
+      // No static hairline: the elegant strip reads the bar alone (cindyz
+      // 2026-10-09, "yellow, no line"); panels do not suppress a line anymore.
+      class: { background: "top-0", tab: "pb-3 pt-3.5", indicator: "bottom-0" },
     },
     {
       theme: "elegant",
       variant: "underline",
       placement: "bottom",
-      class: { list: "border-t", background: "bottom-0", tab: "pb-3.5 pt-3", indicator: "top-0" },
+      class: { background: "bottom-0", tab: "pb-3.5 pt-3", indicator: "top-0" },
     },
     {
       theme: "elegant",

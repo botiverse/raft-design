@@ -13,6 +13,7 @@
  */
 import { expect, test } from "vite-plus/test";
 import { readFileSync } from "node:fs";
+import { conversationPanel } from "./components/conversation-panel/conversation-panel.recipe";
 import { messageItem } from "./components/message-item/message-item.recipe";
 import { messageReplies } from "./components/message-replies/message-replies.recipe";
 import { panelHeader } from "./components/panel/panel-header.recipe";
@@ -56,16 +57,41 @@ test("thread panel uses the chat panel's numbers (no extra indent of its own)", 
   expect(content.has("[&_[data-message-item]]:max-lg:px-3")).toBe(false);
 });
 
-test("replies surface reaches the row's border-box right edge", () => {
+test("replies surface right edge stays on the message text line", () => {
   const root = tokens(messageReplies({ theme: "elegant" }).root());
-  expect(root.has("-mr-2")).toBe(true);
+  // cindyz 2026-10-09 (#4): the replies is a face aligned with the text (20
+  // from the panel edge), not with the hover block. The dead -mr-2 is gone —
+  // a negative right margin on a 100%-wide block is dropped as
+  // over-constrained (measured on the real page); the rendered position is
+  // pinned by the browser spec (message-replies.right-edge.browser.test.tsx).
+  expect(root.has("w-full")).toBe(true);
+  expect(root.has("-mr-2")).toBe(false);
+  expect(root.has("w-[calc(100%+8px)]")).toBe(false);
 });
 
-test("conversation tabs: the elegant bar starts on the 20 line (tabs-A)", () => {
-  // The tabs recipe is module-private; assert the source token instead — the
-  // elegant underline list is where every such strip (conversation tabs, the
-  // agent-details strip) gets the 20px inset that moves the bar onto the
-  // rule and the first icon to 32.
+test("conversation tabs: elegant bar on the 20 line; the 22px special is gone", () => {
+  // The tabs recipe is module-private; assert source tokens. The elegant
+  // underline list carries the 20px inset at all widths (desktop and the
+  // 390px shots agree). The brutal first-tab 22px special is gone entirely
+  // (cindyz 2026-10-09 #2): the chat strip measured 22 against 16 in the
+  // agent-details strip, and the chat tab read off-centre because the rule
+  // was asymmetric (22 left, 12 right) — dropping it lands the icon at 16,
+  // centred, matching the agent-details strip.
   const source = readFileSync(new URL("./components/tabs/tabs.tsx", import.meta.url), "utf8");
-  expect(source).toContain("h-12 items-center px-4 md:px-5");
+  expect(source).toContain("h-12 items-center px-5");
+  expect(source).not.toContain("[&>[data-slot=tabs-tab]:first-child]:pl-[22px]");
+  expect(source).toContain("absolute z-10 bg-primary-400");
+  expect(source).not.toContain('list: "border-b"');
+  const panel = tokens(conversationPanel({ theme: "brutal" }).tabs());
+  expect(panel.has("[&>[data-slot=tabs-list]>[data-slot=tabs-tab]:first-child]:pl-[22px]")).toBe(
+    false,
+  );
+  // The elegant panel no longer repaints the bar (yellow is the variant
+  // default) and no longer suppresses a line (there is none) — the variant
+  // is the single source (#4, cindyz 2026-10-09).
+  const elegant = tokens(conversationPanel({ theme: "elegant" }).tabs());
+  expect(elegant.has("[&>[data-slot=tabs-list]>[data-slot=tabs-indicator]]:bg-primary-400")).toBe(
+    false,
+  );
+  expect(elegant.has("*:data-[slot=tabs-list]:border-b-0")).toBe(false);
 });
