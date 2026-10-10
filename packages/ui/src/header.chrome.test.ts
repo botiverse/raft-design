@@ -60,3 +60,15 @@ test("thread panel: header tint stays; the dark drop-shadow class is gone", () =
   expect(rootClass).not.toContain("shadow-[-4px");
   expect(tokens(rootClass).has("dark:bg-layer-card")).toBe(true);
 });
+
+test("title scale: elegant panel titles sit at semibold on the 17 line", () => {
+  // cindyz 2026-10-10: one title size (17); hierarchy via weight + colour
+  // (sidebar 700 / panel 600). Brutal keeps its own bold (theme difference).
+  const elegant = tokens(panelHeader({ theme: "elegant" }).title());
+  expect(elegant.has("font-semibold")).toBe(true);
+  expect(elegant.has("font-medium")).toBe(false);
+  expect(elegant.has("text-[17px]")).toBe(true);
+
+  const brutal = tokens(panelHeader({ theme: "brutal" }).title());
+  expect(brutal.has("font-bold")).toBe(true);
+});
