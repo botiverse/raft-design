@@ -54,7 +54,13 @@ const tabs = tv({
           "data-disabled:pointer-events-none data-disabled:opacity-40",
         ],
       },
-      elegant: {},
+      elegant: {
+        // Unselected tabs rest on the small-note tier (hint ≈6.5) instead of
+        // placeholder — tabs are operable text and must clear 4.5:1; the
+        // note/placeholder below them is what carries handle/suffix notes
+        // (cindyz 2026-10-10 ladder). Elegant-only: brutal keeps the base slot.
+        tab: ["text-foreground-hint", "[&_svg]:text-foreground-hint"],
+      },
     },
     variant: {
       default: {},

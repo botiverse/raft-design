@@ -98,7 +98,7 @@ export const panelHeader = tv({
           // colour carrying the hierarchy — sidebar 700 / panel 600. Brutal keeps
           // its own 16/700 (theme-level difference).
           "font-heading text-[17px] font-semibold leading-tight tracking-tight tabular-nums",
-          "text-foreground-muted",
+          "text-foreground",
         ],
         // Desktop puts the name and the description on one row. The name is
         // what identifies the panel, so it keeps its full width (up to the

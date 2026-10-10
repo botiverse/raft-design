@@ -114,12 +114,12 @@ export const messageItem = tv({
         content: "text-sm leading-5.25 tracking-[-0.01em]",
         header: "items-baseline gap-1.5",
         sender: [
-          "text-sm font-medium leading-none text-foreground-muted",
+          "text-sm font-semibold leading-none text-foreground-muted",
           "data-[slot=message-item-sender-button]:hover:underline data-[slot=message-item-sender-button]:hover:decoration-2 data-[slot=message-item-sender-button]:hover:underline-offset-2",
         ],
-        meta: "font-sans text-xs leading-none text-foreground-muted/70",
-        time: "font-sans text-xs leading-none tabular-nums text-foreground-muted/70",
-        inlineStatus: "font-sans text-[11px] font-medium leading-none text-foreground-muted",
+        meta: "font-sans text-xs leading-none text-foreground-hint",
+        time: "font-sans text-xs leading-none tabular-nums text-foreground-hint",
+        inlineStatus: "font-sans text-[11px] font-medium leading-none text-foreground-hint",
         body: [
           "mt-1.5 mb-1.5 max-md:mt-1 max-md:mb-1",
           "text-sm leading-5.25 tracking-[-0.01em] text-foreground-muted",
