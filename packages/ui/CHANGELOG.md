@@ -1,3 +1,9 @@
+## [0.5.41](https://github.com/botiverse/rui/compare/v0.5.40...v0.5.41) (2026-10-10)
+
+### Changed
+
+- `TaskStatusBadge` now renders through `TaskChip` and has no look of its own: a status badge in a task panel and the task chip under a message share one shape, size, border and colour and differ only in content (status icon + the caller's label). Visible change: in Elegant the badge goes from 12px to the chip's 13px with a hairline border and a 19px height; in Brutal from bold 12px at 20px tall to the chip's medium 13px at about 18px tall, so rows that carry it are about 2px shorter. `data-slot="task-status-badge"` and `data-status` are kept; no API change. ([#398](https://github.com/botiverse/rui/pull/398))
+
 ## [0.5.40](https://github.com/botiverse/rui/compare/v0.5.39...v0.5.40) (2026-10-10)
 
 ### Fixed
