@@ -41,4 +41,36 @@ for (const mode of ["light", "dark"] as const) {
     // following the status rather than one shared neutral.
     expect(colour("inline-in-progress")).not.toBe(colour("inline-done"));
   });
+
+  // Artea (#proj-frontend task #739, 2026-10-10): the inline chip's fill and
+  // border are the task chip's too. Before, the inline chip sat on one neutral
+  // grey fill with no visible border, whatever the status.
+  it(`elegant/${mode}: the inline chip's fill and border are the task chip's`, () => {
+    render(
+      <ThemeProvider theme="elegant" mode={mode}>
+        {STATUSES.map((status) => (
+          <p key={status}>
+            <TaskChip variant="inline" status={status} data-testid={`inline-${status}`}>
+              #1
+            </TaskChip>{" "}
+            <TaskChip status={status} data-testid={`badge-${status}`}>
+              #1
+            </TaskChip>
+          </p>
+        ))}
+      </ThemeProvider>,
+    );
+    const style = (id: string) => getComputedStyle(screen.getByTestId(id));
+    for (const status of STATUSES) {
+      expect(style(`inline-${status}`).backgroundColor, status).toBe(
+        style(`badge-${status}`).backgroundColor,
+      );
+      expect(style(`inline-${status}`).borderTopColor, status).toBe(
+        style(`badge-${status}`).borderTopColor,
+      );
+    }
+    expect(style("inline-in-progress").backgroundColor).not.toBe(
+      style("inline-done").backgroundColor,
+    );
+  });
 }
