@@ -94,7 +94,10 @@ export const panelHeader = tv({
           "md:has-[>[data-slot=panel-header-icon]]:[--ph-icon-self:center]",
         ],
         title: [
-          "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
+          // Title scale (cindyz 2026-10-10): one title size (17) with weight and
+          // colour carrying the hierarchy — sidebar 700 / panel 600. Brutal keeps
+          // its own 16/700 (theme-level difference).
+          "font-heading text-[17px] font-semibold leading-tight tracking-tight tabular-nums",
           "text-foreground-muted",
         ],
         // Desktop puts the name and the description on one row. The name is
