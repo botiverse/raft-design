@@ -1,3 +1,9 @@
+## [0.5.38](https://github.com/botiverse/rui/compare/v0.5.37...v0.5.38) (2026-10-10)
+
+### Fixed
+
+- `TaskChip`'s `inline` variant no longer paints its own neutral fill and transparent border over the status styling: task references inside message bodies take the same per-status fill, border, text and icon colours as the task chip under a message (Elegant; Brutal unchanged; font size and baseline rules untouched). ([#394](https://github.com/botiverse/rui/pull/394))
+
 ## [0.5.37](https://github.com/botiverse/rui/compare/v0.5.36...v0.5.37) (2026-10-10)
 
 ### Fixed
