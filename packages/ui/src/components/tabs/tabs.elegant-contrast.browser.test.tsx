@@ -35,7 +35,10 @@ it("elegant unselected tabs compute to the hint tier, selected to the title tier
           probe
         </div>
         <Tabs defaultValue="one">
-          <TabsList>
+          {/* The underline variant is what the three panel strips render (ChatPanel
+              L1494 / AgentDetailPanel L3065); the segmented default variant keeps
+              its own foreground-active selected token — out of this scope. */}
+          <TabsList variant="underline">
             <TabsTab value="one" data-testid="tab-selected">
               One
             </TabsTab>
