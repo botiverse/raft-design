@@ -1,3 +1,9 @@
+## [0.5.37](https://github.com/botiverse/rui/compare/v0.5.36...v0.5.37) (2026-10-10)
+
+### Fixed
+
+- Brutal `Combobox` keeps its shadow when open, as `Select` does: the control lifts 1px with `shadow-raft-md` instead of dropping the shadow. In Brutal, `SelectContent` and `ComboboxContent` now default `sideOffset` to 8px (was 4px), so the open trigger's shadow stays clear of the popup instead of running into it. Elegant keeps 4px; an explicit `sideOffset` still wins. ([#392](https://github.com/botiverse/rui/pull/392))
+
 ## [0.5.36](https://github.com/botiverse/rui/compare/v0.5.35...v0.5.36) (2026-10-09)
 
 ### Changed
