@@ -1,3 +1,9 @@
+## [0.5.42](https://github.com/botiverse/rui/compare/v0.5.41...v0.5.42) (2026-10-10)
+
+### Changed
+
+- Elegant panel titles sit at semibold: one title size (17) with weight and colour carrying the hierarchy (sidebar 700, panel 600). Brutal keeps its own bold 16. ([#402](https://github.com/botiverse/rui/pull/402))
+
 ## [0.5.41](https://github.com/botiverse/rui/compare/v0.5.40...v0.5.41) (2026-10-10)
 
 ### Changed
