@@ -39,7 +39,10 @@ export const threadPanel = tv({
       elegant: {
         root: [
           "relative bg-transparent font-sans text-foreground-strong",
-          "dark:md:shadow-[-4px_0_8px_-5px_oklch(0_0_0_/_0.55),0_16px_32px_-8px_oklch(0_0_0_/_0.45)]",
+          // 2026-10-10 (#737, cindyz): the dark-mode drop-shadow class is
+          // removed whole (leftward 14px gradient measured at the chat divider
+          // + its paired vertical ambient shadow). The thread column must not
+          // float over the divider.
         ],
         header: [
           "relative isolate h-auto min-h-(--shell-header-height,56px) max-lg:z-10 [@media(max-height:600px)]:h-auto",

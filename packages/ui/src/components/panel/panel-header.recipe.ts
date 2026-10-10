@@ -64,7 +64,12 @@ export const panelHeader = tv({
           "[&_[data-slot=tabs-list]]:gap-2",
         ],
         headerIcon: [
-          "size-9 rounded-md border-0 bg-fill-muted",
+          // Chip ladder (cindyz 2026-10-10, #737): fill-muted read 1.04:1
+          // against the canvas-muted header — physically invisible; fill-strong
+          // is the visible-but-restrained step. Avatar slots declare
+          // data-icon-kind="avatar" and drop the chip entirely.
+          "size-9 rounded-md border-0 bg-fill-strong",
+          "data-[icon-kind=avatar]:bg-transparent",
           "text-foreground-icon",
           "max-md:[grid-column-start:var(--ph-icon-col,2)]",
           "max-md:[grid-row-start:var(--ph-icon-row-start,1)] max-md:[grid-row-end:var(--ph-icon-row-end,auto)]",
