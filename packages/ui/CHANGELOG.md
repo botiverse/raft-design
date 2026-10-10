@@ -1,3 +1,9 @@
+## [0.5.43](https://github.com/botiverse/rui/compare/v0.5.42...v0.5.43) (2026-10-10)
+
+### Changed
+
+- Elegant colour ladder lands as decided: panel titles move to `foreground` (base) under the 17/600 line; unselected tabs rest on `hint` in both elegant tab compounds (operable 13px text clears 4.5:1; the segmented variant's own selected token is untouched); message notes (meta / time / inline status) move to `hint` and the sender name goes 500→600 in the same content ink; `--foreground-placeholder` (elegant light) rises 0.58→0.55 for 4.85:1 on white and 4.56:1 on the header tint. Brutal unchanged this round. ([#404](https://github.com/botiverse/rui/pull/404))
+
 ## [0.5.42](https://github.com/botiverse/rui/compare/v0.5.41...v0.5.42) (2026-10-10)
 
 ### Changed
