@@ -208,6 +208,9 @@ for (const { key, theme, mode } of THEMES) {
     const radius = parseFloat(style.borderTopLeftRadius);
     if (theme === "brutal") {
       expect(radius, "brutal status badge must be square").toBe(0);
+      // A 1px keyline like every other brutal chip/badge; it was `border-2`,
+      // visibly heavier than the TaskChip next to it (slock task #1286).
+      expect(style.borderTopWidth, "brutal status badge has a 1px keyline").toBe("1px");
       // Match slock's existing brutal status badge exactly: bold text and a
       // 16px line-height, so the badge measures 20px tall (it was medium and
       // 20.8px before).
