@@ -97,12 +97,15 @@ const taskChip = tv({
     // Inline (in a message) follows the message-reference rule (#proj-rui
     // task #84): body text size on the body baseline, the box made of the
     // text's own line box plus symmetric padding — no fixed height or nudge.
+    // Its colours are the task chip's own: no background or border colour is
+    // set here, so the per-status wash and border above apply (Artea,
+    // #proj-frontend task #739 — the inline chip had a neutral grey fill).
     {
       variant: "inline",
       status: ["todo", "in-progress", "in-review", "done", "closed"],
       class: {
         root: [
-          "items-baseline gap-1.5 rounded-full border border-transparent bg-fill-muted py-0 pr-2 pl-1 align-baseline",
+          "items-baseline gap-1.5 rounded-full border py-0 pr-2 pl-1 align-baseline",
           // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
           "[font-size:inherit] leading-[1.2em] font-[450] hover:brightness-100",
           "[&>svg]:size-[0.857em] [&>svg]:self-center",
