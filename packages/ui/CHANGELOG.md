@@ -1,3 +1,9 @@
+## [0.5.39](https://github.com/botiverse/rui/compare/v0.5.38...v0.5.39) (2026-10-10)
+
+### Fixed
+
+- Brutal `TaskStatusBadge` draws a 1px black keyline instead of 2px, matching `TaskChip` and `Badge`; `py-px` keeps it exactly 20px tall, so surrounding layout does not move (Elegant unchanged). ([#396](https://github.com/botiverse/rui/pull/396))
+
 ## [0.5.38](https://github.com/botiverse/rui/compare/v0.5.37...v0.5.38) (2026-10-10)
 
 ### Fixed
