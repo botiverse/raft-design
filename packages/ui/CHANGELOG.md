@@ -1,3 +1,10 @@
+## [0.5.40](https://github.com/botiverse/rui/compare/v0.5.39...v0.5.40) (2026-10-10)
+
+### Fixed
+
+- Elegant `PanelHeader`'s icon chip: `fill-muted` measured 1.04:1 against the canvas-muted header (effectively invisible) and becomes `fill-strong`; avatar slots declare `data-icon-kind="avatar"` and drop the chip entirely, so a round avatar no longer sits on a square. Brutal's black-bordered chip is unchanged. ([#399](https://github.com/botiverse/rui/pull/399))
+- Elegant `ThreadPanel` no longer casts a dark drop-shadow over the chat divider: the leftward gradient (and its paired vertical ambient shadow) is removed. ([#399](https://github.com/botiverse/rui/pull/399))
+
 ## [0.5.39](https://github.com/botiverse/rui/compare/v0.5.38...v0.5.39) (2026-10-10)
 
 ### Fixed
