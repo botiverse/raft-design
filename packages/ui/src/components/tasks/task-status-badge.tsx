@@ -1,16 +1,7 @@
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
+import type { useRender } from "@base-ui/react/use-render";
 import type { ReactNode } from "react";
-import { cn } from "../../lib/cn";
-import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
+import { TaskChip } from "./task-chip";
 import { TaskStatusIcon } from "./task-status-icon";
-import {
-  taskStatus,
-  taskStatusBorder,
-  taskStatusStrong,
-  taskStatusSoft,
-} from "./task-status.recipe";
 import type { TaskStatusId } from "./task-status.recipe";
 
 export interface TaskStatusBadgeProps extends useRender.ComponentProps<"span"> {
@@ -21,60 +12,21 @@ export interface TaskStatusBadgeProps extends useRender.ComponentProps<"span"> {
 }
 
 /**
- * A task status rendered as a badge: the status icon + caller-provided text,
- * coloured entirely from the shared `task-status-*` tokens. This is the entry
- * point hosts (and Raft's own message surfaces) use so a task status looks the
- * same everywhere — the caller passes a status, never a colour.
+ * A task status with its label: the status icon + caller-provided text.
  *
- * Brutal paints a solid pastel fill with dark ink (matching the chip); elegant
- * paints the soft wash with the strong ink, so both themes keep the same hue
- * family per status.
+ * This is `TaskChip` showing a status name instead of a task number. It has no
+ * look of its own (Artea, #proj-rui:c841b051, 2026-10-10): a status badge in
+ * the task panel and a task chip in a message are one component that differs
+ * only in what it shows, so shape, size, border and colour all come from
+ * `TaskChip`. The slot name is kept for callers that select on it.
  */
-function TaskStatusBadgeRoot({
-  status,
-  children,
-  className,
-  render,
-  ...props
-}: TaskStatusBadgeProps) {
-  const theme = useThemeFamily();
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "task-status-badge",
-    "data-status": status,
-    className: cn(
-      "inline-flex items-center gap-1 border px-2 py-0 whitespace-nowrap",
-      "[&>svg]:shrink-0 [&>svg]:size-3",
-      // Brutal keeps the hard-edged square tag the rest of the brutal UI uses
-      // (matching the brutal TaskChip: square, 1px black keyline, bold, 20px
-      // tall — `py-px` restores the 2px the old `border-2` used to supply);
-      // Elegant is a pill.
-      theme === "brutal"
-        ? cn(
-            "rounded-none border-black py-px text-xs leading-4 font-bold text-black",
-            taskStatus({ status }),
-          )
-        : cn(
-            "rounded-full text-xs leading-[1.4] font-medium",
-            taskStatusSoft({ status }),
-            taskStatusStrong({ status }),
-            taskStatusBorder({ status }),
-          ),
-      className,
-    ),
-    children: (
-      <>
-        <TaskStatusIcon status={status} />
-        {children}
-      </>
-    ),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: { slot: "task-status-badge", status },
-  });
+function TaskStatusBadgeRoot({ status, children, ...props }: TaskStatusBadgeProps) {
+  return (
+    <TaskChip status={status} data-slot="task-status-badge" data-status={status} {...props}>
+      <TaskStatusIcon status={status} />
+      {children}
+    </TaskChip>
+  );
 }
 
 export const TaskStatusBadge = Object.assign(TaskStatusBadgeRoot, {});

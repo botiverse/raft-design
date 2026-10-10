@@ -6,6 +6,7 @@ import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
 import { Timeline, TimelineItem, TimelineTitle } from "../timeline/timeline";
 import { TaskCardStatus } from "../task-card/task-card";
 import { TaskSectionBadge } from "../task-list/task-list";
+import { TaskChip } from "./task-chip";
 import { TaskStatusBadge } from "./task-status-badge";
 import { TaskStatusIcon } from "./task-status-icon";
 import { TASK_STATUS_IDS } from "./task-status.recipe";
@@ -191,37 +192,61 @@ it("each status renders its own lucide glyph — a swap cannot pass", () => {
 });
 
 for (const { key, theme, mode } of THEMES) {
-  it(`TaskStatusBadge shape follows the theme — ${key}`, () => {
+  it(`TaskStatusBadge is the task chip showing a status name — ${key}`, () => {
     render(
       <ThemeProvider theme={theme} mode={mode}>
         <div data-testid="badge-scope">
-          <TaskStatusBadge status="in-progress" data-testid="shape-badge">
-            In Progress
-          </TaskStatusBadge>
+          {TASK_STATUS_IDS.map((status) => (
+            <p key={status}>
+              <TaskStatusBadge status={status} data-testid={`shape-badge-${status}`}>
+                Label
+              </TaskStatusBadge>{" "}
+              <TaskChip status={status} data-testid={`shape-chip-${status}`}>
+                <TaskStatusIcon status={status} />
+                Label
+              </TaskChip>
+            </p>
+          ))}
         </div>
       </ThemeProvider>,
     );
-    // Brutal is a hard-edged square tag (same treatment as the brutal TaskChip:
-    // square, black keyline); Elegant is a pill. An earlier revision applied
-    // `rounded-full` in both themes, turning the brutal tag into a pill.
-    const style = getComputedStyle(screen.getByTestId("shape-badge"));
-    const radius = parseFloat(style.borderTopLeftRadius);
-    if (theme === "brutal") {
-      expect(radius, "brutal status badge must be square").toBe(0);
-      // A 1px keyline like every other brutal chip/badge; it was `border-2`,
-      // visibly heavier than the TaskChip next to it (slock task #1286).
-      expect(style.borderTopWidth, "brutal status badge has a 1px keyline").toBe("1px");
-      // Match slock's existing brutal status badge exactly: bold text and a
-      // 16px line-height, so the badge measures 20px tall (it was medium and
-      // 20.8px before).
-      expect(style.fontWeight, "brutal status badge is bold").toBe("700");
+    // Artea (#proj-rui:c841b051, 2026-10-10): a status badge in the task panel
+    // and the task chip in a message are ONE component that differs only in
+    // what it shows. Before, the badge drew its own shape: in Brutal it was
+    // bold 12px and 20px tall next to a medium 13px chip; in Elegant a 12px
+    // pill with a 1px border next to a 13px chip with a hairline.
+    const PROPERTIES = [
+      "fontSize",
+      "fontWeight",
+      "lineHeight",
+      "paddingLeft",
+      "paddingRight",
+      "borderTopWidth",
+      "borderTopColor",
+      "borderTopLeftRadius",
+      "backgroundColor",
+      "color",
+      "columnGap",
+    ] as const;
+    for (const status of TASK_STATUS_IDS) {
+      const badge = screen.getByTestId(`shape-badge-${status}`);
+      const chip = screen.getByTestId(`shape-chip-${status}`);
+      const badgeStyle = getComputedStyle(badge);
+      const chipStyle = getComputedStyle(chip);
+      for (const property of PROPERTIES) {
+        expect(badgeStyle[property], `${key}/${status}: ${property}`).toBe(chipStyle[property]);
+      }
       expect(
-        screen.getByTestId("shape-badge").getBoundingClientRect().height,
-        "brutal status badge is 20px tall",
-      ).toBe(20);
-    } else {
-      expect(radius, "elegant status badge stays a pill").toBeGreaterThan(0);
+        badge.getBoundingClientRect().height,
+        `${key}/${status}: same height as the chip`,
+      ).toBe(chip.getBoundingClientRect().height);
     }
+    // Still theme-shaped, through the chip: square in Brutal, a pill in Elegant.
+    const radius = parseFloat(
+      getComputedStyle(screen.getByTestId("shape-badge-in-progress")).borderTopLeftRadius,
+    );
+    if (theme === "brutal") expect(radius, "brutal status badge must be square").toBe(0);
+    else expect(radius, "elegant status badge stays a pill").toBeGreaterThan(0);
   });
 
   it(`board/list status shows the icon without a solid fill in Elegant — ${key}`, () => {
