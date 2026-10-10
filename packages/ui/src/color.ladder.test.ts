@@ -13,6 +13,7 @@ import { expect, test } from "vite-plus/test";
 import { readFileSync } from "node:fs";
 import { messageItem } from "./components/message-item/message-item.recipe";
 import { panelHeader } from "./components/panel/panel-header.recipe";
+import { tabsRecipe } from "./components/tabs/tabs";
 
 function tokens(cls: string): Set<string> {
   return new Set(cls.split(/\s+/).filter(Boolean));
@@ -41,15 +42,23 @@ test("message notes ride hint, sender carries 600, brutal stays put", () => {
   expect(tokens(brutal.meta()).has("text-black/40")).toBe(true);
 });
 
-test("elegant tabs rest on hint — guarded so brutal keeps the base slot", () => {
-  const src = readFileSync(new URL("./components/tabs/tabs.tsx", import.meta.url), "utf8");
-  // The elegant theme block carries the override…
-  expect(src).toMatch(/elegant:\s*\{[\s\S]*?text-foreground-hint[\s\S]*?\},/);
-  expect(src).toContain("[&_svg]:text-foreground-hint");
-  // …while the shared base slot still says placeholder for brutal.
-  expect(src).toContain(
-    '"text-[13px] font-medium tracking-[-0.005em] text-foreground-placeholder"',
-  );
+test("elegant tabs merge to hint — compounds included, brutal clean", () => {
+  // Assert the MERGED slot output, not source strings: the compoundVariants
+  // are applied after the theme variants, so a source-level pin once passed
+  // while the rendered tab stayed placeholder (Josh's + gzj's review of
+  // #404). Rendered colours are covered by
+  // tabs.elegant-contrast.browser.test.tsx.
+  for (const variant of ["underline", "default"] as const) {
+    const cls = tabsRecipe({ theme: "elegant", variant }).tab();
+    expect(cls).toContain("text-foreground-hint");
+    expect(cls).toContain("[&_svg]:text-foreground-hint");
+    expect(cls).not.toContain("text-foreground-placeholder");
+  }
+
+  // Brutal tabs carry no colour class of their own — neither tier leaks in.
+  const brutal = tabsRecipe({ theme: "brutal", variant: "underline" }).tab();
+  expect(brutal).not.toContain("text-foreground-hint");
+  expect(brutal).not.toContain("text-foreground-placeholder");
 });
 
 test("elegant placeholder value holds the raised step (source pin)", () => {
