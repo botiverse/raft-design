@@ -5,6 +5,7 @@ import { Check, X } from "lucide-react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { defaultSideOffset } from "../../lib/popup-offset";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 
@@ -106,8 +107,7 @@ const combobox = tv({
           "border-2 border-line-strong bg-layer-panel px-2 py-1.5",
           "font-sans text-sm font-semibold text-foreground-strong shadow-raft-sm",
           "focus-within:shadow-raft-md",
-          "data-popup-open:translate-x-0 data-popup-open:translate-y-0",
-          "data-popup-open:shadow-none focus-within:data-popup-open:shadow-none",
+          "data-popup-open:translate-x-0 data-popup-open:-translate-y-px data-popup-open:shadow-raft-md",
           "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
           "[&_[data-slot='combobox-trigger-indicator']>svg]:stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:fill-none",
         ],
@@ -534,7 +534,7 @@ export function ComboboxContent({
   disableAnchorTracking = true,
   positionMethod = "fixed",
   side = "bottom",
-  sideOffset = 4,
+  sideOffset,
   sticky,
   portalProps,
   className,
@@ -557,7 +557,7 @@ export function ComboboxContent({
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
-        sideOffset={sideOffset}
+        sideOffset={sideOffset ?? defaultSideOffset(theme)}
         sticky={sticky}
         className={positioner()}
       >

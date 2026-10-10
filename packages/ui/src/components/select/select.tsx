@@ -6,6 +6,7 @@ import type { DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
+import { defaultSideOffset } from "../../lib/popup-offset";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 
@@ -312,7 +313,7 @@ export function SelectContent({
   disableAnchorTracking = true,
   positionMethod = "fixed",
   side = "bottom",
-  sideOffset = 4,
+  sideOffset,
   sticky,
   portalProps,
   className,
@@ -333,7 +334,7 @@ export function SelectContent({
       disableAnchorTracking={disableAnchorTracking}
       positionMethod={positionMethod}
       side={side}
-      sideOffset={sideOffset}
+      sideOffset={sideOffset ?? defaultSideOffset(theme)}
       sticky={sticky}
       className={positioner()}
     >
