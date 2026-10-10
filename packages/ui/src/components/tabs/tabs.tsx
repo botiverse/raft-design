@@ -101,13 +101,13 @@ const tabs = tv({
         background: ["pointer-events-none absolute z-0 bg-line-hairline"],
         tab: [
           "group/tabs-tab",
-          "text-[13px] font-medium tracking-[-0.005em] text-foreground-placeholder",
+          "text-[13px] font-medium tracking-[-0.005em] text-foreground-hint",
           "transition-colors duration-200 ease-out",
           "hover:text-foreground-muted",
           "data-active:text-foreground",
           "data-active:hover:text-foreground",
           "[&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
-          "[&_svg]:text-foreground-placeholder [&_svg]:transition-colors [&_svg]:duration-200 [&_svg]:ease-out",
+          "[&_svg]:text-foreground-hint [&_svg]:transition-colors [&_svg]:duration-200 [&_svg]:ease-out",
           "hover:[&_svg]:text-foreground-muted",
           "data-active:[&_svg]:text-foreground",
           "data-active:hover:[&_svg]:text-foreground",
@@ -209,7 +209,7 @@ const tabs = tv({
         ],
         tab: [
           "group/tabs-tab h-9 gap-1.5 rounded-md px-3.5 py-2",
-          "text-[13px] font-medium tracking-[-0.005em] text-foreground-placeholder",
+          "text-[13px] font-medium tracking-[-0.005em] text-foreground-hint",
           "transition-[background-color,box-shadow,color] duration-150 ease-out",
           "hover:text-foreground-hover",
           "data-active:text-foreground-active",
@@ -224,7 +224,7 @@ const tabs = tv({
           "dark:data-[dragging-active=true]:bg-fill-muted",
           "data-[dragging-active=true]:shadow-raft-sm data-[dragging-active=true]:ring-1",
           "[&_svg]:pointer-events-none [&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:stroke-[1.5]",
-          "[&_svg]:text-foreground-placeholder [&_svg]:transition-colors [&_svg]:duration-150 [&_svg]:ease-out",
+          "[&_svg]:text-foreground-hint [&_svg]:transition-colors [&_svg]:duration-150 [&_svg]:ease-out",
           "hover:[&_svg]:text-foreground-hover",
           "data-active:[&_svg]:text-foreground-active",
           "data-disabled:pointer-events-none data-disabled:opacity-40",
@@ -268,6 +268,10 @@ const tabs = tv({
     },
   ],
 });
+
+/** Exported for the merge-contract test (rendered states are covered by
+ *  tabs.elegant-contrast.browser.test.tsx). */
+export { tabs as tabsRecipe };
 
 export type TabsPlacement = "top" | "bottom" | "left" | "right";
 

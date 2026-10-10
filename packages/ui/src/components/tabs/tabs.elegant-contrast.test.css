@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "../../styles.css";
+
+/* Colour-contract spec: read settled values, not transition frames (the tab
+   strip transitions colour over 200ms). */
+* {
+  transition: none !important;
+}
