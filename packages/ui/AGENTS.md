@@ -2,6 +2,10 @@
 
 These rules apply to production component-library code under `packages/ui` and extend the repository-level architecture rules.
 
+Typography & colour standards — families, the size ladder, the colour tiers, brutal clauses, and
+the note-colour rule — live in [`TYPOGRAPHY.md`](./TYPOGRAPHY.md) in this package. Read it before
+touching type scales, colour tiers, or family classes.
+
 ## What Belongs Here
 
 - Business-agnostic visual primitives and compound parts.
