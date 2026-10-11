@@ -26,7 +26,7 @@ trailing `#channel-name` is sans; dates, emails, and the computer display name a
 - **14** — body, values, sender, list names (600), empty values (14 italic placeholder)
 - **13** — field labels (both themes; column width 7.75rem in both themes)
 - **12** — message notes (time/model/inline status), list smalls, counts (count colour = placeholder)
-- **11.5** — reply-preview time (elegant sans / brutal mono)
+- **11.5** — reply-preview time (elegant sans / brutal mono; its colour follows each theme's header-time treatment)
 
 ## C. Colour ladder (elegant, five tiers)
 
@@ -43,7 +43,7 @@ trailing `#channel-name` is sans; dates, emails, and the computer display name a
 - Name rules: slot names = base ｜ repeated in-row names (list rows / sender) = muted+600 ｜ sidebar anchor = strong.
 - Message two-layer rule: content (sender + body at muted, weight carries the split) ｜ notes
   (time/model/role/description = hint).
-- No alpha variants for message tiers (`muted/70`, `black/40–50%`) — use the token tiers.
+- Alpha variants (`muted/70`, `black/40–50%`) are **currently not recommended in elegant** — prefer the token tiers.
 
 ## D. Theme clauses (brutal)
 
@@ -51,8 +51,6 @@ trailing `#channel-name` is sans; dates, emails, and the computer display name a
   `theme-brutal:text-black` guard is required because tailwind-merge would otherwise strip the
   recipe override.
 - Brutal dates, emails, and the computer display name are mono (elegant keeps sans).
-- Brutal field labels are 13 with the 7.75rem column (same 13 as elegant).
-- Brutal's preview time is mono at 40% black (the same value as its header time).
 - Any elegant change that lands cross-theme (no elegant guard) is decided item-by-item in the
   brutal review round; reverting costs one `theme-brutal:` guard.
 
