@@ -1,3 +1,9 @@
+## [0.5.50](https://github.com/botiverse/rui/compare/v0.5.49...v0.5.50) (2026-10-11)
+
+### Changed
+
+- The narrow tier joins the rhythm: the mobile group break lands 20 via the group-first `pt-[13px]`, and the narrow avatar image reads 28 through `--mi-avatar-narrow` (default `1.75rem`) in both themes; brutal's narrow shift keeps its default 3. ([#421](https://github.com/botiverse/rui/pull/421))
+
 ## [0.5.49](https://github.com/botiverse/rui/compare/v0.5.48...v0.5.49) (2026-10-11)
 
 ### Fixed
