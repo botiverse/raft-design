@@ -11,10 +11,13 @@
 import { expect, test } from "vite-plus/test";
 import { messageItem } from "./message-item.recipe";
 
-test("elegant rows collapse their bottom via the explicit marker", () => {
+test("elegant rows collapse their bottom via the explicit marker, split by follower", () => {
   const { root } = messageItem({ theme: "elegant" });
   const cls = root();
-  expect(cls).toContain("data-[followed-by]:pb-1.5");
+  // A continuation collapses harder (group interiors read 12) than a new
+  // group does (breaks read 24).
+  expect(cls).toContain("data-[followed-by=compact]:pb-0.5");
+  expect(cls).toContain("data-[followed-by=group]:pb-1.5");
   expect(cls).not.toContain("has-[+[data-compact=true]]");
 });
 
@@ -36,4 +39,22 @@ test("brutal rhythm is untouched", () => {
   const cls = root();
   expect(cls).not.toContain("data-[followed-by]");
   expect(cls).not.toContain("pt-[17px]");
+});
+
+test("elegant message avatars read at 32 (var-driven), centered in the unchanged 36 slot", () => {
+  const { avatarSlot } = messageItem({ theme: "elegant" });
+  const cls = avatarSlot();
+  // --mi-avatar defaults to 2rem (32) and the app raises it to 34px on the
+  // large font tier; the slot itself stays 36.
+  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem)");
+  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:mx-auto");
+  expect(cls).not.toContain("[&_[data-slot=avatar][data-size=md]]:size-9");
+});
+
+test("brutal avatars share the variable and sit 3px lower to meet the name line", () => {
+  const { avatarSlot } = messageItem({ theme: "brutal" });
+  const cls = avatarSlot();
+  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem)");
+  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:mx-auto");
+  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:mt-[3px]");
 });
