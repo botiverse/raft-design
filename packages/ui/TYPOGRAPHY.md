@@ -17,6 +17,10 @@ words" stay mono; everything human-read is sans.** Recorded exceptions: the Thre
 trailing `#channel-name` is sans; dates, emails, and the computer display name are sans
 (brutal dates/emails are mono — see D).
 
+**Status**: elegant's mono scope is settled as above; **brutal currently uses mono more broadly and
+its exact rule is still being calibrated** — this document is updated when that lands (recorded in
+the confirmation thread).
+
 ## B. Size ladder (elegant baseline)
 
 `11.5 / 12 / 13 / 14 / 15 / 17` (+ hero 20–24):
@@ -26,7 +30,14 @@ trailing `#channel-name` is sans; dates, emails, and the computer display name a
 - **14** — body, values, sender, list names (600), empty values (14 italic placeholder)
 - **13** — field labels (both themes; column width 7.75rem in both themes)
 - **12** — message notes (time/model/inline status), list smalls, counts (count colour = placeholder)
-- **11.5** — reply-preview time (elegant sans / brutal mono)
+- **11.5** — reply-preview time (elegant sans / brutal mono; its colour follows each theme's header-time treatment)
+
+**Weights**:
+
+- **400** — the reading default: body, values, notes, field labels
+- **500** — interactive controls: buttons, menu items (field inputs keep 400 via `--field-font-weight`; a textarea lifts to 500 only when invalid)
+- **600** — titles (panel 600), sender names, list-row names
+- **700** — the sidebar anchor (17/700), caps section labels (eyebrows), badges/counts; brutal titles keep 16/700
 
 ## C. Colour ladder (elegant, five tiers)
 
@@ -43,7 +54,7 @@ trailing `#channel-name` is sans; dates, emails, and the computer display name a
 - Name rules: slot names = base ｜ repeated in-row names (list rows / sender) = muted+600 ｜ sidebar anchor = strong.
 - Message two-layer rule: content (sender + body at muted, weight carries the split) ｜ notes
   (time/model/role/description = hint).
-- No alpha variants for message tiers (`muted/70`, `black/40–50%`) — use the token tiers.
+- Alpha variants (`muted/70`, `black/40–50%`) are **currently not recommended in elegant** — prefer the token tiers.
 
 ## D. Theme clauses (brutal)
 
@@ -51,8 +62,6 @@ trailing `#channel-name` is sans; dates, emails, and the computer display name a
   `theme-brutal:text-black` guard is required because tailwind-merge would otherwise strip the
   recipe override.
 - Brutal dates, emails, and the computer display name are mono (elegant keeps sans).
-- Brutal field labels are 13 with the 7.75rem column (same 13 as elegant).
-- Brutal's preview time is mono at 40% black (the same value as its header time).
 - Any elegant change that lands cross-theme (no elegant guard) is decided item-by-item in the
   brutal review round; reverting costs one `theme-brutal:` guard.
 
