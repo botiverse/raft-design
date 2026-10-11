@@ -1,3 +1,9 @@
+## [0.5.48](https://github.com/botiverse/rui/compare/v0.5.47...v0.5.48) (2026-10-11)
+
+### Changed
+
+- The system note keeps a net 12/12 rhythm: the note owns a 4px lead-in and no trailing margin, and the message that follows cancels the rest of the seam via `data-follows-system` (elegant `pt-[10px]`; brutal `mt-0` with the note's own `pt-0.5` on its different row rhythm). Expanded note groups read 6 apart. ([#417](https://github.com/botiverse/rui/pull/417))
+
 ## [0.5.47](https://github.com/botiverse/rui/compare/v0.5.46...v0.5.47) (2026-10-11)
 
 ### Changed
