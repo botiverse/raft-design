@@ -17,6 +17,10 @@ words" stay mono; everything human-read is sans.** Recorded exceptions: the Thre
 trailing `#channel-name` is sans; dates, emails, and the computer display name are sans
 (brutal dates/emails are mono — see D).
 
+**Status**: elegant's mono scope is settled as above; **brutal currently uses mono more broadly and
+its exact rule is still being calibrated** — this document is updated when that lands (recorded in
+the confirmation thread).
+
 ## B. Size ladder (elegant baseline)
 
 `11.5 / 12 / 13 / 14 / 15 / 17` (+ hero 20–24):
@@ -27,6 +31,13 @@ trailing `#channel-name` is sans; dates, emails, and the computer display name a
 - **13** — field labels (both themes; column width 7.75rem in both themes)
 - **12** — message notes (time/model/inline status), list smalls, counts (count colour = placeholder)
 - **11.5** — reply-preview time (elegant sans / brutal mono; its colour follows each theme's header-time treatment)
+
+**Weights**:
+
+- **400** — the reading default: body, values, notes, field labels
+- **500** — interactive controls and their labels: buttons, inputs, menu items
+- **600** — titles (panel 600), sender names, list-row names
+- **700** — the sidebar anchor (17/700), caps section labels (eyebrows), badges/counts; brutal titles keep 16/700
 
 ## C. Colour ladder (elegant, five tiers)
 
