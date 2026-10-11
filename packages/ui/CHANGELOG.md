@@ -1,3 +1,10 @@
+## [0.5.46](https://github.com/botiverse/rui/compare/v0.5.45...v0.5.46) (2026-10-11)
+
+### Changed
+
+- Message rhythm becomes marker-driven: the dead sibling collapse (`has(+[data-compact=true])`, blinded by per-message wrappers) is replaced by an explicit `data-followed-by` on any row another row follows — rows collapse their bottom padding to land 16 inside a group; group-first rows take `pt-[17px]` so every group break measures 24; the reply-card row collapses identically. Brutal's own rhythm is untouched. ([#412](https://github.com/botiverse/rui/pull/412))
+- Docs: `packages/ui/TYPOGRAPHY.md` (Typography & Colour Foundations v2) with the review fixes and the corrected brutal clause. ([#410](https://github.com/botiverse/rui/pull/410), [#411](https://github.com/botiverse/rui/pull/411), [#413](https://github.com/botiverse/rui/pull/413))
+
 ## [0.5.45](https://github.com/botiverse/rui/compare/v0.5.44...v0.5.45) (2026-10-11)
 
 ### Changed
