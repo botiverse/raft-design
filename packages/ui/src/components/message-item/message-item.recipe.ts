@@ -83,7 +83,7 @@ export const messageItem = tv({
           // wrapper did nothing (Josh's pixel check, 2026-10-11). The +3
           // shift meets brutal's natural-leading name line and is a variable:
           // the sm tier drops it (the smaller name line would overshoot).
-          "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
+          "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar-narrow,1.75rem)",
           "flex justify-center",
           "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem)",
           "[&_[data-slot=avatar][data-size=md]]:mt-(--mi-avatar-shift,3px)",
@@ -102,7 +102,7 @@ export const messageItem = tv({
           // 7px + the 1px transparent border = the 8px the alignment needs;
           // with the app shell's 12px inset the avatar and text lines land at
           // 20 / 68 (keep-12 rule, 2026-10-09).
-          "border border-transparent max-md:gap-2 px-[7px] pt-[17px] pb-3 max-md:pt-2 max-md:pb-1.5",
+          "border border-transparent max-md:gap-2 px-[7px] pt-[17px] pb-3 max-md:pt-[13px] max-md:pb-1.5",
           // The marker is explicit: the app renders each message inside its own
           // wrapper, so the old sibling has(+[data-compact]) could never match.
           // Two values ride it: a row followed by a continuation collapses to
@@ -133,7 +133,7 @@ export const messageItem = tv({
           "flex justify-center",
           "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem) [&_[data-slot=avatar][data-size=md]]:border-0",
           "[&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-right-px [&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-bottom-px",
-          "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
+          "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar-narrow,1.75rem)",
         ],
         continuationTime: [
           "top-0 pt-1.5",
