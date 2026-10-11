@@ -1,3 +1,11 @@
+## [0.5.47](https://github.com/botiverse/rui/compare/v0.5.46...v0.5.47) (2026-10-11)
+
+### Changed
+
+- Group interiors tighten to 12: the followed-by collapse splits by follower kind — `data-[followed-by=compact]:pb-0.5` (interiors) vs `data-[followed-by=group]:pb-1.5` (breaks stay 24). ([#415](https://github.com/botiverse/rui/pull/415))
+- Message-row avatars read at 32 via `--mi-avatar` (default `2rem`; the app raises it to 34px on the large font tier), horizontally centered in the unchanged 36 slot — the text line and header icon keep the 68 line, and the shorter avatar column stops propping the small-tier first row. ([#415](https://github.com/botiverse/rui/pull/415))
+- Per-theme avatar alignment: elegant keeps top alignment; brutal shifts the image 3px down to meet its name line's optical position (provisional — Josh's post-merge capture decides 2 vs 3). ([#415](https://github.com/botiverse/rui/pull/415))
+
 ## [0.5.46](https://github.com/botiverse/rui/compare/v0.5.45...v0.5.46) (2026-10-11)
 
 ### Changed
