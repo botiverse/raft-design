@@ -1,3 +1,9 @@
+## [0.5.51](https://github.com/botiverse/rui/compare/v0.5.50...v0.5.51) (2026-10-11)
+
+### Fixed
+
+- The system note's seams read 12 after the marker fix: the follower's top lands `pt-[12px]` (elegant) / `mt-[5px]` (brutal); the single-note lead reads 3 / 0; the group layer flattens (title top 1 / 0, disclosure keeps its padding for the tap area behind `relative`); in-group note leads re-hang app-side. ([#423](https://github.com/botiverse/rui/pull/423))
+
 ## [0.5.50](https://github.com/botiverse/rui/compare/v0.5.49...v0.5.50) (2026-10-11)
 
 ### Changed
