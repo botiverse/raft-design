@@ -47,7 +47,9 @@ test("elegant message avatars read at 32 (var-driven), centered in the unchanged
   // --mi-avatar defaults to 2rem (32) and the app raises it to 34px on the
   // large font tier; the slot itself stays 36.
   expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem)");
-  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:mx-auto");
+  // The slot centers the avatar's wrapper (the image's own mx-auto did
+  // nothing — the wrapper is what occupies the slot).
+  expect(cls).toContain("flex justify-center");
   expect(cls).not.toContain("[&_[data-slot=avatar][data-size=md]]:size-9");
 });
 
@@ -55,6 +57,6 @@ test("brutal avatars share the variable and sit 3px lower to meet the name line"
   const { avatarSlot } = messageItem({ theme: "brutal" });
   const cls = avatarSlot();
   expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem)");
-  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:mx-auto");
-  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:mt-[3px]");
+  expect(cls).toContain("flex justify-center");
+  expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:mt-(--mi-avatar-shift,3px)");
 });

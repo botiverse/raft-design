@@ -78,14 +78,15 @@ export const messageItem = tv({
         // as a bug); the square + black-frame form stays brutal's signature.
         gutter: "max-md:w-8",
         avatarSlot: [
-          // Option B at 32 via the shared variable (lg raises it to 34), and
-          // the +3 Josh measured: brutal's name line runs at its natural
-          // leading, so the image top must sit 3px lower to meet the name's
-          // optical line (elegant's tight leading needs no shift).
+          // Option B at 32 via the shared variable (lg raises it to 34); the
+          // slot centers its wrapper — centering the image inside that
+          // wrapper did nothing (Josh's pixel check, 2026-10-11). The +3
+          // shift meets brutal's natural-leading name line and is a variable:
+          // the sm tier drops it (the smaller name line would overshoot).
           "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
+          "flex justify-center",
           "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem)",
-          "[&_[data-slot=avatar][data-size=md]]:mx-auto",
-          "[&_[data-slot=avatar][data-size=md]]:mt-[3px]",
+          "[&_[data-slot=avatar][data-size=md]]:mt-(--mi-avatar-shift,3px)",
         ],
         toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-raft-sm"],
         toolbarButton: [
@@ -129,7 +130,8 @@ export const messageItem = tv({
           // in the unchanged 36 slot — the text line and the header icon stay
           // on the 68 line, and the shorter avatar column stops propping up
           // the sm-tier first row.
-          "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem) [&_[data-slot=avatar][data-size=md]]:mx-auto [&_[data-slot=avatar][data-size=md]]:border-0",
+          "flex justify-center",
+          "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem) [&_[data-slot=avatar][data-size=md]]:border-0",
           "[&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-right-px [&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-bottom-px",
           "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
         ],
