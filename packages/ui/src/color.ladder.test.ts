@@ -66,3 +66,19 @@ test("elegant placeholder value holds the raised step (source pin)", () => {
   // 0.55 → 4.85:1 on white / 4.56:1 on the canvas-muted header tint.
   expect(css).toContain("--foreground-placeholder: oklch(0.55 0.006 106.42)");
 });
+
+/**
+ * Dark ladder guard — 2026-10-11 (cindyz's circle; Josh's contrast plan).
+ * In dark elegant the hint/placeholder pair sits closer to the body than in
+ * light; the pair was darkened to hint 0.68 / placeholder 0.64 so the tiers
+ * separate like they do in light (both stay above the 4.5 readability line).
+ */
+test("dark elegant hint and placeholder keep the darkened ladder values", () => {
+  const css = readFileSync(new URL("./foundation.css", import.meta.url), "utf8");
+  const hintDark = css.match(/--foreground-hint: oklch\(0\.68 0\.005 106\.42\)/g) ?? [];
+  const placeholderDark =
+    css.match(/--foreground-placeholder: oklch\(0\.64 0\.005 106\.42\)/g) ?? [];
+  // Explicit dark block + the pre-hydration media fallback mirror.
+  expect(hintDark.length).toBe(2);
+  expect(placeholderDark.length).toBe(2);
+});
