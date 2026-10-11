@@ -10,10 +10,10 @@ export const messageSystem = tv({
     systemTime: ["shrink-0 whitespace-nowrap", "text-black/40"],
     systemContent: ["min-w-0 truncate", "text-black/50"],
     systemGroup: [""],
-    systemGroupHeader: ["flex justify-center", "pt-1 pb-0"],
+    systemGroupHeader: ["flex justify-center", "pb-0"],
     systemGroupDisclosure: [
-      "group flex max-w-full items-center",
-      "gap-1.5 px-2 py-1 text-black/50 hover:text-black/75",
+      "group relative flex max-w-full items-center",
+      "gap-1.5 px-2 pb-2 -mb-2 text-black/50 hover:text-black/75",
       "[&[data-panel-open]_[data-slot=system-message-group-chevron]]:-rotate-90",
     ],
     systemGroupSummary: ["truncate"],
@@ -25,18 +25,22 @@ export const messageSystem = tv({
         // Brutal's rows carry their own mt/py rhythm; its previous-row
         // contribution above a note differs from elegant's, so the note's
         // lead-in closes the same 12 seam (2026-10-11, gzj's review).
-        systemRoot: "pt-0.5",
+        systemRoot: "pt-0",
+        systemGroupHeader: "pt-0",
         systemTime: ["font-mono text-xs"],
         systemContent: ["text-xs"],
-        systemGroupDisclosure: ["text-xs"],
+        systemGroupDisclosure: ["pt-px", "text-xs"],
       },
       elegant: {
+        systemRoot: "pt-[3px]",
+        systemGroupHeader: "pt-px",
         systemTime: [
           "font-sans text-[11px] font-medium tabular-nums",
           "dark:text-foreground-strong/40",
         ],
         systemContent: ["font-sans text-[12px]", "dark:text-foreground-strong/50"],
         systemGroupDisclosure: [
+          "pt-0.5",
           "rounded-md font-sans text-[12px]",
           "transition-colors",
           "dark:text-foreground-strong/50 dark:hover:text-foreground-strong/75",
