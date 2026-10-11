@@ -46,6 +46,9 @@ export const messageItem = tv({
           // 6px padding + 2px border the avatar and text sit at 20 from the
           // panel edge in every theme and at every width.
           "mb-1 mt-1.5 border-2 border-transparent px-1.5 py-1",
+          // After a system note the row absorbs the rest of the seam so the
+          // note keeps a 12/12 rhythm here too (gzj's review).
+          "data-follows-system:mt-0",
           "hover:border-line-strong hover:bg-layer-panel",
           "data-popup-open:border-line-strong data-popup-open:bg-layer-panel",
           "has-data-popup-open:border-line-strong has-data-popup-open:bg-layer-panel",
@@ -105,6 +108,10 @@ export const messageItem = tv({
           // pb-0.5 (group interiors read 12), while a row followed by a new
           // group keeps pb-1.5 (group breaks read 24).
           "data-[followed-by=compact]:pb-0.5 data-[followed-by=group]:pb-1.5",
+          // A message right after a system note cancels the rest of the note's
+          // 12/12 rhythm (the note itself keeps its 4px lead; see
+          // system-message.recipe.ts).
+          "data-follows-system:pt-[10px]",
           "hover:bg-ink-2 data-popup-open:bg-ink-2 has-data-popup-open:bg-ink-2",
           "hover:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
           "has-data-popup-open:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
