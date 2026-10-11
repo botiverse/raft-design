@@ -74,7 +74,16 @@ export const messageItem = tv({
         // slot with its text (an app whose avatars resize by theme would read
         // as a bug); the square + black-frame form stays brutal's signature.
         gutter: "max-md:w-8",
-        avatarSlot: "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
+        avatarSlot: [
+          // Option B at 32 via the shared variable (lg raises it to 34), and
+          // the +3 Josh measured: brutal's name line runs at its natural
+          // leading, so the image top must sit 3px lower to meet the name's
+          // optical line (elegant's tight leading needs no shift).
+          "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
+          "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem)",
+          "[&_[data-slot=avatar][data-size=md]]:mx-auto",
+          "[&_[data-slot=avatar][data-size=md]]:mt-[3px]",
+        ],
         toolbar: ["-top-3.5 right-2", "border-2 border-line-strong bg-white shadow-raft-sm"],
         toolbarButton: [
           "size-6",
@@ -90,11 +99,12 @@ export const messageItem = tv({
           // with the app shell's 12px inset the avatar and text lines land at
           // 20 / 68 (keep-12 rule, 2026-10-09).
           "border border-transparent max-md:gap-2 px-[7px] pt-[17px] pb-3 max-md:pt-2 max-md:pb-1.5",
-          // Rows that are followed by another row collapse their bottom padding so
-          // the rhythm reads 16 inside a group (compact and first-row alike).
           // The marker is explicit: the app renders each message inside its own
           // wrapper, so the old sibling has(+[data-compact]) could never match.
-          "data-[followed-by]:pb-1.5",
+          // Two values ride it: a row followed by a continuation collapses to
+          // pb-0.5 (group interiors read 12), while a row followed by a new
+          // group keeps pb-1.5 (group breaks read 24).
+          "data-[followed-by=compact]:pb-0.5 data-[followed-by=group]:pb-1.5",
           "hover:bg-ink-2 data-popup-open:bg-ink-2 has-data-popup-open:bg-ink-2",
           "hover:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
           "has-data-popup-open:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
@@ -108,7 +118,11 @@ export const messageItem = tv({
         ],
         gutter: "max-md:w-8",
         avatarSlot: [
-          "[&_[data-slot=avatar][data-size=md]]:size-9 [&_[data-slot=avatar][data-size=md]]:border-0",
+          // Option B (2026-10-11): the image reads at 32, horizontally centered
+          // in the unchanged 36 slot — the text line and the header icon stay
+          // on the 68 line, and the shorter avatar column stops propping up
+          // the sm-tier first row.
+          "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,2rem) [&_[data-slot=avatar][data-size=md]]:mx-auto [&_[data-slot=avatar][data-size=md]]:border-0",
           "[&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-right-px [&_[data-slot=avatar][data-size=md]>[data-slot=avatar-badge]]:-bottom-px",
           "max-md:w-8 max-md:[&_[data-slot=avatar][data-size=md]]:size-6",
         ],
