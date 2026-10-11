@@ -89,8 +89,12 @@ export const messageItem = tv({
           // 7px + the 1px transparent border = the 8px the alignment needs;
           // with the app shell's 12px inset the avatar and text lines land at
           // 20 / 68 (keep-12 rule, 2026-10-09).
-          "border border-transparent max-md:gap-2 px-[7px] pt-3.5 pb-3 max-md:pt-2 max-md:pb-1.5",
-          "has-[+[data-compact=true]]:pb-0.5 max-md:has-[+[data-compact=true]]:pb-0",
+          "border border-transparent max-md:gap-2 px-[7px] pt-[17px] pb-3 max-md:pt-2 max-md:pb-1.5",
+          // Rows that are followed by another row collapse their bottom padding so
+          // the rhythm reads 16 inside a group (compact and first-row alike).
+          // The marker is explicit: the app renders each message inside its own
+          // wrapper, so the old sibling has(+[data-compact]) could never match.
+          "data-[followed-by]:pb-1.5",
           "hover:bg-ink-2 data-popup-open:bg-ink-2 has-data-popup-open:bg-ink-2",
           "hover:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
           "has-data-popup-open:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
