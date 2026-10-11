@@ -2,11 +2,15 @@ import { tv } from "../../lib/tv";
 
 export const messageSystem = tv({
   slots: {
-    systemRoot: ["flex min-w-0 items-center justify-center", "mb-1 gap-2 px-2 py-1.5"],
+    // A system note is a standalone line between messages: it keeps a net
+    // 12 above and below (2026-10-11) — the note owns its 4px lead-in, the
+    // message that follows cancels the rest of the group-break accounting
+    // via data-follows-system.
+    systemRoot: ["flex min-w-0 items-center justify-center", "gap-2 px-2 pt-1 pb-0"],
     systemTime: ["shrink-0 whitespace-nowrap", "text-black/40"],
     systemContent: ["min-w-0 truncate", "text-black/50"],
-    systemGroup: ["mb-1"],
-    systemGroupHeader: ["flex justify-center", "py-1.5"],
+    systemGroup: [""],
+    systemGroupHeader: ["flex justify-center", "pt-1 pb-0"],
     systemGroupDisclosure: [
       "group flex max-w-full items-center",
       "gap-1.5 px-2 py-1 text-black/50 hover:text-black/75",
@@ -18,6 +22,10 @@ export const messageSystem = tv({
   variants: {
     theme: {
       brutal: {
+        // Brutal's rows carry their own mt/py rhythm; its previous-row
+        // contribution above a note differs from elegant's, so the note's
+        // lead-in closes the same 12 seam (2026-10-11, gzj's review).
+        systemRoot: "pt-0.5",
         systemTime: ["font-mono text-xs"],
         systemContent: ["text-xs"],
         systemGroupDisclosure: ["text-xs"],
