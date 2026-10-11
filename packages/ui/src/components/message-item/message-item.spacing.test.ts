@@ -60,3 +60,12 @@ test("brutal avatars share the variable and sit 3px lower to meet the name line"
   expect(cls).toContain("flex justify-center");
   expect(cls).toContain("[&_[data-slot=avatar][data-size=md]]:mt-(--mi-avatar-shift,3px)");
 });
+
+test("the narrow tier reads 28 (var) and the mobile group break is 20", () => {
+  const { root } = messageItem({ theme: "elegant" });
+  expect(root()).toContain("max-md:pt-[13px]");
+  const { avatarSlot } = messageItem({ theme: "elegant" });
+  expect(avatarSlot()).toContain("size-(--mi-avatar-narrow,1.75rem)");
+  const brutal = messageItem({ theme: "brutal" });
+  expect(brutal.avatarSlot()).toContain("size-(--mi-avatar-narrow,1.75rem)");
+});
