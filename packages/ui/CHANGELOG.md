@@ -1,3 +1,10 @@
+## [0.5.45](https://github.com/botiverse/rui/compare/v0.5.44...v0.5.45) (2026-10-11)
+
+### Changed
+
+- Dark elegant `hint`/`placeholder` darken to 0.68/0.64 (explicit dark block + the pre-hydration mirror) so the note tiers separate the way they do in light; both stay above the 4.5 readability line. ([#408](https://github.com/botiverse/rui/pull/408))
+- The reply-preview time aligns to its own theme's header time: elegant reads `font-sans` at 11.5px tabular (drops mono), brutal takes `font-mono` at 11.5px tabular (it was the odd sans one out). ([#408](https://github.com/botiverse/rui/pull/408))
+
 ## [0.5.44](https://github.com/botiverse/rui/compare/v0.5.43...v0.5.44) (2026-10-11)
 
 ### Changed
