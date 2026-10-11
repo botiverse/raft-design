@@ -16,7 +16,10 @@ export const messageItem = tv({
     avatarSlot: ["relative w-9 shrink-0 self-start"],
     continuationTime: ["absolute right-0 top-1 select-none tabular-nums"],
     content: ["min-w-0 flex-1"],
-    header: ["flex min-w-0 overflow-hidden pr-24"],
+    // The right-side reserve keeps header text clear of the hover toolbar.
+    // Narrow hosts (the Thread panel sits ~300px wide inside a wide window)
+    // shrink it locally with `--mi-hdr-pr`; 6rem stays the default.
+    header: ["flex min-w-0 overflow-hidden pr-(--mi-hdr-pr,6rem)"],
     sender: ["min-w-0 shrink-0 truncate", "data-[slot=message-item-sender-button]:cursor-pointer"],
     senderBadges: ["inline-flex shrink-0 items-center gap-1"],
     meta: ["min-w-0 truncate"],
