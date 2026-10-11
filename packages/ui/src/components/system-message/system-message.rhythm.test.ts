@@ -22,17 +22,19 @@ test("system rows keep their lead and no trailing margin (per Josh's table)", ()
 
 test("the message following a system note completes the 12/12 rhythm", () => {
   const { root } = messageItem({ theme: "elegant" });
-  expect(root()).toContain("data-follows-system:pt-[12px]");
+  expect(root()).toContain("data-[follows-system=note]:pt-[12px]");
+  expect(root()).toContain("data-[follows-system=group]:pt-[4px]");
 });
 
 test("brutal closes the same 12 seams on its own rhythm", () => {
   const { systemRoot, systemGroupDisclosure } = messageSystem({ theme: "brutal" });
   expect(systemRoot()).toContain("pt-0");
   expect(systemGroupDisclosure()).toContain("pt-px");
-  expect(systemGroupDisclosure()).toContain("-mb-2");
-  // Positioned elements hit-test above the pulled-up neighbours, so the
-  // negative margin's overlap zone still belongs to the button.
-  expect(systemGroupDisclosure()).toContain("relative");
+  // The 8px stays inside the button's own row (no overlap — the per-row
+  // contain shells make z-order unreliable across rows).
+  expect(systemGroupDisclosure()).not.toContain("-mb-2");
+  expect(systemGroupDisclosure()).toContain("pb-2");
   const { root } = messageItem({ theme: "brutal" });
-  expect(root()).toContain("data-follows-system:mt-[5px]");
+  expect(root()).toContain("data-[follows-system=note]:mt-[5px]");
+  expect(root()).toContain("data-[follows-system=group]:mt-0");
 });
