@@ -35,7 +35,7 @@ the confirmation thread).
 **Weights**:
 
 - **400** — the reading default: body, values, notes, field labels
-- **500** — interactive controls and their labels: buttons, inputs, menu items
+- **500** — interactive controls: buttons, menu items (field inputs keep 400 via `--field-font-weight`; a textarea lifts to 500 only when invalid)
 - **600** — titles (panel 600), sender names, list-row names
 - **700** — the sidebar anchor (17/700), caps section labels (eyebrows), badges/counts; brutal titles keep 16/700
 
