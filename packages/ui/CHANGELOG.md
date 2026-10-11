@@ -1,3 +1,9 @@
+## [0.5.44](https://github.com/botiverse/rui/compare/v0.5.43...v0.5.44) (2026-10-11)
+
+### Changed
+
+- The message header's right-side reserve (kept clear of the hover toolbar) becomes variable-driven: `pr-(--mi-hdr-pr,6rem)` with the 6rem default unchanged, so narrow hosts — the Thread panel inside a wide window — lower it locally instead of relying on viewport breakpoints. Contract test pins the variable and the default in both themes. ([#406](https://github.com/botiverse/rui/pull/406))
+
 ## [0.5.43](https://github.com/botiverse/rui/compare/v0.5.42...v0.5.43) (2026-10-10)
 
 ### Changed
