@@ -61,7 +61,7 @@ the confirmation thread).
 - Brutal titles stay 16/700 Hanken (elegant is 17/600 Inter); display names are black — the
   `theme-brutal:text-black` guard is required because tailwind-merge would otherwise strip the
   recipe override.
-- Brutal dates, emails, and the computer display name are mono (elegant keeps sans).
+- Brutal dates and emails are mono (elegant keeps sans); the computer display name stays sans in both themes (hostnames/system/version are the mono values there).
 - Any elegant change that lands cross-theme (no elegant guard) is decided item-by-item in the
   brutal review round; reverting costs one `theme-brutal:` guard.
 
