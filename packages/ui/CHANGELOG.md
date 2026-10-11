@@ -1,3 +1,10 @@
+## [0.5.49](https://github.com/botiverse/rui/compare/v0.5.48...v0.5.49) (2026-10-11)
+
+### Fixed
+
+- The message-row avatar centers the box that occupies its slot (the image-level `mx-auto` was inert — the slot now flex-centers its child, putting the image's left edge back at 22). ([#419](https://github.com/botiverse/rui/pull/419))
+- Brutal's +3 image shift becomes `--mi-avatar-shift` (default 3px) so the small font tier can set 0 — removing the tier's row-propping and the 1.4px overshoot. ([#419](https://github.com/botiverse/rui/pull/419))
+
 ## [0.5.48](https://github.com/botiverse/rui/compare/v0.5.47...v0.5.48) (2026-10-11)
 
 ### Changed
