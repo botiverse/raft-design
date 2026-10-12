@@ -22,19 +22,21 @@ test("system rows keep their lead and no trailing margin (per Josh's table)", ()
 
 test("the message following a system note completes the 12/12 rhythm", () => {
   const { root } = messageItem({ theme: "elegant" });
-  expect(root()).toContain("data-[follows-system=note]:pt-[12px]");
-  expect(root()).toContain("data-[follows-system=group]:pt-[4px]");
+  // Option A: one seam value for every system-row kind — the button's box is
+  // today's real clickable height and nothing overlaps.
+  expect(root()).toContain("data-follows-system:pt-[12px]");
+  const { systemGroupDisclosure } = messageSystem({ theme: "elegant" });
+  expect(systemGroupDisclosure()).not.toContain("-mb-2");
+  expect(systemGroupDisclosure()).toContain("pb-0.5");
 });
 
 test("brutal closes the same 12 seams on its own rhythm", () => {
   const { systemRoot, systemGroupDisclosure } = messageSystem({ theme: "brutal" });
   expect(systemRoot()).toContain("pt-0");
   expect(systemGroupDisclosure()).toContain("pt-px");
-  // The 8px stays inside the button's own row (no overlap — the per-row
-  // contain shells make z-order unreliable across rows).
-  expect(systemGroupDisclosure()).not.toContain("-mb-2");
-  expect(systemGroupDisclosure()).toContain("pb-2");
+  // Option A: brutal's real clickable height ran to the row's very bottom.
+  expect(systemGroupDisclosure()).toContain("pb-0");
+  expect(systemGroupDisclosure()).not.toContain("pb-0.5");
   const { root } = messageItem({ theme: "brutal" });
-  expect(root()).toContain("data-[follows-system=note]:mt-[5px]");
-  expect(root()).toContain("data-[follows-system=group]:mt-0");
+  expect(root()).toContain("data-follows-system:mt-[5px]");
 });
