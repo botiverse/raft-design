@@ -14,6 +14,8 @@ import { TaskChipInFooterComposition } from "#/modules/task-chip/compositions/ta
 import taskChipInFooterSource from "#/modules/task-chip/compositions/task-chip-in-footer.composition.tsx?raw";
 import { TaskChipInMarkdownComposition } from "#/modules/task-chip/compositions/task-chip-in-markdown.composition.tsx";
 import taskChipInMarkdownSource from "#/modules/task-chip/compositions/task-chip-in-markdown.composition.tsx?raw";
+import { TaskChipSizesComposition } from "#/modules/task-chip/compositions/task-chip-sizes.composition.tsx";
+import taskChipSizesSource from "#/modules/task-chip/compositions/task-chip-sizes.composition.tsx?raw";
 import { TaskChipStatusesComposition } from "#/modules/task-chip/compositions/task-chip-statuses.composition.tsx";
 import taskChipStatusesSource from "#/modules/task-chip/compositions/task-chip-statuses.composition.tsx?raw";
 import { TaskChipVariantsComposition } from "#/modules/task-chip/compositions/task-chip-variants.composition.tsx";
@@ -50,6 +52,13 @@ const PROPS: readonly PropRow[] = [
     default: '"default"',
     description:
       "Inline uses a neutral, borderless inline surface with a 2px leading icon inset; task status continues to color only the icon.",
+  },
+  {
+    name: "size",
+    type: '"default" | "sm"',
+    default: '"default"',
+    description:
+      "Default variant only. sm takes the sm Badge's text size and height, for a chip that shares a row with Badges.",
   },
   {
     name: "status",
@@ -112,6 +121,7 @@ export const Route = createFileRoute("/components/task-chip")({
         taskChipInFooter: taskChipInFooterSource,
         taskChipStatuses: taskChipStatusesSource,
         taskChipVariants: taskChipVariantsSource,
+        taskChipSizes: taskChipSizesSource,
       },
     }),
 });
@@ -157,6 +167,18 @@ function TaskChipDoc() {
               <TaskChipVariantsComposition />
             </Preview.Canvas>
             <Preview.Code html={code.taskChipVariants} collapsedHtml={code.taskChipVariantsBody} />
+          </Preview>
+        </DocSubsection>
+        <DocSubsection parentId="usage" id="sizes" title="Sizes">
+          <p className="mb-3 text-sm text-foreground-muted">
+            Use <InlineCode>size="sm"</InlineCode> when the chip sits in one row with Badges, such
+            as a conversation card's metadata row, so it matches their text size and height.
+          </p>
+          <Preview>
+            <Preview.Canvas>
+              <TaskChipSizesComposition />
+            </Preview.Canvas>
+            <Preview.Code html={code.taskChipSizes} collapsedHtml={code.taskChipSizesBody} />
           </Preview>
         </DocSubsection>
         <DocSubsection parentId="usage" id="states" title="Statuses and loading">

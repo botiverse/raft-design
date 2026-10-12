@@ -1,6 +1,7 @@
 import type { useRender } from "@base-ui/react/use-render";
 import type { ReactNode } from "react";
 import { TaskChip } from "./task-chip";
+import type { TaskChipSize } from "./task-chip";
 import { TaskStatusIcon } from "./task-status-icon";
 import type { TaskStatusId } from "./task-status.recipe";
 
@@ -9,6 +10,8 @@ export interface TaskStatusBadgeProps extends useRender.ComponentProps<"span"> {
   /** Badge text. The caller owns the copy (and its localization); Raft never
    *  hardcodes a status label here. */
   children?: ReactNode;
+  /** Same as `TaskChip`'s `size`: `sm` lines up with an `sm` Badge. */
+  size?: TaskChipSize;
 }
 
 /**
