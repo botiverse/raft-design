@@ -9,7 +9,8 @@ import { TaskStatusBadge } from "./task-status-badge";
 // Artea (#proj-frontend task #748, 2026-10-12): in the Activity card the task
 // chip sits in one row with reply-count / mention / unread Badges and read one
 // size too big (Elegant 13px text vs the Badge's 11px). `size="sm"` gives the
-// chip the `sm` Badge's text size and height. Real browser only: jsdom has no
+// chip the `sm` Badge's text size, weight and height (cindyz: Brutal chip text
+// read as a different font beside the bold Badges). Real browser only: jsdom has no
 // layout.
 
 const it = test.skipIf(typeof window === "undefined");
@@ -17,7 +18,7 @@ const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
 for (const theme of ["elegant", "brutal"] as const) {
-  it(`${theme}: an sm task chip has the sm Badge's text size and height`, () => {
+  it(`${theme}: an sm task chip has the sm Badge's text size, weight and height`, () => {
     render(
       <ThemeProvider theme={theme} mode="light">
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -40,6 +41,8 @@ for (const theme of ["elegant", "brutal"] as const) {
     const height = (id: string) => screen.getByTestId(id).getBoundingClientRect().height;
     for (const id of ["chip-sm", "status-sm"]) {
       expect(style(id).fontSize, id).toBe(style("badge").fontSize);
+      expect(style(id).fontWeight, id).toBe(style("badge").fontWeight);
+      expect(style(id).letterSpacing, id).toBe(style("badge").letterSpacing);
       expect(height(id), id).toBe(height("badge"));
     }
     // The default chip keeps its own size (13px) for surfaces with no Badge
