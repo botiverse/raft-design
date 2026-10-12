@@ -137,13 +137,13 @@ const taskChip = tv({
       theme: "brutal",
       variant: "default",
       size: "sm",
-      class: { root: "h-5 text-[10px] leading-none [&>svg]:size-2.5" },
+      class: { root: "h-5 text-[10px] font-bold leading-none [&>svg]:size-2.5" },
     },
     {
       theme: "elegant",
       variant: "default",
       size: "sm",
-      class: { root: "mt-0 h-[18px] text-[11px] [&>svg]:size-2.5" },
+      class: { root: "mt-0 h-[18px] text-[11px] font-medium tracking-[0.22px] [&>svg]:size-2.5" },
     },
   ],
   defaultVariants: {
