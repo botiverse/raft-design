@@ -40,7 +40,7 @@ const tabs = tv({
     theme: {
       brutal: {
         list: [
-          "flex w-max max-w-full border-2 border-line-strong bg-layer-panel",
+          "relative flex w-max max-w-full border-2 border-line-strong bg-layer-panel",
           "scrollbar-none [&::-webkit-scrollbar]:hidden",
         ],
         background: "hidden",
