@@ -105,7 +105,7 @@ export const badge = tv({
     {
       theme: "elegant",
       size: "md",
-      class: { root: "px-3 py-[3px] text-xs leading-4 [&:has(svg)]:px-2.5" },
+      class: { root: "px-3 py-[3px] text-xs leading-4" },
     },
     {
       theme: "brutal",
