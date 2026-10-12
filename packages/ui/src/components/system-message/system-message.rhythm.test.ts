@@ -27,7 +27,10 @@ test("the message following a system note completes the 12/12 rhythm", () => {
   expect(root()).toContain("data-follows-system:pt-[12px]");
   const { systemGroupDisclosure } = messageSystem({ theme: "elegant" });
   expect(systemGroupDisclosure()).not.toContain("-mb-2");
-  expect(systemGroupDisclosure()).toContain("pb-0.5");
+  // Josh's box arithmetic: 0.5.51 measured 28 (elegant) minus the 8 the
+  // negative margin netted = 20, i.e. pb 0 — a probe of pb-0.5 would read 22.
+  expect(systemGroupDisclosure()).toContain("pb-0");
+  expect(systemGroupDisclosure()).not.toContain("pb-0.5");
 });
 
 test("brutal closes the same 12 seams on its own rhythm", () => {
