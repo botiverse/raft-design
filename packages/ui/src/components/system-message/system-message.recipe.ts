@@ -13,7 +13,7 @@ export const messageSystem = tv({
     systemGroupHeader: ["flex justify-center", "pb-0"],
     systemGroupDisclosure: [
       "group relative flex max-w-full items-center",
-      "gap-1.5 px-2 pb-2 text-black/50 hover:text-black/75",
+      "gap-1.5 px-2 pb-0.5 text-black/50 hover:text-black/75",
       "[&[data-panel-open]_[data-slot=system-message-group-chevron]]:-rotate-90",
     ],
     systemGroupSummary: ["truncate"],
@@ -27,9 +27,10 @@ export const messageSystem = tv({
         // lead-in closes the same 12 seam (2026-10-11, gzj's review).
         systemRoot: "pt-0",
         systemGroupHeader: "pt-0",
+        // brutal's real clickable height ran to the row's very bottom (17).
+        systemGroupDisclosure: ["pt-px", "pb-0", "text-xs"],
         systemTime: ["font-mono text-xs"],
         systemContent: ["text-xs"],
-        systemGroupDisclosure: ["pt-px", "text-xs"],
       },
       elegant: {
         systemRoot: "pt-[3px]",

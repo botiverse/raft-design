@@ -48,7 +48,7 @@ export const messageItem = tv({
           "mb-1 mt-1.5 border-2 border-transparent px-1.5 py-1",
           // After a system note the row absorbs the rest of the seam so the
           // note keeps a 12/12 rhythm here too (gzj's review).
-          "data-[follows-system=note]:mt-[5px] data-[follows-system=group]:mt-0",
+          "data-follows-system:mt-[5px]",
           "hover:border-line-strong hover:bg-layer-panel",
           "data-popup-open:border-line-strong data-popup-open:bg-layer-panel",
           "has-data-popup-open:border-line-strong has-data-popup-open:bg-layer-panel",
@@ -112,7 +112,7 @@ export const messageItem = tv({
           // A message right after a system note cancels the rest of the note's
           // 12/12 rhythm (the note itself keeps its 4px lead; see
           // system-message.recipe.ts).
-          "data-[follows-system=note]:pt-[12px] data-[follows-system=group]:pt-[4px]",
+          "data-follows-system:pt-[12px]",
           "hover:bg-ink-2 data-popup-open:bg-ink-2 has-data-popup-open:bg-ink-2",
           "hover:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
           "has-data-popup-open:[--mi-ct-color:color-mix(in_oklab,var(--foreground-muted)_60%,transparent)]",
