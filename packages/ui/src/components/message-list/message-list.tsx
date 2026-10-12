@@ -12,6 +12,12 @@ import {
 } from "../scroll-area";
 import { messageList } from "./message-list.recipe";
 
+// Base UI's ScrollArea.Content sets an inline `min-width: fit-content` for
+// horizontal scrolling, which overrides the `min-w-0` class. The viewport never
+// scrolls horizontally, so reset it: otherwise wide content (a w-max tab strip,
+// a long code line) stretches every message past the viewport.
+const contentStyle = { minWidth: 0 };
+
 export type MessageListProps = useRender.ComponentProps<"div"> & {
   rootClassName?: string;
 };
@@ -54,7 +60,9 @@ export function MessageList({
         className={viewport({ className })}
         style={viewportStyle}
       >
-        <ScrollAreaContent className={content()}>{children}</ScrollAreaContent>
+        <ScrollAreaContent className={content()} style={contentStyle}>
+          {children}
+        </ScrollAreaContent>
       </ScrollAreaViewport>
       <ScrollAreaScrollbar className="me-1.5 px-0 py-1">
         <ScrollAreaThumb />
