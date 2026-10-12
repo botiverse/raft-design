@@ -67,6 +67,17 @@ export const badge = tv({
         root: "bg-[oklch(0.66_0.19_31)] text-foreground",
       },
     },
+    // `sm` is the label size every existing badge uses. `md` is for a badge that
+    // is itself the thing a person clicks or taps (a removable tag, a recent
+    // search): a 24px box, the same height as the `xs` Button.
+    size: {
+      sm: {
+        root: "",
+      },
+      md: {
+        root: "",
+      },
+    },
     // Enables the old brutal casing recipe when a badge should read as a compact
     // label. It defaults off so case-sensitive content stays intact; Elegant
     // preserves the caller's casing.
@@ -82,9 +93,20 @@ export const badge = tv({
   defaultVariants: {
     appearance: "solid",
     variant: "default",
+    size: "sm",
     uppercase: false,
   },
   compoundVariants: [
+    {
+      theme: "brutal",
+      size: "md",
+      class: { root: "h-6 px-2 text-[11px]" },
+    },
+    {
+      theme: "elegant",
+      size: "md",
+      class: { root: "px-3 py-[3px] text-xs leading-4 [&:has(svg)]:px-2.5" },
+    },
     {
       theme: "brutal",
       uppercase: true,
@@ -386,14 +408,24 @@ export const badge = tv({
 export type BadgeProps = useRender.ComponentProps<"span"> &
   Omit<VariantProps<typeof badge>, "theme">;
 
-function BadgeRoot({ appearance, variant, uppercase, className, render, ...props }: BadgeProps) {
+function BadgeRoot({
+  appearance,
+  variant,
+  size,
+  uppercase,
+  className,
+  render,
+  ...props
+}: BadgeProps) {
   const theme = useThemeFamily();
   const resolvedAppearance = appearance ?? "solid";
+  const resolvedSize = size ?? "sm";
   const resolvedUppercase = uppercase ?? false;
   const { root } = badge({
     theme,
     appearance: resolvedAppearance,
     variant,
+    size: resolvedSize,
     uppercase: resolvedUppercase,
   });
   const defaultProps: useRender.ElementProps<"span"> = {
@@ -408,6 +440,7 @@ function BadgeRoot({ appearance, variant, uppercase, className, render, ...props
       slot: "badge",
       appearance: resolvedAppearance,
       variant,
+      size: resolvedSize,
       uppercase: resolvedUppercase,
     },
   });
