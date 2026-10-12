@@ -8,6 +8,7 @@ import { taskStatus } from "./task-status.recipe";
 import type { TaskStatusId } from "./task-status.recipe";
 
 export type TaskChipVariant = "default" | "inline";
+export type TaskChipSize = "default" | "sm";
 
 const taskChip = tv({
   slots: {
@@ -34,6 +35,15 @@ const taskChip = tv({
     variant: {
       default: {},
       inline: {},
+    },
+    // `sm` matches the `sm` Badge it sits beside (Artea, #proj-frontend task
+    // #748): in the Activity card metadata row the chip shares a line with
+    // reply-count / mention / unread Badges, and the default chip's 13px text
+    // read one size too big there. Only the standalone (`default`) variant
+    // has a size; the inline chip follows the surrounding text.
+    size: {
+      default: {},
+      sm: {},
     },
   },
   compoundVariants: [
@@ -123,9 +133,22 @@ const taskChip = tv({
         ],
       },
     },
+    {
+      theme: "brutal",
+      variant: "default",
+      size: "sm",
+      class: { root: "h-5 text-[10px] leading-none [&>svg]:size-2.5" },
+    },
+    {
+      theme: "elegant",
+      variant: "default",
+      size: "sm",
+      class: { root: "mt-0 h-[18px] text-[11px] [&>svg]:size-2.5" },
+    },
   ],
   defaultVariants: {
     variant: "default",
+    size: "default",
   },
 });
 
@@ -133,19 +156,22 @@ export type TaskChipProps = useRender.ComponentProps<"span"> & {
   status: TaskStatusId;
   loading?: boolean;
   variant?: TaskChipVariant;
+  /** `sm` lines the chip up with an `sm` Badge in the same row. */
+  size?: TaskChipSize;
 };
 
 export function TaskChip({
   status,
   loading = false,
   variant = "default",
+  size = "default",
   className,
   render,
   children,
   ...props
 }: TaskChipProps) {
   const theme = useThemeFamily();
-  const { root } = taskChip({ theme, status, variant });
+  const { root } = taskChip({ theme, status, variant, size });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-chip",
     "data-inline-reference": "",
