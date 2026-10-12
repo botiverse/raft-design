@@ -50,7 +50,7 @@ export function MessageListWideLab() {
             </MessageItemBody>
             <MessageItemEmbedded>
               <MessageEmbed className="w-full min-w-0">
-                <MessageEmbedHeader className="flex items-center gap-2 py-0">
+                <MessageEmbedHeader className="flex items-center px-0 py-0 sm:px-0">
                   <div className="min-w-0 flex-1 overflow-hidden">
                     <Tabs defaultValue={TABS[0]} className="min-w-0">
                       <TabsList
