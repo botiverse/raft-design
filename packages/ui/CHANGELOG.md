@@ -1,3 +1,9 @@
+## [0.5.52](https://github.com/botiverse/rui/compare/v0.5.51...v0.5.52) (2026-10-12)
+
+### Fixed
+
+- The collapsed system-note toggle's box is its real clickable height: no element overlaps (the historic negative margin is gone), both themes read `pb-0`, one seam value serves every note kind (`data-follows-system` is a plain marker again), and the 12/6/12 rhythm is unchanged. ([#425](https://github.com/botiverse/rui/pull/425) → [#426](https://github.com/botiverse/rui/pull/426) → [#427](https://github.com/botiverse/rui/pull/427), consolidated pre-release)
+
 ## [0.5.51](https://github.com/botiverse/rui/compare/v0.5.50...v0.5.51) (2026-10-11)
 
 ### Fixed
