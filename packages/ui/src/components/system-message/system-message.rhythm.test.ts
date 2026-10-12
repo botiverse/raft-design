@@ -27,7 +27,7 @@ test("the message following a system note completes the 12/12 rhythm", () => {
   expect(root()).toContain("data-follows-system:pt-[12px]");
   const { systemGroupDisclosure } = messageSystem({ theme: "elegant" });
   expect(systemGroupDisclosure()).not.toContain("-mb-2");
-  expect(systemGroupDisclosure()).toContain("pb-0.5");
+  expect(systemGroupDisclosure()).toContain("pb-0");
 });
 
 test("brutal closes the same 12 seams on its own rhythm", () => {

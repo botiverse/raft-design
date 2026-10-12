@@ -13,7 +13,7 @@ export const messageSystem = tv({
     systemGroupHeader: ["flex justify-center", "pb-0"],
     systemGroupDisclosure: [
       "group relative flex max-w-full items-center",
-      "gap-1.5 px-2 pb-0.5 text-black/50 hover:text-black/75",
+      "gap-1.5 px-2 pb-0 text-black/50 hover:text-black/75",
       "[&[data-panel-open]_[data-slot=system-message-group-chevron]]:-rotate-90",
     ],
     systemGroupSummary: ["truncate"],
