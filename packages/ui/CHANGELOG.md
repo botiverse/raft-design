@@ -1,3 +1,9 @@
+## [0.5.55](https://github.com/botiverse/rui/compare/v0.5.54...v0.5.55) (2026-10-12)
+
+### Fixed
+
+- `TaskChip` / `TaskStatusBadge` `size="sm"` now also match the `sm` Badge's font weight and letter spacing (Elegant 500 / 0.22px, Brutal 700), so the chip no longer reads as a different font beside the Badges in slock's Activity card row. The default size and the inline variant are unchanged. ([#437](https://github.com/botiverse/rui/pull/437))
+
 ## [0.5.54](https://github.com/botiverse/rui/compare/v0.5.53...v0.5.54) (2026-10-12)
 
 ### Added
