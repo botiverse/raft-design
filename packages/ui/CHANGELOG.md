@@ -1,3 +1,9 @@
+## [0.5.53](https://github.com/botiverse/rui/compare/v0.5.52...v0.5.53) (2026-10-12)
+
+### Fixed
+
+- `MessageList` no longer lets wide content (a `w-max` tab strip, a long code line) stretch every message past a narrow list on a desktop viewport: its `ScrollAreaContent` resets Base UI's inline `min-width: fit-content` to 0, so the content keeps the list width and wide children scroll inside their own box. ([#431](https://github.com/botiverse/rui/pull/431))
+
 ## [0.5.52](https://github.com/botiverse/rui/compare/v0.5.51...v0.5.52) (2026-10-12)
 
 ### Fixed
