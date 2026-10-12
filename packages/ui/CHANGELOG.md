@@ -1,3 +1,9 @@
+## [0.5.54](https://github.com/botiverse/rui/compare/v0.5.53...v0.5.54) (2026-10-12)
+
+### Added
+
+- `TaskChip` and `TaskStatusBadge` take `size="sm"`, which gives the chip the `sm` Badge's text size and height (Elegant 11px / 18px, Brutal 10px / 20px; icon 10px) for a chip that shares a row with Badges, such as slock's Activity card metadata row. The default size and the inline variant are unchanged. ([#435](https://github.com/botiverse/rui/pull/435))
+
 ## [0.5.53](https://github.com/botiverse/rui/compare/v0.5.52...v0.5.53) (2026-10-12)
 
 ### Fixed
