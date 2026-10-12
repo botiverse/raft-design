@@ -5,6 +5,7 @@ import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection } from "#/components/doc-section.tsx";
 import { LogoShineLab } from "#/modules/logo/logo-shine.lab.tsx";
 import { LogoSnapLab } from "#/modules/logo/logo-snap.lab.tsx";
+import { MessageListWideLab } from "#/modules/message-list/message-list-wide.lab.tsx";
 import { PixelLoaderLab } from "#/modules/pixel-loader/pixel-loader.lab.tsx";
 
 /**
@@ -22,6 +23,13 @@ export const Route = createFileRoute("/lab")({
 });
 
 const SECTIONS = [
+  {
+    id: "message-list-wide",
+    title: "Message list: wide content",
+    description:
+      "A 360px message list on a desktop window. The tab strip should scroll inside its embed, and both messages should wrap inside the list.",
+    render: () => <MessageListWideLab />,
+  },
   {
     id: "pixel-loader",
     title: "Pixel loader",
