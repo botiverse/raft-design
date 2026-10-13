@@ -64,12 +64,32 @@
   --r-steps-title-color-hover: var(--foreground-strong);
   --r-steps-title-color-disabled: var(--foreground-disabled);
 
+  /* The river track: a band of water in an ink bank. Ahead of the current
+     step the bed is dry sand. */
+  --r-steps-river-width: 12px;
+  --r-steps-river-radius: 0px;
+  --r-steps-river-border-width: 2px;
+  --r-steps-river-border-color: var(--line-strong);
+  --r-steps-river-bed-color: var(--warning-soft);
+  --r-steps-river-pebble-color: var(--warning-muted);
+  --r-steps-river-water-color: var(--info);
+  --r-steps-river-water-deep-color: var(--info-hover);
+  --r-steps-river-glint-color: var(--info-soft);
+  --r-steps-river-error-color: var(--danger);
+  --r-steps-river-flow-duration: 1.6s;
+  --r-steps-river-rise-duration: 2.4s;
+  /* How far a vertical channel reaches into the marker above it (from its
+     bottom) and the marker below it (from its top), passing behind it. */
+  --r-steps-river-overlap-start: 0px;
+  --r-steps-river-overlap-end: 0px;
+
   &.r-steps--sm {
     --r-steps-indicator-size: 22px;
     --r-steps-indicator-font-size: 12px;
     --r-steps-icon-size: 12px;
     --r-steps-title-font-size: 14px;
     --r-steps-description-font-size: 13px;
+    --r-steps-river-width: 10px;
   }
 
   /* Theme: Elegant overrides — round markers on a quiet hairline, colored
@@ -121,6 +141,20 @@
     --r-steps-indicator-shadow-process: none;
     --r-steps-indicator-shadow-hover: none;
     --r-steps-title-color-hover: var(--primary-strong);
+
+    --r-steps-river-width: 8px;
+    --r-steps-river-radius: 9999px;
+    --r-steps-river-border-width: 0px;
+    --r-steps-river-bed-color: var(--task-status-closed-soft);
+    --r-steps-river-pebble-color: color-mix(
+      in oklch,
+      var(--task-status-closed-strong) 25%,
+      transparent
+    );
+    --r-steps-river-water-color: var(--info-muted);
+    --r-steps-river-water-deep-color: var(--info);
+    --r-steps-river-glint-color: color-mix(in oklch, oklch(1 0 0) 70%, transparent);
+    --r-steps-river-error-color: var(--danger-muted);
   }
 }
 
@@ -410,10 +444,269 @@
   }
 }
 
+/* A custom indicator (`renderIndicator`) keeps the marker's box for layout
+   only: the content draws itself and may spill out of it. */
+.r-step__indicator--custom {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  position: relative;
+  transition: none;
+
+  & > svg {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   3. River track
+   The connector becomes a channel; its `::before` is the water. The channel
+   behind a finished step is full, water keeps flowing in behind the step in
+   progress, stalls in red after a failed step and is absent ahead, leaving
+   the dry bed. The glints and the wavy front drift toward the next step.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.r-steps--river > .r-step {
+  --r-step-river-fill: 0;
+  --r-step-river-water-color: var(--r-steps-river-water-color);
+  --r-step-river-water-deep-color: var(--r-steps-river-water-deep-color);
+  --r-step-river-glint-color: var(--r-steps-river-glint-color);
+
+  &.r-step--finish {
+    --r-step-river-fill: 1;
+  }
+}
+
+.r-steps--river > .r-step > .r-step__connector {
+  background-color: var(--r-steps-river-bed-color);
+  background-image: radial-gradient(
+    circle at center,
+    var(--r-steps-river-pebble-color) 1px,
+    transparent 1.5px
+  );
+  background-size: 9px 5px;
+  border: var(--r-steps-river-border-width) solid var(--r-steps-river-border-color);
+  border-radius: var(--r-steps-river-radius);
+  box-sizing: border-box;
+  overflow: hidden;
+
+  &::before {
+    background-color: var(--r-step-river-water-color);
+    background-repeat: repeat;
+    content: "";
+    inset: 0;
+    position: absolute;
+    /* Clipped rather than scaled so the waves keep their shape. */
+    clip-path: inset(0 calc(100% - var(--r-step-river-fill) * 100%) 0 0);
+    transition: clip-path var(--r-steps-river-rise-duration) var(--r-steps-easing);
+  }
+}
+
+.r-steps--river.r-steps--horizontal > .r-step > .r-step__connector {
+  border-top-width: var(--r-steps-river-border-width);
+  height: var(--r-steps-river-width);
+  position: relative;
+
+  &::before {
+    /* Two rows of glints at different speeds over a darker bottom, under a
+       sine-wave surface. Each animated offset is a whole number of tiles. */
+    background-image:
+      linear-gradient(
+        90deg,
+        transparent 0 10px,
+        var(--r-step-river-glint-color) 10px 18px,
+        transparent 18px
+      ),
+      linear-gradient(
+        90deg,
+        transparent 0 22px,
+        var(--r-step-river-glint-color) 22px 26px,
+        transparent 26px
+      ),
+      linear-gradient(transparent 45%, var(--r-step-river-water-deep-color));
+    background-position:
+      0 30%,
+      0 75%,
+      0 0;
+    background-repeat: repeat-x, repeat-x, no-repeat;
+    background-size:
+      32px 2px,
+      40px 1px,
+      100% 100%;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10' preserveAspectRatio='none'%3E%3Cpath d='M0 2.5Q4 0.5 8 2.5T16 2.5V10H0Z'/%3E%3C/svg%3E");
+    mask-repeat: repeat-x;
+    mask-size: 16px 100%;
+  }
+}
+
+/* Behind a finished step the channel is full to the brim: no surface left to
+   ripple, only the glints still flowing. */
+.r-steps--river.r-steps--horizontal > .r-step--finish > .r-step__connector::before {
+  mask-image: none;
+}
+
+/* A column: the bed runs down from one marker into the next, open at both
+   ends, and the water falls. A custom indicator whose picture stops short of
+   its box can pull either end of the channel into it with the overlaps; the
+   next marker paints over the channel's lower end. */
+.r-steps--river.r-steps--vertical > .r-step > .r-step__connector {
+  border-block-width: 0;
+  border-inline-start-width: var(--r-steps-river-border-width);
+  bottom: calc(-1 * var(--r-steps-river-overlap-end));
+  top: calc(var(--r-steps-indicator-size) - var(--r-steps-river-overlap-start));
+  inset-inline-start: calc((var(--r-steps-indicator-size) - var(--r-steps-river-width)) / 2);
+  width: var(--r-steps-river-width);
+
+  &::before {
+    background-image:
+      linear-gradient(
+        180deg,
+        transparent 0 10px,
+        var(--r-step-river-glint-color) 10px 18px,
+        transparent 18px
+      ),
+      linear-gradient(
+        180deg,
+        transparent 0 22px,
+        var(--r-step-river-glint-color) 22px 26px,
+        transparent 26px
+      ),
+      linear-gradient(90deg, transparent 45%, var(--r-step-river-water-deep-color));
+    background-position:
+      30% 0,
+      75% 0,
+      0 0;
+    background-repeat: repeat-y, repeat-y, no-repeat;
+    background-size:
+      2px 32px,
+      1px 40px,
+      100% 100%;
+    clip-path: inset(0 0 calc(100% - var(--r-step-river-fill) * 100%) 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .r-steps--river.r-steps--horizontal
+    > :is(.r-step--finish, .r-step--process)
+    > .r-step__connector::before {
+    animation: r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite;
+  }
+  .r-steps--river.r-steps--vertical
+    > :is(.r-step--finish, .r-step--process)
+    > .r-step__connector::before {
+    animation: r-steps-river-fall var(--r-steps-river-flow-duration) linear infinite;
+  }
+  /* The step in progress: water keeps rising toward the next step. */
+  .r-steps--river.r-steps--horizontal > .r-step--process > .r-step__connector::before {
+    animation:
+      r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite,
+      r-steps-river-rise var(--r-steps-river-rise-duration) var(--r-steps-easing) infinite;
+  }
+  .r-steps--river.r-steps--vertical > .r-step--process > .r-step__connector::before {
+    animation:
+      r-steps-river-fall var(--r-steps-river-flow-duration) linear infinite,
+      r-steps-river-rise-down var(--r-steps-river-rise-duration) var(--r-steps-easing) infinite;
+  }
+  .r-steps--river.r-steps--horizontal > .r-step:dir(rtl) > .r-step__connector::before {
+    animation-direction: reverse;
+  }
+  .r-steps--river.r-steps--horizontal > .r-step--process:dir(rtl) > .r-step__connector::before {
+    animation-direction: reverse, normal;
+    animation-name: r-steps-river-flow, r-steps-river-rise-rtl;
+  }
+}
+
+/* Reduced motion: the water in progress stands half way, still. */
+@media (prefers-reduced-motion: reduce) {
+  .r-steps--river > .r-step--process {
+    --r-step-river-fill: 0.5;
+  }
+}
+
+/* A failed step: the water stalls half way and turns red. */
+.r-steps--river > .r-step--error {
+  --r-step-river-fill: 0.5;
+  --r-step-river-water-color: var(--r-steps-river-error-color);
+  --r-step-river-water-deep-color: var(--r-steps-river-error-color);
+  --r-step-river-glint-color: transparent;
+}
+
+.r-steps--river.r-steps--horizontal > .r-step:dir(rtl) > .r-step__connector::before {
+  clip-path: inset(0 0 0 calc(100% - var(--r-step-river-fill) * 100%));
+}
+
+@keyframes r-steps-river-flow {
+  to {
+    background-position:
+      64px 30%,
+      40px 75%,
+      0 0;
+    mask-position: 32px 0;
+  }
+}
+
+@keyframes r-steps-river-fall {
+  to {
+    background-position:
+      30% 64px,
+      75% 40px,
+      0 0;
+  }
+}
+
+@keyframes r-steps-river-rise {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 1;
+  }
+  80% {
+    clip-path: inset(0);
+    opacity: 1;
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 0;
+  }
+}
+
+@keyframes r-steps-river-rise-rtl {
+  from {
+    clip-path: inset(0 0 0 100%);
+    opacity: 1;
+  }
+  80% {
+    clip-path: inset(0);
+    opacity: 1;
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 0;
+  }
+}
+
+@keyframes r-steps-river-rise-down {
+  from {
+    clip-path: inset(0 0 100% 0);
+    opacity: 1;
+  }
+  80% {
+    clip-path: inset(0);
+    opacity: 1;
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .r-step__indicator,
   .r-step__title,
-  .r-step__connector {
+  .r-step__connector,
+  .r-step__connector::before {
     transition: none;
   }
 }

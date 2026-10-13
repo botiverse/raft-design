@@ -5,7 +5,7 @@ import type { StepStatus, StepsProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
-import { SIZES, STATUSES, STEP_STATUS_OPTIONS } from "./steps.constants.ts";
+import { SIZES, STATUSES, STEP_STATUS_OPTIONS, TRACKS } from "./steps.constants.ts";
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
@@ -30,12 +30,17 @@ export function StepsPlaygroundPreview({ code, collapsedCode }: StepsPlaygroundP
   const [size, setSize] = useState<NonNullable<StepsProps["size"]>>("md");
   const [status, setStatus] = useState<NonNullable<StepsProps["status"]>>("process");
   const [vertical, setVertical] = useState(false);
+  const [track, setTrack] = useState<NonNullable<StepsProps["track"]>>("line");
   // One past the last step: every step is finished.
   const [current, setCurrent] = useState(2);
   const [overrides, setOverrides] = useState<readonly StepOverride[]>(INITIAL_OVERRIDES);
 
   const handleSizeChange = useCallback(
     (value: string) => setSize(value as NonNullable<StepsProps["size"]>),
+    [],
+  );
+  const handleTrackChange = useCallback(
+    (value: string) => setTrack(value as NonNullable<StepsProps["track"]>),
     [],
   );
   const handleStatusChange = useCallback(
@@ -67,6 +72,7 @@ export function StepsPlaygroundPreview({ code, collapsedCode }: StepsPlaygroundP
             size={size}
             status={status}
             vertical={vertical}
+            track={track}
             onUpdateCurrent={setCurrent}
             className={vertical ? "w-full max-w-sm" : "w-full max-w-2xl"}
           >
@@ -105,6 +111,15 @@ export function StepsPlaygroundPreview({ code, collapsedCode }: StepsPlaygroundP
             options={SIZES}
             value={size}
             onValueChange={handleSizeChange}
+          />
+        </Preview.Control>
+        <Preview.Control label="Track" htmlFor="steps-preview-track">
+          <Preview.Select
+            id="steps-preview-track"
+            label="Track"
+            options={TRACKS}
+            value={track}
+            onValueChange={handleTrackChange}
           />
         </Preview.Control>
         <Preview.Control label="Current status" htmlFor="steps-preview-status">

@@ -18,6 +18,20 @@ export type StepStatus = "process" | "finish" | "error" | "wait";
 
 export type StepsSize = "sm" | "md";
 
+/** `line` joins the steps with a rule; `river` with a channel that fills with water as steps finish. */
+export type StepsTrack = "line" | "river";
+
+/** What `renderIndicator` gets for each step. */
+export interface StepIndicatorState {
+  /** The step's number, counted from 1. */
+  index: number;
+  status: StepStatus;
+  /** Whether this is the `current` step. */
+  current: boolean;
+  /** The marker the step would show by default: its mark, icon or number. */
+  marker: ReactNode;
+}
+
 export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"> {
   /**
    * The current step, counted from 1. Steps before it are `finish`, after it
@@ -33,6 +47,17 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
   size?: StepsSize;
   /** Lays the steps out in a column instead of a row. */
   vertical?: boolean;
+  /**
+   * How the steps are joined. `river` is a channel: full of water behind
+   * finished steps, flowing in behind the step in progress and dry ahead.
+   */
+  track?: StepsTrack;
+  /**
+   * Renders a step's marker in place of the default box. The slot keeps the
+   * marker's size and centering but drops its fill, border and shadow.
+   * Returning `null` or `undefined` keeps the default marker for that step.
+   */
+  renderIndicator?: (state: StepIndicatorState) => ReactNode;
   /** Replaces the check mark of finished steps. */
   finishIcon?: ReactNode;
   /** Replaces the cross of failed steps. */
@@ -67,6 +92,7 @@ type StepsContextValue = {
   errorIcon: ReactNode;
   finishLabel: string;
   errorLabel: string;
+  renderIndicator: ((state: StepIndicatorState) => ReactNode) | undefined;
   /** Set when the steps are clickable. */
   select: ((index: number) => void) | undefined;
 };
@@ -78,6 +104,7 @@ const StepsContext = createContext<StepsContextValue>({
   errorIcon: undefined,
   finishLabel: "Completed",
   errorLabel: "Failed",
+  renderIndicator: undefined,
   select: undefined,
 });
 
@@ -135,6 +162,8 @@ export function Steps({
   status = "process",
   size = "md",
   vertical = false,
+  track = "line",
+  renderIndicator,
   finishIcon,
   errorIcon,
   finishLabel = "Completed",
@@ -166,9 +195,20 @@ export function Steps({
       errorIcon,
       finishLabel,
       errorLabel,
+      renderIndicator,
       select: clickable ? select : undefined,
     }),
-    [current, status, finishIcon, errorIcon, finishLabel, errorLabel, clickable, select],
+    [
+      current,
+      status,
+      finishIcon,
+      errorIcon,
+      finishLabel,
+      errorLabel,
+      renderIndicator,
+      clickable,
+      select,
+    ],
   );
 
   return (
@@ -179,6 +219,7 @@ export function Steps({
           "r-steps",
           `r-steps--${size}`,
           vertical ? "r-steps--vertical" : "r-steps--horizontal",
+          track === "river" && "r-steps--river",
           theme === "elegant" && "r-steps--elegant",
           className,
         )}
@@ -239,6 +280,9 @@ export function Step({
   const handleClick = useCallback(() => select?.(index), [select, index]);
 
   const marker = stepMarker(status, icon, index, steps);
+  // `null` or `undefined` from `renderIndicator` keeps the default marker.
+  const indicator = steps.renderIndicator?.({ index, status, current: isCurrent, marker });
+  const customIndicator = indicator !== undefined && indicator !== null;
   const statusLabel = <StepStatusLabel status={status} steps={steps} />;
 
   return (
@@ -255,8 +299,12 @@ export function Step({
       {...props}
     >
       <div data-slot="step-main" className="r-step__main">
-        <div aria-hidden="true" data-slot="step-indicator" className="r-step__indicator">
-          {marker}
+        <div
+          aria-hidden="true"
+          data-slot="step-indicator"
+          className={cn("r-step__indicator", customIndicator && "r-step__indicator--custom")}
+        >
+          {customIndicator ? indicator : marker}
         </div>
         <div data-slot="step-content" className="r-step__content">
           {select === undefined ? (

@@ -1,5 +1,7 @@
 export const SIZES = ["sm", "md"] as const;
 
+export const TRACKS = ["line", "river"] as const;
+
 export const STATUSES = ["process", "finish", "error", "wait"] as const;
 
 /** A step's own status in the preview; `auto` leaves it to `current`. */
