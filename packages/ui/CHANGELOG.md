@@ -1,3 +1,10 @@
+## [0.5.56](https://github.com/botiverse/rui/compare/v0.5.55...v0.5.56) (2026-10-13)
+
+### Added
+
+- `Steps` takes `track="river"`: the connector becomes a channel that is full of water behind finished steps, has water flowing in behind the step in progress, stalls red half way after a failed step and is a dry bed ahead. Brutal and Elegant recipes, horizontal and vertical, RTL; under reduced motion the water stands still. In a column, `--r-steps-river-overlap-start` / `--r-steps-river-overlap-end` (default 0) reach the channel into a custom marker above / below. ([#439](https://github.com/botiverse/rui/pull/439))
+- `Steps` takes `renderIndicator(state)`, which draws a step's marker from `{ index, status, current, marker }`. The slot keeps the marker size (`--r-steps-indicator-size`) and drops the default box; returning `undefined` or `null` keeps the default marker for that step. New `StepsTrack` and `StepIndicatorState` types. ([#439](https://github.com/botiverse/rui/pull/439))
+
 ## [0.5.55](https://github.com/botiverse/rui/compare/v0.5.54...v0.5.55) (2026-10-12)
 
 ### Fixed
