@@ -459,10 +459,10 @@
 
 /* ─────────────────────────────────────────────────────────────────────────
    3. River track
-   The connector becomes a riverbed; its `::before` is the water. Water
-   streams past finished steps, rises behind the step in progress, stalls in
-   red after a failed step and is absent ahead, leaving the dry bed. The
-   glints and the wavy surface drift toward the next step.
+   The connector becomes a channel; its `::before` is the water. The channel
+   behind a finished step is full, water keeps flowing in behind the step in
+   progress, stalls in red after a failed step and is absent ahead, leaving
+   the dry bed. The glints and the wavy front drift toward the next step.
    ───────────────────────────────────────────────────────────────────────── */
 
 .r-steps--river > .r-step {
@@ -536,6 +536,12 @@
     mask-repeat: repeat-x;
     mask-size: 16px 100%;
   }
+}
+
+/* Behind a finished step the channel is full to the brim: no surface left to
+   ripple, only the glints still flowing. */
+.r-steps--river.r-steps--horizontal > .r-step--finish > .r-step__connector::before {
+  mask-image: none;
 }
 
 /* A column: the bed runs down under the markers and the water falls. */

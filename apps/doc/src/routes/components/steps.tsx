@@ -108,7 +108,7 @@ const STEPS_PROPS: readonly PropRow[] = [
     type: union(TRACKS),
     default: '"line"',
     description:
-      "How the steps are joined. river is a stream: water flows past finished steps, rises behind the step in progress and leaves a dry bed ahead.",
+      "How the steps are joined. river is a channel: full of water behind finished steps, flowing in behind the step in progress and dry ahead.",
   },
   {
     name: "renderIndicator",
@@ -285,9 +285,9 @@ function StepsDoc() {
           <DocSubsection parentId="usage" id="river" title="River track">
             <DocNote>
               <InlineCode>track="river"</InlineCode> joins the steps with a stream instead of a
-              line. Water flows past finished steps and keeps rising behind the step in progress;
-              ahead of it the bed is dry. After a failed step the water stalls half way in red.
-              Under reduced motion the water stands still.
+              line. The channel behind a finished step is full of water, water keeps flowing in
+              behind the step in progress, and ahead of it the bed is dry. After a failed step the
+              water stalls half way in red. Under reduced motion the water stands still.
             </DocNote>
             <Preview>
               <Preview.Canvas>
@@ -305,8 +305,10 @@ function StepsDoc() {
               show by default. The slot keeps the marker's size, set with{" "}
               <InlineCode>--r-steps-indicator-size</InlineCode>, and drops its box, so the content
               can be any picture. Return <InlineCode>undefined</InlineCode> to keep the default
-              marker on a step. Here an otter carries a workspace from one machine to another down a
-              river track, swimming over to each next step.
+              marker on a step. Here each step of moving a workspace between machines has an otter
+              posed by its status: asleep on the bank while waiting, paddling while in progress,
+              hugging the delivered parcel when finished, and shivering with the parcel adrift after
+              a failure (press Fail to see it).
             </DocNote>
             <Preview>
               <Preview.Canvas>

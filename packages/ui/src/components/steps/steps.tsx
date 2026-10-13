@@ -18,7 +18,7 @@ export type StepStatus = "process" | "finish" | "error" | "wait";
 
 export type StepsSize = "sm" | "md";
 
-/** `line` joins the steps with a rule; `river` with a stream that flows past finished steps. */
+/** `line` joins the steps with a rule; `river` with a channel that fills with water as steps finish. */
 export type StepsTrack = "line" | "river";
 
 /** What `renderIndicator` gets for each step. */
@@ -48,8 +48,8 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
   /** Lays the steps out in a column instead of a row. */
   vertical?: boolean;
   /**
-   * How the steps are joined. `river` is a stream: water flows past finished
-   * steps, rises behind the step in progress and leaves a dry bed ahead.
+   * How the steps are joined. `river` is a channel: full of water behind
+   * finished steps, flowing in behind the step in progress and dry ahead.
    */
   track?: StepsTrack;
   /**
