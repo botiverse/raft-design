@@ -1205,7 +1205,14 @@ export type {
 } from "./components/timeline/index";
 
 export { Step, Steps } from "./components/steps/index";
-export type { StepProps, StepsProps, StepsSize, StepStatus } from "./components/steps/index";
+export type {
+  StepIndicatorState,
+  StepProps,
+  StepsProps,
+  StepsSize,
+  StepStatus,
+  StepsTrack,
+} from "./components/steps/index";
 
 export {
   Table,

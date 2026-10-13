@@ -15,13 +15,17 @@ import stepsClickableCompositionSource from "#/modules/steps/compositions/clicka
 import { StepsIconComposition } from "#/modules/steps/compositions/icon.composition.tsx";
 import stepsIconCompositionSource from "#/modules/steps/compositions/icon.composition.tsx?raw";
 import stepsPreviewCompositionSource from "#/modules/steps/compositions/preview.composition.tsx?raw";
+import { StepsMigrationComposition } from "#/modules/steps/compositions/migration.composition.tsx";
+import stepsMigrationCompositionSource from "#/modules/steps/compositions/migration.composition.tsx?raw";
+import { StepsRiverComposition } from "#/modules/steps/compositions/river.composition.tsx";
+import stepsRiverCompositionSource from "#/modules/steps/compositions/river.composition.tsx?raw";
 import { StepsSizeComposition } from "#/modules/steps/compositions/size.composition.tsx";
 import stepsSizeCompositionSource from "#/modules/steps/compositions/size.composition.tsx?raw";
 import { StepsStatusComposition } from "#/modules/steps/compositions/status.composition.tsx";
 import stepsStatusCompositionSource from "#/modules/steps/compositions/status.composition.tsx?raw";
 import { StepsVerticalComposition } from "#/modules/steps/compositions/vertical.composition.tsx";
 import stepsVerticalCompositionSource from "#/modules/steps/compositions/vertical.composition.tsx?raw";
-import { SIZES, STATUSES } from "#/modules/steps/steps.constants.ts";
+import { SIZES, STATUSES, TRACKS } from "#/modules/steps/steps.constants.ts";
 import { StepsPlaygroundPreview } from "#/modules/steps/steps.preview.tsx";
 
 const TOC = [
@@ -47,6 +51,8 @@ const COMPOSITION_SOURCES = createCompositionSourceMap({
   Vertical: stepsVerticalCompositionSource,
   Icon: stepsIconCompositionSource,
   Clickable: stepsClickableCompositionSource,
+  River: stepsRiverCompositionSource,
+  Migration: stepsMigrationCompositionSource,
 });
 
 const COMPOSITION_SNIPPET_IDS = {
@@ -56,6 +62,8 @@ const COMPOSITION_SNIPPET_IDS = {
   Vertical: "stepsVerticalComposition",
   Icon: "stepsIconComposition",
   Clickable: "stepsClickableComposition",
+  River: "stepsRiverComposition",
+  Migration: "stepsMigrationComposition",
 } as const;
 
 const COMPOSITION_SNIPPETS = createCompositionSnippetMap(
@@ -94,6 +102,19 @@ const STEPS_PROPS: readonly PropRow[] = [
     type: "boolean",
     default: "false",
     description: "Lays the steps out in a column instead of a row.",
+  },
+  {
+    name: "track",
+    type: union(TRACKS),
+    default: '"line"',
+    description:
+      "How the steps are joined. river is a stream: water flows past finished steps, rises behind the step in progress and leaves a dry bed ahead.",
+  },
+  {
+    name: "renderIndicator",
+    type: "(state: StepIndicatorState) => ReactNode",
+    description:
+      "Renders a step's marker from { index, status, current, marker }. The slot keeps its size but drops the box; returning null or undefined keeps the default marker.",
   },
   {
     name: "finishIcon",
@@ -257,6 +278,43 @@ function StepsDoc() {
               <Preview.Code
                 html={code.stepsIconComposition}
                 collapsedHtml={code.stepsIconCompositionBody}
+              />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="river" title="River track">
+            <DocNote>
+              <InlineCode>track="river"</InlineCode> joins the steps with a stream instead of a
+              line. Water flows past finished steps and keeps rising behind the step in progress;
+              ahead of it the bed is dry. After a failed step the water stalls half way in red.
+              Under reduced motion the water stands still.
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <StepsRiverComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.stepsRiverComposition} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="render-indicator" title="Custom indicator">
+            <DocNote>
+              <InlineCode>renderIndicator</InlineCode> draws a step's marker from its{" "}
+              <InlineCode>index</InlineCode>, <InlineCode>status</InlineCode>, whether it is{" "}
+              <InlineCode>current</InlineCode>, and the <InlineCode>marker</InlineCode> it would
+              show by default. The slot keeps the marker's size, set with{" "}
+              <InlineCode>--r-steps-indicator-size</InlineCode>, and drops its box, so the content
+              can be any picture. Return <InlineCode>undefined</InlineCode> to keep the default
+              marker on a step. Here an otter carries a workspace from one machine to another down a
+              river track, swimming over to each next step.
+            </DocNote>
+            <Preview>
+              <Preview.Canvas>
+                <StepsMigrationComposition />
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.stepsMigrationComposition}
+                collapsedHtml={code.stepsMigrationCompositionBody}
               />
             </Preview>
           </DocSubsection>

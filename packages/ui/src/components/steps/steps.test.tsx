@@ -182,3 +182,39 @@ describe("Steps", () => {
     expect(screen.getAllByRole("listitem")[2]?.getAttribute("aria-current")).toBe("step");
   });
 });
+
+describe("Steps track and renderIndicator", () => {
+  test("adds the river modifier for track river", () => {
+    render(
+      <Steps data-testid="steps" track="river">
+        <Step title="One" />
+      </Steps>,
+    );
+    expect(screen.getByTestId("steps").className).toBe(
+      "r-steps r-steps--md r-steps--horizontal r-steps--river",
+    );
+  });
+
+  test("renders a custom indicator with the step's state", () => {
+    const renderIndicator = vi.fn(({ index, status, current }) =>
+      current ? <span data-testid="custom">{`${index}-${status}`}</span> : undefined,
+    );
+    const { container } = render(
+      <Steps current={2} renderIndicator={renderIndicator}>
+        <Step title="One" />
+        <Step title="Two" />
+        <Step title="Three" />
+      </Steps>,
+    );
+    expect(screen.getByTestId("custom").textContent).toBe("2-process");
+    const indicators = container.querySelectorAll("[data-slot='step-indicator']");
+    expect(indicators[1].className).toBe("r-step__indicator r-step__indicator--custom");
+    // `undefined` keeps the default marker and box.
+    expect(indicators[0].className).toBe("r-step__indicator");
+    expect(indicators[0].querySelector("svg")).not.toBeNull();
+    expect(indicators[2].textContent).toBe("3");
+    expect(renderIndicator).toHaveBeenCalledWith(
+      expect.objectContaining({ index: 1, status: "finish", current: false }),
+    );
+  });
+});
