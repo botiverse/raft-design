@@ -13,11 +13,13 @@ const LAST_STEP = 4;
 
 /**
  * Room for the otter: every marker slot grows to match. In a column the river
- * reaches up under the otter's pond, which ends above the bottom of its box.
+ * runs from under one otter's pond into the next one's, both drawn in the
+ * middle of their boxes.
  */
 const OTTER_SIZE = {
   "--r-steps-indicator-size": "48px",
-  "--r-steps-river-indicator-overlap": "12px",
+  "--r-steps-river-overlap-start": "12px",
+  "--r-steps-river-overlap-end": "28px",
 } as CSSProperties;
 
 /** Every step has its own otter, posed by the step's status. */
