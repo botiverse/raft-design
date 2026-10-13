@@ -78,6 +78,8 @@
   --r-steps-river-error-color: var(--danger);
   --r-steps-river-flow-duration: 1.6s;
   --r-steps-river-rise-duration: 2.4s;
+  /* How far a vertical channel reaches up into the marker above it. */
+  --r-steps-river-indicator-overlap: 0px;
 
   &.r-steps--sm {
     --r-steps-indicator-size: 22px;
@@ -544,9 +546,14 @@
   mask-image: none;
 }
 
-/* A column: the bed runs down under the markers and the water falls. */
+/* A column: the bed runs down from one marker into the next, open at both
+   ends, and the water falls. A custom indicator whose picture stops short of
+   its box can pull the channel up into it with the overlap. */
 .r-steps--river.r-steps--vertical > .r-step > .r-step__connector {
+  border-block-width: 0;
   border-inline-start-width: var(--r-steps-river-border-width);
+  bottom: 0;
+  top: calc(var(--r-steps-indicator-size) - var(--r-steps-river-indicator-overlap));
   inset-inline-start: calc((var(--r-steps-indicator-size) - var(--r-steps-river-width)) / 2);
   width: var(--r-steps-river-width);
 

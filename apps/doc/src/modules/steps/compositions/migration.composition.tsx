@@ -11,8 +11,14 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 
 const LAST_STEP = 4;
 
-/** Room for the otter: every marker slot grows to match. */
-const OTTER_SIZE = { "--r-steps-indicator-size": "48px" } as CSSProperties;
+/**
+ * Room for the otter: every marker slot grows to match. In a column the river
+ * reaches up under the otter's pond, which ends above the bottom of its box.
+ */
+const OTTER_SIZE = {
+  "--r-steps-indicator-size": "48px",
+  "--r-steps-river-indicator-overlap": "12px",
+} as CSSProperties;
 
 /** Every step has its own otter, posed by the step's status. */
 function renderIndicator({ status }: StepIndicatorState) {
@@ -22,6 +28,7 @@ function renderIndicator({ status }: StepIndicatorState) {
 export function StepsMigrationContent() {
   const [current, setCurrent] = useState(1);
   const [failed, setFailed] = useState(false);
+  const [vertical, setVertical] = useState(false);
   const done = current === LAST_STEP;
 
   // After a failure the primary button retries the same step.
@@ -30,6 +37,7 @@ export function StepsMigrationContent() {
     else setCurrent((value) => Math.min(LAST_STEP, value + 1));
   }, [failed]);
   const handleFail = useCallback(() => setFailed(true), []);
+  const handleToggleVertical = useCallback(() => setVertical((value) => !value), []);
   const handleRestart = useCallback(() => {
     setFailed(false);
     setCurrent(1);
@@ -41,9 +49,10 @@ export function StepsMigrationContent() {
         current={current}
         status={failed ? "error" : done ? "finish" : "process"}
         track="river"
+        vertical={vertical}
         renderIndicator={renderIndicator}
         style={OTTER_SIZE}
-        className="w-full"
+        className={vertical ? "self-start" : "w-full"}
       >
         <Step title="Pack" description="armbian-jzm" />
         <Step title="Transfer" description="4.6 GB" />
@@ -59,6 +68,9 @@ export function StepsMigrationContent() {
         </Button>
         <Button variant="ghost" size="sm" disabled={current === 1} onClick={handleRestart}>
           Restart
+        </Button>
+        <Button variant="ghost" size="sm" onClick={handleToggleVertical}>
+          {vertical ? "Horizontal" : "Vertical"}
         </Button>
       </div>
     </div>
