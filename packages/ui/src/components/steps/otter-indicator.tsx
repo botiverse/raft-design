@@ -1,65 +1,8 @@
 import { useId } from "react";
-import type { StepStatus } from "raft-ui";
-
-const OTTER_STYLES = `
-.otter-indicator { overflow: visible; }
-.otter-indicator * { transform-box: view-box; }
-.otter-indicator__body { transform-origin: 24px 28px; }
-.otter-indicator__arm { transform-origin: 29px 27px; }
-.otter-indicator__ripple { opacity: 0; transform-origin: 6px 30.5px; }
-.otter-indicator__z { opacity: 0; }
-.otter-indicator__parcel--adrift { transform-origin: 6px 25px; }
-@media (prefers-reduced-motion: no-preference) {
-  .otter-indicator__wave { animation: otter-indicator-wave 1.2s linear infinite; }
-  .otter-indicator__wave--back { animation-duration: 2s; }
-  .otter-indicator--process .otter-indicator__body { animation: otter-indicator-bob 1.8s ease-in-out infinite alternate; }
-  .otter-indicator--process .otter-indicator__arm { animation: otter-indicator-paddle 0.9s ease-in-out infinite alternate; }
-  .otter-indicator--process .otter-indicator__ripple { animation: otter-indicator-ripple 1.8s ease-out infinite; }
-  .otter-indicator--process .otter-indicator__ripple--late { animation-delay: 0.9s; }
-  .otter-indicator--finish .otter-indicator__wave { animation-duration: 3s; }
-  .otter-indicator--finish .otter-indicator__body { animation: otter-indicator-bob 3.2s ease-in-out infinite alternate; }
-  .otter-indicator--wait .otter-indicator__body { animation: otter-indicator-breathe 2.4s ease-in-out infinite alternate; }
-  .otter-indicator--wait .otter-indicator__z { animation: otter-indicator-z 2.4s ease-out infinite; }
-  .otter-indicator--wait .otter-indicator__z--late { animation-delay: 1.2s; }
-  .otter-indicator--error .otter-indicator__body { animation: otter-indicator-shiver 0.18s linear infinite alternate; }
-  .otter-indicator--error .otter-indicator__parcel--adrift { animation: otter-indicator-drift 2s ease-in-out infinite alternate; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .otter-indicator__z { opacity: 1; }
-}
-@keyframes otter-indicator-bob {
-  from { transform: translateY(-0.6px) rotate(-3deg); }
-  to { transform: translateY(1.2px) rotate(2deg); }
-}
-@keyframes otter-indicator-paddle {
-  from { transform: rotate(-35deg); }
-  to { transform: rotate(30deg); }
-}
-@keyframes otter-indicator-wave {
-  to { transform: translateX(-12px); }
-}
-@keyframes otter-indicator-ripple {
-  from { opacity: 0.8; transform: scale(0.4); }
-  to { opacity: 0; transform: scale(1.6); }
-}
-@keyframes otter-indicator-breathe {
-  from { transform: scale(1, 1); }
-  to { transform: scale(1.02, 1.05); }
-}
-@keyframes otter-indicator-z {
-  from { opacity: 0; transform: translate(0, 0); }
-  30% { opacity: 1; }
-  to { opacity: 0; transform: translate(4px, -7px); }
-}
-@keyframes otter-indicator-shiver {
-  from { transform: translateX(-0.4px); }
-  to { transform: translateX(0.4px); }
-}
-@keyframes otter-indicator-drift {
-  from { transform: translate(0, 0) rotate(-18deg); }
-  to { transform: translate(-1.5px, 1.2px) rotate(-8deg); }
-}
-`;
+import type { ComponentPropsWithRef } from "react";
+import { cn } from "../../lib/cn";
+import type { StepStatus } from "./steps";
+import "./otter-indicator.css";
 
 const WAVE_PATH = "M-12 30q3-1.6 6 0t6 0t6 0t6 0t6 0t6 0t6 0t6 0t6 0t6 0t6 0t6 0V48H-12Z";
 
@@ -151,14 +94,23 @@ function Badge({ status }: { status: StepStatus }) {
   );
 }
 
+export interface OtterIndicatorProps extends Omit<ComponentPropsWithRef<"svg">, "children"> {
+  status: StepStatus;
+}
+
 /**
  * An otter on its back for a step marker, one pose per status:
  * - `wait`: asleep on the dry bank, the parcel still on its belly.
  * - `process`: afloat, paddling with one arm, the parcel on its belly.
  * - `finish`: drifting at ease, hugging the delivered parcel.
  * - `error`: shivering in the water; the parcel has slipped away.
+ *
+ * Made for `<Steps renderIndicator>` with room to show it, e.g.
+ * `--r-steps-indicator-size: 48px`; on a vertical river track set
+ * `--r-steps-river-overlap-start: 12px` and `--r-steps-river-overlap-end: 28px`
+ * so the channel meets the ponds.
  */
-export function OtterIndicator({ status }: { status: StepStatus }) {
+export function OtterIndicator({ status, className, ...props }: OtterIndicatorProps) {
   // `useId` may contain characters that are not valid in a `url(#…)` reference.
   const pondId = `otter-pond${useId().replace(/[^\w-]/g, "")}`;
   const pond = `url(#${pondId})`;
@@ -169,9 +121,10 @@ export function OtterIndicator({ status }: { status: StepStatus }) {
       viewBox="0 0 48 48"
       width="100%"
       height="100%"
-      className={`otter-indicator otter-indicator--${status}`}
+      data-slot="otter-indicator"
+      {...props}
+      className={cn("r-otter-indicator", `r-otter-indicator--${status}`, className)}
     >
-      <style>{OTTER_STYLES}</style>
       <defs>
         <clipPath id={pondId}>
           <ellipse cx="24" cy="35" rx="23.5" ry="8" />
@@ -182,7 +135,7 @@ export function OtterIndicator({ status }: { status: StepStatus }) {
         {wet ? (
           <g clipPath={pond}>
             <path
-              className="otter-indicator__wave otter-indicator__wave--back"
+              className="r-otter-indicator__wave r-otter-indicator__wave--back"
               d={WAVE_PATH}
               fill="oklch(0.88 0.07 215)"
               transform="translate(0 -1.5)"
@@ -197,10 +150,10 @@ export function OtterIndicator({ status }: { status: StepStatus }) {
           </g>
         )}
         {status === "process" &&
-          ["", " otter-indicator__ripple--late"].map((late) => (
+          ["", " r-otter-indicator__ripple--late"].map((late) => (
             <ellipse
               key={late}
-              className={`otter-indicator__ripple${late}`}
+              className={`r-otter-indicator__ripple${late}`}
               cx="6"
               cy="30.5"
               rx="5"
@@ -211,11 +164,11 @@ export function OtterIndicator({ status }: { status: StepStatus }) {
             />
           ))}
         {status === "error" && (
-          <g className="otter-indicator__parcel--adrift">
+          <g className="r-otter-indicator__parcel--adrift">
             <Parcel x={1.5} y={22} />
           </g>
         )}
-        <g className="otter-indicator__body">
+        <g className="r-otter-indicator__body">
           <path d="M13 26.5Q6 26.5 1.5 30.5Q7 32 13 31Z" fill={FUR_DARK} />
           <ellipse
             cx="11"
@@ -234,7 +187,7 @@ export function OtterIndicator({ status }: { status: StepStatus }) {
             transform="rotate(-10 14.5 20.5)"
           />
           {/* Paddles while working; rests on the belly otherwise. */}
-          <g className="otter-indicator__arm">
+          <g className="r-otter-indicator__arm">
             <path
               d={status === "process" ? "M29 27q4 3.5 2.5 8" : "M29 26q3 0.5 4-2"}
               fill="none"
@@ -276,7 +229,7 @@ export function OtterIndicator({ status }: { status: StepStatus }) {
         {wet && (
           <g clipPath={pond}>
             <path
-              className="otter-indicator__wave"
+              className="r-otter-indicator__wave"
               d={WAVE_PATH}
               fill="oklch(0.78 0.11 220)"
               fillOpacity="0.9"
@@ -284,10 +237,10 @@ export function OtterIndicator({ status }: { status: StepStatus }) {
           </g>
         )}
         {status === "wait" &&
-          ["", " otter-indicator__z--late"].map((late, i) => (
+          ["", " r-otter-indicator__z--late"].map((late, i) => (
             <text
               key={late}
-              className={`otter-indicator__z${late}`}
+              className={`r-otter-indicator__z${late}`}
               x={i === 0 ? 38 : 43}
               y={i === 0 ? 15 : 9}
               fontSize={i === 0 ? 9 : 7}
