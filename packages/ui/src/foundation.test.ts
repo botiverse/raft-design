@@ -101,6 +101,14 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
+      if (id === "./components/steps/otter-indicator.css") {
+        const otterIndicatorPath = join(sourceDirectory, "components/steps/otter-indicator.css");
+        return {
+          content: readFileSync(otterIndicatorPath, "utf8"),
+          path: otterIndicatorPath,
+          base: sourceDirectory,
+        };
+      }
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });
