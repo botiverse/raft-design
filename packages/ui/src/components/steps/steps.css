@@ -730,7 +730,8 @@
    4. River with a traveler
    With `renderTraveler` each step is the reach that leads into its marker,
    so the traveler swimming a reach is working on the step ahead of it. The
-   river is full all along: the reach of a finished step or the step in
+   river is full all along and runs back toward the first step, so the
+   traveler swims upstream: the reach of a finished step or the step in
    progress flows, a waiting reach lies still, the reach of a failed step runs
    red. The traveler rides the reach given by `data-traveler` on its step:
    `live` swims toward the marker as the step runs and stops where a failure
@@ -765,20 +766,21 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* The traveler swims upstream: the water runs back toward the first step. */
   .r-steps--river.r-steps--traveler.r-steps--horizontal
     > :is(.r-step--finish, .r-step--process)
     > .r-step__connector::before {
-    animation: r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite;
+    animation: r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite reverse;
   }
   .r-steps--river.r-steps--traveler.r-steps--horizontal
     > :is(.r-step--finish, .r-step--process):dir(rtl)
     > .r-step__connector::before {
-    animation: r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite reverse;
+    animation: r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite;
   }
   .r-steps--river.r-steps--traveler.r-steps--vertical
     > :is(.r-step--finish, .r-step--process)
     > .r-step__connector::before {
-    animation: r-steps-river-fall var(--r-steps-river-flow-duration) linear infinite;
+    animation: r-steps-river-fall var(--r-steps-river-flow-duration) linear infinite reverse;
   }
   /* Toward the step in progress the traveler covers most of the reach, then
      creeps on; a failure stops it where it is, a retry carries on. */
@@ -875,7 +877,7 @@
 }
 
 /* The traveler: a box laid over its reach, its middle on the channel, drawn
-   heading right and turned to face the way the river runs. It
+   heading right and turned to face the way it travels. It
    slides along with its position, setting off from the shallows of the
    marker before the reach and landing in the shallows of the marker after
    it, and fades in when it moves on to a new reach. */

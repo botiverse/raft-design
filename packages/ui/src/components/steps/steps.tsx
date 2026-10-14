@@ -70,15 +70,16 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
   /**
    * On a `river` track, adds one traveler and turns the river around it: each
    * step becomes the reach that leads into its marker, the river is full all
-   * along, and the traveler swims the reach of the step in progress toward
-   * its marker. When the step finishes the traveler lands at the marker,
-   * rests a moment and sets off down the next reach; if steps finish faster
+   * along and runs back toward the first step, and the traveler swims
+   * upstream along the reach of the step in progress toward its marker. When
+   * the step finishes the traveler lands at the marker, rests a moment and
+   * sets off up the next reach; if steps finish faster
    * than it swims it catches up marker by marker. It stops short of a failed
    * step and rests at the last marker once every step is done. It is drawn
    * from `{ index, status }`: the step whose reach it is in, and `process`
    * while it swims toward a finished step, `finish` while it rests. Its box is
    * `--r-steps-traveler-size` square, its middle on the channel. Draw it
-   * heading right: it is turned to face downstream in a column or right to left.
+   * heading right: it is turned to face its way down a column or right to left.
    */
   renderTraveler?: (state: StepTravelerState) => ReactNode;
   /** Replaces the check mark of finished steps. */

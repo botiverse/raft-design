@@ -313,13 +313,14 @@ function StepsDoc() {
               can be any picture. Return <InlineCode>undefined</InlineCode> to keep the default
               marker on a step. On a river, <InlineCode>renderTraveler</InlineCode> adds one
               traveler and turns the river around it: each step becomes the reach that leads into
-              its marker, and the river is full all along. Here each step of moving a workspace
-              between machines is an <InlineCode>IslandIndicator</InlineCode> that flies the Raft
-              flag once finished. One <InlineCode>OtterTraveler</InlineCode> paddles up the reach of
-              the step in progress, lands at each island as its step finishes and rests a moment
-              before the next reach. If a step fails it stops and shivers in a red reach with the
-              parcel adrift; when every step is done it rests on the last island. Pick the current
-              step's status to see each one.
+              its marker, and the river is full all along, running back toward the first step. Here
+              each step of moving a workspace between machines is an{" "}
+              <InlineCode>IslandIndicator</InlineCode> that flies the Raft flag once finished. One{" "}
+              <InlineCode>OtterTraveler</InlineCode> paddles upstream along the reach of the step in
+              progress, lands at each island as its step finishes and rests a moment before the next
+              reach. If a step fails it stops and shivers in a red reach with the parcel adrift;
+              when every step is done it rests on the last island. Pick the current step's status to
+              see each one.
             </DocNote>
             <Preview>
               <Preview.Canvas>
