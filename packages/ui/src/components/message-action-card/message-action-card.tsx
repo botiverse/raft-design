@@ -312,6 +312,22 @@ export function MessageActionCardScopeDescription({
   });
 }
 
+export function MessageActionCardHintLabel({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { hintLabel } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: hintLabel({ className }) }, props),
+    state: { slot: "message-action-card-hint-label" },
+  });
+}
+
 export function MessageActionCardHint({
   className,
   render,
@@ -325,6 +341,22 @@ export function MessageActionCardHint({
     render,
     props: mergeProps<"div">({ className: hint({ className }) }, props),
     state: { slot: "message-action-card-hint" },
+  });
+}
+
+export function MessageActionCardNotice({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { notice } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: notice({ className }) }, props),
+    state: { slot: "message-action-card-notice" },
   });
 }
 
@@ -404,5 +436,7 @@ export type MessageActionCardScopeProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeNameProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeDescriptionProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHintProps = useRender.ComponentProps<"div">;
+export type MessageActionCardHintLabelProps = useRender.ComponentProps<"div">;
+export type MessageActionCardNoticeProps = useRender.ComponentProps<"div">;
 export type MessageActionCardCompletionProps = useRender.ComponentProps<"div">;
 export type MessageActionCardActionsProps = useRender.ComponentProps<"div">;

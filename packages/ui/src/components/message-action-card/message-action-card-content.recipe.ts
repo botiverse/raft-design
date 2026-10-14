@@ -23,7 +23,14 @@ export const messageActionCardContent = tv({
     scope: ["min-w-0 border p-1.5"],
     scopeName: ["break-all font-mono text-[11px] font-bold"],
     scopeDescription: ["text-xs leading-snug"],
-    hint: [],
+    // The agent's own reason: a label, then the reason as an italic quote.
+    hintLabel: [],
+    hint: ["[[data-slot=message-action-card-hint-label]+&]:mt-1"],
+    // A standing note from Raft about what the action does or who may run it.
+    // Borderless tinted block: it only appears on the few cards that need it,
+    // so the colour itself is the signal. The agent's own reason is a hint,
+    // not a notice.
+    notice: ["mt-3 flex items-start gap-2", "[&>svg]:mt-0.5 [&>svg]:size-3.5 [&>svg]:shrink-0"],
     completion: [],
     // Actions sit bottom-right; an optional note (state, who resolved it)
     // takes the space on the left.
@@ -41,7 +48,9 @@ export const messageActionCardContent = tv({
         scope: "border-black/15 bg-white",
         scopeName: "text-black/55",
         scopeDescription: "text-black/60",
+        hintLabel: "mt-3 text-xs leading-4 text-black/55",
         hint: "mt-1 border-l-2 border-black/20 pl-2 text-xs italic text-black/55",
+        notice: "bg-(--color-brutal-yellow-100) px-2.5 py-2 text-xs leading-4 text-black/75",
         completion: "mt-1 text-xs text-black/55",
         scopeListViewport: "space-y-1.5 pr-1",
         actions: "mt-3 gap-3",
@@ -58,7 +67,10 @@ export const messageActionCardContent = tv({
           "rounded-md border-line-muted bg-layer-panel/70 px-2.5 py-2 shadow-raft-xs dark:border-transparent dark:bg-fill-muted",
         scopeName: "font-sans text-xs leading-4 font-medium text-foreground-muted",
         scopeDescription: "mt-0.5 text-[13px] leading-5 text-pretty text-foreground-muted/80",
+        hintLabel: "mt-3 text-[13px] leading-5 font-medium text-foreground-strong",
         hint: "mt-2.5 border-l border-line-muted pl-2.5 text-xs leading-4 italic text-foreground-muted/80",
+        notice:
+          "rounded-md bg-info-soft px-3 py-2 text-[13px] leading-5 text-foreground-strong [&>svg]:mt-[3px] [&>svg]:text-[oklch(0.55_0.11_220)] dark:[&>svg]:text-[oklch(0.8_0.1_220)]",
         completion: "mt-2.5 text-[13px] leading-5 text-foreground-muted",
         scopeListViewport: "space-y-2 pr-1",
         actions: "mt-4 gap-2",

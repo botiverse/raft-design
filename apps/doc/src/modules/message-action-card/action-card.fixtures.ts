@@ -35,9 +35,9 @@ export interface ActionCardFixture {
   title: string;
   properties: ReadonlyArray<{ label: string; value: string; code?: boolean }>;
   scopes?: readonly ActionCardScopeFixture[];
-  /** The agent's reason for preparing the card. */
-  hint?: string;
-  /** At most one standing notice, always neutral. */
+  /** The agent's reason for preparing the card, shown under a Reason label as a quote. */
+  reason?: string;
+  /** At most one standing note from Raft about consequence or permission. */
   notice?: string;
   /** Primary label for the approve pattern ("Review" for the review pattern). */
   verb: string;
@@ -80,7 +80,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "People", value: "Ada, Will" },
       { label: "Agents", value: "Atlas" },
     ],
-    hint: "You asked for a private space for the release review.",
+    reason: "You asked for a private space for the release review.",
     verb: "Create Channel",
     result: "Created by Ada → #release-review",
   },
@@ -92,7 +92,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "Description", value: "Drafts release notes from merged pull requests." },
       { label: "Suggested computer", value: "build-mac-01" },
     ],
-    hint: "You asked for someone to write release notes every Friday.",
+    reason: "You asked for someone to write release notes every Friday.",
     verb: "Create Agent",
     result: "Created by Ada → @release-bot",
   },
@@ -116,7 +116,7 @@ export const ACTION_CARD_FIXTURES: Record<ActionCardKind, ActionCardFixture> = {
       { label: "Agent", value: "@lumen" },
     ],
     scopes: [SCOPES.openid!, SCOPES.profile!, SCOPES.agentRead!, SCOPES.agentEventWrite!],
-    hint: "I need to file the issues you listed in this morning's triage.",
+    reason: "I need to file the issues you listed in this morning's triage.",
     notice:
       "Sends to @lumen only. Cannot send chat as you, speak as the agent, read messages, or take actions.",
     verb: "Approve Login",

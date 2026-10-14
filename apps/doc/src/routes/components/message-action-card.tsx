@@ -25,8 +25,6 @@ const TOC = [
 ] as const;
 
 const ANATOMY_SOURCE = `import {
-  Banner,
-  BannerDescription,
   MessageActionCard,
   MessageActionCardActions,
   MessageActionCardActionsNote,
@@ -36,6 +34,8 @@ const ANATOMY_SOURCE = `import {
   MessageActionCardHeaderIcon,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
+  MessageActionCardHintLabel,
+  MessageActionCardNotice,
   MessageActionCardProperties,
   MessageActionCardProperty,
   MessageActionCardPropertyLabel,
@@ -63,6 +63,7 @@ const ANATOMY_SOURCE = `import {
         <MessageActionCardPropertyValue />
       </MessageActionCardProperty>
     </MessageActionCardProperties>
+    <MessageActionCardHintLabel>Reason</MessageActionCardHintLabel>
     <MessageActionCardHint />
     <MessageActionCardScopeList>
       <MessageActionCardScopeListLabel />
@@ -73,9 +74,10 @@ const ANATOMY_SOURCE = `import {
         </MessageActionCardScope>
       </MessageActionCardScopeListViewport>
     </MessageActionCardScopeList>
-    <Banner status="default">
-      <BannerDescription />
-    </Banner>
+    <MessageActionCardNotice>
+      <Info aria-hidden /> {/* any lucide icon */}
+      <span />
+    </MessageActionCardNotice>
     <MessageActionCardActions>
       <MessageActionCardActionsNote />
     </MessageActionCardActions>
@@ -156,7 +158,7 @@ const MESSAGE_ACTION_CARD_CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description: "White inner content stack for details, hint, actions, and completion.",
+    description: "White inner content stack for details, notice, actions, and completion.",
   },
 ];
 
@@ -233,11 +235,29 @@ const MESSAGE_ACTION_CARD_SCOPE_DESCRIPTION_PROPS: readonly PropRow[] = [
   },
 ];
 
+const MESSAGE_ACTION_CARD_HINT_LABEL_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Label above the agent's reason, e.g. Reason.",
+  },
+];
+
 const MESSAGE_ACTION_CARD_HINT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description: "Optional agent-provided rationale or guidance.",
+    description:
+      "The agent's own reason for the card, shown as an italic quote under MessageActionCardHintLabel.",
+  },
+];
+
+const MESSAGE_ACTION_CARD_NOTICE_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"div">',
+    description:
+      "Raft's standing note about what the action does or who may run it. Borderless tinted block with an optional leading icon; only for the cards that need one. The agent's own reason goes in MessageActionCardHint, not a notice.",
   },
 ];
 
@@ -470,10 +490,24 @@ function MessageActionCardDoc() {
           </DocSubsection>
           <DocSubsection
             parentId="api"
+            id="api-message-action-card-hint-label"
+            title="MessageActionCardHintLabel"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_HINT_LABEL_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
             id="api-message-action-card-hint"
             title="MessageActionCardHint"
           >
             <PropsTable rows={MESSAGE_ACTION_CARD_HINT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-notice"
+            title="MessageActionCardNotice"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_NOTICE_PROPS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"

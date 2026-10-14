@@ -1,8 +1,6 @@
-import { AppWindow, Bot, Hash, KeyRound, Package, ShieldAlert, UserPlus } from "lucide-react";
+import { AppWindow, Bot, Hash, Info, KeyRound, Package, ShieldAlert, UserPlus } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import {
-  Banner,
-  BannerDescription,
   Button,
   MessageActionCard,
   MessageActionCardActions,
@@ -13,6 +11,8 @@ import {
   MessageActionCardHeaderIcon,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
+  MessageActionCardHintLabel,
+  MessageActionCardNotice,
   MessageActionCardProperties,
   MessageActionCardProperty,
   MessageActionCardPropertyLabel,
@@ -94,7 +94,12 @@ export function ActionCardDemo({
             </MessageActionCardProperty>
           ))}
         </MessageActionCardProperties>
-        {card.hint ? <MessageActionCardHint>{card.hint}</MessageActionCardHint> : null}
+        {card.reason ? (
+          <>
+            <MessageActionCardHintLabel>Reason</MessageActionCardHintLabel>
+            <MessageActionCardHint>{card.reason}</MessageActionCardHint>
+          </>
+        ) : null}
         {card.scopes ? (
           <MessageActionCardScopeList>
             <MessageActionCardScopeListLabel>
@@ -113,9 +118,10 @@ export function ActionCardDemo({
           </MessageActionCardScopeList>
         ) : null}
         {card.notice && !resolved ? (
-          <Banner status="default" size="sm" className="mt-3">
-            <BannerDescription>{card.notice}</BannerDescription>
-          </Banner>
+          <MessageActionCardNotice>
+            <Info aria-hidden />
+            <span>{card.notice}</span>
+          </MessageActionCardNotice>
         ) : null}
         <MessageActionCardActions>
           {note ? <MessageActionCardActionsNote>{note}</MessageActionCardActionsNote> : null}
