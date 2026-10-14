@@ -311,7 +311,38 @@ export function OtterTraveler({ status, className, ...props }: OtterTravelerProp
             <Parcel x={1.5} y={22} />
           </g>
         )}
+        {status === "process" && (
+          // A kicking hind foot behind the body.
+          <ellipse
+            className="r-otter-traveler__kick"
+            cx="10.5"
+            cy="27"
+            rx="2.6"
+            ry="1.3"
+            fill={FUR_DARK}
+          />
+        )}
         <OtterBody status={status} />
+        {status === "process" && (
+          // Backstroke: one arm sweeps over the head and back, flicking spray.
+          <>
+            <g className="r-otter-traveler__stroke">
+              <path
+                d="M29 23L33.5 15"
+                fill="none"
+                stroke={FUR_DARK}
+                strokeWidth="2.6"
+                strokeLinecap="round"
+              />
+              <circle cx="33.8" cy="14.4" r="1.6" fill={FUR_DARK} />
+            </g>
+            <g className="r-otter-traveler__spray" fill={WHITE}>
+              <circle cx="38" cy="13" r="0.9" />
+              <circle cx="40.5" cy="16" r="0.7" />
+              <circle cx="36" cy="10.5" r="0.6" />
+            </g>
+          </>
+        )}
       </g>
       {status !== "wait" && (
         <g clipPath={`url(#${bandId})`}>

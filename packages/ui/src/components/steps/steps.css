@@ -492,6 +492,9 @@
   --r-step-river-water-color: var(--r-steps-river-water-color);
   --r-step-river-water-deep-color: var(--r-steps-river-water-deep-color);
   --r-step-river-glint-color: var(--r-steps-river-glint-color);
+  /* How far the water reaches; with a traveler the river is always full and
+     only the traveler moves along it. */
+  --r-step-river-level: var(--r-step-river-fill);
   transition: --r-step-river-fill var(--r-steps-river-rise-duration) var(--r-steps-easing);
 
   &[data-river-flow="finish"] {
@@ -519,7 +522,7 @@
     inset: 0;
     position: absolute;
     /* Clipped rather than scaled so the waves keep their shape. */
-    clip-path: inset(0 calc(100% - var(--r-step-river-fill) * 100%) 0 0);
+    clip-path: inset(0 calc(100% - var(--r-step-river-level) * 100%) 0 0);
   }
 }
 
@@ -594,6 +597,16 @@
   }
 }
 
+/* With a traveler (`renderTraveler`) the river is full all along: the reaches
+   behind the traveler and the one it swims flow, those ahead lie still, and
+   the reach into a failed step runs red. */
+.r-steps--river.r-steps--traveler > .r-step {
+  --r-step-river-level: 1;
+}
+.r-steps--river.r-steps--traveler.r-steps--horizontal > .r-step > .r-step__connector::before {
+  mask-image: none;
+}
+
 /* Into a finished step the channel is full to the brim: no surface left to
    ripple, only the glints still flowing. */
 .r-steps--river.r-steps--horizontal
@@ -638,7 +651,7 @@
       2px 32px,
       1px 40px,
       100% 100%;
-    clip-path: inset(0 0 calc(100% - var(--r-step-river-fill) * 100%) 0);
+    clip-path: inset(0 0 calc(100% - var(--r-step-river-level) * 100%) 0);
   }
 }
 
@@ -679,7 +692,7 @@
 }
 
 .r-steps--river.r-steps--horizontal > .r-step:dir(rtl) > .r-step__connector::before {
-  clip-path: inset(0 0 0 calc(100% - var(--r-step-river-fill) * 100%));
+  clip-path: inset(0 0 0 calc(100% - var(--r-step-river-level) * 100%));
 }
 
 @keyframes r-steps-river-flow {

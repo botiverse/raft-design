@@ -302,6 +302,7 @@ export function Steps({
             `r-steps--${size}`,
             vertical ? "r-steps--vertical" : "r-steps--horizontal",
             track === "river" && "r-steps--river",
+            traveler !== undefined && "r-steps--traveler",
             theme === "elegant" && "r-steps--elegant",
             className,
           )}
