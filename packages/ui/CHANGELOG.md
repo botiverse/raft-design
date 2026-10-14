@@ -1,3 +1,18 @@
+## [0.5.61](https://github.com/botiverse/rui/compare/v0.5.60...v0.5.61) (2026-10-14)
+
+### Added
+
+- `MessageActionCard` is a disclosure: `defaultOpen` / `open` / `onOpenChange`, and `MessageActionCardCollapseTrigger` (chevron toggle, `aria-label` required) folds the content with a 200ms height animation (off under reduced motion). ([#454](https://github.com/botiverse/rui/pull/454))
+- Header parts `MessageActionCardHeaderIcon` (type icon; a generic action icon when given no children), `MessageActionCardHeaderTitle` and `MessageActionCardStatus` (state label: solid and uppercase in Brutal, soft in Elegant). ([#454](https://github.com/botiverse/rui/pull/454))
+- `MessageActionCardHintLabel` ("Reason") above the agent's italic `MessageActionCardHint` quote, and `MessageActionCardNotice` for Raft's note about what the action does or who may run it: one plain line with a default info icon (`icon` replaces it). ([#454](https://github.com/botiverse/rui/pull/454))
+- `MessageActionCardScopeListViewport` scrolls a long permission list inside a cap that cuts through the third row (132px Brutal, 172px Elegant). `aria-label` is required; it is a Tab stop only while the list overflows. ([#454](https://github.com/botiverse/rui/pull/454), [#457](https://github.com/botiverse/rui/pull/457))
+- `MessageActionCardActionsNote` holds state text on the left of the actions. ([#454](https://github.com/botiverse/rui/pull/454))
+
+### Changed
+
+- `MessageActionCardActions` aligns its buttons to the right. ([#454](https://github.com/botiverse/rui/pull/454))
+- Brutal `MessageActionCard` frame: 2px border, 2px hard shadow, tinted title band ruled off at 2px (the rule goes away when folded). ([#454](https://github.com/botiverse/rui/pull/454))
+
 ## [0.5.60](https://github.com/botiverse/rui/compare/v0.5.59...v0.5.60) (2026-10-14)
 
 ### Added
