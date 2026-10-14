@@ -152,8 +152,6 @@
 
   --layer-canvas: oklch(1 0 0);
   --layer-canvas-muted: oklch(1 0 0);
-  /* The app frame (top bar + rail): the outermost, darkest place. */
-  --layer-frame: var(--color-brutal-yellow-400);
   --layer-panel: oklch(1 0 0);
   --layer-popover: oklch(1 0 0);
   --layer-backdrop: oklch(0 0 0 / 0.65);
@@ -329,7 +327,6 @@
 
   --layer-canvas: oklch(1 0 0);
   --layer-canvas-muted: oklch(0.97885053 0.00132105 106.423534);
-  --layer-frame: oklch(0.949 0.0013 106.42);
   --layer-panel: oklch(1 0 0);
   --layer-popover: oklch(1 0 0);
   --layer-backdrop: oklch(0 0 0 / 0.35);
@@ -467,7 +464,6 @@
      both modes read as the same material. */
   --layer-canvas: oklch(0.19 0.005 106.42);
   --layer-canvas-muted: oklch(0.16 0.005 106.42);
-  --layer-frame: oklch(0.13 0.005 106.42);
   --layer-panel: oklch(0.26 0.004 106.42);
   --layer-popover: oklch(0.28 0.004 106.42);
   --layer-backdrop: oklch(0 0 0 / 0.6);
@@ -591,7 +587,6 @@
 
     --layer-canvas: oklch(0.19 0.005 106.42);
     --layer-canvas-muted: oklch(0.16 0.005 106.42);
-    --layer-frame: oklch(0.13 0.005 106.42);
     --layer-panel: oklch(0.26 0.004 106.42);
     --layer-popover: oklch(0.28 0.004 106.42);
     --layer-backdrop: oklch(0 0 0 / 0.6);
