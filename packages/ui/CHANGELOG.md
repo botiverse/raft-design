@@ -1,3 +1,9 @@
+## [0.5.60](https://github.com/botiverse/rui/compare/v0.5.59...v0.5.60) (2026-10-14)
+
+### Added
+
+- `SidebarItemThreadCount` (thread icon + number of followed threads with new replies, with a visually hidden, localizable `label` for screen readers) and `SidebarItemCountSeparator` (the dot between counts), so a channel row's `SidebarItemCount` can read `5 · [thread] 1`. Both also work as quiet text inside `SidebarItemMeta` for muted channels. `SidebarItemCount` stays as tight as a plain number when it holds the thread icon. ([#455](https://github.com/botiverse/rui/pull/455))
+
 ## [0.5.59](https://github.com/botiverse/rui/compare/v0.5.58...v0.5.59) (2026-10-14)
 
 ### Reverted
