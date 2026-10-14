@@ -1,3 +1,13 @@
+## [0.5.57](https://github.com/botiverse/rui/compare/v0.5.56...v0.5.57) (2026-10-14)
+
+### Added
+
+- `OtterIndicator`: an otter step marker for `Steps` `renderIndicator`, taking a step `status` (`wait` sleeps on the dry bank, `process` paddles on its back, `finish` hugs its parcel, `error` shivers as the parcel floats off). Use with `track="river"` and `--r-steps-indicator-size: 48px`; its CSS now ships in the published package. ([#441](https://github.com/botiverse/rui/pull/441))
+
+### Fixed
+
+- `Steps` `track="river"` in a wide row sizes each step to its own content and shares the remaining space evenly, so every river reach is the same length even when titles differ in length. The plain connector and the narrow layout are unchanged. ([#442](https://github.com/botiverse/rui/pull/442))
+
 ## [0.5.56](https://github.com/botiverse/rui/compare/v0.5.55...v0.5.56) (2026-10-13)
 
 ### Added
