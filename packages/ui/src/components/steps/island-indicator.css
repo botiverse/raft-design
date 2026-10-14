@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────────────────────────────────
    IslandIndicator — an island for a step marker on a river track (`Steps`
    `renderIndicator`), posed by the step's status. The picture is fixed art;
-   only the error flag takes a theme color.
+   it takes no theme colors.
    ───────────────────────────────────────────────────────────────────────── */
 
 .r-island-indicator {

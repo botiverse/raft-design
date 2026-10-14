@@ -54,24 +54,6 @@ function RaftFlag() {
   );
 }
 
-/** The flag over a failed step: red, with a ! on it. */
-function ErrorFlag() {
-  return (
-    <g>
-      <path d="M30 29V9" stroke={POLE} strokeWidth="1.4" strokeLinecap="round" />
-      <g className="r-island-indicator__flag">
-        <path d="M30.7 9.4h12.4l-2.6 4.4l2.6 4.4H30.7Z" fill="var(--danger, oklch(0.6 0.2 25))" />
-        <path
-          d="M36.2 11.4v3.6M36.2 16.5v0.1"
-          stroke={WHITE}
-          strokeWidth="1.3"
-          strokeLinecap="round"
-        />
-      </g>
-    </g>
-  );
-}
-
 export interface IslandIndicatorProps extends Omit<ComponentPropsWithRef<"svg">, "children"> {
   status: StepStatus;
 }
@@ -81,7 +63,7 @@ export interface IslandIndicatorProps extends Omit<ComponentPropsWithRef<"svg">,
  * - `wait`: a quiet island ahead, its shallows dry.
  * - `process`: the island the water is heading for, its shore ringed.
  * - `finish`: reached, with the Raft flag planted.
- * - `error`: a red flag; the water stalled short of it.
+ * - `error`: a plain island; the river says the step failed.
  *
  * Made for `<Steps track="river" renderIndicator>` with room to show it, e.g.
  * `--r-steps-indicator-size: 48px` and `--r-steps-connector-gap: 0px`, so the
@@ -129,7 +111,6 @@ export function IslandIndicator({ status, className, ...props }: IslandIndicator
       <ellipse cx="22" cy="27.5" rx="1" ry="0.55" fill={SAND_SHADE} />
       <Palm />
       {status === "finish" && <RaftFlag />}
-      {status === "error" && <ErrorFlag />}
     </svg>
   );
 }

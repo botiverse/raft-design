@@ -316,10 +316,10 @@ function StepsDoc() {
               marker on a step. On a river, <InlineCode>renderTraveler</InlineCode> adds one
               traveler that rides the front of the water. Here each step of moving a workspace
               between machines is an <InlineCode>IslandIndicator</InlineCode>: a finished island
-              flies the Raft flag, and a failed one a red flag. One{" "}
-              <InlineCode>OtterTraveler</InlineCode> swims at the front of the water toward the step
-              in progress, shivers with the parcel adrift when the step ahead fails (press Fail to
-              see it), and rests hugging the parcel at the last island when every step is done.
+              flies the Raft flag. One <InlineCode>OtterTraveler</InlineCode> swims at the front of
+              the water toward the step in progress, shivers with the parcel adrift when the step
+              ahead fails (press Fail to see it), and rests hugging the parcel at the last island
+              when every step is done.
             </DocNote>
             <Preview>
               <Preview.Canvas>

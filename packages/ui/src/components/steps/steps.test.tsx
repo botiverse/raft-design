@@ -363,7 +363,7 @@ describe("Steps track and renderIndicator", () => {
     expect(renderTraveler).not.toHaveBeenCalled();
   });
 
-  test("IslandIndicator flies a flag only when finished or failed", () => {
+  test("IslandIndicator flies a flag only when finished", () => {
     const { container } = render(
       <>
         <IslandIndicator status="wait" />
@@ -381,7 +381,7 @@ describe("Steps track and renderIndicator", () => {
     ]);
     expect(
       islands.map((island) => island.querySelector(".r-island-indicator__flag") !== null),
-    ).toEqual([false, false, true, true]);
+    ).toEqual([false, false, true, false]);
     // The finished island's flag carries the Raft mark.
     expect(islands[2].querySelector(".r-island-indicator__flag svg")).not.toBeNull();
     expect(islands[1].querySelector(".r-island-indicator__ring")).not.toBeNull();
