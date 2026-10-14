@@ -334,6 +334,46 @@ describe("Steps track and renderIndicator", () => {
       expect(where(container)).toBe("1:live:1-process");
     });
 
+    test("keeps swimming while steps finish one after another, flags only where it landed", () => {
+      vi.useFakeTimers();
+      const { container, rerender } = render(view(1));
+      const flags = () =>
+        [...container.querySelectorAll("[data-slot='step']")]
+          .map((step) => (step.classList.contains("r-step--finish") ? "F" : "-"))
+          .join("");
+      // Clicks every 500ms, faster than it swims a reach.
+      rerender(view(2));
+      act(() => {
+        vi.advanceTimersByTime(500);
+      });
+      rerender(view(3));
+      act(() => {
+        vi.advanceTimersByTime(500);
+      });
+      rerender(view(3, "finish"));
+      expect(flags()).toBe("---");
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+      expect(where(container)).toBe("1:rest:1-finish");
+      expect(flags()).toBe("F--");
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+      act(() => {
+        vi.advanceTimersByTime(1200);
+      });
+      expect(where(container)).toBe("2:rest:2-finish");
+      expect(flags()).toBe("FF-");
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+      act(() => {
+        vi.advanceTimersByTime(1200);
+      });
+      expect(flags()).toBe("FFF");
+    });
+
     test("stops in the reach of a failed step", () => {
       const { container, rerender } = render(view(2));
       rerender(view(2, "error"));
