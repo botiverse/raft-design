@@ -50,10 +50,10 @@ export const appRail = tv({
         item: [
           "size-auto min-w-9 p-3 rounded-md border border-transparent",
           "text-[13px] text-foreground-icon [&_svg]:size-4",
-          "hover:bg-fill-strong/80 hover:text-foreground-strong",
-          "active:bg-fill-strong/80 active:text-foreground-strong",
+          "hover:bg-layer-panel/60 hover:text-foreground-strong",
+          "active:bg-layer-panel/60 active:text-foreground-strong",
           "dark:hover:bg-ink-6 dark:active:bg-ink-6",
-          "data-[selected=true]:border-transparent data-[selected=true]:bg-fill-strong",
+          "data-[selected=true]:border-transparent data-[selected=true]:bg-layer-panel",
           "dark:data-[selected=true]:bg-layer-card",
           "data-[selected=true]:text-foreground-muted data-[selected=true]:shadow-none",
           "dark:data-[selected=true]:text-foreground-strong dark:data-[selected=true]:shadow-raft-sm",

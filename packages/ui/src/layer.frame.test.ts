@@ -57,3 +57,14 @@ test("the elegant rail paints the frame, and its count badge ring matches it", (
   expect(root.has("bg-layer-canvas-muted")).toBe(false);
   expect(new Set(rail.itemBadge().split(/\s+/)).has("ring-layer-frame")).toBe(true);
 });
+
+test("on the light frame, a selected rail item is white and hover is a white tint (fill-strong equals the frame there)", () => {
+  const item = new Set(appRail({ theme: "elegant" }).item().split(/\s+/));
+  expect(item.has("data-[selected=true]:bg-layer-panel")).toBe(true);
+  expect(item.has("hover:bg-layer-panel/60")).toBe(true);
+  expect(item.has("data-[selected=true]:bg-fill-strong")).toBe(false);
+  expect(item.has("hover:bg-fill-strong/80")).toBe(false);
+  // Dark keeps its own states.
+  expect(item.has("dark:data-[selected=true]:bg-layer-card")).toBe(true);
+  expect(item.has("dark:hover:bg-ink-6")).toBe(true);
+});
