@@ -4,6 +4,7 @@ import {
   isValidElement,
   use,
   useCallback,
+  useEffect,
   useId,
   useMemo,
   useState,
@@ -68,8 +69,10 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
   renderIndicator?: (state: StepIndicatorState) => ReactNode;
   /**
    * On a `river` track, draws one traveler riding the front of the water: it
-   * waits at the first marker, swims each reach as the step ahead of it runs
-   * and rests at the last marker when every step is done. Its box is
+   * waits at the first marker and swims each reach as the step ahead of it
+   * runs. When that step finishes it lands there for a moment (drawn with the
+   * step's `finish` status) before setting off down the next reach, and it
+   * rests at the last marker when every step is done. Its box is
    * `--r-steps-traveler-size` square, its middle on the channel.
    */
   renderTraveler?: (state: StepTravelerState) => ReactNode;
@@ -126,10 +129,19 @@ const StepsContext = createContext<StepsContextValue>({
   select: undefined,
 });
 
+/** How long a traveler stays at a step it reached before it sets off again. */
+const TRAVELER_LANDING_MS = 3200;
+
 /** On a river track with a traveler: the step whose reach carries it, and what it draws. */
-const StepsTravelerContext = createContext<{ host: number; node: ReactNode } | undefined>(
-  undefined,
-);
+const StepsTravelerContext = createContext<
+  | {
+      host: number;
+      node: ReactNode;
+      /** While it lands, the reaches from this step on stay dry. */
+      holdFrom: number | undefined;
+    }
+  | undefined
+>(undefined);
 
 /** The step's number, counted from 1, given by `Steps` to each child. */
 const StepIndexContext = createContext(0);
@@ -225,18 +237,33 @@ export function Steps({
   // step before; ahead of the first step it waits at the head of the first reach.
   const firstOpen = statuses.findIndex((value) => value !== "finish");
   const front = firstOpen === -1 ? statuses.length : firstOpen + 1;
-  const frontStatus = statuses[front - 1];
+  // When the front moves on, the traveler first finishes its reach and lands
+  // at the step just reached, then sets off down the next reach.
+  const [landedFront, setLandedFront] = useState(front);
+  // Moving back, or leaving the head of the first reach, needs no landing.
+  if (front < landedFront || (front > landedFront && landedFront < 2)) setLandedFront(front);
+  useEffect(() => {
+    if (front <= landedFront) return;
+    const timer = setTimeout(() => setLandedFront(front), TRAVELER_LANDING_MS);
+    return () => clearTimeout(timer);
+  }, [front, landedFront]);
+  const shownFront = Math.min(front, landedFront);
+  const frontStatus = statuses[shownFront - 1];
   const travelerNode =
     track === "river" && renderTraveler !== undefined && statuses.length > 1 && frontStatus
-      ? renderTraveler({ index: front, status: frontStatus })
+      ? renderTraveler({ index: shownFront, status: frontStatus })
       : undefined;
-  const travelerHost = Math.max(1, front - 1);
+  const travelerHost = Math.max(1, shownFront - 1);
   const traveler = useMemo(
     () =>
       travelerNode === undefined || travelerNode === null
         ? undefined
-        : { host: travelerHost, node: travelerNode },
-    [travelerHost, travelerNode],
+        : {
+            host: travelerHost,
+            node: travelerNode,
+            holdFrom: shownFront < front ? shownFront : undefined,
+          },
+    [travelerHost, travelerNode, shownFront, front],
   );
 
   const context = useMemo<StepsContextValue>(
@@ -338,9 +365,11 @@ export function Step({
   const indicator = steps.renderIndicator?.({ index, status, current: isCurrent, marker });
   const customIndicator = indicator !== undefined && indicator !== null;
   const statusLabel = <StepStatusLabel status={status} steps={steps} />;
-  // The reach after a step shows how the next step is going.
-  const flow = steps.statuses[index];
   const riverTraveler = use(StepsTravelerContext);
+  // The reach after a step shows how the next step is going, but stays dry
+  // ahead of a traveler that is still landing.
+  const held = riverTraveler?.holdFrom !== undefined && index >= riverTraveler.holdFrom;
+  const flow = held && steps.statuses[index] !== undefined ? "wait" : steps.statuses[index];
   const traveler = riverTraveler?.host === index ? riverTraveler.node : undefined;
 
   return (

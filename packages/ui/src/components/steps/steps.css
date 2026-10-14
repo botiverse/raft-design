@@ -78,10 +78,13 @@
   --r-steps-river-error-color: var(--danger);
   --r-steps-river-flow-duration: 1.6s;
   --r-steps-river-rise-duration: 2.4s;
-  /* How long water heading for the step in progress takes to cover most of
-     the reach (`--r-steps-river-advance`); it stops short of the step. */
-  --r-steps-river-advance-duration: 4s;
-  --r-steps-river-advance: 0.72;
+  /* Water heading for the step in progress covers most of the reach
+     (`--r-steps-river-advance`) in a tenth of the advance duration, then keeps
+     creeping on, ever slower, to `--r-steps-river-advance-end`: it reaches
+     the step only when the step finishes. */
+  --r-steps-river-advance-duration: 40s;
+  --r-steps-river-advance: 0.7;
+  --r-steps-river-advance-end: 0.92;
   --r-steps-traveler-size: 40px;
   /* How far a vertical channel reaches into the marker above it (from its
      bottom) and the marker below it (from its top), passing behind it. */
@@ -650,11 +653,10 @@
     > .r-step__connector::before {
     animation: r-steps-river-fall var(--r-steps-river-flow-duration) linear infinite;
   }
-  /* Toward the step in progress: the water advances most of the way and
-     keeps flowing there until the step finishes. */
+  /* Toward the step in progress: the water advances most of the way, then
+     creeps on until the step finishes. */
   .r-steps--river > .r-step[data-river-flow="process"] {
-    animation: r-steps-river-advance var(--r-steps-river-advance-duration)
-      cubic-bezier(0.25, 0.7, 0.35, 1) forwards;
+    animation: r-steps-river-advance var(--r-steps-river-advance-duration) linear forwards;
   }
   .r-steps--river.r-steps--horizontal > .r-step:dir(rtl) > .r-step__connector::before {
     animation-direction: reverse;
@@ -702,16 +704,21 @@
 @keyframes r-steps-river-advance {
   from {
     --r-step-river-fill: 0;
+    animation-timing-function: cubic-bezier(0.25, 0.7, 0.35, 1);
+  }
+  10% {
+    --r-step-river-fill: var(--r-steps-river-advance);
+    animation-timing-function: cubic-bezier(0.2, 0.5, 0.4, 1);
   }
   to {
-    --r-step-river-fill: var(--r-steps-river-advance);
+    --r-step-river-fill: var(--r-steps-river-advance-end);
   }
 }
 
 /* The traveler: a box laid over the reach that carries it, its middle on the
-   channel. It slides along with the front of the water, from just inside the
-   head of the reach to just inside its end, so it never covers a marker. It
-   fades in when the front moves on to its reach. */
+   channel. It slides along with the front of the water, setting off from the
+   shallows of the marker at the head of the reach and landing in the
+   shallows of the next. It fades in when the front moves on to its reach. */
 .r-step__traveler {
   pointer-events: none;
   position: absolute;
@@ -739,10 +746,10 @@
   & > .r-step__traveler-body {
     inset-inline-start: calc(var(--r-step-river-fill) * 100%);
     top: 0;
-    translate: calc(var(--r-step-river-fill) * -100%) -50%;
+    translate: calc(-30% - var(--r-step-river-fill) * 40%) -50%;
   }
   &:dir(rtl) > .r-step__traveler-body {
-    translate: calc(var(--r-step-river-fill) * 100%) -50%;
+    translate: calc(30% + var(--r-step-river-fill) * 40%) -50%;
   }
 }
 
@@ -755,10 +762,10 @@
   & > .r-step__traveler-body {
     inset-inline-start: 50%;
     top: calc(var(--r-step-river-fill) * 100%);
-    translate: -50% calc(var(--r-step-river-fill) * -100%);
+    translate: -50% calc(-30% - var(--r-step-river-fill) * 40%);
   }
   &:dir(rtl) > .r-step__traveler-body {
-    translate: 50% calc(var(--r-step-river-fill) * -100%);
+    translate: 50% calc(-30% - var(--r-step-river-fill) * 40%);
   }
 }
 

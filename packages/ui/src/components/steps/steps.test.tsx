@@ -2,7 +2,7 @@
  * @vitest-environment jsdom
  */
 import { afterEach, describe, expect, test, vi } from "vite-plus/test";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { IslandIndicator } from "./island-indicator";
 import { OtterIndicator, OtterTraveler } from "./otter-indicator";
@@ -314,6 +314,41 @@ describe("Steps track and renderIndicator", () => {
     );
     expect(screen.getByTestId("traveler").textContent).toBe("3-finish");
     expect(host()).toBe(steps()[1]);
+  });
+
+  test("the traveler lands at a finished step before it sets off again", () => {
+    vi.useFakeTimers();
+    try {
+      const renderTraveler = vi.fn(({ index, status }) => (
+        <span data-testid="traveler">{`${index}-${status}`}</span>
+      ));
+      const view = (current: number) => (
+        <Steps current={current} track="river" renderTraveler={renderTraveler}>
+          <Step title="One" />
+          <Step title="Two" />
+          <Step title="Three" />
+        </Steps>
+      );
+      const { container, rerender } = render(view(2));
+      const flows = () =>
+        [...container.querySelectorAll("[data-slot='step']")].map((step) =>
+          step.getAttribute("data-river-flow"),
+        );
+      expect(screen.getByTestId("traveler").textContent).toBe("2-process");
+
+      rerender(view(3));
+      // Landed at step two, drawn finished; the next reach stays dry meanwhile.
+      expect(screen.getByTestId("traveler").textContent).toBe("2-finish");
+      expect(flows()).toEqual(["finish", "wait", null]);
+
+      act(() => {
+        vi.runAllTimers();
+      });
+      expect(screen.getByTestId("traveler").textContent).toBe("3-process");
+      expect(flows()).toEqual(["finish", "process", null]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   test("renderTraveler draws nothing off the river", () => {
