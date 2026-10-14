@@ -2,6 +2,7 @@ import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronDown, Info, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { ComponentProps, ReactNode } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
@@ -119,12 +120,12 @@ export function MessageActionCardStatus({
 export function MessageActionCardCollapseTrigger({
   className,
   ...props
-}: ComponentProps<typeof Collapsible.Trigger> & { "aria-label": string }) {
+}: MessageActionCardCollapseTriggerProps) {
   const theme = useThemeFamily();
   const { collapseTrigger } = messageActionCard({ theme });
 
   return (
-    <Collapsible.Trigger className={collapseTrigger({ className: className as string })} {...props}>
+    <Collapsible.Trigger className={collapseTrigger({ className })} {...props}>
       <ChevronDown aria-hidden />
     </Collapsible.Trigger>
   );
@@ -253,18 +254,38 @@ export function MessageActionCardScopeListLabel({
   });
 }
 
+/**
+ * Scrolls a long permission list. It is a Tab stop only while it overflows, so
+ * keyboard users can scroll it; a short list adds no empty stop.
+ */
 export function MessageActionCardScopeListViewport({
   className,
   render,
   ...props
-}: useRender.ComponentProps<"div">) {
+}: MessageActionCardScopeListViewportProps) {
   const theme = useThemeFamily();
   const { scopeListViewport } = messageActionCardContent({ theme });
+  const [element, setElement] = useState<Element | null>(null);
+  const [overflows, setOverflows] = useState(false);
+
+  useEffect(() => {
+    if (element === null) return;
+    const measure = () => setOverflows(element.scrollHeight > element.clientHeight);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    for (const child of element.children) observer.observe(child);
+    return () => observer.disconnect();
+  }, [element]);
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">({ className: scopeListViewport({ className }), tabIndex: 0 }, props),
+    ref: setElement,
+    props: mergeProps<"div">(
+      { className: scopeListViewport({ className }), tabIndex: overflows ? 0 : undefined },
+      props,
+    ),
     state: { slot: "message-action-card-scope-list-viewport" },
   });
 }
@@ -437,10 +458,18 @@ export type MessageActionCardProps = useRender.ComponentProps<"div"> & {
 export type MessageActionCardHeaderIconProps = useRender.ComponentProps<"span">;
 export type MessageActionCardHeaderTitleProps = useRender.ComponentProps<"span">;
 export type MessageActionCardStatusProps = BadgeProps;
-export type MessageActionCardCollapseTriggerProps = ComponentProps<typeof Collapsible.Trigger> & {
+export type MessageActionCardCollapseTriggerProps = Omit<
+  ComponentProps<typeof Collapsible.Trigger>,
+  "className"
+> & {
+  // A plain string: the recipe merges it, so a state function is not accepted.
+  className?: string;
   "aria-label": string;
 };
-export type MessageActionCardScopeListViewportProps = useRender.ComponentProps<"div">;
+export type MessageActionCardScopeListViewportProps = useRender.ComponentProps<"div"> & {
+  /** Names the scroll area for screen readers, e.g. "Permissions". */
+  "aria-label": string;
+};
 export type MessageActionCardActionsNoteProps = useRender.ComponentProps<"div">;
 export type MessageActionCardContentProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHeaderProps = useRender.ComponentProps<"div">;
