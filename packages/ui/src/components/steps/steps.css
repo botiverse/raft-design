@@ -85,12 +85,15 @@
   /* A river with a traveler (`renderTraveler`): the traveler's box, how long
      it takes to swim most of a reach (`--r-steps-traveler-advance`) before
      creeping on to `--r-steps-traveler-advance-end`, how long it swims the
-     rest into a finished step, and the length of a reach in a column. */
+     rest into a finished step, how long it rests at a marker it reached, and
+     the length of a reach in a column. The arrive and rest durations also
+     pace the traveler's voyage from marker to marker. */
   --r-steps-traveler-size: 40px;
   --r-steps-traveler-advance-duration: 40s;
   --r-steps-traveler-advance: 0.7;
   --r-steps-traveler-advance-end: 0.92;
   --r-steps-traveler-arrive-duration: 1.2s;
+  --r-steps-traveler-rest-duration: 1s;
   --r-steps-traveler-reach: 56px;
 
   &.r-steps--sm {
@@ -788,6 +791,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* No swim to watch: the traveler goes straight to where the steps are. */
+  .r-steps--traveler {
+    --r-steps-traveler-arrive-duration: 0s;
+    --r-steps-traveler-rest-duration: 0s;
+  }
   .r-steps--traveler > .r-step[data-traveler="live"]:is(.r-step--process, .r-step--error) {
     --r-step-traveler-pos: 0.5;
   }

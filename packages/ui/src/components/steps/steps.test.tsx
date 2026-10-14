@@ -3,11 +3,18 @@
  */
 import { afterEach, describe, expect, test, vi } from "vite-plus/test";
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import type { CSSProperties } from "react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { IslandIndicator } from "./island-indicator";
 import { OtterIndicator, OtterTraveler } from "./otter-indicator";
 import { Step, Steps } from "./steps";
 import type { StepStatus, StepTravelerState } from "./steps";
+
+// jsdom loads no stylesheet: a traveler takes its pace from these.
+const pace = {
+  "--r-steps-traveler-arrive-duration": "1.2s",
+  "--r-steps-traveler-rest-duration": "1000ms",
+} as CSSProperties;
 
 /** Draws the traveler as its step number and pose. */
 function renderTravelerLabel({ index, status }: StepTravelerState) {
@@ -256,7 +263,13 @@ describe("Steps track and renderIndicator", () => {
 
   describe("renderTraveler", () => {
     const view = (current: number, status: StepStatus = "process") => (
-      <Steps current={current} status={status} track="river" renderTraveler={renderTravelerLabel}>
+      <Steps
+        current={current}
+        status={status}
+        track="river"
+        renderTraveler={renderTravelerLabel}
+        style={pace}
+      >
         <Step title="One" />
         <Step title="Two" />
         <Step title="Three" />
@@ -372,6 +385,55 @@ describe("Steps track and renderIndicator", () => {
         vi.advanceTimersByTime(1200);
       });
       expect(flags()).toBe("FFF");
+    });
+
+    test("no step ever shows ahead of the traveler", () => {
+      vi.useFakeTimers();
+      const { container, rerender } = render(view(1));
+      const check = () => {
+        const steps = [...container.querySelectorAll("[data-slot='step']")];
+        const host = steps.findIndex((step) => step.hasAttribute("data-traveler"));
+        const mode = steps[host]?.getAttribute("data-traveler");
+        // Markers it has reached: the one it rests at and those before it.
+        const reached = mode === "rest" ? host + 1 : host;
+        steps.forEach((step, i) => {
+          expect(step.classList.contains("r-step--finish")).toBe(i < reached);
+          if (i > host) expect(step.classList.contains("r-step--wait")).toBe(true);
+        });
+      };
+      for (const next of [2, 3, 1, 2, 3, 3] as const) {
+        rerender(view(next, next === 3 ? "finish" : "process"));
+        for (let t = 0; t < 12; t += 1) {
+          check();
+          act(() => {
+            vi.advanceTimersByTime(250);
+          });
+        }
+      }
+      check();
+    });
+
+    test("goes straight to the steps with no pace set", () => {
+      vi.useFakeTimers();
+      const { container, rerender } = render(
+        <Steps current={1} track="river" renderTraveler={renderTravelerLabel}>
+          <Step title="One" />
+          <Step title="Two" />
+        </Steps>,
+      );
+      rerender(
+        <Steps current={2} status="finish" track="river" renderTraveler={renderTravelerLabel}>
+          <Step title="One" />
+          <Step title="Two" />
+        </Steps>,
+      );
+      // Each 0ms leg is its own timer, set once the last one has rendered.
+      for (let leg = 0; leg < 4; leg += 1) {
+        act(() => {
+          vi.advanceTimersByTime(0);
+        });
+      }
+      expect(where(container)).toBe("2:rest:2-finish");
     });
 
     test("stops in the reach of a failed step", () => {

@@ -131,75 +131,89 @@ const StepsContext = createContext<StepsContextValue>({
 });
 
 /**
- * How long the traveler takes to swim the rest of a reach into a finished
- * step; it matches `--r-steps-traveler-arrive-duration`.
+ * The traveler's voyage: the one state everything on a river with a traveler
+ * is drawn from. `landed` is how many markers it has reached; `phase` is what
+ * it is doing in the reach after them: `swim` keeps pace with that step,
+ * `land` swims the rest of the way into it once it has finished, `rest` waits
+ * at the marker it just reached before setting off down the next reach.
  */
-const TRAVELER_ARRIVE_MS = 1200;
-/** How long the traveler rests at a step it reached before it sets off again. */
-const TRAVELER_REST_MS = 1000;
-
-/** `live` follows its step, `arrive` swims into its finished step, `rest` waits there. */
-type TravelerMode = "live" | "arrive" | "rest";
-
-/** On a river track with a traveler: the step whose reach carries it, how, and what it draws. */
-const StepsTravelerContext = createContext<
-  { host: number; mode: TravelerMode; node: ReactNode; shown: StepStatus[] } | undefined
->(undefined);
+type Voyage = { landed: number; phase: "swim" | "land" | "rest" };
 
 /**
- * Where the traveler is. It has landed at the steps before `landed` and moves
- * one step at a time toward the first step not yet finished: it swims into
- * each finished step (`arrive`), rests there (`rest`) and then takes the next
- * reach, so it never skips a step however fast they finish. Moving back (a
- * restart) is immediate.
+ * The traveler as Steps hands it to each step: its voyage, the step it is
+ * drawn on, how it moves there (`data-traveler`) and what it draws.
  */
-function useTraveler(statuses: StepStatus[], enabled: boolean) {
-  const firstOpen = statuses.findIndex((value) => value !== "finish");
-  const goal = firstOpen === -1 ? statuses.length : firstOpen;
-  const [landed, setLanded] = useState(goal);
-  const [resting, setResting] = useState(false);
-  if (landed > goal) {
-    setLanded(goal);
-    setResting(false);
-  }
+type TravelerValue = Voyage & { host: number; mode: "live" | "arrive" | "rest"; node: ReactNode };
 
-  // Keyed on whether it is behind, not on `goal`: more steps finishing while
-  // it swims must not restart the swim.
-  const behind = landed < goal;
-  useEffect(() => {
-    if (!enabled) return;
-    if (resting) {
-      const timer = setTimeout(() => setResting(false), TRAVELER_REST_MS);
-      return () => clearTimeout(timer);
-    }
-    if (!behind) return;
-    const timer = setTimeout(() => {
-      setLanded((value) => value + 1);
-      setResting(true);
-    }, TRAVELER_ARRIVE_MS);
-    return () => clearTimeout(timer);
-  }, [enabled, landed, behind, resting]);
+const StepsTravelerContext = createContext<TravelerValue | undefined>(undefined);
 
-  if (!enabled || statuses.length === 0) return undefined;
-  if (resting && landed >= 1) return { host: landed, mode: "rest" as const, landed };
-  if (behind) return { host: landed + 1, mode: "arrive" as const, landed };
-  if (goal < statuses.length) return { host: goal + 1, mode: "live" as const, landed };
-  return { host: statuses.length, mode: "rest" as const, landed };
+/** The step whose reach the traveler is in: the marker it rests at, else the next one. */
+function voyageHost({ landed, phase }: Voyage) {
+  return phase === "rest" ? landed : landed + 1;
 }
 
 /**
- * What the river shows with a traveler: a step looks finished (its flag up)
- * only once the traveler has landed there. The reach it swims shows in
- * progress, and the steps past it wait until it gets there.
+ * How a step looks with a traveler: as the traveler has got to it, not as the
+ * steps really stand. Markers it reached are finished, the reach it swims
+ * into a finished step is in progress, the reach it keeps pace with shows
+ * the step's own status, and everything past it waits.
  */
-function shownStatus(
-  status: StepStatus,
-  index: number,
-  at: { host: number; mode: TravelerMode; landed: number },
-): StepStatus {
-  if (index <= at.landed) return "finish";
-  if (index > at.host || at.mode === "rest") return "wait";
-  return at.mode === "arrive" ? "process" : status;
+function voyageStatus(voyage: Voyage, index: number, status: StepStatus): StepStatus {
+  if (index <= voyage.landed) return "finish";
+  if (voyage.phase === "rest" || index > voyage.landed + 1) return "wait";
+  return voyage.phase === "land" ? "process" : status;
+}
+
+/** A CSS time such as `1.2s` or `300ms` in milliseconds; 0 when unset. */
+function cssTime(element: Element, property: string) {
+  const value = getComputedStyle(element).getPropertyValue(property).trim();
+  const amount = Number.parseFloat(value);
+  if (Number.isNaN(amount)) return 0;
+  return value.endsWith("ms") ? amount : amount * 1000;
+}
+
+/**
+ * Moves the voyage toward its goal: the number of steps finished in a row
+ * from the first. The steps only set the goal; the voyage moves itself one
+ * marker at a time, `land` then `rest`, each lasting as long as the CSS says
+ * (`--r-steps-traveler-arrive-duration`, `--r-steps-traveler-rest-duration`),
+ * so it never skips a marker and a goal moving again mid-way does not restart
+ * it. A goal behind it (a restart) takes it straight back. Also works out
+ * where the traveler is drawn and how.
+ */
+function useVoyage(statuses: StepStatus[], list: Element | null) {
+  const firstOpen = statuses.findIndex((value) => value !== "finish");
+  const goal = firstOpen === -1 ? statuses.length : firstOpen;
+  const [voyage, setVoyage] = useState<Voyage>({ landed: goal, phase: "swim" });
+  if (voyage.landed > goal) setVoyage({ landed: goal, phase: "swim" });
+  if (voyage.phase === "swim" && voyage.landed < goal) {
+    setVoyage({ landed: voyage.landed, phase: "land" });
+  }
+
+  const { landed, phase } = voyage;
+  useEffect(() => {
+    if (phase === "swim" || list === null) return;
+    const ms = cssTime(
+      list,
+      phase === "land" ? "--r-steps-traveler-arrive-duration" : "--r-steps-traveler-rest-duration",
+    );
+    const timer = setTimeout(
+      () =>
+        setVoyage(
+          phase === "land" ? { landed: landed + 1, phase: "rest" } : { landed, phase: "swim" },
+        ),
+      ms,
+    );
+    return () => clearTimeout(timer);
+  }, [landed, phase, list]);
+
+  const host = Math.min(voyageHost(voyage), statuses.length);
+  // Past the last marker there is no reach left: it rests at the last one.
+  let mode: TravelerValue["mode"] = "live";
+  if (landed >= statuses.length || phase === "rest") mode = "rest";
+  else if (phase === "land") mode = "arrive";
+  const hostStatus = voyageStatus(voyage, host, statuses[host - 1] ?? "wait");
+  return { landed, phase, host, mode, hostStatus };
 }
 
 /** The step's number, counted from 1, given by `Steps` to each child. */
@@ -266,6 +280,7 @@ export function Steps({
   onUpdateCurrent,
   className,
   children,
+  ref,
   ...props
 }: StepsProps) {
   const theme = useThemeFamily();
@@ -284,38 +299,26 @@ export function Steps({
 
   const steps = Children.toArray(children).filter(isValidElement<StepProps>);
   const statuses = steps.map((step, i) => stepStatus(i + 1, current, status, step.props.status));
-  const travelerOn = track === "river" && renderTraveler !== undefined;
-  const at = useTraveler(statuses, travelerOn);
+  const [list, setListElement] = useState<HTMLOListElement | null>(null);
+  const setList = useCallback(
+    (node: HTMLOListElement | null) => {
+      setListElement(node);
+      if (typeof ref === "function") return ref(node);
+      if (ref) ref.current = node;
+    },
+    [ref],
+  );
+  const { landed, phase, host, mode, hostStatus } = useVoyage(statuses, list);
   const travelerNode =
-    at === undefined || renderTraveler === undefined
-      ? undefined
-      : renderTraveler({
-          index: at.host,
-          status:
-            at.mode === "rest"
-              ? "finish"
-              : at.mode === "arrive"
-                ? "process"
-                : (statuses[at.host - 1] ?? "wait"),
-        });
-  const travelerHost = at?.host;
-  const travelerMode = at?.mode;
-  const shownKey =
-    at === undefined ? "" : statuses.map((value, i) => shownStatus(value, i + 1, at)).join(" ");
-  const traveler = useMemo(
+    track === "river" && renderTraveler !== undefined && host >= 1
+      ? renderTraveler({ index: host, status: hostStatus })
+      : undefined;
+  const traveler = useMemo<TravelerValue | undefined>(
     () =>
-      travelerNode === undefined ||
-      travelerNode === null ||
-      travelerHost === undefined ||
-      travelerMode === undefined
+      travelerNode === undefined || travelerNode === null
         ? undefined
-        : {
-            host: travelerHost,
-            mode: travelerMode,
-            node: travelerNode,
-            shown: shownKey.split(" ") as StepStatus[],
-          },
-    [travelerHost, travelerMode, travelerNode, shownKey],
+        : { landed, phase, host, mode, node: travelerNode },
+    [landed, phase, host, mode, travelerNode],
   );
 
   const context = useMemo<StepsContextValue>(
@@ -346,6 +349,7 @@ export function Steps({
     <StepsContext value={context}>
       <StepsTravelerContext value={traveler}>
         <ol
+          ref={setList}
           data-slot="steps"
           className={cn(
             "r-steps",
@@ -404,10 +408,10 @@ export function Step({
   const index = use(StepIndexContext);
   const descriptionId = useId();
 
-  const riverTraveler = use(StepsTravelerContext);
+  const traveler = use(StepsTravelerContext);
   const realStatus = stepStatus(index, steps.current, steps.status, statusProp);
-  // With a traveler the step looks the way the traveler has got to it.
-  const status = riverTraveler?.shown[index - 1] ?? realStatus;
+  const status = traveler === undefined ? realStatus : voyageStatus(traveler, index, realStatus);
+  const hostsTraveler = traveler !== undefined && traveler.host === index;
   const isCurrent = steps.current !== undefined && index === steps.current;
   const { select } = steps;
   const body = children ?? description;
@@ -419,13 +423,12 @@ export function Step({
   const indicator = steps.renderIndicator?.({ index, status, current: isCurrent, marker });
   const customIndicator = indicator !== undefined && indicator !== null;
   const statusLabel = <StepStatusLabel status={realStatus} steps={steps} />;
-  const traveler = riverTraveler?.host === index ? riverTraveler.node : undefined;
 
   return (
     <li
       data-slot="step"
       aria-current={isCurrent ? "step" : undefined}
-      data-traveler={riverTraveler?.host === index ? riverTraveler.mode : undefined}
+      data-traveler={hostsTraveler ? traveler.mode : undefined}
       className={cn(
         "r-step",
         `r-step--${status}`,
@@ -470,11 +473,11 @@ export function Step({
         </div>
       </div>
       <div aria-hidden="true" data-slot="step-connector" className="r-step__connector" />
-      {traveler === undefined ? null : (
+      {hostsTraveler ? (
         <div aria-hidden="true" data-slot="step-traveler" className="r-step__traveler">
-          <div className="r-step__traveler-body">{traveler}</div>
+          <div className="r-step__traveler-body">{traveler.node}</div>
         </div>
-      )}
+      ) : null}
     </li>
   );
 }
