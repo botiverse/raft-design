@@ -37,7 +37,16 @@ export const sidebarItemRecipe = tv({
       "[&_svg]:size-3 [&_svg]:shrink-0",
     ],
     sidebarItemAside: ["flex shrink-0 items-center gap-1"],
-    sidebarItemCount: ["shrink-0"],
+    sidebarItemCount: [
+      "shrink-0",
+      // A thread segment carries an icon; keep the badge as tight as a plain number.
+      "[&:has(svg)]:px-1",
+    ],
+    sidebarItemCountSeparator: ["mx-0.5 opacity-60"],
+    sidebarItemThreadCount: [
+      "inline-flex items-center gap-0.5",
+      "[&>svg]:size-2.5 [&>svg]:shrink-0 [&>svg]:translate-y-0",
+    ],
   },
   variants: {
     theme: {
@@ -105,7 +114,7 @@ export const sidebarItemRecipe = tv({
         ],
         sidebarItemMetaIcon: "text-foreground-icon",
         sidebarItemCount: [
-          "h-4 min-w-4 items-center justify-center rounded-sm px-1 py-0",
+          "h-4 min-w-4 items-center justify-center gap-0 rounded-sm px-1 py-0",
           "text-[10px] font-normal leading-none tabular-nums tracking-normal",
         ],
       },

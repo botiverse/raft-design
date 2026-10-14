@@ -12,6 +12,8 @@ import { SidebarItemDirectMessageComposition } from "#/modules/sidebar-item/comp
 import directMessageItemCompositionSource from "#/modules/sidebar-item/compositions/direct-message-item.composition.tsx?raw";
 import { SidebarItemNavigationComposition } from "#/modules/sidebar-item/compositions/navigation-item.composition.tsx";
 import navigationItemCompositionSource from "#/modules/sidebar-item/compositions/navigation-item.composition.tsx?raw";
+import { SidebarItemThreadUnreadComposition } from "#/modules/sidebar-item/compositions/thread-unread-item.composition.tsx";
+import threadUnreadItemCompositionSource from "#/modules/sidebar-item/compositions/thread-unread-item.composition.tsx?raw";
 import { SidebarItemStatesComposition } from "#/modules/sidebar-item/sidebar-item.composition.tsx";
 import sidebarItemCompositionSource from "#/modules/sidebar-item/sidebar-item.composition.tsx?raw";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -22,9 +24,11 @@ const ANATOMY_SNIPPET = `import {
   SidebarItemChannelIcon,
   SidebarItemContent,
   SidebarItemCount,
+  SidebarItemCountSeparator,
   SidebarItemIndicator,
   SidebarItemMetaIcon,
   SidebarItemSubtitle,
+  SidebarItemThreadCount,
   SidebarItemTitle,
 } from "raft-ui";
 
@@ -36,7 +40,11 @@ const ANATOMY_SNIPPET = `import {
   </SidebarItemContent>
   <SidebarItemAside>
     <SidebarItemIndicator />
-    <SidebarItemCount />
+    <SidebarItemCount>
+      5
+      <SidebarItemCountSeparator />
+      <SidebarItemThreadCount>1</SidebarItemThreadCount>
+    </SidebarItemCount>
     <SidebarItemMetaIcon />
   </SidebarItemAside>
 </SidebarItem>`;
@@ -154,7 +162,31 @@ const SIDEBAR_ITEM_COUNT_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "Badge props",
-    description: "Unread-count badge in the trailing area.",
+    description:
+      "Unread-count badge in the trailing area. Compose the channel's own count and a SidebarItemThreadCount with a SidebarItemCountSeparator between them; give the badge an aria-label that reads both.",
+  },
+];
+
+const SIDEBAR_ITEM_COUNT_SEPARATOR_PROPS: readonly PropRow[] = [
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Decorative dot between the message count and the thread count. Hidden from assistive technology.",
+  },
+];
+
+const SIDEBAR_ITEM_THREAD_COUNT_PROPS: readonly PropRow[] = [
+  {
+    name: "children",
+    type: "ReactNode",
+    description: "Number of followed threads with new replies (not the number of replies).",
+  },
+  {
+    name: "...props",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "Thread icon plus count. Use inside SidebarItemCount for a loud badge, or inside SidebarItemMeta for a muted channel.",
   },
 ];
 
@@ -176,6 +208,7 @@ export const Route = createFileRoute("/components/sidebar-item")({
         navigationItem: navigationItemCompositionSource,
         channelItem: channelItemCompositionSource,
         directMessageItem: directMessageItemCompositionSource,
+        threadUnreadItem: threadUnreadItemCompositionSource,
       },
     }),
 });
@@ -223,6 +256,24 @@ function SidebarItemDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.channelItem} collapsedHtml={code.channelItemBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection
+            parentId="compositions"
+            id="composition-thread-unread"
+            title="Thread unread"
+          >
+            <Preview previewClassName="items-stretch">
+              <Preview.Canvas>
+                <div className="w-full max-w-72">
+                  <SidebarItemThreadUnreadComposition />
+                </div>
+              </Preview.Canvas>
+              <Preview.Code
+                html={code.threadUnreadItem}
+                collapsedHtml={code.threadUnreadItemBody}
+              />
             </Preview>
           </DocSubsection>
 
@@ -296,6 +347,20 @@ function SidebarItemDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-sidebar-item-count" title="SidebarItemCount">
             <PropsTable rows={SIDEBAR_ITEM_COUNT_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-sidebar-item-count-separator"
+            title="SidebarItemCountSeparator"
+          >
+            <PropsTable rows={SIDEBAR_ITEM_COUNT_SEPARATOR_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-sidebar-item-thread-count"
+            title="SidebarItemThreadCount"
+          >
+            <PropsTable rows={SIDEBAR_ITEM_THREAD_COUNT_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-sidebar-item-meta-icon" title="SidebarItemMetaIcon">
             <PropsTable rows={SIDEBAR_ITEM_META_ICON_PROPS} />
