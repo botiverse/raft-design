@@ -78,18 +78,20 @@
   --r-steps-river-error-color: var(--danger);
   --r-steps-river-flow-duration: 1.6s;
   --r-steps-river-rise-duration: 2.4s;
-  /* Water heading for the step in progress covers most of the reach
-     (`--r-steps-river-advance`) in a tenth of the advance duration, then keeps
-     creeping on, ever slower, to `--r-steps-river-advance-end`: it reaches
-     the step only when the step finishes. */
-  --r-steps-river-advance-duration: 40s;
-  --r-steps-river-advance: 0.7;
-  --r-steps-river-advance-end: 0.92;
-  --r-steps-traveler-size: 40px;
   /* How far a vertical channel reaches into the marker above it (from its
      bottom) and the marker below it (from its top), passing behind it. */
   --r-steps-river-overlap-start: 0px;
   --r-steps-river-overlap-end: 0px;
+  /* A river with a traveler (`renderTraveler`): the traveler's box, how long
+     it takes to swim most of a reach (`--r-steps-traveler-advance`) before
+     creeping on to `--r-steps-traveler-advance-end`, how long it swims the
+     rest into a finished step, and the length of a reach in a column. */
+  --r-steps-traveler-size: 40px;
+  --r-steps-traveler-advance-duration: 40s;
+  --r-steps-traveler-advance: 0.7;
+  --r-steps-traveler-advance-end: 0.92;
+  --r-steps-traveler-arrive-duration: 1.2s;
+  --r-steps-traveler-reach: 56px;
 
   &.r-steps--sm {
     --r-steps-indicator-size: 22px;
@@ -471,33 +473,19 @@
 
 /* ─────────────────────────────────────────────────────────────────────────
    3. River track
-   The connector becomes a channel; its `::before` is the water. Each reach
-   shows how the step it leads to is going (`data-river-flow` on the step it
-   leaves): full once that step is finished, water advancing toward the step
-   in progress, stalled in red short of a failed step and a dry bed ahead.
-   The glints and the wavy front drift toward the next step. A traveler
-   (`renderTraveler`) rides the front of the water.
+   The connector becomes a channel; its `::before` is the water. The channel
+   behind a finished step is full, water keeps flowing in behind the step in
+   progress, stalls in red after a failed step and is absent ahead, leaving
+   the dry bed. The glints and the wavy front drift toward the next step.
    ───────────────────────────────────────────────────────────────────────── */
-
-/* Registered so the fill can ease between states and be animated, and the
-   water and the traveler follow the same number. */
-@property --r-step-river-fill {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
 
 .r-steps--river > .r-step {
   --r-step-river-fill: 0;
   --r-step-river-water-color: var(--r-steps-river-water-color);
   --r-step-river-water-deep-color: var(--r-steps-river-water-deep-color);
   --r-step-river-glint-color: var(--r-steps-river-glint-color);
-  /* How far the water reaches; with a traveler the river is always full and
-     only the traveler moves along it. */
-  --r-step-river-level: var(--r-step-river-fill);
-  transition: --r-step-river-fill var(--r-steps-river-rise-duration) var(--r-steps-easing);
 
-  &[data-river-flow="finish"] {
+  &.r-step--finish {
     --r-step-river-fill: 1;
   }
 }
@@ -522,7 +510,8 @@
     inset: 0;
     position: absolute;
     /* Clipped rather than scaled so the waves keep their shape. */
-    clip-path: inset(0 calc(100% - var(--r-step-river-level) * 100%) 0 0);
+    clip-path: inset(0 calc(100% - var(--r-step-river-fill) * 100%) 0 0);
+    transition: clip-path var(--r-steps-river-rise-duration) var(--r-steps-easing);
   }
 }
 
@@ -563,55 +552,20 @@
   }
 }
 
-/* A row of river keeps the text off the water: each step puts its title and
-   description under the marker, so the channel runs unbroken from marker to
-   marker. The steps share the width evenly, giving every reach the same
-   length; the last step, with no reach after it, takes only its own width. */
-.r-steps--river.r-steps--horizontal > .r-step {
-  grid-template-columns: var(--r-steps-indicator-size) minmax(
-      var(--r-steps-connector-min-width),
-      1fr
-    );
-
-  &:last-child {
-    flex: none;
-    grid-template-columns: minmax(var(--r-steps-indicator-size), max-content);
-  }
-  & > .r-step__main > .r-step__content {
-    display: block;
-    grid-column: 1 / -1;
-    grid-row: 2;
-    padding-inline-end: var(--r-steps-connector-gap);
-    padding-top: 6px;
-  }
-  & > .r-step__main > .r-step__content > .r-step__title,
-  & > .r-step__main > .r-step__content > .r-step__description {
-    margin-inline-start: 0;
-  }
-  & > .r-step__main > .r-step__content > .r-step__title {
-    overflow-wrap: anywhere;
-    white-space: normal;
-  }
-  & > .r-step__connector {
-    grid-column: 2;
+/* A row of river: the steps grow from their own width by equal shares, so
+   every reach of the river gets the same length whatever the titles; a line
+   splits the row into equal steps instead. A description wider than its
+   title still lengthens its own reach. Narrow screens already lay the
+   markers out evenly, with the text under them. */
+@media (width >= 40rem) {
+  .r-steps--river.r-steps--horizontal > .r-step:not(:last-child) {
+    flex: 1 1 auto;
   }
 }
 
-/* With a traveler (`renderTraveler`) the river is full all along: the reaches
-   behind the traveler and the one it swims flow, those ahead lie still, and
-   the reach into a failed step runs red. */
-.r-steps--river.r-steps--traveler > .r-step {
-  --r-step-river-level: 1;
-}
-.r-steps--river.r-steps--traveler.r-steps--horizontal > .r-step > .r-step__connector::before {
-  mask-image: none;
-}
-
-/* Into a finished step the channel is full to the brim: no surface left to
+/* Behind a finished step the channel is full to the brim: no surface left to
    ripple, only the glints still flowing. */
-.r-steps--river.r-steps--horizontal
-  > .r-step[data-river-flow="finish"]
-  > .r-step__connector::before {
+.r-steps--river.r-steps--horizontal > .r-step--finish > .r-step__connector::before {
   mask-image: none;
 }
 
@@ -651,40 +605,50 @@
       2px 32px,
       1px 40px,
       100% 100%;
-    clip-path: inset(0 0 calc(100% - var(--r-step-river-level) * 100%) 0);
+    clip-path: inset(0 0 calc(100% - var(--r-step-river-fill) * 100%) 0);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .r-steps--river.r-steps--horizontal
-    > :is([data-river-flow="finish"], [data-river-flow="process"])
+    > :is(.r-step--finish, .r-step--process)
     > .r-step__connector::before {
     animation: r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite;
   }
   .r-steps--river.r-steps--vertical
-    > :is([data-river-flow="finish"], [data-river-flow="process"])
+    > :is(.r-step--finish, .r-step--process)
     > .r-step__connector::before {
     animation: r-steps-river-fall var(--r-steps-river-flow-duration) linear infinite;
   }
-  /* Toward the step in progress: the water advances most of the way, then
-     creeps on until the step finishes. */
-  .r-steps--river > .r-step[data-river-flow="process"] {
-    animation: r-steps-river-advance var(--r-steps-river-advance-duration) linear forwards;
+  /* The step in progress: water keeps rising toward the next step. */
+  .r-steps--river.r-steps--horizontal > .r-step--process > .r-step__connector::before {
+    animation:
+      r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite,
+      r-steps-river-rise var(--r-steps-river-rise-duration) var(--r-steps-easing) infinite;
+  }
+  .r-steps--river.r-steps--vertical > .r-step--process > .r-step__connector::before {
+    animation:
+      r-steps-river-fall var(--r-steps-river-flow-duration) linear infinite,
+      r-steps-river-rise-down var(--r-steps-river-rise-duration) var(--r-steps-easing) infinite;
   }
   .r-steps--river.r-steps--horizontal > .r-step:dir(rtl) > .r-step__connector::before {
     animation-direction: reverse;
   }
+  .r-steps--river.r-steps--horizontal > .r-step--process:dir(rtl) > .r-step__connector::before {
+    animation-direction: reverse, normal;
+    animation-name: r-steps-river-flow, r-steps-river-rise-rtl;
+  }
 }
 
-/* Reduced motion: the water toward the step in progress stands half way, still. */
+/* Reduced motion: the water in progress stands half way, still. */
 @media (prefers-reduced-motion: reduce) {
-  .r-steps--river > .r-step[data-river-flow="process"] {
+  .r-steps--river > .r-step--process {
     --r-step-river-fill: 0.5;
   }
 }
 
-/* Toward a failed step: the water stalls half way and turns red. */
-.r-steps--river > .r-step[data-river-flow="error"] {
+/* A failed step: the water stalls half way and turns red. */
+.r-steps--river > .r-step--error {
   --r-step-river-fill: 0.5;
   --r-step-river-water-color: var(--r-steps-river-error-color);
   --r-step-river-water-deep-color: var(--r-steps-river-error-color);
@@ -692,7 +656,7 @@
 }
 
 .r-steps--river.r-steps--horizontal > .r-step:dir(rtl) > .r-step__connector::before {
-  clip-path: inset(0 0 0 calc(100% - var(--r-step-river-level) * 100%));
+  clip-path: inset(0 0 0 calc(100% - var(--r-step-river-fill) * 100%));
 }
 
 @keyframes r-steps-river-flow {
@@ -714,24 +678,198 @@
   }
 }
 
-@keyframes r-steps-river-advance {
+@keyframes r-steps-river-rise {
   from {
-    --r-step-river-fill: 0;
-    animation-timing-function: cubic-bezier(0.25, 0.7, 0.35, 1);
+    clip-path: inset(0 100% 0 0);
+    opacity: 1;
   }
-  10% {
-    --r-step-river-fill: var(--r-steps-river-advance);
-    animation-timing-function: cubic-bezier(0.2, 0.5, 0.4, 1);
+  80% {
+    clip-path: inset(0);
+    opacity: 1;
   }
   to {
-    --r-step-river-fill: var(--r-steps-river-advance-end);
+    clip-path: inset(0);
+    opacity: 0;
   }
 }
 
-/* The traveler: a box laid over the reach that carries it, its middle on the
-   channel. It slides along with the front of the water, setting off from the
-   shallows of the marker at the head of the reach and landing in the
-   shallows of the next. It fades in when the front moves on to its reach. */
+@keyframes r-steps-river-rise-rtl {
+  from {
+    clip-path: inset(0 0 0 100%);
+    opacity: 1;
+  }
+  80% {
+    clip-path: inset(0);
+    opacity: 1;
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 0;
+  }
+}
+
+@keyframes r-steps-river-rise-down {
+  from {
+    clip-path: inset(0 0 100% 0);
+    opacity: 1;
+  }
+  80% {
+    clip-path: inset(0);
+    opacity: 1;
+  }
+  to {
+    clip-path: inset(0);
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   4. River with a traveler
+   With `renderTraveler` each step is the reach that leads into its marker,
+   so the traveler swimming a reach is working on the step ahead of it. The
+   river is full all along: the reach of a finished step or the step in
+   progress flows, a waiting reach lies still, the reach of a failed step runs
+   red. The traveler rides the reach given by `data-traveler` on its step:
+   `live` swims toward the marker as the step runs and stops where a failure
+   finds it, `arrive` swims the rest of the way into a finished step and
+   `rest` waits there.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Registered so it can be animated and eased between states. */
+@property --r-step-traveler-pos {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.r-steps--traveler > .r-step {
+  --r-step-traveler-pos: 0;
+
+  &:is([data-traveler="arrive"], [data-traveler="rest"]) {
+    --r-step-traveler-pos: 1;
+  }
+  &[data-traveler="arrive"] {
+    transition: --r-step-traveler-pos var(--r-steps-traveler-arrive-duration) var(--r-steps-easing);
+  }
+}
+
+.r-steps--river.r-steps--traveler > .r-step > .r-step__connector::before,
+.r-steps--river.r-steps--traveler.r-steps--horizontal
+  > .r-step:dir(rtl)
+  > .r-step__connector::before {
+  clip-path: none;
+  mask-image: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .r-steps--river.r-steps--traveler.r-steps--horizontal
+    > :is(.r-step--finish, .r-step--process)
+    > .r-step__connector::before {
+    animation: r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite;
+  }
+  .r-steps--river.r-steps--traveler.r-steps--horizontal
+    > :is(.r-step--finish, .r-step--process):dir(rtl)
+    > .r-step__connector::before {
+    animation: r-steps-river-flow var(--r-steps-river-flow-duration) linear infinite reverse;
+  }
+  .r-steps--river.r-steps--traveler.r-steps--vertical
+    > :is(.r-step--finish, .r-step--process)
+    > .r-step__connector::before {
+    animation: r-steps-river-fall var(--r-steps-river-flow-duration) linear infinite;
+  }
+  /* Toward the step in progress the traveler covers most of the reach, then
+     creeps on; a failure stops it where it is, a retry carries on. */
+  .r-steps--traveler > .r-step[data-traveler="live"]:is(.r-step--process, .r-step--error) {
+    animation: r-steps-traveler-advance var(--r-steps-traveler-advance-duration) linear forwards;
+  }
+  .r-steps--traveler > .r-step--error[data-traveler="live"] {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r-steps--traveler > .r-step[data-traveler="live"]:is(.r-step--process, .r-step--error) {
+    --r-step-traveler-pos: 0.5;
+  }
+}
+
+@keyframes r-steps-traveler-advance {
+  from {
+    --r-step-traveler-pos: 0;
+    animation-timing-function: cubic-bezier(0.25, 0.7, 0.35, 1);
+  }
+  10% {
+    --r-step-traveler-pos: var(--r-steps-traveler-advance);
+    animation-timing-function: cubic-bezier(0.2, 0.5, 0.4, 1);
+  }
+  to {
+    --r-step-traveler-pos: var(--r-steps-traveler-advance-end);
+  }
+}
+
+/* A row: every step is its reach and then its marker, with the text under
+   the marker, ending at it. The first reach flows in from the row's start. */
+.r-steps--river.r-steps--traveler.r-steps--horizontal > .r-step,
+.r-steps--river.r-steps--traveler.r-steps--horizontal > .r-step:last-child {
+  flex: 1 1 0;
+  grid-template-columns:
+    minmax(var(--r-steps-connector-min-width), 1fr)
+    var(--r-steps-indicator-size);
+
+  & > .r-step__main > .r-step__indicator {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  & > .r-step__main > .r-step__content {
+    display: block;
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    max-width: 14rem;
+    padding-inline-end: 0;
+    padding-top: 6px;
+    text-align: end;
+    width: max-content;
+  }
+  & > .r-step__main > .r-step__content > .r-step__title,
+  & > .r-step__main > .r-step__content > .r-step__description {
+    margin-inline-start: 0;
+  }
+  & > .r-step__main > .r-step__content > .r-step__title {
+    white-space: normal;
+  }
+  & > .r-step__connector {
+    display: block;
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+/* A column: every step is its reach, running down into its marker, and then
+   the marker with its text beside it. The first reach flows in from the top. */
+.r-steps--river.r-steps--traveler.r-steps--vertical > .r-step {
+  padding-bottom: 0;
+  padding-top: var(--r-steps-traveler-reach);
+
+  & > .r-step__connector {
+    bottom: auto;
+    display: block;
+    height: calc(
+      var(--r-steps-traveler-reach) + var(--r-steps-river-overlap-start) +
+        var(--r-steps-river-overlap-end)
+    );
+    top: calc(-1 * var(--r-steps-river-overlap-start));
+  }
+  &:first-child > .r-step__connector {
+    height: calc(var(--r-steps-traveler-reach) + var(--r-steps-river-overlap-end));
+    top: 0;
+  }
+}
+
+/* The traveler: a box laid over its reach, its middle on the channel. It
+   slides along with its position, setting off from the shallows of the
+   marker before the reach and landing in the shallows of the marker after
+   it, and fades in when it moves on to a new reach. */
 .r-step__traveler {
   pointer-events: none;
   position: absolute;
@@ -749,37 +887,41 @@
   }
 }
 
-.r-steps--river.r-steps--horizontal > .r-step > .r-step__traveler {
-  grid-column: 2;
+.r-steps--traveler.r-steps--horizontal > .r-step > .r-step__traveler {
+  grid-column: 1;
   grid-row: 1;
   height: 0;
   inset-inline: var(--r-steps-connector-gap);
   top: calc(var(--r-steps-indicator-size) / 2);
 
   & > .r-step__traveler-body {
-    inset-inline-start: calc(var(--r-step-river-fill) * 100%);
+    inset-inline-start: calc(var(--r-step-traveler-pos) * 100%);
     top: 0;
-    translate: calc(-30% - var(--r-step-river-fill) * 40%) -50%;
+    translate: calc(-30% - var(--r-step-traveler-pos) * 40%) -50%;
   }
   &:dir(rtl) > .r-step__traveler-body {
-    translate: calc(30% + var(--r-step-river-fill) * 40%) -50%;
+    translate: calc(30% + var(--r-step-traveler-pos) * 40%) -50%;
   }
 }
 
-.r-steps--river.r-steps--vertical > .r-step > .r-step__traveler {
-  bottom: calc(-1 * var(--r-steps-river-overlap-end));
+.r-steps--traveler.r-steps--vertical > .r-step > .r-step__traveler {
+  height: calc(var(--r-steps-traveler-reach) + var(--r-steps-river-overlap-start));
   inset-inline-start: calc((var(--r-steps-indicator-size) - var(--r-steps-river-width)) / 2);
-  top: calc(var(--r-steps-indicator-size) - var(--r-steps-river-overlap-start));
+  top: calc(-1 * var(--r-steps-river-overlap-start));
   width: var(--r-steps-river-width);
 
   & > .r-step__traveler-body {
     inset-inline-start: 50%;
-    top: calc(var(--r-step-river-fill) * 100%);
-    translate: -50% calc(-30% - var(--r-step-river-fill) * 40%);
+    top: calc(var(--r-step-traveler-pos) * 100%);
+    translate: -50% calc(-30% - var(--r-step-traveler-pos) * 40%);
   }
   &:dir(rtl) > .r-step__traveler-body {
-    translate: 50% calc(-30% - var(--r-step-river-fill) * 40%);
+    translate: 50% calc(-30% - var(--r-step-traveler-pos) * 40%);
   }
+}
+.r-steps--traveler.r-steps--vertical > .r-step:first-child > .r-step__traveler {
+  height: var(--r-steps-traveler-reach);
+  top: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -787,7 +929,7 @@
   .r-step__title,
   .r-step__connector,
   .r-step__connector::before,
-  .r-steps--river > .r-step,
+  .r-steps--traveler > .r-step,
   .r-step__traveler-body {
     transition: none;
   }

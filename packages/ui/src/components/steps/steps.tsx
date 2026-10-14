@@ -33,11 +33,11 @@ export interface StepIndicatorState {
   marker: ReactNode;
 }
 
-/** What `renderTraveler` gets: the step the front of the water is heading for. */
+/** What `renderTraveler` gets: the step whose reach the traveler is in. */
 export interface StepTravelerState {
   /** The step's number, counted from 1. */
   index: number;
-  /** That step's status; `finish` once the last step is done. */
+  /** How to pose: the step's status, `process` while it swims toward a finished step, `finish` while it rests. */
   status: StepStatus;
 }
 
@@ -68,11 +68,15 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
    */
   renderIndicator?: (state: StepIndicatorState) => ReactNode;
   /**
-   * On a `river` track, draws one traveler riding the front of the water: it
-   * waits at the first marker and swims each reach as the step ahead of it
-   * runs. When that step finishes it lands there for a moment (drawn with the
-   * step's `finish` status) before setting off down the next reach, and it
-   * rests at the last marker when every step is done. Its box is
+   * On a `river` track, adds one traveler and turns the river around it: each
+   * step becomes the reach that leads into its marker, the river is full all
+   * along, and the traveler swims the reach of the step in progress toward
+   * its marker. When the step finishes the traveler lands at the marker,
+   * rests a moment and sets off down the next reach; if steps finish faster
+   * than it swims it catches up marker by marker. It stops short of a failed
+   * step and rests at the last marker once every step is done. It is drawn
+   * from `{ index, status }`: the step whose reach it is in, and `process`
+   * while it swims toward a finished step, `finish` while it rests. Its box is
    * `--r-steps-traveler-size` square, its middle on the channel.
    */
   renderTraveler?: (state: StepTravelerState) => ReactNode;
@@ -111,8 +115,6 @@ type StepsContextValue = {
   finishLabel: string;
   errorLabel: string;
   renderIndicator: ((state: StepIndicatorState) => ReactNode) | undefined;
-  /** Every step's status, in order; empty unless the track is a river. */
-  statuses: StepStatus[];
   /** Set when the steps are clickable. */
   select: ((index: number) => void) | undefined;
 };
@@ -125,23 +127,62 @@ const StepsContext = createContext<StepsContextValue>({
   finishLabel: "Completed",
   errorLabel: "Failed",
   renderIndicator: undefined,
-  statuses: [],
   select: undefined,
 });
 
-/** How long a traveler stays at a step it reached before it sets off again. */
-const TRAVELER_LANDING_MS = 3200;
+/**
+ * How long the traveler takes to swim the rest of a reach into a finished
+ * step; it matches `--r-steps-traveler-arrive-duration`.
+ */
+const TRAVELER_ARRIVE_MS = 1200;
+/** How long the traveler rests at a step it reached before it sets off again. */
+const TRAVELER_REST_MS = 1000;
 
-/** On a river track with a traveler: the step whose reach carries it, and what it draws. */
+/** `live` follows its step, `arrive` swims into its finished step, `rest` waits there. */
+type TravelerMode = "live" | "arrive" | "rest";
+
+/** On a river track with a traveler: the step whose reach carries it, how, and what it draws. */
 const StepsTravelerContext = createContext<
-  | {
-      host: number;
-      node: ReactNode;
-      /** While it lands, the reaches from this step on stay dry. */
-      holdFrom: number | undefined;
-    }
-  | undefined
+  { host: number; mode: TravelerMode; node: ReactNode } | undefined
 >(undefined);
+
+/**
+ * Where the traveler is. It has landed at the steps before `landed` and moves
+ * one step at a time toward the first step not yet finished: it swims into
+ * each finished step (`arrive`), rests there (`rest`) and then takes the next
+ * reach, so it never skips a step however fast they finish. Moving back (a
+ * restart) is immediate.
+ */
+function useTraveler(statuses: StepStatus[], enabled: boolean) {
+  const firstOpen = statuses.findIndex((value) => value !== "finish");
+  const goal = firstOpen === -1 ? statuses.length : firstOpen;
+  const [landed, setLanded] = useState(goal);
+  const [resting, setResting] = useState(false);
+  if (landed > goal) {
+    setLanded(goal);
+    setResting(false);
+  }
+
+  useEffect(() => {
+    if (!enabled) return;
+    if (resting) {
+      const timer = setTimeout(() => setResting(false), TRAVELER_REST_MS);
+      return () => clearTimeout(timer);
+    }
+    if (landed >= goal) return;
+    const timer = setTimeout(() => {
+      setLanded(landed + 1);
+      setResting(true);
+    }, TRAVELER_ARRIVE_MS);
+    return () => clearTimeout(timer);
+  }, [enabled, landed, goal, resting]);
+
+  if (!enabled || statuses.length === 0) return undefined;
+  if (resting && landed >= 1) return { host: landed, mode: "rest" as const };
+  if (landed < goal) return { host: landed + 1, mode: "arrive" as const };
+  if (goal < statuses.length) return { host: goal + 1, mode: "live" as const };
+  return { host: statuses.length, mode: "rest" as const };
+}
 
 /** The step's number, counted from 1, given by `Steps` to each child. */
 const StepIndexContext = createContext(0);
@@ -225,45 +266,31 @@ export function Steps({
 
   const steps = Children.toArray(children).filter(isValidElement<StepProps>);
   const statuses = steps.map((step, i) => stepStatus(i + 1, current, status, step.props.status));
-  // Joined so the context only changes when a status does.
-  const statusKey = track === "river" ? statuses.join() : "";
-  const riverStatuses = useMemo(
-    () => (statusKey === "" ? [] : (statusKey.split(",") as StepStatus[])),
-    [statusKey],
-  );
-
-  // The front of the water heads for the first step not yet finished, or
-  // rests at the last. It rides the reach into that step, which belongs to the
-  // step before; ahead of the first step it waits at the head of the first reach.
-  const firstOpen = statuses.findIndex((value) => value !== "finish");
-  const front = firstOpen === -1 ? statuses.length : firstOpen + 1;
-  // When the front moves on, the traveler first finishes its reach and lands
-  // at the step just reached, then sets off down the next reach.
-  const [landedFront, setLandedFront] = useState(front);
-  // Moving back, or leaving the head of the first reach, needs no landing.
-  if (front < landedFront || (front > landedFront && landedFront < 2)) setLandedFront(front);
-  useEffect(() => {
-    if (front <= landedFront) return;
-    const timer = setTimeout(() => setLandedFront(front), TRAVELER_LANDING_MS);
-    return () => clearTimeout(timer);
-  }, [front, landedFront]);
-  const shownFront = Math.min(front, landedFront);
-  const frontStatus = statuses[shownFront - 1];
+  const travelerOn = track === "river" && renderTraveler !== undefined;
+  const at = useTraveler(statuses, travelerOn);
   const travelerNode =
-    track === "river" && renderTraveler !== undefined && statuses.length > 1 && frontStatus
-      ? renderTraveler({ index: shownFront, status: frontStatus })
-      : undefined;
-  const travelerHost = Math.max(1, shownFront - 1);
+    at === undefined || renderTraveler === undefined
+      ? undefined
+      : renderTraveler({
+          index: at.host,
+          status:
+            at.mode === "rest"
+              ? "finish"
+              : at.mode === "arrive"
+                ? "process"
+                : (statuses[at.host - 1] ?? "wait"),
+        });
+  const travelerHost = at?.host;
+  const travelerMode = at?.mode;
   const traveler = useMemo(
     () =>
-      travelerNode === undefined || travelerNode === null
+      travelerNode === undefined ||
+      travelerNode === null ||
+      travelerHost === undefined ||
+      travelerMode === undefined
         ? undefined
-        : {
-            host: travelerHost,
-            node: travelerNode,
-            holdFrom: shownFront < front ? shownFront : undefined,
-          },
-    [travelerHost, travelerNode, shownFront, front],
+        : { host: travelerHost, mode: travelerMode, node: travelerNode },
+    [travelerHost, travelerMode, travelerNode],
   );
 
   const context = useMemo<StepsContextValue>(
@@ -275,7 +302,6 @@ export function Steps({
       finishLabel,
       errorLabel,
       renderIndicator,
-      statuses: riverStatuses,
       select: clickable ? select : undefined,
     }),
     [
@@ -286,7 +312,6 @@ export function Steps({
       finishLabel,
       errorLabel,
       renderIndicator,
-      riverStatuses,
       clickable,
       select,
     ],
@@ -367,17 +392,13 @@ export function Step({
   const customIndicator = indicator !== undefined && indicator !== null;
   const statusLabel = <StepStatusLabel status={status} steps={steps} />;
   const riverTraveler = use(StepsTravelerContext);
-  // The reach after a step shows how the next step is going, but stays dry
-  // ahead of a traveler that is still landing.
-  const held = riverTraveler?.holdFrom !== undefined && index >= riverTraveler.holdFrom;
-  const flow = held && steps.statuses[index] !== undefined ? "wait" : steps.statuses[index];
   const traveler = riverTraveler?.host === index ? riverTraveler.node : undefined;
 
   return (
     <li
       data-slot="step"
       aria-current={isCurrent ? "step" : undefined}
-      data-river-flow={flow}
+      data-traveler={riverTraveler?.host === index ? riverTraveler.mode : undefined}
       className={cn(
         "r-step",
         `r-step--${status}`,

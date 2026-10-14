@@ -10,9 +10,9 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 const LAST_STEP = 4;
 
 /**
- * Room for the islands: every marker slot grows to match, and the river runs
- * straight into their shallows. In a column it leaves from under one island
- * and reaches into the next one's shallows.
+ * Room for the islands: every marker slot grows to match, and each reach runs
+ * straight into its island's shallows. In a column a reach leaves from under
+ * one island and reaches into the next one's shallows.
  */
 const ISLAND_SIZE = {
   "--r-steps-indicator-size": "48px",
@@ -27,7 +27,7 @@ function renderIndicator({ status }: StepIndicatorState) {
   return <IslandIndicator status={status} />;
 }
 
-/** One otter rides the front of the water, posed by the step it heads for. */
+/** One otter swims the reach of the step in progress, posed by that step. */
 function renderTraveler({ status }: StepTravelerState) {
   return <OtterTraveler status={status} />;
 }
@@ -35,18 +35,21 @@ function renderTraveler({ status }: StepTravelerState) {
 export function StepsMigrationContent() {
   const [current, setCurrent] = useState(1);
   const [failed, setFailed] = useState(false);
+  const [done, setDone] = useState(false);
   const [vertical, setVertical] = useState(false);
-  const done = current === LAST_STEP;
 
-  // After a failure the primary button retries the same step.
+  // After a failure the primary button retries the same step; on the last
+  // step it finishes the move.
   const handleNext = useCallback(() => {
     if (failed) setFailed(false);
-    else setCurrent((value) => Math.min(LAST_STEP, value + 1));
-  }, [failed]);
+    else if (current === LAST_STEP) setDone(true);
+    else setCurrent((value) => value + 1);
+  }, [current, failed]);
   const handleFail = useCallback(() => setFailed(true), []);
   const handleToggleVertical = useCallback(() => setVertical((value) => !value), []);
   const handleRestart = useCallback(() => {
     setFailed(false);
+    setDone(false);
     setCurrent(1);
   }, []);
 
@@ -69,12 +72,17 @@ export function StepsMigrationContent() {
       </Steps>
       <div className="flex gap-2">
         <Button variant="primary" size="sm" disabled={done} onClick={handleNext}>
-          {failed ? "Retry" : current === LAST_STEP - 1 ? "Finish" : "Next"}
+          {failed ? "Retry" : current === LAST_STEP ? "Finish" : "Next"}
         </Button>
         <Button variant="danger-secondary" size="sm" disabled={done || failed} onClick={handleFail}>
           Fail
         </Button>
-        <Button variant="ghost" size="sm" disabled={current === 1} onClick={handleRestart}>
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={current === 1 && !failed}
+          onClick={handleRestart}
+        >
           Restart
         </Button>
         <Button variant="ghost" size="sm" onClick={handleToggleVertical}>

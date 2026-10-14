@@ -108,7 +108,7 @@ const STEPS_PROPS: readonly PropRow[] = [
     type: union(TRACKS),
     default: '"line"',
     description:
-      "How the steps are joined. river is a channel whose reaches show the step they lead to: full into a finished step, water advancing toward the step in progress, stalled red short of a failed step and dry ahead. In a row the text goes under the markers.",
+      "How the steps are joined. river is a channel: full of water behind finished steps, flowing in behind the step in progress and dry ahead.",
   },
   {
     name: "renderIndicator",
@@ -120,7 +120,7 @@ const STEPS_PROPS: readonly PropRow[] = [
     name: "renderTraveler",
     type: "(state: StepTravelerState) => ReactNode",
     description:
-      "On a river track, draws one traveler riding the front of the water from { index, status } of the step it heads for: it waits at the first marker, swims each reach and rests at the last marker once every step is done. Its box is --r-steps-traveler-size square.",
+      "On a river track, adds one traveler from { index, status } and turns the river around it: each step is the reach into its marker, the river is full, and the traveler swims the reach of the step in progress, lands at each finished marker, stops where a step fails and rests at the last marker when all are done. Its box is --r-steps-traveler-size square.",
   },
   {
     name: "finishIcon",
@@ -291,11 +291,9 @@ function StepsDoc() {
           <DocSubsection parentId="usage" id="river" title="River track">
             <DocNote>
               <InlineCode>track="river"</InlineCode> joins the steps with a stream instead of a
-              line. Each reach shows how the step it leads to is going: full of water into a
-              finished step, water advancing toward the step in progress, and a dry bed ahead. Short
-              of a failed step the water stalls half way in red. In a row the titles and
-              descriptions sit under the markers, so the river runs unbroken from one to the next.
-              Under reduced motion the water stands still.
+              line. The channel behind a finished step is full of water, water keeps flowing in
+              behind the step in progress, and ahead of it the bed is dry. After a failed step the
+              water stalls half way in red. Under reduced motion the water stands still.
             </DocNote>
             <Preview>
               <Preview.Canvas>
@@ -314,12 +312,14 @@ function StepsDoc() {
               <InlineCode>--r-steps-indicator-size</InlineCode>, and drops its box, so the content
               can be any picture. Return <InlineCode>undefined</InlineCode> to keep the default
               marker on a step. On a river, <InlineCode>renderTraveler</InlineCode> adds one
-              traveler that rides the front of the water. Here each step of moving a workspace
-              between machines is an <InlineCode>IslandIndicator</InlineCode>: a finished island
-              flies the Raft flag. One <InlineCode>OtterTraveler</InlineCode> swims at the front of
-              the water toward the step in progress, shivers with the parcel adrift when the step
-              ahead fails (press Fail to see it), and rests hugging the parcel at the last island
-              when every step is done.
+              traveler and turns the river around it: each step becomes the reach that leads into
+              its marker, and the river is full all along. Here each step of moving a workspace
+              between machines is an <InlineCode>IslandIndicator</InlineCode> that flies the Raft
+              flag once finished. One <InlineCode>OtterTraveler</InlineCode> paddles up the reach of
+              the step in progress, lands at each island as its step finishes and rests a moment
+              before the next reach. If a step fails it stops and shivers in a red reach with the
+              parcel adrift (press Fail to see it); when every step is done it rests on the last
+              island.
             </DocNote>
             <Preview>
               <Preview.Canvas>

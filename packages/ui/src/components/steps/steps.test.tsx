@@ -7,6 +7,12 @@ import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { IslandIndicator } from "./island-indicator";
 import { OtterIndicator, OtterTraveler } from "./otter-indicator";
 import { Step, Steps } from "./steps";
+import type { StepStatus, StepTravelerState } from "./steps";
+
+/** Draws the traveler as its step number and pose. */
+function renderTravelerLabel({ index, status }: StepTravelerState) {
+  return <span data-testid="traveler">{`${index}-${status}`}</span>;
+}
 
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = ((query: string) => ({
@@ -248,107 +254,104 @@ describe("Steps track and renderIndicator", () => {
     expect(new Set(ids).size).toBe(4);
   });
 
-  test("a river reach shows the step it leads to", () => {
-    const { container } = render(
-      <Steps current={3} status="error" track="river">
+  describe("renderTraveler", () => {
+    const view = (current: number, status: StepStatus = "process") => (
+      <Steps current={current} status={status} track="river" renderTraveler={renderTravelerLabel}>
         <Step title="One" />
         <Step title="Two" />
         <Step title="Three" />
-        <Step title="Four" />
-      </Steps>,
+      </Steps>
     );
-    const steps = [...container.querySelectorAll("[data-slot='step']")];
-    expect(steps.map((step) => step.getAttribute("data-river-flow"))).toEqual([
-      "finish",
-      "error",
-      "wait",
-      null,
-    ]);
-  });
+    /** The traveler's step number, its mode and what it was drawn with. */
+    const where = (container: HTMLElement) => {
+      const steps = [...container.querySelectorAll("[data-slot='step']")];
+      const host = steps.findIndex((step) => step.hasAttribute("data-traveler"));
+      return `${host + 1}:${steps[host]?.getAttribute("data-traveler")}:${
+        screen.queryByTestId("traveler")?.textContent
+      }`;
+    };
 
-  test("a line track sets no river flow", () => {
-    const { container } = render(
-      <Steps current={2}>
-        <Step title="One" />
-        <Step title="Two" />
-      </Steps>,
-    );
-    expect(container.querySelector("[data-river-flow]")).toBeNull();
-  });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
 
-  test("renderTraveler rides the reach into the first open step", () => {
-    const renderTraveler = vi.fn(({ index, status }) => (
-      <span data-testid="traveler">{`${index}-${status}`}</span>
-    ));
-    const { container, rerender } = render(
-      <Steps current={3} track="river" renderTraveler={renderTraveler}>
-        <Step title="One" />
-        <Step title="Two" />
-        <Step title="Three" />
-      </Steps>,
-    );
-    const host = () => screen.getByTestId("traveler").closest("[data-slot='step']");
-    const steps = () => [...container.querySelectorAll("[data-slot='step']")];
-    expect(screen.getByTestId("traveler").textContent).toBe("3-process");
-    expect(host()).toBe(steps()[1]);
-    expect(container.querySelectorAll("[data-slot='step-traveler']")).toHaveLength(1);
+    test("swims the reach of the step in progress", () => {
+      const { container, rerender } = render(view(1));
+      expect(container.querySelector("[data-slot='steps']")?.className).toContain(
+        "r-steps--traveler",
+      );
+      expect(where(container)).toBe("1:live:1-process");
+      expect(container.querySelectorAll("[data-slot='step-traveler']")).toHaveLength(1);
+      // Step one finishing: it first swims on into step one.
+      rerender(view(2, "error"));
+      expect(where(container)).toBe("1:arrive:1-process");
+    });
 
-    // Ahead of the first step it waits at the head of the first reach.
-    rerender(
-      <Steps current={1} track="river" renderTraveler={renderTraveler}>
-        <Step title="One" />
-        <Step title="Two" />
-        <Step title="Three" />
-      </Steps>,
-    );
-    expect(screen.getByTestId("traveler").textContent).toBe("1-process");
-    expect(host()).toBe(steps()[0]);
+    test("lands at a finished step, rests, then takes the next reach", () => {
+      vi.useFakeTimers();
+      const { container, rerender } = render(view(2));
+      expect(where(container)).toBe("2:live:2-process");
+      rerender(view(3));
+      expect(where(container)).toBe("2:arrive:2-process");
+      act(() => {
+        vi.advanceTimersByTime(1200);
+      });
+      expect(where(container)).toBe("2:rest:2-finish");
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+      expect(where(container)).toBe("3:live:3-process");
+    });
 
-    // Every step done: it rests at the end of the last reach.
-    rerender(
-      <Steps current={3} status="finish" track="river" renderTraveler={renderTraveler}>
-        <Step title="One" />
-        <Step title="Two" />
-        <Step title="Three" />
-      </Steps>,
-    );
-    expect(screen.getByTestId("traveler").textContent).toBe("3-finish");
-    expect(host()).toBe(steps()[1]);
-  });
+    test("never skips a step when steps finish faster than it swims", () => {
+      vi.useFakeTimers();
+      const { container, rerender } = render(view(1));
+      rerender(view(3, "finish"));
+      const seen = [where(container)];
+      for (let i = 0; i < 40; i += 1) {
+        act(() => {
+          vi.advanceTimersByTime(200);
+        });
+        const now = where(container);
+        if (now !== seen.at(-1)) seen.push(now);
+      }
+      expect(seen).toEqual([
+        "1:arrive:1-process",
+        "1:rest:1-finish",
+        "2:arrive:2-process",
+        "2:rest:2-finish",
+        "3:arrive:3-process",
+        "3:rest:3-finish",
+      ]);
+      act(() => {
+        vi.advanceTimersByTime(5000);
+      });
+      // Every step done: it stays on the last one.
+      expect(where(container)).toBe("3:rest:3-finish");
 
-  test("the traveler lands at a finished step before it sets off again", () => {
-    vi.useFakeTimers();
-    try {
-      const renderTraveler = vi.fn(({ index, status }) => (
-        <span data-testid="traveler">{`${index}-${status}`}</span>
-      ));
-      const view = (current: number) => (
-        <Steps current={current} track="river" renderTraveler={renderTraveler}>
+      // A restart sends it straight back.
+      rerender(view(1));
+      expect(where(container)).toBe("1:live:1-process");
+    });
+
+    test("stops in the reach of a failed step", () => {
+      const { container, rerender } = render(view(2));
+      rerender(view(2, "error"));
+      expect(where(container)).toBe("2:live:2-error");
+    });
+
+    test("leaves the steps alone without renderTraveler", () => {
+      const { container } = render(
+        <Steps current={2} track="river">
           <Step title="One" />
           <Step title="Two" />
-          <Step title="Three" />
-        </Steps>
+        </Steps>,
       );
-      const { container, rerender } = render(view(2));
-      const flows = () =>
-        [...container.querySelectorAll("[data-slot='step']")].map((step) =>
-          step.getAttribute("data-river-flow"),
-        );
-      expect(screen.getByTestId("traveler").textContent).toBe("2-process");
-
-      rerender(view(3));
-      // Landed at step two, drawn finished; the next reach stays dry meanwhile.
-      expect(screen.getByTestId("traveler").textContent).toBe("2-finish");
-      expect(flows()).toEqual(["finish", "wait", null]);
-
-      act(() => {
-        vi.runAllTimers();
-      });
-      expect(screen.getByTestId("traveler").textContent).toBe("3-process");
-      expect(flows()).toEqual(["finish", "process", null]);
-    } finally {
-      vi.useRealTimers();
-    }
+      expect(container.querySelector("[data-traveler]")).toBeNull();
+      expect(container.querySelector("[data-slot='steps']")?.className).not.toContain(
+        "r-steps--traveler",
+      );
+    });
   });
 
   test("renderTraveler draws nothing off the river", () => {
