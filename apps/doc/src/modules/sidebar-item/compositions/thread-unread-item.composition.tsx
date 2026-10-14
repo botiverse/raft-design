@@ -27,7 +27,7 @@ export function SidebarItemThreadUnreadComposition() {
           <SidebarItemTitle className="font-bold">proj-rui</SidebarItemTitle>
         </SidebarItemContent>
         <SidebarItemAside>
-          <SidebarItemCount variant="accent" aria-label="2 threads with new replies">
+          <SidebarItemCount variant="accent">
             <SidebarItemThreadCount>2</SidebarItemThreadCount>
           </SidebarItemCount>
         </SidebarItemAside>
@@ -46,10 +46,7 @@ export function SidebarItemThreadUnreadComposition() {
           <SidebarItemIndicator role="img" aria-label="Mentioned you">
             <AtSign aria-hidden />
           </SidebarItemIndicator>
-          <SidebarItemCount
-            variant="accent"
-            aria-label="8 unread messages, 3 threads with new replies"
-          >
+          <SidebarItemCount variant="accent">
             8
             <SidebarItemCountSeparator />
             <SidebarItemThreadCount>3</SidebarItemThreadCount>
@@ -70,7 +67,7 @@ export function SidebarItemThreadUnreadComposition() {
           </SidebarItemMetaIcon>
         </SidebarItemContent>
         <SidebarItemAside>
-          <SidebarItemMeta aria-label="12 unread messages, 2 threads with new replies">
+          <SidebarItemMeta>
             12
             <SidebarItemCountSeparator />
             <SidebarItemThreadCount>2</SidebarItemThreadCount>

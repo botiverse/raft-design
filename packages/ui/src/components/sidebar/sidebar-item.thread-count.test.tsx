@@ -58,9 +58,22 @@ test("separator is a decorative dot", () => {
 
 test("thread count renders a hidden icon before the number", () => {
   const { threads } = renderCount("brutal");
-  expect(threads.textContent).toBe("1");
+  expect(threads.textContent).toBe("1 threads with new replies");
   const icon = threads.querySelector("svg");
   expect(icon).not.toBeNull();
   expect(icon?.getAttribute("aria-hidden")).toBe("true");
   expect(threads.firstElementChild).toBe(icon);
+});
+
+test("thread count reads a localized label after the number", () => {
+  render(
+    <ThemeProvider theme="elegant">
+      <SidebarItemThreadCount data-testid="threads" label="个 thread 有新回复">
+        3
+      </SidebarItemThreadCount>
+    </ThemeProvider>,
+  );
+  const threads = screen.getByTestId("threads");
+  expect(threads.textContent).toBe("3 个 thread 有新回复");
+  expect(threads.querySelector(".sr-only")?.textContent).toBe(" 个 thread 有新回复");
 });

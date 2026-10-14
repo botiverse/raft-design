@@ -276,7 +276,13 @@ export function SidebarItemCountSeparator({
   });
 }
 
-export type SidebarItemThreadCountProps = useRender.ComponentProps<"span">;
+export type SidebarItemThreadCountProps = useRender.ComponentProps<"span"> & {
+  /**
+   * Visually hidden words read after the number, so screen readers hear what
+   * the count is (the icon is decorative). Pass localized copy.
+   */
+  label?: string;
+};
 
 /**
  * Thread segment of an unread count: a thread icon followed by the number of
@@ -285,6 +291,7 @@ export type SidebarItemThreadCountProps = useRender.ComponentProps<"span">;
 export function SidebarItemThreadCount({
   children,
   className,
+  label = "threads with new replies",
   render,
   ...props
 }: SidebarItemThreadCountProps) {
@@ -296,6 +303,7 @@ export function SidebarItemThreadCount({
       <>
         <MessageSquare aria-hidden strokeWidth={2.5} />
         {children}
+        <span className="sr-only"> {label}</span>
       </>
     ),
   };

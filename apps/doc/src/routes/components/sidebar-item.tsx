@@ -163,7 +163,7 @@ const SIDEBAR_ITEM_COUNT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "Badge props",
     description:
-      "Unread-count badge in the trailing area. Compose the channel's own count and a SidebarItemThreadCount with a SidebarItemCountSeparator between them; give the badge an aria-label that reads both.",
+      "Unread-count badge in the trailing area. Compose the channel's own count and a SidebarItemThreadCount with a SidebarItemCountSeparator between them.",
   },
 ];
 
@@ -181,6 +181,13 @@ const SIDEBAR_ITEM_THREAD_COUNT_PROPS: readonly PropRow[] = [
     name: "children",
     type: "ReactNode",
     description: "Number of followed threads with new replies (not the number of replies).",
+  },
+  {
+    name: "label",
+    type: "string",
+    default: '"threads with new replies"',
+    description:
+      "Visually hidden words read after the number so screen readers hear what it counts. Pass localized copy.",
   },
   {
     name: "...props",
