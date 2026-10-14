@@ -4,12 +4,26 @@ import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 
+// The Badge's box: height, padding, border width, gap and type. Exported so a
+// component that sits in a row of Badges (the `sm` TaskChip in an Activity card,
+// #proj-frontend task #748) takes these from here instead of copying them, and
+// cannot drift when the Badge changes. Colours stay with each component.
+export const badgeBox = {
+  base: ["inline-flex items-center gap-1 px-1.5", "text-[10px] font-bold leading-none"],
+  brutal: ["h-5 border"],
+  elegant: [
+    "gap-1.5 rounded-full border px-2.5 py-0.5",
+    "[&:has(svg)]:px-2",
+    "text-[11px] font-medium leading-3 tracking-[0.22px]",
+  ],
+} as const;
+
 export const badge = tv({
   slots: {
     root: [
-      "inline-flex w-fit shrink-0 min-w-0 max-w-full items-center gap-1 px-1.5",
+      ...badgeBox.base,
+      "w-fit shrink-0 min-w-0 max-w-full",
       "overflow-hidden whitespace-nowrap",
-      "text-[10px] font-bold leading-none",
       "transition-[filter,opacity] duration-100",
       "disabled:cursor-not-allowed disabled:opacity-60",
       "[&_[data-slot='spinner']]:size-3 [&_[data-slot='spinner']]:text-xs",
@@ -18,14 +32,13 @@ export const badge = tv({
   variants: {
     theme: {
       brutal: {
-        root: ["h-5 border border-line-strong enabled:hover:brightness-90"],
+        root: [...badgeBox.brutal, "border-line-strong enabled:hover:brightness-90"],
       },
       elegant: {
         root: [
-          "gap-1.5 rounded-full border border-transparent px-2.5 py-0.5",
-          "[&:has(svg)]:px-2",
+          ...badgeBox.elegant,
+          "border-transparent",
           "[&_svg]:shrink-0 [&_svg]:translate-y-[0.5px]",
-          "text-[11px] font-medium leading-3 tracking-[0.22px]",
           "enabled:hover:brightness-[0.96]",
         ],
       },
