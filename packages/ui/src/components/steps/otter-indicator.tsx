@@ -94,6 +94,56 @@ function Badge({ status }: { status: StepStatus }) {
   );
 }
 
+/** The otter on its back, posed by the step: paddling, at ease, upset or asleep. */
+function OtterBody({ status }: { status: StepStatus }) {
+  return (
+    <g className="r-otter-indicator__body">
+      <path d="M13 26.5Q6 26.5 1.5 30.5Q7 32 13 31Z" fill={FUR_DARK} />
+      <ellipse cx="11" cy="21.5" rx="1.9" ry="3" fill={FUR_DARK} transform="rotate(-25 11 21.5)" />
+      <ellipse
+        cx="14.5"
+        cy="20.5"
+        rx="1.9"
+        ry="3"
+        fill={FUR_DARK}
+        transform="rotate(-10 14.5 20.5)"
+      />
+      {/* Paddles while working; rests on the belly otherwise. */}
+      <g className="r-otter-indicator__arm">
+        <path
+          d={status === "process" ? "M29 27q4 3.5 2.5 8" : "M29 26q3 0.5 4-2"}
+          fill="none"
+          stroke={FUR_DARK}
+          strokeWidth="2.8"
+          strokeLinecap="round"
+        />
+      </g>
+      <ellipse cx="22" cy="28" rx="12" ry="6.5" fill={FUR} />
+      <ellipse cx="22" cy="25" rx="9" ry="3.6" fill="oklch(0.8 0.06 70)" />
+      {status !== "error" && <Parcel x={16.5} y={16.5} />}
+      <ellipse cx="26.5" cy="21" rx="1.7" ry="2.4" fill={FUR_DARK} transform="rotate(30 26.5 21)" />
+      {/* Hugging the delivered parcel with the other paw too. */}
+      {status === "finish" && (
+        <ellipse
+          cx="16"
+          cy="21.5"
+          rx="1.6"
+          ry="2.2"
+          fill={FUR_DARK}
+          transform="rotate(-30 16 21.5)"
+        />
+      )}
+      <circle cx="31.5" cy="17.3" r="1.8" fill={FUR_DARK} />
+      <circle cx="35" cy="23" r="7" fill={FUR} />
+      <ellipse cx="39" cy="25" rx="4.2" ry="3.2" fill="oklch(0.87 0.05 75)" />
+      <Face status={status} />
+      {status === "error" && (
+        <path d="M37.4 22.3q-0.8 1.4 0 1.9q0.8-0.5 0-1.9Z" fill="oklch(0.8 0.08 230)" />
+      )}
+    </g>
+  );
+}
+
 export interface OtterIndicatorProps extends Omit<ComponentPropsWithRef<"svg">, "children"> {
   status: StepStatus;
 }
@@ -168,64 +218,7 @@ export function OtterIndicator({ status, className, ...props }: OtterIndicatorPr
             <Parcel x={1.5} y={22} />
           </g>
         )}
-        <g className="r-otter-indicator__body">
-          <path d="M13 26.5Q6 26.5 1.5 30.5Q7 32 13 31Z" fill={FUR_DARK} />
-          <ellipse
-            cx="11"
-            cy="21.5"
-            rx="1.9"
-            ry="3"
-            fill={FUR_DARK}
-            transform="rotate(-25 11 21.5)"
-          />
-          <ellipse
-            cx="14.5"
-            cy="20.5"
-            rx="1.9"
-            ry="3"
-            fill={FUR_DARK}
-            transform="rotate(-10 14.5 20.5)"
-          />
-          {/* Paddles while working; rests on the belly otherwise. */}
-          <g className="r-otter-indicator__arm">
-            <path
-              d={status === "process" ? "M29 27q4 3.5 2.5 8" : "M29 26q3 0.5 4-2"}
-              fill="none"
-              stroke={FUR_DARK}
-              strokeWidth="2.8"
-              strokeLinecap="round"
-            />
-          </g>
-          <ellipse cx="22" cy="28" rx="12" ry="6.5" fill={FUR} />
-          <ellipse cx="22" cy="25" rx="9" ry="3.6" fill="oklch(0.8 0.06 70)" />
-          {status !== "error" && <Parcel x={16.5} y={16.5} />}
-          <ellipse
-            cx="26.5"
-            cy="21"
-            rx="1.7"
-            ry="2.4"
-            fill={FUR_DARK}
-            transform="rotate(30 26.5 21)"
-          />
-          {/* Hugging the delivered parcel with the other paw too. */}
-          {status === "finish" && (
-            <ellipse
-              cx="16"
-              cy="21.5"
-              rx="1.6"
-              ry="2.2"
-              fill={FUR_DARK}
-              transform="rotate(-30 16 21.5)"
-            />
-          )}
-          <circle cx="31.5" cy="17.3" r="1.8" fill={FUR_DARK} />
-          <circle cx="35" cy="23" r="7" fill={FUR} />
-          <ellipse cx="39" cy="25" rx="4.2" ry="3.2" fill="oklch(0.87 0.05 75)" />
-          <Face status={status} />
-          {status === "error" && (
-            <path d="M37.4 22.3q-0.8 1.4 0 1.9q0.8-0.5 0-1.9Z" fill="oklch(0.8 0.08 230)" />
-          )}
-        </g>
+        <OtterBody status={status} />
         {wet && (
           <g clipPath={pond}>
             <path
@@ -251,6 +244,116 @@ export function OtterIndicator({ status, className, ...props }: OtterIndicatorPr
             </text>
           ))}
       </g>
+      <Badge status={status} />
+    </svg>
+  );
+}
+
+export interface OtterTravelerProps extends Omit<ComponentPropsWithRef<"svg">, "children"> {
+  /** The status of the step the otter is heading for. */
+  status: StepStatus;
+}
+
+/**
+ * The otter afloat in the river itself, for `<Steps track="river"
+ * renderTraveler>`: a splash of the channel's own water laps over its belly, red when the
+ * step ahead failed. Posed like `OtterIndicator`: paddling toward the step in
+ * progress, shivering with the parcel adrift short of a failed step, hugging
+ * the parcel at ease once every step is done.
+ *
+ * Fits `--r-steps-traveler-size` around 40–48px with a 12px channel.
+ */
+export function OtterTraveler({ status, className, ...props }: OtterTravelerProps) {
+  // `useId` may contain characters that are not valid in a `url(#…)` reference.
+  const bandId = `otter-band${useId().replace(/[^\w-]/g, "")}`;
+  const water =
+    status === "error"
+      ? "var(--r-steps-river-error-color, var(--danger))"
+      : "var(--r-steps-river-water-color, oklch(0.78 0.11 220))";
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 48 48"
+      width="100%"
+      height="100%"
+      data-slot="otter-traveler"
+      {...props}
+      className={cn(
+        "r-otter-indicator",
+        "r-otter-traveler",
+        `r-otter-indicator--${status}`,
+        className,
+      )}
+    >
+      <defs>
+        {/* A splash around the otter, level with a channel through the box's middle. */}
+        <clipPath id={bandId}>
+          <ellipse cx="23" cy="26" rx="17" ry="5" />
+        </clipPath>
+      </defs>
+      <g transform="translate(0 -3)">
+        {status === "process" &&
+          ["", " r-otter-indicator__ripple--late"].map((late) => (
+            <ellipse
+              key={late}
+              className={`r-otter-indicator__ripple${late}`}
+              cx="6"
+              cy="30.5"
+              rx="5"
+              ry="1.4"
+              fill="none"
+              stroke={WHITE}
+              strokeWidth="0.8"
+            />
+          ))}
+        {status === "error" && (
+          <g className="r-otter-indicator__parcel--adrift">
+            <Parcel x={1.5} y={22} />
+          </g>
+        )}
+        {status === "process" && (
+          // A kicking hind foot behind the body.
+          <ellipse
+            className="r-otter-traveler__kick"
+            cx="10.5"
+            cy="27"
+            rx="2.6"
+            ry="1.3"
+            fill={FUR_DARK}
+          />
+        )}
+        <OtterBody status={status} />
+        {status === "process" && (
+          // Backstroke: one arm sweeps over the head and back, flicking spray.
+          <>
+            <g className="r-otter-traveler__stroke">
+              <path
+                d="M29 23L33.5 15"
+                fill="none"
+                stroke={FUR_DARK}
+                strokeWidth="2.6"
+                strokeLinecap="round"
+              />
+              <circle cx="33.8" cy="14.4" r="1.6" fill={FUR_DARK} />
+            </g>
+            <g className="r-otter-traveler__spray" fill={WHITE}>
+              <circle cx="38" cy="13" r="0.9" />
+              <circle cx="40.5" cy="16" r="0.7" />
+              <circle cx="36" cy="10.5" r="0.6" />
+            </g>
+          </>
+        )}
+      </g>
+      {status !== "wait" && (
+        <g clipPath={`url(#${bandId})`}>
+          <path
+            className="r-otter-indicator__wave"
+            d={WAVE_PATH}
+            fill={water}
+            transform="translate(0 -6)"
+          />
+        </g>
+      )}
       <Badge status={status} />
     </svg>
   );

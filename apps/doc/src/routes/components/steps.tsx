@@ -117,6 +117,12 @@ const STEPS_PROPS: readonly PropRow[] = [
       "Renders a step's marker from { index, status, current, marker }. The slot keeps its size but drops the box; returning null or undefined keeps the default marker.",
   },
   {
+    name: "renderTraveler",
+    type: "(state: StepTravelerState) => ReactNode",
+    description:
+      "On a river track, adds one traveler from { index, status } and turns the river around it: each step is the reach into its marker, the river is full, and the traveler swims the reach of the step in progress, lands at each finished marker, stops where a step fails and rests at the last marker when all are done. Its box is --r-steps-traveler-size square.",
+  },
+  {
     name: "finishIcon",
     type: "ReactNode",
     description: "Replaces the check mark of finished steps.",
@@ -305,10 +311,16 @@ function StepsDoc() {
               show by default. The slot keeps the marker's size, set with{" "}
               <InlineCode>--r-steps-indicator-size</InlineCode>, and drops its box, so the content
               can be any picture. Return <InlineCode>undefined</InlineCode> to keep the default
-              marker on a step. Here each step of moving a workspace between machines has an{" "}
-              <InlineCode>OtterIndicator</InlineCode>, posed by its status: asleep on the bank while
-              waiting, paddling while in progress, hugging the delivered parcel when finished, and
-              shivering with the parcel adrift after a failure (press Fail to see it).
+              marker on a step. On a river, <InlineCode>renderTraveler</InlineCode> adds one
+              traveler and turns the river around it: each step after the first becomes the reach
+              that leads into its marker, and the river is full all along, running back toward the
+              first step. Here each step of moving a workspace between machines is an{" "}
+              <InlineCode>IslandIndicator</InlineCode> that flies the Raft flag once finished. One{" "}
+              <InlineCode>OtterTraveler</InlineCode> paddles upstream along the reach of the step in
+              progress, lands at each island as its step finishes and rests a moment before the next
+              reach. If a step fails it stops and shivers in a red reach with the parcel adrift;
+              when every step is done it rests on the last island. Pick the current step's status to
+              see each one.
             </DocNote>
             <Preview>
               <Preview.Canvas>

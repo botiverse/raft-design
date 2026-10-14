@@ -1,6 +1,15 @@
 import { useCallback, useState } from "react";
-import { Button, OtterIndicator, Step, Steps } from "raft-ui";
-import type { StepIndicatorState } from "raft-ui";
+import {
+  Button,
+  IslandIndicator,
+  OtterTraveler,
+  SegmentedControl,
+  SegmentedControlItem,
+  SegmentedControlLabel,
+  Step,
+  Steps,
+} from "raft-ui";
+import type { StepIndicatorState, StepStatus, StepTravelerState } from "raft-ui";
 import type { CSSProperties } from "react";
 
 // @docs-source-strip-start
@@ -10,48 +19,56 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 const LAST_STEP = 4;
 
 /**
- * Room for the otter: every marker slot grows to match. In a column the river
- * runs from under one otter's pond into the next one's, both drawn in the
- * middle of their boxes.
+ * Room for the islands: every marker slot grows to match, and each reach runs
+ * straight into its island's shallows. In a column a reach leaves from under
+ * one island and reaches into the next one's shallows.
  */
-const OTTER_SIZE = {
+const ISLAND_SIZE = {
   "--r-steps-indicator-size": "48px",
-  "--r-steps-river-overlap-start": "12px",
-  "--r-steps-river-overlap-end": "28px",
+  "--r-steps-connector-gap": "0px",
+  "--r-steps-traveler-size": "44px",
+  "--r-steps-river-overlap-start": "14px",
+  "--r-steps-river-overlap-end": "16px",
 } as CSSProperties;
 
-/** Every step has its own otter, posed by the step's status. */
+/** Every step is an island; a finished one flies the Raft flag. */
 function renderIndicator({ status }: StepIndicatorState) {
-  return <OtterIndicator status={status} />;
+  return <IslandIndicator status={status} />;
 }
+
+/** One otter swims the reach of the step in progress, posed by that step. */
+function renderTraveler({ status }: StepTravelerState) {
+  return <OtterTraveler status={status} />;
+}
+
+const STATUSES: StepStatus[] = ["wait", "process", "finish", "error"];
 
 export function StepsMigrationContent() {
   const [current, setCurrent] = useState(1);
-  const [failed, setFailed] = useState(false);
+  const [status, setStatus] = useState<StepStatus>("process");
   const [vertical, setVertical] = useState(false);
-  const done = current === LAST_STEP;
 
-  // After a failure the primary button retries the same step.
+  // Next moves on to the step after, which starts in progress.
   const handleNext = useCallback(() => {
-    if (failed) setFailed(false);
-    else setCurrent((value) => Math.min(LAST_STEP, value + 1));
-  }, [failed]);
-  const handleFail = useCallback(() => setFailed(true), []);
-  const handleToggleVertical = useCallback(() => setVertical((value) => !value), []);
-  const handleRestart = useCallback(() => {
-    setFailed(false);
-    setCurrent(1);
+    setCurrent((value) => value + 1);
+    setStatus("process");
   }, []);
+  const handleRestart = useCallback(() => {
+    setCurrent(1);
+    setStatus("process");
+  }, []);
+  const handleToggleVertical = useCallback(() => setVertical((value) => !value), []);
 
   return (
     <div className="flex w-full max-w-3xl flex-col items-center gap-8">
       <Steps
         current={current}
-        status={failed ? "error" : done ? "finish" : "process"}
+        status={status}
         track="river"
         vertical={vertical}
         renderIndicator={renderIndicator}
-        style={OTTER_SIZE}
+        renderTraveler={renderTraveler}
+        style={ISLAND_SIZE}
         className={vertical ? "self-start" : "w-full"}
       >
         <Step title="Pack" description="armbian-jzm" />
@@ -59,14 +76,27 @@ export function StepsMigrationContent() {
         <Step title="Unpack" description="184,215 files" />
         <Step title="Online" description="armbian-1" />
       </Steps>
-      <div className="flex gap-2">
-        <Button variant="primary" size="sm" disabled={done} onClick={handleNext}>
-          {failed ? "Retry" : current === LAST_STEP - 1 ? "Finish" : "Next"}
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <SegmentedControl<StepStatus>
+          aria-label="Current step status"
+          value={status}
+          onValueChange={setStatus}
+        >
+          {STATUSES.map((value) => (
+            <SegmentedControlItem key={value} value={value}>
+              <SegmentedControlLabel>{value}</SegmentedControlLabel>
+            </SegmentedControlItem>
+          ))}
+        </SegmentedControl>
+        <Button variant="primary" size="sm" disabled={current === LAST_STEP} onClick={handleNext}>
+          Next
         </Button>
-        <Button variant="danger-secondary" size="sm" disabled={done || failed} onClick={handleFail}>
-          Fail
-        </Button>
-        <Button variant="ghost" size="sm" disabled={current === 1} onClick={handleRestart}>
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={current === 1 && status === "process"}
+          onClick={handleRestart}
+        >
           Restart
         </Button>
         <Button variant="ghost" size="sm" onClick={handleToggleVertical}>
