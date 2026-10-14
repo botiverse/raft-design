@@ -14,6 +14,7 @@ import {
   MessageActionCardHintLabel,
   MessageActionCardNotice,
   MessageActionCardScope,
+  MessageActionCardScopeDescription,
   MessageActionCardScopeList,
   MessageActionCardScopeListViewport,
   MessageActionCardScopeName,
@@ -49,7 +50,9 @@ function renderCard(theme: Theme, options: { defaultOpen?: boolean; scopes?: num
                   {Array.from({ length: scopes }, (_, n) => (
                     <MessageActionCardScope key={n}>
                       <MessageActionCardScopeName>scope-{n}</MessageActionCardScopeName>
-                      Reads something narrow and explains it in one full sentence here.
+                      <MessageActionCardScopeDescription>
+                        Reads your basic profile fields. No access to messages.
+                      </MessageActionCardScopeDescription>
                     </MessageActionCardScope>
                   ))}
                 </MessageActionCardScopeListViewport>
@@ -129,6 +132,11 @@ for (const theme of ["brutal", "elegant"] as const) {
     const viewport = screen.getByTestId("viewport");
     expect(viewport.clientHeight).toBeLessThanOrEqual(172);
     expect(viewport.scrollHeight).toBeGreaterThan(viewport.clientHeight);
+    // The third row is visibly cut, not just clipped at its last pixels.
+    const third = viewport.children[2]!.getBoundingClientRect();
+    const shown = (viewport.getBoundingClientRect().bottom - third.top) / third.height;
+    expect(shown).toBeGreaterThan(0.2);
+    expect(shown).toBeLessThan(0.8);
   });
 }
 

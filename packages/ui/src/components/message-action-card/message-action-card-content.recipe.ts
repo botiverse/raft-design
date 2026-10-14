@@ -17,8 +17,9 @@ export const messageActionCardContent = tv({
     propertyValue: ["m-0 min-w-0 wrap-break-word"],
     scopeList: ["mt-3 space-y-1.5"],
     // A long permission list scrolls inside the card instead of stretching it;
-    // the cap shows about two and a half rows so the cut-off says "more".
-    scopeListViewport: ["max-h-[172px] overflow-y-auto overscroll-contain"],
+    // the cap cuts through the third row so the cut-off says "more" (Brutal
+    // rows are shorter, so its cap is lower).
+    scopeListViewport: ["overflow-y-auto overscroll-contain"],
     scopeListLabel: [],
     scope: ["min-w-0 border p-1.5"],
     scopeName: ["break-all font-mono text-[11px] font-bold"],
@@ -51,7 +52,7 @@ export const messageActionCardContent = tv({
         hint: "mt-1 border-l-2 border-black/20 pl-2 text-xs italic text-black/55",
         notice: "text-xs leading-4 text-black/70",
         completion: "mt-1 text-xs text-black/55",
-        scopeListViewport: "space-y-1.5 pr-1",
+        scopeListViewport: "max-h-[132px] space-y-1.5 pr-1",
         actions: "mt-3 gap-3",
         actionsNote: "text-xs text-black/55",
       },
@@ -70,7 +71,7 @@ export const messageActionCardContent = tv({
         hint: "mt-2.5 border-l border-line-muted pl-2.5 text-xs leading-4 italic text-foreground-muted/80",
         notice: "text-[13px] leading-5 text-foreground-muted [&>svg]:mt-[3px]",
         completion: "mt-2.5 text-[13px] leading-5 text-foreground-muted",
-        scopeListViewport: "space-y-2 pr-1",
+        scopeListViewport: "max-h-[172px] space-y-2 pr-1",
         actions: "mt-4 gap-2",
         actionsNote: "text-[13px] leading-5 text-foreground-muted",
       },
