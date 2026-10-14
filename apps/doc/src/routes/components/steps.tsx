@@ -312,9 +312,9 @@ function StepsDoc() {
               <InlineCode>--r-steps-indicator-size</InlineCode>, and drops its box, so the content
               can be any picture. Return <InlineCode>undefined</InlineCode> to keep the default
               marker on a step. On a river, <InlineCode>renderTraveler</InlineCode> adds one
-              traveler and turns the river around it: each step becomes the reach that leads into
-              its marker, and the river is full all along, running back toward the first step. Here
-              each step of moving a workspace between machines is an{" "}
+              traveler and turns the river around it: each step after the first becomes the reach
+              that leads into its marker, and the river is full all along, running back toward the
+              first step. Here each step of moving a workspace between machines is an{" "}
               <InlineCode>IslandIndicator</InlineCode> that flies the Raft flag once finished. One{" "}
               <InlineCode>OtterTraveler</InlineCode> paddles upstream along the reach of the step in
               progress, lands at each island as its step finishes and rests a moment before the next

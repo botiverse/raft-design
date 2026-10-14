@@ -7,6 +7,7 @@ import "./island-indicator.css";
 const SAND = "oklch(0.9 0.07 85)";
 const SAND_SHADE = "oklch(0.8 0.08 75)";
 const SHALLOWS = "oklch(0.88 0.06 215)";
+const SHALLOWS_ERROR = "oklch(0.84 0.09 25)";
 const PALM_TRUNK = "oklch(0.55 0.07 60)";
 const PALM_LEAF = "oklch(0.62 0.13 145)";
 const PALM_LEAF_DARK = "oklch(0.52 0.12 150)";
@@ -63,7 +64,7 @@ export interface IslandIndicatorProps extends Omit<ComponentPropsWithRef<"svg">,
  * - `wait`: a quiet island ahead, its shallows dry.
  * - `process`: the island the water is heading for, its shore ringed.
  * - `finish`: reached, with the Raft flag planted.
- * - `error`: a plain island; the river says the step failed.
+ * - `error`: no flag, its shallows run red like the river into it.
  *
  * Made for `<Steps track="river" renderIndicator>` with room to show it, e.g.
  * `--r-steps-indicator-size: 48px` and `--r-steps-connector-gap: 0px`, so the
@@ -90,7 +91,7 @@ export function IslandIndicator({ status, className, ...props }: IslandIndicator
         cy="29"
         rx="23"
         ry="8"
-        fill={dry ? SAND_SHADE : SHALLOWS}
+        fill={dry ? SAND_SHADE : status === "error" ? SHALLOWS_ERROR : SHALLOWS}
         opacity={dry ? 0.45 : 1}
       />
       {status === "process" && (

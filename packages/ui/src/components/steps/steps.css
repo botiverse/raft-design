@@ -855,8 +855,29 @@
   }
 }
 
+/* The first step has no reach, as on any track: it is its island, with room
+   before it for the traveler to wait and swim in the shallows. Its text
+   reads from the island onward. */
+.r-steps--river.r-steps--traveler.r-steps--horizontal > .r-step:first-child {
+  flex: 0 0 auto;
+  grid-template-columns: var(--r-steps-indicator-size);
+  padding-inline-start: calc(var(--r-steps-traveler-size) * 0.9);
+
+  & > .r-step__main > .r-step__indicator,
+  & > .r-step__main > .r-step__content {
+    grid-column: 1;
+  }
+  & > .r-step__main > .r-step__content {
+    justify-self: start;
+    text-align: start;
+  }
+  & > .r-step__connector {
+    display: none;
+  }
+}
+
 /* A column: every step is its reach, running down into its marker, and then
-   the marker with its text beside it. The first reach flows in from the top. */
+   the marker with its text beside it. The first step has no reach. */
 .r-steps--river.r-steps--traveler.r-steps--vertical > .r-step {
   padding-bottom: 0;
   padding-top: var(--r-steps-traveler-reach);
@@ -870,9 +891,11 @@
     );
     top: calc(-1 * var(--r-steps-river-overlap-start));
   }
+  &:first-child {
+    padding-top: calc(var(--r-steps-traveler-size) * 0.9);
+  }
   &:first-child > .r-step__connector {
-    height: calc(var(--r-steps-traveler-reach) + var(--r-steps-river-overlap-end));
-    top: 0;
+    display: none;
   }
 }
 
@@ -932,9 +955,14 @@
     translate: 50% calc(-30% - var(--r-step-traveler-pos) * 40%);
   }
 }
+/* With no reach, the first step's traveler swims a short stretch of the
+   shallows before its island. */
+.r-steps--traveler.r-steps--horizontal > .r-step:first-child > .r-step__traveler {
+  inset-inline: calc(var(--r-steps-traveler-size) * -0.6) 100%;
+}
 .r-steps--traveler.r-steps--vertical > .r-step:first-child > .r-step__traveler {
-  height: var(--r-steps-traveler-reach);
-  top: 0;
+  height: calc(var(--r-steps-traveler-size) * 0.6);
+  top: calc(var(--r-steps-traveler-size) * 0.3);
 }
 
 @media (prefers-reduced-motion: reduce) {

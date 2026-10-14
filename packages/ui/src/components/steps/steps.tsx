@@ -69,7 +69,8 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
   renderIndicator?: (state: StepIndicatorState) => ReactNode;
   /**
    * On a `river` track, adds one traveler and turns the river around it: each
-   * step becomes the reach that leads into its marker, the river is full all
+   * step after the first becomes the reach that leads into its marker (the
+   * first step is its marker alone, the traveler waiting in its shallows), the river is full all
    * along and runs back toward the first step, and the traveler swims
    * upstream along the reach of the step in progress toward its marker. When
    * the step finishes the traveler lands at the marker, rests a moment and
