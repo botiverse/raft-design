@@ -8,8 +8,8 @@ import { Preview } from "#/components/preview.tsx";
 import { PropsTable } from "#/components/props-table.tsx";
 import type { PropRow } from "#/components/props-table.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
-import { ActionCardMessageComposition } from "#/modules/message-action-card/compositions/action-card-message.composition.tsx";
-import actionCardComparisonSource from "#/modules/message-action-card/compositions/action-card-message.composition.tsx?raw";
+import { ActionCardPlaygroundComposition } from "#/modules/message-action-card/compositions/action-card-playground.composition.tsx";
+import actionCardComparisonSource from "#/modules/message-action-card/compositions/action-card-playground.composition.tsx?raw";
 import { ActionCardChannelAndAgentComposition } from "#/modules/message-action-card/compositions/channel-agent-actions.composition.tsx";
 import actionCardChannelAndAgentSource from "#/modules/message-action-card/compositions/channel-agent-actions.composition.tsx?raw";
 import { ActionCardIntegrationComposition } from "#/modules/message-action-card/compositions/integration-actions.composition.tsx";
@@ -29,10 +29,12 @@ const ANATOMY_SOURCE = `import {
   BannerDescription,
   MessageActionCard,
   MessageActionCardActions,
-  MessageActionCardCompletion,
+  MessageActionCardActionsNote,
+  MessageActionCardCollapseTrigger,
   MessageActionCardContent,
   MessageActionCardHeader,
-  MessageActionCardHeaderStatus,
+  MessageActionCardHeaderIcon,
+  MessageActionCardHeaderTitle,
   MessageActionCardHint,
   MessageActionCardProperties,
   MessageActionCardProperty,
@@ -42,12 +44,17 @@ const ANATOMY_SOURCE = `import {
   MessageActionCardScopeDescription,
   MessageActionCardScopeList,
   MessageActionCardScopeListLabel,
+  MessageActionCardScopeListViewport,
   MessageActionCardScopeName,
+  MessageActionCardStatus,
 } from "raft-ui";
 
-<MessageActionCard>
+<MessageActionCard defaultOpen>
   <MessageActionCardHeader>
-    <MessageActionCardHeaderStatus />
+    <MessageActionCardHeaderIcon />
+    <MessageActionCardHeaderTitle />
+    <MessageActionCardStatus />
+    <MessageActionCardCollapseTrigger aria-label="Show or hide details" />
   </MessageActionCardHeader>
   <MessageActionCardContent>
     <MessageActionCardProperties>
@@ -56,19 +63,22 @@ const ANATOMY_SOURCE = `import {
         <MessageActionCardPropertyValue />
       </MessageActionCardProperty>
     </MessageActionCardProperties>
+    <MessageActionCardHint />
     <MessageActionCardScopeList>
       <MessageActionCardScopeListLabel />
-      <MessageActionCardScope>
-        <MessageActionCardScopeName />
-        <MessageActionCardScopeDescription />
-      </MessageActionCardScope>
+      <MessageActionCardScopeListViewport>
+        <MessageActionCardScope>
+          <MessageActionCardScopeName />
+          <MessageActionCardScopeDescription />
+        </MessageActionCardScope>
+      </MessageActionCardScopeListViewport>
     </MessageActionCardScopeList>
-    <Banner status="warning">
+    <Banner status="default">
       <BannerDescription />
     </Banner>
-    <MessageActionCardHint />
-    <MessageActionCardActions />
-    <MessageActionCardCompletion />
+    <MessageActionCardActions>
+      <MessageActionCardActionsNote />
+    </MessageActionCardActions>
   </MessageActionCardContent>
 </MessageActionCard>`;
 
@@ -78,6 +88,50 @@ const MESSAGE_ACTION_CARD_PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"div">',
     description:
       "Suggested-action card root. Compose inside MessageItemBody; execution state stays consumer-owned.",
+  },
+  {
+    name: "defaultOpen",
+    type: "boolean",
+    description: "Start open (default) or folded to the header. Fold resolved and view-only cards.",
+  },
+  {
+    name: "open / onOpenChange",
+    type: "boolean / (open: boolean) => void",
+    description: "Controlled fold state. The content height animates; reduced motion skips it.",
+  },
+];
+
+const MESSAGE_ACTION_CARD_NEW_PARTS: readonly PropRow[] = [
+  {
+    name: "MessageActionCardHeaderIcon",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Leading type icon box in the header band. Pass one lucide icon.",
+  },
+  {
+    name: "MessageActionCardHeaderTitle",
+    type: 'useRender.ComponentProps<"span">',
+    description: "Title text; takes the remaining width so status and toggle sit at the end.",
+  },
+  {
+    name: "MessageActionCardStatus",
+    type: "BadgeProps",
+    description:
+      "State label. Brutal: solid and uppercase. Elegant: soft. Override with appearance.",
+  },
+  {
+    name: "MessageActionCardCollapseTrigger",
+    type: 'Collapsible.Trigger props & { "aria-label": string }',
+    description: "Chevron toggle that folds the card to its header and back.",
+  },
+  {
+    name: "MessageActionCardScopeListViewport",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Scroll area for the scopes, capped at about two and a half rows.",
+  },
+  {
+    name: "MessageActionCardActionsNote",
+    type: 'useRender.ComponentProps<"div">',
+    description: "Left side of the actions row: why the card cannot act, or who resolved it.",
   },
 ];
 
@@ -248,7 +302,7 @@ function MessageActionCardDoc() {
           code={code.actionCardComparison}
           collapsedCode={code.actionCardComparisonBody}
         >
-          <ActionCardMessageComposition />
+          <ActionCardPlaygroundComposition />
         </UsagePreview>
       </DocSection>
 
@@ -265,13 +319,13 @@ function MessageActionCardDoc() {
           <DocSubsection
             parentId="usage"
             id="channel-and-agent-actions"
-            title="Channel and agent actions"
+            title="Review pattern"
             showThemeSwitcher
           >
             <p className="text-sm leading-6 text-foreground-muted">
-              These three prepared-card shapes cover channel creation, agent creation, and member
-              changes. The caller owns the dialog and execution path; this usage keeps the card
-              itself static.
+              Creating a channel, creating an agent and adding members open the regular dialog with
+              the agent's values filled in, so the person can change anything before it is created.
+              The primary button is therefore "Review", not the action itself.
             </p>
             <UsagePreview
               code={code.actionCardChannelAndAgent}
@@ -284,12 +338,13 @@ function MessageActionCardDoc() {
           <DocSubsection
             parentId="usage"
             id="integration-actions"
-            title="Connected App actions"
+            title="Approve pattern"
             showThemeSwitcher
           >
             <p className="text-sm leading-6 text-foreground-muted">
-              Login approval, Connected App registration, legacy update, and owner recovery each
-              provide their own prepared-card content. Their execute policy remains product-owned.
+              App login, install, registration, update and owner recovery run in one click, so the
+              primary button names the action. Permissions sit in a small scrolling area so a long
+              list never stretches the card; a standing notice is neutral, never a warning colour.
             </p>
             <UsagePreview
               code={code.actionCardIntegration}
@@ -299,15 +354,13 @@ function MessageActionCardDoc() {
             </UsagePreview>
           </DocSubsection>
 
-          <DocSubsection
-            parentId="usage"
-            id="resolution-states"
-            title="Completion and failure"
-            showThemeSwitcher
-          >
+          <DocSubsection parentId="usage" id="resolution-states" title="States" showThemeSwitcher>
             <p className="text-sm leading-6 text-foreground-muted">
-              A completed card replaces its action area with result content. A rejected card keeps
-              its prepared structure and lets the product choose whether retry is permitted.
+              Paused and confirm-again cards stay open because they still wait on the reader. Done,
+              declined and view-only cards fold to their header with defaultOpen=false; the header
+              toggle opens them again. The note left of the buttons says why a card cannot act, or
+              who resolved it. A failed click is temporary: the product shows a toast and the card
+              stays as it was, ready to retry.
             </p>
             <UsagePreview
               code={code.actionCardResolutionStates}
@@ -323,6 +376,13 @@ function MessageActionCardDoc() {
         <div className="space-y-6">
           <DocSubsection parentId="api" id="api-message-action-card" title="MessageActionCard">
             <PropsTable rows={MESSAGE_ACTION_CARD_PROPS} />
+          </DocSubsection>
+          <DocSubsection
+            parentId="api"
+            id="api-message-action-card-parts"
+            title="Header, status, fold and notes"
+          >
+            <PropsTable rows={MESSAGE_ACTION_CARD_NEW_PARTS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"
