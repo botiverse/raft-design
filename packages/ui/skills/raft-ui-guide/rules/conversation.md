@@ -124,7 +124,7 @@ The message family is large and satellite-structured: `MessageItem` is the ancho
 | `MessageReference*`            | reference chips: `…Chip`, `…Pending`, `…Unavailable`                                                                                     |
 | `MessageAttachment*`           | attachment cards, diff summaries; plus `MessageImageGallery*` and `MessageVideoPreview*`                                                 |
 | `MessageEmbed*`                | link embeds                                                                                                                              |
-| `MessageActionCard*`           | agent action cards with scope and properties                                                                                             |
+| `MessageActionCard*`           | agent action cards; fold resolved cards with defaultOpen={false}, Status/HeaderIcon in the header                                        |
 | `MessageQuotedPreview*`        | quoted message preview, including `…Loading` and `…Unavailable`                                                                          |
 | `MessageReplies*`              | the reply summary row under a message                                                                                                    |
 | `MessageForwardedBundle*`      | forwarded message bundles                                                                                                                |
