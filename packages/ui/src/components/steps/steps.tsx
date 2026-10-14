@@ -144,7 +144,12 @@ type Voyage = { landed: number; phase: "swim" | "land" | "rest" };
  * The traveler as Steps hands it to each step: its voyage, the step it is
  * drawn on, how it moves there (`data-traveler`) and what it draws.
  */
-type TravelerValue = Voyage & { host: number; mode: "live" | "arrive" | "rest"; node: ReactNode };
+type TravelerValue = Voyage & {
+  goal: number;
+  host: number;
+  mode: "live" | "arrive" | "rest";
+  node: ReactNode;
+};
 
 const StepsTravelerContext = createContext<TravelerValue | undefined>(undefined);
 
@@ -154,13 +159,20 @@ function voyageHost({ landed, phase }: Voyage) {
 }
 
 /**
- * How a step looks with a traveler: as the traveler has got to it, not as the
- * steps really stand. Markers it reached are finished, the reach it swims
- * into a finished step is in progress, the reach it keeps pace with shows
- * the step's own status, and everything past it waits.
+ * How a step looks with a traveler. On its route, the steps up to and
+ * including the first one not finished (`goal` finished before it), a step
+ * looks as the traveler has got to it: markers it reached are finished, the
+ * reach it swims into a finished step is in progress, the reach it keeps pace
+ * with shows the step's own status, and the rest of the route waits. Steps
+ * past the route are not the traveler's yet and show their own status.
  */
-function voyageStatus(voyage: Voyage, index: number, status: StepStatus): StepStatus {
+function voyageStatus(
+  voyage: Voyage & { goal: number },
+  index: number,
+  status: StepStatus,
+): StepStatus {
   if (index <= voyage.landed) return "finish";
+  if (index > voyage.goal + 1) return status;
   if (voyage.phase === "rest" || index > voyage.landed + 1) return "wait";
   return voyage.phase === "land" ? "process" : status;
 }
@@ -213,8 +225,8 @@ function useVoyage(statuses: StepStatus[], list: Element | null) {
   let mode: TravelerValue["mode"] = "live";
   if (landed >= statuses.length || phase === "rest") mode = "rest";
   else if (phase === "land") mode = "arrive";
-  const hostStatus = voyageStatus(voyage, host, statuses[host - 1] ?? "wait");
-  return { landed, phase, host, mode, hostStatus };
+  const hostStatus = voyageStatus({ ...voyage, goal }, host, statuses[host - 1] ?? "wait");
+  return { landed, phase, goal, host, mode, hostStatus };
 }
 
 /** The step's number, counted from 1, given by `Steps` to each child. */
@@ -309,7 +321,7 @@ export function Steps({
     },
     [ref],
   );
-  const { landed, phase, host, mode, hostStatus } = useVoyage(statuses, list);
+  const { landed, phase, goal, host, mode, hostStatus } = useVoyage(statuses, list);
   const travelerNode =
     track === "river" && renderTraveler !== undefined && host >= 1
       ? renderTraveler({ index: host, status: hostStatus })
@@ -318,8 +330,8 @@ export function Steps({
     () =>
       travelerNode === undefined || travelerNode === null
         ? undefined
-        : { landed, phase, host, mode, node: travelerNode },
-    [landed, phase, host, mode, travelerNode],
+        : { landed, phase, goal, host, mode, node: travelerNode },
+    [landed, phase, goal, host, mode, travelerNode],
   );
 
   const context = useMemo<StepsContextValue>(

@@ -436,6 +436,27 @@ describe("Steps track and renderIndicator", () => {
       expect(where(container)).toBe("2:rest:2-finish");
     });
 
+    test("steps past its route show their own status", () => {
+      const { container } = render(
+        <Steps track="river" renderTraveler={renderTravelerLabel} style={pace}>
+          <Step title="One" status="finish" />
+          <Step title="Two" status="process" />
+          <Step title="Three" status="finish" />
+          <Step title="Four" status="error" />
+        </Steps>,
+      );
+      expect(where(container)).toBe("2:live:2-process");
+      const classes = [...container.querySelectorAll("[data-slot='step']")].map((step) =>
+        [...step.classList].find((name) => name.startsWith("r-step--"))!,
+      );
+      expect(classes).toEqual([
+        "r-step--finish",
+        "r-step--process",
+        "r-step--finish",
+        "r-step--error",
+      ]);
+    });
+
     test("stops in the reach of a failed step", () => {
       const { container, rerender } = render(view(2));
       rerender(view(2, "error"));

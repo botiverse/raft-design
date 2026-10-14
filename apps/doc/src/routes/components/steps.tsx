@@ -319,7 +319,8 @@ function StepsDoc() {
               the step in progress, lands at each island as its step finishes and rests a moment
               before the next reach. If a step fails it stops and shivers in a red reach with the
               parcel adrift (press Fail to see it); when every step is done it rests on the last
-              island.
+              island. Set each step's status below the buttons: the otter only travels up to the
+              first step not finished, and steps past it show their own status.
             </DocNote>
             <Preview>
               <Preview.Canvas>
