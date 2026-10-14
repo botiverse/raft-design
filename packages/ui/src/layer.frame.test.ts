@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "vite-plus/test";
+import { appRail } from "./components/app-rail/app-rail.recipe";
 
 // The app frame (top bar + rail) is the outermost and darkest place in every
 // theme (cindyz, slock #proj-frontend:1c6f0e50): frame < canvas-muted (sidebar)
@@ -47,4 +48,12 @@ test("brutal frame is its yellow", () => {
   expect(block('[data-theme="brutal"]')).toContain(
     "--layer-frame: var(--color-brutal-yellow-400);",
   );
+});
+
+test("the elegant rail paints the frame, and its count badge ring matches it", () => {
+  const rail = appRail({ theme: "elegant" });
+  const root = new Set(rail.root().split(/\s+/));
+  expect(root.has("bg-layer-frame")).toBe(true);
+  expect(root.has("bg-layer-canvas-muted")).toBe(false);
+  expect(new Set(rail.itemBadge().split(/\s+/)).has("ring-layer-frame")).toBe(true);
 });
