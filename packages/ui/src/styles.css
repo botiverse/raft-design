@@ -4,6 +4,7 @@
 @import "./components/timeline/timeline.css";
 @import "./components/steps/steps.css";
 @import "./components/steps/otter-indicator.css";
+@import "./components/steps/island-indicator.css";
 
 /* `dark:` tracks the elegant theme's explicit dark context and its pre-hydration
    system-dark fallback. Explicit .light/.dark classes always win.

@@ -32,6 +32,14 @@ export interface StepIndicatorState {
   marker: ReactNode;
 }
 
+/** What `renderTraveler` gets: the step the front of the water is heading for. */
+export interface StepTravelerState {
+  /** The step's number, counted from 1. */
+  index: number;
+  /** That step's status; `finish` once the last step is done. */
+  status: StepStatus;
+}
+
 export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"> {
   /**
    * The current step, counted from 1. Steps before it are `finish`, after it
@@ -58,6 +66,13 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
    * Returning `null` or `undefined` keeps the default marker for that step.
    */
   renderIndicator?: (state: StepIndicatorState) => ReactNode;
+  /**
+   * On a `river` track, draws one traveler riding the front of the water: it
+   * waits at the first marker, swims each reach as the step ahead of it runs
+   * and rests at the last marker when every step is done. Its box is
+   * `--r-steps-traveler-size` square, its middle on the channel.
+   */
+  renderTraveler?: (state: StepTravelerState) => ReactNode;
   /** Replaces the check mark of finished steps. */
   finishIcon?: ReactNode;
   /** Replaces the cross of failed steps. */
@@ -93,6 +108,8 @@ type StepsContextValue = {
   finishLabel: string;
   errorLabel: string;
   renderIndicator: ((state: StepIndicatorState) => ReactNode) | undefined;
+  /** Every step's status, in order; empty unless the track is a river. */
+  statuses: StepStatus[];
   /** Set when the steps are clickable. */
   select: ((index: number) => void) | undefined;
 };
@@ -105,8 +122,14 @@ const StepsContext = createContext<StepsContextValue>({
   finishLabel: "Completed",
   errorLabel: "Failed",
   renderIndicator: undefined,
+  statuses: [],
   select: undefined,
 });
+
+/** On a river track with a traveler: the step whose reach carries it, and what it draws. */
+const StepsTravelerContext = createContext<{ host: number; node: ReactNode } | undefined>(
+  undefined,
+);
 
 /** The step's number, counted from 1, given by `Steps` to each child. */
 const StepIndexContext = createContext(0);
@@ -164,6 +187,7 @@ export function Steps({
   vertical = false,
   track = "line",
   renderIndicator,
+  renderTraveler,
   finishIcon,
   errorIcon,
   finishLabel = "Completed",
@@ -187,6 +211,34 @@ export function Steps({
     [current, onUpdateCurrent],
   );
 
+  const steps = Children.toArray(children).filter(isValidElement<StepProps>);
+  const statuses = steps.map((step, i) => stepStatus(i + 1, current, status, step.props.status));
+  // Joined so the context only changes when a status does.
+  const statusKey = track === "river" ? statuses.join() : "";
+  const riverStatuses = useMemo(
+    () => (statusKey === "" ? [] : (statusKey.split(",") as StepStatus[])),
+    [statusKey],
+  );
+
+  // The front of the water heads for the first step not yet finished, or
+  // rests at the last. It rides the reach into that step, which belongs to the
+  // step before; ahead of the first step it waits at the head of the first reach.
+  const firstOpen = statuses.findIndex((value) => value !== "finish");
+  const front = firstOpen === -1 ? statuses.length : firstOpen + 1;
+  const frontStatus = statuses[front - 1];
+  const travelerNode =
+    track === "river" && renderTraveler !== undefined && statuses.length > 1 && frontStatus
+      ? renderTraveler({ index: front, status: frontStatus })
+      : undefined;
+  const travelerHost = Math.max(1, front - 1);
+  const traveler = useMemo(
+    () =>
+      travelerNode === undefined || travelerNode === null
+        ? undefined
+        : { host: travelerHost, node: travelerNode },
+    [travelerHost, travelerNode],
+  );
+
   const context = useMemo<StepsContextValue>(
     () => ({
       current,
@@ -196,6 +248,7 @@ export function Steps({
       finishLabel,
       errorLabel,
       renderIndicator,
+      statuses: riverStatuses,
       select: clickable ? select : undefined,
     }),
     [
@@ -206,6 +259,7 @@ export function Steps({
       finishLabel,
       errorLabel,
       renderIndicator,
+      riverStatuses,
       clickable,
       select,
     ],
@@ -213,26 +267,26 @@ export function Steps({
 
   return (
     <StepsContext value={context}>
-      <ol
-        data-slot="steps"
-        className={cn(
-          "r-steps",
-          `r-steps--${size}`,
-          vertical ? "r-steps--vertical" : "r-steps--horizontal",
-          track === "river" && "r-steps--river",
-          theme === "elegant" && "r-steps--elegant",
-          className,
-        )}
-        {...props}
-      >
-        {Children.toArray(children)
-          .filter(isValidElement)
-          .map((child, index) => (
+      <StepsTravelerContext value={traveler}>
+        <ol
+          data-slot="steps"
+          className={cn(
+            "r-steps",
+            `r-steps--${size}`,
+            vertical ? "r-steps--vertical" : "r-steps--horizontal",
+            track === "river" && "r-steps--river",
+            theme === "elegant" && "r-steps--elegant",
+            className,
+          )}
+          {...props}
+        >
+          {steps.map((child, index) => (
             <StepIndexContext key={child.key} value={index + 1}>
               {child}
             </StepIndexContext>
           ))}
-      </ol>
+        </ol>
+      </StepsTravelerContext>
     </StepsContext>
   );
 }
@@ -284,11 +338,16 @@ export function Step({
   const indicator = steps.renderIndicator?.({ index, status, current: isCurrent, marker });
   const customIndicator = indicator !== undefined && indicator !== null;
   const statusLabel = <StepStatusLabel status={status} steps={steps} />;
+  // The reach after a step shows how the next step is going.
+  const flow = steps.statuses[index];
+  const riverTraveler = use(StepsTravelerContext);
+  const traveler = riverTraveler?.host === index ? riverTraveler.node : undefined;
 
   return (
     <li
       data-slot="step"
       aria-current={isCurrent ? "step" : undefined}
+      data-river-flow={flow}
       className={cn(
         "r-step",
         `r-step--${status}`,
@@ -333,6 +392,11 @@ export function Step({
         </div>
       </div>
       <div aria-hidden="true" data-slot="step-connector" className="r-step__connector" />
+      {traveler === undefined ? null : (
+        <div aria-hidden="true" data-slot="step-traveler" className="r-step__traveler">
+          <div className="r-step__traveler-body">{traveler}</div>
+        </div>
+      )}
     </li>
   );
 }

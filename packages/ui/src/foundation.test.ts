@@ -109,6 +109,14 @@ test("the Tailwind entry includes the shared foundation and still generates sema
           base: sourceDirectory,
         };
       }
+      if (id === "./components/steps/island-indicator.css") {
+        const islandIndicatorPath = join(sourceDirectory, "components/steps/island-indicator.css");
+        return {
+          content: readFileSync(islandIndicatorPath, "utf8"),
+          path: islandIndicatorPath,
+          base: sourceDirectory,
+        };
+      }
       throw new Error(`Unexpected stylesheet id: ${id}`);
     },
   });

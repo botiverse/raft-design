@@ -1204,15 +1204,24 @@ export type {
   TimelineTitleProps,
 } from "./components/timeline/index";
 
-export { OtterIndicator, Step, Steps } from "./components/steps/index";
+export {
+  IslandIndicator,
+  OtterIndicator,
+  OtterTraveler,
+  Step,
+  Steps,
+} from "./components/steps/index";
 export type {
+  IslandIndicatorProps,
   OtterIndicatorProps,
+  OtterTravelerProps,
   StepIndicatorState,
   StepProps,
   StepsProps,
   StepsSize,
   StepStatus,
   StepsTrack,
+  StepTravelerState,
 } from "./components/steps/index";
 
 export {

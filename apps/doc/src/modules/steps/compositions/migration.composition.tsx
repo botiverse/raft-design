@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { Button, OtterIndicator, Step, Steps } from "raft-ui";
-import type { StepIndicatorState } from "raft-ui";
+import { Button, IslandIndicator, OtterTraveler, Step, Steps } from "raft-ui";
+import type { StepIndicatorState, StepTravelerState } from "raft-ui";
 import type { CSSProperties } from "react";
 
 // @docs-source-strip-start
@@ -10,19 +10,26 @@ import { CompositionPreview } from "#/components/composition-preview.tsx";
 const LAST_STEP = 4;
 
 /**
- * Room for the otter: every marker slot grows to match. In a column the river
- * runs from under one otter's pond into the next one's, both drawn in the
- * middle of their boxes.
+ * Room for the islands: every marker slot grows to match, and the river runs
+ * straight into their shallows. In a column it leaves from under one island
+ * and reaches into the next one's shallows.
  */
-const OTTER_SIZE = {
+const ISLAND_SIZE = {
   "--r-steps-indicator-size": "48px",
-  "--r-steps-river-overlap-start": "12px",
-  "--r-steps-river-overlap-end": "28px",
+  "--r-steps-connector-gap": "0px",
+  "--r-steps-traveler-size": "44px",
+  "--r-steps-river-overlap-start": "14px",
+  "--r-steps-river-overlap-end": "16px",
 } as CSSProperties;
 
-/** Every step has its own otter, posed by the step's status. */
+/** Every step is an island; a finished one flies the Raft flag. */
 function renderIndicator({ status }: StepIndicatorState) {
-  return <OtterIndicator status={status} />;
+  return <IslandIndicator status={status} />;
+}
+
+/** One otter rides the front of the water, posed by the step it heads for. */
+function renderTraveler({ status }: StepTravelerState) {
+  return <OtterTraveler status={status} />;
 }
 
 export function StepsMigrationContent() {
@@ -51,7 +58,8 @@ export function StepsMigrationContent() {
         track="river"
         vertical={vertical}
         renderIndicator={renderIndicator}
-        style={OTTER_SIZE}
+        renderTraveler={renderTraveler}
+        style={ISLAND_SIZE}
         className={vertical ? "self-start" : "w-full"}
       >
         <Step title="Pack" description="armbian-jzm" />

@@ -4,7 +4,8 @@
 import { afterEach, describe, expect, test, vi } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import { OtterIndicator } from "./otter-indicator";
+import { IslandIndicator } from "./island-indicator";
+import { OtterIndicator, OtterTraveler } from "./otter-indicator";
 import { Step, Steps } from "./steps";
 
 if (typeof window.matchMedia !== "function") {
@@ -245,5 +246,129 @@ describe("Steps track and renderIndicator", () => {
     // Each clip path id is unique and referenced by its own otter.
     const ids = otters.map((otter) => otter.querySelector("clipPath")?.id);
     expect(new Set(ids).size).toBe(4);
+  });
+
+  test("a river reach shows the step it leads to", () => {
+    const { container } = render(
+      <Steps current={3} status="error" track="river">
+        <Step title="One" />
+        <Step title="Two" />
+        <Step title="Three" />
+        <Step title="Four" />
+      </Steps>,
+    );
+    const steps = [...container.querySelectorAll("[data-slot='step']")];
+    expect(steps.map((step) => step.getAttribute("data-river-flow"))).toEqual([
+      "finish",
+      "error",
+      "wait",
+      null,
+    ]);
+  });
+
+  test("a line track sets no river flow", () => {
+    const { container } = render(
+      <Steps current={2}>
+        <Step title="One" />
+        <Step title="Two" />
+      </Steps>,
+    );
+    expect(container.querySelector("[data-river-flow]")).toBeNull();
+  });
+
+  test("renderTraveler rides the reach into the first open step", () => {
+    const renderTraveler = vi.fn(({ index, status }) => (
+      <span data-testid="traveler">{`${index}-${status}`}</span>
+    ));
+    const { container, rerender } = render(
+      <Steps current={3} track="river" renderTraveler={renderTraveler}>
+        <Step title="One" />
+        <Step title="Two" />
+        <Step title="Three" />
+      </Steps>,
+    );
+    const host = () => screen.getByTestId("traveler").closest("[data-slot='step']");
+    const steps = () => [...container.querySelectorAll("[data-slot='step']")];
+    expect(screen.getByTestId("traveler").textContent).toBe("3-process");
+    expect(host()).toBe(steps()[1]);
+    expect(container.querySelectorAll("[data-slot='step-traveler']")).toHaveLength(1);
+
+    // Ahead of the first step it waits at the head of the first reach.
+    rerender(
+      <Steps current={1} track="river" renderTraveler={renderTraveler}>
+        <Step title="One" />
+        <Step title="Two" />
+        <Step title="Three" />
+      </Steps>,
+    );
+    expect(screen.getByTestId("traveler").textContent).toBe("1-process");
+    expect(host()).toBe(steps()[0]);
+
+    // Every step done: it rests at the end of the last reach.
+    rerender(
+      <Steps current={3} status="finish" track="river" renderTraveler={renderTraveler}>
+        <Step title="One" />
+        <Step title="Two" />
+        <Step title="Three" />
+      </Steps>,
+    );
+    expect(screen.getByTestId("traveler").textContent).toBe("3-finish");
+    expect(host()).toBe(steps()[1]);
+  });
+
+  test("renderTraveler draws nothing off the river", () => {
+    const renderTraveler = vi.fn(() => <span data-testid="traveler" />);
+    render(
+      <Steps current={1} renderTraveler={renderTraveler}>
+        <Step title="One" />
+        <Step title="Two" />
+      </Steps>,
+    );
+    expect(screen.queryByTestId("traveler")).toBeNull();
+    expect(renderTraveler).not.toHaveBeenCalled();
+  });
+
+  test("IslandIndicator flies a flag only when finished or failed", () => {
+    const { container } = render(
+      <>
+        <IslandIndicator status="wait" />
+        <IslandIndicator status="process" />
+        <IslandIndicator status="finish" />
+        <IslandIndicator status="error" />
+      </>,
+    );
+    const islands = [...container.querySelectorAll("[data-slot='island-indicator']")];
+    expect(islands.map((island) => island.getAttribute("class"))).toEqual([
+      "r-island-indicator r-island-indicator--wait",
+      "r-island-indicator r-island-indicator--process",
+      "r-island-indicator r-island-indicator--finish",
+      "r-island-indicator r-island-indicator--error",
+    ]);
+    expect(
+      islands.map((island) => island.querySelector(".r-island-indicator__flag") !== null),
+    ).toEqual([false, false, true, true]);
+    // The finished island's flag carries the Raft mark.
+    expect(islands[2].querySelector(".r-island-indicator__flag svg")).not.toBeNull();
+    expect(islands[1].querySelector(".r-island-indicator__ring")).not.toBeNull();
+  });
+
+  test("OtterTraveler splashes in the river's water, red when the step ahead failed", () => {
+    const { container } = render(
+      <>
+        <OtterTraveler status="process" />
+        <OtterTraveler status="error" />
+      </>,
+    );
+    const otters = [...container.querySelectorAll("[data-slot='otter-traveler']")];
+    expect(otters[0].getAttribute("class")).toBe(
+      "r-otter-indicator r-otter-traveler r-otter-indicator--process",
+    );
+    expect(otters[0].querySelector(".r-otter-indicator__wave")?.getAttribute("fill")).toContain(
+      "--r-steps-river-water-color",
+    );
+    expect(otters[1].querySelector(".r-otter-indicator__wave")?.getAttribute("fill")).toContain(
+      "--r-steps-river-error-color",
+    );
+    expect(otters[1].querySelector(".r-otter-indicator__parcel--adrift")).not.toBeNull();
   });
 });
