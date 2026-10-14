@@ -542,6 +542,17 @@
   }
 }
 
+/* A row of river: the steps grow from their own width by equal shares, so
+   every reach of the river gets the same length whatever the titles; a line
+   splits the row into equal steps instead. A description wider than its
+   title still lengthens its own reach. Narrow screens already lay the
+   markers out evenly, with the text under them. */
+@media (width >= 40rem) {
+  .r-steps--river.r-steps--horizontal > .r-step:not(:last-child) {
+    flex: 1 1 auto;
+  }
+}
+
 /* Behind a finished step the channel is full to the brim: no surface left to
    ripple, only the glints still flowing. */
 .r-steps--river.r-steps--horizontal > .r-step--finish > .r-step__connector::before {
