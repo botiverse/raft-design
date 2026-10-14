@@ -4,6 +4,7 @@ import { cn } from "../../lib/cn";
 import { tv } from "../../lib/tv";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
+import { badgeBox } from "../badge/badge";
 import { taskStatus } from "./task-status.recipe";
 import type { TaskStatusId } from "./task-status.recipe";
 
@@ -133,17 +134,23 @@ const taskChip = tv({
         ],
       },
     },
+    // `sm` takes the Badge's own box (badgeBox), not a copy of its numbers:
+    // height, padding, border width, gap, type. Copies drifted (Artea measured
+    // Brutal padding 4px vs 6px, Elegant border 0.5px vs 1px). Colours stay
+    // the chip's per-status ones.
     {
       theme: "brutal",
       variant: "default",
       size: "sm",
-      class: { root: "h-5 text-[10px] font-bold leading-none [&>svg]:size-2.5" },
+      class: { root: [...badgeBox.base, ...badgeBox.brutal, "[&>svg]:size-2.5"] },
     },
     {
       theme: "elegant",
       variant: "default",
       size: "sm",
-      class: { root: "mt-0 h-[18px] text-[11px] font-medium tracking-[0.22px] [&>svg]:size-2.5" },
+      // h-auto/mt-0 undo the default chip's fixed 19px box and its 1px nudge;
+      // the Badge's height comes from its padding and line height.
+      class: { root: ["h-auto mt-0", ...badgeBox.base, ...badgeBox.elegant, "[&>svg]:size-2.5"] },
     },
   ],
   defaultVariants: {

@@ -1,6 +1,7 @@
 import "./task-chip.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
+import { AtSign } from "lucide-react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Badge } from "../badge/badge";
 import { TaskChip } from "./task-chip";
@@ -12,13 +13,19 @@ import { TaskStatusBadge } from "./task-status-badge";
 // chip the `sm` Badge's text size, weight and height (cindyz: Brutal chip text
 // read as a different font beside the bold Badges). Real browser only: jsdom has no
 // layout.
+// Artea measured the rest after 0.5.55 (padding Brutal 4px vs 6px, border
+// Elegant 0.5px vs 1px): the chip's box is now the Badge's own `badgeBox`, so
+// every box property is compared against the Badge in the same shape: the bare
+// chip against a text-only Badge, the status badge (which leads with its status
+// icon) against a Badge with an icon — an Elegant Badge with an icon is 8px at
+// the sides, not 10px.
 
 const it = test.skipIf(typeof window === "undefined");
 
 afterEach(cleanup);
 
 for (const theme of ["elegant", "brutal"] as const) {
-  it(`${theme}: an sm task chip has the sm Badge's text size, weight and height`, () => {
+  it(`${theme}: an sm task chip has the sm Badge's box and type`, () => {
     render(
       <ThemeProvider theme={theme} mode="light">
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -30,6 +37,10 @@ for (const theme of ["elegant", "brutal"] as const) {
           </TaskStatusBadge>
           <Badge appearance="outline" variant="muted" data-testid="badge">
             12 replies
+          </Badge>
+          <Badge appearance="outline" variant="muted" data-testid="badge-icon">
+            <AtSign size={10} aria-hidden />
+            you
           </Badge>
           <TaskChip status="in-progress" data-testid="chip-default">
             #746
@@ -44,6 +55,19 @@ for (const theme of ["elegant", "brutal"] as const) {
       expect(style(id).fontWeight, id).toBe(style("badge").fontWeight);
       expect(style(id).letterSpacing, id).toBe(style("badge").letterSpacing);
       expect(height(id), id).toBe(height("badge"));
+      for (const prop of [
+        "lineHeight",
+        "paddingLeft",
+        "paddingRight",
+        "paddingTop",
+        "paddingBottom",
+        "borderTopWidth",
+        "borderLeftWidth",
+        "columnGap",
+      ] as const) {
+        const reference = id === "status-sm" ? "badge-icon" : "badge";
+        expect(style(id)[prop], `${id} ${prop}`).toBe(style(reference)[prop]);
+      }
     }
     // The default chip keeps its own size (13px) for surfaces with no Badge
     // beside it, e.g. the task chip under a message.
