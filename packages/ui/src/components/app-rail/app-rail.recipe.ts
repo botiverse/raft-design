@@ -43,17 +43,17 @@ export const appRail = tv({
         itemAttentionMask: "hidden",
       },
       elegant: {
-        root: "w-14 bg-layer-canvas-muted",
+        root: "w-14 bg-layer-frame",
         header: "h-(--shell-header-height,56px) border-b-0",
         nav: ["px-2 pt-4 pb-2"],
         footer: ["h-auto gap-1.5 px-2 pb-2", "*:data-[slot=app-rail-item]:text-foreground-muted"],
         item: [
           "size-auto min-w-9 p-3 rounded-md border border-transparent",
           "text-[13px] text-foreground-icon [&_svg]:size-4",
-          "hover:bg-fill-strong/80 hover:text-foreground-strong",
-          "active:bg-fill-strong/80 active:text-foreground-strong",
+          "hover:bg-layer-panel/60 hover:text-foreground-strong",
+          "active:bg-layer-panel/60 active:text-foreground-strong",
           "dark:hover:bg-ink-6 dark:active:bg-ink-6",
-          "data-[selected=true]:border-transparent data-[selected=true]:bg-fill-strong",
+          "data-[selected=true]:border-transparent data-[selected=true]:bg-layer-panel",
           "dark:data-[selected=true]:bg-layer-card",
           "data-[selected=true]:text-foreground-muted data-[selected=true]:shadow-none",
           "dark:data-[selected=true]:text-foreground-strong dark:data-[selected=true]:shadow-raft-sm",
@@ -62,7 +62,7 @@ export const appRail = tv({
         itemBadge: [
           "rounded-full border-0 bg-primary-400 text-primary-950",
           "px-1 font-mono text-[10px] font-[450] leading-none tabular-nums normal-case tracking-normal",
-          "ring-2 ring-layer-canvas-muted",
+          "ring-2 ring-layer-frame",
         ],
         itemAttentionMask: [
           "text-[oklch(73.4%_0.149_89.2)] drop-shadow-[0_0_1px_oklch(88.3%_0.162_91.9/0.82)]",
