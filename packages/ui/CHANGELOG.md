@@ -1,3 +1,9 @@
+## [0.5.59](https://github.com/botiverse/rui/compare/v0.5.58...v0.5.59) (2026-10-14)
+
+### Reverted
+
+- The `--layer-frame` surface token and Elegant `AppRail` painting it, released in 0.5.58, are taken back out until the app-frame colour is confirmed. Consumers should skip 0.5.58 and take 0.5.59. ([#452](https://github.com/botiverse/rui/pull/452), reverts [#449](https://github.com/botiverse/rui/pull/449))
+
 ## [0.5.58](https://github.com/botiverse/rui/compare/v0.5.57...v0.5.58) (2026-10-14)
 
 ### Added
