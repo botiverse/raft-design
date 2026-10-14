@@ -4,6 +4,7 @@
 import { afterEach, describe, expect, test, vi } from "vite-plus/test";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
+import { OtterIndicator } from "./otter-indicator";
 import { Step, Steps } from "./steps";
 
 if (typeof window.matchMedia !== "function") {
@@ -216,5 +217,33 @@ describe("Steps track and renderIndicator", () => {
     expect(renderIndicator).toHaveBeenCalledWith(
       expect.objectContaining({ index: 1, status: "finish", current: false }),
     );
+  });
+
+  test("OtterIndicator poses by status", () => {
+    const { container } = render(
+      <>
+        <OtterIndicator status="wait" />
+        <OtterIndicator status="process" />
+        <OtterIndicator status="finish" className="extra" />
+        <OtterIndicator status="error" />
+      </>,
+    );
+    const otters = [...container.querySelectorAll("[data-slot='otter-indicator']")];
+    expect(otters.map((otter) => otter.getAttribute("class"))).toEqual([
+      "r-otter-indicator r-otter-indicator--wait",
+      "r-otter-indicator r-otter-indicator--process",
+      "r-otter-indicator r-otter-indicator--finish extra",
+      "r-otter-indicator r-otter-indicator--error",
+    ]);
+    // Asleep on the dry bank: no water and the "z"s; afloat otherwise.
+    expect(otters[0].querySelector(".r-otter-indicator__wave")).toBeNull();
+    expect(otters[0].querySelectorAll(".r-otter-indicator__z")).toHaveLength(2);
+    expect(otters[1].querySelector(".r-otter-indicator__wave")).not.toBeNull();
+    // Only a failed step loses the parcel overboard.
+    expect(otters[3].querySelector(".r-otter-indicator__parcel--adrift")).not.toBeNull();
+    expect(otters[1].querySelector(".r-otter-indicator__parcel--adrift")).toBeNull();
+    // Each clip path id is unique and referenced by its own otter.
+    const ids = otters.map((otter) => otter.querySelector("clipPath")?.id);
+    expect(new Set(ids).size).toBe(4);
   });
 });

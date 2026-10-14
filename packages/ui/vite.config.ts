@@ -42,6 +42,11 @@ export default defineConfig({
         rename: "steps.css",
       },
       {
+        from: "src/components/steps/otter-indicator.css",
+        to: "dist/components/steps",
+        rename: "otter-indicator.css",
+      },
+      {
         from: "src/components/combobox-select/combobox-select.css",
         to: "dist/components/combobox-select",
         rename: "combobox-select.css",

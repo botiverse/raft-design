@@ -1,9 +1,7 @@
 import { useCallback, useState } from "react";
-import { Button, Step, Steps } from "raft-ui";
+import { Button, OtterIndicator, Step, Steps } from "raft-ui";
 import type { StepIndicatorState } from "raft-ui";
 import type { CSSProperties } from "react";
-
-import { OtterIndicator } from "../otter-indicator.tsx";
 
 // @docs-source-strip-start
 import { CompositionPreview } from "#/components/composition-preview.tsx";

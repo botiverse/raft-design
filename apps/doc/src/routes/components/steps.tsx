@@ -305,10 +305,10 @@ function StepsDoc() {
               show by default. The slot keeps the marker's size, set with{" "}
               <InlineCode>--r-steps-indicator-size</InlineCode>, and drops its box, so the content
               can be any picture. Return <InlineCode>undefined</InlineCode> to keep the default
-              marker on a step. Here each step of moving a workspace between machines has an otter
-              posed by its status: asleep on the bank while waiting, paddling while in progress,
-              hugging the delivered parcel when finished, and shivering with the parcel adrift after
-              a failure (press Fail to see it).
+              marker on a step. Here each step of moving a workspace between machines has an{" "}
+              <InlineCode>OtterIndicator</InlineCode>, posed by its status: asleep on the bank while
+              waiting, paddling while in progress, hugging the delivered parcel when finished, and
+              shivering with the parcel adrift after a failure (press Fail to see it).
             </DocNote>
             <Preview>
               <Preview.Canvas>

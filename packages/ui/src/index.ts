@@ -1204,8 +1204,9 @@ export type {
   TimelineTitleProps,
 } from "./components/timeline/index";
 
-export { Step, Steps } from "./components/steps/index";
+export { OtterIndicator, Step, Steps } from "./components/steps/index";
 export type {
+  OtterIndicatorProps,
   StepIndicatorState,
   StepProps,
   StepsProps,

@@ -7,3 +7,5 @@ export type {
   StepStatus,
   StepsTrack,
 } from "./steps";
+export { OtterIndicator } from "./otter-indicator";
+export type { OtterIndicatorProps } from "./otter-indicator";
