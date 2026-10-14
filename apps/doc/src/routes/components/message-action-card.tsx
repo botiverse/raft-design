@@ -67,7 +67,7 @@ const ANATOMY_SOURCE = `import {
     <MessageActionCardHint />
     <MessageActionCardScopeList>
       <MessageActionCardScopeListLabel />
-      <MessageActionCardScopeListViewport>
+      <MessageActionCardScopeListViewport aria-label="Permissions">
         <MessageActionCardScope>
           <MessageActionCardScopeName />
           <MessageActionCardScopeDescription />
@@ -125,8 +125,9 @@ const MESSAGE_ACTION_CARD_NEW_PARTS: readonly PropRow[] = [
   },
   {
     name: "MessageActionCardScopeListViewport",
-    type: 'useRender.ComponentProps<"div">',
-    description: "Scroll area for the scopes, capped at about two and a half rows.",
+    type: 'useRender.ComponentProps<"div"> & { "aria-label": string }',
+    description:
+      "Scroll area for the scopes; the cap cuts through the third row. aria-label is required; it is a Tab stop only while the list overflows.",
   },
   {
     name: "MessageActionCardActionsNote",

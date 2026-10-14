@@ -46,7 +46,7 @@ function renderCard(theme: Theme, options: { defaultOpen?: boolean; scopes?: num
             <p data-testid="body">Coordinate the final release review.</p>
             {scopes > 0 ? (
               <MessageActionCardScopeList>
-                <MessageActionCardScopeListViewport data-testid="viewport">
+                <MessageActionCardScopeListViewport data-testid="viewport" aria-label="Permissions">
                   {Array.from({ length: scopes }, (_, n) => (
                     <MessageActionCardScope key={n}>
                       <MessageActionCardScopeName>scope-{n}</MessageActionCardScopeName>
@@ -137,6 +137,18 @@ for (const theme of ["brutal", "elegant"] as const) {
     const shown = (viewport.getBoundingClientRect().bottom - third.top) / third.height;
     expect(shown).toBeGreaterThan(0.2);
     expect(shown).toBeLessThan(0.8);
+  });
+
+  it(`${theme}: the permission viewport is a Tab stop only while it overflows`, async () => {
+    const long = renderCard(theme, { scopes: 6 });
+    await waitFor(() => expect(screen.getByTestId("viewport").tabIndex).toBe(0));
+    long.unmount();
+
+    renderCard(theme, { scopes: 1 });
+    const short = screen.getByTestId("viewport");
+    await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+    expect(short.scrollHeight).toBeLessThanOrEqual(short.clientHeight);
+    expect(short.hasAttribute("tabindex")).toBe(false);
   });
 }
 
