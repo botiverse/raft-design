@@ -1,4 +1,4 @@
-import { AppWindow, Bot, Hash, Info, KeyRound, Package, ShieldAlert, UserPlus } from "lucide-react";
+import { AppWindow, Bot, Hash, KeyRound, Package, ShieldAlert, UserPlus } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import {
   Button,
@@ -30,14 +30,14 @@ import type { BadgeProps } from "raft-ui";
 import { foldsByDefault } from "./action-card.fixtures.ts";
 import type { ActionCardFixture, ActionCardKind, ActionCardState } from "./action-card.fixtures.ts";
 
-const ICONS: Record<ActionCardKind, LucideIcon> = {
+// `update` passes no icon, so the docs also show the default one.
+const ICONS: Partial<Record<ActionCardKind, LucideIcon>> = {
   channel: Hash,
   agent: Bot,
   members: UserPlus,
   login: KeyRound,
   install: Package,
   register: AppWindow,
-  update: AppWindow,
   recover: ShieldAlert,
 };
 
@@ -74,9 +74,7 @@ export function ActionCardDemo({
   return (
     <MessageActionCard key={`${card.kind}-${state}`} defaultOpen={!foldsByDefault(state)}>
       <MessageActionCardHeader>
-        <MessageActionCardHeaderIcon>
-          <Icon />
-        </MessageActionCardHeaderIcon>
+        <MessageActionCardHeaderIcon>{Icon ? <Icon /> : null}</MessageActionCardHeaderIcon>
         <MessageActionCardHeaderTitle>{card.title}</MessageActionCardHeaderTitle>
         {status ? (
           <MessageActionCardStatus variant={status.variant}>{status.label}</MessageActionCardStatus>
@@ -118,10 +116,7 @@ export function ActionCardDemo({
           </MessageActionCardScopeList>
         ) : null}
         {card.notice && !resolved ? (
-          <MessageActionCardNotice>
-            <Info aria-hidden />
-            <span>{card.notice}</span>
-          </MessageActionCardNotice>
+          <MessageActionCardNotice>{card.notice}</MessageActionCardNotice>
         ) : null}
         <MessageActionCardActions>
           {note ? <MessageActionCardActionsNote>{note}</MessageActionCardActionsNote> : null}

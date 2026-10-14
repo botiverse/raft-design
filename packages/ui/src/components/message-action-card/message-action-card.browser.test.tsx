@@ -8,6 +8,7 @@ import {
   MessageActionCardCollapseTrigger,
   MessageActionCardContent,
   MessageActionCardHeader,
+  MessageActionCardHeaderIcon,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
   MessageActionCardHintLabel,
@@ -96,8 +97,7 @@ for (const theme of ["brutal", "elegant"] as const) {
                 I need to file the issues.
               </MessageActionCardHint>
               <MessageActionCardNotice data-testid="notice">
-                <svg data-testid="notice-icon" viewBox="0 0 16 16" />
-                <span data-testid="notice-text">Installs the app for this whole Server.</span>
+                Installs the app for this whole Server.
               </MessageActionCardNotice>
             </MessageActionCardContent>
           </MessageActionCard>
@@ -116,8 +116,10 @@ for (const theme of ["brutal", "elegant"] as const) {
     expect(notice.backgroundColor).toBe("rgba(0, 0, 0, 0)");
     expect(notice.borderTopWidth).toBe("0px");
     expect(notice.fontStyle).toBe("normal");
-    const icon = screen.getByTestId("notice-icon").getBoundingClientRect();
-    const text = screen.getByTestId("notice-text").getBoundingClientRect();
+    // The info icon is there by default; the caller passed text only.
+    const icon = screen.getByTestId("notice").querySelector("svg")!.getBoundingClientRect();
+    const text = screen.getByTestId("notice").querySelector("span")!.getBoundingClientRect();
+    expect(icon.width).toBeGreaterThan(0);
     expect(icon.right).toBeLessThanOrEqual(text.left);
     expect(icon.top).toBeGreaterThanOrEqual(text.top - 1);
   });
@@ -141,6 +143,23 @@ it("brutal: the card has a 2px frame and a 2px hard shadow, and the title band's
   await waitFor(() =>
     expect(getComputedStyle(screen.getByTestId("header")).borderBottomWidth).toBe("0px"),
   );
+});
+
+it("the header icon falls back to a default icon when the caller passes none", () => {
+  render(
+    <ThemeProvider theme="brutal">
+      <MessageActionCardHeaderIcon data-testid="default-icon" />
+      <MessageActionCardHeaderIcon data-testid="own-icon">
+        <svg data-testid="own" viewBox="0 0 16 16" />
+      </MessageActionCardHeaderIcon>
+    </ThemeProvider>,
+  );
+  const fallback = screen.getByTestId("default-icon").querySelector("svg");
+  expect(fallback === null).toBe(false);
+  expect(fallback!.getBoundingClientRect().width).toBeGreaterThan(0);
+  const own = screen.getByTestId("own-icon").querySelectorAll("svg");
+  expect(own.length).toBe(1);
+  expect(own[0]!.getAttribute("data-testid")).toBe("own");
 });
 
 it("the status label is solid in Brutal and soft in Elegant", () => {

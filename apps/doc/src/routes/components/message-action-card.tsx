@@ -74,10 +74,7 @@ const ANATOMY_SOURCE = `import {
         </MessageActionCardScope>
       </MessageActionCardScopeListViewport>
     </MessageActionCardScopeList>
-    <MessageActionCardNotice>
-      <Info aria-hidden /> {/* any lucide icon */}
-      <span />
-    </MessageActionCardNotice>
+    <MessageActionCardNotice />
     <MessageActionCardActions>
       <MessageActionCardActionsNote />
     </MessageActionCardActions>
@@ -107,7 +104,8 @@ const MESSAGE_ACTION_CARD_NEW_PARTS: readonly PropRow[] = [
   {
     name: "MessageActionCardHeaderIcon",
     type: 'useRender.ComponentProps<"span">',
-    description: "Leading type icon box in the header band. Pass one lucide icon.",
+    description:
+      "Leading type icon box in the header band. Pass one lucide icon; without children it shows a generic action icon (Zap).",
   },
   {
     name: "MessageActionCardHeaderTitle",
@@ -257,7 +255,12 @@ const MESSAGE_ACTION_CARD_NOTICE_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Raft's standing note about what the action does or who may run it. One quiet line with an optional leading icon, no background; only for the cards that need one. The agent's own reason goes in MessageActionCardHint, not a notice.",
+      "Raft's standing note about what the action does or who may run it. One quiet line, no background; only for the cards that need one. The agent's own reason goes in MessageActionCardHint, not a notice.",
+  },
+  {
+    name: "icon",
+    type: "ReactNode",
+    description: "Replaces the default leading info icon.",
   },
 ];
 

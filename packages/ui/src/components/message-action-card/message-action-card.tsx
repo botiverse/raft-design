@@ -1,8 +1,8 @@
 import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { ChevronDown } from "lucide-react";
-import type { ComponentProps } from "react";
+import { ChevronDown, Info, Zap } from "lucide-react";
+import type { ComponentProps, ReactNode } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
@@ -54,9 +54,11 @@ export function MessageActionCardContent({
   );
 }
 
+/** The card type's icon. Without children it shows a generic action icon. */
 export function MessageActionCardHeaderIcon({
   className,
   render,
+  children,
   ...props
 }: useRender.ComponentProps<"span">) {
   const theme = useThemeFamily();
@@ -65,7 +67,10 @@ export function MessageActionCardHeaderIcon({
   return useRender({
     defaultTagName: "span",
     render,
-    props: mergeProps<"span">({ className: headerIcon({ className }), "aria-hidden": true }, props),
+    props: mergeProps<"span">(
+      { className: headerIcon({ className }), "aria-hidden": true, children: children ?? <Zap /> },
+      props,
+    ),
     state: { slot: "message-action-card-header-icon" },
   });
 }
@@ -344,18 +349,32 @@ export function MessageActionCardHint({
   });
 }
 
+/** Raft's standing note. Leads with an info icon unless `icon` replaces it. */
 export function MessageActionCardNotice({
   className,
   render,
+  icon,
+  children,
   ...props
-}: useRender.ComponentProps<"div">) {
+}: MessageActionCardNoticeProps) {
   const theme = useThemeFamily();
   const { notice } = messageActionCardContent({ theme });
 
   return useRender({
     defaultTagName: "div",
     render,
-    props: mergeProps<"div">({ className: notice({ className }) }, props),
+    props: mergeProps<"div">(
+      {
+        className: notice({ className }),
+        children: (
+          <>
+            {icon ?? <Info aria-hidden />}
+            <span>{children}</span>
+          </>
+        ),
+      },
+      props,
+    ),
     state: { slot: "message-action-card-notice" },
   });
 }
@@ -437,6 +456,9 @@ export type MessageActionCardScopeNameProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeDescriptionProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHintProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHintLabelProps = useRender.ComponentProps<"div">;
-export type MessageActionCardNoticeProps = useRender.ComponentProps<"div">;
+export interface MessageActionCardNoticeProps extends useRender.ComponentProps<"div"> {
+  /** Replaces the default info icon. */
+  icon?: ReactNode;
+}
 export type MessageActionCardCompletionProps = useRender.ComponentProps<"div">;
 export type MessageActionCardActionsProps = useRender.ComponentProps<"div">;
