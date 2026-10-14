@@ -77,7 +77,8 @@ export interface StepsProps extends Omit<ComponentPropsWithRef<"ol">, "onChange"
    * step and rests at the last marker once every step is done. It is drawn
    * from `{ index, status }`: the step whose reach it is in, and `process`
    * while it swims toward a finished step, `finish` while it rests. Its box is
-   * `--r-steps-traveler-size` square, its middle on the channel.
+   * `--r-steps-traveler-size` square, its middle on the channel. Draw it
+   * heading right: it is turned to face downstream in a column or right to left.
    */
   renderTraveler?: (state: StepTravelerState) => ReactNode;
   /** Replaces the check mark of finished steps. */

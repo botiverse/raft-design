@@ -874,7 +874,8 @@
   }
 }
 
-/* The traveler: a box laid over its reach, its middle on the channel. It
+/* The traveler: a box laid over its reach, its middle on the channel, drawn
+   heading right and turned to face the way the river runs. It
    slides along with its position, setting off from the shallows of the
    marker before the reach and landing in the shallows of the marker after
    it, and fades in when it moves on to a new reach. */
@@ -908,6 +909,7 @@
     translate: calc(-30% - var(--r-step-traveler-pos) * 40%) -50%;
   }
   &:dir(rtl) > .r-step__traveler-body {
+    scale: -1 1;
     translate: calc(30% + var(--r-step-traveler-pos) * 40%) -50%;
   }
 }
@@ -921,6 +923,7 @@
   & > .r-step__traveler-body {
     inset-inline-start: 50%;
     top: calc(var(--r-step-traveler-pos) * 100%);
+    rotate: 90deg;
     translate: -50% calc(-30% - var(--r-step-traveler-pos) * 40%);
   }
   &:dir(rtl) > .r-step__traveler-body {
