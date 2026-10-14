@@ -40,15 +40,16 @@ function renderCount(theme: "brutal" | "elegant") {
   };
 }
 
-test.each(["brutal", "elegant"] as const)(
-  "%s count with a thread segment stays as tight as a plain number",
-  (theme) => {
-    const { count } = renderCount(theme);
-    expect(count.className).toContain("gap-0");
-    expect(count.className).toContain("[&:has(svg)]:px-1");
-    expect(count.className).not.toContain("[&:has(svg)]:px-2");
-  },
-);
+test.each(["brutal", "elegant"] as const)("%s count has no gap between segments", (theme) => {
+  const { count } = renderCount(theme);
+  expect(count.className).toContain("gap-0");
+});
+
+test("elegant count outranks Badge's icon padding bump without :has()", () => {
+  const { count } = renderCount("elegant");
+  expect(count.getAttribute("data-slot")).toBe("sidebar-item-count");
+  expect(count.className).toContain("data-[slot=sidebar-item-count]:px-1");
+});
 
 test("separator is a decorative dot", () => {
   const { separator } = renderCount("elegant");
