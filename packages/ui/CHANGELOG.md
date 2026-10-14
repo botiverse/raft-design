@@ -1,3 +1,15 @@
+## [0.5.58](https://github.com/botiverse/rui/compare/v0.5.57...v0.5.58) (2026-10-14)
+
+### Added
+
+- `Steps` takes `renderTraveler(state)` on `track="river"`: one traveler (drawn from `{ index, status }`) swims upstream from marker to marker. With a traveler each step after the first is the reach that leads into its marker, the river is full all along and runs back toward the first step, and the markers look as the traveler has got to them: it lands at each finished marker in turn (never skipping one), rests and sets off again, so a marker never shows finished ahead of it. Leg timing comes from `--r-steps-traveler-arrive-duration` and the new `--r-steps-traveler-rest-duration` (0s under reduced motion). The plain river track is unchanged. New `StepTravelerState` type. ([#445](https://github.com/botiverse/rui/pull/445))
+- `IslandIndicator` (an island marker that flies the Raft flag once finished, red shallows on error) and `OtterTraveler` (an otter for `renderTraveler`). ([#445](https://github.com/botiverse/rui/pull/445))
+- `--layer-frame` surface token (`bg-layer-frame`) for the app frame (top bar and rail); Elegant `AppRail` paints it. ([#449](https://github.com/botiverse/rui/pull/449))
+
+### Fixed
+
+- `TaskChip` / `TaskStatusBadge` `size="sm"` take the `sm` Badge's own box (padding, border, line height), so it no longer drifts from the Badge beside it. ([#450](https://github.com/botiverse/rui/pull/450))
+
 ## [0.5.57](https://github.com/botiverse/rui/compare/v0.5.56...v0.5.57) (2026-10-14)
 
 ### Added
