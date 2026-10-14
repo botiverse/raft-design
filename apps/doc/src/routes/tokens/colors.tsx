@@ -87,6 +87,7 @@ const LAYER_GROUPS: readonly TokenGroup[] = [
     tokens: [
       ["canvas", "--layer-canvas"],
       ["canvas-muted", "--layer-canvas-muted"],
+      ["frame", "--layer-frame"],
       ["panel", "--layer-panel"],
       ["popover", "--layer-popover"],
       ["inset", "--layer-inset"],
