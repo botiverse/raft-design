@@ -1,18 +1,40 @@
+import { Collapsible } from "@base-ui/react/collapsible";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { ChevronDown, Info, Zap } from "lucide-react";
+import type { ComponentProps, ReactNode } from "react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
+import { Badge } from "../badge";
+import type { BadgeProps } from "../badge";
 import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
 import { messageActionCard } from "./message-action-card.recipe";
 import { messageActionCardContent } from "./message-action-card-content.recipe";
+/**
+ * The card is a disclosure: open by default, and a consumer can fold a
+ * resolved or view-only card to its header with `defaultOpen={false}` (or
+ * control it with `open` / `onOpenChange`). The fold is offered by placing a
+ * MessageActionCardCollapseTrigger in the header; without one the card simply
+ * stays open.
+ */
 export function MessageActionCard({
   className,
   render,
+  open,
+  defaultOpen = true,
+  onOpenChange,
   ...props
-}: useRender.ComponentProps<"div">) {
+}: MessageActionCardProps) {
   const theme = useThemeFamily();
   const { root } = messageActionCard({ theme });
 
-  return <MessageEmbed className={root({ className })} render={render} {...props} />;
+  return (
+    <Collapsible.Root
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      render={<MessageEmbed className={root({ className })} render={render} {...props} />}
+    />
+  );
 }
 
 export function MessageActionCardContent({
@@ -21,9 +43,91 @@ export function MessageActionCardContent({
   ...props
 }: useRender.ComponentProps<"div">) {
   const theme = useThemeFamily();
-  const { root } = messageActionCardContent({ theme });
+  const { root, panel } = messageActionCardContent({ theme });
 
-  return <MessageEmbedContent className={root({ className })} render={render} {...props} />;
+  // Panel height animates between 0 and its measured height when the card
+  // folds; the content box lives inside so its padding and frame go with it.
+  return (
+    <Collapsible.Panel className={panel()}>
+      <MessageEmbedContent className={root({ className })} render={render} {...props} />
+    </Collapsible.Panel>
+  );
+}
+
+/** The card type's icon. Without children it shows a generic action icon. */
+export function MessageActionCardHeaderIcon({
+  className,
+  render,
+  children,
+  ...props
+}: useRender.ComponentProps<"span">) {
+  const theme = useThemeFamily();
+  const { headerIcon } = messageActionCard({ theme });
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(
+      { className: headerIcon({ className }), "aria-hidden": true, children: children ?? <Zap /> },
+      props,
+    ),
+    state: { slot: "message-action-card-header-icon" },
+  });
+}
+
+export function MessageActionCardHeaderTitle({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"span">) {
+  const theme = useThemeFamily();
+  const { headerTitle } = messageActionCard({ theme });
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">({ className: headerTitle({ className }) }, props),
+    state: { slot: "message-action-card-header-title" },
+  });
+}
+
+/**
+ * The card's state label in the header. Brutal shows it as a solid,
+ * saturated badge; Elegant as the soft tinted badge, so a column of "Done"
+ * cards does not shout.
+ */
+export function MessageActionCardStatus({
+  className,
+  appearance,
+  uppercase,
+  ...props
+}: BadgeProps) {
+  const theme = useThemeFamily();
+  const { headerStatus } = messageActionCard({ theme });
+
+  return (
+    <Badge
+      appearance={appearance ?? (theme === "brutal" ? "solid" : "soft")}
+      uppercase={uppercase ?? theme === "brutal"}
+      className={headerStatus({ className })}
+      {...props}
+    />
+  );
+}
+
+/** Folds the card to its header and back. Needs an accessible `aria-label`. */
+export function MessageActionCardCollapseTrigger({
+  className,
+  ...props
+}: ComponentProps<typeof Collapsible.Trigger> & { "aria-label": string }) {
+  const theme = useThemeFamily();
+  const { collapseTrigger } = messageActionCard({ theme });
+
+  return (
+    <Collapsible.Trigger className={collapseTrigger({ className: className as string })} {...props}>
+      <ChevronDown aria-hidden />
+    </Collapsible.Trigger>
+  );
 }
 
 export function MessageActionCardHeader({
@@ -149,6 +253,22 @@ export function MessageActionCardScopeListLabel({
   });
 }
 
+export function MessageActionCardScopeListViewport({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { scopeListViewport } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: scopeListViewport({ className }), tabIndex: 0 }, props),
+    state: { slot: "message-action-card-scope-list-viewport" },
+  });
+}
+
 export function MessageActionCardScope({
   className,
   render,
@@ -197,6 +317,22 @@ export function MessageActionCardScopeDescription({
   });
 }
 
+export function MessageActionCardHintLabel({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { hintLabel } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: hintLabel({ className }) }, props),
+    state: { slot: "message-action-card-hint-label" },
+  });
+}
+
 export function MessageActionCardHint({
   className,
   render,
@@ -210,6 +346,36 @@ export function MessageActionCardHint({
     render,
     props: mergeProps<"div">({ className: hint({ className }) }, props),
     state: { slot: "message-action-card-hint" },
+  });
+}
+
+/** Raft's standing note. Leads with an info icon unless `icon` replaces it. */
+export function MessageActionCardNotice({
+  className,
+  render,
+  icon,
+  children,
+  ...props
+}: MessageActionCardNoticeProps) {
+  const theme = useThemeFamily();
+  const { notice } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">(
+      {
+        className: notice({ className }),
+        children: (
+          <>
+            {icon ?? <Info aria-hidden />}
+            <span>{children}</span>
+          </>
+        ),
+      },
+      props,
+    ),
+    state: { slot: "message-action-card-notice" },
   });
 }
 
@@ -245,7 +411,37 @@ export function MessageActionCardActions({
   });
 }
 
-export type MessageActionCardProps = useRender.ComponentProps<"div">;
+export function MessageActionCardActionsNote({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  const theme = useThemeFamily();
+  const { actionsNote } = messageActionCardContent({ theme });
+
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: mergeProps<"div">({ className: actionsNote({ className }) }, props),
+    state: { slot: "message-action-card-actions-note" },
+  });
+}
+
+export type MessageActionCardProps = useRender.ComponentProps<"div"> & {
+  /** Controlled open state. Open shows the content; closed folds to the header. */
+  open?: boolean;
+  /** Uncontrolled initial state. Defaults to open. */
+  defaultOpen?: boolean;
+  onOpenChange?: ComponentProps<typeof Collapsible.Root>["onOpenChange"];
+};
+export type MessageActionCardHeaderIconProps = useRender.ComponentProps<"span">;
+export type MessageActionCardHeaderTitleProps = useRender.ComponentProps<"span">;
+export type MessageActionCardStatusProps = BadgeProps;
+export type MessageActionCardCollapseTriggerProps = ComponentProps<typeof Collapsible.Trigger> & {
+  "aria-label": string;
+};
+export type MessageActionCardScopeListViewportProps = useRender.ComponentProps<"div">;
+export type MessageActionCardActionsNoteProps = useRender.ComponentProps<"div">;
 export type MessageActionCardContentProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHeaderProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHeaderStatusProps = useRender.ComponentProps<"span">;
@@ -259,5 +455,10 @@ export type MessageActionCardScopeProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeNameProps = useRender.ComponentProps<"div">;
 export type MessageActionCardScopeDescriptionProps = useRender.ComponentProps<"div">;
 export type MessageActionCardHintProps = useRender.ComponentProps<"div">;
+export type MessageActionCardHintLabelProps = useRender.ComponentProps<"div">;
+export interface MessageActionCardNoticeProps extends useRender.ComponentProps<"div"> {
+  /** Replaces the default info icon. */
+  icon?: ReactNode;
+}
 export type MessageActionCardCompletionProps = useRender.ComponentProps<"div">;
 export type MessageActionCardActionsProps = useRender.ComponentProps<"div">;
