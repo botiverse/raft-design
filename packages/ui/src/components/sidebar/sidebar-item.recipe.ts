@@ -38,6 +38,11 @@ export const sidebarItemRecipe = tv({
     ],
     sidebarItemAside: ["flex shrink-0 items-center gap-1"],
     sidebarItemCount: ["shrink-0"],
+    sidebarItemCountSeparator: ["mx-0.5 opacity-60"],
+    sidebarItemThreadCount: [
+      "inline-flex items-center gap-0.5",
+      "[&>svg]:size-2.5 [&>svg]:shrink-0 [&>svg]:translate-y-0",
+    ],
   },
   variants: {
     theme: {
@@ -105,7 +110,11 @@ export const sidebarItemRecipe = tv({
         ],
         sidebarItemMetaIcon: "text-foreground-icon",
         sidebarItemCount: [
-          "h-4 min-w-4 items-center justify-center rounded-sm px-1 py-0",
+          "h-4 min-w-4 items-center justify-center gap-0 rounded-sm px-1 py-0",
+          // Badge widens to px-2 via :has(svg) when it holds an icon; a thread
+          // segment must stay as tight as a plain number. The self attribute
+          // selector outranks it without adding another :has() (rui#382).
+          "data-[slot=sidebar-item-count]:px-1",
           "text-[10px] font-normal leading-none tabular-nums tracking-normal",
         ],
       },

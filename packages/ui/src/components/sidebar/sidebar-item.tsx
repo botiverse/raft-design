@@ -1,6 +1,7 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { MessageSquare } from "lucide-react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
@@ -250,4 +251,66 @@ export function SidebarItemCount({
       {...props}
     />
   );
+}
+
+export type SidebarItemCountSeparatorProps = useRender.ComponentProps<"span">;
+
+/** The dot between the channel's own unread count and its thread count. */
+export function SidebarItemCountSeparator({
+  className,
+  render,
+  ...props
+}: SidebarItemCountSeparatorProps) {
+  const { sidebarItemCountSeparator } = sidebarItemRecipe();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "sidebar-item-count-separator",
+    "aria-hidden": true,
+    className: sidebarItemCountSeparator({ className }),
+    children: "·",
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
+}
+
+export type SidebarItemThreadCountProps = useRender.ComponentProps<"span"> & {
+  /**
+   * Visually hidden words read after the number, so screen readers hear what
+   * the count is (the icon is decorative). Pass localized copy.
+   */
+  label?: string;
+};
+
+/**
+ * Thread segment of an unread count: a thread icon followed by the number of
+ * threads with new replies. Works inside SidebarItemCount or as quiet text.
+ */
+export function SidebarItemThreadCount({
+  children,
+  className,
+  label = "threads with new replies",
+  render,
+  ...props
+}: SidebarItemThreadCountProps) {
+  const { sidebarItemThreadCount } = sidebarItemRecipe();
+  const defaultProps: SlotElementProps<"span"> = {
+    "data-slot": "sidebar-item-thread-count",
+    className: sidebarItemThreadCount({ className }),
+    children: (
+      <>
+        <MessageSquare aria-hidden strokeWidth={2.5} />
+        {children}
+        <span className="sr-only"> {label}</span>
+      </>
+    ),
+  };
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">(defaultProps, props),
+  });
 }

@@ -36,6 +36,7 @@ export {
   SidebarItem,
   SidebarItemAside,
   SidebarItemCount,
+  SidebarItemCountSeparator,
   SidebarItemChannelIcon,
   SidebarItemIcon,
   SidebarItemIndicator,
@@ -44,11 +45,13 @@ export {
   SidebarItemMetaIcon,
   SidebarItemStatus,
   SidebarItemSubtitle,
+  SidebarItemThreadCount,
   SidebarItemTitle,
 } from "./sidebar-item";
 export type {
   SidebarItemAsideProps,
   SidebarItemCountProps,
+  SidebarItemCountSeparatorProps,
   SidebarItemChannelIconProps,
   SidebarItemIconProps,
   SidebarItemIndicatorProps,
@@ -59,6 +62,7 @@ export type {
   SidebarItemProps,
   SidebarItemVariant,
   SidebarItemSubtitleProps,
+  SidebarItemThreadCountProps,
   SidebarItemTitleProps,
 } from "./sidebar-item";
 
