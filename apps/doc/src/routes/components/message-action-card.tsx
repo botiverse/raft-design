@@ -257,7 +257,7 @@ const MESSAGE_ACTION_CARD_NOTICE_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Raft's standing note about what the action does or who may run it. Borderless tinted block with an optional leading icon; only for the cards that need one. The agent's own reason goes in MessageActionCardHint, not a notice.",
+      "Raft's standing note about what the action does or who may run it. One quiet line with an optional leading icon, no background; only for the cards that need one. The agent's own reason goes in MessageActionCardHint, not a notice.",
   },
 ];
 

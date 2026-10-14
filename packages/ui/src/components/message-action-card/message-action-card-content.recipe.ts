@@ -26,10 +26,9 @@ export const messageActionCardContent = tv({
     // The agent's own reason: a label, then the reason as an italic quote.
     hintLabel: [],
     hint: ["[[data-slot=message-action-card-hint-label]+&]:mt-1"],
-    // A standing note from Raft about what the action does or who may run it.
-    // Borderless tinted block: it only appears on the few cards that need it,
-    // so the colour itself is the signal. The agent's own reason is a hint,
-    // not a notice.
+    // A standing note from Raft about what the action does or who may run it:
+    // one quiet line with a leading icon, no background. The agent's own
+    // reason is a hint, not a notice.
     notice: ["mt-3 flex items-start gap-2", "[&>svg]:mt-0.5 [&>svg]:size-3.5 [&>svg]:shrink-0"],
     completion: [],
     // Actions sit bottom-right; an optional note (state, who resolved it)
@@ -50,7 +49,7 @@ export const messageActionCardContent = tv({
         scopeDescription: "text-black/60",
         hintLabel: "mt-3 text-xs leading-4 text-black/55",
         hint: "mt-1 border-l-2 border-black/20 pl-2 text-xs italic text-black/55",
-        notice: "bg-(--color-brutal-yellow-100) px-2.5 py-2 text-xs leading-4 text-black/75",
+        notice: "text-xs leading-4 text-black/70",
         completion: "mt-1 text-xs text-black/55",
         scopeListViewport: "space-y-1.5 pr-1",
         actions: "mt-3 gap-3",
@@ -69,8 +68,7 @@ export const messageActionCardContent = tv({
         scopeDescription: "mt-0.5 text-[13px] leading-5 text-pretty text-foreground-muted/80",
         hintLabel: "mt-3 text-[13px] leading-5 font-medium text-foreground-strong",
         hint: "mt-2.5 border-l border-line-muted pl-2.5 text-xs leading-4 italic text-foreground-muted/80",
-        notice:
-          "rounded-md bg-info-soft px-3 py-2 text-[13px] leading-5 text-foreground-strong [&>svg]:mt-[3px] [&>svg]:text-[oklch(0.55_0.11_220)] dark:[&>svg]:text-[oklch(0.8_0.1_220)]",
+        notice: "text-[13px] leading-5 text-foreground-muted [&>svg]:mt-[3px]",
         completion: "mt-2.5 text-[13px] leading-5 text-foreground-muted",
         scopeListViewport: "space-y-2 pr-1",
         actions: "mt-4 gap-2",

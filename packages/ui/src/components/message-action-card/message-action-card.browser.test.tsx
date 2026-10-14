@@ -9,6 +9,9 @@ import {
   MessageActionCardContent,
   MessageActionCardHeader,
   MessageActionCardHeaderTitle,
+  MessageActionCardHint,
+  MessageActionCardHintLabel,
+  MessageActionCardNotice,
   MessageActionCardScope,
   MessageActionCardScopeList,
   MessageActionCardScopeListViewport,
@@ -77,6 +80,46 @@ for (const theme of ["brutal", "elegant"] as const) {
     fireEvent.click(toggle);
     expect(toggle.getAttribute("aria-expanded")).toBe("false");
     await waitFor(() => expect(visibleHeight("body")).toBe(0));
+  });
+
+  it(`${theme}: the Reason label sits right above an italic quote; Raft's notice is a plain line with its icon on the left`, () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <div style={{ width: 480 }}>
+          <MessageActionCard defaultOpen>
+            <MessageActionCardContent>
+              <p>Body</p>
+              <MessageActionCardHintLabel data-testid="hint-label">
+                Reason
+              </MessageActionCardHintLabel>
+              <MessageActionCardHint data-testid="hint">
+                I need to file the issues.
+              </MessageActionCardHint>
+              <MessageActionCardNotice data-testid="notice">
+                <svg data-testid="notice-icon" viewBox="0 0 16 16" />
+                <span data-testid="notice-text">Installs the app for this whole Server.</span>
+              </MessageActionCardNotice>
+            </MessageActionCardContent>
+          </MessageActionCard>
+        </div>
+      </ThemeProvider>,
+    );
+    const label = screen.getByTestId("hint-label").getBoundingClientRect();
+    const quote = screen.getByTestId("hint");
+    const gap = quote.getBoundingClientRect().top - label.bottom;
+    expect(gap).toBeGreaterThanOrEqual(0);
+    expect(gap).toBeLessThanOrEqual(6);
+    expect(getComputedStyle(quote).fontStyle).toBe("italic");
+    expect(Number.parseFloat(getComputedStyle(quote).borderLeftWidth)).toBeGreaterThan(0);
+
+    const notice = getComputedStyle(screen.getByTestId("notice"));
+    expect(notice.backgroundColor).toBe("rgba(0, 0, 0, 0)");
+    expect(notice.borderTopWidth).toBe("0px");
+    expect(notice.fontStyle).toBe("normal");
+    const icon = screen.getByTestId("notice-icon").getBoundingClientRect();
+    const text = screen.getByTestId("notice-text").getBoundingClientRect();
+    expect(icon.right).toBeLessThanOrEqual(text.left);
+    expect(icon.top).toBeGreaterThanOrEqual(text.top - 1);
   });
 
   it(`${theme}: a long permission list scrolls inside a capped viewport instead of stretching the card`, () => {
