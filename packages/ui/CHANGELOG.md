@@ -1,3 +1,15 @@
+## [0.5.63](https://github.com/botiverse/rui/compare/v0.5.62...v0.5.63) (2026-10-15)
+
+### Added
+
+- `MessageActionCardHeaderDescription`: a line under the title, placed inside `MessageActionCardHeaderTitle`, for what happened on a Done or Declined card or why you cannot act on a View only one. It stays visible while the card is folded. ([#461](https://github.com/botiverse/rui/pull/461))
+
+### Changed
+
+- `MessageActionCardHeader` aligns to the top: icon, status and collapse toggle line up with the title's first line when the title wraps or carries a description. ([#461](https://github.com/botiverse/rui/pull/461))
+- `MessageActionCardNotice` is a tinted block (Elegant: soft fill, rounded; Brutal: inset fill, hairline border) meant to open the content, above the properties; it now carries a bottom margin instead of a top one. ([#461](https://github.com/botiverse/rui/pull/461))
+- `MessageActionCardHintLabel` and `MessageActionCardScopeListLabel` match the property label style in Elegant; `MessageActionCardActionsNote` reads in the foreground colour; the notice icon is centred on the first line. ([#461](https://github.com/botiverse/rui/pull/461))
+
 ## [0.5.62](https://github.com/botiverse/rui/compare/v0.5.61...v0.5.62) (2026-10-15)
 
 ### Added
