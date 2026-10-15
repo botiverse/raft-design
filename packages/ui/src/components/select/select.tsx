@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import type { ComponentPropsWithRef } from "react";
 import { Select as BaseSelect } from "@base-ui/react/select";
 import { Check, ChevronDown } from "lucide-react";
+import { cn } from "../../lib/cn";
 import type { DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
@@ -210,18 +211,44 @@ export function Select<Value, Multiple extends boolean | undefined = false>({
   );
 }
 
-export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props> & DataAttributes;
+export type SelectTriggerProps = StyledProps<BaseSelect.Trigger.Props> &
+  DataAttributes & {
+    /**
+     * Whether to wrap children in `<span data-slot="select-trigger-content">`.
+     * Defaults to `true`. Set to `false` when the custom trigger element
+     * (e.g. `AppRailItem` or an icon button) manages child layout directly.
+     */
+    wrapContent?: boolean;
+    /**
+     * Optional className applied to the content wrapper span when `wrapContent` is `true`.
+     */
+    contentClassName?: string;
+  };
 
 export function SelectTrigger({
   className,
   children,
   render,
+  wrapContent = true,
+  contentClassName,
   "data-invalid": dataInvalid,
   ...props
 }: SelectTriggerProps) {
   const theme = useThemeFamily();
   const chrome = useSelectChrome();
   const { trigger } = select({ theme, chrome });
+
+  const content = wrapContent ? (
+    <span
+      data-slot="select-trigger-content"
+      data-picker-trigger-content="select"
+      className={cn("flex min-w-0 flex-1 items-center gap-1.5", contentClassName)}
+    >
+      {children}
+    </span>
+  ) : (
+    children
+  );
 
   return (
     <BaseSelect.Trigger
@@ -231,13 +258,7 @@ export function SelectTrigger({
       data-invalid={dataInvalid || undefined}
       aria-invalid={dataInvalid ? "true" : undefined}
     >
-      <span
-        data-slot="select-trigger-content"
-        data-picker-trigger-content="select"
-        className="flex min-w-0 flex-1 items-center gap-1.5"
-      >
-        {children}
-      </span>
+      {content}
     </BaseSelect.Trigger>
   );
 }
