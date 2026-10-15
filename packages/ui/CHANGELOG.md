@@ -1,3 +1,9 @@
+## [0.5.62](https://github.com/botiverse/rui/compare/v0.5.61...v0.5.62) (2026-10-15)
+
+### Added
+
+- `AvatarBadge` accepts `offset?: [x, y]` — the badge centre measured from the avatar's top-left: numbers are px, strings are CSS lengths, percentages are of the avatar's size (`["100%", 0]` = top-right at every size and theme). Omitted, the theme's default corner and the recipe class are untouched. ([#459](https://github.com/botiverse/rui/pull/459))
+
 ## [0.5.61](https://github.com/botiverse/rui/compare/v0.5.60...v0.5.61) (2026-10-14)
 
 ### Added
