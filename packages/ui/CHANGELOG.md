@@ -1,3 +1,9 @@
+## [0.5.64](https://github.com/botiverse/rui/compare/v0.5.63...v0.5.64) (2026-10-15)
+
+### Changed
+
+- `SidebarItemThreadCount` draws the package's `ThreadIcon` (was lucide `MessageSquare`), at 12px with a 1.75 stroke; badge height is unchanged. ([#463](https://github.com/botiverse/rui/pull/463))
+
 ## [0.5.63](https://github.com/botiverse/rui/compare/v0.5.62...v0.5.63) (2026-10-15)
 
 ### Added
