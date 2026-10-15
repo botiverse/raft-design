@@ -683,6 +683,7 @@ export {
   type AvatarSize,
 } from "./components/avatar/index";
 export type {
+  AvatarBadgeOffset,
   AvatarBadgeProps,
   AvatarFallbackProps,
   AvatarGroupCountProps,
