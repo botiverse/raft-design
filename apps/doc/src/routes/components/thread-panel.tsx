@@ -237,6 +237,27 @@ const THREAD_PANEL_BODY_PROPS: readonly PropRow[] = [
   },
 ];
 
+const MESSAGE_LIST_PROPS: readonly PropRow[] = [
+  {
+    name: "nativeViewport",
+    type: "boolean",
+    default: "false",
+    description:
+      "Forces the single native scroll viewport used on mobile. Leave false to keep the responsive default: Base UI ScrollArea on desktop and a native viewport on mobile.",
+  },
+  {
+    name: "rootClassName",
+    type: "string",
+    description: "Class name for the outer message-list root rather than the scroll viewport.",
+  },
+  {
+    name: "...props",
+    type: "div props",
+    description:
+      "Props, render override, handlers, and ref for the active scroll viewport. The app retains pagination, anchoring, and virtualization ownership.",
+  },
+];
+
 const MESSAGE_LIST_DATE_DIVIDER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
@@ -406,6 +427,9 @@ function ThreadPanelDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-thread-panel-body" title="ThreadPanelBody">
             <PropsTable rows={THREAD_PANEL_BODY_PROPS} />
+          </DocSubsection>
+          <DocSubsection parentId="api" id="api-message-list" title="MessageList">
+            <PropsTable rows={MESSAGE_LIST_PROPS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"
