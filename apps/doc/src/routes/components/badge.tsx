@@ -50,6 +50,13 @@ const SNIPPETS = {
 <Badge appearance="outline" variant="primary">Outline</Badge>`,
   casing: `<Badge>task #42 @bugen</Badge>
 <Badge uppercase>In Progress</Badge>`,
+  sizes: `<Badge appearance="outline">Small</Badge>
+<Badge appearance="outline" size="md">Medium</Badge>
+
+<Badge appearance="outline" size="md">
+  <Clock className="size-3" />
+  roadmap
+</Badge>`,
   icons: `import { Badge, Status } from "raft-ui";
 
 <Badge variant="primary">
@@ -144,6 +151,13 @@ const PROPS: readonly PropRow[] = [
     default: '"default"',
     description:
       "Semantic label/status variant. Uses shared semantic color tokens instead of raw brutal color names.",
+  },
+  {
+    name: "size",
+    type: '"sm" | "md"',
+    default: '"sm"',
+    description:
+      "Box size. `sm` is the label size. `md` is a 24px box for a badge that is itself a click or tap target.",
   },
   {
     name: "uppercase",
@@ -304,6 +318,27 @@ function BadgeDoc() {
                 <Badge uppercase>In Progress</Badge>
               </Preview.Canvas>
               <Preview.Code html={code.casing} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="sizes" title="Sizes">
+            <p className="text-sm text-foreground-muted">
+              <code>sm</code> is the default and is for labels. Use <code>md</code> (24px high) when
+              the badge is itself what a person clicks or taps, such as a recent search or a
+              removable tag.
+            </p>
+            <Preview>
+              <Preview.Canvas>
+                <Badge appearance="outline">Small</Badge>
+                <Badge appearance="outline" size="md">
+                  Medium
+                </Badge>
+                <Badge appearance="outline" size="md">
+                  <Clock className="size-3" />
+                  roadmap
+                </Badge>
+              </Preview.Canvas>
+              <Preview.Code html={code.sizes} />
             </Preview>
           </DocSubsection>
 
