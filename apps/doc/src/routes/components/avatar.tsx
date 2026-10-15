@@ -24,6 +24,8 @@ import { createCompositionSnippetMap, createCompositionSourceMap } from "#/lib/c
 import { SIZES, SIZE_OPTIONS } from "#/modules/avatar/avatar.constants.ts";
 import { AvatarPlaygroundPreview } from "#/modules/avatar/avatar.preview.tsx";
 import avatarPreviewCompositionSource from "#/modules/avatar/compositions/preview.composition.tsx?raw";
+import { AvatarBadgeOffsetContent } from "#/modules/avatar/compositions/badge-offset.composition.tsx";
+import avatarBadgeOffsetCompositionSource from "#/modules/avatar/compositions/badge-offset.composition.tsx?raw";
 
 const TOC = [
   { id: "preview", title: "Preview" },
@@ -299,6 +301,12 @@ const AVATAR_FALLBACK_PROPS: readonly PropRow[] = [
 
 const AVATAR_BADGE_PROPS: readonly PropRow[] = [
   {
+    name: "offset",
+    type: "[string | number, string | number]",
+    description:
+      "Where the badge's centre sits, measured from the avatar's top-left: [x, y]. Numbers are px; strings are any CSS length, and percentages are of the avatar, so [\"100%\", 0] is the top-right corner at every size. Omit it to keep the theme's default bottom-right spot.",
+  },
+  {
     name: "render",
     type: "useRender render prop",
     description:
@@ -330,12 +338,14 @@ const AVATAR_GROUP_COUNT_PROPS: readonly PropRow[] = [
 
 const AVATAR_COMPOSITION_RAW_SOURCES = {
   Preview: avatarPreviewCompositionSource,
+  BadgeOffset: avatarBadgeOffsetCompositionSource,
 } as const;
 
 const AVATAR_COMPOSITION_SOURCES = createCompositionSourceMap(AVATAR_COMPOSITION_RAW_SOURCES);
 
 const AVATAR_COMPOSITION_SNIPPET_IDS = {
   Preview: "avatarPreviewComposition",
+  BadgeOffset: "avatarBadgeOffsetComposition",
 } as const;
 
 export const Route = createFileRoute("/components/avatar")({
@@ -454,6 +464,26 @@ function AvatarDoc() {
                 </div>
               </Preview.Canvas>
               <Preview.Code html={code.badge} collapsedHtml={code.badgeBody} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="badge-offset" title="Badge offset">
+            <DocNote>
+              <InlineCode>offset</InlineCode> places the badge anywhere on the avatar. It is the
+              position of the badge&apos;s <strong>centre</strong>, measured from the avatar&apos;s
+              top-left corner, as <InlineCode>[x, y]</InlineCode>. Numbers are px; strings are any
+              CSS length, and percentages are of the avatar&apos;s size — so the four corners are{" "}
+              <InlineCode>[0, 0]</InlineCode>, <InlineCode>{`["100%", 0]`}</InlineCode>,{" "}
+              <InlineCode>{`[0, "100%"]`}</InlineCode> and{" "}
+              <InlineCode>{`["100%", "100%"]`}</InlineCode> at every size and in both themes.
+              Without <InlineCode>offset</InlineCode> the badge keeps the theme&apos;s default
+              bottom-right spot; size and stacking stay owned by the avatar either way.
+            </DocNote>
+            <Preview previewClassName="!min-h-40">
+              <Preview.Canvas>
+                <AvatarBadgeOffsetContent />
+              </Preview.Canvas>
+              <Preview.Code html={code.avatarBadgeOffsetComposition} />
             </Preview>
           </DocSubsection>
 

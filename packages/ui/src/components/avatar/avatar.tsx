@@ -381,17 +381,38 @@ export function AvatarFallback({ className, children, ...props }: AvatarFallback
   );
 }
 
-export type AvatarBadgeProps = useRender.ComponentProps<"span">;
+export type AvatarBadgeOffset = [x: string | number, y: string | number];
+
+export type AvatarBadgeProps = useRender.ComponentProps<"span"> & {
+  /** Where the badge's centre sits, measured from the avatar's top-left:
+   *  `[x, y]`. Numbers are px; strings are any CSS length, and percentages
+   *  are of the avatar's size, so `["100%", 0]` is the top-right corner at
+   *  every size. Omit it to keep the theme's default bottom-right spot. */
+  offset?: AvatarBadgeOffset;
+};
+
+const toCssLength = (value: string | number) => (typeof value === "number" ? `${value}px` : value);
 
 // Corner presence shell. The parent avatar owns placement and size; the default
-// dot or a custom render only supplies the visual state.
-export function AvatarBadge({ className, render, ...props }: AvatarBadgeProps) {
+// dot or a custom render only supplies the visual state. `offset` replaces the
+// recipe's corner placement with an explicit centre point.
+export function AvatarBadge({ className, render, offset, ...props }: AvatarBadgeProps) {
   const theme = useThemeFamily();
   const { badge, dot } = avatar({ theme });
+  const offsetStyle = offset
+    ? {
+        top: toCssLength(offset[1]),
+        left: toCssLength(offset[0]),
+        right: "auto",
+        bottom: "auto",
+        translate: "-50% -50%",
+      }
+    : undefined;
   const defaultProps: useRender.ElementProps<"span"> = {
     className: badge({
       className: render ? className : dot({ className }),
     }),
+    style: offsetStyle,
   };
 
   return useRender({
