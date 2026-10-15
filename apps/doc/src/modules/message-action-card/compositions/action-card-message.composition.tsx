@@ -67,7 +67,9 @@ export function ActionCardComposition({
           <MessageActionCardHeaderTitle>
             {title}
             {resolution.kind === "completed" ? (
-              <MessageActionCardHeaderDescription>{resolution.detail}</MessageActionCardHeaderDescription>
+              <MessageActionCardHeaderDescription>
+                {resolution.detail}
+              </MessageActionCardHeaderDescription>
             ) : null}
           </MessageActionCardHeaderTitle>
           {resolution.kind === "completed" ? (

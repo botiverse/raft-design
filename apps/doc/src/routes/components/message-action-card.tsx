@@ -393,10 +393,10 @@ function MessageActionCardDoc() {
             <p className="text-sm leading-6 text-foreground-muted">
               Paused and confirm-again cards stay open because they still wait on the reader. Done,
               declined and view-only cards fold to their header with defaultOpen=false; the header
-              toggle opens them again. An open card's note left of the buttons says why it needs
-              you now or why it is paused; a folded card says what happened, or why you cannot
-              act, under its title, so the line shows while folded. A failed click is temporary: the product shows a toast and the card
-              stays as it was, ready to retry.
+              toggle opens them again. An open card's note left of the buttons says why it needs you
+              now or why it is paused; a folded card says what happened, or why you cannot act,
+              under its title, so the line shows while folded. A failed click is temporary: the
+              product shows a toast and the card stays as it was, ready to retry.
             </p>
             <UsagePreview
               code={code.actionCardResolutionStates}
