@@ -20,14 +20,15 @@ import {
 import {
   MessageActionCard,
   MessageActionCardActions,
-  MessageActionCardCompletion,
   MessageActionCardContent,
   MessageActionCardProperty,
   MessageActionCardPropertyLabel,
   MessageActionCardProperties,
   MessageActionCardPropertyValue,
   MessageActionCardHeader,
+  MessageActionCardHeaderDescription,
   MessageActionCardHeaderStatus,
+  MessageActionCardHeaderTitle,
   MessageActionCardHint,
 } from "raft-ui";
 
@@ -63,7 +64,14 @@ export function ActionCardComposition({
     <div className="grid gap-2">
       <MessageActionCard>
         <MessageActionCardHeader>
-          <span>{title}</span>
+          <MessageActionCardHeaderTitle>
+            {title}
+            {resolution.kind === "completed" ? (
+              <MessageActionCardHeaderDescription>
+                {resolution.detail}
+              </MessageActionCardHeaderDescription>
+            ) : null}
+          </MessageActionCardHeaderTitle>
           {resolution.kind === "completed" ? (
             <MessageActionCardHeaderStatus render={<Badge variant="success" />}>
               <Check aria-hidden className="size-3" />
@@ -89,9 +97,7 @@ export function ActionCardComposition({
                 {resolution.actionLabel}
               </Button>
             </MessageActionCardActions>
-          ) : resolution.kind === "completed" ? (
-            <MessageActionCardCompletion>{resolution.detail}</MessageActionCardCompletion>
-          ) : (
+          ) : resolution.kind === "completed" ? null : (
             <Banner status="warning" size="sm">
               <BannerDescription>{resolution.reason}</BannerDescription>
             </Banner>

@@ -32,6 +32,7 @@ const ANATOMY_SOURCE = `import {
   MessageActionCardContent,
   MessageActionCardHeader,
   MessageActionCardHeaderIcon,
+  MessageActionCardHeaderDescription,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
   MessageActionCardHintLabel,
@@ -52,11 +53,14 @@ const ANATOMY_SOURCE = `import {
 <MessageActionCard defaultOpen>
   <MessageActionCardHeader>
     <MessageActionCardHeaderIcon />
-    <MessageActionCardHeaderTitle />
+    <MessageActionCardHeaderTitle>
+      <MessageActionCardHeaderDescription />
+    </MessageActionCardHeaderTitle>
     <MessageActionCardStatus />
     <MessageActionCardCollapseTrigger aria-label="Show or hide details" />
   </MessageActionCardHeader>
   <MessageActionCardContent>
+    <MessageActionCardNotice />
     <MessageActionCardProperties>
       <MessageActionCardProperty>
         <MessageActionCardPropertyLabel />
@@ -74,7 +78,6 @@ const ANATOMY_SOURCE = `import {
         </MessageActionCardScope>
       </MessageActionCardScopeListViewport>
     </MessageActionCardScopeList>
-    <MessageActionCardNotice />
     <MessageActionCardActions>
       <MessageActionCardActionsNote />
     </MessageActionCardActions>
@@ -113,6 +116,12 @@ const MESSAGE_ACTION_CARD_NEW_PARTS: readonly PropRow[] = [
     description: "Title text; takes the remaining width so status and toggle sit at the end.",
   },
   {
+    name: "MessageActionCardHeaderDescription",
+    type: 'useRender.ComponentProps<"span">',
+    description:
+      "A line under the title, placed inside MessageActionCardHeaderTitle: what happened on a Done or Declined card, or why you cannot act on a View only one. It stays visible while the card is folded.",
+  },
+  {
     name: "MessageActionCardStatus",
     type: "BadgeProps",
     description:
@@ -132,7 +141,8 @@ const MESSAGE_ACTION_CARD_NEW_PARTS: readonly PropRow[] = [
   {
     name: "MessageActionCardActionsNote",
     type: 'useRender.ComponentProps<"div">',
-    description: "Left side of the actions row: why the card cannot act, or who resolved it.",
+    description:
+      "Left side of the actions row on an open card: why it needs you now (Confirm again) or why it is paused. A card that folds by default puts its line in MessageActionCardHeaderDescription instead.",
   },
 ];
 
@@ -256,7 +266,7 @@ const MESSAGE_ACTION_CARD_NOTICE_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
     description:
-      "Raft's standing note about what the action does or who may run it. One quiet line, no background; only for the cards that need one. The agent's own reason goes in MessageActionCardHint, not a notice.",
+      "Raft's standing note about what the action does or who may run it. A tinted block with a leading icon that opens the content, above the properties; only for the cards that need one. The agent's own reason goes in MessageActionCardHint, not a notice.",
   },
   {
     name: "icon",
@@ -277,7 +287,8 @@ const MESSAGE_ACTION_CARD_COMPLETION_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description: "Post-commit result and actor summary supplied by the consumer.",
+    description:
+      "Legacy result line at the end of the content. Prefer MessageActionCardHeaderDescription, which stays visible when the card is folded.",
   },
 ];
 
@@ -382,9 +393,10 @@ function MessageActionCardDoc() {
             <p className="text-sm leading-6 text-foreground-muted">
               Paused and confirm-again cards stay open because they still wait on the reader. Done,
               declined and view-only cards fold to their header with defaultOpen=false; the header
-              toggle opens them again. The note left of the buttons says why a card cannot act, or
-              who resolved it. A failed click is temporary: the product shows a toast and the card
-              stays as it was, ready to retry.
+              toggle opens them again. An open card's note left of the buttons says why it needs you
+              now or why it is paused; a folded card says what happened, or why you cannot act,
+              under its title, so the line shows while folded. A failed click is temporary: the
+              product shows a toast and the card stays as it was, ready to retry.
             </p>
             <UsagePreview
               code={code.actionCardResolutionStates}

@@ -8,6 +8,7 @@ import {
   MessageActionCardCollapseTrigger,
   MessageActionCardContent,
   MessageActionCardHeader,
+  MessageActionCardHeaderDescription,
   MessageActionCardHeaderIcon,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
@@ -86,7 +87,7 @@ for (const theme of ["brutal", "elegant"] as const) {
     await waitFor(() => expect(visibleHeight("body")).toBe(0));
   });
 
-  it(`${theme}: the Reason label sits right above an italic quote; Raft's notice is a plain line with its icon on the left`, () => {
+  it(`${theme}: the Reason label sits right above an italic quote; Raft's notice is a tinted block with its icon on the left`, () => {
     render(
       <ThemeProvider theme={theme}>
         <div style={{ width: 480 }}>
@@ -116,8 +117,8 @@ for (const theme of ["brutal", "elegant"] as const) {
     expect(Number.parseFloat(getComputedStyle(quote).borderLeftWidth)).toBeGreaterThan(0);
 
     const notice = getComputedStyle(screen.getByTestId("notice"));
-    expect(notice.backgroundColor).toBe("rgba(0, 0, 0, 0)");
-    expect(notice.borderTopWidth).toBe("0px");
+    expect(notice.backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    expect(Number.parseFloat(notice.paddingLeft)).toBeGreaterThan(0);
     expect(notice.fontStyle).toBe("normal");
     // The info icon is there by default; the caller passed text only.
     const icon = screen.getByTestId("notice").querySelector("svg")!.getBoundingClientRect();
@@ -125,6 +126,63 @@ for (const theme of ["brutal", "elegant"] as const) {
     expect(icon.width).toBeGreaterThan(0);
     expect(icon.right).toBeLessThanOrEqual(text.left);
     expect(icon.top).toBeGreaterThanOrEqual(text.top - 1);
+  });
+
+  it(`${theme}: a folded card keeps its description under the title; icon, status and toggle line up with the title's first line`, () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <div style={{ width: 280 }}>
+          <MessageActionCard defaultOpen={false}>
+            <MessageActionCardHeader>
+              <MessageActionCardHeaderIcon data-testid="icon" />
+              <MessageActionCardHeaderTitle data-testid="title">
+                Create private channel #release-review
+                <MessageActionCardHeaderDescription data-testid="description">
+                  Declined by Ada. Nothing was changed.
+                </MessageActionCardHeaderDescription>
+              </MessageActionCardHeaderTitle>
+              <MessageActionCardStatus data-testid="status" variant="muted">
+                Declined
+              </MessageActionCardStatus>
+              <MessageActionCardCollapseTrigger
+                data-testid="toggle"
+                aria-label="Show or hide details"
+              />
+            </MessageActionCardHeader>
+            <MessageActionCardContent>
+              <p data-testid="body">Coordinate the final release review.</p>
+            </MessageActionCardContent>
+          </MessageActionCard>
+        </div>
+      </ThemeProvider>,
+    );
+    expect(visibleHeight("body")).toBe(0);
+    const description = screen.getByTestId("description").getBoundingClientRect();
+    const title = screen.getByTestId("title");
+    expect(description.height).toBeGreaterThan(0);
+    // Its own line: starts at the title's left edge, below the title text.
+    const titleText = document.createRange();
+    titleText.selectNodeContents(title.firstChild!);
+    const titleRects = [...titleText.getClientRects()];
+    expect(Math.abs(description.left - title.getBoundingClientRect().left)).toBeLessThanOrEqual(1);
+    expect(description.top).toBeGreaterThanOrEqual(titleRects.at(-1)!.bottom - 1);
+
+    // The title wraps at this width; measure its first line, not the block.
+    const range = document.createRange();
+    range.setStart(title.firstChild!, 0);
+    range.setEnd(title.firstChild!, 1);
+    const line = range.getClientRects()[0]!;
+    const lineMid = line.top + line.height / 2;
+    expect(title.getBoundingClientRect().height).toBeGreaterThan(line.height * 2.5);
+    // The status badge's even height leaves up to 1.5px of rounding.
+    for (const [id, tolerance] of [
+      ["icon", 1],
+      ["status", 1.5],
+      ["toggle", 1],
+    ] as const) {
+      const box = screen.getByTestId(id).getBoundingClientRect();
+      expect(Math.abs(box.top + box.height / 2 - lineMid), id).toBeLessThanOrEqual(tolerance);
+    }
   });
 
   it(`${theme}: a long permission list scrolls inside a capped viewport instead of stretching the card`, () => {

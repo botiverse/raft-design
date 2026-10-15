@@ -93,6 +93,27 @@ export function MessageActionCardHeaderTitle({
 }
 
 /**
+ * A line under the title: what happened on a resolved card ("Installed by Ada
+ * → Lens"), or why you cannot act on a view-only one. Place it inside
+ * MessageActionCardHeaderTitle; it stays visible while the card is folded.
+ */
+export function MessageActionCardHeaderDescription({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"span">) {
+  const theme = useThemeFamily();
+  const { headerDescription } = messageActionCard({ theme });
+
+  return useRender({
+    defaultTagName: "span",
+    render,
+    props: mergeProps<"span">({ className: headerDescription({ className }) }, props),
+    state: { slot: "message-action-card-header-description" },
+  });
+}
+
+/**
  * The card's state label in the header. Brutal shows it as a solid,
  * saturated badge; Elegant as the soft tinted badge, so a column of "Done"
  * cards does not shout.
@@ -457,6 +478,7 @@ export type MessageActionCardProps = useRender.ComponentProps<"div"> & {
 };
 export type MessageActionCardHeaderIconProps = useRender.ComponentProps<"span">;
 export type MessageActionCardHeaderTitleProps = useRender.ComponentProps<"span">;
+export type MessageActionCardHeaderDescriptionProps = useRender.ComponentProps<"span">;
 export type MessageActionCardStatusProps = BadgeProps;
 export type MessageActionCardCollapseTriggerProps = Omit<
   ComponentProps<typeof Collapsible.Trigger>,

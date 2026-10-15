@@ -8,6 +8,7 @@ import {
   MessageActionCardCollapseTrigger,
   MessageActionCardContent,
   MessageActionCardHeader,
+  MessageActionCardHeaderDescription,
   MessageActionCardHeaderIcon,
   MessageActionCardHeaderTitle,
   MessageActionCardHint,
@@ -69,19 +70,30 @@ export function ActionCardDemo({
   const status = STATUS[state];
   const resolved = state === "done" || state === "declined";
   const blocked = state === "paused" || state === "view-only";
+  // A card that folds by default explains its state under the title, so the
+  // line is visible folded; the others keep their note beside the buttons.
+  const folds = foldsByDefault(state);
   const note = state === "done" ? card.result : NOTE[state];
 
   return (
-    <MessageActionCard key={`${card.kind}-${state}`} defaultOpen={!foldsByDefault(state)}>
+    <MessageActionCard key={`${card.kind}-${state}`} defaultOpen={!folds}>
       <MessageActionCardHeader>
         <MessageActionCardHeaderIcon>{Icon ? <Icon /> : null}</MessageActionCardHeaderIcon>
-        <MessageActionCardHeaderTitle>{card.title}</MessageActionCardHeaderTitle>
+        <MessageActionCardHeaderTitle>
+          {card.title}
+          {folds && note ? (
+            <MessageActionCardHeaderDescription>{note}</MessageActionCardHeaderDescription>
+          ) : null}
+        </MessageActionCardHeaderTitle>
         {status ? (
           <MessageActionCardStatus variant={status.variant}>{status.label}</MessageActionCardStatus>
         ) : null}
         {status ? <MessageActionCardCollapseTrigger aria-label="Show or hide details" /> : null}
       </MessageActionCardHeader>
       <MessageActionCardContent>
+        {card.notice && !resolved ? (
+          <MessageActionCardNotice>{card.notice}</MessageActionCardNotice>
+        ) : null}
         <MessageActionCardProperties>
           {card.properties.map((property) => (
             <MessageActionCardProperty key={property.label}>
@@ -115,26 +127,23 @@ export function ActionCardDemo({
             </MessageActionCardScopeListViewport>
           </MessageActionCardScopeList>
         ) : null}
-        {card.notice && !resolved ? (
-          <MessageActionCardNotice>{card.notice}</MessageActionCardNotice>
-        ) : null}
-        <MessageActionCardActions>
-          {note ? <MessageActionCardActionsNote>{note}</MessageActionCardActionsNote> : null}
-          {resolved ? null : (
-            <>
-              <Button size="sm" variant="ghost" disabled={blocked}>
-                Decline
-              </Button>
-              <Button size="sm" variant="accent" disabled={blocked}>
-                {state === "confirm-again"
-                  ? "Reconfirm"
-                  : card.pattern === "review"
-                    ? "Review"
-                    : card.verb}
-              </Button>
-            </>
-          )}
-        </MessageActionCardActions>
+        {resolved ? null : (
+          <MessageActionCardActions>
+            {note && !folds ? (
+              <MessageActionCardActionsNote>{note}</MessageActionCardActionsNote>
+            ) : null}
+            <Button size="sm" variant="ghost" disabled={blocked}>
+              Decline
+            </Button>
+            <Button size="sm" variant="accent" disabled={blocked}>
+              {state === "confirm-again"
+                ? "Reconfirm"
+                : card.pattern === "review"
+                  ? "Review"
+                  : card.verb}
+            </Button>
+          </MessageActionCardActions>
+        )}
       </MessageActionCardContent>
     </MessageActionCard>
   );
