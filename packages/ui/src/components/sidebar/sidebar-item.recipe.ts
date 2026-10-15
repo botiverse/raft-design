@@ -41,7 +41,7 @@ export const sidebarItemRecipe = tv({
     sidebarItemCountSeparator: ["mx-0.5 opacity-60"],
     sidebarItemThreadCount: [
       "inline-flex items-center gap-0.5",
-      "[&>svg]:size-2.5 [&>svg]:shrink-0 [&>svg]:translate-y-0",
+      "[&>svg]:size-3 [&>svg]:shrink-0 [&>svg]:translate-y-0",
     ],
   },
   variants: {

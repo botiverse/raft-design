@@ -1,13 +1,13 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { MessageSquare } from "lucide-react";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import type { VariantProps } from "../../lib/tv";
 import { sidebarItemRecipe } from "./sidebar-item.recipe";
+import { ThreadIcon } from "../icons";
 
 export type SidebarItemRootProps = useRender.ComponentProps<"button"> & {
   active?: boolean;
@@ -301,7 +301,7 @@ export function SidebarItemThreadCount({
     className: sidebarItemThreadCount({ className }),
     children: (
       <>
-        <MessageSquare aria-hidden strokeWidth={2.5} />
+        <ThreadIcon strokeWidth={1.75} />
         {children}
         <span className="sr-only"> {label}</span>
       </>
