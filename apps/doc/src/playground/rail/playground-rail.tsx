@@ -247,9 +247,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
                   <TooltipTrigger
                     render={
                       <SelectTrigger
-                        render={
-                          <AppRailItem className="**:data-[slot=select-trigger-content]:contents" />
-                        }
+                        render={<AppRailItem />}
                         aria-label="Select Playground theme"
                       />
                     }
@@ -301,14 +299,7 @@ export function PlaygroundRail({ showBottomNavigation }: { showBottomNavigation:
             <MobileNavLabel>Members</MobileNavLabel>
           </MobileNavItem>
           <PlaygroundThemeSelect side="top">
-            <SelectTrigger
-              render={
-                <MobileNavItem
-                  className="**:data-[slot=select-trigger-content]:contents"
-                  aria-label="Select Playground theme"
-                />
-              }
-            >
+            <SelectTrigger render={<MobileNavItem aria-label="Select Playground theme" />}>
               <Settings />
               <MobileNavLabel>Settings</MobileNavLabel>
             </SelectTrigger>
