@@ -140,6 +140,18 @@ export const drawer = tv({
         title: ["font-sans text-2xl leading-8 font-semibold"],
         description: ["font-sans text-sm leading-5 text-foreground-muted"],
       },
+      raft: {
+        overlay: ["bg-transparent"],
+        popup: ["bg-layer-popover text-foreground", "shadow-raft-float ring-1 ring-line-seam"],
+        swipeHandle: ["before:rounded-[1px] before:bg-line-seam"],
+        closeIcon: ["size-5.5"],
+        header: ["items-stretch gap-1 px-4 pt-4 pb-2 text-left"],
+        body: ["items-stretch px-4 pt-2 pb-4 text-left"],
+        footer: ["px-4 pt-3 pb-4"],
+        actions: ["gap-2"],
+        title: ["max-w-none text-left font-sans text-headline font-bold"],
+        description: ["max-w-none text-left font-sans text-callout text-foreground-muted"],
+      },
     },
     side: {
       down: {
@@ -210,6 +222,40 @@ export const drawer = tv({
       axis: "x",
       class: {
         popup: ["md:max-w-md"],
+      },
+    },
+    {
+      theme: "raft",
+      axis: "x",
+      class: {
+        popup: ["inset-y-0 w-full max-w-[420px] [--drawer-inset:0px]"],
+        header: ["min-h-14 shrink-0 items-center gap-2 border-b border-line-seam py-0 pr-3 pl-5"],
+        body: ["min-h-0 overflow-y-auto px-5 py-4"],
+        footer: ["border-t border-line-seam px-5 py-3"],
+        actions: ["flex-row flex-wrap justify-end", "**:data-[slot=button]:w-auto"],
+        swipeHandle: ["before:w-1 before:h-9"],
+      },
+    },
+    {
+      theme: "raft",
+      axis: "y",
+      class: {
+        popup: ["inset-x-0"],
+        swipeHandle: ["h-4", "before:top-1.5 before:h-1 before:w-9"],
+      },
+    },
+    {
+      theme: "raft",
+      side: "down",
+      class: {
+        popup: ["rounded-t-dialog [--drawer-inset:0px]", "pb-[env(safe-area-inset-bottom,0px)]"],
+      },
+    },
+    {
+      theme: "raft",
+      side: "up",
+      class: {
+        popup: ["rounded-b-dialog [--drawer-inset:0px]", "pt-[env(safe-area-inset-top,0px)]"],
       },
     },
     {

@@ -57,6 +57,16 @@ const copyableCode = tv({
           "**:data-[slot=button]:hover:bg-transparent **:data-[slot=button]:hover:text-foreground **:data-[slot=button]:hover:before:bg-transparent",
         ],
       },
+      raft: {
+        code: [
+          "rounded-control border border-line-muted bg-layer-code",
+          "text-mono-code text-foreground",
+        ],
+        iconSwap: [
+          "size-4",
+          "**:data-[slot=copyable-code-icon]:size-4 **:data-[slot=copyable-code-icon]:stroke-2",
+        ],
+      },
     },
     size: {
       sm: {
@@ -71,6 +81,8 @@ const copyableCode = tv({
     size: "md",
   },
   compoundVariants: [
+    { theme: "raft", size: "sm", class: { code: "py-[5px]" } },
+    { theme: "raft", size: "md", class: { code: "min-h-10 py-[9px]" } },
     {
       theme: "elegant",
       size: "sm",
@@ -205,12 +217,18 @@ export function CopyableCodeAction({
   variant,
   ...props
 }: CopyableCodeActionProps) {
-  const { copied, copyValue } = useCopyableCode("CopyableCodeAction");
+  const { copied, copyValue, size: codeSize } = useCopyableCode("CopyableCodeAction");
   const theme = useThemeFamily();
   const { action } = copyableCode({ theme });
   const accessibleLabel = copied ? "Copied code" : "Copy code";
-  const buttonSize = size ?? (theme === "elegant" ? "icon-xs" : "icon-sm");
-  const buttonVariant = variant ?? (theme === "elegant" ? "ghost" : "outline");
+  const buttonSize =
+    size ??
+    (theme === "elegant"
+      ? "icon-xs"
+      : theme === "raft" && codeSize === "md"
+        ? "icon-md"
+        : "icon-sm");
+  const buttonVariant = variant ?? (theme === "brutal" ? "outline" : "ghost");
 
   const handleClick = useCallback<NonNullable<ButtonProps["onClick"]>>(
     async (event) => {
@@ -243,7 +261,8 @@ export function CopyableCodeAction({
 }
 
 function CopyableCodeActionIcon({ copied }: { copied: boolean }) {
-  const { iconSwap } = copyableCode();
+  const theme = useThemeFamily();
+  const { iconSwap } = copyableCode({ theme });
 
   return (
     <span

@@ -43,6 +43,15 @@ export const buttonVariants = tv({
       brutal: {
         root: ["border-2 font-bold"],
       },
+      raft: {
+        root: [
+          "border-[1.5px] font-sans font-bold shadow-none",
+          "focus-visible:shadow-raft-focus",
+          "disabled:opacity-100 aria-disabled:opacity-100",
+          "disabled:border-line-muted disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled",
+          "aria-disabled:border-line-muted aria-disabled:bg-fill-muted aria-disabled:bg-none aria-disabled:text-foreground-disabled",
+        ],
+      },
       elegant: {
         root: [
           "overflow-clip border-0 font-sans font-medium antialiased",
@@ -172,6 +181,104 @@ export const buttonVariants = tv({
     size: "md",
   },
   compoundVariants: [
+    {
+      theme: "raft",
+      size: ["xs", "icon-xs"],
+      class: { root: "rounded-chip text-xs leading-4" },
+    },
+    {
+      theme: "raft",
+      size: ["sm", "md", "icon-sm", "icon-md"],
+      class: { root: "rounded-control text-footnote font-bold" },
+    },
+    {
+      theme: "raft",
+      size: "lg",
+      class: {
+        root: [
+          "h-11 rounded-control px-4 text-subhead font-bold",
+          "has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
+          "[&_svg:not([class*='size-'])]:size-4.5",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      size: "icon-lg",
+      class: { root: "size-11 rounded-control [&_svg:not([class*='size-'])]:size-5" },
+    },
+    {
+      theme: "raft",
+      variant: ["primary", "accent"],
+      class: {
+        root: [
+          "border-sticker-ink bg-accent-400 text-sticker-ink",
+          "hover:bg-accent-400 hover:press-overlay-sticker active:press-overlay-sticker",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: ["default", "outline", "information", "success", "muted"],
+      class: {
+        root: [
+          "border-line-strong bg-layer-card text-foreground",
+          "hover:bg-layer-card hover:press-overlay active:press-overlay",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: ["danger-secondary", "danger-outline"],
+      class: {
+        root: [
+          "border-line-strong bg-layer-card text-danger-strong",
+          "hover:bg-layer-card hover:press-overlay active:press-overlay",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: "ghost",
+      class: {
+        root: [
+          "border-transparent bg-transparent text-foreground",
+          "hover:border-transparent hover:bg-fill-pressed active:bg-fill-pressed",
+          "aria-disabled:hover:bg-transparent",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: "link",
+      class: {
+        root: [
+          "border-transparent bg-transparent px-0 text-foreground",
+          "underline decoration-[1.5px] underline-offset-[3px]",
+          "hover:bg-transparent hover:decoration-accent-500",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: "warning",
+      class: {
+        root: [
+          "border-sticker-ink bg-warning text-sticker-ink",
+          "hover:bg-warning hover:press-overlay-sticker active:press-overlay-sticker",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: "danger",
+      class: {
+        root: [
+          "border-sticker-ink bg-danger text-sticker-ink",
+          "hover:border-sticker-ink hover:bg-danger hover:press-overlay-sticker active:press-overlay-sticker",
+        ],
+      },
+    },
     {
       theme: "elegant",
       size: "xs",

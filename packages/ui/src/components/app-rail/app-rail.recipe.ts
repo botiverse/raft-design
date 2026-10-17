@@ -42,6 +42,35 @@ export const appRail = tv({
         itemBadge: "border-2 border-black bg-brutal-pink text-black",
         itemAttentionMask: "hidden",
       },
+      raft: {
+        root: [
+          "w-[calc(var(--shell-header-height,56px)+1px)] border-r border-line-seam",
+          "bg-layer-frame text-foreground-on-frame",
+          "[@media(max-height:600px)]:w-[49px]",
+        ],
+        header: [
+          "h-(--shell-header-height,56px) border-b border-line-seam",
+          "[@media(max-height:600px)]:h-12",
+        ],
+        nav: ["gap-1.5 pt-1 pb-2"],
+        footer: ["h-auto gap-1.5 pb-3 [@media(max-height:600px)]:pb-1.5"],
+        item: [
+          "size-10 rounded-control border-[1.5px] border-transparent",
+          "text-foreground-on-frame [&_svg]:size-5",
+          "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed",
+          "data-[selected=true]:border-line-frame-active data-[selected=true]:bg-layer-frame-active",
+          "data-[selected=true]:text-foreground-on-frame-active",
+          "focus-visible:shadow-raft-focus",
+          "[@media(max-height:600px)]:size-9",
+        ],
+        itemBadge: [
+          "h-4 min-w-4 rounded-sticker px-1",
+          "bg-accent-400 text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "font-mono text-[10px] font-bold leading-4 tabular-nums",
+        ],
+        itemAttentionMask: "hidden",
+        itemIndicator: "-top-1 -right-1",
+      },
       elegant: {
         root: "w-14 bg-layer-canvas-muted",
         header: "h-(--shell-header-height,56px) border-b-0",

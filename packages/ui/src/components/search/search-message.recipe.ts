@@ -64,6 +64,32 @@ export const searchMessage = tv({
         messageTimestamp: ["font-sans tabular-nums text-foreground-muted/70"],
         messageMatch: ["bg-primary-400/70 text-primary-950 [font:inherit]", "dark:bg-primary-400"],
       },
+      raft: {
+        message: [
+          "relative block rounded-none border-0 bg-transparent px-4 py-3 text-foreground shadow-none",
+          "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-4 not-first:before:border-t not-first:before:border-line-muted",
+          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "disabled:cursor-default disabled:hover:bg-transparent disabled:active:bg-transparent",
+          "data-[selected=true]:bg-primary-soft data-[selected=true]:hover:bg-primary-soft",
+          "outline-none focus-visible:shadow-[inset_0_0_0_2px_var(--foreground)]",
+        ],
+        messageHeader: [
+          "min-w-0 flex-nowrap gap-1.5",
+          "font-mono text-mono-meta text-foreground-hint",
+        ],
+        messageBody: ["mt-0.5 font-sans text-callout text-foreground-muted"],
+        messageMeta: ["min-w-0 truncate"],
+        messageThreadMeta: ["shrink-0 [&_svg]:size-3"],
+        messageSender: [
+          "order-first shrink-0 gap-1.5 whitespace-nowrap",
+          "font-sans text-callout font-bold text-foreground",
+        ],
+        messageTimestamp: ["ml-auto shrink-0 whitespace-nowrap"],
+        messageMatch: [
+          "rounded-sticker bg-primary px-[3px] box-decoration-clone",
+          "font-bold text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+        ],
+      },
     },
     nested: {
       false: {},

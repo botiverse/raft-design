@@ -38,6 +38,15 @@ export const activityInboxToolbar = tv({
         ],
         selectionCount: ["font-medium text-foreground-strong"],
       },
+      raft: {
+        controls: ["bg-layer-panel px-4 py-3"],
+        selectionToolbar: [
+          "border-b border-line-muted bg-layer-panel px-4",
+          "**:data-[activity-inbox-action=sort]:text-foreground-muted",
+          "[&_[data-activity-inbox-action=sort]:hover]:text-foreground",
+        ],
+        selectionCount: ["text-footnote font-bold text-foreground"],
+      },
     },
   },
 });

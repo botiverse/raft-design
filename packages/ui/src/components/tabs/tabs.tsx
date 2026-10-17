@@ -55,6 +55,23 @@ const tabs = tv({
         ],
       },
       elegant: {},
+      raft: {
+        list: [
+          "relative isolate flex w-max max-w-full",
+          "overscroll-contain whitespace-nowrap",
+          "scrollbar-none [&::-webkit-scrollbar]:hidden",
+        ],
+        background: "hidden",
+        tab: [
+          "font-sans text-callout font-semibold text-foreground-muted",
+          "transition-[background-color,box-shadow,color] duration-100 ease-out",
+          "after:absolute after:content-['']",
+          "focus-visible:shadow-raft-focus",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+        ],
+        indicator: "hidden",
+      },
     },
     variant: {
       default: {},
@@ -86,6 +103,89 @@ const tabs = tv({
       class: {
         list: ["flex-col overflow-y-auto", "data-[sorting=true]:overflow-y-hidden"],
         tab: ["justify-start", "[&+&]:before:inset-x-0 [&+&]:before:top-0 [&+&]:before:h-0.5"],
+      },
+    },
+    {
+      theme: "raft",
+      variant: "default",
+      class: {
+        list: "gap-0.5 p-[3px]",
+        background: [
+          "pointer-events-none absolute inset-0 z-0 block",
+          "rounded-[calc(var(--radius-control)+3px)] bg-fill-muted",
+        ],
+        tab: [
+          "h-8 justify-center gap-1.5 rounded-control border-[1.5px] border-transparent px-3",
+          "after:inset-x-0 after:-inset-y-1.5",
+          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "data-active:border-sticker-ink data-active:bg-primary data-active:font-bold data-active:text-sticker-ink",
+          "data-active:active:press-overlay-sticker",
+          "data-disabled:bg-transparent",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: "underline",
+      class: {
+        list: "gap-5",
+        tab: [
+          "h-11 justify-center rounded-none border-0 bg-transparent px-0",
+          "after:inset-y-0 after:-inset-x-2.5",
+          "hover:text-foreground active:text-foreground",
+          "data-active:text-foreground",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      placement: ["top", "bottom"],
+      class: {
+        list: [
+          "items-center overflow-x-auto overflow-y-hidden",
+          "data-[sorting=true]:overflow-x-hidden",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      placement: ["left", "right"],
+      class: {
+        list: [
+          "flex-col items-stretch overflow-x-hidden overflow-y-auto",
+          "data-[sorting=true]:overflow-y-hidden",
+        ],
+        tab: "justify-start",
+      },
+    },
+    {
+      theme: "raft",
+      variant: "underline",
+      placement: "top",
+      class: { tab: "data-active:shadow-[inset_0_-2px_0_var(--foreground)]" },
+    },
+    {
+      theme: "raft",
+      variant: "underline",
+      placement: "bottom",
+      class: { tab: "data-active:shadow-[inset_0_2px_0_var(--foreground)]" },
+    },
+    {
+      theme: "raft",
+      variant: "underline",
+      placement: "left",
+      class: {
+        list: "gap-0 border-r border-line-seam",
+        tab: "h-9 px-4 data-active:shadow-[inset_-2px_0_0_var(--foreground)]",
+      },
+    },
+    {
+      theme: "raft",
+      variant: "underline",
+      placement: "right",
+      class: {
+        list: "gap-0 border-l border-line-seam",
+        tab: "h-9 px-4 data-active:shadow-[inset_2px_0_0_var(--foreground)]",
       },
     },
     {
@@ -353,7 +453,7 @@ export function TabsList({ className, children, variant = "default", ...props }:
   const theme = useThemeFamily();
   const placement = use(TabsPlacementContext);
   const reorder = use(TabsReorderContext);
-  const resolvedVariant = theme === "elegant" ? variant : "underline";
+  const resolvedVariant = theme === "brutal" ? "underline" : variant;
   const { list } = tabs({ theme, variant: resolvedVariant, placement });
 
   return (
@@ -520,7 +620,7 @@ function TabsTabButton<T extends string = string>({
   const placement = use(TabsPlacementContext);
   const { content, tab } = tabs({
     theme,
-    variant: theme === "elegant" ? variant : "underline",
+    variant: theme === "brutal" ? "underline" : variant,
     placement,
   });
 
@@ -562,7 +662,7 @@ export function TabsBackground({ className, ...props }: TabsBackgroundProps) {
   const placement = use(TabsPlacementContext);
   const { background } = tabs({
     theme,
-    variant: theme === "elegant" ? variant : "underline",
+    variant: theme === "brutal" ? "underline" : variant,
     placement,
   });
 
@@ -584,7 +684,7 @@ export function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
   const placement = use(TabsPlacementContext);
   const { indicator } = tabs({
     theme,
-    variant: theme === "elegant" ? variant : "underline",
+    variant: theme === "brutal" ? "underline" : variant,
     placement,
   });
   return (

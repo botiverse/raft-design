@@ -96,6 +96,16 @@ const progress = tv({
           "dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.08),0_1px_1px_color-mix(in_oklab,var(--progress-color)_14%,transparent),0_2px_3px_color-mix(in_oklab,var(--progress-color)_7%,transparent)]",
         ],
       },
+      raft: {
+        root: ["font-sans", "data-complete:[--progress-indicator:var(--color-success)]"],
+        label: ["text-footnote font-semibold text-foreground"],
+        value: ["font-mono text-mono-meta text-foreground-hint"],
+        track: [
+          "h-2 group-data-[size=sm]/progress:h-1.5 group-data-[size=lg]/progress:h-2.5",
+          "rounded-sticker",
+        ],
+        indicator: ["rounded-[inherit] shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]"],
+      },
     },
     variant: {
       primary: {
@@ -145,7 +155,18 @@ const progress = tv({
     variant: "primary",
     size: "md",
   },
-  compoundVariants: [],
+  compoundVariants: [
+    {
+      theme: "raft",
+      variant: ["primary", "information", "accent"],
+      class: {
+        root: [
+          "[--progress-color:var(--color-info)]",
+          "[--progress-light:var(--color-info-muted)]",
+        ],
+      },
+    },
+  ],
 });
 
 const progressStyle = (

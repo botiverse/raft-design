@@ -42,6 +42,11 @@ const emptyState = tv({
         title: "text-sm font-medium text-foreground dark:text-foreground-muted",
         description: "text-foreground-muted",
       },
+      raft: {
+        icon: "text-foreground-hint [&_svg]:size-9",
+        title: "font-sans text-headline font-bold text-foreground-muted",
+        description: "max-w-[300px] text-callout text-foreground-hint",
+      },
     },
   },
 });

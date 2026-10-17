@@ -22,6 +22,13 @@ export const messageMultiSelect = tv({
           "dark:border-transparent",
         ],
       },
+      raft: {
+        checkbox: "mt-2 rounded-sticker",
+        toolbar: [
+          "gap-2 rounded-container px-2.5 py-2",
+          "bg-layer-popover ring-1 ring-line-seam shadow-raft-float",
+        ],
+      },
     },
   },
 });

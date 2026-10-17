@@ -81,6 +81,24 @@ export const filePreview = tv({
       elegant: {
         badge: "px-1",
       },
+      raft: {
+        document: "bg-layer-card shadow-none ring-line-muted dark:ring-line-muted",
+        file: "bg-layer-card shadow-none ring-line-muted dark:ring-line-muted",
+        code: "bg-layer-card shadow-none ring-line-muted dark:ring-line-muted",
+        media: "bg-fill-muted shadow-none ring-line-muted dark:ring-line-muted",
+        fileZipDark: "bg-foreground/40",
+        fileZipLight: "bg-foreground/15",
+        fileZipPull: "border-foreground/40 bg-foreground/10",
+        codeTagLine: "bg-foreground/40",
+        codeAttributeLine: "bg-foreground/25",
+        codeSelfClosingLine: "bg-foreground/40",
+        badge: [
+          "rounded-sticker px-1 font-bold",
+          "bg-fill-muted text-foreground-muted ring-1 ring-line-muted",
+          "shadow-none text-shadow-none [text-shadow:none] after:hidden",
+          "dark:bg-fill-muted dark:text-foreground-muted",
+        ],
+      },
     },
   },
   defaultVariants: {

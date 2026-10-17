@@ -85,6 +85,23 @@ export const sidebarSectionRecipe = tv({
         sidebarSectionControls: "right-(--sidebar-row-inset-x,6px)",
         sidebarSectionControl: ["shrink-0", "text-foreground-icon hover:text-foreground-strong"],
       },
+      raft: {
+        sidebarSection: "px-0",
+        sidebarSectionHeader: "mt-0 mb-0 h-auto gap-2 px-2 pt-4 pb-1.5",
+        sidebarSectionEmpty: ["px-2 py-1.5", "font-sans text-footnote", "text-foreground-hint"],
+        sidebarSectionDisclosure: [
+          "h-auto gap-1.5 rounded-sticker border-0",
+          "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
+          "outline-none focus-visible:shadow-raft-focus",
+          "**:data-[slot=sidebar-section-chevron]:size-3.5 **:data-[slot=sidebar-section-chevron]:stroke-2",
+        ],
+        sidebarSectionCount:
+          "font-mono text-mono-meta font-normal tabular-nums text-foreground-hint",
+        sidebarSectionControl: [
+          "h-7 w-auto min-w-7 shrink-0",
+          "[&>svg:not([class*='size-'])]:size-4",
+        ],
+      },
     },
   },
 });

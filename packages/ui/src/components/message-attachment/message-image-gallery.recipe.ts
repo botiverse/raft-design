@@ -27,6 +27,9 @@ export const messageImageGallery = tv({
     { count: 1, single: false, class: { row: "auto-rows-[8rem] sm:auto-rows-[9rem]" } },
     { count: 2, single: false, class: { row: "auto-rows-[8rem] sm:auto-rows-[9rem]" } },
     { count: 3, single: false, class: { row: "auto-rows-[7rem] sm:auto-rows-[8rem]" } },
+    { theme: "raft", count: 3, class: { row: "md:grid-cols-2" } },
+    { theme: "raft", single: true, class: { item: "rounded-container" } },
+    { theme: "raft", fit: "contain", class: { item: "[&_img]:bg-transparent" } },
   ],
   variants: {
     count: {
@@ -74,6 +77,21 @@ export const messageImageGallery = tv({
           "transition-[background-color,color,opacity,box-shadow,transform] duration-150",
           "hover:bg-white/85 hover:text-foreground active:scale-[0.97]",
           "outline outline-[1px] outline-offset-2 outline-transparent focus-visible:outline-foreground",
+        ],
+      },
+      raft: {
+        root: "max-w-[min(360px,calc(100vw-112px))] space-y-1 md:max-w-[360px]",
+        row: "gap-1",
+        item: [
+          "rounded-control border border-line-muted bg-fill-muted",
+          "has-data-[slot=message-image-gallery-overlay]:opacity-70",
+        ],
+        preview: "outline-none focus-visible:shadow-[inset_0_0_0_2px_var(--foreground)]",
+        action: [
+          "right-1.5 bottom-1.5 size-8 rounded-control border-[1.5px] border-line-strong",
+          "bg-layer-card text-foreground hover:press-overlay active:press-overlay",
+          "outline-none focus-visible:shadow-raft-focus",
+          "[&_svg]:size-4",
         ],
       },
     },

@@ -24,6 +24,15 @@ const kbd = tv({
           "dark:shadow-[inset_0_1px_0_oklch(0.985_0.004_106.42/0.07),0_0_0_1px_oklch(0_0_0/0.45),0_1.5px_0_oklch(0_0_0/0.5)]",
         ],
       },
+      raft: {
+        root: [
+          "min-w-4 rounded-[3px] px-1",
+          "font-mono text-mono-meta font-normal text-foreground-hint",
+          "shadow-[inset_0_0_0_1px_var(--line-muted)]",
+          "in-data-[slot=tooltip-content]:text-layer-hud-foreground/70",
+          "in-data-[slot=tooltip-content]:shadow-[inset_0_0_0_1px_color-mix(in_oklch,var(--layer-hud-foreground)_70%,transparent)]",
+        ],
+      },
     },
   },
 });

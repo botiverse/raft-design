@@ -19,6 +19,13 @@ const composerToolbarLabel = tv({
           "transition-colors hover:bg-fill-muted",
         ],
       },
+      raft: {
+        root: [
+          "min-h-8 gap-2",
+          "font-sans text-callout font-semibold text-foreground",
+          "has-data-disabled:cursor-not-allowed has-data-disabled:text-foreground-disabled",
+        ],
+      },
     },
   },
 });

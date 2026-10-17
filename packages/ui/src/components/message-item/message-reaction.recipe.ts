@@ -99,6 +99,42 @@ export const messageReaction = tv({
         ],
         tooltip: "px-2 py-1.5 text-xs",
       },
+      raft: {
+        chip: [
+          "h-6 gap-1 rounded-chip pr-2 pl-1.5 text-callout text-foreground",
+          "bg-fill-muted hover:press-overlay active:press-overlay",
+          "data-pressed:bg-accent-soft",
+          "has-data-[slot=message-reaction-error-indicator]:bg-warning-soft",
+          "outline-none focus-visible:shadow-raft-focus",
+          "[&_[data-slot=message-reaction-glyph]>svg]:size-4",
+        ],
+        count: "text-mono-meta font-bold",
+        addButton: [
+          "h-6 rounded-chip px-1.5 [&_svg]:size-4",
+          "bg-fill-muted text-foreground-icon hover:press-overlay active:press-overlay",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+        quickRow: [
+          "justify-between gap-0.5 bg-layer-popover px-0.5 py-0.5",
+          "[&>[role=menuitem]]:size-9 [&>[role=menuitem]]:p-0 *:[[role=menuitem]]:justify-center",
+        ],
+        quickButton: [
+          "size-9 rounded-control p-0 text-xl leading-none text-foreground-icon",
+          "hover:bg-primary-soft data-highlighted:bg-primary-soft active:bg-primary-soft",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+        pickerContent: [
+          "min-w-0 flex-row gap-0.5 p-1",
+          "[&>[role=menuitem]]:size-9 [&>[role=menuitem]]:p-0",
+        ],
+        pickerStatic: [
+          "min-w-0 flex-row gap-0.5 rounded-container p-1",
+          "bg-layer-popover ring-1 ring-line-seam shadow-raft-float outline-none",
+        ],
+        tooltip: "px-2.5 py-1 text-footnote font-medium",
+        tooltipSeparator: "text-layer-hud-foreground/70",
+        tooltipMeta: "text-layer-hud-foreground/70",
+      },
     },
   },
 });

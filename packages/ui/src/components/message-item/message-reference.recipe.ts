@@ -58,6 +58,10 @@ export const messageReference = tv({
           "group-focus-visible:[clip-path:inset(0_round_9999px_0_0_9999px)]",
         ],
       },
+      raft: {
+        root: "focus-visible:outline-none focus-visible:shadow-raft-focus",
+        badge: "hidden",
+      },
     },
     variant: {
       primary: {},
@@ -71,6 +75,59 @@ export const messageReference = tv({
     },
   },
   compoundVariants: [
+    {
+      theme: "raft",
+      variant: "primary",
+      class: {
+        root: [
+          "inline-flex cursor-pointer rounded-sticker px-[3px]",
+          "font-semibold text-sticker-ink no-underline",
+          "bg-primary shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "hover:press-overlay-sticker",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: "secondary",
+      class: {
+        root: [
+          "inline cursor-pointer font-bold text-foreground",
+          "underline decoration-foreground-hint decoration-[1.5px] underline-offset-[3px]",
+          "hover:decoration-foreground",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: ["accent", "muted", "info", "link", "pending", "unavailable"],
+      class: {
+        root: [
+          "h-[22px] items-center gap-0.5 rounded-sticker px-1.5 has-[>svg]:pl-[3px] align-[1px]",
+          // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
+          "[font-size:0.875em] leading-5 font-semibold text-foreground",
+          "[&_svg]:size-3.5 [&_svg]:text-foreground-icon",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      variant: ["accent", "muted", "info", "link"],
+      class: { root: "cursor-pointer hover:press-overlay active:press-overlay" },
+    },
+    { theme: "raft", variant: "accent", class: { root: "bg-accent-soft" } },
+    { theme: "raft", variant: ["info", "link"], class: { root: "bg-info-soft" } },
+    { theme: "raft", variant: "muted", class: { root: "bg-inactive-soft" } },
+    {
+      theme: "raft",
+      variant: "pending",
+      class: { root: "cursor-wait bg-inactive-soft text-foreground-muted" },
+    },
+    {
+      theme: "raft",
+      variant: "unavailable",
+      class: { root: "cursor-default bg-inactive-soft text-foreground-hint" },
+    },
     {
       theme: "brutal",
       variant: "primary",

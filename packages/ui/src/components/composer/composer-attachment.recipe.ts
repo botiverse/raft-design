@@ -110,6 +110,47 @@ export const composerAttachment = tv({
         attachmentRemove:
           "bg-foreground text-foreground-inverse outline-2 outline-solid outline-layer-panel",
       },
+      raft: {
+        attachments: [
+          "pt-1.5 pe-1.5",
+          "has-[[data-slot=composer-attachments-scroll-area]]:p-0",
+          "has-[[data-slot=sortable-composer-attachments-list]]:pt-0",
+        ],
+        attachmentsViewport: "pe-1.5",
+        attachmentsNav: ["size-8 shadow-none", "[&_svg:not([class*='size-'])]:size-4.5"],
+        attachment: "[--ca-overlay-border:1px]",
+        attachmentFile: [
+          "items-center gap-2.5 rounded-control border border-line-muted bg-fill-muted px-2",
+          "text-foreground [&_svg]:text-foreground-icon",
+        ],
+        attachmentImage: "rounded-control border border-line-muted bg-fill-muted",
+        attachmentBody: "flex flex-col justify-center gap-0.5",
+        attachmentTitle: "font-sans text-footnote font-semibold text-foreground",
+        attachmentMeta: "text-left font-mono text-mono-meta text-foreground-hint",
+        attachmentUploadingOverlay: [
+          "rounded-control bg-layer-card/80",
+          "font-mono text-mono-meta font-bold text-foreground",
+        ],
+        attachmentUploadProgressBar: [
+          "right-1.5 bottom-1.5 left-1.5 w-auto rounded-[2px]",
+          "bg-layer-card dark:bg-layer-card",
+        ],
+        attachmentUploadProgressBarIndicator: "rounded-[inherit] bg-info",
+        attachmentFailedOverlay: [
+          "rounded-control border-danger-strong bg-layer-card/90",
+          "font-sans text-caption font-semibold text-danger-strong",
+        ],
+        attachmentRemove: [
+          "-top-1.5 -right-1.5 size-5 rounded-sticker border-[1.5px] border-line-strong",
+          "bg-layer-card text-foreground opacity-100",
+          "hover:press-overlay active:press-overlay",
+          "outline-none focus-visible:shadow-raft-focus",
+          "disabled:cursor-not-allowed disabled:border-line-muted disabled:bg-fill-muted disabled:text-foreground-disabled",
+          "after:absolute after:-inset-3 after:content-['']",
+          "[@media(hover:none)]:size-5",
+          "[&_svg]:size-3",
+        ],
+      },
     },
   },
 });

@@ -21,6 +21,11 @@ export const activityInboxShell = tv({
         ],
         loadingMore: ["font-medium text-foreground-placeholder"],
       },
+      raft: {
+        panel: ["bg-layer-panel font-sans text-foreground"],
+        viewport: ["bg-layer-panel p-0 pb-[env(safe-area-inset-bottom,0px)]"],
+        loadingMore: ["text-caption text-foreground-hint"],
+      },
     },
   },
 });

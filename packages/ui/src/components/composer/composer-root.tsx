@@ -22,6 +22,7 @@ const composerRoot = tv({
         "has-[>[data-slot=composer-attachments]]:before:ring-1",
         "has-[>[data-slot=composer-attachments]]:before:ring-line-muted/60",
       ],
+      raft: "gap-2",
     },
   },
 });

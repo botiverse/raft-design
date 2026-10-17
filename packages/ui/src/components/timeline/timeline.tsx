@@ -83,6 +83,7 @@ export function Timeline({
         `r-timeline--${size}`,
         horizontal ? "r-timeline--horizontal" : `r-timeline--${itemPlacement}`,
         theme === "elegant" && "r-timeline--elegant",
+        theme === "raft" && "r-timeline--raft",
         className,
       )}
       style={mergedStyle}
@@ -115,6 +116,7 @@ export function TimelineItem({
     <li
       data-slot="timeline-item"
       data-task-status={taskStatus}
+      data-icon={icon === undefined ? undefined : ""}
       className={cn(
         "r-timeline-item",
         `r-timeline-item--${variant}`,

@@ -46,6 +46,18 @@ export const messageVideoPreview = tv({
         failureIcon: "[&_svg]:stroke-[1.5]",
         failureTitle: "font-medium",
       },
+      raft: {
+        root: "max-w-[min(360px,calc(100vw-112px))] rounded-container border border-line-muted bg-clip-padding",
+        action: [
+          "top-2 right-2 size-8 rounded-control border-[1.5px] border-line-strong",
+          "bg-layer-card text-foreground hover:bg-layer-card hover:text-foreground hover:press-overlay active:press-overlay",
+          "outline-none focus-visible:shadow-raft-focus",
+          "disabled:border-line-muted disabled:bg-fill-muted disabled:bg-none disabled:text-foreground-disabled",
+          "[&_svg]:size-4",
+        ],
+        failureContent: "gap-2 font-sans text-caption font-semibold",
+        failureIcon: "[&_svg]:size-6 [&_svg]:stroke-2",
+      },
     },
   },
 });

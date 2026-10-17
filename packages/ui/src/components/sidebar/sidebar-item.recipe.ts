@@ -118,6 +118,48 @@ export const sidebarItemRecipe = tv({
           "text-[10px] font-normal leading-none tabular-nums tracking-normal",
         ],
       },
+      raft: {
+        sidebarItem: [
+          "my-px h-9 gap-2 rounded-control border-[1.5px] border-transparent py-0 pr-2.5 pl-2",
+          "md:py-0 [@media(max-height:600px)]:py-0",
+          "font-sans text-subhead font-medium text-foreground",
+          "hover:bg-fill-pressed active:bg-fill-pressed not-data-active:data-popup-open:bg-fill-pressed",
+          "data-active:border-sticker-ink data-active:bg-primary data-active:font-bold data-active:text-sticker-ink",
+          "focus-visible:shadow-raft-focus outline-none",
+        ],
+        sidebarItemIcon: [
+          "size-[19px] text-foreground-hint [&>svg]:size-4 [&>svg]:stroke-2",
+          "group-data-active/sidebar-item:text-sticker-ink",
+        ],
+        sidebarItemChannelIcon: [
+          "size-[19px] text-foreground-hint [&_svg]:size-4 [&_svg]:stroke-2",
+          "group-data-active/sidebar-item:text-sticker-ink",
+        ],
+        sidebarItemSubtitle: [
+          "text-footnote font-normal text-foreground-muted",
+          "group-data-active/sidebar-item:text-sticker-ink",
+        ],
+        sidebarItemMeta: [
+          "font-mono text-mono-meta font-normal tabular-nums text-foreground-hint",
+          "group-data-active/sidebar-item:text-sticker-ink",
+        ],
+        sidebarItemStatus: "inline-flex items-center",
+        sidebarItemIndicator: [
+          "size-5 min-w-5 rounded-sticker border-0 p-0",
+          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "[&_svg]:size-[13px] [&_svg]:stroke-2",
+        ],
+        sidebarItemMetaIcon: [
+          "text-foreground-hint [&_svg]:size-3.5",
+          "group-data-active/sidebar-item:text-sticker-ink",
+        ],
+        sidebarItemCount: [
+          "h-5 min-w-5 items-center justify-center gap-0 rounded-sticker border-0 px-1.5 py-0",
+          "data-[slot=sidebar-item-count]:px-1.5",
+          "bg-accent text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "font-mono text-mono-meta font-bold tabular-nums tracking-normal",
+        ],
+      },
     },
     variant: {
       default: {},

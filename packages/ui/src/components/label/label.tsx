@@ -27,12 +27,21 @@ const label = tv({
         root: "font-medium text-foreground-strong dark:text-foreground-hint",
         sub: "text-foreground-strong/40",
       },
+      raft: {
+        root: "font-sans font-semibold text-foreground-muted",
+        asterisk: "text-foreground-hint",
+        sub: "font-normal tracking-normal text-foreground-hint",
+      },
     },
     size: {
       sm: { root: "text-xs" },
       md: { root: "text-sm" },
     },
   },
+  compoundVariants: [
+    { theme: "raft", size: "sm", class: { root: "text-caption font-semibold" } },
+    { theme: "raft", size: "md", class: { root: "text-footnote font-semibold" } },
+  ],
   defaultVariants: {
     size: "md",
   },

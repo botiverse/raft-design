@@ -14,6 +14,7 @@ export const messageBlock = tv({
           "hover:bg-[color-mix(in_oklch,var(--ink)_2%,var(--layer-card))] hover:shadow-raft-sm",
         ],
       },
+      raft: { root: "" },
     },
   },
 });
@@ -47,6 +48,14 @@ export const messageEmbed = tv({
           "dark:border-transparent dark:shadow-[inset_0_1px_0_oklch(1_0_0/0.04),0_0_0_1px_oklch(0_0_0/0.35)]",
         ],
         footer: "px-3 py-1.5 sm:px-3.5",
+      },
+      raft: {
+        root: [
+          "rounded-container border border-line-muted bg-layer-card",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+        header: "px-3 py-2",
+        footer: "px-3 py-2",
       },
     },
   },

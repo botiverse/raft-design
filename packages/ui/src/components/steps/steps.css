@@ -169,6 +169,67 @@
     --r-steps-river-glint-color: color-mix(in oklch, oklch(1 0 0) 70%, transparent);
     --r-steps-river-error-color: var(--danger-muted);
   }
+
+  /* Theme: Raft overrides — the Design System's marks: 20px squares with the
+     number in Space Mono, joined by a short seam line. Upcoming is a seam
+     outline on the surface, the current step a yellow sticker (ink edge, ink
+     number), a finished step solid ink with a paper check. A failed step is a
+     problem, so it is the orange sticker. One size: `sm` keeps the marks. */
+  &.r-steps--raft,
+  :where([data-theme="raft"]) & {
+    --r-steps-indicator-size: 20px;
+    --r-steps-indicator-font-size: 12px;
+    --r-steps-icon-size: 14px;
+    --r-steps-title-font-size: 13px;
+    --r-steps-description-font-size: 12px;
+    --r-steps-line-height: calc(18 / 13);
+    --r-steps-gap: 8px;
+    --r-steps-connector-gap: 8px;
+    --r-steps-connector-min-width: 16px;
+    --r-steps-vertical-item-gap: 16px;
+    --r-steps-indicator-font-family: var(--font-mono);
+    --r-steps-indicator-font-weight: 700;
+    --r-steps-indicator-border-width: 1px;
+    --r-steps-indicator-radius: var(--radius-sticker, 4px);
+    --r-steps-title-font-family: var(--font-sans);
+    --r-steps-title-font-weight: 600;
+    --r-steps-connector-width: 1px;
+    --r-steps-connector-color: var(--line-seam);
+    --r-steps-connector-color-finish: var(--line-seam);
+    --r-steps-focus-radius: var(--radius-sticker, 4px);
+    --r-steps-focus-outline: 2px solid var(--line-strong);
+
+    --r-steps-indicator-color-wait: var(--layer-card);
+    --r-steps-indicator-color-process: var(--primary-400);
+    --r-steps-indicator-color-finish: var(--foreground);
+    --r-steps-indicator-color-error: var(--warning);
+    --r-steps-indicator-border-color-wait: var(--line-seam);
+    --r-steps-indicator-border-color-process: var(--sticker-ink);
+    --r-steps-indicator-border-color-finish: var(--foreground);
+    --r-steps-indicator-border-color-error: var(--sticker-ink);
+    --r-steps-indicator-border-color-hover: var(--line-strong);
+    --r-steps-indicator-text-color-wait: var(--foreground-hint);
+    --r-steps-indicator-text-color-process: var(--sticker-ink);
+    --r-steps-indicator-text-color-finish: var(--layer-canvas);
+    --r-steps-indicator-text-color-error: var(--sticker-ink);
+    --r-steps-indicator-shadow-process: none;
+    --r-steps-indicator-shadow-hover: none;
+    --r-steps-title-color-wait: var(--foreground-hint);
+    --r-steps-title-color-process: var(--foreground);
+    --r-steps-title-color-finish: var(--foreground-muted);
+    --r-steps-title-color-error: var(--foreground);
+    --r-steps-title-color-hover: var(--foreground);
+    --r-steps-title-color-disabled: var(--foreground-disabled);
+  }
+  &.r-steps--raft.r-steps--sm,
+  :where([data-theme="raft"]) &.r-steps--sm {
+    --r-steps-indicator-size: 20px;
+    --r-steps-indicator-font-size: 12px;
+    --r-steps-icon-size: 14px;
+    --r-steps-title-font-size: 13px;
+    --r-steps-description-font-size: 12px;
+    --r-steps-line-height: calc(18 / 13);
+  }
 }
 
 .r-step {
@@ -973,5 +1034,37 @@
   .r-steps--traveler > .r-step,
   .r-step__traveler-body {
     transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   5. Raft
+   Stickers take the 1.5px ink edge; only the upcoming outline stays a 1px
+   seam. In a row the steps keep their own width and wrap, each joined to the
+   next by a 16px seam line, as the Design System's steps do. Narrow screens
+   keep the stacked layout above.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.r-steps--raft > .r-step:is(.r-step--process, .r-step--finish, .r-step--error),
+:where([data-theme="raft"])
+  .r-steps
+  > .r-step:is(.r-step--process, .r-step--finish, .r-step--error) {
+  --r-steps-indicator-border-width: 1.5px;
+}
+
+@media (width >= 40rem) {
+  .r-steps--raft.r-steps--horizontal,
+  :where([data-theme="raft"]) .r-steps--horizontal {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .r-steps--raft.r-steps--horizontal > .r-step,
+  :where([data-theme="raft"]) .r-steps--horizontal > .r-step {
+    flex: none;
+    grid-template-columns: var(--r-steps-indicator-size) auto var(--r-steps-connector-min-width);
+  }
+  .r-steps--raft.r-steps--horizontal > .r-step:last-child,
+  :where([data-theme="raft"]) .r-steps--horizontal > .r-step:last-child {
+    grid-template-columns: var(--r-steps-indicator-size) auto;
   }
 }

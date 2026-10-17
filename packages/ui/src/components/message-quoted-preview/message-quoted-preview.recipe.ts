@@ -56,6 +56,32 @@ export const messageQuotedPreview = tv({
           "focus-visible:outline focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-[oklch(0.507_0.185_257.731)]",
         ],
       },
+      raft: {
+        root: [
+          "rounded-none border-0 border-l-2 border-line-seam bg-transparent pl-2.5",
+          "text-foreground-muted",
+        ],
+        content: "p-0",
+        header: "gap-1.5 p-0 pb-0.5",
+        channel: "gap-1 text-footnote font-semibold text-foreground-hint [&_svg]:size-3.5",
+        author: "gap-1.5",
+        authorName: "text-footnote font-bold text-foreground-muted",
+        authorMeta: "text-caption text-foreground-hint",
+        timestamp: "font-mono text-mono-meta tabular-nums text-foreground-hint",
+        text: "text-callout text-foreground-muted",
+        attachments: "mt-1.5",
+        attachment: [
+          "h-[22px] gap-1 rounded-chip bg-fill-muted px-1.5",
+          "font-mono text-mono-meta text-foreground-muted [&_svg]:size-3.5",
+        ],
+        thread: "gap-1 text-footnote font-semibold text-foreground-hint [&_svg]:size-3.5",
+        loading: "rounded-none border-0 border-l-2 border-line-seam bg-transparent pl-2.5",
+        unavailable: [
+          "border-l-2 border-line-seam pl-2.5",
+          "text-callout text-foreground-hint",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+      },
     },
   },
 });

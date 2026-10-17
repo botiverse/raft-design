@@ -25,6 +25,8 @@ import { useThemeScopeProps } from "../../lib/theme/theme-scope";
 import { useThemeFamily } from "../../lib/theme/use-theme";
 import { buttonVariants } from "../button/index";
 import { Spinner } from "../spinner/index";
+import { Status } from "../status/index";
+import type { StatusProps } from "../status/index";
 import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
@@ -169,6 +171,36 @@ const toastStyles = tv({
         ],
         arrow: [],
       },
+      raft: {
+        root: [
+          "rounded-container bg-layer-hud text-layer-hud-foreground",
+          "shadow-raft-float",
+          "focus-visible:outline-2 focus-visible:outline-foreground",
+        ],
+        content: [
+          "gap-x-3 gap-y-2 px-4 py-3 font-sans text-callout",
+          "[--toast-title-only-min-h:2.75rem] [--toast-title-only-px:1rem] [--toast-title-only-py:0.75rem]",
+          "data-has-icon:grid-cols-[auto_minmax(0,1fr)]",
+          "data-has-actions:grid-cols-[minmax(0,1fr)_auto]",
+          "[&[data-has-icon][data-has-actions]]:grid-cols-[auto_minmax(0,1fr)_auto]",
+        ],
+        icon: ["[&_svg]:size-4"],
+        title: ["font-normal text-layer-hud-foreground"],
+        description: ["text-layer-hud-foreground/70"],
+        actions: ["gap-4"],
+        progress: ["inset-x-4 bottom-1.5 rounded-[2px] bg-layer-hud-foreground/40"],
+        close: [
+          "relative inset-auto order-1 size-auto shrink-0 whitespace-nowrap",
+          "border-0 bg-transparent p-0 shadow-none",
+          "font-sans text-callout font-bold text-layer-hud-foreground",
+          "underline decoration-[1.5px] underline-offset-[3px]",
+          "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
+          "active:after:bg-layer-hud-foreground/15",
+          "focus-visible:outline-2 focus-visible:outline-layer-hud-foreground",
+          "[&_svg]:size-4",
+        ],
+        arrow: [],
+      },
     },
     placement: {
       "bottom-center": {
@@ -280,6 +312,13 @@ const toastStyles = tv({
       },
     },
     {
+      theme: "raft",
+      layout: "stacked",
+      class: {
+        root: "w-max max-w-full",
+      },
+    },
+    {
       theme: "elegant",
       layout: "inline",
       class: {
@@ -379,6 +418,16 @@ const toastAction = tv({
           "dark:[--toast-gradient-border-from:oklch(0.985_0.004_106.42/0.14)] dark:[--toast-gradient-border-via:oklch(0.985_0.004_106.42/0.07)]",
           "dark:hover:bg-fill-strong dark:hover:text-foreground dark:hover:[--toast-gradient-border-from:oklch(0.985_0.004_106.42/0.22)] dark:hover:[--toast-gradient-border-via:oklch(0.985_0.004_106.42/0.11)]",
           "hover:bg-white/7.5 hover:text-white/88 hover:[--toast-gradient-border-from:oklch(1_0_0/0.24)] hover:[--toast-gradient-border-via:oklch(1_0_0/0.08)] active:scale-[0.985]",
+        ],
+      },
+      raft: {
+        root: [
+          "relative order-2 h-auto min-h-0 border-0 bg-transparent p-0",
+          "font-sans text-callout font-bold text-layer-hud-foreground",
+          "underline decoration-[1.5px] underline-offset-[3px]",
+          "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
+          "active:after:bg-layer-hud-foreground/15",
+          "focus-visible:outline-2 focus-visible:outline-layer-hud-foreground",
         ],
       },
     },
@@ -921,8 +970,25 @@ function DefaultToastItem({
   );
 }
 
+const RAFT_TOAST_PIXEL = {
+  info: "information",
+  success: "success",
+  warning: "warning",
+  error: "warning",
+} as const satisfies Record<ToastIntent, StatusProps["variant"]>;
+
 function DefaultToastIcon({ toast: toastObject }: { toast: ToastObject<ToastData> }) {
+  const theme = useThemeFamily();
   const intent = toastObject.data?.intent ?? getToastTone(toastObject.type);
+
+  if (theme === "raft") {
+    return (
+      <ToastIcon>
+        <Status aria-hidden variant={RAFT_TOAST_PIXEL[intent]} />
+      </ToastIcon>
+    );
+  }
+
   const Icon =
     intent === "success"
       ? CheckCircle2
@@ -945,9 +1011,15 @@ function ToastArrowSvg({
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
       <path
         d="M1 0H11L6 5.25Z"
-        className={theme === "elegant" ? "fill-layer-hud/50" : "fill-primary"}
+        className={
+          theme === "elegant"
+            ? "fill-layer-hud/50"
+            : theme === "raft"
+              ? "fill-layer-hud"
+              : "fill-primary"
+        }
       />
-      {theme === "elegant" ? null : (
+      {theme !== "brutal" ? null : (
         <path
           d="M1 0.5L6 5.25L11 0.5"
           className="stroke-line-strong"

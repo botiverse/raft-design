@@ -40,6 +40,16 @@ const textarea = tv({
           "data-invalid:disabled:border-line-muted/60 data-invalid:disabled:ring-0",
         ],
       },
+      raft: {
+        root: [
+          "py-2.5",
+          "rounded-control border-[1.5px] border-line-strong bg-layer-card",
+          "text-foreground placeholder:text-foreground-placeholder",
+          "shadow-none transition-shadow duration-90 ease-out focus:shadow-raft-focus",
+          "data-invalid:border-danger-strong",
+          "disabled:cursor-not-allowed disabled:resize-none disabled:border-line-muted disabled:bg-fill-muted disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
+        ],
+      },
     },
   },
 });
@@ -65,6 +75,9 @@ const textareaGroup = tv({
           "[&>[data-slot=textarea-counter]]:right-3 [&>[data-slot=textarea-counter]]:bottom-2.5 *:data-[slot=textarea-counter]:z-10",
         ],
       },
+      raft: {
+        root: "flex flex-col items-end gap-1.5",
+      },
     },
   },
 });
@@ -87,6 +100,12 @@ const textareaCounter = tv({
           "group-data-[invalid]/field:font-medium group-data-invalid/field:text-danger",
         ],
       },
+      raft: {
+        root: [
+          "text-mono-meta text-foreground-hint",
+          "group-data-[invalid]/field:font-bold group-data-invalid/field:text-danger-strong",
+        ],
+      },
     },
     overLimit: {
       true: {
@@ -100,6 +119,9 @@ const textareaCounter = tv({
   defaultVariants: {
     overLimit: false,
   },
+  compoundVariants: [
+    { theme: "raft", overLimit: true, class: { root: "font-bold text-danger-strong" } },
+  ],
 });
 
 export type TextareaProps = WithoutChildren<ComponentPropsWithRef<"textarea">> & DataAttributes;

@@ -45,6 +45,27 @@ export const composer = tv({
           "active:bg-fill-strong/80 active:text-foreground-strong",
         ],
       },
+      raft: {
+        root: [
+          "rounded-container border-[1.5px] px-3 pt-3 pb-2",
+          "border-line-strong bg-layer-card text-foreground shadow-none",
+          "focus-within:shadow-raft-focus",
+        ],
+        input: [
+          "min-h-6 px-0.5",
+          "font-sans text-body text-foreground md:text-body",
+          "placeholder:text-foreground-placeholder",
+        ],
+        toolbar: "gap-2",
+        meta: "gap-2",
+        iconButton: [
+          "size-8 rounded-control text-foreground-icon",
+          "disabled:border-transparent disabled:bg-transparent",
+          "aria-disabled:border-transparent aria-disabled:bg-transparent",
+          "[[data-slot=composer-actions]:first-child>&:first-child]:ml-[-5px]",
+          "[&_svg:not([class*='size-'])]:size-4.5",
+        ],
+      },
     },
   },
 });

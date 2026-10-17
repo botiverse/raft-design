@@ -59,6 +59,28 @@ export const sidebarRecipe = tv({
         sidebarBody: "bg-brutal-cream max-md:bg-white",
         sidebarLiveActivity: "bottom-0 z-40",
       },
+      raft: {
+        sidebarRoot: [
+          "bg-layer-canvas-muted text-foreground max-md:bg-layer-panel",
+          "border-line-seam md:border-r",
+          "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:52px]",
+        ],
+        sidebarHeader: [
+          "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-5",
+          "bg-layer-canvas-muted text-foreground",
+          "max-md:bg-layer-frame max-md:px-4 max-md:text-foreground-on-frame",
+          "[@media(max-height:600px)]:h-12",
+        ],
+        sidebarHeaderTitle:
+          "font-sans text-headline text-foreground max-md:text-foreground-on-frame",
+        sidebarGroupLabel: [
+          "px-2 pt-4 pb-1.5",
+          "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
+        ],
+        sidebarBody: "bg-layer-canvas-muted max-md:bg-layer-panel",
+        sidebarContentInner: "pt-2 pb-(--sidebar-content-bottom,8px)",
+        sidebarLiveActivity: "bottom-0 z-40",
+      },
       elegant: {
         sidebarRoot: [
           "relative bg-layer-canvas-muted [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",

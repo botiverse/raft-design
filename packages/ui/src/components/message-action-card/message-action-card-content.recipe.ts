@@ -77,6 +77,37 @@ export const messageActionCardContent = tv({
         actions: "mt-4 gap-2",
         actionsNote: "text-[13px]/5  text-foreground-strong",
       },
+      raft: {
+        root: "flex flex-col gap-2 px-3 pt-0 pb-3",
+        properties: [
+          "grid-cols-[minmax(88px,max-content)_minmax(0,1fr)] items-center gap-x-4 gap-y-0.5",
+        ],
+        propertyLabel: "text-footnote font-medium text-foreground-hint",
+        propertyValue: "min-h-8 py-1.5 text-callout text-foreground",
+        scopeList: "mt-0 space-y-1.5",
+        scopeListLabel: "text-footnote font-medium text-foreground-hint",
+        scopeListViewport: "max-h-[164px] space-y-1.5 pr-1",
+        scope: "rounded-control border-line-muted bg-layer-card px-2.5 py-2",
+        scopeName: "text-mono-meta font-normal text-foreground",
+        scopeDescription: "mt-0.5 text-footnote text-pretty text-foreground-muted",
+        hintLabel: "text-footnote font-medium text-foreground-hint",
+        hint: [
+          "border-l-2 border-line-seam pl-2.5",
+          "text-footnote text-foreground-muted",
+          "[[data-slot=message-action-card-hint-label]+&]:-mt-1",
+        ],
+        notice: [
+          "mb-0 rounded-control bg-fill-muted px-2.5 py-2",
+          "text-footnote text-foreground-muted",
+          "[&>svg]:mt-0.5 [&>svg]:text-foreground-icon",
+        ],
+        completion: [
+          "inline-flex items-center gap-1.5 text-footnote text-foreground-muted",
+          "[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-foreground",
+        ],
+        actions: "mt-1 gap-2",
+        actionsNote: "text-footnote text-foreground-muted",
+      },
     },
   },
 });

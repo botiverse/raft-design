@@ -37,6 +37,16 @@ export const sidebarMenuRecipe = tv({
         sidebarMenuCount:
           "shrink-0 font-sans text-xs font-medium leading-none normal-nums text-foreground-icon",
       },
+      raft: {
+        sidebarMenu: [
+          "h-auto gap-1.5 rounded-sticker",
+          "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
+          "hover:text-foreground aria-[current=page]:text-foreground",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+        sidebarMenuIcon: ["size-3.5 [&_svg]:size-3.5 [&_svg]:stroke-2 [&_svg_*]:stroke-2"],
+        sidebarMenuCount: "font-mono text-mono-meta font-normal tabular-nums text-foreground-hint",
+      },
     },
   },
 });

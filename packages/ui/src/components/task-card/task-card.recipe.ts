@@ -49,6 +49,30 @@ export const taskCard = tv({
         title: ["text-sm leading-5 font-medium text-foreground"],
         description: ["text-[13px] leading-4.5 text-foreground-muted"],
       },
+      raft: {
+        root: [
+          "rounded-container border border-line-muted bg-layer-card p-3 text-foreground shadow-none",
+          "data-[interactive=true]:hover:press-overlay data-[interactive=true]:active:press-overlay",
+          "data-[disabled=true]:bg-fill-muted data-[disabled=true]:opacity-100",
+          "group-data-[dragging=true]/task-draggable:shadow-raft-float",
+        ],
+        meta: ["mb-2"],
+        channel: ["min-w-0 truncate", "font-mono text-mono-meta font-normal text-foreground-hint"],
+        number: ["font-mono text-mono-meta font-normal text-foreground-hint"],
+        legacy: [
+          "inline-flex h-[22px] items-center rounded-chip px-1.5 py-0",
+          "shadow-[inset_0_0_0_1px_var(--line-muted)]",
+          "font-mono text-mono-meta font-normal text-foreground-muted",
+        ],
+        title: [
+          "text-body font-semibold text-foreground",
+          "in-data-[disabled=true]:text-foreground-disabled",
+        ],
+        description: [
+          "mt-1 text-callout text-foreground-muted",
+          "in-data-[disabled=true]:text-foreground-disabled",
+        ],
+      },
     },
   },
 });

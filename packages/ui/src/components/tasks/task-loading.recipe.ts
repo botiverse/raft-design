@@ -16,6 +16,9 @@ export const taskLoading = tv({
           "dark:border-transparent",
         ],
       },
+      raft: {
+        row: ["gap-2 rounded-container border border-line-muted bg-layer-card shadow-none"],
+      },
     },
   },
 });

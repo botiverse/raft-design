@@ -84,6 +84,44 @@ const notificationCenter = tv({
         itemBody: ["text-foreground-muted"],
         actionButton: ["py-0.5"],
       },
+      raft: {
+        trigger: [
+          "relative inline-flex size-10 items-center justify-center overflow-visible p-0",
+          "rounded-control border-[1.5px] border-transparent bg-transparent text-foreground-on-frame",
+          "select-none outline-none",
+          "hover:bg-fill-frame-pressed active:bg-fill-frame-pressed data-popup-open:bg-fill-frame-pressed",
+          "focus-visible:shadow-raft-focus",
+          "[&_svg]:size-5 [&_svg]:shrink-0",
+        ],
+        triggerIcon: ["relative inline-flex size-5 items-center justify-center"],
+        triggerBell: ["size-5 shrink-0 text-current"],
+        triggerBellGlow: ["hidden"],
+        triggerDot: ["pointer-events-none absolute top-1.5 right-1.5"],
+        popup: [
+          "rounded-container bg-layer-popover text-foreground",
+          "shadow-raft-float ring-1 ring-line-seam",
+        ],
+        header: ["min-h-13 gap-2 border-b border-line-seam py-0 pr-2 pl-4"],
+        title: ["font-sans text-headline text-foreground"],
+        count: ["font-mono text-mono-meta text-foreground-hint"],
+        list: ["divide-y-0"],
+        item: [
+          "group/notification-center-item relative px-4 py-3",
+          "before:pointer-events-none before:absolute before:top-0 before:right-0 before:left-4 before:hidden before:border-t before:border-line-muted",
+          "not-first:before:block has-data-[slot=notification-center-item-icon]:before:left-[63px]",
+        ],
+        itemRow: ["gap-3"],
+        itemIcon: [
+          "mt-0 size-[35px] rounded-sticker bg-fill-muted text-foreground-muted",
+          "[&_svg]:size-[18px]",
+        ],
+        itemTitle: [
+          "font-sans text-subhead font-bold text-foreground",
+          "group-data-read/notification-center-item:font-semibold group-data-read/notification-center-item:text-foreground-muted",
+        ],
+        itemBody: ["line-clamp-2 font-sans text-callout text-foreground-muted"],
+        itemActions: ["mt-2 ml-0 flex-wrap justify-start gap-2"],
+      },
     },
     viewport: {
       desktop: {
@@ -124,6 +162,28 @@ const notificationCenter = tv({
     },
   },
   compoundVariants: [
+    {
+      theme: "raft",
+      read: true,
+      class: { item: "opacity-100" },
+    },
+    {
+      theme: "raft",
+      read: false,
+      class: {
+        item: [
+          "pr-[37px]",
+          "after:pointer-events-none after:absolute after:top-[17.5px] after:right-4 after:size-[9px]",
+          "after:rounded-[2px] after:border-[1.5px] after:border-sticker-ink after:bg-accent-400",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      status: ["error", "warning"],
+      class: { itemIcon: "bg-warning-soft text-foreground" },
+    },
+    { theme: "raft", status: "info", class: { itemIcon: "bg-info-soft text-foreground" } },
     {
       theme: "brutal",
       actionVariant: "primary",
@@ -174,6 +234,17 @@ export type NotificationCenterTriggerProps = StyledProps<BasePopover.Trigger.Pro
 function NotificationCenterTriggerContent() {
   const theme = useThemeFamily();
   const { triggerIcon, triggerBell, triggerBellGlow, triggerDot } = notificationCenter({ theme });
+
+  if (theme === "raft") {
+    return (
+      <>
+        <span aria-hidden className={triggerIcon()}>
+          <Bell className={triggerBell()} strokeWidth={2} />
+        </span>
+        <Status aria-hidden variant="accent" size="md" className={triggerDot()} />
+      </>
+    );
+  }
 
   if (theme === "brutal") {
     return (
@@ -584,7 +655,8 @@ export function NotificationCenterItemActions({
   className,
   ...props
 }: NotificationCenterItemActionsProps) {
-  const { itemActions } = notificationCenter();
+  const theme = useThemeFamily();
+  const { itemActions } = notificationCenter({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: itemActions({ className }),
   };
@@ -614,12 +686,14 @@ export function NotificationCenterActionButton({
 }: NotificationCenterActionButtonProps) {
   const theme = useThemeFamily();
   const { actionButton } = notificationCenter({ theme, actionVariant: variant });
-  const buttonVariant = variant === "primary" ? "primary" : "outline";
+  // Raft: in-row actions are outline small (32px) buttons and never pink — a
+  // list can hold several rows waiting on you at once.
+  const buttonVariant = theme !== "raft" && variant === "primary" ? "primary" : "outline";
 
   return (
     <Button
       type="button"
-      size="xs"
+      size={theme === "raft" ? "md" : "xs"}
       variant={buttonVariant}
       className={actionButton({ className })}
       {...props}

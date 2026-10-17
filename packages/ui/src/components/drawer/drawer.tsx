@@ -162,7 +162,7 @@ export function DrawerClose({
       render={
         <Button
           variant={variant ?? (isBrutal ? "outline" : "ghost")}
-          size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
+          size={size ?? (isBrutal ? "icon-md" : theme === "raft" ? "icon-lg" : "icon-sm")}
           aria-label={ariaLabel ?? "Close"}
         />
       }
@@ -230,8 +230,9 @@ export function DrawerBody({ className, render, ...props }: DrawerBodyProps) {
 export type DrawerActionsProps = useRender.ComponentProps<"div">;
 
 export function DrawerActions({ className, render, children, ...props }: DrawerActionsProps) {
+  const swipeAxis = useContext(DrawerConfigContext)?.swipeAxis;
   const theme = useThemeFamily();
-  const { actions } = drawer({ theme });
+  const { actions } = drawer({ theme, axis: swipeAxis });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: actions({ className }),
     children,

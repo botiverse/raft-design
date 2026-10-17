@@ -38,6 +38,15 @@ export const taskDnd = tv({
           "data-[drop-state=allowed]:block",
         ],
       },
+      raft: {
+        draggable: ["rounded-container", "focus-visible:shadow-raft-focus"],
+        overlay: ["z-20", "**:data-[slot=task-card]:shadow-raft-float"],
+        placeholder: [
+          "h-(--task-dnd-placeholder-height,72px) rounded-container",
+          "border-[1.5px] border-dashed border-line-strong bg-transparent",
+          "data-[drop-state=allowed]:block",
+        ],
+      },
     },
   },
 });

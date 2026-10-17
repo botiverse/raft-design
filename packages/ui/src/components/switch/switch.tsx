@@ -59,6 +59,23 @@ const switchRecipe = tv({
           "dark:data-checked:data-disabled:bg-[oklch(0.28_0.002_106.42)]",
         ],
       },
+      raft: {
+        root: [
+          "rounded-full border-[1.5px] border-line-strong bg-fill-muted p-[2.5px]",
+          "duration-150",
+          "data-checked:border-sticker-ink data-checked:bg-primary",
+          "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:shadow-raft-focus",
+          "data-disabled:border-foreground-disabled data-disabled:bg-fill-muted",
+          "data-checked:data-disabled:border-foreground-disabled data-checked:data-disabled:bg-fill-muted",
+        ],
+        thumb: [
+          "rounded-full bg-layer-card shadow-[0_0_0_1.5px_var(--line-strong)]",
+          "duration-220 ease-slide",
+          "data-checked:bg-sticker-paper data-checked:shadow-[0_0_0_1.5px_var(--sticker-ink)]",
+          "data-disabled:bg-fill-muted data-disabled:shadow-[0_0_0_1.5px_var(--foreground-disabled)]",
+          "data-checked:data-disabled:bg-fill-muted data-checked:data-disabled:shadow-[0_0_0_1.5px_var(--foreground-disabled)]",
+        ],
+      },
     },
     size: {
       sm: {
@@ -86,6 +103,15 @@ const switchRecipe = tv({
       class: {
         root: "p-px",
         thumb: "size-3.5",
+      },
+    },
+    {
+      // The Raft Design System has one switch: the 50×30 pill at every size.
+      theme: "raft",
+      size: ["sm", "md"],
+      class: {
+        root: "h-[30px] w-[50px] p-[2.5px]",
+        thumb: "size-[22px] data-[checked]:translate-x-5",
       },
     },
   ],

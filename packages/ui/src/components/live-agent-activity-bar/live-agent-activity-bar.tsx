@@ -32,6 +32,14 @@ const liveAgentActivityBar = tv({
         status: "order-first",
         text: "flex-1 font-sans text-[13px] font-normal text-foreground-muted",
       },
+      raft: {
+        root: "rounded-container border border-line-muted bg-layer-card px-3 py-2 shadow-none",
+        row: ["gap-2", "[&>[data-slot=avatar]+[data-slot=avatar]]:ml-[-5px]"],
+        avatar: "size-[19px]",
+        content: "gap-1.5",
+        status: "animate-none [--status-color:var(--presence-busy)]",
+        text: "font-sans text-footnote font-semibold text-foreground",
+      },
     },
   },
 });
@@ -138,6 +146,8 @@ export function LiveAgentActivityBar({
 }: LiveAgentActivityBarProps) {
   const theme = useThemeFamily();
 
+  // Raft takes the static path: no beam and no enter/exit motion — the DS
+  // keeps agent lights still and swaps the text in place.
   if (theme === "elegant") {
     return (
       <ElegantLiveAgentActivityMotion beam={beam} className={className} render={render} {...props}>
@@ -160,7 +170,8 @@ export function LiveAgentActivityBarRow({
   render,
   ...props
 }: LiveAgentActivityBarRowProps) {
-  const { row } = liveAgentActivityBar();
+  const theme = useThemeFamily();
+  const { row } = liveAgentActivityBar({ theme });
   const defaultProps: useRender.ElementProps<"div"> & LiveAgentActivityBarDataAttributes = {
     "data-slot": "live-agent-activity-bar-row",
     className: row({ className }),
@@ -181,7 +192,8 @@ export function LiveAgentActivityBarAvatar({
   render,
   ...props
 }: LiveAgentActivityBarAvatarProps) {
-  const { avatar } = liveAgentActivityBar();
+  const theme = useThemeFamily();
+  const { avatar } = liveAgentActivityBar({ theme });
 
   return (
     <Avatar
@@ -235,7 +247,7 @@ export function LiveAgentActivityBarStatus({
       aria-hidden
       size="md"
       variant="primary"
-      pulse
+      pulse={theme !== "raft"}
       className={status({ className })}
       {...props}
     />

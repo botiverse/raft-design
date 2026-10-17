@@ -19,6 +19,15 @@ export const panel = tv({
   variants: {
     theme: {
       brutal: {},
+      raft: {
+        root: "bg-layer-panel text-foreground",
+        section: "border-line-muted",
+        footer: [
+          "bg-layer-panel",
+          "px-5 max-md:px-4",
+          "pb-[calc(env(safe-area-inset-bottom)+1rem)] max-md:pb-[calc(env(safe-area-inset-bottom)+0.5rem)]",
+        ],
+      },
       elegant: {
         scrollContent: "md:pb-[var(--panel-footer-clearance)]",
         footer: [
@@ -55,6 +64,11 @@ export const panel = tv({
           "*:data-panel-frame-header:border-b-2 *:data-panel-frame-header:border-black",
         ],
       },
+    },
+    {
+      theme: "raft",
+      edge: "attached",
+      class: { root: "border-line-seam md:border-l" },
     },
     {
       theme: "elegant",

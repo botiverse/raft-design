@@ -3,7 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { useThemeFamily } from "../../lib/theme/use-theme";
-import { taskStatus } from "../tasks/task-status.recipe";
+import { taskStatus, taskStatusSoft } from "../tasks/task-status.recipe";
 import type { TaskStatusId } from "../tasks/task-status.recipe";
 import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskCardStatus } from "./task-card-status.recipe";
@@ -179,7 +179,12 @@ export function TaskCardStatus({
     "data-slot": "task-card-status",
     "data-busy": busy ? "true" : undefined,
     "aria-busy": busy || undefined,
-    className: cn(styles, theme === "brutal" && taskStatus({ status }), className),
+    className: cn(
+      styles,
+      theme === "brutal" && taskStatus({ status }),
+      theme === "raft" && taskStatusSoft({ status }),
+      className,
+    ),
   };
   return useRender({
     defaultTagName: "button",

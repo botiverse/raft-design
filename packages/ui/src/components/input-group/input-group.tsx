@@ -82,6 +82,29 @@ const inputGroup = tv({
           "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],
       },
+      raft: {
+        root: [
+          "h-11 overflow-hidden rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground",
+          "shadow-none transition-shadow duration-90 ease-out focus-within:shadow-raft-focus",
+          "has-[[data-slot=input-group-control][data-invalid]]:border-danger-strong",
+          "has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed has-[[data-slot=input-group-control]:disabled]:border-line-muted has-[[data-slot=input-group-control]:disabled]:bg-fill-muted",
+          "has-[[data-slot=input-group-control]:disabled]:[--ig-addon-fg:var(--foreground-disabled)]",
+          "has-[[data-slot=input-group-control]:disabled]:[--ig-text-fg:var(--foreground-disabled)]",
+        ],
+        addon: [
+          "text-(--ig-addon-fg,var(--ig-addon-fg-default,var(--foreground-hint)))",
+          "[&>svg:not([class*='size-'])]:size-4.5",
+        ],
+        text: [
+          "font-mono text-mono-code",
+          "text-(--ig-text-fg,var(--ig-text-fg-default,var(--foreground-hint)))",
+        ],
+        control: [
+          "h-full py-0 font-heading text-field font-field",
+          "text-foreground placeholder:text-foreground-placeholder",
+          "disabled:cursor-not-allowed disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
+        ],
+      },
     },
     align: {
       "inline-start": { addon: "order-first", text: "order-first" },
@@ -143,6 +166,26 @@ const inputGroup = tv({
       variant: "container",
       align: "inline-end",
       class: { addon: "border-l-2 border-line-strong", text: "border-l-2 border-line-strong" },
+    },
+    {
+      theme: "raft",
+      variant: "default",
+      align: "inline-start",
+      class: { addon: "pr-2", text: "pr-0.5" },
+    },
+    {
+      theme: "raft",
+      variant: "default",
+      align: "inline-end",
+      class: { addon: "pl-2", text: "pl-0.5" },
+    },
+    {
+      theme: "raft",
+      variant: "container",
+      class: {
+        addon: "border-line-muted bg-fill-muted dark:border-line-muted dark:bg-fill-muted",
+        text: "border-line-muted bg-fill-muted dark:border-line-muted dark:bg-fill-muted",
+      },
     },
   ],
   defaultVariants: {

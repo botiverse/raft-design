@@ -248,7 +248,7 @@ export function SidebarSectionControl({
     props: mergeProps<"button">(defaultProps, props),
   });
 
-  if (theme === "elegant") {
+  if (theme !== "brutal") {
     return (
       <Button
         data-slot="sidebar-section-control"

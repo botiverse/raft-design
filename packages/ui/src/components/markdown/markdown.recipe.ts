@@ -77,9 +77,45 @@ export const markdown = tv({
         image: ["my-2 rounded-md border border-line-muted"],
         inlineCode: ["inline leading-[inherit] wrap-anywhere"],
       },
+      raft: {
+        heading: ["font-bold text-foreground"],
+        link: [
+          "rounded-[2px] text-foreground-link hover:decoration-accent-500",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+        mark: [
+          "rounded-sticker px-[3px] font-bold!",
+          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+        ],
+        blockquote: ["my-1 border-l-2 border-line-seam pl-2.5", "text-foreground-muted not-italic"],
+        rule: ["my-3 border-0 border-t border-line-muted"],
+        tableScroll: [
+          "my-2 w-fit max-w-full",
+          "rounded-container border border-line-muted bg-layer-card",
+        ],
+        table: ["border-0 text-callout"],
+        tableRow: ["last:[&>td]:border-b-0"],
+        headerCell: [
+          "px-3 py-1.5",
+          "border-0 border-b border-line-muted not-last:border-r",
+          "bg-fill-muted",
+          "text-left font-semibold whitespace-nowrap text-foreground",
+        ],
+        cell: ["px-3 py-1.5", "border-0 border-b border-line-muted not-last:border-r"],
+        image: ["my-2 rounded-container border border-line-muted"],
+        inlineCode: ["inline leading-[inherit] wrap-anywhere"],
+      },
     },
   },
   compoundVariants: [
+    { theme: "raft", level: 1, class: { heading: "mt-4 mb-1 text-title" } },
+    { theme: "raft", level: 2, class: { heading: "mt-3 mb-1 text-headline" } },
+    { theme: "raft", level: 3, class: { heading: "mt-3 mb-0.5 text-subhead font-bold" } },
+    {
+      theme: "raft",
+      level: [4, 5, 6],
+      class: { heading: "mt-2 mb-0.5 text-footnote font-bold text-foreground-muted" },
+    },
     {
       theme: "brutal",
       level: 6,

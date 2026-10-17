@@ -13,6 +13,7 @@ export const input = tv({
     theme: {
       brutal: {},
       elegant: {},
+      raft: {},
     },
   },
   compoundVariants: [
@@ -44,6 +45,19 @@ export const input = tv({
           "disabled:cursor-not-allowed disabled:border-line-muted/60 disabled:bg-fill-muted/50 disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
           "disabled:hover:border-line-muted/60",
           "data-invalid:disabled:border-line-muted/60 data-invalid:disabled:ring-0",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      class: {
+        root: [
+          "h-11 py-0",
+          "rounded-control border-[1.5px] border-line-strong bg-layer-card",
+          "text-foreground placeholder:text-foreground-placeholder",
+          "shadow-none transition-shadow duration-90 ease-out focus:shadow-raft-focus",
+          "data-invalid:border-danger-strong",
+          "disabled:cursor-not-allowed disabled:border-line-muted disabled:bg-fill-muted disabled:text-foreground-disabled disabled:placeholder:text-foreground-disabled",
         ],
       },
     },

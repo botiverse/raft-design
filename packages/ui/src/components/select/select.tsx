@@ -138,6 +138,50 @@ const select = tv({
         scrollArrow: ["bg-layer-popover text-foreground-placeholder hover:text-foreground-muted"],
         empty: ["text-foreground-muted"],
       },
+      raft: {
+        trigger: [
+          "h-11 w-full gap-2 pr-3 pl-3.5",
+          "text-subhead font-semibold text-foreground",
+          "data-placeholder:font-medium data-placeholder:text-foreground-hint",
+          "data-invalid:border-danger-strong data-invalid:hover:border-danger-strong",
+          "data-invalid:focus-visible:border-danger-strong data-invalid:focus-visible:ring-0",
+          "[&_[data-slot='select-trigger-content']_svg:not([class*='size-'])]:size-4",
+          "[&_[data-slot='select-trigger-content']_svg:not([class*='stroke-'])]:stroke-2",
+        ],
+        icon: [
+          "text-foreground-hint opacity-100",
+          "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
+        ],
+        content: [
+          "rounded-container bg-layer-popover p-1.5 text-foreground",
+          "shadow-raft-float ring-1 ring-line-seam",
+        ],
+        list: ["flex flex-col"],
+        item: [
+          "min-h-9 gap-2.5 rounded-control px-2.5 py-0",
+          "text-callout font-medium text-foreground",
+          "bg-transparent hover:bg-primary-soft data-highlighted:bg-primary-soft",
+          "data-selected:font-bold data-selected:**:data-[slot='select-item-text']:font-bold",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:text-foreground-icon",
+          "[&>svg:not([class*='size-'])]:size-4",
+          "[&>svg:not([class*='stroke-'])]:stroke-2",
+        ],
+        itemLeading: [
+          "size-4 text-foreground-icon",
+          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
+          "[&>svg:not([class*='size-'])]:size-4",
+          "[&>svg:not([class*='stroke-'])]:stroke-2",
+        ],
+        itemIndicator: [
+          "text-foreground [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
+        ],
+        label: ["font-sans text-footnote font-semibold text-foreground-muted"],
+        groupLabel: ["px-2.5 pt-2 pb-1 text-caption font-bold text-foreground-hint"],
+        separator: ["-mx-1.5 my-1.5 bg-line-muted"],
+        scrollArrow: ["bg-layer-popover text-foreground-hint"],
+        empty: ["px-2.5 py-2 text-left text-callout text-foreground-hint"],
+      },
     },
     // `field` makes a Select carry the declared field metric axis instead of the
     // Button size scale it is built on. Trigger and options share font-size,
@@ -161,6 +205,13 @@ const select = tv({
       },
     },
   },
+  compoundVariants: [
+    {
+      theme: "raft",
+      chrome: "field",
+      class: { trigger: ["h-11 py-0", "data-placeholder:font-field"] },
+    },
+  ],
   defaultVariants: {
     chrome: "default",
   },

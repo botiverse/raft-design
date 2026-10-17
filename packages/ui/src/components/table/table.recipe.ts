@@ -40,6 +40,20 @@ export const table = tv({
         head: ["border-b border-line-muted bg-fill-muted/40 px-3 py-2 font-medium text-foreground"],
         cell: ["border-b border-line-hairline px-3 py-2"],
       },
+      raft: {
+        root: ["font-sans text-callout text-foreground"],
+        body: ["[&>tr:hover]:bg-fill-pressed"],
+        row: [
+          "aria-selected:bg-info-soft aria-selected:hover:bg-info-soft",
+          "data-[selected=true]:bg-info-soft data-[selected=true]:hover:bg-info-soft",
+        ],
+        head: [
+          "border-b border-line-muted px-3 py-2",
+          "text-footnote font-bold normal-case tracking-normal text-foreground-hint",
+        ],
+        cell: ["border-b border-line-muted px-3 py-2"],
+        caption: ["pt-2 text-caption text-foreground-hint"],
+      },
     },
   },
 });

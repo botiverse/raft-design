@@ -18,6 +18,12 @@ const skeleton = tv({
           "data-[variant=block]:rounded-md data-[variant=block]:bg-foreground-strong/8",
         ],
       },
+      raft: {
+        root: [
+          "data-[variant=line]:rounded-sticker data-[variant=line]:bg-fill-muted",
+          "data-[variant=block]:rounded-sticker data-[variant=block]:bg-fill-muted",
+        ],
+      },
     },
     variant: {
       line: {
@@ -44,6 +50,13 @@ const skeleton = tv({
       variant: "circle",
       class: {
         root: "bg-foreground-strong/8",
+      },
+    },
+    {
+      theme: "raft",
+      variant: "circle",
+      class: {
+        root: "rounded-sticker bg-fill-muted",
       },
     },
   ],

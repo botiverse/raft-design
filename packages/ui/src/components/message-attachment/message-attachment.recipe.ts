@@ -60,6 +60,24 @@ export const messageAttachment = tv({
         action:
           "text-foreground-icon transition-colors group-hover/attachment:text-foreground-strong",
       },
+      raft: {
+        card: [
+          "rounded-container border border-line-muted bg-layer-card py-2 pr-1.5 pl-2.5 text-foreground",
+          "outline-none hover:press-overlay active:press-overlay focus-visible:shadow-raft-focus",
+          "[&_[data-slot=message-attachment-action]_svg]:size-4",
+        ],
+        title: "pr-1 font-sans text-callout font-semibold text-foreground",
+        meta: "gap-2 font-mono text-mono-meta text-foreground-hint",
+        summary: "pr-1 font-mono text-mono-meta text-foreground-hint [&_svg]:size-3.5",
+        diffAddition: "text-success-strong",
+        diffDeletion: "text-danger-strong",
+        action: [
+          "-my-1 size-6 rounded-control text-foreground",
+          "outline-none hover:bg-fill-pressed active:bg-fill-pressed",
+          "focus-visible:shadow-raft-focus",
+          "[&_svg]:size-4",
+        ],
+      },
     },
   },
 });

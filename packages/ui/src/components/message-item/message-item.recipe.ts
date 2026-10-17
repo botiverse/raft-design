@@ -171,12 +171,61 @@ export const messageItem = tv({
         ],
         footer: "mt-2.5 max-md:mt-1.5",
       },
+      raft: {
+        root: [
+          "min-h-0 px-2 py-2",
+          "hover:bg-fill-pressed data-popup-open:bg-fill-pressed has-data-popup-open:bg-fill-pressed",
+          "hover:[--mi-ct-color:var(--foreground-hint)] has-data-popup-open:[--mi-ct-color:var(--foreground-hint)]",
+          "has-data-[slot=message-item-search-match]:bg-info-soft has-data-[slot=message-item-search-match]:hover:bg-info-soft",
+          "has-[[data-slot=message-multi-select-checkbox][data-checked]]:bg-info-soft",
+          "has-[[data-slot=message-multi-select-checkbox][data-checked]]:hover:bg-info-soft",
+        ],
+        gutter: "w-[35px]",
+        avatarSlot: [
+          "flex w-[35px] justify-center",
+          "[&_[data-slot=avatar][data-size=md]]:size-(--mi-avatar,35px)",
+        ],
+        continuationTime: ["top-1 font-mono text-mono-meta", "text-(--mi-ct-color,transparent)"],
+        content: "text-body text-foreground",
+        header: "mb-px items-center gap-1.5 pr-0",
+        sender: [
+          "text-subhead font-bold text-foreground",
+          "data-[slot=message-item-sender-button]:hover:underline data-[slot=message-item-sender-button]:hover:decoration-[1.5px] data-[slot=message-item-sender-button]:hover:underline-offset-[3px]",
+          "rounded-[2px] outline-none focus-visible:shadow-raft-focus",
+        ],
+        meta: "text-caption text-foreground-hint",
+        time: [
+          "ml-auto font-mono text-mono-meta tabular-nums text-foreground-hint",
+          "opacity-[calc(1-var(--mi-toolbar-opacity,0))]",
+        ],
+        inlineStatus: "text-caption text-foreground-hint",
+        body: ["text-body text-foreground", "selection:bg-primary-soft"],
+        searchMatch: [
+          "rounded-sticker px-[3px] font-bold!",
+          "bg-primary text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "dark:bg-primary",
+        ],
+        embedded: "mt-2",
+        attachments: "mt-2",
+        toolbar: [
+          "top-[-18px] right-3 gap-0.5 overflow-visible rounded-control p-[3px]",
+          "bg-layer-popover ring-1 ring-line-seam shadow-raft-float",
+        ],
+        toolbarButton: [
+          "size-8 rounded-control border-0 bg-transparent p-0",
+          "text-foreground-icon hover:bg-fill-pressed active:bg-fill-pressed",
+          "data-popup-open:bg-fill-pressed data-active:text-foreground",
+          "outline-none focus-visible:shadow-raft-focus",
+          "[&_svg]:size-[18px]",
+        ],
+      },
     },
     compact: {
       true: {},
     },
   },
   compoundVariants: [
+    { theme: "raft", compact: true, class: { root: "pt-0" } },
     { theme: "brutal", compact: true, class: { root: "mt-0 min-h-0 py-1" } },
     {
       theme: "elegant",

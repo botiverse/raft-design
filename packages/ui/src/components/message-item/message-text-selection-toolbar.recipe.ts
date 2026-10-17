@@ -25,6 +25,19 @@ export const messageTextSelectionToolbar = tv({
         ],
         separator: "hidden",
       },
+      raft: {
+        toolbar: [
+          "gap-0.5 overflow-visible rounded-control p-[3px] text-footnote font-bold",
+          "bg-layer-popover ring-1 ring-line-seam shadow-raft-float",
+        ],
+        button: [
+          "h-8 rounded-control px-2.5 text-foreground",
+          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "focus-visible:shadow-raft-focus",
+          "[&_svg]:size-4 [&_svg]:text-foreground-icon",
+        ],
+        separator: "mx-0.5 h-5 bg-line-muted",
+      },
     },
   },
 });

@@ -21,6 +21,16 @@ export const conversationPanel = tv({
         ],
         footer: "border-t-2 border-black bg-white",
       },
+      raft: {
+        root: "bg-layer-panel font-sans text-foreground",
+        content: "bg-layer-panel",
+        tabs: [
+          "border-b border-line-seam bg-layer-panel",
+          "*:data-[slot=tabs-list]:max-w-none *:data-[slot=tabs-list]:px-5 max-md:*:data-[slot=tabs-list]:px-4",
+          "*:data-[slot=tabs-list]:data-[variant=default]:py-2",
+        ],
+        footer: "bg-layer-panel",
+      },
       elegant: {
         root: "relative bg-layer-canvas-muted font-sans text-foreground-strong",
         content: [

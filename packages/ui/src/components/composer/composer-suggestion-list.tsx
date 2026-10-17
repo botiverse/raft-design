@@ -56,6 +56,22 @@ const composerSuggestionList = tv({
         ],
         meta: "text-xs text-foreground-placeholder",
       },
+      raft: {
+        root: [
+          "mb-2 max-h-60 overflow-x-hidden rounded-container p-1.5",
+          "bg-layer-popover text-foreground ring-1 ring-line-seam shadow-raft-float",
+        ],
+        group: "flex flex-col",
+        groupLabel: "px-2.5 pt-2 pb-1 font-sans text-caption font-bold text-foreground-hint",
+        item: [
+          "min-h-9 cursor-pointer gap-2.5 rounded-control px-2.5 py-1",
+          "font-sans text-callout font-medium text-foreground",
+          "hover:bg-primary-soft data-[highlighted=true]:bg-primary-soft",
+          "data-[disabled=true]:cursor-default data-[disabled=true]:text-foreground-disabled",
+          "data-[disabled=true]:hover:bg-transparent",
+        ],
+        meta: "text-caption text-foreground-hint",
+      },
     },
     separated: {
       true: { group: "mt-1 pt-1" },
@@ -75,6 +91,31 @@ const composerSuggestionList = tv({
     },
   },
   compoundVariants: [
+    {
+      theme: "raft",
+      separated: true,
+      class: { group: "-mx-1.5 mt-1.5 border-t border-line-muted px-1.5 pt-1.5" },
+    },
+    {
+      theme: "raft",
+      iconVariant: "framed",
+      class: {
+        icon: [
+          "flex size-[19px] items-center justify-center rounded-sticker",
+          "bg-fill-muted text-foreground-muted [&_svg]:size-[11px]",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      iconVariant: ["auxiliary", "inline"],
+      class: { icon: "text-foreground-hint" },
+    },
+    {
+      theme: "raft",
+      metaVariant: "code",
+      class: { meta: "text-mono-meta text-foreground-hint" },
+    },
     {
       theme: "brutal",
       iconVariant: "framed",

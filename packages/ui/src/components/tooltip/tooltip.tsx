@@ -70,6 +70,18 @@ const tooltip = tv({
         // rotation transforms, so the offset stays apex-directed on every side.
         arrow: ["dark:drop-shadow-[0_1px_0_oklch(0_0_0/0.55)]"],
       },
+      raft: {
+        content: [
+          "rounded-chip bg-layer-hud text-layer-hud-foreground",
+          "font-sans font-medium",
+          "shadow-raft-float",
+          "has-[[data-slot=kbd]]:py-1 has-[[data-slot=kbd]]:pr-2.5",
+        ],
+        body: [
+          "**:data-[slot=kbd]:text-[12px] **:data-[slot=kbd]:leading-4 [&_[data-slot=kbd]]:font-normal",
+        ],
+        arrow: [],
+      },
     },
   },
 });
@@ -123,14 +135,16 @@ function TooltipArrowSvg({
   theme,
   ...props
 }: ComponentProps<"svg"> & Pick<TooltipStyleProps, "theme">) {
-  const isElegant = theme === "elegant";
+  const fill =
+    theme === "elegant"
+      ? "fill-layer-hud dark:fill-layer-popover"
+      : theme === "raft"
+        ? "fill-layer-hud"
+        : "fill-layer-popover";
 
   return (
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
-      <path
-        d="M1 0H11L6 5.25Z"
-        className={isElegant ? "fill-layer-hud dark:fill-layer-popover" : "fill-layer-popover"}
-      />
+      <path d="M1 0H11L6 5.25Z" className={fill} />
     </svg>
   );
 }
@@ -180,9 +194,12 @@ function partitionTooltipBodyChildren(children: ReactNode) {
   return { icons, rest };
 }
 
-function TooltipBodyContent({ children }: { children: ReactNode }) {
+function TooltipBodyContent({
+  children,
+  theme,
+}: { children: ReactNode } & Pick<TooltipStyleProps, "theme">) {
   const { icons, rest } = partitionTooltipBodyChildren(children);
-  const { body, bodyIcon, bodyText } = tooltip({ hasLeadingIcon: icons.length > 0 });
+  const { body, bodyIcon, bodyText } = tooltip({ theme, hasLeadingIcon: icons.length > 0 });
 
   if (icons.length === 0) {
     return (
@@ -251,7 +268,7 @@ export function TooltipContent({
 }: TooltipContentProps) {
   const theme = useThemeFamily();
   const { positioner, content } = tooltip({ theme });
-  const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 8 : 6);
+  const resolvedSideOffset = sideOffset ?? (theme === "brutal" ? 6 : 8);
   const portalContainer = container !== undefined ? container : portalProps?.container;
 
   return (
@@ -276,7 +293,7 @@ export function TooltipContent({
           className={content({ className })}
           {...props}
         >
-          <TooltipBodyContent>{children}</TooltipBodyContent>
+          <TooltipBodyContent theme={theme}>{children}</TooltipBodyContent>
           <TooltipArrow />
         </BaseTooltip.Popup>
       </BaseTooltip.Positioner>

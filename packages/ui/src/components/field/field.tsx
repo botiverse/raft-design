@@ -29,6 +29,11 @@ const field = tv({
         ],
         error: ["text-[13px] text-danger"],
       },
+      raft: {
+        label: ["font-sans font-semibold text-foreground-muted"],
+        description: ["text-caption text-foreground-hint"],
+        error: ["text-caption font-semibold text-danger-strong"],
+      },
     },
     size: {
       sm: { label: "text-xs" },
@@ -37,6 +42,8 @@ const field = tv({
   },
   compoundVariants: [
     { theme: "brutal", size: "sm", class: { label: "text-foreground-strong/60" } },
+    { theme: "raft", size: "sm", class: { label: "text-caption font-semibold" } },
+    { theme: "raft", size: "md", class: { label: "text-footnote font-semibold" } },
   ],
   defaultVariants: {
     size: "md",

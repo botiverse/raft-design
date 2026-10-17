@@ -30,6 +30,9 @@ export const scrollArea = tv({
       elegant: {
         thumb: ["bg-foreground-muted/35 hover:bg-foreground-muted/55"],
       },
+      raft: {
+        thumb: ["rounded-[2px] bg-foreground/30 hover:bg-foreground/45"],
+      },
     },
   },
 });

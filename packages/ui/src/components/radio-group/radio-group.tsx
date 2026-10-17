@@ -50,6 +50,15 @@ const radioGroup = tv({
         ],
         dot: "size-1.5",
       },
+      raft: {
+        root: ["font-sans [&>label]:font-semibold"],
+        item: [
+          "size-5 border-[1.5px] border-line-strong bg-layer-card text-foreground",
+          "focus-visible:shadow-raft-focus",
+          "data-disabled:border-foreground-disabled data-disabled:bg-fill-muted data-disabled:text-foreground-disabled",
+        ],
+        dot: "size-2",
+      },
     },
   },
 });

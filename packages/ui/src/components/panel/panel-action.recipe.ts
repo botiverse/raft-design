@@ -22,6 +22,13 @@ const panelActionBase = tv({
         "focus-visible:ring-[0.5px] focus-visible:ring-primary-500",
         "[&>svg]:size-4",
       ],
+      raft: [
+        "h-11 min-w-11 rounded-control border-[1.5px] border-transparent bg-transparent px-2 py-0",
+        "text-foreground",
+        "hover:bg-fill-pressed active:bg-fill-pressed",
+        "focus-visible:shadow-raft-focus",
+        "[&>svg]:size-[22px]",
+      ],
     },
   },
 });
@@ -41,6 +48,12 @@ export const panelAction = tv({
       elegant: [
         "text-foreground-icon shadow-none",
         "active:bg-fill-strong/80 active:text-foreground-strong",
+      ],
+      raft: [
+        "gap-1.5 text-footnote font-bold",
+        "disabled:bg-transparent disabled:text-foreground-disabled disabled:opacity-100",
+        "aria-pressed:border-sticker-ink aria-pressed:bg-primary aria-pressed:text-sticker-ink",
+        "aria-pressed:active:press-overlay-sticker",
       ],
     },
   },
@@ -62,6 +75,12 @@ export const panelToggleAction = tv({
         "active:bg-fill-strong/80 active:text-foreground-strong",
         "data-pressed:bg-fill-strong data-pressed:text-foreground-strong",
         "data-pressed:hover:bg-fill-strong",
+      ],
+      raft: [
+        "gap-1.5 text-footnote font-bold",
+        "data-disabled:bg-transparent data-disabled:text-foreground-disabled data-disabled:opacity-100",
+        "data-pressed:border-sticker-ink data-pressed:bg-primary data-pressed:text-sticker-ink",
+        "data-pressed:active:press-overlay-sticker",
       ],
     },
   },

@@ -52,7 +52,7 @@ export const taskBoardColumn = tv({
       },
       elegant: {
         root: [
-          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))]",
+          "rounded-container bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))]",
           "dark:bg-layer-card",
           "data-[drop-collapsed=true]:data-[drop-state=allowed]:[outline:1px_dashed_var(--line-muted)]",
         ],
@@ -75,6 +75,33 @@ export const taskBoardColumn = tv({
           "rounded-lg border border-dashed border-line-muted bg-layer-panel",
           "text-[13px] leading-4.5 text-foreground-placeholder",
           "group-data-[drop-state=blocked]:border-danger/40 group-data-[drop-state=blocked]:text-danger-strong",
+        ],
+      },
+      raft: {
+        root: [
+          "w-[232px] grow rounded-container p-0",
+          "data-[drop-collapsed=true]:data-[drop-state=allowed]:[outline:1.5px_dashed_var(--line-strong)] data-[drop-collapsed=true]:data-[drop-state=allowed]:outline-offset-4",
+        ],
+        trigger: [
+          "min-h-8 gap-2 rounded-control",
+          "font-sans text-footnote font-bold text-foreground-muted",
+          "data-[panel-open]:mb-2",
+          "focus-visible:shadow-raft-focus",
+        ],
+        heading: ["gap-2"],
+        badge: [
+          "inline-flex items-center gap-2 p-0",
+          "font-sans text-footnote font-bold text-foreground-muted",
+          "[&>svg]:shrink-0",
+        ],
+        count: ["font-mono text-mono-meta font-normal text-foreground-hint"],
+        chevron: ["text-foreground-hint", "group-hover:text-foreground"],
+        items: ["gap-2"],
+        empty: [
+          "flex min-h-16 items-center justify-center py-3",
+          "rounded-container border border-dashed border-line-seam",
+          "text-center text-footnote text-foreground-hint",
+          "group-data-[drop-state=blocked]:text-foreground-muted",
         ],
       },
     },

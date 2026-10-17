@@ -18,7 +18,13 @@ import type { StyledProps } from "../../lib/styled-props";
 //
 // `type` owns identity-keyed placeholder fills under brutal (`agent` → cyan,
 // `human` → lavender), matching source AvatarSlot. Elegant keeps a neutral
-// muted frame for both types.
+// muted frame for both types. Raft makes every identity a square sticker (ink
+// edge, die-cut ring in dark): people without a photo sit on lavender, agents
+// on stone until their sprite (which carries its own colour) covers it.
+//
+// Raft snaps the scale to the design system's 8n + 3 sizes, one DS size per
+// role: xl 99 (profile page, hard sticker shadow), lg 51, md 35, sm 27,
+// xs / 2xs 19. 3xs keeps 14 — the system has no miniature identity.
 //
 // `size` is a compact t-shirt scale distilled from the original call-site
 // contexts: xl profile/detail (64), lg mention/large identity (48), md panel
@@ -118,6 +124,49 @@ const avatar = tv({
           "*:data-[slot=avatar-group-count]:outline *:data-[slot=avatar-group-count]:outline-2 *:data-[slot=avatar-group-count]:outline-layer-canvas-muted",
         ],
       },
+      raft: {
+        root: [
+          "rounded-sticker border-[1.5px] border-sticker-ink",
+          "text-sticker-ink shadow-[0_0_0_1.5px_var(--sticker-edge)]",
+        ],
+        image: ["rounded-[2px]"],
+        fallback: [
+          "overflow-hidden rounded-[2px]",
+          "font-sans text-[15px] leading-none font-bold tracking-[-0.01em] text-sticker-ink",
+          "group-data-[size=xl]/avatar:text-[40px]",
+          "group-data-[size=lg]/avatar:text-[22px]",
+          "group-data-[size=sm]/avatar:text-[13px]",
+          "group-data-[size=xs]/avatar:text-[11px]",
+          "group-data-[size=2xs]/avatar:text-[11px]",
+          "group-data-[size=3xs]/avatar:text-[8px]",
+          "group-data-[size=xl]/avatar:[&>svg]:size-12",
+          "group-data-[size=sm]/avatar:[&>svg]:size-3.5",
+          "group-data-[size=2xs]/avatar:[&>svg]:size-3",
+          "group-data-[size=3xs]/avatar:[&>svg]:size-2",
+        ],
+        badge: [
+          "size-[11px] -right-1 -bottom-1 rounded-[2px]",
+          "outline-2 outline-solid outline-layer-panel",
+          "group-data-[size=xl]/avatar:size-5 group-data-[size=xl]/avatar:-right-2 group-data-[size=xl]/avatar:-bottom-2",
+          "group-data-[size=lg]/avatar:size-3.5 group-data-[size=lg]/avatar:right-[-5px] group-data-[size=lg]/avatar:bottom-[-5px]",
+          "group-data-[size=md]/avatar:size-[11px]",
+          "group-data-[size=sm]/avatar:size-[9px] group-data-[size=sm]/avatar:right-[-3px] group-data-[size=sm]/avatar:bottom-[-3px]",
+          "group-data-[size=xs]/avatar:size-[9px] group-data-[size=xs]/avatar:right-[-3px] group-data-[size=xs]/avatar:bottom-[-3px]",
+          "group-data-[size=2xs]/avatar:size-[9px] group-data-[size=2xs]/avatar:right-[-3px] group-data-[size=2xs]/avatar:bottom-[-3px]",
+          "group-data-[size=3xs]/avatar:size-1.5 group-data-[size=3xs]/avatar:-right-0.5 group-data-[size=3xs]/avatar:-bottom-0.5",
+        ],
+        dot: [
+          "rounded-[2px] border-[1.5px] border-sticker-ink",
+          "bg-presence-online text-sticker-ink outline-layer-panel",
+          "group-data-[size=xl]/avatar:border-2",
+          "group-data-[size=3xs]/avatar:border",
+        ],
+        group: [
+          "space-x-[-5px]",
+          "*:data-[slot=avatar]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-panel)]",
+          "*:data-[slot=avatar-group-count]:shadow-[0_0_0_1.5px_var(--sticker-edge),0_0_0_3px_var(--layer-panel)]",
+        ],
+      },
     },
     type: {
       agent: {},
@@ -214,6 +263,43 @@ const avatar = tv({
       theme: "elegant",
       type: "human",
       class: { root: "text-foreground-muted" },
+    },
+    {
+      theme: "raft",
+      size: "xl",
+      class: {
+        root: "size-[99px] shadow-[0_0_0_1.5px_var(--sticker-edge),var(--theme-shadow-sticker)]",
+      },
+    },
+    {
+      theme: "raft",
+      size: "lg",
+      class: { root: "size-[51px]" },
+    },
+    {
+      theme: "raft",
+      size: "md",
+      class: { root: "size-[35px]" },
+    },
+    {
+      theme: "raft",
+      size: "sm",
+      class: { root: "size-[27px]" },
+    },
+    {
+      theme: "raft",
+      size: ["xs", "2xs"],
+      class: { root: "size-[19px]" },
+    },
+    {
+      theme: "raft",
+      type: "agent",
+      class: { root: "bg-inactive" },
+    },
+    {
+      theme: "raft",
+      type: "human",
+      class: { root: "bg-brutal-lavender" },
     },
   ],
 });
@@ -447,9 +533,11 @@ export function AvatarGroupCount({ size, className, ...props }: AvatarGroupCount
   const theme = useThemeFamily();
   const { root } = avatar({ theme, size });
   const countClassName =
-    theme === "elegant"
-      ? "bg-fill-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
-      : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground";
+    theme === "raft"
+      ? "border-transparent bg-fill-muted font-mono text-mono-meta font-bold tabular-nums text-foreground-muted shadow-none"
+      : theme === "elegant"
+        ? "bg-fill-muted font-medium text-xs leading-none tabular-nums text-foreground-muted"
+        : "bg-secondary-400 font-bold text-xs leading-none tabular-nums text-foreground";
   return (
     <span
       data-slot="avatar-group-count"

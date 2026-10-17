@@ -9,6 +9,7 @@ import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
 import { messageActionCard } from "./message-action-card.recipe";
+import type { MessageActionCardStatusTone } from "./message-action-card.recipe";
 import { messageActionCardContent } from "./message-action-card-content.recipe";
 /**
  * The card is a disclosure: open by default, and a consumer can fold a
@@ -113,10 +114,22 @@ export function MessageActionCardHeaderDescription({
   });
 }
 
+const STATUS_TONES: Record<NonNullable<BadgeProps["variant"]>, MessageActionCardStatusTone> = {
+  default: "neutral",
+  muted: "neutral",
+  primary: "primary",
+  information: "information",
+  accent: "accent",
+  success: "success",
+  warning: "warning",
+  danger: "danger",
+};
+
 /**
  * The card's state label in the header. Brutal shows it as a solid,
  * saturated badge; Elegant as the soft tinted badge, so a column of "Done"
- * cards does not shout.
+ * cards does not shout. Raft writes it as plain text led by a square pixel
+ * in the variant's colour.
  */
 export function MessageActionCardStatus({
   className,
@@ -125,13 +138,16 @@ export function MessageActionCardStatus({
   ...props
 }: BadgeProps) {
   const theme = useThemeFamily();
-  const { headerStatus } = messageActionCard({ theme });
+  const { headerStatus, status } = messageActionCard({
+    theme,
+    tone: STATUS_TONES[props.variant ?? "default"],
+  });
 
   return (
     <Badge
       appearance={appearance ?? (theme === "brutal" ? "solid" : "soft")}
       uppercase={uppercase ?? theme === "brutal"}
-      className={headerStatus({ className })}
+      className={headerStatus({ className: status({ className }) })}
       {...props}
     />
   );

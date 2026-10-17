@@ -48,7 +48,8 @@ export function MessageItemSearchMatch({
   render,
   ...props
 }: MessageItemSearchMatchProps) {
-  const { searchMatch } = messageItem();
+  const theme = useThemeFamily();
+  const { searchMatch } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"mark"> = {
     className: searchMatch({ className }),
   };
@@ -66,7 +67,8 @@ export function MessageItemSearchMatch({
 export type MessageItemEmbeddedProps = useRender.ComponentProps<"div">;
 
 export function MessageItemEmbedded({ className, render, ...props }: MessageItemEmbeddedProps) {
-  const { embedded } = messageItem();
+  const theme = useThemeFamily();
+  const { embedded } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: embedded({ className }),
   };
@@ -88,7 +90,8 @@ export function MessageItemAttachments({
   render,
   ...props
 }: MessageItemAttachmentsProps) {
-  const { attachments } = messageItem();
+  const theme = useThemeFamily();
+  const { attachments } = messageItem({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: attachments({ className }),
   };

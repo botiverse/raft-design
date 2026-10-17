@@ -75,6 +75,25 @@ export const threadPanel = tv({
         replyCount: "border-line-hairline text-foreground-muted",
         footer: ["px-5 max-lg:px-3.5 md:px-5 max-md:px-3.5", "text-foreground-muted"],
       },
+      raft: {
+        root: ["relative bg-layer-panel font-sans text-foreground dark:bg-layer-panel"],
+        header: [
+          "h-(--shell-header-height,56px) gap-3 pr-3 pl-5 max-md:gap-2 max-md:pr-1.5 max-md:pl-4",
+          "border-b border-line-seam bg-layer-panel",
+        ],
+        content: ["relative bg-layer-panel"],
+        title: ["font-sans text-headline text-foreground"],
+        titleMeta: ["font-normal text-foreground-hint"],
+        search: ["border-b border-line-muted bg-layer-panel px-5"],
+        searchCount: ["text-mono-meta text-foreground-hint"],
+        originalMessage: [
+          "border-b border-line-muted bg-transparent pb-2",
+          "**:data-message-item:bg-transparent",
+        ],
+        replySummary: ["px-5"],
+        replyCount: ["border-line-muted text-mono-meta text-foreground-hint"],
+        footer: ["text-caption text-foreground-hint"],
+      },
     },
   },
 });

@@ -91,6 +91,7 @@ export function FloatButton({
     hasText && "r-float-button--with-text",
     description && "r-float-button--with-desc",
     theme === "elegant" && "r-float-button--elegant",
+    theme === "raft" && "r-float-button--raft",
     className,
   ]
     .filter(Boolean)
@@ -196,6 +197,7 @@ export function FloatButtonGroup({
     attached && "r-float-button-group--attached",
     `r-float-button-group--${shape}`,
     theme === "elegant" && "r-float-button-group--elegant",
+    theme === "raft" && "r-float-button-group--raft",
     className,
   ]
     .filter(Boolean)

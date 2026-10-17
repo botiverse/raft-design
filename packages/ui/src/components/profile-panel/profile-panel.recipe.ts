@@ -18,6 +18,11 @@ export const profilePanel = tv({
         headerContent: "md:flex-col md:items-stretch md:gap-0",
         section: "border-line-muted px-6 py-5",
       },
+      raft: {
+        root: "relative bg-layer-panel font-sans text-foreground",
+        headerContent: "items-stretch gap-0",
+        section: "border-line-muted px-5 py-4",
+      },
     },
   },
 });

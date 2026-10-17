@@ -54,6 +54,16 @@ export const tasksPanel = tv({
         toolbarView: ["[&_[data-slot=tabs-list]]:gap-2"],
         viewport: ["bg-layer-panel px-7", "max-md:pl-5 max-md:pr-3.5", "dark:bg-transparent"],
       },
+      raft: {
+        root: ["bg-layer-panel text-foreground", "dark:bg-layer-panel"],
+        toolbar: ["min-h-14 border-b border-line-seam bg-layer-panel px-5 py-3", "max-md:px-4"],
+        toolbarLabel: [
+          "h-8 gap-1.5 rounded-control px-2.5",
+          "bg-transparent shadow-[inset_0_0_0_1px_var(--line-seam)]",
+          "font-sans text-footnote font-semibold text-foreground-muted whitespace-nowrap",
+        ],
+        viewport: ["bg-layer-panel px-5", "max-md:px-4"],
+      },
     },
   },
 });

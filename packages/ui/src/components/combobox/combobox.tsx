@@ -186,6 +186,81 @@ const combobox = tv({
         chip: ["rounded-sm bg-fill-muted px-1.5 py-0.5 text-xs font-medium text-foreground-strong"],
         chipRemove: ["text-foreground-muted hover:text-foreground"],
       },
+      raft: {
+        trigger: [
+          "h-8 gap-1.5 rounded-control border-transparent bg-transparent px-2.5",
+          "text-footnote font-semibold text-foreground-muted",
+          "shadow-[inset_0_0_0_1px_var(--line-seam)] hover:bg-transparent",
+          "data-has-value:bg-info-soft data-has-value:text-foreground data-has-value:shadow-none data-has-value:hover:bg-info-soft",
+          "focus-visible:shadow-raft-focus data-has-value:focus-visible:shadow-raft-focus",
+          "disabled:shadow-none aria-disabled:shadow-none",
+          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-3.5",
+          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-2",
+        ],
+        triggerCount: ["h-auto min-w-0 px-0 font-mono text-mono-meta font-bold"],
+        triggerIndicator: [
+          "rounded-sticker text-foreground-hint opacity-100",
+          "hover:bg-transparent hover:text-foreground-hint",
+          "[&>svg]:size-3.5 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
+        ],
+        control: [
+          "min-h-11 rounded-control border-[1.5px] border-line-strong bg-layer-card px-3 py-0",
+          "font-sans text-body text-foreground",
+          "transition-shadow duration-90 ease-out focus-within:shadow-raft-focus",
+          "[&>svg]:text-foreground-hint [&>svg:not([class*='size-'])]:size-4.5",
+          "[&>svg:not([class*='stroke-'])]:stroke-2",
+          "[&_[data-slot='combobox-trigger-indicator']>svg]:size-4",
+        ],
+        inputGroup: [
+          "h-10 gap-2 border-line-muted bg-transparent px-3 py-0",
+          "text-callout text-foreground-hint",
+          "[&>svg]:size-4 [&>svg]:shrink-0",
+          "first:rounded-t-container focus-within:shadow-[inset_0_0_0_2px_var(--foreground)]",
+        ],
+        content: [
+          "rounded-container bg-layer-popover text-foreground",
+          "shadow-raft-float ring-1 ring-line-seam",
+        ],
+        header: ["gap-2 py-1.5 pr-1.5 pl-4"],
+        separator: ["bg-line-muted"],
+        list: ["flex flex-col p-1.5 scroll-py-1.5"],
+        item: [
+          "min-h-9 gap-2.5 rounded-control px-2.5 py-0",
+          "font-sans text-callout font-medium text-foreground",
+          "bg-transparent hover:bg-primary-soft data-highlighted:bg-primary-soft",
+          "data-selected:font-bold",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+          "[&_svg:not([class*='size-'])]:size-4",
+          "[&_svg:not([class*='stroke-'])]:stroke-2",
+        ],
+        itemIndicator: [
+          "text-foreground [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
+        ],
+        label: ["font-sans text-caption font-bold text-foreground-hint"],
+        clear: [
+          "h-7 min-w-0 rounded-control px-2",
+          "font-sans text-footnote font-semibold text-foreground-muted",
+          "hover:bg-fill-pressed hover:text-foreground active:bg-fill-pressed",
+          "focus-visible:shadow-raft-focus",
+          "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
+        ],
+        empty: ["px-4 py-3.5 text-left text-callout text-foreground-hint"],
+        groupLabel: ["px-2.5 pt-2 pb-1 text-caption font-bold text-foreground-hint"],
+        chips: [
+          "min-h-11 gap-1.5 rounded-control border-[1.5px] border-line-strong bg-layer-card py-1.5 pr-3 pl-1.5",
+          "transition-shadow duration-90 ease-out focus-within:shadow-raft-focus",
+        ],
+        chip: [
+          "h-7 gap-1.5 rounded-chip bg-fill-muted pr-0.5 pl-2",
+          "text-footnote font-semibold text-foreground",
+        ],
+        chipRemove: [
+          "size-[22px] rounded-sticker text-foreground-hint",
+          "hover:bg-fill-pressed active:bg-fill-pressed focus-visible:shadow-raft-focus",
+          "[&>svg]:size-3.5",
+        ],
+      },
     },
     inputOwner: {
       group: {},
@@ -237,6 +312,26 @@ const combobox = tv({
         input: [
           "text-sm font-normal text-foreground-strong",
           "placeholder:text-foreground-placeholder/70",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      inputOwner: "group",
+      class: {
+        input: [
+          "min-w-0 flex-1 border-0 bg-transparent p-0",
+          "font-sans text-callout text-foreground placeholder:text-foreground-hint",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      inputOwner: "control",
+      class: {
+        input: [
+          "font-sans text-body font-normal text-foreground",
+          "placeholder:text-foreground-placeholder",
         ],
       },
     },

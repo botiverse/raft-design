@@ -38,6 +38,12 @@ const appShell = tv({
       elegant: {
         root: ["[--shell-header-height:56px]", "bg-layer-canvas-muted"],
       },
+      raft: {
+        root: [
+          "[--shell-header-height:56px] [@media(max-height:600px)]:[--shell-header-height:48px]",
+          "bg-layer-panel text-foreground",
+        ],
+      },
     },
     overlay: {
       false: {},

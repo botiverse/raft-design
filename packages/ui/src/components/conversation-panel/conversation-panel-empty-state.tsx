@@ -21,6 +21,14 @@ const conversationPanelEmptyState = tv({
       brutal: {
         root: "font-heading text-lg font-bold text-black/40 uppercase",
       },
+      raft: {
+        root: [
+          "gap-2 px-5 py-6",
+          "font-sans text-headline font-bold normal-case text-foreground-muted",
+        ],
+        brand: "mb-1 inline-flex rounded-none p-0 text-foreground-hint",
+        brandMark: ["size-9 overflow-visible rounded-none", "[&>svg]:size-9 [&>svg]:stroke-2"],
+      },
       elegant: {
         root: "font-heading text-sm font-medium tracking-wide text-foreground-muted",
         brand:

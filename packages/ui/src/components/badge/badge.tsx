@@ -16,6 +16,10 @@ export const badgeBox = {
     "[&:has(svg)]:px-2",
     "text-[11px] font-medium leading-3 tracking-[0.22px]",
   ],
+  raft: [
+    "h-[22px] gap-1 rounded-chip",
+    "font-sans text-caption font-semibold normal-case tracking-normal",
+  ],
 } as const;
 
 export const badge = tv({
@@ -40,6 +44,13 @@ export const badge = tv({
           "border-transparent",
           "[&_svg]:shrink-0 [&_svg]:translate-y-[0.5px]",
           "enabled:hover:brightness-[0.96]",
+        ],
+      },
+      raft: {
+        root: [
+          ...badgeBox.raft,
+          "[&_svg]:size-3.5 [&_svg]:shrink-0",
+          "disabled:bg-fill-muted disabled:text-foreground-disabled disabled:opacity-100 disabled:shadow-none",
         ],
       },
     },
@@ -392,6 +403,92 @@ export const badge = tv({
       appearance: "outline",
       variant: "danger",
       class: { root: "border-danger bg-transparent text-danger-strong" },
+    },
+    {
+      theme: "raft",
+      appearance: "solid",
+      class: {
+        root: [
+          "h-5 min-w-5 justify-center rounded-sticker",
+          "font-bold tabular-nums",
+          "text-sticker-ink shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+          "[&_svg]:size-[13px]",
+          "enabled:hover:press-overlay-sticker",
+        ],
+      },
+    },
+    { theme: "raft", appearance: "solid", variant: "default", class: { root: "bg-sticker-paper" } },
+    { theme: "raft", appearance: "solid", variant: "muted", class: { root: "bg-inactive" } },
+    { theme: "raft", appearance: "solid", variant: "primary", class: { root: "bg-primary" } },
+    { theme: "raft", appearance: "solid", variant: "information", class: { root: "bg-info" } },
+    {
+      theme: "raft",
+      appearance: "solid",
+      variant: "accent",
+      class: { root: "bg-accent font-mono text-mono-meta" },
+    },
+    { theme: "raft", appearance: "solid", variant: "success", class: { root: "bg-success" } },
+    { theme: "raft", appearance: "solid", variant: "warning", class: { root: "bg-warning" } },
+    { theme: "raft", appearance: "solid", variant: "danger", class: { root: "bg-danger" } },
+    {
+      theme: "raft",
+      appearance: "soft",
+      class: { root: ["text-foreground", "enabled:hover:press-overlay"] },
+    },
+    { theme: "raft", appearance: "soft", variant: "default", class: { root: "bg-fill-muted" } },
+    { theme: "raft", appearance: "soft", variant: "muted", class: { root: "bg-inactive-soft" } },
+    { theme: "raft", appearance: "soft", variant: "primary", class: { root: "bg-primary-soft" } },
+    { theme: "raft", appearance: "soft", variant: "information", class: { root: "bg-info-soft" } },
+    { theme: "raft", appearance: "soft", variant: "accent", class: { root: "bg-accent-soft" } },
+    { theme: "raft", appearance: "soft", variant: "success", class: { root: "bg-success-soft" } },
+    { theme: "raft", appearance: "soft", variant: "warning", class: { root: "bg-warning-soft" } },
+    { theme: "raft", appearance: "soft", variant: "danger", class: { root: "bg-danger-soft" } },
+    {
+      theme: "raft",
+      appearance: "outline",
+      class: {
+        root: [
+          "font-mono text-mono-meta font-normal",
+          "bg-transparent text-foreground-muted shadow-[inset_0_0_0_1px_var(--line-muted)]",
+          "enabled:hover:bg-fill-pressed",
+        ],
+      },
+    },
+    {
+      theme: "raft",
+      appearance: "outline",
+      variant: "primary",
+      class: { root: "text-primary-strong" },
+    },
+    {
+      theme: "raft",
+      appearance: "outline",
+      variant: "information",
+      class: { root: "text-info-strong" },
+    },
+    {
+      theme: "raft",
+      appearance: "outline",
+      variant: "accent",
+      class: { root: "text-accent-strong" },
+    },
+    {
+      theme: "raft",
+      appearance: "outline",
+      variant: "success",
+      class: { root: "text-success-strong" },
+    },
+    {
+      theme: "raft",
+      appearance: "outline",
+      variant: "warning",
+      class: { root: "text-warning-strong" },
+    },
+    {
+      theme: "raft",
+      appearance: "outline",
+      variant: "danger",
+      class: { root: "text-danger-strong" },
     },
   ],
 });

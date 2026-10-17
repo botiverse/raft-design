@@ -52,6 +52,18 @@ const alertDialog = tv({
         title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
         description: ["font-sans text-sm leading-5 text-foreground-hint"],
       },
+      raft: {
+        overlay: ["bg-layer-backdrop"],
+        content: [
+          "max-w-[400px] overflow-clip rounded-dialog bg-layer-popover text-foreground",
+          "shadow-raft-float ring-1 ring-line-seam",
+        ],
+        header: ["gap-2 px-5 pt-5"],
+        body: ["px-5 pt-1.5 pb-5 first:pt-5", "font-sans text-subhead text-foreground-muted"],
+        footer: ["gap-2 px-5 pb-5 first:pt-5 [[data-slot=alert-dialog-header]+&]:pt-5"],
+        title: ["font-sans text-headline font-bold"],
+        description: ["font-sans text-subhead text-foreground-muted"],
+      },
     },
   },
 });
@@ -90,6 +102,7 @@ export function AlertDialogClose({
 }: AlertDialogCloseProps) {
   const theme = useThemeFamily();
   const isBrutal = theme === "brutal";
+  const isRaft = theme === "raft";
 
   return (
     <BaseDialog.Close
@@ -97,21 +110,23 @@ export function AlertDialogClose({
       render={
         <Button
           variant={variant ?? (isBrutal ? "outline" : "ghost")}
-          size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
+          size={size ?? (isBrutal || isRaft ? "icon-md" : "icon-sm")}
           aria-label={ariaLabel ?? "Close"}
           className={
             isBrutal
               ? className
-              : cn(
-                  "p-0 text-foreground-placeholder hover:border-transparent hover:bg-transparent hover:text-foreground-strong",
-                  className,
-                )
+              : isRaft
+                ? cn("-my-1.5 -mr-1.5", className)
+                : cn(
+                    "p-0 text-foreground-placeholder hover:border-transparent hover:bg-transparent hover:text-foreground-strong",
+                    className,
+                  )
           }
         />
       }
       {...props}
     >
-      {children ?? <X className={isBrutal ? "size-5" : "size-4"} />}
+      {children ?? <X className={isBrutal ? "size-5" : isRaft ? "size-4.5" : "size-4"} />}
     </BaseDialog.Close>
   );
 }
@@ -225,16 +240,19 @@ export type AlertDialogCancelProps = Omit<BaseDialog.Close.Props, "render"> &
     className?: string;
   };
 
-export function AlertDialogCancel({
-  className,
-  variant = "outline",
-  size = "sm",
-  ...props
-}: AlertDialogCancelProps) {
+export function AlertDialogCancel({ className, variant, size, ...props }: AlertDialogCancelProps) {
+  const isRaft = useThemeFamily() === "raft";
+
   return (
     <BaseDialog.Close
       data-slot="alert-dialog-cancel"
-      render={<Button className={className} variant={variant} size={size} />}
+      render={
+        <Button
+          className={className}
+          variant={variant ?? (isRaft ? "ghost" : "outline")}
+          size={size ?? (isRaft ? "md" : "sm")}
+        />
+      }
       {...props}
     />
   );

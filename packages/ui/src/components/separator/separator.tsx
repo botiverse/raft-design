@@ -25,6 +25,15 @@ const separator = tv({
         labeledLine: ["h-0 border-t-2 border-line-strong"],
         labeledContent: ["font-medium text-foreground-strong/70"],
       },
+      raft: {
+        root: [
+          "bg-line-muted",
+          "data-[orientation=horizontal]:h-px",
+          "data-[orientation=vertical]:w-px",
+        ],
+        labeledLine: ["h-px bg-line-muted"],
+        labeledContent: ["font-sans text-footnote font-semibold text-foreground-hint"],
+      },
       elegant: {
         root: [
           "bg-line-hairline",

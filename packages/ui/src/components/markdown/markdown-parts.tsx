@@ -176,5 +176,13 @@ export function MarkdownCheckbox({ className, ...props }: MarkdownCheckboxProps)
   const theme = useThemeFamily();
   const { checkbox } = markdown({ theme });
 
-  return <Checkbox variant="primary" readOnly className={checkbox({ className })} {...props} />;
+  // Raft: a checked box is a value (ink), not "you are here" (yellow).
+  return (
+    <Checkbox
+      variant={theme === "raft" ? "default" : "primary"}
+      readOnly
+      className={checkbox({ className })}
+      {...props}
+    />
+  );
 }

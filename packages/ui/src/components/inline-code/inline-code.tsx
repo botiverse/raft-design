@@ -30,6 +30,13 @@ const inlineCode = tv({
           "dark:bg-fill-muted dark:text-foreground dark:shadow-raft-xs",
         ],
       },
+      raft: {
+        root: [
+          "rounded-sticker px-1 py-px",
+          "font-mono text-[0.875em] font-normal text-foreground wrap-anywhere",
+          "bg-fill-muted",
+        ],
+      },
     },
   },
   compoundVariants: [
@@ -49,6 +56,11 @@ const inlineCode = tv({
       theme: "elegant",
       appearance: "message",
       class: { root: "bg-fill-muted text-foreground-strong dark:shadow-none" },
+    },
+    {
+      theme: "raft",
+      appearance: "message",
+      class: { root: "rounded-sticker bg-fill-muted py-px text-foreground" },
     },
   ],
   defaultVariants: {

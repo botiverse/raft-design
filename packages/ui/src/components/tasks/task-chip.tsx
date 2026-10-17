@@ -25,6 +25,16 @@ const taskChip = tv({
     theme: {
       brutal: {},
       elegant: {},
+      raft: {
+        root: [
+          "rounded-chip border-0",
+          "font-sans font-semibold text-foreground",
+          "[&>svg:not([data-slot=task-status-icon])]:-mx-0.5 [&>svg[data-slot=task-status-icon]]:size-[9px]",
+          "hover:brightness-100",
+          "[a,button]:cursor-pointer [a,button]:hover:press-overlay [a,button]:active:press-overlay",
+          "focus-visible:outline-none focus-visible:shadow-raft-focus",
+        ],
+      },
     },
     status: {
       todo: {},
@@ -151,6 +161,48 @@ const taskChip = tv({
       // h-auto/mt-0 undo the default chip's fixed 19px box and its 1px nudge;
       // the Badge's height comes from its padding and line height.
       class: { root: ["h-auto mt-0", ...badgeBox.base, ...badgeBox.elegant, "[&>svg]:size-2.5"] },
+    },
+    {
+      theme: "raft",
+      status: "todo",
+      class: { root: "bg-task-status-todo-soft" },
+    },
+    {
+      theme: "raft",
+      status: "in-progress",
+      class: { root: "bg-task-status-in-progress-soft" },
+    },
+    {
+      theme: "raft",
+      status: "in-review",
+      class: { root: "bg-task-status-in-review-soft" },
+    },
+    {
+      theme: "raft",
+      status: "done",
+      class: { root: "bg-task-status-done-soft" },
+    },
+    {
+      theme: "raft",
+      status: "closed",
+      class: { root: "bg-task-status-closed-soft" },
+    },
+    {
+      theme: "raft",
+      variant: "default",
+      class: { root: ["h-[22px] gap-1.5 py-0 pr-2 pl-1.5", "text-[12px] leading-4"] },
+    },
+    {
+      theme: "raft",
+      variant: "default",
+      size: "sm",
+      class: { root: ["h-5 gap-1 pr-1.5 pl-1"] },
+    },
+    {
+      theme: "raft",
+      variant: "inline",
+      status: ["todo", "in-progress", "in-review", "done", "closed"],
+      class: { root: ["rounded-sticker border-0 pr-1.5 pl-[3px]", "font-semibold"] },
     },
   ],
   defaultVariants: {

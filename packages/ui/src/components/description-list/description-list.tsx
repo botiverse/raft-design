@@ -40,6 +40,14 @@ const descriptionList = tv({
         ],
         details: "font-sans leading-5 text-foreground-muted",
       },
+      raft: {
+        item: "[&+&]:pt-2",
+        term: ["mb-0 gap-1.5", "font-sans text-footnote font-medium text-foreground-hint"],
+        details: [
+          "flex min-h-7 min-w-0 flex-wrap items-center gap-1.5",
+          "font-sans text-callout text-foreground",
+        ],
+      },
     },
   },
   compoundVariants: [
@@ -55,6 +63,16 @@ const descriptionList = tv({
       theme: "elegant",
       class: {
         root: "gap-x-6 gap-y-2",
+      },
+    },
+    {
+      direction: "horizontal",
+      theme: "raft",
+      class: {
+        root: [
+          "grid-cols-[minmax(88px,max-content)_minmax(0,1fr)] gap-x-4 gap-y-0.5",
+          "[&>[data-slot=description-item]>[data-slot=description-details]]:min-h-8",
+        ],
       },
     },
   ],
@@ -95,7 +113,8 @@ export function DescriptionList({
 export type DescriptionItemProps = useRender.ComponentProps<"div">;
 
 export function DescriptionItem({ className, render, ...props }: DescriptionItemProps) {
-  const { item } = descriptionList();
+  const theme = useThemeFamily();
+  const { item } = descriptionList({ theme });
   const defaultProps: useRender.ElementProps<"div"> = {
     className: item({ className }),
   };

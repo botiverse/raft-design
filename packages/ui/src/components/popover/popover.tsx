@@ -51,6 +51,25 @@ const popover = tv({
         arrow: ["border-l border-t border-line-hairline bg-layer-popover"],
         backdrop: ["bg-layer-backdrop backdrop-blur-[2px]"],
       },
+      raft: {
+        content: [
+          "rounded-container bg-layer-popover text-foreground",
+          "shadow-raft-float ring-1 ring-line-seam",
+        ],
+        header: ["min-h-11 gap-2 py-1.5 pr-2 pl-4"],
+        separator: ["border-line-muted"],
+        title: ["font-sans text-headline font-bold text-foreground"],
+        description: ["font-sans text-footnote text-foreground-muted"],
+        close: [
+          "h-8 min-w-8 rounded-control px-1.5",
+          "font-sans text-footnote font-bold text-foreground",
+          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "focus-visible:shadow-raft-focus",
+          "[&_svg]:size-4.5",
+        ],
+        arrow: ["border-l border-t border-line-seam bg-layer-popover"],
+        backdrop: ["bg-transparent"],
+      },
     },
   },
 });

@@ -47,6 +47,23 @@ export const legacyTaskPanel = tv({
         metaLabel: ["text-xs text-foreground-placeholder"],
         metaValue: ["text-foreground"],
       },
+      raft: {
+        frame: ["rounded-container border border-line-seam bg-layer-panel shadow-none"],
+        icon: [
+          "size-[27px] rounded-sticker bg-fill-muted text-foreground-muted",
+          "[&_svg]:size-3.5",
+        ],
+        section: ["space-y-3 rounded-container border border-line-muted bg-layer-card shadow-none"],
+        fieldLabel: ["mb-0.5 font-sans text-footnote font-medium text-foreground-hint"],
+        fieldTitle: ["text-body font-semibold text-foreground"],
+        fieldText: ["text-subhead text-foreground-muted"],
+        meta: [
+          "space-y-0 rounded-container border border-line-muted bg-layer-card px-4 py-2 shadow-none",
+        ],
+        metaRow: ["min-h-8 items-center"],
+        metaLabel: ["font-sans text-footnote font-medium text-foreground-hint"],
+        metaValue: ["text-callout text-foreground"],
+      },
     },
     framed: {
       true: {},

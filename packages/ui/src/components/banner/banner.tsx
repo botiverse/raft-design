@@ -127,6 +127,26 @@ const banner = tv({
           "group-data-[size=lg]/banner:[&>button:has(svg):last-child]:min-h-6 group-data-[size=lg]/banner:[&>button:has(svg):last-child]:min-w-6",
         ],
       },
+      raft: {
+        root: [
+          "w-full grid-cols-[minmax(0,1fr)] items-start gap-x-2.5 rounded-container border-0",
+          "font-sans text-callout text-foreground ring-1 ring-line-muted ring-inset",
+          "has-[>svg]:grid-cols-[20px_minmax(0,1fr)]",
+          "has-[>[data-slot=status]]:grid-cols-[20px_minmax(0,1fr)]",
+          "[&>svg]:row-start-1 [&>svg]:size-5 [&>svg]:text-foreground",
+          "*:data-[slot=status]:mt-[5.5px] *:data-[slot=status]:self-start *:data-[slot=status]:justify-self-center",
+          "has-[>svg]:[--banner-text-col:2]",
+          "has-[>[data-slot=status]]:[--banner-text-col:2]",
+          "has-[>[data-slot=banner-title]]:[--banner-desc-row:2]",
+        ],
+        title: ["row-start-1 font-bold", "col-start-(--banner-text-col,1)"],
+        description: [
+          "text-foreground",
+          "col-start-(--banner-text-col,1)",
+          "row-start-(--banner-desc-row,1)",
+        ],
+        action: ["mt-2 flex flex-wrap items-center gap-2", "col-start-(--banner-text-col,1)"],
+      },
     },
     status: {
       default: {},
@@ -171,6 +191,24 @@ const banner = tv({
         root: "p-4 shadow-raft-sm has-[>svg]:gap-x-3 has-[>[data-slot=banner-action]]:gap-x-3 has-[>[data-slot=status]]:gap-x-2",
       },
     },
+    { theme: "raft", status: "default", class: { root: "bg-fill-muted" } },
+    { theme: "raft", status: "info", class: { root: "bg-info-soft" } },
+    { theme: "raft", status: "warning", class: { root: "bg-warning-soft" } },
+    { theme: "raft", status: "destructive", class: { root: "bg-danger-soft" } },
+    { theme: "raft", status: "success", class: { root: "bg-success-soft" } },
+    {
+      theme: "raft",
+      size: "sm",
+      class: {
+        root: [
+          "gap-x-2 px-3 py-2 text-footnote",
+          "has-[>svg]:grid-cols-[16px_minmax(0,1fr)] has-[>[data-slot=status]]:grid-cols-[16px_minmax(0,1fr)]",
+          "[&>svg]:mt-px [&>svg]:size-4 *:data-[slot=status]:mt-[4.5px]",
+        ],
+      },
+    },
+    { theme: "raft", size: "md", class: { root: "px-3.5 py-3" } },
+    { theme: "raft", size: "lg", class: { root: "px-4 py-3.5" } },
     {
       theme: "elegant",
       status: "default",

@@ -18,6 +18,9 @@ const checkboxIndicator = tv({
         root: ["border-2 border-line-strong"],
       },
       elegant: {},
+      raft: {
+        root: ["rounded-sticker border-[1.5px] border-line-strong"],
+      },
     },
     shape: {
       square: {
@@ -78,6 +81,30 @@ const checkboxIndicator = tv({
       checked: false,
       previewOnHover: true,
       class: { root: "group-hover:text-foreground-strong/20" },
+    },
+    {
+      theme: "raft",
+      size: ["sm", "md", "lg"],
+      class: {
+        root: ["size-5", "[&_svg:not([class*='size-'])]:size-3.5 [&_svg]:stroke-2"],
+      },
+    },
+    { theme: "raft", checked: false, class: { root: "bg-layer-card" } },
+    {
+      theme: "raft",
+      checked: true,
+      class: { root: "border-foreground bg-foreground text-foreground-inverse" },
+    },
+    {
+      theme: "raft",
+      disabled: true,
+      class: { root: "border-foreground-disabled bg-fill-muted opacity-100" },
+    },
+    {
+      theme: "raft",
+      checked: true,
+      disabled: true,
+      class: { root: "bg-foreground-disabled text-layer-card" },
     },
   ],
   defaultVariants: {

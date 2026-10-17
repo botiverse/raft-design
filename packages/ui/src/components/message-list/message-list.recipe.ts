@@ -29,6 +29,18 @@ export const messageList = tv({
         historyLimited:
           "rounded-sm border border-line-muted bg-layer-panel/70 px-2 py-1 [&_svg]:size-3",
       },
+      raft: {
+        dateDividerRoot: "gap-2 px-4 py-3",
+        dateDividerRule: "min-w-3 border-t border-line-muted",
+        dateDividerChip: "font-mono text-mono-meta whitespace-nowrap text-foreground-hint",
+        notice: "pb-2 font-mono text-mono-meta",
+        historyLimited: [
+          "h-[22px] gap-1 rounded-chip px-1.5",
+          "font-mono text-mono-meta text-foreground-muted",
+          "shadow-[inset_0_0_0_1px_var(--line-muted)]",
+          "[&_svg]:size-3",
+        ],
+      },
     },
     tone: {
       faint: {
@@ -39,6 +51,10 @@ export const messageList = tv({
       },
     },
   },
+  compoundVariants: [
+    { theme: "raft", tone: "faint", class: { notice: "text-foreground-hint" } },
+    { theme: "raft", tone: "muted", class: { notice: "text-foreground-muted" } },
+  ],
   defaultVariants: {
     tone: "faint",
   },

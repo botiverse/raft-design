@@ -43,6 +43,9 @@ const dot = tv({
         root: "border border-line-strong",
       },
       elegant: {},
+      raft: {
+        root: "rounded-[2px] border-[1.5px] border-sticker-ink",
+      },
     },
     variant: {
       default: {
@@ -82,6 +85,7 @@ const status = tv({
     theme: {
       brutal: {},
       elegant: {},
+      raft: {},
     },
     size: {
       xs: {
@@ -121,6 +125,21 @@ const status = tv({
     attention: false,
   },
   compoundVariants: [
+    {
+      theme: "raft",
+      size: "xs",
+      class: { root: "size-1.5 rounded-[1px] border" },
+    },
+    {
+      theme: "raft",
+      size: "md",
+      class: { root: "size-[9px]" },
+    },
+    {
+      theme: "raft",
+      variant: "default",
+      class: { root: "[--status-color:var(--presence-offline)]" },
+    },
     {
       theme: "brutal",
       variant: "success",

@@ -54,6 +54,20 @@ const segmentedControl = tv({
           "group-data-checked/segmented-control-item:text-primary-950/60",
         ],
       },
+      raft: {
+        root: ["flex-nowrap gap-0.5 rounded-[11px] bg-fill-muted p-[3px]"],
+        item: [
+          "h-8 justify-center rounded-control border-[1.5px] border-transparent bg-transparent px-3",
+          "font-sans text-callout font-semibold text-foreground-muted",
+          "[&_svg:not([class*='size-'])]:size-4",
+          "hover:bg-fill-pressed",
+          "data-checked:border-sticker-ink data-checked:bg-primary data-checked:font-bold data-checked:text-sticker-ink",
+          "data-checked:hover:bg-primary data-checked:hover:press-overlay-sticker data-checked:active:press-overlay-sticker",
+          "focus-visible:shadow-raft-focus",
+          "data-disabled:cursor-not-allowed data-disabled:text-foreground-disabled data-disabled:hover:bg-transparent",
+        ],
+        count: ["text-mono-meta font-normal"],
+      },
     },
     disabled: {
       true: {
@@ -64,6 +78,7 @@ const segmentedControl = tv({
       },
     },
   },
+  compoundVariants: [{ theme: "raft", disabled: true, class: { root: "opacity-100" } }],
   defaultVariants: {
     disabled: false,
   },

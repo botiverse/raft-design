@@ -48,6 +48,28 @@ export const messageSystem = tv({
         ],
         systemGroupChevron: ["dark:text-foreground-strong/35"],
       },
+      raft: {
+        systemRoot: [
+          "gap-2 px-4 py-3 in-data-[slot=system-message-group-panel]:py-1.5",
+          "font-mono text-mono-meta text-foreground-hint",
+          "before:min-w-3 before:flex-1 before:border-t before:border-line-muted",
+          "after:min-w-3 after:flex-1 after:border-t after:border-line-muted",
+        ],
+        systemTime: "font-mono text-mono-meta text-foreground-hint",
+        systemContent: "text-foreground-hint",
+        systemGroupHeader: [
+          "items-center gap-2 px-4 py-1.5",
+          "before:min-w-3 before:flex-1 before:border-t before:border-line-muted",
+          "after:min-w-3 after:flex-1 after:border-t after:border-line-muted",
+        ],
+        systemGroupDisclosure: [
+          "h-7 gap-1 rounded-control px-2 py-0",
+          "font-mono text-mono-meta text-foreground-hint",
+          "hover:bg-fill-pressed hover:text-foreground",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+        systemGroupChevron: "text-foreground-hint",
+      },
     },
   },
 });

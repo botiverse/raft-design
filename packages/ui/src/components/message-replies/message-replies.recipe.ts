@@ -45,6 +45,24 @@ export const messageReplies = tv({
         content: "text-foreground-muted/80",
         time: "font-sans text-[11.5px] tabular-nums text-foreground-placeholder",
       },
+      raft: {
+        root: [
+          "mt-2 max-w-[480px] gap-1 rounded-container border-0 px-2.5 py-2",
+          "bg-fill-muted text-foreground-muted hover:press-overlay active:press-overlay",
+          "focus-visible:outline-none focus-visible:shadow-raft-focus",
+        ],
+        summary: [
+          "gap-1.5 text-footnote font-bold text-foreground-muted has-[strong]:text-foreground",
+          "[&_strong]:inline-flex [&_strong]:h-5 [&_strong]:min-w-5 [&_strong]:items-center [&_strong]:justify-center",
+          "[&_strong]:rounded-sticker [&_strong]:px-1.5 [&_strong]:font-mono [&_strong]:text-mono-meta [&_strong]:font-bold",
+          "[&_strong]:bg-accent [&_strong]:text-sticker-ink [&_strong]:shadow-[inset_0_0_0_1.5px_var(--sticker-ink)]",
+        ],
+        summaryItem: "[&_svg]:size-3.5",
+        reply: "gap-1.5 text-footnote",
+        sender: "font-semibold text-foreground-muted",
+        content: "text-foreground-hint",
+        time: "font-mono text-mono-meta tabular-nums text-foreground-hint",
+      },
     },
   },
 });

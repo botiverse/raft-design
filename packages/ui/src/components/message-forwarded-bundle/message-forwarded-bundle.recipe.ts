@@ -44,6 +44,26 @@ export const messageForwardedBundle = tv({
         footerAction:
           "inline-flex items-center gap-1 text-[11px] font-medium text-foreground-placeholder hover:text-foreground-strong focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-strong",
       },
+      raft: {
+        header: "gap-2",
+        headerContent: "gap-2",
+        headerLabel: "gap-1 text-footnote font-bold text-foreground-muted [&_svg]:size-3.5",
+        headerCount: "font-mono text-mono-meta text-foreground-hint",
+        source: [
+          "inline-flex items-center gap-1 rounded-[2px] text-caption font-semibold text-foreground-hint",
+          "decoration-[1.5px] underline-offset-[3px] hover:text-foreground hover:underline",
+          "outline-none focus-visible:shadow-raft-focus",
+          "[&_svg]:size-3.5",
+        ],
+        sourceLabel:
+          "inline-flex items-center gap-1 text-caption text-foreground-hint [&_svg]:size-3.5",
+        items: "",
+        footerAction: [
+          "inline-flex items-center gap-1 rounded-[2px] text-footnote font-semibold text-foreground",
+          "underline decoration-[1.5px] underline-offset-[3px] hover:decoration-accent-500",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+      },
     },
     fullWidth: {
       true: {
@@ -79,6 +99,11 @@ export const messageForwardedBundle = tv({
       theme: "elegant",
       collapsed: true,
       class: { items: "after:from-layer-panel after:via-layer-panel/80 after:to-layer-panel/0" },
+    },
+    {
+      theme: "raft",
+      collapsed: true,
+      class: { items: "after:from-layer-card after:via-layer-card/80 after:to-layer-card/0" },
     },
   ],
 });
@@ -117,6 +142,17 @@ export const messageForwardedBundleItem = tv({
           "gap-1 rounded-sm border border-line-muted bg-layer-panel px-2 py-1 text-[11px] leading-4 font-medium text-foreground-muted dark:bg-fill-muted",
         attachmentMeta: "text-foreground-placeholder",
       },
+      raft: {
+        root: "px-3 py-2.5 text-body text-foreground",
+        meta: "mb-0.5 gap-1.5 font-mono text-mono-meta tabular-nums text-foreground-hint",
+        author: "font-sans text-footnote font-bold text-foreground",
+        attachments: "mt-1.5 gap-1.5",
+        attachment: [
+          "h-[22px] gap-1 rounded-chip bg-fill-muted px-1.5",
+          "text-caption font-semibold text-foreground [&_svg]:size-3.5",
+        ],
+        attachmentMeta: "font-mono font-normal text-foreground-hint",
+      },
     },
     /**
      * `interactive` marks an attachment the consumer wired to open (preview
@@ -131,6 +167,18 @@ export const messageForwardedBundleItem = tv({
       },
     },
   },
+  compoundVariants: [
+    {
+      theme: "raft",
+      action: "interactive",
+      class: {
+        attachment: [
+          "hover:press-overlay active:press-overlay",
+          "focus-visible:outline-none focus-visible:shadow-raft-focus",
+        ],
+      },
+    },
+  ],
   defaultVariants: {
     action: "static",
   },

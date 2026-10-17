@@ -133,6 +133,47 @@ const dropdownMenu = tv({
         separator: ["my-1 -mx-1 h-px border-0 bg-line-hairline dark:bg-ink-6"],
         indicator: [],
       },
+      raft: {
+        content: [
+          "flex min-w-60 flex-col gap-0 rounded-container bg-layer-popover p-1.5 text-foreground",
+          "shadow-raft-float ring-1 ring-line-seam",
+        ],
+        item: [
+          "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+          "font-sans text-callout font-medium text-foreground",
+          "hover:bg-primary-soft data-highlighted:bg-primary-soft",
+          "data-checked:font-bold data-[selected]:font-bold data-[emphasis=strong]:font-bold",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+          "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
+        ],
+        radioItem: [
+          "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+          "font-sans text-callout font-medium text-foreground",
+          "hover:bg-primary-soft data-highlighted:bg-primary-soft",
+          "data-checked:font-bold",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+          "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
+        ],
+        radioLabel: ["min-w-0 flex-1 truncate"],
+        submenuTrigger: [
+          "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+          "font-sans text-callout font-medium text-foreground",
+          "hover:bg-primary-soft data-highlighted:bg-primary-soft data-popup-open:bg-primary-soft",
+          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+          "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
+        ],
+        label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
+        shortcut: [
+          "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none ring-0",
+          "font-mono text-mono-meta font-normal text-foreground-hint",
+        ],
+        itemCount: [],
+        separator: ["-mx-1.5 my-1.5 h-px border-0 bg-line-muted"],
+        indicator: ["size-4 text-foreground [&_svg]:size-4"],
+      },
     },
   },
 });
@@ -219,7 +260,7 @@ export function DropdownMenuContent({
   ...props
 }: DropdownMenuContentProps) {
   const theme = useThemeFamily();
-  const resolvedSideOffset = sideOffset ?? (theme === "elegant" ? 6 : 4);
+  const resolvedSideOffset = sideOffset ?? (theme === "brutal" ? 4 : 6);
   const { positioner, content } = dropdownMenu({ theme });
   return (
     <DropdownMenuPortal {...portalProps}>

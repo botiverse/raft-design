@@ -47,6 +47,15 @@ const announcement = tv({
         footer: ["border-t-2 border-line-strong"],
       },
       elegant: { picture: ["rounded-lg"] },
+      raft: {
+        body: ["px-5 pt-5"],
+        label: ["text-caption text-foreground-muted"],
+        dot: ["size-[9px] rounded-[2px] border-[1.5px] border-sticker-ink bg-accent-400"],
+        title: ["text-headline font-bold tracking-normal"],
+        picture: ["rounded-container bg-fill-muted"],
+        text: ["text-subhead text-foreground-muted"],
+        footer: ["border-t-0 px-5 pt-0 pb-5"],
+      },
     },
   },
 });

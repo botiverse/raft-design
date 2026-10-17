@@ -41,6 +41,35 @@ export const searchEntity = tv({
         entityTitle: ["font-medium text-foreground-strong data-muted:text-foreground-disabled"],
         entityDescription: ["text-foreground-muted/70 data-muted:text-foreground-disabled"],
       },
+      raft: {
+        entity: [
+          "relative rounded-none border-0 bg-transparent px-4 py-3 text-foreground shadow-none",
+          "max-md:min-h-16",
+          "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-[55px] not-first:before:border-t not-first:before:border-line-muted",
+          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "disabled:cursor-default disabled:hover:bg-transparent disabled:active:bg-transparent",
+          "data-[selected=true]:bg-primary-soft data-[selected=true]:hover:bg-primary-soft",
+          "outline-none focus-visible:shadow-[inset_0_0_0_2px_var(--foreground)]",
+        ],
+        entityIcon: [
+          "size-[27px] rounded-sticker bg-fill-muted text-foreground-muted",
+          "[&_svg]:size-3.5",
+        ],
+        entityActivity: [
+          "right-[-3px] bottom-[-3px] size-[9px] rounded-[2px]",
+          "border-[1.5px] border-sticker-ink bg-presence-online",
+          "shadow-[0_0_0_2px_var(--layer-panel)]",
+        ],
+        entityContent: ["flex flex-col gap-0.5"],
+        entityTitle: [
+          "font-sans text-body font-semibold text-foreground",
+          "data-muted:text-foreground-hint",
+        ],
+        entityDescription: [
+          "text-callout text-foreground-muted",
+          "data-muted:text-foreground-hint",
+        ],
+      },
     },
   },
 });

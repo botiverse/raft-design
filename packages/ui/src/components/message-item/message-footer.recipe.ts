@@ -57,9 +57,36 @@ export const messageFooter = tv({
           "text-[12px] font-[420] tracking-[-0.01em] hover:bg-fill-strong/80 [&_svg]:size-[11px]",
         ],
       },
+      raft: {
+        savedIndicator: [
+          "h-[22px] rounded-chip px-1.5",
+          "text-caption font-semibold text-foreground-muted",
+          "bg-fill-muted hover:press-overlay active:press-overlay",
+          "outline-none focus-visible:shadow-raft-focus",
+          "[&_svg]:size-3.5 [&_svg]:text-foreground",
+        ],
+        readReceipt: "h-[22px] font-mono text-mono-meta text-foreground-hint [&_svg]:size-3",
+        badge: [
+          "h-6 gap-1 rounded-chip border-0 px-2 shadow-none",
+          "text-footnote font-bold text-foreground-muted",
+          "bg-fill-muted hover:press-overlay active:press-overlay",
+          "[&_svg]:size-3.5",
+        ],
+      },
     },
   },
   compoundVariants: [
+    { theme: "raft", badgeStatus: "unread", class: { badge: "text-foreground" } },
+    {
+      theme: "raft",
+      iconOnly: true,
+      class: {
+        savedIndicator: [
+          "size-8 rounded-control bg-transparent",
+          "[&_svg]:size-[18px] [&_svg]:text-foreground-icon",
+        ],
+      },
+    },
     { theme: "brutal", badgeStatus: "read", class: { badge: "bg-white" } },
     { theme: "brutal", badgeStatus: "unread", class: { badge: "bg-brutal-cyan/20" } },
     {

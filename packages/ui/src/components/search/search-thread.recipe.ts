@@ -41,6 +41,17 @@ export const searchThread = tv({
           "dark:border-ink-10",
         ],
       },
+      raft: {
+        thread: [
+          "relative rounded-none border-0 bg-transparent text-foreground shadow-none",
+          "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-4 not-first:before:border-t not-first:before:border-line-muted",
+        ],
+        threadHeader: ["px-4 pt-3 pb-1"],
+        threadMeta: ["mb-0.5 gap-1.5", "font-mono text-mono-meta font-normal text-foreground-hint"],
+        threadTimestamp: ["ml-auto"],
+        threadTitle: ["font-sans text-callout font-semibold text-foreground"],
+        threadMessages: ["border-t-0 bg-transparent"],
+      },
     },
   },
 });

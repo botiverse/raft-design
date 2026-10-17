@@ -54,6 +54,45 @@ const ELEGANT_SPINNER_STYLE = `
 }
 `;
 
+const RAFT_SPINNER_STYLE = `
+@keyframes raft-spinner-pixel {
+  0%,
+  24% {
+    opacity: 1;
+  }
+  25%,
+  100% {
+    opacity: 0.2;
+  }
+}
+
+[data-slot="spinner"] [data-spinner-pixel] {
+  animation: raft-spinner-pixel 1s steps(1) infinite;
+}
+
+[data-slot="spinner"] [data-spinner-pixel]:nth-child(2) {
+  animation-delay: 0.25s;
+}
+
+[data-slot="spinner"] [data-spinner-pixel]:nth-child(4) {
+  animation-delay: 0.5s;
+}
+
+[data-slot="spinner"] [data-spinner-pixel]:nth-child(3) {
+  animation-delay: 0.75s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="spinner"] [data-spinner-pixel] {
+    animation: none;
+  }
+
+  [data-slot="spinner"] [data-spinner-pixel]:first-child {
+    opacity: 1;
+  }
+}
+`;
+
 const spinner = tv({
   slots: {
     root: [
@@ -61,11 +100,17 @@ const spinner = tv({
       "leading-none text-current",
     ],
     ring: "block size-full shrink-0",
+    pixel: [],
   },
   variants: {
     theme: {
       brutal: {},
       elegant: {},
+      raft: {
+        root: ["[--spinner-pixel:5px] [--spinner-gap:2px]"],
+        ring: ["grid size-auto grid-cols-[repeat(2,var(--spinner-pixel))] gap-(--spinner-gap)"],
+        pixel: ["block size-(--spinner-pixel) rounded-[1px] bg-current opacity-20"],
+      },
     },
     size: {
       xs: {},
@@ -119,6 +164,26 @@ const spinner = tv({
       },
     },
     {
+      theme: "raft",
+      size: "xs",
+      class: { root: "[--spinner-pixel:4px] [--spinner-gap:1.5px]" },
+    },
+    {
+      theme: "raft",
+      size: "md",
+      class: { root: "[--spinner-pixel:6px] [--spinner-gap:2px]" },
+    },
+    {
+      theme: "raft",
+      size: "lg",
+      class: { root: "[--spinner-pixel:8px] [--spinner-gap:3px]" },
+    },
+    {
+      theme: "raft",
+      variant: "inverse",
+      class: { root: "text-foreground-inverse" },
+    },
+    {
       theme: "elegant",
       size: "xs",
       class: { root: "size-3.5" },
@@ -147,6 +212,12 @@ const spinnerStyle = (
   </style>
 );
 
+const raftSpinnerStyle = (
+  <style href="raft-ui-spinner-raft" precedence="default">
+    {RAFT_SPINNER_STYLE}
+  </style>
+);
+
 export type SpinnerProps = WithoutChildren<useRender.ComponentProps<"span">> &
   Omit<VariantProps<typeof spinner>, "theme">;
 
@@ -158,9 +229,19 @@ export function Spinner({
   ...props
 }: SpinnerProps) {
   const theme = useThemeFamily();
-  const { root, ring } = spinner({ theme, size, variant });
+  const { root, ring, pixel } = spinner({ theme, size, variant });
   const children =
-    theme === "elegant" ? (
+    theme === "raft" ? (
+      <>
+        {raftSpinnerStyle}
+        <span data-spinner-grid="" aria-hidden="true" className={ring()}>
+          <span data-spinner-pixel="" className={pixel()} />
+          <span data-spinner-pixel="" className={pixel()} />
+          <span data-spinner-pixel="" className={pixel()} />
+          <span data-spinner-pixel="" className={pixel()} />
+        </span>
+      </>
+    ) : theme === "elegant" ? (
       <>
         {spinnerStyle}
         <svg

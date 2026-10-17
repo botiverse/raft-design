@@ -40,7 +40,7 @@ export const taskListSection = tv({
       },
       elegant: {
         root: [
-          "rounded-[10px] bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] p-3 shadow-raft-xs",
+          "rounded-container bg-[color-mix(in_oklch,var(--ink-4),var(--layer-panel))] p-3 shadow-raft-xs",
           "dark:bg-layer-card",
         ],
         items: ["[&_[data-slot=task-card]:hover]:bg-ink-2/3"],
@@ -62,6 +62,28 @@ export const taskListSection = tv({
         empty: [
           "rounded-lg border border-dashed border-line-muted bg-fill-muted",
           "text-[13px] leading-4.5 text-foreground-placeholder",
+        ],
+      },
+      raft: {
+        root: ["space-y-2"],
+        trigger: [
+          "min-h-8 justify-start gap-2 rounded-control",
+          "font-sans text-footnote font-bold text-foreground-hint",
+          "focus-visible:shadow-raft-focus",
+        ],
+        heading: ["gap-2"],
+        badge: [
+          "inline-flex items-center gap-2 p-0",
+          "font-sans text-footnote font-bold text-foreground-hint",
+          "[&>svg]:shrink-0",
+        ],
+        count: ["font-mono text-mono-meta font-normal text-foreground-hint"],
+        chevron: ["-order-1 text-foreground-hint", "group-hover:text-foreground"],
+        items: ["space-y-2"],
+        empty: [
+          "flex min-h-16 items-center justify-center py-3",
+          "rounded-container border border-dashed border-line-seam",
+          "text-center text-footnote text-foreground-hint",
         ],
       },
     },

@@ -53,15 +53,18 @@ export function MessageMultiSelectCheckbox({
   className,
   ...props
 }: MessageMultiSelectCheckboxProps) {
-  const { checkbox } = messageMultiSelect();
+  const theme = useThemeFamily();
+  const { checkbox } = messageMultiSelect({ theme });
+  // Raft: a selection checkbox is a value, not "you are here" — square, ink when checked.
+  const raft = theme === "raft";
 
   return (
     <Checkbox
       data-slot="message-multi-select-checkbox"
       className={checkbox({ className })}
-      shape="circle"
+      shape={raft ? "square" : "circle"}
       size="lg"
-      variant="primary"
+      variant={raft ? "default" : "primary"}
       {...props}
     />
   );

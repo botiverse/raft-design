@@ -26,6 +26,22 @@ export const composerDropOverlay = tv({
         dropOverlayIconCluster: "h-10 w-22",
         dropOverlayIcon: ["rounded-md p-2", "[&_svg]:size-4"],
       },
+      raft: {
+        dropOverlay: [
+          "rounded-container border-[1.5px] border-dashed border-line-seam",
+          "bg-layer-card bg-[linear-gradient(var(--info-soft),var(--info-soft))]",
+        ],
+        dropOverlayLabel: [
+          "gap-3 font-sans text-callout font-semibold",
+          "text-foreground dark:text-foreground",
+        ],
+        dropOverlayIconCluster: "h-10 w-22",
+        dropOverlayIcon: [
+          "rounded-control p-2",
+          "bg-layer-card shadow-none ring-1 ring-line-muted dark:ring-line-muted",
+          "[&_svg]:size-4",
+        ],
+      },
     },
   },
 });

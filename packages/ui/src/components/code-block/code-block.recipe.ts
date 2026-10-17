@@ -72,6 +72,30 @@ export const codeBlock = tv({
           "dark:[&_pre_span]:text-(--shiki-dark,currentColor)",
         ],
       },
+      raft: {
+        root: [
+          "[--code-block-header-height:--spacing(10)]",
+          "overflow-clip px-0 pb-0",
+          "rounded-container border border-line-muted bg-layer-code text-foreground",
+        ],
+        header: [
+          "gap-2 border-b border-line-muted pr-1 pl-3",
+          "font-mono text-mono-meta text-foreground-hint",
+        ],
+        title: ["text-mono-meta"],
+        corner: ["hidden"],
+        action: [
+          "size-8 rounded-control text-foreground",
+          "hover:bg-fill-pressed active:bg-fill-pressed",
+          "focus-visible:ring-0 focus-visible:shadow-raft-focus",
+          "[&_svg:not([class*='size-'])]:size-4.5",
+        ],
+        body: [
+          "px-3 py-2 text-mono-code text-foreground",
+          "[&_pre_span]:text-(--shiki-light,currentColor)",
+          "dark:[&_pre_span]:text-(--shiki-dark,currentColor)",
+        ],
+      },
     },
   },
 });

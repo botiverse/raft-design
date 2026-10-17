@@ -55,6 +55,17 @@ export const card = tv({
           "[&>:not(svg)]:min-w-0",
         ],
       },
+      raft: {
+        leading: ["min-h-(--card-title-line-height)"],
+        title: ["font-sans text-card-title font-card-title text-foreground"],
+        description: ["font-sans text-callout text-pretty text-foreground-muted"],
+        footer: [
+          "flex-nowrap items-center",
+          "font-sans text-caption text-foreground-hint",
+          "[&>svg]:size-3.5 [&>svg]:shrink-0",
+          "[&>:not(svg)]:min-w-0",
+        ],
+      },
     },
     variant: {
       default: {},
@@ -159,6 +170,37 @@ export const card = tv({
         content: "px-3 pb-3",
         title: ["font-sans text-sm leading-5 font-semibold"],
         description: ["font-sans text-xs leading-4"],
+      },
+    },
+    {
+      theme: "raft",
+      variant: "default",
+      class: {
+        root: ["rounded-container border border-line-muted bg-layer-card", "shadow-none"],
+        header: "p-4 has-[+[data-slot=card-content]]:pb-0",
+        content: "p-4",
+        footer: "border-t border-line-muted px-4 py-3",
+      },
+    },
+    {
+      theme: "raft",
+      variant: "inset",
+      class: {
+        root: ["rounded-container border border-line-muted bg-layer-card", "shadow-none"],
+        header: "px-4 py-3",
+        content: "border-t border-line-muted p-4 first:border-t-0",
+        footer: "border-t border-line-muted px-4 py-3",
+      },
+    },
+    {
+      theme: "raft",
+      variant: "option",
+      class: {
+        root: ["rounded-control border-[1.5px] border-line-field bg-layer-card", "shadow-none"],
+        header: "gap-x-3 p-3",
+        content: "px-3 pb-3",
+        title: ["font-sans text-callout font-semibold"],
+        description: ["font-sans text-footnote text-foreground-muted"],
       },
     },
   ],

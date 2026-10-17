@@ -216,6 +216,60 @@
     --r-float-button-bg-hover: var(--danger-hover);
     --r-float-button-text-color: var(--danger-foreground);
   }
+
+  /* Theme: Raft overrides — an icon button: surface + 1.5px ink edge,
+     control radius on every shape, no shadow, press overlay, focus ring. */
+  &.r-float-button--raft {
+    --r-float-button-border-width: 1.5px;
+    --r-float-button-border-radius: 8px;
+    --r-float-button-border-color: var(--line-strong);
+    --r-float-button-bg: var(--layer-card);
+    --r-float-button-bg-hover: var(--layer-card);
+    --r-float-button-press: var(--fill-pressed);
+    --r-float-button-text-color: var(--foreground);
+    --r-float-button-text-hover-color: var(--foreground);
+    --r-float-button-text-disabled-color: var(--foreground-disabled);
+    --r-float-button-box-shadow: none;
+    --r-float-button-shadow-hover: none;
+    --r-float-button-shadow-active: none;
+    --r-float-button-transform-hover: none;
+    --r-float-button-transform-active: none;
+    --r-float-button-outline: 2px solid var(--line-strong);
+    --r-float-button-outline-offset: 2px;
+    --r-float-button-font-weight: 700;
+    --r-float-button-opacity-disabled: 1;
+  }
+  &.r-float-button--raft.r-float-button--primary,
+  &.r-float-button--raft.r-float-button--accent {
+    --r-float-button-border-color: var(--sticker-ink);
+    --r-float-button-bg: var(--accent-400);
+    --r-float-button-bg-hover: var(--accent-400);
+    --r-float-button-press: var(--sticker-pressed);
+    --r-float-button-text-color: var(--sticker-ink);
+    --r-float-button-text-hover-color: var(--sticker-ink);
+  }
+  &.r-float-button--raft.r-float-button--warning {
+    --r-float-button-border-color: var(--sticker-ink);
+    --r-float-button-bg: var(--warning);
+    --r-float-button-bg-hover: var(--warning);
+    --r-float-button-press: var(--sticker-pressed);
+    --r-float-button-text-color: var(--sticker-ink);
+    --r-float-button-text-hover-color: var(--sticker-ink);
+  }
+  &.r-float-button--raft.r-float-button--danger {
+    --r-float-button-border-color: var(--sticker-ink);
+    --r-float-button-bg: var(--danger);
+    --r-float-button-bg-hover: var(--danger);
+    --r-float-button-press: var(--sticker-pressed);
+    --r-float-button-text-color: var(--sticker-ink);
+    --r-float-button-text-hover-color: var(--sticker-ink);
+  }
+  &.r-float-button--raft.r-float-button--ghost {
+    --r-float-button-border-color: transparent;
+    --r-float-button-bg: transparent;
+    --r-float-button-bg-hover: var(--fill-pressed);
+    --r-float-button-press: transparent;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -325,6 +379,25 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+/* Raft press feedback lays one overlay over the resting fill instead of
+   swapping it; disabled is the sunken surface, not an opacity fade. */
+.r-float-button.r-float-button--raft {
+  &:is(:hover, :active):not(:disabled) {
+    background-image: linear-gradient(var(--r-float-button-press), var(--r-float-button-press));
+  }
+
+  &:disabled {
+    border-color: var(--line-muted);
+    background-color: var(--fill-muted);
+    background-image: none;
+  }
+
+  &.r-float-button--ghost:disabled {
+    border-color: transparent;
+    background-color: transparent;
   }
 }
 
@@ -460,5 +533,26 @@
     border-bottom-right-radius: 6px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+  }
+
+  /* Attached raft: control radius on the outer corners, whatever the shape */
+  &.r-float-button-group--raft.r-float-button-group--attached.r-float-button-group--vertical
+    > .r-float-button:first-child:not(:last-child) {
+    border-radius: 8px 8px 0 0;
+  }
+
+  &.r-float-button-group--raft.r-float-button-group--attached.r-float-button-group--vertical
+    > .r-float-button:last-child:not(:first-child) {
+    border-radius: 0 0 8px 8px;
+  }
+
+  &.r-float-button-group--raft.r-float-button-group--attached.r-float-button-group--horizontal
+    > .r-float-button:first-child:not(:last-child) {
+    border-radius: 8px 0 0 8px;
+  }
+
+  &.r-float-button-group--raft.r-float-button-group--attached.r-float-button-group--horizontal
+    > .r-float-button:last-child:not(:first-child) {
+    border-radius: 0 8px 8px 0;
   }
 }

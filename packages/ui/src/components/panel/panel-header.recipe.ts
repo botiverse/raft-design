@@ -116,12 +116,37 @@ export const panelHeader = tv({
         ],
         activity: ["text-foreground-placeholder", "[&_svg]:size-[13px]"],
       },
+      raft: {
+        headerIcon: [
+          "size-[27px] rounded-sticker border-[1.5px] border-sticker-ink bg-primary text-sticker-ink",
+          "not-data-[icon-kind=avatar]:[&_svg]:size-3.5 not-data-[icon-kind=avatar]:[&_svg]:stroke-2",
+          "data-[icon-kind=avatar]:size-auto data-[icon-kind=avatar]:border-transparent data-[icon-kind=avatar]:bg-transparent",
+        ],
+        headerContent: ["flex flex-col justify-center"],
+        heading: "gap-1.5",
+        title: ["font-sans text-headline text-foreground"],
+        meta: ["font-sans text-caption text-foreground-hint"],
+        status: [
+          "gap-1 border-0 bg-transparent p-0",
+          "font-sans text-caption font-medium normal-case text-foreground-hint",
+          "[&_svg]:size-3.5",
+        ],
+        activity: ["gap-1.5 font-sans text-caption text-foreground-hint", "[&_svg]:size-3.5"],
+        actions: "mr-[-3px] gap-0.5",
+      },
     },
     size: {
       sm: {},
       md: { meta: "text-sm" },
     },
   },
+  compoundVariants: [
+    {
+      theme: "raft",
+      size: "md",
+      class: { meta: "text-footnote" },
+    },
+  ],
   compoundSlots: [
     { slots: ["header", "sectionHeader"], class: "max-md:sticky max-md:top-0 max-md:z-30" },
     {
@@ -160,5 +185,25 @@ export const panelHeader = tv({
       ],
     },
     { slots: ["sectionHeader"], theme: "elegant", class: "max-md:before:hidden" },
+    {
+      slots: ["header", "sectionHeader"],
+      theme: "raft",
+      class: [
+        "h-(--shell-header-height,56px) gap-3 pr-3 pl-5 max-md:gap-2 max-md:pr-1.5 max-md:pl-4",
+        "border-b border-line-seam bg-layer-panel text-foreground",
+      ],
+    },
+    {
+      slots: ["sectionHeader"],
+      theme: "raft",
+      class: [
+        "max-md:bg-layer-frame max-md:text-foreground-on-frame",
+        "max-md:[&>[data-slot=panel-header-icon]]:hidden",
+        "max-md:**:data-[slot=panel-title]:text-foreground-on-frame",
+        "max-md:**:data-[slot=panel-meta]:text-foreground-on-frame-muted",
+        "max-md:**:data-[slot=panel-action]:text-foreground-on-frame",
+        "max-md:**:data-[slot=panel-action]:hover:bg-fill-frame-pressed max-md:**:data-[slot=panel-action]:active:bg-fill-frame-pressed",
+      ],
+    },
   ],
 });

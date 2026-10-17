@@ -33,12 +33,55 @@ const TASK_STATUS_ICON_STYLE: Record<TaskStatusId, CSSProperties> = {
   closed: { color: "var(--task-status-closed-strong)" },
 };
 
+/** Raft draws every status as its pixel: a 9px square in the status colour
+ *  with a 1.5px sticker-ink edge (2px outer radius). The square keeps its size
+ *  and sits centred in whatever box the context gives the icon, so an icon
+ *  slot sized for a glyph still shows the same pixel. */
+const TASK_STATUS_PIXEL_STYLE: Record<TaskStatusId, CSSProperties> = {
+  todo: { fill: "var(--task-status-todo)", stroke: "var(--sticker-ink)" },
+  "in-progress": { fill: "var(--task-status-in-progress)", stroke: "var(--sticker-ink)" },
+  "in-review": { fill: "var(--task-status-in-review)", stroke: "var(--sticker-ink)" },
+  done: { fill: "var(--task-status-done)", stroke: "var(--sticker-ink)" },
+  closed: { fill: "var(--task-status-closed)", stroke: "var(--sticker-ink)" },
+};
+
+function TaskStatusPixel({
+  status,
+  className,
+  ...props
+}: { status: TaskStatusId; className?: string } & SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      aria-hidden
+      data-slot="task-status-icon"
+      data-status={status}
+      width="9"
+      height="9"
+      overflow="visible"
+      className={className}
+      {...props}
+    >
+      <rect
+        x="50%"
+        y="50%"
+        width="7.5"
+        height="7.5"
+        rx="1.25"
+        strokeWidth="1.5"
+        transform="translate(-3.75 -3.75)"
+        style={TASK_STATUS_PIXEL_STYLE[status]}
+      />
+    </svg>
+  );
+}
+
 function TaskStatusIconRoot({
   status,
   className,
   ...props
 }: { status: TaskStatusId; className?: string } & SVGProps<SVGSVGElement>) {
   const theme = useThemeFamily();
+  if (theme === "raft") return <TaskStatusPixel status={status} className={className} {...props} />;
   const Icon = TASK_STATUS_ICONS[status];
   return (
     <Icon

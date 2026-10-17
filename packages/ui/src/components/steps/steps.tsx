@@ -287,6 +287,12 @@ export function Steps({
   ...props
 }: StepsProps) {
   const theme = useThemeFamily();
+  // Raft draws the plain marks on a seam line: the river, its traveler and
+  // custom indicators are flourishes of the brutal and elegant families.
+  const raft = theme === "raft";
+  const resolvedTrack = raft ? "line" : track;
+  const resolvedRenderIndicator = raft ? undefined : renderIndicator;
+  const resolvedRenderTraveler = raft ? undefined : renderTraveler;
   const [uncontrolledCurrent, setUncontrolledCurrent] = useState(defaultCurrent);
   const current = currentProp ?? uncontrolledCurrent;
   const clickable = onUpdateCurrent !== undefined;
@@ -313,8 +319,8 @@ export function Steps({
   );
   const { landed, phase, host, mode, hostStatus } = useVoyage(statuses, list);
   const travelerNode =
-    track === "river" && renderTraveler !== undefined && host >= 1
-      ? renderTraveler({ index: host, status: hostStatus })
+    resolvedTrack === "river" && resolvedRenderTraveler !== undefined && host >= 1
+      ? resolvedRenderTraveler({ index: host, status: hostStatus })
       : undefined;
   const traveler = useMemo<TravelerValue | undefined>(
     () =>
@@ -332,7 +338,7 @@ export function Steps({
       errorIcon,
       finishLabel,
       errorLabel,
-      renderIndicator,
+      renderIndicator: resolvedRenderIndicator,
       select: clickable ? select : undefined,
     }),
     [
@@ -342,7 +348,7 @@ export function Steps({
       errorIcon,
       finishLabel,
       errorLabel,
-      renderIndicator,
+      resolvedRenderIndicator,
       clickable,
       select,
     ],
@@ -358,9 +364,10 @@ export function Steps({
             "r-steps",
             `r-steps--${size}`,
             vertical ? "r-steps--vertical" : "r-steps--horizontal",
-            track === "river" && "r-steps--river",
+            resolvedTrack === "river" && "r-steps--river",
             traveler !== undefined && "r-steps--traveler",
             theme === "elegant" && "r-steps--elegant",
+            raft && "r-steps--raft",
             className,
           )}
           {...props}

@@ -48,6 +48,9 @@ const checkbox = tv({
         ],
         graphic: ["absolute inset-0 size-full"],
       },
+      raft: {
+        root: ["rounded-sticker", "focus-visible:ring-0 focus-visible:shadow-raft-focus"],
+      },
     },
     variant: {
       default: {},
@@ -70,6 +73,11 @@ const checkbox = tv({
     },
   },
   compoundVariants: [
+    {
+      theme: "raft",
+      size: ["sm", "md", "lg"],
+      class: { root: "size-5" },
+    },
     {
       theme: "elegant",
       size: "sm",

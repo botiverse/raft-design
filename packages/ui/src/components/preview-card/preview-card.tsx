@@ -43,6 +43,17 @@ const previewCard = tv({
         description: ["bg-ink-2 font-sans dark:bg-transparent", "text-foreground-hint"],
         arrow: ["border-l border-t border-line-hairline bg-layer-popover"],
       },
+      raft: {
+        popup: [
+          "w-[300px] rounded-container bg-layer-popover text-foreground",
+          "shadow-raft-float ring-1 ring-line-seam",
+        ],
+        header: ["px-4 pt-4 pb-3 last:pb-4"],
+        separator: ["border-line-muted"],
+        title: ["font-sans text-headline font-bold text-foreground"],
+        description: ["px-4 py-3 last:pb-4 font-sans text-callout text-foreground-muted"],
+        arrow: ["border-l border-t border-line-seam bg-layer-popover"],
+      },
     },
   },
 });

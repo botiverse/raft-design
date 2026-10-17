@@ -103,7 +103,8 @@ export function MessageReactionCount({
     };
   }, [value]);
 
-  const { count } = messageReaction();
+  const theme = useThemeFamily();
+  const { count } = messageReaction({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: count({ className }),
     children,
@@ -314,7 +315,8 @@ export function MessageReactionTooltipSeparator({
   render,
   ...props
 }: MessageReactionTooltipSeparatorProps) {
-  const { tooltipSeparator } = messageReaction();
+  const theme = useThemeFamily();
+  const { tooltipSeparator } = messageReaction({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: tooltipSeparator({ className }),
   };
@@ -336,7 +338,8 @@ export function MessageReactionTooltipMeta({
   render,
   ...props
 }: MessageReactionTooltipMetaProps) {
-  const { tooltipMeta } = messageReaction();
+  const theme = useThemeFamily();
+  const { tooltipMeta } = messageReaction({ theme });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: tooltipMeta({ className }),
   };

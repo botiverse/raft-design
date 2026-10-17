@@ -157,6 +157,38 @@ const lightbox = tv({
           "group-data-active/lightbox-thumb:bg-transparent",
         ],
       },
+      raft: {
+        header: ["bg-transparent shadow-none"],
+        toolbar: ["border-b border-line-seam bg-layer-panel shadow-none"],
+        headerLabel: [
+          "h-[22px] rounded-chip bg-fill-muted py-0",
+          "font-sans text-caption font-semibold normal-case tracking-normal text-foreground-muted",
+        ],
+        title: ["py-0 font-sans text-headline font-bold text-foreground"],
+        actions: ["gap-1"],
+        navigationButton: [
+          "size-11 rounded-control border-[1.5px] border-line-strong bg-layer-card text-foreground shadow-none",
+          "hover:bg-layer-card hover:press-overlay active:press-overlay",
+          "focus-visible:outline-transparent focus-visible:shadow-raft-focus",
+          "[&_svg]:size-5.5",
+        ],
+        infoBar: [
+          "w-[clamp(144px,20vw,224px)] max-w-[calc(100vw-48px)] min-w-36",
+          "gap-2 rounded-container py-0.5 pr-0.5 pl-2.5",
+          "bg-layer-popover text-foreground shadow-raft-float ring-1 ring-line-seam",
+        ],
+        infoTitle: ["font-sans text-footnote font-semibold text-foreground"],
+        infoActions: ["gap-1"],
+        thumbnail: [
+          "rounded-control border-[1.5px] opacity-100 shadow-none",
+          "border-sticker-paper/40 hover:border-sticker-paper/80",
+          "data-active:border-sticker-paper",
+        ],
+        thumbnailOverlay: [
+          "bg-black/45 group-hover/lightbox-thumb:bg-black/28",
+          "group-data-active/lightbox-thumb:bg-transparent",
+        ],
+      },
     },
   },
 });
@@ -620,7 +652,7 @@ export function LightboxClose({ className, render, ...props }: LightboxCloseProp
           <Button
             type="button"
             variant="outline"
-            size={theme === "elegant" ? "icon-sm" : "icon-md"}
+            size={theme === "elegant" ? "icon-sm" : theme === "raft" ? "icon-lg" : "icon-md"}
           />
         )
       }

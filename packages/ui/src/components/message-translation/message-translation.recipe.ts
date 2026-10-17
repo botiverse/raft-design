@@ -40,6 +40,26 @@ export const messageTranslation = tv({
           "transition-colors hover:bg-warning-soft hover:text-warning",
         ],
       },
+      raft: {
+        translationOriginal: "mt-1",
+        translationOriginalLabel: "mb-0.5 font-mono text-mono-meta text-foreground-hint",
+        translationStatus: "mt-1 font-mono text-mono-meta text-foreground-hint [&_svg]:size-3",
+        translationFailedStatus: [
+          "mt-1 font-mono text-mono-meta text-warning-strong",
+          "[&_svg]:size-3",
+        ],
+        translationProgressTrack: "h-1",
+        translationAction: [
+          "rounded-[2px] font-sans text-caption font-semibold text-foreground",
+          "decoration-[1.5px] underline-offset-[3px] hover:decoration-accent-500",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+        translationRetryAction: [
+          "rounded-[2px] font-sans text-caption font-semibold text-foreground",
+          "decoration-[1.5px] underline-offset-[3px] hover:decoration-accent-500",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+      },
     },
   },
 });

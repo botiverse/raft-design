@@ -57,6 +57,24 @@ export const files = tv({
         name: ["font-sans font-medium text-foreground"],
         meta: ["font-sans text-foreground-placeholder"],
       },
+      raft: {
+        panel: "bg-layer-panel text-foreground",
+        list: ["max-md:px-4"],
+        row: [
+          "items-center rounded-container border border-line-muted bg-layer-card py-2.5 pr-1.5 pl-2.5 shadow-none",
+          "has-[[data-slot=file-row-open]:hover]:press-overlay has-[[data-slot=file-row-open]:active]:press-overlay",
+          "has-[[data-slot=file-row-open]:focus-visible]:shadow-raft-focus",
+        ],
+        rowOpen: ["items-center outline-none", "focus-visible:outline-none"],
+        thumbnail: [
+          "size-9 rounded-chip border-0 bg-fill-muted text-foreground-muted",
+          "has-[[data-slot=file-preview]]:size-9",
+        ],
+        image: "bg-layer-card",
+        content: ["justify-center gap-0.5"],
+        name: ["font-sans text-callout font-semibold text-foreground"],
+        meta: ["mt-0 gap-x-1.5 font-mono text-mono-meta text-foreground-hint"],
+      },
     },
   },
 });
