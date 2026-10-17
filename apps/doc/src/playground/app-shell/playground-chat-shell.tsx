@@ -11,6 +11,7 @@ import {
   ResizablePanel,
   useThemeFamily,
 } from "raft-ui";
+import type { Theme } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
 import {
@@ -94,6 +95,7 @@ export function PlaygroundChatShell() {
       className={cn(
         "h-full max-md:h-dvh max-md:overflow-hidden",
         theme === "brutal" && (mobileListPanel ? "max-md:bg-primary" : "max-md:bg-white"),
+        theme === "raft" && mobileListPanel && "max-md:bg-layer-frame",
       )}
     >
       <PlaygroundRail showBottomNavigation={mobileListPanel} />
@@ -148,10 +150,10 @@ function PlaygroundChatLayout({
   main: ReactNode;
   mobileListPanel: boolean;
   sidebar: ReactNode;
-  theme: "brutal" | "elegant";
+  theme: Theme;
   thread?: ReactNode;
 }) {
-  const sidebarDefaultSize = theme === "brutal" ? 240 : 252;
+  const sidebarDefaultSize = theme === "elegant" ? 252 : 240;
 
   if (!isDesktop) {
     return (

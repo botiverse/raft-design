@@ -24,7 +24,7 @@ function AppShellMobilePreviewPage() {
 }
 
 function getTheme(value: unknown): Theme {
-  return value === "brutal" ? "brutal" : "elegant";
+  return value === "brutal" || value === "raft" ? value : "elegant";
 }
 
 function getMode(value: unknown): ThemeMode {

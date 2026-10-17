@@ -11,14 +11,21 @@ import { SIZES, VARIANTS } from "./button.constants.ts";
 const ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME =
   "outline-transparent ring-2 ring-[color-mix(in_oklch,var(--button-focus-ring,var(--primary-400))_80%,transparent)] ring-offset-1 ring-offset-layer-canvas-muted";
 
+const RAFT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME = "shadow-raft-focus";
+
 type ButtonPreviewProps = ButtonProps & {
   focusVisible?: boolean;
 };
 
 export function ButtonPreview({ focusVisible = false, className, ...props }: ButtonPreviewProps) {
   const { theme } = useTheme();
-  const focusClassName =
-    focusVisible && theme === "elegant" ? ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME : null;
+  const focusClassName = !focusVisible
+    ? null
+    : theme === "elegant"
+      ? ELEGANT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME
+      : theme === "raft"
+        ? RAFT_BUTTON_FOCUS_VISIBLE_PREVIEW_CLASS_NAME
+        : null;
   const mergedClassName = [focusClassName, className].filter(Boolean).join(" ") || undefined;
 
   return <Button {...props} className={mergedClassName} />;

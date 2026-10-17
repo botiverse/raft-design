@@ -30,7 +30,11 @@ export function ComposerInput({ className, ...props }: ComposerInputProps) {
 
   return (
     <ComposerInputPrimitive
-      className={cn(theme === "elegant" ? "md:min-h-20 md:px-4 md:pt-4" : "md:min-h-10", className)}
+      className={cn(
+        theme === "elegant" && "md:min-h-20 md:px-4 md:pt-4",
+        theme === "brutal" && "md:min-h-10",
+        className,
+      )}
       {...props}
     />
   );

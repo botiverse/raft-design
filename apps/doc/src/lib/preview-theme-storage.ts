@@ -22,7 +22,7 @@ export type StoredPreviewTheme = {
 };
 
 function asFamily(value: unknown): Theme | null {
-  return value === "brutal" || value === "elegant" ? value : null;
+  return value === "brutal" || value === "elegant" || value === "raft" ? value : null;
 }
 
 function asMode(value: unknown): ThemeMode | null {
@@ -127,11 +127,14 @@ export function documentThemeAttributes(
 ): DocumentThemeAttributes {
   const mode = resolveThemeMode(stored?.mode ?? "system");
   const theme = resolveThemeFamily(stored, mode);
+  // Brutal is light-only; the families with modes (elegant, raft) take the
+  // mode class and color scheme.
+  const modal = theme !== "brutal";
   return {
     theme,
-    colorScheme: theme === "elegant" ? mode : "light",
-    light: theme === "elegant" && mode === "light",
-    dark: theme === "elegant" && mode === "dark",
+    colorScheme: modal ? mode : "light",
+    light: modal && mode === "light",
+    dark: modal && mode === "dark",
   };
 }
 
@@ -149,7 +152,7 @@ export function documentThemeAttributes(
  * executes this exact string against a stub document and asserts it produces
  * the same writes for the same cookies.
  */
-export const PREVIEW_THEME_INLINE_SCRIPT = `(function(){try{var isFamily=function(v){return v==="brutal"||v==="elegant"};var parsed={};var m=document.cookie.match(/(?:^|;\\s*)${PREVIEW_THEME_COOKIE}=([^;]+)/);if(m){try{parsed=JSON.parse(decodeURIComponent(m[1]))||{}}catch(error){parsed={}}}if(typeof parsed!=="object"||parsed===null)parsed={};var mode=parsed.mode;if(mode!==undefined&&mode!=="light"&&mode!=="dark"&&mode!=="system"){parsed={};mode=undefined}var storedLight=isFamily(parsed.light)?parsed.light:(isFamily(parsed.theme)?parsed.theme:"brutal");var storedDark=isFamily(parsed.dark)?parsed.dark:(isFamily(parsed.theme)?parsed.theme:"elegant");if(storedDark==="brutal")storedDark="elegant";if(mode===undefined||mode==="system"){mode=typeof window!=="undefined"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}var family=mode==="dark"?storedDark:storedLight;var root=document.documentElement;root.dataset.theme=family;root.classList.toggle("light",family==="elegant"&&mode==="light");root.classList.toggle("dark",family==="elegant"&&mode==="dark");root.style.colorScheme=family==="elegant"?mode:"light"}catch(error){}})();`;
+export const PREVIEW_THEME_INLINE_SCRIPT = `(function(){try{var isFamily=function(v){return v==="brutal"||v==="elegant"||v==="raft"};var parsed={};var m=document.cookie.match(/(?:^|;\\s*)${PREVIEW_THEME_COOKIE}=([^;]+)/);if(m){try{parsed=JSON.parse(decodeURIComponent(m[1]))||{}}catch(error){parsed={}}}if(typeof parsed!=="object"||parsed===null)parsed={};var mode=parsed.mode;if(mode!==undefined&&mode!=="light"&&mode!=="dark"&&mode!=="system"){parsed={};mode=undefined}var storedLight=isFamily(parsed.light)?parsed.light:(isFamily(parsed.theme)?parsed.theme:"brutal");var storedDark=isFamily(parsed.dark)?parsed.dark:(isFamily(parsed.theme)?parsed.theme:"elegant");if(storedDark==="brutal")storedDark="elegant";if(mode===undefined||mode==="system"){mode=typeof window!=="undefined"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}var family=mode==="dark"?storedDark:storedLight;var root=document.documentElement;root.dataset.theme=family;var modal=family!=="brutal";root.classList.toggle("light",modal&&mode==="light");root.classList.toggle("dark",modal&&mode==="dark");root.style.colorScheme=modal?mode:"light"}catch(error){}})();`;
 
 export const getStoredPreviewTheme = createServerFn({ method: "GET" }).handler(async () => {
   const { getCookie } = await import("@tanstack/react-start/server");

@@ -20,7 +20,7 @@ export function PlaygroundBrowseShell() {
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const { railDetailId, railView } = usePlaygroundNavigation();
   const view = railView === "members" || railView === "computers" ? railView : null;
-  const sidebarDefaultSize = theme === "brutal" ? 240 : 252;
+  const sidebarDefaultSize = theme === "elegant" ? 252 : 240;
 
   if (!view) return null;
 

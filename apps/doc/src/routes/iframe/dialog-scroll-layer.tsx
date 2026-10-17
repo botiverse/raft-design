@@ -537,7 +537,7 @@ function WorstCaseCombo() {
 }
 
 function getTheme(value: unknown): Theme {
-  return value === "brutal" || value === "elegant" ? value : "elegant";
+  return value === "brutal" || value === "elegant" || value === "raft" ? value : "elegant";
 }
 
 function getMode(value: unknown): ThemeMode {

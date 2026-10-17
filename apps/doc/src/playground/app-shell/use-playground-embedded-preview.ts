@@ -39,7 +39,7 @@ export function usePlaygroundEmbeddedPreview(setTheme: SetTheme) {
       if (event.data.theme === "brutal") {
         setTheme("brutal");
       } else {
-        setTheme("elegant", { mode: event.data.mode });
+        setTheme(event.data.theme, { mode: event.data.mode });
       }
     };
 
@@ -58,7 +58,7 @@ function isThemeMessage(value: unknown): value is PlaygroundThemeMessage {
   const message = value as Partial<PlaygroundThemeMessage>;
   return (
     message.type === THEME_MESSAGE &&
-    (message.theme === "brutal" || message.theme === "elegant") &&
+    (message.theme === "brutal" || message.theme === "elegant" || message.theme === "raft") &&
     (message.mode === "light" || message.mode === "dark" || message.mode === "system")
   );
 }

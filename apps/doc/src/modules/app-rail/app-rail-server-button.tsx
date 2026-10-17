@@ -34,6 +34,16 @@ const appRailServerButton = tv({
         "transition-[background-color,transform] duration-150 active:translate-y-px",
         "[&_img]:rounded-[inherit]",
       ],
+      raft: [
+        "rounded-sticker border-[1.5px] border-sticker-ink bg-sticker-ink",
+        "font-sans text-headline text-primary",
+        "shadow-[0_0_0_1.5px_var(--sticker-edge)]",
+        "transition-colors duration-100",
+        "hover:bg-[color-mix(in_srgb,var(--sticker-paper)_15%,var(--sticker-ink))]",
+        "active:bg-[color-mix(in_srgb,var(--sticker-paper)_15%,var(--sticker-ink))]",
+        "focus-visible:shadow-raft-focus",
+        "[&_img]:rounded-[inherit]",
+      ],
     },
   },
 });

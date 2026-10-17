@@ -73,7 +73,7 @@ export const TaskCardComposition = memo(function TaskCardComposition({
             ) : (
               <TaskStatusSelect
                 {...statusSelectProps}
-                defaultOpen={theme === "elegant" ? menuOpen : undefined}
+                defaultOpen={theme === "brutal" ? undefined : menuOpen}
                 title="Change task status"
               >
                 <TaskCardStatus

@@ -34,6 +34,20 @@ const PRESETS: readonly PreviewThemePreset[] = [
     mode: "dark",
     select: (theme) => theme.setTheme("elegant", { mode: "dark" }),
   },
+  {
+    key: "raft-light",
+    label: "Raft",
+    family: "raft",
+    mode: "light",
+    select: (theme) => theme.setTheme("raft", { mode: "light" }),
+  },
+  {
+    key: "raft-dark",
+    label: "Raft dark",
+    family: "raft",
+    mode: "dark",
+    select: (theme) => theme.setTheme("raft", { mode: "dark" }),
+  },
 ];
 
 /** Docs control: switches the isolated component preview theme. */

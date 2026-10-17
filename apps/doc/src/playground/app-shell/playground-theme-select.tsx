@@ -16,6 +16,8 @@ const THEME_PRESETS = [
   { value: "brutal", label: "Brutal", theme: "brutal", mode: "light" },
   { value: "elegant-light", label: "Elegant", theme: "elegant", mode: "light" },
   { value: "elegant-dark", label: "Elegant dark", theme: "elegant", mode: "dark" },
+  { value: "raft-light", label: "Raft", theme: "raft", mode: "light" },
+  { value: "raft-dark", label: "Raft dark", theme: "raft", mode: "dark" },
 ] as const satisfies readonly {
   value: string;
   label: string;
@@ -27,6 +29,7 @@ type PlaygroundThemeValue = (typeof THEME_PRESETS)[number]["value"];
 
 export function getThemeValue(theme: Theme, mode: "light" | "dark"): PlaygroundThemeValue {
   if (theme === "brutal") return "brutal";
+  if (theme === "raft") return mode === "dark" ? "raft-dark" : "raft-light";
   return mode === "dark" ? "elegant-dark" : "elegant-light";
 }
 

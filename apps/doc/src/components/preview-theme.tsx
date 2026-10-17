@@ -217,7 +217,7 @@ function PreviewThemeScopeContent({
   family: Theme;
 }) {
   const { resolvedMode } = useTheme();
-  const modeClassName = family === "elegant" ? resolvedMode : null;
+  const modeClassName = family === "brutal" ? null : resolvedMode;
   const scopeClassName = [modeClassName, className].filter(Boolean).join(" ");
 
   return (

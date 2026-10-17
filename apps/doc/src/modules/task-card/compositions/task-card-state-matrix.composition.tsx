@@ -326,7 +326,7 @@ export function TaskCardStateMatrixComposition({
                 value={menuStatus}
                 onValueChange={setMenuStatus}
                 portalRef={portalRef}
-                defaultOpen={theme === "elegant" ? true : undefined}
+                defaultOpen={theme === "brutal" ? undefined : true}
                 title="Change task status"
               >
                 <TaskCardStatus

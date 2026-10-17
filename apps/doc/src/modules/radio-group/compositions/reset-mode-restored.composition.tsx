@@ -58,6 +58,16 @@ const resetModeOption = tv({
         ],
         label: "text-[13px] font-medium tracking-[-0.005em]",
       },
+      raft: {
+        card: [
+          "gap-3 rounded-container border border-line-muted bg-layer-card p-4",
+          "hover:press-overlay",
+          "has-[[data-slot=radio-group-item][data-checked]]:border-line-seam has-[[data-slot=radio-group-item][data-checked]]:bg-info-soft",
+          "has-[[data-slot=radio-group-item][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-disabled]]:bg-fill-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-none",
+          "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-fill-muted",
+        ],
+        label: "text-subhead font-semibold",
+      },
     },
   },
 });

@@ -43,6 +43,21 @@ const sidebarServerRecipe = tv({
         sidebarServerChevron: "hidden",
         sidebarServerIndicator: "-top-1 -right-1 z-10",
       },
+      raft: {
+        sidebarServer: [
+          "-rotate-2 gap-1.5 rounded-control bg-sticker-ink py-1 pr-2.5 pl-3",
+          "min-h-9 font-sans text-headline text-primary",
+          "shadow-[0_0_0_1.5px_var(--sticker-edge)]",
+          "transition-colors",
+          "hover:bg-[color-mix(in_srgb,var(--sticker-paper)_15%,var(--sticker-ink))]",
+          "active:bg-[color-mix(in_srgb,var(--sticker-paper)_15%,var(--sticker-ink))]",
+          "outline-none focus-visible:shadow-raft-focus",
+        ],
+        sidebarServerAvatar: "hidden",
+        sidebarServerLabel: "max-w-[200px]",
+        sidebarServerChevron: "text-primary",
+        sidebarServerIndicator: "hidden",
+      },
     },
   },
 });

@@ -285,7 +285,7 @@ function getVariant(value: unknown): DrawerPreviewVariant {
 }
 
 function getTheme(value: unknown): Theme {
-  return value === "brutal" || value === "elegant" ? value : "brutal";
+  return value === "brutal" || value === "elegant" || value === "raft" ? value : "brutal";
 }
 
 function getMode(value: unknown): ThemeMode {
