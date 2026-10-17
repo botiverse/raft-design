@@ -106,14 +106,13 @@ const tabs = tv({
       },
     },
     {
+      // Raft DS › Tabs, the sticker version: no track (that is
+      // the SegmentedControl look); each tab is a 32px pill whose 44px hit area
+      // overhangs the row, and the selected one is the yellow sticker.
       theme: "raft",
       variant: "default",
       class: {
-        list: "gap-0.5 p-[3px]",
-        background: [
-          "pointer-events-none absolute inset-0 z-0 block",
-          "rounded-[calc(var(--radius-control)+3px)] bg-fill-muted",
-        ],
+        list: "gap-0.5",
         tab: [
           "h-8 justify-center gap-1.5 rounded-control border-[1.5px] border-transparent px-3",
           "after:inset-x-0 after:-inset-y-1.5",
