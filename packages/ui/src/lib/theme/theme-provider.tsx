@@ -20,7 +20,7 @@ export interface ThemeProviderProps {
   theme?: Theme;
   defaultTheme?: Theme;
   onThemeChange?: (theme: Theme) => void;
-  /** Controlled light/dark behavior for the elegant family. */
+  /** Controlled light/dark behavior for the families that have modes (elegant, raft). */
   mode?: ThemeMode;
   defaultMode?: ThemeMode;
   onModeChange?: (mode: ThemeMode) => void;
@@ -45,7 +45,7 @@ function readStoredTheme(storageKey: string | undefined, fallback: Theme): Theme
   }
 
   const stored = window.localStorage.getItem(storageKey);
-  return stored === "brutal" || stored === "elegant" ? stored : fallback;
+  return stored === "brutal" || stored === "elegant" || stored === "raft" ? stored : fallback;
 }
 
 function readStoredMode(storageKey: string | undefined, fallback: ThemeMode): ThemeMode {
@@ -160,10 +160,11 @@ export function ThemeProvider({
     }
 
     const root = document.documentElement;
+    const modal = activeTheme !== "brutal";
     root.dataset.theme = activeTheme;
-    root.classList.toggle("light", activeTheme === "elegant" && resolvedMode === "light");
-    root.classList.toggle("dark", activeTheme === "elegant" && resolvedMode === "dark");
-    root.style.colorScheme = activeTheme === "elegant" ? resolvedMode : "light";
+    root.classList.toggle("light", modal && resolvedMode === "light");
+    root.classList.toggle("dark", modal && resolvedMode === "dark");
+    root.style.colorScheme = modal ? resolvedMode : "light";
   }, [activeMode, activeTheme, resolvedMode, syncDom]);
 
   return (

@@ -31,6 +31,10 @@ import { expect, test } from "vite-plus/test";
  * - the compiled CSS may not gain sub-element-styling `:has()` rules,
  * - `src/**` `.css` files stay free of raw `:has()`.
  *
+ * The raft (Raft Design System) branches added self-subject tokens only — a
+ * root styled from its own children (`has-[>svg]:grid-cols-…`, a row reading
+ * its checkbox's state); the compiled sub-element shape count did not grow.
+ *
  * Baseline caveat, deliberately recorded: the remaining entries below are NOT
  * individually cleared. The #133 sweep found the 29 rules above; everything
  * else sits under its 5ms single-rule threshold (their combined residual was
@@ -98,18 +102,18 @@ const BANNED_REGRESSIONS = [
  */
 const BASELINE_TOKENS: Record<string, number> = {
   "components/badge/badge.tsx": 1,
-  "components/banner/banner.tsx": 48,
+  "components/banner/banner.tsx": 52,
   "components/button/button.tsx": 10,
   "components/card/card.recipe.ts": 7,
-  "components/composer/composer-attachment.recipe.ts": 10,
+  "components/composer/composer-attachment.recipe.ts": 12,
   "components/composer/composer-root.tsx": 10,
-  "components/files/files.recipe.ts": 4,
-  "components/inbox-item/inbox-item.recipe.ts": 7,
-  "components/input-group/input-group.tsx": 30,
+  "components/files/files.recipe.ts": 8,
+  "components/inbox-item/inbox-item.recipe.ts": 9,
+  "components/input-group/input-group.tsx": 33,
   "components/message-attachment/message-image-gallery.recipe.ts": 2,
-  "components/message-item/message-item.recipe.ts": 11,
-  "components/message-item/message-reaction.recipe.ts": 4,
-  "components/message-item/message-reference.recipe.ts": 37,
+  "components/message-item/message-item.recipe.ts": 15,
+  "components/message-item/message-reaction.recipe.ts": 5,
+  "components/message-item/message-reference.recipe.ts": 38,
   "components/panel/panel-header.recipe.ts": 24,
   "components/picker-trigger-button/picker-trigger-button.tsx": 2,
   "components/segmented-control/segmented-control.tsx": 4,
@@ -121,7 +125,9 @@ const BASELINE_TOKENS: Record<string, number> = {
   "components/task-card/task-card-status.recipe.ts": 2,
   "components/textarea/textarea.tsx": 2,
   "components/toast/toast.tsx": 28,
-  "components/tooltip/tooltip.tsx": 2,
+  "components/tooltip/tooltip.tsx": 4,
+  "components/message-replies/message-replies.recipe.ts": 1,
+  "components/notification-center/notification-center.tsx": 1,
 };
 
 /**

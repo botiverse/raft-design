@@ -25,7 +25,7 @@ export function resolveThemeScopeProps<Props extends ThemeScopeProps>(
   className?: Props["className"];
   "data-theme": Theme;
 } {
-  const modeClassName = theme === "elegant" ? resolvedMode : undefined;
+  const modeClassName = theme === "brutal" ? undefined : resolvedMode;
   const resolvedClassName =
     typeof className === "function" && modeClassName
       ? (state: ClassNameState<Props>) =>

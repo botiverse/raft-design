@@ -14,8 +14,28 @@ import { extendTailwindMerge } from "tailwind-merge";
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      shadow: [{ shadow: [{ raft: ["xs", "sm", "md", "lg", "xl"] }] }],
-      "font-size": [{ text: ["field", "card-title"] }],
+      shadow: [{ shadow: [{ raft: ["xs", "sm", "md", "lg", "xl", "float", "sticker", "focus"] }] }],
+      rounded: [{ rounded: ["sticker", "chip", "control", "container", "dialog"] }],
+      "font-size": [
+        {
+          text: [
+            "field",
+            "card-title",
+            "hero",
+            "display",
+            "title",
+            "headline",
+            "body",
+            "subhead",
+            "callout",
+            "footnote",
+            "caption",
+            "label",
+            "mono-meta",
+            "mono-code",
+          ],
+        },
+      ],
       "font-weight": [{ font: ["field", "card-title"] }],
     },
   },

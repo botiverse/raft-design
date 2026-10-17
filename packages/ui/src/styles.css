@@ -6,17 +6,20 @@
 @import "./components/steps/otter-indicator.css";
 @import "./components/steps/island-indicator.css";
 
-/* `dark:` tracks the elegant theme's explicit dark context and its pre-hydration
+/* `dark:` tracks the elegant and raft themes' explicit dark context and its pre-hydration
    system-dark fallback. Explicit .light/.dark classes always win.
    Nearest theme scope wins: a `[data-theme]` element without `.dark` (a brutal or
    elegant-light preview island) re-enters light context for its subtree even when
    the document root is dark. Supports one level of scope nesting. */
 @custom-variant dark {
   &:where(
-    :is([data-theme="elegant"].dark, [data-theme="elegant"].dark *):not(
+    :is(
+      :is([data-theme="elegant"], [data-theme="raft"]).dark,
+      :is([data-theme="elegant"], [data-theme="raft"]).dark *
+    ):not(
       :where(
-        [data-theme="elegant"].dark :is([data-theme]:not(.dark)),
-        [data-theme="elegant"].dark :is([data-theme]:not(.dark)) *
+        :is([data-theme="elegant"], [data-theme="raft"]).dark :is([data-theme]:not(.dark)),
+        :is([data-theme="elegant"], [data-theme="raft"]).dark :is([data-theme]:not(.dark)) *
       )
     )
   ) {
@@ -25,12 +28,12 @@
   @media (prefers-color-scheme: dark) {
     &:where(
       :is(
-        [data-theme="elegant"]:not(.light):not(.dark),
-        [data-theme="elegant"]:not(.light):not(.dark) *
+        :is([data-theme="elegant"], [data-theme="raft"]):not(.light):not(.dark),
+        :is([data-theme="elegant"], [data-theme="raft"]):not(.light):not(.dark) *
       ):not(
         :where(
-          [data-theme="elegant"]:not(.light):not(.dark) [data-theme],
-          [data-theme="elegant"]:not(.light):not(.dark) [data-theme] *
+          :is([data-theme="elegant"], [data-theme="raft"]):not(.light):not(.dark) [data-theme],
+          :is([data-theme="elegant"], [data-theme="raft"]):not(.light):not(.dark) [data-theme] *
         )
       )
     ) {
@@ -60,6 +63,54 @@
   --color-brutal-cream: var(--color-brutal-cream-200);
 
   --ease-slide: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Raft Design System shape scale: pixels are hard, containers are soft.
+     sticker = avatars, channel tiles, checkboxes, counts, inline marks;
+     chip = 22px tags and status chips; control = buttons, fields, rows, menu
+     items; container = cards, menus, composer, banners; dialog = dialogs and
+     sheet tops. Round (rounded-full) is only for switches and radios. */
+  --radius-sticker: 4px;
+  --radius-chip: 6px;
+  --radius-control: 8px;
+  --radius-container: 10px;
+  --radius-dialog: 16px;
+
+  /* Raft Design System type styles (size / line-height / weight). Grotesk is
+     what people say; pair the mono styles with `font-mono` for what machines
+     write (ids, times, counts, events, code). */
+  --text-hero: 40px;
+  --text-hero--line-height: 44px;
+  --text-hero--font-weight: 700;
+  --text-hero--letter-spacing: -0.03em;
+  --text-display: 34px;
+  --text-display--line-height: 40px;
+  --text-display--font-weight: 700;
+  --text-display--letter-spacing: -0.02em;
+  --text-title: 22px;
+  --text-title--line-height: 28px;
+  --text-title--font-weight: 700;
+  --text-title--letter-spacing: -0.01em;
+  --text-headline: 17px;
+  --text-headline--line-height: 22px;
+  --text-headline--font-weight: 700;
+  --text-body: 16px;
+  --text-body--line-height: 24px;
+  --text-subhead: 15px;
+  --text-subhead--line-height: 20px;
+  --text-callout: 14px;
+  --text-callout--line-height: 20px;
+  --text-footnote: 13px;
+  --text-footnote--line-height: 18px;
+  --text-caption: 12px;
+  --text-caption--line-height: 16px;
+  --text-caption--font-weight: 500;
+  --text-label: 11px;
+  --text-label--line-height: 13px;
+  --text-label--font-weight: 600;
+  --text-mono-meta: 12px;
+  --text-mono-meta--line-height: 16px;
+  --text-mono-code: 13px;
+  --text-mono-code--line-height: 20px;
 }
 
 @theme inline {
@@ -183,6 +234,29 @@
 
   --color-inactive: var(--inactive);
   --color-inactive-foreground: var(--inactive-foreground);
+  --color-inactive-soft: var(--inactive-soft);
+
+  /* Raft Design System roles (stamped by every theme scope). */
+  --color-line-seam: var(--line-seam);
+  --color-layer-frame: var(--layer-frame);
+  --color-layer-frame-active: var(--layer-frame-active);
+  --color-line-frame-active: var(--line-frame-active);
+  --color-foreground-on-frame: var(--foreground-on-frame);
+  --color-foreground-on-frame-muted: var(--foreground-on-frame-muted);
+  --color-foreground-on-frame-active: var(--foreground-on-frame-active);
+  --color-fill-frame-pressed: var(--fill-frame-pressed);
+  --color-fill-pressed: var(--fill-pressed);
+  --color-layer-code: var(--layer-code);
+  --color-foreground-link: var(--foreground-link);
+  --color-sticker-ink: var(--sticker-ink);
+  --color-sticker-paper: var(--sticker-paper);
+  --color-sticker-edge: var(--sticker-edge);
+  --color-sticker-pressed: var(--sticker-pressed);
+  --color-presence-online: var(--presence-online);
+  --color-presence-busy: var(--presence-busy);
+  --color-presence-error: var(--presence-error);
+  --color-presence-offline: var(--presence-offline);
+  --color-presence-external: var(--presence-external);
 
   /* Task-status scale for Tailwind (`bg-task-status-todo`, `text-task-status-*`,
      …). One slot per state plus its soft wash / strong ink; all four theme
@@ -208,6 +282,9 @@
   --shadow-raft-md: var(--theme-shadow-md);
   --shadow-raft-lg: var(--theme-shadow-lg);
   --shadow-raft-xl: var(--theme-shadow-xl);
+  --shadow-raft-float: var(--theme-shadow-float);
+  --shadow-raft-sticker: var(--theme-shadow-sticker);
+  --shadow-raft-focus: var(--theme-focus-ring);
 
   --font-heading: var(--heading-font, system-ui, sans-serif);
   --font-sans: var(--sans-font, system-ui, sans-serif);
@@ -271,4 +348,16 @@ body {
     8px -8px,
     -8px 0;
   background-size: 16px 16px;
+}
+
+/* Raft Design System press feedback: hover and press lay one overlay over the
+   resting colour instead of swapping it, so a control keeps its identity.
+   Paper controls take the 8% ink wash (fill-pressed); colour stickers take
+   sticker-pressed (12% ink in both modes). */
+@utility press-overlay {
+  background-image: linear-gradient(var(--fill-pressed), var(--fill-pressed));
+}
+
+@utility press-overlay-sticker {
+  background-image: linear-gradient(var(--sticker-pressed), var(--sticker-pressed));
 }
