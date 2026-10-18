@@ -130,6 +130,34 @@ export type {
 } from "./components/card/index";
 
 export {
+  ListRow,
+  ListRowBody,
+  ListRowBottom,
+  ListRowChevron,
+  ListRowDescription,
+  ListRowGroup,
+  ListRowIcon,
+  ListRowMeta,
+  ListRowTitle,
+  ListRowTop,
+  ListRowValue,
+} from "./components/list-row/index";
+export type {
+  ListRowBodyProps,
+  ListRowBottomProps,
+  ListRowChevronProps,
+  ListRowDescriptionProps,
+  ListRowGroupProps,
+  ListRowIconProps,
+  ListRowMetaProps,
+  ListRowProps,
+  ListRowTitleProps,
+  ListRowTone,
+  ListRowTopProps,
+  ListRowValueProps,
+} from "./components/list-row/index";
+
+export {
   AppRailFooter,
   AppRailHeader,
   AppRailItem,

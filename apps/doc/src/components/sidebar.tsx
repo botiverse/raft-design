@@ -154,6 +154,7 @@ const COMPONENT_NAV = [
       { label: "Avatar", to: "/components/avatar", status: "done" },
       { label: "DescriptionList", to: "/components/description-list", status: "done" },
       { label: "FilePreview", to: "/components/file-preview", status: "done" },
+      { label: "ListRow", to: "/components/list-row", status: "done" },
       { label: "Table", to: "/components/table", status: "done" },
     ],
   },
