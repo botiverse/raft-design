@@ -1,0 +1,71 @@
+---
+title: Tabs
+summary: A row of tabs for the sections of one page, each with its own content; the selected tab is a yellow sticker, and the row scrolls when the tabs don't fit.
+status: stable
+aliases: []
+category: navigation
+related: [segmented-control, conversation-panel, mobile-nav]
+---
+
+# Tabs
+
+Tabs switch between the sections of one page, each with its own content: a channel's chat, tasks and files, for example. The selected tab is a yellow sticker, the same "you are here" as a sidebar row or a segmented control. When the tabs don't fit, the row scrolls sideways.
+
+```example
+tabs/compositions/placement
+```
+
+## When to use
+
+| Situation                                       | Use                                                                          |
+| ----------------------------------------------- | ---------------------------------------------------------------------------- |
+| Sections of one page, each with its own content | Tabs                                                                         |
+| Another view of the same content                | [SegmentedControl](../segmented-control/segmented-control.md)                |
+| The steps of a flow, in order                   | [Steps](../steps/steps.md)                                                   |
+| A product's destinations                        | [AppRail](../app-rail/app-rail.md), [MobileNav](../mobile-nav/mobile-nav.md) |
+
+A place with several kinds of content can show them as tabs, as a segmented control in the header, or with one of them in a side panel ([Navigation](../../../../../design/patterns/navigation.md#several-views-of-one-place)).
+
+## Anatomy
+
+- `Tabs`: the root. It holds the selected value and the `placement`.
+- `TabsList`: the row of tabs.
+- `TabsTab`: one tab, with an optional icon before a `TabsLabel`.
+- `TabsPanel`: the content of one tab.
+- `SortableTabsList` and `SortableTabsTab`: a row whose tabs people can reorder by dragging. `useOrderedTabs` restores a saved order.
+
+## Variants
+
+| Variant               | Use for                                                                                                                          |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `variant="default"`   | The sticker tab: the selected tab is a yellow sticker. The default                                                               |
+| `variant="underline"` | Many tabs, or a place that already has a lot of color: the selected tab is ink text with a 2px ink line on the row's bottom edge |
+
+Which of the two is the system's default is [still open](../../../../../design/decisions/open-questions.md); until it is settled, use the sticker tab. `placement` puts the row on the top (the default), bottom, left or right of the panels.
+
+## Behavior
+
+- When the tabs don't fit, the row scrolls on its own. Tabs never wrap onto a second line and never shrink their text.
+- The row shows no scrollbar, and a vertical mouse wheel scrolls it sideways.
+- The side that hides tabs fades out over 32px.
+- The selected tab always scrolls into view.
+
+## Content
+
+- Label tabs with 1 or 2 words in Title Case: Chat, Tasks, Files ([Typography](../../../../../design/foundations/typography.md#casing)).
+- Put a count in its own Space Mono element after the label, never in the label's text.
+
+## Accessibility
+
+- `Tabs` wraps the Base UI Tabs, which provides the tab list, tab and panel semantics and the arrow keys.
+- Name the `TabsList` after the place it belongs to: `aria-label="launch-week"`.
+- Give every icon-only tab an `aria-label`.
+- Sortable tabs are reordered with a pointer or by touch; there is no keyboard reordering.
+
+## Rules
+
+- Use one row of tabs per screen.
+- Make a sticker tab 32px high, with a 44px hit area and 8px of row above and below it, so the selected sticker sits as far from the line above as from the line below. Its width follows its label, and it has no track behind it.
+- Make an underline tab 44px high, 20px from the next, with text only.
+- Draw a `line-seam` under the row in both variants. When you change the size of the text or the row, check that the selected tab's space above and below is still equal.
+- Start the first sticker on the content's edge, the same margin as the panel header's first element ([Page structure](../../../../../design/patterns/page-structure.md#one-edge-per-column)). In dark mode the selected sticker has the die-cut edge like every sticker, so it lines up with the avatar in the header ([Dark mode](../../../../../design/foundations/dark-mode.md#the-die-cut-edge)).
