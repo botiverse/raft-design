@@ -19,6 +19,10 @@ Controls and cards sit flat on the page. Only things that float above it (menus,
 elevation
 ```
 
+```tokens
+focus
+```
+
 | Token (utility) | Use for |
 | --- | --- |
 | `elevation-float` (`shadow-float`) | Menus, select lists, drawers, bottom sheets, dialogs, profile cards, tooltips, toasts |
