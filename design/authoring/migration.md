@@ -10,7 +10,7 @@ The current guidelines are in Chinese, in `design/*.md` and `design/components/<
 ## Order
 
 1. **Authoring guide.** This folder, including this map.
-2. **Token names.** Rename and merge the tokens as in the [token map](#tokens), with deprecated aliases kept until the next major version, and add the single source `tokens/tokens.json`. The English docs name tokens by their new names, so this lands before them.
+2. **Token names.** Rename and merge the tokens as in the [token map](#tokens), keeping deprecated aliases until the next major version (#476). Then add the single source `tokens/tokens.json`. The English docs name tokens by their new names, so this lands before them.
 3. **Content.** Rewrite the pages and component docs in English, one pull request per area: foundations, patterns, components by category, Raft Chat, decisions. This starts after the open pull requests that change `design/` (#469, #470, #471) are merged.
 4. **Old files.** Remove `design/1-foundations.md` … `4-decisions.md`, `design/components/`, `tokens.css`, `tokens.json` and `bundle.css` once nothing links to them. A screen's `preview.html` goes when its page has a composition to show instead.
 
@@ -146,7 +146,7 @@ The English docs use the names in the **Token** column. Most keep the code's rol
 | seam (45% ink) | `line-seam` | `line`, `line-seam` | Merge. A bare `line` is the seam in code but the hairline in the guidelines, so the bare name goes |
 | ink border | `line-strong` | `line-strong` | — |
 
-`line` and `line-muted` are used widely in slock (about 250 and 150 class names). The rename comes with a codemod.
+slock uses `line-muted` in about 150 places and a bare `line` nowhere. raft-ui ships `codemods/token-names.mjs` to rewrite consumers.
 
 ### Color roles
 
@@ -170,11 +170,11 @@ Each family keeps the steps components use (`*-soft`, `*-strong`, `*-hover`, `*-
 
 | Concept | Token | Current code token | Change |
 | --- | --- | --- | --- |
-| palette | `color-yellow-*`, `color-pink-*`, `color-cyan-*`, `color-lime-*`, `color-orange-*`, `color-red-*`, `color-lavender-*`, `color-stone-*`, `color-cream-*` | `color-brutal-*`, with `purple` for lavender | Drop the `brutal-` prefix, a theme name that no longer exists; use the guidelines' color names |
-| floating shadow | `shadow-float` | `theme-shadow-float`, `theme-shadow-lg`, `theme-shadow-xl` | Merge: same value. Drop the `theme-` prefix |
-| sticker shadow | `shadow-sticker` | `theme-shadow-sticker` | Drop the `theme-` prefix |
-| no shadow | — | `theme-shadow-xs`, `-sm`, `-md` | Remove: all three are `none` |
-| focus ring | `focus-ring` | `theme-focus-ring` | Drop the `theme-` prefix |
+| palette | `palette-yellow-*`, `palette-pink-*`, `palette-cyan-*`, `palette-lime-*`, `palette-orange-*`, `palette-red-*`, `palette-lavender-*`, `palette-stone-*`, `palette-cream-*`; bare utilities `bg-palette-<color>` | `color-brutal-*`, with `purple` for lavender | Drop `brutal-`, a theme name that no longer exists, and use the guidelines' color names. The `palette-` prefix keeps them apart from Tailwind's default `yellow-*`, `red-*` and similar color scales |
+| floating shadow | `--elevation-float`, utility `shadow-float` | `theme-shadow-float`, `-lg`, `-xl`, utilities `shadow-raft-*` | Merge: same value. Drop the `theme-` prefix |
+| sticker shadow | `--elevation-sticker`, utility `shadow-sticker` | `theme-shadow-sticker` | Drop the `theme-` prefix |
+| no shadow | — | `theme-shadow-xs`, `-sm`, `-md` | Deprecated: all three are `none` |
+| focus ring | `--focus-ring`, utility `shadow-focus` | `theme-focus-ring` | Drop the `theme-` prefix |
 | radii | `radius-sticker`, `radius-chip`, `radius-control`, `radius-container`, `radius-dialog` | same | — (role names; the guidelines' `radius-xs`…`xl` are not used) |
 | type scale | `text-hero` … `text-label`, `text-mono-meta`, `text-mono-code` | same | `text-label` is 11/13 in code and 10/12 in the guidelines; settle it in step 2 |
 | spacing | Tailwind's 4px scale | same | — |
