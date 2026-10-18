@@ -1,9 +1,9 @@
 import "./dropdown-menu.test.css";
 /**
  * Browser-mode verification for rui#301 (reviewer-requested by @Artea):
- * the elegant DropdownMenuTrigger must not repaint the hover colour of the
- * Button the caller renders — verified as REAL PIXELS in all three theme
- * combinations, not as class names.
+ * DropdownMenuTrigger must not repaint the hover colour of the Button the
+ * caller renders — verified as REAL PIXELS in light and dark, not as class
+ * names.
  *
  * Run: `vp test --browser.enabled=true src/components/dropdown-menu/dropdown-menu-trigger.hover.browser.test.tsx`
  *
@@ -22,22 +22,19 @@ import { DropdownMenu, DropdownMenuTrigger } from "./dropdown-menu";
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-const THEMES: ReadonlyArray<{ family: "brutal" | "elegant"; mode?: "dark"; label: string }> = [
-  { family: "brutal", label: "brutal" },
-  { family: "elegant", label: "elegant" },
-  { family: "elegant", mode: "dark", label: "elegant-dark" },
-];
+const MODES = ["light", "dark"] as const;
 
 const VARIANTS = ["primary", "outline", "ghost"] as const;
 
-/** Brutal's primary hover does not change colour at all — it moves and drops a
- *  shadow. Comparing only backgroundColor would make brutal's positive control
- *  unsatisfiable and its equality assertion vacuous, so compare the whole
- *  hover-reactive surface. */
+/** Compare the whole hover-reactive surface (colour, pressed overlay, border,
+ *  motion, shadow), not only backgroundColor, so the positive control fires
+ *  whichever of them a variant's hover changes — filled variants keep their
+ *  colour and add a pressed overlay (a background image). */
 function snap(el: Element) {
   const cs = getComputedStyle(el);
   return {
     bg: cs.backgroundColor,
+    bgImage: cs.backgroundImage,
     borderColor: cs.borderColor,
     translate: cs.translate,
     boxShadow: cs.boxShadow,
@@ -52,7 +49,7 @@ function snap(el: Element) {
  * change from resting first, then stability.
  *
  * Measured in this environment: `transition-duration` is 0.1s with no delay,
- * and the settled elegant primary hover serializes as
+ * and the settled primary hover serialized as
  * `color(srgb-linear 0.920409 0.606841 0.0485822)` — that notation is the
  * FINAL value (identical from 100ms through 1600ms), not an interpolated
  * frame. Resting is `oklch(0.883 0.162 91.89)`. A reading that sits just off
@@ -78,10 +75,11 @@ async function hoverSettled(el: Element, resting: ReturnType<typeof snap>) {
   return snap(el);
 }
 
-for (const { family, mode, label } of THEMES) {
+for (const mode of MODES) {
+  const label = mode;
   it(`${label}: a trigger-wrapped Button hovers in the SAME colour as the same Button alone`, async () => {
     render(
-      <ThemeProvider theme={family} {...(mode ? { mode } : {})}>
+      <ThemeProvider mode={mode}>
         <div
           data-testid="stage"
           className="bg-layer-page text-foreground"
@@ -140,27 +138,16 @@ for (const { family, mode, label } of THEMES) {
         `${label}/${variant}: the plain Button must actually react on hover (proves rules landed)`,
       ).not.toEqual(plainResting);
 
-      // Equality is asserted for ELEGANT only, because that is where the
-      // contract exists. #301 removed `hover:bg-ink-2` from the elegant
-      // trigger slot; brutal's trigger slot carries its own hover styling and
-      // legitimately differs from a bare Button (measured: brutal/ghost
-      // trigger is opaque where the plain Button's hover is ~0.89 alpha, and
-      // brutal suppresses the Button's lift entirely). Asserting equality
-      // there would pin behaviour this change never claimed.
-      if (family === "elegant") {
-        expect(
-          triggerHover.bg,
-          `${label}/${variant}: trigger hover bg ${triggerHover.bg} must equal plain hover bg ${plainHover.bg}`,
-        ).toBe(plainHover.bg);
-      } else {
-        // brutal: no equality claim, only that hovering the trigger does
-        // something — so a future change that kills its hover entirely is
-        // still caught here.
-        expect(
-          JSON.stringify(triggerHover),
-          `${label}/${variant}: the trigger must still react on hover`,
-        ).not.toBe(JSON.stringify(triggerResting));
-      }
+      // #301 removed a trigger-level `hover:bg-*` that out-merged the
+      // Button's own hover; the trigger slot carries no hover styling, so the
+      // wrapped Button must hover exactly like the bare one.
+      expect(
+        triggerHover.bg,
+        `${label}/${variant}: trigger hover bg ${triggerHover.bg} must equal plain hover bg ${plainHover.bg}`,
+      ).toBe(plainHover.bg);
+      expect(triggerHover.bgImage, `${label}/${variant}: trigger hover overlay`).toBe(
+        plainHover.bgImage,
+      );
     }
   });
 }

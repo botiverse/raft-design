@@ -33,7 +33,7 @@ afterEach(cleanup);
 describe("disabled pointer semantics", () => {
   test("default (native disabled): keeps the disabled attribute and pointer block", () => {
     render(
-      <ThemeProvider theme="elegant">
+      <ThemeProvider>
         <Button disabled>Save</Button>
       </ThemeProvider>,
     );
@@ -45,7 +45,7 @@ describe("disabled pointer semantics", () => {
 
   test("focusableWhenDisabled: aria-disabled path has no native disabled attribute", () => {
     render(
-      <ThemeProvider theme="elegant">
+      <ThemeProvider>
         <Button disabled focusableWhenDisabled>
           Save
         </Button>
@@ -62,7 +62,7 @@ describe("disabled pointer semantics", () => {
   test("focusableWhenDisabled: activation is still blocked", () => {
     const onClick = vi.fn();
     render(
-      <ThemeProvider theme="elegant">
+      <ThemeProvider>
         <Button disabled focusableWhenDisabled onClick={onClick}>
           Save
         </Button>
@@ -72,21 +72,37 @@ describe("disabled pointer semantics", () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  test("appearance parity: aria-disabled mirrors the disabled opacity/transform", () => {
+  test("appearance parity: aria-disabled mirrors every disabled declaration", () => {
     render(
-      <ThemeProvider theme="elegant">
+      <ThemeProvider>
         <Button disabled focusableWhenDisabled>
           Save
         </Button>
       </ThemeProvider>,
     );
-    const cls = screen.getByRole("button", { name: "Save" }).className;
+    const classes = screen.getByRole("button", { name: "Save" }).className.split(/\s+/);
     // Class-string check only: this pins that the recipe emits the
     // aria-disabled: mirrors (so the aria path keeps the disabled look). It
     // does not prove computed style — jsdom has no layout/stylesheet pass.
-    expect(cls).toContain("aria-disabled:opacity-40");
-    expect(cls).toContain("aria-disabled:transform-none");
-    expect(cls).toContain("aria-disabled:cursor-not-allowed");
+    // The disabled look is a grey fill at full opacity, with no motion.
+    for (const name of [
+      "opacity-100",
+      "transform-none",
+      "border-line-muted",
+      "bg-fill-muted",
+      "text-foreground-disabled",
+    ]) {
+      expect(classes).toContain(`disabled:${name}`);
+    }
+    // pointer-events-none is the one deliberate difference: the aria path
+    // keeps hover so a Tooltip can open.
+    const mirrored = classes
+      .filter((name) => name.startsWith("disabled:") && name !== "disabled:pointer-events-none")
+      .map((name) => `aria-${name}`);
+    expect(mirrored.length).toBeGreaterThan(0);
+    for (const name of mirrored) expect(classes).toContain(name);
+    expect(classes).toContain("aria-disabled:cursor-not-allowed");
+    expect(classes).not.toContain("aria-disabled:pointer-events-none");
   });
 
   test("aria path: interactive effects are neutralized by resets, not by gating", () => {
@@ -95,27 +111,31 @@ describe("disabled pointer semantics", () => {
     // their original stacks and adds aria-disabled: resets that fire only on
     // the aria path. This pins both halves.
     render(
-      <ThemeProvider theme="elegant">
+      <ThemeProvider>
         <Button disabled focusableWhenDisabled variant="primary">
           Save
         </Button>
       </ThemeProvider>,
     );
-    const cls = screen.getByRole("button", { name: "Save" }).className;
+    const classes = screen.getByRole("button", { name: "Save" }).className.split(/\s+/);
     // No gating prefix survived — consumer hover: overrides dedupe as before.
-    expect(cls).not.toContain("not-aria-disabled:");
-    // Resets for this variant and for the generic motion classes are present
+    expect(classes.some((name) => name.includes("not-aria-disabled:"))).toBe(false);
+    // The hover/press stack is still there…
+    expect(classes.some((name) => name.startsWith("hover:"))).toBe(true);
+    // …and the aria path resets it: the fill goes grey, the press overlay (a
+    // background image) is dropped, and the generic motion classes stand still
     // (class-string check; computed non-reaction is covered by the browser test).
-    expect(cls).toContain("aria-disabled:hover:bg-primary-soft");
-    expect(cls).toContain("aria-disabled:hover:translate-none");
-    expect(cls).toContain("aria-disabled:active:scale-none");
+    expect(classes).toContain("aria-disabled:bg-fill-muted");
+    expect(classes).toContain("aria-disabled:bg-none");
+    expect(classes).toContain("aria-disabled:hover:translate-none");
+    expect(classes).toContain("aria-disabled:active:scale-none");
   });
 
   test("CONTROL: aria-disabled mirrors are not applied to an enabled button", () => {
     // Without this the parity assertions above could pass on a class string
     // that always contains the mirrors but never activates them.
     render(
-      <ThemeProvider theme="elegant">
+      <ThemeProvider>
         <Button>Save</Button>
       </ThemeProvider>,
     );

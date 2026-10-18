@@ -1,7 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
 import { messageFooter } from "./message-footer.recipe";
 
@@ -12,18 +11,13 @@ export type MessageItemBadgeProps = useRender.ComponentProps<"span"> & {
 };
 
 export function MessageItemBadge({ className, status = "read", ...props }: MessageItemBadgeProps) {
-  const theme = useThemeFamily();
-  const { badge } = messageFooter({ badgeStatus: status, theme });
-  // Brutal matches source ThreadRepliesBadge (solid default + bg override).
-  // Elegant uses outline Badge chrome; unread thread activity uses information.
-  const appearance = theme === "elegant" ? "outline" : "solid";
-  const variant = theme === "elegant" && status === "unread" ? "information" : "default";
+  const { badge } = messageFooter({ badgeStatus: status });
+  // A sunken chip (the recipe owns the surface): soft, neutral.
   return (
     <Badge
-      appearance={appearance}
+      appearance="soft"
       data-slot="message-item-badge"
-      uppercase={false}
-      variant={variant}
+      variant="muted"
       className={badge({ className })}
       {...props}
     />
@@ -74,8 +68,7 @@ export function MessageItemSavedIndicator({
   render,
   ...props
 }: MessageItemSavedIndicatorProps) {
-  const theme = useThemeFamily();
-  const { savedIndicator } = messageFooter({ elevation, iconOnly, theme });
+  const { savedIndicator } = messageFooter({ elevation, iconOnly });
   const defaultProps: useRender.ElementProps<"span"> = {
     // Keep the DOM marker so existing attribute selectors keep matching.
     ...(iconOnly ? { "data-icon-only": "" } : {}),
@@ -99,8 +92,7 @@ export function MessageItemReadReceipt({
   render,
   ...props
 }: MessageItemReadReceiptProps) {
-  const theme = useThemeFamily();
-  const { readReceipt } = messageFooter({ theme });
+  const { readReceipt } = messageFooter();
   const defaultProps: SlotElementProps<"span"> = {
     className: readReceipt({ className }),
   };

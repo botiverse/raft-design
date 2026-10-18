@@ -22,14 +22,6 @@ export const TASK_STATUSES = [
   { id: "closed", label: "Closed" },
 ] as const satisfies readonly { id: TaskStatus; label: string }[];
 
-export const TASK_STATUS_BACKGROUNDS: Record<TaskStatus, string> = {
-  todo: "bg-brutal-orange",
-  "in-progress": "bg-brutal-cyan",
-  "in-review": "bg-brutal-lavender",
-  done: "bg-brutal-lime",
-  closed: "bg-brutal-stone",
-};
-
 export const TASK_FIXTURES: readonly TaskFixture[] = [
   {
     id: "task-142",

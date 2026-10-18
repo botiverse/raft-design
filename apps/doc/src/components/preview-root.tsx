@@ -21,7 +21,7 @@ const frameClass =
 /** Compound docs preview: canvas, optional controls, and code via composition parts. */
 export function PreviewRoot(props: PreviewProps) {
   // Markdown keeps only the code: a rendered canvas serialises to a run of
-  // unlabelled words, and the theme switcher to "BrutalElegantElegant dark".
+  // unlabelled words, and the mode switcher to "LightDark".
   // Returning before the interactive root also keeps its media-query
   // subscription out of the Markdown renderer, which has no `window`.
   if (isMarkdownMode()) return getPreviewPart(props.children, PreviewCode) ?? null;
@@ -32,7 +32,6 @@ function InteractivePreviewRoot({
   children,
   previewClassName = "",
   previewInset = "default",
-  previewTheme,
   previewMode,
 }: PreviewProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)", true);
@@ -44,7 +43,6 @@ function InteractivePreviewRoot({
   const hasControls = controls != null;
   const canvasNode = (
     <PreviewThemeScope
-      family={previewTheme}
       mode={previewMode}
       className="h-full bg-layer-panel text-foreground-strong dark:bg-transparent"
     >

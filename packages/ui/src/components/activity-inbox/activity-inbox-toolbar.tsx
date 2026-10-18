@@ -1,13 +1,10 @@
 import type { ComponentPropsWithRef } from "react";
-
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { activityInboxToolbar } from "./activity-inbox-toolbar.recipe";
 
 export type ActivityInboxControlsProps = ComponentPropsWithRef<"div">;
 
 export function ActivityInboxControls({ className, ...props }: ActivityInboxControlsProps) {
-  const theme = useThemeFamily();
-  const { controls } = activityInboxToolbar({ theme });
+  const { controls } = activityInboxToolbar();
   return <div data-slot="activity-inbox-controls" className={controls({ className })} {...props} />;
 }
 
@@ -17,8 +14,7 @@ export function ActivityInboxSelectionToolbar({
   className,
   ...props
 }: ActivityInboxSelectionToolbarProps) {
-  const theme = useThemeFamily();
-  const { selectionToolbar } = activityInboxToolbar({ theme });
+  const { selectionToolbar } = activityInboxToolbar();
   return (
     <div
       data-slot="activity-inbox-selection-toolbar"
@@ -34,8 +30,7 @@ export function ActivityInboxSelectionCount({
   className,
   ...props
 }: ActivityInboxSelectionCountProps) {
-  const theme = useThemeFamily();
-  const { selectionCount } = activityInboxToolbar({ theme });
+  const { selectionCount } = activityInboxToolbar();
   return (
     <span
       data-slot="activity-inbox-selection-count"

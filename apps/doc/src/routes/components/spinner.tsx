@@ -51,13 +51,13 @@ const PROPS: readonly PropRow[] = [
     type: '"xs" | "sm" | "md" | "lg"',
     default: '"sm"',
     description:
-      "Ring diameter. Brutal scales the ring across all four steps (16px at sm, 32px at lg); elegant keeps a compact 14-18px ring.",
+      "Grid size. The spinner is a 2×2 pixel grid whose pixels grow from 4px at xs to 8px at lg.",
   },
   {
     name: "variant",
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"default"',
-    description: "Use inverse on dark surfaces so the brutal ring keeps enough contrast.",
+    description: "Use inverse on dark surfaces so the spinner keeps enough contrast.",
   },
   {
     name: "aria-label",
@@ -139,7 +139,7 @@ function SpinnerDoc() {
   return (
     <DocPage
       title="Spinner"
-      description="A theme-aware spinner for indeterminate loading / pending feedback."
+      description="A spinner for indeterminate loading / pending feedback."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

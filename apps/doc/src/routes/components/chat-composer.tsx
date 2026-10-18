@@ -223,7 +223,8 @@ const COMPOSER_TOOLBAR_LABEL_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "label props",
-    description: "A labelled checkbox or status cluster with theme-aware spacing and typography.",
+    description:
+      "A labelled checkbox or status cluster; the component owns its spacing and typography.",
   },
 ];
 
@@ -311,7 +312,7 @@ const COMPOSER_ATTACHMENT_IMAGE_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "span props",
     description:
-      "Fixed 64px image media. Place FilePreview media inside. The attachment root owns the brutal frame border when this part is present.",
+      "Fixed 64px image media in its own bordered frame. Place FilePreview media inside.",
   },
 ];
 

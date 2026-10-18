@@ -18,9 +18,9 @@ if (typeof window.matchMedia !== "function") {
   })) as unknown as typeof window.matchMedia;
 }
 
-function renderBanner(theme: "brutal" | "elegant", status: "warning" | "info") {
+function renderBanner(status: "warning" | "info") {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Banner status={status} data-testid="banner">
         <BannerDescription>Test</BannerDescription>
       </Banner>
@@ -28,7 +28,7 @@ function renderBanner(theme: "brutal" | "elegant", status: "warning" | "info") {
   );
 }
 
-const cls = () => screen.getByTestId("banner").className;
+const cls = () => screen.getByTestId("banner").className.split(/\s+/);
 
 afterEach(cleanup);
 
@@ -37,41 +37,25 @@ test("pending is not a valid BannerStatus", () => {
   expect(_check).toBe(true);
 });
 
-test("brutal warning uses orange, not yellow", () => {
-  renderBanner("brutal", "warning");
+test("warning takes the warning wash, not info's", () => {
+  renderBanner("warning");
   const c = cls();
-  expect(c).toContain("orange");
-  expect(c).not.toContain("yellow");
+  expect(c).toContain("bg-warning-soft");
+  expect(c).not.toContain("bg-info-soft");
 });
 
-test("brutal info uses yellow, not orange or cyan", () => {
-  renderBanner("brutal", "info");
+test("info takes the info wash, not warning's", () => {
+  renderBanner("info");
   const c = cls();
-  expect(c).toContain("yellow");
-  expect(c).not.toContain("orange");
-  expect(c).not.toContain("info-soft");
+  expect(c).toContain("bg-info-soft");
+  expect(c).not.toContain("bg-warning-soft");
 });
 
-test("elegant warning bg hue is ~50 (orange), not ~103 or ~220", () => {
-  renderBanner("elegant", "warning");
-  const c = cls();
-  expect(c).toMatch(/oklch\([^)]*_50[)/]/);
-  expect(c).not.toMatch(/oklch\([^)]*103/);
-});
+// --- ghost indent fix (grid) ---
 
-test("elegant info uses info-soft and hue 220, not hue 50", () => {
-  renderBanner("elegant", "info");
-  const c = cls();
-  expect(c).toContain("info-soft");
-  expect(c).toMatch(/oklch\([^)]*220/);
-  expect(c).not.toMatch(/oklch\([^)]*_50[)/]/);
-});
-
-// --- ghost indent fix (brutal grid) ---
-
-function renderWithAction(theme: "brutal" | "elegant", status: "warning" | "info") {
+function renderWithAction(status: "warning" | "info") {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Banner status={status} data-testid="banner">
         <BannerDescription data-testid="desc">Test</BannerDescription>
         <BannerAction data-testid="action">
@@ -82,29 +66,28 @@ function renderWithAction(theme: "brutal" | "elegant", status: "warning" | "info
   );
 }
 
-test("brutal root base grid has no zero-width phantom column", () => {
-  renderWithAction("brutal", "warning");
-  const c = cls();
-  expect(c).not.toMatch(/grid-cols-\[0[_ ]/);
+test("root base grid has no zero-width phantom column", () => {
+  renderWithAction("warning");
+  expect(cls().join(" ")).not.toMatch(/grid-cols-\[0[_ ]/);
 });
 
-test("brutal description column follows the lead parts through the shared variable", () => {
-  renderWithAction("brutal", "warning");
+test("description column follows the lead parts through the shared variable", () => {
+  renderWithAction("warning");
   const desc = screen.getByTestId("desc").className.split(/\s+/);
   // The description reads the variable the root sets when an icon/status slot
   // is present; it no longer carries an ancestor :has() shape itself (#133).
   expect(desc).toContain("col-start-(--banner-text-col,1)");
   expect(desc.some((c) => c.includes("group-has"))).toBe(false);
-  const root = cls().split(/\s+/);
+  const root = cls();
   expect(root).toContain("has-[>svg]:[--banner-text-col:2]");
   expect(root).toContain("has-[>[data-slot=status]]:[--banner-text-col:2]");
 });
 
-// --- inline button color (elegant warning description) ---
+// --- inline button colour (warning description) ---
 
-function renderWithInlineButton(theme: "brutal" | "elegant") {
+function renderWithInlineButton() {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Banner status="warning" data-testid="banner">
         <BannerDescription data-testid="desc">
           Text <button type="button">Link</button>
@@ -116,30 +99,27 @@ function renderWithInlineButton(theme: "brutal" | "elegant") {
 
 const descCls = () => screen.getByTestId("desc").className;
 
-test("elegant warning description carries button color override", () => {
-  renderWithInlineButton("elegant");
-  expect(descCls()).toContain("text-current");
-});
-
-test("brutal warning description does NOT carry button color override", () => {
-  renderWithInlineButton("brutal");
+test("warning description sets ink text and no button colour override", () => {
+  // The description is ink like the buttons inside it, so an inline button
+  // keeps its own colour.
+  renderWithInlineButton();
+  expect(descCls().split(/\s+/)).toContain("text-foreground");
   expect(descCls()).not.toContain("text-current");
 });
 
-test("elegant warning root does NOT blanket-override all button colors", () => {
-  renderWithInlineButton("elegant");
-  const rootClasses = cls().split(/\s+/);
-  const blanketButtonColor = rootClasses.filter(
+test("warning root does NOT blanket-override all button colors", () => {
+  renderWithInlineButton();
+  const blanketButtonColor = cls().filter(
     (c) => c.includes("button") && c.includes("text-current"),
   );
   expect(blanketButtonColor).toHaveLength(0);
 });
 
-// --- narrow multi-action wrapping ---
+// --- multi-action wrapping ---
 
-function renderMultiAction(theme: "brutal" | "elegant") {
-  return render(
-    <ThemeProvider theme={theme}>
+test("several actions wrap on their own row under the text", () => {
+  render(
+    <ThemeProvider>
       <Banner status="warning" data-testid="banner">
         <BannerDescription>Test</BannerDescription>
         <BannerAction data-testid="action">
@@ -149,20 +129,7 @@ function renderMultiAction(theme: "brutal" | "elegant") {
       </Banner>
     </ThemeProvider>,
   );
-}
-
-const actionCls = () => screen.getByTestId("action").className;
-
-test("brutal action has narrow-container wrapping utilities", () => {
-  renderMultiAction("brutal");
-  const classes = actionCls().split(/\s+/);
-  const wrapping = classes.filter((c) => c.includes("@max-[24rem]"));
-  expect(wrapping.length).toBeGreaterThan(0);
-});
-
-test("elegant action has narrow-container wrapping utilities", () => {
-  renderMultiAction("elegant");
-  const classes = actionCls().split(/\s+/);
-  const wrapping = classes.filter((c) => c.includes("@max-[24rem]"));
-  expect(wrapping.length).toBeGreaterThan(0);
+  const classes = screen.getByTestId("action").className.split(/\s+/);
+  expect(classes).toContain("flex-wrap");
+  expect(classes).toContain("col-start-(--banner-text-col,1)");
 });

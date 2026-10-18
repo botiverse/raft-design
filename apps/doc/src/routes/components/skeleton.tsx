@@ -75,7 +75,7 @@ function SkeletonDoc() {
   return (
     <DocPage
       title="Skeleton"
-      description="Theme-aware loading placeholders that preserve final layout shape."
+      description="Loading placeholders that preserve final layout shape."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

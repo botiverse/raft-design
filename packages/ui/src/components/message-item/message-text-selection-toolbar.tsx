@@ -1,6 +1,5 @@
 import { Toolbar as BaseToolbar } from "@base-ui/react/toolbar";
 import type { StyledProps } from "../../lib/styled-props";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageTextSelectionToolbar } from "./message-text-selection-toolbar.recipe";
 
 export type MessageTextSelectionToolbarProps = StyledProps<BaseToolbar.Root.Props>;
@@ -9,8 +8,7 @@ export function MessageTextSelectionToolbar({
   className,
   ...props
 }: MessageTextSelectionToolbarProps) {
-  const theme = useThemeFamily();
-  const { toolbar } = messageTextSelectionToolbar({ theme });
+  const { toolbar } = messageTextSelectionToolbar();
 
   return (
     <BaseToolbar.Root
@@ -27,8 +25,7 @@ export function MessageTextSelectionToolbarButton({
   className,
   ...props
 }: MessageTextSelectionToolbarButtonProps) {
-  const theme = useThemeFamily();
-  const { button } = messageTextSelectionToolbar({ theme });
+  const { button } = messageTextSelectionToolbar();
 
   return (
     <BaseToolbar.Button
@@ -46,8 +43,7 @@ export function MessageTextSelectionToolbarSeparator({
   className,
   ...props
 }: MessageTextSelectionToolbarSeparatorProps) {
-  const theme = useThemeFamily();
-  const { separator } = messageTextSelectionToolbar({ theme });
+  const { separator } = messageTextSelectionToolbar();
 
   return (
     <BaseToolbar.Separator

@@ -1,5 +1,4 @@
 import type { ComponentProps } from "react";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { MarkdownBlockquote } from "../markdown/markdown-parts";
 import type { MarkdownBlockquoteProps } from "../markdown/markdown-parts";
 import { ProgressTrack } from "../progress";
@@ -12,8 +11,7 @@ export function MessageItemTranslationOriginal({
   className,
   ...props
 }: MessageItemTranslationOriginalProps) {
-  const theme = useThemeFamily();
-  const { translationOriginal } = messageTranslation({ theme });
+  const { translationOriginal } = messageTranslation();
 
   return (
     <MarkdownBlockquote
@@ -30,8 +28,7 @@ export function MessageItemTranslationOriginalLabel({
   className,
   ...props
 }: MessageItemTranslationOriginalLabelProps) {
-  const theme = useThemeFamily();
-  const { translationOriginalLabel } = messageTranslation({ theme });
+  const { translationOriginalLabel } = messageTranslation();
 
   return (
     <div
@@ -48,8 +45,7 @@ export function MessageItemTranslationStatus({
   className,
   ...props
 }: MessageItemTranslationStatusProps) {
-  const theme = useThemeFamily();
-  const { translationStatus } = messageTranslation({ theme });
+  const { translationStatus } = messageTranslation();
 
   return (
     <div
@@ -66,8 +62,7 @@ export function MessageItemTranslationProgressTrack({
   className,
   ...props
 }: MessageItemTranslationProgressTrackProps) {
-  const theme = useThemeFamily();
-  const { translationProgressTrack } = messageTranslation({ theme });
+  const { translationProgressTrack } = messageTranslation();
 
   return <ProgressTrack className={translationProgressTrack({ className })} {...props} />;
 }
@@ -78,8 +73,7 @@ export function MessageItemTranslationFailedStatus({
   className,
   ...props
 }: MessageItemTranslationFailedStatusProps) {
-  const theme = useThemeFamily();
-  const { translationFailedStatus } = messageTranslation({ theme });
+  const { translationFailedStatus } = messageTranslation();
 
   return (
     <div
@@ -96,8 +90,7 @@ export function MessageItemTranslationAction({
   className,
   ...props
 }: MessageItemTranslationActionProps) {
-  const theme = useThemeFamily();
-  const { translationAction } = messageTranslation({ theme });
+  const { translationAction } = messageTranslation();
 
   return (
     <button
@@ -115,8 +108,7 @@ export function MessageItemTranslationRetryAction({
   className,
   ...props
 }: MessageItemTranslationRetryActionProps) {
-  const theme = useThemeFamily();
-  const { translationRetryAction } = messageTranslation({ theme });
+  const { translationRetryAction } = messageTranslation();
 
   return (
     <button

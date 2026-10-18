@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageReference } from "./message-reference.recipe";
 import type {
   MessageReferenceChipVariant,
@@ -39,8 +38,7 @@ export function MessageReferenceText({
   variant = "secondary",
   ...props
 }: MessageReferenceTextProps) {
-  const theme = useThemeFamily();
-  const { root } = messageReference({ theme, variant });
+  const { root } = messageReference({ variant });
 
   return useReferenceRender(root({ className }), render, props);
 }
@@ -52,8 +50,7 @@ export function MessageReferenceIndicator({
   render,
   ...props
 }: MessageReferenceIndicatorProps) {
-  const theme = useThemeFamily();
-  const { indicator } = messageReference({ theme });
+  const { indicator } = messageReference();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: indicator({ className }),
   };
@@ -76,8 +73,7 @@ export function MessageReferenceChip({
   variant = "muted",
   ...props
 }: MessageReferenceChipProps) {
-  const theme = useThemeFamily();
-  const { root } = messageReference({ theme, variant });
+  const { root } = messageReference({ variant });
 
   return useReferenceRender(root({ className }), render, props);
 }
@@ -85,8 +81,7 @@ export function MessageReferenceChip({
 export type MessageReferenceLabelProps = useRender.ComponentProps<"span">;
 
 export function MessageReferenceLabel({ className, render, ...props }: MessageReferenceLabelProps) {
-  const theme = useThemeFamily();
-  const { chipLabel } = messageReference({ theme });
+  const { chipLabel } = messageReference();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: chipLabel({ className }),
   };
@@ -99,24 +94,6 @@ export function MessageReferenceLabel({ className, render, ...props }: MessageRe
   });
 }
 
-export type MessageReferenceBadgeProps = useRender.ComponentProps<"span">;
-
-export function MessageReferenceBadge({ className, render, ...props }: MessageReferenceBadgeProps) {
-  const theme = useThemeFamily();
-  const { badge } = messageReference({ theme });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-message-reference-badge": "",
-    className: badge({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-    state: { slot: "message-reference-badge" },
-  });
-}
-
 export type MessageReferencePendingProps = SpanProps;
 
 export function MessageReferencePending({
@@ -124,8 +101,7 @@ export function MessageReferencePending({
   render,
   ...props
 }: MessageReferencePendingProps) {
-  const theme = useThemeFamily();
-  const { root } = messageReference({ theme, variant: "pending" });
+  const { root } = messageReference({ variant: "pending" });
 
   return useReferenceRender(root({ className }), render, props);
 }
@@ -137,8 +113,7 @@ export function MessageReferenceUnavailable({
   render,
   ...props
 }: MessageReferenceUnavailableProps) {
-  const theme = useThemeFamily();
-  const { root } = messageReference({ theme, variant: "unavailable" });
+  const { root } = messageReference({ variant: "unavailable" });
 
   return useReferenceRender(root({ className }), render, props);
 }

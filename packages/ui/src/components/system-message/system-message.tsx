@@ -5,14 +5,12 @@ import { ChevronRight } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import type { DataAttributes, SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageSystem } from "./system-message.recipe";
 
 export type SystemMessageProps = useRender.ComponentProps<"div">;
 
 export function SystemMessage({ className, render, ...props }: SystemMessageProps) {
-  const theme = useThemeFamily();
-  const { systemRoot } = messageSystem({ theme });
+  const { systemRoot } = messageSystem();
   const defaultProps: SlotElementProps<"div"> = {
     className: systemRoot({ className }),
   };
@@ -30,8 +28,7 @@ export function SystemMessage({ className, render, ...props }: SystemMessageProp
 export type SystemMessageTimeProps = useRender.ComponentProps<"span">;
 
 export function SystemMessageTime({ className, render, ...props }: SystemMessageTimeProps) {
-  const theme = useThemeFamily();
-  const { systemTime } = messageSystem({ theme });
+  const { systemTime } = messageSystem();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: systemTime({ className }),
   };
@@ -55,8 +52,7 @@ export function SystemMessageContent({
   title,
   ...props
 }: SystemMessageContentProps) {
-  const theme = useThemeFamily();
-  const { systemContent } = messageSystem({ theme });
+  const { systemContent } = messageSystem();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: systemContent({ className }),
     children,
@@ -78,8 +74,7 @@ export type SystemMessageGroupProps = Omit<ComponentProps<typeof Collapsible.Roo
 };
 
 export function SystemMessageGroup({ className, render, ...props }: SystemMessageGroupProps) {
-  const theme = useThemeFamily();
-  const { systemGroup } = messageSystem({ theme });
+  const { systemGroup } = messageSystem();
   const defaultProps: ComponentProps<typeof Collapsible.Root> & DataAttributes = {
     "data-slot": "system-message-group",
     className: systemGroup({ className }),
@@ -95,8 +90,7 @@ export function SystemMessageGroupHeader({
   render,
   ...props
 }: SystemMessageGroupHeaderProps) {
-  const theme = useThemeFamily();
-  const { systemGroupHeader } = messageSystem({ theme });
+  const { systemGroupHeader } = messageSystem();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "system-message-group-header",
     className: systemGroupHeader({ className }),
@@ -116,8 +110,7 @@ export function SystemMessageGroupDisclosure({
   render,
   ...props
 }: SystemMessageGroupDisclosureProps) {
-  const theme = useThemeFamily();
-  const { systemGroupDisclosure } = messageSystem({ theme });
+  const { systemGroupDisclosure } = messageSystem();
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "system-message-group-disclosure",
@@ -137,8 +130,7 @@ export function SystemMessageGroupSummary({
   render,
   ...props
 }: SystemMessageGroupSummaryProps) {
-  const theme = useThemeFamily();
-  const { systemGroupSummary } = messageSystem({ theme });
+  const { systemGroupSummary } = messageSystem();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "system-message-group-summary",
     className: systemGroupSummary({ className }),
@@ -158,8 +150,7 @@ export function SystemMessageGroupChevron({
   render,
   ...props
 }: SystemMessageGroupChevronProps) {
-  const theme = useThemeFamily();
-  const { systemGroupChevron } = messageSystem({ theme });
+  const { systemGroupChevron } = messageSystem();
   const defaultProps: useRender.ElementProps<"svg"> & DataAttributes = {
     "data-slot": "system-message-group-chevron",
     "aria-hidden": true,

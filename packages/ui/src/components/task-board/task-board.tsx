@@ -4,8 +4,6 @@ import { useRender } from "@base-ui/react/use-render";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
-import { taskStatus } from "../tasks/task-status.recipe";
 import type { TaskStatusId } from "../tasks/task-status.recipe";
 import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskBoardColumn } from "./task-board-column.recipe";
@@ -27,8 +25,7 @@ export type TaskBoardColumnProps = Omit<ComponentProps<typeof Collapsible.Root>,
   className?: string;
 };
 export function TaskBoardColumn({ className, render, ...props }: TaskBoardColumnProps) {
-  const theme = useThemeFamily();
-  const { root } = taskBoardColumn({ theme });
+  const { root } = taskBoardColumn();
   return (
     <Collapsible.Root
       data-slot="task-board-column"
@@ -46,8 +43,7 @@ export type TaskBoardColumnTriggerProps = Omit<
   className?: string;
 };
 export function TaskBoardColumnTrigger({ className, ...props }: TaskBoardColumnTriggerProps) {
-  const theme = useThemeFamily();
-  const { trigger } = taskBoardColumn({ theme });
+  const { trigger } = taskBoardColumn();
   return (
     <Collapsible.Trigger
       data-slot="task-board-column-trigger"
@@ -63,8 +59,7 @@ export function TaskBoardColumnHeading({
   render,
   ...props
 }: TaskBoardColumnHeadingProps) {
-  const theme = useThemeFamily();
-  const { heading } = taskBoardColumn({ theme });
+  const { heading } = taskBoardColumn();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-heading",
     className: heading({ className }),
@@ -86,8 +81,7 @@ export function TaskBoardColumnBadge({
   render,
   ...props
 }: TaskBoardColumnBadgeProps) {
-  const theme = useThemeFamily();
-  const { badge } = taskBoardColumn({ theme });
+  const { badge } = taskBoardColumn();
   const resolvedChildren = (
     <>
       <TaskStatusIcon status={status} />
@@ -96,7 +90,7 @@ export function TaskBoardColumnBadge({
   );
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-badge",
-    className: cn(badge(), theme === "brutal" && taskStatus({ status }), className),
+    className: cn(badge(), className),
   };
   return useRender({
     defaultTagName: "span",
@@ -107,8 +101,7 @@ export function TaskBoardColumnBadge({
 
 export type TaskBoardColumnCountProps = useRender.ComponentProps<"span">;
 export function TaskBoardColumnCount({ className, render, ...props }: TaskBoardColumnCountProps) {
-  const theme = useThemeFamily();
-  const { count } = taskBoardColumn({ theme });
+  const { count } = taskBoardColumn();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-count",
     className: count({ className }),
@@ -126,8 +119,7 @@ export function TaskBoardColumnChevron({
   render,
   ...props
 }: TaskBoardColumnChevronProps) {
-  const theme = useThemeFamily();
-  const { chevron } = taskBoardColumn({ theme });
+  const { chevron } = taskBoardColumn();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-chevron",
     className: chevron({ className }),
@@ -146,8 +138,7 @@ export type TaskBoardColumnPanelProps = Omit<
   className?: string;
 };
 export function TaskBoardColumnPanel({ className, ...props }: TaskBoardColumnPanelProps) {
-  const theme = useThemeFamily();
-  const { panel } = taskBoardColumn({ theme });
+  const { panel } = taskBoardColumn();
   return (
     <Collapsible.Panel
       data-slot="task-board-column-panel"
@@ -159,8 +150,7 @@ export function TaskBoardColumnPanel({ className, ...props }: TaskBoardColumnPan
 
 export type TaskBoardColumnItemsProps = useRender.ComponentProps<"div">;
 export function TaskBoardColumnItems({ className, render, ...props }: TaskBoardColumnItemsProps) {
-  const theme = useThemeFamily();
-  const { items } = taskBoardColumn({ theme });
+  const { items } = taskBoardColumn();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-board-column-items",
     className: items({ className }),
@@ -174,8 +164,7 @@ export function TaskBoardColumnItems({ className, render, ...props }: TaskBoardC
 
 export type TaskBoardColumnEmptyProps = useRender.ComponentProps<"div">;
 export function TaskBoardColumnEmpty({ className, render, ...props }: TaskBoardColumnEmptyProps) {
-  const theme = useThemeFamily();
-  const { empty } = taskBoardColumn({ theme });
+  const { empty } = taskBoardColumn();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-board-column-empty",
     className: empty({ className }),
@@ -193,8 +182,7 @@ export function TaskBoardColumnEmptyIdle({
   render,
   ...props
 }: TaskBoardColumnEmptyIdleProps) {
-  const theme = useThemeFamily();
-  const { emptyIdle } = taskBoardColumn({ theme });
+  const { emptyIdle } = taskBoardColumn();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-empty-idle",
     className: emptyIdle({ className }),
@@ -212,8 +200,7 @@ export function TaskBoardColumnEmptyAllowed({
   render,
   ...props
 }: TaskBoardColumnEmptyAllowedProps) {
-  const theme = useThemeFamily();
-  const { emptyAllowed } = taskBoardColumn({ theme });
+  const { emptyAllowed } = taskBoardColumn();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-empty-allowed",
     className: emptyAllowed({ className }),
@@ -231,8 +218,7 @@ export function TaskBoardColumnEmptyBlocked({
   render,
   ...props
 }: TaskBoardColumnEmptyBlockedProps) {
-  const theme = useThemeFamily();
-  const { emptyBlocked } = taskBoardColumn({ theme });
+  const { emptyBlocked } = taskBoardColumn();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-board-column-empty-blocked",
     className: emptyBlocked({ className }),

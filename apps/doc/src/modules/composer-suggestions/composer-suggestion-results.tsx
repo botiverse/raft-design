@@ -16,7 +16,7 @@ import {
   ComposerSuggestionOption,
   ComposerSuggestionTitle,
 } from "raft-ui";
-import { ComposerSuggestionList } from "#/modules/chat-composer/composer-responsive.tsx";
+import { ComposerSuggestionList } from "raft-ui";
 
 import { isPersonSuggestion } from "./composer-suggestions.data.ts";
 import type {

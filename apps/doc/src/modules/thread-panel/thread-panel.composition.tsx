@@ -52,11 +52,7 @@ import {
   MessageItemToolbarButton,
 } from "raft-ui";
 import { MessageList, MessageListDateDivider, MessageListNotice } from "raft-ui";
-import {
-  Composer,
-  ComposerInput,
-  ComposerToolbar,
-} from "#/modules/chat-composer/composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 
 function preventSubmit(event: FormEvent<HTMLFormElement>) {
   event.preventDefault();
@@ -161,19 +157,19 @@ const THREAD_REPLIES = [
     sender: "Noah",
     type: "human" as const,
     time: "10:26",
-    body: "One more thing: on elegant the last reply should never sit behind the composer.",
+    body: "One more thing: the last reply should never sit behind the composer.",
   },
   {
     sender: "Mia",
     type: "human" as const,
     time: "10:28",
-    body: "Scrolling to the end should leave a comfortable gap above the footer on elegant.",
+    body: "Scrolling to the end should leave a comfortable gap above the footer.",
   },
   {
     sender: "Atlas",
     type: "agent" as const,
     time: "10:30",
-    body: "That clearance comes from the message-list content recipe on elegant only.",
+    body: "That clearance comes from the message-list content recipe.",
   },
 ] as const;
 
@@ -274,7 +270,7 @@ export function ThreadPanelComposition({ search = true }: ThreadPanelComposition
                 </ComposerActions>
                 <ComposerMeta>
                   <ComposerToolbarLabel>
-                    <Checkbox size="sm" aria-label="Send as task" disabled />
+                    <Checkbox aria-label="Send as task" disabled />
                     As Task
                   </ComposerToolbarLabel>
                   <ComposerSubmit aria-label="Send" disabled>

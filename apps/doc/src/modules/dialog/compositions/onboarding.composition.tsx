@@ -9,9 +9,7 @@ import {
   FieldItem,
   FieldLabel,
   Text,
-  useThemeFamily,
 } from "raft-ui";
-import { cn } from "raft-ui/cn";
 import { Monitor } from "lucide-react";
 
 // @docs-source-strip-start
@@ -21,53 +19,24 @@ import { CompositionModalPreview } from "#/components/composition-preview.tsx";
 // @docs-source-strip-end
 
 function OnboardingDialogParts() {
-  const theme = useThemeFamily();
-  const isBrutal = theme === "brutal";
-  const isElegant = theme === "elegant";
-
   return (
     <>
-      <DialogBody className={cn("grid gap-4", isBrutal && "pt-3 pb-4", isElegant && "py-7")}>
-        <Text.Mono
-          size="meta"
-          className={cn("uppercase text-foreground-muted", isBrutal && "text-black/50")}
-        >
+      <DialogBody className="grid gap-4">
+        <Text.Mono size="meta" className="uppercase text-foreground-muted">
           Meet RAFT
         </Text.Mono>
         <div className="flex items-center gap-3">
-          <div
-            className={cn(
-              "flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground",
-              isBrutal && "size-7 border-2 border-black bg-[oklch(0.883_0.162_91.89)] text-black",
-              isElegant && "rounded-md border-transparent bg-primary-soft text-primary-strong",
-            )}
-          >
-            <Monitor className={cn("size-4", isBrutal && "size-[17px]")} />
+          <div className="flex size-8 shrink-0 items-center justify-center border border-line-strong bg-primary-400 text-foreground">
+            <Monitor className="size-4" />
           </div>
-          <DialogTitle
-            className={cn(
-              "text-foreground",
-              isBrutal && "font-sans text-xl font-bold uppercase text-black",
-              isElegant && "text-lg font-semibold",
-            )}
-          >
-            Add a computer
-          </DialogTitle>
+          <DialogTitle className="text-foreground">Add a computer</DialogTitle>
         </div>
         <div className="grid gap-2">
-          <Text.Sans
-            size="body"
-            variant="placeholder"
-            className={cn("text-pretty text-foreground", isBrutal && "text-black")}
-          >
+          <Text.Sans size="body" variant="placeholder" className="text-pretty text-foreground">
             Your agents need somewhere to run. Connect a computer and they&apos;ll come online
             there.
           </Text.Sans>
-          <Text.Sans
-            size="caption"
-            variant="placeholder"
-            className={cn("text-pretty", isBrutal && "text-black/60")}
-          >
+          <Text.Sans size="caption" variant="placeholder" className="text-pretty">
             Need an agent runtime installed — Codex, Claude Code, or Cursor.
           </Text.Sans>
         </div>
@@ -75,15 +44,12 @@ function OnboardingDialogParts() {
       <DialogFooter className="grid grid-cols-[minmax(0,1fr)_auto] items-center">
         <Field className="min-w-0">
           <FieldItem className="min-w-0 items-center">
-            <Checkbox id="dialog-onboarding-reminder" size="sm" />
+            <Checkbox id="dialog-onboarding-reminder" />
             <FieldLabel
               htmlFor="dialog-onboarding-reminder"
               id="dialog-onboarding-reminder-label"
               size="sm"
-              className={cn(
-                "min-w-0 truncate font-medium text-foreground-muted",
-                isBrutal && "text-black/60",
-              )}
+              className="min-w-0 truncate font-medium text-foreground-muted"
             >
               Don&apos;t remind me again
             </FieldLabel>

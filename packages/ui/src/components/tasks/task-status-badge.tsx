@@ -18,10 +18,9 @@ export interface TaskStatusBadgeProps extends useRender.ComponentProps<"span"> {
  * A task status with its label: the status icon + caller-provided text.
  *
  * This is `TaskChip` showing a status name instead of a task number. It has no
- * look of its own (Artea, #proj-rui:c841b051, 2026-10-10): a status badge in
- * the task panel and a task chip in a message are one component that differs
- * only in what it shows, so shape, size, border and colour all come from
- * `TaskChip`. The slot name is kept for callers that select on it.
+ * look of its own: a status badge in the task panel and a task chip in a
+ * message are one component that differs only in what it shows, so shape,
+ * size, border and colour all come from `TaskChip`. The slot name is kept for callers that select on it.
  */
 function TaskStatusBadgeRoot({ status, children, ...props }: TaskStatusBadgeProps) {
   return (

@@ -4,8 +4,6 @@ import { useRender } from "@base-ui/react/use-render";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
-import { taskStatus } from "../tasks/task-status.recipe";
 import type { TaskStatusId } from "../tasks/task-status.recipe";
 import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskListSection } from "./task-list-section.recipe";
@@ -27,8 +25,7 @@ export type TaskSectionProps = Omit<ComponentProps<typeof Collapsible.Root>, "cl
   className?: string;
 };
 export function TaskSection({ className, render, ...props }: TaskSectionProps) {
-  const theme = useThemeFamily();
-  const { root } = taskListSection({ theme });
+  const { root } = taskListSection();
   return (
     <Collapsible.Root
       data-slot="task-section"
@@ -46,8 +43,7 @@ export type TaskSectionTriggerProps = Omit<
   className?: string;
 };
 export function TaskSectionTrigger({ className, ...props }: TaskSectionTriggerProps) {
-  const theme = useThemeFamily();
-  const { trigger } = taskListSection({ theme });
+  const { trigger } = taskListSection();
   return (
     <Collapsible.Trigger
       data-slot="task-section-trigger"
@@ -59,8 +55,7 @@ export function TaskSectionTrigger({ className, ...props }: TaskSectionTriggerPr
 
 export type TaskSectionHeadingProps = useRender.ComponentProps<"span">;
 export function TaskSectionHeading({ className, render, ...props }: TaskSectionHeadingProps) {
-  const theme = useThemeFamily();
-  const { heading } = taskListSection({ theme });
+  const { heading } = taskListSection();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-section-heading",
     className: heading({ className }),
@@ -82,8 +77,7 @@ export function TaskSectionBadge({
   render,
   ...props
 }: TaskSectionBadgeProps) {
-  const theme = useThemeFamily();
-  const { badge } = taskListSection({ theme });
+  const { badge } = taskListSection();
   const resolvedChildren = (
     <>
       <TaskStatusIcon status={status} />
@@ -92,7 +86,7 @@ export function TaskSectionBadge({
   );
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-section-badge",
-    className: cn(badge(), theme === "brutal" && taskStatus({ status }), className),
+    className: cn(badge(), className),
   };
   return useRender({
     defaultTagName: "span",
@@ -103,8 +97,7 @@ export function TaskSectionBadge({
 
 export type TaskSectionCountProps = useRender.ComponentProps<"span">;
 export function TaskSectionCount({ className, render, ...props }: TaskSectionCountProps) {
-  const theme = useThemeFamily();
-  const { count } = taskListSection({ theme });
+  const { count } = taskListSection();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-section-count",
     className: count({ className }),
@@ -118,8 +111,7 @@ export function TaskSectionCount({ className, render, ...props }: TaskSectionCou
 
 export type TaskSectionChevronProps = useRender.ComponentProps<"span">;
 export function TaskSectionChevron({ className, render, ...props }: TaskSectionChevronProps) {
-  const theme = useThemeFamily();
-  const { chevron } = taskListSection({ theme });
+  const { chevron } = taskListSection();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-section-chevron",
     className: chevron({ className }),
@@ -135,8 +127,7 @@ export type TaskSectionPanelProps = Omit<ComponentProps<typeof Collapsible.Panel
   className?: string;
 };
 export function TaskSectionPanel({ className, ...props }: TaskSectionPanelProps) {
-  const theme = useThemeFamily();
-  const { panel } = taskListSection({ theme });
+  const { panel } = taskListSection();
   return (
     <Collapsible.Panel data-slot="task-section-panel" className={panel({ className })} {...props} />
   );
@@ -144,8 +135,7 @@ export function TaskSectionPanel({ className, ...props }: TaskSectionPanelProps)
 
 export type TaskSectionItemsProps = useRender.ComponentProps<"div">;
 export function TaskSectionItems({ className, render, ...props }: TaskSectionItemsProps) {
-  const theme = useThemeFamily();
-  const { items } = taskListSection({ theme });
+  const { items } = taskListSection();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-section-items",
     className: items({ className }),
@@ -159,8 +149,7 @@ export function TaskSectionItems({ className, render, ...props }: TaskSectionIte
 
 export type TaskSectionEmptyProps = useRender.ComponentProps<"div">;
 export function TaskSectionEmpty({ className, render, ...props }: TaskSectionEmptyProps) {
-  const theme = useThemeFamily();
-  const { empty } = taskListSection({ theme });
+  const { empty } = taskListSection();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-section-empty",
     className: empty({ className }),

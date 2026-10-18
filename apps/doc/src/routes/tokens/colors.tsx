@@ -17,22 +17,9 @@ const TOC = [
   { id: "state", title: "State families" },
 ] as const;
 
-const THEME_CONTEXTS = [
-  {
-    label: "Brutal",
-    theme: "brutal",
-    mode: "light",
-  },
-  {
-    label: "Elegant light",
-    theme: "elegant",
-    mode: "light",
-  },
-  {
-    label: "Elegant dark",
-    theme: "elegant",
-    mode: "dark",
-  },
+const MODE_CONTEXTS = [
+  { label: "Light", mode: "light" },
+  { label: "Dark", mode: "dark" },
 ] as const;
 
 const RAMP_SHADES = [
@@ -232,7 +219,7 @@ export const Route = createFileRoute("/tokens/colors")({
 
 function ColorsDoc() {
   return (
-    <TokenThemeScope>
+    <TokenPageScope>
       <DocPage
         title="Colors"
         description="Semantic neutrals, the ink overlay ramp, and the brand and state color families."
@@ -253,8 +240,8 @@ function ColorsDoc() {
               <TokenNameList groups={section.groups} />
             ) : (
               <div className="space-y-10">
-                {THEME_CONTEXTS.map((context) => (
-                  <ThemeContextScales
+                {MODE_CONTEXTS.map((context) => (
+                  <ModeContextScales
                     key={context.label}
                     context={context}
                     groups={section.groups}
@@ -265,7 +252,7 @@ function ColorsDoc() {
           </DocSection>
         ))}
       </DocPage>
-    </TokenThemeScope>
+    </TokenPageScope>
   );
 }
 
@@ -314,11 +301,10 @@ function GrammarCode({ children }: { children: ReactNode }) {
   return <code className="font-mono text-xs text-foreground">{children}</code>;
 }
 
-function TokenThemeScope({ children }: { children: ReactNode }) {
+function TokenPageScope({ children }: { children: ReactNode }) {
   return (
     <div
-      data-theme="elegant"
-      className="light min-h-screen bg-layer-panel"
+      className="min-h-screen bg-layer-panel"
       style={{
         color: "var(--foreground)",
         fontFamily: "var(--sans-font)",
@@ -331,7 +317,7 @@ function TokenThemeScope({ children }: { children: ReactNode }) {
 
 /**
  * Markdown lists token names once. Swatch values are resolved from computed
- * styles in the browser, so per-theme rows would only repeat the same names.
+ * styles in the browser, so per-mode rows would only repeat the same names.
  */
 function TokenNameList({ groups }: { groups: readonly TokenGroup[] }) {
   return groups.map((group) => (
@@ -352,7 +338,7 @@ function ColorScale({
   mode = "light",
   children,
 }: {
-  mode?: (typeof THEME_CONTEXTS)[number]["mode"];
+  mode?: (typeof MODE_CONTEXTS)[number]["mode"];
   children: ReactNode;
 }) {
   const borderClassName =
@@ -371,18 +357,18 @@ function ColorScaleRow({
   value,
   displayValue = value,
   textClassName,
-  themeToken,
+  swatchToken,
 }: {
   name: string;
   label: string;
   value: string;
   displayValue?: string;
   textClassName: string;
-  themeToken?: string;
+  swatchToken?: string;
 }) {
   return (
     <li
-      data-theme-token={themeToken}
+      data-swatch-token={swatchToken}
       className={`group flex h-12 min-w-0 items-center px-4 ${textClassName}`}
       style={{ backgroundColor: value }}
     >
@@ -404,19 +390,19 @@ function ColorScaleRow({
   );
 }
 
-function ThemeContextScales({
+function ModeContextScales({
   context,
   groups,
 }: {
-  context: (typeof THEME_CONTEXTS)[number];
+  context: (typeof MODE_CONTEXTS)[number];
   groups: readonly TokenGroup[];
 }) {
-  const themeContextRef = useRef<HTMLElement>(null);
+  const modeContextRef = useRef<HTMLElement>(null);
   const [resolvedColors, setResolvedColors] = useState(() => new Map<string, ResolvedThemeColor>());
 
   useEffect(() => {
-    const themeContext = themeContextRef.current;
-    if (!themeContext) return;
+    const modeContext = modeContextRef.current;
+    if (!modeContext) return;
 
     const canvas = document.createElement("canvas");
     canvas.width = 1;
@@ -424,10 +410,10 @@ function ThemeContextScales({
     const canvasContext = canvas.getContext("2d", { willReadFrequently: true });
     if (!canvasContext) return;
 
-    const backdrop = getBackdropColor(themeContext, canvasContext);
+    const backdrop = getBackdropColor(modeContext, canvasContext);
     const nextColors = new Map<string, ResolvedThemeColor>();
-    for (const swatch of themeContext.querySelectorAll<HTMLElement>("[data-theme-token]")) {
-      const token = swatch.dataset.themeToken;
+    for (const swatch of modeContext.querySelectorAll<HTMLElement>("[data-swatch-token]")) {
+      const token = swatch.dataset.swatchToken;
       if (!token) continue;
 
       nextColors.set(
@@ -436,12 +422,11 @@ function ThemeContextScales({
       );
     }
     setResolvedColors(nextColors);
-  }, [context.mode, context.theme, groups]);
+  }, [context.mode, groups]);
 
   return (
     <section
-      ref={themeContextRef}
-      data-theme={context.theme}
+      ref={modeContextRef}
       className={`${context.mode === "dark" ? "dark -mx-3 bg-layer-canvas-muted px-3" : "light"} min-w-0 py-6 text-foreground-strong`}
     >
       <div className="mb-8">
@@ -468,7 +453,7 @@ function ThemeTokenScale({
   resolvedColors,
 }: {
   group: TokenGroup;
-  context: (typeof THEME_CONTEXTS)[number];
+  context: (typeof MODE_CONTEXTS)[number];
   resolvedColors: ReadonlyMap<string, ResolvedThemeColor>;
 }) {
   return (
@@ -502,12 +487,12 @@ function ThemeTokenScaleRow({
 }: {
   label: string;
   token: string;
-  context: (typeof THEME_CONTEXTS)[number];
+  context: (typeof MODE_CONTEXTS)[number];
   resolvedColor?: ResolvedThemeColor;
 }) {
   return (
     <ColorScaleRow
-      themeToken={token}
+      swatchToken={token}
       name={`${context.label} ${token}`}
       label={label}
       value={`var(${token})`}

@@ -60,7 +60,6 @@ export type {
   SidebarItemMetaIconProps,
   SidebarItemStatusProps,
   SidebarItemProps,
-  SidebarItemVariant,
   SidebarItemSubtitleProps,
   SidebarItemThreadCountProps,
   SidebarItemTitleProps,

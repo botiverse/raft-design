@@ -6,7 +6,7 @@ import { Markdown } from "#/lib/markdown/markdown.tsx";
 
 function renderMarkdown(source: string, components?: Components) {
   return renderToStaticMarkup(
-    <ThemeProvider theme="elegant" syncDom={false}>
+    <ThemeProvider syncDom={false}>
       <Markdown components={components}>{source}</Markdown>
     </ThemeProvider>,
   );
@@ -29,7 +29,7 @@ Inline \`code\` and https://example.com/path，后续。
 | layer-panel | panel |
 
 \`\`\`ts
-const theme = "elegant";
+const mode = "dark";
 \`\`\`
 
 \`\`\`

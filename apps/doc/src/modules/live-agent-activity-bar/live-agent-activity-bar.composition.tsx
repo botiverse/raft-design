@@ -14,14 +14,12 @@ export type LiveAgentActivityBarItem = {
 };
 
 export function LiveAgentActivityBarComposition({
-  beam,
   latest,
 }: {
-  beam?: boolean;
   latest: LiveAgentActivityBarItem | null;
 }) {
   return (
-    <LiveAgentActivityBar beam={beam}>
+    <LiveAgentActivityBar>
       {latest ? (
         <LiveAgentActivityBarRow>
           <LiveAgentActivityBarAvatar>

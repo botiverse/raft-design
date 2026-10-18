@@ -1,13 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemContentProps = useRender.ComponentProps<"div">;
 
 export function MessageItemContent({ className, render, ...props }: MessageItemContentProps) {
-  const theme = useThemeFamily();
-  const { content } = messageItem({ theme });
+  const { content } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: content({ className }),
   };
@@ -25,8 +23,7 @@ export function MessageItemContent({ className, render, ...props }: MessageItemC
 export type MessageItemBodyProps = useRender.ComponentProps<"div">;
 
 export function MessageItemBody({ className, render, ...props }: MessageItemBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = messageItem({ theme });
+  const { body } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: body({ className }),
   };
@@ -106,8 +103,7 @@ export function MessageItemAttachments({
 export type MessageItemFooterProps = useRender.ComponentProps<"div">;
 
 export function MessageItemFooter({ className, render, ...props }: MessageItemFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = messageItem({ theme });
+  const { footer } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: footer({ className }),
   };

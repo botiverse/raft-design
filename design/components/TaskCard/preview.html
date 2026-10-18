@@ -1,0 +1,65 @@
+<!-- @dsCard group="Content" height=660 subtitle="任务卡：频道、编号、标题和可以改的状态签；看板和列表用同一张卡，列表按状态分组，Done 和 Closed 默认收起" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>TaskCard</title>
+<style>
+  .tc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 390px)); gap: 24px; align-items: start; }
+  .tc-stack { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .tc-strip { padding-bottom: var(--space-4); }
+  .tc-strip .rf-section:first-child { padding-top: var(--space-3); }
+</style>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="tc-grid">
+    <div class="tc-stack">
+      <span class="rf-pv__label">Card · the same on the board and in the list</span>
+      <div class="rf-task">
+        <div class="rf-task__top"><span class="rf-task__chan">#launch-week</span><span class="rf-task__id">#25</span></div>
+        <div class="rf-task__title">Polish the onboarding flow</div>
+        <div class="rf-task__foot"><button class="rf-chip rf-chip--progress" type="button" aria-haspopup="menu" aria-label="Status: In Progress"><span class="rf-pixel"></span>In Progress<i class="rf-i rf-i-chevron-down"></i></button></div>
+      </div>
+      <div class="rf-task">
+        <div class="rf-task__top"><span class="rf-task__chan">#release-review</span><span class="rf-task__id">#26</span></div>
+        <div class="rf-task__title">Fix the mobile overflow on Pricing</div>
+        <div class="rf-task__foot"><button class="rf-chip rf-chip--review" type="button" aria-haspopup="menu" aria-label="Status: In Review"><span class="rf-pixel"></span>In Review<i class="rf-i rf-i-chevron-down"></i></button></div>
+      </div>
+      <div class="rf-task">
+        <div class="rf-task__top"><span class="rf-task__chan">#launch-week</span><span class="rf-task__id">#24</span></div>
+        <div class="rf-task__title">Write the launch notes</div>
+        <div class="rf-task__foot"><button class="rf-chip rf-chip--todo" type="button" aria-haspopup="menu" aria-label="Status: Todo"><span class="rf-pixel"></span>Todo<i class="rf-i rf-i-chevron-down"></i></button></div>
+      </div>
+    </div>
+    <div class="tc-stack">
+      <span class="rf-pv__label">List · grouped by status</span>
+      <div class="rf-pv__strip tc-strip">
+        <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true"><i class="rf-i rf-i-chevron-down"></i><span class="rf-pixel rf-pixel--progress"></span>In Progress <span class="rf-section__count">2</span></button></div>
+        <div class="rf-tasklist">
+          <div class="rf-task">
+            <div class="rf-task__top"><span class="rf-task__chan">#launch-week</span><span class="rf-task__id">#25</span></div>
+            <div class="rf-task__title">Polish the onboarding flow</div>
+            <div class="rf-task__foot"><button class="rf-chip rf-chip--progress" type="button" aria-haspopup="menu" aria-label="Status: In Progress"><span class="rf-pixel"></span>In Progress<i class="rf-i rf-i-chevron-down"></i></button></div>
+          </div>
+          <div class="rf-task">
+            <div class="rf-task__top"><span class="rf-task__chan">#perf</span><span class="rf-task__id">#27</span></div>
+            <div class="rf-task__title">Profile chat scroll on old phones</div>
+            <div class="rf-task__foot"><button class="rf-chip rf-chip--progress" type="button" aria-haspopup="menu" aria-label="Status: In Progress"><span class="rf-pixel"></span>In Progress<i class="rf-i rf-i-chevron-down"></i></button></div>
+          </div>
+        </div>
+        <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="false"><i class="rf-i rf-i-chevron-right"></i><span class="rf-pixel rf-pixel--done"></span>Done <span class="rf-section__count">12</span></button></div>
+        <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="false"><i class="rf-i rf-i-chevron-right"></i><span class="rf-pixel rf-pixel--closed"></span>Closed <span class="rf-section__count">3</span></button></div>
+      </div>
+    </div>
+  </div>
+  <span class="rf-pv__label">Board · one column per status, the same cards; drag a card to change its status</span>
+  <div class="rf-board">
+    <section class="rf-col" aria-label="Todo"><div class="rf-col__head"><span class="rf-pixel rf-pixel--todo"></span>Todo<span class="rf-col__count">1</span></div>
+      <div class="rf-task"><div class="rf-task__top"><span class="rf-task__chan">#launch-week</span><span class="rf-task__id">#24</span></div><div class="rf-task__title">Write the launch notes</div><div class="rf-task__foot"><button class="rf-chip rf-chip--todo" type="button" aria-haspopup="menu" aria-label="Status: Todo"><span class="rf-pixel"></span>Todo<i class="rf-i rf-i-chevron-down"></i></button></div></div></section>
+    <section class="rf-col" aria-label="In Progress"><div class="rf-col__head"><span class="rf-pixel rf-pixel--progress"></span>In Progress<span class="rf-col__count">1</span></div>
+      <div class="rf-task"><div class="rf-task__top"><span class="rf-task__chan">#launch-week</span><span class="rf-task__id">#25</span></div><div class="rf-task__title">Polish the onboarding flow</div><div class="rf-task__foot"><button class="rf-chip rf-chip--progress" type="button" aria-haspopup="menu" aria-label="Status: In Progress"><span class="rf-pixel"></span>In Progress<i class="rf-i rf-i-chevron-down"></i></button></div></div></section>
+    <section class="rf-col" aria-label="In Review"><div class="rf-col__head"><span class="rf-pixel rf-pixel--review"></span>In Review<span class="rf-col__count">0</span></div>
+      <div class="rf-col__empty">No In Review tasks.</div></section>
+  </div>
+</div>
+</body>
+</html>

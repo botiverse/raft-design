@@ -38,7 +38,7 @@ export const MESSAGE_ITEM_TRANSLATION_PROGRESS_TRACK_PROPS: readonly PropRow[] =
   {
     name: "...props",
     type: "ProgressTrackProps",
-    description: "Translation progress track with theme-specific height treatment.",
+    description: "Translation progress track with a 4px (`h-1`) height.",
   },
 ];
 

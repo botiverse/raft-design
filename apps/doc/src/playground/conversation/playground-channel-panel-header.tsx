@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import {
-  BrutalOnly,
   PanelAction,
   PanelActions,
   PanelHeader,
@@ -46,7 +45,7 @@ export function PlaygroundChannelPanelHeader({
     <PanelHeader>
       <PlaygroundConversationBackButton onBack={onBack} />
       <PanelHeaderIcon className={onBack ? undefined : "max-md:col-start-1"}>
-        <Icon className="size-3.5 in-data-[theme=elegant]:stroke-[2.5]" />
+        <Icon className="size-3.5" />
       </PanelHeaderIcon>
       <PanelHeaderContent
         className={onBack ? "max-md:col-start-3" : "max-md:col-start-2 max-md:col-span-2"}
@@ -56,7 +55,6 @@ export function PlaygroundChannelPanelHeader({
           {isMuted ? (
             <PanelStatus title="Activity muted. Direct mentions can still notify you.">
               <BellOff />
-              <BrutalOnly>Muted</BrutalOnly>
             </PanelStatus>
           ) : null}
         </PanelHeading>

@@ -34,7 +34,7 @@ const MOBILE_NAV_ROOT_PROPS: readonly PropRow[] = [
     name: "...props",
     type: 'useRender.ComponentProps<"nav">',
     description:
-      "Bottom navigation container. Its width and safe-area spacing follow the active theme.",
+      "Bottom navigation container. It spans the full width and owns the bottom safe-area spacing.",
   },
 ];
 
@@ -64,8 +64,7 @@ const MOBILE_NAV_LABEL_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
-    description:
-      "Destination text. Brutal renders it below the icon; Elegant keeps the same semantic structure visually hidden.",
+    description: "Destination text, rendered below the icon.",
   },
 ];
 

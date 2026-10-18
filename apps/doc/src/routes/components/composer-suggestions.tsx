@@ -278,7 +278,7 @@ function ComposerSuggestionsDoc() {
   return (
     <DocPage
       title="ComposerSuggestions"
-      description="Headless inline @/# autocomplete behavior paired with composable, theme-aware suggestion parts."
+      description="Headless inline @/# autocomplete behavior paired with composable suggestion parts."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>

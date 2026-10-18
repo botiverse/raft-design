@@ -1,10 +1,13 @@
 import type { ComponentPropsWithRef } from "react";
 import { tv } from "../../lib/tv";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const inlineCode = tv({
   slots: {
-    root: [],
+    root: [
+      "rounded-sticker px-1 py-px",
+      "font-mono text-[0.875em] font-normal text-foreground wrap-anywhere",
+      "bg-fill-muted",
+    ],
   },
   variants: {
     // `message` is the in-message treatment: no border, 0.875em so a run of
@@ -13,44 +16,17 @@ const inlineCode = tv({
     // overflowing the message.
     appearance: {
       default: {},
-      message: {},
-    },
-    theme: {
-      brutal: {
+      message: {
         root: [
-          "border border-line-strong bg-brutal-yellow/50 px-1.5",
-          "font-mono text-sm font-medium text-foreground-strong wrap-anywhere",
-        ],
-      },
-      elegant: {
-        root: [
-          "inline-flex items-center rounded-md px-2.5 py-[1.5px]",
-          "font-mono text-sm font-medium",
-          "bg-[oklch(0.955_0_0)] text-[oklch(0.44_0_0)]",
-          "dark:bg-fill-muted dark:text-foreground dark:shadow-raft-xs",
+          "inline border-0 px-1 align-baseline",
+          // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
+          "[font-size:0.875em] leading-[1.3em] font-normal",
+          "wrap-anywhere",
+          "rounded-sticker bg-fill-muted py-px text-foreground",
         ],
       },
     },
   },
-  compoundVariants: [
-    {
-      appearance: "message",
-      class: {
-        root: [
-          "inline rounded-none border-0 px-1 py-0 align-baseline",
-          // oxlint-disable-next-line better-tailwindcss/enforce-canonical-classes
-          "[font-size:0.875em] leading-[1.3em] font-normal",
-          "wrap-anywhere",
-        ],
-      },
-    },
-    { theme: "brutal", appearance: "message", class: { root: "bg-black/5 text-black" } },
-    {
-      theme: "elegant",
-      appearance: "message",
-      class: { root: "bg-fill-muted text-foreground-strong dark:shadow-none" },
-    },
-  ],
   defaultVariants: {
     appearance: "default",
   },
@@ -62,8 +38,7 @@ export type InlineCodeProps = ComponentPropsWithRef<"code"> & {
 };
 
 export function InlineCode({ className, appearance, ...props }: InlineCodeProps) {
-  const theme = useThemeFamily();
-  const { root } = inlineCode({ theme, appearance });
+  const { root } = inlineCode({ appearance });
 
   return <code data-slot="inline-code" className={root({ className })} {...props} />;
 }

@@ -1,0 +1,92 @@
+<!-- @dsCard group="Screens" height=1000 width=960 page subtitle="Raft Chat 的设置：一级页按 Personal / Workspace / Resources 分组；进到 Notifications 是白色顶栏的二级页，盖住 Tab 栏，单选、开关、下拉改了就生效" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Screen · Settings</title>
+<style>
+  .st-me { display: flex; align-items: center; gap: 12px; padding: 16px; color: var(--ink); text-decoration: none; }
+  .st-me__name { font-size: 17px; line-height: 22px; font-weight: 700; }
+  .st-me__sub { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-3); }
+  .st-pad { padding: 0 16px; }
+  .st-foot { padding: 8px 16px 0; font-size: 13px; line-height: 18px; color: var(--ink-3); }
+</style>
+</head>
+<body>
+<div class="rf rf-demo">
+  <div class="rf-demo__col">
+    <div class="rf-demo__label">Light · Settings</div>
+    <div class="rf-phone" data-theme="light">
+      <div class="rf-phone__island"></div>
+      <header class="rf-frame">
+        <div class="rf-phone__status"><span>9:41</span><span class="rf-phone__icons"><i class="rf-i rf-i-signal"></i><i class="rf-i rf-i-wifi"></i><i class="rf-i rf-i-battery"></i></span></div>
+        <div class="rf-largetitle"><h1 class="rf-largetitle__name">Settings</h1></div>
+      </header>
+      <div class="rf-phone__body">
+        <div class="rf-phone__scroll rf-on-paper">
+          <a class="st-me" href="#"><span class="rf-avatar rf-avatar--human rf-avatar--lg" aria-hidden="true">A<span class="rf-avatar__status rf-pixel--online"></span></span><span class="rf-row__body"><span class="st-me__name">Alex Rivera</span><span class="st-me__sub">alex@raft.build · admin</span></span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+          <div class="rf-section"><span class="rf-section__title">Personal</span></div>
+          <div class="rf-list--inset">
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-user rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Account</span></span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-moon rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Appearance</span></span><span class="rf-row__value">System</span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-bell rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Notifications</span></span><span class="rf-row__value">Mentions</span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+          </div>
+          <div class="rf-section"><span class="rf-section__title">Workspace</span></div>
+          <div class="rf-list--inset">
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-house rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Server Profile</span></span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-monitor rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Computers</span></span><span class="rf-row__value">2 online</span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-cpu rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">AI Providers</span></span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-file-text rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Plan &amp; Billing</span></span><span class="rf-row__value">Team</span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+          </div>
+          <div class="rf-section"><span class="rf-section__title">Resources</span></div>
+          <div class="rf-list--inset">
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-book-open rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Documentation</span></span><i class="rf-i rf-i-external-link rf-row__chev"></i></a>
+            <a class="rf-row rf-row--plain" href="#"><i class="rf-i rf-i-message-square rf-row__icon"></i><span class="rf-row__body"><span class="rf-row__title">Feedback</span></span><span class="rf-badge" role="img" aria-label="1 new reply">1</span><i class="rf-i rf-i-chevron-right rf-row__chev"></i></a>
+          </div>
+        </div>
+        <nav class="rf-tabbar" aria-label="Primary">
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-house"></i></span>Home</a>
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-square-check-big"></i></span>Tasks</a>
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-users"></i></span>Members</a>
+          <a class="rf-tab is-on" href="#" aria-current="page"><span class="rf-tab__icon"><i class="rf-i rf-i-settings"></i><span class="rf-pixel rf-pixel--attention" role="img" aria-label="New replies to your feedback"></span></span>Settings</a>
+        </nav>
+      </div>
+      <div class="rf-phone__home"></div>
+    </div>
+  </div>
+  <div class="rf-demo__col">
+    <div class="rf-demo__label">Dark · Notifications, pushed</div>
+    <div class="rf-phone" data-theme="dark">
+      <div class="rf-phone__island"></div>
+      <header class="rf-header">
+        <div class="rf-phone__status"><span>9:41</span><span class="rf-phone__icons"><i class="rf-i rf-i-signal"></i><i class="rf-i rf-i-wifi"></i><i class="rf-i rf-i-battery"></i></span></div>
+        <div class="rf-nav">
+          <button class="rf-iconbtn" type="button" aria-label="Back"><i class="rf-i rf-i-arrow-left"></i></button>
+          <div class="rf-nav__title"><div class="rf-nav__text"><h1 class="rf-nav__name">Notifications</h1></div></div>
+        </div>
+      </header>
+      <div class="rf-phone__body">
+        <div class="rf-phone__scroll rf-on-paper">
+          <div class="rf-section"><span class="rf-section__title" id="st-n">Notify me about</span></div>
+          <div class="st-pad">
+            <div class="rf-radios" role="radiogroup" aria-labelledby="st-n">
+              <label class="rf-radio"><input type="radio" name="st-notify"><span class="rf-radio__dot"></span><span class="rf-radio__body"><span class="rf-radio__label">Every message</span></span></label>
+              <label class="rf-radio"><input type="radio" name="st-notify" checked><span class="rf-radio__dot"></span><span class="rf-radio__body"><span class="rf-radio__label">Mentions, DMs and approvals</span><span class="rf-radio__sub">Agents still post their work in the channel.</span></span></label>
+              <label class="rf-radio"><input type="radio" name="st-notify"><span class="rf-radio__dot"></span><span class="rf-radio__body"><span class="rf-radio__label">Nothing</span></span></label>
+            </div>
+          </div>
+          <div class="rf-section"><span class="rf-section__title">From agents</span></div>
+          <div class="rf-list--inset">
+            <div class="rf-row rf-row--plain"><span class="rf-row__body"><span class="rf-row__title" id="st-a1">An agent needs my OK</span></span><button class="rf-switch is-on" type="button" role="switch" aria-checked="true" aria-labelledby="st-a1"></button></div>
+            <div class="rf-row rf-row--plain"><span class="rf-row__body"><span class="rf-row__title" id="st-a2">An agent finished a task</span></span><button class="rf-switch is-on" type="button" role="switch" aria-checked="true" aria-labelledby="st-a2"></button></div>
+            <div class="rf-row rf-row--plain"><span class="rf-row__body"><span class="rf-row__title" id="st-a3">An agent stopped with an error</span></span><button class="rf-switch" type="button" role="switch" aria-checked="false" aria-labelledby="st-a3"></button></div>
+          </div>
+          <div class="rf-section"><span class="rf-section__title" id="st-q">Quiet hours</span></div>
+          <div class="st-pad"><button class="rf-select" type="button" aria-haspopup="listbox" aria-labelledby="st-q st-qv"><span id="st-qv">22:00 – 08:00</span><i class="rf-i rf-i-chevron-down"></i></button></div>
+          <p class="st-foot">Approvals still come through during quiet hours.</p>
+        </div>
+      </div>
+      <div class="rf-phone__home"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

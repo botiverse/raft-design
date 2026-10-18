@@ -14,7 +14,6 @@ import {
   TaskCardStatus,
   TaskCardTitle,
   TaskStatusIcon,
-  useThemeFamily,
 } from "raft-ui";
 
 import { getTaskStatusLabel } from "../task-card.fixtures";
@@ -42,7 +41,6 @@ export const TaskCardComposition = memo(function TaskCardComposition({
   portalRef?: RefObject<HTMLDivElement | null>;
   showChannelName?: boolean;
 }) {
-  const theme = useThemeFamily();
   const handleOpen = useCallback(() => onOpen?.(task), [onOpen, task]);
   const handleStatusChange = useCallback(
     (status: TaskStatus) => onStatusChange?.(task.id, status),
@@ -73,7 +71,7 @@ export const TaskCardComposition = memo(function TaskCardComposition({
             ) : (
               <TaskStatusSelect
                 {...statusSelectProps}
-                defaultOpen={theme === "elegant" ? menuOpen : undefined}
+                defaultOpen={menuOpen}
                 title="Change task status"
               >
                 <TaskCardStatus
@@ -95,7 +93,7 @@ export const TaskCardComposition = memo(function TaskCardComposition({
                   size="icon-xs"
                   disabled={disabled || busy || !onStatusChange}
                   aria-label={`Edit status for task #${task.taskNumber}`}
-                  className="ml-auto in-data-[theme=brutal]:hidden"
+                  className="ml-auto"
                 >
                   <EllipsisVertical />
                 </Button>

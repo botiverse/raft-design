@@ -2,9 +2,10 @@
 
 These rules apply to production component-library code under `packages/ui` and extend the repository-level architecture rules.
 
-Typography & colour standards — families, the size ladder, the colour tiers, brutal clauses, and
-the note-colour rule — live in [`TYPOGRAPHY.md`](./TYPOGRAPHY.md) in this package. Read it before
-touching type scales, colour tiers, or family classes.
+What components look like is set by the Raft Design System in [`design/`](../../design/README.md)
+(see the root `AGENTS.md`). How this package implements its type and colour — font families, the
+size ladder, the colour tiers, and the note-colour rule — lives in [`TYPOGRAPHY.md`](./TYPOGRAPHY.md).
+Read it before touching type scales, colour tiers, or family classes.
 
 ## What Belongs Here
 
@@ -22,7 +23,6 @@ Generic interaction state may live here when the component owns the behavior: op
 - Product-selected icons or actions whose meaning belongs to chat, tasks, files, notifications, or another workflow.
 - Router, query, store, mock-data, or product-entity dependencies.
 - Upload, saved, followed, muted, task, delivery, notification, or other product workflow state.
-- Theme branches that add, remove, or replace business DOM.
 - Public catch-all `kind`, `state`, or `emphasis` props that choose materially different structures.
 - ARIA widget roles without the corresponding focus, keyboard, collection, and close behavior.
 
@@ -35,7 +35,6 @@ Discriminated unions remain valid for internal implementation and application-do
 - Preserve native element props and names whenever possible.
 - Use `onXxx` and `onXxxChange` for coordination.
 - Use native `aria-pressed`, `aria-current`, `disabled`, and Base UI data attributes instead of duplicate styling-state props.
-- Keep the theme family internal to recipes unless the component is itself a theme selector.
 - A styling-only API must be named as a visual slot, such as `SuggestionList` or `SuggestionOption`; it must not imply that it implements a combobox or menu state machine.
 
 ## Product-State Styling
@@ -55,7 +54,7 @@ The consumer decides which state part exists. Recipes may derive styling from ex
 
 ## Styling Ownership
 
-- Reusable typography, letter spacing, spacing, sizing, colors, hover/active/disabled behavior, and theme differences belong in the component recipe.
+- Reusable typography, letter spacing, spacing, sizing, colors, hover/active/disabled behavior, and light/dark differences belong in the component recipe.
 - Group recipe classes by layout, typography, surface, interaction state, and child/slot relationship.
 - Do not rely on docs or Playground classes to complete the component's intended appearance.
 - If deleting a docs/Playground `className` makes the component itself incorrect, move that styling into the appropriate UI recipe or add a semantic part.
@@ -71,7 +70,7 @@ The consumer decides which state part exists. Recipes may derive styling from ex
 
 - Keep component-local exports in the component `index.ts`.
 - Export active migrations through `packages/ui/src/wip.ts` while their contract is still being refined.
-- Promote a component to the stable package surface only after its API, docs compositions, theme treatments, and consumer usage have stabilized.
+- Promote a component to the stable package surface only after its API, docs compositions, and consumer usage have stabilized.
 
 ## Review Checklist
 

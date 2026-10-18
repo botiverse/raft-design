@@ -155,8 +155,7 @@ const CONVERSATION_PANEL_FOOTER_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "div props",
-    description:
-      "Optional floating footer boundary. Override --panel-footer-clearance on the root when custom footer content needs more or less than the 10rem default.",
+    description: "Optional footer boundary.",
   },
 ];
 

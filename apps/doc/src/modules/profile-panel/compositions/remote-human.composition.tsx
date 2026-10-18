@@ -49,12 +49,8 @@ export function RemoteHumanComposition() {
             <ProfilePanelSection className="border-t-0 py-3">
               <DescriptionList>
                 <DescriptionItem>
-                  <DescriptionTerm className="[[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:uppercase [[data-theme=brutal]_&]:tracking-widest">
-                    From
-                  </DescriptionTerm>
-                  <DescriptionDetails className="font-medium [[data-theme=brutal]_&]:font-bold">
-                    Botiverse
-                  </DescriptionDetails>
+                  <DescriptionTerm>From</DescriptionTerm>
+                  <DescriptionDetails className="font-medium">Botiverse</DescriptionDetails>
                 </DescriptionItem>
               </DescriptionList>
             </ProfilePanelSection>
@@ -66,25 +62,17 @@ export function RemoteHumanComposition() {
                 </AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1 pt-1">
-                <Text.Heading
-                  level={6}
-                  render={<h2 aria-label="wenyi" />}
-                  className="[[data-theme=brutal]_&]:text-lg [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:leading-tight"
-                >
+                <Text.Heading level={6} render={<h2 aria-label="wenyi" />}>
                   wenyi
                 </Text.Heading>
-                <Text.Mono size="meta" className="[[data-theme=brutal]_&]:text-sm">
-                  @huxijin
-                </Text.Mono>
+                <Text.Mono size="meta">@huxijin</Text.Mono>
               </div>
             </ProfilePanelSection>
 
             <ProfilePanelSection>
               <DescriptionList>
                 <DescriptionItem>
-                  <DescriptionTerm className="[[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:uppercase [[data-theme=brutal]_&]:tracking-widest">
-                    Description
-                  </DescriptionTerm>
+                  <DescriptionTerm>Description</DescriptionTerm>
                   <DescriptionDetails className="italic text-foreground-placeholder">
                     No description
                   </DescriptionDetails>

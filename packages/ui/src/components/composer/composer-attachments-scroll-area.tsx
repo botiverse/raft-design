@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ComponentPropsWithoutRef } from "react";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/button";
 import { composerAttachment as composerAttachmentRecipe } from "./composer-attachment.recipe";
 
@@ -26,10 +25,9 @@ export function ComposerAttachmentsScrollArea({
   onMouseLeave,
   ...props
 }: ComposerAttachmentsScrollAreaProps) {
-  const theme = useThemeFamily();
-  const { attachmentsScrollArea, attachmentsViewport } = composerAttachmentRecipe({ theme });
-  const prevNavClassName = composerAttachmentRecipe({ theme, side: "prev" }).attachmentsNav();
-  const nextNavClassName = composerAttachmentRecipe({ theme, side: "next" }).attachmentsNav();
+  const { attachmentsScrollArea, attachmentsViewport } = composerAttachmentRecipe();
+  const prevNavClassName = composerAttachmentRecipe({ side: "prev" }).attachmentsNav();
+  const nextNavClassName = composerAttachmentRecipe({ side: "next" }).attachmentsNav();
   const viewportRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
@@ -79,7 +77,7 @@ export function ComposerAttachmentsScrollArea({
   // Affordances only — never show a dead-end / disabled arrow.
   const showPrev = canPrev;
   const showNext = canNext;
-  const navVariant = theme === "brutal" ? "accent" : "default";
+  const navVariant = "default";
 
   return (
     <div

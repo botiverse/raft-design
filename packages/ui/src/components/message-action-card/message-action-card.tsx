@@ -4,11 +4,11 @@ import { useRender } from "@base-ui/react/use-render";
 import { ChevronDown, Info, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ComponentProps, ReactNode } from "react";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Badge } from "../badge";
 import type { BadgeProps } from "../badge";
 import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
 import { messageActionCard } from "./message-action-card.recipe";
+import type { MessageActionCardStatusTone } from "./message-action-card.recipe";
 import { messageActionCardContent } from "./message-action-card-content.recipe";
 /**
  * The card is a disclosure: open by default, and a consumer can fold a
@@ -25,8 +25,7 @@ export function MessageActionCard({
   onOpenChange,
   ...props
 }: MessageActionCardProps) {
-  const theme = useThemeFamily();
-  const { root } = messageActionCard({ theme });
+  const { root } = messageActionCard();
 
   return (
     <Collapsible.Root
@@ -43,8 +42,7 @@ export function MessageActionCardContent({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { root, panel } = messageActionCardContent({ theme });
+  const { root, panel } = messageActionCardContent();
 
   // Panel height animates between 0 and its measured height when the card
   // folds; the content box lives inside so its padding and frame go with it.
@@ -62,8 +60,7 @@ export function MessageActionCardHeaderIcon({
   children,
   ...props
 }: useRender.ComponentProps<"span">) {
-  const theme = useThemeFamily();
-  const { headerIcon } = messageActionCard({ theme });
+  const { headerIcon } = messageActionCard();
 
   return useRender({
     defaultTagName: "span",
@@ -81,8 +78,7 @@ export function MessageActionCardHeaderTitle({
   render,
   ...props
 }: useRender.ComponentProps<"span">) {
-  const theme = useThemeFamily();
-  const { headerTitle } = messageActionCard({ theme });
+  const { headerTitle } = messageActionCard();
 
   return useRender({
     defaultTagName: "span",
@@ -102,8 +98,7 @@ export function MessageActionCardHeaderDescription({
   render,
   ...props
 }: useRender.ComponentProps<"span">) {
-  const theme = useThemeFamily();
-  const { headerDescription } = messageActionCard({ theme });
+  const { headerDescription } = messageActionCard();
 
   return useRender({
     defaultTagName: "span",
@@ -113,25 +108,30 @@ export function MessageActionCardHeaderDescription({
   });
 }
 
+const STATUS_TONES: Record<NonNullable<BadgeProps["variant"]>, MessageActionCardStatusTone> = {
+  default: "neutral",
+  muted: "neutral",
+  primary: "primary",
+  information: "information",
+  accent: "accent",
+  success: "success",
+  warning: "warning",
+  danger: "danger",
+};
+
 /**
- * The card's state label in the header. Brutal shows it as a solid,
- * saturated badge; Elegant as the soft tinted badge, so a column of "Done"
- * cards does not shout.
+ * The card's state label in the header: plain text led by a square pixel in
+ * the variant's colour, so a column of "Done" cards does not shout.
  */
-export function MessageActionCardStatus({
-  className,
-  appearance,
-  uppercase,
-  ...props
-}: BadgeProps) {
-  const theme = useThemeFamily();
-  const { headerStatus } = messageActionCard({ theme });
+export function MessageActionCardStatus({ className, appearance, ...props }: BadgeProps) {
+  const { headerStatus, status } = messageActionCard({
+    tone: STATUS_TONES[props.variant ?? "default"],
+  });
 
   return (
     <Badge
-      appearance={appearance ?? (theme === "brutal" ? "solid" : "soft")}
-      uppercase={uppercase ?? theme === "brutal"}
-      className={headerStatus({ className })}
+      appearance={appearance ?? "soft"}
+      className={headerStatus({ className: status({ className }) })}
       {...props}
     />
   );
@@ -142,8 +142,7 @@ export function MessageActionCardCollapseTrigger({
   className,
   ...props
 }: MessageActionCardCollapseTriggerProps) {
-  const theme = useThemeFamily();
-  const { collapseTrigger } = messageActionCard({ theme });
+  const { collapseTrigger } = messageActionCard();
 
   return (
     <Collapsible.Trigger className={collapseTrigger({ className })} {...props}>
@@ -157,8 +156,7 @@ export function MessageActionCardHeader({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { header } = messageActionCard({ theme });
+  const { header } = messageActionCard();
 
   return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
 }
@@ -168,8 +166,7 @@ export function MessageActionCardHeaderStatus({
   render,
   ...props
 }: useRender.ComponentProps<"span">) {
-  const theme = useThemeFamily();
-  const { headerStatus } = messageActionCard({ theme });
+  const { headerStatus } = messageActionCard();
 
   return useRender({
     defaultTagName: "span",
@@ -184,8 +181,7 @@ export function MessageActionCardProperties({
   render,
   ...props
 }: useRender.ComponentProps<"dl">) {
-  const theme = useThemeFamily();
-  const { properties } = messageActionCardContent({ theme });
+  const { properties } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "dl",
@@ -200,8 +196,7 @@ export function MessageActionCardProperty({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { property } = messageActionCardContent({ theme });
+  const { property } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -216,8 +211,7 @@ export function MessageActionCardPropertyLabel({
   render,
   ...props
 }: useRender.ComponentProps<"dt">) {
-  const theme = useThemeFamily();
-  const { propertyLabel } = messageActionCardContent({ theme });
+  const { propertyLabel } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "dt",
@@ -232,8 +226,7 @@ export function MessageActionCardPropertyValue({
   render,
   ...props
 }: useRender.ComponentProps<"dd">) {
-  const theme = useThemeFamily();
-  const { propertyValue } = messageActionCardContent({ theme });
+  const { propertyValue } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "dd",
@@ -248,8 +241,7 @@ export function MessageActionCardScopeList({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { scopeList } = messageActionCardContent({ theme });
+  const { scopeList } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -264,8 +256,7 @@ export function MessageActionCardScopeListLabel({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { scopeListLabel } = messageActionCardContent({ theme });
+  const { scopeListLabel } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -284,8 +275,7 @@ export function MessageActionCardScopeListViewport({
   render,
   ...props
 }: MessageActionCardScopeListViewportProps) {
-  const theme = useThemeFamily();
-  const { scopeListViewport } = messageActionCardContent({ theme });
+  const { scopeListViewport } = messageActionCardContent();
   const [element, setElement] = useState<Element | null>(null);
   const [overflows, setOverflows] = useState(false);
 
@@ -316,8 +306,7 @@ export function MessageActionCardScope({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { scope } = messageActionCardContent({ theme });
+  const { scope } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -332,8 +321,7 @@ export function MessageActionCardScopeName({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { scopeName } = messageActionCardContent({ theme });
+  const { scopeName } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -348,8 +336,7 @@ export function MessageActionCardScopeDescription({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { scopeDescription } = messageActionCardContent({ theme });
+  const { scopeDescription } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -364,8 +351,7 @@ export function MessageActionCardHintLabel({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { hintLabel } = messageActionCardContent({ theme });
+  const { hintLabel } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -380,8 +366,7 @@ export function MessageActionCardHint({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { hint } = messageActionCardContent({ theme });
+  const { hint } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -399,8 +384,7 @@ export function MessageActionCardNotice({
   children,
   ...props
 }: MessageActionCardNoticeProps) {
-  const theme = useThemeFamily();
-  const { notice } = messageActionCardContent({ theme });
+  const { notice } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -426,8 +410,7 @@ export function MessageActionCardCompletion({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { completion } = messageActionCardContent({ theme });
+  const { completion } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -442,8 +425,7 @@ export function MessageActionCardActions({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { actions } = messageActionCardContent({ theme });
+  const { actions } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",
@@ -458,8 +440,7 @@ export function MessageActionCardActionsNote({
   render,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { actionsNote } = messageActionCardContent({ theme });
+  const { actionsNote } = messageActionCardContent();
 
   return useRender({
     defaultTagName: "div",

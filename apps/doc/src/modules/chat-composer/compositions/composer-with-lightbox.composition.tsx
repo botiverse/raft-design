@@ -27,7 +27,7 @@ import {
   FilePreview,
   FilePreviewMedia,
 } from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 
 import { COMPOSER_IMAGE_SRC } from "../composer-image.ts";
 

@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { MessageEmbed, MessageEmbedContent, MessageEmbedHeader } from "../message-embed";
 import { messageQuotedPreview } from "./message-quoted-preview.recipe";
 
@@ -10,8 +9,7 @@ type SpanProps = useRender.ComponentProps<"span">;
 export type MessageQuotedPreviewProps = DivProps;
 
 export function MessageQuotedPreview({ className, render, ...props }: MessageQuotedPreviewProps) {
-  const theme = useThemeFamily();
-  const { root } = messageQuotedPreview({ theme });
+  const { root } = messageQuotedPreview();
 
   return <MessageEmbed className={root({ className })} render={render} {...props} />;
 }
@@ -23,8 +21,7 @@ export function MessageQuotedPreviewContent({
   render,
   ...props
 }: MessageQuotedPreviewContentProps) {
-  const theme = useThemeFamily();
-  const { content } = messageQuotedPreview({ theme });
+  const { content } = messageQuotedPreview();
 
   return <MessageEmbedContent className={content({ className })} render={render} {...props} />;
 }
@@ -36,8 +33,7 @@ export function MessageQuotedPreviewHeader({
   render,
   ...props
 }: MessageQuotedPreviewHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = messageQuotedPreview({ theme });
+  const { header } = messageQuotedPreview();
 
   return <MessageEmbedHeader className={header({ className })} render={render} {...props} />;
 }
@@ -49,8 +45,7 @@ export function MessageQuotedPreviewChannel({
   render,
   ...props
 }: MessageQuotedPreviewChannelProps) {
-  const theme = useThemeFamily();
-  const { channel } = messageQuotedPreview({ theme });
+  const { channel } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "span",
@@ -67,8 +62,7 @@ export function MessageQuotedPreviewThread({
   render,
   ...props
 }: MessageQuotedPreviewThreadProps) {
-  const theme = useThemeFamily();
-  const { thread } = messageQuotedPreview({ theme });
+  const { thread } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "span",
@@ -85,8 +79,7 @@ export function MessageQuotedPreviewAuthor({
   render,
   ...props
 }: MessageQuotedPreviewAuthorProps) {
-  const theme = useThemeFamily();
-  const { author } = messageQuotedPreview({ theme });
+  const { author } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "span",
@@ -103,8 +96,7 @@ export function MessageQuotedPreviewAuthorName({
   render,
   ...props
 }: MessageQuotedPreviewAuthorNameProps) {
-  const theme = useThemeFamily();
-  const { authorName } = messageQuotedPreview({ theme });
+  const { authorName } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "span",
@@ -121,8 +113,7 @@ export function MessageQuotedPreviewAuthorMeta({
   render,
   ...props
 }: MessageQuotedPreviewAuthorMetaProps) {
-  const theme = useThemeFamily();
-  const { authorMeta } = messageQuotedPreview({ theme });
+  const { authorMeta } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "span",
@@ -139,8 +130,7 @@ export function MessageQuotedPreviewTimestamp({
   render,
   ...props
 }: MessageQuotedPreviewTimestampProps) {
-  const theme = useThemeFamily();
-  const { timestamp } = messageQuotedPreview({ theme });
+  const { timestamp } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "span",
@@ -157,8 +147,7 @@ export function MessageQuotedPreviewText({
   render,
   ...props
 }: MessageQuotedPreviewTextProps) {
-  const theme = useThemeFamily();
-  const { text } = messageQuotedPreview({ theme });
+  const { text } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "div",
@@ -175,8 +164,7 @@ export function MessageQuotedPreviewAttachments({
   render,
   ...props
 }: MessageQuotedPreviewAttachmentsProps) {
-  const theme = useThemeFamily();
-  const { attachments } = messageQuotedPreview({ theme });
+  const { attachments } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "div",
@@ -193,8 +181,7 @@ export function MessageQuotedPreviewAttachment({
   render,
   ...props
 }: MessageQuotedPreviewAttachmentProps) {
-  const theme = useThemeFamily();
-  const { attachment } = messageQuotedPreview({ theme });
+  const { attachment } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "span",
@@ -211,8 +198,7 @@ export function MessageQuotedPreviewLoading({
   render,
   ...props
 }: MessageQuotedPreviewLoadingProps) {
-  const theme = useThemeFamily();
-  const { loading } = messageQuotedPreview({ theme });
+  const { loading } = messageQuotedPreview();
 
   return <MessageEmbed className={loading({ className })} render={render} {...props} />;
 }
@@ -224,8 +210,7 @@ export function MessageQuotedPreviewUnavailable({
   render,
   ...props
 }: MessageQuotedPreviewUnavailableProps) {
-  const theme = useThemeFamily();
-  const { unavailable } = messageQuotedPreview({ theme });
+  const { unavailable } = messageQuotedPreview();
 
   return useRender({
     defaultTagName: "div",

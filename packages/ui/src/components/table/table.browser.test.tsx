@@ -2,7 +2,7 @@ import "./table.test.css";
 import { afterEach, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../lib/theme/theme-provider";
-import type { Theme, ThemeMode } from "../../lib/theme/theme-context";
+import type { ThemeMode } from "../../lib/theme/theme-context";
 import {
   Select,
   SelectContent,
@@ -30,15 +30,11 @@ const COL_40 = { width: "40%" } as const;
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-const THEMES: readonly { key: string; theme: Theme; mode?: ThemeMode }[] = [
-  { key: "brutal", theme: "brutal" },
-  { key: "elegant light", theme: "elegant", mode: "light" },
-  { key: "elegant dark", theme: "elegant", mode: "dark" },
-];
+const MODES = ["light", "dark"] as const satisfies readonly ThemeMode[];
 
-function renderTable(theme: Theme, mode?: ThemeMode, className?: string) {
+function renderTable(mode?: ThemeMode, className?: string) {
   return render(
-    <ThemeProvider theme={theme} mode={mode}>
+    <ThemeProvider mode={mode}>
       <Table className={className}>
         <TableCaption>Resource access</TableCaption>
         <TableHeader data-testid="header">
@@ -64,9 +60,9 @@ function renderTable(theme: Theme, mode?: ThemeMode, className?: string) {
   );
 }
 
-for (const { key, theme, mode } of THEMES) {
-  it(`${key}: renders native table semantics with themed chrome`, () => {
-    renderTable(theme, mode);
+for (const mode of MODES) {
+  it(`${mode}: renders native table semantics with token-driven chrome`, () => {
+    renderTable(mode);
     const table = document.querySelector('[data-slot="table"]') as HTMLTableElement;
     expect(table.tagName).toBe("TABLE");
     expect(table.querySelector('[data-slot="table-caption"]')?.tagName).toBe("CAPTION");
@@ -78,7 +74,7 @@ for (const { key, theme, mode } of THEMES) {
     expect(head.getAttribute("scope")).toBe("col");
     const cell = table.querySelector('[data-slot="table-cell"]') as HTMLTableCellElement;
     expect(cell.tagName).toBe("TD");
-    // header padding + header separator exist, theme-token driven
+    // header padding + header separator exist, token driven
     const headStyle = getComputedStyle(head);
     expect(Number.parseFloat(headStyle.paddingLeft)).toBeGreaterThanOrEqual(12);
     expect(Number.parseFloat(headStyle.paddingTop)).toBeGreaterThanOrEqual(8);
@@ -93,7 +89,7 @@ for (const { key, theme, mode } of THEMES) {
 it("narrow viewports: long names wrap and columns stay aligned", async () => {
   const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(390, 900);
-  renderTable("elegant", "light");
+  renderTable("light");
   const table = document.querySelector('[data-slot="table"]') as HTMLTableElement;
   const container = table.parentElement as HTMLElement;
   expect(table.getBoundingClientRect().width).toBeLessThanOrEqual(
@@ -114,7 +110,7 @@ it("narrow viewports: token-like names with no spaces do not overflow", async ()
   const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(390, 900);
   render(
-    <ThemeProvider theme="elegant" mode="light">
+    <ThemeProvider mode="light">
       <Table>
         <TableBody>
           <TableRow>
@@ -138,7 +134,7 @@ it("narrow viewports: token-like names with no spaces do not overflow", async ()
 
 it("colgroup passthrough + table-fixed gives stable caller-owned widths", () => {
   render(
-    <ThemeProvider theme="elegant" mode="light">
+    <ThemeProvider mode="light">
       <Table className="table-fixed">
         <TableColgroup>
           <TableColumn style={COL_60} />
@@ -163,7 +159,7 @@ it("colgroup passthrough + table-fixed gives stable caller-owned widths", () => 
 
 it("cell controls: a Select opens on click and commits via the keyboard", async () => {
   render(
-    <ThemeProvider theme="elegant" mode="light">
+    <ThemeProvider mode="light">
       <Table>
         <TableBody>
           <TableRow>

@@ -4,7 +4,6 @@ import type { ComponentPropsWithRef } from "react";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const label = tv({
   slots: {
@@ -13,24 +12,19 @@ const label = tv({
       "cursor-pointer select-none",
       "text-sm leading-none",
       "data-disabled:cursor-not-allowed data-disabled:text-foreground-disabled",
+      "font-sans font-semibold text-foreground-muted",
     ],
-    asterisk: ["text-accent-400", "group-data-disabled/label:text-foreground-disabled"],
-    sub: ["font-normal normal-case", "group-data-disabled/label:text-foreground-disabled"],
+    asterisk: ["group-data-disabled/label:text-foreground-disabled", "text-foreground-hint"],
+    sub: [
+      "normal-case",
+      "group-data-disabled/label:text-foreground-disabled",
+      "font-normal tracking-normal text-foreground-hint",
+    ],
   },
   variants: {
-    theme: {
-      brutal: {
-        root: "font-bold text-foreground",
-        sub: "font-bold tracking-wide text-foreground-strong/40",
-      },
-      elegant: {
-        root: "font-medium text-foreground-strong dark:text-foreground-hint",
-        sub: "text-foreground-strong/40",
-      },
-    },
     size: {
-      sm: { root: "text-xs" },
-      md: { root: "text-sm" },
+      sm: { root: ["text-caption font-semibold"] },
+      md: { root: ["text-footnote font-semibold"] },
     },
   },
   defaultVariants: {
@@ -39,13 +33,12 @@ const label = tv({
 });
 
 export type LabelProps = useRender.ComponentProps<"label"> &
-  Omit<VariantProps<typeof label>, "theme"> & {
+  VariantProps<typeof label> & {
     disabled?: boolean;
   };
 
 function LabelRoot({ size, disabled, className, render, ...props }: LabelProps) {
-  const theme = useThemeFamily();
-  const { root } = label({ theme, size });
+  const { root } = label({ size });
   const defaultProps: SlotElementProps<"label"> = {
     "aria-disabled": disabled ? true : undefined,
     "data-disabled": disabled ? "" : undefined,
@@ -66,8 +59,7 @@ function LabelRoot({ size, disabled, className, render, ...props }: LabelProps) 
 export type LabelAsteriskProps = ComponentPropsWithRef<"span">;
 
 export function LabelAsterisk({ className, children = "*", ...props }: LabelAsteriskProps) {
-  const theme = useThemeFamily();
-  const { asterisk } = label({ theme });
+  const { asterisk } = label();
 
   return (
     <span data-slot="label-asterisk" className={asterisk({ className })} {...props}>
@@ -79,8 +71,7 @@ export function LabelAsterisk({ className, children = "*", ...props }: LabelAste
 export type LabelSubProps = ComponentPropsWithRef<"span">;
 
 export function LabelSub({ className, ...props }: LabelSubProps) {
-  const theme = useThemeFamily();
-  const { sub } = label({ theme });
+  const { sub } = label();
 
   return <span data-slot="label-sub" className={sub({ className })} {...props} />;
 }

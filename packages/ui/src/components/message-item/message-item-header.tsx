@@ -1,13 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageItem } from "./message-item.recipe";
 
 export type MessageItemHeaderProps = useRender.ComponentProps<"div">;
 
 export function MessageItemHeader({ className, render, ...props }: MessageItemHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = messageItem({ theme });
+  const { header } = messageItem();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: header({ className }),
   };
@@ -25,8 +23,7 @@ export function MessageItemHeader({ className, render, ...props }: MessageItemHe
 export type MessageItemSenderProps = useRender.ComponentProps<"span">;
 
 export function MessageItemSender({ className, render, ...props }: MessageItemSenderProps) {
-  const theme = useThemeFamily();
-  const { sender } = messageItem({ theme });
+  const { sender } = messageItem();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: sender({ className }),
   };
@@ -48,8 +45,7 @@ export function MessageItemSenderButton({
   render,
   ...props
 }: MessageItemSenderButtonProps) {
-  const theme = useThemeFamily();
-  const { sender } = messageItem({ theme });
+  const { sender } = messageItem();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: sender({ className }),
@@ -72,8 +68,7 @@ export function MessageItemSenderBadges({
   render,
   ...props
 }: MessageItemSenderBadgesProps) {
-  const theme = useThemeFamily();
-  const { senderBadges } = messageItem({ theme });
+  const { senderBadges } = messageItem();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: senderBadges({ className }),
   };
@@ -91,8 +86,7 @@ export function MessageItemSenderBadges({
 export type MessageItemMetaProps = useRender.ComponentProps<"span">;
 
 export function MessageItemMeta({ className, render, ...props }: MessageItemMetaProps) {
-  const theme = useThemeFamily();
-  const { meta } = messageItem({ theme });
+  const { meta } = messageItem();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: meta({ className }),
   };
@@ -110,8 +104,7 @@ export function MessageItemMeta({ className, render, ...props }: MessageItemMeta
 export type MessageItemTimeProps = useRender.ComponentProps<"span">;
 
 export function MessageItemTime({ className, render, ...props }: MessageItemTimeProps) {
-  const theme = useThemeFamily();
-  const { time } = messageItem({ theme });
+  const { time } = messageItem();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: time({ className }),
   };
@@ -133,8 +126,7 @@ export function MessageItemInlineStatus({
   render,
   ...props
 }: MessageItemInlineStatusProps) {
-  const theme = useThemeFamily();
-  const { inlineStatus } = messageItem({ theme });
+  const { inlineStatus } = messageItem();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: inlineStatus({ className }),
   };

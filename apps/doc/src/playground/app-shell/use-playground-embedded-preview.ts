@@ -1,12 +1,11 @@
 import { useEffect, useSyncExternalStore } from "react";
-import type { SetTheme, Theme, ThemeMode } from "raft-ui";
+import type { ThemeMode } from "raft-ui";
 
 const THEME_MESSAGE = "playground-preview-theme";
 const PREVIEW_READY_MESSAGE = "playground-preview-ready";
 
 type PlaygroundThemeMessage = {
   type: typeof THEME_MESSAGE;
-  theme: Theme;
   mode: ThemeMode;
 };
 
@@ -18,7 +17,7 @@ const subscribeToEmbeddingState = () => () => undefined;
 const readEmbeddingState = () => window.self !== window.top;
 const readServerEmbeddingState = () => false;
 
-export function usePlaygroundEmbeddedPreview(setTheme: SetTheme) {
+export function usePlaygroundEmbeddedPreview(setMode: (mode: ThemeMode) => void) {
   const embedded = useSyncExternalStore(
     subscribeToEmbeddingState,
     readEmbeddingState,
@@ -36,18 +35,14 @@ export function usePlaygroundEmbeddedPreview(setTheme: SetTheme) {
         return;
       }
 
-      if (event.data.theme === "brutal") {
-        setTheme("brutal");
-      } else {
-        setTheme("elegant", { mode: event.data.mode });
-      }
+      setMode(event.data.mode);
     };
 
     window.addEventListener("message", handleMessage);
     const readyMessage: PlaygroundPreviewReadyMessage = { type: PREVIEW_READY_MESSAGE };
     window.parent.postMessage(readyMessage, window.location.origin);
     return () => window.removeEventListener("message", handleMessage);
-  }, [embedded, setTheme]);
+  }, [embedded, setMode]);
 
   return embedded;
 }
@@ -58,7 +53,6 @@ function isThemeMessage(value: unknown): value is PlaygroundThemeMessage {
   const message = value as Partial<PlaygroundThemeMessage>;
   return (
     message.type === THEME_MESSAGE &&
-    (message.theme === "brutal" || message.theme === "elegant") &&
     (message.mode === "light" || message.mode === "dark" || message.mode === "system")
   );
 }

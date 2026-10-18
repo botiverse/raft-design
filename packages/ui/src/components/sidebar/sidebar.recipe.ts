@@ -1,92 +1,46 @@
 import { tv } from "../../lib/tv";
 
-const headerMaskLayers = [
-  "data-[layer=solid]:bg-[linear-gradient(to_bottom,var(--layer-canvas-muted)_0%,var(--layer-canvas-muted)_28%,color-mix(in_oklch,var(--layer-canvas-muted)_82%,transparent)_52%,transparent_100%)]",
-  "data-[layer=soft]:h-[108%] data-[layer=soft]:bg-[linear-gradient(to_bottom,color-mix(in_oklch,var(--layer-canvas-muted)_48%,transparent)_0%,color-mix(in_oklch,var(--layer-canvas-muted)_18%,transparent)_40%,transparent_100%)]",
-  "data-[layer=blur]:h-[112%] data-[layer=blur]:backdrop-blur-[14px] data-[layer=blur]:backdrop-saturate-125",
-  "data-[layer=blur]:[mask-image:linear-gradient(to_bottom,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
-  "data-[layer=blur]:[-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_22%,oklch(0_0_0/0.55)_48%,transparent_100%)]",
-];
-
-const liveActivityFadeOverlay = [
-  "has-[_[data-slot=live-agent-activity-bar]]:before:pointer-events-none has-[_[data-slot=live-agent-activity-bar]]:before:absolute has-[_[data-slot=live-agent-activity-bar]]:before:inset-x-0 has-[_[data-slot=live-agent-activity-bar]]:before:-bottom-3 has-[_[data-slot=live-agent-activity-bar]]:before:z-0 has-[_[data-slot=live-agent-activity-bar]]:before:h-20",
-  "has-[_[data-slot=live-agent-activity-bar]]:before:bg-[linear-gradient(to_bottom,transparent,var(--layer-canvas-muted))] has-[_[data-slot=live-agent-activity-bar]]:before:backdrop-blur-[4px]",
-  "has-[_[data-slot=live-agent-activity-bar]]:before:[mask-image:linear-gradient(to_top,black_50%,transparent)]",
-  "has-[_[data-slot=live-agent-activity-bar]]:before:[-webkit-mask-image:linear-gradient(to_top,black_50%,transparent)]",
-  "has-[_[data-slot=live-agent-activity-bar]]:before:content-['']",
-];
-
 export const sidebarRecipe = tv({
   slots: {
     sidebarRoot: [
       "relative flex size-full min-h-0  select-none flex-col",
       "has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:overflow-clip",
+      "bg-layer-canvas-muted text-foreground max-md:bg-layer-panel",
+      "border-line-seam md:border-r",
+      "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:52px]",
     ],
-    sidebarHeader: ["flex shrink-0 items-center gap-3"],
+    sidebarHeader: [
+      "flex items-center",
+      "h-(--shell-header-height,56px) shrink-0 gap-2 border-b border-line-seam px-5",
+      "bg-layer-canvas-muted text-foreground",
+      "max-md:bg-layer-frame max-md:px-4 max-md:text-foreground-on-frame",
+      "[@media(max-height:600px)]:h-12",
+    ],
     sidebarHeaderMask: ["pointer-events-none absolute inset-x-0 top-0 -z-10 hidden"],
     sidebarHeaderMaskLayer: ["absolute inset-x-0 top-0"],
-    sidebarHeaderTitle: ["truncate text-lg font-bold text-foreground"],
-    sidebarGroupLabel: [
-      "px-2 pt-1 pb-2",
-      "font-mono text-[10px] font-medium uppercase tracking-wider text-foreground-muted",
+    sidebarHeaderTitle: [
+      "truncate font-bold",
+      "font-sans text-headline text-foreground max-md:text-foreground-on-frame",
     ],
-    sidebarBody: ["relative flex min-h-0 flex-1 overflow-hidden"],
+    sidebarGroupLabel: [
+      "px-2 pt-4 pb-1.5",
+      "font-sans text-footnote font-bold normal-case tracking-normal text-foreground-hint",
+    ],
+    sidebarBody: [
+      "relative flex min-h-0 flex-1 overflow-hidden",
+      "bg-layer-canvas-muted max-md:bg-layer-panel",
+    ],
     sidebarContent: ["relative flex min-h-0 min-w-0 flex-1"],
     sidebarViewport: ["size-full min-h-0  flex-1 overflow-x-hidden overflow-y-auto"],
     sidebarContentInner: [
-      "min-h-full min-w-0 w-full px-2 pt-3",
-      "pb-(--sidebar-content-bottom,12px)",
+      "min-h-full min-w-0 w-full px-2",
+      "pt-2 pb-(--sidebar-content-bottom,8px)",
     ],
     sidebarScrollbar: [
       "z-30 flex w-3 justify-center py-1 opacity-0 transition-opacity duration-150",
       "pointer-events-none",
       "data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0",
     ],
-    sidebarLiveActivity: ["pointer-events-none absolute inset-x-0 max-md:hidden"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        sidebarRoot: [
-          "bg-brutal-cream",
-          "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:52px]",
-        ],
-        sidebarHeader: [
-          "h-(--shell-header-height,62px) shrink-0 border-b-2 border-black bg-brutal-cream px-5",
-          "max-md:bg-primary-400 max-md:px-4",
-          "[@media(max-height:600px)]:h-12",
-        ],
-        sidebarBody: "bg-brutal-cream max-md:bg-white",
-        sidebarLiveActivity: "bottom-0 z-40",
-      },
-      elegant: {
-        sidebarRoot: [
-          "relative bg-layer-canvas-muted [--sidebar-inset-x:28px] md:[--sidebar-inset-x:26px]",
-          "md:[--sidebar-inset-end:18px]",
-          "md:has-[>[data-slot=sidebar-live-activity]_[data-slot=live-agent-activity-bar]]:[--sidebar-content-bottom:68px]",
-        ],
-        sidebarHeader: [
-          "absolute inset-x-0 top-0 z-20 isolate",
-          "h-(--shell-header-height,56px) border-b-0 bg-transparent",
-          "px-(--sidebar-inset-x,26px) md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
-          "[&_[data-slot=notification-center-trigger]]:-mr-2",
-        ],
-        sidebarHeaderMask: ["block h-[calc(100%+12px)]"],
-        sidebarHeaderMaskLayer: ["h-full", ...headerMaskLayers],
-        sidebarHeaderTitle: "font-heading text-[17px] font-medium text-foreground-muted",
-        sidebarBody: "bg-layer-canvas-muted",
-        sidebarContentInner: [
-          "px-(--sidebar-inset-x,26px) md:pr-[var(--sidebar-inset-end,var(--sidebar-inset-x,26px))]",
-          "pt-(--shell-header-height,56px)",
-        ],
-        sidebarScrollbar: "justify-end",
-        sidebarLiveActivity: [
-          "bottom-3 z-10",
-          "pl-[26px] pr-4",
-          ...liveActivityFadeOverlay,
-          "*:relative *:z-10",
-        ],
-      },
-    },
+    sidebarLiveActivity: ["pointer-events-none absolute inset-x-0 max-md:hidden", "bottom-0 z-40"],
   },
 });

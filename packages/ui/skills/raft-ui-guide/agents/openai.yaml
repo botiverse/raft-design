@@ -1,4 +1,4 @@
 interface:
   display_name: "Raft UI Guide"
-  short_description: "Build correctly with raft-ui components and themes"
+  short_description: "Build correctly with raft-ui components and tokens"
   default_prompt: "Use $raft-ui-guide to choose and compose the correct stable raft-ui components for this interface."

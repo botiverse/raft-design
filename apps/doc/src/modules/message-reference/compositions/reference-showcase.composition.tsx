@@ -8,7 +8,6 @@ import {
   AvatarImage,
   MarkdownBlockquote,
   MarkdownParagraph,
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferencePending,
@@ -89,7 +88,6 @@ export function MessageReferenceShowcaseComposition() {
                 variant="accent"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.northstarJointChannel} />}
               >
-                <MessageReferenceBadge>joint</MessageReferenceBadge>
                 <GitBranch />
                 <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
               </MessageReferenceChip>
@@ -98,7 +96,6 @@ export function MessageReferenceShowcaseComposition() {
                 variant="accent"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelThread} />}
               >
-                <MessageReferenceBadge>thread</MessageReferenceBadge>
                 <MessagesSquare />
                 <MessageReferenceLabel>state-model</MessageReferenceLabel>
               </MessageReferenceChip>
@@ -107,7 +104,6 @@ export function MessageReferenceShowcaseComposition() {
                 variant="accent"
                 render={<a href={MESSAGE_PLAYGROUND_URLS.noahDm} />}
               >
-                <MessageReferenceBadge>dm</MessageReferenceBadge>
                 <MessageSquareMore />
                 <MessageReferenceLabel>Noah Bennett</MessageReferenceLabel>
               </MessageReferenceChip>
@@ -138,7 +134,6 @@ export function MessageReferenceShowcaseComposition() {
                 />
               }
             >
-              <MessageReferenceBadge>comment</MessageReferenceBadge>
               <MessageSquareQuote />
               <MessageReferenceLabel>
                 re: state-ownership-migration-notes.md · § Ownership boundary
@@ -161,7 +156,6 @@ export function MessageReferenceShowcaseComposition() {
                   />
                 }
               >
-                <MessageReferenceBadge>github.com</MessageReferenceBadge>
                 <LinkIcon />
                 <MessageReferenceLabel>rui#125 Compose message surfaces</MessageReferenceLabel>
               </MessageReferenceChip>

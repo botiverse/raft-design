@@ -7,7 +7,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  useThemeFamily,
   MessageMultiSelectToolbar,
 } from "raft-ui";
 
@@ -28,8 +27,6 @@ export function MessageMultiSelectToolbarComposition({
   onForward,
   onGenerateImage,
 }: MessageMultiSelectToolbarCompositionProps) {
-  const theme = useThemeFamily();
-  const secondaryActionVariant = theme === "elegant" ? "outline" : "default";
   const actionsRef = useRef<HTMLDivElement>(null);
   const lastActionsWidthRef = useRef(0);
   const [compactLevel, setCompactLevel] = useState(0);
@@ -82,11 +79,7 @@ export function MessageMultiSelectToolbarComposition({
     >
       <span
         data-testid="select-mode-count"
-        className={
-          theme === "brutal"
-            ? "whitespace-nowrap font-mono text-xs font-bold text-foreground-strong/70"
-            : "inline-flex items-center whitespace-nowrap font-sans text-xs font-[400] leading-none tabular-nums text-foreground-muted"
-        }
+        className="inline-flex items-center whitespace-nowrap font-sans text-xs font-[400] leading-none tabular-nums text-foreground-muted"
       >
         {children}
       </span>
@@ -96,7 +89,6 @@ export function MessageMultiSelectToolbarComposition({
       >
         <Button
           size={compactCancel ? "icon-xs" : "xs"}
-          variant={secondaryActionVariant}
           onClick={onCancel}
           aria-label="Cancel"
           title="Cancel"
@@ -117,7 +109,6 @@ export function MessageMultiSelectToolbarComposition({
         </Button>
         <Button
           size={compactCopyLink ? "icon-xs" : "xs"}
-          variant={secondaryActionVariant}
           aria-label="Copy link"
           disabled={!onCopyLink}
           onClick={onCopyLink}
@@ -131,7 +122,6 @@ export function MessageMultiSelectToolbarComposition({
             render={
               <Button
                 size="icon-xs"
-                variant={secondaryActionVariant}
                 aria-label="More selected message actions"
                 disabled={!onGenerateImage && !onCopyMarkdown}
                 title="More"

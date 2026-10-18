@@ -3,55 +3,33 @@ import { Popover as BasePopover } from "@base-ui/react/popover";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const popover = tv({
   slots: {
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "max-h-(--available-height) min-w-[220px] overflow-hidden bg-layer-panel",
+      "max-h-(--available-height) min-w-[220px] overflow-hidden",
       "outline-none",
+      "rounded-container bg-layer-popover text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
     ],
-    header: ["flex items-center justify-between px-3 py-2"],
-    separator: ["border-t"],
-    title: ["m-0 text-[10px] font-bold leading-none"],
-    description: ["m-0 text-xs leading-5"],
+    header: ["flex items-center justify-between px-3", "min-h-11 gap-2 py-1.5 pr-2 pl-4"],
+    separator: ["border-t", "border-line-muted"],
+    title: ["m-0", "font-sans text-headline font-bold text-foreground"],
+    description: ["m-0", "font-sans text-footnote text-foreground-muted"],
     close: [
       "inline-flex items-center justify-center",
-      "text-[10px] font-bold",
       "outline-none transition-colors",
+      "h-8 min-w-8 rounded-control px-1.5",
+      "font-sans text-footnote font-bold text-foreground",
+      "hover:bg-fill-pressed active:bg-fill-pressed",
+      "focus-visible:shadow-raft-focus",
+      "[&_svg]:size-4.5",
     ],
-    arrow: ["size-2 rotate-45"],
-    backdrop: ["fixed inset-0"],
+    arrow: ["size-2 rotate-45", "border-l border-t border-line-seam bg-layer-popover"],
+    backdrop: ["fixed inset-0", "bg-transparent"],
     viewport: ["block"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        content: ["border-2 border-line-strong bg-layer-popover shadow-raft-lg"],
-        separator: ["border-line-strong"],
-        title: ["font-sans uppercase tracking-wide text-foreground-strong/60"],
-        description: ["font-sans text-foreground-strong"],
-        close: [
-          "font-sans uppercase tracking-wide text-foreground-strong/60 hover:text-foreground-strong",
-        ],
-        arrow: ["border-l-2 border-t-2 border-line-strong bg-layer-popover"],
-        backdrop: ["bg-transparent"],
-      },
-      elegant: {
-        content: ["rounded-md bg-layer-popover", "shadow-raft-xl"],
-        separator: ["border-line-hairline"],
-        title: ["text-[11px] font-medium tracking-[-0.005em] text-foreground-strong/45"],
-        description: ["text-xs leading-5 text-foreground-muted"],
-        close: [
-          "text-[11px] font-medium tracking-[-0.005em]",
-          "text-foreground-muted transition-colors duration-150 hover:text-foreground",
-        ],
-        arrow: ["border-l border-t border-line-hairline bg-layer-popover"],
-        backdrop: ["bg-layer-backdrop backdrop-blur-[2px]"],
-      },
-    },
   },
 });
 
@@ -64,8 +42,7 @@ export function Popover(props: PopoverProps) {
 export type PopoverTriggerProps = StyledProps<BasePopover.Trigger.Props>;
 
 export function PopoverTrigger({ className, ...props }: PopoverTriggerProps) {
-  const theme = useThemeFamily();
-  const { trigger } = popover({ theme });
+  const { trigger } = popover();
   return (
     <BasePopover.Trigger
       data-slot="popover-trigger"
@@ -84,8 +61,7 @@ export function PopoverPortal(props: PopoverPortalProps) {
 export type PopoverPopupProps = ComponentPropsWithRef<"div">;
 
 export function PopoverPopup({ className, ...props }: PopoverPopupProps) {
-  const theme = useThemeFamily();
-  const { content } = popover({ theme });
+  const { content } = popover();
   return <div data-slot="popover-content" className={content({ className })} {...props} />;
 }
 
@@ -127,8 +103,7 @@ export function PopoverContent({
   className,
   ...props
 }: PopoverContentProps) {
-  const theme = useThemeFamily();
-  const { positioner, content } = popover({ theme });
+  const { positioner, content } = popover();
   const portalContainer = container !== undefined ? container : portalProps?.container;
   return (
     <PopoverPortal {...portalProps} container={portalContainer}>
@@ -160,8 +135,7 @@ export function PopoverContent({
 export type PopoverViewportProps = StyledProps<BasePopover.Viewport.Props>;
 
 export function PopoverViewport({ className, ...props }: PopoverViewportProps) {
-  const theme = useThemeFamily();
-  const { viewport } = popover({ theme });
+  const { viewport } = popover();
   return (
     <BasePopover.Viewport
       data-slot="popover-viewport"
@@ -174,16 +148,14 @@ export function PopoverViewport({ className, ...props }: PopoverViewportProps) {
 export type PopoverHeaderProps = ComponentPropsWithRef<"div">;
 
 export function PopoverHeader({ className, ...props }: PopoverHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = popover({ theme });
+  const { header } = popover();
   return <div data-slot="popover-header" className={header({ className })} {...props} />;
 }
 
 export type PopoverSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function PopoverSeparator({ className, ...props }: PopoverSeparatorProps) {
-  const theme = useThemeFamily();
-  const { separator } = popover({ theme });
+  const { separator } = popover();
   return (
     <div
       role="separator"
@@ -198,8 +170,7 @@ export function PopoverSeparator({ className, ...props }: PopoverSeparatorProps)
 export type PopoverTitleProps = StyledProps<BasePopover.Title.Props>;
 
 export function PopoverTitle({ className, ...props }: PopoverTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = popover({ theme });
+  const { title } = popover();
   return (
     <BasePopover.Title data-slot="popover-title" className={title({ className })} {...props} />
   );
@@ -208,8 +179,7 @@ export function PopoverTitle({ className, ...props }: PopoverTitleProps) {
 export type PopoverDescriptionProps = StyledProps<BasePopover.Description.Props>;
 
 export function PopoverDescription({ className, ...props }: PopoverDescriptionProps) {
-  const theme = useThemeFamily();
-  const { description } = popover({ theme });
+  const { description } = popover();
   return (
     <BasePopover.Description
       data-slot="popover-description"
@@ -222,8 +192,7 @@ export function PopoverDescription({ className, ...props }: PopoverDescriptionPr
 export type PopoverCloseProps = StyledProps<BasePopover.Close.Props>;
 
 export function PopoverClose({ className, ...props }: PopoverCloseProps) {
-  const theme = useThemeFamily();
-  const { close } = popover({ theme });
+  const { close } = popover();
   return (
     <BasePopover.Close data-slot="popover-close" className={close({ className })} {...props} />
   );
@@ -232,8 +201,7 @@ export function PopoverClose({ className, ...props }: PopoverCloseProps) {
 export type PopoverArrowProps = StyledProps<BasePopover.Arrow.Props>;
 
 export function PopoverArrow({ className, ...props }: PopoverArrowProps) {
-  const theme = useThemeFamily();
-  const { arrow } = popover({ theme });
+  const { arrow } = popover();
   return (
     <BasePopover.Arrow data-slot="popover-arrow" className={arrow({ className })} {...props} />
   );
@@ -242,8 +210,7 @@ export function PopoverArrow({ className, ...props }: PopoverArrowProps) {
 export type PopoverBackdropProps = StyledProps<BasePopover.Backdrop.Props>;
 
 export function PopoverBackdrop({ className, ...props }: PopoverBackdropProps) {
-  const theme = useThemeFamily();
-  const { backdrop } = popover({ theme });
+  const { backdrop } = popover();
   return (
     <BasePopover.Backdrop
       data-slot="popover-backdrop"

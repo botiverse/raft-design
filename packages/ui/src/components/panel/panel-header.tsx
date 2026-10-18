@@ -1,15 +1,13 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { PanelHeaderRoot } from "./panel";
 import { panelHeader } from "./panel-header.recipe";
 
 export type PanelHeaderProps = useRender.ComponentProps<"div">;
 
 export function PanelHeader({ children, className, render, ...props }: PanelHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = panelHeader({ theme });
+  const { header } = panelHeader();
   return (
     <PanelHeaderRoot
       {...props}
@@ -31,8 +29,7 @@ export function PanelSectionHeader({
   render,
   ...props
 }: PanelSectionHeaderProps) {
-  const theme = useThemeFamily();
-  const { sectionHeader } = panelHeader({ theme });
+  const { sectionHeader } = panelHeader();
 
   return (
     <PanelHeaderRoot
@@ -49,8 +46,7 @@ export function PanelSectionHeader({
 export type PanelHeaderIconProps = useRender.ComponentProps<"div">;
 
 export function PanelHeaderIcon({ className, render, ...props }: PanelHeaderIconProps) {
-  const theme = useThemeFamily();
-  const { headerIcon } = panelHeader({ theme });
+  const { headerIcon } = panelHeader();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-header-icon",
     className: headerIcon({ className }),
@@ -66,8 +62,7 @@ export function PanelHeaderIcon({ className, render, ...props }: PanelHeaderIcon
 export type PanelHeaderContentProps = useRender.ComponentProps<"div">;
 
 export function PanelHeaderContent({ className, render, ...props }: PanelHeaderContentProps) {
-  const theme = useThemeFamily();
-  const { headerContent } = panelHeader({ theme });
+  const { headerContent } = panelHeader();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-header-content",
     className: headerContent({ className }),
@@ -99,8 +94,7 @@ export function PanelHeading({ className, render, ...props }: PanelHeadingProps)
 export type PanelTitleProps = useRender.ComponentProps<"div">;
 
 export function PanelTitle({ className, render, ...props }: PanelTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = panelHeader({ theme });
+  const { title } = panelHeader();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-title",
     className: title({ className }),
@@ -118,8 +112,7 @@ export type PanelMetaProps = useRender.ComponentProps<"div"> & {
 };
 
 export function PanelMeta({ className, render, size = "sm", ...props }: PanelMetaProps) {
-  const theme = useThemeFamily();
-  const { meta } = panelHeader({ theme, size });
+  const { meta } = panelHeader({ size });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-meta",
     className: meta({ className }),
@@ -139,8 +132,7 @@ export type PanelStatusProps = useRender.ComponentProps<"span">;
  * Use `PanelActivity` for a live status readout wrapping a `Status`.
  */
 export function PanelStatus({ className, render, ...props }: PanelStatusProps) {
-  const theme = useThemeFamily();
-  const { status } = panelHeader({ theme });
+  const { status } = panelHeader();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "panel-status",
     className: status({ className }),
@@ -161,8 +153,7 @@ export type PanelActivityProps = useRender.ComponentProps<"span">;
  * use `PanelStatus` for a standalone attribute badge.
  */
 export function PanelActivity({ className, render, ...props }: PanelActivityProps) {
-  const theme = useThemeFamily();
-  const { activity } = panelHeader({ theme });
+  const { activity } = panelHeader();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "panel-activity",
     className: activity({ className }),
@@ -178,8 +169,7 @@ export function PanelActivity({ className, render, ...props }: PanelActivityProp
 export type PanelActionsProps = useRender.ComponentProps<"div">;
 
 export function PanelActions({ className, render, ...props }: PanelActionsProps) {
-  const theme = useThemeFamily();
-  const { actions } = panelHeader({ theme });
+  const { actions } = panelHeader();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-actions",
     className: actions({ className }),

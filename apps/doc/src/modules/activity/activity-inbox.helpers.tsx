@@ -47,7 +47,6 @@ import {
   SidebarItemIcon,
   SidebarItemMeta,
   SidebarItemTitle,
-  useThemeFamily,
 } from "raft-ui";
 import type {
   ActivityCompositionChannelKind,
@@ -57,25 +56,15 @@ import type {
 export type ActivityView = "active" | "saved" | "done";
 
 const taskStatuses = {
-  todo: [{ backgroundColor: "var(--color-brutal-orange)" }, "warning", Circle],
-  in_progress: [{ backgroundColor: "var(--color-brutal-cyan)" }, "information", Play],
-  in_review: [{ backgroundColor: "var(--color-brutal-lavender)" }, "accent", Eye],
-  done: [{ backgroundColor: "var(--color-brutal-lime)" }, "success", CheckCircle],
-  closed: [{ backgroundColor: "var(--color-brutal-stone)" }, "muted", Ban],
+  todo: ["warning", Circle],
+  in_progress: ["information", Play],
+  in_review: ["accent", Eye],
+  done: ["success", CheckCircle],
+  closed: ["muted", Ban],
 } as const;
 
 function stopPropagation(event: SyntheticEvent) {
   event.stopPropagation();
-}
-
-export type ActivitySelectionCheckboxProps = Omit<
-  ComponentProps<typeof Checkbox>,
-  "size" | "variant"
->;
-
-export function ActivitySelectionCheckbox(props: ActivitySelectionCheckboxProps) {
-  const theme = useThemeFamily();
-  return <Checkbox {...props} variant="primary" size={theme === "brutal" ? "md" : "sm"} />;
 }
 
 export function ActivityNavigationItem({
@@ -91,10 +80,9 @@ export function ActivityNavigationItem({
   icon: ReactNode;
   label: string;
   count?: number;
-} & Omit<ComponentProps<typeof SidebarItem>, "variant">) {
+} & ComponentProps<typeof SidebarItem>) {
   return (
     <SidebarItem
-      variant="primary"
       active={active || pressed}
       aria-current={active ? "page" : undefined}
       aria-pressed={pressed || undefined}
@@ -156,10 +144,9 @@ export function ActivitySwitcherRow({
 }
 
 function ActivityTaskBadge({ task }: { task: NonNullable<ActivityCompositionItem["task"]> }) {
-  const theme = useThemeFamily();
-  const [brutalStyle, variant, Icon] = taskStatuses[task.status];
+  const [variant, Icon] = taskStatuses[task.status];
   return (
-    <Badge variant={variant} uppercase={false} style={theme === "brutal" ? brutalStyle : undefined}>
+    <Badge variant={variant}>
       <Icon size={10} className="shrink-0" />#{task.number}
       {task.claimedBy ? ` @${task.claimedBy}` : null}
     </Badge>
@@ -222,7 +209,7 @@ export function ActivityItem({
         onClick={handleOpen}
       />
       <InboxItemSelection>
-        <ActivitySelectionCheckbox
+        <Checkbox
           checked={selected}
           onCheckedChange={handleSelect}
           onClick={stopPropagation}
@@ -246,29 +233,25 @@ export function ActivityItem({
         <InboxItemMetadata>
           {item.task ? <ActivityTaskBadge task={item.task} /> : null}
           {item.replyCount === undefined ? null : (
-            <Badge appearance="outline" variant="muted" uppercase={false}>
+            <Badge appearance="outline" variant="muted">
               {item.replyCount} replies
             </Badge>
           )}
           {item.kind === "thread" && item.following === false ? (
-            <Badge appearance="outline" variant="muted" uppercase={false}>
+            <Badge appearance="outline" variant="muted">
               <BellOff size={10} />
               Unfollowed
             </Badge>
           ) : null}
           {item.hasMention && item.unreadCount > 0 ? (
-            <Badge variant="primary" uppercase={false}>
+            <Badge variant="primary">
               <AtSign size={10} />
               Mention
             </Badge>
           ) : null}
-          {item.unreadCount > 0 ? (
-            <Badge variant="accent" uppercase={false}>
-              {item.unreadCount} new
-            </Badge>
-          ) : null}
+          {item.unreadCount > 0 ? <Badge variant="accent">{item.unreadCount} new</Badge> : null}
           {item.draft ? (
-            <Badge appearance="outline" variant="muted" uppercase={false} aria-label="Draft">
+            <Badge appearance="outline" variant="muted" aria-label="Draft">
               <Pencil size={10} />
             </Badge>
           ) : null}

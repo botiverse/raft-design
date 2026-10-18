@@ -28,7 +28,7 @@ export function MessageSenderStateComposition() {
           <MessageItemHeader>
             <MessageItemSender>Mx. Chen</MessageItemSender>
             <MessageItemSenderBadges>
-              <Badge appearance="soft" variant="muted" uppercase>
+              <Badge appearance="soft" variant="muted">
                 Removed
               </Badge>
             </MessageItemSenderBadges>
@@ -51,7 +51,7 @@ export function MessageSenderStateComposition() {
           <MessageItemHeader>
             <MessageItemSender>Noah</MessageItemSender>
             <MessageItemSenderBadges>
-              <Badge appearance="soft" variant="muted" uppercase>
+              <Badge appearance="soft" variant="muted">
                 Left
               </Badge>
             </MessageItemSenderBadges>
@@ -72,7 +72,7 @@ export function MessageSenderStateComposition() {
           <MessageItemHeader>
             <MessageItemSender>Atlas</MessageItemSender>
             <MessageItemSenderBadges>
-              <Badge appearance="soft" variant="muted" uppercase>
+              <Badge appearance="soft" variant="muted">
                 Deleted
               </Badge>
             </MessageItemSenderBadges>

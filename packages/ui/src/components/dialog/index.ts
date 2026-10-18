@@ -6,8 +6,10 @@ export {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogNav,
   DialogOverlay,
   DialogPortal,
+  DialogSurface,
   DialogTitle,
   DialogTrigger,
 } from "./dialog";
@@ -18,9 +20,11 @@ export type {
   DialogDescriptionProps,
   DialogFooterProps,
   DialogHeaderProps,
+  DialogNavProps,
   DialogOverlayProps,
   DialogPortalProps,
   DialogProps,
+  DialogSurfaceProps,
   DialogTitleProps,
   DialogTriggerProps,
 } from "./dialog";

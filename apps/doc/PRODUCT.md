@@ -10,7 +10,7 @@ The raft-ui documentation app is used by Raft product engineers who are building
 
 ## Product Purpose
 
-The app documents raft-ui through canonical component examples, inspectable code paths, and an interactive product playground for the shared Brutal and Elegant theme families. Success means engineers can understand component behavior and composition without reconstructing product context from isolated primitives.
+The app documents raft-ui through canonical component examples, inspectable code paths, and an interactive product playground. Success means engineers can understand component behavior and composition without reconstructing product context from isolated primitives.
 
 ## Brand Personality
 
@@ -21,7 +21,6 @@ The documentation should feel like a trustworthy product-engineering tool: direc
 ## Anti-references
 
 - Showcase pages that flatten realistic product states into decorative component galleries.
-- Examples that only work in Elegant and leave Brutal source parity as an afterthought.
 - Invented wrapper abstractions or mock states that drift from the source application.
 - Decorative AI-flavored UI, marketing flourishes, or oversized gestures inside product examples.
 - Documentation that promotes unfinished components beyond the WIP boundary.
@@ -30,14 +29,12 @@ The documentation should feel like a trustworthy product-engineering tool: direc
 
 Show real composition. Examples should demonstrate components inside credible product structures and state combinations.
 
-Preserve source meaning. Brutal examples should retain the interaction and information hierarchy of the source application.
+Preserve source meaning. Examples should retain the interaction and information hierarchy of the source application.
 
 Keep one state model. Navigation, routes, panels, and fixtures should resolve from shared canonical records.
-
-Make theme differences explicit. Brutal and Elegant should share component semantics without hiding their distinct visual treatment.
 
 Prefer inspectable evidence. Canonical code paths and focused examples should make adoption decisions easy to verify.
 
 ## Accessibility & Inclusion
 
-Examples and interactive playground surfaces should target WCAG AA. Controls need keyboard support, visible focus states, accessible names, disabled and loading semantics, and predictable screen-reader behavior. Motion should remain purposeful and respect reduced-motion preferences, while every theme preserves usable contrast across interactive and semantic states.
+Examples and interactive playground surfaces should target WCAG AA. Controls need keyboard support, visible focus states, accessible names, disabled and loading semantics, and predictable screen-reader behavior. Motion should remain purposeful and respect reduced-motion preferences, while light and dark both preserve usable contrast across interactive and semantic states.

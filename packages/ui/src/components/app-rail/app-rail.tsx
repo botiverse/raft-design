@@ -1,8 +1,6 @@
 import { Button as BaseButton } from "@base-ui/react/button";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import type { ReactNode } from "react";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Status } from "../status/status";
 import type { StatusProps } from "../status/status";
 import type { SlotElementProps } from "../../lib/data-attributes";
@@ -11,8 +9,7 @@ import { appRail } from "./app-rail.recipe";
 export type AppRailRootProps = useRender.ComponentProps<"div">;
 
 export function AppRailRoot({ className, render, ...props }: AppRailRootProps) {
-  const theme = useThemeFamily();
-  const { root } = appRail({ theme });
+  const { root } = appRail();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-rail-root",
     className: root({ className }),
@@ -28,8 +25,7 @@ export function AppRailRoot({ className, render, ...props }: AppRailRootProps) {
 export type AppRailHeaderProps = useRender.ComponentProps<"div">;
 
 export function AppRailHeader({ className, render, ...props }: AppRailHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = appRail({ theme });
+  const { header } = appRail();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-rail-header",
     className: header({ className }),
@@ -45,8 +41,7 @@ export function AppRailHeader({ className, render, ...props }: AppRailHeaderProp
 export type AppRailNavProps = useRender.ComponentProps<"nav">;
 
 export function AppRailNav({ className, render, ...props }: AppRailNavProps) {
-  const theme = useThemeFamily();
-  const { nav } = appRail({ theme });
+  const { nav } = appRail();
   const defaultProps: SlotElementProps<"nav"> = {
     "data-slot": "app-rail-nav",
     className: nav({ className }),
@@ -72,8 +67,7 @@ export function AppRailItem({
   render,
   ...props
 }: AppRailItemProps) {
-  const theme = useThemeFamily();
-  const { item } = appRail({ theme });
+  const { item } = appRail();
   const defaultProps: SlotElementProps<"button"> = {
     type: nativeButton ? "button" : undefined,
     disabled: nativeButton ? disabled : undefined,
@@ -106,15 +100,15 @@ export function AppRailItemIcon({ className, render, ...props }: AppRailItemIcon
   });
 }
 
+/** The pink pixel on a rail item: something there waits for you. */
 export type AppRailItemAttentionProps = {
+  /** Read to assistive tech; the pixel itself is decorative. */
   title?: string;
-  children: ReactNode;
 };
 
-export function AppRailItemAttention({ title, children }: AppRailItemAttentionProps) {
+export function AppRailItemAttention({ title }: AppRailItemAttentionProps) {
   return (
     <>
-      <AppRailItemAttentionMask aria-hidden>{children}</AppRailItemAttentionMask>
       <AppRailItemIndicator aria-hidden />
       {/* Surface the attention label to assistive tech; the indicator itself is decorative. */}
       {title ? <span className="sr-only">{title}</span> : null}
@@ -122,32 +116,10 @@ export function AppRailItemAttention({ title, children }: AppRailItemAttentionPr
   );
 }
 
-export type AppRailItemAttentionMaskProps = useRender.ComponentProps<"span">;
-
-export function AppRailItemAttentionMask({
-  className,
-  render,
-  ...props
-}: AppRailItemAttentionMaskProps) {
-  const theme = useThemeFamily();
-  const { itemAttentionMask } = appRail({ theme });
-  const defaultProps: SlotElementProps<"span"> = {
-    "data-slot": "app-rail-item-attention-mask",
-    className: itemAttentionMask({ className }),
-  };
-
-  return useRender({
-    defaultTagName: "span",
-    render,
-    props: mergeProps<"span">(defaultProps, props),
-  });
-}
-
 export type AppRailItemLabelProps = useRender.ComponentProps<"span">;
 
 export function AppRailItemLabel({ className, render, ...props }: AppRailItemLabelProps) {
-  const theme = useThemeFamily();
-  const { itemLabel } = appRail({ theme });
+  const { itemLabel } = appRail();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "app-rail-item-label",
     className: itemLabel({ className }),
@@ -163,8 +135,7 @@ export function AppRailItemLabel({ className, render, ...props }: AppRailItemLab
 export type AppRailItemBadgeProps = useRender.ComponentProps<"span">;
 
 export function AppRailItemBadge({ className, render, ...props }: AppRailItemBadgeProps) {
-  const theme = useThemeFamily();
-  const { itemBadge } = appRail({ theme });
+  const { itemBadge } = appRail();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "app-rail-item-badge",
     className: itemBadge({ className }),
@@ -183,17 +154,14 @@ export function AppRailItemIndicator({
   className,
   size = "sm",
   variant,
-  attention = true,
   ...props
 }: AppRailItemIndicatorProps) {
-  const theme = useThemeFamily();
-  const { itemIndicator } = appRail({ theme });
-  const resolvedVariant = variant ?? (theme === "elegant" ? "primary" : "accent");
+  const { itemIndicator } = appRail();
+  const resolvedVariant = variant ?? "accent";
 
   return (
     <Status
       aria-hidden
-      attention={attention}
       size={size}
       variant={resolvedVariant}
       data-slot="app-rail-item-indicator"
@@ -206,8 +174,7 @@ export function AppRailItemIndicator({
 export type AppRailFooterProps = useRender.ComponentProps<"div">;
 
 export function AppRailFooter({ className, render, ...props }: AppRailFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = appRail({ theme });
+  const { footer } = appRail();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "app-rail-footer",
     className: footer({ className }),

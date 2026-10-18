@@ -336,13 +336,8 @@ function ChatSidebarDragPreview({
   return (
     <SidebarItem
       active={active}
-      variant="accent"
       aria-hidden
-      className={
-        active
-          ? "pointer-events-none w-full bg-layer-panel shadow-raft-lg in-data-[theme=brutal]:border-black in-data-[theme=brutal]:shadow-raft-sm"
-          : "pointer-events-none w-full bg-layer-panel shadow-raft-lg in-data-[theme=brutal]:border-black in-data-[theme=brutal]:bg-white in-data-[theme=brutal]:shadow-raft-sm"
-      }
+      className="pointer-events-none w-full bg-layer-panel shadow-raft-lg"
       render={<div />}
       style={style}
     >

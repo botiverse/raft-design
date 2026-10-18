@@ -78,7 +78,7 @@ export function CompositionModalPreview({
       >
         {backdrop ? (
           <div
-            className="absolute inset-0 z-0 in-data-[theme=elegant]:backdrop-blur-[1.5px]"
+            className="absolute inset-0 z-0"
             style={{ backgroundColor: "var(--layer-backdrop)" }}
           />
         ) : null}

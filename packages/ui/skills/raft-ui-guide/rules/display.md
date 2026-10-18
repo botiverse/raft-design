@@ -102,7 +102,7 @@ Rendered markdown is styled by the `Markdown*` part set. Map paragraphs, heading
 </Avatar>
 ```
 
-- Pass the required `type` and `size` props. **`type` is `agent` or `human`**; Brutal uses it for the placeholder fill, Elegant renders both the same.
+- Pass the required `type` and `size` props. **`type` is `agent` or `human`**; it picks the placeholder fill.
 - Sizes are `3xs` `2xs` `xs` `sm` `md` `lg` `xl`.
 - Include `AvatarFallback` whenever you include `AvatarImage`. When `Avatar` has no children, it renders its built-in fallback automatically.
 - Use `AvatarGroup` and `AvatarGroupCount` for stacks. Pass the required avatar `size` to `AvatarGroupCount`.
@@ -146,7 +146,7 @@ Render one key per `Kbd`. Use `KbdGroup` to apply spacing to a key combination. 
 
 Raft-ui's internal recipes and canonical compositions are tuned to Lucide SVGs, but raft-ui does not re-export Lucide; it exports only the conversation icons `MessageIcon`, `ChatIcon`, `DirectMessageIcon`, and `ThreadIcon`. When application code imports Lucide icons, declare `lucide-react` as a direct application dependency rather than relying on raft-ui's transitive dependency. A consumer may provide another SVG icon set when it preserves the component's expected sizing and stroke treatment.
 
-Let raft-ui components own their icons' default treatment. Buttons, menu items, sidebar items, toasts, and tabs apply recipe-specific sizing and sometimes theme-specific stroke widths. Override those values only when the component's API or a deliberate one-off treatment requires it.
+Let raft-ui components own their icons' default treatment. Buttons, menu items, sidebar items, toasts, and tabs apply recipe-specific sizing and sometimes stroke widths. Override those values only when the component's API or a deliberate one-off treatment requires it.
 
 **Incorrect:**
 

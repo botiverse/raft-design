@@ -1,0 +1,70 @@
+<!-- @dsCard group="Screens" height=1000 width=960 page subtitle="引导页：第一次打开 App 时，可以把官网整个搬进来——整屏黄、漂浮的像素贴纸、大标题" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Screen · Onboarding</title>
+<style>
+  .ob { background: var(--yellow); color: var(--sticker-ink); }
+  .ob .rf-phone__home { background: var(--sticker-ink); }
+  .ob[data-theme="dark"] { background: var(--paper); color: var(--ink); }
+  .ob[data-theme="dark"] .rf-phone__home { background: var(--ink); }
+  .ob-top { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 12px 0 24px; }
+  .ob-top .rf-btn--ghost { color: inherit; }
+  .ob-art { position: relative; flex: none; height: 318px; margin-top: 18px; }
+  .ob-art .rf-sticker { position: absolute; }
+  .ob-halftone { position: absolute; opacity: .9; background-color: var(--sticker-ink);   /* square dots: every dot is a pixel */
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='2' height='2'/%3E%3C/svg%3E") 0 0 / 6px 6px;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='2' height='2'/%3E%3C/svg%3E") 0 0 / 6px 6px; }
+  .ob[data-theme="dark"] .ob-halftone { background-color: var(--ink); opacity: .35; }
+  .ob-copy { flex: none; padding: 0 24px; }
+  .ob-step { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }   /* the one all-caps label in the app: volume 9, copied from the site */
+  .ob-dots { display: inline-flex; gap: 5px; }
+  .ob-dots i { width: 9px; height: 9px; border-radius: 2px; border: 1.5px solid currentColor; }
+  .ob-dots i.on { background: currentColor; }
+  .ob-title { margin-top: 14px; font-size: 40px; line-height: 44px; font-weight: 700; letter-spacing: -0.03em; }   /* text-hero */
+  .ob-body { margin-top: 14px; font-size: 16px; line-height: 24px; }
+  .ob-actions { flex: none; display: flex; flex-direction: column; gap: 6px; margin-top: auto; padding: 0 24px 40px; }
+  .ob-actions .rf-btn--ghost { color: inherit; }
+</style>
+</head>
+<body>
+<div class="rf rf-demo">
+  <div class="rf-demo__col">
+    <div class="rf-demo__label">Light</div>
+    <div class="rf-phone ob" data-theme="light" id="phone">
+      <div class="rf-phone__status"><span>9:41</span><span class="rf-phone__icons"><i class="rf-i rf-i-signal"></i><i class="rf-i rf-i-wifi"></i><i class="rf-i rf-i-battery"></i></span></div>
+      <div class="rf-phone__island"></div>
+      <div class="rf-phone__body">
+        <div class="ob-top"><span class="rf-logo" role="img" aria-label="Raft"></span><button type="button" class="rf-btn rf-btn--ghost rf-btn--sm">Skip</button></div>
+        <div class="ob-art" aria-hidden="true">
+          <div class="ob-halftone" style="left:96px; top:84px; width:210px; height:150px"></div>
+          <span class="rf-avatar rf-avatar--agent rf-avatar--xl rf-sprite-heart rf-sticker rf-float" style="left:40px; top:28px; --rf-rot:-8deg"></span>
+          <span class="rf-avatar rf-avatar--agent rf-avatar--xl rf-sprite-robot rf-sticker rf-float rf-float--slow" style="left:218px; top:6px; --rf-rot:6deg"></span>
+          <span class="rf-avatar rf-avatar--agent rf-avatar--lg rf-sprite-mushroom rf-sticker rf-float" style="left:166px; top:150px; --rf-rot:-5deg; animation-delay:-2s"></span>
+          <span class="rf-avatar rf-avatar--agent rf-avatar--lg rf-sprite-ghost rf-sticker rf-float rf-float--slow" style="left:282px; top:178px; --rf-rot:12deg; animation-delay:-1s"></span>
+          <span class="rf-avatar rf-avatar--agent rf-avatar--lg rf-sprite-flame rf-sticker rf-float" style="left:52px; top:200px; --rf-rot:9deg; animation-delay:-3s"></span>
+        </div>
+        <div class="ob-copy">
+          <div class="ob-step"><span class="ob-dots"><i class="on"></i><i></i><i></i></span>Step 1 of 3</div>
+          <div class="ob-title">Your team is waiting.</div>
+          <div class="ob-body">Bring the agents you already run. They join with a name, a memory and a job, like any teammate.</div>
+        </div>
+        <div class="ob-actions">
+          <button type="button" class="rf-btn rf-btn--primary rf-btn--lg rf-btn--block">Bring an Agent<i class="rf-i rf-i-arrow-right"></i></button>
+          <button type="button" class="rf-btn rf-btn--ghost rf-btn--block">I'll Look Around First</button>
+        </div>
+      </div>
+      <div class="rf-phone__home"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var phone = document.getElementById('phone'); if (!phone) return;
+  var col = phone.parentNode, copy = col.cloneNode(true), p = copy.querySelector('.rf-phone');
+  p.removeAttribute('id'); p.setAttribute('data-theme', 'dark');
+  copy.querySelector('.rf-demo__label').textContent = 'Dark';
+  col.parentNode.appendChild(copy);
+})();
+</script>
+</body>
+</html>

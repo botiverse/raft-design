@@ -1,80 +1,41 @@
 import { tv } from "../../lib/tv";
+import { panelHeadActions, panelHeadEdges } from "../panel/panel-header.recipe";
 
 export const threadPanel = tv({
   slots: {
-    root: ["isolate flex size-full min-h-0  flex-col", "dark:bg-layer-card"],
-    header: ["flex h-(--shell-header-height,62px) shrink-0 items-center gap-3 px-5"],
-    content: ["flex min-h-0 min-w-0 flex-1 flex-col"],
-    title: ["m-0 min-w-0 flex-1 truncate", "text-base font-bold"],
-    titleMeta: ["font-normal"],
-    actions: ["flex shrink-0 items-center gap-1.5"],
+    root: [
+      "isolate flex size-full min-h-0  flex-col",
+      "relative bg-layer-panel font-sans text-foreground",
+    ],
+    header: [
+      "flex h-(--shell-header-height,56px) shrink-0 items-center gap-3 max-md:gap-2",
+      panelHeadEdges,
+      "border-b border-line-seam bg-layer-panel",
+    ],
+    content: ["flex min-h-0 min-w-0 flex-1 flex-col", "relative bg-layer-panel"],
+    title: ["m-0 min-w-0 flex-1 truncate", "font-bold", "font-sans text-headline text-foreground"],
+    titleMeta: ["font-normal text-foreground-hint"],
+    actions: panelHeadActions,
     search: [
-      "relative z-20 flex shrink-0 items-center gap-1.5 px-5 py-2",
+      "relative z-20 flex shrink-0 items-center gap-1.5 py-2",
       "[&>[data-slot=input-group]]:min-w-0 *:data-[slot=input-group]:flex-1",
+      "border-b border-line-muted bg-layer-panel px-5",
     ],
     searchTrailing: ["ml-auto flex shrink-0 items-center gap-1.5"],
-    searchCount: ["shrink-0 whitespace-nowrap font-mono text-xs tabular-nums"],
-    originalMessage: ["relative shrink-0"],
-    replySummary: ["px-3 pt-2"],
-    replyCount: ["mb-1 border-b pb-2 text-center font-mono text-xs"],
-    footer: ["text-xs"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        root: "bg-white font-sans text-black",
-        header: "border-b-2 border-black bg-white",
-        content: "bg-white",
-        title: "text-black",
-        titleMeta: "text-black/50",
-        search: "border-b-2 border-black bg-white",
-        searchCount: "text-black/50",
-        originalMessage: [
-          "bg-white px-2.5 border-b-2 border-black",
-          "**:data-message-item:bg-white",
-        ],
-        replyCount: "border-black/10 text-black/40",
-        footer: "border-t-2 border-black bg-white text-black/50",
-      },
-      elegant: {
-        root: [
-          "relative bg-transparent font-sans text-foreground-strong",
-          // 2026-10-10 (#737, cindyz): the dark-mode drop-shadow class is
-          // removed whole (leftward 14px gradient measured at the chat divider
-          // + its paired vertical ambient shadow). The thread column must not
-          // float over the divider.
-        ],
-        header: [
-          "relative isolate h-auto min-h-(--shell-header-height,56px) max-lg:z-10 [@media(max-height:600px)]:h-auto",
-          "bg-layer-canvas-muted",
-          "max-lg:gap-2 max-md:pl-5 max-md:pr-3.5 md:pl-5 max-lg:pr-3.5 max-md:h-[var(--shell-header-height,56px)]",
-          "max-lg:before:pointer-events-none max-lg:before:absolute max-lg:before:inset-x-0 max-lg:before:top-0 max-lg:before:-bottom-3 max-lg:before:z-0",
-          "max-lg:before:bg-[linear-gradient(to_bottom,var(--layer-canvas-muted),transparent)] max-lg:before:backdrop-blur-sm",
-          "max-lg:before:[mask-image:linear-gradient(to_bottom,black_50%,transparent)] max-lg:before:[-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent)]",
-          "max-lg:before:content-[''] max-lg:[&>*]:relative max-lg:[&>*]:z-10",
-        ],
-        content: ["relative overflow-clip", "bg-layer-panel", "dark:bg-transparent"],
-        title: [
-          "font-heading text-[17px] font-medium leading-tight tracking-tight tabular-nums",
-          "text-foreground-muted",
-        ],
-        titleMeta: "text-foreground-muted",
-        search: ["max-lg:pl-5 max-lg:pr-3.5", "border-b border-line-muted bg-layer-canvas-muted"],
-        searchTrailing: [
-          "[&>[data-slot=thread-panel-actions]]:gap-0.5",
-          "[&_[data-slot=panel-action]]:px-1.5 [&_[data-slot=panel-action]]:py-1.5",
-          "[&_[data-slot=panel-action]>svg]:size-3.5",
-        ],
-        searchCount: "text-foreground-muted",
-        originalMessage: [
-          "bg-transparent",
-          "border-b border-line-muted",
-          "**:data-message-item:bg-transparent",
-        ],
-        replySummary: "px-5 max-lg:px-3.5",
-        replyCount: "border-line-hairline text-foreground-muted",
-        footer: ["px-5 max-lg:px-3.5 md:px-5 max-md:px-3.5", "text-foreground-muted"],
-      },
-    },
+    searchCount: [
+      "shrink-0 whitespace-nowrap font-mono tabular-nums",
+      "text-mono-meta text-foreground-hint",
+    ],
+    originalMessage: [
+      "relative shrink-0",
+      "border-b border-line-muted bg-transparent pb-2",
+      "**:data-message-item:bg-transparent",
+    ],
+    replySummary: ["pt-2", "px-5"],
+    replyCount: [
+      "mb-1 border-b pb-2 text-center font-mono",
+      "border-line-muted text-mono-meta text-foreground-hint",
+    ],
+    footer: ["text-caption text-foreground-hint"],
   },
 });

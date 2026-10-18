@@ -40,7 +40,7 @@ export function PlaygroundDmPanelHeader({
           <PanelTitle className={isAgent ? "max-md:text-[15px]" : undefined}>{dm.name}</PanelTitle>
           {isAgent ? (
             <PanelActivity title={presence.label}>
-              <Status aria-hidden size="sm" variant={presence.variant} pulse={presence.pulse} />
+              <Status aria-hidden size="sm" variant={presence.variant} />
               {presence.label}
             </PanelActivity>
           ) : null}

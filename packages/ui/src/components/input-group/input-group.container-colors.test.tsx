@@ -19,13 +19,9 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-function renderAddon(
-  theme: "brutal" | "elegant",
-  variant: "default" | "container",
-  kind: "root" | "text",
-) {
+function renderAddon(variant: "default" | "container", kind: "root" | "text") {
   render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <InputGroup>
         {kind === "root" ? (
           <InputGroupAddon variant={variant} align="inline-end" data-testid="addon">
@@ -51,29 +47,24 @@ function renderAddon(
  * disabled stopped re-coloring (found in review). The container variant now
  * only supplies a default for the variable — exactly one color class remains.
  */
-test("elegant container addon keeps exactly one, state-driven color class", () => {
-  const tokens = renderAddon("elegant", "container", "root");
+test("container addon keeps exactly one, state-driven color class", () => {
+  const tokens = renderAddon("container", "root");
   const colorReads = tokens.filter((token) => token.startsWith("text-(--ig-"));
   expect(colorReads.length).toBe(1);
   expect(colorReads[0].startsWith("text-(--ig-addon-fg")).toBe(true);
   expect(tokens).not.toContain("text-foreground-placeholder");
 });
 
-test("elegant container text keeps its state-driven color class", () => {
-  const tokens = renderAddon("elegant", "container", "text");
+test("container text keeps its state-driven color class", () => {
+  const tokens = renderAddon("container", "text");
   const colorReads = tokens.filter((token) => token.startsWith("text-(--ig-"));
   expect(colorReads.length).toBe(1);
   expect(colorReads[0].startsWith("text-(--ig-text-fg")).toBe(true);
   expect(tokens).not.toContain("text-foreground-placeholder");
 });
 
-test("elegant default addon reads the variable with its fallback default", () => {
-  const tokens = renderAddon("elegant", "default", "root");
+test("default addon reads the variable with its fallback default", () => {
+  const tokens = renderAddon("default", "root");
   expect(tokens.some((token) => token.startsWith("text-(--ig-addon-fg"))).toBe(true);
   expect(tokens).not.toContain("text-foreground-placeholder");
-});
-
-test("brutal container addon keeps its static brutal color", () => {
-  const tokens = renderAddon("brutal", "container", "root");
-  expect(tokens).toContain("text-foreground-strong/70");
 });

@@ -41,7 +41,7 @@ function AddMachineDialogParts() {
           <CopyableCodeAction aria-label="Copy daemon command" />
         </CopyableCodeRoot>
         <Banner status="warning" size="md" className="mb-5">
-          <Status variant="warning" size="sm" pulse />
+          <Status variant="warning" size="sm" />
           <BannerDescription>Waiting for computer to connect...</BannerDescription>
         </Banner>
       </DialogBody>

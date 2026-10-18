@@ -128,7 +128,7 @@ const PROPS: readonly PropRow[] = [
     name: "size",
     type: SIZES.map((size) => `"${size}"`).join(" | "),
     default: '"md"',
-    description: "Track height. Brutal maps each size slightly taller than Elegant.",
+    description: "Track height: 6px at sm, 8px at md, 10px at lg.",
   },
   {
     name: "...props",

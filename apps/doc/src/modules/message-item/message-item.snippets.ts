@@ -327,14 +327,6 @@ export const MESSAGE_REFERENCE_UNAVAILABLE_PROPS: readonly PropRow[] = [
   },
 ];
 
-export const MESSAGE_REFERENCE_BADGE_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: 'useRender.ComponentProps<"span">',
-    description: "Badge-shaped inline reference surface.",
-  },
-];
-
 export const MESSAGE_REFERENCE_LABEL_PROPS: readonly PropRow[] = [
   {
     name: "...props",

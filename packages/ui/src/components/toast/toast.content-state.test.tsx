@@ -33,7 +33,7 @@ afterEach(() => {
 
 async function renderToast(title: string, options?: Parameters<typeof toast.success>[1]) {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <ToastProvider />
     </ThemeProvider>,
   );
@@ -111,7 +111,7 @@ async function renderManualToast(
   wrapDescription = false,
 ) {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <ToastProvider renderViewport={false}>
         <ManualToastList wrapDescription={wrapDescription} />
       </ToastProvider>

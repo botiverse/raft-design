@@ -7,7 +7,6 @@ import {
   MessageItem,
   MessageItemBody,
   MessageItemContent,
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceLabel,
   MessageReferenceText,
@@ -57,7 +56,6 @@ export function MessageReferenceMixedLongMessageComposition() {
       variant="accent"
       render={<a href={MESSAGE_PLAYGROUND_URLS.northstarJointChannel} />}
     >
-      <MessageReferenceBadge>joint</MessageReferenceBadge>
       <GitBranch />
       <MessageReferenceLabel>northstar-launch-handoff</MessageReferenceLabel>
     </MessageReferenceChip>
@@ -67,7 +65,6 @@ export function MessageReferenceMixedLongMessageComposition() {
       variant="accent"
       render={<a href={MESSAGE_PLAYGROUND_URLS.stateModelThread} />}
     >
-      <MessageReferenceBadge>thread</MessageReferenceBadge>
       <MessagesSquare />
       <MessageReferenceLabel>state-model</MessageReferenceLabel>
     </MessageReferenceChip>

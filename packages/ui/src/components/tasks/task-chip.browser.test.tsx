@@ -6,10 +6,9 @@ import { TaskChip } from "./task-chip";
 import type { TaskStatusId } from "./task-status.recipe";
 
 // Artea (#proj-frontend:1a32281f, 2026-09-29): a task chip inside a message
-// shows `#N` in the task's status colour — the same colour as the task badge
-// under the message — in both Elegant Light and Elegant Dark. Before, the
-// inline chip was grey in light and yellow (in progress) in dark.
-// Real browser only: jsdom does not resolve colours.
+// shows `#N` in the same colours as the task chip under the message, in light
+// and dark. Before, the inline chip was grey in light and yellow (in progress)
+// in dark. Real browser only: jsdom does not resolve colours.
 
 const it = test.skipIf(typeof window === "undefined");
 
@@ -18,9 +17,9 @@ afterEach(cleanup);
 const STATUSES: TaskStatusId[] = ["todo", "in-progress", "in-review", "done", "closed"];
 
 for (const mode of ["light", "dark"] as const) {
-  it(`elegant/${mode}: the inline chip's text colour is the task's status colour`, () => {
+  it(`${mode}: the inline chip's text colour is the task chip's`, () => {
     render(
-      <ThemeProvider theme="elegant" mode={mode}>
+      <ThemeProvider mode={mode}>
         {STATUSES.map((status) => (
           <p key={status}>
             <TaskChip variant="inline" status={status} data-testid={`inline-${status}`}>
@@ -34,20 +33,19 @@ for (const mode of ["light", "dark"] as const) {
       </ThemeProvider>,
     );
     const colour = (id: string) => getComputedStyle(screen.getByTestId(id)).color;
+    // Ink on the status wash: the status rides the fill (asserted below), the
+    // text stays readable ink.
     for (const status of STATUSES) {
       expect(colour(`inline-${status}`), status).toBe(colour(`badge-${status}`));
     }
-    // The status colours differ from each other, so matching the badge means
-    // following the status rather than one shared neutral.
-    expect(colour("inline-in-progress")).not.toBe(colour("inline-done"));
   });
 
   // Artea (#proj-frontend task #739, 2026-10-10): the inline chip's fill and
   // border are the task chip's too. Before, the inline chip sat on one neutral
   // grey fill with no visible border, whatever the status.
-  it(`elegant/${mode}: the inline chip's fill and border are the task chip's`, () => {
+  it(`${mode}: the inline chip's fill and border are the task chip's`, () => {
     render(
-      <ThemeProvider theme="elegant" mode={mode}>
+      <ThemeProvider mode={mode}>
         {STATUSES.map((status) => (
           <p key={status}>
             <TaskChip variant="inline" status={status} data-testid={`inline-${status}`}>
@@ -69,6 +67,8 @@ for (const mode of ["light", "dark"] as const) {
         style(`badge-${status}`).borderTopColor,
       );
     }
+    // The fills differ from each other, so matching the chip means following
+    // the status rather than one shared neutral.
     expect(style("inline-in-progress").backgroundColor).not.toBe(
       style("inline-done").backgroundColor,
     );

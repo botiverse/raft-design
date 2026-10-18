@@ -1,0 +1,71 @@
+<!-- @dsCard group="Screens" height=1000 width=960 page subtitle="Raft Chat 的任务页：外框里是大标题 Tasks 和任务数（没有空的导航行）；下面一条筛选（Channel / Assignee / Creator，最右是 Board / List）；列表按状态分组，Done 和 Closed 收起来" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Screen · Tasks</title>
+<style>
+  .st-filters { display: flex; align-items: center; gap: 6px; padding: 10px 16px; border-bottom: var(--border-hairline) solid var(--line-seam); }
+  .st-filters .rf-seg { margin-left: auto; flex: none; }
+  .st-filters .rf-filter { padding: 0 8px; }
+  .st-list { padding-bottom: 16px; }
+  .st-list .rf-section:first-child { padding-top: 12px; }
+</style>
+</head>
+<body>
+<div class="rf rf-demo">
+  <div class="rf-demo__col">
+    <div class="rf-demo__label">Light</div>
+    <div class="rf-phone" data-theme="light" id="phone">
+      <div class="rf-phone__island"></div>
+      <header class="rf-frame">
+        <div class="rf-phone__status"><span>9:41</span><span class="rf-phone__icons"><i class="rf-i rf-i-signal"></i><i class="rf-i rf-i-wifi"></i><i class="rf-i rf-i-battery"></i></span></div>
+        <div class="rf-largetitle"><h1 class="rf-largetitle__name">Tasks</h1><p class="rf-largetitle__sub">12 channel tasks</p></div>
+      </header>
+      <div class="rf-phone__body">
+        <div class="st-filters">
+          <button class="rf-filter" type="button" aria-haspopup="listbox">Channel<i class="rf-i rf-i-chevron-down"></i></button>
+          <button class="rf-filter is-applied" type="button" aria-haspopup="listbox">Assignee<span class="rf-filter__count">1</span></button>
+          <button class="rf-filter" type="button" aria-haspopup="listbox">Creator<i class="rf-i rf-i-chevron-down"></i></button>
+          <div class="rf-seg" role="group" aria-label="View">
+            <button class="rf-seg__item" type="button" aria-pressed="false" aria-label="Board"><i class="rf-i rf-i-columns-3"></i></button>
+            <button class="rf-seg__item is-on" type="button" aria-pressed="true" aria-label="List"><i class="rf-i rf-i-layout-list"></i></button>
+          </div>
+        </div>
+        <div class="rf-phone__scroll st-list">
+          <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true"><i class="rf-i rf-i-chevron-down"></i><span class="rf-pixel rf-pixel--todo"></span>Todo <span class="rf-section__count">1</span></button></div>
+          <div class="rf-tasklist">
+            <div class="rf-task"><div class="rf-task__top"><span class="rf-task__chan">#launch-week</span><span class="rf-task__id">#24</span></div><div class="rf-task__title">Write the launch notes</div><div class="rf-task__foot"><button class="rf-chip rf-chip--todo" type="button" aria-haspopup="menu" aria-label="Status: Todo"><span class="rf-pixel"></span>Todo<i class="rf-i rf-i-chevron-down"></i></button></div></div>
+          </div>
+          <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true"><i class="rf-i rf-i-chevron-down"></i><span class="rf-pixel rf-pixel--progress"></span>In Progress <span class="rf-section__count">2</span></button></div>
+          <div class="rf-tasklist">
+            <div class="rf-task"><div class="rf-task__top"><span class="rf-task__chan">#launch-week</span><span class="rf-task__id">#25</span></div><div class="rf-task__title">Polish the onboarding flow</div><div class="rf-task__foot"><button class="rf-chip rf-chip--progress" type="button" aria-haspopup="menu" aria-label="Status: In Progress"><span class="rf-pixel"></span>In Progress<i class="rf-i rf-i-chevron-down"></i></button></div></div>
+            <div class="rf-task"><div class="rf-task__top"><span class="rf-task__chan">#pricing</span><span class="rf-task__id">#33</span></div><div class="rf-task__title">Pricing FAQ for teams</div><div class="rf-task__foot"><button class="rf-chip rf-chip--progress" type="button" aria-haspopup="menu" aria-label="Status: In Progress"><span class="rf-pixel"></span>In Progress<i class="rf-i rf-i-chevron-down"></i></button></div></div>
+          </div>
+          <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true"><i class="rf-i rf-i-chevron-down"></i><span class="rf-pixel rf-pixel--review"></span>In Review <span class="rf-section__count">1</span></button></div>
+          <div class="rf-tasklist">
+            <div class="rf-task"><div class="rf-task__top"><span class="rf-task__chan">#release-review</span><span class="rf-task__id">#26</span></div><div class="rf-task__title">Fix the mobile overflow on Pricing</div><div class="rf-task__foot"><button class="rf-chip rf-chip--review" type="button" aria-haspopup="menu" aria-label="Status: In Review"><span class="rf-pixel"></span>In Review<i class="rf-i rf-i-chevron-down"></i></button></div></div>
+          </div>
+          <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="false"><i class="rf-i rf-i-chevron-right"></i><span class="rf-pixel rf-pixel--done"></span>Done <span class="rf-section__count">12</span></button></div>
+          <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="false"><i class="rf-i rf-i-chevron-right"></i><span class="rf-pixel rf-pixel--closed"></span>Closed <span class="rf-section__count">3</span></button></div>
+        </div>
+        <nav class="rf-tabbar" aria-label="Primary">
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-house"></i></span>Home</a>
+          <a class="rf-tab is-on" href="#" aria-current="page"><span class="rf-tab__icon"><i class="rf-i rf-i-square-check-big"></i></span>Tasks</a>
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-users"></i></span>Members</a>
+          <a class="rf-tab" href="#"><span class="rf-tab__icon"><i class="rf-i rf-i-settings"></i></span>Settings</a>
+        </nav>
+      </div>
+      <div class="rf-phone__home"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var phone = document.getElementById('phone'); if (!phone) return;
+  var col = phone.parentNode, copy = col.cloneNode(true), p = copy.querySelector('.rf-phone');
+  p.removeAttribute('id'); p.setAttribute('data-theme', 'dark');
+  copy.querySelector('.rf-demo__label').textContent = 'Dark';
+  col.parentNode.appendChild(copy);
+})();
+</script>
+</body>
+</html>

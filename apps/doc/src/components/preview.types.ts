@@ -1,6 +1,5 @@
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 import type { ReactNode } from "react";
-import type { Theme } from "raft-ui";
 
 import type { PreviewMode } from "./preview-theme.tsx";
 
@@ -10,7 +9,6 @@ export type PreviewProps = {
   children: ReactNode;
   previewClassName?: string;
   previewInset?: "default" | "flush";
-  previewTheme?: Theme;
   previewMode?: PreviewMode;
 };
 

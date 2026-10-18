@@ -42,9 +42,9 @@ afterEach(cleanup);
  * files instead.
  */
 
-function open(theme: "brutal" | "elegant", closeProps: Record<string, unknown> = {}) {
+function open(closeProps: Record<string, unknown> = {}) {
   return render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Dialog open modal={false}>
         <DialogContent data-testid="content">
           <DialogHeader data-testid="header">
@@ -69,22 +69,22 @@ function open(theme: "brutal" | "elegant", closeProps: Record<string, unknown> =
  * element's own props win the merge, so callers had no way in. Consuming apps
  * therefore shipped an English label to screen readers in every locale, and the
  * only workaround was to abandon `render` and hand-build the button, which threw
- * away the per-theme chrome as a side effect. Both Slock surfaces that hit this
+ * away the built-in chrome as a side effect. Both Slock surfaces that hit this
  * had done exactly that (CreateAgentDialog, OverflowSheet).
  */
 test("close: a caller's aria-label wins over the built-in English default", () => {
-  open("elegant", { "aria-label": "关闭" });
+  open({ "aria-label": "关闭" });
   expect(screen.getByTestId("close").getAttribute("aria-label")).toBe("关闭");
 });
 
 test("close: with no aria-label it still falls back to English", () => {
-  open("elegant");
+  open();
   expect(screen.getByTestId("close").getAttribute("aria-label")).toBe("Close");
 });
 
 test("close: the override reaches AlertDialogClose too", () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <AlertDialog open>
         <AlertDialogContent>
           <AlertDialogClose data-testid="ac" aria-label="关闭" />
@@ -101,7 +101,7 @@ test("close: the override reaches AlertDialogClose too", () => {
 // OverflowSheet in Slock is a live consumer of exactly this path.
 test("close: the override reaches DrawerClose too", () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <Drawer open>
         <DrawerContent>
           <DrawerClose data-testid="dc" aria-label="关闭" />
@@ -113,14 +113,14 @@ test("close: the override reaches DrawerClose too", () => {
 });
 
 /**
- * Elegant header and footer sit on the body's surface.
+ * Header and footer sit on the body's surface.
  *
- * They carried `border-b`/`border-t` plus `bg-layer-inset`, a slightly different
- * tone from the content surface, so the dialog read as three banded strips
- * rather than one card (@cindyz, 2026-09-01).
+ * An earlier treatment gave them `border-b`/`border-t` plus `bg-layer-inset`, a
+ * slightly different tone from the content surface, so the dialog read as
+ * three banded strips rather than one card (@cindyz, 2026-09-01).
  */
-test("elegant: header and footer draw no divider and add no surface of their own", () => {
-  open("elegant");
+test("header and footer draw no divider and add no surface of their own", () => {
+  open();
   for (const slot of ["header", "footer"] as const) {
     const cls = screen.getByTestId(slot).className;
     expect(cls, `${slot} must not draw a divider`).not.toMatch(/\bborder-[bt]\b/);
@@ -128,40 +128,19 @@ test("elegant: header and footer draw no divider and add no surface of their own
   }
 });
 
-test("brutal: header and footer were already plain and stay that way", () => {
-  open("brutal");
-  for (const slot of ["header", "footer"] as const) {
-    const cls = screen.getByTestId(slot).className;
-    expect(cls).not.toMatch(/\bborder-[bt]\b/);
-    expect(cls).not.toMatch(/bg-layer-inset/);
-  }
-});
-
 /**
- * The elegant title has to outrank the field labels beneath it.
+ * The title has to outrank the field labels beneath it.
  *
- * It was `text-sm font-medium` — 14px/500 — while a Field label in the same
- * dialog is 14px/700. The heading was LIGHTER than the labels it presides over,
- * which inverts the hierarchy. `text-base` + `font-bold` reuses sizes already on
- * the elegant scale (16px from the input, 700 from the label) instead of
- * introducing a new step, and the uppercase tracking matches the labels' rather
- * than staying negative, which reads cramped in caps.
+ * An earlier title was `text-sm font-medium` — 14px/500 — while a Field label
+ * in the same dialog was 14px/700: the heading was LIGHTER than the labels it
+ * presides over, which inverts the hierarchy. The title is now the 17px
+ * headline step at 700, above the 13px/600 field label.
  */
-test("elegant: the title is 16px/700 uppercase, not lighter than a field label", () => {
-  open("elegant");
+test("the title is the 17px headline at 700, not lighter than a field label", () => {
+  open();
   const cls = screen.getByTestId("title").className;
-  expect(cls).toMatch(/\btext-base\b/);
+  expect(cls).toMatch(/\btext-headline\b/);
   expect(cls).toMatch(/\bfont-bold\b/);
-  expect(cls).toMatch(/\buppercase\b/);
-  expect(cls, "negative tracking reads cramped in caps").not.toMatch(/tracking-\[-/);
   expect(cls, "14px/500 was the inverted-hierarchy state").not.toMatch(/\btext-sm\b/);
   expect(cls).not.toMatch(/\bfont-medium\b/);
-});
-
-test("brutal: the title keeps its own treatment", () => {
-  open("brutal");
-  const cls = screen.getByTestId("title").className;
-  expect(cls).toMatch(/\btext-lg\b/);
-  expect(cls).toMatch(/\bfont-bold\b/);
-  expect(cls).toMatch(/\buppercase\b/);
 });

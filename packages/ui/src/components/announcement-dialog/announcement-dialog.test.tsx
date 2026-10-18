@@ -30,7 +30,7 @@ afterEach(cleanup);
 
 function Fixture({ secondary = true, onAction = vi.fn(), onClose = vi.fn() }) {
   return (
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <AnnouncementDialog open onOpenChange={onClose}>
         <AnnouncementDialogContent>
           <AnnouncementDialogBody>

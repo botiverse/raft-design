@@ -44,12 +44,12 @@ test("inline takes no fixed height from the size scale", () => {
   // No `h-<n>` from the scale survived the merge.
   expect(cls()).not.toMatch(/\bh-\d/);
   // ...and no border either. @Dozy caught that removing the height class alone
-  // was not enough: with `h-auto` the box is content + border, so a theme's
-  // `border-2` still yields 24px line-height + 4px = the 28px button box this
-  // size exists to remove. The original test excluded only `h-<n>`, so the real
-  // bad shape stayed green.
+  // was not enough: with `h-auto` the box is content + border, so the Button's
+  // own border (`border-[1.5px]`, `border-2` before it) still adds to the
+  // line-height and rebuilds the button box this size exists to remove. The
+  // original test excluded only `h-<n>`, so the real bad shape stayed green.
   expect(cls()).toContain("border-0");
-  expect(cls()).not.toMatch(/\bborder-[1-9]\b/);
+  expect(cls()).not.toMatch(/\bborder-(?:[1-9]|\[[\d.]+px\])(?=\s|$)/);
 });
 
 test("CONTROL: a sized button DOES carry a fixed height", () => {
@@ -108,35 +108,32 @@ test("it is still focusable by keyboard", () => {
   expect(document.activeElement).toBe(button);
 });
 
-// Per theme, because the leak was theme-specific: brutal's Button carries
-// `border-2`, so a size that only dropped the height class still produced a
-// 28px box there while looking correct under elegant. @Dozy found exactly that.
-for (const theme of ["brutal", "elegant"] as const) {
-  test(`${theme}: inline takes no box height from the button scale or its border`, () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <Button variant="link" size="inline">
-          Retry
-        </Button>
-      </ThemeProvider>,
-    );
-    const c = cls();
-    expect(c).toContain("h-auto");
-    expect(c).not.toMatch(/\bh-\d/);
-    expect(c).toContain("border-0");
-    expect(c).not.toMatch(/\bborder-[1-9]\b/);
-  });
+test("inside a ThemeProvider: inline takes no box height from the button scale or its border", () => {
+  render(
+    <ThemeProvider>
+      <Button variant="link" size="inline">
+        Retry
+      </Button>
+    </ThemeProvider>,
+  );
+  const c = cls();
+  expect(c).toContain("h-auto");
+  expect(c).not.toMatch(/\bh-\d/);
+  expect(c).toContain("border-0");
+  expect(c).not.toMatch(/\bborder-(?:[1-9]|\[[\d.]+px\])(?=\s|$)/);
+});
 
-  test(`CONTROL ${theme}: a sized button still carries both`, () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <Button variant="link" size="sm">
-          Retry
-        </Button>
-      </ThemeProvider>,
-    );
-    // Proves the assertions above discriminate rather than passing because the
-    // theme never emits a height or border in the first place.
-    expect(cls()).toMatch(/\bh-\d/);
-  });
-}
+test("CONTROL inside a ThemeProvider: a sized button still carries both", () => {
+  render(
+    <ThemeProvider>
+      <Button variant="link" size="sm">
+        Retry
+      </Button>
+    </ThemeProvider>,
+  );
+  // Proves the assertions above discriminate rather than passing because the
+  // Button never emits a height or border in the first place.
+  const c = cls();
+  expect(c).toMatch(/\bh-\d/);
+  expect(c).toMatch(/\bborder-(?:[1-9]|\[[\d.]+px\])(?=\s|$)/);
+});

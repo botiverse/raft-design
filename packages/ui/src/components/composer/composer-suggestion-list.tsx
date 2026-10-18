@@ -2,15 +2,28 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
 
 const composerSuggestionList = tv({
   slots: {
-    root: "absolute inset-x-0 bottom-full w-auto overflow-y-auto",
-    group: [],
-    groupLabel: ["px-3 py-1.5"],
-    item: ["flex w-full items-center gap-2 px-3 py-2 text-left"],
+    root: [
+      "absolute inset-x-0 bottom-full w-auto overflow-y-auto",
+      "mb-2 max-h-60 overflow-x-hidden rounded-container p-1.5",
+      "bg-layer-popover text-foreground ring-1 ring-line-seam shadow-raft-float",
+    ],
+    group: ["flex flex-col"],
+    groupLabel: [
+      "py-1.5",
+      "px-2.5 pt-2 pb-1 font-sans text-caption font-bold text-foreground-hint",
+    ],
+    item: [
+      "flex w-full items-center text-left",
+      "min-h-9 cursor-pointer gap-2.5 rounded-control px-2.5 py-1",
+      "font-sans text-callout font-medium text-foreground",
+      "hover:bg-primary-soft data-[highlighted=true]:bg-primary-soft",
+      "data-[disabled=true]:cursor-default data-[disabled=true]:text-foreground-disabled",
+      "data-[disabled=true]:hover:bg-transparent",
+    ],
     // Every row is one line with the same height. Space goes to the name first:
     // text metadata (descriptions) starts from zero width and only takes what the
     // name leaves, so it truncates (or disappears) before the name does. The name
@@ -21,107 +34,36 @@ const composerSuggestionList = tv({
     // Priority: name, then handle, then description. The handle shows in full up
     // to a third of the row and truncates beyond that; the name gets the rest.
     aside: ["ml-auto flex max-w-[33%] min-w-0 shrink-0 items-center justify-end"],
-    meta: [],
+    meta: ["text-caption text-foreground-hint"],
   },
   variants: {
-    theme: {
-      brutal: {
-        root: "mb-2 max-h-48 border-2 border-black bg-white shadow-raft-md",
-        groupLabel: "text-xs font-bold tracking-widest uppercase text-black/60",
-        item: [
-          "cursor-pointer text-sm font-medium text-black transition-colors",
-          "data-[disabled=true]:cursor-not-allowed",
-          "data-[highlighted=true]:bg-primary data-[highlighted=true]:font-bold",
-          "hover:bg-primary/50",
-          "data-[disabled=true]:text-black/50 data-[disabled=true]:hover:bg-black/5",
-        ],
-        meta: "text-xs text-black/50",
-      },
-      elegant: {
-        root: [
-          "mb-1 max-h-[204px] overflow-x-hidden rounded-lg p-1 bg-layer-popover",
-          "shadow-raft-sm ring-1 ring-ink-6 dark:ring-transparent",
-        ],
-        group: "flex flex-col gap-0.5",
-        groupLabel: [
-          "mb-0.5 px-3 py-2",
-          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground-strong/45",
-        ],
-        item: [
-          "cursor-default gap-2.5 rounded-sm text-[13px] font-medium tracking-[-0.005em] text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-2 hover:text-foreground",
-          "data-[highlighted=true]:bg-ink-4 data-[highlighted=true]:text-foreground",
-          "data-[disabled=true]:pointer-events-none data-[disabled=true]:text-foreground-disabled",
-        ],
-        meta: "text-xs text-foreground-placeholder",
-      },
-    },
     separated: {
-      true: { group: "mt-1 pt-1" },
+      true: { group: ["-mx-1.5 mt-1.5 border-t border-line-muted px-1.5 pt-1.5"] },
       false: {},
     },
     iconVariant: {
       avatar: {},
-      framed: {},
-      auxiliary: { icon: "-ml-1 size-3" },
+      framed: {
+        icon: [
+          "flex size-[19px] items-center justify-center rounded-sticker",
+          "bg-fill-muted text-foreground-muted [&_svg]:size-[11px]",
+        ],
+      },
+      auxiliary: { icon: ["-ml-1 size-3", "text-foreground-hint"] },
       // A small glyph inside the row content (e.g. human vs agent), sized to the
       // text and never shrunk away. Pass an accessible label on the svg.
-      inline: { icon: "flex size-3.5 items-center justify-center [&_svg]:size-3.5" },
+      inline: {
+        icon: [
+          "flex size-3.5 items-center justify-center [&_svg]:size-3.5",
+          "text-foreground-hint",
+        ],
+      },
     },
     metaVariant: {
       text: { meta: "min-w-0 flex-1 basis-0 truncate" },
-      code: { meta: "min-w-0 truncate font-mono" },
+      code: { meta: ["min-w-0 truncate font-mono", "text-mono-meta text-foreground-hint"] },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      iconVariant: "framed",
-      class: {
-        icon: [
-          "flex size-5 items-center justify-center border",
-          "[&_svg]:size-3",
-          "border-black bg-primary text-black",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      iconVariant: "framed",
-      class: {
-        icon: [
-          "-mr-1 flex size-3.5 items-center justify-center",
-          "text-foreground-icon [&_svg]:size-3.5",
-        ],
-      },
-    },
-    {
-      theme: "brutal",
-      iconVariant: "auxiliary",
-      class: { icon: "text-black/40" },
-    },
-    {
-      theme: "brutal",
-      metaVariant: "code",
-      class: { meta: "text-black/40" },
-    },
-    {
-      theme: "elegant",
-      iconVariant: "auxiliary",
-      class: { icon: "text-foreground-placeholder" },
-    },
-    {
-      theme: "brutal",
-      iconVariant: "inline",
-      class: { icon: "text-black/50" },
-    },
-    {
-      theme: "elegant",
-      iconVariant: "inline",
-      class: { icon: "text-foreground-placeholder" },
-    },
-  ],
   defaultVariants: {
     separated: false,
     iconVariant: "avatar",
@@ -136,8 +78,7 @@ export function ComposerSuggestionList({
   render,
   ...props
 }: ComposerSuggestionListProps) {
-  const theme = useThemeFamily();
-  const { root } = composerSuggestionList({ theme });
+  const { root } = composerSuggestionList();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-list",
     className: root({ className }),
@@ -150,10 +91,7 @@ export function ComposerSuggestionList({
   });
 }
 
-type ComposerSuggestionListVariantProps = Omit<
-  VariantProps<typeof composerSuggestionList>,
-  "theme"
->;
+type ComposerSuggestionListVariantProps = VariantProps<typeof composerSuggestionList>;
 
 export type ComposerSuggestionGroupProps = useRender.ComponentProps<"div"> &
   Pick<ComposerSuggestionListVariantProps, "separated">;
@@ -164,8 +102,7 @@ export function ComposerSuggestionGroup({
   render,
   ...props
 }: ComposerSuggestionGroupProps) {
-  const theme = useThemeFamily();
-  const { group } = composerSuggestionList({ theme, separated });
+  const { group } = composerSuggestionList({ separated });
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-group",
     className: group({ className }),
@@ -185,8 +122,7 @@ export function ComposerSuggestionGroupLabel({
   render,
   ...props
 }: ComposerSuggestionGroupLabelProps) {
-  const theme = useThemeFamily();
-  const { groupLabel } = composerSuggestionList({ theme });
+  const { groupLabel } = composerSuggestionList();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-group-label",
     className: groupLabel({ className }),
@@ -206,8 +142,7 @@ export function ComposerSuggestionOption({
   render,
   ...props
 }: ComposerSuggestionOptionProps) {
-  const theme = useThemeFamily();
-  const { item } = composerSuggestionList({ theme });
+  const { item } = composerSuggestionList();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "composer-suggestion-option",
     className: item({ className }),
@@ -251,8 +186,7 @@ export function ComposerSuggestionIcon({
   render,
   ...props
 }: ComposerSuggestionIconProps) {
-  const theme = useThemeFamily();
-  const { icon } = composerSuggestionList({ theme, iconVariant: variant });
+  const { icon } = composerSuggestionList({ iconVariant: variant });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-suggestion-icon",
     className: icon({ className }),
@@ -315,8 +249,7 @@ export function ComposerSuggestionMeta({
   render,
   ...props
 }: ComposerSuggestionMetaProps) {
-  const theme = useThemeFamily();
-  const { meta } = composerSuggestionList({ theme, metaVariant: variant });
+  const { meta } = composerSuggestionList({ metaVariant: variant });
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "composer-suggestion-meta",
     className: meta({ className }),

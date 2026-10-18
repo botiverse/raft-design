@@ -16,7 +16,7 @@ export function LoadingMoreActivityComposition() {
   return (
     <ActivityInboxPanel aria-busy="true">
       <ActivityInboxViewport>
-        <div className="flex flex-col gap-2 in-data-[theme=elegant]:py-3">
+        <div className="flex flex-col gap-2">
           <InboxItem data-unread>
             <InboxItemContent>
               <InboxItemTitle>

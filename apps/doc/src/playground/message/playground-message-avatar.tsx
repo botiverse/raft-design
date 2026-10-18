@@ -37,11 +37,11 @@ export type PlaygroundAgentStatus =
 
 const STATUS_CONFIG: Record<
   PlaygroundAgentStatus,
-  { variant: NonNullable<StatusProps["variant"]>; pulse?: boolean }
+  { variant: NonNullable<StatusProps["variant"]> }
 > = {
   online: PLAYGROUND_PRESENCE_STATUS.online,
   idle: PLAYGROUND_PRESENCE_STATUS.idle,
-  thinking: { variant: "primary", pulse: true },
+  thinking: { variant: "primary" },
   working: PLAYGROUND_PRESENCE_STATUS.working,
   error: { variant: "warning" },
   offline: PLAYGROUND_PRESENCE_STATUS.offline,
@@ -60,18 +60,18 @@ const STATUS_LABEL: Record<PlaygroundAgentStatus, string> = {
 
 const PROFILE_ACTIVITY_ROWS: {
   time: string;
-  status: { variant: NonNullable<StatusProps["variant"]>; pulse?: boolean };
+  status: { variant: NonNullable<StatusProps["variant"]> };
   text: string;
 }[] = [
   {
     time: "08:32:14",
-    status: { variant: "primary", pulse: true },
+    status: { variant: "primary" },
     text: "Running visual regression suite",
   },
   { time: "08:31:02", status: { variant: "information" }, text: "Read tokens/colors.css" },
   {
     time: "08:30:41",
-    status: { variant: "primary", pulse: true },
+    status: { variant: "primary" },
     text: "Thinking about token contract",
   },
 ];
@@ -116,12 +116,7 @@ export function ProfileCardBody({
             <PreviewCardTitle>{actor.name}</PreviewCardTitle>
             {isAgent ? (
               <>
-                <Status
-                  aria-hidden
-                  size="sm"
-                  variant={STATUS_CONFIG[status].variant}
-                  pulse={STATUS_CONFIG[status].pulse}
-                />
+                <Status aria-hidden size="sm" variant={STATUS_CONFIG[status].variant} />
                 <span className={MUTED_META}>{STATUS_LABEL[status]}</span>
               </>
             ) : null}
@@ -151,13 +146,7 @@ export function ProfileCardBody({
                   <span className="shrink-0 whitespace-nowrap font-mono text-[10px] text-foreground-muted">
                     {row.time}
                   </span>
-                  <Status
-                    aria-hidden
-                    size="sm"
-                    variant={row.status.variant}
-                    pulse={row.status.pulse}
-                    className="shrink-0"
-                  />
+                  <Status aria-hidden size="sm" variant={row.status.variant} className="shrink-0" />
                   <span
                     className="min-w-0 flex-1 truncate text-foreground-strong/70"
                     title={row.text}
@@ -203,13 +192,7 @@ export function PlaygroundMessageAvatar({
       {isAgent && !deactivated ? (
         <AvatarBadge
           title={STATUS_LABEL[status]}
-          render={
-            <Status
-              aria-hidden
-              variant={STATUS_CONFIG[status].variant}
-              pulse={STATUS_CONFIG[status].pulse}
-            />
-          }
+          render={<Status aria-hidden variant={STATUS_CONFIG[status].variant} />}
         />
       ) : null}
     </Avatar>

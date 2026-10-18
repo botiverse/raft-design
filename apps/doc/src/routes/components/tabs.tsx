@@ -4,7 +4,6 @@ import {
   SortableTabsList,
   SortableTabsTab,
   Tabs,
-  TabsBackground,
   TabsLabel,
   TabsList,
   TabsPanel,
@@ -48,7 +47,6 @@ const TABS_COMPOSITION_SNIPPET_IDS = {
 const SNIPPETS = {
   preview: `<Tabs defaultValue="overview">
   <TabsList>
-    <TabsBackground />
     <TabsTab value="overview">
       <MessageSquare />
       <TabsLabel>Overview</TabsLabel>
@@ -66,11 +64,10 @@ const SNIPPETS = {
   <TabsPanel value="billing">Billing content</TabsPanel>
   <TabsPanel value="settings">Settings content</TabsPanel>
 </Tabs>`,
-  anatomy: `import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "raft-ui";
+  anatomy: `import { Tabs, TabsList, TabsPanel, TabsTab } from "raft-ui";
 
 <Tabs defaultValue="overview">
   <TabsList>
-    <TabsBackground />
     <TabsTab value="overview" />
   </TabsList>
   <TabsPanel value="overview" />
@@ -80,23 +77,7 @@ const SNIPPETS = {
   Settings,
   MessageSquare,
 } from "lucide-react";
-import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "raft-ui";
-
-<Tabs defaultValue="overview">
-  <TabsList>
-    <TabsBackground />
-    <TabsTab value="overview">
-      <MessageSquare />
-      <TabsLabel>Overview</TabsLabel>
-    </TabsTab>
-    <TabsTab value="billing">
-      <CreditCard />
-      <TabsLabel>Billing</TabsLabel>
-    </TabsTab>
-  </TabsList>
-  <TabsPanel value="overview" />
-  <TabsPanel value="billing" />
-</Tabs>
+import { Tabs, TabsLabel, TabsList, TabsPanel, TabsTab } from "raft-ui";
 
 <Tabs defaultValue="overview">
   <TabsList>
@@ -111,22 +92,6 @@ import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "r
   </TabsList>
   <TabsPanel value="overview" />
   <TabsPanel value="billing" />
-</Tabs>
-
-<Tabs defaultValue="overview">
-  <TabsList variant="underline">
-    <TabsBackground />
-    <TabsTab value="overview">
-      <MessageSquare />
-      <TabsLabel>Overview</TabsLabel>
-    </TabsTab>
-    <TabsTab value="settings">
-      <Settings />
-      <TabsLabel>Settings</TabsLabel>
-    </TabsTab>
-  </TabsList>
-  <TabsPanel value="overview" />
-  <TabsPanel value="settings" />
 </Tabs>
 
 <Tabs defaultValue="overview">
@@ -149,11 +114,10 @@ import { Tabs, TabsBackground, TabsLabel, TabsList, TabsPanel, TabsTab } from "r
   Settings,
   MessageSquare,
 } from "lucide-react";
-import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "raft-ui";
+import { Tabs, TabsList, TabsPanel, TabsTab } from "raft-ui";
 
 <Tabs defaultValue="overview">
   <TabsList>
-    <TabsBackground />
     <TabsTab value="overview" aria-label="Overview">
       <MessageSquare />
     </TabsTab>
@@ -187,14 +151,7 @@ import { Tabs, TabsBackground, TabsList, TabsPanel, TabsTab } from "raft-ui";
 </Tabs>`,
   reorderable: `import { useState } from "react";
 import { Bell, Files, MessageSquare, Users } from "lucide-react";
-import {
-  SortableTabsList,
-  SortableTabsTab,
-  Tabs,
-  TabsBackground,
-  TabsLabel,
-  useOrderedTabs,
-} from "raft-ui";
+import { SortableTabsList, SortableTabsTab, Tabs, TabsLabel, useOrderedTabs } from "raft-ui";
 
 const TABS = [
   { id: "chat", label: "Chat", icon: MessageSquare },
@@ -206,49 +163,15 @@ const INITIAL_ORDER = ["chat", "files", "members", "alerts"];
 
 const [order, setOrder] = useState(INITIAL_ORDER);
 const [active, setActive] = useState("chat");
-const [plainOrder, setPlainOrder] = useState(INITIAL_ORDER);
-const [plainActive, setPlainActive] = useState("chat");
-const [underlineBackgroundOrder, setUnderlineBackgroundOrder] = useState(INITIAL_ORDER);
-const [underlineBackgroundActive, setUnderlineBackgroundActive] = useState("chat");
 const [underlineOrder, setUnderlineOrder] = useState(INITIAL_ORDER);
 const [underlineActive, setUnderlineActive] = useState("chat");
 
 const orderedTabs = useOrderedTabs(TABS, order);
-const plainTabs = useOrderedTabs(TABS, plainOrder);
-const underlineBackgroundTabs = useOrderedTabs(TABS, underlineBackgroundOrder);
 const underlineTabs = useOrderedTabs(TABS, underlineOrder);
 
 <Tabs value={active} onValueChange={setActive}>
   <SortableTabsList value={order} onReorder={setOrder}>
-    <TabsBackground />
     {orderedTabs.map((tab) => (
-      <SortableTabsTab key={tab.id} value={tab.id}>
-        <tab.icon />
-        <TabsLabel>{tab.label}</TabsLabel>
-      </SortableTabsTab>
-    ))}
-  </SortableTabsList>
-</Tabs>
-
-<Tabs value={plainActive} onValueChange={setPlainActive}>
-  <SortableTabsList value={plainOrder} onReorder={setPlainOrder}>
-    {plainTabs.map((tab) => (
-      <SortableTabsTab key={tab.id} value={tab.id}>
-        <tab.icon />
-        <TabsLabel>{tab.label}</TabsLabel>
-      </SortableTabsTab>
-    ))}
-  </SortableTabsList>
-</Tabs>
-
-<Tabs value={underlineBackgroundActive} onValueChange={setUnderlineBackgroundActive}>
-  <SortableTabsList
-    value={underlineBackgroundOrder}
-    onReorder={setUnderlineBackgroundOrder}
-    variant="underline"
-  >
-    <TabsBackground />
-    {underlineBackgroundTabs.map((tab) => (
       <SortableTabsTab key={tab.id} value={tab.id}>
         <tab.icon />
         <TabsLabel>{tab.label}</TabsLabel>
@@ -313,16 +236,7 @@ const TABS_LIST_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "BaseTabs.List.Props",
-    description: "Tab list container. Compose TabsBackground and TabsTab as children.",
-  },
-];
-
-const TABS_BACKGROUND_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: 'ComponentPropsWithRef<"span">',
-    description:
-      "Optional visual slot. Place it inside TabsList to render the default container surface or underline top edge.",
+    description: "Tab list container. Compose TabsTab as children.",
   },
 ];
 
@@ -380,8 +294,7 @@ const SORTABLE_TABS_LIST_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "TabsListProps",
-    description:
-      "Sortable TabsList wrapper. Compose TabsBackground and SortableTabsTab as children.",
+    description: "Sortable TabsList wrapper. Compose SortableTabsTab as children.",
   },
 ];
 
@@ -454,7 +367,6 @@ const SETTINGS_TABS: readonly (OrderedTabItem<SettingsTabId> & {
 function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [variant, setVariant] = useState<(typeof VARIANTS)[number]>("default");
   const [placement, setPlacement] = useState<(typeof PLACEMENTS)[number]>("top");
-  const [background, setBackground] = useState(true);
   const [icons, setIcons] = useState(true);
   const handlePlacementChange = useCallback(
     (value: string) => setPlacement(value as (typeof PLACEMENTS)[number]),
@@ -476,7 +388,6 @@ function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["p
           }
         >
           <TabsList variant={variant}>
-            {background ? <TabsBackground /> : null}
             {SETTINGS_TABS.map((tab) => (
               <TabsTab key={tab.id} value={tab.id}>
                 {icons ? <tab.icon /> : null}
@@ -512,14 +423,6 @@ function TabsPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["p
             options={VARIANTS}
             value={variant}
             onValueChange={handleVariantChange}
-          />
-        </Preview.Control>
-        <Preview.Control label="Background" htmlFor="tabs-preview-background">
-          <Preview.Checkbox
-            id="tabs-preview-background"
-            label="Background"
-            checked={background}
-            onCheckedChange={setBackground}
           />
         </Preview.Control>
         <Preview.Control label="Icons" htmlFor="tabs-preview-icons">
@@ -565,40 +468,6 @@ function TabsDoc() {
                 <div className="flex w-full max-w-xl flex-col items-center gap-10 overflow-visible px-1">
                   <Tabs defaultValue="overview" className="overflow-visible">
                     <TabsList>
-                      <TabsBackground />
-                      {SETTINGS_TABS.map((tab) => (
-                        <TabsTab key={tab.id} value={tab.id}>
-                          <tab.icon />
-                          <TabsLabel>{tab.label}</TabsLabel>
-                        </TabsTab>
-                      ))}
-                    </TabsList>
-                    {SETTINGS_TABS.map((tab) => (
-                      <TabsPanel key={tab.id} value={tab.id} className="sr-only">
-                        {tab.label}
-                      </TabsPanel>
-                    ))}
-                  </Tabs>
-
-                  <Tabs defaultValue="overview" className="overflow-visible">
-                    <TabsList>
-                      {SETTINGS_TABS.map((tab) => (
-                        <TabsTab key={tab.id} value={tab.id}>
-                          <tab.icon />
-                          <TabsLabel>{tab.label}</TabsLabel>
-                        </TabsTab>
-                      ))}
-                    </TabsList>
-                    {SETTINGS_TABS.map((tab) => (
-                      <TabsPanel key={tab.id} value={tab.id} className="sr-only">
-                        {tab.label}
-                      </TabsPanel>
-                    ))}
-                  </Tabs>
-
-                  <Tabs defaultValue="overview" className="overflow-visible">
-                    <TabsList variant="underline">
-                      <TabsBackground />
                       {SETTINGS_TABS.map((tab) => (
                         <TabsTab key={tab.id} value={tab.id}>
                           <tab.icon />
@@ -658,7 +527,6 @@ function TabsDoc() {
                 <div className="flex w-full max-w-xl flex-col items-center gap-10 overflow-visible px-1">
                   <Tabs defaultValue="overview" className="overflow-visible">
                     <TabsList>
-                      <TabsBackground />
                       <TabsTab value="overview" aria-label="Overview">
                         <MessageSquare />
                       </TabsTab>
@@ -708,9 +576,7 @@ function TabsDoc() {
             <Preview>
               <Preview.Canvas>
                 <div className="flex w-full max-w-xl flex-col items-center gap-8 overflow-visible px-1">
-                  <ReorderableTabsDemo background />
                   <ReorderableTabsDemo />
-                  <ReorderableTabsDemo background variant="underline" />
                   <ReorderableTabsDemo variant="underline" />
                 </div>
               </Preview.Canvas>
@@ -727,9 +593,6 @@ function TabsDoc() {
           </DocSubsection>
           <DocSubsection parentId="api" id="api-list" title="TabsList">
             <PropsTable rows={TABS_LIST_PROPS} />
-          </DocSubsection>
-          <DocSubsection parentId="api" id="api-background" title="TabsBackground">
-            <PropsTable rows={TABS_BACKGROUND_PROPS} />
           </DocSubsection>
           <DocSubsection parentId="api" id="api-tab" title="TabsTab">
             <PropsTable rows={TABS_TAB_PROPS} />
@@ -755,13 +618,7 @@ function TabsDoc() {
   );
 }
 
-function ReorderableTabsDemo({
-  background = false,
-  variant = "default",
-}: {
-  background?: boolean;
-  variant?: (typeof VARIANTS)[number];
-}) {
+function ReorderableTabsDemo({ variant = "default" }: { variant?: (typeof VARIANTS)[number] }) {
   const [order, setOrder] = useState<TabId[]>(["chat", "files", "members", "alerts"]);
   const [active, setActive] = useState<TabId>("chat");
   const orderedTabs = useOrderedTabs(TABS, order);
@@ -769,7 +626,6 @@ function ReorderableTabsDemo({
   return (
     <Tabs value={active} onValueChange={setActive} className="flex justify-center overflow-visible">
       <SortableTabsList value={order} onReorder={setOrder} variant={variant} className="max-w-md">
-        {background ? <TabsBackground /> : null}
         {orderedTabs.map((tab) => (
           <SortableTabsTab key={tab.id} value={tab.id}>
             <tab.icon />

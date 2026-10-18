@@ -9,7 +9,6 @@ import type {
   PanelProps as ResizablePanelPrimitiveProps,
   SeparatorProps as ResizableHandlePrimitiveProps,
 } from "react-resizable-panels";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { resizable } from "./resizable.recipe";
 
 type ResizableOrientation = NonNullable<ResizableGroupPrimitiveProps["orientation"]>;
@@ -61,8 +60,7 @@ export type ResizableHandleProps = Omit<ResizableHandlePrimitiveProps, "classNam
 };
 
 export function ResizableHandle({ className, ...props }: ResizableHandleProps) {
-  const theme = useThemeFamily();
-  const { handle } = resizable({ theme });
+  const { handle } = resizable();
   const groupOrientation = useContext(ResizableOrientationContext);
   // Match react-resizable-panels: handle aria/data orientation is inverted from the group.
   const handleOrientation = groupOrientation === "horizontal" ? "vertical" : "horizontal";

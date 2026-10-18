@@ -24,12 +24,9 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-const TITLE_CAP = "has-[>[data-slot=sidebar-item-subtitle]]:[--si-title-max-w:70%]";
-const TITLE_NO_SHRINK = "has-[>[data-slot=sidebar-item-subtitle]]:[--si-title-shrink:0]";
-
-function contentClasses(theme: "brutal" | "elegant", stacked?: boolean) {
+function contentClasses(stacked?: boolean) {
   render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <SidebarItem>
         <SidebarItemContent data-testid="content" stacked={stacked}>
           <SidebarItemTitle>design-review-and-launch-planning</SidebarItemTitle>
@@ -42,44 +39,30 @@ function contentClasses(theme: "brutal" | "elegant", stacked?: boolean) {
 }
 
 /**
- * The 70% cap exists for the inline row: title and subtitle share one line, so
- * the title must leave the subtitle room. The row's class set is pinned exactly
- * so the stacked fix cannot add or drop a class on the default path. The cap is
- * carried as a variable the content sets (the title reads
- * `[max-width:var(--si-title-max-w,none)]`); the old `has-…:*:title` pair styled
- * the title (a descendant) off the content's `:has()` — a whole-page recalc
- * trap, #133.
+ * Title and subtitle share one line in the inline row; the row's class set is
+ * pinned exactly so the stacked layout cannot add or drop a class on the
+ * default path.
  */
-for (const theme of ["brutal", "elegant"] as const) {
-  test(`${theme}: the inline row keeps its exact classes, 70% title cap included`, () => {
-    expect(contentClasses(theme)).toEqual(
-      [
-        TITLE_CAP,
-        TITLE_NO_SHRINK,
-        "has-[>[data-slot=sidebar-item-meta-icon]]:items-center",
-        "min-w-0",
-        "flex",
-        "flex-1",
-        "items-baseline",
-        "gap-1",
-        "text-left",
-      ].toSorted(),
-    );
-  });
-}
+test("the inline row keeps its exact classes", () => {
+  expect(contentClasses()).toEqual(
+    [
+      "has-[>[data-slot=sidebar-item-meta-icon]]:items-center",
+      "min-w-0",
+      "flex",
+      "flex-1",
+      "items-baseline",
+      "gap-1",
+      "text-left",
+    ].toSorted(),
+  );
+});
 
 /**
- * Stacked puts the subtitle on its own line, so there is nothing to leave room
- * for. The cap used to live in the slot's base and fired here too, truncating
- * the title at 70% of an otherwise empty line. The cap started out on the
- * inline callsites only; folding it into the shared slot leaked it into stacked.
+ * Stacked puts the subtitle on its own line, so the content is a block that
+ * gives the title the full width.
  */
-for (const theme of ["brutal", "elegant"] as const) {
-  test(`${theme}: a stacked title is not capped and can use the full width`, () => {
-    const classes = contentClasses(theme, true);
-    expect(classes).not.toContain(TITLE_CAP);
-    expect(classes).not.toContain(TITLE_NO_SHRINK);
-    expect(classes, "stacked stays a block, not an inline row").not.toContain("flex");
-    expect(classes).toEqual(expect.arrayContaining(["min-w-0", "flex-1", "text-left"]));
-  });
-}
+test("a stacked title is not capped and can use the full width", () => {
+  const classes = contentClasses(true);
+  expect(classes, "stacked stays a block, not an inline row").not.toContain("flex");
+  expect(classes).toEqual(expect.arrayContaining(["min-w-0", "flex-1", "text-left"]));
+});

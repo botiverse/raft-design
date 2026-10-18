@@ -13,7 +13,7 @@ Use theme variables directly in plain CSS. The utility and recipe examples below
 - Semantic token families
 - Interaction colors come in pairs
 - When a raw oklch literal is allowed
-- A theme is a set, not a menu
+- Controls cast no shadow
 - Never write a var-first shadow
 - Writing your own `tv()` recipe
 - Styling by `data-slot`
@@ -23,7 +23,7 @@ Use theme variables directly in plain CSS. The utility and recipe examples below
 
 ## Tailwind's default palette is banned
 
-Raft-ui's theme contract is authored in oklch and exposed through semantic tokens. Tailwind's built-in palette is not part of that contract and will not track the theme.
+Raft-ui's token contract is authored in oklch and exposed through semantic tokens. Tailwind's built-in palette is not part of that contract and will not track the light and dark modes.
 
 **Incorrect:**
 
@@ -59,7 +59,7 @@ The `ink` ramp step is the alpha percentage — `ink-8` is 8% ink. Use it for ha
 
 Within the state families, `primary` and `accent` split roles rather than rank:
 
-- **`primary-*` (Source Yellow) — hints and interactive expression.** New-message indicators, attention badges, the active tab, focus rings. The tabs active state and focus rings draw from the primary family.
+- **`primary-*` (Source Yellow) — hints and interactive expression.** New-message indicators, attention badges, the active tab. The tabs active state draws from the primary family. Focus rings do not: they are ink, a 2px paper gap plus a 2px ink ring (`shadow-raft-focus`, `--theme-focus-ring`).
 - **`accent-*` — core and important actions.** A dialog's confirm, the composer's send. `ComposerSubmit` locks `variant="accent"` at the type level.
 
 Do not use yellow for an action button just because it is the brand color, and do not use accent for a passive indicator.
@@ -92,15 +92,11 @@ Tokenize on the rule of three: once the same value appears in a third component,
 
 ---
 
-## A theme is a set, not a menu
+## Controls cast no shadow
 
-`--theme-shadow-*` changes meaning per family: Brutal is a hard offset with no
-blur, Elegant is layered and soft. The corner, border, and weight conventions each
-family assumes are chosen to go with its shadow.
-
-Taking one family's shadow and another's corners produces a result where every
-individual value is a valid token and the surface still looks wrong. Decide the
-family at the surface, not per element.
+`--theme-shadow-xs`, `-sm`, and `-md` are empty: controls never cast a shadow.
+`-lg`, `-xl`, and `-float` are the overlay shadow; `--theme-shadow-sticker` is a
+hard offset under a sticker, such as the `xl` avatar.
 
 ---
 
@@ -121,8 +117,6 @@ Use a registered named shadow utility such as `shadow-raft-sm`, or keep the shad
 ---
 
 ## Writing your own `tv()` recipe
-
-Add a `theme: { brutal, elegant }` variant when the two families genuinely differ, and resolve it from `useThemeFamily()` inside the component — never from a public prop.
 
 **Never construct Tailwind utilities dynamically.** Tailwind's static extraction cannot see them, and the class silently does nothing:
 

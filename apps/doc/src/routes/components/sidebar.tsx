@@ -151,7 +151,7 @@ const SIDEBAR_LIVE_ACTIVITY_PROPS: readonly PropRow[] = [
     name: "...props",
     type: "div props",
     description:
-      "Optional desktop live-agent overlay. It owns the full-width fade, theme spacing, and matching scroll-content clearance.",
+      "Optional desktop live-agent overlay. It pins the bar full-width to the sidebar bottom and owns the matching scroll-content clearance.",
   },
 ];
 
@@ -303,8 +303,7 @@ const SIDEBAR_CONTROL_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "button props",
-    description:
-      "Theme-aware control button shared by the sidebar header and section control slots.",
+    description: "Control button shared by the sidebar header and section control slots.",
   },
 ];
 

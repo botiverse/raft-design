@@ -7,7 +7,6 @@ import {
   ResizableGroup,
   ResizableHandle,
   ResizablePanel,
-  useThemeFamily,
 } from "raft-ui";
 import { cn } from "raft-ui/cn";
 
@@ -16,11 +15,9 @@ import { PlaygroundRailViewSidebar } from "./playground-rail-views.tsx";
 import { usePlaygroundNavigation } from "../navigation/use-playground-navigation.ts";
 
 export function PlaygroundBrowseShell() {
-  const theme = useThemeFamily();
   const isDesktop = useMediaQuery("(min-width: 768px)", false);
   const { railDetailId, railView } = usePlaygroundNavigation();
   const view = railView === "members" || railView === "computers" ? railView : null;
-  const sidebarDefaultSize = theme === "brutal" ? 240 : 252;
 
   if (!view) return null;
 
@@ -46,16 +43,7 @@ export function PlaygroundBrowseShell() {
           )}
         >
           {showSidebar ? (
-            <div
-              className={cn(
-                "relative flex size-full min-h-0  flex-1",
-                theme === "elegant" &&
-                  showBottomNavigation &&
-                  "max-md:pb-[calc(3.75rem+env(safe-area-inset-bottom,0px))]",
-              )}
-            >
-              {sidebar}
-            </div>
+            <div className="relative flex size-full min-h-0  flex-1">{sidebar}</div>
           ) : (
             <Outlet />
           )}
@@ -71,25 +59,18 @@ export function PlaygroundBrowseShell() {
         {showSidebar ? (
           <>
             <ResizablePanel
-              key={theme}
-              id={`playground-sidebar-${theme}`}
-              defaultSize={sidebarDefaultSize}
+              id="playground-sidebar"
+              defaultSize={240}
               minSize={180}
               maxSize={368}
               groupResizeBehavior="preserve-pixel-size"
               className="relative min-w-0"
             >
-              <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1 in-data-[theme=brutal]:border-r-2 in-data-[theme=brutal]:border-black">
+              <AppShellSidebarSlot className="relative flex h-full w-auto min-w-0 flex-1">
                 {sidebar}
               </AppShellSidebarSlot>
             </ResizablePanel>
-            {showMain ? (
-              <ResizableHandle
-                className={
-                  theme === "elegant" ? "hidden translate-x-[14px] md:flex" : "hidden md:flex"
-                }
-              />
-            ) : null}
+            {showMain ? <ResizableHandle className="hidden md:flex" /> : null}
           </>
         ) : null}
         {showMain ? (

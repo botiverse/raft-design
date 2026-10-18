@@ -34,10 +34,10 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-describe.each(["elegant", "brutal"] as const)("DropdownMenuSubmenuTrigger (%s)", (theme) => {
+describe("DropdownMenuSubmenuTrigger", () => {
   test("renders exactly one aria-hidden chevron indicator inside the trigger", () => {
     render(
-      <ThemeProvider defaultTheme={theme} defaultMode="light">
+      <ThemeProvider defaultMode="light">
         <DropdownMenu defaultOpen>
           <DropdownMenuContent>
             <DropdownMenuSubmenu>

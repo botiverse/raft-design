@@ -1,16 +1,17 @@
 import "./checkbox.test.css";
 /**
- * Browser-mode contrast guard for task #724 (2026-10-08). In the elegant dark
- * theme the unchecked checkbox ring was a hardcoded `oklch(0 0 0 / 0.4)` —
- * black 40% over a dark card, measured ≈1.1:1, so the box read as invisible
- * (user report: "the ToS checkbox is nearly invisible in dark theme").
+ * Browser-mode contrast guard for task #724 (2026-10-08). An earlier dark
+ * treatment drew the unchecked checkbox boundary as a hardcoded
+ * `oklch(0 0 0 / 0.4)` — black 40% over a dark card, measured ≈1.1:1, so the
+ * box read as invisible (user report: "the ToS checkbox is nearly invisible in
+ * dark theme").
  *
- * The ring must stay a light-alpha boundary in dark — the same `--line-field`
- * token the Input and Textarea use — so the box is visible and the form
- * language stays consistent. The ring lives in the root's box-shadow; this
- * test normalizes the computed color through a canvas (oklch/oklab/rgba all
- * work), composites it over the rendered card background and scores it with
- * WCAG relative luminance. In dark it additionally pins the ring to the
+ * The boundary must stay a visible control line in both modes — the same
+ * `--line-field` token the Input and Textarea boundaries use — so the box is
+ * visible and the form language stays consistent. The boundary is the
+ * indicator graphic's border; this test normalizes the computed color through
+ * a canvas (oklch/oklab/rgba all work), composites it over the rendered card
+ * background and scores it with WCAG relative luminance, then pins it to the
  * field-boundary token so a future override cannot silently go dark again.
  *
  * Run: `vp test run --browser.enabled src/components/checkbox/checkbox.ring-contrast.browser.test.tsx`
@@ -40,30 +41,6 @@ function toRgba(color: string): Rgba {
   return [r, g, b, a / 255];
 }
 
-/** The `<color> 0 0 0 1px` component of a computed box-shadow, if present. */
-function ringColor(shadow: string): string | null {
-  const parts: string[] = [];
-  let depth = 0;
-  let current = "";
-  for (const ch of shadow) {
-    if (ch === "(") depth += 1;
-    if (ch === ")") depth -= 1;
-    if (ch === "," && depth === 0) {
-      parts.push(current.trim());
-      current = "";
-    } else {
-      current += ch;
-    }
-  }
-  parts.push(current.trim());
-  const ring = parts.find((part) => /0px\s+0px\s+0px\s+1px/.test(part));
-  if (!ring) return null;
-  const match = ring.match(
-    /(rgba?\([^)]*\)|oklch\([^)]*\)|oklab\([^)]*\)|hsla?\([^)]*\)|color\([^)]*\)|#[0-9a-fA-F]+)/,
-  );
-  return match ? match[1] : null;
-}
-
 const luminance = ([r, g, b]: Rgba) => {
   const lin = (byte: number) => {
     const c = byte / 255;
@@ -84,48 +61,47 @@ const contrast = (a: Rgba, b: Rgba) => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-const THEMES = [
-  { mode: undefined, label: "elegant-light", minContrast: 1.1 },
-  { mode: "dark" as const, label: "elegant-dark", minContrast: 1.5 },
-];
-
-for (const { mode, label, minContrast } of THEMES) {
-  it(`${label}: the unchecked checkbox ring stays visible against the card`, () => {
+for (const mode of ["light", "dark"] as const) {
+  it(`${mode}: the unchecked checkbox boundary stays visible against the card`, () => {
     render(
-      <ThemeProvider theme="elegant" {...(mode ? { mode } : {})}>
+      <ThemeProvider mode={mode}>
         <div data-testid="card" className="bg-layer-card p-4">
-          <Checkbox size="md" aria-label="accept terms" />
+          <Checkbox aria-label="accept terms" />
           <span data-testid="field" className="border border-line-field" aria-hidden="true" />
         </div>
       </ThemeProvider>,
     );
 
-    const root = screen.getByRole("checkbox");
-    const card = screen.getByTestId("card");
-    const shadow = getComputedStyle(root).boxShadow;
-    const raw = ringColor(shadow);
-    expect(raw, `ring color found in computed box-shadow: "${shadow}"`).toBeTruthy();
+    const graphic = screen
+      .getByRole("checkbox")
+      .querySelector<HTMLElement>('[data-slot="checkbox-indicator-graphic"]');
+    expect(graphic, "the unchecked box is drawn").not.toBeNull();
+    const style = getComputedStyle(graphic!);
+    expect(Number.parseFloat(style.borderTopWidth)).toBeGreaterThan(0);
 
-    const ring = toRgba(raw!);
-    const bg = toRgba(getComputedStyle(card).backgroundColor);
-    const onCard = composited(ring, bg);
+    const edge = toRgba(style.borderTopColor);
+    const bg = toRgba(getComputedStyle(screen.getByTestId("card")).backgroundColor);
+    const onCard = composited(edge, bg);
 
-    // The reported bug: a black 40% ring over a dark card scored ≈1.1:1.
-    expect(contrast(onCard, bg), `ring ${raw} over card`).toBeGreaterThanOrEqual(minContrast);
-
+    // The reported bug: a black 40% boundary over a dark card scored ≈1.1:1.
+    // A control boundary has to clear the 3:1 non-text contrast line.
+    expect(
+      contrast(onCard, bg),
+      `boundary ${style.borderTopColor} over card`,
+    ).toBeGreaterThanOrEqual(3);
     if (mode === "dark") {
-      // A dark-on-dark ring was the bug: in dark the ring must lighten the card.
+      // A dark-on-dark boundary was the bug: in dark it must lighten the card.
       expect(luminance(onCard)).toBeGreaterThan(luminance(bg));
-
-      // Same token as the field boundaries (Input/Textarea `border-line-field`).
-      const field = toRgba(getComputedStyle(screen.getByTestId("field")).borderTopColor);
-      for (let i = 0; i < 3; i += 1) {
-        expect(
-          Math.abs(ring[i] - field[i]),
-          `ring channel ${i} vs field boundary`,
-        ).toBeLessThanOrEqual(1);
-      }
-      expect(Math.abs(ring[3] - field[3])).toBeLessThanOrEqual(0.01);
     }
+
+    // Same token as the field boundaries (Input/Textarea `border-line-field`).
+    const field = toRgba(getComputedStyle(screen.getByTestId("field")).borderTopColor);
+    for (let i = 0; i < 3; i += 1) {
+      expect(
+        Math.abs(edge[i] - field[i]),
+        `boundary channel ${i} vs field boundary`,
+      ).toBeLessThanOrEqual(1);
+    }
+    expect(Math.abs(edge[3] - field[3])).toBeLessThanOrEqual(0.01);
   });
 }

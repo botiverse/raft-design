@@ -13,7 +13,7 @@ it("wide content does not stretch messages past a narrow list on a desktop viewp
   const { page } = await import("vite-plus/test/browser/context");
   await page.viewport(1280, 900);
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <div style={{ width: "320px", height: "400px" }}>
         <MessageList>
           <div data-testid="message" className="min-w-0">

@@ -5,7 +5,6 @@ import type { CheckboxProps } from "raft-ui";
 import type { AnyRenderableServerComponent } from "@tanstack/react-start/rsc";
 
 import { Preview } from "#/components/preview.tsx";
-import { SIZES, VARIANTS } from "./checkbox.constants.ts";
 
 type CodeContent = ReactNode | AnyRenderableServerComponent;
 
@@ -13,49 +12,36 @@ type CheckboxPlaygroundPreviewProps = {
   code: CodeContent;
 };
 
+const SHAPES = ["square", "circle"] as const;
+
 export function CheckboxPlaygroundPreview({ code }: CheckboxPlaygroundPreviewProps) {
-  const [size, setSize] = useState<NonNullable<CheckboxProps["size"]>>("sm");
-  const [variant, setVariant] = useState<NonNullable<CheckboxProps["variant"]>>("default");
+  const [shape, setShape] = useState<NonNullable<CheckboxProps["shape"]>>("square");
   const [checked, setChecked] = useState(true);
   const [indeterminate, setIndeterminate] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const handleSizeChange = useCallback((value: string) => {
-    setSize(value as NonNullable<CheckboxProps["size"]>);
-  }, []);
-
-  const handleVariantChange = useCallback((value: string) => {
-    setVariant(value as NonNullable<CheckboxProps["variant"]>);
+  const handleShapeChange = useCallback((value: string) => {
+    setShape(value as NonNullable<CheckboxProps["shape"]>);
   }, []);
 
   return (
     <Preview>
       <Preview.Canvas>
         <Checkbox
-          size={size}
-          variant={variant}
+          shape={shape}
           checked={checked}
           indeterminate={indeterminate}
           disabled={disabled}
         />
       </Preview.Canvas>
       <Preview.Controls>
-        <Preview.Control label="Size" htmlFor="checkbox-preview-size">
+        <Preview.Control label="Shape" htmlFor="checkbox-preview-shape">
           <Preview.Select
-            id="checkbox-preview-size"
-            label="Size"
-            options={SIZES}
-            value={size}
-            onValueChange={handleSizeChange}
-          />
-        </Preview.Control>
-        <Preview.Control label="Variant" htmlFor="checkbox-preview-variant">
-          <Preview.Select
-            id="checkbox-preview-variant"
-            label="Variant"
-            options={VARIANTS}
-            value={variant}
-            onValueChange={handleVariantChange}
+            id="checkbox-preview-shape"
+            label="Shape"
+            options={SHAPES}
+            value={shape}
+            onValueChange={handleShapeChange}
           />
         </Preview.Control>
         <Preview.Control label="Checked" htmlFor="checkbox-preview-checked">

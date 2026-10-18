@@ -31,7 +31,7 @@ const SNIPPETS = {
 </p>
 
 <p>
-  Replace <InlineCode>input-brutal</InlineCode> with the themed component recipe.
+  Replace <InlineCode>input-legacy</InlineCode> with the themed component recipe.
 </p>`,
 } as const;
 
@@ -102,7 +102,7 @@ function InlineCodeDoc() {
                   the control.
                 </p>
                 <p>
-                  Replace <InlineCode>input-brutal</InlineCode> with the themed component recipe.
+                  Replace <InlineCode>input-legacy</InlineCode> with the themed component recipe.
                 </p>
               </div>
             </Preview.Canvas>

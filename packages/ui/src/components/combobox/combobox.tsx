@@ -5,242 +5,133 @@ import { Check, X } from "lucide-react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { defaultSideOffset } from "../../lib/popup-offset";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 
 const combobox = tv({
   slots: {
     trigger: [
-      "inline-flex select-none items-center justify-between gap-2",
+      "inline-flex select-none items-center justify-between",
       "outline-none transition-colors",
       "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='combobox-trigger-content']]:min-w-0 [&>span[data-slot='combobox-trigger-content']]:flex-1",
       "[&>span[data-slot='combobox-trigger-content']>svg]:shrink-0",
+      "h-8 gap-1.5 rounded-control border-transparent bg-transparent px-2.5",
+      "text-footnote font-semibold text-foreground-muted",
+      "inset-ring inset-ring-line-seam hover:bg-transparent",
+      "data-has-value:bg-info-soft data-has-value:text-foreground data-has-value:inset-ring-0 data-has-value:hover:bg-info-soft",
+      "focus-visible:shadow-raft-focus",
+      "disabled:inset-ring-0 aria-disabled:inset-ring-0",
+      "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-3.5",
+      "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-2",
     ],
     triggerCount: [
-      "inline-flex h-4 min-w-4 shrink-0 items-center justify-center px-1",
-      "font-mono text-[10px] leading-none",
+      "inline-flex shrink-0 items-center justify-center",
+      "h-auto min-w-0 px-0 font-mono text-mono-meta font-bold",
     ],
     triggerIndicator: [
-      "ml-auto flex shrink-0 items-center justify-center opacity-60",
-      "transition-[background-color,color] duration-100 hover:bg-ink-4 hover:text-foreground",
-      "[&>svg]:size-3 [&>svg]:shrink-0",
+      "ml-auto flex shrink-0 items-center justify-center",
+      "transition-[background-color,color] duration-100",
+      "[&>svg]:shrink-0",
+      "rounded-sticker text-foreground-hint opacity-100",
+      "hover:bg-transparent hover:text-foreground-hint",
+      "[&>svg]:size-3.5 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
     control: [
       "flex min-w-0 items-center gap-2",
-      "outline-none transition-colors",
+      "outline-none",
       "[&>svg]:pointer-events-none [&>svg]:shrink-0",
-      "[&>svg:not([class*='size-'])]:size-3.5",
       "[&_[data-slot='combobox-clear']]:size-5 [&_[data-slot='combobox-clear']]:min-w-5 **:data-[slot='combobox-clear']:shrink-0",
       "[&_[data-slot='combobox-trigger-indicator']]:size-4",
-      "[&_[data-slot='combobox-trigger-indicator']>svg]:size-3.5 [&_[data-slot='combobox-trigger-indicator']>svg]:shrink-0",
+      "[&_[data-slot='combobox-trigger-indicator']>svg]:shrink-0",
+      "min-h-11 rounded-control border-[1.5px] border-line-strong bg-layer-card px-3 py-0",
+      "font-sans text-body text-foreground",
+      "transition-shadow duration-90 ease-out focus-within:shadow-raft-focus",
+      "[&>svg]:text-foreground-hint [&>svg:not([class*='size-'])]:size-4.5",
+      "[&>svg:not([class*='stroke-'])]:stroke-2",
+      "[&_[data-slot='combobox-trigger-indicator']>svg]:size-4",
     ],
-    inputGroup: ["flex items-center gap-2 border-b px-2 py-2"],
+    inputGroup: [
+      "flex items-center border-b",
+      "h-10 gap-2 border-line-muted bg-transparent px-3 py-0",
+      "text-callout text-foreground-hint",
+      "[&>svg]:size-4 [&>svg]:shrink-0",
+      "first:rounded-t-container focus-within:inset-ring-2 focus-within:inset-ring-foreground",
+    ],
     input: ["w-full outline-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "h-auto max-h-(--available-height) min-w-[220px] overflow-hidden bg-layer-panel",
+      "h-auto max-h-(--available-height) min-w-[220px] overflow-hidden",
       "outline-none",
+      "rounded-container bg-layer-popover text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
     ],
-    header: ["flex items-center justify-between px-3 py-2"],
-    separator: ["h-px shrink-0 border-0"],
-    list: ["max-h-64 overflow-y-auto overscroll-contain scroll-py-1"],
+    header: ["flex items-center justify-between px-3", "gap-2 py-1.5 pr-1.5 pl-4"],
+    separator: ["h-px shrink-0 border-0", "bg-line-muted"],
+    list: ["max-h-64 overflow-y-auto overscroll-contain", "flex flex-col p-1.5 scroll-py-1.5"],
     item: [
-      "flex w-full shrink-0 cursor-default select-none items-center justify-between gap-2 overflow-hidden px-3 py-1.5",
+      "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-0",
+      "font-sans text-callout font-medium text-foreground",
+      "bg-transparent hover:bg-primary-soft data-highlighted:bg-primary-soft",
+      "data-selected:font-bold",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+      "[&_svg:not([class*='size-'])]:size-4",
+      "[&_svg:not([class*='stroke-'])]:stroke-2",
     ],
-    itemIndicator: ["pointer-events-none ml-auto flex shrink-0 items-center justify-center"],
-    label: ["m-0 font-medium"],
+    itemIndicator: [
+      "pointer-events-none ml-auto flex shrink-0 items-center justify-center",
+      "text-foreground [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
+    ],
+    label: ["m-0", "font-sans text-caption font-bold text-foreground-hint"],
     clear: [
-      "inline-flex h-5 min-w-8 items-center justify-center",
+      "inline-flex items-center justify-center",
       "pointer-events-none opacity-0 outline-none transition-[background-color,color] duration-100",
       "data-visible:pointer-events-auto data-visible:opacity-100",
-      "hover:bg-ink-4 hover:text-foreground",
+      "h-7 min-w-0 rounded-control px-2",
+      "font-sans text-footnote font-semibold text-foreground-muted",
+      "hover:bg-fill-pressed hover:text-foreground active:bg-fill-pressed",
+      "focus-visible:shadow-raft-focus",
+      "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
-    empty: ["px-3 py-4 text-center text-sm"],
-    groupLabel: ["px-3 py-2"],
-    chips: ["flex min-h-9 flex-wrap items-center gap-1"],
-    chip: ["inline-flex items-center gap-1"],
-    chipRemove: ["inline-flex items-center justify-center outline-none transition-colors"],
+    empty: ["px-4 py-3.5 text-left text-callout text-foreground-hint"],
+    groupLabel: ["py-2", "px-2.5 pt-2 pb-1 text-caption font-bold text-foreground-hint"],
+    chips: [
+      "flex flex-wrap items-center",
+      "min-h-11 gap-1.5 rounded-control border-[1.5px] border-line-strong bg-layer-card py-1.5 pr-3 pl-1.5",
+      "transition-shadow duration-90 ease-out focus-within:shadow-raft-focus",
+    ],
+    chip: [
+      "inline-flex items-center",
+      "h-7 gap-1.5 rounded-chip bg-fill-muted pr-0.5 pl-2",
+      "text-footnote font-semibold text-foreground",
+    ],
+    chipRemove: [
+      "inline-flex items-center justify-center outline-none transition-colors",
+      "size-[22px] rounded-sticker text-foreground-hint",
+      "hover:bg-fill-pressed active:bg-fill-pressed focus-visible:shadow-raft-focus",
+      "[&>svg]:size-3.5",
+    ],
   },
   variants: {
-    theme: {
-      brutal: {
-        trigger: [
-          "data-popup-open:-translate-y-px data-popup-open:shadow-raft-md",
-          "active:translate-x-0 active:-translate-y-px active:shadow-raft-md",
-          "data-has-value:bg-primary data-has-value:text-foreground-strong data-has-value:shadow-raft-sm",
-          "data-has-value:hover:bg-primary data-has-value:hover:shadow-raft-sm data-has-value:active:shadow-raft-sm",
-          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-4",
-          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-2",
-        ],
-        triggerCount: ["border border-line-strong"],
-        inputGroup: ["border-line-strong bg-layer-panel"],
-        content: ["border-2 border-line-strong bg-layer-popover shadow-raft-lg"],
-        separator: ["bg-line-strong"],
-        item: [
-          "border-b border-ink-10 bg-layer-popover font-sans text-sm font-semibold leading-6 text-foreground-strong last:border-b-0",
-          "hover:bg-brutal-yellow/30 data-highlighted:bg-brutal-yellow/30",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0",
-          "[&_svg:not([class*='size-'])]:size-3",
-          "[&_svg:not([class*='stroke-'])]:stroke-2",
-        ],
-        itemIndicator: [
-          "text-foreground-strong [&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
-        ],
-        label: [
-          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground-strong/60",
-        ],
-        clear: [
-          "font-sans text-[10px] font-bold uppercase tracking-wide text-foreground-strong",
-          "hover:bg-brutal-yellow/30 hover:text-foreground-strong active:bg-brutal-yellow/50",
-          "[&>svg]:stroke-2 [&>svg_*]:stroke-2",
-        ],
-        triggerIndicator: [
-          "text-foreground-strong opacity-100",
-          "hover:bg-brutal-yellow/30 hover:text-foreground-strong active:bg-brutal-yellow/50",
-          "[&>svg]:stroke-2 [&>svg_*]:stroke-2",
-        ],
-        control: [
-          "border-2 border-line-strong bg-layer-panel px-2 py-1.5",
-          "font-sans text-sm font-semibold text-foreground-strong shadow-raft-sm",
-          "focus-within:shadow-raft-md",
-          "data-popup-open:translate-x-0 data-popup-open:-translate-y-px data-popup-open:shadow-raft-md",
-          "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
-          "[&_[data-slot='combobox-trigger-indicator']>svg]:stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:stroke-[1.5] [&_[data-slot='combobox-trigger-indicator']>svg_*]:fill-none",
-        ],
-        empty: ["font-sans text-sm font-semibold text-foreground-strong/50"],
-        groupLabel: [
-          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground-strong/60",
-        ],
-        chips: ["border-2 border-line-strong bg-layer-panel px-2 py-1"],
-        chip: [
-          "border border-line-strong bg-brutal-yellow px-1.5 py-0.5 font-sans text-xs font-bold",
-        ],
-        chipRemove: ["text-foreground-strong/50 hover:text-foreground-strong"],
-      },
-      elegant: {
-        trigger: [
-          "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
-          "hover:bg-ink-2 active:scale-100",
-          "focus-visible:ring-1 focus-visible:ring-primary-400",
-          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='size-'])]:size-3",
-          "[&>span[data-slot='combobox-trigger-content']>svg:not([class*='stroke-'])]:stroke-[1.5]",
-        ],
-        triggerCount: [
-          "rounded-sm bg-primary-400 font-sans font-medium tracking-[0.22px] text-primary-950",
-        ],
-        inputGroup: ["border-line-hairline bg-layer-popover px-1.5 pt-1 pb-2"],
-        content: ["rounded-md bg-layer-popover", "shadow-raft-lg"],
-        header: ["pl-2 pr-1.5 pt-2.5 pb-0.5"],
-        separator: ["hidden bg-line-hairline"],
-        list: ["flex flex-col gap-0.5 px-1.5 py-1"],
-        item: [
-          "rounded-sm bg-transparent px-2 text-sm font-normal tracking-[-0.005em] text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground",
-          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0",
-          "[&_svg:not([class*='size-'])]:size-3.5",
-          "[&_svg:not([class*='stroke-'])]:stroke-[1.5]",
-        ],
-        itemIndicator: [
-          "text-foreground [&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
-        ],
-        label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground-strong/45"],
-        clear: [
-          "rounded-sm text-[11px] font-medium tracking-[-0.005em] text-foreground-muted",
-          "hover:bg-ink-4 hover:text-foreground",
-          "[&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
-        ],
-        triggerIndicator: [
-          "rounded-sm text-foreground-muted opacity-100",
-          "hover:bg-ink-4 hover:text-foreground",
-          "[&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5]",
-        ],
-        control: [
-          "rounded-md border border-line-muted bg-layer-panel px-2.5 py-1.5",
-          "dark:border-transparent dark:bg-layer-card",
-          "text-sm font-normal text-foreground-strong shadow-[0_1px_1px_color-mix(in_oklch,var(--ink)_5%,transparent)]",
-          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
-          "dark:hover:border-ink-8",
-          "focus-within:ring-1 focus-within:ring-primary-400",
-          "dark:focus-within:ring-2 dark:focus-within:ring-primary-400/60",
-          "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
-        ],
-        empty: ["text-foreground-muted"],
-        groupLabel: [
-          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground-strong/45",
-        ],
-        chips: [
-          "rounded-md border border-line-muted bg-layer-panel px-2 py-1",
-          "dark:border-transparent dark:bg-layer-card",
-          "dark:shadow-[inset_0_1px_2px_oklch(0_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.35),0_1px_0_oklch(0.985_0.004_106.42/0.04)]",
-          "dark:hover:border-ink-8",
-          "focus-within:ring-1 focus-within:ring-primary-400",
-          "dark:focus-within:ring-2 dark:focus-within:ring-primary-400/60",
-        ],
-        chip: ["rounded-sm bg-fill-muted px-1.5 py-0.5 text-xs font-medium text-foreground-strong"],
-        chipRemove: ["text-foreground-muted hover:text-foreground"],
-      },
-    },
     inputOwner: {
-      group: {},
+      group: {
+        input: [
+          "min-w-0 flex-1 border-0 bg-transparent p-0",
+          "font-sans text-callout text-foreground placeholder:text-foreground-hint",
+        ],
+      },
       control: {
         input: [
           "min-w-0 flex-1 rounded-none border-0 bg-transparent p-0 shadow-none",
           "outline-none ring-0 focus:border-transparent focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+          "font-sans text-body font-normal text-foreground",
+          "placeholder:text-foreground-placeholder",
         ],
       },
     },
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      inputOwner: "group",
-      class: {
-        input: [
-          "border-2 border-line-strong bg-layer-panel px-2 py-1 font-mono text-xs",
-          "shadow-raft-sm focus:shadow-raft-md",
-        ],
-      },
-    },
-    {
-      theme: "brutal",
-      inputOwner: "control",
-      class: {
-        input: [
-          "font-sans text-sm font-semibold text-foreground-strong",
-          "placeholder:text-foreground-strong/40",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      inputOwner: "group",
-      class: {
-        input: [
-          "rounded-sm border border-line-muted bg-layer-panel px-2 py-1 text-sm",
-          "text-foreground-strong outline-none transition duration-150",
-          "placeholder:text-foreground-placeholder/70",
-          "focus-visible:ring-1 focus-visible:ring-primary-400",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      inputOwner: "control",
-      class: {
-        input: [
-          "text-sm font-normal text-foreground-strong",
-          "placeholder:text-foreground-placeholder/70",
-        ],
-      },
-    },
-  ],
 });
 
 type ComboboxContextValue = {
@@ -345,8 +236,7 @@ export function Combobox<Value, Multiple extends boolean | undefined = false>({
 export type ComboboxLabelProps = StyledProps<BaseCombobox.Label.Props>;
 
 export function ComboboxLabel({ className, ...props }: ComboboxLabelProps) {
-  const theme = useThemeFamily();
-  const { label } = combobox({ theme });
+  const { label } = combobox();
   return (
     <BaseCombobox.Label data-slot="combobox-label" className={label({ className })} {...props} />
   );
@@ -361,9 +251,8 @@ export function ComboboxValue(props: ComboboxValueProps) {
 export type ComboboxTriggerProps = StyledProps<BaseCombobox.Trigger.Props>;
 
 export function ComboboxTrigger({ className, children, render, ...props }: ComboboxTriggerProps) {
-  const theme = useThemeFamily();
   const { hasValue } = use(ComboboxContext);
-  const { trigger } = combobox({ theme });
+  const { trigger } = combobox();
   return (
     <BaseCombobox.Trigger
       data-slot="combobox-trigger"
@@ -385,8 +274,7 @@ export function ComboboxTrigger({ className, children, render, ...props }: Combo
 export type ComboboxTriggerCountProps = StyledProps<ComponentPropsWithRef<"span">>;
 
 export function ComboboxTriggerCount({ className, ...props }: ComboboxTriggerCountProps) {
-  const theme = useThemeFamily();
-  const { triggerCount } = combobox({ theme });
+  const { triggerCount } = combobox();
   return (
     <span data-slot="combobox-trigger-count" className={triggerCount({ className })} {...props} />
   );
@@ -395,8 +283,7 @@ export function ComboboxTriggerCount({ className, ...props }: ComboboxTriggerCou
 export type ComboboxTriggerIndicatorProps = StyledProps<ComponentPropsWithRef<"span">>;
 
 export function ComboboxTriggerIndicator({ className, ...props }: ComboboxTriggerIndicatorProps) {
-  const theme = useThemeFamily();
-  const { triggerIndicator } = combobox({ theme });
+  const { triggerIndicator } = combobox();
   return (
     <span
       data-slot="combobox-trigger-indicator"
@@ -410,8 +297,7 @@ export function ComboboxTriggerIndicator({ className, ...props }: ComboboxTrigge
 export type ComboboxInputGroupProps = StyledProps<BaseCombobox.InputGroup.Props>;
 
 export function ComboboxInputGroup({ className, ...props }: ComboboxInputGroupProps) {
-  const theme = useThemeFamily();
-  const { inputGroup } = combobox({ theme });
+  const { inputGroup } = combobox();
   return (
     <ComboboxInputOwnerContext value="group">
       <BaseCombobox.InputGroup
@@ -426,8 +312,7 @@ export function ComboboxInputGroup({ className, ...props }: ComboboxInputGroupPr
 export type ComboboxControlProps = StyledProps<BaseCombobox.InputGroup.Props>;
 
 export function ComboboxControl({ className, ...props }: ComboboxControlProps) {
-  const theme = useThemeFamily();
-  const { control } = combobox({ theme });
+  const { control } = combobox();
   return (
     <ComboboxInputOwnerContext value="control">
       <BaseCombobox.InputGroup
@@ -448,9 +333,8 @@ export function ComboboxInput({
   className,
   ...props
 }: ComboboxInputProps) {
-  const theme = useThemeFamily();
   const inputOwner = use(ComboboxInputOwnerContext);
-  const { input } = combobox({ theme, inputOwner });
+  const { input } = combobox({ inputOwner });
   return (
     <BaseCombobox.Input
       data-slot="combobox-input"
@@ -475,24 +359,21 @@ export function ComboboxPortal(props: ComboboxPortalProps) {
 export type ComboboxPopupProps = ComponentPropsWithRef<"div">;
 
 export function ComboboxPopup({ className, ...props }: ComboboxPopupProps) {
-  const theme = useThemeFamily();
-  const { content } = combobox({ theme });
+  const { content } = combobox();
   return <div data-slot="combobox-content" className={content({ className })} {...props} />;
 }
 
 export type ComboboxHeaderProps = ComponentPropsWithRef<"div">;
 
 export function ComboboxHeader({ className, ...props }: ComboboxHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = combobox({ theme });
+  const { header } = combobox();
   return <div data-slot="combobox-header" className={header({ className })} {...props} />;
 }
 
 export type ComboboxSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function ComboboxSeparator({ className, ...props }: ComboboxSeparatorProps) {
-  const theme = useThemeFamily();
-  const { separator } = combobox({ theme });
+  const { separator } = combobox();
   return (
     <div
       role="separator"
@@ -542,8 +423,7 @@ export function ComboboxContent({
   finalFocus = false,
   ...props
 }: ComboboxContentProps) {
-  const theme = useThemeFamily();
-  const { positioner, content } = combobox({ theme });
+  const { positioner, content } = combobox();
   return (
     <ComboboxPortal {...portalProps}>
       <BaseCombobox.Positioner
@@ -557,7 +437,7 @@ export function ComboboxContent({
         disableAnchorTracking={disableAnchorTracking}
         positionMethod={positionMethod}
         side={side}
-        sideOffset={sideOffset ?? defaultSideOffset(theme)}
+        sideOffset={sideOffset ?? 4}
         sticky={sticky}
         className={positioner()}
       >
@@ -576,16 +456,14 @@ export function ComboboxContent({
 export type ComboboxListProps = StyledProps<BaseCombobox.List.Props>;
 
 export function ComboboxList({ className, ...props }: ComboboxListProps) {
-  const theme = useThemeFamily();
-  const { list } = combobox({ theme });
+  const { list } = combobox();
   return <BaseCombobox.List data-slot="combobox-list" className={list({ className })} {...props} />;
 }
 
 export type ComboboxItemProps = StyledProps<BaseCombobox.Item.Props>;
 
 export function ComboboxItem({ className, ...props }: ComboboxItemProps) {
-  const theme = useThemeFamily();
-  const { item } = combobox({ theme });
+  const { item } = combobox();
   return <BaseCombobox.Item data-slot="combobox-item" className={item({ className })} {...props} />;
 }
 
@@ -596,8 +474,7 @@ export function ComboboxItemIndicator({
   children,
   ...props
 }: ComboboxItemIndicatorProps) {
-  const theme = useThemeFamily();
-  const { itemIndicator } = combobox({ theme });
+  const { itemIndicator } = combobox();
   return (
     <BaseCombobox.ItemIndicator
       data-slot="combobox-item-indicator"
@@ -617,9 +494,8 @@ export function ComboboxClear({
   keepMounted = true,
   ...props
 }: ComboboxClearProps) {
-  const theme = useThemeFamily();
   const { visible } = use(ComboboxContext);
-  const { clear } = combobox({ theme });
+  const { clear } = combobox();
   return (
     <BaseCombobox.Clear
       data-slot="combobox-clear"
@@ -637,8 +513,7 @@ export function ComboboxClear({
 export type ComboboxEmptyProps = StyledProps<BaseCombobox.Empty.Props>;
 
 export function ComboboxEmpty({ className, children, ...props }: ComboboxEmptyProps) {
-  const theme = useThemeFamily();
-  const { empty } = combobox({ theme });
+  const { empty } = combobox();
   return (
     <BaseCombobox.Empty data-slot="combobox-empty" {...props}>
       {children == null ? null : (
@@ -659,8 +534,7 @@ export function ComboboxGroup({ className, ...props }: ComboboxGroupProps) {
 export type ComboboxGroupLabelProps = StyledProps<BaseCombobox.GroupLabel.Props>;
 
 export function ComboboxGroupLabel({ className, ...props }: ComboboxGroupLabelProps) {
-  const theme = useThemeFamily();
-  const { groupLabel } = combobox({ theme });
+  const { groupLabel } = combobox();
   return (
     <BaseCombobox.GroupLabel
       data-slot="combobox-group-label"
@@ -685,8 +559,7 @@ export function ComboboxCollection(props: ComboboxCollectionProps) {
 export type ComboboxChipsProps = StyledProps<BaseCombobox.Chips.Props>;
 
 export function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
-  const theme = useThemeFamily();
-  const { chips } = combobox({ theme });
+  const { chips } = combobox();
   return (
     <BaseCombobox.Chips data-slot="combobox-chips" className={chips({ className })} {...props} />
   );
@@ -695,16 +568,14 @@ export function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
 export type ComboboxChipProps = StyledProps<BaseCombobox.Chip.Props>;
 
 export function ComboboxChip({ className, ...props }: ComboboxChipProps) {
-  const theme = useThemeFamily();
-  const { chip } = combobox({ theme });
+  const { chip } = combobox();
   return <BaseCombobox.Chip data-slot="combobox-chip" className={chip({ className })} {...props} />;
 }
 
 export type ComboboxChipRemoveProps = StyledProps<BaseCombobox.ChipRemove.Props>;
 
 export function ComboboxChipRemove({ className, children, ...props }: ComboboxChipRemoveProps) {
-  const theme = useThemeFamily();
-  const { chipRemove } = combobox({ theme });
+  const { chipRemove } = combobox();
   return (
     <BaseCombobox.ChipRemove
       data-slot="combobox-chip-remove"

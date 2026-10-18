@@ -18,7 +18,6 @@ import {
   ToastTitle,
   ToastViewport,
   useToastManager,
-  useThemeFamily,
 } from "raft-ui";
 import type { ToastObject, ToastRootProps } from "raft-ui";
 
@@ -72,7 +71,6 @@ export function ToastComposition({
   demoOptions?: ToastDemoOptions;
   className?: string;
 }) {
-  const theme = useThemeFamily();
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   const [toastManager] = useState(() => createToastManager<ToastDemoData>());
 
@@ -83,7 +81,6 @@ export function ToastComposition({
     >
       <ToastPreviewScene />
       <ToastProvider
-        key={theme}
         toastManager={toastManager}
         timeout={controls ? 3600 : 0}
         limit={3}
@@ -108,10 +105,6 @@ export function ToastComposition({
 }
 
 export function ToastPreviewScene() {
-  const theme = useThemeFamily();
-
-  if (theme === "brutal") return null;
-
   return (
     <div
       aria-hidden
@@ -325,40 +318,10 @@ function DemoToast({
   placement: ToastDemoOptions["placement"] | "none";
   showArrow?: boolean;
 }) {
-  const theme = useThemeFamily();
   const showDescription = Boolean(toast.description);
   const showAction = Boolean(toast.actionProps?.children);
   const showIcon = toast.data?.hasIcon !== false;
   const showClose = toast.data?.hasClose !== false;
-
-  if (theme === "brutal") {
-    return (
-      <ToastRoot
-        toast={toast}
-        layout={layout}
-        swipeDirection={placement.startsWith("top-") ? TOP_SWIPE_DIRECTION : undefined}
-      >
-        {showArrow ? <ToastArrow /> : null}
-        <ToastContent>
-          {showIcon ? (
-            <ToastIcon>
-              <ToastIconGlyph toast={toast} />
-            </ToastIcon>
-          ) : null}
-          <ToastBody>
-            <ToastTitle />
-            {showDescription ? <ToastDescription /> : null}
-          </ToastBody>
-          {showAction || showClose ? (
-            <ToastActions>
-              {showClose ? <ToastClose /> : null}
-              {showAction ? <ToastAction /> : null}
-            </ToastActions>
-          ) : null}
-        </ToastContent>
-      </ToastRoot>
-    );
-  }
 
   return (
     <ToastRoot

@@ -42,7 +42,7 @@ if (typeof window.matchMedia !== "function") {
 //   D1  same element, same specificity  -> resolved by tailwind-merge, and only
 //       if `text-field`/`font-field` are registered class groups. Unregistered,
 //       both survive and stylesheet order silently decides.
-//   D2  different element, higher specificity -> a theme puts weight on the
+//   D2  different element, higher specificity -> weight declared on the
 //       text-bearing descendant. tailwind-merge can never fix this; the axis has
 //       to restate itself at the same target. Measured in production at the time
 //       of writing: select-value 500 and select-item-text 700 against a 400
@@ -52,10 +52,10 @@ if (typeof window.matchMedia !== "function") {
 // cascade, so a computed assertion here would resolve to nothing and pass. The
 // computed-value check lives app-side where a real browser is available.
 
-function renderFieldSelect(theme: "brutal" | "elegant") {
+function renderSelect(chrome?: "field") {
   return render(
-    <ThemeProvider theme={theme}>
-      <Select defaultOpen chrome="field">
+    <ThemeProvider>
+      <Select defaultOpen chrome={chrome}>
         <SelectTrigger data-testid="trigger">
           <SelectValue />
         </SelectTrigger>
@@ -71,104 +71,71 @@ function renderFieldSelect(theme: "brutal" | "elegant") {
   );
 }
 
-const cls = (testid: string) => screen.getByTestId(testid).className;
+const classes = (testid: string) => screen.getByTestId(testid).className.split(/\s+/);
 
 afterEach(cleanup);
 
-test("D1 brutal: the trigger keeps the field size and drops the button's", () => {
-  renderFieldSelect("brutal");
-  expect(cls("trigger")).toContain("text-field");
-  // The trigger renders as Button size="md", which brings `text-sm`. Both
-  // surviving is the 0.5.2 defect: 14px won by emission order, not by intent.
-  expect(cls("trigger")).not.toContain("text-sm");
+test("D1: the trigger keeps the field size and weight and drops the default's", () => {
+  renderSelect("field");
+  const trigger = classes("trigger");
+  expect(trigger).toContain("text-field");
+  expect(trigger).toContain("font-field");
+  // The trigger renders as Button size="md", which brings `text-sm`, and the
+  // default chrome brings `text-subhead font-semibold`. Any of them surviving
+  // is the 0.5.2 defect: the size won by emission order, not by intent.
+  expect(trigger).not.toContain("text-sm");
+  expect(trigger).not.toContain("text-subhead");
+  expect(trigger).not.toContain("font-semibold");
 });
 
-test("D1 brutal: the option keeps the field size and drops the theme's", () => {
-  renderFieldSelect("brutal");
-  expect(cls("item")).toContain("text-field");
-  expect(cls("item")).not.toContain("text-xs");
+test("D1: the option keeps the field size and weight and drops the default's", () => {
+  renderSelect("field");
+  const item = classes("item");
+  expect(item).toContain("text-field");
+  expect(item).toContain("font-field");
+  expect(item).not.toContain("text-callout");
+  expect(item).not.toContain("font-medium");
 });
 
-test("D1 elegant: the option keeps the field size and drops the theme's", () => {
-  renderFieldSelect("elegant");
-  expect(cls("item")).toContain("text-field");
-  expect(cls("item")).not.toContain("text-[13px]");
-});
-
-test("D2 elegant: the axis reaches BOTH descendants that carry trigger text", () => {
-  renderFieldSelect("elegant");
-  // The theme declares weight on select-value AND button-content, not on the
-  // trigger. An ancestor-level `font-field` loses to either on specificity no
-  // matter how the merge resolves, so the override must exist at both targets.
+test("D2: the axis reaches BOTH descendants that carry trigger text", () => {
+  renderSelect("field");
+  // An ancestor-level `font-field` loses to weight declared on select-value or
+  // button-content on specificity no matter how the merge resolves, so the
+  // override must exist at both targets.
   //
   // Both are asserted because the implementation overrides both: pinning only
   // one lets the other silently regress. Verified by mutation — deleting just
   // the button-content override left this suite green when it only checked
   // select-value (@Dozy, review of 89f72133), which is the same shape of gap
   // these tests exist to catch.
-  expect(cls("trigger")).toContain("**:data-[slot='select-value']:font-field");
-  expect(cls("trigger")).not.toContain("**:data-[slot='select-value']:font-medium");
-  expect(cls("trigger")).toContain("**:data-[slot='button-content']:font-field");
-  expect(cls("trigger")).not.toContain("**:data-[slot='button-content']:font-medium");
+  const trigger = classes("trigger");
+  expect(trigger).toContain("**:data-[slot='select-value']:font-field");
+  expect(trigger).not.toContain("**:data-[slot='select-value']:font-medium");
+  expect(trigger).toContain("**:data-[slot='button-content']:font-field");
+  expect(trigger).not.toContain("**:data-[slot='button-content']:font-medium");
 });
 
-test("D2 brutal: the axis reaches the option's text element", () => {
-  renderFieldSelect("brutal");
-  expect(cls("item")).toContain("**:data-[slot='select-item-text']:font-field");
-  expect(cls("item")).not.toContain("**:data-[slot='select-item-text']:font-bold");
+test("D2: the axis reaches the option's text element", () => {
+  renderSelect("field");
+  const item = classes("item");
+  expect(item).toContain("**:data-[slot='select-item-text']:font-field");
+  expect(item).not.toContain("**:data-[slot='select-item-text']:font-bold");
 });
 
-test("default chrome is untouched: it keeps the theme's own declarations", () => {
-  // The counterweight. Every assertion above is an absence, and absences pass on
-  // an empty string — if `chrome="field"` silently stopped emitting anything at
-  // all, all five would still be green. This one fails in that case, because it
-  // requires the competing declarations to be present when they are not overridden.
-  render(
-    <ThemeProvider theme="brutal">
-      <Select defaultOpen>
-        <SelectTrigger data-testid="trigger">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectList>
-            <SelectItem value="a" data-testid="item">
-              Option A
-            </SelectItem>
-          </SelectList>
-        </SelectContent>
-      </Select>
-    </ThemeProvider>,
-  );
-  expect(cls("trigger")).toContain("text-sm");
-  expect(cls("item")).toContain("text-xs");
-  expect(cls("item")).not.toContain("text-field");
-  // D2's competitor must also still be here. Without this, deleting the theme's
-  // own descendant declarations would leave every D2 absence assertion green —
-  // they would be passing because the competitor no longer exists, not because
-  // the axis beat it.
-  expect(cls("item")).toContain("**:data-[slot='select-item-text']:font-bold");
-});
-
-test("default chrome elegant: the theme's trigger descendants keep their weight", () => {
-  // Same counterweight, elegant side. The D2 elegant absences above are only
-  // meaningful while these two declarations exist to be overridden.
-  render(
-    <ThemeProvider theme="elegant">
-      <Select defaultOpen>
-        <SelectTrigger data-testid="trigger">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectList>
-            <SelectItem value="a" data-testid="item">
-              Option A
-            </SelectItem>
-          </SelectList>
-        </SelectContent>
-      </Select>
-    </ThemeProvider>,
-  );
-  expect(cls("trigger")).toContain("**:data-[slot='select-value']:font-medium");
-  expect(cls("trigger")).toContain("**:data-[slot='button-content']:font-medium");
-  expect(cls("trigger")).not.toContain("text-field");
+test("default chrome is untouched: it keeps its own declarations", () => {
+  // The counterweight. Every absence above passes on an empty string — if
+  // `chrome="field"` silently stopped emitting anything at all, they would all
+  // still be green. This one fails in that case, because it requires the
+  // competing declarations to be present when they are not overridden.
+  renderSelect();
+  const trigger = classes("trigger");
+  expect(trigger).toContain("text-subhead");
+  expect(trigger).toContain("font-semibold");
+  expect(trigger).not.toContain("text-field");
+  const item = classes("item");
+  expect(item).toContain("text-callout");
+  expect(item).toContain("font-medium");
+  expect(item).not.toContain("text-field");
+  // A selected option reads bold, down to its text element.
+  expect(item).toContain("data-selected:**:data-[slot='select-item-text']:font-bold");
 });

@@ -2,7 +2,6 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { searchThread } from "./search-thread.recipe";
 
 export type SearchThreadResultProps = useRender.ComponentProps<"div"> & { selected?: boolean };
@@ -12,8 +11,7 @@ export function SearchThreadResult({
   render,
   ...props
 }: SearchThreadResultProps) {
-  const theme = useThemeFamily();
-  const { thread } = searchThread({ theme });
+  const { thread } = searchThread();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-thread-result",
     "data-selected": selected ? "true" : undefined,
@@ -32,8 +30,7 @@ export function SearchThreadResultHeader({
   render,
   ...props
 }: SearchThreadResultHeaderProps) {
-  const theme = useThemeFamily();
-  const { threadHeader } = searchThread({ theme });
+  const { threadHeader } = searchThread();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-thread-result-header",
     className: threadHeader({ className }),
@@ -51,8 +48,7 @@ export function SearchThreadResultMeta({
   render,
   ...props
 }: SearchThreadResultMetaProps) {
-  const theme = useThemeFamily();
-  const { threadMeta } = searchThread({ theme });
+  const { threadMeta } = searchThread();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-thread-result-meta",
     className: threadMeta({ className }),
@@ -70,8 +66,7 @@ export function SearchThreadResultTimestamp({
   render,
   ...props
 }: SearchThreadResultTimestampProps) {
-  const theme = useThemeFamily();
-  const { threadTimestamp } = searchThread({ theme });
+  const { threadTimestamp } = searchThread();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "search-thread-result-timestamp",
     className: threadTimestamp({ className }),
@@ -89,8 +84,7 @@ export function SearchThreadResultTitle({
   render,
   ...props
 }: SearchThreadResultTitleProps) {
-  const theme = useThemeFamily();
-  const { threadTitle } = searchThread({ theme });
+  const { threadTitle } = searchThread();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-thread-result-title",
     className: threadTitle({ className }),
@@ -108,8 +102,7 @@ export function SearchThreadResultMessages({
   render,
   ...props
 }: SearchThreadResultMessagesProps) {
-  const theme = useThemeFamily();
-  const { threadMessages } = searchThread({ theme });
+  const { threadMessages } = searchThread();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "search-thread-result-messages",
     className: threadMessages({ className }),

@@ -37,8 +37,8 @@ const SNIPPETS = {
   anatomy: `import { Badge } from "raft-ui";
 
 <Badge />`,
-  variants: `<Badge appearance="outline" uppercase>Default</Badge>
-<Badge variant="primary" uppercase>Pending</Badge>
+  variants: `<Badge appearance="outline">Default</Badge>
+<Badge variant="primary">Pending</Badge>
 <Badge variant="information">Open</Badge>
 <Badge variant="muted">Saved</Badge>
 <Badge variant="accent">New</Badge>
@@ -49,7 +49,7 @@ const SNIPPETS = {
 <Badge appearance="soft" variant="primary">Soft</Badge>
 <Badge appearance="outline" variant="primary">Outline</Badge>`,
   casing: `<Badge>task #42 @bugen</Badge>
-<Badge uppercase>In Progress</Badge>`,
+<Badge>In Progress</Badge>`,
   icons: `import { Badge, Status } from "raft-ui";
 
 <Badge variant="primary">
@@ -143,14 +143,7 @@ const PROPS: readonly PropRow[] = [
     type: VARIANTS.map((variant) => `"${variant}"`).join(" | "),
     default: '"default"',
     description:
-      "Semantic label/status variant. Uses shared semantic color tokens instead of raw brutal color names.",
-  },
-  {
-    name: "uppercase",
-    type: "boolean",
-    default: "false",
-    description:
-      "Apply the Brutal badge casing recipe: uppercase plus wider tracking. Elegant preserves the caller's casing. Defaults off so case-sensitive content stays intact.",
+      "Semantic label/status variant. Uses shared semantic color tokens instead of raw palette color names.",
   },
   {
     name: "render",
@@ -173,7 +166,6 @@ export const Route = createFileRoute("/components/badge")({
 function BadgePreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
   const [appearance, setAppearance] = useState<NonNullable<BadgeProps["appearance"]>>("solid");
   const [variant, setVariant] = useState<NonNullable<BadgeProps["variant"]>>("primary");
-  const [uppercase, setUppercase] = useState(false);
   const [label, setLabel] = useState("In Progress");
   const handleAppearanceChange = useCallback(
     (value: string) => setAppearance(value as NonNullable<BadgeProps["appearance"]>),
@@ -187,7 +179,7 @@ function BadgePreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["
   return (
     <Preview>
       <Preview.Canvas>
-        <Badge appearance={appearance} variant={variant} uppercase={uppercase}>
+        <Badge appearance={appearance} variant={variant}>
           {label}
         </Badge>
       </Preview.Canvas>
@@ -208,14 +200,6 @@ function BadgePreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["
             options={VARIANTS}
             value={variant}
             onValueChange={handleVariantChange}
-          />
-        </Preview.Control>
-        <Preview.Control label="Uppercase" htmlFor="badge-preview-uppercase">
-          <Preview.Checkbox
-            id="badge-preview-uppercase"
-            label="Uppercase"
-            checked={uppercase}
-            onCheckedChange={setUppercase}
           />
         </Preview.Control>
         <Preview.Control label="Label" htmlFor="badge-preview-label">
@@ -260,12 +244,8 @@ function BadgeDoc() {
           <DocSubsection parentId="usage" id="variants" title="Variants">
             <Preview>
               <Preview.Canvas>
-                <Badge appearance="outline" uppercase>
-                  Default
-                </Badge>
-                <Badge variant="primary" uppercase>
-                  Pending
-                </Badge>
+                <Badge appearance="outline">Default</Badge>
+                <Badge variant="primary">Pending</Badge>
                 <Badge variant="information">Open</Badge>
                 <Badge variant="muted">Saved</Badge>
                 <Badge variant="accent">New</Badge>
@@ -301,7 +281,7 @@ function BadgeDoc() {
             <Preview>
               <Preview.Canvas>
                 <Badge>task #42 @bugen</Badge>
-                <Badge uppercase>In Progress</Badge>
+                <Badge>In Progress</Badge>
               </Preview.Canvas>
               <Preview.Code html={code.casing} />
             </Preview>

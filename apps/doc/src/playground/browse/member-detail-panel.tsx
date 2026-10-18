@@ -140,11 +140,7 @@ export function MemberDetailPanel({
               </Avatar>
               <div className="min-w-0 flex-1 pt-1">
                 <div className="flex min-w-0 items-center gap-2">
-                  <Text.Heading
-                    level={6}
-                    render={<h1>{actor.name}</h1>}
-                    className="truncate [[data-theme=brutal]_&]:text-lg [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:leading-tight"
-                  />
+                  <Text.Heading level={6} render={<h1>{actor.name}</h1>} className="truncate" />
                   {actor.isSelf ? (
                     <Text.Sans
                       render={<span />}
@@ -156,12 +152,12 @@ export function MemberDetailPanel({
                     </Text.Sans>
                   ) : null}
                   {removed ? (
-                    <Badge appearance="solid" variant="muted" uppercase>
+                    <Badge appearance="solid" variant="muted">
                       Removed
                     </Badge>
                   ) : null}
                 </div>
-                <Text.Mono size="meta" className="truncate [[data-theme=brutal]_&]:text-sm">
+                <Text.Mono size="meta" className="truncate">
                   @{handle}
                 </Text.Mono>
               </div>
@@ -190,7 +186,7 @@ export function MemberDetailPanel({
                           type="button"
                           variant="ghost"
                           size="icon-xs"
-                          className="text-foreground-icon in-data-[theme=brutal]:text-black/35"
+                          className="text-foreground-icon"
                           aria-label="Explain member roles"
                           aria-pressed={roleHelpVisible}
                           onClick={toggleRoleHelp}
@@ -282,9 +278,7 @@ export function MemberDetailPanel({
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm italic text-foreground-placeholder in-data-[theme=brutal]:text-black/40">
-                    No created agents
-                  </p>
+                  <p className="text-sm italic text-foreground-placeholder">No created agents</p>
                 )}
               </MemberDetailSection>
             ) : null}
@@ -293,13 +287,7 @@ export function MemberDetailPanel({
               <MemberDetailSection title="Actions">
                 <AlertDialog>
                   <AlertDialogTrigger
-                    render={
-                      <Button
-                        variant="danger"
-                        size="lg"
-                        className="w-full [[data-theme=brutal]_&]:gap-2 [[data-theme=brutal]_&]:px-4"
-                      />
-                    }
+                    render={<Button variant="danger" size="lg" className="w-full" />}
                   >
                     <Trash2 data-icon="inline-start" aria-hidden />
                     Remove Member
@@ -350,18 +338,12 @@ function MemberDetailSection({
           <h2>
             {title}
             {count === undefined ? null : (
-              <span className="font-mono text-foreground-placeholder in-data-[theme=brutal]:text-black/40">
-                {count}
-              </span>
+              <span className="font-mono text-foreground-placeholder">{count}</span>
             )}
           </h2>
         }
         size="eyebrow"
-        className={cn(
-          "flex items-baseline gap-2",
-          "[[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:tracking-widest in-data-[theme=brutal]:text-black/60",
-          compactTitle ? "mb-1" : "mb-3",
-        )}
+        className={cn("flex items-baseline gap-2", compactTitle ? "mb-1" : "mb-3")}
       />
       {children}
     </ProfilePanelSection>
@@ -379,10 +361,7 @@ function CreatedAgentItem({
   const handleClick = useCallback(() => onSelectActor(agent), [agent, onSelectActor]);
 
   return (
-    <SidebarItem
-      className="in-data-[theme=brutal]:border-line-muted [[data-theme=brutal]_&]:px-3 [[data-theme=brutal]_&]:py-2"
-      onClick={handleClick}
-    >
+    <SidebarItem onClick={handleClick}>
       <SidebarItemIcon className="size-8">
         <Avatar size="sm" type="agent">
           {agent.avatarSrc ? <AvatarImage src={agent.avatarSrc} alt="" /> : null}
@@ -395,12 +374,7 @@ function CreatedAgentItem({
       </SidebarItemContent>
       {presence ? (
         <SidebarItemAside>
-          <Status
-            aria-label={presence.label}
-            size="md"
-            variant={presence.variant}
-            pulse={presence.pulse}
-          />
+          <Status aria-label={presence.label} size="md" variant={presence.variant} />
         </SidebarItemAside>
       ) : null}
     </SidebarItem>

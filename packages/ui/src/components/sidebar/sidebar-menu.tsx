@@ -1,14 +1,12 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { SlotElementProps } from "../../lib/data-attributes";
 import { sidebarMenuRecipe } from "./sidebar-menu.recipe";
 
 export type SidebarMenuProps = useRender.ComponentProps<"button">;
 
 export function SidebarMenu({ className, render, ...props }: SidebarMenuProps) {
-  const theme = useThemeFamily();
-  const { sidebarMenu } = sidebarMenuRecipe({ theme });
+  const { sidebarMenu } = sidebarMenuRecipe();
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "sidebar-menu",
@@ -25,8 +23,7 @@ export function SidebarMenu({ className, render, ...props }: SidebarMenuProps) {
 export type SidebarMenuIconProps = useRender.ComponentProps<"span">;
 
 export function SidebarMenuIcon({ className, render, ...props }: SidebarMenuIconProps) {
-  const theme = useThemeFamily();
-  const { sidebarMenuIcon } = sidebarMenuRecipe({ theme });
+  const { sidebarMenuIcon } = sidebarMenuRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-menu-icon",
     className: sidebarMenuIcon({ className }),
@@ -58,8 +55,7 @@ export function SidebarMenuTitle({ className, render, ...props }: SidebarMenuTit
 export type SidebarMenuAsideProps = useRender.ComponentProps<"span">;
 
 export function SidebarMenuAside({ className, render, ...props }: SidebarMenuAsideProps) {
-  const theme = useThemeFamily();
-  const { sidebarMenuAside } = sidebarMenuRecipe({ theme });
+  const { sidebarMenuAside } = sidebarMenuRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-menu-aside",
     className: sidebarMenuAside({ className }),
@@ -75,8 +71,7 @@ export function SidebarMenuAside({ className, render, ...props }: SidebarMenuAsi
 export type SidebarMenuCountProps = useRender.ComponentProps<"span">;
 
 export function SidebarMenuCount({ className, render, ...props }: SidebarMenuCountProps) {
-  const theme = useThemeFamily();
-  const { sidebarMenuCount } = sidebarMenuRecipe({ theme });
+  const { sidebarMenuCount } = sidebarMenuRecipe();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "sidebar-menu-count",
     className: sidebarMenuCount({ className }),

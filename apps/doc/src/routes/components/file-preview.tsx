@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { InlineCode } from "raft-ui";
 
-import { DocNote } from "#/components/doc-note.tsx";
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
 import { DocsCodeBlock } from "#/components/docs-code-block.tsx";
@@ -14,6 +13,8 @@ import filePreviewFormatsCompositionSource from "#/modules/file-preview/composit
 import { FilePreviewFormatsComposition } from "#/modules/file-preview/compositions/formats.composition.tsx";
 import filePreviewIllustrationsCompositionSource from "#/modules/file-preview/compositions/illustrations.composition.tsx?raw";
 import { FilePreviewIllustrationsComposition } from "#/modules/file-preview/compositions/illustrations.composition.tsx";
+import filePreviewInlineBadgeCompositionSource from "#/modules/file-preview/compositions/inline-badge.composition.tsx?raw";
+import { FilePreviewInlineBadgeComposition } from "#/modules/file-preview/compositions/inline-badge.composition.tsx";
 import filePreviewMediaCompositionSource from "#/modules/file-preview/compositions/media.composition.tsx?raw";
 import { FilePreviewMediaComposition } from "#/modules/file-preview/compositions/media.composition.tsx";
 import { highlightSnippets } from "#/lib/highlight.tsx";
@@ -35,11 +36,12 @@ const SNIPPETS = {
 
 <FilePreview>
   <FilePreviewDocument />
-  <FilePreviewBadge type="pdf">PDF</FilePreviewBadge>
+  <FilePreviewBadge>PDF</FilePreviewBadge>
 </FilePreview>`,
   default: stripSourceCodeBlocks(filePreviewDefaultCompositionSource),
   formats: stripSourceCodeBlocks(filePreviewFormatsCompositionSource),
   illustrations: stripSourceCodeBlocks(filePreviewIllustrationsCompositionSource),
+  inlineBadge: stripSourceCodeBlocks(filePreviewInlineBadgeCompositionSource),
   media: stripSourceCodeBlocks(filePreviewMediaCompositionSource),
 } as const;
 
@@ -86,22 +88,16 @@ const FILE_PREVIEW_MEDIA_PROPS: readonly PropRow[] = [
 
 const FILE_PREVIEW_BADGE_PROPS: readonly PropRow[] = [
   {
-    name: "type",
-    type: '"pdf" | "zip" | "docx" | "img" | "mp4" | …',
+    name: "placement",
+    type: '"corner" | "inline"',
+    default: '"corner"',
     description:
-      "Semantic file kind. Maps onto badge color (e.g. pdf→rose, zip→amber). Mutually exclusive with color.",
-  },
-  {
-    name: "color",
-    type: '"rose" | "blue" | "amber" | "emerald" | "violet" | "neutral"',
-    default: '"rose"',
-    description:
-      "Direct badge color. Mutually exclusive with type; omit both to keep the rose default.",
+      "corner tags the bottom-right of a FilePreview icon; inline is a fixed-width chip of its own, placed before a file name in a row or a head.",
   },
   {
     name: "...props",
     type: 'useRender.ComponentProps<"span">',
-    description: "Format label such as PDF or TXT. Render it beside the visual part.",
+    description: "Format label such as PDF or TXT.",
   },
 ];
 
@@ -141,17 +137,20 @@ function FilePreviewDoc() {
       <DocSection id="usage" title="Usage">
         <div className="space-y-8">
           <DocSubsection parentId="usage" id="formats" title="Format labels">
-            <DocNote>
-              Prefer <InlineCode>type</InlineCode> for semantic kinds (<InlineCode>pdf</InlineCode>,{" "}
-              <InlineCode>zip</InlineCode>, …). It maps onto badge color. Use{" "}
-              <InlineCode>color</InlineCode> only when you need a one-off that is not in the type
-              map — the two props are mutually exclusive.
-            </DocNote>
             <Preview>
               <Preview.Canvas>
                 <FilePreviewFormatsComposition />
               </Preview.Canvas>
               <Preview.Code html={code.formats} />
+            </Preview>
+          </DocSubsection>
+
+          <DocSubsection parentId="usage" id="inline-badge" title="Inline badge">
+            <Preview>
+              <Preview.Canvas>
+                <FilePreviewInlineBadgeComposition />
+              </Preview.Canvas>
+              <Preview.Code html={code.inlineBadge} />
             </Preview>
           </DocSubsection>
 

@@ -27,7 +27,7 @@ export function SidebarItemThreadUnreadComposition() {
           <SidebarItemTitle className="font-bold">proj-rui</SidebarItemTitle>
         </SidebarItemContent>
         <SidebarItemAside>
-          <SidebarItemCount variant="accent">
+          <SidebarItemCount>
             <SidebarItemThreadCount>2</SidebarItemThreadCount>
           </SidebarItemCount>
         </SidebarItemAside>
@@ -46,7 +46,7 @@ export function SidebarItemThreadUnreadComposition() {
           <SidebarItemIndicator role="img" aria-label="Mentioned you">
             <AtSign aria-hidden />
           </SidebarItemIndicator>
-          <SidebarItemCount variant="accent">
+          <SidebarItemCount>
             8
             <SidebarItemCountSeparator />
             <SidebarItemThreadCount>3</SidebarItemThreadCount>

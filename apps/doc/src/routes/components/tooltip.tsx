@@ -91,7 +91,7 @@ import { Bookmark, MessageSquare, SmilePlus } from "lucide-react";
         <span tabIndex={0} aria-label="Agent is thinking" className="inline-flex items-center gap-2" />
       }
     >
-      <Status variant="primary" pulse aria-hidden />
+      <Status variant="primary" aria-hidden />
       Thinking
     </TooltipTrigger>
     <TooltipContent>Agent is thinking</TooltipContent>
@@ -189,7 +189,7 @@ import { SmilePlus } from "lucide-react";
           />
         }
       >
-        <Status variant="primary" pulse aria-hidden />
+        <Status variant="primary" aria-hidden />
         Thinking
       </TooltipTrigger>
       <TooltipContent side="left">Left</TooltipContent>
@@ -416,7 +416,7 @@ const TOOLTIP_CONTENT_PROPS: readonly PropRow[] = [
   {
     name: "sideOffset",
     type: "number",
-    default: "8 elegant, 6 brutal",
+    default: "8",
     description: "Distance from the trigger edge, passed to Base UI Positioner.",
   },
   {
@@ -622,7 +622,7 @@ function ArrowPlacementExample() {
                 />
               }
             >
-              <Status variant="primary" pulse aria-hidden />
+              <Status variant="primary" aria-hidden />
               Thinking
             </TooltipTrigger>
             <TooltipContent side="left">Left</TooltipContent>
@@ -660,12 +660,7 @@ function EdgeCollisionExample() {
         </span>
         <label className="flex items-center gap-2 text-xs font-medium text-foreground-muted cursor-pointer select-none">
           <span>Show all</span>
-          <Switch
-            checked={openAll}
-            onCheckedChange={setOpenAll}
-            size="sm"
-            aria-label="Show all tooltips"
-          />
+          <Switch checked={openAll} onCheckedChange={setOpenAll} aria-label="Show all tooltips" />
         </label>
       </div>
 
@@ -818,7 +813,7 @@ function TooltipDoc() {
                         />
                       }
                     >
-                      <Status variant="primary" pulse aria-hidden />
+                      <Status variant="primary" aria-hidden />
                       Thinking
                     </TooltipTrigger>
                   )}
@@ -937,7 +932,6 @@ function TooltipDoc() {
             </Preview>
           </DocSubsection>
           <DocSubsection parentId="usage" id="arrow-placement" title="Arrow placement">
-            <DocNote>Brutal renders tooltip hints without arrows.</DocNote>
             <Preview>
               <Preview.Canvas>
                 <ArrowPlacementExample />

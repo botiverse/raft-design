@@ -11,11 +11,7 @@ import {
   ComposerToolbarLabel,
   useComposerSuggestions,
 } from "raft-ui";
-import {
-  Composer,
-  ComposerInput,
-  ComposerToolbar,
-} from "#/modules/chat-composer/composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 
 import {
   detectSuggestion,
@@ -90,7 +86,6 @@ export function ComposerSuggestionComposition({
             <ComposerMeta>
               <ComposerToolbarLabel>
                 <Checkbox
-                  size="sm"
                   aria-label="Send as task"
                   checked={alsoCreateTask}
                   onCheckedChange={setAlsoCreateTask}

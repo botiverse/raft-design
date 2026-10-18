@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { RadioGroup, RadioGroupItem, useThemeFamily } from "raft-ui";
+import { RadioGroup, RadioGroupItem } from "raft-ui";
 import { tv } from "tailwind-variants/lite";
 
 const RESET_MODE_OPTIONS = [
@@ -32,33 +32,13 @@ const resetModeOption = tv({
       "flex w-full cursor-pointer items-start text-left",
       "has-[[data-slot=radio-group-item]:focus-visible]:ring-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-line-strong has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-2 has-[[data-slot=radio-group-item]:focus-visible]:ring-offset-layer-canvas-muted",
       "has-[[data-slot=radio-group-item][data-disabled]]:cursor-not-allowed",
+      "gap-3 rounded-container border border-line-muted bg-layer-card p-4",
+      "hover:press-overlay",
+      "has-[[data-slot=radio-group-item][data-checked]]:border-line-seam has-[[data-slot=radio-group-item][data-checked]]:bg-info-soft",
+      "has-[[data-slot=radio-group-item][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-disabled]]:bg-fill-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-none",
+      "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:border-line-muted has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-fill-muted",
     ],
-    label: "text-foreground",
-  },
-  variants: {
-    theme: {
-      brutal: {
-        card: [
-          "gap-2 border-2 border-black/30 bg-white p-4",
-          "hover:bg-brutal-cyan/10",
-          "has-[[data-slot=radio-group-item][data-checked]]:border-black has-[[data-slot=radio-group-item][data-checked]]:bg-brutal-cyan/20 has-[[data-slot=radio-group-item][data-checked]]:shadow-raft-sm",
-          "has-[[data-slot=radio-group-item][data-disabled]]:border-line-hairline has-[[data-slot=radio-group-item][data-disabled]]:bg-fill-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-none has-[[data-slot=radio-group-item][data-disabled]]:hover:bg-fill-muted",
-          "has-[[data-slot=radio-group-item][data-checked][data-disabled]]:bg-fill-muted",
-        ],
-        label: "text-sm font-bold leading-none",
-      },
-      elegant: {
-        card: [
-          "gap-2.5 rounded-md bg-layer-panel p-3.5",
-          "shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.035),0_0_0_1px_var(--line-muted)]",
-          "hover:bg-foreground-strong/4",
-          "has-[[data-slot=radio-group-item][data-checked]]:bg-foreground-strong/4",
-          "has-[[data-slot=radio-group-item][data-checked]]:shadow-[inset_0_1px_0.5px_oklch(1_0_0/0.05),0_1px_1.5px_-1px_oklch(0_0_0/0.05),0_0_0_1px_oklch(0_0_0/0.14)]",
-          "has-[[data-slot=radio-group-item][data-disabled]]:bg-fill-muted has-[[data-slot=radio-group-item][data-disabled]]:text-foreground-disabled has-[[data-slot=radio-group-item][data-disabled]]:shadow-[0_0_0_1px_var(--line-muted)]",
-        ],
-        label: "text-[13px] font-medium tracking-[-0.005em]",
-      },
-    },
+    label: ["text-foreground", "text-subhead font-semibold"],
   },
 });
 
@@ -69,8 +49,7 @@ export function RadioGroupResetModeRestoredComposition({
 }: RadioGroupResetModeRestoredCompositionProps) {
   const [selectedValue, setSelectedValue] = useState(value ?? "restart");
   const currentValue = value ?? selectedValue;
-  const theme = useThemeFamily();
-  const styles = resetModeOption({ theme });
+  const styles = resetModeOption();
 
   const handleValueChange = useCallback(
     (nextValue: string) => {

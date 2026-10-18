@@ -159,8 +159,7 @@ const PREVIEW_CARD_ARROW_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: "Base UI PreviewCard.Arrow.Props",
-    description:
-      "Optional pointer triangle. Brutal hides it to match the source card, which never rendered one.",
+    description: "Optional pointer triangle.",
   },
 ];
 
@@ -212,13 +211,9 @@ function MentionCardBody() {
           <div className="flex items-center gap-1.5">
             <PreviewCardTitle>Atlas</PreviewCardTitle>
             <Status aria-hidden size="sm" variant="success" />
-            <span className="truncate font-mono text-xs text-foreground-muted in-data-[theme=brutal]:text-black/60">
-              Online
-            </span>
+            <span className="truncate font-mono text-xs text-foreground-muted">Online</span>
           </div>
-          <div className="truncate font-mono text-xs text-foreground-muted in-data-[theme=brutal]:text-black/60">
-            @atlas
-          </div>
+          <div className="truncate font-mono text-xs text-foreground-muted">@atlas</div>
         </div>
       </PreviewCardHeader>
       <PreviewCardSeparator />
@@ -238,7 +233,7 @@ function DefaultOpenPreviewCard() {
           render={
             <Link
               to="/components/avatar"
-              className="cursor-default select-text font-sans font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 in-data-[theme=brutal]:text-black in-data-[theme=brutal]:decoration-black/30"
+              className="cursor-default select-text font-sans font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2"
             />
           }
         >

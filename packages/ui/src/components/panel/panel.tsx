@@ -1,7 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { panel } from "./panel.recipe";
 
 export type PanelEdge = "attached" | "inset";
@@ -11,8 +10,7 @@ export type PanelProps = useRender.ComponentProps<"section"> & {
 };
 
 export function Panel({ className, edge, render, ...props }: PanelProps) {
-  const theme = useThemeFamily();
-  const { root } = panel({ edge, theme });
+  const { root } = panel({ edge });
   const defaultProps: SlotElementProps<"section"> = {
     "data-edge": edge,
     "data-slot": "panel",
@@ -34,8 +32,7 @@ export type PanelHeaderRootProps = useRender.ComponentProps<"div">;
  * such as `ThreadPanelHeader` — it is not exclusive to `PanelHeader`.
  */
 export function PanelHeaderRoot({ className, render, ...props }: PanelHeaderRootProps) {
-  const theme = useThemeFamily();
-  const { header } = panel({ theme });
+  const { header } = panel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-header-root",
     className: header({ className }),
@@ -51,8 +48,7 @@ export function PanelHeaderRoot({ className, render, ...props }: PanelHeaderRoot
 export type PanelBodyProps = useRender.ComponentProps<"div">;
 
 export function PanelBody({ className, render, ...props }: PanelBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = panel({ theme });
+  const { body } = panel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-body",
     className: body({ className }),
@@ -68,8 +64,7 @@ export function PanelBody({ className, render, ...props }: PanelBodyProps) {
 export type PanelScrollViewportProps = useRender.ComponentProps<"div">;
 
 export function PanelScrollViewport({ className, render, ...props }: PanelScrollViewportProps) {
-  const theme = useThemeFamily();
-  const { scrollViewport } = panel({ theme });
+  const { scrollViewport } = panel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-scroll-viewport",
     className: scrollViewport({ className }),
@@ -85,8 +80,7 @@ export function PanelScrollViewport({ className, render, ...props }: PanelScroll
 export type PanelScrollContentProps = useRender.ComponentProps<"div">;
 
 export function PanelScrollContent({ className, render, ...props }: PanelScrollContentProps) {
-  const theme = useThemeFamily();
-  const { scrollContent } = panel({ theme });
+  const { scrollContent } = panel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-scroll-content",
     className: scrollContent({ className }),
@@ -102,8 +96,7 @@ export function PanelScrollContent({ className, render, ...props }: PanelScrollC
 export type PanelSectionProps = useRender.ComponentProps<"section">;
 
 export function PanelSection({ className, render, ...props }: PanelSectionProps) {
-  const theme = useThemeFamily();
-  const { section } = panel({ theme });
+  const { section } = panel();
   const defaultProps: SlotElementProps<"section"> = {
     "data-slot": "panel-section",
     className: section({ className }),
@@ -119,8 +112,7 @@ export function PanelSection({ className, render, ...props }: PanelSectionProps)
 export type PanelFooterProps = useRender.ComponentProps<"div">;
 
 export function PanelFooter({ className, render, ...props }: PanelFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = panel({ theme });
+  const { footer } = panel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "panel-footer",
     className: footer({ className }),

@@ -17,7 +17,7 @@ const INSIDE_TOP_RIGHT: AvatarBadgeOffset = ["85%", "15%"];
 export function AvatarBadgeOffsetContent() {
   return (
     <div className="flex items-end gap-6">
-      {/* No offset: the theme's default bottom-right spot. */}
+      {/* No offset: the default bottom-right spot. */}
       <Avatar size="md" type="agent">
         <AvatarFallback />
         <AvatarBadge />

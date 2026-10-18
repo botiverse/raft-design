@@ -25,7 +25,7 @@ afterEach(() => {
 
 test("toast command options apply contentClassName to the default toast content", async () => {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <ToastProvider />
     </ThemeProvider>,
   );
@@ -48,7 +48,7 @@ test("toast command options apply contentClassName to the default toast content"
 
 test("toast progress is opt-in and uses the command timeout duration", async () => {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <ToastProvider />
     </ThemeProvider>,
   );
@@ -64,14 +64,17 @@ test("toast progress is opt-in and uses the command timeout duration", async () 
 
   expect(progress).not.toBeNull();
   expect(progress?.style.getPropertyValue("--toast-progress-duration")).toBe("5000ms");
-  expect(progress?.className).toContain("bottom-0");
+  // A bar along the toast's bottom edge, inset from its corners.
+  expect(progress?.className.split(/\s+/)).toEqual(
+    expect.arrayContaining(["absolute", "bottom-1.5", "inset-x-4"]),
+  );
   expect(progress?.className).toContain("group-hover/toast:[animation-play-state:paused]");
   expect(progress?.className).toContain("group-focus-within/toast:[animation-play-state:paused]");
 });
 
 test("toast progress stays hidden without opt-in", async () => {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <ToastProvider />
     </ThemeProvider>,
   );
@@ -84,7 +87,7 @@ test("toast progress stays hidden without opt-in", async () => {
 
 test("toast progress inherits the provider timeout when a command timeout is not set", async () => {
   render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <ToastProvider timeout={3600} />
     </ThemeProvider>,
   );
@@ -100,7 +103,7 @@ test("toast progress inherits the provider timeout when a command timeout is not
 
 test("toast progress is not rendered for persistent toasts", async () => {
   render(
-    <ThemeProvider theme="brutal">
+    <ThemeProvider>
       <ToastProvider />
     </ThemeProvider>,
   );
@@ -113,7 +116,7 @@ test("toast progress is not rendered for persistent toasts", async () => {
 
 test("ToastProgress exposes the reusable progress slot", () => {
   const { container } = render(
-    <ThemeProvider theme="elegant">
+    <ThemeProvider>
       <ToastProgress duration={1200} className="custom-progress" />
     </ThemeProvider>,
   );

@@ -30,8 +30,8 @@ async function renderRoute(path: string) {
     ...router.options,
     history: createMemoryHistory({ initialEntries: [path] }),
   });
-  // The root loader reads the theme cookie through a server function, which has
-  // no request context outside the Start server. Markdown has no theme.
+  // The root loader reads the color-mode cookie through a server function, which
+  // has no request context outside the Start server. Markdown has no mode.
   (router.routeTree as { options: { loader?: unknown } }).options.loader = () => ({
     storedPreviewTheme: undefined,
   });
@@ -51,7 +51,7 @@ export async function renderMarkdownPages(): Promise<MarkdownPage[]> {
     for (const path of listDocPaths()) {
       beginMarkdownPage();
       const markdown = (await renderRoute(path)).trim();
-      // Layout routes such as `/tokens/shadows` only redirect to a child.
+      // Layout routes that only redirect to a child render nothing.
       if (!markdown) continue;
       pages.push({ path, title: titleOf(markdown, path), markdown });
     }

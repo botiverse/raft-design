@@ -27,7 +27,6 @@ import {
   FilesViewport,
   FileThumbnail,
 } from "raft-ui";
-import type { FilePreviewBadgeType } from "raft-ui";
 import { Clock3, Download, ExternalLink, Paperclip } from "lucide-react";
 
 /** Matches source ChannelFilesPanel near-bottom auto-load threshold. */
@@ -53,36 +52,6 @@ export type FilesPanelCompositionProps = {
   onJumpToOriginal?: (file: FileListEntry) => void;
   onLoadMore?: () => void;
   onPreview?: (file: FileListEntry) => void;
-};
-
-const FILE_PREVIEW_BADGE_TYPES = new Set<string>([
-  "pdf",
-  "doc",
-  "docx",
-  "txt",
-  "md",
-  "csv",
-  "json",
-  "zip",
-  "html",
-  "code",
-  "img",
-  "png",
-  "jpg",
-  "jpeg",
-  "gif",
-  "webp",
-  "svg",
-  "mp4",
-  "mov",
-]);
-
-const FILE_TYPE_BADGE: Record<FileListEntry["type"], FilePreviewBadgeType | undefined> = {
-  archive: "zip",
-  file: undefined,
-  image: "img",
-  pdf: "pdf",
-  video: "mp4",
 };
 
 export function FilesPanelComposition({
@@ -168,17 +137,6 @@ export function FilesPanelComposition({
   );
 }
 
-function filePreviewBadgeType(
-  filename: string,
-  type: FileListEntry["type"],
-): FilePreviewBadgeType | undefined {
-  const extension = filename.split(".").at(-1)?.toLowerCase();
-  if (extension && FILE_PREVIEW_BADGE_TYPES.has(extension)) {
-    return extension as FilePreviewBadgeType;
-  }
-  return FILE_TYPE_BADGE[type];
-}
-
 function filePreviewLabel(filename: string) {
   const extension = filename.split(".").at(-1);
   return extension ? extension.slice(0, 4).toUpperCase() : "FILE";
@@ -186,7 +144,6 @@ function filePreviewLabel(filename: string) {
 
 function FileThumbnailFallback({ file }: { file: FileListEntry }) {
   const extension = file.filename.split(".").at(-1)?.toLowerCase();
-  const badgeType = filePreviewBadgeType(file.filename, file.type);
   const badgeLabel = filePreviewLabel(file.filename);
   const illustration = file.thumbnailUrl ? (
     <FilePreviewMedia>
@@ -205,11 +162,7 @@ function FileThumbnailFallback({ file }: { file: FileListEntry }) {
   return (
     <FilePreview>
       {illustration}
-      {badgeType ? (
-        <FilePreviewBadge type={badgeType}>{badgeLabel}</FilePreviewBadge>
-      ) : (
-        <FilePreviewBadge color="neutral">{badgeLabel}</FilePreviewBadge>
-      )}
+      <FilePreviewBadge>{badgeLabel}</FilePreviewBadge>
     </FilePreview>
   );
 }

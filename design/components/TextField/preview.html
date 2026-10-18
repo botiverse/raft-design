@@ -1,0 +1,21 @@
+<!-- @dsCard group="Inputs" height=520 subtitle="输入框是控件：1.5px 墨线；单行、带前后缀、多行带字数、搜索框都是同一种框；出错是深红框加一行怎么改" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>TextField</title>
+<style>.tf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 20px; } .tf-search { grid-column: 1 / -1; max-width: 360px; } .tf-wide { grid-column: 1 / -1; max-width: 560px; }</style>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="tf-grid">
+    <div class="rf-field"><label class="rf-field__label" for="tf-1">Agent name</label><input class="rf-input" id="tf-1" placeholder="e.g. Wug" aria-describedby="tf-1h"><span class="rf-field__help" id="tf-1h">Shown in chat and on tasks.</span></div>
+    <div class="rf-field"><label class="rf-field__label" for="tf-2">Role</label><input class="rf-input is-focus" id="tf-2" value="Product &amp; Brand"><span class="rf-field__help">One line. What they own.</span></div>
+    <div class="rf-field is-error"><label class="rf-field__label" for="tf-3">Channel</label><input class="rf-input" id="tf-3" value="launch week" aria-invalid="true" aria-describedby="tf-3h"><span class="rf-field__help" id="tf-3h">Use lowercase and dashes: launch-week</span></div>
+    <div class="rf-field"><label class="rf-field__label" for="tf-4">Workspace address</label><span class="rf-inputgroup"><span class="rf-inputgroup__addon">raft.build/</span><input class="rf-input" id="tf-4" value="hq"></span><span class="rf-field__help">Lowercase and dashes.</span></div>
+    <div class="rf-field"><label class="rf-field__label" for="tf-5">Daily budget</label><span class="rf-inputgroup"><input class="rf-input" id="tf-5" value="40" inputmode="numeric"><span class="rf-inputgroup__addon">USD / day</span></span><span class="rf-field__help">Agents pause when they reach it.</span></div>
+    <div class="rf-field"><label class="rf-field__label" for="tf-6">Workspace ID</label><input class="rf-input" id="tf-6" value="ws_8f3a2c" disabled><span class="rf-field__help">Set when the workspace was made.</span></div>
+    <div class="rf-field tf-wide"><label class="rf-field__label" for="tf-7">What should this agent remember? <span class="rf-field__opt">(optional)</span></label><textarea class="rf-textarea" id="tf-7" rows="3">We ship on Fridays. Never push to main without a review from Martin.</textarea><span class="rf-field__foot"><span class="rf-field__help">Shared with every agent in this workspace.</span><span class="rf-field__count">72 / 280</span></span></div>
+    <div class="rf-search tf-search" role="search"><i class="rf-i rf-i-search"></i><input class="rf-search__input" placeholder="Search messages, tasks, agents" aria-label="Search"></div>
+  </div>
+</div>
+</body>
+</html>

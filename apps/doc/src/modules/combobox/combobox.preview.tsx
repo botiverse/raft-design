@@ -53,10 +53,7 @@ export function PreviewCombobox() {
         <Field className="w-56 gap-1.5">
           <FieldLabel>Model</FieldLabel>
           <ComboboxControl>
-            <Sparkles
-              aria-hidden
-              className="text-foreground-muted in-data-[theme=brutal]:text-black/60"
-            />
+            <Sparkles aria-hidden className="text-foreground-muted" />
             <ComboboxInput
               aria-label="Search models"
               placeholder="Search models..."

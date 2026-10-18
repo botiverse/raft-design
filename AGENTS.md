@@ -34,6 +34,13 @@ Browser permission is never sticky. A previous user request to open or test with
 
 If a visual check would be helpful but the user has not explicitly authorized Browser use, ask first or continue with code-side inspection only.
 
+# Raft Design System
+
+raft-ui implements the Raft Design System, and `design/` is the system itself: start at `design/README.md`, then read the page and the component README (`design/components/<Comp>/README.md`) for what you touch before changing how anything looks. Each component's `preview.html` is its reference drawing and opens straight from disk.
+
+- `design/` is the source. A change that alters how something looks updates the rule it follows in the same PR, and a choice that overrides an earlier decision gets a row in `design/4-decisions.md`.
+- When raft-ui and the DS disagree, one of them is wrong: fix the code or the rule, never leave them apart.
+
 # Component Architecture Ownership
 
 The component system has three runtime layers with one-way dependencies:
@@ -77,7 +84,7 @@ Use this sequence when adding or migrating a component:
 3. Add canonical executable examples under `apps/doc/src/modules/<component>/compositions` (one example per file, `<name>.composition.tsx`; keep it flat as `<component>.composition.tsx` when there is a single example). Cover the normal structure, meaningful visual states, disabled/error/loading behavior, and relevant overlays.
 4. Build the thin docs route in `routes/components` by consuming those compositions and their `?raw` source, and extract any interactive preview into `modules/<component>/<component>.preview.tsx`. Do not copy Current JSX into route-local fixtures or snippet strings. Then verify the route against the Displayed Code invariants in `apps/doc/AGENTS.md` — real API in every block, imports collapsed, strip markers balanced with nothing dangling, code matching its canvas. No tooling checks these.
 5. Add the component to Playground only when it participates in a real shell/product scenario or needs cross-component verification. Reuse the canonical composition and add only the thin mock business wrapper or coordinated state Playground needs.
-6. Audit all three layers for business leakage, duplicated implementations, theme-controlled business DOM, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
+6. Audit all three layers for business leakage, duplicated implementations, local component-style repairs, fake ARIA widgets, and enabled-but-inert controls.
 7. Run `vp check --fix`, `git diff --check`, and React Doctor for the changed React packages. For cross-layer architecture changes, repeat an independent strict review until no P1/P2 findings remain.
 
 Browser, build, prerender, and test commands remain governed by the validation boundaries in this file; the SOP does not grant extra validation permission.
@@ -86,7 +93,7 @@ Browser, build, prerender, and test commands remain governed by the validation b
 
 Hold these whenever you move, collapse, or restyle existing component structure:
 
-- **DOM and className parity.** A structure-preserving refactor must render the same DOM and classes as before. Diff the output against the pre-change callsite (for example the existing Playground assembly) and treat any structural delta as a regression. Brutal stays pixel-identical; elegant may take token-driven adjustments.
+- **DOM and className parity.** A structure-preserving refactor must render the same DOM and classes as before. Diff the output against the pre-change callsite (for example the existing Playground assembly) and treat any structural delta as a regression.
 - **Push generic boilerplate down as additive sugar.** When a wrapper carries no business content, move it into the `packages/ui` atom instead of leaving it in a composition. Keep the new prop or part additive: it activates only when passed, and the existing granular path stays byte-for-byte unchanged so current callsites keep working.
 - **Slots must earn their existence.** Before keeping a slot or part, confirm the rendered DOM shows a real structural or visual difference (a border, spacing, or reflow). If it collapses into a neighbor with no such difference, delete it and merge. Verify against actual output, not the intended design.
 - **Inventory every callsite before changing or removing an API.** Grep all consumers across `packages/ui`, `modules`, `routes/components`, and `playground` first. Backward-compatibility scope is the full callsite set, not the one component you started from.
@@ -120,7 +127,7 @@ const button = tv({
 
 ## Color tokens
 
-Token values and theme scopes live in `packages/ui/src/foundation.css`; `styles.css` imports them and defines Tailwind mappings. The docs render the tokens at `/tokens/colors`.
+Token values and the light/dark scopes live in `packages/ui/src/foundation.css`; `styles.css` imports them and defines Tailwind mappings. The docs render the tokens at `/tokens/colors`.
 
 - All colors are authored in oklch. Never use hex/rgb/hsl or Tailwind default palette classes (`gray-*`, `neutral-*`, ...).
 - Reach for semantic tokens first: `layer-*` (surfaces), `line-*` (borders), `foreground-*` (text), state families, and the ink overlay ramp (`ink-2`...`ink-40`, step = alpha %) for neutral washes, hairlines, and hover/pressed fills on transparent surfaces.
@@ -128,4 +135,4 @@ Token values and theme scopes live in `packages/ui/src/foundation.css`; `styles.
 - One-off precision values (tuned tints, glass surfaces, terminal blacks) are allowed as inline `oklch()` literals — do not invent a token for a single consumer. Tokenize when a value repeats across components (rule of three).
 - Opaque values and alpha washes composite differently on non-white backgrounds — never swap one for the other during refactors without checking the actual backdrop.
 - Never write `shadow-[var(--x),...]` (tailwind-merge misclassifies var-first shadows as shadow-color and conflict resolution breaks). Use named `@theme inline` shadow utilities (e.g. `shadow-field-hover`) or keep the shadow literal inline.
-- Brutal renders must stay pixel-identical when re-expressing styles via tokens; elegant may take small token-driven adjustments.
+- Renders must stay pixel-identical when re-expressing styles via tokens.

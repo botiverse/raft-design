@@ -2,50 +2,23 @@
 
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import type { ReactNode } from "react";
-import { ThemeContext, ThemeStateContext } from "./theme-context";
-import type {
-  ResolvedThemeMode,
-  SetTheme,
-  SetThemeOptions,
-  Theme,
-  ThemeState,
-  ThemeMode,
-} from "./theme-context";
+import { ThemeStateContext } from "./theme-context";
+import type { ResolvedThemeMode, ThemeMode, ThemeState } from "./theme-context";
 
 export interface ThemeProviderProps {
-  /**
-   * Controlled visual style family. Keep using this for isolated previews and
-   * component matrix surfaces that should not own global DOM state.
-   */
-  theme?: Theme;
-  defaultTheme?: Theme;
-  onThemeChange?: (theme: Theme) => void;
-  /** Controlled light/dark behavior for the elegant family. */
+  /** Controlled colour mode. */
   mode?: ThemeMode;
   defaultMode?: ThemeMode;
   onModeChange?: (mode: ThemeMode) => void;
-  /**
-   * Persist uncontrolled family and mode selections. The mode key appends
-   * "-mode" unless `modeStorageKey` is provided.
-   */
+  /** Persist an uncontrolled mode under this localStorage key. */
   storageKey?: string;
-  modeStorageKey?: string;
   /**
-   * Sync the active family/mode onto `document.documentElement`.
-   * Defaults to true for app-level providers. Set to false for nested previews
-   * or component islands that should not mutate the app root.
+   * Put the resolved mode on `document.documentElement` (`.light` / `.dark`
+   * and `color-scheme`). Defaults to true for the app-level provider; set it to
+   * false for nested previews and islands that must not touch the page root.
    */
   syncDom?: boolean;
   children: ReactNode;
-}
-
-function readStoredTheme(storageKey: string | undefined, fallback: Theme): Theme {
-  if (typeof window === "undefined" || !storageKey) {
-    return fallback;
-  }
-
-  const stored = window.localStorage.getItem(storageKey);
-  return stored === "brutal" || stored === "elegant" ? stored : fallback;
 }
 
 function readStoredMode(storageKey: string | undefined, fallback: ThemeMode): ThemeMode {
@@ -55,12 +28,6 @@ function readStoredMode(storageKey: string | undefined, fallback: ThemeMode): Th
 
   const stored = window.localStorage.getItem(storageKey);
   return stored === "light" || stored === "dark" || stored === "system" ? stored : fallback;
-}
-
-function writeStorage(key: string | undefined, value: string) {
-  if (typeof window !== "undefined" && key) {
-    window.localStorage.setItem(key, value);
-  }
 }
 
 function subscribeSystemMode(onStoreChange: () => void) {
@@ -82,24 +49,16 @@ function getSystemMode(): ResolvedThemeMode {
 }
 
 export function ThemeProvider({
-  theme,
-  defaultTheme = "brutal",
-  onThemeChange,
   mode,
   defaultMode = "light",
   onModeChange,
   storageKey,
-  modeStorageKey = storageKey ? `${storageKey}-mode` : undefined,
   syncDom = true,
   children,
 }: ThemeProviderProps) {
-  const [uncontrolledTheme, setUncontrolledTheme] = useState<Theme>(() =>
-    readStoredTheme(storageKey, defaultTheme),
-  );
   const [uncontrolledMode, setUncontrolledMode] = useState<ThemeMode>(() =>
-    readStoredMode(modeStorageKey, defaultMode),
+    readStoredMode(storageKey, defaultMode),
   );
-  const activeTheme = theme ?? uncontrolledTheme;
   const activeMode = mode ?? uncontrolledMode;
   const systemMode = useSyncExternalStore(
     subscribeSystemMode,
@@ -108,50 +67,22 @@ export function ThemeProvider({
   );
   const resolvedMode: ResolvedThemeMode = activeMode === "system" ? systemMode : activeMode;
 
-  const commitTheme = useCallback(
-    (nextTheme: Theme) => {
-      if (theme === undefined) {
-        setUncontrolledTheme(nextTheme);
-        writeStorage(storageKey, nextTheme);
-      }
-      onThemeChange?.(nextTheme);
-    },
-    [onThemeChange, storageKey, theme],
-  );
-
-  const commitMode = useCallback(
+  const setMode = useCallback(
     (nextMode: ThemeMode) => {
       if (mode === undefined) {
         setUncontrolledMode(nextMode);
-        writeStorage(modeStorageKey, nextMode);
+        if (typeof window !== "undefined" && storageKey) {
+          window.localStorage.setItem(storageKey, nextMode);
+        }
       }
       onModeChange?.(nextMode);
     },
-    [mode, modeStorageKey, onModeChange],
-  );
-
-  const setTheme = useCallback<SetTheme>(
-    (nextTheme: Theme, options?: SetThemeOptions) => {
-      commitTheme(nextTheme);
-      if (nextTheme === "brutal") {
-        commitMode("light");
-        return;
-      }
-      if (options?.mode) {
-        commitMode(options.mode);
-      }
-    },
-    [commitMode, commitTheme],
+    [mode, onModeChange, storageKey],
   );
 
   const themeState = useMemo<ThemeState>(
-    () => ({
-      theme: activeTheme,
-      setTheme,
-      mode: activeMode,
-      resolvedMode,
-    }),
-    [activeMode, activeTheme, resolvedMode, setTheme],
+    () => ({ mode: activeMode, resolvedMode, setMode }),
+    [activeMode, resolvedMode, setMode],
   );
 
   useEffect(() => {
@@ -160,15 +91,10 @@ export function ThemeProvider({
     }
 
     const root = document.documentElement;
-    root.dataset.theme = activeTheme;
-    root.classList.toggle("light", activeTheme === "elegant" && resolvedMode === "light");
-    root.classList.toggle("dark", activeTheme === "elegant" && resolvedMode === "dark");
-    root.style.colorScheme = activeTheme === "elegant" ? resolvedMode : "light";
-  }, [activeMode, activeTheme, resolvedMode, syncDom]);
+    root.classList.toggle("light", resolvedMode === "light");
+    root.classList.toggle("dark", resolvedMode === "dark");
+    root.style.colorScheme = resolvedMode;
+  }, [resolvedMode, syncDom]);
 
-  return (
-    <ThemeStateContext.Provider value={themeState}>
-      <ThemeContext.Provider value={activeTheme}>{children}</ThemeContext.Provider>
-    </ThemeStateContext.Provider>
-  );
+  return <ThemeStateContext.Provider value={themeState}>{children}</ThemeStateContext.Provider>;
 }

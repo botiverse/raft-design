@@ -122,7 +122,7 @@ export function ChatSidebarProjectionSlot({
     <div
       aria-hidden
       data-slot="chat-sidebar-drop-placeholder"
-      className="pointer-events-none mb-0.5 h-(--chat-sidebar-dnd-placeholder-height,33.5px) w-full shrink-0 [[data-theme=brutal]_&]:mb-1"
+      className="pointer-events-none mb-0.5 h-(--chat-sidebar-dnd-placeholder-height,33.5px) w-full shrink-0"
       style={
         height == null
           ? undefined

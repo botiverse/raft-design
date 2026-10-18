@@ -67,11 +67,17 @@ describe("Tabs placement", () => {
     expect(screen.getByRole("tablist").getAttribute("data-orientation")).toBe("horizontal");
   });
 
-  it("puts the Elegant underline indicator on the side facing the panels", () => {
-    const sides = { top: "bottom-0", bottom: "top-0", left: "right-0", right: "left-0" } as const;
-    for (const [placement, side] of Object.entries(sides)) {
+  it("puts the underline on the side facing the panels", () => {
+    // The underline is the selected tab's own inset edge (no indicator part).
+    const edges = {
+      top: "data-active:shadow-[inset_0_-2px_0_var(--foreground)]",
+      bottom: "data-active:shadow-[inset_0_2px_0_var(--foreground)]",
+      left: "data-active:shadow-[inset_-2px_0_0_var(--foreground)]",
+      right: "data-active:shadow-[inset_2px_0_0_var(--foreground)]",
+    } as const;
+    for (const [placement, edge] of Object.entries(edges)) {
       const { unmount } = render(
-        <ThemeProvider theme="elegant" syncDom={false}>
+        <ThemeProvider syncDom={false}>
           <Tabs defaultValue="one" placement={placement as TabsPlacement}>
             <TabsList variant="underline">
               <TabsTab value="one">One</TabsTab>
@@ -79,8 +85,12 @@ describe("Tabs placement", () => {
           </Tabs>
         </ThemeProvider>,
       );
-      const indicator = document.querySelector('[data-slot="tabs-indicator"]');
-      expect(indicator?.className.split(" ")).toContain(side);
+      const tab = screen.getByRole("tab");
+      expect(tab.hasAttribute("data-active")).toBe(true);
+      expect(tab.className.split(" "), placement).toContain(edge);
+      for (const other of Object.values(edges)) {
+        if (other !== edge) expect(tab.className.split(" "), placement).not.toContain(other);
+      }
       unmount();
     }
   });

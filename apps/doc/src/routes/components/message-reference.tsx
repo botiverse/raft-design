@@ -42,7 +42,6 @@ const TOC = [
 ] as const;
 
 const ANATOMY_SOURCE = `import {
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceIndicator,
   MessageReferenceLabel,
@@ -57,7 +56,6 @@ const ANATOMY_SOURCE = `import {
   </MessageReferenceText>
 
   <MessageReferenceChip>
-    <MessageReferenceBadge />
     {/* Caller-owned icon */}
     <MessageReferenceLabel />
   </MessageReferenceChip>
@@ -109,15 +107,6 @@ const MESSAGE_REFERENCE_UNAVAILABLE_PROPS: readonly PropRow[] = [
     type: 'useRender.ComponentProps<"span">',
     description:
       "Opt-in unavailable surface for consumers that know a target cannot open. Source keeps unresolved tokens as plain text instead of selecting this state automatically.",
-  },
-];
-
-const MESSAGE_REFERENCE_BADGE_PROPS: readonly PropRow[] = [
-  {
-    name: "...props",
-    type: 'useRender.ComponentProps<"span">',
-    description:
-      "Optional caption naming the reference type. Elegant reveals it to the left of the chip icon on hover or focus; Brutal keeps it hidden.",
   },
 ];
 
@@ -289,9 +278,8 @@ function MessageReferenceDoc() {
             <p className="mb-3 text-sm text-foreground-muted">
               Use <InlineCode>#channel</InlineCode> for public, private, and joint channels, and{" "}
               <InlineCode>dm:@member</InlineCode> for a direct message. These top-level destinations
-              use the accent surface. The resolved destination type chooses the caller-owned icon
-              and badge; unrecognized destinations remain verbatim text. Elegant reveals the type
-              badge on hover or focus; Brutal keeps it hidden.
+              use the accent surface. The resolved destination type chooses the caller-owned icon;
+              unrecognized destinations remain verbatim text.
             </p>
             <UsagePreview
               code={code.conversationDestinations}
@@ -406,13 +394,6 @@ function MessageReferenceDoc() {
             title="MessageReferenceUnavailable"
           >
             <PropsTable rows={MESSAGE_REFERENCE_UNAVAILABLE_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-message-reference-badge"
-            title="MessageReferenceBadge"
-          >
-            <PropsTable rows={MESSAGE_REFERENCE_BADGE_PROPS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"

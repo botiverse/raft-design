@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import {
   Badge,
+  Checkbox,
   InboxItem,
   InboxItemActions,
   InboxItemBody,
@@ -25,23 +26,18 @@ import {
   InboxItemTrailing,
   PanelAction,
   PanelToggleAction,
-  useThemeFamily,
 } from "raft-ui";
 import { useCallback, useState } from "react";
 
 import { ACTIVITY_COMPOSITION_ITEMS } from "../activity.fixtures.ts";
 import type { ActivityCompositionItem } from "../activity.fixtures.ts";
-import { ActivitySelectionCheckbox } from "../activity-inbox.helpers.tsx";
 
 const ACTIVE_ITEM_ID = "dm:samira";
 const CHECKED_ITEM_ID = "mention:general";
 const ACTIVITY_ITEM_STATES: readonly ActivityCompositionItem[] = ACTIVITY_COMPOSITION_ITEMS;
-const BRUTAL_TASK_BADGE_STYLE = { backgroundColor: "var(--color-brutal-orange)" };
 
 /** Static gallery of Activity inbox item structures and visual states. */
 export function ActivityPreviewComposition() {
-  const theme = useThemeFamily();
-
   return (
     <div className="flex w-full max-w-5xl flex-col gap-2">
       {ACTIVITY_ITEM_STATES.map((item) => {
@@ -53,10 +49,7 @@ export function ActivityPreviewComposition() {
         return (
           <InboxItem key={item.id} active={active} data-unread={item.unreadCount > 0 || undefined}>
             <InboxItemSelection>
-              <ActivitySelectionCheckbox
-                defaultChecked={checked}
-                aria-label="Toggle activity item selection"
-              />
+              <Checkbox defaultChecked={checked} aria-label="Toggle activity item selection" />
             </InboxItemSelection>
 
             <InboxItemContent>
@@ -75,37 +68,31 @@ export function ActivityPreviewComposition() {
               </InboxItemBody>
               <InboxItemMetadata>
                 {item.task ? (
-                  <Badge
-                    variant="warning"
-                    uppercase={false}
-                    style={theme === "brutal" ? BRUTAL_TASK_BADGE_STYLE : undefined}
-                  >
+                  <Badge variant="warning">
                     <Circle aria-hidden size={10} />#{item.task.number}
                     {item.task.claimedBy ? ` @${item.task.claimedBy}` : null}
                   </Badge>
                 ) : null}
                 {item.replyCount === undefined ? null : (
-                  <Badge appearance="outline" variant="muted" uppercase={false}>
+                  <Badge appearance="outline" variant="muted">
                     {item.replyCount} replies
                   </Badge>
                 )}
                 {item.kind === "thread" && item.following === false ? (
-                  <Badge appearance="outline" variant="muted" uppercase={false}>
+                  <Badge appearance="outline" variant="muted">
                     <BellOff aria-hidden size={10} /> Unfollowed
                   </Badge>
                 ) : null}
                 {item.hasMention && item.unreadCount > 0 ? (
-                  <Badge variant="primary" uppercase={false}>
+                  <Badge variant="primary">
                     <AtSign aria-hidden size={10} /> Mention
                   </Badge>
                 ) : null}
                 {item.unreadCount > 0 ? (
-                  <Badge variant="accent" uppercase={false}>
-                    {item.unreadCount} new
-                  </Badge>
+                  <Badge variant="accent">{item.unreadCount} new</Badge>
                 ) : null}
                 {item.draft ? (
-                  <Badge appearance="outline" variant="muted" uppercase={false}>
+                  <Badge appearance="outline" variant="muted">
                     <Pencil aria-hidden size={10} /> Draft
                   </Badge>
                 ) : null}

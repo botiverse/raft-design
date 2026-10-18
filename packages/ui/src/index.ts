@@ -37,8 +37,10 @@ export {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogNav,
   DialogOverlay,
   DialogPortal,
+  DialogSurface,
   DialogTitle,
   DialogTrigger,
 } from "./components/dialog/index";
@@ -49,9 +51,11 @@ export type {
   DialogDescriptionProps,
   DialogFooterProps,
   DialogHeaderProps,
+  DialogNavProps,
   DialogOverlayProps,
   DialogPortalProps,
   DialogProps,
+  DialogSurfaceProps,
   DialogTitleProps,
   DialogTriggerProps,
 } from "./components/dialog/index";
@@ -84,6 +88,9 @@ export type {
   DrawerTitleProps,
   DrawerTriggerProps,
 } from "./components/drawer/index";
+
+export { FormSection } from "./components/form-section/index";
+export type { FormSectionProps } from "./components/form-section/index";
 
 export { Button, buttonVariants } from "./components/button/index";
 export type { ButtonProps } from "./components/button/index";
@@ -127,7 +134,6 @@ export {
   AppRailHeader,
   AppRailItem,
   AppRailItemAttention,
-  AppRailItemAttentionMask,
   AppRailItemBadge,
   AppRailItemIcon,
   AppRailItemIndicator,
@@ -138,7 +144,6 @@ export {
 export type {
   AppRailFooterProps,
   AppRailHeaderProps,
-  AppRailItemAttentionMaskProps,
   AppRailItemAttentionProps,
   AppRailItemBadgeProps,
   AppRailItemIconProps,
@@ -160,8 +165,8 @@ export type {
   CopyableCodeRootProps,
 } from "./components/copyable-code/index";
 
-export { Checkbox } from "./components/checkbox/index";
-export type { CheckboxProps } from "./components/checkbox/index";
+export { Checkbox, CheckboxIndicator } from "./components/checkbox/index";
+export type { CheckboxIndicatorProps, CheckboxProps } from "./components/checkbox/index";
 
 export {
   SidebarBody,
@@ -243,7 +248,6 @@ export type {
   SidebarItemMetaIconProps,
   SidebarItemStatusProps,
   SidebarItemProps,
-  SidebarItemVariant,
   SidebarItemSubtitleProps,
   SidebarItemThreadCountProps,
   SidebarItemTitleProps,
@@ -753,7 +757,6 @@ export type {
 } from "./components/markdown/index";
 
 export {
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceIndicator,
   MessageReferenceLabel,
@@ -762,7 +765,6 @@ export {
   MessageReferenceUnavailable,
 } from "./components/message-item/index";
 export type {
-  MessageReferenceBadgeProps,
   MessageReferenceChipProps,
   MessageReferenceChipVariant,
   MessageReferenceIndicatorProps,
@@ -1227,24 +1229,12 @@ export type {
   TimelineTitleProps,
 } from "./components/timeline/index";
 
-export {
-  IslandIndicator,
-  OtterIndicator,
-  OtterTraveler,
-  Step,
-  Steps,
-} from "./components/steps/index";
+export { OtterIndicator, Step, Steps } from "./components/steps/index";
 export type {
-  IslandIndicatorProps,
   OtterIndicatorProps,
-  OtterTravelerProps,
-  StepIndicatorState,
   StepProps,
   StepsProps,
-  StepsSize,
   StepStatus,
-  StepsTrack,
-  StepTravelerState,
 } from "./components/steps/index";
 
 export {
@@ -1281,9 +1271,7 @@ export {
   FilePreviewMedia,
 } from "./components/file-preview/index";
 export type {
-  FilePreviewBadgeColor,
   FilePreviewBadgeProps,
-  FilePreviewBadgeType,
   FilePreviewCodeProps,
   FilePreviewDocumentProps,
   FilePreviewFileProps,
@@ -1490,8 +1478,6 @@ export {
   SortableTabsList,
   SortableTabsTab,
   Tabs,
-  TabsBackground,
-  TabsIndicator,
   TabsLabel,
   TabsList,
   TabsPanel,
@@ -1502,8 +1488,6 @@ export type {
   OrderedTabItem,
   SortableTabsListProps,
   SortableTabsTabProps,
-  TabsBackgroundProps,
-  TabsIndicatorProps,
   TabsLabelProps,
   TabsListProps,
   TabsPanelProps,
@@ -1554,6 +1538,9 @@ export {
   PanelHeaderRoot,
   PanelHeading,
   PanelMeta,
+  PanelNotice,
+  PanelNoticeActions,
+  PanelNoticeContent,
   PanelScrollContent,
   PanelScrollViewport,
   PanelSection,
@@ -1575,6 +1562,10 @@ export type {
   PanelHeaderRootProps,
   PanelHeadingProps,
   PanelMetaProps,
+  PanelNoticeActionsProps,
+  PanelNoticeContentProps,
+  PanelNoticeProps,
+  PanelNoticeStatus,
   PanelProps,
   PanelScrollContentProps,
   PanelScrollViewportProps,
@@ -1662,18 +1653,8 @@ export * from "./components/activity-inbox/index";
 export * from "./components/inbox-item/index";
 export * from "./components/search/index";
 
-export { BrutalOnly, ElegantOnly } from "./components/theme-only/index";
-export type { ThemeOnlyProps } from "./components/theme-only/index";
-
 export { cn } from "./lib/cn";
 export { ThemeProvider } from "./lib/theme/theme-provider";
 export type { ThemeProviderProps } from "./lib/theme/theme-provider";
-export { useTheme, useThemeFamily } from "./lib/theme/use-theme";
-export type {
-  ResolvedThemeMode,
-  SetTheme,
-  SetThemeOptions,
-  Theme,
-  ThemeMode,
-  ThemeState,
-} from "./lib/theme/theme-context";
+export { useTheme } from "./lib/theme/use-theme";
+export type { ResolvedThemeMode, ThemeMode, ThemeState } from "./lib/theme/theme-context";

@@ -20,14 +20,14 @@ export function PreviewCardMentionComposition({
 }: PreviewCardMentionCompositionProps = {}) {
   return (
     <div className="flex size-full min-h-72  items-start justify-center pt-8">
-      <p className="m-0 max-w-full text-sm leading-6 text-foreground-strong in-data-[theme=brutal]:text-black">
+      <p className="m-0 max-w-full text-sm leading-6 text-foreground-strong">
         <span>Follow up with </span>
         <PreviewCard defaultOpen={defaultOpen}>
           <PreviewCardTrigger
             render={
               <a
                 href="/components/avatar"
-                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 in-data-[theme=brutal]:text-black in-data-[theme=brutal]:decoration-black/30 in-data-[theme=brutal]:hover:text-brutal-pink in-data-[theme=brutal]:hover:decoration-brutal-pink"
+                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600"
               />
             }
           >
@@ -42,13 +42,9 @@ export function PreviewCardMentionComposition({
                 <div className="flex items-center gap-1.5">
                   <PreviewCardTitle>Atlas</PreviewCardTitle>
                   <Status aria-hidden size="sm" variant="success" />
-                  <span className="truncate font-mono text-xs text-foreground-muted in-data-[theme=brutal]:text-black/60">
-                    Online
-                  </span>
+                  <span className="truncate font-mono text-xs text-foreground-muted">Online</span>
                 </div>
-                <div className="truncate font-mono text-xs text-foreground-muted in-data-[theme=brutal]:text-black/60">
-                  @atlas
-                </div>
+                <div className="truncate font-mono text-xs text-foreground-muted">@atlas</div>
               </div>
             </PreviewCardHeader>
             <PreviewCardSeparator />

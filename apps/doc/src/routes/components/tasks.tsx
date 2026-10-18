@@ -290,13 +290,12 @@ function TasksDoc() {
               composer. Mutually exclusive with a real thread: if{" "}
               <InlineCode>task.isLegacy</InlineCode>, close the thread and show this panel instead.
             </p>
-            <Preview previewClassName="h-[36rem] items-stretch justify-center bg-brutal-cream p-6 [[data-theme=elegant]_&]:bg-layer-canvas-muted">
+            <Preview previewClassName="h-[36rem] items-stretch justify-center bg-brutal-cream p-6">
               <Preview.Canvas>
                 <TasksLegacyTaskPanelComposition
                   framed
                   channelName="raft-ui-migration"
                   taskNumber={1}
-                  status="in-progress"
                   title="Migrate legacy task records into the Raft UI board"
                   description="Imported from the pre-migration store. Metadata is read-only here; open a message task when you need thread replies."
                   createdBy="@Legacy Bot"

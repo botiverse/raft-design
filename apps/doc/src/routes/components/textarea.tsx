@@ -85,7 +85,7 @@ const GROUP_PROPS: readonly PropRow[] = [
     name: "children",
     type: "ReactNode",
     description:
-      "Place Textarea and TextareaCounter as direct children. Elegant positions the counter inside the textarea bottom-right; Brutal keeps it below the control.",
+      "Place Textarea and TextareaCounter as direct children. The counter sits below the control, aligned to its end.",
   },
   {
     name: "...props",
@@ -146,7 +146,7 @@ function TextareaDoc() {
   return (
     <DocPage
       title="Textarea"
-      description="A multi-line text control with theme-aware focus, invalid, and disabled states."
+      description="A multi-line text control with focus, invalid, and disabled states."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -192,7 +192,7 @@ function TextareaDoc() {
           <DocSubsection parentId="usage" id="counter" title="Counter">
             <DocNote>
               Place <InlineCode>TextareaCounter</InlineCode> inside{" "}
-              <InlineCode>TextareaGroup</InlineCode> to position it in the textarea. Pass the
+              <InlineCode>TextareaGroup</InlineCode> to position it below the textarea. Pass the
               current <InlineCode>value</InlineCode> from your change handler and the intended{" "}
               <InlineCode>limit</InlineCode> explicitly. Omit native{" "}
               <InlineCode>maxLength</InlineCode> when the counter should show an over-limit state.

@@ -1,14 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@300..700&family=Hanken+Grotesk:wght@300..700&family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Space+Mono:wght@400;700&display=swap");
 
-:where(:root),
-[data-theme="brutal"] {
-  --heading-font: "Hanken Grotesk", system-ui, sans-serif;
-  --sans-font: "Hanken Grotesk", system-ui, sans-serif;
-  --mono-font: "Geist Mono", ui-monospace, monospace;
-}
-
-[data-theme="elegant"] {
-  --heading-font: "Inter", system-ui, sans-serif;
-  --sans-font: "Geist", system-ui, sans-serif;
-  --mono-font: "Geist Mono", ui-monospace, monospace;
+/* Raft Design System: Space Grotesk is what people say, Space Mono is what
+   machines write. CJK falls back to PingFang / Source Han Sans. */
+:where(:root) {
+  --heading-font:
+    "Space Grotesk", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+    system-ui, sans-serif;
+  --sans-font:
+    "Space Grotesk", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+    system-ui, sans-serif;
+  --mono-font: "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }

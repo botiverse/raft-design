@@ -5,7 +5,6 @@ import {
   AvatarFallback,
   AvatarImage,
   MarkdownParagraph,
-  MessageReferenceBadge,
   MessageReferenceChip,
   MessageReferenceIndicator,
   MessageReferenceLabel,
@@ -77,7 +76,6 @@ export function MessagePrimaryReferencesComposition() {
                   variant="accent"
                   render={<a href={MESSAGE_PLAYGROUND_URLS.releaseNotesChannel} />}
                 >
-                  <MessageReferenceBadge>channel</MessageReferenceBadge>
                   <Hash />
                   <MessageReferenceLabel>release-notes</MessageReferenceLabel>
                 </MessageReferenceChip>

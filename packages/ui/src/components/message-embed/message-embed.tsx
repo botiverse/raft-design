@@ -1,13 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageEmbed } from "./message-embed.recipe";
 
 type DivProps = useRender.ComponentProps<"div">;
 
 export function MessageEmbed({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { root } = messageEmbed({ theme });
+  const { root } = messageEmbed();
 
   return useRender({
     defaultTagName: "div",
@@ -18,8 +16,7 @@ export function MessageEmbed({ className, render, ...props }: DivProps) {
 }
 
 export function MessageEmbedHeader({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { header } = messageEmbed({ theme });
+  const { header } = messageEmbed();
 
   return useRender({
     defaultTagName: "div",
@@ -30,8 +27,7 @@ export function MessageEmbedHeader({ className, render, ...props }: DivProps) {
 }
 
 export function MessageEmbedContent({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { content } = messageEmbed({ theme });
+  const { content } = messageEmbed();
 
   return useRender({
     defaultTagName: "div",
@@ -42,8 +38,7 @@ export function MessageEmbedContent({ className, render, ...props }: DivProps) {
 }
 
 export function MessageEmbedFooter({ className, render, ...props }: DivProps) {
-  const theme = useThemeFamily();
-  const { footer } = messageEmbed({ theme });
+  const { footer } = messageEmbed();
 
   return useRender({
     defaultTagName: "div",

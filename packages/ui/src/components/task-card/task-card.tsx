@@ -2,8 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cn } from "../../lib/cn";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
-import { taskStatus } from "../tasks/task-status.recipe";
+import { taskStatusSoft } from "../tasks/task-status.recipe";
 import type { TaskStatusId } from "../tasks/task-status.recipe";
 import { TaskStatusIcon } from "../tasks/task-status-icon";
 import { taskCardStatus } from "./task-card-status.recipe";
@@ -20,8 +19,7 @@ export function TaskCard({
   render,
   ...props
 }: TaskCardProps) {
-  const theme = useThemeFamily();
-  const { root } = taskCard({ theme });
+  const { root } = taskCard();
   const interactive = props.onClick != null;
   const defaultProps: SlotElementProps<"article"> = {
     "data-slot": "task-card",
@@ -41,8 +39,7 @@ export function TaskCard({
 
 export type TaskCardRowProps = useRender.ComponentProps<"div">;
 export function TaskCardRow({ className, render, ...props }: TaskCardRowProps) {
-  const theme = useThemeFamily();
-  const { row } = taskCard({ theme });
+  const { row } = taskCard();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-card-row",
     className: row({ className }),
@@ -56,8 +53,7 @@ export function TaskCardRow({ className, render, ...props }: TaskCardRowProps) {
 
 export type TaskCardBodyProps = useRender.ComponentProps<"div">;
 export function TaskCardBody({ className, render, ...props }: TaskCardBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = taskCard({ theme });
+  const { body } = taskCard();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-card-body",
     className: body({ className }),
@@ -71,8 +67,7 @@ export function TaskCardBody({ className, render, ...props }: TaskCardBodyProps)
 
 export type TaskCardMetaProps = useRender.ComponentProps<"div">;
 export function TaskCardMeta({ className, render, ...props }: TaskCardMetaProps) {
-  const theme = useThemeFamily();
-  const { meta } = taskCard({ theme });
+  const { meta } = taskCard();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "task-card-meta",
     className: meta({ className }),
@@ -86,8 +81,7 @@ export function TaskCardMeta({ className, render, ...props }: TaskCardMetaProps)
 
 export type TaskCardChannelProps = useRender.ComponentProps<"span">;
 export function TaskCardChannel({ className, render, ...props }: TaskCardChannelProps) {
-  const theme = useThemeFamily();
-  const { channel } = taskCard({ theme });
+  const { channel } = taskCard();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-card-channel",
     className: channel({ className }),
@@ -101,8 +95,7 @@ export function TaskCardChannel({ className, render, ...props }: TaskCardChannel
 
 export type TaskCardNumberProps = useRender.ComponentProps<"span">;
 export function TaskCardNumber({ className, render, ...props }: TaskCardNumberProps) {
-  const theme = useThemeFamily();
-  const { number } = taskCard({ theme });
+  const { number } = taskCard();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-card-number",
     className: number({ className }),
@@ -116,8 +109,7 @@ export function TaskCardNumber({ className, render, ...props }: TaskCardNumberPr
 
 export type TaskCardLegacyProps = useRender.ComponentProps<"span">;
 export function TaskCardLegacy({ className, render, ...props }: TaskCardLegacyProps) {
-  const theme = useThemeFamily();
-  const { legacy } = taskCard({ theme });
+  const { legacy } = taskCard();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "task-card-legacy",
     className: legacy({ className }),
@@ -131,8 +123,7 @@ export function TaskCardLegacy({ className, render, ...props }: TaskCardLegacyPr
 
 export type TaskCardTitleProps = useRender.ComponentProps<"p">;
 export function TaskCardTitle({ className, render, ...props }: TaskCardTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = taskCard({ theme });
+  const { title } = taskCard();
   const defaultProps: SlotElementProps<"p"> = {
     "data-slot": "task-card-title",
     className: title({ className }),
@@ -146,8 +137,7 @@ export function TaskCardTitle({ className, render, ...props }: TaskCardTitleProp
 
 export type TaskCardDescriptionProps = useRender.ComponentProps<"p">;
 export function TaskCardDescription({ className, render, ...props }: TaskCardDescriptionProps) {
-  const theme = useThemeFamily();
-  const { description } = taskCard({ theme });
+  const { description } = taskCard();
   const defaultProps: SlotElementProps<"p"> = {
     "data-slot": "task-card-description",
     className: description({ className }),
@@ -171,15 +161,14 @@ export function TaskCardStatus({
   children,
   ...props
 }: TaskCardStatusProps) {
-  const theme = useThemeFamily();
-  const styles = taskCardStatus({ theme });
+  const styles = taskCardStatus();
   const resolvedChildren = children ?? <TaskStatusIcon status={status} />;
   const defaultProps: SlotElementProps<"button"> = {
     type: "button",
     "data-slot": "task-card-status",
     "data-busy": busy ? "true" : undefined,
     "aria-busy": busy || undefined,
-    className: cn(styles, theme === "brutal" && taskStatus({ status }), className),
+    className: cn(styles, taskStatusSoft({ status }), className),
   };
   return useRender({
     defaultTagName: "button",

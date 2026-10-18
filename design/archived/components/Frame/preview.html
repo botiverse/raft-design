@@ -1,0 +1,101 @@
+<!-- @dsCard group="Navigation" height=560 width=980 subtitle="外框：手机顶栏和桌面 Rail 用官网那条粗野的黄；暗色变成官网页脚" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../../tokens.css"><link rel="stylesheet" href="../../../components/bundle.css"><title>Frame</title>
+<style>
+  .fr { display: grid; grid-template-columns: 1fr 1fr 168px 168px; gap: 24px; padding: 24px; align-items: start; }
+  .fr-col { display: flex; flex-direction: column; gap: 10px; }
+  .fr-box { overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+  .fr-box .rf-nav { min-height: 52px; }
+  .fr-body { height: 116px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .fr-line { height: 10px; border-radius: 3px; background: var(--line); }
+  .fr-rail { display: flex; height: 452px; }
+  .fr-rail .rf-rail { height: 100%; }
+  .fr-rail__body { flex: 1; background: var(--paper); }
+</style>
+</head>
+<body>
+<div class="rf fr">
+  <div class="fr-col">
+    <span class="rf-pv__label">Phone · large title · light</span>
+    <div class="fr-box" data-theme="light">
+      <header class="rf-frame">
+        <div class="rf-nav">
+          <div class="rf-ws"><span class="rf-mark-tile"><span class="rf-mark"></span></span>Raft HQ<i class="rf-i rf-i-chevron-down"></i></div>
+          <span style="flex:1"></span>
+          <button class="rf-iconbtn" aria-label="Search"><i class="rf-i rf-i-search"></i></button>
+          <button class="rf-iconbtn rf-iconbtn--primary rf-iconbtn--sm" aria-label="New message" style="margin:0 6px"><i class="rf-i rf-i-square-pen"></i></button>
+        </div>
+        <div class="rf-largetitle">Home</div>
+      </header>
+      <div class="fr-body"><div class="fr-line" style="width:70%"></div><div class="fr-line" style="width:45%"></div></div>
+    </div>
+    <span class="rf-pv__label">Phone · pushed screen · light</span>
+    <div class="fr-box" data-theme="light">
+      <header class="rf-frame">
+        <div class="rf-nav">
+          <button class="rf-iconbtn" aria-label="Back"><i class="rf-i rf-i-chevron-left"></i></button>
+          <div class="rf-nav__title"><span class="rf-chan rf-chan--sm rf-tile--pink"><i class="rf-i rf-i-hash"></i></span><div class="rf-nav__text"><div class="rf-nav__name">wg-landing-features</div><div class="rf-nav__sub"><span class="rf-pixel rf-pixel--progress rf-pixel--live"></span>2 agents working · 12 members</div></div></div>
+          <button class="rf-iconbtn" aria-label="Search"><i class="rf-i rf-i-search"></i></button>
+        </div>
+      </header>
+    </div>
+  </div>
+  <div class="fr-col">
+    <span class="rf-pv__label">Phone · large title · dark</span>
+    <div class="fr-box" data-theme="dark">
+      <header class="rf-frame">
+        <div class="rf-nav">
+          <div class="rf-ws"><span class="rf-mark-tile"><span class="rf-mark"></span></span>Raft HQ<i class="rf-i rf-i-chevron-down"></i></div>
+          <span style="flex:1"></span>
+          <button class="rf-iconbtn" aria-label="Search"><i class="rf-i rf-i-search"></i></button>
+          <button class="rf-iconbtn rf-iconbtn--primary rf-iconbtn--sm" aria-label="New message" style="margin:0 6px"><i class="rf-i rf-i-square-pen"></i></button>
+        </div>
+        <div class="rf-largetitle">Home</div>
+      </header>
+      <div class="fr-body"><div class="fr-line" style="width:70%"></div><div class="fr-line" style="width:45%"></div></div>
+    </div>
+    <span class="rf-pv__label">Phone · pushed screen · dark</span>
+    <div class="fr-box" data-theme="dark">
+      <header class="rf-frame">
+        <div class="rf-nav">
+          <button class="rf-iconbtn" aria-label="Back"><i class="rf-i rf-i-chevron-left"></i></button>
+          <div class="rf-nav__title"><span class="rf-chan rf-chan--sm rf-tile--pink"><i class="rf-i rf-i-hash"></i></span><div class="rf-nav__text"><div class="rf-nav__name">wg-landing-features</div><div class="rf-nav__sub"><span class="rf-pixel rf-pixel--progress rf-pixel--live"></span>2 agents working · 12 members</div></div></div>
+          <button class="rf-iconbtn" aria-label="Search"><i class="rf-i rf-i-search"></i></button>
+        </div>
+      </header>
+    </div>
+  </div>
+  <div class="fr-col">
+    <span class="rf-pv__label">Rail · light</span>
+    <div class="fr-box fr-rail" data-theme="light">
+      <nav class="rf-rail">
+        <span class="rf-rail__mark" role="img" aria-label="Raft"></span>
+        <a class="rf-rail__item is-on"><span class="rf-rail__icon"><i class="rf-i rf-i-house"></i></span>Home</a>
+        <a class="rf-rail__item"><span class="rf-rail__icon"><i class="rf-i rf-i-list-todo"></i><span class="rf-pixel rf-pixel--attention"></span></span>Tasks</a>
+        <a class="rf-rail__item"><span class="rf-rail__icon"><i class="rf-i rf-i-bot"></i></span>Agents</a>
+        <a class="rf-rail__item"><span class="rf-rail__icon"><i class="rf-i rf-i-folder"></i></span>Files</a>
+        <span class="rf-rail__spacer"></span>
+        <a class="rf-rail__item"><span class="rf-rail__icon"><i class="rf-i rf-i-settings"></i></span>Settings</a>
+      </nav>
+      <div class="fr-rail__body"></div>
+    </div>
+  </div>
+  <div class="fr-col">
+    <span class="rf-pv__label">Rail · dark</span>
+    <div class="fr-box fr-rail" data-theme="dark">
+      <nav class="rf-rail">
+        <span class="rf-rail__mark" role="img" aria-label="Raft"></span>
+        <a class="rf-rail__item is-on"><span class="rf-rail__icon"><i class="rf-i rf-i-house"></i></span>Home</a>
+        <a class="rf-rail__item"><span class="rf-rail__icon"><i class="rf-i rf-i-list-todo"></i><span class="rf-pixel rf-pixel--attention"></span></span>Tasks</a>
+        <a class="rf-rail__item"><span class="rf-rail__icon"><i class="rf-i rf-i-bot"></i></span>Agents</a>
+        <a class="rf-rail__item"><span class="rf-rail__icon"><i class="rf-i rf-i-folder"></i></span>Files</a>
+        <span class="rf-rail__spacer"></span>
+        <a class="rf-rail__item"><span class="rf-rail__icon"><i class="rf-i rf-i-settings"></i></span>Settings</a>
+      </nav>
+      <div class="fr-rail__body"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

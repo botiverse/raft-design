@@ -92,7 +92,7 @@ const SIMPLE_PART_PROPS = {
       name: "...props",
       type: 'useRender.ComponentProps<"section">',
       description:
-        "Files tab panel root. It owns the themed surface; fetching, routing, and file policy remain in the consumer.",
+        "Files tab panel root. It owns the surface; fetching, routing, and file policy remain in the consumer.",
     },
   ],
   filesViewport: [
@@ -191,8 +191,8 @@ const FILE_ACTION_PROPS: readonly PropRow[] = [
   {
     name: "variant",
     type: "ButtonProps['variant']",
-    default: '"outline" (Brutal) / "ghost" (Elegant)',
-    description: "Optional Button variant override. The theme-aware default matches panel chrome.",
+    default: '"ghost"',
+    description: "Optional Button variant override. The default matches panel chrome.",
   },
   {
     name: "size",

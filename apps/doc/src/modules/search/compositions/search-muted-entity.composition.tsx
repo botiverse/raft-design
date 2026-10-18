@@ -23,7 +23,7 @@ export function SearchMutedEntityComposition() {
         <SearchEntityResultContent>
           <SearchEntityResultHeader>
             <SearchEntityResultTitle muted>proj-search-v1</SearchEntityResultTitle>
-            <Badge appearance="soft" variant="muted" uppercase>
+            <Badge appearance="soft" variant="muted">
               Archived
             </Badge>
           </SearchEntityResultHeader>

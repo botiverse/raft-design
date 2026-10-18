@@ -15,7 +15,6 @@ export function StatusBadge({ status }: { status?: StatusKey }) {
     <Badge
       appearance="solid"
       variant={STATUS[status].variant as BadgeProps["variant"]}
-      uppercase
       className="h-4 shrink-0 px-1.5 text-[9px]"
     >
       {STATUS[status].label}

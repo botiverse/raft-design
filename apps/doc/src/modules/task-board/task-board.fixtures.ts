@@ -45,7 +45,7 @@ const BOARD_DEMO_EXTRA_TASKS: readonly TaskFixture[] = [
     id: "task-147",
     taskNumber: 147,
     channelName: "proj-uiux",
-    title: "Keep status icon and label paired in brutal badges",
+    title: "Keep status icon and label paired in task badges",
     status: "todo",
     creatorId: "me",
     assigneeId: "atlas",

@@ -8,8 +8,6 @@ export {
 } from "./file-preview";
 export type {
   FilePreviewBadgeProps,
-  FilePreviewBadgeColor,
-  FilePreviewBadgeType,
   FilePreviewCodeProps,
   FilePreviewDocumentProps,
   FilePreviewFileProps,

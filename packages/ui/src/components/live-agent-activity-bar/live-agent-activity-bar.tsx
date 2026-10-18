@@ -1,38 +1,26 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useEffect, useState } from "react";
-import type { ReactNode } from "react";
 import { tv } from "../../lib/tv";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Avatar, AvatarFallback } from "../avatar";
 import type { AvatarProps } from "../avatar";
 import { Status } from "../status";
 import type { StatusProps } from "../status";
-import { LiveAgentActivityBeam } from "./live-agent-activity-beam";
 
 const liveAgentActivityBar = tv({
   slots: {
-    root: ["shrink-0 px-3 py-2"],
-    row: ["flex min-h-8 items-center gap-2"],
-    avatar: ["size-9 shrink-0 overflow-hidden"],
-    content: ["flex min-w-0 flex-1 items-center gap-1.5"],
-    status: [],
-    text: ["min-w-0 truncate text-sm"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        root: "border-t-2 border-black bg-white px-4 md:bg-brutal-cream",
-        status: "border-black",
-        text: "font-mono text-black/60",
-      },
-      elegant: {
-        root: "rounded-lg border border-line-muted bg-layer-panel shadow-raft-md dark:border-transparent",
-        content: "contents",
-        status: "order-first",
-        text: "flex-1 font-sans text-[13px] font-normal text-foreground-muted",
-      },
-    },
+    root: [
+      "shrink-0",
+      "rounded-container border border-line-muted bg-layer-card px-3 py-2 shadow-none",
+    ],
+    row: [
+      "flex min-h-8 items-center",
+      "gap-2",
+      "[&>[data-slot=avatar]+[data-slot=avatar]]:ml-[-5px]",
+    ],
+    avatar: ["shrink-0 overflow-hidden", "size-[19px]"],
+    content: ["flex min-w-0 flex-1 items-center", "gap-1.5"],
+    status: ["animate-none [--status-color:var(--presence-busy)]"],
+    text: ["min-w-0 truncate", "font-sans text-footnote font-semibold text-foreground"],
   },
 });
 
@@ -41,22 +29,15 @@ type LiveAgentActivityBarDataAttributes = {
   "data-testid"?: string;
 };
 
-export type LiveAgentActivityBarProps = useRender.ComponentProps<"div"> & {
-  beam?: boolean;
-};
-
-type LiveAgentActivityBarRootProps = Omit<LiveAgentActivityBarProps, "beam">;
-
-const EXIT_DURATION = 220;
+export type LiveAgentActivityBarProps = useRender.ComponentProps<"div">;
 
 function LiveAgentActivityBarRoot({
   children,
   className,
   render,
   ...props
-}: LiveAgentActivityBarRootProps) {
-  const theme = useThemeFamily();
-  const { root } = liveAgentActivityBar({ theme });
+}: LiveAgentActivityBarProps) {
+  const { root } = liveAgentActivityBar();
   const defaultProps: useRender.ElementProps<"div"> & LiveAgentActivityBarDataAttributes = {
     "aria-live": "polite",
     "data-slot": "live-agent-activity-bar",
@@ -72,80 +53,14 @@ function LiveAgentActivityBarRoot({
   });
 }
 
-function ElegantLiveAgentActivityMotion({
-  beam = true,
-  children,
-  ...activityBarProps
-}: LiveAgentActivityBarProps) {
-  const [transition, setTransition] = useState<{
-    children: ReactNode;
-    motion: "entering" | "entered" | "exiting";
-  }>({ children, motion: "entered" });
-  const [renderedChildren, setRenderedChildren] = useState(children);
-
-  // Derive the transition during render so the bar never paints the stale value.
-  if (children !== renderedChildren) {
-    setRenderedChildren(children);
-    setTransition((previous) => {
-      if (children != null) {
-        const motion =
-          previous.children == null || previous.motion === "exiting" ? "entering" : previous.motion;
-        return previous.children === children && previous.motion === motion
-          ? previous
-          : { children, motion };
-      }
-
-      return previous.children == null ? previous : { ...previous, motion: "exiting" };
-    });
-  }
-
-  useEffect(() => {
-    if (transition.motion !== "entering") return;
-    const frame = requestAnimationFrame(() =>
-      setTransition((previous) =>
-        previous.motion === "entering" ? { ...previous, motion: "entered" } : previous,
-      ),
-    );
-    return () => cancelAnimationFrame(frame);
-  }, [transition.motion]);
-
-  useEffect(() => {
-    if (transition.motion !== "exiting") return;
-    const timeout = window.setTimeout(
-      () => setTransition((previous) => ({ ...previous, children: null })),
-      EXIT_DURATION,
-    );
-    return () => window.clearTimeout(timeout);
-  }, [transition.motion]);
-
-  if (transition.children == null) return null;
-
-  return (
-    <LiveAgentActivityBeam enabled={beam} motion={transition.motion}>
-      <LiveAgentActivityBarRoot {...activityBarProps}>
-        {transition.children}
-      </LiveAgentActivityBarRoot>
-    </LiveAgentActivityBeam>
-  );
-}
-
+// No enter/exit motion: the DS keeps agent lights still and swaps the text in
+// place.
 export function LiveAgentActivityBar({
-  beam = true,
   children,
   className,
   render,
   ...props
 }: LiveAgentActivityBarProps) {
-  const theme = useThemeFamily();
-
-  if (theme === "elegant") {
-    return (
-      <ElegantLiveAgentActivityMotion beam={beam} className={className} render={render} {...props}>
-        {children}
-      </ElegantLiveAgentActivityMotion>
-    );
-  }
-
   return children == null ? null : (
     <LiveAgentActivityBarRoot className={className} render={render} {...props}>
       {children}
@@ -204,8 +119,7 @@ export function LiveAgentActivityBarContent({
   render,
   ...props
 }: LiveAgentActivityBarContentProps) {
-  const theme = useThemeFamily();
-  const { content } = liveAgentActivityBar({ theme });
+  const { content } = liveAgentActivityBar();
   const defaultProps: useRender.ElementProps<"div"> & LiveAgentActivityBarDataAttributes = {
     "data-slot": "live-agent-activity-bar-content",
     className: content({ className }),
@@ -227,18 +141,10 @@ export function LiveAgentActivityBarStatus({
   className,
   ...props
 }: LiveAgentActivityBarStatusProps) {
-  const theme = useThemeFamily();
-  const { status } = liveAgentActivityBar({ theme });
+  const { status } = liveAgentActivityBar();
 
   return (
-    <Status
-      aria-hidden
-      size="md"
-      variant="primary"
-      pulse
-      className={status({ className })}
-      {...props}
-    />
+    <Status aria-hidden size="md" variant="primary" className={status({ className })} {...props} />
   );
 }
 
@@ -249,8 +155,7 @@ export function LiveAgentActivityBarText({
   render,
   ...props
 }: LiveAgentActivityBarTextProps) {
-  const theme = useThemeFamily();
-  const { text } = liveAgentActivityBar({ theme });
+  const { text } = liveAgentActivityBar();
   const defaultProps: useRender.ElementProps<"span"> & LiveAgentActivityBarDataAttributes = {
     "data-slot": "live-agent-activity-bar-text",
     className: text({ className }),

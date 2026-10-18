@@ -120,7 +120,7 @@ const ALL_CHANNEL_BULK_TASKS = (
     },
     {
       number: 39,
-      title: "Sketch elegant hover states for dense task lists",
+      title: "Sketch hover states for dense task lists",
       status: "todo",
       creatorActorId: "mira",
       assigneeActorId: "cindy",
@@ -170,7 +170,7 @@ const ALL_CHANNEL_BULK_TASKS = (
     },
     {
       number: 46,
-      title: "Finish brutal status-label density pass",
+      title: "Finish status-label density pass",
       status: "in-progress",
       creatorActorId: "mira",
       assigneeActorId: "cindy",
@@ -212,7 +212,7 @@ const ALL_CHANNEL_BULK_TASKS = (
     },
     {
       number: 52,
-      title: "Review elegant TaskCard hover against layer-panel",
+      title: "Review TaskCard hover against layer-panel",
       status: "in-review",
       creatorActorId: "mira",
       assigneeActorId: "cindy",
@@ -282,7 +282,7 @@ const ALL_CHANNEL_BULK_TASKS = (
     },
     {
       number: 62,
-      title: "Ship elegant ghost more-button on TaskCard meta",
+      title: "Ship ghost more-button on TaskCard meta",
       status: "done",
       creatorActorId: "mira",
       assigneeActorId: "cindy",
@@ -339,7 +339,7 @@ const ALL_CHANNEL_BULK_TASKS = (
     },
     {
       number: 70,
-      title: "Close pre-token brutal status color one-offs",
+      title: "Close pre-token status color one-offs",
       status: "closed",
       creatorActorId: "releaseScribe",
       assigneeActorId: "ada",

@@ -5,37 +5,28 @@ export const messageList = tv({
     root: ["relative h-full min-h-0"],
     viewport: ["min-w-0 overscroll-none"],
     content: ["flex min-h-full w-full min-w-0 flex-col"],
-    dateDividerRoot: ["flex select-none items-center px-3 py-2"],
-    dateDividerRule: ["flex-1"],
-    dateDividerChip: ["inline-flex items-center"],
-    notice: ["text-center"],
-    historyLimited: ["inline-flex items-center gap-1.5"],
+    dateDividerRoot: ["flex select-none items-center", "gap-2 px-4 py-3"],
+    dateDividerRule: ["flex-1", "min-w-3 border-t border-line-muted"],
+    dateDividerChip: [
+      "inline-flex items-center",
+      "font-mono text-mono-meta whitespace-nowrap text-foreground-hint",
+    ],
+    notice: ["text-center", "pb-2 font-mono text-mono-meta"],
+    historyLimited: [
+      "inline-flex items-center",
+      "h-[22px] gap-1 rounded-chip px-1.5",
+      "font-mono text-mono-meta text-foreground-muted",
+      "inset-ring inset-ring-line-muted",
+      "[&_svg]:size-3",
+    ],
   },
   variants: {
-    theme: {
-      brutal: {
-        dateDividerRule: "translate-y-px border-t-2 border-black/15",
-        dateDividerChip: "px-2 text-[10px] font-bold uppercase tracking-widest text-black/50",
-        notice: "pb-2 font-mono text-xs",
-        historyLimited: "border border-black/20 bg-white/70 px-2 py-1 [&_svg]:size-3",
-      },
-      elegant: {
-        content: "md:pb-[var(--panel-footer-clearance)]",
-        dateDividerRoot: "opacity-70",
-        dateDividerRule: "border-t border-line-hairline dark:border-ink-4",
-        dateDividerChip:
-          "px-2 font-mono text-[11px] font-normal uppercase tracking-widest text-foreground-muted",
-        notice: "pb-2 font-sans text-xs",
-        historyLimited:
-          "rounded-sm border border-line-muted bg-layer-panel/70 px-2 py-1 [&_svg]:size-3",
-      },
-    },
     tone: {
       faint: {
-        notice: "text-foreground-strong/40",
+        notice: ["text-foreground-hint"],
       },
       muted: {
-        notice: "text-foreground-strong/50",
+        notice: ["text-foreground-muted"],
       },
     },
   },

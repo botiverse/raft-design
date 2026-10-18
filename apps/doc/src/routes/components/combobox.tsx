@@ -328,7 +328,7 @@ function RepositoryPicker() {
   function renderRepositoryItems() {
     if (isLoading) {
       return (
-        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black/60">
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted">
           <Loader aria-hidden className="size-3.5 animate-spin" />
           Loading
         </div>
@@ -345,7 +345,7 @@ function RepositoryPicker() {
           <ComboboxItem key={repository.id} value={repository}>
             <span className="flex min-w-0 items-center gap-1.5">
               <span className="flex size-4 shrink-0 items-center justify-center">
-                <Folder className="text-foreground-muted [[data-theme=brutal]_&]:text-black/50" />
+                <Folder className="text-foreground-muted" />
               </span>
               <span className="truncate leading-6">{repository.label}</span>
             </span>
@@ -905,7 +905,7 @@ function ComboboxChannelList() {
             <ComboboxItem key={channel.id} value={channel}>
               <span className="flex min-w-0 items-center gap-1.5">
                 <span className="flex size-4 shrink-0 items-center justify-center">
-                  <ChannelIcon className="text-foreground-muted in-data-[theme=brutal]:text-black/50" />
+                  <ChannelIcon className="text-foreground-muted" />
                 </span>
                 <span className="truncate leading-6">{channel.label}</span>
               </span>
@@ -963,7 +963,7 @@ function AsyncOptionsCombobox() {
   function renderRepositoryItems() {
     if (isLoading) {
       return (
-        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:text-black/60">
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted">
           <Loader aria-hidden className="size-3.5 animate-spin" />
           Loading
         </div>
@@ -980,7 +980,7 @@ function AsyncOptionsCombobox() {
           <ComboboxItem key={repository.id} value={repository}>
             <span className="flex min-w-0 items-center gap-1.5">
               <span className="flex size-4 shrink-0 items-center justify-center">
-                <Folder className="text-foreground-muted in-data-[theme=brutal]:text-black/50" />
+                <Folder className="text-foreground-muted" />
               </span>
               <span className="truncate leading-6">{repository.label}</span>
             </span>
@@ -1059,7 +1059,7 @@ function AsyncSearchCombobox() {
   function renderModelItems() {
     if (isLoading) {
       return (
-        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted [[data-theme=brutal]_&]:font-bold in-data-[theme=brutal]:text-black/60">
+        <div className="flex h-24 items-center justify-center gap-2 text-sm text-foreground-muted">
           <Loader aria-hidden className="size-3.5 animate-spin" />
           Searching
         </div>
@@ -1097,10 +1097,7 @@ function AsyncSearchCombobox() {
         <Field className="w-56 gap-1.5">
           <FieldLabel>Model</FieldLabel>
           <ComboboxControl>
-            <Sparkles
-              aria-hidden
-              className="text-foreground-muted in-data-[theme=brutal]:text-black/60"
-            />
+            <Sparkles aria-hidden className="text-foreground-muted" />
             <ComboboxInput
               aria-label="Search models"
               placeholder="Search models..."
@@ -1210,7 +1207,7 @@ function AsyncSelectCombobox() {
               >
                 <span className="flex min-w-0 items-center gap-1.5">
                   <span className="flex size-4 shrink-0 items-center justify-center">
-                    <GitBranch className="text-foreground-muted in-data-[theme=brutal]:text-black/50" />
+                    <GitBranch className="text-foreground-muted" />
                   </span>
                   <span className="truncate leading-6">{branch.label}</span>
                 </span>

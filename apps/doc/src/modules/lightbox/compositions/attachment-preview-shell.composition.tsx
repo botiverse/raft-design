@@ -14,11 +14,7 @@ import {
 } from "raft-ui";
 
 function AttachmentPreviewTypeLabel() {
-  return (
-    <Badge variant="primary" uppercase>
-      HTML preview
-    </Badge>
-  );
+  return <Badge variant="primary">HTML preview</Badge>;
 }
 
 export function AttachmentPreviewShellComposition() {

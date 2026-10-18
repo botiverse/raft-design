@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Field, FieldDescription, FieldLabel, Switch } from "raft-ui";
-import type { SwitchProps } from "raft-ui";
 
 import { DocPage } from "#/components/doc-page.tsx";
 import { DocSection, DocSubsection } from "#/components/doc-section.tsx";
@@ -18,15 +17,11 @@ const TOC = [
   { id: "api", title: "API" },
 ] as const;
 
-const SIZES = ["sm", "md"] as const;
-
 const SNIPPETS = {
-  preview: `<Switch size="sm" defaultChecked aria-label="Desktop notifications" />`,
+  preview: `<Switch defaultChecked aria-label="Desktop notifications" />`,
   anatomy: `import { Switch } from "raft-ui";
 
 <Switch aria-label="Setting" />`,
-  sizes: `<Switch size="sm" defaultChecked aria-label="Small switch" />
-<Switch size="md" defaultChecked aria-label="Medium switch" />`,
   states: `<Switch aria-label="Off" />
 <Switch defaultChecked aria-label="On" />
 <Switch disabled aria-label="Disabled off" />
@@ -43,12 +38,6 @@ const SNIPPETS = {
 } as const;
 
 const SWITCH_ROOT_PROPS: readonly PropRow[] = [
-  {
-    name: "size",
-    type: SIZES.map((size) => `"${size}"`).join(" | "),
-    default: '"sm"',
-    description: "Visual size of the switch. Use sm in dense menus and md in form rows.",
-  },
   {
     name: "checked",
     type: "boolean",
@@ -107,28 +96,14 @@ export const Route = createFileRoute("/components/switch")({
 });
 
 function SwitchPreview({ code }: { code: ReturnType<typeof Route.useLoaderData>["preview"] }) {
-  const [size, setSize] = useState<NonNullable<SwitchProps["size"]>>("sm");
   const [disabled, setDisabled] = useState(false);
-  const handleSizeChange = useCallback(
-    (value: string) => setSize(value as NonNullable<SwitchProps["size"]>),
-    [],
-  );
 
   return (
     <Preview>
       <Preview.Canvas>
-        <Switch size={size} defaultChecked disabled={disabled} aria-label="Desktop notifications" />
+        <Switch defaultChecked disabled={disabled} aria-label="Desktop notifications" />
       </Preview.Canvas>
       <Preview.Controls>
-        <Preview.Control label="Size" htmlFor="switch-preview-size">
-          <Preview.Select
-            id="switch-preview-size"
-            label="Size"
-            options={SIZES}
-            value={size}
-            onValueChange={handleSizeChange}
-          />
-        </Preview.Control>
         <Preview.Control label="Disabled" htmlFor="switch-preview-disabled">
           <Preview.Checkbox
             id="switch-preview-disabled"
@@ -149,7 +124,7 @@ function SwitchDoc() {
   return (
     <DocPage
       title="Switch"
-      description="A binary setting control for immediate on/off preferences."
+      description="A binary setting control for immediate on/off preferences. One size: a 50 × 30px track."
       toc={TOC}
     >
       <DocSection id="preview" title="Preview" showThemeSwitcher>
@@ -166,17 +141,6 @@ function SwitchDoc() {
 
       <DocSection id="usage" title="Usage">
         <div className="space-y-10">
-          <DocSubsection parentId="usage" id="sizes" title="Sizes">
-            <Preview>
-              <Preview.Canvas>
-                <div className="flex items-center gap-4">
-                  <Switch size="sm" defaultChecked aria-label="Small switch" />
-                  <Switch size="md" defaultChecked aria-label="Medium switch" />
-                </div>
-              </Preview.Canvas>
-              <Preview.Code html={code.sizes} />
-            </Preview>
-          </DocSubsection>
           <DocSubsection parentId="usage" id="states" title="States">
             <Preview>
               <Preview.Canvas>

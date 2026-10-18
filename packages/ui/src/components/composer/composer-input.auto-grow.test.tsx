@@ -19,9 +19,9 @@ if (typeof window.matchMedia !== "function") {
 
 afterEach(cleanup);
 
-function renderInput(theme: "brutal" | "elegant", className?: string) {
+function renderInput(className?: string) {
   render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <Composer>
         <ComposerInput aria-label="Message #design" className={className} />
       </Composer>
@@ -39,19 +39,17 @@ function renderInput(theme: "brutal" | "elegant", className?: string) {
  * something; past it the draft scrolls instead of pushing the toolbar away.
  * Geometry needs a real layout engine; this pins the emitted contract.
  */
-for (const theme of ["brutal", "elegant"] as const) {
-  test(`${theme}: grows with its content up to max-h-32, then scrolls`, () => {
-    const { input, classes } = renderInput(theme);
-    expect(classes).toContain("field-sizing-content");
-    expect(classes).toContain("max-h-32");
-    expect(classes).toContain("overflow-y-auto");
-    expect(classes, "growth is content-driven, not a drag handle").toContain("resize-none");
-    expect(input.getAttribute("rows"), "the resting height stays one row").toBe("1");
-  });
-}
+test("grows with its content up to max-h-32, then scrolls", () => {
+  const { input, classes } = renderInput();
+  expect(classes).toContain("field-sizing-content");
+  expect(classes).toContain("max-h-32");
+  expect(classes).toContain("overflow-y-auto");
+  expect(classes, "growth is content-driven, not a drag handle").toContain("resize-none");
+  expect(input.getAttribute("rows"), "the resting height stays one row").toBe("1");
+});
 
 test("consumers that already opt in merge cleanly and can still retune the cap", () => {
-  const { classes } = renderInput("elegant", "field-sizing-content max-h-60");
+  const { classes } = renderInput("field-sizing-content max-h-60");
   expect(classes.filter((name) => name === "field-sizing-content")).toHaveLength(1);
   expect(classes).toContain("max-h-60");
   expect(classes).not.toContain("max-h-32");

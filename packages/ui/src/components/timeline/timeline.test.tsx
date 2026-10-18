@@ -3,7 +3,6 @@
  */
 import { afterEach, describe, expect, test } from "vite-plus/test";
 import { cleanup, render, screen } from "@testing-library/react";
-import { ThemeProvider } from "../../lib/theme/theme-provider";
 import { Timeline, TimelineContent, TimelineItem, TimelineTime, TimelineTitle } from "./timeline";
 
 if (typeof window.matchMedia !== "function") {
@@ -46,17 +45,6 @@ describe("Timeline", () => {
     const list = screen.getByTestId("timeline");
     expect(list.className).toBe("r-timeline r-timeline--md r-timeline--horizontal");
     expect(list.style.getPropertyValue("--r-timeline-custom-icon-size")).toBe("18px");
-  });
-
-  test("adds the elegant modifier under the elegant theme", () => {
-    render(
-      <ThemeProvider theme="elegant">
-        <Timeline data-testid="timeline">
-          <TimelineItem>One</TimelineItem>
-        </Timeline>
-      </ThemeProvider>,
-    );
-    expect(screen.getByTestId("timeline").className).toContain("r-timeline--elegant");
   });
 
   test("renders title, content and time parts inside the item body", () => {

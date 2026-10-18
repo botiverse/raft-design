@@ -4,12 +4,6 @@ import type { PreviewCheckboxProps } from "./preview.types.ts";
 
 export function PreviewCheckbox({ id, label, checked, onCheckedChange }: PreviewCheckboxProps) {
   return (
-    <Checkbox
-      id={id}
-      aria-label={label}
-      checked={checked}
-      onCheckedChange={onCheckedChange}
-      size="sm"
-    />
+    <Checkbox id={id} aria-label={label} checked={checked} onCheckedChange={onCheckedChange} />
   );
 }

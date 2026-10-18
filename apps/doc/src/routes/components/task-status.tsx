@@ -14,7 +14,7 @@ function TaskStatusDoc() {
   return (
     <DocPage
       title="Task status"
-      description="The five task states and the four surfaces that render them — one colour source, consistent within each theme."
+      description="The five task states and the four surfaces that render them — one colour source."
       toc={TOC}
       showToc={false}
       articleClassName="mx-auto max-w-5xl 2xl:max-w-6xl"

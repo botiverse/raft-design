@@ -5,54 +5,31 @@ import type { ComponentPropsWithRef, ReactNode } from "react";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 import type { ButtonProps } from "../button/index";
 
 const alertDialog = tv({
   slots: {
-    overlay: [
-      "fixed inset-0 z-50",
-      "transition-opacity duration-150 ease-out",
-      "data-starting-style:opacity-0 data-ending-style:opacity-0",
-    ],
+    // A centred modal appears and goes without motion (Raft DS: only sheets
+    // slide; a dialog is simply there).
+    overlay: ["fixed inset-0 z-50 bg-layer-backdrop"],
     content: [
-      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-[408px] -translate-1/2 ",
-      "origin-center transform-gpu outline-none transition-[opacity,transform] duration-150 ease-out",
-      "data-starting-style:scale-[.98] data-starting-style:opacity-0",
-      "data-ending-style:opacity-0",
+      "fixed top-1/2 left-1/2 z-50 grid w-[calc(100%-2rem)] max-w-[400px] -translate-1/2 outline-none",
+      "overflow-clip rounded-dialog bg-layer-popover text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
     ],
-    header: ["grid grid-cols-[minmax(0,1fr)_max-content] items-center gap-3 min-w-0"],
-    body: ["min-w-0"],
-    footer: ["flex items-center justify-end gap-3"],
-    title: ["m-0 min-w-0 text-foreground"],
-    description: ["m-0 text-foreground-muted"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        overlay: ["bg-layer-backdrop"],
-        content: ["gap-4 border-2 border-line-strong bg-layer-panel px-6 py-4 shadow-raft-xl"],
-        body: ["py-2 font-medium"],
-        title: ["font-heading text-lg leading-none font-bold uppercase"],
-        description: ["font-sans text-sm leading-5 text-foreground-strong/60"],
-      },
-      elegant: {
-        overlay: ["bg-layer-backdrop backdrop-blur-[2px]"],
-        content: ["overflow-clip rounded-lg bg-layer-popover shadow-raft-xl"],
-        header: [
-          "border-b border-line-muted/75 bg-layer-inset px-5 py-3",
-          "dark:border-transparent dark:bg-transparent",
-        ],
-        body: ["px-6 py-5 dark:pt-2.5"],
-        footer: [
-          "border-t border-line-muted/75 bg-layer-inset px-5 py-3",
-          "dark:border-transparent dark:bg-transparent",
-        ],
-        title: ["font-sans text-sm leading-5 font-medium tracking-[-0.005em]"],
-        description: ["font-sans text-sm leading-5 text-foreground-hint"],
-      },
-    },
+    header: ["grid grid-cols-[minmax(0,1fr)_max-content] items-center min-w-0", "gap-2 px-5 pt-5"],
+    body: [
+      "min-w-0",
+      "px-5 pt-1.5 pb-5 first:pt-5",
+      "font-sans text-subhead text-foreground-muted",
+    ],
+    footer: [
+      "flex items-center justify-end",
+      "gap-2 px-5 pb-5 first:pt-5 [[data-slot=alert-dialog-header]+&]:pt-5",
+    ],
+    title: ["m-0 min-w-0 text-foreground", "font-sans text-headline font-bold"],
+    description: ["m-0", "font-sans text-subhead text-foreground-muted"],
   },
 });
 
@@ -88,30 +65,20 @@ export function AlertDialogClose({
   "aria-label": ariaLabel,
   ...props
 }: AlertDialogCloseProps) {
-  const theme = useThemeFamily();
-  const isBrutal = theme === "brutal";
-
   return (
     <BaseDialog.Close
       data-slot="alert-dialog-close"
       render={
         <Button
-          variant={variant ?? (isBrutal ? "outline" : "ghost")}
-          size={size ?? (isBrutal ? "icon-md" : "icon-sm")}
+          variant={variant ?? "ghost"}
+          size={size ?? "icon-md"}
           aria-label={ariaLabel ?? "Close"}
-          className={
-            isBrutal
-              ? className
-              : cn(
-                  "p-0 text-foreground-placeholder hover:border-transparent hover:bg-transparent hover:text-foreground-strong",
-                  className,
-                )
-          }
+          className={cn("-my-1.5 -mr-1.5", className)}
         />
       }
       {...props}
     >
-      {children ?? <X className={isBrutal ? "size-5" : "size-4"} />}
+      {children ?? <X className="size-4.5" />}
     </BaseDialog.Close>
   );
 }
@@ -119,8 +86,7 @@ export function AlertDialogClose({
 export type AlertDialogOverlayProps = StyledProps<BaseDialog.Backdrop.Props>;
 
 export function AlertDialogOverlay({ className, ...props }: AlertDialogOverlayProps) {
-  const theme = useThemeFamily();
-  const { overlay } = alertDialog({ theme });
+  const { overlay } = alertDialog();
 
   return (
     <BaseDialog.Backdrop
@@ -143,8 +109,7 @@ export function AlertDialogContent({
   overlay,
   ...props
 }: AlertDialogContentProps) {
-  const theme = useThemeFamily();
-  const { content } = alertDialog({ theme });
+  const { content } = alertDialog();
 
   return (
     <AlertDialogPortal {...portalProps}>
@@ -164,8 +129,7 @@ export function AlertDialogContent({
 export type AlertDialogHeaderProps = ComponentPropsWithRef<"div">;
 
 export function AlertDialogHeader({ className, ...props }: AlertDialogHeaderProps) {
-  const theme = useThemeFamily();
-  const { header } = alertDialog({ theme });
+  const { header } = alertDialog();
 
   return <div data-slot="alert-dialog-header" className={header({ className })} {...props} />;
 }
@@ -173,8 +137,7 @@ export function AlertDialogHeader({ className, ...props }: AlertDialogHeaderProp
 export type AlertDialogBodyProps = ComponentPropsWithRef<"div">;
 
 export function AlertDialogBody({ className, ...props }: AlertDialogBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = alertDialog({ theme });
+  const { body } = alertDialog();
 
   return <div data-slot="alert-dialog-body" className={body({ className })} {...props} />;
 }
@@ -182,8 +145,7 @@ export function AlertDialogBody({ className, ...props }: AlertDialogBodyProps) {
 export type AlertDialogFooterProps = ComponentPropsWithRef<"div">;
 
 export function AlertDialogFooter({ className, ...props }: AlertDialogFooterProps) {
-  const theme = useThemeFamily();
-  const { footer } = alertDialog({ theme });
+  const { footer } = alertDialog();
 
   return <div data-slot="alert-dialog-footer" className={footer({ className })} {...props} />;
 }
@@ -191,8 +153,7 @@ export function AlertDialogFooter({ className, ...props }: AlertDialogFooterProp
 export type AlertDialogTitleProps = StyledProps<BaseDialog.Title.Props>;
 
 export function AlertDialogTitle({ className, ...props }: AlertDialogTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = alertDialog({ theme });
+  const { title } = alertDialog();
 
   return (
     <BaseDialog.Title data-slot="alert-dialog-title" className={title({ className })} {...props} />
@@ -202,8 +163,7 @@ export function AlertDialogTitle({ className, ...props }: AlertDialogTitleProps)
 export type AlertDialogDescriptionProps = StyledProps<BaseDialog.Description.Props>;
 
 export function AlertDialogDescription({ className, ...props }: AlertDialogDescriptionProps) {
-  const theme = useThemeFamily();
-  const { description } = alertDialog({ theme });
+  const { description } = alertDialog();
 
   return (
     <BaseDialog.Description
@@ -225,16 +185,11 @@ export type AlertDialogCancelProps = Omit<BaseDialog.Close.Props, "render"> &
     className?: string;
   };
 
-export function AlertDialogCancel({
-  className,
-  variant = "outline",
-  size = "sm",
-  ...props
-}: AlertDialogCancelProps) {
+export function AlertDialogCancel({ className, variant, size, ...props }: AlertDialogCancelProps) {
   return (
     <BaseDialog.Close
       data-slot="alert-dialog-cancel"
-      render={<Button className={className} variant={variant} size={size} />}
+      render={<Button className={className} variant={variant ?? "ghost"} size={size ?? "md"} />}
       {...props}
     />
   );

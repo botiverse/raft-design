@@ -81,7 +81,6 @@ import {
   MESSAGE_REACTION_TOOLTIP_NAMES_PROPS,
   MESSAGE_REACTION_TOOLTIP_NAME_TEXT_PROPS,
   MESSAGE_REACTION_TOOLTIP_SEPARATOR_PROPS,
-  MESSAGE_REFERENCE_BADGE_PROPS,
   MESSAGE_REFERENCE_CHIP_PROPS,
   MESSAGE_REFERENCE_INDICATOR_PROPS,
   MESSAGE_REFERENCE_LABEL_PROPS,
@@ -447,13 +446,6 @@ function MessageItemDoc() {
             title="MessageReferenceUnavailable"
           >
             <PropsTable rows={MESSAGE_REFERENCE_UNAVAILABLE_PROPS} />
-          </DocSubsection>
-          <DocSubsection
-            parentId="api"
-            id="api-message-reference-badge"
-            title="MessageReferenceBadge"
-          >
-            <PropsTable rows={MESSAGE_REFERENCE_BADGE_PROPS} />
           </DocSubsection>
           <DocSubsection
             parentId="api"

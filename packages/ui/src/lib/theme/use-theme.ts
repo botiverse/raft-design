@@ -1,13 +1,8 @@
 import { use } from "react";
-import { ThemeContext, ThemeStateContext } from "./theme-context";
-import type { Theme, ThemeState } from "./theme-context";
+import { ThemeStateContext } from "./theme-context";
+import type { ThemeState } from "./theme-context";
 
-/** Read the active style family for theme-aware component recipes. */
-export function useThemeFamily(): Theme {
-  return use(ThemeContext);
-}
-
-/** Read and update the application-level RUI theme selection. */
+/** Read and update the colour mode. */
 export function useTheme(): ThemeState {
   return use(ThemeStateContext);
 }

@@ -5,21 +5,20 @@ import "./dropdown-menu.test.css";
  *
  * The reported symptom was "the … button turns near-white WHEN CLICKED", and a
  * click is hover + press + popup-open. The hover file covers the hover leg; this
- * one opens the menu for real and asserts the open state per theme, so the
+ * one opens the menu for real and asserts the open state in each mode, so the
  * popup is verified to have mounted rather than assumed.
  *
- * Writes no files. An earlier revision screenshotted each theme, which dropped
+ * Writes no files. An earlier revision screenshotted each run, which dropped
  * six untracked PNGs into this source directory on every run — not gitignored,
  * so the next `git add -A` or pre-commit hook would have committed them
  * (reviewer catch, @Bugen). The one-off images that evidence carried have
  * already served their purpose in review; the assertions below do not need
  * them.
  *
- * Note on the recipe: in elegant the main trigger slot carries no
- * `data-popup-open:` styling at all (the `data-popup-open:bg-ink-4` in this file
- * belongs to `submenuTrigger`), and brutal's adds only motion
- * (`-translate-y-px`, shadow). So the open state inherits whatever the hover
- * leg resolves to — which is exactly why the removed class governed the click
+ * Note on the recipe: the main trigger slot carries no `data-popup-open:`
+ * styling at all (the popup-open fill in dropdown-menu.tsx belongs to
+ * `submenuTrigger`). So the open state inherits whatever the hover leg
+ * resolves to — which is exactly why the removed class governed the click
  * appearance too.
  */
 import { afterEach, expect, test } from "vite-plus/test";
@@ -36,16 +35,13 @@ import {
 const it = test.skipIf(typeof window === "undefined");
 afterEach(cleanup);
 
-const THEMES: ReadonlyArray<{ family: "brutal" | "elegant"; mode?: "dark"; label: string }> = [
-  { family: "brutal", label: "brutal" },
-  { family: "elegant", label: "elegant" },
-  { family: "elegant", mode: "dark", label: "elegant-dark" },
-];
+const MODES = ["light", "dark"] as const;
 
-for (const { family, mode, label } of THEMES) {
+for (const mode of MODES) {
+  const label = mode;
   it(`${label}: the opened menu renders and the trigger keeps the Button's colour`, async () => {
     render(
-      <ThemeProvider theme={family} {...(mode ? { mode } : {})}>
+      <ThemeProvider mode={mode}>
         <div
           data-testid="stage"
           className="bg-layer-page text-foreground"
@@ -83,12 +79,11 @@ for (const { family, mode, label } of THEMES) {
     await plain.hover();
     await new Promise((r) => setTimeout(r, 300));
 
-    // The control must watch MOTION as well as colour. Brutal's primary hover
-    // does not change background at all — it lifts and drops a shadow — so a
-    // colour-only control is unsatisfiable there and fails on correct code.
+    // The control watches the pressed overlay, motion and shadow as well as
+    // colour: the primary hover keeps its colour and adds an overlay.
     const reactive = (el: Element) => {
       const cs = getComputedStyle(el);
-      return `${cs.backgroundColor}|${cs.translate}|${cs.boxShadow}`;
+      return `${cs.backgroundColor}|${cs.backgroundImage}|${cs.translate}|${cs.boxShadow}`;
     };
     const plainResting = reactive(plainEl);
     await page.getByTestId("trigger").hover();
@@ -102,6 +97,7 @@ for (const { family, mode, label } of THEMES) {
     ).not.toBe(plainUnhovered);
     void plainResting;
     const plainHover = getComputedStyle(plainEl).backgroundColor;
+    const plainHoverImage = getComputedStyle(plainEl).backgroundImage;
 
     await trigger.click();
 
@@ -125,5 +121,9 @@ for (const { family, mode, label } of THEMES) {
       openBg,
       `${label}: with the menu open and the pointer still on it, the trigger shows ${openBg}; the same Button alone hovers to ${plainHover}`,
     ).toBe(plainHover);
+    expect(
+      getComputedStyle(triggerEl).backgroundImage,
+      `${label}: the open trigger's overlay`,
+    ).toBe(plainHoverImage);
   });
 }

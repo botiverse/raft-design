@@ -5,114 +5,62 @@ import { Kbd } from "../kbd/index";
 import type { KbdProps } from "../kbd/index";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
 const contextMenu = tv({
   slots: {
     trigger: ["select-none"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "flex flex-col max-h-(--available-height) min-w-48 overflow-hidden bg-layer-panel",
+      "flex flex-col max-h-(--available-height) overflow-hidden",
       "outline-none",
+      "min-w-60 gap-0 rounded-container bg-layer-popover p-1.5 text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
     ],
     item: [
-      "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
-      "text-left text-sm outline-none transition-colors",
+      "flex w-full cursor-default select-none items-center [@media(max-height:600px)]:py-1",
+      "text-left outline-none transition-colors",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "font-sans text-callout font-medium text-foreground",
+      "hover:bg-primary-soft data-highlighted:bg-primary-soft",
+      "data-checked:font-bold",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+      "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
     ],
     radioItem: [
-      "flex w-full cursor-default select-none items-center gap-2 px-3",
+      "flex w-full cursor-default select-none items-center",
       "text-left outline-none transition-colors",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "font-sans text-callout font-medium text-foreground",
+      "hover:bg-primary-soft data-highlighted:bg-primary-soft",
+      "data-checked:font-bold",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+      "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
     ],
     submenuTrigger: [
-      "flex w-full cursor-default select-none items-center gap-2 px-3 py-2 [@media(max-height:600px)]:py-1",
-      "text-left text-sm outline-none transition-colors",
+      "flex w-full cursor-default select-none items-center [@media(max-height:600px)]:py-1",
+      "text-left outline-none transition-colors",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-1.5",
+      "font-sans text-callout font-medium text-foreground",
+      "hover:bg-primary-soft data-highlighted:bg-primary-soft data-popup-open:bg-primary-soft",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4",
+      "[&>svg]:text-foreground-icon data-disabled:[&>svg]:text-foreground-disabled",
     ],
     itemLabel: ["min-w-0 flex-1 truncate text-left"],
     footer: ["px-3 py-2 text-xs text-foreground-muted tabular-nums"],
-    label: [],
-    shortcut: ["ml-auto"],
-    separator: ["border-t-2"],
-    indicator: ["pointer-events-none ml-auto flex size-3 shrink-0 items-center justify-center"],
-  },
-  variants: {
-    theme: {
-      brutal: {
-        content: ["border-2 border-black bg-layer-popover shadow-raft-md"],
-        item: [
-          "py-2 font-sans text-sm font-semibold leading-5 text-foreground-strong hover:bg-brutal-yellow/30 data-highlighted:bg-brutal-yellow/30",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
-        ],
-        radioItem: [
-          "h-9 overflow-hidden font-sans text-sm font-semibold leading-6 text-foreground-strong",
-          "border-b border-ink-10 last:border-b-0",
-          "hover:bg-brutal-yellow/30 data-highlighted:bg-brutal-yellow/30",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
-        ],
-        submenuTrigger: [
-          "py-2 font-sans text-sm font-semibold leading-5 text-foreground-strong hover:bg-brutal-yellow/30 data-highlighted:bg-brutal-yellow/30 data-popup-open:bg-brutal-yellow/30",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-2 [&_svg_*]:stroke-2 [&_svg:not([class*='size-'])]:size-3.5",
-        ],
-        label: [
-          "border-b border-line-strong px-3 py-2",
-          "font-sans text-[10px] font-bold uppercase leading-none tracking-wide text-foreground-strong/60",
-        ],
-        shortcut: ["font-sans text-sm font-semibold leading-6"],
-        separator: ["border-black"],
-        indicator: [],
-      },
-      elegant: {
-        content: ["gap-0.5 rounded-md bg-layer-popover p-1", "shadow-raft-lg outline-none"],
-        item: [
-          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
-          "text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground",
-          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
-          "[&>svg]:text-foreground-muted",
-          "hover:[&>svg]:text-foreground",
-          "data-highlighted:[&>svg]:text-foreground",
-        ],
-        radioItem: [
-          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
-          "text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground",
-          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
-          "[&>svg]:text-foreground-muted",
-          "hover:[&>svg]:text-foreground",
-          "data-highlighted:[&>svg]:text-foreground",
-        ],
-        submenuTrigger: [
-          "gap-2.5 rounded-sm px-3 py-1.5 text-[13px] font-normal tracking-[-0.005em]",
-          "text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground",
-          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
-          "data-popup-open:bg-ink-4 data-popup-open:text-foreground",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg_*]:stroke-[1.5] [&>svg]:size-4",
-          "[&>svg~svg:last-child]:size-3",
-          "[&>svg]:text-foreground-muted",
-          "hover:[&>svg]:text-foreground",
-          "data-highlighted:[&>svg]:text-foreground",
-          "data-popup-open:[&>svg]:text-foreground",
-        ],
-        label: [
-          "-mx-1 mb-1 border-b border-line-hairline px-3 py-2 dark:border-ink-6",
-          "text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground-strong/45",
-        ],
-        shortcut: ["text-foreground-muted"],
-        separator: ["my-1 -mx-1 h-px border-0 bg-line-hairline dark:bg-ink-6"],
-        indicator: [],
-      },
-    },
+    label: ["px-2.5 pt-2 pb-1", "font-sans text-caption font-bold text-foreground-hint"],
+    shortcut: [
+      "ml-auto",
+      "h-auto min-w-0 rounded-none bg-transparent p-0 shadow-none ring-0",
+      "font-mono text-mono-meta font-normal text-foreground-hint",
+    ],
+    separator: ["-mx-1.5 my-1.5 h-px border-0 bg-line-muted"],
+    indicator: [
+      "pointer-events-none ml-auto flex shrink-0 items-center justify-center",
+      "size-4 text-foreground [&_svg]:size-4",
+    ],
   },
 });
 
@@ -131,8 +79,7 @@ export function ContextMenuSubmenu(props: ContextMenuSubmenuProps) {
 export type ContextMenuTriggerProps = StyledProps<BaseContextMenu.Trigger.Props>;
 
 export function ContextMenuTrigger({ className, ...props }: ContextMenuTriggerProps) {
-  const theme = useThemeFamily();
-  const { trigger } = contextMenu({ theme });
+  const { trigger } = contextMenu();
   return (
     <BaseContextMenu.Trigger
       data-slot="context-menu-trigger"
@@ -192,8 +139,7 @@ export function ContextMenuContent({
   className,
   ...props
 }: ContextMenuContentProps) {
-  const theme = useThemeFamily();
-  const { positioner, content } = contextMenu({ theme });
+  const { positioner, content } = contextMenu();
   return (
     <ContextMenuPortal {...portalProps}>
       <BaseContextMenu.Positioner
@@ -224,16 +170,14 @@ export function ContextMenuContent({
 export type ContextMenuPopupProps = ComponentPropsWithRef<"div">;
 
 export function ContextMenuPopup({ className, ...props }: ContextMenuPopupProps) {
-  const theme = useThemeFamily();
-  const { content } = contextMenu({ theme });
+  const { content } = contextMenu();
   return <div data-slot="context-menu-content" className={content({ className })} {...props} />;
 }
 
 export type ContextMenuItemProps = StyledProps<BaseContextMenu.Item.Props>;
 
 export function ContextMenuItem({ className, ...props }: ContextMenuItemProps) {
-  const theme = useThemeFamily();
-  const { item } = contextMenu({ theme });
+  const { item } = contextMenu();
   return (
     <BaseContextMenu.Item
       data-slot="context-menu-item"
@@ -266,8 +210,7 @@ export function ContextMenuSubmenuTrigger({
   className,
   ...props
 }: ContextMenuSubmenuTriggerProps) {
-  const theme = useThemeFamily();
-  const { submenuTrigger, indicator } = contextMenu({ theme });
+  const { submenuTrigger, indicator } = contextMenu();
   return (
     <BaseContextMenu.SubmenuTrigger
       data-slot="context-menu-submenu-trigger"
@@ -289,24 +232,21 @@ export function ContextMenuSubmenuTrigger({
 export type ContextMenuLabelProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function ContextMenuLabel({ className, ...props }: ContextMenuLabelProps) {
-  const theme = useThemeFamily();
-  const { label } = contextMenu({ theme });
+  const { label } = contextMenu();
   return <div data-slot="context-menu-label" className={label({ className })} {...props} />;
 }
 
 export type ContextMenuShortcutProps = KbdProps;
 
 export function ContextMenuShortcut({ className, ...props }: ContextMenuShortcutProps) {
-  const theme = useThemeFamily();
-  const { shortcut } = contextMenu({ theme });
+  const { shortcut } = contextMenu();
   return <Kbd data-slot="context-menu-shortcut" className={shortcut({ className })} {...props} />;
 }
 
 export type ContextMenuSeparatorProps = StyledProps<BaseContextMenu.Separator.Props>;
 
 export function ContextMenuSeparator({ className, ...props }: ContextMenuSeparatorProps) {
-  const theme = useThemeFamily();
-  const { separator } = contextMenu({ theme });
+  const { separator } = contextMenu();
   return (
     <BaseContextMenu.Separator
       data-slot="context-menu-separator"
@@ -357,8 +297,7 @@ export function ContextMenuRadioGroup({ ...props }: ContextMenuRadioGroupProps) 
 export type ContextMenuRadioItemProps = StyledProps<BaseContextMenu.RadioItem.Props>;
 
 export function ContextMenuRadioItem({ className, children, ...props }: ContextMenuRadioItemProps) {
-  const theme = useThemeFamily();
-  const { radioItem, indicator } = contextMenu({ theme });
+  const { radioItem, indicator } = contextMenu();
   return (
     <BaseContextMenu.RadioItem
       data-slot="context-menu-radio-item"
@@ -398,8 +337,7 @@ export function ContextMenuCheckboxItem({
   children,
   ...props
 }: ContextMenuCheckboxItemProps) {
-  const theme = useThemeFamily();
-  const { item, indicator } = contextMenu({ theme });
+  const { item, indicator } = contextMenu();
   return (
     <BaseContextMenu.CheckboxItem
       data-slot="context-menu-checkbox-item"

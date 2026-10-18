@@ -17,14 +17,13 @@ import type {
   Ref,
 } from "react";
 import { Toast as BaseToast } from "@base-ui/react/toast";
-import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { useThemeFamily } from "../../lib/theme/use-theme";
-import { buttonVariants } from "../button/index";
 import { Spinner } from "../spinner/index";
+import { Status } from "../status/index";
+import type { StatusProps } from "../status/index";
 import { cn } from "../../lib/cn";
 
 const toastStyles = tv({
@@ -33,8 +32,8 @@ const toastStyles = tv({
     positioner: ["isolate z-[calc(70-var(--toast-index))] outline-none"],
     root: [
       "group/toast pointer-events-auto",
-      "select-text text-foreground",
-      "outline outline-1 outline-offset-2 outline-transparent",
+      "select-text",
+      "outline-1 outline-offset-2 outline-transparent",
       "[--toast-scale:calc(max(0.84,1-(var(--toast-index)*0.04)))]",
       "[--toast-peek:0.5rem]",
       "[--toast-gap:0.5rem]",
@@ -45,9 +44,12 @@ const toastStyles = tv({
       "data-starting-style:opacity-0",
       "data-ending-style:opacity-0",
       "motion-reduce:transition-none",
+      "rounded-container bg-layer-hud text-layer-hud-foreground",
+      "shadow-raft-float",
+      "focus-visible:outline-2 focus-visible:outline-foreground",
     ],
     content: [
-      "relative grid grid-cols-[minmax(0,1fr)] items-center gap-x-3 overflow-hidden",
+      "relative grid grid-cols-[minmax(0,1fr)] items-center overflow-hidden",
       // The content layout keys off `data-has-*` attributes that
       // DefaultToastItem writes at render time, instead of `:has()`: an
       // ancestor `:has()` that styles descendants makes Chromium recalculate
@@ -62,25 +64,41 @@ const toastStyles = tv({
       "[&:not([data-has-description])>[data-slot=toast-body]:only-child]:justify-self-center [&:not([data-has-description])>[data-slot=toast-body]:only-child]:text-center",
       "transition-opacity duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
       "motion-reduce:transition-none",
+      "gap-x-3 gap-y-2 px-4 py-3 font-sans text-callout",
+      "[--toast-title-only-min-h:2.75rem] [--toast-title-only-px:1rem] [--toast-title-only-py:0.75rem]",
+      "data-has-icon:grid-cols-[auto_minmax(0,1fr)]",
+      "data-has-actions:grid-cols-[minmax(0,1fr)_auto]",
+      "[&[data-has-icon][data-has-actions]]:grid-cols-[auto_minmax(0,1fr)_auto]",
     ],
-    icon: ["flex size-5 shrink-0 items-center justify-center", "[&_svg]:size-3.5 [&_svg]:shrink-0"],
+    icon: [
+      "flex size-5 shrink-0 items-center justify-center",
+      "[&_svg]:shrink-0",
+      "[&_svg]:size-4",
+    ],
     body: ["min-w-0"],
-    title: ["m-0 truncate text-sm/5"],
-    description: ["m-0 text-sm/5"],
-    actions: ["flex items-center justify-end gap-1.5"],
+    title: ["m-0 truncate text-sm/5", "font-normal text-layer-hud-foreground"],
+    description: ["m-0 text-sm/5", "text-layer-hud-foreground/70"],
+    actions: ["flex items-center justify-end", "gap-4"],
     progress: [
-      "pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left",
+      "pointer-events-none absolute h-[3px] origin-left",
       "animate-[raft-toast-timeout-progress_var(--toast-progress-duration)_linear_forwards]",
       "group-hover/toast:[animation-play-state:paused] group-focus-within/toast:[animation-play-state:paused]",
       "motion-reduce:animate-none motion-reduce:scale-x-100",
+      "inset-x-4 bottom-1.5 rounded-[2px] bg-layer-hud-foreground/40",
     ],
     close: [
-      "absolute top-1.5 right-1.5 inline-flex size-7 shrink-0 items-center justify-center",
-      "outline outline-1 outline-offset-2 outline-transparent",
+      "inline-flex items-center justify-center",
+      "outline-1 outline-offset-2 outline-transparent",
       "transition-[background-color,color,border-color,box-shadow,transform] duration-150",
       "disabled:pointer-events-none disabled:opacity-40",
-      "focus-visible:outline-line-strong",
-      "[&_svg]:size-3.5",
+      "relative inset-auto order-1 size-auto shrink-0 whitespace-nowrap",
+      "border-0 bg-transparent p-0 shadow-none",
+      "font-sans text-callout font-bold text-layer-hud-foreground",
+      "underline decoration-[1.5px] underline-offset-[3px]",
+      "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
+      "active:after:bg-layer-hud-foreground/15",
+      "focus-visible:outline-2 focus-visible:outline-layer-hud-foreground",
+      "[&_svg]:size-4",
     ],
     arrow: [
       "pointer-events-none flex",
@@ -93,83 +111,6 @@ const toastStyles = tv({
     ],
   },
   variants: {
-    theme: {
-      brutal: {
-        root: [
-          "border-2 border-line-strong bg-primary text-foreground-strong shadow-raft-md",
-          "focus-visible:outline-transparent",
-        ],
-        content: [
-          "min-h-0 min-w-0 grid-cols-1 px-3 py-2 font-sans",
-          "gap-y-1.5",
-          "has-data-[slot=toast-icon]:grid-cols-[auto_minmax(0,1fr)]",
-        ],
-        icon: ["text-foreground-strong", "[&_svg]:size-4 [&_svg]:stroke-[2.5]"],
-        title: ["font-bold text-foreground-strong"],
-        description: ["font-semibold text-foreground-strong/75"],
-        actions: [
-          "col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end gap-1",
-        ],
-        progress: ["bg-foreground-strong/70"],
-        close: [
-          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap border-2 border-line-strong bg-layer-panel px-2 text-xs font-bold text-foreground-strong shadow-raft-xs",
-          "hover:bg-layer-panel hover:text-foreground-strong hover:-translate-y-px hover:shadow-raft-sm",
-          "active:translate-px  active:shadow-none",
-        ],
-        arrow: ["hidden"],
-      },
-      elegant: {
-        root: [
-          "relative rounded-xl bg-layer-hud/85 text-layer-hud-foreground backdrop-blur-2xl saturate-150",
-          "shadow-[0_18px_42px_-18px_oklch(0_0_0/0.54)]",
-          "data-expanded:bg-layer-hud/85 data-expanded:shadow-[0_18px_40px_-18px_oklch(0_0_0/0.54)]",
-          "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-white/35 after:mix-blend-overlay after:content-['']",
-          "dark:bg-layer-popover dark:text-foreground dark:backdrop-blur-none dark:saturate-100 dark:shadow-raft-xl dark:after:hidden",
-          "dark:data-expanded:bg-layer-popover dark:data-expanded:shadow-raft-xl",
-        ],
-        content: [
-          "gap-x-3.5 font-sans",
-          "has-data-[slot=toast-icon]:grid-cols-[auto_minmax(0,1fr)]",
-          "has-data-[slot=toast-actions]:min-w-[18rem]",
-          "has-data-[slot=toast-actions]:min-h-14",
-          "has-data-[slot=toast-actions]:py-3",
-          "has-data-[slot=toast-actions]:pl-3.5",
-          "has-data-[slot=toast-actions]:pr-3",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:min-h-14",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:min-w-[18rem]",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:py-3",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-title])]:pl-3.5",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-icon])]:min-h-14",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-icon])]:min-w-[18rem]",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-icon])]:py-3",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-icon])]:pl-3.5",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:min-h-14",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:min-w-[18rem]",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:py-3",
-          "[&:has([data-slot=toast-description]):has([data-slot=toast-close])]:pl-3.5",
-          "has-data-[slot=toast-close]:pr-3",
-          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-w-0",
-          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:min-h-10",
-          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:pl-3.5",
-          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:py-2",
-          "[&:has([data-slot=toast-icon]):not(:has([data-slot=toast-actions])):not(:has([data-slot=toast-description]))]:pr-3.5",
-          "has-data-[slot=toast-actions]:grid-cols-[minmax(0,1fr)]",
-          "has-data-[slot=toast-actions]:gap-y-2",
-          "[&:has([data-slot=toast-icon]):has([data-slot=toast-actions])]:grid-cols-[auto_minmax(0,1fr)]",
-        ],
-        icon: ["dark:text-foreground-muted", "[&_svg]:size-4.5 [&_svg]:stroke-[1.5]"],
-        title: ["font-medium text-[oklch(0.985_0.001_286)] dark:text-foreground"],
-        description: ["text-white/62 dark:text-foreground-muted"],
-        actions: ["col-start-1 row-start-2 col-span-full w-full justify-self-stretch justify-end"],
-        progress: ["rounded-b-xl bg-primary-400/80 dark:bg-primary-400"],
-        close: [
-          "static order-1 size-auto min-h-7 shrink-0 whitespace-nowrap rounded-full border-0 bg-transparent px-2 text-xs font-medium text-white/70 shadow-none",
-          "dark:text-foreground-muted",
-          "hover:bg-white/5 hover:text-white/90 dark:hover:bg-ink-4 dark:hover:text-foreground active:scale-[0.985]",
-        ],
-        arrow: [],
-      },
-    },
     placement: {
       "bottom-center": {
         viewport: "bottom-4 left-1/2 -translate-x-1/2",
@@ -198,7 +139,7 @@ const toastStyles = tv({
     layout: {
       stacked: {
         root: [
-          "absolute inset-x-0 bottom-0 mx-auto h-(--toast-stack-height) w-full origin-bottom",
+          "absolute inset-x-0 bottom-0 mx-auto h-(--toast-stack-height) origin-bottom",
           "z-[calc(70-var(--toast-index))]",
           "before:pointer-events-auto before:absolute before:inset-x-0 before:top-full before:h-[calc(var(--toast-gap)+3px)] before:content-['']",
           "[--toast-peek-dir:-1]",
@@ -219,6 +160,7 @@ const toastStyles = tv({
           "in-data-[toast-placement^=top]:[--toast-peek-dir:1]",
           "[[data-toast-placement^=top]_&[data-starting-style]]:transform-[translateY(-120%)_scale(0.98)]",
           "[[data-toast-placement^=top]_&[data-ending-style]:not([data-swipe-direction])]:transform-[translateY(-120%)_scale(0.98)]",
+          "w-max max-w-full",
         ],
       },
       inline: {
@@ -231,90 +173,12 @@ const toastStyles = tv({
         ],
       },
     },
-    tone: {
-      info: {},
-      success: {},
-      warning: {},
-      error: {},
-    },
   },
   defaultVariants: {
     placement: "bottom-center",
     layout: "stacked",
     strategy: "fixed",
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      tone: "success",
-      class: {
-        root: "bg-brutal-lime",
-      },
-    },
-    {
-      theme: "brutal",
-      tone: "warning",
-      class: {
-        root: "bg-brutal-orange",
-      },
-    },
-    {
-      theme: "brutal",
-      tone: "error",
-      class: {
-        root: "bg-brutal-orange shadow-raft-sm",
-      },
-    },
-    {
-      theme: "brutal",
-      layout: "stacked",
-      class: {
-        root: "w-max max-w-full",
-      },
-    },
-    {
-      theme: "elegant",
-      layout: "stacked",
-      class: {
-        root: "w-max max-w-full",
-      },
-    },
-    {
-      theme: "elegant",
-      layout: "inline",
-      class: {
-        root: "bg-layer-hud/85 after:hidden dark:bg-layer-popover",
-      },
-    },
-    {
-      theme: "elegant",
-      tone: "info",
-      class: {
-        root: "**:data-[slot=toast-icon]:text-info dark:**:data-[slot=toast-icon]:text-foreground-muted",
-      },
-    },
-    {
-      theme: "elegant",
-      tone: "success",
-      class: {
-        root: "**:data-[slot=toast-icon]:text-success dark:**:data-[slot=toast-icon]:text-foreground-muted",
-      },
-    },
-    {
-      theme: "elegant",
-      tone: "warning",
-      class: {
-        root: "**:data-[slot=toast-icon]:text-warning dark:**:data-[slot=toast-icon]:text-foreground-muted",
-      },
-    },
-    {
-      theme: "elegant",
-      tone: "error",
-      class: {
-        root: "**:data-[slot=toast-icon]:text-brutal-red dark:**:data-[slot=toast-icon]:text-foreground-muted",
-      },
-    },
-  ],
 });
 
 const TOAST_PROGRESS_STYLE = `
@@ -345,47 +209,27 @@ type ToastPlacement = NonNullable<VariantProps<typeof toastStyles>["placement"]>
 const DEFAULT_TOAST_TIMEOUT_MS = 5000;
 const ToastProviderConfigContext = createContext({ timeout: DEFAULT_TOAST_TIMEOUT_MS });
 
+// A toast's action is a text action on the HUD: bold underlined type, a
+// pressed veil on a hit area larger than the word, the HUD ink as its focus
+// outline. It carries its own content and loading slots (a button's would
+// bring a button's fill and focus ring onto the dark toast).
 const toastAction = tv({
-  extend: buttonVariants,
   slots: {
     root: [
-      "inline-flex min-h-7 shrink-0 items-center justify-center whitespace-nowrap px-2 text-xs/[1]",
-      "font-sans shadow-none",
-      "outline outline-1 outline-offset-2 outline-transparent",
-      "transition-[background-color,color,border-color,box-shadow,transform] duration-150",
-      "disabled:pointer-events-none disabled:opacity-40 data-[loading=true]:opacity-100",
-      "focus-visible:outline-line-strong",
-      "**:data-icon:size-[1em] [&_svg:not([class*='size-'])]:size-3",
+      "relative order-2 inline-flex shrink-0 items-center justify-center whitespace-nowrap select-none",
+      "border-0 bg-transparent p-0",
+      "font-sans text-callout font-bold text-layer-hud-foreground",
+      "underline decoration-[1.5px] underline-offset-[3px]",
+      "after:absolute after:-inset-x-2 after:-inset-y-3 after:rounded-control after:content-['']",
+      "active:after:bg-layer-hud-foreground/15",
+      "outline-1 outline-offset-2 outline-transparent focus-visible:outline-2 focus-visible:outline-layer-hud-foreground",
+      "disabled:pointer-events-none disabled:opacity-40 aria-disabled:cursor-not-allowed aria-disabled:opacity-40",
+      "data-[loading=true]:cursor-wait data-[loading=true]:opacity-100",
+      "[&_svg]:pointer-events-none [&_svg]:shrink-0 **:data-icon:size-[1em] [&_svg:not([class*='size-'])]:size-3",
     ],
-  },
-  variants: {
-    toastTheme: {
-      brutal: {
-        root: [
-          "order-2 border-2 border-line-strong bg-foreground-strong font-bold text-white shadow-raft-xs",
-          "hover:bg-foreground-strong/85 hover:-translate-y-px hover:shadow-raft-sm",
-          "active:translate-px  active:shadow-none",
-        ],
-      },
-      elegant: {
-        root: [
-          "relative order-2 min-h-7 rounded-full bg-white/6 px-3 font-medium text-white/74",
-          "[&::before]:pointer-events-none [&::before]:absolute [&::before]:inset-0 [&::before]:rounded-[inherit] [&::before]:p-(--toast-gradient-border-width,1px)",
-          "[&::before]:[content:''] [&::before]:[background:var(--toast-gradient-border,linear-gradient(var(--toast-gradient-border-angle,to_bottom),var(--toast-gradient-border-from,oklch(1_0_0/0.24)),var(--toast-gradient-border-via,oklch(1_0_0/0.1)),var(--toast-gradient-border-to,transparent)))]",
-          "[&::before]:[-webkit-mask-image:linear-gradient(oklch(1_0_0)_0_0),linear-gradient(oklch(1_0_0)_0_0)] [&::before]:[-webkit-mask-origin:content-box,border-box] [&::before]:[-webkit-mask-clip:content-box,border-box] [&::before]:[-webkit-mask-composite:xor]",
-          "[&::before]:mask-[linear-gradient(oklch(1_0_0)_0_0),linear-gradient(oklch(1_0_0)_0_0)] [&::before]:[mask-origin:content-box,border-box] [&::before]:[mask-clip:content-box,border-box] [&::before]:mask-exclude",
-          "[--toast-gradient-border-angle:to_bottom] [--toast-gradient-border-from:oklch(1_0_0/0.1)] [--toast-gradient-border-to:oklch(1_0_0/0)] [--toast-gradient-border-via:oklch(1_0_0/0.05)]",
-          "dark:bg-fill-muted dark:text-foreground-muted",
-          "dark:[--toast-gradient-border-from:oklch(0.985_0.004_106.42/0.14)] dark:[--toast-gradient-border-via:oklch(0.985_0.004_106.42/0.07)]",
-          "dark:hover:bg-fill-strong dark:hover:text-foreground dark:hover:[--toast-gradient-border-from:oklch(0.985_0.004_106.42/0.22)] dark:hover:[--toast-gradient-border-via:oklch(0.985_0.004_106.42/0.11)]",
-          "hover:bg-white/7.5 hover:text-white/88 hover:[--toast-gradient-border-from:oklch(1_0_0/0.24)] hover:[--toast-gradient-border-via:oklch(1_0_0/0.08)] active:scale-[0.985]",
-        ],
-      },
-    },
-  },
-  defaultVariants: {
-    variant: undefined,
-    size: undefined,
+    content:
+      "relative z-10 inline-flex items-center justify-center gap-[inherit] data-[loading=true]:invisible",
+    loadingIndicator: "pointer-events-none absolute inset-0 z-10 flex items-center justify-center",
   },
 });
 
@@ -531,8 +375,7 @@ export function ToastViewport({
   className,
   ...props
 }: ToastViewportProps) {
-  const theme = useThemeFamily();
-  const { viewport } = toastStyles({ theme, placement, strategy });
+  const { viewport } = toastStyles({ placement, strategy });
 
   return (
     <BaseToast.Viewport
@@ -547,8 +390,7 @@ export function ToastViewport({
 export type ToastPositionerProps = StyledProps<BaseToast.Positioner.Props>;
 
 export function ToastPositioner({ className, ...props }: ToastPositionerProps) {
-  const theme = useThemeFamily();
-  const { positioner } = toastStyles({ theme });
+  const { positioner } = toastStyles();
 
   return (
     <BaseToast.Positioner
@@ -568,9 +410,7 @@ export function ToastRoot({
   toast: toastObject,
   ...props
 }: ToastRootProps) {
-  const theme = useThemeFamily();
-  const tone = getToastTone(toastObject.type);
-  const { root } = toastStyles({ theme, layout, tone });
+  const { root } = toastStyles({ layout });
 
   return (
     <BaseToast.Root
@@ -603,8 +443,7 @@ export type ToastContentProps = StyledProps<BaseToast.Content.Props> & {
  * observed.
  */
 export function ToastContent({ children, className, ref, ...props }: ToastContentProps) {
-  const theme = useThemeFamily();
-  const { content } = toastStyles({ theme });
+  const { content } = toastStyles();
   const internalRef = useRef<HTMLDivElement>(null);
 
   // Merge the caller's ref with ours; the measurement needs the node, and a
@@ -649,8 +488,7 @@ export function ToastContent({ children, className, ref, ...props }: ToastConten
 export type ToastIconProps = ComponentPropsWithRef<"div">;
 
 export function ToastIcon({ className, ...props }: ToastIconProps) {
-  const theme = useThemeFamily();
-  const { icon } = toastStyles({ theme });
+  const { icon } = toastStyles();
 
   return <div data-slot="toast-icon" className={icon({ className })} {...props} />;
 }
@@ -658,8 +496,7 @@ export function ToastIcon({ className, ...props }: ToastIconProps) {
 export type ToastBodyProps = ComponentPropsWithRef<"div">;
 
 export function ToastBody({ className, ...props }: ToastBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = toastStyles({ theme });
+  const { body } = toastStyles();
 
   return <div data-slot="toast-body" className={body({ className })} {...props} />;
 }
@@ -667,8 +504,7 @@ export function ToastBody({ className, ...props }: ToastBodyProps) {
 export type ToastActionsProps = ComponentPropsWithRef<"div">;
 
 export function ToastActions({ className, ...props }: ToastActionsProps) {
-  const theme = useThemeFamily();
-  const { actions } = toastStyles({ theme });
+  const { actions } = toastStyles();
 
   return <div data-slot="toast-actions" className={actions({ className })} {...props} />;
 }
@@ -683,8 +519,7 @@ export function ToastProgress({
   style,
   ...props
 }: ToastProgressProps) {
-  const theme = useThemeFamily();
-  const { progress } = toastStyles({ theme });
+  const { progress } = toastStyles();
   const progressStyle = {
     ...style,
     "--toast-progress-duration": `${duration}ms`,
@@ -706,8 +541,7 @@ export function ToastProgress({
 export type ToastTitleProps = StyledProps<BaseToast.Title.Props>;
 
 export function ToastTitle({ className, ...props }: ToastTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = toastStyles({ theme });
+  const { title } = toastStyles();
 
   return <BaseToast.Title data-slot="toast-title" className={title({ className })} {...props} />;
 }
@@ -715,8 +549,7 @@ export function ToastTitle({ className, ...props }: ToastTitleProps) {
 export type ToastDescriptionProps = StyledProps<BaseToast.Description.Props>;
 
 export function ToastDescription({ className, ...props }: ToastDescriptionProps) {
-  const theme = useThemeFamily();
-  const { description } = toastStyles({ theme });
+  const { description } = toastStyles();
 
   return (
     <BaseToast.Description
@@ -745,11 +578,7 @@ export function ToastAction({
   render,
   ...props
 }: ToastActionProps) {
-  const theme = useThemeFamily();
-  const { root, content, loadingIndicator } = useMemo(
-    () => toastAction({ toastTheme: theme }),
-    [theme],
-  );
+  const { root, content, loadingIndicator } = toastAction();
 
   const renderAction = useCallback(
     (renderProps: ToastActionRenderProps, state: ToastActionRenderState) => {
@@ -757,10 +586,7 @@ export function ToastAction({
         <>
           {loading ? (
             <span data-slot="toast-action-loading-indicator" className={loadingIndicator()}>
-              <Spinner
-                aria-label={loadingLabel}
-                variant={theme === "brutal" ? "inverse" : "default"}
-              />
+              <Spinner aria-label={loadingLabel} />
             </span>
           ) : null}
           <span
@@ -796,7 +622,7 @@ export function ToastAction({
 
       return <button {...nextRenderProps} />;
     },
-    [content, loading, loadingIndicator, loadingLabel, render, theme],
+    [content, loading, loadingIndicator, loadingLabel, render],
   );
 
   return (
@@ -817,8 +643,7 @@ export function ToastAction({
 export type ToastCloseProps = StyledProps<BaseToast.Close.Props>;
 
 export function ToastClose({ className, children, ...props }: ToastCloseProps) {
-  const theme = useThemeFamily();
-  const { close } = toastStyles({ theme });
+  const { close } = toastStyles();
   const usesDefaultText = children == null;
 
   return (
@@ -836,16 +661,11 @@ export function ToastClose({ className, children, ...props }: ToastCloseProps) {
 export type ToastArrowProps = StyledProps<BaseToast.Arrow.Props>;
 
 export function ToastArrow({ className, ...props }: ToastArrowProps) {
-  const theme = useThemeFamily();
-  const { arrow } = toastStyles({ theme });
-
-  if (theme === "elegant") {
-    return null;
-  }
+  const { arrow } = toastStyles();
 
   return (
     <BaseToast.Arrow data-slot="toast-arrow" className={arrow({ className })} {...props}>
-      <ToastArrowSvg theme={theme} />
+      <ToastArrowSvg />
     </BaseToast.Arrow>
   );
 }
@@ -921,41 +741,27 @@ function DefaultToastItem({
   );
 }
 
+const TOAST_PIXEL = {
+  info: "information",
+  success: "success",
+  warning: "warning",
+  error: "warning",
+} as const satisfies Record<ToastIntent, StatusProps["variant"]>;
+
 function DefaultToastIcon({ toast: toastObject }: { toast: ToastObject<ToastData> }) {
   const intent = toastObject.data?.intent ?? getToastTone(toastObject.type);
-  const Icon =
-    intent === "success"
-      ? CheckCircle2
-      : intent === "warning" || intent === "error"
-        ? AlertTriangle
-        : Info;
 
   return (
     <ToastIcon>
-      <Icon aria-hidden />
+      <Status aria-hidden variant={TOAST_PIXEL[intent]} />
     </ToastIcon>
   );
 }
 
-function ToastArrowSvg({
-  theme,
-  ...props
-}: ComponentProps<"svg"> & { theme: ReturnType<typeof useThemeFamily> }) {
+function ToastArrowSvg(props: ComponentProps<"svg">) {
   return (
     <svg width="12" height="6" viewBox="0 0 12 6" fill="none" {...props}>
-      <path
-        d="M1 0H11L6 5.25Z"
-        className={theme === "elegant" ? "fill-layer-hud/50" : "fill-primary"}
-      />
-      {theme === "elegant" ? null : (
-        <path
-          d="M1 0.5L6 5.25L11 0.5"
-          className="stroke-line-strong"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-        />
-      )}
+      <path d="M1 0H11L6 5.25Z" className="fill-layer-hud" />
     </svg>
   );
 }

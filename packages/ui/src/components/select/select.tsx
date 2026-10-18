@@ -6,139 +6,79 @@ import type { DataAttributes } from "../../lib/data-attributes";
 import { tv } from "../../lib/tv";
 import type { StyledProps } from "../../lib/styled-props";
 import { useThemeScopeProps } from "../../lib/theme/theme-scope";
-import { defaultSideOffset } from "../../lib/popup-offset";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { Button } from "../button/index";
 
 const select = tv({
   slots: {
     trigger: [
-      "inline-flex select-none items-center justify-between gap-2",
+      "inline-flex select-none items-center justify-between",
       "outline-none transition-colors",
-      "data-invalid:border-danger/45 data-invalid:hover:border-danger/75 data-invalid:focus-visible:border-danger/75 data-invalid:focus-visible:ring-2 data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--danger)_60%,transparent)]",
+      "data-invalid:focus-visible:ring-[color-mix(in_oklch,var(--danger)_60%,transparent)]",
       "**:data-[slot='button-content']:w-full **:data-[slot='button-content']:justify-between",
       "[&>span[data-slot='select-trigger-content']]:min-w-0 [&>span[data-slot='select-trigger-content']]:flex-1",
       "[&_[data-slot='select-trigger-content']_svg]:shrink-0",
-      "[&_[data-slot='select-trigger-content']_svg:not([class*='size-'])]:size-3.5",
-      "[&_[data-slot='select-trigger-content']_svg:not([class*='stroke-'])]:stroke-[1.5]",
+      "h-11 w-full gap-2 pr-3 pl-3.5",
+      "text-subhead font-semibold text-foreground",
+      "data-placeholder:font-medium data-placeholder:text-foreground-hint",
+      "data-invalid:border-danger-strong data-invalid:hover:border-danger-strong",
+      "data-invalid:focus-visible:border-danger-strong data-invalid:focus-visible:ring-0",
+      "[&_[data-slot='select-trigger-content']_svg:not([class*='size-'])]:size-4",
+      "[&_[data-slot='select-trigger-content']_svg:not([class*='stroke-'])]:stroke-2",
     ],
     icon: [
-      "ml-auto flex shrink-0 items-center justify-center opacity-80 transition-transform",
-      "[&>svg]:size-3.5 [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
+      "ml-auto flex shrink-0 items-center justify-center transition-transform",
+      "[&>svg]:shrink-0",
+      "text-foreground-hint opacity-100",
+      "[&>svg]:size-4 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
     ],
     value: ["flex min-w-0 flex-1 truncate text-left"],
     positioner: ["isolate z-50 outline-none"],
     content: [
-      "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden bg-layer-panel",
+      "relative max-h-(--available-height) min-w-[max(var(--anchor-width),220px)] overflow-hidden",
       "outline-none",
+      "rounded-container bg-layer-popover p-1.5 text-foreground",
+      "shadow-raft-float ring-1 ring-line-seam",
     ],
-    list: ["max-h-64 overflow-y-auto overscroll-contain scroll-py-6"],
+    list: ["max-h-64 overflow-y-auto overscroll-contain scroll-py-6", "flex flex-col"],
     item: [
-      "flex w-full shrink-0 cursor-default select-none items-center justify-between gap-2 overflow-hidden px-3",
+      "flex w-full shrink-0 cursor-default select-none items-center justify-between overflow-hidden",
       "text-left outline-none transition-colors",
+      "min-h-9 gap-2.5 rounded-control px-2.5 py-0",
+      "text-callout font-medium text-foreground",
+      "bg-transparent hover:bg-primary-soft data-highlighted:bg-primary-soft",
+      "data-selected:font-bold data-selected:**:data-[slot='select-item-text']:font-bold",
+      "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
+      "[&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg]:text-foreground-icon",
+      "[&>svg:not([class*='size-'])]:size-4",
+      "[&>svg:not([class*='stroke-'])]:stroke-2",
     ],
     itemLeading: [
       "flex shrink-0 items-center justify-center",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+      "size-4 text-foreground-icon",
+      "[&>svg]:pointer-events-none [&>svg]:shrink-0",
+      "[&>svg:not([class*='size-'])]:size-4",
+      "[&>svg:not([class*='stroke-'])]:stroke-2",
     ],
-    itemIndicator: ["pointer-events-none ml-auto flex shrink-0 items-center justify-center"],
+    itemIndicator: [
+      "pointer-events-none ml-auto flex shrink-0 items-center justify-center",
+      "text-foreground [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:stroke-2 [&>svg_*]:stroke-2",
+    ],
     itemText: ["min-w-0 flex-1 truncate"],
-    label: ["m-0 font-medium"],
+    label: ["m-0", "font-sans text-footnote font-semibold text-foreground-muted"],
     group: ["flex flex-col"],
-    groupLabel: ["px-3 py-2"],
-    separator: ["h-px shrink-0 border-0"],
+    groupLabel: ["py-2", "px-2.5 pt-2 pb-1 text-caption font-bold text-foreground-hint"],
+    separator: ["h-px shrink-0 border-0", "-mx-1.5 my-1.5 bg-line-muted"],
     scrollArrow: [
       "absolute inset-x-0 z-10 flex h-6 w-full cursor-default items-center justify-center",
       "outline-none transition-colors",
       "data-[direction=up]:top-0 data-[direction=down]:bottom-0",
       "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+      "bg-layer-popover text-foreground-hint",
     ],
-    empty: ["px-3 py-4 text-center text-sm"],
+    empty: ["px-2.5 py-2 text-left text-callout text-foreground-hint"],
   },
   variants: {
-    theme: {
-      brutal: {
-        trigger: [
-          "w-full",
-          "data-popup-open:-translate-y-px data-popup-open:shadow-raft-md",
-          "active:translate-x-0 active:-translate-y-px active:shadow-raft-md",
-          "[&_[data-slot='select-value']_svg:not([class*='stroke-'])]:stroke-2",
-          "[&[data-popup-open]_[data-slot='select-icon']]:rotate-180",
-        ],
-        content: [
-          "w-(--anchor-width) min-w-(--anchor-width) border-2 border-line-strong bg-layer-popover shadow-raft-md",
-        ],
-        item: [
-          "border-b border-ink-10 bg-layer-popover py-1.5 text-xs font-bold leading-6 text-foreground-strong last:border-b-0",
-          "**:data-[slot='select-item-text']:font-bold",
-          "hover:bg-primary/30 data-highlighted:bg-primary/30",
-          "data-selected:bg-layer-popover data-selected:hover:bg-primary/30 data-[selected][data-highlighted]:bg-primary/30",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-strong/30",
-          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
-          "[&>svg:not([class*='size-'])]:size-3",
-          "[&>svg:not([class*='stroke-'])]:stroke-2",
-        ],
-        itemLeading: [
-          "size-5 text-foreground-strong",
-          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
-          "[&>svg:not([class*='size-'])]:size-3.5",
-          "[&>svg:not([class*='stroke-'])]:stroke-2",
-        ],
-        itemIndicator: [
-          "text-foreground-strong [&>svg]:size-3 [&>svg]:shrink-0 [&>svg]:stroke-[2.25] [&>svg_*]:stroke-[2.25]",
-        ],
-        label: [
-          "font-sans text-[10px] font-semibold uppercase leading-none tracking-wide text-foreground-strong",
-        ],
-        groupLabel: [
-          "font-sans text-[10px] font-semibold uppercase leading-none tracking-wide text-foreground-strong/60",
-        ],
-        separator: ["bg-line-strong"],
-        scrollArrow: [
-          "border-line-strong bg-layer-popover text-foreground-strong",
-          "data-[direction=up]:border-b data-[direction=down]:border-t",
-        ],
-        empty: ["font-sans text-sm font-semibold text-foreground-strong/50"],
-      },
-      elegant: {
-        trigger: [
-          "text-sm font-medium tracking-[-0.005em] text-foreground-muted",
-          "hover:bg-ink-2 active:scale-100",
-          "focus-visible:ring-1 focus-visible:ring-primary-400",
-          "**:data-[slot='button-content']:font-medium **:data-[slot='select-value']:font-medium",
-        ],
-        content: ["rounded-md bg-layer-popover", "shadow-raft-lg"],
-        list: ["flex flex-col gap-0.5 px-1 py-1"],
-        item: [
-          "rounded-sm bg-transparent px-2 py-1.5 text-[13px] font-normal leading-5 tracking-[-0.005em] text-foreground-muted",
-          "transition-[background-color,color] duration-150",
-          "hover:bg-ink-4 hover:text-foreground",
-          "data-highlighted:bg-ink-4 data-highlighted:text-foreground",
-          "data-selected:bg-ink-4 data-selected:text-foreground",
-          "data-disabled:pointer-events-none data-disabled:text-foreground-disabled",
-          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
-          "[&>svg:not([class*='size-'])]:size-3.5",
-          "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
-        ],
-        itemLeading: [
-          "size-4 text-foreground-muted",
-          "[&>svg]:pointer-events-none [&>svg]:shrink-0",
-          "[&>svg:not([class*='size-'])]:size-3.5",
-          "[&>svg:not([class*='stroke-'])]:stroke-[1.5]",
-        ],
-        itemIndicator: [
-          "text-foreground [&>svg]:size-3 [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg_*]:stroke-[1.5]",
-        ],
-        label: ["text-[11px] leading-none tracking-[-0.005em] text-foreground"],
-        group: ["gap-0.5"],
-        groupLabel: [
-          "px-2 text-[11px] font-medium leading-none tracking-[-0.005em] text-foreground-strong/45",
-        ],
-        separator: ["hidden bg-line-hairline"],
-        scrollArrow: ["bg-layer-popover text-foreground-placeholder hover:text-foreground-muted"],
-        empty: ["text-foreground-muted"],
-      },
-    },
     // `field` makes a Select carry the declared field metric axis instead of the
     // Button size scale it is built on. Trigger and options share font-size,
     // weight and line-height so a value does not change size when the list
@@ -147,15 +87,14 @@ const select = tv({
     chrome: {
       default: {},
       field: {
-        // The theme layers do not keep typography on the trigger/item element
-        // alone: elegant pushes weight down onto `button-content` /
-        // `select-value`, and brutal pushes it onto `select-item-text`. Those
-        // are descendant selectors, so they outrank a plain `font-field` on the
-        // ancestor no matter how tailwind-merge resolves. The axis therefore has
-        // to restate itself at the same targets to win.
+        // Typography set on the trigger's parts (`button-content`,
+        // `select-value`) outranks a plain `font-field` on the trigger, so the
+        // field type restates itself at those targets.
         trigger: [
-          "h-auto px-3 py-2 text-field font-field",
+          "px-3 text-field font-field",
           "**:data-[slot='button-content']:font-field **:data-[slot='select-value']:font-field",
+          "h-11 py-0",
+          "data-placeholder:font-field",
         ],
         item: ["text-field font-field", "**:data-[slot='select-item-text']:font-field"],
       },
@@ -219,9 +158,8 @@ export function SelectTrigger({
   "data-invalid": dataInvalid,
   ...props
 }: SelectTriggerProps) {
-  const theme = useThemeFamily();
   const chrome = useSelectChrome();
-  const { trigger } = select({ theme, chrome });
+  const { trigger } = select({ chrome });
 
   return (
     <BaseSelect.Trigger
@@ -245,16 +183,14 @@ export function SelectTrigger({
 export type SelectValueProps = StyledProps<BaseSelect.Value.Props>;
 
 export function SelectValue({ className, ...props }: SelectValueProps) {
-  const theme = useThemeFamily();
-  const { value } = select({ theme });
+  const { value } = select();
   return <BaseSelect.Value data-slot="select-value" className={value({ className })} {...props} />;
 }
 
 export type SelectIconProps = StyledProps<BaseSelect.Icon.Props>;
 
 export function SelectIcon({ className, children, ...props }: SelectIconProps) {
-  const theme = useThemeFamily();
-  const { icon } = select({ theme });
+  const { icon } = select();
   return (
     <BaseSelect.Icon
       data-slot="select-icon"
@@ -276,8 +212,7 @@ export function SelectPortal(props: SelectPortalProps) {
 export type SelectPopupProps = ComponentPropsWithRef<"div">;
 
 export function SelectPopup({ className, ...props }: SelectPopupProps) {
-  const theme = useThemeFamily();
-  const { content } = select({ theme });
+  const { content } = select();
   return <div data-slot="select-content" className={content({ className })} {...props} />;
 }
 
@@ -319,8 +254,7 @@ export function SelectContent({
   className,
   ...props
 }: SelectContentProps) {
-  const theme = useThemeFamily();
-  const { positioner, content } = select({ theme });
+  const { positioner, content } = select();
   const positionerNode = (
     <BaseSelect.Positioner
       align={align}
@@ -334,7 +268,7 @@ export function SelectContent({
       disableAnchorTracking={disableAnchorTracking}
       positionMethod={positionMethod}
       side={side}
-      sideOffset={sideOffset ?? defaultSideOffset(theme)}
+      sideOffset={sideOffset ?? 4}
       sticky={sticky}
       className={positioner()}
     >
@@ -348,39 +282,30 @@ export function SelectContent({
 export type SelectListProps = StyledProps<BaseSelect.List.Props>;
 
 export function SelectList({ className, ...props }: SelectListProps) {
-  const theme = useThemeFamily();
-  const { list } = select({ theme });
+  const { list } = select();
   return <BaseSelect.List data-slot="select-list" className={list({ className })} {...props} />;
 }
 
 export type SelectItemProps = StyledProps<BaseSelect.Item.Props>;
 
 export function SelectItem({ className, ...props }: SelectItemProps) {
-  const theme = useThemeFamily();
   const chrome = useSelectChrome();
-  const { item } = select({ theme, chrome });
+  const { item } = select({ chrome });
   return <BaseSelect.Item data-slot="select-item" className={item({ className })} {...props} />;
 }
 
 export type SelectItemLeadingProps = StyledProps<ComponentPropsWithRef<"span">>;
 
 export function SelectItemLeading({ className, ...props }: SelectItemLeadingProps) {
-  const theme = useThemeFamily();
-  const { itemLeading } = select({ theme });
+  const { itemLeading } = select();
   return <span data-slot="select-item-leading" className={itemLeading({ className })} {...props} />;
 }
 
 export type SelectItemIndicatorProps = StyledProps<BaseSelect.ItemIndicator.Props>;
 
 export function SelectItemIndicator({ className, children, ...props }: SelectItemIndicatorProps) {
-  const theme = useThemeFamily();
-  const { itemIndicator } = select({ theme });
-  const defaultIndicator =
-    theme === "brutal" ? (
-      <Check aria-hidden size={12} className="shrink-0" />
-    ) : (
-      <Check aria-hidden className="size-3 shrink-0" />
-    );
+  const { itemIndicator } = select();
+  const defaultIndicator = <Check aria-hidden className="size-3 shrink-0" />;
 
   return (
     <BaseSelect.ItemIndicator
@@ -396,8 +321,7 @@ export function SelectItemIndicator({ className, children, ...props }: SelectIte
 export type SelectItemTextProps = StyledProps<BaseSelect.ItemText.Props>;
 
 export function SelectItemText({ className, ...props }: SelectItemTextProps) {
-  const theme = useThemeFamily();
-  const { itemText } = select({ theme });
+  const { itemText } = select();
   return (
     <BaseSelect.ItemText
       data-slot="select-item-text"
@@ -410,24 +334,21 @@ export function SelectItemText({ className, ...props }: SelectItemTextProps) {
 export type SelectLabelProps = StyledProps<BaseSelect.Label.Props>;
 
 export function SelectLabel({ className, ...props }: SelectLabelProps) {
-  const theme = useThemeFamily();
-  const { label } = select({ theme });
+  const { label } = select();
   return <BaseSelect.Label data-slot="select-label" className={label({ className })} {...props} />;
 }
 
 export type SelectGroupProps = StyledProps<BaseSelect.Group.Props>;
 
 export function SelectGroup({ className, ...props }: SelectGroupProps) {
-  const theme = useThemeFamily();
-  const { group } = select({ theme });
+  const { group } = select();
   return <BaseSelect.Group data-slot="select-group" className={group({ className })} {...props} />;
 }
 
 export type SelectGroupLabelProps = StyledProps<BaseSelect.GroupLabel.Props>;
 
 export function SelectGroupLabel({ className, ...props }: SelectGroupLabelProps) {
-  const theme = useThemeFamily();
-  const { groupLabel } = select({ theme });
+  const { groupLabel } = select();
   return (
     <BaseSelect.GroupLabel
       data-slot="select-group-label"
@@ -440,8 +361,7 @@ export function SelectGroupLabel({ className, ...props }: SelectGroupLabelProps)
 export type SelectSeparatorProps = StyledProps<ComponentPropsWithRef<"div">>;
 
 export function SelectSeparator({ className, ...props }: SelectSeparatorProps) {
-  const theme = useThemeFamily();
-  const { separator } = select({ theme });
+  const { separator } = select();
   return (
     <div
       role="separator"
@@ -456,8 +376,7 @@ export function SelectSeparator({ className, ...props }: SelectSeparatorProps) {
 export type SelectScrollUpArrowProps = StyledProps<BaseSelect.ScrollUpArrow.Props>;
 
 export function SelectScrollUpArrow({ className, children, ...props }: SelectScrollUpArrowProps) {
-  const theme = useThemeFamily();
-  const { scrollArrow } = select({ theme });
+  const { scrollArrow } = select();
   return (
     <BaseSelect.ScrollUpArrow
       data-slot="select-scroll-up-arrow"
@@ -477,8 +396,7 @@ export function SelectScrollDownArrow({
   children,
   ...props
 }: SelectScrollDownArrowProps) {
-  const theme = useThemeFamily();
-  const { scrollArrow } = select({ theme });
+  const { scrollArrow } = select();
   return (
     <BaseSelect.ScrollDownArrow
       data-slot="select-scroll-down-arrow"

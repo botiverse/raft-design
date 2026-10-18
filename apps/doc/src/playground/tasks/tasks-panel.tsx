@@ -12,7 +12,6 @@ import {
   ConversationPanelRoot,
   PanelTitle,
   Tabs,
-  TabsBackground,
   TabsList,
   TabsTab,
 } from "raft-ui";
@@ -246,12 +245,9 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
 
   return (
     <ConversationPanelRoot>
-      <PanelHeader className="in-data-[theme=brutal]:max-md:bg-primary-400">
+      <PanelHeader>
         <PanelHeaderIcon className="max-md:hidden">
-          <CheckSquare
-            aria-hidden
-            className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
-          />
+          <CheckSquare aria-hidden className="size-4.5" />
         </PanelHeaderIcon>
         <PanelHeaderContent>
           <PanelHeading>
@@ -262,7 +258,6 @@ export function PlaygroundTasksPanel({ channel }: { channel?: PlaygroundChannelR
         <PanelActions className="md:hidden">
           <Tabs value={view} onValueChange={handleViewTabChange} aria-label="Task view">
             <TabsList>
-              <TabsBackground />
               <TabsTab value="board" aria-label="Board" className="px-2.5">
                 <SquareKanban aria-hidden />
               </TabsTab>

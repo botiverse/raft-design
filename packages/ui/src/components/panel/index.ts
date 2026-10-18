@@ -45,3 +45,10 @@ export { PanelAction } from "./panel-action";
 export type { PanelActionProps } from "./panel-action";
 export { PanelToggleAction } from "./panel-toggle-action";
 export type { PanelToggleActionProps } from "./panel-toggle-action";
+export { PanelNotice, PanelNoticeActions, PanelNoticeContent } from "./panel-notice";
+export type {
+  PanelNoticeActionsProps,
+  PanelNoticeContentProps,
+  PanelNoticeProps,
+  PanelNoticeStatus,
+} from "./panel-notice";

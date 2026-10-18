@@ -125,7 +125,7 @@ const MESSAGE_ACTION_CARD_NEW_PARTS: readonly PropRow[] = [
     name: "MessageActionCardStatus",
     type: "BadgeProps",
     description:
-      "State label. Brutal: solid and uppercase. Elegant: soft. Override with appearance.",
+      "State label, written as plain text led by a square pixel in the variant's colour.",
   },
   {
     name: "MessageActionCardCollapseTrigger",
@@ -216,7 +216,7 @@ const MESSAGE_ACTION_CARD_SCOPE_LIST_LABEL_PROPS: readonly PropRow[] = [
   {
     name: "...props",
     type: 'useRender.ComponentProps<"div">',
-    description: "Theme-aware heading for a scope list.",
+    description: "Heading for a scope list.",
   },
 ];
 

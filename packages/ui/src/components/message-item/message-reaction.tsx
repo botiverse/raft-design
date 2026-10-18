@@ -3,7 +3,6 @@ import { Toggle as BaseToggle } from "@base-ui/react/toggle";
 import { useRender } from "@base-ui/react/use-render";
 import { useEffect, useRef } from "react";
 import type { StyledProps } from "../../lib/styled-props";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { DropdownMenuContent } from "../dropdown-menu/index";
 import type { DropdownMenuContentProps } from "../dropdown-menu/index";
 import { TooltipContent } from "../tooltip/index";
@@ -17,8 +16,7 @@ import {
 export type MessageReactionChipProps = Omit<StyledProps<BaseToggle.Props>, "type">;
 
 export function MessageReactionChip({ className, ...props }: MessageReactionChipProps) {
-  const theme = useThemeFamily();
-  const { chip } = messageReaction({ theme });
+  const { chip } = messageReaction();
 
   return (
     <BaseToggle
@@ -102,7 +100,6 @@ export function MessageReactionCount({
       reducedMotion.removeEventListener("change", handleMotionChange);
     };
   }, [value]);
-
   const { count } = messageReaction();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: count({ className }),
@@ -127,8 +124,7 @@ export function MessageReactionAddButton({
   render,
   ...props
 }: MessageReactionAddButtonProps) {
-  const theme = useThemeFamily();
-  const { addButton } = messageReaction({ theme });
+  const { addButton } = messageReaction();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: addButton({ className }),
@@ -151,8 +147,7 @@ export function MessageReactionQuickRow({
   render,
   ...props
 }: MessageReactionQuickRowProps) {
-  const theme = useThemeFamily();
-  const { quickRow } = messageReaction({ theme });
+  const { quickRow } = messageReaction();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: quickRow({ className }),
   };
@@ -174,8 +169,7 @@ export function MessageReactionQuickButton({
   render,
   ...props
 }: MessageReactionQuickButtonProps) {
-  const theme = useThemeFamily();
-  const { quickButton } = messageReaction({ theme });
+  const { quickButton } = messageReaction();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: quickButton({ className }),
@@ -198,8 +192,7 @@ export function MessageReactionPickerStatic({
   render,
   ...props
 }: MessageReactionPickerStaticProps) {
-  const theme = useThemeFamily();
-  const { pickerStatic } = messageReaction({ theme });
+  const { pickerStatic } = messageReaction();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: pickerStatic({ className }),
   };
@@ -218,8 +211,7 @@ export function MessageReactionPickerContent({
   className,
   ...props
 }: MessageReactionPickerContentProps) {
-  const theme = useThemeFamily();
-  const { pickerContent } = messageReaction({ theme });
+  const { pickerContent } = messageReaction();
 
   return (
     <DropdownMenuContent
@@ -236,8 +228,7 @@ export function MessageReactionTooltipContent({
   className,
   ...props
 }: MessageReactionTooltipContentProps) {
-  const theme = useThemeFamily();
-  const { tooltip } = messageReaction({ theme });
+  const { tooltip } = messageReaction();
   return <TooltipContent className={tooltip({ className })} {...props} />;
 }
 

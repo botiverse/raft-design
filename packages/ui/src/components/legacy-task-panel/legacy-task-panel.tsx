@@ -2,7 +2,6 @@ import { FileText } from "lucide-react";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import {
   ThreadPanelActions,
   ThreadPanelBody,
@@ -52,8 +51,7 @@ function LegacyTaskPanelFrame({
   children,
   ...props
 }: useRender.ComponentProps<"div">) {
-  const theme = useThemeFamily();
-  const { frame } = legacyTaskPanel({ theme, framed: true });
+  const { frame } = legacyTaskPanel({ framed: true });
 
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "legacy-task-panel-frame",
@@ -84,8 +82,7 @@ export function LegacyTaskPanelIcon({
   children,
   ...props
 }: LegacyTaskPanelIconProps) {
-  const theme = useThemeFamily();
-  const { icon } = legacyTaskPanel({ theme });
+  const { icon } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "legacy-task-panel-icon",
     className: icon({ className }),
@@ -102,8 +99,7 @@ export function LegacyTaskPanelIcon({
 export type LegacyTaskPanelTitleProps = useRender.ComponentProps<"h2">;
 
 export function LegacyTaskPanelTitle({ className, ...props }: LegacyTaskPanelTitleProps) {
-  const theme = useThemeFamily();
-  const { title } = legacyTaskPanel({ theme });
+  const { title } = legacyTaskPanel();
   return (
     <ThreadPanelTitle
       data-slot="legacy-task-panel-title"
@@ -136,8 +132,7 @@ export function LegacyTaskPanelActions({ className, ...props }: LegacyTaskPanelA
 export type LegacyTaskPanelBodyProps = useRender.ComponentProps<"div">;
 
 export function LegacyTaskPanelBody({ className, children, ...props }: LegacyTaskPanelBodyProps) {
-  const theme = useThemeFamily();
-  const { body } = legacyTaskPanel({ theme });
+  const { body } = legacyTaskPanel();
 
   return (
     <ThreadPanelContent data-slot="legacy-task-panel-content" {...props}>
@@ -151,8 +146,7 @@ export function LegacyTaskPanelBody({ className, children, ...props }: LegacyTas
 export type LegacyTaskPanelStatusProps = useRender.ComponentProps<"div">;
 
 export function LegacyTaskPanelStatus({ className, render, ...props }: LegacyTaskPanelStatusProps) {
-  const theme = useThemeFamily();
-  const { status } = legacyTaskPanel({ theme });
+  const { status } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "legacy-task-panel-status",
     className: status({ className }),
@@ -172,8 +166,7 @@ export function LegacyTaskPanelSection({
   render,
   ...props
 }: LegacyTaskPanelSectionProps) {
-  const theme = useThemeFamily();
-  const { section } = legacyTaskPanel({ theme });
+  const { section } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"section"> = {
     "data-slot": "legacy-task-panel-section",
     className: section({ className }),
@@ -189,8 +182,7 @@ export function LegacyTaskPanelSection({
 export type LegacyTaskPanelFieldProps = useRender.ComponentProps<"div">;
 
 export function LegacyTaskPanelField({ className, render, ...props }: LegacyTaskPanelFieldProps) {
-  const theme = useThemeFamily();
-  const { field } = legacyTaskPanel({ theme });
+  const { field } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "legacy-task-panel-field",
     className: field({ className }),
@@ -210,8 +202,7 @@ export function LegacyTaskPanelFieldLabel({
   render,
   ...props
 }: LegacyTaskPanelFieldLabelProps) {
-  const theme = useThemeFamily();
-  const { fieldLabel } = legacyTaskPanel({ theme });
+  const { fieldLabel } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"p"> = {
     "data-slot": "legacy-task-panel-field-label",
     className: fieldLabel({ className }),
@@ -231,8 +222,7 @@ export function LegacyTaskPanelFieldTitle({
   render,
   ...props
 }: LegacyTaskPanelFieldTitleProps) {
-  const theme = useThemeFamily();
-  const { fieldTitle } = legacyTaskPanel({ theme });
+  const { fieldTitle } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"h3"> = {
     "data-slot": "legacy-task-panel-field-title",
     className: fieldTitle({ className }),
@@ -252,8 +242,7 @@ export function LegacyTaskPanelFieldText({
   render,
   ...props
 }: LegacyTaskPanelFieldTextProps) {
-  const theme = useThemeFamily();
-  const { fieldText } = legacyTaskPanel({ theme });
+  const { fieldText } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"p"> = {
     "data-slot": "legacy-task-panel-field-text",
     className: fieldText({ className }),
@@ -269,8 +258,7 @@ export function LegacyTaskPanelFieldText({
 export type LegacyTaskPanelMetaProps = useRender.ComponentProps<"section">;
 
 export function LegacyTaskPanelMeta({ className, render, ...props }: LegacyTaskPanelMetaProps) {
-  const theme = useThemeFamily();
-  const { meta } = legacyTaskPanel({ theme });
+  const { meta } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"section"> = {
     "data-slot": "legacy-task-panel-meta",
     className: meta({ className }),
@@ -290,8 +278,7 @@ export function LegacyTaskPanelMetaRow({
   render,
   ...props
 }: LegacyTaskPanelMetaRowProps) {
-  const theme = useThemeFamily();
-  const { metaRow } = legacyTaskPanel({ theme });
+  const { metaRow } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"div"> = {
     "data-slot": "legacy-task-panel-meta-row",
     className: metaRow({ className }),
@@ -311,8 +298,7 @@ export function LegacyTaskPanelMetaLabel({
   render,
   ...props
 }: LegacyTaskPanelMetaLabelProps) {
-  const theme = useThemeFamily();
-  const { metaLabel } = legacyTaskPanel({ theme });
+  const { metaLabel } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "legacy-task-panel-meta-label",
     className: metaLabel({ className }),
@@ -332,8 +318,7 @@ export function LegacyTaskPanelMetaValue({
   render,
   ...props
 }: LegacyTaskPanelMetaValueProps) {
-  const theme = useThemeFamily();
-  const { metaValue } = legacyTaskPanel({ theme });
+  const { metaValue } = legacyTaskPanel();
   const defaultProps: SlotElementProps<"span"> = {
     "data-slot": "legacy-task-panel-meta-value",
     className: metaValue({ className }),

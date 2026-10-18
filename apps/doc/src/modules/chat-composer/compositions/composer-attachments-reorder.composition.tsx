@@ -10,7 +10,7 @@ import {
   SortableComposerAttachment,
   SortableComposerAttachments,
 } from "raft-ui";
-import { Composer, ComposerInput, ComposerToolbar } from "../composer-responsive.tsx";
+import { Composer, ComposerInput, ComposerToolbar } from "raft-ui";
 
 import {
   ReorderAttachmentTile,

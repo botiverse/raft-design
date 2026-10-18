@@ -1,6 +1,5 @@
 import type { ComponentPropsWithRef, CSSProperties, ReactNode } from "react";
 import { cn } from "../../lib/cn";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import type { TaskStatusId } from "../tasks/task-status.recipe";
 import "./timeline.css";
 
@@ -19,13 +18,13 @@ export type TimelineItemVariant =
 export type TimelineLineType = "solid" | "dashed";
 
 export interface TimelineProps extends ComponentPropsWithRef<"ol"> {
-  /** Marker and text size. */
+  /** Title size: `lg` opens the title to 16/24; `sm` and `md` share the 14/20 scale. */
   size?: TimelineSize;
   /** Which side the markers sit on in a vertical timeline. Ignored when `horizontal`. */
   itemPlacement?: TimelineItemPlacement;
   /** Lays the items out in a row instead of a column. */
   horizontal?: boolean;
-  /** Marker size in px. Defaults to the theme's size for `size`. */
+  /** Marker size in px. Defaults to 9px for the marker and 14px for an `icon`. */
   iconSize?: number;
 }
 
@@ -69,7 +68,6 @@ export function Timeline({
   style,
   ...props
 }: TimelineProps) {
-  const theme = useThemeFamily();
   const mergedStyle =
     iconSize === undefined
       ? style
@@ -82,7 +80,6 @@ export function Timeline({
         "r-timeline",
         `r-timeline--${size}`,
         horizontal ? "r-timeline--horizontal" : `r-timeline--${itemPlacement}`,
-        theme === "elegant" && "r-timeline--elegant",
         className,
       )}
       style={mergedStyle}
@@ -115,6 +112,7 @@ export function TimelineItem({
     <li
       data-slot="timeline-item"
       data-task-status={taskStatus}
+      data-icon={icon === undefined ? undefined : ""}
       className={cn(
         "r-timeline-item",
         `r-timeline-item--${variant}`,

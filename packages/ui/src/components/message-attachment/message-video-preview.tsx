@@ -1,13 +1,11 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageVideoPreview } from "./message-video-preview.recipe";
 
 export type MessageVideoPreviewProps = useRender.ComponentProps<"div">;
 
 export function MessageVideoPreview({ className, render, ...props }: MessageVideoPreviewProps) {
-  const theme = useThemeFamily();
-  const { root } = messageVideoPreview({ theme });
+  const { root } = messageVideoPreview();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
   };
@@ -73,8 +71,7 @@ export function MessageVideoPreviewFailureContent({
   render,
   ...props
 }: MessageVideoPreviewFailureContentProps) {
-  const theme = useThemeFamily();
-  const { failureContent } = messageVideoPreview({ theme });
+  const { failureContent } = messageVideoPreview();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: failureContent({ className }),
   };
@@ -96,8 +93,7 @@ export function MessageVideoPreviewFailureIcon({
   render,
   ...props
 }: MessageVideoPreviewFailureIconProps) {
-  const theme = useThemeFamily();
-  const { failureIcon } = messageVideoPreview({ theme });
+  const { failureIcon } = messageVideoPreview();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: failureIcon({ className }),
   };
@@ -119,8 +115,7 @@ export function MessageVideoPreviewFailureTitle({
   render,
   ...props
 }: MessageVideoPreviewFailureTitleProps) {
-  const theme = useThemeFamily();
-  const { failureTitle } = messageVideoPreview({ theme });
+  const { failureTitle } = messageVideoPreview();
   const defaultProps: useRender.ElementProps<"span"> = {
     className: failureTitle({ className }),
   };
@@ -165,8 +160,7 @@ export function MessageVideoPreviewAction({
   render,
   ...props
 }: MessageVideoPreviewActionProps) {
-  const theme = useThemeFamily();
-  const { action } = messageVideoPreview({ theme });
+  const { action } = messageVideoPreview();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: action({ className }),

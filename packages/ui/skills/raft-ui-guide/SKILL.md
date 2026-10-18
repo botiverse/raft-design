@@ -1,6 +1,6 @@
 ---
 name: raft-ui-guide
-description: "Build with rUI: native CSS foundations for plain HTML and React components using Base UI and Tailwind CSS v4. Use for theme tokens, styling, component selection, composition, and API lookup."
+description: "Build with rUI: native CSS foundations for plain HTML and React components using Base UI and Tailwind CSS v4. Use for design tokens, styling, component selection, composition, and API lookup."
 ---
 
 # raft-ui
@@ -25,8 +25,7 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 | Your instinct                                                    | Reality in raft-ui                                                                                                                                                         |
 | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `<Button variant="destructive">`                                 | `variant="danger"`. Full set: `primary` `default` `information` `muted` `accent` `warning` `success` `outline` `ghost` `link` `danger` `danger-secondary` `danger-outline` |
-| `<Button size="icon">`                                           | `size="icon-xs\|icon-sm\|icon-md\|icon-lg"`. Text sizes are `xs` `sm` `md` `lg` `inline`                                                                                   |
-| Pass `theme="brutal"` to style a component                       | **`theme` is not a component prop.** It is omitted from every component's prop types and resolved from `ThemeProvider` via `useThemeFamily()`                              |
+| `<Button size="icon">`                                           | `size="icon-md\|icon-lg"`; `icon-xs` and `icon-sm` render as `icon-md`. Text sizes are `md` `lg` `xl` `inline`; `xs` and `sm` render as `md`                               |
 | `className="text-gray-500 bg-slate-50"`                          | Tailwind's default palette is banned. Use oklch semantic tokens: `text-foreground-muted`, `bg-fill-muted`                                                                  |
 | Flat props: `<Dialog title="x" description="y">`                 | Compound parts: `<Dialog><DialogContent><DialogHeader><DialogTitle>…` — `DialogContent` portals itself                                                                     |
 | Radix API (`asChild`)                                            | Base UI API. Use the `render` prop, not `asChild`                                                                                                                          |
@@ -40,8 +39,8 @@ raft-ui is not shadcn/ui, not Radix, not MUI. These defaults are wrong here:
 - Composition over configuration. Visible structure lives in `children` and named parts, never in a prop that switches layouts.
 - Prefer semantic tokens over raw color. Use inline `oklch()` only for a one-off precision value, then tokenize repeated values.
 - Base UI owns headless behavior (open state, focus, keyboard, collections). Product state (upload lifecycle, permissions, workflow) belongs in your app, not in a component prop.
-- Two theme families, `brutal` and `elegant`, are switched globally by `ThemeProvider`. Components adapt themselves.
-- Yellow and pink split roles: `primary` (Source Yellow) is for hints and interactive expression (indicators, the active tab, focus rings); `accent` is for core actions (a dialog's confirm, the composer's send). Never use yellow as decoration or background wash — see [rules/styling.md](./rules/styling.md).
+- Raft is the only visual language, in light and dark modes; `ThemeProvider` switches the mode globally. Components adapt themselves.
+- Yellow and pink split roles: `primary` (Source Yellow) is for hints and interactive expression (indicators, the active tab); `accent` is for core actions (a dialog's confirm, the composer's send). Never use yellow as decoration or background wash — see [rules/styling.md](./rules/styling.md). Focus rings are ink, not yellow: a 2px paper gap and a 2px ink ring (`shadow-raft-focus`).
 
 ## Common mistakes
 
@@ -125,7 +124,6 @@ Intent names are **not** consistent across components — negative is `danger` o
 
 When reviewing or editing code that uses raft-ui, check:
 
-- [ ] No `theme` prop on components (only `ThemeProvider` takes one)
 - [ ] No variant value carried across components — verify against the declarations
 - [ ] Controls with raft-ui label, description, or validation treatment use `Field`; simpler native associations remain explicit and accessible
 - [ ] No Tailwind default palette (`gray-*`, `slate-*`, …), hex, `rgb()`, or `hsl()` — semantic tokens, raw `oklch()` only for one-offs

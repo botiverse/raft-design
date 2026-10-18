@@ -1,7 +1,6 @@
 import { useRender } from "@base-ui/react/use-render";
 import { Button } from "../button/button";
 import type { ButtonProps } from "../button/button";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { files } from "./files.recipe";
 
 type FileTag = "button" | "div" | "img" | "section" | "span";
@@ -14,8 +13,7 @@ function useFileSlot<Tag extends FileTag>(
   defaultTagName: Tag,
   props: FileSlotProps<Tag>,
 ) {
-  const theme = useThemeFamily();
-  const slots = files({ theme });
+  const slots = files();
   const slot = slots[slotName];
   const { className, render, ...otherProps } = props;
 
@@ -94,12 +92,5 @@ export type FileActionProps = Omit<ButtonProps, "variant" | "size"> &
   Pick<Partial<ButtonProps>, "variant" | "size">;
 
 export function FileAction({ variant, size = "icon-sm", ...props }: FileActionProps) {
-  const theme = useThemeFamily();
-  return (
-    <Button
-      variant={variant ?? (theme === "brutal" ? "outline" : "ghost")}
-      size={size}
-      {...props}
-    />
-  );
+  return <Button variant={variant ?? "ghost"} size={size} {...props} />;
 }

@@ -1,7 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import type { SlotElementProps } from "../../lib/data-attributes";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 import { messageImageGallery } from "./message-image-gallery.recipe";
 import type {
   MessageImageGalleryItemLayout,
@@ -11,8 +10,7 @@ import type {
 export type MessageImageGalleryProps = useRender.ComponentProps<"div">;
 
 export function MessageImageGallery({ className, render, ...props }: MessageImageGalleryProps) {
-  const theme = useThemeFamily();
-  const { root } = messageImageGallery({ theme });
+  const { root } = messageImageGallery();
   const defaultProps: useRender.ElementProps<"div"> = {
     className: root({ className }),
   };
@@ -43,8 +41,7 @@ export function MessageImageGalleryRow({
   row,
   ...props
 }: MessageImageGalleryRowProps) {
-  const theme = useThemeFamily();
-  const { row: rowSlot } = messageImageGallery({ theme });
+  const { row: rowSlot } = messageImageGallery();
   const single = row.items.length === 1 && row.items[0].reserved != null;
   const defaultProps: SlotElementProps<"div"> = {
     className: rowSlot({
@@ -79,8 +76,7 @@ export function MessageImageGalleryItem({
   layout,
   ...props
 }: MessageImageGalleryItemProps) {
-  const theme = useThemeFamily();
-  const { item } = messageImageGallery({ theme });
+  const { item } = messageImageGallery();
   const defaultProps: SlotElementProps<"div"> = {
     className: item({
       className,
@@ -156,8 +152,7 @@ export function MessageImageGalleryPreview({
   render,
   ...props
 }: MessageImageGalleryPreviewProps) {
-  const theme = useThemeFamily();
-  const { preview } = messageImageGallery({ theme });
+  const { preview } = messageImageGallery();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: preview({ className }),
@@ -178,8 +173,7 @@ export function MessageImageGalleryAction({
   render,
   ...props
 }: MessageImageGalleryActionProps) {
-  const theme = useThemeFamily();
-  const { action } = messageImageGallery({ theme });
+  const { action } = messageImageGallery();
   const defaultProps: useRender.ElementProps<"button"> = {
     type: "button",
     className: action({ className }),

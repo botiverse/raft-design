@@ -1,114 +1,31 @@
+import { searchHit } from "../../lib/search-hit";
 import { tv } from "../../lib/tv";
 
 export const searchMessage = tv({
   slots: {
-    message: ["w-full text-left transition-colors"],
-    messageHeader: ["flex flex-wrap items-center gap-2 text-xs"],
-    messageBody: ["min-w-0 line-clamp-2 text-sm"],
-    messageMeta: [],
-    messageThreadMeta: ["inline-flex items-center gap-1"],
-    messageSender: ["inline-flex items-center gap-1"],
-    messageTimestamp: [],
-    messageMatch: ["px-0.5"],
+    message: [
+      "w-full text-left transition-colors",
+      "relative block rounded-none border-0 bg-transparent px-4 py-3 text-foreground shadow-none",
+      "not-first:before:absolute not-first:before:top-0 not-first:before:right-0 not-first:before:left-4 not-first:before:border-t not-first:before:border-line-muted",
+      "hover:bg-fill-pressed active:bg-fill-pressed",
+      "disabled:cursor-default disabled:hover:bg-transparent disabled:active:bg-transparent",
+      "data-[selected=true]:bg-primary-soft data-[selected=true]:hover:bg-primary-soft",
+      "outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-foreground",
+    ],
+    messageHeader: [
+      "flex items-center",
+      "min-w-0 flex-nowrap gap-1.5",
+      "font-mono text-mono-meta text-foreground-hint",
+    ],
+    messageBody: ["min-w-0 line-clamp-2", "mt-0.5 font-sans text-callout text-foreground-muted"],
+    messageMeta: ["min-w-0 truncate"],
+    messageThreadMeta: ["inline-flex items-center gap-1", "shrink-0 [&_svg]:size-3"],
+    messageSender: [
+      "inline-flex items-center",
+      "order-first shrink-0 gap-1.5 whitespace-nowrap",
+      "font-sans text-callout font-bold text-foreground",
+    ],
+    messageTimestamp: ["ml-auto shrink-0 whitespace-nowrap"],
+    messageMatch: searchHit,
   },
-  variants: {
-    theme: {
-      brutal: {
-        message: [
-          "border-2 border-black/30 bg-white p-3",
-          "hover:border-black hover:shadow-raft-sm active:border-black active:shadow-raft-sm",
-          "data-[selected=true]:border-black data-[selected=true]:shadow-raft-sm",
-          "data-[nested=true]:border-x-0 data-[nested=true]:border-b-0 data-[nested=true]:border-t-2 data-[nested=true]:px-3 data-[nested=true]:py-3",
-          "data-[nested=true]:border-black/10 data-[nested=true]:hover:border-black/10 data-[nested=true]:hover:bg-black/3 data-[nested=true]:hover:shadow-none",
-          "data-[nested=true][data-selected=true]:border-black data-[nested=true][data-selected=true]:bg-[oklch(0.96299649_0.06890535_97.696701)] data-[nested=true][data-selected=true]:shadow-none data-[nested=true][data-selected=true]:ring-0",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-black",
-        ],
-        messageHeader: ["mb-1"],
-        messageMeta: ["font-bold text-black/50"],
-        messageThreadMeta: ["font-bold text-black/40"],
-        messageSender: ["font-bold text-black"],
-        messageTimestamp: ["font-mono text-black/40"],
-        messageMatch: ["bg-primary-400 font-bold text-black"],
-        messageBody: ["leading-relaxed text-black/70"],
-      },
-      elegant: {
-        message: [
-          "group/search-message rounded-lg border-[0.5px] border-line-muted bg-layer-panel p-0 shadow-raft-xs",
-          "transition-[background-color,border-color] duration-150",
-          "hover:bg-[color-mix(in_oklch,var(--ink)_1%,var(--layer-panel))]",
-          "data-[selected=true]:border-transparent",
-          "data-[nested=true]:rounded-none data-[nested=true]:border-0 data-[nested=true]:border-t-[0.5px] data-[nested=true]:border-line-hairline data-[nested=true]:bg-transparent data-[nested=true]:p-3 data-[nested=true]:shadow-none",
-          "data-[nested=true]:hover:bg-ink-2 data-[nested=true]:hover:shadow-none",
-          "data-[nested=true][data-selected=true]:border-line-hairline data-[nested=true][data-selected=true]:bg-fill-muted",
-          "outline-none",
-          "dark:border-transparent",
-          "dark:data-[nested=true]:border-ink-10 dark:data-[nested=true]:bg-transparent",
-          "dark:data-[nested=true]:hover:bg-[color-mix(in_oklch,var(--layer-canvas-muted)_20%,var(--layer-inset))] dark:data-[nested=true]:hover:shadow-none",
-          "dark:data-[nested=true][data-selected=true]:border-ink-10 dark:data-[nested=true][data-selected=true]:bg-fill-muted",
-          "dark:data-[nested=true][data-selected=true]:hover:bg-fill-muted",
-        ],
-        messageHeader: [
-          "px-3 pt-2.5 pb-1",
-          "group-data-[nested=true]/search-message:mb-1 group-data-[nested=true]/search-message:p-0",
-        ],
-        messageBody: [
-          "border-0 bg-transparent px-3 pt-0 pb-2.5",
-          "transition-colors duration-150",
-          "group-data-[nested=true]/search-message:rounded-none group-data-[nested=true]/search-message:border-0 group-data-[nested=true]/search-message:bg-transparent group-data-[nested=true]/search-message:p-0",
-          "group-data-[nested=true]/search-message:group-hover/search-message:bg-transparent",
-          "leading-5.25 tracking-[-0.01em] text-foreground-muted",
-        ],
-        messageMeta: ["font-medium text-foreground-muted/70"],
-        messageThreadMeta: ["font-medium text-foreground-muted/70"],
-        messageSender: ["font-medium text-foreground-muted"],
-        messageTimestamp: ["font-sans tabular-nums text-foreground-muted/70"],
-        messageMatch: ["bg-primary-400/70 text-primary-950 [font:inherit]", "dark:bg-primary-400"],
-      },
-    },
-    nested: {
-      false: {},
-      true: {},
-    },
-    selected: {
-      false: {},
-      true: {},
-    },
-  },
-  defaultVariants: {
-    nested: false,
-    selected: false,
-  },
-  compoundVariants: [
-    {
-      theme: "elegant",
-      nested: false,
-      class: {
-        message: [
-          "focus-visible:ring-1 focus-visible:ring-primary-400",
-          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60 dark:focus-visible:ring-offset-0",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      nested: true,
-      class: {
-        message: [
-          "focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-primary-400",
-          "dark:focus-visible:ring-2 dark:focus-visible:ring-primary-400/60",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      nested: false,
-      selected: true,
-      class: {
-        message: [
-          "ring-1 ring-primary-400 ring-offset-2 ring-offset-layer-canvas-muted",
-          "dark:ring-2",
-        ],
-      },
-    },
-  ],
 });

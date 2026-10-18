@@ -149,16 +149,13 @@ export interface OtterIndicatorProps extends Omit<ComponentPropsWithRef<"svg">, 
 }
 
 /**
- * An otter on its back for a step marker, one pose per status:
+ * An otter on its back, one pose per status:
  * - `wait`: asleep on the dry bank, the parcel still on its belly.
  * - `process`: afloat, paddling with one arm, the parcel on its belly.
  * - `finish`: drifting at ease, hugging the delivered parcel.
  * - `error`: shivering in the water; the parcel has slipped away.
  *
- * Made for `<Steps renderIndicator>` with room to show it, e.g.
- * `--r-steps-indicator-size: 48px`; on a vertical river track set
- * `--r-steps-river-overlap-start: 12px` and `--r-steps-river-overlap-end: 28px`
- * so the channel meets the ponds.
+ * It fills its box; give it 48px or more so the poses read.
  */
 export function OtterIndicator({ status, className, ...props }: OtterIndicatorProps) {
   // `useId` may contain characters that are not valid in a `url(#…)` reference.
@@ -180,7 +177,7 @@ export function OtterIndicator({ status, className, ...props }: OtterIndicatorPr
           <ellipse cx="24" cy="35" rx="23.5" ry="8" />
         </clipPath>
       </defs>
-      {/* Lifted so the water line meets a river track through the marker's middle. */}
+      {/* Lifted so the water line runs through the box's middle. */}
       <g transform="translate(0 -5)">
         {wet ? (
           <g clipPath={pond}>
@@ -244,116 +241,6 @@ export function OtterIndicator({ status, className, ...props }: OtterIndicatorPr
             </text>
           ))}
       </g>
-      <Badge status={status} />
-    </svg>
-  );
-}
-
-export interface OtterTravelerProps extends Omit<ComponentPropsWithRef<"svg">, "children"> {
-  /** The status of the step the otter is heading for. */
-  status: StepStatus;
-}
-
-/**
- * The otter afloat in the river itself, for `<Steps track="river"
- * renderTraveler>`: a splash of the channel's own water laps over its belly, red when the
- * step ahead failed. Posed like `OtterIndicator`: paddling toward the step in
- * progress, shivering with the parcel adrift short of a failed step, hugging
- * the parcel at ease once every step is done.
- *
- * Fits `--r-steps-traveler-size` around 40–48px with a 12px channel.
- */
-export function OtterTraveler({ status, className, ...props }: OtterTravelerProps) {
-  // `useId` may contain characters that are not valid in a `url(#…)` reference.
-  const bandId = `otter-band${useId().replace(/[^\w-]/g, "")}`;
-  const water =
-    status === "error"
-      ? "var(--r-steps-river-error-color, var(--danger))"
-      : "var(--r-steps-river-water-color, oklch(0.78 0.11 220))";
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 48 48"
-      width="100%"
-      height="100%"
-      data-slot="otter-traveler"
-      {...props}
-      className={cn(
-        "r-otter-indicator",
-        "r-otter-traveler",
-        `r-otter-indicator--${status}`,
-        className,
-      )}
-    >
-      <defs>
-        {/* A splash around the otter, level with a channel through the box's middle. */}
-        <clipPath id={bandId}>
-          <ellipse cx="23" cy="26" rx="17" ry="5" />
-        </clipPath>
-      </defs>
-      <g transform="translate(0 -3)">
-        {status === "process" &&
-          ["", " r-otter-indicator__ripple--late"].map((late) => (
-            <ellipse
-              key={late}
-              className={`r-otter-indicator__ripple${late}`}
-              cx="6"
-              cy="30.5"
-              rx="5"
-              ry="1.4"
-              fill="none"
-              stroke={WHITE}
-              strokeWidth="0.8"
-            />
-          ))}
-        {status === "error" && (
-          <g className="r-otter-indicator__parcel--adrift">
-            <Parcel x={1.5} y={22} />
-          </g>
-        )}
-        {status === "process" && (
-          // A kicking hind foot behind the body.
-          <ellipse
-            className="r-otter-traveler__kick"
-            cx="10.5"
-            cy="27"
-            rx="2.6"
-            ry="1.3"
-            fill={FUR_DARK}
-          />
-        )}
-        <OtterBody status={status} />
-        {status === "process" && (
-          // Backstroke: one arm sweeps over the head and back, flicking spray.
-          <>
-            <g className="r-otter-traveler__stroke">
-              <path
-                d="M29 23L33.5 15"
-                fill="none"
-                stroke={FUR_DARK}
-                strokeWidth="2.6"
-                strokeLinecap="round"
-              />
-              <circle cx="33.8" cy="14.4" r="1.6" fill={FUR_DARK} />
-            </g>
-            <g className="r-otter-traveler__spray" fill={WHITE}>
-              <circle cx="38" cy="13" r="0.9" />
-              <circle cx="40.5" cy="16" r="0.7" />
-              <circle cx="36" cy="10.5" r="0.6" />
-            </g>
-          </>
-        )}
-      </g>
-      {status !== "wait" && (
-        <g clipPath={`url(#${bandId})`}>
-          <path
-            className="r-otter-indicator__wave"
-            d={WAVE_PATH}
-            fill={water}
-            transform="translate(0 -6)"
-          />
-        </g>
-      )}
       <Badge status={status} />
     </svg>
   );

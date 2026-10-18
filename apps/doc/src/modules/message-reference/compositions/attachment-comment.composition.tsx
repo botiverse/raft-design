@@ -1,10 +1,5 @@
 import { MessageSquare } from "lucide-react";
-import {
-  MarkdownBlockquote,
-  MessageReferenceBadge,
-  MessageReferenceChip,
-  MessageReferenceLabel,
-} from "raft-ui";
+import { MarkdownBlockquote, MessageReferenceChip, MessageReferenceLabel } from "raft-ui";
 
 import { MESSAGE_PLAYGROUND_URLS } from "#/modules/message-item/message-item.fixtures.ts";
 
@@ -21,7 +16,6 @@ export function MessageReferenceAttachmentCommentComposition() {
             />
           }
         >
-          <MessageReferenceBadge>comment</MessageReferenceBadge>
           <MessageSquare />
           <MessageReferenceLabel>
             re: state-ownership-migration-notes.md · § Ownership boundary

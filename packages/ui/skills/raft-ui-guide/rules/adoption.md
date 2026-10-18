@@ -34,9 +34,6 @@ Jumping levels is what produces a screen where every control is individually
 correct and the screen is wrong. Finish one level across the whole surface before
 starting the next.
 
-Do not mix one theme family's shadow with another's corners or borders — see
-[styling.md](./styling.md).
-
 ## Acceptance is hierarchy, not rendering
 
 Checking that a screen renders, fits, and does not overflow does not test the thing

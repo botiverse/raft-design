@@ -2,51 +2,21 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { tv } from "../../lib/tv";
 import type { VariantProps } from "../../lib/tv";
-import { useThemeFamily } from "../../lib/theme/use-theme";
 
-const STATUS_STYLE = `
-@keyframes raft-status-pulse-background {
-  0% {
-    box-shadow: 0 0 0 1px color-mix(in oklch, var(--status-color) 42%, transparent);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 8px color-mix(in oklch, var(--status-color) 0%, transparent);
-  }
-}
-
-/* Pulse + attention: animate a bottom-layer ring; leave attention outline untouched. */
-[data-slot="status"][data-attention][data-pulse]:not([data-pulse="false"])::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: -1;
-  animation: raft-status-pulse-background 1.4s ease-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-slot="status"][data-attention][data-pulse]:not([data-pulse="false"])::before {
-    animation: none;
-  }
-}
-`;
-
-const dot = tv({
+// The DS status pixel: a square of the status colour with an ink edge. It
+// never animates; a working agent is a steady light.
+const status = tv({
   slots: {
-    root: ["relative inline-block shrink-0 rounded-full", "bg-(--status-color)"],
+    root: [
+      "relative inline-block shrink-0",
+      "bg-(--status-color)",
+      "rounded-[2px] border-[1.5px] border-sticker-ink",
+    ],
   },
   variants: {
-    theme: {
-      brutal: {
-        root: "border border-line-strong",
-      },
-      elegant: {},
-    },
     variant: {
       default: {
-        root: "[--status-color:var(--color-gray-400)]",
+        root: "[--status-color:var(--presence-offline)]",
       },
       primary: {
         root: "[--status-color:var(--color-primary-400)]",
@@ -70,117 +40,26 @@ const dot = tv({
         root: "[--status-color:var(--color-danger)]",
       },
     },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
-
-const status = tv({
-  extend: dot,
-  variants: {
-    theme: {
-      brutal: {},
-      elegant: {},
-    },
     size: {
-      xs: {
-        root: "size-1",
-      },
-      sm: {
-        root: "size-2",
-      },
-      md: {
-        root: "size-2.5",
-      },
-      lg: {
-        root: "size-[11px]",
-      },
-    },
-    pulse: {
-      true: {
-        root: "",
-      },
-      false: {
-        root: "",
-      },
-    },
-    attention: {
-      true: {
-        root: "",
-      },
-      false: {
-        root: "",
-      },
+      xs: { root: "size-1.5 rounded-[1px] border" },
+      sm: { root: "size-2" },
+      md: { root: "size-[9px]" },
+      lg: { root: "size-[11px]" },
     },
   },
   defaultVariants: {
     size: "md",
     variant: "default",
-    pulse: false,
-    attention: false,
   },
-  compoundVariants: [
-    {
-      theme: "brutal",
-      variant: "success",
-      class: { root: "[--status-color:var(--color-brutal-lime)]" },
-    },
-    {
-      theme: "brutal",
-      variant: "warning",
-      class: { root: "[--status-color:var(--color-warning)]" },
-    },
-    {
-      theme: "brutal",
-      pulse: true,
-      class: { root: "animate-pulse" },
-    },
-    {
-      theme: "elegant",
-      attention: true,
-      class: {
-        root: [
-          "isolate overflow-visible",
-          "border border-[color-mix(in_oklch,var(--status-color)_58%,transparent)]",
-          "shadow-[inset_0_0.5px_1px_color-mix(in_oklch,oklch(1_0_0)_55%,transparent)]",
-        ],
-      },
-    },
-    {
-      theme: "elegant",
-      pulse: true,
-      attention: false,
-      class: {
-        root: "animate-[raft-status-pulse-background_1.4s_ease-out_infinite] motion-reduce:animate-none",
-      },
-    },
-  ],
 });
 
-const statusStyle = (
-  <style href="raft-ui-status" precedence="default">
-    {STATUS_STYLE}
-  </style>
-);
-
 export type StatusProps = Omit<useRender.ComponentProps<"span">, "children"> &
-  Omit<VariantProps<typeof status>, "theme">;
+  VariantProps<typeof status>;
 
-function StatusRoot({ size, variant, pulse, attention, className, render, ...props }: StatusProps) {
-  const theme = useThemeFamily();
-  const resolvedPulse = pulse ?? false;
-  const resolvedAttention = attention ?? false;
-  const { root } = status({
-    theme,
-    size,
-    variant,
-    pulse: resolvedPulse,
-    attention: resolvedAttention,
-  });
+function StatusRoot({ size, variant, className, render, ...props }: StatusProps) {
+  const { root } = status({ size, variant });
   const defaultProps: useRender.ElementProps<"span"> = {
     className: root({ className }),
-    children: statusStyle,
   };
 
   return useRender({
@@ -190,8 +69,6 @@ function StatusRoot({ size, variant, pulse, attention, className, render, ...pro
     state: {
       slot: "status",
       variant,
-      pulse: resolvedPulse,
-      attention: resolvedAttention,
       size,
     },
   });

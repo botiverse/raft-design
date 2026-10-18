@@ -27,9 +27,9 @@ const ROWS = [
   { name: "Kai", handle: "kai-the-extremely-long-handle-for-release-automation-and-ci-triage" },
 ];
 
-function renderList(theme: "brutal" | "elegant", width: number) {
+function renderList(width: number) {
   render(
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <div style={{ width: `${width}px` }}>
         {ROWS.map((row) => (
           <div key={row.handle} style={{ display: "flex" }} data-testid="row">
@@ -53,41 +53,39 @@ function renderList(theme: "brutal" | "elegant", width: number) {
 const slot = (row: Element, name: string) =>
   row.querySelector(`[data-slot="composer-suggestion-${name}"]`) as HTMLElement;
 
-for (const theme of ["brutal", "elegant"] as const) {
-  for (const width of [560, 336, 288]) {
-    it(`${theme} ${width}px: one line per row, nothing leaves the row, name before handle before description`, () => {
-      renderList(theme, width);
-      const rows = screen.getAllByTestId("row");
-      const heights = new Set(rows.map((row) => Math.round(row.getBoundingClientRect().height)));
-      expect(heights.size).toBe(1);
+for (const width of [560, 336, 288]) {
+  it(`${width}px: one line per row, nothing leaves the row, name before handle before description`, () => {
+    renderList(width);
+    const rows = screen.getAllByTestId("row");
+    const heights = new Set(rows.map((row) => Math.round(row.getBoundingClientRect().height)));
+    expect(heights.size).toBe(1);
 
-      for (const row of rows) {
-        const r = row.getBoundingClientRect();
-        const content = slot(row, "content");
-        const title = slot(row, "title");
-        const aside = slot(row, "aside");
-        const kind = slot(row, "icon");
-        const description = [
-          ...row.querySelectorAll('[data-slot="composer-suggestion-meta"]'),
-        ].find((m) => !m.closest('[data-slot="composer-suggestion-aside"]')) as HTMLElement;
+    for (const row of rows) {
+      const r = row.getBoundingClientRect();
+      const content = slot(row, "content");
+      const title = slot(row, "title");
+      const aside = slot(row, "aside");
+      const kind = slot(row, "icon");
+      const description = [...row.querySelectorAll('[data-slot="composer-suggestion-meta"]')].find(
+        (m) => !m.closest('[data-slot="composer-suggestion-aside"]'),
+      ) as HTMLElement;
 
-        // The human/agent glyph keeps its full size however long the rest is.
-        expect(Math.round(kind.getBoundingClientRect().width)).toBe(14);
-        for (const part of [title, kind, aside, description]) {
-          const p = part.getBoundingClientRect();
-          expect(p.left).toBeGreaterThanOrEqual(r.left - 0.5);
-          expect(p.right).toBeLessThanOrEqual(r.right + 0.5);
-        }
-        expect(content.scrollWidth).toBeLessThanOrEqual(content.clientWidth + 1);
-        // The description gives way before the name is truncated.
-        if (title.scrollWidth > title.clientWidth + 1) {
-          expect(description.getBoundingClientRect().width).toBeLessThanOrEqual(1);
-        }
-        // The handle never takes more than a third of the row.
-        expect(aside.getBoundingClientRect().width).toBeLessThanOrEqual(
-          content.getBoundingClientRect().width / 3 + 1,
-        );
+      // The human/agent glyph keeps its full size however long the rest is.
+      expect(Math.round(kind.getBoundingClientRect().width)).toBe(14);
+      for (const part of [title, kind, aside, description]) {
+        const p = part.getBoundingClientRect();
+        expect(p.left).toBeGreaterThanOrEqual(r.left - 0.5);
+        expect(p.right).toBeLessThanOrEqual(r.right + 0.5);
       }
-    });
-  }
+      expect(content.scrollWidth).toBeLessThanOrEqual(content.clientWidth + 1);
+      // The description gives way before the name is truncated.
+      if (title.scrollWidth > title.clientWidth + 1) {
+        expect(description.getBoundingClientRect().width).toBeLessThanOrEqual(1);
+      }
+      // The handle never takes more than a third of the row.
+      expect(aside.getBoundingClientRect().width).toBeLessThanOrEqual(
+        content.getBoundingClientRect().width / 3 + 1,
+      );
+    }
+  });
 }

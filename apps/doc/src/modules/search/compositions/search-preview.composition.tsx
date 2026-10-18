@@ -46,7 +46,7 @@ export function SearchPreviewComposition() {
             <SearchEntityResultContent>
               <SearchEntityResultHeader>
                 <SearchEntityResultTitle>Maya Chen</SearchEntityResultTitle>
-                <Badge appearance="solid" variant="default" uppercase>
+                <Badge appearance="solid" variant="default">
                   Human
                 </Badge>
               </SearchEntityResultHeader>
@@ -63,7 +63,7 @@ export function SearchPreviewComposition() {
             <SearchEntityResultContent>
               <SearchEntityResultHeader>
                 <SearchEntityResultTitle muted>proj-search-v1</SearchEntityResultTitle>
-                <Badge appearance="soft" variant="muted" uppercase>
+                <Badge appearance="soft" variant="muted">
                   Archived
                 </Badge>
               </SearchEntityResultHeader>
@@ -103,7 +103,7 @@ export function SearchPreviewComposition() {
           <SearchThreadResult selected>
             <SearchThreadResultHeader>
               <SearchThreadResultMeta>
-                <Badge appearance="soft" variant="muted" uppercase={false}>
+                <Badge appearance="soft" variant="muted">
                   <MessageSquare aria-hidden size={12} /> Thread
                 </Badge>
                 <span>#proj-uiux</span>

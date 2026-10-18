@@ -111,7 +111,7 @@ const RAFT_UI_MIGRATION_FILE_SEEDS = [
     createdAt: "Today, 8:55 AM",
     type: "file",
     previewUrl: jsonPreview(
-      '{\n  "themes": ["brutal", "elegant"],\n  "slots": ["panel", "row", "thumbnail"]\n}',
+      '{\n  "modes": ["light", "dark"],\n  "slots": ["panel", "row", "thumbnail"]\n}',
     ),
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.stateModel,
   },
@@ -173,11 +173,11 @@ const RAFT_UI_MIGRATION_FILE_SEEDS = [
   },
   {
     slug: "legacy-assets",
-    filename: "legacy-brutal-assets.zip",
+    filename: "legacy-assets.zip",
     size: "940 KB",
     createdAt: "Yesterday, 3:18 PM",
     type: "archive",
-    previewUrl: textPreview("Legacy brutal assets archive stub."),
+    previewUrl: textPreview("Legacy assets archive stub."),
     sourceMessageId: RAFT_UI_MIGRATION_THREAD_IDS.stateModel,
   },
   {

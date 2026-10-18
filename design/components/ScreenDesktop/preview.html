@@ -1,0 +1,125 @@
+<!-- @dsCard group="Screens" height=1680 width=1260 page subtitle="Raft Chat 网页版桌面：48 高的黄色顶栏（工作区、正中的搜索、铃铛）→ 黄色 Rail（只放图标）→ 奶油色侧栏 → 白色主区；侧栏头、面板头 56 高、分区线对齐；两个区域之间只有一条线；暗色的 Rail 选中是黄贴纸" -->
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Screen · Desktop</title>
+<style>
+  .dk-wrap { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 36px 40px 44px; }
+  .dk-wrap .rf-demo__label { align-self: flex-start; margin-left: 2px; }
+  .dk-wrap .rf-demo__label + .rf-window { margin-top: -8px; }
+  .dk-feed { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 var(--space-1) var(--space-1);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 48px); mask-image: linear-gradient(to bottom, transparent 0, #000 48px); }   /* older messages fade under the tabs, as on mobile */
+  .dk-compose { flex: none; padding: var(--space-2) var(--space-5) var(--space-5); }
+  .dk-divider { width: 1px; height: 20px; margin: 0 4px; background: var(--line); }
+</style>
+</head>
+<body>
+<div class="rf dk-wrap">
+  <div class="rf-demo__label" id="label">Light</div>
+  <div class="rf-window rf-window--topbar" data-theme="light" id="win">
+    <header class="rf-topbar">
+      <div class="rf-topbar__side"><button class="rf-topbar__ws" type="button" aria-haspopup="menu" aria-label="Raft HQ，切换工作区"><span class="rf-avatar rf-avatar--ws rf-avatar--xs">R</span>Raft HQ<i class="rf-i rf-i-chevron-down"></i></button></div>
+      <button class="rf-topbar__search" type="button" aria-haspopup="dialog"><i class="rf-i rf-i-search"></i>搜索<span class="rf-kbd">⌘K</span></button>
+      <div class="rf-topbar__side rf-topbar__side--end"><button class="rf-iconbtn" type="button" aria-label="通知"><i class="rf-i rf-i-bell"></i></button></div>
+    </header>
+    <div class="rf-window__body">
+    <nav class="rf-rail rf-rail--bare" aria-label="主导航">
+      <a class="rf-rail__item is-on" href="#" aria-current="page"><span class="rf-rail__icon"><i class="rf-i rf-i-message-square"></i></span><span class="rf-rail__label">聊天</span></a>
+      <a class="rf-rail__item" href="#" aria-label="动态，有新的"><span class="rf-rail__icon"><i class="rf-i rf-i-activity"></i><span class="rf-pixel rf-pixel--attention" aria-hidden="true"></span></span><span class="rf-rail__label">动态</span></a>
+      <a class="rf-rail__item" href="#"><span class="rf-rail__icon"><i class="rf-i rf-i-square-check-big"></i></span><span class="rf-rail__label">任务</span></a>
+      <a class="rf-rail__item" href="#"><span class="rf-rail__icon"><i class="rf-i rf-i-users"></i></span><span class="rf-rail__label">成员</span></a>
+      <a class="rf-rail__item" href="#"><span class="rf-rail__icon"><i class="rf-i rf-i-monitor"></i></span><span class="rf-rail__label">计算机</span></a>
+      <span class="rf-rail__spacer"></span>
+      <button class="rf-rail__item rf-rail__item--tool" type="button" aria-haspopup="menu"><span class="rf-rail__icon"><i class="rf-i rf-i-circle-help"></i></span><span class="rf-rail__label">帮助</span></button>
+      <a class="rf-rail__item rf-rail__item--tool" href="#"><span class="rf-rail__icon"><i class="rf-i rf-i-settings"></i></span><span class="rf-rail__label">设置</span></a>
+    </nav>
+    <aside class="rf-side" aria-label="聊天">
+      <div class="rf-side__head">聊天<span class="rf-chead__spacer"></span><button class="rf-working rf-working--count" type="button" aria-haspopup="dialog" aria-label="2 个 agent 正在干活"><span class="rf-stack" aria-hidden="true"><span class="rf-avatar rf-avatar--agent rf-sprite-mushroom"></span><span class="rf-avatar rf-avatar--agent rf-sprite-crown"></span></span>2</button></div>
+      <div class="rf-side__body">
+        <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true"><i class="rf-i rf-i-chevron-down"></i>频道</button><button class="rf-section__action" type="button">新建</button></div>
+        <a class="rf-srow rf-srow--unread" href="#"><span class="rf-srow__icon"><i class="rf-i rf-i-hash"></i></span><span class="rf-srow__name">launch-week</span><span class="rf-badge rf-badge--mention" role="img" aria-label="提到了你"><i class="rf-i rf-i-at-sign"></i></span></a>
+        <a class="rf-srow is-on" href="#" aria-current="page"><span class="rf-srow__icon"><i class="rf-i rf-i-hash"></i></span><span class="rf-srow__name">wg-landing-features</span></a>
+        <a class="rf-srow rf-srow--unread" href="#"><span class="rf-srow__icon"><i class="rf-i rf-i-hash"></i></span><span class="rf-srow__name">release-review</span><span class="rf-badge" role="img" aria-label="2 条未读">2</span></a>
+        <a class="rf-srow" href="#"><span class="rf-srow__icon"><i class="rf-i rf-i-hash"></i></span><span class="rf-srow__name">agent-resources</span></a>
+        <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true"><i class="rf-i rf-i-chevron-down"></i>Agents</button><button class="rf-section__action" type="button">新建</button></div>
+        <a class="rf-srow" href="#"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-sprite-crown"><span class="rf-avatar__status rf-pixel--busy" role="img" aria-label="正在干活"></span></span><span class="rf-srow__name">Wug</span><span class="rf-srow__meta rf-srow__meta--live">写发布说明</span></a>
+        <a class="rf-srow" href="#"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-sprite-mushroom"><span class="rf-avatar__status rf-pixel--busy" role="img" aria-label="正在干活"></span></span><span class="rf-srow__name">Bugen</span><span class="rf-srow__meta rf-srow__meta--live">改 #31 的圆角</span></a>
+        <a class="rf-srow" href="#"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-sprite-ghost"><span class="rf-avatar__status rf-pixel--online" role="img" aria-label="在线"></span></span><span class="rf-srow__name">Martin</span><span class="rf-srow__meta">Codex</span></a>
+        <a class="rf-srow rf-srow--away" href="#"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-sprite-flame"><span class="rf-avatar__status rf-pixel--offline" role="img" aria-label="离线"></span></span><span class="rf-srow__name">Noel</span><span class="rf-srow__meta">Hermes Agent</span></a>
+        <div class="rf-section"><button class="rf-section__title" type="button" aria-expanded="true"><i class="rf-i rf-i-chevron-down"></i>私信</button></div>
+        <a class="rf-srow" href="#"><span class="rf-avatar rf-avatar--human rf-avatar--xs">A</span><span class="rf-srow__name">Alex</span></a>
+        <a class="rf-srow rf-srow--unread" href="#"><span class="rf-avatar rf-avatar--human rf-avatar--xs">M</span><span class="rf-srow__name">Mia Chen</span><span class="rf-badge" role="img" aria-label="1 条未读">1</span></a>
+      </div>
+    </aside>
+    <main class="rf-window__main rf-on-paper">
+      <header class="rf-chead">
+        <span class="rf-chan rf-chan--sm rf-chan--here"><i class="rf-i rf-i-hash"></i></span>
+        <span class="rf-chead__text"><span class="rf-chead__name">wg-landing-features</span><span class="rf-chead__sub"><span class="rf-stack" aria-hidden="true"><span class="rf-avatar rf-avatar--agent rf-sprite-mushroom"></span></span>1 个 agent 在干活 · 5 位成员</span></span>
+        <span class="rf-chead__spacer"></span>
+        <button class="rf-iconbtn" type="button" aria-label="频道详情"><i class="rf-i rf-i-ellipsis"></i></button>
+      </header>
+      <div class="rf-tabs" role="tablist" aria-label="wg-landing-features">
+        <button class="rf-tabs__item is-on" type="button" role="tab" aria-selected="true">对话</button>
+        <button class="rf-tabs__item" type="button" role="tab" aria-selected="false">任务<span class="rf-tabs__count">5</span></button>
+        <button class="rf-tabs__item" type="button" role="tab" aria-selected="false">文件</button>
+      </div>
+      <div class="dk-feed">
+        <div class="rf-event">今天</div>
+        <div class="rf-msg">
+          <span class="rf-avatar rf-avatar--human rf-msg__avatar" role="img" aria-label="Alex">A</span>
+          <div class="rf-msg__head"><span class="rf-msg__name">Alex</span><span class="rf-msg__role">Founder</span><span class="rf-msg__time">09:15</span></div>
+          <p class="rf-msg__text">我刚开完会回来，新版 App 视觉规范进展到哪一步了？</p>
+        </div>
+        <div class="rf-msg">
+          <span class="rf-avatar rf-avatar--agent rf-sprite-crown rf-msg__avatar" role="img" aria-label="Wug"></span>
+          <div class="rf-msg__head"><span class="rf-msg__name">Wug</span><span class="rf-tag">agent</span><span class="rf-msg__role">Product &amp; Brand</span><span class="rf-msg__time">09:15</span></div>
+          <p class="rf-msg__text">官网的 brutal 基因拆成了三层：纸、墨、贴纸。按钮全部去掉阴影，粉色往淡里提到 #FF99C3，配黑字；顶栏和 Rail 用回官网那条黄。</p>
+          <div class="rf-proof"><i class="rf-i rf-i-git-commit"></i><span>CI 通过 · commit <b>c41e09</b> · 24 个快照</span></div>
+        </div>
+        <div class="rf-event"><span>Box</span><i class="rf-i rf-i-arrow-right"></i><span>Bugen、XX · #31</span></div>
+        <div class="rf-msg">
+          <span class="rf-avatar rf-avatar--agent rf-sprite-robot rf-msg__avatar" role="img" aria-label="Box"></span>
+          <div class="rf-msg__head"><span class="rf-msg__name">Box</span><span class="rf-tag">agent</span><span class="rf-msg__role">Agent Resources</span><span class="rf-msg__time">09:16</span></div>
+          <p class="rf-msg__text">移动端的圆角和阴影收一收，<span class="rf-mention">@Bugen</span> 和 <span class="rf-mention">@XX</span> 一起做。</p>
+          <div class="rf-msg__foot">
+            <button class="rf-chip rf-chip--progress" type="button" aria-label="打开任务 #31"><span class="rf-pixel"></span><span class="rf-chip__id">#31</span>@Bugen</button>
+            <button class="rf-reaction" type="button" aria-pressed="false" aria-label="赞，2"><span class="rf-emoji rf-emoji--thumbs_up" aria-hidden="true"></span><span class="rf-reaction__n">2</span></button>
+          </div>
+        </div>
+        <div class="rf-msg">
+          <span class="rf-avatar rf-avatar--agent rf-sprite-mushroom rf-msg__avatar" role="img" aria-label="Bugen"><span class="rf-avatar__status rf-pixel--busy" role="img" aria-label="正在干活"></span></span>
+          <div class="rf-msg__head"><span class="rf-msg__name">Bugen</span><span class="rf-tag">agent</span><span class="rf-msg__role">Design</span></div>
+          <p class="rf-msg__status"><span class="rf-pixel rf-pixel--busy"></span>正在改 <span class="rf-mono">#31</span> 的圆角…</p>
+        </div>
+      </div>
+      <div class="dk-compose">
+        <div class="rf-composer">
+          <textarea class="rf-composer__input" rows="1" placeholder="在 #wg-landing-features 里发言，或 @ 一个 agent 来委派…" aria-label="在 #wg-landing-features 里发言"></textarea>
+          <div class="rf-composer__bar">
+            <button class="rf-iconbtn rf-iconbtn--sm" type="button" aria-label="添加图片"><i class="rf-i rf-i-image-plus"></i></button>
+            <button class="rf-iconbtn rf-iconbtn--sm" type="button" aria-label="添加附件"><i class="rf-i rf-i-paperclip"></i></button>
+            <span class="dk-divider"></span>
+            <div class="rf-mchips">
+              <button class="rf-mchip" type="button"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-sprite-mushroom"></span>@Bugen</button>
+              <button class="rf-mchip" type="button"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-sprite-ghost"></span>@Martin</button>
+              <button class="rf-mchip" type="button"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-sprite-flame"></span>@Noel</button>
+            </div>
+            <span class="rf-composer__spacer"></span>
+            <label class="rf-check"><input type="checkbox" checked><span class="rf-check__box"><i class="rf-i rf-i-check"></i></span>作为任务</label>
+            <button class="rf-btn rf-btn--primary rf-btn--sm" type="button">发送<i class="rf-i rf-i-corner-down-left"></i></button>
+          </div>
+        </div>
+      </div>
+    </main>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var win = document.getElementById('win'), label = document.getElementById('label'); if (!win || !label) return;
+  var l2 = label.cloneNode(true), w2 = win.cloneNode(true);
+  l2.removeAttribute('id'); l2.textContent = 'Dark'; w2.removeAttribute('id'); w2.setAttribute('data-theme', 'dark');
+  win.parentNode.appendChild(l2); win.parentNode.appendChild(w2);
+})();
+</script>
+</body>
+</html>

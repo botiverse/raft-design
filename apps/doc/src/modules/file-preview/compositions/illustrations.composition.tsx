@@ -11,11 +11,11 @@ export function FilePreviewIllustrationsContent() {
     <>
       <FilePreview>
         <FilePreviewFile />
-        <FilePreviewBadge type="zip">ZIP</FilePreviewBadge>
+        <FilePreviewBadge>ZIP</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewCode />
-        <FilePreviewBadge type="html">HTML</FilePreviewBadge>
+        <FilePreviewBadge>HTML</FilePreviewBadge>
       </FilePreview>
       <FilePreview>
         <FilePreviewMedia>
@@ -24,7 +24,7 @@ export function FilePreviewIllustrationsContent() {
           <span className="absolute right-1 bottom-0.5 h-3 w-4 rounded-t-full bg-success-hover/40" />
           <span className="absolute top-1 right-1 size-1.5 rounded-full bg-warning/60" />
         </FilePreviewMedia>
-        <FilePreviewBadge type="img">IMG</FilePreviewBadge>
+        <FilePreviewBadge>IMG</FilePreviewBadge>
       </FilePreview>
     </>
   );

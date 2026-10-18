@@ -165,13 +165,10 @@ export function SearchHeader({
           <path d="M19 12H5" />
         </svg>
       </Button>
-      <PanelHeaderIcon className="max-md:in-data-[theme=brutal]:size-10 in-data-[theme=brutal]:bg-soft-signal">
-        <Search
-          aria-hidden
-          className="size-4.5 in-data-[theme=elegant]:size-3.5 in-data-[theme=elegant]:stroke-[2.5]"
-        />
+      <PanelHeaderIcon>
+        <Search aria-hidden className="size-4.5" />
       </PanelHeaderIcon>
-      <InputGroup className="min-w-0 flex-1 max-md:col-start-3 max-md:row-start-1 max-md:in-data-[theme=elegant]:h-9">
+      <InputGroup className="min-w-0 flex-1 max-md:col-start-3 max-md:row-start-1">
         <InputGroupInput
           ref={inputRef}
           value={query}
@@ -180,7 +177,6 @@ export function SearchHeader({
           onCompositionEnd={handleCompositionEnd}
           placeholder="Search channels, DMs, messages…   ⌘K"
           aria-label="Search channels, DMs, people, agents, and messages"
-          className="max-md:in-data-[theme=elegant]:self-stretch max-md:in-data-[theme=elegant]:py-0"
         />
         <InputGroupAddon align="inline-end">
           {query ? (
@@ -256,17 +252,16 @@ export function EntityResult({
           <Badge
             appearance={isArchivedChannel ? "soft" : "solid"}
             variant={isArchivedChannel ? "muted" : "default"}
-            uppercase
           >
             {typeLabel}
           </Badge>
           {entity.archivedAt ? (
             isArchivedChannel ? (
-              <Badge appearance="soft" variant="muted" uppercase>
+              <Badge appearance="soft" variant="muted">
                 Archived
               </Badge>
             ) : (
-              <Badge appearance="soft" variant="warning" uppercase>
+              <Badge appearance="soft" variant="warning">
                 Archived
               </Badge>
             )
@@ -368,7 +363,7 @@ export function MessageResult({
           </SearchMessageResultThreadMeta>
         ) : null}
         {channel?.archivedAt ? (
-          <Badge appearance="soft" variant="warning" uppercase>
+          <Badge appearance="soft" variant="warning">
             Archived
           </Badge>
         ) : null}

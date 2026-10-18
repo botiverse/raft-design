@@ -63,7 +63,6 @@ export function ChatSidebarChannelItem({
         render={
           <SidebarItemRoot
             active={active}
-            variant="accent"
             aria-current={active ? "page" : undefined}
             render={<PlaygroundConversationLink conversation={channel} />}
           >

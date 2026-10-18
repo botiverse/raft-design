@@ -3,7 +3,6 @@ export {
   AppRailHeader,
   AppRailItem,
   AppRailItemAttention,
-  AppRailItemAttentionMask,
   AppRailItemBadge,
   AppRailItemIcon,
   AppRailItemIndicator,
@@ -14,7 +13,6 @@ export {
 export type {
   AppRailFooterProps,
   AppRailHeaderProps,
-  AppRailItemAttentionMaskProps,
   AppRailItemAttentionProps,
   AppRailItemBadgeProps,
   AppRailItemIconProps,

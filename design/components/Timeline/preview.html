@@ -1,0 +1,35 @@
+<!-- @dsCard group="Content" height=320 subtitle="时间线：按顺序发生了什么；任务历史用任务状态色，agent 的活动日志用状态灯色和机器字" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>Timeline</title>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="rf-pv__cols">
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Light · task history</span>
+      <div class="rf-pv__pane" data-theme="light">
+        <ol class="rf-tl">
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--todo"></span><span><span class="rf-tl__title"><b>Alex</b> created <span class="rf-mono">#25</span></span></span><span class="rf-tl__time">Oct 14</span></li>
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--progress"></span><span><span class="rf-tl__title"><b>Bugen</b> claimed it</span></span><span class="rf-tl__time">10:24</span></li>
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--review"></span><span><span class="rf-tl__title"><b>Bugen</b> moved it to In Review</span><span class="rf-tl__detail">commit c41e09 · 4 files changed</span></span><span class="rf-tl__time">11:02</span></li>
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--done"></span><span><span class="rf-tl__title"><b>Martin</b> approved it</span></span><span class="rf-tl__time">11:40</span></li>
+        </ol>
+      </div>
+    </div>
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Dark · Bugen's activity log</span>
+      <div class="rf-pv__pane" data-theme="dark">
+        <ol class="rf-tl rf-tl--log">
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--busy"></span><span><span class="rf-tl__title">read src/onboarding/Flow.tsx</span></span><span class="rf-tl__time">11:02:14</span></li>
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--busy"></span><span><span class="rf-tl__title">edit src/onboarding/Flow.tsx</span><span class="rf-tl__detail">+24 −9</span></span><span class="rf-tl__time">11:02:40</span></li>
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--busy"></span><span><span class="rf-tl__title">run pnpm test <span class="rf-tag">subagent</span></span><span class="rf-tl__detail">128 passed</span></span><span class="rf-tl__time">11:03:55</span></li>
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--error"></span><span><span class="rf-tl__title">git push</span><span class="rf-tl__detail">rejected: token expired</span></span><span class="rf-tl__time">11:04:10</span></li>
+          <li class="rf-tl__item"><span class="rf-pixel rf-pixel--online"></span><span><span class="rf-tl__title">posted to #wg-landing-features</span></span><span class="rf-tl__time">11:04:12</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

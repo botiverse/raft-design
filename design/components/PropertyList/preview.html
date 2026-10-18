@@ -1,0 +1,41 @@
+<!-- @dsCard group="Content" height=380 subtitle="属性列表：一件事的几条事实（任务、agent、电脑）；能改的值点一下就是选择器，空值写成一个动作" -->
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../components/bundle.css"><title>PropertyList</title>
+<style>
+.pl-title { display: flex; align-items: baseline; gap: 8px; font-size: 17px; line-height: 22px; font-weight: 700; }
+  .pl-id { font-size: 12px; line-height: 16px; font-weight: 400; color: var(--ink-3); }
+  .pl-mono { font-size: 12px; line-height: 16px; color: var(--ink-2); }
+</style>
+</head>
+<body>
+<div class="rf rf-pv">
+  <div class="rf-pv__cols">
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Light · task #25, desktop</span>
+      <div class="rf-pv__pane" data-theme="light">
+        <div class="pl-title"><span class="rf-mono pl-id">#25</span>Polish the onboarding flow</div>
+        <dl class="rf-props">
+          <dt>Status</dt><dd><button class="rf-pick" type="button" aria-haspopup="menu"><span class="rf-chip rf-chip--progress"><span class="rf-pixel"></span>In Progress</span><i class="rf-i rf-i-chevron-down"></i></button></dd>
+          <dt>Assignee</dt><dd><button class="rf-pick" type="button" aria-haspopup="listbox"><span class="rf-avatar rf-avatar--agent rf-avatar--xs rf-sprite-mushroom"></span>Bugen<i class="rf-i rf-i-chevron-down"></i></button></dd>
+          <dt>Created by</dt><dd>Alex<span class="rf-mono pl-mono">· Oct 14</span></dd>
+          <dt>History</dt><dd><button class="rf-pick" type="button" aria-expanded="false"><i class="rf-i rf-i-chevron-right"></i>6 changes</button></dd>
+        </dl>
+      </div>
+    </div>
+    <div class="rf-pv__col">
+      <span class="rf-pv__label">Dark · agent facts, phone (stacked)</span>
+      <div class="rf-pv__pane" data-theme="dark">
+        <dl class="rf-props rf-props--stack">
+          <dt>Runtime</dt><dd><span class="rf-runtime"><i class="rf-i rf-i-cpu"></i>Codex</span></dd>
+          <dt>Computer</dt><dd>Alex's MacBook<span class="rf-chip rf-chip--online"><span class="rf-pixel"></span>Online</span></dd>
+          <dt>Channels</dt><dd><button class="rf-pick is-empty" type="button" aria-haspopup="listbox"><i class="rf-i rf-i-plus"></i>Add to a Channel</button></dd>
+          <dt>Model</dt><dd><span class="rf-mono pl-mono">gpt-5.1-codex</span></dd>
+          <dt>Remembers</dt><dd>1,204 notes</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { ReactNode, RefObject } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
@@ -127,7 +127,6 @@ import {
   Status,
   Switch,
   Tabs,
-  TabsBackground,
   TabsLabel,
   TabsList,
   TabsPanel,
@@ -136,7 +135,6 @@ import {
   Textarea,
   TextareaCounter,
   TextareaGroup,
-  ThemeProvider,
   createToastManager,
   ToastAction,
   ToastActions,
@@ -150,7 +148,6 @@ import {
   ToastTitle,
   useToastManager,
 } from "raft-ui";
-import type { Theme } from "raft-ui";
 import {
   Archive,
   AtSign,
@@ -178,7 +175,7 @@ import {
 
 import { ComboboxPreviewComposition } from "#/modules/combobox-select/compositions/preview.composition.tsx";
 
-import { usePreviewTheme, useResolvedPreviewMode } from "#/components/preview-theme.tsx";
+import { ThemeSwitcher } from "#/components/theme-switcher.tsx";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -226,25 +223,6 @@ type ComponentGridItem = {
   to: ComponentRoute;
   preview: ReactNode;
 };
-
-type ThemePreset = {
-  id: "brutal" | "elegant" | "elegant-dark";
-  label: string;
-  family: Theme;
-  mode: "light" | "dark";
-};
-
-// Title Case, matching the other two theme switchers (theme-switcher.tsx and
-// playground-theme-select.tsx). These were lower case while the home switcher
-// was hand-rolled buttons and looked nothing like the others, so the casing
-// difference read as a different control. rui#271 put all three on the same
-// SegmentedControl, and with identical geometry the only remaining difference
-// was the copy — same control, same three options, two spellings (@Artea).
-const THEME_PRESETS = [
-  { id: "brutal", label: "Brutal", family: "brutal", mode: "light" },
-  { id: "elegant", label: "Elegant", family: "elegant", mode: "light" },
-  { id: "elegant-dark", label: "Elegant dark", family: "elegant", mode: "dark" },
-] as const satisfies readonly ThemePreset[];
 
 const avatarSvg = (svg: string) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 
@@ -347,7 +325,7 @@ const COMPONENT_GRID = [
         <Checkbox defaultChecked aria-label="Checked checkbox" />
         <Checkbox aria-label="Unchecked checkbox" />
         <Checkbox indeterminate aria-label="Indeterminate checkbox" />
-        <Checkbox defaultChecked variant="primary" aria-label="Primary checked checkbox" />
+        <Checkbox defaultChecked disabled aria-label="Disabled checked checkbox" />
       </div>
     ),
   },
@@ -663,7 +641,7 @@ const COMPONENT_GRID = [
     to: "/components/status",
     preview: (
       <div className="flex items-center gap-4">
-        <Status variant="success" pulse aria-label="Online" />
+        <Status variant="success" aria-label="Online" />
         <Status variant="primary" aria-label="Queued" />
         <Status variant="accent" aria-label="Unread" />
       </div>
@@ -781,7 +759,6 @@ const COMPONENT_GRID = [
       <div className="grid justify-items-center gap-8">
         <Tabs defaultValue="overview" className="flex justify-center overflow-visible">
           <TabsList>
-            <TabsBackground />
             <TabsTab value="overview">
               <MessageSquare />
               <TabsLabel>Overview</TabsLabel>
@@ -886,10 +863,7 @@ function ComboboxPreview() {
         <Field className="w-[240px] gap-1.5">
           <FieldLabel>Model</FieldLabel>
           <ComboboxControl>
-            <Sparkles
-              aria-hidden
-              className="text-foreground-muted in-data-[theme=brutal]:text-black/60"
-            />
+            <Sparkles aria-hidden className="text-foreground-muted" />
             <ComboboxInput
               aria-label="Search models"
               placeholder="Search models..."
@@ -1057,7 +1031,6 @@ function ContextMenuPreview() {
         className={[
           "flex min-h-14 w-56 items-center justify-center px-4 text-center",
           "border border-dashed border-line-strong bg-layer-panel text-sm font-medium text-foreground-muted",
-          "[[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-brutal-cream [[data-theme=brutal]_&]:font-sans [[data-theme=brutal]_&]:text-xs [[data-theme=brutal]_&]:font-bold [[data-theme=brutal]_&]:text-black",
         ].join(" ")}
       >
         Right click thread
@@ -1118,7 +1091,7 @@ function PopoverPreview() {
             <PopoverDescription>
               Mix channels, people, and quoted phrases to narrow message history.
             </PopoverDescription>
-            <div className="grid gap-1 rounded-sm bg-foreground-strong/4 px-2 py-2 font-mono text-xs text-foreground-strong/60 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border in-data-[theme=brutal]:border-black/10 in-data-[theme=brutal]:bg-brutal-yellow/20 in-data-[theme=brutal]:text-black/70">
+            <div className="grid gap-1 rounded-sm bg-foreground-strong/4 px-2 py-2 font-mono text-xs text-foreground-strong/60">
               <span className="truncate">#design "token audit"</span>
               <span className="truncate">@atlas migration notes</span>
             </div>
@@ -1146,7 +1119,7 @@ function PreviewCardPreview() {
             render={
               <Link
                 to="/components/avatar"
-                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600 in-data-[theme=brutal]:text-black in-data-[theme=brutal]:decoration-black/30 in-data-[theme=brutal]:hover:text-brutal-pink in-data-[theme=brutal]:hover:decoration-brutal-pink"
+                className="cursor-default select-text font-bold text-foreground underline decoration-foreground-strong/30 decoration-2 underline-offset-2 hover:text-accent-600 hover:decoration-accent-600"
               />
             }
           >
@@ -1169,13 +1142,9 @@ function PreviewCardPreview() {
               <div className="flex min-w-0 items-center gap-1.5">
                 <PreviewCardTitle>Atlas</PreviewCardTitle>
                 <Status aria-hidden size="sm" variant="success" />
-                <span className="truncate font-mono text-xs text-foreground-muted in-data-[theme=brutal]:text-black/60">
-                  Online
-                </span>
+                <span className="truncate font-mono text-xs text-foreground-muted">Online</span>
               </div>
-              <div className="truncate font-mono text-xs text-foreground-muted in-data-[theme=brutal]:text-black/60">
-                @atlas
-              </div>
+              <div className="truncate font-mono text-xs text-foreground-muted">@atlas</div>
             </div>
           </PreviewCardHeader>
           <PreviewCardSeparator />
@@ -1209,7 +1178,7 @@ function AlertDialogPreview() {
           </AlertDialogHeader>
           <AlertDialogBody className="grid gap-2">
             <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
-            <p className="m-0 text-sm leading-5 wrap-break-word text-foreground-strong/60 in-data-[theme=brutal]:text-black/70">
+            <p className="m-0 text-sm leading-5 wrap-break-word text-foreground-strong/60">
               Delete task <strong className="font-bold text-foreground-strong">#42</strong>{" "}
               <strong className="font-bold text-foreground-strong">
                 "Review dialog migration"
@@ -1319,7 +1288,6 @@ function NotificationCenterPreview() {
         className={[
           "flex h-56 w-72 flex-col overflow-hidden rounded-md bg-layer-popover",
           "shadow-[0_1px_1px_oklch(0.21_0.006_285_/_0.10),0_0_0_1px_oklch(0.21_0.006_285_/_0.04),0_2px_12px_-4px_oklch(0.21_0.006_285_/_0.16)]",
-          "[[data-theme=brutal]_&]:rounded-none [[data-theme=brutal]_&]:border-2 [[data-theme=brutal]_&]:border-black [[data-theme=brutal]_&]:bg-white [[data-theme=brutal]_&]:shadow-raft-md",
         ].join(" ")}
       >
         <NotificationCenterHeader>
@@ -1337,9 +1305,7 @@ function NotificationCenterPreview() {
                     Atlas has not reported activity for 15 minutes.
                   </NotificationCenterItemBody>
                   <NotificationCenterItemActions>
-                    <NotificationCenterActionButton variant="primary">
-                      View
-                    </NotificationCenterActionButton>
+                    <NotificationCenterActionButton>View</NotificationCenterActionButton>
                     <NotificationCenterActionButton>Dismiss</NotificationCenterActionButton>
                   </NotificationCenterItemActions>
                 </NotificationCenterItemContent>
@@ -1403,11 +1369,11 @@ function HomeToastList() {
 
   return (
     <div className="relative flex h-64 w-72 items-center justify-center overflow-hidden bg-layer-panel p-4">
-      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-canvas-muted/80 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black in-data-[theme=brutal]:bg-brutal-cyan/20" />
+      <div className="absolute inset-x-5 top-9 h-8 rounded-md bg-layer-canvas-muted/80" />
       <div className="absolute inset-x-5 top-24 grid grid-cols-3 gap-2">
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black/30 in-data-[theme=brutal]:bg-brutal-yellow/20" />
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black/30 in-data-[theme=brutal]:bg-brutal-yellow/20" />
-        <div className="h-10 rounded-md bg-layer-canvas-muted/65 in-data-[theme=brutal]:rounded-none in-data-[theme=brutal]:border-2 in-data-[theme=brutal]:border-black/30 in-data-[theme=brutal]:bg-brutal-yellow/20" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65" />
+        <div className="h-10 rounded-md bg-layer-canvas-muted/65" />
       </div>
       <div className="relative z-10">
         {toasts.map((toastObject) => (
@@ -1433,22 +1399,6 @@ function HomeToastList() {
 }
 
 function Home() {
-  const previewTheme = usePreviewTheme();
-  const resolvedMode = useResolvedPreviewMode();
-  const themePreset =
-    THEME_PRESETS.find(
-      (preset) => preset.family === previewTheme.theme && preset.mode === resolvedMode,
-    ) ?? THEME_PRESETS[0];
-
-  const handleThemePresetChange = useCallback(
-    (value: string) => {
-      const preset = THEME_PRESETS.find((candidate) => candidate.id === value);
-      if (!preset) return;
-      previewTheme.setTheme(preset.family, { mode: preset.mode });
-    },
-    [previewTheme],
-  );
-
   useEffect(() => {
     const previousScrollRestoration = window.history.scrollRestoration;
 
@@ -1468,62 +1418,45 @@ function Home() {
   }, []);
 
   return (
-    <ThemeProvider theme={themePreset.family} mode={themePreset.mode} syncDom={false}>
-      <div
-        data-theme={themePreset.family}
-        className={`${themePreset.family === "elegant" ? themePreset.mode : "light"} min-h-screen bg-layer-panel pb-28 text-foreground-strong`}
-        style={{ colorScheme: themePreset.mode }}
-      >
-        <header className="border-b border-line-muted px-6 py-12 sm:px-10 sm:py-16">
-          <div className="flex max-w-3xl flex-col gap-5">
-            <Text.Heading level={3} render={<h1 />}>
-              Build something bold with rUI.
-            </Text.Heading>
-            <Text.Sans size="large">
-              A UI system with expressive visuals and playful interactions, shaped by Raft and made
-              for whatever you build next.
-            </Text.Sans>
-          </div>
-        </header>
-        <div className="grid grid-cols-1 border-l border-line-muted bg-layer-panel md:grid-cols-2 xl:grid-cols-3">
-          {COMPONENT_GRID.map((item) => (
-            <article
-              key={item.label}
-              className={[
-                "relative isolate h-[clamp(420px,36vh,520px)] overflow-hidden",
-                "border-b border-r border-line-muted bg-layer-panel",
-              ].join(" ")}
-            >
-              <Link
-                to={item.to}
-                aria-label={`Open ${item.label} details`}
-                className="absolute inset-0 z-0 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
-              />
-              <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center px-8 py-10">
-                <div className="pointer-events-auto flex max-w-full items-center justify-center">
-                  {item.preview}
-                </div>
-              </div>
-              <h2 className="pointer-events-none absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-xs font-medium text-foreground-placeholder">
-                {item.label}
-              </h2>
-            </article>
-          ))}
+    <div className="min-h-screen bg-layer-panel pb-28 text-foreground-strong">
+      <header className="border-b border-line-muted px-6 py-12 sm:px-10 sm:py-16">
+        <div className="flex max-w-3xl flex-col gap-5">
+          <Text.Heading level={3} render={<h1 />}>
+            Build something bold with rUI.
+          </Text.Heading>
+          <Text.Sans size="large">
+            A UI system with expressive visuals and playful interactions, shaped by Raft and made
+            for whatever you build next.
+          </Text.Sans>
         </div>
-
-        <SegmentedControl
-          aria-label="Preview theme"
-          value={themePreset.id}
-          onValueChange={handleThemePresetChange}
-          className="fixed bottom-6 left-[calc(50vw+var(--sidebar-w)/2)] z-80 -translate-x-1/2"
-        >
-          {THEME_PRESETS.map((preset) => (
-            <SegmentedControlItem key={preset.id} value={preset.id}>
-              <SegmentedControlLabel>{preset.label}</SegmentedControlLabel>
-            </SegmentedControlItem>
-          ))}
-        </SegmentedControl>
+      </header>
+      <div className="grid grid-cols-1 border-l border-line-muted bg-layer-panel md:grid-cols-2 xl:grid-cols-3">
+        {COMPONENT_GRID.map((item) => (
+          <article
+            key={item.label}
+            className={[
+              "relative isolate h-[clamp(420px,36vh,520px)] overflow-hidden",
+              "border-b border-r border-line-muted bg-layer-panel",
+            ].join(" ")}
+          >
+            <Link
+              to={item.to}
+              aria-label={`Open ${item.label} details`}
+              className="absolute inset-0 z-0 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+            />
+            <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center px-8 py-10">
+              <div className="pointer-events-auto flex max-w-full items-center justify-center">
+                {item.preview}
+              </div>
+            </div>
+            <h2 className="pointer-events-none absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-xs font-medium text-foreground-placeholder">
+              {item.label}
+            </h2>
+          </article>
+        ))}
       </div>
-    </ThemeProvider>
+
+      <ThemeSwitcher className="fixed bottom-6 left-[calc(50vw+var(--sidebar-w)/2)] z-80 -translate-x-1/2" />
+    </div>
   );
 }

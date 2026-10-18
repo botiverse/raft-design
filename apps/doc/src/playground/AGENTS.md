@@ -19,7 +19,6 @@ Model explicit product state in mock data, but do not use a channel-level discri
 - Reimplementations of `packages/ui` components.
 - Copies of canonical attachment, reaction, selection, context-menu, composer, or message compositions.
 - Local utility classes that repair component-internal styling.
-- Theme selectors that add, remove, or replace business DOM.
 - Scattered scenario/navigation registries or repeated ID-to-state lookups outside the canonical mock model.
 - String protocols where a typed union or object models the state directly.
 - Hand-written overlays, menus, tooltips, selection widgets, or portal providers when Base UI already provides the behavior.
@@ -56,9 +55,9 @@ Base UI collection semantics must remain intact: menu actions render as menu ite
 ## Styling Rule
 
 - Playground may style page layout, scenario grouping, shell dimensions, and demo positioning.
-- Playground must not tune a reusable component's typography, color, internal spacing, hover behavior, or theme treatment.
+- Playground must not tune a reusable component's typography, color, internal spacing, or hover behavior.
 - If a Playground class is required to make the component itself correct, move the style into the component recipe or expose a semantic UI part.
-- Theme Switcher is part of Playground and should be preserved, but all themes consume the same business DOM.
+- The light/dark switcher is part of Playground and should be preserved.
 
 ## When to Add a Component to Playground
 
@@ -79,5 +78,4 @@ Not every UI component needs a dedicated Playground scene. Standalone visual pri
 - Does every enabled control work?
 - Are business state and copy outside `packages/ui`?
 - Are reusable component styles outside Playground?
-- Does theme only change styling?
 - Are overlays and keyboard collections implemented by Base UI rather than recreated locally?
