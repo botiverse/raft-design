@@ -49,6 +49,7 @@ import { Route as ComponentsInputGroupRouteImport } from './routes/components/in
 import { Route as ComponentsKbdRouteImport } from './routes/components/kbd'
 import { Route as ComponentsLabelRouteImport } from './routes/components/label'
 import { Route as ComponentsLightboxRouteImport } from './routes/components/lightbox'
+import { Route as ComponentsListRowRouteImport } from './routes/components/list-row'
 import { Route as ComponentsLiveAgentActivityBarRouteImport } from './routes/components/live-agent-activity-bar'
 import { Route as ComponentsLogoRouteImport } from './routes/components/logo'
 import { Route as ComponentsMarkdownRouteImport } from './routes/components/markdown'
@@ -325,6 +326,11 @@ const ComponentsLabelRoute = ComponentsLabelRouteImport.update({
 const ComponentsLightboxRoute = ComponentsLightboxRouteImport.update({
   id: '/lightbox',
   path: '/lightbox',
+  getParentRoute: () => ComponentsRoute,
+} as any)
+const ComponentsListRowRoute = ComponentsListRowRouteImport.update({
+  id: '/list-row',
+  path: '/list-row',
   getParentRoute: () => ComponentsRoute,
 } as any)
 const ComponentsLiveAgentActivityBarRoute =
@@ -753,6 +759,7 @@ export interface FileRoutesByFullPath {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/list-row': typeof ComponentsListRowRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
   '/components/markdown': typeof ComponentsMarkdownRoute
@@ -866,6 +873,7 @@ export interface FileRoutesByTo {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/list-row': typeof ComponentsListRowRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
   '/components/markdown': typeof ComponentsMarkdownRoute
@@ -980,6 +988,7 @@ export interface FileRoutesById {
   '/components/kbd': typeof ComponentsKbdRoute
   '/components/label': typeof ComponentsLabelRoute
   '/components/lightbox': typeof ComponentsLightboxRoute
+  '/components/list-row': typeof ComponentsListRowRoute
   '/components/live-agent-activity-bar': typeof ComponentsLiveAgentActivityBarRoute
   '/components/logo': typeof ComponentsLogoRoute
   '/components/markdown': typeof ComponentsMarkdownRoute
@@ -1095,6 +1104,7 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
+    | '/components/list-row'
     | '/components/live-agent-activity-bar'
     | '/components/logo'
     | '/components/markdown'
@@ -1208,6 +1218,7 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
+    | '/components/list-row'
     | '/components/live-agent-activity-bar'
     | '/components/logo'
     | '/components/markdown'
@@ -1321,6 +1332,7 @@ export interface FileRouteTypes {
     | '/components/kbd'
     | '/components/label'
     | '/components/lightbox'
+    | '/components/list-row'
     | '/components/live-agent-activity-bar'
     | '/components/logo'
     | '/components/markdown'
@@ -1689,6 +1701,13 @@ declare module '@tanstack/react-router' {
       path: '/lightbox'
       fullPath: '/components/lightbox'
       preLoaderRoute: typeof ComponentsLightboxRouteImport
+      parentRoute: typeof ComponentsRoute
+    }
+    '/components/list-row': {
+      id: '/components/list-row'
+      path: '/list-row'
+      fullPath: '/components/list-row'
+      preLoaderRoute: typeof ComponentsListRowRouteImport
       parentRoute: typeof ComponentsRoute
     }
     '/components/live-agent-activity-bar': {
@@ -2352,6 +2371,7 @@ interface ComponentsRouteChildren {
   ComponentsKbdRoute: typeof ComponentsKbdRoute
   ComponentsLabelRoute: typeof ComponentsLabelRoute
   ComponentsLightboxRoute: typeof ComponentsLightboxRoute
+  ComponentsListRowRoute: typeof ComponentsListRowRoute
   ComponentsLiveAgentActivityBarRoute: typeof ComponentsLiveAgentActivityBarRoute
   ComponentsLogoRoute: typeof ComponentsLogoRoute
   ComponentsMarkdownRoute: typeof ComponentsMarkdownRoute
@@ -2438,6 +2458,7 @@ const ComponentsRouteChildren: ComponentsRouteChildren = {
   ComponentsKbdRoute: ComponentsKbdRoute,
   ComponentsLabelRoute: ComponentsLabelRoute,
   ComponentsLightboxRoute: ComponentsLightboxRoute,
+  ComponentsListRowRoute: ComponentsListRowRoute,
   ComponentsLiveAgentActivityBarRoute: ComponentsLiveAgentActivityBarRoute,
   ComponentsLogoRoute: ComponentsLogoRoute,
   ComponentsMarkdownRoute: ComponentsMarkdownRoute,

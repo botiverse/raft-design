@@ -26,7 +26,7 @@
 | Status | Badge | 未读数、@ 标记 | Badge、侧栏计数、AttentionDot |
 | | StatusChip | 任务状态、任务标记、状态灯写成字、`agent` 标签、运行时签 | TaskStatusBadge、TaskChip、Status |
 | Content | Message | 消息、正文里的标记、事件行、任务标记、表情回应、线程回复、悬停工具条 | MessageItem 一族、SystemMessage、reactions |
-| | ListRow | 手机列表的一行、入口行、分组标题、设置行；详情页里的 agent 和人 | SurfaceListItem、AvatarListRow |
+| | ListRow | 手机列表的一行、入口行、分组标题、设置行；详情页里的 agent 和人 | ListRow（产品里现在是 SurfaceListItem、AvatarListRow） |
 | | TaskCard | 任务卡、看板、按状态分组的列表 | TaskCard、TaskBoard、TaskSection |
 | | Attachment | 文件卡、图片、composer 里的缩略图、上传进度和失败 | FilePreview、MessageAttachment、ComposerAttachment |
 | | Code | 行内代码、可复制的命令、代码块 | InlineCode、CopyableCode、CodeBlock |
