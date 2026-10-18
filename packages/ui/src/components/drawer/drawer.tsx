@@ -96,9 +96,18 @@ function DrawerSwipeHandle() {
 
 export type DrawerContentProps = StyledProps<DrawerPrimitive.Popup.Props> & {
   portalProps?: DrawerPortalProps;
+  /** A side drawer's width: `default` (420 in raft) for details and settings,
+   *  `wide` (640) for a bigger form edited in one go. */
+  width?: "default" | "wide";
 };
 
-export function DrawerContent({ className, children, portalProps, ...props }: DrawerContentProps) {
+export function DrawerContent({
+  className,
+  children,
+  portalProps,
+  width = "default",
+  ...props
+}: DrawerContentProps) {
   const { hasSnapPoints, modal, swipeAxis, swipeDirection } = useDrawerConfig();
   const theme = useThemeFamily();
   const { content, popup, viewport } = drawer({
@@ -106,6 +115,7 @@ export function DrawerContent({ className, children, portalProps, ...props }: Dr
     side: swipeDirection,
     axis: swipeAxis,
     snapPoints: hasSnapPoints,
+    width,
   });
 
   return (

@@ -153,6 +153,13 @@ export const drawer = tv({
         description: ["max-w-none text-left font-sans text-callout text-foreground-muted"],
       },
     },
+    // Raft DS › Sheet: the 420 drawer for details and settings, and the wide
+    // 640 drawer for bigger settings you only touch for a moment (an agent's
+    // setup, an app's registration).
+    width: {
+      default: {},
+      wide: {},
+    },
     side: {
       down: {
         popup: [
@@ -235,6 +242,12 @@ export const drawer = tv({
         actions: ["flex-row flex-wrap justify-end", "**:data-[slot=button]:w-auto"],
         swipeHandle: ["before:w-1 before:h-9"],
       },
+    },
+    {
+      theme: "raft",
+      axis: "x",
+      width: "wide",
+      class: { popup: ["max-w-[640px]"] },
     },
     {
       theme: "raft",
