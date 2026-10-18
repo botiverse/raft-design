@@ -703,6 +703,10 @@ button.rf-section__title { appearance: none; -webkit-appearance: none; margin: 0
 .rf-tile .rf-i { width: 18px; height: 18px; }
 .rf-tile--sm { width: var(--size-avatar-sm); height: var(--size-avatar-sm); }
 .rf-tile--sm .rf-i { width: 14px; height: 14px; }
+.rf-tile--xs { width: var(--size-avatar-xs); height: var(--size-avatar-xs); }
+.rf-tile--xs .rf-i { width: 11px; height: 11px; }
+.rf-tile--lg { width: var(--size-avatar-lg); height: var(--size-avatar-lg); }   /* a profile head: a computer, an invite */
+.rf-tile--lg .rf-i { width: 22px; height: 22px; }
 .rf-tile--warn { background-color: var(--orange-soft); color: var(--ink); }   /* system notices: error and warning */
 .rf-tile--info { background-color: var(--cyan-soft); color: var(--ink); }
 
