@@ -58,18 +58,9 @@ How the docs are written and organized is in [Authoring](./authoring/README.md).
 - Use real elements. Anything clickable is a `<button>` or an `<a>` with an `href`; checkboxes and radios hold a native input; a switch is a button with `role="switch"`.
 - Give every icon-only button an `aria-label`.
 
-## Guidelines being migrated
-
-The guidelines are moving from Chinese into the structure above. Until every area has moved, the Chinese pages stay:
-
-- [`1-foundations.md`](./1-foundations.md), [`2-components.md`](./2-components.md), [`3-patterns.md`](./3-patterns.md), [`3b-raft-chat.md`](./3b-raft-chat.md), [`4-decisions.md`](./4-decisions.md)
-- [`components/`](./components/): one card per design component, with a `preview.html` drawing
-- [Migration map](./authoring/migration.md): where each part goes
-
 ## Files
 
 | Path | What it is |
 | --- | --- |
 | `fonts/` | Space Grotesk and Space Mono |
 | `assets/` | The logos, the agents' pixel avatars and the reactions, as SVG with notes |
-| `archived/` | Components that were tried and not adopted, and the history of the system's revisions |

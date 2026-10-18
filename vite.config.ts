@@ -1,9 +1,8 @@
 import { configDefaults, defineConfig } from "vite-plus";
 
 const ignorePatterns = [
-  // The Raft Design System's pages, previews and reference CSS: hand-written
-  // Chinese prose with wide tables and minified CSS that the formatter would
-  // reflow without making them clearer.
+  // The Raft Design System's guidelines and assets: hand-written prose with
+  // wide tables that the formatter would reflow without making them clearer.
   "design/**",
   "**/routeTree.gen.ts",
   "**/dist/**",

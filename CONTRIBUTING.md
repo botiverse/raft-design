@@ -36,7 +36,7 @@ Dependencies point one way: `packages/ui` never imports from `apps/doc`, and doc
 
 ## Guidelines and code change together
 
-`design/` is the source for how things look. A change that alters how something looks updates the guideline it follows in the same pull request. A change that overrides an earlier decision also records it in `design/4-decisions.md`. When raft-ui and a guideline disagree, fix one of them.
+`design/` is the source for how things look. A change that alters how something looks updates the guideline it follows in the same pull request. A change that overrides an earlier decision also adds a record in `design/decisions/` and marks the earlier one superseded. When raft-ui and a guideline disagree, fix one of them.
 
 [`design/authoring/README.md`](./design/authoring/README.md) describes where each documentation page lives, which page types exist and how to write them.
 

@@ -36,11 +36,11 @@ If a visual check would be helpful but the user has not explicitly authorized Br
 
 # Raft Design System
 
-raft-ui implements the Raft Design System, and `design/` is the system itself: start at `design/README.md`, then read the page and the component README (`design/components/<Comp>/README.md`) for what you touch before changing how anything looks. Each component's `preview.html` is its reference drawing and opens straight from disk.
+raft-ui implements the Raft Design System, and `design/` is the system itself: start at `design/README.md`, then read the foundation or pattern page and the component doc (`packages/ui/src/components/<component>/<component>.md`) for what you touch before changing how anything looks.
 
-- `design/` is the source. A change that alters how something looks updates the rule it follows in the same PR, and a choice that overrides an earlier decision gets a row in `design/4-decisions.md`.
+- `design/` is the source. A change that alters how something looks updates the rule it follows in the same PR, and a choice that overrides an earlier decision adds a record in `design/decisions/` and marks the earlier one `superseded`.
 - When raft-ui and the DS disagree, one of them is wrong: fix the code or the rule, never leave them apart.
-- Writing, moving or translating docs follows `design/authoring/README.md`: where each page lives, the templates, the writing guide and the migration map from the Chinese pages.
+- Writing or moving docs follows `design/authoring/README.md`: where each page lives, the templates and the writing guide. Run `pnpm check:docs` before opening a PR.
 
 # Component Architecture Ownership
 

@@ -33,17 +33,8 @@ const MARKETING =
   /\b(powerful|beautiful|delightful|seamless(ly)?|best-in-class|stunning|effortless(ly)?|build something bold)\b/i;
 const CJK = /[\u3000-\u303f\u3400-\u4dbf\u4e00-\u9fff\uff00-\uffef]/;
 
-// Pages still in Chinese or kept as history, until the migration removes them.
-const LEGACY = [
-  /^design\/[0-9][^/]*\.md$/,
-  /^design\/components\//,
-  /^design\/archived\//,
-  /^design\/assets\//,
-  /^design\/authoring\/templates\//,
-  /^design\/authoring\/migration\.md$/,
-];
-// The writing guide maps the Chinese source terms while the migration runs.
-const CJK_ALLOWED = new Set(["design/authoring/writing.md"]);
+// Templates hold placeholders, not pages.
+const SKIPPED = [/^design\/authoring\/templates\//];
 
 const errors = [];
 const warnings = [];
@@ -64,7 +55,7 @@ function walk(dir, out = []) {
 const rel = (file) => path.relative(root, file).split(path.sep).join("/");
 
 const designDocs = walk(path.join(root, "design")).filter(
-  (file) => file.endsWith(".md") && !LEGACY.some((pattern) => pattern.test(rel(file))),
+  (file) => file.endsWith(".md") && !SKIPPED.some((pattern) => pattern.test(rel(file))),
 );
 const componentDirs = readdirSync(componentsDir).filter((name) =>
   statSync(path.join(componentsDir, name)).isDirectory(),
@@ -162,11 +153,9 @@ function anchorsOf(file) {
 function checkBody(file, source, absolute) {
   // Four-backtick fences show Markdown source (an example of an `example` block), not blocks.
   const body = source.replace(/^---\n[\s\S]*?\n---\n/, "").replace(/^````[\s\S]*?^````/gm, "");
-  if (CJK.test(body) && !CJK_ALLOWED.has(file))
-    fail(file, "contains Chinese text; the docs are in English");
+  if (CJK.test(body)) fail(file, "contains Chinese text; the docs are in English");
   const marketing = body.match(MARKETING);
-  if (marketing && !CJK_ALLOWED.has(file))
-    warn(file, `promotional wording "${marketing[0]}"; describe instead`);
+  if (marketing) warn(file, `promotional wording "${marketing[0]}"; describe instead`);
 
   for (const block of body.matchAll(/^```example\n([\s\S]*?)^```/gm)) {
     for (const target of block[1]

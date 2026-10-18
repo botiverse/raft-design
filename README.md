@@ -6,11 +6,11 @@ Documentation: https://raft-design.botiverse.build
 
 ## Contents
 
-| Path          | What it is                                                                                                                               |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `design/`     | The guidelines: foundations, components, patterns and recorded decisions. Written in Chinese for now; an English version is in progress. |
-| `packages/ui` | [`raft-ui`](https://www.npmjs.com/package/raft-ui) on npm: CSS foundations and React components built on Base UI and Tailwind CSS v4.    |
-| `apps/doc`    | The documentation site: component pages with live examples, tokens, guides and a playground.                                             |
+| Path          | What it is                                                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `design/`     | The guidelines: foundations, patterns, products and recorded decisions. Component docs sit next to their code in `packages/ui`.       |
+| `packages/ui` | [`raft-ui`](https://www.npmjs.com/package/raft-ui) on npm: CSS foundations and React components built on Base UI and Tailwind CSS v4. |
+| `apps/doc`    | The documentation site: component pages with live examples, tokens, guides and a playground.                                          |
 
 ## Using raft-ui
 

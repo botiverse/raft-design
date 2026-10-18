@@ -20,7 +20,7 @@ The live bar is split up and its parts go back where they belong: a summary line
 
 ## Consequences
 
-`live-agent-activity-bar` is a candidate for removal from raft-ui ([migration map](../authoring/migration.md#components)).
+`LiveAgentActivityBar` is deprecated in raft-ui and is removed in raft-ui 1.0.
 
 ## Related
 
