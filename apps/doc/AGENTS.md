@@ -2,6 +2,14 @@
 
 These rules apply to the docs application and extend the repository-level component architecture.
 
+## Pages From Markdown
+
+The site's design record is [DESIGN.md](./DESIGN.md). Documentation pages are Markdown files in the repository (`design/foundations`, `design/patterns`, `design/products`, `design/decisions`, and `packages/ui/src/components/<x>/<x>.md`), written as `design/authoring/` describes. `src/lib/content/` finds them, gives each its URL and renders its `.md` twin; `src/routes/_site/` renders them in the site shell (`src/components/site/`). Do not write page content in a route.
+
+- An `example` block names a composition by its path under `src/modules` without the extension; the page renders the module's `*Content` export and shows that file's source.
+- A `tokens` block names a group of `packages/ui/src/tokens.json`.
+- `src/lib/content/content.test.ts` fails when a page names an example, a token group, a page or a heading that does not exist.
+
 ## Canonical Compositions
 
 `apps/doc/src/modules/<component>` is the canonical executable usage layer for `raft-ui` components.

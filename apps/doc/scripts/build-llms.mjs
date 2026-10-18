@@ -10,8 +10,12 @@ import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
 
 const sections = [
-  ["Guides", "/guides/"],
+  ["Foundations", "/foundations/"],
   ["Components", "/components/"],
+  ["Patterns", "/patterns/"],
+  ["Products", "/products/"],
+  ["Decisions", "/decisions/"],
+  ["Guides", "/guides/"],
   ["Tokens", "/tokens/"],
 ];
 
@@ -63,7 +67,7 @@ for (const [heading, prefix] of sections) {
   if (entries.length === 0) continue;
   index.push(`## ${heading}`, "");
   for (const page of entries) {
-    const summary = summaryOf(page.markdown);
+    const summary = page.summary ?? summaryOf(page.markdown);
     index.push(`- [${page.title}](${origin}${page.path}.md)${summary ? `: ${summary}` : ""}`);
   }
   index.push("");

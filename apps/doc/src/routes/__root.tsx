@@ -12,6 +12,8 @@ import { cn } from "raft-ui/cn";
 
 import { PreviewThemeProvider, usePreviewTheme } from "#/components/preview-theme.tsx";
 import { Sidebar } from "#/components/sidebar.tsx";
+import { shortTitle } from "#/lib/content/nav.ts";
+import { pageAt } from "#/lib/content/pages.ts";
 import { isMarkdownMode } from "#/lib/markdown-mode.ts";
 import {
   documentThemeMode,
@@ -189,6 +191,8 @@ function DocumentThemeProvider({ children }: { children: ReactNode }) {
 }
 
 function getDocumentTitle(pathname: string) {
+  const page = pageAt(pathname);
+  if (page) return `${shortTitle(page)} · Raft Design System`;
   return getComponentTitle(pathname) ?? "Raft Design System";
 }
 

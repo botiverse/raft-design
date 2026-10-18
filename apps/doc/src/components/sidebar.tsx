@@ -41,6 +41,11 @@ import { raftUiVersion } from "#/data/raft-ui-release.ts";
 const PRIMARY_NAV: readonly NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Overview", to: "/guides/overview" },
+  // The guidelines, rendered from design/ in the new docs shell.
+  { label: "Foundations", to: "/foundations" },
+  { label: "Patterns", to: "/patterns" },
+  { label: "Products", to: "/products" },
+  { label: "Decisions", to: "/decisions" },
   { label: "Changelog", to: "/changelog" },
   { label: "Playground", to: "/playground", external: true },
   { label: "Dashboard", to: "/dashboard" },
