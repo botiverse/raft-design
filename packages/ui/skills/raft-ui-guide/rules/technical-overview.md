@@ -61,11 +61,11 @@ Custom fonts use `--heading-font`, `--sans-font`, and `--mono-font`.
 
 ## Providers
 
-| Provider          | Responsibility                                                        |
-| ----------------- | --------------------------------------------------------------------- |
-| `ThemeProvider`   | Color mode, persistence, and document mode synchronization            |
-| `TooltipProvider` | Shared tooltip behavior when using Tooltip                            |
-| `ToastProvider`   | Toast manager when using the toast API; see [Feedback](./feedback.md) |
+| Provider          | Responsibility                                                                                                        |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `ThemeProvider`   | Color mode, persistence, and document mode synchronization                                                            |
+| `TooltipProvider` | Shared tooltip behavior when using Tooltip                                                                            |
+| `ToastProvider`   | Toast manager when using the toast API; see the [Toast](https://raft-design.botiverse.build/components/toast.md) page |
 
 `ThemeProvider` defaults to light mode. `mode` / `defaultMode` select `light`, `dark`, or `system`; `onModeChange` reports changes. `storageKey` persists an uncontrolled mode.
 
@@ -77,4 +77,4 @@ Custom fonts use `--heading-font`, `--sans-font`, and `--mono-font`.
 - Base UI overlays portal to `document.body`. An app root with `isolation: isolate` keeps its stacking contexts below those surfaces. Embedded previews can use `portalProps.container` (toasts: `ToastProvider portalContainer`) to keep overlays inside their scope.
 - SSR apps with persisted mode need to restore it before first paint to avoid a theme flash.
 
-See [Styling](./styling.md) and [Overlays](./overlays.md) for details.
+What floats and how popups are positioned is in [Elevation](https://raft-design.botiverse.build/foundations/elevation.md); which overlay to use is in [Choosing a component](https://raft-design.botiverse.build/patterns/choosing-components.md#overlays).
