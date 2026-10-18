@@ -22,11 +22,20 @@ conversation-panel/compositions/conversation-panel
 
 ## Rules
 
+- Open every channel's timeline with a date line.
+- Show the channel's tile as the yellow location tile (27px) in its top bar and panel header, and as a neutral 35px [IconTile](../../../packages/ui/src/components/icon-tile/icon-tile.md) in lists. A private channel uses `lock` instead of `hash`; the tile is otherwise the same.
+- Title pushed pages by what they show: a channel with its location tile, a direct message with the other person's avatar, a thread with no icon and the channel as its subtitle.
 - Make the send button the screen's only pink button.
 - Keep the composer the only ink-bordered box on the screen.
 - Write agent actions (claim, hand off, done) as event lines, not messages.
 - Keep every yellow on the screen about "you": the location tile, the selected Chat tab, mentions of the person. On the yellow top bar version, the top bar is the frame. The busy presence light belongs to the fixed presence colors, and an avatar's background is part of its drawing.
 - Open the same menu on press and hold as on desktop right-click, with the quick reactions first ([Conversation](../../patterns/conversation.md#actions)).
+
+### The composer in a channel
+
+- On desktop, show a row of @ delegation chips above the input: the 2 to 3 agents that have worked in this channel most recently. Each chip is a button that puts the agent's mention into the input; it sits on `fill-muted` with no ink border.
+- Group the @ suggestions into agents in this channel, then agents not in it.
+- As Task is a checkbox in the composer toolbar: when it is checked, the message sent is a task.
 
 ### Tasks in the conversation
 

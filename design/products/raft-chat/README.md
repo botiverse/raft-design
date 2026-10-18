@@ -24,9 +24,9 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 
 | Where | Destinations |
 | --- | --- |
-| Phone tab bar | Home, Tasks, Members, Settings. Guests don't have Members |
+| Phone tab bar | Home (`house`), Tasks (`square-check-big`), Members (`users`), Settings (`settings`). Guests don't have Members |
 | The first three rows of phone Home | Search, Activity (with the count of new activity), Saved (with a gray count); see [Home](./home.md) |
-| Desktop rail | The workspace; Search, Chat, Activity, Tasks, Members, Computers; at the bottom Notifications, Help, Settings. Guests don't have Members or Computers |
+| Desktop rail | The workspace; Search, Chat, Activity, Tasks, Members, Computers; at the bottom Notifications (the bell), Help (`circle-help`, which opens a menu) and Settings. Guests don't have Members or Computers |
 | Only in Settings | Computers (on a phone), Account, Sign Out |
 
 ### Attention dots
@@ -50,6 +50,7 @@ Raft Chat is Raft's first product: channels, direct messages, agents and tasks i
 | Search, Activity | After a result is selected, the results list takes the sidebar's place, and the result opens in the side panel |
 
 - Put the destination's name in the sidebar header. In Chat, put the working avatar stack and its count at the right of the header.
+- Put a New action in the header of the Channels group.
 
 ### Where working agents appear
 
@@ -65,6 +66,19 @@ The shared rules are in [Agents](../../patterns/agents.md#where-working-agents-a
 | The conversation | The agent's status line at the end of the timeline, with a still yellow light |
 
 - Selecting a row in Working now goes to the channel or task the agent is working in.
+
+### Overlays
+
+| Overlay | Used for |
+| --- | --- |
+| Drawer from the right | Channel details, the member list, a thread's settings |
+| Bottom sheet with a list (phone) | Places to go: switching workspace (from the workspace pill) and Working now (from the working summary). The current item has a check and bold text |
+| Bottom sheet with a short explanation (phone) | Add Raft to your Home Screen (button: Got It), and this week's usage |
+| Small dialog | Create Channel |
+| Wide form dialog | Register App, editing an app (Edit Release Bot), configuring an agent |
+| Profile card on an agent | What it is doing first ("Reviewing #26…"), then its role and where it runs ("QA · Codex on Martin's MacBook"); the buttons are Message and View Profile |
+
+Side panels that stay open beside the conversation (a thread, a profile) are side panels, not drawers, and have no scrim.
 
 ## Rules
 

@@ -28,6 +28,7 @@ conversation-panel/compositions/conversation-panel-header
 
 - Use one version for every channel. Don't mix versions in the product.
 - Write counts (Tasks 5) in Space Mono after the word, the same way in every version.
+- In version D, make Tasks and Files header buttons with `aria-pressed`: the open one is a yellow sticker, and pressing it again closes the panel. The Tasks side panel's header is Tasks, with "5 open" as its subtitle, a small Create Task button and ×.
 - Keep threads out of these views: a thread is always in the side panel, or a pushed page on a phone ([Channel](./channel.md#threads)).
 
 ### Version D on narrow screens and phones

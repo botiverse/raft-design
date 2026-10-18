@@ -24,7 +24,9 @@ tasks/compositions/tasks-panel
 ## Rules
 
 - Don't put a create action on this page. A task always belongs to a channel, so tasks are created in a channel ([Channel](./channel.md#tasks-in-the-conversation)).
+- Name the two shortcut rows in the filter lists Created by me and Assigned to me.
 - Default to List on a phone, and remember the person's last choice.
+- When a channel's task view is empty, say how a task gets there: "No tasks yet", "Tick As Task when you send a message, and it lands here.", and a small ink-bordered Create Task ([EmptyState](../../../packages/ui/src/components/empty-state/empty-state.md)).
 - Don't add a "needs you" group or color. What waits for the person's approval is in Activity, with an action card in the conversation.
 - Make the status chip the only thing on a card that changes in place. Selecting the card opens the task details (full screen on a phone, covering the tab bar).
 - Make a channel's task view the same panel as this page, without the Channel filter.

@@ -26,6 +26,8 @@ list-row/compositions/conversations
 
 ## Rules
 
+- Show the workspace pill only on Home: ink with yellow text, tilted 2°. Other top-level pages show neither the workspace name nor a page icon.
+- Title the workspace bottom sheet Workspaces. Each row is the workspace tile, its name and its unread count, with a check on the current one; press and hold, then drag, to reorder. End the list with Invite People and Create or Join a Workspace, the same items as the product's switcher menu. The sheet is not modal, so it has no scrim.
 - Put the list straight on `layer-canvas`, not in cards.
 - Don't put a pink button on Home. Create actions are the New text buttons at the right of each group heading.
 - Let group headings collapse.
@@ -36,4 +38,4 @@ list-row/compositions/conversations
 
 ## Differences from the shared patterns
 
-- By default Home has a large title, like every top-level page. The version that matches the current product has no title: only the workspace pill, with a small avatar stack and count to its right, and the bell. The choice is [still open](../../decisions/open-questions.md); see [0004](../../decisions/0004-title-on-every-top-level-page.md).
+- By default Home has a large title, like every top-level page, and the other top-level pages have no navigation row: the large title follows the status bar directly. The version that matches the current product has no title on Home: only the workspace pill, with a small avatar stack and count to its right, and the bell; the other top-level pages put their name in the navigation row in `text-headline`, with an optional subtitle. The choice is [still open](../../decisions/open-questions.md); see [0004](../../decisions/0004-title-on-every-top-level-page.md).
